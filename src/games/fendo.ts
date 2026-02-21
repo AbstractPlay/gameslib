@@ -47,6 +47,7 @@ export class FendoGame extends GameBase {
             {
                 type: "designer",
                 name: "Dieter Stein",
+                apid: "e7f53920-5be9-406a-9d5c-baa0316ab4f4",
                 urls: ["https://spielstein.com/"]
             },
             {

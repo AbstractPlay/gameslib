@@ -589,7 +589,6 @@ export class LielowGame extends GameBase {
                 },
                 {
                     text: sizeStr,
-                    colour: "#000",
                     scale: 0.75,
                 }
             ];
@@ -644,7 +643,7 @@ export class LielowGame extends GameBase {
         return rep;
     }
 
-     
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["move", "damage", "destroy", "bearoff", "eog", "winners"]);

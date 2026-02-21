@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IStatus, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, AreaPieces, Glyph } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AreaPieces, BoardBasic, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { randomInt, RectGrid, reviver, shuffle, SquareOrthGraph, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -47,7 +47,7 @@ export class ArimaaGame extends GameBase {
         uid: "arimaa",
         playercounts: [2],
         version: "20251223",
-        dateAdded: "2025-12-23",
+        dateAdded: "2026-01-23",
         // i18next.t("apgames:descriptions.arimaa")
         description: "apgames:descriptions.arimaa",
         // i18next.t("apgames:notes.arimaa")
@@ -74,11 +74,11 @@ export class ArimaaGame extends GameBase {
             },
         ],
         variants: [
-            { uid: "eee", name: "Endless Endgame", group: "setup" },
-            { uid: "free", name: "Arbitrary Setup", group: "setup", unrated: true },
+            { uid: "eee", group: "setup" },
+            { uid: "free", group: "setup", unrated: true },
         ],
         categories: ["goal>breakthrough", "goal>cripple", "goal>immobilize", "mechanic>capture", "mechanic>move", "mechanic>coopt", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>chess"],
-        flags: ["experimental", "perspective", "no-moves", "custom-buttons", "random-start", "custom-colours"]
+        flags: ["perspective", "no-moves", "custom-buttons", "random-start", "custom-colours"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 8);
@@ -194,6 +194,7 @@ export class ArimaaGame extends GameBase {
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
+    private _selected: string|undefined;
 
     constructor(state?: IArimaaState | string, variants?: string[]) {
         super();
@@ -346,9 +347,14 @@ export class ArimaaGame extends GameBase {
                                 }
                             }
                         }
-                        for (const [enemyPc, cell] of enemies) {
-                            if (ArimaaGame.strength(lastPc) > ArimaaGame.strength(enemyPc)) {
-                                moves.push(`${cloned.currplayer === 1 ? enemyPc.toLowerCase() : enemyPc}${cell}${lastFrom}`);
+                        // but this piece can't pull while pushing
+                        const classifications = ArimaaGame.classify(cloned.currplayer, sofar);
+                        const justPushed = classifications[classifications.length - 1] === "pusher";
+                        if (!justPushed) {
+                            for (const [enemyPc, cell] of enemies) {
+                                if (ArimaaGame.strength(lastPc) > ArimaaGame.strength(enemyPc)) {
+                                    moves.push(`${cloned.currplayer === 1 ? enemyPc.toLowerCase() : enemyPc}${cell}${lastFrom}`);
+                                }
                             }
                         }
                     }
@@ -386,6 +392,62 @@ export class ArimaaGame extends GameBase {
         }
 
         return moves;
+    }
+
+    // A very niche helper function to fix the "can't push pull at same time" issue
+    // Looks at each move in a chain and determines the nature of each.
+    // Naive. Just looks at the notation and sequence, not board context.
+    public static classify(player: playerid, moves: string[]): ("placement"|"pusher"|"puller"|"pushee"|"pullee"|"mover"|undefined)[] {
+        const classifications: ("placement"|"pusher"|"puller"|"pushee"|"pullee"|"mover"|undefined)[] = [];
+
+        for (let i = 0; i < moves.length; i++) {
+            const [, owner, from, to] = ArimaaGame.baseMove(moves[i]);
+            // if mine:
+            // - placement if to is undefined
+            // - pusher if previous was pushed
+            // - puller if next is enemy and moves into vacated space
+            // - mover otherwise
+            if (owner === player) {
+                if (to === undefined) {
+                    classifications.push("placement");
+                } else if (i > 0 && classifications[i - 1] === "pushee") {
+                    classifications.push("pusher");
+                } else {
+                    if (i < moves.length - 1) {
+                        const [, nextOwner, , nextTo] = ArimaaGame.baseMove(moves[i + 1]);
+                        if (nextOwner !== player && nextTo === from) {
+                            classifications.push("puller");
+                        } else {
+                            classifications.push("mover");
+                        }
+                    } else {
+                        classifications.push("mover");
+                    }
+                }
+            }
+            // if other:
+            // - pullee if previous is puller
+            // - pushee if previous is not puller and next is mine moving into space
+            // - undefined otherwise
+            else {
+                if (i > 0 && classifications[i - 1] === "puller") {
+                    classifications.push("pullee");
+                } else {
+                    if (i < moves.length - 1) {
+                        const [, nextOwner, , nextTo] = ArimaaGame.baseMove(moves[i + 1]);
+                        if (nextOwner === player && nextTo === from) {
+                            classifications.push("pushee");
+                        } else {
+                            classifications.push(undefined);
+                        }
+                    } else {
+                        classifications.push(undefined);
+                    }
+                }
+            }
+        }
+
+        return classifications;
     }
 
     private isFrozen(cell: string): boolean {
@@ -481,7 +543,7 @@ export class ArimaaGame extends GameBase {
             ) {
                 // clicking off the board resets
                 if (row === -1 || col === -1) {
-                    const [pc, pstr] = piece!.split("");
+                    const [,pc, pstr] = piece!.split("");
                     const p = parseInt(pstr, 10);
                     newmove = `${stub}${stub.length > 0 ? "," : ""}${p === 1 ? pc : pc.toLowerCase()}`;
                 } else {
@@ -533,7 +595,7 @@ export class ArimaaGame extends GameBase {
             } else {
                 if (result.autocomplete !== undefined) {
                     const automove = result.autocomplete;
-                    result = this.validateMove(result.autocomplete) as IClickResult;
+                    result = this.validateMove(automove) as IClickResult;
                     result.move = automove;
                 } else {
                     result.move = newmove;
@@ -568,6 +630,7 @@ export class ArimaaGame extends GameBase {
             return result;
         }
 
+        const classifications = ArimaaGame.classify(this.currplayer, m.split(",").filter(Boolean));
         const steps = m.split(",").filter(Boolean).map(mv => ArimaaGame.baseMove(mv));
         // console.log(JSON.stringify({steps}));
         // placements are validated separately
@@ -721,7 +784,7 @@ export class ArimaaGame extends GameBase {
                     ArimaaGame.algebraic2coords(from);
                 } catch {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {from});
+                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: from});
                     return result;
                 }
                 // from contents match
@@ -758,7 +821,7 @@ export class ArimaaGame extends GameBase {
                 if (owner !== cloned.currplayer) {
                     // check for pulls first
                     let validPull = false;
-                    if (i > 0) {
+                    if (i > 0 && classifications[i - 1] !== "pusher") {
                         const [lastPc, lastPlayer, lastFrom] = steps[i - 1];
                         const ns = g.neighbours(from);
                         if (lastPlayer === cloned.currplayer && ns.includes(lastFrom!) && ArimaaGame.strength(lastPc) > ArimaaGame.strength(pc)) {
@@ -873,8 +936,9 @@ export class ArimaaGame extends GameBase {
             }
             // if the number of moves are < max moves, then 0
             else if (steps.length < maxMoves) {
+                const remaining = maxMoves - steps.length;
                 complete = 0;
-                message = i18next.t("apgames:validation.arimaa.PARTIAL");
+                message = i18next.t("apgames:validation.arimaa.PARTIAL", {count: remaining});
             }
             // otherwise we're good
             else {
@@ -930,6 +994,7 @@ export class ArimaaGame extends GameBase {
                 // movement
                 else {
                     if (from !== undefined && to !== undefined) {
+                        this._selected = undefined;
                         const moved = this.board.get(from)!;
                         this.board.set(to, moved);
                         this.board.delete(from);
@@ -945,6 +1010,8 @@ export class ArimaaGame extends GameBase {
                             }
                         }
                         lastmove.push(`${owner === 1 ? pc : pc.toLowerCase()}${from}${to}${parenthetical}`);
+                    } else if (from !== undefined) {
+                        this._selected = from;
                     } else if (i !== steps.length - 1) {
                         throw new Error("Invalid move detected in the middle of the move.");
                     }
@@ -1132,8 +1199,8 @@ export class ArimaaGame extends GameBase {
                         func: "bestContrast",
                         bg: this.getPlayerColour(colour),
                         fg: [
-                            "_context_strokes",
-                            "_context_fill"
+                            "#fff",
+                            "#000",
                         ]
                     },
                     // flipy: colour === 2 ? true : false,
@@ -1152,8 +1219,8 @@ export class ArimaaGame extends GameBase {
                             func: "bestContrast",
                             bg: this.getPlayerColour(colour),
                             fg: [
-                                "_context_strokes",
-                                "_context_fill"
+                                "#fff",
+                                "#000",
                             ]
                         },
                         // flipy: colour === 2 ? true : false,
@@ -1166,11 +1233,24 @@ export class ArimaaGame extends GameBase {
         // add an area if the current player has pieces to place
         let areas: AreaPieces[]|undefined;
         if (this.hands !== undefined && this.hands[this.currplayer - 1].length > 0) {
+            // add pieces to legend with wider click boxes to the legend
+            for (const [key, pc] of [...Object.entries(legend)]) {
+                if (key !== "T" && !Array.isArray(pc)) {
+                    const newkey = `p${key}`;
+                    legend[newkey] = [
+                        {
+                            name: "piece-square-borderless",
+                            colour: "_context_background",
+                        },
+                        {...pc} as Glyph,
+                    ];
+                }
+            }
             const pcs = this.hands[this.currplayer - 1].sort((a, b) => ArimaaGame.strength(b) - ArimaaGame.strength(a)).map(pc => `${pc}${this.currplayer}`);
             areas = [
                 {
                     type: "pieces",
-                    pieces: pcs as [string, ...string[]],
+                    pieces: pcs.map(pc => `p${pc}`) as [string, ...string[]],
                     label: i18next.t("apgames:validation.arimaa.LABEL_STASH", {playerNum: this.currplayer}) || `P${this.currplayer} Hand`,
                 }
             ];
@@ -1204,6 +1284,16 @@ export class ArimaaGame extends GameBase {
                                 row: 5
                             }
                         ]
+                    },
+                    {
+                        type: "edge",
+                        colour: this.getPlayerColour(1),
+                        edge: "S",
+                    },
+                    {
+                        type: "edge",
+                        colour: this.getPlayerColour(2),
+                        edge: "N",
                     }
                 ]
             },
@@ -1213,8 +1303,8 @@ export class ArimaaGame extends GameBase {
         };
 
         // Add annotations
+        rep.annotations = [];
         if (this.results.length > 0) {
-            rep.annotations = [];
             for (const move of this.results) {
                 if (move.type === "move") {
                     const [fromX, fromY] = ArimaaGame.algebraic2coords(move.from);
@@ -1228,6 +1318,20 @@ export class ArimaaGame extends GameBase {
                     rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
                 }
             }
+        }
+        // show selected piece if present
+        if (this._selected !== undefined) {
+            const [x, y] = ArimaaGame.algebraic2coords(this._selected);
+            (rep.board as BoardBasic).markers!.push({
+                type: "flood",
+                colour: this.getPlayerColour(this.currplayer),
+                opacity: 0.25,
+                points: [{row: y, col: x}],
+            });
+            // rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
+        }
+        if (rep.annotations.length === 0) {
+            delete rep.annotations;
         }
 
         return rep;

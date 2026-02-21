@@ -922,7 +922,6 @@ export class CifraGame extends GameBase {
                 },
                 {
                     text: i.toString(),
-                    colour: c1 === "_context_background" ? "_context_strokes" : "#000",
                     scale: 0.75,
                 }
             ];
@@ -933,7 +932,6 @@ export class CifraGame extends GameBase {
                 },
                 {
                     text: i.toString(),
-                    colour: c2 === "_context_background" ? "_context_strokes" : "#000",
                     scale: 0.75,
                 }
             ];
@@ -958,7 +956,6 @@ export class CifraGame extends GameBase {
                             },
                             {
                                 text: n.toString(),
-                                colour: "#000",
                                 scale: 0.75,
                                 rotate: null
                             }

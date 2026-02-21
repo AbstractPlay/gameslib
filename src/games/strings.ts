@@ -478,7 +478,6 @@ export class StringsGame extends GameBaseSimultaneous {
                 },
                 {
                     text: n.toString(),
-                    colour: "#000",
                     scale: 0.5,
                 }
             ] as [Glyph, ...Glyph[]];

@@ -1,7 +1,7 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { Direction } from "../common";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
@@ -64,6 +64,9 @@ export class VeletasGame extends GameBase {
             {
                 uid: "random",
                 group: "setup",
+            },
+            {
+                uid: "no-corners"
             }
         ],
         categories: ["goal>majority", "mechanic>place",  "mechanic>move", "mechanic>block", "mechanic>enclose", "mechanic>share", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>simple>3c"],
@@ -167,6 +170,15 @@ export class VeletasGame extends GameBase {
         return 10;
     }
 
+    private get blocked(): {cells: Set<string>, coords: [number,number][]} {
+        if (this.variants.includes("no-corners")) {
+            const coords: [number,number][] = [[0, 0], [this.boardSize - 1, 0], [this.boardSize - 1, this.boardSize - 1], [0, this.boardSize - 1]];
+            const cells = new Set<string>(coords.map(c => this.coords2algebraic(...c)));
+            return {cells, coords};
+        }
+        return {cells: new Set<string>(), coords: []};
+    }
+
     private getStartingPlacement(): [number, number] {
         // Get the number of pieces placed by player 1 and then player 2.
         if (this.boardSize === 7) { return [1, 2]; }
@@ -211,12 +223,15 @@ export class VeletasGame extends GameBase {
         const from: string[] = [...this.board.keys()].filter(k => this.board.get(k) === 0);
         const fromTos: Array<[string, string]> = [];
         const blocks: Set<string> = new Set();
+        const blocked = this.blocked.cells;
         from.forEach((fromCell) => {
             const coords = this.algebraic2coords(fromCell);
             allDirections.forEach((dir) => {
                 const ray = this.grid.ray(...coords, dir);
                 for (const cell of ray) {
                     const toCell = this.coords2algebraic(...cell);
+                    // break if reaching a blocked corner
+                    if (blocked.has(toCell)) break;
                     if (this.board.has(toCell)) {
                         const contents = this.board.get(toCell);
                         if (contents === 1 || contents === 2) {
@@ -322,34 +337,38 @@ export class VeletasGame extends GameBase {
         try {
             let newmove = "";
             const cell = this.coords2algebraic(col, row);
-            if (!this.variants.includes("random") && this.stack.length < 3) {
-                if (move === "") {
-                    newmove = cell;
-                } else {
-                    const moves = move.split(",");
-                    if (moves.length < this.startingPlacement[this.currplayer - 1]) {
-                        newmove = [...moves, cell].sort((a, b) => this.sort(a, b)).join(",");
-                    } else if (!move.includes("/")) {
-                        newmove = `${move}/${cell}`;
+            if (!this.blocked.cells.has(cell)) {
+                if (!this.variants.includes("random") && this.stack.length < 3) {
+                    if (move === "") {
+                        newmove = cell;
                     } else {
-                        newmove = move;
-                    }
-                }
-            } else {
-                if (move === "") {
-                    newmove = cell;
-                } else {
-                    if (move.length > 0) {
-                        const [from, to,] = move.split(/[-/]/);
-                        if ( (from !== undefined) && (to === undefined) ) {
-                            newmove = `${from}-${cell}`;
-                        } else if ( (from !== undefined) && (to !== undefined) ) {
-                            newmove = `${from}-${to}/${cell}`;
+                        const moves = move.split(",");
+                        if (moves.length < this.startingPlacement[this.currplayer - 1]) {
+                            newmove = [...moves, cell].sort((a, b) => this.sort(a, b)).join(",");
+                        } else if (!move.includes("/")) {
+                            newmove = `${move}/${cell}`;
                         } else {
                             newmove = move;
                         }
                     }
+                } else {
+                    if (move === "") {
+                        newmove = cell;
+                    } else {
+                        if (move.length > 0) {
+                            const [from, to,] = move.split(/[-/]/);
+                            if ( (from !== undefined) && (to === undefined) ) {
+                                newmove = `${from}-${cell}`;
+                            } else if ( (from !== undefined) && (to !== undefined) ) {
+                                newmove = `${from}-${to}/${cell}`;
+                            } else {
+                                newmove = move;
+                            }
+                        }
+                    }
                 }
+            } else {
+                newmove = move;
             }
             const result = this.validateMove(newmove) as IClickResult;
             if (!result.valid) {
@@ -495,6 +514,9 @@ export class VeletasGame extends GameBase {
             if (cell !== undefined) {
                 try {
                     this.algebraic2coords(cell);
+                    if (this.blocked.cells.has(cell)) {
+                        throw new Error("Corner cells are blocked.");
+                    }
                 } catch {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation._general.INVALIDCELL", { cell });
@@ -642,8 +664,12 @@ export class VeletasGame extends GameBase {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message);
             }
             // Because move generation is quite heavy, we don't do it for placement phase.
-            if (!partial && !this.variants.includes("random") && this.stack.length > 2 && !this.moves().includes(m)) {
-                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}));
+            if (! partial) {
+                if (this.variants.includes("random") || this.stack.length > 2) {
+                    if (!this.moves().includes(m)) {
+                        throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}));
+                    }
+                }
             }
         }
         if (m.length === 0) { return this; }
@@ -711,11 +737,14 @@ export class VeletasGame extends GameBase {
                 for (const cell of ray) {
                     // If there's a space in any direction, then the shooter is not blocked.
                     // Continue to the next shooter.
-                    if (!this.board.has(cell)) { continue blockedLoop; }
+                    if (!this.board.has(cell) && !this.blocked.cells.has(cell)) {
+                        continue blockedLoop;
+                    }
                     const contents = this.board.get(cell);
                     // If we see player pieces, then shooter is blocked in this direction.
+                    // It is undefined if you're in a blocked corner
                     // Break this ray and continue to next direction.
-                    if (contents === 1 || contents === 2) { break; }
+                    if (contents === 1 || contents === 2 || contents === undefined) { break; }
                     // Otherwise, if we see a shooter, claimed or unclaimed,
                     // we continue checking down down the ray.
                     // if (contents === 0 || contents === 3 || contents === 4) { continue; }
@@ -838,6 +867,7 @@ export class VeletasGame extends GameBase {
                 style: "squares-checkered",
                 width: this.boardSize,
                 height: this.boardSize,
+                blocked: (this.blocked.coords.length === 0) ? undefined : this.blocked.coords.map(([x, y]) => { return {col: x, row: y}; }) as [RowCol, ...RowCol[]],
             },
             legend: {
                 A: [{ name: "piece-square", colour: 1 }],

@@ -7,8 +7,7 @@ import i18next from "i18next";
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
-export type playerid = 0|1|2;
-export type Size = 0|1|2|3;
+export type playerid = 1|2;
 export type ConnectionStatus = "enemy"|"self"|"isolated";
 
 export interface IMoveState extends IIndividualState {
@@ -39,6 +38,7 @@ export class EnsoGame extends GameBase {
             {
                 type: "designer",
                 name: "Dieter Stein",
+                apid: "e7f53920-5be9-406a-9d5c-baa0316ab4f4",
                 urls: ["https://spielstein.com/"]
             },
             {

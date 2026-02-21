@@ -48,7 +48,8 @@ export class RampartGame extends GameBase {
             },
         ],
         variants: [
-            { uid: "13x13", group: "board" },
+            { uid: "#board"},
+            { uid: "13x13", group: "board", default: true },
             { uid: "hex7", group: "board" },
             { uid: "custom", group: "setup", unrated: true },
         ],

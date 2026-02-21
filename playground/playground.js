@@ -3,6 +3,9 @@ function boardClick(row, col, piece) {
     var state = window.sessionStorage.getItem("state");
     var gamename = window.sessionStorage.getItem("gamename");
     var game = APGames.GameFactory(gamename, state);
+    if (game.gameover) {
+        return;
+    }
     var movebox = document.getElementById("moveEntry");
     var result = game.handleClick(movebox.value, row, col, piece);
     movebox.value = result.move;
@@ -36,7 +39,11 @@ function boardClick(row, col, piece) {
             renderOpts = { altDisplay: selectedDisplay };
         }
         game.move(result.move, {partial: true});
-        var interim = JSON.stringify(game.render(renderOpts));
+        let render = game.render(renderOpts);
+        if (Array.isArray(render)) {
+            render = render[render.length - 1];
+        }
+        var interim = JSON.stringify(render);
         window.sessionStorage.setItem("interim", interim);
     }
     renderGame();
@@ -84,7 +91,11 @@ function boardClickSimultaneous(row, col, piece) {
             renderOpts.altDisplay = selectedDisplay;
         }
         game.move(result.move + ",", {partial: true});
-        var interim = JSON.stringify(game.render(renderOpts));
+        let render = game.render(renderOpts);
+        if (Array.isArray(render)) {
+            render = render[render.length - 1];
+        }
+        var interim = JSON.stringify(render);
         window.sessionStorage.setItem("interim", interim);
     } else {
         window.sessionStorage.removeItem("interim");
@@ -1057,6 +1068,11 @@ function renderGame(...args) {
 
         var game = APGames.GameFactory(gamename, state);
 
+        if (game.gameover && clickStatusBox) {
+            var winnerStr = game.winner.length > 0 ? game.winner.join(", ") : "none";
+            clickStatusBox.innerHTML = '<p style="color: #0a0; font-weight: bold;">Game Over! Winner: Player ' + winnerStr + '</p>';
+        }
+
         if (playerInfoDisplay) {
             playerInfoDisplay.innerHTML = ""; // Clear previous content
 
@@ -1189,6 +1205,9 @@ function renderGame(...args) {
         }
         if (data === null) {
             data = game.render(renderOpts);
+            if (Array.isArray(data)) {
+                data = data[data.length - 1];
+            }
         }
         var canvas;
         try {
@@ -1927,10 +1946,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
             if (! waserror) {
                 movebox.value = "";
-                var result = game.validateMove("");
-                var resultStr = '<p style="color: #888">' + result.message + '</p>';
                 var statusbox = document.getElementById("clickstatus");
-                statusbox.innerHTML = resultStr;
+                if (game.gameover) {
+                    var winnerStr = game.winner.length > 0 ? game.winner.join(", ") : "none";
+                    statusbox.innerHTML = '<p style="color: #0a0; font-weight: bold;">Game Over! Winner: Player ' + winnerStr + '</p>';
+                } else {
+                    var result = game.validateMove("");
+                    var resultStr = '<p style="color: #888">' + result.message + '</p>';
+                    statusbox.innerHTML = resultStr;
+                }
             }
             window.sessionStorage.setItem("state", game.serialize());
             window.sessionStorage.removeItem("interim");
@@ -1969,10 +1993,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 var movebox = document.getElementById("moveEntry");
                 movebox.value = "";
                 movebox.classList.remove("move-incomplete", "move-ready");
-                var result = game.validateMove("");
-                var resultStr = '<p style="color: #888">' + result.message + '</p>';
                 var statusbox = document.getElementById("clickstatus");
-                statusbox.innerHTML = resultStr;
+                if (game.gameover) {
+                    var winnerStr = game.winner.length > 0 ? game.winner.join(", ") : "none";
+                    statusbox.innerHTML = '<p style="color: #0a0; font-weight: bold;">Game Over! Winner: Player ' + winnerStr + '</p>';
+                } else {
+                    var result = game.validateMove("");
+                    var resultStr = '<p style="color: #888">' + result.message + '</p>';
+                    statusbox.innerHTML = resultStr;
+                }
             } catch (err) {
                 if (err.name === "UserFacingError") {
                     var resultStr = '<p style="color: #f00">ERROR: ' + err.client + '</p>';
@@ -2067,10 +2096,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     var movebox = document.getElementById("moveEntry");
                     movebox.value = "";
                     movebox.classList.remove("move-incomplete", "move-ready");
-                    var result = game.validateMove("");
-                    var resultStr = '<p style="color: #888">' + result.message + '</p>';
                     var statusbox = document.getElementById("clickstatus");
-                    statusbox.innerHTML = resultStr;
+                    if (game.gameover) {
+                        var winnerStr = game.winner.length > 0 ? game.winner.join(", ") : "none";
+                        statusbox.innerHTML = '<p style="color: #0a0; font-weight: bold;">Game Over! Winner: Player ' + winnerStr + '</p>';
+                    } else {
+                        var result = game.validateMove("");
+                        var resultStr = '<p style="color: #888">' + result.message + '</p>';
+                        statusbox.innerHTML = resultStr;
+                    }
 
                     window.sessionStorage.setItem("state", game.serialize());
                     window.sessionStorage.removeItem("interim");
@@ -2098,6 +2132,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     game.move(move);
                     window.sessionStorage.setItem("state", game.serialize());
                     window.sessionStorage.removeItem("interim");
+                    if (game.gameover) {
+                        var winnerStr = game.winner.length > 0 ? game.winner.join(", ") : "none";
+                        document.getElementById("clickstatus").innerHTML = '<p style="color: #0a0; font-weight: bold;">Game Over! Winner: Player ' + winnerStr + '</p>';
+                    }
                     renderGame();
                     updateGameStatusPanel(game, gamename);
                 } else {
@@ -2125,6 +2163,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     game.move(move);
                     window.sessionStorage.setItem("state", game.serialize());
                     window.sessionStorage.removeItem("interim");
+                    if (game.gameover) {
+                        var winnerStr = game.winner.length > 0 ? game.winner.join(", ") : "none";
+                        document.getElementById("clickstatus").innerHTML = '<p style="color: #0a0; font-weight: bold;">Game Over! Winner: Player ' + winnerStr + '</p>';
+                    }
                     renderGame();
                     updateGameStatusPanel(game, gamename);
                 } else {

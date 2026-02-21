@@ -801,9 +801,9 @@ export class BukuGame extends GameBase {
                     const [x, y] = this.algebraic2coords(move.where!);
                     rep.annotations.push({ type: "exit", targets: [{ row: y, col: x }] });
                 } else if (move.type === "sow") {
-                    if (move.pits.length > 1) {
+                    if (move.pits!.length > 1) {
                         const targets: RowCol[] = [];
-                        for (const cell of move.pits) {
+                        for (const cell of move.pits!) {
                             const [x, y] = this.algebraic2coords(cell);
                             targets.push({ row: y, col: x })
                         }
@@ -863,7 +863,7 @@ export class BukuGame extends GameBase {
                                 }
                                 break;
                             case "sow":
-                                node.push(i18next.t("apresults:SOW.into", { player: name, pits: r.pits.join(", ") }));
+                                node.push(i18next.t("apresults:SOW.into", { player: name, pits: r.pits!.join(", ") }));
                                 break;
                             case "capture":
                                 node.push(i18next.t("apresults:CAPTURE.buku", { player: name, where: r.where, count: r.count }));

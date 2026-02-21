@@ -7,7 +7,7 @@
   "scripts": {
     "build": "npm run json2ts && npm run build-ts && npm run lint",
     "build-ts": "tsc && npm pack",
-    "test0": "mocha -r ts-node/register test/games/omny.test.ts",
+    "test0": "mocha -r ts-node/register test/common/graphs/recttri.test.ts",
     "test": "mocha -r ts-node/register test/**/*.test.ts",
     "lint": "npx eslint .",
     "dist-dev": "rimraf dist && webpack",
@@ -64,7 +64,7 @@
   },
   "dependencies": {
     "@abstractplay/recranks": "latest",
-    "@abstractplay/renderer": "^1.0.0-ci-20966259367.0",
+    "@abstractplay/renderer": "^1.0.0-ci-21051058249.0",
     "@turf/boolean-contains": "^6.5.0",
     "@turf/boolean-intersects": "^6.5.0",
     "@turf/boolean-point-in-polygon": "^6.5.0",

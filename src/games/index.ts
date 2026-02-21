@@ -221,6 +221,14 @@ import { ArimaaGame, IArimaaState } from "./arimaa";
 import { RampartGame, IRampartState } from "./rampart";
 import { KrypteGame, IKrypteState } from "./krypte";
 import { EnsoGame, IEnsoState } from "./enso";
+import { RincalaGame, IRincalaState } from "./rincala";
+import { WaldMeisterGame, IWaldMeisterState } from "./waldmeister";
+import { WunchunkGame, IWunchunkState } from "./wunchunk";
+import { BambooGame, IBambooState } from "./bamboo";
+import { PluralityGame, IPluralityState } from "./plurality";
+import { CrosshairsGame, ICrosshairsState } from "./crosshairs";
+import { MagnateGame, IMagnateState } from "./magnate";
+import { ProductGame, IProductState } from "./product";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -445,6 +453,14 @@ export {
     RampartGame, IRampartState,
     KrypteGame, IKrypteState,
     EnsoGame, IEnsoState,
+    RincalaGame, IRincalaState,
+    WaldMeisterGame, IWaldMeisterState,
+    WunchunkGame, IWunchunkState,
+    BambooGame, IBambooState,
+    PluralityGame, IPluralityState,
+    CrosshairsGame, ICrosshairsState,
+    MagnateGame, IMagnateState,
+    ProductGame, IProductState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -522,7 +538,9 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof SunspotGame | typeof StawvsGame | typeof LascaGame |
                               typeof EmergoGame | typeof FroggerGame | typeof ArimaaGame |
                               typeof RampartGame | typeof KrypteGame | typeof EnsoGame |
-                              typeof OonpiaGame
+                              typeof RincalaGame | typeof WaldMeisterGame | typeof WunchunkGame |
+                              typeof BambooGame | typeof PluralityGame | typeof CrosshairsGame |
+                              typeof MagnateGame | typeof ProductGame | typeof OonpiaGame
                 >();
 // Manually add each game to the following array
 [
@@ -556,7 +574,9 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     PonteDDGame, SurmountGame, GlissGame, MorphosGame, AssemblyGame, PaintbucketGame, C1Game,
     BloqueoGame, PilastriGame, TessellaGame, GorogoGame, BiscuitGame, QuincunxGame,
     SiegeOfJGame, StairsGame, EmuGame, DeckfishGame, BluestoneGame, SunspotGame, StawvsGame,
-    LascaGame, EmergoGame, FroggerGame, ArimaaGame, RampartGame, KrypteGame, EnsoGame, OonpiaGame,
+    LascaGame, EmergoGame, FroggerGame, ArimaaGame, RampartGame, KrypteGame, EnsoGame, RincalaGame,
+    WaldMeisterGame, WunchunkGame, BambooGame, PluralityGame, CrosshairsGame, MagnateGame, ProductGame,
+    OonpiaGame
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -1010,6 +1030,22 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new KrypteGame(...args);
         case "enso":
             return new EnsoGame(...args);
+        case "rincala":
+            return new RincalaGame(...args);
+        case "waldmeister":
+            return new WaldMeisterGame(...args);
+        case "wunchunk":
+            return new WunchunkGame(args[0], ...args.slice(1));
+        case "bamboo":
+            return new BambooGame(...args);
+        case "plurality":
+            return new PluralityGame(...args);
+        case "crosshairs":
+            return new CrosshairsGame(...args);
+        case "magnate":
+            return new MagnateGame(...args);
+        case "product":
+            return new ProductGame(...args);
     }
     return;
 }

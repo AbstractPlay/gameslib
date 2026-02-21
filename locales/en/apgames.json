@@ -5092,7 +5092,8 @@
             "TOO_MANY": "You may not place more than two tiles."
         },
         "product": {
-            "INSTRUCTIONS": "Players place, on empty hexes, two stones of either color. The only exception is on the first turn, where the first player places just one stone of either color.",
+            "INITIAL_INSTRUCTIONS": "At the start, place one stone of either color. Click current friendly stone to flip color, click again to empty hex.",
+            "INSTRUCTIONS": "Players place, on empty hexes, two stones of either color. Click current friendly stone to flip color, click again to empty hex.",
             "INCOMPLETE_TURN": "To complete the turn you need two placements.",
             "INVALID_PLACEMENT": "Unable to interpret the move notation: {{move}}.",
             "NORMALISE": "The move needs to be normalised. Try {{normalised}}.",

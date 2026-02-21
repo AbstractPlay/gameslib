@@ -5,7 +5,6 @@ import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs";
-import _ from "lodash";
 
 export type playerid = 1|2;
 
@@ -189,7 +188,7 @@ export class ProductGame extends GameBase {
         return groups.map(g => g.size).sort((a, b) => b - a);
     }
 
-    public moves(player?: playerid): string[] {
+    public moves(): string[] {
         if (this.gameover) { return []; }
         const moves: string[] = [];
 
@@ -265,7 +264,9 @@ export class ProductGame extends GameBase {
                 newmove = `${this.currplayer}${cell}`;
             } else {
                 const moves : string[] = move.split(",");
-                newmove = this.processMoves(moves, cell, this.currplayer).sort((a, b) => this.sort(a, b)).join(",");
+                newmove = this.processMoves(moves, cell, this.currplayer)
+                              .sort((a, b) => this.sort(a, b))
+                              .join(",");
             }
             const result = this.validateMove(newmove) as IClickResult;
             if (!result.valid) {
@@ -307,7 +308,11 @@ export class ProductGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.product.INSTRUCTIONS", {count: nMovesTurn});
+            if (this.stack.length == 1) {
+                result.message = i18next.t("apgames:validation.product.INITIAL_INSTRUCTIONS");
+            } else {
+                result.message = i18next.t("apgames:validation.product.INSTRUCTIONS");
+            }
             return result;
         }
 
@@ -317,7 +322,7 @@ export class ProductGame extends GameBase {
 
         if (moves.length > nMovesTurn) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.product.TOO_MANY_MOVES", {count: nMovesTurn});
+            result.message = i18next.t("apgames:validation.product.TOO_MANY_MOVES");
             return result;
         }
 
@@ -326,9 +331,9 @@ export class ProductGame extends GameBase {
         try {
             for (const move of moves) {
                 currentMove = move.slice(1);
-                const [, y] = this.graph.algebraic2coords(currentMove);
-                // `algebraic2coords` does not check if the cell is on the board fully.
-                if (y < 0) { throw new Error("Invalid cell."); }
+                if (! (this.graph.listCells() as string []).includes(currentMove)) {
+                    throw new Error("Invalid cell.");
+                }
             }
         } catch {
             result.valid = false;
@@ -339,7 +344,7 @@ export class ProductGame extends GameBase {
         // Is is an empty cell?
         let notEmpty;
         for (const move of moves) {
-            if (this.board.has(move.slice(1))) { notEmpty = move; break; }
+            if (this.board.has(move.slice(1))) { notEmpty = move.slice(1); break; }
         }
         if (notEmpty) {
             result.valid = false;
@@ -348,7 +353,7 @@ export class ProductGame extends GameBase {
         }
 
         // possible to use moves() list to validate, but regex is (kind of?) fun
-        const regex = new RegExp(`^\\d[a-z]\\d+(,\\d[a-z]\\d+)?$`);
+        const regex = new RegExp(`^[12][a-z]\\d+(,[12][a-z]\\d+)?$`);
         if (!regex.test(m)) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.product.INVALID_PLACEMENT", {move: m});

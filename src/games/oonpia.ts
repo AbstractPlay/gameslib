@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaKey, BoardBasic } from "@abstractplay/renderer/src/schemas/schema";
@@ -395,7 +394,7 @@ export class OonpiaGame extends GameBase {
         if (possibleMoves.length === 0) {
             return {
                 valid: false,
-                message: i18next.t("apgames:validation.oonpia.INVALID_BOTH", {where: ms}),
+                message: i18next.t("apgames:validation.oonpia.INVALID_BOTH", {where: cell}),
                 move: ms
             }
         }

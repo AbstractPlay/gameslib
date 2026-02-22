@@ -583,6 +583,7 @@ export class OonpiaGame extends GameBase {
                 return {
                     valid: true,
                     complete: 0,
+                    canrender: true,
                     message: i18next.t("apgames:validation._general.VALID_MOVE")
                 }
             } else {
@@ -596,6 +597,7 @@ export class OonpiaGame extends GameBase {
                 return {
                     valid: true,
                     complete: 0,
+                    canrender: true,
                     message: i18next.t("apgames:validation._general.VALID_MOVE")
                 }
             } else {

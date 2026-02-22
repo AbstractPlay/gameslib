@@ -582,7 +582,7 @@ export class OonpiaGame extends GameBase {
             if (this.isValidCapture(move.cell, move.tile)) {
                 return {
                     valid: true,
-                    complete: 1,
+                    complete: 0,
                     message: i18next.t("apgames:validation._general.VALID_MOVE")
                 }
             } else {
@@ -595,7 +595,7 @@ export class OonpiaGame extends GameBase {
             if (this.isValidPlace(move.cell, move.tile)) {
                 return {
                     valid: true,
-                    complete: 1,
+                    complete: 0,
                     message: i18next.t("apgames:validation._general.VALID_MOVE")
                 }
             } else {

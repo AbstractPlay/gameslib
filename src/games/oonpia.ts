@@ -39,13 +39,13 @@ export class OonpiaGame extends GameBase {
         name: "Oonpia",
         uid: "oonpia",
         playercounts: [2],
-        version: "20251216",
-        dateAdded: "2025-12-16",
+        version: "20260222",
+        dateAdded: "2026-02-22",
         // i18next.t("apgames:descriptions.oonpia")
         description: "apgames:descriptions.oonpia",
         // i18next.t("apgames:notes.oonpia")
         notes: "apgames:notes.oonpia",
-        urls: ["https://boardgamegeek.com/thread/3251219/oonpia-new-4-colour-hexagonal-go-like"],
+        urls: ["https://github.com/th555/abstract_game_rules/blob/master/oonpia_rules.pdf"],
         people: [
             {
                 type: "designer",

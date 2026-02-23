@@ -2916,6 +2916,17 @@ export class CrosshairsGame extends GameBase {
             };
         myLegend["cloud"] = cloudGlyph;
 
+        // Collect which (player, dir, height, inCloud) combos are actually on the board
+        // so we only build legend entries we need (avoids hundreds of expensive text bbox measurements)
+        const neededPieces = new Set<string>();
+        for (const [cell, [owner, dir, height]] of this.board) {
+            const inCloud = this.clouds.has(cell);
+            neededPieces.add(`P${owner}${dir}_${height}`);
+            if (inCloud) {
+                neededPieces.add(`P${owner}${dir}_${height}_cloud`);
+            }
+        }
+
         // Create plane glyphs for each direction, player, and height combination
         // Abstract mode: use arrowhead (chevron) glyph
         // Regular mode: use plane glyph
@@ -2935,12 +2946,21 @@ export class CrosshairsGame extends GameBase {
                     };
 
                 // Height 0 - just the plane
-                myLegend[`P${player}${dir}_0`] = planeGlyph;
-                // Height 0 in cloud - plane with cloud on top
-                myLegend[`P${player}${dir}_0_cloud`] = [planeGlyph, cloudGlyph];
+                if (neededPieces.has(`P${player}${dir}_0`)) {
+                    myLegend[`P${player}${dir}_0`] = planeGlyph;
+                }
+                if (neededPieces.has(`P${player}${dir}_0_cloud`)) {
+                    myLegend[`P${player}${dir}_0_cloud`] = [planeGlyph, cloudGlyph];
+                }
 
                 // Heights 1-6 - plane with altitude indicators
                 for (let height = 1; height <= 6; height++) {
+                    const baseKey = `P${player}${dir}_${height}`;
+                    const cloudKey = `${baseKey}_cloud`;
+                    if (!neededPieces.has(baseKey) && !neededPieces.has(cloudKey)) {
+                        continue;
+                    }
+
                     const glyphs: Glyph[] = [];
 
                     if (numericMode && abstractMode) {
@@ -2949,7 +2969,7 @@ export class CrosshairsGame extends GameBase {
                         const nudgeDist = 200;
                         glyphs.push({
                             text: String(height),
-                            scale: 0.6,
+                            scale: 0.4,
                             colour: "#000000",
                             fontWeight: "bold",
                             nudge: {
@@ -2959,12 +2979,12 @@ export class CrosshairsGame extends GameBase {
                         });
                     } else if (numeric2Mode) {
                         // Numeric2: two small numbers at ±120° from heading (between wings and fuselage)
-                        const nudgeDist = 300;
+                        const nudgeDist = 400;
                         for (const offset of [120, -120]) {
                             const angle = (planeRotation + offset) * Math.PI / 180;
                             glyphs.push({
                                 text: String(height),
-                                scale: 0.5,
+                                scale: 0.3,
                                 colour: "#000000",
                                 nudge: {
                                     dx: Math.cos(angle) * nudgeDist,
@@ -3000,10 +3020,14 @@ export class CrosshairsGame extends GameBase {
                     // Add the plane on top
                     glyphs.push(planeGlyph);
 
-                    myLegend[`P${player}${dir}_${height}`] = glyphs as [Glyph, ...Glyph[]];
-                    // In-cloud variant with cloud on top of everything
-                    const cloudGlyphs: [Glyph, ...Glyph[]] = [glyphs[0], ...glyphs.slice(1), cloudGlyph];
-                    myLegend[`P${player}${dir}_${height}_cloud`] = cloudGlyphs;
+                    if (neededPieces.has(baseKey)) {
+                        myLegend[baseKey] = glyphs as [Glyph, ...Glyph[]];
+                    }
+                    if (neededPieces.has(cloudKey)) {
+                        // In-cloud variant with cloud on top of everything
+                        const cloudGlyphs: [Glyph, ...Glyph[]] = [glyphs[0], ...glyphs.slice(1), cloudGlyph];
+                        myLegend[cloudKey] = cloudGlyphs;
+                    }
                 }
             }
         }

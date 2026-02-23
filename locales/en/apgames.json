@@ -2995,6 +2995,18 @@
             "abstract": {
                 "description": "Use abstract glyphs for the planes and clouds.",
                 "name": "Abstract glyphs"
+            },
+            "numeric": {
+                "description": "Plane glyphs with big numeric altitude indicators below plane.",
+                "name": "Numeric altitude"
+            },
+            "numeric2": {
+                "description": "Plane glyphs with two small numeric altitude indicators.",
+                "name": "Numeric altitude 2"
+            },
+            "numeric-abstract": {
+                "description": "Abstract glyphs with numeric altitude indicators.",
+                "name": "Numeric abstract"
             }
         },
         "diffusion": {

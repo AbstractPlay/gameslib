@@ -281,8 +281,9 @@ export class GoGame extends GameBase {
                 return result;
             }
 
-            // player typed something in the move textbox, check if it is an integer
-            if (! /^-?\d+$/.test(m)) {
+            // player typed something in the move textbox,
+            // check if it is an integer or a number with 0.5 decimal part
+            if (! /^-?\d+(\.[05])?$/.test(m)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.go.INVALID_KOMI");
                 return result
@@ -359,6 +360,7 @@ export class GoGame extends GameBase {
         result.valid = true;
         result.complete = 1;
         result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        result.canrender = true;
         return result;
     }
 
@@ -505,7 +507,7 @@ export class GoGame extends GameBase {
         }
         if (m.length === 0) { return this; }
         this.results = [];
-        
+
         if (this.isKomiTurn()) {
             // first move, get the Komi proposed value, and add komi to game state
             this.komi = parseInt(m, 10);
@@ -570,7 +572,7 @@ export class GoGame extends GameBase {
         if (this.gameover) {
             this.scores = [this.getPlayerScore(1), this.getPlayerScore(2)];
             // draws by score are impossible
-            this.winner = this.scores[0] > this.scores[1] ? [1] : [2]; 
+            this.winner = this.scores[0] > this.scores[1] ? [1] : [2];
             this.results.push(
                 {type: "eog"},
                 {type: "winners", players: [...this.winner]}
@@ -687,9 +689,9 @@ export class GoGame extends GameBase {
                                    .map(pair => pair[0]);
         let komi = 0.0;
         if (player === 1 && this.komi !== undefined && this.komi < 0)
-            komi = -this.komi + 0.5; // 0.5 is to prevent draws
+            komi = -this.komi;
         if (player === 2 && this.komi !== undefined && this.komi > 0)
-            komi = this.komi + 0.5;
+            komi = this.komi;
 
         const terr = this.getTerritories();
         return terr.filter(t => t.owner === player).reduce((prev, curr) => prev + curr.cells.length, komi + playerPieces.length);

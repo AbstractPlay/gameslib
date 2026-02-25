@@ -4561,9 +4561,9 @@
             "PARTIAL": "Select one of the highlighted cells to move the glider. If a bar has appeared at the edge of the board, you can click it to move the glider off the board."
         },
         "go": {
-            "INITIAL_SETUP": "Choose a number of points to add to the second player's score, and the next player will choose sides (0.5 will be added to prevent draws). This implementation uses Chinese area rules. Scores are based on the current area ownership. Players do need to capture all dead stones before ending the game with two consecutive passes.",
+            "INITIAL_SETUP": "Choose a number of points to add to the second player's score, and the next player will choose sides. This implementation uses Chinese area rules. Scores are based on the current area ownership. Players do need to capture all dead stones before ending the game with two consecutive passes.",
             "INSTRUCTIONS": "Select an intersection to place a piece.",
-            "INVALID_KOMI": "You must choose an integer number of points to add to the second player's score.",
+            "INVALID_KOMI": "You must choose an number in increments of 0.5 (like 4 or 4.5) to add to the second player's score.",
             "INVALID_PIE": "You cannot accept or reject a pie offer now.",
             "INVALID_PLAYSECOND": "You cannot choose to play second from this board state.",
             "KOMI_CHOICE": "You may either make the first move on the board and let your opponent keep the bonus points (an integer) or you may choose \"Play second\" and take the bonus points for yourself.",

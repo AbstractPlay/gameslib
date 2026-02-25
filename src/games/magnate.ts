@@ -22,7 +22,8 @@ export type DeedContents = {
 };
 
 const columnLabels = "abcdefghij".split("");
-const moveTypes = ["B","D","S","A","T","P","C"];
+const moveTypes = ["B","D","S","A","T","P","C","U"];
+const moveTypeNames = ["Buy","Deed","Sell","Add","Trade","Prefer","Choose","Undo"];
 const suitColors: string[] = ["#c7c8ca","#e08426","#6a9fcc","#bc8a5d","#6fc055","#d6dd40"];
 const suitOrder = suits.map(suit => suit.uid); //["M","S","V","L","Y","K"];
 
@@ -1745,6 +1746,9 @@ export class MagnateGame extends GameBase {
             if (pact.spend !== undefined) {
                 this.debit(pact.spend, this.currplayer);
             }
+
+            if (pact.type !== undefined)
+                this.highlights.push(moveTypeNames[moveTypes.indexOf(pact.type)]);
             
             //Low-hanging fruit.
             if (pact.type === "T") {
@@ -1757,6 +1761,7 @@ export class MagnateGame extends GameBase {
                     });
                 }
             }//end trade type
+            
             
             if ( pact.card ) {
 
@@ -2085,7 +2090,11 @@ export class MagnateGame extends GameBase {
         //We don't have an easy way to judge if we need it, so always show.
         buttons.push({label: "Undo"});
 
-        buttons.forEach(b => b.attributes = [{name: "font-size", value: "larger"}]);
+        buttons.forEach(b => {
+            b.attributes = [{name: "font-size", value: "larger"}]
+            if (this.highlights.indexOf(b.label) > -1)
+                b.attributes.push({name:  "font-weight", value: "bold"});
+        });
 
         return buttons;
     }

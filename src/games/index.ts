@@ -215,6 +215,7 @@ import { SunspotGame, ISunspotState } from "./sunspot";
 import { StawvsGame, IStawvsState } from "./stawvs";
 import { LascaGame, ILascaState } from "./lasca";
 import { EmergoGame, IEmergoState } from "./emergo";
+import { OonpiaGame, IOonpiaState } from "./oonpia";
 import { FroggerGame, IFroggerState } from "./frogger";
 import { ArimaaGame, IArimaaState } from "./arimaa";
 import { RampartGame, IRampartState } from "./rampart";
@@ -446,6 +447,7 @@ export {
     StawvsGame, IStawvsState,
     LascaGame, ILascaState,
     EmergoGame, IEmergoState,
+    OonpiaGame, IOonpiaState,
     FroggerGame, IFroggerState,
     ArimaaGame, IArimaaState,
     RampartGame, IRampartState,
@@ -538,7 +540,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof RampartGame | typeof KrypteGame | typeof EnsoGame |
                               typeof RincalaGame | typeof WaldMeisterGame | typeof WunchunkGame |
                               typeof BambooGame | typeof PluralityGame | typeof CrosshairsGame |
-                              typeof MagnateGame | typeof ProductGame
+                              typeof MagnateGame | typeof ProductGame | typeof OonpiaGame
                 >();
 // Manually add each game to the following array
 [
@@ -573,7 +575,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     BloqueoGame, PilastriGame, TessellaGame, GorogoGame, BiscuitGame, QuincunxGame,
     SiegeOfJGame, StairsGame, EmuGame, DeckfishGame, BluestoneGame, SunspotGame, StawvsGame,
     LascaGame, EmergoGame, FroggerGame, ArimaaGame, RampartGame, KrypteGame, EnsoGame, RincalaGame,
-    WaldMeisterGame, WunchunkGame, BambooGame, PluralityGame, CrosshairsGame, MagnateGame, ProductGame
+    WaldMeisterGame, WunchunkGame, BambooGame, PluralityGame, CrosshairsGame, MagnateGame, ProductGame,
+    OonpiaGame
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -1015,6 +1018,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new LascaGame(...args);
         case "emergo":
             return new EmergoGame(...args);
+        case "oonpia":
+            return new OonpiaGame(...args);
         case "frogger":
             return new FroggerGame(args[0], ...args.slice(1));
         case "arimaa":

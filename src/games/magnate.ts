@@ -1245,11 +1245,18 @@ export class MagnateGame extends GameBase {
             let newmove = "";
             // clicking on hand pieces or token pieces.
             if (row < 0 && col < 0) {
-                if ( piece?.startsWith("_btn_")) {
+                if ( piece?.startsWith("_btn_") ) {
                     const type = piece.split("_")[2].charAt(0);
-                    if ( move && move.endsWith(":") )  //Reset type.
+                    if (type === "U") {
+                        const submoves = this.splitMove(move);
+                        if (submoves.length > 0) {
+                            //Remove one move.
+                            submoves.length = submoves.length - 1;
+                        }
+                        newmove = submoves.join("/");
+                    } else if ( move && move.endsWith(":") ) { //Reset type.
                         newmove = `${move.substring(0,move.length - 2)}${type}:`;
-                    else if (move) {//Next action.
+                    } else if (move) {//Next action.
                         const submoves = this.splitMove(move);
                         const subparse = this.parseMove(submoves[submoves.length - 1]);
                         if ( subparse.incomplete === true ) {
@@ -1400,10 +1407,6 @@ export class MagnateGame extends GameBase {
 
         for (let s = 0; s < moves.length; s++) {
             const action = moves[s];
-/*            //Trim any dangling commas.
-            if (action[action.length - 1] === ",")
-                action = action.substring(0,action.length - 1);
-*/
             const isLast = s === moves.length - 1;
 
             //Parse.
@@ -2066,19 +2069,23 @@ export class MagnateGame extends GameBase {
             buttons = [ 
                 {label: "Choose"}
             ];
-            return buttons;
+        } else {
+            const deedy = this.deeds[this.currplayer - 1].size > 0;
+
+            if (deedy)
+                buttons.push({label: "Add"});
+
+            if (this.tokens[this.currplayer - 1].filter( v => v >= 3).length > 0)
+                buttons.push({label: "Trade"});
+
+            if (deedy)
+                buttons.push({label: "Prefer"});
         }
 
-        const deedy = this.deeds[this.currplayer - 1].size > 0;
+        //We don't have an easy way to judge if we need it, so always show.
+        buttons.push({label: "Undo"});
 
-        if (deedy)
-            buttons.push({label: "Add"});
-
-        if (this.tokens[this.currplayer - 1].filter( v => v >= 3).length > 0)
-            buttons.push({label: "Trade"});
-
-        if (deedy)
-            buttons.push({label: "Prefer"});
+        buttons.forEach(b => b.attributes = [{name: "font-size", value: "larger"}]);
 
         return buttons;
     }
@@ -2592,7 +2599,8 @@ export class MagnateGame extends GameBase {
         areas.push({                      
             type: "buttonBar",
             position: "left",
-            height: 0.75,
+            height: 1,
+            minWidth: 50,
             buttons: this.getActionButtons()
         });
 

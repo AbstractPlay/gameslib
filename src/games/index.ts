@@ -544,7 +544,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof RampartGame | typeof KrypteGame | typeof EnsoGame |
                               typeof RincalaGame | typeof WaldMeisterGame | typeof WunchunkGame |
                               typeof BambooGame | typeof PluralityGame | typeof CrosshairsGame |
-                              typeof MagnateGame | typeof ProductGame | typeof OonpiaGame
+                              typeof MagnateGame | typeof ProductGame | typeof OonpiaGame |
                               typeof GoGame | typeof StilettoGame
                 >();
 // Manually add each game to the following array

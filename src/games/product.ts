@@ -393,6 +393,7 @@ export class ProductGame extends GameBase {
         result.valid = true;
         result.complete = 0; // 0 so the player may flip also the last placement
         result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        result.canrender = true;
         return result;
     }
 

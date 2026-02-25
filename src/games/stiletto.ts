@@ -225,7 +225,7 @@ export class StilettoGame extends InARowBase {
             for (let col = 0; col < this.boardSize; col++) {
                 const cell = this.coords2algebraic(col, row);
                 if (this.board.has(cell)) { continue; }
-                    moves.push(this.normaliseMove(cell));
+                moves.push(this.normaliseMove(cell));
             }
         }
 
@@ -269,7 +269,7 @@ export class StilettoGame extends InARowBase {
         }
         */
 
-        return moves;
+        return moves.sort((a,b) => a.localeCompare(b));
     }
 
     public randomMove(): string {
@@ -429,6 +429,7 @@ export class StilettoGame extends InARowBase {
 
         result.valid = true;
         result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        result.canrender = true;
         return result;
     }
 

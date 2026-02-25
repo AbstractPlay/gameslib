@@ -214,7 +214,7 @@ export class ProductGame extends GameBase {
             }
         }
 
-        return moves;
+        return moves.sort((a,b) => a.localeCompare(b));
     }
 
     public randomMove(): string {

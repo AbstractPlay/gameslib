@@ -4557,7 +4557,7 @@
             "PARTIAL": "Select one of the highlighted cells to move the glider. If a bar has appeared at the edge of the board, you can click it to move the glider off the board."
         },
         "go": {
-            "INITIAL_SETUP": "Choose a number of points to add to the second player's score, and the next player will choose sides. This implementation uses Chinese area rules. Scores are based on the current area ownership. Players do need to capture all dead stones before ending the game with two consecutive passes. A board cycle (like a triple Ko) implies a draw.",
+            "INITIAL_SETUP": "Choose a number of points to add to the second player's score, and the next player will choose sides. This implementation uses Chinese area rules. Scores are based on the current area ownership. Super-Ko applies to prevent positional cycles. Players do need to capture all dead stones before ending the game with two consecutive passes.",
             "CYCLE" : "A previous position cannot be repeated; super-Ko applies.",
             "INSTRUCTIONS": "Select an intersection to place a piece.",
             "INVALID_KOMI": "You must choose an number in increments of 0.5 (like 4 or 4.5) to add to the second player's score.",

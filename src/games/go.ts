@@ -3,14 +3,15 @@ import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic, MarkerDots, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, replacer, reviver, UserFacingError, SquareOrthGraph } from "../common";
-//import { UndirectedGraph } from "graphology";
 import { connectedComponents } from "graphology-components";
+import pako, { Data } from "pako";
 
 import i18next from "i18next";
+
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const Buffer = require('buffer/').Buffer  // note: the trailing slash is important!
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
-import pako, { Data } from "pako";
 
 type playerid = 1 | 2 | 3; // 3 is for neutral owned areas
 
@@ -249,7 +250,6 @@ export class GoGame extends GameBase {
         return sig;
     }
 
-/*
     // tells you how many times the current, UNPUSHED board position has been
     // repeated in the stack
     private numRepeats(): number {
@@ -266,7 +266,7 @@ export class GoGame extends GameBase {
         }
         return num;
     }
-*/
+
     public getButtons(): ICustomButton[] {
         if (this.moves().includes("pass"))
             return [{ label: "pass", move: "pass" }];
@@ -323,7 +323,7 @@ export class GoGame extends GameBase {
                 return result
             }
             result.valid = true;
-            result.complete = 0; // partial because player can continue typing for abs(Komi) > 9
+            result.complete = 0; // partial because player can continue typing
             result.message = i18next.t("apgames:validation.go.INSTRUCTIONS");
             return result;
         }
@@ -331,7 +331,6 @@ export class GoGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            //result.canrender = true;
             if (this.isPieTurn()) {
                 result.message = i18next.t("apgames:validation.go.KOMI_CHOICE");
             } else {
@@ -352,8 +351,7 @@ export class GoGame extends GameBase {
             return result;
         }
 
-        // get all valid complete moves (so each move will be like "a1,b1,c1")
-        const allMoves = this.moves();
+        const allMoves = this.moves(); // get all valid complete moves
 
         if (m === "pass") {
             if (allMoves.includes("pass")) {
@@ -376,47 +374,43 @@ export class GoGame extends GameBase {
             result.message = i18next.t("apgames:validation._general.INVALIDCELL", { cell: m });
             return result;
         }
+
         if (this.board.has(m)) {
             result.valid = false;
             result.message = i18next.t("apgames:validation._general.OCCUPIED", { where: m });
             return result;
         }
+
         if (this.isSelfCapture(m, this.currplayer)) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.go.SELF_CAPTURE", { where: m });
             return result;
         }
+
         if (this.checkKo(m, this.currplayer)) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.go.KO");
             return result;
         }
-        /***** this is not working, don't know why
+
         if (this.stack.length > 3) {
             const cloned = this.clone();
             // fake the placement to check cycles
             cloned.board.set(m, this.currplayer);
-            
-            // **** breaks around here ****
-            // with an error like this:
-            // A generic error occurred while processing your click: Error message: this.grid.adjacencies is not a function Stack: {{estack}} Move: , Row: 1, Col: 1, Index: {{index}}
             const allCaptures = cloned.getCaptures(m, this.currplayer);
-            // ****************************
-            
-            // ... and that placement could cause captures
-            if (allCaptures.length > 0) {
-                for (const captures of allCaptures) {
-                    for (const capture of captures) { 
-                        cloned.board.delete(capture); 
-                    }
+            // ... and fake also the captures from that placement
+            for (const captures of allCaptures) {
+                for (const capture of captures) { 
+                    cloned.board.delete(capture); 
                 }
             }
+
             if (cloned.numRepeats() >= 1) { // check super-Ko
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.go.CYCLE");
                 return result;
             }
-        } */
+        }
 
         result.valid = true;
         result.complete = 1;
@@ -489,8 +483,6 @@ export class GoGame extends GameBase {
         if (previousCaptures.length !== 1) { return false; }
         return (previousCaptures[0] as Extract<APMoveResult, { type: 'capture' }>).count! === 1;
     }
-
-    // --- These next methods are helpers to find territories and their eventual owners ---- //
 
     public getGraph(): SquareOrthGraph { // just orthogonal connections
         return new SquareOrthGraph(this.boardSize, this.boardSize);
@@ -619,7 +611,7 @@ export class GoGame extends GameBase {
         }
 
         // if a cycle is found, the game ends in a draw
-        // NB: if Super-Ko is implemented, this should never happen
+        // NB: when Super-Ko is implemented, this should never happen
         if (!this.gameover) {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const count = this.stateCount(new Map<string, any>([["board", this.board], ["currplayer", this.currplayer]]));
@@ -812,12 +804,9 @@ export class GoGame extends GameBase {
 
     public clone(): GoGame {
         const cloned = Object.assign(new GoGame(), deepclone(this) as GoGame);
+        // deepclone() is not cloning RectGrid, so DIY:
+        cloned.grid = Object.assign(new RectGrid(this.boardSize, this.boardSize), 
+                                    deepclone(this.grid) as RectGrid);
         return cloned;
     }
-
-/*
-    public clone(): GoGame {
-        return new GoGame(this.serialize());
-    }
-*/
 }

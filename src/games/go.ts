@@ -3,13 +3,15 @@ import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic, MarkerDots, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, replacer, reviver, UserFacingError, SquareOrthGraph } from "../common";
-//import { UndirectedGraph } from "graphology";
 import { connectedComponents } from "graphology-components";
+import pako, { Data } from "pako";
 
 import i18next from "i18next";
+
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const Buffer = require('buffer/').Buffer  // note: the trailing slash is important!
-import pako, { Data } from "pako";
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const deepclone = require("rfdc/default");
 
 type playerid = 1 | 2 | 3; // 3 is for neutral owned areas
 
@@ -85,7 +87,7 @@ export class GoGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     public variants: string[] = [];
-    public scores: [number, number] = [0, 0.5];
+    public scores: [number, number] = [0, 0];
     public komi?: number;
     public swapped = true;
 
@@ -104,7 +106,7 @@ export class GoGame extends GameBase {
                 _timestamp: new Date(),
                 currplayer: 1,
                 board: new Map(),
-                scores: [0, 0.5],
+                scores: [0, 0],
                 swapped: true
             };
             this.stack = [fresh];
@@ -233,6 +235,38 @@ export class GoGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
+    // reduce a board position to a unique string representation for comparison
+    public signature(board?: Map<string, playerid>): string {
+        if (board === undefined) {
+            board = this.board;
+        }
+        let sig = "";
+        for (let row = 0; row < this.boardSize; row++) {
+            for (let col = 0; col < this.boardSize; col++) {
+                const cell = this.coords2algebraic(col, row);
+                sig += board.has(cell) ? board.get(cell) : "-";
+            }
+        }
+        return sig;
+    }
+
+    // tells you how many times the current, UNPUSHED board position has been
+    // repeated in the stack
+    private numRepeats(): number {
+        let num = 0;
+        const sigCurr = this.signature();
+        //const parityCurr = this.stack.length % 2 === 0 ? "even" : "odd";
+        for (let i = 0; i < this.stack.length; i++) {
+            //const parity = i % 2 === 0 ? "even" : "odd";
+            const sig = this.signature(this.stack[i].board);
+            //if (sig === sigCurr && parity === parityCurr) {
+            if (sig === sigCurr) {
+                num++;
+            }
+        }
+        return num;
+    }
+
     public getButtons(): ICustomButton[] {
         if (this.moves().includes("pass"))
             return [{ label: "pass", move: "pass" }];
@@ -289,7 +323,7 @@ export class GoGame extends GameBase {
                 return result
             }
             result.valid = true;
-            result.complete = 0; // partial because player can continue typing for abs(Komi) > 9
+            result.complete = 0; // partial because player can continue typing
             result.message = i18next.t("apgames:validation.go.INSTRUCTIONS");
             return result;
         }
@@ -297,7 +331,6 @@ export class GoGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            //result.canrender = true;
             if (this.isPieTurn()) {
                 result.message = i18next.t("apgames:validation.go.KOMI_CHOICE");
             } else {
@@ -318,8 +351,7 @@ export class GoGame extends GameBase {
             return result;
         }
 
-        // get all valid complete moves (so each move will be like "a1,b1,c1")
-        const allMoves = this.moves();
+        const allMoves = this.moves(); // get all valid complete moves
 
         if (m === "pass") {
             if (allMoves.includes("pass")) {
@@ -342,21 +374,44 @@ export class GoGame extends GameBase {
             result.message = i18next.t("apgames:validation._general.INVALIDCELL", { cell: m });
             return result;
         }
+
         if (this.board.has(m)) {
             result.valid = false;
             result.message = i18next.t("apgames:validation._general.OCCUPIED", { where: m });
             return result;
         }
+
         if (this.isSelfCapture(m, this.currplayer)) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.go.SELF_CAPTURE", { where: m });
             return result;
         }
+
         if (this.checkKo(m, this.currplayer)) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.go.KO");
             return result;
         }
+
+        if (this.stack.length > 3) {
+            const cloned = this.clone();
+            // fake the placement to check cycles
+            cloned.board.set(m, this.currplayer);
+            const allCaptures = cloned.getCaptures(m, this.currplayer);
+            // ... and fake also the captures from that placement
+            for (const captures of allCaptures) {
+                for (const capture of captures) { 
+                    cloned.board.delete(capture); 
+                }
+            }
+
+            if (cloned.numRepeats() >= 1) { // check super-Ko
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.go.CYCLE");
+                return result;
+            }
+        }
+
         result.valid = true;
         result.complete = 1;
         result.message = i18next.t("apgames:validation._general.VALID_MOVE");
@@ -429,8 +484,6 @@ export class GoGame extends GameBase {
         return (previousCaptures[0] as Extract<APMoveResult, { type: 'capture' }>).count! === 1;
     }
 
-    // --- These next methods are helpers to find territories and their eventual owners ---- //
-
     public getGraph(): SquareOrthGraph { // just orthogonal connections
         return new SquareOrthGraph(this.boardSize, this.boardSize);
     }
@@ -477,10 +530,10 @@ export class GoGame extends GameBase {
             // find who owns it
             const p1AdjacentCells = this.getAdjacentPieces(area, p1Pieces);
             const p2AdjacentCells = this.getAdjacentPieces(area, p2Pieces);
-            if (p2AdjacentCells.length == 0) {
+            if (p1AdjacentCells.length > 0 && p2AdjacentCells.length == 0) {
                 owner = 1;
             }
-            if (p1AdjacentCells.length == 0) {
+            if (p1AdjacentCells.length == 0 && p2AdjacentCells.length > 0) {
                 owner = 2;
             }
             territories.push({cells: area, owner});
@@ -510,7 +563,7 @@ export class GoGame extends GameBase {
 
         if (this.isKomiTurn()) {
             // first move, get the Komi proposed value, and add komi to game state
-            this.komi = parseInt(m, 10);
+            this.komi = Number(m);
             this.results.push({type: "komi", value: this.komi});
             this.komi *= -1; // Invert it for backwards compatibility reasons
         } else if (m === "play-second") {
@@ -558,6 +611,7 @@ export class GoGame extends GameBase {
         }
 
         // if a cycle is found, the game ends in a draw
+        // NB: when Super-Ko is implemented, this should never happen
         if (!this.gameover) {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const count = this.stateCount(new Map<string, any>([["board", this.board], ["currplayer", this.currplayer]]));
@@ -571,8 +625,11 @@ export class GoGame extends GameBase {
 
         if (this.gameover) {
             this.scores = [this.getPlayerScore(1), this.getPlayerScore(2)];
-            // draws by score are impossible
-            this.winner = this.scores[0] > this.scores[1] ? [1] : [2];
+            if (this.scores[0] === this.scores[1]) {
+                this.winner = [1, 2];
+            } else {
+                this.winner = this.scores[0] > this.scores[1] ? [1] : [2];
+            }
             this.results.push(
                 {type: "eog"},
                 {type: "winners", players: [...this.winner]}
@@ -746,6 +803,10 @@ export class GoGame extends GameBase {
     }
 
     public clone(): GoGame {
-        return new GoGame(this.serialize());
+        const cloned = Object.assign(new GoGame(), deepclone(this) as GoGame);
+        // deepclone() is not cloning RectGrid, so DIY:
+        cloned.grid = Object.assign(new RectGrid(this.boardSize, this.boardSize), 
+                                    deepclone(this.grid) as RectGrid);
+        return cloned;
     }
 }

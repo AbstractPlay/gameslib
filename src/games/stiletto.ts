@@ -54,7 +54,7 @@ export class StilettoGame extends InARowBase {
         ],
         categories: ["goal>align", "mechanic>place", "board>shape>rect",
                      "board>connect>rect", "components>simple>1per"],
-        flags: ["no-moves", "experimental"],
+        flags: ["no-moves", "custom-colours", "experimental"],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -231,6 +231,7 @@ export class StilettoGame extends InARowBase {
 
         if (this.hasActiveDagger()) { // player can also place two stones
             // select a fraction of available moves (too costly to find them all)
+            // this will only used by randomMove() since the no-moves flag is on
             const emptyCells: string[] = [];
             for (let row = 0; row < this.boardSize; row++) {
                 for (let col = 0; col < this.boardSize; col++) {

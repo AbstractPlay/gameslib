@@ -153,7 +153,7 @@ export class CrosshairsGame extends GameBase {
                 group: "setup",
             },
         ],
-        displays: [{uid: "abstract"}, {uid: "numeric"}, {uid: "numeric2"}, {uid: "numeric-abstract"}],
+        displays: [{uid: "abstract"}, {uid: "numeric"}, {uid: "numeric-abstract"}],
     };
 
     public numplayers = 2;
@@ -2834,12 +2834,11 @@ export class CrosshairsGame extends GameBase {
         // Display modes:
         //   default:          plane glyphs + wedges
         //   abstract:         arrowhead glyphs + wedges
-        //   numeric:          plane glyphs + bold number (light blue, centered behind plane)
+        //   numeric:          plane glyphs + two small numbers at ±120° from heading
         //   numeric-abstract: arrowhead glyphs + bold number (black, offset toward tail)
         const alt = opts?.altDisplay;
         const abstractMode = alt === "abstract" || alt === "numeric-abstract";
-        const numeric2Mode = alt === "numeric2";
-        const numericMode = alt === "numeric" || alt === "numeric-abstract" || alt === "numeric2";
+        const numericMode = alt === "numeric" || alt === "numeric-abstract";
 
         // Build legend for planes with altitude indicators
         const myLegend: { [key: string]: Glyph | [Glyph, ...Glyph[]] } = {};
@@ -2977,8 +2976,8 @@ export class CrosshairsGame extends GameBase {
                                 dy: Math.sin(tailAngle) * nudgeDist,
                             },
                         });
-                    } else if (numeric2Mode) {
-                        // Numeric2: two small numbers at ±120° from heading (between wings and fuselage)
+                    } else if (numericMode) {
+                        // Numeric: two small numbers at ±120° from heading (between wings and fuselage)
                         const nudgeDist = 400;
                         for (const offset of [120, -120]) {
                             const angle = (planeRotation + offset) * Math.PI / 180;
@@ -2992,18 +2991,6 @@ export class CrosshairsGame extends GameBase {
                                 },
                             });
                         }
-                    } else if (numericMode) {
-                        // Numeric: big bold light-green number centered behind the plane
-                        glyphs.push({
-                            text: String(height),
-                            scale: 1.8,
-                            colour: "#90d14f",
-                            fontFamily: "'Arial Black'",
-                            nudge: {
-                                dx: 0,
-                                dy: -20,
-                            },
-                        });
                     } else {
                         // Wedge mode: add altitude wedges first (so they're behind the plane)
                         const wedgeSpecs = getWedgesForHeight(planeRotation, height);

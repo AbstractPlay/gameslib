@@ -1288,7 +1288,8 @@ export class MagnateGame extends GameBase {
                     newmove = `${move}${card}`; 
                 } else if ( piece?.startsWith("k") ) {
                     //Too late to choose a hand card.
-                    //Just ignore it.
+                    //Just ignore it, without overwriting the current move string.
+                    newmove = move;
                 } else if (piece?.startsWith("s")) {
                     //clicking a suit token.
                     const suit = piece.charAt(1);
@@ -1315,7 +1316,10 @@ export class MagnateGame extends GameBase {
                             }
                         }
                     }
-                } 
+                } else {
+                    // Catch-all for unimportant area pieces (like the dice).
+                    newmove = move;
+                }
             } else {
                 // otherwise, clicked on the board
                 if (!move) {

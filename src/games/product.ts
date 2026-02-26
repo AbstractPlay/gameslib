@@ -352,7 +352,6 @@ export class ProductGame extends GameBase {
             return result;
         }
 
-        // possible to use moves() list to validate, but regex is (kind of?) fun
         const regex = new RegExp(`^[12][a-z]\\d+(,[12][a-z]\\d+)?$`);
         if (!regex.test(m)) {
             result.valid = false;

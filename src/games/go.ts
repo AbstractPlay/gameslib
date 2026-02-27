@@ -67,7 +67,7 @@ export class GoGame extends GameBase {
             { uid: "size-25", group: "board" },
             { uid: "size-37", group: "board" },
         ],
-        categories: ["goal>connect", "mechanic>place", "mechanic>capture", "mechanic>enclose", "board>connect>rect", "components>simple"],
+        categories: ["goal>area", "mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>rect", "components>simple>2c"],
         flags: ["scores", "custom-buttons", "custom-colours", "experimental"],
     };
 
@@ -211,23 +211,6 @@ export class GoGame extends GameBase {
             }
         }
         return moves;
-    }
-
-    private hasMoves(player?: playerid): boolean {
-        // Check if the player has any valid moves.
-        if (player === undefined) {
-            player = this.currplayer;
-        }
-        for (let row = 0; row < this.boardSize; row++) {
-            for (let col = 0; col < this.boardSize; col++) {
-                const cell = this.coords2algebraic(col, row);
-                if (this.board.has(cell)) { continue; }
-                if (this.isSelfCapture(cell, player)) { continue; }
-                if (this.checkKo(cell, player)) { continue; }
-                return true;
-            }
-        }
-        return false;
     }
 
     public randomMove(): string {
@@ -600,15 +583,6 @@ export class GoGame extends GameBase {
         // game ends if two consecutive passes occurred
         this.gameover = this.lastmove === "pass" &&
                         this.stack[this.stack.length - 1].lastmove === "pass";
-
-        const otherPlayer = this.currplayer % 2 + 1 as playerid;
-
-        if (!this.gameover && !this.hasMoves(this.currplayer)) {
-            this.gameover = true;
-            this.winner = [otherPlayer];
-            this.results.push({ type: "eog", reason: "stalemate" });
-            return this;
-        }
 
         // if a cycle is found, the game ends in a draw
         // NB: when Super-Ko is implemented, this should never happen

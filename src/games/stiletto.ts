@@ -129,6 +129,7 @@ export class StilettoGame extends InARowBase {
         this.board = new Map(state.board);
         this.winningLines  = state.winningLines.map(a => [...a]);
         this.swapped = state.swapped;
+        this.lastmove = state.lastmove;
         this.boardSize = this.getBoardSize();
         this.lastDaggerUse = [...state.lastDaggerUse];
         return this;

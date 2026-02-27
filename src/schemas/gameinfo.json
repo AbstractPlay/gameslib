@@ -92,6 +92,50 @@
                 }
             },
             "required": ["uid"]
+        },
+        "customizationPalette": {
+            "type": "object",
+            "properties": {
+                "default": {
+                    "description": "The default value if not customized (expressed as either a string or a palette number).",
+                    "oneOf": [
+                        {"type": "string"},
+                        {"type": "integer"}
+                    ]
+                },
+                "num": {
+                    "description": "The palette number that can be customized.",
+                    "type": "integer"
+                },
+                "explanation": {
+                    "description": "A free text description of what this colour is used for and perhaps tips on customizing it (if it's complicated).",
+                    "type": "string"
+                }
+            },
+            "required": ["default", "num", "explanation"],
+            "additionalProperties": false
+        },
+        "customizationContext": {
+            "type": "object",
+            "properties": {
+                "default": {
+                    "description": "The default value if not customized (expressed as either a string or a palette number).",
+                    "oneOf": [
+                        {"type": "string"},
+                        {"type": "integer"}
+                    ]
+                },
+                "name": {
+                    "description": "The colour context value that can be customized.",
+                    "enum": ["background", "strokes","labels","annotations","fill","board"]
+                },
+                "explanation": {
+                    "description": "A free text description of what this colour is used for and perhaps tips on customizing it (if it's complicated).",
+                    "type": "string"
+                }
+            },
+            "required": ["default", "name", "explanation"],
+            "additionalProperties": false
         }
     },
     "type": "object",
@@ -167,6 +211,17 @@
             "type": "array",
             "items": {
                 "enum": ["aiai", "automove", "autopass", "check", "custom-buttons", "custom-colours", "custom-randomization", "experimental", "limited-pieces", "no-explore", "no-moves", "perspective", "pie-even", "pie", "player-stashes", "random-start", "rotate90", "scores", "shared-pieces", "shared-stash", "simultaneous", "stacking-expanding", "custom-rotation"]
+            }
+        },
+        "customizations": {
+            "description": "A manually maintained list of custom colours used and how the player can change them. Can also be used just to document which palette numbers are used for what, to help with custom palette creation.",
+            "type": "array",
+            "items": {
+                "anyOf": [
+                    {"$ref": "#/definitions/customizationPalette"},
+                    {"$ref": "#/definitions/customizationContext"}
+                ],
+                "minimum": 1
             }
         }
     },

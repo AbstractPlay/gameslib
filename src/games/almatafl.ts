@@ -53,6 +53,11 @@ export class AlmataflGame extends GameBase {
         variants: [{uid: "advanced"}, {uid: "plus"}],
         customizations: [
             {
+                num: 1,
+                default: 1,
+                explanation: "Colour of the king"
+            },
+            {
                 num: 2,
                 default: "#666",
                 explanation: "Colour of player 1 (the invaders)"
@@ -61,11 +66,6 @@ export class AlmataflGame extends GameBase {
                 num: 3,
                 default: "#fff",
                 explanation: "Colour of player 2 (the defenders)"
-            },
-            {
-                num: 3,
-                default: 3,
-                explanation: "Colour of the king"
             },
         ],
         categories: ["goal>royal-capture", "goal>royal-escape", "mechanic>asymmetry", "mechanic>move", "mechanic>stack", "mechanic>differentiate", "board>shape>hex", "board>connect>hex", "components>simple>1per"],

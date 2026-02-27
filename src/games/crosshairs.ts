@@ -146,7 +146,7 @@ export class CrosshairsGame extends GameBase {
             },
         ],
         categories: ["goal>annihilate", "mechanic>move", "mechanic>capture", "mechanic>block", "board>shape>hex", "board>connect>hex", "components>special"],
-        flags: ["no-moves", "custom-randomization", "experimental", "custom-rotation"],
+        flags: ["no-moves", "custom-randomization", "custom-rotation"],
         variants: [
             {
                 uid: "random-start",

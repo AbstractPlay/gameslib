@@ -59,6 +59,18 @@ export class YonmoqueGame extends GameBase {
                 apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
             },
         ],
+        customizations: [
+            {
+                num: 1,
+                default: 2,
+                explanation: "Colour of the \"dark\" player"
+            },
+            {
+                num: 2,
+                default: "board colour",
+                explanation: "Colour of the \"light\" player"
+            }
+        ],
         categories: ["goal>align", "mechanic>asymmetry", "mechanic>place", "mechanic>move", "mechanic>convert", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["limited-pieces", "custom-colours"]
     };
@@ -459,7 +471,7 @@ export class YonmoqueGame extends GameBase {
                 colour: tile === "B" ? this.getPlayerColour(1) : tile === "W" ? this.getPlayerColour(2): {
                     "func": "flatten",
                     "fg": "_context_fill",
-                    "bg": "_context_background",
+                    "bg": "_context_board",
                     "opacity": 0.25
                 },
             });
@@ -480,7 +492,7 @@ export class YonmoqueGame extends GameBase {
                 },
                 B: {
                     name: "piece",
-                    colour: "_context_background"
+                    colour: "_context_board"
                 }
             },
             pieces: pstr

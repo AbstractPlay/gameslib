@@ -1228,7 +1228,7 @@ export class ArimaaGame extends GameBase {
                         colour: {
                             func: "flatten",
                             fg: this.getPlayerColour(colour),
-                            bg: "_context_background",
+                            bg: "_context_board",
                             opacity: 0.375,
                         },
                         colour2: {

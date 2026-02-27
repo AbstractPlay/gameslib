@@ -850,7 +850,7 @@ export class StorisendeGame extends GameBase {
             colour: {
                 func: "flatten",
                 fg: "_context_fill",
-                bg: "_context_background",
+                bg: "_context_board",
                 opacity: 0.5
             },
             // @ts-expect-error (because I will add them incrementally)

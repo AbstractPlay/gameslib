@@ -68,6 +68,18 @@ export class CifraGame extends GameBase {
             {uid: "king", group: "mode"},
             {uid: "sum", group: "mode"},
         ],
+        customizations: [
+            {
+                num: 1,
+                default: "board colour",
+                explanation: "Colour of the \"light\" player"
+            },
+            {
+                num: 2,
+                default: 2,
+                explanation: "Colour of the \"dark\" player"
+            }
+        ],
         categories: ["goal>royal-capture", "goal>royal-escape", "goal>score>eog", "mechanic>place", "mechanic>move", "mechanic>capture", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>special"],
         flags: ["automove", "custom-buttons", "custom-colours", "scores", "custom-randomization"]
     };
@@ -281,13 +293,13 @@ export class CifraGame extends GameBase {
         return position;
     }
 
-    public getPlayerColour(p: playerid): number|string {
+    public getPlayerColour(p: playerid): number|string|Colourfuncs {
         if (this.firstChoice === undefined) {
             return "#808080";
         }
         const [shade,] = this.firstChoice.split(",");
-        const c1 = shade === "light" ? "_context_background" : 2;
-        const c2 = c1 === 2 ? "_context_background" : 2;
+        const c1 = shade === "light" ? {func: "custom", default: "_context_board", palette: 1} as Colourfuncs : 2;
+        const c2 = c1 === 2 ? {func: "custom", default: "_context_board", palette: 1} as Colourfuncs : 2;
         return p === 1 ? c1 : c2;
     }
 
@@ -819,7 +831,7 @@ export class CifraGame extends GameBase {
             colour: {
                 func: "flatten",
                 fg: "_context_fill",
-                bg: "_context_background",
+                bg: "_context_board",
                 opacity: 0.5
             },
             points: [...g.graph.nodeEntries()].filter(({attributes}) => !("shade" in attributes) || attributes.shade === undefined).map(({node}) => {
@@ -832,6 +844,19 @@ export class CifraGame extends GameBase {
             type: "flood",
             colour: 2,
             points: [...g.graph.nodeEntries()].filter(({attributes}) => "shade" in attributes && attributes.shade === "D").map(({node}) => {
+                const [col, row] = this.algebraic2coords(node);
+                return {row, col};
+            }) as [RowCol, ...RowCol[]],
+        });
+        // because we can now customize custom colours, we need to add light tiles too
+        markers.push({
+            type: "flood",
+            colour: {
+                func: "custom",
+                default: "_context_board",
+                palette: 1
+            },
+            points: [...g.graph.nodeEntries()].filter(({attributes}) => "shade" in attributes && attributes.shade === "L").map(({node}) => {
                 const [col, row] = this.algebraic2coords(node);
                 return {row, col};
             }) as [RowCol, ...RowCol[]],

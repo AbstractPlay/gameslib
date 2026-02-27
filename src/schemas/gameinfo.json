@@ -134,7 +134,7 @@
                     "type": "string"
                 }
             },
-            "required": ["default", "name", "explanation"],
+            "required": ["name", "explanation"],
             "additionalProperties": false
         }
     },

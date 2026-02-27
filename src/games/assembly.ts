@@ -55,6 +55,38 @@ export class AssemblyGame extends GameBaseSimultaneous {
         variants: [
             {uid: "defective"}
         ],
+        customizations: [
+            {
+                num: 1,
+                default: 1,
+                explanation: "Colour of the 3-point product"
+            },
+            {
+                num: 2,
+                default: 2,
+                explanation: "Colour of the 2-point product"
+            },
+            {
+                num: 3,
+                default: 3,
+                explanation: "Colour of the 1-point product"
+            },
+            {
+                num: 4,
+                default: 4,
+                explanation: "Colour of the defective product (-5 points)"
+            },
+            {
+                num: 5,
+                default: "board context",
+                explanation: "Colour of tiles owned by player 1"
+            },
+            {
+                num: 6,
+                default: "fill at 50% opacity",
+                explanation: "Colour of tiles owned by player 2"
+            },
+        ],
         categories: ["goal>score>eog", "mechanic>displace",  "mechanic>simultaneous", "mechanic>random>setup", "mechanic>random>play", "board>shape>rect", "board>connect>rect", "components>simple>5c"],
         flags: ["simultaneous", "scores", "custom-buttons", "custom-colours"]
     };
@@ -144,15 +176,23 @@ export class AssemblyGame extends GameBaseSimultaneous {
         ];
     }
 
-    public getPlayerColour(p: playerid): number|string|Colourfuncs {
+    public getPlayerColour(p: playerid): Colourfuncs {
         if (p === 1) {
-            return "_context_background";
+            return {
+                func: "custom",
+                default: "_context_board",
+                palette: 5
+            };
         } else {
             return {
-                func: "flatten",
-                fg: "_context_fill",
-                bg: "_context_background",
-                opacity: 0.5,
+                func: "custom",
+                default: {
+                    func: "flatten",
+                    fg: "_context_fill",
+                    bg: "_context_board",
+                    opacity: 0.5,
+                },
+                palette: 6
             };
         }
     }
@@ -426,12 +466,7 @@ export class AssemblyGame extends GameBaseSimultaneous {
         }
         markers.push({
             type: "flood",
-            colour: {
-                func: "flatten",
-                fg: "_context_fill",
-                bg: "_context_background",
-                opacity: 0.5
-            },
+            colour: this.getPlayerColour(2),
             points: p2pts as [RowCol, ...RowCol[]],
         });
 

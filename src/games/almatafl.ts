@@ -1,7 +1,7 @@
 
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, Colourfuncs } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -51,6 +51,23 @@ export class AlmataflGame extends GameBase {
             },
         ],
         variants: [{uid: "advanced"}, {uid: "plus"}],
+        customizations: [
+            {
+                num: 2,
+                default: "#666",
+                explanation: "Colour of player 1 (the invaders)"
+            },
+            {
+                num: 3,
+                default: "#fff",
+                explanation: "Colour of player 2 (the defenders)"
+            },
+            {
+                num: 3,
+                default: 3,
+                explanation: "Colour of the king"
+            },
+        ],
         categories: ["goal>royal-capture", "goal>royal-escape", "mechanic>asymmetry", "mechanic>move", "mechanic>stack", "mechanic>differentiate", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         flags: ["custom-colours"]
     };
@@ -634,11 +651,11 @@ export class AlmataflGame extends GameBase {
             legend: {
                 A: {
                     name: "piece",
-                    colour: "#666"
+                    colour: this.getPlayerColour(1)
                 },
                 B: {
                     name: "piece",
-                    colour: "#fff"
+                    colour: this.getPlayerColour(2)
                 },
                 C: {
                     name: "piece",
@@ -676,11 +693,19 @@ export class AlmataflGame extends GameBase {
         return status;
     }
 
-    public getPlayerColour(p: playerID): number|string {
+    public getPlayerColour(p: playerID): Colourfuncs {
         if (p === 1) {
-            return "#666";
+            return {
+                func: "custom",
+                default: "#666",
+                palette: 2
+            };
         } else {
-            return "#fff";
+            return {
+                func: "custom",
+                default: "#fff",
+                palette: 3
+            };
         }
     }
 

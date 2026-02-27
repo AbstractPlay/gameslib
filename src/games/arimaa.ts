@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IStatus, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, AreaPieces, BoardBasic, Glyph } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AreaPieces, BoardBasic, Colourfuncs, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { randomInt, RectGrid, reviver, shuffle, SquareOrthGraph, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -76,6 +76,22 @@ export class ArimaaGame extends GameBase {
         variants: [
             { uid: "eee", group: "setup" },
             { uid: "free", group: "setup", unrated: true },
+        ],
+        customizations: [
+            {
+                num: 1,
+                default: "#bf9212",
+                explanation: "Colour of player 1 (Gold)"
+            },
+            {
+                num: 2,
+                default: "#989898",
+                explanation: "Colour of player 2 (Silver)"
+            },
+            {
+                name: "fill",
+                explanation: "Traps are the `fill` colour at 50% opacity"
+            },
         ],
         categories: ["goal>breakthrough", "goal>cripple", "goal>immobilize", "mechanic>capture", "mechanic>move", "mechanic>coopt", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>chess"],
         flags: ["perspective", "no-moves", "custom-buttons", "random-start", "custom-colours"]
@@ -1465,11 +1481,19 @@ export class ArimaaGame extends GameBase {
         }
     }
 
-    public getPlayerColour(p: playerid): number|string {
+    public getPlayerColour(p: playerid): Colourfuncs {
         if (p === 1) {
-            return "#bf9212";
+            return {
+                func: "custom",
+                default: "#bf9212",
+                palette: 1
+            };
         } else {
-            return "#989898";
+            return {
+                func: "custom",
+                default: "#989898",
+                palette: 2
+            };
         }
     }
 

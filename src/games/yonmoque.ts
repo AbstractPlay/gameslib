@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, MarkerFlood, RowCol } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, Colourfuncs, MarkerFlood, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { allDirections, diagDirections, Direction, reviver, SquareDirectedGraph, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -447,7 +447,8 @@ export class YonmoqueGame extends GameBase {
         pstr = pstr.replace(/-{5}/g, "_");
 
         const markers: MarkerFlood[] = [];
-        for (const tile of ["B", "N"] as const) {
+        // now that we can customize the player colours, need to add light tiles too
+        for (const tile of ["B", "N", "W"] as const) {
             const points = [...cell2tile.keys()].filter(c => cell2tile.get(c) === tile).map(c => {
                 const [x, y] = YonmoqueGame.algebraic2coords(c);
                 return {col: x, row: y} as RowCol;
@@ -455,7 +456,7 @@ export class YonmoqueGame extends GameBase {
             markers.push({
                 type: "flood",
                 points: points as [RowCol, ...RowCol[]],
-                colour: tile === "B" ? 2 : {
+                colour: tile === "B" ? this.getPlayerColour(1) : tile === "W" ? this.getPlayerColour(2): {
                     "func": "flatten",
                     "fg": "_context_fill",
                     "bg": "_context_background",
@@ -553,11 +554,19 @@ export class YonmoqueGame extends GameBase {
         ]
     }
 
-    public getPlayerColour(p: playerid): number|string {
+    public getPlayerColour(p: playerid): Colourfuncs {
         if (p === 1) {
-            return 2;
+            return {
+                func: "custom",
+                default: 2,
+                palette: 1
+            };
         } else {
-            return "_context_background";
+            return {
+                func: "custom",
+                default: "_context_board",
+                palette: 2
+            };
         }
     }
 

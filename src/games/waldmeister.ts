@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IStatus, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, AreaPieces, BoardBasic, Glyph, RowCol } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AreaPieces, BoardBasic, Colourfuncs, Glyph, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError, HexTriGraph } from "../common";
 import i18next from "i18next";
@@ -71,6 +71,33 @@ export class WaldMeisterGame extends GameBase {
                 name: "Aaron Dalton (Perlkönig)",
                 urls: [],
                 apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
+        ],
+        customizations: [
+            {
+                num: 1,
+                default: 1,
+                explanation: "Colour of player 1"
+            },
+            {
+                num: 2,
+                default: 2,
+                explanation: "Colour of player 2"
+            },
+            {
+                num: 3,
+                default: "#006837",
+                explanation: "Dark trees"
+            },
+            {
+                num: 4,
+                default: "#78c679",
+                explanation: "Lighter trees"
+            },
+            {
+                num: 5,
+                default: "#f7fcb9",
+                explanation: "Lightest trees"
             },
         ],
         categories: ["goal>score>eog", "mechanic>place",  "mechanic>move", "mechanic>share", "board>shape>hex", "board>connect>hex", "components>special"],
@@ -208,18 +235,30 @@ export class WaldMeisterGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
-    public getPlayerColour(p: playerid): number|string {
+    public getPlayerColour(p: playerid): number|Colourfuncs {
         switch (p) {
             case 1:
                 return 1;
             case 2:
                 return 2;
             case 3:
-                return "#006837";
+                return {
+                    func: "custom",
+                    default: "#006837",
+                    palette: 3
+                };
             case 4:
-                return "#78c679";
+                return {
+                    func: "custom",
+                    default: "#78c679",
+                    palette: 4
+                };
             case 5:
-                return "#f7fcb9";
+                return {
+                    func: "custom",
+                    default: "#f7fcb9",
+                    palette: 5
+                };
         }
     }
 

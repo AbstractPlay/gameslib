@@ -59,8 +59,24 @@ export class BluestoneGame extends GameBase {
             name: "Size 8",
             group: "board",
             description: "Larger board (35 blue stones)"
-        }]
-
+        }],
+        customizations: [
+            {
+                num: 1,
+                default: 1,
+                explanation: "Colour of the first player"
+            },
+            {
+                num: 2,
+                default: 2,
+                explanation: "Colour of the perimeter stones"
+            },
+            {
+                num: 3,
+                default: 3,
+                explanation: "Colour of the second player"
+            },
+        ],
     };
 
     public numplayers = 2;

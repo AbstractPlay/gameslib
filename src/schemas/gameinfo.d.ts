@@ -179,7 +179,7 @@ export interface CustomizationContext {
   /**
    * The default value if not customized (expressed as either a string or a palette number).
    */
-  default: string | number;
+  default?: string | number;
   /**
    * The colour context value that can be customized.
    */

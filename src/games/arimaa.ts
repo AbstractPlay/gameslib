@@ -89,6 +89,16 @@ export class ArimaaGame extends GameBase {
                 explanation: "Colour of player 2 (Silver)"
             },
             {
+                num: 3,
+                default: "35% opacity",
+                explanation: "Colour of Gold's frozen pieces"
+            },
+            {
+                num: 4,
+                default: "35% opacity",
+                explanation: "Colour of Silver's frozen pieces"
+            },
+            {
                 name: "fill",
                 explanation: "Traps are the `fill` colour at 50% opacity"
             },
@@ -1226,10 +1236,14 @@ export class ArimaaGame extends GameBase {
                     {
                         name,
                         colour: {
-                            func: "flatten",
-                            fg: this.getPlayerColour(colour),
-                            bg: "_context_board",
-                            opacity: 0.375,
+                            func: "custom",
+                            default: {
+                                func: "flatten",
+                                fg: this.getPlayerColour(colour),
+                                bg: "_context_board",
+                                opacity: 0.375,
+                            },
+                            palette: 2 + colour,
                         },
                         colour2: {
                             func: "bestContrast",

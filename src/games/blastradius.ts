@@ -375,10 +375,10 @@ export class BlastRadiusGame extends GameBase {
                 if (this.board.has(cell)) {
                     let str = this.board.get(cell)!.join("");
                     if (altDisplay === "nums") {
-                        str = (str[0] === "1" ? "A" : "B") + str.length;
+                        str = (str[0] === "1" ? "pA" : "pB") + str.length;
                     } else {
-                        str = str.replace(/1/g, "A");
-                        str = str.replace(/2/g, "B");
+                        str = str.replace(/1/g, "pA");
+                        str = str.replace(/2/g, "pB");
                     }
                     pieces.push(str);
                 } else {
@@ -415,11 +415,11 @@ export class BlastRadiusGame extends GameBase {
         }
 
         let legend: ILegendObj = {
-            A: {
+            pA: {
                 name: "piece",
                 colour: 1
             },
-            B: {
+            pB: {
                 name: "piece",
                 colour: 2
             }
@@ -435,7 +435,7 @@ export class BlastRadiusGame extends GameBase {
                             colour: pc[0] === "A" ? 1 : 2,
                         },
                         {
-                            text: pc.substring(1),
+                            text: pc.substring(2),
                         }
                     ];
                 }

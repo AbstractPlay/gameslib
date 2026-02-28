@@ -794,7 +794,7 @@ export class SplineGame extends GameBase {
                 style: "squares-stacked",
                 width: this.boardSize,
                 height: this.boardSize,
-                backFill: this.variants.includes("plus") ? {colour: "#FFA500", opacity: 0.1} : undefined,
+                backFill: this.variants.includes("plus") ? {colour: "#FFA500", opacity: 0.1, type: "board"} : undefined,
             },
             legend,
             pieces: pstr,

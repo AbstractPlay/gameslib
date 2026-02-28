@@ -764,6 +764,19 @@ export class TintasGame extends GameBase {
                 width,
                 height,
                 blocked: blockedCells.map(hex => algebraic2coords(hex)).map(([col, row]) => ({row, col})) as [RowCol, ...RowCol[]],
+                backFill: !this.variants.includes("modular") ? undefined : {
+                    type: "board",
+                    colour: {
+                        func: "custom",
+                        palette: "_context_board",
+                        default: {
+                            func: "lighten",
+                            colour: "_context_background",
+                            ds: 0,
+                            dl: -5,
+                        }
+                    }
+                }
             },
             legend: {
                 A: {

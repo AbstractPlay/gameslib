@@ -931,7 +931,19 @@ export class StorisendeGame extends GameBase {
                 height,
                 blocked: blocked as [{row: number; col: number},...{row: number; col: number}[]],
                 markers: markers.length > 0 ? markers : undefined,
-            },
+                backFill: !this.variants.some(v => v.includes("modular")) ? undefined : {
+                    type: "board",
+                    colour: {
+                        func: "custom",
+                        palette: "_context_board",
+                        default: {
+                            func: "lighten",
+                            colour: "_context_background",
+                            ds: 0,
+                            dl: -5,
+                        }
+                    }
+                }            },
             legend: {
                 A: {
                     name: "piece",

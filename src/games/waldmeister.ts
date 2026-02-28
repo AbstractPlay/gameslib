@@ -746,6 +746,7 @@ export class WaldMeisterGame extends GameBase {
                     areas.push({
                         type: "pieces",
                         label: i18next.t("apgames:validation.waldmeister.LABEL_STASH", {playerNum: p}) || `P${p} Hand`,
+                        ownerMark: p === 1 ? this.getPlayerColour(1) : this.getPlayerColour(2),
                         pieces: this.hands[p - 1].sort(sorter).map(([colour, size]) => `p${colour}${size}`) as [string, ...string[]],
                     });
                 }

@@ -883,7 +883,7 @@ export class CifraGame extends GameBase {
         }
         const c1 = this.getPlayerColour(1);
         const c2 = this.getPlayerColour(2);
-    let colours: {side: "N" | "E" | "S" | "W";colour: PositiveInteger | Colourstrings | Colourfuncs;}[];
+        let colours: {side: "N" | "E" | "S" | "W";colour: PositiveInteger | Colourstrings | Colourfuncs;}[];
         if (show === undefined) {
             colours = [
                 {

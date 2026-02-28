@@ -488,11 +488,11 @@ export class YonmoqueGame extends GameBase {
             legend: {
                 A: {
                     name: "piece",
-                    colour: 2
+                    colour: this.getPlayerColour(1)
                 },
                 B: {
                     name: "piece",
-                    colour: "_context_board"
+                    colour: this.getPlayerColour(2)
                 }
             },
             pieces: pstr

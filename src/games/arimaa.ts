@@ -99,6 +99,16 @@ export class ArimaaGame extends GameBase {
                 explanation: "Colour of Silver's frozen pieces"
             },
             {
+                num: 5,
+                default: "black/white",
+                explanation: "Gold piece stroke colour"
+            },
+            {
+                num: 6,
+                default: "black/white",
+                explanation: "Silver piece stroke colour"
+            },
+            {
                 name: "fill",
                 explanation: "Traps are the `fill` colour at 50% opacity"
             },
@@ -1222,12 +1232,16 @@ export class ArimaaGame extends GameBase {
                     name,
                     colour: this.getPlayerColour(colour),
                     colour2: {
-                        func: "bestContrast",
-                        bg: this.getPlayerColour(colour),
-                        fg: [
-                            "#fff",
-                            "#000",
-                        ]
+                        func: "custom",
+                        default: {
+                            func: "bestContrast",
+                            bg: this.getPlayerColour(colour),
+                            fg: [
+                                "#fff",
+                                "#000",
+                            ]
+                        },
+                        palette: 4 + colour,
                     },
                     // flipy: colour === 2 ? true : false,
                     orientation: "vertical",
@@ -1246,12 +1260,16 @@ export class ArimaaGame extends GameBase {
                             palette: 2 + colour,
                         },
                         colour2: {
-                            func: "bestContrast",
-                            bg: this.getPlayerColour(colour),
-                            fg: [
-                                "#fff",
-                                "#000",
-                            ]
+                            func: "custom",
+                            default: {
+                                func: "bestContrast",
+                                bg: this.getPlayerColour(colour),
+                                fg: [
+                                    "#fff",
+                                    "#000",
+                                ]
+                            },
+                            palette: 4 + colour,
                         },
                         // flipy: colour === 2 ? true : false,
                         orientation: "vertical",

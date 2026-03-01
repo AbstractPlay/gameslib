@@ -377,8 +377,8 @@ export class BlastRadiusGame extends GameBase {
                     if (altDisplay === "nums") {
                         str = (str[0] === "1" ? "pA" : "pB") + str.length;
                     } else {
-                        str = str.replace(/1/g, "pA");
-                        str = str.replace(/2/g, "pB");
+                        str = str.replace(/1/g, "A");
+                        str = str.replace(/2/g, "B");
                     }
                     pieces.push(str);
                 } else {
@@ -414,18 +414,8 @@ export class BlastRadiusGame extends GameBase {
             }
         }
 
-        let legend: ILegendObj = {
-            pA: {
-                name: "piece",
-                colour: 1
-            },
-            pB: {
-                name: "piece",
-                colour: 2
-            }
-        };
+        const legend: ILegendObj = {};
         if (altDisplay === "nums") {
-            legend = {};
             const pcs = new Set<string>(pstr.split(/[,\n]/));
             for (const pc of pcs) {
                 if (pc !== "-") {
@@ -440,6 +430,15 @@ export class BlastRadiusGame extends GameBase {
                     ];
                 }
             }
+        } else {
+            legend.A = {
+                    name: "piece",
+                    colour: 1
+            };
+            legend.B = {
+                    name: "piece",
+                    colour: 2
+            };
         }
 
         const board: BoardBasic = {

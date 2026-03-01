@@ -67,7 +67,7 @@
         "STASH_EMPTY": "[FR]The stash has no more {{colour}} pieces left.",
         "SYSTEM_BADNAME": "[FR]The system name you requested ({{name}}) is invalid. Names may be no longer than 25 characters, must start with a letter or a number, and may only contain numbers, letters, hyphens, and underscores. No spaces are allowed.",
         "SYSTEM_FULL": "[FR]The {{system}} system is full. Home systems can only accommodate 16 ships. Periphery systems can accommodate 24.",
-        "SYSTEM_NOSHIP": "[FR]Could not find the ship {{ship} in the {{system}} system."
+        "SYSTEM_NOSHIP": "[FR]Could not find the ship {{ship}} in the {{system}} system."
     },
     "INITIAL_UNDO": "[FR]You can't undo the initial starting position of the game.",
     "MOVES_GAMEOVER": "[FR]You cannot make moves in concluded games",

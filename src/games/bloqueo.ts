@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, Colourfuncs } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { allDirections, reviver, SquareDirectedGraph, SquareOrthGraph, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -50,6 +50,33 @@ export class BloqueoGame extends GameBase {
                 name: "Aaron Dalton (Perlkönig)",
                 urls: [],
                 apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
+        ],
+        customizations: [
+            {
+                num: 1,
+                default: 1,
+                explanation: "Colour of the red pawn"
+            },
+            {
+                num: 2,
+                default: 2,
+                explanation: "Colour of the blue pawn"
+            },
+            {
+                num: 3,
+                default: 3,
+                explanation: "Colour of the green pawn"
+            },
+            {
+                num: 4,
+                default: "#fff",
+                explanation: "Colour of player 1"
+            },
+            {
+                num: 5,
+                default: 9,
+                explanation: "Colour of player 2"
             },
         ],
         categories: ["goal>score>eog", "mechanic>share", "mechanic>move", "mechanic>place", "mechanic>displace", "board>shape>rect", "board>connect>rect", "components>simple>5c"],
@@ -144,11 +171,19 @@ export class BloqueoGame extends GameBase {
         return g;
     }
 
-    public getPlayerColour(p: playerid): number|string {
+    public getPlayerColour(p: playerid): Colourfuncs {
         if (p === 1) {
-            return "#fff";
+            return {
+                func: "custom",
+                default: "#fff",
+                palette: 4
+            };
         } else {
-            return 9;
+            return {
+                func: "custom",
+                default: 9,
+                palette: 5
+            };
         }
     }
 

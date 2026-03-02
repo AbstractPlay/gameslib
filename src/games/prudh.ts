@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, BoardBasic, MarkerEdge, MarkerFlood } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic, Colourfuncs, MarkerEdge, MarkerFlood } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError, allDirections } from "../common";
 import i18next from "i18next";
@@ -44,6 +44,23 @@ export class PrudhGame extends GameBase {
                 name: "Aaron Dalton (Perlkönig)",
                 urls: [],
                 apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
+        ],
+        customizations: [
+            {
+                num: 1,
+                default: 1,
+                explanation: "Colour of the shared pieces"
+            },
+            {
+                num: 2,
+                default: "#fff",
+                explanation: "Colour of player 1"
+            },
+            {
+                num: 3,
+                default: "#000",
+                explanation: "Colour of player 2"
             },
         ],
         categories: ["goal>score>eog", "mechanic>move", "mechanic>move>sow", "mechanic>share", "board>shape>rect", "board>connect>rect", "components>simple>1c"],
@@ -593,13 +610,13 @@ export class PrudhGame extends GameBase {
                     {
                         type: "edge",
                         edge: "N",
-                        colour: "#000",
+                        colour: this.getPlayerColour(2),
                         opacity: 0.75,
                     },
                     {
                         type: "edge",
                         edge: "S",
-                        colour: "#fff",
+                        colour: this.getPlayerColour(1),
                         opacity: 0.75,
                     },
                 ] as (MarkerEdge|MarkerFlood)[],
@@ -671,11 +688,19 @@ export class PrudhGame extends GameBase {
         return this.scores[player - 1];
     }
 
-    public getPlayerColour(p: playerid): number|string {
+    public getPlayerColour(p: playerid): Colourfuncs {
         if (p === 1) {
-            return "#fff";
+            return {
+                func: "custom",
+                default: "#fff",
+                palette: 2
+            };
         } else {
-            return "#000";
+            return {
+                func: "custom",
+                default: "#000",
+                palette: 3
+            };
         }
     }
 

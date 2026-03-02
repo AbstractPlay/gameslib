@@ -579,7 +579,7 @@ export class KachitGame extends GameBase {
                 AO: [
                     {
                         name: "piece",
-                        colour: "_context_background"
+                        colour: "_context_board"
                     },
                     {
                         name: "arrows-orth",
@@ -590,7 +590,7 @@ export class KachitGame extends GameBase {
                 AD: [
                     {
                         name: "piece",
-                        colour: "_context_background"
+                        colour: "_context_board"
                     },
                     {
                         name: "arrows-diag",
@@ -644,7 +644,7 @@ export class KachitGame extends GameBase {
                 BO: [
                     {
                         name: "piece",
-                        colour: "_context_background"
+                        colour: "_context_board"
                     },
                     {
                         name: "arrows-orth",
@@ -655,7 +655,7 @@ export class KachitGame extends GameBase {
                 BD: [
                     {
                         name: "piece",
-                        colour: "_context_background"
+                        colour: "_context_board"
                     },
                     {
                         name: "arrows-diag",
@@ -729,7 +729,7 @@ export class KachitGame extends GameBase {
                 },
                 PH: {
                     name: "piece",
-                    colour: "_context_background"
+                    colour: "_context_board"
                 },
             },
             pieces: pstr

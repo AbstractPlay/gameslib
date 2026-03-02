@@ -1068,7 +1068,7 @@ export class BiscuitGame extends GameBase {
                         colour: {
                             func: "flatten",
                             fg: "_context_fill",
-                            bg: "_context_background",
+                            bg: "_context_board",
                             opacity: 0.1,
                         },
                     },

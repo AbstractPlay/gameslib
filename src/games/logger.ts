@@ -55,6 +55,38 @@ export class LoggerGame extends GameBase {
                 apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
             },
         ],
+        customizations: [
+            {
+                num: 1,
+                default: 1,
+                explanation: "Colour of player 1"
+            },
+            {
+                num: 2,
+                default: 2,
+                explanation: "Colour of player 2"
+            },
+            {
+                num: 3,
+                default: 3,
+                explanation: "Tree colour"
+            },
+            {
+                num: 4,
+                default: 4,
+                explanation: "Colour of player 3"
+            },
+            {
+                num: 5,
+                default: 5,
+                explanation: "Colour of player 4"
+            },
+            {
+                num: 6,
+                default: "#000",
+                explanation: "Protester colour"
+            },
+        ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>move", "mechanic>block", "mechanic>share", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>pyramids", "other>2+players"],
         flags: ["scores", "no-moves", "custom-randomization", "perspective", "custom-colours"]
     };
@@ -871,7 +903,11 @@ export class LoggerGame extends GameBase {
         const myLegend: ILegendObj = {
             "X": {
                 "name": "pyramid-up-small-3D",
-                "colour": "#000"
+                "colour": {
+                    func: "custom",
+                    default: "#000",
+                    palette: 6,
+                }
             },
             "G1": {
                 "name": "pyramid-up-small-3D",
@@ -1021,7 +1057,7 @@ export class LoggerGame extends GameBase {
         return [{ name: i18next.t("apgames:status.SCORES"), scores: this.scores}];
     }
 
-     
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["move", "place", "destroy", "add", "winners", "eog", "deltaScore"]);

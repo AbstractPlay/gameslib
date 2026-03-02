@@ -93,6 +93,10 @@ export interface APGamesInformation {
     | "stacking-expanding"
     | "custom-rotation"
   )[];
+  /**
+   * A manually maintained list of custom colours used and how the player can change them. Can also be used just to document which palette numbers are used for what, to help with custom palette creation.
+   */
+  customizations?: (CustomizationPalette | CustomizationContext)[];
   [k: string]: unknown;
 }
 export interface Person {
@@ -156,4 +160,32 @@ export interface AlternativeDisplay {
    */
   description?: string;
   [k: string]: unknown;
+}
+export interface CustomizationPalette {
+  /**
+   * The default value if not customized (expressed as either a string or a palette number).
+   */
+  default: string | number;
+  /**
+   * The palette number that can be customized.
+   */
+  num: number;
+  /**
+   * A free text description of what this colour is used for and perhaps tips on customizing it (if it's complicated).
+   */
+  explanation: string;
+}
+export interface CustomizationContext {
+  /**
+   * The default value if not customized (expressed as either a string or a palette number).
+   */
+  default?: string | number;
+  /**
+   * The colour context value that can be customized.
+   */
+  name: "background" | "strokes" | "labels" | "annotations" | "fill" | "board";
+  /**
+   * A free text description of what this colour is used for and perhaps tips on customizing it (if it's complicated).
+   */
+  explanation: string;
 }

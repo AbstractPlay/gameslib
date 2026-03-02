@@ -64,6 +64,27 @@ export class StorisendeGame extends GameBase {
             {uid: "board-modular-13", group: "board"},
             {uid: "board-modular-18", group: "board"},
         ],
+        customizations: [
+            {
+                num: 1,
+                default: 1,
+                explanation: "Colour of player 1"
+            },
+            {
+                num: 2,
+                default: 2,
+                explanation: "Colour of player 2"
+            },
+            {
+                num: 3,
+                default: 3,
+                explanation: "Territory colour"
+            },
+            {
+                name: "fill",
+                explanation: "The fill colour at 50% opacity appears underneath the slanted wall"
+            },
+        ],
         categories: ["goal>area", "mechanic>coopt", "mechanic>move", "mechanic>place", "mechanic>stack", "mechanic>capture", "board>dynamic", "board>connect>hex", "components>special"],
         flags: ["pie", "scores", "automove", "custom-rotation", "random-start", "custom-randomization"],
     };
@@ -850,7 +871,7 @@ export class StorisendeGame extends GameBase {
             colour: {
                 func: "flatten",
                 fg: "_context_fill",
-                bg: "_context_background",
+                bg: "_context_board",
                 opacity: 0.5
             },
             // @ts-expect-error (because I will add them incrementally)
@@ -908,22 +929,21 @@ export class StorisendeGame extends GameBase {
                 style: oRow % 2 === 0 ? "hex-even-p" : "hex-odd-p",
                 width,
                 height,
-                strokeColour: {
-                    func: "flatten",
-                    fg: "_context_strokes",
-                    bg: "_context_background",
-                    opacity: 0.25,
-                },
-                strokeOpacity: 1,
-                labelColour: {
-                    func: "flatten",
-                    fg: "_context_strokes",
-                    bg: "_context_background",
-                    opacity: 0.5,
-                },
                 blocked: blocked as [{row: number; col: number},...{row: number; col: number}[]],
                 markers: markers.length > 0 ? markers : undefined,
-            },
+                backFill: !this.variants.some(v => v.includes("modular")) ? undefined : {
+                    type: "board",
+                    colour: {
+                        func: "custom",
+                        palette: "_context_board",
+                        default: {
+                            func: "lighten",
+                            colour: "_context_background",
+                            ds: 0,
+                            dl: -5,
+                        }
+                    }
+                }            },
             legend: {
                 A: {
                     name: "piece",

@@ -1751,8 +1751,7 @@ export class MagnateGame extends GameBase {
                 this.debit(pact.spend, this.currplayer);
             }
 
-            if (pact.type !== undefined)
-                this.highlights.push(moveTypeNames[moveTypes.indexOf(pact.type)]);
+            const moveTypeName = (pact.type !== undefined ? moveTypeNames[moveTypes.indexOf(pact.type)] : "");
             
             //Low-hanging fruit.
             if (pact.type === "T") {
@@ -1763,6 +1762,8 @@ export class MagnateGame extends GameBase {
                         what: suitOrder[pact.spend.indexOf(3)],
                         into: pact.suit
                     });
+                } else {
+                    this.highlights.push(moveTypeName);
                 }
             }//end trade type
             
@@ -1819,9 +1820,12 @@ export class MagnateGame extends GameBase {
                                     how: pact.type,
                                     who: this.currplayer
                                 });
+                            } else {
+                                this.highlights.push(moveTypeName);
                             }
                         }
                     } else {
+                        this.highlights.push(moveTypeName);
                         this.highlights.push(pact.card);
                         //Also highlight available districts.
                         for (let d = 0; d < this.districts; d++) {
@@ -1844,43 +1848,60 @@ export class MagnateGame extends GameBase {
                     }
                     
                     const deed = this.deeds[this.currplayer - 1].get(pact.card)!;
-                    if (pact.type === "P" && pact.suit !== undefined) {
-                        deed.preferred = pact.suit;
-                        //Don't chatlog.
+                    if (pact.type === "P") {
+                        if (pact.suit !== undefined) {
+                            deed.preferred = pact.suit;
+                            //Don't chatlog.
+                        } else {
+                            this.highlights.push(moveTypeName);
+                        }
+                    }
+                        
+
+                    if (pact.type === "C") {
+                        if (pact.suit !== undefined) {
+                            this.tokens[this.currplayer - 1][suitOrder.indexOf(pact.suit)]++;
+                            this.removeCard(pact.card,this.choose);
+                        } else {
+                            this.highlights.push(moveTypeName);
+                        }
                     }
                     
-                    if (pact.type === "C" && pact.suit !== undefined) {
-                        this.tokens[this.currplayer - 1][suitOrder.indexOf(pact.suit)]++;
-                        this.removeCard(pact.card,this.choose);
-                    }
-                    
-                    if (pact.type === "A" && pact.spend !== undefined) {
-                        const done = this.add2deed(pact.card, pact.spend);
+                    if (pact.type === "A") {
+                        if (pact.spend !== undefined) {
+                            const done = this.add2deed(pact.card, pact.spend);
 
-                        this.results.push({
-                            type: "add",
-                            where: pact.card,
-                            num: pact.spend.reduce( (cur, acc) => cur + acc, 0 )
-                        });
-
-                        //If the deed is done, remove it and place the card.
-                        if (done) {
-                            const district = this.deeds[this.currplayer - 1].get(pact.card)!.district;
-                            this.deeds[this.currplayer - 1].delete(pact.card);
-                            this.placeCard(pact.card, district!);
-                            
                             this.results.push({
-                                type: "place",
-                                what: pact.card,
-                                where: district,
-                                how: pact.type,
-                                who: this.currplayer
+                                type: "add",
+                                where: pact.card,
+                                num: pact.spend.reduce( (cur, acc) => cur + acc, 0 )
                             });
+
+                            //If the deed is done, remove it and place the card.
+                            if (done) {
+                                const district = this.deeds[this.currplayer - 1].get(pact.card)!.district;
+                                this.deeds[this.currplayer - 1].delete(pact.card);
+                                this.placeCard(pact.card, district!);
+                                
+                                this.results.push({
+                                    type: "place",
+                                    what: pact.card,
+                                    where: district,
+                                    how: pact.type,
+                                    who: this.currplayer
+                                });
+                            } else {
+                                this.highlights.push(moveTypeName);
+                            }
+                        } else {
+                            this.highlights.push(moveTypeName);
                         }
                     }
                 }//end deed adjustment types
             } else {
                 //No card selected.
+                this.highlights.push(moveTypeName);
+                
                 //If we need to burn a hand card, highlight the choices.
                 if ( pact.type === "B" || pact.type === "D" || pact.type === "S" ) {
                     //Check for cards player can afford/use.

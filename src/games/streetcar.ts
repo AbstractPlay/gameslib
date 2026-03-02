@@ -136,6 +136,43 @@ export class StreetcarGame extends GameBase {
             {uid: "5point", "group": "penalty"},
             {uid: "15point", "group": "penalty"},
         ],
+        customizations: [
+            {
+                num: 1,
+                default: 1,
+                explanation: "Colour of player 1"
+            },
+            {
+                num: 2,
+                default: 2,
+                explanation: "Colour of player 2"
+            },
+            {
+                num: 3,
+                default: "#fff",
+                explanation: "White permits"
+            },
+            {
+                num: 4,
+                default: 4,
+                explanation: "Yellow permits"
+            },
+            {
+                num: 5,
+                default: "#000",
+                explanation: "Black permits"
+            },
+            {
+                num: 6,
+                default: 6,
+                explanation: "Orange permits"
+            },
+            {
+                name: "background",
+                default: "#cede86",
+                explanation: "Backfill colour"
+            },
+        ],
         categories: ["goal>score>eog", "mechanic>set",  "mechanic>network", "mechanic>random>setup", "board>shape>other", "board>connect>hex", "components>special"],
         flags: ["no-moves", "scores", "random-start", "custom-rotation"]
     };
@@ -882,7 +919,11 @@ export class StreetcarGame extends GameBase {
                 labelColour: "#000",
                 strokeColour: "#fff",
                 backFill: {
-                    colour: "#cede86"
+                    colour: {
+                        func: "custom",
+                        default: "#cede86",
+                        palette: "_context_background"
+                    }
                 },
                 stackOffset: 0.39,
                 blocked: [
@@ -924,7 +965,11 @@ export class StreetcarGame extends GameBase {
                 C: [
                     {
                         name: "piece-borderless",
-                        colour: "#000"
+                        colour: {
+                            func: "custom",
+                            default: "#000",
+                            palette: 3
+                        }
                     },
                     {
                         name: "streetcar-house",
@@ -934,7 +979,11 @@ export class StreetcarGame extends GameBase {
                 D: [
                     {
                         name: "piece-borderless",
-                        colour: "#fff"
+                        colour: {
+                            func: "custom",
+                            default: "#fff",
+                            palette: 5
+                        }
                     },
                     {
                         name: "streetcar-house",
@@ -951,11 +1000,19 @@ export class StreetcarGame extends GameBase {
                 },
                 G: {
                     name: "piece-borderless",
-                    colour: "#000"
+                    colour: {
+                        func: "custom",
+                        default: "#000",
+                        palette: 3
+                    }
                 },
                 H: {
                     name: "piece-borderless",
-                    colour: "#fff"
+                    colour: {
+                        func: "custom",
+                        default: "#fff",
+                        palette: 5
+                    }
                 },
                 K: {
                     name: "cube-cat-plant",
@@ -970,12 +1027,20 @@ export class StreetcarGame extends GameBase {
                 M: {
                     name: "cube-cat-plant",
                     scale: 0.85,
-                    colour: "#000"
+                    colour: {
+                    func: "custom",
+                    default: "#000",
+                    palette: 3
+                }
                 },
                 N: {
                     name: "cube-cat-plant",
                     scale: 0.85,
-                    colour: "#fff"
+                    colour: {
+                        func: "custom",
+                        default: "#fff",
+                        palette: 5
+                    }
                 },
                 O: {
                     name: "cube-lamp-cat",
@@ -990,12 +1055,20 @@ export class StreetcarGame extends GameBase {
                 Q: {
                     name: "cube-lamp-cat",
                     scale: 0.85,
-                    colour: "#000"
+                    colour: {
+                        func: "custom",
+                        default: "#000",
+                        palette: 3
+                    }
                 },
                 R: {
                     name: "cube-lamp-cat",
                     scale: 0.85,
-                    colour: "#fff"
+                    colour: {
+                    func: "custom",
+                    default: "#fff",
+                    palette: 5
+                }
                 },
                 S: {
                     name: "cube-plant-person",
@@ -1010,12 +1083,20 @@ export class StreetcarGame extends GameBase {
                 U: {
                     name: "cube-plant-person",
                     scale: 0.85,
-                    colour: "#000"
+                    colour: {
+                        func: "custom",
+                        default: "#000",
+                        palette: 3
+                    }
                 },
                 V: {
                     name: "cube-plant-person",
                     scale: 0.85,
-                    colour: "#fff"
+                    colour: {
+                        func: "custom",
+                        default: "#fff",
+                        palette: 5
+                    }
                 },
                 W: {
                     name: "cube-person-lamp",
@@ -1030,12 +1111,20 @@ export class StreetcarGame extends GameBase {
                 Y: {
                     name: "cube-person-lamp",
                     scale: 0.85,
-                    colour: "#000"
+                    colour: {
+                        func: "custom",
+                        default: "#000",
+                        palette: 3
+                    }
                 },
                 Z: {
                     name: "cube-person-lamp",
                     scale: 0.85,
-                    colour: "#fff"
+                    colour: {
+                        func: "custom",
+                        default: "#fff",
+                        palette: 5
+                    }
                 },
             },
             pieces: pstr
@@ -1076,7 +1165,11 @@ export class StreetcarGame extends GameBase {
                     type: "pieces",
                     pieces: [...taken] as [string, ...string[]],
                     label: i18next.t("apgames:validation.streetcar.TAKEN_LABEL", {playerNum: player}) || "local",
-                    background: "#cede86",
+                    background: {
+                        func: "custom",
+                        default: "#cede86",
+                        palette: "_context_background"
+                    },
                     ownerMark: player,
                 });
             }
@@ -1156,7 +1249,7 @@ export class StreetcarGame extends GameBase {
         return `[${edges.map(e => edge2string(e)).join(",")}]${house}`;
     }
 
-     
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["claim", "take", "eog", "winners"]);

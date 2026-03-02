@@ -866,7 +866,7 @@ export class TerraceGame extends GameBase {
                     points: points as [RowCol, ...RowCol[]],
                     colour: {
                         func: "flatten",
-                        bg: "_context_background",
+                        bg: "_context_board",
                         fg: "_context_fill",
                         opacity: k,
                     }

@@ -2026,6 +2026,14 @@
             },
             "size-7": {
                 "name": "Hexagonal board (base-7)"
+            },
+            "#ruleset": {
+                "description": "Only one group results in a score of zero.",
+                "name": "Two groups needed"
+            },
+            "1-group": {
+                "description": "Only one group results in a score of its size.",
+                "name": "One group needed"
             }
         },
         "pylon": {

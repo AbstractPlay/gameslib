@@ -32,7 +32,10 @@ export class StilettoGame extends InARowBase {
         dateAdded: "2026-02-21",
         // i18next.t("apgames:descriptions.Stiletto")
         description: "apgames:descriptions.stiletto",
-        urls: ["https://jpneto.github.io/world_abstract_games/dagger_gomoku.htm"],
+        urls: [
+                "https://boardgamegeek.com/boardgame/465550/stiletto",
+                "https://jpneto.github.io/world_abstract_games/dagger_gomoku.htm",
+              ],
         people: [
             {
                 type: "designer",
@@ -52,8 +55,7 @@ export class StilettoGame extends InARowBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
-        categories: ["goal>align", "mechanic>place", "board>shape>rect",
-                     "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>align", "mechanic>place", "board>shape>rect", "components>simple>2c"],
         flags: ["no-moves", "custom-colours", "experimental"],
     };
 

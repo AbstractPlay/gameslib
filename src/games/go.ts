@@ -43,12 +43,15 @@ export class GoGame extends GameBase {
         dateAdded: "2026-02-25",
         // i18next.t("apgames:descriptions.go")
         description: "apgames:descriptions.go",
-        urls: ["https://boardgamegeek.com/boardgame/12146/go"],
+        urls: [
+                "https://boardgamegeek.com/boardgame/188/go",
+                "https://senseis.xmp.net/"
+              ],
         people: [
             {
                 type: "designer",
                 name: "Traditional",
-                urls: ["https://boardgamegeek.com/boardgamedesigner/"],
+                urls: ["https://en.wikipedia.org/wiki/Go_(game)"],
             },
             {
                 type: "coder",

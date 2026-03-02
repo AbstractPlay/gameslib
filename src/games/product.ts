@@ -28,8 +28,10 @@ export class ProductGame extends GameBase {
         dateAdded: "2024-02-19",
         // i18next.t("apgames:descriptions.product")
         description: "apgames:descriptions.product",
-        urls: ["https://boardgamegeek.com/boardgame/136995/produto",
-               "https://jpneto.github.io/world_abstract_games/product.htm"],
+        urls: [
+                "https://boardgamegeek.com/boardgame/136995/produto",
+                "https://jpneto.github.io/world_abstract_games/product.htm"
+              ],
         people: [
             {
                 type: "designer",
@@ -49,6 +51,7 @@ export class ProductGame extends GameBase {
             { uid: "#board", },
             { uid: "size-6", group: "board" },
             { uid: "size-7", group: "board" },
+            { uid: "1-group", group: "ruleset" },
         ],
         flags: ["scores", "no-moves", "experimental"]
     };
@@ -63,6 +66,7 @@ export class ProductGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     public boardSize = 5;
+    private ruleset: "default" | "1-group";
 
     constructor(state?: IProductState | string, variants?: string[]) {
         super();
@@ -91,6 +95,7 @@ export class ProductGame extends GameBase {
             this.stack = [...state.stack];
         }
         this.load();
+        this.ruleset = this.getRuleset();
     }
 
     public load(idx = -1): ProductGame {
@@ -125,6 +130,11 @@ export class ProductGame extends GameBase {
         return 5;
     }
 
+    private getRuleset(): "default" | "1-group" {
+        if (this.variants.includes("1-group")) { return "1-group"; }
+        return "default";
+    }
+    
     private getGraph(): HexTriGraph {
         return new HexTriGraph(this.boardSize, this.boardSize * 2 - 1);
     }
@@ -181,9 +191,16 @@ export class ProductGame extends GameBase {
             groups.push(group);
         }
 
-        while ( groups.length < 2 ) {
-          // guarantee that players always have, at least, two groups
-          groups.push(new Set());
+        if (this.ruleset === "1-group") {
+            while ( groups.length < 2 ) {
+              // guarantee that players always have, at least, two groups
+              groups.push(new Set(['dummy'])); // here, of size 1
+            }
+        } else {
+            while ( groups.length < 2 ) {
+              // guarantee that players always have, at least, two groups
+              groups.push(new Set());
+            }
         }
         return groups.map(g => g.size).sort((a, b) => b - a);
     }

@@ -422,7 +422,7 @@ export class BlastRadiusGame extends GameBase {
                     legend[pc] = [
                         {
                             name: "piece",
-                            colour: pc[0] === "A" ? 1 : 2,
+                            colour: pc.startsWith("pA") ? 1 : 2,
                         },
                         {
                             text: pc.substring(2),

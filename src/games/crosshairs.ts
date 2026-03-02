@@ -126,7 +126,7 @@ export class CrosshairsGame extends GameBase {
         name: "Crosshairs",
         uid: "crosshairs",
         playercounts: [2],
-        version: "20260214",
+        version: "20260301",
         dateAdded: "2026-01-10",
         description: "apgames:descriptions.crosshairs",
         urls: [

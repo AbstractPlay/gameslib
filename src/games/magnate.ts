@@ -130,6 +130,7 @@ export class MagnateGame extends GameBase {
     private districts: number = 5;
     private deck: Multideck[] = [];
     private highlights: string[] = []; //A mix of suit uids, card uids, and districts.
+    private spend: number[] = []; //For displaying a partial buy.
 
     constructor(state?: IMagnateState | string, variants?: string[]) {
         super();
@@ -1341,9 +1342,20 @@ export class MagnateGame extends GameBase {
                     const card = piece.split("k")[1];
                     newmove = `${move}${card}`;
                 } else if ( piece?.startsWith("k") ) {
-                    //clicking a board card, which in this case we interpret as its district.
-                    const district = this.coord2algebraic(col);
-                    newmove = `${move},${district}`;
+                    //clicking a board card.
+                    const submoves = this.splitMove(move);
+                    const subparse = this.parseMove(submoves[submoves.length - 1]);
+                    if (subparse.type && subparse.type === "C") {
+                        //Replace the selected card with this one.
+                        subparse.card = piece.split("k")[1];
+                        submoves.length = submoves.length - 1;
+                        submoves.push(this.pickleMove(subparse));
+                        newmove = submoves.join("/");
+                    } else {
+                        //Otherwise, interpret the card as its district
+                        const district = this.coord2algebraic(col);
+                        newmove = `${move},${district}`;
+                    }
                 } else if (move && move.endsWith(":")) {
                     //it's too early to click on a district,
                     //unless you misclicked a card.
@@ -1745,6 +1757,7 @@ export class MagnateGame extends GameBase {
         for (const action of actions) {
             const pact = this.parseMove(action);
             this.highlights = [];
+            this.spend = [];
 
             //Spend first, other stuff later.
             if (pact.spend !== undefined) {
@@ -1812,6 +1825,20 @@ export class MagnateGame extends GameBase {
                             this.removeCard(pact.card, this.hands[this.currplayer - 1]);
 
                             if (pact.spend !== undefined) {
+                                //Unless the user misclicked on something he can't even deed,
+                                // he always comes in with a partial spend.
+                                //For highlighting, need to know if the spend is complete.
+                                const spendy = this.checkSpend(pact.card, pact.spend, pact.type);
+                                if (spendy < 1) {
+                                    this.highlights.push(moveTypeName);
+                                    this.highlights.push(pact.card);
+                                    this.spend = pact.spend;
+                                } else {
+                                    //It seems that I need to remove it.
+                                    this.removeCard(pact.card, this.highlights);
+                                    this.spend = [];
+                                }
+                                
                                 //Shared result type
                                 this.results.push({
                                     type: "place",
@@ -1890,6 +1917,8 @@ export class MagnateGame extends GameBase {
                                     how: pact.type,
                                     who: this.currplayer
                                 });
+                                //Need to unhighlight; will still be annotated.
+                                this.removeCard(pact.card, this.highlights);
                             } else {
                                 this.highlights.push(moveTypeName);
                             }
@@ -2145,7 +2174,7 @@ export class MagnateGame extends GameBase {
         return max;
     }
 
-    public renderDecktetGlyph(card: Card | Multicard, border?: boolean, deed?: DeedContents, opacity?: number, fill?: string|number): [Glyph, ...Glyph[]] {
+    public renderDecktetGlyph(card: Card | Multicard, border?: boolean, deed?: DeedContents, opacity?: number, fill?: string|number, tokens?: number[]): [Glyph, ...Glyph[]] {
         //Refactored from the toGlyph method of Card for opacity, verticality, deed tokens, etc.
         if (border === undefined) {
             border = false;
@@ -2201,7 +2230,7 @@ export class MagnateGame extends GameBase {
                     opacity: opacity,
                     orientation: "vertical",
                 });
-            else if ( deed ) // && tokens[i] > 0)
+            else if ( deed  || tokens )
                 glyph.push({
                     name: "piece-borderless",
                     scale: 0.5,
@@ -2225,7 +2254,18 @@ export class MagnateGame extends GameBase {
                 orientation: "vertical",
             });
 
-            if ( deed && i === 0) 
+            if ( tokens !== undefined )
+                glyph.push({
+                    text: tokens[suit.seq - 1].toString(),
+                    scale: 0.5,
+                    nudge: {
+                        dx: nudge[0],
+                        dy: nudge[1],
+                    },
+                    orientation: "vertical",
+                });
+
+            if ( deed && i === 0 )
                 //suit1 always present
                 glyph.push({
                     text: deed.suit1.toString(),
@@ -2234,7 +2274,6 @@ export class MagnateGame extends GameBase {
                         dx: nudge[0],
                         dy: nudge[1],
                     },
-//                    colour: "#000",
                     orientation: "vertical",
                 });
 
@@ -2246,7 +2285,6 @@ export class MagnateGame extends GameBase {
                         dx: nudge[0],
                         dy: nudge[1],
                     },
-//                    colour: "#000",
                     orientation: "vertical",
                 });
             
@@ -2258,7 +2296,6 @@ export class MagnateGame extends GameBase {
                         dx: nudge[0],
                         dy: nudge[1],
                     },
-//                    colour: "#000",
                     orientation: "vertical",
                 });
         
@@ -2384,7 +2421,10 @@ export class MagnateGame extends GameBase {
             let glyph = this.renderDecktetGlyph(card);
             const isHighlighted: boolean = this.highlights.indexOf(card.uid) > -1;
 
-            if ( visibleCards.indexOf(card.uid) > - 1 ) {
+            if ( isHighlighted && visibleCards.indexOf(card.uid) > - 1 ) {
+                //This card is an incomplete buy (if this.spend).
+                glyph = this.renderDecktetGlyph(card, true, undefined, 0.6, this.currplayer, this.spend.length > 0 ? this.spend : undefined);
+            } else if ( visibleCards.indexOf(card.uid) > - 1 ) {
                 //Board cards get borders.
                 glyph = this.renderDecktetGlyph(card, true);
             } else if ( card.rank.uid === this.pawnrank || card.rank.name === "Excuse" ) {
@@ -2715,7 +2755,10 @@ export class MagnateGame extends GameBase {
         
         for (const choice of this.choose) {
             const [x, y] = this.deed2coords(choice, this.currplayer);
-            rep.annotations.push({type: "enter", dashed: [8,8], targets: [{row: y, col: x}], colour: this.currplayer});
+            if (this.highlights.indexOf(choice) > -1)
+                rep.annotations.push({type: "enter", dashed: [2,2], targets: [{row: y, col: x}], colour: this.currplayer});
+            else
+                rep.annotations.push({type: "enter", dashed: [8,8], targets: [{row: y, col: x}], colour: this.currplayer});
         }
         
         if (annotationPoints.length > 0)

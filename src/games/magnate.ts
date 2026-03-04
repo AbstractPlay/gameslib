@@ -24,6 +24,8 @@ export type DeedContents = {
 const columnLabels = "abcdefghij".split("");
 const moveTypes = ["B","D","S","A","T","P","C","U"];
 const moveTypeNames = ["Buy","Deed","Sell","Add","Trade","Prefer","Choose","Undo"];
+const nudge = 250;
+const nudgeText = 25; //Extra tweak for fonts in production.
 const suitColors: string[] = ["#c7c8ca","#e08426","#6a9fcc","#bc8a5d","#6fc055","#d6dd40"];
 const suitOrder = suits.map(suit => suit.uid); //["M","S","V","L","Y","K"];
 
@@ -2250,25 +2252,27 @@ export class MagnateGame extends GameBase {
                 scale: 0.5,
                 colour: "_context_strokes",
                 nudge: {
-                    dx: 250,
-                    dy: -250,
+                    dx: nudge,
+                    dy: -nudge,
                 },
                 opacity: opacity,
                 orientation: "vertical",
             });
         }
 
-        const nudges: [number,number][] = [[-250, -250], [-250, 250], [250, 250]];
+        const nudges: [number,number][] = [[-1, -1], [-1, 1], [1, 1]];
         for (let i = 0; i < card.suits.length; i++) {
             const suit = card.suits[i];
-            const nudge = nudges[i];
+            const nudged = nudges[i].map(n => n * nudge);
+            const textNudgeY = nudges[i][1] > 0 ? nudge + nudgeText : nudgeText - nudge;
+            //Text needs extra vertical nudging.
             if ( preflight === suit.uid )
                 glyph.push({
                     name: "piece",
                     scale: 0.5,
                     nudge: {
-                        dx: nudge[0],
-                        dy: nudge[1],
+                        dx: nudged[0],
+                        dy: nudged[1],
                     },
                     colour: suitColors[suit.seq - 1],
                     opacity: opacity,
@@ -2279,8 +2283,8 @@ export class MagnateGame extends GameBase {
                     name: "piece-borderless",
                     scale: 0.5,
                     nudge: {
-                        dx: nudge[0],
-                        dy: nudge[1],
+                        dx: nudged[0],
+                        dy: nudged[1],
                     },
                     colour: suitColors[suit.seq - 1],
                     opacity: opacity,
@@ -2291,8 +2295,8 @@ export class MagnateGame extends GameBase {
                 name: suit.glyph,
                 scale: 0.5,
                 nudge: {
-                    dx: nudge[0],
-                    dy: nudge[1],
+                    dx: nudged[0],
+                    dy: nudged[1],
                 },
                 opacity: opacity,
                 orientation: "vertical",
@@ -2303,8 +2307,8 @@ export class MagnateGame extends GameBase {
                     text: tokens[suit.seq - 1].toString(),
                     scale: 0.5,
                     nudge: {
-                        dx: nudge[0],
-                        dy: nudge[1],
+                        dx: nudged[0],
+                        dy: textNudgeY,
                     },
                     orientation: "vertical",
                 });
@@ -2315,8 +2319,8 @@ export class MagnateGame extends GameBase {
                     text: deed.suit1.toString(),
                     scale: 0.5,
                     nudge: {
-                        dx: nudge[0],
-                        dy: nudge[1],
+                        dx: nudged[0],
+                        dy: textNudgeY,
                     },
                     orientation: "vertical",
                 });
@@ -2326,8 +2330,8 @@ export class MagnateGame extends GameBase {
                     text: deed.suit2!.toString(),
                     scale: 0.5,
                     nudge: {
-                        dx: nudge[0],
-                        dy: nudge[1],
+                        dx: nudged[0],
+                        dy: textNudgeY,
                     },
                     orientation: "vertical",
                 });
@@ -2337,8 +2341,8 @@ export class MagnateGame extends GameBase {
                     text: deed.suit3!.toString(),
                     scale: 0.5,
                     nudge: {
-                        dx: nudge[0],
-                        dy: nudge[1],
+                        dx: nudged[0],
+                        dy: textNudgeY,
                     },
                     orientation: "vertical",
                 });
@@ -2534,10 +2538,9 @@ export class MagnateGame extends GameBase {
                     {
                         text: pcount.toString(),
                         scale: 0.70,
-//                        colour: "#000",
                         nudge: {
                             dx: 0,
-                            dy: 125,
+                            dy: 150,
                         },
                         orientation: "vertical",
                     }

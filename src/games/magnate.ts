@@ -472,7 +472,7 @@ export class MagnateGame extends GameBase {
         return tokens;
     }
     
-    private checkChange(card: string): string[] {
+    private checkChange(card: string): string {
         //Returns exactly the tokens currplayer must spend to buy card,
         // that is, returns a partial or full payment for autocompletes.
         //Assumes canPay.
@@ -777,7 +777,7 @@ export class MagnateGame extends GameBase {
         return rank === 1 ? 3 : Math.ceil(rank) ;
     }
     
-    private getRandomPayment(card: string, full?: boolean): string {
+    private getRandomSpend(card: string, full?: boolean): number[] {
         //Construct a full or partial payment (string) for use in random moves.
         //It may not qualify as a deed payment so don't rely on success.
         //The caller no longer needs a string, so could be cleaned up.
@@ -812,7 +812,7 @@ export class MagnateGame extends GameBase {
             }
         }
 
-        return payment.join("+");
+        return this.parseSpend(payment.join("+"));
     }
 
     private hasDeed(district: string, player: playerid): boolean {
@@ -1055,7 +1055,7 @@ export class MagnateGame extends GameBase {
         if (pact.card)
             move += pact.card;
         else if (pact.spend) {
-            move += this.pickleSpend(pact.spend).join("+");
+            move += this.pickleSpend(pact.spend);
             if (pact.suit)
                 move += "+" + pact.suit;
             return move;
@@ -1069,7 +1069,7 @@ export class MagnateGame extends GameBase {
             move += "@" + pact.district;
         
         if (pact.spend)
-            move += "+" + this.pickleSpend(pact.spend).join("+");
+            move += "+" + this.pickleSpend(pact.spend);
         else if (pact.suit) 
             move += "+" + pact.suit;
 
@@ -1094,8 +1094,8 @@ export class MagnateGame extends GameBase {
         return spend;
     }
 
-    private pickleSpend(tokenArray: number[]): string[] {
-        //Parses a token array into a pre-split spend.
+    private pickleSpend(tokenArray: number[]): string {
+        //Parses a token array into a spend string.
         const spend: string[] = [];
 
         tokenArray.forEach((value, index) => {
@@ -1106,7 +1106,7 @@ export class MagnateGame extends GameBase {
             }
         });
  
-        return spend;
+        return spend.join("+");
     }
 
     private placeCard(card: string, district: string): void {
@@ -1193,19 +1193,17 @@ export class MagnateGame extends GameBase {
                         if (cloned.canPlace(card, dist)) {
                             if ( cloned.canPay(card) ) {
                                 // If we can deed a 2 we can pay for it, so doesn't try to deed one.
-                                const payment = cloned.getRandomPayment(card, true);
+                                const tokenArray = cloned.getRandomSpend(card, true);
                                 submove = cloned.pickleMove({
                                     type: "B",
                                     card: card,
                                     district: dist,
-                                    spend: cloned.parseSpend(payment)
+                                    spend: tokenArray
                                 } as IMagnateMove);
+
                                 //Need to remove the card and spend the tokens for the next step.
                                 sortedHand.splice(c,1);
-
-                                const tokenArray = cloned.parseSpend(payment);
                                 cloned.debit(tokenArray, cloned.currplayer);
-                                
                             } else if (cloned.canDeed(card) && leverage > 0) {
                                 submove = cloned.pickleMove({
                                     type: "D",
@@ -1249,11 +1247,11 @@ export class MagnateGame extends GameBase {
                     const deedCard = cloned.getDeedCard(cloned.coord2algebraic(d), cloned.currplayer);
                     
                     if (deedCard) {
-                        const spend = cloned.getRandomPayment(deedCard, false);
+                        const tokenArray = cloned.getRandomSpend(deedCard, false);
                         subsubmove = cloned.pickleMove({
                             type: "A",
                             card: deedCard,
-                            spend: cloned.parseSpend(spend)
+                            spend: tokenArray
                         } as IMagnateMove);
                         
                         //Manually validate here.
@@ -1262,7 +1260,6 @@ export class MagnateGame extends GameBase {
                         if (validationObj.valid === false || parsedSS.incomplete === true) { 
                             subsubmove = "";
                         } else {
-                            const tokenArray = cloned.parseSpend(spend);
                             cloned.debit(tokenArray, cloned.currplayer);
                             //Credit the cloned deed to prevent errors in mega.
                             cloned.add2deed(deedCard, tokenArray);
@@ -1452,6 +1449,7 @@ export class MagnateGame extends GameBase {
             return result;
         }
 
+        //More move normalization happens in parseMove().
         m = m.replace(/\s+/g, "");
 
         if (m.length === 0) {
@@ -1688,7 +1686,7 @@ export class MagnateGame extends GameBase {
                             result.complete = -1;
                             result.canrender = true;
                             if (pact.type === "B")
-                                result.autocomplete = m + "," + cloned.checkChange(pact.card).join(",");
+                                result.autocomplete = m + "+" + cloned.checkChange(pact.card);
                             result.message = i18next.t("apgames:validation.magnate.SPEND_INSTRUCTIONS");
                             return result;
                         } else {

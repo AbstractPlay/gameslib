@@ -7,32 +7,46 @@ describe("Magnate", () => {
     const g = new MagnateGame();
     it ("Parses buys", () => {
 
-        expect(g.parseMove("B:8MS,a")).to.deep.equal({
+        expect(g.parseMove("B:8MS@a")).to.deep.equal({
             card: "8MS",
             district: "a",
             incomplete: true,
             type: "B",
             valid: true
         });
-        expect(g.parseMove("B:8MS1,a")).to.deep.equal({
+        expect(g.parseMove(" B:8MS@a ")).to.deep.equal({
+            card: "8MS",
+            district: "a",
+            incomplete: true,
+            type: "B",
+            valid: true
+        });
+        expect(g.parseMove("B:8MS@A")).to.deep.equal({
+            card: "8MS",
+            district: "a",
+            incomplete: true,
+            type: "B",
+            valid: true
+        });
+        expect(g.parseMove("B:8MS1@a")).to.deep.equal({
             card: "8MS1",
             district: "a",
             incomplete: true,
             type: "B",
             valid: true
         });
-        expect(g.parseMove("B:8MS1,a,")).to.deep.equal({
+        expect(g.parseMove("B:8MS1@a+")).to.deep.equal({
             card: "8MS1",
             district: "a",
             incomplete: true,
             type: "B",
             valid: true
         });
-        expect(g.parseMove("B:8MS3,a,M3")).to.deep.equal({
+        expect(g.parseMove("B:8MS3@a+M3")).to.deep.equal({
             type: "B",
             valid: false
         });
-        expect(g.parseMove("B:8MS,a,M3")).to.deep.equal({
+        expect(g.parseMove("B:8MS@a+M3")).to.deep.equal({
             card: "8MS",
             district: "a",
             incomplete: false,
@@ -40,7 +54,7 @@ describe("Magnate", () => {
             type: "B",
             valid: true
         });
-        expect(g.parseMove("B:8MS,a,M,M,M")).to.deep.equal({
+        expect(g.parseMove("B:8MS@a+M+M+M")).to.deep.equal({
             card: "8MS",
             district: "a",
             incomplete: false,
@@ -48,7 +62,7 @@ describe("Magnate", () => {
             type: "B",
             valid: true
         });
-        expect(g.parseMove("B:8MS1,a,M3")).to.deep.equal({
+        expect(g.parseMove("B:8MS1@a+M3")).to.deep.equal({
             card: "8MS1",
             district: "a",
             incomplete: false,
@@ -56,13 +70,14 @@ describe("Magnate", () => {
             type: "B",
             valid: true
         });
-        expect(g.parseMove("B:8MS1,a,M3,")).to.deep.equal({
+        expect(g.parseMove("B:8MS1@a+M3+")).to.deep.equal({
             card: "8MS1",
             district: "a",
+            incomplete: false,
             type: "B",
             valid: false
         });
-        expect(g.parseMove("B:1L1,a,M3,S5")).to.deep.equal({
+        expect(g.parseMove("B:1L1@a+M3+S5")).to.deep.equal({
             card: "1L1",
             district: "a",
             incomplete: false,
@@ -70,12 +85,13 @@ describe("Magnate", () => {
             type: "B",
             valid: true
         });
-        expect(g.parseMove("BB:1L1,a,M3,S5")).to.deep.equal({
+        expect(g.parseMove("BB:1L1@a+M3+S5")).to.deep.equal({
             type: "E",
             valid: false
         });
 
     });
+
     it ("Parses deeds", () => {
 
         expect(g.parseMove("D:TMLY")).to.deep.equal({
@@ -90,21 +106,21 @@ describe("Magnate", () => {
             type: "D",
             valid: true
         });
-        expect(g.parseMove("D:TMLY2,h")).to.deep.equal({
+        expect(g.parseMove("D:TMLY2@h")).to.deep.equal({
             card: "TMLY2",
             district: "h",
             incomplete: false,
             type: "D",
             valid: true
         });
-       expect(g.parseMove("D:9MS2,a")).to.deep.equal({
+        expect(g.parseMove("D:9MS2@a")).to.deep.equal({
             card: "9MS2",
             district: "a",
             incomplete: false,
             type: "D",
             valid: true
         });
-        expect(g.parseMove("D:9MS2,a,")).to.deep.equal({
+        expect(g.parseMove("D:9MS2@a+")).to.deep.equal({
             card: "9MS2",
             district: "a",
             incomplete: false,
@@ -126,13 +142,14 @@ describe("Magnate", () => {
             type: "S",
             valid: true
         });
-        expect(g.parseMove("S:9MS2,a")).to.deep.equal({
+        expect(g.parseMove("S:9MS2@a")).to.deep.equal({
             card: "9MS2",
+            district: "a",
             incomplete: false,
             type: "S",
             valid: true
         });
-        expect(g.parseMove("S:9MS2,M5,")).to.deep.equal({
+        expect(g.parseMove("S:9MS2+M5+")).to.deep.equal({
             card: "9MS2",
             incomplete: false,
             type: "S",
@@ -157,7 +174,7 @@ describe("Magnate", () => {
             type: "A",
             valid: true
         });
-        expect(g.parseMove("A:4MS2,M5")).to.deep.equal({
+        expect(g.parseMove("A:4MS2+M5")).to.deep.equal({
             card: "4MS2",
             incomplete: false,
             spend: [5,0,0,0,0,0],
@@ -174,7 +191,7 @@ describe("Magnate", () => {
             type: "T",
             valid: true
         });
-        expect(g.parseMove("T:Y3,M")).to.deep.equal({
+        expect(g.parseMove("T:Y3+M")).to.deep.equal({
             incomplete: false,
             spend: [0,0,0,0,3,0],
             suit: "M",
@@ -191,21 +208,21 @@ describe("Magnate", () => {
             type: "P",
             valid: true
         });
-        expect(g.parseMove("P:4MS,K")).to.deep.equal({
+        expect(g.parseMove("P:4MS+K")).to.deep.equal({
             card: "4MS",
             incomplete: false,
             suit: "K",
             type: "P",
             valid: true
         });
-       expect(g.parseMove("P:4MS2,K")).to.deep.equal({
+       expect(g.parseMove("P:4MS2+K")).to.deep.equal({
             card: "4MS2",
             incomplete: false,
             suit: "K",
             type: "P",
             valid: true
         });
-       expect(g.parseMove("P:4MS2,J")).to.deep.equal({
+       expect(g.parseMove("P:4MS2+J")).to.deep.equal({
             card: "4MS2",
             type: "P",
             valid: false
@@ -220,21 +237,21 @@ describe("Magnate", () => {
             type: "C",
             valid: true
         });
-        expect(g.parseMove("C:4MS,K")).to.deep.equal({
+        expect(g.parseMove("C:4MS+K")).to.deep.equal({
             card: "4MS",
             incomplete: false,
             suit: "K",
             type: "C",
             valid: true
         });
-       expect(g.parseMove("C:4MS2,K")).to.deep.equal({
+       expect(g.parseMove("C:4MS2+K")).to.deep.equal({
             card: "4MS2",
             incomplete: false,
             suit: "K",
             type: "C",
             valid: true
         });
-       expect(g.parseMove("C:4MS2,J")).to.deep.equal({
+       expect(g.parseMove("C:4MS2+J")).to.deep.equal({
             card: "4MS2",
             type: "C",
             valid: false
@@ -242,18 +259,18 @@ describe("Magnate", () => {
 
     });
     it ("Unparses all", () => {
-        expect(g.pickleMove(g.parseMove("B:1L1,a,M3,S5"))).eq("B:1L1,a,M3,S5");
-        expect(g.pickleMove(g.parseMove("B:1L1,a,M,S4,M2,S"))).eq("B:1L1,a,M3,S5");
+        expect(g.pickleMove(g.parseMove(" B:1L1@a+M3+S5 "))).eq("B:1L1@a+M3+S5");
+        expect(g.pickleMove(g.parseMove("B:1L1@a+M+S4+M2+S"))).eq("B:1L1@a+M3+S5");
         
-        expect(g.pickleMove(g.parseMove("D:TMLY2,h"))).eq("D:TMLY2,h");
+        expect(g.pickleMove(g.parseMove("D:TMLY2@h"))).eq("D:TMLY2@h");
 
-        expect(g.pickleMove(g.parseMove("S:9MS2,M5,"))).eq("S:9MS2");
+        expect(g.pickleMove(g.parseMove("S:9MS2+M5+"))).eq("S:9MS2");
 
-        expect(g.pickleMove(g.parseMove("A:4MS2,M5"))).eq("A:4MS2,M5");
+        expect(g.pickleMove(g.parseMove("A:4MS2+M5"))).eq("A:4MS2+M5");
 
-        expect(g.pickleMove(g.parseMove("T:Y3,M"))).eq("T:Y3,M");
+        expect(g.pickleMove(g.parseMove("T:Y3+M"))).eq("T:Y3+M");
 
-        expect(g.pickleMove(g.parseMove("P:4MS,K"))).eq("P:4MS,K");
+        expect(g.pickleMove(g.parseMove("P:4MS+K"))).eq("P:4MS+K");
 
         expect(g.pickleMove(g.parseMove("C:4MS2"))).eq("C:4MS2");
 

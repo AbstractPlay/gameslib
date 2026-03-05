@@ -1,7 +1,7 @@
 
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, IStashEntry, ICustomButton } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, AreaPieces, BoardBasic, Glyph, MarkerGlyph, MarkerShading } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AreaPieces, BoardBasic, Colourfuncs, Glyph, MarkerGlyph, MarkerShading } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError, shuffle } from "../common";
 import i18next from "i18next";
@@ -56,6 +56,38 @@ export class ACityGame extends GameBase {
                 name: "Aaron Dalton (Perlkönig)",
                 urls: [],
                 apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
+        ],
+        customizations: [
+            {
+                num: 1,
+                default: 1,
+                explanation: "Colour of the Sun suit"
+            },
+            {
+                num: 2,
+                default: 2,
+                explanation: "Colour of the Anchor suit"
+            },
+            {
+                num: 3,
+                default: 3,
+                explanation: "Colour of the Crown suit"
+            },
+            {
+                num: 4,
+                default: "#000",
+                explanation: "Colour of the Moon suit"
+            },
+            {
+                num: 5,
+                default: "#fff",
+                explanation: "Colour of the first player"
+            },
+            {
+                num: 6,
+                default: "#000",
+                explanation: "Colour of the second player"
             },
         ],
         categories: ["goal>score>eog", "mechanic>network", "mechanic>place", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>pyramids", "components>piecepack"],
@@ -751,11 +783,19 @@ export class ACityGame extends GameBase {
         };
     }
 
-    public getPlayerColour(p: playerid): number|string {
+    public getPlayerColour(p: playerid): Colourfuncs {
         if (p === 1) {
-            return "#fff";
+            return {
+                func: "custom",
+                default: "#fff",
+                palette: 5
+            };
         } else {
-            return "#000";
+            return {
+                func: "custom",
+                default: "#000",
+                palette: 6
+            };
         }
     }
 
@@ -793,7 +833,7 @@ export class ACityGame extends GameBase {
             const tile = this.startpos[i];
             const tlx = (i % 4) * 2;
             const tly = Math.floor(i / 4) * 2;
-            let colour: string|number;
+            let colour: string|number|Colourfuncs;
             let suit: string;
             switch (tile[0]) {
                 case "R":
@@ -809,7 +849,11 @@ export class ACityGame extends GameBase {
                     suit = "MarkGreen";
                     break;
                 case "N":
-                    colour = "#000000";
+                    colour = {
+                        func: "custom",
+                        default: "#000000",
+                        palette: 4
+                    };
                     suit = "MarkBlack";
                     break;
             }
@@ -863,7 +907,11 @@ export class ACityGame extends GameBase {
                 },
                 ND: {
                     name: "piece",
-                    colour: "#000000"
+                    colour: {
+                        func: "custom",
+                        default: "#000000",
+                        palette: 4
+                    }
                 },
                 RT: {
                     name: "pyramid-up-large-upscaled",
@@ -879,11 +927,11 @@ export class ACityGame extends GameBase {
                 },
                 Claim1: {
                     name: "pyramid-up-small",
-                    colour: "#ffffff"
+                    colour: this.getPlayerColour(1)
                 },
                 Claim2: {
                     name: "pyramid-up-small",
-                    colour: "#000000"
+                    colour: this.getPlayerColour(2)
                 },
                 MarkRed: {
                     name: "piecepack-suit-suns",
@@ -905,7 +953,11 @@ export class ACityGame extends GameBase {
                 },
                 MarkBlack: {
                     name: "piecepack-suit-moons",
-                    colour: "#000000",
+                    colour: {
+                        func: "custom",
+                        default: "#000000",
+                        palette: 4
+                    },
                     scale: 0.5,
                     opacity: 0.15,
                 },
@@ -920,7 +972,7 @@ export class ACityGame extends GameBase {
                 rep.areas!.push({
                     type: "pieces",
                     label: `Player ${n + 1}'s stash`,
-                    ownerMark: n === 0 ? "#fff" : "#000",
+                    ownerMark: n === 0 ? this.getPlayerColour(1) : this.getPlayerColour(2),
                     pieces: [...this.stashes[n]]
                 } as AreaPieces);
             }

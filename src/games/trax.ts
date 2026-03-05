@@ -976,7 +976,7 @@ export class TraxGame extends GameBase {
                 strokeColour: {
                     func: "flatten",
                     fg: "_context_strokes",
-                    bg: "_context_background",
+                    bg: "_context_board",
                     opacity: 0.15,
                 },
             },

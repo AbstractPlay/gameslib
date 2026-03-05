@@ -838,7 +838,7 @@ export class OmnyGame extends GameBase {
                     colour: {
                         func: "flatten",
                         fg: "_context_fill",
-                        bg: "_context_background",
+                        bg: "_context_board",
                         opacity: 0.1,
                     },
                     scale: 0.5,

@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IStatus, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, AreaPieces, BoardBasic, Glyph } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AreaPieces, BoardBasic, Colourfuncs, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { randomInt, RectGrid, reviver, shuffle, SquareOrthGraph, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -76,6 +76,42 @@ export class ArimaaGame extends GameBase {
         variants: [
             { uid: "eee", group: "setup" },
             { uid: "free", group: "setup", unrated: true },
+        ],
+        customizations: [
+            {
+                num: 1,
+                default: "#bf9212",
+                explanation: "Colour of player 1 (Gold)"
+            },
+            {
+                num: 2,
+                default: "#989898",
+                explanation: "Colour of player 2 (Silver)"
+            },
+            {
+                num: 3,
+                default: "35% opacity",
+                explanation: "Colour of Gold's frozen pieces"
+            },
+            {
+                num: 4,
+                default: "35% opacity",
+                explanation: "Colour of Silver's frozen pieces"
+            },
+            {
+                num: 5,
+                default: "black/white",
+                explanation: "Gold piece stroke colour"
+            },
+            {
+                num: 6,
+                default: "black/white",
+                explanation: "Silver piece stroke colour"
+            },
+            {
+                name: "fill",
+                explanation: "Traps are the `fill` colour at 50% opacity"
+            },
         ],
         categories: ["goal>breakthrough", "goal>cripple", "goal>immobilize", "mechanic>capture", "mechanic>move", "mechanic>coopt", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>chess"],
         flags: ["perspective", "no-moves", "custom-buttons", "random-start", "custom-colours"]
@@ -1196,12 +1232,16 @@ export class ArimaaGame extends GameBase {
                     name,
                     colour: this.getPlayerColour(colour),
                     colour2: {
-                        func: "bestContrast",
-                        bg: this.getPlayerColour(colour),
-                        fg: [
-                            "#fff",
-                            "#000",
-                        ]
+                        func: "custom",
+                        default: {
+                            func: "bestContrast",
+                            bg: this.getPlayerColour(colour),
+                            fg: [
+                                "#fff",
+                                "#000",
+                            ]
+                        },
+                        palette: 4 + colour,
                     },
                     // flipy: colour === 2 ? true : false,
                     orientation: "vertical",
@@ -1210,18 +1250,26 @@ export class ArimaaGame extends GameBase {
                     {
                         name,
                         colour: {
-                            func: "flatten",
-                            fg: this.getPlayerColour(colour),
-                            bg: "_context_background",
-                            opacity: 0.375,
+                            func: "custom",
+                            default: {
+                                func: "flatten",
+                                fg: this.getPlayerColour(colour),
+                                bg: "_context_board",
+                                opacity: 0.375,
+                            },
+                            palette: 2 + colour,
                         },
                         colour2: {
-                            func: "bestContrast",
-                            bg: this.getPlayerColour(colour),
-                            fg: [
-                                "#fff",
-                                "#000",
-                            ]
+                            func: "custom",
+                            default: {
+                                func: "bestContrast",
+                                bg: this.getPlayerColour(colour),
+                                fg: [
+                                    "#fff",
+                                    "#000",
+                                ]
+                            },
+                            palette: 4 + colour,
                         },
                         // flipy: colour === 2 ? true : false,
                         orientation: "vertical",
@@ -1465,11 +1513,19 @@ export class ArimaaGame extends GameBase {
         }
     }
 
-    public getPlayerColour(p: playerid): number|string {
+    public getPlayerColour(p: playerid): Colourfuncs {
         if (p === 1) {
-            return "#bf9212";
+            return {
+                func: "custom",
+                default: "#bf9212",
+                palette: 1
+            };
         } else {
-            return "#989898";
+            return {
+                func: "custom",
+                default: "#989898",
+                palette: 2
+            };
         }
     }
 

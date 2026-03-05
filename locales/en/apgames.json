@@ -93,6 +93,7 @@
         "gess": "In Gess, the 'pieces' are 3x3 patterns stones. A player can use any 3×3 portion of the board that contains at least one of their stones and none of their opponent's stones. If a 3x3 piece moves in such a way that it overlaps one or more stones (of either player), all stones that the piece moves onto are captured. Each player must maintain one piece that is a ring of eight stones around an empty square at all times. If one player is in a position where they no longer have such a ring anywhere on the board for any reason, they lose.",
         "gliss": "Establish bases and deploy gliders to capture opposing gliders and control towers. Eliminate all opposing bases or establish a critical number of control towers to win.",
         "gomoku": "A classic game where you try to get exactly five stones in a row. Six in a row does not count as a win. The game ends in a draw if no player gets a five-in-a-row or on two consecutive passes.",
+        "go": "The traditional game of Go",
         "gonnect": "Gonnect is a connection game where players try to connect any two opposite sides. All rules of Go apply except that players may not pass.",
         "gorogo": "A Go variant played on a small board where the goal is to capture more pieces than your opponent, rather than to claim territory.",
         "gyges": "A breakthrough game where nobody owns any pieces, and pieces rebound off of each other.",
@@ -190,6 +191,7 @@
         "stairs": "Stack higher than your opponent in this game of one-space, one-level jumps where you also have to move your lowest pieces first. To take the lead and win, you must surpass your opponent's tallest stack height or, failing that, their number of stacks at the tallest height.",
         "stawvs": "A set collection game for 2-4 players that's similar to Amazons, with old-style Volcano scoring.  On a checkerboard randomly filled with individual pyramids, player pieces can move and capture pyramids in a straight line (orthogonally or diagonally), if and only if all intervening spaces and the target space contain pyramids but not pieces.",
         "stibro": "Win by forming a loop anywhere on the board, while adhering to the placement restriction that ensures loop-forming is always possible.",
+        "stiletto": "Make a 5 in-a-row where players alternate the power of the dagger, i.e., an option to make a double placement.",
         "stigmergy": "Territorial line-of-sight game. Cells are controlled and pieces on them are flipped based on how many pieces of a color can see them. The winner is the player who occupies more of the board at the end.",
         "storisende": "A unique territory control game where the movement of pieces create territories and walls, eventually creating enclosed nations. Control the most territory to win.",
         "stormc": "An annihilation game with asymmetrical piece movement.",
@@ -256,7 +258,7 @@
         "konane": "Several competing opening protocols exist, but the most common ruleset is described in the BGG reference and is what is implemented here.",
         "lasca": "Maneuverability is a measure of how close your pieces are to promoting. Your maximum maneuverability is the board size times the number of stacks you control.\n\nMaterial is calculated by giving you a point for every friendly piece in a stack you control, plus an extra point if you have an officer on top of that stack.",
         "loa": "In the centre of the 9x9 board is a \"black hole.\". Landing on the black hole means the piece is removed from the game. Simultaneous connections are scored as a draw.",
-        "magnate": "The terminology of some Magnate actions has been altered for clarity and brevity.  Completely developing a new property is called the \"Buy\" action; purchasing a deed for a new property is called \"Deed\", developing deeds (that is, adding tokens to a deeded property, whether it results in the deed becoming fully developed or not) is called \"Add\".  (Selling a card and trading suit tokens 3 for 1 are unchanged.)\n\nIn order to speed up the process of rolling for resources, there are two additional actions:\n* \"Prefer\" is for setting your preference of which suit token to take when a deed pays out on your opponent's roll.  If you do not set an explicit preference, the code will choose the rarer token for you based on your non-crown suits and current supply of tokens.  The currently preferred token is circled in the UI, but your preference is never visible to the other player.\n* \"Choose\" is a mandatory first action for collecting suit tokens when a deed pays out on your own roll.\nIn all cases where you need to choose a suit token that is not already among your tokens, you still click on the appropriate token pile.\n\nNote that only the final resource die result is displayed, but the distribution of expected outcomes is still that of rolling 2d10 and taking the higher value.  Taxation happens when the lower of 2d10 comes up 1; a suit die is rolled (or two, in the double taxation variant), and the suit(s) will be displayed underneath the resource result.  The roll is logged at the end of a player's turn, and is attributed to the next player (who would have rolled in the physical game).  Except for a \"Choose\", no user action is required; resources are added and/or removed automatically by the server in between turns.\n\nWhen a player is ahead in a district, the Pawn or Excuse for that district is outlined in that player's color.  The first tiebreaker score (total property value) is displayed in parentheses after the district score.  The second tiebreaker is total number of tokens remaining.",
+        "magnate": "The terminology of some Magnate actions has been altered for clarity and brevity.  Completely developing a new property is called the \"Buy\" action; purchasing a deed for a new property is called \"Deed\", developing deeds (that is, adding tokens to a deeded property, whether it results in the deed becoming fully developed or not) is called \"Add\".  (Selling a card and trading suit tokens 3 for 1 are unchanged.)\n\nIn order to speed up the process of rolling for resources, there are two additional actions:\n* \"Prefer\" is for setting your preference of which suit token to take when a deed pays out on your opponent's roll.  If you do not set an explicit preference, the code will choose the rarer token for you based on your non-crown suits and current supply of tokens.  The currently preferred token is circled in the UI, but your personal preference is never visible to the other player.\n* \"Choose\" is a mandatory first action for collecting suit tokens when a deed pays out on your own roll.  (In all cases where you need to choose a suit token that is not already among your tokens, you still click on the appropriate token pile.)\n\nBecause you can perform several actions during a ply in any order, there is also an \"Undo\" action to back out your most recent action, whether or not it was complete.\n\nNote that only the final resource die result is displayed, but the distribution of expected outcomes is still that of rolling 2d10 and taking the higher value.  Taxation happens when the lower of 2d10 comes up 1; a suit die is rolled (or two, in the double taxation variant), and the suit(s) will be displayed underneath the resource result.  The roll is logged at the end of a player's turn, and is attributed to the next player (who would have rolled in the physical game).  Except for a \"Choose\", no user action is required; resources are added and/or removed automatically by the server in between turns.\n\nWhen a player is ahead in a district, the Pawn or Excuse for that district is outlined in that player's color.  The first tiebreaker score (total property value) is displayed in parentheses after the district score.  The second tiebreaker is total number of tokens remaining.",
         "mchess": "If there have been seven consecutive turns without a capture, someone can \"call the clock\" by adding an asterisk (*) to the end of their move. This can only be done by selecting the move from the drop-down list. After another seven turns with no capture, the game will end and be scored.",
         "murus": "The default ruleset is \"Advanced Murus Gallicus\" (with catapults). By default, your first move is to redistribute one of your starting towers as walls on your second row. Additionally, the standard pie rule is also available. There are three variants you can mix and match:\n\n* \"Basic\" reverts the game to the \"no catapult\" state.\n* \"Static\" disables the initial tower redistribution.\n* \"Escape\" eliminates the breakthrough win condition.",
         "oware": "This implementation follows the common tournament rule that grand slam moves are allowed, but no pieces are captured. Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
@@ -1223,35 +1225,35 @@
         },
         "frogger": {
             "#market": {
-        		"description": "The draw pool does not refill until the next player's turn.",
+                        "description": "The draw pool does not refill until the next player's turn.",
                 "name": "No refills"
             },
             "advanced": {
-		        "description": "The advanced game has a shorter track and a more restrictive movement rule.",
+                        "description": "The advanced game has a shorter track and a more restrictive movement rule.",
                 "name": "Advanced"
             },
             "continuous": {
-        		"description": "The draw pool is smaller but refills after each turn.",
+                        "description": "The draw pool is smaller but refills after each turn.",
                 "name": "Continuous refills"
             },
             "courtpawns": {
-		        "description": "For variety, the roles of pawns and courts may be reversed.",
+                        "description": "For variety, the roles of pawns and courts may be reversed.",
                 "name": "Courts for Pawns"
             },
             "courts": {
-        		"description": "The four courts are added to the draw deck.  When playing a court, advance a frog to the next available spot in your choice of the three suits (even in the advanced game). When swapping courts for pawns, pawns will be added instead.",
+                        "description": "The four courts are added to the draw deck.  When playing a court, advance a frog to the next available spot in your choice of the three suits (even in the advanced game). When swapping courts for pawns, pawns will be added instead.",
                 "name": "Courts"
             },
             "crocodiles": {
-		        "description": "Add hungry crocodiles to the pawn cards. Crocodiles advance at the end of each round, sending any frog on their new space back to the Excuse. This variant is intended for a two-player game, but you may add crocodiles at any player count.",
+                        "description": "Add hungry crocodiles to the pawn cards. Crocodiles advance at the end of each round, sending any frog on their new space back to the Excuse. This variant is intended for a two-player game, but you may add crocodiles at any player count.",
                 "name": "Crocodiles"
             },
             "freeswim": {
-        		"description": "There is no restriction on cards drawn from the draw pool.",
+                        "description": "There is no restriction on cards drawn from the draw pool.",
                 "name": "Free swim"
             },
             "refills": {
-        		"description": "The draw pool may be refilled during a player's turn, by splitting their actions over two partial turns.",
+                        "description": "The draw pool may be refilled during a player's turn, by splitting their actions over two partial turns.",
                 "name": "Refills"
             }
         },
@@ -1299,6 +1301,32 @@
             "swap-5": {
                 "description": "For the first five stones on the board, after placement, the next player has the option to swap colours.",
                 "name": "Swap-5 opening"
+            }
+        },
+        "go": {
+            "size-5": {
+                "name": "5x5 board"
+            },
+            "size-9": {
+                "name": "9x9 board"
+            },
+            "size-13": {
+                "name": "13x13 board"
+            },
+            "size-17": {
+                "name": "17x17 board"
+            },
+            "#board": {
+                "name": "19x19 board"
+            },
+            "size-21": {
+                "name": "21x21 board"
+            },
+            "size-25": {
+                "name": "25x25 board"
+            },
+            "size-37": {
+                "name": "37x37 board"
             }
         },
         "gonnect": {
@@ -1531,11 +1559,11 @@
         },
         "magnate": {
             "courtpawns": {
-				"description": "For variety, the roles of pawns and courts may be reversed.",
+                "description": "For variety, the roles of pawns and courts may be reversed.",
                 "name": "Courts for Pawns"
             },
             "courts": {
-                "description": "Include Courts in the deck.  Fully built Courts are worth ten points when scoring districts.  They cost ten suit tokens, with the usual restriction of at least one token in each suit.  Courts may be deeded for three suit tokens (one of each suit).",
+                "description": "Include Courts in the deck.  Fully built Courts are worth ten points when scoring districts, but earn no income.  They cost ten suit tokens, with the usual deed/buy restrictions of at least one token in each suit.",
                 "name": "Courts"
             },
             "deucey": {
@@ -1543,15 +1571,15 @@
                 "name": "Acey deucey"
             },
             "mega": {
-				"description": "A scaled-up double-deck version of the game by Greg James, with nine districts, six-card hands, and two moves per turn.  The double taxanion variant is intended to go with this version.",
+                "description": "A scaled-up double-deck version of the game by Greg James, with nine districts, six-card hands, and two card-consuming moves per turn.  The double taxanion variant is intended to go with this variant.",
                 "name": "Mega-Magnate"
             },
             "stacked": {
-				"description": "Mega-Magnate only: to ensure a fair distribution of cards, each player draws from their own complete deck until those decks are exhausted.  The discards are shuffled into a single draw deck once, as usual.",
+                "description": "Mega-Magnate only: to ensure a fair distribution of cards, each player draws from their own complete deck until those decks are exhausted.  The discards are shuffled into a single draw deck, once, as usual.",
                 "name": "Stacked deck"
             },
             "taxtax": {
-				"description": "Two taxation dice are rolled, so two suits may be taxed.  (When they match, only a single suit is taxed.)",
+                "description": "Two taxation dice are rolled, so two suits may be taxed.  (When they match, only a single suit is taxed.)",
                 "name": "Double Taxation"
             }
         },
@@ -1998,6 +2026,14 @@
             },
             "size-7": {
                 "name": "Hexagonal board (base-7)"
+            },
+            "#ruleset": {
+                "description": "Only one group results in a score of zero.",
+                "name": "Two groups needed"
+            },
+            "1-group": {
+                "description": "Only one group results in a score of its size.",
+                "name": "One group needed"
             }
         },
         "pylon": {
@@ -2349,15 +2385,15 @@
                 "description": "Set up the board with four random empty squares.",
                 "name": "Random gaps"
             },
-	       "hey": {
+               "hey": {
                 "name": "Simpler captures",
                 "description": "A simplification of the rules in which you always capture the pyramid you moved away from, instead of a pyramid in any line from your piece's new location.  This makes the game less like Amazons and more like Hey! That's My Fish."
             },
- 	        "finalfree": {
+                "finalfree": {
                 "name": "No final captures",
                 "description": "At the end of the game, players do not collect the pyramids under their pieces."
             },
- 	        "pieces-2": {
+                "pieces-2": {
                 "name": "2 pieces each",
               "description": "The piece count may optionally be reduced from 3 each to 2 each in a four-player game.  (This variant is not intended for lower player counts.)"
             }
@@ -2374,6 +2410,11 @@
             },
             "size-8": {
                 "name": "Size 8 board"
+            }
+        },
+        "stiletto": {
+            "#board": {
+                "name": "19x19 board"
             }
         },
         "stigmergy": {
@@ -2995,6 +3036,14 @@
             "abstract": {
                 "description": "Use abstract glyphs for the planes and clouds.",
                 "name": "Abstract glyphs"
+            },
+            "numeric": {
+                "description": "Plane glyphs with two small numeric altitude indicators.",
+                "name": "Numeric altitude"
+            },
+            "numeric-abstract": {
+                "description": "Abstract glyphs with numeric altitude indicators.",
+                "name": "Numeric abstract"
             }
         },
         "diffusion": {
@@ -3349,7 +3398,7 @@
         "STASH_EMPTY": "The stash has no more {{colour}} pieces left.",
         "SYSTEM_BADNAME": "The system name you requested ({{name}}) is invalid. Names may be no longer than 25 characters, must start with a letter or a number, and may only contain numbers, letters, hyphens, and underscores. No spaces are allowed.",
         "SYSTEM_FULL": "The {{system}} system is full. Home systems can only accommodate 16 ships. Periphery systems can accommodate 24.",
-        "SYSTEM_NOSHIP": "Could not find the ship {{ship} in the {{system}} system."
+        "SYSTEM_NOSHIP": "Could not find the ship {{ship}} in the {{system}} system."
     },
     "status": {
         "amazons": {
@@ -4428,7 +4477,7 @@
         "frames": {
             "INITIAL_INSTRUCTIONS": "Click an empty cell to add a piece to the board."
         },
-	"frogger": {
+        "frogger": {
             "ADDITIONAL_INSTRUCTIONS": "You may make up to three moves. Choose another card or frog to start another move, or press the complete move button to finish your turn.",
             "CARD_FIRST": "Please select a hand card before moving a frog forward.",
             "CARD_NEXT": "You may click on a card in the draw pool to add it to your hand, or submit your move.",
@@ -4466,9 +4515,9 @@
             "OFFSIDES": "Please click on your desired suit space, not the informational icons on the top row.",
             "PIECE_NEXT": "Click on a frog to move it.",
             "PLACE_NEXT": "Click on a new location for your frog.",
-	        "TOO_HOPPY": "You may not make more than {{count}} moves on your turn.",
+                "TOO_HOPPY": "You may not make more than {{count}} moves on your turn.",
             "TOO_EARLY_FOR_REFILL": "Please submit your refill request before making your remaining moves.",
-	        "TOO_LATE_FOR_BLOCKED": "You do not count as blocked if you've already moved on this turn.",
+                "TOO_LATE_FOR_BLOCKED": "You do not count as blocked if you've already moved on this turn.",
             "TOO_LATE_FOR_REFILL": "There is no need to force a refill of the draw pool after your third move. It will refill automatically after you submit.",
             "VALID_REFILL": "Please submit your move to trigger the refill. The other player(s) will pass automatically, and you will have {{count}} moves remaining in your partial turn (as well as the option to pass)."
         },
@@ -4514,6 +4563,17 @@
             "NO_GLIDER": "Could not find a glider core that you control at {{where}}.",
             "NO_MOVES": "The glider at {{where}} has no legal moves.",
             "PARTIAL": "Select one of the highlighted cells to move the glider. If a bar has appeared at the edge of the board, you can click it to move the glider off the board."
+        },
+        "go": {
+            "INITIAL_SETUP": "Choose a number of points to add to the second player's score, and the next player will choose sides. This implementation uses Chinese area rules. Scores are based on the current area ownership. Super-Ko applies to prevent positional cycles. Players do need to capture all dead stones before ending the game with two consecutive passes.",
+            "CYCLE" : "A previous position cannot be repeated; super-Ko applies.",
+            "INSTRUCTIONS": "Select an intersection to place a piece.",
+            "INVALID_KOMI": "You must choose an number in increments of 0.5 (like 4 or 4.5) to add to the second player's score.",
+            "INVALID_PIE": "You cannot accept or reject a pie offer now.",
+            "INVALID_PLAYSECOND": "You cannot choose to play second from this board state.",
+            "KOMI_CHOICE": "You may either make the first move on the board and let your opponent keep the bonus points (an integer) or you may choose \"Play second\" and take the bonus points for yourself.",
+            "KO": "Ko rule: you may not immediately recapture your opponent's single stone if they just used it to capture one of yours.",
+            "SELF_CAPTURE": "You may not place your stones in self-capture."
         },
         "gonnect": {
             "INITIAL_INSTRUCTIONS": "Select an intersection to place a piece.",
@@ -5545,12 +5605,21 @@
             "NOPASS": "You cannot pass while you have legal moves.",
             "PARTIAL_CLAIM": "Click an accessible target pyramid to claim it.",
             "PARTIAL_MOVE": "Click an accessible destination pyramid.",
-	    "VALID_PLACEMENT": "Looks like a good placement.",
-	    "VALID_PLAY": "Looks like a good play."
+            "VALID_PLACEMENT": "Looks like a good placement.",
+            "VALID_PLAY": "Looks like a good play."
         },
         "stibro": {
             "FIRST_PLACEMENT": "The first placement cannot be on the edge.",
             "FREE_GROUPS_AFTER": "You must always have at least one free group: a group that does not touch the edge, and has two spaces between itself and an opponent group that does not touch the edge."
+        },
+        "stiletto": {
+            "INITIAL_INSTRUCTIONS": "Place a piece onto an empty space. The second player initially has the active dagger, i.e., the power to make two placements. The dagger is temporarily inactive if it was used in the player's last turn (and the opponent just used it). The only exception is if there is the need to protect against an immediate winning threat by the opponent.",
+            "INSTRUCTIONS": "Place a piece onto an empty space.",
+            "INSTRUCTIONS_DAGGER": "Place a piece onto an empty space. You have the dagger and can use it to place a second stone on an empty square (note that the dagger will then go to the opponent).",
+            "INSTRUCTIONS_INACTIVE_DAGGER": "Place a piece onto an empty space. You have the dagger but it is inactive, since you used it last turn and there is no immediate losing threat.",
+            "EXCESS": "You may only place two stones if you have an active dagger. Place just one stone.",
+            "EXCESS_FIRST": "You have placed too many stones. At the start you may only place one stone as the first player.",
+            "EXTENSION": "It is illegal to use the dagger to extend three friendly stones, in the same line, to make a 5 in-a-row."
         },
         "stigmergy": {
             "INITIAL_INSTRUCTIONS": "Place a piece onto an empty space not controlled by the opponent, replace an enemy piece on a space you control, or 'pass' if all spaces are occupied or controlled. The game ends when both players pass in sequence.",

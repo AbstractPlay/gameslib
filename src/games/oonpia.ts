@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, AreaKey, BoardBasic } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AreaKey, BoardBasic, Colourfuncs } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { randomInt, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -39,8 +39,8 @@ export class OonpiaGame extends GameBase {
         name: "Oonpia",
         uid: "oonpia",
         playercounts: [2],
-        version: "20260222",
-        dateAdded: "2026-02-22",
+        version: "20260305",
+        dateAdded: "2026-03-05",
         // i18next.t("apgames:descriptions.oonpia")
         description: "apgames:descriptions.oonpia",
         // i18next.t("apgames:notes.oonpia")
@@ -72,11 +72,31 @@ export class OonpiaGame extends GameBase {
             { uid: "size-11", group: "board" },
             { uid: "size-12", group: "board" }
         ],
-        displays: [ // default: palette_no_blocked_yes
-            {uid: "palette_no_blocked_no"},
-            {uid: "palette_yes_blocked_yes"},
-            {uid: "palette_yes_blocked_no"},
-        ]
+        displays: [ // default: blocked_yes
+            {uid: "blocked_no"}
+        ],
+            customizations: [
+            {
+                num: 1,
+                default: "#eeeeee",
+                explanation: "Player 1 colour"
+            },
+            {
+                num: 2,
+                default: "#252525",
+                explanation: "Player 2 colour"
+            },
+            {
+                num: 3,
+                default: "#0165fc",
+                explanation: "Colour of the neutral stones"
+            },
+            {
+                name: "board",
+                default: "#e0bb6c",
+                explanation: "Board colour"
+            }
+        ],
     };
 
     public numplayers = 2;
@@ -91,7 +111,6 @@ export class OonpiaGame extends GameBase {
     public results: Array<APMoveResult> = [];
     public prison: [number, number] = [0, 0];
     private boardSize = 0;
-    private usePalette = false;
 
     constructor(state?: IOonpiaState | string, variants?: string[]) {
         super();
@@ -890,13 +909,29 @@ export class OonpiaGame extends GameBase {
     }
 
 
-    public getPlayerColour(p: playerid): number|string {
-        // previous versions, just return the player id
-        if (this.usePalette) {
-            return p;
-        } else {
-            return {1: "#eeeeee", 2: "#252525", 3: "#0165fc"}[p] // colours from besogo viewer
+    public getPlayerColour(p: playerid): number|Colourfuncs {
+        if (p === 1) {
+            return {
+                func: "custom",
+                default: "#eeeeee",
+                palette: 1
+            }
         }
+        if (p === 2) {
+            return {
+                func: "custom",
+                default: "#252525",
+                palette: 2
+            }
+        }
+        if (p === 3) {
+            return {
+                func: "custom",
+                default: "#0165fc",
+                palette: 3
+            }
+        }
+        return p;
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
@@ -905,19 +940,8 @@ export class OonpiaGame extends GameBase {
             altDisplay = opts.altDisplay;
         }
         let highlightBlocked = true;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "palette_no_blocked_no") {
-                this.usePalette = false;
-                highlightBlocked = false;
-            }
-            if (altDisplay === "palette_yes_blocked_yes") {
-                this.usePalette = true;
-                highlightBlocked = true;
-            }
-            if (altDisplay === "palette_yes_blocked_no") {
-                this.usePalette = true;
-                highlightBlocked = false;
-            }
+        if (altDisplay !== undefined && altDisplay === "blocked_no") {
+            highlightBlocked = false;
         }
 
         const p1 = this.getPlayerColour(1);
@@ -958,10 +982,6 @@ export class OonpiaGame extends GameBase {
             pstr.push(pieces);
         }
 
-        const s = this.boardSize - 1;
-        const boardcol = this.usePalette ? 4 : "#e0bb6c";
-        const boardEdgeW = 55;
-
         const hasPrison = this.prison.reduce((prev, curr) => prev + curr, 0) > 0;
         const prisonPiece: Glyph[] = [];
         if (hasPrison) {
@@ -995,82 +1015,14 @@ export class OonpiaGame extends GameBase {
                 minWidth: this.boardSize,
                 maxWidth: this.boardSize * 2 - 1,
                 strokeWeight: 0.5,
-                markers: [
-                    {
-                        type: "shading",
-                        belowGrid: true,
-                        points: [
-                            { row: 0, col: 0 },
-                            { row: 0, col: s },
-                            { row: s, col: s*2 },
-                            { row: s*2, col: s },
-                            { row: s*2, col: 0 },
-                            { row: s, col: 0 },
-                        ],
-                        colour: boardcol,
-                        opacity: 1,
-                    },
-                    {
-                        type: "line",
-                        belowGrid: true,
-                        points: [
-                            { row: 0, col: 0 },
-                            { row: 0, col: s}
-                        ],
-                        colour: boardcol,
-                        width: boardEdgeW,
-                    },
-                    {
-                        type: "line",
-                        belowGrid: true,
-                        points: [
-                            { row: 0, col: s },
-                            { row: s, col: s*2 },
-                        ],
-                        colour: boardcol,
-                        width: boardEdgeW,
-                    },
-                    {
-                        type: "line",
-                        belowGrid: true,
-                        points: [
-                            { row: s, col: s*2 },
-                            { row: s*2, col: s },
-                        ],
-                        colour: boardcol,
-                        width: boardEdgeW,
-                    },
-                    {
-                        type: "line",
-                        belowGrid: true,
-                        points: [
-                            { row: s*2, col: s },
-                            { row: s*2, col: 0 },
-                        ],
-                        colour: boardcol,
-                        width: boardEdgeW,
-                    },
-                    {
-                        type: "line",
-                        belowGrid: true,
-                        points: [
-                            { row: s*2, col: 0 },
-                            { row: s, col: 0 },
-                        ],
-                        colour: boardcol,
-                        width: boardEdgeW,
-                    },
-                    {
-                        type: "line",
-                        belowGrid: true,
-                        points: [
-                            { row: s, col: 0 },
-                            { row: 0, col: 0 },
-                        ],
-                        colour: boardcol,
-                        width: boardEdgeW,
+                backFill: {
+                    type: "board",
+                    colour: {
+                        func: "custom",
+                        default: "#e0bb6c",
+                        palette: "_context_board"
                     }
-                ]
+                }
             },
             legend: {
                 A: {name: "piece-borderless", colour: p1, scale: 1.1},
@@ -1157,30 +1109,27 @@ export class OonpiaGame extends GameBase {
         }
 
         if (highlightBlocked) {
+            (rep.board as BoardBasic).markers = [];
             const {1: blockedPlain, 2: blockedDotted} = this.blockedCells();
             for (const cell of blockedPlain) {
                 const [x, y] = this.graph.algebraic2coords(cell);
-                if ("markers" in (rep.board! as BoardBasic)) { // make the compiler happy
-                    ((rep.board! as BoardBasic).markers!).push({
-                                type: "dots",
-                                points: [{row: y, col: x}],
-                                colour: "#000",
-                                opacity: 0.2,
-                                size: 0.3
-                            })
-                }
+                ((rep.board! as BoardBasic).markers!).push({
+                            type: "dots",
+                            points: [{row: y, col: x}],
+                            colour: "#000",
+                            opacity: 0.2,
+                            size: 0.3
+                        })
             }
             for (const cell of blockedDotted) {
                 const [x, y] = this.graph.algebraic2coords(cell);
-                if ("markers" in (rep.board! as BoardBasic)) { // make the compiler happy
-                    ((rep.board! as BoardBasic).markers!).push({
-                                type: "dots",
-                                points: [{row: y, col: x}],
-                                colour: "#000",
-                                opacity: 0.2,
-                                size: 0.9
-                            })
-                }
+                ((rep.board! as BoardBasic).markers!).push({
+                            type: "dots",
+                            points: [{row: y, col: x}],
+                            colour: "#000",
+                            opacity: 0.2,
+                            size: 0.9
+                        })
             }
         }
 

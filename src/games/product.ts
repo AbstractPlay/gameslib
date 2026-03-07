@@ -25,7 +25,7 @@ export class ProductGame extends GameBase {
         uid: "product",
         playercounts: [2],
         version: "20240219",
-        dateAdded: "2024-03-07",
+        dateAdded: "2026-03-07",
         // i18next.t("apgames:descriptions.product")
         description: "apgames:descriptions.product",
         urls: [

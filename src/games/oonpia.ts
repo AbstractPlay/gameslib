@@ -1116,7 +1116,11 @@ export class OonpiaGame extends GameBase {
                 ((rep.board! as BoardBasic).markers!).push({
                             type: "dots",
                             points: [{row: y, col: x}],
-                            colour: "#000",
+                            colour: {
+                                func: "bestContrast",
+                                bg: "_context_board",
+                                fg: ["#000000", "#ffffff"],
+                            },
                             opacity: 0.2,
                             size: 0.3
                         })
@@ -1126,7 +1130,11 @@ export class OonpiaGame extends GameBase {
                 ((rep.board! as BoardBasic).markers!).push({
                             type: "dots",
                             points: [{row: y, col: x}],
-                            colour: "#000",
+                            colour: {
+                                func: "bestContrast",
+                                bg: "_context_board",
+                                fg: ["#000000", "#ffffff"],
+                            },
                             opacity: 0.2,
                             size: 0.9
                         })

@@ -29,7 +29,7 @@ export class StilettoGame extends InARowBase {
         uid: "stiletto",
         playercounts: [2],
         version: "20260221",
-        dateAdded: "2026-02-21",
+        dateAdded: "2026-03-07",
         // i18next.t("apgames:descriptions.Stiletto")
         description: "apgames:descriptions.stiletto",
         urls: [
@@ -55,8 +55,8 @@ export class StilettoGame extends InARowBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
-        categories: ["goal>align", "mechanic>place", "board>shape>rect", "components>simple>2c"],
-        flags: ["no-moves", "custom-colours", "experimental"],
+        categories: ["goal>align", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>2c"],
+        flags: ["no-moves", "custom-colours"],
     };
 
     public coords2algebraic(x: number, y: number): string {

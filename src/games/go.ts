@@ -40,7 +40,7 @@ export class GoGame extends GameBase {
         uid: "go",
         playercounts: [2],
         version: "20260225",
-        dateAdded: "2026-02-25",
+        dateAdded: "2026-03-07",
         // i18next.t("apgames:descriptions.go")
         description: "apgames:descriptions.go",
         urls: [
@@ -70,8 +70,8 @@ export class GoGame extends GameBase {
             { uid: "size-25", group: "board" },
             { uid: "size-37", group: "board" },
         ],
-        categories: ["goal>area", "mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>rect", "components>simple>2c"],
-        flags: ["scores", "custom-buttons", "custom-colours", "experimental"],
+        categories: ["goal>area", "mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>rect", "components>simple>1per"],
+        flags: ["scores", "custom-buttons", "custom-colours"],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -386,8 +386,8 @@ export class GoGame extends GameBase {
             const allCaptures = cloned.getCaptures(m, this.currplayer);
             // ... and fake also the captures from that placement
             for (const captures of allCaptures) {
-                for (const capture of captures) { 
-                    cloned.board.delete(capture); 
+                for (const capture of captures) {
+                    cloned.board.delete(capture);
                 }
             }
 
@@ -782,7 +782,7 @@ export class GoGame extends GameBase {
     public clone(): GoGame {
         const cloned = Object.assign(new GoGame(), deepclone(this) as GoGame);
         // deepclone() is not cloning RectGrid, so DIY:
-        cloned.grid = Object.assign(new RectGrid(this.boardSize, this.boardSize), 
+        cloned.grid = Object.assign(new RectGrid(this.boardSize, this.boardSize),
                                     deepclone(this.grid) as RectGrid);
         return cloned;
     }

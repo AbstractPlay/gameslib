@@ -25,7 +25,7 @@ export class ProductGame extends GameBase {
         uid: "product",
         playercounts: [2],
         version: "20240219",
-        dateAdded: "2024-02-19",
+        dateAdded: "2024-03-07",
         // i18next.t("apgames:descriptions.product")
         description: "apgames:descriptions.product",
         urls: [
@@ -45,7 +45,7 @@ export class ProductGame extends GameBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
-        categories: ["goal>majority", "mechanic>place", "board>shape>hex"],
+        categories: ["goal>majority", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         variants: [
             { uid: "size-4", group: "board" },
             { uid: "#board", },
@@ -53,7 +53,7 @@ export class ProductGame extends GameBase {
             { uid: "size-7", group: "board" },
             { uid: "1-group", group: "ruleset" },
         ],
-        flags: ["scores", "no-moves", "experimental"]
+        flags: ["scores", "no-moves"]
     };
 
     public numplayers = 2;
@@ -134,7 +134,7 @@ export class ProductGame extends GameBase {
         if (this.variants.includes("1-group")) { return "1-group"; }
         return "default";
     }
-    
+
     private getGraph(): HexTriGraph {
         return new HexTriGraph(this.boardSize, this.boardSize * 2 - 1);
     }

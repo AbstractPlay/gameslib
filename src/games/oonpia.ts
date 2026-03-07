@@ -40,7 +40,7 @@ export class OonpiaGame extends GameBase {
         uid: "oonpia",
         playercounts: [2],
         version: "20260305",
-        dateAdded: "2026-03-05",
+        dateAdded: "2026-03-07",
         // i18next.t("apgames:descriptions.oonpia")
         description: "apgames:descriptions.oonpia",
         // i18next.t("apgames:notes.oonpia")
@@ -60,7 +60,7 @@ export class OonpiaGame extends GameBase {
                 apid: "36926ace-08c0-417d-89ec-15346119abf2",
             },
         ],
-        flags: ["experimental", "pie", "custom-buttons", "no-moves", "custom-randomization", "custom-colours"],
+        flags: ["pie", "custom-buttons", "no-moves", "custom-randomization", "custom-colours"],
         categories: ["mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>hex", "board>connect>hex", "components>simple>2per"],
         variants: [
             { uid: "size-5", group: "board" },
@@ -366,7 +366,7 @@ export class OonpiaGame extends GameBase {
         // - Otherwise, if both types can be placed, prefer placing a connecting type
         //   - If there is no preferred connecting type start with type 1 and then type 2
         const blocked = this.blockedCells();
-        
+
         if (blocked[1].has(cell) && !blocked[2].has(cell)) {
             if (this.isValidPlace(cell, 2)) {
                 place.push(2);
@@ -650,7 +650,7 @@ export class OonpiaGame extends GameBase {
             this.results.push({type: "komi", value: move.komi});
         } else {
             const move = this.parseMoveString(ms);
-            
+
             if (move === undefined) {
                 throw new UserFacingError("VALIDATION_GENERAL", "Invalid movestring encountered.");
             }
@@ -665,7 +665,7 @@ export class OonpiaGame extends GameBase {
                 this.board.set(move.cell, [move.iscapture ? this.neutral : this.currplayer, move.tile]);
                 this.results.push({type: "place", where: move.cell, what: move.tile === 1 ? tileNames[0] : tileNames[1]});
 
-                
+
                 // First capture other player's groups, then your own (if any)
                 if (move.iscapture) {
                     for (const group of this.deadGroups(this.otherPlayer())) {
@@ -675,7 +675,7 @@ export class OonpiaGame extends GameBase {
                         this.results.push({type: "capture", where: Array.from(group).join(","), count: group.size});
                         this.prison[this.otherPlayer() - 1] += group.size;
                     }
-                    
+
                     for (const group of this.deadGroups(this.currplayer)) {
                         for (const cell of group) {
                             this.board.delete(cell);
@@ -686,11 +686,11 @@ export class OonpiaGame extends GameBase {
                 }
             }
         }
-        
+
         this.reducePrison();
 
         if (partial) { return this; }
-        
+
         this.lastmove = ms;
         this.currplayer = this.currplayer % 2 + 1 as playerid;
         this.checkEOG();
@@ -827,7 +827,7 @@ export class OonpiaGame extends GameBase {
     }
 
     private isValidCapture(cell: string, tile: tileid): boolean {
-        // It's a valid capture (i.e. blue stone placement), at least one stone (friendly or not) 
+        // It's a valid capture (i.e. blue stone placement), at least one stone (friendly or not)
         // will be captured
         const tmpboard = new Map(this.board);
         tmpboard.set(cell, [this.neutral, tile]);
@@ -836,7 +836,7 @@ export class OonpiaGame extends GameBase {
             this.deadGroups(this.currplayer, tmpboard).length > 0
         )
     }
-    
+
     private isSelfCapture(cell: string, tile: tileid): boolean {
         const tmpboard = new Map(this.board);
         tmpboard.set(cell, [this.neutral, tile]);

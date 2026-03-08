@@ -46,7 +46,15 @@ export class KonaneGame extends GameBase {
         flags: ["automove"],
         variants: [
             {
+                uid: "size-7",
+                group: "board"
+            },
+            {
                 uid: "size-8",
+                group: "board"
+            },
+            {
+                uid: "size-9",
                 group: "board"
             },
             {
@@ -86,7 +94,9 @@ export class KonaneGame extends GameBase {
             let color = 2 as PlayerId;
             for (let x = 0; x < this.boardWidth; x++) {
                 for (let y = 0; y < this.boardHeight; y++) {
-                    if ((this.boardWidth !== 11 || (y !== 3 && y !== 4) || x !== 5) &&
+                    if ((this.boardWidth !== 7 || (y !== 2 && y !== 3) || x !== 3) &&
+                        (this.boardWidth !== 9 || (y !== 3 && y !== 4) || x !== 4) &&
+                        (this.boardWidth !== 11 || (y !== 3 && y !== 4) || x !== 5) &&
                         (this.boardWidth !== 15 || (y !== 5 && y !== 6) || x !== 7)) {
                         board.set(GameBase.coords2algebraic(x, y, this.boardHeight), color);
                     }
@@ -167,20 +177,21 @@ export class KonaneGame extends GameBase {
     private setBoardSize(): KonaneGame {
         this.boardWidth = 6;
         this.boardHeight = 6;
-        // Get board size from variants.
+
         if ( (this.variants !== undefined) && (this.variants.length > 0) && (this.variants[0] !== undefined) && (this.variants[0].length > 0) ) {
             const sizeVariants = this.variants.filter(v => v.includes("size"));
             if (sizeVariants.length > 0) {
                 const sizeString = sizeVariants[0].match(/\d+/);
-                const size = parseInt(sizeString![0], 10);
-                if (size <= 8) {
-                    this.boardWidth = size;
-                    this.boardHeight = size;
-                } else if (size === 11) {
-                    this.boardWidth = 11;
+                this.boardWidth = parseInt(sizeString![0], 10);
+                if (this.boardWidth === 6 || this.boardWidth === 8) {
+                    this.boardHeight = this.boardWidth;
+                } else if (this.boardWidth === 7) {
+                    this.boardHeight = 6;
+                } else if (this.boardWidth === 9) {
                     this.boardHeight = 8;
-                } else if (size === 15) {
-                    this.boardWidth = 15;
+                } else if (this.boardWidth === 11) {
+                    this.boardHeight = 8;
+                } else if (this.boardWidth === 15) {
                     this.boardHeight = 12;
                 }
             }
@@ -198,7 +209,7 @@ export class KonaneGame extends GameBase {
         }
 
         const moves: string[] = [];
-        if (this.boardWidth <= 8 && this.stack.length < 3) {
+        if ((this.boardWidth === 6 || this.boardWidth === 8) && this.stack.length < 3) {
             if (this.stack.length === 1) {
                 moves.push("a1");
                 if (this.boardWidth === 6) {
@@ -278,7 +289,7 @@ export class KonaneGame extends GameBase {
 
         if (m.length === 0) {
             result.valid = true;
-            if (this.boardWidth <= 8 && this.stack.length < 3) {
+            if ((this.boardWidth === 6 || this.boardWidth === 8) && this.stack.length < 3) {
                 if (this.stack.length === 1) {
                     result.message = i18next.t("apgames:validation.konane.FIRST_MOVE");
                 } else if (this.stack.length === 2) {
@@ -292,7 +303,7 @@ export class KonaneGame extends GameBase {
 
         const moves = this.moves();
         if (!moves.includes(m)) {
-            if (this.boardWidth <= 8 && this.stack.length < 3) {
+            if ((this.boardWidth === 6 || this.boardWidth === 8) && this.stack.length < 3) {
                 if (this.stack.length === 1) {
                     result.message = i18next.t("apgames:validation.konane.FIRST_MOVE");
                 } else if (this.stack.length === 2) {

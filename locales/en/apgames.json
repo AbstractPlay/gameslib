@@ -1487,9 +1487,17 @@
                 "name": "6x6 board",
                 "description": "Opening: Players will remove stones from the center square or the corners to start."
             },
+            "size-7": {
+                "name": "7x6 board",
+                "description": "Opening: The center two spaces will start empty."
+            },
             "size-8": {
                 "name": "8x8 board",
                 "description": "Opening: Players will remove stones from the center square or the corners to start."
+            },
+            "size-9": {
+                "name": "11x8 board",
+                "description": "Opening: The center two spaces will start empty."
             },
             "size-11": {
                 "name": "11x8 board",

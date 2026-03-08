@@ -1496,7 +1496,7 @@
                 "description": "Opening: Players will remove stones from the center square or the corners to start."
             },
             "size-9": {
-                "name": "11x8 board",
+                "name": "9x8 board",
                 "description": "Opening: The center two spaces will start empty."
             },
             "size-11": {

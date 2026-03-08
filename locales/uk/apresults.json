@@ -130,7 +130,8 @@
         "add_few": "{{player}} додано {{count}} штук до {{where}}.",
         "add_many": "{{player}} додано {{count}} штук до {{where}}.",
         "nonum": "{{player}} додав фрагмент до {{where}}.",
-        "logger": "Дерево в {{where}} росло один етап."
+        "logger": "Дерево в {{where}} росло один етап.",
+        "magnate": "“"
     },
     "CLAIM": {
         "conhex": "{{player}} претендував на місце в ({{where}}).",

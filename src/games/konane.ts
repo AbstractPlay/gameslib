@@ -27,7 +27,7 @@ export class KonaneGame extends GameBase {
         name: "Konane",
         uid: "konane",
         playercounts: [2],
-        version: "20241029",
+        version: "20260308",
         dateAdded: "2024-11-01",
         // i18next.t("apgames:descriptions.konane")
         description: "apgames:descriptions.konane",
@@ -48,10 +48,19 @@ export class KonaneGame extends GameBase {
             {
                 uid: "size-8",
                 group: "board"
+            },
+            {
+                uid: "size-11",
+                group: "board"
+            },
+            {
+                uid: "size-15",
+                group: "board"
             }
         ]
     };
 
+    public version = parseInt(KonaneGame.gameinfo.version, 10);
     public numplayers = 2;
     public currplayer: PlayerId = 1;
     public board!: Map<string, PlayerId>;
@@ -61,7 +70,8 @@ export class KonaneGame extends GameBase {
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
-    private boardSize = 0;
+    private boardWidth = 0;
+    private boardHeight = 0;
     private _points: [number, number][] = [];
     private _highlight: string | undefined;
 
@@ -71,12 +81,15 @@ export class KonaneGame extends GameBase {
             if (variants !== undefined) {
                 this.variants = [...variants];
             }
-            this.boardSize = this.getBoardSize();
+            this.setBoardSize();
             const board: Map<string, PlayerId> = new Map();
             let color = 2 as PlayerId;
-            for (let x = 0; x < this.boardSize; x++) {
-                for (let y = 0; y < this.boardSize; y++) {
-                    board.set(GameBase.coords2algebraic(x, y, this.boardSize), color);
+            for (let x = 0; x < this.boardWidth; x++) {
+                for (let y = 0; y < this.boardHeight; y++) {
+                    if ((this.boardWidth !== 11 || (y !== 3 && y !== 4) || x !== 5) &&
+                        (this.boardWidth !== 15 || (y !== 5 && y !== 6) || x !== 7)) {
+                        board.set(GameBase.coords2algebraic(x, y, this.boardHeight), color);
+                    }
                     color = (color === 1) ? 2 : 1;
                 }
                 color = (color === 1) ? 2 : 1;
@@ -102,7 +115,7 @@ export class KonaneGame extends GameBase {
             this.variants = state.variants;
             this.stack = [...state.stack];
         }
-        this.boardSize = this.getBoardSize();
+        this.setBoardSize();
         this.load();
         this.buildGraph();
     }
@@ -116,8 +129,8 @@ export class KonaneGame extends GameBase {
         }
 
         const state = this.stack[idx];
+        this.version = parseInt(state._version, 10);
         this.currplayer = state.currplayer;
-
         this.board = deepclone(state.board) as Map<string, PlayerId>;
         this.lastmove = state.lastmove;
         this.results = [...state._results];
@@ -125,15 +138,15 @@ export class KonaneGame extends GameBase {
     }
 
     private buildGraph(): SquareOrthGraph {
-        this.graph = new SquareOrthGraph(this.boardSize, this.boardSize);
+        this.graph = new SquareOrthGraph(this.boardWidth, this.boardHeight);
         return this.graph;
     }
 
-    private getGraph(boardSize?: number): SquareOrthGraph {
-        if (boardSize === undefined) {
+    private getGraph(boardWidth?: number, boardHeight?: number): SquareOrthGraph {
+        if (boardWidth === undefined || boardHeight === undefined) {
             return (this.graph === undefined) ? this.buildGraph() : this.graph;
         } else {
-            return new SquareOrthGraph(boardSize, boardSize);
+            return new SquareOrthGraph(boardWidth, boardHeight);
         }
     }
 
@@ -151,19 +164,31 @@ export class KonaneGame extends GameBase {
         }
     }
 
-    private getBoardSize(): number {
+    private setBoardSize(): KonaneGame {
+        this.boardWidth = 6;
+        this.boardHeight = 6;
         // Get board size from variants.
         if ( (this.variants !== undefined) && (this.variants.length > 0) && (this.variants[0] !== undefined) && (this.variants[0].length > 0) ) {
-            const sizeVariants = this.variants.filter(v => v.includes("size"))
+            const sizeVariants = this.variants.filter(v => v.includes("size"));
             if (sizeVariants.length > 0) {
-                const size = sizeVariants[0].match(/\d+/);
-                return parseInt(size![0], 10);
+                const sizeString = sizeVariants[0].match(/\d+/);
+                const size = parseInt(sizeString![0], 10);
+                if (size <= 8) {
+                    this.boardWidth = size;
+                    this.boardHeight = size;
+                } else if (size === 11) {
+                    this.boardWidth = 11;
+                    this.boardHeight = 8;
+                } else if (size === 15) {
+                    this.boardWidth = 15;
+                    this.boardHeight = 12;
+                }
             }
-            if (isNaN(this.boardSize)) {
+            if (isNaN(this.boardWidth) || isNaN(this.boardHeight)) {
                 throw new Error(`Could not determine the board size from variant "${this.variants[0]}"`);
             }
         }
-        return 6;
+        return this;
     }
 
     public moves(player?: PlayerId): string[] {
@@ -173,20 +198,22 @@ export class KonaneGame extends GameBase {
         }
 
         const moves: string[] = [];
-        if (this.stack.length === 1) {
-            moves.push("a1");
-            if (this.boardSize === 6) {
-                moves.push("c3");
-                moves.push("d4");
-                moves.push("f6");
-            } else {
-                moves.push("d4");
-                moves.push("e5");
-                moves.push("h8");
-            }
-        } else if (this.stack.length === 2) {
-             for (const m of this.getGraph().neighbours(this.stack[1].lastmove!)) {
-                moves.push(m);
+        if (this.boardWidth <= 8 && this.stack.length < 3) {
+            if (this.stack.length === 1) {
+                moves.push("a1");
+                if (this.boardWidth === 6) {
+                    moves.push("c3");
+                    moves.push("d4");
+                    moves.push("f6");
+                } else if (this.boardWidth === 8) {
+                    moves.push("d4");
+                    moves.push("e5");
+                    moves.push("h8");
+                }
+            } else if (this.stack.length === 2) {
+                 for (const m of this.getGraph().neighbours(this.stack[1].lastmove!)) {
+                    moves.push(m);
+                 }
              }
         } else {
             for (const cell of (this.listCells() as string[]).filter(c => this.board.has(c) && this.board.get(c) === this.currplayer)) {
@@ -251,10 +278,12 @@ export class KonaneGame extends GameBase {
 
         if (m.length === 0) {
             result.valid = true;
-            if (this.stack.length === 1) {
-                result.message = i18next.t("apgames:validation.konane.FIRST_MOVE");
-            } else if (this.stack.length === 2) {
-                result.message = i18next.t("apgames:validation.konane.SECOND_MOVE");
+            if (this.boardWidth <= 8 && this.stack.length < 3) {
+                if (this.stack.length === 1) {
+                    result.message = i18next.t("apgames:validation.konane.FIRST_MOVE");
+                } else if (this.stack.length === 2) {
+                    result.message = i18next.t("apgames:validation.konane.SECOND_MOVE");
+                }
             } else {
                 result.message = i18next.t("apgames:validation.konane.NORMAL_MOVE");
             }
@@ -263,10 +292,12 @@ export class KonaneGame extends GameBase {
 
         const moves = this.moves();
         if (!moves.includes(m)) {
-            if (this.stack.length === 1) {
-                result.message = i18next.t("apgames:validation.konane.FIRST_MOVE");
-            } else if (this.stack.length === 2) {
-                result.message = i18next.t("apgames:validation.konane.SECOND_MOVE");
+            if (this.boardWidth <= 8 && this.stack.length < 3) {
+                if (this.stack.length === 1) {
+                    result.message = i18next.t("apgames:validation.konane.FIRST_MOVE");
+                } else if (this.stack.length === 2) {
+                    result.message = i18next.t("apgames:validation.konane.SECOND_MOVE");
+                }
             } else if (m.length > 0 && moves.filter(move => move.startsWith(m)).length > 0) {
                 result.valid = true;
                 result.canrender = true;
@@ -381,7 +412,7 @@ export class KonaneGame extends GameBase {
 
     public moveState(): IMoveState {
         return {
-            _version: KonaneGame.gameinfo.version,
+            _version: `${this.version}`,
             _results: [...this.results],
             _timestamp: new Date(),
             currplayer: this.currplayer,
@@ -426,8 +457,8 @@ export class KonaneGame extends GameBase {
         const rep: APRenderRep =  {
             board: {
                 style: "squares",
-                width: this.boardSize,
-                height: this.boardSize
+                width: this.boardWidth,
+                height: this.boardHeight
             },
             legend: {
                 A: { name: "piece", colour: 1 },

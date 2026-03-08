@@ -2894,11 +2894,12 @@
                 "name": "Hexhex 5 (61 spaces)"
             },
             "hex7": {
-                "name": "Hexhex 7 (127 spaces)"
+                "name": "Hexhex 7 (127 spaces)",
+                "description": "Can be selected for 3 and 4 player games."
             },
             "hex8": {
                 "name": "Hexhex 8 (169 spaces)",
-                "description": "For 3 and 4 player games, the hex8 board will be selected automatically."
+                "description": "Can be selected for 3 and 4 player games."
             },
             "open": {
                 "name": "Open start",
@@ -5993,6 +5994,7 @@
             "UNBROKEN": "Lines of pieces must be unbroken by empty cells."
         },
         "wunchunk": {
+            "BALANCE": "Player 1 may not create two friendly chunks with their second placement.",
             "BOARD_FULL": "The board is full.",
             "INITIAL_INSTRUCTIONS_choose": "Use the buttons to choose whether to play first or second.",
             "INITIAL_INSTRUCTIONS_play_one": "You may place up to {{count}} piece this turn. Click the piece at the side of the board and then an empty cell to place it. Or just click an empty cell to place one of your own pieces.",

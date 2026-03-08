@@ -35,6 +35,7 @@
         "bounce": "Manoeuvre your disconnected checkers into a single, orthogonally connected whole.",
         "boxes": "A territorial game where you try to complete boxes by drawing lines to connect the dots. If a box is claimed, you may make another move.",
         "breakthrough": "One of the simplest \"get to your opponent's home row\" games around. Pieces move and capture like chess pawns. First to the other home row wins. Also includes a \"Bombardment\" variant where instead of regular capture moves, one can detonate a piece, which destroys it and all pieces around it.",
+        "btt": "A game of pyramids branching across a chessboard, in which you gain points when opponents point at your pyramids, and lose them when you point at theirs.",
         "bug": "Fill the ecosystem with your bugs so much that you can no longer expand. On your turn, place a piece to start a new bug or grow an existing bug. Then, if any of your bugs are adjacent to enemy bugs of the same shape, they must eat them, and perform a bonus growth (if bonus growth is not possible, no eating occurs). This can result in chain reactions. If there are multiple choices of bugs that can eat, you may determine which bugs do it and in which order.",
         "buku": "Buku is a two-dimensional sowing game on a checkerboard where the colour corresponds to the pits of each player. The first player selects a row to collect, then pieces are sown from any square towards any orthogonal direction but never passing the same square twice. The second player does the same, but collects from columns. After sowing, any square with 3 or 4 pieces on their colour are captured. The game ends when one player gets more than half the total number of possible points, or all pieces are singletons (each player claims one point for every piece in their pit), or when the board position is repeated (other player claims the rest of the pieces). The first player gets an additonal piece on the first sow.",
         "byte": "Manoeuvre and merge stacks of checkers while attempting to be the one on top when the stack reaches a certain height.",
@@ -242,6 +243,7 @@
         "bao": "Moves in Bao can be very complex, involving multiple laps around the board and changing directions. The annotations are, therefore, sparse. The initial cell and direction are highlighted, and captured cells are also marked. But detailed annotation of movement is not possible. If you believe you have encountered a bug, please let us know in Discord.",
         "biscuit": "Game ends when, at the end of a round, someone has reached or surpassed the target score. Highest score wins. Draws are possible.\n\nWhen calculating biscuits, a single card cannot be counted more than once. For example, if the root card is a 6, and the end of the main line is also a 6 (a cross card), and you play a 6 above that cross card, you score the \"hot cross biscuit\" (top and bottom of the cross line match) but you don't *also* get a regular \"biscuit\" for matching the end of the main line (they're both the same card). Furthermore, cross lines don't get counted at all unless there are at least two cards in the line. So playing a new cross card (in our example, a 6) does not automatically score you a \"biscuit\" (playing a card on the main line that matches a cross line).\n\nMore information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers and opponents.",
         "blooms": "The threshold value is X(n) = 5n, where n is the base of the hexhex board (e.g., the default board is base 6, so the threshold is 30).",
+        "btt": "Unusual numbers of players (3, 5, or 6) are supported, but on a normal rectangular board of an appropriate size rather than a Martian Chessboard.",
         "bug": "In this implementation, after the initial placement, if the player has bugs that must eat, the edible bugs will be highlighted. Eating and bonus grow will be performed simultaneously, so performing a bonus grow on a bug by selecting a legal space next to it will cause all highlighted edible bugs adjacent to it to disappear. It is possible to bonus grow onto a space that an edible bug is on. Note that this implies that when selecting a bug to perform the eating action, ALL edible bugs of the same shape next to it will be removed, and this might differ from some other implementations where there a separate edible bug selection phase, which may allow some edible bugs to be left behind for another bug to eat.",
         "calculus": "Click on an existing piece to move it, or click on a free point to place a new piece. There must be a sufficiently wide path from some edge of the board to the placement point. If your placed piece would overlap existing pieces, the system will try to \"snap\" the placed piece so it is touching all overlapped pieces.\n\nDashed lines show pieces that are touching. Solid lines show perimeters around legal areas. Pieces connected by solid lines may not be moved.",
         "chase": "Currently, most exchange moves will need to be hand edited. We're working on fixing this.",
@@ -693,6 +695,16 @@
             "bombardment": {
                 "description": "Instead of regular capture moves, you can detonate a piece, which destroys it and any pieces immediately surrounding it.",
                 "name": "Bombardment"
+            }
+        },
+        "btt": {
+            "arcade": {
+                "description": "Scaled down to 9 pyramids per player (from 15) for Pyramid Arcade and/or a quicker game.",
+                "name": "Arcade"
+            },
+            "martian-go": {
+                "description": "The original game used slightly different rules for setup (large central roots with no null squares) and scoring (penalties only).  When playing with more than 4 players, setup will instead be as in the standard game, but scoring will be as in Martian Go.",
+                "name": "Martian Go"
             }
         },
         "bug": {
@@ -3956,6 +3968,20 @@
             "ONLY_FORWARD": "Pieces may only move forward.",
             "PARTIAL": "Provide the destination.",
             "TOOFAR": "Pieces can only move one space at a time."
+        },
+        "btt": {
+            "BAD_NULL": "A null square may not isolate a part of the board.",
+            "INITIAL_INSTRUCTIONS": "Select a cell to place one of your pyramids there.",
+            "NULL_INSTRUCTIONS": "Select a null square.",
+            "ROOT_INSTRUCTIONS": "Select a root square.",
+            "MALFORMED_MOVE": "The move \"{{move}}\" could not be parsed.",
+            "NO_DIAGONALS": "The pyramid cannot point at the cell \"{{cell}}\" because it is not orthogonally adjacent.",
+            "NO_STASH": "The requested pyramid is not in your stash.",
+            "NO_TARGET": "The pyramid is pointing at an empty cell.",
+            "NULL_TARGET": "The pyramid is pointing at a null square.",
+            "OCCUPIED": "The cell \"{{cell}}\" is already occupied.",
+            "OUT_OF_BOUNDS": "The pyramid is pointing off the board.",
+            "PARTIAL_MOVE": "Click again to change pyramid size, or select a neighboring cell to point at."
         },
         "bug": {
             "BAD_GROW": "Placement at {{where}} does not result in a valid bonus grow.",

@@ -35,9 +35,9 @@ describe("Wunchunk", () => {
             // "pass",
             "1f7",
             "2g4",
-            "1f8",
+            "1d8",
             "2h3",
-            "1d3,1e7",
+            "1e8",
             "pass",
             "pass",
         ];
@@ -46,5 +46,49 @@ describe("Wunchunk", () => {
         });
         expect(g.gameover).to.be.true;
         expect(g.winner).to.deep.equal([1]);
+    });
+    it ("Balance check", () => {
+        // 2 player standard
+        let g = new WunchunkGame(2);
+        g.move("1a4");
+        g.move("2k4");
+        expect(g.checkForBalance).to.be.true;
+        let result = g.validateMove("1b4");
+        expect(result.valid).to.be.false;
+        // 2 player open - pass
+        g = new WunchunkGame(2, ["open"]);
+        g.move("1e4,1f4,2f5,2f6");
+        g.move("pass");
+        g.move("1f7")
+        g.move("2g4")
+        expect(g.checkForBalance).to.be.true;
+        result = g.validateMove("1f8");
+        expect(result.valid).to.be.false;
+        // 2 player open - swap
+        g = new WunchunkGame(2, ["open"]);
+        g.move("1e4,1f4,2f5,2f6");
+        g.move("swap");
+        g.move("1f7")
+        g.move("2g4")
+        expect(g.checkForBalance).to.be.true;
+        result = g.validateMove("1f8");
+        expect(result.valid).to.be.false;
+        // 3 player
+        g = new WunchunkGame(3);
+        g.move("1l3");
+        g.move("2k8");
+        g.move("3f10");
+        expect(g.checkForBalance).to.be.true;
+        result = g.validateMove("1m2");
+        expect(result.valid).to.be.false;
+        // 4 player
+        g = new WunchunkGame(4);
+        g.move("1l3");
+        g.move("2k8");
+        g.move("3f10");
+        g.move("4d3");
+        expect(g.checkForBalance).to.be.true;
+        result = g.validateMove("1m2");
+        expect(result.valid).to.be.false;
     });
 });

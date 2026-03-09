@@ -695,10 +695,12 @@ export class BTTGame extends GameBase {
                         const opponent = pcontents[0];
                         if (opponent !== this.currplayer) {
                             const oppSize = pcontents[1];
-                            this.scores[this.currplayer - 1] -= oppSize;
-                            if (! this.variants.includes("martian-go") )
+                            if (! this.variants.includes("martian-go") ) {
                                 this.scores[opponent - 1] += size;
-                            this.results.push({ type: "deltaScore", delta: -oppSize });
+                                this.results.push({ type: "deltaScore", delta: size, who: opponent });
+                            }
+                            this.scores[this.currplayer - 1] -= oppSize;
+                            this.results.push({ type: "deltaScore", delta: -oppSize, who: this.currplayer });
                         }
                     }
                 }
@@ -959,13 +961,13 @@ export class BTTGame extends GameBase {
         let resolved = false;
         switch (r.type) {
             case "deltaScore":
-                if ( this.variants.includes("martian-go") && r.delta === -1 )
-                    node.push(i18next.t("apresults:DELTASCORE.btt_go_one", {player, delta: r.delta! * -1}));
-                else if ( this.variants.includes("martian-go") )
-                    node.push(i18next.t("apresults:DELTASCORE.btt_go", {player, delta: r.delta! * -1}));
+                if ( r.delta === 1 )
+                    node.push(i18next.t("apresults:DELTASCORE.btt_opponent_one", {player, delta: r.delta }));
+                else if ( r.delta! > 0 )
+                    node.push(i18next.t("apresults:DELTASCORE.btt_opponent", {player, delta: r.delta! }));
                 else if ( r.delta === -1 )
                     node.push(i18next.t("apresults:DELTASCORE.btt_default_one", {player, delta: r.delta! * -1}));         
-                else 
+                else if ( r.delta! < 0 )
                     node.push(i18next.t("apresults:DELTASCORE.btt_default", {player, delta: r.delta! * -1}));         
                 resolved = true;
                 break;

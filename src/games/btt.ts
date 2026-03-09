@@ -327,7 +327,7 @@ export class BTTGame extends GameBase {
                     mm.direction = dir;
                     mm.incomplete = false;
                     if (! direx.test(dir) ) {
-                        //We permit a bad direction for highlights.
+                        //Permit a bad direction for the highlight pyramid.
                         mm.valid = false;
                     }
                     return mm;
@@ -348,7 +348,6 @@ export class BTTGame extends GameBase {
     
     public pickleMove(pm: IBTTMove): string {
         if ( ! pm.cell || pm.cell === "" ) {
-            //Trouble with highlights.
             throw new Error("Could not pickle the move because it included no cell.");
         }
         
@@ -474,8 +473,7 @@ export class BTTGame extends GameBase {
                     newmove = `${cell}-${firstsize}`;
 
                     //We always make the user click a direction to show that the pyramid is the intended size.
-                    //But we guess the direction for display purposes.
-                    this.highlight = this.parseMove(newmove + this.getNeighborDir(cell));
+                    //But we guess the direction for display purposes (see move()).
                 } else {
                     const mm = this.parseMove(move);
                     if ( mm.cell === cell ) {
@@ -484,7 +482,6 @@ export class BTTGame extends GameBase {
                         mm.size = newsize;
                         //This should work regardless of whether the move was already complete:
                         newmove = this.pickleMove(mm);
-                        this.highlight = this.parseMove(newmove + this.getNeighborDir(cell));
                      } else {
                         // We clicked on an adjacent piece (at col, row).
                         const [cx, cy] = this.algebraic2coords(mm.cell);
@@ -705,10 +702,16 @@ export class BTTGame extends GameBase {
                         }
                     }
                 }
+            } else {
+                //Pick a direction for the highlight.
+                this.highlight = deepclone(mm);
+                this.highlight!.direction =  this.getNeighborDir(mm.cell);
             }
         }
 
         if (partial) { return this; }
+
+        this.highlight = undefined;
 
         this.lastmove = m;
         let newplayer = (this.currplayer as number) + 1;
@@ -776,9 +779,11 @@ export class BTTGame extends GameBase {
         let pstr = "";
         let hX = -1;
         let hY = -1;
-        if (this.highlight !== undefined)
-            [hX, hY] = this.algebraic2coords(this.highlight.cell);
 
+        if ( this.highlight !== undefined ) {
+            [hX, hY] = this.algebraic2coords(this.highlight.cell);
+        }
+        
         for (let row = 0; row < this.boardHeight; row++) {
             if (pstr.length > 0) {
                 pstr += "\n";
@@ -846,9 +851,6 @@ export class BTTGame extends GameBase {
             "R": tokens
         };
 
-
-        
-        
         const rotations: Map<string, number> = new Map([
             ["N", 0],
             ["E", 90],

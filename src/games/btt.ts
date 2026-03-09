@@ -69,7 +69,7 @@ export class BTTGame extends GameBase {
             { uid: "arcade", group: "setup" },
             { uid: "martian-go", group: "setup" }
         ],
-        categories: ["goal>score>maximize", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>pyramids", "other>2+players"],
+        categories: ["goal>score>eog", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>pyramids", "other>2+players"],
         flags: ["player-stashes", "scores", "experimental"]
     };
 
@@ -709,9 +709,6 @@ export class BTTGame extends GameBase {
         }
 
         if (partial) { return this; }
-
-        //Reset highlight here.
-        this.highlight = undefined;
 
         this.lastmove = m;
         let newplayer = (this.currplayer as number) + 1;

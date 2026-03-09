@@ -195,7 +195,7 @@
     "DELTA_SCORE_LOSS_other": "{{player}} lost {{delta}} points.",
     "DELTASCORE": {
         "btt_default": "{{player}} lost {{delta}} points.",
-        "btt_default_one": "{{player}} lost {{delta}} points.",
+        "btt_default_one": "{{player}} lost {{delta}} point.",
         "btt_opponent": "An opponent gained {{delta}} points.",
         "btt_opponent_one": "An opponent gained {{delta}} point.",
         "emu_excuse": "{{player}} plays The Excuse to offset their lowest-scoring bird ({{delta}} points).",

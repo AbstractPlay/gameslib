@@ -1994,7 +1994,8 @@ export class MagnateGame extends GameBase {
         // draw up
         this.drawUp();
 
-        this.lastmove = m.split(",").join(", "); //thin space
+        // Hide preferences, add thin space
+        this.lastmove = m.split(",").filter(a => a[0] !== "P").join(", ");
 
         // update currplayer
         let newplayer = (this.currplayer as number) + 1;

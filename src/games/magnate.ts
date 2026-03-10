@@ -1994,7 +1994,8 @@ export class MagnateGame extends GameBase {
         // draw up
         this.drawUp();
 
-        this.lastmove = m.split(",").join(", "); //thin space
+        // Hide preferences, add thin space
+        this.lastmove = m.split(",").filter(a => a[0] !== "P").join(", ");
 
         // update currplayer
         let newplayer = (this.currplayer as number) + 1;
@@ -2261,35 +2262,11 @@ export class MagnateGame extends GameBase {
         }
 
         const nudges: [number,number][] = [[-1, -1], [-1, 1], [1, 1]];
+        const soupedOpacity = Math.min(opacity * 2, 1);
         for (let i = 0; i < card.suits.length; i++) {
             const suit = card.suits[i];
             const nudged = nudges[i].map(n => n * nudge);
             const textNudgeY = nudges[i][1] > 0 ? nudge + nudgeText : nudgeText - nudge;
-            //Text needs extra vertical nudging.
-            if ( preflight === suit.uid )
-                glyph.push({
-                    name: "piece",
-                    scale: 0.5,
-                    nudge: {
-                        dx: nudged[0],
-                        dy: nudged[1],
-                    },
-                    colour: suitColors[suit.seq - 1],
-                    opacity: opacity,
-                    orientation: "vertical",
-                });
-            else if ( deed  || tokens )
-                glyph.push({
-                    name: "piece-borderless",
-                    scale: 0.5,
-                    nudge: {
-                        dx: nudged[0],
-                        dy: nudged[1],
-                    },
-                    colour: suitColors[suit.seq - 1],
-                    opacity: opacity,
-                    orientation: "vertical",
-                });
 
             glyph.push({
                 name: suit.glyph,
@@ -2301,6 +2278,32 @@ export class MagnateGame extends GameBase {
                 opacity: opacity,
                 orientation: "vertical",
             });
+            
+            //Text needs extra vertical nudging.
+            if ( preflight === suit.uid )
+                glyph.push({
+                    name: "piece",
+                    scale: 0.5,
+                    nudge: {
+                        dx: nudged[0],
+                        dy: nudged[1],
+                    },
+                    colour: suitColors[suit.seq - 1],
+                    opacity: soupedOpacity,
+                    orientation: "vertical",
+                });
+            else if ( deed  || tokens )
+                glyph.push({
+                    name: "piece-borderless",
+                    scale: 0.5,
+                    nudge: {
+                        dx: nudged[0],
+                        dy: nudged[1],
+                    },
+                    colour: suitColors[suit.seq - 1],
+                    opacity: soupedOpacity,
+                    orientation: "vertical",
+                });
 
             if ( tokens !== undefined )
                 glyph.push({
@@ -2515,6 +2518,16 @@ export class MagnateGame extends GameBase {
 
                 legend[lname] = [
                     {
+                        name: suit.glyph!,
+                        scale: 0.60,
+                        opacity: 0.3,
+                        nudge: {
+                            dx: 0,
+                            dy: 125,
+                        },
+                        orientation: "vertical",
+                    },
+                    {
                         name: border ? "piece" : "piece-borderless",
                         scale: 0.75,
                         colour: color,
@@ -2522,16 +2535,6 @@ export class MagnateGame extends GameBase {
                         nudge: {
                             dx: 0,
                             dy: 100,
-                        },
-                        orientation: "vertical",
-                    },
-                    {
-                        name: suit.glyph!,
-                        scale: 0.60,
-                        opacity: 0.3,
-                        nudge: {
-                            dx: 0,
-                            dy: 125,
                         },
                         orientation: "vertical",
                     },

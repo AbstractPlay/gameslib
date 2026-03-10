@@ -262,7 +262,7 @@ export class KonaneGame extends GameBase {
             let newmove = "";
             if (this.board.has(cell) && this.board.get(cell) === this.currplayer) {
                 newmove = cell;
-            } else if (move.length === 2 && !this.board.has(cell)) {
+            } else if (this.board.has(move) && this.board.get(move) === this.currplayer && !this.board.has(cell)) {
                 newmove = `${move}-${cell}`;
             }
             const result = this.validateMove(newmove) as IClickResult;

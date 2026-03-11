@@ -127,6 +127,7 @@
         "meg": "Meg is an asymmetric, push-your-luck game in which one player attempts to 'meg' their opponent by passing the ball between their legs.",
         "meridians": "Meridians is a territorial game with the goal of annihilating the opponent's stones. Starting with an empty board, players alternate turns placing a stone on an empty point as in Go. Groups should be \"seen\" by other friendly stone through a straight path or they will be removed on your opponent's turn.",
         "mimic": "A game where enemy pieces mimic your moves while you race to be the first player to reach the back row.",
+        "minefield": "Connect opposite sides of the board, but certain piece configurations are forbidden.",
         "mirador": "Mirador is a fast and exhilarating connection game played on a 27 x 27 square grid by placing 2 x 2 squares to represent watchtowers. It uses line-of-sight connections and equivalent goals (making it more of a race than a pure connection game).",
         "mixtour": "Two players create towers with the goal of creating a tower at least five high with your colour at the top. The twist here is two-fold: (1) you can move opponent's pieces and (2) movement range is determined by the *target* stack height and not the moving stack height.",
         "monkey": "You start with a single queen, composed of a stack of checkers. When you make noncapturing moves, the queen leaves a singleton behind. Queens and singletons move and capture like chess queens. To win, capture the opposing queen or leave them with no legal moves.",
@@ -237,7 +238,7 @@
     "notes": {
         "alta": "There are two ways to place switches on the graphical interface: (1) Select the switch’s orientation in the panel, then click on the desired space on the board to place it, or (2) click on two vertices. The vertices are notated with an asterisk, followed by the algebraic notation of the space where the vertex is at the bottom-left corner. To toggle a switch, simply click on the space.",
         "anache": "This implementation follows David Ploog's rulesheet. Three notable changes are that (1) barriers are forbidden, (2) instead of a 16x16, we have a 15x15 variant, where pieces promote to knights on the centreline, and the dragon may not jump to the 7x7 space from the other corner, and (3) against the corners, pieces are captured via crushing capture instead of custodian capture, so there needs to be at least two opponent pieces in a line before a capture is made against the corners.\n\nNote: the stalemate check is expensive. If you cannot make a legal move, you should resign manually.",
-        "arimaa": "Made available under section 3 of the [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nHarlog is an accepted method for determining advantage. Positive scores favour Gold, negative Silver. The hard range is ±112, but in practice ±20 is a very strong advantage.\n\nBecause we can't generate comprehensive lists of moves, the system cannot detect the rare cases where your only available moves are illegal due to position repetition. The system won't let you make those illegal repetitions, and you'll have to resign manually.",
+        "arimaa": "Made available under section 3 of the [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nHarlog is an accepted method for determining material advantage. Positive scores favour Gold, negative Silver. The hard range is ±112, but in practice ±20 is a very strong advantage.\n\nBecause we can't generate comprehensive lists of moves, the system cannot detect the rare cases where your only available moves are illegal due to position repetition. The system won't let you make those illegal repetitions, and you'll have to resign manually.",
         "armadas": "There are known issues with this game on iOS devices.\n\nThis game offers two scenarios:\n\n* The default is each player having two trios of pieces. In the placement phase, each player must place 1 to 3 ships until all ships are placed.\n* The \"Freeform\" variant allows you to place whatever ships you want (maximum of three at a time) until both players \"pass.\" This lets you create unbalanced or otherwise asymmetrical fleets.\n\nGames default to having one island in the centre of the field. Both a \"no islands\" and a \"two islands\" variant are available. You cannot move or fire through islands. To successfully hit a ship, at least one corner of your ship's triangle must have a clear view of at least one corner of the target ship.\n\nRemember that it is possible to get your ship in a position against an island or the edge of the board such that you can no longer move that ship! Be careful!",
         "ataxx": "On three-fold repetition, the game ends and the scores are calculated.",
         "bao": "Moves in Bao can be very complex, involving multiple laps around the board and changing directions. The annotations are, therefore, sparse. The initial cell and direction are highlighted, and captured cells are also marked. But detailed annotation of movement is not possible. If you believe you have encountered a bug, please let us know in Discord.",
@@ -1679,6 +1680,14 @@
             },
             "size-8": {
                 "name": "Larger board (base 8)"
+            }
+        },
+        "minefield": {
+            "#board": {
+                "name": "19x19 board"
+            },
+            "size-15": {
+                "name": "15x15 board"
             }
         },
         "mixtour": {
@@ -4918,6 +4927,11 @@
             "MOVE_TO_EMPTY": "Select an adjacent empty space to move to.",
             "NO_LEGAL_MOVES": "This piece has no legal moves.",
             "NO_REVERSES": "You may not make a move which undoes the previous turn."
+        },
+        "minefield": {
+            "BAD_PASS": "You may not pass if legal moves are available.",
+            "INITIAL_INSTRUCTIONS": "Select a point to place a piece.",
+            "FORBIDDEN": "You may not form hard corners or switches."
         },
         "mirador": {
             "ALREADY_DECLARED": "Someone has already declared. You can not declare now.",

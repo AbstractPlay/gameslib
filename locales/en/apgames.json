@@ -127,6 +127,7 @@
         "meg": "Meg is an asymmetric, push-your-luck game in which one player attempts to 'meg' their opponent by passing the ball between their legs.",
         "meridians": "Meridians is a territorial game with the goal of annihilating the opponent's stones. Starting with an empty board, players alternate turns placing a stone on an empty point as in Go. Groups should be \"seen\" by other friendly stone through a straight path or they will be removed on your opponent's turn.",
         "mimic": "A game where enemy pieces mimic your moves while you race to be the first player to reach the back row.",
+        "minefield": "Connect opposite sides of the board, but certain piece configurations are forbidden.",
         "mirador": "Mirador is a fast and exhilarating connection game played on a 27 x 27 square grid by placing 2 x 2 squares to represent watchtowers. It uses line-of-sight connections and equivalent goals (making it more of a race than a pure connection game).",
         "mixtour": "Two players create towers with the goal of creating a tower at least five high with your colour at the top. The twist here is two-fold: (1) you can move opponent's pieces and (2) movement range is determined by the *target* stack height and not the moving stack height.",
         "monkey": "You start with a single queen, composed of a stack of checkers. When you make noncapturing moves, the queen leaves a singleton behind. Queens and singletons move and capture like chess queens. To win, capture the opposing queen or leave them with no legal moves.",
@@ -1679,6 +1680,14 @@
             },
             "size-8": {
                 "name": "Larger board (base 8)"
+            }
+        },
+        "minefield": {
+            "#board": {
+                "name": "19x19 board"
+            },
+            "size-15": {
+                "name": "15x15 board"
             }
         },
         "mixtour": {
@@ -4918,6 +4927,11 @@
             "MOVE_TO_EMPTY": "Select an adjacent empty space to move to.",
             "NO_LEGAL_MOVES": "This piece has no legal moves.",
             "NO_REVERSES": "You may not make a move which undoes the previous turn."
+        },
+        "minefield": {
+            "BAD_PASS": "You may not pass if legal moves are available.",
+            "INITIAL_INSTRUCTIONS": "Select a point to place a piece.",
+            "FORBIDDEN": "You may not form hard corners or switches."
         },
         "mirador": {
             "ALREADY_DECLARED": "Someone has already declared. You can not declare now.",

@@ -30,6 +30,7 @@
     "games"
   ],
   "devDependencies": {
+    "@abstractplay/renderer": "^1.0.0-ci-22511873643.0",
     "@eslint/js": "^9.26.0",
     "@types/chai": "^4.3.4",
     "@types/earcut": "^2.1.4",
@@ -64,7 +65,6 @@
   },
   "dependencies": {
     "@abstractplay/recranks": "latest",
-    "@abstractplay/renderer": "^1.0.0-ci-22511873643.0",
     "@turf/boolean-contains": "^6.5.0",
     "@turf/boolean-intersects": "^6.5.0",
     "@turf/boolean-point-in-polygon": "^6.5.0",

@@ -25,6 +25,7 @@
         "bide": "Até seis jogadores tomam turnos colocando peças no tabuleiro, empurrando peças adjacentes para o lado de fora. É possível passar a vez para aumentar o número de peças que podem ser colacadas imediatamente mais tarde. Peças mais próximas do centro possuem mais valor. O grupo com a pontuação mais alta vence!",
         "biscuit": "Um jogo Decktet baseado em dominó onde você pode jogar cartas para ganhar pontos de imediato e tentar ser o primeiro em esvaziar todas as cartas da sua mão. Uma partida é feita entre múltiplos rounds com um alvo em específico.",
         "blam": "Um jogo “Icehouse” para 2–4 pessoas, jogado em um tabuleiro de xadrez tradicional. Peças jogadas empurram outras peças adjacentes fora. Empurre peças fora do tabuleiro para capturar-las. O jogador com total de pips mais alto ao final do jogo vence.",
-        "blastradius": "Um jogo de guerra abstrato onde peças irradiam os seus espaços ao redor delas. Elimine todas as peças que se opuserem."
+        "blastradius": "Um jogo de guerra abstrato onde peças irradiam os seus espaços ao redor delas. Elimine todas as peças que se opuserem.",
+        "blockade": "Blockade (também conhecido como \"Cul-de-sac\") é um jogo de 'vencer a barreira' onde você utiliza um dos seus peões em um espaço inicial do seu oponente. Jogadores colocam uma barreira de 2 unidades para bloquear um ao outro."
     }
 }

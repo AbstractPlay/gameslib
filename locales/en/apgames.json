@@ -3117,6 +3117,12 @@
                 "name": "Hide 9x9 piece highlight"
             }
         },
+        "go": {
+            "show-controlled-areas": {
+                "description": "Highlight the areas currently controlled by each player.",
+                "name": "Show controlled areas"
+            }
+        },
         "gyve": {
             "vertex-style": {
                 "name": "Vertex style",
@@ -3519,6 +3525,9 @@
         "ROUND": "Round",
         "SCORES": "Scores",
         "STACKSIZES": "Stack heights",
+        "stiletto" : {
+            "DAGGER": "Dagger:"
+        },
         "tumbleweed": "Score (pieces + influence)",
         "ESTIMATEDSCORES": "Estimated scores",
         "TOPLACE": "Piece to place",

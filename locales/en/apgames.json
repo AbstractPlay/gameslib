@@ -3526,7 +3526,7 @@
         "SCORES": "Scores",
         "STACKSIZES": "Stack heights",
         "stiletto" : {
-            "DAGGER": "Dagger belongs to "
+            "DAGGER": "Dagger:"
         },
         "tumbleweed": "Score (pieces + influence)",
         "ESTIMATEDSCORES": "Estimated scores",

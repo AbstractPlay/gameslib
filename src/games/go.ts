@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic, MarkerDots, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -72,6 +72,7 @@ export class GoGame extends GameBase {
         ],
         categories: ["goal>area", "mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>rect", "components>simple>1per"],
         flags: ["scores", "custom-buttons", "custom-colours"],
+        displays: [{uid: "show-controlled-areas"}],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -644,7 +645,18 @@ export class GoGame extends GameBase {
         return (player == 1 && !this.swapped) || (player == 2 && this.swapped) ? 1 : 2;
     }
 
-    public render(): APRenderRep {
+    public render(opts?: IRenderOpts): APRenderRep {
+        let altDisplay: string | undefined;
+        if (opts !== undefined) {
+            altDisplay = opts.altDisplay;
+        }
+        let highlightAreas = false;
+        if (altDisplay !== undefined) {
+            if (altDisplay === "show-controlled-areas") {
+                highlightAreas = true;
+            }
+        }
+
         // Build piece string
         let pstr = "";
         for (let row = 0; row < this.boardSize; row++) {
@@ -696,7 +708,7 @@ export class GoGame extends GameBase {
             }
         }
 
-        if (this.gameover) {
+        if (highlightAreas || this.gameover) {
             const territories = this.getTerritories();
             const markers: Array<MarkerDots> = []
             for (const t of territories) {

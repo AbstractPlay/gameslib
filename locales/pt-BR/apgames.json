@@ -18,6 +18,9 @@
         "atoll": "Atoll é uma generalização do jogo Hex, onde você precisa conectar duas ilhas da sua cor em lados opostos do tabuleiro com uma cadeia contínua de pedras da sua cor. As próprias ilhas podem fazer parte da cadeia. Assim, por exemplo, você poderia formar uma ponte entre suas ilhas norte e oeste e uma segunda ponte entre suas ilhas oeste e sul para vencer.",
         "attangle": "Attangle é o último jogo da trilogia de empilhamento de Dieter Stein. Posicione e mova as peças para construir pilhas. O primeiro jogador a construir três pilhas triplas vence. A variante \"Grand Attangle\" também está implementada.",
         "ayu": "Jogo de unificação onde grupos sinuosos de peças rastejam em direção às suas aliadas e eventualmente se unem. Se você não puder fazer um movimento na sua vez, você ganha. Isso ocorre quando você tem apenas um grupo ou quando não há caminho livre entre nenhum dos seus grupos.",
-        "azacru": "Um jogo de controle de território onde peças direcionais percorrem um tabuleiro subdividido para reivindicar células."
+        "azacru": "Um jogo de controle de território onde peças direcionais percorrem um tabuleiro subdividido para reivindicar células.",
+        "arimaa": "As peças representam animais de diferentes tipos de forças lutando por uma posição, tentando pegar um dos coelhos entre a fileira mais distante. Mas cuidado com as armadilhas!",
+        "bamboo": "Coloque pedras de modo que nenhum grupo tenha mais peças que o número dos seus grupos no tabuleiro. Depois, seja o último jogador capaz de mover.",
+        "bao": "Um jogo tradicional de semear à moda mancala oriundo da região Leste da África, na qual você tenta eliminar todas as peças da fileira a frente oposta ou deixar-los sem movimentos possíveis."
     }
 }

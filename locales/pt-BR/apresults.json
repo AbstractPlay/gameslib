@@ -6,7 +6,8 @@
         "add_one": "{{player}} adicionou 1 peça a {{where}}.",
         "add_many": "{{player}} adicionou {{count}} peças a {{where}}.",
         "add_other": "{{player}} adicionou {{count}} peças a {{where}}.",
-        "twixt": "{{player}} adicionou um link em {{where}}."
+        "twixt": "{{player}} adicionou um link em {{where}}.",
+        "magnate": "{{player}} adicionou {{count}} token(s) para a sua carta de transferência {{where}}."
     },
     "AFFILIATE": {
         "witch_M": "{{player}} escolheu as Pedras Lunares.",
@@ -26,6 +27,14 @@
     "ANNOUNCE": {
         "biscuit": "As seguintes cartas estavam nas mãos opostas: {{cards}}.",
         "deckfish": "{{player}} não pôde se mover e deve passar a vez a partir de agora.",
-        "quincunx": "O jogador {{playerNum}} tinha as seguintes cartas restantes na mão: {{cards}}."
+        "quincunx": "O jogador {{playerNum}} tinha as seguintes cartas restantes na mão: {{cards}}.",
+        "arimaa": "Está posição já foi realizada. Tentativas a mais nessa posição são proibidas.",
+        "frogger": "{{player}} escolheu reabastecer a mesa de sorteio.   Outros jogadores devem passar a vez para que ele possa obter seus {{moves}} movimento(s) restante(s).",
+        "stawvs": "{{player}} conseguiu mover-se e deve passar à partir de agora.  Suas peças continuarão nas seguintes pirâmides: {{pyramids}}."
+    },
+    "BEAROFF": {
+        "complete_one": "{{player}} alterou o curso de uma peça em {{from}}.",
+        "complete_many": "{{player}} alterou o curso de múltiplas peças em {{from}}.",
+        "complete_other": "{{player}} alterou o curso de {{count}} peças em {{from}}."
     }
 }

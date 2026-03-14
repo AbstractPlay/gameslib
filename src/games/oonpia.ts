@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, AreaKey, BoardBasic } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AreaKey, BoardBasic, Colourfuncs } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { randomInt, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -39,8 +39,8 @@ export class OonpiaGame extends GameBase {
         name: "Oonpia",
         uid: "oonpia",
         playercounts: [2],
-        version: "20260222",
-        dateAdded: "2026-02-22",
+        version: "20260305",
+        dateAdded: "2026-03-07",
         // i18next.t("apgames:descriptions.oonpia")
         description: "apgames:descriptions.oonpia",
         // i18next.t("apgames:notes.oonpia")
@@ -60,7 +60,7 @@ export class OonpiaGame extends GameBase {
                 apid: "36926ace-08c0-417d-89ec-15346119abf2",
             },
         ],
-        flags: ["experimental", "pie", "custom-buttons", "no-moves", "custom-randomization", "custom-colours"],
+        flags: ["pie", "custom-buttons", "no-moves", "custom-randomization", "custom-colours"],
         categories: ["mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>hex", "board>connect>hex", "components>simple>2per"],
         variants: [
             { uid: "size-5", group: "board" },
@@ -72,11 +72,31 @@ export class OonpiaGame extends GameBase {
             { uid: "size-11", group: "board" },
             { uid: "size-12", group: "board" }
         ],
-        displays: [ // default: palette_no_blocked_yes
-            {uid: "palette_no_blocked_no"},
-            {uid: "palette_yes_blocked_yes"},
-            {uid: "palette_yes_blocked_no"},
-        ]
+        displays: [ // default: blocked_yes
+            {uid: "blocked_no"}
+        ],
+            customizations: [
+            {
+                num: 1,
+                default: "#eeeeee",
+                explanation: "Player 1 colour"
+            },
+            {
+                num: 2,
+                default: "#252525",
+                explanation: "Player 2 colour"
+            },
+            {
+                num: 3,
+                default: "#0165fc",
+                explanation: "Colour of the neutral stones"
+            },
+            {
+                name: "board",
+                default: "#e0bb6c",
+                explanation: "Board colour"
+            }
+        ],
     };
 
     public numplayers = 2;
@@ -91,7 +111,6 @@ export class OonpiaGame extends GameBase {
     public results: Array<APMoveResult> = [];
     public prison: [number, number] = [0, 0];
     private boardSize = 0;
-    private usePalette = false;
 
     constructor(state?: IOonpiaState | string, variants?: string[]) {
         super();
@@ -347,7 +366,7 @@ export class OonpiaGame extends GameBase {
         // - Otherwise, if both types can be placed, prefer placing a connecting type
         //   - If there is no preferred connecting type start with type 1 and then type 2
         const blocked = this.blockedCells();
-        
+
         if (blocked[1].has(cell) && !blocked[2].has(cell)) {
             if (this.isValidPlace(cell, 2)) {
                 place.push(2);
@@ -631,7 +650,7 @@ export class OonpiaGame extends GameBase {
             this.results.push({type: "komi", value: move.komi});
         } else {
             const move = this.parseMoveString(ms);
-            
+
             if (move === undefined) {
                 throw new UserFacingError("VALIDATION_GENERAL", "Invalid movestring encountered.");
             }
@@ -646,7 +665,7 @@ export class OonpiaGame extends GameBase {
                 this.board.set(move.cell, [move.iscapture ? this.neutral : this.currplayer, move.tile]);
                 this.results.push({type: "place", where: move.cell, what: move.tile === 1 ? tileNames[0] : tileNames[1]});
 
-                
+
                 // First capture other player's groups, then your own (if any)
                 if (move.iscapture) {
                     for (const group of this.deadGroups(this.otherPlayer())) {
@@ -656,7 +675,7 @@ export class OonpiaGame extends GameBase {
                         this.results.push({type: "capture", where: Array.from(group).join(","), count: group.size});
                         this.prison[this.otherPlayer() - 1] += group.size;
                     }
-                    
+
                     for (const group of this.deadGroups(this.currplayer)) {
                         for (const cell of group) {
                             this.board.delete(cell);
@@ -667,11 +686,11 @@ export class OonpiaGame extends GameBase {
                 }
             }
         }
-        
+
         this.reducePrison();
 
         if (partial) { return this; }
-        
+
         this.lastmove = ms;
         this.currplayer = this.currplayer % 2 + 1 as playerid;
         this.checkEOG();
@@ -808,7 +827,7 @@ export class OonpiaGame extends GameBase {
     }
 
     private isValidCapture(cell: string, tile: tileid): boolean {
-        // It's a valid capture (i.e. blue stone placement), at least one stone (friendly or not) 
+        // It's a valid capture (i.e. blue stone placement), at least one stone (friendly or not)
         // will be captured
         const tmpboard = new Map(this.board);
         tmpboard.set(cell, [this.neutral, tile]);
@@ -817,7 +836,7 @@ export class OonpiaGame extends GameBase {
             this.deadGroups(this.currplayer, tmpboard).length > 0
         )
     }
-    
+
     private isSelfCapture(cell: string, tile: tileid): boolean {
         const tmpboard = new Map(this.board);
         tmpboard.set(cell, [this.neutral, tile]);
@@ -890,13 +909,29 @@ export class OonpiaGame extends GameBase {
     }
 
 
-    public getPlayerColour(p: playerid): number|string {
-        // previous versions, just return the player id
-        if (this.usePalette) {
-            return p;
-        } else {
-            return {1: "#eeeeee", 2: "#252525", 3: "#0165fc"}[p] // colours from besogo viewer
+    public getPlayerColour(p: playerid): number|Colourfuncs {
+        if (p === 1) {
+            return {
+                func: "custom",
+                default: "#eeeeee",
+                palette: 1
+            }
         }
+        if (p === 2) {
+            return {
+                func: "custom",
+                default: "#252525",
+                palette: 2
+            }
+        }
+        if (p === 3) {
+            return {
+                func: "custom",
+                default: "#0165fc",
+                palette: 3
+            }
+        }
+        return p;
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
@@ -905,19 +940,8 @@ export class OonpiaGame extends GameBase {
             altDisplay = opts.altDisplay;
         }
         let highlightBlocked = true;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "palette_no_blocked_no") {
-                this.usePalette = false;
-                highlightBlocked = false;
-            }
-            if (altDisplay === "palette_yes_blocked_yes") {
-                this.usePalette = true;
-                highlightBlocked = true;
-            }
-            if (altDisplay === "palette_yes_blocked_no") {
-                this.usePalette = true;
-                highlightBlocked = false;
-            }
+        if (altDisplay !== undefined && altDisplay === "blocked_no") {
+            highlightBlocked = false;
         }
 
         const p1 = this.getPlayerColour(1);
@@ -958,10 +982,6 @@ export class OonpiaGame extends GameBase {
             pstr.push(pieces);
         }
 
-        const s = this.boardSize - 1;
-        const boardcol = this.usePalette ? 4 : "#e0bb6c";
-        const boardEdgeW = 55;
-
         const hasPrison = this.prison.reduce((prev, curr) => prev + curr, 0) > 0;
         const prisonPiece: Glyph[] = [];
         if (hasPrison) {
@@ -995,82 +1015,14 @@ export class OonpiaGame extends GameBase {
                 minWidth: this.boardSize,
                 maxWidth: this.boardSize * 2 - 1,
                 strokeWeight: 0.5,
-                markers: [
-                    {
-                        type: "shading",
-                        belowGrid: true,
-                        points: [
-                            { row: 0, col: 0 },
-                            { row: 0, col: s },
-                            { row: s, col: s*2 },
-                            { row: s*2, col: s },
-                            { row: s*2, col: 0 },
-                            { row: s, col: 0 },
-                        ],
-                        colour: boardcol,
-                        opacity: 1,
-                    },
-                    {
-                        type: "line",
-                        belowGrid: true,
-                        points: [
-                            { row: 0, col: 0 },
-                            { row: 0, col: s}
-                        ],
-                        colour: boardcol,
-                        width: boardEdgeW,
-                    },
-                    {
-                        type: "line",
-                        belowGrid: true,
-                        points: [
-                            { row: 0, col: s },
-                            { row: s, col: s*2 },
-                        ],
-                        colour: boardcol,
-                        width: boardEdgeW,
-                    },
-                    {
-                        type: "line",
-                        belowGrid: true,
-                        points: [
-                            { row: s, col: s*2 },
-                            { row: s*2, col: s },
-                        ],
-                        colour: boardcol,
-                        width: boardEdgeW,
-                    },
-                    {
-                        type: "line",
-                        belowGrid: true,
-                        points: [
-                            { row: s*2, col: s },
-                            { row: s*2, col: 0 },
-                        ],
-                        colour: boardcol,
-                        width: boardEdgeW,
-                    },
-                    {
-                        type: "line",
-                        belowGrid: true,
-                        points: [
-                            { row: s*2, col: 0 },
-                            { row: s, col: 0 },
-                        ],
-                        colour: boardcol,
-                        width: boardEdgeW,
-                    },
-                    {
-                        type: "line",
-                        belowGrid: true,
-                        points: [
-                            { row: s, col: 0 },
-                            { row: 0, col: 0 },
-                        ],
-                        colour: boardcol,
-                        width: boardEdgeW,
+                backFill: {
+                    type: "board",
+                    colour: {
+                        func: "custom",
+                        default: "#e0bb6c",
+                        palette: "_context_board"
                     }
-                ]
+                }
             },
             legend: {
                 A: {name: "piece-borderless", colour: p1, scale: 1.1},
@@ -1157,30 +1109,35 @@ export class OonpiaGame extends GameBase {
         }
 
         if (highlightBlocked) {
+            (rep.board as BoardBasic).markers = [];
             const {1: blockedPlain, 2: blockedDotted} = this.blockedCells();
             for (const cell of blockedPlain) {
                 const [x, y] = this.graph.algebraic2coords(cell);
-                if ("markers" in (rep.board! as BoardBasic)) { // make the compiler happy
-                    ((rep.board! as BoardBasic).markers!).push({
-                                type: "dots",
-                                points: [{row: y, col: x}],
-                                colour: "#000",
-                                opacity: 0.2,
-                                size: 0.3
-                            })
-                }
+                ((rep.board! as BoardBasic).markers!).push({
+                            type: "dots",
+                            points: [{row: y, col: x}],
+                            colour: {
+                                func: "bestContrast",
+                                bg: "_context_board",
+                                fg: ["#000000", "#ffffff"],
+                            },
+                            opacity: 0.2,
+                            size: 0.3
+                        })
             }
             for (const cell of blockedDotted) {
                 const [x, y] = this.graph.algebraic2coords(cell);
-                if ("markers" in (rep.board! as BoardBasic)) { // make the compiler happy
-                    ((rep.board! as BoardBasic).markers!).push({
-                                type: "dots",
-                                points: [{row: y, col: x}],
-                                colour: "#000",
-                                opacity: 0.2,
-                                size: 0.9
-                            })
-                }
+                ((rep.board! as BoardBasic).markers!).push({
+                            type: "dots",
+                            points: [{row: y, col: x}],
+                            colour: {
+                                func: "bestContrast",
+                                bg: "_context_board",
+                                fg: ["#000000", "#ffffff"],
+                            },
+                            opacity: 0.2,
+                            size: 0.9
+                        })
             }
         }
 

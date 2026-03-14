@@ -69,7 +69,7 @@ export class WunchunkGame extends GameBase {
             { uid: "open" },
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>share", "board>shape>hex", "board>connect>hex", "components>simple>1per", "other>2+players"],
-        flags: ["no-moves", "custom-randomization", "custom-buttons", "scores", "pie", "custom-colours"]
+        flags: ["no-moves", "custom-randomization", "custom-buttons", "scores", "custom-colours"]
     };
 
     public numplayers = 2;
@@ -92,14 +92,22 @@ export class WunchunkGame extends GameBase {
 
             let board: Map<string, playerid>;
             if (this.numplayers === 3) {
-                this.variants = ["hex8"];
+                if (this.variants.includes("hex7")) {
+                    this.variants = ["hex7"];
+                } else {
+                    this.variants = ["hex8"];
+                }
                 board = new Map<string, playerid>([
                     ["i7", 1], ["h7", 1],
                     ["g7", 2], ["g8", 2],
                     ["h9", 3], ["i8", 3],
                 ]);
             } else if (this.numplayers === 4) {
-                this.variants = ["hex8"];
+                if (this.variants.includes("hex7")) {
+                    this.variants = ["hex7"];
+                } else {
+                    this.variants = ["hex8"];
+                }
                 board = new Map<string, playerid>([
                     ["j8", 1], ["i9", 1],
                     ["j6", 2], ["i6", 2],
@@ -192,6 +200,24 @@ export class WunchunkGame extends GameBase {
         return new HexTriGraph(this.boardsize, (this.boardsize * 2) - 1);
     }
 
+    public get checkForBalance(): boolean {
+        let target = 3;
+        if (this.variants.includes("open")) {
+            if (this.swapped) {
+                target = 6;
+            } else {
+                target = 5;
+            }
+        } else {
+            if (this.numplayers === 3) {
+                target = 4;
+            } else if (this.numplayers === 4) {
+                target = 5;
+            }
+        }
+        return this.stack.length === target;
+    }
+
     public getPlayerColour(p: playerid): number|string {
         if (this.swapped) {
             return p === 1 ? 2 : 1;
@@ -227,21 +253,6 @@ export class WunchunkGame extends GameBase {
         }
         return [{label: "pass", move: "pass"}];
     }
-
-    public isPieTurn(): boolean {
-        if (this.numplayers === 2 && !this.variants.includes("open") && this.stack.length === 2) {
-            return true;
-        }
-        return false;
-    }
-
-    public shouldOfferPie(): boolean {
-        if (this.numplayers === 2 && !this.variants.includes("open")) {
-            return true;
-        }
-        return false;
-    }
-
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         const g = this.graph;
@@ -428,6 +439,17 @@ export class WunchunkGame extends GameBase {
 
             // make the move so far
             cloned.move(steps.slice(0, i + 1).join(","), {partial: true, trusted: true})
+        }
+
+        // balance check
+        // The red player may not create two friendly chunks with their second placement.
+        if (cloned.checkForBalance) {
+            const num = cloned.countChunks();
+            if (num > 1) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.wunchunk.BALANCE");
+                return result;
+            }
         }
 
         // if we get here, we're good

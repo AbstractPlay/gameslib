@@ -3058,7 +3058,7 @@ export class CrosshairsGame extends GameBase {
         }
 
         // Add entry hex markers during entry phase
-        if (this.inEntryPhase()) {
+        if (this.inEntryPhase() || this.inCloudPhase()) {
             for (const player of [1, 2] as playerid[]) {
                 const startingHexes = this.getStartingHexes(player);
                 for (const cell of startingHexes) {

@@ -24,6 +24,8 @@ export type DeedContents = {
 const columnLabels = "abcdefghij".split("");
 const moveTypes = ["B","D","S","A","T","P","C","U"];
 const moveTypeNames = ["Buy","Deed","Sell","Add","Trade","Prefer","Choose","Undo"];
+const nudge = 250;
+const nudgeText = 25; //Extra tweak for fonts in production.
 const suitColors: string[] = ["#c7c8ca","#e08426","#6a9fcc","#bc8a5d","#6fc055","#d6dd40"];
 const suitOrder = suits.map(suit => suit.uid); //["M","S","V","L","Y","K"];
 
@@ -65,8 +67,8 @@ export class MagnateGame extends GameBase {
         name: "Magnate",
         uid: "magnate",
         playercounts: [2],
-        version: "20260218",
-        dateAdded: "2026-02-18",
+        version: "20260303",
+        dateAdded: "2026-03-03",
         // i18next.t("apgames:descriptions.magnate")
         description: "apgames:descriptions.magnate",
         // i18next.t("apgames:notes.magnate")
@@ -130,6 +132,7 @@ export class MagnateGame extends GameBase {
     private districts: number = 5;
     private deck: Multideck[] = [];
     private highlights: string[] = []; //A mix of suit uids, card uids, and districts.
+    private spend: number[] = []; //For displaying a partial buy.
 
     constructor(state?: IMagnateState | string, variants?: string[]) {
         super();
@@ -372,6 +375,7 @@ export class MagnateGame extends GameBase {
         const price = this.getPriceFromRank(cardObj.rank.seq);
         let paid = 0;
         let test = true;
+        //console.log(card, spend);
         
         deed.suit1 += spend[suitIdxs[0]];
         paid += deed.suit1;
@@ -470,7 +474,7 @@ export class MagnateGame extends GameBase {
         return tokens;
     }
     
-    private checkChange(card: string): string[] {
+    private checkChange(card: string): string {
         //Returns exactly the tokens currplayer must spend to buy card,
         // that is, returns a partial or full payment for autocompletes.
         //Assumes canPay.
@@ -487,7 +491,7 @@ export class MagnateGame extends GameBase {
         if ( tokens.reduce( (cur, acc) => cur + acc, 0) === price ) {
             //Can pay the whole price, but check distribution.
             if ( tokens.filter( v => v > 0 ).length === cardObj.suits.length )
-                return this.unspender(tokens);
+                return this.pickleSpend(tokens);
         }
         
         const spendy = Array(6).fill(0);
@@ -504,7 +508,7 @@ export class MagnateGame extends GameBase {
         //Special case of 2.
         if ( cardObj.rank.seq === 2 ) {
             //May not be complete.
-            return this.unspender(spendy);
+            return this.pickleSpend(spendy);
         }
         
         const remaining = tokens.filter(v => v > 0);
@@ -514,12 +518,12 @@ export class MagnateGame extends GameBase {
             suitIdxs.forEach( (suitIdx) => {
                 spendy[suitIdx] += Math.min(price, tokens[suitIdx]);
             });
-            return this.unspender(spendy);
+            return this.pickleSpend(spendy);
         }
 
         //TODO: more partial payment improvements?
         
-        return this.unspender(spendy);
+        return this.pickleSpend(spendy);
     }
     
     private checkSpend(card: string, spend: number[], type: string): number {
@@ -583,6 +587,7 @@ export class MagnateGame extends GameBase {
             return 1;
         } else {
             //I don't know how you got here so...
+            //console.log("payment: ", payment, " spend: ", spendy, " sheltered: ", sheltered);
             throw new Error("Unexpected fallthrough in checkSpend().");
         }
     }
@@ -774,9 +779,10 @@ export class MagnateGame extends GameBase {
         return rank === 1 ? 3 : Math.ceil(rank) ;
     }
     
-    private getRandomPayment(card: string, full?: boolean): string {
-        //Construct a full or partial payment for use in random moves.
+    private getRandomSpend(card: string, full?: boolean): number[] {
+        //Construct a full or partial payment (string) for use in random moves.
         //It may not qualify as a deed payment so don't rely on success.
+        //The caller no longer needs a string, so could be cleaned up.
         
         const cardObj = Multicard.deserialize(card)!;
         
@@ -808,7 +814,7 @@ export class MagnateGame extends GameBase {
             }
         }
 
-        return payment.join(",");
+        return this.parseSpend(payment.join("+"));
     }
 
     private hasDeed(district: string, player: playerid): boolean {
@@ -831,7 +837,7 @@ export class MagnateGame extends GameBase {
         return c1.sharesSuitWith(c2);
     }
 
-    public parseMove(submove: string): IMagnateMove {
+    public parseMove(move: string): IMagnateMove {
         //Parse a submove (single action) into an IMagnateMove object.
         //Does only structural validation.
         //Expects at leat a choice of move type (X:).
@@ -844,7 +850,7 @@ export class MagnateGame extends GameBase {
         //The suit format is: 
         const suitex = /^[MSVLYK][2-8]?$/;
         //A regex to check for illegal characters is:
-        const illegalChars = /[^A-Za-n1-9:,]/;
+        const illegalChars = /[^A-Za-n1-9:@+]/;
 
         //The move formats depend on the main action:
         // Buy:    card, district, spend
@@ -866,12 +872,15 @@ export class MagnateGame extends GameBase {
         //Incomplete starts out undefined.
         //A partial submove that can't be submitted is set to incomplete.
 
+        //Upcase everything and downcase the districts later.
+        const submove = move.trim().toUpperCase();
+        
         //Check for legal characters.
         if (illegalChars.test(submove)) {
             mm.valid = false;
             return mm;
         }
-
+        
         let card, district, suit: string;
 
         //Next, split the string on type.
@@ -902,26 +911,47 @@ export class MagnateGame extends GameBase {
 
         //Split the remaining items.
         
-        const split = typed[1].split(",");
-
-        if ( split[0] === "" ) {
-            //Malformed move string.  We require at least X:
-            mm.valid = false;
-            return mm;
-        }
+        let split = typed[1].split("@");
         
+        if ( split[0] === typed[1] ) {
+            //Found no districts so split on plus.
+            split = typed[1].split("+");
+
+            if ( split[0] === "" ) {
+                //Malformed move string.  We require at least X:
+                mm.valid = false;
+                return mm;
+            }
+            
+        } else {
+            //We set both card and district (untested).
+            card = split[0];
+            //Found a district and subsplit on +.
+            split = split[1].split("+");
+            district = split.shift()?.toLowerCase();
+        }
+
         //The only case without a card.
         if (type === "T") {
+            if (card) {
+                //Malformed move string.
+                mm.valid = false;
+                return mm;
+            }
+            
             const value = split.shift()!;
             if (! suitex.test(value) ) {
                 //Malformed suit string.
                 mm.valid = false;
                 return mm;
             } else {
-                mm.spend = this.spender([value]);
+                mm.spend = this.parseSplitSpend([value]);
             }
-        } else {
+        } else if (card === undefined) {
             card = split.shift()!;
+        }
+
+        if (card) {
             if (! cardex.test(card) ) {
                 //Malformed card.
                 mm.valid = false;
@@ -929,29 +959,42 @@ export class MagnateGame extends GameBase {
             } else {
                 mm.card = card;
             }
+            if (district) {
+                if (! cellex.test(district) ) {
+                    //Malformed district.
+                    mm.valid = false;
+                    return mm;
+                } else {
+                    mm.district = district;
+                }
+            }
         }
 
-        //The only case without more info.
+        //The only case without more info beyond card.
         if ( type === "S" ) {
+            //We ignore any extra info in this case, though we could complain.
             mm.incomplete = false;
             return mm;
+        }
+
+        //The district is already parsed, if present.
+        if ( type === "D" || type === "B" ) {
+            if ( mm.district !== undefined )
+                mm.incomplete = false;
+            else
+                mm.incomplete = true;
+            if ( type === "D" || mm.incomplete === true ) {
+                //These cases are done (good deed, bad buy).
+                return mm;
+            }
         } else if ( split.length === 0 || split[0] === "" ) {
+            //In all other cases we need suits.
             mm.incomplete = true;
             return mm;
         }
-
-        //The district cases.
-        if ( type === "B" || type === "D" ) {
-            district = split.shift()!;
-            if (! cellex.test(district) ) {
-                //Malformed district.
-                mm.valid = false;
-                return mm;
-            } else {
-                mm.district = district; 
-            }
-        } else if ( type === "T" || type === "P" || type === "C" ) {
-            //The suit cases har har.
+               
+        if ( type === "T" || type === "P" || type === "C" ) {
+            //The single suit cases har har.
             suit = split.shift()!;
             if (! suitex.test(suit) ) {
                 //Malformed suit.
@@ -959,16 +1002,13 @@ export class MagnateGame extends GameBase {
                 return mm;
             }  else {
                 mm.suit = suit; 
+                //These cases are now complete.
+                mm.incomplete = false;
+                return mm;
             }
-        } //Skipping add for a minute.
+        } 
 
-        if ( type === "D" || type === "T" || type === "P" || type === "C" ) {
-            //These cases are now complete.
-            mm.incomplete = false;
-            return mm;
-        }
-
-        //Only tokens left...if that.
+        //Only spend tokens left...if that.
         if ( split.length === 0 || split[0] === "" ) {
             mm.incomplete = true;
             return mm;
@@ -981,7 +1021,7 @@ export class MagnateGame extends GameBase {
         }
 
         //amalgamapping the spend
-        mm.spend = this.spender(split);
+        mm.spend = this.parseSplitSpend(split);
         
         //Finished buy and add cases.
         mm.incomplete = false;
@@ -1005,21 +1045,21 @@ export class MagnateGame extends GameBase {
         let move = pact.type + ":";
 
         //The move formats depend on the main action:
-        // Buy:    card, district, spend
-        // Deed:   card, district
+        // Buy:    card @ district + spend
+        // Deed:   card @ district
         // Sell:   card
-        // Add:    card, spend
-        // Trade:  spend, suit
-        // Prefer: card, suit
-        // Choose: card, suit
+        // Add:    card + spend
+        // Trade:  spend + suit
+        // Prefer: card + suit
+        // Choose: card + suit
         // Error:  for internal use only
         
         if (pact.card)
             move += pact.card;
         else if (pact.spend) {
-            move += this.unspender(pact.spend).join(",");
+            move += this.pickleSpend(pact.spend);
             if (pact.suit)
-                move += "," + pact.suit;
+                move += "+" + pact.suit;
             return move;
         } else {
             //assume incomplete rather than in error.
@@ -1028,14 +1068,47 @@ export class MagnateGame extends GameBase {
 
         //If we're here, we have a card.
         if (pact.district)
-            move += "," + pact.district;
+            move += "@" + pact.district;
         
         if (pact.spend)
-            move += "," + this.unspender(pact.spend).join(",");
+            move += "+" + this.pickleSpend(pact.spend);
         else if (pact.suit) 
-            move += "," + pact.suit;
+            move += "+" + pact.suit;
 
         return move;
+    }
+
+    private parseSpend(spend: string): number[] {
+        //Parses a raw spend into a token array.
+        return this.parseSplitSpend(spend.split("+"));
+    }
+
+    private parseSplitSpend(values: string[]): number[] {
+        //Parses a pre-split spend into a token array.
+        const spend: number[] = Array(6).fill(0);
+
+        values.forEach(value => {
+            const suit = value[0];
+            const quantity = value.length > 1 ? parseInt(value[1],10) : 1;
+            spend[suitOrder.indexOf(suit)] += quantity;
+        });
+ 
+        return spend;
+    }
+
+    private pickleSpend(tokenArray: number[]): string {
+        //Parses a token array into a spend string.
+        const spend: string[] = [];
+
+        tokenArray.forEach((value, index) => {
+            if (value > 0) {
+                const suit = suitOrder[index];
+                const quantity = (value === 1 ? "" : value.toString());
+                spend.push(`${suit}${quantity}`);
+            }
+        });
+ 
+        return spend.join("+");
     }
 
     private placeCard(card: string, district: string): void {
@@ -1055,30 +1128,12 @@ export class MagnateGame extends GameBase {
         return false;
     }
     
-    private spender(values: string[]): number[] {
-        //Parses a pre-split spend into a token array.
-        const spend: number[] = Array(6).fill(0);
-
-        values.forEach(value => {
-            const suit = value[0];
-            const quantity = value.length > 1 ? parseInt(value[1],10) : 1;
-            spend[suitOrder.indexOf(suit)] += quantity;
-        });
- 
-        return spend;
-    }
-
     private splitMove(move: string): string[] {
-        //Parses a pre-split move into an action array without empties.
-        const actions = move.split("/");
+        //Parses an unsplit move into an action array without empties.
+        const actions = move.split(",");
 
-        if (actions[actions.length - 1] === "") {
-            //Trim the dummy move.
-            //Could also test that the last character of move first.
-            actions.length--;
-        }
-
-        return actions;
+        //Trim any empty moves.
+        return actions.filter(a => a.trim() !== "");
     }
     
     private suitPicker(card: string, player: playerid): string {
@@ -1096,52 +1151,26 @@ export class MagnateGame extends GameBase {
             return choices[1];
     }
     
-    private unspender(tokenArray: number[]): string[] {
-        //Parses a token array into a pre-split spend.
-        const spend: string[] = [];
-
-        tokenArray.forEach((value, index) => {
-            if (value > 0) {
-                const suit = suitOrder[index];
-                const quantity = (value === 1 ? "" : value.toString());
-                spend.push(`${suit}${quantity}`);
-            }
-        });
- 
-        return spend;
-    }
-
     
-    //Not autopassing (or passing) so don't need a moves function?
-    public moves(player?: playerid): string[] {
-        if (this.gameover) {
-            return [];
-        }
-
-        if (player === undefined) {
-            player = this.currplayer;
-        }
-
-        const moves: string[] = [];
-
-        return moves.sort((a,b) => a.localeCompare(b));
-    }
-
+    //Not autopassing (or passing) so don't need a moves function.
+    
     public randomMove(): string {
-        let move: string = "";
-
         if (this.gameover)
-            return move;
+            return "";
 
         const cloned = Object.assign(new MagnateGame(), deepclone(this) as MagnateGame);
         const usedCardCount = (cloned.variants.includes("mega") ? 2 : 1);
         const leverageCount = usedCardCount * 2 + 1;
 
-        let premove = "";
+        const moves: string[] = [];
         for (const choice of cloned.choose) {
             const suit = cloned.suitPicker(choice, cloned.currplayer);
             cloned.tokens[cloned.currplayer - 1][suitOrder.indexOf(suit)]++;
-            premove += "C:" + choice + "," + suit + "/";
+            moves.push(cloned.pickleMove({
+                type: "C",
+                card: choice,
+                suit: suit
+            } as IMagnateMove));
         }
         cloned.choose = [];
 
@@ -1166,16 +1195,24 @@ export class MagnateGame extends GameBase {
                         if (cloned.canPlace(card, dist)) {
                             if ( cloned.canPay(card) ) {
                                 // If we can deed a 2 we can pay for it, so doesn't try to deed one.
-                                const payment = cloned.getRandomPayment(card, true);
-                                submove = "B:" + card + "," + dist + "," + payment;
+                                const tokenArray = cloned.getRandomSpend(card, true);
+                                submove = cloned.pickleMove({
+                                    type: "B",
+                                    card: card,
+                                    district: dist,
+                                    spend: tokenArray
+                                } as IMagnateMove);
+
                                 //Need to remove the card and spend the tokens for the next step.
                                 sortedHand.splice(c,1);
-
-                                const tokenArray = cloned.spender(payment.split(","));
                                 cloned.debit(tokenArray, cloned.currplayer);
-                                
                             } else if (cloned.canDeed(card) && leverage > 0) {
-                                submove = "D:" + card + "," + dist;
+                                submove = cloned.pickleMove({
+                                    type: "D",
+                                    card: card,
+                                    district: dist
+                                } as IMagnateMove);
+                                
                                 //Need to remove the card and spend the tokens for the next step.
                                 sortedHand.splice(c,1);
                                 const spend = cloned.card2tokens(card, "D");
@@ -1193,13 +1230,17 @@ export class MagnateGame extends GameBase {
             //so we don't have to do extensive clone support.
             if (submove === "") {
                 card = sortedHand.pop()!;
-                submove = "S:" + card;
+                submove = cloned.pickleMove({
+                    type: "S",
+                    card: card
+                } as IMagnateMove);
                 //Nice to collect on card for the next step.
                 const profit = cloned.card2tokens(card, "S");
                 cloned.credit(profit, cloned.currplayer);
             }
-            
-            
+
+            moves.push(submove);
+
             //In all cases, we also attempt to pay on a deed.
             let subsubmove = "";
             
@@ -1208,16 +1249,19 @@ export class MagnateGame extends GameBase {
                     const deedCard = cloned.getDeedCard(cloned.coord2algebraic(d), cloned.currplayer);
                     
                     if (deedCard) {
-                        const spend = cloned.getRandomPayment(deedCard, false);
-                        subsubmove = "A:" + deedCard + "," + spend;
+                        const tokenArray = cloned.getRandomSpend(deedCard, false);
+                        subsubmove = cloned.pickleMove({
+                            type: "A",
+                            card: deedCard,
+                            spend: tokenArray
+                        } as IMagnateMove);
                         
                         //Manually validate here.
-                        const validationObj = cloned.validateMove(submove + "/" + subsubmove);
+                        const validationObj = cloned.validateMove(submove + "," + subsubmove);
                         const parsedSS = cloned.parseMove(subsubmove);
                         if (validationObj.valid === false || parsedSS.incomplete === true) { 
                             subsubmove = "";
                         } else {
-                            const tokenArray = cloned.spender(spend.split(","));
                             cloned.debit(tokenArray, cloned.currplayer);
                             //Credit the cloned deed to prevent errors in mega.
                             cloned.add2deed(deedCard, tokenArray);
@@ -1225,22 +1269,24 @@ export class MagnateGame extends GameBase {
                     }
                 }
             }
-            
-            move += (move === "" || move.slice(-1) === "/" ? "" : "/") + submove + "/" + subsubmove;
-        }
+
+            if (subsubmove)
+                moves.push(subsubmove);
+         }
         
-        return premove + move;
+        return moves.join(",");
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         //First click should be on a move button.
         //Subsequent clicks should be:
-        // * hand card > district > tokens (if not autocompleted)
-        // * hand card > district (deeds)
+        // * hand card @ district + tokens (if not autocompleted)
+        // * hand card @ district (deeds)
         // * hand card (sales)
-        // * deed card > add tokens
-        // * token pile > token pile (for trades)
-        // * deed card > preferred or chosen suit
+        // * deed card + add tokens
+        // * token pile + token pile (for trades)
+        // * deed card + preferred or chosen suit
+        //Moves are now separated by a comma; spaces will be inserted after the comma in post.
         
         try {
             let newmove = "";
@@ -1254,7 +1300,7 @@ export class MagnateGame extends GameBase {
                             //Remove one move.
                             submoves.length = submoves.length - 1;
                         }
-                        newmove = submoves.join("/");
+                        newmove = submoves.join(",");
                     } else if ( move && move.endsWith(":") ) { //Reset type.
                         newmove = `${move.substring(0,move.length - 2)}${type}:`;
                     } else if (move) {//Next action.
@@ -1266,12 +1312,12 @@ export class MagnateGame extends GameBase {
                                 valid: false,
                                 message: i18next.t("apgames:validation.magnate.INCOMPLETE_ACTION")
                             }
-                        } else if (move.slice(-1) === "/") {
+                        } else if (move.slice(-1) === ",") {
                             //Still can fail to be a complete buy payment,
                             // but it's too difficult to detect here.
                             newmove = `${move}${type}:`;
                         } else {
-                            newmove = `${move}/${type}:`;
+                            newmove = `${move},${type}:`;
                         }
                     } else //First action.
                         newmove = `${type}:`;
@@ -1298,9 +1344,9 @@ export class MagnateGame extends GameBase {
                         newmove = `${move}${suit}3`; 
                     } else {
                         const submoves = this.splitMove(move);
-                        const pmv = this.parseMove(`${submoves.pop()},${suit}`);
+                        const pmv = this.parseMove(`${submoves.pop()}+${suit}`);
                         if (pmv.valid === true)
-                            newmove = submoves.join("/") + (submoves.length > 0 ? "/" : "") + this.pickleMove(pmv);
+                            newmove = submoves.join(",") + (submoves.length > 0 ? "," : "") + this.pickleMove(pmv);
                         else {
                             //Default message.
                             let message = i18next.t("apgames:validation.magnate.INVALID_MOVE", {move: newmove});
@@ -1329,7 +1375,7 @@ export class MagnateGame extends GameBase {
                         valid: false,
                         message: i18next.t("apgames:validation.magnate.INITIAL_BUTTON_INSTRUCTIONS")
                     }
-                } else if (move && move.endsWith("/")) {
+                } else if (move && move.endsWith(",")) {
                     //it's too early to click on other stuff.
                     return {
                         move,
@@ -1341,9 +1387,20 @@ export class MagnateGame extends GameBase {
                     const card = piece.split("k")[1];
                     newmove = `${move}${card}`;
                 } else if ( piece?.startsWith("k") ) {
-                    //clicking a board card, which in this case we interpret as its district.
-                    const district = this.coord2algebraic(col);
-                    newmove = `${move},${district}`;
+                    //clicking a board card.
+                    const submoves = this.splitMove(move);
+                    const subparse = this.parseMove(submoves[submoves.length - 1]);
+                    if (subparse.type && subparse.type === "C") {
+                        //Replace the selected card with this one.
+                        subparse.card = piece.split("k")[1];
+                        submoves.length = submoves.length - 1;
+                        submoves.push(this.pickleMove(subparse));
+                        newmove = submoves.join(",");
+                    } else {
+                        //Otherwise, interpret the card as its district
+                        const district = this.coord2algebraic(col);
+                        newmove = `${move}@${district}`;
+                    }
                 } else if (move && move.endsWith(":")) {
                     //it's too early to click on a district,
                     //unless you misclicked a card.
@@ -1354,7 +1411,7 @@ export class MagnateGame extends GameBase {
                     }
                 } else {
                     const district = this.coord2algebraic(col);
-                    newmove = `${move},${district}`;
+                    newmove = `${move}@${district}`;
                 }
             }
             
@@ -1394,6 +1451,7 @@ export class MagnateGame extends GameBase {
             return result;
         }
 
+        //More move normalization happens in parseMove().
         m = m.replace(/\s+/g, "");
 
         if (m.length === 0) {
@@ -1630,7 +1688,7 @@ export class MagnateGame extends GameBase {
                             result.complete = -1;
                             result.canrender = true;
                             if (pact.type === "B")
-                                result.autocomplete = m + "," + cloned.checkChange(pact.card).join(",");
+                                result.autocomplete = m + "+" + cloned.checkChange(pact.card);
                             result.message = i18next.t("apgames:validation.magnate.SPEND_INSTRUCTIONS");
                             return result;
                         } else {
@@ -1719,8 +1777,9 @@ export class MagnateGame extends GameBase {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
+        //Case and spacing are normalized in parseMove.
         //m = m.toLowerCase();
-        m = m.replace(/\s+/g, "");
+        //m = m.replace(/\s+/g, "");
         if (! trusted) {
             const result = this.validateMove(m);
             if (! result.valid) {
@@ -1745,6 +1804,7 @@ export class MagnateGame extends GameBase {
         for (const action of actions) {
             const pact = this.parseMove(action);
             this.highlights = [];
+            this.spend = [];
 
             //Spend first, other stuff later.
             if (pact.spend !== undefined) {
@@ -1812,6 +1872,20 @@ export class MagnateGame extends GameBase {
                             this.removeCard(pact.card, this.hands[this.currplayer - 1]);
 
                             if (pact.spend !== undefined) {
+                                //Unless the user misclicked on something he can't even deed,
+                                // he always comes in with a partial spend.
+                                //For highlighting, need to know if the spend is complete.
+                                const spendy = this.checkSpend(pact.card, pact.spend, pact.type);
+                                if (spendy < 1) {
+                                    this.highlights.push(moveTypeName);
+                                    this.highlights.push(pact.card);
+                                    this.spend = pact.spend;
+                                } else {
+                                    //It seems that I need to remove it.
+                                    this.removeCard(pact.card, this.highlights);
+                                    this.spend = [];
+                                }
+                                
                                 //Shared result type
                                 this.results.push({
                                     type: "place",
@@ -1890,6 +1964,8 @@ export class MagnateGame extends GameBase {
                                     how: pact.type,
                                     who: this.currplayer
                                 });
+                                //Need to unhighlight; will still be annotated.
+                                this.removeCard(pact.card, this.highlights);
                             } else {
                                 this.highlights.push(moveTypeName);
                             }
@@ -1918,8 +1994,8 @@ export class MagnateGame extends GameBase {
         // draw up
         this.drawUp();
 
-        this.lastmove = m;
-        //this.roll = this.roll;
+        // Hide preferences, add thin space
+        this.lastmove = m.split(",").filter(a => a[0] !== "P").join(", ");
 
         // update currplayer
         let newplayer = (this.currplayer as number) + 1;
@@ -2145,7 +2221,7 @@ export class MagnateGame extends GameBase {
         return max;
     }
 
-    public renderDecktetGlyph(card: Card | Multicard, border?: boolean, deed?: DeedContents, opacity?: number, fill?: string|number): [Glyph, ...Glyph[]] {
+    public renderDecktetGlyph(card: Card | Multicard, border?: boolean, deed?: DeedContents, opacity?: number, fill?: string|number, tokens?: number[]): [Glyph, ...Glyph[]] {
         //Refactored from the toGlyph method of Card for opacity, verticality, deed tokens, etc.
         if (border === undefined) {
             border = false;
@@ -2177,64 +2253,78 @@ export class MagnateGame extends GameBase {
                 scale: 0.5,
                 colour: "_context_strokes",
                 nudge: {
-                    dx: 250,
-                    dy: -250,
+                    dx: nudge,
+                    dy: -nudge,
                 },
                 opacity: opacity,
                 orientation: "vertical",
             });
         }
 
-        const nudges: [number,number][] = [[-250, -250], [-250, 250], [250, 250]];
+        const nudges: [number,number][] = [[-1, -1], [-1, 1], [1, 1]];
+        const soupedOpacity = Math.min(opacity * 2, 1);
         for (let i = 0; i < card.suits.length; i++) {
             const suit = card.suits[i];
-            const nudge = nudges[i];
-            if ( preflight === suit.uid )
-                glyph.push({
-                    name: "piece",
-                    scale: 0.5,
-                    nudge: {
-                        dx: nudge[0],
-                        dy: nudge[1],
-                    },
-                    colour: suitColors[suit.seq - 1],
-                    opacity: opacity,
-                    orientation: "vertical",
-                });
-            else if ( deed ) // && tokens[i] > 0)
-                glyph.push({
-                    name: "piece-borderless",
-                    scale: 0.5,
-                    nudge: {
-                        dx: nudge[0],
-                        dy: nudge[1],
-                    },
-                    colour: suitColors[suit.seq - 1],
-                    opacity: opacity,
-                    orientation: "vertical",
-                });
+            const nudged = nudges[i].map(n => n * nudge);
+            const textNudgeY = nudges[i][1] > 0 ? nudge + nudgeText : nudgeText - nudge;
 
             glyph.push({
                 name: suit.glyph,
                 scale: 0.5,
                 nudge: {
-                    dx: nudge[0],
-                    dy: nudge[1],
+                    dx: nudged[0],
+                    dy: nudged[1],
                 },
                 opacity: opacity,
                 orientation: "vertical",
             });
+            
+            //Text needs extra vertical nudging.
+            if ( preflight === suit.uid )
+                glyph.push({
+                    name: "piece",
+                    scale: 0.5,
+                    nudge: {
+                        dx: nudged[0],
+                        dy: nudged[1],
+                    },
+                    colour: suitColors[suit.seq - 1],
+                    opacity: soupedOpacity,
+                    orientation: "vertical",
+                });
+            else if ( deed  || tokens )
+                glyph.push({
+                    name: "piece-borderless",
+                    scale: 0.5,
+                    nudge: {
+                        dx: nudged[0],
+                        dy: nudged[1],
+                    },
+                    colour: suitColors[suit.seq - 1],
+                    opacity: soupedOpacity,
+                    orientation: "vertical",
+                });
 
-            if ( deed && i === 0) 
+            if ( tokens !== undefined )
+                glyph.push({
+                    text: tokens[suit.seq - 1].toString(),
+                    scale: 0.5,
+                    nudge: {
+                        dx: nudged[0],
+                        dy: textNudgeY,
+                    },
+                    orientation: "vertical",
+                });
+
+            if ( deed && i === 0 )
                 //suit1 always present
                 glyph.push({
                     text: deed.suit1.toString(),
                     scale: 0.5,
                     nudge: {
-                        dx: nudge[0],
-                        dy: nudge[1],
+                        dx: nudged[0],
+                        dy: textNudgeY,
                     },
-//                    colour: "#000",
                     orientation: "vertical",
                 });
 
@@ -2243,10 +2333,9 @@ export class MagnateGame extends GameBase {
                     text: deed.suit2!.toString(),
                     scale: 0.5,
                     nudge: {
-                        dx: nudge[0],
-                        dy: nudge[1],
+                        dx: nudged[0],
+                        dy: textNudgeY,
                     },
-//                    colour: "#000",
                     orientation: "vertical",
                 });
             
@@ -2255,10 +2344,9 @@ export class MagnateGame extends GameBase {
                     text: deed.suit3!.toString(),
                     scale: 0.5,
                     nudge: {
-                        dx: nudge[0],
-                        dy: nudge[1],
+                        dx: nudged[0],
+                        dy: textNudgeY,
                     },
-//                    colour: "#000",
                     orientation: "vertical",
                 });
         
@@ -2384,7 +2472,10 @@ export class MagnateGame extends GameBase {
             let glyph = this.renderDecktetGlyph(card);
             const isHighlighted: boolean = this.highlights.indexOf(card.uid) > -1;
 
-            if ( visibleCards.indexOf(card.uid) > - 1 ) {
+            if ( isHighlighted && visibleCards.indexOf(card.uid) > - 1 ) {
+                //This card is an incomplete buy (if this.spend).
+                glyph = this.renderDecktetGlyph(card, true, undefined, 0.6, this.currplayer, this.spend.length > 0 ? this.spend : undefined);
+            } else if ( visibleCards.indexOf(card.uid) > - 1 ) {
                 //Board cards get borders.
                 glyph = this.renderDecktetGlyph(card, true);
             } else if ( card.rank.uid === this.pawnrank || card.rank.name === "Excuse" ) {
@@ -2427,6 +2518,16 @@ export class MagnateGame extends GameBase {
 
                 legend[lname] = [
                     {
+                        name: suit.glyph!,
+                        scale: 0.60,
+                        opacity: 0.3,
+                        nudge: {
+                            dx: 0,
+                            dy: 125,
+                        },
+                        orientation: "vertical",
+                    },
+                    {
                         name: border ? "piece" : "piece-borderless",
                         scale: 0.75,
                         colour: color,
@@ -2438,22 +2539,11 @@ export class MagnateGame extends GameBase {
                         orientation: "vertical",
                     },
                     {
-                        name: suit.glyph!,
-                        scale: 0.60,
-                        opacity: 0.3,
-                        nudge: {
-                            dx: 0,
-                            dy: 125,
-                        },
-                        orientation: "vertical",
-                    },
-                    {
                         text: pcount.toString(),
                         scale: 0.70,
-//                        colour: "#000",
                         nudge: {
                             dx: 0,
-                            dy: 125,
+                            dy: 150,
                         },
                         orientation: "vertical",
                     }
@@ -2715,7 +2805,10 @@ export class MagnateGame extends GameBase {
         
         for (const choice of this.choose) {
             const [x, y] = this.deed2coords(choice, this.currplayer);
-            rep.annotations.push({type: "enter", dashed: [8,8], targets: [{row: y, col: x}], colour: this.currplayer});
+            if (this.highlights.indexOf(choice) > -1)
+                rep.annotations.push({type: "enter", dashed: [2,2], targets: [{row: y, col: x}], colour: this.currplayer});
+            else
+                rep.annotations.push({type: "enter", dashed: [8,8], targets: [{row: y, col: x}], colour: this.currplayer});
         }
         
         if (annotationPoints.length > 0)

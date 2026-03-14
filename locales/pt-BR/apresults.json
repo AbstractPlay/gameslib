@@ -42,5 +42,10 @@
         "between": "{{player}} emergiu um cerca entre {{cell1}} e {{cell2}}.",
         "veletas": "{{player}} colocou a peça em {{where}}."
     },
-    "BUTTON": "{{player}} pegou o botão."
+    "BUTTON": "{{player}} pegou o botão.",
+    "CAPTURE": {
+        "ataxx_one": "{{count}} peça foi convertida.",
+        "ataxx_many": "Múltiplas peças foram convertidas.",
+        "ataxx_other": "{{count}} peças foram convertidas."
+    }
 }

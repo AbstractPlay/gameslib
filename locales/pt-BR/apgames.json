@@ -23,6 +23,8 @@
         "bamboo": "Coloque pedras de modo que nenhum grupo tenha mais peças que o número dos seus grupos no tabuleiro. Depois, seja o último jogador capaz de mover.",
         "bao": "Um jogo tradicional de semear à moda mancala oriundo da região Leste da África, na qual você tenta eliminar todas as peças da fileira a frente oposta ou deixar-los sem movimentos possíveis.",
         "bide": "Até seis jogadores tomam turnos colocando peças no tabuleiro, empurrando peças adjacentes para o lado de fora. É possível passar a vez para aumentar o número de peças que podem ser colacadas imediatamente mais tarde. Peças mais próximas do centro possuem mais valor. O grupo com a pontuação mais alta vence!",
-        "biscuit": "Um jogo Decktet baseado em dominó onde você pode jogar cartas para ganhar pontos de imediato e tentar ser o primeiro em esvaziar todas as cartas da sua mão. Uma partida é feita entre múltiplos rounds com um alvo em específico."
+        "biscuit": "Um jogo Decktet baseado em dominó onde você pode jogar cartas para ganhar pontos de imediato e tentar ser o primeiro em esvaziar todas as cartas da sua mão. Uma partida é feita entre múltiplos rounds com um alvo em específico.",
+        "blam": "Um jogo “Icehouse” para 2–4 pessoas, jogado em um tabuleiro de xadrez tradicional. Peças jogadas empurram outras peças adjacentes fora. Empurre peças fora do tabuleiro para capturar-las. O jogador com total de pips mais alto ao final do jogo vence.",
+        "blastradius": "Um jogo de guerra abstrato onde peças irradiam os seus espaços ao redor delas. Elimine todas as peças que se opuserem."
     }
 }

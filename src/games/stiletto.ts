@@ -598,7 +598,7 @@ export class StilettoGame extends InARowBase {
 
     public statuses(): IStatus[] {
         const daggerPlayer = this.hasDagger() ? this.currplayer : this.currplayer % 2 + 1;
-        const status = `Player ${daggerPlayer}.\n`
+        const status = `Player ${daggerPlayer}\n`
 
         return [{ key: i18next.t("apgames:status.stiletto.DAGGER"),
                   value: [status] } as IStatus];

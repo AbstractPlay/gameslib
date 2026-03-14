@@ -35,7 +35,8 @@
     "BEAROFF": {
         "complete_one": "{{player}} alterou o curso de uma peça em {{from}}.",
         "complete_many": "{{player}} alterou o curso de múltiplas peças em {{from}}.",
-        "complete_other": "{{player}} alterou o curso de {{count}} peças em {{from}}."
+        "complete_other": "{{player}} alterou o curso de {{count}} peças em {{from}}.",
+        "nowhat": "{{player}} se afastou de {{from}}"
     },
     "BLOCK": {
         "bao": "A cova {{pit}} está em kutakatia (bloqueada).",
@@ -46,6 +47,22 @@
     "CAPTURE": {
         "ataxx_one": "{{count}} peça foi convertida.",
         "ataxx_many": "Múltiplas peças foram convertidas.",
-        "ataxx_other": "{{count}} peças foram convertidas."
+        "ataxx_other": "{{count}} peças foram convertidas.",
+        "bao_one": "{{player}} capturou {{count}} pedra das seguintes covas (na ordem): {{pits}}",
+        "bao_many": "{{player}} capturou múltiplas pedras das seguintes covas (na ordem): {{pits}}",
+        "bao_other": "{{player}} capturou {{count}} pedras das seguintes covas (na ordem): {{pits}}",
+        "blastradius_one": "{{player}} removeu uma peça do oponente em {{where}}.",
+        "blastradius_many": "{{player}} removeu {{count}} peças do oponente em {{where}}.",
+        "blastradius_other": "{{player}} removeu {{count}} peças do oponente em {{where}}.",
+        "blockade": "{{player}} capturou uma peça bloqueadora em {{where}}.",
+        "blooms": "{{player}} capturou um grupo de {{what}} de tamanho {{count}}.",
+        "boom": "{{player}} destruiu uma peça em {{where}}.",
+        "buku": "{{count}} peças foram capturadas em {{where}}.",
+        "c1": "{{player}} eliminou um bloco em {{where}}.",
+        "complete": "{{player}} capturou um(a) {{what}} em {{where}}.",
+        "crosshairs": "{{player}} derrubou um avião em {{where}}.",
+        "dameo_king": "{{player}} capturou o rei em {{where}}.",
+        "dameo_soldier": "{{player}} capturou um soldado em {{where}}.",
+        "entrapment_opponent": "{{player}} capturou um andarilho do oponente em {{where}}."
     }
 }

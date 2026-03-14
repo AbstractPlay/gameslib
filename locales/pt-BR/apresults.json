@@ -39,6 +39,8 @@
     },
     "BLOCK": {
         "bao": "A cova {{pit}} está em kutakatia (bloqueada).",
-        "between": "{{player}} emergiu um cerca entre {{cell1}} e {{cell2}}."
-    }
+        "between": "{{player}} emergiu um cerca entre {{cell1}} e {{cell2}}.",
+        "veletas": "{{player}} colocou a peça em {{where}}."
+    },
+    "BUTTON": "{{player}} pegou o botão."
 }

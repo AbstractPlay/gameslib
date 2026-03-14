@@ -36,5 +36,9 @@
         "complete_one": "{{player}} alterou o curso de uma peça em {{from}}.",
         "complete_many": "{{player}} alterou o curso de múltiplas peças em {{from}}.",
         "complete_other": "{{player}} alterou o curso de {{count}} peças em {{from}}."
+    },
+    "BLOCK": {
+        "bao": "A cova {{pit}} está em kutakatia (bloqueada).",
+        "between": "{{player}} emergiu um cerca entre {{cell1}} e {{cell2}}."
     }
 }

@@ -56,7 +56,7 @@ export class StilettoGame extends InARowBase {
             },
         ],
         categories: ["goal>align", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>2c"],
-        flags: ["no-moves", "custom-colours", "limited-pieces"],
+        flags: ["no-moves", "custom-colours"],
     };
 
     public coords2algebraic(x: number, y: number): string {

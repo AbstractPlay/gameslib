@@ -601,6 +601,10 @@ export class StilettoGame extends InARowBase {
         if (this.variants !== undefined) {
             status += "**Variants**: " + this.variants.join(", ") + "\n\n";
         }
+
+        const daggerPlayer = this.hasDagger() ? this.currplayer : this.currplayer % 2 + 1;
+        status += `Player ${daggerPlayer} has dagger.\n`
+
         return status;
     }
 

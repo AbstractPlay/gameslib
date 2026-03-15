@@ -63,6 +63,34 @@
         "crosshairs": "{{player}} derrubou um avião em {{where}}.",
         "dameo_king": "{{player}} capturou o rei em {{where}}.",
         "dameo_soldier": "{{player}} capturou um soldado em {{where}}.",
-        "entrapment_opponent": "{{player}} capturou um andarilho do oponente em {{where}}."
+        "entrapment_opponent": "{{player}} capturou um andarilho do oponente em {{where}}.",
+        "entrapment_self": "{{player}} capturou um dos seus andarilhos em {{where}}.",
+        "fightopia_1": "{{player}} capturou um peão em {{where}}.",
+        "fightopia_2": "{{player}} capturou um tanque em {{where}}.",
+        "furl": "{{player}} capturou uma pilha de tamanho {{size}} em {{where}}.",
+        "gess_one": "{{count}} pedra foi removida do tabuleiro.",
+        "gess_many": "{{count}} pedras foram removidas do tabuleiro.",
+        "gess_other": "{{count}} pedras foram removidas do tabuleiro.",
+        "group_one": "{{player}} capturou a pedra em {{cells}}.",
+        "group_many": "{{player}} capturou {{count}} pedras nos seguintes blocos: {{cells}}.",
+        "group_other": "{{player}} capturou {{count}} pedras nos seguintes blocos: {{cells}}.",
+        "majorities": "{{count}} peças foram removidas.",
+        "mancala_one": "{{player}} capturou {{count}} pedra em {{pit}}.",
+        "mancala_many": "{{player}} capturou {{count}} pedras em {{pit}}.",
+        "mancala_other": "{{player}} capturou {{count}} pedras em {{pit}}.",
+        "mattock": "{{player}} capturou um mineiro em {{where}}.",
+        "minimal": "Uma peça foi capturada.",
+        "monkey_queen": "Uma rainha foi capturada.",
+        "monkey_single": "Um singleton foi capturado.",
+        "multiple_one": "Uma peça foi capturada.",
+        "multiple_many": "{{count}} peças foram capturadas.",
+        "multiple_other": "{{count}} peças foram capturadas.",
+        "murus_double": "{{player}} capturou dois pedaços em {{where}}.",
+        "noperson": {
+            "group_nowhere": "Um grupo de tamanho {{count}} foi capturado.",
+            "multiple": "As seguintes peças foram capturadas: {{capped}}.",
+            "nowhat": "Uma peça foi capturada em {{where}}.",
+            "nowhere": "Um(a) {{what}} foi capturado(a)."
+        }
     }
 }

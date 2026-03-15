@@ -2127,6 +2127,15 @@ export class CrosshairsGame extends GameBase {
 
                 } else if (parsed.moveType === "climb") {
                     if (!parsed.target || action.endsWith("/")) {
+                        // Apply embedded shots even for partial moves so that
+                        // shot-down planes are removed from the board when
+                        // rendering the direction-selection step.
+                        const embeddedMatch = rawAction.match(/^\([^)]+\)/);
+                        if (embeddedMatch) {
+                            const embeddedShots = embeddedMatch[0].slice(1, -1).split(",").map(s => s.trim().toLowerCase());
+                            const shotErr = applyShots(embeddedShots, board, rawAction);
+                            if (shotErr) { error = shotErr; break; }
+                        }
                         isPartial = true;
                         partialState = { type: "move_direction", fromCell, targetCell: parsed.target || "", moveType: "climb", currentDir };
                         break;
@@ -2170,6 +2179,13 @@ export class CrosshairsGame extends GameBase {
 
                 } else if (parsed.moveType === "level") {
                     if (!parsed.target || action.endsWith("/")) {
+                        // Apply embedded shots even for partial moves (same fix as climb above)
+                        const embeddedMatch = rawAction.match(/^\([^)]+\)/);
+                        if (embeddedMatch) {
+                            const embeddedShots = embeddedMatch[0].slice(1, -1).split(",").map(s => s.trim().toLowerCase());
+                            const shotErr = applyShots(embeddedShots, board, rawAction);
+                            if (shotErr) { error = shotErr; break; }
+                        }
                         isPartial = true;
                         partialState = { type: "move_direction", fromCell, targetCell: parsed.target || "", moveType: "level", currentDir };
                         break;
@@ -2222,6 +2238,13 @@ export class CrosshairsGame extends GameBase {
                 } else if (parsed.moveType === "dive") {
                     const diveSequence = parsed.diveSequence || "";
                     if (diveSequence === "" || action.endsWith("v")) {
+                        // Apply embedded shots before "v" even for partial dives (same fix as climb/level)
+                        const embeddedMatch = rawAction.match(/^\([^)]+\)/);
+                        if (embeddedMatch) {
+                            const embeddedShots = embeddedMatch[0].slice(1, -1).split(",").map(s => s.trim().toLowerCase());
+                            const shotErr = applyShots(embeddedShots, board, rawAction);
+                            if (shotErr) { error = shotErr; break; }
+                        }
                         isPartial = true;
                         diveState = {
                             fromCell,

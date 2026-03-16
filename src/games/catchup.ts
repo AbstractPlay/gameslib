@@ -581,24 +581,8 @@ export class CatchupGame extends GameBase {
         return 0;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [{ name: i18next.t("apgames:status.GROUPSIZES"), scores: [this.sizes[0].join(","), this.sizes[1].join(",")] }];
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Sizes**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const pieces = this.sizes[n - 1].join(",");
-            status += `Player ${n}: ${pieces}\n\n`;
-        }
-
-        return status;
     }
 
     public clone(): CatchupGame {

@@ -1,4 +1,4 @@
- 
+
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -250,11 +250,6 @@ export class HavannahGame extends GameBase {
         return moves;
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             let newmove = "";
@@ -350,7 +345,6 @@ export class HavannahGame extends GameBase {
         this.saveState();
         return this;
     }
-
 
     protected checkEOG(): HavannahGame {
         let prevPlayer: playerid = 1;
@@ -512,16 +506,6 @@ export class HavannahGame extends GameBase {
             }
         }
         return rep;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
     }
 
     public clone(): HavannahGame {

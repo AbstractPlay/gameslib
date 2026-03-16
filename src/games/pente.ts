@@ -59,7 +59,7 @@ export class PenteGame extends InARowBase {
             { uid: "overtime-capture", group: "overtime-capture" },
         ],
         categories: ["goal>align", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["scores", "custom-colours", "check"],
+        flags: ["custom-colours", "check"],
         displays: [{uid: "hide-threatened"}],
     };
 
@@ -213,11 +213,6 @@ export class PenteGame extends InARowBase {
             moves.push("pass");
         }
         return moves;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     private canSwap(): boolean {
@@ -595,7 +590,6 @@ export class PenteGame extends InARowBase {
         }
         return false;
     }
-
 
     private checkPatterns(startX: number, startY: number, dx: number, dy: number, places: string[], playerPlaced: string[], winningPatterns: string[]): boolean {
         let line = "";
@@ -999,29 +993,10 @@ export class PenteGame extends InARowBase {
         return this.captureCounts[player - 1];
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.SCORES"), scores: [`${this.getPlayerScore(1)} / ${this.threshold}`, `${this.getPlayerScore(2)} / ${this.threshold}`] },
         ]
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Scores**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const score = this.getPlayerScore(n as playerid);
-            status += `Player ${n}: ${score} / ${this.threshold}\n\n`;
-        }
-
-        status += "**In Check**\n\n";
-        status += `In check: ${this.inCheck().join(",")}\n\n`;
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

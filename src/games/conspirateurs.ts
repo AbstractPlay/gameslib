@@ -42,7 +42,7 @@ export class ConspirateursGame extends GameBase {
         ],
         variants: [{uid: "quick", group: "setup"}, {uid: "strict", group: "movement"}],
         categories: ["goal>evacuate", "other>traditional", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per", "other>2+players"],
-        flags: ["no-moves", "custom-randomization", "scores"]
+        flags: ["no-moves", "custom-randomization"]
     };
 
     public numplayers = 2;
@@ -579,7 +579,7 @@ export class ConspirateursGame extends GameBase {
         return this;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         const toDrop: number[] = [];
         for (let p = 1; p <= this.numplayers; p++) {
             toDrop.push(this.toDrop(p as playerid));
@@ -733,16 +733,6 @@ export class ConspirateursGame extends GameBase {
         }
 
         return rep;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
     }
 
     // public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

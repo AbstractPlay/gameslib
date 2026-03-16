@@ -60,7 +60,7 @@ export class AmazonsGame extends GameBase {
             {uid: "scrambled", group: "setup"},
         ],
         categories: ["goal>immobilize", "mechanic>block", "mechanic>move", "mechanic>enclose", "board>shape>rect", "board>connect>rect", "components>simple>3c"],
-        flags: ["scores", "perspective", "pie", "aiai"],
+        flags: ["perspective", "pie", "aiai"],
         displays: [{ uid: "bricks" }, { uid: "blackbloc" }],
     };
     public static coords2algebraic(x: number, y: number): string {
@@ -250,11 +250,6 @@ export class AmazonsGame extends GameBase {
             allmoves.push(move[0] + "-" + move[1] + "/" + move[2]);
         });
         return allmoves;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -733,22 +728,14 @@ export class AmazonsGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        if (this.gameover) {
-            return `**GAME OVER**\n\nWinner: ${this.winner.join(", ")}\n\n`;
-        }
-        const t = this.territory();
-        return `**Territory**\n\nFirst player: ${t[0]}\n\nSecond player: ${t[1]}\n`;
-    }
-
-    // public statuses(): IStatus[] {
+    // public sidebarStatuses(): IStatus[] {
     //     if (this.areIsolated())
     //         return [{ key: i18next.t("apgames:status.PHASE"), value: [i18next.t("apgames:status.amazons.ISOLATEDQUEENS")] }];
     //     else
     //         return [];
     // }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [{ name: i18next.t("apgames:status.amazons.TERRITORY"), scores: this.territory(), spoiler: true}];
     }
 

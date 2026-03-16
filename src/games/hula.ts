@@ -6,7 +6,6 @@ import { HexTriGraph, reviver, UserFacingError, StackSet } from "../common";
 import { bfsFromNode, dfsFromNode } from 'graphology-traversal';
 import i18next from "i18next";
 
-
 export type playerid = 1|2;
 export type cellcontent = playerid|"neutral";
 
@@ -192,11 +191,6 @@ export class HulaGame extends GameBase {
         return moves;
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             let newmove = "";
@@ -303,7 +297,6 @@ export class HulaGame extends GameBase {
         this.saveState();
         return this;
     }
-
 
     private enclosesCenter(group: Set<string>): boolean {
         const graph = this.getGraph(false); // The board, including center cell

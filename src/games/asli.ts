@@ -67,7 +67,7 @@ export class AsliGame extends GameBase {
             {uid: "setkomi", group: "komi"},
         ],
         categories: ["goal>immobilize", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["custom-buttons", "no-moves", "custom-randomization", "scores", "custom-colours"],
+        flags: ["custom-buttons", "no-moves", "custom-randomization", "custom-colours"],
         displays: [{uid: "swap-prison"}]
     };
 
@@ -796,19 +796,6 @@ export class AsliGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-        status += "**Prison**: " + this.prison.join(", ") + "\n\n";
-        status += "**Max groups**: " + this.maxGroups.join(", ") + "\n\n";
-        status += "**Incursion?**: " + JSON.stringify(this.incursion) + "\n\n";
-
-        return status;
-    }
-
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
         let resolved = false;
         switch (r.type) {
@@ -824,7 +811,7 @@ export class AsliGame extends GameBase {
         return resolved;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         let scores: number[] = [this.prison[1], this.prison[0]];
         if (this.maxGroups[0] > 0 && this.maxGroups[1] > 0) {
             const terr = this.getTerritories();

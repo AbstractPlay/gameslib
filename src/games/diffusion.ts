@@ -57,7 +57,6 @@ export class DiffusionGame extends GameBase {
         displays: [{uid: "pips"}]
     };
 
-
     public static clone(obj: DiffusionGame): DiffusionGame {
         const cloned: DiffusionGame = Object.assign(new DiffusionGame(), deepclone(obj) as DiffusionGame);
         return cloned;
@@ -69,7 +68,6 @@ export class DiffusionGame extends GameBase {
     public static algebraic2coords(cell: string): [number, number] {
         return GameBase.algebraic2coords(cell, 2);
     }
-
 
     public numplayers = 2;
     public currplayer: playerid = 1;
@@ -185,11 +183,6 @@ export class DiffusionGame extends GameBase {
             }
         }
         return moves.sort((a,b) => a.localeCompare(b));
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     // Couldn't be simpler!
@@ -442,16 +435,6 @@ export class DiffusionGame extends GameBase {
         }
 
         return rep;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

@@ -722,11 +722,6 @@ export class DeckfishGame extends GameBase {
         return targets.map(loc => this.loc2algebraic(loc));
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             let newmove = "";
@@ -1370,7 +1365,7 @@ export class DeckfishGame extends GameBase {
         return score;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         const scores: number[] = [];
         for (let p = 1; p <= this.numplayers; p++) {
             scores.push(this.getPlayerScore(p));
@@ -1400,14 +1395,6 @@ export class DeckfishGame extends GameBase {
         market.map(m => pcs.push(m));
 
         return pcs.join(",");
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        status += "**Scores**: " + this.getPlayersScores()[0].scores.join(", ") + "\n\n";
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

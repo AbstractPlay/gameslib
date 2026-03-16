@@ -185,11 +185,6 @@ export class GomokuGame extends InARowBase {
         return moves;
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     private canSwap(): boolean {
         // Check if the player is able to invoke the pie rule on this turn.
         if (this.openingProtocol === "swap-1st") {
@@ -706,16 +701,6 @@ export class GomokuGame extends InARowBase {
             swapped: this.swapped,
             tiebreaker: this.tiebreaker,
         };
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
     }
 
     public clone(): GomokuGame {

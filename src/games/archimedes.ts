@@ -46,7 +46,7 @@ export class ArchimedesGame extends GameBase {
                 apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
             },
         ],
-        flags: ["perspective", "pie", "limited-pieces"],
+        flags: ["perspective", "pie", ],
         variants: [
             {uid: "8x10"}
         ],
@@ -255,11 +255,6 @@ export class ArchimedesGame extends GameBase {
         }
         const pieces = [...this.board.entries()].filter(e => e[1] === player);
         return pieces.length;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -651,25 +646,10 @@ export class ArchimedesGame extends GameBase {
         return [...this.board.values()].filter(p => p === player).length;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
         ]
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Pieces On Board:**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${this.getPlayerPieces(n)}\n\n`;
-        }
-
-        return status;
     }
 
     public clone(): ArchimedesGame {

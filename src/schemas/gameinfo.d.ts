@@ -77,7 +77,6 @@ export interface APGamesInformation {
     | "custom-colours"
     | "custom-randomization"
     | "experimental"
-    | "limited-pieces"
     | "no-explore"
     | "no-moves"
     | "perspective"

@@ -56,7 +56,7 @@ export class LascaGame extends GameBase {
             {uid: "size-9", group: "board"},
         ],
         categories: ["goal>immobilize", "mechanic>capture", "mechanic>move", "mechanic>differentiate", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["perspective", "automove", "pie", "limited-pieces"]
+        flags: ["perspective", "automove", "pie", ]
     };
 
     public static clone(obj: LascaGame): LascaGame {
@@ -312,11 +312,6 @@ export class LascaGame extends GameBase {
         }
 
         return moves.sort();
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -714,19 +709,6 @@ export class LascaGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Steps to officer**: " + [this.getStepsToOfficer(1), this.getStepsToOfficer(2)].join(", ") + "\n\n";
-        status += "**Material**: " + [this.getMaterial(1), this.getMaterial(2)].join(", ") + "\n\n";
-
-        return status;
-    }
-
     private getStepsToOfficer(player?: playerid): number {
         if (player === undefined) {
             player = this.currplayer;
@@ -769,7 +751,7 @@ export class LascaGame extends GameBase {
         return score;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.lasca.STEPS"), scores: [this.getStepsToOfficer(1), this.getStepsToOfficer(2)] },
             { name: i18next.t("apgames:status.lasca.MATERIAL"), scores: [this.getMaterial(1), this.getMaterial(2)] },

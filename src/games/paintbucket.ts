@@ -56,7 +56,7 @@ export class PaintbucketGame extends GameBase {
             {uid: "size-16", group: "board"},
         ],
         categories: ["goal>annihilate", "mechanic>convert", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["automove", "limited-pieces"],
+        flags: ["automove", ],
     };
     public numplayers = 2;
     public currplayer!: playerid;
@@ -171,7 +171,7 @@ export class PaintbucketGame extends GameBase {
         return [...new Set<number>(groups.map(g => g.length))].sort((a,b) => b - a);
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         const groupSizes1 = this.getGroupSizes(1);
         const groupSizes2 = this.getGroupSizes(2);
         return [
@@ -196,11 +196,6 @@ export class PaintbucketGame extends GameBase {
         }
 
         return moves.sort((a,b) => a.localeCompare(b));
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -291,14 +286,6 @@ export class PaintbucketGame extends GameBase {
         this.checkEOG();
         this.saveState();
         return this;
-    }
-
-    public status(): string {
-        let status = super.status();
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-        return status;
     }
 
     protected checkEOG(): PaintbucketGame {

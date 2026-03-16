@@ -7,7 +7,6 @@ import { bfsFromNode, dfsFromNode } from 'graphology-traversal';
 import { connectedComponents } from 'graphology-components';
 import i18next from "i18next";
 
-
 export type playerid = 1|2;
 export type cellcontent = playerid;
 
@@ -100,8 +99,8 @@ export class StibroGame extends GameBase {
     private othergrouphalos: Map<number, Set<string>> | null = null;
 
     private freegroupsafter(newCell: string): boolean {
-        if(this.curredgegroups === null || 
-            this.currgrouphalos === null || 
+        if(this.curredgegroups === null ||
+            this.currgrouphalos === null ||
             this.othergrouphalos === null){
             const currgraph = this.getGraph();
             const othergraph = this.getGraph();
@@ -150,7 +149,6 @@ export class StibroGame extends GameBase {
                 currgrouphalos.delete(i);
             }
         }
-
 
         if(!this.outerRing.has(newCell)){
             let newgroupisedgegroup = false;
@@ -322,18 +320,12 @@ export class StibroGame extends GameBase {
         const moves: string[] = [];
         if (this.gameover) { return moves; }
 
-
         for (const cell of this.graph.listCells(false) as string[]) {
             if (this.validPlacement(cell)) {
                 moves.push(cell);
             }
         }
         return moves;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {

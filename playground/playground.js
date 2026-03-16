@@ -271,7 +271,7 @@ function _renderInCheckSection(game, playerNames) {
 // Helper function to render the general statuses section
 function _renderStatusesSection(game, playerNames) {
     let statusBlockHTML = "";
-    const statuses = game.statuses();
+    const statuses = game.sidebarStatuses();
     let actualStatusContent = "";
 
     if (statuses) {
@@ -302,10 +302,10 @@ function _renderStatusesSection(game, playerNames) {
 // Helper function to render the scores/limited pieces section
 function _renderScoresSection(game, gamename, playerNames, gameFlags, glyphRenderOptions, isDark) {
     let scoresBlockHTML = "";
-    if (typeof game.getPlayersScores === "function") {
-        const metricsArray = game.getPlayersScores();
+    if (typeof game.sidebarScores === "function") {
+        const metricsArray = game.sidebarScores();
         if (metricsArray !== undefined && metricsArray !== null && Array.isArray(metricsArray) && metricsArray.length > 0) {
-            scoresBlockHTML += `<h3>${gameFlags.includes("limited-pieces") ? "Pieces Left" : "Scores"}:</h3>`;
+            scoresBlockHTML += `<h3>Scores:</h3>`;
 
             metricsArray.forEach(metric => {
                 if (typeof metric === 'object' && metric !== null && metric.hasOwnProperty('name') && typeof metric.name === 'string' && metric.hasOwnProperty('scores') && Array.isArray(metric.scores)) {
@@ -386,7 +386,7 @@ function _renderScoresSection(game, gamename, playerNames, gameFlags, glyphRende
                 }
             });
         } else if (metricsArray !== undefined && metricsArray !== null && !Array.isArray(metricsArray)) {
-            scoresBlockHTML += `<h3>${gameFlags.includes("limited-pieces") ? "Pieces Left" : "Scores"}:</h3>`;
+            scoresBlockHTML += `<h3>Scores:</h3>`;
             scoresBlockHTML += `<p><em>Scores data is in an unrecognized format. Expected an array of metrics. Displaying raw: ${formatScore(metricsArray)}</em></p>`;
         }
     }
@@ -499,13 +499,13 @@ function updateGameStatusPanel(game, gamename) {
         inCheckPanel.style.display = 'none';
     }
 
-    // General Statuses from game.statuses()
+    // General Statuses from game.sidebarStatuses()
     if (typeof game.statuses === "function") {
         content += _renderStatusesSection(game, playerNames);
     }
 
-    // Scores / Limited Pieces
-    if (gameFlags.includes("scores") || gameFlags.includes("limited-pieces")) {
+    // Scores
+    if (game.sidebarScores().length > 0) {
         content += _renderScoresSection(game, gamename, playerNames, gameFlags, glyphRenderOptions, isDark);
     }
 
@@ -1099,7 +1099,6 @@ function renderGame(...args) {
                 }
             }
 
-
             for (let p = 1; p <= numPlayers; p++) {
                 const playerName = playerNames[p-1] || `Player ${p}`;
 
@@ -1120,7 +1119,6 @@ function renderGame(...args) {
                 swatch.style.lineHeight = '0'; // Important for SVG alignment
                 swatch.style.textAlign = 'center'; // For text fallback
                 swatch.style.fontSize = '10px'; // For text fallback
-
 
                 if (hasSharedPieces) {
                     swatch.textContent = `P${p}`;
@@ -1252,29 +1250,53 @@ function renderGame(...args) {
             myNode.innerHTML = errorMsg;
         }
 
-        var movelst = game.moveHistory();
-        var div = document.getElementById("moveHistory");
-        if (Array.isArray(movelst)) {
-            div.innerHTML = movelst.map((x) => {
-                if (Array.isArray(x)) {
-                    return "[" + x.join(", ") + "]";
+        const movelst = game.moveHistory();
+        const div = document.getElementById("moveHistory");
+        if (Array.isArray(movelst) && movelst.length > 0) {
+            let table = '<table class="striped hoverable"><thead><tr>';
+            table += '<th>Move</th>';
+            const playerNames = getPlayerNamesForStatus(game, gamename);
+            for (let i = 0; i < game.numplayers; i++) {
+                table += `<th>${playerNames[i] || `Player ${i + 1}`}</th>`;
+            }
+            table += '</tr></thead><tbody>';
+            movelst.forEach((round, index) => {
+                if (index === movelst.length - 1) {
+                    table += '<tr id="lastMoveInHistory">';
+                } else {
+                    table += '<tr>';
                 }
-                return "[invalid move entry]";
-            }).join(" ");
+                table += `<td>${index + 1}</td>`;
+                for (let i = 0; i < game.numplayers; i++) {
+                    const move = round[i] || "";
+                    table += `<td>${move}</td>`;
+                }
+                table += '</tr>';
+            });
+            table += '</tbody></table>';
+            div.innerHTML = table;
+            requestAnimationFrame(() => {
+                const lastRow = document.getElementById("lastMoveInHistory");
+                if (lastRow) {
+                    lastRow.scrollIntoView({ behavior: "auto", block: "end" });
+                }
+            });
+        } else if (Array.isArray(movelst)) {
+            div.innerHTML = '<p>No moves have been made yet.</p>';
         } else {
             div.innerHTML = "[move history unavailable]";
         }
 
-        var status = game.status();
+        var status = "";
         if (typeof game.chatLog === "function") {
-            var results = game.chatLog(PREDEFINED_LOG_NAMES).reverse().slice(0, 5).map(e => e.join(" "));
+            var results = game.chatLog(PREDEFINED_LOG_NAMES).reverse().map(e => e.join(" "));
             if (results.length > 0) {
-                status += "\n\n* " + results.join("\n* ") + "\n\n&hellip;";
+                status += "\n\n* " + results.join("\n* ");
             }
         } else if (typeof game.resultsHistory === "function") {
-            var results = game.resultsHistory().reverse().slice(0, 5);
+            var results = game.resultsHistory().reverse();
             if (results.length > 0) {
-                status += "\n\n* " + results.map((x) => { return JSON.stringify(x); }).join("\n* ") + "\n\n&hellip;";
+                status += "\n\n* " + results.map((x) => { return JSON.stringify(x); }).join("\n* ");
             }
         }
         var statusbox = document.getElementById("status");

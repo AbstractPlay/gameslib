@@ -8,7 +8,6 @@ import i18next from "i18next";
 export type playerid = 1|2;
 export type Piece = playerid|"X";
 
-
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, Piece>;
@@ -151,11 +150,6 @@ export class PahTumGame extends GameBase {
         }
 
         return [...moves].sort((a,b) => a.localeCompare(b));
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     private findCaptures(cell: string, p?: playerid): string[] {
@@ -433,7 +427,7 @@ export class PahTumGame extends GameBase {
         return score;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }
         ]
@@ -558,16 +552,6 @@ export class PahTumGame extends GameBase {
         }
 
         return rep;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

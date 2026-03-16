@@ -69,7 +69,7 @@ export class AnacheGame extends GameBase {
             { uid: "size-15", group: "board" },
         ],
         categories: ["goal>breakthrough", "goal>immobilize", "mechanic>move>group", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple"],
-        flags: ["perspective", "limited-pieces", "no-moves"],
+        flags: ["perspective", "no-moves"],
         displays: [{uid: "hide-frozen"}],
     };
 
@@ -207,11 +207,6 @@ export class AnacheGame extends GameBase {
         if (this.gameover) { return []; }
         const moves: string[] = [];
         return moves;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     private getNeighbours(cell: string): string[] {
@@ -1369,25 +1364,10 @@ export class AnacheGame extends GameBase {
         return [...this.board.values()].filter(x => x === player).length;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
         ]
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Pieces On Board:**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${this.getPlayerPieces(n)}\n\n`;
-        }
-
-        return status;
     }
 
     public clone(): AnacheGame {

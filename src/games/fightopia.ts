@@ -319,11 +319,6 @@ export class FightopiaGame extends GameBase {
         return moves.sort();
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             const cell = FightopiaGame.coords2algebraic(col, row);
@@ -413,7 +408,6 @@ export class FightopiaGame extends GameBase {
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
                 return result;
             }
-
 
             let selected: Piece|undefined;
             const [capX, capY] = FightopiaGame.algebraic2coords(cell);
@@ -799,16 +793,6 @@ export class FightopiaGame extends GameBase {
                 break;
         }
         return resolved;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
     }
 
     public clone(): FightopiaGame {

@@ -388,11 +388,6 @@ export class ConhexGame extends GameBase {
         return moves.sort((a,b) => a.localeCompare(b))
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             let newmove = "";
@@ -704,16 +699,6 @@ export class ConhexGame extends GameBase {
                 break;
         }
         return resolved;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
     }
 
     public clone(): ConhexGame {

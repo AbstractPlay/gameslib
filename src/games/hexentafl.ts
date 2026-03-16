@@ -57,7 +57,7 @@ export class HexentaflGame extends GameBase {
             { uid: "size-5", group: "board" },
         ],
         categories: ["goal>royal-escape", "goal>royal-capture", "mechanic>asymmetry", "mechanic>capture", "board>shape>hex", "board>connect>hex", "components>simple"],
-        flags: ["check", "limited-pieces"],
+        flags: ["check", ],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -197,11 +197,6 @@ export class HexentaflGame extends GameBase {
             }
         }
         return moves;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     private addPrefix(cell: string): string {
@@ -617,7 +612,7 @@ export class HexentaflGame extends GameBase {
         return [...this.board.values()].filter(([p, pc]) => p === player && pc !== "K").length;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
         ]
@@ -641,23 +636,6 @@ export class HexentaflGame extends GameBase {
             }
         }
         return checks;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += `**In Check:** ${this.inCheck().toString()}\n\n`;
-
-        status += "**Pieces On Board:**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${this.getPlayerPieces(n)}\n\n`;
-        }
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

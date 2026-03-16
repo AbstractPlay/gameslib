@@ -184,11 +184,6 @@ export class BloomsGame extends GameBase {
         return moves;
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     private splitTileCell(move: string): [tileid, string] {
         // Split the move into tile and cell.
         const tile = parseInt(move[0], 10);
@@ -659,23 +654,8 @@ export class BloomsGame extends GameBase {
         return this.scores[player - 1];
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [{ name: i18next.t("apgames:status.SCORES"), scores: [`${this.scores[0]} / ${this.threshold}`, `${this.scores[1]} / ${this.threshold}`] }];
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Score**:\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${this.scores[n - 1]} / ${this.threshold}\n\n`;
-        }
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

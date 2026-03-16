@@ -67,7 +67,7 @@ export class ValleyGame extends GameBase {
             }
         ],
         categories: ["goal>royal-escape", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["perspective", "limited-pieces"]
+        flags: ["perspective", ]
     };
 
     public get boardsize(): number {
@@ -231,11 +231,6 @@ export class ValleyGame extends GameBase {
         }
 
         return moves.sort();
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -627,34 +622,13 @@ export class ValleyGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        if (this.variants.includes("moon")) {
-            status += "**Moon tokens**: " + this.moon!.join(", ") + "\n\n";
-        }
-
-        return status;
-    }
-
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         if (this.moon !== undefined) {
             return [
                 { name: i18next.t("apgames:status.valley"), scores: this.moon }
             ]
         }
         return [];
-    }
-
-    public getPlayerPieces(player: number): number {
-        if (this.moon !== undefined) {
-            return this.moon[player - 1];
-        }
-        return 0;
     }
 
     public clone(): ValleyGame {

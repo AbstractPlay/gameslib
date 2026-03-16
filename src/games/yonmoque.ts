@@ -72,7 +72,7 @@ export class YonmoqueGame extends GameBase {
             }
         ],
         categories: ["goal>align", "mechanic>asymmetry", "mechanic>place", "mechanic>move", "mechanic>convert", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["limited-pieces", "custom-colours"]
+        flags: ["custom-colours"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 5);
@@ -179,11 +179,6 @@ export class YonmoqueGame extends GameBase {
         }
 
         return moves.sort((a,b) => a.localeCompare(b));
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -531,16 +526,6 @@ export class YonmoqueGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
-    }
-
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
         let resolved = false;
         switch (r.type) {
@@ -560,7 +545,7 @@ export class YonmoqueGame extends GameBase {
         return resolved;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.PIECESINHAND"), scores: this.pieces }
         ]

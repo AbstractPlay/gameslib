@@ -58,7 +58,7 @@ export class LielowGame extends GameBase {
             { uid: "size-9", group: "board" },
         ],
         categories: ["goal>royal-capture", "mechanic>bearoff", "mechanic>capture", "mechanic>move", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["perspective", "aiai", "limited-pieces"]
+        flags: ["perspective", "aiai", ]
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -176,11 +176,6 @@ export class LielowGame extends GameBase {
             moves.add(`${cell}-off`);
         }
         return [...moves].sort((a,b) => a.localeCompare(b));
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -643,7 +638,6 @@ export class LielowGame extends GameBase {
         return rep;
     }
 
-
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["move", "damage", "destroy", "bearoff", "eog", "winners"]);
@@ -728,25 +722,10 @@ export class LielowGame extends GameBase {
         return [...this.board.values()].filter(v => v[0] === player).map(v => v[1]).length;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
         ]
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Pieces On Board:**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${this.getPlayerPieces(n)}\n\n`;
-        }
-
-        return status;
     }
 
     public clone(): LielowGame {

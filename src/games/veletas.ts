@@ -930,27 +930,11 @@ export class VeletasGame extends GameBase {
         return closest;
     }
 
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Score**:\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${this.getPlayerScore(n as playerid)}\n\n`;
-        }
-
-        return status;
-    }
-
     public getPlayerScore(player: playerid): number {
         return this.scores[player - 1];
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [{ name: i18next.t("apgames:status.SCORES"), scores: this.scores }];
     }
 

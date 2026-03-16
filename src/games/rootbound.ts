@@ -61,7 +61,7 @@ export class RootBoundGame extends GameBase {
             },
         ],
         categories: ["goal>area", "mechanic>place",  "mechanic>capture", "mechanic>enclose", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["scores", "automove"],
+        flags: ["automove"],
         displays: [{uid: "hide-highlights"}]
     };
 
@@ -941,7 +941,7 @@ export class RootBoundGame extends GameBase {
         return this.scores[player-1];
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         if (this.gameover) {
             return [{
                 name: i18next.t("apgames:status.SCORES"),
@@ -953,18 +953,6 @@ export class RootBoundGame extends GameBase {
                 scores: [this.scores[0], this.scores[1]]
             }];
         }
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += `**Scores**: ${this.getPlayerScore(1)}-${this.getPlayerScore(2)} \n\n`;
-
-        return status;
     }
 
     public clone(): RootBoundGame {

@@ -52,7 +52,7 @@ export class EntrapmentGame extends GameBase {
             { uid: "size-7x7", group: "board" },
         ],
         categories: ["goal>annihilate", "mechanic>place", "mechanic>move", "mechanic>block", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["limited-pieces"],
+        flags: [],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -371,11 +371,6 @@ export class EntrapmentGame extends GameBase {
             }
         }
         return moves;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     private stillHasWalls(player: playerid): boolean {
@@ -1423,27 +1418,11 @@ export class EntrapmentGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Walls In Hand**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const pieces = this.wallCounts[n - 1];
-            status += `Player ${n}: ${pieces}\n\n`;
-        }
-
-        return status;
-    }
-
     public getPlayerPieces(player: number): number {
         return this.wallCounts[player - 1];
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         if (this.stack.length < SETUP_PLIES) {
             const pieceCount1 = [...this.boardCell.values()].filter(p => p === 1).length;
             const pieceCount2 = [...this.boardCell.values()].filter(p => p === 2).length;

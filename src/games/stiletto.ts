@@ -596,24 +596,12 @@ export class StilettoGame extends InARowBase {
         };
     }
 
-    public statuses(): IStatus[] {
+    public sidebarStatuses(): IStatus[] {
         const daggerPlayer = this.hasDagger() ? this.currplayer : this.currplayer % 2 + 1;
         const status = `Player ${daggerPlayer}\n`
 
         return [{ key: i18next.t("apgames:status.stiletto.DAGGER"),
                   value: [status] } as IStatus];
-    }
-
-    public status(): string {
-        let status = super.status();
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        const daggerPlayer = this.hasDagger() ? this.currplayer : this.currplayer % 2 + 1;
-        status += `Player ${daggerPlayer} has dagger.\n`
-
-        return status;
     }
 
     public clone(): StilettoGame {

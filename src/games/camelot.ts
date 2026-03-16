@@ -62,7 +62,7 @@ export class CamelotGame extends GameBase {
             { uid: "anti" },
         ],
         categories: ["goal>breakthrough", "goal>annihilate", "mechanic>capture", "mechanic>differentiate", "mechanic>move>group", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["perspective", "limited-pieces", "custom-buttons", "automove"],
+        flags: ["perspective", "custom-buttons", "automove"],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -519,11 +519,6 @@ export class CamelotGame extends GameBase {
             if (this.getAllMoves(from).length > 0) { return true; }
         }
         return false;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     private isTreePlacingPhase(): boolean {
@@ -1297,7 +1292,7 @@ export class CamelotGame extends GameBase {
         return [...this.board.values()].filter(p => p[0] === player).length;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         if (this.castleCells[0].length >= 2 && !this.variants.includes("anti")) {
             // For variants with more than one castle cell per player, we show the castle move counts.
             return [
@@ -1308,40 +1303,6 @@ export class CamelotGame extends GameBase {
         return [
             { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] },
         ];
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Pieces On Board:**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${this.getPlayerPieces(n)}\n\n`;
-        }
-
-        status += "**Castle Move Counts:**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${this.castleMoveCounts[n - 1]}\n\n`;
-        }
-
-        status += "**Countdown:** ";
-        status += this.countdown;
-        status += "\n\n";
-
-        const stateCount = this.stateCount(new Map<string, any>([["board", this.board], ["currplayer", this.currplayer]]));
-
-        status += "**State Count:** ";
-        status += stateCount;
-        status += "\n\n";
-
-        status += "**Can Claim Draw:** ";
-        status += this.countdown >= 50 || stateCount > 3 ? "Yes" : "No";
-        status += "\n\n";
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

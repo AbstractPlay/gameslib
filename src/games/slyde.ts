@@ -225,11 +225,6 @@ export class SlydeGame extends GameBase {
         return this.horizontalSymmetry() || this.verticalSymmetry();
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             const cell = this.coords2algebraic(col, row);
@@ -686,7 +681,7 @@ export class SlydeGame extends GameBase {
         return 0;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [{
             name: i18next.t("apgames:status.GROUPSIZES"),
             scores: [
@@ -694,22 +689,6 @@ export class SlydeGame extends GameBase {
                 `${this.sizes[1].join(",")}${this.sizes[1][this.sizes[1].length - 1] === 0 ? "" : "×1"}`,
             ]
         }];
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Sizes**\n\n";
-        const scores = this.getPlayersScores()[0];
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${scores.scores[n - 1]}\n\n`;
-        }
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

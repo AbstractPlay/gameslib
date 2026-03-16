@@ -445,11 +445,6 @@ export class MimicGame extends GameBase {
         return moves;
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             const cell = MimicGame.coords2algebraic(col, row);
@@ -804,11 +799,6 @@ export class MimicGame extends GameBase {
         }
 
         return rep;
-    }
-
-    public status(): string {
-        const status = super.status();
-        return status;
     }
 
     public clone(): MimicGame {

@@ -60,7 +60,7 @@ export class ZolaGame extends GameBase {
         ],
         displays: [{ uid: "isometric-20" }, { uid: "isometric-5" }],
         categories: ["goal>annihilate", "mechanic>capture",  "mechanic>move", "board>3d", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["automove", "limited-pieces", "pie", "aiai"],
+        flags: ["automove", "pie", "aiai"],
     };
 
     public numplayers = 2;
@@ -152,7 +152,7 @@ export class ZolaGame extends GameBase {
         return [...this.board.values()].filter(p => p === player).length;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
         ]
@@ -210,11 +210,6 @@ export class ZolaGame extends GameBase {
         }
 
         return moves;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -660,16 +655,6 @@ export class ZolaGame extends GameBase {
         }
 
         return rep;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
     }
 
     public clone(): ZolaGame {

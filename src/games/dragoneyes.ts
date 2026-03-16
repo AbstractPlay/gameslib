@@ -54,7 +54,7 @@ export class DragonEyesGame extends GameBase {
             },
         ],
         categories: ["goal>score>eog", "mechanic>capture", "mechanic>move", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["automove", "limited-pieces", "custom-buttons"],
+        flags: ["automove", "custom-buttons"],
         variants: [{uid: "claimdraw", group: "rules"}]
     };
 
@@ -277,11 +277,6 @@ export class DragonEyesGame extends GameBase {
             ret.push(...(temp2.length > 0 ? temp2 : temp1));
         }
         return ret;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     private getInstructions(): string {
@@ -631,7 +626,7 @@ export class DragonEyesGame extends GameBase {
         return this.scores[player - 1];
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [{
             name: i18next.t("apgames:status.SCORES"),
             scores: [this.scores[0], this.scores[1]]
@@ -639,16 +634,6 @@ export class DragonEyesGame extends GameBase {
             name: i18next.t("apgames:status.PIECESREMAINING"),
             scores: [this.remainingPieces[0], this.remainingPieces[1]]
         }];
-    }
-
-    public status(): string {
-        let status = super.status();
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-        status += `**Scores**: ${this.getPlayerScore(1)}-${this.getPlayerScore(2)}\n\n`;
-        status += `**Remaining Pieces**: ${this.remainingPieces[0]}-${this.remainingPieces[1]}\n\n`;
-        return status;
     }
 
     public clone(): DragonEyesGame {

@@ -609,11 +609,6 @@ export class EmuGame extends GameBase {
         return moves.sort((a,b) => a.localeCompare(b));
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     // in this handler, row and col are ignored, and piece is always passed
     public handleClick(move: string, row: number, col: number, piece: string): IClickResult {
         try {
@@ -1389,7 +1384,7 @@ export class EmuGame extends GameBase {
         return rep;
     }
 
-    public statuses(): IStatus[] {
+    public sidebarStatuses(): IStatus[] {
         return [{ key: i18next.t("apgames:status.YEAR"), value: [this.year.toString()] }];
     }
 
@@ -1397,7 +1392,7 @@ export class EmuGame extends GameBase {
         return this.scores[player - 1];
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         const scores: number[] = [];
         for (let p = 1; p <= this.numplayers; p++) {
             scores.push(this.getPlayerScore(p));
@@ -1405,20 +1400,6 @@ export class EmuGame extends GameBase {
         return [
             { name: i18next.t("apgames:status.SCORES"), scores},
         ];
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Year**: " + this.year + "\n\n";
-        status += "**CurrPlayer**: " + this.currplayer + "\n\n";
-        status += "**Scores**: " + this.getPlayersScores()[0].scores.join(", ") + "\n\n";
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

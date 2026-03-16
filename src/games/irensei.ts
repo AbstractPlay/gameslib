@@ -189,11 +189,6 @@ export class IrenseiGame extends InARowBase {
         return moves;
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     private canSwap(): boolean {
         // Check if the player is able to invoke the pie rule on this turn.
         if (this.openingProtocol === "swap-2") {
@@ -429,7 +424,6 @@ export class IrenseiGame extends InARowBase {
         result.message = i18next.t("apgames:validation._general.VALID_MOVE");
         return result;
     }
-
 
     private getGroupLiberties(cell: string, opponentPlaced: string[], player: playerid): [Set<string>, number] {
         // Get all groups associated with `cell` and the liberties of the group.
@@ -793,16 +787,6 @@ export class IrenseiGame extends InARowBase {
             swapped: this.swapped,
             tiebreaker: this.tiebreaker,
         };
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

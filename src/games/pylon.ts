@@ -226,11 +226,6 @@ export class PylonGame extends GameBase {
         return moves.sort((a,b) => a.localeCompare(b));
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             let newmove: string;
@@ -591,7 +586,6 @@ export class PylonGame extends GameBase {
             pieces.push(rownode);
         }
 
-
         const prefixes = ["A", "B"]
         const myLegend: ILegendObj = {
             "SPACER": {
@@ -707,17 +701,6 @@ export class PylonGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        status += "**Scores**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${this.getPlayerScore(n)}\n\n`;
-        }
-
-        return status;
-    }
-
     public getPlayerScore(player: number): number {
         let score = 0;
         for (const stack of this.board.values()) {
@@ -728,7 +711,7 @@ export class PylonGame extends GameBase {
         return score;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [{ name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)]}];
     }
 

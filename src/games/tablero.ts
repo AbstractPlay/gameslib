@@ -58,7 +58,7 @@ export class TableroGame extends GameBase {
         ],
         variants: [{uid: "5-10", group: "scoring"}, {uid: "abba"}],
         categories: ["goal>score>eog", "mechanic>place",  "mechanic>move", "mechanic>coopt", "mechanic>random>play", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["limited-pieces", "perspective", "scores", "automove", "no-explore", "custom-rotation"]
+        flags: ["perspective", "scores", "automove", "no-explore", "custom-rotation"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 3);
@@ -256,11 +256,6 @@ export class TableroGame extends GameBase {
         } else {
             return [[...sofar]];
         }
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     // is the submitted move syntactically complete (no validation)
@@ -815,7 +810,7 @@ export class TableroGame extends GameBase {
         return this;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
             { name: i18next.t("apgames:status.PIECESREMAINING"), scores: this.pieces }
@@ -1115,19 +1110,6 @@ export class TableroGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**In hand**: " + this.pieces.join(", ") + "\n\n";
-        status += `**Scores**: ${this.getPlayerScore(1)}, ${this.getPlayerScore(2)}\n\n`;
-
-        return status;
-    }
-
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
         let resolved = false;
         switch (r.type) {
@@ -1151,7 +1133,6 @@ export class TableroGame extends GameBase {
         return resolved;
     }
 
-     
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["place", "take", "pass", "eog", "winners"]);

@@ -53,7 +53,7 @@ export class SploofGame extends GameBase {
             { uid: "size-5", group: "board" },
         ],
         categories: ["goal>align", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>3c", "components>shibumi", "board>3d"],
-        flags: ["limited-pieces"],
+        flags: [],
         displays: [{ uid: "orb-3d" }],
     };
 
@@ -297,11 +297,6 @@ export class SploofGame extends GameBase {
             return true;
         }
         return false;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     private getTopMostCell(x: number, y: number): string | undefined {
@@ -955,29 +950,10 @@ export class SploofGame extends GameBase {
         return resolved;
     }
 
-    public getPlayerPieces(player: number): number {
-        return this.hands[player - 1];
-    }
-
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.PIECESINHANDSTASH"), scores: [`${this.hands[0]} / ${this.stash[0]}`, `${this.hands[1]} / ${this.stash[1]}`] }
         ]
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Pieces in hand / stash:**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${this.hands[n - 1]} / ${this.stash[n - 1]}\n\n`;
-        }
-
-        return status;
     }
 
     public clone(): SploofGame {

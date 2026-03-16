@@ -265,11 +265,6 @@ export class HomeworldsGame extends GameBase {
         return 0;
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public moves(player?: playerid): string[] {
         if (player === undefined) {
             player = this.currplayer;

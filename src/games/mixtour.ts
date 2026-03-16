@@ -53,7 +53,7 @@ export class MixtourGame extends GameBase {
             {uid: "five", group: "scores"}
         ],
         categories: ["goal>score>race", "mechanic>coopt",  "mechanic>move", "mechanic>place", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["limited-pieces", "scores", "automove", "check"]
+        flags: ["scores", "automove", "check"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 5);
@@ -178,11 +178,6 @@ export class MixtourGame extends GameBase {
         return moves.sort((a,b) => a.localeCompare(b));
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             const cell = MixtourGame.coords2algebraic(col, row);
@@ -245,7 +240,6 @@ export class MixtourGame extends GameBase {
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-
 
         // check for pass first
         if (m === "pass") {
@@ -535,35 +529,12 @@ export class MixtourGame extends GameBase {
         return this.scores[player - 1];
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.SCORES"), scores: this.scores },
             { name: i18next.t("apgames:status.PIECESINHAND"), scores: this.inhand }
         ]
     }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Pieces In Hand**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const pieces = this.inhand[n - 1];
-            status += `Player ${n}: ${pieces}\n\n`;
-        }
-
-        status += "**Scores**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const score = this.getPlayerScore(n);
-            status += `Player ${n}: ${score}\n\n`;
-        }
-
-        return status;
-    }
-
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {

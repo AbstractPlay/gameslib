@@ -72,7 +72,7 @@ export class CubeoGame extends GameBase {
             {uid: "d12", group: "dice"},
         ],
         categories: ["goal>immobilize", "goal>score>race", "mechanic>place", "mechanic>move", "board>dynamic", "board>shape>rect", "board>connect>rect", "components>dice"],
-        flags: ["automove", "limited-pieces"]
+        flags: ["automove", ]
     };
 
     public numplayers = 2;
@@ -268,11 +268,6 @@ export class CubeoGame extends GameBase {
         }
 
         return moves.sort((a,b) => a.localeCompare(b))
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -642,18 +637,6 @@ export class CubeoGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Dice**: " + this.getPlayersScores()[0].scores.join(",") + "\n\n";
-
-        return status;
-    }
-
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
         let resolved = false;
         switch (r.type) {
@@ -673,7 +656,7 @@ export class CubeoGame extends GameBase {
         return resolved;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [{ name: i18next.t("apgames:status.PIECESINHAND"), scores: [this.diceInHand(1), this.diceInHand(2)] }];
     }
 

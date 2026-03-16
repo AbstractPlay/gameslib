@@ -53,7 +53,7 @@ export class ProductGame extends GameBase {
             { uid: "size-7", group: "board" },
             { uid: "1-group", group: "ruleset" },
         ],
-        flags: ["scores", "no-moves"]
+        flags: ["no-moves"]
     };
 
     public numplayers = 2;
@@ -232,11 +232,6 @@ export class ProductGame extends GameBase {
         }
 
         return moves.sort((a,b) => a.localeCompare(b));
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     /**
@@ -541,17 +536,9 @@ export class ProductGame extends GameBase {
         return groups[0] * groups[1]; // multiply the two largest groups
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [{ name: i18next.t("apgames:status.SCORES"),
                   scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }];
-    }
-
-    public status(): string {
-        let status = super.status();
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-        return status;
     }
 
     public clone(): ProductGame {

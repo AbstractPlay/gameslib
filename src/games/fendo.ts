@@ -8,7 +8,6 @@ import { SquareOrthGraph } from "../common/graphs";
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const clonelst = (items: Array<any>): Array<any> => items.map((item: any) => Array.isArray(item) ? clonelst(item) : item);
 
@@ -58,7 +57,7 @@ export class FendoGame extends GameBase {
             },
         ],
         categories: ["goal>area", "mechanic>block", "mechanic>move", "mechanic>enclose", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["limited-pieces", "scores", "automove", "perspective"]
+        flags: ["scores", "automove", "perspective"]
     };
 
     public numplayers = 2;
@@ -323,11 +322,6 @@ export class FendoGame extends GameBase {
             remainingCells = remainingCells.filter(cell => ! area.has(cell));
         }
         return areas;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -834,36 +828,11 @@ export class FendoGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Pieces In Hand**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const pieces = this.pieces[n - 1];
-            status += `Player ${n}: ${pieces}\n\n`;
-        }
-
-        status += "**Scores**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${this.getPlayerScore(n as playerid)}\n\n`;
-        }
-
-        return status;
-    }
-
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
             { name: i18next.t("apgames:status.PIECESINHAND"), scores: this.pieces }
         ]
-    }
-
-    public getPlayerPieces(player: number): number {
-        return this.pieces[player - 1];
     }
 
     public getPlayerScore(player: number): number {

@@ -217,11 +217,6 @@ export class GoGame extends GameBase {
         return moves;
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     // reduce a board position to a unique string representation for comparison
     public signature(board?: Map<string, playerid>): string {
         if (board === undefined) {
@@ -743,19 +738,9 @@ export class GoGame extends GameBase {
         return terr.filter(t => t.owner === player).reduce((prev, curr) => prev + curr.cells.length, komi + playerPieces.length);
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [{ name: i18next.t("apgames:status.SCORES"),
                   scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }];
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

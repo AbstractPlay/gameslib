@@ -73,7 +73,6 @@ const dir2string = (dir: Direction): string|undefined => {
     }
 }
 
-
 const myHex = defineHex({
     offset: 1,
     orientation: Orientation.POINTY
@@ -550,11 +549,6 @@ export class ChaseGame extends GameBase {
             .filter(e => e[1][0] === player)
             .map(p => p[1][1] as number)
             .reduce((a, b) => a + b);
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -1410,19 +1404,7 @@ export class ChaseGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        const speed = this.totalSpeed();
-        if (speed < 25) {
-            const delta = 25 - speed;
-            status += `**Current player is imbalanced by ${delta} speed.**\n\n`;
-        }
-
-        return status;
-    }
-
-    public statuses(): IStatus[] {
+    public sidebarStatuses(): IStatus[] {
         const speed = this.totalSpeed();
         if (speed < 25) {
             const delta = 25 - speed;

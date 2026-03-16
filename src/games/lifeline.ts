@@ -285,11 +285,6 @@ export class LifelineGame extends GameBase {
         return moves;
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             const newcell = this.coords2algebraic(col, row);
@@ -571,19 +566,6 @@ export class LifelineGame extends GameBase {
         }
 
         return rep;
-    }
-
-    /**
-     * This function is only for the local playground.
-     */
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

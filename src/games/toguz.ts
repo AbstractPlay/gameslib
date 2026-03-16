@@ -52,7 +52,6 @@ export class ToguzGame extends GameBase {
         displays: [{uid: "pips"}]
     };
 
-
     public static clone(obj: ToguzGame): ToguzGame {
         const cloned: ToguzGame = Object.assign(new ToguzGame(), deepclone(obj) as ToguzGame);
         return cloned;
@@ -143,11 +142,6 @@ export class ToguzGame extends GameBase {
             }
         }
         return moves.sort((a,b) => a.localeCompare(b));
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     // Couldn't be simpler!
@@ -496,17 +490,6 @@ export class ToguzGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-        status += "**Scores**: " + this.kazna.join(", ") + "\n\n";
-
-        return status;
-    }
-
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
         let resolved = false;
         switch (r.type) {
@@ -529,7 +512,7 @@ export class ToguzGame extends GameBase {
         return resolved;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         if (this.kazna.reduce((prev, curr) => prev + curr, 0) > 0) {
             return [
                 { name: i18next.t("apgames:status.SCORES"), scores: this.kazna }

@@ -59,7 +59,7 @@ export class MajoritiesGame extends GameBase {
             { uid: "capture" },
         ],
         categories: ["goal>majority", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple"],
-        flags: ["scores"],
+        flags: [],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -337,11 +337,6 @@ export class MajoritiesGame extends GameBase {
             }
         }
         return moves;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     private normaliseMove(move: string): string {
@@ -913,7 +908,7 @@ export class MajoritiesGame extends GameBase {
         return this.directionWinners.filter(w => w === player).length;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         // Count the number of lines claimed in each direction by each player.
         const h1 = this.lineWinners[0].filter(w => w === 1).length;
         const h2 = this.lineWinners[0].filter(w => w === 2).length;
@@ -928,22 +923,6 @@ export class MajoritiesGame extends GameBase {
                 `${h2}, ${a2}, ${d2}`,
             ]
         }];
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Scores (─, ⟋, ⟍)**\n\n";
-        const scores = this.getPlayersScores()[0];
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${scores.scores[n - 1]}\n\n`;
-        }
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

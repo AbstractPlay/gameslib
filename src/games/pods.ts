@@ -51,7 +51,7 @@ export class PodsGame extends GameBase {
             },
         ],
         categories: ["goal>area", "mechanic>place",  "mechanic>move", "mechanic>enclose", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["scores", "automove"],
+        flags: ["automove"],
         displays: [{uid: "hide-influence"}]
     };
 
@@ -623,23 +623,11 @@ export class PodsGame extends GameBase {
         return this.scores[player-1];
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [{
             name: i18next.t("apgames:status.SCORES"),
             scores: [this.scores[0], this.scores[1]]
         }];
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += `**Scores**: ${this.getPlayerScore(1)}-${this.getPlayerScore(2)} \n\n`;
-
-        return status;
     }
 
     public clone(): PodsGame {

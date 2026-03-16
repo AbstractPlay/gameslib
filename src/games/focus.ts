@@ -47,7 +47,7 @@ export class FocusGame extends GameBase {
             },
         ],
         categories: ["goal>immobilize", "mechanic>capture", "mechanic>coopt", "mechanic>move", "mechanic>stack", "board>shape>oct", "board>connect>rect", "components>simple>1per"],
-        flags: ["limited-pieces", "scores"]
+        flags: []
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 8);
@@ -161,11 +161,6 @@ export class FocusGame extends GameBase {
             }
         }
         return moves;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -560,36 +555,13 @@ export class FocusGame extends GameBase {
         return [...this.board.values()].filter(s => s[s.length - 1] === player).length;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.focus"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
             { name: i18next.t("apgames:status.PIECESINHAND"), scores: this.inhand }
         ]
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Pieces In Hand**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const pieces = this.inhand[n - 1];
-            status += `Player ${n}: ${pieces}\n\n`;
-        }
-
-        status += "**Stacks controlled**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const score = this.getPlayerScore(n);
-            status += `Player ${n}: ${score}\n\n`;
-        }
-
-        return status;
-    }
-
-     
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["move", "place", "eog", "winners"]);

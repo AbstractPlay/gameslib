@@ -49,7 +49,7 @@ export class BugGame extends GameBase {
             { uid: "size-5", group: "board" },
         ],
         categories: ["goal>immobilize", "mechanic>place", "mechanic>capture", "board>shape>hex", "board>connect>hex", "components>simple"],
-        flags: ["no-moves", "custom-randomization", "scores"],
+        flags: ["no-moves", "custom-randomization"],
         displays: [{uid: "hide-moves"}],
     };
 
@@ -770,26 +770,10 @@ export class BugGame extends GameBase {
         return this.getFirstMoves(player as playerid).length;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.bug.PLACEABLE_COUNT"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
         ]
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Placeable Counts**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const pieces = this.getPlayerScore(n);
-            status += `Player ${n}: ${pieces}\n\n`;
-        }
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

@@ -299,11 +299,6 @@ export class OmnyGame extends GameBase {
         return moves.sort((a,b) => a.localeCompare(b));
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         move = move.toLowerCase();
         move = move.replace(/\s+/g, "");
@@ -611,16 +606,6 @@ export class OmnyGame extends GameBase {
         return this;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
-    }
-
     private getGroupWith(cell: string): string[] {
         const contents = this.board.get(cell)!;
         const player = contents[contents.length - 1];
@@ -846,7 +831,6 @@ export class OmnyGame extends GameBase {
             },
             pieces: pstr
         };
-
 
         // Add annotations
         if (this.results.length > 0) {

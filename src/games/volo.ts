@@ -53,7 +53,7 @@ export class VoloGame extends GameBase {
             { uid: "size-8", group: "board" },
         ],
         categories: ["goal>unify", "mechanic>place", "mechanic>move>group", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["scores", "automove"],
+        flags: ["automove"],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -285,11 +285,6 @@ export class VoloGame extends GameBase {
             moves.push("pass");
         }
         return moves;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     private getMoved(froms: string[], dir: Direction, dist: number): Map<string, string> {
@@ -966,25 +961,10 @@ export class VoloGame extends GameBase {
         return [...this.board.values()].filter(x => x === player).length;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
         ]
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Pieces On Board:**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${this.getPlayerPieces(n)}\n\n`;
-        }
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

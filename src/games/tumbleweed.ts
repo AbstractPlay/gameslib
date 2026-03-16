@@ -618,7 +618,7 @@ export class TumbleweedGame extends GameBase {
         return this.scores[player - 1];
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         const score1 = this.getPlayerScore(1 as playerid);
         const pieces1 = this.pieceCount(1 as playerid);
         const influence1 = score1 - pieces1;
@@ -940,24 +940,6 @@ export class TumbleweedGame extends GameBase {
             }
         }
         return result;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Scores**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const score = this.getPlayerScore(n as playerid);
-            const pieces = this.pieceCount(n as playerid);
-            const influence = score - pieces;
-            status += `Player ${n}: ${pieces} + ${influence} = ${score}\n\n`;
-        }
-
-        return status;
     }
 
     public clone(): TumbleweedGame {

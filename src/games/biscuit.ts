@@ -363,11 +363,6 @@ export class BiscuitGame extends GameBase {
         return [];
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             let newmove = "";
@@ -1134,7 +1129,7 @@ export class BiscuitGame extends GameBase {
         return scores;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         const scores: number[] = [];
         for (let p = 1; p <= this.numplayers; p++) {
             scores.push(this.getPlayerScore(p));
@@ -1154,22 +1149,8 @@ export class BiscuitGame extends GameBase {
         ];
     }
 
-    public statuses(): IStatus[] {
+    public sidebarStatuses(): IStatus[] {
         return [{ key: i18next.t("apgames:status.ROUND"), value: [this.round.toString()] }];
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Round**: " + this.round.toString() + "\n\n";
-
-        status += "**Scores**: " + this.getPlayersScores()[0].scores.join(", ") + "\n\n";
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

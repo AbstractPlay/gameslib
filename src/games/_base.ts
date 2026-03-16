@@ -347,16 +347,13 @@ export abstract class GameBase  {
         return this;
     }
 
-    public status(): string {
-        if (this.gameover) {
-            return `**GAME OVER**\n\nWinner: ${this.winner.join(", ")}\n\n`;
-        }
-        return "";
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    public sidebarStatuses(isPartial: boolean, partialMove: string): IStatus[] {
+        return [] as IStatus[];
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public statuses(isPartial: boolean, partialMove: string): IStatus[] {
-        return [] as IStatus[];
+    public sidebarScores(): IScores[] {
+        return [] as IScores[];
     }
 
     public moveHistory(): string[][] {
@@ -503,8 +500,17 @@ export abstract class GameBase  {
         return s1 === s2;
     }
 
+    public randomMove(): string {
+        const myself = this as unknown as { moves: () => string[] };
+        if (typeof myself.moves !== "function") {
+            throw new Error("This game does not support random moves because it does not implement the `moves()` method.");
+        }
+        const moves = myself.moves();
+        return moves[Math.floor(Math.random() * moves.length)];
+    }
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
+    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult, players: string[] = []): boolean {
         return false;
     }
 
@@ -522,7 +528,7 @@ export abstract class GameBase  {
                     name = players[otherPlayer - 1];
                 }
                 for (const r of state._results) {
-                    if (!this.chat(node, name, state._results, r)) {
+                    if (!this.chat(node, name, state._results, r, players)) {
                         switch (r.type) {
                             case "move":
                                 if (r.what === undefined) {
@@ -642,7 +648,8 @@ export abstract class GameBase  {
                     }
                 }
                 if (state._results.find(r => r.type === "deltaScore") !== undefined) {
-                    if ("scores" in state) {
+                    const thisInfo = Object.getPrototypeOf(this).constructor.gameinfo as APGamesInformation;
+                    if ("scores" in state && (thisInfo.flags === undefined || !thisInfo.flags.includes("simultaneous"))) {
                         node.push(i18next.t("apresults:SCORE_REPORT", {player: name, score: (state.scores as number[])[otherPlayer - 1]}));
                     }
                 }

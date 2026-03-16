@@ -98,7 +98,7 @@ export class PacruGame extends GameBase {
             },
         ],
         categories: ["goal>area", "mechanic>place", "mechanic>move", "mechanic>convert", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>special", "other>2+players"],
-        flags: ["no-moves", "custom-randomization", "scores"]
+        flags: ["no-moves", "custom-randomization"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -1322,7 +1322,7 @@ export class PacruGame extends GameBase {
         return this.numTiles(player as playerid);
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         const scores: number[] = [];
         for (let p = 1; p <= this.numplayers; p++) {
             scores.push(this.getPlayerScore(p));
@@ -1330,7 +1330,7 @@ export class PacruGame extends GameBase {
         return [{ name: i18next.t("apgames:status.pacru.TILES"), scores }];
     }
 
-    public statuses(): IStatus[] {
+    public sidebarStatuses(): IStatus[] {
         return [{ key: i18next.t("apgames:status.pacru.TARGET"), value: [this.targetScore.toString()] }];
     }
 
@@ -1506,22 +1506,6 @@ export class PacruGame extends GameBase {
         }
 
         return rep;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        const scores: number[] = [];
-        for (let p = 1; p <= this.numplayers; p++) {
-            scores.push(this.getPlayerScore(p));
-        }
-        status += "**Scores**: " + scores.join(", ") + "\n\n";
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

@@ -49,7 +49,7 @@ export class MonkeyQueenGame extends GameBase {
             },
         ],
         categories: ["goal>royal-capture", "mechanic>capture",  "mechanic>differentiate", "mechanic>move", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["pie", "perspective", "check", "limited-pieces"]
+        flags: ["pie", "perspective", "check", ]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -160,11 +160,6 @@ export class MonkeyQueenGame extends GameBase {
         }
 
         return moves;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -596,25 +591,10 @@ export class MonkeyQueenGame extends GameBase {
         return [...this.board.values()].filter(e => e[0] === player).map(e => e[1]).reduce((a,b) => a + b, 0);
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
         ]
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Pieces On Board:**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${this.getPlayerPieces(n)}\n\n`;
-        }
-
-        return status;
     }
 
     public clone(): MonkeyQueenGame {

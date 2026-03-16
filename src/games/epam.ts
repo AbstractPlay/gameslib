@@ -52,7 +52,7 @@ export class EpamGame extends GameBase {
             }
         ],
         categories: ["goal>breakthrough", "mechanic>capture", "mechanic>move>group", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["perspective", "limited-pieces"]
+        flags: ["perspective", ]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -239,11 +239,6 @@ export class EpamGame extends GameBase {
         } else {
             return [...phalanx];
         }
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -503,7 +498,6 @@ export class EpamGame extends GameBase {
             this.results.push({type: "place", where: m});
         }
 
-
         // update currplayer
         this.lastmove = m;
         let newplayer = (this.currplayer as number) + 1;
@@ -666,25 +660,10 @@ export class EpamGame extends GameBase {
         return [...this.board.values()].filter(p => p === player).length;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
         ]
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Pieces On Board:**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${this.getPlayerPieces(n)}\n\n`;
-        }
-
-        return status;
     }
 
     public chatLog(players: string[]): string[][] {

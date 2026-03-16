@@ -51,7 +51,7 @@ export class BambooGame extends GameBase {
             {uid: "#board"},
         ],
         categories: ["goal>immobilize", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["automove", "limited-pieces"]
+        flags: ["automove", ]
     };
 
     public numplayers = 2;
@@ -166,11 +166,6 @@ export class BambooGame extends GameBase {
         }
 
         return moves.sort((a,b) => a.localeCompare(b));
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -339,18 +334,6 @@ export class BambooGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Group Counts**: " + this.getPlayersScores()[0].scores.join(", ") + "\n\n";
-
-        return status;
-    }
-
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
         let resolved = false;
         switch (r.type) {
@@ -362,7 +345,7 @@ export class BambooGame extends GameBase {
         return resolved;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.GROUPCOUNT"), scores: [this.getGroups(1).length, this.getGroups(2).length] }
         ]

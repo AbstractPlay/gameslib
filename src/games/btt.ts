@@ -92,7 +92,7 @@ export class BTTGame extends GameBase {
             if (variants !== undefined) {
                 this.variants = [...variants];
             }
-            
+
             const fresh: IMoveState = {
                 _version: BTTGame.gameinfo.version,
                 _results: [],
@@ -160,7 +160,7 @@ export class BTTGame extends GameBase {
     public get boardHeight(): number {
         if ( this.variants.includes("arcade") )
             return this.numplayers < 6 ? 5 : 10;
-        else 
+        else
             return this.numplayers * 2;
     }
 
@@ -177,7 +177,6 @@ export class BTTGame extends GameBase {
     public algebraic2coords(cell: string): [number, number] {
         return GameBase.algebraic2coords(cell, this.boardHeight);
     }
-
 
     /* helper functions */
 
@@ -265,13 +264,13 @@ export class BTTGame extends GameBase {
         //Pretreat.
         move = move.toUpperCase();
         move = move.replace(/\s+/g, "");
-     
+
         //Regexes.
         const illegalChars = /[^A-JLNORSTUW0-9-]/;
         const cellex = /^[a-j][1-9][0-2]?$/;
         const sizex = /^[123]$/;
         const direx = /^[NESW]$/;
-        
+
         const mm: IBTTMove = {
             cell: "",
             incomplete: true,
@@ -345,14 +344,14 @@ export class BTTGame extends GameBase {
 
         return mm;
     }
-    
+
     public pickleMove(pm: IBTTMove): string {
         if ( ! pm.cell || pm.cell === "" ) {
             throw new Error("Could not pickle the move because it included no cell.");
         }
-        
+
         const move = [pm.cell];
-        
+
         if (pm.piece)
             move.push(pm.piece);
         else if (pm.size) {
@@ -361,22 +360,21 @@ export class BTTGame extends GameBase {
             else
                 move.push(pm.size.toString());
         }
-        
+
         return move.join("-");
     }
-
 
     /* end helper functions */
 
     public moves(player?: playerid): string[] {
         const moves: string[] = [];
-        
+
         if (this.gameover) {
             return moves;
         }
-        
+
         if ( this.needNull() ) {
-            
+
             for (let y = 0; y < this.boardHeight; y++) {
                 for (let x = 0; x < this.boardWidth; x++) {
                     const cell = this.coords2algebraic(x, y);
@@ -389,9 +387,9 @@ export class BTTGame extends GameBase {
                 }
             }
             return moves;
-            
+
         } else if ( this.needRoot() ) {
-            
+
             for (let y = 0; y < this.boardHeight; y++) {
                 for (let x = 0; x < this.boardWidth; x++) {
                     const cell = this.coords2algebraic(x, y);
@@ -406,7 +404,7 @@ export class BTTGame extends GameBase {
 
             if (player === undefined)
                 player = this.currplayer;
-            
+
             // Normal placement phase
             const stashes = this.stashes.get(player)!;
             const sizes: Size[] = [];
@@ -439,11 +437,6 @@ export class BTTGame extends GameBase {
         }
 
         return moves;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -548,7 +541,7 @@ export class BTTGame extends GameBase {
             result.message = i18next.t("apgames:validation.btt.MALFORMED_MOVE", { move: mo });
             return result;
         }
-        
+
         const mm = this.parseMove(m);
 
         if (! mm.valid ) {
@@ -571,7 +564,7 @@ export class BTTGame extends GameBase {
             } else if (! this.checkNull(mm.cell) ) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.btt.BAD_NULL");
-                return result;                
+                return result;
             } else {
                 result.valid = true;
                 result.complete = 1;
@@ -595,7 +588,7 @@ export class BTTGame extends GameBase {
             result.message = i18next.t("apgames:validation._general.INVALID_MOVE", { move: mo });
             return result;
         }
-        
+
         if (! mm.size ) {
             result.valid = true;
             result.complete = -1;
@@ -668,7 +661,7 @@ export class BTTGame extends GameBase {
         const mm = this.parseMove(m);
         if ( mm.valid === false )
             return this;
-        
+
         if ( mm.piece ) {// "NULL" || "ROOT"
             this.board.set(mm.cell, mm.piece as CellContents);
             this.results.push({ type: "place", where: mm.cell, what: mm.piece });
@@ -687,7 +680,7 @@ export class BTTGame extends GameBase {
                 const grid = new RectGrid(this.boardWidth, this.boardHeight);
                 const [cx, cy] = this.algebraic2coords(mm.cell);
                 const [px, py] = RectGrid.move(cx, cy, dir);
-                
+
                 if ( grid.inBounds(px, py) ) {
                     const pcell = this.coords2algebraic(px, py);
                     const pcontents = this.board.get(pcell);
@@ -785,7 +778,7 @@ export class BTTGame extends GameBase {
         if ( this.highlight !== undefined ) {
             [hX, hY] = this.algebraic2coords(this.highlight.cell);
         }
-        
+
         for (let row = 0; row < this.boardHeight; row++) {
             if (pstr.length > 0) {
                 pstr += "\n";
@@ -909,31 +902,7 @@ export class BTTGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Stashes**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const stash = this.stashes.get(n as playerid);
-            if (stash) {
-                status += `Player ${n}: ${stash[0]} small, ${stash[1]} medium, ${stash[2]} large\n\n`;
-            }
-        }
-
-        status += "**Scores**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const score = this.scores[n - 1];
-            status += `Player ${n}: ${score}\n\n`;
-        }
-
-        return status;
-    }
-
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [{ name: i18next.t("apgames:status.SCORES"), scores: this.scores }]
     }
 
@@ -966,9 +935,9 @@ export class BTTGame extends GameBase {
                 else if ( r.delta! > 0 )
                     node.push(i18next.t("apresults:DELTASCORE.btt_opponent", {player, delta: r.delta! }));
                 else if ( r.delta === -1 )
-                    node.push(i18next.t("apresults:DELTASCORE.btt_default_one", {player, delta: r.delta! * -1}));         
+                    node.push(i18next.t("apresults:DELTASCORE.btt_default_one", {player, delta: r.delta! * -1}));
                 else if ( r.delta! < 0 )
-                    node.push(i18next.t("apresults:DELTASCORE.btt_default", {player, delta: r.delta! * -1}));         
+                    node.push(i18next.t("apresults:DELTASCORE.btt_default", {player, delta: r.delta! * -1}));
                 resolved = true;
                 break;
         }

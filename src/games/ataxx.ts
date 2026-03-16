@@ -350,11 +350,6 @@ export class AtaxxGame extends GameBase {
         return false;
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             const cell = this.coords2algebraic(col, row);
@@ -668,7 +663,7 @@ export class AtaxxGame extends GameBase {
         return this.scores[player - 1];
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
         ];
@@ -770,7 +765,6 @@ export class AtaxxGame extends GameBase {
             markers = undefined;
         }
 
-
         // Build rep
         const rep: APRenderRep =  {
             board: {
@@ -843,22 +837,6 @@ export class AtaxxGame extends GameBase {
             pieces: pstr.map(p => p.join("")).join("\n"),
         };
         return rep;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Scores**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const score = this.getPlayerScore(n as playerid);
-            status += `Player ${n}: ${score}\n\n`;
-        }
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

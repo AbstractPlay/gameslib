@@ -77,7 +77,7 @@ export class Pigs2Game extends GameBaseSimultaneous {
             },
         ],
         categories: ["goal>annihilate", "mechanic>program",  "mechanic>simultaneous", "board>shape>rect", "board>connect>rect", "components>simple>1per", "other>2+players"],
-        flags: ["simultaneous", "scores", "custom-buttons"]
+        flags: ["simultaneous", "custom-buttons"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -599,7 +599,7 @@ export class Pigs2Game extends GameBaseSimultaneous {
         return this;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.DAMAGE"), scores: [...this.damage] },
         ]
@@ -805,22 +805,6 @@ export class Pigs2Game extends GameBaseSimultaneous {
         }
 
         return rep;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        status += "**Damage Taken**\n\n";
-        for (let i = 0; i < this.numplayers; i++) {
-            status += `Player ${i + 1}: ${this.damage[i]}\n\n`;
-        }
-
-        status += "**Orders**\n\n";
-        for (let i = 0; i < this.numplayers; i++) {
-            status += `Player ${i + 1}: ${this.orders[i].join(" ")}\n\n`;
-        }
-
-        return status;
     }
 
     public chatLog(players: string[]): string[][] {

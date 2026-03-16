@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-
 import { IPoint, Direction } from ".";
 
 export const deg2dir = new Map<number, Direction>([

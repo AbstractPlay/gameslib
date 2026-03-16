@@ -15,7 +15,6 @@ const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 
-
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, playerid>;
@@ -60,7 +59,7 @@ export class GyveGame extends GameBase {
         ],
         categories: ["goal>unify", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         displays: [{uid: "vertex-style"}],
-        flags: ["pie", "scores", "no-moves", "custom-randomization", "custom-buttons"]
+        flags: ["pie", "no-moves", "custom-randomization", "custom-buttons"]
     };
 
     public numplayers = 2;
@@ -586,16 +585,6 @@ export class GyveGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
-    }
-
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
         let resolved = false;
         switch (r.type) {
@@ -611,7 +600,7 @@ export class GyveGame extends GameBase {
         return this.getGroups(player).length;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         const scores: number[] = [this.getPlayerScore(1), this.getPlayerScore(2)];
         return [{ name: i18next.t("apgames:status.GROUPCOUNT"), scores}];
     }

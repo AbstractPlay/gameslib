@@ -358,7 +358,7 @@ export class ControlGame extends GameBase {
         return this.scores[player - 1];
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [{
             name: i18next.t("apgames:status.control.CONTROLLED_SPACES"),
             scores: [this.getPlayerScore(1), this.getPlayerScore(2)]
@@ -488,22 +488,6 @@ export class ControlGame extends GameBase {
             }
         }
         return annotations;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Scores**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const score = this.getPlayerScore(n as Player);
-            status += `Player ${n}: ${score}\n\n`;
-        }
-
-        return status;
     }
 
     public clone(): ControlGame {

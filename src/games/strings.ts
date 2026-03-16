@@ -558,16 +558,7 @@ export class StringsGame extends GameBaseSimultaneous {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        status += "**Scores**\n\n";
-        status += `Player 1: ${this.getPlayerScore(1)}\n\n`;
-        status += `Player 2: ${this.getPlayerScore(2)}\n\n`;
-        return status;
-    }
-
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }
         ]

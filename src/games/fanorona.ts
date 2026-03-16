@@ -44,7 +44,7 @@ export class FanoronaGame extends GameBase {
             },
         ],
         categories: ["goal>annihilate", "mechanic>capture", "mechanic>move", "other>traditional", "board>shape>rect", "board>connect>other", "components>simple>1per"],
-        flags: ["perspective", "limited-pieces", "no-moves", "aiai", "custom-rotation"]
+        flags: ["perspective", "no-moves", "aiai", "custom-rotation"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -125,7 +125,7 @@ export class FanoronaGame extends GameBase {
         return [...this.board.values()].filter(p => p === player).length;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
         ]

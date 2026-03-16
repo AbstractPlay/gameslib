@@ -982,13 +982,6 @@ export class VolcanoGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        const status = super.status();
-
-        return status;
-    }
-
-     
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["move", "eog", "winners"]);

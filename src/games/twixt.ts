@@ -57,7 +57,6 @@ function* generateColumnLabel(labels: string): IterableIterator<string> {
     }
 }
 
-
 export class TwixtGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
         name: "Twixt",
@@ -379,11 +378,6 @@ export class TwixtGame extends GameBase {
             }
         }
         return moves.sort((a,b) => a.localeCompare(b))
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     private sortMoves(a: string, b: string): number {
@@ -1066,16 +1060,6 @@ export class TwixtGame extends GameBase {
             rep.annotations.push({type: "dots", targets: points as [RowCol, ...RowCol[]]});
         }
         return rep;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

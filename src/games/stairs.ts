@@ -209,7 +209,7 @@ export class StairsGame extends GameBase {
         return truncatedStackCounts;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         const stackSizes1 = this.getStackSizes(1);
         const stackSizes2 = this.getStackSizes(2);
         return [
@@ -275,11 +275,6 @@ export class StairsGame extends GameBase {
         }
 
         return moves;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -516,18 +511,6 @@ export class StairsGame extends GameBase {
         }
 
         return rep;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Stacks**: " + this.getPlayersScores()[0].scores.join(", ") + "\n\n";
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

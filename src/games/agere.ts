@@ -71,7 +71,6 @@ export class AgereGame extends GameBase {
         flags: ["pie", "check", "custom-rotation"]
     };
 
-
     public static edgesDefault: string[][] = [
         ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8"],
         ["a1", "b1", "c2", "d2", "e3", "f3", "g4", "h4"],
@@ -434,11 +433,6 @@ export class AgereGame extends GameBase {
         return moves.sort((a,b) => a.localeCompare(b));
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         move = move.toLowerCase();
         move = move.replace(/\s+/g, "");
@@ -634,16 +628,6 @@ export class AgereGame extends GameBase {
         this.checkEOG();
         this.saveState();
         return this;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
     }
 
     public checkEOGCobweb(player?: playerid): boolean {
@@ -973,7 +957,6 @@ export class AgereGame extends GameBase {
             },
             pieces: pstr
         };
-
 
         // Add annotations
         if (this.results.length > 0) {

@@ -53,7 +53,7 @@ export class SurmountGame extends GameBase {
             { uid: "hex-7", group: "board" },
         ],
         categories: ["goal>annihilate", "mechanic>place", "mechanic>capture", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["no-moves", "custom-buttons", "custom-randomization", "limited-pieces"],
+        flags: ["no-moves", "custom-buttons", "custom-randomization", ],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -198,7 +198,6 @@ export class SurmountGame extends GameBase {
         }
         return captures;
     }
-
 
     // Returns a list of valid initial placements (in this game, all empty cells)
     private initialPlacements(): string[] {
@@ -840,16 +839,6 @@ export class SurmountGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
-    }
-
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
         let resolved = false;
         switch (r.type) {
@@ -873,7 +862,7 @@ export class SurmountGame extends GameBase {
         return groups.map(g => g.length).sort((a,b) => b - a);
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         const groupSizes1 = this.getGroupSizes(1);
         const groupSizes2 = this.getGroupSizes(2);
         return [

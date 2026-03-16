@@ -201,7 +201,7 @@ export class WitchGame extends GameBase {
         return entry;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }
         ]
@@ -265,11 +265,6 @@ export class WitchGame extends GameBase {
         }
 
         return moves;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -739,25 +734,6 @@ export class WitchGame extends GameBase {
         return resolved;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Affiliations**\n\n";
-        status += `Player 1: ${this.affiliations[0]}\n\n`;
-        status += `Player 2: ${this.affiliations[1]}\n\n`;
-
-        status += "**Scores**\n\n";
-        status += `Player 1: ${this.getPlayerScore(1)}\n\n`;
-        status += `Player 2: ${this.getPlayerScore(2)}\n\n`;
-
-        return status;
-    }
-
-     
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["capture", "affiliate", "eog", "winners"]);

@@ -550,7 +550,6 @@ export class FnapGame extends GameBaseSimultaneous {
                 this.selected = this.selected.filter(p => p !== tile);
             }
 
-
             if (! partial) {
                 // move the fnap token if playOrPass
                 if (this.phase === "playOrPass") {
@@ -953,7 +952,6 @@ export class FnapGame extends GameBaseSimultaneous {
             });
         }
 
-
         if (this.stack[this.stack.length - 1]._results.length > 0) {
         // if (this.results.length > 0) {
             rep.annotations = [];
@@ -975,17 +973,7 @@ export class FnapGame extends GameBaseSimultaneous {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        status += "**Scores**\n\n";
-        status += `Player 1: ${this.getPlayerScore(1)}\n\n`;
-        status += `Player 2: ${this.getPlayerScore(2)}\n\n`;
-        status += `FNAP token is held by player ${this.fnap}\n\n`;
-        return status;
-    }
-
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
             { name: i18next.t("apgames:status.fnap"), scores: this.fnap === 1 ? ["\u2021", ""] : ["", "\u2021"] }

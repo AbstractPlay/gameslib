@@ -54,7 +54,7 @@ export class CourtesanGame extends GameBase {
             { uid: "#board", },
         ],
         categories: ["goal>royal-capture", "goal>royal-escape", "mechanic>capture", "mechanic>move", "mechanic>displace", "mechanic>differentiate", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["pie", "perspective", "limited-pieces"],
+        flags: ["pie", "perspective", ],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -69,7 +69,6 @@ export class CourtesanGame extends GameBase {
         }
         return 8;
     }
-
 
     public numplayers = 2;
     public currplayer: playerid = 1;
@@ -201,11 +200,6 @@ export class CourtesanGame extends GameBase {
         }
 
         return moves.sort((a,b) => a.localeCompare(b));
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -410,7 +404,6 @@ export class CourtesanGame extends GameBase {
             this._points = [];
         }
 
-
         const [from, to] = m.split(/[-x/]/);
         const contents = this.board.get(from)!;
         if (m.includes("/")) {
@@ -608,25 +601,10 @@ export class CourtesanGame extends GameBase {
         return [...this.board.values()].filter(([owner,]) => owner === player).length;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
         ]
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Pieces On Board:**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${this.getPlayerPieces(n)}\n\n`;
-        }
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

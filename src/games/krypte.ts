@@ -160,11 +160,6 @@ export class KrypteGame extends InARowBase {
         return moves;
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             let newmove = "";
@@ -627,16 +622,6 @@ export class KrypteGame extends InARowBase {
             winningLines: this.winningLines.map(a => [...a]),
             swapped: this.swapped
         };
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
     }
 
     public clone(): KrypteGame {

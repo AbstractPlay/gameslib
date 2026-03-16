@@ -7,7 +7,6 @@ import i18next from "i18next";
 
 export type playerid = 1|2;
 
-
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, number>;
@@ -240,11 +239,6 @@ export class PrudhGame extends GameBase {
             return "capture";
         }
         return "place";
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -662,23 +656,7 @@ export class PrudhGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Scores**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const score = this.getPlayerScore(n);
-            status += `Player ${n}: ${score}\n\n`;
-        }
-
-        return status;
-    }
-
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
         ]

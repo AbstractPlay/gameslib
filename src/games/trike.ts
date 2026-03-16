@@ -266,11 +266,6 @@ export class TrikeGame extends GameBase {
         return moves.sort((a,b) => a.localeCompare(b));
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         move = move.toLowerCase();
         move = move.replace(/\s+/g, "");
@@ -381,17 +376,6 @@ export class TrikeGame extends GameBase {
         this.checkEOG();
         this.saveState();
         return this;
-    }
-
-    public status(): string {
-        let status = super.status();
-        if (this.gameover) {
-            status += `Points: ${this.getPoints().join("-")}\n\n`;
-        }
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-        return status;
     }
 
     private getPoints(): [number, number] {
@@ -510,7 +494,6 @@ export class TrikeGame extends GameBase {
             },
             pieces: pstr
         };
-
 
         // Add annotations
         if (this.results.length > 0) {

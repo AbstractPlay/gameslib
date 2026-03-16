@@ -183,11 +183,6 @@ export class BoomGame extends GameBase {
         return [...moves].sort((a,b) => a.localeCompare(b));
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             let cell: string | undefined;
@@ -621,15 +616,7 @@ export class BoomGame extends GameBase {
         return resolved;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        status += `**Scores**\n\nPlayer 1: ${this.getPlayerScore(1)}\n\nPlayer 2: ${this.getPlayerScore(2)}`;
-
-        return status;
-    }
-
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }
         ]

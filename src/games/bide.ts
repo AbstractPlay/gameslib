@@ -556,27 +556,7 @@ export class BideGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**In Hand**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${this.inhand[n - 1]}\n\n`;
-        }
-
-        status += "**SCORES**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${this.getPlayerScore(n)}\n\n`;
-        }
-
-        return status;
-    }
-
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         let ignore = 0;
         const scores: number[] = [];
         for (let i = 1; i <= this.numplayers; i++) {

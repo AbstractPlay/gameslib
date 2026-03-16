@@ -303,11 +303,6 @@ export class TintasGame extends GameBase {
         return moves;
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         move = move.toLowerCase();
         move = move.replace(/\s+/g, "");

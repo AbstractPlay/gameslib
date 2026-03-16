@@ -233,11 +233,6 @@ export class MegGame extends GameBase {
         return moves.sort((a,b) => a.localeCompare(b));
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             const cell = MegGame.coords2algebraic(col, row);
@@ -599,21 +594,6 @@ export class MegGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        if (this.offense !== undefined) {
-            status += "**Offensive player**: " + this.offense.toString() + "\n\n";
-            status += "**Countdown**: " + this.countdown!.toString() + "\n\n";
-        }
-
-        return status;
-    }
-
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
         let resolved = false;
         switch (r.type) {
@@ -633,7 +613,7 @@ export class MegGame extends GameBase {
         return resolved;
     }
 
-    public statuses(): IStatus[] {
+    public sidebarStatuses(): IStatus[] {
         const returned: IStatus[] = [];
         if (this.offense !== undefined) {
             returned.push({key: i18next.t("apgames:status.meg.OFFENSE"), value: [`Player ${this.offense}`]});

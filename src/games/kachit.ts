@@ -59,7 +59,7 @@ export class KachitGame extends GameBase {
             },
         ],
         categories: ["goal>royal-capture", "goal>royal-escape", "mechanic>capture", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["perspective", "limited-pieces"],
+        flags: ["perspective", ],
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 4);
@@ -220,11 +220,6 @@ export class KachitGame extends GameBase {
         }
 
         return [...moves].sort((a,b) => a.localeCompare(b));
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -784,16 +779,6 @@ export class KachitGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
-    }
-
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
         let resolved = false;
         switch (r.type) {
@@ -813,7 +798,7 @@ export class KachitGame extends GameBase {
         return resolved;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.PIECESINHAND"), scores: this.inhand }
         ]

@@ -51,7 +51,7 @@ export class FurlGame extends GameBase {
             },
         ],
         categories: ["goal>breakthrough", "mechanic>capture", "mechanic>stack", "mechanic>move>sow", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["check", "perspective", "aiai", "limited-pieces"],
+        flags: ["check", "perspective", "aiai", ],
         variants: [
             // { uid: "size-5", group: "board" },
         ],
@@ -175,11 +175,6 @@ export class FurlGame extends GameBase {
         }
 
         return moves;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -682,25 +677,10 @@ export class FurlGame extends GameBase {
         return [...this.board.values()].filter(v => v[0] === player).map(v => v[1]).reduce((a, b) => a + b, 0);
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
         ]
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Pieces On Board:**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${this.getPlayerPieces(n)}\n\n`;
-        }
-
-        return status;
     }
 
     public clone(): FurlGame {

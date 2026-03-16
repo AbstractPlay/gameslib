@@ -306,11 +306,6 @@ export class AlmataflGame extends GameBase {
         return graph;
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             const cell = this.graph.coords2algebraic(col, row);
@@ -681,16 +676,6 @@ export class AlmataflGame extends GameBase {
         }
 
         return rep;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
     }
 
     public getPlayerColour(p: playerID): Colourfuncs {

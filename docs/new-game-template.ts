@@ -4,7 +4,6 @@
  * Comments throughout.
  */
 
-
 /**
  * This is where you import the various types and functions you need. Most of it is types, but there are commonly things like `RectGrid` and other helper functions you'll probably want from `common`
  */
@@ -145,14 +144,6 @@ export class ComplicaGame extends GameBase {
     public moves(): string[] {
         if (this.gameover) { return []; }
         return ["a","b","c","d"];
-    }
-
-    /**
-     * This is a helper function only needed for local testing, and only useful if you have a `moves()` function.
-     */
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     /**
@@ -431,19 +422,6 @@ export class ComplicaGame extends GameBase {
         }
 
         return rep;
-    }
-
-    /**
-     * This function is only for the local playground.
-     */
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
     }
 
     /**

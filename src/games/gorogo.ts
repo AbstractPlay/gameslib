@@ -62,7 +62,7 @@ export class GorogoGame extends GameBase {
             },
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>3c"],
-        flags: ["limited-pieces", "scores"]
+        flags: ["scores"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 5);
@@ -293,11 +293,6 @@ export class GorogoGame extends GameBase {
         }
 
         return moves.sort((a,b) => a.localeCompare(b));
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -627,28 +622,6 @@ export class GorogoGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**In Hand**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const {normal, neutral} = this.pieces[n - 1];
-            status += `Player ${n}: ${normal}.${neutral}\n\n`;
-        }
-
-        status += "**Scores**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const score = this.getPlayerScore(n);
-            status += `Player ${n}: ${score}\n\n`;
-        }
-
-        return status;
-    }
-
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
         let resolved = false;
         switch (r.type) {
@@ -664,7 +637,7 @@ export class GorogoGame extends GameBase {
         return resolved;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         const inhand = this.pieces.map(({normal, neutral}) => parseFloat(`${normal}.${neutral}`))
         return [
             { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },

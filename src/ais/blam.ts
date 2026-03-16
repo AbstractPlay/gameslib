@@ -58,7 +58,6 @@ const evaluate = (state: IBlamState): number => {
     return score;
 }
 
-
 export class BlamAI extends AIBase {
     public static findmove(state: IBlamState, plies: number): string {
                 const result: IAIResult =  minmax(state, gameRules, evaluate, plies);

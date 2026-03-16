@@ -202,11 +202,6 @@ export class NexGame extends GameBase {
         return moves;
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     private sort(a: string, b: string): number {
         // Sort two cells. This is necessary because "a10" should come after "a9".
         const [ax, ay] = this.algebraic2coords(a);
@@ -518,7 +513,6 @@ export class NexGame extends GameBase {
         return this;
     }
 
-
     private buildGraph(player: playerid): UndirectedGraph {
         const graph = new UndirectedGraph();
         // seed nodes
@@ -671,16 +665,6 @@ export class NexGame extends GameBase {
             }
         }
         return rep;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

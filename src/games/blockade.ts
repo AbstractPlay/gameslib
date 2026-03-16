@@ -250,11 +250,6 @@ export class BlockadeGame extends GameBase {
         return moves;
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     private render2wall(row: number, col: number, side: string): string {
         // Converts click results from renderer into wall notation.
         // For games with interior-only walls, we use the north and east edges.
@@ -403,7 +398,7 @@ export class BlockadeGame extends GameBase {
                             // No other specific action, keep current move.
                             newmove = move;
                         }
-                            
+
                     }
                 }
             } else {
@@ -1138,20 +1133,6 @@ export class BlockadeGame extends GameBase {
             {count: this.hWalls[player - 1], glyph: { name: "hline", colour: 3 }, movePart: ""},
             {count: this.vWalls[player - 1], glyph: { name: "vline", colour: 3 }, movePart: ""},
         ];
-    }
-
-    public status(): string {
-        let status = super.status();
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Pieces In Hand**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: h - ${this.hWalls[n - 1]}, v - ${this.vWalls[n - 1]}\n\n`;
-        }
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

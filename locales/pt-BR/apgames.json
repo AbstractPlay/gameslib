@@ -57,6 +57,20 @@
         "crosshairs": "Um jogo de combate aéreo baseado na primeira guerra mundial. Aviões possuem altura e direção. As ações incluem escalar, voo nivelado e descida. O combate é simples: caso o avião esteja na linha de fogo de dois aviões inimigos, ele é abatido. Reduza a força aérea do seu oponente para um avião e conquiste a vitória.",
         "cubeo": "Um jogo de dados com instruções perfeitas e sem a necessidade de um tabuleiro, onde você tentar promover o seu dado mais rápido que o seu oponente ou manobre-o para uma posição na qual ele não pode mais mover-se.",
         "dagnacht": "Um jogo de \"n-sequências\" (alinhar peças) em um tabuleiro xadrez. Você só pode colocar peças nas casas escuras, mas depois movê-las para as claras. Vença alinhando 5 peças em linha ortogonal (incluindo 3 casas claras se você for o jogador 1) ou 4 peças em uma diagonal clara. Ganhador da 'Unequal Board Spaces Game Design Competition' da revista Abstract Games em 2021.",
-        "dameo": "Um jogo moderno de dama com movimentação linear e capturas ortogonais."
+        "dameo": "Um jogo moderno de dama com movimentação linear e capturas ortogonais.",
+        "ceph": "Um jogo para dois jogadores de controle de área por captura usando dados. O objetivo é preencher um tabuleiro com o maior número possível dos seus dados. O que dificulta a jogatina, é a mecânica de captura que mantém o tabuleiro em constante mudança. O jogo termina quando o tabuleiro estiver completamente preenchido. Empates não são possíveis.",
+        "chameleon": "Um jogo de estratégia similar ao xadrez, jogado em um tabuleiro 5x5, na qual os possíveis movimentos de cada peça mudam baseado na cor do piso onde ela começou.",
+        "chase": "Chase é um jogo de movimento e captura único, jogado em um tabuleiro hexagonal cilíndrico com dados. As peças movem-se exatamente pelo número de espaços indicado na face do dado (sua \"velocidade\"). Colocar as suas peças sobre peças inimigas as captura; colocar elas sobre peças amigas as empurra, podendo formar reações em cadeia. A câmara no centro do tabuleiro é um meio de ganhar mais peças. Você deve manter um total de 25 de velocidade ao longo do jogo. Caso você não for mais capaz de fazer isso, você perde.",
+        "churn": "Um jogo implacável de controlar o território, jogado em um tabuleiro pequeno.",
+        "cifra": "Um jogo de inovar, na qual as regras do tabuleiro mudam de jogo a jogo.",
+        "clearcut": "Conecte os lados opostos do tabuleiro. Linhas de peças podem se cruzar em certas circunstâncias e isso resulta na remoção de peças do adversário.",
+        "clusterfuss": "Continue capturando peças com o objetivo separar (e por consequência remover) grupos de peças do adversário. Seja o útilmo a se manter de pé!",
+        "complica": "O jogo simples de conectar quatro, jogado em um campo estreito onde colunas nunca podem se preencher.",
+        "deckfish": "Um jogo para dois jogadores de reduzir o mapa e coletar naipes, quem tiver a maior quantidade do seu naipe menos coletado no Decktet vence.",
+        "diffusion": "Diffusion é um jogo moderno estilo mancala, onde o objetivo é esvaziar a sua própria cavidade.",
+        "dipole": "Um jogo anticorrida onde você, eventualmente perde peças, porém tenta ser um último a perder tudo.",
+        "dragoneyes": "Uma variação de damas com instruções incompletas, espaços para olhos de dragão encantados e jogado em um tabuleiro hexagonal.",
+        "emergo": "Uma variante de 'Draughts' onde peças capturadas permancem no tabuleiro e podem ser libertadas posteriormente. Capture todas as peças adversárias. Derivado de 'Lasca', porém com dois duas fases e tentativas incessantes de captura compulsória.",
+        "emu": "Cada pássaro no seu celeiro é representado por uma pilha de cartas. No final da rodada, o valor de um pássaro é determinado pela soma das cartas numéricas na pilha. O objetivo é eventualmente criar pássaros lucrativos. A maior pontuação após um número de anos vence."
     }
 }

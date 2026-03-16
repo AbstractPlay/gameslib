@@ -90,7 +90,20 @@
             "group_nowhere": "Um grupo de tamanho {{count}} foi capturado.",
             "multiple": "As seguintes peças foram capturadas: {{capped}}.",
             "nowhat": "Uma peça foi capturada em {{where}}.",
-            "nowhere": "Um(a) {{what}} foi capturado(a)."
-        }
+            "nowhere": "Um(a) {{what}} foi capturado(a).",
+            "simple": "Um(a) {{what}} foi capturado(a) em {{where}}."
+        },
+        "hens_hen": "{{player}} capturou uma galinha em {{where}}.",
+        "hens_chick": "{{player}} capturou um pintinho em {{where}}.",
+        "hexentafl_king": "O rei foi capturado em {{where}}.",
+        "lasca_officer": "{{player}} capturou um comandante em {{where}}.",
+        "lasca_soldier": "{{player}} capturou um soldado em {{where}}.",
+        "lifeline": "Peças falecidas foram removidas em {{where}}.",
+        "meridians": "Um grupo eliminado no tamanho de {{count}} foi removido.",
+        "nowhat": "{{player}} capturou uma peça em {{where}}.",
+        "onyx": "Um par de peças foi capturado em {{where1}} e {{where2}}.",
+        "orb_1": "{{player}} capturou um orbe em {{where}}.",
+        "orb_2": "{{player}} capturou uma esfera em {{where}}.",
+        "pente": "{{player}} capturou {{count}} peças."
     }
 }

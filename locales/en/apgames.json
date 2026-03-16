@@ -4852,6 +4852,7 @@
             "LABEL_DISCARDS_ONE": "Discard pile (one shuffle left)",
             "LABEL_HAND": "Player {{playerNum}}'s hand",
             "LABEL_STACKED_DECK": "Player {{playerNum}}'s deck",
+            "LABEL_WARNING": "This is the last round!",
             "MALFORMED_TRADE": "You must choose three tokens of the same suit to begin a trade.",
             "MUST_CHOOSE": "You must choose which deed resource(s) to receive before taking any other actions.",
             "NOT_DEEDED": "The card you selected does not appear to be among your deeded cards.",

@@ -521,8 +521,6 @@ export class MagnateGame extends GameBase {
             return this.pickleSpend(spendy);
         }
 
-        //TODO: more partial payment improvements?
-        
         return this.pickleSpend(spendy);
     }
     
@@ -1503,7 +1501,7 @@ export class MagnateGame extends GameBase {
                         return result;
                     }
                 }
-                //TODO: Would be quicker to change debit to return success or failure.
+
                 //Credit should always succeed.
                 const suitIndex = pact.spend.indexOf(3);
                 if (suitIndex < 0 || pact.spend.reduce((cur,acc) =>
@@ -2658,6 +2656,17 @@ export class MagnateGame extends GameBase {
             opacity: 0.15,
             orientation: "vertical",
         };
+        legend["Warning"] = [
+            {
+                name: "piece-borderless",
+                colour: "_context_background"
+            },
+            {
+                text: "\u{26A0}",
+                colour: "#f00",
+                orientation: "vertical",
+            }
+        ];
 
         if (this.roll.length > 1) {
 
@@ -2740,8 +2749,6 @@ export class MagnateGame extends GameBase {
             });
         }
 
-        //TODO: stacked deck changes
-        //const remaining = this.deck[0].clone().draw(this.deck[0].size).sort(cardSortAsc).map(c => "k" + c.uid) as [string, ...string[]];
         const mostcards = this.renderableCards(false).cards;
         const remaining = mostcards.sort(cardSortAsc).filter(c => visibleCards.indexOf(c.uid) < 0).map(c => "k" + c.uid);
 
@@ -2760,7 +2767,7 @@ export class MagnateGame extends GameBase {
                             pieces: pr as [string, ...string[]]
                         });
                 }
-            }  else {
+            } else {
                 areas.push({
                     type: "pieces",
                     label: i18next.t("apgames:validation.magnate.LABEL_DECK") || "Cards in deck",
@@ -2769,6 +2776,15 @@ export class MagnateGame extends GameBase {
                     pieces: remaining as [string, ...string[]]
                 });
             }
+            
+        } else if (this.shuffled === true && this.gameover === false) {
+                areas.push({
+                    type: "pieces",
+                    label: i18next.t("apgames:validation.magnate.LABEL_WARNING") || "Last round!",
+                    spacing: 0.25,
+                    width: this.districts + 2,
+                    pieces: ["Warning"] as [string, ...string[]]
+                });
         }
 
         // Build rep

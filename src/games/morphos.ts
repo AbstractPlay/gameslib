@@ -923,16 +923,6 @@ export class MorphosGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
-    }
-
     public clone(): MorphosGame {
         return Object.assign(new MorphosGame(), deepclone(this) as MorphosGame);
     }

@@ -177,11 +177,6 @@ export class BlamGame extends GameBase {
         return moves;
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             const cell = BlamGame.coords2algebraic(col, row);
@@ -571,28 +566,6 @@ export class BlamGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        status += "**Stashes**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const stash = this.stashes.get(n as playerid);
-            if ( (stash === undefined) || (stash.length !== 3) ) {
-                throw new Error("Malformed stash.");
-            }
-            status += `Player ${n}: ${stash[0]} small, ${stash[1]} medium, ${stash[2]} large\n\n`;
-        }
-
-        status += "**Scores**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const score = this.scores[n - 1];
-            const caps = this.caps[n - 1];
-            status += `Player ${n}: ${score} (${caps} pieces)\n\n`;
-        }
-
-        return status;
-    }
-
     public getPlayerStash(player: number): IStashEntry[] | undefined {
         const stash = this.stashes.get(player as playerid);
         if (stash !== undefined) {
@@ -609,7 +582,7 @@ export class BlamGame extends GameBase {
         return this.scores[player - 1];
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [{ name: i18next.t("apgames:status.SCORES"), scores: this.scores.map((s,i) => `${s} (${i18next.t("apgames:status.blam.NUMPIECES", {count: this.caps[i]})})`)}];
     }
 

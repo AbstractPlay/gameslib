@@ -1414,20 +1414,8 @@ export class ArimaaGame extends GameBase {
         return score * C;
     }
 
-    public statuses(): IStatus[] {
+    public sidebarStatuses(): IStatus[] {
         return [{ key: i18next.t("apgames:status.arimaa.HARLOG"), value: [this.harlog().toFixed(2)] } as IStatus];
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Harlog**: " + this.harlog().toFixed(2) + "\n\n";
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

@@ -94,7 +94,7 @@ export class MagnateGame extends GameBase {
             { uid: "courts", default: true }, //include courts
             { uid: "courtpawns" }, //courts for pawns
             { uid: "deucey" }, //ace scoring variant
-            { uid: "mega" }, //double deck double hand 
+            { uid: "mega" }, //double deck double hand
             { uid: "stacked" }, //stacking the deck(s)
             { uid: "taxtax" }, //double taxation
         ],
@@ -169,11 +169,11 @@ export class MagnateGame extends GameBase {
                 board[1][d] = [];
                 board[2][d] = [];
             }
-            
+
             //init crowns and tokens
             const crowns: [number[], number[]] = [[0,0,0,0,0,0],[0,0,0,0,0,0]];
             const tokens: [number[], number[]] = [[0,0,0,0,0,0],[0,0,0,0,0,0]];
-            
+
             const crownCards = [...cardsBasic.filter(c => c.rank.name === "Crown")];
             const crownDeck = new Multideck(crownCards, deckCount);
             crownDeck.shuffle();
@@ -197,7 +197,7 @@ export class MagnateGame extends GameBase {
                     }
                 }
             }
-            
+
             const deck = this.initDeck(deckCount);
 
             if ( this.variants.includes("mega") && this.variants.includes("stacked") ) {
@@ -216,7 +216,7 @@ export class MagnateGame extends GameBase {
                     hands[p][h] = card.uid;
                 }
             }
-            
+
             const fresh: IMoveState = {
                 _version: MagnateGame.gameinfo.version,
                 _results: [],
@@ -232,9 +232,9 @@ export class MagnateGame extends GameBase {
                 choose: [],
                 shuffled: false
             };
-            
+
             this.stack = [fresh];
-            
+
         } else {
             if (typeof state === "string") {
                 state = JSON.parse(state, reviver) as IMagnateState;
@@ -256,7 +256,7 @@ export class MagnateGame extends GameBase {
         //Requires the deck argument because sometimes it's not yet this.deck.
         deck[1] = new Multideck([], 2);
         deck[2] = new Multideck([], 2);
-        
+
         while (deck[0].size > 0) {
             const [card] = deck[0].draw() as Multicard[];
             if (card.deck === 1)
@@ -276,7 +276,7 @@ export class MagnateGame extends GameBase {
         //Usually add the courts.
         if (this.variants.includes("courts"))
             cards.push(...[...cardsExtended.filter(c => c.rank.uid === this.courtrank)]);
-        
+
         if (forRender) {
             //Add the center row.
             cards.push(...[...cardsExtended.filter(c => c.rank.uid === this.pawnrank)]);
@@ -301,7 +301,7 @@ export class MagnateGame extends GameBase {
         }
         return rolled;
     }
-    
+
     public load(idx = -1): MagnateGame {
         if (idx < 0) {
             idx += this.stack.length;
@@ -335,7 +335,7 @@ export class MagnateGame extends GameBase {
         // Deck is reset every time you load
         const deckCount = (this.variants.includes("mega") ? 2 : 1);
         this.deck = this.initDeck(deckCount);
-        
+
         // remove cards from the deck that are on the board, the discard, or in known hands
         for (const uid of [...this.board[1].flat(), ...this.board[2].flat(), ...this.discards]) {
             this.deck[0].remove(uid);
@@ -362,8 +362,6 @@ export class MagnateGame extends GameBase {
         return this;
     }
 
-
-    
     /* helper functions for general gameplay */
 
     private add2deed(card: string, spend: number[]): boolean {
@@ -376,7 +374,7 @@ export class MagnateGame extends GameBase {
         let paid = 0;
         let test = true;
         //console.log(card, spend);
-        
+
         deed.suit1 += spend[suitIdxs[0]];
         paid += deed.suit1;
         test = (deed.suit1 > 0);
@@ -390,13 +388,13 @@ export class MagnateGame extends GameBase {
                 test = test && (deed.suit3 > 0);
             }
         }
-        
+
         return (test && paid === price);
     }
 
     private canDeed(card: string): boolean {
         //Test if currplayer can afford to deed the card.
-        
+
         //We make the array version.
         const tokens = Array(6).fill(0);
         const cardObj = Multicard.deserialize(card)!;
@@ -408,9 +406,9 @@ export class MagnateGame extends GameBase {
 
     private canPay(card: string): boolean {
         //Test if currplayer can afford to build the card outright.
-        
+
         //Check for the suit tokens with canDeed.
-        if (! this.canDeed(card) ) {        
+        if (! this.canDeed(card) ) {
             return false;
         }
 
@@ -428,7 +426,7 @@ export class MagnateGame extends GameBase {
 
     private canPlace(card: string, district: string): boolean {
         const col = this.algebraic2coord(district);
-        
+
         //Check for a deeded card.
         if (this.hasDeed(district, this.currplayer)) {
             return false;
@@ -452,7 +450,7 @@ export class MagnateGame extends GameBase {
 
         if (highlight)
             cardObj.suits.forEach(s => this.highlights.push(s.uid));
-        
+
         const suitIdxs = cardObj.suits.map(s => s.seq - 1);
         suitIdxs.forEach(suitIdx => tokens[suitIdx]++);
 
@@ -468,32 +466,32 @@ export class MagnateGame extends GameBase {
             } //else if ( type === "D") {
                 //Aces may be deeded for one token, though that's usually a bad idea.
                 //No change to the existing array.
-              //} 
+              //}
         }
 
         return tokens;
     }
-    
+
     private checkChange(card: string): string {
         //Returns exactly the tokens currplayer must spend to buy card,
         // that is, returns a partial or full payment for autocompletes.
         //Assumes canPay.
-        
+
         const cardObj = Multicard.deserialize(card)!;
-        
+
         //Sets correct "Court" cost, with exception for Aces.
         let price = this.getPriceFromRank(cardObj.rank.seq);
 
         const suitIdxs = cardObj.suits.map(s => s.seq - 1);
         const tokens = this.tokens[this.currplayer - 1].slice().map( (v, i) =>
             suitIdxs.indexOf(i) === -1 ? 0 : v);
-        
+
         if ( tokens.reduce( (cur, acc) => cur + acc, 0) === price ) {
             //Can pay the whole price, but check distribution.
             if ( tokens.filter( v => v > 0 ).length === cardObj.suits.length )
                 return this.pickleSpend(tokens);
         }
-        
+
         const spendy = Array(6).fill(0);
 
         //Required diversification.
@@ -510,7 +508,7 @@ export class MagnateGame extends GameBase {
             //May not be complete.
             return this.pickleSpend(spendy);
         }
-        
+
         const remaining = tokens.filter(v => v > 0);
 
         //Special cases of ace or paying the rest from a single suit.
@@ -521,17 +519,15 @@ export class MagnateGame extends GameBase {
             return this.pickleSpend(spendy);
         }
 
-        //TODO: more partial payment improvements?
-        
         return this.pickleSpend(spendy);
     }
-    
+
     private checkSpend(card: string, spend: number[], type: string): number {
         //Checks that an intermediate or final addition to a deed is legal,
         //or that an intermediate or final payment on a buy is legal.
         // Also prevent overpayment, addition of inapplicable suits,
         //  and additions that would prevent completing payment later.
-        // DOES NOT prevent deeding a card and completing it 
+        // DOES NOT prevent deeding a card and completing it
         //  in the same turn,  even though no sane player would do that.
 
         //Return:
@@ -540,7 +536,7 @@ export class MagnateGame extends GameBase {
         //  1 for any addition that completes the deed or buy.
 
         const cardObj = Multicard.deserialize(card)!;
-        
+
         //Sets correct "Court" cost, with exception for Aces.
         const price = this.getPriceFromRank(cardObj.rank.seq);
 
@@ -554,7 +550,7 @@ export class MagnateGame extends GameBase {
             //reconstruct the sheltered array.
             sheltered = this.getDeedAsTokens(cardObj, deed);
         }
-        
+
         let payment = 0;
         let numSuits = 0;
         suitIdxs.forEach( (suitIdx) => {
@@ -566,7 +562,7 @@ export class MagnateGame extends GameBase {
         });
 
         //Return the three logical values.
-        
+
         if ( payment > price ) {
             //Overpaid.
             return -1;
@@ -591,11 +587,11 @@ export class MagnateGame extends GameBase {
             throw new Error("Unexpected fallthrough in checkSpend().");
         }
     }
-    
+
     private collectOn(rank: number, player: playerid, isRoller: boolean): number[] {
         //Credits the player for the rolled rank.
         //Also returns the token string of credits for logging.
-        
+
         let tokens = Array(6).fill(0);
         const p = player - 1;
         //Special ranks:
@@ -636,7 +632,7 @@ export class MagnateGame extends GameBase {
             }
         }
         this.credit(tokens, player);
-        
+
         return tokens;
     }
 
@@ -651,10 +647,10 @@ export class MagnateGame extends GameBase {
         const cardObj = Multicard.deserialize(card)!;
         if (cardObj.suits.length > 1) {
             deed.suit2 = 0;
-            if (cardObj.suits.length === 3 ) 
+            if (cardObj.suits.length === 3 )
                 deed.suit3 = 0;
         }
-        
+
         this.deeds[this.currplayer - 1].set(card, deed);
         return;
     }
@@ -682,7 +678,7 @@ export class MagnateGame extends GameBase {
         else
             return true;
     }
-    
+
     private debit(tokenArray: number[], player: playerid): boolean {
         //Debits and credits are forumlated as arrays of 6 numbers.
         return this.edit(-1, tokenArray, player);
@@ -693,11 +689,11 @@ export class MagnateGame extends GameBase {
         const toDraw = this.variants.includes("mega") ? 2 : 1;
 
         const drawDeckIdx = ( (! this.shuffled) && this.variants.includes("mega") && this.variants.includes("stacked") ) ? this.currplayer : 0;
-       
+
         let drawn = this.deck[drawDeckIdx].draw(Math.min(this.deck[drawDeckIdx].size, toDraw)).map(c => c.uid);
 
         drawn.forEach(c => this.hands[this.currplayer - 1].push(c));
-        
+
         if (drawn.length === toDraw)
             return;
 
@@ -738,7 +734,7 @@ export class MagnateGame extends GameBase {
         tokens.forEach((value, index) => {
             tokens[index] = value + (tokenArray[index] * operation);
         });
-            
+
         return true;
     }
 
@@ -757,7 +753,7 @@ export class MagnateGame extends GameBase {
                 sheltered[suitIdxs[2]] = deed.suit3;
             }
         }
-        
+
         return sheltered;
     }
 
@@ -768,7 +764,7 @@ export class MagnateGame extends GameBase {
         this.deeds[player - 1].forEach((deed, key) => {
             if (deed.district === district)
                 deeded = key;
-        }); 
+        });
 
         return deeded;
     }
@@ -778,14 +774,14 @@ export class MagnateGame extends GameBase {
         //Rank is of the type/form card.rank.seq.
         return rank === 1 ? 3 : Math.ceil(rank) ;
     }
-    
+
     private getRandomSpend(card: string, full?: boolean): number[] {
         //Construct a full or partial payment (string) for use in random moves.
         //It may not qualify as a deed payment so don't rely on success.
         //The caller no longer needs a string, so could be cleaned up.
-        
+
         const cardObj = Multicard.deserialize(card)!;
-        
+
         const payment: string[] = [];
         const resources = this.tokens[this.currplayer - 1].slice();
 
@@ -825,7 +821,7 @@ export class MagnateGame extends GameBase {
     private matched(card1: string, card2: string): boolean {
         const c1 = Multicard.deserialize(card1);
         const c2 = Multicard.deserialize(card2);
-        
+
         //This shouldn't happen.
         if (c1 === undefined || c2 === undefined)
             return false;
@@ -833,7 +829,7 @@ export class MagnateGame extends GameBase {
         //This should only happen in a particular order but whatevs.
         if (c1.rank.name === "Excuse" || c2.rank.name === "Excuse")
             return true;
-        
+
         return c1.sharesSuitWith(c2);
     }
 
@@ -842,12 +838,12 @@ export class MagnateGame extends GameBase {
         //Does only structural validation.
         //Expects at leat a choice of move type (X:).
 
-        //Because the Excuse and Crowns don't appear in moves, 
-        // the card format is: 
+        //Because the Excuse and Crowns don't appear in moves,
+        // the card format is:
         const cardex = /^(\d?[A-Z]{1,2}[1-2]?||[A-Z]{4}[1-2]?)$/;
-        //The cell format is: 
+        //The cell format is:
         const cellex = /^[a-j]$/;
-        //The suit format is: 
+        //The suit format is:
         const suitex = /^[MSVLYK][2-8]?$/;
         //A regex to check for illegal characters is:
         const illegalChars = /[^A-Za-n1-9:@+]/;
@@ -868,19 +864,19 @@ export class MagnateGame extends GameBase {
         }
 
         //Once we have a legit type we can default to valid = true.
-        
+
         //Incomplete starts out undefined.
         //A partial submove that can't be submitted is set to incomplete.
 
         //Upcase everything and downcase the districts later.
         const submove = move.trim().toUpperCase();
-        
+
         //Check for legal characters.
         if (illegalChars.test(submove)) {
             mm.valid = false;
             return mm;
         }
-        
+
         let card, district, suit: string;
 
         //Next, split the string on type.
@@ -910,9 +906,9 @@ export class MagnateGame extends GameBase {
         }
 
         //Split the remaining items.
-        
+
         let split = typed[1].split("@");
-        
+
         if ( split[0] === typed[1] ) {
             //Found no districts so split on plus.
             split = typed[1].split("+");
@@ -922,7 +918,7 @@ export class MagnateGame extends GameBase {
                 mm.valid = false;
                 return mm;
             }
-            
+
         } else {
             //We set both card and district (untested).
             card = split[0];
@@ -938,7 +934,7 @@ export class MagnateGame extends GameBase {
                 mm.valid = false;
                 return mm;
             }
-            
+
             const value = split.shift()!;
             if (! suitex.test(value) ) {
                 //Malformed suit string.
@@ -992,7 +988,7 @@ export class MagnateGame extends GameBase {
             mm.incomplete = true;
             return mm;
         }
-               
+
         if ( type === "T" || type === "P" || type === "C" ) {
             //The single suit cases har har.
             suit = split.shift()!;
@@ -1001,12 +997,12 @@ export class MagnateGame extends GameBase {
                 mm.valid = false;
                 return mm;
             }  else {
-                mm.suit = suit; 
+                mm.suit = suit;
                 //These cases are now complete.
                 mm.incomplete = false;
                 return mm;
             }
-        } 
+        }
 
         //Only spend tokens left...if that.
         if ( split.length === 0 || split[0] === "" ) {
@@ -1022,12 +1018,12 @@ export class MagnateGame extends GameBase {
 
         //amalgamapping the spend
         mm.spend = this.parseSplitSpend(split);
-        
+
         //Finished buy and add cases.
         mm.incomplete = false;
         return mm;
     }
-    
+
     public pickleMove(pact: IMagnateMove): string {
         //Pickle is how the cool kids say "serialize".
         //Cycling through parseMove and pickleMove is handy
@@ -1037,7 +1033,7 @@ export class MagnateGame extends GameBase {
         if (pact.valid === false) {
             throw new Error("Cannot reserialize an invalid move object.");
         }
-        
+
         if (pact.type === undefined || moveTypes.indexOf(pact.type) < 0) {
             throw new Error("Could not reserialize the move object: missing type.");
         }
@@ -1053,7 +1049,7 @@ export class MagnateGame extends GameBase {
         // Prefer: card + suit
         // Choose: card + suit
         // Error:  for internal use only
-        
+
         if (pact.card)
             move += pact.card;
         else if (pact.spend) {
@@ -1069,10 +1065,10 @@ export class MagnateGame extends GameBase {
         //If we're here, we have a card.
         if (pact.district)
             move += "@" + pact.district;
-        
+
         if (pact.spend)
             move += "+" + this.pickleSpend(pact.spend);
-        else if (pact.suit) 
+        else if (pact.suit)
             move += "+" + pact.suit;
 
         return move;
@@ -1092,7 +1088,7 @@ export class MagnateGame extends GameBase {
             const quantity = value.length > 1 ? parseInt(value[1],10) : 1;
             spend[suitOrder.indexOf(suit)] += quantity;
         });
- 
+
         return spend;
     }
 
@@ -1107,7 +1103,7 @@ export class MagnateGame extends GameBase {
                 spend.push(`${suit}${quantity}`);
             }
         });
- 
+
         return spend.join("+");
     }
 
@@ -1116,7 +1112,7 @@ export class MagnateGame extends GameBase {
         this.board[this.currplayer][col].push(card);
         return;
     }
-    
+
     private removeCard(card: string, arr: string[]): boolean {
         //Remove a card from an array.
         //It's up to the caller to put the card somewhere else.
@@ -1127,7 +1123,7 @@ export class MagnateGame extends GameBase {
         } //else...
         return false;
     }
-    
+
     private splitMove(move: string): string[] {
         //Parses an unsplit move into an action array without empties.
         const actions = move.split(",");
@@ -1135,7 +1131,7 @@ export class MagnateGame extends GameBase {
         //Trim any empty moves.
         return actions.filter(a => a.trim() !== "");
     }
-    
+
     private suitPicker(card: string, player: playerid): string {
         const choices = [card[1], card[2]];
         const crowns = suitOrder.filter((s,i) => this.crowns[player - 1][i] > 0);
@@ -1150,10 +1146,9 @@ export class MagnateGame extends GameBase {
         else
             return choices[1];
     }
-    
-    
+
     //Not autopassing (or passing) so don't need a moves function.
-    
+
     public randomMove(): string {
         if (this.gameover)
             return "";
@@ -1176,18 +1171,18 @@ export class MagnateGame extends GameBase {
 
         //We can generate a sensible move from the player's hand, if we sort it.
         const sortedHand = cloned.hands[this.currplayer - 1].slice().sort((a,b) => parseInt(b[0]) - parseInt(a[0]));
-        
+
         let card = "";
-        for ( let m = 0; m < usedCardCount; m++ ) { 
+        for ( let m = 0; m < usedCardCount; m++ ) {
             //Don't pick a random index; try to build or deed a card.
             //Failing that, sell a card and try to pay on a deed.
             //But don't get over leveraged.
             const leverage = leverageCount - cloned.deeds[cloned.currplayer - 1].size;
-            
+
             let submove = "";
             for (let c = 0; c < sortedHand.length; c++) {
                 card = sortedHand[c];
-                
+
                 //Test if the card can be placed.
                 for (let d = 0; d < cloned.districts; d++) {
                     if (submove === "" && m === 0) {
@@ -1212,13 +1207,12 @@ export class MagnateGame extends GameBase {
                                     card: card,
                                     district: dist
                                 } as IMagnateMove);
-                                
+
                                 //Need to remove the card and spend the tokens for the next step.
                                 sortedHand.splice(c,1);
                                 const spend = cloned.card2tokens(card, "D");
                                 cloned.debit(spend, cloned.currplayer);
 
-                                
                             } //else move is unchanged and we continue.
                         }
                     }
@@ -1243,11 +1237,11 @@ export class MagnateGame extends GameBase {
 
             //In all cases, we also attempt to pay on a deed.
             let subsubmove = "";
-            
+
             for (let d = 1; d <= cloned.districts; d++) {
                 if (subsubmove === "") {
                     const deedCard = cloned.getDeedCard(cloned.coord2algebraic(d), cloned.currplayer);
-                    
+
                     if (deedCard) {
                         const tokenArray = cloned.getRandomSpend(deedCard, false);
                         subsubmove = cloned.pickleMove({
@@ -1255,11 +1249,11 @@ export class MagnateGame extends GameBase {
                             card: deedCard,
                             spend: tokenArray
                         } as IMagnateMove);
-                        
+
                         //Manually validate here.
                         const validationObj = cloned.validateMove(submove + "," + subsubmove);
                         const parsedSS = cloned.parseMove(subsubmove);
-                        if (validationObj.valid === false || parsedSS.incomplete === true) { 
+                        if (validationObj.valid === false || parsedSS.incomplete === true) {
                             subsubmove = "";
                         } else {
                             cloned.debit(tokenArray, cloned.currplayer);
@@ -1273,7 +1267,7 @@ export class MagnateGame extends GameBase {
             if (subsubmove)
                 moves.push(subsubmove);
          }
-        
+
         return moves.join(",");
     }
 
@@ -1287,7 +1281,7 @@ export class MagnateGame extends GameBase {
         // * token pile + token pile (for trades)
         // * deed card + preferred or chosen suit
         //Moves are now separated by a comma; spaces will be inserted after the comma in post.
-        
+
         try {
             let newmove = "";
             // clicking on hand pieces or token pieces.
@@ -1331,7 +1325,7 @@ export class MagnateGame extends GameBase {
                 } else if ( piece?.startsWith("k") && move.endsWith(":") ) {
                     //clicking a hand card for buy/deed/sell.
                     const card = piece.split("k")[1];
-                    newmove = `${move}${card}`; 
+                    newmove = `${move}${card}`;
                 } else if ( piece?.startsWith("k") ) {
                     //Too late to choose a hand card.
                     //Just ignore it, without overwriting the current move string.
@@ -1341,7 +1335,7 @@ export class MagnateGame extends GameBase {
                     const suit = piece.charAt(1);
                     if ( move && move.endsWith(":") ) {
                         //Assume it's a trade.
-                        newmove = `${move}${suit}3`; 
+                        newmove = `${move}${suit}3`;
                     } else {
                         const submoves = this.splitMove(move);
                         const pmv = this.parseMove(`${submoves.pop()}+${suit}`);
@@ -1414,7 +1408,7 @@ export class MagnateGame extends GameBase {
                     newmove = `${move}@${district}`;
                 }
             }
-            
+
             let result = this.validateMove(newmove) as IClickResult;
             if (! result.valid) {
                 result.move = move;
@@ -1503,7 +1497,7 @@ export class MagnateGame extends GameBase {
                         return result;
                     }
                 }
-                //TODO: Would be quicker to change debit to return success or failure.
+
                 //Credit should always succeed.
                 const suitIndex = pact.spend.indexOf(3);
                 if (suitIndex < 0 || pact.spend.reduce((cur,acc) =>
@@ -1514,7 +1508,7 @@ export class MagnateGame extends GameBase {
                 } else if ( cloned.tokens[cloned.currplayer - 1][suitIndex] < 3 ) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.magnate.INVALID_TRADE");
-                    return result; 
+                    return result;
                 }
 
                 //Dock the cloned user (for subsequent submove validation).
@@ -1534,11 +1528,10 @@ export class MagnateGame extends GameBase {
                         return result;
                     }
                 }
-                    
 
                 //Credit the user (for subsequent submove validation).
                 cloned.credit1(pact.suit, cloned.currplayer);
-                
+
             } else {//In all other cases we should have a card.
                 if (pact.card === undefined) {
                     if (isLast) {
@@ -1555,7 +1548,7 @@ export class MagnateGame extends GameBase {
                         } else {
                             result.message = i18next.t("apgames:validation.magnate.HAND_CARD_INSTRUCTIONS");
                         }
-                        
+
                         return result;
                     } else {
                         //Return error if this is not the final, incomplete action.
@@ -1570,15 +1563,15 @@ export class MagnateGame extends GameBase {
                     if (! cloned.deeds[cloned.currplayer - 1].has(pact.card)) {
                         result.valid = false;
                         result.message = i18next.t("apgames:validation.magnate.NOT_DEEDED");
-                        return result; 
+                        return result;
                     } //nothing is done to the card per se
-                    
+
                 } else if ( pact.type === "B" || pact.type === "D" || pact.type === "S" ) {
 
                     if ( cloned.hands[cloned.currplayer - 1].indexOf(pact.card) < 0 ) {
                         result.valid = false;
                         result.message = i18next.t("apgames:validation.magnate.NOT_IN_HAND");
-                        return result; 
+                        return result;
                     } else if ( usedCards === cards2use ) {
                         result.valid = false;
                         result.message = i18next.t("apgames:validation.magnate.INVALID_ACTION");
@@ -1589,19 +1582,18 @@ export class MagnateGame extends GameBase {
                         usedCards++;
                     }
                 }
-                        
 
                 //We pause for a corner case.
                 if ( pact.type === "D" && pact.card[0] === "2" ) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.magnate.INVALID_DEED_TWO");
-                    return result; 
+                    return result;
                 }
 
                 //In all remaining cases we need to know the card's suits.
                 //We get them in an array format.
                 const tokens = this.card2tokens(pact.card, pact.type);
- 
+
                 if ( pact.type === "P" || pact.type === "C" ) {
                     if ( pact.suit === undefined ) {
                         if (isLast) {
@@ -1625,7 +1617,7 @@ export class MagnateGame extends GameBase {
                         if ( tokens[suitIdx] === 0 ) {
                             result.valid = false;
                             result.message = i18next.t("apgames:validation.magnate.INVALID_SUIT");
-                            return result; 
+                            return result;
                         } else {
                             if (pact.type === "P") {
                                 //We set the preference and display it.
@@ -1639,7 +1631,7 @@ export class MagnateGame extends GameBase {
                         }
                     }
                 }
-                
+
                 if ( pact.type === "S" ) {
                     //We're done. Credit (for ongoing validation).
                     cloned.credit(tokens, cloned.currplayer);
@@ -1663,15 +1655,15 @@ export class MagnateGame extends GameBase {
                     } else if (! cloned.canPlace(pact.card, pact.district) ) {
                         result.valid = false;
                         result.message = i18next.t("apgames:validation.magnate.INVALID_PLACEMENT");
-                        return result; 
-                    }   //The district is good.  Place 
-                        
+                        return result;
+                    }   //The district is good.  Place
+
                     if ( pact.type === "D" ) {
                         //Test if we're done.
                         if (! cloned.debit(tokens, cloned.currplayer) ) {
                             result.valid = false;
                             result.message = i18next.t("apgames:validation.magnate.INVALID_DEED_PAYMENT");
-                            return result; 
+                            return result;
                         } else {
                             //Debited and districted.  Need a deed.
                             cloned.createDeed(pact.card, pact.district);
@@ -1704,7 +1696,7 @@ export class MagnateGame extends GameBase {
                         if ( success < 0 ) {
                             result.valid = false;
                             result.message = i18next.t("apgames:validation.magnate.INVALID_PAYMENT");
-                            return result; 
+                            return result;
                         } else {
 
                             //Attempt to dock the spent tokens here.
@@ -1713,9 +1705,9 @@ export class MagnateGame extends GameBase {
                                 result.message = i18next.t("apgames:validation.magnate.INVALID_OTHER_PAYMENT");
                                 return result;
                             } //else spent successfully and can post-process.
-                            
+
                             if (success < 1) {
-                            
+
                                 if ( pact.type === "B" ) {
                                     if (isLast) {
                                         //Return incomplete for a buy.
@@ -1733,7 +1725,7 @@ export class MagnateGame extends GameBase {
                                 } else if ( pact.type === "A" ) {
                                     //Augment the deed.
                                     cloned.add2deed(pact.card, pact.spend);                                }
-                            
+
                             } else {//success === 1
 
                                 const district = pact.type === "B" ? pact.district : cloned.deeds[cloned.currplayer - 1].get(pact.card)!.district;
@@ -1747,19 +1739,19 @@ export class MagnateGame extends GameBase {
                                 }
                             }
                         }
-   
+
                     }//end payment processing
 
                 }//end spend cases
-                
+
             }//end card cases
-            
+
         }//End actions.
 
         // we're good!
         result.valid = true;
         result.canrender = true;
-        
+
         if (usedCards < cards2use) {
             result.complete = -1;
             result.message = i18next.t("apgames:validation.magnate.BUTTON_INSTRUCTIONS");
@@ -1768,7 +1760,7 @@ export class MagnateGame extends GameBase {
             result.complete = 0;
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
         }
-        
+
         return result;
     }
 
@@ -1812,7 +1804,7 @@ export class MagnateGame extends GameBase {
             }
 
             const moveTypeName = (pact.type !== undefined ? moveTypeNames[moveTypes.indexOf(pact.type)] : "");
-            
+
             //Low-hanging fruit.
             if (pact.type === "T") {
                 if (pact.spend !== undefined && pact.suit !== undefined) {
@@ -1826,8 +1818,7 @@ export class MagnateGame extends GameBase {
                     this.highlights.push(moveTypeName);
                 }
             }//end trade type
-            
-            
+
             if ( pact.card ) {
 
                 if ( pact.type === "B" || pact.type === "D" || pact.type === "S" ) {
@@ -1841,7 +1832,7 @@ export class MagnateGame extends GameBase {
 
                         //Profit!
                         this.credit(tokens, this.currplayer);
-                        
+
                         this.results.push({
                             type: "place",
                             what: pact.card,
@@ -1850,7 +1841,7 @@ export class MagnateGame extends GameBase {
                         });
 
                     } else if (pact.district) {
-                        
+
                         if (pact.type === "D") {
                             //Create a deed.
                             this.createDeed(pact.card, pact.district);
@@ -1865,7 +1856,7 @@ export class MagnateGame extends GameBase {
                                 how: pact.type,
                                 who: this.currplayer
                             });
-                            
+
                         } else if (pact.type === "B") {
                             //Place the card.
                             this.placeCard(pact.card, pact.district);
@@ -1885,7 +1876,7 @@ export class MagnateGame extends GameBase {
                                     this.removeCard(pact.card, this.highlights);
                                     this.spend = [];
                                 }
-                                
+
                                 //Shared result type
                                 this.results.push({
                                     type: "place",
@@ -1908,9 +1899,9 @@ export class MagnateGame extends GameBase {
                                 this.highlights.push(dist);
                         }
                     }
-                                
+
                 } else if ( pact.type === "A" || pact.type === "P" || pact.type === "C" ) {
-                    
+
                     this.highlights.push(pact.card);
                     //Also highlight the card suits in the player tokens.
                     if (pact.suit === undefined) {
@@ -1920,7 +1911,7 @@ export class MagnateGame extends GameBase {
                         if (pact.card[0] === this.courtrank)
                             this.highlights.push(pact.card[3]);
                     }
-                    
+
                     const deed = this.deeds[this.currplayer - 1].get(pact.card)!;
                     if (pact.type === "P") {
                         if (pact.suit !== undefined) {
@@ -1930,7 +1921,6 @@ export class MagnateGame extends GameBase {
                             this.highlights.push(moveTypeName);
                         }
                     }
-                        
 
                     if (pact.type === "C") {
                         if (pact.suit !== undefined) {
@@ -1940,7 +1930,7 @@ export class MagnateGame extends GameBase {
                             this.highlights.push(moveTypeName);
                         }
                     }
-                    
+
                     if (pact.type === "A") {
                         if (pact.spend !== undefined) {
                             const done = this.add2deed(pact.card, pact.spend);
@@ -1956,7 +1946,7 @@ export class MagnateGame extends GameBase {
                                 const district = this.deeds[this.currplayer - 1].get(pact.card)!.district;
                                 this.deeds[this.currplayer - 1].delete(pact.card);
                                 this.placeCard(pact.card, district!);
-                                
+
                                 this.results.push({
                                     type: "place",
                                     what: pact.card,
@@ -1977,7 +1967,7 @@ export class MagnateGame extends GameBase {
             } else {
                 //No card selected.
                 this.highlights.push(moveTypeName);
-                
+
                 //If we need to burn a hand card, highlight the choices.
                 if ( pact.type === "B" || pact.type === "D" || pact.type === "S" ) {
                     //Check for cards player can afford/use.
@@ -1990,7 +1980,7 @@ export class MagnateGame extends GameBase {
         }//end action loop
 
         if (partial) { return this; }
-        
+
         // draw up
         this.drawUp();
 
@@ -2010,13 +2000,13 @@ export class MagnateGame extends GameBase {
             //Roll the dice!
 
             //const payArray:string[] = [];
-            
+
             this.roll = this.roller();
             const theDie = this.roll[0];
 
             //We cannot report the roll as associated with the new player.
             this.results.push({type: "roll", values: [theDie], who: newplayer});
-            
+
             [1, 2].forEach((p) => {
 
                 //The taxman cometh?
@@ -2131,13 +2121,11 @@ export class MagnateGame extends GameBase {
         };
     }
 
-    
-
     /* render functions */
     private deed2coords(card: string, player: playerid): number[] {
         const deed = this.deeds[player - 1].get(card);
         const col = this.algebraic2coord(deed!.district);
-        
+
         const centerrow = this.getBoardSize()[0];
         const multiplier = player === 1 ? 1 : -1;
         const colsize = this.board[player][col].length;
@@ -2145,24 +2133,24 @@ export class MagnateGame extends GameBase {
 
         return [col, centerrow + ((colsize + rowAdjust) * multiplier)];
     }
-    
+
     private result2coords(district: string, card: string, player: number): number[] {
-        //We pass the player in all relevant messages in order to 
+        //We pass the player in all relevant messages in order to
         // check the correct element of the board or deed array.
         if (this.deeds[player - 1].has(card))
             return this.deed2coords(card, player as playerid);
- 
+
         //The player can sometimes acquire two cards in the same column in the same turn,
         //so can't just use the terminal column space.
         const col = this.algebraic2coord(district);
-        
+
         const boardRow = this.board[player][col].indexOf(card) + 1;
         const centerrow = this.getBoardSize()[0];
         const multiplier = player === 1 ? 1 : -1;
 
         return [col, centerrow + (boardRow * multiplier)];
     }
-    
+
     private getActionButtons(): [ButtonBarButton, ...ButtonBarButton[]] {
         //Get the appropriate buttons.
         let buttons:  [ButtonBarButton, ...ButtonBarButton[]] = [
@@ -2172,7 +2160,7 @@ export class MagnateGame extends GameBase {
         ];
 
         if ( this.choose.length > 0 ) {
-            buttons = [ 
+            buttons = [
                 {label: "Choose"}
             ];
         } else {
@@ -2199,7 +2187,7 @@ export class MagnateGame extends GameBase {
 
         return buttons;
     }
-    
+
     private getBoardSize(): number[] {
         //Calculate the unknown dimension of the board (rows),
         //and the location of the center row.
@@ -2209,7 +2197,7 @@ export class MagnateGame extends GameBase {
         const rows = p1rows + p2rows + 3;
         return [centerrow, rows];
     }
-    
+
     private getMaxDistrictSize(player: number): number {
         //Gets max district size (disregarding deeds).
         let max = 0;
@@ -2246,7 +2234,7 @@ export class MagnateGame extends GameBase {
                 opacity: opacity/4,
             },
         ]
-        
+
         if (card.rank.glyph !== undefined) {
             glyph.push({
                 name: card.rank.glyph,
@@ -2278,7 +2266,7 @@ export class MagnateGame extends GameBase {
                 opacity: opacity,
                 orientation: "vertical",
             });
-            
+
             //Text needs extra vertical nudging.
             if ( preflight === suit.uid )
                 glyph.push({
@@ -2338,7 +2326,7 @@ export class MagnateGame extends GameBase {
                     },
                     orientation: "vertical",
                 });
-            
+
             if ( deed && deed.suit3 !== undefined && i === 2 )
                 glyph.push({
                     text: deed.suit3!.toString(),
@@ -2349,12 +2337,12 @@ export class MagnateGame extends GameBase {
                     },
                     orientation: "vertical",
                 });
-        
+
         }
 
         return glyph;
     }
-    
+
     private renderableCards(forRender: boolean): Multideck {
         //Init draw deck and hands.
         const deckCount = (this.variants.includes("mega") ? 2 : 1);
@@ -2392,7 +2380,7 @@ export class MagnateGame extends GameBase {
 
         return pstra;
     }
-    
+
     public render(): APRenderRep {
         //Need to determine the number of rows every time.
         const [centerrow, rows] = this.getBoardSize();
@@ -2413,11 +2401,9 @@ export class MagnateGame extends GameBase {
         //Player 1 below.
         const pstr1 = this.renderPlayerPieces(1);
         pstrArray = pstrArray.concat(pstr1);
-        
+
         const pstr = pstrArray.join("\n");
 
-        
-        
         // Mark live spots, deeds, and control.
         const markers: (MarkerOutline|MarkerFlood)[] = [];
         const annotationPoints = [];
@@ -2436,7 +2422,7 @@ export class MagnateGame extends GameBase {
             opacity: 0.15,
             points: points1 as [RowCol, ...RowCol[]],
         });
-        
+
         sideboard = this.board[2];
         const points2 = [];
         for (let col = 0; col < this.districts; col++) {
@@ -2461,12 +2447,12 @@ export class MagnateGame extends GameBase {
                     points: [{col: i, row: centerrow}] as [RowCol, ...RowCol[]],
                 });
         });
-        
+
         // Build legend of all cards, including an Excuse.
         const allcards = this.renderableCards(true).cards;
         //Assemble the visible cards as we go.
         const visibleCards: string[] = [...this.board[1].flat(), ...this.board[2].flat()];
-              
+
         const legend: ILegendObj = {};
         for (const card of allcards) {
             let glyph = this.renderDecktetGlyph(card);
@@ -2490,7 +2476,7 @@ export class MagnateGame extends GameBase {
             } else if ( isHighlighted ) {
                 glyph = this.renderDecktetGlyph(card, true, undefined, 1, this.currplayer);
             }
-            
+
             legend["k" + card.uid] = glyph;
         }
 
@@ -2504,9 +2490,9 @@ export class MagnateGame extends GameBase {
                 opacity: 0.5,
             },
         }
-        
+
         //Suit tokens
-        
+
         for (let s = 0; s < 6; s++) {
             const suit = suits[s];
             const color = suitColors[s];
@@ -2550,7 +2536,7 @@ export class MagnateGame extends GameBase {
                 ];
 
                 if (this.crowns[p][s] === 2) {
-                    
+
                     legend[lname].push(
                         {
                             name: "decktet-crown",
@@ -2575,9 +2561,9 @@ export class MagnateGame extends GameBase {
                             orientation: "vertical",
                         }
                     );
-                    
+
                 } else if (this.crowns[p][s] === 1) {
-                    
+
                     legend[lname].push(
                         {
                             name: "decktet-crown",
@@ -2590,11 +2576,11 @@ export class MagnateGame extends GameBase {
                             orientation: "vertical",
                         }
                     );
-                
+
                 } //End crown additions.
             } //end p
         } //end suit
-    
+
         if (this.roll[0] < 10) {
             legend["Die"] = {
                 name: `d6-${this.roll[0]}`,
@@ -2603,7 +2589,7 @@ export class MagnateGame extends GameBase {
                     colour:  this.currplayer,
                     ds: 5,
                     dl: 2,
-                },          
+                },
                 colour2: {
                     func: "bestContrast",
                     fg: ["_context_background", "_context_fill", "_context_strokes"],
@@ -2645,7 +2631,7 @@ export class MagnateGame extends GameBase {
                 }
             ];
         }
-        
+
         legend["Tax"] = {
             name: "d6-empty",
             colour: "_context_fill",
@@ -2658,6 +2644,17 @@ export class MagnateGame extends GameBase {
             opacity: 0.15,
             orientation: "vertical",
         };
+        legend["Warning"] = [
+            {
+                name: "piece-borderless",
+                colour: "_context_background"
+            },
+            {
+                text: "\u{26A0}",
+                colour: "#f00",
+                orientation: "vertical",
+            }
+        ];
 
         if (this.roll.length > 1) {
 
@@ -2675,7 +2672,6 @@ export class MagnateGame extends GameBase {
             }
         }
 
-
         // build pieces areas
         const areas: (AreaPieces|AreaKey|AreaButtonBar)[] = [];
 
@@ -2691,7 +2687,7 @@ export class MagnateGame extends GameBase {
 
             //This should always be true.
             if (hand.length + tokens.length > 0) {
-                
+
                 areas.push({
                     type: "pieces",
                     pieces: hand.concat(tokens) as [string, ...string[]],
@@ -2720,7 +2716,7 @@ export class MagnateGame extends GameBase {
         });
 
         //Button area.
-        areas.push({                      
+        areas.push({
             type: "buttonBar",
             position: "left",
             height: 1,
@@ -2740,8 +2736,6 @@ export class MagnateGame extends GameBase {
             });
         }
 
-        //TODO: stacked deck changes
-        //const remaining = this.deck[0].clone().draw(this.deck[0].size).sort(cardSortAsc).map(c => "k" + c.uid) as [string, ...string[]];
         const mostcards = this.renderableCards(false).cards;
         const remaining = mostcards.sort(cardSortAsc).filter(c => visibleCards.indexOf(c.uid) < 0).map(c => "k" + c.uid);
 
@@ -2760,7 +2754,7 @@ export class MagnateGame extends GameBase {
                             pieces: pr as [string, ...string[]]
                         });
                 }
-            }  else {
+            } else {
                 areas.push({
                     type: "pieces",
                     label: i18next.t("apgames:validation.magnate.LABEL_DECK") || "Cards in deck",
@@ -2769,6 +2763,15 @@ export class MagnateGame extends GameBase {
                     pieces: remaining as [string, ...string[]]
                 });
             }
+
+        } else if (this.shuffled === true && this.gameover === false) {
+                areas.push({
+                    type: "pieces",
+                    label: i18next.t("apgames:validation.magnate.LABEL_WARNING") || "Last round!",
+                    spacing: 0.25,
+                    width: this.districts + 2,
+                    pieces: ["Warning"] as [string, ...string[]]
+                });
         }
 
         // Build rep
@@ -2793,16 +2796,16 @@ export class MagnateGame extends GameBase {
 
         // Add annotations.
         rep.annotations = [];
-        
+
         if (this.results.length > 0) {
             for (const move of this.results) {
                 if (move.type === "place" && move.where !== "discards") {
                     const [x, y] = this.result2coords(move.where!, move.what!, move.who!);
                     rep.annotations.push({type: "enter", occlude: false, dashed: [6,8], targets: [{row: y, col: x}]});
-                } 
+                }
             }
         }
-        
+
         for (const choice of this.choose) {
             const [x, y] = this.deed2coords(choice, this.currplayer);
             if (this.highlights.indexOf(choice) > -1)
@@ -2810,7 +2813,7 @@ export class MagnateGame extends GameBase {
             else
                 rep.annotations.push({type: "enter", dashed: [8,8], targets: [{row: y, col: x}], colour: this.currplayer});
         }
-        
+
         if (annotationPoints.length > 0)
             rep.annotations.push({type: "dots", targets: annotationPoints as [RowCol, ...RowCol[]]});
 
@@ -2820,8 +2823,6 @@ export class MagnateGame extends GameBase {
         return rep;
     }
 
-
-    
     /* scoring functions */
     private getAceScore(index: number, playernum: number, c1: Multicard): number {
         let acescore = 0;
@@ -2838,7 +2839,7 @@ export class MagnateGame extends GameBase {
             if (c1.sharesSuitWith(c2))
                 acescore++;
 
-            const them = playernum === 1 ? 2 : 1; 
+            const them = playernum === 1 ? 2 : 1;
             const theirDistrict = this.board[them][index];
             for (let c = 0; c < theirDistrict.length; c++) {
                 const c2 = Multicard.deserialize(theirDistrict[c])!;
@@ -2859,8 +2860,8 @@ export class MagnateGame extends GameBase {
             const card = Multicard.deserialize(myDistrict[c])!;
             if (card.rank.name === "Ace")
                 subscore += this.getAceScore(index, player, card);
-            else 
-                subscore += Math.ceil(card.rank.seq); //Rounds all "Courts" up to 10. 
+            else
+                subscore += Math.ceil(card.rank.seq); //Rounds all "Courts" up to 10.
         }
         return subscore;
     }
@@ -2895,12 +2896,12 @@ export class MagnateGame extends GameBase {
         return controllers;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         //Returns the district and total scores for display.
         //Not to be used for determining the winner.
         let scores: string[] = [];
         const districts: number[] = this.getDistrictsTotals();
-        scores = districts.map((s, i) => 
+        scores = districts.map((s, i) =>
             s + " (" + this.getTotalScore((i + 1) as playerid) + ")"
                               );
         return [
@@ -2917,7 +2918,7 @@ export class MagnateGame extends GameBase {
         }
         return total;
     }
- 
+
     private getWinner(): playerid[] {
         //Evaluate the primary endpoint.
         const districts: number[] = this.getDistrictsTotals();
@@ -2945,18 +2946,8 @@ export class MagnateGame extends GameBase {
         }
         return tieWinner;
     }
-    
+
     /* end scoring functions */
-
-
-    
-    public status(): string {
-        let status = super.status();
-
-        status += "**Scores**: " + this.getPlayersScores()[0].scores.join(", ") + "\n\n";
-
-        return status;
-    }
 
     public chatLog(players: string[]): string[][] {
         // chatLog to get players' names.
@@ -3005,7 +2996,7 @@ export class MagnateGame extends GameBase {
                                 node.push(i18next.t("apresults:ADD.magnate", {player: name, where: r.where, count: r.num}));
                                 break;
                             case "convert": //Complete deed.
-                                if (r.into) 
+                                if (r.into)
                                     node.push(i18next.t("apresults:CONVERT.magnate_trade", {player: name, what: r.what, into: r.into}));
                                 else
                                     node.push(i18next.t("apresults:CONVERT.magnate_deed", {player: name, what: r.what, where: r.where}));

@@ -155,7 +155,6 @@ export class HexConeGraph implements IGraph {
         return this.coords2algebraic(...otherCoords);
     }
 
-
     public repeatedCoords(x: number, y: number): [number, number] | undefined {
         // If relevant, return the equivalent cell on the other side of the board.
         if (y !== this.size - 1) { return undefined; }

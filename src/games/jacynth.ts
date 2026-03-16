@@ -744,7 +744,7 @@ export class JacynthGame extends GameBase {
         return score;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         const scores: number[] = [];
         for (let p = 1; p <= this.numplayers; p++) {
             scores.push(this.getPlayerScore(p));
@@ -762,20 +762,6 @@ export class JacynthGame extends GameBase {
             pcs.push(`${card}-${cell}`);
         }
         return pcs.join(",");
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Influence**: " + this.influence.join(", ") + "\n\n";
-
-        status += "**Scores**: " + this.getPlayersScores()[0].scores.join(", ") + "\n\n";
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

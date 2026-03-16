@@ -35,23 +35,22 @@ Current flags are the following:
 
 * `aiai`: tells the front and back ends that this game supports the AiAi bot. That means it correctly implements `state2aiai() => string[]` (which generates a full list of moves understandable by AiAi) and `translateAiai(move: string) => string` (which translates the moves from AiAi back into AP notation).
 * `automove`: signals that it is possible or even common for a player to only have one movement choice (most usually "pass"). The processor should consider checking for that possibility and making that single move automatically, to keep things moving quickly.
-* `autopass`: like `automove`, but only passes. The processor should consider checking for a move list that consists of a single "pass", and passing, to keep things moving quickly.  It is not necessary to populate the move list fully or correctly; you may leave it empty when you do not want an autopass to occur. 
+* `autopass`: like `automove`, but only passes. The processor should consider checking for a move list that consists of a single "pass", and passing, to keep things moving quickly.  It is not necessary to populate the move list fully or correctly; you may leave it empty when you do not want an autopass to occur.
 * `check`: tells the front end that this game should signal to players when someone is "in check," which usually means if nothing specific is done, the noted player will lose at their next turn. Flagged games must provide a `inCheck() => number[]` function that returns the player numbers of any players in check.
 * `custom-buttons`: tells the front end to call `getButtons() => ICustomButton[]` to get a list of possible custom move buttons to add to the interface.
 * `custom-colours`: Mutually exclusive with `shared-pieces`. Tells the front end to *not* automatically assign player colour swatches. Instead, it must call `getPlayerColour(n) => number|string`. Use should be rare. For example, in Alien City, players are black and white.
 * `custom-randomization`: Requires that `no-moves` be set. Tells the playground that the `randomMove()` function can still be called to algorithmically generate a random move.
 * `custom-rotation`: indicates that the game will provide a `getCustomRotation()` function that returns an angle in degrees.  Used, *e.g.*, for hex boards and games where the rotation value varies by player count.
 * `experimental`: flags new games still in development. Production-stage front and back ends should ignore requests to display or process these games. Dev server should process them as usual.  Note that variants can also be marked experimental.
-* `limited-pieces`: signals that players have a limited number of pieces, the number of which should be displayed to the players. Use `getPlayerPieces(playerid: number) => number` to fetch the number of pieces the given player has at the moment. Mutually exclusive with `player-stashes`.
 * `no-explore`: signals that the game should not support exploration, often because it is not useful in games with hidden information.
 * `no-moves`: signals that the game cannot produce a list of possible moves. In all other games, you can use `moves(player?: number) => string[]` to get a list of valid moves.
 * `perspective`: signals that the game can adjust the rendered image for a player's perspective. The front end should set the default rotation for the different players accordingly. By increments of 180, or 90 if `rotate90` is set.
 * `pie-even`: same as `pie` but the back end will automatically insert a "pass" move after the invocation.
 * `pie`: The front end should give the second player a chance to switch seats after the first move. Use `isPieTurn() => boolean` and `shouldOfferPie() => boolean`, if defined, to control if and when a pie offer should be shown.
-* `player-stashes`: signals that players have their own piece stashes. Use `getPlayerStash(playerid: number) => IPlayerStash` to fetch a player's current stash. `IPlayerStash` contains the properties `small`, `medium`, and `large`, each containing a number. Mutually exclusive with `limited-pieces`;
+* `player-stashes`: signals that players have their own piece stashes. Use `getPlayerStash(playerid: number) => IPlayerStash` to fetch a player's current stash. `IPlayerStash` contains the properties `small`, `medium`, and `large`, each containing a number.
 * `random-start`: tells the game record generator to insert the starting position into the game record. It does this by calling `getStartingPosition() => string`.
 * `rotate90`: indicates whether the board can be rotated by 90 degree increments. If not set, only 180 degree increments are assumed.
-* `scores`: signals that players have scores. The front end can use `getPlayerScore(playerid: number) => number` to fetch scores.
+* `scores`: signals that players have scores. This is only used by the backend when determining whether to include final scores in the EOG emails.
 * `shared-pieces`: signals that players don't own any pieces, so the front end can omit any display that links players to colours.
 * `shared-stash`: signals that players share a stash of pieces. Use `getSharedStash() => IPlayerStash` to fetch the current shared stash.
 * `simultaneous`: signals that moves for all players must be submitted at once. The front-end will need to store partial moves until all players have submitted.
@@ -143,7 +142,7 @@ The `timeout` function is similar to `resign` but indicates the player ran out o
 Functions:
 
 * `handleClick(move: string, row: number, col: number, piece?: string) => IClickResult`
-* `statuses(isPartial: boolean, partialMove: string) => IStatus[]`
+* `sidebarStatuses(isPartial: boolean, partialMove: string) => IStatus[]`
 * `getButtons() => ICustomButton[]`
 
 The `handleClick` function is the core of the interactive UI. It takes the current move string (which might be empty), the coordinates of the click, and optionally the piece clicked on. It returns an `IClickResult` object which contains the new move string, validity information, and potentially a message for the user.

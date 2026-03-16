@@ -61,7 +61,7 @@ export class BaoGame extends GameBase {
                 apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
             },
         ],
-        flags: ["perspective", "limited-pieces", "scores", "automove"],
+        flags: ["perspective", "automove"],
         variants: [
             {
                 uid: "malawi",
@@ -652,11 +652,6 @@ export class BaoGame extends GameBase {
         }
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     /**
      * Because `moves()` is efficient, and the number of moves is generally quite small,
      * this function uses it to autocomplete valid moves where possible.
@@ -1172,17 +1167,6 @@ export class BaoGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-        status += "**Pieces in hand**: " + this.inhand.join(", ") + "\n\n";
-
-        return status;
-    }
-
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
         let resolved = false;
         switch (r.type) {
@@ -1217,11 +1201,7 @@ export class BaoGame extends GameBase {
         return resolved;
     }
 
-    public getPlayerPieces(player: number): number {
-        return this.inhand[player - 1];
-    }
-
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         const statuses: IScores[] = [];
         if (this.inhand.reduce((prev, curr) => prev + curr, 0) > 0) {
             statuses.push({ name: i18next.t("apgames:status.PIECESINHAND"), scores: this.inhand });

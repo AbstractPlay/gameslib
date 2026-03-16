@@ -185,11 +185,6 @@ export class AyuGame extends GameBase {
         return false;
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             const cell = this.coords2algebraic(col, row);
@@ -580,16 +575,6 @@ export class AyuGame extends GameBase {
             rep.annotations.push({ type: "dots", targets: points as [RowCol, ...RowCol[]] });
         }
         return rep;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

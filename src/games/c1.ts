@@ -99,7 +99,6 @@ export class C1Game extends GameBase {
     private boardSize = 0;
     private dots: string[] = [];
 
-
     private initBoard(): Map<string, ICellContents> {
         const board = new Map<string, ICellContents>();
         const size = this.boardSize;
@@ -314,11 +313,6 @@ export class C1Game extends GameBase {
         }
 
         return moves;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     private eliminatesTile(from: string, to: string, board?: Map<string, ICellContents>): boolean {
@@ -1146,18 +1140,6 @@ export class C1Game extends GameBase {
             }
         }
         return checked;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += `**In Check:** ${this.inCheck().toString()}\n\n`;
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

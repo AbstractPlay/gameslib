@@ -371,11 +371,6 @@ export class SiegeOfJGame extends GameBase {
         return moves.sort((a,b) => a.localeCompare(b));
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     // in this handler, row and col are ignore, and piece is always passed
     public handleClick(move: string, row: number, col: number, piece: string): IClickResult {
         try {
@@ -907,7 +902,7 @@ export class SiegeOfJGame extends GameBase {
         return score;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         const scores: number[] = [];
         for (let p = 1; p <= this.numplayers; p++) {
             scores.push(this.getPlayerScore(p));
@@ -928,18 +923,6 @@ export class SiegeOfJGame extends GameBase {
 
     public getStartingPosition(): string {
         return this.orgBoard[0].map(n => n.id).join(",");
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Scores**: " + this.getPlayersScores()[0].scores.join(", ") + "\n\n";
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

@@ -356,7 +356,6 @@ export class ACityGame extends GameBase {
                 }
             }
 
-
             const result = this.validateMove(newmove) as IClickResult;
             if (! result.valid) {
                 // Don't wipe out the selected piece by default
@@ -998,33 +997,7 @@ export class ACityGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Pieces In Hand**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const pieces = this.stashes[n - 1];
-            status += `Player ${n}: ${pieces.join(",")}\n\n`;
-        }
-
-        status += "**Claims**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${this.claimed[n - 1].join(", ")}\n\n`;
-        }
-
-        status += "**Scores**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${this.getPlayerScore(n as playerid)}\n\n`;
-        }
-
-        return status;
-    }
-
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
             { name: i18next.t("apgames:status.CLAIMS_REMAINING"), scores: [3 - this.claimed[0].length, 3 - this.claimed[1].length] },
@@ -1147,62 +1120,19 @@ export class ACityGame extends GameBase {
         return score;
     }
 
-    public chatLog(players: string[]): string[][] {
-        // eog, resign, winners, place, move
-        const result: string[][] = [];
-        for (const state of this.stack) {
-            if ( (state._results !== undefined) && (state._results.length > 0) ) {
-                const node: string[] = [(state._timestamp && new Date(state._timestamp).toISOString()) || "unknown"];
-                let otherPlayer = state.currplayer + 1;
-                if (otherPlayer > this.numplayers) {
-                    otherPlayer = 1;
-                }
-                let name = `Player ${otherPlayer}`;
-                if (otherPlayer <= players.length) {
-                    name = players[otherPlayer - 1];
-                }
-
-                for (const r of state._results) {
-                    switch (r.type) {
-                        case "place":
-                            node.push(i18next.t("apresults:PLACE.complete", {player: name, where: r.where, what: r.what}));
-                            break;
-                        case "claim":
-                            node.push(i18next.t("apresults:CLAIM.default", {player: name, where: r.where}));
-                            break;
-                        case "eog":
-                            node.push(i18next.t("apresults:EOG.default"));
-                            break;
-                            case "resigned": {
-                                let rname = `Player ${r.player}`;
-                                if (r.player <= players.length) {
-                                    rname = players[r.player - 1]
-                                }
-                                node.push(i18next.t("apresults:RESIGN", {player: rname}));
-                                break;
-                            }
-                            case "winners": {
-                                const names: string[] = [];
-                                for (const w of r.players) {
-                                    if (w <= players.length) {
-                                        names.push(players[w - 1]);
-                                    } else {
-                                        names.push(`Player ${w}`);
-                                    }
-                                }
-                                if (r.players.length === 0)
-                                    node.push(i18next.t("apresults:WINNERSNONE"));
-                                else
-                                    node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
-
-                                break;
-                            }
-                        }
-                }
-                result.push(node);
-            }
+    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
+        let resolved = false;
+        switch (r.type) {
+            case "place":
+                node.push(i18next.t("apresults:PLACE.complete", {player, where: r.where, what: r.what}));
+                resolved = true;
+                break;
+            case "claim":
+                node.push(i18next.t("apresults:CLAIM.default", {player, where: r.where}));
+                resolved = true;
+                break;
         }
-        return result;
+        return resolved;
     }
 
     public getStartingPosition(): string {

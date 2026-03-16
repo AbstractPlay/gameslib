@@ -277,11 +277,6 @@ export class AltaGame extends GameBase {
         return vertices;
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     private vertices2place(vertex1: string, vertex2: string, addToggleSuffix = false): string | undefined {
         // Convert two vertices into a place move.
         const [x1, y1] = this.algebraic2coords(vertex1);
@@ -915,16 +910,6 @@ export class AltaGame extends GameBase {
             rep.annotations.push({ type: "dots", targets: points as [RowCol, ...RowCol[]] });
         }
         return rep;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
     }
 
     public clone(): AltaGame {

@@ -27,7 +27,6 @@ interface ILegendObj {
     [key: string]: Glyph|[Glyph, ...Glyph[]];
 }
 
-
 interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, playerid>;
@@ -320,11 +319,6 @@ export class RenjuGame extends InARowBase {
             moves.push("pass");
         }
         return moves;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     private canSwap(): boolean {
@@ -1702,16 +1696,6 @@ export class RenjuGame extends InARowBase {
             tentativeCount: this.tentativeCount,
             tentatives: [...this.tentatives],
         };
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

@@ -55,7 +55,7 @@ export class OrbGame extends GameBase {
             { uid: "noglobes" }
         ],
         categories: ["goal>breakthrough", "goal>majority", "mechanic>capture",  "mechanic>move", "mechanic>differentiate", "mechanic>merge", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["limited-pieces", "perspective", "check"]
+        flags: ["perspective", "check"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 8);
@@ -368,11 +368,6 @@ export class OrbGame extends GameBase {
             } // foreach dir
         }
         return graph;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -842,22 +837,11 @@ export class OrbGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-        status += "**Stashes**: " + this.stashes.join(",") + "\n\n";
-
-        return status;
-    }
-
     public getPlayerPieces(player: number): number {
         return this.stashes[player - 1];
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
         ]

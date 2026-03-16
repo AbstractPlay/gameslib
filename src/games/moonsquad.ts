@@ -30,7 +30,6 @@ interface ILegendObj {
     [key: string]: Glyph|[Glyph, ...Glyph[]];
 }
 
-
 type CellContents = playerid|OreColour;
 
 interface IMoveState extends IIndividualState {
@@ -770,16 +769,6 @@ export class MoonSquadGame extends GameBase {
         this.checkEOG();
         this.saveState();
         return this;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
     }
 
     private checkConnected(player?: playerid): boolean {

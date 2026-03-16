@@ -248,7 +248,6 @@ export class CairoCorridorGame extends GameBase {
         return edges;
     }
 
-
     public moves(player?: playerid): string[] {
         if (player === undefined) {
             player = this.currplayer;
@@ -321,11 +320,6 @@ export class CairoCorridorGame extends GameBase {
             if (seenSouth && seenWest && seenEast) { return seen; }
         }
         throw new Error("Board has no corridor.");
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -515,7 +509,6 @@ export class CairoCorridorGame extends GameBase {
         return nonDead;
     }
 
-
     protected checkEOG(): CairoCorridorGame {
         const corridorRegion = this.getCorridorRegion();
         if (this.hasCorridor(corridorRegion)) {
@@ -668,22 +661,8 @@ export class CairoCorridorGame extends GameBase {
         return this.scores[player - 1];
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [{ name: i18next.t("apgames:status.SCORES"), scores: [this.scores[0], this.scores[1]] }];
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        if (this.scores !== undefined) {
-            status += "**Scores**: " + this.scores.join(" - ") + "\n\n";
-        }
-
-        return status;
     }
 
     public clone(): CairoCorridorGame {

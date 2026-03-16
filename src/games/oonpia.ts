@@ -409,7 +409,6 @@ export class OonpiaGame extends GameBase {
             possibleMoves.push({tile: tile, iscapture: true, cell: cell});
         }
 
-
         if (possibleMoves.length === 0) {
             return {
                 valid: false,
@@ -665,7 +664,6 @@ export class OonpiaGame extends GameBase {
                 this.board.set(move.cell, [move.iscapture ? this.neutral : this.currplayer, move.tile]);
                 this.results.push({type: "place", where: move.cell, what: move.tile === 1 ? tileNames[0] : tileNames[1]});
 
-
                 // First capture other player's groups, then your own (if any)
                 if (move.iscapture) {
                     for (const group of this.deadGroups(this.otherPlayer())) {
@@ -907,7 +905,6 @@ export class OonpiaGame extends GameBase {
             prison: [...this.prison],
         };
     }
-
 
     public getPlayerColour(p: playerid): number|Colourfuncs {
         if (p === 1) {
@@ -1159,17 +1156,6 @@ export class OonpiaGame extends GameBase {
             }
         }
         return rep;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-        status += "**Prison**: " + this.prison.join(", ") + "\n\n";
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

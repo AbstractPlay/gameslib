@@ -364,7 +364,6 @@ export class SunspotGame extends GameBase {
             [this.placeAction, this.flipAction, this.counterFlipAction]
         ];
 
-
         let complete = false; // found at least one (valid) complete move
         let incomplete = false; // found at least one (valid) incomplete move
         let message = undefined;

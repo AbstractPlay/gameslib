@@ -80,7 +80,7 @@ export class BloqueoGame extends GameBase {
             },
         ],
         categories: ["goal>score>eog", "mechanic>share", "mechanic>move", "mechanic>place", "mechanic>displace", "board>shape>rect", "board>connect>rect", "components>simple>5c"],
-        flags: ["scores", "custom-colours", "limited-pieces", "automove"]
+        flags: ["scores", "custom-colours", "automove"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 7);
@@ -187,7 +187,6 @@ export class BloqueoGame extends GameBase {
         }
     }
 
-
     public moves(): string[] {
         if (this.gameover) { return []; }
         if (this.inhand() === 0) {
@@ -241,11 +240,6 @@ export class BloqueoGame extends GameBase {
         }
 
         return moves.sort((a,b) => a.localeCompare(b));
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -465,7 +459,7 @@ export class BloqueoGame extends GameBase {
         return this;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
             { name: i18next.t("apgames:status.PIECESINHAND"), scores: [this.inhand(1), this.inhand(2)] }
@@ -676,27 +670,6 @@ export class BloqueoGame extends GameBase {
         }
 
         return rep;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Pieces In Hand**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${this.inhand(n as playerid)}\n\n`;
-        }
-
-        status += "**Scores**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const score = this.getPlayerScore(n);
-            status += `Player ${n}: ${score}\n\n`;
-        }
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

@@ -933,27 +933,11 @@ export class BukuGame extends GameBase {
         return this.scores[player - 1];
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         const pieceCounts = this.gameover ? [0, 0] : this.pieceCounts();
         return [
             { name: i18next.t("apgames:status.buku.SCORES_ONBOARD"), scores: [`${this.getPlayerScore(1)} / ${pieceCounts[0]}`, `${this.getPlayerScore(2)} / ${pieceCounts[1]}`] },
         ]
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Scores / On board**\n\n";
-        const scores = this.getPlayersScores()[0];
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${scores.scores[n - 1]}\n\n`;
-        }
-
-        return status;
     }
 
     public clone(): BukuGame {

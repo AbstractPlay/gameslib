@@ -692,7 +692,7 @@ export class WunchunkGame extends GameBase {
         return results;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         const scores = this.getScoreArrays();
         const strings = scores.map(lst => `${lst[0]}${lst.length > 1 ? ` (size ${lst.length - 1}: ${lst[lst.length - 1]})` : ""}`);
         return [
@@ -793,18 +793,6 @@ export class WunchunkGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Scores**: " + this.getPlayersScores()[0].scores.join(", ") + "\n\n";
-
-        return status;
-    }
-
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
         let resolved = false;
         switch (r.type) {
@@ -823,7 +811,6 @@ export class WunchunkGame extends GameBase {
         }
         return resolved;
     }
-
 
     public clone(): WunchunkGame {
         const clonedState = this.serialize();

@@ -198,11 +198,6 @@ export class QueryGame extends GameBase {
         return x % 2 !== y % 2;
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     private sort(a: string, b: string): number {
         // Sort two cells. This is necessary because "a10" should come after "a9".
         const [ax, ay] = this.algebraic2coords(a);
@@ -493,16 +488,6 @@ export class QueryGame extends GameBase {
             rep.annotations.push({ type: "dots", targets: points as [RowCol, ...RowCol[]] });
         }
         return rep;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

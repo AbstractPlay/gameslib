@@ -85,7 +85,7 @@ export class ExxitGame extends GameBase {
             {uid: "19tiles", group: "length"},
         ],
         categories: ["goal>area", "mechanic>coopt", "mechanic>move", "mechanic>place", "mechanic>stack", "board>dynamic", "board>connect>hex", "components>special"],
-        flags: ["pie", "scores", "limited-pieces", "automove", "shared-stash", "custom-rotation"],
+        flags: ["pie", "scores", "automove", "shared-stash", "custom-rotation"],
     };
 
     public static clone(obj: ExxitGame): ExxitGame {
@@ -367,11 +367,6 @@ export class ExxitGame extends GameBase {
         const dx = 0 - minCol;
         const dy = 0 - minRow;
         return [...this.board.values()].find(h => h.col + dx === coords.col && h.row + dy === coords.row);
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     /**
@@ -687,7 +682,7 @@ export class ExxitGame extends GameBase {
         return score;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.PIECESINHAND"), scores: this.inhand },
             { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
@@ -700,30 +695,6 @@ export class ExxitGame extends GameBase {
             glyph: { name: "hex-pointy", colour: "#fff" },
             movePart: ""
         }]
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Scores**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const score = this.getPlayerScore(n as playerid);
-            status += `Player ${n}: ${score}\n\n`;
-        }
-
-        status += `**Tiles**: ${this.tiles}\n\n`
-
-        status += "**Pieces In Hand**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const score = this.inhand[n - 1];
-            status += `Player ${n}: ${score}\n\n`;
-        }
-
-        return status;
     }
 
     protected checkEOG(): ExxitGame {

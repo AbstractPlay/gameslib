@@ -661,14 +661,6 @@ export class BasaltGame extends GameBase {
         return this;
     }
 
-    public status(): string {
-        let status = super.status();
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-        return status;
-    }
-
     private buildPath(g: UndirectedGraph): void {
         const [left, right, bottom] = this.edges;
         const lr: string[][] = [];

@@ -117,7 +117,7 @@ export class RealmGame extends GameBase {
             }
         ],
         categories: ["goal>area", "mechanic>block", "mechanic>differentiate", "mechanic>move", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["player-stashes", "scores", "limited-pieces", "no-moves"]
+        flags: ["player-stashes", "no-moves"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -1655,33 +1655,7 @@ export class RealmGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += `**Game phase:** ${this.phase}\n\n`;
-
-        status += "**Stashes**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const stash = this.pieces[n - 1];
-            if (stash === undefined) {
-                throw new Error("Malformed stash.");
-            }
-            status += `Player ${n}: ${stash[0]} bases, ${stash[1]} powers, ${stash[2]} enforcers, ${this.captured[n - 1]} captured bases\n\n`;
-        }
-
-        status += "**Scores**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${this.getPlayerScore(n as playerid)}\n\n`;
-        }
-
-        return status;
-    }
-
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [{ name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }]
     }
 

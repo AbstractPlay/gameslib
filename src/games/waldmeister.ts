@@ -230,11 +230,6 @@ export class WaldMeisterGame extends GameBase {
         return moves.sort((a,b) => a.localeCompare(b));
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public getPlayerColour(p: playerid): number|Colourfuncs {
         switch (p) {
             case 1:
@@ -629,17 +624,6 @@ export class WaldMeisterGame extends GameBase {
         return this;
     }
 
-    public status(): string {
-        let status = super.status();
-        if (this.gameover) {
-            status += `Scores: ${this.scores.join(", ")}\n\n`;
-        }
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-        return status;
-    }
-
     public state(): IWaldMeisterState {
         return {
             game: WaldMeisterGame.gameinfo.uid,
@@ -862,11 +846,11 @@ export class WaldMeisterGame extends GameBase {
         return rep;
     }
 
-    public statuses(): IStatus[] {
+    public sidebarStatuses(): IStatus[] {
         return [{ key: i18next.t("apgames:status.ROUND"), value: [this.round.toString()] }];
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         const display = [{ name: i18next.t("apgames:status.waldmeister.GOALS"), scores: (this.round === 1) ? [i18next.t("apgames:status.waldmeister.COLOUR"), i18next.t("apgames:status.waldmeister.HEIGHT")] : [i18next.t("apgames:status.waldmeister.HEIGHT"), i18next.t("apgames:status.waldmeister.COLOUR")]}] as IScores[];
         if (this.scores.reduce((a, b) => a + b, 0) > 0) {
             display.push({ name: i18next.t("apgames:status.SCORES"), scores: this.scores});

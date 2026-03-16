@@ -403,16 +403,7 @@ export class FramesGame extends GameBaseSimultaneous {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        status += "**Scores**\n\n";
-        status += `Player 1: ${this.scores[0]}\n\n`;
-        status += `Player 2: ${this.scores[1]}\n\n`;
-        return status;
-    }
-
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.SCORES"), scores: [...this.scores] }
         ]

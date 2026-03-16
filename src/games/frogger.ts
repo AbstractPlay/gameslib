@@ -2109,8 +2109,6 @@ export class FroggerGame extends GameBase {
             }
         };
 
-
-
         //The beginning of state-dependent display.
         const renders: APRenderRep[] = [];
         if (this.frames === undefined)
@@ -2314,16 +2312,6 @@ export class FroggerGame extends GameBase {
 
         }
         return renders;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

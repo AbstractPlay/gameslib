@@ -1031,32 +1031,13 @@ export class LoggerGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        status += "**Scores**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const score = this.scores[n - 1];
-            status += `Player ${n}: ${score}\n\n`;
-        }
-
-        status += "**Protestors**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const score = this.protestors[n - 1];
-            status += `Player ${n}: ${score}\n\n`;
-        }
-
-        return status;
-    }
-
     public getPlayerScore(player: number): number | undefined {
         return this.scores[player - 1];
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [{ name: i18next.t("apgames:status.SCORES"), scores: this.scores}];
     }
-
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {

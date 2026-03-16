@@ -63,7 +63,7 @@ export class SpookGame extends GameBase {
             { uid: "random", group: "setup" },
         ],
         categories: ["goal>evacuate", "mechanic>place", "mechanic>capture", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>simple>3c", "components>shibumi", "board>3d"],
-        flags: ["scores", "perspective", "rotate90", "random-start"],
+        flags: ["perspective", "rotate90", "random-start"],
         displays: [{ uid: "orb-3d" }],
     };
 
@@ -348,11 +348,6 @@ export class SpookGame extends GameBase {
             }
         }
         return moves;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     private getTopMostCell(x: number, y: number): string | undefined {
@@ -1156,25 +1151,10 @@ export class SpookGame extends GameBase {
         return this.pieceCounts[player - 1];
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.PIECESONBOARD"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
         ]
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Pieces On Board:**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${this.getPlayerPieces(n)}\n\n`;
-        }
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

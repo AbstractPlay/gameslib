@@ -65,7 +65,7 @@ export class CannonGame extends GameBase {
             },
         ],
         categories: ["goal>royal-capture", "mechanic>capture", "mechanic>move>group", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["perspective", "limited-pieces", "check"],
+        flags: ["perspective", "check"],
         displays: [{uid: "hide-threatened"}],
     };
 
@@ -163,7 +163,7 @@ export class CannonGame extends GameBase {
         return [...this.board.values()].filter(p => p[0] === player && p[1] === "s").length;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
         ]
@@ -290,11 +290,6 @@ export class CannonGame extends GameBase {
         }
 
         return moves;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {

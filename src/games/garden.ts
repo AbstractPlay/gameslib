@@ -202,11 +202,6 @@ export class GardenGame extends GameBase {
         return moves.sort((a, b) => a.localeCompare(b));
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             let newmove = "";
@@ -689,7 +684,7 @@ export class GardenGame extends GameBase {
         return rep;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
         ]
@@ -703,20 +698,6 @@ export class GardenGame extends GameBase {
         }]
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Scores**: " + this.getPlayerScore(1).toString() + ", " + this.getPlayerScore(2).toString() + "\n\n";
-        status += "**Pieces remaining**: " + this.pool.toString() + "\n\n";
-
-        return status;
-    }
-
-     
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["place", "take", "eog", "winners"]);

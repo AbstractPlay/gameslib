@@ -56,7 +56,7 @@ export class EmergoGame extends GameBase {
         variants: [
         ],
         categories: ["goal>annihilate", "mechanic>capture", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["perspective", "automove", "limited-pieces"]
+        flags: ["perspective", "automove", ]
     };
 
     public static clone(obj: EmergoGame): EmergoGame {
@@ -307,11 +307,6 @@ export class EmergoGame extends GameBase {
         }
 
         return moves.sort();
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -747,25 +742,7 @@ export class EmergoGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-        const inhand = this.inhand;
-        if (inhand.reduce((acc, curr) => acc + curr, 0) > 0) {
-            status += "**Pieces In Hand**\n\n";
-            for (let n = 1; n <= this.numplayers; n++) {
-                const pieces = inhand[n - 1];
-                status += `Player ${n}: ${pieces}\n\n`;
-            }
-        }
-
-        return status;
-    }
-
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         const inhand = this.inhand;
         if (inhand.reduce((acc, curr) => acc + curr, 0) > 0) {
             return [

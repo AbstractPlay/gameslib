@@ -60,7 +60,7 @@ export class PluralityGame extends GameBase {
             { uid: "#board", },
             { uid: "size-19", group: "board" },
         ],
-        flags: ["scores", "custom-buttons", "custom-colours"]
+        flags: ["custom-buttons", "custom-colours"]
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -251,11 +251,6 @@ export class PluralityGame extends GameBase {
         }
 
         return moves.sort((a,b) => a.localeCompare(b))
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public getButtons(): ICustomButton[] {
@@ -701,7 +696,7 @@ export class PluralityGame extends GameBase {
         return rep;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [ { name: i18next.t("apgames:status.SCORES"),
                    scores: [this.getPlayerScore(1), this.getPlayerScore(2)] } ];
     }
@@ -715,17 +710,6 @@ export class PluralityGame extends GameBase {
 
         const terr = this.getTerritories();
         return terr.filter(t => t.owner === player).reduce((prev, curr) => prev + curr.cells.length, komi);
-    }
-
-    /**
-     * This function is only for the local playground.
-     */
-    public status(): string {
-        let status = super.status();
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-        return status;
     }
 
     public clone(): PluralityGame {

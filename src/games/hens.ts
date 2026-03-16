@@ -52,7 +52,7 @@ export class HensGame extends GameBase {
             { uid: "size-10" }
         ],
         categories: ["goal>breakthrough", "goal>cripple", "mechanic>capture", "mechanic>move", "mechanic>differentiate", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["perspective", "limited-pieces"]
+        flags: ["perspective", ]
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -254,11 +254,6 @@ export class HensGame extends GameBase {
             } // foreach dir
         }
         return graph;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -761,25 +756,10 @@ export class HensGame extends GameBase {
         return [...this.board.values()].filter(([owner,]) => owner === player).length;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
         ]
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Pieces On Board:**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${this.getPlayerPieces(n)}\n\n`;
-        }
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

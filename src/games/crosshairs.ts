@@ -3219,24 +3219,6 @@ export class CrosshairsGame extends GameBase {
         return resolved;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        status += `**Turn**: ${this.turnNumber}\n\n`;
-        status += `**Planes on board**: P1: ${this.countPlanesOnBoard(1)}, P2: ${this.countPlanesOnBoard(2)}\n\n`;
-        status += `**Planes remaining**: P1: ${this.planesRemaining[0]}, P2: ${this.planesRemaining[1]}\n\n`;
-
-        if (this.inCloudPhase()) {
-            status += "**Phase**: Cloud placement\n\n";
-        } else if (this.inEntryPhase()) {
-            status += "**Phase**: Entry phase\n\n";
-        } else {
-            status += "**Phase**: Main game\n\n";
-        }
-
-        return status;
-    }
-
     public clone(): CrosshairsGame {
         return new CrosshairsGame(this.serialize());
     }

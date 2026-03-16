@@ -342,7 +342,7 @@ export class AssemblyGame extends GameBaseSimultaneous {
         return this.scores[player - 1];
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.SCORES"), scores: [...this.scores] },
         ]
@@ -508,66 +508,24 @@ export class AssemblyGame extends GameBaseSimultaneous {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        status += "**Scores**\n\n";
-        status += `Player 1: ${this.scores[0]}\n\n`;
-        status += `Player 2: ${this.scores[1]}\n\n`;
-        return status;
-    }
-
-    public chatLog(players: string[]): string[][] {
-        const result: string[][] = [];
-        for (const state of this.stack) {
-            if ( (state._results !== undefined) && (state._results.length > 0) ) {
-                const node: string[] = [(state._timestamp && new Date(state._timestamp).toISOString()) || "unknown"];
-                for (const r of state._results) {
-                    switch (r.type) {
-                        case "pass":
-                            node.push(i18next.t("apresults:PASS.assembly"));
-                            break;
-                        case "eject": {
-                            const dist = parseInt(r.to, 10);
-                            node.push(i18next.t("apresults:EJECT.assembly", {distance: dist}));
-                            break;
-                        }
-                        case "deltaScore":
-                            node.push(i18next.t("apresults:DELTA_SCORE_GAIN", {count: r.delta, delta: r.delta, player: players[r.who! - 1]}));
-                            break;
-                        case "eog":
-                            node.push(i18next.t("apresults:EOG.default"));
-                            break;
-                        case "resigned": {
-                            let rname = `Player ${r.player}`;
-                            if (r.player <= players.length) {
-                                rname = players[r.player - 1]
-                            }
-                            node.push(i18next.t("apresults:RESIGN", {player: rname}));
-                            break;
-                        }
-                        case "winners": {
-                            const names: string[] = [];
-                            for (const w of r.players) {
-                                if (w <= players.length) {
-                                    names.push(players[w - 1]);
-                                } else {
-                                    names.push(`Player ${w}`);
-                                }
-                            }
-                            if (r.players.length === 0)
-                                node.push(i18next.t("apresults:WINNERSNONE"));
-                            else
-                                node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
-
-                            break;
-                        }
-                    }
-                }
-                result.push(node);
+    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult, players: string[] = []): boolean {
+        let resolved = false;
+        switch (r.type) {
+            case "pass":
+                node.push(i18next.t("apresults:PASS.assembly"));
+                resolved = true;
+                break;
+            case "eject": {
+                const dist = parseInt(r.to, 10);
+                node.push(i18next.t("apresults:EJECT.assembly", {distance: dist}));
+                resolved = true;
+                break;
             }
+            case "deltaScore":
+                node.push(i18next.t("apresults:DELTA_SCORE_GAIN", {count: r.delta, delta: r.delta, player: players[r.who! - 1]}));
+                break;
         }
-        return result;
+        return resolved;
     }
 
     public getCustomRotation(): number | undefined {

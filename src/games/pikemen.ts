@@ -141,7 +141,6 @@ export class PikemenGame extends GameBase {
         return this;
     }
 
-
     public moves(player?: playerid): string[] {
         if (this.gameover) { return []; }
         if (player === undefined) {
@@ -186,11 +185,6 @@ export class PikemenGame extends GameBase {
         }
 
         return allmoves;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -643,27 +637,10 @@ export class PikemenGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Scores**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const score = this.scores[n - 1];
-            status += `Player ${n}: ${score}\n\n`;
-        }
-
-        return status;
-    }
-
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [{ name: i18next.t("apgames:status.SCORES"), scores: this.scores }]
     }
 
-     
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["move", "capture", "orient", "eog", "winners"]);

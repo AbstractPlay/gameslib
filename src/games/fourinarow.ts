@@ -354,11 +354,6 @@ export class FourInARowGame extends InARowBase {
         return prevCell;
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     private canSwap(): boolean {
         // Check if the player is able to invoke the pie rule on this turn.
         if (this.openingProtocol === "swap-2") {
@@ -898,16 +893,6 @@ export class FourInARowGame extends InARowBase {
             winningLines: this.winningLines.map(a => [...a]),
             swapped: this.swapped,
         };
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

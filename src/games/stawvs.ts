@@ -457,11 +457,6 @@ export class StawvsGame extends GameBase {
         return moves;
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             let newmove = "";
@@ -727,7 +722,7 @@ export class StawvsGame extends GameBase {
                 }
             }
 
-            const scores = this.getPlayersScores()[0].scores as number[];
+            const scores = this.sidebarScores()[0].scores as number[];
             const max = Math.max(...scores);
             for (let p = 1; p <= this.numplayers; p++) {
                 if (scores[p-1] === max) {
@@ -1086,23 +1081,7 @@ export class StawvsGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Scores**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const score = this.getPlayerScore(n);
-            status += `Player ${n}: ${score}\n\n`;
-        }
-
-        return status;
-    }
-
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         const iscoreObj = {
             name: i18next.t("apgames:status.SCORES"),
             scores: [this.getPlayerScore(1), this.getPlayerScore(2)]

@@ -80,7 +80,7 @@ export class TaflGame extends GameBase {
             { uid: "magpie-7x7-cross", group: "variant" },
         ],
         categories: ["goal>royal-escape", "goal>royal-capture", "mechanic>asymmetry", "mechanic>capture", "mechanic>differentiate",  "mechanic>move", "other>traditional", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["custom-colours", "check", "limited-pieces"],
+        flags: ["custom-colours", "check", ],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -761,15 +761,10 @@ export class TaflGame extends GameBase {
         return [...this.board.values()].filter(([p, pc]) => p === player && pc !== "K").length;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
         ]
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     private sort(a: string, b: string): number {
@@ -1428,21 +1423,6 @@ export class TaflGame extends GameBase {
             rep.annotations.push({type: "dots", targets: points as [RowCol, ...RowCol[]]});
         }
         return rep;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Pieces On Board:**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${this.getPlayerPieces(n)}\n\n`;
-        }
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

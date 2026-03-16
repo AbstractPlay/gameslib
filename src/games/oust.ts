@@ -53,7 +53,7 @@ export class OustGame extends GameBase {
             { uid: "square-11", group: "board" },
         ],
         categories: ["goal>annihilate", "mechanic>place", "board>shape>hex", "board>shape>rect", "board>shape>hex", "board>connect>rect", "components>simple>1per"],
-        flags: ["scores", "no-moves", "custom-randomization"],
+        flags: ["no-moves", "custom-randomization"],
         displays: [{uid: "hide-moves"}],
     };
 
@@ -559,7 +559,7 @@ export class OustGame extends GameBase {
         return groups.map(g => g.size).sort((a, b) => b - a);
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         const groupSizes1 = this.getGroupSizes(1);
         const groupSizes2 = this.getGroupSizes(2);
         return [
@@ -720,28 +720,6 @@ export class OustGame extends GameBase {
             pieces: pstr.map(p => p.join("")).join("\n"),
         };
         return rep;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        const scores = this.getPlayersScores();
-
-        status += "**Group Counts**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${ n }: ${ scores[0].scores[n - 1] }\n\n`;
-        }
-
-        status += "**Group Sizes**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${ n }: ${ scores[1].scores[n - 1] }\n\n`;
-        }
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

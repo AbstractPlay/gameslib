@@ -50,7 +50,7 @@ export class QueenslandGame extends GameBase {
             },
         ],
         categories: ["goal>score>eog", "mechanic>place",  "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["limited-pieces", "scores", "automove"],
+        flags: ["scores", "automove"],
         displays: [{uid: "hide-scored"}],
     };
 
@@ -180,11 +180,6 @@ export class QueenslandGame extends GameBase {
         }
 
         return moves.sort((a,b) => a.localeCompare(b));
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -512,15 +507,11 @@ export class QueenslandGame extends GameBase {
         return this;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
             { name: i18next.t("apgames:status.PIECESINHAND"), scores: this.pieces }
         ]
-    }
-
-    public getPlayerPieces(player: number): number {
-        return this.pieces[player - 1];
     }
 
     public getPlayerScore(player: number): number {
@@ -704,35 +695,11 @@ export class QueenslandGame extends GameBase {
         return rep;
     }
 
-    public statuses(): IStatus[] {
+    public sidebarStatuses(): IStatus[] {
         if (this.g1scores === undefined)
             return [{ key: i18next.t("apgames:status.PHASE"), value: [i18next.t("apgames:status.queensland.GAME1")] }];
         else
             return [{ key: i18next.t("apgames:status.PHASE"), value: [i18next.t("apgames:status.queensland.GAME2")] }];
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += `**Status**: Game ${this.g1scores === undefined ? "1" : "2"}\n\n`;
-
-        status += "**Pieces In Hand**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const pieces = this.pieces[n - 1];
-            status += `Player ${n}: ${pieces}\n\n`;
-        }
-
-        status += "**Scores**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const score = this.getPlayerScore(n);
-            status += `Player ${n}: ${score}\n\n`;
-        }
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

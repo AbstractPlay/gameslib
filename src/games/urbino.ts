@@ -377,11 +377,6 @@ export class UrbinoGame extends GameBase {
         return [[owner, block], district];
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             if (!this.validateMove(move).valid)
@@ -1183,31 +1178,7 @@ export class UrbinoGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Stashes**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const stash = this.getPlayerStash(n)?.stash;
-            if (stash === undefined) {
-                throw new Error("Malformed stash.");
-            }
-            status += `Player ${n}: ${stash[0].count} houses, ${stash[1].count} palaces, ${stash[2].count} towers\n\n`;
-        }
-
-        status += "**Scores**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${this.getPlayerScore(n as playerid)}\n\n`;
-        }
-
-        return status;
-    }
-
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [{ name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }]
     }
 

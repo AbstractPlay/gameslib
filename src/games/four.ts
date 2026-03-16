@@ -283,11 +283,6 @@ export class FourGame extends GameBase {
         return {minX, minY, maxX, maxY};
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             let newmove = "";
@@ -728,16 +723,6 @@ export class FourGame extends GameBase {
                 break;
         }
         return resolved;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
     }
 
     public clone(): FourGame {

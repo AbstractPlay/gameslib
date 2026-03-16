@@ -215,12 +215,6 @@ export class AzacruGame extends GameBase {
         return moves.sort((a,b) => a.localeCompare(b));
     }
 
-    // The randomizer never reorients and always chooses the connection change option
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     // This function only determines which chevrons can move where.
     // Special effect handling is done elsewhere.
     public baseMoves(player?: playerid): string[] {
@@ -880,7 +874,7 @@ export class AzacruGame extends GameBase {
         return this.numTiles(player as playerid);
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         const scores: number[] = [];
         for (let p = 1; p <= this.numplayers; p++) {
             scores.push(this.getPlayerScore(p));
@@ -892,7 +886,7 @@ export class AzacruGame extends GameBase {
         // game ends when someone passes and everyone else has had one turn
         if (this.triggered !== undefined && this.triggered === this.currplayer) {
             this.gameover = true;
-            const scores = this.getPlayersScores()[0].scores as number[];
+            const scores = this.sidebarScores()[0].scores as number[];
             const max = Math.max(...scores);
             for (let p = 1; p <= this.numplayers; p++) {
                 if (scores[p-1] === max) {
@@ -1044,22 +1038,6 @@ export class AzacruGame extends GameBase {
         }
 
         return rep;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        const scores: number[] = [];
-        for (let p = 1; p <= this.numplayers; p++) {
-            scores.push(this.getPlayerScore(p));
-        }
-        status += "**Scores**: " + scores.join(", ") + "\n\n";
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

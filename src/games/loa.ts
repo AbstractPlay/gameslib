@@ -61,7 +61,7 @@ export class LinesOfActionGame extends GameBase {
             },
         ],
         categories: ["goal>unify", "mechanic>capture", "mechanic>move", "board>shape>rect", "board>shape>hex", "board>connect>rect", "board>connect>hex", "components>simple>1per"],
-        flags: ["check", "limited-pieces", "automove"]
+        flags: ["check", "automove"]
     };
 
     public numplayers = 2;
@@ -301,11 +301,6 @@ export class LinesOfActionGame extends GameBase {
         }
 
         return moves;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     private findPoints(start: string): string[] | undefined {
@@ -715,25 +710,10 @@ export class LinesOfActionGame extends GameBase {
         return [...this.board.values()].filter(x => x === player).length;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
         ]
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Pieces On Board:**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${this.getPlayerPieces(n)}\n\n`;
-        }
-
-        return status;
     }
 
     public inCheck(): number[] {

@@ -220,11 +220,6 @@ export class TritiumGame extends GameBase {
         return moves;
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             let newmove = "";
@@ -401,7 +396,7 @@ export class TritiumGame extends GameBase {
 
         if (this.lastmove === "pass" && this.stack.at(-1)!.lastmove === "pass") {
             this.gameover = true;
-            const scores = this.getPlayersScores()[0].scores;
+            const scores = this.sidebarScores()[0].scores;
 
             if(scores[0] > scores[1]) {this.winner = [1];}
             else if(scores[1] > scores[0]) {this.winner = [2];}
@@ -566,7 +561,7 @@ export class TritiumGame extends GameBase {
         return rep;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         const flagcounts = new Map<string, [number,number,number]>();
 
         for (const cell of this.graph.listCells(false) as string[]) {
@@ -601,20 +596,6 @@ export class TritiumGame extends GameBase {
                 break;
         }
         return resolved;
-    }
-
-    /**
-     * This function is only for the local playground.
-     */
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-            status += "**Scores**: " + this.getPlayersScores()[0].scores.join(",") + "\n\n";
-        }
-
-        return status;
     }
 
     public clone(): TritiumGame {

@@ -60,7 +60,7 @@ export class DipoleGame extends GameBase {
             },
         ],
         categories: ["goal>evacuate", "mechanic>bearoff", "mechanic>capture", "mechanic>move", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["scores","perspective"]
+        flags: ["perspective"]
     };
 
     public numplayers = 2;
@@ -193,11 +193,6 @@ export class DipoleGame extends GameBase {
         }
 
         return moves;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -715,22 +710,11 @@ export class DipoleGame extends GameBase {
         return distance;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        const d1 = this.totalDist(1);
-        const d2 = this.totalDist(2);
-        status += `**Distances**\n\nPlayer 1: ${d1}\n\nPlayer 2: ${d2}`;
-
-        return status;
-    }
-
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.DISTANCES"), scores: [this.totalDist(1), this.totalDist(2)] }
         ]
     }
-
 
     public clone(): DipoleGame {
         return new DipoleGame(this.serialize());

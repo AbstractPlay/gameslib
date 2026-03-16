@@ -312,11 +312,6 @@ export class SubdivisionGame extends GameBase {
         return [];
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             const g = this.graphFull;
@@ -625,7 +620,6 @@ export class SubdivisionGame extends GameBase {
             pstr += pieces.join(",");
         }
 
-
         const myLegend: ILegendObj = {
             "SPACER": {
                 name: "piece-square-borderless",
@@ -722,18 +716,6 @@ export class SubdivisionGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        status += "**Scores**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const score = this.getPlayerScore(n);
-            status += `Player ${n}: ${score}\n\n`;
-        }
-
-        return status;
-    }
-
     public getPlayerScore(player: number): number {
         const owned = [...this.board.entries()].filter(([,pc]) => pc !== "X" && pc[0] === player) as [string, [playerid, Size]][];
         const cells = owned.map(([cell,]) => cell);
@@ -808,7 +790,7 @@ export class SubdivisionGame extends GameBase {
         return score;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         const scores: number[] = [];
         for (let p = 1; p <= this.numplayers; p++) {
             scores.push(this.getPlayerScore(p));

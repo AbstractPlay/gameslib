@@ -746,24 +746,7 @@ export class EntropyGame extends GameBaseSimultaneous {
           }, {} as ICountObj);
     }
 
-    public status(): string {
-        let status = super.status();
-
-        status += `**Current phase**: ${this.phase}\n\n`;
-
-        if (this.phase === "chaos") {
-            status += `**Piece being placed**: ${this.nextPiece()}\n\n`;
-        }
-
-        status += `**Pieces still in the bag**: ${Object.entries(this.bagContents()).sort((a, b) => { return a[0].localeCompare(b[0]); }).map(p => p.join(": ")).join(", ")}\n\n`;
-
-        status += "**Scores**\n\n";
-        status += `Player 1: ${this.getPlayerScore(1)}\n\n`;
-        status += `Player 2: ${this.getPlayerScore(2)}\n\n`;
-        return status;
-    }
-
-    public statuses(isPartial: boolean): IStatus[] {
+    public sidebarStatuses(isPartial: boolean): IStatus[] {
         const returned = [{ key: i18next.t("apgames:status.PHASE"), value: [i18next.t("apgames:status.entropy." + this.phase.toUpperCase())] } as IStatus];
         if (this.phase === "chaos" && !isPartial) {
             const key = i18next.t("apgames:status.TOPLACE");
@@ -773,7 +756,7 @@ export class EntropyGame extends GameBaseSimultaneous {
         return returned;
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)], spoiler: true }
         ]

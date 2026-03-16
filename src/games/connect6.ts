@@ -849,16 +849,6 @@ export class Connect6Game extends InARowBase {
         };
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        return status;
-    }
-
     public clone(): Connect6Game {
         return new Connect6Game(this.serialize());
     }

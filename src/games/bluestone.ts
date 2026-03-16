@@ -235,11 +235,6 @@ export class BluestoneGame extends GameBase {
         return moves;
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             let newMove = move;
@@ -578,7 +573,7 @@ export class BluestoneGame extends GameBase {
         return this.scores[player-1];
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [{
             name: i18next.t("apgames:status.SCORES"),
             scores: [this.groupScores[0].join(","), this.groupScores[1].join(",")]
@@ -679,22 +674,6 @@ export class BluestoneGame extends GameBase {
         }
 
         return rep;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Scores**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const score = this.groupScores[n-1].join(",");
-            status += `Player ${n}:  ${score}\n\n`;
-        }
-
-        return status;
     }
 
     public clone(): BluestoneGame {

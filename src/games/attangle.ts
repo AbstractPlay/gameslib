@@ -60,7 +60,7 @@ export class AttangleGame extends GameBase {
             },
         ],
         categories: ["goal>score>race", "mechanic>place", "mechanic>move", "mechanic>stack", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["limited-pieces", "scores"]
+        flags: ["scores"]
     };
     public numplayers = 2;
     public currplayer: playerid = 1;
@@ -192,11 +192,6 @@ export class AttangleGame extends GameBase {
         }
 
         return moves;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -616,30 +611,10 @@ export class AttangleGame extends GameBase {
         return rep;
     }
 
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Pieces In Hand**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const pieces = this.pieces[n - 1];
-            status += `Player ${n}: ${pieces}\n\n`;
-        }
-
-        return status;
-    }
-
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.PIECESINHAND"), scores: this.pieces }
         ]
-    }
-
-    public getPlayerPieces(player: number): number {
-        return this.pieces[player - 1];
     }
 
     public clone(): AttangleGame {

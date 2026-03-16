@@ -629,7 +629,7 @@ export class CifraGame extends GameBase {
         }
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         if (!this.variants.includes("king")) {
             const scores: number[] = [];
             for (let p = 1; p <= this.numplayers; p++) {
@@ -1041,21 +1041,6 @@ export class CifraGame extends GameBase {
         }
 
         return rep;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-        const scores: number[] = [];
-        for (let p = 1; p <= this.numplayers; p++) {
-            scores.push(this.getPlayerScore(p));
-        }
-        status += "**Scores**: " + scores.join(", ") + "\n\n";
-
-        return status;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

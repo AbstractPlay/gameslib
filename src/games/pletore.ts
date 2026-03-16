@@ -53,7 +53,7 @@ export class PletoreGame extends GameBase {
             },
         ],
         categories: ["goal>area", "mechanic>place",  "mechanic>capture", "board>shape>rect"],
-        flags: ["pie-even", "scores", "automove", "custom-buttons"],
+        flags: ["pie-even", "automove", "custom-buttons"],
         variants: [
             {
                 uid: "size-11",
@@ -243,11 +243,6 @@ export class PletoreGame extends GameBase {
         return this.buttontaker === undefined && this.komi !== undefined
             && (this.komi + (this.boardSize * this.boardSize)) % 2 === 0
             && this.stack.length !== 2;
-    }
-
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -515,11 +510,6 @@ export class PletoreGame extends GameBase {
         }
     }
 
-    private pieceCount(player: playerid): number {
-        // Get number of piece on board for `player`.
-        return [...this.board.values()].filter(v => v === player).length;
-    }
-
     protected checkEOG(): PletoreGame {
         if (this.lastmove === "pass" && this.stack[this.stack.length - 1].lastmove === "pass") {
             this.gameover = true;
@@ -540,7 +530,7 @@ export class PletoreGame extends GameBase {
         return this.scores[player - 1] + ((this.buttontaker === player) ? .5 : 0) + ((player === 2 && this.komi !== undefined) ? this.komi : 0);
     }
 
-    public getPlayersScores(): IScores[] {
+    public sidebarScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
         ]
@@ -722,26 +712,6 @@ export class PletoreGame extends GameBase {
             }
         }
         return markers;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Scores**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const rawScore = this.scores[n-1];
-            const pieces = this.pieceCount(n as playerid);
-            const influence = rawScore - pieces;
-            const score = this.getPlayerScore(n as playerid);
-            const bonus = score - rawScore;
-            status += `Player ${n}: ${pieces} + ${influence} + ${bonus} = ${score}\n\n`;
-        }
-
-        return status;
     }
 
     public clone(): PletoreGame {

@@ -163,11 +163,6 @@ export class IqishiqiGame extends GameBase {
         return [...moves].sort((a,b) => a.localeCompare(b));
     }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             const cell = this.graph.coords2algebraic(col, row);
@@ -556,10 +551,6 @@ export class IqishiqiGame extends GameBase {
                 break;
         }
         return resolved;
-    }
-
-    public status(): string {
-        return super.status();
     }
 
     public clone(): IqishiqiGame {

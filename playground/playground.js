@@ -1,3 +1,6 @@
+import { customAlphabet } from 'https://cdn.jsdelivr.net/npm/nanoid/+esm';
+const nanoid = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', 5);
+
 function boardClick(row, col, piece) {
     console.log("Row: " + row + ", Col: " + col + ", Piece: " + piece);
     var state = window.sessionStorage.getItem("state");
@@ -29,14 +32,14 @@ function boardClick(row, col, piece) {
         movebox.classList.add("move-ready");
     }
     if ( ( (result.hasOwnProperty("canrender")) && (result.canrender === true) ) || (result.complete >= 0) ) {
-        let renderOpts = { perspective: game.currplayer };
-        let selectedDisplay = window.sessionStorage.getItem("selectedDisplay") || "default";
+        let renderOpts = getRenderOptions({ perspective: game.currplayer });
+        let selectedDisplay = window.localStorage.getItem("selectedDisplay") || "default";
         const checkedDisplayRadio = document.querySelector('input[name="displayOption"]:checked');
         if (checkedDisplayRadio) {
             selectedDisplay = checkedDisplayRadio.value;
         }
         if (selectedDisplay !== "default") {
-            renderOpts = { altDisplay: selectedDisplay };
+            renderOpts.altDisplay = selectedDisplay;
         }
         game.move(result.move, {partial: true});
         let render = game.render(renderOpts);
@@ -44,7 +47,7 @@ function boardClick(row, col, piece) {
             render = render[render.length - 1];
         }
         var interim = JSON.stringify(render);
-        window.sessionStorage.setItem("interim", interim);
+        window.localStorage.setItem("interim", interim);
     }
     renderGame();
     updateGameStatusPanel(game, gamename);
@@ -55,8 +58,8 @@ function boardClick(row, col, piece) {
 
 function boardClickSimultaneous(row, col, piece) {
     console.log("Row: " + row + ", Col: " + col + ", Piece: " + piece);
-    var state = window.sessionStorage.getItem("state");
-    var gamename = window.sessionStorage.getItem("gamename");
+    var state = window.localStorage.getItem("state");
+    var gamename = window.localStorage.getItem("gamename");
     var game = APGames.GameFactory(gamename, state);
     var movebox = document.getElementById("moveEntry");
     var result = game.handleClickSimultaneous(movebox.value, row, col, 1, piece);
@@ -81,8 +84,8 @@ function boardClickSimultaneous(row, col, piece) {
         movebox.classList.add("move-ready");
     }
     if ( ( (result.hasOwnProperty("canrender")) && (result.canrender === true) ) || (result.complete >= 0) ) {
-        let renderOpts = { perspective: 1 };
-        let selectedDisplay = window.sessionStorage.getItem("selectedDisplay") || "default";
+        let renderOpts = getRenderOptions({ perspective: 1 });
+        let selectedDisplay = window.localStorage.getItem("selectedDisplay") || "default";
         const checkedDisplayRadio = document.querySelector('input[name="displayOption"]:checked');
         if (checkedDisplayRadio) {
             selectedDisplay = checkedDisplayRadio.value;
@@ -96,9 +99,9 @@ function boardClickSimultaneous(row, col, piece) {
             render = render[render.length - 1];
         }
         var interim = JSON.stringify(render);
-        window.sessionStorage.setItem("interim", interim);
+        window.localStorage.setItem("interim", interim);
     } else {
-        window.sessionStorage.removeItem("interim");
+        window.localStorage.removeItem("interim");
     }
     renderGame();
     updateGameStatusPanel(game, gamename);
@@ -111,13 +114,577 @@ function boardClickVolcano(row, col, piece) {
     renderGame(col, row);
 }
 
-// --- Palette and Context Management ---
-let customPalettes = [];
-let currentPaletteColors = [];
-let customContextLight = { background: "#fff", strokes: "#000", borders: "#000", labels: "#000", annotations: "#000", fill: "#000" };
-let customContextDark = { background: "#222", strokes: "#6d6d6d", borders: "#000", labels: "#009fbf", annotations: "#99cccc", fill: "#e6f2f2" };
-let selectedCustomPaletteName = null;
+// --- Customization Management ---
+const defaultCustomizationsLight = {
+    colourContext: { background: "#fff", board: "#fff", strokes: "#000", borders: "#000", labels: "#000", annotations: "#000", fill: "#000" },
+    palette: [],
+    glyphmap: [],
+};
+const defaultCustomizationsDark = {
+    colourContext: { background: "#222", board: "#222", strokes: "#6d6d6d", borders: "#000", labels: "#009fbf", annotations: "#99cccc", fill: "#e6f2f2" },
+    palette: [],
+    glyphmap: [],
+};
+let customizations = JSON.parse(JSON.stringify(defaultCustomizationsLight));
 let draggedColor = null;
+let settingsDirty = false;
+
+function getRenderOptions(baseOpts = {}) {
+    const opts = { ...baseOpts };
+    opts.contextGlobal = false;
+    opts.coloursGlobal = false;
+    if (!opts.hasOwnProperty("colourContext")) {
+        opts.colourContext = { ...customizations.colourContext };
+    }
+    if (customizations.palette && customizations.palette.length > 0) {
+        if (!opts.hasOwnProperty("colours")) {
+            opts.colours = [...customizations.palette];
+        }
+    }
+    if (customizations.glyphmap && customizations.glyphmap.length > 0) {
+        if (!opts.hasOwnProperty("glyphmap")) {
+            opts.glyphmap = customizations.glyphmap;
+        }
+    }
+    return opts;
+}
+
+function loadCustomizations() {
+    const stored = window.localStorage.getItem("customizations");
+    if (stored) {
+        try {
+            customizations = JSON.parse(stored);
+        } catch (e) {
+            console.error("Error loading customizations:", e);
+            const isDark = window.localStorage.getItem("darkMode") === "true";
+            customizations = JSON.parse(JSON.stringify(isDark ? defaultCustomizationsDark : defaultCustomizationsLight));
+        }
+    } else {
+        const isDark = window.localStorage.getItem("darkMode") === "true";
+        customizations = JSON.parse(JSON.stringify(isDark ? defaultCustomizationsDark : defaultCustomizationsLight));
+    }
+}
+
+function saveCustomizations() {
+    window.localStorage.setItem("customizations", JSON.stringify(customizations));
+    settingsDirty = false;
+}
+
+function showCustomizeModal() {
+    const modal = document.getElementById("customizeModal");
+    if (modal) {
+        updateCustomizeModalContents();
+        modal.style.display = "block";
+        document.body.style.overflow = 'hidden';
+        renderCustomizePreview();
+    }
+}
+
+function hideCustomizeModal() {
+    const modal = document.getElementById("customizeModal");
+    if (modal) {
+        modal.style.display = "none";
+        document.body.style.overflow = '';
+    }
+}
+
+function updateCustomizeModalContents() {
+    // This function would populate all the inputs in the modal
+    // with current values from the `customizations` object by calling the sync function.
+    syncCustomizeUI();
+}
+
+function syncCustomizeUI() {
+    // Render the preview first, in case other updates are slow.
+    renderCustomizePreview();
+    // Then update all the individual UI controls.
+    updatePaletteDisplay();
+    updateContextDisplay();
+    updateGlyphMapDisplay();
+    updateSettingsJSON();
+}
+
+function renderCustomizePreview() {
+    const previewDiv = document.getElementById("customizePreview");
+    if (!previewDiv) return;
+    previewDiv.innerHTML = "";
+
+    var state = window.localStorage.getItem("state");
+    if (!state) {
+        previewDiv.innerHTML = "<p>No game loaded to preview.</p>";
+        return;
+    }
+    var gamename = window.localStorage.getItem("gamename");
+    var game = APGames.GameFactory(gamename, state);
+
+    const renderOpts = getRenderOptions({ perspective: game.currplayer });
+    const uniqueid = "customizePreviewSvg_" + Date.now();
+    const options = { ...renderOpts,
+        svgid: uniqueid,
+        prefix: uniqueid, // Ensure internal IDs are unique to avoid conflicts with the main board
+    };
+    previewDiv.style.backgroundColor = options.colourContext.background;
+
+    try {
+        // Always re-render for the preview to ensure all options (including glyphmap) are applied
+        let data = game.render(renderOpts);
+        if (Array.isArray(data)) {
+            data = data[data.length - 1];
+        }
+        const svgString = APRender.renderStatic(data, options);
+        previewDiv.innerHTML = svgString;
+    } catch (e) {
+        previewDiv.innerHTML = `<div style="color: red; padding: 1em;">${e.message}</div>`;
+    }
+}
+
+function updatePaletteDisplay() {
+    const container = document.getElementById("customizePaletteColors");
+    if (!container) return;
+    container.innerHTML = "";
+    customizations.palette.forEach((color, index) => {
+        const swatch = document.createElement('span');
+        swatch.className = 'color-swatch';
+        swatch.draggable = true;
+        swatch.style.cursor = "move";
+        if (color === null) {
+            swatch.style.background = "linear-gradient(to top right, transparent calc(50% - 1px), red, transparent calc(50% + 1px))";
+            swatch.style.backgroundColor = "white";
+            swatch.title = "Default (will use the renderer's default for this player number)";
+        } else {
+            swatch.style.backgroundColor = color;
+            swatch.title = color;
+        }
+
+        swatch.addEventListener('click', (e) => { if (e.target.className === "remove-tag") return; const picker = document.getElementById("customizePaletteColor"); if (picker) { picker.color = color || "#ffffff"; } document.getElementById("customizePaletteHex").value = color || "#ffffff"; });
+        swatch.addEventListener('dragstart', (e) => handleDragStart(e, index));
+        swatch.addEventListener('dragover', handleDragOver);
+        swatch.addEventListener('drop', (e) => handleDrop(e, index));
+
+        const del = document.createElement("span");
+        del.className = "remove-tag";
+        del.innerHTML = "&times;";
+        del.title = "Remove color";
+        del.onclick = () => {
+            customizations.palette.splice(index, 1);
+            settingsDirty = true;
+            syncCustomizeUI();
+        };
+        swatch.appendChild(del);
+        container.appendChild(swatch);
+    });
+}
+
+function handleDragStart(e, index) {
+    e.dataTransfer.setData("text/plain", index);
+    e.dataTransfer.effectAllowed = "move";
+}
+
+function handleDragOver(e) {
+    e.preventDefault();
+}
+
+function handleDrop(e, index) {
+    e.preventDefault();
+    const draggedIndex = parseInt(e.dataTransfer.getData("text/plain"), 10);
+    if (draggedIndex !== index && !isNaN(draggedIndex)) {
+        const [draggedItem] = customizations.palette.splice(draggedIndex, 1);
+        customizations.palette.splice(index, 0, draggedItem);
+        settingsDirty = true;
+        syncCustomizeUI();
+    }
+}
+
+function updateContextDisplay() {
+    const prop = document.getElementById("customizeContextProp").value;
+    const colorPicker = document.getElementById("customizeContextColor");
+    const hexInput = document.getElementById("customizeContextHex");
+    if (colorPicker && hexInput) {
+        const val = customizations.colourContext[prop] || "#000000";
+        colorPicker.color = val;
+        hexInput.value = val;
+    }
+}
+
+function updateGlyphMapDisplay() {
+    const container = document.getElementById("customizeGlyphMapTags");
+    if (!container) return;
+    container.innerHTML = "";
+    customizations.glyphmap.forEach((p, i) => {
+        const tag = document.createElement('span');
+        tag.className = "glyph-tag";
+        let scaleTxt = "";
+        if (p[2] !== undefined && p[2] !== 1) {
+            scaleTxt = ` (@ ${p[2]}x)`;
+        }
+        tag.innerHTML = `${p[0]} &rarr; ${p[1]}${scaleTxt}`;
+        const del = document.createElement("span");
+        del.className = "remove-tag";
+        del.innerHTML = "&times;";
+        del.title = "Remove mapping";
+        del.onclick = () => {
+            customizations.glyphmap.splice(i, 1);
+            settingsDirty = true;
+            syncCustomizeUI();
+        };
+        tag.appendChild(del);
+        container.appendChild(tag);
+    });
+
+    const glyphSelect = document.getElementById("customizeOriginalGlyph");
+    if (glyphSelect) {
+        const currentVal = glyphSelect.value;
+        glyphSelect.innerHTML = `<option value="">-- Select Original --</option>`;
+        const game = APGames.GameFactory(window.localStorage.getItem("gamename"), window.localStorage.getItem("state"));
+        if (game) {
+            const data = game.render();
+            const names = new Set();
+            const processGlyph = (g) => {
+                if (typeof g === "string") {
+                    names.add(g);
+                } else if (typeof g === "object" && g !== null) {
+                    if (g.name) names.add(g.name);
+                }
+            };
+            Object.values(data.legend).forEach((val) => {
+                if (Array.isArray(val)) {
+                    val.forEach((v) => processGlyph(v));
+                } else {
+                    processGlyph(val);
+                }
+            });
+            [...names].sort().forEach(g => {
+                const opt = document.createElement("option");
+                opt.value = g;
+                opt.textContent = g;
+                glyphSelect.appendChild(opt);
+            });
+            glyphSelect.value = currentVal;
+        }
+    }
+}
+
+function updateSettingsJSON() {
+    const textarea = document.getElementById("customizeSettingsJson");
+    if (textarea && document.activeElement !== textarea) {
+        textarea.value = JSON.stringify(customizations, null, 2);
+    }
+}
+
+function addCustomizeStyles() {
+    if (document.getElementById("customize-styles")) return;
+    const style = document.createElement('style');
+    style.id = 'customize-styles';
+    style.innerHTML = `
+        .color-swatch .remove-tag, .glyph-tag .remove-tag {
+            display: none;
+            position: absolute;
+            top: -7px;
+            right: -7px;
+            background: #c00;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            line-height: 16px;
+            text-align: center;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            border: 1px solid white;
+        }
+        .color-swatch:hover .remove-tag, .glyph-tag:hover .remove-tag {
+            display: block;
+        }
+        .glyph-tag {
+            position: relative;
+            display: inline-block;
+            background-color: #f5f5f5;
+            padding: .35em .65em;
+            font-size: .9em;
+            font-weight: 700;
+            line-height: 1;
+            color: #4a4a4a;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 4px;
+            margin: 0.25rem;
+        }
+        .preset-swatch-container {
+            display: flex; flex-wrap: wrap; gap: 5px; margin: 0.5em 0;
+        }
+        .preset-swatch {
+            width: 22px; height: 22px; border: 1px solid #ccc; border-radius: 3px; cursor: pointer; padding: 0;
+        }
+        .preset-swatch:hover { border-color: #333; transform: scale(1.1); }
+        .customize-button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5em;
+            margin-top: 0.5em;
+        }
+        .customize-button-group button {
+            flex-grow: 0;
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+function createCustomizeModal() {
+    if (document.getElementById("customizeModal")) return;
+
+    const modal = document.createElement("div");
+    modal.id = "customizeModal";
+    modal.className = "modal";
+    modal.innerHTML = `
+        <div class="modal-content" style="width: 90%; max-width: 1200px;">
+            <div class="modal-header">
+                <h2>Customize Renderer</h2>
+                <span class="modal-close" id="customizeModalCloseBtn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="palette-modal-layout">
+                    <div class="palette-edit-section">
+                        <h3>Player Colours</h3>
+                        <div class="field">
+                            <label for="customizePaletteColor">Add Colour</label>
+                            <div class="control color-add-group">
+                                <hex-color-picker id="customizePaletteColor"></hex-color-picker>
+                                <input id="customizePaletteHex" type="text" style="margin: 0.5em 0;" placeholder="#RRGGBB">
+                                <div class="preset-swatch-container" id="customizePresetSwatches"></div>
+                                <div class="customize-button-group">
+                                    <button id="customizeAddColor">Add Selected Colour</button>
+                                    <button id="customizeDefaultPalette">Load Default Palette</button>
+                                    <button id="customizeColorblindPalette">Load Colourblind Palette</button>
+                                    <button id="customizeClearPalette" class="secondary">Clear Palette</button>
+                                </div>
+                        </div>
+                        <div class="tags" id="customizePaletteColors" style="margin-top: 1em;"></div>
+                        <hr>
+                        <h3>Board Colours</h3>
+                        <div class="field">
+                            <label for="customizeContextProp">Select Property</label>
+                            <div class="control">
+                                <select id="customizeContextProp">
+                                    <option value="background">Background</option>
+                                    <option value="board">Board</option>
+                                    <option value="strokes">Strokes</option>
+                                    <option value="borders">Borders</option>
+                                    <option value="labels">Labels</option>
+                                    <option value="annotations">Annotations</option>
+                                    <option value="fill">Fill</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control color-add-group">
+                                <hex-color-picker id="customizeContextColor"></hex-color-picker>
+                                <input id="customizeContextHex" type="text" style="margin-top: 0.5em; margin-bottom: 0.5em;" placeholder="#RRGGBB">
+                            </div>
+                        </div>
+                        <hr>
+                        <h3>Glyph Replacements</h3>
+                        <div class="field">
+                            <label for="customizeOriginalGlyph">Add Replacement</label>
+                            <div class="control" style="display: flex; flex-wrap: wrap; gap: 0.5em; align-items: center;">
+                                <select id="customizeOriginalGlyph"><option value="">-- Select Original --</option></select>
+                                <span>with</span>
+                                <select id="customizeSheet"></select>
+                                <select id="customizeReplacementGlyph"><option value="">-- Select Replacement --</option></select>
+                                <span>at scale</span>
+                                <input type="number" step="0.1" value="1" id="customizeScale" style="width: 5em;">
+                                <button id="customizeAddGlyphMap">Add</button>
+                            </div>
+                        </div>
+                        <div class="tags" id="customizeGlyphMapTags" style="margin-top: 1em;"></div>
+                    </div>
+                    <div class="palette-list-section">
+                        <h3>Preview</h3>
+                        <div id="customizePreview" style="border: 1px solid #ccc; min-height: 200px; padding: 10px;"></div>
+                    </div>
+                </div>
+                <div style="margin-top: 1.5em;">
+                    <h3>Settings JSON</h3>
+                    <div class="field">
+                        <div class="control">
+                            <textarea rows="8" id="customizeSettingsJson" style="width: 100%;"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="customizeReset" class="secondary">Reset to Defaults</button>
+                <button id="customizeSave" class="primary">Save and Close</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    addCustomizeStyles();
+
+    // Add event listeners
+    document.getElementById("customizeModalCloseBtn").addEventListener("click", hideCustomizeModal);
+    modal.addEventListener("click", (event) => {
+        if (event.target === modal) {
+            hideCustomizeModal();
+        }
+    });
+
+    // Palette
+    const paletteColorPicker = document.getElementById("customizePaletteColor");
+    const paletteHexInput = document.getElementById("customizePaletteHex");
+    paletteColorPicker.addEventListener('color-changed', e => {
+        paletteHexInput.value = e.detail.value;
+    });
+    paletteHexInput.addEventListener('input', () => {
+        if (/^#[0-9A-Fa-f]{6}$/.test(paletteHexInput.value)) {
+            paletteColorPicker.color = paletteHexInput.value;
+        }
+    });
+    document.getElementById("customizeAddColor").addEventListener("click", (e) => { e.preventDefault();
+        customizations.palette.push(paletteColorPicker.color);
+        settingsDirty = true;
+        syncCustomizeUI();
+    });
+    document.getElementById("customizeDefaultPalette").addEventListener("click", (e) => {
+        e.preventDefault();
+        customizations.palette = ["#e31a1c","#1f78b4","#33a02c","#ff7f00","#6a3d9a","#b15928","#ffff99","#fb9a99","#a6cee3","#b2df8a","#fdbf6f","#cab2d6"];
+        settingsDirty = true;
+        syncCustomizeUI();
+    });
+    document.getElementById("customizeColorblindPalette").addEventListener("click", (e) => {
+        e.preventDefault();
+        customizations.palette = ["#9f0162", "#8400cd", "#a40122", "#009f81", "#008df9", "#e20134", "#ff5aaf", "#00c2f9", "#ff6e3a", "#00fccf", "#ffb2fd", "#ffc33b"];
+        settingsDirty = true;
+        syncCustomizeUI();
+    });
+    document.getElementById("customizeClearPalette").addEventListener("click", (e) => {
+        e.preventDefault();
+        if (confirm("Are you sure you want to clear the palette?")) {
+            customizations.palette = [];
+            settingsDirty = true;
+            syncCustomizeUI();
+        }
+    });
+
+    // Context
+    const contextProp = document.getElementById("customizeContextProp");
+    const contextColorPicker = document.getElementById("customizeContextColor");
+    const contextHexInput = document.getElementById("customizeContextHex");
+    contextProp.addEventListener("change", updateContextDisplay);
+    const contextUpdate = (val) => {
+        customizations.colourContext[contextProp.value] = val;
+        settingsDirty = true;
+        syncCustomizeUI();
+    };
+    contextColorPicker.addEventListener('color-changed', e => {
+        contextHexInput.value = e.detail.value;
+        contextUpdate(e.detail.value);
+    });
+    contextHexInput.addEventListener('input', () => {
+        if (/^#[0-9A-Fa-f]{6}$/.test(contextHexInput.value)) {
+            contextColorPicker.color = contextHexInput.value;
+        }
+    });
+
+    // Preset swatches
+    const presetContainer = document.getElementById("customizePresetSwatches");
+    const allPresets = [
+        ...["#e31a1c","#1f78b4","#33a02c","#ff7f00","#6a3d9a","#b15928","#ffff99","#fb9a99","#a6cee3","#b2df8a","#fdbf6f","#cab2d6"],
+        null, "#000000", "#ffffff", "#808080"
+    ];
+    allPresets.forEach(c => {
+        const swatchBtn = document.createElement("button");
+        swatchBtn.className = "preset-swatch";
+        if (c === null) {
+            swatchBtn.style.background = "linear-gradient(to top right, transparent calc(50% - 1px), red, transparent calc(50% + 1px))";
+            swatchBtn.style.backgroundColor = "white";
+            swatchBtn.title = "Add default placeholder";
+        } else {
+            swatchBtn.style.backgroundColor = c;
+            swatchBtn.title = `Add ${c}`;
+        }
+        swatchBtn.onclick = (e) => {
+            e.preventDefault();
+            customizations.palette.push(c);
+            settingsDirty = true;
+            syncCustomizeUI();
+        };
+        presetContainer.appendChild(swatchBtn);
+    });
+
+    // Glyphs
+    const sheetSelect = document.getElementById("customizeSheet");
+    const replacementSelect = document.getElementById("customizeReplacementGlyph");
+    if (APRender.sheets) {
+        [...APRender.sheets.keys()].sort().forEach(s => {
+            const opt = document.createElement("option");
+            opt.value = s;
+            opt.textContent = s;
+            sheetSelect.appendChild(opt);
+        });
+    }
+    sheetSelect.addEventListener("change", () => {
+        replacementSelect.innerHTML = `<option value="">-- Select Replacement --</option>`;
+        const sheet = APRender.sheets.get(sheetSelect.value);
+        if (sheet) {
+            [...sheet.glyphs.keys()].sort().forEach(g => {
+                const opt = document.createElement("option");
+                opt.value = g;
+                opt.textContent = g;
+                replacementSelect.appendChild(opt);
+            });
+        }
+    });
+    sheetSelect.dispatchEvent(new Event("change"));
+    document.getElementById("customizeAddGlyphMap").addEventListener("click", () => {
+        const original = document.getElementById("customizeOriginalGlyph").value;
+        const replacement = document.getElementById("customizeReplacementGlyph").value;
+        const scale = parseFloat(document.getElementById("customizeScale").value);
+        if (original && replacement) {
+            const newMap = customizations.glyphmap;
+            const idx = newMap.findIndex((p) => p[0] === original);
+            const finalScale = isNaN(scale) ? 1 : scale;
+            if (idx >= 0) {
+                newMap[idx] = [original, replacement, finalScale];
+            } else {
+                newMap.push([original, replacement, finalScale]);
+            }
+            customizations.glyphmap = newMap;
+            settingsDirty = true;
+            syncCustomizeUI();
+        }
+    });
+
+    // Settings JSON
+    document.getElementById("customizeSettingsJson").addEventListener("input", (e) => {
+        try {
+            const parsed = JSON.parse(e.target.value);
+            customizations = parsed;
+            settingsDirty = true;
+            syncCustomizeUI();
+        } catch (err) {
+            // ignore parse errors while typing
+        }
+    });
+
+    // Footer buttons
+    document.getElementById("customizeSave").addEventListener("click", () => {
+        saveCustomizations();
+        hideCustomizeModal();
+        renderGame();
+    });
+    document.getElementById("customizeReset").addEventListener("click", () => {
+        const isDark = window.localStorage.getItem("darkMode") === "true";
+        customizations = JSON.parse(JSON.stringify(isDark ? defaultCustomizationsDark : defaultCustomizationsLight));
+        window.localStorage.removeItem("customizations");
+        settingsDirty = false;
+        syncCustomizeUI();
+    });
+}
+
+// --- End Customization Management ---
 
 const PREDEFINED_LOG_NAMES = ["Alice", "Bob", "Charlie", "Dave", "Eve", "Frank", "Grace", "Heidi", "Ivan", "Judy"];
 
@@ -154,8 +721,8 @@ function formatScore(score) {
 }
 
 // Helper to create a unique ID for SVG elements
-function generateUniqueSvgId(base = "stashglyph") {
-    return `${base}_${Date.now()}_${Math.random().toString(16).slice(2)}`;
+function generateUniqueSvgId(base = "") {
+    return `${base}_${nanoid()}`;
 }
 
 // Helper to format the content of a single stash item that represents a piece/glyph
@@ -169,22 +736,9 @@ function formatSingleStashItemContent(item, glyphRenderOptions) {
         const localGlyphOpts = {
             ...glyphRenderOptions,
             svgid: glyphSvgId, // Pass unique ID for the SVG element itself
+            prefix: generateUniqueSvgId(),
         };
         let glyphSvg = APRender.renderglyph(glyphName, glyphColour, localGlyphOpts);
-
-        // Ensure internal IDs within the SVG are unique to avoid conflicts
-        // APRender.renderglyph often uses "A" as a default internal defs ID.
-        const uniqueInternalDefId = `def_A_${glyphSvgId}`;
-        glyphSvg = glyphSvg.replace(/id="A"/g, `id="${uniqueInternalDefId}"`)
-                           .replace(/xlink:href="#A"/g, `xlink:href="#${uniqueInternalDefId}"`);
-        // Attempt to make other common internal def IDs unique as well, if present
-        glyphSvg = glyphSvg.replace(/id="B"/g, `id="def_B_${glyphSvgId}"`)
-                           .replace(/xlink:href="#B"/g, `xlink:href="#def_B_${glyphSvgId}"`);
-        glyphSvg = glyphSvg.replace(/id="C"/g, `id="def_C_${glyphSvgId}"`)
-                           .replace(/xlink:href="#C"/g, `xlink:href="#def_C_${glyphSvgId}"`);
-        glyphSvg = glyphSvg.replace(/id="D"/g, `id="def_D_${glyphSvgId}"`)
-                           .replace(/xlink:href="#D"/g, `xlink:href="#def_D_${glyphSvgId}"`);
-
         content += `${item.count} &times; <span class="stash-glyph-wrapper">${glyphSvg}</span>`;
         if (item.movePart) {
             content += ` <span class="stash-movepart">(${item.movePart})</span>`;
@@ -332,46 +886,32 @@ function _renderScoresSection(game, gamename, playerNames, gameFlags, glyphRende
                         swatch.style.textAlign = 'center';
                         swatch.style.fontSize = '10px';
 
-                        let hexBG = null;
-                        let playerColourIdent = playerNum;
-
-                        if (typeof game.getPlayerColour === 'function') {
-                            const gc = game.getPlayerColour(playerNum);
-                            if (typeof gc === 'string' && /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(gc)) {
-                                hexBG = gc;
-                            } else if (typeof gc === 'number') {
-                                playerColourIdent = gc;
-                            }
+                        let gc = null;
+                        if (gameFlags.includes("custom-colours") && typeof game.getPlayerColour === 'function') {
+                            gc = game.getPlayerColour(playerNum);
                         }
 
-                        if (hexBG) {
-                            swatch.style.backgroundColor = hexBG;
-                            swatch.title = `${playerName}: ${hexBG}`;
-                        } else {
-                            const localGlyphOpts = {
-                                ...glyphRenderOptions,
-                                svgid: `scoreSwatchGlyph_${metric.name.replace(/\s+/g, '_')}_${playerNum}`
-                            };
+                        const localGlyphOpts = {
+                            ...glyphRenderOptions,
+                            svgid: `scoreSwatchGlyph_${metric.name.replace(/\s+/g, '_')}_${playerNum}`,
+                            prefix: generateUniqueSvgId(),
+                        };
 
-                            try {
-                                let glyphSVG = APRender.renderglyph("piece", playerColourIdent, localGlyphOpts);
-                                const uniqueInternalDefId = `def_A_${localGlyphOpts.svgid}`;
-                                glyphSVG = glyphSVG.replace(/id="A"/g, `id="${uniqueInternalDefId}"`)
-                                                   .replace(/xlink:href="#A"/g, `xlink:href="#${uniqueInternalDefId}"`);
-                                swatch.innerHTML = glyphSVG;
-                                const svgElement = swatch.querySelector('svg');
-                                if (svgElement) {
-                                    svgElement.style.width = '100%';
-                                    svgElement.style.height = '100%';
-                                    svgElement.style.display = 'block';
-                                }
-                                swatch.title = `${playerName}: P${playerColourIdent}`;
-                            } catch (e) {
-                                console.error(`Error rendering glyph for player ${playerNum} in scores:`, e);
-                                swatch.textContent = `P${playerColourIdent}`;
-                                swatch.style.lineHeight = '20px';
-                                swatch.title = `${playerName}: P${playerColourIdent} (render error)`;
+                        try {
+                            let glyphSVG = APRender.renderglyph("piece", gc === null ? playerNum : gc, localGlyphOpts);
+                            swatch.innerHTML = glyphSVG;
+                            const svgElement = swatch.querySelector('svg');
+                            if (svgElement) {
+                                svgElement.style.width = '100%';
+                                svgElement.style.height = '100%';
+                                svgElement.style.display = 'block';
                             }
+                            swatch.title = `${playerName}: P${playerNum}`;
+                        } catch (e) {
+                            console.error(`Error rendering glyph for player ${playerNum} in scores:`, e);
+                            swatch.textContent = `P${playerNum}`;
+                            swatch.style.lineHeight = '20px';
+                            swatch.title = `${playerName}: P${playerNum} (render error)`;
                         }
                         playerDiv.appendChild(swatch);
 
@@ -464,26 +1004,8 @@ function updateGameStatusPanel(game, gamename) {
     const gameFlags = gameMetaInfo.flags || [];
     const playerNames = getPlayerNamesForStatus(game, gamename);
 
-    // Prepare glyphRenderOptions for formatStash and swatches
-    let glyphRenderOptions = {};
-    const isDark = window.sessionStorage.getItem("darkMode") === "true";
-    glyphRenderOptions.colourContext = isDark ? { ...customContextDark } : { ...customContextLight };
-
-    const playerFillRadio = document.querySelector('input[name="playerfill"]:checked');
-    if (playerFillRadio) {
-        const fillValue = playerFillRadio.value;
-        if (fillValue === "blind") {
-            glyphRenderOptions.colourBlind = true;
-        } else if (fillValue === "patterns") {
-            glyphRenderOptions.patterns = true;
-        } else if (fillValue === "custom") {
-            const selectedPaletteName = document.getElementById("selectCustomPalette").value;
-            const selectedPalette = customPalettes.find(p => p.name === selectedPaletteName);
-            if (selectedPalette && selectedPalette.colours && selectedPalette.colours.length > 0) {
-                glyphRenderOptions.colours = [...selectedPalette.colours];
-            }
-        }
-    }
+    const isDark = window.localStorage.getItem("darkMode") === "true";
+    const glyphRenderOptions = getRenderOptions();
 
     // In Check Status
     if (gameFlags.includes("check") && typeof game.inCheck === "function") {
@@ -532,239 +1054,6 @@ function updateGameStatusPanel(game, gamename) {
     }
 }
 
-function loadPalettes() {
-    const stored = window.sessionStorage.getItem("customPalettes");
-    if (stored) {
-        try {
-            customPalettes = JSON.parse(stored);
-        } catch (e) {
-            console.error("Error loading custom palettes:", e);
-            customPalettes = [];
-        }
-    } else {
-        customPalettes = [];
-    }
-    updatePaletteDropdown();
-    selectedCustomPaletteName = window.sessionStorage.getItem("selectedCustomPalette");
-    const selectElement = document.getElementById("selectCustomPalette");
-    if (selectElement) {
-        if (selectedCustomPaletteName && customPalettes.some(p => p.name === selectedCustomPaletteName)) {
-            selectElement.value = selectedCustomPaletteName;
-        } else {
-            selectElement.value = "";
-        }
-        const customRadio = document.getElementById('fillCustom');
-        if (customRadio) {
-            selectElement.disabled = !customRadio.checked;
-        } else {
-            selectElement.disabled = true;
-        }
-    }
-}
-
-function savePalettesToStorage() {
-    window.sessionStorage.setItem("customPalettes", JSON.stringify(customPalettes));
-    updatePaletteDropdown();
-}
-
-function updatePaletteDropdown() {
-    const selectElement = document.getElementById("selectCustomPalette");
-    const fillCustomRadio = document.getElementById('fillCustom');
-    const fillCustomLabel = document.getElementById('fillCustomLabel');
-    selectElement.innerHTML = "";
-
-    if (customPalettes.length === 0) {
-        selectElement.disabled = true;
-        fillCustomRadio.disabled = true;
-        if (fillCustomLabel) fillCustomLabel.classList.add("disabled-label");
-        const noPalOpt = document.createElement('option');
-        noPalOpt.value = "";
-        noPalOpt.textContent = "No palettes available";
-        noPalOpt.disabled = true;
-        noPalOpt.selected = true;
-        selectElement.appendChild(noPalOpt);
-        selectElement.value = "";
-        selectedCustomPaletteName = null;
-        window.sessionStorage.removeItem("selectedCustomPalette");
-        if (fillCustomRadio.checked) {
-            document.getElementById('fillStandard').checked = true;
-            window.sessionStorage.setItem("playerFill", "standard");
-        }
-    } else {
-        fillCustomRadio.disabled = false;
-        if (fillCustomLabel) fillCustomLabel.classList.remove("disabled-label");
-        selectElement.disabled = false;
-        customPalettes.forEach(p => {
-            const option = document.createElement('option');
-            option.value = p.name;
-            option.textContent = p.name;
-            selectElement.appendChild(option);
-        });
-        selectedCustomPaletteName = window.sessionStorage.getItem("selectedCustomPalette");
-        if (selectedCustomPaletteName && customPalettes.some(p => p.name === selectedCustomPaletteName)) {
-            selectElement.value = selectedCustomPaletteName;
-        } else {
-            selectElement.selectedIndex = 0;
-            selectedCustomPaletteName = selectElement.value;
-            window.sessionStorage.setItem("selectedCustomPalette", selectedCustomPaletteName);
-        }
-    }
-}
-
-function loadContexts() {
-    const storedLight = window.sessionStorage.getItem("customContextLight");
-    const storedDark = window.sessionStorage.getItem("customContextDark");
-    if (storedLight) {
-        try {
-            customContextLight = JSON.parse(storedLight);
-        } catch (e) { console.error("Error loading light context:", e); }
-    }
-    if (storedDark) {
-        try {
-            customContextDark = JSON.parse(storedDark);
-        } catch (e) { console.error("Error loading dark context:", e); }
-    }
-}
-
-function saveContextsToStorage() {
-    window.sessionStorage.setItem("customContextLight", JSON.stringify(customContextLight));
-    window.sessionStorage.setItem("customContextDark", JSON.stringify(customContextDark));
-}
-
-function showPaletteModal() {
-    populateSavedPalettesList();
-    document.getElementById("paletteModal").style.display = "block";
-    document.body.style.overflow = 'hidden';
-}
-
-function hidePaletteModal() {
-    document.getElementById("paletteModal").style.display = "none";
-    document.body.style.overflow = '';
-    document.getElementById("paletteNameInput").value = "";
-    document.getElementById("paletteColorInput").value = "";
-    currentPaletteColors = [];
-    updateCurrentPaletteColorDisplay();
-}
-
-function showContextModal() {
-    document.getElementById("contextModal").style.display = "block";
-    document.body.style.overflow = 'hidden';
-    setTimeout(() => {
-        loadContextForEditing(document.getElementById("selectContextMode").value);
-    }, 50);
-}
-
-function hideContextModal() {
-    document.getElementById("contextModal").style.display = "none";
-    document.body.style.overflow = '';
-}
-
-function addColourToCurrentPalette() {
-    const colorInput = document.getElementById("paletteColorInput");
-    const color = colorInput.value.trim();
-    if (/^#[0-9A-Fa-f]{6}$/.test(color) && !currentPaletteColors.includes(color)) {
-        currentPaletteColors.push(color);
-        updateCurrentPaletteColorDisplay();
-    } else if (currentPaletteColors.includes(color)) {
-        alert("Color already added to this palette.");
-    } else {
-        alert("Invalid color value.");
-    }
-}
-
-function deleteColourFromCurrentPalette(color) {
-    currentPaletteColors = currentPaletteColors.filter(c => c !== color);
-    updateCurrentPaletteColorDisplay();
-}
-
-function updateCurrentPaletteColorDisplay() {
-    const container = document.getElementById("currentPaletteColors");
-    container.innerHTML = "";
-    currentPaletteColors.forEach((color, index) => {
-        const swatch = document.createElement('span');
-        swatch.className = 'color-swatch';
-        swatch.style.backgroundColor = color;
-        swatch.textContent = `P${index + 1}`;
-        swatch.title = `Click to remove ${color}. Drag to reorder.`;
-        swatch.dataset.color = color;
-        swatch.dataset.index = index;
-        swatch.draggable = true;
-
-        swatch.addEventListener('dragstart', handleDragStart);
-        swatch.addEventListener('dragover', handleDragOver);
-        swatch.addEventListener('drop', handleDrop);
-        swatch.addEventListener('dragend', handleDragEnd);
-        swatch.addEventListener('dragenter', handleDragEnter);
-        swatch.addEventListener('dragleave', handleDragLeave);
-
-        swatch.addEventListener('click', (e) => {
-            if (e.target === swatch) {
-                deleteColourFromCurrentPalette(color);
-            }
-        });
-
-        container.appendChild(swatch);
-    });
-}
-
-// Drag and Drop Handlers for palette color reordering
-function handleDragStart(e) {
-    draggedColor = e.target.dataset.color;
-    e.target.classList.add('dragging');
-    e.dataTransfer.setData('text/plain', draggedColor);
-    e.dataTransfer.effectAllowed = 'move';
-}
-
-function handleDragOver(e) {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
-}
-
-function handleDragEnter(e) {
-    e.preventDefault();
-    if (e.target.classList.contains('color-swatch') && e.target.dataset.color !== draggedColor) {
-        e.target.classList.add('drag-over-target');
-    }
-}
-
-function handleDragLeave(e) {
-    if (e.target.classList.contains('color-swatch')) {
-        e.target.classList.remove('drag-over-target');
-    }
-}
-
-function handleDrop(e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const targetSwatch = e.target.closest('.color-swatch');
-    targetSwatch.classList.remove('drag-over-target');
-
-    if (!targetSwatch || targetSwatch.dataset.color === draggedColor) {
-        return;
-    }
-
-    const droppedColor = draggedColor;
-    const targetColor = targetSwatch.dataset.color;
-
-    const draggedIndex = currentPaletteColors.indexOf(droppedColor);
-    const targetIndex = currentPaletteColors.indexOf(targetColor);
-
-    if (draggedIndex !== -1 && targetIndex !== -1) {
-        currentPaletteColors.splice(draggedIndex, 1);
-        currentPaletteColors.splice(targetIndex, 0, droppedColor);
-        updateCurrentPaletteColorDisplay();
-    }
-}
-
-function handleDragEnd(e) {
-    e.target.classList.remove('dragging');
-    document.querySelectorAll('.color-swatch.drag-over-target').forEach(el => {
-        el.classList.remove('drag-over-target');
-    });
-    draggedColor = null;
-}
-
 // Utility for showing a temporary status message in a modal
 function showModalStatus(id, msg, isError = false) {
     const el = document.getElementById(id);
@@ -776,249 +1065,14 @@ function showModalStatus(id, msg, isError = false) {
     setTimeout(() => { el.textContent = ""; el.classList.remove('error', 'fade'); }, 2400);
 }
 
-function saveOrUpdatePalette() {
-    const nameInput = document.getElementById("paletteNameInput");
-    const name = nameInput.value.trim();
-    if (!name) {
-        showModalStatus("paletteModalStatus", "Palette name cannot be empty.", true);
-        return;
-    }
-    if (currentPaletteColors.length < 2) {
-        showModalStatus("paletteModalStatus", "A palette must have at least two colors.", true);
-        return;
-    }
-
-    const existingIndex = customPalettes.findIndex(p => p.name === name);
-    if (existingIndex > -1) {
-        customPalettes[existingIndex].colours = [...currentPaletteColors];
-        showModalStatus("paletteModalStatus", "Palette updated.");
-    } else {
-        customPalettes.push({ name: name, colours: [...currentPaletteColors] });
-        showModalStatus("paletteModalStatus", "Palette saved.");
-    }
-    savePalettesToStorage();
-    populateSavedPalettesList();
-    nameInput.value = "";
-    currentPaletteColors = [];
-    updateCurrentPaletteColorDisplay();
-}
-
-function deletePalette(name) {
-    customPalettes = customPalettes.filter(p => p.name !== name);
-    savePalettesToStorage();
-    populateSavedPalettesList();
-    if (selectedCustomPaletteName === name) {
-        selectedCustomPaletteName = null;
-        window.sessionStorage.removeItem("selectedCustomPalette");
-        document.getElementById("selectCustomPalette").value = "";
-        renderGame();
-    }
-    showModalStatus("paletteModalStatus", "Palette deleted.");
-}
-
-function loadPaletteForEditing(name) {
-    const palette = customPalettes.find(p => p.name === name);
-    if (palette) {
-        document.getElementById("paletteNameInput").value = palette.name;
-        currentPaletteColors = [...palette.colours];
-        updateCurrentPaletteColorDisplay();
-    }
-}
-
-function populateSavedPalettesList() {
-    const listElement = document.getElementById("savedPalettesList");
-    listElement.innerHTML = "";
-
-    if (customPalettes.length === 0) {
-        listElement.innerHTML = '<li class="no-palettes-message">No custom palettes saved yet.</li>';
-        return;
-    }
-
-    customPalettes.forEach(p => {
-        const li = document.createElement('li');
-        const infoDiv = document.createElement('div');
-        infoDiv.className = 'palette-list-item-info';
-
-        const nameSpan = document.createElement('span');
-        nameSpan.textContent = p.name;
-        infoDiv.appendChild(nameSpan);
-
-        p.colours.forEach((color, index) => {
-            const swatch = document.createElement('span');
-            swatch.className = 'color-swatch-small';
-            swatch.style.backgroundColor = color;
-            swatch.title = `P${index + 1}: ${color}`;
-            swatch.textContent = `P${index + 1}`;
-            infoDiv.appendChild(swatch);
-        });
-        li.appendChild(infoDiv);
-
-        const actionsDiv = document.createElement('div');
-        actionsDiv.className = 'palette-list-item-actions';
-
-        const editBtn = document.createElement('button');
-        editBtn.textContent = 'Load for Editing';
-        editBtn.className = 'button is-small is-inline';
-        editBtn.onclick = () => loadPaletteForEditing(p.name);
-        actionsDiv.appendChild(editBtn);
-
-        const deleteBtn = document.createElement('button');
-        deleteBtn.textContent = 'Delete';
-        deleteBtn.className = 'button is-small is-danger is-inline';
-        deleteBtn.onclick = () => deletePalette(p.name);
-        actionsDiv.appendChild(deleteBtn);
-
-        li.appendChild(actionsDiv);
-
-        listElement.appendChild(li);
-    });
-}
-
-function loadContextForEditing(mode) {
-    const context = (mode === 'dark') ? customContextDark : customContextLight;
-    const fields = ["Background", "Fill", "Strokes", "Borders", "Labels", "Annotations"];
-    fields.forEach(field => {
-        const key = field.toLowerCase();
-        const colorInput = document.getElementById(`context${field}`);
-        const hexInput = document.getElementById(`context${field}HexInput`);
-        if (context[key]) {
-            colorInput.value = context[key];
-            hexInput.value = context[key];
-        } else {
-            colorInput.value = '#000000';
-            hexInput.value = '#000000';
-        }
-    });
-    renderContextSample();
-}
-
-function saveContext() {
-    const mode = document.getElementById("selectContextMode").value;
-    const contextToSave = {};
-    let isValid = true;
-    const fields = ["Background", "Fill", "Strokes", "Borders", "Labels", "Annotations"];
-    fields.forEach(field => {
-        const input = document.getElementById(`context${field}`);
-        const value = input.value.trim();
-        if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
-            contextToSave[field.toLowerCase()] = value;
-        } else {
-            showModalStatus("contextModalStatus", `Invalid hex color for ${field}: ${value}`, true);
-            isValid = false;
-        }
-    });
-
-    if (isValid) {
-        if (mode === 'dark') {
-            customContextDark = contextToSave;
-        } else {
-            customContextLight = contextToSave;
-        }
-        saveContextsToStorage();
-        renderGame();
-        showModalStatus("contextModalStatus", "Context saved.");
-    }
-}
-
-function resetContext() {
-    const mode = document.getElementById("selectContextMode").value;
-    if (mode === 'dark') {
-        customContextDark = { background: "#222", strokes: "#6d6d6d", borders: "#000", labels: "#009fbf", annotations: "#99cccc", fill: "#e6f2f2" };
-    } else {
-        customContextLight = { background: "#fff", strokes: "#000", borders: "#000", labels: "#000", annotations: "#000", fill: "#000" };
-    }
-    saveContextsToStorage();
-    loadContextForEditing(mode);
-    renderGame();
-    showModalStatus("contextModalStatus", "Context reset to defaults.");
-}
-
-function renderContextSample() {
-    const sampleDiv = document.getElementById("contextSampleRender");
-    sampleDiv.innerHTML = "";
-    const mode = document.getElementById("selectContextMode").value;
-    const currentContextInModal = {};
-    const fields = ["Background", "Fill", "Strokes", "Borders", "Labels", "Annotations"];
-    let isValid = true;
-
-    fields.forEach(field => {
-        const key = field.toLowerCase();
-        const input = document.getElementById(`context${field}`);
-        const value = input.value;
-        const hexInput = document.getElementById(`context${field}HexInput`);
-        hexInput.value = value;
-        if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
-            currentContextInModal[key] = value;
-        } else {
-            isValid = false;
-        }
-    });
-
-    if (!isValid) {
-        sampleDiv.textContent = "Invalid hex code detected.";
-        sampleDiv.style.backgroundColor = "inherit";
-        return;
-    }
-
-    sampleDiv.style.backgroundColor = currentContextInModal.background;
-
-    // Minimal sample data for context preview
-    const json = JSON.parse(
-        `{"board":{"style":"squares-checkered","width":3,"height":3},"legend":{"A":{"name":"piece","colour":1},"B":{"name":"piece","colour":2}},"pieces":"A-B\\n-A-\\nB-A","annotations":[{"type":"move","targets":[{"row":0,"col":0},{"row":1,"col":1}]}]}`
-      );
-    const options = {
-        divid: "contextSampleRender",
-        svgid: "contextSampleSVG",
-        colourContext: currentContextInModal,
-        height: "180px",
-        width: "100%",
-        preserveAspectRatio: "xMidYMid meet"
-    };
-    try {
-        APRender.render(json, options);
-    } catch (e) {
-        console.error("Error rendering context sample:", e);
-        sampleDiv.textContent = "Error rendering sample.";
-    }
-}
-
-// --- End Palette and Context Management ---
-
 function renderGame(...args) {
     var myNode = document.getElementById("drawing");
     while (myNode.lastChild) {
         myNode.removeChild(myNode.lastChild);
     }
-    var options = args[2] || {divid: "drawing"};
+    var options = getRenderOptions(args[2] || {});
     options.divid = "drawing";
-
-    const isDark = window.sessionStorage.getItem("darkMode") === "true";
-    loadContexts();
-    const currentContext = isDark ? customContextDark : customContextLight;
-    if (!options.hasOwnProperty("colourContext")) {
-        options.colourContext = { ...currentContext };
-    }
-
-    if (options.colourContext && options.colourContext.background) {
-        myNode.style.backgroundColor = options.colourContext.background;
-    } else {
-        myNode.style.backgroundColor = "";
-    }
-
-    var radio = document.querySelector('input[name="playerfill"]:checked').value;
-    if (radio === "blind") {
-        options.colourBlind = true;
-    } else if (radio === "patterns") {
-        options.patterns = true;
-    } else if (radio === "custom") {
-        const selectedPaletteName = document.getElementById("selectCustomPalette").value;
-        const selectedPalette = customPalettes.find(p => p.name === selectedPaletteName);
-        if (selectedPalette && selectedPalette.colours && selectedPalette.colours.length > 0) {
-            options.colours = selectedPalette.colours;
-        } else {
-            console.warn("Custom palette selected but not found or invalid. Using default colors.");
-        }
-    }
+    myNode.style.backgroundColor = options.colourContext?.background || "#fff";
 
     var rotval = parseInt(document.getElementById("rotation").value, 10);
     if ( (rotval !== undefined) && (rotval !== null) && (!isNaN(rotval)) && (rotval !== 0) ) {
@@ -1033,19 +1087,19 @@ function renderGame(...args) {
     options.height = "100%";
     options.width = "100%";
     options.preserveAspectRatio = "xMidYMid meet";
-    var state = window.sessionStorage.getItem("state");
+    var state = window.localStorage.getItem("state");
     const displayOptionsContainer = document.getElementById("displayOptionsContainer");
     const clickStatusBox = document.getElementById("clickstatus");
     const playerInfoDisplay = document.getElementById("playerInfoDisplay");
 
-    let selectedDisplay = window.sessionStorage.getItem("selectedDisplay") || "default";
+    let selectedDisplay = window.localStorage.getItem("selectedDisplay") || "default";
     const checkedDisplayRadio = document.querySelector('input[name="displayOption"]:checked');
     if (checkedDisplayRadio) {
         selectedDisplay = checkedDisplayRadio.value;
     }
 
     if (state !== null) {
-        var gamename = window.sessionStorage.getItem("gamename");
+        var gamename = window.localStorage.getItem("gamename");
         const isVolcanoFamily = (gamename === "volcano") || (gamename === "mvolcano");
         const isExpandingDisplay = selectedDisplay === "expanding";
 
@@ -1067,6 +1121,7 @@ function renderGame(...args) {
         }
 
         var game = APGames.GameFactory(gamename, state);
+        const isDark = window.localStorage.getItem("darkMode") === "true";
 
         if (game.gameover && clickStatusBox) {
             var winnerStr = game.winner.length > 0 ? game.winner.join(", ") : "none";
@@ -1085,6 +1140,7 @@ function renderGame(...args) {
             const gameMetaInfo = APGames.gameinfo.get(gamename);
             let playerNames = [];
             const hasSharedPieces = gameMetaInfo && gameMetaInfo.flags && gameMetaInfo.flags.includes("shared-pieces");
+            const hasCustomColours = gameMetaInfo && gameMetaInfo.flags && gameMetaInfo.flags.includes("custom-colours");
 
             if (typeof game.getPlayerNames === "function") {
                 playerNames = game.getPlayerNames();
@@ -1126,58 +1182,37 @@ function renderGame(...args) {
                     swatch.style.backgroundColor = 'transparent'; // Ensure no bg color from previous states
                     swatch.style.lineHeight = '20px'; // Vertically center text
                 } else {
-                    let hexBG = null;
-                    let playerColourIdent = p;
-
-                    if (typeof game.getPlayerColour === 'function') {
-                        const gc = game.getPlayerColour(p);
-                        if (typeof gc === 'string' && /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(gc)) {
-                            hexBG = gc;
-                        } else if (typeof gc === 'number') {
-                            playerColourIdent = gc;
-                        }
+                    let gc = null;
+                    if (hasCustomColours && typeof game.getPlayerColour === 'function') {
+                        gc = game.getPlayerColour(p);
                     }
 
-                    if (hexBG) {
-                        swatch.style.backgroundColor = hexBG;
-                        swatch.title = `${playerName}: ${hexBG}`;
-                    } else {
-                        // Prepare options for renderglyph
-                        const glyphOpts = {
-                            colourContext: { ...options.colourContext }, // Pass a copy
-                            svgid: `playerSwatchGlyph_${p}` // Unique ID for the glyph
-                        };
-                        if (options.colourBlind) {
-                            glyphOpts.colourBlind = true;
-                        }
-                        if (options.patterns) {
-                            glyphOpts.patterns = true;
-                        }
-                        if (options.colours) { // Custom palette
-                            glyphOpts.colours = [...options.colours];
-                        }
+                    const glyphOpts = getRenderOptions({svgid: `playerSwatchGlyph_${p}`, prefix: generateUniqueSvgId()});
+                    // The following properties are not used by renderglyph and should be removed to avoid confusion
+                    delete glyphOpts.divid;
+                    delete glyphOpts.divelem;
+                    delete glyphOpts.target;
+                    delete glyphOpts.width;
+                    delete glyphOpts.height;
+                    delete glyphOpts.boardClick;
+                    delete glyphOpts.boardHover;
 
-                        try {
-                            let glyphSVG = APRender.renderglyph("piece", playerColourIdent, glyphOpts);
-                            // Ensure internal IDs within the SVG are unique to avoid conflicts
-                            const uniqueInternalDefId = `def_A_${glyphOpts.svgid}`; // e.g., def_A_playerSwatchGlyph_1
-                            glyphSVG = glyphSVG.replace(/id="A"/g, `id="${uniqueInternalDefId}"`)
-                                               .replace(/xlink:href="#A"/g, `xlink:href="#${uniqueInternalDefId}"`);
-                            swatch.innerHTML = glyphSVG;
-                            // Ensure the SVG inside the swatch scales correctly
-                            const svgElement = swatch.querySelector('svg');
-                            if (svgElement) {
-                                svgElement.style.width = '100%';
-                                svgElement.style.height = '100%';
-                                svgElement.style.display = 'block';
-                            }
-                            swatch.title = `${playerName}: P${playerColourIdent}`;
-                        } catch (e) {
-                            console.error(`Error rendering glyph for player ${p}:`, e);
-                            swatch.textContent = `P${playerColourIdent}`;
-                            swatch.style.lineHeight = '20px'; // Vertically center text
-                            swatch.title = `${playerName}: P${playerColourIdent} (render error)`;
+                    try {
+                        let glyphSVG = APRender.renderglyph("piece", gc === null ? p : gc, glyphOpts);
+                        swatch.innerHTML = glyphSVG;
+                        // Ensure the SVG inside the swatch scales correctly
+                        const svgElement = swatch.querySelector('svg');
+                        if (svgElement) {
+                            svgElement.style.width = '100%';
+                            svgElement.style.height = '100%';
+                            svgElement.style.display = 'block';
                         }
+                        swatch.title = `${playerName}: P${p}`;
+                    } catch (e) {
+                        console.error(`Error rendering glyph for player ${p}:`, e);
+                        swatch.textContent = `P${p}`;
+                        swatch.style.lineHeight = '20px'; // Vertically center text
+                        swatch.title = `${playerName}: P${p} (render error)`;
                     }
                 }
                 const nameSpan = document.createElement('span');
@@ -1195,11 +1230,11 @@ function renderGame(...args) {
             displayOptionsContainer.style.display = 'block';
         }
 
-        var data = JSON.parse(window.sessionStorage.getItem("interim"));
+        var data = JSON.parse(window.localStorage.getItem("interim"));
 
-        let renderOpts = { perspective: game.currplayer };
+        let renderOpts = getRenderOptions({ perspective: game.currplayer });
         if (selectedDisplay !== "default") {
-            renderOpts = { altDisplay: selectedDisplay };
+            renderOpts.altDisplay = selectedDisplay;
         }
         if (data === null) {
             data = game.render(renderOpts);
@@ -1317,16 +1352,16 @@ function renderGame(...args) {
 
 // Redo stack management
 function getRedoStack() {
-    const stackJSON = window.sessionStorage.getItem("redoStack");
+    const stackJSON = window.localStorage.getItem("redoStack");
     return stackJSON ? JSON.parse(stackJSON) : [];
 }
 
 function setRedoStack(stack) {
-    window.sessionStorage.setItem("redoStack", JSON.stringify(stack));
+    window.localStorage.setItem("redoStack", JSON.stringify(stack));
 }
 
 function clearRedoStack() {
-    window.sessionStorage.removeItem("redoStack");
+    window.localStorage.removeItem("redoStack");
 }
 
 var textFile = null,
@@ -1343,8 +1378,9 @@ function setDarkMode(isDark) {
     const sidebar = document.querySelector('.sidebar');
     const scrollPosition = sidebar.scrollTop;
 
-    window.sessionStorage.setItem("darkMode", isDark ? "true" : "false");
+    window.localStorage.setItem("darkMode", isDark ? "true" : "false");
     document.body.setAttribute('data-theme', isDark ? 'dark' : 'light');
+    loadCustomizations();
     renderGame();
     document.getElementById("darkMode").textContent = isDark ? "Light Mode" : "Dark Mode";
 
@@ -1491,7 +1527,7 @@ function updateDisplayOptions(gameEngine) {
             });
             displayOptionsContainer.appendChild(fieldset);
 
-            const savedDisplay = window.sessionStorage.getItem("selectedDisplay") || "default";
+            const savedDisplay = window.localStorage.getItem("selectedDisplay") || "default";
             const displayRadio = document.getElementById(`display_${savedDisplay}`);
             if (displayRadio) {
                 displayRadio.checked = true;
@@ -1499,7 +1535,7 @@ function updateDisplayOptions(gameEngine) {
                 const defaultDisplayRadio = document.getElementById('display_default');
                 if (defaultDisplayRadio) {
                     defaultDisplayRadio.checked = true;
-                    window.sessionStorage.setItem("selectedDisplay", "default");
+                    window.localStorage.setItem("selectedDisplay", "default");
                 }
             }
             displayOptionsContainer.style.display = 'block';
@@ -1512,43 +1548,35 @@ document.addEventListener("DOMContentLoaded", function(event) {
     var { t } = i18n;
 
     const autoSubmitCheckbox = document.getElementById("autoSubmit");
-    const savedAutoSubmit = window.sessionStorage.getItem("autoSubmit");
+    const savedAutoSubmit = window.localStorage.getItem("autoSubmit");
     if (savedAutoSubmit !== null) {
         autoSubmitCheckbox.checked = savedAutoSubmit === "true";
     }
 
-    const savedPlayerFill = window.sessionStorage.getItem("playerFill");
-    if (savedPlayerFill !== null) {
-        const playerFillRadio = document.querySelector(`input[name="playerfill"][value="${savedPlayerFill}"]`);
-        if (playerFillRadio) {
-            playerFillRadio.checked = true;
-        }
-    }
-
     const rotationInput = document.getElementById("rotation");
-    const savedRotation = window.sessionStorage.getItem("rotation");
+    const savedRotation = window.localStorage.getItem("rotation");
     if (savedRotation !== null) {
         rotationInput.value = savedRotation;
     }
 
     const annotateCheckbox = document.getElementById("annotate");
-    const savedAnnotate = window.sessionStorage.getItem("annotate");
+    const savedAnnotate = window.localStorage.getItem("annotate");
     if (savedAnnotate !== null) {
         annotateCheckbox.checked = savedAnnotate === "true";
     }
 
     const detailsElements = document.querySelectorAll('.sidebar details');
     detailsElements.forEach(details => {
-        const savedOpenState = window.sessionStorage.getItem(`detailsOpen_${details.id}`);
+        const savedOpenState = window.localStorage.getItem(`detailsOpen_${details.id}`);
         if (savedOpenState !== null) {
             details.open = savedOpenState === "true";
         }
     });
 
-    loadPalettes();
-    loadContexts();
+    loadCustomizations();
+    createCustomizeModal();
 
-    const isDark = window.sessionStorage.getItem("darkMode") === "true";
+    const isDark = window.localStorage.getItem("darkMode") === "true";
     setDarkMode(isDark);
 
     var select = document.getElementById("selectGame");
@@ -1564,61 +1592,39 @@ document.addEventListener("DOMContentLoaded", function(event) {
     });
 
     autoSubmitCheckbox.addEventListener("change", () => {
-        window.sessionStorage.setItem("autoSubmit", autoSubmitCheckbox.checked);
+        window.localStorage.setItem("autoSubmit", autoSubmitCheckbox.checked);
     });
 
-    document.getElementsByName("playerfill").forEach(el => {
-        el.addEventListener("change", (event) => {
-            if (event.target.checked) {
-                window.sessionStorage.setItem("playerFill", event.target.value);
-                const customSelect = document.getElementById("selectCustomPalette");
-                const fillCustomRadio = document.getElementById("fillCustom");
-                const fillCustomLabel = document.getElementById("fillCustomLabel");
-                if (customPalettes.length === 0) {
-                    customSelect.disabled = true;
-                    fillCustomRadio.disabled = true;
-                    if (fillCustomLabel) fillCustomLabel.classList.add("disabled-label");
-                    if (fillCustomRadio.checked) {
-                        document.getElementById('fillStandard').checked = true;
-                        window.sessionStorage.setItem("playerFill", "standard");
-                    }
-                } else {
-                    customSelect.disabled = false;
-                    fillCustomRadio.disabled = false;
-                    if (fillCustomLabel) fillCustomLabel.classList.remove("disabled-label");
-                }
-                renderGame();
-            }
-        });
-    });
-
-    document.getElementById("selectCustomPalette").addEventListener("change", (event) => {
-        selectedCustomPaletteName = event.target.value;
-        window.sessionStorage.setItem("selectedCustomPalette", selectedCustomPaletteName);
-        if (selectedCustomPaletteName) {
-            document.getElementById('fillCustom').checked = true;
-            window.sessionStorage.setItem("playerFill", "custom");
-            renderGame();
-        }
-    });
+    const renderSettings = document.getElementById("details-render-settings");
+    const customizeBtn = document.createElement("button");
+    customizeBtn.id = "customizeBtn";
+    customizeBtn.textContent = "Customize Renderer...";
+    customizeBtn.className = "button is-small";
+    customizeBtn.style.marginTop = "0.5em";
+    customizeBtn.addEventListener("click", showCustomizeModal);
+    const existingContent = renderSettings.querySelector(".render-settings-content");
+    if (existingContent) {
+        existingContent.innerHTML = "";
+        existingContent.appendChild(customizeBtn);
+    }
 
     rotationInput.addEventListener("input", () => {
-        window.sessionStorage.setItem("rotation", rotationInput.value);
+        window.localStorage.setItem("rotation", rotationInput.value);
         renderGame();
     });
 
     annotateCheckbox.addEventListener("change", () => {
-        window.sessionStorage.setItem("annotate", annotateCheckbox.checked);
+        window.localStorage.setItem("annotate", annotateCheckbox.checked);
         renderGame();
     });
 
     detailsElements.forEach(details => {
         details.addEventListener("toggle", () => {
-            window.sessionStorage.setItem(`detailsOpen_${details.id}`, details.open);
+            window.localStorage.setItem(`detailsOpen_${details.id}`, details.open);
         });
     });
 
-    const savedPlayerCount = window.sessionStorage.getItem("playerCount");
+    const savedPlayerCount = window.localStorage.getItem("playerCount");
     let currentPlayerCount = savedPlayerCount ? parseInt(savedPlayerCount, 10) : 2;
 
     select.addEventListener("change", (e) => {
@@ -1798,7 +1804,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             currentPlayerCount = pcToSelect;
             selectPC.addEventListener("change", () => {
                 currentPlayerCount = parseInt(selectPC.value, 10);
-                window.sessionStorage.setItem("playerCount", currentPlayerCount);
+                window.localStorage.setItem("playerCount", currentPlayerCount);
             });
             playerCountContainer.appendChild(label);
             playerCountContainer.appendChild(selectPC);
@@ -1812,8 +1818,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
     if (displayOptionsContainer) {
         displayOptionsContainer.addEventListener('change', (event) => {
             if (event.target.type === 'radio' && event.target.name === 'displayOption') {
-                window.sessionStorage.removeItem("interim");
-                window.sessionStorage.setItem("selectedDisplay", event.target.value);
+                window.localStorage.removeItem("interim");
+                window.localStorage.setItem("selectedDisplay", event.target.value);
                 renderGame();
             }
         });
@@ -1833,7 +1839,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             const pcSelect = document.getElementById("playerCountSelect");
             if (pcSelect) {
                 playerCount = parseInt(pcSelect.value, 10);
-                window.sessionStorage.setItem("playerCount", playerCount);
+                window.localStorage.setItem("playerCount", playerCount);
             }
         }
 
@@ -1858,11 +1864,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
             return;
         }
 
-        window.sessionStorage.setItem("state", game.serialize());
-        window.sessionStorage.setItem("gamename", gameUid);
-        window.sessionStorage.removeItem("interim");
+        window.localStorage.setItem("state", game.serialize());
+        window.localStorage.setItem("gamename", gameUid);
+        window.localStorage.removeItem("interim");
         clearRedoStack();
-        window.sessionStorage.setItem("selectedDisplay", "default");
+        window.localStorage.setItem("selectedDisplay", "default");
 
         updateDisplayOptions(game);
 
@@ -1873,7 +1879,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         var resultStr = '<p style="color: #888">' + result.message + '</p>';
         var statusbox = document.getElementById("clickstatus");
         statusbox.innerHTML = resultStr;
-        const isDark = window.sessionStorage.getItem("darkMode") === "true";
+        const isDark = window.localStorage.getItem("darkMode") === "true";
         if (isDark) {
             setDarkMode(true);
         } else {
@@ -1893,17 +1899,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     let injectedPlayerCount = 2;
                     if (parsed.numplayers) {
                         injectedPlayerCount = parseInt(parsed.numplayers, 10);
-                        window.sessionStorage.setItem("playerCount", injectedPlayerCount);
+                        window.localStorage.setItem("playerCount", injectedPlayerCount);
                         currentPlayerCount = injectedPlayerCount;
                     }
                     const game = APGames.GameFactory(meta, parsed.numplayers || undefined, undefined);
                     if (game !== undefined) {
                         field.value = "";
-                        window.sessionStorage.setItem("state", game.serialize());
-                        window.sessionStorage.setItem("gamename", meta);
-                        window.sessionStorage.removeItem("interim");
+                        window.localStorage.setItem("state", game.serialize());
+                        window.localStorage.setItem("gamename", meta);
+                        window.localStorage.removeItem("interim");
                         clearRedoStack();
-                        window.sessionStorage.setItem("selectedDisplay", "default");
+                        window.localStorage.setItem("selectedDisplay", "default");
 
                         const selectElement = document.getElementById("selectGame");
                         if (selectElement.value !== meta) {
@@ -1936,9 +1942,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     document.getElementById("moveBtn").addEventListener("click", () => {
         var movebox = document.getElementById("moveEntry");
-        var state = window.sessionStorage.getItem("state");
+        var state = window.localStorage.getItem("state");
         if (state !== null) {
-            var gamename = window.sessionStorage.getItem("gamename");
+            var gamename = window.localStorage.getItem("gamename");
             var game = APGames.GameFactory(gamename, state);
             var waserror = false;
 
@@ -1978,17 +1984,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     statusbox.innerHTML = resultStr;
                 }
             }
-            window.sessionStorage.setItem("state", game.serialize());
-            window.sessionStorage.removeItem("interim");
+            window.localStorage.setItem("state", game.serialize());
+            window.localStorage.removeItem("interim");
             renderGame();
             updateGameStatusPanel(game, gamename);
         }
     });
 
     document.getElementById("moveRandom").addEventListener("click", () => {
-        var state = window.sessionStorage.getItem("state");
+        var state = window.localStorage.getItem("state");
         if (state !== null) {
-            var gamename = window.sessionStorage.getItem("gamename");
+            var gamename = window.localStorage.getItem("gamename");
             var game = APGames.GameFactory(gamename, state);
             if (typeof game.moves !== 'function' && !APGames.gameinfo.get(gamename).flags.includes("custom-randomization")) {
                 alert("This game doesn't support random moves.")
@@ -2035,24 +2041,24 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 }
                 console.log("Game state: "+state);
             }
-            window.sessionStorage.setItem("state", game.serialize());
-            window.sessionStorage.removeItem("interim");
+            window.localStorage.setItem("state", game.serialize());
+            window.localStorage.removeItem("interim");
             renderGame();
             updateGameStatusPanel(game, gamename);
         }
     });
 
     document.getElementById("moveClear").addEventListener("click", () => {
-        window.sessionStorage.removeItem("interim");
+        window.localStorage.removeItem("interim");
         var movebox = document.getElementById("moveEntry");
         movebox.value = "";
         renderGame();
     });
 
     document.getElementById("moveUndo").addEventListener("click", () => {
-        var state = window.sessionStorage.getItem("state");
+        var state = window.localStorage.getItem("state");
         if (state !== null) {
-            var gamename = window.sessionStorage.getItem("gamename");
+            var gamename = window.localStorage.getItem("gamename");
             var game = APGames.GameFactory(gamename, state);
             try {
                 if (game.stack.length > 1) {
@@ -2061,8 +2067,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     game.undo();
                     game.gameover = false;
                     game.winner = [];
-                    window.sessionStorage.setItem("state", game.serialize());
-                    window.sessionStorage.removeItem("interim");
+                    window.localStorage.setItem("state", game.serialize());
+                    window.localStorage.removeItem("interim");
 
                     if (typeof moveToUndo === 'string' && moveToUndo.length > 0) {
                         let redoStack = getRedoStack();
@@ -2088,14 +2094,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
     });
 
     document.getElementById("moveRedo").addEventListener("click", () => {
-        var state = window.sessionStorage.getItem("state");
+        var state = window.localStorage.getItem("state");
         if (state !== null) {
             let redoStack = getRedoStack();
             if (redoStack.length > 0) {
                 const moveToRedo = redoStack.pop();
                 setRedoStack(redoStack);
 
-                var gamename = window.sessionStorage.getItem("gamename");
+                var gamename = window.localStorage.getItem("gamename");
                 var game = APGames.GameFactory(gamename, state);
                 var waserror = false;
                 try {
@@ -2128,8 +2134,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                         statusbox.innerHTML = resultStr;
                     }
 
-                    window.sessionStorage.setItem("state", game.serialize());
-                    window.sessionStorage.removeItem("interim");
+                    window.localStorage.setItem("state", game.serialize());
+                    window.localStorage.removeItem("interim");
                     renderGame();
                 }
             }
@@ -2137,9 +2143,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
     });
 
     document.getElementById("aiFast").addEventListener("click", () => {
-        var state = window.sessionStorage.getItem("state");
+        var state = window.localStorage.getItem("state");
         if (state !== null) {
-            var gamename = window.sessionStorage.getItem("gamename");
+            var gamename = window.localStorage.getItem("gamename");
             var game = APGames.GameFactory(gamename, state);
             if (gamename !== null) {
                 var depth = APGames.aiFast.get(gamename);
@@ -2152,8 +2158,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     var factory = APGames.AIFactory(gamename);
                     var move = factory.constructor.findmove(game.state(), depth);
                     game.move(move);
-                    window.sessionStorage.setItem("state", game.serialize());
-                    window.sessionStorage.removeItem("interim");
+                    window.localStorage.setItem("state", game.serialize());
+                    window.localStorage.removeItem("interim");
                     if (game.gameover) {
                         var winnerStr = game.winner.length > 0 ? game.winner.join(", ") : "none";
                         document.getElementById("clickstatus").innerHTML = '<p style="color: #0a0; font-weight: bold;">Game Over! Winner: Player ' + winnerStr + '</p>';
@@ -2168,9 +2174,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
     });
 
     document.getElementById("aiSlow").addEventListener("click", () => {
-        var state = window.sessionStorage.getItem("state");
+        var state = window.localStorage.getItem("state");
         if (state !== null) {
-            var gamename = window.sessionStorage.getItem("gamename");
+            var gamename = window.localStorage.getItem("gamename");
             var game = APGames.GameFactory(gamename, state);
             if (gamename !== null) {
                 var depth = APGames.aiSlow.get(gamename);
@@ -2183,8 +2189,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     var factory = APGames.AIFactory(gamename);
                     var move = factory.constructor.findmove(game.state(), depth);
                     game.move(move);
-                    window.sessionStorage.setItem("state", game.serialize());
-                    window.sessionStorage.removeItem("interim");
+                    window.localStorage.setItem("state", game.serialize());
+                    window.localStorage.removeItem("interim");
                     if (game.gameover) {
                         var winnerStr = game.winner.length > 0 ? game.winner.join(", ") : "none";
                         document.getElementById("clickstatus").innerHTML = '<p style="color: #0a0; font-weight: bold;">Game Over! Winner: Player ' + winnerStr + '</p>';
@@ -2199,9 +2205,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
     });
 
     document.getElementById("saveSVG").addEventListener("click", () => {
-        var state = window.sessionStorage.getItem("state");
+        var state = window.localStorage.getItem("state");
         if (state !== null) {
-            var gamename = window.sessionStorage.getItem("gamename");
+            var gamename = window.localStorage.getItem("gamename");
             var drawingDiv = document.getElementById("drawing");
             var svgElement = drawingDiv.querySelector("svg");
 
@@ -2294,12 +2300,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
     });
 
     document.getElementById("dumpState").addEventListener("click", () => {
-        var state = window.sessionStorage.getItem("state");
+        var state = window.localStorage.getItem("state");
         if (state !== null) {
             try {
                 const parsedState = JSON.parse(state);
                 const prettyState = JSON.stringify(parsedState, null, 2);
-                const gamename = window.sessionStorage.getItem("gamename") || "game";
+                const gamename = window.localStorage.getItem("gamename") || "game";
                 showModal("Game State", prettyState, `${gamename}-state`);
             } catch (e) {
                 console.error("Error parsing state JSON:", e);
@@ -2311,9 +2317,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
     });
 
     document.getElementById("dumpMoves").addEventListener("click", () => {
-        var state = window.sessionStorage.getItem("state");
+        var state = window.localStorage.getItem("state");
         if (state !== null) {
-            var gamename = window.sessionStorage.getItem("gamename");
+            var gamename = window.localStorage.getItem("gamename");
             var game = APGames.GameFactory(gamename, state);
             if (typeof game.moves === 'function') {
                 try {
@@ -2342,6 +2348,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
     const moveRedo = document.getElementById('moveRedo');
 
     document.addEventListener('keypress', function(event) {
+        // Disable shortcuts if any modal is open
+        const modals = document.querySelectorAll('.modal');
+        for (const m of modals) {
+            if (m.style.display === "block") return;
+        }
+
         if (event.key === 'Enter') {
             event.preventDefault();
             moveBtn.click();
@@ -2391,7 +2403,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             // Adjust position if needed
             // collapseBtn.style.right = '-15px';
         }
-        window.sessionStorage.setItem("sidebarCollapsed", isCollapsed);
+        window.localStorage.setItem("sidebarCollapsed", isCollapsed);
         // Ensure the edge detection class is removed when sidebar is open
         if (!isCollapsed) {
             collapseBtn.classList.remove('show-edge');
@@ -2399,7 +2411,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
 
     // Initial setup
-    const initiallyCollapsed = window.sessionStorage.getItem("sidebarCollapsed") === "true";
+    const initiallyCollapsed = window.localStorage.getItem("sidebarCollapsed") === "true";
     setSidebarState(initiallyCollapsed);
 
     // Event listener for the original collapse button
@@ -2408,26 +2420,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
         setSidebarState(!isCurrentlyCollapsed); // Toggle state
     });
 
-    // Event listener for the open sidebar button
-    openSidebarBtn.addEventListener('click', () => {
-        setSidebarState(false); // Force open
-    });
-
-    document.addEventListener('mousemove', (e) => {
-        const threshold = 20;
-        if (sidebar.classList.contains('collapsed')) {
-            if (e.clientX <= threshold) {
-                collapseBtn.classList.add('show-edge');
-            } else {
-                collapseBtn.classList.remove('show-edge');
-            }
-        } else {
-            collapseBtn.classList.remove('show-edge');
-        }
-    });
-
     document.getElementById("darkMode").addEventListener("click", () => {
-        const isDark = window.sessionStorage.getItem("darkMode") === "true";
+        const isDark = window.localStorage.getItem("darkMode") === "true";
         setDarkMode(!isDark);
     });
 
@@ -2437,58 +2431,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         document.getElementById("moveBtn").click();
     });
 
-    document.getElementById("managePalettesBtn").addEventListener("click", showPaletteModal);
-    document.getElementById("paletteModalCloseBtn").addEventListener("click", hidePaletteModal);
-    document.getElementById("paletteModal").addEventListener("click", (event) => {
-        if (event.target === document.getElementById("paletteModal")) hidePaletteModal();
-    });
-    const paletteColorInput = document.getElementById("paletteColorInput");
-    const paletteColorHexInput = document.getElementById("paletteColorHexInput");
-
-    paletteColorInput.addEventListener("input", () => {
-        paletteColorHexInput.value = paletteColorInput.value;
-    });
-    paletteColorHexInput.addEventListener("input", () => {
-        let val = paletteColorHexInput.value.trim();
-        if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
-            paletteColorInput.value = val;
-        }
-    });
-    paletteColorHexInput.value = paletteColorInput.value;
-
-    document.getElementById("addPaletteColorBtn").addEventListener("click", addColourToCurrentPalette);
-    document.getElementById("savePaletteBtn").addEventListener("click", saveOrUpdatePalette);
-    document.getElementById("paletteModalSaveAndCloseBtn").addEventListener("click", () => {
-        hidePaletteModal();
-    });
-
-    document.getElementById("manageContextsBtn").addEventListener("click", showContextModal);
-    document.getElementById("contextModalCloseBtn").addEventListener("click", hideContextModal);
-    document.getElementById("contextModal").addEventListener("click", (event) => {
-        if (event.target === document.getElementById("contextModal")) hideContextModal();
-    });
-    document.getElementById("selectContextMode").addEventListener("change", (event) => {
-        loadContextForEditing(event.target.value);
-    });
-    document.getElementById("saveContextBtn").addEventListener("click", saveContext);
-    document.getElementById("resetContextBtn").addEventListener("click", resetContext);
-    ["Background", "Fill", "Strokes", "Borders", "Labels", "Annotations"].forEach(field => {
-        const colorInput = document.getElementById(`context${field}`);
-        const hexInput = document.getElementById(`context${field}HexInput`);
-        colorInput.addEventListener("input", () => {
-            hexInput.value = colorInput.value;
-            renderContextSample();
-        });
-        hexInput.addEventListener("input", () => {
-            let val = hexInput.value.trim();
-            if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
-                colorInput.value = val;
-                renderContextSample();
-            }
-        });
-        hexInput.value = colorInput.value;
-    });
-
     document.addEventListener("keydown", function(event) {
         if (event.key === "Escape") {
             let closed = false;
@@ -2496,14 +2438,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 hideModal();
                 closed = true;
             }
-            const paletteModal = document.getElementById("paletteModal");
-            if (paletteModal && paletteModal.style.display === "block") {
-                hidePaletteModal();
-                closed = true;
-            }
-            const contextModal = document.getElementById("contextModal");
-            if (contextModal && contextModal.style.display === "block") {
-                hideContextModal();
+            const customizeModal = document.getElementById("customizeModal");
+            if (customizeModal && customizeModal.style.display === "block") {
+                hideCustomizeModal();
                 closed = true;
             }
             if (closed) {
@@ -2512,14 +2449,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
     });
 
-    if (window.sessionStorage.getItem("gamename")) {
-        const savedGameName = window.sessionStorage.getItem("gamename");
-        const savedState = window.sessionStorage.getItem("state");
+    if (window.localStorage.getItem("gamename")) {
+        const savedGameName = window.localStorage.getItem("gamename");
+        const savedState = window.localStorage.getItem("state");
         select.value = savedGameName;
         select.dispatchEvent(new Event('change'));
 
-        if (window.sessionStorage.getItem("playerCount")) {
-            currentPlayerCount = parseInt(window.sessionStorage.getItem("playerCount"), 10);
+        if (window.localStorage.getItem("playerCount")) {
+            currentPlayerCount = parseInt(window.localStorage.getItem("playerCount"), 10);
             const pcSelect = document.getElementById("playerCountSelect");
             if (pcSelect) {
                 pcSelect.value = currentPlayerCount;
@@ -2570,44 +2507,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
         }
 
-        const savedPlayerFill = window.sessionStorage.getItem("playerFill");
-        const customSelect = document.getElementById("selectCustomPalette");
-        const fillCustomRadio = document.getElementById("fillCustom");
-        const fillCustomLabel = document.getElementById("fillCustomLabel");
-        if (savedPlayerFill) {
-            const fillRadio = document.querySelector(`input[name="playerfill"][value="${savedPlayerFill}"]`);
-            if (fillRadio) {
-                fillRadio.checked = true;
-            }
-        }
-        if (customPalettes.length === 0) {
-            customSelect.disabled = true;
-            fillCustomRadio.disabled = true;
-            if (fillCustomLabel) fillCustomLabel.classList.add("disabled-label");
-            if (fillCustomRadio.checked) {
-                document.getElementById('fillStandard').checked = true;
-                window.sessionStorage.setItem("playerFill", "standard");
-            }
-        } else {
-            customSelect.disabled = false;
-            fillCustomRadio.disabled = false;
-            if (fillCustomLabel) fillCustomLabel.classList.remove("disabled-label");
-        }
-
         renderGame();
     } else {
-        const customSelect = document.getElementById("selectCustomPalette");
-        const fillCustomRadio = document.getElementById('fillCustom');
-        const fillCustomLabel = document.getElementById("fillCustomLabel");
-        if (customPalettes.length === 0) {
-            customSelect.disabled = true;
-            fillCustomRadio.disabled = true;
-            if (fillCustomLabel) fillCustomLabel.classList.add("disabled-label");
-        } else {
-            fillCustomRadio.disabled = false;
-            if (fillCustomLabel) fillCustomLabel.classList.remove("disabled-label");
-            customSelect.disabled = !fillCustomRadio.checked;
-        }
         renderGame();
     }
 });

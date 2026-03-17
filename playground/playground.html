@@ -9,7 +9,9 @@
         <title>AP Game Tester</title>
         <script src="https://renderer.dev.abstractplay.com/APRender.min.js"></script>
         <script src="./APGames.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/vanilla-colorful@0.8.0/hex-color-picker.js"></script>
         <script src=" https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css">
         <link rel="stylesheet" href="playground.css">
     </head>
@@ -67,32 +69,8 @@
                                 <input type="checkbox" id="autoSubmit" name="autoSubmit" checked>
                                 Auto-submit?
                             </label>
-                            <div style="width: 100%; margin-top: 0.5em;">
-                                <input type="radio" id="fillStandard" name="playerfill" value="standard" checked>
-                                <label for="fillStandard">Standard colours</label>
-                            </div>
-                            <div>
-                                <input type="radio" id="fillBlind" name="playerfill" value="blind">
-                                <label for="fillBlind">Colour-blind-friendly</label>
-                            </div>
-                            <div>
-                                <input type="radio" id="fillPatterns" name="playerfill" value="patterns">
-                                <label for="fillPatterns">B&W patterns</label>
-                            </div>
-                            <div class="custom-palette-option">
-                                <div class="custom-palette-radio">
-                                    <input type="radio" id="fillCustom" name="playerfill" value="custom">
-                                    <label for="fillCustom" id="fillCustomLabel">Custom Palette:</label>
-                                </div>
-                                <select id="selectCustomPalette" name="selectCustomPalette">
-                                    <option value="" disabled selected>No palettes available</option>
-                                </select>
-                            </div>
                         </div>
-                        <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
-                            <button id="managePalettesBtn" type="button" class="button is-small">Manage Palettes</button>
-                            <button id="manageContextsBtn" type="button" class="button is-small">Manage Contexts</button>
-                        </div>
+                        <div class="render-settings-content"></div>
                         <div style="width: 100%; margin-top: 0.5em;">
                             <label for="rotation">Rotate map (&deg;)</label>
                             <input type="number" id="rotation" name="rotate" style="width: 80px;">
@@ -300,6 +278,6 @@
             </div>
         </div>
 
-        <script src="playground.js"></script>
+        <script type="module" src="playground.js"></script>
     </body>
 </html>

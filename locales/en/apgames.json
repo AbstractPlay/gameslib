@@ -4945,7 +4945,7 @@
         "minefield": {
             "BAD_PASS": "You may not pass if legal moves are available.",
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece.",
-            "FORBIDDEN": "You may not form hard corners or switches."
+            "FORBIDDEN": "You may not form forbidden glyphs."
         },
         "mirador": {
             "ALREADY_DECLARED": "Someone has already declared. You can not declare now.",

@@ -1688,6 +1688,10 @@
             },
             "size-15": {
                 "name": "15x15 board"
+            },
+            "cartwheel": {
+                "name": "Cartwheel",
+                "description": "A variant by Luis Bolaños Mures that tweaks the forbidden glyphs."
             }
         },
         "mixtour": {

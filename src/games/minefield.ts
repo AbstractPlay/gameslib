@@ -2,9 +2,10 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResu
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, MarkerEdge } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { Direction, RectGrid, reviver, UserFacingError } from "../common";
+import { RectGrid, reviver, UserFacingError } from "../common";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted";
+import { type Delta, allRotationsAndReflections } from "../common/plotting";
 import i18next from "i18next";
 
 export type playerid = 1|2;
@@ -35,6 +36,7 @@ export class MinefieldGame extends GameBase {
         urls: [
             "https://www.marksteeregames.com/Minefield_rules.pdf",
             "https://boardgamegeek.com/thread/3295906/new-mark-steere-game-minefield",
+            "https://boardgamegeek.com/thread/3299199/cartwheel-possibly-free-of-mutual-zugzwang",
         ],
         people: [
             {
@@ -52,6 +54,8 @@ export class MinefieldGame extends GameBase {
         ],
         variants: [
             { uid: "size-15", group: "board" },
+            { uid: "#board", },
+            { uid: "cartwheel", group: "rules" },
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["pie", "automove", "experimental"]
@@ -157,86 +161,103 @@ export class MinefieldGame extends GameBase {
         return 19;
     }
 
-    public canPlace(cell: string, player: playerid): boolean {
-        const [x,y] = this.algebraic2coords(cell);
-        const g = new RectGrid(this.boardSize, this.boardSize);
+    public get forbidden(): Delta[][] {
+        const lst: Delta[][] = [];
         // hard corners
-        for (const diag of ["NE", "SE", "SW", "NW"] as const) {
-            let next: string|[number,number] = RectGrid.move(x, y, diag);
-            if (g.inBounds(...next)) {
-                next = this.coords2algebraic(...next);
-            }
-            // white pieces in the diagram
-            if (!Array.isArray(next) && this.board.get(next) === player) {
-                const [ldir, rdir] = diag.split("");
-                let left: string|[number,number] = RectGrid.move(x, y, ldir as Direction);
-                let lplayer: number|undefined;
-                if (g.inBounds(...left)) {
-                    left = this.coords2algebraic(...left);
-                    lplayer = this.board.get(left);
-                }
-                let right: string|[number,number] = RectGrid.move(x, y, rdir as Direction);
-                let rplayer: number|undefined;
-                if (g.inBounds(...right)) {
-                    right = this.coords2algebraic(...right);
-                    rplayer = this.board.get(right);
-                }
-                if (lplayer === undefined && rplayer !== undefined && rplayer !== player) {
-                    return false;
-                }
-                if (rplayer === undefined && lplayer !== undefined && lplayer !== player) {
-                    return false;
-                }
-            }
-            // black piece in the diagram
-            else if (!Array.isArray(next) && !this.board.has(next)) {
-                const [ldir, rdir] = diag.split("");
-                let left: undefined|string|[number,number] = RectGrid.move(x, y, ldir as Direction);
-                let lplayer: number|undefined;
-                if (g.inBounds(...left)) {
-                    left = this.coords2algebraic(...left);
-                    lplayer = this.board.get(left);
-                }
-                let right: string|[number,number] = RectGrid.move(x, y, rdir as Direction);
-                let rplayer: number|undefined;
-                if (g.inBounds(...right)) {
-                    right = this.coords2algebraic(...right);
-                    rplayer = this.board.get(right);
-                }
-                if (lplayer !== undefined && lplayer !== player &&
-                    rplayer !== undefined && rplayer !== player) {
-                    return false;
-                }
-            }
-        }
+        lst.push([
+            {dx: 1, dy: 0, payload: null},
+            {dx: 1, dy: 1, payload: "f"},
+            {dx: 0, dy: 1, payload: "e"},
+        ]);
+        lst.push([
+            {dx: 0, dy: -1, payload: "e"},
+            {dx: 1, dy: -1, payload: null},
+            {dx: 1, dy: 0, payload: "e"},
+        ]);
         // switches
-        for (const orth of ["N", "S", "E", "W"] as const) {
-            const perps = (orth === "N" || orth === "S") ? ["E", "W"] : ["N", "S"];
-            for (const dist of [2, 3]) {
-                let ray = g.ray(x, y, orth).map(c => this.coords2algebraic(...c));
-                if (ray.length >= dist) {
-                    ray = [cell, ...ray.slice(0, dist)];
-                    for (const perp of perps) {
-                        let adj: string|[number,number] = RectGrid.move(x, y, perp as Direction);
-                        let adjRay: undefined|string[];
-                        if (g.inBounds(...adj)) {
-                            adjRay = [this.coords2algebraic(...adj), ...g.ray(...adj, orth).map(c => this.coords2algebraic(...c)).slice(0, dist)];
-                            adj = this.coords2algebraic(...adj);
-                        }
-                        if (adjRay !== undefined) {
-                            // at this point I have two adjacent rays of the appropriate length
-                            // populate each with player numbers and then compare (0 is empty)
-                            const pRay = ray.map(c => this.board.get(c) ?? 0).join("");
-                            const adjPRay = adjRay.map(c => this.board.get(c) ?? 0).join("");
-                            // check player ray first
-                            if (/^0+[1|2]$/.test(pRay) && !pRay.endsWith(player.toString())) {
-                                // now check adjacent ray
-                                if (/^[1|2]0+[1|2]$/.test(adjPRay) && !adjPRay.startsWith(player.toString()) && adjPRay.endsWith(player.toString())) {
-                                    return false;
-                                }
-                            }
-                        }
+        // dist 2
+        lst.push([
+            {dx: 1, dy: 0, payload: "e"},
+            {dx: 1, dy: 1, payload: null},
+            {dx: 1, dy: 2, payload: "f"},
+            {dx: 0, dy: 2, payload: "e"},
+            {dx: 0, dy: 1, payload: null},
+        ]);
+        // dist 3
+        if (!this.variants.includes("cartwheel")) {
+            lst.push([
+                {dx: 1, dy: 0, payload: "e"},
+                {dx: 1, dy: 1, payload: null},
+                {dx: 1, dy: 2, payload: null},
+                {dx: 1, dy: 3, payload: "f"},
+                {dx: 0, dy: 3, payload: "e"},
+                {dx: 0, dy: 2, payload: null},
+                {dx: 0, dy: 1, payload: null},
+            ]);
+        }
+        if (this.variants.includes("cartwheel")) {
+            // pinwheel
+            lst.push([
+                {dx: 1, dy: 0, payload: "e"},
+                {dx: 2, dy: 1, payload: "f"},
+                {dx: 2, dy: 2, payload: "e"},
+                {dx: 1, dy: 3, payload: "f"},
+                {dx: 0, dy: 3, payload: "e"},
+                {dx: -1, dy: 2, payload: "f"},
+                {dx: -1, dy: 1, payload: "e"},
+                {dx: 0, dy: 1, payload: null},
+                {dx: 1, dy: 1, payload: null},
+                {dx: 1, dy: 2, payload: null},
+                {dx: 0, dy: 2, payload: null},
+            ]);
+            // cartwheel
+            lst.push([
+                {dx: 1, dy: 0, payload: "f"},
+                {dx: 2, dy: 1, payload: "e"},
+                {dx: 2, dy: 2, payload: "e"},
+                {dx: 1, dy: 3, payload: "f"},
+                {dx: 0, dy: 3, payload: "f"},
+                {dx: -1, dy: 2, payload: "e"},
+                {dx: -1, dy: 1, payload: "e"},
+                {dx: 0, dy: 1, payload: null},
+                {dx: 1, dy: 1, payload: null},
+                {dx: 1, dy: 2, payload: null},
+                {dx: 0, dy: 2, payload: null},
+            ]);
+        }
+
+        return lst;
+    }
+
+    public canPlace(cell: string, player: playerid): boolean {
+        const [x, y] = this.algebraic2coords(cell);
+        for (const glyph of this.forbidden) {
+            for (const transform of allRotationsAndReflections(glyph)) {
+                let match = true;
+                for (const delta of transform) {
+                    const nx = x + delta.dx;
+                    const ny = y + delta.dy;
+                    if (nx < 0 || nx >= this.boardSize || ny < 0 || ny >= this.boardSize) {
+                        match = false;
+                        break;
                     }
+                    const check = this.coords2algebraic(nx, ny);
+                    const contents = this.board.get(check);
+                    if (delta.payload === "f" && contents !== player) {
+                        match = false;
+                        break;
+                    }
+                    if (delta.payload === "e" && (contents === undefined || contents === player)) {
+                        match = false;
+                        break;
+                    }
+                    if (delta.payload === null && contents !== undefined) {
+                        match = false;
+                        break;
+                    }
+                }
+                if (match) {
+                    return false;
                 }
             }
         }

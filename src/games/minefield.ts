@@ -53,9 +53,12 @@ export class MinefieldGame extends GameBase {
             },
         ],
         variants: [
-            { uid: "size-15", group: "board" },
+            { uid: "size-7", group: "board" },
+            { uid: "size-9", group: "board" },
             { uid: "#board", },
-            { uid: "cartwheel", group: "rules" },
+            { uid: "size-13", group: "board" },
+            { uid: "size-15", group: "board" },
+            { uid: "cartwheel" },
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["pie", "automove", "experimental"]
@@ -158,7 +161,7 @@ export class MinefieldGame extends GameBase {
                 throw new Error(`Could not determine the board size from variant "${this.variants[0]}"`);
             }
         }
-        return 19;
+        return 11;
     }
 
     public get forbidden(): Delta[][] {

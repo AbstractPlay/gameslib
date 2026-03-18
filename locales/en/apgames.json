@@ -1683,15 +1683,24 @@
             }
         },
         "minefield": {
+            "size-7": {
+                "name": "7x7 board"
+            },
+            "size-9": {
+                "name": "9x9 board"
+            },
             "#board": {
-                "name": "19x19 board"
+                "name": "11x11 board"
+            },
+            "size-13": {
+                "name": "13x13 board"
             },
             "size-15": {
                 "name": "15x15 board"
             },
             "cartwheel": {
                 "name": "Cartwheel",
-                "description": "A variant by Luis Bolaños Mures that tweaks the forbidden glyphs."
+                "description": "Allows 2x4 switches but forbids rare 4x4 pinwheels and cartwheels (by Luis Bolaños Mures)"
             }
         },
         "mixtour": {

@@ -1683,8 +1683,8 @@
             }
         },
         "minefield": {
-            "size-7": {
-                "name": "7x7 board"
+            "size-8": {
+                "name": "8x8 board"
             },
             "size-9": {
                 "name": "9x9 board"

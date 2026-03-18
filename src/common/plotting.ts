@@ -250,6 +250,16 @@ export function allRotationsAndReflections(
   const includeReflections = options?.includeReflections ?? true;
   const normalize = options?.normalize ?? "none";
 
+  // Check for duplicate points
+  const seenPoints = new Set<string>();
+  for (const { dx, dy } of deltas) {
+    const key = `${dx},${dy}`;
+    if (seenPoints.has(key)) {
+      throw new Error(`Input contains duplicate points: ${key}`);
+    }
+    seenPoints.add(key);
+  }
+
   // ---- D4 transforms on the (dx,dy) portion only; pc is retained
   const rot90 = (d: Delta): Delta => ({ dx: -d.dy, dy: d.dx, payload: d.payload });
   const rot180 = (d: Delta): Delta => ({ dx: -d.dx, dy: -d.dy, payload: d.payload });
@@ -279,7 +289,7 @@ export function allRotationsAndReflections(
   };
 
   // ---- Stable key for dedupe (includes pc to avoid collapsing different labeled shapes)
-  // Sort by dx, dy, pc so that order in input doesn't matter.
+  // Sort by dx, dy so that order in input doesn't matter.
   const keyOf = (ds: Delta[]): string => {
     const sorted = [...ds].sort((a, b) =>
       (a.dx - b.dx) || (a.dy - b.dy)

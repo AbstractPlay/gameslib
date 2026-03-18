@@ -53,7 +53,7 @@ export class MinefieldGame extends GameBase {
             },
         ],
         variants: [
-            { uid: "size-7", group: "board" },
+            { uid: "size-8", group: "board" },
             { uid: "size-9", group: "board" },
             { uid: "#board", },
             { uid: "size-13", group: "board" },

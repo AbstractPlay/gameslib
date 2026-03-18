@@ -6,7 +6,7 @@ import { type playerid } from "../../src/games/minefield";
 
 describe("Minefield", () => {
     it ("Hard corners", () => {
-        const g = new MinefieldGame();
+        const g = new MinefieldGame(undefined, ["size-19"]);
         g.board = new Map<string, playerid>([
             ["j16", 2],
             ["j15", 1],
@@ -40,7 +40,7 @@ describe("Minefield", () => {
         expect(g.canPlace("i15", 2)).to.be.true;
     });
     it ("Switches", () => {
-        let g = new MinefieldGame();
+        let g = new MinefieldGame(undefined, ["size-19"]);
         // dist 2
         g.board = new Map<string, playerid>([
             ["j16", 1],
@@ -106,7 +106,7 @@ describe("Minefield", () => {
         expect(g.canPlace("j15", 2)).to.be.false;
 
         // but dist 3 is fine in cartwheel
-        g = new MinefieldGame(undefined, ["cartwheel"]);
+        g = new MinefieldGame(undefined, ["cartwheel", "size-19"]);
         g.board = new Map<string, playerid>([
             ["j16", 1],
             ["k16", 2],
@@ -133,7 +133,7 @@ describe("Minefield", () => {
         expect(g.canPlace("j15", 2)).to.be.true;
     });
     it ("Pinwheels", () => {
-        const g = new MinefieldGame(undefined, ["cartwheel"]);
+        const g = new MinefieldGame(undefined, ["cartwheel", "size-19"]);
         g.board = new Map<string, playerid>([
             ["k16", 2],
             ["l15", 1],
@@ -158,7 +158,7 @@ describe("Minefield", () => {
         expect(g.canPlace("j16", 1)).to.be.true;
     });
     it ("Cartwheels", () => {
-        const g = new MinefieldGame(undefined, ["cartwheel"]);
+        const g = new MinefieldGame(undefined, ["cartwheel", "size-19"]);
         g.board = new Map<string, playerid>([
             ["k16", 2],
             ["l15", 1],

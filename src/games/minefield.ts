@@ -30,7 +30,7 @@ export class MinefieldGame extends GameBase {
         uid: "minefield",
         playercounts: [2],
         version: "20260311",
-        dateAdded: "2026-03-11",
+        dateAdded: "2026-03-19",
         // i18next.t("apgames:descriptions.minefield")
         description: "apgames:descriptions.minefield",
         urls: [
@@ -61,7 +61,7 @@ export class MinefieldGame extends GameBase {
             { uid: "cartwheel" },
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["pie", "automove", "experimental"]
+        flags: ["pie", "automove"]
     };
 
     public coords2algebraic(x: number, y: number): string {

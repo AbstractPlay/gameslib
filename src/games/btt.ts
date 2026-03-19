@@ -13,7 +13,7 @@ interface ILegendObj {
     [key: string]: Glyph | [Glyph, ...Glyph[]];
 }
 
-export type playerid = 1 | 2 | 3 | 4;
+export type playerid = 1 | 2 | 3 | 4 | 5 | 6;
 export type Size = 1 | 2 | 3;
 export type CellContents = [playerid, Size, DirectionCardinal] | "NULL" | "ROOT";
 
@@ -45,7 +45,7 @@ export class BTTGame extends GameBase {
         uid: "btt",
         playercounts: [2, 3, 4, 5, 6],
         version: "20260308",
-        dateAdded: "2026-03-08",
+        dateAdded: "2026-03-19",
         // i18next.t("apgames:descriptions.btt")
         description: "apgames:descriptions.btt",
         urls: [
@@ -70,7 +70,7 @@ export class BTTGame extends GameBase {
             { uid: "martian-go", group: "setup" }
         ],
         categories: ["goal>score>eog", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>pyramids", "other>2+players"],
-        flags: ["player-stashes", "scores", "experimental"]
+        flags: ["player-stashes", "scores"]
     };
 
     public numplayers!: number;

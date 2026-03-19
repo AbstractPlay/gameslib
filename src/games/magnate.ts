@@ -68,7 +68,7 @@ export class MagnateGame extends GameBase {
         uid: "magnate",
         playercounts: [2],
         version: "20260303",
-        dateAdded: "2026-03-03",
+        dateAdded: "2026-03-19",
         // i18next.t("apgames:descriptions.magnate")
         description: "apgames:descriptions.magnate",
         // i18next.t("apgames:notes.magnate")
@@ -99,7 +99,7 @@ export class MagnateGame extends GameBase {
             { uid: "taxtax" }, //double taxation
         ],
         categories: ["goal>area", "goal>score>eog", "mechanic>place", "mechanic>economy", "mechanic>hidden", "mechanic>random>play", "board>none", "components>decktet"],
-        flags: ["custom-randomization", "no-explore", "no-moves", "perspective", "scores", "experimental"],
+        flags: ["custom-randomization", "no-explore", "no-moves", "perspective", "scores"],
     };
 
     //The UI is quite simple because we only need to specify a column.

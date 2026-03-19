@@ -230,3 +230,102 @@ export const linesIntersect = (p1: IPoint, q1: IPoint, p2: IPoint, q2: IPoint): 
 
     return false; // Doesn't fall in any of the above cases
 }
+
+export type Delta = { dx: number; dy: number; payload: unknown };
+
+/**
+ * Generate all unique rotations/reflections of a delta-shape.
+ * - Rotates/flips (dx, dy)
+ * - Retains `pc` for each corresponding point
+ *
+ * Returns: Delta[][] where each inner list is one transformed variant.
+ */
+export function allRotationsAndReflections(
+  deltas: Delta[],
+  options?: {
+    includeReflections?: boolean;      // default true
+    normalize?: "none" | "minToOrigin" // default "none"
+  }
+): Delta[][] {
+  const includeReflections = options?.includeReflections ?? true;
+  const normalize = options?.normalize ?? "none";
+
+  // Check for duplicate points
+  const seenPoints = new Set<string>();
+  for (const { dx, dy } of deltas) {
+    const key = `${dx},${dy}`;
+    if (seenPoints.has(key)) {
+      throw new Error(`Input contains duplicate points: ${key}`);
+    }
+    seenPoints.add(key);
+  }
+
+  // ---- D4 transforms on the (dx,dy) portion only; pc is retained
+  const rot90 = (d: Delta): Delta => ({ dx: -d.dy, dy: d.dx, payload: d.payload });
+  const rot180 = (d: Delta): Delta => ({ dx: -d.dx, dy: -d.dy, payload: d.payload });
+  const rot270 = (d: Delta): Delta => ({ dx: d.dy, dy: -d.dx, payload: d.payload });
+
+  // Reflect across Y-axis (mirror left-right). pc retained.
+  const reflectY = (d: Delta): Delta => ({ dx: -d.dx, dy: d.dy, payload: d.payload });
+
+  const rotations: Array<(d: Delta) => Delta> = [
+    (d) => ({ ...d }),
+    rot90,
+    rot180,
+    rot270,
+  ];
+
+  // ---- Optional normalization: shift so min dx/min dy become 0
+  const normalizeDeltas = (ds: Delta[]): Delta[] => {
+    if (normalize === "none") return ds;
+
+    let minDx = Infinity;
+    let minDy = Infinity;
+    for (const { dx, dy } of ds) {
+      if (dx < minDx) minDx = dx;
+      if (dy < minDy) minDy = dy;
+    }
+    return ds.map(({ dx, dy, payload }) => ({ dx: dx - minDx, dy: dy - minDy, payload }));
+  };
+
+  // ---- Stable key for dedupe (includes pc to avoid collapsing different labeled shapes)
+  // Sort by dx, dy so that order in input doesn't matter.
+  const keyOf = (ds: Delta[]): string => {
+    const sorted = [...ds].sort((a, b) =>
+      (a.dx - b.dx) || (a.dy - b.dy)
+    );
+    return sorted.map(d => `${d.dx},${d.dy},${d.payload}`).join("|");
+  };
+
+  const variants: Delta[][] = [];
+  const seen = new Set<string>();
+
+  const pushIfNew = (ds: Delta[]) => {
+    const normalized = normalizeDeltas(ds);
+    const k = keyOf(normalized);
+    if (!seen.has(k)) {
+      seen.add(k);
+      // Return each variant in stable sorted order as well
+      variants.push(
+        [...normalized].sort((a, b) =>
+          (a.dx - b.dx) || (a.dy - b.dy)
+        )
+      );
+    }
+  };
+
+  // 4 rotations of original
+  for (const r of rotations) {
+    pushIfNew(deltas.map(r));
+  }
+
+  // 4 rotations of reflected (if enabled)
+  if (includeReflections) {
+    const reflected = deltas.map(reflectY);
+    for (const r of rotations) {
+      pushIfNew(reflected.map(r));
+    }
+  }
+
+  return variants;
+}

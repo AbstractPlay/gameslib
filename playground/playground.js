@@ -3,8 +3,8 @@ const nanoid = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklm
 
 function boardClick(row, col, piece) {
     console.log("Row: " + row + ", Col: " + col + ", Piece: " + piece);
-    var state = window.sessionStorage.getItem("state");
-    var gamename = window.sessionStorage.getItem("gamename");
+    var state = window.localStorage.getItem("state");
+    var gamename = window.localStorage.getItem("gamename");
     var game = APGames.GameFactory(gamename, state);
     if (game.gameover) {
         return;

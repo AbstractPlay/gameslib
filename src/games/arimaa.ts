@@ -862,9 +862,24 @@ export class ArimaaGame extends GameBase {
                         const ns = g.neighbours(from);
                         if (lastPlayer === cloned.currplayer && ns.includes(lastFrom!) && ArimaaGame.strength(lastPc) > ArimaaGame.strength(pc)) {
                             validPull = true;
+                            // check if push is possible
+                            let canPush = false;
+                            if (i < maxMoves - 1) {
+                                for (const n of g.neighbours(from)) {
+                                    if (cloned.board.has(n)) {
+                                        const [nPc, nOwner] = cloned.board.get(n)!;
+                                        if (nOwner === cloned.currplayer && ArimaaGame.strength(nPc) > ArimaaGame.strength(pc) && !cloned.isFrozen(n)) {
+                                            canPush = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
                             // if this is the last step, suggest an autocomplete
                             if (i === steps.length - 1 && to === undefined) {
-                                result.autocomplete = m + lastFrom;
+                                if (i === maxMoves - 1 || !canPush) {
+                                    result.autocomplete = m + lastFrom;
+                                }
                             }
                         }
                     }

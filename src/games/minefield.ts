@@ -9,6 +9,10 @@ import { type Delta, allRotationsAndReflections } from "../common/plotting";
 import i18next from "i18next";
 
 export type playerid = 1|2;
+export type DeltaEntry = {
+    name: string;
+    deltas: Delta[];
+}
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -164,69 +168,87 @@ export class MinefieldGame extends GameBase {
         return 11;
     }
 
-    public get forbidden(): Delta[][] {
-        const lst: Delta[][] = [];
+    public get forbidden(): DeltaEntry[] {
+        const lst: DeltaEntry[] = [];
         // hard corners
-        lst.push([
-            {dx: 1, dy: 0, payload: null},
-            {dx: 1, dy: 1, payload: "f"},
-            {dx: 0, dy: 1, payload: "e"},
-        ]);
-        lst.push([
-            {dx: 0, dy: -1, payload: "e"},
-            {dx: 1, dy: -1, payload: null},
-            {dx: 1, dy: 0, payload: "e"},
-        ]);
+        lst.push({
+            name: "corner",
+            deltas: [
+                {dx: 1, dy: 0, payload: null},
+                {dx: 1, dy: 1, payload: "f"},
+                {dx: 0, dy: 1, payload: "e"},
+            ]
+        });
+        lst.push({
+            name: "corner",
+            deltas: [
+                {dx: 0, dy: -1, payload: "e"},
+                {dx: 1, dy: -1, payload: null},
+                {dx: 1, dy: 0, payload: "e"},
+            ]
+        });
         // switches
         // dist 2
-        lst.push([
-            {dx: 1, dy: 0, payload: "e"},
-            {dx: 1, dy: 1, payload: null},
-            {dx: 1, dy: 2, payload: "f"},
-            {dx: 0, dy: 2, payload: "e"},
-            {dx: 0, dy: 1, payload: null},
-        ]);
-        // dist 3
-        if (!this.variants.includes("cartwheel")) {
-            lst.push([
+        lst.push({
+            name: "switch2",
+            deltas: [
                 {dx: 1, dy: 0, payload: "e"},
                 {dx: 1, dy: 1, payload: null},
-                {dx: 1, dy: 2, payload: null},
-                {dx: 1, dy: 3, payload: "f"},
-                {dx: 0, dy: 3, payload: "e"},
-                {dx: 0, dy: 2, payload: null},
+                {dx: 1, dy: 2, payload: "f"},
+                {dx: 0, dy: 2, payload: "e"},
                 {dx: 0, dy: 1, payload: null},
-            ]);
+            ]
+        });
+        // dist 3
+        if (!this.variants.includes("cartwheel")) {
+            lst.push({
+                name: "switch3",
+                deltas: [
+                    {dx: 1, dy: 0, payload: "e"},
+                    {dx: 1, dy: 1, payload: null},
+                    {dx: 1, dy: 2, payload: null},
+                    {dx: 1, dy: 3, payload: "f"},
+                    {dx: 0, dy: 3, payload: "e"},
+                    {dx: 0, dy: 2, payload: null},
+                    {dx: 0, dy: 1, payload: null},
+                ]
+            });
         }
         if (this.variants.includes("cartwheel")) {
             // pinwheel
-            lst.push([
-                {dx: 1, dy: 0, payload: "e"},
-                {dx: 2, dy: 1, payload: "f"},
-                {dx: 2, dy: 2, payload: "e"},
-                {dx: 1, dy: 3, payload: "f"},
-                {dx: 0, dy: 3, payload: "e"},
-                {dx: -1, dy: 2, payload: "f"},
-                {dx: -1, dy: 1, payload: "e"},
-                {dx: 0, dy: 1, payload: null},
-                {dx: 1, dy: 1, payload: null},
-                {dx: 1, dy: 2, payload: null},
-                {dx: 0, dy: 2, payload: null},
-            ]);
+            lst.push({
+                name: "pinwheel",
+                deltas:[
+                    {dx: 1, dy: 0, payload: "e"},
+                    {dx: 2, dy: 1, payload: "f"},
+                    {dx: 2, dy: 2, payload: "e"},
+                    {dx: 1, dy: 3, payload: "f"},
+                    {dx: 0, dy: 3, payload: "e"},
+                    {dx: -1, dy: 2, payload: "f"},
+                    {dx: -1, dy: 1, payload: "e"},
+                    {dx: 0, dy: 1, payload: null},
+                    {dx: 1, dy: 1, payload: null},
+                    {dx: 1, dy: 2, payload: null},
+                    {dx: 0, dy: 2, payload: null},
+                ]
+            });
             // cartwheel
-            lst.push([
-                {dx: 1, dy: 0, payload: "f"},
-                {dx: 2, dy: 1, payload: "e"},
-                {dx: 2, dy: 2, payload: "e"},
-                {dx: 1, dy: 3, payload: "f"},
-                {dx: 0, dy: 3, payload: "f"},
-                {dx: -1, dy: 2, payload: "e"},
-                {dx: -1, dy: 1, payload: "e"},
-                {dx: 0, dy: 1, payload: null},
-                {dx: 1, dy: 1, payload: null},
-                {dx: 1, dy: 2, payload: null},
-                {dx: 0, dy: 2, payload: null},
-            ]);
+            lst.push({
+                name: "cartwheel",
+                deltas:[
+                    {dx: 1, dy: 0, payload: "f"},
+                    {dx: 2, dy: 1, payload: "e"},
+                    {dx: 2, dy: 2, payload: "e"},
+                    {dx: 1, dy: 3, payload: "f"},
+                    {dx: 0, dy: 3, payload: "f"},
+                    {dx: -1, dy: 2, payload: "e"},
+                    {dx: -1, dy: 1, payload: "e"},
+                    {dx: 0, dy: 1, payload: null},
+                    {dx: 1, dy: 1, payload: null},
+                    {dx: 1, dy: 2, payload: null},
+                    {dx: 0, dy: 2, payload: null},
+                ]
+            });
         }
 
         return lst;
@@ -234,8 +256,8 @@ export class MinefieldGame extends GameBase {
 
     public canPlace(cell: string, player: playerid): boolean {
         const [x, y] = this.algebraic2coords(cell);
-        for (const glyph of this.forbidden) {
-            for (const transform of allRotationsAndReflections(glyph)) {
+        for (const {name, deltas} of this.forbidden) {
+            for (const transform of allRotationsAndReflections(deltas)) {
                 let match = true;
                 for (const delta of transform) {
                     const nx = x + delta.dx;
@@ -246,15 +268,31 @@ export class MinefieldGame extends GameBase {
                     }
                     const check = this.coords2algebraic(nx, ny);
                     const contents = this.board.get(check);
-                    if (delta.payload === "f" && contents !== player) {
+
+                    let isFriendly = (contents === player);
+                    let isEnemy = (contents !== undefined && contents !== player);
+                    let isEmpty = (contents === undefined);
+
+                    if (name === "cartwheel" && isEmpty) {
+                        if (ny === 0 || ny === this.boardSize - 1) {
+                            if (player === 1) { isFriendly = true; } else { isEnemy = true; }
+                            isEmpty = false;
+                        }
+                        if (nx === 0 || nx === this.boardSize - 1) {
+                            if (player === 2) { isFriendly = true; } else { isEnemy = true; }
+                            isEmpty = false;
+                        }
+                    }
+
+                    if (delta.payload === "f" && !isFriendly) {
                         match = false;
                         break;
                     }
-                    if (delta.payload === "e" && (contents === undefined || contents === player)) {
+                    if (delta.payload === "e" && !isEnemy) {
                         match = false;
                         break;
                     }
-                    if (delta.payload === null && contents !== undefined) {
+                    if (delta.payload === null && !isEmpty) {
                         match = false;
                         break;
                     }

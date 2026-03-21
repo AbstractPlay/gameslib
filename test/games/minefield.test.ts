@@ -158,7 +158,7 @@ describe("Minefield", () => {
         expect(g.canPlace("j16", 1)).to.be.true;
     });
     it ("Cartwheels", () => {
-        const g = new MinefieldGame(undefined, ["cartwheel", "size-19"]);
+        let g = new MinefieldGame(undefined, ["cartwheel", "size-19"]);
         g.board = new Map<string, playerid>([
             ["k16", 2],
             ["l15", 1],
@@ -181,6 +181,11 @@ describe("Minefield", () => {
             ["j15", 1],
         ]);
         expect(g.canPlace("j16", 2)).to.be.true;
+        g = new MinefieldGame(undefined, ["cartwheel"]);
+        g.board = new Map<string, playerid>([
+            ["c8", 1], ["d10", 2], ["d9", 2],
+        ]);
+        expect(g.canPlace("b8", 1)).to.be.false;
     });
 });
 

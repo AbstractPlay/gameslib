@@ -1902,7 +1902,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                         window.localStorage.setItem("playerCount", injectedPlayerCount);
                         currentPlayerCount = injectedPlayerCount;
                     }
-                    const game = APGames.GameFactory(meta, parsed.numplayers || undefined, undefined);
+                    const game = APGames.GameFactory(meta, state);
                     if (game !== undefined) {
                         field.value = "";
                         window.localStorage.setItem("state", game.serialize());

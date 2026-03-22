@@ -9,7 +9,8 @@
     },
     "BLOCK": {
         "between": "[FR]{{player}} erected a fence between {{cell1}} and {{cell2}}.",
-        "veletas": "{{player}} a placé une pièce à {{where}}."
+        "veletas": "{{player}} a placé une pièce à {{where}}.",
+        "bao": "Le pit {{pit}} est à kutakatia (est bloqué)."
     },
     "CAPTURE": {
         "complete": "[FR]{{player}} captured a {{what}} at {{where}}.",
@@ -125,11 +126,19 @@
         "add_one": "{{player}} a ajouté 1 pièce à {{where}}.",
         "add_many": "{{player}} a ajouté {{count}} pièces à {{where}}.",
         "add_other": "{{player}} a ajouté {{count}} pièces à {{where}}.",
-        "logger": "L'arbre de {{where}} a grandi d'un stade."
+        "logger": "L'arbre de {{where}} a grandi d'un stade.",
+        "magnate": "{{player}} a ajouté {{count}} token(s) à sa carte de transfert {{where}}."
     },
     "BUTTON": "{{player}} a pris le bouton.",
     "AFFILIATE": {
         "cifra_lt": "{{player}} a choisi de jouer les pièces claires depuis la rangée du haut.",
-        "cifra_lb": "{{player}} a choisi de jouer les pièces claires de la rangée du bas."
+        "cifra_lb": "{{player}} a choisi de jouer les pièces claires de la rangée du bas.",
+        "cifra_dt": "{{player}} a choisi de jouer les pièces noires du rang supérieur.",
+        "cifra_db": "{{player}} a choisi de jouer les pièces noires du rang supérieur.",
+        "cifra_ll": "{{player}} a choisi de jouer les pièces claires de la colonne de gauche.",
+        "cifra_lr": "{{player}} a choisi de jouer les pièces claires de la colonne de droite.",
+        "cifra_dl": "{{player}} a choisi de jouer les pièces noires de la colonne de gauche.",
+        "cifra_dr": "{{player}} a choisi de jouer les pièces noires de la colonne de droite.",
+        "witch_M": "{{player}} a choisi les Pierres de Lune."
     }
 }

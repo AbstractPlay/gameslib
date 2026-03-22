@@ -12,6 +12,10 @@ export class DominoDeck {
         return this._dominoes.map((d) => d.domino);
     }
 
+    public get size(): number {
+        return this._dominoes.length;
+    }
+
     constructor(dominoes: Domino[] = []) {
         this._dominoes = dominoes.map((d) => ({ domino: d.clone(), faceUp: false }));
     }
@@ -56,6 +60,15 @@ export class DominoDeck {
 
     public add(domino: Domino, faceUp = true): void {
         this._dominoes.push({ domino, faceUp });
+    }
+
+    public remove(dominoes: Domino[]): void {
+        for (const target of dominoes) {
+            const idx = this._dominoes.findIndex((item) => (item.domino.l === target.l && item.domino.r === target.r));
+            if (idx !== -1) {
+                this._dominoes.splice(idx, 1);
+            }
+        }
     }
 
     public revealAll(): void {

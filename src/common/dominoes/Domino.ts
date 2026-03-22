@@ -8,8 +8,12 @@ export class Domino {
     public readonly r: number;
 
     constructor(l: number, r: number) {
-        this.l = l;
-        this.r = r;
+        this.l = Math.min(l, r);
+        this.r = Math.max(l, r);
+    }
+
+    public uid(): string {
+        return `${this.l}|${this.r}`;
     }
 
     public clone(): Domino {

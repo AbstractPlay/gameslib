@@ -62,7 +62,7 @@ export class MinefieldGame extends GameBase {
             { uid: "#board", },
             { uid: "size-13", group: "board" },
             { uid: "size-15", group: "board" },
-            { uid: "cartwheel" },
+            { uid: "pinwheel" },
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["pie", "automove"]
@@ -200,7 +200,7 @@ export class MinefieldGame extends GameBase {
             ]
         });
         // dist 3
-        if (!this.variants.includes("cartwheel")) {
+        if (!this.variants.includes("cartwheel") && !this.variants.includes("pinwheel")) {
             lst.push({
                 name: "switch3",
                 deltas: [
@@ -249,8 +249,25 @@ export class MinefieldGame extends GameBase {
                     {dx: 0, dy: 2, payload: null},
                 ]
             });
+        } else if (this.variants.includes("pinwheel")) {
+            // pinwheel
+            lst.push({
+                name: "pinwheel",
+                deltas:[
+                    {dx: 1, dy: 0, payload: "e"},
+                    {dx: 2, dy: 1, payload: "f"},
+                    {dx: 2, dy: 2, payload: "e"},
+                    {dx: 1, dy: 3, payload: "f"},
+                    {dx: 0, dy: 3, payload: "e"},
+                    {dx: -1, dy: 2, payload: "f"},
+                    {dx: -1, dy: 1, payload: "e"},
+                    {dx: 0, dy: 1, payload: null},
+                    {dx: 1, dy: 1, payload: null},
+                    {dx: 1, dy: 2, payload: null},
+                    {dx: 0, dy: 2, payload: null},
+                ]
+            });
         }
-
         return lst;
     }
 

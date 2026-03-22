@@ -1701,6 +1701,10 @@
             "cartwheel": {
                 "name": "Cartwheel",
                 "description": "Allows 2x4 switches but forbids rare 4x4 pinwheels and cartwheels (by Luis Bolaños Mures)"
+            },
+            "pinwheel": {
+                "name": "Pinwheel",
+                "description": "Allows 2x4 switches but forbids rare 4x4 pinwheels (by Luis Bolaños Mures)"
             }
         },
         "mixtour": {

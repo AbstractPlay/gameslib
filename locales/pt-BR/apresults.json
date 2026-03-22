@@ -104,6 +104,11 @@
         "onyx": "Um par de peças foi capturado em {{where1}} e {{where2}}.",
         "orb_1": "{{player}} capturou um orbe em {{where}}.",
         "orb_2": "{{player}} capturou uma esfera em {{where}}.",
-        "pente": "{{player}} capturou {{count}} peças."
+        "pente": "{{player}} capturou {{count}} peças.",
+        "owlman_replacement": "{{player}} devorou a peça em {{where}}.",
+        "reversi_one": "A peça foi virada.",
+        "reversi_many": "{{count}} peças foram viradas.",
+        "reversi_other": "{{count}} peças foram viradas.",
+        "spook_drop_opponent": "{{player}} tem 1 das bolas do oponente capturada por Spooky no nível abaixo em {{where}}."
     }
 }

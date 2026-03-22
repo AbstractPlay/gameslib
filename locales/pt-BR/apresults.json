@@ -109,6 +109,10 @@
         "reversi_one": "A peça foi virada.",
         "reversi_many": "{{count}} peças foram viradas.",
         "reversi_other": "{{count}} peças foram viradas.",
-        "spook_drop_opponent": "{{player}} tem 1 das bolas do oponente capturada por Spooky no nível abaixo em {{where}}."
+        "spook_drop_opponent": "{{player}} tem 1 das bolas do oponente capturada por Spooky no nível inferior em {{where}}.",
+        "spook_drop_self": "{{player}} tem 1 das suas bolas capturadas por Spooky no nível inferior em {{where}}.",
+        "spook_lateral_opponent_one": "{{player}} tem 1 das bolas do oponente capturada por Spooky no mesmo nível em {{where}}.",
+        "spook_lateral_opponent_many": "{{player}} tem {{count}} bolas do oponente capturadas por Spooky no mesmo nível em {{where}}.",
+        "spook_lateral_opponent_other": "{{player}} tem {{count}} bolas do oponente capturadas por Spooky no mesmo nível em {{where}}."
     }
 }

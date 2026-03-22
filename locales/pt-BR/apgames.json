@@ -71,6 +71,9 @@
         "dipole": "Um jogo anticorrida onde você, eventualmente perde peças, porém tenta ser um último a perder tudo.",
         "dragoneyes": "Uma variação de damas com instruções incompletas, espaços para olhos de dragão encantados e jogado em um tabuleiro hexagonal.",
         "emergo": "Uma variante de 'Draughts' onde peças capturadas permancem no tabuleiro e podem ser libertadas posteriormente. Capture todas as peças adversárias. Derivado de 'Lasca', porém com dois duas fases e tentativas incessantes de captura compulsória.",
-        "emu": "Cada pássaro no seu celeiro é representado por uma pilha de cartas. No final da rodada, o valor de um pássaro é determinado pela soma das cartas numéricas na pilha. O objetivo é eventualmente criar pássaros lucrativos. A maior pontuação após um número de anos vence."
+        "emu": "Cada pássaro no seu celeiro é representado por uma pilha de cartas. No final da rodada, o valor de um pássaro é determinado pela soma das cartas numéricas na pilha. O objetivo é eventualmente criar pássaros lucrativos. A maior pontuação após um número de anos vence.",
+        "epam": "Epaminondas é um distinto jogo para dois jogadores onde você tenta sobrecarregar a fileira inicial do oponente. Peças movem como uma linha de batalha que avança um número de casas de acordo com a sua largura. As regras são simples, mas o resultado é sempre algo com mérito a reflexão.",
+        "exxit": "Exxit é basicamente um jogo de controle de território. Manobre as suas peças para criar novas casas. Lute para criar a maior ilha de casas conectadas da sua cor. O tabuleiro é criado a medida que se é jogado.",
+        "fabrik": "Em Fabrik, jogadores manipulam operários para determinar onde as peças podem ser colocadas. O objetivo é conseguir um número determinado das suas peças em uma fileira. No modo tradicional, jogadores podem mover qualquer operário. Na versão \"Arbeiter\", cada jogador tem controle em uma peça em específico."
     }
 }

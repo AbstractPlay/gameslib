@@ -262,26 +262,43 @@ export class MinefieldGame extends GameBase {
                 for (const delta of transform) {
                     const nx = x + delta.dx;
                     const ny = y + delta.dy;
-                    if (nx < 0 || nx >= this.boardSize || ny < 0 || ny >= this.boardSize) {
-                        match = false;
-                        break;
-                    }
-                    const check = this.coords2algebraic(nx, ny);
-                    const contents = this.board.get(check);
 
-                    let isFriendly = (contents === player);
-                    let isEnemy = (contents !== undefined && contents !== player);
-                    let isEmpty = (contents === undefined);
+                    let isFriendly = false;
+                    let isEnemy = false;
+                    let isEmpty = false;
 
-                    if (name === "cartwheel" && isEmpty) {
-                        if (ny === 0 || ny === this.boardSize - 1) {
-                            if (player === 1) { isFriendly = true; } else { isEnemy = true; }
-                            isEmpty = false;
+                    if (name === "cartwheel") {
+                        if (nx < -1 || nx > this.boardSize || ny < -1 || ny > this.boardSize) {
+                            match = false;
+                            break;
                         }
-                        if (nx === 0 || nx === this.boardSize - 1) {
-                            if (player === 2) { isFriendly = true; } else { isEnemy = true; }
-                            isEmpty = false;
+
+                        if (nx >= 0 && nx < this.boardSize && ny >= 0 && ny < this.boardSize) {
+                            const check = this.coords2algebraic(nx, ny);
+                            const contents = this.board.get(check);
+                            if (contents === player) { isFriendly = true; }
+                            else if (contents !== undefined) { isEnemy = true; }
+                            else { isEmpty = true; }
+                        } else {
+                            if (ny === -1 || ny === this.boardSize) {
+                                if (player === 1) { isFriendly = true; }
+                                else { isEnemy = true; }
+                            }
+                            if (nx === -1 || nx === this.boardSize) {
+                                if (player === 2) { isFriendly = true; }
+                                else { isEnemy = true; }
+                            }
                         }
+                    } else {
+                        if (nx < 0 || nx >= this.boardSize || ny < 0 || ny >= this.boardSize) {
+                            match = false;
+                            break;
+                        }
+                        const check = this.coords2algebraic(nx, ny);
+                        const contents = this.board.get(check);
+                        if (contents === player) { isFriendly = true; }
+                        else if (contents !== undefined) { isEnemy = true; }
+                        else { isEmpty = true; }
                     }
 
                     if (delta.payload === "f" && !isFriendly) {

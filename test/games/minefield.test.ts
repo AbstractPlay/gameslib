@@ -183,9 +183,17 @@ describe("Minefield", () => {
         expect(g.canPlace("j16", 2)).to.be.true;
         g = new MinefieldGame(undefined, ["cartwheel"]);
         g.board = new Map<string, playerid>([
-            ["c8", 1], ["d10", 2], ["d9", 2],
+            ["d1", 2], ["d2", 2],
+            ["e3", 1],
+            ["g1", 2], ["g2", 2]
         ]);
-        expect(g.canPlace("b8", 1)).to.be.false;
+        expect(g.canPlace("f3", 1)).to.be.false;
+        g = new MinefieldGame(undefined, ["cartwheel"]);
+        g.board = new Map<string, playerid>([
+            ["c11", 2], ["c10", 2],
+            ["b9", 1],
+        ]);
+        expect(g.canPlace("a9", 1)).to.be.false;
     });
 });
 

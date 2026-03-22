@@ -2652,7 +2652,7 @@ export class CrosshairsGame extends GameBase {
 
     protected checkEOG(): CrosshairsGame {
         // A player is eliminated if reduced to 1 plane (can no longer shoot anyone)
-        for (const player of [1, 2] as playerid[]) {
+        for (const player of [this.currplayer, 3 - this.currplayer] as playerid[]) { // Check opponent first since current player might have been forced to crash their last plane
             const planeCount = this.countPlanesOnBoard(player);
             const remaining = this.planesRemaining[player - 1];
             if (planeCount + remaining <= 1 && !this.inCloudPhase()) {

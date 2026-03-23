@@ -1,1 +1,8 @@
-{}
+{
+    "ABANDONED": "Se ha abandonado el juego.",
+    "ADD": {
+        "add_one": "{{player}} agregado una pieza a {{where}}.",
+        "add_many": "{{player}} agregado {{count}} piezas a {{where}}.",
+        "add_other": "{{player}} agregado {{count}} piezas a {{where}}."
+    }
+}

@@ -40,7 +40,7 @@ export class MinefieldGame extends GameBase {
         urls: [
             "https://www.marksteeregames.com/Minefield_rules.pdf",
             "https://boardgamegeek.com/thread/3295906/new-mark-steere-game-minefield",
-            "https://boardgamegeek.com/thread/3299199/cartwheel-possibly-free-of-mutual-zugzwang",
+            "https://boardgamegeek.com/thread/3296675/pinwheel-minimal-restrictions",
         ],
         people: [
             {
@@ -494,24 +494,35 @@ export class MinefieldGame extends GameBase {
     protected checkEOG(): MinefieldGame {
         const prevPlayer = this.currplayer === 1 ? 2 : 1;
 
-        const graph = this.buildGraph(prevPlayer);
-        const [sources, targets] = this.lines[prevPlayer - 1];
-        for (const source of sources) {
-            for (const target of targets) {
-                if ( (graph.hasNode(source)) && (graph.hasNode(target)) ) {
-                    const path = bidirectional(graph, source, target);
-                    if (path !== null) {
-                        this.gameover = true;
-                        this.winner = [prevPlayer];
-                        this.connPath = [...path];
-                        break;
+        let passedOut = false;
+        if ( (this.lastmove === "pass") && (this.stack[this.stack.length - 1].lastmove === "pass") ) {
+            passedOut = true;
+        }
+
+        if (passedOut) {
+            this.gameover = true;
+            this.winner = [1,2];
+        } else {
+            const graph = this.buildGraph(prevPlayer);
+            const [sources, targets] = this.lines[prevPlayer - 1];
+            for (const source of sources) {
+                for (const target of targets) {
+                    if ( (graph.hasNode(source)) && (graph.hasNode(target)) ) {
+                        const path = bidirectional(graph, source, target);
+                        if (path !== null) {
+                            this.gameover = true;
+                            this.winner = [prevPlayer];
+                            this.connPath = [...path];
+                            break;
+                        }
                     }
                 }
-            }
-            if (this.gameover) {
-                break;
+                if (this.gameover) {
+                    break;
+                }
             }
         }
+
 
         if (this.gameover) {
             this.results.push(

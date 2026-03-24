@@ -63,6 +63,9 @@ export class MinefieldGame extends GameBase {
             { uid: "size-13", group: "board" },
             { uid: "size-15", group: "board" },
             { uid: "pinwheel" },
+            // marked as experimental so it still shows up
+            // in the variant list but not in the new challenge dialog
+            { uid: "cartwheel", experimental: true}
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["pie", "automove"]

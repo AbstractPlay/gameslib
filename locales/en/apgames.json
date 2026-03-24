@@ -5975,7 +5975,8 @@
             "NOPLACEMENTS": "You cannot move the workers such that you have no valid placements available.",
             "PARTIAL_MOVE": "Provide the destination.",
             "PARTIAL_PLACE": "Choose a cell to place a piece in.",
-            "PARTIAL_PLACE_SIZE": "Select the size of a piece to place."
+            "PARTIAL_PLACE_SIZE": "Select the size of a piece to place.",
+            "VALID_MOVE": "Looks like a valid move. You can also click the cell again to select the next available piece size."
         },
         "valley": {
             "BAD_VARIANT": "You can only move towers in the Moon Labyrinth variant.",

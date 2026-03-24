@@ -720,8 +720,9 @@ export class UrbinoGame extends GameBase {
             }
 
             // we're good
+            // always return complete = 0 to allow continued clicking to rotate through pieces sizes
             result.valid = true;
-            result.complete = 1;
+            result.complete = 0;
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;
         }

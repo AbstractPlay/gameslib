@@ -283,17 +283,9 @@ export class WitchGame extends GameBase {
                 }
                 if (this.board.has(cell)) {
                     const contents = this.board.get(cell)!;
-                    if (contents === "C") {
-                        return {move, message: ""} as IClickResult;
-                    } else if (contents === "E") {
-                        newmove = `${move}${cell}`;
-                    } else if ( (aff !== undefined) && (contents !== aff) ) {
-                        return {move, message: ""} as IClickResult;
-                    } else if ( (aff === undefined) && (this.currplayer === 2) ) {
+                    if ( (aff === undefined) && (this.currplayer === 2) ) {
                         if ( (contents === "S") || (contents === "M") ) {
                             newmove = `(${contents})`;
-                        } else {
-                            return {move, message: ""} as IClickResult;
                         }
                     } else {
                         newmove = `${move}${cell}`;
@@ -305,8 +297,6 @@ export class WitchGame extends GameBase {
             } else {
                 if (! this.board.has(cell)) {
                     newmove = `${move}-${cell}`;
-                } else {
-                    return {move, message: ""} as IClickResult;
                 }
             }
 

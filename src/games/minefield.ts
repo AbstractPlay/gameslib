@@ -57,11 +57,13 @@ export class MinefieldGame extends GameBase {
             },
         ],
         variants: [
-            { uid: "size-8", group: "board" },
+            { uid: "size-8", group: "board", experimental: true },
             { uid: "size-9", group: "board" },
             { uid: "#board", },
-            { uid: "size-13", group: "board" },
+            { uid: "size-13", group: "board", default: true },
             { uid: "size-15", group: "board" },
+            { uid: "size-17", group: "board" },
+            { uid: "size-19", group: "board" },
             { uid: "pinwheel" },
             // marked as experimental so it still shows up
             // in the variant list but not in the new challenge dialog

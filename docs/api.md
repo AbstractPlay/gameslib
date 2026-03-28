@@ -8,7 +8,7 @@ The AI code in this library is for testing only. It is not ready for release and
 
 ## Usage
 
-In the browser, simply load `APGames.js` via a `<script>` tag. From within Node, simply import the variables and functions you need. Both methods give you access to the same API.
+In the browser, simply load `APGames.min.js` via a `<script>` tag. From within Node, simply import the variables and functions you need. Both methods give you access to the same API.
 
 ## API
 

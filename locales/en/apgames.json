@@ -1698,6 +1698,12 @@
             "size-15": {
                 "name": "15x15 board"
             },
+            "size-17": {
+                "name": "17x17 board"
+            },
+            "size-19": {
+                "name": "19x19 board"
+            },
             "cartwheel": {
                 "name": "Cartwheel",
                 "description": "Allows 2x4 switches but forbids rare 4x4 pinwheels and cartwheels (by Luis Bolaños Mures)"

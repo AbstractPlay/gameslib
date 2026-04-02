@@ -38,6 +38,7 @@ export class AbandeGame extends GameBase {
         description: "apgames:descriptions.abande",
         urls: [
             "https://spielstein.com/games/abande/rules",
+            "https://spielstein.com/games/abande/rules/libre",
             "https://boardgamegeek.com/boardgame/21324/abande",
             "https://boardgamegeek.com/boardgameexpansion/57291/abande2",
         ],
@@ -511,7 +512,7 @@ export class AbandeGame extends GameBase {
                     return result;
                 }
                 // You can't move until there are four stones on the board
-                if (this.board.size < 4) {
+                if ([...this.board.values()].flat().length < 4) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.abande.TOOEARLY_libre");
                     return result;

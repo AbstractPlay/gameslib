@@ -179,6 +179,7 @@
         "rootbound": "In Root Bound, two groups of ‘plants’ spread in lifelike ways and vie for control of territory as space for new growth rapidly dwindles.",
         "saltire": "Connect your two opposite sides of the board by placing stones and swapping pairs of orthogonally or diagonally adjacent stones. A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
         "scaffold": "Scaffold is a drawless connection game played on the intersections of a square grid using stones (as in Go). Black is trying to connect N-S edges of the board, White E-W with an orthogonally connected group. On your turn, place a stone of your color on an empty point. Then, if possible, place a stone of your color on an empty point that is orthogonally adjacent to two groups of your color, and keep making such placements until no more are possible.",
+        "sentinel": "A vigil game using a sowing mechanism with stacks. A vigil game is one where some board position must always be on line-of-sight with some or all of the player's pieces. In Sentinel, players are required to see the board center at the end of each one of their turns.",
         "shifty": "A connection game where you either place a piece orthogonally adjacent to a friendly piece, or move one of your pieces orthogonally adjacent to a friendly piece, by a chess queen's move, to a location not orthogonally adjacent to any other friendly pieces. Crosscuts are illegal. The player that forms an orthogonal or diagonal path connecting their two sides wins.",
         "siegeofj": "Place cards, representing armies, to exert pressure on segments of the wall around the city of Jacynth. Exert the most pressure on the most segments to win.",
         "slither": "Square-board connection game with updated rules from 2018. Optionally move a piece and then place a piece, such that no two pieces of a colour are diagonally adjacent to each other unless they are orthogonally connected by a like-coloured stone. In Advanced Slither, a piece may only move if it is part of a contiguous orthogonal group consisting of pieces of both colours.",
@@ -2318,6 +2319,11 @@
             },
             "size-25": {
                 "name": "Larger 25x25 board"
+            }
+        },
+        "sentinel": {
+            "#board": {
+                "name": "9x9 board"
             }
         },
         "shifty": {
@@ -5545,6 +5551,15 @@
             "INCOMPLETE": "You need to place stones to connect the groups.",
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece.",
             "INVALID_MOVES": "This sequence of moves {{moves}} is invalid."
+        },
+        "sentinel": {
+            "INITIAL_INSTRUCTIONS": "Move a piece forward or sow a stack on any direction. The center cannot be crossed over. Captures are by replacement.",
+            "EDGE_INSTRUCTIONS": "Move the piece one step forward (orthogonally or diagonally). The piece can be moved out of the board by clicking at the center.",
+            "PIECE_INSTRUCTIONS": "Move the piece one step forward (orthogonally or diagonally).",
+            "STACK_INSTRUCTIONS": "Sow the stack in any direction provided there's space to place all of its pieces (plus one). It is illegal to create un-sowable stacks. Captures are by replacement.",
+            "INVALID_CENTER": "It is illegal to move or sow over the board center!",
+            "NO_STACK_TURN_3": "Notice that the first player cannot make a stack in his second move.",
+            "MOVE_INSTRUCTIONS": "First, click on a friendly piece."
         },
         "shifty": {
             "INITIAL_INSTRUCTIONS": "Select an intersection to place a piece next to one of your own pieces, or select a piece to move.",

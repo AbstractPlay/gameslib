@@ -234,6 +234,8 @@ import { StilettoGame, IStilettoState } from "./stiletto";
 import { BTTGame, IBTTState } from "./btt";
 import { MinefieldGame, IMinefieldState } from "./minefield";
 import { SentinelGame, ISentinelState } from "./sentinel";
+import { XanaGame, IXanaState } from "./xana";
+import { SporaGame, ISporaState } from "./spora";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -471,6 +473,8 @@ export {
     BTTGame, IBTTState,
     MinefieldGame, IMinefieldState,
     SentinelGame, ISentinelState,
+    XanaGame, IXanaState,
+    SporaGame, ISporaState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -552,7 +556,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof BambooGame | typeof PluralityGame | typeof CrosshairsGame |
                               typeof MagnateGame | typeof ProductGame | typeof OonpiaGame |
                               typeof GoGame | typeof StilettoGame | typeof BTTGame |
-                              typeof MinefieldGame | typeof SentinelGame
+                              typeof MinefieldGame | typeof SentinelGame | typeof XanaGame |
+                              typeof SporaGame
                 >();
 // Manually add each game to the following array
 [
@@ -588,7 +593,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     SiegeOfJGame, StairsGame, EmuGame, DeckfishGame, BluestoneGame, SunspotGame, StawvsGame,
     LascaGame, EmergoGame, FroggerGame, ArimaaGame, RampartGame, KrypteGame, EnsoGame, RincalaGame,
     WaldMeisterGame, WunchunkGame, BambooGame, PluralityGame, CrosshairsGame, MagnateGame,
-    ProductGame, OonpiaGame, GoGame, StilettoGame, BTTGame, MinefieldGame, SentinelGame
+    ProductGame, OonpiaGame, GoGame, StilettoGame, BTTGame, MinefieldGame, SentinelGame, XanaGame, SporaGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -1068,6 +1073,10 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new MinefieldGame(...args);
         case "sentinel":
             return new SentinelGame(...args);
+        case "xana":
+            return new XanaGame(...args);
+        case "spora":
+            return new SporaGame(...args);
     }
     return;
 }

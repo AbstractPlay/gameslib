@@ -77,7 +77,7 @@ export class XanaGame extends GameBase {
         ],
         categories: ["goal>area", "mechanic>place", "mechanic>move", "mechanic>stack", "mechanic>enclose",
                      "board>shape>hex", "components>simple>3c"],
-        flags: ["pie", "custom-buttons", "custom-colours", "scores", "experimental"],
+        flags: ["pie", "no-moves", "custom-buttons", "custom-colours", "scores", "experimental"],
     };
 
     public numplayers = 2;

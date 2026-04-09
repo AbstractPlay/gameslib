@@ -2,7 +2,7 @@ import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, 
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic, MarkerDots, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { replacer, reviver, UserFacingError, SquareOrthGraph } from "../common";
+import { replacer, reviver, SquareOrthGraph, UserFacingError } from "../common";
 import { connectedComponents } from "graphology-components";
 import pako, { Data } from "pako";
 
@@ -24,9 +24,10 @@ interface IMoveState extends IIndividualState {
     board: Map<string, cellcontents>;
     lastmove?: string;
     scores: [number, number];
+    reserve: [number, number];
+    maxGroups: [number, number]; // relevant for the opening to define which groups are alive
     komi?: number;
     swapped: boolean;
-    reserve: [number, number];
 }
 
 export interface ISporaState extends IAPGameState {
@@ -69,7 +70,7 @@ export class SporaGame extends GameBase {
         ],
         categories: ["goal>area", "mechanic>place", "mechanic>move>sow", "mechanic>capture", "mechanic>stack",
                      "mechanic>enclose", "board>shape>rect", "components>simple>2c"],
-        flags: ["scores", "custom-buttons", "custom-colours", "experimental"],
+        flags: ["scores", "no-moves", "custom-buttons", "custom-colours", "experimental"],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -89,9 +90,10 @@ export class SporaGame extends GameBase {
     public results: Array<APMoveResult> = [];
     public variants: string[] = [];
     public scores: [number, number] = [0, 0];
+    public reserve: [number, number] = [this.getReserveSize(), this.getReserveSize()]; // #pieces off-board
+    public maxGroups: [number, number] = [0, 0];
     public komi?: number;
     public swapped = true;
-    public reserve: [number, number] = [this.getReserveSize(), this.getReserveSize()]; // number of pieces initially off-board
 
     private boardSize = 13;
 
@@ -108,8 +110,9 @@ export class SporaGame extends GameBase {
                 currplayer: 1,
                 board: new Map(),
                 scores: [0, 0],
-                swapped: true,
                 reserve: [this.getReserveSize(), this.getReserveSize()],
+                maxGroups: [0, 0],
+                swapped: true,
             };
             this.stack = [fresh];
         } else {
@@ -153,6 +156,7 @@ export class SporaGame extends GameBase {
         this.boardSize = this.getBoardSize();
         this.scores = [...state.scores];
         this.reserve = [...state.reserve];
+        this.maxGroups = state.maxGroups === undefined ? [0,0] : [...state.maxGroups];
         this.komi = state.komi;
         this.swapped = false;
         // We have to check the first state because we store the updated version in later states
@@ -183,8 +187,8 @@ export class SporaGame extends GameBase {
     // lower and upper bounds for the amount of stones each player should have, then the arithmetic
     // mean of these two bounds give us the initial budget
     private getReserveSize() : number {
-        const a = 2*(this.getBoardSize() * this.getBoardSize())/3;
-        const b = (this.getBoardSize() * this.getBoardSize())/2;
+        const a =   (this.getBoardSize() * this.getBoardSize())/2;
+        const b = 2*(this.getBoardSize() * this.getBoardSize())/3;
         return Math.ceil((a+b)/2);
     }
 
@@ -274,21 +278,17 @@ export class SporaGame extends GameBase {
         return new SquareOrthGraph(this.boardSize, this.boardSize);
     }
 
-    private toXY(c: string): [number, number] { // TODO: change to algebraic2coords
-      const x = c.charCodeAt(0) - "a".charCodeAt(0);
-      const y = Number(c.slice(1)) - 1;
-      return [x, y];
-    }
-
     // check orthogonal adjacency
     private isOrthAdjacent(a: string, b: string): boolean {
-      const [x1, y1] = this.toXY(a);
-      const [x2, y2] = this.toXY(b);
+      const [x1, y1] = this.algebraic2coords(a);
+      const [x2, y2] = this.algebraic2coords(b);
       return Math.abs(x1 - x2) + Math.abs(y1 - y2) === 1;
     }
 
     // checks if the given path is legal according to Spora's rules
-    private isValidPath(start: string, remainingSowSize: number, path: string[]): boolean {
+    // we need (placedStack, n) because the player might sow over the just placed/increased stack
+    private isValidPath(placedStack: string, n: number,
+                        start: string, remainingSowSize: number, path: string[]): boolean {
       if (path.length === 0) return true;
 
       // first step must be adjacent to start
@@ -302,8 +302,8 @@ export class SporaGame extends GameBase {
 
       for (const cell of path) {
         if (! this.isOrthAdjacent(prev, cell)) { return false; }
-        const [x1, y1] = this.toXY(prev);
-        const [x2, y2] = this.toXY(cell);
+        const [x1, y1] = this.algebraic2coords(prev); //this.toXY(prev); //
+        const [x2, y2] = this.algebraic2coords(cell); //this.toXY(cell); //
         const dir: [number, number] = [x2 - x1, y2 - y1];
 
         if (prevDir) {  // check no 180° turn
@@ -319,10 +319,20 @@ export class SporaGame extends GameBase {
                 return false; // enemy stack is too big; this path is invalid
             }
         }
-        // also check if there's a friendly stack with size 4 (size 5 is illegal)
-        if ( this.board.has(cell) && this.board.get(cell)![0] === this.currplayer ) {
+        // also check if there's a friendly stack with size 4 (size 5 is illegal),
+        // unless the last piece is the start (ie, the sowing made a complete square)
+        if ( this.board.has(cell) && this.board.get(cell)![0] === this.currplayer && start !== cell ) {
             const size = this.board.get(cell)![1];
-            if ( size === 4) {
+            if ( cell !== placedStack && size === 4 ) {
+                return false; // friendly stack is too big; this path is invalid
+            }
+            if ( cell === placedStack && size + n === 4 ) {
+                return false; // friendly stack is too big; this path is invalid
+            }
+        }
+
+        if (! this.board.has(cell) ) { // the player might have placed an entire 4-stack
+            if ( cell === placedStack && n === 4 ) {
                 return false; // friendly stack is too big; this path is invalid
             }
         }
@@ -354,6 +364,12 @@ export class SporaGame extends GameBase {
             }
         }
         const groupsOwned = connectedComponents(gOwned.graph);
+
+        // if there's only one group, and that's all there has ever been
+        // then this single group is, by definition, alive
+        if (groupsOwned.length === 1 && this.maxGroups[p - 1] <= 1) {
+            return [];
+        }
 
         // check connecting paths
 
@@ -646,7 +662,7 @@ export class SporaGame extends GameBase {
             cellsPath = tokens[3].split('-');
         }
 
-        if (! this.isValidPath(sowingStack, remainingSowSize, cellsPath) ) {
+        if (! this.isValidPath(initialCell, n, sowingStack, remainingSowSize, cellsPath) ) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.spora.INVALID_SOW_PATH");
             return result;
@@ -660,8 +676,8 @@ export class SporaGame extends GameBase {
     }
 
     private doCaptures(): string[] {
-        const firstPly = this.swapped ? 6 : 5;
-        if ( this.stack.length <= firstPly ) return [];
+        //const firstPly = this.swapped ? 6 : 5;
+        //if ( this.stack.length <= firstPly ) return [];
         const result = [];
         const prevplayer = this.currplayer === 1 ? 2 : 1;
 
@@ -674,6 +690,20 @@ export class SporaGame extends GameBase {
             result.push(cell);
         }
         return result;
+    }
+
+    public updateGroupCounts(): void {
+        for (const p of [1, 2] as const) {
+            const owned = [...this.board.entries()].filter(e => e[1][0] === p).map(e => e[0]);
+            const gOwned = this.getGraph();
+            for (const node of gOwned.graph.nodes()) {
+                if (! owned.includes(node)) {
+                    gOwned.graph.dropNode(node);
+                }
+            }
+            const groups = connectedComponents(gOwned.graph);
+            this.maxGroups[p - 1] = Math.max(this.maxGroups[p - 1], groups.length);
+        }
     }
 
     public move(m: string, {partial = false, trusted = false} = {}): SporaGame {
@@ -790,6 +820,9 @@ export class SporaGame extends GameBase {
             }
         }
 
+        if (this.stack.length > 3) {
+            this.updateGroupCounts();
+        }
         if ( partial ) { return this; }
 
         this.lastmove = m;
@@ -803,7 +836,7 @@ export class SporaGame extends GameBase {
     }
 
     protected checkEOG(): SporaGame {
-        if (this.stack.length <= 4) return this; // player must place at least one stack each
+        if (this.stack.length <= 4) return this; // players must place at least one stack each
 
         const p1Pieces = [...this.board.entries()].filter(e => e[1][0] === 1).map(e => e[0]);
         const p2Pieces = [...this.board.entries()].filter(e => e[1][0] === 2).map(e => e[0]);
@@ -843,6 +876,7 @@ export class SporaGame extends GameBase {
             board: this.cloneBoard(),
             scores: [...this.scores],
             reserve: [...this.reserve],
+            maxGroups: [...this.maxGroups],
             komi: this.komi,
             swapped: this.swapped
         };
@@ -911,7 +945,8 @@ export class SporaGame extends GameBase {
             }
         }
 
-        if ( this.stack.length > 4 ) { // only show territories after the initial moves
+        // add territory dots
+        if (this.maxGroups[0] > 0 && this.maxGroups[1] > 0) {
             const territories = this.getTerritories();
             const markers: Array<MarkerDots> = []
             for (const t of territories) {

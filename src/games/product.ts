@@ -53,7 +53,7 @@ export class ProductGame extends GameBase {
             { uid: "size-7", group: "board" },
             { uid: "1-group", group: "ruleset" },
         ],
-        flags: ["no-moves"]
+        flags: ["pie", "no-moves"]
     };
 
     public numplayers = 2;

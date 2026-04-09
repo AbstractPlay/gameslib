@@ -1344,6 +1344,14 @@
             },
             "size-37": {
                 "name": "37x37 board"
+            },
+            "#ruleset": {
+                "description": "Area counting; situational superko",
+                "name": "AGA Rules"
+            },
+            "positional": {
+                "description": "Area counting; positional superko",
+                "name": "Positional Superko"
             }
         },
         "gonnect": {
@@ -3583,6 +3591,9 @@
         },
         "tumbleweed": "Score (pieces + influence)",
         "ESTIMATEDSCORES": "Estimated scores",
+        "spora" : {
+            "RESERVE": "Reserve:"
+        },
         "TOPLACE": "Piece to place",
         "valley": "Moon Tokens",
         "waldmeister": {
@@ -4677,7 +4688,7 @@
             "PARTIAL": "Select one of the highlighted cells to move the glider. If a bar has appeared at the edge of the board, you can click it to move the glider off the board."
         },
         "go": {
-            "INITIAL_SETUP": "Choose a number of points to add to the second player's score, and the next player will choose sides. This implementation uses Chinese area rules. Scores are based on the current area ownership. Super-Ko applies to prevent positional cycles. Players do need to capture all dead stones before ending the game with two consecutive passes.",
+            "INITIAL_SETUP": "Choose a number of points to add to the second player's score, and the next player will choose sides. This implementation uses Chinese area rules. Scores are based on the current area ownership. Super-Ko applies to prevent cycles. Players do need to capture all dead stones before ending the game with two consecutive passes.",
             "CYCLE" : "A previous position cannot be repeated; super-Ko applies.",
             "INSTRUCTIONS": "Select an intersection to place a piece.",
             "INVALID_KOMI": "You must choose an number in increments of 0.5 (like 4 or 4.5) to add to the second player's score.",
@@ -5705,7 +5716,7 @@
             "ENEMY_PIECE": "It is illegal to add pieces to an opponent stack.",
             "INVALID_KOMI": "You must choose an number in increments of 0.5 (like 4 or 4.5) to add to the second player's score.",
             "INVALID_PLAYSECOND": "You cannot choose to play second from this board state.",
-            "INVALID_SOW_PATH": "The selected path does not follow Spora rules: (a) pick (part of) a stack and leave one piece per orthogonal adjacent intersection, (b) sowing can turn left/right after each placed piece, (c) sowing a stack is only legal if the player can legally place all pieces of the stack, (d) a stack can never have more than four pieces.",
+            "INVALID_SOW_PATH": "The selected path does not follow Spora rules: (a) pick (part of) a stack and leave one piece per orthogonal adjacent intersection, (b) sowing can turn left/right after each placed piece, (c) sowing a stack is only legal if the player can legally place all pieces of the stack, (d) a stack can never have more than four pieces, (e) sowing onto intersections vacated by captures in the same turn is not allowed.",
             "KOMI_CHOICE": "You may either make the first move on the board and let your opponent keep the bonus points (an integer) or you may choose \"Play second\" and take the bonus points for yourself.",
             "MAXIMUM_STACK": "A stack can have, at most, four friendly pieces.",
             "NOT_ENOUGH_PIECES": "The pieces in reserve are not enough for this placement.",

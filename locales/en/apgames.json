@@ -1346,11 +1346,11 @@
                 "name": "37x37 board"
             },
             "#ruleset": {
-                "description": "Area counting; situational superko",
+                "description": "Area scoring; situational superko",
                 "name": "AGA Rules"
             },
             "positional": {
-                "description": "Area counting; positional superko",
+                "description": "Area scoring; positional superko",
                 "name": "Positional Superko"
             }
         },

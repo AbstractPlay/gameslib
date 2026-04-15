@@ -416,6 +416,27 @@ export class SporaGame extends GameBase {
         return this.findDead(this.currplayer, cloned).length === 0;
     }
 
+    // this method is called at the end, when the last player makes a sequence of placements
+    // in this case, after placing some stones, some captures might become legal,
+    //  so we need to try placing piece by piece, and evaluate their validity
+    private validSequence(cells: string[]): boolean {
+        const prevplayer = this.currplayer === 1 ? 2 : 1;
+        // we'll simulate the process in a cloned board
+        const cloned = this.cloneBoard();
+        for (const cell of cells) {
+            // place the stack (herein, its size is irrelevant)
+            cloned.set(cell, [this.currplayer, 1]);
+            // compute all enemy captures
+            const dead = this.findDead(prevplayer, cloned);
+            dead.forEach(cell => cloned.delete(cell));
+            // if there are still friendly captures, the placement is illegal
+            if (this.findDead(this.currplayer, cloned).length > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     // What pieces are orthogonally adjacent to a given area?
     public getAdjacentPieces(area: string[], pieces: string[]): string[] {
       // convert area strings to numeric coordinates
@@ -546,11 +567,12 @@ export class SporaGame extends GameBase {
                     result.message = i18next.t("apgames:validation.spora.MAXIMUM_STACK");
                     return result;
                 }
-                if (! this.validPlacement(cell) ) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation.spora.SELF_CAPTURE");
-                    return result;
-                }
+            }
+            // check if the sequence of placements are able to make legal captures
+            if (! this.validSequence(cells) ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.spora.SELF_CAPTURE");
+                return result;
             }
             result.valid = true;
             result.complete = this.reserve[this.currplayer - 1] > cells.length ? -1 : 1; // end when all pieces are on board

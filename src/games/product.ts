@@ -451,7 +451,7 @@ export class ProductGame extends GameBase {
 
         if (this.gameover) {
             // tied scores is a P2 win
-            this.winner = this.getPlayerScore(1) > this.getPlayerScore(2) ? [1] : [2];
+            this.winner = this.getPlayerScore(1) >= this.getPlayerScore(2) ? [1] : [2];
             this.results.push(
                 {type: "eog"},
                 {type: "winners", players: [...this.winner]}

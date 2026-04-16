@@ -69,6 +69,7 @@ export class GoGame extends GameBase {
             { uid: "size-21", group: "board" },
             { uid: "size-25", group: "board" },
             { uid: "size-37", group: "board" },
+            { uid: "positional", group: "ruleset" },
         ],
         categories: ["goal>area", "mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>rect", "components>simple>1per"],
         flags: ["scores", "custom-buttons", "custom-colours"],
@@ -97,6 +98,7 @@ export class GoGame extends GameBase {
 
     private boardSize = 19;
     private grid: RectGrid;
+    private ruleset: "default" | "positional";
 
     constructor(state?: IGoState | string, variants?: string[]) {
         super();
@@ -134,6 +136,7 @@ export class GoGame extends GameBase {
             this.stack = [...state.stack];
         }
         this.load();
+        this.ruleset = this.getRuleset();
         this.grid = new RectGrid(this.boardSize, this.boardSize);
     }
 
@@ -179,6 +182,11 @@ export class GoGame extends GameBase {
             }
         }
         return 19;
+    }
+
+    private getRuleset(): "default" | "positional" {
+        if (this.variants.includes("positional")) { return "positional"; }
+        return "default";
     }
 
     public isKomiTurn(): boolean {
@@ -237,13 +245,20 @@ export class GoGame extends GameBase {
     private numRepeats(): number {
         let num = 0;
         const sigCurr = this.signature();
-        //const parityCurr = this.stack.length % 2 === 0 ? "even" : "odd";
+        const parityCurr = this.stack.length % 2 === 0;
+
         for (let i = 0; i < this.stack.length; i++) {
-            //const parity = i % 2 === 0 ? "even" : "odd";
             const sig = this.signature(this.stack[i].board);
-            //if (sig === sigCurr && parity === parityCurr) {
-            if (sig === sigCurr) {
-                num++;
+
+            if (this.ruleset === "positional") { // apply positional superko
+                if (sig === sigCurr) {
+                    num++;
+                }
+            } else { // apply situational superko
+                const parity = i % 2 === 0;
+                if (sig === sigCurr && parity === parityCurr) {
+                    num++;
+                }
             }
         }
         return num;

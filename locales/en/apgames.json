@@ -189,6 +189,7 @@
         "sploof": "Create a string of four touching balls at any level visible as a straight line from directly above the board. Players start with two balls in their hand, but can take two balls from their stash every time a neutral ball is removed. Players also lose when they have no moves on their turn.",
         "sponnect": "A simple Shibumi connection game where every internal space that can be buried in a fully-filled board is pre-filled with neutral pieces. You may pass on your turn as long as your opponent didn't pass immediately before.",
         "spook": "Guide Spooky the ghost around the pyramid and try to be the first player to have all balls of your colour removed. The game takes place in two phases: the setup phase where the pyramid is built, and the getaway phase, where Spooky starts at the top of the pyramid and starts eliminating balls.",
+        "spora" : "A territorial game with limited pieces to build stacks that capture by enclosure and/or by sowing.",
         "spree": "An impartial n-in-a-row game where players take turns handing a ball to their opponent to place. The goal is to try to make a full line of one of two colours (red and blue by default). There is a third wild neutral colour (green by default) that can play the role of either colour.",
         "squaredance": "A game where you move groups of pieces by rotation, trying to force your opponent into a position where they cannot move.",
         "stairs": "Stack higher than your opponent in this game of one-space, one-level jumps where you also have to move your lowest pieces first. To take the lead and win, you must surpass your opponent's tallest stack height or, failing that, their number of stacks at the tallest height.",
@@ -232,6 +233,7 @@
         "witch": "Four types of pieces are arrayed randomly on a grid. Each player takes turns removing pieces until one reaches a score of 50.",
         "wunchunk": "Unify your pieces as much as you can by the end of the game, while keeping your pieces separate in the early and mid-game so as to increase their power. Fewest groups at the end wins.",
         "wyke": "A two-player game where one plays the builder and the other the destroyer. Claim cells by either completing or completely destroying lots. Win a certain number of lots or lots in a particular pattern to win.",
+        "xana": "A stack game where players have a limited amount of pieces, and an unlimited amount of walls, to conquer territory.",
         "yavalath": "Form a line of four or more pieces of your colour *without* forming a line of three pieces first.",
         "yonmoque": "Try to form four in a row in a game where not all spaces are equal and opposing pieces can be converted.",
         "zola": "A game where your movement is constrained by your distance from the centre of the board. Capturing moves must not increase that distance. Non-capturing moves must increase that distance. First person to capture all opposing pieces wins."
@@ -1342,6 +1344,14 @@
             },
             "size-37": {
                 "name": "37x37 board"
+            },
+            "#ruleset": {
+                "description": "Area scoring; situational superko",
+                "name": "AGA Rules"
+            },
+            "positional": {
+                "description": "Area scoring; positional superko",
+                "name": "Positional Superko"
             }
         },
         "gonnect": {
@@ -2433,6 +2443,23 @@
                 "name": "5x5 board"
             }
         },
+        "spora": {
+            "size-9": {
+                "name": "9x9 board (48 pieces)"
+            },
+            "#board": {
+                "name": "13x13 board (99 pieces)"
+            },
+            "size-15": {
+                "name": "15x15 board (132 pieces)"
+            },
+            "size-19": {
+                "name": "19x19 board (211 pieces)"
+            },
+            "size-25": {
+                "name": "25x25 board (365 pieces)"
+            }
+        },
         "spree": {
             "#board": {
                 "name": "4x4 board"
@@ -2970,6 +2997,11 @@
             },
             "6x6": {
                 "name": "6x6 board"
+            }
+        },
+        "xana": {
+            "#board": {
+                "name": "Hexhex 8 (169 spaces)"
             }
         },
         "zola": {
@@ -3559,12 +3591,18 @@
         },
         "tumbleweed": "Score (pieces + influence)",
         "ESTIMATEDSCORES": "Estimated scores",
+        "spora" : {
+            "RESERVE": "Reserve:"
+        },
         "TOPLACE": "Piece to place",
         "valley": "Moon Tokens",
         "waldmeister": {
             "COLOUR": "colours",
             "GOALS": "Goals",
             "HEIGHT": "heights"
+        },
+        "xana" : {
+            "RESERVE": "Reserve:"
         },
         "YEAR": "Year"
     },
@@ -4650,7 +4688,7 @@
             "PARTIAL": "Select one of the highlighted cells to move the glider. If a bar has appeared at the edge of the board, you can click it to move the glider off the board."
         },
         "go": {
-            "INITIAL_SETUP": "Choose a number of points to add to the second player's score, and the next player will choose sides. This implementation uses Chinese area rules. Scores are based on the current area ownership. Super-Ko applies to prevent positional cycles. Players do need to capture all dead stones before ending the game with two consecutive passes.",
+            "INITIAL_SETUP": "Choose a number of points to add to the second player's score, and the next player will choose sides. This implementation uses Chinese area rules. Scores are based on the current area ownership. Super-Ko applies to prevent cycles. Players do need to capture all dead stones before ending the game with two consecutive passes.",
             "CYCLE" : "A previous position cannot be repeated; super-Ko applies.",
             "INSTRUCTIONS": "Select an intersection to place a piece.",
             "INVALID_KOMI": "You must choose an number in increments of 0.5 (like 4 or 4.5) to add to the second player's score.",
@@ -5670,6 +5708,25 @@
             "WRONG_PREFIX_PLACE": "Placements should not include a prefix.",
             "WRONG_PREFIX_REMOVE": "Removals should be prefixed with 'r'."
         },
+        "spora": {
+            "INITIAL_SETUP": "Choose a number of points to add to the second player's score, and the next player will choose sides.",
+            "INSTRUCTIONS": "Place between one to four pieces either an empty intersection or on a friendly stack (self-captures are illegal). Then, optionally, select a different friendly stack, click on it as many times as pieces to move, then click on a orthogonal path that starts adjacent to this sowing stack (one piece per intersection). The path must follow Spora's rules.",
+            "END_PHASE_INSTRUCTIONS": "The adversary ended his reserve. You need to place the remaining {{remaining}} pieces from your reserve.",
+            "END_PHASE_LAST" : "This is your last stone to place! The game will end next.",
+            "ENEMY_PIECE": "It is illegal to add pieces to an opponent stack.",
+            "INVALID_KOMI": "You must choose an number in increments of 0.5 (like 4 or 4.5) to add to the second player's score.",
+            "INVALID_PLAYSECOND": "You cannot choose to play second from this board state.",
+            "INVALID_SOW_PATH": "The selected path does not follow Spora rules: (a) pick (part of) a stack and leave one piece per orthogonal adjacent intersection, (b) sowing can turn left/right after each placed piece, (c) sowing a stack is only legal if the player can legally place all pieces of the stack, (d) a stack can never have more than four pieces, (e) sowing onto intersections vacated by captures in the same turn is not allowed.",
+            "KOMI_CHOICE": "You may either make the first move on the board and let your opponent keep the bonus points (an integer) or you may choose \"Play second\" and take the bonus points for yourself.",
+            "MAXIMUM_STACK": "A stack can have, at most, four friendly pieces.",
+            "NOT_ENOUGH_PIECES": "The pieces in reserve are not enough for this placement.",
+            "SAME_PLACE_SOW_STACK": "The sowing stack cannot be the stack just created/enlarged.",
+            "SELF_CAPTURE": "You may not place your stones in self-capture.",
+            "SOW_FRIENDLY": "Only friendly stacks can be sowed.",
+            "SOW_INSTRUCTIONS": "Either select more pieces to sow, or start sowing with the ones already selected. When sowing, the next intersection must be adjacent to the previous one. Left and right turns are valid. Cannot sow over (and capture) opponent stacks with more than half the size of the number of pieces that still need to be sowed.",
+            "SOW_SIZE_SELECTION": "Either place more pieces (up to four), select a different friendly stack to sow (if any), or just finish your move.",
+            "SOW_TOO_LARGE": "The current sowing is larger than the available pieces at the sowing stack."
+        },
         "spree": {
             "ALREADY_WON": "You have already won the game, so you don't have to pick a colour to hand to your opponent.",
             "CANNOT_PLACE": "{{where}} is not a valid place to put a ball.",
@@ -6119,6 +6176,20 @@
             "TOO_FEW_PIECES": "There are too few pieces at {{where}} to remove {{num}} of them.",
             "TOO_MANY_CELLS": "You have selected more cells than the move type allows.",
             "TOO_MANY_PIECES": "There are too many pieces at {{where}} to add {{num}} more."
+        },
+        "xana": {
+            "INITIAL_INSTRUCTIONS": "Drop pieces from reserve on empty cells or friendly stacks. In alternative, move a stack: click it then click on an empty cell within moving range. Afterwards, and optionally, one or two walls can be placed on any empty accessible cells (closed adversary areas are not accessible).",
+            "DROP_MOVE_INSTRUCTIONS" : "Click again on the stack to place a new stone from the reserve. Otherwise, click N times on an empty cell (within moving range) to move N pieces.",
+            "ENEMY_PIECE" : "Cannot change an enemy piece.",
+            "MOVE_NOT_INSIDE_CIRCLE": "Stack cannot be moved outside its circle, ie, its moving range.",
+            "MOVE_TO_OCCUPIED_CELL": "Pieces from a stack must be moved to an empty cell.",
+            "NOT_ENOUGH_PIECES_TO_MOVE": "The stacks does not have that many pieces to be moved.",
+            "NOT_PLACED_ON_FRIEND": "Pieces cannot be moved from adversary stacks.",
+            "OCCUPIED_WALL": "Walls must be placed on empty cells (does not include cells from pieces just captured).",
+            "RESERVE_EMPTY": "Reserve empty, no more placements possible.",
+            "SAME_WALL" : "Cannot place the same wall twice.",
+            "UNACCESSIBLE_PIECE": "Cannot place/move piece on unaccessible cells.",
+            "UNACCESSIBLE_WALL": "Cannot place walls on unaccessible cells."
         },
         "yavalath": {
             "BAD_PASS": "You may only pass if you have been eliminated.",

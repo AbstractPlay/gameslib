@@ -53,7 +53,7 @@ export class ProductGame extends GameBase {
             { uid: "size-7", group: "board" },
             { uid: "1-group", group: "ruleset" },
         ],
-        flags: ["no-moves"]
+        flags: ["pie", "no-moves"]
     };
 
     public numplayers = 2;
@@ -451,7 +451,7 @@ export class ProductGame extends GameBase {
 
         if (this.gameover) {
             // tied scores is a P2 win
-            this.winner = this.getPlayerScore(1) > this.getPlayerScore(2) ? [1] : [2];
+            this.winner = this.getPlayerScore(1) >= this.getPlayerScore(2) ? [1] : [2];
             this.results.push(
                 {type: "eog"},
                 {type: "winners", players: [...this.winner]}

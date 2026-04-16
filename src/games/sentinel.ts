@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, MarkerGlyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError, Direction, allDirections } from "../common";
 import i18next from "i18next";
@@ -61,8 +61,8 @@ export class SentinelGame extends GameBase {
             },
         ],
         categories: ["goal>annihilate", "goal>vigil", "mechanic>capture",  "mechanic>move", 
-                     "mechanic>stack", "board>shape>rect", "components>simple>1per"],
-        flags: ["perspective", "experimental"]
+                     "mechanic>stack", "board>shape>rect", "components>simple>2c"],
+        flags: ["experimental"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -176,9 +176,11 @@ export class SentinelGame extends GameBase {
                     const ray = grid.ray(x, y, dir).map(n => SentinelGame.coords2algebraic(...n));
                     if (ray.length === 0) { // the stone is at the edge and can move out of the board
                         moves.push(`${cell}-off`);
-                    }
-                    if (ray.length > 0) { // there is, at least, an adjacent square in this direction
-                        if (ray[0] === CENTER) {            // cannot move into the center
+                    } else { // there is, at least, an adjacent square in this direction
+                        if (ray[0] === CENTER) {              // cannot move into the center
+                            continue;
+                        }
+                        if (! this.isSowable(ray[0], player) ) {   // cannot make an unsowable stack
                             continue;
                         }
                         const adj = this.board.get(ray[0]);   // get piece (if any) at adjacent cell
@@ -196,7 +198,7 @@ export class SentinelGame extends GameBase {
                 for (const dir of allDirections) {
                     const ray = grid.ray(x, y, dir).map(n => SentinelGame.coords2algebraic(...n));
                     // cannot sow over the center, and the entire stack must be sown inside the board
-                    if (ray.includes(CENTER) || ray.length <= height) {
+                    if ( ray.length <= height || ray.slice(0, height+1).includes(CENTER) ) {
                         continue;
                     }
                     // check if any intermediate stack remains sow-able (sowing a stack includes a new stone)
@@ -356,6 +358,8 @@ export class SentinelGame extends GameBase {
             }
         }
 
+        this.results = [];
+
         if ( partial && !m.includes("-") ) { // if partial, set the points to be shown
             this._points = this.findPoints(m).map(c => SentinelGame.algebraic2coords(c));
             return this;
@@ -379,9 +383,11 @@ export class SentinelGame extends GameBase {
                     this.board.delete(cell);
                     this.board.set(cell, [this.currplayer, 1]);
                 }
+                this.results.push({ type: "move", from: start, to: end, count: this.path(start, end).length});
             }
         }
         this.board.delete(start); // the original piece is always removed
+        this.results.push({ type: "capture", where: start, count: 1 });
 
         // update currplayer
         this.lastmove = m;
@@ -397,28 +403,41 @@ export class SentinelGame extends GameBase {
     }
 
     // return the number of line-of-sight to the center wrt player's pieces (needed for EOG)
-    private linesSeen(player : playerid): number {
-        let numLines = 0;
+    private linesSeen(player : playerid): string[] {
+        const whichCells = [];
         for (const ray of RAYS) {
             for (const cell of ray) {
                 // if the first non-empty cell has a friendly stone, the player 'sees' the center
                 if ( this.board.has(cell) ) {
                     if ( this.board.get(cell)![0] === player ) {
-                        numLines += 1;
+                        whichCells.push(cell);
                     }
                     break;
                 }
             }
         }
-        return numLines;
+        return whichCells;
     }
 
     protected checkEOG(): SentinelGame {
         const prevPlayer = this.currplayer % 2 + 1 as playerid;
 
-        if ( this.linesSeen(prevPlayer) === 0 || this.linesSeen(this.currplayer) >= 5 ) {
+        const p1Pieces = [...this.board.entries()].filter(e => e[1][0] === 1).map(e => e[0]);
+        const p2Pieces = [...this.board.entries()].filter(e => e[1][0] === 2).map(e => e[0]);
+
+        if ( this.linesSeen(prevPlayer).length === 0 || this.linesSeen(this.currplayer).length >= 5 ) {
             this.gameover = true;
             this.winner = [this.currplayer];
+        }
+
+        if (p1Pieces.length === 0) {
+            this.gameover = true;
+            this.winner = [2];
+        }
+
+        if (p2Pieces.length === 0) {
+            this.gameover = true;
+            this.winner = [1];
         }
 
         if (this.gameover) {
@@ -479,7 +498,10 @@ export class SentinelGame extends GameBase {
             }
             pstr += pieces.join(",");
         }
-        pstr = pstr.replace(/-{9}/g, "_");
+
+        const markers: Array<MarkerGlyph> = [
+            { type: "glyph", glyph: "Center", points: [ {row: 4, col: 4} ] }
+        ];
 
         // Build rep
         const rep: APRenderRep =  {
@@ -488,13 +510,7 @@ export class SentinelGame extends GameBase {
                 style: "squares-checkered",
                 width: BOARD_SIZE,
                 height: BOARD_SIZE,
-                markers: [
-                    {
-                        type: "glyph",
-                        glyph: "Center",
-                        points: [ {row: 4, col: 4} ]
-                    },
-                ]
+                markers
             },
             legend: {
                 A: {
@@ -516,7 +532,44 @@ export class SentinelGame extends GameBase {
         };
 
         rep.annotations = [];
-        if (this._points.length > 0) {  // show the dots where the selected piece can move to
+
+        // show the lines of sight
+        const [toX, toY] = SentinelGame.algebraic2coords(CENTER);
+        const prevplayer = this.currplayer % 2 + 1 as playerid;
+        for (const cell of this.linesSeen(this.currplayer)) {
+            const [fromX, fromY] = SentinelGame.algebraic2coords(cell);
+            rep.annotations.push({ type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}],
+                           style: "dashed", opacity: 0.3, arrow: false, strokeWidth: 0.05,
+                           colour: this.currplayer });
+        }
+        for (const cell of this.linesSeen(prevplayer)) {
+            const [fromX, fromY] = SentinelGame.algebraic2coords(cell);
+            rep.annotations.push({ type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}],
+                           style: "dashed", opacity: 0.3, arrow: false, strokeWidth: 0.05,
+                           colour: prevplayer });
+        }
+
+        // show the current move
+        if ( this.results.length > 0 ) {
+            for (const move of this.results) {
+                if (move.type === "place") {
+                    const [x, y] = SentinelGame.algebraic2coords(move.where!);
+                    rep.annotations.push({ type: "enter", targets: [{ row: y, col: x }] });
+                } else if (move.type === "move") {
+                    const [fromX, fromY] = SentinelGame.algebraic2coords(move.from);
+                    const [toX, toY] = SentinelGame.algebraic2coords(move.to);
+                    rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                } else if (move.type === "capture") {
+                    for (const cell of move.where!.split(",")) {
+                        const [x, y] = SentinelGame.algebraic2coords(cell);
+                        rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
+                    }
+                }
+            }
+        }
+
+        // show the dots where the selected piece can move to
+        if (this._points.length > 0) {  
             const points = [];
             for (const [x,y] of this._points) {
                 points.push({row: y, col: x});

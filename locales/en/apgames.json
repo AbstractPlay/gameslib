@@ -192,6 +192,7 @@
         "spora" : "A territorial game with limited pieces to build stacks that capture by enclosure and/or by sowing.",
         "spree": "An impartial n-in-a-row game where players take turns handing a ball to their opponent to place. The goal is to try to make a full line of one of two colours (red and blue by default). There is a third wild neutral colour (green by default) that can play the role of either colour.",
         "squaredance": "A game where you move groups of pieces by rotation, trying to force your opponent into a position where they cannot move.",
+        "squirm" : "Players need to create the largest possible snake-like group.",
         "stairs": "Stack higher than your opponent in this game of one-space, one-level jumps where you also have to move your lowest pieces first. To take the lead and win, you must surpass your opponent's tallest stack height or, failing that, their number of stacks at the tallest height.",
         "stawvs": "A set collection game for 2-4 players that's similar to Amazons, with old-style Volcano scoring.  On a checkerboard randomly filled with individual pyramids, player pieces can move and capture pyramids in a straight line (orthogonally or diagonally), if and only if all intervening spaces and the target space contain pyramids but not pieces.",
         "stibro": "Win by forming a loop anywhere on the board, while adhering to the placement restriction that ensures loop-forming is always possible.",
@@ -2466,6 +2467,20 @@
             },
             "size-5": {
                 "name": "5x5 board"
+            }
+        },
+        "squirm": {
+            "#board": {
+                "name": "Hexagonal board (bases 3-5)"
+            },
+            "size-4": {
+                "name": "Hexagonal board (bases 4-6)"
+            },
+            "size-5": {
+                "name": "Hexagonal board (bases 5-7)"
+            },
+            "size-6": {
+                "name": "Hexagonal board (bases 6-8)"
             }
         },
         "stawvs": {
@@ -5743,6 +5758,11 @@
             "PARTIAL_DESTINATION": "Select the point where the end stone will end up. You may not cover friendly pieces, and any covered enemy pieces will be captured.",
             "PARTIAL_ENDSTONE": "Select the end stone. This is the stone that will move the furthest."
         },
+        "squirm": {
+            "INITIAL_INSTRUCTIONS": "Drop a friendly stone on an empty cell. Only serpent-like groups are valid. A serpent is a group where each stone has, at most, two friendly neighbors; and there are no three friendly stones in line.",
+            "INVALID_3ROW": "The stone cannot make a three in-a-row.",
+            "INVALID_NEIGH": "The stone cannot have more than two friendly neighbors."
+        },
         "stairs": {
             "NORMAL_MOVE": "Choose a piece to move.",
             "INVALID_MOVE": "You must move a piece to a neighboring stack of the same height. You must move one of your lowest movable pieces.",
@@ -6178,7 +6198,7 @@
             "TOO_MANY_PIECES": "There are too many pieces at {{where}} to add {{num}} more."
         },
         "xana": {
-            "INITIAL_INSTRUCTIONS": "Drop pieces from reserve on empty cells or friendly stacks. In alternative, move a stack: click it then click on an empty cell within moving range. Afterwards, and optionally, one or two walls can be placed on any empty accessible cells (closed adversary areas are not accessible).",
+            "INITIAL_INSTRUCTIONS": "Drop pieces from reserve on empty cells or friendly stacks. Alternatively, move a stack: click it then click on an empty cell within moving range. Afterwards, and optionally, one or two walls can be placed on any empty accessible cells (closed adversary areas are not accessible).",
             "DROP_MOVE_INSTRUCTIONS" : "Click again on the stack to place a new stone from the reserve. Otherwise, click N times on an empty cell (within moving range) to move N pieces.",
             "ENEMY_PIECE" : "Cannot change an enemy piece.",
             "MOVE_NOT_INSIDE_CIRCLE": "Stack cannot be moved outside its circle, ie, its moving range.",

@@ -47,6 +47,8 @@ export class SquirmGame extends GameBase {
             { uid: "size-4", group: "board" },
             { uid: "size-5", group: "board" },
             { uid: "size-6", group: "board" },
+            { uid: "tromp",  group: "ruleset" },
+            { uid: "neto",   group: "ruleset" },
         ],
         flags: ["pie", "custom-buttons", "experimental"]
     };
@@ -61,6 +63,7 @@ export class SquirmGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     public boardSize = 3;
+    private ruleset: "default" | "tromp" | "neto";
 
     constructor(state?: ISquirmState | string, variants?: string[]) {
         super();
@@ -89,6 +92,7 @@ export class SquirmGame extends GameBase {
             this.stack = [...state.stack];
         }
         this.load();
+        this.ruleset = this.getRuleset();
     }
 
     public load(idx = -1): SquirmGame {
@@ -121,6 +125,12 @@ export class SquirmGame extends GameBase {
             }
         }
         return 3;
+    }
+
+    private getRuleset(): "default" | "tromp" | "neto" {
+        if (this.variants.includes("tromp")) { return "tromp"; }
+        if (this.variants.includes("neto"))  { return "neto"; }
+        return "default";
     }
 
     private getGraph(): HexTriGraph {
@@ -159,7 +169,20 @@ export class SquirmGame extends GameBase {
             }
             groups.push(group);
         }
-        return groups.map(g => g.size).sort((a, b) => b - a);
+
+        const result: number[] = [];
+        if (this.ruleset === "default") {
+            result.push(...groups.map(g => g.size).sort((a, b) => b - a));
+        }
+        const komi = player === 1 ? 0.5 : 0; // P1 offers Pie, so he wins in case of equal scores
+        if (this.ruleset === "tromp") {
+            result.push(groups.map(g => g.size).reduce((acc,x) => acc + 2**x, komi));
+        }
+        if (this.ruleset === "neto") {
+            result.push(groups.map(g => g.size).reduce((acc,x) => acc + x**2, komi));
+        }
+
+        return result;
     }
 
     // checks if a given player has a 'len' in-a-row
@@ -383,9 +406,7 @@ export class SquirmGame extends GameBase {
         // Build piece string
         let pstr = "";
         for (const row of this.graph.listCells(true) as string[][]) {
-            if (pstr.length > 0) {
-                pstr += "\n";
-            }
+            if (pstr.length > 0) { pstr += "\n"; }
             pstr += row.map(c => this.board.has(c) ? this.board.get(c)! === 1 ? "A" : "B" : "-").join("");
         }
 
@@ -419,19 +440,6 @@ export class SquirmGame extends GameBase {
 
     public getButtons(): ICustomButton[] {
         return [{ label: "pass", move: "pass" }];
-    }
-
-    // First element = integer part
-    // Remaining elements = decimal part, each padded to 2 digits
-    private encode(list: number[]): number {
-      if (list.length === 0) return 0;
-      const [head, ...tail] = list;
-      const decimal = tail.map(n => n.toString().padStart(2, '0')).join('');
-      return Number(`${head}.${decimal}`);
-    }
-
-    public getPlayerScore(player: playerid): number {
-        return this.encode(this.getGroupSizes(player));
     }
 
     public sidebarScores(): IScores[] {

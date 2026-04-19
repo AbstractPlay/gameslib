@@ -2481,6 +2481,18 @@
             },
             "size-6": {
                 "name": "Hexagonal board (bases 6-8)"
+            },
+            "#ruleset": {
+                "description": "Largest group decides (recursively)",
+                "name": "Original rules"
+            },
+            "tromp": {
+                "description": "A group of size N scores 2^N",
+                "name": "Tromp variant"
+            },
+            "neto": {
+                "description": "A group of size N scores N^2",
+                "name": "Neto variant"
             }
         },
         "stawvs": {

@@ -40,7 +40,7 @@ export class SentinelGame extends GameBase {
         uid: "sentinel",
         playercounts: [2],
         version: "20260328",
-        dateAdded: "2026-03-28",
+        dateAdded: "2026-04-22",
         description: "apgames:descriptions.sentinel",
         // notes: "apgames:notes.sentinel",
         urls: [
@@ -60,9 +60,8 @@ export class SentinelGame extends GameBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
-        categories: ["goal>annihilate", "goal>vigil", "mechanic>capture",  "mechanic>move", 
-                     "mechanic>stack", "board>shape>rect", "components>simple>2c"],
-        flags: ["experimental"]
+        categories: ["goal>annihilate", "goal>vigil", "mechanic>capture",  "mechanic>move", "mechanic>move>sow", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>2c"],
+        flags: []
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -569,12 +568,12 @@ export class SentinelGame extends GameBase {
         }
 
         // show the dots where the selected piece can move to
-        if (this._points.length > 0) {  
+        if (this._points.length > 0) {
             const points = [];
             for (const [x,y] of this._points) {
                 points.push({row: y, col: x});
             }
-            rep.annotations.push({type: "dots", 
+            rep.annotations.push({type: "dots",
                                   targets: points as [{row: number; col: number;}, ...{row: number; col: number;}[]]});
         }
 

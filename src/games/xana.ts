@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult, IScores, IStatus } from "./_base";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic, MarkerDots, RowCol, Colourfuncs } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -38,7 +38,7 @@ export class XanaGame extends GameBase {
         uid: "xana",
         playercounts: [2],
         version: "20260404",
-        dateAdded: "2026-04-04",
+        dateAdded: "2026-04-22",
         // i18next.t("apgames:descriptions.xana")
         description: "apgames:descriptions.xana",
         urls: [
@@ -61,23 +61,22 @@ export class XanaGame extends GameBase {
         customizations: [
             {
                 num: 1,
-                default: 2,
+                default: 1,
                 explanation: "Colour of player 1"
             },
             {
                 num: 2,
-                default: "#FFD700",
+                default: 2,
                 explanation: "Colour of player 2"
             },
             {
                 num: 3,
-                default: 1,
+                default: 4,
                 explanation: "Colour of wall"
             },
         ],
-        categories: ["goal>area", "mechanic>place", "mechanic>move", "mechanic>stack", "mechanic>enclose",
-                     "board>shape>hex", "components>simple>3c"],
-        flags: ["pie", "no-moves", "custom-buttons", "custom-colours", "scores", "experimental"],
+        categories: ["goal>area", "mechanic>place", "mechanic>move", "mechanic>stack", "mechanic>enclose", "board>shape>hex", "board>connect>hex", "components>simple>3c"],
+        flags: ["pie", "no-moves", "custom-buttons", "custom-colours", "scores"],
     };
 
     public numplayers = 2;
@@ -755,27 +754,25 @@ export class XanaGame extends GameBase {
         if (p === 1) {
             return {
                 func: "custom",
-                default: 2,
+                default: 1,
                 palette: 1
             };
         } else {
             return {
                 func: "custom",
-                default: "#FFD700",
+                default: 2,
                 palette: 2
             };
         }
     }
 
-    public sidebarStatuses(): IStatus[] {
-        const status = `Player 1: ${this.reserve[0]}\nPlayer 2: ${this.reserve[1]}`
-        return [{ key: i18next.t("apgames:status.xana.RESERVE"),
-                  value: [status] } as IStatus];
-    }
-
     public sidebarScores(): IScores[] {
-        return [{ name: i18next.t("apgames:status.SCORES"),
-                  scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }];
+        return [
+            { name: i18next.t("apgames:status.xana.RESERVE"),
+                  scores: [...this.reserve] },
+            { name: i18next.t("apgames:status.SCORES"),
+                  scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
+        ];
     }
 
     public clone(): XanaGame {

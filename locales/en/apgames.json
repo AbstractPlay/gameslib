@@ -157,6 +157,7 @@
         "pigs2": "This is the continuous feedback version of Robo Battle Pigs, a game of robot combat where you program a series of moves in an attempt to destroy all opposing pigs. This implementation supports 2–8 players, and each player only programs one move per turn.",
         "pikemen": "A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
         "pilastri": "Outlast your opponent in this game of blocking and moving, as pieces are forced to climb higher and higher until they run out of moves.",
+        "pinch": "Orthogonal connection game where a diagonal of friendly stones can capture adjacent stones that need to be relocated in the same turn. This might result in more relocations starting a chain-reaction.",
         "pletore": "Territorial line-of-sight game. Intersections are controlled and pieces on them are flipped based on the number and direction of pieces that can see them. The winner is the player who occupies more of the board at the end.",
         "plurality": "Territorial game where players place trominos to enclosure areas. The player with more stones on a given area's perimeter owns that area.",
         "pods": "Natal Seas - Pods is a territorial game where the players take on the metaphorical role of competing whales vying for space to protect their young. Played on a hexagonal board, it uses an innovative mechanism of placements and movements.",
@@ -2043,6 +2044,20 @@
             "jumpers": {
                 "name": "High jumpers",
                 "description": "A piece must move higher, but pieces that start with nothing beneath them are allowed to land on any other stack."
+            }
+        },
+        "pinch": {
+            "size-5": {
+                "name": "5x5 board"
+            },
+            "size-15": {
+                "name": "15x15 board"
+            },
+            "#board": {
+                "name": "17x17 board"
+            },
+            "size-21": {
+                "name": "21x21 board"
             }
         },
         "pletore": {
@@ -5306,6 +5321,15 @@
         "pilastri": {
             "NORMAL_MOVE": "Choose a piece to move.",
             "INVALID_MOVE": "You must move a piece in a straight line to the next stack. The piece must end higher. And 1-stacks may only move onto other 1-stacks."
+        },
+        "pinch": {
+            "INITIAL_INSTRUCTIONS": "Place a stone on an empty cell. If a crossway capture is made, the capturing player relocates the captured stone to any empty cell of their choosing. If this placement causes the capture of an own-stone, the same player relocates the captured own-stone, and resolves any new capture, if there is one. This process continues until a relocation causes no new capture. If there is no available placements left, the captured stone is removed from the game.",
+            "OCCUPIED_CELL": "Only placements on empty cells are valid.",
+            "REUSED_CELL": "This cell {{cell}} was already used in this turn. Once the status of a cell changes from occupied to unoccupied, or vice versa, it cannot change again that same turn.",
+            "SELF_STONES_TO_PLACE": "There are still {{own}} friendly captured stones to relocate.",
+            "OPP_STONES_TO_PLACE": "There are still {{opp}} opponent captured stones to relocate.",
+            "SELF_OPP_STONES_TO_PLACE": "There are still {{own}} friendly captured stones, and then {{opp}} adversary stones, to relocate.",
+            "OPP_SELF_STONES_TO_PLACE": "There are still {{opp}} opponent captured stones, and then {{own}} friendly stones, to relocate."
         },
         "pletore": {
             "INITIAL_INSTRUCTIONS": "Place a piece onto an empty intersection not controlled by the opponent, replace an enemy piece on an intersection you control, or 'pass' if all intersections are occupied or controlled. The game ends when both players pass in sequence.",

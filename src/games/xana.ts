@@ -680,6 +680,12 @@ export class XanaGame extends GameBase {
             pieces.push(nodes);
         }
 
+        const wallColour: Colourfuncs = {
+            func: "custom",
+            default: 4,
+            palette: 3
+        };
+
         // Build rep
         const rep: APRenderRep =  {
             renderer: "stacking-offset",
@@ -691,7 +697,7 @@ export class XanaGame extends GameBase {
             legend: {
                 A: { name: "piece", colour: this.getPlayerColour(1) },
                 B: { name: "piece", colour: this.getPlayerColour(2) },
-                C: { name: "piece", colour: 1 }, // color 1 is red
+                C: { name: "piece", colour: wallColour }, // color 1 is red
             },
             pieces: pieces.map(r => r.join(",")).join("\n"),
         };

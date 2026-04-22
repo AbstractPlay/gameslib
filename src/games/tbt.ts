@@ -54,7 +54,7 @@ export class TBTGame extends GameBase {
                 apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
             },
         ],
-        categories: ["goal>align", "mechanic>share",  "mechanic>move", "mechanic>stack", "mechanic>random>play", "board>shape>rect", "board>connect>rect", "components>simple>1c"],
+        categories: ["goal>arrange", "mechanic>share",  "mechanic>move", "mechanic>stack", "mechanic>random>play", "board>shape>rect", "board>connect>rect", "components>simple>1c"],
         flags: ["perspective", "automove", "no-explore", "custom-rotation"]
     };
     public static coords2algebraic(x: number, y: number): string {

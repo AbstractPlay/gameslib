@@ -43,7 +43,7 @@ export class ComplicaGame extends GameBase {
                 apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
             },
         ],
-        categories: ["goal>align", "mechanic>place", "mechanic>displace", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>arrange", "mechanic>place", "mechanic>displace", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: []
     };
     public static coords2algebraic(x: number, y: number): string {

@@ -71,7 +71,7 @@ export class YonmoqueGame extends GameBase {
                 explanation: "Colour of the \"light\" player"
             }
         ],
-        categories: ["goal>align", "mechanic>asymmetry", "mechanic>place", "mechanic>move", "mechanic>convert", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>arrange", "mechanic>asymmetry", "mechanic>place", "mechanic>move", "mechanic>convert", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["custom-colours"]
     };
     public static coords2algebraic(x: number, y: number): string {

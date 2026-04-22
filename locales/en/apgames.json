@@ -157,6 +157,7 @@
         "pigs2": "This is the continuous feedback version of Robo Battle Pigs, a game of robot combat where you program a series of moves in an attempt to destroy all opposing pigs. This implementation supports 2–8 players, and each player only programs one move per turn.",
         "pikemen": "A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
         "pilastri": "Outlast your opponent in this game of blocking and moving, as pieces are forced to climb higher and higher until they run out of moves.",
+        "pinch": "Orthogonal connection game where a diagonal of friendly stones can capture adjacent stones that need to be relocated in the same turn. This might result in more relocations starting a chain-reaction.",
         "pletore": "Territorial line-of-sight game. Intersections are controlled and pieces on them are flipped based on the number and direction of pieces that can see them. The winner is the player who occupies more of the board at the end.",
         "plurality": "Territorial game where players place trominos to enclosure areas. The player with more stones on a given area's perimeter owns that area.",
         "pods": "Natal Seas - Pods is a territorial game where the players take on the metaphorical role of competing whales vying for space to protect their young. Played on a hexagonal board, it uses an innovative mechanism of placements and movements.",
@@ -179,7 +180,7 @@
         "rootbound": "In Root Bound, two groups of ‘plants’ spread in lifelike ways and vie for control of territory as space for new growth rapidly dwindles.",
         "saltire": "Connect your two opposite sides of the board by placing stones and swapping pairs of orthogonally or diagonally adjacent stones. A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
         "scaffold": "Scaffold is a drawless connection game played on the intersections of a square grid using stones (as in Go). Black is trying to connect N-S edges of the board, White E-W with an orthogonally connected group. On your turn, place a stone of your color on an empty point. Then, if possible, place a stone of your color on an empty point that is orthogonally adjacent to two groups of your color, and keep making such placements until no more are possible.",
-        "sentinel": "A vigil game using a sowing mechanism with stacks. A vigil game is one where some board position must always be on line-of-sight with some or all of the player's pieces. In Sentinel, players are required to see the board center at the end of each one of their turns.",
+        "sentinel": "A vigil game using a sowing mechanism with stacks. A vigil game is one where some board position must always have line-of-sight to some or all of the player's pieces. In Sentinel, players are required to see the board center at the end of each one of their turns.",
         "shifty": "A connection game where you either place a piece orthogonally adjacent to a friendly piece, or move one of your pieces orthogonally adjacent to a friendly piece, by a chess queen's move, to a location not orthogonally adjacent to any other friendly pieces. Crosscuts are illegal. The player that forms an orthogonal or diagonal path connecting their two sides wins.",
         "siegeofj": "Place cards, representing armies, to exert pressure on segments of the wall around the city of Jacynth. Exert the most pressure on the most segments to win.",
         "slither": "Square-board connection game with updated rules from 2018. Optionally move a piece and then place a piece, such that no two pieces of a colour are diagonally adjacent to each other unless they are orthogonally connected by a like-coloured stone. In Advanced Slither, a piece may only move if it is part of a contiguous orthogonal group consisting of pieces of both colours.",
@@ -192,6 +193,7 @@
         "spora" : "A territorial game with limited pieces to build stacks that capture by enclosure and/or by sowing.",
         "spree": "An impartial n-in-a-row game where players take turns handing a ball to their opponent to place. The goal is to try to make a full line of one of two colours (red and blue by default). There is a third wild neutral colour (green by default) that can play the role of either colour.",
         "squaredance": "A game where you move groups of pieces by rotation, trying to force your opponent into a position where they cannot move.",
+        "squirm" : "Players fight to create the longest snake-like group.",
         "stairs": "Stack higher than your opponent in this game of one-space, one-level jumps where you also have to move your lowest pieces first. To take the lead and win, you must surpass your opponent's tallest stack height or, failing that, their number of stacks at the tallest height.",
         "stawvs": "A set collection game for 2-4 players that's similar to Amazons, with old-style Volcano scoring.  On a checkerboard randomly filled with individual pyramids, player pieces can move and capture pyramids in a straight line (orthogonally or diagonally), if and only if all intervening spaces and the target space contain pyramids but not pieces.",
         "stibro": "Win by forming a loop anywhere on the board, while adhering to the placement restriction that ensures loop-forming is always possible.",
@@ -233,7 +235,7 @@
         "witch": "Four types of pieces are arrayed randomly on a grid. Each player takes turns removing pieces until one reaches a score of 50.",
         "wunchunk": "Unify your pieces as much as you can by the end of the game, while keeping your pieces separate in the early and mid-game so as to increase their power. Fewest groups at the end wins.",
         "wyke": "A two-player game where one plays the builder and the other the destroyer. Claim cells by either completing or completely destroying lots. Win a certain number of lots or lots in a particular pattern to win.",
-        "xana": "A stack game where players have a limited amount of pieces, and an unlimited amount of walls, to conquer territory.",
+        "xana": "A stacking game where players have a limited number of pieces, and an unlimited number of walls, to conquer territory.",
         "yavalath": "Form a line of four or more pieces of your colour *without* forming a line of three pieces first.",
         "yonmoque": "Try to form four in a row in a game where not all spaces are equal and opposing pieces can be converted.",
         "zola": "A game where your movement is constrained by your distance from the centre of the board. Capturing moves must not increase that distance. Non-capturing moves must increase that distance. First person to capture all opposing pieces wins."
@@ -2044,6 +2046,20 @@
                 "description": "A piece must move higher, but pieces that start with nothing beneath them are allowed to land on any other stack."
             }
         },
+        "pinch": {
+            "size-5": {
+                "name": "5x5 board"
+            },
+            "size-15": {
+                "name": "15x15 board"
+            },
+            "#board": {
+                "name": "17x17 board"
+            },
+            "size-21": {
+                "name": "21x21 board"
+            }
+        },
         "pletore": {
             "#board": {
                 "name": "Default board (13x13)"
@@ -2466,6 +2482,32 @@
             },
             "size-5": {
                 "name": "5x5 board"
+            }
+        },
+        "squirm": {
+            "#board": {
+                "name": "Hexagonal board (bases 3-5)"
+            },
+            "size-4": {
+                "name": "Hexagonal board (bases 4-6)"
+            },
+            "size-5": {
+                "name": "Hexagonal board (bases 5-7)"
+            },
+            "size-6": {
+                "name": "Hexagonal board (bases 6-8)"
+            },
+            "#ruleset": {
+                "description": "Largest group decides (recursively)",
+                "name": "Original rules"
+            },
+            "tromp": {
+                "description": "A group of size N scores 2^N",
+                "name": "Tromp variant"
+            },
+            "neto": {
+                "description": "A group of size N scores N^2",
+                "name": "Neto variant"
             }
         },
         "stawvs": {
@@ -3602,7 +3644,7 @@
             "HEIGHT": "heights"
         },
         "xana" : {
-            "RESERVE": "Reserve:"
+            "RESERVE": "Reserve"
         },
         "YEAR": "Year"
     },
@@ -5280,6 +5322,15 @@
             "NORMAL_MOVE": "Choose a piece to move.",
             "INVALID_MOVE": "You must move a piece in a straight line to the next stack. The piece must end higher. And 1-stacks may only move onto other 1-stacks."
         },
+        "pinch": {
+            "INITIAL_INSTRUCTIONS": "Place a stone on an empty cell. If a crossway capture is made, the capturing player relocates the captured stone to any empty cell of their choosing. If this placement causes the capture of an own-stone, the same player relocates the captured own-stone, and resolves any new capture, if there is one. This process continues until a relocation causes no new capture. If there is no available placements left, the captured stone is removed from the game.",
+            "OCCUPIED_CELL": "Only placements on empty cells are valid.",
+            "REUSED_CELL": "This cell {{cell}} was already used in this turn. Once the status of a cell changes from occupied to unoccupied, or vice versa, it cannot change again that same turn.",
+            "SELF_STONES_TO_PLACE": "There are still {{own}} friendly captured stones to relocate.",
+            "OPP_STONES_TO_PLACE": "There are still {{opp}} opponent captured stones to relocate.",
+            "SELF_OPP_STONES_TO_PLACE": "There are still {{own}} friendly captured stones, and then {{opp}} adversary stones, to relocate.",
+            "OPP_SELF_STONES_TO_PLACE": "There are still {{opp}} opponent captured stones, and then {{own}} friendly stones, to relocate."
+        },
         "pletore": {
             "INITIAL_INSTRUCTIONS": "Place a piece onto an empty intersection not controlled by the opponent, replace an enemy piece on an intersection you control, or 'pass' if all intersections are occupied or controlled. The game ends when both players pass in sequence.",
             "INITIAL_INSTRUCTIONS_BUTTON": "Place a piece onto an empty intersection not controlled by the opponent, replace an enemy piece on an intersection you control, or take the button (worth .5 points).",
@@ -5591,8 +5642,8 @@
             "INVALID_MOVES": "This sequence of moves {{moves}} is invalid."
         },
         "sentinel": {
-            "INITIAL_INSTRUCTIONS": "Move a piece forward or sow a stack on any direction. The center cannot be crossed over. Captures are by replacement.",
-            "EDGE_INSTRUCTIONS": "Move the piece one step forward (orthogonally or diagonally). The piece can be moved out of the board by clicking at the center.",
+            "INITIAL_INSTRUCTIONS": "Move a piece forward or sow a stack in any direction. The center cannot be crossed over. Captures are by replacement.",
+            "EDGE_INSTRUCTIONS": "Move the piece one step forward (orthogonally or diagonally). The piece can be moved off the board by clicking at the center.",
             "PIECE_INSTRUCTIONS": "Move the piece one step forward (orthogonally or diagonally).",
             "STACK_INSTRUCTIONS": "Sow the stack in any direction provided there's space to place all of its pieces (plus one). It is illegal to create un-sowable stacks. Captures are by replacement.",
             "INVALID_CENTER": "It is illegal to move or sow over the board center!",
@@ -5742,6 +5793,11 @@
             "INITIAL_INSTRUCTIONS": "Select the pivot stone. This is the stone that won't move.",
             "PARTIAL_DESTINATION": "Select the point where the end stone will end up. You may not cover friendly pieces, and any covered enemy pieces will be captured.",
             "PARTIAL_ENDSTONE": "Select the end stone. This is the stone that will move the furthest."
+        },
+        "squirm": {
+            "INITIAL_INSTRUCTIONS": "Drop a friendly stone on an empty cell. Only snake-like groups are valid. A snake is a group where each stone has, at most, two friendly neighbors, and there are no three friendly stones in line.",
+            "INVALID_3ROW": "The stone cannot make a three in-a-row.",
+            "INVALID_NEIGH": "The stone cannot have more than two friendly neighbors."
         },
         "stairs": {
             "NORMAL_MOVE": "Choose a piece to move.",
@@ -6178,18 +6234,18 @@
             "TOO_MANY_PIECES": "There are too many pieces at {{where}} to add {{num}} more."
         },
         "xana": {
-            "INITIAL_INSTRUCTIONS": "Drop pieces from reserve on empty cells or friendly stacks. In alternative, move a stack: click it then click on an empty cell within moving range. Afterwards, and optionally, one or two walls can be placed on any empty accessible cells (closed adversary areas are not accessible).",
+            "INITIAL_INSTRUCTIONS": "Drop pieces from reserve on empty cells or friendly stacks. Alternatively, move a stack: click it then click on an empty cell within moving range. Afterwards, and optionally, one or two walls can be placed on any empty accessible cells (closed adversary areas are not accessible).",
             "DROP_MOVE_INSTRUCTIONS" : "Click again on the stack to place a new stone from the reserve. Otherwise, click N times on an empty cell (within moving range) to move N pieces.",
             "ENEMY_PIECE" : "Cannot change an enemy piece.",
-            "MOVE_NOT_INSIDE_CIRCLE": "Stack cannot be moved outside its circle, ie, its moving range.",
+            "MOVE_NOT_INSIDE_CIRCLE": "Stack cannot be moved outside its circle (i.e., its moving range).",
             "MOVE_TO_OCCUPIED_CELL": "Pieces from a stack must be moved to an empty cell.",
-            "NOT_ENOUGH_PIECES_TO_MOVE": "The stacks does not have that many pieces to be moved.",
-            "NOT_PLACED_ON_FRIEND": "Pieces cannot be moved from adversary stacks.",
+            "NOT_ENOUGH_PIECES_TO_MOVE": "The stack does not have that many pieces to be moved.",
+            "NOT_PLACED_ON_FRIEND": "Pieces cannot be moved from opposing stacks.",
             "OCCUPIED_WALL": "Walls must be placed on empty cells (does not include cells from pieces just captured).",
-            "RESERVE_EMPTY": "Reserve empty, no more placements possible.",
+            "RESERVE_EMPTY": "Reserve empty; no more placements possible.",
             "SAME_WALL" : "Cannot place the same wall twice.",
-            "UNACCESSIBLE_PIECE": "Cannot place/move piece on unaccessible cells.",
-            "UNACCESSIBLE_WALL": "Cannot place walls on unaccessible cells."
+            "UNACCESSIBLE_PIECE": "Cannot place/move pieces on inaccessible cells.",
+            "UNACCESSIBLE_WALL": "Cannot place walls on inaccessible cells."
         },
         "yavalath": {
             "BAD_PASS": "You may only pass if you have been eliminated.",

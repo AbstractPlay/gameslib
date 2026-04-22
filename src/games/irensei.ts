@@ -50,7 +50,7 @@ export class IrenseiGame extends InARowBase {
             { uid: "swap-5", group: "opening" },
             { uid: "pass", group: "tiebreaker" },
         ],
-        categories: ["goal>align", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>arrange", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["custom-colours"],
         displays: [{uid: "hide-restrictions"}],
     };

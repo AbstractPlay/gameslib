@@ -25,7 +25,7 @@ export class SquirmGame extends GameBase {
         uid: "squirm",
         playercounts: [2],
         version: "20260417",
-        dateAdded: "2026-04-17",
+        dateAdded: "2026-04-22",
         // i18next.t("apgames:descriptions.squirm")
         description: "apgames:descriptions.squirm",
         urls: ["https://jpneto.github.io/world_abstract_games/squirm.htm"],
@@ -41,7 +41,7 @@ export class SquirmGame extends GameBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
-        categories: ["goal>score>eog", "mechanic>place", "board>shape>hex", "components>simple>1per"],
+        categories: ["goal>score>eog", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         variants: [
             { uid: "#board", },
             { uid: "size-4", group: "board" },
@@ -50,7 +50,7 @@ export class SquirmGame extends GameBase {
             { uid: "tromp",  group: "ruleset" },
             { uid: "neto",   group: "ruleset" },
         ],
-        flags: ["pie", "custom-buttons", "experimental"]
+        flags: ["pie", "custom-buttons"]
     };
 
     public numplayers = 2;

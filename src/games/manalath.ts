@@ -53,7 +53,7 @@ export class ManalathGame extends GameBase {
                 apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
             },
         ],
-        categories: ["goal>align", "mechanic>place", "mechanic>share", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
+        categories: ["goal>arrange", "mechanic>place", "mechanic>share", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         flags: ["automove"]
     };
 

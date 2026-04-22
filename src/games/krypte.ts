@@ -47,7 +47,7 @@ export class KrypteGame extends InARowBase {
                 apid: "36926ace-08c0-417d-89ec-15346119abf2",
             },
         ],
-        categories: ["goal>align", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>arrange", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         displays: [ // default: All highlights enabled
             {uid: "moves_no_sides_yes"},
             {uid: "moves_yes_sides_no"},

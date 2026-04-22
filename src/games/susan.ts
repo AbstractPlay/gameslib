@@ -46,7 +46,7 @@ export class SusanGame extends GameBase {
             },
         ],
         variants: [],
-        categories: ["goal>align", "mechanic>place", "mechanic>move", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
+        categories: ["goal>arrange", "mechanic>place", "mechanic>move", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         flags: [],
     };
 

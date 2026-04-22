@@ -101,7 +101,7 @@ export class HavannahGame extends GameBase {
                 apid: "46f6da78-be02-4469-94cb-52f17078e9c1",
             },
         ],
-        categories: ["goal>align", "goal>connect", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
+        categories: ["goal>arrange", "goal>connect", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         flags: ["automove", "pie"],
         variants: [
             {

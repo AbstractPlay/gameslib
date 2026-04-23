@@ -40,6 +40,7 @@ export class GonnectGame extends GameBase {
                 type: "designer",
                 name: "João Pedro Neto",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/3829/joao-pedro-neto"],
+                apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
             {
                 type: "coder",

@@ -3629,12 +3629,12 @@
         "SCORES": "Scores",
         "STACKSIZES": "Stack heights",
         "stiletto" : {
-            "DAGGER": "Dagger:"
+            "DAGGER": "Dagger"
         },
         "tumbleweed": "Score (pieces + influence)",
         "ESTIMATEDSCORES": "Estimated scores",
         "spora" : {
-            "RESERVE": "Reserve:"
+            "RESERVE": "Reserve"
         },
         "TOPLACE": "Piece to place",
         "valley": "Moon Tokens",

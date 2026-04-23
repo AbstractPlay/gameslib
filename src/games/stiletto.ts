@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IStatus, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
@@ -596,12 +596,18 @@ export class StilettoGame extends InARowBase {
         };
     }
 
-    public sidebarStatuses(): IStatus[] {
-        const daggerPlayer = this.hasDagger() ? this.currplayer : this.currplayer % 2 + 1;
-        const status = `Player ${daggerPlayer}\n`
+    public sidebarScores(): IScores[] {
+        const daggerReport: string[] = ["", ""];
+        if ( this.hasActiveDagger() || this.stack.length < 2) {
+            daggerReport[this.whoHasDagger() - 1] = "has the dagger";
+        } else {
+            daggerReport[this.whoHasDagger() - 1] = "has the dagger (inactive)";
+        }
 
-        return [{ key: i18next.t("apgames:status.stiletto.DAGGER"),
-                  value: [status] } as IStatus];
+        return [
+            { name: i18next.t("apgames:status.stiletto.DAGGER"),
+              scores: [...daggerReport] },
+        ];
     }
 
     public clone(): StilettoGame {

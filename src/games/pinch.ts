@@ -120,6 +120,7 @@ export class PinchGame extends GameBase {
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
+        this.results = [...state._results];
         this.lastmove = state.lastmove;
         this.connPath = [...state.connPath];
         this.boardSize = this.getBoardSize();

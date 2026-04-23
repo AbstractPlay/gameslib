@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IStatus, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic, MarkerDots, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -1018,15 +1018,13 @@ export class SporaGame extends GameBase {
         return [];
     }
 
-    public sidebarStatuses(): IStatus[] {
-        const status = `Player 1: ${this.reserve[0]}\nPlayer 2: ${this.reserve[1]}`
-        return [{ key: i18next.t("apgames:status.spora.RESERVE"),
-                  value: [status] } as IStatus];
-    }
-
     public sidebarScores(): IScores[] {
-        return [{ name: i18next.t("apgames:status.SCORES"),
-                  scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }];
+        return [
+            { name: i18next.t("apgames:status.spora.RESERVE"),
+                  scores: [...this.reserve] },
+            { name: i18next.t("apgames:status.SCORES"),
+                  scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
+        ];
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

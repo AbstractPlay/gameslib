@@ -71,7 +71,7 @@ export class XanaGame extends GameBase {
             },
             {
                 num: 3,
-                default: 4,
+                default: "#999",
                 explanation: "Colour of wall"
             },
         ],
@@ -682,7 +682,7 @@ export class XanaGame extends GameBase {
 
         const wallColour: Colourfuncs = {
             func: "custom",
-            default: 4,
+            default: "#999",
             palette: 3
         };
 

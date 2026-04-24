@@ -51,9 +51,12 @@ export class PinchGame extends GameBase {
         ],
         variants: [
             { uid: "size-5", group: "board" },
+            { uid: "size-9", group: "board" },
+            { uid: "size-13", group: "board" },
             { uid: "size-15", group: "board" },
             { uid: "#board", },  // 17x17
             { uid: "size-21", group: "board" },
+            { uid: "original", group: "ruleset" },
         ],
         categories: ["goal>connect", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["pie", "experimental"]
@@ -76,6 +79,7 @@ export class PinchGame extends GameBase {
     public results: Array<APMoveResult> = [];
     private boardSize = 0;
     private lines: [PlayerLines, PlayerLines];
+    private ruleset: "default" | "original";
 
     constructor(state?: IPinchState | string, variants?: string[]) {
         super();
@@ -107,6 +111,7 @@ export class PinchGame extends GameBase {
         }
         this.load();
         this.lines = this.getLines();
+        this.ruleset = this.getRuleset();
     }
 
     public load(idx = -1): PinchGame {
@@ -143,6 +148,11 @@ export class PinchGame extends GameBase {
         return 17;
     }
 
+    private getRuleset(): "default" | "original" {
+        if (this.variants.includes("original")) { return "original"; }
+        return "default";
+    }
+
     // returns the cells belonging to each board edge
     private getLines(): [PlayerLines,PlayerLines] {
         const lineN: string[] = [];
@@ -173,14 +183,18 @@ export class PinchGame extends GameBase {
             const cell = this.coords2algebraic(col, row);
             let newmove = "";
 
-            if ( move === "" ) {
-                newmove = cell;
+            if (this.ruleset === "original") {
+                newmove = cell; // there is just one placement in the original rules
             } else {
-                const moves = move.split(",");
-                if ( moves[moves.length - 1] === cell ) {
-                    newmove = moves.slice(0, -1).join(","); // if same as last, undo it
+                if ( move === "" ) {
+                    newmove = cell;
                 } else {
-                    newmove = `${move},${cell}`; // otherwise, append coordinates of current click
+                    const moves = move.split(",");
+                    if ( moves[moves.length - 1] === cell ) {
+                        newmove = moves.slice(0, -1).join(","); // if same as last, undo it
+                    } else {
+                        newmove = `${move},${cell}`; // otherwise, append coordinates of current click
+                    }
                 }
             }
 
@@ -234,7 +248,7 @@ export class PinchGame extends GameBase {
     private availableSpaces(board: Map<string, playerid>, taboo: Set<string>): boolean {
         const allPieces = [...this.board.entries()].map(e => e[0]);
         const g = new SquareOrthGraph(this.boardSize, this.boardSize);
-        
+
         for (const node of g.graph.nodes()) {
             if (allPieces.includes(node) || taboo.has(node)) {
                 g.graph.dropNode(node);
@@ -251,12 +265,32 @@ export class PinchGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.pinch.INITIAL_INSTRUCTIONS")
+            if (this.ruleset === "original") {
+                result.message = i18next.t("apgames:validation.pinch.INITIAL_INSTRUCTIONS_ORIGINAL")
+            } else {
+                result.message = i18next.t("apgames:validation.pinch.INITIAL_INSTRUCTIONS")
+            }
+
             return result;
         }
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
+
+        if (this.ruleset === "original") {
+            // here is the entire validateMove for the "original" variant (a simpler game)
+            if ( this.board.has(m) ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.pinch.OCCUPIED_CELL");
+                return result;
+            } else {
+                result.valid = true;
+                result.complete = 1;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            }
+        }
 
         // need to move through all the moves, and check if they follow the rules
         // for that we need a copy of the board, to keep the effects of the previous moves
@@ -360,6 +394,25 @@ export class PinchGame extends GameBase {
 
         this.results = [];
 
+        if (this.ruleset === "original") {
+            // here is the entire move() for the "original" variant
+            const queue: string[] = [m];
+            while ( queue.length > 0 ) {
+                const cell: string = queue.shift()!;
+                this.board.set(cell, this.currplayer);
+                this.results.push({type: "place", where: cell});
+                for (const capture of this.getCaptures(cell, this.currplayer, this.board)) {
+                    queue.push(capture);
+                }
+            }
+
+            this.lastmove = m;
+            this.currplayer = this.currplayer % 2 + 1 as playerid;
+            this.checkEOG();
+            this.saveState();
+            return this;
+        }
+
         // the 'queue' keeps all pairs [playerid,stone] that were captured and not yet placed
         const queue: [playerid, string][] = [];
         const player = this.currplayer;
@@ -388,7 +441,6 @@ export class PinchGame extends GameBase {
 
         if ( partial ) { return this; }
 
-        // update currplayer
         this.lastmove = m;
         this.currplayer = this.currplayer % 2 + 1 as playerid;
         this.checkEOG();

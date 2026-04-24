@@ -2050,6 +2050,12 @@
             "size-5": {
                 "name": "5x5 board"
             },
+            "size-9": {
+                "name": "9x9 board"
+            },
+            "size-13": {
+                "name": "13x13 board"
+            },
             "size-15": {
                 "name": "15x15 board"
             },
@@ -2058,6 +2064,10 @@
             },
             "size-21": {
                 "name": "21x21 board"
+            },
+            "original": {
+                "description": "Captured stones flip color, eventually resulting in more flips.",
+                "name": "Original Pinch Ruleset"
             }
         },
         "pletore": {
@@ -5323,13 +5333,14 @@
             "INVALID_MOVE": "You must move a piece in a straight line to the next stack. The piece must end higher. And 1-stacks may only move onto other 1-stacks."
         },
         "pinch": {
-            "INITIAL_INSTRUCTIONS": "Place a stone on an empty cell. If a crossway capture is made, the capturing player relocates the captured stone to any empty cell of their choosing. If this placement causes the capture of an own-stone, the same player relocates the captured own-stone, and resolves any new capture, if there is one. This process continues until a relocation causes no new capture. If there is no available placements left, the captured stone is removed from the game.",
+            "INITIAL_INSTRUCTIONS": "Place a stone on an empty cell. If a pinch capture is made, the capturing player relocates the captured stone to any empty cell of their choosing. If this placement causes the capture of an own-stone, the same player relocates the captured own-stone, and resolves any new capture, if there is one. This process continues until a relocation causes no new capture. If there is no available placement left, the captured stone is removed from the game.",
             "OCCUPIED_CELL": "Only placements on empty cells are valid.",
             "REUSED_CELL": "This cell {{cell}} was already used in this turn. Once the status of a cell changes from occupied to unoccupied, or vice versa, it cannot change again that same turn.",
-            "SELF_STONES_TO_PLACE": "There are still {{own}} friendly captured stones to relocate.",
-            "OPP_STONES_TO_PLACE": "There are still {{opp}} opponent captured stones to relocate.",
-            "SELF_OPP_STONES_TO_PLACE": "There are still {{own}} friendly captured stones, and then {{opp}} adversary stones, to relocate.",
-            "OPP_SELF_STONES_TO_PLACE": "There are still {{opp}} opponent captured stones, and then {{own}} friendly stones, to relocate."
+            "SELF_STONES_TO_PLACE": "There are still {{own}} friendly captured stone(s) to relocate.",
+            "OPP_STONES_TO_PLACE": "There are still {{opp}} opponent captured stone(s) to relocate.",
+            "SELF_OPP_STONES_TO_PLACE": "There are still {{own}} friendly captured stone(s), and then {{opp}} adversary stone(s), to relocate.",
+            "OPP_SELF_STONES_TO_PLACE": "There are still {{opp}} opponent captured stone(s), and then {{own}} friendly stone(s), to relocate.",
+            "INITIAL_INSTRUCTIONS_ORIGINAL": "Place a stone on an empty cell. If a pinch capture is made, the captured stone flips color. This flip might cause subsequent flips, starting a chain-reaction until the board stabilizes."
         },
         "pletore": {
             "INITIAL_INSTRUCTIONS": "Place a piece onto an empty intersection not controlled by the opponent, replace an enemy piece on an intersection you control, or 'pass' if all intersections are occupied or controlled. The game ends when both players pass in sequence.",

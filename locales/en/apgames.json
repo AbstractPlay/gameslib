@@ -71,6 +71,7 @@
         "diffusion": "Diffusion is a modern mancala-style game where the goal is to empty out your own pits.",
         "dipole": "An anti-race game where you inexorably lose pieces, but you try to be the last one to run out.",
         "dragoneyes": "A variant of checkers with incomplete information, enchanted dragon eye spaces, and played on a hexagonal board.",
+        "domineering": "Players place dominoes, one vertically, another horizontally, until one cannot play thus losing the game.",
         "emergo": "A Draughts variant where captured pieces remain on the board and can be freed later. Capture all opposing pieces to win. Derived from Lasca but with two game phases and compulsory maximal captures.",
         "emu": "Each bird on your ranch is represented by a stack of cards. At the end of the hand, the value of a bird is determined by the sum of the number cards in the stack. The object, naturally enough, is to raise profitable birds. Highest score after a number of \"years\" wins.",
         "enso": "A Zen-inspired game of movement and capture in which you attempt to fully surround one of your pieces with emptiness.",
@@ -1103,6 +1104,27 @@
                 "name": "Larger board: 10x10"
             }
         },
+        "domineering": {
+            "size-6": {
+                "name": "6x6 board"
+            },
+            "size-7": {
+                "name": "7x7 board"
+            },
+            "#board": {
+                "name": "8x8 board"
+            },
+            "size-9": {
+                "name": "9x9 board"
+            },
+            "size-10": {
+                "name": "10x10 board"
+            },
+            "quelhas": {
+                "description": "Player can drop larger 1xN pieces. Misère game.",
+                "name": "Quelhas"
+            }
+        },
         "dragoneyes": {
             "#rules": {
                 "description": "Draws are triggered automatically."
@@ -2047,9 +2069,6 @@
             }
         },
         "pinch": {
-            "size-5": {
-                "name": "5x5 board"
-            },
             "size-9": {
                 "name": "9x9 board"
             },
@@ -2067,7 +2086,7 @@
             },
             "original": {
                 "description": "Captured stones flip color, eventually resulting in more flips.",
-                "name": "Original Pinch Ruleset"
+                "name": "Flip Pinch"
             }
         },
         "pletore": {
@@ -4469,6 +4488,20 @@
             "STACK_SIZE": "You may only capture stacks of equal or smaller size.",
             "TOOFAR": "You can only move as far as your stack is high.",
             "TOOFAR_edge": "The stack at {{from}} can't reach the edge from there."
+        },
+        "domineering": {
+            "INITIAL_INSTRUCTIONS": "The first player must place two vertically adjacent pieces on empty squares, the second player must place two horizontally pieces on empty squares. The player without legal moves loses the game.",
+            "INITIAL_INSTRUCTIONS_QUELHAS": "The first player must place two pieces on empty squares in the same column (without other pieces in-between); then all in-between squares will also be occupied with friendly stones. The second player does the same, but for the rows. The player without legal moves wins the game.",
+            "PLACE_NEXT_STONE_VERT": "The second piece must be placed on an vertically adjacent empty square",
+            "PLACE_NEXT_STONE_HORZ": "The second piece must be placed on an horizontally adjacent empty square",
+            "PLACE_NEXT_STONE_LINE_VERT": "The second piece must be placed on an empty square in the same column, without pieces in-between",
+            "PLACE_NEXT_STONE_LINE_HORZ": "The second piece must be placed on an empty square in the same row, without pieces in-between",
+            "OCCUPIED_CELL": "It is invalid to place on an occupied square!",
+            "NO_SPACE_LEFT": "Not possible to place a domino here!",
+            "MUST_BE_DOMINO_VERT": "The two pieces must be adjacent to each other, making a vertical domino!",
+            "MUST_BE_DOMINO_HORZ": "The two pieces must be adjacent to each other, making a horizontal domino!",
+            "MUST_BE_LINE_VERT": "The two pieces must be linear to each other, making a vertical 1xN polyomino!",
+            "MUST_BE_LINE_HORZ": "The two pieces must be linear to each other, making a horizontal 1xN polyomino!"
         },
         "dragoneyes": {
             "INITIAL_INSTRUCTIONS_CAPTURE": "Click a piece/space with a dot to begin or continue a capture chain.",

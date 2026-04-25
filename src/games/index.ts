@@ -238,6 +238,7 @@ import { XanaGame, IXanaState } from "./xana";
 import { SporaGame, ISporaState } from "./spora";
 import { SquirmGame, ISquirmState } from "./squirm";
 import { PinchGame, IPinchState } from "./pinch";
+import { DomineeringGame, IDomineeringState } from "./domineering";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -479,6 +480,7 @@ export {
     SporaGame, ISporaState,
     SquirmGame, ISquirmState,
     PinchGame, IPinchState,
+    DomineeringGame, IDomineeringState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -561,7 +563,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof MagnateGame | typeof ProductGame | typeof OonpiaGame |
                               typeof GoGame | typeof StilettoGame | typeof BTTGame |
                               typeof MinefieldGame | typeof SentinelGame | typeof XanaGame |
-                              typeof SporaGame | typeof SquirmGame | typeof PinchGame
+                              typeof SporaGame | typeof SquirmGame | typeof PinchGame | 
+                              typeof DomineeringGame
                 >();
 // Manually add each game to the following array
 [
@@ -598,7 +601,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     LascaGame, EmergoGame, FroggerGame, ArimaaGame, RampartGame, KrypteGame, EnsoGame, RincalaGame,
     WaldMeisterGame, WunchunkGame, BambooGame, PluralityGame, CrosshairsGame, MagnateGame,
     ProductGame, OonpiaGame, GoGame, StilettoGame, BTTGame, MinefieldGame, SentinelGame, 
-    XanaGame, SporaGame, SquirmGame, PinchGame
+    XanaGame, SporaGame, SquirmGame, PinchGame, DomineeringGame
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -1086,6 +1089,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new SquirmGame(...args);
         case "pinch":
             return new PinchGame(...args);
+        case "domineering":
+            return new DomineeringGame(...args);
     }
     return;
 }

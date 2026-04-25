@@ -598,12 +598,10 @@ export class PinchGame extends GameBase {
             for (const move of this.results) {
                 if (move.type === "place") {
                     const [x, y] = this.algebraic2coords(move.where!);
-                    // rep.annotations.push({type: "dots", targets: [{row: y, col: x}], colour: "#fff"});
                     rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 }
                 if (move.type === "capture") {
                     const [x, y] = this.algebraic2coords(move.where!);
-                    // rep.annotations.push({type: "dots", targets: [{row: y, col: x}], colour: "#fff"});
                     rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
                 }
             }

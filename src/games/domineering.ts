@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, Colourfuncs, RowCol } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -34,7 +34,7 @@ export class DomineeringGame extends GameBase {
         people: [
             {
                 type: "designer",
-                name: "John Horton Conway",
+                name: "Göran Andersson",
             },
             {
                 type: "coder",
@@ -52,7 +52,7 @@ export class DomineeringGame extends GameBase {
             { uid: "size-10", group: "board" },
             { uid: "quelhas", group: "ruleset" },
         ],
-        flags: ["pie", "custom-colours", "experimental"],
+        flags: ["pie", "experimental"],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -537,13 +537,13 @@ export class DomineeringGame extends GameBase {
         let markers: Array<any> | undefined = []
         if (points1.length > 0) {
             markers.push({ type   : "flood",
-                           colour : this.getPlayerColour(1),
+                           colour : 1,
                            opacity: 1,
                            points : points1 as [RowCol, ...RowCol[]] });
         }
         if (points2.length > 0) {
             markers.push({ type   : "flood",
-                           colour : this.getPlayerColour(2),
+                           colour : 2,
                            opacity: 1,
                            points : points2 as [RowCol, ...RowCol[]] });
         }
@@ -560,8 +560,8 @@ export class DomineeringGame extends GameBase {
                 markers,
             },
             legend: {
-                A: [{ name: "piece", colour: this.getPlayerColour(1) }],
-                B: [{ name: "piece", colour: this.getPlayerColour(2) }],
+                A: [{ name: "piece", colour: 1 }],
+                B: [{ name: "piece", colour: 2 }],
             },
             pieces: null, // pstr, // just show the floods, to better emulate dominoes
         };
@@ -588,14 +588,6 @@ export class DomineeringGame extends GameBase {
         }
 
         return rep;
-    }
-
-    public getPlayerColour(p: playerid): Colourfuncs {
-        if (p === 1) {
-            return { func: "custom", default: 1, palette: 1 };
-        } else {
-            return { func: "custom", default: 2, palette: 2 };
-        }
     }
 
     public clone(): DomineeringGame {

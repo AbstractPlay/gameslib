@@ -27,6 +27,7 @@ export class DomineeringGame extends GameBase {
         dateAdded: "2026-04-25",
         // i18next.t("apgames:descriptions.domineering")
         description: "apgames:descriptions.domineering",
+        notes: "apgames:notes.domineering",
         urls: [
                 "https://boardgamegeek.com/boardgame/7450/stop-gate",
                 "https://jpneto.github.io/world_abstract_games/modern_rules/2025_Quelhas.pdf"

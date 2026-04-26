@@ -41,6 +41,7 @@ export class XanaGame extends GameBase {
         dateAdded: "2026-04-22",
         // i18next.t("apgames:descriptions.xana")
         description: "apgames:descriptions.xana",
+        notes: "apgames:notes.xana",
         urls: [
             "https://boardgamegeek.com/thread/3482800",
         ],
@@ -562,7 +563,17 @@ export class XanaGame extends GameBase {
         this.gameover = this.lastmove === "pass" &&
                         this.stack[this.stack.length - 1].lastmove === "pass";
 
-        if (this.gameover) {
+        // if no shared accessible cells, the game is over, since all areas ownership are decided
+        if (this.stack.length > 3 && !this.gameover) {
+            const p1cells: string[]    = this.accessibleCells(1);
+            const p2cells: Set<string> = new Set(this.accessibleCells(2));
+            const shareCells: string[] = p1cells.filter(c => p2cells.has(c));
+            if ( shareCells.length == 0 ) {
+                this.gameover = true;
+            }
+        }
+
+        if ( this.gameover ) {
             this.scores = [this.getPlayerScore(1), this.getPlayerScore(2)];
             this.winner = this.scores[0] > this.scores[1] ? [1] : [2];
             this.results.push(

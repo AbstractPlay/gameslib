@@ -32,6 +32,7 @@ export class PinchGame extends GameBase {
         dateAdded: "2026-04-23",
         // i18next.t("apgames:descriptions.pinch")
         description: "apgames:descriptions.pinch",
+        notes: "apgames:notes.pinch",
         urls: [
             "https://boardgamegeek.com/boardgame/285214/pinch",
         ],

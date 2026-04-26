@@ -32,6 +32,7 @@ export class StilettoGame extends InARowBase {
         dateAdded: "2026-03-07",
         // i18next.t("apgames:descriptions.Stiletto")
         description: "apgames:descriptions.stiletto",
+        notes: "apgames:notes.stiletto",
         urls: [
                 "https://boardgamegeek.com/boardgame/465550/stiletto",
                 "https://jpneto.github.io/world_abstract_games/dagger_gomoku.htm",
@@ -56,6 +57,9 @@ export class StilettoGame extends InARowBase {
             },
         ],
         categories: ["goal>arrange", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>2c"],
+        variants: [
+            { uid: "open4", group: "ruleset" },
+        ],
         flags: ["no-moves", "custom-colours"],
     };
 
@@ -81,6 +85,7 @@ export class StilettoGame extends InARowBase {
     public variants: string[] = [];
     public lastDaggerUse = [0, -1]; // last #turn each player used the dagger
     public swapped = false; // abstract attribute of InARowBase
+    private ruleset: "default" | "open4";
 
     constructor(state?: IStilettoState | string, variants?: string[]) {
         super();
@@ -112,6 +117,7 @@ export class StilettoGame extends InARowBase {
             this.stack = [...state.stack];
         }
         this.load();
+        this.ruleset = this.getRuleset();
     }
 
     public load(idx = -1): StilettoGame {
@@ -136,6 +142,12 @@ export class StilettoGame extends InARowBase {
         this.lastDaggerUse = [...state.lastDaggerUse];
         return this;
     }
+
+    private getRuleset(): "default" | "open4" {
+        if (this.variants.includes("open4")) { return "open4"; }
+        return "default";
+    }
+
 
     private currentTurn(): number {
         return this.stack.length;
@@ -210,6 +222,53 @@ export class StilettoGame extends InARowBase {
         }
 
         return false;
+    }
+
+    private empty(xe: number, ye: number): boolean {
+        if ( this.board.has(this.coords2algebraic(xe, ye)) ) { return false; }
+        if ( xe < 0 || ye < 0 || xe >= this.boardSize || ye >= this.boardSize ) { return false; }
+        return true;
+    }
+    
+    public checkIllegalOpen4(moves : string[]): boolean {
+        const [move1, move2] = moves;
+        const [x1, y1] = this.algebraic2coords(move1);
+        const [x2, y2] = this.algebraic2coords(move2);
+
+        this.board.set(move1, this.currplayer); // temporary add stones at moves1/moves2
+        this.board.set(move2, this.currplayer);
+
+        // search open-4 in all four directions (orthogonal || diagonal)
+        // we use move1 as a pivot, and try to find move2 in the line
+        let foundOpen4 = false;
+        let foundMove2 = false;
+        for (const [dx, dy] of [[1, 0], [0, 1], [1, 1], [1, -1]]) {
+            let count = 1; // move1 counted already
+            let x = x1 + dx;
+            let y = y1 + dy;
+            while (this.board.get(this.coords2algebraic(x, y)) === this.currplayer) {
+                if ( x === x2 && y === y2 ) { foundMove2 = true; }
+                count++; x += dx; y += dy; // count friendly friends in current direction
+            }
+            const end1 = [x, y]; // the next square in that direction
+
+            x = x1 - dx; // move backwards now
+            y = x2 - dy;
+            while (this.board.get(this.coords2algebraic(x, y)) === this.currplayer) {
+                if ( x === x2 && y === y2 ) { foundMove2 = true; }
+                count++; x -= dx; y -= dy; // count friendly friends in opposite direction
+            }
+            const end2 = [x, y]; // the next square in that direction
+
+            if ( count === 4 && this.empty(end1[0], end1[1]) && this.empty(end2[0], end2[1]) ) {
+                foundOpen4 = true;
+                break;
+            }
+        }
+
+        this.board.delete(move1); // don't forget to remove stones
+        this.board.delete(move2);
+        return foundOpen4 && foundMove2;
     }
 
     private shuffle(xs: string[]): void {
@@ -411,6 +470,12 @@ export class StilettoGame extends InARowBase {
             if (this.isIllegalExtension(moves)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.stiletto.EXTENSION");
+                return result;
+            }
+
+            if (this.ruleset === "open4" && this.checkIllegalOpen4(moves)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.stiletto.ILLEGAL_OPEN4");
                 return result;
             }
         }

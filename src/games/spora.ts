@@ -44,6 +44,7 @@ export class SporaGame extends GameBase {
         dateAdded: "2026-04-07",
         // i18next.t("apgames:descriptions.spora")
         description: "apgames:descriptions.spora",
+        notes: "apgames:notes.spora",
         urls: [
                 "https://boardgamegeek.com/thread/3493284/rules-of-spora"
               ],

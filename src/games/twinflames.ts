@@ -1,12 +1,12 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, Colourfuncs } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs";
 
-export type playerid = 1|2;
+export type playerid = 1 | 2 | 3; // 3 are walls
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -14,23 +14,22 @@ export interface IMoveState extends IIndividualState {
     lastmove?: string;
 };
 
-export interface IProductState extends IAPGameState {
+export interface ITwinFlamesState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
 };
 
-export class ProductGame extends GameBase {
+export class TwinFlamesGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
-        name: "Product",
-        uid: "product",
+        name: "TwinFlames",
+        uid: "twinflames",
         playercounts: [2],
-        version: "20240219",
-        dateAdded: "2026-03-07",
-        // i18next.t("apgames:descriptions.product")
-        description: "apgames:descriptions.product",
+        version: "20260428",
+        dateAdded: "2026-04-28",
+        // i18next.t("apgames:descriptions.twinflames")
+        description: "apgames:descriptions.twinflames",
         urls: [
-                "https://boardgamegeek.com/boardgame/136995/produto",
-                "https://jpneto.github.io/world_abstract_games/product.htm"
+                "https://docs.google.com/document/d/1oLiUll3GKfy1kt9wWIWi3--WrAMZ24x3DMdljPxIQIs/edit?tab=t.0#heading=h.gg6hnnlkcc3o" // TODO: update new link
               ],
         people: [
             {
@@ -45,49 +44,46 @@ export class ProductGame extends GameBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
-        categories: ["goal>majority", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
+        categories: ["goal>majority", "mechanic>place", "board>shape>hex", "board>connect>hex", "mechanic>random>setup", "components>simple>1per"],
         variants: [
-            { uid: "size-4", group: "board" },
             { uid: "#board", },
-            { uid: "size-6", group: "board" },
             { uid: "size-7", group: "board" },
-            { uid: "1-group", group: "ruleset" },
+            { uid: "size-8", group: "board" },
         ],
-        flags: ["pie", "no-moves"]
+        flags: ["no-moves", "experimental"]
     };
 
     public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, playerid>;
-    public graph: HexTriGraph = new HexTriGraph(7, 13);
+    public graph: HexTriGraph = new HexTriGraph(this.getBoardSize(), 2*this.getBoardSize()-2);
     public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
-    public boardSize = 5;
-    private ruleset: "default" | "1-group";
+    public boardSize = this.getBoardSize();
 
-    constructor(state?: IProductState | string, variants?: string[]) {
+    constructor(state?: ITwinFlamesState | string, variants?: string[]) {
         super();
         if (state === undefined) {
             if (variants !== undefined) {
                 this.variants = [...variants];
             }
             const fresh: IMoveState = {
-                _version: ProductGame.gameinfo.version,
+                _version: TwinFlamesGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
-                board: new Map(),
+                board: this.getRandomPlacement(), // build random setup
             };
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
-                state = JSON.parse(state, reviver) as IProductState;
+                state = JSON.parse(state, reviver) as ITwinFlamesState;
             }
-            if (state.game !== ProductGame.gameinfo.uid) {
-                throw new Error(`The Product engine cannot process a game of '${state.game}'.`);
+            if (state.game !== TwinFlamesGame.gameinfo.uid) {
+                throw new Error(`The TwinFlames engine cannot process a game of '${state.game}'.`);
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
@@ -95,10 +91,9 @@ export class ProductGame extends GameBase {
             this.stack = [...state.stack];
         }
         this.load();
-        this.ruleset = this.getRuleset();
     }
 
-    public load(idx = -1): ProductGame {
+    public load(idx = -1): TwinFlamesGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -127,21 +122,55 @@ export class ProductGame extends GameBase {
                 throw new Error(`Could not determine the board size from variant "${this.variants[0]}"`);
             }
         }
-        return 5;
-    }
-
-    private getRuleset(): "default" | "1-group" {
-        if (this.variants.includes("1-group")) { return "1-group"; }
-        return "default";
+        return 6;
     }
 
     private getGraph(): HexTriGraph {
-        return new HexTriGraph(this.boardSize, this.boardSize * 2 - 1);
+        return new HexTriGraph(this.boardSize, 2*this.boardSize - 2);
     }
 
-    private buildGraph(): ProductGame {
+    private buildGraph(): TwinFlamesGame {
         this.graph = this.getGraph();
         return this;
+    }
+
+    private getRandomPlacement(): Map<string, playerid> {
+        const board = new Map<string, playerid>();
+        const boardSize = this.getBoardSize(); // this.boardSize is not available yet
+        const g = new HexTriGraph(boardSize, 2*boardSize - 2);
+
+        let shooterCount = 4;
+        let rows = ['b', 'c', 'd', 'e', 'f', 'g', 'h'];
+        let cols_by_rows = [5, 6, 7, 8, 7, 6, 5]; // size of rows, excluding edges
+
+        if ( boardSize === 7 ) {
+            shooterCount = 6;
+            rows = ['b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+            cols_by_rows = [6, 7, 8, 9, 10, 9, 8, 7, 6];
+        }
+        if ( boardSize === 8 ) {
+            shooterCount = 8;
+            rows = ['b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'];
+            cols_by_rows = [7, 8, 9, 10, 11, 12, 11, 10, 9, 8, 7];
+        }
+
+        let allCells = [];
+        for (let r = 0; r < rows.length; r++) {
+            for (let c = 0; c < cols_by_rows[r]; c++) {
+                allCells.push(`${rows[r]}${c+2}`); // first column is a2, b2, c2...
+            }
+        }
+
+        let currentShooterCount = 0;
+        while (currentShooterCount < shooterCount) {
+            const cell = allCells[Math.floor(Math.random() * allCells.length)];
+            board.set(cell, 3);
+            const toRemove = g.neighbours(cell); // remove neighbors of cell
+            toRemove.push(cell);                          // and remove the chosen cell
+            allCells = allCells.filter(c => !toRemove.includes(c));
+            currentShooterCount++;
+        }
+        return board;
     }
 
     /**
@@ -191,17 +220,11 @@ export class ProductGame extends GameBase {
             groups.push(group);
         }
 
-        if (this.ruleset === "1-group") {
-            while ( groups.length < 2 ) {
-              // guarantee that players always have, at least, two groups
-              groups.push(new Set(['dummy'])); // here, of size 1
-            }
-        } else {
-            while ( groups.length < 2 ) {
-              // guarantee that players always have, at least, two groups
-              groups.push(new Set());
-            }
+        while ( groups.length < 2 ) {
+          // guarantee that players always have, at least, two groups
+          groups.push(new Set(['dummy']));
         }
+
         return groups.map(g => g.size).sort((a, b) => b - a);
     }
 
@@ -211,6 +234,11 @@ export class ProductGame extends GameBase {
 
         if (this.stack.length === 1) {
             // At ply 1, there's just one move
+            for (const cell of this.graph.listCells(false) as string[]) {
+                if (this.board.has(cell)) { continue; }
+                moves.push(this.normaliseMove(`1${cell}`)); // P1 must place a friendly stone
+            }
+        } else if ( this.spacesLeft() === 1 ) {
             for (const cell of this.graph.listCells(false) as string[]) {
                 if (this.board.has(cell)) { continue; }
                 moves.push(this.normaliseMove(`1${cell}`));
@@ -321,9 +349,9 @@ export class ProductGame extends GameBase {
             result.complete = -1;
             result.canrender = true;
             if (this.stack.length == 1) {
-                result.message = i18next.t("apgames:validation.product.INITIAL_INSTRUCTIONS");
+                result.message = i18next.t("apgames:validation.twinflames.INITIAL_INSTRUCTIONS");
             } else {
-                result.message = i18next.t("apgames:validation.product.INSTRUCTIONS");
+                result.message = i18next.t("apgames:validation.twinflames.INSTRUCTIONS");
             }
             return result;
         }
@@ -334,7 +362,7 @@ export class ProductGame extends GameBase {
 
         if (moves.length > nMovesTurn) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.product.TOO_MANY_MOVES");
+            result.message = i18next.t("apgames:validation.twinflames.TOO_MANY_MOVES");
             return result;
         }
 
@@ -367,7 +395,7 @@ export class ProductGame extends GameBase {
         const regex = new RegExp(`^[12][a-z]\\d+(,[12][a-z]\\d+)?$`);
         if (!regex.test(m)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.product.INVALID_PLACEMENT", {move: m});
+            result.message = i18next.t("apgames:validation.twinflames.INVALID_PLACEMENT", {move: m});
             return result;
         }
 
@@ -375,20 +403,34 @@ export class ProductGame extends GameBase {
         const normalised = this.normaliseMove(m);
         if (! this.sameMove(m, normalised)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.product.NORMALISED", {move: normalised});
+            result.message = i18next.t("apgames:validation.twinflames.NORMALISED", {move: normalised});
             return result;
         }
 
-        if (this.stack.length === 1) {
+        if ( this.stack.length === 1 ) {
             if (moves.length === 1) {
-                // initially, the first player can only move once (either color)
+                // initially, the first player can only place a stone of his color
                 result.valid = true;
-                result.complete = 0; // 0 so the player may flip before submitting
+                result.complete = 1;
                 result.canrender = true;
                 result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             } else {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.product.TOO_MANY_MOVES_START");
+                result.message = i18next.t("apgames:validation.twinflames.TOO_MANY_MOVES_START");
+            }
+            return result;
+        }
+
+        if ( this.spacesLeft() === 1 ) {
+            if (moves.length === 1) {
+                // at the end, the last player can place a stone of either color
+                result.valid = true;
+                result.complete = 0;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            } else {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.twinflames.TOO_MANY_MOVES_START");
             }
             return result;
         }
@@ -397,7 +439,7 @@ export class ProductGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.product.INCOMPLETE_TURN");
+            result.message = i18next.t("apgames:validation.twinflames.INCOMPLETE_TURN");
             return result;
         }
 
@@ -408,7 +450,7 @@ export class ProductGame extends GameBase {
         return result;
     }
 
-    public move(m: string, { partial = false, trusted = false } = {}): ProductGame {
+    public move(m: string, { partial = false, trusted = false } = {}): TwinFlamesGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -438,7 +480,7 @@ export class ProductGame extends GameBase {
 
         if (partial) { return this; }
         // the game should not accept a single placement if the game is after ply 1
-        if (this.stack.length > 1 && moves.length < nMovesTurn) { return this; }
+        if (this.stack.length > 1 && this.spacesLeft() > 1 && moves.length < nMovesTurn) { return this; }
 
         this.currplayer = this.currplayer % 2 + 1 as playerid;
         this.checkEOG();
@@ -446,12 +488,12 @@ export class ProductGame extends GameBase {
         return this;
     }
 
-    protected checkEOG(): ProductGame {
+    protected checkEOG(): TwinFlamesGame {
         this.gameover = this.spacesLeft() === 0;
 
         if (this.gameover) {
-            // since Product now has Pie, a tied results is a P1 win
-            this.winner = this.getPlayerScore(1) >= this.getPlayerScore(2) ? [1] : [2];
+            // tied scores is a P2 win
+            this.winner = this.getPlayerScore(1) > this.getPlayerScore(2) ? [1] : [2];
             this.results.push(
                 {type: "eog"},
                 {type: "winners", players: [...this.winner]}
@@ -461,9 +503,9 @@ export class ProductGame extends GameBase {
         return this;
     }
 
-    public state(): IProductState {
+    public state(): ITwinFlamesState {
         return {
-            game: ProductGame.gameinfo.uid,
+            game: TwinFlamesGame.gameinfo.uid,
             numplayers: this.numplayers,
             variants: this.variants,
             gameover: this.gameover,
@@ -474,7 +516,7 @@ export class ProductGame extends GameBase {
 
     public moveState(): IMoveState {
         return {
-            _version: ProductGame.gameinfo.version,
+            _version: TwinFlamesGame.gameinfo.version,
             _results: [...this.results],
             _timestamp: new Date(),
             currplayer: this.currplayer,
@@ -494,8 +536,10 @@ export class ProductGame extends GameBase {
                     const owner = this.board.get(cell)!;
                     if (owner === 1) {
                         pieces.push("A")
-                    } else {
+                    } else if (owner === 2) {
                         pieces.push("B");
+                    } else {
+                        pieces.push("C");
                     }
                 } else {
                     pieces.push("-");
@@ -504,16 +548,23 @@ export class ProductGame extends GameBase {
             pstr.push(pieces);
         }
 
+        const wallColour: Colourfuncs = {
+            func: "custom",
+            default: "#999",
+            palette: 3
+        };
+
         // Build rep
         const rep: APRenderRep =  {
             board: {
                 style: "hex-of-hex",
                 minWidth: this.boardSize,
-                maxWidth: (this.boardSize * 2) - 1,
+                maxWidth: 2*this.boardSize - 2,
             },
             legend: {
-                A: {name: "hex-pointy", scale: 1.25, colour: 1 },
-                B: {name: "hex-pointy", scale: 1.25, colour: 2 },
+                A: {name: "hex-pointy", scale: 1.25, colour: this.getPlayerColour(1) },
+                B: {name: "hex-pointy", scale: 1.25, colour: this.getPlayerColour(2) },
+                C: {name: "hex-pointy", scale: 1.25, colour: wallColour },
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
         };
@@ -531,6 +582,22 @@ export class ProductGame extends GameBase {
         return rep;
     }
 
+    public getPlayerColour(p: playerid): Colourfuncs {
+        if (p === 1) {
+            return {
+                func: "custom",
+                default: 1,
+                palette: 1
+            };
+        } else {
+            return {
+                func: "custom",
+                default: 2,
+                palette: 2
+            };
+        }
+    }
+
     public getPlayerScore(player: playerid): number {
         const groups = this.getGroupSizes(player);
         return groups[0] * groups[1]; // multiply the two largest groups
@@ -541,7 +608,7 @@ export class ProductGame extends GameBase {
                   scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }];
     }
 
-    public clone(): ProductGame {
-        return new ProductGame(this.serialize());
+    public clone(): TwinFlamesGame {
+        return new TwinFlamesGame(this.serialize());
     }
 }

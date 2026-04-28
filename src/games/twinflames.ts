@@ -28,6 +28,7 @@ export class TwinFlamesGame extends GameBase {
         dateAdded: "2026-04-28",
         // i18next.t("apgames:descriptions.twinflames")
         description: "apgames:descriptions.twinflames",
+        notes: "apgames:notes.twinflames",
         urls: [
                 "https://docs.google.com/document/d/1oLiUll3GKfy1kt9wWIWi3--WrAMZ24x3DMdljPxIQIs/edit?tab=t.0#heading=h.gg6hnnlkcc3o" // TODO: update new link
               ],
@@ -550,7 +551,7 @@ export class TwinFlamesGame extends GameBase {
 
         const wallColour: Colourfuncs = {
             func: "custom",
-            default: "#999",
+            default: "#d4af37",
             palette: 3
         };
 
@@ -564,7 +565,7 @@ export class TwinFlamesGame extends GameBase {
             legend: {
                 A: {name: "hex-pointy", scale: 1.25, colour: this.getPlayerColour(1) },
                 B: {name: "hex-pointy", scale: 1.25, colour: this.getPlayerColour(2) },
-                C: {name: "hex-pointy", scale: 1.25, colour: wallColour },
+                C: {name: "star-solid", scale: 1, colour: wallColour },
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
         };

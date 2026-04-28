@@ -51,7 +51,6 @@ export class PinchGame extends GameBase {
             },
         ],
         variants: [
-            { uid: "size-5", group: "board" },
             { uid: "size-9", group: "board" },
             { uid: "size-13", group: "board" },
             { uid: "size-15", group: "board" },

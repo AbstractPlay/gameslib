@@ -1020,11 +1020,16 @@ export class SporaGame extends GameBase {
     }
 
     public sidebarScores(): IScores[] {
+        const p1nStacks = [...this.board.entries()].filter(e => e[1][0] === 1).length;
+        const p2nStacks = [...this.board.entries()].filter(e => e[1][0] === 2).length;
+
         return [
             { name: i18next.t("apgames:status.spora.RESERVE"),
                   scores: [...this.reserve] },
             { name: i18next.t("apgames:status.SCORES"),
-                  scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
+                  //scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
+                  scores: [`${this.getPlayerScore(1)} (with ${p1nStacks} stacks)`,
+                           `${this.getPlayerScore(2)} (with ${p2nStacks} stacks)`] },
         ];
     }
 

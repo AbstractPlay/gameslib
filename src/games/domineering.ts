@@ -410,6 +410,8 @@ export class DomineeringGame extends GameBase {
             }
         }
 
+        if (m.length === 0) { return this; } // note: this allows the re-click cell reset
+
         if (partial) {
             this._points = this.findPoints(m).map(c => this.algebraic2coords(c));
         } else {

@@ -57,6 +57,9 @@ export class YGame extends GameBase {
             { uid: "size-15", group: "board" },
             { uid: "size-19", group: "board" },
             { uid: "size-21", group: "board" },
+            { uid: "12-free",     group: "ruleset" }, // 12* move variant, no restrictions
+            { uid: "134-group",   group: "ruleset" }, // 134* move variant with group restriction
+            { uid: "progressive", group: "ruleset" }, // progressive variant with group restriction
         ],
         categories: ["goal>connect", "mechanic>place",  "board>shape>tri", "board>connect>hex", "components>simple>1per"],
         flags: ["pie", "experimental"],
@@ -71,6 +74,7 @@ export class YGame extends GameBase {
     public variants: string[] = [];
     private boardSize = 9;
     public connPath: string[] = [];
+    private ruleset: "default" | "12-free" | "134-group" | "progressive";
 
     constructor(state?: IYState | string, variants?: string[]) {
         super();
@@ -100,6 +104,7 @@ export class YGame extends GameBase {
             this.stack = [fresh];
         }
         this.load();
+        this.ruleset = this.getRuleset();
     }
 
     public load(idx = -1): YGame {
@@ -135,6 +140,13 @@ export class YGame extends GameBase {
             }
         }
         return 13;
+    }
+
+    private getRuleset(): "default" | "12-free" | "134-group" | "progressive" {
+        if (this.variants.includes("12-free"))     { return "12-free"; }
+        if (this.variants.includes("134-group"))   { return "134-group"; }
+        if (this.variants.includes("progressive")) { return "progressive"; }
+        return "default";
     }
 
     public coords2algebraic(x: number, y: number): string {
@@ -224,6 +236,16 @@ export class YGame extends GameBase {
         return cells;
     }
 
+    private spacesLeft(): string[] {
+        const empties = [];
+        for (const cell of this.getAllCells() ) {
+            if (! this.board.has(cell) ) {
+               empties.push(cell);
+            }
+        }
+        return empties;
+    }
+
     private get graph(): UndirectedGraph {
         const g = new UndirectedGraph();
         for (const cell of this.getAllCells()) {
@@ -263,27 +285,65 @@ export class YGame extends GameBase {
         return [left, right, bottom];
     }
 
-    public moves(player?: playerid): string[] {
+    public moves(): string[] {
         if (this.gameover) { return []; }
-        if (player === undefined) { player = this.currplayer; }
 
-        /*const moves: string[] = [];
-        for(const cell of this.getAllCells()) {
-            if (! this.board.has(cell) ) {
-                moves.push(cell);
-            }
+        if (this.ruleset !== "default") {
+            return []; // too many moves
         }
 
-        return moves.sort((a,b) => a.localeCompare(b));*/
         return this.getAllCells()
                    .filter(c => !this.board.has(c))
                    .sort((a,b) => a.localeCompare(b));
     }
 
+    private sort(a: string, b: string): number {
+        // sort the two cells; necessary because "a10" should come after "a9"
+        const [ax, ay] = this.algebraic2coords(a);
+        const [bx, by] = this.algebraic2coords(b);
+        if (ay < by) { return -1; }
+        if (ay > by) { return  1; }
+        if (ax < bx) { return -1; }
+        if (ax > bx) { return  1; }
+        return 0;
+    }
+
+    private normaliseMove(move: string): string {
+        // Sort the move list so that there is a unique representation.
+        move = move.toLowerCase();
+        move = move.replace(/\s+/g, "");
+        return move.split(",").sort((a, b) => this.sort(a, b)).join(",");
+    }
+
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            const newmove = move === "" ? this.coords2algebraic(col, row) : "";
+            let newmove: string;
+            const cell = this.coords2algebraic(col, row);
 
+            if (this.ruleset === "12-free") {
+                if ( move === "" ) {
+                    newmove = cell;
+                } else if ( move === cell ) {
+                    newmove = ""; // re-click resets the move
+                } else {
+                    newmove = `${move},${cell}`;
+                }
+            } else if ( this.ruleset === "134-group" || this.ruleset === "progressive") {
+                if ( move === "" ) {
+                    newmove = cell;
+                } else {
+                    const moves = move.split(",");
+                    if ( moves.includes(cell) ) { // check if the cell already was clicked
+                        newmove = moves.filter(c => c!=cell).join(","); // if re-click, undo it
+                    } else {
+                        newmove = `${move},${cell}`; // otherwise, append coordinates of current click
+                    }
+                }
+            } else { // default
+                newmove = move === "" ? cell : "";
+            }
+
+            newmove = this.normaliseMove(newmove);
             const result = this.validateMove(newmove) as IClickResult;
             result.move = result.valid ? newmove : move;
             return result;
@@ -296,6 +356,72 @@ export class YGame extends GameBase {
         }
     }
 
+    private isGroupAdjacent(cell: string, group: string[]) {
+        for (const piece of group) {
+            if ( this.getNeighbours(...this.algebraic2coords(piece)).includes(cell) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private findSharedNumbers(map: Map<string, number[]>): [string, string] | null {
+      const seen = new Map<number, string>();
+
+      for (const [key, nums] of map) {
+        for (const n of nums) {
+          const prevKey = seen.get(n);
+          if (prevKey !== undefined && prevKey !== key) {
+            return [prevKey, key];
+          }
+          seen.set(n, key);
+        }
+      }
+      return null;
+    }
+
+    // check if the multiple moves are all placed in different groups
+    // return a pair of moves that break the restriction, or null if all are in different groups
+    private findGroupRestrictionInfraction(m: string): [string, string] | null {
+        const moves = m.split(',');
+
+        // first check if some of them are adjacent (that is also invalid)
+        for (const cell1 of moves) {
+            for (const cell2 of moves) {
+                if (cell1 === cell2) { continue; }
+                if ( this.getNeighbours(...this.algebraic2coords(cell1)).includes(cell2) ) {
+                    return [cell1, cell2];
+                }
+            }
+        }
+
+        // for each cell placed in moves, what are the groups of friendly pieces adjacent to it?
+        const moveGroups = new Map<string, number[]>;
+        for (const cell of moves) {
+            moveGroups.set(cell, []);
+        }
+
+        const g = this.graph; // graph with the cell connections of the current player
+        for (const cell of this.getAllCells()) {
+            if ( !this.board.has(cell) || this.board.get!(cell) !== this.currplayer ) {
+                g.dropNode(cell);
+            }
+        }
+
+        // find, for each group of pieces on board, which are adjacent to the current moves
+        let idGrp = 0;
+        for (const grp of connectedComponents(g)) {
+            for (const cell of moves) {
+                if ( this.isGroupAdjacent(cell, grp) ) {
+                    moveGroups.get(cell)!.push(idGrp);
+                }
+            }
+            idGrp++;
+        }
+        // find if there are moves that share adjacent groups (returns null, otherwise)
+        return this.findSharedNumbers(moveGroups);
+    }
+
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false,
                                            message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
@@ -303,22 +429,99 @@ export class YGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.y.INSTRUCTIONS");
+            if (this.ruleset === "12-free") {
+                if (this.stack.length == 1) {
+                    result.message = i18next.t("apgames:validation.y.INITIAL_INSTRUCTIONS_12*");
+                } else {
+                    result.message = i18next.t("apgames:validation.y.INSTRUCTIONS_12*");
+                }
+            } else if (this.ruleset === "134-group") {
+                let nPlacements = 4;
+                if (this.stack.length === 1) { nPlacements = 1; }
+                if (this.stack.length === 2) { nPlacements = 3; }
+                if (this.stack.length == 1) {
+                    result.message = i18next.t("apgames:validation.y.INITIAL_INSTRUCTIONS_134*");
+                } else {
+                    result.message = i18next.t("apgames:validation.y.INSTRUCTIONS_134*",
+                                               {count: nPlacements});
+                }
+            } else if (this.ruleset === "progressive") {
+                result.message = i18next.t("apgames:validation.y.INSTRUCTIONS_PROGRESSIVE",
+                                           {count: this.stack.length});
+            } else {
+                result.message = i18next.t("apgames:validation.y.INSTRUCTIONS");
+            }
             return result;
         }
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-
-        if ( this.board.has(m) ) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: m});
-            return result;
+        const moves = m.split(',');
+        for (const cell of moves) {
+            if ( this.board.has(cell) ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: cell});
+                return result;
+            }
         }
 
-        result.valid = true;
-        result.complete = 1;
-        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        if (this.ruleset === "12-free") {
+
+            result.valid = true;
+            const neededMoves = this.stack.length === 1 || this.spacesLeft().length === 1 ? 1 : 2;
+            result.complete = moves.length === neededMoves ? 1 : -1;
+            result.canrender = true;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+
+        } else if (this.ruleset === "134-group")  {
+
+            const report = this.findGroupRestrictionInfraction(m);
+            if ( report !== null ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.y.GROUP_INFRACTION",
+                                           {cell1: report[0], cell2: report[1]});
+                return result;
+            }
+
+            result.valid = true;
+            let nPlacements = 4;
+            if (this.stack.length === 1) { nPlacements = 1; }
+            if (this.stack.length === 2) { nPlacements = 3; }
+            result.complete = moves.length === nPlacements || this.spacesLeft().length === moves.length ? 1 : -1;
+            result.canrender = true;
+            if ( moves.length === this.stack.length ) {
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            } else {
+                result.message = i18next.t("apgames:validation.y.VALID_MOVE_PROGRESSIVE",
+                                           {remaining: nPlacements - moves.length});
+            }
+
+        } else if (this.ruleset === "progressive")  {
+
+            const report = this.findGroupRestrictionInfraction(m);
+            if ( report !== null ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.y.GROUP_INFRACTION",
+                                           {cell1: report[0], cell2: report[1]});
+                return result;
+            }
+            result.valid = true;
+            result.complete = moves.length === this.stack.length || this.spacesLeft().length === moves.length ? 1 : 0;
+            result.canrender = true;
+            if ( moves.length === this.stack.length ) {
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            } else {
+                result.message = i18next.t("apgames:validation.y.VALID_MOVE_PROGRESSIVE",
+                                           {remaining: this.stack.length - moves.length});
+            }
+
+        } else { // default rules
+
+            result.valid = true;
+            result.complete = 1;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        }
+
         return result;
     }
 
@@ -334,19 +537,23 @@ export class YGame extends GameBase {
             if (! result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
             }
-            if ( !partial && ! this.moves().includes(m) ) {
+            if ( !partial && this.ruleset === 'default' && !this.moves().includes(m) ) {
                 throw new UserFacingError("VALIDATION_FAILSAFE",
                                           i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
         }
 
+        if (m.length === 0) { return this; } // note: this allows the re-click cell reset
+
         this.results = [];
-        this.board.set(m, this.currplayer);
-        this.results.push({type: "place", where: m});
+        for (const cell of m.split(',')) {
+            this.board.set(cell, this.currplayer);
+            this.results.push({type: "place", where: cell});
+        }
 
         if (partial) { return this; }
 
-        this.lastmove = m;
+        this.lastmove = this.normaliseMove(m);
         this.currplayer = this.currplayer % 2 + 1 as playerid;
         this.checkEOG();
         this.saveState();

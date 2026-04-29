@@ -3113,6 +3113,15 @@
             },
             "size-21": {
                 "name": "Size-21 board"
+            },
+            "12-free": {
+                "name": "12* move variant"
+            },
+            "134-group": {
+                "name": "134* with group restriction"
+            },
+            "progressive": {
+                "name": "Progressive with group restriction"
             }
         },
         "zola": {
@@ -6342,7 +6351,14 @@
             "UNACCESSIBLE_WALL": "Cannot place walls on inaccessible cells."
         },
         "y": {
-            "INSTRUCTIONS": "Click an empty cell to place a friendly piece."
+            "INSTRUCTIONS": "Click an empty cell to place a friendly piece.",
+            "INITIAL_INSTRUCTIONS_12*": "Click an empty cell to place a friendly piece. Afterwards, players always place two stones per turn.",
+            "INSTRUCTIONS_12*": "Click two empty cells to place friendly pieces.",
+            "INITIAL_INSTRUCTIONS_134*": "The game uses the 134* progressive rule. So, in the first turn the players place respectively one and three stones. Then, afterwards, all players place four stones. However, every pair of two stones, from the same multiple placement, cannot share the same group.",
+            "INSTRUCTIONS_134*": "Click on empty cells to place up to {{count}} friendly pieces. No pair of stones must share the same group of friendly pieces.",
+            "INSTRUCTIONS_PROGRESSIVE": "Click on empty cells to place up to {{count}} friendly pieces. No pair of stones must share the same group of friendly pieces.",
+            "VALID_MOVE_PROGRESSIVE": "The player can still place {{remaining}} pieces.",
+            "GROUP_INFRACTION": "Placements at {{cell1}} and {{cell2}} belong to the same group."
         },
         "yavalath": {
             "BAD_PASS": "You may only pass if you have been eliminated.",

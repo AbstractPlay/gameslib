@@ -450,7 +450,7 @@ export class ProductGame extends GameBase {
         this.gameover = this.spacesLeft() === 0;
 
         if (this.gameover) {
-            // since Product now has Pie, a tied results is a P1 win
+            // since Product now has Pie, a tied result is a P1 win
             this.winner = this.getPlayerScore(1) >= this.getPlayerScore(2) ? [1] : [2];
             this.results.push(
                 {type: "eog"},

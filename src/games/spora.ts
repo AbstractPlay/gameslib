@@ -699,8 +699,6 @@ export class SporaGame extends GameBase {
     }
 
     private doCaptures(): string[] {
-        //const firstPly = this.swapped ? 6 : 5;
-        //if ( this.stack.length <= firstPly ) return [];
         const result = [];
         const prevplayer = this.currplayer === 1 ? 2 : 1;
 

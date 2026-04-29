@@ -2086,11 +2086,11 @@
             "size-13": {
                 "name": "13x13 board"
             },
-            "size-15": {
-                "name": "15x15 board"
-            },
             "#board": {
                 "name": "17x17 board"
+            },
+            "size-19": {
+                "name": "19x19 board"
             },
             "size-21": {
                 "name": "21x21 board"

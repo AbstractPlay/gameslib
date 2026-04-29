@@ -173,7 +173,7 @@ export class DomineeringGame extends GameBase {
     }
 
     private normaliseMove(move: string): string {
-        // Sort the move list so that there is a unique representation.
+        // sort the move list so that there is a unique representation.
         move = move.toLowerCase();
         move = move.replace(/\s+/g, "");
         return move.split(",").sort((a, b) => this.sort(a, b)).join(",");
@@ -352,7 +352,6 @@ export class DomineeringGame extends GameBase {
             }
         }
 
-        // Looks good
         result.valid = true;
         result.complete = 1;
         result.canrender = true;
@@ -483,12 +482,9 @@ export class DomineeringGame extends GameBase {
         };
     }
 
+    // get cells occupied by each player
     private influenceMarkers(): Map<playerid, {row: number, col: number}[]> {
-        // Get cells that are occupied by each player
-        const markers = new Map<playerid, {row: number, col: number}[]>([
-            [1, []],
-            [2, []],
-        ]);
+        const markers = new Map<playerid, {row: number, col: number}[]>([ [1, []], [2, []] ]);
 
         for (let y = 0; y < this.boardSize; y++) {
             for (let x = 0; x < this.boardSize; x++) {
@@ -505,31 +501,6 @@ export class DomineeringGame extends GameBase {
     }
 
     public render(): APRenderRep {
-        /*/ Build piece string
-        let pstr = "";
-        for (let row = 0; row < this.boardSize; row++) {
-            if (pstr.length > 0) {
-                pstr += "\n";
-            }
-            const pieces: string[] = [];
-            for (let col = 0; col < this.boardSize; col++) {
-                const cell = this.coords2algebraic(col, row);
-                if (this.board.has(cell)) {
-                    const contents = this.board.get(cell)!;
-                    if (contents === 1) {
-                        pieces.push("A");
-                    } else {
-                        pieces.push("B");
-                    }
-                } else {
-                    pieces.push("-");
-                }
-            }
-            pstr += pieces.join("");
-        }
-        pstr = pstr.replace(new RegExp(`-{${this.boardSize}}`, "g"), "_");
-        */
-
         // for each placement, show the entire filled square instead of a regular piece
         let points1: {row: number, col: number}[] = [];
         let points2: {row: number, col: number}[] = [];

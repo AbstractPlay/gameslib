@@ -53,8 +53,8 @@ export class PinchGame extends GameBase {
         variants: [
             { uid: "size-9", group: "board" },
             { uid: "size-13", group: "board" },
-            { uid: "size-15", group: "board" },
             { uid: "#board", },  // 17x17
+            { uid: "size-19", group: "board" },
             { uid: "size-21", group: "board" },
             { uid: "original", group: "ruleset" },
         ],
@@ -371,7 +371,6 @@ export class PinchGame extends GameBase {
             return result;
         }
 
-        // Looks good
         result.valid = true;
         result.complete = 1;
         result.canrender = true;
@@ -396,7 +395,7 @@ export class PinchGame extends GameBase {
         this.results = [];
 
         if (this.ruleset === "original") {
-            // here is the entire move() for the "original" variant
+            // here is the entire move() code for the original ruleset
             const queue: string[] = [m];
             while ( queue.length > 0 ) {
                 const cell: string = queue.shift()!;

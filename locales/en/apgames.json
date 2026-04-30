@@ -181,6 +181,7 @@
         "rootbound": "In Root Bound, two groups of ‘plants’ spread in lifelike ways and vie for control of territory as space for new growth rapidly dwindles.",
         "saltire": "Connect your two opposite sides of the board by placing stones and swapping pairs of orthogonally or diagonally adjacent stones. A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
         "scaffold": "Scaffold is a drawless connection game played on the intersections of a square grid using stones (as in Go). Black is trying to connect N-S edges of the board, White E-W with an orthogonally connected group. On your turn, place a stone of your color on an empty point. Then, if possible, place a stone of your color on an empty point that is orthogonally adjacent to two groups of your color, and keep making such placements until no more are possible.",
+        "shapechess": "Shape Chess is a game in which players use their pieces to create line-symmetric shapes. Using three types of actions (drop, jump, and push), players aim to create symmetrical groups of six or more pieces. Try to get four points while successfully blocking your opponent!",
         "sentinel": "A vigil game using a sowing mechanism with stacks. A vigil game is one where some board position must always have line-of-sight to some or all of the player's pieces. In Sentinel, players are required to see the board center at the end of each one of their turns.",
         "shifty": "A connection game where you either place a piece orthogonally adjacent to a friendly piece, or move one of your pieces orthogonally adjacent to a friendly piece, by a chess queen's move, to a location not orthogonally adjacent to any other friendly pieces. Crosscuts are illegal. The player that forms an orthogonal or diagonal path connecting their two sides wins.",
         "siegeofj": "Place cards, representing armies, to exert pressure on segments of the wall around the city of Jacynth. Exert the most pressure on the most segments to win.",
@@ -2387,6 +2388,11 @@
                 "name": "Larger 25x25 board"
             }
         },
+        "shapechess": {
+            "#board": {
+                "name": "12x12 board"
+            }
+        },
         "sentinel": {
             "#board": {
                 "name": "9x9 board"
@@ -3115,7 +3121,7 @@
                 "name": "Size-21 board"
             },
             "12-free": {
-                "name": "12* move variant"
+                "name": "Master Y (12* move sequence)"
             },
             "134-group": {
                 "name": "134* with group restriction"
@@ -5733,6 +5739,14 @@
             "INCOMPLETE": "You need to place stones to connect the groups.",
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece.",
             "INVALID_MOVES": "This sequence of moves {{moves}} is invalid."
+        },
+        "shapechess": {
+            "INITIAL_INSTRUCTIONS": "On this turn the player either: (a) place a stone on an empty cell, (b) relocate a friendly stone to any empty cell, (c) place a stone over an opponent stone that is pushed to an adjacent (orthogonal or diagonal) empty cell.",
+            "JUMP_INSTRUCTIONS": "Now select an empty cell to place the selected stone.",
+            "PUSH_INSTRUCTIONS": "Now select an adjacent empty cell to push the selected opponent's stone.",
+            "JUMP_OCCUPIED": "Jumps must end on empty cells!",
+            "PUSH_NO_FREEDOM": "No available adjacent cells to push!",
+            "PUSH_NEIGHBOR": "Pushes must be to adjacent empty cells!"
         },
         "sentinel": {
             "INITIAL_INSTRUCTIONS": "Move a piece forward or sow a stack in any direction. The center cannot be crossed over. Captures are by replacement.",

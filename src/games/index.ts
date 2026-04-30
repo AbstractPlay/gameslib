@@ -241,6 +241,7 @@ import { PinchGame, IPinchState } from "./pinch";
 import { DomineeringGame, IDomineeringState } from "./domineering";
 import { TwinFlamesGame, ITwinFlamesState } from "./twinflames";
 import { YGame, IYState } from "./y";
+import { ShapeChessGame, IShapeChessState } from "./shapechess";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -485,6 +486,7 @@ export {
     DomineeringGame, IDomineeringState,
     TwinFlamesGame, ITwinFlamesState,
     YGame, IYState,
+    ShapeChessGame, IShapeChessState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -568,7 +570,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof GoGame | typeof StilettoGame | typeof BTTGame |
                               typeof MinefieldGame | typeof SentinelGame | typeof XanaGame |
                               typeof SporaGame | typeof SquirmGame | typeof PinchGame | 
-                              typeof DomineeringGame| typeof TwinFlamesGame | typeof YGame
+                              typeof DomineeringGame| typeof TwinFlamesGame | typeof YGame |
+                              typeof ShapeChessGame
                 >();
 // Manually add each game to the following array
 [
@@ -605,7 +608,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     LascaGame, EmergoGame, FroggerGame, ArimaaGame, RampartGame, KrypteGame, EnsoGame, RincalaGame,
     WaldMeisterGame, WunchunkGame, BambooGame, PluralityGame, CrosshairsGame, MagnateGame,
     ProductGame, OonpiaGame, GoGame, StilettoGame, BTTGame, MinefieldGame, SentinelGame, 
-    XanaGame, SporaGame, SquirmGame, PinchGame, DomineeringGame, TwinFlamesGame, YGame
+    XanaGame, SporaGame, SquirmGame, PinchGame, DomineeringGame, TwinFlamesGame, YGame, ShapeChessGame
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -1099,6 +1102,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new TwinFlamesGame(...args);
         case "y":
             return new YGame(...args);
+        case "shapechess":
+            return new ShapeChessGame(...args);
     }
     return;
 }

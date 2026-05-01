@@ -21,7 +21,7 @@ export interface ITwinFlamesState extends IAPGameState {
 
 export class TwinFlamesGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
-        name: "TwinFlames",
+        name: "Twin Flames",
         uid: "twinflames",
         playercounts: [2],
         version: "20260428",
@@ -50,6 +50,7 @@ export class TwinFlamesGame extends GameBase {
             { uid: "#board", },
             { uid: "size-7", group: "board" },
             { uid: "size-8", group: "board" },
+            { uid: "no-block", group: "ruleset" },
         ],
         flags: ["no-moves", "experimental"]
     };
@@ -126,6 +127,11 @@ export class TwinFlamesGame extends GameBase {
         return 6;
     }
 
+    private getRuleset(): "default" | "no-block" {
+        if (this.variants.includes("no-block")) { return "no-block"; }
+        return "default";
+    }
+
     private getGraph(): HexTriGraph {
         return new HexTriGraph(this.boardSize, 2*this.boardSize - 2);
     }
@@ -137,39 +143,42 @@ export class TwinFlamesGame extends GameBase {
 
     private getRandomPlacement(): Map<string, playerid> {
         const board = new Map<string, playerid>();
-        const boardSize = this.getBoardSize(); // this.boardSize is not available yet
-        const g = new HexTriGraph(boardSize, 2*boardSize - 2);
 
-        let shooterCount = 4;
-        let rows = ['b', 'c', 'd', 'e', 'f', 'g', 'h'];
-        let cols_by_rows = [5, 6, 7, 8, 7, 6, 5]; // size of rows, excluding edges
+        if ( this.getRuleset() !== "no-block" ) {
+            const boardSize = this.getBoardSize(); // this.boardSize is not available yet
+            const g = new HexTriGraph(boardSize, 2*boardSize - 2);
 
-        if ( boardSize === 7 ) {
-            shooterCount = 6;
-            rows = ['b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
-            cols_by_rows = [6, 7, 8, 9, 10, 9, 8, 7, 6];
-        }
-        if ( boardSize === 8 ) {
-            shooterCount = 8;
-            rows = ['b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'];
-            cols_by_rows = [7, 8, 9, 10, 11, 12, 11, 10, 9, 8, 7];
-        }
+            let shooterCount = 4;
+            let rows = ['b', 'c', 'd', 'e', 'f', 'g', 'h'];
+            let cols_by_rows = [5, 6, 7, 8, 7, 6, 5]; // size of rows, excluding edges
 
-        let allCells = [];
-        for (let r = 0; r < rows.length; r++) {
-            for (let c = 0; c < cols_by_rows[r]; c++) {
-                allCells.push(`${rows[r]}${c+2}`); // first column is a2, b2, c2...
+            if ( boardSize === 7 ) {
+                shooterCount = 6;
+                rows = ['b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+                cols_by_rows = [6, 7, 8, 9, 10, 9, 8, 7, 6];
             }
-        }
+            if ( boardSize === 8 ) {
+                shooterCount = 8;
+                rows = ['b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'];
+                cols_by_rows = [7, 8, 9, 10, 11, 12, 11, 10, 9, 8, 7];
+            }
 
-        let currentShooterCount = 0;
-        while (currentShooterCount < shooterCount) {
-            const cell = allCells[Math.floor(Math.random() * allCells.length)];
-            board.set(cell, 3);
-            const toRemove = g.neighbours(cell); // remove neighbors of cell
-            toRemove.push(cell);                          // and remove the chosen cell
-            allCells = allCells.filter(c => !toRemove.includes(c));
-            currentShooterCount++;
+            let allCells = [];
+            for (let r = 0; r < rows.length; r++) {
+                for (let c = 0; c < cols_by_rows[r]; c++) {
+                    allCells.push(`${rows[r]}${c+2}`); // first column is a2, b2, c2...
+                }
+            }
+
+            let currentShooterCount = 0;
+            while (currentShooterCount < shooterCount) {
+                const cell = allCells[Math.floor(Math.random() * allCells.length)];
+                board.set(cell, 3);
+                const toRemove = g.neighbours(cell); // remove neighbors of cell
+                toRemove.push(cell);                          // and remove the chosen cell
+                allCells = allCells.filter(c => !toRemove.includes(c));
+                currentShooterCount++;
+            }
         }
         return board;
     }
@@ -565,7 +574,7 @@ export class TwinFlamesGame extends GameBase {
             legend: {
                 A: {name: "hex-pointy", scale: 1.25, colour: this.getPlayerColour(1) },
                 B: {name: "hex-pointy", scale: 1.25, colour: this.getPlayerColour(2) },
-                C: {name: "star-solid", scale: 1, colour: wallColour },
+                C: {name: "star-solid", scale: 0.70, colour: wallColour },
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
         };

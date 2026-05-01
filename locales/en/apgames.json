@@ -2398,6 +2398,47 @@
                 "name": "9x9 board"
             }
         },
+        "shapechess": {
+            "size-10": {
+                "name": "10x10 board"
+            },
+            "#board": {
+                "name": "12x12 board"
+            },
+            "size-14": {
+                "name": "14x14 board"
+            },
+            "size-16": {
+                "name": "16x16 board"
+            },
+            "size-18": {
+                "name": "18x18 board"
+            },
+            "#ruleset": {
+                "description": "Score 4 points from symmetric groups.",
+                "name": "Standard Rules"
+            },
+            "5-pts": {
+                "description": "Needs 5 points for victory.",
+                "name": "5 points scoring"
+            },
+            "6-pts": {
+                "description": "Needs 6 points for victory.",
+                "name": "6 points scoring"
+            },
+            "7-pts": {
+                "description": "Needs 7 points for victory.",
+                "name": "7 points scoring"
+            },
+            "8-pts": {
+                "description": "Needs 8 points for victory.",
+                "name": "8 points scoring"
+            },
+            "9-pts": {
+                "description": "Needs 9 points for victory.",
+                "name": "9 points scoring"
+            }
+        },
         "shifty": {
             "#board": {
                 "name": "9x9 board"
@@ -2972,6 +3013,14 @@
             },
             "size-8": {
                 "name": "Hex board (base-8), 8 blockers"
+            },
+            "#ruleset": {
+                "description": "Original rules.",
+                "name": "Standard Rules"
+            },
+            "no-block": {
+                "description": "No blockers are used.",
+                "name": "No blockers"
             }
         },
         "twixt": {

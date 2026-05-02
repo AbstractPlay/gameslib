@@ -181,7 +181,7 @@
         "rootbound": "In Root Bound, two groups of ‘plants’ spread in lifelike ways and vie for control of territory as space for new growth rapidly dwindles.",
         "saltire": "Connect your two opposite sides of the board by placing stones and swapping pairs of orthogonally or diagonally adjacent stones. A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
         "scaffold": "Scaffold is a drawless connection game played on the intersections of a square grid using stones (as in Go). Black is trying to connect N-S edges of the board, White E-W with an orthogonally connected group. On your turn, place a stone of your color on an empty point. Then, if possible, place a stone of your color on an empty point that is orthogonally adjacent to two groups of your color, and keep making such placements until no more are possible.",
-        "shapechess": "Shape Chess is a game in which players use their pieces to create line-symmetric shapes. Using three types of actions (drop, jump, and push), players aim to create symmetrical groups of six or more pieces. Try to get four points while successfully blocking your opponent!",
+        "shapechess": "Shape Chess is a game in which players use their pieces to create line-symmetric shapes. Using three types of actions (placements, jumps, pushes), players aim to create symmetrical groups of six or more pieces, scoring more points for larger groups.",
         "sentinel": "A vigil game using a sowing mechanism with stacks. A vigil game is one where some board position must always have line-of-sight to some or all of the player's pieces. In Sentinel, players are required to see the board center at the end of each one of their turns.",
         "shifty": "A connection game where you either place a piece orthogonally adjacent to a friendly piece, or move one of your pieces orthogonally adjacent to a friendly piece, by a chess queen's move, to a location not orthogonally adjacent to any other friendly pieces. Crosscuts are illegal. The player that forms an orthogonal or diagonal path connecting their two sides wins.",
         "siegeofj": "Place cards, representing armies, to exert pressure on segments of the wall around the city of Jacynth. Exert the most pressure on the most segments to win.",
@@ -288,6 +288,7 @@
         "rincala": "For reasons, the colours are instead red (4 pts), blue (3 pts), green (2 pts), yellow (1 pt). Also, the game terminates as soon as one player earns more than half the points (>=26 pts).",
         "rootbound": "The estimated score shows the scores that the board would resolve to if the game were to end in the current board state. Consequently, the first player who forms a partition will briefly appear to have a maximum score. This will correct itself over the course of the game.\n\nThe implementation currently only provides beginner protection for the first move of the game. Be careful not to merge down to one Dead Group.",
         "siegeofj": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers, and they are hidden from opponents until the deck is empty, at which point the players have perfect information, so the hands are revealed.",
+        "shapechess": "Shape Chess, 形棋 (shape - board game), was designed c.2010 by 日出 (Richu) from Guangzhou, China. The game has evolved into its current form through years of refinement within the Chinese game design community (quoted from Kanare_Abstract). This is not a Chess-like game, but one that uses a very original concept by making players build reflectional symmetric shapes. This implementation includes several board sizes, and also different winning scores, for players who prefer shorter or longer matches.",
         "sentinel": "Vigil Games are a class of strategy games in which players must maintain an uninterrupted line of sight between their pieces and a designated reference point or region of the board. The first vigil game on record is 1892's Kastellet.\n\nSentinel is a vigil game where players always need to have at least one line-of-sight to the board's center. Sentinel is the second abstract game of this genre (after more than 130 years!), mixing typical movement and capture ludemes with permanent line-of-sight control of the central square.\n\nThe game mixes forward movement with sowing stacks which are the only way for armies to increase their size.",
         "spire": "In this implementation, if you select only one space, it assumes that you placed the ball of your colour, and if you select two spaces, the first space is for the neutral ball and the second space is for the ball of your colour. If the first click is on a space where only one of the neutral ball or the ball of your colour is valid, it will automatically commit that ball.",
         "spook": "When using the randomised board setup, the only fairness heuristics that we currently have are that (1) the number of balls in solid 5-ball pyramids of the same colour are equal for both players and (2), the second-highest layer must contain balls of both colours. Feel free to contact us on Discord if you think of other ways to make the game fairer.",
@@ -2386,11 +2387,6 @@
             },
             "size-25": {
                 "name": "Larger 25x25 board"
-            }
-        },
-        "shapechess": {
-            "#board": {
-                "name": "12x12 board"
             }
         },
         "sentinel": {

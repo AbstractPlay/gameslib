@@ -246,14 +246,14 @@ export class ShapeChessGame extends GameBase {
                 result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             } else if ( cloned.board.get(moves[0])! === this.currplayer ) {
                 // or if placing over a friendly stone, this is a jump
+                result.message = i18next.t("apgames:validation.shapechess.JUMP_INSTRUCTIONS");
+            } else {
+                // otherwise it is over an adversary stone, which is a push
                 if ( cloned.emptyNeighbors(moves[0]).length === 0 ) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.shapechess.PUSH_NO_FREEDOM");
                     return result;
                 }
-                result.message = i18next.t("apgames:validation.shapechess.JUMP_INSTRUCTIONS");
-            } else {
-                // otherwise it is over an adversary stone, which is a push
                 result.message = i18next.t("apgames:validation.shapechess.PUSH_INSTRUCTIONS");
             }
             return result;
@@ -277,51 +277,6 @@ export class ShapeChessGame extends GameBase {
             }
         }
 
-        /*
-        // we assume all previous actions are correct, and only need to check the current one
-        const moves = m.split(',').at(-1)!.split("-");
-
-        if ( moves.length === 1 ) {
-            result.valid = true;
-            result.canrender = true;
-            result.complete = -1;
-            if (! this.board.has(moves[0]) ) {
-                // if placed on an empty cell, this is a complete move
-                result.complete = this.hadCaptures(m.split(',').at(-1)!) ? -1 : 1;
-                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
-            } else if ( this.board.get(moves[0])! === this.currplayer ) {
-                // or if placing over a friendly stone, this is a jump
-                if ( this.emptyNeighbors(moves[0]).length === 0 ) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation.shapechess.PUSH_NO_FREEDOM");
-                    return result;
-                }
-                result.message = i18next.t("apgames:validation.shapechess.JUMP_INSTRUCTIONS");
-            } else {
-                // otherwise it is over an adversary stone, which is a push
-                result.message = i18next.t("apgames:validation.shapechess.PUSH_INSTRUCTIONS");
-            }
-            return result;
-        }
-
-        // reaching here, it is either a jump or a push
-
-        if ( this.board.get(moves[0])! === this.currplayer ) { // so, we have a complete jump
-            if ( this.board.has(moves[1]) ) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.shapechess.JUMP_OCCUPIED");
-                return result;
-            }
-        }
-
-        if ( this.board.get(moves[0])! !== this.currplayer ) { // so, we have a complete push
-            if (! this.emptyNeighbors(moves[0]).includes(moves[1]) ) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.shapechess.PUSH_NEIGHBOR");
-                return result;
-            }
-        }
-        */
         result.valid = true;
         result.complete = this.hadCaptures(m.split(',').at(-1)!) ? -1 : 1;
         result.canrender = true;
@@ -390,7 +345,9 @@ export class ShapeChessGame extends GameBase {
     }
 
     // find the segment to draw the symmetric line within the bounds of the symmetric group
-    private getSymmetryLine(group: string[], line: [number, number, number]): number[][] {
+    // at the end, it is added the current player, which is used at the render phase
+    // (this is necessary, because when the turn ends, the currplayer is already updated)
+    private getSymmetryLine(group: string[], line: [number, number, number], player: playerid): number[][] {
         const [a, b, c] = line
         const points = group.map(c => this.algebraic2coords(c));
         const centerX = points.reduce((sum, p) => sum + p[0], 0) / points.length;
@@ -401,17 +358,17 @@ export class ShapeChessGame extends GameBase {
         const maxY = points.reduce((acc, p) => Math.max(acc, p[1]), 0);
 
         if ( b === 0 ) { // vertical line
-            return [[centerX,minY], [centerX,maxY]]
+            return [[centerX,minY], [centerX,maxY], [player]]
         } else if ( a == 0 ) { // horizontal line
-            return [[minX,centerY], [maxX,centerY]]
+            return [[minX,centerY], [maxX,centerY], [player]]
         } else if ( a == 1 && b == -1 ) { // diagonal 45º
             const y0 = (-c - a*minX) / b;
             const y1 = (-c - a*maxX) / b;
-            return [[minX,y0], [maxX,y1]];
+            return [[minX,y0], [maxX,y1], [player]];
         } else { // diagonal -45º
             const y0 = (-c - a*minX) / b;
             const y1 = (-c - a*maxX) / b;
-            return [[minX,y1], [maxX,y0]];
+            return [[minX,y1], [maxX,y0], [player]];
         }
     }
 
@@ -455,12 +412,27 @@ export class ShapeChessGame extends GameBase {
                 const symmetry = this.computeSymmetry(group);
                 if ( symmetry.length === 3 ) { //this group is symmetric!
                     this.scores[this.currplayer - 1] += group.length - 5; // score N-5 points for a group with N pieces
-                    this._symmetryLine.push(this.getSymmetryLine(group, symmetry as [number, number, number]));
+                    this._symmetryLine.push(this.getSymmetryLine(group, symmetry as [number, number, number],
+                                                                 this.currplayer));
                     for (const cell of group) { // symmetric groups must be deleted
                         this.board.delete(cell);
                         this.results.push({ type: "capture", where: cell });
                     }
-                    break; // only one capture per action is possible
+                }
+            }
+
+            // now, do the same for the opponent's groups that might be formed due to currplayer's actions
+            const prevplayer = this.currplayer % 2 + 1 as playerid;
+            for(const group of this.getGroups(prevplayer)) {
+                const symmetry = this.computeSymmetry(group);
+                if ( symmetry.length === 3 ) { //this group is symmetric!
+                    this.scores[prevplayer - 1] += group.length - 5; // score N-5 points for a group with N pieces
+                    this._symmetryLine.push(this.getSymmetryLine(group, symmetry as [number, number, number],
+                                                                 prevplayer));
+                    for (const cell of group) { // symmetric groups must be deleted
+                        this.board.delete(cell);
+                        this.results.push({ type: "capture", where: cell });
+                    }
                 }
             }
         } // for (actions)
@@ -489,17 +461,35 @@ export class ShapeChessGame extends GameBase {
             this.results.push({ type: "move", from: moves[0], to: moves[1]});
         }
 
+        // check for symmetrical groups, first from the currplayer, then from the opponent
+
         for(const group of this.getGroups(this.currplayer)) {
             const symmetry = this.computeSymmetry(group);
-            if ( symmetry.length === 3 ) { //this group is symmetric!
+            if ( symmetry.length === 3 ) { // this group is symmetric!
                 this.scores[this.currplayer - 1] += group.length - 5; // score N-5 points for a group with N pieces
-                this._symmetryLine.push(this.getSymmetryLine(group, symmetry as [number, number, number]));
-                this._hadCaptures = true;
+                this._symmetryLine.push(this.getSymmetryLine(group, symmetry as [number, number, number],
+                                                             this.currplayer));
+                // if this._hadCaptures is true, the current player continues moving
+                // however, if winning score was already achieved, no more further moves are needed
+                this._hadCaptures = this.scores[this.currplayer - 1] < this.getWinningScore();
                 for (const cell of group) { // symmetric groups must be deleted
                     this.board.delete(cell);
                     this.results.push({ type: "capture", where: cell });
                 }
-                break; // only one capture per action is possible
+            }
+        }
+
+        const prevplayer = this.currplayer % 2 + 1 as playerid;
+        for(const group of this.getGroups(prevplayer)) {
+            const symmetry = this.computeSymmetry(group);
+            if ( symmetry.length === 3 ) { // this group is symmetric!
+                this.scores[prevplayer - 1] += group.length - 5; // score N-5 points for a group with N pieces
+                this._symmetryLine.push(this.getSymmetryLine(group, symmetry as [number, number, number],
+                                                             prevplayer));
+                for (const cell of group) { // symmetric groups must be deleted
+                    this.board.delete(cell);
+                    this.results.push({ type: "capture", where: cell });
+                }
             }
         }
 
@@ -512,35 +502,32 @@ export class ShapeChessGame extends GameBase {
         return this;
     }
 
-    public getPlayerScore(player: number): number {
-        return this.scores[player-1];
-    }
-
-    public sidebarScores(): IScores[] {
-        return [
-            { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
-        ]
+    private getWinningScore() {
+        if (this.ruleset === "5-pts") return 5;
+        if (this.ruleset === "6-pts") return 6;
+        if (this.ruleset === "7-pts") return 7;
+        if (this.ruleset === "8-pts") return 8;
+        if (this.ruleset === "9-pts") return 9;
+        return 4;
     }
 
     protected checkEOG(): ShapeChessGame {
-        let winningScore = 4;
-        if (this.ruleset === "5-pts") winningScore = 5;
-        if (this.ruleset === "6-pts") winningScore = 6;
-        if (this.ruleset === "7-pts") winningScore = 7;
-        if (this.ruleset === "8-pts") winningScore = 8;
-        if (this.ruleset === "9-pts") winningScore = 9;
-
         const prevplayer: playerid = this.currplayer % 2 + 1 as playerid;
-        if (this.getPlayerScore(prevplayer) >= winningScore) {
-            this.gameover = true;
-            this.winner = [prevplayer];
-        }
+        const currScore = this.getPlayerScore(this.currplayer);
+        const prevScore = this.getPlayerScore(prevplayer);
 
-        const graph = this.getGraph();
-        const empties = [...graph.listCells() as string[]].filter(cell => ! this.board.has(cell));
-        if (empties.length === 0) {
+        if (prevScore >= this.getWinningScore() || currScore >= this.getWinningScore()) {
             this.gameover = true;
-            this.winner = [1, 2]; // if the board gets full with the goal score, the game is a draw
+            if (prevScore  >  currScore) { this.winner = [prevplayer]; }
+            if (prevScore  <  currScore) { this.winner = [this.currplayer]; }
+            if (prevScore === currScore) { this.winner = [1, 2]; }
+        } else {
+            const graph = this.getGraph();
+            const empties = [...graph.listCells() as string[]].filter(cell => ! this.board.has(cell));
+            if (empties.length === 0) {
+                this.gameover = true;
+                this.winner = [1, 2]; // if the board gets full, the game is a draw
+            }
         }
 
         if (this.gameover) {
@@ -551,29 +538,6 @@ export class ShapeChessGame extends GameBase {
         }
 
         return this;
-    }
-
-    public state(): IShapeChessState {
-        return {
-            game: ShapeChessGame.gameinfo.uid,
-            numplayers: this.numplayers,
-            variants: this.variants,
-            gameover: this.gameover,
-            winner: [...this.winner],
-            stack: [...this.stack]
-        };
-    }
-
-    public moveState(): IMoveState {
-        return {
-            _version: ShapeChessGame.gameinfo.version,
-            _results: [...this.results],
-            _timestamp: new Date(),
-            currplayer: this.currplayer,
-            lastmove: this.lastmove,
-            board: new Map(this.board),
-            scores: [...this.scores],
-        };
     }
 
     public render(): APRenderRep {
@@ -635,8 +599,9 @@ export class ShapeChessGame extends GameBase {
             for (const line of this._symmetryLine) {
                 const [fromX, fromY]:number[] = line[0];
                 const [toX,   toY]  :number[] = line[1];
+                const player = line[2][0] as playerid;
                 rep.annotations.push({ type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}],
-                                       opacity: 0.75, arrow: false, strokeWidth: 0.05, colour: this.currplayer });
+                                       opacity: 0.75, arrow: false, strokeWidth: 0.05, colour: player });
             }
         }
 
@@ -653,7 +618,40 @@ export class ShapeChessGame extends GameBase {
         return rep;
     }
 
-    public clone(): ShapeChessGame {
+    public state(): IShapeChessState {
+        return {
+            game: ShapeChessGame.gameinfo.uid,
+            numplayers: this.numplayers,
+            variants: this.variants,
+            gameover: this.gameover,
+            winner: [...this.winner],
+            stack: [...this.stack]
+        };
+    }
+
+    public moveState(): IMoveState {
+        return {
+            _version: ShapeChessGame.gameinfo.version,
+            _results: [...this.results],
+            _timestamp: new Date(),
+            currplayer: this.currplayer,
+            lastmove: this.lastmove,
+            board: new Map(this.board),
+            scores: [...this.scores],
+        };
+    }
+
+    public getPlayerScore(player: number): number {
+        return this.scores[player-1];
+    }
+
+    public sidebarScores(): IScores[] {
+        return [
+            { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
+        ]
+    }
+
+   public clone(): ShapeChessGame {
         return new ShapeChessGame(this.serialize());
     }
 }

@@ -25,7 +25,9 @@ export class MattockGame extends GameBase {
         name: "Mattock",
         uid: "mattock",
         playercounts: [2],
-        version: "20240106",
+        // version: "20240106",
+        // Fixed initial position for size-7. Piece at e1 mistakenly at d1.
+        version: "20260503",
         dateAdded: "2024-01-07",
         // i18next.t("apgames:descriptions.mattock")
         description: "apgames:descriptions.mattock",
@@ -109,7 +111,7 @@ export class MattockGame extends GameBase {
                 } else {
                     board = new Map<string, playerid>([
                         ["k1", 1], ["i11", 1], ["a3", 1], ["j6", 1], ["e8", 1], ["f4", 1],
-                        ["m5", 2], ["c9", 2], ["d1", 2], ["i4", 2], ["h9", 2], ["d5", 2],
+                        ["m5", 2], ["c9", 2], ["e1", 2], ["i4", 2], ["h9", 2], ["d5", 2],
                     ]);
 
                 }

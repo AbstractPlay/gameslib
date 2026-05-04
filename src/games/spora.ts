@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic, MarkerDots, RowCol } from "@abstractplay/renderer/src/schemas/schema";
@@ -234,27 +235,33 @@ export class SporaGame extends GameBase {
                     } else {
                         newmove = `${move},${cell}>1`; // otherwise, the click was elsewhere, so now the sow phase starts
                         this._selected = [cell, 1];
+                        console.log(JSON.stringify(this._selected));
                     }
                 } else if ( move.includes(',') && !move.includes('@')) { // sowing still not started (eg, a<1,b1>1)
                     const [placeStack, n1, sowingStack, n2] = move.split(/[<,>]/);
                     if ( sowingStack === cell ) {
                         newmove = `${placeStack}<${n1},${sowingStack}>${Number(n2)+1}`; // add a new piece for sowing
                         this._selected = [sowingStack, Number(n2)+1];
+                        console.log(JSON.stringify(this._selected));
                     } else if (Number(n2) === 1) {
                         newmove = `${placeStack}<${n1},${sowingStack}@${cell}`; // sow just one stone
                         this._selected = [sowingStack, Number(n2)];
+                        console.log(JSON.stringify(this._selected));
                     } else {
                         newmove = `${placeStack}<${n1},${sowingStack}>${Number(n2)-1}@${cell}`; // start sowing
                         this._selected = [sowingStack, Number(n2)-1];
+                        console.log(JSON.stringify(this._selected));
                     }
                 } else if ( move.includes('>') && move.includes('@') ) { // in the middle of the sowing phase (eg, a1<1,b1>3@c1)
                     const [placeStack, n1, sowingStack, n2, sowingPath] = move.split(/[<,>@]/);
                     if ( Number(n2) > 1 ) {
                         newmove = `${placeStack}<${n1},${sowingStack}>${Number(n2)-1}@${sowingPath}-${cell}`; // continue sowing
                         this._selected = [sowingStack, Number(n2)-1];
+                        console.log(JSON.stringify(this._selected));
                     } else { // all pieces were sowed (eg, a1<1,b1>1@c1-d1  becomes  a1<1,b1@c1-d1-cell)
                         newmove = `${placeStack}<${n1},${sowingStack}@${sowingPath}-${cell}`; // end sowing
                         this._selected = null;
+                        console.log(JSON.stringify(this._selected));
                     }
                 } else {
                     throw new Error();
@@ -855,6 +862,7 @@ export class SporaGame extends GameBase {
 
         this.lastmove = m;
         this._selected = null;
+        console.log(JSON.stringify(this._selected));
         this.scores = [this.getPlayerScore(1), this.getPlayerScore(2)];
         this.reserve[this.currplayer - 1] -= totalPiecesPlaced;
         this.currplayer = this.currplayer % 2 + 1 as playerid;

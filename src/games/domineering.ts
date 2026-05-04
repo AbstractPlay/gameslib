@@ -24,7 +24,7 @@ export class DomineeringGame extends GameBase {
         uid: "domineering",
         playercounts: [2],
         version: "20260425",
-        dateAdded: "2026-04-25",
+        dateAdded: "2026-05-04",
         // i18next.t("apgames:descriptions.domineering")
         description: "apgames:descriptions.domineering",
         notes: "apgames:notes.domineering",

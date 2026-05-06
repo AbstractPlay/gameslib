@@ -25,6 +25,7 @@ export interface IMoveState extends IIndividualState {
     scores: [number, number];
     prisoners: [number, number];
     reserve: [number, number];
+    swapped: boolean;
 };
 
 export interface IXanaState extends IAPGameState {
@@ -89,6 +90,7 @@ export class XanaGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     public graph: HexTriGraph = new HexTriGraph(BOARD_SIZE, 2*BOARD_SIZE-1);
+    public swapped = true;
 
     private scores: [number, number] = [0, 0];
     private prisoners: [number, number] = [0, 0]; // number of enemy pieces (not stacks) captured
@@ -110,6 +112,7 @@ export class XanaGame extends GameBase {
                 scores: [0, 0],
                 prisoners: [0, 0],
                 reserve: [RESERVE_SIZE, RESERVE_SIZE],
+                swapped: true,
             };
             this.stack = [fresh];
         } else {
@@ -144,10 +147,21 @@ export class XanaGame extends GameBase {
         this.prisoners = [...state.prisoners];
         this.reserve = [...state.reserve];
         this.graph = new HexTriGraph(BOARD_SIZE, 2*BOARD_SIZE-1);
+        this.swapped = false;
+        // We have to check the first state because we store the updated version in later states
+        if (state.swapped === undefined) {
+            this.swapped = this.stack.length < 3 || this.stack[2].lastmove !== "swap";
+        } else {
+            this.swapped = state.swapped;
+        }
         return this;
     }
 
     /////////////// helper functions ///////////////
+
+    public isPieTurn(): boolean {
+        return this.stack.length === 2;
+    }
 
     // all the cells accessible to the pieces of a given player
     private accessibleCells(player: playerid): string[] {
@@ -339,7 +353,24 @@ export class XanaGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.xana.INITIAL_INSTRUCTIONS");
+            if ( this.isPieTurn() ) {
+                result.message = i18next.t("apgames:validation.xana.PIE_CHOICE");
+            } else {
+                result.message = i18next.t("apgames:validation.xana.INITIAL_INSTRUCTIONS");
+            }
+            return result;
+        }
+
+        if (m === "swap") {
+            if ( this.isPieTurn() ) {
+                result.valid = true;
+                result.complete = 1;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            } else {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.xana.INVALID_PLAYSECOND");
+            }
             return result;
         }
 
@@ -491,6 +522,15 @@ export class XanaGame extends GameBase {
 
         if (m === "pass") {
             this.results.push({type: "pass"});
+        } else if (m === "swap") { // pie was accepted
+            this.swapped = true;
+            this.board.forEach((v, k) => {
+                if (v[0] !== 3) { // if it's not a wall, swap colors
+                    this.board.set(k, [v[0] === 1 ? 2 : 1, v[1]]);
+                }
+            })
+            this.reserve = [this.reserve[1], this.reserve[0]];
+            this.results.push({ type: "pie" });
         } else {
             const commands: string[] = m.split(',');
             const initialCell: string = m.split(/[<>]/)[0];
@@ -564,7 +604,7 @@ export class XanaGame extends GameBase {
                         this.stack[this.stack.length - 1].lastmove === "pass";
 
         // if no shared accessible cells, the game is over, since all areas ownership are decided
-        if (this.stack.length > 3 && !this.gameover) {
+        if (this.stack.length > 4 && !this.gameover) {
             const p1cells: string[]    = this.accessibleCells(1);
             const p2cells: Set<string> = new Set(this.accessibleCells(2));
             const shareCells: string[] = p1cells.filter(c => p2cells.has(c));
@@ -585,13 +625,12 @@ export class XanaGame extends GameBase {
     }
 
     public getPlayerScore(player: playerid): number {
-        let nPrisoners = this.prisoners[player - 1];
-        if (player === 1) {
-            nPrisoners += 0.5; // P2 decides the pie, so P1 receives an additional 0.5 points
-        }
+        const nPrisoners = this.prisoners[player - 1];
+        const komi = player === 1 ? 0.5 : 0.0;
+
         return this.getTerritories()
                    .filter(t => t.owner === player)
-                   .reduce((prev, curr) => prev + curr.cells.length, nPrisoners);
+                   .reduce((prev, curr) => prev + curr.cells.length, nPrisoners+komi);
     }
 
     // What pieces are adjacent to a given area?
@@ -669,6 +708,7 @@ export class XanaGame extends GameBase {
             scores: [...this.scores],
             prisoners: [...this.prisoners],
             reserve: [...this.reserve],
+            swapped: this.swapped
         };
     }
 
@@ -708,7 +748,7 @@ export class XanaGame extends GameBase {
             legend: {
                 A: { name: "piece", colour: this.getPlayerColour(1) },
                 B: { name: "piece", colour: this.getPlayerColour(2) },
-                C: { name: "piece", colour: wallColour }, // color 1 is red
+                C: { name: "piece", colour: wallColour },
             },
             pieces: pieces.map(r => r.join(",")).join("\n"),
         };
@@ -744,7 +784,7 @@ export class XanaGame extends GameBase {
         }
 
         // add territorial dots for area controlled by players
-        if (this.stack.length > 2) {
+        if (this.stack.length > 3) {
             const territories = this.getTerritories();
             const markers: Array<MarkerDots> = []
             for (const t of territories) {
@@ -764,10 +804,15 @@ export class XanaGame extends GameBase {
     }
 
     public getButtons(): ICustomButton[] {
+        if ( this.isPieTurn() ) {
+            return [{ label: "swap", move: "swap" }];
+        }
         return [{ label: "pass", move: "pass" }];
     }
 
     public getPlayerColour(p: playerid): Colourfuncs {
+        p = (p == 1 && !this.swapped) || (p == 2 && this.swapped) ? 1 : 2;
+
         if (p === 1) {
             return {
                 func: "custom",

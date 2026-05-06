@@ -209,6 +209,7 @@ export class ShapeChessGame extends GameBase {
                 }
             }
 
+            /* The original ruleset states that the symmetric adversary groups should wait for the adversary to make an action. I'm commenting the code in case I refactor back in the future
             // now, do the same for the opponent's groups that might be formed due to currplayer's actions
             const prevplayer = clone.currplayer % 2 + 1 as playerid;
             for (const group of clone.getGroups(prevplayer)) {
@@ -222,6 +223,7 @@ export class ShapeChessGame extends GameBase {
                     }
                 }
             }
+            */
         } // for (actions)
         return [hadCaptures, clone];
     }
@@ -468,6 +470,7 @@ export class ShapeChessGame extends GameBase {
                 }
             }
 
+            /* see note about this above, at method willLastActionCapture()
             // now, do the same for the opponent's groups that might be formed due to currplayer's actions
             const prevplayer = this.currplayer % 2 + 1 as playerid;
             for(const group of this.getGroups(prevplayer)) {
@@ -482,6 +485,7 @@ export class ShapeChessGame extends GameBase {
                     }
                 }
             }
+            */
         } // for (actions)
 
         const moves = actions.at(-1)!.split("-");
@@ -522,6 +526,7 @@ export class ShapeChessGame extends GameBase {
             }
         }
 
+        /*
         const prevplayer = this.currplayer % 2 + 1 as playerid;
         for(const group of this.getGroups(prevplayer)) {
             const symmetry = this.computeSymmetry(group);
@@ -535,6 +540,7 @@ export class ShapeChessGame extends GameBase {
                 }
             }
         }
+        */
 
         if (partial) { return this; }
 

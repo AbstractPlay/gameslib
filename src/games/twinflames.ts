@@ -30,13 +30,14 @@ export class TwinFlamesGame extends GameBase {
         description: "apgames:descriptions.twinflames",
         notes: "apgames:notes.twinflames",
         urls: [
-                "https://docs.google.com/document/d/1oLiUll3GKfy1kt9wWIWi3--WrAMZ24x3DMdljPxIQIs/edit?tab=t.0#heading=h.gg6hnnlkcc3o" // TODO: update new link
+                "https://boardgamegeek.com/boardgame/470021/twin-flames",
               ],
         people: [
             {
                 type: "designer",
                 name: "Nick Bentley",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/7958/nick-bentley"],
+                apid: "52077877-93bb-4fff-9e5f-f1c41ac8e866",
             },
             {
                 type: "coder",

@@ -33,6 +33,7 @@ export class YGame extends GameBase {
         dateAdded: "2026-04-29",
         // i18next.t("apgames:descriptions.y")
         description: "apgames:descriptions.y",
+        notes: "apgames:notes.y",
         urls: ["https://boardgamegeek.com/boardgame/5242/the-game-of-y"],
         people: [
             {

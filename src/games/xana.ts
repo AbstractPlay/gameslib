@@ -805,7 +805,7 @@ export class XanaGame extends GameBase {
 
     public getButtons(): ICustomButton[] {
         if ( this.isPieTurn() ) {
-            return [{ label: "acceptpie", move: "swap" }];
+            return [{ label: "swap", move: "swap" }];
         }
         return [{ label: "pass", move: "pass" }];
     }

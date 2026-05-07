@@ -936,10 +936,13 @@ export class SporaGame extends GameBase {
                     }
                     let str = "";
                     for (let i = 0; i < contents[1]; i++) {
+                        if (idxSelected !== null && i === idxSelected) {
+                            str += "X";
+                        }
                         if (contents[0] === 1) {
-                            str += (idxSelected !== null && i >= idxSelected) ? "Y" : "A";
+                            str += "A";
                         } else {
-                            str += (idxSelected !== null && i >= idxSelected) ? "Z" : "B";
+                            str += "B";
                         }
                     }
                     pieces.push(str);
@@ -962,8 +965,7 @@ export class SporaGame extends GameBase {
             legend: {
                 A: [{ name: "piece", colour: this.getPlayerColour(1) }],
                 B: [{ name: "piece", colour: this.getPlayerColour(2) }],
-                Y: [{ name: "piece-dashed", colour: this.getPlayerColour(1) }],
-                Z: [{ name: "piece-dashed", colour: this.getPlayerColour(2) }],
+                X: [{ name: "piece-borderless", opacity: 0 }],
             },
             pieces: pstr,
         };

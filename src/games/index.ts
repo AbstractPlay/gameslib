@@ -243,6 +243,7 @@ import { TwinFlamesGame, ITwinFlamesState } from "./twinflames";
 import { YGame, IYState } from "./y";
 import { ShapeChessGame, IShapeChessState } from "./shapechess";
 import { SlimetrailGame, ISlimetrailState } from "./slimetrail";
+import { CatsDogsGame, ICatsDogsState } from "./catsdogs";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -489,6 +490,7 @@ export {
     YGame, IYState,
     ShapeChessGame, IShapeChessState,
     SlimetrailGame, ISlimetrailState,
+    CatsDogsGame, ICatsDogsState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -573,7 +575,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof MinefieldGame | typeof SentinelGame | typeof XanaGame |
                               typeof SporaGame | typeof SquirmGame | typeof PinchGame | 
                               typeof DomineeringGame| typeof TwinFlamesGame | typeof YGame |
-                              typeof ShapeChessGame | typeof SlimetrailGame
+                              typeof ShapeChessGame | typeof SlimetrailGame | typeof CatsDogsGame
                 >();
 // Manually add each game to the following array
 [
@@ -611,7 +613,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     WaldMeisterGame, WunchunkGame, BambooGame, PluralityGame, CrosshairsGame, MagnateGame,
     ProductGame, OonpiaGame, GoGame, StilettoGame, BTTGame, MinefieldGame, SentinelGame, 
     XanaGame, SporaGame, SquirmGame, PinchGame, DomineeringGame, TwinFlamesGame, YGame, ShapeChessGame,
-    SlimetrailGame
+    SlimetrailGame, CatsDogsGame
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -1109,6 +1111,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new ShapeChessGame(...args);
         case "slimetrail":
             return new SlimetrailGame(...args);
+        case "catsdogs":
+            return new CatsDogsGame(...args);
     }
     return;
 }

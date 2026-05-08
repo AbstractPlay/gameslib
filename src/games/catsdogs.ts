@@ -2,8 +2,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResu
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Colourfuncs } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { SquareGraph, reviver, UserFacingError } from "../common";
-import { HexSlantedGraph } from "../common/graphs";
+import { reviver, UserFacingError, SquareOrthGraph } from "../common";
 import i18next from "i18next";
 
 export type playerid = 1 | 2; // regarding pieces: 1 is the ball, 2 are the walls
@@ -14,31 +13,34 @@ export interface IMoveState extends IIndividualState {
     lastmove?: string;
 };
 
-export interface ISlimetrailState extends IAPGameState {
+export interface ICatsDogsState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
 };
 
-export class SlimetrailGame extends GameBase {
+export class CatsDogsGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
-        name: "Slimetrail",
-        uid: "slimetrail",
+        name: "Cats and Dogs",
+        uid: "catsdogs",
         playercounts: [2],
         version: "20260508",
         dateAdded: "2026-05-08",
-        // i18next.t("apgames:descriptions.slimetrail")
-        description: "apgames:descriptions.slimetrail",
-        // i18next.t("apgames:notes.slimetrail")
-        notes: "apgames:notes.slimetrail",
+        // i18next.t("apgames:descriptions.catsdogs")
+        description: "apgames:descriptions.catsdogs",
+        // i18next.t("apgames:notes.catsdogs")
+        notes: "apgames:notes.catsdogs",
         urls: [
-            "https://boardgamegeek.com/boardgame/31467/slimetrail",
-            "https://jpneto.github.io/world_abstract_games/slimetrail.htm",
-        ],
+            "https://boardgamegeek.com/boardgame/151888/snort",        ],
         people: [
             {
                 type: "designer",
-                name: "Bill Taylor",
-                urls: ["https://boardgamegeek.com/boardgamedesigner/9249/bill-taylor"],
+                name: "Simon Norton",
+                urls: ["https://boardgamegeek.com/boardgamedesigner/72293/simon-norton"],
+            },
+            {
+                type: "designer",
+                name: "Chris Huntoon",
+                urls: ["https://boardgamegeek.com/boardgamedesigner/8259/chris-huntoon"],
             },
             {
                 type: "coder",
@@ -47,13 +49,14 @@ export class SlimetrailGame extends GameBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
+        categories: ["goal>immobilize", "mechanic>move", "board>shape>rect", "components>simple>1per"],
         variants: [
-            { uid: "#board" },
-            { uid: "rhombus11", group: "board" },
+            { uid: "#board", },  // Huntoon's variant
+            { uid: "original",   group: "ruleset" },
+            { uid: "tournament", group: "ruleset" }, // 8x8 Portuguese tournament rules
+            { uid: "misere", group: "ruleset" }, // misÈre version of original 8x8
         ],
-        categories: ["goal>breakthrough", "mechanic>move", "mechanic>block",
-                     "board>shape>rect", "board>shape>hex", "components>simple>1per"],
-        flags: ["automove", "experimental"]
+        flags: ["experimental"]
     };
 
     public numplayers = 2;
@@ -64,18 +67,17 @@ export class SlimetrailGame extends GameBase {
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
+    private ruleset: "default" | "original" | "tournament" | "misere";
 
-    constructor(state?: ISlimetrailState | string, variants?: string[]) {
+    constructor(state?: ICatsDogsState | string, variants?: string[]) {
         super();
         if (state === undefined) {
             if ( (variants !== undefined) && (variants.length > 0) ) {
                 this.variants = [...variants];
             }
-            const ball = this.variants.includes("rhombus11") ? "g5" : "e5";
-            const board: Map<string, playerid> = new Map<string, playerid>([ [ball, 1] ]);
-
+            const board = new Map<string, playerid>();
             const fresh: IMoveState = {
-                _version: SlimetrailGame.gameinfo.version,
+                _version: CatsDogsGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
@@ -84,10 +86,10 @@ export class SlimetrailGame extends GameBase {
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
-                state = JSON.parse(state, reviver) as ISlimetrailState;
+                state = JSON.parse(state, reviver) as ICatsDogsState;
             }
-            if (state.game !== SlimetrailGame.gameinfo.uid) {
-                throw new Error(`The Slimetrail engine cannot process a game of '${state.game}'.`);
+            if (state.game !== CatsDogsGame.gameinfo.uid) {
+                throw new Error(`The Cats and Dogs engine cannot process a game of '${state.game}'.`);
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
@@ -95,9 +97,10 @@ export class SlimetrailGame extends GameBase {
             this.stack = [...state.stack];
         }
         this.load();
+        this.ruleset = this.getRuleset();
     }
 
-    public load(idx = -1): SlimetrailGame {
+    public load(idx = -1): CatsDogsGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -114,41 +117,70 @@ export class SlimetrailGame extends GameBase {
     }
 
     public get boardsize(): number {
-        if (this.variants.includes("rhombus11")) {
-            return 11;
+        if (this.ruleset === "original" || this.ruleset === "tournament" || this.ruleset === "misere") {
+            return 8;
         }
-        return 8;
+        return 11;
     }
 
-    public get graph(): SquareGraph | HexSlantedGraph {
-        if (this.variants.includes("rhombus11")) {
-            return new HexSlantedGraph(this.boardsize, this.boardsize);
-        } else {
-            return new SquareGraph(this.boardsize, this.boardsize);
-        }
+    public get graph(): SquareOrthGraph {
+        return new SquareOrthGraph(this.boardsize, this.boardsize);
     }
 
-    // return the coordinates where the ball is
-    private getBall(): string {
-        return [...this.board.entries()].filter(e => e[1] === 1).map(e => e[0])[0];
+    private getRuleset(): "default" | "original" | "tournament" | "misere" {
+        if (this.variants.includes("original"))   { return "original"; }
+        if (this.variants.includes("tournament")) { return "tournament"; }
+        if (this.variants.includes("misere"))     { return "misere"; }
+        return "default";
     }
 
-    private neighborsBall(): string[] {
-        return [...this.graph.neighbours(this.getBall())].filter(c => !this.board.has(c));
-    }
-
-    // get the goal cell for the given player
-    private getGoal(player: playerid): string {
-        if (this.variants.includes("rhombus11")) {
-            return player === 1 ? "a11" : "k1";
-        } else {
-            return player === 1 ? "a1" : "h8";
-        }
-    }
-
-    public moves(): string[] {
+    public moves(player?: playerid): string[] {
         if (this.gameover) { return []; }
-        return this.neighborsBall();
+        if (player === undefined) { player = this.currplayer; }
+        const grid = this.graph;
+        const moves = [];
+
+        if (this.ruleset === "tournament" && this.stack.length === 1) {
+            // at ply 1, it's only possible to play at the 2x2 center area
+            return ["d4", "d5", "e4", "e5"];
+        }
+
+        if (this.ruleset === "tournament" && this.stack.length === 2) {
+
+            // at ply 2, it's only possible to play outside the 2x2 center area
+            for (const cell of this.graph.graph.nodes()) {
+                if ( this.board.has(cell) ) { continue; }
+                if (["d4", "d5", "e4", "e5"].includes(cell))  { continue; }
+                let ok = true;
+                for (const adj of grid.neighbours(cell)) {
+                    if ( this.board.has(adj) && this.board.get(adj)! !== player ) {
+                        ok = false;
+                    }
+                }
+                if (ok) { moves.push(cell); }
+            }
+
+        } else {
+
+            for (const cell of this.graph.graph.nodes()) {
+                if ( this.board.has(cell) ) { continue; }
+                let ok = true;
+                for (const adj of grid.neighbours(cell)) {
+                    if ( this.board.has(adj) && this.board.get(adj)! !== player ) {
+                        ok = false;
+                    }
+                }
+                if (ok) { moves.push(cell); }
+            }
+
+            if (this.ruleset === "default" && this.stack.length === 1) {
+                // remove the option of playing at the center at ply 1
+                const idxCenter = moves.indexOf("f6"); // center of a 11x11 board
+                moves.splice(idxCenter, 1);
+            }
+        }
+
+        return moves.sort((a,b) => a.localeCompare(b));
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -173,14 +205,32 @@ export class SlimetrailGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.slimetrail.INITIAL_INSTRUCTIONS");
+            result.message = i18next.t("apgames:validation.catsdogs.INITIAL_INSTRUCTIONS");
             return result;
+        }
+
+        if (this.ruleset === "default" && this.stack.length === 1 && m === "f6") {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.catsdogs.INIT_NO_CENTER");
+            return result
+        }
+
+        if (this.ruleset === "tournament" && this.stack.length === 1 && !["d4", "d5", "e4", "e5"].includes(m)) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.catsdogs.INIT_CENTER");
+            return result
+        }
+
+        if (this.ruleset === "tournament" && this.stack.length === 2 && ["d4", "d5", "e4", "e5"].includes(m)) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.catsdogs.PLY_2_NO_CENTER");
+            return result
         }
 
         const allMoves = this.moves();
         if (! allMoves.includes(m) ) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.slimetrail.INVALID_MOVE");
+            result.message = i18next.t("apgames:validation.catsdogs.INVALID_MOVE");
             return result
         }
 
@@ -190,7 +240,7 @@ export class SlimetrailGame extends GameBase {
         return result;
     }
 
-    public move(m: string, {partial = false, trusted = false} = {}): SlimetrailGame {
+    public move(m: string, {partial = false, trusted = false} = {}): CatsDogsGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -208,10 +258,8 @@ export class SlimetrailGame extends GameBase {
         }
 
         this.results = [];
-        const ball = this.getBall();
-        this.board.set(ball, 2); // where the ball was becomes a wall...
-        this.board.set(m, 1);    // and the ball moves to the new cell
-        this.results.push({ type: "move", from: ball, to: m });
+        this.board.set(m, this.currplayer);
+        this.results.push({ type: "place", where: m });
 
         if (partial) { return this; }
 
@@ -222,19 +270,16 @@ export class SlimetrailGame extends GameBase {
         return this;
     }
 
-    protected checkEOG(): SlimetrailGame {
-        const ball = this.getBall();
+    protected checkEOG(): CatsDogsGame {
 
-        if ( ball === this.getGoal(1) ) {
-            this.gameover = true;
-            this.winner = [1];
-        } else if ( ball === this.getGoal(2) ) {
-            this.gameover = true;
-            this.winner = [2];
-        } else if ( this.neighborsBall().length === 0 ) {
+        if ( this.moves().length === 0 ) {
             const prevPlayer: playerid = this.currplayer % 2 + 1 as playerid;
             this.gameover = true;
-            this.winner = [prevPlayer]; // a stalemated player loses the game
+            if ( this.ruleset === "misere" ) {
+                this.winner = [this.currplayer]; // a stalemated player wins the game
+            } else {
+                this.winner = [prevPlayer]; // a stalemated player loses the game
+            }
         }
 
         if ( this.gameover ) {
@@ -247,9 +292,9 @@ export class SlimetrailGame extends GameBase {
         return this;
     }
 
-    public state(): ISlimetrailState {
+    public state(): ICatsDogsState {
         return {
-            game: SlimetrailGame.gameinfo.uid,
+            game: CatsDogsGame.gameinfo.uid,
             numplayers: this.numplayers,
             variants: [...this.variants],
             gameover: this.gameover,
@@ -260,7 +305,7 @@ export class SlimetrailGame extends GameBase {
 
     public moveState(): IMoveState {
         return {
-            _version: SlimetrailGame.gameinfo.version,
+            _version: CatsDogsGame.gameinfo.version,
             _results: [...this.results],
             _timestamp: new Date(),
             currplayer: this.currplayer,
@@ -293,56 +338,24 @@ export class SlimetrailGame extends GameBase {
             pstr += pieces.join("");
         }
 
-        const ballColour: Colourfuncs = {
-            func: "custom",
-            default: "#FFDF00", // gold yellow
-            palette: 3
-        };
-
-        const wallColour: Colourfuncs = {
-            func: "custom",
-            default: "#999",
-            palette: 4
-        };
-
-        const isHex = this.variants.includes("rhombus11");
+        const centerColour: Colourfuncs = { func: "custom", default: "#90EE90", palette: 4 };
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        let markers : Array<any> = [];
-        if ( isHex ) {
-            markers = [
-              {
-                type: "flood",
-                colour: this.getPlayerColour(1),
-                points: [{row:10, col:0} ]
-              },
-              {
-                type: "flood",
-                colour: this.getPlayerColour(2),
-                points: [{row:0, col:10} ]
-              },
-            ];
-        } else {
-            markers = [
-              {
+        const markers: Array<any> = [
+            {
                 type: "shading",
-                colour: this.getPlayerColour(1),
-                points: [{row:8, col:0}, {row:8, col:1}, {row:7, col:1}, {row:7, col:0} ]
-              },
-              {
-                type: "shading",
-                colour: this.getPlayerColour(2),
-                points: [{row:1, col:7}, {row:1, col:8}, {row:0, col:8}, {row:0, col:7} ]
-              },
-            ];
-        }
+                colour: centerColour,
+                points: [{row:3, col:3}, {row:3, col:5}, {row:5, col:5}, {row:5, col:3} ]
+            }
+        ];
 
         // Build rep
         const rep: APRenderRep =  {
-            board: isHex ? { style: "hex-slanted",       width: this.boardsize, height: this.boardsize, markers } :
-                           { style: "squares-checkered", width: this.boardsize, height: this.boardsize, markers },
+            board: this.ruleset === "tournament" ?
+                    { style: "squares-checkered", width: this.boardsize, height: this.boardsize, markers } :
+                    { style: "squares-checkered", width: this.boardsize, height: this.boardsize },
             legend: {
-                A: { name: "piece", colour: ballColour },
-                B: { name: "piece", colour: wallColour },
+                A: { name: "piece", colour: this.getPlayerColour(1) },
+                B: { name: "piece", colour: this.getPlayerColour(2) },
             },
             pieces: pstr
         };
@@ -367,7 +380,7 @@ export class SlimetrailGame extends GameBase {
         }
     }
 
-    public clone(): SlimetrailGame {
-        return new SlimetrailGame(this.serialize());
+    public clone(): CatsDogsGame {
+        return new CatsDogsGame(this.serialize());
     }
 }

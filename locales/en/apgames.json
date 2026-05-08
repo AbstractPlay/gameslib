@@ -186,6 +186,7 @@
         "shifty": "A connection game where you either place a piece orthogonally adjacent to a friendly piece, or move one of your pieces orthogonally adjacent to a friendly piece, by a chess queen's move, to a location not orthogonally adjacent to any other friendly pieces. Crosscuts are illegal. The player that forms an orthogonal or diagonal path connecting their two sides wins.",
         "siegeofj": "Place cards, representing armies, to exert pressure on segments of the wall around the city of Jacynth. Exert the most pressure on the most segments to win.",
         "slither": "Square-board connection game with updated rules from 2018. Optionally move a piece and then place a piece, such that no two pieces of a colour are diagonally adjacent to each other unless they are orthogonally connected by a like-coloured stone. In Advanced Slither, a piece may only move if it is part of a contiguous orthogonal group consisting of pieces of both colours.",
+        "slimetrail": "Push the ball piece to an adjacent empty cell and bring it to your goal, or stalemate the adversary.",
         "slyde": "In Slyde, the goal is to form the largest orthogonal group of your colour. Pieces can be fixed or mobile. The game starts in a checkerboard position and all pieces start mobile. On your turn, you may swap a mobile piece with an adjacent mobile piece of your opponent, and your piece becomes fixed. The game ends when one player runs out of moves. If the board is in a mirror-symmetric position after the first turn, you may change the state of a piece instead of performing the standard swap.",
         "spire": "On your turn, either place a ball of your colour, or place a neutral ball and then place a ball of your colour. No 2x2 area square of balls may include more than 2 like-coloured balls, and a ball of a colour cannot be placed on a platform containing two balls of that colour. The first player to run out of moves loses.",
         "spline": "Make a full line of your colour in any layer to win.",
@@ -290,6 +291,7 @@
         "siegeofj": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers, and they are hidden from opponents until the deck is empty, at which point the players have perfect information, so the hands are revealed.",
         "shapechess": "Shape Chess, 形棋 (shape - board game), was designed c.2010 by 日出 (Richu) from Guangzhou, China. The game has evolved into its current form through years of refinement within the Chinese game design community (quoted from Kanare_Abstract). This is not a Chess-like game, but one that uses a very original concept by making players build reflectional symmetric shapes. This implementation includes several board sizes, and also different winning scores, for players who prefer shorter or longer matches.",
         "sentinel": "Vigil Games are a class of strategy games in which players must maintain an uninterrupted line of sight between their pieces and a designated reference point or region of the board. The first vigil game on record is 1892's Kastellet.\n\nSentinel is a vigil game where players always need to have at least one line-of-sight to the board's center. Sentinel is the second abstract game of this genre (after more than 130 years!), mixing typical movement and capture ludemes with permanent line-of-sight control of the central square.\n\nThe game mixes forward movement with sowing stacks which are the only way for armies to increase their size.",
+        "slimetrail": "Slimetrail was designed by Bill Taylor in 1992. Initially the game was played on the Hex board and a stalemate was a draw. The game evolved to be played on a 8x8 board, where a stalemated player loses the match. This version was used in the Portuguese Tournament of Board Games for several years. There are some 1970s precursors of this theme, like Knight Chase, Blokeo, ZigZag and Tesoro (cf. WAG's page in the links).",
         "spire": "In this implementation, if you select only one space, it assumes that you placed the ball of your colour, and if you select two spaces, the first space is for the neutral ball and the second space is for the ball of your colour. If the first click is on a space where only one of the neutral ball or the ball of your colour is valid, it will automatically commit that ball.",
         "spook": "When using the randomised board setup, the only fairness heuristics that we currently have are that (1) the number of balls in solid 5-ball pyramids of the same colour are equal for both players and (2), the second-highest layer must contain balls of both colours. Feel free to contact us on Discord if you think of other ways to make the game fairer.",
         "spora": "Spora takes the concepts like group, liberty and territory, known from territorial games like Go, and adds support for stacks. Stacks can sow their pieces to adjacent intersections, capturing enemy pieces or supporting near friendly structures. The total number of pieces is limited, so players need to manage their finite budget to reach endgame controlling as much territory as possible. The limited budget implies that players must measure well when and how to deploy stacks with multiple pieces (like having an arsenal of daggers, but always being hesitant when to use them)\n\nSpora is the Greek σπορά, meaning 'sowing'.",
@@ -2456,6 +2458,16 @@
             "full": {
                 "name": "Full deal",
                 "description": "Deals all 24 cards to the players at the beginning of the game. All hands are visible."
+            }
+        },
+        "slimetrail": {
+            "#board": {
+                "description": "8x8 board game",
+                "name": "8x8 board"
+            },
+            "rhombus11": {
+                "name": "Hex board",
+                "description": "Hex board of size 11."
             }
         },
         "slither": {
@@ -5821,6 +5833,10 @@
             "PARTIAL": "Click the card on the board you want this card attached to.",
             "LABEL_STASH": "Player {{playerNum}}'s hand",
             "VALID_BUT": "That placement is valid. It's also possible to span two cards. Click \"Complete Move\" to keep the single parent, or click the adjacent card to span them both."
+        },
+        "slimetrail": {
+            "INITIAL_INSTRUCTIONS": "Move the ball to an adjacent empty cell.",
+            "INVALID_MOVE": "The chosen cell must be empty and adjacent to the ball."
         },
         "slither": {
             "CANNOT_MOVE": "Advanced Slither: the piece at {{where}} cannot move because it is not part of a contiguous orthogonal group consisting of pieces of both colors.",

@@ -36,6 +36,7 @@ export class SlimetrailGame extends GameBase {
         ],
         people: [
             {
+                type: "designer",
                 name: "Bill Taylor",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/9249/bill-taylor"],
             },

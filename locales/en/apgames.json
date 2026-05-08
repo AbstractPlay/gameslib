@@ -45,6 +45,7 @@
         "cannon": "A two-player game played on a 10x10 board. Soldiers can move independently, but three soldiers in a row form a \"cannon\" and can move along their length or kill soldiers two or three spaces away. The first player to capture the opposing town wins.",
         "catapult": "Hurl your stones across the board to annihilate your opponent.",
         "catchup": "Catchup is a simple abstract game with a devilish dynamic. The goal is to have the largest group of stones on the board when the board is full of stones, but as you get closer to winning, your opponent gets more powerful. Whereas most stone-placement games are about position, Catchup is about timing, position, and the interplay between them.",
+        "catsdogs": "Players cannot place pieces orthogonally adjacent to adversary pieces.",
         "ccorridor": "In Cairo Corridor players alternate turns placing their pentagonal pieces, on a board with a Cairo pentagonal tiling. Eventually there will be only one 'path' of empty spaces which connects the 4 sides. Players score points based on how many tiles are adjacent to that path. In the event of a tie, the player that placed the last tile before the game ends loses.",
         "ceph": "A two-player game of area control by capture using dice. The goal is to fill a board with as many of your dice as possible. This is complicated by a capturing mechanic that keeps the board in constant flux. The game ends when the board has been completely filled. Draws are not possible.",
         "chameleon": "A chess-like strategy game, played on a 5x5 grid, where each piece's movement capability changes based on the color of the tile where it starts.",
@@ -257,6 +258,7 @@
         "btt": "Unusual numbers of players (3, 5, or 6) are supported, but on a normal rectangular board of an appropriate size rather than a Martian Chessboard.",
         "bug": "In this implementation, after the initial placement, if the player has bugs that must eat, the edible bugs will be highlighted. Eating and bonus grow will be performed simultaneously, so performing a bonus grow on a bug by selecting a legal space next to it will cause all highlighted edible bugs adjacent to it to disappear. It is possible to bonus grow onto a space that an edible bug is on. Note that this implies that when selecting a bug to perform the eating action, ALL edible bugs of the same shape next to it will be removed, and this might differ from some other implementations where there a separate edible bug selection phase, which may allow some edible bugs to be left behind for another bug to eat.",
         "calculus": "Click on an existing piece to move it, or click on a free point to place a new piece. There must be a sufficiently wide path from some edge of the board to the placement point. If your placed piece would overlap existing pieces, the system will try to \"snap\" the placed piece so it is touching all overlapped pieces.\n\nDashed lines show pieces that are touching. Solid lines show perimeters around legal areas. Pieces connected by solid lines may not be moved.",
+        "catsdogs": "The original game, *SNORT*, was designed by Simon Norton in 1970. The only rule was to prevent stones of different colors to be orthogonally adjacent. A stalemated player loses the game. Norton also proposed the misère version (stalemate is a win). The original game is, however, broken via a mirror strategy. Chris Huntoon proposed a bigger 11x11 board where the player cannot start at the center (in order to prevent mirroring) which he called *Cats and Dogs*, and is the main game here. Also available is the Portuguese tournament ruleset, played on the smaller 8x8 board, but where the first player must start at the central 2x2 area, and the second player must answer outside that area. This allows the game to break the mirror strategy, and still be played on the original smaller board. Check also Snort's article at [AGM#15](https://www.abstractgames.org/uploads/1/1/6/4/116462923/abstract_games_issue_15.pdf).",
         "chase": "Currently, most exchange moves will need to be hand edited. We're working on fixing this.",
         "conspirateurs": "In the base game, pieces may move through sanctuaries as part of a multistep jump. They're not frozen until they end their move in a sanctuary. In the strict variant, pieces are frozen as soon as they enter a sanctuary.\n\nIn four-player games, players 1 and 2 are partnered, as are players 3 and 4.",
         "deckfish": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com).\n\nThe suit powers (token movement abilities) are:\n* Moons: Jump orthogonally over gaps. \n* Suns: Move one or two cards diagonally. \n* Waves: Move orthogonally until the last unobstructed card. \n* Leaves: Move orthogonally onto any card with no neighboring obstacles.\n* Wyrms: Move orthogonally onto the first occupied card, bumping that piece to the next card.\n* Knots: Make three orthogonal one-card moves, without backtracking.\n\nIn the rules, the \"first\" player is the player who places second in the placement phase but moves first in the movement phase, but here the first player is the one who places first but moves second. This is implemented using an automatic pass for the appropriate player.\n\nThe rule is enforced that, even when the last player is already winning, he must continue playing until he is out of moves.",
@@ -823,6 +825,20 @@
             },
             "size-6": {
                 "name": "Larger board (base 6)"
+            }
+        },
+        "catsdogs": {
+            "#ruleset": {
+                "name": "Huntoon's ruleset, 11x11 board"
+            },
+            "original": {
+                "name": "Original 8x8 SNORT"
+            },
+            "tournament": {
+                "name": "Restricted 8x8, tournament ruleset"
+            },
+            "misere": {
+                "name": "Misère 8x8, unrestricted"
             }
         },
         "ccorridor": {
@@ -4377,6 +4393,13 @@
             "MAKE_MORE_MOVES_other": "Place up to {{count}} more pieces or complete your turn.",
             "TOO_MANY_MOVES_one": "You may only place {{count}} piece on the board.",
             "TOO_MANY_MOVES_other": "You may only place up to {{count}} pieces on the board."
+        },
+        "catsdogs": {
+            "INITIAL_INSTRUCTIONS": "Place a friendly piece not orthogonally adjacent to an enemy pieces.",
+            "INVALID_MOVE": "The chosen cell must not be orthogonally adjacent to a piece of the adversary.",
+            "INIT_NO_CENTER": "The first move cannot be at the center of the board",
+            "INIT_CENTER": "The first move must be at the center of the board",
+            "PLY_2_NO_CENTER": "The second move cannot be at the center of the board"
         },
         "ccorridor": {
             "DEAD_ZONE": "Placing a tile at {{where}} is guaranteed not to score.",

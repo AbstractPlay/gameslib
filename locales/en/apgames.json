@@ -189,6 +189,7 @@
         "slither": "Square-board connection game with updated rules from 2018. Optionally move a piece and then place a piece, such that no two pieces of a colour are diagonally adjacent to each other unless they are orthogonally connected by a like-coloured stone. In Advanced Slither, a piece may only move if it is part of a contiguous orthogonal group consisting of pieces of both colours.",
         "slimetrail": "Push the ball piece to an adjacent empty cell and bring it to your goal, or stalemate the adversary.",
         "slyde": "In Slyde, the goal is to form the largest orthogonal group of your colour. Pieces can be fixed or mobile. The game starts in a checkerboard position and all pieces start mobile. On your turn, you may swap a mobile piece with an adjacent mobile piece of your opponent, and your piece becomes fixed. The game ends when one player runs out of moves. If the board is in a mirror-symmetric position after the first turn, you may change the state of a piece instead of performing the standard swap.",
+        "soccolot": "Use your team to run, dribble and kick the ball into the opponent's first row.",
         "spire": "On your turn, either place a ball of your colour, or place a neutral ball and then place a ball of your colour. No 2x2 area square of balls may include more than 2 like-coloured balls, and a ball of a colour cannot be placed on a platform containing two balls of that colour. The first player to run out of moves loses.",
         "spline": "Make a full line of your colour in any layer to win.",
         "sploof": "Create a string of four touching balls at any level visible as a straight line from directly above the board. Players start with two balls in their hand, but can take two balls from their stash every time a neutral ball is removed. Players also lose when they have no moves on their turn.",
@@ -294,6 +295,7 @@
         "shapechess": "Shape Chess, 形棋 (shape - board game), was designed c.2010 by 日出 (Richu) from Guangzhou, China. The game has evolved into its current form through years of refinement within the Chinese game design community (quoted from Kanare_Abstract). This is not a Chess-like game, but one that uses a very original concept by making players build reflectional symmetric shapes. This implementation includes several board sizes, and also different winning scores, for players who prefer shorter or longer matches.",
         "sentinel": "Vigil Games are a class of strategy games in which players must maintain an uninterrupted line of sight between their pieces and a designated reference point or region of the board. The first vigil game on record is 1892's Kastellet.\n\nSentinel is a vigil game where players always need to have at least one line-of-sight to the board's center. Sentinel is the second abstract game of this genre (after more than 130 years!), mixing typical movement and capture ludemes with permanent line-of-sight control of the central square.\n\nThe game mixes forward movement with sowing stacks which are the only way for armies to increase their size.",
         "slimetrail": "Slimetrail was designed by Bill Taylor in 1992. Initially the game was played on the Hex board and a stalemate was a draw. The game evolved to be played on a 8x8 board, where a stalemated player loses the match. This version was used in the Portuguese Tournament of Board Games for several years. There are some 1970s precursors of this theme, like Knight Chase, Blokeo, ZigZag and Tesoro (cf. WAG's page in the links).",
+        "soccolot": "Soccolot is a 1972 game by David Wilson. The original game was played on a 8x8 board with six men per team. Players can move, or can interact with the ball either by shooting it (kick) or by moving it together with one team men (dribble). There is a constant struggle to gain control of the board and to find an opening to move or shoot the ball to the player's last row. The main variant is faster, played on a 7x7 board for better piece interaction. Robert A. Kraus implemented both variants for [Zillions](https://www.zillions-of-games.com/cgi-bin/zilligames/submissions.cgi?do=show;id=802).",
         "spire": "In this implementation, if you select only one space, it assumes that you placed the ball of your colour, and if you select two spaces, the first space is for the neutral ball and the second space is for the ball of your colour. If the first click is on a space where only one of the neutral ball or the ball of your colour is valid, it will automatically commit that ball.",
         "spook": "When using the randomised board setup, the only fairness heuristics that we currently have are that (1) the number of balls in solid 5-ball pyramids of the same colour are equal for both players and (2), the second-highest layer must contain balls of both colours. Feel free to contact us on Discord if you think of other ways to make the game fairer.",
         "spora": "Spora takes the concepts like group, liberty and territory, known from territorial games like Go, and adds support for stacks. Stacks can sow their pieces to adjacent intersections, capturing enemy pieces or supporting near friendly structures. The total number of pieces is limited, so players need to manage their finite budget to reach endgame controlling as much territory as possible. The limited budget implies that players must measure well when and how to deploy stacks with multiple pieces (like having an arsenal of daggers, but always being hesitant when to use them)\n\nSpora is the Greek σπορά, meaning 'sowing'.",
@@ -2515,6 +2517,14 @@
             },
             "size-16": {
                 "name": "16x16 board"
+            }
+        },
+        "soccolot": {
+            "#board": {
+                "name": "7x7 board (5 men)"
+            },
+            "original": {
+                "name": "8x8 board (6 men)"
             }
         },
         "spire": {
@@ -5886,6 +5896,15 @@
             "SELECT_CHANGE": "Select the piece again to change its state.",
             "SELECT_DESTINATION": "Select a destination to move the piece to.",
             "SELECT_DESTINATION_OR_CHANGE": "Select a destination to move the piece to, or select the piece again to change its state."
+        },
+        "soccolot" : {
+            "INITIAL_INSTRUCTIONS": "Select a man to run or to dribble, or select the ball to kick it.",
+            "ERROR_SELECT": "Select either a friendly piece or the ball!",
+            "MAN_INSTRUCTIONS": "The selected man can run to an empty adjacent cell, or select the ball (if adjacent) to dribble with it",
+            "BALL_INSTRUCTIONS": "Now selected an adjacent friendly man to kick the ball in the opposite direction",
+            "ERROR_KICK_DRIBBLE": "Either (a) select a man to run, or (b) select a man and then select the adjacent ball, or (c) select the ball and then an adjacent man!",
+            "DRIBBLE_INSTRUCTIONS": "Click an adjacent empty cell from the ball, to move both man and ball in that direction (those cells must be both empty). It is also possible for the ball (or man) to move into the man's (or ball's) current position (if the other moves to an empty cell).",
+            "KICK_INSTRUCTIONS": "Click an empty cell in the opposite direction of the man, to move the ball. Notice that the ball cannot jump over other pieces."
         },
         "spire": {
             "CANNOT_PLACE": "{{where}} is not a valid place to put a ball.",

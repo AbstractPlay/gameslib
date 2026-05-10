@@ -15,7 +15,7 @@ export interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, CellContents>;
     lastmove?: string;
-    hands?: [Piece[], Piece[]];
+    hands: [Piece[], Piece[]];
 };
 
 export interface ICourtState extends IAPGameState {
@@ -60,7 +60,7 @@ export class CourtGame extends GameBase {
     public currplayer: playerid = 1;
     public board!: Map<string, CellContents>;
     public gameover = false;
-    public hands?: [Piece[], Piece[]];
+    public hands!: [Piece[], Piece[]];
     public winner: playerid[] = [];
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
@@ -139,7 +139,7 @@ export class CourtGame extends GameBase {
             if ( !this.board.has(cell) || this.board.get(cell)![1] !== player ) { continue; }
             const piece = this.board.get(cell)![0];
             const [x, y] = g.algebraic2coords(cell);
-            
+
             if ( piece === "P" ) {
                 if ( player === 1 && y > 0 ) { // pawns move forward by decreasing row index
                     const nCell = g.coords2algebraic(x, y-1);
@@ -177,7 +177,7 @@ export class CourtGame extends GameBase {
                     }
                 }
                 // check promotions
-                const available: Piece[] = [...new Set(this.hands![this.currplayer - 1])]; // remove duplicates
+                const available: Piece[] = [...new Set(this.hands[this.currplayer - 1])]; // remove duplicates
                 for (const piece of available) {
                     moves.push(`${cell}+${piece}`); // promotion to piece
                 }
@@ -227,8 +227,8 @@ export class CourtGame extends GameBase {
             if ( move === "" ) {
                 newmove = cell;
             } else if ( moves[0] === cell ) { // reclick cycles thru all possible promotions and then resets
-                const available: Piece[] = [...new Set(this.hands![this.currplayer - 1])]; // remove duplicates
-                if ( available.length === 0 || 
+                const available: Piece[] = [...new Set(this.hands[this.currplayer - 1])]; // remove duplicates
+                if ( available.length === 0 ||
                      move.includes(available.at(-1)!) ||
                      this.board.get(cell)![0] !== "P" ) {  // non-pawns do not promote
                     newmove = "";
@@ -270,7 +270,7 @@ export class CourtGame extends GameBase {
         }
 
         const moves: string[] = m.split(/[+-]/);
-        
+
         if ( moves.length === 1 ) {
             if ( !this.board.has(moves[0]) || this.board.get(moves[0])![1] !== this.currplayer ) {
                 result.valid = false;
@@ -320,7 +320,7 @@ export class CourtGame extends GameBase {
         this.results = [];
         const moves = m.split(/[+-]/);
 
-        if ( partial && m !== "" && !m.includes('+') ) { // if partial move, set the points to be shown
+        if ( partial && m.length > 0 && !m.includes('+') ) { // if partial move, set the points to be shown
             const g = this.graph;
             this._points = this.findPoints(m).map(c => g.algebraic2coords(c));
             return this;
@@ -328,11 +328,9 @@ export class CourtGame extends GameBase {
             this._points = []; // otherwise delete the points and process the full move
         }
 
-        if ( moves.length === 1 ) { // a friendly piece was selected
-            this.results.push({ type: "place", where: m });
-        } else if ( m.includes('+') ) { // a promotion (eg, "cell+piece")
-            const idxPiece = this.hands![this.currplayer - 1].indexOf(moves[1] as Piece);
-            this.hands![this.currplayer - 1].splice(idxPiece, 1);   // remove piece from player's hand
+        if ( m.includes('+') ) { // a promotion (eg, "cell+piece")
+            const idxPiece = this.hands[this.currplayer - 1].indexOf(moves[1] as Piece);
+            this.hands[this.currplayer - 1].splice(idxPiece, 1); // remove piece from player's hand
             this.board.set(moves[0], [moves[1] as Piece, this.currplayer]); // add piece to board
             this.results.push({ type: "place", where: moves[0] });
         } else { // it is a move
@@ -341,7 +339,7 @@ export class CourtGame extends GameBase {
             this.results.push({ type: "move", from: moves[0], to: moves[1] });
         }
 
-        if (partial) { return this; }
+        if (partial) { return this; } // a promotion might still be partial
 
         this.lastmove = m;
         this.currplayer = this.currplayer % 2 + 1 as playerid;
@@ -357,13 +355,13 @@ export class CourtGame extends GameBase {
 
     protected checkEOG(): CourtGame {
         const nPawns = this.getPawns(this.currplayer).length;
-        
+
         if ( nPawns === 0 || this.moves().length === 0 ) {
             const prevPlayer: playerid = this.currplayer % 2 + 1 as playerid;
             this.gameover = true;
             this.winner = [prevPlayer];
         }
-        
+
         if ( this.gameover ) {
             this.results.push(
                 {type: "eog"},
@@ -423,14 +421,14 @@ export class CourtGame extends GameBase {
 
         // Build rep
         const rep: APRenderRep =  {
-            board: { 
-                style: "squares-checkered", 
-                width: this.boardsize, 
+            board: {
+                style: "squares-checkered",
+                width: this.boardsize,
                 height: this.boardsize
             },
             legend: {
                 P1: { name: "piece", colour: this.getPlayerColour(1) },
-                P2: { name: "piece", colour: this.getPlayerColour(2) },               
+                P2: { name: "piece", colour: this.getPlayerColour(2) },
                 B1: [{ name: "piece", colour: this.getPlayerColour(1) },
                      { name: "chess-bishop-outline-traditional", colour: "#ffffff", scale: 0.6, opacity: 0.6 }],
                 B2: [{ name: "piece", colour: this.getPlayerColour(2) },
@@ -480,14 +478,14 @@ export class CourtGame extends GameBase {
     public getPlayerStash(player: number): IStashEntry[] | undefined {
         const col = this.getPlayerColour(player as playerid);
         return [
-            { count: this.hands![player - 1].filter(x => x === 'N').length, 
-              glyph: { name: "chess-knight-outline-traditional", colour: col }, 
+            { count: this.hands[player - 1].filter(x => x === 'N').length,
+              glyph: { name: "chess-knight-outline-traditional", colour: col },
               movePart: "" },
-            { count: this.hands![player - 1].filter(x => x === 'B').length, 
-              glyph: { name: "chess-bishop-outline-traditional", colour: col }, 
+            { count: this.hands[player - 1].filter(x => x === 'B').length,
+              glyph: { name: "chess-bishop-outline-traditional", colour: col },
               movePart: "" },
-            { count: this.hands![player - 1].filter(x => x === 'R').length, 
-              glyph: { name: "chess-rook-outline-traditional", colour: col }, 
+            { count: this.hands[player - 1].filter(x => x === 'R').length,
+              glyph: { name: "chess-rook-outline-traditional", colour: col },
               movePart: "" },
         ];
     }

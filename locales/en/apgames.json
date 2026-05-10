@@ -62,6 +62,7 @@
         "connections": "Draw lines between dots of your colour to connect the sides of the board, or surround your opponent's dots to win.",
         "conspirateurs": "A traditional French game where you try to get all your pieces to safety before your opponent can do the same.",
         "control": "Control is a finite, drawless territory game of elegant simplicity. Add pieces where your opponent doesn't have more influence or remove pieces from where you have more influence. Last to move wins.",
+        "court": "A set of pawns that can promoted anytime to a limited set of officials. However, without pawns one loses the game. A stalemated player also loses the game.",
         "courtesan": "Get your king to the other side of the board while safely \"hiding\" it among your other pieces.",
         "crossway": "A game of connecting opposite sides of the board, but lines of pieces may not cross each other.",
         "crosshairs": "A WW1 aerial dogfight game. Planes have height and direction. Movement includes climbing, level flight, and diving. Combat is simple: if a plane is in the line of fire of two enemy planes, it is shot down. Reduce your opponent to one plane to win.",
@@ -1039,6 +1040,11 @@
             },
             "size-9": {
                 "name": "Large board (Size 9)"
+            }
+        },
+        "court": {
+            "#board": {
+                "name": "8x8 board, 2 officials of each type"
             }
         },
         "courtesan": {
@@ -4535,6 +4541,11 @@
             "INSUFFICIENT_CONTROL": "You do not control {{cell}}.",
             "OPPONENT_CONTROL": "Your opponent controls {{cell}}."
         },
+        "court": {
+            "INITIAL_INSTRUCTIONS": "Select one of your pieces to move or promote a Pawn (if officials are still available). Pawns, Knights, Bishops and Rooks move like in Chess (Pawns do not have a double move initially, and don't need to reach the final rank to promote).",
+            "NOT_FRIENDLY_PIECE": "Select a friendly piece to move or promote!",
+            "PIECE_INSTRUCTIONS": "Move a piece according to its powers. Pieces capture by replacement. Pawns can also be promoted to any available officer by clicking at them repeatedly."
+        },
         "courtesan": {
             "DISTANCE_ONE": "Pieces may only move one space at a time.",
             "INITIAL_INSTRUCTIONS": "Select one of your pieces to move.",
@@ -5903,7 +5914,7 @@
             "MAN_INSTRUCTIONS": "The selected man can run to an empty adjacent cell, or select the ball (if adjacent) to dribble with it",
             "BALL_INSTRUCTIONS": "Now selected an adjacent friendly man to kick the ball in the opposite direction",
             "ERROR_KICK_DRIBBLE": "Either (a) select a man to run, or (b) select a man and then select the adjacent ball, or (c) select the ball and then an adjacent man!",
-            "DRIBBLE_INSTRUCTIONS": "Click an adjacent empty cell from the ball, to move both man and ball in that direction (those cells must be both empty). It is also possible for the ball (or man) to move into the man's (or ball's) current position (if the other moves to an empty cell).",
+            "DRIBBLE_INSTRUCTIONS": "Click an adjacent empty cell from the man, to move both man and ball in that direction (those cells must be both empty). It is also possible for the ball (or man) to move into the man's (or ball's) current position (if the other moves to an empty cell).",
             "KICK_INSTRUCTIONS": "Click an empty cell in the opposite direction of the man, to move the ball. Notice that the ball cannot jump over other pieces."
         },
         "spire": {

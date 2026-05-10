@@ -33,7 +33,7 @@ export class CourtGame extends GameBase {
         // i18next.t("apgames:descriptions.court")
         description: "apgames:descriptions.court",
         // i18next.t("apgames:notes.court")
-        notes: "apgames:notes.court",
+        // notes: "apgames:notes.court",
         urls: [
             "https://boardgamegeek.com/boardgame/109681/court",
             "https://jpneto.github.io/world_abstract_games/court.htm",
@@ -293,6 +293,7 @@ export class CourtGame extends GameBase {
 
         result.valid = true;
         result.complete = m.includes('+') ? 0 : 1; // promotions cannot be final, the user might still choose another
+        result.canrender = true;
         result.message = i18next.t("apgames:validation._general.VALID_MOVE");
         return result;
     }

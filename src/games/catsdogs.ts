@@ -354,8 +354,10 @@ export class CatsDogsGame extends GameBase {
                     { style: "squares-checkered", width: this.boardsize, height: this.boardsize, markers } :
                     { style: "squares-checkered", width: this.boardsize, height: this.boardsize },
             legend: {
-                A: { name: "piece", colour: this.getPlayerColour(1) },
-                B: { name: "piece", colour: this.getPlayerColour(2) },
+                A: [{ name: "piece", colour: this.getPlayerColour(1) },
+                    { name: "arimaa-cat", colour: "#ffffff", scale: 0.8, opacity: 0.6 }],
+                B: [{ name: "piece", colour: this.getPlayerColour(2) },
+                    { name: "arimaa-dog", colour: "#aaaaaa", scale: 0.8, opacity: 0.6 }]
             },
             pieces: pstr
         };

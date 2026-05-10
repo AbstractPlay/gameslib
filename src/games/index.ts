@@ -245,6 +245,7 @@ import { ShapeChessGame, IShapeChessState } from "./shapechess";
 import { SlimetrailGame, ISlimetrailState } from "./slimetrail";
 import { CatsDogsGame, ICatsDogsState } from "./catsdogs";
 import { SoccolotGame, ISoccolotState } from "./soccolot";
+import { CourtGame, ICourtState } from "./court";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -493,6 +494,7 @@ export {
     SlimetrailGame, ISlimetrailState,
     CatsDogsGame, ICatsDogsState,
     SoccolotGame, ISoccolotState,
+    CourtGame, ICourtState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -578,7 +580,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof SporaGame | typeof SquirmGame | typeof PinchGame | 
                               typeof DomineeringGame| typeof TwinFlamesGame | typeof YGame |
                               typeof ShapeChessGame | typeof SlimetrailGame | typeof CatsDogsGame |
-                              typeof SoccolotGame
+                              typeof SoccolotGame | typeof CourtGame
                 >();
 // Manually add each game to the following array
 [
@@ -616,7 +618,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     WaldMeisterGame, WunchunkGame, BambooGame, PluralityGame, CrosshairsGame, MagnateGame,
     ProductGame, OonpiaGame, GoGame, StilettoGame, BTTGame, MinefieldGame, SentinelGame, 
     XanaGame, SporaGame, SquirmGame, PinchGame, DomineeringGame, TwinFlamesGame, YGame, ShapeChessGame,
-    SlimetrailGame, CatsDogsGame, SoccolotGame
+    SlimetrailGame, CatsDogsGame, SoccolotGame, CourtGame
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -1118,6 +1120,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new CatsDogsGame(...args);
         case "soccolot":
             return new SoccolotGame(...args);
+        case "court":
+            return new CourtGame(...args);
     }
     return;
 }

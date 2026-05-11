@@ -321,6 +321,8 @@ export class CourtGame extends GameBase {
         this.results = [];
         const moves = m.split(/[+-]/);
 
+        if (m === "") { return this; }
+
         if ( partial && m.length > 0 && !m.includes('+') ) { // if partial move, set the points to be shown
             const g = this.graph;
             this._points = this.findPoints(m).map(c => g.algebraic2coords(c));

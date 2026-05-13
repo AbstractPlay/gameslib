@@ -24,7 +24,7 @@ export class CatsDogsGame extends GameBase {
         uid: "catsdogs",
         playercounts: [2],
         version: "20260508",
-        dateAdded: "2026-05-08",
+        dateAdded: "2026-05-11",
         // i18next.t("apgames:descriptions.catsdogs")
         description: "apgames:descriptions.catsdogs",
         // i18next.t("apgames:notes.catsdogs")
@@ -56,7 +56,7 @@ export class CatsDogsGame extends GameBase {
             { uid: "tournament", group: "ruleset" }, // 8x8 Portuguese tournament rules
             { uid: "misere", group: "ruleset" }, // misÈre version of original 8x8
         ],
-        flags: ["experimental"]
+        flags: []
     };
 
     public numplayers = 2;
@@ -364,10 +364,9 @@ export class CatsDogsGame extends GameBase {
 
         rep.annotations = [];
         for (const move of this.results) {
-            if (move.type === "move") {
-                const [fromX, fromY] = g.algebraic2coords(move.from);
-                const [toX, toY] = g.algebraic2coords(move.to);
-                rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+            if (move.type === "place") {
+                const [toX, toY] = g.algebraic2coords(move.where!);
+                rep.annotations.push({type: "enter", targets: [{row: toY, col: toX}]});
             }
         }
 

@@ -24,7 +24,7 @@ export class DomineeringGame extends GameBase {
         uid: "domineering",
         playercounts: [2],
         version: "20260425",
-        dateAdded: "2026-05-04",
+        dateAdded: "2026-05-11",
         // i18next.t("apgames:descriptions.domineering")
         description: "apgames:descriptions.domineering",
         notes: "apgames:notes.domineering",
@@ -53,7 +53,7 @@ export class DomineeringGame extends GameBase {
             { uid: "size-10", group: "board" },
             { uid: "quelhas", group: "ruleset" },
         ],
-        flags: ["pie", "experimental"],
+        flags: ["pie"],
     };
 
     public coords2algebraic(x: number, y: number): string {

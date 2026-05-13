@@ -29,7 +29,7 @@ export class PinchGame extends GameBase {
         uid: "pinch",
         playercounts: [2],
         version: "20260423",
-        dateAdded: "2026-04-23",
+        dateAdded: "2026-05-11",
         // i18next.t("apgames:descriptions.pinch")
         description: "apgames:descriptions.pinch",
         notes: "apgames:notes.pinch",
@@ -59,7 +59,7 @@ export class PinchGame extends GameBase {
             { uid: "original", group: "ruleset" },
         ],
         categories: ["goal>connect", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["pie", "no-moves", "experimental"]
+        flags: ["pie", "no-moves"]
     };
 
     public coords2algebraic(x: number, y: number): string {

@@ -30,7 +30,7 @@ export class YGame extends GameBase {
         uid: "y",
         playercounts: [2],
         version: "20260429",
-        dateAdded: "2026-04-29",
+        dateAdded: "2026-05-11",
         // i18next.t("apgames:descriptions.y")
         description: "apgames:descriptions.y",
         notes: "apgames:notes.y",
@@ -63,7 +63,7 @@ export class YGame extends GameBase {
             { uid: "progressive", group: "ruleset" }, // progressive variant with group restriction
         ],
         categories: ["goal>connect", "mechanic>place",  "board>shape>tri", "board>connect>hex", "components>simple>1per"],
-        flags: ["pie", "experimental"],
+        flags: ["pie"],
     };
     public numplayers = 2;
     public currplayer!: playerid;

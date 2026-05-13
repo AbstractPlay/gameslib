@@ -25,7 +25,7 @@ export class SlimetrailGame extends GameBase {
         uid: "slimetrail",
         playercounts: [2],
         version: "20260508",
-        dateAdded: "2026-05-08",
+        dateAdded: "2026-05-11",
         // i18next.t("apgames:descriptions.slimetrail")
         description: "apgames:descriptions.slimetrail",
         // i18next.t("apgames:notes.slimetrail")
@@ -53,7 +53,7 @@ export class SlimetrailGame extends GameBase {
         ],
         categories: ["goal>breakthrough", "mechanic>move", "mechanic>block",
                      "board>shape>rect", "board>shape>hex", "components>simple>1per"],
-        flags: ["automove", "experimental"]
+        flags: ["automove"]
     };
 
     public numplayers = 2;

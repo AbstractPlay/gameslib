@@ -30,7 +30,7 @@ export class YGame extends GameBase {
         uid: "y",
         playercounts: [2],
         version: "20260429",
-        dateAdded: "2026-05-11",
+        dateAdded: "2026-05-13",
         // i18next.t("apgames:descriptions.y")
         description: "apgames:descriptions.y",
         notes: "apgames:notes.y",

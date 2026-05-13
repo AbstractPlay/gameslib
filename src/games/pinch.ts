@@ -29,7 +29,7 @@ export class PinchGame extends GameBase {
         uid: "pinch",
         playercounts: [2],
         version: "20260423",
-        dateAdded: "2026-05-11",
+        dateAdded: "2026-05-13",
         // i18next.t("apgames:descriptions.pinch")
         description: "apgames:descriptions.pinch",
         notes: "apgames:notes.pinch",

@@ -25,7 +25,7 @@ export class SlimetrailGame extends GameBase {
         uid: "slimetrail",
         playercounts: [2],
         version: "20260508",
-        dateAdded: "2026-05-11",
+        dateAdded: "2026-05-13",
         // i18next.t("apgames:descriptions.slimetrail")
         description: "apgames:descriptions.slimetrail",
         // i18next.t("apgames:notes.slimetrail")

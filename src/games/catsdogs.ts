@@ -24,7 +24,7 @@ export class CatsDogsGame extends GameBase {
         uid: "catsdogs",
         playercounts: [2],
         version: "20260508",
-        dateAdded: "2026-05-11",
+        dateAdded: "2026-05-13",
         // i18next.t("apgames:descriptions.catsdogs")
         description: "apgames:descriptions.catsdogs",
         // i18next.t("apgames:notes.catsdogs")

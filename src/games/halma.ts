@@ -29,14 +29,28 @@ export class HalmaGame extends GameBase {
         description: "apgames:descriptions.halma",
         // i18next.t("apgames:notes.halma")
         notes: "apgames:notes.halma",
-        urls: ["https://en.wikipedia.org/wiki/Halma"],
+        urls: [
+            "https://en.wikipedia.org/wiki/Halma",
+            "https://boardgamegeek.com/boardgame/38950/halma",
+            "https://www.abstractgames.org/uploads/1/1/6/4/116462923/abstract_games_issue_15.pdf#page=11",
+            "https://blackandwhite.develz.org/games/SuperHalma.pdf",
+        ],
         people: [
+            {
+                type: "designer",
+                name: "George Howard Monks",
+                urls: ["https://en.wikipedia.org/wiki/George_Howard_Monks"],
+            },
             {
                 type: "coder",
                 name: "João Pedro Neto",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/3829/joao-pedro-neto"],
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
+        ],
+        variants: [
+            { uid: "#board", },
+            { uid: "superhalma", group: "ruleset" },
         ],
         categories: ["goal>evacuate", "other>traditional", "mechanic>move", "board>shape>rect", "components>simple>1per", "other>2+players"],
         flags: ["no-moves", "experimental"]
@@ -51,6 +65,7 @@ export class HalmaGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     private dots: string[] = [];
+    private ruleset: "default" | "superhalma";
 
     constructor(state: IHalmaState | string, variants?: string[]) {
         super();
@@ -92,6 +107,7 @@ export class HalmaGame extends GameBase {
             this.stack = [...state.stack];
         }
         this.load();
+        this.ruleset = this.getRuleset();
     }
 
     public load(idx = -1): HalmaGame {
@@ -116,6 +132,11 @@ export class HalmaGame extends GameBase {
 
     public get graph(): SquareGraph {
         return new SquareGraph(this.boardsize, this.boardsize);
+    }
+
+    private getRuleset(): "default" | "superhalma" {
+        if (this.variants.includes("superhalma"))   { return "superhalma"; }
+        return "default";
     }
 
     private homeBase(player?: playerid): string[] {
@@ -146,6 +167,14 @@ export class HalmaGame extends GameBase {
     }
 
     private jumpNeighbors(cell: string): string[] {
+        if (this.ruleset === "superhalma") {
+            return this.jumpNeighborsSuperHalma(cell);
+        } else {
+            return this.jumpNeighborsHalma(cell);
+        }
+    }
+
+    private jumpNeighborsHalma(cell: string): string[] {
         const res: string[] = [];
         const g = this.graph;
         const [x, y] = g.algebraic2coords(cell);
@@ -157,6 +186,31 @@ export class HalmaGame extends GameBase {
                     if ( this.respectBases(cell, ray[1]) ) {
                         res.push(ray[1]);
                     }
+                }
+            }
+        }
+        return res;
+    }
+
+    private jumpNeighborsSuperHalma(cell: string): string[] {
+        const res: string[] = [];
+        const g = this.graph;
+        const [x, y] = g.algebraic2coords(cell);
+
+        for (const dir of allDirections) {
+            const ray = g.ray(x, y, dir).map(c => g.coords2algebraic(...c));
+            if (ray.length >= 2) {
+                for (let delta=0; delta<Math.floor(ray.length/2); delta++) { // consider all possible long-jumps
+                    const start = cell;
+                    const pivot = ray[delta];
+                    const end   = ray[2*delta+1];
+                    if (! this.respectBases(start, end) ) { continue; } // base movements must be respected
+                    if (! this.board.has(pivot) ) { continue; } // the pivot cell must be occupied
+                    if (  this.board.has(end) ) { continue; }   // the final cell must be empty
+                    // all cell in-between must be empty
+                    if (! ray.slice(0, delta).every(c => !this.board.has(c)) ) { continue; }
+                    if (! ray.slice(delta+1, 2*delta+1).every(c => !this.board.has(c)) ) { continue; }
+                    res.push(end);
                 }
             }
         }
@@ -185,9 +239,23 @@ export class HalmaGame extends GameBase {
             for (const dir of dirs) {
                 const ray = g.ray(x, y, dir).map(c => g.coords2algebraic(...c));
                 if (ray.length >= 2) {
-                    if (this.board.has(ray[0]) && this.board.get(ray[0]) === prevplayer && !this.board.has(ray[1])) {
-                       res.push(`${cell}-${ray[1]}`);
+                    if (this.ruleset === "superhalma") {
+                        for (let delta=0; delta<Math.floor(ray.length/2); delta++) { // consider all possible long-jumps
+                            const pivot = ray[delta]; // the pivot cell must be occupied by an enemy stone
+                            const end   = ray[2*delta+1]; // the final cell must be empty
+                            if ( !this.board.has(pivot) || this.board.get(pivot) !== prevplayer) { continue; }
+                            if (  this.board.has(end) ) { continue; }
+                            // all cell in-between must be empty
+                            if (! ray.slice(0, delta).every(c => !this.board.has(c)) ) { continue; }
+                            if (! ray.slice(delta+1, 2*delta+1).every(c => !this.board.has(c)) ) { continue; }
+                            res.push(`${cell}-${end}`);
+                        }
+                    } else { // in the original ruleset, just check the adjacent cells
+                        if (this.board.has(ray[0]) && this.board.get(ray[0]) === prevplayer && !this.board.has(ray[1])) {
+                           res.push(`${cell}-${ray[1]}`);
+                        }
                     }
+
                 }
             }
         }
@@ -340,7 +408,8 @@ export class HalmaGame extends GameBase {
             const mandatory = this.mandatoryMoves();
             if ( mandatory.length > 0 ) { // mandatory moves take precedence!
                 if ( this.hasPrefix(mandatory, m) ) {
-                    this.dots.push(...mandatory.map(move => move.split('-')[1]) );
+                    this.dots.push(...mandatory.filter(move => move.startsWith(m))
+                                               .map(move => move.split('-')[1]) );
                 }
                 if (! mandatory.some(move => m.startsWith(move)) ) {
                     return this;

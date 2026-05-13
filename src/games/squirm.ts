@@ -28,6 +28,7 @@ export class SquirmGame extends GameBase {
         dateAdded: "2026-04-22",
         // i18next.t("apgames:descriptions.squirm")
         description: "apgames:descriptions.squirm",
+        notes: "apgames:notes.squirm",
         urls: ["https://jpneto.github.io/world_abstract_games/squirm.htm"],
         people: [
             {
@@ -50,7 +51,7 @@ export class SquirmGame extends GameBase {
             { uid: "tromp",  group: "ruleset" },
             { uid: "neto",   group: "ruleset" },
         ],
-        flags: ["pie", "custom-buttons"]
+        flags: ["pie", "custom-buttons", "automove"]
     };
 
     public numplayers = 2;

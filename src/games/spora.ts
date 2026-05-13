@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic, MarkerDots, RowCol } from "@abstractplay/renderer/src/schemas/schema";
@@ -41,9 +42,10 @@ export class SporaGame extends GameBase {
         uid: "spora",
         playercounts: [2],
         version: "20260407",
-        dateAdded: "2026-04-07",
+        dateAdded: "2026-05-04",
         // i18next.t("apgames:descriptions.spora")
         description: "apgames:descriptions.spora",
+        notes: "apgames:notes.spora",
         urls: [
                 "https://boardgamegeek.com/thread/3493284/rules-of-spora"
               ],
@@ -96,6 +98,7 @@ export class SporaGame extends GameBase {
     public swapped = true;
 
     private boardSize = 13;
+    private _selected: null|[string, number] = null;
 
     constructor(state?: ISporaState | string, variants?: string[]) {
         super();
@@ -231,22 +234,28 @@ export class SporaGame extends GameBase {
                         newmove = `${c}<${Number(n)+1}`;
                     } else {
                         newmove = `${move},${cell}>1`; // otherwise, the click was elsewhere, so now the sow phase starts
+                        this._selected = [cell, 1];
                     }
                 } else if ( move.includes(',') && !move.includes('@')) { // sowing still not started (eg, a<1,b1>1)
                     const [placeStack, n1, sowingStack, n2] = move.split(/[<,>]/);
                     if ( sowingStack === cell ) {
                         newmove = `${placeStack}<${n1},${sowingStack}>${Number(n2)+1}`; // add a new piece for sowing
+                        this._selected = [sowingStack, Number(n2)+1];
                     } else if (Number(n2) === 1) {
                         newmove = `${placeStack}<${n1},${sowingStack}@${cell}`; // sow just one stone
+                        this._selected = [sowingStack, Number(n2)];
                     } else {
                         newmove = `${placeStack}<${n1},${sowingStack}>${Number(n2)-1}@${cell}`; // start sowing
+                        this._selected = [sowingStack, Number(n2)-1];
                     }
                 } else if ( move.includes('>') && move.includes('@') ) { // in the middle of the sowing phase (eg, a1<1,b1>3@c1)
                     const [placeStack, n1, sowingStack, n2, sowingPath] = move.split(/[<,>@]/);
                     if ( Number(n2) > 1 ) {
                         newmove = `${placeStack}<${n1},${sowingStack}>${Number(n2)-1}@${sowingPath}-${cell}`; // continue sowing
+                        this._selected = [sowingStack, Number(n2)-1];
                     } else { // all pieces were sowed (eg, a1<1,b1>1@c1-d1  becomes  a1<1,b1@c1-d1-cell)
                         newmove = `${placeStack}<${n1},${sowingStack}@${sowingPath}-${cell}`; // end sowing
+                        this._selected = null;
                     }
                 } else {
                     throw new Error();
@@ -612,7 +621,6 @@ export class SporaGame extends GameBase {
 
         if ( n > this.reserve[this.currplayer - 1] ) {
             result.valid = false;
-            result.canrender = false;
             result.message = i18next.t("apgames:validation.spora.NOT_ENOUGH_PIECES");
             return result;
         }
@@ -698,8 +706,6 @@ export class SporaGame extends GameBase {
     }
 
     private doCaptures(): string[] {
-        //const firstPly = this.swapped ? 6 : 5;
-        //if ( this.stack.length <= firstPly ) return [];
         const result = [];
         const prevplayer = this.currplayer === 1 ? 2 : 1;
 
@@ -848,6 +854,7 @@ export class SporaGame extends GameBase {
         if ( partial ) { return this; }
 
         this.lastmove = m;
+        this._selected = null;
         this.scores = [this.getPlayerScore(1), this.getPlayerScore(2)];
         this.reserve[this.currplayer - 1] -= totalPiecesPlaced;
         this.currplayer = this.currplayer % 2 + 1 as playerid;
@@ -905,6 +912,7 @@ export class SporaGame extends GameBase {
     }
 
     public render(): APRenderRep {
+        console.log(`SELECTED: `, this._selected);
         let pstr = "";
         for (let row = 0; row < this.getBoardSize(); row++) {
             if (pstr.length > 0) {
@@ -915,8 +923,15 @@ export class SporaGame extends GameBase {
                 const cell = this.coords2algebraic(col, row);
                 if (this.board.has(cell)) {
                     const contents = this.board.get(cell)!;
+                    let idxSelected: null|number = null;
+                    if (this._selected !== null && this._selected[0] === cell) {
+                        idxSelected = contents[1] - this._selected[1];
+                    }
                     let str = "";
                     for (let i = 0; i < contents[1]; i++) {
+                        if (idxSelected !== null && i === idxSelected) {
+                            str += "X";
+                        }
                         if (contents[0] === 1) {
                             str += "A";
                         } else {
@@ -943,6 +958,7 @@ export class SporaGame extends GameBase {
             legend: {
                 A: [{ name: "piece", colour: this.getPlayerColour(1) }],
                 B: [{ name: "piece", colour: this.getPlayerColour(2) }],
+                X: [{ name: "piece-borderless", opacity: 0 }],
             },
             pieces: pstr,
         };
@@ -1019,11 +1035,16 @@ export class SporaGame extends GameBase {
     }
 
     public sidebarScores(): IScores[] {
+        const p1nStacks = [...this.board.entries()].filter(e => e[1][0] === 1).length;
+        const p2nStacks = [...this.board.entries()].filter(e => e[1][0] === 2).length;
+
         return [
             { name: i18next.t("apgames:status.spora.RESERVE"),
                   scores: [...this.reserve] },
             { name: i18next.t("apgames:status.SCORES"),
-                  scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
+                  //scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
+                  scores: [`${this.getPlayerScore(1)} (with ${p1nStacks} stacks)`,
+                           `${this.getPlayerScore(2)} (with ${p2nStacks} stacks)`] },
         ];
     }
 

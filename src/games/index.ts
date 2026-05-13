@@ -238,6 +238,15 @@ import { XanaGame, IXanaState } from "./xana";
 import { SporaGame, ISporaState } from "./spora";
 import { SquirmGame, ISquirmState } from "./squirm";
 import { PinchGame, IPinchState } from "./pinch";
+import { DomineeringGame, IDomineeringState } from "./domineering";
+import { TwinFlamesGame, ITwinFlamesState } from "./twinflames";
+import { YGame, IYState } from "./y";
+import { ShapeChessGame, IShapeChessState } from "./shapechess";
+import { SlimetrailGame, ISlimetrailState } from "./slimetrail";
+import { CatsDogsGame, ICatsDogsState } from "./catsdogs";
+import { SoccolotGame, ISoccolotState } from "./soccolot";
+import { CourtGame, ICourtState } from "./court";
+import { HalmaGame, IHalmaState } from "./halma";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -479,6 +488,15 @@ export {
     SporaGame, ISporaState,
     SquirmGame, ISquirmState,
     PinchGame, IPinchState,
+    DomineeringGame, IDomineeringState,
+    TwinFlamesGame, ITwinFlamesState,
+    YGame, IYState,
+    ShapeChessGame, IShapeChessState,
+    SlimetrailGame, ISlimetrailState,
+    CatsDogsGame, ICatsDogsState,
+    SoccolotGame, ISoccolotState,
+    CourtGame, ICourtState,
+    HalmaGame, IHalmaState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -561,7 +579,10 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof MagnateGame | typeof ProductGame | typeof OonpiaGame |
                               typeof GoGame | typeof StilettoGame | typeof BTTGame |
                               typeof MinefieldGame | typeof SentinelGame | typeof XanaGame |
-                              typeof SporaGame | typeof SquirmGame | typeof PinchGame
+                              typeof SporaGame | typeof SquirmGame | typeof PinchGame | 
+                              typeof DomineeringGame| typeof TwinFlamesGame | typeof YGame |
+                              typeof ShapeChessGame | typeof SlimetrailGame | typeof CatsDogsGame |
+                              typeof SoccolotGame | typeof CourtGame | typeof HalmaGame
                 >();
 // Manually add each game to the following array
 [
@@ -598,7 +619,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     LascaGame, EmergoGame, FroggerGame, ArimaaGame, RampartGame, KrypteGame, EnsoGame, RincalaGame,
     WaldMeisterGame, WunchunkGame, BambooGame, PluralityGame, CrosshairsGame, MagnateGame,
     ProductGame, OonpiaGame, GoGame, StilettoGame, BTTGame, MinefieldGame, SentinelGame, 
-    XanaGame, SporaGame, SquirmGame, PinchGame
+    XanaGame, SporaGame, SquirmGame, PinchGame, DomineeringGame, TwinFlamesGame, YGame, ShapeChessGame,
+    SlimetrailGame, CatsDogsGame, SoccolotGame, CourtGame, HalmaGame
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -1086,6 +1108,24 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new SquirmGame(...args);
         case "pinch":
             return new PinchGame(...args);
+        case "domineering":
+            return new DomineeringGame(...args);
+        case "twinflames":
+            return new TwinFlamesGame(...args);
+        case "y":
+            return new YGame(...args);
+        case "shapechess":
+            return new ShapeChessGame(...args);
+        case "slimetrail":
+            return new SlimetrailGame(...args);
+        case "catsdogs":
+            return new CatsDogsGame(...args);
+        case "soccolot":
+            return new SoccolotGame(...args);
+        case "court":
+            return new CourtGame(...args);
+        case "halma":
+            return new HalmaGame(args[0], ...args.slice(1));
     }
     return;
 }

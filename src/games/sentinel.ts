@@ -42,7 +42,7 @@ export class SentinelGame extends GameBase {
         version: "20260328",
         dateAdded: "2026-04-22",
         description: "apgames:descriptions.sentinel",
-        // notes: "apgames:notes.sentinel",
+        notes: "apgames:notes.sentinel",
         urls: [
             "https://boardgamegeek.com/thread/3651706/rules-of-sentinel",
         ],

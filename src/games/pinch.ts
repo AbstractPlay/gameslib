@@ -29,9 +29,10 @@ export class PinchGame extends GameBase {
         uid: "pinch",
         playercounts: [2],
         version: "20260423",
-        dateAdded: "2026-04-23",
+        dateAdded: "2026-05-13",
         // i18next.t("apgames:descriptions.pinch")
         description: "apgames:descriptions.pinch",
+        notes: "apgames:notes.pinch",
         urls: [
             "https://boardgamegeek.com/boardgame/285214/pinch",
         ],
@@ -50,17 +51,17 @@ export class PinchGame extends GameBase {
             },
         ],
         variants: [
-            { uid: "size-5", group: "board" },
             { uid: "size-9", group: "board" },
             { uid: "size-13", group: "board" },
-            { uid: "size-15", group: "board" },
             { uid: "#board", },  // 17x17
+            { uid: "size-19", group: "board" },
             { uid: "size-21", group: "board" },
             { uid: "original", group: "ruleset" },
         ],
         categories: ["goal>connect", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["pie", "experimental"]
+        flags: ["pie", "no-moves"]
     };
+
     public coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, this.boardSize);
     }
@@ -370,7 +371,6 @@ export class PinchGame extends GameBase {
             return result;
         }
 
-        // Looks good
         result.valid = true;
         result.complete = 1;
         result.canrender = true;
@@ -395,7 +395,7 @@ export class PinchGame extends GameBase {
         this.results = [];
 
         if (this.ruleset === "original") {
-            // here is the entire move() for the "original" variant
+            // here is the entire move() code for the original ruleset
             const queue: string[] = [m];
             while ( queue.length > 0 ) {
                 const cell: string = queue.shift()!;
@@ -598,12 +598,10 @@ export class PinchGame extends GameBase {
             for (const move of this.results) {
                 if (move.type === "place") {
                     const [x, y] = this.algebraic2coords(move.where!);
-                    // rep.annotations.push({type: "dots", targets: [{row: y, col: x}], colour: "#fff"});
                     rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 }
                 if (move.type === "capture") {
                     const [x, y] = this.algebraic2coords(move.where!);
-                    // rep.annotations.push({type: "dots", targets: [{row: y, col: x}], colour: "#fff"});
                     rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
                 }
             }

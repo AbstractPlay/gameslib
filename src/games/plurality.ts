@@ -39,6 +39,7 @@ export class PluralityGame extends GameBase {
         dateAdded: "2026-02-18",
         // i18next.t("apgames:descriptions.plurality")
         description: "apgames:descriptions.plurality",
+        notes: "apgames:notes.plurality",
         urls: ["https://boardgamegeek.com/boardgame/462846/plurality"],
         people: [
             {

@@ -35,6 +35,7 @@ export class BugGame extends GameBase {
                 type: "designer",
                 name: "Nick Bentley",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/7958/nick-bentley"],
+                apid: "52077877-93bb-4fff-9e5f-f1c41ac8e866",
             },
             {
                 type: "coder",

@@ -102,6 +102,7 @@
         "gorogo": "A Go variant played on a small board where the goal is to capture more pieces than your opponent, rather than to claim territory.",
         "gyges": "A breakthrough game where nobody owns any pieces, and pieces rebound off of each other.",
         "gyve": "Drawless unification game where you try to form fewer groups than your opponent. On each turn, you place two stones in sequence so that each one is adjacent to the same number of friendly groups at the moment of placement.",
+        "halma": "The original traversal game. Players need to be the first to move all their armies to the opponent's home base.",
         "havannah": "A connection game where you vye to form either a ring, a bridge, or a fork. A ring is a chain around at least one cell. A bridge is a chain linking two corners. A fork is a chain linking three sides. Corners do not belong to either side.",
         "hens": "Hens and Chicks is a draughts-style game with two types of pieces and a unique capturing mechanic. The winner is the first to land a piece in their opponent's home row or to eliminate all the opposing hens.",
         "hex": "In Hex, two players attempt to connect opposite sides of a rhombus-shaped board made of hexagonal cells",
@@ -271,6 +272,7 @@
         "frogger": "As in other Decktet games at Abstract Play, the deck is displayed at the bottom of the board and includes both cards in the deck and unknown cards in other players' hands. After the first hand, all cards are drawn from the open draw pool, so hands gradually become open. The discards pile is also displayed.\n\nDue to how randomization works at Abstract Play, forced passes are needed for a player to refill the draw pool in the middle of his turn. Passes are handled automatically by the server, but a there's also a draw pool variant that avoids forced passing if desired.\n\nThe Crocodiles variant is by Jorge Arroyo, the translator of the English rules. The Advanced rules and other minor variants are by P. D. Magnus; they appear in The Decktet Book, where the game is called Xing.",
         "garden": "To make it very clear what happened on a previous turn, each move is displayed over four separate boards. The first board shows the game after the piece was first placed. The second board shows the state after adjacent pieces were flipped. The third board shows any harvests. The fourth board is the final game state and is where you make your moves.\n\nIn our implementation, black is always the \"tome\" or tie-breaker colour. The last player to harvest black will have a `0.1` after their score.",
         "gyges": "The goal squares are adjacent to all the cells in the back row. The renderer cannot currently handle \"floating\" cells.",
+        "halma": "To prevent the [drawish nature](https://boardgamegeek.com/thread/3706389/unspoiling-halma-redux) of the game, the following rules apply: (a) a player wins if the opposite home-base is complete with at least one friendly stone (David Parlett's criteria); (b) Any piece in the player's home-base must make progress towards the enemy camp whenever this is possible by jumping over an enemy piece. (Zillions rule, to remove drawish strategies); (c) No stone can return to his home-base.\n\n[Halma](https://en.wikipedia.org/wiki/Halma) was one of the first commercial successes for an abstract game. The game was designed by [George Howard Monks](https://en.wikipedia.org/wiki/George_Howard_Monks) in 1883/4. It is said that Halma was inspired by an older British game called *Hoppity*. However, this game has no documentation or surviving boards, turning this lineal statement into a historical mystery. Halma was later adapted (c.1892/3) into an even bigger success: [Chinese Checkers](https://boardgamegeek.com/boardgame/2386/chinese-checkers) (which could easily be played by three or six players).\n\nSuper Halma is a more dynamic, uncredited variant, presented in the 1992's book **New Rules for Classic Games** by Wayne Schmittberger. This variant proposes long jumps, where the number of empty cells before and after the jumped stone must be equal. The base's move restrictions still apply in this implementation of Super Halma.",
         "homeworlds": "The win condition is what's called \"Sinister Homeworlds.\" You only win by defeating the opponent to your left. If someone else does that, the game continues, but your left-hand opponent now shifts clockwise. For example, in a four-player game, if I'm South, then I win if I eliminate West. But if the North player ends up eliminating West, the game continues, but now my left-hand opponent is North.",
         "jacynth": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers and opponents.",
         "konane": "Several competing opening protocols exist, but the most common ruleset is the Naihe Ruleset, used by tournaments at the Bishop Museum in Hawaii and described in the BGG reference. This is what is implemented here.",
@@ -1444,6 +1446,14 @@
             },
             "size-12": {
                 "name": "Hexhex 12 (397 spaces)"
+            }
+        },
+        "halma": {
+            "#board": {
+                "name": "16x16 board"
+            },
+            "superhalma": {
+                "name": "Super Halma (allows long-jumps)"
             }
         },
         "havannah": {
@@ -4974,6 +4984,13 @@
             "INITIAL_INSTRUCTIONS": "Select an empty cell to place a stone.",
             "NO_DUPES": "You must place stones on different cells.",
             "PARTIAL": "Select an empty cell to place a second stone. It must be adjacent to the same number of groups as the first stone."
+        },
+        "halma": {
+            "INITIAL_INSTRUCTIONS": "Move to an adjacent empty cell, or multiple short-jump a friendly piece. Players cannot re-enter their home-base, and cannot leave the enemy home-base once inside. Forwards jumps over enemy stones inside the player's home-base takes precedence.",
+            "NONEXISTENT": "Trying to interact with a friendly piece that doesn't exist at {{where}}.",
+            "ILLEGAL_MOVE": "No piece can return to his home-base, nor pieces inside the opponent's home-base can leave again.",
+            "FORCED_MOVES": "Pieces still at home-base are forced to forward-jump over enemy neighbors: pick {{forced}}.",
+            "BAD_MOVE": "This movement is illegal!"
         },
         "havannah": {
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece."

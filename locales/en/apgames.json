@@ -1462,6 +1462,15 @@
         "halmaclimbers": {
             "#board": {
                 "name": "Hexagonal board (base-6)"
+            },
+            "size-8": {
+                "name": "Hexagonal board (base-8)"
+            },
+            "size-11": {
+                "name": "Hexagonal board (base-11)"
+            },
+            "size-13": {
+                "name": "Hexagonal board (base-13)"
             }
         },
         "havannah": {

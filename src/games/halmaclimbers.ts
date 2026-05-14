@@ -48,6 +48,12 @@ export class HalmaClimbersGame extends GameBase {
             },
         ],
         categories: ["goal>score", "mechanic>move", "board>shape>hex", "components>simple>1per"],
+        variants: [
+            { uid: "#board", },
+            { uid: "size-8",  group: "board" },
+            { uid: "size-11", group: "board" },
+            { uid: "size-13", group: "board" },
+        ],
         flags: ["no-moves", "custom-buttons", "experimental"]
     };
 
@@ -68,19 +74,12 @@ export class HalmaClimbersGame extends GameBase {
                 this.variants = [...variants];
             }
 
-            const board = new Map<string, playerid>([
-                ["a6", 1],                                                  ["a1", 2],
-                ["b7", 1],                                                  ["b1", 2],
-                ["c8", 1], ["c7", 1],                            ["c2", 2], ["c1", 2],
-                ["d9", 1], ["d8", 1],                            ["d2", 2], ["d1", 2],
-                ["e10",1], ["e9", 1], ["e8", 1],      ["e3", 2], ["e2", 2], ["e1", 2],
-                ["f11",1], ["f10",1], ["f9", 1],      ["f3", 2], ["f2", 2], ["f1", 2],
-                ["g10",1], ["g9", 1], ["g8", 1],      ["g3", 2], ["g2", 2], ["g1", 2],
-                ["h9", 1], ["h8", 1],                            ["h2", 2], ["h1", 2],
-                ["i8", 1], ["i7", 1],                            ["i2", 2], ["i1", 2],
-                ["j7", 1],                                                  ["j1", 2],
-                ["k6", 1],                                                  ["k1", 2],
-            ]);
+            const board = new Map<string, playerid>();
+            for (const player of [1,2] as playerid[]) {
+                for (const cell of this.generateBase(player, this.boardsize)) {
+                    board.set(cell, player);
+                }
+            }
 
             const fresh: IMoveState = {
                 _version: HalmaClimbersGame.gameinfo.version,
@@ -122,6 +121,17 @@ export class HalmaClimbersGame extends GameBase {
     }
 
     public get boardsize(): number {
+        // Get board size from variants.
+        if ( (this.variants !== undefined) && (this.variants.length > 0) && (this.variants[0] !== undefined) && (this.variants[0].length > 0) ) {
+            const sizeVariants = this.variants.filter(v => v.includes("size"));
+            if (sizeVariants.length > 0) {
+                const size = sizeVariants[0].match(/\d+/);
+                return parseInt(size![0], 10);
+            }
+            if (isNaN(this.boardsize)) {
+                throw new Error(`Could not determine the board size from variant "${this.variants[0]}"`);
+            }
+        }
         return 6;
     }
 
@@ -129,19 +139,56 @@ export class HalmaClimbersGame extends GameBase {
         return new HexTriGraph(this.boardsize, this.boardsize * 2 - 1);
     }
 
-    public getButtons(): ICustomButton[] {
-        return [{ label: "pass", move: "pass" }];
+    private numberToLetters(n: number): string {
+        let result = "";
+        while (n >= 0) {
+            result = String.fromCharCode(97 + (n % 26)) + result;
+            n = Math.floor(n / 26) - 1;
+        }
+        return result;
     }
 
+    private firstNLetterStrings(n: number): string[] {
+        const result: string[] = [];
+        for (let i = 0; i < n; i++) {
+            result.push(this.numberToLetters(i));
+        }
+        return result;
+    }
+
+    // compute all the hexes that belong to 'player' on a board of size 'n'
+    private generateBase(player: playerid, n: number): string[] {
+        const letters = this.firstNLetterStrings(2*n);
+        const szCol = Math.ceil(n/2); // base's size of middle column (letters[n-1])
+
+        const res: string[] = [];
+        for (let i=0; i<2*n; i++) {
+            let d = 0;
+            if (n % 2 === 0) { // as distance to center grows, the #cells decrease
+                d = Math.floor(Math.abs(n-1-i) / 2);
+            } else {
+                d = Math.ceil(Math.abs(n-1-i) / 2);
+            }
+            for (let j=0; j<szCol-d; j++) {
+                if (player === 2) {
+                    res.push( `${letters[i]}${j+1}` );
+                } else {
+                    const d0 = Math.abs(n-1-i);
+                    const d1 = n-1 + Math.ceil((n-1-d0)/2);
+                    res.push( `${letters[i]}${d1+j+1}` );
+                }
+            }
+        }
+        return res;
+    }
+
+    // return hexes that are inside the player's home-base
     private homeBase(player?: playerid): string[] {
         if (player === undefined) { player = this.currplayer; }
-        return player === 1 ?
-               ["a6", "b7", "c7", "c8", "d8", "d9", "e8", "e9", "e10", "f9", "f10", "f11",
-                "g8", "g9", "g10", "h8", "h9", "i7", "i8", "j7", "k6"] :
-               ["a1", "b1", "c1", "c2", "d1", "d2", "e1", "e2", "e3", "f1", "f2", "f3",
-                "g1", "g2", "g3", "h1", "h2", "i1", "i2", "j1", "k1"];
+        return this.generateBase(player, this.boardsize);
     }
 
+    // get all next jumps from cell, wrt to the given board
     private jumpNeighbors(cell: string, board: Map<string, playerid>): string[] {
         const res: string[] = [];
         const g = this.graph;
@@ -175,19 +222,22 @@ export class HalmaClimbersGame extends GameBase {
             const cell = g.coords2algebraic(col, row);
             let newmove:string;
 
+            const actions = move.split(',');
+            const lastAction = actions[actions.length-1];
+            const cells = lastAction.split('-');
+
             if ( move === "" ) {
                 newmove = cell;
             } else if ( move === cell ) { // reclick resets 1st action
                 newmove = "";
-            } else if ( this.board.has(cell) ) {
+            } else if ( this.board.has(cell) ||
+                        // the player might want to play again with the just played piece
+                        (actions.length === 1 && cells.length > 1 && cells.at(-1) === cell) ) {
                 // there are the following possible *valid* events for a player to click an occupied cell:
                 //  1) the piece from 2nd action is moving where the 1st piece was
                 //  2) the jumping piece is going back from where it started
                 //  3) the player is reclicking the piece to reset the action
                 //  4) the player is just starting the 2nd action
-                const actions = move.split(',');
-                const lastAction = actions[actions.length-1];
-                const cells = lastAction.split('-');
                 // 1
                 if ( actions.length === 2 && actions[0].split('-')[0] === cell ) {
                     newmove = `${move}-${cell}`;
@@ -208,7 +258,6 @@ export class HalmaClimbersGame extends GameBase {
             } else if ( move.includes(',') && move.split(',')[1] === cell ) { // reclick resets 2nd action
                 newmove = move.split(',')[0];
             } else {
-                const actions = move.split(',');
                 // for the current action:
                 //   if an empty cell appears again, remove all jumps after its first occurrence
                 actions[actions.length-1] = this.trimIfRepeated(`${actions[actions.length-1]}-${cell}`.split("-")).join("-");
@@ -216,7 +265,6 @@ export class HalmaClimbersGame extends GameBase {
             }
 
             const result = this.validateMove(newmove) as IClickResult;
-            //console.debug('handleclick() move', move, 'cell', cell, 'newmove', newmove, "isValid?", result.valid);
             result.move = result.valid ? newmove : move;
             return result;
         } catch (e) {
@@ -226,10 +274,6 @@ export class HalmaClimbersGame extends GameBase {
                 message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, piece, emessage: (e as Error).message})
             }
         }
-    }
-
-    public hasPrefix(moves: string[], partial: string): boolean { // TODO: delete?
-        return moves.some(str => str.startsWith(partial));
     }
 
     // returns all legal fallback moves from a given player, and a given (possibly cloned) board
@@ -251,14 +295,14 @@ export class HalmaClimbersGame extends GameBase {
         return res;
     }
 
-    // check if an action is a fallback
+    // check if the given action is a fallback
     private isFallback(action: string): boolean {
         const cells = action.split('-');
         if ( cells.length === 2 ) {
             const backDirs: HexDir[] = this.currplayer === 1 ? ["NE", "SE", "E"] : ["NW", "SW", "W"];
             const g = this.graph;
             const [x, y] = g.algebraic2coords(cells[0]);
-            
+
             for (const dir of backDirs) {
                 const ray = g.ray(x, y, dir).map(c => g.coords2algebraic(...c));
                 if (cells[1] === ray[0] ) {
@@ -316,13 +360,13 @@ export class HalmaClimbersGame extends GameBase {
             // drop or start of move
             if (!action.includes("-")) {
 
-                if (!this.board.has(action)) { // must be occupied
+                if (!clone.has(action)) { // must be occupied
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.halmaclimbers.NONEXISTENT", {where: action});
                     return result;
                 }
 
-                if (this.board.get(action)! !== this.currplayer) { // must be a friendly stone
+                if (clone.get(action)! !== this.currplayer) { // must be a friendly stone
                     result.valid = false;
                     result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
                     return result;
@@ -356,7 +400,6 @@ export class HalmaClimbersGame extends GameBase {
                     for (let i = 0; i < cells.length - 1; i++) {
                         const from = cells[i];
                         const to = cells[i+1];
-                        //console.debug('bad move', 'from', from, 'to', to, 'neighbors', ...this.jumpNeighbors(from, clone));
                         if (! this.jumpNeighbors(from, clone).includes(to) ) {
                             result.valid = false;
                             result.message = i18next.t("apgames:validation.halmaclimbers.BAD_MOVE", {from, to});
@@ -380,7 +423,7 @@ export class HalmaClimbersGame extends GameBase {
         if ( this.stack.length === 1 && !isJump ) {
             result.complete = 1; // a fall-back on ply 1 is final
         } else if ( this.stack.length > 1 && actions.length === 1 ) {
-            result.complete = 0; // still one action to make
+            result.complete = -1; // still one action to make
         } else if ( this.stack.length > 1 && actions.length === 2 && !isJump ) {
             result.complete = 1;
         } else {
@@ -433,7 +476,6 @@ export class HalmaClimbersGame extends GameBase {
                     this.results.push({type: "move", from: steps[i], to: steps[i+1]});
                 }
             } else {
-                //this.board.set(action, this.currplayer);
                 this.results.push({type: "place", where: action});
             }
         }
@@ -441,20 +483,17 @@ export class HalmaClimbersGame extends GameBase {
         if (partial) { // if partial, populate dots and get out
 
             const cells = actions.at(-1)!.split("-");
-            //console.debug('fallbacks', fallbacks, 'actions', actions);
             // if just starting, add fall-back moves
             if (cells.length === 1) {
                 const start = cells[0];
                 const fallbacks = this.fallbackmoves(this.currplayer, this.board);
                 const possibleFallbacks = fallbacks.filter(mv => mv.split('-')[0] === start).map(mv => mv.split('-')[1]);
                 this.dots.push(...possibleFallbacks);
-                //console.debug('dots moves', 'm', m, 'cells', cells, 'fallback', ...possibleFallbacks);
             }
             // if the first move is a fallback and was concluded, don't show jump dots
             if (! (actions.length === 1 && this.isFallback(actions[0])) ) {
                 // now add jumps
                 this.dots.push(...this.jumpNeighbors(cells[cells.length - 1], this.board));
-                //console.debug('dots jumps', ...this.jumpNeighbors(cells[cells.length - 1], this.board));
             }
             return this;
         }
@@ -601,10 +640,47 @@ export class HalmaClimbersGame extends GameBase {
         }
     }
 
+    private isDigit(c: string): boolean {
+        return /^[0-9]$/.test(c);
+    }
+
+    // get hexes on home-base that are adjacent to the middle-area
+    // this will be used for scoring
+    private getStarts(player: playerid): string[] {
+        const best = new Map<string, string>();
+        const coords: string[] = this.generateBase(player, this.boardsize);
+
+        for (const coord of coords) {
+            let letter;
+            let number;
+            if ( this.isDigit(coord[1]) ) {
+                letter = coord[0];
+                number = parseInt(coord.slice(1));
+            } else {
+                letter = coord.slice(0,2);
+                number = parseInt(coord.slice(2));
+            }
+
+            if (!best.has(letter)) {
+                best.set(letter, coord);
+            } else {
+                const current = best.get(letter)!;
+                const currentNumber = this.isDigit(current[1]) ? parseInt(current.slice(1))
+                                                               : parseInt(current.slice(2));
+
+                if (player === 1 && number < currentNumber) {
+                    best.set(letter, coord);
+                } else if (player === 2 && number > currentNumber) {
+                    best.set(letter, coord);
+                }
+            }
+        }
+
+        return [...best.values()];
+    }
+
     public getPlayerScore(player: playerid): number {
-        const starts = player === 1 ?
-            ["a6", "b7", "c7", "d8", "e8", "f9", "g8", "h8", "i7", "j7", "k6" ] :
-            ["a1", "b1", "c2", "d2", "e3", "f3", "g3", "h2", "i2", "j1", "k1" ];
+        const starts = this.getStarts(player);
         const dir: HexDir = player === 1 ? "W" : "E";
         const g = this.graph;
         let score = 0;
@@ -621,6 +697,10 @@ export class HalmaClimbersGame extends GameBase {
             score += maxCount;
         }
         return score;
+    }
+
+    public getButtons(): ICustomButton[] {
+        return [{ label: "pass", move: "pass" }];
     }
 
     public sidebarScores(): IScores[] {

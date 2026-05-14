@@ -52,7 +52,7 @@ export class HalmaGame extends GameBase {
             { uid: "#board", },
             { uid: "superhalma", group: "ruleset" },
         ],
-        categories: ["goal>evacuate", "other>traditional", "mechanic>move", "board>shape>rect", "components>simple>1per", "other>2+players"],
+        categories: ["goal>evacuate", "other>traditional", "mechanic>move", "board>shape>rect", "components>simple>1per"],
         flags: ["no-moves", "experimental"]
     };
 
@@ -579,9 +579,9 @@ export class HalmaGame extends GameBase {
         };
 
         // Add annotations
-        if (this.stack[this.stack.length - 1]._results.length > 0) {
-            rep.annotations = [];
-            for (const move of this.stack[this.stack.length - 1]._results) {
+        rep.annotations = [];
+        if (this.results.length > 0) {
+            for (const move of this.results) {
                 if (move.type === "move") {
                     const [fromX, fromY] = g.algebraic2coords(move.from);
                     const [toX, toY] = g.algebraic2coords(move.to);
@@ -594,9 +594,6 @@ export class HalmaGame extends GameBase {
         }
 
         if (this.dots.length > 0) {
-            if (!("annotations" in rep) || rep.annotations === undefined) {
-                rep.annotations = [];
-            }
             rep.annotations.push({
                 type: "dots",
                 targets: this.dots.map(cell => {

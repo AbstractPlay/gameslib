@@ -247,6 +247,8 @@ import { CatsDogsGame, ICatsDogsState } from "./catsdogs";
 import { SoccolotGame, ISoccolotState } from "./soccolot";
 import { CourtGame, ICourtState } from "./court";
 import { HalmaGame, IHalmaState } from "./halma";
+import { MinimizeGame, IMinimizeState } from "./minimize";
+import { HalmaClimbersGame, IHalmaClimbersState } from "./halmaclimbers";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -497,6 +499,8 @@ export {
     SoccolotGame, ISoccolotState,
     CourtGame, ICourtState,
     HalmaGame, IHalmaState,
+    MinimizeGame, IMinimizeState,
+    HalmaClimbersGame, IHalmaClimbersState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -582,7 +586,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof SporaGame | typeof SquirmGame | typeof PinchGame | 
                               typeof DomineeringGame| typeof TwinFlamesGame | typeof YGame |
                               typeof ShapeChessGame | typeof SlimetrailGame | typeof CatsDogsGame |
-                              typeof SoccolotGame | typeof CourtGame | typeof HalmaGame
+                              typeof SoccolotGame | typeof CourtGame | typeof HalmaGame |
+                              typeof MinimizeGame | typeof HalmaClimbersGame
                 >();
 // Manually add each game to the following array
 [
@@ -620,7 +625,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     WaldMeisterGame, WunchunkGame, BambooGame, PluralityGame, CrosshairsGame, MagnateGame,
     ProductGame, OonpiaGame, GoGame, StilettoGame, BTTGame, MinefieldGame, SentinelGame, 
     XanaGame, SporaGame, SquirmGame, PinchGame, DomineeringGame, TwinFlamesGame, YGame, ShapeChessGame,
-    SlimetrailGame, CatsDogsGame, SoccolotGame, CourtGame, HalmaGame
+    SlimetrailGame, CatsDogsGame, SoccolotGame, CourtGame, HalmaGame, MinimizeGame, HalmaClimbersGame
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -1126,6 +1131,10 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new CourtGame(...args);
         case "halma":
             return new HalmaGame(args[0], ...args.slice(1));
+        case "minimize":
+            return new MinimizeGame(...args);
+        case "halmaclimbers":
+            return new HalmaClimbersGame(args[0], ...args.slice(1));
     }
     return;
 }

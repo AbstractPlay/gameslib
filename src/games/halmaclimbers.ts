@@ -505,10 +505,44 @@ export class HalmaClimbersGame extends GameBase {
         return this;
     }
 
+    private isBaseEmpty(player?: playerid): boolean {
+        if (player === undefined) { player = this.currplayer; }
+        return this.homeBase(player).every(c => !this.board.has(c) || this.board.get(c) !== player);
+    }
+
+    private jumpsForward(player?: playerid): boolean {
+        if (player === undefined) { player = this.currplayer; }
+        const res: string[] = [];
+        const g = this.graph;
+        const forwardDirs: HexDir[] = player === 1 ? ["NW", "SW", "W"] : ["NE", "SE", "E"];
+        // get friendly pieces at home base
+        const pieces = this.homeBase(player).filter(c => this.board.has(c) || this.board.get(c) === player);
+
+        for (const cell of pieces) {
+            const [x, y] = g.algebraic2coords(cell);
+
+            for (const dir of forwardDirs) {
+                const ray = g.ray(x, y, dir).map(c => g.coords2algebraic(...c));
+                if (ray.length >= 2) {
+                    if (this.board.has(ray[0]) && !this.board.has(ray[1])) {
+                        res.push(ray[1]);
+                    }
+                }
+            }
+        }
+        return res.length === 0; // I could just return true the first jump we found, but 'res' might be useful later
+    }
+
     protected checkEOG(): HalmaClimbersGame {
-        // game ends if two consecutive passes occurred
-        this.gameover = this.lastmove === "pass" &&
-                        this.stack[this.stack.length - 1].lastmove === "pass";
+        const prevplayer = this.currplayer % 2 + 1 as playerid;
+
+        this.gameover = // game ends if two consecutive passes occurred
+                        (this.lastmove === "pass" &&
+                         this.stack[this.stack.length - 1].lastmove === "pass")
+                        // or if the player's home base is empty (the player that just ended his turn)
+                        || this.isBaseEmpty(prevplayer)
+                        // or if the current player does not have forward jumps available
+                        || this.jumpsForward(this.currplayer);
 
         if ( this.gameover ) {
             const scoreP1 = this.getPlayerScore(1);

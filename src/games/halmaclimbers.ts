@@ -491,7 +491,9 @@ export class HalmaClimbersGame extends GameBase {
                 this.dots.push(...possibleFallbacks);
             }
             // if the first move is a fallback and was concluded, don't show jump dots
-            if (! (actions.length === 1 && this.isFallback(actions[0])) ) {
+            if (   !(actions.length === 1 && this.isFallback(actions[0]))
+                // or if the piece is outside its home-base, don't show jumps dots either
+                && this.homeBase().includes(cells[0]) ) {
                 // now add jumps
                 this.dots.push(...this.jumpNeighbors(cells[cells.length - 1], this.board));
             }

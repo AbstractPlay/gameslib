@@ -450,7 +450,10 @@ export class CourtGame extends GameBase {
 
         rep.annotations = [];
         for (const move of this.results) {
-            if (move.type === "move") {
+            if (move.type === "place") {
+                const [toX, toY] = g.algebraic2coords(move.where!);
+                rep.annotations.push({type: "enter", targets: [{row: toY, col: toX}]});
+            } else if (move.type === "move") {
                 const [fromX, fromY] = g.algebraic2coords(move.from);
                 const [toX, toY] = g.algebraic2coords(move.to);
                 rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});

@@ -281,8 +281,10 @@ export class HalmaGame extends GameBase {
 
             if (move === "" || this.board.has(cell)) {
                 newmove = cell;
+            } else if ( move === cell ) {
+                newmove = ""; // an immediate reclick resets the move
             } else {
-                // if a cell appears again, remove all jumps after its first occurrence
+                // if an empty cell appears again, remove all jumps after its first occurrence
                 newmove = this.trimIfRepeated(`${move}-${cell}`.split("-")).join("-");
             }
 
@@ -402,9 +404,9 @@ export class HalmaGame extends GameBase {
         this.results = [];
         this.dots = [];
 
-        if (m === "") { return this;}
+        if (m === "") { return this; }
 
-        if (partial) { // if partial, populate dots and get out
+        if (partial) { // if partial, populate dots
             const mandatory = this.mandatoryMoves();
             if ( mandatory.length > 0 ) { // mandatory moves take precedence!
                 if ( this.hasPrefix(mandatory, m) ) {
@@ -429,21 +431,17 @@ export class HalmaGame extends GameBase {
             // go ahead and move the piece so the display updates
             this.board.delete(cells[0]);
             this.board.set(cells[cells.length - 1], this.currplayer);
+            this.results.push({ type: "place", where: cells[cells.length - 1] });
             return this;
         }
 
-        if (m.includes("-")) {
-            const steps = m.split("-");
-            const from = steps[0];
-            const to = steps[steps.length - 1];
-            this.board.delete(from);
-            this.board.set(to, this.currplayer);
-            for (let i = 0; i < steps.length-1; i++) {
-                this.results.push({type: "move", from: steps[i], to: steps[i+1]});
-            }
-        } else {
-            this.board.set(m, this.currplayer);
-            this.results.push({type: "place", where: m});
+        const steps = m.split("-"); // make the final move
+        const from = steps[0];
+        const to = steps[steps.length - 1];
+        this.board.delete(from);
+        this.board.set(to, this.currplayer);
+        for (let i = 0; i < steps.length-1; i++) { // add to results the path taken
+            this.results.push({type: "move", from: steps[i], to: steps[i+1]});
         }
 
         this.lastmove = m;

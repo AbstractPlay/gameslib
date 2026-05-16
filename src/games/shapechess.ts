@@ -291,8 +291,6 @@ export class ShapeChessGame extends GameBase {
 
         const moves = actions.at(-1)!.split("-"); // let's validate the last action
         if ( moves.length === 1 ) {
-            result.valid = true;
-            result.canrender = true;
             result.complete = -1;
             if (! cloned.board.has(moves[0]) ) {
                 // if placed on an empty cell, this might be a complete move
@@ -310,6 +308,8 @@ export class ShapeChessGame extends GameBase {
                 }
                 result.message = i18next.t("apgames:validation.shapechess.PUSH_INSTRUCTIONS");
             }
+            result.valid = true;
+            result.canrender = true;
             return result;
         }
 

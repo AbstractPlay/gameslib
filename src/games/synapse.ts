@@ -63,7 +63,7 @@ export class SynapseGame extends GameBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
-        categories: ["goal>score>immobilize", "mechanic>place", "board>shape>rect", "components>pyramids"],
+        categories: ["goal>immobilize", "mechanic>place", "board>shape>rect", "components>pyramids"],
         flags: ["player-stashes", "experimental"]
     };
 
@@ -384,7 +384,7 @@ export class SynapseGame extends GameBase {
 
         const starColour: Colourfuncs = {
             func: "custom",
-            default: "#FFDF00", // gold yellow
+            default: "#AD03DE", // vibrant purple  (alternative: "#FFDF00", // gold yellow)
             palette: 3
         };
 

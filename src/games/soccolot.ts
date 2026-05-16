@@ -47,6 +47,7 @@ export class SoccolotGame extends GameBase {
         variants: [
             { uid: "#board", }, // Speed Soccolot
             { uid: "original", group: "ruleset" },
+            { uid: "swap",     group: "ruleset" }, // adds swap dribble
         ],
         flags: ["experimental"]
     };
@@ -59,7 +60,7 @@ export class SoccolotGame extends GameBase {
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
-    private ruleset: "default" | "original";
+    private ruleset: "default" | "original" | "swap";
     private _points: [number, number][] = []; // if there are points here, the renderer will show them
 
     constructor(state?: ISoccolotState | string, variants?: string[]) {
@@ -123,8 +124,9 @@ export class SoccolotGame extends GameBase {
         return this;
     }
 
-    private getRuleset(): "default" | "original" {
+    private getRuleset(): "default" | "original" | "swap" {
         if (this.variants.includes("original")) { return "original"; }
+        if (this.variants.includes("swap")) { return "swap"; }
         return "default";
     }
 
@@ -211,6 +213,15 @@ export class SoccolotGame extends GameBase {
             }
         }
 
+        if ( this.ruleset === "swap" ) {
+            for (const man of grid.neighbours(ball)) {
+                // find adjacent friendly Men
+                if ( this.board.has(man) && this.board.get(man)! === player ) {
+                    moves.push(`${man},${ball}@`); // swap pieces
+                }
+            }
+        }
+
         return moves.sort((a,b) => a.localeCompare(b));
     }
 
@@ -234,7 +245,11 @@ export class SoccolotGame extends GameBase {
                 if ( moves[0] === this.getBall() ) { // it is a kick (final)
                     newmove = `${move}>${cell}`;
                 } else { // it is a dribble (final)
-                    newmove = `${move}-${cell}`;
+                    if ( this.ruleset === "swap" && cell === moves[0]) {
+                        newmove = `${move}@`;        // swap the ball with the man
+                    } else {
+                        newmove = `${move}-${cell}`; // move the ball with the man
+                    }
                 }
             } else {
                 newmove = ""; // something went wrong, reset move
@@ -268,7 +283,7 @@ export class SoccolotGame extends GameBase {
         }
 
         const prevplayer = this.currplayer % 2 + 1 as playerid;
-        const moves: string[] = m.split(/[,>-]/);
+        const moves: string[] = m.split(/[,>@-]/);
 
         if ( moves.length === 1 ) {
             if ( !this.board.has(m) || this.board.get(m)! === prevplayer ) {
@@ -309,7 +324,11 @@ export class SoccolotGame extends GameBase {
             result.complete = -1;
             result.canrender = true;
             if (this.board.get(moves[0])! === this.currplayer) {
-                result.message = i18next.t("apgames:validation.soccolot.DRIBBLE_INSTRUCTIONS");
+                if ( this.ruleset === "swap" ) {
+                    result.message = i18next.t("apgames:validation.soccolot.DRIBBLE_SWAP_INSTRUCTIONS");
+                } else {
+                    result.message = i18next.t("apgames:validation.soccolot.DRIBBLE_INSTRUCTIONS");
+                }
             } else {
                 result.message = i18next.t("apgames:validation.soccolot.KICK_INSTRUCTIONS");
             }
@@ -330,7 +349,7 @@ export class SoccolotGame extends GameBase {
 
     // return the list of cells the current move can go to
     private findPoints(move: string): string[] {
-        const moves = move.split(/[,>-]/);
+        const moves = move.split(/[,>@-]/);
         const allMoves = this.moves();
         const ball = this.getBall();
         const res = [];
@@ -352,7 +371,11 @@ export class SoccolotGame extends GameBase {
             // show available places to dribble (select moves like man,ball-newman)
             //                       or to kick (select moves like ball,man>newball)
             res.push(...allMoves.filter(m => m.startsWith(move))
+                                .filter(m => !m.includes('@'))
                                 .map(m => m.split(/[,>-]/)[2]));
+            if ( this.ruleset === "swap" && moves[1] === ball ) { // include swap option
+                res.push(moves[0]); // swap by clicking in the man again
+            }
         }
 
         return res;
@@ -373,7 +396,7 @@ export class SoccolotGame extends GameBase {
         }
 
         this.results = [];
-        const moves = m.split(/[,>-]/);
+        const moves = m.split(/[,>@-]/);
 
         if ( partial ) { // if partial, set the points to be shown
             const g = this.graph;
@@ -402,6 +425,11 @@ export class SoccolotGame extends GameBase {
             this.results.push({ type: "move", from: moves[0], to: moves[2] });
             this.board.set(newBall, 3);
             this.results.push({ type: "move", from: moves[1], to: newBall });
+        } else if ( m.includes('@') ) { // only for swap variant
+            this.board.set(moves[0], 3); // swap ball with man
+            this.results.push({ type: "move", from: moves[0], to: moves[1] });
+            this.board.set(moves[1], this.currplayer);
+            this.results.push({ type: "move", from: moves[1], to: moves[0] });
         } else { // a kick (ball,man>newball)
             this.board.delete(moves[0]);
             this.board.set(moves[2], 3); // moving the ball

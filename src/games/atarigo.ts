@@ -1,6 +1,6 @@
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IRenderOpts, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, BoardBasic, MarkerDots, RowCol } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic, MarkerDots, RowCol, Colourfuncs } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, replacer, reviver, UserFacingError, SquareOrthGraph } from "../common";
 import { connectedComponents } from "graphology-components";
@@ -25,33 +25,30 @@ interface IMoveState extends IIndividualState {
     board: Map<string, playerid>;
     lastmove?: string;
     scores: [number, number];
-    komi?: number;
-    swapped: boolean;
 }
 
-export interface IGoState extends IAPGameState {
+export interface IAtariGoState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
 };
 
-export class GoGame extends GameBase {
+export class AtariGoGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
-        name: "Go",
-        uid: "go",
+        name: "Atari Go",
+        uid: "atarigo",
         playercounts: [2],
-        version: "20260225",
-        dateAdded: "2026-03-07",
+        version: "20260519",
+        dateAdded: "2026-05-19",
         // i18next.t("apgames:descriptions.go")
-        description: "apgames:descriptions.go",
+        description: "apgames:descriptions.atarigo",
         urls: [
-                "https://boardgamegeek.com/boardgame/188/go",
-                "https://senseis.xmp.net/"
+                "https://senseis.xmp.net/?AtariGo",
               ],
         people: [
             {
                 type: "designer",
-                name: "Traditional",
-                urls: ["https://en.wikipedia.org/wiki/Go_(game)"],
+                name: "安田 泰敏 (Yasuda Yasutoshi)",
+                urls: ["https://senseis.xmp.net/?YasutoshiYasuda"],
             },
             {
                 type: "coder",
@@ -61,18 +58,14 @@ export class GoGame extends GameBase {
             },
         ],
         variants: [
-            { uid: "size-5",  group: "board" },
             { uid: "size-9",  group: "board" },
+            { uid: "size-11", group: "board" },
             { uid: "size-13", group: "board" },
-            { uid: "size-17", group: "board" },
-            { uid: "#board", },
-            { uid: "size-21", group: "board" },
-            { uid: "size-25", group: "board" },
-            { uid: "size-37", group: "board" },
-            { uid: "positional", group: "ruleset" },
+            { uid: "size-15", group: "board" },
+            { uid: "#board", }, // 19x19
         ],
         categories: ["goal>area", "mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>rect", "components>simple>1per"],
-        flags: ["scores", "custom-buttons", "custom-colours"],
+        flags: ["pie", "scores", "custom-buttons", "custom-colours", "experimental"],
         displays: [{uid: "show-controlled-areas"}],
     };
 
@@ -93,42 +86,39 @@ export class GoGame extends GameBase {
     public results: Array<APMoveResult> = [];
     public variants: string[] = [];
     public scores: [number, number] = [0, 0];
-    public komi?: number;
-    public swapped = true;
 
     private boardSize = 19;
     private grid: RectGrid;
-    private ruleset: "default" | "positional";
+    private whoCaptured: playerid = 3; // when 1 or 2 the game ends
 
-    constructor(state?: IGoState | string, variants?: string[]) {
+    constructor(state?: IAtariGoState | string, variants?: string[]) {
         super();
         if (state === undefined) {
             if (variants !== undefined) {
                 this.variants = [...variants];
             }
             const fresh: IMoveState = {
-                _version: GoGame.gameinfo.version,
+                _version: AtariGoGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
                 board: new Map(),
                 scores: [0, 0],
-                swapped: true
             };
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
                 // is the state a raw JSON obj
                 if (state.startsWith("{")) {
-                    state = JSON.parse(state, reviver) as IGoState;
+                    state = JSON.parse(state, reviver) as IAtariGoState;
                 } else {
                     const decoded = Buffer.from(state, "base64") as Data;
                     const decompressed = pako.ungzip(decoded, {to: "string"});
-                    state = JSON.parse(decompressed, reviver) as IGoState;
+                    state = JSON.parse(decompressed, reviver) as IAtariGoState;
                 }
             }
-            if (state.game !== GoGame.gameinfo.uid) {
-                throw new Error(`The Go game code cannot process a game of '${state.game}'.`);
+            if (state.game !== AtariGoGame.gameinfo.uid) {
+                throw new Error(`The Atari Go game code cannot process a game of '${state.game}'.`);
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
@@ -136,11 +126,10 @@ export class GoGame extends GameBase {
             this.stack = [...state.stack];
         }
         this.load();
-        this.ruleset = this.getRuleset();
         this.grid = new RectGrid(this.boardSize, this.boardSize);
     }
 
-    public load(idx = -1): GoGame {
+    public load(idx = -1): AtariGoGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -158,14 +147,6 @@ export class GoGame extends GameBase {
         this.lastmove = state.lastmove;
         this.boardSize = this.getBoardSize();
         this.scores = [...state.scores];
-        this.komi = state.komi;
-        this.swapped = false;
-        // We have to check the first state because we store the updated version in later states
-        if (state.swapped === undefined) {
-            this.swapped = this.stack.length < 3 || this.stack[2].lastmove !== "play-second";
-        } else {
-            this.swapped = state.swapped;
-        }
         return this;
     }
 
@@ -184,19 +165,6 @@ export class GoGame extends GameBase {
         return 19;
     }
 
-    private getRuleset(): "default" | "positional" {
-        if (this.variants.includes("positional")) { return "positional"; }
-        return "default";
-    }
-
-    public isKomiTurn(): boolean {
-        return this.stack.length === 1;
-    }
-
-    public isPieTurn(): boolean {
-        return this.stack.length === 2;
-    }
-
     public moves(player?: playerid): string[] {
         if (player === undefined) {
             player = this.currplayer;
@@ -204,83 +172,19 @@ export class GoGame extends GameBase {
         if (this.gameover) { return []; }
 
         const moves: string[] = [];
-
-        if (this.isKomiTurn()) {
-            return [];
-        } else if (this.isPieTurn()) {
-            moves.push("play-second");
-        } else {
-            moves.push("pass");
-        }
-
         for (let row = 0; row < this.boardSize; row++) {
             for (let col = 0; col < this.boardSize; col++) {
                 const cell = this.coords2algebraic(col, row);
                 if (this.board.has(cell)) { continue; }
                 if (this.isSelfCapture(cell, player)) { continue; }
-                if (this.checkKo(cell, player)) { continue; }
                 moves.push(cell);
             }
         }
         return moves;
     }
 
-    // reduce a board position to a unique string representation for comparison
-    public signature(board?: Map<string, playerid>): string {
-        if (board === undefined) {
-            board = this.board;
-        }
-        let sig = "";
-        for (let row = 0; row < this.boardSize; row++) {
-            for (let col = 0; col < this.boardSize; col++) {
-                const cell = this.coords2algebraic(col, row);
-                sig += board.has(cell) ? board.get(cell) : "-";
-            }
-        }
-        return sig;
-    }
-
-    // tells you how many times the current, UNPUSHED board position has been
-    // repeated in the stack
-    private numRepeats(): number {
-        let num = 0;
-        const sigCurr = this.signature();
-        const parityCurr = this.stack.length % 2 === 0;
-
-        for (let i = 0; i < this.stack.length; i++) {
-            const sig = this.signature(this.stack[i].board);
-
-            if (this.ruleset === "positional") { // apply positional superko
-                if (sig === sigCurr) {
-                    num++;
-                }
-            } else { // apply situational superko
-                const parity = i % 2 === 0;
-                if (sig === sigCurr && parity === parityCurr) {
-                    num++;
-                }
-            }
-        }
-        return num;
-    }
-
-    public getButtons(): ICustomButton[] {
-        if (this.moves().includes("pass"))
-            return [{ label: "pass", move: "pass" }];
-        if (this.moves().includes("play-second"))
-            return [{ label: "playsecond", move: "play-second" }];
-        return []; // no buttons should appear when typing Komi at start
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            if (this.isKomiTurn()) { // Komi time, so no clicks are acceptable
-                const dummyResult = this.validateMove("") as IClickResult;
-                dummyResult.move = "";
-                dummyResult.valid = false;
-                return dummyResult;
-            }
-
             const cell = this.coords2algebraic(col, row);
             let newmove = "";
             newmove = cell;
@@ -303,54 +207,16 @@ export class GoGame extends GameBase {
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
-        if (this.isKomiTurn()) {
-            if (m.length === 0) {
-                // game is starting, show initial KOMI message
-                result.valid = true;
-                result.complete = -1;
-                result.message = i18next.t("apgames:validation.go.INITIAL_SETUP");
-                return result;
-            }
-
-            // player typed something in the move textbox,
-            // check if it is an integer or a number with 0.5 decimal part
-            if (! /^-?\d+(\.[05])?$/.test(m)) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.go.INVALID_KOMI");
-                return result
-            }
-            result.valid = true;
-            result.complete = 0; // partial because player can continue typing
-            result.message = i18next.t("apgames:validation.go.INSTRUCTIONS");
-            return result;
-        }
-
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            if (this.isPieTurn()) {
-                result.message = i18next.t("apgames:validation.go.KOMI_CHOICE");
-            } else {
-                result.message = i18next.t("apgames:validation.go.INSTRUCTIONS")
-            }
-            return result;
-        }
-
-        if (m === "play-second") {
-            if (this.isPieTurn()) {
-                result.valid = true;
-                result.complete = 1;
-                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
-            } else {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.go.INVALID_PLAYSECOND");
-            }
+            result.message = i18next.t("apgames:validation.atarigo.INSTRUCTIONS")
             return result;
         }
 
         const allMoves = this.moves(); // get all valid complete moves
 
-        if (m === "pass") {
+        if (m === "pass") { // currently not used (no pass rule in Atari Go)
             if (allMoves.includes("pass")) {
                 result.valid = true;
                 result.complete = 1;
@@ -358,7 +224,7 @@ export class GoGame extends GameBase {
                 return result;
             } else {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.go.INVALID_PASS");
+                result.message = i18next.t("apgames:validation.atarigo.INVALID_PASS");
                 return result;
             }
         }
@@ -380,13 +246,7 @@ export class GoGame extends GameBase {
 
         if (this.isSelfCapture(m, this.currplayer)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.go.SELF_CAPTURE", { where: m });
-            return result;
-        }
-
-        if (this.checkKo(m, this.currplayer)) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation.go.KO");
+            result.message = i18next.t("apgames:validation.atarigo.SELF_CAPTURE", { where: m });
             return result;
         }
 
@@ -402,11 +262,6 @@ export class GoGame extends GameBase {
                 }
             }
 
-            if (cloned.numRepeats() >= 1) { // check super-Ko
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.go.CYCLE");
-                return result;
-            }
         }
 
         result.valid = true;
@@ -455,7 +310,9 @@ export class GoGame extends GameBase {
                 for (const c of group) {
                     captures.add(c);
                 }
-                if (captures.size > 0) { allCaptures.push(captures); }
+                if (captures.size > 0) {
+                    allCaptures.push(captures);
+                }
             }
         }
         return allCaptures;
@@ -465,20 +322,6 @@ export class GoGame extends GameBase {
         // Check if placing `cell` would result in a self-capture.
         if (this.getCaptures(cell, player).length > 0) { return false; }
         return this.getGroupLiberties(cell, [], player)[1] === 0;
-    }
-
-    private checkKo(cell: string, player: playerid): boolean {
-        // Check if the move is a ko.
-        if (this.stack.length < 2) { return false; }
-        const captures = this.getCaptures(cell, player);
-        if (captures.length !== 1) { return false; }
-        if (captures[0].size !== 1) { return false; }
-        const previous = this.stack[this.stack.length - 1];
-        const previousMove = previous.lastmove!;
-        if (!captures.some(x => x.has(previousMove))) { return false; }
-        const previousCaptures = previous._results.filter(r => r.type === "capture")
-        if (previousCaptures.length !== 1) { return false; }
-        return (previousCaptures[0] as Extract<APMoveResult, { type: 'capture' }>).count! === 1;
     }
 
     public getGraph(): SquareOrthGraph { // just orthogonal connections
@@ -538,7 +381,7 @@ export class GoGame extends GameBase {
         return territories;
     }
 
-    public move(m: string, {partial = false, trusted = false} = {}): GoGame {
+    public move(m: string, {partial = false, trusted = false} = {}): AtariGoGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -551,73 +394,36 @@ export class GoGame extends GameBase {
             if (!result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message);
             }
-            if (!partial && ! this.isKomiTurn() && !this.moves().includes(m)) {
-                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", { move: m }));
-            }
         }
         if (m.length === 0) { return this; }
         this.results = [];
 
-        if (this.isKomiTurn()) {
-            // first move, get the Komi proposed value, and add komi to game state
-            this.komi = Number(m);
-            this.results.push({type: "komi", value: this.komi});
-            this.komi *= -1; // Invert it for backwards compatibility reasons
-        } else if (m === "play-second") {
-            this.komi! *= -1;
-            this.swapped = false;
-            this.results.push({type: "play-second"});
-        } else if (m === "pass") {
-            this.results.push({type: "pass"});
-        } else {
-            this.results.push({ type: "place", where: m });
-            this.board.set(m, this.currplayer);
-            const allCaptures = this.getCaptures(m, this.currplayer);
-            if (allCaptures.length > 0) {
-                for (const captures of allCaptures) {
-                    for (const capture of captures) { this.board.delete(capture); }
-                    this.results.push({ type: "capture", where: [...captures].join(), count: captures.size });
-                }
+        this.results.push({ type: "place", where: m });
+        this.board.set(m, this.currplayer);
+        const allCaptures = this.getCaptures(m, this.currplayer);
+        if (allCaptures.length > 0) {
+            for (const captures of allCaptures) {
+                for (const capture of captures) { this.board.delete(capture); }
+                this.results.push({ type: "capture", where: [...captures].join(), count: captures.size });
             }
+            // a capture was made, so the game will end
+            this.whoCaptured = this.currplayer;
         }
+        
+        if (partial) { return this; }
 
         this.lastmove = m;
         this.currplayer = this.currplayer % 2 + 1 as playerid;
-
         this.checkEOG();
         this.saveState();
         return this;
     }
 
-    protected checkEOG(): GoGame {
-        if (this.stack.length < 4) {
-            return this; // no time for komi and two consecutive passes
-        }
-
-        // game ends if two consecutive passes occurred
-        this.gameover = this.lastmove === "pass" &&
-                        this.stack[this.stack.length - 1].lastmove === "pass";
-
-        // if a cycle is found, the game ends in a draw
-        // NB: when Super-Ko is implemented, this should never happen
-        if (!this.gameover) {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const count = this.stateCount(new Map<string, any>([["board", this.board], ["currplayer", this.currplayer]]));
-            if (count >= 1) {
-                this.gameover = true;
-                this.winner = [1, 2];
-                this.results.push({ type: "eog", reason: "repetition" });
-                return this;
-            }
-        }
+    protected checkEOG(): AtariGoGame {
+        this.gameover = this.whoCaptured !== 3;
 
         if (this.gameover) {
-            this.scores = [this.getPlayerScore(1), this.getPlayerScore(2)];
-            if (this.scores[0] === this.scores[1]) {
-                this.winner = [1, 2];
-            } else {
-                this.winner = this.scores[0] > this.scores[1] ? [1] : [2];
-            }
+            this.winner = [this.whoCaptured];
             this.results.push(
                 {type: "eog"},
                 {type: "winners", players: [...this.winner]}
@@ -626,9 +432,9 @@ export class GoGame extends GameBase {
         return this;
     }
 
-    public state(): IGoState {
+    public state(): IAtariGoState {
         return {
-            game: GoGame.gameinfo.uid,
+            game: AtariGoGame.gameinfo.uid,
             numplayers: 2,
             variants: this.variants,
             gameover: this.gameover,
@@ -639,20 +445,14 @@ export class GoGame extends GameBase {
 
     protected moveState(): IMoveState {
         return {
-            _version: GoGame.gameinfo.version,
+            _version: AtariGoGame.gameinfo.version,
             _results: [...this.results],
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
             scores: [...this.scores],
-            komi: this.komi,
-            swapped: this.swapped
         };
-    }
-
-    public getPlayerColour(player: playerid): number | string {
-        return (player == 1 && !this.swapped) || (player == 2 && this.swapped) ? 1 : 2;
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
@@ -739,18 +539,21 @@ export class GoGame extends GameBase {
         return rep;
     }
 
+    public getPlayerColour(p: playerid): Colourfuncs {
+        if (p === 1) {
+            return { func: "custom", default: 1, palette: 1 };
+        } else {
+            return { func: "custom", default: 2, palette: 2 };
+        }
+    }
+
     public getPlayerScore(player: playerid): number {
         const playerPieces =
           [...this.board.entries()].filter(([,owner]) => owner === player)
                                    .map(pair => pair[0]);
-        let komi = 0.0;
-        if (player === 1 && this.komi !== undefined && this.komi < 0)
-            komi = -this.komi;
-        if (player === 2 && this.komi !== undefined && this.komi > 0)
-            komi = this.komi;
 
         const terr = this.getTerritories();
-        return terr.filter(t => t.owner === player).reduce((prev, curr) => prev + curr.cells.length, komi + playerPieces.length);
+        return terr.filter(t => t.owner === player).reduce((prev, curr) => prev + curr.cells.length, playerPieces.length);
     }
 
     public sidebarScores(): IScores[] {
@@ -791,8 +594,8 @@ export class GoGame extends GameBase {
         return Buffer.from(compressed).toString("base64") as string;
     }
 
-    public clone(): GoGame {
-        const cloned = Object.assign(new GoGame(), deepclone(this) as GoGame);
+    public clone(): AtariGoGame {
+        const cloned = Object.assign(new AtariGoGame(), deepclone(this) as AtariGoGame);
         // deepclone() is not cloning RectGrid, so DIY:
         cloned.grid = Object.assign(new RectGrid(this.boardSize, this.boardSize),
                                     deepclone(this.grid) as RectGrid);

@@ -15,6 +15,7 @@
         "armadas": "A miniatures-style game played with Looney pyramids where you captain a fleet of ships on the open seas, trying to sink all who stand against you.",
         "asli": "Conquer territory and capture enemy groups by cutting them off from all their allies. A group is cut off when it has no free path (straight or otherwise) to other groups of its color. Captured groups are sent to an off-board prison where they give additional moves to their captor. Win by leaving your opponent with no moves.",
         "assembly": "A simultaneous selection game where you try to trigger scoring when high-value products are on your sections of the assembly line. Highest score at the end of the game wins.",
+        "atarigo": "Go variant where the first to capture wins the game (there is no pass).",
         "ataxx": "Control the majority of spaces by spreading, jumping and infecting.",
         "atoll": "Atoll is a generalisation of Hex where you have to connect two islands of your colour on opposite sides of the board with a contiguous chain of stones of your colour. The islands themselves can be part of the chain. So, for example, you could form one bridge between your north and west islands and a second bridge between your west and south islands to win.",
         "attangle": "Attangle is the final entry in Dieter Stein's stacking trilogy. Place and move pieces to build stacks. First person to build three triple stacks wins. The \"Grand Attangle\" variant is also implemented.",
@@ -517,6 +518,23 @@
             "defective": {
                 "name": "Defective product",
                 "description": "A single defective product is added to the bag that causes the owner to lose points."
+            }
+        },
+        "atarigo": {
+            "size-9": {
+                "name": "9x9 board"
+            },
+            "size-11": {
+                "name": "11x11 board"
+            },
+            "size-13": {
+                "name": "13x13 board"
+            },
+            "size-15": {
+                "name": "15x15 board"
+            },
+            "#board": {
+                "name": "19x19 board"
             }
         },
         "ataxx": {
@@ -4151,6 +4169,11 @@
             "INITIAL_INSTRUCTIONS": "Select a number between 1 and 3.",
             "LABEL_BAG": "Pieces in bag"
         },
+        "atarigo": {
+            "INSTRUCTIONS": "Select an intersection to place a piece.",
+            "INVALID_PASS": "You cannot pass currently.",
+            "SELF_CAPTURE": "You may not place your stones in self-capture."
+        },
         "ataxx": {
             "HOLE": "The cell at {{where}} is blocked.",
             "INITIAL_INSTRUCTIONS": "Select a piece to split or jump.",
@@ -4990,6 +5013,7 @@
             "INVALID_KOMI": "You must choose an number in increments of 0.5 (like 4 or 4.5) to add to the second player's score.",
             "INVALID_PIE": "You cannot accept or reject a pie offer now.",
             "INVALID_PLAYSECOND": "You cannot choose to play second from this board state.",
+            "INVALID_PASS": "You cannot pass currently.",
             "KOMI_CHOICE": "You may either make the first move on the board and let your opponent keep the bonus points (an integer) or you may choose \"Play second\" and take the bonus points for yourself.",
             "KO": "Ko rule: you may not immediately recapture your opponent's single stone if they just used it to capture one of yours.",
             "SELF_CAPTURE": "You may not place your stones in self-capture."

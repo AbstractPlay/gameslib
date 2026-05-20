@@ -251,6 +251,7 @@ import { MinimizeGame, IMinimizeState } from "./minimize";
 import { HalmaClimbersGame, IHalmaClimbersState } from "./halmaclimbers";
 import { SynapseGame, ISynapseState } from "./synapse";
 import { AtariGoGame, IAtariGoState } from "./atarigo";
+import { TanboGame, ITanboState } from "./tanbo";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -505,6 +506,7 @@ export {
     HalmaClimbersGame, IHalmaClimbersState,
     SynapseGame, ISynapseState,
     AtariGoGame, IAtariGoState,
+    TanboGame, ITanboState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -592,7 +594,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof ShapeChessGame | typeof SlimetrailGame | typeof CatsDogsGame |
                               typeof SoccolotGame | typeof CourtGame | typeof HalmaGame |
                               typeof MinimizeGame | typeof HalmaClimbersGame | typeof SynapseGame |
-                              typeof AtariGoGame
+                              typeof AtariGoGame | typeof TanboGame
                 >();
 // Manually add each game to the following array
 [
@@ -631,7 +633,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     ProductGame, OonpiaGame, GoGame, StilettoGame, BTTGame, MinefieldGame, SentinelGame, 
     XanaGame, SporaGame, SquirmGame, PinchGame, DomineeringGame, TwinFlamesGame, YGame, ShapeChessGame,
     SlimetrailGame, CatsDogsGame, SoccolotGame, CourtGame, HalmaGame, MinimizeGame, HalmaClimbersGame,
-    SynapseGame, AtariGoGame,
+    SynapseGame, AtariGoGame, TanboGame
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -1145,6 +1147,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new SynapseGame(...args);
         case "atarigo":
             return new AtariGoGame(...args);
+        case "tanbo":
+            return new TanboGame(...args);
     }
     return;
 }

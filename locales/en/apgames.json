@@ -224,6 +224,7 @@
         "tafl": "A collection of games from the Viking era. The defenders goal is to escape to the edge of the board, while the attackers try to capture the defender's king.",
         "taiji": "Two players take turns placing one piece of each colour next to each other. The winner is the one who forms the largest orthogonal groups of their own colour.",
         "take": "Grow root-like formations of stones from seeds. Plants die when they run out of room to grow. The winner is the last player with a plant alive on the board.",
+        "tanbo": "Create space to grow your roots by bounding the opponent's.",
         "tbt": "A simple dice game where you attempt to form stacks of equal height on your home row.",
         "tessella": "Pieces capture in pairs using a \"shooting\" mechanic. Be the first to capture four of your opponent's pieces.",
         "tintas": "Players race to either collect all seven of one colour or to collect four of four different colours.",
@@ -1184,6 +1185,12 @@
             },
             "size-10": {
                 "name": "10x10 board"
+            },
+            "size-11": {
+                "name": "11x11 board"
+            },
+            "size-12": {
+                "name": "12x12 board"
             },
             "quelhas": {
                 "description": "Player can drop larger 1xN pieces. Misère game.",
@@ -3016,6 +3023,20 @@
             "quick-churn": {
                 "description": "Play on a size-3 board where plant growth does not destroy dirt.",
                 "name": "Small, High Churn"
+            }
+        },
+        "tanbo": {
+            "size-7": {
+                "name": "7x7 board"
+            },
+            "size-11": {
+                "name": "11x11 board"
+            },
+            "#board": {
+                "name": "15x15 board"
+            },
+            "size-19": {
+                "name": "19x19 board"
             }
         },
         "terrace": {
@@ -6312,6 +6333,10 @@
         },
         "take": {
             "INITIAL_INSTRUCTIONS": "Plant a new seed in dirt, or grow a plant by placing adjacent to exactly one ally piece (dirt or no dirt)."
+        },
+        "tanbo": {
+            "INITIAL_INSTRUCTIONS": "Place a friendly piece on an empty cell adjacent to only one friendly stone. If that piece's groups becomes bounded (ie, cannot grow) it is capture. Otherwise, capture any bounded enemy group.",
+            "INVALID_MOVE": "The chosen cell must be orthogonally adjacent to just one friendly piece."
         },
         "tbt": {
             "BAD_PASS": "You must move a stack if it's possible to do so.",

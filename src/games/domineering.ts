@@ -51,6 +51,8 @@ export class DomineeringGame extends GameBase {
             { uid: "#board", },  // 8x8
             { uid: "size-9",  group: "board" },
             { uid: "size-10", group: "board" },
+            { uid: "size-11", group: "board" },
+            { uid: "size-12", group: "board" },
             { uid: "quelhas", group: "ruleset" },
         ],
         flags: ["pie"],

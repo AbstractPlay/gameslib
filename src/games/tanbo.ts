@@ -24,10 +24,11 @@ export class TanboGame extends GameBase {
         name: "Tanbo",
         uid: "tanbo",
         playercounts: [2],
-        version: "20260520",
-        dateAdded: "2026-05-20",
+        version: "20260521",
+        dateAdded: "2026-05-21",
         // i18next.t("apgames:descriptions.tanbo")
         description: "apgames:descriptions.tanbo",
+        notes: "apgames:descriptions.tanbo",
         urls: [
             "https://www.marksteeregames.com/Tanbo_rules.pdf",
         ],
@@ -47,12 +48,12 @@ export class TanboGame extends GameBase {
         ],
         categories: ["goal>annihilate", "mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>rect", "components>simple>1per"],
         variants: [
-            { uid: "size-7",  group: "board" },
+            { uid: "#board", }, // 7x7
             { uid: "size-11", group: "board" },
-            { uid: "#board", }, // 15x15
+            { uid: "size-15", group: "board" },
             { uid: "size-19", group: "board" },
         ],
-        flags: []
+        flags: ["experimental"]
     };
 
     public numplayers = 2;
@@ -146,7 +147,7 @@ export class TanboGame extends GameBase {
                 throw new Error(`Could not determine the board size from variant "${this.variants[0]}"`);
             }
         }
-        return 15;
+        return 7;
     }
 
     public get graph(): SquareOrthGraph {

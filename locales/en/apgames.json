@@ -317,6 +317,7 @@
         "tablero": "When it's your turn, you will see the dice you have to work with, but once your move is complete, the dice will reroll. Exploration is not helpful because the dice roll is not finalized until after the move is submitted. As you scroll back through the game history, the dice you see are the dice for the *next* turn. The dice used to make the move you're seeing are displayed below the board.\n\nWhile most moves can be unambiguously made by simple clicks, sometimes a button is more helpful. The Place, Take, and Bump buttons to the left of the board are there if you need them.",
         "tafl": "The variant names are in the format {ruleset}-{board size}-{initial layout}-{optional: starting player}. For example, 'linnaean-9x9-tcross-w' is the linnaean rules on a 9x9 board with T-cross setup, and the starting player is the defenders. If starting player is not mentioned, then attackers start.",
         "taiji": "Moves are done with two clicks. The first tile you place is always the light one, and then the dark one.",
+        "tanbo": "Tanbo (田んぼ, Japanese for rice paddy) is a game of roots.  Or more precisely, root-like groups.  The board starts out populated with loosely interspersed black and white stones.  You place a stone orthogonally adjacent to exactly one of your on-board stones.  This prevents roots from merging and clumps from forming.  When roots become bounded (that is, they have no room to grow) they are removed.  If the current root (the one enlarged during your turn) is among the bounded roots, only it is removed, thereby unbounding any other bounded roots.  The goal is to be the last player with roots still on the board.\n\nTanbo was the second game ever invented by Mark Steere, and is still one of his best.",
         "tbt": "When it's your turn, you will see the die you have to work with, but once your move is complete, the die will reroll. Exploration is not helpful because the die roll is not finalized until after the move is submitted. As you scroll back through the game history, the die you see is for the *next* turn. The die used to make the move you're seeing is displayed below the board.",
         "terrace": "The Assassination variant is described in [this BGG thread](https://boardgamegeek.com/thread/551125/variant-for-more-aggressive-less-drawish-play), summarized below:\n\n- Up straight, you must be larger or a smallest-size piece can assassinate a largest-size piece.\n\n- Same level (orthogonally adjacent only), you must be at least the same size.\n\n- Down diagonal, you may be one rank smaller.",
         "toguz": "Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
@@ -3026,13 +3027,13 @@
             }
         },
         "tanbo": {
-            "size-7": {
+            "#board": {
                 "name": "7x7 board"
             },
             "size-11": {
                 "name": "11x11 board"
             },
-            "#board": {
+            "size-15": {
                 "name": "15x15 board"
             },
             "size-19": {
@@ -6335,7 +6336,7 @@
             "INITIAL_INSTRUCTIONS": "Plant a new seed in dirt, or grow a plant by placing adjacent to exactly one ally piece (dirt or no dirt)."
         },
         "tanbo": {
-            "INITIAL_INSTRUCTIONS": "Place a friendly piece on an empty cell adjacent to only one friendly stone. If that piece's groups becomes bounded (ie, cannot grow) it is capture. Otherwise, capture any bounded enemy group.",
+            "INITIAL_INSTRUCTIONS": "Place a piece on an empty cell adjacent to exactly one friendly piece. If that piece's root becomes bounded (ie, cannot grow) it is captured. Otherwise, any remaining bounded root is captured.",
             "INVALID_MOVE": "The chosen cell must be orthogonally adjacent to just one friendly piece."
         },
         "tbt": {

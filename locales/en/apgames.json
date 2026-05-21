@@ -236,6 +236,7 @@
         "tumbleweed": "Tumbleweed is a game of line of sight. Towers are built, and cells are controlled by the player with the most towers that can see that cell. Compete to control the majority of the hexagonal board.",
         "twinflames": "Players score by multiplying their two largest groups. Largest score wins. If tied, the second player wins. The game uses a random setup to place a fixed number of walls.",
         "twixt": "Twixt is a connection game where players alternate turns placing pegs and links on a pegboard in an attempt to link their opposite sides.",
+        "unane": "A Konane-inspired game of annihilation.",
         "unlur": "An asymmetric connection game where one player tries to form a Y and the other tries to connect opposite sides. Achieving the opponent's goal without achieving your own is a loss. The game starts with a contract phase where both players place the colour of the Y player until someone passes, and then the opponent becomes the Line player.",
         "upperhand": "A shedding game where you try to be the first to place all your pieces. If a platform is created and at least three of the pieces are of a player's colour, an additional piece of that colour is automatically placed on top of it, causing chain reactions. The pie rule applies.",
         "urbino": "In Urbino, one manipulates architects (like in the game Fabrik) to build districts of different building types according to a handful of placement rules. When no more moves are possible, districts are scored, and the highest score wins. Also includes the \"Monuments\" variant.",
@@ -324,6 +325,7 @@
         "tumbleweed": "A space is claimed by a player if they have a piece on it, or if they have the majority of the line of sights to it. The score is the number of territory own by each player. The game ends when both players pass in succession. If there is no change in score for 20 plies, the game also ends.",
         "twinflames": "Twin Flames is a 2026 redesign of the 2013's Product, an original concept by Nick Bentley. The first player must initially place a friendly stone, preventing overly strong opening countermoves and thereby eliminating the need for a pie rule. The remaining moves use a 12* sequence, in which players may place stones of either colour. At the end of the game, a player who has formed a single connected group scores points equal to the size of that group. Another ludeme introduced was the use of walls, or blockers, which reduce overall connectivity and make groups more robust to enemy attacks. The blocker configuration is randomized, increasing game variability and making opening theory more difficult to develop.",
         "twixt": "The notation is based on Hansel notation at <http://www.ibiblio.org/twixtpuzzles/>. Some modifications are that link removal specifically specifies the link direction, and commas separate the moves. To add/remove links, click on the pegs between them. You can also remove a link by clicking on the line itself.",
+        "unane": "Ūnane, designed by Mark Steere in 2026, is an unification game inspired by the ancient Hawiian game of Kōnane. True to the spirit of Kōnane, Ūnane begins with a checkerboard pattern of stones, has short range captures, and is extremely simple. \"Ūnane\" is a fusion of Una (Spanish for \"one\") and Kōnane. This is intended as a tribute to Kōnane, not cultural appropriation.\n\nŪnane has common ground with Konane, especially if both players are mainly trying to isolate and remove their own stones.",
         "waldmeister": "Players play two games sequentially. In the first round, Player 1 is playing for colours and Player 2 is playing for heights. At the end of the first round, scores are tabulated and scoring groups highlighted. Then in the second round, Player 2 plays first and plays for colours, and Player 1 plays for heights.",
         "witch": "The first player does not start as owning any pieces and may remove any piece (other than a crown) on their first turn. The second player chooses their colour on their first turn, after which, removing your opponent's pieces is no longer possible.",
         "xana": "Players, on their turns, drop/move a stack (there's a limited amount of stackable pieces) and optionally drop two walls into empty hexes. Stacks without liberties are captured. A stack has liberty if at least one of the adjacent hexes is empty (there is no concept of group of stacks). A hex is accessible if it is empty and connected to a friendly stack by a path of empty hexes. The goal is to build the highest score of territory plus captures. Xana was designed in 2005.",
@@ -3171,6 +3173,26 @@
             },
             "size-30": {
                 "name": "Larger board (30x30)"
+            }
+        },
+        "unane": {
+            "size-6": {
+                "name": "5x6 board"
+            },
+            "#board": {
+                "name": "7x8 board"
+            },
+            "size-10": {
+                "name": "9x10 board"
+            },
+            "size-12": {
+                "name": "11x12 board"
+            },
+            "size-14": {
+                "name": "13x14 board"
+            },
+            "size-16": {
+                "name": "15x16 board"
             }
         },
         "unlur": {
@@ -6447,6 +6469,12 @@
             "PARTIAL_LINK": "Select another peg to add or remove a link to.",
             "PARTIAL_OPPONENT": "You may not rearrange your opponent's links.",
             "TOO_MANY_PEGS": "You may only place one peg per turn."
+        },
+        "unane": {
+            "INITIAL_INSTRUCTIONS": "Select a friendly piece.",
+            "INSTRUCTIONS": "Click the piece again to be removed, or click on an orthogonally adjacent cell (captures are by replacement).",
+            "INVALID_SELECTION": "Click on a friendly piece!",
+            "INVALID_MOVE": "Click on the piece itself, or to an orthogonally adjacent not occupied by a friendly piece!"
         },
         "unlur": {
             "BAD_PASS": "The contract phase is over. You may no longer pass.",

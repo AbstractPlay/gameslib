@@ -14,23 +14,23 @@ export interface IMoveState extends IIndividualState {
     lastmove?: string;
 };
 
-export interface ITanboState extends IAPGameState {
+export interface IUnaneState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
 };
 
-export class TanboGame extends GameBase {
+export class UnaneGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
-        name: "Tanbo",
-        uid: "tanbo",
+        name: "Unane",
+        uid: "unane",
         playercounts: [2],
         version: "20260521",
         dateAdded: "2026-05-21",
-        // i18next.t("apgames:descriptions.tanbo")
-        description: "apgames:descriptions.tanbo",
-        notes: "apgames:notes.tanbo",
+        // i18next.t("apgames:descriptions.unane")
+        description: "apgames:descriptions.unane",
+        //notes: "apgames:notes.unane",
         urls: [
-            "https://www.marksteeregames.com/Tanbo_rules.pdf",
+            "https://www.marksteeregames.com/Unane_rules.pdf",
         ],
         people: [
             {
@@ -48,12 +48,14 @@ export class TanboGame extends GameBase {
         ],
         categories: ["goal>annihilate", "mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>rect", "components>simple>1per"],
         variants: [
-            { uid: "#board", }, // 7x7
-            { uid: "size-11", group: "board" },
-            { uid: "size-15", group: "board" },
-            { uid: "size-19", group: "board" },
+            { uid: "size-6",  group: "board" }, // 5x6
+            { uid: "#board", }, // 7 rows x 8 cols
+            { uid: "size-10", group: "board" }, //  9x10
+            { uid: "size-12", group: "board" }, // 11x12
+            { uid: "size-14", group: "board" }, // 13x14
+            { uid: "size-16", group: "board" }, // 15x16
         ],
-        flags: ["experimental"]
+        flags: ["pie", "experimental"]
     };
 
     public numplayers = 2;
@@ -67,8 +69,9 @@ export class TanboGame extends GameBase {
 
     private boardSize = this.getBoardSize();
     private grid: RectGrid;
+    private dots: [number, number][] = []; // if there are points here, the renderer will show them
 
-    constructor(state?: ITanboState | string, variants?: string[]) {
+    constructor(state?: IUnaneState | string, variants?: string[]) {
         super();
         if (state === undefined) {
             if ( (variants !== undefined) && (variants.length > 0) ) {
@@ -76,17 +79,17 @@ export class TanboGame extends GameBase {
             }
             const board = new Map<string, playerid>();
             const sz = this.getBoardSize();
-            const g = new SquareOrthGraph(sz, sz);
+            const g = new SquareOrthGraph(sz, sz-1);
 
-            for (let x=0; x<sz; x+=2) {
-                for (let y=0; y<sz; y+=2) {
+            for (let x=0; x<sz; x++) {
+                for (let y=0; y<sz; y++) {
                     const cell = g.coords2algebraic(x, y);
-                    const owner: playerid = x%4 === y%4 ? 1 : 2;
+                    const owner: playerid = x%2 === y%2 ? 1 : 2;
                     board.set(cell, owner);
                 }
             }
             const fresh: IMoveState = {
-                _version: TanboGame.gameinfo.version,
+                _version: UnaneGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
@@ -95,10 +98,10 @@ export class TanboGame extends GameBase {
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
-                state = JSON.parse(state, reviver) as ITanboState;
+                state = JSON.parse(state, reviver) as IUnaneState;
             }
-            if (state.game !== TanboGame.gameinfo.uid) {
-                throw new Error(`The Tanbo engine cannot process a game of '${state.game}'.`);
+            if (state.game !== UnaneGame.gameinfo.uid) {
+                throw new Error(`The Unane engine cannot process a game of '${state.game}'.`);
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
@@ -106,10 +109,10 @@ export class TanboGame extends GameBase {
             this.stack = [...state.stack];
         }
         this.load();
-        this.grid = new RectGrid(this.getBoardSize(), this.getBoardSize());
+        this.grid = new RectGrid(this.getBoardSize(), this.getBoardSize()-1);
     }
 
-    public load(idx = -1): TanboGame {
+    public load(idx = -1): UnaneGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -126,14 +129,6 @@ export class TanboGame extends GameBase {
         return this;
     }
 
-    public coords2algebraic(x: number, y: number): string {
-        return GameBase.coords2algebraic(x, y, this.boardSize);
-    }
-
-    public algebraic2coords(cell: string): [number, number] {
-        return GameBase.algebraic2coords(cell, this.boardSize);
-    }
-
     public getBoardSize(): number {
         // Get board size from variants.
         if (this.variants    !== undefined && this.variants.length > 0 &&
@@ -147,48 +142,18 @@ export class TanboGame extends GameBase {
                 throw new Error(`Could not determine the board size from variant "${this.variants[0]}"`);
             }
         }
-        return 7;
+        return 8;
     }
 
     public get graph(): SquareOrthGraph {
-        return new SquareOrthGraph(this.boardSize, this.boardSize);
+        return new SquareOrthGraph(this.boardSize, this.boardSize-1);
     }
 
     // return the list of orthogonal neighbors of 'cell'
     private orthNeighbours(cell: string): string[] {
-        const [x, y] = this.algebraic2coords(cell);
+        const [x, y] = this.graph.algebraic2coords(cell);
         const neighbours = this.grid.adjacencies(x, y, false);
-        return neighbours.map(n => this.coords2algebraic(...n));
-    }
-
-    // return how many of the player's stones are adjacent to 'cell'
-    private nFriends(cell: string, player: playerid): number {
-        return this.orthNeighbours(cell).filter(c => this.board.has(c) && this.board.get(c) === player).length;
-    }
-
-    // get the group associated with stone at 'cell', and the liberties of its group
-    // requires: cell must be occupied
-    private getGroupLiberties(cell: string, player?: playerid): [Set<string>, number] {
-        if (player === undefined) { player = this.board.get(cell); }
-        const seen: Set<string> = new Set();
-        const liberties = new Set<string>(); // this probably can be just a counter
-        const todo: string[] = [cell]
-
-        while (todo.length > 0) {
-            const cell1 = todo.pop()!;
-            if (seen.has(cell1)) { continue; }
-            seen.add(cell1);
-            for (const neigh of this.orthNeighbours(cell1)) {
-                if (!this.board.has(neigh) && this.nFriends(neigh, player!) === 1) {
-                    liberties.add(neigh);
-                    continue;
-                }
-                if (this.board.has(neigh) && this.board.get(neigh) === player) {
-                    todo.push(neigh);
-                }
-            }
-        }
-        return [seen, liberties.size];
+        return neighbours.map(n => this.graph.coords2algebraic(...n));
     }
 
     // return all the groups/roots of a given player
@@ -218,9 +183,15 @@ export class TanboGame extends GameBase {
         const moves = [];
 
         for (const cell of g.graph.nodes()) {
-            // only valid to place on an empty cell adjacent to exactly one of the player's stones
-            if (!this.board.has(cell) && this.nFriends(cell, player) === 1) {
-                moves.push(cell);
+            if (this.board.has(cell) && this.board.get(cell) === player) {
+                // players can remove their own stones
+                moves.push(`${cell}-${cell}`);
+                // players can also move their friendly stones to an empty cell, or onto an enemy stone
+                for (const neigh of this.orthNeighbours(cell)) {
+                    if (!this.board.has(neigh) || this.board.get(neigh) !== player) {
+                        moves.push(`${cell}-${neigh}`);
+                    }
+                }
             }
         }
 
@@ -229,7 +200,15 @@ export class TanboGame extends GameBase {
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            const newmove = this.graph.coords2algebraic(col, row);
+            const cell = this.graph.coords2algebraic(col, row);
+            let newmove = "";
+
+            if (move === "") {
+                newmove = cell;
+            } else if (! move.includes('-') ) {
+                newmove = `${move}-${cell}`;
+            }
+
             const result = this.validateMove(newmove) as IClickResult;
             result.move = result.valid ? newmove : move;
             return result;
@@ -249,24 +228,44 @@ export class TanboGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.tanbo.INITIAL_INSTRUCTIONS");
+            result.message = i18next.t("apgames:validation.unane.INITIAL_INSTRUCTIONS");
+            return result;
+        }
+
+        const moves = m.split('-');
+        if (moves.length === 1) {
+            if (!this.board.has(m) || this.board.get(m) !== this.currplayer) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.unane.INVALID_SELECTION");
+                return result;
+            }
+            result.valid = true;
+            result.complete = -1; // player still needs to decide to place or remove this stone
+            result.canrender = true;
+            result.message = i18next.t("apgames:validation.unane.INSTRUCTIONS");
             return result;
         }
 
         const allMoves = this.moves();
         if (! allMoves.includes(m) ) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.tanbo.INVALID_MOVE");
+            result.message = i18next.t("apgames:validation.unane.INVALID_MOVE");
             return result
         }
 
         result.valid = true;
         result.complete = 1;
+        result.canrender = true;
         result.message = i18next.t("apgames:validation._general.VALID_MOVE");
         return result;
     }
 
-    public move(m: string, {partial = false, trusted = false} = {}): TanboGame {
+    private findPoints(cell: string): string[] {
+        return this.moves().filter(mv => mv.startsWith(cell))
+                           .map(mv => mv.split('-')[1]);
+    }
+
+    public move(m: string, {partial = false, trusted = false} = {}): UnaneGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -284,35 +283,24 @@ export class TanboGame extends GameBase {
         }
 
         this.results = [];
-        this.board.set(m, this.currplayer);
-        this.results.push({ type: "place", where: m });
+        this.dots = [];
+        if (m === "") { return this; }
 
-        // now we need to check captures
-        // 1st) if the current cell's group/root is bounded (if it has no liberty) it is captured
-        const [group, nLiberties] = this.getGroupLiberties(m);
-        if ( nLiberties === 0 ) {
-            for (const cell of group) {
-                this.board.delete(cell);
-            }
-            this.results.push({ type: "capture", where: [...group].join(), count: group.size });
+        if (partial) {
+            this.dots = this.findPoints(m).map(c => this.graph.algebraic2coords(c));
+            return this;
         } else {
-            // 2nd) otherwise, if any other group is without liberty, it is captured
-            const friendGroups: string[][] = this.getGroups(this.currplayer);
-            const enemyGroups: string[][] = this.getGroups(this.currplayer % 2 + 1 as playerid);
-            const allGroups = [...friendGroups, ...enemyGroups];
-            const toDelete: string[] = []
-            for (const aGroup of allGroups) {
-                const [, n] = this.getGroupLiberties(aGroup[0]);
-                if ( n === 0 ) {
-                    for (const cell of aGroup) {
-                        toDelete.push(cell); // need to delete all at the same time, so for now just save them
-                    }
-                }
-            }
-            for (const deleteCell of toDelete) {
-                this.board.delete(deleteCell);
-                this.results.push({ type: "capture", where: deleteCell, count: 1 });
-            }
+            this.dots = []; // otherwise delete the points and process the full move
+        }
+
+        const moves = m.split('-');
+        if (moves[0] === moves[1]) { // removal
+            this.board.delete(moves[0]);
+            this.results.push({ type: "place", where: moves[0], count: 1 });
+        } else { // move and (eventual capture)
+            this.board.delete(moves[0]);
+            this.board.set(moves[1], this.currplayer);
+            this.results.push({ type: "move", from: moves[0], to: moves[1]});
         }
 
         if (partial) { return this; }
@@ -324,13 +312,18 @@ export class TanboGame extends GameBase {
         return this;
     }
 
-    protected checkEOG(): TanboGame {
-        const p1Pieces = [...this.board.entries()].filter(([,owner]) => owner === 1).map(pair => pair[0]);
-        const p2Pieces = [...this.board.entries()].filter(([,owner]) => owner === 2).map(pair => pair[0]);
+    protected checkEOG(): UnaneGame {
+        const p1Groups = this.getGroups(1);
+        const p2Groups = this.getGroups(2);
 
-        if (p1Pieces.length === 0 || p2Pieces.length === 0) {
+        if (p1Groups.length === 1 || p2Groups.length === 1) {
             this.gameover = true;
-            this.winner = p1Pieces.length === 0 ? [2] : [1];
+            if (p1Groups.length === 1 && p2Groups.length === 1) {
+                const prevplayer = this.currplayer % 2 + 1 as playerid;
+                this.winner = [prevplayer];
+            } else {
+                this.winner = p1Groups.length === 1 ? [1] : [2];
+            }
         }
 
         if ( this.gameover ) {
@@ -343,9 +336,9 @@ export class TanboGame extends GameBase {
         return this;
     }
 
-    public state(): ITanboState {
+    public state(): IUnaneState {
         return {
-            game: TanboGame.gameinfo.uid,
+            game: UnaneGame.gameinfo.uid,
             numplayers: this.numplayers,
             variants: [...this.variants],
             gameover: this.gameover,
@@ -356,7 +349,7 @@ export class TanboGame extends GameBase {
 
     public moveState(): IMoveState {
         return {
-            _version: TanboGame.gameinfo.version,
+            _version: UnaneGame.gameinfo.version,
             _results: [...this.results],
             _timestamp: new Date(),
             currplayer: this.currplayer,
@@ -394,7 +387,7 @@ export class TanboGame extends GameBase {
             board: {
                 style: "vertex",
                 width: this.boardSize,
-                height: this.boardSize
+                height: this.boardSize-1
             },
             legend: {
                 A: { name: "piece", colour: this.getPlayerColour(1) },
@@ -408,12 +401,21 @@ export class TanboGame extends GameBase {
             if (move.type === "place") {
                 const [toX, toY] = g.algebraic2coords(move.where!);
                 rep.annotations.push({type: "enter", targets: [{row: toY, col: toX}]});
-            } else if (move.type === "capture") {
-                for (const cell of move.where!.split(",")) {
-                    const [x, y] = g.algebraic2coords(cell);
-                    rep.annotations.push({ type: "exit", targets: [{ row: y, col: x }] });
-                }
+            } else if (move.type === "move") {
+                    const [fromX, fromY] = g.algebraic2coords(move.from);
+                    const [toX, toY] = g.algebraic2coords(move.to);
+                    rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
             }
+        }
+
+        // show the dots where the selected piece can move to
+        if (this.dots.length > 0) {
+            const points = [];
+            for (const [x,y] of this.dots) {
+                points.push({row: y, col: x});
+            }
+            rep.annotations.push({type: "dots",
+                                  targets: points as [{row: number; col: number;}, ...{row: number; col: number;}[]]});
         }
 
         return rep;
@@ -427,7 +429,7 @@ export class TanboGame extends GameBase {
         }
     }
 
-    public clone(): TanboGame {
-        return new TanboGame(this.serialize());
+    public clone(): UnaneGame {
+        return new UnaneGame(this.serialize());
     }
 }

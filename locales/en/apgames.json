@@ -236,6 +236,7 @@
         "tumbleweed": "Tumbleweed is a game of line of sight. Towers are built, and cells are controlled by the player with the most towers that can see that cell. Compete to control the majority of the hexagonal board.",
         "twinflames": "Players score by multiplying their two largest groups. Largest score wins. If tied, the second player wins. The game uses a random setup to place a fixed number of walls.",
         "twixt": "Twixt is a connection game where players alternate turns placing pegs and links on a pegboard in an attempt to link their opposite sides.",
+        "unane": "A Konane-inspired game of annihilation.",
         "unlur": "An asymmetric connection game where one player tries to form a Y and the other tries to connect opposite sides. Achieving the opponent's goal without achieving your own is a loss. The game starts with a contract phase where both players place the colour of the Y player until someone passes, and then the opponent becomes the Line player.",
         "upperhand": "A shedding game where you try to be the first to place all your pieces. If a platform is created and at least three of the pieces are of a player's colour, an additional piece of that colour is automatically placed on top of it, causing chain reactions. The pie rule applies.",
         "urbino": "In Urbino, one manipulates architects (like in the game Fabrik) to build districts of different building types according to a handful of placement rules. When no more moves are possible, districts are scored, and the highest score wins. Also includes the \"Monuments\" variant.",
@@ -3171,6 +3172,26 @@
             },
             "size-30": {
                 "name": "Larger board (30x30)"
+            }
+        },
+        "unane": {
+            "size-6": {
+                "name": "5x6 board"
+            },
+            "#board": {
+                "name": "7x8 board"
+            },
+            "size-10": {
+                "name": "9x10 board"
+            },
+            "size-12": {
+                "name": "11x12 board"
+            },
+            "size-14": {
+                "name": "13x14 board"
+            },
+            "size-16": {
+                "name": "15x16 board"
             }
         },
         "unlur": {
@@ -6447,6 +6468,12 @@
             "PARTIAL_LINK": "Select another peg to add or remove a link to.",
             "PARTIAL_OPPONENT": "You may not rearrange your opponent's links.",
             "TOO_MANY_PEGS": "You may only place one peg per turn."
+        },
+        "unane": {
+            "INITIAL_INSTRUCTIONS": "Select a friendly piece.",
+            "INSTRUCTIONS": "Click the piece again to be removed, or click on an orthogonally adjacent cell (captures are by replacement).",
+            "INVALID_SELECTION": "Click on a friendly piece!",
+            "INVALID_MOVE": "Click on the piece itself, or to an orthogonally adjacent not occupied by a friendly piece!"
         },
         "unlur": {
             "BAD_PASS": "The contract phase is over. You may no longer pass.",

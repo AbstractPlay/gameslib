@@ -28,7 +28,7 @@ export class UnaneGame extends GameBase {
         dateAdded: "2026-05-21",
         // i18next.t("apgames:descriptions.unane")
         description: "apgames:descriptions.unane",
-        //notes: "apgames:notes.unane",
+        notes: "apgames:notes.unane",
         urls: [
             "https://www.marksteeregames.com/Unane_rules.pdf",
         ],
@@ -46,7 +46,7 @@ export class UnaneGame extends GameBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
-        categories: ["goal>annihilate", "mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>rect", "components>simple>1per"],
+        categories: ["goal>unify", "mechanic>move", "mechanic>capture", "board>shape>rect", "components>simple>1per"],
         variants: [
             { uid: "size-6",  group: "board" }, // 5x6
             { uid: "#board", }, // 7 rows x 8 cols

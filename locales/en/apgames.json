@@ -236,7 +236,7 @@
         "tumbleweed": "Tumbleweed is a game of line of sight. Towers are built, and cells are controlled by the player with the most towers that can see that cell. Compete to control the majority of the hexagonal board.",
         "twinflames": "Players score by multiplying their two largest groups. Largest score wins. If tied, the second player wins. The game uses a random setup to place a fixed number of walls.",
         "twixt": "Twixt is a connection game where players alternate turns placing pegs and links on a pegboard in an attempt to link their opposite sides.",
-        "unane": "A Konane-inspired game of annihilation.",
+        "unane": "A Konane-inspired game of unification.",
         "unlur": "An asymmetric connection game where one player tries to form a Y and the other tries to connect opposite sides. Achieving the opponent's goal without achieving your own is a loss. The game starts with a contract phase where both players place the colour of the Y player until someone passes, and then the opponent becomes the Line player.",
         "upperhand": "A shedding game where you try to be the first to place all your pieces. If a platform is created and at least three of the pieces are of a player's colour, an additional piece of that colour is automatically placed on top of it, causing chain reactions. The pie rule applies.",
         "urbino": "In Urbino, one manipulates architects (like in the game Fabrik) to build districts of different building types according to a handful of placement rules. When no more moves are possible, districts are scored, and the highest score wins. Also includes the \"Monuments\" variant.",
@@ -6472,7 +6472,7 @@
         },
         "unane": {
             "INITIAL_INSTRUCTIONS": "Select a friendly piece.",
-            "INSTRUCTIONS": "Click the piece again to be removed, or click on an orthogonally adjacent cell (captures are by replacement).",
+            "INSTRUCTIONS": "Click on an orthogonally adjacent opponent piece to capture by replacement. If no capture is possible, click the piece again to be removed.",
             "INVALID_SELECTION": "Click on a friendly piece!",
             "INVALID_MOVE": "Click on the piece itself, or to an orthogonally adjacent not occupied by a friendly piece!"
         },

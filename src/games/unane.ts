@@ -184,11 +184,21 @@ export class UnaneGame extends GameBase {
 
         for (const cell of g.graph.nodes()) {
             if (this.board.has(cell) && this.board.get(cell) === player) {
-                // players can remove their own stones
-                moves.push(`${cell}-${cell}`);
-                // players can also move their friendly stones to an empty cell, or onto an enemy stone
+                // check if we can remove this friendly stone
+                let canRemove = true;
+                // this is only possible if there are no orthogonal adjacencies with enemy stones
                 for (const neigh of this.orthNeighbours(cell)) {
-                    if (!this.board.has(neigh) || this.board.get(neigh) !== player) {
+                    if (this.board.has(neigh) && this.board.get(neigh) !== player) {
+                        canRemove = false;
+                        break;
+                    }
+                }
+                if (canRemove) {
+                    moves.push(`${cell}-${cell}`);
+                }
+                // players can move their friendly stones to capture an enemy stone
+                for (const neigh of this.orthNeighbours(cell)) {
+                    if (this.board.has(neigh) && this.board.get(neigh) !== player) {
                         moves.push(`${cell}-${neigh}`);
                     }
                 }

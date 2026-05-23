@@ -1,7 +1,7 @@
 // import { IGame } from "./IGame";
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IRenderOpts } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, Colourfuncs } from "@abstractplay/renderer/src/schemas/schema";
 import { RectGrid } from "../common";
 import { Direction } from "../common";
 import { APMoveResult } from "../schemas/moveresults";
@@ -62,6 +62,18 @@ export class CannonGame extends GameBase {
                 name: "Aaron Dalton (Perlkönig)",
                 urls: [],
                 apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
+        ],
+        customizations: [
+            {
+                num: 3,
+                default: "#000",
+                explanation: "Symbol colour on top of Player 1's colour"
+            },
+            {
+                num: 4,
+                default: "#000",
+                explanation: "Symbol colour on top of Player 2's colour"
             },
         ],
         categories: ["goal>royal-capture", "mechanic>capture", "mechanic>move>group", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
@@ -932,6 +944,14 @@ export class CannonGame extends GameBase {
         }
         pstr = pstr.replace(/-{10}/g, "_");
 
+        const customColour = (base: number): Colourfuncs => {
+            return {
+                func: "custom",
+                default: "#000000",
+                palette: base + 2,
+            };
+        };
+
         // Build rep
         const rep: APRenderRep =  {
             board: {
@@ -942,40 +962,40 @@ export class CannonGame extends GameBase {
             legend: {
                 A: [
                     { name: "piece", colour: 1 },
-                    { name: "cannon-piece", scale: 0.5 }
+                    { name: "cannon-piece", scale: 0.5, colour: customColour(1) }
                 ],
                 B: [
                     { name: "piece-square", colour: 1 },
-                    { name: "cannon-town", scale: 0.75 }
+                    { name: "cannon-town", scale: 0.75, colour: customColour(1) }
                 ],
                 Y: [
                     { name: "piece", colour: 2 },
-                    { name: "cannon-piece", scale: 0.5, rotate: 180 }
+                    { name: "cannon-piece", scale: 0.5, rotate: 180, colour: customColour(2) }
                 ],
                 Z: [
                     { name: "piece-square", colour: 2 },
-                    { name: "cannon-town", scale: 0.75, rotate: 180 }
+                    { name: "cannon-town", scale: 0.75, rotate: 180, colour: customColour(2) }
                 ],
                 // Threatened pieces
                 C: [
                     { name: "piece-borderless", scale: 1.1, colour: 2 },
                     { name: "piece", colour: 1 },
-                    { name: "cannon-piece", scale: 0.5 }
+                    { name: "cannon-piece", scale: 0.5, colour: customColour(1) }
                 ],
                 D: [
                     { name: "piece-square-borderless", scale: 1.1, colour: 2 },
                     { name: "piece-square", colour: 1 },
-                    { name: "cannon-town", scale: 0.75 }
+                    { name: "cannon-town", scale: 0.75, colour: customColour(1) }
                 ],
                 W: [
                     { name: "piece-borderless", scale: 1.1, colour: 1 },
                     { name: "piece", colour: 2 },
-                    { name: "cannon-piece", scale: 0.5, rotate: 180 }
+                    { name: "cannon-piece", scale: 0.5, rotate: 180, colour: customColour(2) }
                 ],
                 X: [
                     { name: "piece-square-borderless", scale: 1.1, colour: 1 },
                     { name: "piece-square", colour: 2 },
-                    { name: "cannon-town", scale: 0.75, rotate: 180 }
+                    { name: "cannon-town", scale: 0.75, rotate: 180, colour: customColour(2) }
                 ],
             },
             pieces: pstr

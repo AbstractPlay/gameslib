@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic, MarkerDots, RowCol } from "@abstractplay/renderer/src/schemas/schema";
@@ -855,7 +854,6 @@ export class SporaGame extends GameBase {
         if ( partial ) { return this; }
 
         this.lastmove = m;
-        console.log(`resetting _selected`);
         this._selected = null;
         this.scores = [this.getPlayerScore(1), this.getPlayerScore(2)];
         this.reserve[this.currplayer - 1] -= totalPiecesPlaced;
@@ -914,7 +912,6 @@ export class SporaGame extends GameBase {
     }
 
     public render(): APRenderRep {
-        console.log(`SELECTED: `, this._selected);
         let pstr = "";
         for (let row = 0; row < this.getBoardSize(); row++) {
             if (pstr.length > 0) {

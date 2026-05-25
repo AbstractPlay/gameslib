@@ -53,7 +53,7 @@ export class MinimizeGame extends GameBase {
             { uid: "size-7", group: "board" },
             { uid: "size-8", group: "board" },
         ],
-        flags: []
+        flags: ["experimental"]
     };
 
     public numplayers = 2;
@@ -115,7 +115,7 @@ export class MinimizeGame extends GameBase {
 
     private getBoardSize(): number {
         // Get board size from variants.
-        if ( (this.variants !== undefined) && (this.variants.length > 0) && 
+        if ( (this.variants !== undefined) && (this.variants.length > 0) &&
              (this.variants[0] !== undefined) && (this.variants[0].length > 0) ) {
             const sizeVariants = this.variants.filter(v => v.includes("size"));
             if (sizeVariants.length > 0) {

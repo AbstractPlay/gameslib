@@ -63,7 +63,7 @@
         "connections": "Draw lines between dots of your colour to connect the sides of the board, or surround your opponent's dots to win.",
         "conspirateurs": "A traditional French game where you try to get all your pieces to safety before your opponent can do the same.",
         "control": "Control is a finite, drawless territory game of elegant simplicity. Add pieces where your opponent doesn't have more influence or remove pieces from where you have more influence. Last to move wins.",
-        "court": "A set of pawns that can promoted anytime to a limited set of officials. However, without pawns one loses the game. A stalemated player also loses the game.",
+        "court": "A set of pawns that can be promoted anytime to a limited set of officials. However, without pawns one loses the game. A stalemated player also loses the game.",
         "courtesan": "Get your king to the other side of the board while safely \"hiding\" it among your other pieces.",
         "crossway": "A game of connecting opposite sides of the board, but lines of pieces may not cross each other.",
         "crosshairs": "A WW1 aerial dogfight game. Planes have height and direction. Movement includes climbing, level flight, and diving. Combat is simple: if a plane is in the line of fire of two enemy planes, it is shot down. Reduce your opponent to one plane to win.",
@@ -4663,9 +4663,9 @@
             "OPPONENT_CONTROL": "Your opponent controls {{cell}}."
         },
         "court": {
-            "INITIAL_INSTRUCTIONS": "Select one of your pieces to move or promote a Pawn (if officials are still available). Pawns, Knights, Bishops and Rooks move like in Chess (Pawns do not have a double move initially, and don't need to reach the final rank to promote).",
-            "NOT_FRIENDLY_PIECE": "Select a friendly piece to move or promote!",
-            "PIECE_INSTRUCTIONS": "Move a piece according to its powers. Pieces capture by replacement. Pawns can also be promoted to any available officer by clicking at them repeatedly."
+            "INITIAL_INSTRUCTIONS": "Select one of your pieces to move, or promote a Pawn (if officials are still available) by clicking on it multiple times. Pawns, Knights, Bishops and Rooks move as in Chess. (Pawns do not have an initial double move and don't need to reach the final rank to promote.)",
+            "NOT_FRIENDLY_PIECE": "Select a friendly piece to move or promote.",
+            "PIECE_INSTRUCTIONS": "Move a piece according to its powers. Pieces capture by replacement. Pawns can also be promoted to any available officer by clicking on them repeatedly."
         },
         "courtesan": {
             "DISTANCE_ONE": "Pieces may only move one space at a time.",

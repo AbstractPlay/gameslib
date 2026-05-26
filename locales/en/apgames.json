@@ -4215,7 +4215,7 @@
         },
         "atarigo": {
             "INSTRUCTIONS": "Select an intersection to place a piece.",
-            "INVALID_PASS": "You cannot pass currently.",
+            "INVALID_PASS": "You may not pass.",
             "SELF_CAPTURE": "You may not place your stones in self-capture."
         },
         "ataxx": {

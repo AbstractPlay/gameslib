@@ -213,7 +213,6 @@ export class SynapseGame extends GameBase {
             }
 
             const result = this.validateMove(newmove) as IClickResult;
-            //console.debug('handle()', 'move', move, 'cell', cell, 'newmove', newmove, 'valid?', result.valid);
             result.move = result.valid ? newmove : move;
             return result;
         } catch (e) {
@@ -237,25 +236,28 @@ export class SynapseGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.synapse.INITIAL_INSTRUCTIONS");
+            if ( this.stack.length === 1 ) {
+                result.message = i18next.t("apgames:validation.synapse.INITIAL_INSTRUCTIONS");
+            } else {
+                result.message = i18next.t("apgames:validation.synapse.INSTRUCTIONS");
+            }
             return result;
         }
 
         const tokens = m.split(',');
         const allMoves = this.moves();
-        //console.debug('allMoves()', ...allMoves);
+
+        if (! this.hasPrefix(allMoves, m) ) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.synapse.INVALID_MOVE", {move: m});
+            return result;
+        }
 
         if ( tokens.length < 3 ) {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
             result.message = i18next.t("apgames:validation.synapse.PLACE_INSTRUCTIONS");
-            return result;
-        }
-
-        if (! this.hasPrefix(allMoves, m) ) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation.synapse.INVALID_MOVE", {move: m});
             return result;
         }
 
@@ -272,7 +274,6 @@ export class SynapseGame extends GameBase {
         }
 
         m = m.replace(/\s+/g, "");
-        //console.debug('move()', 'm', m, 'partial?', partial, 'trusted?', trusted);
         if (! trusted) {
             const result = this.validateMove(m);
             if (! result.valid) {

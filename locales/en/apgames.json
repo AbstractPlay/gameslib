@@ -6319,8 +6319,9 @@
             "TOO_LONG": "You may not add more stones if your first move is to create a new group."
         },
         "synapse": {
-            "INITIAL_INSTRUCTIONS": "Place a friendly piece at the marked square.",
-            "INVALID_MOVE": "Move {{move}} is invalid!",
+            "INITIAL_INSTRUCTIONS": "Place a friendly piece on any square.",
+            "INSTRUCTIONS": "Place a friendly piece at the marked square.",
+            "INVALID_MOVE": "Move {{move}} is invalid. The player must place a piece on the marked square, and  the next marked square must be on an empty square!",
             "PLACE_INSTRUCTIONS": "Click on the piece until it is the required size, then click on an orthogonal adjacent square to define the direction."
         },
         "tablero": {

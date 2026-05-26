@@ -27,7 +27,7 @@ export class ShapeChessGame extends GameBase {
         uid: "shapechess",
         playercounts: [2],
         version: "20260502",
-        dateAdded: "2026-05-02",
+        dateAdded: "2026-05-25",
         // i18next.t("apgames:descriptions.shapechess")
         description: "apgames:descriptions.shapechess",
         notes: "apgames:notes.shapechess",

@@ -24,7 +24,7 @@ export class SoccolotGame extends GameBase {
         uid: "soccolot",
         playercounts: [2],
         version: "20260509",
-        dateAdded: "2026-05-09",
+        dateAdded: "2026-05-25",
         // i18next.t("apgames:descriptions.soccolot")
         description: "apgames:descriptions.soccolot",
         // i18next.t("apgames:notes.soccolot")
@@ -527,12 +527,12 @@ export class SoccolotGame extends GameBase {
         const markers: Array<any> = [
             {
                 type: "shading",
-                colour: this.getPlayerColour(1),
+                colour: 1,
                 points: [{row:size, col:0}, {row:size, col:size}, {row:size-1, col:size}, {row:size-1, col:0} ]
             },
             {
                 type: "shading",
-                colour: this.getPlayerColour(2),
+                colour: 2,
                 points: [{row:0, col:0}, {row:0, col:size}, {row:1, col:size}, {row:1, col:0} ]
             }
         ];
@@ -546,8 +546,8 @@ export class SoccolotGame extends GameBase {
                 markers
             },
             legend: {
-                A: { name: "piece", colour: this.getPlayerColour(1) },
-                B: { name: "piece", colour: this.getPlayerColour(2) },
+                A: { name: "piece", colour: 1 },
+                B: { name: "piece", colour: 2 },
                 C: { name: "piece", colour: ballColour },
             },
             pieces: pstr
@@ -573,14 +573,6 @@ export class SoccolotGame extends GameBase {
         }
 
         return rep;
-    }
-
-    public getPlayerColour(p: playerid): Colourfuncs {
-        if (p === 1) {
-            return { func: "custom", default: 1, palette: 1 };
-        } else {
-            return { func: "custom", default: 2, palette: 2 };
-        }
     }
 
     public clone(): SoccolotGame {

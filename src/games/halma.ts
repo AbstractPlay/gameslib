@@ -24,7 +24,7 @@ export class HalmaGame extends GameBase {
         uid: "halma",
         playercounts: [2],
         version: "20260513",
-        dateAdded: "2026-05-13",
+        dateAdded: "2026-05-25",
         // i18next.t("apgames:descriptions.halma")
         description: "apgames:descriptions.halma",
         // i18next.t("apgames:notes.halma")
@@ -527,7 +527,7 @@ export class HalmaGame extends GameBase {
         const markers: Array<any> = [  // shade home-bases
             {
                 type: "shading",
-                colour: this.getPlayerColour(1),
+                colour: 1,
                 points: [ {row:size  , col:size-5}, {row:size  , col:size  }, {row:size-5, col:size  },
                           {row:size-5, col:size-2}, {row:size-4, col:size-2}, {row:size-4, col:size-3},
                           {row:size-3, col:size-3}, {row:size-3, col:size-4}, {row:size-2, col:size-4},
@@ -535,7 +535,7 @@ export class HalmaGame extends GameBase {
             },
             {
                 type: "shading",
-                colour: this.getPlayerColour(2),
+                colour: 2,
                 points: [ {row:0, col:0}, {row:0, col:5}, {row:2, col:5}, {row:2, col:4}, {row:3, col:4},
                           {row:3, col:3}, {row:4, col:3}, {row:4, col:2}, {row:5, col:2}, {row:5, col:0},
                           {row:0, col:0}
@@ -570,8 +570,8 @@ export class HalmaGame extends GameBase {
                 markers,
             },
             legend: {
-                A: { name: "piece", colour: this.getPlayerColour(1) },
-                B: { name: "piece", colour: this.getPlayerColour(2) },
+                A: { name: "piece", colour: 1 },
+                B: { name: "piece", colour: 2 },
             },
             pieces: pstr
         };
@@ -602,14 +602,6 @@ export class HalmaGame extends GameBase {
         }
 
         return rep;
-    }
-
-    public getPlayerColour(p: playerid): Colourfuncs {
-        if (p === 1) {
-            return { func: "custom", default: 1, palette: 1 };
-        } else {
-            return { func: "custom", default: 2, palette: 2 };
-        }
     }
 
     public clone(): HalmaGame {

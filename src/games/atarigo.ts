@@ -65,7 +65,7 @@ export class AtariGoGame extends GameBase {
             { uid: "#board", }, // 19x19
         ],
         categories: ["goal>area", "mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>rect", "components>simple>1per"],
-        flags: ["pie", "scores"],
+        flags: ["pie", "scores", "experimental"],
         displays: [{uid: "show-controlled-areas"}],
     };
 

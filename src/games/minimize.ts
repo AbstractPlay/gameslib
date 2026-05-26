@@ -25,7 +25,7 @@ export class MinimizeGame extends GameBase {
         uid: "minimize",
         playercounts: [2],
         version: "20260514",
-        dateAdded: "2026-05-14",
+        dateAdded: "2026-05-25",
         // i18next.t("apgames:descriptions.minimize")
         description: "apgames:descriptions.minimize",
         urls: [
@@ -53,7 +53,7 @@ export class MinimizeGame extends GameBase {
             { uid: "size-7", group: "board" },
             { uid: "size-8", group: "board" },
         ],
-        flags: ["experimental"]
+        flags: ["no-moves", "experimental"]
     };
 
     public numplayers = 2;

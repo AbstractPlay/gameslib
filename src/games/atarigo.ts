@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, BoardBasic, MarkerDots, RowCol, Colourfuncs } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic, MarkerDots, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, replacer, reviver, UserFacingError, SquareOrthGraph } from "../common";
 import { connectedComponents } from "graphology-components";
@@ -38,7 +38,7 @@ export class AtariGoGame extends GameBase {
         uid: "atarigo",
         playercounts: [2],
         version: "20260519",
-        dateAdded: "2026-05-19",
+        dateAdded: "2026-05-27",
         // i18next.t("apgames:descriptions.go")
         description: "apgames:descriptions.atarigo",
         urls: [
@@ -64,8 +64,8 @@ export class AtariGoGame extends GameBase {
             { uid: "size-15", group: "board" },
             { uid: "#board", }, // 19x19
         ],
-        categories: ["goal>area", "mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>rect", "components>simple>1per"],
-        flags: ["pie", "scores", "custom-buttons", "custom-colours", "experimental"],
+        categories: ["goal>cripple", "mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        flags: ["pie", "scores"],
         displays: [{uid: "show-controlled-areas"}],
     };
 
@@ -409,7 +409,7 @@ export class AtariGoGame extends GameBase {
             // a capture was made, so the game will end
             this.whoCaptured = this.currplayer;
         }
-        
+
         if (partial) { return this; }
 
         this.lastmove = m;
@@ -497,8 +497,8 @@ export class AtariGoGame extends GameBase {
                 height: this.boardSize,
             },
             legend: {
-                A: [{ name: "piece", colour: this.getPlayerColour(1) }],
-                B: [{ name: "piece", colour: this.getPlayerColour(2) }],
+                A: [{ name: "piece", colour: 1 }],
+                B: [{ name: "piece", colour: 2 }],
             },
             pieces: pstr,
         };
@@ -526,7 +526,7 @@ export class AtariGoGame extends GameBase {
                     const points = t.cells.map(c => this.algebraic2coords(c));
                     if (t.owner !== 3) {
                         markers.push({type: "dots",
-                                      colour: this.getPlayerColour(t.owner),
+                                      colour: t.owner,
                                       points: points.map(p => { return {col: p[0], row: p[1]}; }) as [RowCol, ...RowCol[]]});
                     }
                 }
@@ -537,14 +537,6 @@ export class AtariGoGame extends GameBase {
         }
 
         return rep;
-    }
-
-    public getPlayerColour(p: playerid): Colourfuncs {
-        if (p === 1) {
-            return { func: "custom", default: 1, palette: 1 };
-        } else {
-            return { func: "custom", default: 2, palette: 2 };
-        }
     }
 
     public getPlayerScore(player: playerid): number {

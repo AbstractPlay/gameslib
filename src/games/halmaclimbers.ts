@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, RowCol, Colourfuncs, MarkerFlood } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, RowCol, MarkerFlood } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError, HexTriGraph } from "../common";
 import { HexDir } from "../common/graphs/hextri";
@@ -25,7 +25,7 @@ export class HalmaClimbersGame extends GameBase {
         uid: "halmaclimbers",
         playercounts: [2],
         version: "20260514",
-        dateAdded: "2026-05-14",
+        dateAdded: "2026-05-27",
         // i18next.t("apgames:descriptions.halmaclimbers")
         description: "apgames:descriptions.halmaclimbers",
         // i18next.t("apgames:notes.halmaclimbers")
@@ -47,14 +47,14 @@ export class HalmaClimbersGame extends GameBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
-        categories: ["goal>score", "mechanic>move", "board>shape>hex", "components>simple>1per"],
+        categories: ["goal>score>eog", "mechanic>move", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         variants: [
             { uid: "#board", },
             { uid: "size-8",  group: "board" },
             { uid: "size-11", group: "board" },
             { uid: "size-13", group: "board" },
         ],
-        flags: ["no-moves", "custom-buttons", "experimental"]
+        flags: ["no-moves", "custom-buttons"]
     };
 
     public numplayers = 2;
@@ -430,9 +430,12 @@ export class HalmaClimbersGame extends GameBase {
             result.complete = isJump ? 0 : 1; // moves are final, jumps can be multiple
         }
         result.canrender = true;
-        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        if ( result.complete === 1 || m.includes(',') ) {
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        } else {
+            result.message = i18next.t("apgames:validation.halmaclimbers.NEXT_ACTION");
+        }
         return result;
-
     }
 
     public move(m: string, {trusted = false, partial = false} = {}): HalmaClimbersGame {
@@ -512,7 +515,7 @@ export class HalmaClimbersGame extends GameBase {
         return this.homeBase(player).every(c => !this.board.has(c) || this.board.get(c) !== player);
     }
 
-    private jumpsForward(player?: playerid): boolean {
+    private notJumpsForward(player?: playerid): boolean {
         if (player === undefined) { player = this.currplayer; }
         const res: string[] = [];
         const g = this.graph;
@@ -544,7 +547,7 @@ export class HalmaClimbersGame extends GameBase {
                         // or if the player's home base is empty (the player that just ended his turn)
                         || this.isBaseEmpty(prevplayer)
                         // or if the current player does not have forward jumps available
-                        || this.jumpsForward(this.currplayer);
+                        || this.notJumpsForward(this.currplayer);
 
         if ( this.gameover ) {
             const scoreP1 = this.getPlayerScore(1);
@@ -616,7 +619,7 @@ export class HalmaClimbersGame extends GameBase {
                 const [x, y] = this.graph.algebraic2coords(cell);
                 markers.push({
                     type: "flood",
-                    colour: this.getPlayerColour(player),
+                    colour: player,
                     opacity: 0.5,
                     points: [{ row: y, col: x }],
                 });
@@ -633,8 +636,8 @@ export class HalmaClimbersGame extends GameBase {
                 markers,
             },
             legend: {
-                A: { name: "piece", colour: this.getPlayerColour(1) },
-                B: { name: "piece", colour: this.getPlayerColour(2) },
+                A: { name: "piece", colour: 1 },
+                B: { name: "piece", colour: 2 },
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
         };
@@ -666,14 +669,6 @@ export class HalmaClimbersGame extends GameBase {
         }
 
         return rep;
-    }
-
-    public getPlayerColour(p: playerid): Colourfuncs {
-        if (p === 1) {
-            return { func: "custom", default: 1, palette: 1 };
-        } else {
-            return { func: "custom", default: 2, palette: 2 };
-        }
     }
 
     private isDigit(c: string): boolean {

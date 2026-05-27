@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IStashEntry } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, Colourfuncs } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError, SquareGraph, Direction } from "../common";
 import i18next from "i18next";
@@ -29,7 +29,7 @@ export class CourtGame extends GameBase {
         uid: "court",
         playercounts: [2],
         version: "20260510",
-        dateAdded: "2026-05-10",
+        dateAdded: "2026-05-27",
         // i18next.t("apgames:descriptions.court")
         description: "apgames:descriptions.court",
         // i18next.t("apgames:notes.court")
@@ -52,8 +52,8 @@ export class CourtGame extends GameBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
-        categories: ["goal>annihilate", "mechanic>move", "mechanic>capture", "board>shape>rect", "components>simple>1per"],
-        flags: ["player-stashes", "experimental"]
+        categories: ["goal>annihilate", "mechanic>move", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        flags: ["player-stashes"]
     };
 
     public numplayers = 2;
@@ -430,19 +430,19 @@ export class CourtGame extends GameBase {
                 height: this.boardsize
             },
             legend: {
-                P1: { name: "piece", colour: this.getPlayerColour(1) },
-                P2: { name: "piece", colour: this.getPlayerColour(2) },
-                B1: [{ name: "piece", colour: this.getPlayerColour(1) },
+                P1: { name: "piece", colour: 1 },
+                P2: { name: "piece", colour: 2 },
+                B1: [{ name: "piece", colour: 1 },
                      { name: "chess-bishop-outline-traditional", colour: "#ffffff", scale: 0.6, opacity: 0.6 }],
-                B2: [{ name: "piece", colour: this.getPlayerColour(2) },
+                B2: [{ name: "piece", colour: 2 },
                      { name: "chess-bishop-outline-traditional", colour: "#aaaaaa", scale: 0.6, opacity: 0.6 }],
-                N1: [{ name: "piece", colour: this.getPlayerColour(1) },
+                N1: [{ name: "piece", colour: 1 },
                      { name: "chess-knight-outline-traditional", colour: "#ffffff", scale: 0.6, opacity: 0.6 }],
-                N2: [{ name: "piece", colour: this.getPlayerColour(2) },
+                N2: [{ name: "piece", colour: 2 },
                      { name: "chess-knight-outline-traditional", colour: "#aaaaaa", scale: 0.6, opacity: 0.6 }],
-                R1: [{ name: "piece", colour: this.getPlayerColour(1) },
+                R1: [{ name: "piece", colour: 1 },
                      { name: "chess-rook-outline-traditional",   colour: "#ffffff", scale: 0.6, opacity: 0.6 }],
-                R2: [{ name: "piece", colour: this.getPlayerColour(2) },
+                R2: [{ name: "piece", colour: 2 },
                      { name: "chess-rook-outline-traditional",   colour: "#aaaaaa", scale: 0.6, opacity: 0.6 }],
             },
             pieces: pstr
@@ -473,16 +473,8 @@ export class CourtGame extends GameBase {
         return rep;
     }
 
-    public getPlayerColour(p: playerid): Colourfuncs {
-        if (p === 1) {
-            return { func: "custom", default: 1, palette: 1 };
-        } else {
-            return { func: "custom", default: 2, palette: 2 };
-        }
-    }
-
     public getPlayerStash(player: number): IStashEntry[] | undefined {
-        const col = this.getPlayerColour(player as playerid);
+        const col = player as playerid;
         return [
             { count: this.hands[player - 1].filter(x => x === 'N').length,
               glyph: { name: "chess-knight-outline-traditional", colour: col },

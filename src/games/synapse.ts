@@ -37,7 +37,7 @@ export class SynapseGame extends GameBase {
         uid: "synapse",
         playercounts: [2],
         version: "20260515",
-        dateAdded: "2026-05-15",
+        dateAdded: "2026-05-27",
         // i18next.t("apgames:descriptions.synapse")
         description: "apgames:descriptions.synapse",
         notes: "apgames:notes.synapse",
@@ -63,8 +63,8 @@ export class SynapseGame extends GameBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
-        categories: ["goal>immobilize", "mechanic>place", "board>shape>rect", "components>pyramids"],
-        flags: ["player-stashes", "experimental"]
+        categories: ["goal>immobilize", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>pyramids"],
+        flags: ["player-stashes"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -213,7 +213,6 @@ export class SynapseGame extends GameBase {
             }
 
             const result = this.validateMove(newmove) as IClickResult;
-            //console.debug('handle()', 'move', move, 'cell', cell, 'newmove', newmove, 'valid?', result.valid);
             result.move = result.valid ? newmove : move;
             return result;
         } catch (e) {
@@ -237,25 +236,28 @@ export class SynapseGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.synapse.INITIAL_INSTRUCTIONS");
+            if ( this.stack.length === 1 ) {
+                result.message = i18next.t("apgames:validation.synapse.INITIAL_INSTRUCTIONS");
+            } else {
+                result.message = i18next.t("apgames:validation.synapse.INSTRUCTIONS");
+            }
             return result;
         }
 
         const tokens = m.split(',');
         const allMoves = this.moves();
-        //console.debug('allMoves()', ...allMoves);
+
+        if (! this.hasPrefix(allMoves, m) ) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.synapse.INVALID_MOVE", {move: m});
+            return result;
+        }
 
         if ( tokens.length < 3 ) {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
             result.message = i18next.t("apgames:validation.synapse.PLACE_INSTRUCTIONS");
-            return result;
-        }
-
-        if (! this.hasPrefix(allMoves, m) ) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation.synapse.INVALID_MOVE", {move: m});
             return result;
         }
 
@@ -272,7 +274,6 @@ export class SynapseGame extends GameBase {
         }
 
         m = m.replace(/\s+/g, "");
-        //console.debug('move()', 'm', m, 'partial?', partial, 'trusted?', trusted);
         if (! trusted) {
             const result = this.validateMove(m);
             if (! result.valid) {
@@ -399,7 +400,7 @@ export class SynapseGame extends GameBase {
                     const node: Glyph = {
                         name: "pyramid-flat-" + sizeNames[size - 1],
                         scale: 0.90,
-                        colour: this.getPlayerColour(player as playerid),
+                        colour: player,
                         rotate: dir[1],
                     };
                     myLegend[playerNames[player - 1] + size.toString() + dir[0]] = node;
@@ -408,7 +409,7 @@ export class SynapseGame extends GameBase {
                 const node: Glyph = {
                     name: "pyramid-up-" + sizeNames[size - 1],
                     scale: 0.90,
-                    colour: this.getPlayerColour(player as playerid),
+                    colour: player,
                 };
                 myLegend[playerNames[player - 1] + size.toString() + "U"] = node;
 
@@ -447,7 +448,7 @@ export class SynapseGame extends GameBase {
     }
 
     public getPlayerStash(player: number): IStashEntry[] | undefined {
-        const col = this.getPlayerColour(player as playerid);
+        const col = player;
         return [
             { count: this.hands[player - 1].filter(x => x === 1).length,
               glyph: { name: "pyramid-flat-small", colour: col },
@@ -459,14 +460,6 @@ export class SynapseGame extends GameBase {
               glyph: { name: "pyramid-flat-large", colour: col },
               movePart: "" },
         ];
-    }
-
-    public getPlayerColour(p: playerid): Colourfuncs {
-        if (p === 1) {
-            return { func: "custom", default: 1, palette: 1 };
-        } else {
-            return { func: "custom", default: 2, palette: 2 };
-        }
     }
 
     public clone(): SynapseGame {

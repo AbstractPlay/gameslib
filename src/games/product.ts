@@ -46,7 +46,7 @@ export class ProductGame extends GameBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
-        categories: ["goal>majority", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
+        categories: ["goal>score>eog", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         variants: [
             { uid: "size-4", group: "board" },
             { uid: "#board", },

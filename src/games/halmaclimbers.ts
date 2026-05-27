@@ -47,7 +47,7 @@ export class HalmaClimbersGame extends GameBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
-        categories: ["goal>score", "mechanic>move", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
+        categories: ["goal>score>eog", "mechanic>move", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         variants: [
             { uid: "#board", },
             { uid: "size-8",  group: "board" },

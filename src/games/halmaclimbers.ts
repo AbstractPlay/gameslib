@@ -25,7 +25,7 @@ export class HalmaClimbersGame extends GameBase {
         uid: "halmaclimbers",
         playercounts: [2],
         version: "20260514",
-        dateAdded: "2026-05-14",
+        dateAdded: "2026-05-27",
         // i18next.t("apgames:descriptions.halmaclimbers")
         description: "apgames:descriptions.halmaclimbers",
         // i18next.t("apgames:notes.halmaclimbers")
@@ -47,14 +47,14 @@ export class HalmaClimbersGame extends GameBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
-        categories: ["goal>score", "mechanic>move", "board>shape>hex", "components>simple>1per"],
+        categories: ["goal>score", "mechanic>move", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         variants: [
             { uid: "#board", },
             { uid: "size-8",  group: "board" },
             { uid: "size-11", group: "board" },
             { uid: "size-13", group: "board" },
         ],
-        flags: ["no-moves", "custom-buttons", "experimental"]
+        flags: ["no-moves", "custom-buttons"]
     };
 
     public numplayers = 2;

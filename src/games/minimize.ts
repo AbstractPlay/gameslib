@@ -25,7 +25,7 @@ export class MinimizeGame extends GameBase {
         uid: "minimize",
         playercounts: [2],
         version: "20260514",
-        dateAdded: "2026-05-25",
+        dateAdded: "2026-05-27",
         // i18next.t("apgames:descriptions.minimize")
         description: "apgames:descriptions.minimize",
         urls: [
@@ -45,7 +45,7 @@ export class MinimizeGame extends GameBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
-        categories: ["goal>score>eog", "mechanic>place", "board>shape>hex", "components>simple>1per"],
+        categories: ["goal>score>eog", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         variants: [
             { uid: "size-4", group: "board" },
             { uid: "size-5", group: "board" },
@@ -53,7 +53,7 @@ export class MinimizeGame extends GameBase {
             { uid: "size-7", group: "board" },
             { uid: "size-8", group: "board" },
         ],
-        flags: ["no-moves", "experimental"]
+        flags: ["no-moves"]
     };
 
     public numplayers = 2;

@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, Colourfuncs } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError, SquareOrthGraph } from "../common";
 import { connectedComponents } from "graphology-components";
@@ -25,7 +25,7 @@ export class UnaneGame extends GameBase {
         uid: "unane",
         playercounts: [2],
         version: "20260521",
-        dateAdded: "2026-05-21",
+        dateAdded: "2026-05-27",
         // i18next.t("apgames:descriptions.unane")
         description: "apgames:descriptions.unane",
         notes: "apgames:notes.unane",
@@ -46,7 +46,7 @@ export class UnaneGame extends GameBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
-        categories: ["goal>unify", "mechanic>move", "mechanic>capture", "board>shape>rect", "components>simple>1per"],
+        categories: ["goal>unify", "mechanic>move", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         variants: [
             { uid: "size-6",  group: "board" }, // 5x6
             { uid: "#board", }, // 7 rows x 8 cols
@@ -55,7 +55,7 @@ export class UnaneGame extends GameBase {
             { uid: "size-14", group: "board" }, // 13x14
             { uid: "size-16", group: "board" }, // 15x16
         ],
-        flags: ["pie", "experimental"]
+        flags: ["pie"]
     };
 
     public numplayers = 2;
@@ -400,8 +400,8 @@ export class UnaneGame extends GameBase {
                 height: this.boardSize-1
             },
             legend: {
-                A: { name: "piece", colour: this.getPlayerColour(1) },
-                B: { name: "piece", colour: this.getPlayerColour(2) },
+                A: { name: "piece", colour: 1 },
+                B: { name: "piece", colour: 2 },
             },
             pieces: pstr
         };
@@ -429,14 +429,6 @@ export class UnaneGame extends GameBase {
         }
 
         return rep;
-    }
-
-    public getPlayerColour(p: playerid): Colourfuncs {
-        if (p === 1) {
-            return { func: "custom", default: 1, palette: 1 };
-        } else {
-            return { func: "custom", default: 2, palette: 2 };
-        }
     }
 
     public clone(): UnaneGame {

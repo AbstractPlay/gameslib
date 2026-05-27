@@ -27,7 +27,7 @@ export class ShapeChessGame extends GameBase {
         uid: "shapechess",
         playercounts: [2],
         version: "20260502",
-        dateAdded: "2026-05-25",
+        dateAdded: "2026-05-27",
         // i18next.t("apgames:descriptions.shapechess")
         description: "apgames:descriptions.shapechess",
         notes: "apgames:notes.shapechess",
@@ -47,7 +47,7 @@ export class ShapeChessGame extends GameBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
-        categories: ["goal>score>eog", "mechanic>place",  "board>shape>rect", "components>simple>1per"],
+        categories: ["goal>score>race", "mechanic>place",  "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         variants: [
             { uid: "size-10", group: "board" },
             { uid: "#board", }, // 12x12
@@ -60,7 +60,7 @@ export class ShapeChessGame extends GameBase {
             { uid: "8-pts",   group: "ruleset" },
             { uid: "9-pts",   group: "ruleset" },
         ],
-        flags: ["scores", "no-moves", "experimental"],
+        flags: ["scores", "no-moves"],
     };
 
     public numplayers = 2;

@@ -24,7 +24,7 @@ export class HalmaGame extends GameBase {
         uid: "halma",
         playercounts: [2],
         version: "20260513",
-        dateAdded: "2026-05-25",
+        dateAdded: "2026-05-27",
         // i18next.t("apgames:descriptions.halma")
         description: "apgames:descriptions.halma",
         // i18next.t("apgames:notes.halma")
@@ -52,8 +52,8 @@ export class HalmaGame extends GameBase {
             { uid: "#board", },
             { uid: "superhalma", group: "ruleset" },
         ],
-        categories: ["goal>evacuate", "other>traditional", "mechanic>move", "board>shape>rect", "components>simple>1per"],
-        flags: ["no-moves", "experimental"]
+        categories: ["goal>evacuate", "other>traditional", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        flags: ["no-moves"]
     };
 
     public numplayers = 2;

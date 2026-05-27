@@ -37,7 +37,7 @@ export class SynapseGame extends GameBase {
         uid: "synapse",
         playercounts: [2],
         version: "20260515",
-        dateAdded: "2026-05-15",
+        dateAdded: "2026-05-27",
         // i18next.t("apgames:descriptions.synapse")
         description: "apgames:descriptions.synapse",
         notes: "apgames:notes.synapse",
@@ -63,8 +63,8 @@ export class SynapseGame extends GameBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
-        categories: ["goal>immobilize", "mechanic>place", "board>shape>rect", "components>pyramids"],
-        flags: ["player-stashes", "experimental"]
+        categories: ["goal>immobilize", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>pyramids"],
+        flags: ["player-stashes"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -400,7 +400,7 @@ export class SynapseGame extends GameBase {
                     const node: Glyph = {
                         name: "pyramid-flat-" + sizeNames[size - 1],
                         scale: 0.90,
-                        colour: this.getPlayerColour(player as playerid),
+                        colour: player,
                         rotate: dir[1],
                     };
                     myLegend[playerNames[player - 1] + size.toString() + dir[0]] = node;
@@ -409,7 +409,7 @@ export class SynapseGame extends GameBase {
                 const node: Glyph = {
                     name: "pyramid-up-" + sizeNames[size - 1],
                     scale: 0.90,
-                    colour: this.getPlayerColour(player as playerid),
+                    colour: player,
                 };
                 myLegend[playerNames[player - 1] + size.toString() + "U"] = node;
 
@@ -448,7 +448,7 @@ export class SynapseGame extends GameBase {
     }
 
     public getPlayerStash(player: number): IStashEntry[] | undefined {
-        const col = this.getPlayerColour(player as playerid);
+        const col = player;
         return [
             { count: this.hands[player - 1].filter(x => x === 1).length,
               glyph: { name: "pyramid-flat-small", colour: col },
@@ -460,14 +460,6 @@ export class SynapseGame extends GameBase {
               glyph: { name: "pyramid-flat-large", colour: col },
               movePart: "" },
         ];
-    }
-
-    public getPlayerColour(p: playerid): Colourfuncs {
-        if (p === 1) {
-            return { func: "custom", default: 1, palette: 1 };
-        } else {
-            return { func: "custom", default: 2, palette: 2 };
-        }
     }
 
     public clone(): SynapseGame {

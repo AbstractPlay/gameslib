@@ -41,7 +41,7 @@ export class SporaGame extends GameBase {
         uid: "spora",
         playercounts: [2],
         version: "20260407",
-        dateAdded: "2026-05-04",
+        dateAdded: "2026-05-27",
         // i18next.t("apgames:descriptions.spora")
         description: "apgames:descriptions.spora",
         notes: "apgames:notes.spora",
@@ -69,8 +69,7 @@ export class SporaGame extends GameBase {
             { uid: "size-19", group: "board" },
             { uid: "size-25", group: "board" }
         ],
-        categories: ["goal>area", "mechanic>place", "mechanic>move>sow", "mechanic>capture", "mechanic>stack",
-                     "mechanic>enclose", "board>shape>rect", "components>simple>2c"],
+        categories: ["goal>area", "mechanic>place", "mechanic>move>sow", "mechanic>capture", "mechanic>stack", "mechanic>enclose", "board>shape>rect", "board>connect>rect", "components>simple>2c"],
         flags: ["scores", "no-moves", "custom-buttons", "custom-colours", "experimental"],
     };
 

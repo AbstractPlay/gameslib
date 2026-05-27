@@ -38,7 +38,7 @@ export class AtariGoGame extends GameBase {
         uid: "atarigo",
         playercounts: [2],
         version: "20260519",
-        dateAdded: "2026-05-25",
+        dateAdded: "2026-05-27",
         // i18next.t("apgames:descriptions.go")
         description: "apgames:descriptions.atarigo",
         urls: [
@@ -64,8 +64,8 @@ export class AtariGoGame extends GameBase {
             { uid: "size-15", group: "board" },
             { uid: "#board", }, // 19x19
         ],
-        categories: ["goal>area", "mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>rect", "components>simple>1per"],
-        flags: ["pie", "scores", "experimental"],
+        categories: ["goal>cripple", "mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        flags: ["pie", "scores"],
         displays: [{uid: "show-controlled-areas"}],
     };
 

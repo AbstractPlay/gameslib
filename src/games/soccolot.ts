@@ -24,7 +24,7 @@ export class SoccolotGame extends GameBase {
         uid: "soccolot",
         playercounts: [2],
         version: "20260509",
-        dateAdded: "2026-05-25",
+        dateAdded: "2026-05-27",
         // i18next.t("apgames:descriptions.soccolot")
         description: "apgames:descriptions.soccolot",
         // i18next.t("apgames:notes.soccolot")
@@ -43,13 +43,13 @@ export class SoccolotGame extends GameBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
-        categories: ["goal>breakthrough", "mechanic>move", "board>shape>rect", "components>simple>1per"],
+        categories: ["goal>breakthrough", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         variants: [
             { uid: "#board", }, // Speed Soccolot
             { uid: "original", group: "ruleset" },
             { uid: "swap",     group: "ruleset" }, // adds swap dribble
         ],
-        flags: ["experimental"]
+        flags: []
     };
 
     public numplayers = 2;

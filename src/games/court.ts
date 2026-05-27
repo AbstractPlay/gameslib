@@ -29,7 +29,7 @@ export class CourtGame extends GameBase {
         uid: "court",
         playercounts: [2],
         version: "20260510",
-        dateAdded: "2026-05-25",
+        dateAdded: "2026-05-27",
         // i18next.t("apgames:descriptions.court")
         description: "apgames:descriptions.court",
         // i18next.t("apgames:notes.court")
@@ -52,8 +52,8 @@ export class CourtGame extends GameBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
-        categories: ["goal>annihilate", "mechanic>move", "mechanic>capture", "board>shape>rect", "components>simple>1per"],
-        flags: ["player-stashes", "experimental"]
+        categories: ["goal>annihilate", "mechanic>move", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        flags: ["player-stashes"]
     };
 
     public numplayers = 2;

@@ -70,7 +70,7 @@ export class SporaGame extends GameBase {
             { uid: "size-25", group: "board" }
         ],
         categories: ["goal>area", "mechanic>place", "mechanic>move>sow", "mechanic>capture", "mechanic>stack", "mechanic>enclose", "board>shape>rect", "board>connect>rect", "components>simple>2c"],
-        flags: ["scores", "no-moves", "custom-buttons", "custom-colours", "experimental"],
+        flags: ["scores", "no-moves", "custom-buttons", "custom-colours"],
     };
 
     public coords2algebraic(x: number, y: number): string {

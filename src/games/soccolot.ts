@@ -75,7 +75,7 @@ export class SoccolotGame extends GameBase {
                 board = new Map<string, playerid>([ // initial setup
                     ["b1", 1], ["c1", 1], ["d1", 1], ["e1", 1], ["f1", 1], ["g1", 1],
                     ["b8", 2], ["c8", 2], ["d8", 2], ["e8", 2], ["f8", 2], ["g8", 2],
-                    ["d4", 3],
+                    ["e5", 3],
                 ]);
             } else {
                 board = new Map<string, playerid>([ // initial setup

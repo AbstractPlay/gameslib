@@ -51,7 +51,12 @@ export class TwinFlamesGame extends GameBase {
             { uid: "#board", },
             { uid: "size-7", group: "board" },
             { uid: "size-8", group: "board" },
-            { uid: "no-block", group: "ruleset" },
+            { uid: "#blockers", },
+            { uid: "blocker-0", group: "blockers" },
+            { uid: "blocker-2", group: "blockers" },
+            { uid: "blocker-4", group: "blockers" },
+            { uid: "blocker-6", group: "blockers" },
+            { uid: "blocker-8", group: "blockers" },
         ],
         flags: ["no-moves"]
     };
@@ -128,9 +133,19 @@ export class TwinFlamesGame extends GameBase {
         return 6;
     }
 
-    private getRuleset(): "default" | "no-block" {
-        if (this.variants.includes("no-block")) { return "no-block"; }
-        return "default";
+    private getBlockersSize(): number {
+        // Get board size from variants.
+        if ( (this.variants !== undefined) && (this.variants.length > 0) && (this.variants[0] !== undefined) && (this.variants[0].length > 0) ) {
+            const sizeVariants = this.variants.filter(v => v.includes("blocker"));
+            if (sizeVariants.length > 0) {
+                const size = sizeVariants[0].match(/\d+/);
+                return parseInt(size![0], 10);
+            }
+            if (isNaN(this.boardSize)) {
+                throw new Error(`Could not determine the number of blockers from variant "${this.variants[0]}"`);
+            }
+        }
+        return -1;
     }
 
     private getGraph(): HexTriGraph {
@@ -144,22 +159,23 @@ export class TwinFlamesGame extends GameBase {
 
     private getRandomPlacement(): Map<string, playerid> {
         const board = new Map<string, playerid>();
+        const nBlockers = this.getBlockersSize(); // -1 means using the default value for the board size
 
-        if ( this.getRuleset() !== "no-block" ) {
+        if ( nBlockers !== 0 ) {
             const boardSize = this.getBoardSize(); // this.boardSize is not available yet
             const g = new HexTriGraph(boardSize, 2*boardSize - 2);
 
-            let shooterCount = 4;
+            let shooterCount = nBlockers === -1 ? 4 : nBlockers;
             let rows = ['b', 'c', 'd', 'e', 'f', 'g', 'h'];
             let cols_by_rows = [5, 6, 7, 8, 7, 6, 5]; // size of rows, excluding edges
 
             if ( boardSize === 7 ) {
-                shooterCount = 6;
+                shooterCount = nBlockers === -1 ? 6 : nBlockers;
                 rows = ['b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
                 cols_by_rows = [6, 7, 8, 9, 10, 9, 8, 7, 6];
             }
             if ( boardSize === 8 ) {
-                shooterCount = 8;
+                shooterCount = nBlockers === -1 ? 8 : nBlockers;
                 rows = ['b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'];
                 cols_by_rows = [7, 8, 9, 10, 11, 12, 11, 10, 9, 8, 7];
             }

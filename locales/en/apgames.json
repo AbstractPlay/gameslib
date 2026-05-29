@@ -3151,13 +3151,23 @@
             "size-8": {
                 "name": "Hex board (base-8), 8 blockers"
             },
-            "#ruleset": {
-                "description": "Original rules.",
-                "name": "Standard Rules"
+            "#blockers": {
+                "name": "Use standard number of blockers"
             },
-            "no-block": {
-                "description": "No blockers are used.",
-                "name": "No blockers"
+            "blocker-0": {
+                "name": "Don't use blockers"
+            },
+            "blocker-2": {
+                "name": "Use 2 blockers"
+            },
+            "blocker-4": {
+                "name": "Use 4 blockers"
+            },
+            "blocker-6": {
+                "name": "Use 6 blockers"
+            },
+            "blocker-8": {
+                "name": "Use 8 blockers"
             }
         },
         "twixt": {

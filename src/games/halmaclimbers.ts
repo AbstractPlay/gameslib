@@ -350,6 +350,13 @@ export class HalmaClimbersGame extends GameBase {
             return result;
         }
 
+        // player didn't move the first piece, and already started with the second
+        if ( actions.length === 2 && !actions[0].includes("-") ) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.halmaclimbers.INCOMPLETE_ACTION");
+            return result;
+        }
+
         // need to move through all the moves, and check if they follow the rules
         // for that we need a copy of the board, to keep the effects of the previous actions
         const clone = new Map(this.board);

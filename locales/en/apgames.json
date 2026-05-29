@@ -5108,6 +5108,7 @@
             "INITIAL_INSTRUCTIONS": "Select a friendly piece and use it to jump over another piece, or pass your turn.",
             "INSTRUCTIONS": "An action is either a backward movement to an adjacent empty cell or a sequence of short-jumps over pieces of either color. The sequence of jumps must start inside the player's home-base. Each player makes two actions or just passes their turn.",
             "NEXT_ACTION": "After moving the first piece, just click on the second stone to start moving or jumping.",
+            "INCOMPLETE_ACTION": "The first piece did not move; cannot start moving the second piece yet!",
             "NONEXISTENT": "Trying to interact with a friendly piece that doesn't exist at {{where}}!",
             "ILLEGAL_JUMP": "The sequence of jumps must start inside the player's home-base!",
             "TOO_MANY_ACTIONS": "This number of actions is not allowed; only one action is allowed at first, then two.",

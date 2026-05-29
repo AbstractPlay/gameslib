@@ -398,7 +398,7 @@ export class TanboGame extends GameBase {
             },
             legend: {
                 A: { name: "piece", colour: 1 },
-                B: { name: "piece", colour: 1 },
+                B: { name: "piece", colour: 2 },
             },
             pieces: pstr
         };

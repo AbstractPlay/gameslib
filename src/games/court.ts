@@ -53,7 +53,7 @@ export class CourtGame extends GameBase {
             },
         ],
         categories: ["goal>annihilate", "mechanic>move", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["player-stashes"]
+        flags: ["perspective", "player-stashes"]
     };
 
     public numplayers = 2;

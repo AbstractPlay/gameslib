@@ -253,6 +253,7 @@ import { SynapseGame, ISynapseState } from "./synapse";
 import { AtariGoGame, IAtariGoState } from "./atarigo";
 import { TanboGame, ITanboState } from "./tanbo";
 import { UnaneGame, IUnaneState } from "./unane";
+import { LinageGame, ILinageState } from "./linage";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -509,6 +510,7 @@ export {
     AtariGoGame, IAtariGoState,
     TanboGame, ITanboState,
     UnaneGame, IUnaneState,
+    LinageGame, ILinageState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -596,7 +598,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof ShapeChessGame | typeof SlimetrailGame | typeof CatsDogsGame |
                               typeof SoccolotGame | typeof CourtGame | typeof HalmaGame |
                               typeof MinimizeGame | typeof HalmaClimbersGame | typeof SynapseGame |
-                              typeof AtariGoGame | typeof TanboGame | typeof UnaneGame
+                              typeof AtariGoGame | typeof TanboGame | typeof UnaneGame |
+                              typeof LinageGame
                 >();
 // Manually add each game to the following array
 [
@@ -635,7 +638,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     ProductGame, OonpiaGame, GoGame, StilettoGame, BTTGame, MinefieldGame, SentinelGame, 
     XanaGame, SporaGame, SquirmGame, PinchGame, DomineeringGame, TwinFlamesGame, YGame, ShapeChessGame,
     SlimetrailGame, CatsDogsGame, SoccolotGame, CourtGame, HalmaGame, MinimizeGame, HalmaClimbersGame,
-    SynapseGame, AtariGoGame, TanboGame, UnaneGame
+    SynapseGame, AtariGoGame, TanboGame, UnaneGame, LinageGame
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -1153,6 +1156,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new TanboGame(...args);
         case "unane":
             return new UnaneGame(...args);
+        case "linage":
+            return new LinageGame(...args);
     }
     return;
 }

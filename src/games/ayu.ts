@@ -51,6 +51,7 @@ export class AyuGame extends GameBase {
             { uid: "#board" },
             { uid: "size-15", group: "board" },
             { uid: "size-17", group: "board" },
+            { uid: "size-19", group: "board" },
         ],
         categories: ["goal>unify", "mechanic>move>group", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["pie"],

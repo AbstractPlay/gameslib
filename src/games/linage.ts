@@ -57,7 +57,7 @@ export class LinageGame extends GameBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
-        categories: ["goal>area", "mechanic>place", "board>shape>rect", "board>connect>rect"],
+        categories: ["goal>area", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1c"],
         variants: [
             { uid: "size-11", group: "board" },
             { uid: "size-13", group: "board" },
@@ -65,7 +65,7 @@ export class LinageGame extends GameBase {
             { uid: "size-17", group: "board" },
             { uid: "size-19", group: "board" },
         ],
-        flags: ["custom-buttons", "custom-colours", "experimental"]
+        flags: ["custom-buttons", "custom-colours", "no-moves", "scores", "experimental"]
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -397,7 +397,7 @@ export class LinageGame extends GameBase {
 
     protected checkEOG(): LinageGame {
         this.gameover = !this.hasPlacements() // all regions are owned
-                        || 
+                        ||
                         (this.lastmove === "pass" &&  // two consecutive passes occurred
                          this.stack[this.stack.length - 1].lastmove === "pass");
 
@@ -519,16 +519,19 @@ export class LinageGame extends GameBase {
     }
 
     public getButtons(): ICustomButton[] {
-        if (this.moves().includes("pass"))
-            return [{ label: "pass", move: "pass" }];
-        if (this.moves().includes("play-second"))
+        if (this.isKomiTurn()) {
+            return []; // no buttons should appear when typing Komi at start
+        }
+        if (this.isPieTurn()) {
             return [{ label: "playsecond", move: "play-second" }];
-        return []; // no buttons should appear when typing Komi at start
+        }
+        return [{ label: "pass", move: "pass" }];
     }
 
     public sidebarScores(): IScores[] {
         return [ { name: i18next.t("apgames:status.SCORES"),
-                   scores: [this.getPlayerScore(1), this.getPlayerScore(2)] } ];
+                   scores: [`${this.getPlayerScore(1)} (Vertical)`,
+                            `${this.getPlayerScore(2)} (Horizontal)`] } ];
     }
 
     public getPlayerScore(player: number): number {

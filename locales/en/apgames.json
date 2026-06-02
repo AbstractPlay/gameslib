@@ -169,6 +169,7 @@
         "pletore": "Territorial line-of-sight game. Intersections are controlled and pieces on them are flipped based on the number and direction of pieces that can see them. The winner is the player who occupies more of the board at the end.",
         "plurality": "Territorial game where players place trominos to enclosure areas. The player with more stones on a given area's perimeter owns that area.",
         "pods": "Natal Seas - Pods is a territorial game where the players take on the metaphorical role of competing whales vying for space to protect their young. Played on a hexagonal board, it uses an innovative mechanism of placements and movements.",
+        "pollux": "A mix of Hex and Amazons: shoot to connect your edges or block the adversary.",
         "pontedd": "Players build islands and attempt to connect as many of them as possible by bridge. Most points wins.",
         "product": "Players score by multiplying their two largest groups. Largest score wins. If tied, the second player wins.",
         "prudh": "Prudh (\"prew\") is a game of shared pieces where one player owns the light squares and the other owns the dark. Manipulate stacks of pieces to earn points. Highest score at the end of the game wins.",
@@ -2258,6 +2259,23 @@
                 "name": "19x19 board"
             }
         },
+        "pollux": {
+            "#board": {
+                "name": "10x10 board"
+            },
+            "size-12": {
+                "name": "12x12 board"
+            },
+            "size-14": {
+                "name": "14x14 board"
+            },
+            "size-16": {
+                "name": "16x16 board"
+            },
+            "size-18": {
+                "name": "18x18 board"
+            }
+        },
         "pontedd": {
             "size-8": {
                 "name": "8x8 board"
@@ -3165,16 +3183,16 @@
         },
         "twinflames": {
             "#board": {
-                "name": "Hex board (base-6), 4 blockers"
+                "name": "Hex board (base-6)"
             },
             "size-7": {
-                "name": "Hex board (base-7), 6 blockers"
+                "name": "Hex board (base-7)"
             },
             "size-8": {
-                "name": "Hex board (base-8), 8 blockers"
+                "name": "Hex board (base-8)"
             },
             "#blockers": {
-                "name": "Use standard number of blockers"
+                "name": "Use default blockers"
             },
             "blocker-0": {
                 "name": "Don't use blockers"
@@ -5750,6 +5768,19 @@
             "INVALID_PLACEMENT": "You may only place a new piece onto an empty space where you have more neighboring pieces than your opponent.",
             "INVALID_MOVEMENT": "You may only move around other pieces without passing through enemy controlled spaces. Legal landing spaces are highlighted when clicking to move.",
             "INVALID_MOVER": "You may only move your own nonisolated pieces."
+        },
+        "pollux": {
+            "INITIAL_INSTRUCTIONS_1": "Place your first tower.",
+            "INITIAL_INSTRUCTIONS_2": "Place your two towers.",
+            "INITIAL_INSTRUCTIONS_3": "Place your second tower.",
+            "INSTRUCTION_SLIDE": "Move a tower in a straight line over empty hexes, then shoot a piece also in a straight line.",
+            "INSTRUCTION_SHOOT": "Shoot a piece over a straight line of empty hexes.",
+            "NEED_FRIENDLY_TOWER": "Need to select a friendly tower!",
+            "TOWER_ADJACENT": "Initially, towers cannot be adjacent!",
+            "TOWER_OCCUPIED_CELL": "Need to move the tower to an empty hex!",
+            "PIECE_OCCUPIED_CELL": "Need to shoot the piece to an empty hex!",
+            "TOWER_STRAIGHT_LINE": "A Tower moves over a line of empty hexes!",
+            "PIECE_STRAIGHT_LINE": "A Tower shoots a piece over a line of empty hexes!"
         },
         "pontedd": {
             "BAD_BRIDGE_BLOCKED": "There may be no tiles under the bridge.",

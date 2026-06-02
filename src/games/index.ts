@@ -254,6 +254,7 @@ import { AtariGoGame, IAtariGoState } from "./atarigo";
 import { TanboGame, ITanboState } from "./tanbo";
 import { UnaneGame, IUnaneState } from "./unane";
 import { LinageGame, ILinageState } from "./linage";
+import { PolluxGame, IPolluxState } from "./pollux";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -511,6 +512,7 @@ export {
     TanboGame, ITanboState,
     UnaneGame, IUnaneState,
     LinageGame, ILinageState,
+    PolluxGame, IPolluxState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -599,7 +601,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof SoccolotGame | typeof CourtGame | typeof HalmaGame |
                               typeof MinimizeGame | typeof HalmaClimbersGame | typeof SynapseGame |
                               typeof AtariGoGame | typeof TanboGame | typeof UnaneGame |
-                              typeof LinageGame
+                              typeof LinageGame | typeof PolluxGame
                 >();
 // Manually add each game to the following array
 [
@@ -638,7 +640,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     ProductGame, OonpiaGame, GoGame, StilettoGame, BTTGame, MinefieldGame, SentinelGame, 
     XanaGame, SporaGame, SquirmGame, PinchGame, DomineeringGame, TwinFlamesGame, YGame, ShapeChessGame,
     SlimetrailGame, CatsDogsGame, SoccolotGame, CourtGame, HalmaGame, MinimizeGame, HalmaClimbersGame,
-    SynapseGame, AtariGoGame, TanboGame, UnaneGame, LinageGame
+    SynapseGame, AtariGoGame, TanboGame, UnaneGame, LinageGame, PolluxGame
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -1158,6 +1160,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new UnaneGame(...args);
         case "linage":
             return new LinageGame(...args);
+        case "pollux":
+            return new PolluxGame(...args);
     }
     return;
 }

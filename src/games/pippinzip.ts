@@ -33,6 +33,7 @@ export class PippinzipGame extends GameBase {
         dateAdded: "2026-06-03",
         // i18next.t("apgames:descriptions.pippinzip")
         description: "apgames:descriptions.pippinzip",
+        notes: "apgames:notes.pippinzip",
         urls: ["https://boardgamegeek.com/boardgame/298409/pippinzip"],
         people: [
             {
@@ -428,6 +429,8 @@ export class PippinzipGame extends GameBase {
         }
         if (path1 === null) return [];
 
+        path.push("0"); // include separator (for rendering purposes)
+
         // check East/West
         let path2 = null;
         for (const source of this.lines[1][0]) {
@@ -533,12 +536,31 @@ export class PippinzipGame extends GameBase {
                 }
             }
             if (this.connPath.length > 0) {
-                const targets: RowCol[] = [];
-                for (const cell of this.connPath) {
-                    const [x,y] = PippinzipGame.algebraic2coords(cell, this.boardSize);
-                    targets.push({row: y, col: x})
+                if ( this.connPath.includes("0") ) { // it is a four edge connection
+                    const i = this.connPath.indexOf("0"); // find where the separator is, to draw each path separately
+                    let targets: RowCol[] = [];
+                    const path1 = this.connPath.slice(0,i);
+                    for (const cell of path1) {
+                        const [x,y] = PippinzipGame.algebraic2coords(cell, this.boardSize);
+                        targets.push({row: y, col: x})
+                    }
+                    rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
+
+                    targets = [];
+                    const path2 = this.connPath.slice(i+1);
+                    for (const cell of path2) {
+                        const [x,y] = PippinzipGame.algebraic2coords(cell, this.boardSize);
+                        targets.push({row: y, col: x})
+                    }
+                    rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
+                } else { // it is a connection between opposite edges
+                    const targets: RowCol[] = [];
+                    for (const cell of this.connPath) {
+                        const [x,y] = PippinzipGame.algebraic2coords(cell, this.boardSize);
+                        targets.push({row: y, col: x})
+                    }
+                    rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
                 }
-                rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
             }
         }
 

@@ -166,6 +166,7 @@
         "pikemen": "A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
         "pilastri": "Outlast your opponent in this game of blocking and moving, as pieces are forced to climb higher and higher until they run out of moves.",
         "pinch": "Orthogonal connection game where a diagonal of friendly stones can capture adjacent stones that need to be relocated in the same turn. This might result in more relocations starting a chain-reaction.",
+        "pippinzip": "An asymmetrical connection game.",
         "pletore": "Territorial line-of-sight game. Intersections are controlled and pieces on them are flipped based on the number and direction of pieces that can see them. The winner is the player who occupies more of the board at the end.",
         "plurality": "Territorial game where players place trominos to enclosure areas. The player with more stones on a given area's perimeter owns that area.",
         "pods": "Natal Seas - Pods is a territorial game where the players take on the metaphorical role of competing whales vying for space to protect their young. Played on a hexagonal board, it uses an innovative mechanism of placements and movements.",
@@ -2224,6 +2225,23 @@
             "original": {
                 "description": "Captured stones flip color, eventually resulting in more flips.",
                 "name": "Flip Pinch"
+            }
+        },
+        "pippinzip": {
+            "size-9": {
+                "name": "9x9 board"
+            },
+            "#board": {
+                "name": "11x11 board"
+            },
+            "size-13": {
+                "name": "13x13 board"
+            },
+            "size-15": {
+                "name": "15x15 board"
+            },
+            "size-19": {
+                "name": "19x19 board"
             }
         },
         "pletore": {
@@ -5738,6 +5756,16 @@
             "SELF_OPP_STONES_TO_PLACE": "There are still {{own}} friendly captured stone(s), and then {{opp}} adversary stone(s), to relocate.",
             "OPP_SELF_STONES_TO_PLACE": "There are still {{opp}} opponent captured stone(s), and then {{own}} friendly stone(s), to relocate.",
             "INITIAL_INSTRUCTIONS_ORIGINAL": "Place a stone on an empty cell. If a pinch capture is made, the captured stone flips color. This flip might cause subsequent flips, starting a chain-reaction until the board stabilizes."
+        },
+        "pippinzip": {
+            "INITIAL_INSTRUCTIONS": "This is the auction phase. Either place one to three pieces on empty cells to improve 'Zip' position, or press 'pass' to finish the auction and be 'Zip'. 'Zip' then places one piece per turn and tries to connect all four board edges. Pip then places two non-adjacent pieces per turn and must orthogonally connect two opposite edges.",
+            "INSTRUCTIONS_PIP": "Place two friendly pieces not orthogonally adjacent to each other.",
+            "INSTRUCTIONS_PIP_2": "Place the second friendly piece not orthogonally adjacent to the previous one.",
+            "INSTRUCTIONS_ZIP": "Place one friendly piece.",
+            "TOO_MANY_PLACEMENTS_AUCTION": "Too many placements. During the auction players can place up to three pieces on empty cells!",
+            "ERROR_PLACEMENT_PIP": "The Pip player must place two pieces on non-orthogonally adjacent empty cells!",
+            "ADJACENT_PLACEMENT_PIP": "The second piece is orthogonally adjacent to the first!",
+            "ERROR_PLACEMENT_ZIP": "The Zip player (the taker) must place one piece on an empty cell!"
         },
         "pletore": {
             "INITIAL_INSTRUCTIONS": "Place a piece onto an empty intersection not controlled by the opponent, replace an enemy piece on an intersection you control, or 'pass' if all intersections are occupied or controlled. The game ends when both players pass in sequence.",

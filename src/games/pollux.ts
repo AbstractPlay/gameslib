@@ -291,10 +291,12 @@ export class PolluxGame extends GameBase {
         const allMoves = this.moves();
 
         try {
-            for (const cell of moves) { this.graph.algebraic2coords(cell); }
+            for (const cell of moves) {
+                this.graph.algebraic2coords(cell);
+            }
         } catch {
             result.valid = false;
-            result.message = i18next.t("apgames:validation._general.INVALIDMOVE", {m});
+            result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: m});
             return result;
         }
 

@@ -262,6 +262,17 @@ export class PippinzipGame extends GameBase {
         }
 
         const moves = m.split(',');
+
+        try {
+            for (const cell of moves) {
+                PippinzipGame.algebraic2coords(cell, this.boardSize);
+            }
+        } catch {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: m});
+            return result;
+        }
+
         for (const cell of moves) {
             if ( this.board.has(cell) ) {
                 result.valid = false;

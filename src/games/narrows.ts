@@ -25,8 +25,8 @@ export class NarrowsGame extends GameBase {
         name: "Narrows",
         uid: "narrows",
         playercounts: [2],
-        version: "20260521",
-        dateAdded: "2026-05-27",
+        version: "20260604",
+        dateAdded: "2026-06-04",
         // i18next.t("apgames:descriptions.narrows")
         description: "apgames:descriptions.narrows",
         notes: "apgames:notes.narrows",
@@ -244,6 +244,17 @@ export class NarrowsGame extends GameBase {
         }
 
         const moves = m.split('-');
+
+        try {
+            for (const cell of moves) {
+                this.graph.algebraic2coords(cell);
+            }
+        } catch {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: m});
+            return result;
+        }
+
         const allMoves = this.moves();
 
         if (moves.length === 1) {

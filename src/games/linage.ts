@@ -328,6 +328,14 @@ export class LinageGame extends GameBase {
             return result;
         }
 
+        try {
+            this.algebraic2coords(m);
+        } catch {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: m});
+            return result;
+        }
+
         if ( this.board.has(m) ) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.linage.OCCUPIED");

@@ -349,10 +349,11 @@ export class PippinzipGame extends GameBase {
             this.zipPlayer = this.currplayer; // auction phase ended, Zip is the 'taker'
             this.results = [{ type: "pass" }];
         } else {
+            this.results = [];
             const p = this.inAuctionPhase() || this.isZipTurn() ? 3 : this.currplayer;
             for (const cell of m.split(',')) {
                 this.board.set(cell, p);
-                this.results = [{type: "place", where:cell}];
+                this.results.push( {type: "place", where:cell} );
             }
         }
 
@@ -455,11 +456,12 @@ export class PippinzipGame extends GameBase {
         let path = [];
 
         if ( this.inAuctionPhase() ) {
-            // if, strangely, the Zip pieces make a connection, the game is a draw
+            // if, strangely, the Zip pieces make a connection before the auction ends, 
+            // the game is a win for the player that made the connection
             path = this.connectedZip();
             if ( path.length > 0 ) {
                 this.gameover = true;
-                this.winner = [1, 2];
+                this.winner = [prevPlayer];
                 this.connPath = [...path];
                 this.results.push({ type: "eog" });
             }

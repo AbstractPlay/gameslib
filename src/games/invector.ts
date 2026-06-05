@@ -3,7 +3,6 @@ import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError, SquareOrthGraph } from "../common";
-import { connectedComponents } from "graphology-components";
 import i18next from "i18next";
 
 type playerid = 1 | 2; // regarding pieces: 1 is the ball, 2 are the walls
@@ -14,23 +13,23 @@ export interface IMoveState extends IIndividualState {
     lastmove?: string;
 };
 
-export interface IUnaneState extends IAPGameState {
+export interface IInvectorState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
 };
 
-export class UnaneGame extends GameBase {
+export class InvectorGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
-        name: "Unane",
-        uid: "unane",
+        name: "Invector",
+        uid: "invector",
         playercounts: [2],
-        version: "20260521",
-        dateAdded: "2026-05-27",
-        // i18next.t("apgames:descriptions.unane")
-        description: "apgames:descriptions.unane",
-        notes: "apgames:notes.unane",
+        version: "20260605",
+        dateAdded: "2026-06-05",
+        // i18next.t("apgames:descriptions.invector")
+        description: "apgames:descriptions.invector",
+        notes: "apgames:notes.invector",
         urls: [
-            "https://www.marksteeregames.com/Unane_rules.pdf",
+            "https://www.marksteeregames.com/Invector_rules.pdf",
         ],
         people: [
             {
@@ -55,7 +54,7 @@ export class UnaneGame extends GameBase {
             { uid: "size-14", group: "board" }, // 13x14
             { uid: "size-16", group: "board" }, // 15x16
         ],
-        flags: ["pie"]
+        flags: ["automove", "pie", "experimental"]
     };
 
     public numplayers = 2;
@@ -71,7 +70,7 @@ export class UnaneGame extends GameBase {
     private grid: RectGrid;
     private dots: [number, number][] = []; // if there are points here, the renderer will show them
 
-    constructor(state?: IUnaneState | string, variants?: string[]) {
+    constructor(state?: IInvectorState | string, variants?: string[]) {
         super();
         if (state === undefined) {
             if ( (variants !== undefined) && (variants.length > 0) ) {
@@ -89,7 +88,7 @@ export class UnaneGame extends GameBase {
                 }
             }
             const fresh: IMoveState = {
-                _version: UnaneGame.gameinfo.version,
+                _version: InvectorGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
@@ -98,10 +97,10 @@ export class UnaneGame extends GameBase {
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
-                state = JSON.parse(state, reviver) as IUnaneState;
+                state = JSON.parse(state, reviver) as IInvectorState;
             }
-            if (state.game !== UnaneGame.gameinfo.uid) {
-                throw new Error(`The Unane engine cannot process a game of '${state.game}'.`);
+            if (state.game !== InvectorGame.gameinfo.uid) {
+                throw new Error(`The Invector engine cannot process a game of '${state.game}'.`);
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
@@ -112,7 +111,7 @@ export class UnaneGame extends GameBase {
         this.grid = new RectGrid(this.getBoardSize(), this.getBoardSize()-1);
     }
 
-    public load(idx = -1): UnaneGame {
+    public load(idx = -1): InvectorGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -156,24 +155,8 @@ export class UnaneGame extends GameBase {
         return neighbours.map(n => this.graph.coords2algebraic(...n));
     }
 
-    // return all the groups/roots of a given player
-    private getGroups(player?: playerid): string[][] {
-        if (player === undefined) { player = this.currplayer; }
-        const pieces = [...this.board.entries()].filter(([,owner]) => owner === player).map(pair => pair[0]);
-        const g = this.graph;
-
-        for (const node of g.graph.nodes()) {
-            if (!pieces.includes(node)) { // remove intersections/nodes not occupied by the player
-                g.graph.dropNode(node);
-            }
-        }
-
-        const groups : Array<Array<string>> = connectedComponents(g.graph);
-        const res: string[][] = [];
-        for (const group of groups) {
-            res.push( group );
-        }
-        return res;
+    private manhattan(p1: [number, number], p2: [number, number]): number {
+        return Math.abs(p1[0] - p2[0]) + Math.abs(p1[1] - p2[1]);
     }
 
     public moves(player?: playerid): string[] {
@@ -184,25 +167,31 @@ export class UnaneGame extends GameBase {
 
         for (const cell of g.graph.nodes()) {
             if (this.board.has(cell) && this.board.get(cell) === player) {
-                // check if we can remove this friendly stone
-                let canRemove = true;
-                // this is only possible if there are no orthogonal adjacencies with enemy stones
-                for (const neigh of this.orthNeighbours(cell)) {
-                    if (this.board.has(neigh) && this.board.get(neigh) !== player) {
-                        canRemove = false;
-                        break;
-                    }
-                }
-                if (canRemove) {
-                    moves.push(`${cell}-${cell}`);
-                }
                 // players can move their friendly stones to capture an enemy stone
                 for (const neigh of this.orthNeighbours(cell)) {
                     if (this.board.has(neigh) && this.board.get(neigh) !== player) {
                         moves.push(`${cell}-${neigh}`);
                     }
                 }
+
+                // pieces can also move to empty cell if it's near to the board center of mass
+                const xc = (this.boardSize-1) / 2; // eg, if 6 cols, xc is 2.5 (0-indexed)
+                const yc = (this.boardSize-2) / 2; // eg, if 5 rows, ys is 2   (0-indexed)
+
+                const [x, y] = g.algebraic2coords(cell);
+                const currentDistance = this.manhattan([x, y], [xc, yc] );
+                for (const neigh of this.orthNeighbours(cell)) {
+                    const [x1, y1] = g.algebraic2coords(neigh);
+                    const newDistance = this.manhattan([x1, y1], [xc, yc] );
+                    if ( !this.board.has(neigh) && newDistance < currentDistance) {
+                        moves.push(`${cell}-${neigh}`);
+                    }
+                }
             }
+        }
+
+        if (moves.length === 0) {
+            moves.push("pass"); // if no legal move is available, pass turn
         }
 
         return moves.sort((a,b) => a.localeCompare(b));
@@ -215,7 +204,9 @@ export class UnaneGame extends GameBase {
 
             if (move === "") {
                 newmove = cell;
-            } else if (! move.includes('-') ) {
+            } else if (move === cell) {
+                newmove = "";
+            } else {
                 newmove = `${move}-${cell}`;
             }
 
@@ -231,6 +222,10 @@ export class UnaneGame extends GameBase {
         }
     }
 
+    private hasPrefix(moves: string[], partial: string): boolean {
+        return moves.some(str => str.startsWith(partial));
+    }
+
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
@@ -238,28 +233,64 @@ export class UnaneGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.unane.INITIAL_INSTRUCTIONS");
+            result.message = i18next.t("apgames:validation.invector.INITIAL_INSTRUCTIONS");
             return result;
         }
 
         const moves = m.split('-');
+
+        const allMoves = this.moves();
+
+        if ( m === "pass" ) {
+            if (! allMoves.includes("pass") ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.invector.INVALID_PASS");
+                return result;
+            }
+            result.valid = true;
+            result.complete = 1;
+            result.canrender = true;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
+        } else { // if not a pass move, confirm the mentioned cells are all valid
+            try {
+                for (const cell of moves) {
+                    this.graph.algebraic2coords(cell);
+                }
+            } catch {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: m});
+                return result;
+            }
+            // ok, the move is not a pass, but check if a pass move is mandatory
+            if ( allMoves.length === 1 && allMoves.includes("pass") ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.invector.ONLY_PASS");
+                return result;
+            }
+        }
+
         if (moves.length === 1) {
             if (!this.board.has(m) || this.board.get(m) !== this.currplayer) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.unane.INVALID_SELECTION");
+                result.message = i18next.t("apgames:validation.invector.INVALID_SELECTION");
                 return result;
+            }
+            if (! this.hasPrefix(allMoves, m) ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.narrows.CANNOT_MOVE");
+                return result
             }
             result.valid = true;
             result.complete = -1; // player still needs to decide to place or remove this stone
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.unane.INSTRUCTIONS");
+            result.message = i18next.t("apgames:validation.invector.INSTRUCTIONS");
             return result;
         }
 
-        const allMoves = this.moves();
         if (! allMoves.includes(m) ) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.unane.INVALID_MOVE");
+            result.message = i18next.t("apgames:validation.invector.INVALID_MOVE");
             return result
         }
 
@@ -275,7 +306,7 @@ export class UnaneGame extends GameBase {
                            .map(mv => mv.split('-')[1]);
     }
 
-    public move(m: string, {partial = false, trusted = false} = {}): UnaneGame {
+    public move(m: string, {partial = false, trusted = false} = {}): InvectorGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -296,24 +327,21 @@ export class UnaneGame extends GameBase {
         this.dots = [];
         if (m === "") { return this; }
 
-        if (partial) {
-            this.dots = this.findPoints(m).map(c => this.graph.algebraic2coords(c));
-            return this;
-        } else {
-            this.dots = []; // otherwise delete the points and process the full move
-        }
+        if (m !== "pass") {
+            if (partial) {
+                this.dots = this.findPoints(m).map(c => this.graph.algebraic2coords(c));
+                return this;
+            } else {
+                this.dots = []; // otherwise delete the points and process the full move
+            }
 
-        const moves = m.split('-');
-        if (moves[0] === moves[1]) { // removal
-            this.board.delete(moves[0]);
-            this.results.push({ type: "place", where: moves[0], count: 1 });
-        } else { // move and (eventual capture)
+            const moves = m.split('-');
             this.board.delete(moves[0]);
             this.board.set(moves[1], this.currplayer);
             this.results.push({ type: "move", from: moves[0], to: moves[1]});
-        }
 
-        if (partial) { return this; }
+            if (partial) { return this; }
+        }
 
         this.lastmove = m;
         this.currplayer = this.currplayer % 2 + 1 as playerid;
@@ -322,18 +350,13 @@ export class UnaneGame extends GameBase {
         return this;
     }
 
-    protected checkEOG(): UnaneGame {
-        const p1Groups = this.getGroups(1);
-        const p2Groups = this.getGroups(2);
+    protected checkEOG(): InvectorGame {
+        const p1Pieces = [...this.board.entries()].filter(([,owner]) => owner === 1);
+        const p2Pieces = [...this.board.entries()].filter(([,owner]) => owner === 2);
 
-        if (p1Groups.length === 1 || p2Groups.length === 1) {
+        if (p1Pieces.length === 0 || p2Pieces.length === 0) {
             this.gameover = true;
-            if (p1Groups.length === 1 && p2Groups.length === 1) {
-                const prevplayer = this.currplayer % 2 + 1 as playerid;
-                this.winner = [prevplayer];
-            } else {
-                this.winner = p1Groups.length === 1 ? [1] : [2];
-            }
+            this.winner = p1Pieces.length === 0 ? [2] : [1];
         }
 
         if ( this.gameover ) {
@@ -346,9 +369,9 @@ export class UnaneGame extends GameBase {
         return this;
     }
 
-    public state(): IUnaneState {
+    public state(): IInvectorState {
         return {
-            game: UnaneGame.gameinfo.uid,
+            game: InvectorGame.gameinfo.uid,
             numplayers: this.numplayers,
             variants: [...this.variants],
             gameover: this.gameover,
@@ -359,7 +382,7 @@ export class UnaneGame extends GameBase {
 
     public moveState(): IMoveState {
         return {
-            _version: UnaneGame.gameinfo.version,
+            _version: InvectorGame.gameinfo.version,
             _results: [...this.results],
             _timestamp: new Date(),
             currplayer: this.currplayer,
@@ -431,7 +454,7 @@ export class UnaneGame extends GameBase {
         return rep;
     }
 
-    public clone(): UnaneGame {
-        return new UnaneGame(this.serialize());
+    public clone(): InvectorGame {
+        return new InvectorGame(this.serialize());
     }
 }

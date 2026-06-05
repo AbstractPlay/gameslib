@@ -257,6 +257,7 @@ import { LinageGame, ILinageState } from "./linage";
 import { PolluxGame, IPolluxState } from "./pollux";
 import { PippinzipGame, IPippinzipState } from "./pippinzip";
 import { NarrowsGame, INarrowsState } from "./narrows";
+import { InvectorGame, IInvectorState } from "./invector";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -517,6 +518,7 @@ export {
     PolluxGame, IPolluxState,
     PippinzipGame, IPippinzipState,
     NarrowsGame, INarrowsState,
+    InvectorGame, IInvectorState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -606,7 +608,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof MinimizeGame | typeof HalmaClimbersGame | typeof SynapseGame |
                               typeof AtariGoGame | typeof TanboGame | typeof UnaneGame |
                               typeof LinageGame | typeof PolluxGame | typeof PippinzipGame |
-                              typeof NarrowsGame
+                              typeof NarrowsGame | typeof InvectorGame
                 >();
 // Manually add each game to the following array
 [
@@ -645,7 +647,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     ProductGame, OonpiaGame, GoGame, StilettoGame, BTTGame, MinefieldGame, SentinelGame, 
     XanaGame, SporaGame, SquirmGame, PinchGame, DomineeringGame, TwinFlamesGame, YGame, ShapeChessGame,
     SlimetrailGame, CatsDogsGame, SoccolotGame, CourtGame, HalmaGame, MinimizeGame, HalmaClimbersGame,
-    SynapseGame, AtariGoGame, TanboGame, UnaneGame, LinageGame, PolluxGame, PippinzipGame, NarrowsGame
+    SynapseGame, AtariGoGame, TanboGame, UnaneGame, LinageGame, PolluxGame, PippinzipGame, NarrowsGame,
+    InvectorGame
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -1171,6 +1174,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new PippinzipGame(...args);
         case "narrows":
             return new NarrowsGame(...args);
+        case "invector":
+            return new InvectorGame(...args);
     }
     return;
 }

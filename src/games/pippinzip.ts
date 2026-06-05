@@ -1,13 +1,13 @@
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, RowCol, Colourfuncs } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError } from "../common";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted";
 import i18next from "i18next";
 
-export type playerid = 1 | 2 | 3; // 3 are Pip pieces
+export type playerid = 1 | 2;
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -69,7 +69,7 @@ export class PippinzipGame extends GameBase {
         ],
         categories: ["goal>connect", "mechanic>place", "mechanic>asymmetry",
                      "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["no-moves", "custom-buttons", "experimental"]
+        flags: ["no-moves", "custom-buttons", "custom-colours", "experimental"]
     };
 
     public numplayers = 2;
@@ -361,7 +361,7 @@ export class PippinzipGame extends GameBase {
             this.results = [{ type: "pass" }];
         } else {
             this.results = [];
-            const p = this.inAuctionPhase() || this.isZipTurn() ? 3 : this.currplayer;
+            const p = this.getPlayerColour(this.currplayer) as playerid;
             for (const cell of m.split(',')) {
                 this.board.set(cell, p);
                 this.results.push( {type: "place", where:cell} );
@@ -401,8 +401,7 @@ export class PippinzipGame extends GameBase {
     // returns an orthogonal connection path between two opposite edges,
     // or [] if it does not exist
     private connectedPip(): string[] {
-        const pipPlayer: playerid = this.zipPlayer === 1 ? 2 : 1;
-        const graph = this.buildGraph(pipPlayer, false); // check orthogonal path for Pip pieces
+        const graph = this.buildGraph(2, false); // check orthogonal path for Pip pieces
 
         for (const [sources, targets] of this.lines) {
             for (const source of sources) {
@@ -422,7 +421,7 @@ export class PippinzipGame extends GameBase {
     // returns an diagonal connection path between all four edges,
     // or [] if it does not exist
     private connectedZip(): string[] {
-        const graph = this.buildGraph(3, true); // check ortho+diag path for Zip pieces
+        const graph = this.buildGraph(1, true); // check ortho+diag path for Zip pieces
         const path: string[] = []
 
         // check North/South
@@ -467,27 +466,18 @@ export class PippinzipGame extends GameBase {
         let path = [];
 
         if ( this.inAuctionPhase() ) {
-            // if, strangely, the Zip pieces make a connection before the auction ends, 
+            // if, strangely, the Zip pieces make a connection before the auction ends,
             // the game is a win for the player that made the connection
             path = this.connectedZip();
-            if ( path.length > 0 ) {
-                this.gameover = true;
-                this.winner = [prevPlayer];
-                this.connPath = [...path];
-                this.results.push({ type: "eog" });
-            }
-        } else {
-            if ( this.zipPlayer === prevPlayer ) { // check if Zip won
-                path = this.connectedZip();
-            } else { // check if Pip won
-                path = this.connectedPip();
-            }
-            if ( path.length > 0 ) {
-                this.gameover = true;
-                this.winner = [prevPlayer];
-                this.connPath = [...path];
-                this.results.push({ type: "eog" });
-            }
+        } else { // check if Zip or Pip won
+            path = this.zipPlayer === prevPlayer ?  this.connectedZip() : this.connectedPip();
+        }
+
+        if ( path.length > 0 ) {
+            this.gameover = true;
+            this.winner = [prevPlayer];
+            this.connPath = [...path];
+            this.results.push({ type: "eog" });
         }
 
         if (this.gameover) {
@@ -510,19 +500,12 @@ export class PippinzipGame extends GameBase {
                     const contents = this.board.get(cell);
                     if (contents === 1) { pstr += "A"; }
                     if (contents === 2) { pstr += "B"; }
-                    if (contents === 3) { pstr += "C"; }
                 } else {
                     pstr += "-";
                 }
             }
         }
         pstr = pstr.replace(new RegExp(`-{${this.boardSize}}`, "g"), "_");
-
-        const pipColour: Colourfuncs = {
-            func: "custom",
-            default: "#999",
-            palette: 3
-        };
 
         // Build rep
         const rep: APRenderRep =  {
@@ -534,9 +517,20 @@ export class PippinzipGame extends GameBase {
             legend: {
                 A: { name: "piece", colour: 1 },
                 B: { name: "piece", colour: 2 },
-                C: { name: "piece", colour: pipColour },
             },
-            pieces: pstr
+            pieces: pstr,
+            areas: [
+                {
+                    type: "key",
+                    list: [
+                        { name: "Zip/Cross", piece: "A" },
+                        { name: "Pip/Line",  piece: "B" }
+                    ],
+                    position: "left",
+                    height: 0.5,
+                    clickable: false,
+                }
+            ],
         };
 
         // Add annotations
@@ -578,6 +572,11 @@ export class PippinzipGame extends GameBase {
         }
 
         return rep;
+    }
+
+    public getPlayerColour(p: playerid): number | string {
+        // always return the color of the Zip/Line unless the auction is finished
+        return this.zipPlayer === undefined || p === this.zipPlayer ? 1 : 2;
     }
 
     public getButtons(): ICustomButton[] {

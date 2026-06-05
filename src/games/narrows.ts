@@ -83,7 +83,7 @@ export class NarrowsGame extends GameBase {
             const g = new SquareOrthGraph(sz, sz-1);
 
             for (let x=0; x<sz; x++) {
-                for (let y=0; y<sz; y++) {
+                for (let y=0; y<sz-1; y++) {
                     const cell = g.coords2algebraic(x, y);
                     const owner: playerid = x%2 === y%2 ? 1 : 2;
                     board.set(cell, owner);

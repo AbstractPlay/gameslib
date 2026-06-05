@@ -112,6 +112,7 @@
         "hexy": "An adaptation of Y on a regular hexagon where players vye to control most of the perimeter of the board.",
         "homeworlds": "An Icehouse game for 2 to 4 players. Players are interstellar civilizations vying for dominance. Each of the four colours of pyramid gives access to different actions. Amass a fleet, explore the galaxy, and ultimately destroy your opponent.",
         "hula": "Two players aim to form a loop around the center of a regular hexagonal board, using their own stones and, possibly, some number of neutral stones.",
+        "invector": "Eliminate the adversary army while getting near the board center.",
         "iqishiqi": "Iqishiqi (pronounced EE-chee-shee-chee) is an abstract strategy game that is played on a hexagonal board composed of hexagonal cells. Players own designated edges of the board, and by clever placement of stones they push a neutral stone around the board. A player wins if he/she moves the neutral stone to one of his/her edges, or leaves his/her opponent unable to move.",
         "irensei": "Irensei is a mixture of Go and Gomoku. Get a seven in a row inside the middle 15x15 region of the Go board to win. To reduce the first player's advantage, the first player loses if they make an overline (even if it extends beyond the 15x15 region), but the second player may win by overline.",
         "jacynth": "A Decktet card game where opponents vye for control of the city of Jacynth. Place cards, exert influence, and control the most area to win.",
@@ -285,6 +286,7 @@
         "halma": "To prevent the [drawish nature](https://boardgamegeek.com/thread/3706389/unspoiling-halma-redux) of the game, the following rules apply: (a) a player wins if the opposite home-base is complete with at least one friendly stone (David Parlett's criteria); (b) Any piece in the player's home-base must make progress towards the enemy camp whenever this is possible by jumping over an enemy piece. (Zillions rule, to remove drawish strategies); (c) No stone can return to its home-base.\n\n[Halma](https://en.wikipedia.org/wiki/Halma) was one of the first commercial successes for an abstract game. The game was designed by [George Howard Monks](https://en.wikipedia.org/wiki/George_Howard_Monks) in 1883/4. It is said that Halma was inspired by an older British game called *Hoppity*. However, this game has no documentation or surviving boards, turning this lineal statement into a historical mystery. Halma was later adapted (c.1892/3) into an even bigger success: [Chinese Checkers](https://boardgamegeek.com/boardgame/2386/chinese-checkers) (which could easily be played by three or six players).\n\nSuper Halma is a more dynamic, uncredited variant, presented in the 1992 book **New Rules for Classic Games** by Wayne Schmittberger. This variant proposes long jumps, where the number of empty cells before and after the jumped stone must be equal. The base's move restrictions still apply in this implementation of Super Halma.",
         "halmaclimbers": "Halma Climbers was designed by Alexander Brady in 2021.\n\nThis implementation allows players to move at will, rather than restricting them to moves that strictly increase the overall score (as mentioned in David Ploog's [ruleset](https://blackandwhite.develz.org/games/HalmaClimbers.pdf)). This design choice removes the burden of checking multiple move combinations just to find out that no more moves exist that increase the overall score. This also prevents the software from having to compute an excessive number of permutations, which can be quite high given the two-action turn structure and complex jump sequences. The game ends when both players pass their turns consecutively, or if the previous player evacuates their own area, or if the current player does not have forward jumps available.",
         "homeworlds": "The win condition is what's called \"Sinister Homeworlds.\" You only win by defeating the opponent to your left. If someone else does that, the game continues, but your left-hand opponent now shifts clockwise. For example, in a four-player game, if I'm South, then I win if I eliminate West. But if the North player ends up eliminating West, the game continues, but now my left-hand opponent is North.",
+        "invector": "Invector, designed by Mark Steere in 2026, is an elimination game inspired by the ancient Hawiian game of Kōnane. Invector begins with a checkerboard pattern of stones, has short range captures, and is extremely simple. Invector simply combines two basic, off-the-shelf ingredients: orthogonal, adjacent capturing moves, and orthogonal, adjacent moves closer to center.",
         "jacynth": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers and opponents.",
         "konane": "Several competing opening protocols exist, but the most common ruleset is the Naihe Ruleset, used by tournaments at the Bishop Museum in Hawaii and described in the BGG reference. This is what is implemented here.",
         "lasca": "Maneuverability is a measure of how close your pieces are to promoting. Your maximum maneuverability is the board size times the number of stacks you control.\n\nMaterial is calculated by giving you a point for every friendly piece in a stack you control, plus an extra point if you have an officer on top of that stack.",
@@ -1614,6 +1616,26 @@
             },
             "toroidal-15": {
                 "name": "Toroidal 15x15 board"
+            }
+        },
+        "invector": {
+            "size-6": {
+                "name": "5x6 board"
+            },
+            "#board": {
+                "name": "7x8 board"
+            },
+            "size-10": {
+                "name": "9x10 board"
+            },
+            "size-12": {
+                "name": "11x12 board"
+            },
+            "size-14": {
+                "name": "13x14 board"
+            },
+            "size-16": {
+                "name": "15x16 board"
             }
         },
         "jacynth": {
@@ -5270,6 +5292,15 @@
                 "PARTIAL_TWOARGS": "Select the new colour."
             },
             "VALID_W_ACTIONS": "Looks like a valid move, but you still have actions to spend."
+        },
+        "invector": {
+            "INITIAL_INSTRUCTIONS": "Select a friendly piece.",
+            "INSTRUCTIONS": "Click on an orthogonally opposing piece to capture by replacement, or move closer to the board center.",
+            "INVALID_SELECTION": "Click on a friendly piece.",
+            "ONLY_PASS": "No move or captured available. Player must pass!",
+            "INVALID_PASS": "There are moves or captures available. Player cannot pass.",
+            "CANNOT_MOVE": "This piece cannot move!",
+            "INVALID_MOVE": "Need to capture an orthogonally adjacent opponent piece, or move to an orthogonally adjacent empty cell closer to the board center!"
         },
         "iqishiqi": {
             "BLOCKED": "The neutral stone cannot move {{spaces}} spaces away from the group of shared stones formed by placement at {{place}}.",

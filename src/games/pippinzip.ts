@@ -527,7 +527,7 @@ export class PippinzipGame extends GameBase {
                         { name: "Pip/Line",  piece: "B" }
                     ],
                     position: "left",
-                    height: 0.5,
+                    height: 0.45,
                     clickable: false,
                 }
             ],

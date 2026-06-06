@@ -49,12 +49,12 @@ export class NarrowsGame extends GameBase {
         ],
         categories: ["goal>unify", "mechanic>move", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         variants: [
-            { uid: "size-6",  group: "board" }, // 5x6
-            { uid: "#board", }, // 7 rows x 8 cols
-            { uid: "size-10", group: "board" }, //  9x10
-            { uid: "size-12", group: "board" }, // 11x12
-            { uid: "size-14", group: "board" }, // 13x14
-            { uid: "size-16", group: "board" }, // 15x16
+            { uid: "size-6",  group: "board" }, //  5 rows x 6 cols
+            { uid: "size-8",  group: "board" }, //  7 x 8
+            { uid: "size-10", group: "board" }, //  9 x 10
+            { uid: "#board", },                 // 11 x 12
+            { uid: "size-14", group: "board" }, // 13 x 14
+            { uid: "size-16", group: "board" }, // 15 x 16
         ],
         flags: ["pie", "experimental"]
     };

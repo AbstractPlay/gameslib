@@ -548,6 +548,7 @@ export class TricouleurGame extends GameBase {
         }
 
         if (m.length === 0) { return this; }
+        this.results = [];
 
         if (m === "pass") {
             this.results = [{ type: "pass" }];
@@ -566,7 +567,7 @@ export class TricouleurGame extends GameBase {
                     }
 
                     this.board.set(to, [this.currplayer, pieceType]);
-                    this.results = [{ type: "move", from, to, how: jump ? "jump" : "split" }];
+                    this.results.push( { type: "move", from, to, how: jump ? "jump" : "split" } );
 
                     const opponentNeighbors = this.getCaptures(to, this.currplayer);
                     const showChanges = [];
@@ -657,17 +658,17 @@ export class TricouleurGame extends GameBase {
             },
             legend: {
                 A: [ { name: "piece",                   colour: 1 },
-                     { name: "piece-cog",               colour: "#ffffff", scale: 0.6, opacity: 0.6 }],
+                     { name: "circle",                  colour: "#ffffff", scale: 0.6, opacity: 0.6 } ],
                 B: [ { name: "piece",                   colour: 1 },
-                     { name: "d6-empty",                colour: "#ffffff", scale: 0.5, opacity: 0.6 }],
+                     { name: "d6-empty",                colour: "#ffffff", scale: 0.5, opacity: 0.6 } ],
                 C: [ { name: "piece",                   colour: 1 },
-                     { name: "chess-ex-solid-millenia", colour: "#ffffff", scale: 0.5, opacity: 0.6 }],
+                     { name: "chess-ex-solid-millenia", colour: "#ffffff", scale: 0.5, opacity: 0.6 } ],
                 D: [ { name: "piece",                   colour: 2 },
-                     { name: "piece-cog",               colour: "#aaaaaa", scale: 0.6, opacity: 0.6 }],
+                     { name: "circle"   ,               colour: "#aaaaaa", scale: 0.6, opacity: 0.6 } ],
                 E: [ { name: "piece",                   colour: 2 },
-                     { name: "d6-empty",                colour: "#aaaaaa", scale: 0.5, opacity: 0.6 }],
+                     { name: "d6-empty",                colour: "#aaaaaa", scale: 0.5, opacity: 0.6 } ],
                 F: [ { name: "piece",                   colour: 2 },
-                     { name: "chess-ex-solid-millenia", colour: "#aaaaaa", scale: 0.5, opacity: 0.6 }],
+                     { name: "chess-ex-solid-millenia", colour: "#aaaaaa", scale: 0.5, opacity: 0.6 } ],
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
         };

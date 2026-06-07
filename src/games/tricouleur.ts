@@ -342,8 +342,12 @@ export class TricouleurGame extends GameBase {
                     if (! move.includes(",") ) { // second move just starting
                         newmove = `${move},${cell}`;
                     } else { // otherwise, the player is clicking where the 2nd piece will go
-                        const neighs = this.getNeighbours(move.split(',')[1]);
-                        newmove = neighs.includes(cell) ? `${move}-${cell}` : `${move}^${cell}`;
+                        if ( cell === moves[2] ) {
+                            newmove = move.split(',')[0]; // reset 2nd move
+                        } else {
+                            const neighs = this.getNeighbours(move.split(',')[1]);
+                            newmove = neighs.includes(cell) ? `${move}-${cell}` : `${move}^${cell}`;
+                        }
                     }
                 }
             }

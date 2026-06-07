@@ -82,12 +82,14 @@ export class ACityGame extends GameBase {
             {
                 num: 5,
                 default: "#fff",
-                explanation: "Colour of the first player"
+                explanation: "Colour of the first player",
+                player: 1
             },
             {
                 num: 6,
                 default: "#000",
-                explanation: "Colour of the second player"
+                explanation: "Colour of the second player",
+                player: 2
             },
         ],
         categories: ["goal>score>eog", "mechanic>network", "mechanic>place", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>pyramids", "components>piecepack"],

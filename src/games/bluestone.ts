@@ -64,7 +64,8 @@ export class BluestoneGame extends GameBase {
             {
                 num: 1,
                 default: 1,
-                explanation: "Colour of the first player"
+                explanation: "Colour of the first player",
+                player: 1
             },
             {
                 num: 2,
@@ -74,7 +75,8 @@ export class BluestoneGame extends GameBase {
             {
                 num: 3,
                 default: 3,
-                explanation: "Colour of the second player"
+                explanation: "Colour of the second player",
+                player: 2
             },
         ],
     };

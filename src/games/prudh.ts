@@ -54,12 +54,14 @@ export class PrudhGame extends GameBase {
             {
                 num: 2,
                 default: "#fff",
-                explanation: "Colour of player 1"
+                explanation: "Colour of player 1",
+                player: 1
             },
             {
                 num: 3,
                 default: "#000",
-                explanation: "Colour of player 2"
+                explanation: "Colour of player 2",
+                player: 2
             },
         ],
         categories: ["goal>score>eog", "mechanic>move", "mechanic>move>sow", "mechanic>share", "board>shape>rect", "board>connect>rect", "components>simple>1c"],

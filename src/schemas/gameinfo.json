@@ -110,6 +110,10 @@
                 "explanation": {
                     "description": "A free text description of what this colour is used for and perhaps tips on customizing it (if it's complicated).",
                     "type": "string"
+                },
+                "player": {
+                    "description": "The player number, if this is a player color.",
+                    "type": "integer"
                 }
             },
             "required": ["default", "num", "explanation"],

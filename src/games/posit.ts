@@ -47,7 +47,7 @@ export class PositGame extends GameBase {
             },
         ],
         categories: ["goal>immobilize", "mechanic>move", "mechanic>place", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental"],
+        flags: ["no-moves", "experimental"],
         variants: []
     };
 
@@ -143,10 +143,6 @@ export class PositGame extends GameBase {
         return this.board.has(cell) ? this.board.get(cell)![1] : 0;
     }
 
-    public moves(): string[] {
-        return []; // too many moves
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             const cell = this.getGraph().coords2algebraic(col, row);
@@ -187,11 +183,11 @@ export class PositGame extends GameBase {
             return result;
         }
 
+        const g = this.getGraph();
         const moves = m.split(/[,-]/);
         const piece = this.findPiece(); // get where the single piece is
 
         try { // check if all cells' selection are valid cells
-            const g = this.getGraph();
             for (const cell of moves) { g.algebraic2coords(cell); }
         } catch {
             result.valid = false;
@@ -214,6 +210,12 @@ export class PositGame extends GameBase {
         }
 
         const oppPiece = this.findPiece(this.currplayer % 2 + 1 as playerid); // get where the opponent's piece is
+
+        if (! g.neighbours(moves[0]).includes(moves[1]) ) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.posit.NOT_ADJACENT");
+            return result;
+        }
 
         if ( moves[1] === oppPiece ) { // cannot move to the opponent's player square
             result.valid = false;

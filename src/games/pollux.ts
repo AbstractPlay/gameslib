@@ -474,7 +474,7 @@ export class PolluxGame extends GameBase {
                 this.board.set(moves[1], [this.currplayer, 1]);
                 this.results.push({type: "move", from: moves[0], to: moves[1]});
                 this.board.set(moves[2], [this.currplayer, 2]);
-                this.results.push({type: "move", from: moves[1], to: moves[2]});
+                this.results.push({type: "block", where: moves[2]});
             }
         }
 
@@ -486,6 +486,7 @@ export class PolluxGame extends GameBase {
         this.saveState();
 
         if ( this.stack.length === 4 ) {
+            this.results = [ {type: "pass"} ];
             this.lastmove = "pass"
             this.currplayer = this.currplayer % 2 + 1 as playerid;
             this.saveState();
@@ -616,7 +617,7 @@ export class PolluxGame extends GameBase {
         rep.annotations = [];
         if (this.results.length > 0) {
             for (const move of this.results) {
-                if (move.type === "place") {
+                if (move.type === "block") {
                     const [x, y] = this.graph.algebraic2coords(move.where!);
                     rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 }
@@ -648,6 +649,25 @@ export class PolluxGame extends GameBase {
         }
 
         return rep;
+    }
+
+    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
+        let resolved = false;
+        switch (r.type) {
+            case "move":
+                node.push(i18next.t("apresults:MOVE.complete", { player, from: r.from, to: r.to, what: "piece" }));
+                resolved = true;
+                break;
+            case "block":
+                node.push(i18next.t("apresults:PLACE.pollux", { player, where: r.where }));
+                resolved = true;
+                break;
+            case "eog":
+                node.push(i18next.t("apresults:EOG.default"));
+                resolved = true;
+                break;
+        }
+        return resolved;
     }
 
     public clone(): PolluxGame {

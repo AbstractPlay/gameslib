@@ -759,10 +759,10 @@ export class SporaGame extends GameBase {
             for (const cell of cells) {
                 const prevsize = this.board.has(cell) ? this.board.get(cell)![1] : 0;
                 this.board.set(cell, [this.currplayer, prevsize + 1]);
-                this.results.push({ type: "place", where: cell });
+                this.results.push({ type: "place", where: cell, count: 1 });
                 captures.push(...this.doCaptures());
                 if (captures.length > 0) {
-                    this.results.push({ type: "capture", where: [...captures].join(), count: captures.length });
+                    this.results.push({ type: "capture", where: [...captures].join(','), count: captures.length });
                 }
             }
         } else { // normal play
@@ -775,11 +775,11 @@ export class SporaGame extends GameBase {
             // first, do the stack placement
             const prevsize = this.board.has(placeStack) ? this.board.get(placeStack)![1] : 0;
             this.board.set(placeStack, [this.currplayer, prevsize + n]);
-            this.results = [{type: "place", where: placeStack}]
+            this.results = [{type: "place", where: placeStack, count: n}]
 
             captures.push(...this.doCaptures());
             if (captures.length > 0) {
-                this.results.push({ type: "capture", where: [...captures].join(), count: captures.length });
+                this.results.push({ type: "capture", where: [...captures].join(','), count: captures.length });
             }
 
             // populate _selected
@@ -806,13 +806,13 @@ export class SporaGame extends GameBase {
                     captures.push(...this.doCaptures()); // each sowed piece can capture
                 }
 
-                if (captures.length > 0) {
-                    this.results.push({ type: "capture", where: [...captures].join(), count: captures.length });
-                }
-
                 const sowingPath = [sowingStack, ...cells]
                 for(let i = 0; i < sowingPath.length-1; i++ ) { // mark path
                     this.results.push({type: "move", from: sowingPath[i], to: sowingPath[i+1]});
+                }
+
+                if (captures.length > 0) {
+                    this.results.push({ type: "capture", where: [...captures].join(), count: captures.length });
                 }
                 return this;
             }
@@ -836,13 +836,13 @@ export class SporaGame extends GameBase {
                     captures.push(...this.doCaptures()); // each sowed piece can capture
                 }
 
-                if (captures.length > 0) {
-                    this.results.push({ type: "capture", where: [...captures].join(), count: captures.length });
-                }
-
                 const sowingPath = [sowingStack, ...cells]
                 for(let i = 0; i < sowingPath.length-1; i++ ) { // mark path
                     this.results.push({type: "move", from: sowingPath[i], to: sowingPath[i+1]});
+                }
+
+                if (captures.length > 0) {
+                    this.results.push({ type: "capture", where: [...captures].join(), count: captures.length });
                 }
             }
         }
@@ -1048,13 +1048,26 @@ export class SporaGame extends GameBase {
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
         let resolved = false;
+
         switch (r.type) {
+            case "komi":
+                node.push(i18next.t("apresults:KOMI", { player, value: r.value }));
+                resolved = true;
+                break;
+            case "play-second":
+                node.push(i18next.t("apresults:PLAYSECOND", { player }));
+                resolved = true;
+                break;
             case "place":
-                node.push(i18next.t("apresults:PLACE.nowhat", { player, where: r.where }));
+                node.push(i18next.t("apresults:PLACE.spora", { player, where: r.where, size : r.count }));
+                resolved = true;
+                break;
+            case "move":
+                node.push(i18next.t("apresults:MOVE.spora", { player, from: r.from, to : r.to }));
                 resolved = true;
                 break;
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.noperson.group_nowhere", { player, count: r.count }));
+                node.push(i18next.t("apresults:CAPTURE.spora", { player, group: r.where!, count: r.count }));
                 resolved = true;
                 break;
             case "eog":

@@ -542,6 +542,23 @@ export class ProductGame extends GameBase {
                   scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }];
     }
 
+    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
+        let resolved = false;
+        switch (r.type) {
+            case "place": // note that when chat() is invoked, the current player is already updated
+                node.push(i18next.t("apresults:PLACE.complete", { player, where: r.where,
+                                    what: this.board.get(r.where!)! !== this.currplayer ? "friendly piece" :
+                                                                                          "opponent piece" }));
+                resolved = true;
+                break;
+            case "eog":
+                node.push(i18next.t("apresults:EOG.default"));
+                resolved = true;
+                break;
+        }
+        return resolved;
+    }
+
     public clone(): ProductGame {
         return new ProductGame(this.serialize());
     }

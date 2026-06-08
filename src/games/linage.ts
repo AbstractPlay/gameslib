@@ -243,11 +243,6 @@ export class LinageGame extends GameBase {
         return result;
     }
 
-    // Generates a full list of valid moves from the current game state.
-    public moves(): string[] {
-        return []; // costly to compute
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             if (this.isKomiTurn()) { // Komi time, so no clicks are acceptable

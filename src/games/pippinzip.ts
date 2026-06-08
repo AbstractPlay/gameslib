@@ -182,10 +182,6 @@ export class PippinzipGame extends GameBase {
         return this.zipPlayer === this.currplayer;
     }
 
-    public moves(): string[] {
-        return []; // too many moves
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             const cell = PippinzipGame.coords2algebraic(col, row, this.boardSize);

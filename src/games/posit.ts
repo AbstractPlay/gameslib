@@ -47,7 +47,7 @@ export class PositGame extends GameBase {
             },
         ],
         categories: ["goal>immobilize", "mechanic>move", "mechanic>place", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental"],
+        flags: ["no-moves", "experimental"],
         variants: []
     };
 
@@ -141,10 +141,6 @@ export class PositGame extends GameBase {
     // returns the number of neutral pieces are at `cell`
     private nNeutrals(cell: string): number {
         return this.board.has(cell) ? this.board.get(cell)![1] : 0;
-    }
-
-    public moves(): string[] {
-        return []; // too many moves
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {

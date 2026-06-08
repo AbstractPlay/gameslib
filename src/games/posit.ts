@@ -187,11 +187,11 @@ export class PositGame extends GameBase {
             return result;
         }
 
+        const g = this.getGraph();
         const moves = m.split(/[,-]/);
         const piece = this.findPiece(); // get where the single piece is
 
         try { // check if all cells' selection are valid cells
-            const g = this.getGraph();
             for (const cell of moves) { g.algebraic2coords(cell); }
         } catch {
             result.valid = false;
@@ -214,6 +214,12 @@ export class PositGame extends GameBase {
         }
 
         const oppPiece = this.findPiece(this.currplayer % 2 + 1 as playerid); // get where the opponent's piece is
+
+        if (! g.neighbours(moves[0]).includes(moves[1]) ) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.posit.NOT_ADJACENT");
+            return result;
+        }
 
         if ( moves[1] === oppPiece ) { // cannot move to the opponent's player square
             result.valid = false;

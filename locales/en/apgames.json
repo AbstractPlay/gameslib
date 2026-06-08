@@ -5914,6 +5914,7 @@
             "INSTRUCTIONS": "Select your piece.",
             "SELECT_MOVE": "Select a square to move your piece. The piece cannot go down, move up two or more levels at once, or climb on top of a 3-stack.",
             "SELECT_PLACEMENT": "Select a square to place a neutral piece. Stacks cannot have more than three neutral pieces. It is invalid to place a neutral stone on top of a player's piece.",
+            "NOT_ADJACENT": "The piece may only move to adjacent squares!",
             "SELECT_ERROR": "The player needs first to move his piece!",
             "CANNOT_GO_DOWN": "The piece cannot move to a smaller stack!",
             "CANNOT_GO_UPUP": "The piece cannot move up two or more levels at once!",

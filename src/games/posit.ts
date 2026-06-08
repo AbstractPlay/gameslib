@@ -452,7 +452,7 @@ export class PositGame extends GameBase {
                 resolved = true;
                 break;
             case "move":
-                node.push(i18next.t("apresults:MOVE.complete", { player, from: r.from, to: r.to, what: "piece" }));
+                node.push(i18next.t("apresults:MOVE.posit", { player, from: r.from, to: r.to }));
                 resolved = true;
                 break;
             case "eog":

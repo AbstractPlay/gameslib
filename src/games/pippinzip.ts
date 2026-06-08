@@ -610,6 +610,25 @@ export class PippinzipGame extends GameBase {
         };
     }
 
+    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
+        let resolved = false;
+        switch (r.type) {
+            case "place":
+                node.push(i18next.t("apresults:PLACE.complete", { player, where: r.where, what: "piece" }));
+                resolved = true;
+                break;
+            case "pass":
+                node.push(i18next.t("apresults:PASS.pippinzip", { player }));
+                resolved = true;
+                break;
+            case "eog":
+                node.push(i18next.t("apresults:EOG.default"));
+                resolved = true;
+                break;
+        }
+        return resolved;
+    }
+
     public clone(): PippinzipGame {
         return new PippinzipGame(this.serialize());
     }

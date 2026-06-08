@@ -431,6 +431,25 @@ export class UnaneGame extends GameBase {
         return rep;
     }
 
+    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
+        let resolved = false;
+        switch (r.type) {
+            case "place":
+                node.push(i18next.t("apresults:PLACE.unane", { player, where: r.where }));
+                resolved = true;
+                break;
+            case "move":
+                node.push(i18next.t("apresults:MOVE.complete", { player, from: r.from, to: r.to, what: "piece" }));
+                resolved = true;
+                break;
+            case "eog":
+                node.push(i18next.t("apresults:EOG.default"));
+                resolved = true;
+                break;
+        }
+        return resolved;
+    }
+
     public clone(): UnaneGame {
         return new UnaneGame(this.serialize());
     }

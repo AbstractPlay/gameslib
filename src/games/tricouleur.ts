@@ -664,11 +664,11 @@ export class TricouleurGame extends GameBase {
                 C: [ { name: "piece",                   colour: 1 },
                      { name: "chess-ex-solid-millenia", colour: "#ffffff", scale: 0.5, opacity: 0.6 } ],
                 D: [ { name: "piece",                   colour: 2 },
-                     { name: "circle"   ,               colour: "#aaaaaa", scale: 0.6, opacity: 0.6 } ],
+                     { name: "circle"   ,               colour: "#dddddd", scale: 0.6, opacity: 0.6 } ],
                 E: [ { name: "piece",                   colour: 2 },
-                     { name: "d6-empty",                colour: "#aaaaaa", scale: 0.5, opacity: 0.6 } ],
+                     { name: "d6-empty",                colour: "#dddddd", scale: 0.5, opacity: 0.6 } ],
                 F: [ { name: "piece",                   colour: 2 },
-                     { name: "chess-ex-solid-millenia", colour: "#aaaaaa", scale: 0.5, opacity: 0.6 } ],
+                     { name: "chess-ex-solid-millenia", colour: "#dddddd", scale: 0.5, opacity: 0.6 } ],
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
         };
@@ -708,14 +708,14 @@ export class TricouleurGame extends GameBase {
         switch (r.type) {
             case "move":
                 if (r.how === "split") {
-                    node.push(i18next.t("apresults:MOVE.ataxx_split", { player, from: r.from, to: r.to }));
+                    node.push(i18next.t("apresults:MOVE.tricouleur_duplicate", { player, from: r.from, to: r.to }));
                 } else {
-                    node.push(i18next.t("apresults:MOVE.ataxx_jump", { player, from: r.from, to: r.to }));
+                    node.push(i18next.t("apresults:MOVE.tricouleur_jump", { player, from: r.from, to: r.to }));
                 }
                 resolved = true;
                 break;
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.ataxx", { count: r.count }));
+                node.push(i18next.t("apresults:CAPTURE.tricouleur", { count: r.count }));
                 resolved = true;
                 break;
             case "pass":

@@ -1,0 +1,16 @@
+# Exclude dependency folders (Major memory hogs)
+node_modules/
+vendor/
+packages/
+
+# Exclude build artifacts and logs
+build/
+dist/
+*.log
+*.tmp
+
+# Exclude sensitive files
+.env
+*.key
+apikeys.txt
+

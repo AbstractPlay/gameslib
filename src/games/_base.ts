@@ -826,6 +826,10 @@ export abstract class GameBase  {
         return ctor.gameinfo.uid;
     }
 
+    public botContext(): null|Record<string, any> {
+        return null;
+    }
+
     public getButtons(): ICustomButton[] {
         return [];
     }

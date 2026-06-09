@@ -522,10 +522,10 @@ export class LinageGame extends GameBase {
             return []; // no buttons should appear when typing Komi at start
         }
         if (this.isPieTurn()) {
-            return [{ label: "play second", move: "play-second" }];
+            return [{ label: "playsecond", move: "play-second" }];
         }
         if (this.isButtonActive()) {
-            return [{ label: "take button", move: "take-button" }];
+            return [{ label: "takebutton", move: "take-button" }];
         }
         return [{ label: "pass", move: "pass" }];
     }
@@ -539,9 +539,9 @@ export class LinageGame extends GameBase {
     public getPlayerScore(player: number): number {
         let komi = this.buttontaker === player ? 0.5 : 0;
         if (player === 1 && this.komi !== undefined && this.komi < 0)
-            komi = -this.komi; 
+            komi += -this.komi; 
         if (player === 2 && this.komi !== undefined && this.komi > 0)
-            komi = this.komi;
+            komi += this.komi;
 
         const terr = this.getTerritories();
         return terr.filter(t => t.owner === player).reduce((prev, curr) => prev + curr.cells.length, komi);

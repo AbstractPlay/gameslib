@@ -593,7 +593,7 @@ export class LinageGame extends GameBase {
                 resolved = true;
                 break;
             case "pass":
-                node.push(i18next.t("apresults:PLACE.linage", { player }));
+                node.push(i18next.t("apresults:PASS.linage", { player }));
                 resolved = true;
                 break;
             case "eog":

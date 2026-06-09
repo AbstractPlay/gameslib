@@ -53,7 +53,7 @@ export class CourtGame extends GameBase {
             },
         ],
         categories: ["goal>annihilate", "mechanic>move", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["player-stashes"]
+        flags: ["perspective", "player-stashes"]
     };
 
     public numplayers = 2;
@@ -335,7 +335,8 @@ export class CourtGame extends GameBase {
             const idxPiece = this.hands[this.currplayer - 1].indexOf(moves[1] as Piece);
             this.hands[this.currplayer - 1].splice(idxPiece, 1); // remove piece from player's hand
             this.board.set(moves[0], [moves[1] as Piece, this.currplayer]); // add piece to board
-            this.results.push({ type: "place", where: moves[0] });
+            const what = moves[1] === "N" ? "Knight" : (moves[1] === "B" ? "Bishop" : "Rook");
+            this.results.push({ type: "place", where: moves[0], what: what });
         } else { // it is a move
             this.board.set(moves[1], this.board.get(moves[0])!);
             this.board.delete(moves[0]);
@@ -486,6 +487,25 @@ export class CourtGame extends GameBase {
               glyph: { name: "chess-rook-outline-traditional", colour: col },
               movePart: "" },
         ];
+    }
+
+    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
+        let resolved = false;
+        switch (r.type) {
+            case "place":
+                node.push(i18next.t("apresults:PLACE.court", { player, where: r.where, what: r.what }));
+                resolved = true;
+                break;
+            case "move":
+                node.push(i18next.t("apresults:MOVE.complete_one", { player, from: r.from, to: r.to }));
+                resolved = true;
+                break;
+            case "eog":
+                node.push(i18next.t("apresults:EOG.default"));
+                resolved = true;
+                break;
+        }
+        return resolved;
     }
 
     public clone(): CourtGame {

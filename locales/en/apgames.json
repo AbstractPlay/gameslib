@@ -112,6 +112,7 @@
         "hexy": "An adaptation of Y on a regular hexagon where players vye to control most of the perimeter of the board.",
         "homeworlds": "An Icehouse game for 2 to 4 players. Players are interstellar civilizations vying for dominance. Each of the four colours of pyramid gives access to different actions. Amass a fleet, explore the galaxy, and ultimately destroy your opponent.",
         "hula": "Two players aim to form a loop around the center of a regular hexagonal board, using their own stones and, possibly, some number of neutral stones.",
+        "invector": "Eliminate the adversary army while getting near the board center.",
         "iqishiqi": "Iqishiqi (pronounced EE-chee-shee-chee) is an abstract strategy game that is played on a hexagonal board composed of hexagonal cells. Players own designated edges of the board, and by clever placement of stones they push a neutral stone around the board. A player wins if he/she moves the neutral stone to one of his/her edges, or leaves his/her opponent unable to move.",
         "irensei": "Irensei is a mixture of Go and Gomoku. Get a seven in a row inside the middle 15x15 region of the Go board to win. To reduce the first player's advantage, the first player loses if they make an overline (even if it extends beyond the 15x15 region), but the second player may win by overline.",
         "jacynth": "A Decktet card game where opponents vye for control of the city of Jacynth. Place cards, exert influence, and control the most area to win.",
@@ -121,6 +122,7 @@
         "lasca": "A Draughts variant where captured pieces remain on the board and can be freed later. Immobilize your opponent to win.",
         "lielow": "A wartime tale of Machiavellian usurpership. You win if your piece lands on your opponent's king. You also win if your opponent chooses to move their king off the board.",
         "lifeline": "Conquer territory and capture enemy groups by cutting them off from all their allies. A group is cut off when it has no free path (straight or otherwise) to other groups of its color. Win by leaving your opponent with no moves.",
+        "linage": "A territorial game played with just one color.",
         "loa": "A classic game where you try to gather all your pieces into a single connected group. Pieces can only move the exact number of spaces as the number of pieces that lie along the line of movement. The \"Scrambled Eggs\" initial layout variant is supported.",
         "logger": "A Looney pyramids game where the players vie to grow and harvest more trees than their opponents.",
         "lox": "Hex connection game with captures inspired by Tumbleweed. A cell is controlled by a player if it has more lines of sight to the player's pieces than half of the number neighbours that it has. If an opponent's piece is on your controlled cell, you may capture it by replacing it with your own piece on your turn. The player with a solid connection between their two sides at the start of their turn wins.",
@@ -143,6 +145,7 @@
         "moonsquad": "Your mining company has found rich ore on this small moon, but you need buyers. Connect your mine to all 3 surface settlements, and hire squads to defend your mine and attack your rival.",
         "mvolcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. This is an older version of the game. It is played on a 6x6 board, and the game ends as soon as someone captures at least one piece of each colour or all three white pieces. Scores are then calculated. Highest score wins.",
         "nakatta": "A square connection game where two specific piece configurations are forbidden.",
+        "narrows": "Link all your pieces by empty regions.",
         "necklace": "An orthogonal-only square connection game where you try to connect your sides of the board. Crosscut formations are illegal, and every free space must always have a path to an edge.",
         "nex": "Nex (or Neutral Hex) is a variant of the Hex connection game where there are neutral pieces. On your turn, you may either (1) place a piece of your colour and a neutral colour on an empty space, or (2) swap two neutral pieces to your colour and one of your piece to the neutral colour.",
         "omny": "Generalized connection game where players try to split star cells into different regions so that no single region contains a majority of star cells.",
@@ -165,10 +168,13 @@
         "pikemen": "A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
         "pilastri": "Outlast your opponent in this game of blocking and moving, as pieces are forced to climb higher and higher until they run out of moves.",
         "pinch": "Orthogonal connection game where a diagonal of friendly stones can capture adjacent stones that need to be relocated in the same turn. This might result in more relocations starting a chain-reaction.",
+        "pippinzip": "An asymmetrical connection game.",
         "pletore": "Territorial line-of-sight game. Intersections are controlled and pieces on them are flipped based on the number and direction of pieces that can see them. The winner is the player who occupies more of the board at the end.",
         "plurality": "Territorial game where players place trominos to enclosure areas. The player with more stones on a given area's perimeter owns that area.",
         "pods": "Natal Seas - Pods is a territorial game where the players take on the metaphorical role of competing whales vying for space to protect their young. Played on a hexagonal board, it uses an innovative mechanism of placements and movements.",
+        "pollux": "A mix of Hex and Amazons: shoot to connect your edges or block the adversary.",
         "pontedd": "Players build islands and attempt to connect as many of them as possible by bridge. Most points wins.",
+        "posit": "Try to stalemate the adversary by building unscalable stacks.",
         "product": "Players score by multiplying their two largest groups. Largest score wins. If tied, the second player wins.",
         "prudh": "Prudh (\"prew\") is a game of shared pieces where one player owns the light squares and the other owns the dark. Manipulate stacks of pieces to earn points. Highest score at the end of the game wins.",
         "pylon": "The game is played in two phases: a placement phase, in which all the pyramids are placed onto the board, followed by a stacking phase, in which pyramids are collected into stacks. Control the majority of the pyramids to win.",
@@ -231,6 +237,7 @@
         "terrace": "A royal capture/escape game played on a three-dimensional board with pieces of various sizes.",
         "toguz": "A traditional mancala-style sowing game from central Asia where you attempt to capture the majority of the pieces.",
         "trax": "A game of loops and lines. Place tiles adjacent to those already in play such that the colours of the tracks match. The objective is to get a loop or line of your colour while attempting to stop your opponent in their colour. What gives Trax its strategic depth is the forced play rule which allows (or even requires) multiple tiles to be played in a turn.",
+        "tricouleur": "A game where Ataxx meets Rock-Paper-Scissors.",
         "trike": "Trike is a game on a triangular board. Players take turn moving a neutral pawn around the board (passing is not allowed). When a player moves the pawn, they place a checker of their own color, onto the destination point. When the pawn is trapped, the game is over. At the end of the game, each player gets a point for each checker of their own color adjacent to, or underneath, the pawn. The person with the highest score wins.",
         "tritium": "Two players take turns creating and growing regions and claiming them. Once the board is full, the player who controls most tiles wins.",
         "tumbleweed": "Tumbleweed is a game of line of sight. Towers are built, and cells are controlled by the player with the most towers that can see that cell. Compete to control the majority of the hexagonal board.",
@@ -243,6 +250,7 @@
         "valley": "Get your king to the center space, but your pieces must always move as far as they can. Teamwork is essential.",
         "veletas": "Drawless territory game where players control a number of neutral shooters and shoot stones of their own colour from them. In order to win, a player must claim a majority of neutral pieces by having them surrounded by larger groups of their own pieces than their opponent's.",
         "verge": "Verge is a game where players attempt to create groups that partition the board, freezing those groups and removing enemy groups. The first player to have no legal placement wins.",
+        "viruswar": "Paper and pencil game about growing and destroying viruses.",
         "volcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. The winner is the first to capture a certain number of trios.",
         "volo": "Volo was inspired by the beauty of birds flying in flocks. Each player in turn places a piece or moves one or more pieces (here called 'birds') on the board and attempts to connect them all in one contiguous 'flock.' If a player ends up with one contiguous flock (of any size), he wins.",
         "waldmeister": "Players take turns planting trees in an attempt to create groups of either colours or heights. Highest score after two rounds wins.",
@@ -281,20 +289,25 @@
         "halma": "To prevent the [drawish nature](https://boardgamegeek.com/thread/3706389/unspoiling-halma-redux) of the game, the following rules apply: (a) a player wins if the opposite home-base is complete with at least one friendly stone (David Parlett's criteria); (b) Any piece in the player's home-base must make progress towards the enemy camp whenever this is possible by jumping over an enemy piece. (Zillions rule, to remove drawish strategies); (c) No stone can return to its home-base.\n\n[Halma](https://en.wikipedia.org/wiki/Halma) was one of the first commercial successes for an abstract game. The game was designed by [George Howard Monks](https://en.wikipedia.org/wiki/George_Howard_Monks) in 1883/4. It is said that Halma was inspired by an older British game called *Hoppity*. However, this game has no documentation or surviving boards, turning this lineal statement into a historical mystery. Halma was later adapted (c.1892/3) into an even bigger success: [Chinese Checkers](https://boardgamegeek.com/boardgame/2386/chinese-checkers) (which could easily be played by three or six players).\n\nSuper Halma is a more dynamic, uncredited variant, presented in the 1992 book **New Rules for Classic Games** by Wayne Schmittberger. This variant proposes long jumps, where the number of empty cells before and after the jumped stone must be equal. The base's move restrictions still apply in this implementation of Super Halma.",
         "halmaclimbers": "Halma Climbers was designed by Alexander Brady in 2021.\n\nThis implementation allows players to move at will, rather than restricting them to moves that strictly increase the overall score (as mentioned in David Ploog's [ruleset](https://blackandwhite.develz.org/games/HalmaClimbers.pdf)). This design choice removes the burden of checking multiple move combinations just to find out that no more moves exist that increase the overall score. This also prevents the software from having to compute an excessive number of permutations, which can be quite high given the two-action turn structure and complex jump sequences. The game ends when both players pass their turns consecutively, or if the previous player evacuates their own area, or if the current player does not have forward jumps available.",
         "homeworlds": "The win condition is what's called \"Sinister Homeworlds.\" You only win by defeating the opponent to your left. If someone else does that, the game continues, but your left-hand opponent now shifts clockwise. For example, in a four-player game, if I'm South, then I win if I eliminate West. But if the North player ends up eliminating West, the game continues, but now my left-hand opponent is North.",
+        "invector": "Invector, designed by Mark Steere in 2026, is an elimination game inspired by the ancient Hawiian game of Kōnane. Invector begins with a checkerboard pattern of stones, has short range captures, and is extremely simple. Invector simply combines two basic, off-the-shelf ingredients: orthogonal, adjacent capturing moves, and orthogonal, adjacent moves closer to center.",
         "jacynth": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers and opponents.",
         "konane": "Several competing opening protocols exist, but the most common ruleset is the Naihe Ruleset, used by tournaments at the Bishop Museum in Hawaii and described in the BGG reference. This is what is implemented here.",
         "lasca": "Maneuverability is a measure of how close your pieces are to promoting. Your maximum maneuverability is the board size times the number of stacks you control.\n\nMaterial is calculated by giving you a point for every friendly piece in a stack you control, plus an extra point if you have an officer on top of that stack.",
+        "linage" : "Linage is a 2016 game designed by Luis Bolaños Mures. The game is based on the following definitions: A **region** is a maximal set of orthogonally contiguous empty points. A **line** is a set of three orthogonally contiguous empty points on the same row or column; and a region is **owned** by Vertical if it contains no horizontal lines, and by Horizontal if it contains no vertical lines. A region is free if it is owned by neither player. Regions must always have at least one line.\n\nOn his turn, the player passes or places a stone in a free region. The game ends when both players pass in succession, and wins the one with highest score, i.e., the number of points in the regions the player owns, plus komi.",
         "loa": "In the centre of the 9x9 board is a \"black hole.\". Landing on the black hole means the piece is removed from the game. Simultaneous connections are scored as a draw.",
         "magnate": "The terminology of some Magnate actions has been altered for clarity and brevity. Completely developing a new property is called the \"Buy\" action; purchasing a deed for a new property is called \"Deed\", developing deeds (that is, adding tokens to a deeded property, whether it results in the deed becoming fully developed or not) is called \"Add\". (Selling a card and trading suit tokens 3 for 1 are unchanged.)\n\nIn order to speed up the process of rolling for resources, there are two additional actions:\n* \"Prefer\" is for setting your preference of which suit token to take when a deed pays out on your opponent's roll. If you do not set an explicit preference, the code will choose the rarer token for you based on your non-crown suits and current supply of tokens. The currently preferred token is circled in the UI, but your personal preference is never visible to the other player.\n* \"Choose\" is a mandatory first action for collecting suit tokens when a deed pays out on your own roll. (In all cases where you need to choose a suit token that is not already among your tokens, you still click on the appropriate token pile.)\n\nBecause you can perform several actions during a ply in any order, there is also an \"Undo\" action to back out your most recent action, whether or not it was complete.\n\nNote that only the final resource die result is displayed, but the distribution of expected outcomes is still that of rolling 2d10 and taking the higher value. Taxation happens when the lower of 2d10 comes up 1; a suit die is rolled (or two, in the double taxation variant), and the suits will be displayed underneath the resource result. The roll is logged at the end of a player's turn, and is attributed to the next player (who would have rolled in the physical game). Except for a \"Choose\", no user action is required; resources are added or removed automatically by the server in between turns.\n\nWhen a player is ahead in a district, the Pawn or Excuse for that district is outlined in that player's color. The first tiebreaker score (total property value) is displayed in parentheses after the district score. The second tiebreaker is total number of tokens remaining.",
         "mchess": "If there have been seven consecutive turns without a capture, someone can \"call the clock\" by adding an asterisk (*) to the end of their move. This can only be done by selecting the move from the drop-down list. After another seven turns with no capture, the game will end and be scored.",
         "murus": "The default ruleset is \"Advanced Murus Gallicus\" (with catapults). By default, your first move is to redistribute one of your starting towers as walls on your second row. Additionally, the standard pie rule is also available. There are three variants you can mix and match:\n\n* \"Basic\" reverts the game to the \"no catapult\" state.\n* \"Static\" disables the initial tower redistribution.\n* \"Escape\" eliminates the breakthrough win condition.",
+        "narrows": "Narrows, designed by Mark Steere in 2026, is an unification game inspired by the ancient Hawiian game of Kōnane. True to the spirit of Kōnane, Ūnane begins with a checkerboard pattern of stones and is extremely simple. In this case, the unification goal includes the use of orthogonal paths of empty cells to connect different groups of friendly pieces.",
         "oonpia": "Either use the legend to select a piece, or click the same location multiple times to cycle through all possible pieces. Blocked cells are highlighted: a translucent dot means only a dotted stone can be placed there (i.e. blocked for plain pieces), a translucent piece means only a plain piece can be placed there (i.e. blocked for dotted pieces). If both highlights are present, then the cell is blocked for all pieces.",
         "oware": "This implementation follows the common tournament rule that grand slam moves are allowed, but no pieces are captured. Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
         "pacru": "This implementation adheres to the 2011 rule change that requires at least one opponent to have at least nine tiles on the board before meetings will trigger.",
         "pigs": "Unlike the old Super Duper Games implementation, this one implements the core rule set. Each player enters all five moves, and they are resolved at once.\n\nMovement is resolved before damage is applied.",
         "pigs2": "This is the same as the old Super Duper Games. The game starts by you programming three moves, but only one move is resolved and added each turn.\n\nMovement is resolved before damage is applied. Unlike most other AP games, if players resign or timeout, the game does not immediately end. Instead, they're eliminated and their robot becomes inactive, but the other players can play on.",
         "pinch": "Pinch is a 2026 redesign of an original 2019 concept, proposing a new perspective to the orthogonal connection genre. At its core is the **pinch capture**: when two friendly stones flank an enemy piece at a right angle, the captured stone is relocated rather than removed.  This mechanic can trigger a cascade of further relocations, creating a chain-reaction that expands one local capture into changes over multiple sections of the board.",
+        "pippinzip": "Initially, each player places 1-3 WHITE stones in the auction phase, until one player 'takes' and becomes 'Zip'. Zip will play a SINGLE white stone per turn. The opponent becomes 'Pip' and will play TWO black stones per turn, which cannot be orthogonally adjacent. Immediately after 'take' is announced, Pip is the next to move.\n\nZip wins by connecting all FOUR sides of the board with a chain of white stones that are orthogonally and/or diagonally adjacent; Pip wins by connecting any TWO opposite sides with a chain of black stones that are orthogonally adjacent.\n\nIn this implementation, the white stones are neutral gray stones, and the black stones will be the player's color which takes the auction and becomes Zip.",
         "pletore": "An intersection is controlled by a player if they 'pinch' it while the opponent does not. You 'pinch' an intersection if you have pieces that can see that intersection from two different axes. Your score is the sum of the number of stones of your color on the board and the number of empty points you control, plus a komi bonus and a button bonus. The button is used when the komi value plus the number of intersections on the board is even, and any player may take a turn off and claim the button if it has yet to be claimed. The game ends when both players pass in succession, but claiming the button does not count toward this. Players cannot pass until the entire board is occupied or controlled.",
+        "posit": "Posit was designed by Shinichi Tobita in 1991. The game was published by Yonezawa corp. as a videogame called **Posit: 3-D board**.\n\nPosit is played on a 6x6 square board. Each player has a pawn. Initially, the pawns are placed on the c6 and d1 squares. In each turn, players move their pawn to an (orthogonally or diagonally) adjacent square, and then place a neutral piece in any square (which does not have a pawn). Neutral pieces can be stacked up to three levels. Pawns can climb one level up, but cannot go down, or climb two levels at once, or climb on top of three levels. A player wins by stalemating the adversary.",
         "plurality": "Plurality is a finite territorial game. The concept of territory exist disconnected from concepts like groups or liberty. Territories' ownership depend on the most represented color in their perimeters. On their turn, players drop two friendly stones and one adversary stone as a single orthogonally connected group (a tromino). It is forbidden to make a 2x2 shape of stones of any color configuration.",
         "queensland": "After the first game completes, the board resets and you play a second game but with blue playing first. Highest combined score wins.",
         "quincunx": "A game consists of as many rounds as there are players. Highest accumulated score wins.\n\nBasic scoring: For each orthogonally adjacent card, add the ranks together.\n* 2-9 w/ matching Ace: gain, otherwise lose\n* 10: no effect\n* 11: draw a card\n* 12-19: gain sum - 10\n* 20: draw a card\n\nPairs: For each orthogonally adjacent card that is the same rank, gain 5 points. (**Exception:** If that pair is also part of a set, it does *not* also score as a pair.)\n\nSets: If the placed card creates a line (including diagonal) of three *or more* cards of the same rank, gain 30 pts for each line.\n\nStraights: If the placed card creates or extends sequence of three or more cards in rank order along a line (including diagonal), gain 20 points for each line.\n\nPower play: If you played an Ace or Crown orthogonally adjacent to the matching Ace or Crown, score the number of points equal to the sum of the ranks of all the *other* cards in the tableau that share that suit.\n\nMore information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers and opponents.",
@@ -322,10 +335,12 @@
         "tbt": "When it's your turn, you will see the die you have to work with, but once your move is complete, the die will reroll. Exploration is not helpful because the die roll is not finalized until after the move is submitted. As you scroll back through the game history, the die you see is for the *next* turn. The die used to make the move you're seeing is displayed below the board.",
         "terrace": "The Assassination variant is described in [this BGG thread](https://boardgamegeek.com/thread/551125/variant-for-more-aggressive-less-drawish-play), summarized below:\n\n- Up straight, you must be larger or a smallest-size piece can assassinate a largest-size piece.\n\n- Same level (orthogonally adjacent only), you must be at least the same size.\n\n- Down diagonal, you may be one rank smaller.",
         "toguz": "Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
+        "tricouleur": "Tricouleur is a 2005 game designed by Bill Taylor. Each player has a army of three types of pieces that are able to capture the next type, in a cyclic way: think Rock-Paper-Scissors. The move sequence is 12* where a player must use different pieces (it is also possible to pass the entire turn). A piece may move to an empty neighboring cell, in which case it leaves an unmoved duplicate behind; or to an empty cell among the twelve 2nd-neighbours, regardless of what is in between.\n\nAny weaker opponent-pieces that the moved piece becomes adjacent to, are recolored as the moving piece. Any same-strength opponent-pieces that the moved piece becomes adjacent to, are removed from the board. When the board is full, or both pass consecutively, the game ends, and whoever has the most pieces of their own colours in total, wins.",
         "tumbleweed": "A space is claimed by a player if they have a piece on it, or if they have the majority of the line of sights to it. The score is the number of territory own by each player. The game ends when both players pass in succession. If there is no change in score for 20 plies, the game also ends.",
         "twinflames": "Twin Flames is a 2026 redesign of the 2013's Product, an original concept by Nick Bentley. The first player must initially place a friendly stone, preventing overly strong opening countermoves and thereby eliminating the need for a pie rule. The remaining moves use a 12* sequence, in which players may place stones of either colour. At the end of the game, a player who has formed a single connected group scores points equal to the size of that group. Another ludeme introduced was the use of walls, or blockers, which reduce overall connectivity and make groups more robust to enemy attacks. The blocker configuration is randomized, increasing game variability and making opening theory more difficult to develop.",
         "twixt": "The notation is based on Hansel notation at <http://www.ibiblio.org/twixtpuzzles/>. Some modifications are that link removal specifically specifies the link direction, and commas separate the moves. To add/remove links, click on the pegs between them. You can also remove a link by clicking on the line itself.",
         "unane": "Ūnane, designed by Mark Steere in 2026, is an unification game inspired by the ancient Hawiian game of Kōnane. True to the spirit of Kōnane, Ūnane begins with a checkerboard pattern of stones, has short-range captures, and is extremely simple. \"Ūnane\" is a fusion of Una (Spanish for \"one\") and Kōnane. This is intended as a tribute to Kōnane, not cultural appropriation.\n\nŪnane has common ground with Kōnane, especially in both players are mainly trying to isolate and remove their own stones.",
+        "viruswar": "Virus War (aka, Клоподавка, Bug Supression) is a pencil and paper game played in Russia around the 1970s/80s. The players have `N` multiple moves per turn (`N` depends on the board size). Each player has a home base on opposite corners. On his turn, a player plays N squares on the grid. Plays can be on empty squares (making a new virus), or by replacing an adversary virus with a defensive wall. A wall becomes unplayable. However, players can only play on squares that are adjacent to the group of friendly pieces that includes the player's home base. A stalemated player loses the game.",
         "waldmeister": "Players play two games sequentially. In the first round, Player 1 is playing for colours and Player 2 is playing for heights. At the end of the first round, scores are tabulated and scoring groups highlighted. Then in the second round, Player 2 plays first and plays for colours, and Player 1 plays for heights.",
         "witch": "The first player does not start as owning any pieces and may remove any piece (other than a crown) on their first turn. The second player chooses their colour on their first turn, after which, removing your opponent's pieces is no longer possible.",
         "xana": "Players, on their turns, drop/move a stack (there's a limited amount of stackable pieces) and optionally drop two walls into empty hexes. Stacks without liberties are captured. A stack has liberty if at least one of the adjacent hexes is empty (there is no concept of group of stacks). A hex is accessible if it is empty and connected to a friendly stack by a path of empty hexes. The goal is to build the highest score of territory plus captures. Xana was designed in 2005.",
@@ -591,6 +606,9 @@
             },
             "size-17": {
                 "name": "17x17 board"
+            },
+            "size-19": {
+                "name": "19x19 board"
             }
         },
         "bamboo": {
@@ -1606,6 +1624,26 @@
                 "name": "Toroidal 15x15 board"
             }
         },
+        "invector": {
+            "size-6": {
+                "name": "5x6 board"
+            },
+            "#board": {
+                "name": "7x8 board"
+            },
+            "size-10": {
+                "name": "9x10 board"
+            },
+            "size-12": {
+                "name": "11x12 board"
+            },
+            "size-14": {
+                "name": "13x14 board"
+            },
+            "size-16": {
+                "name": "15x16 board"
+            }
+        },
         "jacynth": {
             "#deck": {
                 "description": "The basic 36-card deck (aces through crowns)"
@@ -1684,6 +1722,23 @@
             },
             "size-12": {
                 "name": "Size 12 board"
+            }
+        },
+        "linage": {
+            "size-11": {
+                "name": "11x11 board"
+            },
+            "size-13": {
+                "name": "13x13 board"
+            },
+            "#board": {
+                "name": "15x15 board"
+            },
+            "size-17": {
+                "name": "17x17 board"
+            },
+            "size-19": {
+                "name": "19x19 board"
             }
         },
         "loa": {
@@ -1941,6 +1996,26 @@
             },
             "size-29": {
                 "name": "29x29 board"
+            }
+        },
+        "narrows": {
+            "size-6": {
+                "name": "5x6 board"
+            },
+            "size-8": {
+                "name": "7x8 board"
+            },
+            "size-10": {
+                "name": "9x10 board"
+            },
+            "#board": {
+                "name": "11x12 board"
+            },
+            "size-14": {
+                "name": "13x14 board"
+            },
+            "size-16": {
+                "name": "15x16 board"
             }
         },
         "nex": {
@@ -2203,6 +2278,23 @@
                 "name": "Flip Pinch"
             }
         },
+        "pippinzip": {
+            "size-9": {
+                "name": "9x9 board"
+            },
+            "#board": {
+                "name": "11x11 board"
+            },
+            "size-13": {
+                "name": "13x13 board"
+            },
+            "size-15": {
+                "name": "15x15 board"
+            },
+            "size-19": {
+                "name": "19x19 board"
+            }
+        },
         "pletore": {
             "#board": {
                 "name": "Default board (13x13)"
@@ -2234,6 +2326,23 @@
             },
             "size-19": {
                 "name": "19x19 board"
+            }
+        },
+        "pollux": {
+            "#board": {
+                "name": "10x10 board"
+            },
+            "size-12": {
+                "name": "12x12 board"
+            },
+            "size-14": {
+                "name": "14x14 board"
+            },
+            "size-16": {
+                "name": "16x16 board"
+            },
+            "size-18": {
+                "name": "18x18 board"
             }
         },
         "pontedd": {
@@ -3085,6 +3194,20 @@
                 "description": "The board is limited to 8x8. If all the tiles that can be played without a win being achieved have been played, the player who plays the last tile loses."
             }
         },
+        "tricouleur": {
+            "hex-7": {
+                "name": "Size 7 board"
+            },
+            "#board": {
+                "name": "Size 8 board"
+            },
+            "hex-9": {
+                "name": "Size 9 board"
+            },
+            "hex-10": {
+                "name": "Size 10 board"
+            }
+        },
         "trike": {
             "#board": {
                 "name": "Triangle (11 wide)",
@@ -3143,16 +3266,16 @@
         },
         "twinflames": {
             "#board": {
-                "name": "Hex board (base-6), 4 blockers"
+                "name": "Hex board (base-6)"
             },
             "size-7": {
-                "name": "Hex board (base-7), 6 blockers"
+                "name": "Hex board (base-7)"
             },
             "size-8": {
-                "name": "Hex board (base-8), 8 blockers"
+                "name": "Hex board (base-8)"
             },
             "#blockers": {
-                "name": "Use standard number of blockers"
+                "name": "Use default blockers"
             },
             "blocker-0": {
                 "name": "Don't use blockers"
@@ -3277,6 +3400,20 @@
             },
             "size-7": {
                 "name": "Size-7 board (127 cells)"
+            }
+        },
+        "viruswar": {
+            "size-10": {
+                "name": "10x10 board (3 moves)"
+            },
+            "size-20": {
+                "name": "20x20 board (4 moves)"
+            },
+            "size-25": {
+                "name": "25x25 board (5 moves)"
+            },
+            "#board": {
+                "name": "30x30 board (6 moves)"
             }
         },
         "volo": {
@@ -5190,6 +5327,15 @@
             },
             "VALID_W_ACTIONS": "Looks like a valid move, but you still have actions to spend."
         },
+        "invector": {
+            "INITIAL_INSTRUCTIONS": "Select a friendly piece.",
+            "INSTRUCTIONS": "Click on an orthogonally opposing piece to capture by replacement, or move closer to the board center.",
+            "INVALID_SELECTION": "Click on a friendly piece.",
+            "ONLY_PASS": "No move or captured available. Player must pass!",
+            "INVALID_PASS": "There are moves or captures available. Player cannot pass.",
+            "CANNOT_MOVE": "This piece cannot move!",
+            "INVALID_MOVE": "Need to capture an orthogonally adjacent opponent piece, or move to an orthogonally adjacent empty cell closer to the board center!"
+        },
         "iqishiqi": {
             "BLOCKED": "The neutral stone cannot move {{spaces}} spaces away from the group of shared stones formed by placement at {{place}}.",
             "INITIAL_INSTRUCTIONS": "Drop a shared stone to push the neutral stone.",
@@ -5248,6 +5394,16 @@
             "ADJACENT": "Your second piece cannot be adjacent to your first (immediate loss).",
             "TOO_MANY_PIECES": "Too many pieces.",
             "INCURSION": "The cell at {{cell}} has no path to a friendly group."
+        },
+        "linage": {
+            "INITIAL_SETUP": "Choose a number of points to add to the second player's score, and the next player will choose sides. (0.5 will be added to Komi to prevent draws.)",
+            "INSTRUCTIONS": "Place a piece on a free region.",
+            "TABOO": "It is invalid to: (a) place on an owned region, (b) make a region without a horizontal or vertical line.",
+            "INVALID_KOMI": "You must choose an integer number of points to add to the second player's score.",
+            "INVALID_PASS": "You cannot pass currently.",
+            "OCCUPIED": "The placement must be on an empty cell.",
+            "INVALID_PLAYSECOND": "You cannot choose to play second from this board state.",
+            "KOMI_CHOICE": "You may either make the first move on the board and let your opponent keep the bonus points (an integer) or you may choose \"Play second\" and take the bonus points for yourself."
         },
         "loa": {
             "BAD_PASS": "You may not pass if legal moves are available.",
@@ -5496,6 +5652,13 @@
             "BAD_PLACE": "You may not create hard corners or naked attachments (see the rules for details).",
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece."
         },
+        "narrows": {
+            "INITIAL_INSTRUCTIONS": "Select a friendly piece.",
+            "INSTRUCTIONS": "Click on an orthogonally opposing piece to capture by replacement.",
+            "INVALID_SELECTION": "Click on a friendly piece.",
+            "CANNOT_MOVE": "This piece cannot move!",
+            "INVALID_MOVE": "Click on an opposing piece that is in the same row or column, adjacent or separated by a line of empty cells!"
+        },
         "necklace": {
             "BAD_PASS": "You may not pass if legal moves are available.",
             "BLOCKS_PATH": "Placement at {{where}} blocks the only path of some free spaces to the edge.",
@@ -5689,6 +5852,16 @@
             "OPP_SELF_STONES_TO_PLACE": "There are still {{opp}} opponent captured stone(s), and then {{own}} friendly stone(s), to relocate.",
             "INITIAL_INSTRUCTIONS_ORIGINAL": "Place a stone on an empty cell. If a pinch capture is made, the captured stone flips color. This flip might cause subsequent flips, starting a chain-reaction until the board stabilizes."
         },
+        "pippinzip": {
+            "INITIAL_INSTRUCTIONS": "This is the auction phase. Either place one to three pieces on empty cells to improve 'Zip' position, or press 'pass' to finish the auction and be 'Zip'. 'Pip' then places two non-adjacent pieces per turn and must orthogonally connect two opposite edges. 'Zip' then places one piece per turn and tries to connect all four board edges.",
+            "INSTRUCTIONS_PIP": "Place two friendly pieces not orthogonally adjacent to each other.",
+            "INSTRUCTIONS_PIP_2": "Place the second friendly piece not orthogonally adjacent to the previous one.",
+            "INSTRUCTIONS_ZIP": "Place one friendly piece.",
+            "TOO_MANY_PLACEMENTS_AUCTION": "Too many placements. During the auction players can place up to three pieces on empty cells!",
+            "ERROR_PLACEMENT_PIP": "The Pip player must place two pieces on non-orthogonally adjacent empty cells!",
+            "ADJACENT_PLACEMENT_PIP": "The second piece is orthogonally adjacent to the first!",
+            "ERROR_PLACEMENT_ZIP": "The Zip player (the taker) must place one piece on an empty cell!"
+        },
         "pletore": {
             "INITIAL_INSTRUCTIONS": "Place a piece onto an empty intersection not controlled by the opponent, replace an enemy piece on an intersection you control, or 'pass' if all intersections are occupied or controlled. The game ends when both players pass in sequence.",
             "INITIAL_INSTRUCTIONS_BUTTON": "Place a piece onto an empty intersection not controlled by the opponent, replace an enemy piece on an intersection you control, or take the button (worth .5 points).",
@@ -5719,6 +5892,19 @@
             "INVALID_MOVEMENT": "You may only move around other pieces without passing through enemy controlled spaces. Legal landing spaces are highlighted when clicking to move.",
             "INVALID_MOVER": "You may only move your own nonisolated pieces."
         },
+        "pollux": {
+            "INITIAL_INSTRUCTIONS_1": "Place your first tower.",
+            "INITIAL_INSTRUCTIONS_2": "Place your two towers.",
+            "INITIAL_INSTRUCTIONS_3": "Place your second tower.",
+            "INSTRUCTION_SLIDE": "Move a tower in a straight line over empty hexes, then shoot a piece also in a straight line.",
+            "INSTRUCTION_SHOOT": "Shoot a piece over a straight line of empty hexes.",
+            "NEED_FRIENDLY_TOWER": "Need to select a friendly tower!",
+            "TOWER_ADJACENT": "Initially, towers cannot be adjacent!",
+            "TOWER_OCCUPIED_CELL": "Need to move the tower to an empty hex!",
+            "PIECE_OCCUPIED_CELL": "Need to shoot the piece to an empty hex!",
+            "TOWER_STRAIGHT_LINE": "A Tower moves over a line of empty hexes!",
+            "PIECE_STRAIGHT_LINE": "A Tower shoots a piece over a line of empty hexes!"
+        },
         "pontedd": {
             "BAD_BRIDGE_BLOCKED": "There may be no tiles under the bridge.",
             "BAD_BRIDGE_COLOUR": "Bridges must connect two tiles of the same colour.",
@@ -5739,6 +5925,19 @@
             "TOO_BIG": "Islands cannot be larger than four tiles.",
             "TOO_CLOSE": "Islands may not diagonally touch other islands or sandbars of that colour.",
             "TOO_MANY": "You may not place more than two tiles."
+        },
+        "posit": {
+            "INSTRUCTIONS": "Select your piece.",
+            "SELECT_MOVE": "Select a square to move your piece. The piece cannot go down, move up two or more levels at once, or climb on top of a 3-stack.",
+            "SELECT_PLACEMENT": "Select a square to place a neutral piece. Stacks cannot have more than three neutral pieces. It is invalid to place a neutral stone on top of a player's piece.",
+            "NOT_ADJACENT": "The piece may only move to adjacent squares!",
+            "SELECT_ERROR": "The player needs first to move his piece!",
+            "CANNOT_GO_DOWN": "The piece cannot move to a smaller stack!",
+            "CANNOT_GO_UPUP": "The piece cannot move up two or more levels at once!",
+            "CANNOT_CLIMB": "The piece cannot climb on top of a 3-stack!",
+            "OPPONENT_MOVE": "Cannot move to the opponent's player square!",
+            "PLACE_ON_PIECE": "Neutral pieces cannot be placed where player's pieces are!",
+            "STACK_TOO_BIG": "Stacks cannot have more than three neutral pieces!"
         },
         "product": {
             "INITIAL_INSTRUCTIONS": "At the start, place one stone of either color. Click current friendly stone to flip color, click again to empty hex.",
@@ -6421,6 +6620,18 @@
             "NO_EXPAND_X": "You may not expand the board beyond a width of {{size}}.",
             "NO_EXPAND_Y": "You may not expand the board beyond a height of {{size}}."
         },
+        "tricouleur": {
+            "INITIAL_INSTRUCTIONS": "Select a piece to duplicate or jump. Rocks are represented as circles, Paper as squares, and Scissors as Xs.",
+            "INITIAL_INSTRUCTIONS_PASS": "You have no moves so you must pass.",
+            "INVALID_TO": "The piece at {{from}} cannot duplicate or jump to {{to}}.",
+            "MUST_PASS": "The only move available to you is to pass.",
+            "ILLEGAL_PASS": "You may only pass has a whole move.",
+            "SAME_PIECE": "The second move must be from a different piece than the ones moved or changed in the first.",
+            "NO_TOS": "The selected piece at {{from}} has no possible destinations to duplicate or jump to.",
+            "SELECT_TO": "Select a destination to duplicate or jump to.",
+            "SPLIT4JUMP": "You have indicated a duplicate when it's supposed to be a jump. Try {{move}}.",
+            "JUMP4SPLIT": "You have indicated a jump when it's supposed to be a duplicate. Try {{move}}."
+        },
         "trike": {
             "INITIAL_INSTRUCTIONS": "Select the cell to place the neutral piece on."
         },
@@ -6554,6 +6765,10 @@
         "verge": {
             "FROZEN_NEIGHBOUR": "You cannot place next one of your frozen groups.",
             "INITIAL_INSTRUCTIONS": "Select an empty cell that is not adjacent to one of your frozen groups."
+        },
+        "viruswar": {
+            "INITIAL_INSTRUCTIONS": "Place {{count}} pieces, each must be adjacent to the group of friendly pieces including your home-base. Pieces can be active viruses (circles), or defensive walls (squares). Either place a virus on an empty cell, or replace an enemy virus with a friendly defensive wall.",
+            "CANNOT_GROW": "Square {{where}} cannot receive a new virus/wall!"
         },
         "volcano": {
             "BAD_FROM": "{{from}} doesn't look like a position on the board, or a piece in your stash.",

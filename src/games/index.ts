@@ -253,6 +253,14 @@ import { SynapseGame, ISynapseState } from "./synapse";
 import { AtariGoGame, IAtariGoState } from "./atarigo";
 import { TanboGame, ITanboState } from "./tanbo";
 import { UnaneGame, IUnaneState } from "./unane";
+import { LinageGame, ILinageState } from "./linage";
+import { PolluxGame, IPolluxState } from "./pollux";
+import { PippinzipGame, IPippinzipState } from "./pippinzip";
+import { NarrowsGame, INarrowsState } from "./narrows";
+import { InvectorGame, IInvectorState } from "./invector";
+import { TricouleurGame, ITricouleurState } from "./tricouleur";
+import { PositGame, IPositState } from "./posit";
+import { VirusWarGame, IVirusWarState } from "./viruswar";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -509,6 +517,14 @@ export {
     AtariGoGame, IAtariGoState,
     TanboGame, ITanboState,
     UnaneGame, IUnaneState,
+    LinageGame, ILinageState,
+    PolluxGame, IPolluxState,
+    PippinzipGame, IPippinzipState,
+    NarrowsGame, INarrowsState,
+    InvectorGame, IInvectorState,
+    TricouleurGame, ITricouleurState,
+    PositGame, IPositState,
+    VirusWarGame, IVirusWarState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -596,7 +612,10 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof ShapeChessGame | typeof SlimetrailGame | typeof CatsDogsGame |
                               typeof SoccolotGame | typeof CourtGame | typeof HalmaGame |
                               typeof MinimizeGame | typeof HalmaClimbersGame | typeof SynapseGame |
-                              typeof AtariGoGame | typeof TanboGame | typeof UnaneGame
+                              typeof AtariGoGame | typeof TanboGame | typeof UnaneGame |
+                              typeof LinageGame | typeof PolluxGame | typeof PippinzipGame |
+                              typeof NarrowsGame | typeof InvectorGame | typeof TricouleurGame |
+                              typeof PositGame | typeof VirusWarGame
                 >();
 // Manually add each game to the following array
 [
@@ -635,7 +654,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     ProductGame, OonpiaGame, GoGame, StilettoGame, BTTGame, MinefieldGame, SentinelGame, 
     XanaGame, SporaGame, SquirmGame, PinchGame, DomineeringGame, TwinFlamesGame, YGame, ShapeChessGame,
     SlimetrailGame, CatsDogsGame, SoccolotGame, CourtGame, HalmaGame, MinimizeGame, HalmaClimbersGame,
-    SynapseGame, AtariGoGame, TanboGame, UnaneGame
+    SynapseGame, AtariGoGame, TanboGame, UnaneGame, LinageGame, PolluxGame, PippinzipGame, NarrowsGame,
+    InvectorGame, TricouleurGame, PositGame, VirusWarGame
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -1153,6 +1173,22 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new TanboGame(...args);
         case "unane":
             return new UnaneGame(...args);
+        case "linage":
+            return new LinageGame(...args);
+        case "pollux":
+            return new PolluxGame(...args);
+        case "pippinzip":
+            return new PippinzipGame(...args);
+        case "narrows":
+            return new NarrowsGame(...args);
+        case "invector":
+            return new InvectorGame(...args);
+        case "tricouleur":
+            return new TricouleurGame(...args);
+        case "posit":
+            return new PositGame(...args);
+        case "viruswar":
+            return new VirusWarGame(args[0], ...args.slice(1));
     }
     return;
 }

@@ -2,11 +2,12 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResu
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, reviver, UserFacingError, SquareOrthGraph } from "../common";
+import { reviver, UserFacingError, SquareOrthGraph } from "../common";
 import { connectedComponents } from "graphology-components";
 import i18next from "i18next";
 
 type playerid = 1 | 2; // regarding pieces: 1 is the ball, 2 are the walls
+type Direction = "N"|"E"|"S"|"W";
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -14,23 +15,23 @@ export interface IMoveState extends IIndividualState {
     lastmove?: string;
 };
 
-export interface IUnaneState extends IAPGameState {
+export interface INarrowsState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
 };
 
-export class UnaneGame extends GameBase {
+export class NarrowsGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
-        name: "Unane",
-        uid: "unane",
+        name: "Narrows",
+        uid: "narrows",
         playercounts: [2],
-        version: "20260521",
-        dateAdded: "2026-05-27",
-        // i18next.t("apgames:descriptions.unane")
-        description: "apgames:descriptions.unane",
-        notes: "apgames:notes.unane",
+        version: "20260604",
+        dateAdded: "2026-06-04",
+        // i18next.t("apgames:descriptions.narrows")
+        description: "apgames:descriptions.narrows",
+        notes: "apgames:notes.narrows",
         urls: [
-            "https://www.marksteeregames.com/Unane_rules.pdf",
+            "https://www.marksteeregames.com/Narrows_rules.pdf",
         ],
         people: [
             {
@@ -48,14 +49,14 @@ export class UnaneGame extends GameBase {
         ],
         categories: ["goal>unify", "mechanic>move", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         variants: [
-            { uid: "size-6",  group: "board" }, // 5x6
-            { uid: "#board", }, // 7 rows x 8 cols
-            { uid: "size-10", group: "board" }, //  9x10
-            { uid: "size-12", group: "board" }, // 11x12
-            { uid: "size-14", group: "board" }, // 13x14
-            { uid: "size-16", group: "board" }, // 15x16
+            { uid: "size-6",  group: "board" }, //  5 rows x 6 cols
+            { uid: "size-8",  group: "board" }, //  7 x 8
+            { uid: "size-10", group: "board" }, //  9 x 10
+            { uid: "#board", },                 // 11 x 12
+            { uid: "size-14", group: "board" }, // 13 x 14
+            { uid: "size-16", group: "board" }, // 15 x 16
         ],
-        flags: ["pie"]
+        flags: ["pie", "experimental"]
     };
 
     public numplayers = 2;
@@ -68,10 +69,10 @@ export class UnaneGame extends GameBase {
     public results: Array<APMoveResult> = [];
 
     private boardSize = this.getBoardSize();
-    private grid: RectGrid;
+    //private grid: RectGrid;
     private dots: [number, number][] = []; // if there are points here, the renderer will show them
 
-    constructor(state?: IUnaneState | string, variants?: string[]) {
+    constructor(state?: INarrowsState | string, variants?: string[]) {
         super();
         if (state === undefined) {
             if ( (variants !== undefined) && (variants.length > 0) ) {
@@ -89,7 +90,7 @@ export class UnaneGame extends GameBase {
                 }
             }
             const fresh: IMoveState = {
-                _version: UnaneGame.gameinfo.version,
+                _version: NarrowsGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
@@ -98,10 +99,10 @@ export class UnaneGame extends GameBase {
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
-                state = JSON.parse(state, reviver) as IUnaneState;
+                state = JSON.parse(state, reviver) as INarrowsState;
             }
-            if (state.game !== UnaneGame.gameinfo.uid) {
-                throw new Error(`The Unane engine cannot process a game of '${state.game}'.`);
+            if (state.game !== NarrowsGame.gameinfo.uid) {
+                throw new Error(`The Narrows engine cannot process a game of '${state.game}'.`);
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
@@ -109,10 +110,10 @@ export class UnaneGame extends GameBase {
             this.stack = [...state.stack];
         }
         this.load();
-        this.grid = new RectGrid(this.getBoardSize(), this.getBoardSize()-1);
+        //this.grid = new RectGrid(this.getBoardSize(), this.getBoardSize()-1);
     }
 
-    public load(idx = -1): UnaneGame {
+    public load(idx = -1): NarrowsGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -149,21 +150,14 @@ export class UnaneGame extends GameBase {
         return new SquareOrthGraph(this.boardSize, this.boardSize-1);
     }
 
-    // return the list of orthogonal neighbors of 'cell'
-    private orthNeighbours(cell: string): string[] {
-        const [x, y] = this.graph.algebraic2coords(cell);
-        const neighbours = this.grid.adjacencies(x, y, false);
-        return neighbours.map(n => this.graph.coords2algebraic(...n));
-    }
-
-    // return all the groups/roots of a given player
+    // return all the groups/roots of a given player (which may include empty cells)
     private getGroups(player?: playerid): string[][] {
         if (player === undefined) { player = this.currplayer; }
-        const pieces = [...this.board.entries()].filter(([,owner]) => owner === player).map(pair => pair[0]);
+        const oppPieces = [...this.board.entries()].filter(([,owner]) => owner !== player).map(pair => pair[0]);
         const g = this.graph;
 
         for (const node of g.graph.nodes()) {
-            if (!pieces.includes(node)) { // remove intersections/nodes not occupied by the player
+            if (oppPieces.includes(node)) { // remove intersections/nodes occupied by the adversary
                 g.graph.dropNode(node);
             }
         }
@@ -171,7 +165,10 @@ export class UnaneGame extends GameBase {
         const groups : Array<Array<string>> = connectedComponents(g.graph);
         const res: string[][] = [];
         for (const group of groups) {
-            res.push( group );
+            // remove groups with only empty spaces
+            if ( group.some(c => this.board.has(c)) ) {
+                res.push( group );
+            }
         }
         return res;
     }
@@ -180,26 +177,24 @@ export class UnaneGame extends GameBase {
         if (this.gameover) { return []; }
         if (player === undefined) { player = this.currplayer; }
         const g = this.graph;
+        const dirs: Direction[] = ["N", "S", "E", "W"];
         const moves = [];
 
+        // Pieces capture by replacement an enemy stone in any orthogonal direction.
+        // The enemy stone must either be adjacent to the capturing stone, or
+        // separated from it by empty points.
         for (const cell of g.graph.nodes()) {
             if (this.board.has(cell) && this.board.get(cell) === player) {
-                // check if we can remove this friendly stone
-                let canRemove = true;
-                // this is only possible if there are no orthogonal adjacencies with enemy stones
-                for (const neigh of this.orthNeighbours(cell)) {
-                    if (this.board.has(neigh) && this.board.get(neigh) !== player) {
-                        canRemove = false;
-                        break;
-                    }
-                }
-                if (canRemove) {
-                    moves.push(`${cell}-${cell}`);
-                }
-                // players can move their friendly stones to capture an enemy stone
-                for (const neigh of this.orthNeighbours(cell)) {
-                    if (this.board.has(neigh) && this.board.get(neigh) !== player) {
-                        moves.push(`${cell}-${neigh}`);
+                const [x, y] = g.algebraic2coords(cell);
+                for (const dir of dirs) {
+                    const ray = g.ray(x, y, dir).map(n => g.coords2algebraic(...n));
+                    for (const cell1 of ray) {
+                        if ( this.board.has(cell1) ) {
+                            if ( this.board.get(cell1) !== player ) { // a capturable opponent piece
+                                moves.push(`${cell}-${cell1}`);
+                            }
+                            break;
+                        }
                     }
                 }
             }
@@ -215,7 +210,9 @@ export class UnaneGame extends GameBase {
 
             if (move === "") {
                 newmove = cell;
-            } else if (! move.includes('-') ) {
+            } else if (move === cell) {
+                newmove = "";
+            } else {
                 newmove = `${move}-${cell}`;
             }
 
@@ -231,6 +228,10 @@ export class UnaneGame extends GameBase {
         }
     }
 
+    private hasPrefix(moves: string[], partial: string): boolean {
+        return moves.some(str => str.startsWith(partial));
+    }
+
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
@@ -238,28 +239,45 @@ export class UnaneGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.unane.INITIAL_INSTRUCTIONS");
+            result.message = i18next.t("apgames:validation.narrows.INITIAL_INSTRUCTIONS");
             return result;
         }
 
         const moves = m.split('-');
-        if (moves.length === 1) {
-            if (!this.board.has(m) || this.board.get(m) !== this.currplayer) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.unane.INVALID_SELECTION");
-                return result;
+
+        try {
+            for (const cell of moves) {
+                this.graph.algebraic2coords(cell);
             }
-            result.valid = true;
-            result.complete = -1; // player still needs to decide to place or remove this stone
-            result.canrender = true;
-            result.message = i18next.t("apgames:validation.unane.INSTRUCTIONS");
+        } catch {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: m});
             return result;
         }
 
         const allMoves = this.moves();
+
+        if (moves.length === 1) {
+            if (!this.board.has(m) || this.board.get(m) !== this.currplayer) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.narrows.INVALID_SELECTION");
+                return result;
+            }
+            if (! this.hasPrefix(allMoves, m) ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.narrows.CANNOT_MOVE");
+                return result
+            }
+            result.valid = true;
+            result.complete = -1; // player still needs to move the piece
+            result.canrender = true;
+            result.message = i18next.t("apgames:validation.narrows.INSTRUCTIONS");
+            return result;
+        }
+
         if (! allMoves.includes(m) ) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.unane.INVALID_MOVE");
+            result.message = i18next.t("apgames:validation.narrows.INVALID_MOVE");
             return result
         }
 
@@ -275,7 +293,7 @@ export class UnaneGame extends GameBase {
                            .map(mv => mv.split('-')[1]);
     }
 
-    public move(m: string, {partial = false, trusted = false} = {}): UnaneGame {
+    public move(m: string, {partial = false, trusted = false} = {}): NarrowsGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -304,14 +322,9 @@ export class UnaneGame extends GameBase {
         }
 
         const moves = m.split('-');
-        if (moves[0] === moves[1]) { // removal
-            this.board.delete(moves[0]);
-            this.results.push({ type: "place", where: moves[0], count: 1 });
-        } else { // move and (eventual capture)
-            this.board.delete(moves[0]);
-            this.board.set(moves[1], this.currplayer);
-            this.results.push({ type: "move", from: moves[0], to: moves[1]});
-        }
+        this.board.delete(moves[0]);
+        this.board.set(moves[1], this.currplayer);
+        this.results.push({ type: "move", from: moves[0], to: moves[1]});
 
         if (partial) { return this; }
 
@@ -322,7 +335,7 @@ export class UnaneGame extends GameBase {
         return this;
     }
 
-    protected checkEOG(): UnaneGame {
+    protected checkEOG(): NarrowsGame {
         const p1Groups = this.getGroups(1);
         const p2Groups = this.getGroups(2);
 
@@ -346,9 +359,9 @@ export class UnaneGame extends GameBase {
         return this;
     }
 
-    public state(): IUnaneState {
+    public state(): INarrowsState {
         return {
-            game: UnaneGame.gameinfo.uid,
+            game: NarrowsGame.gameinfo.uid,
             numplayers: this.numplayers,
             variants: [...this.variants],
             gameover: this.gameover,
@@ -359,7 +372,7 @@ export class UnaneGame extends GameBase {
 
     public moveState(): IMoveState {
         return {
-            _version: UnaneGame.gameinfo.version,
+            _version: NarrowsGame.gameinfo.version,
             _results: [...this.results],
             _timestamp: new Date(),
             currplayer: this.currplayer,
@@ -431,26 +444,7 @@ export class UnaneGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
-        switch (r.type) {
-            case "place":
-                node.push(i18next.t("apresults:PLACE.unane", { player, where: r.where }));
-                resolved = true;
-                break;
-            case "move":
-                node.push(i18next.t("apresults:MOVE.complete", { player, from: r.from, to: r.to, what: "piece" }));
-                resolved = true;
-                break;
-            case "eog":
-                node.push(i18next.t("apresults:EOG.default"));
-                resolved = true;
-                break;
-        }
-        return resolved;
-    }
-
-    public clone(): UnaneGame {
-        return new UnaneGame(this.serialize());
+    public clone(): NarrowsGame {
+        return new NarrowsGame(this.serialize());
     }
 }

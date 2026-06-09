@@ -193,14 +193,17 @@ export class SynapseGame extends GameBase {
             const cell = SynapseGame.coords2algebraic(col, row);
             let newmove = "";
             const tokens = move.split(',');
-            const available: number[] = [...new Set(this.hands[this.currplayer - 1])]; // remove duplicates
+            const available: number[] = [...new Set(this.hands[this.currplayer - 1])]; // unique sizes from stash
+            const validSizes = this.moves().filter(m => m.startsWith(tokens[0]))
+                                           .map(m => Number(m.split(',')[1])); // possible valid pyramid sizes
+            const useSizes = available.filter(sz => validSizes.includes(sz)); // intersect previous two lists
 
             if (move.length === 0) {
-                newmove = `${cell},${available[0]}`;
+                newmove = `${cell},${useSizes[0]}`;
             } else if ( tokens.length === 2 && tokens[0] === cell ) { // still selecting pyramid
                 const size = Number(tokens[1]);
-                const pyrId = available.indexOf(size);
-                newmove = `${tokens[0]},${available[(pyrId+1) % available.length]}`;
+                const pyrId = useSizes.indexOf(size);
+                newmove = `${tokens[0]},${useSizes[(pyrId+1) % useSizes.length]}`;
             } else if ( tokens.length === 2 && tokens[0] !== cell ) { // select direction
                 const [x0, y0] = SynapseGame.algebraic2coords(tokens[0]);
                 const [x1, y1] = SynapseGame.algebraic2coords(cell);
@@ -288,13 +291,13 @@ export class SynapseGame extends GameBase {
         if ( m.split(',').length === 2 ) {
             const [cell, size] = m.split(',');
             this.board.set(cell, [this.currplayer, Number(size) as Size, 'U' as Facing]);
-            this.results.push({ type: "place", where: cell });
+            this.results.push({ type: "place", where: cell, how: "partial,0,upward" });
         } else { // complete move
             const [cell, size, dir] = m.split(',');
             this.board.set(cell, [this.currplayer, Number(size) as Size, dir as Facing]);
             const index = this.hands[this.currplayer-1].indexOf(Number(size));
             this.hands[this.currplayer-1].splice(index, 1); // remove piece from player's hand
-            this.results.push({ type: "place", where: cell });
+            this.results.push({ type: "place", where: cell, how: `complete,${size},${dir}` });
         }
 
         if (partial) { return this; }
@@ -460,6 +463,28 @@ export class SynapseGame extends GameBase {
               glyph: { name: "pyramid-flat-large", colour: col },
               movePart: "" },
         ];
+    }
+
+    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
+        let resolved = false;
+        switch (r.type) {
+            case "place":
+                if ( r.how !== undefined ) {
+                    const [subtype, size, direction] : string[] = r.how!.split(',');
+                    if ( subtype === "complete" ) {
+                        node.push(i18next.t("apresults:PLACE.synapse", { player, where: r.where, size: size, dir: direction }));
+                    } else {
+                        node.push(i18next.t("apresults:PLACE.complete", { player, where: r.where, what: "upward piece" }));
+                    }
+                }
+                resolved = true;
+                break;
+            case "eog":
+                node.push(i18next.t("apresults:EOG.default"));
+                resolved = true;
+                break;
+        }
+        return resolved;
     }
 
     public clone(): SynapseGame {

@@ -497,6 +497,7 @@
             "worker": "{{player}} placed an architect at {{where}}."
         },
         "veletas": "{{player}} placed a {{what}} at {{where}}.",
+        "viruswar": "{{player}} placed viruses/walls at {{where}}.",
         "volo": "{{player}} adds a bird at {{where}}."
     },
     "PLAYSECOND": "{{player}} chose to play second.",

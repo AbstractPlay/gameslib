@@ -21,6 +21,7 @@ export interface IMoveState extends IIndividualState {
     board: Map<string, playerid>;
     lastmove?: string;
     komi?: number;
+    buttontaker?: playerid;
     swapped: boolean;
 };
 
@@ -85,6 +86,7 @@ export class LinageGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     public komi?: number;
+    public buttontaker?: playerid;
     public swapped = true;
 
     constructor(state?: ILinageState | string, variants?: string[]) {
@@ -132,6 +134,7 @@ export class LinageGame extends GameBase {
         this.lastmove = state.lastmove;
         this.boardSize = this.getBoardSize();
         this.komi = state.komi;
+        this.buttontaker = state.buttontaker;
         this.swapped = false;
         // We have to check the first state because we store the updated version in later states
         if (state.swapped === undefined) {
@@ -323,6 +326,13 @@ export class LinageGame extends GameBase {
             return result;
         }
 
+        if (m === "take-button") {
+            result.valid = true;
+            result.complete = 1;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
+        }
+
         try {
             this.algebraic2coords(m);
         } catch {
@@ -379,6 +389,9 @@ export class LinageGame extends GameBase {
             this.results.push({type: "play-second"});
         } else if (m === "pass") {
             this.results.push({type: "pass"});
+        } else if (m === "take-button") {
+            this.buttontaker = this.currplayer;
+            this.results.push({type: "button"});
         } else {
             // piece placement (after the Komi+Pie phase)
             this.results.push({ type: "place", where: m });
@@ -414,30 +427,6 @@ export class LinageGame extends GameBase {
         return this;
     }
 
-    public state(): ILinageState {
-        return {
-            game: LinageGame.gameinfo.uid,
-            numplayers: this.numplayers,
-            variants: this.variants,
-            gameover: this.gameover,
-            winner: [...this.winner],
-            stack: [...this.stack],
-        };
-    }
-
-    public moveState(): IMoveState {
-        return {
-            _version: LinageGame.gameinfo.version,
-            _results: [...this.results],
-            _timestamp: new Date(),
-            currplayer: this.currplayer,
-            lastmove: this.lastmove,
-            board: new Map(this.board),
-            komi: this.komi,
-            swapped: this.swapped
-        };
-    }
-
     public getPlayerColour(player: playerid): number | string {
         return (player == 1 && !this.swapped) || (player == 2 && this.swapped) ? 1 : 2;
     }
@@ -469,7 +458,7 @@ export class LinageGame extends GameBase {
 
         const pieceColour: Colourfuncs = {
             func: "custom",
-            default: "#999",
+            default: "#a020f0", // purple
             palette: 3
         };
 
@@ -521,12 +510,22 @@ export class LinageGame extends GameBase {
         return rep;
     }
 
+    private isButtonActive(): boolean {
+        return this.buttontaker === undefined
+            && this.komi !== undefined
+            && !this.isKomiTurn()
+            && !this.isPieTurn();
+    }
+
     public getButtons(): ICustomButton[] {
         if (this.isKomiTurn()) {
             return []; // no buttons should appear when typing Komi at start
         }
         if (this.isPieTurn()) {
-            return [{ label: "playsecond", move: "play-second" }];
+            return [{ label: "play second", move: "play-second" }];
+        }
+        if (this.isButtonActive()) {
+            return [{ label: "take button", move: "take-button" }];
         }
         return [{ label: "pass", move: "pass" }];
     }
@@ -538,14 +537,71 @@ export class LinageGame extends GameBase {
     }
 
     public getPlayerScore(player: number): number {
-        let komi = 0.0;
+        let komi = this.buttontaker === player ? 0.5 : 0;
         if (player === 1 && this.komi !== undefined && this.komi < 0)
-            komi = -this.komi + 0.5; // 0.5 is to prevent draws
+            komi = -this.komi; 
         if (player === 2 && this.komi !== undefined && this.komi > 0)
-            komi = this.komi + 0.5;
+            komi = this.komi;
 
         const terr = this.getTerritories();
         return terr.filter(t => t.owner === player).reduce((prev, curr) => prev + curr.cells.length, komi);
+    }
+
+    public state(): ILinageState {
+        return {
+            game: LinageGame.gameinfo.uid,
+            numplayers: this.numplayers,
+            variants: this.variants,
+            gameover: this.gameover,
+            winner: [...this.winner],
+            stack: [...this.stack],
+        };
+    }
+
+    public moveState(): IMoveState {
+        return {
+            _version: LinageGame.gameinfo.version,
+            _results: [...this.results],
+            _timestamp: new Date(),
+            currplayer: this.currplayer,
+            lastmove: this.lastmove,
+            board: new Map(this.board),
+            komi: this.komi,
+            buttontaker: this.buttontaker,
+            swapped: this.swapped
+        };
+    }
+
+    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
+        let resolved = false;
+
+        switch (r.type) {
+            case "komi":
+                node.push(i18next.t("apresults:KOMI", { player, value: r.value }));
+                resolved = true;
+                break;
+            case "play-second":
+                node.push(i18next.t("apresults:PLAYSECOND", { player }));
+                resolved = true;
+                break;
+            case "button":
+                node.push(i18next.t("apresults:BUTTON", { player }));
+                resolved = true;
+                break;
+            case "place":
+                node.push(i18next.t("apresults:PLACE.complete", { player, where: r.where, what : "neutral piece" }));
+                resolved = true;
+                break;
+            case "pass":
+                node.push(i18next.t("apresults:PLACE.linage", { player }));
+                resolved = true;
+                break;
+            case "eog":
+                node.push(i18next.t("apresults:EOG.default"));
+                resolved = true;
+                break;
+        }
+        return resolved;
     }
 
     public clone(): LinageGame {

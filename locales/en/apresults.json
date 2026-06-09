@@ -371,6 +371,7 @@
         "entropy": "{{player}} chose not to move any pieces this turn.",
         "forced": "{{player}} was forced to pass.",
         "frogger": "{{player}} passed {{why}}.",
+        "linage": "{{player}} passes.",
         "pie": "{{player}} accepted the komi offer and will continue playing second.",
         "pigs": "{{player}} idles.",
         "pippinzip": "{{player}} decides to pass and becomes Zip",

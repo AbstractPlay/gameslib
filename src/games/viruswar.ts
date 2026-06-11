@@ -52,7 +52,7 @@ export class VirusWarGame extends GameBase {
             { uid: "size-25", group: "board" }, // 5 moves
             { uid: "#board", }, // 30x30, 6 moves
         ],
-        categories: ["goal>immobilize", "other>traditional", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>2per"],
+        categories: ["goal>immobilize", "other>traditional", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>pnp"],
         flags: ["no-moves", "experimental"]
     };
 
@@ -225,6 +225,7 @@ export class VirusWarGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
+            result.canrender = true;
             result.message = i18next.t("apgames:validation.viruswar.INITIAL_INSTRUCTIONS", {count: this.numMoves})
             return result;
         }
@@ -280,14 +281,19 @@ export class VirusWarGame extends GameBase {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
+
+        if (m.length === 0) { // show all available moves even before selecting anything
+            this.results = [];
+            this.dots = this.getAdjacentMoves(this.currplayer, this.board);
+            return this;
+        }
+
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
         if (! trusted) {
             const result = this.validateMove(m);
             if (! result.valid) { throw new UserFacingError("VALIDATION_GENERAL", result.message) }
         }
-
-        if (m === "") { return this; }
 
         const prevplayer = this.currplayer % 2 + 1 as playerid;
         for (const move of m.split(',')) {

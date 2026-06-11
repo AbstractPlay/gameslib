@@ -120,6 +120,7 @@ export class VirusWarGame extends GameBase {
         this.boardSize = this.getBoardSize();
         this.numMoves = this.getMoveSize();
         this.results = [...state._results];
+        this.dots = this.getAdjacentMoves(this.currplayer, this.board); // show dots before the player acts
         return this;
     }
 
@@ -282,11 +283,7 @@ export class VirusWarGame extends GameBase {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
-        if (m.length === 0) { // show all available moves even before selecting anything
-            this.results = [];
-            this.dots = this.getAdjacentMoves(this.currplayer, this.board);
-            return this;
-        }
+        if (m.length === 0) { return this; }
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
@@ -306,8 +303,7 @@ export class VirusWarGame extends GameBase {
         this.results = [{ type: "place", where: m }];
 
         if (partial) { // if partial, populate dots
-            const validMoves = this.getAdjacentMoves(this.currplayer, this.board);
-            this.dots.push(...validMoves);
+            this.dots = this.getAdjacentMoves(this.currplayer, this.board);
             return this;
         } else {
             this.dots = [];

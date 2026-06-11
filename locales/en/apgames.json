@@ -6808,7 +6808,7 @@
         },
         "viruswar": {
             "INITIAL_INSTRUCTIONS": "Place {{count}} pieces, each must be adjacent to the group of friendly pieces including your home-base. Pieces can be active viruses (circles), or defensive walls (squares). Either place a virus on an empty cell, or replace an enemy virus with a friendly defensive wall.",
-            "CANNOT_GROW": "Square {{where}} cannot receive a new virus/wall! It must be adjacent to the home-base group."
+            "CANNOT_GROW": "Square {{where}} cannot receive a new virus/wall! It must be placed on an empty cell, or on an active virus, adjacent to the home-base group."
         },
         "volcano": {
             "BAD_FROM": "{{from}} doesn't look like a position on the board, or a piece in your stash.",

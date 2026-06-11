@@ -73,6 +73,7 @@ export class FormsGame extends GameBase {
 
     private ruleset: "default" | "original";
     private dots: [number, number][] = []; // if there are points here, the renderer will show them
+    private highlight: string | undefined; // highlight moving piece
 
     constructor(state?: IFormsState | string, variants?: string[]) {
         super();
@@ -313,7 +314,11 @@ export class FormsGame extends GameBase {
             result.valid = true;
             result.complete = -1; // player still needs to move the piece
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.forms.INSTRUCTIONS");
+            if (this.ruleset === 'original' ) {
+                result.message = i18next.t("apgames:validation.forms.INSTRUCTIONS_ORIGINAL");
+            } else {
+                result.message = i18next.t("apgames:validation.forms.INSTRUCTIONS");
+            }
             return result;
         }
 
@@ -322,7 +327,11 @@ export class FormsGame extends GameBase {
 
         if (! this.validMoves(from).includes(to) ) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.forms.INVALID_MOVE");
+            if (this.ruleset === 'original' ) {
+                result.message = i18next.t("apgames:validation.forms.INVALID_MOVE_ORIGINAL");
+            } else {
+                result.message = i18next.t("apgames:validation.forms.INVALID_MOVE");
+            }
             return result;
         }
 
@@ -348,9 +357,12 @@ export class FormsGame extends GameBase {
 
         this.results = [];
         this.dots = [];
+        this.highlight = undefined;
+
         if ( m.length === 0 ) { return this; }
 
         if ( partial && !m.includes('-') ) {
+            this.highlight = m;
             if (this.ruleset !== 'original' ) {
                 this.dots = this.validMoves(m).map(c => this.algebraic2coords(c));
             }
@@ -426,9 +438,9 @@ export class FormsGame extends GameBase {
                 if (this.board.has(cell)) {
                     const contents = this.board.get(cell)!;
                     if (contents === 1) {
-                        pieces.push("A");
+                        pieces.push(this.highlight === cell ? "C" : "A");
                     } else {
-                        pieces.push("B");
+                        pieces.push(this.highlight === cell ? "D" : "B");
                     }
                 } else {
                     pieces.push("-");
@@ -448,6 +460,8 @@ export class FormsGame extends GameBase {
             legend: {
                 A: { name: "piece", colour: 1 },
                 B: { name: "piece", colour: 2 },
+                C: { name: "piece-horse", colour: 1 },
+                D: { name: "piece-horse", colour: 2 }
             },
             pieces: pstr,
         };

@@ -5142,10 +5142,12 @@
         },
         "forms": {
             "INITIAL_INSTRUCTIONS": "Click a friendly piece.",
-            "INSTRUCTIONS": "Click on an orthogonally opposing piece to capture by replacement, or move to an path-adjacent empty cell.",
+            "INSTRUCTIONS": "Click on an orthogonally opposing piece to capture by replacement, or move to an path-adjacent empty cell that makes 2+ groups.",
+            "INSTRUCTIONS_ORIGINAL": "Click on any opponent piece to capture it.",
             "INVALID_SELECTION": "Click on a friendly piece!",
             "NO_MOVES": "This piece does not have valid moves!",
-            "INVALID_MOVE": "The piece must either: (a) capture an orthogonally adjacent enemy piece, (b) move to an empty cell which is connected by an orthogonal sequence of steps over empty cells!",
+            "INVALID_MOVE": "The piece must either: (a) capture an orthogonally adjacent enemy piece, (b) move to an empty cell which is connected by an orthogonal sequence of steps over empty cells, and makes 2+ groups!",
+            "INVALID_MOVE_ORIGINAL": "The piece must capture by replacement any opponent piece!",
             "INVALID_NUM_GROUPS": "A move must create, at least, two separate groups of pieces!"
         },
         "frogger": {
@@ -5434,7 +5436,7 @@
             "INCURSION": "The cell at {{cell}} has no path to a friendly group."
         },
         "linage": {
-            "INITIAL_SETUP": "Choose a number of points to add to the second player's score, and the next player will choose sides. (0.5 will be added to Komi to prevent draws.)",
+            "INITIAL_SETUP": "Choose a number of points to add to the second player's score, and the next player will choose sides. Afterwards, one player can take the button, which earns half-point by being the first one to pass.",
             "INSTRUCTIONS": "Place a piece on a free region.",
             "TABOO": "It is invalid to: (a) place on an owned region, (b) make a region without a horizontal or vertical line.",
             "INVALID_KOMI": "You must choose an integer number of points to add to the second player's score.",
@@ -6806,7 +6808,7 @@
         },
         "viruswar": {
             "INITIAL_INSTRUCTIONS": "Place {{count}} pieces, each must be adjacent to the group of friendly pieces including your home-base. Pieces can be active viruses (circles), or defensive walls (squares). Either place a virus on an empty cell, or replace an enemy virus with a friendly defensive wall.",
-            "CANNOT_GROW": "Square {{where}} cannot receive a new virus/wall!"
+            "CANNOT_GROW": "Square {{where}} cannot receive a new virus/wall! It must be adjacent to the home-base group."
         },
         "volcano": {
             "BAD_FROM": "{{from}} doesn't look like a position on the board, or a piece in your stash.",

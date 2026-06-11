@@ -399,7 +399,9 @@ export class PositGame extends GameBase {
 
         const neutralColour: Colourfuncs = {
             func: "custom",
-            default: "#999",
+            // default: "#778899", // slate gray
+            // default: "#44d7a8", // eucalyptus
+            default: "#ba55d3", // medium orchid
             palette: 3
         };
 

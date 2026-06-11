@@ -262,6 +262,7 @@ import { TricouleurGame, ITricouleurState } from "./tricouleur";
 import { PositGame, IPositState } from "./posit";
 import { VirusWarGame, IVirusWarState } from "./viruswar";
 import { FormsGame, IFormsState } from "./forms";
+import { CompartGame, ICompartState } from "./compart";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -527,6 +528,7 @@ export {
     PositGame, IPositState,
     VirusWarGame, IVirusWarState,
     FormsGame, IFormsState,
+    CompartGame, ICompartState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -617,7 +619,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof AtariGoGame | typeof TanboGame | typeof UnaneGame |
                               typeof LinageGame | typeof PolluxGame | typeof PippinzipGame |
                               typeof NarrowsGame | typeof InvectorGame | typeof TricouleurGame |
-                              typeof PositGame | typeof VirusWarGame | typeof FormsGame
+                              typeof PositGame | typeof VirusWarGame | typeof FormsGame |
+                              typeof CompartGame
                 >();
 // Manually add each game to the following array
 [
@@ -657,7 +660,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     XanaGame, SporaGame, SquirmGame, PinchGame, DomineeringGame, TwinFlamesGame, YGame, ShapeChessGame,
     SlimetrailGame, CatsDogsGame, SoccolotGame, CourtGame, HalmaGame, MinimizeGame, HalmaClimbersGame,
     SynapseGame, AtariGoGame, TanboGame, UnaneGame, LinageGame, PolluxGame, PippinzipGame, NarrowsGame,
-    InvectorGame, TricouleurGame, PositGame, VirusWarGame, FormsGame
+    InvectorGame, TricouleurGame, PositGame, VirusWarGame, FormsGame, CompartGame
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -1193,6 +1196,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new VirusWarGame(args[0], ...args.slice(1));
         case "forms":
             return new FormsGame(...args);
+        case "compart":
+            return new CompartGame(...args);
     }
     return;
 }

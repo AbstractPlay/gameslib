@@ -418,7 +418,14 @@ export class LinageGame extends GameBase {
                          this.stack[this.stack.length - 1].lastmove === "pass");
 
         if (this.gameover) {
-            this.winner = this.getPlayerScore(1) > this.getPlayerScore(2) ? [1] : [2]; // draws not possible
+            const score1 = this.getPlayerScore(1);
+            const score2 = this.getPlayerScore(2);
+
+            if ( score1 === score2 ) {
+                this.winner = [1, 2]; // only possible if neither player takes the button (!)
+            } else {
+                this.winner = score1 > score2 ? [1] : [2];
+            }
             this.results.push(
                 {type: "eog"},
                 {type: "winners", players: [...this.winner]}

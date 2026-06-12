@@ -31,7 +31,7 @@ export class AkimboGame extends GameBase {
         uid: "akimbo",
         playercounts: [2],
         version: "20260613",
-        dateAdded: "2023-06-13",
+        dateAdded: "2026-06-13",
         // i18next.t("apgames:descriptions.akimbo")
         description: "apgames:descriptions.akimbo",
         notes: "apgames:notes.akimbo",
@@ -60,7 +60,7 @@ export class AkimboGame extends GameBase {
             { uid: "size-19", group: "board" },
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["pie", "experimental"]
+        flags: ["no-moves", "pie", "experimental"]
     };
 
     public numplayers = 2;

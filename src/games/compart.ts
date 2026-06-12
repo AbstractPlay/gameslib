@@ -6,6 +6,17 @@ import { reviver, UserFacingError, SquareOrthGraph } from "../common";
 import { connectedComponents } from "graphology-components";
 import i18next from "i18next";
 
+const PALETTE = [
+        "#228B22", // Forest Green
+        "#FF8C00", // Dark Orange
+        "#8A2BE2", // Blue Violet
+        "#FFD700", // Gold
+        "#8B4513", // Saddle Brown
+        "#FFC0CB", // Pink
+        "#FFA07A", // Light Salmon
+        "#BF00FF", // Electric Purple
+    ]
+
 export type playerid = 1 | 2;
 
 type Territory = {
@@ -51,7 +62,7 @@ export class CompartGame extends GameBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
-        categories: ["goal>area", "mechanic>place", "board>shape>rect", "board>connect>rect"],
+        categories: ["goal>score>eog", "mechanic>place", "board>shape>rect", "board>connect>rect"],
         variants: [
             { uid: "size-7", group: "board" },
             { uid: "#board", }, // 9x9
@@ -353,16 +364,15 @@ export class CompartGame extends GameBase {
 
         // add territory dots
         if (highlightAreas && this.stack.length > 2) {
-            const palette = ["#228B22", "#FF8C00", "#8A2BE2", "#8B4513", "#FFD700", "#E1A95F", "#FFA07A", "#7FFF00"]
             const territories = this.getTerritories().sort((a, b) => b.cells.length - a.cells.length);
             const markers: Array<MarkerDots> = []
             let colorIdx = 0
             for (const t of territories) {
                 const points = t.cells.map(c => this.algebraic2coords(c));
                 markers.push({type: "dots",
-                              colour: palette[colorIdx],
+                              colour: PALETTE[colorIdx],
                               points: points.map(p => { return {col: p[0], row: p[1]}; }) as [RowCol, ...RowCol[]]});
-                colorIdx += 1;
+                colorIdx = (colorIdx + 1) % PALETTE.length;
             }
             if (markers.length > 0) {
                 (rep.board as BoardBasic).markers = markers;

@@ -222,6 +222,9 @@ export class CompartGame extends GameBase {
             return result;
         }
 
+        m = m.toLowerCase();
+        m = m.replace(/\s+/g, "");
+
         const moves = m.split(',');
 
         try { // check if cells are valid

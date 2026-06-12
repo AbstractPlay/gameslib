@@ -519,6 +519,7 @@
         "nowhat_other": "{{count}} pieces were reclaimed."
     },
     "REMOVE": {
+        "akimbo": "{{player}} removes {{where}} due to the formation of a crosscut.",
         "entrapment_opponent": "{{player}} chose to retain the opponent's roamer at {{how}}, removing the roamer at {{where}}.",
         "entrapment_self": "{{player}} chose to retain their own roamer at {{how}}, removing the roamer at {{where}}.",
         "fourinarow_e": "{{player}} cleared a line, shifting the pieces on the board rightwards.",

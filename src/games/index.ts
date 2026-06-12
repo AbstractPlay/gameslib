@@ -263,6 +263,7 @@ import { PositGame, IPositState } from "./posit";
 import { VirusWarGame, IVirusWarState } from "./viruswar";
 import { FormsGame, IFormsState } from "./forms";
 import { CompartGame, ICompartState } from "./compart";
+import { AkimboGame, IAkimboState } from "./akimbo";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -529,6 +530,7 @@ export {
     VirusWarGame, IVirusWarState,
     FormsGame, IFormsState,
     CompartGame, ICompartState,
+    AkimboGame, IAkimboState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -620,7 +622,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof LinageGame | typeof PolluxGame | typeof PippinzipGame |
                               typeof NarrowsGame | typeof InvectorGame | typeof TricouleurGame |
                               typeof PositGame | typeof VirusWarGame | typeof FormsGame |
-                              typeof CompartGame
+                              typeof CompartGame | typeof AkimboGame
                 >();
 // Manually add each game to the following array
 [
@@ -660,7 +662,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     XanaGame, SporaGame, SquirmGame, PinchGame, DomineeringGame, TwinFlamesGame, YGame, ShapeChessGame,
     SlimetrailGame, CatsDogsGame, SoccolotGame, CourtGame, HalmaGame, MinimizeGame, HalmaClimbersGame,
     SynapseGame, AtariGoGame, TanboGame, UnaneGame, LinageGame, PolluxGame, PippinzipGame, NarrowsGame,
-    InvectorGame, TricouleurGame, PositGame, VirusWarGame, FormsGame, CompartGame
+    InvectorGame, TricouleurGame, PositGame, VirusWarGame, FormsGame, CompartGame, AkimboGame
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -1198,6 +1200,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new FormsGame(...args);
         case "compart":
             return new CompartGame(...args);
+        case "akimbo":
+            return new AkimboGame(...args);
     }
     return;
 }

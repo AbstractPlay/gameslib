@@ -67,6 +67,7 @@
         "control": "Control is a finite, drawless territory game of elegant simplicity. Add pieces where your opponent doesn't have more influence or remove pieces from where you have more influence. Last to move wins.",
         "court": "A set of pawns that can be promoted anytime to a limited set of officials. However, without pawns one loses the game. A stalemated player also loses the game.",
         "courtesan": "Get your king to the other side of the board while safely \"hiding\" it among your other pieces.",
+        "crosscontrol": "Territorial line-of-sight game. Cells are controlled and pieces on them are flipped based on how many pieces of a color can see them. The winner is the player who occupies more of the board at the end.",
         "crossway": "A game of connecting opposite sides of the board, but lines of pieces may not cross each other.",
         "crosshairs": "A WW1 aerial dogfight game. Planes have height and direction. Movement includes climbing, level flight, and diving. Combat is simple: if a plane is in the line of fire of two enemy planes, it is shot down. Reduce your opponent to one plane to win.",
         "cubeo": "A boardless, perfect-information dice game where you attempt to promote your dice faster than your opponent or manoeuvre your opponent into a position where they cannot move.",
@@ -409,6 +410,9 @@
             }
         },
         "akimbo": {
+            "size-9": {
+                "name": "9x9 board"
+            },
             "size-11": {
                 "name": "11x11 board"
             },
@@ -1021,9 +1025,6 @@
             },
             "size-15": {
                 "name": "15x15 board"
-            },
-            "size-19": {
-                "name": "19x19 board"
             }
         },
         "conect": {
@@ -1142,6 +1143,31 @@
             },
             "size-6": {
                 "name": "Shorter game (6x6 board)"
+            }
+        },
+        "crosscontrol": {
+            "size-9": {
+                "name": "9x9 board"
+            },
+            "#board": {
+                "name": "13x13 board"
+            },
+            "size-15": {
+                "name": "15x15 board"
+            },
+            "size-19": {
+                "name": "19x19 board"
+            },
+            "size-25": {
+                "name": "25x25 board"
+            },
+            "#komi": {
+                "description": "One player will enter a number to choose the second mover bonus for the game. The other player will be given the option to move first or second.",
+                "name": "Komi offer"
+            },
+            "nokomi": {
+                "description": "The game will be played without a second mover bonus. Good for beginners.",
+                "name": "No komi offer"
             }
         },
         "crosshairs": {
@@ -3689,6 +3715,20 @@
                 "description": "Display the board using vertexes instead of hexes."
             }
         },
+        "crosscontrol": {
+            "hide-both": {
+                "description": "Don't highlight empty controlled spaces nor possible replacements.",
+                "name": "Hide Both"
+            },
+            "hide-influence": {
+                "description": "Don't highlight empty controlled spaces.",
+                "name": "Hide influence"
+            },
+            "hide-threatened": {
+                "description": "Don't highlight possible replacements.",
+                "name": "Hide threatened"
+            }
+        },
         "crosshairs": {
             "abstract": {
                 "description": "Use abstract glyphs for the planes and clouds.",
@@ -4906,6 +4946,18 @@
             "INITIAL_INSTRUCTIONS": "Select one of your pieces to move.",
             "INVALID_DIR": "Noncapturing moves and exchanges may only happen in the forward direction.",
             "INVALID_EXCHANGE": "Only kings may exchange, and they must transfer to a courtesan."
+        },
+        "crosscontrol": {
+            "INITIAL_INSTRUCTIONS": "Place a piece onto an empty space not controlled by the opponent, replace an enemy piece on a space you control, or 'pass' if all spaces are occupied or controlled. The game ends when both players pass in sequence.",
+            "INITIAL_INSTRUCTIONS_BUTTON": "Place a piece onto an empty space not controlled by the opponent, replace an enemy piece on a space you control, or \"Take button\" (worth .5 points).",
+            "INITIAL_SETUP": "Enter a number to set the bonus to the second mover's score. Your opponent will choose to move first or second.",
+            "INSUFFICIENT_LOS": "You cannot replace a piece on {{cell}}. You do not control the space.",
+            "INVALIDBUTTON": "The button is already taken or is not in use this game.",
+            "INVALIDKOMI": "You must choose a number of points for the second mover to start with. You may not offer a komi greater than the number of cells on the board plus one.",
+            "INVALIDPASS": "You cannot pass while uncontrolled spaces exist or if the button is still available for taking.",
+            "INVALIDPLAYSECOND": "You cannot choose to play second from this board state.",
+            "KOMI_CHOICE": "You may either make the first move on the board and let your opponent keep the bonus points or you may choose \"Play second\" and take the bonus points for yourself.",
+            "OPPONENT_CONTROL": "You cannot place onto the empty space {{cell}}. It is controlled by the opponent."
         },
         "crossway": {
             "BAD_PASS": "You may not pass if legal moves are available.",

@@ -36,7 +36,6 @@ export class CrossControlGame extends GameBase {
         dateAdded: "2026-06-13",
         // i18next.t("apgames:descriptions.crosscontrol")
         description: "apgames:descriptions.crosscontrol",
-        notes: "apgames:notes.crosscontrol",
         urls: ["https://boardgamegeek.com/boardgame/143767/crosscontrol"],
         people: [
             {

@@ -53,6 +53,7 @@ export class AkimboGame extends GameBase {
             },
         ],
         variants: [
+            { uid: "size-9", group: "board" },
             { uid: "size-11", group: "board" },
             { uid: "size-13", group: "board" },
             { uid: "#board", }, // 15x15

@@ -69,7 +69,6 @@ export class CompartGame extends GameBase {
             { uid: "size-11", group: "board" },
             { uid: "size-13", group: "board" },
             { uid: "size-15", group: "board" },
-            { uid: "size-19", group: "board" },
         ],
         flags: ["no-moves", "pie", "scores", "experimental"],
         displays: [{uid: "show-viable-areas"}],

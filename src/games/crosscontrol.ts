@@ -29,7 +29,7 @@ export interface ICrossControlState extends IAPGameState {
 
 export class CrossControlGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
-        name: "Cross Control",
+        name: "Crosscontrol",
         uid: "crosscontrol",
         playercounts: [2],
         version: "20260613",

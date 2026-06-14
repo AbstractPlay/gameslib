@@ -31,7 +31,6 @@ export class UnstackGame extends GameBase {
         dateAdded: "2026-06-14",
         // i18next.t("apgames:descriptions.unstack")
         description: "apgames:descriptions.unstack",
-        notes: "apgames:notes.unstack",
         urls: [
                 "https://jpneto.github.io/world_abstract_games/unstack.htm",
                 "https://boardgamegeek.com/boardgame/27013/unstack",
@@ -52,7 +51,7 @@ export class UnstackGame extends GameBase {
             },
         ],
         categories: ["goal>area", "mechanic>move>sow", "mechanic>capture", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>2c"],
-        flags: ["scores", "no-moves", "automove", "custom-buttons", "experimental"],
+        flags: ["scores", "no-moves", "autopass", "custom-buttons", "experimental"],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -132,10 +131,10 @@ export class UnstackGame extends GameBase {
     }
 
     // there are too many moves to list; however, if no sowing is possible, the only move
-    // is to pass, so let's use moves() to activate flag "automove" in those situations
+    // is to pass, so let's use moves() to activate flag "autopass" in those situations
     public moves(player?: playerid): string[] {
         player ??= this.currplayer;
-        return this.canSow() ? ["dummy1", "dummy2"] : ["pass"];
+        return this.canSow(player) ? ["dummy1", "dummy2"] : ["pass"];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -612,18 +611,10 @@ export class UnstackGame extends GameBase {
 
         if ( this.results.length > 0 ) {
             for (const move of this.results) {
-                if (move.type === "place") {
-                    const [x, y] = this.algebraic2coords(move.where!);
-                    rep.annotations.push({ type: "enter", targets: [{ row: y, col: x }] });
-                } else if (move.type === "move") {
+                if (move.type === "move") {
                     const [fromX, fromY] = this.algebraic2coords(move.from);
                     const [toX, toY] = this.algebraic2coords(move.to);
                     rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
-                } else if (move.type === "capture") {
-                    for (const cell of move.where!.split(",")) {
-                        const [x, y] = this.algebraic2coords(cell);
-                        rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
-                    }
                 }
             }
         }

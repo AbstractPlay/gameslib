@@ -251,6 +251,7 @@
         "unlur": "An asymmetric connection game where one player tries to form a Y and the other tries to connect opposite sides. Achieving the opponent's goal without achieving your own is a loss. The game starts with a contract phase where both players place the colour of the Y player until someone passes, and then the opponent becomes the Line player.",
         "upperhand": "A shedding game where you try to be the first to place all your pieces. If a platform is created and at least three of the pieces are of a player's colour, an additional piece of that colour is automatically placed on top of it, causing chain reactions. The pie rule applies.",
         "urbino": "In Urbino, one manipulates architects (like in the game Fabrik) to build districts of different building types according to a handful of placement rules. When no more moves are possible, districts are scored, and the highest score wins. Also includes the \"Monuments\" variant.",
+        "unstack": "Sow your stacks to capture the adversary pieces, and be the one with more pieces at the end.",
         "valley": "Get your king to the center space, but your pieces must always move as far as they can. Teamwork is essential.",
         "veletas": "Drawless territory game where players control a number of neutral shooters and shoot stones of their own colour from them. In order to win, a player must claim a majority of neutral pieces by having them surrounded by larger groups of their own pieces than their opponent's.",
         "verge": "Verge is a game where players attempt to create groups that partition the board, freezing those groups and removing enemy groups. The first player to have no legal placement wins.",
@@ -6877,6 +6878,17 @@
             "PARTIAL_PLACE": "Choose a cell to place a piece in.",
             "PARTIAL_PLACE_SIZE": "Select the size of a piece to place.",
             "VALID_MOVE": "Looks like a valid move. You can also click the cell again to select the next available piece size."
+        },
+        "unstack": {
+            "INSTRUCTIONS": "Select a friendly stack, click on it as many times as pieces to move, then click on a orthogonal path that starts adjacent to this sowing stack (one or more pieces per square), making 90º turns.",
+            "NOT_FRIENDLY_STACK": "Select a friendly stack to sow!",
+            "CAN_SOW": "It is only possible to pass when no legal sowing exists!",
+            "CAPTURES_MANDATORY": "Captures are available, and take precedence over non-captures! For example, {{from}} can capture {{to}}.",
+            "MULTIPLE_CAPTURES": "Only one capture per sowing is admissible!",
+            "INVALID_SOW_PATH": "The selected path does not follow Unstack rules: (a) pick (part of) a stack and leave one or more pieces per orthogonal adjacent intersection, (b) sowing can turn left/right after each placed piece, (c) sowing a stack is only legal if the player can legally place all pieces of the stack, (d) capturing enemy stacks is only legal if the number of pieces in-hand are at least as many as the size of that enemy stack.",
+            "SAME_PLACE_SOW_STACK": "The sowing stack cannot be the stack just created/enlarged.",
+            "SOW_INSTRUCTIONS": "Either select more pieces to sow, or start sowing with the ones already selected. When sowing, the next intersection must be adjacent to the previous one. Left and right turns are valid. Cannot sow over (and capture) opponent stacks with more than the size of the number of pieces that still need to be sowed.",
+            "SOW_TOO_LARGE": "The current sowing is larger than the available pieces at the sowing stack."
         },
         "valley": {
             "BAD_VARIANT": "You can only move towers in the Moon Labyrinth variant.",

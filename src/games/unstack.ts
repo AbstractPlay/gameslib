@@ -51,7 +51,7 @@ export class UnstackGame extends GameBase {
             },
         ],
         categories: ["goal>area", "mechanic>move>sow", "mechanic>capture", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>2c"],
-        flags: ["pie", "scores", "no-moves", "autopass", "custom-buttons", "experimental"],
+        flags: ["pie", "scores", "no-moves", "custom-buttons", "experimental"],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -128,13 +128,6 @@ export class UnstackGame extends GameBase {
         this.lastmove = state.lastmove;
         this.results = [...state._results];
         return this;
-    }
-
-    // there are too many moves to list; however, if no sowing is possible, the only move
-    // is to pass, so let's use moves() to activate flag "autopass" in those situations
-    public moves(player?: playerid): string[] {
-        player ??= this.currplayer;
-        return this.canSow(player) ? ["dummy1", "dummy2"] : ["pass"];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -363,6 +356,12 @@ export class UnstackGame extends GameBase {
             return result;
         }
 
+        if (! this.canSow() ) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.unstack.PASS_ONLY");
+            return result;
+        }
+
         const initialCell = m.split(/[>@]/)[0];
 
         try {
@@ -535,6 +534,23 @@ export class UnstackGame extends GameBase {
         this.currplayer = this.currplayer % 2 + 1 as playerid;
         this.checkEOG();
         this.saveState();
+
+        if (! this.canSow() ) {
+            this.results = [ {type: "pass"} ];
+            this.lastmove = "pass"
+            this.currplayer = this.currplayer % 2 + 1 as playerid;
+            this.checkEOG();
+            this.saveState();
+        }
+
+        if (!this.gameover && !this.canSow() ) { // if it happens twice, the game will end
+            this.results = [ {type: "pass"} ];
+            this.lastmove = "pass"
+            this.currplayer = this.currplayer % 2 + 1 as playerid;
+            this.checkEOG();
+            this.saveState();
+        }
+
         return this;
     }
 

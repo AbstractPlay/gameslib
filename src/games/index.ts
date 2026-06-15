@@ -266,6 +266,7 @@ import { CompartGame, ICompartState } from "./compart";
 import { AkimboGame, IAkimboState } from "./akimbo";
 import { CrossControlGame, ICrossControlState } from "./crosscontrol";
 import { UnstackGame, IUnstackState } from "./unstack";
+import { SwarmGame, ISwarmState } from "./swarm";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -535,6 +536,7 @@ export {
     AkimboGame, IAkimboState,
     CrossControlGame, ICrossControlState,
     UnstackGame, IUnstackState,
+    SwarmGame, ISwarmState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -627,7 +629,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof NarrowsGame | typeof InvectorGame | typeof TricouleurGame |
                               typeof PositGame | typeof VirusWarGame | typeof FormsGame |
                               typeof CompartGame | typeof AkimboGame | typeof CrossControlGame |
-                              typeof UnstackGame
+                              typeof UnstackGame | typeof SwarmGame
                 >();
 // Manually add each game to the following array
 [
@@ -668,7 +670,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     SlimetrailGame, CatsDogsGame, SoccolotGame, CourtGame, HalmaGame, MinimizeGame, HalmaClimbersGame,
     SynapseGame, AtariGoGame, TanboGame, UnaneGame, LinageGame, PolluxGame, PippinzipGame, NarrowsGame,
     InvectorGame, TricouleurGame, PositGame, VirusWarGame, FormsGame, CompartGame, AkimboGame,
-    CrossControlGame, UnstackGame
+    CrossControlGame, UnstackGame, SwarmGame
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -1212,6 +1214,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new CrossControlGame(...args);
         case "unstack":
             return new UnstackGame(...args);
+        case "swarm":
+            return new SwarmGame(...args);
     }
     return;
 }

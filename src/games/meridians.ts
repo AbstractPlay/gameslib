@@ -39,6 +39,7 @@ export class MeridiansGame extends GameBase {
                 type: "designer",
                 name: "Kanare Kato",
                 urls: ["https://kanare-abstract.com"],
+                apid: "94d8e4a8-d091-7018-b8e4-7fcb34ae7d6c",
             },
             {
                 type: "coder",

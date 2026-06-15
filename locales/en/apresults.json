@@ -110,6 +110,7 @@
         "spook_lateral_self_other": "{{player}} has {{count}} of their own balls captured by Spooky on the same level at {{where}}.",
         "spora" : "{{player}} surrounded and captured {{count}} piece(s): {{group}}.",
         "stawvs": "{{player}} captured the {{what}} at {{where}}.",
+        "swarm": "{{player}} captured stack {{where}} using {{count}} singletons.",
         "tafl": "{{player}} captured a piece at {{where}}.",
         "terrace_other": "{{player}} captured a size {{what}} piece at {{where}}.",
         "terrace_self": "{{player}} cannibalized their own size {{what}} piece at {{where}}.",

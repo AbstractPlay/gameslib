@@ -224,6 +224,7 @@
         "strands": "In Strands, players take turns placing the number of pieces of their colour on the board corresponding to the number on the spaces. The goal is to form the largest contiguous group of stones. If the largest groups are tied, compare the second-largest groups, and so on. The first player starts the game by placing one piece on a space labelled with a 2.",
         "streetcar": "It's against the law to build housing or transit in this wealthy neighborhood. Remove single-family housing limits to let citizens build, making the neighborhood more affordable and diverse. Then connect new buildings with streetcar lines of your own color to score points.",
         "strings": "Players simultaneously choose a string to pull, moving, splitting, and joining stacks of coins. The winner is the first one able to get five coins on their home spaces. Are you pulling strings? Or is your opponent pulling yours?",
+        "swarm": "Making stacks by collective attacks.",
         "subdivision": "You are a real estate developer competing with others to develop a new subdivision. Where you build is somewhat restricted, and what gets built next to you affects your value. Bring down your competitors' values while maximizing your own.",
         "sunspot": "Form a loop through placing stones and flipping subgroups.",
         "surmount": "An exnihilation game in which larger groups destroy smaller ones.",
@@ -3052,6 +3053,17 @@
             "15point": {
                 "description": "The higher penalty makes invading enemy territory more expensive, leading to a euro-style game that focuses on building.",
                 "name": "Higher penalty (-15)"
+            }
+        },
+        "swarm": {
+            "#board": {
+                "name": "Hex board (base-3)"
+            },
+            "size-4": {
+                "name": "Hex board (base-4)"
+            },
+            "size-5": {
+                "name": "Hex board (base-5)"
             }
         },
         "subdivision": {
@@ -6630,6 +6642,13 @@
         "strings": {
             "INITIAL_INSTRUCTIONS": "Select a string to pull.",
             "NOSTRING": "There is no string numbered {{string}}."
+        },
+        "swarm": {
+            "INSTRUCTIONS": "Place a friendly piece on an empty cell, or click an adversary stack that is surrounded by enough friendly singletons.",
+            "CANNOT_CAPTURE": "Not enough singletons to capture stack {{move}}!",
+            "CANNOT_PASS": "Cannot pass! There are still other moves available (like {{move}}).",
+            "NOT_MAX_CAPTURE": "There are larger captures that take precedence!",
+            "FRIENDLY_PIECE": "It is invalid to select a friendly piece! Either select an empty cell or a surrounded enemy stack!"
         },
         "subdivision": {
             "BAD_ONE": "Smalls must be placed near a small or large of a different colour.",

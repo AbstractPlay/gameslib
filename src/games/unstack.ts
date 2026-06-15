@@ -51,7 +51,7 @@ export class UnstackGame extends GameBase {
             },
         ],
         categories: ["goal>area", "mechanic>move>sow", "mechanic>capture", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>2c"],
-        flags: ["scores", "no-moves", "autopass", "custom-buttons", "experimental"],
+        flags: ["pie", "scores", "no-moves", "autopass", "custom-buttons", "experimental"],
     };
 
     public coords2algebraic(x: number, y: number): string {

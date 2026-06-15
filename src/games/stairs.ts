@@ -40,6 +40,7 @@ export class StairsGame extends GameBase {
                 type: "designer",
                 name: "Kanare Kato",
                 urls: ["https://kanare-abstract.com/en"],
+                apid: "0998417b-d2b5-4a3f-8f5d-965e67b290b8",
             },
             {
                 type: "coder",

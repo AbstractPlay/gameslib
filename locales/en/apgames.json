@@ -6902,6 +6902,7 @@
             "INSTRUCTIONS": "Select a friendly stack, click on it as many times as pieces to move, then click on a orthogonal path that starts adjacent to this sowing stack (one or more pieces per square), making 90º turns.",
             "NOT_FRIENDLY_STACK": "Select a friendly stack to sow!",
             "CAN_SOW": "It is only possible to pass when no legal sowing exists!",
+            "PASS_ONLY": "Now sowing left, player must pass!",
             "CAPTURES_MANDATORY": "Captures are available, and take precedence over non-captures! For example, {{from}} can capture {{to}}.",
             "MULTIPLE_CAPTURES": "Only one capture per sowing is admissible!",
             "INVALID_SOW_PATH": "The selected path does not follow Unstack rules: (a) pick (part of) a stack and leave one or more pieces per orthogonal adjacent intersection, (b) sowing can turn left/right after each placed piece, (c) sowing a stack is only legal if the player can legally place all pieces of the stack, (d) capturing enemy stacks is only legal if the number of pieces in-hand are at least as many as the size of that enemy stack.",

@@ -27,8 +27,8 @@ export class SwarmGame extends GameBase {
         playercounts: [2],
         version: "20260615",
         dateAdded: "2026-06-15",
-        // i18next.t("apgames:descriptions.Swarm")
-        description: "apgames:descriptions.Swarm",
+        // i18next.t("apgames:descriptions.swarm")
+        description: "apgames:descriptions.swarm",
         urls: [
                 "https://boardgamegeek.com/thread/3684281/new-game-swarm",
               ],

@@ -182,17 +182,13 @@ export class SwarmGame extends GameBase {
         player ??= this.currplayer;
         const g = this.graph;
         const moves: string[] = [];
+
         // the captures involving the greater number of your singletons takes priority.
         // if the conditions are identical, the active player may choose which capture to perform
         const allCaptures: [string, number][] = []; // to decide later
         let maxCaptures = 0;
-
         for (const cell of g.graph.nodes()) {
-            if (! this.board.has(cell)) {
-                moves.push(cell); // can place over an empty cell
-            } else if ( this.board.get(cell)![0] === player) {
-                continue; // cannot place over a friendly piece
-            } else {
+            if ( this.board.has(cell) && this.board.get(cell)![0] !== player ) {
                 // if N friendly singletons are adjacent to an opponent piece, which size < N,
                 // the player can (eventually) capture it
                 const N = this.singletons(cell).length;
@@ -202,13 +198,23 @@ export class SwarmGame extends GameBase {
                 }
             }
         }
-
+        // only select the captures with maximum singletons
         const validCaptures: string[] = allCaptures.filter(e => e[1] === maxCaptures).map(e => e[0]);
         moves.push(...validCaptures);
 
         if (moves.length === 0) {
+            // no captures? Let's try placements on empty cells
+            for (const cell of g.graph.nodes()) {
+                if (! this.board.has(cell)) {
+                    moves.push(cell);
+                }
+            }
+        }
+
+        if (moves.length === 0) { // no captures and no placements? Player is forced to pass
             moves.push("pass");
         }
+
         return moves;
     }
 
@@ -276,7 +282,12 @@ export class SwarmGame extends GameBase {
 
         if (! allMoves.includes(m) ) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: m});
+            // if available moves are at adversary stacks, then probably the player is trying an illegal placement
+            if ( this.board.has(allMoves[0]) && this.board.get(allMoves[0])![0] !== this.currplayer ) {
+                result.message = i18next.t("apgames:validation.swarm.CAPTURES_MANDATORY", {move: allMoves[0]});
+            } else {
+                result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: m});
+            }
             return result;
         }
 

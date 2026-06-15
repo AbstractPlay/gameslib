@@ -6648,6 +6648,7 @@
             "CANNOT_CAPTURE": "Not enough singletons to capture stack {{move}}!",
             "CANNOT_PASS": "Cannot pass! There are still other moves available (like {{move}}).",
             "NOT_MAX_CAPTURE": "There are larger captures that take precedence!",
+            "CAPTURES_MANDATORY": "Captures take precedence over placement! For eg, there's a capture at {{move}}.",
             "FRIENDLY_PIECE": "It is invalid to select a friendly piece! Either select an empty cell or a surrounded enemy stack!"
         },
         "subdivision": {

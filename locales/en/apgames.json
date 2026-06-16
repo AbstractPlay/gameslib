@@ -78,6 +78,7 @@
         "dipole": "An anti-race game where you inexorably lose pieces, but you try to be the last one to run out.",
         "dragoneyes": "A variant of checkers with incomplete information, enchanted dragon eye spaces, and played on a hexagonal board.",
         "domineering": "Players place dominoes, one vertically, another horizontally, until one cannot play, thus losing the game.",
+        "eatyourneighbor": "Get points for eating creatures in a growing ecosystem.",
         "emergo": "A Draughts variant where captured pieces remain on the board and can be freed later. Capture all opposing pieces to win. Derived from Lasca but with two game phases and compulsory maximal captures.",
         "emu": "Each bird on your ranch is represented by a stack of cards. At the end of the hand, the value of a bird is determined by the sum of the number cards in the stack. The object, naturally enough, is to raise profitable birds. Highest score after a number of \"years\" wins.",
         "enso": "A Zen-inspired game of movement and capture in which you attempt to fully surround one of your pieces with emptiness.",
@@ -1296,6 +1297,25 @@
             "claimdraw": {
                 "description": "You must choose to claim a draw on your turn.",
                 "name": "Claim Draws"
+            }
+        },
+        "eatyourneighbor": {
+            "#board": {
+                "name": "Hexagonal board (base-4)"
+            },
+            "size-5": {
+                "name": "Hexagonal board (base-5)"
+            },
+            "size-6": {
+                "name": "Hexagonal board (base-6)"
+            },
+            "#ruleset": {
+                "description": "Player need to capture 12 pieces to win.",
+                "name": "Capture 12 pieces"
+            },
+            "no-threshold": {
+                "description": "The game continues while there are valid placements.",
+                "name": "No maximum captures"
             }
         },
         "emu": {
@@ -5087,6 +5107,11 @@
             "INITIAL_INSTRUCTIONS_CAPTURE": "Click a piece/space with a dot to begin or continue a capture chain.",
             "INITIAL_INSTRUCTIONS_ONE": "Click a gray piece to flip and reveal the owner.",
             "INITIAL_INSTRUCTIONS_TWO": "Select one of your pieces to move. Then click a space with a dot to choose where to move."
+        },
+        "eatyourneighbor": {
+            "INSTRUCTIONS": "Place a friendly piece on an empty hex. It is invalid to make creatures bigger than size 4.",
+            "CANNOT_PASS": "Cannot pass, there are still valid placements (like {{move}})!",
+            "GROUP_TOO_LARGE": "This placement would make a creature bigger than four pieces!"
         },
         "emergo": {
             "INITIAL_INSTRUCTIONS_enter": "Select an empty dark cell to place a piece.",

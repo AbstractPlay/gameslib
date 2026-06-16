@@ -267,6 +267,14 @@ export class SwarmGame extends GameBase {
             return result;
         }
 
+        try { // check if valid cell
+            this.graph.algebraic2coords(m);
+        } catch {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: m});
+            return result;
+        }
+
         if ( this.board.has(m) && this.board.get(m)![0] !== this.currplayer ) {
             const N = this.singletons(m).length;
             if ( N <= this.board.get(m)![1] ) {

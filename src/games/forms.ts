@@ -180,7 +180,9 @@ export class FormsGame extends GameBase {
             if (move === "") {
                 newmove = cell;
             } else if (move === cell) {
-                newmove = "";
+                newmove = ""; // re-click resets the move
+            } else if ( this.board.has(cell) && this.board.get(cell)! === this.currplayer ) {
+                newmove = cell; // player select another friendly piece to move instead
             } else {
                 newmove = `${move}-${cell}`;
             }

@@ -6794,6 +6794,7 @@
         "tricouleur": {
             "INITIAL_INSTRUCTIONS": "Select a piece to duplicate or jump. Rocks are represented as circles, Paper as squares, and Scissors as Xs.",
             "INITIAL_INSTRUCTIONS_PASS": "You have no moves so you must pass.",
+            "SECOND_MOVE": "Please make your second move.",
             "INVALID_TO": "The piece at {{from}} cannot duplicate or jump to {{to}}.",
             "MUST_PASS": "The only move available to you is to pass.",
             "ILLEGAL_PASS": "You may only pass has a whole move.",

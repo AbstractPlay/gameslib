@@ -227,7 +227,7 @@ export class VirusWarGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.viruswar.INITIAL_INSTRUCTIONS", {count: this.numMoves})
+            result.message = i18next.t("apgames:validation.viruswar.INITIAL_INSTRUCTIONS_one", {count: this.numMoves})
             return result;
         }
 
@@ -274,7 +274,12 @@ export class VirusWarGame extends GameBase {
         result.valid = true;
         result.complete = validMoves.length > 0 && moves.length < this.numMoves ? -1 : 1;
         result.canrender = true;
-        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        if ( result.complete === -1 ) {
+            result.message = i18next.t("apgames:validation.viruswar.INITIAL_INSTRUCTIONS_other", 
+                                       {count: this.numMoves - moves.length});
+        } else {
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        }
         return result;
     }
 

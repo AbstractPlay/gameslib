@@ -55,6 +55,7 @@
         "crosshairs": "{{player}} shot down a plane at {{where}}.",
         "dameo_king": "{{player}} captured a king at {{where}}.",
         "dameo_soldier": "{{player}} captured a soldier at {{where}}.",
+        "eatyourneighbor": "{{player}} captured group {{where}} of size {{count}}.",
         "entrapment_opponent": "{{player}} captured an opponent's roamer at {{where}}.",
         "entrapment_self": "{{player}} captured their own roamer at {{where}}.",
         "fightopia_1": "{{player}} captured a pawn at {{where}}.",

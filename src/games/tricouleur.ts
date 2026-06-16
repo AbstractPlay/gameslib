@@ -526,7 +526,11 @@ export class TricouleurGame extends GameBase {
                            scores[0] + scores[1] === totalHexes - 1) // if there is only one hex left, a non-jump is final
                           ? 1 : -1;
         result.canrender = true;
-        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        if (result.complete === -1) {
+            result.message = i18next.t("apgames:validation.tricouleur.SECOND_MOVE");
+        } else {
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        }
         return result;
     }
 

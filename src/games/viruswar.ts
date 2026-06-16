@@ -288,7 +288,10 @@ export class VirusWarGame extends GameBase {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
-        if (m.length === 0) { return this; }
+        if (m.length === 0) {
+            this.dots = this.getAdjacentMoves(this.currplayer, this.board);
+            return this;
+        }
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");

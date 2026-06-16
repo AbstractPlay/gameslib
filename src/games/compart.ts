@@ -217,7 +217,11 @@ export class CompartGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.compart.INSTRUCTIONS", {count: viableAreas.length})
+            if ( viableAreas.length === 1 ) {
+                result.message = i18next.t("apgames:validation.compart.INSTRUCTIONS");
+            } else {
+                result.message = i18next.t("apgames:validation.compart.INSTRUCTIONS_other", {count: viableAreas.length});
+            }
             return result;
         }
 
@@ -262,7 +266,15 @@ export class CompartGame extends GameBase {
         result.valid = true;
         result.complete = seenAreas.length < viableAreas.length ? -1 : 1;
         result.canrender = true;
-        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        if ( result.complete === 1 ) {
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        } else if ( viableAreas.length - seenAreas.length === 1 ) {
+            result.message = i18next.t("apgames:validation.compart.INSTRUCTIONS_one");
+        } else {
+            result.message = i18next.t("apgames:validation.compart.INSTRUCTIONS_other",
+                                       {count: viableAreas.length - seenAreas.length});
+        }
+
         return result;
     }
 

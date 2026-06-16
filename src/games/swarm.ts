@@ -29,6 +29,7 @@ export class SwarmGame extends GameBase {
         dateAdded: "2026-06-15",
         // i18next.t("apgames:descriptions.swarm")
         description: "apgames:descriptions.swarm",
+        notes: "apgames:notes.swarm",
         urls: [
                 "https://boardgamegeek.com/thread/3684281/new-game-swarm",
               ],
@@ -50,7 +51,6 @@ export class SwarmGame extends GameBase {
         variants: [
             { uid: "#board", }, // hexhex3
             { uid: "size-4", group: "board" },
-            { uid: "size-5", group: "board" },
         ],
         flags: ["pie", "scores", "autopass", "experimental"]
     };

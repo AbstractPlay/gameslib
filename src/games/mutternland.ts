@@ -15,6 +15,7 @@ const BOARD_SIZE = 7;  // size of hexhex board
 const NUM_MARBLES = 5; // number of marbles each player has
 const NUM_NUTS = 70;   // number of nuts are in the playing field
 const TOWERS_GOAL = 3; // number of occupied towers to win
+const NUT_COLOR = "#ba55d3"; // medium orchid
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -53,6 +54,23 @@ export class MutternlandGame extends GameBase {
                 name: "João Pedro Neto",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/3829/joao-pedro-neto"],
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
+            },
+        ],
+        customizations: [
+            {
+                num: 1,
+                default: 1,
+                explanation: "Colour of player 1"
+            },
+            {
+                num: 2,
+                default: 2,
+                explanation: "Colour of player 2"
+            },
+            {
+                num: 3,
+                default: NUT_COLOR,
+                explanation: "Colour of nuts"
             },
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>move", "mechanic>stack", "board>shape>hex", "board>connect>hex", "components>simple>1c"],
@@ -733,9 +751,9 @@ export class MutternlandGame extends GameBase {
             pieces.push(nodes);
         }
 
-        const wallColour: Colourfuncs = {
+        const nutColour: Colourfuncs = {
             func: "custom",
-            default: "#ba55d3", // medium orchid
+            default: NUT_COLOR,
             palette: 3
         };
 
@@ -750,7 +768,7 @@ export class MutternlandGame extends GameBase {
             legend: {
                 A: { name: "piece-horse", colour: 1 },
                 B: { name: "piece-horse", colour: 2 },
-                C: { name: "piece", colour: wallColour },
+                C: { name: "piece", colour: nutColour },
             },
             pieces: pieces.map(r => r.join(",")).join("\n"),
         };

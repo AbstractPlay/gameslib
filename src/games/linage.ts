@@ -3,13 +3,13 @@ import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic, MarkerDots, RowCol, Colourfuncs } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError, SquareOrthGraph } from "../common";
-
 import { connectedComponents } from "graphology-components";
-
 import i18next from "i18next";
 
 // 1 is Vertical, 2 is Horizontal, 3 is for neutral pieces/free regions, 4 is for invalid regions
 export type playerid = 1 | 2 | 3 | 4;
+
+const NEUTRAL_PIECE_COLOR = "#a020f0"; // purple
 
 type Territory = {
     cells: string[];
@@ -56,6 +56,23 @@ export class LinageGame extends GameBase {
                 name: "João Pedro Neto",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/3829/joao-pedro-neto"],
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
+            },
+        ],
+        customizations: [
+            {
+                num: 1,
+                default: 1,
+                explanation: "Colour of player 1"
+            },
+            {
+                num: 2,
+                default: 2,
+                explanation: "Colour of player 2"
+            },
+            {
+                num: 3,
+                default: NEUTRAL_PIECE_COLOR,
+                explanation: "Colour of neutral piece"
             },
         ],
         categories: ["goal>area", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1c"],
@@ -465,7 +482,7 @@ export class LinageGame extends GameBase {
 
         const pieceColour: Colourfuncs = {
             func: "custom",
-            default: "#a020f0", // purple
+            default: NEUTRAL_PIECE_COLOR,
             palette: 3
         };
 

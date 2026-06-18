@@ -53,7 +53,7 @@ export class PolluxGame extends GameBase {
             },
         ],
         categories: ["goal>connect", "goal>immobilize", "mechanic>place", "mechanic>move", "mechanic>block", "board>shape>rect", "board>connect>hex", "components>simple>1per"],
-        flags: ["no-moves", "experimental"],
+        flags: ["no-moves", "automove", "experimental"],
         variants: [
             { uid: "#board", }, // size-10
             { uid: "size-12", group: "board", },
@@ -182,7 +182,7 @@ export class PolluxGame extends GameBase {
         if (player === undefined) { player = this.currplayer; }
         const moves: string[] = [];
 
-        if (this.stack.length === 1 || this.stack.length === 3 ) {
+        if ( this.stack.length === 1 || this.stack.length === 3 ) {
             // at ply 1 and 3 just drop a tower on an empty isolated cell
             const empties = (this.graph.listCells() as string[]).filter(c => !this.board.has(c));
             for (const cell of empties) {
@@ -192,7 +192,7 @@ export class PolluxGame extends GameBase {
             }
         }
 
-        if (this.stack.length === 2 ) {
+        if ( this.stack.length === 2 ) {
             // at ply 2 drop both towers on empty isolated cells
             const empties = (this.graph.listCells() as string[]).filter(c => !this.board.has(c));
             for (const cell of empties) {
@@ -207,7 +207,11 @@ export class PolluxGame extends GameBase {
             }
         }
 
-        if (this.stack.length > 3) { // the towers are already placed: move one tower and shoot one piece
+        if ( this.stack.length === 4 ) {
+            return ["pass"];
+        }
+
+        if ( this.stack.length > 4 ) { // the towers are already placed: move one tower and shoot one piece
             const dirs: directions[] = ["NE","E","SE","SW","W","NW"];
             const clone = new Map(this.board); // work on clone, just in case
             // find player's towers
@@ -285,6 +289,19 @@ export class PolluxGame extends GameBase {
             if (this.stack.length > 3)
                 result.message = i18next.t("apgames:validation.pollux.INSTRUCTION_SLIDE");
             return result;
+        }
+
+        if (m === "pass") {
+            if (this.stack.length !== 4) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.pollux.BAD_PASS");
+                return result;
+            } else {
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            }
         }
 
         const moves = m.split(',');
@@ -484,14 +501,6 @@ export class PolluxGame extends GameBase {
         this.currplayer = this.currplayer % 2 + 1 as playerid;
         this.checkEOG();
         this.saveState();
-
-        if ( this.stack.length === 4 ) {
-            this.results = [ {type: "pass"} ];
-            this.lastmove = "pass"
-            this.currplayer = this.currplayer % 2 + 1 as playerid;
-            this.saveState();
-        }
-
         return this;
     }
 

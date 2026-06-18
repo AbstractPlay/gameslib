@@ -37,7 +37,7 @@ export class MutternlandGame extends GameBase {
         dateAdded: "2026-06-18",
         // i18next.t("apgames:descriptions.mutternland")
         description: "apgames:descriptions.mutternland",
-        //notes: "apgames:notes.mutternland",
+        notes: "apgames:notes.mutternland",
         urls: [
             "https://boardgamegeek.com/boardgame/1051/mutternland",
             "https://jpneto.github.io/world_abstract_games/modern_rules/1997_Mutternland.pdf"
@@ -158,12 +158,18 @@ export class MutternlandGame extends GameBase {
 
     private atEdge(cell: string): boolean {
         const neighs = this.graph.neighbours(cell);
+        let counterVoid = 0, counterNuts = 0;
+
         for (const adj of neighs) {
             if ( !this.board.has(adj) ) { // might be adjacent to a void cell
-                return true;
+                counterVoid += 1;
+            } else {
+                counterNuts += 1;
             }
         }
-        return neighs.length < 6; // or at the edge of the playing field
+        // cannot be a dead-end, and
+        // either is adjacent to a void cell, or at the edge of the board
+        return counterNuts > 2 && (counterVoid > 0 || neighs.length < 6); // or at the edge of the playing field
     }
 
     // is `cell` adjacent to any piece of `player`?
@@ -520,6 +526,7 @@ export class MutternlandGame extends GameBase {
                     }
                     result.valid = true;
                     result.complete = 0; // a nut might still be moved
+                    result.canrender = true;
                     result.message = i18next.t("apgames:validation.mutternland.INSTRUCTIONS_STEP2");
                     return result;
                 }

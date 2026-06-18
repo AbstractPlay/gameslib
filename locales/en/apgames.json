@@ -148,6 +148,7 @@
         "morphos": "Orthogonal-only square connection game. On your turn, place a friendly stone or flip an enemy stone in one of three predetermined patterns. Win by connecting your two opposite sides of the board with a chain of stones of your color.",
         "murus": "Murus Gallicus is a two-player breakthrough game in which players try to create impenetrable walls of stone as menacing formations approach, reminiscent of Julius Caesar's Gallic Wars.",
         "moonsquad": "Your mining company has found rich ore on this small moon, but you need buyers. Connect your mine to all 3 surface settlements, and hire squads to defend your mine and attack your rival.",
+        "mutternland": "A shifting board of nuts and stacks searching for towers.",
         "mvolcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. This is an older version of the game. It is played on a 6x6 board, and the game ends as soon as someone captures at least one piece of each colour or all three white pieces. Scores are then calculated. Highest score wins.",
         "nakatta": "A square connection game where two specific piece configurations are forbidden.",
         "narrows": "Link all your pieces by empty regions.",
@@ -307,6 +308,7 @@
         "magnate": "The terminology of some Magnate actions has been altered for clarity and brevity. Completely developing a new property is called the \"Buy\" action; purchasing a deed for a new property is called \"Deed\", developing deeds (that is, adding tokens to a deeded property, whether it results in the deed becoming fully developed or not) is called \"Add\". (Selling a card and trading suit tokens 3 for 1 are unchanged.)\n\nIn order to speed up the process of rolling for resources, there are two additional actions:\n* \"Prefer\" is for setting your preference of which suit token to take when a deed pays out on your opponent's roll. If you do not set an explicit preference, the code will choose the rarer token for you based on your non-crown suits and current supply of tokens. The currently preferred token is circled in the UI, but your personal preference is never visible to the other player.\n* \"Choose\" is a mandatory first action for collecting suit tokens when a deed pays out on your own roll. (In all cases where you need to choose a suit token that is not already among your tokens, you still click on the appropriate token pile.)\n\nBecause you can perform several actions during a ply in any order, there is also an \"Undo\" action to back out your most recent action, whether or not it was complete.\n\nNote that only the final resource die result is displayed, but the distribution of expected outcomes is still that of rolling 2d10 and taking the higher value. Taxation happens when the lower of 2d10 comes up 1; a suit die is rolled (or two, in the double taxation variant), and the suits will be displayed underneath the resource result. The roll is logged at the end of a player's turn, and is attributed to the next player (who would have rolled in the physical game). Except for a \"Choose\", no user action is required; resources are added or removed automatically by the server in between turns.\n\nWhen a player is ahead in a district, the Pawn or Excuse for that district is outlined in that player's color. The first tiebreaker score (total property value) is displayed in parentheses after the district score. The second tiebreaker is total number of tokens remaining.",
         "mchess": "If there have been seven consecutive turns without a capture, someone can \"call the clock\" by adding an asterisk (*) to the end of their move. This can only be done by selecting the move from the drop-down list. After another seven turns with no capture, the game will end and be scored.",
         "murus": "The default ruleset is \"Advanced Murus Gallicus\" (with catapults). By default, your first move is to redistribute one of your starting towers as walls on your second row. Additionally, the standard pie rule is also available. There are three variants you can mix and match:\n\n* \"Basic\" reverts the game to the \"no catapult\" state.\n* \"Static\" disables the initial tower redistribution.\n* \"Escape\" eliminates the breakthrough win condition.",
+        "mutternland": "Mutternland was designed by Hartmut Witt in 1997. This implementation deals differently with the initial piece placements. While the original game had players, in the setup, place one _enemy_ piece per turn, here players place one friendly piece and then one opponent piece. This makes the setup faster and provides some control of the player's own pieces. Also, pushed-off pieces, which go back to the player's reserve, are placed again by the owner.",
         "narrows": "Narrows, designed by Mark Steere in 2026, is an unification game inspired by the ancient Hawiian game of Kōnane. True to the spirit of Kōnane, Ūnane begins with a checkerboard pattern of stones and is extremely simple. In this case, the unification goal includes the use of orthogonal paths of empty cells to connect different groups of friendly pieces.",
         "oonpia": "Either use the legend to select a piece, or click the same location multiple times to cycle through all possible pieces. Blocked cells are highlighted: a translucent dot means only a dotted stone can be placed there (i.e. blocked for plain pieces), a translucent piece means only a plain piece can be placed there (i.e. blocked for dotted pieces). If both highlights are present, then the cell is blocked for all pieces.",
         "oware": "This implementation follows the common tournament rule that grand slam moves are allowed, but no pieces are captured. Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
@@ -1305,9 +1307,6 @@
             },
             "size-5": {
                 "name": "Hexagonal board (base-5)"
-            },
-            "size-6": {
-                "name": "Hexagonal board (base-6)"
             },
             "#ruleset": {
                 "description": "Player need to capture 12 pieces to win.",
@@ -4195,6 +4194,9 @@
             "OFFENSE": "Offensive player",
             "COUNTDOWN": "Plies remaining"
         },
+        "mutternland" : {
+            "RESERVE": "Reserve"
+        },
         "pacru": {
             "TARGET": "Tiles to win",
             "TILES": "Tiles on board"
@@ -5836,6 +5838,29 @@
         },
         "mvolcano": {
             "INITIAL_INSTRUCTIONS": "Select a cap to move."
+        },
+        "mutternland": {
+            "INITIAL_PLACE": "Place a friendly piece, then an opponent piece, both at the edge of the playing field.",
+            "INITIAL_PLACE_STEP2": "Place an opponent piece at the edge of the playing field.",
+            "INSTRUCTIONS": "On his turn, the player (optionally) moves a friendly marble and then (optionally) moves one free nut (ie, not in a tower) adjacent to a friendly piece. So, select a friendly piece, an available nut, or pass.",
+            "INSTRUCTIONS_STEP2": "Select an available nut, or conclude the move.",
+            "MOVE_MARBLE": "Select a destination for your marble.",
+            "MOVE_NUT": "Select a destination for the selected nut.",
+            "MOVE_NUT_OR_PLACE": "Select a destination for the selected nut, or click it again to place a marble from the reserve.",
+            "NOT_AT_EDGE": "Initial placement must be at the edge! Piece {{cell}} is interior.",
+            "CELL_VOID": "Void cells are not playable!",
+            "OCCUPIED": "Cannot place on top of another piece!",
+            "PLACE_TOO_HIGH": "Placements must be done over single nuts!",
+            "ENEMY_MARBLE": "Cannot move an opponent piece!",
+            "RESERVE_EMPTY": "No pieces on reserve for placement!",
+            "NUT_IN_TOWER": "A tower (stack of size 4) cannot be reduced nor can receive pieces from the reserve!",
+            "NUT_NOT_ADJACENT_FRIEND": "Only nuts adjacent to friendly piece can be moved!",
+            "MARBLE_CANNOT_MOVE": "Piece at {{move}} does not have valid cells to move into!",
+            "NUT_CANNOT_MOVE": "Nut at {{move}} does not have valid cells to move into!",
+            "MARBLE_ILLEGAL_MOVE": "Piece cannot move to {{move}}! ",
+            "MARBLE_ILLEGAL_PUSH": "Piece cannot push to {{move}}! The pushed piece must go to an empty cell and cannot go higher.",
+            "NUT_ILLEGAL_MOVE": "Nut cannot move to {{move}}!",
+            "NOT_A_NUT": "A nut needs to be selected now!"
         },
         "nakatta": {
             "BAD_PASS": "You may not pass if legal moves are available.",

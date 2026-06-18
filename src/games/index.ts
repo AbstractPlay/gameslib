@@ -268,6 +268,7 @@ import { CrossControlGame, ICrossControlState } from "./crosscontrol";
 import { UnstackGame, IUnstackState } from "./unstack";
 import { SwarmGame, ISwarmState } from "./swarm";
 import { EatYourNeighborGame, IEatYourNeighborState } from "./eatyourneighbor";
+import { MutternlandGame, IMutternlandState } from "./mutternland";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -539,6 +540,7 @@ export {
     UnstackGame, IUnstackState,
     SwarmGame, ISwarmState,
     EatYourNeighborGame, IEatYourNeighborState,
+    MutternlandGame, IMutternlandState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -631,7 +633,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof NarrowsGame | typeof InvectorGame | typeof TricouleurGame |
                               typeof PositGame | typeof VirusWarGame | typeof FormsGame |
                               typeof CompartGame | typeof AkimboGame | typeof CrossControlGame |
-                              typeof UnstackGame | typeof SwarmGame | typeof EatYourNeighborGame
+                              typeof UnstackGame | typeof SwarmGame | typeof EatYourNeighborGame |
+                              typeof MutternlandGame
                 >();
 // Manually add each game to the following array
 [
@@ -672,7 +675,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     SlimetrailGame, CatsDogsGame, SoccolotGame, CourtGame, HalmaGame, MinimizeGame, HalmaClimbersGame,
     SynapseGame, AtariGoGame, TanboGame, UnaneGame, LinageGame, PolluxGame, PippinzipGame, NarrowsGame,
     InvectorGame, TricouleurGame, PositGame, VirusWarGame, FormsGame, CompartGame, AkimboGame,
-    CrossControlGame, UnstackGame, SwarmGame, EatYourNeighborGame
+    CrossControlGame, UnstackGame, SwarmGame, EatYourNeighborGame, MutternlandGame
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -1220,6 +1223,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new SwarmGame(...args);
         case "eatyourneighbor":
             return new EatYourNeighborGame(...args);
+        case "mutternland":
+            return new MutternlandGame(...args);
     }
     return;
 }

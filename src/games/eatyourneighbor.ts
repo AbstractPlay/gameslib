@@ -53,10 +53,9 @@ export class EatYourNeighborGame extends GameBase {
         variants: [
             { uid: "#board", }, // size-4
             { uid: "size-5", group: "board" },
-            { uid: "size-6", group: "board" },
             { uid: "no-threshold", group: "ruleset" },
         ],
-        flags: ["scores", "experimental"]
+        flags: ["scores", "automove", "experimental"]
     };
 
     public numplayers = 2;

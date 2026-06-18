@@ -2,7 +2,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResu
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, reviver, UserFacingError } from "../common";
+import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 
 export type playerid = 1 | 2;
@@ -27,6 +27,7 @@ export class BloodKingGame extends GameBase {
         uid: "bloodking",
         playercounts: [2],
         version: "20260617",
+        dateAdded: "2026-06-17",
         description: "apgames:descriptions.bloodking",
         notes: "apgames:notes.bloodking",
         people: [
@@ -168,12 +169,19 @@ export class BloodKingGame extends GameBase {
         }
     }
         private addIfLegalTarget(moves: string[], from: string, to: string, player: playerid): void {
-        if (!this.cellOnBoard(to)) {
+            if (!this.cellOnBoard(to)) {
+                return;
+            }
+
+            if (this.isFriendly(to, player)) {
+                return;
+            }
+
+        const target = this.board.get(to);
+        if (target !== undefined && this.kind(target) === "K" && !this.bloodKingsRisen) {
             return;
         }
-        if (this.isFriendly(to, player)) {
-            return;
-        }
+
         const sep = this.board.has(to) ? "x" : "-";
         moves.push(`${from}${sep}${to}`);
     }
@@ -259,8 +267,13 @@ export class BloodKingGame extends GameBase {
             ];
 
             for (const [dx, dy] of jumps) {
-                const target = BloodKingGame.coords2algebraic(x + dx, y + dy);
-                this.addIfLegalTarget(moves, from, target, player);
+                const nx = x + dx;
+                const ny = y + dy;
+
+                if (nx >= 0 && nx < 8 && ny >= 0 && ny < 8) {
+                    const target = BloodKingGame.coords2algebraic(nx, ny);
+                    this.addIfLegalTarget(moves, from, target, player);
+}
             }
         }
 
@@ -286,8 +299,13 @@ export class BloodKingGame extends GameBase {
             ];
 
             for (const [dx, dy] of steps) {
-                const target = BloodKingGame.coords2algebraic(x + dx, y + dy);
-                this.addIfLegalTarget(moves, from, target, player);
+                const nx = x + dx;
+                const ny = y + dy;
+
+                if (nx >= 0 && nx < 8 && ny >= 0 && ny < 8) {
+                    const target = BloodKingGame.coords2algebraic(nx, ny);
+                    this.addIfLegalTarget(moves, from, target, player);
+}
             }
 
             if (this.bloodKingsRisen) {
@@ -297,8 +315,13 @@ export class BloodKingGame extends GameBase {
                 ];
 
                 for (const [dx, dy] of jumps) {
-                    const target = BloodKingGame.coords2algebraic(x + dx, y + dy);
-                    this.addIfLegalTarget(moves, from, target, player);
+                    const nx = x + dx;
+                    const ny = y + dy;
+
+                    if (nx >= 0 && nx < 8 && ny >= 0 && ny < 8) {
+                        const target = BloodKingGame.coords2algebraic(nx, ny);
+                        this.addIfLegalTarget(moves, from, target, player);
+}
                 }
             }
         }
@@ -557,9 +580,20 @@ export class BloodKingGame extends GameBase {
 
         this.results.push({ type: "move", from, to, what: movingPiece });
 
-        if (sep === "x" && capturedPiece !== undefined) {
+                if (sep === "x" && capturedPiece !== undefined) {
             this.captureCount++;
             this.results.push({ type: "capture", where: to, what: capturedPiece });
+
+            if (capturedPiece[1] === "K") {
+                this.gameover = true;
+                this.winner = [this.owner(movingPiece)];
+                this.results.push(
+                    { type: "eog" },
+                    { type: "winners", players: [...this.winner] }
+                );
+                this.saveState();
+                return this;
+            }
 
             if (this.captureCount >= 6) {
                 this.bloodKingsRisen = true;
@@ -618,54 +652,142 @@ export class BloodKingGame extends GameBase {
             bloodKingsRisen: this.bloodKingsRisen,
         };
     }
-    public render(): APRenderRep {
-        let pstr = "";
+        public render(): APRenderRep {
+        const codeForPiece = (piece: CellContents): string => {
+            const owner = this.owner(piece);
+            const kind = this.kind(piece);
+
+            if (owner === 1 && kind === "K") { return "WK"; }
+            if (owner === 1 && kind === "Q") { return "WQ"; }
+            if (owner === 1 && kind === "R") { return "WR"; }
+            if (owner === 1 && kind === "B") { return "WB"; }
+            if (owner === 1 && kind === "N") { return "WN"; }
+            if (owner === 1 && kind === "P") { return "WP"; }
+
+            if (owner === 2 && kind === "K") { return "BK"; }
+            if (owner === 2 && kind === "Q") { return "BQ"; }
+            if (owner === 2 && kind === "R") { return "BR"; }
+            if (owner === 2 && kind === "B") { return "BB"; }
+            if (owner === 2 && kind === "N") { return "BN"; }
+            return "BP";
+        };
+
+        const pieces: string[][][] = [];
 
         for (let row = 0; row < 8; row++) {
-            if (pstr.length > 0) {
-                pstr += "\n";
-            }
-
-            const pieces: string[] = [];
+            const renderedRow: string[][] = [];
 
             for (let col = 0; col < 8; col++) {
                 const cell = BloodKingGame.coords2algebraic(col, row);
                 const piece = this.board.get(cell);
 
                 if (piece === undefined) {
-                    pieces.push("-");
+                    renderedRow.push([]);
                 } else {
-                    pieces.push(piece);
+                    renderedRow.push([codeForPiece(piece)]);
                 }
             }
 
-            pstr += pieces.join(",");
+            pieces.push(renderedRow);
         }
 
-        pstr = pstr.replace(/-,-,-,-,-,-,-,-/g, "_");
-
         const rep: APRenderRep = {
+            renderer: "stacking-offset",
             board: {
                 style: "squares-checkered",
                 width: 8,
                 height: 8,
+                rotate: 0,
             },
             legend: {
-                "1K": { name: this.bloodKingsRisen ? "chess-king" : "chess-king", colour: 1 },
-                "1Q": { name: "chess-queen", colour: 1 },
-                "1R": { name: "chess-rook", colour: 1 },
-                "1B": { name: "chess-bishop", colour: 1 },
-                "1N": { name: "chess-knight", colour: 1 },
-                "1P": { name: "chess-pawn", colour: 1 },
+                "WK": {
+                    name: "chess-king-outline-traditional",
+                    scale: this.bloodKingsRisen ? 1.2 : 1,
+                    opacity: 1,
+                    rotate: this.bloodKingsRisen ? 180 : 0,
+                    colour: 1,
+                },
+                "WQ": {
+                    name: "chess-queen-outline-traditional",
+                    scale: 1,
+                    opacity: 1,
+                    rotate: 0,
+                    colour: 1,
+                },
+                "WR": {
+                    name: "chess-rook-outline-traditional",
+                    scale: 1,
+                    opacity: 1,
+                    rotate: 0,
+                    colour: 1,
+                },
+                "WB": {
+                    name: "chess-bishop-solid-traditional",
+                    scale: 1,
+                    opacity: 1,
+                    rotate: 0,
+                    colour: 1,
+                },
+                "WN": {
+                    name: "chess-knight-outline-traditional",
+                    scale: 1,
+                    opacity: 1,
+                    rotate: 0,
+                    colour: 1,
+                },
+                "WP": {
+                    name: "chess-pawn-outline-traditional",
+                    scale: 1,
+                    opacity: 1,
+                    rotate: 0,
+                    colour: 1,
+                },
 
-                "2K": { name: this.bloodKingsRisen ? "chess-king" : "chess-king", colour: 2 },
-                "2Q": { name: "chess-queen", colour: 2 },
-                "2R": { name: "chess-rook", colour: 2 },
-                "2B": { name: "chess-bishop", colour: 2 },
-                "2N": { name: "chess-knight", colour: 2 },
-                "2P": { name: "chess-pawn", colour: 2 },
+                "BK": {
+                    name: "chess-king-outline-traditional",
+                    scale: this.bloodKingsRisen ? 1.2 : 1,
+                    opacity: 1,
+                    rotate: this.bloodKingsRisen ? 180 : 0,
+                    colour: 2,
+                },
+                "BQ": {
+                    name: "chess-queen-outline-traditional",
+                    scale: 1,
+                    opacity: 1,
+                    rotate: 0,
+                    colour: 2,
+                },
+                "BR": {
+                    name: "chess-rook-outline-traditional",
+                    scale: 1,
+                    opacity: 1,
+                    rotate: 0,
+                    colour: 2,
+                },
+                "BB": {
+                    name: "chess-bishop-solid-traditional",
+                    scale: 1,
+                    opacity: 1,
+                    rotate: 0,
+                    colour: 2,
+                },
+                "BN": {
+                    name: "chess-knight-outline-traditional",
+                    scale: 1,
+                    opacity: 1,
+                    rotate: 0,
+                    colour: 2,
+                },
+                "BP": {
+                    name: "chess-pawn-outline-traditional",
+                    scale: 1,
+                    opacity: 1,
+                    rotate: 0,
+                    colour: 2,
+                },
             },
-            pieces: pstr,
+            pieces: pieces as [string[][], ...string[][][]],
+            annotations: [],
         };
 
         if (this.lastmove !== undefined) {
@@ -687,7 +809,6 @@ export class BloodKingGame extends GameBase {
 
         return rep;
     }
-
     public clone(): BloodKingGame {
         return new BloodKingGame(this.serialize());
     }

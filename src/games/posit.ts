@@ -9,6 +9,10 @@ import { SquareGraph } from "../common/graphs";
 export type playerid = 1 | 2 | 3; // 3 is for stacks with only neutral stacks
 export type cellcontents = [playerid, number]; // number is the amount of neutral pieces
 
+// default: "#778899", // slate gray
+// default: "#44d7a8", // eucalyptus
+const NEUTRAL_PIECE_COLOR = "#ba55d3"; // medium orchid
+
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, cellcontents>;
@@ -44,6 +48,23 @@ export class PositGame extends GameBase {
                 name: "João Pedro Neto",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/3829/joao-pedro-neto"],
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
+            },
+        ],
+        customizations: [
+            {
+                num: 1,
+                default: 1,
+                explanation: "Colour of player 1"
+            },
+            {
+                num: 2,
+                default: 2,
+                explanation: "Colour of player 2"
+            },
+            {
+                num: 3,
+                default: NEUTRAL_PIECE_COLOR,
+                explanation: "Colour of neutral piece"
             },
         ],
         categories: ["goal>immobilize", "mechanic>move", "mechanic>place", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
@@ -399,9 +420,7 @@ export class PositGame extends GameBase {
 
         const neutralColour: Colourfuncs = {
             func: "custom",
-            // default: "#778899", // slate gray
-            // default: "#44d7a8", // eucalyptus
-            default: "#ba55d3", // medium orchid
+            default: NEUTRAL_PIECE_COLOR,
             palette: 3
         };
 

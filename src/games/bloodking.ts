@@ -7,7 +7,15 @@ import i18next from "i18next";
 
 export type playerid = 1 | 2;
 type Piece = "K" | "Q" | "R" | "B" | "N" | "P";
+type PromotionPiece = "Q" | "R" | "B" | "N";
 type CellContents = `${playerid}${Piece}`;
+
+type ParsedMove = {
+    from: string;
+    sep: "-" | "x";
+    to: string;
+    promotion?: PromotionPiece;
+};
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -21,12 +29,13 @@ export interface IBloodKingState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
 }
+
 export class BloodKingGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
         name: "Blood King Rises",
         uid: "bloodking",
         playercounts: [2],
-        version: "20260617",
+        version: "20260618",
         dateAdded: "2026-06-17",
         description: "apgames:descriptions.bloodking",
         notes: "apgames:notes.bloodking",
@@ -46,6 +55,8 @@ export class BloodKingGame extends GameBase {
         ],
         flags: [],
     };
+
+    private static readonly promotionPieces: PromotionPiece[] = ["Q", "R", "B", "N"];
 
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 8);
@@ -129,7 +140,9 @@ export class BloodKingGame extends GameBase {
         this.captureCount = state.captureCount;
         this.bloodKingsRisen = state.bloodKingsRisen;
         return this;
-    }    private owner(piece: CellContents): playerid {
+    }
+
+    private owner(piece: CellContents): playerid {
         return piece[0] === "1" ? 1 : 2;
     }
 
@@ -168,14 +181,48 @@ export class BloodKingGame extends GameBase {
             return false;
         }
     }
-        private addIfLegalTarget(moves: string[], from: string, to: string, player: playerid): void {
-            if (!this.cellOnBoard(to)) {
-                return;
-            }
 
-            if (this.isFriendly(to, player)) {
-                return;
+    private parseMove(m: string): ParsedMove | undefined {
+        const match = m.match(/^([a-h][1-8])([-x])([a-h][1-8])(?:=([qrbn]))?$/);
+        if (match === null) {
+            return undefined;
+        }
+
+        return {
+            from: match[1],
+            sep: match[2] as "-" | "x",
+            to: match[3],
+            promotion: match[4] === undefined ? undefined : match[4].toUpperCase() as PromotionPiece,
+        };
+    }
+
+    private promotionRank(player: playerid): number {
+        return player === 1 ? 0 : 7;
+    }
+
+    private isPromotionSquare(cell: string, player: playerid): boolean {
+        const [, y] = BloodKingGame.algebraic2coords(cell);
+        return y === this.promotionRank(player);
+    }
+
+    private addPromotionMoves(moves: string[], baseMove: string, to: string, player: playerid): void {
+        if (this.isPromotionSquare(to, player)) {
+            for (const promotion of BloodKingGame.promotionPieces) {
+                moves.push(`${baseMove}=${promotion.toLowerCase()}`);
             }
+        } else {
+            moves.push(baseMove);
+        }
+    }
+
+    private addIfLegalTarget(moves: string[], from: string, to: string, player: playerid): void {
+        if (!this.cellOnBoard(to)) {
+            return;
+        }
+
+        if (this.isFriendly(to, player)) {
+            return;
+        }
 
         const target = this.board.get(to);
         if (target !== undefined && this.kind(target) === "K" && !this.bloodKingsRisen) {
@@ -202,7 +249,10 @@ export class BloodKingGame extends GameBase {
                 }
 
                 if (this.isEnemy(to, player)) {
-                    moves.push(`${from}x${to}`);
+                    const target = this.board.get(to);
+                    if (target === undefined || this.kind(target) !== "K" || this.bloodKingsRisen) {
+                        moves.push(`${from}x${to}`);
+                    }
                     break;
                 }
 
@@ -214,7 +264,8 @@ export class BloodKingGame extends GameBase {
 
         return moves;
     }
-        private pieceMoves(from: string, player: playerid): string[] {
+
+    private pieceMoves(from: string, player: playerid): string[] {
         const piece = this.board.get(from);
         if (piece === undefined) {
             return [];
@@ -236,7 +287,7 @@ export class BloodKingGame extends GameBase {
             if (oneY >= 0 && oneY < 8) {
                 const one = BloodKingGame.coords2algebraic(x, oneY);
                 if (!this.board.has(one)) {
-                    moves.push(`${from}-${one}`);
+                    this.addPromotionMoves(moves, `${from}-${one}`, one, player);
 
                     const twoY = y + (dir * 2);
                     if (y === startRank && twoY >= 0 && twoY < 8) {
@@ -253,8 +304,12 @@ export class BloodKingGame extends GameBase {
                 const cy = y + dir;
                 if (cx >= 0 && cx < 8 && cy >= 0 && cy < 8) {
                     const target = BloodKingGame.coords2algebraic(cx, cy);
-                    if (this.isEnemy(target, player)) {
-                        moves.push(`${from}x${target}`);
+                    const targetPiece = this.board.get(target);
+                    if (targetPiece !== undefined && this.owner(targetPiece) !== player) {
+                        if (this.kind(targetPiece) === "K" && !this.bloodKingsRisen) {
+                            continue;
+                        }
+                        this.addPromotionMoves(moves, `${from}x${target}`, target, player);
                     }
                 }
             }
@@ -273,7 +328,7 @@ export class BloodKingGame extends GameBase {
                 if (nx >= 0 && nx < 8 && ny >= 0 && ny < 8) {
                     const target = BloodKingGame.coords2algebraic(nx, ny);
                     this.addIfLegalTarget(moves, from, target, player);
-}
+                }
             }
         }
 
@@ -305,7 +360,7 @@ export class BloodKingGame extends GameBase {
                 if (nx >= 0 && nx < 8 && ny >= 0 && ny < 8) {
                     const target = BloodKingGame.coords2algebraic(nx, ny);
                     this.addIfLegalTarget(moves, from, target, player);
-}
+                }
             }
 
             if (this.bloodKingsRisen) {
@@ -321,13 +376,14 @@ export class BloodKingGame extends GameBase {
                     if (nx >= 0 && nx < 8 && ny >= 0 && ny < 8) {
                         const target = BloodKingGame.coords2algebraic(nx, ny);
                         this.addIfLegalTarget(moves, from, target, player);
-}
+                    }
                 }
             }
         }
 
         return moves;
     }
+
     private attacksSquare(from: string, target: string, player: playerid): boolean {
         const piece = this.board.get(from);
         if (piece === undefined || this.owner(piece) !== player) {
@@ -403,31 +459,40 @@ export class BloodKingGame extends GameBase {
 
         return false;
     }
+
     private moveLeavesKingInCheck(move: string, player: playerid): boolean {
-        const match = move.match(/^([a-h][1-8])([-x])([a-h][1-8])$/);
-        if (match === null) {
+        const parsed = this.parseMove(move);
+        if (parsed === undefined) {
             return true;
         }
 
-        const from = match[1];
-        const to = match[3];
-        const movingPiece = this.board.get(from);
-        const capturedPiece = this.board.get(to);
+        const movingPiece = this.board.get(parsed.from);
+        const capturedPiece = this.board.get(parsed.to);
 
         if (movingPiece === undefined) {
             return true;
         }
 
-        this.board.delete(from);
-        this.board.set(to, movingPiece);
+        const finalPiece = parsed.promotion === undefined
+            ? movingPiece
+            : `${this.owner(movingPiece)}${parsed.promotion}` as CellContents;
+
+        const originalBloodKingsRisen = this.bloodKingsRisen;
+        if (capturedPiece !== undefined && this.captureCount + 1 >= 6) {
+            this.bloodKingsRisen = true;
+        }
+
+        this.board.delete(parsed.from);
+        this.board.set(parsed.to, finalPiece);
 
         const stillInCheck = this.inCheck(player);
 
-        this.board.delete(to);
-        this.board.set(from, movingPiece);
+        this.board.delete(parsed.to);
+        this.board.set(parsed.from, movingPiece);
         if (capturedPiece !== undefined) {
-            this.board.set(to, capturedPiece);
+            this.board.set(parsed.to, capturedPiece);
         }
+        this.bloodKingsRisen = originalBloodKingsRisen;
 
         return stillInCheck;
     }
@@ -451,6 +516,7 @@ export class BloodKingGame extends GameBase {
 
         return allMoves.filter(m => !this.moveLeavesKingInCheck(m, player));
     }
+
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             const cell = BloodKingGame.coords2algebraic(col, row);
@@ -470,6 +536,11 @@ export class BloodKingGame extends GameBase {
 
                 const sep = this.board.has(cell) ? "x" : "-";
                 newmove = `${from}${sep}${cell}`;
+
+                const movingPiece = this.board.get(from);
+                if (movingPiece !== undefined && this.kind(movingPiece) === "P" && this.isPromotionSquare(cell, this.currplayer)) {
+                    newmove = `${newmove}=q`;
+                }
             }
 
             const result = this.validateMove(newmove) as IClickResult;
@@ -480,8 +551,8 @@ export class BloodKingGame extends GameBase {
                 move,
                 valid: false,
                 message: i18next.t("apgames:validation._general.GENERIC", {
-                    move, row, col, piece, emessage: (e as Error).message
-                })
+                    move, row, col, piece, emessage: (e as Error).message,
+                }),
             };
         }
     }
@@ -489,7 +560,7 @@ export class BloodKingGame extends GameBase {
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {
             valid: false,
-            message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")
+            message: i18next.t("apgames:validation._general.DEFAULT_HANDLER"),
         };
 
         if (m.length === 0) {
@@ -525,10 +596,27 @@ export class BloodKingGame extends GameBase {
             return result;
         }
 
-        if (!/^[a-h][1-8][-x][a-h][1-8]$/.test(m)) {
+        const parsed = this.parseMove(m);
+        if (parsed === undefined) {
             result.valid = false;
-            result.message = "Moves should look like e2-e4 or e4xd5.";
+            result.message = "Moves should look like e2-e4, e4xd5, or e7-e8=q.";
             return result;
+        }
+
+        const movingPiece = this.board.get(parsed.from);
+        if (movingPiece !== undefined && this.owner(movingPiece) === this.currplayer) {
+            const promotionMove = this.kind(movingPiece) === "P" && this.isPromotionSquare(parsed.to, this.currplayer);
+            if (promotionMove && parsed.promotion === undefined) {
+                result.valid = false;
+                result.message = "Pawn promotions must include =q, =r, =b, or =n.";
+                return result;
+            }
+
+            if (parsed.promotion !== undefined && !promotionMove) {
+                result.valid = false;
+                result.message = "Only a pawn moving to the final rank can promote.";
+                return result;
+            }
         }
 
         if (!this.moves().includes(m)) {
@@ -542,6 +630,7 @@ export class BloodKingGame extends GameBase {
         result.message = i18next.t("apgames:validation._general.VALID_MOVE");
         return result;
     }
+
     public move(m: string, { trusted = false } = {}): BloodKingGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
@@ -557,56 +646,70 @@ export class BloodKingGame extends GameBase {
             }
         }
 
-        const match = m.match(/^([a-h][1-8])([-x])([a-h][1-8])$/);
-        if (match === null) {
+        const parsed = this.parseMove(m);
+        if (parsed === undefined) {
             throw new Error("Malformed move.");
         }
 
-        const from = match[1];
-        const sep = match[2];
-        const to = match[3];
-
-        const movingPiece = this.board.get(from);
-        const capturedPiece = this.board.get(to);
+        const movingPiece = this.board.get(parsed.from);
+        const capturedPiece = this.board.get(parsed.to);
 
         if (movingPiece === undefined) {
             throw new Error("No piece on source square.");
         }
 
+        const promotedPiece = parsed.promotion === undefined
+            ? undefined
+            : `${this.owner(movingPiece)}${parsed.promotion}` as CellContents;
+        const finalPiece = promotedPiece === undefined ? movingPiece : promotedPiece;
+
         this.results = [];
 
-        this.board.delete(from);
-        this.board.set(to, movingPiece);
+        this.board.delete(parsed.from);
+        this.board.set(parsed.to, finalPiece);
 
-        this.results.push({ type: "move", from, to, what: movingPiece });
+        this.results.push({ type: "move", from: parsed.from, to: parsed.to, what: movingPiece });
+        this.lastmove = m;
 
-                if (sep === "x" && capturedPiece !== undefined) {
+        const capturedKing = capturedPiece !== undefined && this.kind(capturedPiece) === "K";
+
+        if (parsed.sep === "x" && capturedPiece !== undefined) {
             this.captureCount++;
-            this.results.push({ type: "capture", where: to, what: capturedPiece });
-
-            if (capturedPiece[1] === "K") {
-                this.gameover = true;
-                this.winner = [this.owner(movingPiece)];
-                this.results.push(
-                    { type: "eog" },
-                    { type: "winners", players: [...this.winner] }
-                );
-                this.saveState();
-                return this;
-            }
+            this.results.push({ type: "capture", where: parsed.to, what: capturedPiece });
 
             if (this.captureCount >= 6) {
                 this.bloodKingsRisen = true;
             }
         }
 
-        this.lastmove = m;
+        if (promotedPiece !== undefined) {
+            this.results.push({
+                type: "promote",
+                player: this.owner(movingPiece),
+                from: movingPiece,
+                to: promotedPiece,
+                where: parsed.to,
+            });
+        }
+
+        if (capturedKing) {
+            this.gameover = true;
+            this.winner = [this.owner(movingPiece)];
+            this.results.push(
+                { type: "eog" },
+                { type: "winners", players: [...this.winner] },
+            );
+            this.saveState();
+            return this;
+        }
+
         this.currplayer = this.otherPlayer(this.currplayer);
 
         this.checkEOG();
         this.saveState();
         return this;
     }
+
     protected checkEOG(): BloodKingGame {
         const nextPlayer = this.currplayer;
 
@@ -623,12 +726,13 @@ export class BloodKingGame extends GameBase {
         if (this.gameover) {
             this.results.push(
                 { type: "eog" },
-                { type: "winners", players: [...this.winner] }
+                { type: "winners", players: [...this.winner] },
             );
         }
 
         return this;
     }
+
     public state(): IBloodKingState {
         return {
             game: BloodKingGame.gameinfo.uid,
@@ -652,7 +756,8 @@ export class BloodKingGame extends GameBase {
             bloodKingsRisen: this.bloodKingsRisen,
         };
     }
-        public render(): APRenderRep {
+
+    public render(): APRenderRep {
         const codeForPiece = (piece: CellContents): string => {
             const owner = this.owner(piece);
             const kind = this.kind(piece);
@@ -791,7 +896,7 @@ export class BloodKingGame extends GameBase {
         };
 
         if (this.lastmove !== undefined) {
-            const match = this.lastmove.match(/^([a-h][1-8])[-x]([a-h][1-8])$/);
+            const match = this.lastmove.match(/^([a-h][1-8])[-x]([a-h][1-8])(?:=[qrbn])?$/);
             if (match !== null) {
                 const from = BloodKingGame.algebraic2coords(match[1]);
                 const to = BloodKingGame.algebraic2coords(match[2]);
@@ -809,6 +914,7 @@ export class BloodKingGame extends GameBase {
 
         return rep;
     }
+
     public clone(): BloodKingGame {
         return new BloodKingGame(this.serialize());
     }

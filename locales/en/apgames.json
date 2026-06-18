@@ -6113,6 +6113,7 @@
             "INITIAL_INSTRUCTIONS_3": "Place your second tower.",
             "INSTRUCTION_SLIDE": "Move a tower in a straight line over empty hexes, then shoot a piece also in a straight line.",
             "INSTRUCTION_SHOOT": "Shoot a piece over a straight line of empty hexes.",
+            "BAD_PASS": "Cannot pass in this position!",
             "NEED_FRIENDLY_TOWER": "Need to select a friendly tower!",
             "TOWER_ADJACENT": "Initially, towers cannot be adjacent!",
             "TOWER_OCCUPIED_CELL": "Need to move the tower to an empty hex!",

@@ -53,7 +53,7 @@ export class PolluxGame extends GameBase {
             },
         ],
         categories: ["goal>connect", "goal>immobilize", "mechanic>place", "mechanic>move", "mechanic>block", "board>shape>rect", "board>connect>hex", "components>simple>1per"],
-        flags: ["automove", "experimental"],
+        flags: ["no-moves", "automove", "experimental"],
         variants: [
             { uid: "#board", }, // size-10
             { uid: "size-12", group: "board", },

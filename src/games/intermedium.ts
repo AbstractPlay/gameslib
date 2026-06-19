@@ -31,6 +31,7 @@ export class IntermediumGame extends GameBase {
         dateAdded: "2026-06-19",
         // i18next.t("apgames:descriptions.intermedium")
         description: "apgames:descriptions.intermedium",
+        notes: "apgames:notes.intermedium",
         urls: [
                 "https://boardgamegeek.com/boardgame/8215",
                 "https://jpneto.github.io/world_abstract_games/intermedium.htm",

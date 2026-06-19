@@ -31,7 +31,7 @@ export class SwarmGame extends GameBase {
         description: "apgames:descriptions.swarm",
         notes: "apgames:notes.swarm",
         urls: [
-                "https://boardgamegeek.com/thread/3684281/new-game-swarm",
+                "https://boardgamegeek.com/thread/3684281",
               ],
         people: [
             {
@@ -52,7 +52,7 @@ export class SwarmGame extends GameBase {
             { uid: "#board", }, // hexhex3
             { uid: "size-4", group: "board" },
         ],
-        flags: ["pie", "scores", "autopass", "experimental"]
+        flags: ["pie", "scores", "experimental"]
     };
 
     public numplayers = 2;
@@ -211,10 +211,6 @@ export class SwarmGame extends GameBase {
             }
         }
 
-        if (moves.length === 0) { // no captures and no placements? Player is forced to pass
-            moves.push("pass");
-        }
-
         return moves;
     }
 
@@ -254,18 +250,6 @@ export class SwarmGame extends GameBase {
         }
 
         const allMoves = this.moves();
-
-        if (m === "pass") {
-            if (! allMoves.includes(m) ) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.swarm.CANNOT_PASS", {move: allMoves[0]});
-                return result;
-            }
-            result.valid = true;
-            result.complete = 1;
-            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
-            return result;
-        }
 
         try { // check if valid cell
             this.graph.algebraic2coords(m);
@@ -321,9 +305,7 @@ export class SwarmGame extends GameBase {
             if (!result.valid) { throw new UserFacingError("VALIDATION_GENERAL", result.message) }
         }
 
-        if (m === "pass") {
-            this.results.push({type: "pass"});
-        } else if (! this.board.has(m) ) { // simple placement
+        if (! this.board.has(m) ) { // simple placement
             this.board.set(m, [this.currplayer,1]);
             this.results.push({type: "place", where: m});
         } else { // capture stack by merging singletons
@@ -358,9 +340,8 @@ export class SwarmGame extends GameBase {
     }
 
     protected checkEOG(): SwarmGame {
-        // game ends if two consecutive passes occurred
-        this.gameover = this.lastmove === "pass" &&
-                        this.stack[this.stack.length - 1].lastmove === "pass";
+        // game ends when a player is stalemated
+        this.gameover = this.moves().length === 0;
 
         if (this.gameover) {
             const result = this.compare(this.getGroupSizes(1), this.getGroupSizes(2));

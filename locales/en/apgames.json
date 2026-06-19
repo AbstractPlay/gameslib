@@ -117,6 +117,7 @@
         "hexy": "An adaptation of Y on a regular hexagon where players vye to control most of the perimeter of the board.",
         "homeworlds": "An Icehouse game for 2 to 4 players. Players are interstellar civilizations vying for dominance. Each of the four colours of pyramid gives access to different actions. Amass a fleet, explore the galaxy, and ultimately destroy your opponent.",
         "hula": "Two players aim to form a loop around the center of a regular hexagonal board, using their own stones and, possibly, some number of neutral stones.",
+        "intermedium": "Sowing stacks to enclose and capture. Win by capturing the opponent's city.",
         "invector": "Eliminate the adversary army while getting near the board center.",
         "iqishiqi": "Iqishiqi (pronounced EE-chee-shee-chee) is an abstract strategy game that is played on a hexagonal board composed of hexagonal cells. Players own designated edges of the board, and by clever placement of stones they push a neutral stone around the board. A player wins if he/she moves the neutral stone to one of his/her edges, or leaves his/her opponent unable to move.",
         "irensei": "Irensei is a mixture of Go and Gomoku. Get a seven in a row inside the middle 15x15 region of the Go board to win. To reduce the first player's advantage, the first player loses if they make an overline (even if it extends beyond the 15x15 region), but the second player may win by overline.",
@@ -3818,6 +3819,12 @@
                 "description": "Display the board using vertices instead of hexes."
             }
         },
+        "intermedium": {
+            "hide-diagonals": {
+                "description": "Don't show diagonal lines.",
+                "name": "Hide diagonals"
+            }
+        },
         "irensei": {
             "hide-restrictions": {
                 "description": "Don't show intersections where the first player cannot place their stones.",
@@ -5519,6 +5526,13 @@
             },
             "VALID_W_ACTIONS": "Looks like a valid move, but you still have actions to spend."
         },
+        "intermedium": {
+            "INSTRUCTIONS": "Select a friendly stack, click on it as many times as pieces to move, then click on a diagonal path that starts adjacent to this sowing stack (one pieces per square), making 90º turns.",
+            "NOT_FRIENDLY_STACK": "Select a friendly stack to sow, with two or more pieces!",
+            "INVALID_SOW_PATH": "The selected path does not follow Intermedium rules: (a) pick (part of) a stack and leave one piece per diagonal adjacent square, (b) sowing can turn 90º after each placed piece.",
+            "SOW_INSTRUCTIONS": "Either select more pieces to sow, or start sowing with the ones already selected. When sowing, the next intersection must be diagonally adjacent to the previous one. Left and right turns are valid.",
+            "SOW_TOO_LARGE": "The current sowing is larger than the available pieces at the sowing stack."
+        },
         "invector": {
             "INITIAL_INSTRUCTIONS": "Select a friendly piece.",
             "INSTRUCTIONS": "Click on an orthogonally opposing piece to capture by replacement, or move closer to the board center.",
@@ -6956,13 +6970,12 @@
         },
         "unstack": {
             "INSTRUCTIONS": "Select a friendly stack, click on it as many times as pieces to move, then click on a orthogonal path that starts adjacent to this sowing stack (one or more pieces per square), making 90º turns.",
-            "NOT_FRIENDLY_STACK": "Select a friendly stack to sow!",
+            "NOT_FRIENDLY_STACK": "Select a friendly stack to sow, with two or more pieces!",
             "CAN_SOW": "It is only possible to pass when no legal sowing exists!",
             "PASS_ONLY": "Now sowing left, player must pass!",
             "CAPTURES_MANDATORY": "Captures are available, and take precedence over non-captures! For example, {{from}} can capture {{to}}.",
             "MULTIPLE_CAPTURES": "Only one capture per sowing is admissible!",
             "INVALID_SOW_PATH": "The selected path does not follow Unstack rules: (a) pick (part of) a stack and leave one or more pieces per orthogonal adjacent intersection, (b) sowing can turn left/right after each placed piece, (c) sowing a stack is only legal if the player can legally place all pieces of the stack, (d) capturing enemy stacks is only legal if the number of pieces in-hand are at least as many as the size of that enemy stack.",
-            "SAME_PLACE_SOW_STACK": "The sowing stack cannot be the stack just created/enlarged.",
             "SOW_INSTRUCTIONS": "Either select more pieces to sow, or start sowing with the ones already selected. When sowing, the next intersection must be adjacent to the previous one. Left and right turns are valid. Cannot sow over (and capture) opponent stacks with more than the size of the number of pieces that still need to be sowed.",
             "SOW_TOO_LARGE": "The current sowing is larger than the available pieces at the sowing stack."
         },

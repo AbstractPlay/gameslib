@@ -32,8 +32,8 @@ export class IntermediumGame extends GameBase {
         // i18next.t("apgames:descriptions.intermedium")
         description: "apgames:descriptions.intermedium",
         urls: [
+                "https://boardgamegeek.com/boardgame/8215",
                 "https://jpneto.github.io/world_abstract_games/intermedium.htm",
-                "https://boardgamegeek.com/boardgame/8215"
               ],
         people: [
             {
@@ -48,7 +48,7 @@ export class IntermediumGame extends GameBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
-        categories: ["goal>royal-capture", "goal>cripple", "mechanic>move>sow", "mechanic>capture", "mechanic>stack", "mechanic>enclose","board>shape>rect", "board>connect>rect", "components>simple>2c"],
+        categories: ["goal>royal-capture", "goal>cripple", "mechanic>move>sow", "mechanic>capture", "mechanic>stack", "mechanic>enclose","board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["no-moves", "experimental"],
         displays: [{uid: "hide-diagonals"}],
     };

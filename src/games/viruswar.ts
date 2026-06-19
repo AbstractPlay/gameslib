@@ -52,7 +52,7 @@ export class VirusWarGame extends GameBase {
             { uid: "size-25", group: "board" }, // 5 moves
             { uid: "#board", }, // 30x30, 6 moves
         ],
-        categories: ["goal>immobilize", "other>traditional", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>pnp"],
+        categories: ["goal>immobilize", "other>traditional", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>pnp", "components>simple>2per"],
         flags: ["no-moves", "experimental"]
     };
 
@@ -64,10 +64,10 @@ export class VirusWarGame extends GameBase {
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
+    public dots: string[] = [];
 
     private boardSize = 30;
     private numMoves = 6;
-    private dots: string[] = [];
 
     constructor(state: IVirusWarState | string, variants?: string[]) {
         super();
@@ -120,7 +120,7 @@ export class VirusWarGame extends GameBase {
         this.boardSize = this.getBoardSize();
         this.numMoves = this.getMoveSize();
         this.results = [...state._results];
-        this.dots = this.getAdjacentMoves(this.currplayer, this.board); // show dots before the player acts
+        this.dots = this.getAdjacentMoves(state.currplayer, new Map(state.board)); // show dots before the player acts
         return this;
     }
 

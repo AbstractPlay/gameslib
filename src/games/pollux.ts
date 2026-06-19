@@ -53,7 +53,7 @@ export class PolluxGame extends GameBase {
             },
         ],
         categories: ["goal>connect", "goal>immobilize", "mechanic>place", "mechanic>move", "mechanic>block", "board>shape>rect", "board>connect>hex", "components>simple>1per"],
-        flags: ["no-moves", "automove", "experimental"],
+        flags: ["automove", "experimental"],
         variants: [
             { uid: "#board", }, // size-10
             { uid: "size-12", group: "board", },
@@ -177,7 +177,14 @@ export class PolluxGame extends GameBase {
         return res;
     }
 
-    public moves(player?: playerid): string[] {
+    private shuffle<T>(xs: T[]): void {
+        for (let i = xs.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
+            [xs[i], xs[j]] = [xs[j], xs[i]];
+        }
+    }
+
+    public moves(player?: playerid, safe:boolean = false): string[] {
         if (this.gameover) { return []; }
         if (player === undefined) { player = this.currplayer; }
         const moves: string[] = [];
@@ -195,10 +202,31 @@ export class PolluxGame extends GameBase {
         if ( this.stack.length === 2 ) {
             // at ply 2 drop both towers on empty isolated cells
             const empties = (this.graph.listCells() as string[]).filter(c => !this.board.has(c));
+
+            ///// hack: to work with AP's playground (since flags no-moves and automove are incompatible)
+            if (! safe ) {
+                const ply2moves: string[] = [];
+                this.shuffle(empties);
+                for (const cell of empties) {
+                    if ( this.nNeighbors(cell).length === 0 ) {
+                        for (const cell1 of empties) {
+                            if ( cell === cell1 ) { continue; }
+                            if ( this.nNeighbors(cell1).length === 0 &&
+                                !this.graph.neighbours(cell).includes(cell1) ) {
+                                ply2moves.push(`${cell},${cell1}`);
+                            }
+                        }
+                    }
+                    if (ply2moves.length === 2) { return ply2moves; }
+                }
+            }
+            //// end hack
+
             for (const cell of empties) {
                 if ( this.nNeighbors(cell).length === 0 ) {
                     for (const cell1 of empties) {
-                        if ( this.nNeighbors(cell1).length === 0 ||
+                        if ( cell === cell1 ) { continue; }
+                        if ( this.nNeighbors(cell1).length === 0 &&
                             !this.graph.neighbours(cell).includes(cell1) ) {
                             moves.push(`${cell},${cell1}`);
                         }
@@ -305,7 +333,7 @@ export class PolluxGame extends GameBase {
         }
 
         const moves = m.split(',');
-        const allMoves = this.moves();
+        const allMoves = this.moves(this.currplayer, true);
 
         try {
             for (const cell of moves) {
@@ -438,12 +466,12 @@ export class PolluxGame extends GameBase {
     private findPoints(moves: string[]): string[] {
         if (this.stack.length > 3) {
             if (moves.length === 1) {
-                return this.moves().filter(m => m.startsWith(moves[0]))
-                                   .map(m => m.split(',')[1]);
+                return this.moves(this.currplayer, true).filter(m => m.startsWith(moves[0]))
+                                                        .map(m => m.split(',')[1]);
             }
             if (moves.length === 2) {
-                return this.moves().filter(m => m.startsWith(moves.join(',')))
-                                   .map(m => m.split(',')[2]);
+                return this.moves(this.currplayer, true).filter(m => m.startsWith(moves.join(',')))
+                                                        .map(m => m.split(',')[2]);
             }
         }
         return [];
@@ -526,7 +554,7 @@ export class PolluxGame extends GameBase {
     protected checkEOG(): PolluxGame {
         const prevPlayer = this.currplayer % 2 + 1 as playerid;
         // note that the current player is yet to move, we're checking the previous player last move
-        if ( this.moves().length === 0 ) { // if no valid moves are left, the current player loses
+        if ( this.moves(this.currplayer, true).length === 0 ) { // if no valid moves are left, the current player loses
             this.gameover = true;
             this.winner = [prevPlayer];
         } else { // otherwise, check if the previous player has a connection

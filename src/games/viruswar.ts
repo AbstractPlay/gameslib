@@ -64,10 +64,10 @@ export class VirusWarGame extends GameBase {
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
-    public dots: string[] = [];
 
     private boardSize = 30;
     private numMoves = 6;
+    private dots: string[] = [];
 
     constructor(state: IVirusWarState | string, variants?: string[]) {
         super();
@@ -120,7 +120,7 @@ export class VirusWarGame extends GameBase {
         this.boardSize = this.getBoardSize();
         this.numMoves = this.getMoveSize();
         this.results = [...state._results];
-        this.dots = this.getAdjacentMoves(state.currplayer, new Map(state.board)); // show dots before the player acts
+        this.dots = this.getAdjacentMoves(this.currplayer, this.board); // show dots before the player acts
         return this;
     }
 
@@ -204,7 +204,7 @@ export class VirusWarGame extends GameBase {
         return playerGroups.filter(gr => gr.includes(homebase))[0]; // select group with home base
     }
 
-    // get all possible moves adjacent to `group` of `player`
+    // get all possible moves adjacent to the home group of `player`
     private getAdjacentMoves(player: playerid, board: Map<string,playerid>): string[] {
         const prevplayer = player % 2 + 1 as playerid;
         const g = this.graph;

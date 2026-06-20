@@ -204,6 +204,7 @@ export class PolluxGame extends GameBase {
             const empties = (this.graph.listCells() as string[]).filter(c => !this.board.has(c));
 
             ///// hack: to work with AP's playground (since flags no-moves and automove are incompatible)
+            // this is the computational heaviest ply of the game
             if (! safe ) {
                 const ply2moves: string[] = [];
                 this.shuffle(empties);
@@ -267,6 +268,11 @@ export class PolluxGame extends GameBase {
                     }
                 }
             }
+        }
+        
+        if (! safe ) { // shows a sample of moves (just for the frontend, the code will keep `safe` as true)
+            this.shuffle(moves);
+            return moves.slice(0, 50); // output a random (smallish) selection of moves
         }
 
         return moves;

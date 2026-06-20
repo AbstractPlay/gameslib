@@ -204,25 +204,8 @@ export class PolluxGame extends GameBase {
             const empties = (this.graph.listCells() as string[]).filter(c => !this.board.has(c));
 
             ///// hack: to work with AP's playground (since flags no-moves and automove are incompatible)
-            // this is the computational heaviest ply of the game
-            if (! safe ) {
-                const ply2moves: string[] = [];
-                this.shuffle(empties);
-                for (const cell of empties) {
-                    if ( this.nNeighbors(cell).length === 0 ) {
-                        for (const cell1 of empties) {
-                            if ( cell === cell1 ) { continue; }
-                            if ( this.nNeighbors(cell1).length === 0 &&
-                                !this.graph.neighbours(cell).includes(cell1) ) {
-                                ply2moves.push(`${cell},${cell1}`);
-                            }
-                        }
-                    }
-                    if (ply2moves.length === 2) { return ply2moves; }
-                }
-            }
-            //// end hack
-
+            // this is the computational heaviest ply of the game, computing all possible moves is unfeasible
+            this.shuffle(empties);
             for (const cell of empties) {
                 if ( this.nNeighbors(cell).length === 0 ) {
                     for (const cell1 of empties) {
@@ -233,7 +216,22 @@ export class PolluxGame extends GameBase {
                         }
                     }
                 }
+                if (moves.length > 2) { break; }
             }
+            //// end hack
+
+            /* validateMove does not need this computation, which is too costly: O(n^4)
+              for (const cell of empties) {
+                if ( this.nNeighbors(cell).length === 0 ) {
+                    for (const cell1 of empties) {
+                        if ( cell === cell1 ) { continue; }
+                        if ( this.nNeighbors(cell1).length === 0 &&
+                            !this.graph.neighbours(cell).includes(cell1) ) {
+                            moves.push(`${cell},${cell1}`);
+                        }
+                    }
+                }
+            }*/
         }
 
         if ( this.stack.length === 4 ) {
@@ -269,7 +267,7 @@ export class PolluxGame extends GameBase {
                 }
             }
         }
-        
+
         if (! safe ) { // shows a sample of moves (just for the frontend, the code will keep `safe` as true)
             this.shuffle(moves);
             return moves.slice(0, 50); // output a random (smallish) selection of moves

@@ -213,10 +213,10 @@ export class PolluxGame extends GameBase {
                         if ( this.nNeighbors(cell1).length === 0 &&
                             !this.graph.neighbours(cell).includes(cell1) ) {
                             moves.push(`${cell},${cell1}`);
+                            if (moves.length >= 50) { return moves; }
                         }
                     }
                 }
-                if (moves.length > 2) { break; }
             }
             //// end hack
 

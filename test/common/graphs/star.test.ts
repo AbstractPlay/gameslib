@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import "mocha";
 import { expect } from "chai";
 import { StarGraph, starFrequencyFromWidth } from "../../../src/common";

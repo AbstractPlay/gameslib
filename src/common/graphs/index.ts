@@ -21,6 +21,7 @@ import { HexFieldGraph } from "./hex-field";
 import { SquareDiamondsDirectedGraph } from "./square-diamonds-directed";
 import { PentaHexGraph } from "./penta-hex";
 export { RectTriGraph } from "./rect-tri";
+export { BentTriGraph, type BentTriNodeData } from "./bent-tri";
 
 export { IGraph, IGraph3D, Square3DGraph, SquareGraph, SquareDirectedGraph,
         SquareOrth3DGraph, SquareOrthGraph, SquareOrthDirectedGraph, SquareDiag3DGraph,

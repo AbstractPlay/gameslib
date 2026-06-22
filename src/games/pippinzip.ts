@@ -30,7 +30,7 @@ export class PippinzipGame extends GameBase {
         uid: "pippinzip",
         playercounts: [2],
         version: "20260603",
-        dateAdded: "2026-06-03",
+        dateAdded: "2026-06-22",
         // i18next.t("apgames:descriptions.pippinzip")
         description: "apgames:descriptions.pippinzip",
         notes: "apgames:notes.pippinzip",
@@ -69,7 +69,7 @@ export class PippinzipGame extends GameBase {
         ],
         categories: ["goal>connect", "mechanic>place", "mechanic>asymmetry",
                      "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["no-moves", "custom-buttons", "custom-colours", "experimental"]
+        flags: ["no-moves", "custom-buttons", "custom-colours"]
     };
 
     public numplayers = 2;
@@ -513,14 +513,16 @@ export class PippinzipGame extends GameBase {
             legend: {
                 A: { name: "piece", colour: 1 },
                 B: { name: "piece", colour: 2 },
+                Ax: { name: "piece", colour: 1, scale: 0.75 },
+                Bx: { name: "piece", colour: 2, scale: 0.75 },
             },
             pieces: pstr,
             areas: [
                 {
                     type: "key",
                     list: [
-                        { name: "Zip/Cross", piece: "A" },
-                        { name: "Pip/Line",  piece: "B" }
+                        { name: "Zip/Cross", piece: "Ax" },
+                        { name: "Pip/Line",  piece: "Bx" }
                     ],
                     position: "left",
                     height: 0.45,

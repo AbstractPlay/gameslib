@@ -33,7 +33,7 @@ export class PolluxGame extends GameBase {
         uid: "pollux",
         playercounts: [2],
         version: "20260602",
-        dateAdded: "2026-06-02",
+        dateAdded: "2026-06-22",
         // i18next.t("apgames:descriptions.pollux")
         description: "apgames:descriptions.pollux",
         urls: [
@@ -53,7 +53,7 @@ export class PolluxGame extends GameBase {
             },
         ],
         categories: ["goal>connect", "goal>immobilize", "mechanic>place", "mechanic>move", "mechanic>block", "board>shape>rect", "board>connect>hex", "components>simple>1per"],
-        flags: ["automove", "experimental"],
+        flags: ["automove"],
         variants: [
             { uid: "#board", }, // size-10
             { uid: "size-12", group: "board", },

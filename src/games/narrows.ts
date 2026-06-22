@@ -26,7 +26,7 @@ export class NarrowsGame extends GameBase {
         uid: "narrows",
         playercounts: [2],
         version: "20260604",
-        dateAdded: "2026-06-04",
+        dateAdded: "2026-06-22",
         // i18next.t("apgames:descriptions.narrows")
         description: "apgames:descriptions.narrows",
         notes: "apgames:notes.narrows",
@@ -56,7 +56,7 @@ export class NarrowsGame extends GameBase {
             { uid: "size-14", group: "board" }, // 13 x 14
             { uid: "size-16", group: "board" }, // 15 x 16
         ],
-        flags: ["pie", "experimental"]
+        flags: ["pie"]
     };
 
     public numplayers = 2;

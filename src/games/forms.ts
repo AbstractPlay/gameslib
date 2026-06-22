@@ -26,7 +26,7 @@ export class FormsGame extends GameBase {
         uid: "forms",
         playercounts: [2],
         version: "20260610",
-        dateAdded: "2026-06-10",
+        dateAdded: "2026-06-22",
         // i18next.t("apgames:descriptions.forms")
         description: "apgames:descriptions.forms",
         notes: "apgames:notes.forms",
@@ -49,7 +49,7 @@ export class FormsGame extends GameBase {
             },
         ],
         categories: ["goal>immobilize", "mechanic>move", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["no-moves", "experimental"],
+        flags: ["no-moves"],
         variants: [
             { uid: "#board", }, // 8x8
             { uid: "size-10",  group: "board" },

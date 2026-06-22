@@ -42,7 +42,7 @@ export class CompartGame extends GameBase {
         uid: "compart",
         playercounts: [2],
         version: "20260612",
-        dateAdded: "2026-06-12",
+        dateAdded: "2026-06-22",
         // i18next.t("apgames:descriptions.compart")
         description: "apgames:descriptions.compart",
         urls: [
@@ -62,7 +62,7 @@ export class CompartGame extends GameBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
-        categories: ["goal>score>eog", "mechanic>place", "board>shape>rect", "board>connect>rect"],
+        categories: ["goal>score>eog", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         variants: [
             { uid: "size-7", group: "board" },
             { uid: "#board", }, // 9x9
@@ -70,7 +70,7 @@ export class CompartGame extends GameBase {
             { uid: "size-13", group: "board" },
             { uid: "size-15", group: "board" },
         ],
-        flags: ["no-moves", "pie", "scores", "experimental"],
+        flags: ["no-moves", "pie", "scores"],
         displays: [{uid: "show-viable-areas"}],
     };
 

@@ -29,7 +29,7 @@ export class TricouleurGame extends GameBase {
         uid: "tricouleur",
         playercounts: [2],
         version: "20260606",
-        dateAdded: "2026-06-06",
+        dateAdded: "2026-06-22",
         // i18next.t("apgames:descriptions.tricouleur")
         description: "apgames:descriptions.tricouleur",
         notes: "apgames:notes.tricouleur",
@@ -54,7 +54,7 @@ export class TricouleurGame extends GameBase {
             { uid: "hex-10", group: "board" },
         ],
         categories: ["goal>majority", "mechanic>move", "mechanic>convert",  "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["no-moves", "custom-buttons", "scores", "experimental"],
+        flags: ["no-moves", "custom-buttons", "scores"],
     };
 
     public numplayers = 2;
@@ -518,11 +518,11 @@ export class TricouleurGame extends GameBase {
         result.valid = true;
         const scores = this.getNewScores();
         const totalHexes = 3 * this.boardSize * this.boardSize - 3 * this.boardSize + 1
-        
+
         result.complete = this.stack.length === 1 ||              // if at ply 1, just one move is allowed
                           m.split(/[,^-]/).length === 4 ||        // if both moves were made
                           scores[this.currplayer-1] === 1 ||      // if there's only one friendly piece left
-                          (canMove && !m.includes('^') && 
+                          (canMove && !m.includes('^') &&
                            scores[0] + scores[1] === totalHexes - 1) // if there is only one hex left, a non-jump is final
                           ? 1 : -1;
         result.canrender = true;

@@ -24,7 +24,7 @@ export class InvectorGame extends GameBase {
         uid: "invector",
         playercounts: [2],
         version: "20260605",
-        dateAdded: "2026-06-05",
+        dateAdded: "2026-06-22",
         // i18next.t("apgames:descriptions.invector")
         description: "apgames:descriptions.invector",
         notes: "apgames:notes.invector",
@@ -54,7 +54,7 @@ export class InvectorGame extends GameBase {
             { uid: "size-14", group: "board" }, // 13x14
             { uid: "size-16", group: "board" }, // 15x16
         ],
-        flags: ["automove", "pie", "experimental"]
+        flags: ["automove", "pie"]
     };
 
     public numplayers = 2;

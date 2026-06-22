@@ -37,7 +37,7 @@ export class LinageGame extends GameBase {
         uid: "linage",
         playercounts: [2],
         version: "20260601",
-        dateAdded: "2026-06-01",
+        dateAdded: "2026-06-22",
         // i18next.t("apgames:descriptions.linage")
         description: "apgames:descriptions.linage",
         notes: "apgames:notes.linage",
@@ -83,7 +83,7 @@ export class LinageGame extends GameBase {
             { uid: "size-17", group: "board" },
             { uid: "size-19", group: "board" },
         ],
-        flags: ["custom-buttons", "custom-colours", "no-moves", "scores", "experimental"]
+        flags: ["custom-buttons", "custom-colours", "no-moves", "scores"]
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -563,7 +563,7 @@ export class LinageGame extends GameBase {
     public getPlayerScore(player: number): number {
         let komi = this.buttontaker === player ? 0.5 : 0;
         if (player === 1 && this.komi !== undefined && this.komi < 0)
-            komi += -this.komi; 
+            komi += -this.komi;
         if (player === 2 && this.komi !== undefined && this.komi > 0)
             komi += this.komi;
 

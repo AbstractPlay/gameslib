@@ -25,7 +25,7 @@ export class VirusWarGame extends GameBase {
         uid: "viruswar",
         playercounts: [2],
         version: "20260609",
-        dateAdded: "2026-06-09",
+        dateAdded: "2026-06-22",
         // i18next.t("apgames:descriptions.viruswar")
         description: "apgames:descriptions.viruswar",
         notes: "apgames:notes.viruswar",
@@ -53,7 +53,7 @@ export class VirusWarGame extends GameBase {
             { uid: "#board", }, // 30x30, 6 moves
         ],
         categories: ["goal>immobilize", "other>traditional", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>pnp", "components>simple>2per"],
-        flags: ["no-moves", "experimental"]
+        flags: ["no-moves"]
     };
 
     public numplayers = 2;

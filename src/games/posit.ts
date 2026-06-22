@@ -30,7 +30,7 @@ export class PositGame extends GameBase {
         uid: "posit",
         playercounts: [2],
         version: "20260607",
-        dateAdded: "2026-06-07",
+        dateAdded: "2026-06-22",
         // i18next.t("apgames:descriptions.posit")
         description: "apgames:descriptions.posit",
         notes: "apgames:notes.posit",
@@ -68,7 +68,7 @@ export class PositGame extends GameBase {
             },
         ],
         categories: ["goal>immobilize", "mechanic>move", "mechanic>place", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["no-moves", "experimental"],
+        flags: ["no-moves"],
         variants: []
     };
 

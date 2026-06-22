@@ -33,7 +33,7 @@ export class CrossControlGame extends GameBase {
         uid: "crosscontrol",
         playercounts: [2],
         version: "20260613",
-        dateAdded: "2026-06-13",
+        dateAdded: "2026-06-22",
         // i18next.t("apgames:descriptions.crosscontrol")
         description: "apgames:descriptions.crosscontrol",
         urls: ["https://boardgamegeek.com/boardgame/143767/crosscontrol"],
@@ -56,8 +56,8 @@ export class CrossControlGame extends GameBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
-        categories: ["goal>area", "mechanic>place",  "mechanic>capture", "board>shape>rect"],
-        flags: ["scores", "automove", "custom-buttons", "custom-colours", "experimental"],
+        categories: ["goal>area", "mechanic>place",  "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        flags: ["scores", "automove", "custom-buttons", "custom-colours"],
         variants: [
             { uid: "size-9",  group: "board" },
             { uid: "#board", }, // 13x13

@@ -1675,6 +1675,9 @@
             "size-15": {
                 "name": "Size-15 board"
             },
+            "size-17": {
+                "name": "Size-17 board"
+            },
             "size-19": {
                 "name": "Size-19 board"
             }

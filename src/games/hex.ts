@@ -70,6 +70,10 @@ export class HexGame extends GameBase {
                 group: "board",
             },
             {
+                uid: "size-17",
+                group: "board",
+            },
+            {
                 uid: "size-19",
                 group: "board",
             },

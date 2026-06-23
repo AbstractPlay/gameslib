@@ -35,25 +35,28 @@ export class BloodKingGame extends GameBase {
         name: "Blood King Rises",
         uid: "bloodking",
         playercounts: [2],
-        version: "20260618",
+        version: "20260617",
         dateAdded: "2026-06-17",
         description: "apgames:descriptions.bloodking",
         notes: "apgames:notes.bloodking",
+        urls: [
+            "https://gist.github.com/mo-blo/36db5073e96df15c4df15807949b9aa3",
+        ],
         people: [
             {
                 type: "designer",
-                name: "Morgan B",
+                name: "mo_blo, Zachopper",
             },
         ],
         categories: [
-            "goal>checkmate",
+            "goal>royal-capture",
             "mechanic>capture",
             "mechanic>move",
             "board>shape>rect",
             "board>connect>rect",
             "components>fairychess",
         ],
-        flags: [],
+        flags: ["experimental"],
     };
 
     private static readonly promotionPieces: PromotionPiece[] = ["Q", "R", "B", "N"];

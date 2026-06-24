@@ -1,27 +1,15 @@
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted";
 import { bentTriBoard, Graph as BentTriTopology, type BentTriOptions } from "../bentTri";
+import { indexToColumnLabel, columnLabelToIndex } from "../columnLabels";
 import { IGraph } from "./IGraph";
-
-const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
-
-const ringLetter = (ring: number): string => {
-    const letter = columnLabels[ring];
-    if (letter === undefined) {
-        throw new Error(`Ring index out of range: ${ring}`);
-    }
-    return letter;
-};
 
 const parseAlgebraic = (cell: string): [number, number] => {
     const match = cell.match(/^([a-z]+)(\d+)$/);
     if (match === null) {
         throw new Error(`Invalid algebraic notation: ${cell}`);
     }
-    const ring = columnLabels.indexOf(match[1]);
-    if (ring < 0) {
-        throw new Error(`Invalid ring label: ${match[1]}`);
-    }
+    const ring = columnLabelToIndex(match[1]);
     const pos = parseInt(match[2], 10) - 1;
     if (isNaN(pos) || pos < 0) {
         throw new Error(`Invalid position: ${match[2]}`);
@@ -54,7 +42,7 @@ export class BentTriGraph implements IGraph {
     private buildLabelMaps(): void {
         for (let ring = 0; ring < this.topo.gridLayers.length; ring++) {
             const layer = this.topo.gridLayers[ring];
-            const letter = ringLetter(ring);
+            const letter = indexToColumnLabel(ring);
             for (let pos = 0; pos < layer.length; pos++) {
                 const label = letter + (pos + 1).toString();
                 const vid = layer[pos].id;
@@ -92,7 +80,7 @@ export class BentTriGraph implements IGraph {
 
     /** x = ring index (0 = outer), y = clockwise position index within the ring. */
     public coords2algebraic(x: number, y: number): string {
-        return ringLetter(x) + (y + 1).toString();
+        return indexToColumnLabel(x) + (y + 1).toString();
     }
 
     public algebraic2coords(cell: string): [number, number] {

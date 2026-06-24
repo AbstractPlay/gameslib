@@ -10,6 +10,9 @@ import { projectPoint, ptDistance, smallestDegreeDiff, normDeg, deg2rad, rad2deg
 import { hexhexAi2Ap, hexhexAp2Ai, triAi2Ap, triAp2Ai } from "./aiai";
 import stringify from "json-stringify-deterministic";
 import fnv from "fnv-plus";
+import { columnLabels, indexToColumnLabel, columnLabelToIndex, generateColumnLabel } from "./columnLabels";
+
+export { columnLabels, indexToColumnLabel, columnLabelToIndex, generateColumnLabel };
 
 export { RectGrid, StackSet, reviver, replacer, sortingReplacer, shuffle, UserFacingError, HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareDiagGraph, SquareGraph, Square3DGraph, SquareDirectedGraph, SquareFanoronaGraph, BaoGraph, SowingNoEndsGraph, RectTriGraph, BentTriGraph, StarGraph, starFrequencyFromWidth, wng, projectPoint, ptDistance, smallestDegreeDiff, normDeg, deg2rad, rad2deg, toggleFacing, calcBearing, matrixRectRot90, matrixRectRotN90, transposeRect, hexhexAi2Ap, hexhexAp2Ai, triAi2Ap, triAp2Ai, circle2poly, midpoint, distFromCircle, dir2deg, deg2dir, rotateFacing };
 
@@ -67,28 +70,8 @@ export const partitionArray = (a: any[], size: number): any[][] =>
         (_, i) => a.slice(i * size, i * size + size)
     );
 
-export const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
-
 export const coords2algebraic = (x: number, y: number, height: number, reverseNumbers = false): string => {
-    let length = 1;
-    if (x >= columnLabels.length) {
-        length = Math.floor(Math.log(x) / Math.log(columnLabels.length)) + 1;
-    }
-    let label = "";
-    let counter = x;
-    for (let i = length; i > 0; i--) {
-        const base = columnLabels.length ** (i - 1);
-        let idx = Math.floor(counter / base);
-        if (i > 1) {
-            idx--;
-        }
-        const char = columnLabels[idx];
-        if (char === undefined) {
-            throw new Error(`Could not find a character at index ${idx}\n${x},${y}, length: ${length}, base: ${base}`);
-        }
-        label += char;
-        counter = counter % base;
-    }
+    const label = indexToColumnLabel(x);
     if (reverseNumbers) { return label + (y + 1).toString(); }
     return label + (height - y).toString();
 }
@@ -99,19 +82,7 @@ export const algebraic2coords = (cell: string, height: number, reverseNumbers = 
         throw new Error(`The algebraic notation is invalid: ${cell}`);
     }
     const lets = match[1]; const nums = match[2];
-    const reversed = [...lets.split("").reverse()];
-    let x = 0
-    for (let exp = 0; exp < reversed.length; exp++) {
-        const idx = columnLabels.indexOf(reversed[exp]);
-        if (idx < 0) {
-            throw new Error(`The column label is invalid: ${reversed[exp]}`);
-        }
-        if (exp > 0) {
-            x += (idx + 1) * (columnLabels.length ** exp);
-        } else {
-            x += (idx) * (columnLabels.length ** exp);
-        }
-    }
+    const x = columnLabelToIndex(lets);
     const y = parseInt(nums, 10);
     if ( (y === undefined) || (isNaN(y)) || nums === "" ) {
         throw new Error(`The row label is invalid: ${nums}`);

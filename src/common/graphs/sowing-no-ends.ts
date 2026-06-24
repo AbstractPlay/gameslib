@@ -1,7 +1,6 @@
 import { DirectedGraph } from "graphology";
+import { indexToColumnLabel, columnLabelToIndex } from "../columnLabels";
 import { IGraph } from "./IGraph";
-
-const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 
 type EdgeData = {
     direction: "CW"|"CCW";
@@ -22,19 +21,18 @@ export class SowingNoEndsGraph implements IGraph {
     }
 
     public coords2algebraic(x: number, y: number): string {
-        return columnLabels[x] + (this.height - y).toString();
+        return indexToColumnLabel(x) + (this.height - y).toString();
     }
 
     public algebraic2coords(cell: string): [number, number] {
-        const pair: string[] = cell.split("");
-        const num = (pair.slice(1)).join("");
-        const x = columnLabels.indexOf(pair[0]);
-        if ( (x === undefined) || (x < 0) ) {
-            throw new Error(`The column label is invalid: ${pair[0]}`);
+        const match = cell.match(/^([a-z]+)(\d+)$/);
+        if (match === null) {
+            throw new Error(`The algebraic notation is invalid: ${cell}`);
         }
-        const y = Number(num);
-        if ( (y === undefined) || (isNaN(y)) || num === "" ) {
-            throw new Error(`The row label is invalid: ${pair[1]}`);
+        const x = columnLabelToIndex(match[1]);
+        const y = Number(match[2]);
+        if (isNaN(y)) {
+            throw new Error(`The row label is invalid: ${match[2]}`);
         }
         return [x, this.height - y];
     }

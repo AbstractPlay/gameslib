@@ -1,8 +1,7 @@
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from 'graphology-shortest-path/unweighted';
+import { indexToColumnLabel, columnLabelToIndex } from "../columnLabels";
 import { IGraph } from "./IGraph";
-
-const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 export type Edge = "N"|"NE"|"SE"|"S"|"SW"|"NW";
 export type HexDir = "NE"|"E"|"SE"|"SW"|"W"|"NW";
 
@@ -54,20 +53,20 @@ export class HexTriGraph implements IGraph {
         if (this.reverseLetters) {
             idx = (this.height - 1) - idx;
         }
-        return columnLabels[idx] + (x + 1).toString();
+        return indexToColumnLabel(idx) + (x + 1).toString();
     }
 
     public algebraic2coords(cell: string): [number, number] {
-        const pair: string[] = cell.split("");
-        const num = (pair.slice(1)).join("");
+        const match = cell.match(/^([a-z]+)(\d+)$/);
+        if (match === null) {
+            throw new Error(`The algebraic notation is invalid: ${cell}`);
+        }
+        const num = match[2];
         const x = Number(num);
         if ( (x === undefined) || (isNaN(x)) || num === "" ) {
             throw new Error(`The column label is invalid: ${num}`);
         }
-        const y = columnLabels.indexOf(pair[0]);
-        if ( (y === undefined) || (y < 0) ) {
-            throw new Error(`The row label is invalid: ${pair[0]}`);
-        }
+        const y = columnLabelToIndex(match[1]);
 
         let realY = this.height - y - 1;
         if (this.reverseLetters) {

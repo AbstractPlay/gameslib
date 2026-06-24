@@ -85,4 +85,14 @@ describe("HexTriGraph", () => {
         // NW
         expect (grid.ray(3, 6, "NW")).to.have.deep.members([[3,5],[3,4],[3,3],[2,2],[1,1],[0,0]]);
     });
+
+    it("Algebraic notation beyond z", () => {
+        const grid = new HexTriGraph(5, 20);
+        expect(grid.coords2algebraic(0, 5)).to.equal("z1");
+        expect(grid.algebraic2coords("z1")).to.deep.equal([0, 5]);
+        expect(grid.coords2algebraic(0, 4)).to.equal("aa1");
+        expect(grid.algebraic2coords("aa1")).to.deep.equal([0, 4]);
+        expect(grid.coords2algebraic(3, 0)).to.equal("ae4");
+        expect(grid.algebraic2coords("ae4")).to.deep.equal([3, 0]);
+    });
 });

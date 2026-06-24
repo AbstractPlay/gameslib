@@ -1,8 +1,7 @@
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from 'graphology-shortest-path/unweighted';
+import { indexToColumnLabel, columnLabelToIndex } from "../columnLabels";
 import { IGraph } from "./IGraph";
-
-const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 
 type Edge = "N"|"NE"|"SE"|"S"|"SW"|"NW";
 
@@ -35,7 +34,7 @@ export class HexMoonGraph implements IGraph {
                 return `e${x + 1}`;
             }
         } else {
-            return columnLabels[this.height - y - 1] + (x + 1).toString();
+            return indexToColumnLabel(this.height - y - 1) + (x + 1).toString();
         }
     }
 
@@ -53,28 +52,28 @@ export class HexMoonGraph implements IGraph {
                 throw new Error("Unrecognized cell suffix.");
             }
         } else {
-            const num = (pair.slice(1)).join("");
-            const x = Number(num);
-            if ( (x === undefined) || (isNaN(x)) || num === "" ) {
-                throw new Error(`The column label is invalid: ${num}`);
+            const match = cell.match(/^([a-z]+)(\d+)$/);
+            if (match === null) {
+                throw new Error(`The algebraic notation is invalid: ${cell}`);
             }
-            const y = columnLabels.indexOf(pair[0]);
-            if ( (y === undefined) || (y < 0) ) {
-                throw new Error(`The row label is invalid: ${pair[0]}`);
+            const x = Number(match[2]);
+            if (isNaN(x)) {
+                throw new Error(`The column label is invalid: ${match[2]}`);
             }
+            const rowIdx = columnLabelToIndex(match[1]);
 
             const midrow = Math.floor(this.height / 2);
             const delta = this.maxwidth - this.minwidth;
-            const rowWidth = this.minwidth + (midrow - Math.abs(delta - y));
-            if ( (x < 0) || (x > rowWidth) ) {
-                throw new Error(`The column label is invalid: ${num}`);
+            const rowWidth = this.minwidth + (midrow - Math.abs(delta - rowIdx));
+            if ( (x < 1) || (x > rowWidth) ) {
+                throw new Error(`The column label is invalid: ${match[2]}`);
             }
 
-            if (pair[0] === "e" && x > 5) {
-                return [x + 1, this.height - y - 1];
-            } else {
-                return [x - 1, this.height - y - 1];
+            const rowLetter = indexToColumnLabel(rowIdx);
+            if (rowLetter === "e" && x > 5) {
+                return [x, this.height - rowIdx - 1];
             }
+            return [x - 1, this.height - rowIdx - 1];
         }
     }
 

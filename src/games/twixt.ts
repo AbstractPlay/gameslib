@@ -2,7 +2,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IV
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import { reviver, UserFacingError, generateColumnLabel } from "../common";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted";
 import i18next from "i18next";
@@ -23,39 +23,6 @@ export interface ITwixtState extends IAPGameState {
 };
 
 type PlayerLines = [string[],string[]];
-
-/**
- * Function taken from renderers/src/renderers/_base.ts.
- * It's not exported, so I copied it here.
- * An infinite generator for creating column labels from an initial string of characters.
- * With the English alphabet, you would get a-z, then aa-az-ba-zz, then aaa etc.
- *
- * @param labels - A string of characters to use as column labels
- * @returns The next label in the sequence.
- */
-function* generateColumnLabel(labels: string): IterableIterator<string> {
-    let n = 0
-    let len = 1;
-    const chars = labels.split("");
-    while (true) {
-        let label = "";
-        let mask = n.toString(chars.length);
-        while (mask.length < len) {
-            mask = "0" + mask;
-        }
-        for (const char of mask) {
-            const val = parseInt(char, chars.length);
-            label += chars[val];
-        }
-        yield label;
-        n++;
-        const threshold = Math.pow(chars.length, len);
-        if (n === threshold) {
-            n = 0;
-            len++;
-        }
-    }
-}
 
 export class TwixtGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {

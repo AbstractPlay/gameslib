@@ -1,56 +1,22 @@
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from 'graphology-shortest-path/unweighted';
+import { indexToColumnLabel, columnLabelToIndex } from "../columnLabels";
 import { IGraph } from "./IGraph";
 
 export type SnubStart = "S"|"T";
-const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
-const number2label = (n: number): string => {
-    let length = 1;
-    if (n >= columnLabels.length) {
-        length = Math.floor(Math.log(n) / Math.log(columnLabels.length)) + 1;
-    }
-    let label = "";
-    let counter = n;
-    for (let i = length; i > 0; i--) {
-        const base = columnLabels.length ** (i - 1);
-        let idx = Math.floor(counter / base);
-        if (i > 1) {
-            idx--;
-        }
-        const char = columnLabels[idx];
-        if (char === undefined) {
-            throw new Error(`Could not find a character at index ${idx}\nn: ${n}, length: ${length}, base: ${base}`);
-        }
-        label += char;
-        counter = counter % base;
-    }
-    return label;
-}
-const cell2xy = (cell: string): [number,number] => {
+
+const cell2xy = (cell: string): [number, number] => {
     const match = cell.match(/^([a-z]+)(\d+)$/);
     if (match === null) {
         throw new Error(`The algebraic notation is invalid: ${cell}`);
     }
-    const lets = match[1]; const nums = match[2];
-    const reversed = [...lets.split("").reverse()];
-    let x = 0
-    for (let exp = 0; exp < reversed.length; exp++) {
-        const idx = columnLabels.indexOf(reversed[exp]);
-        if (idx < 0) {
-            throw new Error(`The column label is invalid: ${reversed[exp]}`);
-        }
-        if (exp > 0) {
-            x += (idx + 1) * (columnLabels.length ** exp);
-        } else {
-            x += (idx) * (columnLabels.length ** exp);
-        }
-    }
-    const y = parseInt(nums, 10);
-    if ( (y === undefined) || (isNaN(y)) || nums === "" ) {
-        throw new Error(`The row label is invalid: ${nums}`);
+    const x = columnLabelToIndex(match[1]);
+    const y = parseInt(match[2], 10);
+    if (isNaN(y)) {
+        throw new Error(`The row label is invalid: ${match[2]}`);
     }
     return [x, y];
-}
+};
 
 export class OnyxGraph implements IGraph {
     public readonly width: number;
@@ -69,7 +35,7 @@ export class OnyxGraph implements IGraph {
         // even rows are normal snubsquare rows
         let algebraic: string;
         if (y % 2 === 0) {
-            algebraic = number2label(x) + (this.height - (y/2)).toString();
+            algebraic = indexToColumnLabel(x) + (this.height - (y/2)).toString();
         }
         // but odd ones are midpoint rows
         else {
@@ -84,7 +50,7 @@ export class OnyxGraph implements IGraph {
                 prevX = x * 2;
                 nextX = prevX + 1;
             }
-            algebraic = `${number2label(prevX)}${this.height - nextY}/${number2label(nextX)}${this.height - prevY}`;
+            algebraic = `${indexToColumnLabel(prevX)}${this.height - nextY}/${indexToColumnLabel(nextX)}${this.height - prevY}`;
         }
         if (validate && !this.graph.hasNode(algebraic)) {
             throw new Error(`${x},${y} translates to ${algebraic}, which does not exist in the current graph.`)

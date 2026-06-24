@@ -218,7 +218,7 @@
         "squaredance": "A game where you move groups of pieces by rotation, trying to force your opponent into a position where they cannot move.",
         "squirm" : "Players fight to create the longest snake-like group.",
         "stairs": "Stack higher than your opponent in this game of one-space, one-level jumps where you also have to move your lowest pieces first. To take the lead and win, you must surpass your opponent's tallest stack height or, failing that, their number of stacks at the tallest height.",
-        "stapeldammen": "A Draughts variant where captured pieces remain on the board and can be freed later. Capture all opposing pieces to win. Derived from Lasca and the percursor of Emergo.",
+        "stapeldammen": "A Draughts variant where captured pieces remain on the board and can be freed later. Bring as many pieces as possible to your last row. Derived from Lasca and the percursor of Emergo.",
         "stawvs": "A set collection game for 2-4 players that's similar to Amazons, with old-style Volcano scoring.  On a checkerboard randomly filled with individual pyramids, player pieces can move and capture pyramids in a straight line (orthogonally or diagonally), if and only if all intervening spaces and the target space contain pyramids but not pieces.",
         "stibro": "Win by forming a loop anywhere on the board, while adhering to the placement restriction that ensures loop-forming is always possible.",
         "stiletto": "Make a 5 in-a-row where players alternate the power of the dagger (i.e., an option to make a double placement).",
@@ -1674,6 +1674,9 @@
             },
             "size-15": {
                 "name": "Size-15 board"
+            },
+            "size-17": {
+                "name": "Size-17 board"
             },
             "size-19": {
                 "name": "Size-19 board"
@@ -3594,6 +3597,12 @@
             }
         },
         "y": {
+            "size-9": {
+                "name": "Size-9 board"
+            },
+            "size-11": {
+                "name": "Size-11 board"
+            },
             "#board": {
                 "name": "Size-13 board"
             },
@@ -3605,6 +3614,15 @@
             },
             "size-21": {
                 "name": "Size-21 board"
+            },
+            "#boardtype": {
+                "name": "Triangular board"
+            },
+            "bent": {
+                "name": "Bent board"
+            },
+            "#ruleset": {
+                "name": "Y standard rules"
             },
             "12-free": {
                 "name": "Master Y (12* move sequence)"

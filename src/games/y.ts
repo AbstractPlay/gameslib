@@ -61,9 +61,11 @@ export class YGame extends GameBase {
             { uid: "size-15", group: "board" },
             { uid: "size-19", group: "board" },
             { uid: "size-21", group: "board" },
+            { uid: "#ruleset", }, // standard rules
             { uid: "12-free",     group: "ruleset" }, // 12* move variant, no restrictions
             { uid: "134-group",   group: "ruleset" }, // 134* move variant with group restriction
             { uid: "progressive", group: "ruleset" }, // progressive variant with group restriction
+            { uid: "#boardtype", }, // triangular board
             { uid: "bent", group: "boardtype" },
         ],
         categories: ["goal>connect", "mechanic>place",  "board>shape>tri", "board>connect>hex", "components>simple>1per"],
@@ -80,7 +82,7 @@ export class YGame extends GameBase {
     private boardSize = 9;
     public connPath: string[] = [];
     private graph: BentTriGraph | HexTriGraph = this.getGraph();
-    private ruleset: "default" | "12-free" | "134-group" | "progressive";
+    private ruleset: "ruleset" | "12-free" | "134-group" | "progressive";
 
     constructor(state?: IYState | string, variants?: string[]) {
         super();
@@ -149,11 +151,11 @@ export class YGame extends GameBase {
         return 13;
     }
 
-    private getRuleset(): "default" | "12-free" | "134-group" | "progressive" {
+    private getRuleset(): "ruleset" | "12-free" | "134-group" | "progressive" {
         if (this.variants.includes("12-free"))     { return "12-free"; }
         if (this.variants.includes("134-group"))   { return "134-group"; }
         if (this.variants.includes("progressive")) { return "progressive"; }
-        return "default";
+        return "ruleset";
     }
 
     public getGraph(): BentTriGraph | HexTriGraph {
@@ -175,7 +177,7 @@ export class YGame extends GameBase {
     }
 
     private getNeighbours(x: number, y: number): string[] {
-        const cell = this.coords2algebraic(x,y);
+        const cell = this.coords2algebraic(x, y);
         return this.graph.neighbours(cell);
     }
 
@@ -245,7 +247,7 @@ export class YGame extends GameBase {
     public moves(): string[] {
         if (this.gameover) { return []; }
 
-        if (this.ruleset !== "default") {
+        if (this.ruleset !== "ruleset") {
             return []; // too many moves
         }
 
@@ -296,7 +298,7 @@ export class YGame extends GameBase {
                         newmove = `${move},${cell}`; // otherwise, append coordinates of current click
                     }
                 }
-            } else { // default
+            } else { // default ruleset
                 newmove = move === "" ? cell : "";
             }
 
@@ -358,7 +360,6 @@ export class YGame extends GameBase {
             moveGroups.set(cell, []);
         }
 
-        //const g = (this.graph as HexTriGraph).graph; // graph with the cell connections of the current player
         const g = this.buildGraph(); // graph with the cell connections of the current player
         for (const cell of this.getAllCells()) {
             if ( !this.board.has(cell) || this.board.get!(cell) !== this.currplayer ) {
@@ -496,7 +497,7 @@ export class YGame extends GameBase {
             if (! result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
             }
-            if ( !partial && this.ruleset === 'default' && !this.moves().includes(m) ) {
+            if ( !partial && this.ruleset === 'ruleset' && !this.moves().includes(m) ) {
                 throw new UserFacingError("VALIDATION_FAILSAFE",
                                           i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
@@ -607,29 +608,6 @@ export class YGame extends GameBase {
         return this;
     }
 
-    public state(): IYState {
-        return {
-            game: YGame.gameinfo.uid,
-            numplayers: 2,
-            variants: [...this.variants],
-            gameover: this.gameover,
-            winner: [...this.winner],
-            stack: [...this.stack],
-        };
-    }
-
-    protected moveState(): IMoveState {
-        return {
-            _version: YGame.gameinfo.version,
-            _results: [...this.results],
-            _timestamp: new Date(),
-            currplayer: this.currplayer,
-            lastmove: this.lastmove,
-            board: new Map(this.board),
-            connPath: [...this.connPath],
-        };
-    }
-
     public render(): APRenderRep {
         // Build piece string
         const pstr: string[][] = [];
@@ -650,7 +628,6 @@ export class YGame extends GameBase {
             }
             pstr.push(pieces);
         }
-
         const isBent: boolean = this.variants.includes("bent");
 
         // Build rep
@@ -658,12 +635,6 @@ export class YGame extends GameBase {
             options: isBent ? undefined : ["reverse-letters"],
             board: isBent ? { style: "bent-tri",   width: this.boardSize } :
                             { style: "hex-of-hex", minWidth: 1, maxWidth: this.boardSize, half: "top" },
-            /*board: {
-                style: "hex-of-hex",
-                minWidth: 1,
-                maxWidth: this.boardSize,
-                half: "top",
-            },*/
             legend: {
                 A: { name: "piece", colour: 1 },
                 B: { name: "piece", colour: 2 },
@@ -693,7 +664,30 @@ export class YGame extends GameBase {
         return rep;
     }
 
-    public clone(): YGame {
+     public state(): IYState {
+        return {
+            game: YGame.gameinfo.uid,
+            numplayers: 2,
+            variants: [...this.variants],
+            gameover: this.gameover,
+            winner: [...this.winner],
+            stack: [...this.stack],
+        };
+    }
+
+    protected moveState(): IMoveState {
+        return {
+            _version: YGame.gameinfo.version,
+            _results: [...this.results],
+            _timestamp: new Date(),
+            currplayer: this.currplayer,
+            lastmove: this.lastmove,
+            board: new Map(this.board),
+            connPath: [...this.connPath],
+        };
+    }
+
+   public clone(): YGame {
         return new YGame(this.serialize());
     }
 }

@@ -25,15 +25,17 @@ export type BentTriNodeData = {
 };
 
 export class BentTriGraph implements IGraph {
+    public readonly width: number;
     public readonly frequency: number;
     public readonly topo: BentTriTopology;
     public graph: UndirectedGraph;
     private readonly vidToLabel = new Map<number, string>();
     private readonly labelToVid = new Map<string, number>();
 
-    constructor(frequency: number, opts?: BentTriOptions) {
-        this.frequency = frequency;
-        this.topo = bentTriBoard(frequency, opts);
+    constructor(width: number, opts?: BentTriOptions) {
+        this.width = width;
+        this.frequency = width - 1;
+        this.topo = bentTriBoard(this.frequency, opts);
         this.buildLabelMaps();
         this.graph = this.buildGraph();
     }

@@ -8,7 +8,7 @@ Currently all Abstract Play games must be coded in TypeScript and included in th
 
 ## Contact
 
-The [main website](https://www.abstractplay.com) houses the development blog and wiki.
+The [main website](https://www.abstractplay.com) houses the development blog and wiki. We encourage coders to join us on Discord (<https://discord.abstractplay.com>) in our `#dev-curious` channel if you have questions, and basic docs are available [on our wiki](https://abstractplay.com/wiki/doku.php?id=coding_docs).
 
 ## Build
 

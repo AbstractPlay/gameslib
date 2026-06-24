@@ -353,8 +353,14 @@ export class MutternlandGame extends GameBase {
                     const cellAfter = ray[idxPushed+1];
                     const sizeStackAfter = this.board.get(cellAfter)![1];
                     this.board.set(cellAfter, [prevplayer, sizeStackAfter]);
+                    if ( this.results !== undefined ) { // add an arrow to show the push
+                        this.results.push({ type: "move", from: to, to: cellAfter });
+                    }
                 } else { // a push-off
                     this.reserve[prevplayer - 1] += 1;
+                    if ( this.results !== undefined && idxPushed < ray.length-1 ) {
+                        this.results.push({ type: "capture", where: ray[idxPushed+1] });
+                    }
                 }
                 this.board.set(to, [this.currplayer, sizeStackTo]);
             }
@@ -784,6 +790,9 @@ export class MutternlandGame extends GameBase {
                     const [fromX, fromY] = this.graph.algebraic2coords(move.from);
                     const [toX, toY] = this.graph.algebraic2coords(move.to);
                     rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                } else if (move.type === "capture") {
+                    const [x, y] = this.graph.algebraic2coords(move.where!);
+                    rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
                 }
             }
         }

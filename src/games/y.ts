@@ -4,13 +4,14 @@ import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError, intersects } from "../common";
 import { UndirectedGraph } from "graphology";
+import { HexTriGraph, BentTriGraph } from "../common/graphs";
 import { connectedComponents } from "graphology-components";
 import { bidirectional } from "graphology-shortest-path";
 import i18next from "i18next";
 
 type playerid = 1|2;
-type Directions = "NE"|"E"|"SE"|"SW"|"W"|"NW";
-const allDirections: Directions[] = ["NE", "E", "SE", "SW", "W", "NW"];
+//type Directions = "NE"|"E"|"SE"|"SW"|"W"|"NW";
+//const allDirections: Directions[] = ["NE", "E", "SE", "SW", "W", "NW"];
 
 interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -29,7 +30,7 @@ export class YGame extends GameBase {
         name: "Y",
         uid: "y",
         playercounts: [2],
-        version: "20260429",
+        version: "20260623",
         dateAdded: "2026-05-13",
         // i18next.t("apgames:descriptions.y")
         description: "apgames:descriptions.y",
@@ -54,13 +55,16 @@ export class YGame extends GameBase {
             },
         ],
         variants: [
-            { uid: "#board", }, // hextri13
+            { uid: "size-9",  group: "board" },
+            { uid: "size-11", group: "board" },
+            { uid: "#board", }, // size-13
             { uid: "size-15", group: "board" },
             { uid: "size-19", group: "board" },
             { uid: "size-21", group: "board" },
             { uid: "12-free",     group: "ruleset" }, // 12* move variant, no restrictions
             { uid: "134-group",   group: "ruleset" }, // 134* move variant with group restriction
             { uid: "progressive", group: "ruleset" }, // progressive variant with group restriction
+            { uid: "bent", group: "boardtype" },
         ],
         categories: ["goal>connect", "mechanic>place",  "board>shape>tri", "board>connect>hex", "components>simple>1per"],
         flags: ["pie"],
@@ -75,6 +79,7 @@ export class YGame extends GameBase {
     public variants: string[] = [];
     private boardSize = 9;
     public connPath: string[] = [];
+    private graph: BentTriGraph | HexTriGraph = this.getGraph();
     private ruleset: "default" | "12-free" | "134-group" | "progressive";
 
     constructor(state?: IYState | string, variants?: string[]) {
@@ -125,6 +130,7 @@ export class YGame extends GameBase {
         this.board = new Map(state.board);
         this.boardSize = this.getBoardSize();
         this.lastmove = state.lastmove;
+        this.graph = this.getGraph();
         return this;
     }
 
@@ -150,91 +156,31 @@ export class YGame extends GameBase {
         return "default";
     }
 
-    public coords2algebraic(x: number, y: number): string {
-        if (x > y) {
-            throw new Error(`The coordinates (${x},${y}) are invalid.`);
+    public getGraph(): BentTriGraph | HexTriGraph {
+        if (this.variants.includes("bent")) {
+            return new BentTriGraph(this.boardSize);
+        } else {
+            const g = new HexTriGraph(1, this.boardSize);
+            g.reverseLetters = true;
+            return g;
         }
-        const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
-        return columnLabels[y] + (x + 1).toString();
+    }
+
+    public coords2algebraic(x: number, y: number): string {
+        return this.graph.coords2algebraic(x, y);
     }
 
     public algebraic2coords(cell: string): [number,number] {
-        const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
-        const pair: string[] = cell.split("");
-        const num = (pair.slice(1)).join("");
-        const y = columnLabels.indexOf(pair[0]);
-        if ( (y === undefined) || (y < 0) ) {
-            throw new Error(`The column label is invalid: ${pair[0]}`);
-        }
-        const x = parseInt(num, 10);
-        if ( (x === undefined) || (isNaN(x)) ) {
-            throw new Error(`The row label is invalid: ${pair[1]}`);
-        }
-        if (x - 1 > y) {
-            throw new Error(`The coordinates (${x},${y}) are invalid.`);
-        }
-        return [x - 1, y];
-    }
-
-    private movePosition(x: number, y: number, dir: Directions, dist = 1): [number, number] | undefined {
-        let xNew = x;
-        let yNew = y;
-        switch (dir) {
-            case "NE":
-                yNew -= dist
-                break;
-            case "E":
-                xNew += dist;
-                break;
-            case "SE":
-                xNew += dist;
-                yNew += dist;
-                break;
-            case "SW":
-                yNew += dist;
-                break;
-            case "W":
-                xNew -= dist;
-                break;
-            case "NW":
-                xNew -= dist;
-                yNew -= dist;
-                break;
-            default:
-                throw new Error("Invalid direction requested.");
-        }
-        if (!this.validCell(xNew, yNew)) {
-            return undefined;
-        }
-        return [xNew, yNew];
-    }
-
-    private validCell(x: number, y: number): boolean {
-        if (x < 0 || y < 0 || x > y || y >= this.boardSize) {
-            return false;
-        }
-        return true;
+        return this.graph.algebraic2coords(cell);
     }
 
     private getNeighbours(x: number, y: number): string[] {
-        const neighbours: string[] = [];
-        for (const dir of allDirections) {
-            const pos = this.movePosition(x, y, dir);
-            if (pos !== undefined) {
-                neighbours.push(this.coords2algebraic(...pos));
-            }
-        }
-        return neighbours;
+        const cell = this.coords2algebraic(x,y);
+        return this.graph.neighbours(cell);
     }
 
     private getAllCells(): string[] {
-        const cells: string[] = [];
-        for (let y = 0; y < this.boardSize; y++) {
-            for (let x = 0; x <= y; x++) {
-                cells.push(this.coords2algebraic(x, y));
-            }
-        }
-        return cells;
+        return this.graph.listCells() as string[];
     }
 
     private spacesLeft(): string[] {
@@ -247,7 +193,7 @@ export class YGame extends GameBase {
         return empties;
     }
 
-    private get graph(): UndirectedGraph {
+    private buildGraph(): UndirectedGraph {
         const g = new UndirectedGraph();
         for (const cell of this.getAllCells()) {
             if (!g.hasNode(cell)) {
@@ -265,21 +211,31 @@ export class YGame extends GameBase {
         return g;
     }
 
-    private get edges(): string[][] {
+    private get edges(): string[][] { // TODO
         const left: string[] = [];
         const right: string[] = [];
         const bottom: string[] = [];
 
-        for (const cell of this.getAllCells()) {
-            const [x, y] = this.algebraic2coords(cell);
-            if (x === 0) {
-                left.push(cell);
+        if (this.variants.includes("bent")) {
+            // on the bent board, all edges are on the outer circle (which is 'row' a)
+            const size = this.boardSize;
+            for (let i=0; i<size; i++) {
+                left.push(  `a${         i + 1}`);
+                bottom.push(`a${  size + i    }`);
+                right.push( `a${2*size + i - 1}`);
             }
-            if (x === y) {
-                right.push(cell);
-            }
-            if (y === this.boardSize - 1) {
-                bottom.push(cell);
+        } else {
+            for (const cell of this.getAllCells()) {
+                const [x, y] = this.algebraic2coords(cell);
+                if (x === 0) {
+                    left.push(cell);
+                }
+                if (x === y) {
+                    right.push(cell);
+                }
+                if (y === this.boardSize - 1) {
+                    bottom.push(cell);
+                }
             }
         }
 
@@ -402,7 +358,8 @@ export class YGame extends GameBase {
             moveGroups.set(cell, []);
         }
 
-        const g = this.graph; // graph with the cell connections of the current player
+        //const g = (this.graph as HexTriGraph).graph; // graph with the cell connections of the current player
+        const g = this.buildGraph(); // graph with the cell connections of the current player
         for (const cell of this.getAllCells()) {
             if ( !this.board.has(cell) || this.board.get!(cell) !== this.currplayer ) {
                 g.dropNode(cell);
@@ -490,7 +447,7 @@ export class YGame extends GameBase {
             if (this.stack.length === 2) { nPlacements = 3; }
             result.complete = moves.length === nPlacements || this.spacesLeft().length === moves.length ? 1 : -1;
             result.canrender = true;
-            if ( moves.length === this.stack.length ) {
+            if ( moves.length === nPlacements ) {
                 result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             } else {
                 result.message = i18next.t("apgames:validation.y.VALID_MOVE_PROGRESSIVE",
@@ -520,6 +477,7 @@ export class YGame extends GameBase {
 
             result.valid = true;
             result.complete = 1;
+            result.canrender = true;
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
         }
 
@@ -610,7 +568,7 @@ export class YGame extends GameBase {
         if (player === undefined) {
             player = this.currplayer;
         }
-        const g = this.graph;
+        const g = this.buildGraph();
         for (const cell of this.getAllCells()) {
             if ( !this.board.has(cell) || this.board.get!(cell) !== player ) {
                 g.dropNode(cell);
@@ -675,10 +633,10 @@ export class YGame extends GameBase {
     public render(): APRenderRep {
         // Build piece string
         const pstr: string[][] = [];
-        for (let y = 0; y < this.boardSize; y++) {
+        const cells = this.graph.listCells(true);
+        for (const row of cells) {
             const pieces: string[] = [];
-            for (let x = 0; x <= y; x++) {
-                const cell = this.coords2algebraic(x, y);
+            for (const cell of row) {
                 if (this.board.has(cell)) {
                     const owner = this.board.get(cell)!;
                     if (owner === 1) {
@@ -693,15 +651,19 @@ export class YGame extends GameBase {
             pstr.push(pieces);
         }
 
+        const isBent: boolean = this.variants.includes("bent");
+
         // Build rep
         const rep: APRenderRep =  {
-            options: ["reverse-letters"],
-            board: {
+            options: isBent ? undefined : ["reverse-letters"],
+            board: isBent ? { style: "bent-tri",   width: this.boardSize } :
+                            { style: "hex-of-hex", minWidth: 1, maxWidth: this.boardSize, half: "top" },
+            /*board: {
                 style: "hex-of-hex",
                 minWidth: 1,
                 maxWidth: this.boardSize,
                 half: "top",
-            },
+            },*/
             legend: {
                 A: { name: "piece", colour: 1 },
                 B: { name: "piece", colour: 2 },

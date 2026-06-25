@@ -80,9 +80,9 @@ export class BentTriGraph implements IGraph {
         return g;
     }
 
-    /** x = ring index (0 = outer), y = clockwise position index within the ring. */
+    /** y = ring index (0 = outer), x = clockwise position index within the ring. */
     public coords2algebraic(x: number, y: number): string {
-        return indexToColumnLabel(x) + (y + 1).toString();
+        return indexToColumnLabel(y) + (x + 1).toString();
     }
 
     public algebraic2coords(cell: string): [number, number] {

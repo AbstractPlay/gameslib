@@ -295,6 +295,20 @@ export class SquirmGame extends GameBase {
             return result;
         }
 
+        try {
+            this.graph.algebraic2coords(m);
+        } catch {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.INVALIDCELL", { cell: m });
+            return result;
+        }
+
+        if ( this.board.has(m) ) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.OCCUPIED", { where: m });
+            return result;
+        }
+
         const allMoves = this.moves();
         if (! allMoves.includes(m)) {
             result.valid = false;

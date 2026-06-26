@@ -3615,6 +3615,9 @@
             "size-21": {
                 "name": "Size-21 board"
             },
+            "size-25": {
+                "name": "Size-25 board"
+            },
             "#boardtype": {
                 "name": "Triangular board"
             },

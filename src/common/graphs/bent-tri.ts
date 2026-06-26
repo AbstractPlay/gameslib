@@ -14,7 +14,7 @@ const parseAlgebraic = (cell: string): [number, number] => {
     if (isNaN(pos) || pos < 0) {
         throw new Error(`Invalid position: ${match[2]}`);
     }
-    return [ring, pos];
+    return [pos, ring];
 };
 
 export type BentTriNodeData = {
@@ -61,7 +61,7 @@ export class BentTriGraph implements IGraph {
             if (nodeId === undefined) {
                 throw new Error(`Missing algebraic label for vertex ${vertex.id}`);
             }
-            const [ring, pos] = parseAlgebraic(nodeId);
+            const [pos, ring] = parseAlgebraic(nodeId);
             g.addNode(nodeId, {
                 id: vertex.id,
                 ring,
@@ -94,7 +94,7 @@ export class BentTriGraph implements IGraph {
             return this.graph.nodes();
         }
         return this.topo.gridLayers.map((layer, ring) =>
-            layer.map((_, pos) => this.coords2algebraic(ring, pos)),
+            layer.map((_, pos) => this.coords2algebraic(pos, ring)),
         );
     }
 

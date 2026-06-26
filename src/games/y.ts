@@ -9,9 +9,21 @@ import { connectedComponents } from "graphology-components";
 import { bidirectional } from "graphology-shortest-path";
 import i18next from "i18next";
 
+/* [note for future board additions]
+   In their 1975 book "Mudcrack Y & Poly-Y", the game designers introduced the **mudcrack principle**
+   stating that connection games can be played on a wide range of progressively elaborate boards.
+
+   This implementation tries to follow this principle. To include a new board topology:
+
+   * Add the new class graph to the imports (a class that implements IGraph)
+   * Append this new type to attribute `graph`
+   * Includes a condition to method `getGraph` returning an object of the new class
+   * Includes a condition to method `edges` defining the sets of cells for each edge
+   * Update the keys `options` and `board` of rep:APRenderRep in method `render`
+   * Add the new variant at `apgames.json`
+*/
+
 type playerid = 1|2;
-//type Directions = "NE"|"E"|"SE"|"SW"|"W"|"NW";
-//const allDirections: Directions[] = ["NE", "E", "SE", "SW", "W", "NW"];
 
 interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -61,6 +73,7 @@ export class YGame extends GameBase {
             { uid: "size-15", group: "board" },
             { uid: "size-19", group: "board" },
             { uid: "size-21", group: "board" },
+            { uid: "size-25", group: "board" },
             { uid: "#ruleset", }, // standard rules
             { uid: "12-free",     group: "ruleset" }, // 12* move variant, no restrictions
             { uid: "134-group",   group: "ruleset" }, // 134* move variant with group restriction
@@ -213,7 +226,7 @@ export class YGame extends GameBase {
         return g;
     }
 
-    private get edges(): string[][] { // TODO
+    private get edges(): string[][] {
         const left: string[] = [];
         const right: string[] = [];
         const bottom: string[] = [];
@@ -226,6 +239,7 @@ export class YGame extends GameBase {
                 bottom.push(`a${  size + i    }`);
                 right.push( `a${2*size + i - 1}`);
             }
+            right.push("a1"); // third edge wraps back to a1
         } else {
             for (const cell of this.getAllCells()) {
                 const [x, y] = this.algebraic2coords(cell);
@@ -240,7 +254,6 @@ export class YGame extends GameBase {
                 }
             }
         }
-
         return [left, right, bottom];
     }
 

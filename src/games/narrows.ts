@@ -143,7 +143,7 @@ export class NarrowsGame extends GameBase {
                 throw new Error(`Could not determine the board size from variant "${this.variants[0]}"`);
             }
         }
-        return 8;
+        return 12;
     }
 
     public get graph(): SquareOrthGraph {

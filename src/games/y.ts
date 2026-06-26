@@ -79,7 +79,7 @@ export class YGame extends GameBase {
             { uid: "134-group",   group: "ruleset" }, // 134* move variant with group restriction
             { uid: "progressive", group: "ruleset" }, // progressive variant with group restriction
             { uid: "#boardtype", }, // triangular board
-            { uid: "bent", group: "boardtype", experimental: true },
+            { uid: "bent", group: "boardtype"},
         ],
         categories: ["goal>connect", "mechanic>place",  "board>shape>tri", "board>connect>hex", "components>simple>1per"],
         flags: ["pie"],

@@ -4,6 +4,7 @@ import { AmazonsGame, IAmazonsState } from "./amazons";
 import { BlamGame, IBlamState } from "./blam";
 import { CannonGame, ICannonState } from "./cannon";
 import { MchessGame, IMchessState } from "./mchess";
+import { BloodKingGame, IBloodKingState } from "./bloodking";
 import { HomeworldsGame, IHomeworldsState } from "./homeworlds";
 import { EntropyGame, IEntropyState } from "./entropy";
 import { VolcanoGame, IVolcanoState } from "./volcano";
@@ -278,6 +279,7 @@ export {
     BlamGame, IBlamState,
     CannonGame, ICannonState,
     MchessGame, IMchessState,
+    BloodKingGame, IBloodKingState,
     HomeworldsGame, IHomeworldsState,
     EntropyGame, IEntropyState,
     VolcanoGame, IVolcanoState,
@@ -548,7 +550,7 @@ export {
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
-                              typeof MchessGame | typeof HomeworldsGame | typeof EntropyGame |
+                              typeof MchessGame | typeof BloodKingGame | typeof HomeworldsGame | typeof EntropyGame |
                               typeof VolcanoGame | typeof MvolcanoGame | typeof ChaseGame |
                               typeof AbandeGame | typeof CephalopodGame | typeof LinesOfActionGame |
                               typeof PikemenGame | typeof OrdoGame | typeof AttangleGame |
@@ -642,7 +644,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                 >();
 // Manually add each game to the following array
 [
-    AmazonsGame, BlamGame, CannonGame, MchessGame, HomeworldsGame, EntropyGame,
+    AmazonsGame, BlamGame, CannonGame, MchessGame, BloodKingGame, HomeworldsGame, EntropyGame,
     VolcanoGame, MvolcanoGame, ChaseGame, AbandeGame, CephalopodGame, LinesOfActionGame,
     PikemenGame, OrdoGame, AttangleGame, AccastaGame, EpamGame, TaijiGame, BreakthroughGame,
     FabrikGame, ManalathGame, UrbinoGame, FendoGame, ArchimedesGame, ZolaGame, MonkeyQueenGame,
@@ -700,6 +702,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new CannonGame(...args);
         case "mchess":
             return new MchessGame(...args);
+        case "bloodking":
+            return new BloodKingGame(...args);
         case "homeworlds":
             return new HomeworldsGame(args[0], ...args.slice(1));
         case "entropy":

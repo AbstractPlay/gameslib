@@ -2,6 +2,7 @@
 import "mocha";
 import { expect } from "chai";
 import { BentTriGraph } from "../../../src/common";
+import { buildGridLayers, bentTriBoard } from "../../../src/common/bentTri";
 
 describe("BentTriGraph", () => {
     it("should produce expected vertex and edge counts at frequency 8", () => {
@@ -42,20 +43,67 @@ describe("BentTriGraph", () => {
 
     it("should include every vertex in the playable grid", () => {
         for (const n of [2, 3, 4, 5, 6, 7, 8, 9, 10, 18]) {
-            const graph = new BentTriGraph(n+1);
+            const graph = new BentTriGraph(n + 1);
             const inGrid = new Set(graph.topo.gridLayers.flatMap(layer => layer.map(v => v.id)));
             const missing = graph.topo.vertices.filter(v => !inGrid.has(v.id)).map(v => v.id);
             expect(missing, `n=${n}`).to.deep.equal([]);
         }
     });
 
+    it("should partition every vertex into exactly one grid ring", () => {
+        for (const n of Array.from({ length: 17 }, (_, i) => i + 2)) {
+            const topo = bentTriBoard(n);
+            const seen = new Set<number>();
+            const duplicates: number[] = [];
+
+            for (const layer of buildGridLayers(topo)) {
+                for (const vertex of layer) {
+                    if (seen.has(vertex.id)) {
+                        duplicates.push(vertex.id);
+                    }
+                    seen.add(vertex.id);
+                }
+            }
+
+            expect(duplicates, `n=${n}`).to.deep.equal([]);
+            expect(seen.size, `n=${n}`).to.equal(topo.vertices.length);
+        }
+    });
+
     it("should order frequency-4 grid layers outside-in from the apex", () => {
         const graph = new BentTriGraph(5);
-        expect(graph.listCells(true)).to.deep.equal([
-            ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10", "a11", "a12"],
-            ["b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8", "b9"],
-            ["c1", "c2", "c3", "c4", "c5", "c6"],
+        const rowIds = (graph.listCells(true) as string[][]).map(layer =>
+            layer.map(cell => graph.graph.getNodeAttributes(cell).id),
+        );
+        expect(rowIds[0]).to.deep.equal([15, 16, 18, 20, 10, 11, 12, 13, 14, 26, 24, 22]);
+        expect(rowIds[1]).to.deep.equal([17, 19, 21, 6, 7, 8, 9, 25, 23]);
+        expect(rowIds[2]).to.deep.equal([0, 1, 3, 4, 5, 2]);
+    });
+
+    it("should order frequency-8 outer ring clockwise from the apex", () => {
+        const graph = new BentTriGraph(9);
+        const outerIds = graph.topo.gridLayers[0]!.map(v => v.id);
+        expect(outerIds[0]).to.equal(45);
+        expect(outerIds).to.deep.equal([
+            45, 46, 48, 51, 55, 59, 63, 67,
+            36, 37, 38, 39, 40, 41, 42, 43, 44,
+            92, 88, 84, 80, 76, 73, 71,
         ]);
+        expect(graph.topo.gridLayers[5]!.map(v => v.id)).to.deep.equal([4, 7, 8]);
+    });
+
+    it("should order frequency-9 grid with the hub shell on ring e", () => {
+        const graph = new BentTriGraph(10);
+        const rowIds = graph.topo.gridLayers.map(layer => layer.map(v => v.id));
+        expect(rowIds[4]).to.deep.equal([
+            0, 1, 3, 6, 10, 15, 16, 17, 18, 19, 20, 14, 9, 5, 2,
+        ]);
+        expect(rowIds[5]).to.deep.equal([4, 7, 11, 12, 13, 8]);
+        expect(graph.listCells(true)![4]).to.deep.equal([
+            "e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10",
+            "e11", "e12", "e13", "e14", "e15",
+        ]);
+        expect(graph.listCells(true)![5]).to.deep.equal(["f1", "f2", "f3", "f4", "f5", "f6"]);
     });
 
     it("should round-trip algebraic notation", () => {

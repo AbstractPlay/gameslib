@@ -1,5 +1,6 @@
 import { Edge } from "./Edge";
 import { Vertex } from "./Vertex";
+import { buildGridLayers } from "./gridLayers";
 import {
     type LatticeRef,
     type Point,
@@ -144,7 +145,7 @@ export class Graph {
         this.wireAdjacency();
         this.remarkOuterVertices();
         this.buildLayersFromBaseCopy(n, refToVid);
-        this.buildGridLayers(n, overlapRows, refToVid);
+        this.gridLayers = buildGridLayers(this);
     }
 
     /**
@@ -384,126 +385,6 @@ export class Graph {
             }
             this.layers.push(layer);
         }
-    }
-
-    /**
-     * Step 10: grid rings outside-in, clockwise from the northmost (apex) vertex.
-     *
-     * Each perimeter ring walks:
-     *   copy-1 spine (right wing) → copy-0 base row → copy-2 hypotenuse (left wing).
-     * The innermost ring is the small copy-0 hub triangle.
-     */
-    private buildGridLayers(
-        n: number,
-        overlapRows: number,
-        refToVid: Map<string, number>,
-    ): void {
-        const vid = (copy: number, row: number, col: number): number | undefined =>
-            refToVid.get(refKey({ copy, row, col }));
-
-        const rings = Math.ceil(n / 2);
-        const layers: Vertex[][] = [];
-
-        for (let gr = 0; gr <= rings; gr++) {
-            const seen = new Set<number>();
-            const ring: Vertex[] = [];
-            const add = (id: number | undefined): void => {
-                if (id === undefined || seen.has(id)) {
-                    return;
-                }
-                seen.add(id);
-                ring.push(this.vertices[id]);
-            };
-
-            if (gr === rings) {
-                // Innermost playable triangle on the base copy.
-                add(vid(0, 0, 0));
-                for (let row = 1; row < gr; row++) {
-                    add(vid(0, row, 0));
-                }
-                for (let col = 0; col <= gr; col++) {
-                    add(vid(0, gr, col));
-                }
-                for (let row = gr - 1; row >= 1; row--) {
-                    add(vid(0, row, row));
-                }
-            } else {
-                // Copy-1 spine descending the right wing (full length to outer edge).
-                for (let row = gr; row <= n - 1; row++) {
-                    add(vid(1, row, gr));
-                }
-
-                const baseRow = n - gr;
-
-                // Copy-0 base row (skip cap rows that are not part of this ring).
-                if (baseRow >= overlapRows) {
-                    for (let col = 0; col <= baseRow; col++) {
-                        add(vid(0, baseRow, col));
-                    }
-                }
-
-                // Copy-2 hypotenuse ascending the left wing (full length from outer edge).
-                for (let row = n - 1; row >= gr + 1; row--) {
-                    add(vid(2, row, row - gr));
-                }
-            }
-
-            layers.push(ring);
-        }
-
-        // Copy-0 hub interior: concentric triangles inside the overlap cap.
-        let spineCol = 1;
-        let bottomRow = overlapRows - 2;
-
-        while (true) {
-            const topRow = 2 * spineCol;
-            if (topRow >= bottomRow) {
-                break;
-            }
-
-            const seen = new Set<number>();
-            const hubRing: Vertex[] = [];
-            const addHub = (id: number | undefined): void => {
-                if (id === undefined || seen.has(id)) {
-                    return;
-                }
-                seen.add(id);
-                hubRing.push(this.vertices[id]);
-            };
-
-            for (let row = topRow; row <= bottomRow; row++) {
-                addHub(vid(0, row, spineCol));
-            }
-            for (let col = spineCol; col <= bottomRow - spineCol; col++) {
-                addHub(vid(0, bottomRow, col));
-            }
-            const diagSteps = bottomRow - topRow;
-            for (let i = 0; i <= diagSteps; i++) {
-                addHub(vid(0, topRow + i, spineCol + i));
-            }
-
-            if (hubRing.length > 0) {
-                layers.push(hubRing);
-            }
-
-            spineCol++;
-            bottomRow--;
-        }
-
-        const centerRow = 2 * spineCol;
-        if (centerRow >= bottomRow) {
-            const centerId = vid(0, centerRow, spineCol);
-            if (centerId !== undefined) {
-                const alreadyInGrid = layers.some(layer =>
-                    layer.some(vertex => vertex.id === centerId),
-                );
-                if (!alreadyInGrid) {
-                    layers.push([this.vertices[centerId]]);
-                }
-            }
-        }
-
-        this.gridLayers = layers;
     }
 
     public toString = (): string => {

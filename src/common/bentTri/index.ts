@@ -10,8 +10,9 @@ import { Graph, type BentTriOptions } from "./Graph";
 import { Vertex } from "./Vertex";
 import { Edge } from "./Edge";
 import { overlapRowsFor } from "./lattice";
+import { buildGridLayers, northApexId } from "./gridLayers";
 
-export { Vertex, Edge, Graph, overlapRowsFor };
+export { Vertex, Edge, Graph, overlapRowsFor, buildGridLayers, northApexId };
 export type { BentTriOptions };
 
 export const bentTriBoard = (frequency: number, opts?: BentTriOptions): Graph => {

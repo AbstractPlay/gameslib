@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { Direction, RectGrid } from "../common";
 import { SquareFanoronaGraph } from "../common/graphs";
 import { APMoveResult } from "../schemas/moveresults";

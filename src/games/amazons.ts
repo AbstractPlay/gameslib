@@ -1,7 +1,7 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { Direction } from "../common";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from 'graphology-shortest-path/unweighted';

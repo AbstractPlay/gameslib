@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, MarkerDots, MarkerGlyph } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, MarkerDots, MarkerGlyph } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, shuffle, UserFacingError } from "../common";
 import { connectedComponents } from 'graphology-components';

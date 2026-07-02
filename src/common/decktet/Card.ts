@@ -1,5 +1,5 @@
 import { Component, ranks, suits } from "./Component";
-import { Colourfuncs, Glyph } from "@abstractplay/renderer/src/schemas/schema";
+import { Colourfuncs, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 
 export type Params = {
     name: string;

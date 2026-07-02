@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, AreaPieces, Glyph, MarkerFlood, MarkerGlyph } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AreaPieces, Glyph, MarkerFlood, MarkerGlyph } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, SquareDirectedGraph, UserFacingError, Direction as Direction, allDirections, normDeg, smallestDegreeDiff, deg2dir, dir2deg } from "../common";
 import i18next from "i18next";

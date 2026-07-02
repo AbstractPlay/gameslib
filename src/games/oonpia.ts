@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, AreaKey, BoardBasic, Colourfuncs } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AreaKey, BoardBasic, Colourfuncs } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { randomInt, reviver, UserFacingError } from "../common";
 import i18next from "i18next";

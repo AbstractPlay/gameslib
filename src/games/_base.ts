@@ -2,7 +2,7 @@
 /* eslint-disable no-prototype-builtins */
 
 import { APGamesInformation, AlternativeDisplay, Variant } from '../schemas/gameinfo';
-import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from '../schemas/moveresults';
 import { APGameRecord } from "@abstractplay/recranks/src";
 import { algebraic2coords, coords2algebraic, replacer, sortingReplacer, UserFacingError } from '../common';

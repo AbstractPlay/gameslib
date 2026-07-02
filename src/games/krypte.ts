@@ -5,7 +5,7 @@ import { DirectionCardinal, allDirections, oppositeDirections, RectGrid, reviver
 import i18next from "i18next";
 import { InARowBase } from "./in_a_row/InARowBase";
 import { APRenderRep } from "@abstractplay/renderer";
-import { MarkerEdge } from "@abstractplay/renderer/src/schemas/schema";
+import { MarkerEdge } from "@abstractplay/renderer/build/schemas/schema";
 
 type playerid = 1 | 2;
 

@@ -1,7 +1,7 @@
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { shuffle, SquareGraph, SquareOrthGraph } from "../common";
-import { APRenderRep, AreaPieces, Glyph, MarkerFlood, RowCol } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AreaPieces, Glyph, MarkerFlood, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";

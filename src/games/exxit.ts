@@ -2,7 +2,7 @@
 import { defineHex, Orientation } from "honeycomb-grid";
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IStashEntry } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, BoardBasic } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import { CompassDirection, hexNeighbours, nextHex, bearing as calcBearing } from "../common/hexes";

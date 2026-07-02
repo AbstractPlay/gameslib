@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, AnnotationFreespace, BoardFreespace, Freepiece, MarkerPath } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AnnotationFreespace, BoardFreespace, Freepiece, MarkerPath } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Board } from "./calculus/board";
 import { Piece, type RelativePos, type Quadrant } from "./calculus/piece";

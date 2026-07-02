@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, MarkerOutline, RowCol } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, MarkerOutline, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, SquareOrthGraph, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -8,7 +8,7 @@ import { CubeoBoard } from "./cubeo/board";
 import { CubeoDie } from "./cubeo/die";
 import { UndirectedGraph } from "graphology/dist/graphology";
 import { Combination } from "js-combinatorics";
-import { Glyph } from "@abstractplay/renderer/build";
+import { Glyph } from "@abstractplay/renderer";
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");

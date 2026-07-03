@@ -419,7 +419,7 @@ export class CarnacGame extends GameBase {
         if (this.phase === "tip" && this.pending !== null) {
             const buttons: ICustomButton[] = [];
             for (const dir of this.validTipDirections(this.pending)) {
-                buttons.push({ label: `tip_${dir.toLowerCase()}`, move: `>${dir.toLowerCase()}` });
+                buttons.push({ label: `carnac.tip_${dir.toLowerCase()}`, move: `>${dir.toLowerCase()}` });
             }
             if (buttons.length > 0) {
                 buttons.push({ label: "pass", move: "pass" });

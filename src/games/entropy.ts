@@ -1,7 +1,7 @@
 // import { IGame } from "./IGame";
 import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IStatus, IStashEntry, IScores, IValidationResult, IRenderOpts } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, BoardEntropy, Glyph } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardEntropy, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import { RectGrid } from "../common";
 import { Direction } from "../common";
 import { APMoveResult } from "../schemas/moveresults";

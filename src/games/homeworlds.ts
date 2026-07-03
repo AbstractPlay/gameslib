@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { AnnotationHomeworlds, APRenderRep, AreaHWStash, BoardHomeworlds, Glyph } from "@abstractplay/renderer/src/schemas/schema";
+import { AnnotationHomeworlds, APRenderRep, AreaHWStash, BoardHomeworlds, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Ship, System, Stash } from "./homeworlds/";
 import { reviver } from "../common";

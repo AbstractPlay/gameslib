@@ -1,7 +1,7 @@
 import { Direction, Grid, rectangle, defineHex, Orientation } from "honeycomb-grid";
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, BoardBasic, RowCol } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError, shuffle } from "../common";
 import i18next from "i18next";

@@ -71,7 +71,7 @@ export class HexMoonGraph implements IGraph {
 
             const rowLetter = indexToColumnLabel(rowIdx);
             if (rowLetter === "e" && x > 5) {
-                return [x, this.height - rowIdx - 1];
+                return [x+1, this.height - rowIdx - 1];
             }
             return [x - 1, this.height - rowIdx - 1];
         }

@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, AreaButtonBar, AreaPieces, AreaKey, ButtonBarButton, Glyph, MarkerFlood, MarkerOutline, RowCol } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AreaButtonBar, AreaPieces, AreaKey, ButtonBarButton, Glyph, MarkerFlood, MarkerOutline, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { randomInt, reviver, UserFacingError } from "../common";
 import i18next from "i18next";

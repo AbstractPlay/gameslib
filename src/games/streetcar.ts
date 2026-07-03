@@ -1,7 +1,7 @@
 import { Direction, Grid, rectangle, defineHex, Orientation, Hex } from "honeycomb-grid";
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, BoardBasic, MarkerFence } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic, MarkerFence } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError, shuffle, oppositeDirections } from "../common";
 import { CompassDirection, IEdge, IVertex, edge2hexes, edge2verts, hex2edges, vert2edges, vert2hexes } from "../common/hexes";

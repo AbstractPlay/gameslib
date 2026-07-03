@@ -1,7 +1,7 @@
 
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import type { APRenderRep, Polymatrix } from "@abstractplay/renderer/src/schemas/schema";
+import type { APRenderRep, Polymatrix } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Piece } from "./four/piece";
 import { reviver, UserFacingError, matrixRectRot90, matrixRectRotN90, x2uid } from "../common";

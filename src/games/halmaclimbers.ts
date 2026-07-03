@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, RowCol, MarkerFlood } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, RowCol, MarkerFlood } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError, HexTriGraph } from "../common";
 import { HexDir } from "../common/graphs/hextri";

@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import type { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import type { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Piece } from "./fightopia/piece";
 import { RectGrid, reviver, UserFacingError } from "../common";

@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IStatus, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { allDirections, IPoint, RectGrid, reviver, SquareDirectedGraph, UserFacingError } from "../common";
 import i18next from "i18next";

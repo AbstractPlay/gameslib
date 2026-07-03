@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, BoardBasic } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { BaoGraph, reviver, UserFacingError } from "../common";
 import type { IRenderOpts, IScores } from "./_base";

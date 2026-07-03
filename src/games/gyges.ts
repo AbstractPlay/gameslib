@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, AreaPieces, RowCol } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AreaPieces, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, shuffle, UserFacingError } from "../common";
 import { GygesGraph } from "./gyges/graph";

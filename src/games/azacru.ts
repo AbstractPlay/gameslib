@@ -1,11 +1,11 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { deg2dir, dir2deg, Direction, normDeg, RectGrid, replacer, reviver, rotateFacing, smallestDegreeDiff, UserFacingError } from "../common";
 import i18next from "i18next";
 import { PacruGraph } from "./pacru/graph";
-import { Glyph } from "@abstractplay/renderer/build";
+import { Glyph } from "@abstractplay/renderer";
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const Buffer = require('buffer/').Buffer  // note: the trailing slash is important!
 import pako, { Data } from "pako";

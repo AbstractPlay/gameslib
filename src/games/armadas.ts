@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, AnnotationFreespace, BoardFreespace, Freepiece, Glyph, MarkerFreespaceGlyph, MarkerPath } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AnnotationFreespace, BoardFreespace, Freepiece, Glyph, MarkerFreespaceGlyph, MarkerPath } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Ship } from "./armadas/ship";
 import { IPoint, calcBearing, projectPoint, reviver, smallestDegreeDiff } from "../common";

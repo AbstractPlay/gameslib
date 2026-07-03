@@ -87,7 +87,7 @@ export class CarnacGame extends GameBase {
         ],
         displays: [{ uid: "flat" }],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>displace", "board>3d", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["scores", "shared-stash", "automove", "custom-buttons", "experimental"],
+        flags: ["scores", "automove", "custom-buttons", "experimental"],
     };
 
     public numplayers = 2;

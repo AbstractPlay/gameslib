@@ -970,8 +970,8 @@ export class CarnacGame extends GameBase {
             };
         }
 
-        const showPlacementKey = this.phase === "place" && !this.forcedPass && !this.gameover
-            && perspective !== undefined;
+        // const showPlacementKey = this.phase === "place" && !this.forcedPass && !this.gameover && perspective !== undefined;
+        const showPlacementKey = true;
 
         if (showPlacementKey) {
             const keyOrients: [string, string, Orient][] = isIso

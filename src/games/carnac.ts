@@ -939,6 +939,7 @@ export class CarnacGame extends GameBase {
                 renderer: "isometric",
                 board: {
                     style: "squares",
+                    projection: "shallow",
                     width: this.width,
                     height: this.height,
                 },

@@ -878,10 +878,10 @@ export class CarnacGame extends GameBase {
 
     public render(opts?: IRenderOpts): APRenderRep {
         let altDisplay: string | undefined;
-        let perspective: number | undefined;
+        // let perspective: number | undefined;
         if (opts !== undefined) {
             altDisplay = opts.altDisplay;
-            perspective = opts.perspective;
+            // perspective = opts.perspective;
         }
         let isIso = true;
         if (altDisplay === "flat") {

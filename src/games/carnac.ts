@@ -1023,18 +1023,7 @@ export class CarnacGame extends GameBase {
                 if (r.type === "place") {
                     const [x, y] = this.algebraic2coords(r.where!);
                     if (isIso) {
-                        const marker: MarkerDots = {
-                            type: "dots",
-                            points: [{row: y, col: x}],
-                            colour: {
-                                func: "bestContrast",
-                                bg: "_context_board",
-                                fg: ["#00aa00", "#ffffff"],
-                            },
-                            opacity: 0.55,
-                            size: 0.35,
-                        };
-                        (rep.board as BoardBasic).markers = [...((rep.board as BoardBasic).markers ?? []), marker];
+                        rep.annotations.push({ type: "dots", targets: [{ row: y, col: x }], size: 0.3 });
                     } else {
                         rep.annotations.push({ type: "enter", targets: [{ row: y, col: x }] });
                     }

@@ -146,6 +146,7 @@ import { MajoritiesGame, IMajoritiesState } from "./majorities";
 import { BukuGame, IBukuState } from "./buku";
 import { TritiumGame, ITritiumState } from "./tritium";
 import { CamelotGame, ICamelotState } from "./camelot";
+import { CarnacGame, ICarnacState } from "./carnac";
 import { LifelineGame, ILifelineState } from "./lifeline";
 import { ShiftyGame, IShiftyState } from "./shifty";
 import { PodsGame, IPodsState } from "./pods";
@@ -420,6 +421,7 @@ export {
     BukuGame, IBukuState,
     TritiumGame, ITritiumState,
     CamelotGame, ICamelotState,
+    CarnacGame, ICarnacState,
     LifelineGame, ILifelineState,
     ShiftyGame, IShiftyState,
     PodsGame, IPodsState,
@@ -638,7 +640,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof PositGame | typeof VirusWarGame | typeof FormsGame |
                               typeof CompartGame | typeof AkimboGame | typeof CrossControlGame |
                               typeof UnstackGame | typeof SwarmGame | typeof EatYourNeighborGame |
-                              typeof MutternlandGame | typeof IntermediumGame | typeof StapeldammenGame
+                              typeof MutternlandGame | typeof IntermediumGame | typeof StapeldammenGame |
+                              typeof CarnacGame
                 >();
 // Manually add each game to the following array
 [
@@ -662,7 +665,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     SpookGame, AyuGame, CalculusGame, StigmergyGame, PletoreGame, AnacheGame, SplineGame,
     SploofGame, SpireGame, SpreeGame, AsliGame, ConectGame, SlydeGame, UnlurGame, EntrapmentGame,
     HexentaflGame, VoloGame, StrandsGame, GonnectGame, BugGame, DragonEyesGame, AtaxxGame,
-    MajoritiesGame, BukuGame, TritiumGame, CamelotGame, LifelineGame, ShiftyGame, PodsGame, LoxGame,
+    MajoritiesGame, BukuGame, TritiumGame, CamelotGame, CarnacGame, LifelineGame, ShiftyGame, PodsGame, LoxGame,
     QueryGame, ControlGame, BoxesGame, ConnectionsGame, ResolveGame, OnyxGame, AltaGame,
     HulaGame, StibroGame, KonaneGame, BlastRadiusGame, FramesGame, LoggerGame, SubdivisionGame,
     PylonGame, MoonSquadGame, JacynthGame, Pigs2Game, TerraceGame, CubeoGame, StorisendeGame,
@@ -984,6 +987,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new TritiumGame(...args);
         case "camelot":
             return new CamelotGame(...args);
+        case "carnac":
+            return new CarnacGame(...args);
         case "lifeline":
             return new LifelineGame(...args);
         case "shifty":

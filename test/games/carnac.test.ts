@@ -263,6 +263,20 @@ describe("Carnac", () => {
         expect(diag.valid).to.be.false;
     });
 
+    it("renders partial tip moves without failsafe", () => {
+        const g = new CarnacGame();
+        g.move("12-a1");
+        expect(() => g.move(">e")).to.not.throw();
+        expect(g.phase).to.equal("place");
+        expect(g.board.has("a1")).to.be.false;
+        expect(g.board.has("b1")).to.be.true;
+
+        const g2 = new CarnacGame();
+        g2.move("12-a1");
+        expect(() => g2.move(">e,12")).to.not.throw();
+        expect(g2.phase).to.equal("place");
+    });
+
     it("preserves valid tip after illegal post-tip placement click", () => {
         const g = new CarnacGame();
         g.move("11-a1");
@@ -274,6 +288,7 @@ describe("Carnac", () => {
         expect(illegal.valid).to.be.false;
         expect(illegal.move).to.equal(">n");
         expect(illegal.canrender).to.be.true;
+        expect(() => g.move(illegal.move)).to.not.throw();
 
         const g2 = new CarnacGame();
         g2.move("11-a1");

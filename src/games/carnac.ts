@@ -881,7 +881,11 @@ export class CarnacGame extends GameBase {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message);
             }
             if (!partial && !this.moves().includes(m)) {
-                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", { move: m }));
+                // Prefix-valid tip moves (complete 0 or -1) are for rendering only.
+                if (result.complete === 1) {
+                    throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", { move: m }));
+                }
+                partial = true;
             }
         }
 

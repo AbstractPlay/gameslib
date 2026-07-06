@@ -48,7 +48,6 @@ export interface IMoveState extends IIndividualState {
     board: Map<string, CellPiece>;
     phase: Phase;
     pending: PendingPlacement | null;
-    forcedPass: boolean;
     reserve: number;
     lastmove?: string;
 }
@@ -63,7 +62,7 @@ export class CarnacGame extends GameBase {
         name: "Carnac",
         uid: "carnac",
         playercounts: [2],
-        version: "20260707",
+        version: "20260708",
         dateAdded: "2026-07-02",
         description: "apgames:descriptions.carnac",
         notes: "apgames:notes.carnac",
@@ -95,7 +94,6 @@ export class CarnacGame extends GameBase {
     public board!: Map<string, CellPiece>;
     public phase: Phase = "place";
     public pending: PendingPlacement | null = null;
-    public forcedPass = false;
     public reserve = 28;
     public gameover = false;
     public winner: playerid[] = [];
@@ -120,7 +118,6 @@ export class CarnacGame extends GameBase {
                 board: new Map(),
                 phase: "place",
                 pending: null,
-                forcedPass: false,
                 reserve: 28,
             };
             this.stack = [fresh];
@@ -173,7 +170,6 @@ export class CarnacGame extends GameBase {
         this.board = new Map(state.board);
         this.phase = state.phase;
         this.pending = state.pending ? { ...state.pending } : null;
-        this.forcedPass = state.forcedPass;
         this.reserve = state.reserve;
         this.lastmove = state.lastmove;
         this.results = [...state._results];
@@ -385,37 +381,114 @@ export class CarnacGame extends GameBase {
         return moves;
     }
 
-    private tipMoves(): string[] {
+    private placementMovesAfterTip(dir: TipDir): string[] {
+        if (this.pending === null || this.reserve <= 0) {
+            return [];
+        }
+        const targets = this.tipTargets(this.pending.cell, dir);
+        if (targets === undefined) {
+            return [];
+        }
+        const [near, far] = targets;
+        const occupied = new Set(this.board.keys());
+        occupied.delete(this.pending.cell);
+        occupied.add(near);
+        occupied.add(far);
+
+        const moves: string[] = [];
+        for (let row = 0; row < this.height; row++) {
+            for (let col = 0; col < this.width; col++) {
+                const cell = this.coords2algebraic(col, row);
+                if (occupied.has(cell)) {
+                    continue;
+                }
+                for (const orient of this.validOrientsForCell(cell)) {
+                    moves.push(`${orient}-${cell}`);
+                }
+            }
+        }
+        return moves;
+    }
+
+    private tipAndPlaceMoves(): string[] {
         if (this.pending === null) {
             return [];
         }
         const moves: string[] = [];
         for (const dir of this.validTipDirections(this.pending)) {
-            moves.push(`>${dir.toLowerCase()}`);
+            for (const placement of this.placementMovesAfterTip(dir)) {
+                moves.push(`>${dir.toLowerCase()},${placement}`);
+            }
         }
-        if (moves.length > 0) {
+        if (this.validTipDirections(this.pending).length > 0) {
             moves.push("pass");
         }
         return moves;
+    }
+
+    private parseCompoundMove(m: string):
+        | { kind: "tip-only"; dir: TipDir }
+        | { kind: "tip-orient"; dir: TipDir; orient: Orient }
+        | { kind: "tip-place"; dir: TipDir; orient: Orient; cell: string }
+        | undefined {
+        if (!m.startsWith(">")) {
+            return undefined;
+        }
+        const comma = m.indexOf(",");
+        const tipPart = comma === -1 ? m : m.substring(0, comma);
+        const dir = tipPart.substring(1).toUpperCase() as TipDir;
+        if (!TIP_DIRS.includes(dir)) {
+            return undefined;
+        }
+        if (comma === -1) {
+            return { kind: "tip-only", dir };
+        }
+        const rest = m.substring(comma + 1);
+        const dash = rest.indexOf("-");
+        if (dash === -1) {
+            if (!ORIENTS.includes(rest as Orient)) {
+                return undefined;
+            }
+            return { kind: "tip-orient", dir, orient: rest as Orient };
+        }
+        const orient = rest.substring(0, dash) as Orient;
+        const cell = rest.substring(dash + 1);
+        if (!ORIENTS.includes(orient) || cell.length === 0) {
+            return undefined;
+        }
+        return { kind: "tip-place", dir, orient, cell };
+    }
+
+    private shouldRenderPartialTip(m: string): boolean {
+        const parsed = this.parseCompoundMove(m);
+        if (parsed === undefined) {
+            return false;
+        }
+        return parsed.kind === "tip-only" || parsed.kind === "tip-orient"
+            || (parsed.kind === "tip-place" && !this.moves().includes(m));
+    }
+
+    private applyPartialTip(m: string): void {
+        const parsed = this.parseCompoundMove(m);
+        if (parsed === undefined || this.pending === null) {
+            return;
+        }
+        const { from, near, far } = this.applyTipToBoard(parsed.dir);
+        this.results.push({ type: "move", from, to: `${near},${far}`, how: parsed.dir });
+        this.phase = "place";
     }
 
     public moves(): string[] {
         if (this.gameover) {
             return [];
         }
-        if (this.forcedPass) {
-            return ["pass"];
-        }
         if (this.phase === "tip") {
-            return this.tipMoves();
+            return this.tipAndPlaceMoves();
         }
         return this.placementMoves();
     }
 
     public getButtons(): ICustomButton[] {
-        if (this.forcedPass) {
-            return [{ label: "pass", move: "pass" }];
-        }
         if (this.phase === "tip" && this.pending !== null) {
             const buttons: ICustomButton[] = [];
             for (const dir of this.validTipDirections(this.pending)) {
@@ -554,7 +627,7 @@ export class CarnacGame extends GameBase {
                 newmove = "pass";
             } else if (piece !== undefined && piece.startsWith("_btn_tip_")) {
                 newmove = `>${piece.substring("_btn_tip_".length)}`;
-            } else if (this.phase === "place" && !this.forcedPass) {
+            } else if (this.phase === "place") {
                 const keyOrient = this.orientFromKeyClick(piece, move);
                 if (row < 0 || col < 0 || this.isPlacementKeyPiece(piece)) {
                     if (keyOrient === undefined) {
@@ -572,19 +645,29 @@ export class CarnacGame extends GameBase {
                         newmove = `${selected}-${cell}`;
                     }
                 }
-            } else if (this.phase === "tip" && this.pending !== null && !this.forcedPass) {
+            } else if (this.phase === "tip" && this.pending !== null) {
+                const keyOrient = this.orientFromKeyClick(piece, move);
+                const tipPrefix = move.match(/^(>[nesw])/);
                 if (piece !== undefined && ["n", "e", "s", "w"].includes(piece)) {
                     newmove = `>${piece}`;
-                } else {
-                    const dir = this.tipDirectionFromClick(this.pending.cell, row, col);
-                    if (dir === undefined) {
-                        return {
-                            move: "",
-                            valid: false,
-                            message: i18next.t("apgames:validation.carnac.TIP_OR_PASS"),
-                        };
+                } else if (keyOrient !== undefined && tipPrefix !== null) {
+                    newmove = `${tipPrefix[1]},${keyOrient}`;
+                } else if (row >= 0 && col >= 0) {
+                    const cell = this.coords2algebraic(col, row);
+                    const compound = move.match(/^(>[nesw]),(11|12|21|22)$/);
+                    if (compound !== null) {
+                        newmove = `${compound[1]},${compound[2]}-${cell}`;
+                    } else {
+                        const dir = this.tipDirectionFromClick(this.pending.cell, row, col);
+                        if (dir === undefined) {
+                            return {
+                                move: "",
+                                valid: false,
+                                message: i18next.t("apgames:validation.carnac.TIP_OR_PASS"),
+                            };
+                        }
+                        newmove = `>${dir.toLowerCase()}`;
                     }
-                    newmove = `>${dir.toLowerCase()}`;
                 }
             }
 
@@ -614,12 +697,13 @@ export class CarnacGame extends GameBase {
             return result;
         }
 
+        const allMoves = this.moves();
+        const matches = allMoves.filter(mv => mv.startsWith(m));
+
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            if (this.forcedPass) {
-                result.message = i18next.t("apgames:validation.carnac.FORCED_PASS");
-            } else if (this.phase === "tip") {
+            if (this.phase === "tip") {
                 result.message = i18next.t("apgames:validation.carnac.TIP_OR_PASS");
             } else {
                 result.message = i18next.t("apgames:validation.carnac.SELECT_ORIENTATION");
@@ -627,61 +711,66 @@ export class CarnacGame extends GameBase {
             return result;
         }
 
-        if (m === "pass") {
-            if (this.forcedPass) {
-                result.valid = true;
-                result.complete = 1;
-                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
-                return result;
-            }
-            if (this.phase !== "tip" || this.pending === null || this.validTipDirections(this.pending).length === 0) {
-                result.message = i18next.t("apgames:validation.carnac.INVALID_PASS");
-                return result;
-            }
+        if (allMoves.includes(m)) {
             result.valid = true;
             result.complete = 1;
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
+        }
+
+        if (this.phase === "place") {
+            if (ORIENTS.includes(m as Orient)) {
+                result.valid = true;
+                result.complete = -1;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation.carnac.SELECT_CELL");
+                return result;
+            }
+            if (matches.length > 0) {
+                result.valid = true;
+                result.complete = -1;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation.carnac.SELECT_CELL");
+                return result;
+            }
+        }
+
+        if (this.phase === "tip") {
+            if (matches.length > 0) {
+                result.valid = true;
+                if (/^>[nesw]$/.test(m)) {
+                    result.complete = 0;
+                    result.canrender = true;
+                    result.message = i18next.t("apgames:validation.carnac.TIP_THEN_PLACE");
+                } else if (/^>[nesw],(11|12|21|22)$/.test(m)) {
+                    result.complete = -1;
+                    result.canrender = true;
+                    result.message = i18next.t("apgames:validation.carnac.SELECT_CELL");
+                } else {
+                    result.complete = -1;
+                    result.canrender = /^>[nesw]/.test(m);
+                    result.message = i18next.t("apgames:validation.carnac.TIP_THEN_PLACE");
+                }
+                return result;
+            }
+        }
+
+        if (m === "pass") {
+            result.message = i18next.t("apgames:validation.carnac.INVALID_PASS");
             return result;
         }
 
         if (m.startsWith(">")) {
-            if (this.phase !== "tip" || this.pending === null || this.forcedPass) {
-                result.message = i18next.t("apgames:validation.carnac.NOT_TIP_PHASE");
-                return result;
-            }
-            const dir = m.substring(1).toUpperCase() as TipDir;
-            if (!TIP_DIRS.includes(dir)) {
-                result.message = i18next.t("apgames:validation.carnac.INVALID_TIP", { move: m });
-                return result;
-            }
-            if (!this.validTipDirections(this.pending).includes(dir)) {
-                result.message = i18next.t("apgames:validation.carnac.INVALID_TIP", { move: m });
-                return result;
-            }
-            result.valid = true;
-            result.complete = 1;
-            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            result.message = i18next.t("apgames:validation.carnac.INVALID_TIP", { move: m });
             return result;
         }
 
-        if (this.phase !== "place" || this.forcedPass) {
+        if (this.phase !== "place") {
             result.message = i18next.t("apgames:validation.carnac.NOT_PLACE_PHASE");
             return result;
         }
 
         const parts = m.split("-");
-        if (parts.length === 1) {
-            if (!ORIENTS.includes(parts[0] as Orient)) {
-                result.message = i18next.t("apgames:validation.carnac.INVALID_ORIENTATION", { orient: parts[0] });
-                return result;
-            }
-            result.valid = true;
-            result.complete = -1;
-            result.canrender = true;
-            result.message = i18next.t("apgames:validation.carnac.SELECT_CELL");
-            return result;
-        }
-
         if (parts.length !== 2) {
             result.message = i18next.t("apgames:validation._general.INVALID_MOVE", { move: m });
             return result;
@@ -710,9 +799,7 @@ export class CarnacGame extends GameBase {
             result.message = i18next.t("apgames:validation.carnac.INVALID_HOLE_ORIENTATION", { orient, where: cell });
             return result;
         }
-        result.valid = true;
-        result.complete = 1;
-        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        result.message = i18next.t("apgames:validation._general.INVALID_MOVE", { move: m });
         return result;
     }
 
@@ -724,23 +811,18 @@ export class CarnacGame extends GameBase {
         this.lastmove = `${orient}-${cell}`;
     }
 
-    private executeTip(dir: TipDir): void {
+    private applyTipToBoard(dir: TipDir): { from: string; near: string; far: string } {
         if (this.pending === null) {
             throw new Error("No pending megalith to tip.");
         }
         const orient = this.pending.orient;
-        const targets = this.tipTargets(this.pending.cell, dir)!;
-        const [near, far] = targets;
-        this.board.delete(this.pending.cell);
+        const [near, far] = this.tipTargets(this.pending.cell, dir)!;
+        const from = this.pending.cell;
+        this.board.delete(from);
         this.board.set(near, { kind: "lie", orient, tipDir: dir, slot: "near" });
         this.board.set(far, { kind: "lie", orient, tipDir: dir, slot: "far" });
-        this.results.push({ type: "move", from: this.pending.cell, to: `${near},${far}`, how: dir });
-        const placer = this.pending.placer;
         this.pending = null;
-        this.lastmove = `>${dir.toLowerCase()}`;
-        this.phase = "place";
-        this.currplayer = placer;
-        this.forcedPass = true;
+        return { from, near, far };
     }
 
     private afterPlacement(): void {
@@ -752,11 +834,9 @@ export class CarnacGame extends GameBase {
         if (tips.length > 0) {
             this.phase = "tip";
             this.currplayer = opponent;
-            this.forcedPass = false;
         } else {
             this.phase = "place";
             this.currplayer = opponent;
-            this.forcedPass = false;
             this.pending = null;
         }
     }
@@ -779,29 +859,40 @@ export class CarnacGame extends GameBase {
             }
         }
 
-        if (partial || m.length === 0) {
+        if (partial) {
+            this.results = [];
+            if (this.shouldRenderPartialTip(m)) {
+                this.applyPartialTip(m);
+            }
+            return this;
+        }
+
+        if (m.length === 0) {
             return this;
         }
 
         this.results = [];
 
         if (m === "pass") {
-            if (this.forcedPass) {
-                this.results.push({ type: "pass", why: "forced" });
-                this.forcedPass = false;
-                this.currplayer = (this.currplayer === 1 ? 2 : 1) as playerid;
-            } else if (this.phase === "tip" && this.pending !== null) {
-                const placer = this.pending.placer;
-                this.results.push({ type: "pass" });
-                this.pending = null;
-                this.phase = "place";
-                this.currplayer = placer;
-            } else {
+            if (this.phase !== "tip" || this.pending === null) {
                 throw new UserFacingError("VALIDATION_GENERAL", i18next.t("apgames:validation.carnac.INVALID_PASS"));
             }
-            this.lastmove = "pass"
+            const placer = this.pending.placer;
+            this.results.push({ type: "pass" });
+            this.pending = null;
+            this.phase = "place";
+            this.currplayer = placer;
+            this.lastmove = "pass";
         } else if (m.startsWith(">")) {
-            this.executeTip(m.substring(1).toUpperCase() as TipDir);
+            const parsed = this.parseCompoundMove(m);
+            if (parsed === undefined || parsed.kind !== "tip-place") {
+                throw new UserFacingError("VALIDATION_GENERAL", i18next.t("apgames:validation.carnac.INVALID_TIP", { move: m }));
+            }
+            const { from, near, far } = this.applyTipToBoard(parsed.dir);
+            this.results.push({ type: "move", from, to: `${near},${far}`, how: parsed.dir });
+            this.executePlacement(parsed.orient, parsed.cell);
+            this.afterPlacement();
+            this.lastmove = m;
         } else {
             const [orient, cell] = m.split("-") as [Orient, string];
             this.executePlacement(orient, cell);
@@ -853,7 +944,6 @@ export class CarnacGame extends GameBase {
             board: new Map(this.board),
             phase: this.phase,
             pending: this.pending ? { ...this.pending } : null,
-            forcedPass: this.forcedPass,
             reserve: this.reserve,
             lastmove: this.lastmove,
         };
@@ -970,8 +1060,8 @@ export class CarnacGame extends GameBase {
             };
         }
 
-        // const showPlacementKey = this.phase === "place" && !this.forcedPass && !this.gameover && perspective !== undefined;
-        const showPlacementKey = true;
+        // const showPlacementKey = (this.phase === "place" || this.phase === "tip") && !this.gameover && perspective !== undefined;
+        const showPlacementKey = this.phase === "place" || this.phase === "tip";
 
         if (showPlacementKey) {
             const keyOrients: [string, string, Orient][] = isIso
@@ -1056,11 +1146,7 @@ export class CarnacGame extends GameBase {
                 }
                 break;
             case "pass":
-                if (r.why === "forced") {
-                    node.push(i18next.t("apresults:PASS.forced", { player }));
-                } else {
-                    node.push(i18next.t("apresults:PASS.carnac", { player }));
-                }
+                node.push(i18next.t("apresults:PASS.carnac", { player }));
                 resolved = true;
                 break;
         }

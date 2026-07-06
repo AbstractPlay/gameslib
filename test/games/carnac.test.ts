@@ -31,67 +31,86 @@ describe("Carnac", () => {
         expect(g.board.get("a1")).to.deep.equal({ kind: "stand", orient: "11" });
     });
 
-    it("inserts forced pass after tip", () => {
+    it("tips and places in one move", () => {
         const g = new CarnacGame();
         g.move("11-a1");
-        g.move(">n");
-        expect(g.forcedPass).to.be.true;
+        g.move(">n,11-a4");
         expect(g.currplayer).to.equal(1);
-        expect(g.moves()).to.deep.equal(["pass"]);
-        g.move("pass");
-        expect(g.forcedPass).to.be.false;
-        expect(g.currplayer).to.equal(2);
-        expect(g.phase).to.equal("place");
+        expect(g.phase).to.equal("tip");
+        expect(g.pending).to.not.be.null;
         expect(g.board.has("a1")).to.be.false;
+        expect(g.board.has("a2")).to.be.true;
+        expect(g.board.has("a3")).to.be.true;
+        expect(g.board.has("a4")).to.be.true;
+        expect(g.board.get("a4")).to.deep.equal({ kind: "stand", orient: "11" });
+    });
+
+    it("excludes tip target cells from post-tip placements", () => {
+        const g = new CarnacGame();
+        g.move("11-a1");
+        const northMoves = g.moves().filter(m => m.startsWith(">n,"));
+        expect(northMoves.length).to.be.greaterThan(0);
+        expect(northMoves).to.not.include(">n,11-a2");
+        expect(northMoves).to.not.include(">n,11-a3");
+        expect(northMoves).to.include(">n,11-a1");
+    });
+
+    it("validates partial tip with canrender", () => {
+        const g = new CarnacGame();
+        g.move("11-a1");
+        const result = g.validateMove(">n");
+        expect(result.valid).to.be.true;
+        expect(result.complete).to.equal(0);
+        expect(result.canrender).to.be.true;
     });
 
     it("tips using board-relative directions", () => {
         let g = new CarnacGame();
         g.move("11-a1");
-        g.move(">n");
-        expect([...g.board.keys()].sort()).to.deep.equal(["a2", "a3"]);
+        g.move(">n,11-a4");
+        expect([...g.board.keys()].sort()).to.deep.equal(["a2", "a3", "a4"]);
 
         g = new CarnacGame();
         g.move("11-a3");
-        g.move(">s");
-        expect([...g.board.keys()].sort()).to.deep.equal(["a1", "a2"]);
+        g.move(">s,11-a6");
+        expect([...g.board.keys()].sort()).to.deep.equal(["a1", "a2", "a6"]);
 
         g = new CarnacGame();
         g.move("12-a1");
-        g.move(">e");
-        expect([...g.board.keys()].sort()).to.deep.equal(["b1", "c1"]);
+        g.move(">e,12-d1");
+        expect([...g.board.keys()].sort()).to.deep.equal(["b1", "c1", "d1"]);
 
         g = new CarnacGame();
         g.move("12-c1");
-        g.move(">w");
-        expect([...g.board.keys()].sort()).to.deep.equal(["a1", "b1"]);
+        g.move(">w,12-d1");
+        expect([...g.board.keys()].sort()).to.deep.equal(["a1", "b1", "d1"]);
     });
 
     it("allows perpendicular tips regardless of placement", () => {
         const g = new CarnacGame();
         g.move("11-e4");
-        expect(g.moves()).to.include(">e");
-        expect(g.moves()).to.include(">w");
-        expect(g.moves()).to.include(">n");
-        expect(g.moves()).to.include(">s");
+        expect(g.moves().some(m => m.startsWith(">e,"))).to.be.true;
+        expect(g.moves().some(m => m.startsWith(">w,"))).to.be.true;
+        expect(g.moves().some(m => m.startsWith(">n,"))).to.be.true;
+        expect(g.moves().some(m => m.startsWith(">s,"))).to.be.true;
     });
 
     it("assigns tip colours from stacked cube geometry", () => {
         let g = new CarnacGame();
         g.move("12-a1");
-        g.move(">n");
+        g.move(">n,12-a4");
         expect(g.scoringColour("a2")).to.equal(2);
         expect(g.scoringColour("a3")).to.equal(2);
 
         g = new CarnacGame();
         g.move("12-a3");
-        g.move(">s");
+        g.move(">s,12-a6");
         expect(g.scoringColour("a2")).to.equal(2);
         expect(g.scoringColour("a1")).to.equal(2);
 
         g = new CarnacGame();
         g.move("12-a1");
-        g.move(">e");
+        g.move(">e,12-d1");
         expect(g.scoringColour("b1")).to.equal(1);
         expect(g.scoringColour("c1")).to.equal(1);
     });
@@ -99,7 +118,7 @@ describe("Carnac", () => {
     it("stores lie orientation metadata on board", () => {
         const g = new CarnacGame();
         g.move("11-a1");
-        g.move(">n");
+        g.move(">n,11-a4");
         expect(g.board.get("a2")).to.deep.equal({ kind: "lie", orient: "11", tipDir: "N", slot: "near" });
         expect(g.board.get("a3")).to.deep.equal({ kind: "lie", orient: "11", tipDir: "N", slot: "far" });
     });
@@ -214,13 +233,22 @@ describe("Carnac", () => {
         expect(g.handleClick("11", 6, 0)).to.include({ valid: true, move: "11-a1" });
     });
 
-    it("tips by clicking along an orthogonal ray on the board", () => {
+    it("builds tip-and-place moves from clicks", () => {
         const g = new CarnacGame();
         g.move("11-a1");
         const [col, row] = g.algebraic2coords("a7");
         const north = g.handleClick("", row, col);
         expect(north.valid).to.be.true;
         expect(north.move).to.equal(">n");
+
+        const withOrient = g.handleClick(">n", -1, -1, "11");
+        expect(withOrient.valid).to.be.true;
+        expect(withOrient.move).to.equal(">n,11");
+
+        const [pcol, prow] = g.algebraic2coords("a4");
+        const placed = g.handleClick(">n,11", prow, pcol);
+        expect(placed.valid).to.be.true;
+        expect(placed.move).to.equal(">n,11-a4");
 
         const g2 = new CarnacGame();
         g2.move("11-a1");
@@ -239,7 +267,6 @@ describe("Carnac", () => {
         const g = new CarnacGame();
         g.move("11-a1");
         const rep = g.render({ altDisplay: "flat" });
-        // expect(rep.legend).to.have.keys("C1", "C2");
         const rows = (rep.pieces as string).split("\n");
         expect(rows).to.have.length(7);
         expect(rows.every(r => r.split(",").length === 10)).to.be.true;
@@ -258,19 +285,6 @@ describe("Carnac", () => {
         expect(cubeIds).to.include("C11122");
         expect(cubeIds).to.include("C12211");
     });
-
-    // it("shows placement key only for placing player perspective", () => {
-    //     const g = new CarnacGame();
-    //     const placer = g.render({ perspective: 1, altDisplay: "flat" });
-    //     expect(placer.areas).to.not.be.undefined;
-    //     expect((placer.areas![0] as { list: unknown[] }).list).to.have.length(2);
-
-    //     const opponent = g.render({ perspective: 2, altDisplay: "flat" });
-    //     expect(opponent.areas).to.be.undefined;
-
-    //     const iso = g.render({ perspective: 1 });
-    //     expect((iso.areas![0] as { list: unknown[] }).list).to.have.length(4);
-    // });
 
     it("scores dolmens at end of game", () => {
         const g = new CarnacGame(undefined, ["8x5"]);

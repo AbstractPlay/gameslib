@@ -17,8 +17,8 @@ import i18next from "i18next";
 
    * Add the new class graph to the imports (a class that implements IGraph)
    * Append this new type to attribute `graph`
-   * Includes a condition to method `getGraph` returning an object of the new class
-   * Includes a condition to method `edges` defining the sets of cells for each edge
+   * Include a condition to method `getGraph` returning an object of the new class
+   * Include a condition to method `edges` defining the sets of cells for each edge
    * Update the keys `options` and `board` of rep:APRenderRep in method `render`
    * Add the new variant at `apgames.json`
 */
@@ -80,6 +80,7 @@ export class YGame extends GameBase {
             { uid: "progressive", group: "ruleset" }, // progressive variant with group restriction
             { uid: "#boardtype", }, // triangular board
             { uid: "bent", group: "boardtype"},
+            { uid: "bent", group: "boardtype" },
         ],
         categories: ["goal>connect", "mechanic>place",  "board>shape>tri", "board>connect>hex", "components>simple>1per"],
         flags: ["pie"],

@@ -263,6 +263,26 @@ describe("Carnac", () => {
         expect(diag.valid).to.be.false;
     });
 
+    it("preserves valid tip after illegal post-tip placement click", () => {
+        const g = new CarnacGame();
+        g.move("11-a1");
+        const [ncol, nrow] = g.algebraic2coords("a7");
+        g.handleClick("", nrow, ncol);
+        g.handleClick(">n", -1, -1, "11");
+        const [a2col, a2row] = g.algebraic2coords("a2");
+        const illegal = g.handleClick(">n,11", a2row, a2col);
+        expect(illegal.valid).to.be.false;
+        expect(illegal.move).to.equal(">n");
+        expect(illegal.canrender).to.be.true;
+
+        const g2 = new CarnacGame();
+        g2.move("11-a1");
+        g2.handleClick("", nrow, ncol);
+        const offRay = g2.handleClick(">n", 0, 9);
+        expect(offRay.valid).to.be.false;
+        expect(offRay.move).to.equal(">n");
+    });
+
     it("renders flat view with comma-delimited multicharacter piece glyphs", () => {
         const g = new CarnacGame();
         g.move("11-a1");

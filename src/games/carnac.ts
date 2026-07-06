@@ -620,6 +620,31 @@ export class CarnacGame extends GameBase {
         return undefined;
     }
 
+    /** Tip-only prefix of a compound move, if it is a valid partial move. */
+    private validTipPartial(m: string): string | undefined {
+        const match = m.match(/^(>[nesw])/);
+        if (match === null) {
+            return undefined;
+        }
+        const tip = match[1];
+        if (this.validateMove(tip).valid) {
+            return tip;
+        }
+        return undefined;
+    }
+
+    private preserveTipOnInvalid(currentMove: string, attemptedMove: string, result: IClickResult): void {
+        const tip = this.validTipPartial(attemptedMove) ?? this.validTipPartial(currentMove);
+        if (tip !== undefined) {
+            const tipResult = this.validateMove(tip);
+            result.move = tip;
+            result.complete = tipResult.complete;
+            result.canrender = tipResult.canrender;
+        } else {
+            result.move = "";
+        }
+    }
+
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             let newmove = move;
@@ -660,8 +685,9 @@ export class CarnacGame extends GameBase {
                     } else {
                         const dir = this.tipDirectionFromClick(this.pending.cell, row, col);
                         if (dir === undefined) {
+                            const tip = this.validTipPartial(move);
                             return {
-                                move: "",
+                                move: tip ?? "",
                                 valid: false,
                                 message: i18next.t("apgames:validation.carnac.TIP_OR_PASS"),
                             };
@@ -673,7 +699,7 @@ export class CarnacGame extends GameBase {
 
             const result = this.validateMove(newmove) as IClickResult;
             if (!result.valid) {
-                result.move = "";
+                this.preserveTipOnInvalid(move, newmove, result);
             } else {
                 result.move = newmove;
             }

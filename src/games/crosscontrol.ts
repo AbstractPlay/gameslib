@@ -656,16 +656,14 @@ export class CrossControlGame extends GameBase {
     private influenceMarkers(): Map<playerid, {row: number, col: number}[]> {
         const markers = new Map<playerid, {row: number, col: number}[]>([[1, []], [2, []]]);
         for (const cell of this.listCells() as string[]) {
-            if (!this.board.has(cell)) {
-                const cellController = this.cellController(cell);
-                if (cellController === undefined) continue;
-                const [x, y] = this.getGraph().algebraic2coords(cell);
-                const cellCoords = {row: y, col: x};
-                if (cellController === 1) {
-                    markers.get(1)!.push(cellCoords);
-                } else {
-                    markers.get(2)!.push(cellCoords);
-                }
+            const cellController = this.cellController(cell);
+            if (cellController === undefined) continue;
+            const [x, y] = this.getGraph().algebraic2coords(cell);
+            const cellCoords = {row: y, col: x};
+            if (cellController === 1) {
+                markers.get(1)!.push(cellCoords);
+            } else {
+                markers.get(2)!.push(cellCoords);
             }
         }
         return markers;

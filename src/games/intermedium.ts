@@ -577,7 +577,8 @@ export class IntermediumGame extends GameBase {
                 style: "squares",
                 width: BOARD_COLS,
                 height: BOARD_ROWS,
-                markers
+                markers,
+                strokeOpacity: 0
             },
             legend: {
                 A: [{ name: "piece", colour: 1 }],

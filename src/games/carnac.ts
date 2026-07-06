@@ -1064,21 +1064,16 @@ export class CarnacGame extends GameBase {
         const showPlacementKey = this.phase === "place" || this.phase === "tip";
 
         if (showPlacementKey) {
-            const keyOrients: [string, string, Orient][] = isIso
-                ? [
-                    ["K1", "11", "11"],
-                    ["K2", "12", "12"],
-                    ["K3", "21", "21"],
-                    ["K4", "22", "22"],
-                ]
-                : [
-                    ["K1", "1", "11"],
-                    ["K2", "2", "21"],
-                ];
+            const keyOrients: [string, string, Orient][] = [
+                ["K1", "11", "11"],
+                ["K2", "12", "12"],
+                ["K3", "21", "21"],
+                ["K4", "22", "22"],
+            ];
             const key: AreaKey = {
                 type: "key",
                 position: "left",
-                height: isIso ? 0.7 : 0.4,
+                height: 0.7,
                 list: keyOrients.map(([piece, name, value]) => ({ piece, name, value })),
                 clickable: true,
             };

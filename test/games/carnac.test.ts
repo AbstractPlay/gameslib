@@ -271,6 +271,9 @@ describe("Carnac", () => {
         expect(rows).to.have.length(7);
         expect(rows.every(r => r.split(",").length === 10)).to.be.true;
         expect(rows.some(r => r.startsWith("C1,"))).to.be.true;
+        const key = rep.areas![0] as { list: { piece: string; name: string; value: string }[] };
+        expect(key.list).to.have.length(4);
+        expect(key.list.map(e => e.value)).to.deep.equal(["11", "12", "21", "22"]);
     });
 
     it("renders isometric legend with unique cube face ids", () => {

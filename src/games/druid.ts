@@ -1504,7 +1504,7 @@ export class DruidGame extends GameBase {
     private registerConeLegend(legend: IsoLegend, player: playerid): string {
         const key = `D${player}`;
         if (legend[key] === undefined) {
-            legend[key] = { piece: "cone", height: CUBE_HEIGHT, colour: player };
+            legend[key] = { piece: "pyramid", size: "small", colour: player };
         }
         return key;
     }

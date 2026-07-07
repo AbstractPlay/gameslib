@@ -82,6 +82,10 @@ export class LinageGame extends GameBase {
             { uid: "#board", }, // 15x15
             { uid: "size-17", group: "board" },
             { uid: "size-19", group: "board" },
+            { uid: "line-2",  group: "line" },
+            { uid: "#line",   group: "line" },
+            { uid: "line-4",  group: "line" },
+            { uid: "line-5",  group: "line" },
         ],
         flags: ["custom-buttons", "custom-colours", "no-moves", "scores"]
     };
@@ -100,6 +104,7 @@ export class LinageGame extends GameBase {
     public winner: playerid[] = [];
     public variants: string[] = [];
     public boardSize = 13;
+    public lineSize = 3;
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     public komi?: number;
@@ -150,6 +155,7 @@ export class LinageGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.boardSize = this.getBoardSize();
+        this.lineSize = this.getLineSize();
         this.komi = state.komi;
         this.buttontaker = state.buttontaker;
         this.swapped = false;
@@ -177,6 +183,21 @@ export class LinageGame extends GameBase {
         return 15;
     }
 
+    private getLineSize(): number {
+        // Get line size from variants.
+        if ( (this.variants !== undefined) && (this.variants.length > 0) && (this.variants[0] !== undefined) && (this.variants[0].length > 0) ) {
+            const sizeVariants = this.variants.filter(v => v.includes("line"));
+            if (sizeVariants.length > 0) {
+                const size = sizeVariants[0].match(/\d+/);
+                return parseInt(size![0], 10);
+            }
+            if (isNaN(this.lineSize)) {
+                throw new Error(`Could not determine the line size from variant "${this.variants[0]}"`);
+            }
+        }
+        return 3;
+    }
+
     public isKomiTurn(): boolean {
         return this.stack.length === 1;
     }
@@ -200,14 +221,21 @@ export class LinageGame extends GameBase {
         }
         for (const cell of area) {
             const [x,y] = this.algebraic2coords(cell);
-            // check right for 3 in-a-row
-            if (cells.has(`${x+1},${y}`) && cells.has(`${x+2},${y}`) ) {
-                hLines += 1;
+            let addLine = true;
+            for (let i=1; i<this.lineSize; i++) { // check right for N in-a-row
+                if (! cells.has(`${x+i},${y}`) ) {
+                    addLine = false;
+                }
             }
-            // check below for 3 in-a-row
-            if (cells.has(`${x},${y+1}`) && cells.has(`${x},${y+2}`) ) {
-                vLines += 1;
+            if ( addLine ) { hLines += 1; }
+
+            addLine = true;
+            for (let i=1; i<this.lineSize; i++) { // check below for N in-a-row
+                if (! cells.has(`${x},${y+i}`) ) {
+                    addLine = false;
+                }
             }
+            if ( addLine ) { vLines += 1; }
         }
 
         return [hLines, vLines];

@@ -31,6 +31,7 @@
     "BEAROFF": {
         "complete_one": "{{player}} bore off one piece from {{from}}.",
         "complete_other": "{{player}} bore off {{count}} pieces from {{from}}.",
+        "druid": "{{player}} bore their Druid off from {{from}}.",
         "nowhat": "{{player}} bore off from {{from}}."
     },
     "BLOCK": {
@@ -264,7 +265,17 @@
         "tafl_exit_fort": "The game has ended because the defenders created an exit fort.",
         "tafl_king_captured": "The game has ended because the king was captured.",
         "tafl_king_escaped": "The game has ended because the king escaped.",
-        "unlur_foul": "The game has ended because one player has achieved the opponent's win condition without achieving their own."
+        "unlur_foul": "The game has ended because one player has achieved the opponent's win condition without achieving their own.",
+        "druid_hex": "The game has ended because {{player}} connected the {{edges}} edges."
+    },
+    "DRUID_HEX_EDGE": {
+        "N": "north (N)",
+        "NE": "northeast (NE)",
+        "SE": "southeast (SE)",
+        "S": "south (S)",
+        "SW": "southwest (SW)",
+        "NW": "northwest (NW)",
+        "and": "and"
     },
     "ERUPTIONS": "The following pieces erupted: {{eruptions}}.",
     "FIRE": {
@@ -307,6 +318,7 @@
         "camelot_castle_knight": "{{player}} made a castle move with a knight from {{from}} to {{to}}.",
         "camelot_castle": "{{player}} made a castle move with a man from {{from}} to {{to}}.",
         "carnac_tip": "{{player}} tipped the megalith at {{from}} onto {{to}} toward {{how}}.",
+        "druid_walk": "{{player}} moved their Druid from {{from}} to {{to}}.",
         "camelot_plain_knight": "{{player}} made a plain move with a knight from {{from}} to {{to}}.",
         "camelot_plain": "{{player}} made a plain move with a man from {{from}} to {{to}}.",
         "camelot_canter_knight": "{{player}} made a canter with a knight from {{from}} to {{to}}.",
@@ -376,6 +388,7 @@
         "entropy": "{{player}} chose not to move any pieces this turn.",
         "forced": "{{player}} was forced to pass.",
         "carnac": "{{player}} declined to tip the megalith.",
+        "druid": "{{player}} passed.",
         "frogger": "{{player}} passed {{why}}.",
         "linage": "{{player}} passes.",
         "pie": "{{player}} accepted the komi offer and will continue playing second.",
@@ -409,6 +422,9 @@
         "camelot_tree": "{{player}} placed trees at {{where}}.",
         "cannon": "{{player}} placed their town at {{where}}.",
         "carnac": "{{player}} placed a megalith at {{where}} (top {{top}}, south {{south}}).",
+        "druid_druid": "{{player}} placed a Druid at {{where}}.",
+        "druid_lintel": "{{player}} laid a lintel along {{where}}.",
+        "druid_sarsen": "{{player}} placed a sarsen at {{where}}.",
         "ccorridor": "{{player}} placed a tile at {{where}}.",
         "chase": "The chamber spit out a {{what}} at {{where}}.",
         "complete": "{{player}} placed a {{what}} at {{where}}.",

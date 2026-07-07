@@ -1,6 +1,8 @@
 import { customAlphabet } from 'https://cdn.jsdelivr.net/npm/nanoid/+esm';
 const nanoid = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', 5);
 
+let currentRenderRep = null;
+
 function boardClick(row, col, piece) {
     console.log("Row: " + row + ", Col: " + col + ", Piece: " + piece);
     var state = window.localStorage.getItem("state");
@@ -1242,6 +1244,7 @@ function renderGame(...args) {
                 data = data[data.length - 1];
             }
         }
+        currentRenderRep = data;
         var canvas;
         try {
             canvas = APRender.render(data, options);
@@ -1338,6 +1341,7 @@ function renderGame(...args) {
         var converter = new showdown.Converter();
         statusbox.innerHTML = converter.makeHtml(status);
     } else {
+        currentRenderRep = null;
         if (displayOptionsContainer) {
             displayOptionsContainer.style.display = 'none';
         }
@@ -2336,6 +2340,21 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
         } else {
             alert("No game loaded to dump moves from.");
+        }
+    });
+
+    document.getElementById("dumpRenderRep").addEventListener("click", () => {
+        if (currentRenderRep !== null) {
+            try {
+                const prettyRender = JSON.stringify(currentRenderRep, null, 2);
+                const gamename = window.localStorage.getItem("gamename") || "game";
+                showModal("APRenderRep", prettyRender, `${gamename}-render`);
+            } catch (e) {
+                console.error("Error stringifying render rep:", e);
+                alert("Could not format render data.");
+            }
+        } else {
+            alert("No render data available to dump.");
         }
     });
 

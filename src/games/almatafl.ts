@@ -60,12 +60,14 @@ export class AlmataflGame extends GameBase {
             {
                 num: 2,
                 default: "#666",
-                explanation: "Colour of player 1 (the invaders)"
+                explanation: "Colour of player 1 (the invaders)",
+                player: 1
             },
             {
                 num: 3,
                 default: "#fff",
-                explanation: "Colour of player 2 (the defenders)"
+                explanation: "Colour of player 2 (the defenders)",
+                player: 2
             },
         ],
         categories: ["goal>royal-capture", "goal>royal-escape", "mechanic>asymmetry", "mechanic>move", "mechanic>stack", "mechanic>differentiate", "board>shape>hex", "board>connect>hex", "components>simple>1per"],

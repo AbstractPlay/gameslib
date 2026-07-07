@@ -74,12 +74,14 @@ export class SubdivisionGame extends GameBase {
             {
                 num: 1,
                 default: 1,
-                explanation: "Colour of player 1"
+                explanation: "Colour of player 1",
+                player: 1
             },
             {
                 num: 2,
                 default: 2,
-                explanation: "Colour of player 2"
+                explanation: "Colour of player 2",
+                player: 2
             },
             {
                 num: 3,
@@ -89,12 +91,14 @@ export class SubdivisionGame extends GameBase {
             {
                 num: 4,
                 default: 4,
-                explanation: "Colour of player 3"
+                explanation: "Colour of player 3",
+                player: 3
             },
             {
                 num: 5,
                 default: 5,
-                explanation: "Colour of player 4"
+                explanation: "Colour of player 4",
+                player: 4
             },
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>pyramids", "other>2+players"],

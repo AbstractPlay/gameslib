@@ -71,12 +71,14 @@ export class BloqueoGame extends GameBase {
             {
                 num: 4,
                 default: "#fff",
-                explanation: "Colour of player 1"
+                explanation: "Colour of player 1",
+                player: 1
             },
             {
                 num: 5,
                 default: 9,
-                explanation: "Colour of player 2"
+                explanation: "Colour of player 2",
+                player: 2
             },
         ],
         categories: ["goal>score>eog", "mechanic>share", "mechanic>move", "mechanic>place", "mechanic>displace", "board>shape>rect", "board>connect>rect", "components>simple>5c"],

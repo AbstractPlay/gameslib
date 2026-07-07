@@ -173,6 +173,10 @@ export interface CustomizationPalette {
    * A free text description of what this colour is used for and perhaps tips on customizing it (if it's complicated).
    */
   explanation: string;
+  /**
+   * The player number, if this is a player color.
+   */
+  player?: number;
 }
 export interface CustomizationContext {
   /**

@@ -17,6 +17,6 @@ Square or vertex boards where you track `(x, y)` integer coordinates and do not 
 
 ## Example games
 
-- **[Tafl](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/tafl.ts)** — orthogonal movement and capture
-- **[Go](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/go.ts)** — large grid, vertex rendering
-- **[Reversi](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/reversi.ts)** — direction scans for flips
+- **[Tafl](https://play.abstractplay.com/games/tafl)** — orthogonal movement and capture
+- **[Go](https://play.abstractplay.com/games/go)** — large grid, vertex rendering
+- **[Reversi](https://play.abstractplay.com/games/reversi)** — direction scans for flips

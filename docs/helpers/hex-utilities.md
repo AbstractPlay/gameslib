@@ -12,6 +12,6 @@ Also see `src/common/aiai.ts` for AiAi coordinate conversion (`hexhexAp2Ai`, `tr
 
 ## Example games
 
-- **[Streetcar](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/streetcar.ts)** — edge and vertex incidence
-- **[Exxit](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/exxit.ts)** — hex neighbour traversal
-- **[Tintas](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/tintas.ts)** — `generateField` with `ModularBoard`
+- **[Streetcar](https://play.abstractplay.com/games/streetcar)** — edge and vertex incidence
+- **[Exxit](https://play.abstractplay.com/games/exxit)** — hex neighbour traversal
+- **[Tintas](https://play.abstractplay.com/games/tintas)** — `generateField` with `ModularBoard`

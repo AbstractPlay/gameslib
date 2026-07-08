@@ -4,13 +4,13 @@ Less common topologies and board helpers.
 
 | Module | Purpose | Example games |
 |--------|---------|---------------|
-| `BaoGraph` | Bao la mema pit layout | [bao](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/bao.ts) |
-| `SowingNoEndsGraph` | Two-row mancala | [toguz](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/toguz.ts), [oware](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/oware.ts) |
-| `BentTriGraph` | Commercial bent-Y triangle | [y](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/y.ts) |
-| `ModularBoard` | Growable modular hex | [tintas](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/tintas.ts), [abande](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/abande.ts) |
-| `UnboundedSquareBoard` | Infinite sparse square grid | [trax](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/trax.ts) |
+| `BaoGraph` | Bao la mema pit layout | [bao](https://play.abstractplay.com/games/bao) |
+| `SowingNoEndsGraph` | Two-row mancala | [toguz](https://play.abstractplay.com/games/toguz), [oware](https://play.abstractplay.com/games/oware) |
+| `BentTriGraph` | Commercial bent-Y triangle | [y](https://play.abstractplay.com/games/y) |
+| `ModularBoard` | Growable modular hex | [tintas](https://play.abstractplay.com/games/tintas), [abande](https://play.abstractplay.com/games/abande) |
+| `UnboundedSquareBoard` | Infinite sparse square grid | [trax](https://play.abstractplay.com/games/trax) |
 
 ## Example games
 
-- **[Trax](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/trax.ts)** — only consumer of `UnboundedSquareBoard`
-- **[Bao](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/bao.ts)** — `BaoGraph` sowing
+- **[Trax](https://play.abstractplay.com/games/trax)** — only consumer of `UnboundedSquareBoard`
+- **[Bao](https://play.abstractplay.com/games/bao)** — `BaoGraph` sowing

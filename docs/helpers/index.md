@@ -18,5 +18,5 @@ Full cross-index: [Examples by feature](/gameslib/examples/by-feature/).
 
 ## Example games
 
-- **[Zola](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/zola.ts)** — directions + `RectGrid`
-- **[Yavalath](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/yavalath.ts)** — `HexTriGraph`
+- **[Zola](https://play.abstractplay.com/games/zola)** — directions + `RectGrid`
+- **[Yavalath](https://play.abstractplay.com/games/yavalath)** — `HexTriGraph`

@@ -22,6 +22,6 @@ See [Square graphs](/gameslib/helpers/graphs-square/), [Hex graphs](/gameslib/he
 
 ## Example games
 
-- **[Cross Control](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/crosscontrol.ts)** — `SquareGraph`
-- **[Havannah](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/havannah.ts)** — `HexTriGraph`
-- **[Terrace](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/terrace.ts)** — 3D square graphs
+- **[Cross Control](https://play.abstractplay.com/games/crosscontrol)** — `SquareGraph`
+- **[Havannah](https://play.abstractplay.com/games/havannah)** — `HexTriGraph`
+- **[Terrace](https://play.abstractplay.com/games/terrace)** — 3D square graphs

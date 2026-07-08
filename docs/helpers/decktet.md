@@ -10,6 +10,6 @@
 
 ## Example games
 
-- **[Jacynth](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/jacynth.ts)**
-- **[Magnate](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/magnate.ts)**
-- **[Frogger](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/frogger.ts)**
+- **[Jacynth](https://play.abstractplay.com/games/jacynth)**
+- **[Magnate](https://play.abstractplay.com/games/magnate)**
+- **[Frogger](https://play.abstractplay.com/games/frogger)**

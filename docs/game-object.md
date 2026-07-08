@@ -46,6 +46,6 @@ Returned by `handleClick`: `valid`, `message`, `move`, optional `complete` and `
 
 ## Example games
 
-- **[Complica](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/complica.ts)** — full `GameBase` lifecycle
-- **[Volcano](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/volcano.ts)** — `stacking-expanding` renderer integration
-- **[Homeworlds](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/homeworlds.ts)** — complex multi-system state (advanced reference)
+- **[Complica](https://play.abstractplay.com/games/complica)** — full `GameBase` lifecycle
+- **[Volcano](https://play.abstractplay.com/games/volcano)** — `stacking-expanding` renderer integration
+- **[Homeworlds](https://play.abstractplay.com/games/homeworlds)** — complex multi-system state (advanced reference)

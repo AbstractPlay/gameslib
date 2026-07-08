@@ -11,6 +11,6 @@
 
 ## Example games
 
-- **[Pontedd](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/pontedd.ts)** — line intersection
-- **[Minefield](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/minefield.ts)** — polyomino transforms
-- **[Armadas](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/armadas.ts)** — bearings and projection
+- **[Pontedd](https://play.abstractplay.com/games/pontedd)** — line intersection
+- **[Minefield](https://play.abstractplay.com/games/minefield)** — polyomino transforms
+- **[Armadas](https://play.abstractplay.com/games/armadas)** — bearings and projection

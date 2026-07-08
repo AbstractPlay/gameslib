@@ -25,13 +25,13 @@ Guide for adding a new game to gameslib. For API details see [Game object](/game
 - [ ] Unit tests under `test/games/`
 - [ ] Renderer JSON validated against [renderer schema](/renderer/schema-reference/)
 
-Start from [/gameslib/templates/new-game-template.ts](/gameslib/templates/new-game-template.ts) and [complica.ts](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/complica.ts).
+Start from [/gameslib/templates/new-game-template.ts](/gameslib/templates/new-game-template.ts) and [Complica](https://play.abstractplay.com/games/complica).
 
 ## Choosing helpers
 
 Most board games use either:
 
-- **`RectGrid`** — rectangular boards with directions and algebraic coords ([tafl](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/tafl.ts), [go](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/go.ts))
+- **`RectGrid`** — rectangular boards with directions and algebraic coords ([tafl](https://play.abstractplay.com/games/tafl), [go](https://play.abstractplay.com/games/go))
 - **Graph classes** — hex, snubsquare, sowing, etc. ([Helpers overview](/gameslib/helpers/))
 
 Use the [examples by feature](/gameslib/examples/by-feature/) index to find games similar to yours.
@@ -42,5 +42,5 @@ Implement `render(opts?)` returning `APRenderRep` for `@abstractplay/renderer`. 
 
 ## Example games
 
-- **[Complica](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/complica.ts)** — template baseline
-- **[Yavalath](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/yavalath.ts)** — hex graph game
+- **[Complica](https://play.abstractplay.com/games/complica)** — template baseline
+- **[Yavalath](https://play.abstractplay.com/games/yavalath)** — hex graph game

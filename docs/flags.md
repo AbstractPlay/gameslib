@@ -1,6 +1,6 @@
 # Game flags
 
-Flags in `static gameinfo.flags` tell the front and back ends about special behaviour. See [`gameinfo.json`](../src/schemas/gameinfo.json) for the schema.
+Flags in `static gameinfo.flags` tell the front and back ends about special behaviour. See [`gameinfo.json`](https://github.com/AbstractPlay/gameslib/blob/develop/src/schemas/gameinfo.json) for the schema.
 
 Prose descriptions below; the authoritative enum is auto-generated.
 

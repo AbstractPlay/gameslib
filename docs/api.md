@@ -24,9 +24,9 @@ AI helpers (`AIFactory`, etc.) exist for testing only and are not part of the pu
 
 ## `gameinfo`
 
-Self-describing metadata per game, matching [`gameinfo.json`](../src/schemas/gameinfo.json). Each entry includes uid, name, description (i18n key), URLs, people, player counts, variants, and flags.
+Self-describing metadata per game, matching [`gameinfo.json`](https://github.com/AbstractPlay/gameslib/blob/develop/src/schemas/gameinfo.json). Each entry includes uid, name, description (i18n key), URLs, people, player counts, variants, and flags.
 
-See [Flags](flags/) for flag semantics.
+See [Flags](/gameslib/flags/) for flag semantics.
 
 ## `GameFactory`
 
@@ -49,9 +49,9 @@ Player-facing errors use `UserFacingError` with localized `client` messages.
 
 ## Game object
 
-Games returned by `GameFactory` implement the [game object](game-object/) interface: `move`, `render`, `state`, `serialize`, UI hooks, and history helpers.
+Games returned by `GameFactory` implement the [game object](/gameslib/game-object/) interface: `move`, `render`, `state`, `serialize`, UI hooks, and history helpers.
 
 ## Example games
 
-- **[Complica](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/complica.ts)** — minimal reference implementation (see also [template](templates/new-game-template.ts))
+- **[Complica](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/complica.ts)** — minimal reference implementation (see also [template](/gameslib/templates/new-game-template.ts))
 - **[Tafl](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/tafl.ts)** — `RectGrid` on a square board

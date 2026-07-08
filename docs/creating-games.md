@@ -1,6 +1,6 @@
 # Creating games
 
-Guide for adding a new game to gameslib. For API details see [Game object](game-object/) and [Helpers](helpers/).
+Guide for adding a new game to gameslib. For API details see [Game object](/gameslib/game-object/) and [Helpers](/gameslib/helpers/).
 
 ## Workflow
 
@@ -10,7 +10,7 @@ Guide for adding a new game to gameslib. For API details see [Game object](game-
 4. **Register** in `src/games/index.ts` (import, type union, array entry, `GameFactory` case).
 5. **Add i18n** strings to `locales/en/apgames.json` (and `apresults.json` if needed).
 6. **Flag** new games with `experimental` in `gameinfo`.
-7. **Test** locally — [Testing](testing/).
+7. **Test** locally — [Testing](/gameslib/testing/).
 8. **PR** against `develop`; test on [play.dev.abstractplay.com](https://play.dev.abstractplay.com) after merge.
 
 ## Implementation checklist
@@ -25,16 +25,16 @@ Guide for adding a new game to gameslib. For API details see [Game object](game-
 - [ ] Unit tests under `test/games/`
 - [ ] Renderer JSON validated against [renderer schema](/renderer/schema-reference/)
 
-Start from [templates/new-game-template.ts](templates/new-game-template.ts) and [complica.ts](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/complica.ts).
+Start from [/gameslib/templates/new-game-template.ts](/gameslib/templates/new-game-template.ts) and [complica.ts](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/complica.ts).
 
 ## Choosing helpers
 
 Most board games use either:
 
 - **`RectGrid`** — rectangular boards with directions and algebraic coords ([tafl](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/tafl.ts), [go](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/go.ts))
-- **Graph classes** — hex, snubsquare, sowing, etc. ([Helpers overview](helpers/))
+- **Graph classes** — hex, snubsquare, sowing, etc. ([Helpers overview](/gameslib/helpers/))
 
-Use the [examples by feature](examples/by-feature/) index to find games similar to yours.
+Use the [examples by feature](/gameslib/examples/by-feature/) index to find games similar to yours.
 
 ## Renderer
 

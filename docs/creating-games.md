@@ -1,0 +1,46 @@
+# Creating games
+
+Guide for adding a new game to gameslib. For API details see [Game object](game-object/) and [Helpers](helpers/).
+
+## Workflow
+
+1. **Fork** [gameslib](https://github.com/AbstractPlay/gameslib) and work on the `develop` branch.
+2. Before first `npm install`, run `npm run npm-login` for GitHub Packages access.
+3. **Create** `src/games/<uid>.ts` extending `GameBase` (or `GameBaseSimultaneous`).
+4. **Register** in `src/games/index.ts` (import, type union, array entry, `GameFactory` case).
+5. **Add i18n** strings to `locales/en/apgames.json` (and `apresults.json` if needed).
+6. **Flag** new games with `experimental` in `gameinfo`.
+7. **Test** locally — [Testing](testing/).
+8. **PR** against `develop`; test on [play.dev.abstractplay.com](https://play.dev.abstractplay.com) after merge.
+
+## Implementation checklist
+
+- [ ] `static readonly gameinfo: APGamesInformation`
+- [ ] State interfaces (`IMoveState`, `I<Name>State`)
+- [ ] Constructor (new + deserialize via `reviver`)
+- [ ] `move`, `render`, `state`, `load`, `clone`, `moveState`
+- [ ] `moves()` unless using `no-moves` flag
+- [ ] `handleClick` for interactive placement
+- [ ] `validateMove` / `checkEOG` as needed
+- [ ] Unit tests under `test/games/`
+- [ ] Renderer JSON validated against [renderer schema](/renderer/schema-reference/)
+
+Start from [templates/new-game-template.ts](templates/new-game-template.ts) and [complica.ts](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/complica.ts).
+
+## Choosing helpers
+
+Most board games use either:
+
+- **`RectGrid`** — rectangular boards with directions and algebraic coords ([tafl](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/tafl.ts), [go](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/go.ts))
+- **Graph classes** — hex, snubsquare, sowing, etc. ([Helpers overview](helpers/))
+
+Use the [examples by feature](examples/by-feature/) index to find games similar to yours.
+
+## Renderer
+
+Implement `render(opts?)` returning `APRenderRep` for `@abstractplay/renderer`. Prototype JSON in the [renderer playground](https://renderer.dev.abstractplay.com).
+
+## Example games
+
+- **[Complica](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/complica.ts)** — template baseline
+- **[Yavalath](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/yavalath.ts)** — hex graph game

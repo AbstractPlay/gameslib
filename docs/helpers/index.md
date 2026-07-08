@@ -6,15 +6,15 @@ Shared code lives in [`src/common/`](https://github.com/AbstractPlay/gameslib/tr
 
 | Need | Use |
 |------|-----|
-| Rectangular board, directions, distances | [`RectGrid`](rect-grid/) |
-| Hex / square / specialty topology with graph adjacency | [Graph classes](graphs/) |
-| Hex edge/vertex math | [Hex utilities](hex-utilities/) |
-| Serialize `Map`/`Set` in game state | [Serialization](serialization/) |
-| Decktet card games | [Decktet](decktet/) |
-| Growing hex boards from centres | `ModularBoard` — [Specialty graphs](graphs-specialty/) |
-| Infinite square grid | `UnboundedSquareBoard` — [Specialty graphs](graphs-specialty/) |
+| Rectangular board, directions, distances | [`RectGrid`](/gameslib/helpers/rect-grid/) |
+| Hex / square / specialty topology with graph adjacency | [Graph classes](/gameslib/helpers/graphs/) |
+| Hex edge/vertex math | [Hex utilities](/gameslib/helpers/hex-utilities/) |
+| Serialize `Map`/`Set` in game state | [Serialization](/gameslib/helpers/serialization/) |
+| Decktet card games | [Decktet](/gameslib/helpers/decktet/) |
+| Growing hex boards from centres | `ModularBoard` — [Specialty graphs](/gameslib/helpers/graphs-specialty/) |
+| Infinite square grid | `UnboundedSquareBoard` — [Specialty graphs](/gameslib/helpers/graphs-specialty/) |
 
-Full cross-index: [Examples by feature](../examples/by-feature/).
+Full cross-index: [Examples by feature](/gameslib/examples/by-feature/).
 
 ## Example games
 

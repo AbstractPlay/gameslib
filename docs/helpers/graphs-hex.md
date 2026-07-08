@@ -10,7 +10,7 @@ Hex and hex-derived board graphs.
 | `HexMoonGraph` | Fixed moon shape | [moonsquad](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/moonsquad.ts) |
 | `PentaHexGraph` | Pentagonal hex rings | [bluestone](https://github.com/AbstractPlay/gameslib/blob/develop/src/games/bluestone.ts) |
 
-Related low-level helpers: [Hex utilities](hex-utilities/).
+Related low-level helpers: [Hex utilities](/gameslib/helpers/hex-utilities/).
 
 ## Example games
 

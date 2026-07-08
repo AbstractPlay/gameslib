@@ -18,7 +18,7 @@ Graph classes in `src/common/graphs/` implement `IGraph`: a graphology graph plu
 | Bent-Y triangle board | `BentTriGraph` |
 | 3D stacking on squares | `Square3DGraph`, `SquareOrth3DGraph`, `SquareDiag3DGraph` |
 
-See [Square graphs](graphs-square/), [Hex graphs](graphs-hex/), [Specialty graphs](graphs-specialty/).
+See [Square graphs](/gameslib/helpers/graphs-square/), [Hex graphs](/gameslib/helpers/graphs-hex/), [Specialty graphs](/gameslib/helpers/graphs-specialty/).
 
 ## Example games
 

@@ -1,0 +1,7 @@
+# GameBase contract methods tracked by docs:check (not published)
+move
+render
+state
+load
+clone
+moveState

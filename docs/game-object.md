@@ -2,15 +2,6 @@
 
 Every game is a class extending `GameBase` (or `GameBaseSimultaneous` for simultaneous moves).
 
-```yaml manifest
-move
-render
-state
-load
-clone
-moveState
-```
-
 ## Required abstract methods
 
 | Method | Purpose |

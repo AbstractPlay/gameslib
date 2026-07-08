@@ -66,8 +66,40 @@ jobs:
           env:
             NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
-    relay-dev:
+    deploy-playground:
         needs: [publish-dev]
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v4
+          with:
+            ref: "develop"
+        - name: Use Node.js 18.x
+          uses: actions/setup-node@v4
+          with:
+            node-version: 18.x
+            cache: 'npm'
+        - run: echo "@abstractplay:registry=https://npm.pkg.github.com/" >> .npmrc
+        - run: echo "//npm.pkg.github.com/:_authToken=${{secrets.PAT_READ_PACKAGES}}" >> .npmrc
+        - run: npm i
+        - run: npm remove @abstractplay/renderer
+        - run: npm i @abstractplay/renderer@development
+        - run: npm run dist-dev
+        - name: Configure AWS credentials
+          uses: Fooji/create-aws-profile-action@v1
+          with:
+            profile: AbstractPlayDev
+            region: us-east-1
+            key: ${{ secrets.AWS_KEY }}
+            secret: ${{ secrets.AWS_SECRET }}
+        - name: Deploy playground
+          env:
+            AWS_SDK_LOAD_CONFIG: "1"
+            AWS_PROFILE: AbstractPlayDev
+            GAMESLIB_CF_DIST: ${{ secrets.GAMESLIB_CF_DIST }}
+          run: npm run deploy:ci
+
+    relay-dev:
+        needs: [deploy-playground]
         runs-on: ubuntu-latest
         steps:
           - name: Trigger frontend build and test

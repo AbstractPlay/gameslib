@@ -1,0 +1,20 @@
+[
+  { "slug": "index", "title": "Overview" },
+  { "slug": "creating-games", "title": "Creating games" },
+  { "slug": "testing" },
+  { "slug": "api", "title": "API" },
+  { "slug": "game-object", "title": "Game object" },
+  { "slug": "flags" },
+  { "slug": "helpers" },
+  { "slug": "helpers/rect-grid", "title": "RectGrid" },
+  { "slug": "helpers/graphs", "title": "Graph classes" },
+  { "slug": "helpers/graphs-square", "title": "Square graphs" },
+  { "slug": "helpers/graphs-hex", "title": "Hex graphs" },
+  { "slug": "helpers/graphs-specialty", "title": "Specialty graphs" },
+  { "slug": "helpers/hex-utilities", "title": "Hex utilities" },
+  { "slug": "helpers/serialization" },
+  { "slug": "helpers/decktet" },
+  { "slug": "helpers/plotting" },
+  { "slug": "i18n" },
+  { "slug": "examples/by-feature", "title": "Examples by feature" }
+]

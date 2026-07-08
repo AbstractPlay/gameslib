@@ -4,13 +4,13 @@
 
 ## Documentation
 
-- [API](/gameslib/api/) — `gameinfo`, `GameFactory`, `addResource`
 - [Creating games](/gameslib/creating-games/) — fork, implement, register, PR workflow
+- [Testing](/gameslib/testing/) — CLI, playground, unit tests
+- [API](/gameslib/api/) — `gameinfo`, `GameFactory`, `addResource`
 - [Game object](/gameslib/game-object/) — `GameBase` contract and lifecycle
 - [Flags](/gameslib/flags/) — `gameinfo` flags reference
 - [Helpers](/gameslib/helpers/) — grids, graphs, serialization, and shared utilities
 - [i18n](/gameslib/i18n/) — translation files
-- [Testing](/gameslib/testing/) — CLI, playground, unit tests
 - [Examples by feature](/gameslib/examples/by-feature/) — which games use which helpers
 
 ## Resources

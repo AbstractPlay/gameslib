@@ -6,7 +6,7 @@
 npm test
 ```
 
-Game-specific tests live in `test/games/`. See existing tests for patterns.
+Game-specific tests live in `test/games/`. Good unit tests will save future you (and future maintainers) a lot of headaches. No need to test basic stuff tested elsewhere (like graph/grid functions), but it's wise to test end-of-game resolution and any edge cases. See existing tests for patterns.
 
 ## CLI example
 
@@ -25,7 +25,7 @@ The **standalone** gameslib playground is not part of the docs site:
 To run locally you need:
 
 1. A local web server (LAMP or similar)
-2. `playground/index.html`
+2. `playground/playground.*`
 3. `APRender.min.js` from [renderer playground](https://renderer.dev.abstractplay.com/APRender.min.js) or `npm run dist-dev` in renderer
 4. `APGames.min.js` from `npm run dist-dev` in gameslib
 

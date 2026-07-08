@@ -4,11 +4,11 @@ Less common topologies and board helpers.
 
 | Module | Purpose | Example games |
 |--------|---------|---------------|
-| `BaoGraph` | Bao la mema pit layout | [bao](https://play.abstractplay.com/games/bao) |
-| `SowingNoEndsGraph` | Two-row mancala | [toguz](https://play.abstractplay.com/games/toguz), [oware](https://play.abstractplay.com/games/oware) |
-| `BentTriGraph` | Commercial bent-Y triangle | [y](https://play.abstractplay.com/games/y) |
-| `ModularBoard` | Growable modular hex | [tintas](https://play.abstractplay.com/games/tintas), [abande](https://play.abstractplay.com/games/abande) |
-| `UnboundedSquareBoard` | Infinite sparse square grid | [trax](https://play.abstractplay.com/games/trax) |
+| `BaoGraph` | Bao la mema pit layout | [Bao](https://play.abstractplay.com/games/bao) |
+| `SowingNoEndsGraph` | Two-row mancala | [Toguz Kumalak](https://play.abstractplay.com/games/toguz), [Oware](https://play.abstractplay.com/games/oware) |
+| `BentTriGraph` | Commercial bent-Y triangle | [Y](https://play.abstractplay.com/games/y) |
+| `ModularBoard` | Growable modular hex | [Tintas](https://play.abstractplay.com/games/tintas), [Abande](https://play.abstractplay.com/games/abande) |
+| `UnboundedSquareBoard` | Infinite sparse square grid | [Trax](https://play.abstractplay.com/games/trax) |
 
 ## Example games
 

@@ -54,4 +54,4 @@ Games returned by `GameFactory` implement the [game object](/gameslib/game-objec
 ## Example games
 
 - **[Complica](https://play.abstractplay.com/games/complica)** — minimal reference implementation (see also [template](/gameslib/templates/new-game-template.ts))
-- **[Tafl](https://play.abstractplay.com/games/tafl)** — `RectGrid` on a square board
+- **[Hnefatafl](https://play.abstractplay.com/games/tafl)** — `RectGrid` on a square board

@@ -1,5 +1,6 @@
 import { Direction } from ".";
 
+/** Bounded rectangular grid with `(x, y)` cell coordinates; `(0, 0)` is the top-left corner. */
 export class RectGrid {
     public readonly width: number;
     public readonly height: number;
@@ -134,14 +135,17 @@ export class RectGrid {
         return false;
     }
 
+    /** Manhattan (L1) distance between two cells. */
     public static manhattan(x1: number, y1: number, x2: number, y2: number): number {
         return Math.abs(x1 - x2) + Math.abs(y1 - y2);
     }
 
+    /** Chebyshev (king-move) distance: `max(|dx|, |dy|)`. */
     public static distance(x1: number, y1: number, x2: number, y2: number): number {
         return Math.max(Math.abs(x1 - x2), Math.abs(y1 - y2));
     }
 
+    /** Euclidean distance between two cells. */
     public static trueDistance(x1: number, y1: number, x2: number, y2: number): number {
         return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
     }

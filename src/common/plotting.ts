@@ -2,6 +2,7 @@
 
 import { IPoint, Direction } from ".";
 
+/** Maps compass bearings in degrees (multiples of 45) to `Direction` labels. */
 export const deg2dir = new Map<number, Direction>([
     [0, "N"],
     [45, "NE"],
@@ -13,6 +14,7 @@ export const deg2dir = new Map<number, Direction>([
     [315, "NW"],
 ]);
 
+/** Maps `Direction` labels to compass bearings in degrees (multiples of 45). */
 export const dir2deg = new Map<Direction, number>([
     ["N", 0],
     ["NE", 45],
@@ -24,7 +26,7 @@ export const dir2deg = new Map<Direction, number>([
     ["NW", 315],
 ]);
 
-// Delta is only parsed as a multiple of 45 degrees
+/** Rotates a facing by `delta` degrees; `delta` is rounded to the nearest multiple of 45. */
 export const rotateFacing = (facing: Direction, delta: number): Direction => {
     delta = Math.floor(delta / 45) * 45;
     const newdeg = normDeg(dir2deg.get(facing)! + delta);
@@ -94,14 +96,17 @@ export const projectPoint = (x: number, y: number, dist: number, deg: number): [
     return [newx, newy];
 }
 
+/** Euclidean distance between two points. */
 export const ptDistance = (x1: number, y1: number, x2: number, y2: number): number => {
     return Math.sqrt(((x1 - x2)**2) + ((y1 - y2)**2));
 }
 
+/** Midpoint between two points. */
 export const midpoint = (x1: number, y1: number, x2: number, y2: number): [number,number] => {
     return [(x1 + x2) / 2, (y1 + y2) / 2];
 }
 
+/** Signed shortest angular difference from `deg2` to `deg1`, in (-180, 180]. */
 export const smallestDegreeDiff = (deg1: number, deg2: number): number => {
     let diff = deg1 - deg2;
     while (diff > 180) {
@@ -126,7 +131,7 @@ export const calcBearing = (x1: number, y1: number, x2: number, y2: number): num
     return toggleFacing(deg);
 }
 
-// Assumes each row is the same width
+/** Transposes a rectangular 2D array (rows become columns). All rows must have equal length. */
 export const transposeRect = (lst: any[][]): any[][] => {
     if (lst.length === 0) {
         return [];
@@ -161,7 +166,7 @@ export const matrixRectRot90 = (lst: any[][]): any[][] => {
     return transposed.map(row => [...row].reverse());
 }
 
-// Builds a circle as a polygon of `steps` sides
+/** Approximates a circle as a polygon with `steps` vertices, centred at `(cx, cy)` with radius `r`. */
 export const circle2poly = (cx: number, cy: number, r: number, steps = 64): [number,number][] => {
     const coordinates: [number,number][] = [];
     for (let i = 0; i < steps; i++) {
@@ -170,12 +175,12 @@ export const circle2poly = (cx: number, cy: number, r: number, steps = 64): [num
     return coordinates;
 }
 
-// shortest distance from point to circle
+/** Shortest distance from a point to the circumference of a circle. */
 export const distFromCircle = (circle: {cx: number, cy: number, r: number}, point: IPoint): number => {
     return Math.abs(Math.sqrt((point.x - circle.cx)**2 + (point.y - circle.cy)**2) - circle.r);
 }
 
-// determines if point q lies on the segment pr
+/** Returns whether `q` lies on the closed segment from `p` to `r` (axis-aligned bounding-box test). */
 export const pointOnSegment = (p: IPoint, q: IPoint, r: IPoint): boolean => {
     if (q.x <= Math.max(p.x, r.x) &&
         q.x >= Math.min(p.x, r.x) &&
@@ -186,11 +191,10 @@ export const pointOnSegment = (p: IPoint, q: IPoint, r: IPoint): boolean => {
     return false;
 }
 
-// To find orientation of ordered triplet (p, q, r).
-// The function returns following values
-// 0 --> p, q and r are collinear
-// 1 --> Clockwise
-// 2 --> Counterclockwise
+/**
+ * Orientation of ordered triplet `(p, q, r)`.
+ * Returns `0` if collinear, `1` if clockwise, `2` if counterclockwise.
+ */
 export const pointOrientation = (p: IPoint, q: IPoint, r: IPoint) : 0|1|2 => {
     // See https://www.geeksforgeeks.org/orientation-3-ordered-points/
     // for details of below formula.
@@ -201,8 +205,7 @@ export const pointOrientation = (p: IPoint, q: IPoint, r: IPoint) : 0|1|2 => {
     return (val > 0)? 1 : 2; // clock or counterclock wise
 }
 
-// The main function that returns true if line segment 'p1q1'
-// and 'p2q2' intersect.
+/** Returns whether line segments `p1q1` and `p2q2` intersect (including collinear overlap). */
 export const linesIntersect = (p1: IPoint, q1: IPoint, p2: IPoint, q2: IPoint): boolean => {
     // Find the four orientations needed for general and
     // special cases
@@ -231,6 +234,7 @@ export const linesIntersect = (p1: IPoint, q1: IPoint, p2: IPoint, q2: IPoint): 
     return false; // Doesn't fall in any of the above cases
 }
 
+/** A relative offset with an attached payload (e.g. piece id) for shape transforms. */
 export type Delta = { dx: number; dy: number; payload: unknown };
 
 /**

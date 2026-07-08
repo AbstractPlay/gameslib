@@ -6,9 +6,9 @@ Shared code lives in [`src/common/`](https://github.com/AbstractPlay/gameslib/tr
 
 | Need | Use |
 |------|-----|
-| Rectangular board, directions, distances | [`RectGrid`](/gameslib/helpers/rect-grid/) |
-| Hex / square / specialty topology with graph adjacency | [Graph classes](/gameslib/helpers/graphs/) |
-| Hex edge/vertex math | [Hex utilities](/gameslib/helpers/hex-utilities/) |
+| Abstract rectangular board functions like directions and distances | [`RectGrid`](/gameslib/helpers/rect-grid/) |
+| Graphs encode specific topography, including edges and directionality | [Graph classes](/gameslib/helpers/graphs/) |
+| Abstract hex edge/vertex math | [Hex utilities](/gameslib/helpers/hex-utilities/) |
 | Serialize `Map`/`Set` in game state | [Serialization](/gameslib/helpers/serialization/) |
 | Decktet card games | [Decktet](/gameslib/helpers/decktet/) |
 | Growing hex boards from centres | `ModularBoard` — [Specialty graphs](/gameslib/helpers/graphs-specialty/) |

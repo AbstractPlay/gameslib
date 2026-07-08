@@ -4,14 +4,14 @@ Classes for square-grid topologies (`src/common/graphs/`).
 
 | Class | Connectivity | Example games |
 |-------|--------------|---------------|
-| `SquareGraph` | Orth + diagonal | [viruswar](https://play.abstractplay.com/games/viruswar), [loa](https://play.abstractplay.com/games/loa) |
-| `SquareOrthGraph` | Orthogonal only | [tanbo](https://play.abstractplay.com/games/tanbo), [intermedium](https://play.abstractplay.com/games/intermedium) |
-| `SquareDiagGraph` | Diagonal only | [stapeldammen](https://play.abstractplay.com/games/stapeldammen), [lasca](https://play.abstractplay.com/games/lasca) |
-| `SquareDirectedGraph` | Directed edges | [yonmoque](https://play.abstractplay.com/games/yonmoque), [squaredance](https://play.abstractplay.com/games/squaredance) |
-| `SquareFanoronaGraph` | Fanorona jump graph | [fanorona](https://play.abstractplay.com/games/fanorona) |
-| `SnubSquareGraph` | Snub square tiling | [ceph](https://play.abstractplay.com/games/ceph) |
-| `OnyxGraph` | Onyx board | [onyx](https://play.abstractplay.com/games/onyx) |
-| `SquareDiamondsDirectedGraph` | Diamond directed grid | [tessella](https://play.abstractplay.com/games/tessella) |
+| `SquareGraph` | Orth + diagonal | [Virus War](https://play.abstractplay.com/games/viruswar), [Lines of Action](https://play.abstractplay.com/games/loa) |
+| `SquareOrthGraph` | Orthogonal only | [Tanbo](https://play.abstractplay.com/games/tanbo), [Intermedium](https://play.abstractplay.com/games/intermedium) |
+| `SquareDiagGraph` | Diagonal only | [Stapeldammen II](https://play.abstractplay.com/games/stapeldammen), [Lasca](https://play.abstractplay.com/games/lasca) |
+| `SquareDirectedGraph` | Directed edges | [Yonmoque](https://play.abstractplay.com/games/yonmoque), [Squaredance](https://play.abstractplay.com/games/squaredance) |
+| `SquareFanoronaGraph` | Fanorona jump graph | [Fanorona](https://play.abstractplay.com/games/fanorona) |
+| `SnubSquareGraph` | Snub square tiling | [Cephalopod](https://play.abstractplay.com/games/ceph) |
+| `OnyxGraph` | Onyx board | [Onyx](https://play.abstractplay.com/games/onyx) |
+| `SquareDiamondsDirectedGraph` | Diamond directed grid | [Tessella](https://play.abstractplay.com/games/tessella) |
 
 ## Example games
 

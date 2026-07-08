@@ -4,11 +4,11 @@ Hex and hex-derived board graphs.
 
 | Class | Use case | Example games |
 |-------|----------|---------------|
-| `HexTriGraph` | Standard hex-hex boards | [yavalath](https://play.abstractplay.com/games/yavalath), [waldmeister](https://play.abstractplay.com/games/waldmeister) |
-| `HexSlantedGraph` | Rectangular slanted hex | [pollux](https://play.abstractplay.com/games/pollux), [nex](https://play.abstractplay.com/games/nex) |
-| `HexConeGraph` | Conical hex board | [conect](https://play.abstractplay.com/games/conect) |
-| `HexMoonGraph` | Fixed moon shape | [moonsquad](https://play.abstractplay.com/games/moonsquad) |
-| `PentaHexGraph` | Pentagonal hex rings | [bluestone](https://play.abstractplay.com/games/bluestone) |
+| `HexTriGraph` | Standard hex-hex boards | [Yavalath](https://play.abstractplay.com/games/yavalath), [WaldMeister](https://play.abstractplay.com/games/waldmeister) |
+| `HexSlantedGraph` | Rectangular slanted hex | [Pollux](https://play.abstractplay.com/games/pollux), [Nex](https://play.abstractplay.com/games/nex) |
+| `HexConeGraph` | Conical hex board | [Conect](https://play.abstractplay.com/games/conect) |
+| `HexMoonGraph` | Fixed moon shape | [Moon Squad](https://play.abstractplay.com/games/moonsquad) |
+| `PentaHexGraph` | Pentagonal hex rings | [Bluestone](https://play.abstractplay.com/games/bluestone) |
 
 Related low-level helpers: [Hex utilities](/gameslib/helpers/hex-utilities/).
 

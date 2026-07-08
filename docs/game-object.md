@@ -26,7 +26,9 @@ Every game is a class extending `GameBase` (or `GameBaseSimultaneous` for simult
 }
 ```
 
-Each `IIndividualState` requires `_version`, `_results`, `_timestamp`.
+You typically don't need to alter `IAPGameState`, but if there is game-wide information you need to store (information that doesn't change move to move), this is the most efficient place to store it.
+
+Each `IIndividualState` requires `_version`, `_results`, `_timestamp`. The rest is up to the game itself. It's really up to the developer how they want to structure things. As long as the game code will correctly hydrate a saved state, you're good.
 
 ## Provided by `GameBase`
 

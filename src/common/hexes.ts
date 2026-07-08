@@ -1,13 +1,15 @@
 /**
- * This function contains generic helper functions, interfaces, and classes for dealing with
- * parts of hexes, including edges, points, and connections.
+ * Helper functions, interfaces, and types for hex cells, edges, and vertices
+ * on honeycomb-grid `Hex` coordinates.
  */
 
 import { Orientation, Hex } from "honeycomb-grid";
 import { shuffle } from "./shuffle";
 
+/** Compass direction label; valid neighbours depend on hex orientation (pointy vs flat). */
 export type CompassDirection = "N"|"NE"|"E"|"SE"|"S"|"SW"|"W"|"NW";
 
+/** Identifies an edge or vertex by parent hex `(q, r)`, outward `dir`, and `uid`. */
 export interface IQRDir {
     q: number;
     r: number;
@@ -17,6 +19,8 @@ export interface IQRDir {
 }
 export type IEdge = IQRDir;
 export type IVertex = IQRDir;
+
+/** Axial hex coordinate `{q, r}`. */
 export interface IHexCoord {
     q: number;
     r: number;
@@ -57,6 +61,7 @@ export const hexNeighbours = (hex: Hex): IHexCoord[] => {
     return neighbours;
 }
 
+/** Returns the neighbour of `hex` in `dir`, or `undefined` if `dir` is invalid for its orientation. */
 export const nextHex = (hex: Hex, dir: CompassDirection): IHexCoord|undefined => {
     const {q,r} = hex;
     if (hex.orientation === Orientation.POINTY) {
@@ -158,6 +163,7 @@ export const bearing = (from: Hex, to: Hex): CompassDirection|undefined => {
     return undefined;
 }
 
+/** Maps each edge of `hex` (by compass direction) to a canonical `IEdge` record with a stable `uid`. */
 export const hex2edges = (hex: Hex): Map<CompassDirection,IEdge> => {
     const edges = new Map<CompassDirection,IEdge>();
     const {q,r} = hex;
@@ -179,6 +185,7 @@ export const hex2edges = (hex: Hex): Map<CompassDirection,IEdge> => {
     return edges;
 }
 
+/** Returns the two hex coordinates that share `edge`. */
 export const edge2hexes = (edge: IEdge): [IHexCoord,IHexCoord] => {
     if (edge.orientation === Orientation.POINTY) {
         switch (edge.dir) {
@@ -205,6 +212,7 @@ export const edge2hexes = (edge: IEdge): [IHexCoord,IHexCoord] => {
     }
 }
 
+/** Maps each vertex of `hex` (by compass direction) to a canonical `IVertex` record with a stable `uid`. */
 export const hex2verts = (hex: Hex): Map<CompassDirection,IVertex> => {
     const verts = new Map<CompassDirection,IEdge>();
     const {q,r} = hex;
@@ -226,6 +234,7 @@ export const hex2verts = (hex: Hex): Map<CompassDirection,IVertex> => {
     return verts;
 }
 
+/** Returns the three hex coordinates that meet at `vert`. */
 export const vert2hexes = (vert: IVertex): [IHexCoord,IHexCoord,IHexCoord] => {
     if (vert.orientation === Orientation.POINTY) {
         switch (vert.dir) {
@@ -248,6 +257,7 @@ export const vert2hexes = (vert: IVertex): [IHexCoord,IHexCoord,IHexCoord] => {
     }
 }
 
+/** Returns the two vertices at the ends of `edge`. */
 export const edge2verts = (edge: IEdge): [IVertex,IVertex] => {
     if (edge.orientation === Orientation.POINTY) {
         switch (edge.dir) {
@@ -292,6 +302,7 @@ export const edge2verts = (edge: IEdge): [IVertex,IVertex] => {
     }
 }
 
+/** Returns the three edges that meet at `vert`. */
 export const vert2edges = (vert: IVertex): [IEdge,IEdge,IEdge] => {
     if (vert.orientation === Orientation.POINTY) {
         switch (vert.dir) {
@@ -330,6 +341,7 @@ export const vert2edges = (vert: IVertex): [IEdge,IEdge,IEdge] => {
     }
 }
 
+/** Returns the three vertices adjacent to `vert` (sharing an edge with it). */
 export const vertNeighbours = (vert: IVertex): [IVertex,IVertex,IVertex] => {
     if (vert.orientation === Orientation.POINTY) {
         switch (vert.dir) {
@@ -368,6 +380,10 @@ export const vertNeighbours = (vert: IVertex): [IVertex,IVertex,IVertex] => {
     }
 }
 
+/**
+ * Procedurally grows a cluster of `numModules` hex-module centre points.
+ * Each module is a 7-hex flower; new modules attach edge-to-edge without overlap.
+ */
 export const generateField = (numModules: number): IHexCoord[] => {
     const around = (q: number, r: number): [number,number][] => {
         return [

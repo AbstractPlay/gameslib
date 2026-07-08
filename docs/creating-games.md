@@ -15,7 +15,7 @@ Guide for adding a new game to gameslib. For API details see [Game object](/game
 
 ## Implementation checklist
 
-- [ ] `static readonly gameinfo: APGamesInformation`
+- [ ] `static readonly gameinfo: APGamesInformation` (flag `experimental` must be set for all new games)
 - [ ] State interfaces (`IMoveState`, `I<Name>State`)
 - [ ] Constructor (new + deserialize via `reviver`)
 - [ ] `move`, `render`, `state`, `load`, `clone`, `moveState`
@@ -31,7 +31,7 @@ Start from [/gameslib/templates/new-game-template.ts](/gameslib/templates/new-ga
 
 Most board games use either:
 
-- **`RectGrid`** — rectangular boards with directions and algebraic coords ([tafl](https://play.abstractplay.com/games/tafl), [go](https://play.abstractplay.com/games/go))
+- **`RectGrid`** — rectangular boards with directions and algebraic coords ([Hnefatafl](https://play.abstractplay.com/games/tafl), [Go](https://play.abstractplay.com/games/go))
 - **Graph classes** — hex, snubsquare, sowing, etc. ([Helpers overview](/gameslib/helpers/))
 
 Use the [examples by feature](/gameslib/examples/by-feature/) index to find games similar to yours.

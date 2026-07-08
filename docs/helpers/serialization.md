@@ -17,10 +17,10 @@ Use in constructors when deserializing saved state.
 
 | Export | Purpose | Example games |
 |--------|---------|---------------|
-| `shuffle` | In-place Fisher–Yates | [volcano](https://play.abstractplay.com/games/volcano), [witch](https://play.abstractplay.com/games/witch) |
-| `StackSet` | Path-tracking set | [sunspot](https://play.abstractplay.com/games/sunspot), [stibro](https://play.abstractplay.com/games/stibro) |
-| `wng` | Procedural names | [homeworlds](https://play.abstractplay.com/games/homeworlds) |
-| `x2uid` | Deterministic hash id | [storisende](https://play.abstractplay.com/games/storisende) |
+| `shuffle` | In-place Fisher–Yates | [Volcano](https://play.abstractplay.com/games/volcano), [Witch Stones](https://play.abstractplay.com/games/witch) |
+| `StackSet` | Path-tracking set | [Sunspot](https://play.abstractplay.com/games/sunspot), [Stibro](https://play.abstractplay.com/games/stibro) |
+| `wng` | Procedural names | [Homeworlds](https://play.abstractplay.com/games/homeworlds) |
+| `x2uid` | Deterministic hash id | [Storisende](https://play.abstractplay.com/games/storisende) |
 
 ## Example games
 

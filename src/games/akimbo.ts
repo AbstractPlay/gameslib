@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, ICustomButton } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, MarkerEdge } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -59,9 +59,10 @@ export class AkimboGame extends GameBase {
             { uid: "#board", }, // 15x15
             { uid: "size-17", group: "board" },
             { uid: "size-19", group: "board" },
+            { uid: "okimba",  group: "ruleset" },
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["no-moves", "pie"]
+        flags: ["no-moves", "pie", "custom-buttons"]
     };
 
     public numplayers = 2;
@@ -77,6 +78,7 @@ export class AkimboGame extends GameBase {
     public nakedDiagonalP2: string[] = [];
     private boardSize = 0;
     private lines: [PlayerLines, PlayerLines];
+    private ruleset: "default" | "okimba";
 
     constructor(state?: IAkimboState | string, variants?: string[]) {
         super();
@@ -110,6 +112,7 @@ export class AkimboGame extends GameBase {
         }
         this.load();
         this.lines = this.getLines();
+        this.ruleset = this.getRuleset();
     }
 
     public load(idx = -1): AkimboGame {
@@ -137,6 +140,11 @@ export class AkimboGame extends GameBase {
     }
     public algebraic2coords(cell: string): [number, number] {
         return GameBase.algebraic2coords(cell, this.boardSize);
+    }
+
+    private getRuleset(): "default" | "okimba" {
+        if (this.variants.includes("okimba")) { return "okimba"; }
+        return "default";
     }
 
     private getLines(): [PlayerLines,PlayerLines] {
@@ -257,6 +265,25 @@ export class AkimboGame extends GameBase {
         return false;
     }
 
+    // check if the removal of a cross cut at `cell` creates a new naked diagonal
+    // the function returns the new naked diagonal, or [] otherwise
+    private checkCrossCutRemoval(cell: string): string[] {
+        const dirs: [Direction, Direction][] = [["N","E"],["S","E"],["S","W"],["N","W"]];
+
+        for (const [dir1, dir2] of dirs) {
+            const [p1, p2, p3] = this.checkDiagonal(cell, dir1, dir2);
+            if ( p1 === 4 || p2 === 4 ) { continue; }
+            if ( p1 === this.currplayer && p2 === this.currplayer && p3 !== this.currplayer ) {
+                const g = new RectGrid(this.boardSize, this.boardSize);
+                const [x,y] = this.algebraic2coords(cell);
+
+                return [g.ray(x, y, dir1).map(n => this.coords2algebraic(...n))[0],
+                        g.ray(x, y, dir2).map(n => this.coords2algebraic(...n))[0]];
+            }
+        }
+        return [];
+    }
+
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             const cell = this.coords2algebraic(col, row);
@@ -278,12 +305,23 @@ export class AkimboGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.akimbo.INSTRUCTIONS")
+            if (this.ruleset === "okimba") {
+                result.message = i18next.t("apgames:validation.akimbo.INSTRUCTIONS_OKIMBA")
+            } else {
+                result.message = i18next.t("apgames:validation.akimbo.INSTRUCTIONS")
+            }
             return result;
         }
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
+
+        if (this.ruleset === "okimba" && m === "pass") {
+            result.valid = true;
+            result.complete = 1;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
+        }
 
         try { // check if cell is valid
             this.algebraic2coords(m);
@@ -313,6 +351,15 @@ export class AkimboGame extends GameBase {
             return result;
         }
 
+        if (this.ruleset === "okimba") {
+            const existNaked = this.nakedDiagonalP1.length > 0 || this.nakedDiagonalP2.length > 0;
+            if (existNaked && newNakeds > 0) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.akimbo.EXCESS_NAKED_DIAGONALS");
+                return result;
+            }
+        }
+
         result.valid = true;
         result.complete = 1;
         result.message = i18next.t("apgames:validation._general.VALID_MOVE");
@@ -335,46 +382,51 @@ export class AkimboGame extends GameBase {
             if (! result.valid) { throw new UserFacingError("VALIDATION_GENERAL", result.message) }
         }
 
-        this.board.set(m, this.currplayer);
-        this.results.push( {type: "place", where: m} );
+        if (this.ruleset === "okimba" && m === "pass") {
+            this.results.push({type: "pass"});
+        } else {
 
-        const prevNaked = this.currplayer === 1 ? this.nakedDiagonalP1 : this.nakedDiagonalP2;
-        let isNaked = prevNaked.length > 0;
+            this.board.set(m, this.currplayer);
+            this.results.push( {type: "place", where: m} );
 
-        if ( isNaked ) { // a naked diagonal existed
-            if ( this.numNakedDiagonals(prevNaked[0]) === 0 ) { // but not anymore
-                isNaked = this.numNakedDiagonals(m) > 0; // check if 'm' created a new naked diagonal
-            }
-        }
+            const prevNaked = this.currplayer === 1 ? this.nakedDiagonalP1 : this.nakedDiagonalP2;
+            let isNaked = prevNaked.length > 0;
 
-        if ( !isNaked ) { // remove naked diagonal
-            if ( this.currplayer === 1 ) {
-                this.nakedDiagonalP1 = [];
-            } else {
-                this.nakedDiagonalP2 = [];
-            }
-        }
-
-        if ( this.numNakedDiagonals(m) > 0 ) {
-            if ( this.currplayer === 1 ) {
-                this.nakedDiagonalP1 = [m, this.pairNakedDiagonal(m)];
-            } else {
-                this.nakedDiagonalP2 = [m, this.pairNakedDiagonal(m)];
-            }
-        }
-
-        if ( this.isCrosscut(m) ) {
-            // m and its pair are the one and only naked diagonal of current player
-            // so the naked diagonal disappears, since its pair is about to be removed
-            if ( this.currplayer === 1 ) {
-                this.nakedDiagonalP1 = [];
-            } else {
-                this.nakedDiagonalP2 = [];
+            if ( isNaked ) { // a naked diagonal existed
+                if ( this.numNakedDiagonals(prevNaked[0]) === 0 ) { // but not anymore
+                    isNaked = this.numNakedDiagonals(m) > 0; // check if 'm' created a new naked diagonal
+                }
             }
 
-            const toDelete = this.pairNakedDiagonal(m);
-            this.board.delete(toDelete);
-            this.results.push( {type: "remove", where: toDelete} );
+            if ( !isNaked ) { // remove naked diagonal
+                if ( this.currplayer === 1 ) {
+                    this.nakedDiagonalP1 = [];
+                } else {
+                    this.nakedDiagonalP2 = [];
+                }
+            }
+
+            if ( this.numNakedDiagonals(m) > 0 ) {
+                if ( this.currplayer === 1 ) {
+                    this.nakedDiagonalP1 = [m, this.pairNakedDiagonal(m)];
+                } else {
+                    this.nakedDiagonalP2 = [m, this.pairNakedDiagonal(m)];
+                }
+            }
+
+            if ( this.isCrosscut(m) ) {
+                const toDelete = this.pairNakedDiagonal(m);
+                this.board.delete(toDelete);
+                this.results.push( {type: "remove", where: toDelete} );
+                // m and its pair are the one and only naked diagonal of current player
+                // so the naked diagonal disappears, since its pair is about to be removed
+                // now check if the removal created a new naked diagonal at its adjacent pieces
+                if ( this.currplayer === 1 ) {
+                    this.nakedDiagonalP1 = this.checkCrossCutRemoval(toDelete);
+                } else {
+                    this.nakedDiagonalP2 = this.checkCrossCutRemoval(toDelete);
+                }
+            }
         }
 
         this.lastmove = m;
@@ -523,6 +575,13 @@ export class AkimboGame extends GameBase {
         }
 
         return rep;
+    }
+
+    public getButtons(): ICustomButton[] {
+        if ( this.ruleset === "okimba" ) {
+            return [{ label: "pass", move: "pass" }];
+        }
+        return [];
     }
 
     public state(): IAkimboState {

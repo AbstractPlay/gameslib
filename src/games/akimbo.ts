@@ -257,6 +257,25 @@ export class AkimboGame extends GameBase {
         return false;
     }
 
+    // check if the removal of a cross cut at `cell` creates a new naked diagonal
+    // the function returns the new naked diagonal, or [] otherwise
+    private checkCrossCutRemoval(cell: string): string[] {
+        const dirs: [Direction, Direction][] = [["N","E"],["S","E"],["S","W"],["N","W"]];
+
+        for (const [dir1, dir2] of dirs) {
+            const [p1, p2, p3] = this.checkDiagonal(cell, dir1, dir2);
+            if ( p1 === 4 || p2 === 4 ) { continue; }
+            if ( p1 === this.currplayer && p2 === this.currplayer && p3 !== this.currplayer ) {
+                const g = new RectGrid(this.boardSize, this.boardSize);
+                const [x,y] = this.algebraic2coords(cell);
+
+                return [g.ray(x, y, dir1).map(n => this.coords2algebraic(...n))[0], 
+                        g.ray(x, y, dir2).map(n => this.coords2algebraic(...n))[0]];
+            }
+        }
+        return [];
+    }
+
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             const cell = this.coords2algebraic(col, row);
@@ -364,17 +383,18 @@ export class AkimboGame extends GameBase {
         }
 
         if ( this.isCrosscut(m) ) {
-            // m and its pair are the one and only naked diagonal of current player
-            // so the naked diagonal disappears, since its pair is about to be removed
-            if ( this.currplayer === 1 ) {
-                this.nakedDiagonalP1 = [];
-            } else {
-                this.nakedDiagonalP2 = [];
-            }
-
             const toDelete = this.pairNakedDiagonal(m);
             this.board.delete(toDelete);
             this.results.push( {type: "remove", where: toDelete} );
+            
+            // m and its pair are the one and only naked diagonal of current player
+            // so the naked diagonal disappears, since its pair is about to be removed
+            // now check if the removal created a new naked diagonal at its adjacent pieces
+            if ( this.currplayer === 1 ) {
+                this.nakedDiagonalP1 = this.checkCrossCutRemoval(toDelete);
+            } else {
+                this.nakedDiagonalP2 = this.checkCrossCutRemoval(toDelete);
+            }
         }
 
         this.lastmove = m;

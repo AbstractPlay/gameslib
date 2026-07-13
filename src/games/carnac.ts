@@ -14,8 +14,6 @@ type TipDir = "N" | "E" | "S" | "W";
 type Phase = "place" | "tip";
 
 const ORIENTS: Orient[] = ["11", "12", "21", "22"];
-/** Placements in untippable cells: south face is always colour 1. */
-const HOLE_ORIENTS: Orient[] = ["11", "21"];
 const TIP_DIRS: TipDir[] = ["N", "E", "S", "W"];
 
 /** `near` = bottom cube on the adjacent cell; `far` = top cube two cells away. */
@@ -347,23 +345,6 @@ export class CarnacGame extends GameBase {
         return cells;
     }
 
-    /** Empty cell with no room to tip a standing megalith in any direction. */
-    private isHole(cell: string): boolean {
-        for (const dir of TIP_DIRS) {
-            if (this.tipTargets(cell, dir) !== undefined) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private validOrientsForCell(cell: string): Orient[] {
-        if (this.isHole(cell)) {
-            return HOLE_ORIENTS;
-        }
-        return ORIENTS;
-    }
-
     private canPlace(): boolean {
         return this.reserve > 0 && this.emptyCells().length > 0;
     }
@@ -374,7 +355,7 @@ export class CarnacGame extends GameBase {
         }
         const moves: string[] = [];
         for (const cell of this.emptyCells()) {
-            for (const orient of this.validOrientsForCell(cell)) {
+            for (const orient of ORIENTS) {
                 moves.push(`${orient}-${cell}`);
             }
         }
@@ -402,7 +383,7 @@ export class CarnacGame extends GameBase {
                 if (occupied.has(cell)) {
                     continue;
                 }
-                for (const orient of this.validOrientsForCell(cell)) {
+                for (const orient of ORIENTS) {
                     moves.push(`${orient}-${cell}`);
                 }
             }
@@ -819,10 +800,6 @@ export class CarnacGame extends GameBase {
         }
         if (this.reserve <= 0) {
             result.message = i18next.t("apgames:validation.carnac.NO_RESERVE");
-            return result;
-        }
-        if (!this.validOrientsForCell(cell).includes(orient)) {
-            result.message = i18next.t("apgames:validation.carnac.INVALID_HOLE_ORIENTATION", { orient, where: cell });
             return result;
         }
         result.message = i18next.t("apgames:validation._general.INVALID_MOVE", { move: m });

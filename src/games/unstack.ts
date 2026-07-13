@@ -28,7 +28,7 @@ export class UnstackGame extends GameBase {
         uid: "unstack",
         playercounts: [2],
         version: "20260614",
-        dateAdded: "2026-06-14",
+        dateAdded: "2026-07-13",
         // i18next.t("apgames:descriptions.unstack")
         description: "apgames:descriptions.unstack",
         urls: [
@@ -51,7 +51,7 @@ export class UnstackGame extends GameBase {
             },
         ],
         categories: ["goal>score>eog", "mechanic>move>sow", "mechanic>capture", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["pie", "scores", "no-moves", "custom-buttons", "experimental"],
+        flags: ["pie", "scores", "no-moves", "custom-buttons"],
     };
 
     public coords2algebraic(x: number, y: number): string {

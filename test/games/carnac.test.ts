@@ -193,7 +193,7 @@ describe("Carnac", () => {
         expect(tipped.top).to.equal(1);
     });
 
-    it("restricts placements in enclosed holes to south-face-1 orientations", () => {
+    it("allows all orientations in enclosed untippable cells", () => {
         const g = new CarnacGame();
         const lie = (orient: "11" | "12" | "21" | "22") => ({
             kind: "lie" as const, orient, tipDir: "N" as const, slot: "near" as const,
@@ -204,8 +204,8 @@ describe("Carnac", () => {
         g.board.set("e5", lie("11"));
         expect(g.moves()).to.include("11-e4");
         expect(g.moves()).to.include("21-e4");
-        expect(g.moves()).to.not.include("12-e4");
-        expect(g.moves()).to.not.include("22-e4");
+        expect(g.moves()).to.include("12-e4");
+        expect(g.moves()).to.include("22-e4");
     });
 
     it("skips tip phase when placing in a hole", () => {

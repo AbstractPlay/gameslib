@@ -26,7 +26,7 @@ export class SwarmGame extends GameBase {
         uid: "swarm",
         playercounts: [2],
         version: "20260615",
-        dateAdded: "2026-06-15",
+        dateAdded: "2026-07-13",
         // i18next.t("apgames:descriptions.swarm")
         description: "apgames:descriptions.swarm",
         notes: "apgames:notes.swarm",
@@ -52,7 +52,7 @@ export class SwarmGame extends GameBase {
             { uid: "#board", }, // hexhex3
             { uid: "size-4", group: "board" },
         ],
-        flags: ["pie", "scores", "experimental"]
+        flags: ["pie", "scores"]
     };
 
     public numplayers = 2;

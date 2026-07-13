@@ -8,11 +8,9 @@ Currently all Abstract Play games must be coded in TypeScript and included in th
 
 ## Contact
 
-The [main website](https://www.abstractplay.com) houses the development blog and wiki. We encourage coders to join us on Discord (<https://discord.abstractplay.com>) in our `#dev-curious` channel if you have questions, and basic docs are available [on our wiki](https://abstractplay.com/wiki/doku.php?id=coding_docs).
+The [main website](https://www.abstractplay.com) houses the development blog and wiki. We encourage coders to join us on Discord (<https://discord.abstractplay.com>) in our `#dev-curious` channel if you have questions, and basic docs are available at <https://docs.abstractplay.com>.
 
 ## Build
-
-This module is designed specifically for Abstract Play. If someone does use this elsewhere, let me know :)
 
 - Clone the repo.
 - From the newly created folder, run the following commands:

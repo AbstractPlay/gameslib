@@ -441,6 +441,12 @@
             },
             "size-19": {
                 "name": "19x19 board"
+            },
+            "#ruleset": {
+                "name": "Akimbo"
+            },
+            "okimba": {
+                "name": "Okimba"
             }
         },
         "akron": {
@@ -4455,6 +4461,7 @@
         },
         "akimbo": {
             "INSTRUCTIONS": "Select a point to place a piece. Each player may only have one naked diagonal.",
+            "INSTRUCTIONS_OKIMBA": "Select a point to place a piece. There must be only have one naked diagonal in the entire board.",
             "OCCUPIED": "Select an empty cell to place a friendly piece.",
             "EXCESS_NAKED_DIAGONALS": "More than one naked diagonal would be created.",
             "NO_CROSSINGS": "Lines may not cross."

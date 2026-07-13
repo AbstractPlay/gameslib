@@ -4,7 +4,7 @@
         "accasta": "Accasta is the first of Dieter Stein's stacking trilogy. The goal is to get three of your own stacks into the enemy's castle area. There are three different types of pieces in the base version. In the \"Pari\" variant, movement is determined by how many friendly pieces are in the stack.",
         "acity": "Alien City is a combination Piecepack/Icehouse game about building a city on a newly colonized world. Four guilds compete for customers, and the player has to predict which bets are going to pay off. Each turn, the player places either a tower or dome and may optionally claim a tower they think is going to score big when the game ends. Play continues until no more construction is possible. Scores are based on the relative positions of buildings to claimed towers.",
         "agere": "A connection game where you can also stack pieces. Played either on a triangle board where you try to connect all three sides, or a circular \"cobweb\" board where you connect opposite sides.",
-        "akimbo": "A minimalist connection game where it is forbidden to have more than one naked diagonal.",
+        "akimbo": "A minimalist connection game where each player can only have one naked diagonal.",
         "akron": "Akron is an extension of standard connection games to three dimensions. On their turn, players may introduce new balls of their colour on the lowest layer of the board, or move a ball that is not pinned (having balls resting on it in two or more directions) to a space that is connected to the same group both before and after movement. When balls move, balls resting on it will drop, changing the connections on the board.",
         "almatafl": "AlmaTafl is an asymmetrical game where one side plays the defenders trying to get the king to safety, while the other side tries to capture the king or render him defenseless.",
         "alta": "Alta is a connection game played with switches on a diamond-shaped board. Connect your two sides with a path of switches of either player. On your turn, place a new switch or toggle one of your switches to change the orientation.",
@@ -276,7 +276,7 @@
         "zola": "A game where your movement is constrained by your distance from the centre of the board. Capturing moves must not increase that distance. Non-capturing moves must increase that distance. First person to capture all opposing pieces wins."
     },
     "notes": {
-        "akimbo": "Akimbo, designed by Luis Bolaños Mures in 2026, is a drawless connection game for two players. A _naked diagonal_ is a pair of like-colored, diagonally adjacent pieces with no other like-colored piece adjacent to both. A _crosscut_ is a 2×2 area with two interlocking naked diagonals of opposite colors.\n\nOn their turn, the player places a friendly piece on an empty cell. If this completes a crosscut, the other piece in the crosscut is removed. There must never be more than one naked diagonal of each color on the board — not even momentarily before removing a piece. A player wins if, at the end of their turn, there is a chain of orthogonally connected pieces of their color touching the player's two opposite board edges.",
+        "akimbo": "Akimbo, designed by Luis Bolaños Mures in 2026, is a drawless connection game for two players. A _naked diagonal_ is a pair of like-colored, diagonally adjacent pieces with no other like-colored piece adjacent to both. A _crosscut_ is a 2×2 area with two interlocking naked diagonals of opposite colors.\n\nOn their turn, the player places a friendly piece on an empty cell. If this completes a crosscut, the other piece in the crosscut is removed. There must never be more than one naked diagonal of each color on the board — not even momentarily before removing a piece. A player wins if, at the end of their turn, there is a chain of orthogonally connected pieces of their color touching the player's two opposite board edges.\n\nOkimba is a variant where only up to one naked diagonal can exist on the board (so while one player has the diagonal, the adversary cannot create another).",
         "alta": "There are two ways to place switches on the graphical interface: (1) Select the switch’s orientation in the panel, then click on the desired space on the board to place it, or (2) click on two vertices. The vertices are notated with an asterisk, followed by the algebraic notation of the space where the vertex is at the bottom-left corner. To toggle a switch, simply click on the space.",
         "anache": "This implementation follows David Ploog's rulesheet. Three notable changes are that (1) barriers are forbidden, (2) instead of a 16x16, we have a 15x15 variant, where pieces promote to knights on the centreline, and the dragon may not jump to the 7x7 space from the other corner, and (3) against the corners, pieces are captured via crushing capture instead of custodian capture, so there needs to be at least two opponent pieces in a line before a capture is made against the corners.\n\nNote: the stalemate check is expensive. If you cannot make a legal move, you should resign manually.",
         "arimaa": "Made available under section 3 of the [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nHarlog is an accepted method for determining material advantage. Positive scores favour Gold, negative Silver. The hard range is ±112, but in practice ±20 is a very strong advantage.\n\nBecause we can't generate comprehensive lists of moves, the system cannot detect the rare cases where your only available moves are illegal due to position repetition. The system won't let you make those illegal repetitions, and you'll have to resign manually.",
@@ -430,10 +430,10 @@
             "size-11": {
                 "name": "11x11 board"
             },
-            "size-13": {
+            "#board": {
                 "name": "13x13 board"
             },
-            "#board": {
+            "size-15": {
                 "name": "15x15 board"
             },
             "size-17": {

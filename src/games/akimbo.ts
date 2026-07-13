@@ -55,8 +55,8 @@ export class AkimboGame extends GameBase {
         variants: [
             { uid: "size-9", group: "board" },
             { uid: "size-11", group: "board" },
-            { uid: "size-13", group: "board" },
-            { uid: "#board", }, // 15x15
+            { uid: "#board", }, // 13x13
+            { uid: "size-15", group: "board" },
             { uid: "size-17", group: "board" },
             { uid: "size-19", group: "board" },
             { uid: "okimba",  group: "ruleset" },
@@ -179,7 +179,7 @@ export class AkimboGame extends GameBase {
                 throw new Error(`Could not determine the board size from variant "${this.variants[0]}"`);
             }
         }
-        return 15;
+        return 13;
     }
 
     // returns [p1,p2,p3] where `p1` is the player at its `dir1`, `p2` at its `dir2`,

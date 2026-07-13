@@ -35,7 +35,7 @@ export class MutternlandGame extends GameBase {
         uid: "mutternland",
         playercounts: [2],
         version: "20260618",
-        dateAdded: "2026-06-18",
+        dateAdded: "2026-07-13",
         // i18next.t("apgames:descriptions.mutternland")
         description: "apgames:descriptions.mutternland",
         notes: "apgames:notes.mutternland",
@@ -73,8 +73,8 @@ export class MutternlandGame extends GameBase {
                 explanation: "Colour of nuts"
             },
         ],
-        categories: ["goal>score>eog", "mechanic>place", "mechanic>move", "mechanic>stack", "board>shape>hex", "board>connect>hex", "components>simple>1c"],
-        flags: ["no-moves", "custom-buttons", "scores", "experimental"],
+        categories: ["goal>score>eog", "mechanic>place", "mechanic>move", "mechanic>stack", "mechanic>random>setup", "board>shape>hex", "board>connect>hex", "components>simple>1c"],
+        flags: ["no-moves", "custom-buttons", "scores", "random-start"],
     };
 
     public numplayers = 2;
@@ -849,6 +849,10 @@ export class MutternlandGame extends GameBase {
             board: new Map(this.board),
             reserve: [...this.reserve],
         };
+    }
+
+    public getStartingPosition(): string {
+        return [...this.stack[0].board.keys()].sort().join(",");
     }
 
     public clone(): MutternlandGame {

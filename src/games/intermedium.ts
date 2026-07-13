@@ -28,7 +28,7 @@ export class IntermediumGame extends GameBase {
         uid: "intermedium",
         playercounts: [2],
         version: "20260619",
-        dateAdded: "2026-06-19",
+        dateAdded: "2026-07-13",
         // i18next.t("apgames:descriptions.intermedium")
         description: "apgames:descriptions.intermedium",
         notes: "apgames:notes.intermedium",
@@ -50,7 +50,7 @@ export class IntermediumGame extends GameBase {
             },
         ],
         categories: ["goal>royal-capture", "goal>cripple", "mechanic>move>sow", "mechanic>capture", "mechanic>stack", "mechanic>enclose","board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["no-moves", "experimental"],
+        flags: ["no-moves"],
         displays: [{uid: "hide-diagonals"}],
     };
 
@@ -574,11 +574,11 @@ export class IntermediumGame extends GameBase {
         const rep: APRenderRep =  {
             renderer: "stacking-offset",
             board: {
-                style: "squares",
+                style: showDiagonals ? "squares" : "squares-checkered",
                 width: BOARD_COLS,
                 height: BOARD_ROWS,
                 markers,
-                strokeOpacity: 0
+                strokeOpacity: showDiagonals ? 0 : 1,
             },
             legend: {
                 A: [{ name: "piece", colour: 1 }],

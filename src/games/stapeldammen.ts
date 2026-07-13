@@ -30,7 +30,7 @@ export class StapeldammenGame extends GameBase {
         uid: "stapeldammen",
         playercounts: [2],
         version: "20260621",
-        dateAdded: "2026-06-21",
+        dateAdded: "2026-07-13",
         // i18next.t("apgames:descriptions.stapeldammen")
         description: "apgames:descriptions.stapeldammen",
         notes: "apgames:notes.stapeldammen",
@@ -59,7 +59,7 @@ export class StapeldammenGame extends GameBase {
         variants: [
         ],
         categories: ["goal>score>eog", "mechanic>capture", "mechanic>move", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["perspective", "automove", "experimental"]
+        flags: ["perspective", "automove"]
     };
 
     public coords2algebraic(x: number, y: number): string {

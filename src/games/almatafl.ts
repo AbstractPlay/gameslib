@@ -37,6 +37,7 @@ export class AlmataflGame extends GameBase {
         // i18next.t("apgames:descriptions.almatafl")
         description: "apgames:descriptions.almatafl",
         urls: ["https://boardgamegeek.com/boardgame/401367/almatafl"],
+        bggid: "401367",
         people: [
             {
                 type: "designer",

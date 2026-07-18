@@ -33,6 +33,7 @@ export class RampartGame extends GameBase {
             "https://boardgamegeek.com/boardgame/133923/rampart",
             "https://boardgamegeek.com/boardgame/134259/hex-rampart",
         ],
+        bggid: "133923",
         people: [
             {
                 type: "designer",

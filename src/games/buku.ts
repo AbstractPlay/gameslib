@@ -34,6 +34,7 @@ export class BukuGame extends GameBase {
             "https://mancala.fandom.com/wiki/Buku",
             "https://boardgamegeek.com/boardgame/432205/buku",
         ],
+        bggid: "432205",
         people: [
             {
                 type: "designer",

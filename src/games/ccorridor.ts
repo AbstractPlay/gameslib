@@ -34,6 +34,7 @@ export class CairoCorridorGame extends GameBase {
         // i18next.t("apgames:descriptions.ccorridor")
         description: "apgames:descriptions.ccorridor",
         urls: ["https://boardgamegeek.com/boardgame/137173/cairo-corridor"],
+        bggid: "137173",
         people: [
             {
                 type: "designer",

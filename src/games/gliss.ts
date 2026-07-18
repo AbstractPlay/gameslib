@@ -42,6 +42,7 @@ export class GlissGame extends GameBase {
         // i18next.t("apgames:descriptions.gliss")
         description: "apgames:descriptions.gliss",
         urls: ["https://boardgamegeek.com/boardgame/428098/gliss"],
+        bggid: "428098",
         people: [
             {
                 type: "designer",

@@ -35,6 +35,7 @@ export class StairsGame extends GameBase {
             "https://kanare-abstract.com/en/pages/stairs",
             "https://boardgamegeek.com/boardgame/383703/stairs"
         ],
+        bggid: "383703",
         people: [
             {
                 type: "designer",

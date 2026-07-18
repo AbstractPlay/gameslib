@@ -35,6 +35,7 @@ export class MattockGame extends GameBase {
             "https://mattock.drew-edwards.com/",
             "https://boardgamegeek.com/boardgame/320505/mattock",
         ],
+        bggid: "320505",
         people: [
             {
                 type: "designer",

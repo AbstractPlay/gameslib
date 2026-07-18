@@ -33,6 +33,7 @@ export class SlitherGame extends GameBase {
         // i18next.t("apgames:descriptions.slither")
         description: "apgames:descriptions.slither",
         urls: ["https://boardgamegeek.com/boardgame/75957/slither"],
+        bggid: "75957",
         people: [
             {
                 type: "designer",

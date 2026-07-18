@@ -35,6 +35,7 @@ export class QueryGame extends GameBase {
             "https://mindsports.nl/index.php/the-pit/548-query",
             "https://boardgamegeek.com/boardgame/432215/query",
         ],
+        bggid: "432215",
         people: [
             {
                 type: "designer",

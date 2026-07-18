@@ -42,6 +42,7 @@ export class LoggerGame extends GameBase {
             "https://looneypyramids.wiki/wiki/Logger",
             "https://boardgamegeek.com/boardgame/36985/logger",
         ],
+        bggid: "36985",
         people: [
             {
                 type: "designer",

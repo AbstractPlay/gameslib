@@ -33,6 +33,7 @@ export class SplineGame extends GameBase {
         // i18next.t("apgames:descriptions.spline")
         description: "apgames:descriptions.spline",
         urls: ["https://boardgamegeek.com/boardgame/93164/spline"],
+        bggid: "93164",
         people: [
             {
                 type: "designer",

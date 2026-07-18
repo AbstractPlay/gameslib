@@ -33,6 +33,7 @@ export class StibroGame extends GameBase {
         // i18next.t("apgames:descriptions.stibro")
         description: "apgames:descriptions.stibro",
         urls: ["https://boardgamegeek.com/boardgame/430591/stibro"],
+        bggid: "430591",
         people: [
             {
                 type: "designer",

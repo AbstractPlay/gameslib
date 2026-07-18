@@ -59,6 +59,7 @@ export class RealmGame extends GameBase {
         // i18next.t("apgames:descriptions.realm")
         description: "apgames:descriptions.realm",
         urls: ["https://boardgamegeek.com/boardgame/3024/realm"],
+        bggid: "3024",
         people: [
             {
                 type: "designer",

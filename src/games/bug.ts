@@ -30,6 +30,7 @@ export class BugGame extends GameBase {
         // i18next.t("apgames:notes.bug")
         notes: "apgames:notes.bug",
         urls: ["https://boardgamegeek.com/boardgame/240835/bug"],
+        bggid: "240835",
         people: [
             {
                 type: "designer",

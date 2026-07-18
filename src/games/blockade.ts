@@ -32,6 +32,7 @@ export class BlockadeGame extends GameBase {
         // i18next.t("apgames:descriptions.blockade")
         description: "apgames:descriptions.blockade",
         urls: ["https://boardgamegeek.com/boardgame/2559/blockade"],
+        bggid: "2559",
         people: [
             {
                 type: "designer",

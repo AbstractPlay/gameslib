@@ -34,6 +34,7 @@ export class BoxesGame extends GameBase {
             "https://en.wikipedia.org/wiki/Dots_and_Boxes",
             "https://boardgamegeek.com/boardgame/17106/boxes",
         ],
+        bggid: "17106",
         people: [
             {
                 type: "designer",

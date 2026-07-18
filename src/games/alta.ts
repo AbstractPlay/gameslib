@@ -37,6 +37,7 @@ export class AltaGame extends GameBase {
         // i18next.t("apgames:notes.alta")
         notes: "apgames:notes.alta",
         urls: ["https://boardgamegeek.com/boardgame/40658/alta"],
+        bggid: "40658",
         people: [
             {
                 type: "designer",

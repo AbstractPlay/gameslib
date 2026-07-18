@@ -35,6 +35,7 @@ export class ValleyGame extends GameBase {
             "https://boardgamegeek.com/boardgame/86169/kings-valley",
             "https://boardgamegeek.com/boardgame/173325/kings-valley-labyrinth"
         ],
+        bggid: "86169",
         people: [
             {
                 type: "designer",

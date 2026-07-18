@@ -77,6 +77,7 @@ export class MagnateGame extends GameBase {
             "http://wiki.decktet.com/game:magnate",
             "https://boardgamegeek.com/boardgame/41090/magnate",
         ],
+        bggid: "41090",
         people: [
             {
                 type: "designer",

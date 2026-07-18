@@ -53,6 +53,7 @@ export class BaoGame extends GameBase {
             "https://mancala.fandom.com/wiki/Bao_la_Kiswahili",
             "https://boardgamegeek.com/boardgame/14186/bao",
         ],
+        bggid: "14186",
         people: [
             {
                 type: "coder",

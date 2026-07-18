@@ -44,6 +44,7 @@ export class SunspotGame extends GameBase {
         // i18next.t("apgames:descriptions.sunspot")
         description: "apgames:descriptions.sunspot",
         urls: ["https://boardgamegeek.com/boardgame/444740/sunspot"],
+        bggid: "444740",
         people: [
             {
                 type: "designer",

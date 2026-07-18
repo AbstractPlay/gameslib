@@ -34,6 +34,7 @@ export class LielowGame extends GameBase {
         // i18next.t("apgames:descriptions.lielow")
         description: "apgames:descriptions.lielow",
         urls: ["https://boardgamegeek.com/boardgame/349408/lielow"],
+        bggid: "349408",
         people: [
             {
                 type: "designer",

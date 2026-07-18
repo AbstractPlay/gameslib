@@ -32,6 +32,7 @@ export class ByteGame extends GameBase {
             "https://www.marksteeregames.com/Byte_rules.pdf",
             "https://boardgamegeek.com/boardgame/19360/byte",
         ],
+        bggid: "19360",
         people: [
             {
                 type: "designer",

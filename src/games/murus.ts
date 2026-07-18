@@ -35,6 +35,7 @@ export class MurusGame extends GameBase {
             "https://sites.google.com/site/theowlsnest02/home/murus-gallicus",
             "https://boardgamegeek.com/boardgame/55131/murus-gallicus",
         ],
+        bggid: "55131",
         people: [
             {
                 type: "designer",

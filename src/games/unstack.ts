@@ -36,6 +36,7 @@ export class UnstackGame extends GameBase {
                 "https://boardgamegeek.com/boardgame/27013/unstack",
                 "https://mancala.fandom.com/wiki/UnStack"
               ],
+        bggid: "27013",
         people: [
             {
                 type: "designer",

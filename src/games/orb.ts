@@ -38,6 +38,7 @@ export class OrbGame extends GameBase {
         // i18next.t("apgames:descriptions.orb")
         description: "apgames:descriptions.orb",
         urls: ["https://boardgamegeek.com/boardgame/18728/generatorb"],
+        bggid: "18728",
         people: [
             {
                 type: "designer",

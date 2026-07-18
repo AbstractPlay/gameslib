@@ -37,6 +37,7 @@ export class NexGame extends GameBase {
         // i18next.t("apgames:descriptions.nex")
         description: "apgames:descriptions.nex",
         urls: ["https://boardgamegeek.com/boardgame/187651/nex"],
+        bggid: "187651",
         people: [
             {
                 type: "designer",

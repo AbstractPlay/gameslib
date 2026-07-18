@@ -43,6 +43,7 @@ export class BlamGame extends GameBase {
             "http://invisible-city.com/content/blam",
             "https://boardgamegeek.com/boardgame/17765/blam",
         ],
+        bggid: "17765",
         people: [
             {
                 type: "designer",

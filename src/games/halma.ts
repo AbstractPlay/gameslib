@@ -35,6 +35,7 @@ export class HalmaGame extends GameBase {
             "https://www.abstractgames.org/uploads/1/1/6/4/116462923/abstract_games_issue_15.pdf#page=11",
             "https://blackandwhite.develz.org/games/SuperHalma.pdf",
         ],
+        bggid: "38950",
         people: [
             {
                 type: "designer",

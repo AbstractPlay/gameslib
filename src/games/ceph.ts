@@ -35,6 +35,7 @@ export class CephalopodGame extends GameBase {
             "http://www.marksteeregames.com/Cephalopod_rules.pdf",
             "https://boardgamegeek.com/boardgame/22790/cephalopod",
         ],
+        bggid: "22790",
         people: [
             {
                 type: "designer",

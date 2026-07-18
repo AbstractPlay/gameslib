@@ -35,6 +35,7 @@ export class HensGame extends GameBase {
             "https://crabfragmentlabs.com/verdigris-pawn",
             "https://boardgamegeek.com/boardgame/432210/hens-and-chicks",
         ],
+        bggid: "432210",
         people: [
             {
                 type: "designer",

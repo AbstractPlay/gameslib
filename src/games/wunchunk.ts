@@ -47,6 +47,7 @@ export class WunchunkGame extends GameBase {
         urls: [
             "https://boardgamegeek.com/boardgame/285135/wunchunk",
         ],
+        bggid: "285135",
         people: [
             {
                 type: "designer",

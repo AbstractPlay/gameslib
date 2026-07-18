@@ -40,6 +40,7 @@ export class HexentaflGame extends GameBase {
         // i18next.t("apgames:descriptions.hexentafl")
         description: "apgames:descriptions.hexentafl",
         urls: ["https://boardgamegeek.com/boardgame/321175/hexentafl"],
+        bggid: "321175",
         people: [
             {
                 type: "designer",

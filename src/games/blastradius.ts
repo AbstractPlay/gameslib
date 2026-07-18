@@ -39,6 +39,7 @@ export class BlastRadiusGame extends GameBase {
             "https://www.marksteeregames.com/Blast_Radius_rules.pdf",
             "https://boardgamegeek.com/boardgame/434293/blast-radius",
         ],
+        bggid: "434293",
         people: [
             {
                 type: "designer",

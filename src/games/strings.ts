@@ -44,6 +44,7 @@ export class StringsGame extends GameBaseSimultaneous {
         urls: [
             "https://boardgamegeek.com/boardgame/18284/pulling-strings",
         ],
+        bggid: "18284",
         people: [
             {
                 type: "designer",

@@ -32,6 +32,7 @@ export class PrudhGame extends GameBase {
             "https://crabfragmentlabs.com/prudh",
             "https://boardgamegeek.com/boardgame/417698/prudh-the-gentlemens-game",
         ],
+        bggid: "417698",
         people: [
             {
                 type: "designer",

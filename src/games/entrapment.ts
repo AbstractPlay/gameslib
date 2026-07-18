@@ -35,6 +35,7 @@ export class EntrapmentGame extends GameBase {
         // i18next.t("apgames:descriptions.entrapment")
         description: "apgames:descriptions.entrapment",
         urls: ["https://boardgamegeek.com/boardgame/12533/entrapment"],
+        bggid: "12533",
         people: [
             {
                 type: "designer",

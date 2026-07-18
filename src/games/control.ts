@@ -30,6 +30,7 @@ export class ControlGame extends GameBase {
         // i18next.t("apgames:descriptions.control")
         description: "apgames:descriptions.control",
         urls: ["https://boardgamegeek.com/boardgame/418399/control"],
+        bggid: "418399",
         people: [
             {
                 type: "designer",

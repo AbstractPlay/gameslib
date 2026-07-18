@@ -36,6 +36,7 @@ export class CatapultGame extends GameBase {
         // i18next.t("apgames:descriptions.catapult")
         description: "apgames:descriptions.catapult",
         urls: ["https://boardgamegeek.com/boardgame/411625/catapult"],
+        bggid: "411625",
         people: [
             {
                 type: "designer",

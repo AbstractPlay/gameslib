@@ -32,6 +32,7 @@ export class ResolveGame extends GameBase {
         // i18next.t("apgames:descriptions.resolve")
         description: "apgames:descriptions.resolve",
         urls: ["https://boardgamegeek.com/boardgame/314106/resolve"],
+        bggid: "314106",
         people: [
             {
                 type: "designer",

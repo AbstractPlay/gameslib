@@ -37,6 +37,7 @@ export class DameoGame extends GameBase {
             "https://mindsports.nl/index.php/arena/dameo/",
             "https://boardgamegeek.com/boardgame/24698/dameo",
         ],
+        bggid: "24698",
         people: [
             {
                 type: "designer",

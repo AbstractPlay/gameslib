@@ -57,6 +57,7 @@ export class JacynthGame extends GameBase {
             "http://wiki.decktet.com/game:jacynth",
             "https://boardgamegeek.com/boardgame/39290/jacynth",
         ],
+        bggid: "39290",
         people: [
             {
                 type: "designer",

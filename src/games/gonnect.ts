@@ -35,6 +35,7 @@ export class GonnectGame extends GameBase {
         // i18next.t("apgames:descriptions.gonnect")
         description: "apgames:descriptions.gonnect",
         urls: ["https://boardgamegeek.com/boardgame/12146/gonnect"],
+        bggid: "12146",
         people: [
             {
                 type: "designer",

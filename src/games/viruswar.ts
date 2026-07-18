@@ -34,6 +34,7 @@ export class VirusWarGame extends GameBase {
             "https://ptupitsyn.github.io/klopodavka-rs/",
             "https://sagme.blogspot.com/2025/09/pencil-and-paper-games-dots-and-bugs.html",
         ],
+        bggid: "68214",
         people: [
             {
                 type: "designer",

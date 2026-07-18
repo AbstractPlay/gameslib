@@ -39,6 +39,7 @@ export class LascaGame extends GameBase {
             "https://jpneto.github.io/world_abstract_games/lasca.htm",
             "https://www.boardgamegeek.com/game/6862",
         ],
+        bggid: "6862",
         people: [
             {
                 type: "designer",

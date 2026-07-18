@@ -42,6 +42,7 @@ export class CamelotGame extends GameBase {
             "http://www.worldcamelotfederation.com",
             "https://boardgamegeek.com/boardgame/5251/camelot",
         ],
+        bggid: "5251",
         people: [
             {
                 type: "designer",

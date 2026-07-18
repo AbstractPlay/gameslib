@@ -32,6 +32,7 @@ export class DomineeringGame extends GameBase {
                 "https://boardgamegeek.com/boardgame/7450/stop-gate",
                 "https://jpneto.github.io/world_abstract_games/modern_rules/2025_Quelhas.pdf"
               ],
+        bggid: "7450",
         people: [
             {
                 type: "designer",

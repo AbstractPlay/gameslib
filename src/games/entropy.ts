@@ -44,6 +44,7 @@ export class EntropyGame extends GameBaseSimultaneous {
         urls: [
             "https://boardgamegeek.com/boardgame/1329/hyle",
         ],
+        bggid: "1329",
         people: [
             {
                 type: "designer",

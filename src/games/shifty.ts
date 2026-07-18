@@ -38,6 +38,7 @@ export class ShiftyGame extends GameBase {
             "https://web.archive.org/web/20151224161649/http://nickbentleygames.wordpress.com/2012/05/01/new-game-shifty/",
             "https://boardgamegeek.com/boardgame/124313/shifty"
         ],
+        bggid: "124313",
         people: [
             {
                 type: "designer",

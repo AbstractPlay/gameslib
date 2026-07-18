@@ -43,6 +43,7 @@ export class GorogoGame extends GameBase {
             "https://www.logygames.com/english/GoRoGo.html",
             "https://boardgamegeek.com/boardgame/216789/gorogo"
         ],
+        bggid: "216789",
         people: [
             {
                 type: "designer",

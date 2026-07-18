@@ -55,6 +55,7 @@ export class TraxGame extends GameBase {
             "http://www.traxgame.com",
             "https://boardgamegeek.com/boardgame/748/trax",
         ],
+        bggid: "748",
         people: [
             {
                 type: "designer",

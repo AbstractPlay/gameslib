@@ -37,6 +37,7 @@ export class CrossControlGame extends GameBase {
         // i18next.t("apgames:descriptions.crosscontrol")
         description: "apgames:descriptions.crosscontrol",
         urls: ["https://boardgamegeek.com/boardgame/143767/crosscontrol"],
+        bggid: "143767",
         people: [
             {
                 type: "designer",

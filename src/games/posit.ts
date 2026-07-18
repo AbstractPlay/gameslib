@@ -37,6 +37,7 @@ export class PositGame extends GameBase {
         urls: [
             "https://boardgamegeek.com/boardgame/186367/posit-3-d-board-game"
         ],
+        bggid: "186367",
         people: [
             {
                 type: "designer",

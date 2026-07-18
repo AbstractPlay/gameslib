@@ -43,6 +43,7 @@ export class PikemenGame extends GameBase {
             "http://playagaingames.com/games/pikemen/",
             "https://boardgamegeek.com/boardgame/20269/pikemen",
         ],
+        bggid: "20269",
         people: [
             {
                 type: "designer",

@@ -33,6 +33,7 @@ export class ScaffoldGame extends GameBase {
         // i18next.t("apgames:descriptions.scaffold")
         description: "apgames:descriptions.scaffold",
         urls: ["https://boardgamegeek.com/boardgame/360432/scaffold"],
+        bggid: "360432",
         people: [
             {
                 type: "designer",

@@ -40,6 +40,7 @@ export class AkronGame extends GameBase {
             "http://cambolbro.com/games/akron",
             "https://boardgamegeek.com/boardgame/10889/akron"
         ],
+        bggid: "10889",
         people: [
             {
                 type: "designer",

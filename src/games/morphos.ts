@@ -100,6 +100,7 @@ export class MorphosGame extends GameBase {
         urls: [
             "https://boardgamegeek.com/boardgame/208437/morphos",
         ],
+        bggid: "208437",
         people: [
             {
                 type: "designer",

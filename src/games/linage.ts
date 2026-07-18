@@ -44,6 +44,7 @@ export class LinageGame extends GameBase {
         urls: [
             "https://boardgamegeek.com/boardgame/219420/linage"
         ],
+        bggid: "219420",
         people: [
             {
                 type: "designer",

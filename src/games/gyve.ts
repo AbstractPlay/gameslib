@@ -36,6 +36,7 @@ export class GyveGame extends GameBase {
         // i18next.t("apgames:descriptions.gyve")
         description: "apgames:descriptions.gyve",
         urls: ["https://boardgamegeek.com/boardgame/379461/gyve"],
+        bggid: "379461",
         people: [
             {
                 type: "designer",

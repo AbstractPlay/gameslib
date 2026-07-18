@@ -34,6 +34,7 @@ export class FocusGame extends GameBase {
             "https://en.wikipedia.org/wiki/Focus_(board_game)",
             "https://boardgamegeek.com/boardgame/789/focus",
         ],
+        bggid: "789",
         people: [
             {
                 type: "designer",

@@ -41,6 +41,7 @@ export class StorisendeGame extends GameBase {
             "https://mindsports.nl/index.php/arena/storisende/747-storisende-rules",
             "https://boardgamegeek.com/boardgame/255427/storisende",
         ],
+        bggid: "255427",
         people: [
             {
                 type: "designer",

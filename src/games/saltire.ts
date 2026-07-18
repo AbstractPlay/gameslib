@@ -34,6 +34,7 @@ export class SaltireGame extends GameBase {
         // i18next.t("apgames:descriptions.saltire")
         description: "apgames:descriptions.saltire",
         urls: ["https://boardgamegeek.com/boardgame/402546/saltire"],
+        bggid: "402546",
         people: [
             {
                 type: "designer",

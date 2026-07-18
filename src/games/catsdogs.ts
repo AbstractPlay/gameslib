@@ -31,6 +31,7 @@ export class CatsDogsGame extends GameBase {
         notes: "apgames:notes.catsdogs",
         urls: [
             "https://boardgamegeek.com/boardgame/151888/snort",        ],
+        bggid: "151888",
         people: [
             {
                 type: "designer",

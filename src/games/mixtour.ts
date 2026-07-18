@@ -34,6 +34,7 @@ export class MixtourGame extends GameBase {
             "https://spielstein.com/games/mixtour/rules",
             "https://boardgamegeek.com/boardgame/90942/mixtour",
         ],
+        bggid: "90942",
         people: [
             {
                 type: "designer",

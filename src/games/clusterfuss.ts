@@ -36,6 +36,7 @@ export class ClusterfussGame extends GameBase {
             "https://marksteeregames.com/Clusterfuss_rules.pdf",
             "https://boardgamegeek.com/boardgame/413919/clusterfuss",
         ],
+        bggid: "413919",
         people: [
             {
                 type: "designer",

@@ -33,6 +33,7 @@ export class UpperHandGame extends GameBase {
         // i18next.t("apgames:descriptions.upperhand")
         description: "apgames:descriptions.upperhand",
         urls: ["https://boardgamegeek.com/boardgame/4545/upper-hand"],
+        bggid: "4545",
         people: [
             {
                 type: "designer",

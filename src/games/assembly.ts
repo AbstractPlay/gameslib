@@ -39,6 +39,7 @@ export class AssemblyGame extends GameBaseSimultaneous {
         urls: [
             "https://boardgamegeek.com/boardgame/6568/assembly-line",
         ],
+        bggid: "6568",
         people: [
             {
                 type: "designer",

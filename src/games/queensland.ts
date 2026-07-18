@@ -36,6 +36,7 @@ export class QueenslandGame extends GameBase {
             "https://static1.squarespace.com/static/5e1ce8815cb76d3000d347f2/t/64264b8894a17f6937a3cf3e/1680231305313/QueenslandPostcardB.pdf",
             "https://boardgamegeek.com/boardgame/12907/queensland",
         ],
+        bggid: "12907",
         people: [
             {
                 type: "designer",

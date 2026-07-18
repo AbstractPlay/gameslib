@@ -39,6 +39,7 @@ export class TakeGame extends GameBase {
             "https://www.marksteeregames.com/Take_rules.pdf",
             "https://boardgamegeek.com/boardgame/432220/take",
         ],
+        bggid: "432220",
         people: [
             {
                 type: "designer",

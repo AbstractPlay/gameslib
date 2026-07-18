@@ -36,6 +36,7 @@ export class SponnectGame extends GameBase {
         // i18next.t("apgames:descriptions.sponnect")
         description: "apgames:descriptions.sponnect",
         urls: ["https://boardgamegeek.com/boardgame/113670/sponnect"],
+        bggid: "113670",
         people: [
             {
                 type: "designer",

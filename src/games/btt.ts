@@ -52,6 +52,7 @@ export class BTTGame extends GameBase {
             "https://boardgamegeek.com/boardgame/17298/branches-and-twigs-and-thorns",
             "https://www.eblong.com/zarf/barsoom-go.html"
         ],
+        bggid: "17298",
         people: [
             {
                 type: "designer",

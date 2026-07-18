@@ -38,6 +38,7 @@ export class PletoreGame extends GameBase {
         // i18next.t("apgames:notes.pletore")
         notes: "apgames:notes.pletore",
         urls: ["https://boardgamegeek.com/boardgame/358881/pletore"],
+        bggid: "358881",
         people: [
             {
                 type: "designer",

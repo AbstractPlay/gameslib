@@ -40,6 +40,7 @@ export class KachitGame extends GameBase {
         urls: [
             "https://boardgamegeek.com/boardgame/189513/kachit-knights",
         ],
+        bggid: "189513",
         people: [
             {
                 type: "designer",

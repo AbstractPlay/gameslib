@@ -62,6 +62,7 @@ export class ArmadasGame extends GameBase {
         urls: [
             "https://boardgamegeek.com/boardgame/32630/armada",
         ],
+        bggid: "32630",
         people: [
             {
                 type: "designer",

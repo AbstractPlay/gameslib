@@ -36,6 +36,10 @@ export interface APGamesInformation {
   notes?: string;
   urls?: Urllist;
   /**
+   * BoardGameGeek game ID
+   */
+  bggid?: string;
+  /**
    * A string representing the version of the current implementation. The format of the string is irrelevant. Its main purpose is to identify incompatible game state representations. It should be changed whenever the internal game rep changes.
    */
   version: string;

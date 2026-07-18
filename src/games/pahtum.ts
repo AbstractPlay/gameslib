@@ -34,6 +34,7 @@ export class PahTumGame extends GameBase {
         // i18next.t("apgames:descriptions.pahtum")
         description: "apgames:descriptions.pahtum",
         urls: ["https://boardgamegeek.com/boardgame/28128/pah-tum"],
+        bggid: "28128",
         people: [
             {
                 type: "designer",

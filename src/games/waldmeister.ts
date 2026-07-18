@@ -60,6 +60,7 @@ export class WaldMeisterGame extends GameBase {
         // i18next.t("apgames:notes.waldmeister")
         notes: "apgames:notes.waldmeister",
         urls: ["https://boardgamegeek.com/boardgame/371135/waldmeister"],
+        bggid: "371135",
         people: [
             {
                 type: "designer",

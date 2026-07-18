@@ -35,6 +35,7 @@ export class GessGame extends GameBase {
         // i18next.t("apgames:descriptions.gess")
         description: "apgames:descriptions.gess",
         urls: ["https://boardgamegeek.com/boardgame/12862/gess"],
+        bggid: "12862",
         people: [
             {
                 type: "designer",

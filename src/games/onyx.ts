@@ -33,6 +33,7 @@ export class OnyxGame extends GameBase {
         // i18next.t("apgames:descriptions.onyx")
         description: "apgames:descriptions.onyx",
         urls: ["https://boardgamegeek.com/boardgame/11375/onyx"],
+        bggid: "11375",
         people: [
             {
                 type: "designer",

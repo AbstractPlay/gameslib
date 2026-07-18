@@ -42,6 +42,7 @@ export class AtollGame extends GameBase {
             "http://www.marksteeregames.com/Atoll_rules.pdf",
             "https://boardgamegeek.com/boardgame/34221/atoll",
         ],
+        bggid: "34221",
         people: [
             {
                 type: "designer",

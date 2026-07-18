@@ -51,6 +51,7 @@ export class TintasGame extends GameBase {
             "https://spielstein.com/games/tintas/rules",
             "https://boardgamegeek.com/boardgame/207951/tintas",
         ],
+        bggid: "207951",
         people: [
             {
                 type: "designer",

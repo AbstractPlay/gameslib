@@ -40,6 +40,7 @@ export class DipoleGame extends GameBase {
             "http://www.marksteeregames.com/Dipole_rules.pdf",
             "https://boardgamegeek.com/boardgame/29491/dipole",
         ],
+        bggid: "29491",
         people: [
             {
                 type: "designer",

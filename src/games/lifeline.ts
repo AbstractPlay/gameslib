@@ -46,6 +46,7 @@ export class LifelineGame extends GameBase {
         dateAdded: "2024-09-01",
         description: "apgames:descriptions.lifeline",
         urls: ["https://boardgamegeek.com/boardgame/358196/lifeline"],
+        bggid: "358196",
         people: [
             {
                 type: "designer",

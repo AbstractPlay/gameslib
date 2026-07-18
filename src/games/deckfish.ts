@@ -53,6 +53,7 @@ export class DeckfishGame extends GameBase {
             "http://wiki.decktet.com/game:deckfish",
             "https://boardgamegeek.com/boardgame/432405/deckfish",
         ],
+        bggid: "432405",
         people: [
             {
                 type: "designer",

@@ -40,6 +40,7 @@ export class AccastaGame extends GameBase {
             "https://spielstein.com/games/accasta",
             "https://boardgamegeek.com/boardgame/9060/accasta",
         ],
+        bggid: "9060",
         people: [
             {
                 type: "designer",

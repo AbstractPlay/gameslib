@@ -30,6 +30,7 @@ export class TaijiGame extends GameBase {
         // i18next.t("apgames:notes.taiji")
         notes: "apgames:notes.taiji",
         urls: ["https://boardgamegeek.com/boardgame/31926/taiji", "https://nestorgames.com/rulebooks/TAIJIDELUXE_EN.pdf"],
+        bggid: "31926",
         people: [
             {
                 type: "designer",

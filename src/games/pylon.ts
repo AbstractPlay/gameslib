@@ -51,6 +51,7 @@ export class PylonGame extends GameBase {
             "https://looneypyramids.wiki/wiki/Pylon",
             "https://boardgamegeek.com/boardgame/34811/pylon",
         ],
+        bggid: "34811",
         people: [
             {
                 type: "designer",

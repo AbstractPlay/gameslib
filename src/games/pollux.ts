@@ -39,6 +39,7 @@ export class PolluxGame extends GameBase {
         urls: [
             "https://boardgamegeek.com/boardgame/82267/pollux",
         ],
+        bggid: "82267",
         people: [
             {
                 type: "designer",

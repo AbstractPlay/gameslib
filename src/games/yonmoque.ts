@@ -41,6 +41,7 @@ export class YonmoqueGame extends GameBase {
             "http://www.logygames.com/english/yonmoque.html",
             "https://boardgamegeek.com/boardgame/86170/yonmoque"
         ],
+        bggid: "86170",
         people: [
             {
                 type: "designer",

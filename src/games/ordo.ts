@@ -41,6 +41,7 @@ export class OrdoGame extends GameBase {
             "https://spielstein.com/games/ordo",
             "https://boardgamegeek.com/boardgame/41006/ordo",
         ],
+        bggid: "41006",
         people: [
             {
                 type: "designer",

@@ -45,6 +45,7 @@ export class CifraGame extends GameBase {
         // i18next.t("apgames:descriptions.cifra")
         description: "apgames:descriptions.cifra",
         urls: ["https://boardgamegeek.com/boardgame/360439/cifra-code25"],
+        bggid: "360439",
         people: [
             {
                 type: "designer",

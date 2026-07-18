@@ -33,6 +33,7 @@ export class HexYGame extends GameBase {
             "https://www.marksteeregames.com/Hexagonal_Y_rules.pdf",
             "https://boardgamegeek.com/boardgame/432211/hexagonal-y",
         ],
+        bggid: "432211",
         people: [
             {
                 type: "designer",

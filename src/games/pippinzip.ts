@@ -35,6 +35,7 @@ export class PippinzipGame extends GameBase {
         description: "apgames:descriptions.pippinzip",
         notes: "apgames:notes.pippinzip",
         urls: ["https://boardgamegeek.com/boardgame/298409/pippinzip"],
+        bggid: "298409",
         people: [
             {
                 type: "designer",

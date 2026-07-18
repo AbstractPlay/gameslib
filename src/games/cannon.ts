@@ -52,6 +52,7 @@ export class CannonGame extends GameBase {
             "http://superdupergames.org/rules/cannon.pdf",
             "https://boardgamegeek.com/boardgame/8553/cannon"
         ],
+        bggid: "8553",
         people: [
             {
                 type: "designer",

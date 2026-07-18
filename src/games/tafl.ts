@@ -58,6 +58,7 @@ export class TaflGame extends GameBase {
             "http://aagenielsen.dk/tafl_rules.php",
             "https://boardgamegeek.com/boardgame/2932/hnefatafl",
         ],
+        bggid: "2932",
         people: [
             {
                 type: "coder",

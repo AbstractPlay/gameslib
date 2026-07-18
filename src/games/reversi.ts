@@ -37,6 +37,7 @@ export class ReversiGame extends GameBase {
             "https://en.wikipedia.org/wiki/Reversi",
             "https://boardgamegeek.com/boardgame/2389/othello",
         ],
+        bggid: "2389",
         people: [
             {
                 type: "designer",

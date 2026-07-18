@@ -31,6 +31,7 @@ export class SlydeGame extends GameBase {
         // i18next.t("apgames:descriptions.slyde")
         description: "apgames:descriptions.slyde",
         urls: ["https://boardgamegeek.com/boardgame/308111/slyde"],
+        bggid: "308111",
         people: [
             {
                 type: "designer",

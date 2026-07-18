@@ -32,6 +32,7 @@ export class FourInARowGame extends InARowBase {
         // i18next.t("apgames:descriptions.fourinarow")
         description: "apgames:descriptions.fourinarow",
         urls: ["https://boardgamegeek.com/boardgame/2719/connect-four"],
+        bggid: "2719",
         people: [
             {
                 type: "designer",

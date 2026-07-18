@@ -36,6 +36,7 @@ export class TwixtGame extends GameBase {
         // i18next.t("apgames:notes.twixt")
         notes: "apgames:notes.twixt",
         urls: ["https://boardgamegeek.com/boardgame/949/twixt"],
+        bggid: "949",
         people: [
             {
                 type: "designer",

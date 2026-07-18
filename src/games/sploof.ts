@@ -36,6 +36,7 @@ export class SploofGame extends GameBase {
         // i18next.t("apgames:descriptions.sploof")
         description: "apgames:descriptions.sploof",
         urls: ["https://boardgamegeek.com/boardgame/114188/sploof"],
+        bggid: "114188",
         people: [
             {
                 type: "designer",

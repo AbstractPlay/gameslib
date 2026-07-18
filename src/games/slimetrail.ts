@@ -34,6 +34,7 @@ export class SlimetrailGame extends GameBase {
             "https://boardgamegeek.com/boardgame/31467/slimetrail",
             "https://jpneto.github.io/world_abstract_games/slimetrail.htm",
         ],
+        bggid: "31467",
         people: [
             {
                 type: "designer",

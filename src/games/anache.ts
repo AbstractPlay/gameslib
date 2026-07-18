@@ -49,6 +49,7 @@ export class AnacheGame extends GameBase {
         // i18next.t("apgames:notes.anache")
         notes: "apgames:notes.anache",
         urls: ["https://boardgamegeek.com/boardgame/425859/anache"],
+        bggid: "425859",
         people: [
             {
                 type: "designer",

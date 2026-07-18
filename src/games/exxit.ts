@@ -66,6 +66,7 @@ export class ExxitGame extends GameBase {
         // i18next.t("apgames:notes.exxit")
         notes: "apgames:notes.exxit",
         urls: ["https://boardgamegeek.com/boardgame/22947/exxit"],
+        bggid: "22947",
         people: [
             {
                 type: "designer",

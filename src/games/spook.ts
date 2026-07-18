@@ -44,6 +44,7 @@ export class SpookGame extends GameBase {
             "https://spielstein.com/games/spook",
             "https://boardgamegeek.com/boardgame/115077/spook",
         ],
+        bggid: "115077",
         people: [
             {
                 type: "designer",

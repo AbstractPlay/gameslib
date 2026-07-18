@@ -43,6 +43,7 @@ export class MutternlandGame extends GameBase {
             "https://boardgamegeek.com/boardgame/1051/mutternland",
             "https://jpneto.github.io/world_abstract_games/modern_rules/1997_Mutternland.pdf"
         ],
+        bggid: "1051",
         people: [
             {
                 type: "designer",

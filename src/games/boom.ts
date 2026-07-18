@@ -36,6 +36,7 @@ export class BoomGame extends GameBase {
         // i18next.t("apgames:descriptions.boom")
         description: "apgames:descriptions.boom",
         urls: ["https://boardgamegeek.com/boardgame/243927/boom-zoom-second-edition"],
+        bggid: "243927",
         people: [
             {
                 type: "designer",

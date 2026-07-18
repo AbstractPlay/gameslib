@@ -43,6 +43,7 @@ export class AmazonsGame extends GameBase {
             "https://en.wikipedia.org/wiki/Amazons_%28game%29",
             "https://boardgamegeek.com/boardgame/2125/amazons",
         ],
+        bggid: "2125",
         people: [
             {
                 type: "designer",

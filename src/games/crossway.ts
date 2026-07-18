@@ -36,6 +36,7 @@ export class CrosswayGame extends GameBase {
             "https://www.marksteeregames.com/Crossway_rules.pdf",
             "https://boardgamegeek.com/boardgame/30517/crossway",
         ],
+        bggid: "30517",
         people: [
             {
                 type: "designer",

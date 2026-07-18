@@ -38,6 +38,7 @@ export class BluestoneGame extends GameBase {
         // i18next.t("apgames:descriptions.bluestone")
         description: "apgames:descriptions.bluestone",
         urls: ["https://boardgamegeek.com/boardgame/444241/bluestone"],
+        bggid: "444241",
         people: [
             {
                 type: "designer",

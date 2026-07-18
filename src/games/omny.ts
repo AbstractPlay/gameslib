@@ -68,6 +68,7 @@ export class OmnyGame extends GameBase {
         // i18next.t("apgames:descriptions.omny")
         description: "apgames:descriptions.omny",
         urls: ["https://boardgamegeek.com/boardgame/342418/omny"],
+        bggid: "342418",
         people: [
             {
                 type: "designer",

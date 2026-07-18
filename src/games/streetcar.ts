@@ -118,6 +118,7 @@ export class StreetcarGame extends GameBase {
             "https://streetcar.drew-edwards.com/rules",
             "https://boardgamegeek.com/boardgame/355847/streetcar-suburb",
         ],
+        bggid: "355847",
         people: [
             {
                 type: "designer",

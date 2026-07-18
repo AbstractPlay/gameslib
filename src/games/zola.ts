@@ -38,6 +38,7 @@ export class ZolaGame extends GameBase {
             "http://www.marksteeregames.com/Zola.pdf",
             "https://boardgamegeek.com/boardgame/331666/zola",
         ],
+        bggid: "331666",
         people: [
             {
                 type: "designer",

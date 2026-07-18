@@ -36,6 +36,7 @@ export class NecklaceGame extends GameBase {
             "https://www.marksteeregames.com/Necklace_rules.pdf",
             "https://boardgamegeek.com/boardgame/419473/necklace"
         ],
+        bggid: "419473",
         people: [
             {
                 type: "designer",

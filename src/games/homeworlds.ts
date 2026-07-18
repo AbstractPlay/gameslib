@@ -92,6 +92,7 @@ export class HomeworldsGame extends GameBase {
             "http://wunderland.com/WTS/Andy/Games/ILoveHomeworlds.html",
             "https://boardgamegeek.com/boardgame/14634/homeworlds",
         ],
+        bggid: "14634",
         people: [
             {
                 type: "designer",

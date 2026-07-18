@@ -38,6 +38,7 @@ export class FourGame extends GameBase {
         // i18next.t("apgames:descriptions.four")
         description: "apgames:descriptions.four",
         urls: ["https://boardgamegeek.com/boardgame/133842/four"],
+        bggid: "133842",
         people: [
             {
                 type: "designer",

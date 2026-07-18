@@ -35,6 +35,7 @@ export class CourtesanGame extends GameBase {
             "https://www.marksteeregames.com/King_and_Courtesan_rules.pdf",
             "https://boardgamegeek.com/boardgame/413118/king-and-courtesan",
         ],
+        bggid: "413118",
         people: [
             {
                 type: "designer",

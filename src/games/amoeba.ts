@@ -32,6 +32,7 @@ export class AmoebaGame extends GameBase {
         // i18next.t("apgames:descriptions.amoeba")
         description: "apgames:descriptions.amoeba",
         urls: ["https://boardgamegeek.com/boardgame/143387/amoeba"],
+        bggid: "143387",
         people: [
             {
                 type: "designer",

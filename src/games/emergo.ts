@@ -35,6 +35,7 @@ export class EmergoGame extends GameBase {
             "https://www.mindsports.nl/index.php/arena/emergo/88-rules",
             "https://boardgamegeek.com/boardgame/14438/emergo",
         ],
+        bggid: "14438",
         people: [
             {
                 type: "designer",

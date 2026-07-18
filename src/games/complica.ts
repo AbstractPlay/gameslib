@@ -31,6 +31,7 @@ export class ComplicaGame extends GameBase {
             "https://jpneto.github.io/world_abstract_games/complica.htm",
             "https://boardgamegeek.com/boardgame/7476/complica",
         ],
+        bggid: "7476",
         people: [
             {
                 type: "designer",

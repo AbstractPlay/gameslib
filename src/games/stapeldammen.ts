@@ -38,6 +38,7 @@ export class StapeldammenGame extends GameBase {
             "https://boardgamegeek.com/boardgame/124716/stapeldammen",
             "https://boardgamegeek.com/thread/1566423/stapeldammen-variant-ii-the-review",
         ],
+        bggid: "124716",
         people: [
             {
                 type: "designer",

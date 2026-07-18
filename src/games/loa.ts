@@ -34,6 +34,7 @@ export class LinesOfActionGame extends GameBase {
             "https://en.wikipedia.org/wiki/Lines_of_Action",
             "https://boardgamegeek.com/boardgame/3406/lines-of-action",
         ],
+        bggid: "3406",
         people: [
             {
                 type: "designer",

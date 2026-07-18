@@ -38,6 +38,7 @@ export class BasaltGame extends GameBase {
         // i18next.t("apgames:descriptions.basalt")
         description: "apgames:descriptions.basalt",
         urls: ["https://boardgamegeek.com/boardgame/421505/basalt"],
+        bggid: "421505",
         people: [
             {
                 type: "designer",

@@ -32,6 +32,7 @@ export class TessellaGame extends GameBase {
             "https://drive.google.com/file/d/1QMwtw90X1qLMpk4l1OoQ4oTZZfhTITAq/view",
             "https://boardgamegeek.com/boardgame/377702/tessella",
         ],
+        bggid: "377702",
         people: [
             {
                 type: "designer",

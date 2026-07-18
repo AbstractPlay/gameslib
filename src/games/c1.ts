@@ -60,6 +60,7 @@ export class C1Game extends GameBase {
             "https://boardgamegeek.com/boardgame/386986/c1",
             "http://lumicube.uk/",
         ],
+        bggid: "386986",
         people: [
             {
                 type: "designer",

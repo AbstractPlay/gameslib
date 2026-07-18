@@ -32,6 +32,7 @@ export class ProductGame extends GameBase {
                 "https://boardgamegeek.com/boardgame/136995/produto",
                 "https://jpneto.github.io/world_abstract_games/product.htm"
               ],
+        bggid: "136995",
         people: [
             {
                 type: "designer",

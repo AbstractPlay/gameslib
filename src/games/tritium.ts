@@ -39,6 +39,7 @@ export class TritiumGame extends GameBase {
         version: "1.0",
         description: "apgames:descriptions.tritium",
         urls: ["https://boardgamegeek.com/boardgame/430859/tritium"],
+        bggid: "430859",
         people: [
             {
                 type: "designer",

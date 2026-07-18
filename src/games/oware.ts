@@ -39,6 +39,7 @@ export class OwareGame extends GameBase {
             "https://en.wikipedia.org/wiki/Oware",
             "https://boardgamegeek.com/boardgame/28302/oware",
         ],
+        bggid: "28302",
         people: [
             {
                 type: "coder",

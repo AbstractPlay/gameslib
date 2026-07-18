@@ -31,6 +31,7 @@ export class FramesGame extends GameBaseSimultaneous {
         urls: [
             "https://boardgamegeek.com/boardgame/18424/frames",
         ],
+        bggid: "18424",
         people: [
             {
                 type: "designer",

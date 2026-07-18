@@ -38,6 +38,7 @@ export class AkimboGame extends GameBase {
         urls: [
             "https://boardgamegeek.com/boardgame/466041/akimbo",
         ],
+        bggid: "466041",
         people: [
             {
                 type: "designer",

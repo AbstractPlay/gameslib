@@ -39,6 +39,7 @@ export class BloqueoGame extends GameBase {
             "https://misutmeeple.com/2023/06/resena-bloqueo/",
             "https://boardgamegeek.com/boardgame/292218/bloqueo",
         ],
+        bggid: "292218",
         people: [
             {
                 type: "designer",

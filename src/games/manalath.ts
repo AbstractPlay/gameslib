@@ -34,6 +34,7 @@ export class ManalathGame extends GameBase {
             "https://spielstein.com/games/manalath/rules",
             "https://boardgamegeek.com/boardgame/127993/manalath",
         ],
+        bggid: "127993",
         people: [
             {
                 type: "designer",

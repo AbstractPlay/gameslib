@@ -31,6 +31,7 @@ export class AyuGame extends GameBase {
         // i18next.t("apgames:descriptions.ayu")
         description: "apgames:descriptions.ayu",
         urls: ["https://boardgamegeek.com/boardgame/114484/ayu"],
+        bggid: "114484",
         people: [
             {
                 type: "designer",

@@ -61,6 +61,7 @@ export class MvolcanoGame extends GameBase {
             "http://www.wunderland.com/WTS/Kristin/Games/Volcano.html#MegaVolcano",
             "https://boardgamegeek.com/boardgame/13084/volcano",
         ],
+        bggid: "13084",
         people: [
             {
                 type: "designer",

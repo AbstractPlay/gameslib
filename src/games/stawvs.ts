@@ -65,6 +65,7 @@ export class StawvsGame extends GameBase {
             "https://looneypyramids.wiki/wiki/Stawvs",
             "https://boardgamegeek.com/boardgame/130579/stawvs",
         ],
+        bggid: "130579",
         people: [
             {
                 type: "designer",

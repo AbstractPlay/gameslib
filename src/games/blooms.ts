@@ -36,6 +36,7 @@ export class BloomsGame extends GameBase {
         notes: "apgames:notes.blooms",
         // urls: ["https://www.nickbentley.games/blooms-rules/"],
         urls: ["https://boardgamegeek.com/boardgame/249095/blooms"],
+        bggid: "249095",
         people: [
             {
                 type: "designer",

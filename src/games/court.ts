@@ -38,6 +38,7 @@ export class CourtGame extends GameBase {
             "https://boardgamegeek.com/boardgame/109681/court",
             "https://jpneto.github.io/world_abstract_games/court.htm",
         ],
+        bggid: "109681",
         people: [
             {
                 type: "designer",

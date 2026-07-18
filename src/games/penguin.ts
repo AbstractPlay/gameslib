@@ -42,6 +42,7 @@ export class PenguinGame extends GameBase {
             "https://boardgamegeek.com/boardgame/30760/penguin-soccer",
             "https://boardgamegeek.com/thread/559441/penguin-soccer-faq",
         ],
+        bggid: "30760",
         people: [
             {
                 type: "designer",

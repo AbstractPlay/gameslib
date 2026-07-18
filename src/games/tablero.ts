@@ -38,6 +38,7 @@ export class TableroGame extends GameBase {
             "https://crabfragmentlabs.com/tablero-di-berona",
             "https://boardgamegeek.com/boardgame/363339/tablero-di-berona",
         ],
+        bggid: "363339",
         people: [
             {
                 type: "designer",

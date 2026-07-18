@@ -34,6 +34,7 @@ export class AtaxxGame extends GameBase {
         // i18next.t("apgames:notes.ataxx")
         notes: "apgames:notes.ataxx",
         urls: ["https://boardgamegeek.com/boardgame/91313/ataxx"],
+        bggid: "91313",
         people: [
             {
                 type: "designer",

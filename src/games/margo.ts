@@ -37,6 +37,7 @@ export class MargoGame extends GameBase {
             "http://cambolbro.com/games/margo",
             "https://boardgamegeek.com/boardgame/24923/margo"
         ],
+        bggid: "24923",
         people: [
             {
                 type: "designer",

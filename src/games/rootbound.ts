@@ -46,6 +46,7 @@ export class RootBoundGame extends GameBase {
             "https://cjffield.com/rules/rootbound.pdf",
             "https://boardgamegeek.com/boardgame/416201/root-bound",
         ],
+        bggid: "416201",
         people: [
             {
                 type: "designer",

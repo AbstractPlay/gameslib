@@ -34,6 +34,7 @@ export class MimicGame extends GameBase {
         urls: [
             "https://boardgamegeek.com/boardgame/432214/mimic",
         ],
+        bggid: "432214",
         people: [
             {
                 type: "designer",

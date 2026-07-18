@@ -50,6 +50,7 @@ export class UnlurGame extends GameBase {
             "https://jpneto.github.io/world_abstract_games/unlur.htm",
             "https://boardgamegeek.com/boardgame/3826/unlur",
         ],
+        bggid: "3826",
         people: [
             {
                 type: "designer",

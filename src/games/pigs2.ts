@@ -63,6 +63,7 @@ export class Pigs2Game extends GameBaseSimultaneous {
             "http://cox-tv.com/games/mygames/robobattlepigs.html",
             "https://boardgamegeek.com/boardgame/3704/robo-battle-pigs",
         ],
+        bggid: "3704",
         people: [
             {
                 type: "designer",

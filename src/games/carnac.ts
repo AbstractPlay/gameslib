@@ -65,6 +65,7 @@ export class CarnacGame extends GameBase {
         description: "apgames:descriptions.carnac",
         notes: "apgames:notes.carnac",
         urls: ["https://boardgamegeek.com/boardgame/103061/carnac"],
+        bggid: "103061",
         people: [
             {
                 type: "designer",

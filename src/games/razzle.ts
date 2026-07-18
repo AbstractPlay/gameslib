@@ -38,6 +38,7 @@ export class RazzleGame extends GameBase {
         urls: [
             "https://boardgamegeek.com/boardgame/21479/knight-moves",
         ],
+        bggid: "21479",
         people: [
             {
                 type: "designer",

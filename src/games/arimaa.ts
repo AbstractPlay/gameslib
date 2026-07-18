@@ -57,6 +57,7 @@ export class ArimaaGame extends GameBase {
             "https://arimaa.com/arimaa/learn/rulesIntro.html",
             "https://boardgamegeek.com/boardgame/4616/arimaa",
         ],
+        bggid: "4616",
         people: [
             {
                 type: "designer",

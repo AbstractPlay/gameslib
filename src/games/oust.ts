@@ -32,6 +32,7 @@ export class OustGame extends GameBase {
             "https://www.marksteeregames.com/Oust_rules.pdf",
             "https://boardgamegeek.com/boardgame/30936/oust",
         ],
+        bggid: "30936",
         people: [
             {
                 type: "designer",

@@ -72,6 +72,7 @@ export class GardenGame extends GameBase {
         // i18next.t("apgames:notes.garden")
         notes: "apgames:notes.garden",
         urls: ["http://www.tjgames.com/wizard.html", "https://boardgamegeek.com/boardgame/13077/wizards-garden"],
+        bggid: "13077",
         people: [
             {
                 type: "designer",

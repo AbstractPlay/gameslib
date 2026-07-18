@@ -39,6 +39,7 @@ export class LoxGame extends GameBase {
             "https://www.mindsports.nl/index.php/the-pit/1212-lox",
             "https://boardgamegeek.com/boardgame/432212/lox",
         ],
+        bggid: "432212",
         people: [
             {
                 type: "designer",

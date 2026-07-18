@@ -36,6 +36,7 @@ export class PodsGame extends GameBase {
             "https://cjffield.com/rules/pods.pdf",
             "https://boardgamegeek.com/boardgame/402621/natal-seas",
         ],
+        bggid: "402621",
         people: [
             {
                 type: "designer",

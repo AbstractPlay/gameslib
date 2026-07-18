@@ -40,6 +40,7 @@ export class ChameleonGame extends GameBase {
         urls: [
             "https://boardgamegeek.com/boardgame/273396/chameleon",
         ],
+        bggid: "273396",
         people: [
             {
                 type: "designer",

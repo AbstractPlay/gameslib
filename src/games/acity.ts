@@ -46,6 +46,7 @@ export class ACityGame extends GameBase {
         // i18next.t("apgames:descriptions.acity")
         description: "apgames:descriptions.acity",
         urls: ["https://www.looneylabs.com/content/alien-city", "https://boardgamegeek.com/boardgame/20623/alien-city"],
+        bggid: "20623",
         people: [
             {
                 type: "designer",

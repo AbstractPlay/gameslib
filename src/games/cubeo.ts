@@ -52,6 +52,7 @@ export class CubeoGame extends GameBase {
         // i18next.t("apgames:descriptions.cubeo")
         description: "apgames:descriptions.cubeo",
         urls: ["https://boardgamegeek.com/boardgame/191916/cubeo"],
+        bggid: "191916",
         people: [
             {
                 type: "designer",

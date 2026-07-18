@@ -31,6 +31,7 @@ export class HulaGame extends GameBase {
         // i18next.t("apgames:descriptions.hula")
         description: "apgames:descriptions.hula",
         urls: ["https://boardgamegeek.com/boardgame/430598/hula"],
+        bggid: "430598",
         people: [
             {
                 type: "designer",

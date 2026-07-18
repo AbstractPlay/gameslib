@@ -40,6 +40,7 @@ export class DragonEyesGame extends GameBase {
             "https://dragoneyesabstractgame.blogspot.com/2024/07/dragon-eyes.html",
             "https://boardgamegeek.com/boardgame/432209/dragon-eyes",
         ],
+        bggid: "432209",
         people: [
             {
                 type: "designer",

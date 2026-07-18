@@ -40,6 +40,7 @@ export class FabrikGame extends GameBase {
             "https://spielstein.com/games/fabrik",
             "https://boardgamegeek.com/boardgame/233447/fabrik",
         ],
+        bggid: "233447",
         people: [
             {
                 type: "designer",

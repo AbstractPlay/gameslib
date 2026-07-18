@@ -42,6 +42,7 @@ export class FendoGame extends GameBase {
         // i18next.t("apgames:descriptions.fendo")
         description: "apgames:descriptions.fendo",
         urls: ["https://spielstein.com/games/fendo", "https://boardgamegeek.com/boardgame/159333/fendo"],
+        bggid: "159333",
         people: [
             {
                 type: "designer",

@@ -88,6 +88,7 @@ export class QuincunxGame extends GameBase {
             "http://wiki.decktet.com/game:quincunx",
             "https://boardgamegeek.com/boardgame/37097/quincunx",
         ],
+        bggid: "37097",
         people: [
             {
                 type: "designer",

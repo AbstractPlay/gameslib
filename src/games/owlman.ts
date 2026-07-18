@@ -32,6 +32,7 @@ export class OwlmanGame extends GameBase {
             "https://owlmanthegame.blogspot.com/",
             "https://boardgamegeek.com/boardgame/86598/owlman",
         ],
+        bggid: "86598",
         people: [
             {
                 type: "designer",

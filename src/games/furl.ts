@@ -36,6 +36,7 @@ export class FurlGame extends GameBase {
         // i18next.t("apgames:descriptions.furl")
         description: "apgames:descriptions.furl",
         urls: ["https://boardgamegeek.com/boardgame/325422/furl"],
+        bggid: "325422",
         people: [
             {
                 type: "designer",

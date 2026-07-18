@@ -32,6 +32,7 @@ export class SurmountGame extends GameBase {
         // i18next.t("apgames:descriptions.surmount")
         description: "apgames:descriptions.surmount",
         urls: ["https://boardgamegeek.com/boardgame/436268/surmount"],
+        bggid: "436268",
         people: [
             {
                 type: "designer",

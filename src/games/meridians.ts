@@ -34,6 +34,7 @@ export class MeridiansGame extends GameBase {
             "https://kanare-abstract.com/en/pages/meridians",
             "https://boardgamegeek.com/boardgame/333775/meridians",
         ],
+        bggid: "333775",
         people: [
             {
                 type: "designer",

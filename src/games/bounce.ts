@@ -36,6 +36,7 @@ export class BounceGame extends GameBase {
             "https://marksteeregames.com/Bounce_rules.pdf",
             "https://boardgamegeek.com/boardgame/435089/bounce",
         ],
+        bggid: "435089",
         people: [
             {
                 type: "designer",

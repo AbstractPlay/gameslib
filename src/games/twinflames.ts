@@ -32,6 +32,7 @@ export class TwinFlamesGame extends GameBase {
         urls: [
                 "https://boardgamegeek.com/boardgame/470021/twin-flames",
               ],
+        bggid: "470021",
         people: [
             {
                 type: "designer",

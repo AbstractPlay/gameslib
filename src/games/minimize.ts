@@ -32,6 +32,7 @@ export class MinimizeGame extends GameBase {
                 "https://boardgamegeek.com/boardgame/169096/minimize",
                 "https://jpneto.github.io/world_abstract_games/modern_rules/2014_Minimize.pdf"
               ],
+        bggid: "169096",
         people: [
             {
                 type: "designer",

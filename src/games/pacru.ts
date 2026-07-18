@@ -84,6 +84,7 @@ export class PacruGame extends GameBase {
         // i18next.t("apgames:notes.pacru")
         notes: "apgames:notes.pacru",
         urls: ["https://boardgamegeek.com/boardgame/6803/pacru"],
+        bggid: "6803",
         people: [
             {
                 type: "designer",

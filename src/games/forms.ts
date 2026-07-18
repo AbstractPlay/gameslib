@@ -34,6 +34,7 @@ export class FormsGame extends GameBase {
             "https://boardgamegeek.com/boardgame/36917/forms",
             "https://jpneto.github.io/world_abstract_games/forms.htm",
         ],
+        bggid: "36917",
         people: [
             {
                 type: "designer",

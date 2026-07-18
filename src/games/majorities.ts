@@ -39,6 +39,7 @@ export class MajoritiesGame extends GameBase {
         // i18next.t("apgames:descriptions.majorities")
         description: "apgames:descriptions.majorities",
         urls: ["https://boardgamegeek.com/boardgame/84153/majorities"],
+        bggid: "84153",
         people: [
             {
                 type: "designer",

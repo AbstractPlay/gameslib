@@ -34,6 +34,7 @@ export class PilastriGame extends GameBase {
             "https://cjffield.com/rules/pilastri.pdf",
             "https://boardgamegeek.com/boardgame/445080/pilastri"
         ],
+        bggid: "445080",
         people: [
             {
                 type: "designer",

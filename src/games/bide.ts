@@ -35,6 +35,7 @@ export class BideGame extends GameBase {
         // i18next.t("apgames:descriptions.bide")
         description: "apgames:descriptions.bide",
         urls: ["https://boardgamegeek.com/boardgame/309892/bide"],
+        bggid: "309892",
         people: [
             {
                 type: "designer",

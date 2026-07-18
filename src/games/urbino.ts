@@ -39,6 +39,7 @@ export class UrbinoGame extends GameBase {
             "https://spielstein.com/games/urbino",
             "https://boardgamegeek.com/boardgame/237009/urbino",
         ],
+        bggid: "237009",
         people: [
             {
                 type: "designer",

@@ -36,6 +36,7 @@ export class IntermediumGame extends GameBase {
                 "https://boardgamegeek.com/boardgame/8215",
                 "https://jpneto.github.io/world_abstract_games/intermedium.htm",
               ],
+        bggid: "8215",
         people: [
             {
                 type: "designer",

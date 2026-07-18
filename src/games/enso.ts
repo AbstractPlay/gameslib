@@ -34,6 +34,7 @@ export class EnsoGame extends GameBase {
             "https://spielstein.com/games/enso",
             "https://boardgamegeek.com/boardgame/460838/enso",
         ],
+        bggid: "460838",
         people: [
             {
                 type: "designer",

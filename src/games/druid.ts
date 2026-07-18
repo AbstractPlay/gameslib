@@ -66,6 +66,7 @@ export class DruidGame extends GameBase {
             "https://web.archive.org/web/20250712151400/http://www.gamerz.net/pbmserv/druid.html",
             "https://boardgamegeek.com/boardgame/11748/druid",
         ],
+        bggid: "11748",
         people: [
             {
                 type: "designer",

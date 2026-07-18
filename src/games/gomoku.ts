@@ -32,6 +32,7 @@ export class GomokuGame extends InARowBase {
         // i18next.t("apgames:descriptions.gomoku")
         description: "apgames:descriptions.gomoku",
         urls: ["https://boardgamegeek.com/boardgame/11929/go-moku"],
+        bggid: "11929",
         people: [
             {
                 type: "coder",

@@ -32,6 +32,7 @@ export class EpamGame extends GameBase {
             "http://www.logicmazes.com/games/epam.html",
             "https://boardgamegeek.com/boardgame/7338/epaminondas",
         ],
+        bggid: "7338",
         people: [
             {
                 type: "designer",

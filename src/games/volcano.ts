@@ -83,6 +83,7 @@ export class VolcanoGame extends GameBase {
             "https://www.looneylabs.com/content/volcano",
             "https://boardgamegeek.com/boardgame/13084/volcano",
         ],
+        bggid: "13084",
         people: [
             {
                 type: "designer",

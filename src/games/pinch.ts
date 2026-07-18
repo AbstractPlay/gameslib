@@ -36,6 +36,7 @@ export class PinchGame extends GameBase {
         urls: [
             "https://boardgamegeek.com/boardgame/285214/pinch",
         ],
+        bggid: "285214",
         people: [
             {
                 type: "designer",

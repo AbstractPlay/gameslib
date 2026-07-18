@@ -43,6 +43,7 @@ export class SubdivisionGame extends GameBase {
             "https://looneypyramids.wiki/wiki/Subdivision",
             "https://boardgamegeek.com/boardgame/31507/subdivision",
         ],
+        bggid: "31507",
         people: [
             {
                 type: "designer",

@@ -42,6 +42,7 @@ export class AbandeGame extends GameBase {
             "https://boardgamegeek.com/boardgame/21324/abande",
             "https://boardgamegeek.com/boardgameexpansion/57291/abande2",
         ],
+        bggid: "21324",
         people: [
             {
                 type: "designer",

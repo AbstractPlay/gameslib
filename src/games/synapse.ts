@@ -45,6 +45,7 @@ export class SynapseGame extends GameBase {
             "https://looneypyramids.wiki/wiki/Synapse-Ice",
             "https://boardgamegeek.com/boardgame/58907/synapse-ice",
         ],
+        bggid: "58907",
         people: [
             {
                 type: "designer",

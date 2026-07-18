@@ -34,6 +34,7 @@ export class QuagmireGame extends GameBase {
             "https://cjffield.com/rules/quagmire.pdf",
             "https://boardgamegeek.com/boardgame/407206/quagmire",
         ],
+        bggid: "407206",
         people: [
             {
                 type: "designer",

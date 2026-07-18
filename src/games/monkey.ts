@@ -34,6 +34,7 @@ export class MonkeyQueenGame extends GameBase {
             "http://www.marksteeregames.com/Monkey_Queen_rules.html",
             "https://boardgamegeek.com/boardgame/95757/monkey-queen",
         ],
+        bggid: "95757",
         people: [
             {
                 type: "designer",

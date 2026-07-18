@@ -33,6 +33,7 @@ export class VoloGame extends GameBase {
             "https://spielstein.com/games/volo/rules",
             "https://boardgamegeek.com/boardgame/83283/volo",
         ],
+        bggid: "83283",
         people: [
             {
                 type: "designer",

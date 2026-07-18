@@ -36,6 +36,7 @@ export class SympleGame extends GameBase {
             "https://mindsports.nl/index.php/arena/symple/",
             "https://boardgamegeek.com/boardgame/106341/symple",
         ],
+        bggid: "106341",
         people: [
             {
                 type: "designer",

@@ -42,6 +42,7 @@ export class AgereGame extends GameBase {
             "https://boardgamegeek.com/boardgame/397893/adere",
             "https://boardgamegeek.com/boardgame/398149/cobweb",
         ],
+        bggid: "397893",
         people: [
             {
                 type: "designer",

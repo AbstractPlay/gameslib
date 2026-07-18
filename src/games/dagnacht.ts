@@ -37,6 +37,7 @@ export class DagEnNachtGame extends GameBase {
             "https://www.abstractgames.org/unequalspaces.html",
             "https://boardgamegeek.com/boardgame/347536/dag-en-nacht",
         ],
+        bggid: "347536",
         people: [
             {
                 type: "designer",

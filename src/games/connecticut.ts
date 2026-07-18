@@ -32,6 +32,7 @@ export class ConnecticutGame extends GameBase {
         // i18next.t("apgames:descriptions.connecticut")
         description: "apgames:descriptions.connecticut",
         urls: ["https://boardgamegeek.com/boardgame/297319/connecticut"],
+        bggid: "297319",
         people: [
             {
                 type: "designer",

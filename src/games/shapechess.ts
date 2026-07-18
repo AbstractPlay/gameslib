@@ -35,6 +35,7 @@ export class ShapeChessGame extends GameBase {
             "https://boardgamegeek.com/boardgame/367618",
             "https://www.abstractgames.org/shapechess.html",
         ],
+        bggid: "367618",
         people: [
             {
                 type: "designer",

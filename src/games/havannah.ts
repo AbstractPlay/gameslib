@@ -87,6 +87,7 @@ export class HavannahGame extends GameBase {
             "https://en.wikipedia.org/wiki/Havannah_(board_game)",
             "https://boardgamegeek.com/boardgame/2759/havannah",
         ],
+        bggid: "2759",
         people: [
             {
                 type: "designer",

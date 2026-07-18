@@ -46,6 +46,7 @@ export class HalfcutGame extends GameBase {
             "https://www.marksteeregames.com/Halfcut_rules.pdf",
             "https://boardgamegeek.com/boardgame/399723/halfcut",
         ],
+        bggid: "399723",
         people: [
             {
                 type: "designer",

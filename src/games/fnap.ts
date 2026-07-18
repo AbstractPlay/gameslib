@@ -37,6 +37,7 @@ export class FnapGame extends GameBaseSimultaneous {
             "https://docs.google.com/document/d/1wSdFpFY1qcCpNO_06f9lllZPOun4jcXgk_RBPnV6UQo/edit?usp=sharing",
             "https://boardgamegeek.com/boardgame/22698/fnap",
         ],
+        bggid: "22698",
         people: [
             {
                 type: "designer",

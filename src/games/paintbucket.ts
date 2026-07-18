@@ -32,6 +32,7 @@ export class PaintbucketGame extends GameBase {
         // i18next.t("apgames:descriptions.paintbucket")
         description: "apgames:descriptions.paintbucket",
         urls: ["https://boardgamegeek.com/boardgame/362682/paintbucket"],
+        bggid: "362682",
         people: [
             {
                 type: "designer",

@@ -35,6 +35,7 @@ export class TrikeGame extends GameBase {
         // i18next.t("apgames:descriptions.trike")
         description: "apgames:descriptions.trike",
         urls: ["https://boardgamegeek.com/boardgame/307379/trike"],
+        bggid: "307379",
         people: [
             {
                 type: "designer",

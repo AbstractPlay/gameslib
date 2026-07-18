@@ -32,6 +32,7 @@ export class SusanGame extends GameBase {
             "https://www.stephen.com/sue/sue.html",
             "https://boardgamegeek.com/boardgame/26135/susan"
         ],
+        bggid: "26135",
         people: [
             {
                 type: "designer",

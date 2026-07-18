@@ -36,6 +36,7 @@ export class SpreeGame extends GameBase {
         // i18next.t("apgames:notes.spree")
         notes: "apgames:notes.spree",
         urls: ["https://boardgamegeek.com/boardgame/114263/spree"],
+        bggid: "114263",
         people: [
             {
                 type: "designer",

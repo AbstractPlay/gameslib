@@ -41,6 +41,7 @@ export class PluralityGame extends GameBase {
         description: "apgames:descriptions.plurality",
         notes: "apgames:notes.plurality",
         urls: ["https://boardgamegeek.com/boardgame/462846/plurality"],
+        bggid: "462846",
         people: [
             {
                 type: "designer",

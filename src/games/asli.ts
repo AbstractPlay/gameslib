@@ -41,6 +41,7 @@ export class AsliGame extends GameBase {
         // i18next.t("apgames:descriptions.asli")
         description: "apgames:descriptions.asli",
         urls: ["https://boardgamegeek.com/boardgame/393166/asli"],
+        bggid: "393166",
         people: [
             {
                 type: "designer",

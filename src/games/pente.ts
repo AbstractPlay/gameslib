@@ -32,6 +32,7 @@ export class PenteGame extends InARowBase {
         // i18next.t("apgames:descriptions.pente")
         description: "apgames:descriptions.pente",
         urls: ["https://boardgamegeek.com/boardgame/1295/pente"],
+        bggid: "1295",
         people: [
             {
                 type: "designer",

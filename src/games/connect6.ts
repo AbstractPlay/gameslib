@@ -33,6 +33,7 @@ export class Connect6Game extends InARowBase {
         // i18next.t("apgames:descriptions.connect6")
         description: "apgames:descriptions.connect6",
         urls: ["https://boardgamegeek.com/boardgame/22847/connect6"],
+        bggid: "22847",
         people: [
             {
                 type: "designer",

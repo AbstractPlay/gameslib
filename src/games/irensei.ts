@@ -32,6 +32,7 @@ export class IrenseiGame extends InARowBase {
         // i18next.t("apgames:descriptions.irensei")
         description: "apgames:descriptions.irensei",
         urls: ["https://boardgamegeek.com/boardgame/48871/irensei"],
+        bggid: "48871",
         people: [
             {
                 type: "designer",

@@ -47,6 +47,7 @@ export class GoGame extends GameBase {
                 "https://boardgamegeek.com/boardgame/188/go",
                 "https://senseis.xmp.net/"
               ],
+        bggid: "188",
         people: [
             {
                 type: "designer",

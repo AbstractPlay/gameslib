@@ -50,6 +50,7 @@ export class IqishiqiGame extends GameBase {
         // i18next.t("apgames:descriptions.iqishiqi")
         description: "apgames:descriptions.iqishiqi",
         urls: ["https://boardgamegeek.com/boardgame/172250/iqishiqi"],
+        bggid: "172250",
         people: [
             {
                 type: "designer",

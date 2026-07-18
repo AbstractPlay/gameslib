@@ -37,6 +37,7 @@ export class StilettoGame extends InARowBase {
                 "https://boardgamegeek.com/boardgame/465550/stiletto",
                 "https://jpneto.github.io/world_abstract_games/dagger_gomoku.htm",
               ],
+        bggid: "465550",
         people: [
             {
                 type: "designer",

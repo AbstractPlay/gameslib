@@ -35,6 +35,7 @@ export class DiffusionGame extends GameBase {
             "https://marksteeregames.com/Diffusion_rules.pdf",
             "https://boardgamegeek.com/boardgame/22326/diffusion",
         ],
+        bggid: "22326",
         people: [
             {
                 type: "designer",

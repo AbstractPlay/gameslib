@@ -68,6 +68,7 @@ export class CalculusGame extends GameBase {
         urls: [
             "https://boardgamegeek.com/boardgame/30914/calculus",
         ],
+        bggid: "30914",
         people: [
             {
                 type: "designer",

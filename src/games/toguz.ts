@@ -39,6 +39,7 @@ export class ToguzGame extends GameBase {
             "https://en.wikipedia.org/wiki/Toguz_korgol",
             "https://boardgamegeek.com/boardgame/39617/togizqumalaq",
         ],
+        bggid: "39617",
         people: [
             {
                 type: "coder",

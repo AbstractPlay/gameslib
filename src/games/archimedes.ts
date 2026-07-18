@@ -30,6 +30,7 @@ export class ArchimedesGame extends GameBase {
         urls: [
             "https://boardgamegeek.com/boardgame/18698/archimedes",
         ],
+        bggid: "18698",
         people: [
             {
                 type: "designer",

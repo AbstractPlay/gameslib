@@ -79,6 +79,7 @@ export class RincalaGame extends GameBase {
             "https://spielstein.com/games/rincala",
             "https://boardgamegeek.com/boardgame/165627/rincala",
         ],
+        bggid: "165627",
         people: [
             {
                 type: "designer",

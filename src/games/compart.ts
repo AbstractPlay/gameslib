@@ -48,6 +48,7 @@ export class CompartGame extends GameBase {
         urls: [
             "https://boardgamegeek.com/boardgame/385587/compart"
         ],
+        bggid: "385587",
         people: [
             {
                 type: "designer",

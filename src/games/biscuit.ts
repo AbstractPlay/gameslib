@@ -50,6 +50,7 @@ export class BiscuitGame extends GameBase {
             "http://wiki.decktet.com/game:biscuit",
             "https://boardgamegeek.com/boardgame/37096/biscuit",
         ],
+        bggid: "37096",
         people: [
             {
                 type: "designer",

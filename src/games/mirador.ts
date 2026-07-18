@@ -41,6 +41,7 @@ export class MiradorGame extends GameBase {
             "https://www.abstractgames.org/mirador.html",
             "https://boardgamegeek.com/boardgame/65822/mirador",
         ],
+        bggid: "65822",
         people: [
             {
                 type: "designer",

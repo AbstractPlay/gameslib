@@ -33,6 +33,7 @@ export class QuaxGame extends GameBase {
         // i18next.t("apgames:descriptions.quax")
         description: "apgames:descriptions.quax",
         urls: ["https://boardgamegeek.com/boardgame/36804/quax"],
+        bggid: "36804",
         people: [
             {
                 type: "designer",

@@ -50,6 +50,7 @@ export class TerraceGame extends GameBase {
             "https://web.archive.org/web/20060430134129/http://www.terracegames.com/rules.html",
             "https://boardgamegeek.com/thread/551125/variant-for-more-aggressive-less-drawish-play",
         ],
+        bggid: "2872",
         people: [
             {
                 type: "designer",

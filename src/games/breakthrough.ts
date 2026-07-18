@@ -34,6 +34,7 @@ export class BreakthroughGame extends GameBase {
             "https://jpneto.github.io/world_abstract_games/bombardment.htm",
             "https://boardgamegeek.com/boardgame/3825/breakthrough",
         ],
+        bggid: "3825",
         people: [
             {
                 type: "designer",

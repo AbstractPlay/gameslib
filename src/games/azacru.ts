@@ -84,6 +84,7 @@ export class AzacruGame extends GameBase {
         // i18next.t("apgames:descriptions.azacru")
         description: "apgames:descriptions.azacru",
         urls: ["https://boardgamegeek.com/boardgame/21065/azacru"],
+        bggid: "21065",
         people: [
             {
                 type: "designer",

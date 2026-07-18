@@ -40,6 +40,7 @@ export class PhutballGame extends GameBase {
             "https://en.wikipedia.org/wiki/Phutball",
             "https://boardgamegeek.com/boardgame/25433/phutball",
         ],
+        bggid: "25433",
         people: [
             {
                 type: "designer",

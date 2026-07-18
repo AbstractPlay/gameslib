@@ -35,6 +35,7 @@ export class FanoronaGame extends GameBase {
             "https://en.wikipedia.org/wiki/Fanorona",
             "https://boardgamegeek.com/boardgame/4386/fanorona",
         ],
+        bggid: "4386",
         people: [
             {
                 type: "coder",

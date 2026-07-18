@@ -37,6 +37,7 @@ export class VeletasGame extends GameBase {
         // i18next.t("apgames:descriptions.veletas")
         description: "apgames:descriptions.veletas",
         urls: ["https://boardgamegeek.com/boardgame/151224/veletas"],
+        bggid: "151224",
         people: [
             {
                 type: "designer",

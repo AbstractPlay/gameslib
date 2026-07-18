@@ -35,6 +35,7 @@ export class VergeGame extends GameBase {
         // i18next.t("apgames:descriptions.verge")
         description: "apgames:descriptions.verge",
         urls: ["https://boardgamegeek.com/boardgame/396931/verge"],
+        bggid: "396931",
         people: [
             {
                 type: "designer",

@@ -34,6 +34,7 @@ export class FlumeGame extends GameBase {
             "https://www.marksteeregames.com/Flume_Go_rules.pdf",
             "https://boardgamegeek.com/boardgame/67080/flume",
         ],
+        bggid: "67080",
         people: [
             {
                 type: "designer",

@@ -71,6 +71,7 @@ export class MchessGame extends GameBase {
             "https://www.looneylabs.com/sites/default/files/literature/MartianChess_Rules5.pdf",
             "https://boardgamegeek.com/boardgame/19803/martian-chess",
         ],
+        bggid: "19803",
         people: [
             {
                 type: "designer",

@@ -33,6 +33,7 @@ export class OnagerGame extends GameBase {
         // i18next.t("apgames:descriptions.onager")
         description: "apgames:descriptions.onager",
         urls: ["https://boardgamegeek.com/boardgame/131047/onager"],
+        bggid: "131047",
         people: [
             {
                 type: "designer",

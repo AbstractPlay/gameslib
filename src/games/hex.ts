@@ -37,6 +37,7 @@ export class HexGame extends GameBase {
             "https://en.wikipedia.org/wiki/Hex_(board_game)",
             "https://boardgamegeek.com/boardgame/4112/hex",
         ],
+        bggid: "4112",
         people: [
             {
                 type: "designer",

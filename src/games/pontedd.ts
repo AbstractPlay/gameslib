@@ -35,6 +35,7 @@ export class PonteDDGame extends GameBase {
         // i18next.t("apgames:descriptions.pontedd")
         description: "apgames:descriptions.pontedd",
         urls: ["https://boardgamegeek.com/boardgame/27172/ponte-del-diavolo"],
+        bggid: "27172",
         people: [
             {
                 type: "designer",

@@ -34,6 +34,7 @@ export class KonaneGame extends GameBase {
         // i18next.t("apgames:notes.konane")
         notes: "apgames:notes.konane",
         urls: ["https://boardgamegeek.com/boardgame/8122/konane"],
+        bggid: "8122",
         people: [
             {
                 type: "coder",

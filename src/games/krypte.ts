@@ -33,6 +33,7 @@ export class KrypteGame extends InARowBase {
         // i18next.t("apgames:descriptions.krypte")
         description: "apgames:descriptions.krypte",
         urls: ["https://boardgamegeek.com/boardgame/209858/krypte"],
+        bggid: "209858",
         people: [
             {
                 type: "designer",

@@ -41,6 +41,7 @@ export class StigmergyGame extends GameBase {
         // i18next.t("apgames:notes.stigmergy")
         notes: "apgames:notes.stigmergy",
         urls: ["https://boardgamegeek.com/boardgame/333767/stigmergy"],
+        bggid: "333767",
         people: [
             {
                 type: "designer",

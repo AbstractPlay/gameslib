@@ -34,6 +34,7 @@ export class StrandsGame extends GameBase {
         // i18next.t("apgames:descriptions.strands")
         description: "apgames:descriptions.strands",
         urls: ["https://boardgamegeek.com/boardgame/364343/strands"],
+        bggid: "364343",
         people: [
             {
                 type: "designer",

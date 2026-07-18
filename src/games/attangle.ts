@@ -39,6 +39,7 @@ export class AttangleGame extends GameBase {
             "https://spielstein.com/games/attangle/rules/grand-attangle",
             "https://boardgamegeek.com/boardgame/24525/attangle",
         ],
+        bggid: "24525",
         people: [
             {
                 type: "designer",

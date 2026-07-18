@@ -69,6 +69,7 @@ export class FroggerGame extends GameBase {
             "http://wiki.decktet.com/game:frogger",
             "https://boardgamegeek.com/boardgame/41859/frogger",
         ],
+        bggid: "41859",
         people: [
             {
                 type: "designer",

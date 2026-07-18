@@ -48,6 +48,7 @@ export class YGame extends GameBase {
         description: "apgames:descriptions.y",
         notes: "apgames:notes.y",
         urls: ["https://boardgamegeek.com/boardgame/5242/the-game-of-y"],
+        bggid: "5242",
         people: [
             {
                 type: "designer",

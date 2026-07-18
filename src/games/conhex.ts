@@ -34,6 +34,7 @@ export class ConhexGame extends GameBase {
         // i18next.t("apgames:descriptions.conhex")
         description: "apgames:descriptions.conhex",
         urls: ["https://boardgamegeek.com/boardgame/10989/conhex"],
+        bggid: "10989",
         people: [
             {
                 type: "designer",

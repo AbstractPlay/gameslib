@@ -41,6 +41,7 @@ export class TumbleweedGame extends GameBase {
         // i18next.t("apgames:notes.tumbleweed")
         notes: "apgames:notes.tumbleweed",
         urls: ["https://boardgamegeek.com/boardgame/318702/tumbleweed"],
+        bggid: "318702",
         people: [
             {
                 type: "designer",

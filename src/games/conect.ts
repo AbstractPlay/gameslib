@@ -36,6 +36,7 @@ export class ConectGame extends GameBase {
             "https://www.marksteeregames.com/Conect_rules.pdf",
             "https://boardgamegeek.com/boardgame/432207/conect",
         ],
+        bggid: "432207",
         people: [
             {
                 type: "designer",

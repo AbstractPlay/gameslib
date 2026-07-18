@@ -32,6 +32,7 @@ export class YavalathGame extends GameBase {
         // i18next.t("apgames:descriptions.yavalath")
         description: "apgames:descriptions.yavalath",
         urls: ["https://boardgamegeek.com/boardgame/33767/yavalath"],
+        bggid: "33767",
         people: [
             {
                 type: "designer",

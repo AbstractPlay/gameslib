@@ -32,6 +32,7 @@ export class FightopiaGame extends GameBase {
             "https://crabfragmentlabs.com/s/Fightopia2Pages.pdf",
             "https://boardgamegeek.com/boardgame/12878/fightopia",
         ],
+        bggid: "12878",
         people: [
             {
                 type: "designer",

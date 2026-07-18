@@ -32,6 +32,7 @@ export class ConnectionsGame extends GameBase {
         // i18next.t("apgames:descriptions.connections")
         description: "apgames:descriptions.connections",
         urls: ["https://boardgamegeek.com/boardgame/3370/connections"],
+        bggid: "3370",
         people: [
             {
                 type: "designer",

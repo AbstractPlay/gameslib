@@ -36,6 +36,7 @@ export class CatchupGame extends GameBase {
         // i18next.t("apgames:descriptions.catchup")
         description: "apgames:descriptions.catchup",
         urls: ["https://boardgamegeek.com/boardgame/68199/catchup"],
+        bggid: "68199",
         people: [
             {
                 type: "designer",

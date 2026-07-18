@@ -34,6 +34,7 @@ export class SpireGame extends GameBase {
         // i18next.t("apgames:notes.spire")
         notes: "apgames:notes.spire",
         urls: ["https://boardgamegeek.com/boardgame/113641/spire"],
+        bggid: "113641",
         people: [
             {
                 type: "designer",

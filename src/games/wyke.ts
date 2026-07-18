@@ -34,6 +34,7 @@ export class AlfredsWykeGame extends GameBase {
         // i18next.t("apgames:descriptions.wyke")
         description: "apgames:descriptions.wyke",
         urls: ["https://www.abstractgames.org/alfredswyke.html", "http://superdupergames.org/rules/wyke.pdf"],
+        bggid: "37584",
         people: [
             {
                 type: "designer",

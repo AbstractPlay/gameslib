@@ -31,6 +31,7 @@ export class InvectorGame extends GameBase {
         urls: [
             "https://www.marksteeregames.com/Invector_rules.pdf",
         ],
+        bggid: "472199",
         people: [
             {
                 type: "designer",

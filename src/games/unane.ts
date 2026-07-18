@@ -32,6 +32,7 @@ export class UnaneGame extends GameBase {
         urls: [
             "https://www.marksteeregames.com/Unane_rules.pdf",
         ],
+        bggid: "472126",
         people: [
             {
                 type: "designer",

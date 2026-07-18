@@ -48,6 +48,7 @@ export class SporaGame extends GameBase {
         urls: [
                 "https://boardgamegeek.com/thread/3493284/rules-of-spora"
               ],
+        bggid: "443703",
         people: [
             {
                 type: "designer",

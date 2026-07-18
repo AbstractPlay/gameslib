@@ -28,6 +28,7 @@ export class SquaredanceGame extends GameBase {
         // i18next.t("apgames:descriptions.squaredance")
         description: "apgames:descriptions.squaredance",
         urls: ["https://jpneto.github.io/world_abstract_games/squaredance.htm"],
+        bggid: "27725",
         people: [
             {
                 type: "designer",

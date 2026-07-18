@@ -33,6 +33,7 @@ export class NarrowsGame extends GameBase {
         urls: [
             "https://www.marksteeregames.com/Narrows_rules.pdf",
         ],
+        bggid: "471923",
         people: [
             {
                 type: "designer",

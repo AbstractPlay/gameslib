@@ -33,6 +33,7 @@ export class NakattaGame extends GameBase {
         // i18next.t("apgames:descriptions.nakatta")
         description: "apgames:descriptions.nakatta",
         urls: ["https://www.marksteeregames.com/Nakatta_rules.pdf"],
+        bggid: "420467",
         people: [
             {
                 type: "designer",

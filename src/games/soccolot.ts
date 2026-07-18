@@ -30,7 +30,9 @@ export class SoccolotGame extends GameBase {
         // i18next.t("apgames:notes.soccolot")
         notes: "apgames:notes.soccolot",
         urls: [
-            "https://www.zillions-of-games.com/cgi-bin/zilligames/submissions.cgi?do=show;id=802",        ],
+            "https://www.zillions-of-games.com/cgi-bin/zilligames/submissions.cgi?do=show;id=802"
+        ],
+        bggid: "472041",
         people: [
             {
                 type: "designer",

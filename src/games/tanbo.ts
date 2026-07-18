@@ -32,6 +32,7 @@ export class TanboGame extends GameBase {
         urls: [
             "https://www.marksteeregames.com/Tanbo_rules.pdf",
         ],
+        bggid: "6492",
         people: [
             {
                 type: "designer",

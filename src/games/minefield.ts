@@ -42,6 +42,7 @@ export class MinefieldGame extends GameBase {
             "https://boardgamegeek.com/thread/3295906/new-mark-steere-game-minefield",
             "https://boardgamegeek.com/thread/3296675/pinwheel-minimal-restrictions",
         ],
+        bggid: "420797",
         people: [
             {
                 type: "designer",

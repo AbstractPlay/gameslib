@@ -46,6 +46,7 @@ export class SentinelGame extends GameBase {
         urls: [
             "https://boardgamegeek.com/thread/3651706/rules-of-sentinel",
         ],
+        bggid: "463291",
         people: [
             {
                 type: "designer",

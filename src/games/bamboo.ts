@@ -32,6 +32,7 @@ export class BambooGame extends GameBase {
         // i18next.t("apgames:descriptions.bamboo")
         description: "apgames:descriptions.bamboo",
         urls: ["https://www.marksteeregames.com/Bamboo_rules.pdf"],
+        bggid: "472439",
         people: [
             {
                 type: "designer",

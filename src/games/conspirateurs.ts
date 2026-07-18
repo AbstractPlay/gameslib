@@ -32,6 +32,7 @@ export class ConspirateursGame extends GameBase {
         // i18next.t("apgames:notes.conspirateurs")
         notes: "apgames:notes.conspirateurs",
         urls: ["https://en.wikipedia.org/wiki/Conspirateurs"],
+        bggid: "60707",
         people: [
             {
                 type: "coder",

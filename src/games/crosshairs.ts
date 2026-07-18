@@ -132,6 +132,7 @@ export class CrosshairsGame extends GameBase {
         urls: [
             "http://mrraow.com/uploads/MyDesigns/Crosshairs2020.pdf",
         ],
+        bggid: "78093",
         people: [
             {
                 type: "designer",

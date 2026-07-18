@@ -36,6 +36,7 @@ export class ChurnGame extends GameBase {
         // i18next.t("apgames:descriptions.churn")
         description: "apgames:descriptions.churn",
         urls: ["https://www.marksteeregames.com/Churn_rules.pdf"],
+        bggid: "437052",
         people: [
             {
                 type: "designer",

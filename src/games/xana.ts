@@ -46,6 +46,7 @@ export class XanaGame extends GameBase {
         urls: [
             "https://boardgamegeek.com/thread/3482800",
         ],
+        bggid: "441854",
         people: [
             {
                 type: "designer",

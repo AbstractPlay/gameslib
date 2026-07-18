@@ -383,6 +383,7 @@ export class EmuGame extends GameBase {
         urls: [
             "http://wiki.decktet.com/game:emu-ranchers",
         ],
+        bggid: "39704",
         people: [
             {
                 type: "designer",

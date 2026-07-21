@@ -5,6 +5,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { allDirections, Direction, oppositeDirections, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { UnboundedSquareBoard } from "../common/unbounded-square-board";
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 type playerid = 1 | 2 | 3 ;
@@ -274,7 +275,7 @@ export class KnightLineGame extends GameBase {
     private getFreeMoves(): string[] {
         //Returns an array of unoccupied cells that are connected to the board.
         //Used for randomizing opening moves.
-        let freeMoves: string[] = [];
+        const freeMoves: string[] = [];
 
         //Get all board locations.
         //Collect all unoccupied neighbors thereof.
@@ -337,7 +338,7 @@ export class KnightLineGame extends GameBase {
 
         const activeStacks = this.getActiveStacks(player);
 
-        for (var s = 0; s < activeStacks.length; s++) {
+        for (let s = 0; s < activeStacks.length; s++) {
             const [x, y] = activeStacks[s];
             const knightMoves = this.getKnightMoves(x, y);
             if (knightMoves.length > 0)
@@ -349,8 +350,8 @@ export class KnightLineGame extends GameBase {
 
     private hasNeighbors(absX: number, absY: number): boolean {
         // Check if an empty cell has any neighbors.
-        for (var dx = -1; dx <= 1; dx++) {
-            for (var dy = -1; dy <= 1; dy++) {
+        for (let dx = -1; dx <= 1; dx++) {
+            for (let dy = -1; dy <= 1; dy++) {
                 if (dx === 0 && dy === 0) continue;
                 if (this.board.has(absX + dx, absY + dy)) {
                     return true;
@@ -485,7 +486,7 @@ export class KnightLineGame extends GameBase {
         
             const activeStacks = this.getActiveStacks(player);
         
-            for (var s = 0; s < activeStacks.length; s++) {
+            for (let s = 0; s < activeStacks.length; s++) {
                 const [x, y] = activeStacks[s];
                 const cell = this.absCoords2algebraic(x, y);
                 const stackHeight = this.board.get(x, y)![1];
@@ -869,21 +870,25 @@ export class KnightLineGame extends GameBase {
         switch (dir) {
             case "NE":
                 yNew++;
+                // eslint-disable-next-line no-fallthrough
             case "E":
                 xNew++;
                 break;
             case "SE":
                 xNew++;
+                // eslint-disable-next-line no-fallthrough
             case "S":
                 yNew--;
                 break;
             case "SW":
                 yNew--;
+                // eslint-disable-next-line no-fallthrough
             case "W":
                 xNew--;
                 break;
             case "NW":
                 xNew--;
+                // eslint-disable-next-line no-fallthrough
             case "N":
                 yNew++;
                 break;
@@ -1073,7 +1078,7 @@ export class KnightLineGame extends GameBase {
 
         //Create the piece list and pieces in one fell swoop.
         for (let y = 0; y < height; y++) {
-            const pstr: String[] = [];
+            const pstr: string[] = [];
             for (let x = 0; x < width; x++) {
                 const [absX, absY] = this.rel2absCoords(x, y);
                 
@@ -1103,7 +1108,7 @@ export class KnightLineGame extends GameBase {
 
         //Label my funny coordinate system.
         const rowLabels = [...Array(height).keys()].map(l => ( -(l + firstAY) ).toString()).reverse();
-        let columnLabels = (Array.from(Array(width).keys())).map(c =>
+        const columnLabels = (Array.from(Array(width).keys())).map(c =>
             this.absXCoord2algebraic(firstAX + c) );
         
         // Build rep

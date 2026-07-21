@@ -125,6 +125,7 @@
         "irensei": "Irensei is a mixture of Go and Gomoku. Get a seven in a row inside the middle 15x15 region of the Go board to win. To reduce the first player's advantage, the first player loses if they make an overline (even if it extends beyond the 15x15 region), but the second player may win by overline.",
         "jacynth": "A Decktet card game where opponents vye for control of the city of Jacynth. Place cards, exert influence, and control the most area to win.",
         "kachit": "A chess-like game played on a 4x4 board where you try to eliminate the opposing king or promote your own. Pieces can change their orientation after moving.",
+        "knightline": "A four-in-a-row connection game played by splitting a stack of knights on an unbounded grid.",
         "konane": "A traditional Hawaiian game that was almost completely lost to time but for the memory of a single woman, Kaʻahaʻaina Naihe of Kailua-Kona. Played on a rectangular board, each player captures by jumping over their opponent's pieces. Last to move wins.",
         "krypte": "A 4-in-a-row game where pieces enter from active sides that rotate after each turn, and placing a piece flips all adjacent pieces.",
         "lasca": "A Draughts variant where captured pieces remain on the board and can be freed later. Immobilize your opponent to win.",
@@ -309,6 +310,7 @@
         "invector": "Invector, designed by Mark Steere in 2026, is an elimination game inspired by the ancient Hawiian game of Kōnane. Invector begins with a checkerboard pattern of stones, has short range captures, and is extremely simple. Invector simply combines two basic, off-the-shelf ingredients: orthogonal, adjacent capturing moves, and orthogonal, adjacent moves closer to center.",
         "jacynth": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers and opponents.",
         "konane": "Several competing opening protocols exist, but the most common ruleset is the Naihe Ruleset, used by tournaments at the Bishop Museum in Hawaii and described in the BGG reference. This is what is implemented here.",
+        "knightline": "For convenience, your stack is split approximately in half on your first click.  Subsequent clicks on the source or target stack move one piece at a time.  When done, click on an empty cell or use the Complete Move button.\n\nThe coordinate system is adapted from the coder's coordinate system for Hive, a game on an unbounded (but still reasonably sized) hex board.  The y axis is labeled with Cartesian coordinates (positive and negative integers).  The x axis is labeled with letters in alphabetical order, with the origin at (m, 0).  If motion on the x-axis exceeds the confines of the alphabet in either direction, the letters are prefixed with another letter (z is followed by aa, ab, ac, etc., and a is preceded by zz, zy, zx, etc.).  The game is not expected to reach a width that requires more double coordinates, but for the record, az is followed by ba, za is preceded by yz, and so forth.  The board cannot reach a size that would result in ambiguity.",
         "lasca": "Maneuverability is a measure of how close your pieces are to promoting. Your maximum maneuverability is the board size times the number of stacks you control.\n\nMaterial is calculated by giving you a point for every friendly piece in a stack you control, plus an extra point if you have an officer on top of that stack.",
         "linage" : "Linage is a 2016 game designed by Luis Bolaños Mures. The game is based on the following definitions: A **region** is a maximal set of orthogonally contiguous empty points. A **line** is a set of N orthogonally contiguous empty points on the same row or column (default is N=3); and a region is **owned** by Vertical if it contains no horizontal lines, and by Horizontal if it contains no vertical lines. A region is free if it is owned by neither player. Regions must always have at least one line.\n\nOn his turn, the player passes or places a stone in a free region. The game ends when both players pass in succession, and wins the one with highest score (i.e., the number of points in the regions the player owns, plus komi).",
         "loa": "In the centre of the 9x9 board is a \"black hole.\". Landing on the black hole means the piece is removed from the game. Simultaneous connections are scored as a draw.",
@@ -1836,6 +1838,28 @@
             "oldcity": {
                 "name": "The Old City",
                 "description": "The board starts with six cards in a circular pattern."
+            }
+        },
+        "knightline": {
+            "#setup": {
+                "name": "Default setup",
+                "description": "No special pieces, and stacks begin in a set configuration."
+            },
+            "blocker": {
+                "name": "Blocker",
+                "description": "The game begins with a central neutral piece, and stacks are placed by players."
+            },
+            "wildcard": {
+                "name": "Wildcard",
+                "description": "A central neutral piece may be counted by any player, and stacks are placed by players."
+            },
+            "#size": {
+                "name": "Default stack size",
+                "description": "All players start with a stack of 20 pieces."
+            },
+            "size-24": {
+                "name": "Stack of 24",
+                "description": "All players start with a stack of 24 pieces."
             }
         },
         "konane": {
@@ -3927,6 +3951,12 @@
                 "name": "Hide restriction indicators"
             }
         },
+        "knightline": {
+            "show-origin": {
+                "description": "Mark the position of the first piece.",
+                "name": "Show origin"
+            }
+        },
         "krypte": {
             "moves_no_sides_yes": {
                 "description": "Don't show possible moves.",
@@ -5691,6 +5721,26 @@
             "INITIAL_INSTRUCTIONS_placed": "Select a piece to move.",
             "PARTIAL_destination": "Select a destination.",
             "PARTIAL_orientation": "Select a neighbouring cell to orient the piece."
+        },
+        "knightline": {
+            "BAD_PASS": "You may not pass if legal moves are available.",
+            "BAD_OPENING_MOVE": "The opening move in this variant must be a legal cell for initial stack placement.",
+            "BAD_START_PLACE": "The cell {{cell}} is not a legal initial placement.",
+            "BAD_VALUE": "The value {{what}} is not a legal split of your stack.",
+            "INITIAL_INSTRUCTIONS": "Select a stack, then select a cell to jump to.",
+            "INITIAL_INSTRUCTIONS_VARIANTS": "Select a cell to place your initial stack.",
+            "INVALID_FIRST_MOVE": "In the first move of a two-player game, you may only split one piece off your stack.",
+            "INVALID_MOVE": "You must select a stack with a jump to an unoccupied space.",
+            "INVALID_NOTATION": "The move notation '{{move}}' is invalid.",
+            "INVALID_STACK": "The stack at '{{cell}}' is not yours.",
+            "INVALID_TARGET": "The cell '{{cell}}' is occupied.",
+            "MUST_PASS": "The only move available to you is to pass.",
+            "NO_KNIGHT": "The selected cell '{{cell}}' is not a knight's move away.",
+            "NO_NEIGHBORS": "The selected cell '{{cell}}' is not connected to the board.",
+            "NO_STACK": "There is no stack at '{{cell}}'.",
+            "SELECT_CELL": "Select a target cell.",
+            "SHORT_STACK": "The stack at '{{cell}}' cannot be split.",
+            "SPLIT_STACK": "Click either cell to redistribute the split of the stack.  Click an empty cell or the Complete Move button to finish your turn."
         },
         "konane": {
             "FIRST_MOVE": "Remove one of your pieces from the center 2x2 or from a corner.",

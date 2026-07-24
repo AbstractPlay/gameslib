@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import "mocha";
 import { expect } from "chai";
+import * as fs from "fs";
+import * as path from "path";
 import { EvenAtOddsGame, BLANK_PIP_COLOUR, IMoveState } from "../../src/games/evenatodds";
 import { DominoDeck } from "../../src/common/dominoes/DominoDeck";
 
@@ -16,6 +18,12 @@ function gameFrom(overrides: Partial<IMoveState>, gameover = false): EvenAtOddsG
         winner: [],
         stack: [ms],
     });
+}
+
+function gameFromBinState(): EvenAtOddsGame {
+    const statePath = path.join(__dirname, "../../bin/state.json");
+    const state = JSON.parse(fs.readFileSync(statePath, "utf8"));
+    return new EvenAtOddsGame(state);
 }
 
 function allTileIds(g: EvenAtOddsGame): number[] {
@@ -215,6 +223,51 @@ describe("Even at Odds", () => {
 
         expect(g.validateMove("9-9").valid).to.be.false;
         expect(g.validateMove("3-2").valid).to.be.false;
+    });
+
+    it("requires asterisk notation for pip-ambiguous typed moves", () => {
+        const g = gameFromBinState();
+        const ambiguous = g.validateMove("1-2@-3,1N");
+        expect(ambiguous.valid).to.be.true;
+        expect(ambiguous.complete).to.equal(-1);
+        expect(ambiguous.message).to.match(/asterisk|needs_anchor_pip/i);
+
+        expect(g.validateMove("1*-2@-3,1N").complete).to.equal(1);
+        expect(g.validateMove("1-2*@-3,1N").complete).to.equal(1);
+        expect(g.moves()).to.include("1*-2@-3,1N");
+        expect(g.moves()).to.include("1-2*@-3,1N");
+        expect(g.moves()).to.not.include("1-2@-3,1N");
+    });
+
+    it("resolves pip-ambiguous placements from hand end clicks", () => {
+        const g = gameFromBinState();
+        const handL = g.handleClick("", -1, -1, "_domino_1-2_H8L_H8R_L");
+        expect(handL.move).to.equal("1-2");
+        expect(g.anchorPip).to.equal(1);
+
+        const anchor = g.handleClick(handL.move!, 4, 3);
+        expect(anchor.move).to.equal("1-2@-3,1");
+        expect(anchor.complete).to.equal(-1);
+
+        const fullL = g.handleClick(anchor.move!, 3, 3);
+        expect(fullL.complete).to.equal(1);
+        expect(fullL.move).to.equal("1*-2@-3,1N");
+
+        const g2 = gameFromBinState();
+        g2.handleClick("", -1, -1, "_domino_1-2_H8L_H8R_R");
+        const anchorR = g2.handleClick("1-2", 4, 3);
+        const fullR = g2.handleClick(anchorR.move!, 3, 3);
+        expect(fullR.move).to.equal("1-2*@-3,1N");
+    });
+
+    it("ignores hand end when placement pip is unambiguous", () => {
+        const g = gameFromBinState();
+        g.handleClick("", -1, -1, "_domino_1-2_H8L_H8R_R");
+        g.move("1-2@-3,0E");
+        expect(g.lastmove).to.equal("1-2@-3,0E");
+        const placed = g.tiles.find(t => t.id === 8)!;
+        expect(placed.a).to.deep.equal([-3, 0]);
+        expect(placed.pipA).to.equal(2);
     });
 
     it("exposes pip keys on domino hand tile ids", () => {

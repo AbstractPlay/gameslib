@@ -52,6 +52,7 @@ export interface IMoveState extends IIndividualState {
     lastmove?: string;
     selected?: number;
     anchor?: Half;
+    anchorPip?: Pip;
     boneyardCount?: number;
 }
 
@@ -103,6 +104,7 @@ export class EvenAtOddsGame extends GameBase {
     public results: Array<APMoveResult> = [];
     public selected?: number;
     public anchor?: Half;
+    public anchorPip?: Pip;
     public highlights: Half[] = [];
     public lastmove?: string;
 
@@ -239,6 +241,7 @@ export class EvenAtOddsGame extends GameBase {
         this.lastmove = state.lastmove;
         this.selected = state.selected;
         this.anchor = state.anchor ? [...state.anchor] as Half : undefined;
+        this.anchorPip = state.anchorPip;
         this.results = [...state._results];
         return this;
     }
@@ -320,6 +323,105 @@ export class EvenAtOddsGame extends GameBase {
             if (d.l === l && d.r === r) { return id; }
         }
         return undefined;
+    }
+
+    private parseTileKeyFromMove(m: string): {
+        consumed: number;
+        tileKey: string;
+        tileId?: number;
+        anchorPip?: Pip;
+    } | undefined {
+        const starLow = /^(\d+)\*-(\d+)/.exec(m);
+        if (starLow) {
+            const l = parseInt(starLow[1], 10);
+            const r = parseInt(starLow[2], 10);
+            if (l > r || l < 0 || r > 6) { return undefined; }
+            const tileKey = `${l}-${r}`;
+            return {
+                consumed: starLow[0].length,
+                tileKey,
+                tileId: this.tileIdFromKey(tileKey),
+                anchorPip: l as Pip,
+            };
+        }
+        const starHigh = /^(\d+)-(\d+)\*/.exec(m);
+        if (starHigh) {
+            const l = parseInt(starHigh[1], 10);
+            const r = parseInt(starHigh[2], 10);
+            if (l > r || l < 0 || r > 6) { return undefined; }
+            const tileKey = `${l}-${r}`;
+            return {
+                consumed: starHigh[0].length,
+                tileKey,
+                tileId: this.tileIdFromKey(tileKey),
+                anchorPip: r as Pip,
+            };
+        }
+        const plain = /^(\d+)-(\d+)/.exec(m);
+        if (plain) {
+            const l = parseInt(plain[1], 10);
+            const r = parseInt(plain[2], 10);
+            if (l > r || l < 0 || r > 6) { return undefined; }
+            const tileKey = `${l}-${r}`;
+            return {
+                consumed: plain[0].length,
+                tileKey,
+                tileId: this.tileIdFromKey(tileKey),
+            };
+        }
+        return undefined;
+    }
+
+    private tileKeyWithAnchorPip(tileId: number, anchorPip: Pip): string {
+        const pips = this.dominoPips(tileId);
+        if (pips === undefined) {
+            throw new Error(`Unknown tile id ${tileId}`);
+        }
+        const [l, r] = pips;
+        if (anchorPip === l) { return `${l}*-${r}`; }
+        if (anchorPip === r) { return `${l}-${r}*`; }
+        throw new Error(`Pip ${anchorPip} is not on tile ${tileId}`);
+    }
+
+    private isPlacementAmbiguous(tileId: number, anchor: Half, other: Half): boolean {
+        return this.anchorPipsForPlacement(tileId, anchor, other).length > 1;
+    }
+
+    private anchorPipsForPlacement(tileId: number, anchor: Half, other: Half): Pip[] {
+        if (!this.hands[this.currplayer - 1].includes(tileId)) { return []; }
+        if (!this.orthoAdjacent(anchor, other)) { return []; }
+        const pips = this.dominoPips(tileId);
+        if (pips === undefined) { return []; }
+        const level = this.placementLevel(anchor, other);
+        if (level === undefined) { return []; }
+
+        const valid: Pip[] = [];
+        const seen = new Set<Pip>();
+        for (const pipAnchor of pips) {
+            if (seen.has(pipAnchor)) { continue; }
+            let anchorOk = false;
+            if (level === 0) {
+                anchorOk = this.tableAnchorValid(anchor, pipAnchor) && this.stackHeight(other) === 0;
+            } else {
+                anchorOk = this.stackAnchorValid(anchor, pipAnchor);
+            }
+            if (!anchorOk) { continue; }
+
+            if (level === 0) {
+                seen.add(pipAnchor);
+                valid.push(pipAnchor);
+                continue;
+            }
+
+            const topA = this.topTileAt(anchor);
+            const topO = this.topTileAt(other);
+            if (topA === undefined || topO === undefined) { continue; }
+            if (topA.id === topO.id) { continue; }
+            if (this.activePip(other) === undefined) { continue; }
+            seen.add(pipAnchor);
+            valid.push(pipAnchor);
+        }
+        return valid;
     }
 
     private dirFromEnds(anchor: Half, other: Half): Dir | undefined {
@@ -437,51 +539,31 @@ export class EvenAtOddsGame extends GameBase {
         return undefined;
     }
 
-    private isLegalPlacement(tileId: number, anchor: Half, other: Half): boolean {
-        if (!this.hands[this.currplayer - 1].includes(tileId)) { return false; }
-        if (!this.orthoAdjacent(anchor, other)) { return false; }
-        const pips = this.dominoPips(tileId);
-        if (pips === undefined) { return false; }
-        const [l, r] = pips;
-        const level = this.placementLevel(anchor, other);
-        if (level === undefined) { return false; }
-
-        for (const pipAnchor of [l, r]) {
-            let anchorOk = false;
-            if (level === 0) {
-                anchorOk = this.tableAnchorValid(anchor, pipAnchor) && this.stackHeight(other) === 0;
-            } else {
-                anchorOk = this.stackAnchorValid(anchor, pipAnchor);
-            }
-            if (!anchorOk) { continue; }
-
-            if (level === 0) {
-                return true;
-            }
-
-            const topA = this.topTileAt(anchor);
-            const topO = this.topTileAt(other);
-            if (topA === undefined || topO === undefined) { continue; }
-            if (topA.id === topO.id) { continue; }
-            if (this.activePip(other) === undefined) { continue; }
-            return true;
-        }
-        return false;
+    private isLegalPlacement(tileId: number, anchor: Half, other: Half, requiredAnchorPip?: Pip): boolean {
+        const anchorPips = this.anchorPipsForPlacement(tileId, anchor, other);
+        if (anchorPips.length === 0) { return false; }
+        if (requiredAnchorPip === undefined) { return true; }
+        return anchorPips.includes(requiredAnchorPip);
     }
 
-    private legalSecondEnds(tileId: number, anchor: Half): Half[] {
+    private legalSecondEnds(tileId: number, anchor: Half, requiredAnchorPip?: Pip): Half[] {
         const ends: Half[] = [];
         for (const [dx, dy] of DIRS) {
             const other: Half = [anchor[0] + dx, anchor[1] + dy];
-            if (this.isLegalPlacement(tileId, anchor, other)) {
+            if (this.isLegalPlacement(tileId, anchor, other, requiredAnchorPip)) {
                 ends.push(other);
             }
         }
         return ends;
     }
 
-    private formatMove(tileId: number, anchor?: Half, other?: Half): string {
+    private formatMove(tileId: number, anchor?: Half, other?: Half, anchorPip?: Pip): string {
         let m = this.tileKey(tileId);
+        if (other !== undefined && anchor !== undefined && this.isPlacementAmbiguous(tileId, anchor, other)) {
+            if (anchorPip !== undefined) {
+                m = this.tileKeyWithAnchorPip(tileId, anchorPip);
+            }
+        }
         if (anchor !== undefined) {
             m += `@${anchor[0]},${anchor[1]}`;
             if (other !== undefined) {
@@ -495,39 +577,90 @@ export class EvenAtOddsGame extends GameBase {
         return m;
     }
 
-    private parseMove(m: string): { tileKey?: string; tileId?: number; anchor?: Half; dir?: Dir; other?: Half } {
+    private parseMove(m: string): {
+        tileKey?: string;
+        tileId?: number;
+        anchorPip?: Pip;
+        anchor?: Half;
+        dir?: Dir;
+        other?: Half;
+    } {
         m = m.toUpperCase().replace(/\s+/g, "");
-        const full = /^(\d+)-(\d+)@(-?\d+),(-?\d+)([NESW])$/.exec(m);
+        const tile = this.parseTileKeyFromMove(m);
+        if (tile === undefined) { return {}; }
+        const rest = m.slice(tile.consumed);
+        const full = /^@(-?\d+),(-?\d+)([NESW])$/.exec(rest);
         if (full) {
-            const tileKey = `${full[1]}-${full[2]}`;
-            const anchor: Half = [parseInt(full[3], 10), parseInt(full[4], 10)];
-            const dir = full[5] as Dir;
+            const anchor: Half = [parseInt(full[1], 10), parseInt(full[2], 10)];
+            const dir = full[3] as Dir;
             return {
-                tileKey,
-                tileId: this.tileIdFromKey(tileKey),
+                tileKey: tile.tileKey,
+                tileId: tile.tileId,
+                anchorPip: tile.anchorPip,
                 anchor,
                 dir,
                 other: this.otherFromDir(anchor, dir),
             };
         }
-        const partial = /^(\d+)-(\d+)@(-?\d+),(-?\d+)$/.exec(m);
+        const partial = /^@(-?\d+),(-?\d+)$/.exec(rest);
         if (partial) {
-            const tileKey = `${partial[1]}-${partial[2]}`;
             return {
-                tileKey,
-                tileId: this.tileIdFromKey(tileKey),
-                anchor: [parseInt(partial[3], 10), parseInt(partial[4], 10)],
+                tileKey: tile.tileKey,
+                tileId: tile.tileId,
+                anchorPip: tile.anchorPip,
+                anchor: [parseInt(partial[1], 10), parseInt(partial[2], 10)],
             };
         }
-        const sel = /^(\d+)-(\d+)$/.exec(m);
-        if (sel) {
-            const tileKey = `${sel[1]}-${sel[2]}`;
+        if (rest.length === 0) {
             return {
-                tileKey,
-                tileId: this.tileIdFromKey(tileKey),
+                tileKey: tile.tileKey,
+                tileId: tile.tileId,
+                anchorPip: tile.anchorPip,
             };
         }
         return {};
+    }
+
+    private resolvedAnchorPip(tileId: number, anchor: Half, other: Half, preferred?: Pip): Pip | undefined {
+        const anchorPips = this.anchorPipsForPlacement(tileId, anchor, other);
+        if (anchorPips.length === 0) { return undefined; }
+        if (anchorPips.length === 1) { return anchorPips[0]; }
+        if (preferred !== undefined && anchorPips.includes(preferred)) { return preferred; }
+        return undefined;
+    }
+
+    private partialMatchesMove(partial: string, full: string): boolean {
+        const pp = this.parseMove(partial);
+        const fp = this.parseMove(full);
+        if (pp.tileId === undefined || pp.tileId !== fp.tileId) { return false; }
+        if (pp.anchorPip !== undefined && fp.anchorPip !== undefined && pp.anchorPip !== fp.anchorPip) {
+            return false;
+        }
+        if (pp.anchor === undefined) { return true; }
+        if (fp.anchor === undefined) { return false; }
+        if (pp.anchor[0] !== fp.anchor[0] || pp.anchor[1] !== fp.anchor[1]) { return false; }
+        if (pp.other === undefined) { return true; }
+        if (fp.other === undefined) { return false; }
+        return pp.other[0] === fp.other[0] && pp.other[1] === fp.other[1];
+    }
+
+    private movesMatchingPartial(m: string): string[] {
+        const parsed = this.parseMove(m);
+        return this.moves().filter(full => {
+            if (!this.partialMatchesMove(m, full)) { return false; }
+            const fp = this.parseMove(full);
+            if (parsed.anchorPip !== undefined && fp.anchorPip !== undefined && parsed.anchorPip !== fp.anchorPip) {
+                return false;
+            }
+            if (parsed.anchorPip === undefined && this.anchorPip !== undefined
+                && fp.anchor !== undefined && fp.other !== undefined && fp.tileId !== undefined) {
+                const apips = this.anchorPipsForPlacement(fp.tileId, fp.anchor, fp.other);
+                if (apips.length > 1 && fp.anchorPip !== this.anchorPip) {
+                    return false;
+                }
+            }
+            return true;
+        });
     }
 
     public moves(): string[] {
@@ -537,14 +670,21 @@ export class EvenAtOddsGame extends GameBase {
             const anchors = this.legalAnchors(tileId);
             for (const anchor of anchors) {
                 for (const other of this.legalSecondEnds(tileId, anchor)) {
-                    moves.push(this.formatMove(tileId, anchor, other));
+                    const anchorPips = this.anchorPipsForPlacement(tileId, anchor, other);
+                    if (anchorPips.length > 1) {
+                        for (const pip of anchorPips) {
+                            moves.push(this.formatMove(tileId, anchor, other, pip));
+                        }
+                    } else if (anchorPips.length === 1) {
+                        moves.push(this.formatMove(tileId, anchor, other));
+                    }
                 }
             }
         }
         return moves;
     }
 
-    private legalAnchors(tileId: number): Half[] {
+    private legalAnchors(tileId: number, requiredAnchorPip?: Pip): Half[] {
         const anchors: Half[] = [];
         const seen = new Set<string>();
         const pips = this.dominoPips(tileId);
@@ -554,7 +694,7 @@ export class EvenAtOddsGame extends GameBase {
         const tryAnchor = (h: Half) => {
             const k = this.halfKey(h);
             if (seen.has(k)) { return; }
-            if (this.legalSecondEnds(tileId, h).length > 0) {
+            if (this.legalSecondEnds(tileId, h, requiredAnchorPip).length > 0) {
                 seen.add(k);
                 anchors.push(h);
             }
@@ -584,12 +724,33 @@ export class EvenAtOddsGame extends GameBase {
         };
         m = m.toUpperCase().replace(/\s+/g, "");
         const allMoves = this.moves();
+        const parsed = this.parseMove(m);
 
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
             result.message = i18next.t("apgames:validation.evenatodds.INITIAL_INSTRUCTIONS");
             return result;
+        }
+
+        if (parsed.tileId !== undefined && !this.hands[this.currplayer - 1].includes(parsed.tileId)) {
+            result.message = i18next.t("apgames:validation.evenatodds.NOT_IN_HAND");
+            return result;
+        }
+
+        if (parsed.tileId !== undefined && parsed.anchor !== undefined && parsed.other !== undefined) {
+            const anchorPips = this.anchorPipsForPlacement(parsed.tileId, parsed.anchor, parsed.other);
+            if (anchorPips.length > 1 && parsed.anchorPip === undefined) {
+                result.valid = true;
+                result.complete = -1;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation.evenatodds.NEEDS_ANCHOR_PIP");
+                return result;
+            }
+            if (parsed.anchorPip !== undefined && !anchorPips.includes(parsed.anchorPip)) {
+                result.message = i18next.t("apgames:validation._general.INVALID_MOVE", { move: m });
+                return result;
+            }
         }
 
         if (allMoves.includes(m)) {
@@ -599,22 +760,18 @@ export class EvenAtOddsGame extends GameBase {
             return result;
         }
 
-        const parsed = this.parseMove(m);
-        if (parsed.tileId !== undefined && !this.hands[this.currplayer - 1].includes(parsed.tileId)) {
-            result.message = i18next.t("apgames:validation.evenatodds.NOT_IN_HAND");
-            return result;
-        }
-
-        const prefixes = allMoves.filter(mv => mv.startsWith(m));
+        const prefixes = this.movesMatchingPartial(m);
         if (prefixes.length > 0) {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
             result.message = i18next.t("apgames:validation.evenatodds.PARTIAL");
-            if (parsed.anchor !== undefined && parsed.other === undefined) {
-                const seconds = this.legalSecondEnds(parsed.tileId!, parsed.anchor);
+            if (parsed.anchor !== undefined && parsed.other === undefined && parsed.tileId !== undefined) {
+                const preferred = parsed.anchorPip ?? this.anchorPip;
+                const seconds = this.legalSecondEnds(parsed.tileId, parsed.anchor, preferred);
                 if (seconds.length === 1) {
-                    result.autocomplete = this.formatMove(parsed.tileId!, parsed.anchor, seconds[0]);
+                    const pip = this.resolvedAnchorPip(parsed.tileId, parsed.anchor, seconds[0], preferred);
+                    result.autocomplete = this.formatMove(parsed.tileId, parsed.anchor, seconds[0], pip);
                     result.complete = 1;
                 }
             }
@@ -625,25 +782,22 @@ export class EvenAtOddsGame extends GameBase {
         return result;
     }
 
-    private applyPlacement(tileId: number, anchor: Half, other: Half): void {
+    private applyPlacement(tileId: number, anchor: Half, other: Half, anchorPip?: Pip): void {
         const pips = this.dominoPips(tileId)!;
         const level = this.placementLevel(anchor, other)!;
+        const validPips = this.anchorPipsForPlacement(tileId, anchor, other);
         let pipAnchor: Pip;
-        let pipOther: Pip;
-
-        if (pips[0] === pips[1]) {
-            pipAnchor = pips[0];
-            pipOther = pips[1];
-        } else if (
-            (level === 0 && this.tableAnchorValid(anchor, pips[0])) ||
-            (level > 0 && this.stackAnchorValid(anchor, pips[0]))
-        ) {
-            pipAnchor = pips[0];
-            pipOther = pips[1];
+        if (anchorPip !== undefined) {
+            if (!validPips.includes(anchorPip)) {
+                throw new Error(`Invalid anchor pip ${anchorPip} for placement at ${anchor}`);
+            }
+            pipAnchor = anchorPip;
+        } else if (validPips.length === 1) {
+            pipAnchor = validPips[0];
         } else {
-            pipAnchor = pips[1];
-            pipOther = pips[0];
+            throw new Error(`Ambiguous anchor pip for placement at ${anchor}`);
         }
+        const pipOther = pipAnchor === pips[0] ? pips[1] : pips[0];
 
         this.tiles.push({
             id: tileId,
@@ -683,17 +837,20 @@ export class EvenAtOddsGame extends GameBase {
         this.highlights = [];
 
         const parsed = this.parseMove(m);
+        const placementPip = parsed.anchorPip ?? this.anchorPip;
         if (parsed.tileId !== undefined && parsed.anchor === undefined) {
             this.selected = parsed.tileId;
             this.anchor = undefined;
-            this.highlights = this.legalAnchors(parsed.tileId);
+            this.anchorPip = placementPip;
+            this.highlights = this.legalAnchors(parsed.tileId, placementPip);
             if (partial) { return this; }
         }
 
         if (parsed.tileId !== undefined && parsed.anchor !== undefined && parsed.other === undefined) {
             this.selected = parsed.tileId;
             this.anchor = parsed.anchor;
-            this.highlights = this.legalSecondEnds(parsed.tileId, parsed.anchor);
+            this.anchorPip = placementPip;
+            this.highlights = this.legalSecondEnds(parsed.tileId, parsed.anchor, placementPip);
             if (partial) { return this; }
         }
 
@@ -701,13 +858,24 @@ export class EvenAtOddsGame extends GameBase {
             if (partial) {
                 this.selected = parsed.tileId;
                 this.anchor = parsed.anchor;
+                this.anchorPip = placementPip;
                 this.highlights = [parsed.other];
                 return this;
             }
-            this.applyPlacement(parsed.tileId, parsed.anchor, parsed.other);
+            const resolved = this.resolvedAnchorPip(
+                parsed.tileId,
+                parsed.anchor,
+                parsed.other,
+                placementPip,
+            );
+            this.applyPlacement(parsed.tileId, parsed.anchor, parsed.other, resolved);
             this.selected = undefined;
             this.anchor = undefined;
+            this.anchorPip = undefined;
             this.highlights = [];
+            if (!partial) {
+                m = this.formatMove(parsed.tileId, parsed.anchor, parsed.other, resolved);
+            }
         }
 
         if (partial) { return this; }
@@ -830,6 +998,14 @@ export class EvenAtOddsGame extends GameBase {
             const domino = piece !== undefined ? /^_domino_(\d+-\d+)_/i.exec(piece) : null;
             if (domino) {
                 newmove = domino[1].toUpperCase();
+                const tileId = this.tileIdFromKey(newmove);
+                const end = piece?.match(/_([LR])$/i)?.[1];
+                if (tileId !== undefined && end !== undefined) {
+                    const d = this.dominoById(tileId);
+                    if (d !== undefined) {
+                        this.anchorPip = (end === "L" ? d.l : d.r) as Pip;
+                    }
+                }
             } else if (row >= 0 && col >= 0) {
                 this.syncRenderCoords();
                 const half = this.renderCellToHalf(row, col);
@@ -841,7 +1017,7 @@ export class EvenAtOddsGame extends GameBase {
                 }
             }
 
-            const matches = this.moves().filter(mv => mv.startsWith(newmove));
+            const matches = this.movesMatchingPartial(newmove);
             if (matches.length === 1) {
                 newmove = matches[0];
             }
@@ -1208,6 +1384,7 @@ export class EvenAtOddsGame extends GameBase {
             lastmove: this.lastmove,
             selected: this.selected,
             anchor: this.anchor ? [...this.anchor] as Half : undefined,
+            anchorPip: this.anchorPip,
         };
     }
 

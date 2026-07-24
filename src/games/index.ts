@@ -135,6 +135,7 @@ import { ConectGame, IConectState } from "./conect";
 import { SlydeGame, ISlydeState } from "./slyde";
 import { UnlurGame, IUnlurState } from "./unlur";
 import { EntrapmentGame, IEntrapmentState } from "./entrapment";
+import { EvenAtOddsGame, IEvenAtOddsState } from "./evenatodds";
 import { HexentaflGame, IHexentaflState } from "./hexentafl";
 import { VoloGame, IVoloState } from "./volo";
 import { StrandsGame, IStrandsState } from "./strands";
@@ -412,6 +413,7 @@ export {
     SlydeGame, ISlydeState,
     UnlurGame, IUnlurState,
     EntrapmentGame, IEntrapmentState,
+    EvenAtOddsGame, IEvenAtOddsState,
     HexentaflGame, IHexentaflState,
     VoloGame, IVoloState,
     StrandsGame, IStrandsState,
@@ -598,7 +600,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof PletoreGame | typeof AnacheGame | typeof SplineGame |
                               typeof SploofGame | typeof SpireGame | typeof SpreeGame |
                               typeof AsliGame | typeof ConectGame | typeof SlydeGame |
-                              typeof UnlurGame | typeof EntrapmentGame | typeof HexentaflGame |
+                              typeof UnlurGame | typeof EntrapmentGame | typeof EvenAtOddsGame | typeof HexentaflGame |
                               typeof VoloGame | typeof StrandsGame | typeof GonnectGame |
                               typeof BugGame | typeof DragonEyesGame | typeof AtaxxGame |
                               typeof MajoritiesGame | typeof BukuGame | typeof TritiumGame |
@@ -667,7 +669,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     PenteGame, Connect6Game, GomokuGame, RenjuGame, FourInARowGame, IrenseiGame, PrudhGame,
     SponnectGame, AkronGame, MargoGame, NecklaceGame, UpperHandGame, OustGame, SusanGame, OwareGame,
     SpookGame, AyuGame, CalculusGame, StigmergyGame, PletoreGame, AnacheGame, SplineGame,
-    SploofGame, SpireGame, SpreeGame, AsliGame, ConectGame, SlydeGame, UnlurGame, EntrapmentGame,
+    SploofGame, SpireGame, SpreeGame, AsliGame, ConectGame, SlydeGame, UnlurGame, EntrapmentGame, EvenAtOddsGame,
     HexentaflGame, VoloGame, StrandsGame, GonnectGame, BugGame, DragonEyesGame, AtaxxGame,
     MajoritiesGame, BukuGame, TritiumGame, CamelotGame, CarnacGame, DruidGame, LifelineGame, ShiftyGame, PodsGame, LoxGame,
     QueryGame, ControlGame, BoxesGame, ConnectionsGame, ResolveGame, OnyxGame, AltaGame,
@@ -969,6 +971,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new UnlurGame(...args);
         case "entrapment":
             return new EntrapmentGame(...args);
+        case "evenatodds":
+            return new EvenAtOddsGame(...args);
         case "hexentafl":
             return new HexentaflGame(...args);
         case "volo":

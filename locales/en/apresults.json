@@ -186,7 +186,8 @@
         "frogger": "The draw pool was {{what}} refilled.",
         "magnate": "The discards were shuffled.  There are no shuffles remaining.",
         "quincunx_one": "{{player}} drew {{count}} card.",
-        "quincunx_other": "{{player}} drew {{count}} cards."
+        "quincunx_other": "{{player}} drew {{count}} cards.",
+        "evenatodds": "{{player}} drew a tile from the boneyard."
     },
     "DECLARE": {
         "biscuit": "{{player}} has gone out!",
@@ -445,6 +446,7 @@
         "emu_new": "{{player}} hatched a new bird with the {{what}}.",
         "entrapment_barrier": "{{player}} placed a barrier at {{where}}.",
         "entrapment_roamer": "{{player}} placed a roamer at {{where}}.",
+        "evenatodds": "{{player}} placed the {{what}} domino at {{where}}.",
         "epam": "{{player}} placed a stone at {{where}}.",
         "gorogo_henge": "{{player}} placed a henge piece at {{where}}.",
         "gorogo_piece": "{{player}} placed a piece at {{where}}.",

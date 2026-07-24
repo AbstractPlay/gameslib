@@ -1,0 +1,27 @@
+---
+description: Tests must use self-contained fixtures, not docs/samples
+globs: test/**/*.ts
+alwaysApply: false
+---
+
+# Test fixtures
+
+Tests must be self-standing. Do not load or reference files under `docs/samples/`.
+
+- Define render JSON, legend data, and other inputs inline in the test file, or in a dedicated `test/fixtures/` module.
+- `docs/samples/` is for human documentation and may change independently of test expectations.
+- When a sample documents behaviour you want to test, copy the relevant structure into a test fixture instead of importing the sample.
+
+```typescript
+// ❌ BAD — couples tests to documentation samples
+const sample = require("../docs/samples/formatting-mixed-patterns.json");
+expect(ajv.validate(schema, sample)).to.equal(true);
+
+// ✅ GOOD — fixture lives with the test
+const mixedPatternsFixture: APRenderRep = {
+    board: { style: "squares", height: 2, width: 2 },
+    legend: { /* ... */ },
+    pieces: "P1,P2\nFIXED,LIGHT",
+};
+expect(ajv.validate(schema, mixedPatternsFixture)).to.equal(true);
+```

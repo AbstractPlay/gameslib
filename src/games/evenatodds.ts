@@ -383,6 +383,25 @@ export class EvenAtOddsGame extends GameBase {
         throw new Error(`Pip ${anchorPip} is not on tile ${tileId}`);
     }
 
+    private tileHasAmbiguousMoves(tileId: number): boolean {
+        return this.moves().some(m => {
+            const parsed = this.parseMove(m);
+            return parsed.tileId === tileId && parsed.anchorPip !== undefined;
+        });
+    }
+
+    private completionMoveForSecondEnd(tileId: number, other: Half, anchorPip: Pip): string | undefined {
+        const completions: string[] = [];
+        for (const anchor of this.legalAnchors(tileId, anchorPip)) {
+            for (const end of this.legalSecondEnds(tileId, anchor, anchorPip)) {
+                if (end[0] === other[0] && end[1] === other[1]) {
+                    completions.push(this.formatMove(tileId, anchor, end, anchorPip));
+                }
+            }
+        }
+        return completions.length === 1 ? completions[0] : undefined;
+    }
+
     private isPlacementAmbiguous(tileId: number, anchor: Half, other: Half): boolean {
         return this.anchorPipsForPlacement(tileId, anchor, other).length > 1;
     }
@@ -558,11 +577,17 @@ export class EvenAtOddsGame extends GameBase {
     }
 
     private formatMove(tileId: number, anchor?: Half, other?: Half, anchorPip?: Pip): string {
-        let m = this.tileKey(tileId);
-        if (other !== undefined && anchor !== undefined && this.isPlacementAmbiguous(tileId, anchor, other)) {
-            if (anchorPip !== undefined) {
-                m = this.tileKeyWithAnchorPip(tileId, anchorPip);
-            }
+        const placementAmbiguous = other !== undefined && anchor !== undefined
+            && this.isPlacementAmbiguous(tileId, anchor, other);
+        let m: string;
+        if (placementAmbiguous && anchorPip !== undefined) {
+            m = this.tileKeyWithAnchorPip(tileId, anchorPip);
+        } else if (other === undefined && anchor !== undefined && anchorPip !== undefined) {
+            const needsAsterisk = this.legalSecondEnds(tileId, anchor, anchorPip)
+                .some(end => this.isPlacementAmbiguous(tileId, anchor, end));
+            m = needsAsterisk ? this.tileKeyWithAnchorPip(tileId, anchorPip) : this.tileKey(tileId);
+        } else {
+            m = this.tileKey(tileId);
         }
         if (anchor !== undefined) {
             m += `@${anchor[0]},${anchor[1]}`;
@@ -1003,17 +1028,36 @@ export class EvenAtOddsGame extends GameBase {
                 if (tileId !== undefined && end !== undefined) {
                     const d = this.dominoById(tileId);
                     if (d !== undefined) {
-                        this.anchorPip = (end === "L" ? d.l : d.r) as Pip;
+                        const pip = (end === "L" ? d.l : d.r) as Pip;
+                        this.anchorPip = pip;
+                        if (this.tileHasAmbiguousMoves(tileId)) {
+                            newmove = this.tileKeyWithAnchorPip(tileId, pip);
+                        }
                     }
                 }
             } else if (row >= 0 && col >= 0) {
                 this.syncRenderCoords();
                 const half = this.renderCellToHalf(row, col);
                 const parsed = this.parseMove(newmove);
+                const pip = parsed.anchorPip ?? this.anchorPip;
                 if (parsed.tileId !== undefined && parsed.anchor === undefined) {
-                    newmove = this.formatMove(parsed.tileId, half);
+                    const tileId = parsed.tileId;
+                    if (pip !== undefined) {
+                        const asAnchor = this.legalAnchors(tileId, pip)
+                            .some(a => a[0] === half[0] && a[1] === half[1]);
+                        const ambiguousAnchor = asAnchor && this.legalSecondEnds(tileId, half, pip)
+                            .some(end => this.isPlacementAmbiguous(tileId, half, end));
+                        if (ambiguousAnchor) {
+                            newmove = this.formatMove(tileId, half, undefined, pip);
+                        } else {
+                            const completion = this.completionMoveForSecondEnd(tileId, half, pip);
+                            newmove = completion ?? this.formatMove(tileId, half, undefined, pip);
+                        }
+                    } else {
+                        newmove = this.formatMove(tileId, half);
+                    }
                 } else if (parsed.tileId !== undefined && parsed.anchor !== undefined) {
-                    newmove = this.formatMove(parsed.tileId, parsed.anchor, half);
+                    newmove = this.formatMove(parsed.tileId, parsed.anchor, half, pip);
                 }
             }
 

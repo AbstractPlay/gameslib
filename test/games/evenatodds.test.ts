@@ -246,22 +246,27 @@ describe("Even at Odds", () => {
     it("resolves pip-ambiguous placements from hand end clicks", () => {
         const g = gameFromAmbiguousAnchor();
         const handL = g.handleClick("", -1, -1, "_domino_1-2_H8L_H8R_L");
-        expect(handL.move).to.equal("1-2");
+        expect(handL.move).to.equal("1*-2");
         expect(g.anchorPip).to.equal(1);
 
-        const anchor = g.handleClick(handL.move!, ambiguousAnchorCell.row, ambiguousAnchorCell.col);
-        expect(anchor.move).to.equal("1-2@-3,1");
-        expect(anchor.complete).to.equal(-1);
-
-        const fullL = g.handleClick(anchor.move!, ambiguousSecondEndCell.row, ambiguousSecondEndCell.col);
+        const fullL = g.handleClick(handL.move!, ambiguousSecondEndCell.row, ambiguousSecondEndCell.col);
         expect(fullL.complete).to.equal(1);
         expect(fullL.move).to.equal("1*-2@-3,1N");
 
         const g2 = gameFromAmbiguousAnchor();
-        g2.handleClick("", -1, -1, "_domino_1-2_H8L_H8R_R");
-        const anchorR = g2.handleClick("1-2", ambiguousAnchorCell.row, ambiguousAnchorCell.col);
-        const fullR = g2.handleClick(anchorR.move!, ambiguousSecondEndCell.row, ambiguousSecondEndCell.col);
+        const handR = g2.handleClick("", -1, -1, "_domino_1-2_H8L_H8R_R");
+        expect(handR.move).to.equal("1-2*");
+        const fullR = g2.handleClick(handR.move!, ambiguousSecondEndCell.row, ambiguousSecondEndCell.col);
+        expect(fullR.complete).to.equal(1);
         expect(fullR.move).to.equal("1-2*@-3,1N");
+
+        const g3 = gameFromAmbiguousAnchor();
+        const handL3 = g3.handleClick("", -1, -1, "_domino_1-2_H8L_H8R_L");
+        const anchor = g3.handleClick(handL3.move!, ambiguousAnchorCell.row, ambiguousAnchorCell.col);
+        expect(anchor.move).to.equal("1*-2@-3,1");
+        expect(anchor.complete).to.equal(-1);
+        const fullL3 = g3.handleClick(anchor.move!, ambiguousSecondEndCell.row, ambiguousSecondEndCell.col);
+        expect(fullL3.move).to.equal("1*-2@-3,1N");
     });
 
     it("ignores hand end when placement pip is unambiguous", () => {

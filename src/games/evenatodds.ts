@@ -17,6 +17,7 @@ type Dir = "N" | "E" | "S" | "W";
 
 const CUBE_HEIGHT = 15;
 const FLAT_SCALE = 1.25;
+const FLAT_HEIGHT_DARKEN_DL = 0.33;
 const RENDER_PAD = 2;
 const PENDING_DRAW = "" as HandEntry;
 const DIRS: Half[] = [[0, 1], [1, 0], [0, -1], [-1, 0]];
@@ -339,6 +340,20 @@ export class EvenAtOddsGame extends GameBase {
     private pipColour(pip: Pip): 1 | 2 | Colourfuncs {
         if (pip === 0) { return BLANK_PIP_COLOUR; }
         return pip % 2 === 0 ? 1 : 2;
+    }
+
+    private maxActiveLevel(): number {
+        let max = 0;
+        for (const t of this.tiles) {
+            max = Math.max(max, t.level);
+        }
+        return max;
+    }
+
+    private flatPipColour(pip: Pip, darkenSteps: number): 1 | 2 | Colourfuncs {
+        const base = this.pipColour(pip);
+        if (darkenSteps === 0) { return base; }
+        return { func: "lighten", colour: base, ds: 0, dl: -FLAT_HEIGHT_DARKEN_DL * darkenSteps };
     }
 
     private pipTeam(pip: Pip): playerid | 0 {
@@ -836,11 +851,6 @@ export class EvenAtOddsGame extends GameBase {
                 result.move = move;
             } else {
                 result.move = newmove;
-                if (result.complete === 1) {
-                    result.opts = {};
-                } else if (result.canrender) {
-                    result.opts = { altDisplay: undefined };
-                }
             }
             return result;
         } catch (e) {
@@ -956,15 +966,15 @@ export class EvenAtOddsGame extends GameBase {
         return key;
     }
 
-    private registerHalfFlat(legend: FlatLegend, pip: Pip, side: "L" | "R", horiz: boolean): string {
+    private registerHalfFlat(legend: FlatLegend, pip: Pip, side: "L" | "R", horiz: boolean, darkenSteps: number): string {
         const rot = horiz ? (side === "L" ? 90 : -90) : (side === "L" ? 0 : 180);
-        const key = `F${pip}${side}${horiz ? "H" : "V"}${rot}`;
+        const key = `F${pip}${side}${horiz ? "H" : "V"}${rot}D${darkenSteps}`;
         if (legend[key] === undefined) {
             const frame: Glyph = {
                 name: "piece-square-single",
                 rotate: rot,
                 scale: FLAT_SCALE,
-                colour: this.pipColour(pip),
+                colour: this.flatPipColour(pip, darkenSteps),
             };
             const pipGlyph = this.pipGlyphName(pip);
             const glyphs: [Glyph, ...Glyph[]] = pipGlyph === undefined
@@ -975,7 +985,7 @@ export class EvenAtOddsGame extends GameBase {
         return key;
     }
 
-    private stackGlyphsAt(h: Half, legend: IsoLegend | FlatLegend, isIso: boolean): string[] {
+    private stackGlyphsAt(h: Half, legend: IsoLegend | FlatLegend, isIso: boolean, maxH = 0): string[] {
         const glyphs: string[] = [];
         const ts = this.tilesAtHalf(h);
         for (let i = 0; i < ts.length; i++) {
@@ -998,8 +1008,9 @@ export class EvenAtOddsGame extends GameBase {
                     }
                     glyphs.push(plainKey);
                 }
-            } else {
-                glyphs.push(this.registerHalfFlat(legend as FlatLegend, pip, side, horiz));
+            } else if (i === ts.length - 1) {
+                const darkenSteps = maxH - t.level;
+                glyphs.push(this.registerHalfFlat(legend as FlatLegend, pip, side, horiz, darkenSteps));
             }
         }
         return glyphs;
@@ -1013,6 +1024,7 @@ export class EvenAtOddsGame extends GameBase {
             perspective = opts.perspective;
         }
         const isIso = altDisplay !== "flat";
+        const maxH = isIso ? 0 : this.maxActiveLevel();
 
         const bounds = this.occupiedBounds();
         this.syncRenderCoords();
@@ -1032,7 +1044,7 @@ export class EvenAtOddsGame extends GameBase {
             const flatRow: string[] = [];
             for (let col = 0; col < width; col++) {
                 const half = this.renderCellToHalf(row, col);
-                const glyphs = this.stackGlyphsAt(half, myLegend, isIso);
+                const glyphs = this.stackGlyphsAt(half, myLegend, isIso, maxH);
                 if (isIso) {
                     rowPieces.push(glyphs);
                 } else {

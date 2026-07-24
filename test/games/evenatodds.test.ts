@@ -227,6 +227,35 @@ describe("Even at Odds", () => {
         }
     });
 
+    it("darkens flat board glyphs below the tallest stack", () => {
+        const pool = DominoDeck.fromDouble(6).dominoes;
+        const g = gameFrom({
+            tiles: [
+                { id: EvenAtOddsGame.dominoId(pool.find(d => d.l === 2 && d.r === 2)!), a: [0, 0], b: [1, 0], pipA: 2, pipB: 2, level: 0 },
+                { id: EvenAtOddsGame.dominoId(pool.find(d => d.l === 2 && d.r === 3)!), a: [0, 0], b: [1, 0], pipA: 2, pipB: 3, level: 1 },
+                { id: EvenAtOddsGame.dominoId(pool.find(d => d.l === 4 && d.r === 4)!), a: [2, 0], b: [3, 0], pipA: 4, pipB: 4, level: 0 },
+            ],
+            hands: [[], []],
+            boneyard: [],
+            removed: [],
+        });
+
+        const legend = g.render({ altDisplay: "flat" }).legend as Record<string, Array<{ colour?: unknown }>>;
+        expect(legend["F2LH90D0"]![0].colour).to.equal(1);
+        expect(legend["F3RH-90D0"]![0].colour).to.equal(2);
+        expect(legend["F4LH90D1"]![0].colour).to.deep.equal({ func: "lighten", colour: 1, ds: 0, dl: -3 });
+        expect(legend["F4RH-90D1"]![0].colour).to.deep.equal({ func: "lighten", colour: 1, ds: 0, dl: -3 });
+    });
+
+    it("uses unmodified flat colours when all stacks are at board height", () => {
+        const g = new EvenAtOddsGame();
+        const legend = g.render({ altDisplay: "flat" }).legend as Record<string, unknown>;
+        const flatKeys = Object.keys(legend).filter(k => /^F\d/.test(k));
+        expect(flatKeys.length).to.be.greaterThan(0);
+        expect(flatKeys.every(k => k.endsWith("D0"))).to.be.true;
+        expect(flatKeys.some(k => /D[12]$/.test(k))).to.be.false;
+    });
+
     it("handleClick stacks via hand select then occupied board cells", () => {
         const g = gameFrom({
             currplayer: 1,
@@ -248,6 +277,9 @@ describe("Even at Odds", () => {
         expect(full.valid).to.be.true;
         expect(full.move).to.equal("2-5@-1,0E");
         expect(full.complete).to.equal(1);
+        expect(hand.opts).to.be.undefined;
+        expect(anchor.opts).to.be.undefined;
+        expect(full.opts).to.be.undefined;
     });
 
     it("handleClick places on empty board cells without a piece id", () => {

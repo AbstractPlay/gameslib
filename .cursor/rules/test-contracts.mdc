@@ -1,0 +1,40 @@
+---
+description: Assert behavioural contracts in tests, not tunable implementation details
+globs: test/**/*.ts
+alwaysApply: false
+---
+
+# Test contracts over implementation
+
+Tests should verify outcomes and public contracts. They should survive tuning of visual constants, private naming, and internal structure.
+
+## Do
+
+- Assert **relative** properties: ordering (`dl(D2) < dl(D1)`), presence/absence of transforms, structural shape.
+- Group results by **pattern** (e.g. legend keys ending in `D{n}`) instead of hardcoding full internal identifiers.
+- Assert **exported public constants and APIs** exactly when they are part of the contract (e.g. `BLANK_PIP_COLOUR`).
+- Use **self-contained fixtures** for setup; derive expectations from behaviour, not by copying private constants from source.
+
+## Don't
+
+- Pin **tunable implementation constants** (`FLAT_HEIGHT_DARKEN_DL`, scale factors, visual padding) in expected values.
+- Assert exact **internal legend keys** or private suffix formats when a pattern-based check suffices.
+- Leave **dev-time assertions** that only confirmed implementation details — delete or refactor them once behaviour is verified.
+
+```typescript
+// ❌ BAD — breaks when FLAT_HEIGHT_DARKEN_DL is tuned
+expect(legend["F4LH90D1"]![0].colour).to.deep.equal({
+    func: "lighten", colour: 1, ds: 0, dl: -3,
+});
+
+// ✅ GOOD — checks the contract: below-max faces are darkened progressively
+const d1 = flatKeys.filter(k => darkenTierFromKey(k) === 1);
+const d2 = flatKeys.filter(k => darkenTierFromKey(k) === 2);
+for (const key of d1) {
+    expect(isLighten(frameColour(legend, key))).to.be.true;
+}
+const dl1 = (frameColour(legend, d1[0]!) as { dl: number }).dl;
+const dl2 = (frameColour(legend, d2[0]!) as { dl: number }).dl;
+expect(dl2).to.be.lessThan(dl1);
+expect(dl1).to.be.lessThan(0);
+```

@@ -39,6 +39,28 @@ function allTileIds(g: EvenAtOddsGame): number[] {
     return [...ids];
 }
 
+type FlatColour = unknown;
+type FlatLegendEntry = { colour?: FlatColour };
+
+function isLighten(c: FlatColour): c is { func: "lighten"; colour: unknown; dl: number; ds: number } {
+    return typeof c === "object" && c !== null && (c as { func?: string }).func === "lighten";
+}
+
+function darkenTierFromKey(key: string): number {
+    const m = /D(\d+)$/.exec(key);
+    return m ? Number(m[1]) : 0;
+}
+
+function flatBoardLegendKeys(legend: Record<string, FlatLegendEntry | unknown>): string[] {
+    return Object.keys(legend).filter(k => /^F\d/.test(k));
+}
+
+function frameColour(legend: Record<string, FlatLegendEntry | unknown>, key: string): FlatColour {
+    const entry = legend[key] as FlatLegendEntry | [FlatLegendEntry, ...unknown[]];
+    const frame = Array.isArray(entry) ? entry[0] : entry;
+    return frame.colour;
+}
+
 describe("Even at Odds", () => {
     it("sets up the starting grid, hands, boneyard, and removed tiles", () => {
         const g = new EvenAtOddsGame();
@@ -229,31 +251,72 @@ describe("Even at Odds", () => {
 
     it("darkens flat board glyphs below the tallest stack", () => {
         const pool = DominoDeck.fromDouble(6).dominoes;
+        const id = (l: number, r: number) => EvenAtOddsGame.dominoId(pool.find(d => d.l === l && d.r === r)!);
         const g = gameFrom({
             tiles: [
-                { id: EvenAtOddsGame.dominoId(pool.find(d => d.l === 2 && d.r === 2)!), a: [0, 0], b: [1, 0], pipA: 2, pipB: 2, level: 0 },
-                { id: EvenAtOddsGame.dominoId(pool.find(d => d.l === 2 && d.r === 3)!), a: [0, 0], b: [1, 0], pipA: 2, pipB: 3, level: 1 },
-                { id: EvenAtOddsGame.dominoId(pool.find(d => d.l === 4 && d.r === 4)!), a: [2, 0], b: [3, 0], pipA: 4, pipB: 4, level: 0 },
+                { id: id(2, 2), a: [0, 0], b: [1, 0], pipA: 2, pipB: 2, level: 0 },
+                { id: id(2, 3), a: [0, 0], b: [1, 0], pipA: 2, pipB: 3, level: 1 },
+                { id: id(2, 4), a: [0, 0], b: [1, 0], pipA: 2, pipB: 4, level: 2 },
+                { id: id(4, 4), a: [2, 0], b: [3, 0], pipA: 4, pipB: 4, level: 0 },
+                { id: id(4, 5), a: [2, 0], b: [3, 0], pipA: 4, pipB: 5, level: 1 },
+                { id: id(6, 6), a: [4, 0], b: [5, 0], pipA: 6, pipB: 6, level: 0 },
             ],
             hands: [[], []],
             boneyard: [],
             removed: [],
         });
 
-        const legend = g.render({ altDisplay: "flat" }).legend as Record<string, Array<{ colour?: unknown }>>;
-        expect(legend["F2LH90D0"]![0].colour).to.equal(1);
-        expect(legend["F3RH-90D0"]![0].colour).to.equal(2);
-        expect(legend["F4LH90D1"]![0].colour).to.deep.equal({ func: "lighten", colour: 1, ds: 0, dl: -3 });
-        expect(legend["F4RH-90D1"]![0].colour).to.deep.equal({ func: "lighten", colour: 1, ds: 0, dl: -3 });
+        const legend = g.render({ altDisplay: "flat" }).legend as Record<string, FlatLegendEntry | unknown>;
+        const flatKeys = flatBoardLegendKeys(legend);
+        const byTier = (tier: number) => flatKeys.filter(k => darkenTierFromKey(k) === tier);
+
+        const d0 = byTier(0);
+        const d1 = byTier(1);
+        const d2 = byTier(2);
+        expect(d0.length).to.be.greaterThan(0);
+        expect(d1.length).to.be.greaterThan(0);
+        expect(d2.length).to.be.greaterThan(0);
+
+        for (const key of d0) {
+            const colour = frameColour(legend, key);
+            expect(isLighten(colour)).to.be.false;
+            expect(typeof colour).to.equal("number");
+        }
+
+        for (const key of d1) {
+            const colour = frameColour(legend, key);
+            if (!isLighten(colour)) {
+                throw new Error(`expected lighten colour for ${key}`);
+            }
+            expect(colour.dl).to.be.lessThan(0);
+            expect(typeof colour.colour).to.equal("number");
+        }
+
+        for (const key of d2) {
+            const colour = frameColour(legend, key);
+            if (!isLighten(colour)) {
+                throw new Error(`expected lighten colour for ${key}`);
+            }
+            expect(colour.dl).to.be.lessThan(0);
+        }
+
+        const colourD1 = frameColour(legend, d1[0]!);
+        const colourD2 = frameColour(legend, d2[0]!);
+        if (!isLighten(colourD1) || !isLighten(colourD2)) {
+            throw new Error("expected lighten colours for progressive comparison");
+        }
+        expect(colourD2.dl).to.be.lessThan(colourD1.dl);
+        expect(colourD1.dl).to.be.lessThan(0);
     });
 
     it("uses unmodified flat colours when all stacks are at board height", () => {
         const g = new EvenAtOddsGame();
-        const legend = g.render({ altDisplay: "flat" }).legend as Record<string, unknown>;
-        const flatKeys = Object.keys(legend).filter(k => /^F\d/.test(k));
+        const legend = g.render({ altDisplay: "flat" }).legend as Record<string, FlatLegendEntry | unknown>;
+        const flatKeys = flatBoardLegendKeys(legend);
         expect(flatKeys.length).to.be.greaterThan(0);
-        expect(flatKeys.every(k => k.endsWith("D0"))).to.be.true;
-        expect(flatKeys.some(k => /D[12]$/.test(k))).to.be.false;
+        for (const key of flatKeys) {
+            expect(isLighten(frameColour(legend, key))).to.be.false;
+        }
     });
 
     it("handleClick stacks via hand select then occupied board cells", () => {

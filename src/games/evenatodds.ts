@@ -487,6 +487,27 @@ export class EvenAtOddsGame extends GameBase {
         return `tile-0${pip}` as `tile-0${1 | 2 | 3 | 4 | 5 | 6}`;
     }
 
+    private pipContrastColour(bg: 1 | 2 | Colourfuncs): Colourfuncs {
+        return {
+            func: "bestContrast",
+            bg,
+            fg: ["#000000", "#ffffff"],
+        };
+    }
+
+    private pipGlyphOverlay(pip: Pip, bg: 1 | 2 | Colourfuncs, scale?: number): Glyph | undefined {
+        const name = this.pipGlyphName(pip);
+        if (name === undefined) { return undefined; }
+        const glyph: Glyph = {
+            name,
+            colour: this.pipContrastColour(bg),
+        };
+        if (scale !== undefined) {
+            glyph.scale = scale;
+        }
+        return glyph;
+    }
+
     private dominoEndKey(tileId: number, end: "L" | "R"): string {
         return `H${tileId}${end}`;
     }
@@ -501,11 +522,11 @@ export class EvenAtOddsGame extends GameBase {
             scale: FLAT_SCALE,
             colour: this.pipColour(pip),
         };
-        const pipGlyph = this.pipGlyphName(pip);
+        const pipGlyph = this.pipGlyphOverlay(pip, this.pipColour(pip), FLAT_SCALE);
         if (pipGlyph === undefined) {
             legend[key] = [frame];
         } else {
-            legend[key] = [frame, { name: pipGlyph, scale: FLAT_SCALE }];
+            legend[key] = [frame, pipGlyph];
         }
     }
 
@@ -1153,8 +1174,8 @@ export class EvenAtOddsGame extends GameBase {
 
     private isoDecorTop(pip: Pip, rot: number): Glyph[] {
         const frame: Glyph = { name: "piece-square-single", rotate: rot, opacity: 0 };
-        const pipGlyph = this.pipGlyphName(pip);
-        return pipGlyph === undefined ? [frame] : [frame, { name: pipGlyph }];
+        const pipGlyph = this.pipGlyphOverlay(pip, this.pipColour(pip));
+        return pipGlyph === undefined ? [frame] : [frame, pipGlyph];
     }
 
     private halfOrient(a: Half, b: Half): "H" | "V" {
@@ -1190,16 +1211,17 @@ export class EvenAtOddsGame extends GameBase {
         const rot = horiz ? (side === "L" ? 90 : -90) : (side === "L" ? 0 : 180);
         const key = `F${pip}${side}${horiz ? "H" : "V"}${rot}D${darkenSteps}`;
         if (legend[key] === undefined) {
+            const bg = this.flatPipColour(pip, darkenSteps);
+            const pipGlyph = this.pipGlyphOverlay(pip, bg);
             const frame: Glyph = {
                 name: "piece-square-single",
                 rotate: rot,
                 scale: FLAT_SCALE,
-                colour: this.flatPipColour(pip, darkenSteps),
+                colour: bg,
             };
-            const pipGlyph = this.pipGlyphName(pip);
             const glyphs: [Glyph, ...Glyph[]] = pipGlyph === undefined
                 ? [frame]
-                : [frame, { name: pipGlyph }];
+                : [frame, pipGlyph];
             legend[key] = glyphs;
         }
         return key;

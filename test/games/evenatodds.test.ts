@@ -49,7 +49,7 @@ function allTileIds(g: EvenAtOddsGame): number[] {
 }
 
 type FlatColour = unknown;
-type FlatLegendEntry = { colour?: FlatColour };
+type FlatLegendEntry = { colour?: FlatColour; opacity?: number };
 
 function isLighten(c: FlatColour): c is { func: "lighten"; colour: unknown; dl: number; ds: number } {
     return typeof c === "object" && c !== null && (c as { func?: string }).func === "lighten";
@@ -68,6 +68,20 @@ function frameColour(legend: Record<string, FlatLegendEntry | unknown>, key: str
     const entry = legend[key] as FlatLegendEntry | [FlatLegendEntry, ...unknown[]];
     const frame = Array.isArray(entry) ? entry[0] : entry;
     return frame.colour;
+}
+
+function ghostFlatKeys(legend: Record<string, unknown>): string[] {
+    return Object.keys(legend).filter(k => /^GF\d/.test(k));
+}
+
+function ghostIsoKeys(legend: Record<string, unknown>): string[] {
+    return Object.keys(legend).filter(k => /^GI\d/.test(k));
+}
+
+function ghostFlatFrameOpacity(legend: Record<string, FlatLegendEntry | unknown>, key: string): number | undefined {
+    const entry = legend[key] as FlatLegendEntry | [FlatLegendEntry, ...unknown[]];
+    const frame = Array.isArray(entry) ? entry[0] : entry;
+    return frame.opacity;
 }
 
 describe("Even at Odds", () => {
@@ -267,6 +281,92 @@ describe("Even at Odds", () => {
         expect(anchor.complete).to.equal(-1);
         const fullL3 = g3.handleClick(anchor.move!, ambiguousSecondEndCell.row, ambiguousSecondEndCell.col);
         expect(fullL3.move).to.equal("1*-2@-3,1N");
+    });
+
+    it("renders ghost anchor half during partial move", () => {
+        const g = gameFromAmbiguousAnchor();
+        g.move("1*-2@-3,1", { partial: true });
+
+        const iso = g.render();
+        const isoLegend = iso.legend as Record<string, { decor?: { top: Array<{ opacity?: number }> } }>;
+        const giKeys = ghostIsoKeys(isoLegend);
+        expect(giKeys.length).to.be.greaterThan(0);
+        for (const key of giKeys) {
+            const pipDecor = isoLegend[key].decor?.top?.[1];
+            if (pipDecor !== undefined) {
+                expect(pipDecor.opacity).to.equal(0.5);
+            }
+        }
+        const pieces = iso.pieces as string[][][];
+        const ghostAtAnchor = pieces[ambiguousAnchorCell.row][ambiguousAnchorCell.col]
+            .some(id => /^GI\d/.test(id));
+        expect(ghostAtAnchor).to.be.true;
+
+        const enter = (iso.annotations as Array<{ type?: string; targets?: { row: number; col: number }[] }> | undefined)
+            ?.find(a => a.type === "enter");
+        if (enter !== undefined && "targets" in enter) {
+            const anchorTarget = { row: ambiguousAnchorCell.row, col: ambiguousAnchorCell.col };
+            expect(enter.targets).to.not.deep.include(anchorTarget);
+        }
+
+        const flat = g.render({ altDisplay: "flat" });
+        const flatLegend = flat.legend as Record<string, FlatLegendEntry | unknown>;
+        const gfKeys = ghostFlatKeys(flatLegend);
+        expect(gfKeys.length).to.be.greaterThan(0);
+        for (const key of gfKeys) {
+            expect(ghostFlatFrameOpacity(flatLegend, key)).to.equal(0.5);
+        }
+    });
+
+    it("renders full domino ghost when only one second end is legal", () => {
+        const g = gameFrom({
+            currplayer: 1,
+            hands: [[14], []],
+            boneyard: [],
+            removed: [],
+            tiles: [
+                { id: 13, a: [0, 0], b: [1, 0], pipA: 2, pipB: 2, level: 0 },
+                { id: 18, a: [2, 0], b: [3, 0], pipA: 3, pipB: 3, level: 0 },
+            ],
+        });
+        g.move("2-3@2,0", { partial: true });
+        const iso = g.render();
+        const giKeys = ghostIsoKeys(iso.legend as Record<string, unknown>);
+        expect(giKeys.length).to.be.greaterThan(0);
+        const pieces = iso.pieces as string[][][];
+        const ghostCells: { row: number; col: number }[] = [];
+        for (let row = 0; row < pieces.length; row++) {
+            for (let col = 0; col < pieces[row].length; col++) {
+                if (pieces[row][col].some(id => /^GI\d/.test(id))) {
+                    ghostCells.push({ row, col });
+                }
+            }
+        }
+        expect(ghostCells).to.have.length(2);
+        expect(ghostCells[0]).to.not.deep.equal(ghostCells[1]);
+    });
+
+    it("annotates last move with a move line between domino halves", () => {
+        const g = gameFrom({
+            currplayer: 1,
+            hands: [[2], []],
+            boneyard: [],
+            removed: [],
+        });
+        g.move("0-2@-3,0N");
+        expect(g.lastmove).to.equal("0-2@-3,0N");
+
+        const view = g.render();
+        const moveAnn = (view.annotations as Array<{ type?: string; targets?: { row: number; col: number }[]; arrow?: boolean }> | undefined)
+            ?.find(a => a.type === "move");
+        expect(moveAnn).to.not.be.undefined;
+        if (moveAnn !== undefined && "targets" in moveAnn) {
+            expect(moveAnn.targets).to.deep.equal([
+                { row: 3, col: 2 },
+                { row: 2, col: 2 },
+            ]);
+            expect(moveAnn.arrow).to.equal(false);
+        }
     });
 
     it("ignores hand end when placement pip is unambiguous", () => {

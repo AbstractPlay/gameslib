@@ -1227,6 +1227,99 @@ export class EvenAtOddsGame extends GameBase {
         return key;
     }
 
+    private isoGhostDecorTop(pip: Pip, rot: number): Glyph[] {
+        const frame: Glyph = { name: "piece-square-single", rotate: rot, opacity: 0 };
+        const pipGlyph = this.pipGlyphOverlay(pip, this.pipColour(pip));
+        if (pipGlyph === undefined) { return [frame]; }
+        return [frame, { ...pipGlyph, opacity: 0.5 }];
+    }
+
+    private registerGhostHalfIso(legend: IsoLegend, pip: Pip, side: "L" | "R", horiz: boolean): string {
+        const rot = horiz ? (side === "L" ? 90 : -90) : (side === "L" ? 0 : 180);
+        const key = `GI${pip}${side}${horiz ? "H" : "V"}${rot}`;
+        if (legend[key] === undefined) {
+            legend[key] = {
+                piece: "cube",
+                colour: this.pipColour(pip),
+                scale: 1,
+                height: CUBE_HEIGHT,
+                decor: {
+                    top: this.isoGhostDecorTop(pip, rot) as [Glyph, ...Glyph[]],
+                },
+            };
+        }
+        return key;
+    }
+
+    private registerGhostHalfFlat(legend: FlatLegend, pip: Pip, side: "L" | "R", horiz: boolean, darkenSteps: number): string {
+        const rot = horiz ? (side === "L" ? 90 : -90) : (side === "L" ? 0 : 180);
+        const key = `GF${pip}${side}${horiz ? "H" : "V"}${rot}D${darkenSteps}`;
+        if (legend[key] === undefined) {
+            const bg = this.flatPipColour(pip, darkenSteps);
+            const pipGlyph = this.pipGlyphOverlay(pip, bg);
+            const frame: Glyph = {
+                name: "piece-square-single",
+                rotate: rot,
+                scale: FLAT_SCALE,
+                colour: bg,
+                opacity: 0.5,
+            };
+            const glyphs: [Glyph, ...Glyph[]] = pipGlyph === undefined
+                ? [frame]
+                : [frame, { ...pipGlyph, opacity: 0.5 }];
+            legend[key] = glyphs;
+        }
+        return key;
+    }
+
+    private ghostDarkenSteps(half: Half, other?: Half): number {
+        const maxH = this.maxActiveLevel();
+        let level = 0;
+        if (other !== undefined && this.anchor !== undefined) {
+            level = this.placementLevel(this.anchor, other) ?? 0;
+        } else if (this.anchor !== undefined && this.halfKey(half) === this.halfKey(this.anchor)) {
+            level = this.stackHeight(this.anchor);
+        }
+        return maxH - level;
+    }
+
+    private ghostHalvesForPartial(): { half: Half; pip: Pip; side: "L" | "R"; horiz: boolean }[] {
+        if (this.selected === undefined || this.anchor === undefined) {
+            return [];
+        }
+        const pips = this.dominoPips(this.selected);
+        if (pips === undefined) { return []; }
+        const [l, r] = pips;
+        let pipAnchor: Pip;
+        if (this.anchorPip !== undefined) {
+            pipAnchor = this.anchorPip;
+        } else {
+            const seconds = this.highlights.length === 1
+                ? this.highlights
+                : this.legalSecondEnds(this.selected, this.anchor);
+            if (seconds.length === 0) { return []; }
+            const apips = this.anchorPipsForPlacement(this.selected, this.anchor, seconds[0]);
+            if (apips.length === 0) { return []; }
+            pipAnchor = apips[0];
+        }
+        const pipOther = (pipAnchor === l ? r : l) as Pip;
+
+        const seconds = this.legalSecondEnds(this.selected, this.anchor, this.anchorPip);
+        if (seconds.length === 1) {
+            const other = seconds[0];
+            const horiz = this.halfOrient(this.anchor, other) === "H";
+            const anchorSide: "L" | "R" = horiz
+                ? (this.anchor[0] < other[0] ? "L" : "R")
+                : (this.anchor[1] < other[1] ? "L" : "R");
+            const otherSide: "L" | "R" = anchorSide === "L" ? "R" : "L";
+            return [
+                { half: this.anchor, pip: pipAnchor, side: anchorSide, horiz },
+                { half: other, pip: pipOther, side: otherSide, horiz },
+            ];
+        }
+        return [{ half: this.anchor, pip: pipAnchor, side: "L", horiz: true }];
+    }
+
     private stackGlyphsAt(h: Half, legend: IsoLegend | FlatLegend, isIso: boolean, maxH = 0): string[] {
         const glyphs: string[] = [];
         const ts = this.tilesAtHalf(h);
@@ -1297,6 +1390,28 @@ export class EvenAtOddsGame extends GameBase {
                 pstr.push(rowPieces);
             } else {
                 flatRows.push(flatRow);
+            }
+        }
+
+        const ghostHalves = this.ghostHalvesForPartial();
+        const flatGhostOverlays: { key: string; cell: RowCol }[] = [];
+        const ghostOther = ghostHalves.length === 2
+            ? (ghostHalves[0].half[0] === this.anchor![0] && ghostHalves[0].half[1] === this.anchor![1]
+                ? ghostHalves[1].half : ghostHalves[0].half)
+            : undefined;
+        for (const gh of ghostHalves) {
+            const cell = this.halfToRenderCell(gh.half);
+            const darkenSteps = isIso ? 0 : this.ghostDarkenSteps(gh.half, ghostOther);
+            if (isIso) {
+                const key = this.registerGhostHalfIso(myLegend as IsoLegend, gh.pip, gh.side, gh.horiz);
+                pstr[cell.row][cell.col].push(key);
+            } else {
+                const key = this.registerGhostHalfFlat(myLegend as FlatLegend, gh.pip, gh.side, gh.horiz, darkenSteps);
+                if (flatRows[cell.row][cell.col] === "-") {
+                    flatRows[cell.row][cell.col] = key;
+                } else {
+                    flatGhostOverlays.push({ key, cell });
+                }
             }
         }
 
@@ -1387,17 +1502,39 @@ export class EvenAtOddsGame extends GameBase {
             };
         }
 
-        if (this.highlights.length > 0 || this.anchor !== undefined) {
+        if (this.highlights.length > 0 || this.anchor !== undefined || this.lastmove !== undefined
+            || flatGhostOverlays.length > 0) {
             rep.annotations = [];
-            const targets = this.highlights.map(h => this.halfToRenderCell(h));
-            if (this.anchor !== undefined) {
-                targets.push(this.halfToRenderCell(this.anchor));
+            const showGhost = ghostHalves.length > 0;
+            const enterTargets = this.highlights.map(h => this.halfToRenderCell(h));
+            if (this.anchor !== undefined && !showGhost) {
+                enterTargets.push(this.halfToRenderCell(this.anchor));
             }
-            if (targets.length > 0) {
+            if (enterTargets.length > 0) {
                 rep.annotations.push({
                     type: "enter",
-                    targets: targets as [{ row: number; col: number }, ...{ row: number; col: number }[]],
+                    targets: enterTargets as [{ row: number; col: number }, ...{ row: number; col: number }[]],
                 });
+            }
+            for (const overlay of flatGhostOverlays) {
+                rep.annotations.push({
+                    type: "glyph",
+                    glyph: overlay.key,
+                    targets: [overlay.cell],
+                });
+            }
+            if (this.lastmove !== undefined) {
+                const parsed = this.parseMove(this.lastmove);
+                if (parsed.anchor !== undefined && parsed.other !== undefined) {
+                    rep.annotations.push({
+                        type: "move",
+                        targets: [
+                            this.halfToRenderCell(parsed.anchor),
+                            this.halfToRenderCell(parsed.other),
+                        ],
+                        arrow: false,
+                    });
+                }
             }
         }
 

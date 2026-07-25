@@ -1331,7 +1331,7 @@ export class EvenAtOddsGame extends GameBase {
                 areas.push({
                     type: "pieces",
                     pieces,
-                    label: i18next.t("apgames:validation.evenatodds.LABEL_HAND", { playerNum: perspective }) || `P${perspective} hand`,
+                    label: i18next.t("apgames:validation.evenatodds.LABEL_HAND", { playerNum: perspective, side: perspective === 1 ? "evens" : "odds" }) || `P${perspective} hand`,
                     ownerMark: perspective as playerid,
                     spacing: 0.5,
                     width: 6,

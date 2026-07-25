@@ -5346,7 +5346,7 @@
         },
         "evenatodds": {
             "INITIAL_INSTRUCTIONS": "Select a domino from your hand to play.",
-            "LABEL_HAND": "Player {{playerNum}} ({{side}}) hand",
+            "LABEL_HAND": "Player {{playerNum}} hand ({{side}})",
             "LABEL_REMAINING": "Tiles not on board",
             "NOT_IN_HAND": "That domino is not in your hand.",
             "NEEDS_ANCHOR_PIP": "This placement is ambiguous. Mark the anchor pip with an asterisk (e.g. 1*-2@-3,1N or 1-2*@-3,1N).",

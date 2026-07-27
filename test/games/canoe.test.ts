@@ -397,6 +397,32 @@ describe("Canoe", () => {
         expect(dots).to.include("g2");
     });
 
+    it("set must bear off rather than stall on launch cell when die allows exit", () => {
+        const board: StackCell[] = [
+            ["b1", {owner: 1, face: 24}],
+            ["c1", {owner: 1, face: 16}],
+            ["d1", {owner: 1, face: 16}],
+            ["c2", {owner: 1, face: 8}],
+            ["f6", {owner: 2, face: 40}],
+            ["g5", {owner: 2, face: 1}],
+            ["g6", {owner: 2, face: 1}],
+            ["a5", {owner: 2, face: 8}],
+            ["e5", {owner: 1, face: 24}],
+            ["a4", {owner: 1, face: 24, set: true}],
+            ["d4", {owner: 2, face: 8}],
+            ["c3", {owner: 2, face: 40, set: true}],
+        ];
+        const g = playAfterOpening(board, {roll: [4, 6], currplayer: 1});
+        expect(g.moves().some(m => m === "4:d1-e4,6:a4-off")).to.be.true;
+        expect(g.moves().some(m => m === "4:d1-e4,6:a4-e1")).to.be.false;
+        g.move("4:d1-e4,6:a4", {partial: true, trusted: true});
+        const dots = annotationDotCells(g.render());
+        expect(dots).to.include("f1");
+        expect(dots).to.not.include("e1");
+        expect(g.moves().some(m => m.startsWith("6:a4-off"))).to.be.true;
+        expect(g.moves().some(m => m === "4:d1-e4,6:a4-e1")).to.be.false;
+    });
+
     it("cube moved in first half cannot move again in second half", () => {
         const g = playAfterOpening([
             ["e5", {owner: 1, face: 16}],

@@ -958,6 +958,7 @@ export class CanoeGame extends GameBase {
         walk(sc, sr, distance);
 
         this.filterDirectRouteDestinations(ctx.player, from, dests);
+        this.filterSetBankStallsWhenBearOffAvailable(ctx.player, dests);
 
         return dests;
     }
@@ -1048,6 +1049,17 @@ export class CanoeGame extends GameBase {
             }
         }
         this.filterToMinimalBearOffDistance(player, dests);
+    }
+
+    private filterSetBankStallsWhenBearOffAvailable(player: playerid, dests: Set<string>): void {
+        if (!dests.has("off")) {
+            return;
+        }
+        for (const dest of [...dests]) {
+            if (dest !== "off" && CanoeGame.isInBank(player, dest)) {
+                dests.delete(dest);
+            }
+        }
     }
 
     private bearingDistance(from: string, player: playerid): number {

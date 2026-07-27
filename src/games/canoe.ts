@@ -96,6 +96,17 @@ export class CanoeGame extends GameBase {
     private static cloneBoard(board: Map<string, CellStack>): Map<string, CellStack> {
         return new Map([...board.entries()].map(([cell, stack]) => [cell, {...stack}]));
     }
+    private static cloneStackEntry(entry: IMoveState): IMoveState {
+        return {
+            ...entry,
+            _results: [...entry._results],
+            board: CanoeGame.cloneBoard(entry.board),
+            roll: entry.roll === undefined ? undefined : [...entry.roll] as [number, number] | [number],
+            setupRoll: entry.setupRoll === undefined ? undefined : [...entry.setupRoll],
+            gridCubes: [...entry.gridCubes],
+            pocket: [...entry.pocket],
+        };
+    }
     public static rotateFace(face: CubeFace, die: number): CubeFace {
         const idx = CUBE_FACES.indexOf(face);
         if (die % 2 === 0) {
@@ -167,9 +178,35 @@ export class CanoeGame extends GameBase {
             this.gameover = state.gameover;
             this.winner = [...state.winner];
             this.variants = state.variants;
-            this.stack = [...state.stack];
+            this.stack = state.stack.map(e => CanoeGame.cloneStackEntry(e));
         }
         this.load();
+    }
+
+    public syncFromStackEntry(entry: IMoveState | number): CanoeGame {
+        if (typeof entry === "number") {
+            let idx = entry;
+            if (idx < 0) {
+                idx += this.stack.length;
+            }
+            if (idx < 0 || idx >= this.stack.length) {
+                throw new Error("Could not sync from the requested stack entry.");
+            }
+            entry = this.stack[idx];
+        }
+        this.currplayer = entry.currplayer;
+        this.phase = entry.phase;
+        this.board = CanoeGame.cloneBoard(entry.board);
+        this.roll = entry.roll === undefined ? undefined : [...entry.roll] as [number, number] | [number];
+        this.setupRoll = entry.setupRoll === undefined ? undefined : [...entry.setupRoll];
+        this.gridCubes = [...entry.gridCubes];
+        this.pocket = [...entry.pocket];
+        const raw = entry.canoeDone as boolean | [boolean, boolean];
+        this.canoeDone = typeof raw === "boolean" ? raw : (raw[0] || raw[1]);
+        this.firstPlayer = entry.firstPlayer;
+        this.lastmove = entry.lastmove;
+        this.freshFromBankThisTurn = new Set();
+        return this;
     }
 
     private static rollSetup(): CubeFace[] {
@@ -671,6 +708,9 @@ export class CanoeGame extends GameBase {
     }
 
     private finishSetup(): void {
+        if (this.emulated) {
+            return;
+        }
         const gridFace = CanoeGame.rollCubeFace();
         this.gridCubes[this.currplayer - 1] = gridFace;
         this.board.set(CanoeGame.gridCubeCell(this.currplayer), {
@@ -1511,11 +1551,12 @@ export class CanoeGame extends GameBase {
         }
     }
 
-    public move(m: string, {trusted = false, partial = false} = {}): CanoeGame {
+    public move(m: string, {trusted = false, partial = false, emulation = false} = {}): CanoeGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
+        this.emulated = emulation;
         m = m.toLowerCase().replace(/\s+/g, "");
         if (!trusted && m !== "pass") {
             const v = this.validateMove(m);
@@ -1523,7 +1564,7 @@ export class CanoeGame extends GameBase {
                 throw new UserFacingError("VALIDATION_GENERAL", v.message);
             }
         }
-        if (!trusted && !partial && m !== "pass" && this.phase === "play" && !this.moves().includes(m)) {
+        if (!trusted && !partial && !emulation && m !== "pass" && this.phase === "play" && !this.moves().includes(m)) {
             throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}));
         }
 
@@ -1539,7 +1580,7 @@ export class CanoeGame extends GameBase {
             }
             this.roll = values.length === 1 ? [values[0]] : [values[0], values[1]];
             this.results.push({type: "roll", values});
-            if (!partial) {
+            if (!partial && !emulation) {
                 this.lastmove = m;
                 this.saveState();
             }
@@ -1549,7 +1590,10 @@ export class CanoeGame extends GameBase {
         if (this.phase.startsWith("setup")) {
             const placements = this.parseSetupMove(m);
             this.applySetupPlacements(placements);
-            if (partial) {
+            if (partial || emulation) {
+                if (emulation) {
+                    this.lastmove = m;
+                }
                 return this;
             }
             if (placements.size < 6) {
@@ -1565,7 +1609,7 @@ export class CanoeGame extends GameBase {
         if (m === "pass") {
             this.results.push({type: "pass"});
             this.lastmove = m;
-            if (!partial) {
+            if (!partial && !emulation) {
                 this.endTurn();
             }
             return this;
@@ -1592,7 +1636,7 @@ export class CanoeGame extends GameBase {
         }
 
         this.lastmove = m;
-        if (!partial) {
+        if (!partial && !emulation) {
             this.endTurn();
         }
         return this;

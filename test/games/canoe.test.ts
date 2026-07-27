@@ -874,4 +874,178 @@ describe("Canoe", () => {
         }
         expect(halves.size).to.equal([...halves].length);
     });
+
+    it("emulated replay does not push stack or re-roll", () => {
+        const g = playAfterOpening([
+            ["b1", {owner: 1, face: 24}],
+            ["c1", {owner: 1, face: 16}],
+            ["d1", {owner: 1, face: 16}],
+            ["d2", {owner: 1, face: 16}],
+            ["c2", {owner: 1, face: 8}],
+            ["c7", {owner: 1, face: 24}],
+            ["f6", {owner: 2, face: 40}],
+            ["f5", {owner: 2, face: 16}],
+            ["f4", {owner: 2, face: 8}],
+            ["g4", {owner: 2, face: 1}],
+            ["g5", {owner: 2, face: 1}],
+            ["g6", {owner: 2, face: 1}],
+            ["a5", {owner: 2, face: 8}],
+            ["b2", {owner: 1, face: 40}],
+        ], {roll: [3, 5], currplayer: 1});
+        const stackLen = g.stack.length;
+        const rollBefore = [...g.roll!] as [number, number];
+        g.move("5:b2-b5,6:d2-e5", {trusted: true, emulation: true});
+        expect(g.stack.length).to.equal(stackLen);
+        expect(g.roll).to.eql(rollBefore);
+        expect(g.currplayer).to.equal(1);
+    });
+
+    it("syncFromStackEntry restores deterministic fields after emulated move", () => {
+        const g = playAfterOpening([
+            ["b1", {owner: 1, face: 24}],
+            ["c1", {owner: 1, face: 16}],
+            ["d1", {owner: 1, face: 16}],
+            ["c2", {owner: 1, face: 8}],
+            ["c7", {owner: 1, face: 24}],
+            ["f6", {owner: 2, face: 40}],
+            ["f5", {owner: 2, face: 16}],
+            ["f4", {owner: 2, face: 8}],
+            ["g4", {owner: 2, face: 1}],
+            ["g5", {owner: 2, face: 1}],
+            ["g6", {owner: 2, face: 1}],
+            ["a5", {owner: 2, face: 8}],
+            ["b5", {owner: 1, face: 32}],
+            ["e5", {owner: 1, face: 24}],
+        ], {roll: [3, 5], currplayer: 1});
+        const ref = new CanoeGame(JSON.stringify({
+            game: "canoe",
+            numplayers: 2,
+            variants: [],
+            gameover: false,
+            winner: [],
+            stack: [{
+                _version: "20260725",
+                _results: [],
+                _timestamp: "2026-07-25T00:00:00.000Z",
+                currplayer: 2,
+                phase: "play",
+                board: {
+                    dataType: "Map",
+                    value: [
+                        ["b1", {owner: 1, face: 24, set: false}],
+                        ["c1", {owner: 1, face: 16, set: false}],
+                        ["d1", {owner: 1, face: 16, set: false}],
+                        ["c2", {owner: 1, face: 8, set: false}],
+                        ["c7", {owner: 1, face: 24, set: false}],
+                        ["f6", {owner: 2, face: 40, set: false}],
+                        ["f5", {owner: 2, face: 16, set: false}],
+                        ["g5", {owner: 2, face: 1, set: false}],
+                        ["g6", {owner: 2, face: 1, set: false}],
+                        ["a5", {owner: 2, face: 8, set: false}],
+                        ["b5", {owner: 1, face: 32, set: false}],
+                        ["e5", {owner: 1, face: 24, set: false}],
+                        ["d5", {owner: 2, face: 1, set: false}],
+                        ["c3", {owner: 2, face: 40, set: false}],
+                    ],
+                },
+                roll: [3, 4],
+                gridCubes: [24, 8],
+                pocket: [0, 0],
+                canoeDone: false,
+                firstPlayer: 1,
+                lastmove: "3:f4-d5,5:g4-c3",
+            }],
+        }));
+        g.move("3:f4-d5,5:g4-c3", {trusted: true, emulation: true});
+        g.syncFromStackEntry(ref.stack[0]);
+        expect(g.currplayer).to.equal(2);
+        expect(g.roll).to.eql([3, 4]);
+        expect(g.board.get("c3")).to.eql({owner: 2, face: 40, set: false});
+    });
+
+    it("constructor deep-clones stack entries so engines do not share boards", () => {
+        const boardValue: StackCell[] = [["b1", {owner: 1, face: 24}]];
+        const entry = {
+            _version: "20260725",
+            _results: [],
+            _timestamp: "2026-07-25T00:00:00.000Z",
+            currplayer: 1 as const,
+            phase: "play" as const,
+            board: {dataType: "Map", value: boardValue.map(([cell, stack]) => [cell, {...stack, set: stack.set ?? false}])},
+            roll: [3, 5] as [number, number],
+            gridCubes: [24, 8] as [CubeFace, CubeFace],
+            pocket: [0, 0] as [number, number],
+            canoeDone: false,
+            firstPlayer: 1 as const,
+        };
+        const state = {
+            game: "canoe",
+            numplayers: 2,
+            variants: [],
+            gameover: false,
+            winner: [] as (1 | 2)[],
+            stack: [entry, {...entry, currplayer: 2 as const}],
+        };
+        const g1 = new CanoeGame(JSON.stringify(state));
+        const g2 = new CanoeGame(JSON.stringify(state));
+        g1.load(0);
+        g1.board.set("c1", {owner: 1, face: 16, set: false});
+        g2.load(0);
+        expect(g2.board.has("c1")).to.be.false;
+    });
+
+    it("emulated replay of P2 turn preserves currplayer and roll from reference stack", () => {
+        const preMoveBoard: StackCell[] = [
+            ["b1", {owner: 1, face: 24}],
+            ["c1", {owner: 1, face: 16}],
+            ["d1", {owner: 1, face: 16}],
+            ["c2", {owner: 1, face: 8}],
+            ["f6", {owner: 2, face: 40}],
+            ["f5", {owner: 2, face: 16}],
+            ["g5", {owner: 2, face: 1}],
+            ["g6", {owner: 2, face: 1}],
+            ["a5", {owner: 2, face: 8}],
+            ["e5", {owner: 1, face: 24}],
+            ["a4", {owner: 1, face: 24, set: true}],
+            ["d5", {owner: 2, face: 1}],
+            ["c3", {owner: 2, face: 40}],
+        ];
+        const postMoveBoard: StackCell[] = [
+            ["b1", {owner: 1, face: 24}],
+            ["c1", {owner: 1, face: 16}],
+            ["d1", {owner: 1, face: 16}],
+            ["c2", {owner: 1, face: 8}],
+            ["f6", {owner: 2, face: 40}],
+            ["g5", {owner: 2, face: 1}],
+            ["g6", {owner: 2, face: 1}],
+            ["a5", {owner: 2, face: 8}],
+            ["e5", {owner: 1, face: 24}],
+            ["a4", {owner: 1, face: 24, set: true}],
+            ["d4", {owner: 2, face: 8}],
+            ["c3", {owner: 2, face: 40, set: true}],
+        ];
+        const base = {
+            _version: "20260725",
+            _results: [] as object[],
+            _timestamp: "2026-07-25T00:00:00.000Z",
+            gridCubes: [24, 8] as [CubeFace, CubeFace],
+            pocket: [0, 0] as [number, number],
+            canoeDone: false,
+            firstPlayer: 1 as const,
+        };
+        const stack = [
+            {...base, currplayer: 2 as const, phase: "play" as const, board: {dataType: "Map", value: preMoveBoard.map(([cell, s]) => [cell, {...s, set: s.set ?? false}])}, roll: [3, 3] as [number, number], lastmove: "3:b5+c7,4:c7-a4"},
+            {...base, currplayer: 1 as const, phase: "play" as const, board: {dataType: "Map", value: postMoveBoard.map(([cell, s]) => [cell, {...s, set: s.set ?? false}])}, roll: [4, 6] as [number, number], lastmove: "3:f5-d4,3:d5+c3"},
+        ];
+        const state = {game: "canoe", numplayers: 2, variants: [], gameover: false, winner: [] as (1 | 2)[], stack};
+        const replay = new CanoeGame(JSON.stringify({...state, stack: [stack[0]]}));
+        replay.move("3:f5-d4,3:d5+c3", {trusted: true, emulation: true});
+        const postEntry = new CanoeGame(JSON.stringify(state));
+        postEntry.load(1);
+        replay.syncFromStackEntry(postEntry.stack[1]);
+        expect(replay.currplayer).to.equal(1);
+        expect(replay.roll).to.eql([4, 6]);
+        expect(replay.board.get("d4")).to.eql({owner: 2, face: 8, set: false});
+        expect(replay.board.get("c3")).to.eql({owner: 2, face: 40, set: true});
+    });
 });

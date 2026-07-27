@@ -1,24 +1,29 @@
 ---
 description: Tests must use self-contained fixtures under test/, never external files
 globs: test/**/*.ts
-alwaysApply: false
+alwaysApply: true
 ---
 
 # Test fixtures
 
 Tests must be self-standing. **Never load or reference files outside `test/`** at runtime — not `bin/`, `docs/`, `src/`, or any other repo path.
 
+This is non-negotiable. Relative paths like `bin/state.json` or `readFileSync("bin/...")` depend on the process working directory and **will fail in CI** when tests are not run from the repo root. Do not use them.
+
 ## Rules
 
 - Define game states, render JSON, legend data, and other inputs **inline in the test file** or in a module under **`test/fixtures/`**.
-- Do not use `fs.readFileSync`, `import` of JSON outside `test/`, or path joins to `../bin`, `../docs`, etc.
+- **Never** use `fs.readFileSync`, `fs.promises.readFile`, dynamic `import()` of JSON outside `test/`, or path joins to `../bin`, `../docs`, etc.
+- **`bin/state.json` is scratch/debug output only.** If a bug is reproduced there, copy the board/stack into an inline fixture or `test/fixtures/` — never point a test at that file.
 - `docs/samples/` and `bin/` are for humans, scratch work, and tooling — they may change independently of test expectations.
 - When a saved state or sample documents behaviour you want to test, **copy** the relevant structure into a fixture; do not point the test at the original file.
 
 ```typescript
+// ❌ BAD — cwd-dependent, breaks in CI
+const g = new CanoeGame(readFileSync("bin/state.json", "utf8"));
+
 // ❌ BAD — reads repo state outside test/
 const state = JSON.parse(fs.readFileSync(path.join(__dirname, "../../bin/state.json"), "utf8"));
-const g = new EvenAtOddsGame(state);
 
 // ❌ BAD — couples tests to documentation samples
 const sample = require("../../docs/samples/formatting-mixed-patterns.json");
@@ -28,9 +33,8 @@ import { ambiguousAnchorPipState } from "../fixtures/evenatodds";
 const g = gameFrom(ambiguousAnchorPipState);
 
 // ✅ GOOD — inline in the test file
-const mixedPatternsFixture: APRenderRep = {
-    board: { style: "squares", height: 2, width: 2 },
-    legend: { /* ... */ },
-    pieces: "P1,P2\nFIXED,LIGHT",
-};
+const g = playAfterOpening([
+    ["c1", {owner: 1, face: 1}],
+    ["b5", {owner: 1, face: 40}],
+], {roll: [5, 5], currplayer: 1});
 ```

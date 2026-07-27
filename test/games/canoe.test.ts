@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import "mocha";
 import { expect } from "chai";
-import { readFileSync } from "fs";
 import { addResource } from "../../src";
 import { CanoeGame, CubeFace } from "../../src/games/canoe";
 
@@ -572,7 +571,22 @@ describe("Canoe", () => {
     });
 
     it("cannot form a set by leaving the bank onto another cube", () => {
-        const g = new CanoeGame(readFileSync("bin/state.json", "utf8"));
+        const g = playAfterOpening([
+            ["b1", {owner: 1, face: 40}],
+            ["b2", {owner: 1, face: 8}],
+            ["d1", {owner: 1, face: 1}],
+            ["c1", {owner: 1, face: 1}],
+            ["c7", {owner: 1, face: 8}],
+            ["c6", {owner: 1, face: 8}],
+            ["b5", {owner: 1, face: 40}],
+            ["f6", {owner: 2, face: 32}],
+            ["g4", {owner: 2, face: 16}],
+            ["g5", {owner: 2, face: 16}],
+            ["g6", {owner: 2, face: 1}],
+            ["a5", {owner: 2, face: 8}],
+            ["e5", {owner: 2, face: 16}],
+            ["e4", {owner: 2, face: 16}],
+        ], {roll: [5, 5], currplayer: 1});
         expect(g.moves().some(m => m.includes("c1+b5"))).to.be.false;
     });
 

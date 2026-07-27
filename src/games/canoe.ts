@@ -893,6 +893,203 @@ export class CanoeGame extends GameBase {
         return dests;
     }
 
+    private static setBearOffLaunchAlgebraic(player: playerid): string {
+        if (player === 1) {
+            return CanoeGame.coords2algebraic(4, 6);
+        }
+        return CanoeGame.coords2algebraic(6, 4);
+    }
+
+    private pathHow(path: string[] | undefined): string | undefined {
+        if (path === undefined || path.length === 0) {
+            return undefined;
+        }
+        return path.join(",");
+    }
+
+    private findSingleCubePath(
+        from: string,
+        to: string,
+        die: number,
+        ctx: IMoveContext,
+        mode: "move"|"pinch"|"set",
+    ): string[] | undefined {
+        const stack = this.board.get(from);
+        if (stack === undefined || stack.owner !== ctx.player || stack.set) {
+            return undefined;
+        }
+        const eff = this.effectiveFace(stack, die);
+        const fromBank = CanoeGame.isInBank(ctx.player, from);
+
+        type State = {cell: string; remaining: number; path: string[]};
+        const queue: State[] = [{cell: from, remaining: die, path: [from]}];
+        const seen = new Set<string>();
+
+        while (queue.length > 0) {
+            const {cell, remaining, path} = queue.shift()!;
+            const visitKey = `${cell}:${remaining}`;
+            if (seen.has(visitKey)) {
+                continue;
+            }
+            seen.add(visitKey);
+
+            if (remaining === 0) {
+                continue;
+            }
+            for (const next of this.getNeighbours(cell)) {
+                if (path.includes(next)) {
+                    continue;
+                }
+                if (CanoeGame.isInBank(this.opponent(ctx.player), next)) {
+                    continue;
+                }
+                const occ = this.board.get(next);
+                if (remaining === 1) {
+                    if (next !== to) {
+                        continue;
+                    }
+                    if (mode === "move" && occ === undefined) {
+                        if (fromBank && CanoeGame.isInBank(ctx.player, next) && CanoeGame.isOnGrid(cell)) {
+                            continue;
+                        }
+                        if (!this.canOccupyBankCell(ctx.player, cell, next, stack)) {
+                            continue;
+                        }
+                        if (fromBank && !CanoeGame.isOnGrid(next) && !this.canReachGridFromBank(from, die)) {
+                            continue;
+                        }
+                        if (this.isSeventhCube(ctx.player)) {
+                            const dests = this.getSingleDestinations(from, die, ctx);
+                            if (!dests.has(to)) {
+                                continue;
+                            }
+                        }
+                        return [...path, next];
+                    }
+                    if (mode === "pinch"
+                        && occ !== undefined
+                        && occ.owner !== ctx.player
+                        && occ.face === eff
+                        && !occ.set
+                        && (!ctx.isFirstGameMove || ctx.player !== this.firstPlayer)
+                        && !fromBank
+                        && !ctx.freshFromBank.has(from)
+                        && !ctx.freshFromBank.has(next)
+                        && !CanoeGame.isInAnyBank(next)) {
+                        return [...path, next];
+                    }
+                    if (mode === "set"
+                        && occ !== undefined
+                        && occ.owner === ctx.player
+                        && occ.face === eff
+                        && !occ.set
+                        && !ctx.isPlayerFirstTurn
+                        && !fromBank
+                        && !ctx.freshFromBank.has(from)
+                        && !ctx.freshFromBank.has(next)
+                        && !CanoeGame.isInBank(ctx.player, next)) {
+                        return [...path, next];
+                    }
+                } else if (occ === undefined) {
+                    if (!this.canOccupyBankCell(ctx.player, cell, next, stack)) {
+                        continue;
+                    }
+                    queue.push({cell: next, remaining: remaining - 1, path: [...path, next]});
+                }
+            }
+        }
+
+        return undefined;
+    }
+
+    private findSetPath(from: string, to: string, distance: number, ctx: IMoveContext): string[] | undefined {
+        const stack = this.board.get(from);
+        if (stack === undefined || stack.owner !== ctx.player || !stack.set) {
+            return undefined;
+        }
+        const target = to === "off" ? CanoeGame.setBearOffLaunchAlgebraic(ctx.player) : to;
+        const [sc, sr] = CanoeGame.algebraic2coords(from);
+
+        type State = {col: number; row: number; remaining: number; path: string[]; prev?: string};
+        const queue: State[] = [{col: sc, row: sr, remaining: distance, path: [from]}];
+        const seen = new Set<string>();
+
+        while (queue.length > 0) {
+            const state = queue.shift()!;
+            const visitKey = `${state.col},${state.row},${state.remaining}`;
+            if (seen.has(visitKey)) {
+                continue;
+            }
+            seen.add(visitKey);
+
+            const {col, row, remaining, path, prev} = state;
+            const fromCell = CanoeGame.coords2algebraic(col, row);
+
+            if (remaining === 0) {
+                if (fromCell === target
+                    && (prev === undefined || this.canOccupyBankCell(ctx.player, prev, fromCell, stack))) {
+                    return path;
+                }
+                continue;
+            }
+            if (remaining === 1 && to === "off" && CanoeGame.isSetBearOffLaunchCell(ctx.player, col, row)) {
+                if (prev === undefined || this.canOccupyBankCell(ctx.player, prev, fromCell, stack)) {
+                    return path;
+                }
+            }
+
+            for (const [dc, dr] of this.directionsTowardBearOff(ctx.player, col, row)) {
+                const nc = col + dc;
+                const nr = row + dr;
+                const adjacent = this.cellAt(nc, nr);
+                if (adjacent === undefined) {
+                    continue;
+                }
+                if (!this.board.has(adjacent)) {
+                    if (!this.setMoveTowardBearOff(ctx.player, col, row, nc, nr)) {
+                        continue;
+                    }
+                    if (!this.canOccupyBankCell(ctx.player, fromCell, adjacent, stack)) {
+                        continue;
+                    }
+                    queue.push({
+                        col: nc,
+                        row: nr,
+                        remaining: remaining - 1,
+                        path: [...path, adjacent],
+                        prev: fromCell,
+                    });
+                    continue;
+                }
+                let jc = nc + dc;
+                let jr = nr + dr;
+                while (true) {
+                    const land = this.cellAt(jc, jr);
+                    if (land === undefined) {
+                        break;
+                    }
+                    if (!this.board.has(land)) {
+                        if (this.setMoveTowardBearOff(ctx.player, col, row, jc, jr)
+                            && this.canOccupyBankCell(ctx.player, fromCell, land, stack)) {
+                            queue.push({
+                                col: jc,
+                                row: jr,
+                                remaining: remaining - 1,
+                                path: [...path, land],
+                                prev: fromCell,
+                            });
+                        }
+                        break;
+                    }
+                    jc += dc;
+                    jr += dr;
+                }
+            }
+        }
+
+        return undefined;
+    }
+
     private canReachGridFromBank(from: string, die: number): boolean {
         let foundGrid = false;
         const dfs = (cell: string, remaining: number, visited: Set<string>): void => {
@@ -1451,9 +1648,10 @@ export class CanoeGame extends GameBase {
     }
 
     private executeHalf(move: string): void {
+        const ctx = this.buildContext();
         const bearOff = move.match(/^(\d+(?:\+\d+)?):([a-g][1-7])-off$/);
         if (bearOff !== null) {
-            this.executeBearOff(CanoeGame.halfDieDistance(move)!, bearOff[2]);
+            this.executeBearOff(CanoeGame.halfDieDistance(move)!, bearOff[2], ctx);
             return;
         }
         const pinch = move.match(/^(\d+(?:\+\d+)?):([a-g][1-7])x([a-g][1-7])$/);
@@ -1462,12 +1660,13 @@ export class CanoeGame extends GameBase {
             const from = pinch[2];
             const to = pinch[3];
             const stack = this.board.get(from)!;
+            const how = this.pathHow(this.findSingleCubePath(from, to, die, ctx, "pinch"));
             const face = stack.set ? stack.face : this.rotateAndConvert(from, stack, die);
             const victimFace = this.board.get(to)!.face;
             this.board.delete(from);
             this.board.delete(to);
             this.board.set(to, stack);
-            this.results.push({type: "move", from, to, what: face.toString()});
+            this.results.push({type: "move", from, to, what: face.toString(), how});
             this.results.push({type: "capture", where: to});
             this.addToPocket(this.currplayer, victimFace);
             return;
@@ -1479,12 +1678,13 @@ export class CanoeGame extends GameBase {
             const to = setForm[3];
             const stack = this.board.get(from)!;
             const wasBank = CanoeGame.isInBank(stack.owner, from);
+            const how = this.pathHow(this.findSingleCubePath(from, to, die, ctx, "set"));
             const face = stack.set ? stack.face : this.rotateAndConvert(from, stack, die);
             this.board.delete(from);
             this.board.delete(to);
             stack.set = true;
             this.board.set(to, stack);
-            this.results.push({type: "move", from, to, what: face.toString()});
+            this.results.push({type: "move", from, to, what: face.toString(), how});
             this.results.push({type: "promote", where: to, from, to: "set"});
             if (wasBank && CanoeGame.crossesStartingLine(stack.owner, from, to)) {
                 this.markCubeLeftBank(to);
@@ -1498,10 +1698,13 @@ export class CanoeGame extends GameBase {
             const to = regular[3];
             const stack = this.board.get(from)!;
             const wasBank = CanoeGame.isInBank(stack.owner, from);
+            const how = stack.set
+                ? this.pathHow(this.findSetPath(from, to, die, ctx))
+                : this.pathHow(this.findSingleCubePath(from, to, die, ctx, "move"));
             const face = stack.set ? stack.face : this.rotateAndConvert(from, stack, die);
             this.board.delete(from);
             this.board.set(to, stack);
-            this.results.push({type: "move", from, to, what: face.toString()});
+            this.results.push({type: "move", from, to, what: face.toString(), how});
             if (wasBank && CanoeGame.crossesStartingLine(stack.owner, from, to)) {
                 this.markCubeLeftBank(to);
             }
@@ -1510,12 +1713,24 @@ export class CanoeGame extends GameBase {
         throw new Error(`Invalid move segment: ${move}`);
     }
 
-    private executeBearOff(die: number, from: string): void {
+    private executeBearOff(die: number, from: string, ctx: IMoveContext): void {
         const stack = this.board.get(from)!;
+        const how = stack.set
+            ? this.pathHow(this.findSetPath(from, "off", die, ctx))
+            : undefined;
         if (!stack.set) {
             this.rotateAndConvert(from, stack, die);
         }
         const player = stack.owner;
+        if (how !== undefined && how.split(",").length > 1) {
+            this.results.push({
+                type: "move",
+                from,
+                to: CanoeGame.setBearOffLaunchAlgebraic(player),
+                what: stack.face.toString(),
+                how,
+            });
+        }
         if (!this.canoeDone) {
             if (this.hasLeakyCanoeVariant()) {
                 this.addScore(player, Math.floor(CanoeGame.scoreFace(stack.face) / 2));
@@ -2065,13 +2280,25 @@ export class CanoeGame extends GameBase {
         // const mover = (this.currplayer % 2 + 1) as playerid;
         for (const r of this.results) {
             if (r.type === "move") {
-                const [fromX, fromY] = CanoeGame.algebraic2coords(r.from);
-                const [toX, toY] = CanoeGame.algebraic2coords(r.to);
-                annotations.push({
-                    type: "move",
-                    // colour: mover,
-                    targets: [{row: fromY, col: fromX}, {row: toY, col: toX}],
-                });
+                const how = (r as {how?: string}).how;
+                if (how !== undefined && how.length > 0) {
+                    const path = how.split(",");
+                    for (let i = 1; i < path.length; i++) {
+                        const [fromX, fromY] = CanoeGame.algebraic2coords(path[i - 1]);
+                        const [toX, toY] = CanoeGame.algebraic2coords(path[i]);
+                        annotations.push({
+                            type: "move",
+                            targets: [{row: fromY, col: fromX}, {row: toY, col: toX}],
+                        });
+                    }
+                } else {
+                    const [fromX, fromY] = CanoeGame.algebraic2coords(r.from);
+                    const [toX, toY] = CanoeGame.algebraic2coords(r.to);
+                    annotations.push({
+                        type: "move",
+                        targets: [{row: fromY, col: fromX}, {row: toY, col: toX}],
+                    });
+                }
             } else if (r.type === "capture") {
                 const [x, y] = CanoeGame.algebraic2coords((r as {where: string}).where);
                 annotations.push({type: "exit", targets: [{row: y, col: x}]});

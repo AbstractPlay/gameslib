@@ -115,6 +115,15 @@ function annotationDotCells(rep: ReturnType<CanoeGame["render"]>): string[] {
     return cells;
 }
 
+function annotationMoveSegments(rep: ReturnType<CanoeGame["render"]>): number {
+    return (rep.annotations ?? []).filter(a => "type" in a && a.type === "move").length;
+}
+
+function moveResultHow(g: CanoeGame, from: string, to: string): string | undefined {
+    const move = g.results.find(r => r.type === "move" && r.from === from && r.to === to) as {how?: string} | undefined;
+    return move?.how;
+}
+
 describe("Canoe", () => {
     before(() => {
         addResource("en");
@@ -715,10 +724,47 @@ describe("Canoe", () => {
         expect(g.results.some(r => r.type === "promote")).to.be.true;
         expect(g.results.some(r => r.type === "move" && r.from === "c4" && r.to === "e4")).to.be.true;
         const rep = g.render();
-        expect(rep.annotations?.some(a => "type" in a && a.type === "move")).to.be.true;
+        expect(annotationMoveSegments(rep)).to.be.greaterThan(0);
 
         const g2 = playFixture([["c4", {owner: 1, face: 8, set: true}]], {roll: [2, 3]});
         expect(g2.moves().some(m => m.startsWith("2+3:"))).to.be.true;
+    });
+
+    describe("move path annotations", () => {
+        it("records multi-cell how for indirect single-cube routes", () => {
+            const g = playFixture([["e5", {owner: 1, face: 16}]], {roll: [3]});
+            expect(g.moves()).to.include("3:e5-c4");
+            g.move("3:e5-c4", {trusted: true});
+            const how = moveResultHow(g, "e5", "c4");
+            expect(how).to.not.equal(undefined);
+            expect(how!.split(",").length).to.be.at.least(3);
+            expect(annotationMoveSegments(g.render())).to.be.greaterThan(1);
+        });
+
+        it("records multi-cell how for set slides with turns or jumps", () => {
+            const g = playAfterOpening([
+                ["c7", {owner: 1, face: 16}],
+                ["c4", {owner: 1, face: 40}],
+                ["e6", {owner: 2, face: 40}],
+                ["c6", {owner: 2, face: 1}],
+                ["e4", {owner: 1, face: 16}],
+                ["c5", {owner: 1, face: 16}],
+                ["b4", {owner: 1, face: 24}],
+                ["g3", {owner: 2, face: 8, set: true}],
+            ], {roll: [5, 5], currplayer: 1, canoeDone: true, pocket: [64, 40]});
+            g.move("5:b4+e4,5:e4-a2", {trusted: true});
+            const setSlide = moveResultHow(g, "e4", "a2");
+            expect(setSlide).to.not.equal(undefined);
+            expect(setSlide!.split(",").length).to.be.at.least(3);
+            expect(annotationMoveSegments(g.render())).to.be.greaterThan(2);
+        });
+
+        it("renders one arrow for adjacent single-step moves", () => {
+            const g = playFixture([["e5", {owner: 1, face: 16}]], {roll: [1]});
+            g.move("1:e5-d5", {trusted: true});
+            expect(moveResultHow(g, "e5", "d5")).to.equal("e5,d5");
+            expect(annotationMoveSegments(g.render())).to.equal(1);
+        });
     });
 
     it("stymie offers roll buttons and no auto-roll moves", () => {

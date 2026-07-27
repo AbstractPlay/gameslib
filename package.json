@@ -17,6 +17,7 @@
     "deploy": "shx cp ./playground/playground.* ./dist && npx serverless client deploy --no-confirm --no-delete-contents && aws cloudfront create-invalidation --profile AbstractPlayProd --distribution-id E19KPZXKKYK444 --paths /*",
     "deploy:ci": "shx cp ./playground/playground.* ./dist && npx serverless client deploy --no-confirm --no-delete-contents && aws cloudfront create-invalidation --distribution-id ${GAMESLIB_CF_DIST:-E19KPZXKKYK444} --paths /*",
     "extract": "i18next 'src/**/*.ts'",
+    "translate": "node scripts/translate.mjs locales/en/apgames.json locales/en/apresults.json",
     "json2ts": "npx json2ts -i src/schemas/gameinfo.json -o src/schemas/gameinfo.d.ts && npx json2ts -i src/schemas/moveresults.json -o src/schemas/moveresults.d.ts && npx json2ts -i src/games/tafl/ruleset.json -o src/games/tafl/ruleset.d.ts",
     "npm-login": "npm login --scope=@abstractplay --auth-type=web --registry=https://npm.pkg.github.com"
   },
@@ -32,6 +33,7 @@
   ],
   "devDependencies": {
     "@eslint/js": "^9.26.0",
+    "@google/genai": "^2.13.0",
     "@types/chai": "^4.3.4",
     "@types/earcut": "^2.1.4",
     "@types/mocha": "^10.0.10",

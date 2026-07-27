@@ -14,6 +14,8 @@ jobs:
     build-prod:
 
         runs-on: ubuntu-latest
+        permissions:
+          contents: write
 
         # strategy:
         #   matrix:
@@ -35,6 +37,26 @@ jobs:
         - run: npm i @abstractplay/renderer
         - run: npm list @abstractplay/renderer
         - run: npm test --if-present
+        # --- MACHINE TRANSLATION PIPELINE START ---
+        - name: Run Machine Translation on Locales
+          env:
+            GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          run: node scripts/translate.mjs locales/en/apgames.json locales/en/apresults.json
+
+        - name: Auto-commit Updated Translations Back to Branch
+          uses: stefanzweifel/git-auto-commit-action@v5
+          with:
+            commit_message: "i18n: Auto-translate locale files [skip ci]"
+            file_pattern: 'locales/*/*.json'
+
+        - name: Upload translation debug artifacts
+          if: failure()
+          uses: actions/upload-artifact@v4
+          with:
+            name: translate-debug-${{ github.run_id }}
+            path: bin/translate-debug/
+            if-no-files-found: ignore
+        # --- MACHINE TRANSLATION PIPELINE END ---
         # prerelease --preid=ci-$GITHUB_RUN_ID
         - run: npm version prerelease --preid=ci-$GITHUB_RUN_ID --no-git-tag-version
         - run: npm run build

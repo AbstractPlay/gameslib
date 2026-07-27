@@ -2245,11 +2245,13 @@ export class CanoeGame extends GameBase {
                     {text: face.toString()},
                 ];
             }
-            rep.areas = [{
-                type: "pieces",
-                label: i18next.t("apgames:validation.canoe.SETUP_HAND"),
-                pieces: unplaced.map(i => CanoeGame.setupDieGlyph(i)) as [string, ...string[]],
-            }];
+            if (unplaced.length > 0) {
+                rep.areas = [{
+                    type: "pieces",
+                    label: i18next.t("apgames:validation.canoe.SETUP_HAND"),
+                    pieces: unplaced.map(i => CanoeGame.setupDieGlyph(i)) as [string, ...string[]],
+                }];
+            }
         }
 
         if (this.highlights.length > 0) {

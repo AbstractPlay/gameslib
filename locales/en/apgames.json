@@ -44,6 +44,7 @@
         "c1": "In C1 (or cone), each player commands 1 cone, 4 pyramids, and 10 sliding tiles with unique movements. Players manoeuvre their pieces to eliminate opponent tiles and ultimately surround the enemy cone on all four orthogonal sides using pieces or the voids left by vanished tiles.",
         "calculus": "A free-form game where pieces of arbitrary size and shape are freely placed on a surface of any dimensions or shape, trying to connect opposite sides. The implementation here uses a round board and round pieces.",
         "camelot": "A classic game where you try to move two pieces into your opponent's castle or eliminate all of your opponent's pieces.",
+        "canoe": "A dice-driven race to pinch opponent cubes and bear your own off the board for points.",
         "carnac": "Players share a pool of megaliths, placing them upright and optionally tipping the opponent's latest piece to lie across two squares. Score dolmens — groups of three or more orthogonally connected symbols of your colour as seen from above.",
         "cannon": "A two-player game played on a 10x10 board. Soldiers can move independently, but three soldiers in a row form a \"cannon\" and can move along their length or kill soldiers two or three spaces away. The first player to capture the opposing town wins.",
         "catapult": "Hurl your stones across the board to annihilate your opponent.",
@@ -290,6 +291,7 @@
         "btt": "Unusual numbers of players (3, 5, or 6) are supported, but on a normal rectangular board of an appropriate size rather than a Martian Chessboard.",
         "bug": "In this implementation, after the initial placement, if the player has bugs that must eat, the edible bugs will be highlighted. Eating and bonus grow will be performed simultaneously, so performing a bonus grow on a bug by selecting a legal space next to it will cause all highlighted edible bugs adjacent to it to disappear. It is possible to bonus grow onto a space that an edible bug is on. Note that this implies that when selecting a bug to perform the eating action, ALL edible bugs of the same shape next to it will be removed, and this might differ from some other implementations where there a separate edible bug selection phase, which may allow some edible bugs to be left behind for another bug to eat.",
         "calculus": "Click on an existing piece to move it, or click on a free point to place a new piece. There must be a sufficiently wide path from some edge of the board to the placement point. If your placed piece would overlap existing pieces, the system will try to \"snap\" the placed piece so it is touching all overlapped pieces.\n\nDashed lines show pieces that are touching. Solid lines show perimeters around legal areas. Pieces connected by solid lines may not be moved.",
+        "canoe": "Dice for your turn appear on f2 and g1 after the previous player finishes. During setup, click a bank cell to place a cube (the highest unplaced value is used if you have not selected one). Click an occupied bank cell to pick a cube back up. Submit when all six cubes are placed.\n\nDuring play, click a die, then a cube or set, then a highlighted destination. Click a second die before selecting a cube to combine dice for a set move (notated as 3+4:, using the f2 die first). Pass is only available before you begin a move. Instead of stacking, sets are represented by flat hexes.\n\nSets cannot be formed in the bank. When one die can bear off all your remaining cubes, you may play only that die. The seventh cube (your last cube on the board) must take the most direct route to bear-off, like a set; it may use both dice as two separate moves (rotating once per die) but not combined 3+4: notation; bearing it off still sweeps the opponent's remaining cubes.",
         "carnac": "Each megalith is two cubes stacked vertically. On each cube, top and bottom are opposite colours; left and right match; front and back match each other and are opposite to left/right.\n\nPlacements are notated `TF-cell`, where the first digit is the top colour and the second is the colour on the face toward rank 1 (south). Example: `12-d4` means top colour 1 and south face colour 2.\n\nWhen tipping, combine tip direction and placement in one move: `>s,11-a1` tips south then places orientation `11` at `a1`.\n\nIn isometric view, floor cells hidden under adjacent toppled megaliths can be hard to click — rotate to find an opening or use flat view for fully enclosed holes. In holes where a megalith cannot be tipped, only top colours matter and the south face is assumed to be colour 1 (`11` or `21`). In flat view the placement key shows only the top face, but all four orientations remain available.",
         "druid": "A lintel must be supported at both ends (not on bare ground) and rest on exactly two of your stones (which need not both be at the ends). Lintels must lie flat: both ends must rest on stacks of equal height. Lintels may cross one another, but you may not thread a new lintel through the gap beneath an existing lintel's centre. Only the topmost stone on each cell counts toward connections.\n\nWith the Druid's Walk variant on the rectangular board, your Druid appears the first time you place a stone on either of your edges (west or east for player 1, north or south for player 2). To win, the druid must be borne off the board on the opposite edge. Each turn you either place a stone or move your Druid — not both. Druids move onto orthogonally adjacent stones of their colour and always stand on the topmost stone; they cannot step into bare gaps under lintels. Stones cannot be placed on a Druid. The first player to bear their Druid off wins. Druid's Walk does not apply to Druid's Y or Druid's Hex boards.",
         "catsdogs": "The original game, *SNORT*, was designed by Simon Norton in 1970. The only rule was to prevent stones of different colors to be orthogonally adjacent. A stalemated player loses the game. Norton also proposed the misère version (stalemate is a win). The original game is, however, broken via a mirror strategy. Chris Huntoon proposed a bigger 11x11 board where the player cannot start at the center (in order to prevent mirroring) which he called *Cats and Dogs*, and is the main game here. Also available is the Portuguese tournament ruleset, played on the smaller 8x8 board, but where the first player must start at the central 2x2 area, and the second player must answer outside that area. This allows the game to break the mirror strategy, and still be played on the original smaller board. Check also Snort's article at [AGM#15](https://www.abstractgames.org/uploads/1/1/6/4/116462923/abstract_games_issue_15.pdf).",
@@ -3837,6 +3839,20 @@
                 "name": "Flat view"
             }
         },
+        "canoe": {
+            "#scoring": {
+                "description": "On the first bear-off of the game, both cubes of a set are pocketed for points.",
+                "name": "Canoe scoring"
+            },
+            "no-canoe": {
+                "description": "The first bear-off of the game scores only one cube, even from a set.",
+                "name": "No Canoe"
+            },
+            "leaky-canoe": {
+                "description": "The first bear-off of the game is worth only half the points of one cube.",
+                "name": "Leaky Canoe"
+            }
+        },
         "druid": {
             "flat": {
                 "description": "Overhead view with stack heights labelled on each cell.",
@@ -5086,6 +5102,27 @@
             "MUST_CAPTURE": "Every move must capture, but there is no piece at {{where}} to capture.",
             "PARTIAL": "Select an orthogonally adjacent piece to capture (yours or your opponent's).",
             "SINGLE_GROUP": "After your capture, there must be only one orthogonally connected group that contains your own checkers."
+        },
+        "canoe": {
+            "SETUP_INSTRUCTIONS": "Place your six cubes on the bank, then submit.",
+            "STYMIE_ROLL": "Choose whether to roll one die or two.",
+            "INITIAL_INSTRUCTIONS": "Select a die, then a cube or set, then a destination.",
+            "NO_PASS": "You may only pass when you have not yet begun a move and no legal moves exist.",
+            "BAD_ROLL": "You may only roll when Stymie applies and no dice are showing.",
+            "BAD_SETUP": "Invalid setup placement: {{part}}.",
+            "BAD_FACE": "{{face}} is not a valid cube face.",
+            "BAD_SETUP_CELL": "{{cell}} is not a valid bank cell for setup.",
+            "DUP_CELL": "You have already placed a cube at {{cell}}.",
+            "BAD_FACE_COUNT": "You do not have another {{face}} cube to place.",
+            "SETUP_PARTIAL": "Continue placing cubes on your bank.",
+            "SETUP_COMPLETE": "All six cubes are placed. Review your layout, then submit.",
+            "TOO_MANY_SETUP": "You may only place six cubes during setup.",
+            "SETUP_INCOMPLETE": "You must place all six cubes before submitting.",
+            "VALID_PARTIAL": "Continue your move.",
+            "INVALID_MOVE": "{{move}} is not a legal move.",
+            "MUST_USE_BOTH_DICE": "You must either use both dice or none of the dice.",
+            "NO_COMBINED_MOVES": "You have no sets that can move with the combined dice ({{die}}).",
+            "SETUP_HAND": "Setup dice"
         },
         "compart": {
             "INSTRUCTIONS": "Place one piece on any empty cell.",

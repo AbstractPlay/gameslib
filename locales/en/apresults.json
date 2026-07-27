@@ -29,6 +29,7 @@
         "stawvs": "{{player}} was unable to move and must pass from now on.  Their pieces remain on the following pyramids: {{pyramids}}."
     },
     "BEAROFF": {
+        "canoe": "{{player}} bore a cube off the board.",
         "complete_one": "{{player}} bore off one piece from {{from}}.",
         "complete_other": "{{player}} bore off {{count}} pieces from {{from}}.",
         "druid": "{{player}} bore their Druid off from {{from}}.",
@@ -53,6 +54,7 @@
         "buku": "{{count}} pieces were captured at {{where}}.",
         "c1": "{{player}} eliminates a tile at {{where}}.",
         "complete": "{{player}} captured a {{what}} at {{where}}.",
+        "canoe": "{{player}} pinched a cube at {{where}}.",
         "crosshairs": "{{player}} shot down a plane at {{where}}.",
         "dameo_king": "{{player}} captured a king at {{where}}.",
         "dameo_soldier": "{{player}} captured a soldier at {{where}}.",
@@ -171,6 +173,7 @@
         "pacru": "{{player}} converted {{where}}.",
         "paintbucket_one": "{{player}} converted 1 piece at {{where}}.",
         "paintbucket_other": "{{player}} converted {{count}} pieces starting at {{where}}.",
+        "canoe": "{{player}} rotated the cube at {{where}} from {{what}} to {{into}}.",
         "simple": "{{player}} converted a piece at {{where}}.",
         "storisende_territory": "The tile at {{where}} became a territory.",
         "storisende_wall": "The tile at {{where}} became a wall."
@@ -327,6 +330,7 @@
         "camelot_canter": "{{player}} made a canter with a man from {{from}} to {{to}}.",
         "camelot_jump_knight": "{{player}} made a jump with a knight from {{from}} to {{to}}, capturing {{captured}}.",
         "camelot_jump": "{{player}} made a jump with a man from {{from}} to {{to}}, capturing {{captured}}.",
+        "canoe": "{{player}} moved a {{what}} from {{from}} to {{to}}.",
         "chase": "{{player}} moved from {{from}} to {{to}} (through {{through}}).",
         "collision": "{{player}} tried to move from {{from}} to {{to}} but couldn't because of a collision.",
         "complete": "{{player}} moved a {{what}} from {{from}} to {{to}}.",
@@ -391,6 +395,7 @@
         "entropy": "{{player}} chose not to move any pieces this turn.",
         "forced": "{{player}} was forced to pass.",
         "carnac": "{{player}} declined to tip the megalith.",
+        "canoe": "{{player}} passed.",
         "druid": "{{player}} passed.",
         "frogger": "{{player}} passed {{why}}.",
         "linage": "{{player}} passes.",
@@ -536,7 +541,8 @@
         "mchess": "A {{into}} was created as a result.",
         "orb_12": "{{player}} promoted an orb to a spheroid at {{where}}.",
         "orb_13": "{{player}} promoted an orb to a globe at {{where}}.",
-        "orb_23": "{{player}} promoted spheroid to a globe at {{where}}."
+        "orb_23": "{{player}} promoted spheroid to a globe at {{where}}.",
+        "canoe": "{{player}} formed a set at {{where}}, merging the cube from {{from}}."
     },
     "PULL": "{{player}} pulled string {{where}}.",
     "RECLAIM": {
@@ -579,6 +585,7 @@
     "ROLL": {
         "magnate": "{{who}} rolled a {{values}}.",
         "magnate_eight": "{{who}} rolled an {{values}}.",
+        "canoe": "{{player}} rolled: {{values}}.",
         "single": "The die was rolled: {{values}}.",
         "tablero": "The dice were rolled: {{values}}."
     },

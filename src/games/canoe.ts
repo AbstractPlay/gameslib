@@ -40,7 +40,7 @@ export interface ICanoeState extends IAPGameState {
 
 interface IMoveContext {
     player: playerid;
-    leftBank: Set<string>;
+    freshFromBank: Set<string>;
     usedDice: number[];
     blockedFrom: Set<string>;
     isFirstGameMove: boolean;
@@ -129,6 +129,7 @@ export class CanoeGame extends GameBase {
     private selectedCell?: string;
     private selectedSetupFace?: CubeFace;
     private emulated = false;
+    private freshFromBankThisTurn = new Set<string>();
 
     private static readonly graph = new SquareOrthGraph(BOARD_SIZE, BOARD_SIZE);
     private static readonly CANOE_CELLS = ["f2", "g2", "f1", "g1"];
@@ -198,6 +199,7 @@ export class CanoeGame extends GameBase {
         this.canoeDone = typeof raw === "boolean" ? raw : (raw[0] || raw[1]);
         this.firstPlayer = state.firstPlayer;
         this.lastmove = state.lastmove;
+        this.freshFromBankThisTurn = new Set();
         this.results = [...state._results];
         this.highlights = [];
         this.selectedCell = undefined;
@@ -801,12 +803,18 @@ export class CanoeGame extends GameBase {
                         }
                     } else if (occ.owner !== ctx.player && occ.face === eff && !occ.set) {
                         if (!ctx.isFirstGameMove || ctx.player !== this.firstPlayer) {
-                            if (!ctx.leftBank.has(from) && !CanoeGame.isInAnyBank(next)) {
+                            if (!fromBank
+                                && !ctx.freshFromBank.has(from)
+                                && !ctx.freshFromBank.has(next)
+                                && !CanoeGame.isInAnyBank(next)) {
                                 dests.set(next, "pinch");
                             }
                         }
                     } else if (occ.owner === ctx.player && occ.face === eff && !occ.set && !ctx.isPlayerFirstTurn) {
-                        if (!ctx.leftBank.has(from) && !CanoeGame.isInBank(ctx.player, next)) {
+                        if (!fromBank
+                            && !ctx.freshFromBank.has(from)
+                            && !ctx.freshFromBank.has(next)
+                            && !CanoeGame.isInBank(ctx.player, next)) {
                             dests.set(next, "set");
                         }
                     }
@@ -1105,7 +1113,7 @@ export class CanoeGame extends GameBase {
     private buildContext(usedDice: number[] = [], completedHalves: string[] = []): IMoveContext {
         return {
             player: this.currplayer,
-            leftBank: new Set(),
+            freshFromBank: new Set(this.freshFromBankThisTurn),
             usedDice,
             blockedFrom: this.isSeventhCube(this.currplayer)
                 ? new Set<string>()
@@ -1386,7 +1394,11 @@ export class CanoeGame extends GameBase {
         return result;
     }
 
-    private executeHalf(move: string, leftBank: Set<string>): void {
+    private markCubeLeftBank(to: string): void {
+        this.freshFromBankThisTurn.add(to);
+    }
+
+    private executeHalf(move: string): void {
         const bearOff = move.match(/^(\d+(?:\+\d+)?):([a-g][1-7])-off$/);
         if (bearOff !== null) {
             this.executeBearOff(CanoeGame.halfDieDistance(move)!, bearOff[2]);
@@ -1423,7 +1435,7 @@ export class CanoeGame extends GameBase {
             this.results.push({type: "move", from, to, what: face.toString()});
             this.results.push({type: "promote", where: to, from, to: "set"});
             if (wasBank && CanoeGame.crossesStartingLine(stack.owner, from, to)) {
-                leftBank.add(from);
+                this.markCubeLeftBank(to);
             }
             return;
         }
@@ -1439,7 +1451,7 @@ export class CanoeGame extends GameBase {
             this.board.set(to, stack);
             this.results.push({type: "move", from, to, what: face.toString()});
             if (wasBank && CanoeGame.crossesStartingLine(stack.owner, from, to)) {
-                leftBank.add(from);
+                this.markCubeLeftBank(to);
             }
             return;
         }
@@ -1547,14 +1559,13 @@ export class CanoeGame extends GameBase {
             return this;
         }
 
-        const leftBank = new Set<string>();
         const halves = m.split(",").filter(s => s.length > 0);
 
         if (partial && this.phase === "play") {
             const completeHalves = halves.filter(h => CanoeGame.isCompleteHalf(h));
             const hasIncomplete = halves.some(h => !CanoeGame.isCompleteHalf(h));
             for (const half of completeHalves) {
-                this.executeHalf(half, leftBank);
+                this.executeHalf(half);
             }
             this.lastmove = m;
             if (hasIncomplete) {
@@ -1565,7 +1576,7 @@ export class CanoeGame extends GameBase {
         }
 
         for (const half of halves) {
-            this.executeHalf(half, leftBank);
+            this.executeHalf(half);
         }
 
         this.lastmove = m;
@@ -1616,6 +1627,7 @@ export class CanoeGame extends GameBase {
     }
 
     private endTurn(): void {
+        this.freshFromBankThisTurn.clear();
         let newplayer = (this.currplayer + 1) as number;
         if (newplayer > this.numplayers) {
             newplayer = 1;

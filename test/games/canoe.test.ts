@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import "mocha";
 import { expect } from "chai";
+import { readFileSync } from "fs";
 import { addResource } from "../../src";
 import { CanoeGame, CubeFace } from "../../src/games/canoe";
 
@@ -568,6 +569,33 @@ describe("Canoe", () => {
             ["a2", {owner: 1, face: 8}],
         ], {roll: [1, 1], currplayer: 1});
         expect(g.moves().some(m => m.startsWith("1:a3+a2"))).to.be.false;
+    });
+
+    it("cannot form a set by leaving the bank onto another cube", () => {
+        const g = new CanoeGame(readFileSync("bin/state.json", "utf8"));
+        expect(g.moves().some(m => m.includes("c1+b5"))).to.be.false;
+    });
+
+    it("cannot form a set with a cube that left the bank earlier this turn", () => {
+        const g = playAfterOpening([
+            ["d2", {owner: 1, face: 1}],
+            ["b4", {owner: 1, face: 24}],
+            ["e4", {owner: 1, face: 16}],
+        ], {roll: [5, 5], currplayer: 1, canoeDone: true});
+        g.move("5:d2-b5", {partial: true, trusted: true});
+        expect(g.moves().some(m => m.includes("b4+e4"))).to.be.true;
+        expect(g.moves().some(m => m.includes("b5+") || m.includes("+b5"))).to.be.false;
+    });
+
+    it("allows set formation with a cube that left the bank on a prior turn", () => {
+        const g = playAfterOpening([
+            ["b5", {owner: 1, face: 40}],
+            ["b4", {owner: 1, face: 24}],
+            ["e4", {owner: 1, face: 16}],
+            ["b1", {owner: 1, face: 40}],
+            ["f6", {owner: 2, face: 32}],
+        ], {roll: [5, 5], currplayer: 1, canoeDone: true});
+        expect(g.moves().some(m => m.includes("b4+e4"))).to.be.true;
     });
 
     it("existing set can move from grid into bank through pin", () => {

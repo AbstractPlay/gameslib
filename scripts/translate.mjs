@@ -1,4 +1,3 @@
-/* eslint-env node */
 import { GoogleGenAI } from "@google/genai";
 import fs from "fs";
 import path from "path";

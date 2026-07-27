@@ -1,6 +1,7 @@
 // @ts-check
 
 import eslint from '@eslint/js';
+import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
@@ -13,6 +14,17 @@ export default tseslint.config(
     rules: {
         "@typescript-eslint/no-explicit-any": "warn",
         "no-console": "error",
+    },
+  },
+  {
+    files: ["scripts/**/*.mjs"],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+    rules: {
+      "no-console": "off",
     },
   }
 );

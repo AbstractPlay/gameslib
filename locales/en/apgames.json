@@ -902,6 +902,20 @@
                 "name": "Anti-Camelot"
             }
         },
+        "canoe": {
+            "#scoring": {
+                "description": "On the first bear-off of the game, both cubes of a set are pocketed for points.",
+                "name": "Canoe scoring"
+            },
+            "no-canoe": {
+                "description": "The first bear-off of the game scores only one cube, even from a set.",
+                "name": "No Canoe"
+            },
+            "leaky-canoe": {
+                "description": "The first bear-off of the game is worth only half the points of one cube.",
+                "name": "Leaky Canoe"
+            }
+        },
         "carnac": {
             "8x5": {
                 "name": "Small board (8x5)"
@@ -3837,20 +3851,6 @@
             "flat": {
                 "description": "Display the board as seen from above.",
                 "name": "Flat view"
-            }
-        },
-        "canoe": {
-            "#scoring": {
-                "description": "On the first bear-off of the game, both cubes of a set are pocketed for points.",
-                "name": "Canoe scoring"
-            },
-            "no-canoe": {
-                "description": "The first bear-off of the game scores only one cube, even from a set.",
-                "name": "No Canoe"
-            },
-            "leaky-canoe": {
-                "description": "The first bear-off of the game is worth only half the points of one cube.",
-                "name": "Leaky Canoe"
             }
         },
         "druid": {

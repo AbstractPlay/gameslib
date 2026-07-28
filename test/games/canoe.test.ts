@@ -342,6 +342,17 @@ describe("Canoe", () => {
         expect(rep.legend?.D2).to.deep.equal({name: "d6-5", opacity: 1});
     });
 
+    it("partial die selection keeps dice pips visible when emulated", () => {
+        const g = playFixture([
+            ["e5", {owner: 1, face: 16}],
+            ["c7", {owner: 1, face: 8}],
+        ], {phase: "play", roll: [3, 5], firstPlayer: 1});
+        g.move("3:", {partial: true, emulation: true});
+        const rep = g.render();
+        expect(rep.legend?.D1).to.deep.equal({name: "d6-3", opacity: 1});
+        expect(rep.legend?.D2).to.deep.equal({name: "d6-5", opacity: 1});
+    });
+
     it("load clears partial move ephemerals for dice rendering", () => {
         const g = playFixture([
             ["e5", {owner: 1, face: 16}],

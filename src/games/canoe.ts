@@ -2247,8 +2247,8 @@ export class CanoeGame extends GameBase {
             for (let idx = 0; idx < this.roll.length && idx < CanoeGame.DICE_CELLS.length; idx++) {
                 const val = this.roll[idx];
                 const slot = idx + 1;
-                legend[`D${slot}`] = {name: `d6-${val}`, opacity: this.emulated ? 0 : 1};
-                legend[`U${slot}`] = {name: `d6-${val}`, opacity: this.emulated ? 0 : 0.5};
+                legend[`D${slot}`] = {name: `d6-${val}`, opacity: 1};
+                legend[`U${slot}`] = {name: `d6-${val}`, opacity: 0.5};
             }
         }
 

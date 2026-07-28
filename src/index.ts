@@ -30,10 +30,6 @@ const localeBundles = {
     it: { apgames: itGames, apresults: itResults },
 } as const;
 
-let hostI18n: i18n | null = null;
-
-const getI18n = (): i18n => hostI18n ?? i18next;
-
 const registerResourceBundles = (instance: i18n) => {
     for (const [lang, bundles] of Object.entries(localeBundles)) {
         for (const [ns, data] of Object.entries(bundles)) {
@@ -43,21 +39,33 @@ const registerResourceBundles = (instance: i18n) => {
     }
 };
 
-export const addResource = (lang?: string, instance?: i18n) => {
-    if (instance) {
-        hostI18n = instance;
+export const addResource = (lang?: string, host?: i18n) => {
+    // Register on every i18next instance the host may use. In some webpack builds the
+    // front app's i18n import and gameslib's i18next import are different objects.
+    const instances: i18n[] = [i18next];
+    if (host && !instances.includes(host)) {
+        instances.push(host);
     }
-    const i18nInstance = getI18n();
-    if (i18nInstance.isInitialized || instance) {
-        registerResourceBundles(i18nInstance);
-    } else {
-        // i18next isn't in the host, so use it ourselves
-        void i18nInstance.init({
-            lng: lang,
+
+    for (const instance of instances) {
+        if (instance.isInitialized || instance === host) {
+            registerResourceBundles(instance);
+        }
+    }
+
+    if (host && host !== i18next && host.isInitialized && i18next.isInitialized && host.language !== i18next.language) {
+        void i18next.changeLanguage(host.language);
+    }
+
+    if (!i18next.isInitialized) {
+        // Always init gameslib's i18next when needed. chatLog() calls i18next.t()
+        // directly; an uninitialized instance returns undefined and yields empty logs.
+        void i18next.init({
+            lng: lang ?? host?.language,
             ns: ["apgames", "apresults"],
             initImmediate: false,
             resources: localeBundles,
         });
     }
-    return i18nInstance;
+    return host ?? i18next;
 }

@@ -580,6 +580,45 @@ describe("Canoe", () => {
         expect(boardRows[g1Row].split(",")[g1Col]).to.equal("D5");
     });
 
+    it("validateMove autocompletes remaining die after first complete half", () => {
+        const g = playFixture([
+            ["e5", {owner: 1, face: 16}],
+            ["c7", {owner: 1, face: 8}],
+        ], {phase: "play", roll: [3, 5], firstPlayer: 1});
+        const firstHalf = g.moves().find(m => m.includes(","))!.split(",")[0];
+        const result = g.validateMove(firstHalf);
+        expect(result.valid).to.be.true;
+        expect(result.autocomplete).to.equal(`${firstHalf},5:`);
+    });
+
+    it("render dims used die after first half without trailing die prefix", () => {
+        const g = playFixture([
+            ["e5", {owner: 1, face: 16}],
+            ["c7", {owner: 1, face: 8}],
+        ], {phase: "play", roll: [3, 5], firstPlayer: 1});
+        const firstHalf = g.moves().find(m => m.includes(","))!.split(",")[0];
+        g.move(firstHalf, {partial: true});
+        expect(g.roll).to.eql([3, 5]);
+        const rep = g.render();
+        const pstr = rep.pieces as string;
+        const [f2Col, f2Row] = CanoeGame.algebraic2coords("f2");
+        const [g1Col, g1Row] = CanoeGame.algebraic2coords("g1");
+        const boardRows = pstr.split("\n");
+        expect(boardRows[f2Row].split(",")[f2Col]).to.equal("U3");
+        expect(boardRows[g1Row].split(",")[g1Col]).to.equal("D5");
+    });
+
+    it("single complete half without partial does not end turn early", () => {
+        const g = playFixture([
+            ["e5", {owner: 1, face: 16}],
+            ["c7", {owner: 1, face: 8}],
+        ], {phase: "play", roll: [3, 5], firstPlayer: 1});
+        const firstHalf = g.moves().find(m => m.includes(","))!.split(",")[0];
+        g.move(firstHalf, {trusted: true});
+        expect(g.currplayer).to.equal(1);
+        expect(g.roll).to.eql([3, 5]);
+    });
+
     it("completed turn does not dim dice for next player", () => {
         const g = playFixture([
             ["e5", {owner: 1, face: 16}],

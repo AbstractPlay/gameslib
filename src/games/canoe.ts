@@ -684,6 +684,32 @@ export class CanoeGame extends GameBase {
         return usedDie === d1 ? d2 : d1;
     }
 
+    private static autocompleteAfterFirstHalf(m: string, roll: [number, number]): string | undefined {
+        if (roll.length !== 2) {
+            return undefined;
+        }
+        const halves = m.split(",").filter(s => s.length > 0);
+        if (halves.length !== 1 || !CanoeGame.isCompleteHalf(halves[0])) {
+            return undefined;
+        }
+        const usedSpec = CanoeGame.halfDiceSpec(halves[0]);
+        if (usedSpec === undefined || CanoeGame.isCombinedDiceSpec(usedSpec)) {
+            return undefined;
+        }
+        const usedDie = CanoeGame.halfDieDistance(halves[0])!;
+        if (usedDie === roll[0] + roll[1]) {
+            return undefined;
+        }
+        return `${m},${CanoeGame.remainingDie(roll, usedDie)}:`;
+    }
+
+    private static awaitingSecondHalf(lastmove: string, roll: [number, number] | [number] | undefined): boolean {
+        if (roll === undefined || roll.length !== 2) {
+            return false;
+        }
+        return CanoeGame.autocompleteAfterFirstHalf(lastmove, roll as [number, number]) !== undefined;
+    }
+
     private static selectedDieFromPartial(partial: string): number | undefined {
         const spec = CanoeGame.dicePrefixBeforeColon(partial);
         if (spec === undefined) {
@@ -1570,11 +1596,28 @@ export class CanoeGame extends GameBase {
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;
         }
+        if (this.roll.length === 2) {
+            const withSecondDie = CanoeGame.autocompleteAfterFirstHalf(m, this.roll as [number, number]);
+            if (withSecondDie !== undefined) {
+                const expandedPartials = all.filter(mv => CanoeGame.moveStartsWithPrefix(mv, withSecondDie));
+                if (expandedPartials.length > 0) {
+                    result.valid = true;
+                    result.complete = -1;
+                    result.canrender = true;
+                    result.autocomplete = withSecondDie;
+                    result.message = i18next.t("apgames:validation.canoe.VALID_PARTIAL");
+                    return result;
+                }
+            }
+        }
         const partials = all.filter(mv => CanoeGame.moveStartsWithPrefix(mv, m));
         if (partials.length > 0) {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
+            if (partials.length === 1 && partials[0] !== m) {
+                result.autocomplete = partials[0];
+            }
             result.message = i18next.t("apgames:validation.canoe.VALID_PARTIAL");
             return result;
         }
@@ -1864,12 +1907,22 @@ export class CanoeGame extends GameBase {
             return this;
         }
 
+        const legalBefore = this.moves();
         for (const half of halves) {
             this.executeHalf(half);
         }
 
         this.lastmove = m;
         if (!partial && !emulation) {
+            const withSecondDie = this.roll?.length === 2
+                && halves.length === 1
+                && CanoeGame.isCompleteHalf(halves[0])
+                ? CanoeGame.autocompleteAfterFirstHalf(m, this.roll as [number, number])
+                : undefined;
+            if (withSecondDie !== undefined
+                && legalBefore.some(mv => CanoeGame.moveStartsWithPrefix(mv, withSecondDie))) {
+                return this;
+            }
             this.endTurn();
         }
         return this;
@@ -2022,20 +2075,6 @@ export class CanoeGame extends GameBase {
         const {prefix} = parsed;
         let {partial} = parsed;
 
-        if (partial === "" && prefix.length > 0 && this.roll!.length === 2) {
-            const halves = prefix.split(",");
-            if (halves.length === 1 && CanoeGame.isCompleteHalf(halves[0])) {
-                const usedSpec = CanoeGame.halfDiceSpec(halves[0]);
-                if (usedSpec !== undefined && !CanoeGame.isCombinedDiceSpec(usedSpec)) {
-                    const usedDie = CanoeGame.halfDieDistance(halves[0])!;
-                    const [d1, d2] = this.roll!;
-                    if (usedDie !== d1 + d2) {
-                        partial = `${CanoeGame.remainingDie(this.roll as [number, number], usedDie)}:`;
-                    }
-                }
-            }
-        }
-
         const cloned = CanoeGame.clone(this);
         if (prefix.length > 0) {
             cloned.move(prefix, {partial: true, trusted: true});
@@ -2123,27 +2162,11 @@ export class CanoeGame extends GameBase {
             combined = partial;
         }
 
-        if (this.roll!.length === 2) {
-            const segs = combined.split(",").filter(s => s.length > 0);
-            if (segs.length === 1 && CanoeGame.isCompleteHalf(segs[0])) {
-                const usedSpec = CanoeGame.halfDiceSpec(segs[0]);
-                if (usedSpec !== undefined && !CanoeGame.isCombinedDiceSpec(usedSpec)) {
-                    const usedDie = CanoeGame.halfDieDistance(segs[0])!;
-                    const [d1, d2] = this.roll!;
-                    if (usedDie !== d1 + d2) {
-                        const remaining = CanoeGame.remainingDie(this.roll as [number, number], usedDie);
-                        combined = `${segs[0]},${remaining}:`;
-                    }
-                }
-            }
+        let result = this.validateMove(combined) as IClickResult;
+        if (result.autocomplete !== undefined) {
+            combined = result.autocomplete;
+            result = this.validateMove(combined) as IClickResult;
         }
-
-        const matching = this.moves().filter(mv => CanoeGame.moveStartsWithPrefix(mv, combined));
-        if (matching.length === 1) {
-            combined = matching[0];
-        }
-
-        const result = this.validateMove(combined) as IClickResult;
         result.move = result.valid ? combined : move;
         return result;
     }
@@ -2162,7 +2185,8 @@ export class CanoeGame extends GameBase {
     public render(): APRenderRep {
         const halves = (this.lastmove ?? "").split(",").filter(s => s.length > 0);
         const inProgress = this.phase === "play"
-            && halves.some(h => !CanoeGame.isCompleteHalf(h));
+            && (halves.some(h => !CanoeGame.isCompleteHalf(h))
+                || CanoeGame.awaitingSecondHalf(this.lastmove ?? "", this.roll));
         const usedIndices = inProgress && this.roll !== undefined
             ? CanoeGame.usedDieIndicesFromMove(this.lastmove!, this.roll)
             : new Set<number>();

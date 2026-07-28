@@ -277,13 +277,15 @@ describe("Canoe", () => {
         const g = playFixture([["c7", {owner: 1, face: 16}]], {phase: "play", roll: [3, 5], firstPlayer: 1});
         const rep = g.render();
         const pstr = rep.pieces as string;
-        expect(pstr).to.include("D3");
-        expect(pstr).to.include("D5");
+        expect(pstr).to.include("D1");
+        expect(pstr).to.include("D2");
         const [f2Col, f2Row] = CanoeGame.algebraic2coords("f2");
         const [g1Col, g1Row] = CanoeGame.algebraic2coords("g1");
         const boardRows = pstr.split("\n");
-        expect(boardRows[f2Row].split(",")[f2Col]).to.equal("D3");
-        expect(boardRows[g1Row].split(",")[g1Col]).to.equal("D5");
+        expect(boardRows[f2Row].split(",")[f2Col]).to.equal("D1");
+        expect(boardRows[g1Row].split(",")[g1Col]).to.equal("D2");
+        expect(rep.legend?.D1).to.deep.equal({name: "d6-3", opacity: 1});
+        expect(rep.legend?.D2).to.deep.equal({name: "d6-5", opacity: 1});
     });
 
     it("clicking a die stores selection in the move string", () => {
@@ -295,7 +297,7 @@ describe("Canoe", () => {
         const byCell = g.handleClick("", f2Row, f2Col);
         expect(byCell.valid).to.be.true;
         expect(byCell.move).to.equal("3:");
-        const byPiece = g.handleClick("", -1, -1, "D5");
+        const byPiece = g.handleClick("", -1, -1, "D2");
         expect(byPiece.valid).to.be.true;
         expect(byPiece.move).to.equal("5:");
     });
@@ -334,8 +336,10 @@ describe("Canoe", () => {
         const [f2Col, f2Row] = CanoeGame.algebraic2coords("f2");
         const [g1Col, g1Row] = CanoeGame.algebraic2coords("g1");
         const boardRows = pstr.split("\n");
-        expect(boardRows[f2Row].split(",")[f2Col]).to.equal("D3");
-        expect(boardRows[g1Row].split(",")[g1Col]).to.equal("D5");
+        expect(boardRows[f2Row].split(",")[f2Col]).to.equal("D1");
+        expect(boardRows[g1Row].split(",")[g1Col]).to.equal("D2");
+        expect(rep.legend?.D1).to.deep.equal({name: "d6-3", opacity: 1});
+        expect(rep.legend?.D2).to.deep.equal({name: "d6-5", opacity: 1});
     });
 
     it("load clears partial move ephemerals for dice rendering", () => {
@@ -350,9 +354,9 @@ describe("Canoe", () => {
         g.load();
         const rep = g.render();
         const pstr = rep.pieces as string;
-        expect(pstr).to.not.include("U3");
-        expect(pstr).to.include("D3");
-        expect(pstr).to.include("D5");
+        expect(pstr).to.not.include("U1");
+        expect(pstr).to.include("D1");
+        expect(pstr).to.include("D2");
     });
 
     it("partial from-only move sets destination highlights", () => {
@@ -608,8 +612,8 @@ describe("Canoe", () => {
         const [f2Col, f2Row] = CanoeGame.algebraic2coords("f2");
         const [g1Col, g1Row] = CanoeGame.algebraic2coords("g1");
         const boardRows = pstr.split("\n");
-        expect(boardRows[f2Row].split(",")[f2Col]).to.equal("U3");
-        expect(boardRows[g1Row].split(",")[g1Col]).to.equal("D5");
+        expect(boardRows[f2Row].split(",")[f2Col]).to.equal("U1");
+        expect(boardRows[g1Row].split(",")[g1Col]).to.equal("D2");
     });
 
     it("validateMove autocompletes remaining die after first complete half", () => {
@@ -636,8 +640,8 @@ describe("Canoe", () => {
         const [f2Col, f2Row] = CanoeGame.algebraic2coords("f2");
         const [g1Col, g1Row] = CanoeGame.algebraic2coords("g1");
         const boardRows = pstr.split("\n");
-        expect(boardRows[f2Row].split(",")[f2Col]).to.equal("U3");
-        expect(boardRows[g1Row].split(",")[g1Col]).to.equal("D5");
+        expect(boardRows[f2Row].split(",")[f2Col]).to.equal("U1");
+        expect(boardRows[g1Row].split(",")[g1Col]).to.equal("D2");
     });
 
     it("single complete half without partial does not end turn early", () => {
@@ -661,8 +665,8 @@ describe("Canoe", () => {
         g.move(full!, {trusted: true});
         const rep = g.render();
         const pstr = rep.pieces as string;
-        expect(pstr).to.not.include("U3");
-        expect(pstr).to.not.include("U5");
+        expect(pstr).to.not.include("U1");
+        expect(pstr).to.not.include("U2");
     });
 
     it("combined die selection without set moves is invalid", () => {

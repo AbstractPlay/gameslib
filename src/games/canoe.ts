@@ -716,6 +716,11 @@ export class CanoeGame extends GameBase {
         return parseInt(spec, 10);
     }
 
+    private static playDieGlyph(slotIndex: number, used: boolean): string {
+        const slot = slotIndex + 1;
+        return used ? `U${slot}` : `D${slot}`;
+    }
+
     private dieFromClick(cell?: string, piece?: string): number | undefined {
         if (this.roll === undefined) {
             return undefined;
@@ -727,6 +732,13 @@ export class CanoeGame extends GameBase {
             }
         }
         if (piece !== undefined) {
+            const slotGlyph = piece.match(/^[DU]([12])$/);
+            if (slotGlyph !== null) {
+                const idx = parseInt(slotGlyph[1], 10) - 1;
+                if (idx >= 0 && idx < this.roll.length) {
+                    return this.roll[idx];
+                }
+            }
             const glyph = piece.match(/^[DU](\d)$/);
             if (glyph !== null) {
                 const value = parseInt(glyph[1], 10);
@@ -2193,9 +2205,7 @@ export class CanoeGame extends GameBase {
                 if (this.phase === "play" && CanoeGame.DICE_CELLS.includes(cell) && this.roll !== undefined) {
                     const idx = CanoeGame.DICE_CELLS.indexOf(cell);
                     if (idx < this.roll.length) {
-                        const val = this.roll[idx];
-                        const glyph = usedIndices.has(idx) ? `U${val}` : `D${val}`;
-                        line.push(glyph);
+                        line.push(CanoeGame.playDieGlyph(idx, usedIndices.has(idx)));
                         continue;
                     }
                 }
@@ -2233,9 +2243,13 @@ export class CanoeGame extends GameBase {
                 {text: face.toString(), scale: 0.85},
             ];
         }
-        for (let d = 1; d <= 6; d++) {
-            legend[`D${d}`] = {name: `d6-${d}`, colour: "_context_board", opacity: this.emulated ? 0 : 1};
-            legend[`U${d}`] = {name: `d6-${d}`, colour: "_context_board", opacity: this.emulated ? 0 : 0.5};
+        if (this.phase === "play" && this.roll !== undefined) {
+            for (let idx = 0; idx < this.roll.length && idx < CanoeGame.DICE_CELLS.length; idx++) {
+                const val = this.roll[idx];
+                const slot = idx + 1;
+                legend[`D${slot}`] = {name: `d6-${val}`, opacity: this.emulated ? 0 : 1};
+                legend[`U${slot}`] = {name: `d6-${val}`, opacity: this.emulated ? 0 : 0.5};
+            }
         }
 
         const markers: (MarkerLine | MarkerDots | MarkerLabel | MarkerFlood)[] = [

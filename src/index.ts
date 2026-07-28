@@ -5,8 +5,12 @@ import { AIFactory, supportedGames as aiSupported, fastGames as aiFast, slowGame
 import i18next from "i18next";
 import enGames from "../locales/en/apgames.json"
 import frGames from "../locales/fr/apgames.json";
+import deGames from "../locales/de/apgames.json";
+import itGames from "../locales/it/apgames.json";
 import enResults from "../locales/en/apresults.json"
 import frResults from "../locales/fr/apresults.json";
+import deResults from "../locales/de/apresults.json";
+import itResults from "../locales/it/apresults.json";
 
 export {GameFactory, IAPGameState, APMoveResult, APGamesInformation, AIFactory, aiSupported, aiFast, aiSlow, GameBase, GameBaseSimultaneous};
 
@@ -17,41 +21,35 @@ games.forEach((v, k) => {
 const gameinfoSorted: APGamesInformation[] = [...games.values()].sort((a, b) => {return a.gameinfo.name.localeCompare(b.gameinfo.name);}).map(a => a.gameinfo);
 export {gameinfo, gameinfoSorted};
 
-export const supportedLocales: string[] = ["en", "fr"];
+export const supportedLocales: string[] = ["en", "fr", "de", "it"];
+
+const localeBundles = {
+    en: { apgames: enGames, apresults: enResults },
+    fr: { apgames: frGames, apresults: frResults },
+    de: { apgames: deGames, apresults: deResults },
+    it: { apgames: itGames, apresults: itResults },
+} as const;
+
+const registerResourceBundles = () => {
+    for (const [lang, bundles] of Object.entries(localeBundles)) {
+        for (const [ns, data] of Object.entries(bundles)) {
+            if (!i18next.hasResourceBundle(lang, ns)) {
+                i18next.addResourceBundle(lang, ns, data);
+            }
+        }
+    }
+};
+
 export const addResource = (lang?: string) => {
     if (i18next.isInitialized) {
-        // i18next already exists
-        if (!i18next.hasResourceBundle("en", "apgames")) {
-            i18next.addResourceBundle("en", "apgames", enGames);
-        }
-        if (!i18next.hasResourceBundle("en", "apresults")) {
-            i18next.addResourceBundle("en", "apresults", enResults);
-        }
-        if (!i18next.hasResourceBundle("fr", "apgames")) {
-            i18next.addResourceBundle("fr", "apgames", frGames);
-        }
-        if (!i18next.hasResourceBundle("fr", "apresults")) {
-            i18next.addResourceBundle("fr", "apresults", frResults);
-        }
-        if (lang) {
-            void i18next.changeLanguage(lang);
-        }
+        registerResourceBundles();
     } else {
         // i18next isn't in the host, so use it ourselves
         void i18next.init({
             lng: lang,
-            ns: ["apgames"],
+            ns: ["apgames", "apresults"],
             initImmediate: false,
-            resources: {
-            en: {
-                apgames: enGames,
-                apresults: enResults,
-            },
-            fr: {
-                apgames: frGames,
-                apresults: frResults,
-            },
-        },
+            resources: localeBundles,
         });
     }
     return i18next;

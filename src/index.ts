@@ -2,7 +2,7 @@ import { APGamesInformation } from './schemas/gameinfo';
 import { APMoveResult } from './schemas/moveresults';
 import { games, GameFactory, IAPGameState, GameBase, GameBaseSimultaneous } from "./games";
 import { AIFactory, supportedGames as aiSupported, fastGames as aiFast, slowGames as aiSlow } from './ais';
-import i18next from "i18next";
+import i18next, { type i18n } from "i18next";
 import enGames from "../locales/en/apgames.json"
 import frGames from "../locales/fr/apgames.json";
 import deGames from "../locales/de/apgames.json";
@@ -30,27 +30,34 @@ const localeBundles = {
     it: { apgames: itGames, apresults: itResults },
 } as const;
 
-const registerResourceBundles = () => {
+let hostI18n: i18n | null = null;
+
+const getI18n = (): i18n => hostI18n ?? i18next;
+
+const registerResourceBundles = (instance: i18n) => {
     for (const [lang, bundles] of Object.entries(localeBundles)) {
         for (const [ns, data] of Object.entries(bundles)) {
-            if (!i18next.hasResourceBundle(lang, ns)) {
-                i18next.addResourceBundle(lang, ns, data);
-            }
+            // Deep-merge so newer gameslib releases can add keys without stale bundles blocking updates.
+            instance.addResourceBundle(lang, ns, data, true, true);
         }
     }
 };
 
-export const addResource = (lang?: string) => {
-    if (i18next.isInitialized) {
-        registerResourceBundles();
+export const addResource = (lang?: string, instance?: i18n) => {
+    if (instance) {
+        hostI18n = instance;
+    }
+    const i18nInstance = getI18n();
+    if (i18nInstance.isInitialized || instance) {
+        registerResourceBundles(i18nInstance);
     } else {
         // i18next isn't in the host, so use it ourselves
-        void i18next.init({
+        void i18nInstance.init({
             lng: lang,
             ns: ["apgames", "apresults"],
             initImmediate: false,
             resources: localeBundles,
         });
     }
-    return i18next;
+    return i18nInstance;
 }

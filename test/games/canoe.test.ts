@@ -184,12 +184,93 @@ describe("Canoe", () => {
             expect(hand.pieces).to.have.length(6);
             expect(hand.pieces).to.eql(["S0", "S1", "S2", "S3", "S4", "S5"]);
         }
-        g.lastmove = "8@f1,16@g1";
+        g.lastmove = "8@f4,16@g4";
         const handAfter = g.render().areas?.find(a => a.type === "pieces");
         expect(handAfter?.type).to.equal("pieces");
         if (handAfter?.type === "pieces") {
             expect(handAfter.pieces).to.have.length(4);
+            expect(handAfter.pieces).to.eql(["S1", "S3", "S4", "S5"]);
         }
+    });
+
+    it("setup hand ignores prior player's lastmove at start of setup-2", () => {
+        const state = {
+            game: "canoe",
+            numplayers: 2,
+            variants: [],
+            gameover: false,
+            winner: [] as number[],
+            stack: [{
+                _version: "20260725",
+                _results: [{type: "place", where: "c7"}],
+                _timestamp: "2026-07-27T23:55:30.398Z",
+                currplayer: 2 as const,
+                phase: "setup-2" as const,
+                board: {
+                    dataType: "Map",
+                    value: [
+                        ["d1", {owner: 1, face: 40, set: false}],
+                        ["c1", {owner: 1, face: 32, set: false}],
+                        ["b1", {owner: 1, face: 32, set: false}],
+                        ["b2", {owner: 1, face: 16, set: false}],
+                        ["c2", {owner: 1, face: 8, set: false}],
+                        ["d2", {owner: 1, face: 1, set: false}],
+                        ["c7", {owner: 1, face: 16, set: false}],
+                    ],
+                },
+                setupRoll: [16, 32, 1, 40, 8, 16] as CubeFace[],
+                gridCubes: [16, 1] as [CubeFace, CubeFace],
+                pocket: [0, 0] as [number, number],
+                canoeDone: false,
+                lastmove: "40@d1,32@c1,32@b1,16@b2,8@c2,1@d2",
+            }],
+        };
+        const g = new CanoeGame(JSON.stringify(state));
+        const hand = g.render().areas?.find(a => a.type === "pieces");
+        expect(hand?.type).to.equal("pieces");
+        if (hand?.type === "pieces") {
+            expect(hand.pieces).to.have.length(6);
+            expect(hand.pieces).to.eql(["S0", "S1", "S2", "S3", "S4", "S5"]);
+        }
+    });
+
+    it("setup click ignores prior player's lastmove in move string", () => {
+        const state = {
+            game: "canoe",
+            numplayers: 2,
+            variants: [],
+            gameover: false,
+            winner: [] as number[],
+            stack: [{
+                _version: "20260725",
+                _results: [{type: "place", where: "c7"}],
+                _timestamp: "2026-07-27T23:55:30.398Z",
+                currplayer: 2 as const,
+                phase: "setup-2" as const,
+                board: {
+                    dataType: "Map",
+                    value: [
+                        ["d1", {owner: 1, face: 40, set: false}],
+                        ["c1", {owner: 1, face: 32, set: false}],
+                        ["b1", {owner: 1, face: 32, set: false}],
+                        ["b2", {owner: 1, face: 16, set: false}],
+                        ["c2", {owner: 1, face: 8, set: false}],
+                        ["d2", {owner: 1, face: 1, set: false}],
+                        ["c7", {owner: 1, face: 16, set: false}],
+                    ],
+                },
+                setupRoll: [16, 32, 1, 40, 8, 16] as CubeFace[],
+                gridCubes: [16, 1] as [CubeFace, CubeFace],
+                pocket: [0, 0] as [number, number],
+                canoeDone: false,
+                lastmove: "40@d1,32@c1,32@b1,16@b2,8@c2,1@d2",
+            }],
+        };
+        const g = new CanoeGame(JSON.stringify(state));
+        const [f4Row, f4Col] = clickCell("f4");
+        const result = g.handleClick("40@d1,32@c1,32@b1,16@b2,8@c2,1@d2", f4Row, f4Col);
+        expect(result.valid).to.be.true;
+        expect(result.move).to.equal("40@f4");
     });
 
     it("play-phase dice render on f2 and g1", () => {

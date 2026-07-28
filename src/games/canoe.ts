@@ -414,6 +414,24 @@ export class CanoeGame extends GameBase {
         return placements;
     }
 
+    private currentSetupPlacements(m: string): Map<string, CubeFace> {
+        const placements = this.parseSetupMove(m);
+        for (const cell of [...placements.keys()]) {
+            if (!CanoeGame.isSetupCell(this.currplayer, cell)) {
+                placements.delete(cell);
+            }
+        }
+        return placements;
+    }
+
+    private formatSetupMove(placements: Map<string, CubeFace>): string {
+        const parts: string[] = [];
+        for (const [cell, face] of placements) {
+            parts.push(`${face}@${cell}`);
+        }
+        return parts.join(",");
+    }
+
     private applySetupPlacements(placements: Map<string, CubeFace>): void {
         const base = this.stack[this.stack.length - 1];
         this.board = CanoeGame.cloneBoard(base.board);
@@ -1956,7 +1974,8 @@ export class CanoeGame extends GameBase {
 
     private handleSetupClick(move: string, row: number, col: number, piece?: string): IClickResult {
         const cell = row >= 0 && col >= 0 ? CanoeGame.coords2algebraic(col, row) : undefined;
-        const placements = this.parseSetupMove(move);
+        const placements = this.currentSetupPlacements(move);
+        move = this.formatSetupMove(placements);
 
         if (piece !== undefined && this.setupRoll !== undefined) {
             const indexed = piece.match(/^S(\d+)$/);
@@ -1976,11 +1995,7 @@ export class CanoeGame extends GameBase {
         if (cell !== undefined && CanoeGame.isSetupCell(this.currplayer, cell)) {
             if (placements.has(cell)) {
                 placements.delete(cell);
-                const parts: string[] = [];
-                for (const [c, f] of placements) {
-                    parts.push(`${f}@${c}`);
-                }
-                move = parts.join(",");
+                move = this.formatSetupMove(placements);
             } else {
                 let face = this.selectedSetupFace;
                 if (face === undefined) {
@@ -1988,11 +2003,7 @@ export class CanoeGame extends GameBase {
                 }
                 if (face !== undefined) {
                     placements.set(cell, face);
-                    const parts: string[] = [];
-                    for (const [c, f] of placements) {
-                        parts.push(`${f}@${c}`);
-                    }
-                    move = parts.join(",");
+                    move = this.formatSetupMove(placements);
                 }
             }
         }
@@ -2236,7 +2247,7 @@ export class CanoeGame extends GameBase {
         };
 
         if (this.phase.startsWith("setup") && this.setupRoll !== undefined) {
-            const placements = this.parseSetupMove(this.lastmove ?? "");
+            const placements = this.currentSetupPlacements(this.lastmove ?? "");
             const unplaced = this.unplacedSetupDieIndices(placements);
             for (const i of unplaced) {
                 const face = this.setupRoll[i];

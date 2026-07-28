@@ -320,7 +320,39 @@ describe("Canoe", () => {
             ["c7", {owner: 1, face: 8}],
         ], {phase: "play", roll: [3, 5], firstPlayer: 1});
         expect(() => g.move("3:", {partial: true})).to.not.throw();
-        expect(g.lastmove).to.equal("3:");
+        expect((g as unknown as {partialMove?: string}).partialMove).to.equal("3:");
+    });
+
+    it("partial die selection renders both dice visible", () => {
+        const g = playFixture([
+            ["e5", {owner: 1, face: 16}],
+            ["c7", {owner: 1, face: 8}],
+        ], {phase: "play", roll: [3, 5], firstPlayer: 1});
+        g.move("3:", {partial: true});
+        const rep = g.render();
+        const pstr = rep.pieces as string;
+        const [f2Col, f2Row] = CanoeGame.algebraic2coords("f2");
+        const [g1Col, g1Row] = CanoeGame.algebraic2coords("g1");
+        const boardRows = pstr.split("\n");
+        expect(boardRows[f2Row].split(",")[f2Col]).to.equal("D3");
+        expect(boardRows[g1Row].split(",")[g1Col]).to.equal("D5");
+    });
+
+    it("load clears partial move ephemerals for dice rendering", () => {
+        const g = playFixture([
+            ["e5", {owner: 1, face: 16}],
+            ["c7", {owner: 1, face: 8}],
+        ], {phase: "play", roll: [3, 5], firstPlayer: 1});
+        const twoHalf = g.moves().find(m => m.includes(","));
+        expect(twoHalf).to.not.equal(undefined);
+        const firstHalf = twoHalf!.split(",")[0];
+        g.move(`${firstHalf},5:`, {partial: true});
+        g.load();
+        const rep = g.render();
+        const pstr = rep.pieces as string;
+        expect(pstr).to.not.include("U3");
+        expect(pstr).to.include("D3");
+        expect(pstr).to.include("D5");
     });
 
     it("partial from-only move sets destination highlights", () => {

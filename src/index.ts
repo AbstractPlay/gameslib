@@ -66,6 +66,8 @@ export const addResource = (lang?: string, host?: i18n) => {
             initImmediate: false,
             resources: localeBundles,
         });
+    } else if (lang !== undefined && i18next.language !== lang) {
+        void i18next.changeLanguage(lang);
     }
     return host ?? i18next;
 }

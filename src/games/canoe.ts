@@ -139,6 +139,7 @@ export class CanoeGame extends GameBase {
     private highlights: string[] = [];
     private selectedCell?: string;
     private selectedSetupFace?: CubeFace;
+    private partialMove?: string;
     private emulated = false;
     private freshFromBankThisTurn = new Set<string>();
 
@@ -241,6 +242,7 @@ export class CanoeGame extends GameBase {
         this.highlights = [];
         this.selectedCell = undefined;
         this.selectedSetupFace = undefined;
+        this.partialMove = undefined;
         return this;
     }
 
@@ -701,13 +703,6 @@ export class CanoeGame extends GameBase {
             return undefined;
         }
         return `${m},${CanoeGame.remainingDie(roll, usedDie)}:`;
-    }
-
-    private static awaitingSecondHalf(lastmove: string, roll: [number, number] | [number] | undefined): boolean {
-        if (roll === undefined || roll.length !== 2) {
-            return false;
-        }
-        return CanoeGame.autocompleteAfterFirstHalf(lastmove, roll as [number, number]) !== undefined;
     }
 
     private static selectedDieFromPartial(partial: string): number | undefined {
@@ -1847,6 +1842,9 @@ export class CanoeGame extends GameBase {
         this.results = [];
         this.highlights = [];
         this.selectedCell = undefined;
+        if (!(partial && this.phase === "play")) {
+            this.partialMove = undefined;
+        }
 
         if (m.startsWith("roll:")) {
             const n = parseInt(m.split(":")[1], 10);
@@ -1899,7 +1897,7 @@ export class CanoeGame extends GameBase {
             for (const half of completeHalves) {
                 this.executeHalf(half);
             }
-            this.lastmove = m;
+            this.partialMove = m;
             if (hasIncomplete) {
                 this.updatePlayHighlights(m);
                 return this;
@@ -2183,12 +2181,8 @@ export class CanoeGame extends GameBase {
     }
 
     public render(): APRenderRep {
-        const halves = (this.lastmove ?? "").split(",").filter(s => s.length > 0);
-        const inProgress = this.phase === "play"
-            && (halves.some(h => !CanoeGame.isCompleteHalf(h))
-                || CanoeGame.awaitingSecondHalf(this.lastmove ?? "", this.roll));
-        const usedIndices = inProgress && this.roll !== undefined
-            ? CanoeGame.usedDieIndicesFromMove(this.lastmove!, this.roll)
+        const usedIndices = this.partialMove !== undefined && this.roll !== undefined
+            ? CanoeGame.usedDieIndicesFromMove(this.partialMove, this.roll)
             : new Set<number>();
 
         const rows: string[][] = [];

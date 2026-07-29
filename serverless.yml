@@ -17,3 +17,7 @@ custom:
     bucketName: gameslib.dev.abstractplay.com
     distributionFolder: ./dist
     indexDocument: playground.html
+    objectHeaders:
+      ALL_OBJECTS:
+        - name: Cache-Control
+          value: no-cache

@@ -1509,13 +1509,22 @@ export class CanoeGame extends GameBase {
     }
 
     private buildContext(usedDice: number[] = [], completedHalves: string[] = []): IMoveContext {
+        let blockedFrom: Set<string>;
+        if (this.isSeventhCube(this.currplayer)) {
+            blockedFrom = new Set<string>();
+        } else {
+            blockedFrom = CanoeGame.blockedFromAfterHalves(completedHalves);
+            for (const cell of [...blockedFrom]) {
+                if (this.board.get(cell)?.set) {
+                    blockedFrom.delete(cell);
+                }
+            }
+        }
         return {
             player: this.currplayer,
             freshFromBank: new Set(this.freshFromBankThisTurn),
             usedDice,
-            blockedFrom: this.isSeventhCube(this.currplayer)
-                ? new Set<string>()
-                : CanoeGame.blockedFromAfterHalves(completedHalves),
+            blockedFrom,
             isFirstGameMove: this.isFirstGameMove(),
             isPlayerFirstTurn: this.isPlayerFirstPlayTurn(this.currplayer),
         };

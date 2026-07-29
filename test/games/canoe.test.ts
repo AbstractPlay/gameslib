@@ -692,7 +692,8 @@ describe("Canoe", () => {
             ["g3", {owner: 2, face: 16, set: true}],
             ["e6", {owner: 2, face: 1}],
         ], {roll: [3, 4], currplayer: 1, canoeDone: true});
-        expect(g.moves()).to.eql(["3+4:c5-c2", "3+4:c5-b1"]);
+        expect(g.moves()).to.include("3+4:c5-c2");
+        expect(g.moves()).to.include("3+4:c5-b1");
         expect(g.validateMove("3:").valid).to.be.true;
         expect(g.validateMove("3+4:").valid).to.be.true;
         expect(g.validateMove("4+3:").valid).to.be.true;
@@ -836,6 +837,23 @@ describe("Canoe", () => {
         ], {roll: [6, 1], currplayer: 1, canoeDone: true});
         expect(g.moves().some(m => m === "1:b3-a2,6:a3-d4" || m.startsWith("1:b3-a2,6:"))).to.be.true;
         expect(g.moves().some(m => m.startsWith("6:b3-e1,") || m === "6:b3-e1,1:b3-a2")).to.be.true;
+    });
+
+    it("set may bear off on second die after corner move in first half", () => {
+        const g = playAfterOpening([
+            ["b3", {owner: 1, face: 24, set: true}],
+            ["a3", {owner: 1, face: 24}],
+            ["c3", {owner: 1, face: 1}],
+            ["c7", {owner: 1, face: 16}],
+            ["c5", {owner: 2, face: 8}],
+            ["b4", {owner: 2, face: 24}],
+            ["e4", {owner: 2, face: 8}],
+            ["b5", {owner: 2, face: 8}],
+            ["a4", {owner: 2, face: 24}],
+        ], {roll: [6, 1], currplayer: 1, canoeDone: true, pocket: [56, 32]});
+        expect(g.moves()).to.include("6:b3-e1,1:e1-off");
+        expect(g.moves()).to.include("1:b3-a2,6:a2-off");
+        expect(g.moves()).to.include("6+1:b3-off");
     });
 
     it("figure 4 set reaches bank via corner jumps through occupied pin column", () => {

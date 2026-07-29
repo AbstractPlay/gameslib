@@ -294,9 +294,33 @@ export class CanoeGame extends GameBase {
         const [fc, fr] = CanoeGame.algebraic2coords(from);
         const [tc, tr] = CanoeGame.algebraic2coords(to);
         if (player === 1) {
-            return fc === 0 && tc === 0 && fr === 4 && tr >= 5;
+            if (tc !== 0) {
+                return false;
+            }
+            if (fc === 0 && fr === 4 && tr >= 5) {
+                return true;
+            }
+            if (fc === 0 && fr < 4 && tr > fr) {
+                return true;
+            }
+            if (fc > 0 && tr >= 5 && tr === fr + 1) {
+                return true;
+            }
+            return false;
         }
-        return fr === 0 && tr === 0 && fc === 4 && tc >= 5;
+        if (tr !== 0) {
+            return false;
+        }
+        if (fr === 0 && fc === 4 && tc >= 5) {
+            return true;
+        }
+        if (fr === 0 && fc < 4 && tc > fc) {
+            return true;
+        }
+        if (fr > 0 && tc >= 5 && tc === fc + 1) {
+            return true;
+        }
+        return false;
     }
     public static crossesStartingLine(player: playerid, from: string, to: string): boolean {
         const [fc, fr] = CanoeGame.algebraic2coords(from);
@@ -852,7 +876,13 @@ export class CanoeGame extends GameBase {
             return false;
         }
         if (!stack.set) {
-            return CanoeGame.isInBank(player, from);
+            if (CanoeGame.isInBank(player, from)) {
+                return true;
+            }
+            if (this.isSeventhCube(player)) {
+                return CanoeGame.crossesHomeBankThroughPin(player, from, to);
+            }
+            return false;
         }
         if (CanoeGame.isInBank(player, from)) {
             return true;
@@ -865,6 +895,9 @@ export class CanoeGame extends GameBase {
         const stack = this.board.get(from);
         if (stack === undefined || stack.owner !== ctx.player || stack.set) {
             return dests;
+        }
+        if (this.isSeventhCube(ctx.player)) {
+            return this.getSeventhCubeDestinations(from, die, ctx, stack);
         }
         const eff = this.effectiveFace(stack, die);
         const fromBank = CanoeGame.isInBank(ctx.player, from);
@@ -923,24 +956,48 @@ export class CanoeGame extends GameBase {
             dests.set("off", "move");
         }
 
-        if (this.isSeventhCube(ctx.player)) {
-            for (const [dest, kind] of [...dests]) {
-                if (dest === "off") {
-                    continue;
+        return dests;
+    }
+
+    private getSeventhCubeDestinations(
+        from: string,
+        die: number,
+        ctx: IMoveContext,
+        stack: CellStack,
+    ): Map<string, "move"|"pinch"|"set"> {
+        const dests = new Map<string, "move"|"pinch"|"set">();
+        const [sc, sr] = CanoeGame.algebraic2coords(from);
+
+        const walk = (col: number, row: number, remaining: number, prev?: string): void => {
+            if (remaining === 0) {
+                const c = CanoeGame.coords2algebraic(col, row);
+                if (prev === undefined || this.canOccupyBankCell(ctx.player, prev, c, stack)) {
+                    dests.set(c, "move");
                 }
-                if (kind === "pinch" || kind === "set") {
-                    dests.delete(dest);
-                }
+                return;
             }
-            const cells = new Set([...dests.keys()]);
-            this.filterDirectRouteDestinations(ctx.player, from, cells);
-            for (const dest of [...dests.keys()]) {
-                if (!cells.has(dest)) {
-                    dests.delete(dest);
-                }
+            if (remaining === 1 && CanoeGame.isSetBearOffLaunchCell(ctx.player, col, row)) {
+                dests.set("off", "move");
             }
+            const fromCell = CanoeGame.coords2algebraic(col, row);
+            for (const land of this.bearOffStepLandings(ctx.player, stack, col, row, fromCell)) {
+                const [lc, lr] = CanoeGame.algebraic2coords(land);
+                walk(lc, lr, remaining - 1, fromCell);
+            }
+        };
+        walk(sc, sr, die);
+
+        if (this.canBearOff(from, die, ctx, false)) {
+            dests.set("off", "move");
         }
 
+        const cells = new Set([...dests.keys()]);
+        this.filterDirectRouteDestinations(ctx.player, from, cells);
+        for (const dest of [...dests.keys()]) {
+            if (!cells.has(dest)) {
+                dests.delete(dest);
+            }
+        }
         return dests;
     }
 
@@ -968,6 +1025,9 @@ export class CanoeGame extends GameBase {
         const stack = this.board.get(from);
         if (stack === undefined || stack.owner !== ctx.player || stack.set) {
             return undefined;
+        }
+        if (this.isSeventhCube(ctx.player) && mode === "move") {
+            return this.findBearOffStylePath(from, to, die, ctx, stack);
         }
         const eff = this.effectiveFace(stack, die);
         const fromBank = CanoeGame.isInBank(ctx.player, from);
@@ -1058,6 +1118,16 @@ export class CanoeGame extends GameBase {
         if (stack === undefined || stack.owner !== ctx.player || !stack.set) {
             return undefined;
         }
+        return this.findBearOffStylePath(from, to, distance, ctx, stack);
+    }
+
+    private findBearOffStylePath(
+        from: string,
+        to: string,
+        distance: number,
+        ctx: IMoveContext,
+        stack: CellStack,
+    ): string[] | undefined {
         const target = to === "off" ? CanoeGame.setBearOffLaunchAlgebraic(ctx.player) : to;
         const [sc, sr] = CanoeGame.algebraic2coords(from);
 
@@ -1089,52 +1159,15 @@ export class CanoeGame extends GameBase {
                 }
             }
 
-            for (const [dc, dr] of this.directionsTowardBearOff(ctx.player, col, row)) {
-                const nc = col + dc;
-                const nr = row + dr;
-                const adjacent = this.cellAt(nc, nr);
-                if (adjacent === undefined) {
-                    continue;
-                }
-                if (!this.board.has(adjacent)) {
-                    if (!this.setMoveTowardBearOff(ctx.player, col, row, nc, nr)) {
-                        continue;
-                    }
-                    if (!this.canOccupyBankCell(ctx.player, fromCell, adjacent, stack)) {
-                        continue;
-                    }
-                    queue.push({
-                        col: nc,
-                        row: nr,
-                        remaining: remaining - 1,
-                        path: [...path, adjacent],
-                        prev: fromCell,
-                    });
-                    continue;
-                }
-                let jc = nc + dc;
-                let jr = nr + dr;
-                while (true) {
-                    const land = this.cellAt(jc, jr);
-                    if (land === undefined) {
-                        break;
-                    }
-                    if (!this.board.has(land)) {
-                        if (this.setMoveTowardBearOff(ctx.player, col, row, jc, jr)
-                            && this.canOccupyBankCell(ctx.player, fromCell, land, stack)) {
-                            queue.push({
-                                col: jc,
-                                row: jr,
-                                remaining: remaining - 1,
-                                path: [...path, land],
-                                prev: fromCell,
-                            });
-                        }
-                        break;
-                    }
-                    jc += dc;
-                    jr += dr;
-                }
+            for (const land of this.bearOffStepLandings(ctx.player, stack, col, row, fromCell)) {
+                const [lc, lr] = CanoeGame.algebraic2coords(land);
+                queue.push({
+                    col: lc,
+                    row: lr,
+                    remaining: remaining - 1,
+                    path: [...path, land],
+                    prev: fromCell,
+                });
             }
         }
 
@@ -1185,6 +1218,101 @@ export class CanoeGame extends GameBase {
         return CanoeGame.coords2algebraic(col, row);
     }
 
+    private pinThroughBankLanding(player: playerid, blockerCol: number, blockerRow: number): string | undefined {
+        const blocker = this.cellAt(blockerCol, blockerRow);
+        if (blocker === undefined || !this.board.has(blocker)) {
+            return undefined;
+        }
+        if (player === 1) {
+            if (blockerCol !== 0) {
+                return undefined;
+            }
+            const land = this.cellAt(0, blockerRow + 1);
+            if (land === undefined || this.board.has(land)) {
+                return undefined;
+            }
+            return CanoeGame.isInBank(player, land) ? land : undefined;
+        }
+        if (blockerRow !== 0) {
+            return undefined;
+        }
+        const land = this.cellAt(blockerCol + 1, 0);
+        if (land === undefined || this.board.has(land)) {
+            return undefined;
+        }
+        return CanoeGame.isInBank(player, land) ? land : undefined;
+    }
+
+    private scanStraightJumpLandings(
+        player: playerid,
+        stack: CellStack,
+        fromCol: number,
+        fromRow: number,
+        dc: number,
+        dr: number,
+        fromCell: string,
+    ): string[] {
+        const landings: string[] = [];
+        const nc = fromCol + dc;
+        const nr = fromRow + dr;
+        const adjacent = this.cellAt(nc, nr);
+        if (adjacent === undefined) {
+            return landings;
+        }
+        if (!this.board.has(adjacent)) {
+            if (this.setMoveTowardBearOff(player, fromCol, fromRow, nc, nr)
+                && this.canOccupyBankCell(player, fromCell, adjacent, stack)) {
+                landings.push(adjacent);
+            }
+            return landings;
+        }
+        let jc = nc + dc;
+        let jr = nr + dr;
+        while (true) {
+            const land = this.cellAt(jc, jr);
+            if (land === undefined) {
+                break;
+            }
+            if (!this.board.has(land)) {
+                if (this.setMoveTowardBearOff(player, fromCol, fromRow, jc, jr)
+                    && this.canOccupyBankCell(player, fromCell, land, stack)) {
+                    landings.push(land);
+                }
+                break;
+            }
+            jc += dc;
+            jr += dr;
+        }
+        const pinLand = this.pinThroughBankLanding(player, nc, nr);
+        if (pinLand !== undefined
+            && !landings.includes(pinLand)) {
+            const [plc, plr] = CanoeGame.algebraic2coords(pinLand);
+            if (this.setMoveTowardBearOff(player, fromCol, fromRow, plc, plr)
+                && this.canOccupyBankCell(player, fromCell, pinLand, stack)) {
+                landings.push(pinLand);
+            }
+        }
+        return landings;
+    }
+
+    private bearOffStepLandings(
+        player: playerid,
+        stack: CellStack,
+        col: number,
+        row: number,
+        fromCell: string,
+    ): string[] {
+        const landings: string[] = [];
+        for (const [dc, dr] of this.directionsTowardBearOff(player, col, row)) {
+            for (const land of this.scanStraightJumpLandings(player, stack, col, row, dc, dr, fromCell)) {
+                if (!landings.includes(land)) {
+                    landings.push(land);
+                }
+            }
+        }
+        return landings;
+    }
+
     private getSetDestinations(from: string, distance: number, ctx: IMoveContext): Set<string> {
         const dests = new Set<string>();
         const stack = this.board.get(from);
@@ -1208,39 +1336,9 @@ export class CanoeGame extends GameBase {
                 }
             }
             const fromCell = CanoeGame.coords2algebraic(col, row);
-            for (const [dc, dr] of this.directionsTowardBearOff(ctx.player, col, row)) {
-                const nc = col + dc;
-                const nr = row + dr;
-                const adjacent = this.cellAt(nc, nr);
-                if (adjacent === undefined) {
-                    continue;
-                }
-                if (!this.board.has(adjacent)) {
-                    if (!this.setMoveTowardBearOff(ctx.player, col, row, nc, nr)) {
-                        continue;
-                    }
-                    if (this.canOccupyBankCell(ctx.player, fromCell, adjacent, stack)) {
-                        walk(nc, nr, remaining - 1, fromCell);
-                    }
-                    continue;
-                }
-                let jc = nc + dc;
-                let jr = nr + dr;
-                while (true) {
-                    const land = this.cellAt(jc, jr);
-                    if (land === undefined) {
-                        break;
-                    }
-                    if (!this.board.has(land)) {
-                        if (this.setMoveTowardBearOff(ctx.player, col, row, jc, jr)
-                            && this.canOccupyBankCell(ctx.player, fromCell, land, stack)) {
-                            walk(jc, jr, remaining - 1, fromCell);
-                        }
-                        break;
-                    }
-                    jc += dc;
-                    jr += dr;
-                }
+            for (const land of this.bearOffStepLandings(ctx.player, stack, col, row, fromCell)) {
+                const [lc, lr] = CanoeGame.algebraic2coords(land);
+                walk(lc, lr, remaining - 1, fromCell);
             }
         };
         walk(sc, sr, distance);

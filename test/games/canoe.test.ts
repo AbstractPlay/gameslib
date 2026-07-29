@@ -760,7 +760,10 @@ describe("Canoe", () => {
     });
 
     it("grid cube cannot move back into bank", () => {
-        const g = playAfterOpening([["a3", {owner: 1, face: 16}]], {roll: [1, 1], currplayer: 1});
+        const g = playAfterOpening([
+            ["a3", {owner: 1, face: 16}],
+            ["c7", {owner: 1, face: 8}],
+        ], {roll: [1, 1], currplayer: 1});
         expect(g.moves().some(m => m.includes("a3-a2") || m.includes("a3-a1"))).to.be.false;
     });
 
@@ -822,6 +825,45 @@ describe("Canoe", () => {
     it("set cannot enter home bank except through pin", () => {
         const g = playAfterOpening([["b4", {owner: 1, face: 8, set: true}]], {roll: [2, 3], currplayer: 1});
         expect(g.moves().some(m => m.includes("b2"))).to.be.false;
+    });
+
+    it("set pin-through from b3 reaches bank and bear-off route with corner path", () => {
+        const g = playAfterOpening([
+            ["b3", {owner: 1, face: 40, set: true}],
+            ["a3", {owner: 1, face: 16}],
+            ["a4", {owner: 1, face: 8}],
+            ["g3", {owner: 2, face: 16}],
+        ], {roll: [6, 1], currplayer: 1, canoeDone: true});
+        expect(g.moves().some(m => m === "1:b3-a2,6:a3-d4" || m.startsWith("1:b3-a2,6:"))).to.be.true;
+        expect(g.moves().some(m => m.startsWith("6:b3-e1,") || m === "6:b3-e1,1:b3-a2")).to.be.true;
+    });
+
+    it("figure 4 set reaches bank via corner jumps through occupied pin column", () => {
+        const g = playAfterOpening([
+            ["d3", {owner: 1, face: 40, set: true}],
+            ["c4", {owner: 2, face: 1}],
+            ["b4", {owner: 2, face: 8}],
+            ["a4", {owner: 2, face: 16}],
+            ["a3", {owner: 2, face: 24}],
+            ["c7", {owner: 1, face: 8}],
+            ["g3", {owner: 2, face: 16}],
+        ], {roll: [3, 1], currplayer: 1, canoeDone: true});
+        const move = g.moves().find(m => m.startsWith("3:d3-a2,"));
+        expect(move).to.not.equal(undefined);
+        g.move(move!, {trusted: true});
+        const how = moveResultHow(g, "d3", "a2");
+        expect(how).to.not.equal(undefined);
+        expect(how!.split(",").length).to.be.at.least(3);
+    });
+
+    it("seventh cube pin-through from b3 over occupied pin cell", () => {
+        const g = playFixture([
+            ["b3", {owner: 1, face: 40}],
+            ["a3", {owner: 2, face: 16}],
+            ["g3", {owner: 2, face: 16}],
+        ], {roll: [2, 1], canoeDone: true});
+        expect(g.moves()).to.include("1:b3-a2,2:a2-off");
+        expect(g.moves().some(m => m.includes("+"))).to.be.false;
     });
 
     it("grid cube cannot enter opponent bank", () => {
@@ -1026,7 +1068,7 @@ describe("Canoe", () => {
             ["a3", {owner: 1, face: 40}],
             ["e6", {owner: 2, face: 1}],
         ], {roll: [1], canoeDone: true});
-        expect(seventh.moves()).to.eql(["pass"]);
+        expect(seventh.moves()).to.include("1:a3-a2");
         const twoCubes = playFixture([
             ["a3", {owner: 1, face: 40}],
             ["c7", {owner: 1, face: 8}],
@@ -1049,7 +1091,7 @@ describe("Canoe", () => {
             ["a3", {owner: 1, face: 40}],
             ["e6", {owner: 2, face: 1}],
         ], {roll: [1, 2], currplayer: 1, canoeDone: true, pocket: [80, 72]});
-        expect(g.moves()).to.eql(["2:a3-off"]);
+        expect(g.moves()).to.include("2:a3-off");
         g.move("2:a3-off", {trusted: true});
         expect(g.gameover).to.be.true;
         expect(g.board.has("e6")).to.be.false;

@@ -60,6 +60,15 @@ jobs:
             path: bin/translate-debug/
             if-no-files-found: ignore
         # --- MACHINE TRANSLATION PIPELINE END ---
+        - name: Configure AWS credentials
+          uses: Fooji/create-aws-profile-action@v1
+          with:
+            profile: AbstractPlayDev
+            region: us-east-1
+            key: ${{ secrets.AWS_KEY }}
+            secret: ${{ secrets.AWS_SECRET }}
+        - name: Publish locale files to S3
+          run: node scripts/publish-locales.mjs --stage dev
         # prerelease --preid=ci-$GITHUB_RUN_ID
         - run: npm version prerelease --preid=ci-$GITHUB_RUN_ID --no-git-tag-version
         - run: npm run build

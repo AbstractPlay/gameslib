@@ -1549,6 +1549,7 @@ function updateDisplayOptions(gameEngine) {
 
 document.addEventListener("DOMContentLoaded", function(event) {
     var i18n = APGames.addResource("en");
+    var startPlayground = function() {
     var { t } = i18n;
 
     const autoSubmitCheckbox = document.getElementById("autoSubmit");
@@ -2529,5 +2530,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
         renderGame();
     } else {
         renderGame();
+    }
+    };
+
+    if (i18n.isInitialized) {
+        startPlayground();
+    } else {
+        i18n.on("initialized", startPlayground);
     }
 });

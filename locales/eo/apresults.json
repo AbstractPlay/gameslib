@@ -1,0 +1,20 @@
+{
+    "CAPTURE": {
+        "dameo_king": "{{player}} kaptis reĝon ĉe {{where}}.",
+        "fightopia_1": "{{player}} kaptis peonon ĉe {{where}}.",
+        "noperson": {
+            "simple": "La peco {{what}} kaptiĝis ĉe {{where}}.",
+            "nowhere": "La peco {{what}} kaptiĝis.",
+            "nowhat": "Peco kaptiĝis ĉe {{where}}."
+        },
+        "monkey_queen": "Damo kaptiĝis.",
+        "complete": "{{player}} kaptis la pecon {{what}} ĉe {{where}}.",
+        "dameo_soldier": "{{player}} kaptis soldaton ĉe {{where}}.",
+        "boom": "{{player}} detruis pecon ĉe {{where}}.",
+        "minimal": "Peco kaptiĝis."
+    },
+    "MOVE": {
+        "phutball_to_last": "al {{to}}.",
+        "phutball_to": "al {{to}},"
+    }
+}

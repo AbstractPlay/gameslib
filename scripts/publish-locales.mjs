@@ -65,7 +65,7 @@ function uploadFile(localPath, s3Key, config) {
     "--content-type",
     "application/json",
     "--cache-control",
-    CACHE_CONTROL,
+    JSON.stringify(CACHE_CONTROL),
     "--profile",
     config.profile,
   ].join(" ");

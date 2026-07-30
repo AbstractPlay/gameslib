@@ -7377,6 +7377,13 @@
             "MUST_MOVE": "Si vous avez un coup disponible, vous ne pouvez pas passer votre tour.",
             "NONCAPTURES_KINGS": "Les coups sans capture ne peuvent se déplacer que d'une case à la fois.",
             "PARTIAL": "Sélectionnez une destination."
+        },
+        "_general": {
+            "CAPTURE4MOVE": "Vous avez signalé une capture, mais il n'y a pas de pièce en {{where}}.",
+            "FAILSAFE": "Le coup '{{move}}' a passé la validation mais semble illégal. Merci d'informer l'administrateur.",
+            "GENERIC": "Une erreur générique s'est produite lors du traitement de votre clic :\nMessage d'erreur : {{emessage}}\nPile : {{estack}}\nCoup : {{move}}, Ligne : {{row}}, Colonne : {{col}}, Indice : {{index}}",
+            "INCOMPLETE_MOVE": "Ce coup semble incomplet.",
+            "INVALID_MOVE": "'{{move}}' ne semble pas être un coup valide."
         }
     },
     "INITIAL_UNDO": "Vous ne pouvez pas annuler la position de départ initiale de la partie.",

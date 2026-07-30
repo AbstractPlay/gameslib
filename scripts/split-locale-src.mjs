@@ -46,7 +46,8 @@ function splitFile(lang, fileName) {
   }
 
   const src = sortObjectKeys(data._src);
-  const { _src, ...translations } = data;
+  const translations = { ...data };
+  delete translations._src;
 
   fs.mkdirSync(path.dirname(srcPath), { recursive: true });
   fs.writeFileSync(srcPath, JSON.stringify(src, null, 2) + "\n");

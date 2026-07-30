@@ -1,7 +1,6 @@
 /* eslint-env node */
 import { execSync } from "child_process";
 import fs from "fs";
-import os from "os";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -20,6 +19,7 @@ const STAGE_CONFIG = {
 };
 
 const SUPPORTED_LANGUAGES = ["en", "fr", "de", "it"];
+const MANAGED_LANGUAGES = ["fr", "de", "it"];
 const CACHE_CONTROL = "public, max-age=3600";
 
 function parseArgs() {
@@ -33,23 +33,20 @@ function parseArgs() {
   return { stage, config: STAGE_CONFIG[stage] };
 }
 
-function stripSrc(data, lang) {
-  if (lang === "en" || !data || typeof data !== "object") {
-    return data;
+function assertNoEmbeddedSrc(data, lang, fileName) {
+  if (!MANAGED_LANGUAGES.includes(lang) || !data || typeof data !== "object") {
+    return;
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { _src, ...rest } = data;
-  return rest;
-}
-
-function prepareLocaleFile(sourcePath, lang) {
-  const raw = fs.readFileSync(sourcePath, "utf8");
-  const data = JSON.parse(raw);
-  const cleaned = stripSrc(data, lang);
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "ap-locales-"));
-  const tmpPath = path.join(tmpDir, path.basename(sourcePath));
-  fs.writeFileSync(tmpPath, JSON.stringify(cleaned));
-  return { tmpPath, tmpDir };
+  if (data._src) {
+    console.error(`Refusing to publish ${lang}/${fileName}: embedded _src found (use locale-src/ sidecars)`);
+    process.exit(1);
+  }
+  for (const key of Object.keys(data)) {
+    if (key.startsWith("_src_")) {
+      console.error(`Refusing to publish ${lang}/${fileName}: embedded ${key} found (use locale-src/ sidecars)`);
+      process.exit(1);
+    }
+  }
 }
 
 function uploadFile(localPath, s3Key, config) {
@@ -78,7 +75,6 @@ function uploadLocaleDir(localDir, config) {
   }
 
   let count = 0;
-  const tmpDirs = [];
 
   for (const lang of SUPPORTED_LANGUAGES) {
     const langDir = path.join(localDir, lang);
@@ -91,15 +87,11 @@ function uploadLocaleDir(localDir, config) {
         continue;
       }
       const sourcePath = path.join(langDir, file);
-      const { tmpPath, tmpDir } = prepareLocaleFile(sourcePath, lang);
-      tmpDirs.push(tmpDir);
-      uploadFile(tmpPath, `locales/${lang}/${file}`, config);
+      const data = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+      assertNoEmbeddedSrc(data, lang, file);
+      uploadFile(sourcePath, `locales/${lang}/${file}`, config);
       count += 1;
     }
-  }
-
-  for (const tmpDir of tmpDirs) {
-    fs.rmSync(tmpDir, { recursive: true, force: true });
   }
 
   return count;

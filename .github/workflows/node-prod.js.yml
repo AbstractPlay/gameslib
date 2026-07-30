@@ -57,7 +57,9 @@ jobs:
           uses: stefanzweifel/git-auto-commit-action@v5
           with:
             commit_message: "i18n: Auto-translate locale files [skip ci]"
-            file_pattern: 'locales/*/*.json'
+            file_pattern: |
+              locales/*/*.json
+              locale-src/*/*.json
 
         - name: Upload translation debug artifacts
           if: failure()

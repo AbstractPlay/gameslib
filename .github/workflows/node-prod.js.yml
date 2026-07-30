@@ -16,6 +16,10 @@ jobs:
         runs-on: ubuntu-latest
         permissions:
           contents: write
+        outputs:
+          gameslib_version: ${{ steps.capture_versions.outputs.gameslib_version }}
+          renderer_version: ${{ steps.capture_versions.outputs.renderer_version }}
+          source_run_id: ${{ github.run_id }}
 
         # strategy:
         #   matrix:
@@ -33,8 +37,14 @@ jobs:
             cache: 'npm'
         - run: echo "@abstractplay:registry=https://npm.pkg.github.com/" >> .npmrc
         - run: echo "//npm.pkg.github.com/:_authToken=${{secrets.PAT_READ_PACKAGES}}" >> .npmrc
-        - run: npm i
-        - run: npm i @abstractplay/renderer
+        - run: npm ci
+        - name: Install renderer dependency
+          run: |
+            if [ "${{ github.event_name }}" = "repository_dispatch" ] && [ -n "${{ github.event.client_payload.renderer_version }}" ]; then
+              npm install @abstractplay/renderer@${{ github.event.client_payload.renderer_version }}
+            else
+              npm install @abstractplay/renderer@latest
+            fi
         - run: npm list @abstractplay/renderer
         - run: npm test --if-present
         # --- MACHINE TRANSLATION PIPELINE START ---
@@ -68,6 +78,13 @@ jobs:
           run: node scripts/publish-locales.mjs --stage prod
         # prerelease --preid=ci-$GITHUB_RUN_ID
         - run: npm version prerelease --preid=ci-$GITHUB_RUN_ID --no-git-tag-version
+        - id: capture_versions
+          run: |
+            GAMESLIB_VERSION=$(node -p "require('./package.json').version")
+            RENDERER_VERSION=$(node -p "require('./node_modules/@abstractplay/renderer/package.json').version")
+            npm pkg set "dependencies.@abstractplay/renderer=$RENDERER_VERSION"
+            echo "gameslib_version=$GAMESLIB_VERSION" >> $GITHUB_OUTPUT
+            echo "renderer_version=$RENDERER_VERSION" >> $GITHUB_OUTPUT
         - run: npm run build
         - run: npm pack
         - name: Upload
@@ -108,45 +125,25 @@ jobs:
             NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
     relay-prod:
-        needs: [publish-prod]
+        needs: [publish-prod, build-prod]
         runs-on: ubuntu-latest
         steps:
-          - name: Trigger frontend build and test
+          - name: Trigger consumer rebuilds
+            env:
+              GAMESLIB_VERSION: ${{ needs.build-prod.outputs.gameslib_version }}
+              RENDERER_VERSION: ${{ needs.build-prod.outputs.renderer_version }}
+              SOURCE_RUN_ID: ${{ needs.build-prod.outputs.source_run_id }}
             run: |
-              curl -L \
-              -X POST \
-              -H "Accept: application/vnd.github+json" \
-              -H "Authorization: Bearer ${{ secrets.PAT_WORKFLOWS }}" \
-              -H "X-GitHub-Api-Version: 2022-11-28" \
-              https://api.github.com/repos/abstractplay/front/dispatches \
-              -d '{"event_type": "dep_update_prod"}'
-
-          - name: Trigger backend build and test
-            run: |
-                curl -L \
-                -X POST \
-                -H "Accept: application/vnd.github+json" \
-                -H "Authorization: Bearer ${{ secrets.PAT_WORKFLOWS }}" \
-                -H "X-GitHub-Api-Version: 2022-11-28" \
-                https://api.github.com/repos/abstractplay/node-backend/dispatches \
-                -d '{"event_type": "dep_update_prod"}'
-
-          - name: Trigger backend-crons build and test
-            run: |
-                curl -L \
-                -X POST \
-                -H "Accept: application/vnd.github+json" \
-                -H "Authorization: Bearer ${{ secrets.PAT_WORKFLOWS }}" \
-                -H "X-GitHub-Api-Version: 2022-11-28" \
-                https://api.github.com/repos/abstractplay/backend-crons/dispatches \
-                -d '{"event_type": "dep_update_prod"}'
-
-          - name: Trigger backend-thumbnails build and test
-            run: |
-                curl -L \
-                -X POST \
-                -H "Accept: application/vnd.github+json" \
-                -H "Authorization: Bearer ${{ secrets.PAT_WORKFLOWS }}" \
-                -H "X-GitHub-Api-Version: 2022-11-28" \
-                https://api.github.com/repos/abstractplay/backend-thumbnails/dispatches \
-                -d '{"event_type": "dep_update_prod"}'
+              payload=$(jq -n \
+                --arg g "$GAMESLIB_VERSION" \
+                --arg r "$RENDERER_VERSION" \
+                --arg s "$SOURCE_RUN_ID" \
+                '{event_type:"dep_update_prod", client_payload:{gameslib_version:$g, renderer_version:$r, source_run_id:$s}}')
+              for repo in front node-backend backend-crons backend-thumbnails; do
+                curl -L -X POST \
+                  -H "Accept: application/vnd.github+json" \
+                  -H "Authorization: Bearer ${{ secrets.PAT_WORKFLOWS }}" \
+                  -H "X-GitHub-Api-Version: 2022-11-28" \
+                  "https://api.github.com/repos/abstractplay/${repo}/dispatches" \
+                  -d "$payload"
+              done

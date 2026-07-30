@@ -285,7 +285,6 @@
             "partial_many": "{{player}} перемістив {{count}} шашок з {{from}} на {{to}}."
         },
         "orb_2": "{{player}} перемістив сфероїд із {{from}} на {{to}}.",
-        "fightopia_3": "{{player}} перемістив свого гіганта з {{from}} на {{to}}.",
         "amazons": "{{player}} переїхав з {{from}} до {{to}} а потім заблокував камеру {{block}}.",
         "fightopia_2": "{{player}} перемістив танк із {{from}} на {{to}}.",
         "gess_one": "{{player}} перемістив фігуру 3x3, що містить {{count}} камінь, з {{from}} на {{to}}.",
@@ -566,7 +565,6 @@
         "realm": "{{player}} знерухомив правоохоронця на {{where}}."
     },
     "DRAWAGREED": "Гравці погодилися на нічию.",
-    "CLAIM_TOGUZ": "Яма {{pit}} стала тузом.",
     "DELTA_SCORE_GAIN_one": "{{player}} отримано {{delta}} бал.",
     "DELTA_SCORE_GAIN_few": "{{player}} отримано {{delta}} балів.",
     "DELTA_SCORE_GAIN_many": "{{player}} отримано {{delta}} балів.",

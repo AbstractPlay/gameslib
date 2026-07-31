@@ -15,7 +15,7 @@ type Half = [number, number];
 type HandEntry = number | "";
 type Dir = "N" | "E" | "S" | "W";
 
-const CUBE_HEIGHT = 15;
+const CUBE_HEIGHT = 30;
 const FLAT_SCALE = 1.25;
 const FLAT_HEIGHT_DARKEN_DL = 0.33;
 const RENDER_PAD = 2;

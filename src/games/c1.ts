@@ -1151,7 +1151,7 @@ export class C1Game extends GameBase {
                 resolved = true;
                 break;
             case "move":
-                node.push(i18next.t("apresults:MOVE.complete", { player, from: r.from, to: r.to, what: moveType2name[r.what as MoveType] }));
+                node.push(i18next.t("apresults:MOVE.complete_what", { player, from: r.from, to: r.to, what: moveType2name[r.what as MoveType] }));
                 resolved = true;
                 break;
         }

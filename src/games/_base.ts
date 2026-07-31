@@ -534,7 +534,7 @@ export abstract class GameBase  {
                                 if (r.what === undefined) {
                                     node.push(i18next.t("apresults:MOVE.nowhat", {player: name, from: r.from, to: r.to}));
                                 } else {
-                                    node.push(i18next.t("apresults:MOVE.complete", {player: name, what: r.what, from: r.from, to: r.to}));
+                                    node.push(i18next.t("apresults:MOVE.complete_what", {player: name, what: r.what, from: r.from, to: r.to}));
                                 }
                                 break;
                             case "place":
@@ -568,7 +568,7 @@ export abstract class GameBase  {
                                     if (r.what === undefined) {
                                         node.push(i18next.t("apresults:CAPTURE.minimal"));
                                     } else {
-                                        node.push(i18next.t("apresults:CAPTURE.noperson.nowhere", {what: r.what}));
+                                        node.push(i18next.t("apresults:CAPTURE.noperson.nowhere_what", {what: r.what}));
                                     }
                                 } else {
                                     if (r.what === undefined) {

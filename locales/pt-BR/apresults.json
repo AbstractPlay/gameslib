@@ -90,8 +90,8 @@
             "group_nowhere": "Um grupo de tamanho {{count}} foi capturado.",
             "multiple": "As seguintes peças foram capturadas: {{capped}}.",
             "nowhat": "Uma peça foi capturada em {{where}}.",
-            "nowhere": "Um(a) {{what}} foi capturado(a).",
-            "simple": "Um(a) {{what}} foi capturado(a) em {{where}}."
+            "simple": "Um(a) {{what}} foi capturado(a) em {{where}}.",
+            "nowhere_what": "Um(a) {{what}} foi capturado(a)."
         },
         "hens_hen": "{{player}} capturou uma galinha em {{where}}.",
         "hens_chick": "{{player}} capturou um pintinho em {{where}}.",

@@ -932,13 +932,13 @@ export class BTTGame extends GameBase {
         switch (r.type) {
             case "deltaScore":
                 if ( r.delta === 1 )
-                    node.push(i18next.t("apresults:DELTASCORE.btt_opponent_one", {player, delta: r.delta }));
+                    node.push(i18next.t("apresults:DELTASCORE.btt_opponent_gain_one", {player, delta: r.delta }));
                 else if ( r.delta! > 0 )
-                    node.push(i18next.t("apresults:DELTASCORE.btt_opponent", {player, delta: r.delta! }));
+                    node.push(i18next.t("apresults:DELTASCORE.btt_opponent_gain_other", {player, delta: r.delta! }));
                 else if ( r.delta === -1 )
-                    node.push(i18next.t("apresults:DELTASCORE.btt_default_one", {player, delta: r.delta! * -1}));
+                    node.push(i18next.t("apresults:DELTA_SCORE_LOSS_one", {player, delta: r.delta! * -1}));
                 else if ( r.delta! < 0 )
-                    node.push(i18next.t("apresults:DELTASCORE.btt_default", {player, delta: r.delta! * -1}));
+                    node.push(i18next.t("apresults:DELTA_SCORE_LOSS_other", {player, delta: r.delta! * -1}));
                 resolved = true;
                 break;
         }

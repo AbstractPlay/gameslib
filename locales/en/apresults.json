@@ -91,10 +91,10 @@
             "group_nowhere": "A group of size {{count}} was captured.",
             "multiple": "The following pieces were captured: {{capped}}.",
             "nowhat": "A piece was captured at {{where}}.",
-            "nowhere": "A {{what}} was captured.",
-            "nowhere_one": "A piece was captured.",
-            "nowhere_other": "{{count}} pieces were captured.",
-            "simple": "A {{what}} was captured at {{where}}."
+            "simple": "A {{what}} was captured at {{where}}.",
+            "nowhere_what": "A {{what}} was captured.",
+            "nowhere_count_one": "A piece was captured.",
+            "nowhere_count_other": "{{count}} pieces were captured."
         },
         "nowhat": "{{player}} captured a piece at {{where}}.",
         "onyx": "A pair of pieces was captured at {{where1}} and {{where2}}.",
@@ -112,7 +112,7 @@
         "spook_lateral_opponent_other": "{{player}} has {{count}} of their opponent's balls captured by Spooky on the same level at {{where}}.",
         "spook_lateral_self_one": "{{player}} has 1 of their own ball captured by Spooky on the same level at {{where}}.",
         "spook_lateral_self_other": "{{player}} has {{count}} of their own balls captured by Spooky on the same level at {{where}}.",
-        "spora" : "{{player}} surrounded and captured {{count}} piece(s): {{group}}.",
+        "spora": "{{player}} surrounded and captured {{count}} piece(s): {{group}}.",
         "stawvs": "{{player}} captured the {{what}} at {{where}}.",
         "swarm": "{{player}} captured stack {{where}} using {{count}} singletons.",
         "tafl": "{{player}} captured a piece at {{where}}.",
@@ -204,10 +204,6 @@
     "DELTA_SCORE_LOSS_one": "{{player}} lost {{delta}} point.",
     "DELTA_SCORE_LOSS_other": "{{player}} lost {{delta}} points.",
     "DELTASCORE": {
-        "btt_default": "{{player}} lost {{delta}} points.",
-        "btt_default_one": "{{player}} lost {{delta}} point.",
-        "btt_opponent": "An opponent gained {{delta}} points.",
-        "btt_opponent_one": "An opponent gained {{delta}} point.",
         "emu_excuse": "{{player}} plays The Excuse to offset their lowest-scoring bird ({{delta}} points).",
         "emu_score": "{{player}}'s bird with the following ranks scored {{delta}} points: {{ranks}}.",
         "quincunx": {
@@ -217,7 +213,9 @@
             "penalty_zero": "Player {{playerNum}} lost no points due to cards in hand.",
             "penalty_one": "Player {{playerNum}} lost {{count}} point due to cards in hand.",
             "penalty_other": "Player {{playerNum}} lost {{count}} points due to cards in hand."
-        }
+        },
+        "btt_opponent_gain_one": "An opponent gained {{delta}} point.",
+        "btt_opponent_gain_other": "An opponent gained {{delta}} points."
     },
     "DESTROY": {
         "arimaa": "A {{colour}} {{what}} was trapped at {{where}}.",
@@ -330,10 +328,8 @@
         "camelot_canter": "{{player}} made a canter with a man from {{from}} to {{to}}.",
         "camelot_jump_knight": "{{player}} made a jump with a knight from {{from}} to {{to}}, capturing {{captured}}.",
         "camelot_jump": "{{player}} made a jump with a man from {{from}} to {{to}}, capturing {{captured}}.",
-        "canoe": "{{player}} moved a {{what}} from {{from}} to {{to}}.",
         "chase": "{{player}} moved from {{from}} to {{to}} (through {{through}}).",
         "collision": "{{player}} tried to move from {{from}} to {{to}} but couldn't because of a collision.",
-        "complete": "{{player}} moved a {{what}} from {{from}} to {{to}}.",
         "complete_one": "{{player}} moved one piece from {{from}} to {{to}}.",
         "complete_other": "{{player}} moved {{count}} pieces from {{from}} to {{to}}.",
         "deckfish": "{{player}} moved a piece from {{from}} to {{to}}, collecting {{what}}.",
@@ -381,7 +377,8 @@
         "tricouleur_duplicate": "{{player}} duplicated a piece from {{from}} to {{to}}.",
         "veletas": "{{player}} moved shooter from {{from}} to {{to}}.",
         "volo_one": "{{player}} moved a flock of 1 bird from {{from}} in the direction {{how}}.",
-        "volo_other": "{{player}} moved a flock of {{count}} birds from {{from}} in the direction {{how}}."
+        "volo_other": "{{player}} moved a flock of {{count}} birds from {{from}} in the direction {{how}}.",
+        "complete_what": "{{player}} moved a {{what}} from {{from}} to {{to}}."
     },
     "NULLIFY_CLAIM": "Towers may not be claimed on the last turn of the game. The claim at {{where}} was nullified.",
     "ORIENT": {
@@ -496,21 +493,8 @@
         "strands_initial": "{{player}} placed a piece on a space labelled 2 at {{where}}.",
         "strands_one": "{{player}} placed a piece at {{where}}.",
         "strands_other": "{{player}} placed {{count}} pieces at {{where}}.",
-        "streetcar": "A building was placed at {{where}}.",
-        "streetcar_11": "A height-1 ORANGE building was placed at {{where}}.",
-        "streetcar_12": "A height-2 ORANGE building was placed at {{where}}.",
-        "streetcar_13": "A height-3 ORANGE building was placed at {{where}}.",
-        "streetcar_21": "A height-1 YELLOW building was placed at {{where}}.",
-        "streetcar_22": "A height-2 YELLOW building was placed at {{where}}.",
-        "streetcar_23": "A height-3 YELLOW building was placed at {{where}}.",
-        "streetcar_31": "A height-1 BLACK building was placed at {{where}}.",
-        "streetcar_32": "A height-2 BLACK building was placed at {{where}}.",
-        "streetcar_33": "A height-3 BLACK building was placed at {{where}}.",
-        "streetcar_41": "A height-1 WHITE building was placed at {{where}}.",
-        "streetcar_42": "A height-2 WHITE building was placed at {{where}}.",
-        "streetcar_43": "A height-3 WHITE building was placed at {{where}}.",
         "subdivision_park": "{{player}} placed a park at {{where}}.",
-        "synapse" : "{{player}} place at {{where}} a size {{size}} piece directed at {{dir}}.",
+        "synapse": "{{player}} place at {{where}} a size {{size}} piece directed at {{dir}}.",
         "terrace": "{{player}} moved a size {{size}} piece from {{from}} to {{to}}.",
         "theirs": "{{player}} placed an enemy piece at {{where}}.",
         "theirs_specific": "{{player}} placed a {{enemy}} piece at {{where}}.",
@@ -531,7 +515,20 @@
         },
         "veletas": "{{player}} placed a {{what}} at {{where}}.",
         "viruswar": "{{player}} placed viruses/walls at {{where}}.",
-        "volo": "{{player}} adds a bird at {{where}}."
+        "volo": "{{player}} adds a bird at {{where}}.",
+        "streetcar_place_11": "A height-1 ORANGE building was placed at {{where}}.",
+        "streetcar_place_12": "A height-2 ORANGE building was placed at {{where}}.",
+        "streetcar_place_13": "A height-3 ORANGE building was placed at {{where}}.",
+        "streetcar_place_21": "A height-1 YELLOW building was placed at {{where}}.",
+        "streetcar_place_22": "A height-2 YELLOW building was placed at {{where}}.",
+        "streetcar_place_23": "A height-3 YELLOW building was placed at {{where}}.",
+        "streetcar_place_31": "A height-1 BLACK building was placed at {{where}}.",
+        "streetcar_place_32": "A height-2 BLACK building was placed at {{where}}.",
+        "streetcar_place_33": "A height-3 BLACK building was placed at {{where}}.",
+        "streetcar_place_41": "A height-1 WHITE building was placed at {{where}}.",
+        "streetcar_place_42": "A height-2 WHITE building was placed at {{where}}.",
+        "streetcar_place_43": "A height-3 WHITE building was placed at {{where}}.",
+        "streetcar_place_default": "A building was placed at {{where}}."
     },
     "PLAYSECOND": "{{player}} chose to play second.",
     "PROMOTE": {
@@ -654,12 +651,12 @@
         "general_other": "{{player}} took {{count}} pieces from {{from}}.",
         "moonsquad": "{{player}} took an ore ({{ore}}).",
         "sploof": "{{player}} took a neutral ball at {{from}}.",
-        "streetcar": "{{player}} took a housing limit from {{from}}.",
-        "streetcar_1": "{{player}} took an ORANGE housing limit from {{from}}.",
-        "streetcar_2": "{{player}} took a YELLOW housing limit from {{from}}.",
-        "streetcar_3": "{{player}} took a BLACK housing limit from {{from}}.",
-        "streetcar_4": "{{player}} took a WHITE housing limit from {{from}}.",
-        "tablero": "{{player}} took one of their checkers from the stack at {{from}}."
+        "tablero": "{{player}} took one of their checkers from the stack at {{from}}.",
+        "streetcar_take_1": "{{player}} took an ORANGE housing limit from {{from}}.",
+        "streetcar_take_2": "{{player}} took a YELLOW housing limit from {{from}}.",
+        "streetcar_take_3": "{{player}} took a BLACK housing limit from {{from}}.",
+        "streetcar_take_4": "{{player}} took a WHITE housing limit from {{from}}.",
+        "streetcar_take_default": "{{player}} took a housing limit from {{from}}."
     },
     "TIMEOUT": "{{player}} lost on time.",
     "UNFURL": {

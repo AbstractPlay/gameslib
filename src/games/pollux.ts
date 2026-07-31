@@ -697,7 +697,7 @@ export class PolluxGame extends GameBase {
         let resolved = false;
         switch (r.type) {
             case "move":
-                node.push(i18next.t("apresults:MOVE.complete", { player, from: r.from, to: r.to, what: "piece" }));
+                node.push(i18next.t("apresults:MOVE.complete_what", { player, from: r.from, to: r.to, what: "piece" }));
                 resolved = true;
                 break;
             case "block":

@@ -5067,11 +5067,11 @@
       "SETUP_HAND": "Aufbauwürfel"
     },
     "compart": {
-      "INSTRUCTIONS": "Platziere einen Stein auf einem beliebigen leeren Feld.",
       "INSTRUCTIONS_one": "Platziere einen Stein auf dem letzten lebensfähigen Bereich.",
       "INSTRUCTIONS_other": "Platziere {{count}} Steine, jeweils einen auf jedem eigenen lebensfähigen Bereich (zusammenhängende Gruppen eigener Steine und leerer Felder).",
       "OCCUPIED": "Platzierungen dürfen nur auf leeren Feldern vorgenommen werden!",
-      "VIABLE_AREA_REPEATED": "Du darfst in jedem lebensfähigen Bereich nur einen einzigen Stein platzieren."
+      "VIABLE_AREA_REPEATED": "Du darfst in jedem lebensfähigen Bereich nur einen einzigen Stein platzieren.",
+      "INSTRUCTIONS_ANY": "Platziere einen Stein auf einem beliebigen leeren Feld."
     },
     "complica": {
       "INITIAL_INSTRUCTIONS": "Wähle die Spalte aus, in die du deinen Stein einwerfen möchtest."
@@ -6260,12 +6260,12 @@
     "pippinzip": {
       "INITIAL_INSTRUCTIONS": "Dies ist die Auktionsphase. Platziere entweder einen bis drei Steine auf leere Felder, um die 'Zip'-Position zu verbessern, oder drücke 'Passen', um die Auktion zu beenden und 'Zip' zu sein.",
       "INSTRUCTIONS_PIP": "Platziere zwei eigene Steine, die nicht orthogonal benachbart zueinander sind.",
-      "INSTRUCTIONS_PIP_2": "Platziere den zweiten eigenen Stein nicht orthogonal benachbart zum vorherigen.",
       "INSTRUCTIONS_ZIP": "Platziere einen eigenen Stein.",
       "TOO_MANY_PLACEMENTS_AUCTION": "Zu viele Platzierungen. Während der Auktion können Spieler bis zu drei Steine auf leeren Feldern platzieren!",
       "ERROR_PLACEMENT_PIP": "Der Pip-Spieler muss zwei Steine auf nicht orthogonal benachbarte leere Felder platzieren!",
       "ADJACENT_PLACEMENT_PIP": "Der zweite Stein ist orthogonal benachbart zum ersten!",
-      "ERROR_PLACEMENT_ZIP": "Der Zip-Spieler (der Bieter) muss einen Stein auf ein leeres Feld platzieren!"
+      "ERROR_PLACEMENT_ZIP": "Der Zip-Spieler (der Bieter) muss einen Stein auf ein leeres Feld platzieren!",
+      "INSTRUCTIONS_PIP_SECOND": "Platziere den zweiten eigenen Stein nicht orthogonal benachbart zum vorherigen."
     },
     "pletore": {
       "INITIAL_INSTRUCTIONS": "Platziere einen Stein auf einen leeren Schnittpunkt, der nicht vom Gegner kontrolliert wird, ersetze einen gegnerischen Stein auf einem von dir kontrollierten Schnittpunkt oder 'passe', wenn alle Schnittpunkte besetzt oder kontrolliert sind. Das Spiel endet, wenn beide Spieler nacheinander passen.",

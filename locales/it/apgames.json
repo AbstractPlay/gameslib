@@ -5067,11 +5067,11 @@
       "SETUP_HAND": "Dadi di preparazione"
     },
     "compart": {
-      "INSTRUCTIONS": "Posiziona un pezzo su qualsiasi cella vuota.",
       "INSTRUCTIONS_one": "Posiziona un pezzo sull'ultima area vitale.",
       "INSTRUCTIONS_other": "Posiziona {{count}} pezzi, uno su ciascuna area vitale amica (gruppi connessi di pezzi amici e celle vuote).",
       "OCCUPIED": "I posizionamenti possono essere effettuati solo su celle vuote!",
-      "VIABLE_AREA_REPEATED": "Puoi posizionare solo un singolo pezzo in ciascuna area vitale."
+      "VIABLE_AREA_REPEATED": "Puoi posizionare solo un singolo pezzo in ciascuna area vitale.",
+      "INSTRUCTIONS_ANY": "Posiziona un pezzo su qualsiasi cella vuota."
     },
     "complica": {
       "INITIAL_INSTRUCTIONS": "Seleziona la colonna in cui far cadere la tua pedina."
@@ -6260,12 +6260,12 @@
     "pippinzip": {
       "INITIAL_INSTRUCTIONS": "Questa è la fase di asta. Piazza da uno a tre pezzi su caselle vuote per migliorare la posizione 'Zip', oppure premi 'Passa' per terminare l'asta ed essere 'Zip'.",
       "INSTRUCTIONS_PIP": "Piazza due pezzi amici non ortogonalmente adiacenti tra loro.",
-      "INSTRUCTIONS_PIP_2": "Piazza il secondo pezzo amico non ortogonalmente adiacente al precedente.",
       "INSTRUCTIONS_ZIP": "Piazza un pezzo amico.",
       "TOO_MANY_PLACEMENTS_AUCTION": "Troppi piazzamenti. Durante l'asta i giocatori possono piazzare fino a tre pezzi su caselle vuote!",
       "ERROR_PLACEMENT_PIP": "Il giocatore Pip deve piazzare due pezzi su caselle vuote non ortogonalmente adiacenti!",
       "ADJACENT_PLACEMENT_PIP": "Il secondo pezzo è ortogonalmente adiacente al primo!",
-      "ERROR_PLACEMENT_ZIP": "Il giocatore Zip (il prenditore) deve piazzare un pezzo su una casella vuota!"
+      "ERROR_PLACEMENT_ZIP": "Il giocatore Zip (il prenditore) deve piazzare un pezzo su una casella vuota!",
+      "INSTRUCTIONS_PIP_SECOND": "Piazza il secondo pezzo amico non ortogonalmente adiacente al precedente."
     },
     "pletore": {
       "INITIAL_INSTRUCTIONS": "Piazza un pezzo su un'intersezione vuota non controllata dall'avversario, sostituisci un pezzo nemico su un'intersezione che controlli, oppure 'passa' se tutte le intersezioni sono occupate o controllate. La partita termina quando entrambi i giocatori passano di seguito.",

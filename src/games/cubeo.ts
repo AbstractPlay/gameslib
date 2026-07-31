@@ -646,7 +646,7 @@ export class CubeoGame extends GameBase {
                 resolved = true;
                 break;
             case "move":
-                node.push(i18next.t("apresults:MOVE.complete", {player, what: r.what, from: r.from, to: r.to}));
+                node.push(i18next.t("apresults:MOVE.complete_what", {player, what: r.what, from: r.from, to: r.to}));
                 resolved = true;
                 break;
             case "promote":

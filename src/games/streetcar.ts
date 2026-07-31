@@ -1198,11 +1198,11 @@ export class StreetcarGame extends GameBase {
         let resolved = false;
         switch (r.type) {
             case "take":
-                node.push(i18next.t("apresults:TAKE.streetcar", {player, from: r.from, context: r.what}));
+                node.push(i18next.t("apresults:TAKE.streetcar_take", {player, from: r.from, context: r.what || "default"}));
                 resolved = true;
                 break;
             case "place":
-                node.push(i18next.t("apresults:PLACE.streetcar", {player, where: r.where, context: r.what}));
+                node.push(i18next.t("apresults:PLACE.streetcar_place", {player, where: r.where, context: r.what || "default"}));
                 resolved = true;
                 break;
         }

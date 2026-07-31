@@ -683,7 +683,7 @@ export class DipoleGame extends GameBase {
                 resolved = true;
                 break;
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.noperson.nowhere", {count: parseInt(r.what!, 10)}));
+                node.push(i18next.t("apresults:CAPTURE.noperson.nowhere_count", {count: parseInt(r.what!, 10)}));
             resolved = true;
             break;
         }

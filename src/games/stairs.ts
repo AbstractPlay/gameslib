@@ -523,7 +523,7 @@ export class StairsGame extends GameBase {
                 resolved = true;
                 break;
             case "move":
-                node.push(i18next.t("apresults:MOVE.complete", { player, from: r.from, to: r.to, what: "piece" }));
+                node.push(i18next.t("apresults:MOVE.complete_what", { player, from: r.from, to: r.to, what: "piece" }));
                 resolved = true;
                 break;
             case "pass":

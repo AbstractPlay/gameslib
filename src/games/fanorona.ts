@@ -750,7 +750,7 @@ export class FanoronaGame extends GameBase {
                 }).join(", ")}));
                 const captures = state._results.filter(r => r.type === "capture");
                 if (captures.length > 0) {
-                    node.push(i18next.t("apresults:CAPTURE.noperson.nowhere", {count: captures.length}));
+                    node.push(i18next.t("apresults:CAPTURE.noperson.nowhere_count", {count: captures.length}));
                 }
                 for (const r of state._results) {
                     switch (r.type) {

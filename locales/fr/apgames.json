@@ -5067,11 +5067,11 @@
       "SETUP_HAND": "Dés de configuration"
     },
     "compart": {
-      "INSTRUCTIONS": "Placez une pièce sur n'importe quelle case vide.",
       "INSTRUCTIONS_one": "Placez une pièce sur la dernière zone viable.",
       "INSTRUCTIONS_other": "Placez {{count}} pièces, une sur chaque zone viable alliée (groupes connectés de pièces alliées et de cases vides).",
       "OCCUPIED": "Les placements ne peuvent être effectués que sur des cases vides !",
-      "VIABLE_AREA_REPEATED": "Vous ne pouvez placer qu'une seule pièce dans chaque zone viable."
+      "VIABLE_AREA_REPEATED": "Vous ne pouvez placer qu'une seule pièce dans chaque zone viable.",
+      "INSTRUCTIONS_ANY": "Placez une pièce sur n'importe quelle case vide."
     },
     "complica": {
       "INITIAL_INSTRUCTIONS": "Sélectionnez la colonne dans laquelle faire tomber votre pierre."
@@ -6260,12 +6260,12 @@
     "pippinzip": {
       "INITIAL_INSTRUCTIONS": "C'est la phase d'enchères. Placez d'une à trois pièces sur des cases vides pour améliorer la position de « Zip », ou appuyez sur « Passer » pour terminer l'enchère et être « Zip ».",
       "INSTRUCTIONS_PIP": "Placez deux pièces alliées non adjacentes orthogonalement l'une à l'autre.",
-      "INSTRUCTIONS_PIP_2": "Placez la deuxième pièce alliée non adjacente orthogonalement à la précédente.",
       "INSTRUCTIONS_ZIP": "Placez une pièce alliée.",
       "TOO_MANY_PLACEMENTS_AUCTION": "Trop de placements. Durant les enchères, les joueurs peuvent placer jusqu'à trois pièces sur des cases vides !",
       "ERROR_PLACEMENT_PIP": "Le joueur Pip doit placer deux pièces sur des cases vides non adjacentes orthogonalement !",
       "ADJACENT_PLACEMENT_PIP": "La deuxième pièce est orthogonale et adjacente à la première !",
-      "ERROR_PLACEMENT_ZIP": "Le joueur Zip (le preneur) doit placer une pièce sur une case vide !"
+      "ERROR_PLACEMENT_ZIP": "Le joueur Zip (le preneur) doit placer une pièce sur une case vide !",
+      "INSTRUCTIONS_PIP_SECOND": "Placez la deuxième pièce alliée non adjacente orthogonalement à la précédente."
     },
     "pletore": {
       "INITIAL_INSTRUCTIONS": "Placez une pièce sur une intersection vide non contrôlée par l'adversaire, remplacez une pièce ennemie sur une intersection que vous contrôlez, ou passez si toutes les intersections sont occupées ou contrôlées. La partie se termine lorsque les deux joueurs passent consécutivement.",

@@ -91,10 +91,10 @@
       "group_nowhere": "Un groupe de taille {{count}} a été capturé.",
       "multiple": "Les pièces suivantes ont été capturées : {{capped}}.",
       "nowhat": "Une pièce a été capturée en {{where}}.",
-      "nowhere": "Un {{what}} a été capturé.",
-      "nowhere_one": "Une pièce a été capturée.",
-      "nowhere_other": "{{count}} pièces ont été capturées.",
-      "simple": "Un {{what}} a été capturé en {{where}}."
+      "simple": "Un {{what}} a été capturé en {{where}}.",
+      "nowhere_what": "Un {{what}} a été capturé.",
+      "nowhere_count_one": "Une pièce a été capturée.",
+      "nowhere_count_other": "{{count}} pièces ont été capturées."
     },
     "nowhat": "{{player}} a capturé une pièce en {{where}}.",
     "onyx": "Une paire de pièces a été capturée en {{where1}} et {{where2}}.",
@@ -204,10 +204,6 @@
   "DELTA_SCORE_LOSS_one": "{{player}} a perdu {{delta}} point.",
   "DELTA_SCORE_LOSS_other": "{{player}} a perdu {{delta}} points.",
   "DELTASCORE": {
-    "btt_default": "{{player}} a perdu {{delta}} points.",
-    "btt_default_one": "{{player}} a perdu {{delta}} point.",
-    "btt_opponent": "Un adversaire a gagné {{delta}} points.",
-    "btt_opponent_one": "Un adversaire a gagné {{delta}} point.",
     "emu_excuse": "{{player}} joue L'Excuse pour compenser son oiseau ayant le plus bas score ({{delta}} points).",
     "emu_score": "L'oiseau de {{player}} avec les rangs suivants a marqué {{delta}} points : {{ranks}}.",
     "quincunx": {
@@ -217,7 +213,9 @@
       "penalty_zero": "Le joueur {{playerNum}} n'a perdu aucun point à cause de ses cartes en main.",
       "penalty_one": "Le joueur {{playerNum}} a perdu {{count}} point à cause des cartes en main.",
       "penalty_other": "Le joueur {{playerNum}} a perdu {{count}} points à cause des cartes en main."
-    }
+    },
+    "btt_opponent_gain_one": "Un adversaire a gagné {{delta}} point.",
+    "btt_opponent_gain_other": "Un adversaire a gagné {{delta}} points."
   },
   "DESTROY": {
     "arimaa": "Un(e) {{what}} {{colour}} a été piégé(e) en {{where}}.",
@@ -330,10 +328,8 @@
     "camelot_canter": "{{player}} a effectué un petit galop avec un homme de {{from}} vers {{to}}.",
     "camelot_jump_knight": "{{player}} a effectué un saut avec un cavalier de {{from}} vers {{to}}, en capturant {{captured}}.",
     "camelot_jump": "{{player}} a effectué un saut avec un homme de {{from}} vers {{to}}, en capturant {{captured}}.",
-    "canoe": "{{player}} a déplacé un {{what}} de {{from}} vers {{to}}.",
     "chase": "{{player}} s'est déplacé de {{from}} vers {{to}} (via {{through}}).",
     "collision": "{{player}} a essayé de se déplacer de {{from}} vers {{to}} mais n'a pas pu à cause d'une collision.",
-    "complete": "{{player}} a déplacé un {{what}} de {{from}} vers {{to}}.",
     "complete_one": "{{player}} a déplacé une pièce de {{from}} vers {{to}}.",
     "complete_other": "{{player}} a déplacé {{count}} pièces de {{from}} vers {{to}}.",
     "deckfish": "{{player}} a déplacé une pièce de {{from}} vers {{to}}, en ramassant {{what}}.",
@@ -381,7 +377,8 @@
     "tricouleur_duplicate": "{{player}} a dupliqué une pièce de {{from}} vers {{to}}.",
     "veletas": "{{player}} a déplacé le tireur de {{from}} vers {{to}}.",
     "volo_one": "{{player}} a déplacé une nuée de 1 oiseau depuis {{from}} dans la direction {{how}}.",
-    "volo_other": "{{player}} a déplacé une nuée de {{count}} oiseaux depuis {{from}} dans la direction {{how}}."
+    "volo_other": "{{player}} a déplacé une nuée de {{count}} oiseaux depuis {{from}} dans la direction {{how}}.",
+    "complete_what": "{{player}} a déplacé un {{what}} de {{from}} vers {{to}}."
   },
   "NULLIFY_CLAIM": "Les tours ne peuvent pas être réclamées lors du dernier tour de jeu. La réclamation en {{where}} a été annulée.",
   "ORIENT": {
@@ -496,19 +493,6 @@
     "strands_initial": "{{player}} a placé une pièce sur une case marquée 2 en {{where}}.",
     "strands_one": "{{player}} a placé une pièce en {{where}}.",
     "strands_other": "{{player}} a placé {{count}} pièces en {{where}}.",
-    "streetcar": "Un bâtiment a été placé en {{where}}.",
-    "streetcar_11": "Un bâtiment ORANGE de hauteur 1 a été placé en {{where}}.",
-    "streetcar_12": "Un bâtiment ORANGE de hauteur 2 a été placé en {{where}}.",
-    "streetcar_13": "Un bâtiment ORANGE de hauteur 3 a été placé en {{where}}.",
-    "streetcar_21": "Un bâtiment JAUNE de hauteur 1 a été placé en {{where}}.",
-    "streetcar_22": "Un bâtiment JAUNE de hauteur 2 a été placé en {{where}}.",
-    "streetcar_23": "Un bâtiment JAUNE de hauteur 3 a été placé en {{where}}.",
-    "streetcar_31": "Un bâtiment NOIR de hauteur 1 a été placé en {{where}}.",
-    "streetcar_32": "Un bâtiment NOIR de hauteur 2 a été placé en {{where}}.",
-    "streetcar_33": "Un bâtiment NOIR de hauteur 3 a été placé en {{where}}.",
-    "streetcar_41": "Un bâtiment BLANC de hauteur 1 a été placé en {{where}}.",
-    "streetcar_42": "Un bâtiment BLANC de hauteur 2 a été placé en {{where}}.",
-    "streetcar_43": "Un bâtiment BLANC de hauteur 3 a été placé en {{where}}.",
     "subdivision_park": "{{player}} a placé un parc en {{where}}.",
     "synapse": "{{player}} a placé en {{where}} une pièce de taille {{size}} dirigée vers {{dir}}.",
     "terrace": "{{player}} a déplacé une pièce de taille {{size}} de {{from}} vers {{to}}.",
@@ -531,7 +515,20 @@
     },
     "veletas": "{{player}} a placé un {{what}} en {{where}}.",
     "viruswar": "{{player}} a placé des virus/murs en {{where}}.",
-    "volo": "{{player}} ajoute un oiseau en {{where}}."
+    "volo": "{{player}} ajoute un oiseau en {{where}}.",
+    "streetcar_place_11": "Un bâtiment ORANGE de hauteur 1 a été placé en {{where}}.",
+    "streetcar_place_12": "Un bâtiment ORANGE de hauteur 2 a été placé en {{where}}.",
+    "streetcar_place_13": "Un bâtiment ORANGE de hauteur 3 a été placé en {{where}}.",
+    "streetcar_place_21": "Un bâtiment JAUNE de hauteur 1 a été placé en {{where}}.",
+    "streetcar_place_22": "Un bâtiment JAUNE de hauteur 2 a été placé en {{where}}.",
+    "streetcar_place_23": "Un bâtiment JAUNE de hauteur 3 a été placé en {{where}}.",
+    "streetcar_place_31": "Un bâtiment NOIR de hauteur 1 a été placé en {{where}}.",
+    "streetcar_place_32": "Un bâtiment NOIR de hauteur 2 a été placé en {{where}}.",
+    "streetcar_place_33": "Un bâtiment NOIR de hauteur 3 a été placé en {{where}}.",
+    "streetcar_place_41": "Un bâtiment BLANC de hauteur 1 a été placé en {{where}}.",
+    "streetcar_place_42": "Un bâtiment BLANC de hauteur 2 a été placé en {{where}}.",
+    "streetcar_place_43": "Un bâtiment BLANC de hauteur 3 a été placé en {{where}}.",
+    "streetcar_place_default": "Un bâtiment a été placé en {{where}}."
   },
   "PLAYSECOND": "{{player}} a choisi de jouer en second.",
   "PROMOTE": {
@@ -654,12 +651,12 @@
     "general_other": "{{player}} a pris {{count}} pièces en {{from}}.",
     "moonsquad": "{{player}} a pris un minerai ({{ore}}).",
     "sploof": "{{player}} a pris une bille neutre en {{from}}.",
-    "streetcar": "{{player}} a pris une limite de logement en {{from}}.",
-    "streetcar_1": "{{player}} a pris une limite de logement ORANGE en {{from}}.",
-    "streetcar_2": "{{player}} a pris une limite de logement JAUNE en {{from}}.",
-    "streetcar_3": "{{player}} a pris une limite de logement NOIRE en {{from}}.",
-    "streetcar_4": "{{player}} a pris une limite de logement BLANCHE en {{from}}.",
-    "tablero": "{{player}} a pris un de ses pions de la pile en {{from}}."
+    "tablero": "{{player}} a pris un de ses pions de la pile en {{from}}.",
+    "streetcar_take_1": "{{player}} a pris une limite de logement ORANGE en {{from}}.",
+    "streetcar_take_2": "{{player}} a pris une limite de logement JAUNE en {{from}}.",
+    "streetcar_take_3": "{{player}} a pris une limite de logement NOIRE en {{from}}.",
+    "streetcar_take_4": "{{player}} a pris une limite de logement BLANCHE en {{from}}.",
+    "streetcar_take_default": "{{player}} a pris une limite de logement en {{from}}."
   },
   "TIMEOUT": "{{player}} a perdu au temps.",
   "UNFURL": {

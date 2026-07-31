@@ -91,10 +91,10 @@
       "group_nowhere": "Eine Gruppe der Größe {{count}} wurde geschlagen.",
       "multiple": "Folgende Steine wurden geschlagen: {{capped}}.",
       "nowhat": "Ein Stein wurde auf {{where}} geschlagen.",
-      "nowhere": "Ein {{what}} wurde geschlagen.",
-      "nowhere_one": "Ein Stein wurde geschlagen.",
-      "nowhere_other": "{{count}} Steine wurden geschlagen.",
-      "simple": "Ein {{what}} wurde auf {{where}} geschlagen."
+      "simple": "Ein {{what}} wurde auf {{where}} geschlagen.",
+      "nowhere_what": "Ein {{what}} wurde geschlagen.",
+      "nowhere_count_one": "Ein Stein wurde geschlagen.",
+      "nowhere_count_other": "{{count}} Steine wurden geschlagen."
     },
     "nowhat": "{{player}} hat einen Stein auf {{where}} geschlagen.",
     "onyx": "Ein Paar von Steinen wurde auf {{where1}} und {{where2}} geschlagen.",
@@ -204,10 +204,6 @@
   "DELTA_SCORE_LOSS_one": "{{player}} hat {{delta}} Punkt verloren.",
   "DELTA_SCORE_LOSS_other": "{{player}} hat {{delta}} Punkte verloren.",
   "DELTASCORE": {
-    "btt_default": "{{player}} hat {{delta}} Punkte verloren.",
-    "btt_default_one": "{{player}} hat {{delta}} Punkt verloren.",
-    "btt_opponent": "Ein Gegner hat {{delta}} Punkte erhalten.",
-    "btt_opponent_one": "Ein Gegner hat {{delta}} Punkt erhalten.",
     "emu_excuse": "{{player}} spielt Die Entschuldigung, um den Vogel mit der niedrigsten Punktzahl ({{delta}} Punkte) auszugleichen.",
     "emu_score": "Der Vogel von {{player}} mit folgenden Rängen brachte {{delta}} Punkte: {{ranks}}.",
     "quincunx": {
@@ -217,7 +213,9 @@
       "penalty_zero": "Spieler {{playerNum}} hat durch Karten auf der Hand keine Punkte verloren.",
       "penalty_one": "Spieler {{playerNum}} hat durch Karten auf der Hand {{count}} Punkt verloren.",
       "penalty_other": "Spieler {{playerNum}} hat durch Karten auf der Hand {{count}} Punkte verloren."
-    }
+    },
+    "btt_opponent_gain_one": "Ein Gegner hat {{delta}} Punkt erhalten.",
+    "btt_opponent_gain_other": "Ein Gegner hat {{delta}} Punkte erhalten."
   },
   "DESTROY": {
     "arimaa": "Ein {{colour}} {{what}} saß bei {{where}} in der Falle.",
@@ -330,10 +328,8 @@
     "camelot_canter": "{{player}} hat einen Galoppsprung mit einem Mann von {{from}} nach {{to}} gemacht.",
     "camelot_jump_knight": "{{player}} hat einen Sprung mit einem Springer von {{from}} nach {{to}} gemacht und dabei {{captured}} geschlagen.",
     "camelot_jump": "{{player}} hat einen Sprung mit einem Mann von {{from}} nach {{to}} gemacht und dabei {{captured}} geschlagen.",
-    "canoe": "{{player}} hat einen {{what}} von {{from}} nach {{to}} bewegt.",
     "chase": "{{player}} ist von {{from}} nach {{to}} gezogen (über {{through}}).",
     "collision": "{{player}} hat versucht, von {{from}} nach {{to}} zu ziehen, scheiterte aber wegen einer Kollision.",
-    "complete": "{{player}} hat einen {{what}} von {{from}} nach {{to}} gezogen.",
     "complete_one": "{{player}} hat einen Stein von {{from}} nach {{to}} gezogen.",
     "complete_other": "{{player}} hat {{count}} Steine von {{from}} nach {{to}} gezogen.",
     "deckfish": "{{player}} hat einen Stein von {{from}} nach {{to}} gezogen und dabei {{what}} eingesammelt.",
@@ -381,7 +377,8 @@
     "tricouleur_duplicate": "{{player}} hat einen Stein von {{from}} nach {{to}} dupliziert.",
     "veletas": "{{player}} hat den Schützen von {{from}} nach {{to}} bewegt.",
     "volo_one": "{{player}} hat einen Schwarm von 1 Vogel von {{from}} in Richtung {{how}} bewegt.",
-    "volo_other": "{{player}} hat einen Schwarm von {{count}} Vögeln von {{from}} in Richtung {{how}} bewegt."
+    "volo_other": "{{player}} hat einen Schwarm von {{count}} Vögeln von {{from}} in Richtung {{how}} bewegt.",
+    "complete_what": "{{player}} hat einen {{what}} von {{from}} nach {{to}} gezogen."
   },
   "NULLIFY_CLAIM": "Türme dürfen im letzten Zug des Spiels nicht beansprucht werden. Der Anspruch bei {{where}} wurde annulliert.",
   "ORIENT": {
@@ -496,19 +493,6 @@
     "strands_initial": "{{player}} hat einen Stein auf einem Feld mit der Aufschrift 2 bei {{where}} platziert.",
     "strands_one": "{{player}} hat einen Stein bei {{where}} platziert.",
     "strands_other": "{{player}} hat {{count}} Steine bei {{where}} platziert.",
-    "streetcar": "Ein Gebäude wurde bei {{where}} platziert.",
-    "streetcar_11": "Ein ORANGEFARBENES Gebäude der Höhe 1 wurde bei {{where}} platziert.",
-    "streetcar_12": "Ein ORANGEFARBENES Gebäude der Höhe 2 wurde bei {{where}} platziert.",
-    "streetcar_13": "Ein ORANGEFARBENES Gebäude der Höhe 3 wurde bei {{where}} platziert.",
-    "streetcar_21": "Ein GELBES Gebäude der Höhe 1 wurde bei {{where}} platziert.",
-    "streetcar_22": "Ein GELBES Gebäude der Höhe 2 wurde bei {{where}} platziert.",
-    "streetcar_23": "Ein GELBES Gebäude der Höhe 3 wurde bei {{where}} platziert.",
-    "streetcar_31": "Ein SCHWARZES Gebäude der Höhe 1 wurde bei {{where}} platziert.",
-    "streetcar_32": "Ein SCHWARZES Gebäude der Höhe 2 wurde bei {{where}} platziert.",
-    "streetcar_33": "Ein SCHWARZES Gebäude der Höhe 3 wurde bei {{where}} platziert.",
-    "streetcar_41": "Ein WEISSES Gebäude der Höhe 1 wurde bei {{where}} platziert.",
-    "streetcar_42": "Ein WEISSES Gebäude der Höhe 2 wurde bei {{where}} platziert.",
-    "streetcar_43": "Ein WEISSES Gebäude der Höhe 3 wurde bei {{where}} platziert.",
     "subdivision_park": "{{player}} hat einen Park bei {{where}} platziert.",
     "synapse": "{{player}} hat bei {{where}} einen Stein der Größe {{size}} in Richtung {{dir}} platziert.",
     "terrace": "{{player}} hat einen Stein der Größe {{size}} von {{from}} nach {{to}} bewegt.",
@@ -531,7 +515,20 @@
     },
     "veletas": "{{player}} hat ein {{what}} bei {{where}} platziert.",
     "viruswar": "{{player}} hat Viren/Mauern bei {{where}} platziert.",
-    "volo": "{{player}} fügt einen Vogel bei {{where}} hinzu."
+    "volo": "{{player}} fügt einen Vogel bei {{where}} hinzu.",
+    "streetcar_place_11": "Ein ORANGEFARBENES Gebäude der Höhe 1 wurde bei {{where}} platziert.",
+    "streetcar_place_12": "Ein ORANGEFARBENES Gebäude der Höhe 2 wurde bei {{where}} platziert.",
+    "streetcar_place_13": "Ein ORANGEFARBENES Gebäude der Höhe 3 wurde bei {{where}} platziert.",
+    "streetcar_place_21": "Ein GELBES Gebäude der Höhe 1 wurde bei {{where}} platziert.",
+    "streetcar_place_22": "Ein GELBES Gebäude der Höhe 2 wurde bei {{where}} platziert.",
+    "streetcar_place_23": "Ein GELBES Gebäude der Höhe 3 wurde bei {{where}} platziert.",
+    "streetcar_place_31": "Ein SCHWARZES Gebäude der Höhe 1 wurde bei {{where}} platziert.",
+    "streetcar_place_32": "Ein SCHWARZES Gebäude der Höhe 2 wurde bei {{where}} platziert.",
+    "streetcar_place_33": "Ein SCHWARZES Gebäude der Höhe 3 wurde bei {{where}} platziert.",
+    "streetcar_place_41": "Ein WEISSES Gebäude der Höhe 1 wurde bei {{where}} platziert.",
+    "streetcar_place_42": "Ein WEISSES Gebäude der Höhe 2 wurde bei {{where}} platziert.",
+    "streetcar_place_43": "Ein WEISSES Gebäude der Höhe 3 wurde bei {{where}} platziert.",
+    "streetcar_place_default": "Ein Gebäude wurde bei {{where}} platziert."
   },
   "PLAYSECOND": "{{player}} hat gewählt, als Zweites zu spielen.",
   "PROMOTE": {
@@ -654,12 +651,12 @@
     "general_other": "{{player}} hat {{count}} Steine von {{from}} genommen.",
     "moonsquad": "{{player}} hat ein Erz ({{ore}}) genommen.",
     "sploof": "{{player}} hat eine neutrale Kugel bei {{from}} genommen.",
-    "streetcar": "{{player}} hat ein Gebäudelimit von {{from}} genommen.",
-    "streetcar_1": "{{player}} hat ein ORANGEFARBENES Gebäudelimit von {{from}} genommen.",
-    "streetcar_2": "{{player}} hat ein GELBES Gebäudelimit von {{from}} genommen.",
-    "streetcar_3": "{{player}} hat ein SCHWARZES Gebäudelimit von {{from}} genommen.",
-    "streetcar_4": "{{player}} hat ein WEISSES Gebäudelimit von {{from}} genommen.",
-    "tablero": "{{player}} hat einen eigenen Stein vom Stapel bei {{from}} genommen."
+    "tablero": "{{player}} hat einen eigenen Stein vom Stapel bei {{from}} genommen.",
+    "streetcar_take_1": "{{player}} hat ein ORANGEFARBENES Gebäudelimit von {{from}} genommen.",
+    "streetcar_take_2": "{{player}} hat ein GELBES Gebäudelimit von {{from}} genommen.",
+    "streetcar_take_3": "{{player}} hat ein SCHWARZES Gebäudelimit von {{from}} genommen.",
+    "streetcar_take_4": "{{player}} hat ein WEISSES Gebäudelimit von {{from}} genommen.",
+    "streetcar_take_default": "{{player}} hat ein Gebäudelimit von {{from}} genommen."
   },
   "TIMEOUT": "{{player}} hat nach Zeit verloren.",
   "UNFURL": {

@@ -321,7 +321,7 @@ export class PippinzipGame extends GameBase {
                 if ( this.isFull() ) {
                     result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                 } else {
-                    result.message = i18next.t("apgames:validation.pippinzip.INSTRUCTIONS_PIP_2");
+                    result.message = i18next.t("apgames:validation.pippinzip.INSTRUCTIONS_PIP_SECOND");
                 }
                 return result;
             }

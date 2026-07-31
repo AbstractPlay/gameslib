@@ -219,7 +219,7 @@ export class CompartGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             if ( viableAreas.length === 1 ) {
-                result.message = i18next.t("apgames:validation.compart.INSTRUCTIONS");
+                result.message = i18next.t("apgames:validation.compart.INSTRUCTIONS_ANY");
             } else {
                 result.message = i18next.t("apgames:validation.compart.INSTRUCTIONS_other", {count: viableAreas.length});
             }

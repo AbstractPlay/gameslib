@@ -1346,7 +1346,7 @@ export class AnacheGame extends GameBase {
                 resolved = true;
                 break;
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.noperson.nowhere", { player, count: r.count }));
+                node.push(i18next.t("apresults:CAPTURE.noperson.nowhere_count", { player, count: r.count }));
                 resolved = true;
                 break;
             case "eog":

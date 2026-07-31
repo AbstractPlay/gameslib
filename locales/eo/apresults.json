@@ -4,8 +4,8 @@
         "fightopia_1": "{{player}} kaptis peonon ĉe {{where}}.",
         "noperson": {
             "simple": "La peco {{what}} kaptiĝis ĉe {{where}}.",
-            "nowhere": "La peco {{what}} kaptiĝis.",
-            "nowhat": "Peco kaptiĝis ĉe {{where}}."
+            "nowhat": "Peco kaptiĝis ĉe {{where}}.",
+            "nowhere_what": "La peco {{what}} kaptiĝis."
         },
         "monkey_queen": "Damo kaptiĝis.",
         "complete": "{{player}} kaptis la pecon {{what}} ĉe {{where}}.",

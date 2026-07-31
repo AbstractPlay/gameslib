@@ -2508,7 +2508,7 @@ export class CanoeGame extends GameBase {
                 }));
                 return true;
             case "move":
-                node.push(i18next.t("apresults:MOVE.canoe", {
+                node.push(i18next.t("apresults:MOVE.complete_what", {
                     player,
                     what: (r as {what: string}).what,
                     from: (r as {from: string}).from,

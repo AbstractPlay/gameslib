@@ -554,6 +554,12 @@ describe("Even at Odds", () => {
         for (const area of observerView.areas!) {
             expect((area as { ownerMark?: number }).ownerMark).to.be.undefined;
         }
+
+        const nonParticipantView = g.render({ perspective: -1 });
+        expect(nonParticipantView.areas).to.not.be.undefined;
+        for (const area of nonParticipantView.areas!) {
+            expect((area as { ownerMark?: number }).ownerMark).to.be.undefined;
+        }
     });
 
     it("strips hidden information from state()", () => {

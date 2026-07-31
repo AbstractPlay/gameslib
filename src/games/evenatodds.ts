@@ -544,10 +544,18 @@ export class EvenAtOddsGame extends GameBase {
         };
     }
 
+    private perspectivePlayer(perspective?: number): playerid | undefined {
+        if (perspective === 1 || perspective === 2) {
+            return perspective;
+        }
+        return undefined;
+    }
+
     private offBoardTileIds(perspective?: number): number[] {
+        const viewer = this.perspectivePlayer(perspective);
         const onBoardIds = new Set(this.tiles.map(t => t.id));
-        const myHand = perspective !== undefined
-            ? new Set(this.hands[perspective - 1].filter((id): id is number => id !== PENDING_DRAW))
+        const myHand = viewer !== undefined
+            ? new Set(this.hands[viewer - 1].filter((id): id is number => id !== PENDING_DRAW))
             : undefined;
         return [...this.pool.keys()]
             .filter(id => !onBoardIds.has(id) && (myHand === undefined || !myHand.has(id)))
@@ -1422,9 +1430,10 @@ export class EvenAtOddsGame extends GameBase {
             colour: { func: "flatten", fg: "_context_fill", bg: "_context_background", opacity: 0.5 },
         };
 
+        const viewer = this.perspectivePlayer(perspective);
         const handTileIds: number[] = [];
-        if (perspective !== undefined) {
-            for (const id of this.hands[perspective - 1]) {
+        if (viewer !== undefined) {
+            for (const id of this.hands[viewer - 1]) {
                 if (typeof id === "number") {
                     handTileIds.push(id);
                 }
@@ -1435,8 +1444,8 @@ export class EvenAtOddsGame extends GameBase {
             this.registerDominoHandTile(legend, id);
         }
 
-        if (perspective !== undefined) {
-            const hand = this.hands[perspective - 1];
+        if (viewer !== undefined) {
+            const hand = this.hands[viewer - 1];
             const visible = hand.filter(id => id !== PENDING_DRAW);
             if (visible.length > 0 || hand.includes(PENDING_DRAW)) {
                 const pieces = hand.map((id) => {
@@ -1446,8 +1455,8 @@ export class EvenAtOddsGame extends GameBase {
                 areas.push({
                     type: "pieces",
                     pieces,
-                    label: i18next.t("apgames:validation.evenatodds.LABEL_HAND", { playerNum: perspective, side: perspective === 1 ? "evens" : "odds" }) || `P${perspective} hand`,
-                    ownerMark: perspective as playerid,
+                    label: i18next.t("apgames:validation.evenatodds.LABEL_HAND", { playerNum: viewer, side: viewer === 1 ? "evens" : "odds" }) || `P${viewer} hand`,
+                    ownerMark: viewer,
                     spacing: 0.5,
                     width: 6,
                 });

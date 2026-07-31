@@ -27,7 +27,8 @@ export class SurmountGame extends GameBase {
         uid: "surmount",
         playercounts: [2],
         // version: "20250313",
-        version: "20260120",
+        // version: "20260120",
+        version: "20260731",
         dateAdded: "2025-03-21",
         // i18next.t("apgames:descriptions.surmount")
         description: "apgames:descriptions.surmount",
@@ -643,7 +644,7 @@ export class SurmountGame extends GameBase {
             // initial capture
             if (m.startsWith("x")) {
                 // old rules
-                if (this.stack[0]._version === "20250313") {
+                if (this.stack[0]._version === "20250313" || this.stack[0]._version === "20260731") {
                     const cell = m.substring(1);
                     const group = this.getGroups(this.currplayer === 1 ? 2 : 1).find(grp => grp.includes(cell))!;
                     // capture all stones in the group

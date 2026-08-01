@@ -140,7 +140,6 @@ export class CanoeGame extends GameBase {
     private highlights: string[] = [];
     private selectedCell?: string;
     private selectedSetupFace?: CubeFace;
-    private selectedDieSlot?: number;
     private partialMove?: string;
     private emulated = false;
     private freshFromBankThisTurn = new Set<string>();
@@ -212,7 +211,6 @@ export class CanoeGame extends GameBase {
         this.highlights = [];
         this.selectedCell = undefined;
         this.selectedSetupFace = undefined;
-        this.selectedDieSlot = undefined;
         this.partialMove = undefined;
         return this;
     }
@@ -249,7 +247,6 @@ export class CanoeGame extends GameBase {
         this.highlights = [];
         this.selectedCell = undefined;
         this.selectedSetupFace = undefined;
-        this.selectedDieSlot = undefined;
         this.partialMove = undefined;
         return this;
     }
@@ -590,13 +587,42 @@ export class CanoeGame extends GameBase {
     }
 
     private static parsePartialDiceSpec(partial: string): string | undefined {
-        const m = partial.match(/^(\d+(?:\+\d+)?):$/);
+        const m = partial.match(/^(?:;)?(\d+(?:\+\d+)?):$/);
         return m?.[1];
     }
 
     private static dicePrefixBeforeColon(s: string): string | undefined {
-        const m = s.match(/^(\d+(?:\+\d+)?):/);
+        const m = s.match(/^(?:;)?(\d+(?:\+\d+)?):/);
         return m?.[1];
+    }
+
+    /** Die-only partial with optional slot-1 marker (`;3:` = die 3 from second slot). */
+    private static parseDieOnlyPartial(partial: string): {die: number; slot: 0 | 1} | undefined {
+        const slot1 = partial.match(/^;(\d+):$/);
+        if (slot1 !== null) {
+            return {die: parseInt(slot1[1], 10), slot: 1};
+        }
+        const slot0 = partial.match(/^(\d+):$/);
+        if (slot0 !== null) {
+            return {die: parseInt(slot0[1], 10), slot: 0};
+        }
+        return undefined;
+    }
+
+    /** Strip doubles slot-1 marker for legal-move matching (`;3:e5` → `3:e5`). */
+    private static normalizePlayMove(m: string): string {
+        const {prefix, partial} = CanoeGame.parseMoveSegments(m);
+        if (!partial.startsWith(";")) {
+            return m;
+        }
+        const stripped = partial.slice(1);
+        if (prefix.length > 0) {
+            return `${prefix},${stripped}`;
+        }
+        if (CanoeGame.parseDieOnlyPartial(partial) !== undefined) {
+            return m;
+        }
+        return stripped;
     }
 
     private combinedDiceKey(d1: number, d2: number): string {
@@ -1663,7 +1689,8 @@ export class CanoeGame extends GameBase {
 
     private static hasLocalHalf(game: CanoeGame, die: number, ctx: IMoveContext, activePartial: string): boolean {
         const halves = game.getHalfMoves(die, ctx);
-        const fromOnly = activePartial.match(/^(\d+(?:\+\d+)?):([a-g][1-7])$/);
+        const normalized = CanoeGame.normalizePlayMove(activePartial);
+        const fromOnly = normalized.match(/^(\d+(?:\+\d+)?):([a-g][1-7])$/);
         if (fromOnly !== null) {
             const diePrefix = fromOnly[1];
             return halves.some(h => CanoeGame.moveStartsWithPrefix(h, `${diePrefix}:${fromOnly[2]}`));
@@ -1724,6 +1751,9 @@ export class CanoeGame extends GameBase {
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
         m = m.toLowerCase().replace(/\s+/g, "");
+        if (!this.phase.startsWith("setup")) {
+            m = CanoeGame.normalizePlayMove(m);
+        }
 
         if (m.length === 0) {
             result.valid = true;
@@ -2041,7 +2071,6 @@ export class CanoeGame extends GameBase {
         this.results = [];
         this.highlights = [];
         this.selectedCell = undefined;
-        this.selectedDieSlot = undefined;
         if (!(partial && this.phase === "play")) {
             this.partialMove = undefined;
         }
@@ -2132,14 +2161,15 @@ export class CanoeGame extends GameBase {
         this.highlights = [];
         this.selectedCell = undefined;
         const {prefix, partial} = CanoeGame.parseMoveSegments(m);
-        if (!partial.match(/^\d+(?:\+\d+)?:[a-g][1-7]$/)) {
+        const normalizedPartial = CanoeGame.normalizePlayMove(partial);
+        if (!normalizedPartial.match(/^\d+(?:\+\d+)?:[a-g][1-7]$/)) {
             return;
         }
-        const die = CanoeGame.selectedDieFromPartial(partial);
+        const die = CanoeGame.selectedDieFromPartial(normalizedPartial);
         if (die === undefined) {
             return;
         }
-        const from = partial.split(":")[1];
+        const from = normalizedPartial.split(":")[1];
         const completedHalves = prefix.length > 0
             ? prefix.split(",").filter(h => CanoeGame.isCompleteHalf(h))
             : [];
@@ -2283,34 +2313,31 @@ export class CanoeGame extends GameBase {
         const clickedDie = this.dieFromClick(cell, piece);
         const clickedSlot = this.dieSlotIndex(cell, piece);
         if (clickedDie !== undefined) {
-            const dieOnly = partial.match(/^(\d+):$/);
+            const dieOnly = CanoeGame.parseDieOnlyPartial(partial);
+            const [d1, d2] = this.roll as [number, number];
+            const partialForSlot = (die: number, slot?: number) => (
+                slot === 1 ? `;${die}:` : `${die}:`
+            );
             if (partial === "") {
-                this.selectedDieSlot = clickedSlot;
-                partial = `${clickedDie}:`;
-            } else if (dieOnly !== null) {
-                const prev = parseInt(dieOnly[1], 10);
-                const [d1, d2] = this.roll as [number, number];
+                partial = partialForSlot(clickedDie, clickedSlot);
+            } else if (dieOnly !== undefined) {
                 if (this.roll!.length === 2
                     && clickedSlot !== undefined
-                    && this.selectedDieSlot !== undefined
-                    && clickedSlot !== this.selectedDieSlot) {
+                    && clickedSlot !== dieOnly.slot) {
                     if (d1 === d2) {
                         const spec = this.combinedDiceKey(d1, d2);
                         if (this.isValidDieOnlyPartial(spec)) {
                             partial = `${spec}:`;
                         } else {
-                            this.selectedDieSlot = clickedSlot;
-                            partial = `${clickedDie}:`;
+                            partial = partialForSlot(dieOnly.die, dieOnly.slot);
                         }
-                    } else if (prev !== clickedDie) {
-                        partial = `${prev}+${clickedDie}:`;
+                    } else if (dieOnly.die !== clickedDie) {
+                        partial = `${dieOnly.die}+${clickedDie}:`;
                     } else {
-                        this.selectedDieSlot = clickedSlot;
-                        partial = `${clickedDie}:`;
+                        partial = partialForSlot(clickedDie, clickedSlot);
                     }
                 } else {
-                    this.selectedDieSlot = clickedSlot;
-                    partial = `${clickedDie}:`;
+                    partial = partialForSlot(clickedDie, clickedSlot);
                 }
             }
         } else {
@@ -2322,7 +2349,7 @@ export class CanoeGame extends GameBase {
                 const usedDice = completedHalves.map(h => CanoeGame.halfDieDistance(h)!);
                 const ctx = cloned.buildContext(usedDice, completedHalves);
                 const diePrefix = CanoeGame.dicePrefixBeforeColon(partial) ?? die.toString();
-                const fromMatch = partial.match(/^(\d+(?:\+\d+)?):([a-g][1-7])$/);
+                const fromMatch = partial.match(/^(?:;)?(\d+(?:\+\d+)?):([a-g][1-7])$/);
                 if (fromMatch !== null) {
                     const from = fromMatch[2];
                     if (cell === from) {
@@ -2369,7 +2396,7 @@ export class CanoeGame extends GameBase {
                             }
                         }
                     }
-                } else if (partial.match(/^\d+(?:\+\d+)?:$/) && cloned.board.has(cell) && cloned.board.get(cell)!.owner === cloned.currplayer) {
+                } else if (partial.match(/^(?:;)?\d+(?:\+\d+)?:$/) && cloned.board.has(cell) && cloned.board.get(cell)!.owner === cloned.currplayer) {
                     partial = `${diePrefix}:${cell}`;
                 }
             }
@@ -2387,7 +2414,7 @@ export class CanoeGame extends GameBase {
             combined = result.autocomplete;
             result = this.validateMove(combined) as IClickResult;
         }
-        result.move = result.valid ? combined : move;
+        result.move = result.valid ? CanoeGame.normalizePlayMove(combined) : move;
         return result;
     }
 

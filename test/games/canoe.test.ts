@@ -51,6 +51,23 @@ function clickCell(cell: string): [number, number] {
     return [row, col];
 }
 
+function seventhCubeSetDoublesFixture(): CanoeGame {
+    return playFixture([
+        ["e5", {owner: 2, face: 40, set: true}],
+        ["g3", {owner: 1, face: 16}],
+    ], {roll: [3, 3], currplayer: 2, canoeDone: true});
+}
+
+function clickWithFreshEngine(
+    makeGame: () => CanoeGame,
+    move: string,
+    row: number,
+    col: number,
+    piece?: string,
+) {
+    return makeGame().handleClick(move, row, col, piece);
+}
+
 function incompleteTurnFixture(): CanoeGame {
     return playFixture([
         ["d6", {owner: 1, face: 8}],
@@ -299,7 +316,7 @@ describe("Canoe", () => {
         expect(byCell.move).to.equal("3:");
         const byPiece = g.handleClick("", -1, -1, "D2");
         expect(byPiece.valid).to.be.true;
-        expect(byPiece.move).to.equal("5:");
+        expect(byPiece.move).to.equal(";5:");
     });
 
     it("clicking a die after the first half begins the second half", () => {
@@ -780,41 +797,49 @@ describe("Canoe", () => {
             ["e6", {owner: 2, face: 1}],
         ], {roll: [3, 4], currplayer: 1, canoeDone: true});
         const die4 = g2.handleClick("", g1Row, g1Col);
-        expect(die4.move).to.equal("4:");
+        expect(die4.move).to.equal(";4:");
         const bothReverse = g2.handleClick(die4.move, f2Row, f2Col);
         expect(bothReverse.valid).to.be.true;
         expect(bothReverse.move).to.equal("4+3:");
     });
 
     it("doubles die clicks combine for seventh-cube set", () => {
-        const g = playFixture([
-            ["e5", {owner: 2, face: 40, set: true}],
-            ["g3", {owner: 1, face: 16}],
-        ], {roll: [3, 3], currplayer: 2, canoeDone: true});
+        const makeGame = () => seventhCubeSetDoublesFixture();
         const [f2Row, f2Col] = clickCell("f2");
         const [g1Row, g1Col] = clickCell("g1");
         const [e5Row, e5Col] = clickCell("e5");
-        const die1 = g.handleClick("", f2Row, f2Col);
+        const die1 = clickWithFreshEngine(makeGame, "", f2Row, f2Col);
         expect(die1.move).to.equal("3:");
-        const both = g.handleClick(die1.move, g1Row, g1Col);
+        const both = clickWithFreshEngine(makeGame, die1.move, g1Row, g1Col);
         expect(both.valid).to.be.true;
         expect(both.move).to.equal("3+3:");
-        const cube = g.handleClick(both.move, e5Row, e5Col);
+        const cube = clickWithFreshEngine(makeGame, both.move, e5Row, e5Col);
         expect(cube.valid).to.be.true;
         expect(cube.move).to.equal("3+3:e5");
     });
 
+    it("doubles die clicks combine D2 then D1 with fresh engines", () => {
+        const makeGame = () => seventhCubeSetDoublesFixture();
+        const [f2Row, f2Col] = clickCell("f2");
+        const [g1Row, g1Col] = clickCell("g1");
+        const die1 = clickWithFreshEngine(makeGame, "", g1Row, g1Col, "D2");
+        expect(die1.move).to.equal(";3:");
+        const both = clickWithFreshEngine(makeGame, die1.move, f2Row, f2Col, "D1");
+        expect(both.valid).to.be.true;
+        expect(both.move).to.equal("3+3:");
+    });
+
     it("doubles die clicks do not combine for seventh-cube regular", () => {
-        const g = playFixture([
+        const makeGame = () => playFixture([
             ["b3", {owner: 1, face: 40}],
             ["g3", {owner: 2, face: 16}],
         ], {roll: [3, 3], currplayer: 1, canoeDone: true});
-        expect(g.moves().some(m => m.includes("3+3"))).to.be.false;
+        expect(makeGame().moves().some(m => m.includes("3+3"))).to.be.false;
         const [f2Row, f2Col] = clickCell("f2");
         const [g1Row, g1Col] = clickCell("g1");
-        const die1 = g.handleClick("", f2Row, f2Col);
+        const die1 = clickWithFreshEngine(makeGame, "", f2Row, f2Col);
         expect(die1.move).to.equal("3:");
-        const die2 = g.handleClick(die1.move, g1Row, g1Col);
+        const die2 = clickWithFreshEngine(makeGame, die1.move, g1Row, g1Col);
         expect(die2.move).to.equal("3:");
     });
 

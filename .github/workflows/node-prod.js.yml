@@ -57,9 +57,16 @@ jobs:
           uses: stefanzweifel/git-auto-commit-action@v5
           with:
             commit_message: "i18n: Auto-translate locale files [skip ci]"
-            file_pattern: |
-              locales/*/*.json
-              locale-src/*/*.json
+            file_pattern: 'locales/{de,fr,it}/*.json locale-src/{de,fr,it}/*.json'
+            disable_globbing: true
+
+        - name: Verify locale-src was committed
+          run: |
+            if git status --porcelain locale-src/ | grep -q .; then
+              echo "::error::locale-src/ has unstaged changes after auto-commit — sidecar stamps were not pushed"
+              git status --porcelain locale-src/
+              exit 1
+            fi
 
         - name: Upload translation debug artifacts
           if: failure()

@@ -208,6 +208,10 @@ export class CanoeGame extends GameBase {
         this.firstPlayer = entry.firstPlayer;
         this.lastmove = entry.lastmove;
         this.freshFromBankThisTurn = new Set();
+        this.highlights = [];
+        this.selectedCell = undefined;
+        this.selectedSetupFace = undefined;
+        this.partialMove = undefined;
         return this;
     }
 
@@ -615,20 +619,21 @@ export class CanoeGame extends GameBase {
         }
         const [d1, d2] = this.roll;
         const canonical = this.combinedDiceKey(d1, d2);
+        const all = this.phase === "play" ? this.turnBaseline().moves() : this.moves();
         if (CanoeGame.isCombinedDiceSpec(spec)) {
             if (spec !== canonical && spec !== this.combinedDiceKey(d2, d1)) {
                 return false;
             }
-            return this.moves().some(m => m.startsWith(`${canonical}:`));
+            return all.some(m => m.startsWith(`${canonical}:`));
         }
         const die = parseInt(spec, 10);
         if (die !== d1 && die !== d2) {
             return false;
         }
-        if (this.moves().some(mv => mv.startsWith(`${die}:`))) {
+        if (all.some(mv => mv.startsWith(`${die}:`))) {
             return true;
         }
-        return this.moves().some(mv => mv.startsWith(`${canonical}:`));
+        return all.some(mv => mv.startsWith(`${canonical}:`));
     }
 
   /** Cells that may not start another half-move this turn after `half` is played. */
@@ -1668,17 +1673,21 @@ export class CanoeGame extends GameBase {
         } else {
             activePartial = parsedPartial;
             if (completedHalves.length > 0) {
-                const cloned = this.turnBaseline();
-                cloned.move(completedHalves.join(","), {partial: true, trusted: true});
-                const die = CanoeGame.selectedDieFromPartial(activePartial);
-                if (die === undefined) {
+                try {
+                    const cloned = this.turnBaseline();
+                    cloned.move(completedHalves.join(","), {partial: true, trusted: true});
+                    const die = CanoeGame.selectedDieFromPartial(activePartial);
+                    if (die === undefined) {
+                        return false;
+                    }
+                    const ctx = cloned.buildContext(
+                        completedHalves.map(h => CanoeGame.halfDieDistance(h)!),
+                        completedHalves,
+                    );
+                    return CanoeGame.hasLocalHalf(cloned, die, ctx, activePartial);
+                } catch {
                     return false;
                 }
-                const ctx = cloned.buildContext(
-                    completedHalves.map(h => CanoeGame.halfDieDistance(h)!),
-                    completedHalves,
-                );
-                return CanoeGame.hasLocalHalf(cloned, die, ctx, activePartial);
             }
         }
 
@@ -1687,11 +1696,12 @@ export class CanoeGame extends GameBase {
             return false;
         }
 
-        const ctx = this.buildContext(
+        const baseline = this.turnBaseline();
+        const ctx = baseline.buildContext(
             completedHalves.map(h => CanoeGame.halfDieDistance(h)!),
             completedHalves,
         );
-        return CanoeGame.hasLocalHalf(this, die, ctx, activePartial);
+        return CanoeGame.hasLocalHalf(baseline, die, ctx, activePartial);
     }
 
     public validateMove(m: string): IValidationResult {
@@ -2078,7 +2088,8 @@ export class CanoeGame extends GameBase {
             return this;
         }
 
-        const legalBefore = this.moves();
+        this.syncFromStackEntry(this.stack[this.stack.length - 1]);
+        const legalBefore = this.turnBaseline().moves();
         for (const half of halves) {
             this.executeHalf(half);
         }

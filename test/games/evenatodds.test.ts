@@ -634,12 +634,33 @@ describe("Even at Odds", () => {
         expect(ms.removed).to.deep.equal([]);
     });
 
-    it("reveals removed tiles after game over", () => {
+    it("reveals all hidden information after game over", () => {
         const g = new EvenAtOddsGame();
+        g.move("evens");
         g.gameover = true;
         const stripped = g.state({ strip: true, player: 1 });
         const ms = stripped.stack[stripped.stack.length - 1];
+        expect(ms.hands[0]).to.have.length(7);
+        expect(ms.hands[1]).to.have.length(7);
+        expect(ms.boneyard).to.have.length(6);
+        expect(ms.boneyardCount).to.be.undefined;
         expect(ms.removed).to.have.length(2);
+    });
+
+    it("shows both player hands in render after game over", () => {
+        const g = gameFrom({
+            currplayer: 1,
+            hands: [[2, 5], [8, 12]],
+            boneyard: [],
+            removed: [],
+        });
+        g.gameover = true;
+
+        const view = g.render();
+        const handAreas = view.areas!.filter(a => a.type === "pieces" && (a as { ownerMark?: number }).ownerMark !== undefined);
+        expect(handAreas).to.have.length(2);
+        expect((handAreas[0] as { ownerMark?: number }).ownerMark).to.equal(1);
+        expect((handAreas[1] as { ownerMark?: number }).ownerMark).to.equal(2);
     });
 
     it("reports boneyard count in sidebarStatuses", () => {

@@ -1181,6 +1181,7 @@
   "validation.clusterfuss.MUST_CAPTURE": "Every move must capture, but there is no piece at {{where}} to capture.",
   "validation.clusterfuss.PARTIAL": "Select an orthogonally adjacent piece to capture (yours or your opponent's).",
   "validation.clusterfuss.SINGLE_GROUP": "After your capture, there must be only one orthogonally connected group that contains your own checkers.",
+  "validation.compart.INSTRUCTIONS_ANY": "Place one piece on any empty cell.",
   "validation.compart.INSTRUCTIONS_one": "Place one piece on the last viable area.",
   "validation.compart.INSTRUCTIONS_other": "Place {{count}} pieces, one on each friendly viable area (connected groups of friendly pieces and empty cells).",
   "validation.compart.OCCUPIED": "Placements may only be made on empty cells!",
@@ -1396,8 +1397,11 @@
   "validation.epam.STRAIGHTLINE": "You can only move in straight lines.",
   "validation.epam.TOOFAR": "The phalanx {{tail}}-{{head}} cannot move {{distance}} spaces.",
   "validation.evenatodds.INITIAL_INSTRUCTIONS": "Select a domino from your hand to play.",
+  "validation.evenatodds.INITIAL_INSTRUCTIONS_choose": "Choose evens or odds.",
   "validation.evenatodds.LABEL_HAND": "Player {{playerNum}} hand ({{side}})",
+  "validation.evenatodds.LABEL_HAND_NO_SIDE": "Player {{playerNum}} hand",
   "validation.evenatodds.LABEL_REMAINING": "Tiles not on board",
+  "validation.evenatodds.MUST_CHOOSE_SIDE": "You must choose evens or odds before playing.",
   "validation.evenatodds.NEEDS_ANCHOR_PIP": "This placement is ambiguous. Mark the anchor pip with an asterisk (e.g. 1*-2@-3,1N or 1-2*@-3,1N).",
   "validation.evenatodds.NOT_IN_HAND": "That domino is not in your hand.",
   "validation.evenatodds.PARTIAL": "Click an anchor half-cell, then the other end of the domino.",
@@ -2128,6 +2132,7 @@
   "validation.pippinzip.ERROR_PLACEMENT_ZIP": "The Zip player (the taker) must place one piece on an empty cell!",
   "validation.pippinzip.INITIAL_INSTRUCTIONS": "This is the auction phase. Either place one to three pieces on empty cells to improve 'Zip' position, or press 'pass' to finish the auction and be 'Zip'.",
   "validation.pippinzip.INSTRUCTIONS_PIP": "Place two friendly pieces not orthogonally adjacent to each other.",
+  "validation.pippinzip.INSTRUCTIONS_PIP_SECOND": "Place the second friendly piece not orthogonally adjacent to the previous one.",
   "validation.pippinzip.INSTRUCTIONS_ZIP": "Place one friendly piece.",
   "validation.pippinzip.TOO_MANY_PLACEMENTS_AUCTION": "Too many placements. During the auction players can place up to three pieces on empty cells!",
   "validation.pletore.INITIAL_INSTRUCTIONS": "Place a piece onto an empty intersection not controlled by the opponent, replace an enemy piece on an intersection you control, or 'pass' if all intersections are occupied or controlled. The game ends when both players pass in sequence.",
@@ -4196,7 +4201,5 @@
   "variants.y.size-25.name": "Size-25 board",
   "variants.y.size-9.name": "Size-9 board",
   "variants.zola.#board.name": "6x6 board",
-  "variants.zola.8x8.name": "8x8 board",
-  "validation.compart.INSTRUCTIONS_ANY": "Place one piece on any empty cell.",
-  "validation.pippinzip.INSTRUCTIONS_PIP_SECOND": "Place the second friendly piece not orthogonally adjacent to the previous one."
+  "variants.zola.8x8.name": "8x8 board"
 }

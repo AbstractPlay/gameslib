@@ -21,7 +21,6 @@
     "full-prod": "npm run test && npm run build && npm run dist-prod && npm run deploy",
     "deploy": "shx cp ./playground/playground.* ./dist && npx serverless client deploy --no-confirm --no-delete-contents",
     "deploy:ci": "shx cp ./playground/playground.* ./dist && npx serverless client deploy --no-confirm --no-delete-contents",
-    "extract": "i18next 'src/**/*.ts'",
     "translate": "node scripts/translate.mjs locales/en/apgames.json locales/en/apresults.json",
     "check-weblate-keys": "node scripts/check-weblate-keys.mjs",
     "check-locale-readiness": "node scripts/check-locale-readiness.mjs",

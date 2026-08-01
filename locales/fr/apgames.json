@@ -4307,7 +4307,8 @@
     },
     "blam": {
       "NUMPIECES_one": "{{count}} pièce",
-      "NUMPIECES_other": "{{count}} pièces"
+      "NUMPIECES_other": "{{count}} pièces",
+      "NUMPIECES_many": ""
     },
     "bug": {
       "PLACEABLE_COUNT": "Nombre placable"
@@ -4433,7 +4434,8 @@
       "TOOFAR": "Dans le coup '{{move}}', l'étape '{{step}}' essaie de se déplacer plus loin qu'autorisé.",
       "TOOHIGH": "Dans le coup '{{move}}', l'étape '{{step}}' créerait une pile de plus de six pièces de haut.",
       "USEMINUS": "À l'étape {{step}}, utilisez un signe moins lors du déplacement vers une case vide.",
-      "USEPLUS": "À l'étape {{step}}, utilisez un signe plus lors du déplacement sur une pile existante."
+      "USEPLUS": "À l'étape {{step}}, utilisez un signe plus lors du déplacement sur une pile existante.",
+      "PARTIAL_SUBSTACK_many": ""
     },
     "acity": {
       "BAD_DOME": "Les dômes ne peuvent être placés que sur des tuiles de la même couleur, sauf si tous ces placements rompent le réseau routier.",
@@ -4540,7 +4542,8 @@
       "SELECT_MORE_SUPERKO": "Vous devez continuer à effectuer des déplacements de groupe car l'état actuel du plateau est invalide en raison du superko.",
       "SUPERKO": "Superko : vous ne pouvez pas répéter un état antérieur du plateau.",
       "TOO_MANY": "Vous ne pouvez sélectionner que {{count}} pièces au maximum pour les déplacer en groupe.",
-      "TOO_MANY_MOVES": "Vous ne pouvez déplacer que deux groupes lors d'un tour normal."
+      "TOO_MANY_MOVES": "Vous ne pouvez déplacer que deux groupes lors d'un tour normal.",
+      "SELECT_MORE_PIECES_many": ""
     },
     "archimedes": {
       "FLEET_FULL": "Vous ne pouvez pas avoir plus de 12 pièces.",
@@ -4574,7 +4577,8 @@
       "WARN_BALANCE": "Équilibrez vos quatre pièces les plus fortes d'est en ouest.",
       "WARN_FILE": "Ne placez pas votre éléphant sur la même colonne que l'éléphant adverse.",
       "WARN_HIDE": "Ne cachez pas de pièces plus fortes derrière des pièces plus faibles (sauf les chats derrière les lapins).",
-      "WARNINGS": "Votre mise en place est terminée, mais certains éléments méritent réflexion pour les nouveaux joueurs. Vous pouvez cliquer sur Terminer le coup pour ignorer, ou lire les conseils suivants :"
+      "WARNINGS": "Votre mise en place est terminée, mais certains éléments méritent réflexion pour les nouveaux joueurs. Vous pouvez cliquer sur Terminer le coup pour ignorer, ou lire les conseils suivants :",
+      "PARTIAL_many": ""
     },
     "armadas": {
       "BAD_PASS": "En cas de passe, cela doit être la seule commande fournie.",
@@ -4850,7 +4854,11 @@
       "GO_BACK_other": "Il vous reste {{count}} pièces à semer. Cliquez sur une pièce du chemin de semailles pour revenir en arrière et réprimer une tentative.",
       "CONTINUE_one": "Vous avez 1 autre pièce à semer.",
       "CONTINUE_other": "Vous avez encore {{count}} pièces à semer.",
-      "NORMALISE": "Le coup doit être normalisé. Essayez '{{normalised}}'."
+      "NORMALISE": "Le coup doit être normalisé. Essayez '{{normalised}}'.",
+      "TOO_MANY_SOWS_many": "",
+      "START_SOWING_many": "",
+      "GO_BACK_many": "",
+      "CONTINUE_many": ""
     },
     "byte": {
       "ADJ_ONLY": "Les piles ne peuvent se déplacer que vers des cases adjacentes.",
@@ -4864,7 +4872,8 @@
       "MUST_CLIMB": "Lors d'une fusion, le pion du bas doit finir à une position plus élevée que celle où il a commencé.",
       "TOO_HIGH_one": "Déplacer {{count}} pion de {{from}} vers {{to}} entraînerait une pile trop haute.",
       "TOO_HIGH_other": "Déplacer {{count}} pions de {{from}} vers {{to}} entraînerait une pile trop haute.",
-      "UNOWNED_INDEX": "Vous ne contrôlez pas le pion à la position {{index}} dans la pile en {{where}}."
+      "UNOWNED_INDEX": "Vous ne contrôlez pas le pion à la position {{index}} dans la pile en {{where}}.",
+      "TOO_HIGH_many": ""
     },
     "c1": {
       "INITIAL_INSTRUCTIONS": "Sélectionnez une pièce ou une tuile à déplacer.",
@@ -4914,7 +4923,8 @@
       "CANTER_NOTATION": "Le coup de {{from}} vers {{to}} est un saut d'amie (canter). Utilisez la notation '^' pour indiquer un saut d'amie.",
       "INVALID_TO": "La pièce en {{from}} ne peut pas se déplacer vers {{to}}.",
       "NEED_TO_JUMP": "Vous devez continuer à effectuer une capture.",
-      "CAN_CANTER": "Vous pouvez continuer d'effectuer des sauts d'amie ou terminer le tour ici."
+      "CAN_CANTER": "Vous pouvez continuer d'effectuer des sauts d'amie ou terminer le tour ici.",
+      "TREE_CONTINUE_many": ""
     },
     "carnac": {
       "INVALID_ORIENTATION": "{{orient}} n'est pas un placement valide (utilisez les chiffres haut+avant 11, 12, 21 ou 22).",
@@ -4968,7 +4978,10 @@
       "MAKE_MORE_MOVES_one": "Placez {{count}} pièce supplémentaire ou terminez votre tour.",
       "MAKE_MORE_MOVES_other": "Placez jusqu'à {{count}} pièces supplémentaires ou terminez votre tour.",
       "TOO_MANY_MOVES_one": "Vous ne pouvez placer que {{count}} pièce sur le plateau.",
-      "TOO_MANY_MOVES_other": "Vous ne pouvez placer que jusqu'à {{count}} pièces sur le plateau."
+      "TOO_MANY_MOVES_other": "Vous ne pouvez placer que jusqu'à {{count}} pièces sur le plateau.",
+      "INITIAL_INSTRUCTIONS_many": "",
+      "MAKE_MORE_MOVES_many": "",
+      "TOO_MANY_MOVES_many": ""
     },
     "catsdogs": {
       "INITIAL_INSTRUCTIONS": "Placez une pièce alliée non adjacente orthogonalement à une pièce ennemie.",
@@ -5029,7 +5042,8 @@
       "PARTIAL": "Sélectionnez une destination.",
       "PARTIAL_PLACE": "Sélectionnez la case de votre rangée de départ où placer votre pièce {{piece}}.",
       "PARTIAL_SETUP_one": "Placez votre dernière pièce.",
-      "PARTIAL_SETUP_other": "Vous avez encore {{count}} pièces à placer."
+      "PARTIAL_SETUP_other": "Vous avez encore {{count}} pièces à placer.",
+      "PARTIAL_SETUP_many": ""
     },
     "clearcut": {
       "BAD_CROSSING": "Les lignes ne peuvent se croiser que si le groupe créé par la pièce placée est plus grand qu'au moins un groupe adverse dans l'intersection.",
@@ -5071,7 +5085,8 @@
       "INSTRUCTIONS_other": "Placez {{count}} pièces, une sur chaque zone viable alliée (groupes connectés de pièces alliées et de cases vides).",
       "OCCUPIED": "Les placements ne peuvent être effectués que sur des cases vides !",
       "VIABLE_AREA_REPEATED": "Vous ne pouvez placer qu'une seule pièce dans chaque zone viable.",
-      "INSTRUCTIONS_ANY": "Placez une pièce sur n'importe quelle case vide."
+      "INSTRUCTIONS_ANY": "Placez une pièce sur n'importe quelle case vide.",
+      "INSTRUCTIONS_many": ""
     },
     "complica": {
       "INITIAL_INSTRUCTIONS": "Sélectionnez la colonne dans laquelle faire tomber votre pierre."
@@ -5183,7 +5198,13 @@
       "NEED_MORE_PLANES_NO_ENTRY_other": "Vous devez déplacer {{count}} avions supplémentaires ce tour-ci. Sélectionnez l'avion suivant. Cliquez sur les avions ennemis si vous pensez qu'ils peuvent être abattus.",
       "INVALID_ENTRY_POSITION": "Vous ne pouvez pas faire entrer d'avion en {{cell}}, les avions ne peuvent entrer que par le bord de départ en surbrillance.",
       "CAN_SHOOT": "Vous pouvez également cliquer sur un avion ennemi pour l'abattre.",
-      "MOVE_COMPLETE_CAN_SHOOT": "Déplacement terminé. Vous pouvez tirer sur des avions ennemis ou valider votre coup."
+      "MOVE_COMPLETE_CAN_SHOOT": "Déplacement terminé. Vous pouvez tirer sur des avions ennemis ou valider votre coup.",
+      "INITIAL_INSTRUCTIONS_many": "",
+      "INITIAL_INSTRUCTIONS_NO_ENTRY_many": "",
+      "INITIAL_INSTRUCTIONS_MOVE_ONLY_many": "",
+      "INITIAL_INSTRUCTIONS_ENTRY_ONLY_many": "",
+      "NEED_MORE_PLANES_many": "",
+      "NEED_MORE_PLANES_NO_ENTRY_many": ""
     },
     "cubeo": {
       "BAD_MERGE": "Vous ne pouvez fusionner que si vous avez au moins trois dés dans la formation, et vous ne pouvez pas retirer un dé bloqué ou un dé qui ne peut pas glisser hors de la formation.",
@@ -5453,7 +5474,8 @@
       "SWAP21_one": "Placez 1 pièce de plus sur le plateau.",
       "SWAP21_other": "Placez {{count}} pièces de plus sur le plateau.",
       "SWAP22_EXCESS": "Vous avez placé trop de pièces. Vous ne pouvez placer que 2 pièces.",
-      "SWAP22_PARTIAL": "Terminez le coup pour continuer en tant que joueur 2, ou placez une autre pièce sur le plateau pour laisser l'adversaire décider de jouer en tant que joueur 1 ou joueur 2."
+      "SWAP22_PARTIAL": "Terminez le coup pour continuer en tant que joueur 2, ou placez une autre pièce sur le plateau pour laisser l'adversaire décider de jouer en tant que joueur 1 ou joueur 2.",
+      "SWAP21_many": ""
     },
     "frames": {
       "INITIAL_INSTRUCTIONS": "Cliquez sur une case vide pour ajouter une pièce au plateau."
@@ -5967,7 +5989,8 @@
       "MOVE_MUST_STACK": "Les piles en déplacement doivent terminer leur mouvement au sommet d'une autre pile.",
       "PARTIAL_FULLSTACK": "Il semble que vous souhaitiez déplacer une pile entière. Indiquez la destination.",
       "PARTIAL_SUBSTACK_one": "Il semble que vous souhaitiez déplacer la pièce supérieure de la pile. Indiquez la destination.",
-      "PARTIAL_SUBSTACK_other": "Il semble que vous souhaitiez déplacer les {{count}} pièces supérieures de la pile. Indiquez la destination."
+      "PARTIAL_SUBSTACK_other": "Il semble que vous souhaitiez déplacer les {{count}} pièces supérieures de la pile. Indiquez la destination.",
+      "PARTIAL_SUBSTACK_many": ""
     },
     "monkey": {
       "INITIAL_INSTRUCTIONS": "Sélectionnez l'une de vos pièces.",
@@ -6185,7 +6208,8 @@
       "SELECT_CELL_orientation_one": "Réorientation : Sélectionnez une case supplémentaire mise en surbrillance à abandonner.",
       "SELECT_CELL_orientation_other": "Réorientation : Sélectionnez {{count}} cases supplémentaires mises en surbrillance à abandonner.",
       "TOO_MANY_CELLS": "Vous avez sélectionné plus de cases que ne le permettent les effets secondaires déclenchés.",
-      "WITHIN_BL": "Les cases revendiquées/converties à la suite d'un changement de marche doivent se trouver dans la marche de destination."
+      "WITHIN_BL": "Les cases revendiquées/converties à la suite d'un changement de marche doivent se trouver dans la marche de destination.",
+      "SELECT_CELL_orientation_many": ""
     },
     "pahtum": {
       "INITIAL_INSTRUCTIONS_offer": "Placez les cinq blocs et une seule pierre. Votre adversaire choisira ensuite quelle couleur jouer.",
@@ -6559,7 +6583,17 @@
       "YAMAGUCHI4_CHOOSE_one": "Vous devez choisir le cinquième coup temporaire.",
       "YAMAGUCHI4_CHOOSE_other": "Vous devez choisir l'un des {{count}} cinquièmes coups temporaires.",
       "YAMAGUCHI4_EXCESS": "Votre coup contient trop d'éléments.",
-      "YAMAGUCHI42": "Sélectionnez une intersection pour placer la sixième pierre."
+      "YAMAGUCHI42": "Sélectionnez une intersection pour placer la sixième pierre.",
+      "INITIAL_INSTRUCTIONS_SOOSYRV4_many": "",
+      "INITIAL_INSTRUCTIONS_YAMAGUCHI3_many": "",
+      "INITIAL_INSTRUCTIONS_YAMAGUCHI4_many": "",
+      "SOOSYRV3_EXCESS_many": "",
+      "SOOSYRV3_MORE_many": "",
+      "SOOSYRV4_CHOOSE_many": "",
+      "TARAGUCHI_RESTRICTION5_MORE_many": "",
+      "YAMAGUCHI3_EXCESS_many": "",
+      "YAMAGUCHI3_MORE_many": "",
+      "YAMAGUCHI4_CHOOSE_many": ""
     },
     "resolve": {
       "INITIAL_INSTRUCTIONS": "Sélectionnez une intersection pour placer une pièce.",
@@ -6856,7 +6890,9 @@
       "STRAIGHT_ONLY": "Les pièces ne peuvent se déplacer qu'en ligne droite.",
       "TOO_MANY": "Vous avez placé trop de pièces. Veuillez réinitialiser le coup et réessayer.",
       "WALL_CLIMB": "Les pièces ne peuvent pas se déplacer du sol vers une tuile de mur.",
-      "WALL_JUMP": "Les pièces ne peuvent sauter par-dessus une tuile de mur que si cette tuile contient au moins une de vos propres pièces."
+      "WALL_JUMP": "Les pièces ne peuvent sauter par-dessus une tuile de mur que si cette tuile contient au moins une de vos propres pièces.",
+      "PARTIAL_PLACE_FIRST_many": "",
+      "PARTIAL_PLACE_SECOND_many": ""
     },
     "stormc": {
       "INITIAL_INSTRUCTIONS": "Sélectionnez l'une de vos pièces à déplacer.",
@@ -6874,7 +6910,9 @@
       "PLACE_MORE_one": "Placez 1 pièce supplémentaire sur une case portant le numéro {{num}}.",
       "PLACE_MORE_other": "Placez {{count}} pièces supplémentaires sur des cases portant le numéro {{num}}.",
       "TOO_MANY_one": "Vous ne pouvez placer qu'une seule pièce.",
-      "TOO_MANY_other": "Vous ne pouvez placer que {{count}} pièces."
+      "TOO_MANY_other": "Vous ne pouvez placer que {{count}} pièces.",
+      "PLACE_MORE_many": "",
+      "TOO_MANY_many": ""
     },
     "streetcar": {
       "ADJ_TO_BLDG": "Vous ne pouvez pas retirer une limite d'habitation adjacente à un bâtiment.",
@@ -6971,7 +7009,8 @@
       "PARTIAL_MOVE_other": "Continuez à vous déplacer jusqu'à avoir déposé toutes les pièces de la pile. Il vous reste {{count}} pions à déposer.",
       "PARTIAL_PLACE": "Choisissez la case où vous souhaitez placer le pion.",
       "PARTIAL_TAKE": "Cliquez sur la pile que vous contrôlez dont vous souhaitez retirer un pion.",
-      "VALID_PARTIAL": "Premier coup terminé. Jouez maintenant le second."
+      "VALID_PARTIAL": "Premier coup terminé. Jouez maintenant le second.",
+      "PARTIAL_MOVE_many": ""
     },
     "tafl": {
       "BERSERK": "Le coup berserk vers {{to}} est invalide.",
@@ -7195,7 +7234,10 @@
       "STATIONARY_LOS": "Il n'y a pas de ligne de vue pour placer en {{where}}.",
       "STRAIGHTLINE": "Vous ne pouvez déplacer et placer qu'en ligne droite.",
       "TOO_MANY_SHOOTERS_one": "Vous ne pouvez placer que {{count}} tireur.",
-      "TOO_MANY_SHOOTERS_other": "Vous ne pouvez placer que {{count}} tireurs."
+      "TOO_MANY_SHOOTERS_other": "Vous ne pouvez placer que {{count}} tireurs.",
+      "INITIAL_INSTRUCTIONS_PLACE_many": "",
+      "PLACE_SHOOTER_many": "",
+      "TOO_MANY_SHOOTERS_many": ""
     },
     "verge": {
       "FROZEN_NEIGHBOUR": "Vous ne pouvez pas placer à côté de l'un de vos groupes gelés.",
@@ -7204,7 +7246,8 @@
     "viruswar": {
       "INITIAL_INSTRUCTIONS_one": "Placez une pièce adjacente au groupe de pièces alliées comprenant votre base. La pièce peut être un virus actif (cercle) ou un mur défensif (carré). Placez un virus sur une case vide, ou remplacez un virus ennemi par un mur défensif allié.",
       "INITIAL_INSTRUCTIONS_other": "Placez {{count}} pièces, chacune devant être adjacente au groupe de pièces alliées comprenant votre base. Les pièces peuvent être des virus actifs (cercles) ou des murs défensifs (carrés). Placez un virus sur une case vide, ou remplacez un virus ennemi par un mur défensif allié.",
-      "CANNOT_GROW": "La case {{where}} ne peut pas recevoir de nouveau virus/mur ! La pièce doit être placée sur une case vide ou sur un virus actif et être adjacente au groupe de la base."
+      "CANNOT_GROW": "La case {{where}} ne peut pas recevoir de nouveau virus/mur ! La pièce doit être placée sur une case vide ou sur un virus actif et être adjacente au groupe de la base.",
+      "INITIAL_INSTRUCTIONS_many": ""
     },
     "volcano": {
       "BAD_FROM": "{{from}} ne semble pas être une position sur le plateau, ni une pièce de votre réserve.",
@@ -7276,7 +7319,11 @@
       "TOO_MANY_one": "Vous ne pouvez placer que {{count}} pièce au maximum ce tour-ci.",
       "TOO_MANY_other": "Vous ne pouvez placer que {{count}} pièces au maximum ce tour-ci.",
       "VALID_BUT_one": "Valide pour l'instant. Vous pouvez vous arrêter ou placer {{count}} pièce de plus.",
-      "VALID_BUT_other": "Valide pour l'instant. Vous pouvez vous arrêter ou placer {{count}} pièces de plus."
+      "VALID_BUT_other": "Valide pour l'instant. Vous pouvez vous arrêter ou placer {{count}} pièces de plus.",
+      "INITIAL_INSTRUCTIONS_play_many": "",
+      "INITIAL_INSTRUCTIONS_setup_many": "",
+      "TOO_MANY_many": "",
+      "VALID_BUT_many": ""
     },
     "wyke": {
       "CELL_CLAIMED": "La case {{cell}} a déjà été revendiquée et ne peut plus faire l'objet d'interactions.",

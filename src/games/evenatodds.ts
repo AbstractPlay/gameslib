@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IStatus, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IScores, IStatus, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaPieces, Colourfuncs, DominoTileRef, Glyph, IsoPiece, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -11,6 +11,7 @@ import { connectedComponents } from "graphology-components";
 
 export type playerid = 1 | 2;
 export type Pip = 0 | 1 | 2 | 3 | 4 | 5 | 6;
+export type Side = "evens" | "odds";
 type Half = [number, number];
 type HandEntry = number | "";
 type Dir = "N" | "E" | "S" | "W";
@@ -54,6 +55,7 @@ export interface IMoveState extends IIndividualState {
     anchor?: Half;
     anchorPip?: Pip;
     boneyardCount?: number;
+    p1Side?: Side;
 }
 
 export interface IEvenAtOddsState extends IAPGameState {
@@ -83,7 +85,7 @@ export class EvenAtOddsGame extends GameBase {
         bggid: "458452",
         displays: [{ uid: "flat" }],
         categories: ["goal>area", "mechanic>place", "mechanic>stack", "board>3d", "board>dynamic", "components>dominoes"],
-        flags: ["scores", "experimental"],
+        flags: ["scores", "experimental", "custom-buttons"],
         customizations: [{num: 3, default: "#aaaaaa", explanation: "Colour of the blank ends"}],
     };
 
@@ -107,6 +109,7 @@ export class EvenAtOddsGame extends GameBase {
     public anchorPip?: Pip;
     public highlights: Half[] = [];
     public lastmove?: string;
+    public p1Side?: Side;
 
     private renderMinX = 0;
     private renderMaxY = 0;
@@ -242,8 +245,35 @@ export class EvenAtOddsGame extends GameBase {
         this.selected = state.selected;
         this.anchor = state.anchor ? [...state.anchor] as Half : undefined;
         this.anchorPip = state.anchorPip;
+        this.p1Side = state.p1Side;
+        if (this.p1Side === undefined && state.lastmove !== undefined) {
+            this.p1Side = "evens";
+        }
         this.results = [...state._results];
         return this;
+    }
+
+    private static isSideChoice(m: string): m is Side {
+        const lower = m.toLowerCase();
+        return lower === "evens" || lower === "odds";
+    }
+
+    private static normalizeSideChoice(m: string): Side {
+        const lower = m.toLowerCase();
+        if (lower === "evens" || lower === "odds") {
+            return lower;
+        }
+        throw new Error(`Invalid side choice: ${m}`);
+    }
+
+    private inSideChoicePhase(): boolean {
+        return this.p1Side === undefined;
+    }
+
+    private playerSide(player: playerid): Side | undefined {
+        if (this.p1Side === undefined) { return undefined; }
+        if (player === 1) { return this.p1Side; }
+        return this.p1Side === "evens" ? "odds" : "evens";
     }
 
     private halfKey(h: Half): string {
@@ -460,7 +490,12 @@ export class EvenAtOddsGame extends GameBase {
 
     private pipColour(pip: Pip): 1 | 2 | Colourfuncs {
         if (pip === 0) { return BLANK_PIP_COLOUR; }
-        return pip % 2 === 0 ? 1 : 2;
+        if (this.p1Side === undefined) { return BLANK_PIP_COLOUR; }
+        const isEven = pip % 2 === 0;
+        if (this.p1Side === "evens") {
+            return isEven ? 1 : 2;
+        }
+        return isEven ? 2 : 1;
     }
 
     private maxActiveLevel(): number {
@@ -479,7 +514,10 @@ export class EvenAtOddsGame extends GameBase {
 
     private pipTeam(pip: Pip): playerid | 0 {
         if (pip === 0) { return 0; }
-        return pip % 2 === 0 ? 1 : 2;
+        if (this.p1Side === undefined) { return 0; }
+        const colour = this.pipColour(pip);
+        if (typeof colour === "number") { return colour; }
+        return 0;
     }
 
     private pipGlyphName(pip: Pip): `tile-0${1 | 2 | 3 | 4 | 5 | 6}` | undefined {
@@ -717,7 +755,20 @@ export class EvenAtOddsGame extends GameBase {
         });
     }
 
+    public getButtons(): ICustomButton[] {
+        if (this.inSideChoicePhase()) {
+            return [
+                { label: "evenatodds.evens", move: "evens" },
+                { label: "evenatodds.odds", move: "odds" },
+            ];
+        }
+        return [];
+    }
+
     public moves(): string[] {
+        if (this.inSideChoicePhase()) {
+            return ["evens", "odds"];
+        }
         const moves: string[] = [];
         const hand = this.hands[this.currplayer - 1].filter((id): id is number => id !== PENDING_DRAW);
         for (const tileId of hand) {
@@ -776,7 +827,26 @@ export class EvenAtOddsGame extends GameBase {
             valid: false,
             message: i18next.t("apgames:validation._general.DEFAULT_HANDLER"),
         };
-        m = m.toUpperCase().replace(/\s+/g, "");
+        const raw = m.replace(/\s+/g, "");
+        if (this.inSideChoicePhase()) {
+            if (raw.length === 0) {
+                result.valid = true;
+                result.complete = -1;
+                result.message = i18next.t("apgames:validation.evenatodds.INITIAL_INSTRUCTIONS_choose");
+                return result;
+            }
+            if (EvenAtOddsGame.isSideChoice(raw)) {
+                if (this.currplayer === 1) {
+                    result.valid = true;
+                    result.complete = 1;
+                    result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                }
+                return result;
+            }
+            result.message = i18next.t("apgames:validation.evenatodds.MUST_CHOOSE_SIDE");
+            return result;
+        }
+        m = raw.toUpperCase();
         const allMoves = this.moves();
         const parsed = this.parseMove(m);
 
@@ -874,7 +944,27 @@ export class EvenAtOddsGame extends GameBase {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
-        m = m.toUpperCase().replace(/\s+/g, "");
+        const raw = m.replace(/\s+/g, "");
+        if (this.inSideChoicePhase()) {
+            if (!trusted) {
+                const result = this.validateMove(raw);
+                if (!result.valid) {
+                    throw new UserFacingError("VALIDATION_GENERAL", result.message);
+                }
+            }
+            if (!EvenAtOddsGame.isSideChoice(raw)) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", { move: raw }));
+            }
+            this.results = [];
+            this.highlights = [];
+            this.p1Side = EvenAtOddsGame.normalizeSideChoice(raw);
+            this.lastmove = this.p1Side;
+            this.currplayer = 2;
+            this.saveState();
+            return this;
+        }
+
+        m = raw.toUpperCase();
         const allMoves = this.moves();
 
         if (!trusted) {
@@ -1455,7 +1545,15 @@ export class EvenAtOddsGame extends GameBase {
                 areas.push({
                     type: "pieces",
                     pieces,
-                    label: i18next.t("apgames:validation.evenatodds.LABEL_HAND", { playerNum: viewer, side: viewer === 1 ? "evens" : "odds" }) || `P${viewer} hand`,
+                    label: (() => {
+                        const side = this.playerSide(viewer);
+                        if (side !== undefined) {
+                            return i18next.t("apgames:validation.evenatodds.LABEL_HAND", { playerNum: viewer, side })
+                                || `P${viewer} hand (${side})`;
+                        }
+                        return i18next.t("apgames:validation.evenatodds.LABEL_HAND_NO_SIDE", { playerNum: viewer })
+                            || `P${viewer} hand`;
+                    })(),
                     ownerMark: viewer,
                     spacing: 0.5,
                     width: 6,
@@ -1597,6 +1695,7 @@ export class EvenAtOddsGame extends GameBase {
             selected: this.selected,
             anchor: this.anchor ? [...this.anchor] as Half : undefined,
             anchorPip: this.anchorPip,
+            p1Side: this.p1Side,
         };
     }
 

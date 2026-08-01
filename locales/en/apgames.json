@@ -5383,8 +5383,11 @@
         },
         "evenatodds": {
             "INITIAL_INSTRUCTIONS": "Select a domino from your hand to play.",
+            "INITIAL_INSTRUCTIONS_choose": "Choose evens or odds.",
             "LABEL_HAND": "Player {{playerNum}} hand ({{side}})",
+            "LABEL_HAND_NO_SIDE": "Player {{playerNum}} hand",
             "LABEL_REMAINING": "Tiles not on board",
+            "MUST_CHOOSE_SIDE": "You must choose evens or odds before playing.",
             "NOT_IN_HAND": "That domino is not in your hand.",
             "NEEDS_ANCHOR_PIP": "This placement is ambiguous. Mark the anchor pip with an asterisk (e.g. 1*-2@-3,1N or 1-2*@-3,1N).",
             "PARTIAL": "Click an anchor half-cell, then the other end of the domino."

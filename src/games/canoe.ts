@@ -1552,10 +1552,11 @@ export class CanoeGame extends GameBase {
         }
 
         const moves: string[] = [];
-        const ctx = this.buildContext();
 
         if (this.roll.length === 1) {
-            moves.push(...this.getHalfMoves(this.roll[0], ctx));
+            const base = this.turnBaseline();
+            const ctx = base.buildContext();
+            moves.push(...base.getHalfMoves(this.roll[0], ctx));
             if (moves.length === 0) {
                 moves.push("pass");
             }
@@ -1599,10 +1600,12 @@ export class CanoeGame extends GameBase {
             }
         }
 
+        const base = this.turnBaseline();
+        const ctx = base.buildContext();
         const firstMoves: string[] = [];
-        firstMoves.push(...this.getHalfMoves(d1, ctx));
-        firstMoves.push(...this.getHalfMoves(d2, ctx));
-        firstMoves.push(...this.getHalfMoves(d1 + d2, ctx));
+        firstMoves.push(...base.getHalfMoves(d1, ctx));
+        firstMoves.push(...base.getHalfMoves(d2, ctx));
+        firstMoves.push(...base.getHalfMoves(d1 + d2, ctx));
 
         for (const first of firstMoves) {
             const diceSpec = CanoeGame.halfDiceSpec(first);
@@ -1614,7 +1617,7 @@ export class CanoeGame extends GameBase {
                 moves.push(first);
                 continue;
             }
-            if (this.isClearingBearOffHalf(first)) {
+            if (base.isClearingBearOffHalf(first)) {
                 moves.push(first);
                 continue;
             }

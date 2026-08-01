@@ -466,6 +466,28 @@ describe("Canoe", () => {
         expect(() => g2.move(click.move, {partial: false, emulation: true})).to.not.throw();
     });
 
+    it("doView sequence: partial emulation then complete emulation then moves()", () => {
+        const board: StackCell[] = [
+            ["d7", {owner: 2, face: 16}],
+            ["d6", {owner: 1, face: 40}],
+            ["e7", {owner: 1, face: 24}],
+            ["g3", {owner: 2, face: 1, set: true}],
+            ["b2", {owner: 1, face: 8, set: true}],
+            ["c7", {owner: 2, face: 16}],
+            ["e6", {owner: 2, face: 16}],
+        ];
+        const partial = "3:b2-d1,3:d6";
+        const opts = {roll: [3, 3] as [number, number], currplayer: 1 as const};
+
+        const g = playAfterOpening(board, opts);
+        g.move(partial, {partial: true, emulation: true});
+        expect(annotationDotCells(g.render())).to.have.length(8);
+
+        const complete = g.moves().find(m => m.startsWith(`${partial}-`))!;
+        expect(() => g.move(complete, {partial: false, emulation: true})).to.not.throw();
+        expect(() => g.moves()).to.not.throw();
+    });
+
     it("clicking a valid set target completes set formation", () => {
         const g = playAfterOpening([
             ["e5", {owner: 1, face: 40}],

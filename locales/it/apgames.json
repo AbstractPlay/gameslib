@@ -5329,7 +5329,10 @@
       "LABEL_REMAINING": "Tessere non sul tabellone",
       "NOT_IN_HAND": "Quel domino non è nella tua mano.",
       "NEEDS_ANCHOR_PIP": "Questo posizionamento è ambiguo. Contrassegna il punto di ancoraggio con un asterisco (ad es. 1*-2@-3,1N o 1-2*@-3,1N).",
-      "PARTIAL": "Fai clic su una mezza casella di ancoraggio, poi sull'altra estremità del domino."
+      "PARTIAL": "Fai clic su una mezza casella di ancoraggio, poi sull'altra estremità del domino.",
+      "INITIAL_INSTRUCTIONS_choose": "Scegli pari o dispari.",
+      "LABEL_HAND_NO_SIDE": "Mano del Giocatore {{playerNum}}",
+      "MUST_CHOOSE_SIDE": "Devi scegliere pari o dispari prima di giocare."
     },
     "epam": {
       "INITIAL_INSTRUCTIONS_move": "Seleziona la coda della falange che desideri muovere.",

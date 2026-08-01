@@ -5329,7 +5329,10 @@
       "LABEL_REMAINING": "Tuiles hors du plateau",
       "NOT_IN_HAND": "Ce domino n'est pas dans votre main.",
       "NEEDS_ANCHOR_PIP": "Ce placement est ambigu. Marquez le point d'ancrage avec une astérisque (ex. 1*-2@-3,1N ou 1-2*@-3,1N).",
-      "PARTIAL": "Cliquez sur une demi-case d'ancrage, puis sur l'autre extrémité du domino."
+      "PARTIAL": "Cliquez sur une demi-case d'ancrage, puis sur l'autre extrémité du domino.",
+      "INITIAL_INSTRUCTIONS_choose": "Choisissez pair ou impair.",
+      "LABEL_HAND_NO_SIDE": "Main du joueur {{playerNum}}",
+      "MUST_CHOOSE_SIDE": "Vous devez choisir pair ou impair avant de jouer."
     },
     "epam": {
       "INITIAL_INSTRUCTIONS_move": "Sélectionnez la queue de la phalange que vous souhaitez déplacer.",

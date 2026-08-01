@@ -5329,7 +5329,10 @@
       "LABEL_REMAINING": "Steine nicht auf dem Brett",
       "NOT_IN_HAND": "Dieser Dominostein ist nicht in deiner Hand.",
       "NEEDS_ANCHOR_PIP": "Diese Platzierung ist mehrdeutig. Markiere die Anker-Augenzahl mit einem Sternchen (z. B. 1*-2@-3,1N oder 1-2*@-3,1N).",
-      "PARTIAL": "Klicke auf eine Anker-Hälfte und dann auf das andere Ende des Dominosteins."
+      "PARTIAL": "Klicke auf eine Anker-Hälfte und dann auf das andere Ende des Dominosteins.",
+      "INITIAL_INSTRUCTIONS_choose": "Wähle Gerade oder Ungerade.",
+      "LABEL_HAND_NO_SIDE": "Hand von Spieler {{playerNum}}",
+      "MUST_CHOOSE_SIDE": "Du musst vor dem Spielen Gerade oder Ungerade wählen."
     },
     "epam": {
       "INITIAL_INSTRUCTIONS_move": "Wähle das Ende der Phalanx, die du bewegen möchtest.",

@@ -12,6 +12,9 @@ import {
 function gameFrom(overrides: Partial<IMoveState>, gameover = false): EvenAtOddsGame {
     const base = new EvenAtOddsGame();
     const ms = base.moveState();
+    if (!("p1Side" in overrides)) {
+        ms.p1Side = "evens";
+    }
     Object.assign(ms, overrides);
     return new EvenAtOddsGame({
         game: "evenatodds",
@@ -84,7 +87,62 @@ function ghostFlatFrameOpacity(legend: Record<string, FlatLegendEntry | unknown>
     return frame.opacity;
 }
 
+function isBlankPipColour(c: FlatColour): boolean {
+    return typeof c === "object" && c !== null && (c as { func?: string }).func === "custom"
+        && (c as { default?: string }).default === "#aaaaaa";
+}
+
+function handLegendKeys(legend: Record<string, FlatLegendEntry | unknown>): string[] {
+    return Object.keys(legend).filter(k => /^H\d/.test(k));
+}
+
 describe("Even at Odds", () => {
+    it("requires P1 to choose evens or odds before play", () => {
+        const g = new EvenAtOddsGame();
+        expect(g.moves()).to.deep.equal(["evens", "odds"]);
+        expect(g.getButtons().map(b => b.move)).to.deep.equal(["evens", "odds"]);
+        expect(g.validateMove("").valid).to.be.true;
+        expect(g.validateMove("").complete).to.equal(-1);
+        expect(g.validateMove("evens").valid).to.be.true;
+        expect(g.validateMove("evens").complete).to.equal(1);
+        expect(g.validateMove("0-2@-3,0N").valid).to.be.false;
+    });
+
+    it("renders neutral colours before P1 chooses a side", () => {
+        const g = new EvenAtOddsGame();
+        const legend = g.render({ altDisplay: "flat", perspective: 1 }).legend as Record<string, FlatLegendEntry | unknown>;
+        for (const key of [...flatBoardLegendKeys(legend), ...handLegendKeys(legend)]) {
+            expect(isBlankPipColour(frameColour(legend, key))).to.be.true;
+        }
+    });
+
+    it("assigns sides and passes the first tile play to P2", () => {
+        const g = new EvenAtOddsGame();
+        const tilesBefore = g.tiles.length;
+        const boneyardBefore = g.boneyard.length;
+        g.move("evens");
+        expect(g.p1Side).to.equal("evens");
+        expect(g.currplayer).to.equal(2);
+        expect(g.tiles).to.have.length(tilesBefore);
+        expect(g.boneyard).to.have.length(boneyardBefore);
+
+        const move = g.moves()[0]!;
+        g.move(move);
+        expect(g.currplayer).to.equal(1);
+    });
+
+    it("swaps pip colours when P1 chooses odds", () => {
+        const g = new EvenAtOddsGame();
+        g.move("odds");
+        const legend = g.render({ altDisplay: "flat" }).legend as Record<string, FlatLegendEntry | unknown>;
+        const oddKey = flatBoardLegendKeys(legend).find(k => /^F1/.test(k) && darkenTierFromKey(k) === 0);
+        const evenKey = flatBoardLegendKeys(legend).find(k => /^F2/.test(k) && darkenTierFromKey(k) === 0);
+        expect(oddKey).to.not.be.undefined;
+        expect(evenKey).to.not.be.undefined;
+        expect(frameColour(legend, oddKey!)).to.equal(1);
+        expect(frameColour(legend, evenKey!)).to.equal(2);
+    });
+
     it("sets up the starting grid, hands, boneyard, and removed tiles", () => {
         const g = new EvenAtOddsGame();
         expect(g.tiles).to.have.length(6);
@@ -156,6 +214,7 @@ describe("Even at Odds", () => {
 
     it("defers draw for partial and emulation moves", () => {
         const g = new EvenAtOddsGame();
+        g.move("evens");
         const move = g.moves()[0]!;
         const boneyardBefore = g.boneyard.length;
 
@@ -172,6 +231,7 @@ describe("Even at Odds", () => {
 
     it("draws from the boneyard on a committed move", () => {
         const g = new EvenAtOddsGame();
+        g.move("evens");
         const move = g.moves()[0]!;
         const boneyardBefore = g.boneyard.length;
         const player = g.currplayer;
@@ -179,7 +239,7 @@ describe("Even at Odds", () => {
         g.move(move);
         expect(g.boneyard).to.have.length(boneyardBefore - 1);
         expect(g.hands[player - 1]).to.have.length(7);
-        expect(g.currplayer).to.not.equal(player);
+        expect(g.currplayer).to.equal(1);
     });
 
     it("autocompletes when only one second end is legal", () => {
@@ -473,6 +533,7 @@ describe("Even at Odds", () => {
 
     it("uses unmodified flat colours when all stacks are at board height", () => {
         const g = new EvenAtOddsGame();
+        g.move("evens");
         const legend = g.render({ altDisplay: "flat" }).legend as Record<string, FlatLegendEntry | unknown>;
         const flatKeys = flatBoardLegendKeys(legend);
         expect(flatKeys.length).to.be.greaterThan(0);

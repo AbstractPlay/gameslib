@@ -140,6 +140,7 @@ export class CanoeGame extends GameBase {
     private highlights: string[] = [];
     private selectedCell?: string;
     private selectedSetupFace?: CubeFace;
+    private selectedDieSlot?: number;
     private partialMove?: string;
     private emulated = false;
     private freshFromBankThisTurn = new Set<string>();
@@ -211,6 +212,7 @@ export class CanoeGame extends GameBase {
         this.highlights = [];
         this.selectedCell = undefined;
         this.selectedSetupFace = undefined;
+        this.selectedDieSlot = undefined;
         this.partialMove = undefined;
         return this;
     }
@@ -247,6 +249,7 @@ export class CanoeGame extends GameBase {
         this.highlights = [];
         this.selectedCell = undefined;
         this.selectedSetupFace = undefined;
+        this.selectedDieSlot = undefined;
         this.partialMove = undefined;
         return this;
     }
@@ -758,14 +761,14 @@ export class CanoeGame extends GameBase {
         return used ? `U${slot}` : `D${slot}`;
     }
 
-    private dieFromClick(cell?: string, piece?: string): number | undefined {
+    private dieSlotIndex(cell?: string, piece?: string): number | undefined {
         if (this.roll === undefined) {
             return undefined;
         }
         if (cell !== undefined && CanoeGame.DICE_CELLS.includes(cell)) {
             const idx = CanoeGame.DICE_CELLS.indexOf(cell);
             if (idx < this.roll.length) {
-                return this.roll[idx];
+                return idx;
             }
         }
         if (piece !== undefined) {
@@ -773,15 +776,26 @@ export class CanoeGame extends GameBase {
             if (slotGlyph !== null) {
                 const idx = parseInt(slotGlyph[1], 10) - 1;
                 if (idx >= 0 && idx < this.roll.length) {
-                    return this.roll[idx];
+                    return idx;
                 }
             }
-            const glyph = piece.match(/^[DU](\d)$/);
-            if (glyph !== null) {
-                const value = parseInt(glyph[1], 10);
-                if (this.roll.includes(value)) {
-                    return value;
-                }
+        }
+        return undefined;
+    }
+
+    private dieFromClick(cell?: string, piece?: string): number | undefined {
+        const idx = this.dieSlotIndex(cell, piece);
+        if (idx !== undefined) {
+            return this.roll![idx];
+        }
+        if (this.roll === undefined || piece === undefined) {
+            return undefined;
+        }
+        const glyph = piece.match(/^[DU](\d)$/);
+        if (glyph !== null) {
+            const value = parseInt(glyph[1], 10);
+            if (this.roll.includes(value)) {
+                return value;
             }
         }
         return undefined;
@@ -2027,6 +2041,7 @@ export class CanoeGame extends GameBase {
         this.results = [];
         this.highlights = [];
         this.selectedCell = undefined;
+        this.selectedDieSlot = undefined;
         if (!(partial && this.phase === "play")) {
             this.partialMove = undefined;
         }
@@ -2266,15 +2281,35 @@ export class CanoeGame extends GameBase {
         }
 
         const clickedDie = this.dieFromClick(cell, piece);
+        const clickedSlot = this.dieSlotIndex(cell, piece);
         if (clickedDie !== undefined) {
             const dieOnly = partial.match(/^(\d+):$/);
             if (partial === "") {
+                this.selectedDieSlot = clickedSlot;
                 partial = `${clickedDie}:`;
             } else if (dieOnly !== null) {
                 const prev = parseInt(dieOnly[1], 10);
-                if (this.roll!.length === 2 && prev !== clickedDie) {
-                    partial = `${prev}+${clickedDie}:`;
+                const [d1, d2] = this.roll as [number, number];
+                if (this.roll!.length === 2
+                    && clickedSlot !== undefined
+                    && this.selectedDieSlot !== undefined
+                    && clickedSlot !== this.selectedDieSlot) {
+                    if (d1 === d2) {
+                        const spec = this.combinedDiceKey(d1, d2);
+                        if (this.isValidDieOnlyPartial(spec)) {
+                            partial = `${spec}:`;
+                        } else {
+                            this.selectedDieSlot = clickedSlot;
+                            partial = `${clickedDie}:`;
+                        }
+                    } else if (prev !== clickedDie) {
+                        partial = `${prev}+${clickedDie}:`;
+                    } else {
+                        this.selectedDieSlot = clickedSlot;
+                        partial = `${clickedDie}:`;
+                    }
                 } else {
+                    this.selectedDieSlot = clickedSlot;
                     partial = `${clickedDie}:`;
                 }
             }

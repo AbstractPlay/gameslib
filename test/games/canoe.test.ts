@@ -786,6 +786,38 @@ describe("Canoe", () => {
         expect(bothReverse.move).to.equal("4+3:");
     });
 
+    it("doubles die clicks combine for seventh-cube set", () => {
+        const g = playFixture([
+            ["e5", {owner: 2, face: 40, set: true}],
+            ["g3", {owner: 1, face: 16}],
+        ], {roll: [3, 3], currplayer: 2, canoeDone: true});
+        const [f2Row, f2Col] = clickCell("f2");
+        const [g1Row, g1Col] = clickCell("g1");
+        const [e5Row, e5Col] = clickCell("e5");
+        const die1 = g.handleClick("", f2Row, f2Col);
+        expect(die1.move).to.equal("3:");
+        const both = g.handleClick(die1.move, g1Row, g1Col);
+        expect(both.valid).to.be.true;
+        expect(both.move).to.equal("3+3:");
+        const cube = g.handleClick(both.move, e5Row, e5Col);
+        expect(cube.valid).to.be.true;
+        expect(cube.move).to.equal("3+3:e5");
+    });
+
+    it("doubles die clicks do not combine for seventh-cube regular", () => {
+        const g = playFixture([
+            ["b3", {owner: 1, face: 40}],
+            ["g3", {owner: 2, face: 16}],
+        ], {roll: [3, 3], currplayer: 1, canoeDone: true});
+        expect(g.moves().some(m => m.includes("3+3"))).to.be.false;
+        const [f2Row, f2Col] = clickCell("f2");
+        const [g1Row, g1Col] = clickCell("g1");
+        const die1 = g.handleClick("", f2Row, f2Col);
+        expect(die1.move).to.equal("3:");
+        const die2 = g.handleClick(die1.move, g1Row, g1Col);
+        expect(die2.move).to.equal("3:");
+    });
+
     it("handleClick die then cube followed by partial move does not throw", () => {
         const g = playFixture([
             ["e5", {owner: 1, face: 16}],

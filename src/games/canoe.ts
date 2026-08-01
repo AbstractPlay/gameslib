@@ -247,6 +247,13 @@ export class CanoeGame extends GameBase {
         return this;
     }
 
+    /** Start-of-turn snapshot from the saved stack (for partial-move simulation). */
+    private turnBaseline(): CanoeGame {
+        const g = CanoeGame.clone(this);
+        g.syncFromStackEntry(this.stack[this.stack.length - 1]);
+        return g;
+    }
+
     // --- Board zones ---
 
     public static isBlocked(row: number, col: number): boolean {
@@ -1551,6 +1558,42 @@ export class CanoeGame extends GameBase {
         }
 
         const [d1, d2] = this.roll;
+
+        if (this.partialMove !== undefined) {
+            const segments = this.partialMove.split(",").filter(s => s.length > 0);
+            const completedHalves = segments.filter(h => CanoeGame.isCompleteHalf(h));
+            const diceUsed = new Set<number>();
+            for (const half of completedHalves) {
+                const spec = CanoeGame.halfDiceSpec(half);
+                if (spec === undefined) {
+                    continue;
+                }
+                if (CanoeGame.isCombinedDiceSpec(spec)) {
+                    moves.push(this.partialMove);
+                    return moves;
+                }
+                const dist = CanoeGame.halfDieDistance(half);
+                if (dist !== undefined) {
+                    diceUsed.add(dist);
+                }
+            }
+            if (completedHalves.length > 0 && diceUsed.size < 2) {
+                const cloned = this.turnBaseline();
+                cloned.move(completedHalves.join(","), {partial: true, trusted: true});
+                const usedDie = [...diceUsed][0]!;
+                const remaining = CanoeGame.remainingDie(this.roll as [number, number], usedDie);
+                const ctx2 = cloned.buildContext([usedDie], completedHalves);
+                const prefix = completedHalves.join(",");
+                for (const second of cloned.getHalfMoves(remaining, ctx2)) {
+                    moves.push(`${prefix},${second}`);
+                }
+                if (moves.length === 0) {
+                    moves.push("pass");
+                }
+                return [...new Set(moves)];
+            }
+        }
+
         const firstMoves: string[] = [];
         firstMoves.push(...this.getHalfMoves(d1, ctx));
         firstMoves.push(...this.getHalfMoves(d2, ctx));
@@ -1570,7 +1613,7 @@ export class CanoeGame extends GameBase {
                 moves.push(first);
                 continue;
             }
-            const cloned = CanoeGame.clone(this);
+            const cloned = this.turnBaseline();
             cloned.move(first, {partial: true, trusted: true});
             const remaining = dieUsed === d1 ? d2 : d1;
             const ctx2 = cloned.buildContext([dieUsed], [first]);
@@ -1625,7 +1668,7 @@ export class CanoeGame extends GameBase {
         } else {
             activePartial = parsedPartial;
             if (completedHalves.length > 0) {
-                const cloned = CanoeGame.clone(this);
+                const cloned = this.turnBaseline();
                 cloned.move(completedHalves.join(","), {partial: true, trusted: true});
                 const die = CanoeGame.selectedDieFromPartial(activePartial);
                 if (die === undefined) {
@@ -1669,7 +1712,8 @@ export class CanoeGame extends GameBase {
         }
 
         if (m === "pass") {
-            if (this.phase !== "play" || !this.moves().includes("pass")) {
+            const passMoves = this.phase === "play" ? this.turnBaseline().moves() : this.moves();
+            if (this.phase !== "play" || !passMoves.includes("pass")) {
                 result.message = i18next.t("apgames:validation.canoe.NO_PASS");
                 return result;
             }
@@ -1704,7 +1748,15 @@ export class CanoeGame extends GameBase {
             return result;
         }
 
-        const all = this.moves();
+        if (this.partialMove !== undefined && m === this.partialMove) {
+            result.valid = true;
+            result.complete = -1;
+            result.canrender = true;
+            result.message = i18next.t("apgames:validation.canoe.VALID_PARTIAL");
+            return result;
+        }
+
+        const all = this.turnBaseline().moves();
         if (all.includes(m)) {
             result.valid = true;
             result.complete = 1;
@@ -2012,6 +2064,7 @@ export class CanoeGame extends GameBase {
         const halves = m.split(",").filter(s => s.length > 0);
 
         if (partial && this.phase === "play") {
+            this.syncFromStackEntry(this.stack[this.stack.length - 1]);
             const completeHalves = halves.filter(h => CanoeGame.isCompleteHalf(h));
             const hasIncomplete = halves.some(h => !CanoeGame.isCompleteHalf(h));
             for (const half of completeHalves) {

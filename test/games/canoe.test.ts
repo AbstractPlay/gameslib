@@ -419,6 +419,25 @@ describe("Canoe", () => {
         expect(dots).to.not.include("d5");
     });
 
+    it("re-validates two-half partial after first half applied on board", () => {
+        const g = playAfterOpening([
+            ["d7", {owner: 2, face: 16}],
+            ["d6", {owner: 1, face: 40}],
+            ["e7", {owner: 1, face: 24}],
+            ["g3", {owner: 2, face: 1, set: true}],
+            ["b2", {owner: 1, face: 8, set: true}],
+            ["c7", {owner: 2, face: 16}],
+            ["e6", {owner: 2, face: 16}],
+        ], {roll: [3, 3], currplayer: 1});
+        const partial = "3:b2-d1,3:d6";
+        expect(g.validateMove(partial).valid).to.be.true;
+        expect(g.moves().some(m => m.startsWith(`${partial}-`))).to.be.true;
+        g.move(partial, {partial: true, trusted: true});
+        expect(annotationDotCells(g.render())).to.have.length(8);
+        expect(() => g.validateMove(partial)).to.not.throw();
+        expect(g.validateMove(partial).valid).to.be.true;
+    });
+
     it("clicking a valid set target completes set formation", () => {
         const g = playAfterOpening([
             ["e5", {owner: 1, face: 40}],
@@ -556,7 +575,7 @@ describe("Canoe", () => {
         const dots = annotationDotCells(g.render());
         expect(dots).to.include("f1");
         expect(dots).to.not.include("e1");
-        expect(g.moves().some(m => m.startsWith("6:a4-off"))).to.be.true;
+        expect(g.moves()).to.include("4:d1-e4,6:a4-off");
         expect(g.moves().some(m => m === "4:d1-e4,6:a4-e1")).to.be.false;
     });
 

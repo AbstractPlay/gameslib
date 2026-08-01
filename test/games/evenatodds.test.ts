@@ -607,20 +607,26 @@ describe("Even at Odds", () => {
         const playerView = g.render({ perspective: 1 });
         expect(playerView.areas).to.not.be.undefined;
         expect(playerView.areas!.length).to.be.greaterThan(0);
-        const handArea = playerView.areas!.find(a => a.type === "pieces") as { ownerMark?: number };
-        expect(handArea.ownerMark).to.equal(1);
+        const handAreas = playerView.areas!.filter(
+            a => a.type === "pieces" && (a as { ownerMark?: number }).ownerMark !== undefined,
+        );
+        expect(handAreas).to.have.length(2);
+        expect((handAreas[0] as { ownerMark?: number }).ownerMark).to.equal(1);
+        expect((handAreas[1] as { ownerMark?: number }).ownerMark).to.equal(2);
 
         const observerView = g.render();
         expect(observerView.areas).to.not.be.undefined;
-        for (const area of observerView.areas!) {
-            expect((area as { ownerMark?: number }).ownerMark).to.be.undefined;
-        }
+        const observerHands = observerView.areas!.filter(
+            a => a.type === "pieces" && (a as { ownerMark?: number }).ownerMark !== undefined,
+        );
+        expect(observerHands).to.have.length(2);
 
         const nonParticipantView = g.render({ perspective: -1 });
         expect(nonParticipantView.areas).to.not.be.undefined;
-        for (const area of nonParticipantView.areas!) {
-            expect((area as { ownerMark?: number }).ownerMark).to.be.undefined;
-        }
+        const nonParticipantHands = nonParticipantView.areas!.filter(
+            a => a.type === "pieces" && (a as { ownerMark?: number }).ownerMark !== undefined,
+        );
+        expect(nonParticipantHands).to.have.length(2);
     });
 
     it("strips hidden information from state()", () => {
@@ -647,6 +653,21 @@ describe("Even at Odds", () => {
         expect(ms.removed).to.have.length(2);
     });
 
+    it("still strips opponent hand when boneyard is empty but game is live", () => {
+        const g = gameFrom({
+            currplayer: 1,
+            hands: [[2, 5], [8, 12]],
+            boneyard: [],
+            removed: [0, 1],
+        });
+        expect(g.gameover).to.be.false;
+        const stripped = g.state({ strip: true, player: 1 });
+        const ms = stripped.stack[stripped.stack.length - 1];
+        expect(ms.hands[0]).to.have.length(2);
+        expect(ms.hands[1]).to.deep.equal([]);
+        expect(ms.removed).to.deep.equal([]);
+    });
+
     it("shows both player hands in render after game over", () => {
         const g = gameFrom({
             currplayer: 1,
@@ -658,6 +679,24 @@ describe("Even at Odds", () => {
 
         const view = g.render();
         const handAreas = view.areas!.filter(a => a.type === "pieces" && (a as { ownerMark?: number }).ownerMark !== undefined);
+        expect(handAreas).to.have.length(2);
+        expect((handAreas[0] as { ownerMark?: number }).ownerMark).to.equal(1);
+        expect((handAreas[1] as { ownerMark?: number }).ownerMark).to.equal(2);
+    });
+
+    it("shows both hands in render without gameover", () => {
+        const g = gameFrom({
+            currplayer: 1,
+            hands: [[2, 5], [8, 12]],
+            boneyard: [],
+            removed: [],
+        });
+        expect(g.gameover).to.be.false;
+
+        const view = g.render({ perspective: 1 });
+        const handAreas = view.areas!.filter(
+            a => a.type === "pieces" && (a as { ownerMark?: number }).ownerMark !== undefined,
+        );
         expect(handAreas).to.have.length(2);
         expect((handAreas[0] as { ownerMark?: number }).ownerMark).to.equal(1);
         expect((handAreas[1] as { ownerMark?: number }).ownerMark).to.equal(2);

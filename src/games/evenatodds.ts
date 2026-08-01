@@ -582,41 +582,17 @@ export class EvenAtOddsGame extends GameBase {
         };
     }
 
-    private perspectivePlayer(perspective?: number): playerid | undefined {
-        if (perspective === 1 || perspective === 2) {
-            return perspective;
-        }
-        return undefined;
-    }
-
-    private offBoardTileIds(perspective?: number): number[] {
+    private offBoardTileIds(): number[] {
         const onBoardIds = new Set(this.tiles.map(t => t.id));
         const inHand = new Set<number>();
-        if (this.gameover) {
-            for (const hand of this.hands) {
-                for (const id of hand) {
-                    if (typeof id === "number") { inHand.add(id); }
-                }
-            }
-        } else {
-            const viewer = this.perspectivePlayer(perspective);
-            if (viewer !== undefined) {
-                for (const id of this.hands[viewer - 1]) {
-                    if (typeof id === "number") { inHand.add(id); }
-                }
+        for (const hand of this.hands) {
+            for (const id of hand) {
+                if (typeof id === "number") { inHand.add(id); }
             }
         }
         return [...this.pool.keys()]
             .filter(id => !onBoardIds.has(id) && !inHand.has(id))
             .sort((a, b) => this.dominoSortAsc(this.pool.get(a)!, this.pool.get(b)!));
-    }
-
-    private handAreaPlayers(perspective?: number): playerid[] {
-        if (this.gameover) {
-            return [1, 2];
-        }
-        const viewer = this.perspectivePlayer(perspective);
-        return viewer !== undefined ? [viewer] : [];
     }
 
     private handLabel(player: playerid): string {
@@ -1479,12 +1455,7 @@ export class EvenAtOddsGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        let perspective: number | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-            perspective = opts.perspective;
-        }
+        const altDisplay = opts?.altDisplay;
         const isIso = altDisplay !== "flat";
         const maxH = isIso ? 0 : this.maxActiveLevel();
 
@@ -1549,21 +1520,20 @@ export class EvenAtOddsGame extends GameBase {
             colour: { func: "flatten", fg: "_context_fill", bg: "_context_background", opacity: 0.5 },
         };
 
-        const handPlayers = this.handAreaPlayers(perspective);
         const handTileIds: number[] = [];
-        for (const p of handPlayers) {
+        for (let p = 1; p <= this.numplayers; p++) {
             for (const id of this.hands[p - 1]) {
                 if (typeof id === "number") {
                     handTileIds.push(id);
                 }
             }
         }
-        const offBoardIds = this.offBoardTileIds(perspective);
+        const offBoardIds = this.offBoardTileIds();
         for (const id of [...new Set([...handTileIds, ...offBoardIds])]) {
             this.registerDominoHandTile(legend, id);
         }
 
-        for (const p of handPlayers) {
+        for (let p = 1; p <= this.numplayers; p++) {
             const hand = this.hands[p - 1];
             const visible = hand.filter(id => id !== PENDING_DRAW);
             if (visible.length > 0 || hand.includes(PENDING_DRAW)) {
@@ -1574,7 +1544,7 @@ export class EvenAtOddsGame extends GameBase {
                 areas.push({
                     type: "pieces",
                     pieces,
-                    label: this.handLabel(p),
+                    label: this.handLabel(p as playerid),
                     ownerMark: p,
                     spacing: 0.5,
                     width: 6,

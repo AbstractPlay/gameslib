@@ -3752,6 +3752,95 @@
       "8x8": {
         "name": "8x8-Spielfeld"
       }
+    },
+    "_default": {
+      "bases": {
+        "name": "Standard-Basen"
+      },
+      "blockers": {
+        "name": "Standard-Blocker"
+      },
+      "board": {
+        "name": "Standard-Spielfeld"
+      },
+      "boardtype": {
+        "name": "Standard-Spielfeldtyp"
+      },
+      "capture": {
+        "name": "Standard-Schlagregeln"
+      },
+      "dice": {
+        "name": "Standard-Würfelgröße"
+      },
+      "enforcers": {
+        "name": "Standard-Enforcer"
+      },
+      "eog": {
+        "name": "Standard-Endbedingung"
+      },
+      "fleet": {
+        "name": "Standard-Flotte"
+      },
+      "form": {
+        "name": "Standard-Form"
+      },
+      "groups": {
+        "name": "Standard-Gruppen"
+      },
+      "komi": {
+        "name": "Standard-Komi"
+      },
+      "length": {
+        "name": "Standard-Spieldauer"
+      },
+      "movement": {
+        "name": "Standard-Zugregeln"
+      },
+      "moves": {
+        "name": "Standard-Zugregeln"
+      },
+      "objective": {
+        "name": "Standard-Spielziel"
+      },
+      "obstacles": {
+        "name": "Standard-Hindernisse"
+      },
+      "opening": {
+        "name": "Standard-Eröffnung"
+      },
+      "parks": {
+        "name": "Standard-Parkplatzierung"
+      },
+      "penalty": {
+        "name": "Standard-Strafe"
+      },
+      "powers": {
+        "name": "Standard-Kräfte"
+      },
+      "rules": {
+        "name": "Standard-Regeln"
+      },
+      "ruleset": {
+        "name": "Standard-Regelwerk"
+      },
+      "scoring": {
+        "name": "Standard-Wertung"
+      },
+      "setup": {
+        "name": "Standard-Aufbau"
+      },
+      "size": {
+        "name": "Standard-Stapelgröße"
+      },
+      "tiebreaker": {
+        "name": "Standard-Feinwertung"
+      },
+      "ties": {
+        "name": "Standard-Unentschieden-Regel"
+      },
+      "variant": {
+        "name": "Standard-Variante"
+      }
     }
   },
   "displays": {
@@ -7332,6 +7421,64 @@
       "MUST_MOVE": "Wenn dir ein Zug zur Verfügung steht, kannst du deinen Zug nicht passen.",
       "NONCAPTURES_KINGS": "Nicht-Schlagzüge können sich jeweils nur um ein Feld bewegen.",
       "PARTIAL": "Wähle ein Ziel."
+    },
+    "_general": {
+      "CAPTURE4MOVE": "Du hast ein Schlagen signalisiert, aber bei {{where}} befindet sich kein Stein.",
+      "DEFAULT_HANDLER": "Dies ist der Standard-Handler und sollte nie direkt aufgerufen werden. Bitte informiere den Administrator.",
+      "FAILSAFE": "Der Zug '{{move}}' hat die Validierung bestanden, scheint aber nicht legal zu sein. Bitte informiere den Administrator.",
+      "GENERIC": "Beim Verarbeiten deines Klicks ist ein generischer Fehler aufgetreten:\nFehlermeldung: {{emessage}}\nStack: {{estack}}\nZug: {{move}}, Zeile: {{row}}, Spalte: {{col}}, Index: {{index}}",
+      "INCOMPLETE_MOVE": "Dieser Zug sieht unvollständig aus.",
+      "INVALID_MOVE": "'{{move}}' sieht nicht wie ein gültiger Zug aus.",
+      "INVALID_NUMBER": "{{num}} konnte nicht als Zahl verarbeitet werden.",
+      "INVALIDCELL": "Feld '{{cell}}' konnte auf dem Spielfeld nicht gefunden werden.",
+      "MOVE4CAPTURE": "Du hast einen normalen Zug signalisiert, aber {{where}} ist besetzt.",
+      "NEED_DESTINATION": "Gib das Ziel an.",
+      "NO_MOVES": "Der Stein bei {{where}} hat keine legalen Züge.",
+      "NOLOS": "Es gibt keine Sichtlinie zwischen {{from}} und {{to}}.",
+      "NONEXISTENT": "Versuch, mit einem Stein oder Stapel bei {{where}} zu interagieren, der nicht existiert.",
+      "NOPIECES": "Du hast keine Steine zum Einsetzen.",
+      "NOT_ORTH": "Die Felder {{from}} und {{to}} liegen nicht orthogonal zueinander.",
+      "NOT_ORTH_OR_DIAG": "Die Felder {{from}} und {{to}} liegen weder orthogonal noch diagonal zueinander.",
+      "OBSTRUCTED": "Es gibt ein Hindernis bei {{obstruction}} zwischen {{from}} und {{to}}.",
+      "OCCUPIED": "Das Feld {{where}} ist bereits besetzt.",
+      "SAME_FROM_TO": "Start- und Zielfeld müssen unterschiedlich sein.",
+      "SELECT_OWN": "Wähle einen deiner eigenen Steine aus.",
+      "SELFCAPTURE": "Du kannst deine eigenen Steine nicht schlagen.",
+      "UNCONTROLLED": "Du kannst keine Steine bewegen, die du nicht kontrollierst.",
+      "UNKNOWN_CLICK": "Dieser Klick kann nicht interpretiert werden.",
+      "VALID_MOVE": "Sieht nach einem gültigen Zug aus."
+    },
+    "_inarow": {
+      "CANNOT_PASS": "In den ersten zwei Zügen nach der Eröffnungsphase darfst du nicht passen.",
+      "CANNOT_SWAP": "Du kannst die Farben zu diesem Zeitpunkt nicht tauschen.",
+      "CENTRE_OFFCENTRE": "In der normalen Eröffnung musst du deinen ersten Stein in die Mitte des Spielfelds setzen.",
+      "DUPLICATE": "Du hast bereits einen Stein bei {{where}} platziert.",
+      "EXCESS": "Du hast zu viele Steine platziert. Du darfst nur 1 Stein platzieren.",
+      "INITIAL_INSTRUCTIONS": "Wähle einen Schnittpunkt, um einen Stein zu platzieren.",
+      "INITIAL_INSTRUCTIONS_CENTRE1": "Platziere deinen ersten Stein in der Mitte des Spielfelds.",
+      "INITIAL_INSTRUCTIONS_LONGPRO1": "Platziere deinen ersten Stein in der Mitte des Spielfelds.",
+      "INITIAL_INSTRUCTIONS_LONGPRO3": "Wähle einen Schnittpunkt, um einen Stein zu platzieren. Dein Zug muss mindestens vier Schnittpunkte von der Mitte des Spielfelds entfernt sein.",
+      "INITIAL_INSTRUCTIONS_PRO1": "Platziere deinen ersten Stein in der Mitte des Spielfelds.",
+      "INITIAL_INSTRUCTIONS_PRO3": "Wähle einen Schnittpunkt, um einen Stein zu platzieren. Dein Zug muss mindestens drei Schnittpunkte von der Mitte des Spielfelds entfernt sein.",
+      "INITIAL_INSTRUCTIONS_SWAP1ST1": "Wähle einen Schnittpunkt, um einen Stein zu platzieren. Der Gegner hat im nächsten Zug die Option, die Farben zu tauschen.",
+      "INITIAL_INSTRUCTIONS_SWAP1ST2": "Du kannst einen Stein platzieren, um als Spieler 2 fortzufahren, oder passen, um die Farben zu tauschen und als Spieler 1 zu spielen.",
+      "INITIAL_INSTRUCTIONS_SWAP5": "Wähle einen Schnittpunkt, um einen Stein zu platzieren, oder passe, um die Farben zu tauschen.",
+      "INITIAL_INSTRUCTIONS_SWAP21": "Platziere drei Steine auf dem Spielfeld.",
+      "INITIAL_INSTRUCTIONS_SWAP22": "Du kannst entweder (1) einen einzelnen Stein platzieren, um als Spieler 2 fortzufahren, (2) passen, um die Farben zu tauschen und als Spieler 1 zu spielen, oder (3) zwei weitere Steine platzieren und den Gegner entscheiden lassen, ob er als Spieler 1 oder Spieler 2 spielt.",
+      "INITIAL_INSTRUCTIONS_SWAP23": "Du kannst einen Stein platzieren, um als Spieler 1 fortzufahren, oder passen, um die Farben zu tauschen und als Spieler 2 zu spielen.",
+      "INVALID_PLACEMENT": "Die Zugnotation konnte nicht interpretiert werden: {{move}}.",
+      "LONGPRO_RESTRICTION_FIRST": "In der Long-Pro-Eröffnung musst du deinen ersten Stein in die Mitte des Spielfelds setzen.",
+      "LONGPRO_RESTRICTION_THIRD": "Dein dritter Stein muss in der Long-Pro-Eröffnung mindestens vier Schnittpunkte von der Mitte des Spielfelds entfernt sein.",
+      "NO_MOVELIST": "Zugliste während dieses Eröffnungszugs nicht verfügbar. Klicke auf das Spielfeld, um Steine zu platzieren.",
+      "NORMALISE": "Der Zug muss normalisiert werden. Versuche {{normalised}}.",
+      "PRO_RESTRICTION_FIRST": "In der Pro-Eröffnung musst du deinen ersten Stein in die Mitte des Spielfelds setzen.",
+      "PRO_RESTRICTION_THIRD": "Dein dritter Stein muss in der Pro-Eröffnung mindestens drei Schnittpunkte von der Mitte des Spielfelds entfernt sein.",
+      "SWAP2_CAPTURE": "Diese Platzierung führt zu einem Schlagen.",
+      "SWAP21_EXCESS": "Du hast zu viele Steine platziert. Du darfst nur 3 Steine platzieren.",
+      "SWAP21_one": "Platziere 1 weiteren Stein auf dem Spielfeld.",
+      "SWAP21_other": "Platziere {{count}} weitere Steine auf dem Spielfeld.",
+      "SWAP22_EXCESS": "Du hast zu viele Steine platziert. Du darfst nur 2 Steine platzieren.",
+      "SWAP22_PARTIAL": "Schließe den Zug ab, um als Spieler 2 fortzufahren, oder platziere einen weiteren Stein auf dem Spielfeld, damit der Gegner entscheiden kann, ob er als Spieler 1 oder Spieler 2 spielt."
     }
   },
   "INITIAL_UNDO": "Du kannst die anfängliche Startposition des Spiels nicht rückgängig machen.",

@@ -410,6 +410,14 @@ export abstract class GameBase  {
         return hist;
     }
 
+    private defaultVariantLabel(group: string | undefined): string {
+        if (group === undefined) {
+            return "";
+        }
+        const key = `apgames:variants._default.${group}.name`;
+        return i18next.exists(key) ? i18next.t(key) : `Default ${group}`;
+    }
+
     public getVariants(): string[] {
         // if ( (this.variants === undefined) || (this.variants.length === 0) ) {
         //     return undefined;
@@ -430,7 +438,7 @@ export abstract class GameBase  {
                         vars.push(rec.name);
                     } else {
                         if (rec.uid.startsWith("#")) {
-                            vars.push(`Default ${rec.group}`);
+                            vars.push(this.defaultVariantLabel(rec.group));
                         } else {
                             vars.push(v);
                         }
@@ -444,7 +452,7 @@ export abstract class GameBase  {
                     if (found.name !== undefined) {
                         vars.push(found.name);
                     } else {
-                        vars.push(`Default ${g}`);
+                        vars.push(this.defaultVariantLabel(g));
                     }
                 }
             });

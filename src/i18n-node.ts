@@ -1,9 +1,11 @@
 import i18next, { type i18n } from "i18next";
 import { existsSync, readFileSync } from "fs";
 import path from "path";
-import { supportedLocales } from "./i18n-shared";
+import { supportedLocales, type AddResourceOptions } from "./i18n-shared";
 
 const GAMESLIB_NAMESPACES = ["apgames", "apresults"] as const;
+
+export type { AddResourceOptions };
 
 const loadLocaleBundles = (lang: string): Record<string, object> => {
     const localesPath = path.join(__dirname, "../locales");
@@ -17,16 +19,32 @@ const loadLocaleBundles = (lang: string): Record<string, object> => {
     return bundles;
 };
 
-const buildNodeResources = (lang?: string): Record<string, Record<string, object>> => {
+const resolveBundles = (lang: string, options?: AddResourceOptions): Record<string, object> => {
+    if (options?.bundles !== undefined) {
+        return { ...options.bundles };
+    }
+    return loadLocaleBundles(lang);
+};
+
+const buildNodeResources = (lang?: string, options?: AddResourceOptions): Record<string, Record<string, object>> => {
     const resources: Record<string, Record<string, object>> = {};
     const langs = lang ? [lang] : supportedLocales;
     for (const l of langs) {
-        resources[l] = loadLocaleBundles(l);
+        resources[l] = resolveBundles(l, lang === l ? options : undefined);
     }
     return resources;
 };
 
-export const addResource = (lang?: string, host?: i18n) => {
+const warnIfVariantI18nMissing = (): void => {
+    const probe = i18next.t("apgames:variants.archimedes.8x10.name");
+    if (probe.startsWith("variants.")) {
+        // Intentional: surfaces missing locale bundles in Lambda logs.
+        // eslint-disable-next-line no-console
+        console.warn(`gameslib addResource: apgames variant translations missing (probe resolved to "${probe}")`);
+    }
+};
+
+export const addResource = (lang?: string, host?: i18n, options?: AddResourceOptions) => {
     const targetLang = lang ?? host?.language ?? "en";
 
     if (!i18next.isInitialized) {
@@ -34,12 +52,19 @@ export const addResource = (lang?: string, host?: i18n) => {
             lng: targetLang,
             ns: [...GAMESLIB_NAMESPACES],
             initImmediate: false,
-            resources: buildNodeResources(lang),
+            resources: buildNodeResources(lang, options),
         });
-    } else if (lang && !i18next.hasResourceBundle(lang, "apgames")) {
-        const bundles = loadLocaleBundles(lang);
-        for (const [ns, data] of Object.entries(bundles)) {
-            i18next.addResourceBundle(lang, ns, data, true, true);
+        warnIfVariantI18nMissing();
+    } else if (lang) {
+        const shouldLoad = options?.bundles !== undefined || !i18next.hasResourceBundle(lang, "apgames");
+        if (shouldLoad) {
+            const bundles = resolveBundles(lang, options);
+            for (const [ns, data] of Object.entries(bundles)) {
+                i18next.addResourceBundle(lang, ns, data, true, true);
+            }
+            if (options?.bundles !== undefined) {
+                warnIfVariantI18nMissing();
+            }
         }
         if (i18next.language !== lang) {
             void i18next.changeLanguage(lang);

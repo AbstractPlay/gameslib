@@ -12,10 +12,14 @@ games.forEach((v, k) => {
 const gameinfoSorted: APGamesInformation[] = [...games.values()].sort((a, b) => {return a.gameinfo.name.localeCompare(b.gameinfo.name);}).map(a => a.gameinfo);
 export {gameinfo, gameinfoSorted};
 
-export { supportedLocales } from "./i18n-shared";
+export { supportedLocales, type AddResourceOptions } from "./i18n-shared";
 
 const isNode = typeof window === "undefined";
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const i18nModule = isNode ? require("./i18n-node") : require("./i18n-browser");
 
-export const addResource = i18nModule.addResource as (lang?: string, host?: import("i18next").i18n) => import("i18next").i18n;
+export const addResource = i18nModule.addResource as (
+    lang?: string,
+    host?: import("i18next").i18n,
+    options?: import("./i18n-shared").AddResourceOptions,
+) => import("i18next").i18n;

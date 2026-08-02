@@ -373,6 +373,37 @@
         "y": "The game was designed by Charles Titus and Craige Schensted (Ea Ea) in 1953. A direct descended of Hex, the game was originally played on a triangular board, where the goal is to connect all three sides by a chain of friendly stones. Y is considered a more fundamental game than Hex, given its simpler rules and given that a Hex match can be setup on a sufficient large Y board. In their 1975 book **Mudcrack Y & Poly-Y**, the designers introduced the _mudcrack principle_ stating that connection games can be played on a wide range of progressively elaborate boards. One of those designs ('the bent Y', with three pentagonal cells) became the commercial Y board, instead of the standard triangular one."
     },
     "variants": {
+        "_default": {
+            "bases": { "name": "Default bases" },
+            "blockers": { "name": "Default blockers" },
+            "board": { "name": "Default board" },
+            "boardtype": { "name": "Default board type" },
+            "capture": { "name": "Default capture rules" },
+            "dice": { "name": "Default die size" },
+            "enforcers": { "name": "Default enforcers" },
+            "eog": { "name": "Default end condition" },
+            "fleet": { "name": "Default fleet" },
+            "form": { "name": "Default form" },
+            "groups": { "name": "Default groups" },
+            "komi": { "name": "Default komi" },
+            "length": { "name": "Default game length" },
+            "movement": { "name": "Default movement rules" },
+            "moves": { "name": "Default movement rules" },
+            "objective": { "name": "Default objective" },
+            "obstacles": { "name": "Default obstacles" },
+            "opening": { "name": "Default opening" },
+            "parks": { "name": "Default park placement" },
+            "penalty": { "name": "Default penalty" },
+            "powers": { "name": "Default powers" },
+            "rules": { "name": "Default rules" },
+            "ruleset": { "name": "Default ruleset" },
+            "scoring": { "name": "Default scoring" },
+            "setup": { "name": "Default setup" },
+            "size": { "name": "Default stack size" },
+            "tiebreaker": { "name": "Default tiebreaker" },
+            "ties": { "name": "Default ties" },
+            "variant": { "name": "Default variant" }
+        },
         "abande": {
             "#board": {
                 "description": "7x7 square board"

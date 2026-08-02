@@ -125,13 +125,17 @@ function printResumeSummary() {
   console.error(`  ${command}`);
 }
 
+function isTrackingKey(key) {
+  return key === "_src" || key.startsWith("_src_");
+}
+
 function collectLeaves(obj, prefix = "") {
   const leaves = {};
   if (!obj || typeof obj !== "object" || Array.isArray(obj)) {
     return leaves;
   }
   for (const [key, value] of Object.entries(obj)) {
-    if (key.startsWith("_")) continue;
+    if (isTrackingKey(key)) continue;
     const leafPath = prefix ? `${prefix}.${key}` : key;
     if (typeof value === "string") {
       leaves[leafPath] = value;
@@ -382,7 +386,7 @@ function writeDebugSuccess({ langCode, fileName, chunkIndex, rawText }) {
 function buildCleanTargetData(sourceData, targetData) {
   const cleanTargetData = {};
   for (const key of Object.keys(sourceData)) {
-    if (key.startsWith("_")) continue;
+    if (isTrackingKey(key)) continue;
     if (targetData[key] !== undefined) {
       cleanTargetData[key] = targetData[key];
     }

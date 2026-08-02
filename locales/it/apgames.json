@@ -3752,6 +3752,95 @@
       "8x8": {
         "name": "Plancia 8x8"
       }
+    },
+    "_default": {
+      "bases": {
+        "name": "Basi predefinite"
+      },
+      "blockers": {
+        "name": "Ostruzioni predefinite"
+      },
+      "board": {
+        "name": "Tabellone predefinito"
+      },
+      "boardtype": {
+        "name": "Tipo di tabellone predefinito"
+      },
+      "capture": {
+        "name": "Regole di cattura predefinite"
+      },
+      "dice": {
+        "name": "Dimensione dadi predefinita"
+      },
+      "enforcers": {
+        "name": "Enforcer predefiniti"
+      },
+      "eog": {
+        "name": "Condizione di fine partita predefinita"
+      },
+      "fleet": {
+        "name": "Flotta predefinita"
+      },
+      "form": {
+        "name": "Forma predefinita"
+      },
+      "groups": {
+        "name": "Gruppi predefiniti"
+      },
+      "komi": {
+        "name": "Komi predefinito"
+      },
+      "length": {
+        "name": "Lunghezza partita predefinita"
+      },
+      "movement": {
+        "name": "Regole di movimento predefinite"
+      },
+      "moves": {
+        "name": "Regole di movimento predefinite"
+      },
+      "objective": {
+        "name": "Obiettivo predefinito"
+      },
+      "obstacles": {
+        "name": "Ostacoli predefiniti"
+      },
+      "opening": {
+        "name": "Apertura predefinita"
+      },
+      "parks": {
+        "name": "Posizionamento parchi predefinito"
+      },
+      "penalty": {
+        "name": "Penalità predefinita"
+      },
+      "powers": {
+        "name": "Poteri predefiniti"
+      },
+      "rules": {
+        "name": "Regole predefinite"
+      },
+      "ruleset": {
+        "name": "Set di regole predefinito"
+      },
+      "scoring": {
+        "name": "Punteggio predefinito"
+      },
+      "setup": {
+        "name": "Configurazione iniziale predefinita"
+      },
+      "size": {
+        "name": "Dimensione pila predefinita"
+      },
+      "tiebreaker": {
+        "name": "Criterio di spareggio predefinito"
+      },
+      "ties": {
+        "name": "Patte predefinite"
+      },
+      "variant": {
+        "name": "Variante predefinita"
+      }
     }
   },
   "displays": {
@@ -7379,6 +7468,64 @@
       "MUST_MOVE": "Se hai una mossa disponibile, non puoi passare il turno.",
       "NONCAPTURES_KINGS": "Le mosse di non-cattura possono muovere solo di uno spazio alla volta.",
       "PARTIAL": "Seleziona una destinazione."
+    },
+    "_general": {
+      "CAPTURE4MOVE": "Hai segnalato una cattura, ma non c'è alcuna pedina su {{where}}.",
+      "DEFAULT_HANDLER": "Questo è il gestore predefinito e non dovrebbe mai essere chiamato direttamente. Per favore, informa l'amministratore.",
+      "FAILSAFE": "La mossa '{{move}}' ha superato la convalida ma non sembra essere legale. Per favore, informa l'amministratore.",
+      "GENERIC": "Si è verificato un errore generico durante l'elaborazione del clic:\nMessaggio di errore: {{emessage}}\nStack: {{estack}}\nMossa: {{move}}, Riga: {{row}}, Colonna: {{col}}, Indice: {{index}}",
+      "INCOMPLETE_MOVE": "Questa mossa sembra incompleta.",
+      "INVALID_MOVE": "'{{move}}' non sembra essere una mossa valida.",
+      "INVALID_NUMBER": "Impossibile elaborare {{num}} come numero.",
+      "INVALIDCELL": "Impossibile trovare la casella '{{cell}}' sul tabellone.",
+      "MOVE4CAPTURE": "Hai segnalato una mossa normale, ma {{where}} è occupata.",
+      "NEED_DESTINATION": "Fornisci la destinazione.",
+      "NO_MOVES": "La pedina su {{where}} non ha mosse legali.",
+      "NOLOS": "Non c'è linea di vista tra {{from}} e {{to}}.",
+      "NONEXISTENT": "Tentativo di interagire con una pedina o pila che non esiste su {{where}}.",
+      "NOPIECES": "Non hai pedine da piazzare.",
+      "NOT_ORTH": "Le caselle {{from}} e {{to}} non sono ortogonali tra loro.",
+      "NOT_ORTH_OR_DIAG": "Le caselle {{from}} e {{to}} non sono ortogonali o diagonali tra loro.",
+      "OBSTRUCTED": "C'è un'ostruzione su {{obstruction}} tra {{from}} e {{to}}.",
+      "OCCUPIED": "La casella {{where}} è già occupata.",
+      "SAME_FROM_TO": "Le caselle di partenza e di arrivo devono essere diverse.",
+      "SELECT_OWN": "Seleziona una delle tue pedine.",
+      "SELFCAPTURE": "Non puoi catturare le tue stesse pedine.",
+      "UNCONTROLLED": "Non puoi muovere pedine che non controlli.",
+      "UNKNOWN_CLICK": "Non so come interpretare questo clic.",
+      "VALID_MOVE": "Sembra una mossa valida."
+    },
+    "_inarow": {
+      "CANNOT_PASS": "Non puoi passare per le prime due mosse dopo la fase di apertura.",
+      "CANNOT_SWAP": "Non puoi scambiare i colori in questo momento.",
+      "CENTRE_OFFCENTRE": "Devi piazzare la tua prima pietra al centro del tabellone nell'apertura normale.",
+      "DUPLICATE": "Hai già piazzato una pedina su {{where}}.",
+      "EXCESS": "Hai piazzato troppe pietre. Puoi piazzare solo 1 pietra.",
+      "INITIAL_INSTRUCTIONS": "Seleziona un'intersezione per piazzare una pietra.",
+      "INITIAL_INSTRUCTIONS_CENTRE1": "Piazza la tua prima pietra al centro del tabellone.",
+      "INITIAL_INSTRUCTIONS_LONGPRO1": "Piazza la tua prima pietra al centro del tabellone.",
+      "INITIAL_INSTRUCTIONS_LONGPRO3": "Seleziona un'intersezione per piazzare una pietra. La tua mossa deve distare almeno quattro intersezioni dal centro del tabellone.",
+      "INITIAL_INSTRUCTIONS_PRO1": "Piazza la tua prima pietra al centro del tabellone.",
+      "INITIAL_INSTRUCTIONS_PRO3": "Seleziona un'intersezione per piazzare una pietra. La tua mossa deve distare almeno tre intersezioni dal centro del tabellone.",
+      "INITIAL_INSTRUCTIONS_SWAP1ST1": "Seleziona un'intersezione per piazzare una pietra. L'avversario ha l'opzione di scambiare i colori al turno successivo.",
+      "INITIAL_INSTRUCTIONS_SWAP1ST2": "Puoi piazzare una pietra per continuare come giocatore 2, oppure passare per scambiare i colori e giocare come giocatore 1.",
+      "INITIAL_INSTRUCTIONS_SWAP5": "Seleziona un'intersezione per piazzare una pietra, oppure passa per scambiare i colori.",
+      "INITIAL_INSTRUCTIONS_SWAP21": "Piazza tre pietre sul tabellone",
+      "INITIAL_INSTRUCTIONS_SWAP22": "Puoi fare una delle seguenti cose: (1) piazzare una singola pietra per continuare come giocatore 2, (2) passare per scambiare i colori e giocare come giocatore 1, oppure (3) piazzare altre due pietre e permettere all'avversario di decidere se giocare come giocatore 1 o giocatore 2.",
+      "INITIAL_INSTRUCTIONS_SWAP23": "Puoi piazzare una pietra per continuare come giocatore 1, oppure passare per scambiare i colori e giocare come giocatore 2.",
+      "INVALID_PLACEMENT": "Impossibile interpretare la notazione della mossa: {{move}}.",
+      "LONGPRO_RESTRICTION_FIRST": "Devi piazzare la tua prima pietra al centro del tabellone nell'apertura long pro.",
+      "LONGPRO_RESTRICTION_THIRD": "La tua terza pietra deve distare almeno quattro intersezioni dal centro del tabellone nell'apertura long pro.",
+      "NO_MOVELIST": "Elenco mosse non disponibile durante questa mossa di apertura. Clicca sul tabellone per piazzare le pietre.",
+      "NORMALISE": "La mossa deve essere normalizzata. Prova {{normalised}}.",
+      "PRO_RESTRICTION_FIRST": "Devi piazzare la tua prima pietra al centro del tabellone nell'apertura pro.",
+      "PRO_RESTRICTION_THIRD": "La tua terza pietra deve distare almeno tre intersezioni dal centro del tabellone nell'apertura pro.",
+      "SWAP2_CAPTURE": "Questo posizionamento comporterà una cattura.",
+      "SWAP21_EXCESS": "Hai piazzato troppe pietre. Puoi piazzare solo 3 pietre.",
+      "SWAP21_one": "Piazza ancora 1 pietra sul tabellone.",
+      "SWAP21_other": "Piazza ancora {{count}} pietre sul tabellone.",
+      "SWAP22_EXCESS": "Hai piazzato troppe pietre. Puoi piazzare solo 2 pietre.",
+      "SWAP22_PARTIAL": "Completa la mossa per continuare come giocatore 2, oppure piazza un'altra pietra sul tabellone per permettere all'avversario di decidere se giocare come giocatore 1 o giocatore 2."
     }
   },
   "INITIAL_UNDO": "Non puoi annullare la posizione iniziale di partenza del gioco.",

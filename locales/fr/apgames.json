@@ -3752,6 +3752,95 @@
       "8x8": {
         "name": "Plateau 8x8"
       }
+    },
+    "_default": {
+      "bases": {
+        "name": "Bases par défaut"
+      },
+      "blockers": {
+        "name": "Bloqueurs par défaut"
+      },
+      "board": {
+        "name": "Plateau par défaut"
+      },
+      "boardtype": {
+        "name": "Type de plateau par défaut"
+      },
+      "capture": {
+        "name": "Règles de capture par défaut"
+      },
+      "dice": {
+        "name": "Taille de dés par défaut"
+      },
+      "enforcers": {
+        "name": "Enforcers par défaut"
+      },
+      "eog": {
+        "name": "Condition de fin de partie par défaut"
+      },
+      "fleet": {
+        "name": "Flotte par défaut"
+      },
+      "form": {
+        "name": "Forme par défaut"
+      },
+      "groups": {
+        "name": "Groupes par défaut"
+      },
+      "komi": {
+        "name": "Komi par défaut"
+      },
+      "length": {
+        "name": "Durée de partie par défaut"
+      },
+      "movement": {
+        "name": "Règles de déplacement par défaut"
+      },
+      "moves": {
+        "name": "Règles de déplacement par défaut"
+      },
+      "objective": {
+        "name": "Objectif par défaut"
+      },
+      "obstacles": {
+        "name": "Obstacles par défaut"
+      },
+      "opening": {
+        "name": "Ouverture par défaut"
+      },
+      "parks": {
+        "name": "Placement des parcs par défaut"
+      },
+      "penalty": {
+        "name": "Pénalité par défaut"
+      },
+      "powers": {
+        "name": "Pouvoirs par défaut"
+      },
+      "rules": {
+        "name": "Règles par défaut"
+      },
+      "ruleset": {
+        "name": "Ensemble de règles par défaut"
+      },
+      "scoring": {
+        "name": "Décompte des points par défaut"
+      },
+      "setup": {
+        "name": "Mise en place par défaut"
+      },
+      "size": {
+        "name": "Taille de pile par défaut"
+      },
+      "tiebreaker": {
+        "name": "Départage par défaut"
+      },
+      "ties": {
+        "name": "Égalités par défaut"
+      },
+      "variant": {
+        "name": "Variante par défaut"
+      }
     }
   },
   "displays": {
@@ -7379,6 +7468,64 @@
       "MUST_MOVE": "Si vous avez un coup disponible, vous ne pouvez pas passer votre tour.",
       "NONCAPTURES_KINGS": "Les coups sans capture ne peuvent se déplacer que d'une case à la fois.",
       "PARTIAL": "Sélectionnez une destination."
+    },
+    "_general": {
+      "CAPTURE4MOVE": "Vous avez signalé une capture, mais il n'y a aucune pièce en {{where}}.",
+      "DEFAULT_HANDLER": "Ceci est le gestionnaire par défaut et ne devrait jamais être appelé directement. Veuillez en informer l'administrateur.",
+      "FAILSAFE": "Le coup '{{move}}' a réussi la validation mais ne semble pas être légal. Veuillez en informer l'administrateur.",
+      "GENERIC": "Une erreur générique est survenue lors du traitement de votre clic :\nMessage d'erreur : {{emessage}}\nPile d'exécution : {{estack}}\nCoup : {{move}}, Ligne : {{row}}, Colonne : {{col}}, Index : {{index}}",
+      "INCOMPLETE_MOVE": "Ce coup semble incomplet.",
+      "INVALID_MOVE": "'{{move}}' ne semble pas être un coup valide.",
+      "INVALID_NUMBER": "{{num}} n'a pas pu être traité comme un nombre.",
+      "INVALIDCELL": "Impossible de trouver la case '{{cell}}' sur le plateau.",
+      "MOVE4CAPTURE": "Vous avez signalé un coup normal, mais {{where}} est occupé.",
+      "NEED_DESTINATION": "Indiquez la destination.",
+      "NO_MOVES": "La pièce en {{where}} n'a aucun coup légal.",
+      "NOLOS": "Il n'y a pas de ligne de vue entre {{from}} et {{to}}.",
+      "NONEXISTENT": "Tentative d'interaction avec une pièce ou une pile qui n'existe pas en {{where}}.",
+      "NOPIECES": "Vous n'avez aucune pièce à placer.",
+      "NOT_ORTH": "Les cases {{from}} et {{to}} ne sont pas orthogonales entre elles.",
+      "NOT_ORTH_OR_DIAG": "Les cases {{from}} et {{to}} ne sont ni orthogonales ni diagonales entre elles.",
+      "OBSTRUCTED": "Il y a une obstruction en {{obstruction}} entre {{from}} et {{to}}.",
+      "OCCUPIED": "La case {{where}} est déjà occupée.",
+      "SAME_FROM_TO": "Les cases de départ et d'arrivée doivent être différentes.",
+      "SELECT_OWN": "Sélectionnez l'une de vos propres pièces.",
+      "SELFCAPTURE": "Vous ne pouvez pas capturer vos propres pièces.",
+      "UNCONTROLLED": "Vous ne pouvez pas déplacer des pièces que vous ne contrôlez pas.",
+      "UNKNOWN_CLICK": "Impossible d'interpréter ce clic.",
+      "VALID_MOVE": "Le coup semble valide."
+    },
+    "_inarow": {
+      "CANNOT_PASS": "Vous ne pouvez pas passer pendant les deux premiers coups suivant la phase d'ouverture.",
+      "CANNOT_SWAP": "Vous ne pouvez pas échanger les couleurs pour le moment.",
+      "CENTRE_OFFCENTRE": "Vous devez placer votre première pierre au centre du plateau dans l'ouverture normale.",
+      "DUPLICATE": "Vous avez déjà placé une pièce en {{where}}.",
+      "EXCESS": "Vous avez placé trop de pierres. Vous ne pouvez placer qu'une seule pierre.",
+      "INITIAL_INSTRUCTIONS": "Sélectionnez une intersection pour placer une pierre.",
+      "INITIAL_INSTRUCTIONS_CENTRE1": "Placez votre première pierre au centre du plateau.",
+      "INITIAL_INSTRUCTIONS_LONGPRO1": "Placez votre première pierre au centre du plateau.",
+      "INITIAL_INSTRUCTIONS_LONGPRO3": "Sélectionnez une intersection pour placer une pierre. Votre coup doit se trouver à au moins quatre intersections du centre du plateau.",
+      "INITIAL_INSTRUCTIONS_PRO1": "Placez votre première pierre au centre du plateau.",
+      "INITIAL_INSTRUCTIONS_PRO3": "Sélectionnez une intersection pour placer une pierre. Votre coup doit se trouver à au moins trois intersections du centre du plateau.",
+      "INITIAL_INSTRUCTIONS_SWAP1ST1": "Sélectionnez une intersection pour placer une pierre. L'adversaire a la possibilité d'échanger les couleurs au tour suivant.",
+      "INITIAL_INSTRUCTIONS_SWAP1ST2": "Vous pouvez placer une pierre pour continuer en tant que joueur 2, ou passer pour échanger les couleurs et jouer en tant que joueur 1.",
+      "INITIAL_INSTRUCTIONS_SWAP5": "Sélectionnez une intersection pour placer une pierre, ou passez pour échanger les couleurs.",
+      "INITIAL_INSTRUCTIONS_SWAP21": "Placez trois pierres sur le plateau",
+      "INITIAL_INSTRUCTIONS_SWAP22": "Vous pouvez soit (1) placer une seule pierre pour continuer en tant que joueur 2, (2) passer pour échanger les couleurs et jouer en tant que joueur 1, soit (3) placer deux pierres supplémentaires et laisser l'adversaire décider de jouer en tant que joueur 1 ou joueur 2.",
+      "INITIAL_INSTRUCTIONS_SWAP23": "Vous pouvez placer une pierre pour continuer en tant que joueur 1, ou passer pour échanger les couleurs et jouer en tant que joueur 2.",
+      "INVALID_PLACEMENT": "Impossible d'interpréter la notation du coup : {{move}}.",
+      "LONGPRO_RESTRICTION_FIRST": "Vous devez placer votre première pierre au centre du plateau dans l'ouverture long pro.",
+      "LONGPRO_RESTRICTION_THIRD": "Votre troisième pierre doit être située à au moins quatre intersections du centre du plateau dans l'ouverture long pro.",
+      "NO_MOVELIST": "Liste des coups indisponible pendant ce coup d'ouverture. Cliquez sur le plateau pour placer des pierres.",
+      "NORMALISE": "Le coup doit être normalisé. Essayez {{normalised}}.",
+      "PRO_RESTRICTION_FIRST": "Vous devez placer votre première pierre au centre du plateau dans l'ouverture pro.",
+      "PRO_RESTRICTION_THIRD": "Votre troisième pierre doit être située à au moins trois intersections du centre du plateau dans l'ouverture pro.",
+      "SWAP2_CAPTURE": "Ce placement entraînera une capture.",
+      "SWAP21_EXCESS": "Vous avez placé trop de pierres. Vous ne pouvez placer que 3 pierres.",
+      "SWAP21_one": "Placez 1 pierre supplémentaire sur le plateau.",
+      "SWAP21_other": "Placez {{count}} pierres supplémentaires sur le plateau.",
+      "SWAP22_EXCESS": "Vous avez placé trop de pierres. Vous ne pouvez placer que 2 pierres.",
+      "SWAP22_PARTIAL": "Terminez le coup pour continuer en tant que joueur 2, ou placez une autre pierre sur le plateau pour laisser l'adversaire décider de jouer en tant que joueur 1 ou joueur 2."
     }
   },
   "INITIAL_UNDO": "Vous ne pouvez pas annuler la position de départ initiale de la partie.",

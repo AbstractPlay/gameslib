@@ -33,7 +33,8 @@ const ensureBrowserHttpInit = (lang: string): void => {
     });
 };
 
-export const addResource = (lang?: string, host?: i18n) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const addResource = (lang?: string, host?: i18n, _options?: import("./i18n-shared").AddResourceOptions) => {
     const targetLang = lang ?? host?.language ?? "en";
 
     if (host) {

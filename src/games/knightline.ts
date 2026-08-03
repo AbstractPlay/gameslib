@@ -49,7 +49,7 @@ export class KnightLineGame extends GameBase {
         uid: "knightline",
         playercounts: [2, 3],
         version: "20260721",
-        dateAdded: "2026-07-21",
+        dateAdded: "2026-08-03",
         // i18next.t("apgames:descriptions.knightline")
         description: "apgames:descriptions.knightline",
         urls: [
@@ -77,13 +77,13 @@ export class KnightLineGame extends GameBase {
             { uid: "size-24", group: "size" },
         ],
         categories: ["goal>arrange", "mechanic>merge", "board>dynamic", "board>shape>rect", "board>connect>rect", "other>2+players"],
-        flags: ["autopass", "experimental"],
+        flags: ["autopass"],
     };
 
     /* Three coordinate systems */
-    
+
     private absXCoord2algebraic(x: number): string {
-        // In knightline, the y axis uses cartesian coordinates, 
+        // In knightline, the y axis uses cartesian coordinates,
         // and the x axis is lettered.
         // The origin and first placement is at m0, aka (0,0).
         // Cells retain the same algebraic coordinates thoughout the game.
@@ -101,7 +101,7 @@ export class KnightLineGame extends GameBase {
     }
 
     public absCoords2algebraic(x: number, y: number): string {
-        // In knightline, the y axis uses cartesian coordinates, 
+        // In knightline, the y axis uses cartesian coordinates,
         // and the x axis is lettered.
         // The origin and first placement is at m0, aka (0,0).
         // Cells retain the same algebraic coordinates thoughout the game.
@@ -164,7 +164,7 @@ export class KnightLineGame extends GameBase {
         const coords = this.rel2absCoords(x, y);
         return this.absCoords2algebraic(coords[0],coords[1]);
     }
-    
+
     public numplayers!: number;
     public currplayer!: playerid;
     public board!: UnboundedSquareBoard<CellContents>;
@@ -209,7 +209,7 @@ export class KnightLineGame extends GameBase {
                     board.set(0,1,[3,size]);
                 }
             }
-            
+
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
@@ -253,14 +253,14 @@ export class KnightLineGame extends GameBase {
     }
 
     /* Game logic functions */
-    
+
     private getActiveStacks(player?: playerid) {
         if (player === undefined) {
             player = this.currplayer;
         }
 
         const allPositions = this.board.getAllPositions();
-        
+
         return allPositions.filter( ([absX, absY]) => {
             const cellContent = this.board.get(absX, absY);
             if (cellContent![0] !== player)
@@ -286,9 +286,9 @@ export class KnightLineGame extends GameBase {
                 const [nX, nY] = this.getNext(absX, absY, dir);
                 if (! this.board.has(nX, nY) )
                     freeMoves.push(this.absCoords2algebraic(nX, nY));
-            });                   
+            });
         }
-        
+
         return [...new Set(freeMoves)];
     }
 
@@ -321,7 +321,7 @@ export class KnightLineGame extends GameBase {
             const [col, row] = this.abs2relCoords(absX, absY);
             relKnightMoves.push({row, col});
         });
- 
+
         return relKnightMoves;
     }
 
@@ -381,7 +381,7 @@ export class KnightLineGame extends GameBase {
 
         if ( this.variants.includes("blocker") || this.variants.includes("wildcard") )
             return (this.stack.length === 3);
-        
+
         return (this.stack.length === 1);
     }
 
@@ -421,17 +421,17 @@ export class KnightLineGame extends GameBase {
         moves = moves.filter(move => move.length > 0);
 
         if ( moves.length === 0
-            || moves.length > 3 
+            || moves.length > 3
             || (! legalCell.test(moves[0]) )
             || ( moves[1] !== undefined && (! legalCell.test(moves[1])) )
-            || ( moves[2] !== undefined && (! legalSize.test(moves[2])) ) 
+            || ( moves[2] !== undefined && (! legalSize.test(moves[2])) )
            ) {
             mm.errorID = "INVALID_NOTATION";
             return mm;
         }
 
         mm.cell = moves[0];
-        
+
         if ( moves[1] !== undefined ) {
             mm.targetCell = moves[1];
             if ( moves[2] !== undefined ) {
@@ -441,7 +441,7 @@ export class KnightLineGame extends GameBase {
             if ( this.isOpeningMove() )
                 mm.complete = true;
         }
-        
+
         return mm;
     }
 
@@ -474,7 +474,7 @@ export class KnightLineGame extends GameBase {
         let moves: string[] = [];
 
         if (this.isOpeningMove()) {
-            
+
             moves = this.getFreeMoves().map( cell => {
                 const move: IKLMove = {
                     cell: cell
@@ -483,9 +483,9 @@ export class KnightLineGame extends GameBase {
             });
 
         } else {
-        
+
             const activeStacks = this.getActiveStacks(player);
-        
+
             for (let s = 0; s < activeStacks.length; s++) {
                 const [x, y] = activeStacks[s];
                 const cell = this.absCoords2algebraic(x, y);
@@ -505,11 +505,11 @@ export class KnightLineGame extends GameBase {
                 });
                 moves = moves.concat(submoves);
             }
-            
+
             if (moves.length === 0)
                 moves = ["pass"];
         }
-        
+
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
@@ -570,10 +570,10 @@ export class KnightLineGame extends GameBase {
                 if ( cellContent && cellContent.length > 1 ) {
                     if ( this.isRestrictedMove() )
                         mm.restack = 1;
-                    else 
+                    else
                         mm.restack = Math.ceil(cellContent[1] / 2);
                 }
-                
+
                 newmove = this.pickleMove(mm);
             }
 
@@ -688,7 +688,7 @@ export class KnightLineGame extends GameBase {
         }
 
         const count = cellContent[1];
-             
+
         if ( mm.targetCell === undefined ) {
             result.valid = true;
             result.complete = -1;
@@ -736,7 +736,7 @@ export class KnightLineGame extends GameBase {
             result.message = i18next.t("apgames:validation.knightline.BAD_VALUE", { what: restack });
             return result;
         }
-        
+
         if ( this.isRestrictedMove() ) {
             if (restack === 1) {
                 //One of our few complete moves.
@@ -759,7 +759,7 @@ export class KnightLineGame extends GameBase {
         result.message = i18next.t("apgames:validation.knightline.SPLIT_STACK");
         return result;
     }
- 
+
     public move(m: string, { partial = false, trusted = false } = {}): KnightLineGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
@@ -798,13 +798,13 @@ export class KnightLineGame extends GameBase {
                     this.results = [{type: "select", what: mm.cell}];
 
                 this.highlight = deepclone(mm);
-                
+
                 return this;
             } else if ( mm.targetCell !== undefined && mm.restack !== undefined ) {
                 const cellContent = this.board.get(absX,absY);
                 const count = cellContent![1];
                 const destack = count - mm.restack;
-                const [tabsX, tabsY] = this.algebraic2absCoords(mm.targetCell);     
+                const [tabsX, tabsY] = this.algebraic2absCoords(mm.targetCell);
                 this.board.set(absX, absY, [this.currplayer, destack]);
                 this.board.set(tabsX, tabsY, [this.currplayer, mm.restack]);
                 this.results = [{type: "move", from: mm.cell, to: mm.targetCell, what: mm.restack.toString()}];
@@ -814,7 +814,7 @@ export class KnightLineGame extends GameBase {
                 throw new Error("Partial move passed to move() as complete.");
             }
         }
-        
+
         this.lastmove = m;
         this.checkEOG();
 
@@ -831,11 +831,11 @@ export class KnightLineGame extends GameBase {
         //Expand the first piece in the primary direction,
         // and the last piece in the opposite direction.
         // (They may be the same piece.)
-        
+
         if (line.length < 1)
             throw new Error("Bad array passed to expandLine.");
 
-        let [mX, mY] = line[0]; 
+        let [mX, mY] = line[0];
         let [lX, lY] = this.getNext(mX, mY, dir);
         while ( this.goodNeighbor(lX, lY) && line.length < 4 ) {
             //Go as far as necessary in the primary direction.
@@ -847,9 +847,9 @@ export class KnightLineGame extends GameBase {
         //Don't bother with the second half if this completed the line.
         if (line.length >= 4)
             return line;
-        
+
         const oppDir = oppositeDirections.get(dir)!;
-        
+
         let [nX, nY] = line[line.length - 1];
         let [oX, oY] = this.getNext(nX, nY, oppDir);
         while ( this.goodNeighbor(oX, oY) &&  line.length < 4 ) {
@@ -861,7 +861,7 @@ export class KnightLineGame extends GameBase {
 
         return line;
     }
-    
+
     private getNext(x: number, y: number, dir: Direction): [number, number] {
         //Wrote my own adjacency function for some reason.
         let xNew = x;
@@ -897,7 +897,7 @@ export class KnightLineGame extends GameBase {
         }
         return [xNew, yNew];
     }
-    
+
     private goodNeighbor(x: number, y: number): boolean {
         //Can this neighbor contribute to the current player's n-in-a-row?
         const cellContent = this.board.get(x, y);
@@ -920,7 +920,7 @@ export class KnightLineGame extends GameBase {
 
         return false;
     }
-    
+
     protected checkEOG(): KnightLineGame {
         if (this.lastmove === "pass") {
             if (this.eliminated.length === this.numplayers) {
@@ -933,20 +933,20 @@ export class KnightLineGame extends GameBase {
                     this.winner.push(2 as playerid);
                 else
                     this.winner = [...this.eliminated];
-                
+
             } else {
                 //The game is not over.
                 return this;
             }
         } else {
             const allPositions = this.board.getAllPositions();
-        
+
             //Precheck: Check that enough stacks are split to make a 4-in-a-row.
             //Since someone might be forced to pass, we don't just count the (game) stack.
             const numPlayedPerPlayer = 4 - 1 - (this.variants.includes("wildcard") ? 1 : 0); //not including this play
             if ( allPositions.length < this.numplayers * numPlayedPerPlayer + 1 ) //including this play
                 return this;
-            
+
             //Check for 4-in-a-row.  We're far enough into the game that there must be a targetCell.
             const [absX, absY] = this.algebraic2absCoords(this.parseMove(this.lastmove!).targetCell!);
             if ( this.getKnightLines(absX, absY) ) {
@@ -956,7 +956,7 @@ export class KnightLineGame extends GameBase {
                 this.winner = [this.currplayer];
             }
         }
-        
+
          if (this.gameover) {
             this.results.push({ type: "winners", players: [...this.winner] });
         }
@@ -1043,7 +1043,7 @@ export class KnightLineGame extends GameBase {
         //Turn cellContents into the name of a piece for rendering.
         if (!cell || cell.length < 2)
             throw new Error("Bad cellContents passed to encodePiece.");
-        
+
         const color = cell[0];
         const count = cell[1];
         return `${pieceInitials[color]}${count}`;
@@ -1081,7 +1081,7 @@ export class KnightLineGame extends GameBase {
             const pstr: string[] = [];
             for (let x = 0; x < width; x++) {
                 const [absX, absY] = this.rel2absCoords(x, y);
-                
+
                 if ( x === 0 && y === 0 )
                     [firstAX, firstAY] = [absX, absY];
 
@@ -1110,7 +1110,7 @@ export class KnightLineGame extends GameBase {
         const rowLabels = [...Array(height).keys()].map(l => ( -(l + firstAY) ).toString()).reverse();
         const columnLabels = (Array.from(Array(width).keys())).map(c =>
             this.absXCoord2algebraic(firstAX + c) );
-        
+
         // Build rep
         const rep: APRenderRep =  {
             board: {

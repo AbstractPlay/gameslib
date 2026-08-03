@@ -69,7 +69,7 @@ export class EvenAtOddsGame extends GameBase {
         uid: "evenatodds",
         playercounts: [2],
         version: "20260724",
-        dateAdded: "2026-07-24",
+        dateAdded: "2026-08-03",
         description: "apgames:descriptions.evenatodds",
         notes: "apgames:notes.evenatodds",
         people: [
@@ -85,7 +85,7 @@ export class EvenAtOddsGame extends GameBase {
         bggid: "458452",
         displays: [{ uid: "flat" }],
         categories: ["goal>area", "mechanic>place", "mechanic>stack", "board>3d", "board>dynamic", "components>dominoes"],
-        flags: ["scores", "experimental", "custom-buttons"],
+        flags: ["scores", "custom-buttons"],
         customizations: [{num: 3, default: "#aaaaaa", explanation: "Colour of the blank ends"}],
     };
 

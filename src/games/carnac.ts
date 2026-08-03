@@ -60,8 +60,8 @@ export class CarnacGame extends GameBase {
         name: "Carnac",
         uid: "carnac",
         playercounts: [2],
-        version: "20260708",
-        dateAdded: "2026-07-02",
+        version: "20260702",
+        dateAdded: "2026-08-03",
         description: "apgames:descriptions.carnac",
         notes: "apgames:notes.carnac",
         urls: ["https://boardgamegeek.com/boardgame/103061/carnac"],
@@ -85,7 +85,7 @@ export class CarnacGame extends GameBase {
         ],
         displays: [{ uid: "flat" }],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>displace", "board>3d", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["scores", "automove", "custom-buttons", "experimental"],
+        flags: ["scores", "automove", "custom-buttons"],
     };
 
     public numplayers = 2;

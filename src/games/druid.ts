@@ -58,7 +58,7 @@ export class DruidGame extends GameBase {
         uid: "druid",
         playercounts: [2],
         version: "20260706",
-        dateAdded: "2026-07-06",
+        dateAdded: "2026-08-03",
         description: "apgames:descriptions.druid",
         notes: "apgames:notes.druid",
         urls: [
@@ -94,7 +94,7 @@ export class DruidGame extends GameBase {
         ],
         displays: [{ uid: "flat" }],
         categories: ["goal>connect", "mechanic>place", "mechanic>move", "board>3d", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["pie", "automove", "experimental"],
+        flags: ["pie", "automove"],
     };
 
     public numplayers = 2;

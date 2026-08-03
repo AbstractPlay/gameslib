@@ -53,7 +53,7 @@ export class CanoeGame extends GameBase {
         uid: "canoe",
         playercounts: [2],
         version: "20260725",
-        dateAdded: "2026-07-25",
+        dateAdded: "2026-08-03",
         description: "apgames:descriptions.canoe",
         notes: "apgames:notes.canoe",
         urls: ["https://boardgamegeek.com/boardgame/18867/canoe"],
@@ -72,7 +72,7 @@ export class CanoeGame extends GameBase {
             },
         ],
         categories: ["goal>score>eog", "mechanic>move", "mechanic>capture", "mechanic>random>setup", "mechanic>random>play", "board>shape>rect", "board>connect>rect", "components>special", "components>dice"],
-        flags: ["experimental", "no-explore", "custom-buttons", "scores", "automove"],
+        flags: ["no-explore", "custom-buttons", "scores", "automove"],
         variants: [
             {
                 uid: "no-canoe",

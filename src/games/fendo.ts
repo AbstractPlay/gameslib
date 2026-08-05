@@ -5,8 +5,6 @@ import { APMoveResult } from "../schemas/moveresults";
 import { Direction, oppositeDirections, RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { SquareOrthGraph } from "../common/graphs";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const clonelst = (items: Array<any>): Array<any> => items.map((item: any) => Array.isArray(item) ? clonelst(item) : item);
@@ -57,6 +55,11 @@ export class FendoGame extends GameBase {
                 apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
             },
         ],
+        variants: [
+            { uid: "#board", group: "board"},
+            { uid: "size-9", group: "board"},
+            { uid: "size-11", group: "board"},
+        ],
         categories: ["goal>area", "mechanic>block", "mechanic>move", "mechanic>enclose", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["scores", "automove", "perspective"]
     };
@@ -73,15 +76,76 @@ export class FendoGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
 
-    constructor(state?: IFendoState | string) {
+    private static readonly BOARD_VARIANT_ALIASES: Record<string, string> = {
+        "board-9": "size-9",
+        "board-11": "size-11",
+    };
+
+    private static normalizeVariants(variants: string[]): string[] {
+        return variants.map(v => FendoGame.BOARD_VARIANT_ALIASES[v] ?? v);
+    }
+
+    private static boardSizeFromVariants(variants: string[]): number | undefined {
+        const normalized = FendoGame.normalizeVariants(variants);
+        if (normalized.includes("size-9")) {
+            return 9;
+        }
+        if (normalized.includes("size-11")) {
+            return 11;
+        }
+        if (normalized.includes("#board")) {
+            return 7;
+        }
+        return undefined;
+    }
+
+    private static inferBoardSizeFromStack(stack: Array<IMoveState>): number {
+        let max = 7;
+        const visit = (cell: string) => {
+            const match = /^([a-z])(\d+)$/i.exec(cell);
+            if (match === null) {
+                return;
+            }
+            const col = match[1].toLowerCase().charCodeAt(0) - 97 + 1;
+            const row = parseInt(match[2], 10);
+            max = Math.max(max, col, row);
+        };
+        for (const moveState of stack) {
+            for (const cell of moveState.board.keys()) {
+                visit(cell);
+            }
+            for (const fence of moveState.fences) {
+                visit(fence[0]);
+                visit(fence[1]);
+            }
+        }
+        return max;
+    }
+
+    private static resolveBoardSize(variants: string[], stack?: Array<IMoveState>): number {
+        const fromVariants = FendoGame.boardSizeFromVariants(variants);
+        if (fromVariants !== undefined) {
+            return fromVariants;
+        }
+        if (stack !== undefined && stack.length > 0) {
+            return FendoGame.inferBoardSizeFromStack(stack);
+        }
+        return 7;
+    }
+
+    constructor(state?: IFendoState | string, variants?: string[]) {
         super();
+        if (variants !== undefined && Array.isArray(variants)) {
+            this.variants = FendoGame.normalizeVariants(variants);
+        }
+        const boardSize = FendoGame.resolveBoardSize(this.variants);
         if (state === undefined) {
             const fresh: IMoveState = {
                 _version: FendoGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
-                board: new Map([["a4", 1], ["g4", 2]]),
+                board: new Map([[`a${Math.ceil(boardSize / 2)}`, 1], [`${boardSize === 7 ? "g" : boardSize === 9 ? "i" : "k"}${Math.ceil(boardSize / 2)}`, 2]]),
                 pieces: [6, 6],
                 fences: []
             };
@@ -95,7 +159,7 @@ export class FendoGame extends GameBase {
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
-            this.variants = state.variants;
+            this.variants = FendoGame.normalizeVariants(state.variants);
             this.stack = [...state.stack];
         }
         this.load();
@@ -120,8 +184,12 @@ export class FendoGame extends GameBase {
         return this;
     }
 
+    public get boardSize(): number {
+        return FendoGame.resolveBoardSize(this.variants, this.stack);
+    }
+
     private buildGraph(): FendoGame {
-        this.graph = new SquareOrthGraph(7, 7);
+        this.graph = new SquareOrthGraph(this.boardSize, this.boardSize);
         for (const fence of this.fences) {
             this.graph.graph.dropEdge(...fence);
         }
@@ -149,19 +217,17 @@ export class FendoGame extends GameBase {
         }
 
         // You can move a piece then place a fence
+        const open = areas.open[0];
         for (const [from, targets] of validTargets.entries()) {
             for (const target of targets) {
-                // Neighbours obviously don't have a fence between them, so you could place one there
+                const boardAfterMove = new Map(this.board);
+                if (from !== target) {
+                    boardAfterMove.delete(from);
+                    boardAfterMove.set(target, player);
+                }
                 const neighbours = this.graph.neighbours(target);
                 for (const n of neighbours) {
-                    // Make the move, set the fence, and test that the result is valid
-                    const cloned: FendoGame = Object.assign(new FendoGame(), deepclone(this) as FendoGame);
-                    cloned.buildGraph();
-                    cloned.board.delete(from);
-                    cloned.board.set(target, player);
-                    cloned.graph.graph.dropEdge(target, n);
-                    const clonedAreas = cloned.getAreas();
-                    if ( (clonedAreas.empty.length === 0) && (clonedAreas.open.length <= 1) ) {
+                    if (this.isFenceValidAfterMove(boardAfterMove, open, target, n)) {
                         const bearing = this.graph.bearing(target, n)!;
                         if (from !== target) {
                             moves.push(`${from}-${target}${bearing.toString()}`)
@@ -184,30 +250,121 @@ export class FendoGame extends GameBase {
         // Get a list of valid moves for all your pieces in the open area
         // We will use this list for both move types
         const mypieces = [...this.board.entries()].filter(e => (e[1] === player) && (open.has(e[0]))).map(e => e[0]);
-        const empties = [...open].filter(cell => ! this.board.has(cell));
         const validTargets: Map<string, string[]> = new Map();
+        const dirs = ["N", "E", "S", "W"] as const;
         for (const piece of mypieces) {
-            for (const target of empties) {
-                const path = this.naivePath(piece, target);
-                if (path !== null) {
-                    if (validTargets.has(piece)) {
-                        const lst = validTargets.get(piece)!;
-                        validTargets.set(piece, [...lst, target]);
-                    } else {
-                        validTargets.set(piece, [target]);
+            const reachable = new Set<string>([piece]);
+            for (const dir1 of dirs) {
+                const ray1 = this.walkRay(piece, dir1, open, this.board);
+                for (const cell of ray1) {
+                    reachable.add(cell);
+                }
+                for (const seed of ray1) {
+                    for (const dir2 of this.perpendicularDirs(dir1)) {
+                        const ray2 = this.walkRay(seed, dir2, open, this.board);
+                        for (const cell of ray2) {
+                            reachable.add(cell);
+                        }
                     }
                 }
             }
-            // Pieces are always allowed to stay stationary
-            if (validTargets.has(piece)) {
-                const lst = validTargets.get(piece)!;
-                validTargets.set(piece, [...lst, piece]);
-            } else {
-                validTargets.set(piece, [piece]);
-            }
+            validTargets.set(piece, [...reachable]);
         }
 
         return validTargets;
+    }
+
+    private perpendicularDirs(dir: "N" | "E" | "S" | "W"): ("N" | "E" | "S" | "W")[] {
+        if (dir === "N" || dir === "S") {
+            return ["E", "W"];
+        }
+        return ["N", "S"];
+    }
+
+    private walkRay(from: string, dir: "N" | "E" | "S" | "W", open: Set<string>, board: Map<string, playerid>): string[] {
+        const cells: string[] = [];
+        let [cx, cy] = this.graph.algebraic2coords(from);
+        while (true) {
+            const next = this.graph.move(cx, cy, dir);
+            if (next === undefined) {
+                break;
+            }
+            const fromCell = this.graph.coords2algebraic(cx, cy);
+            const cell = this.graph.coords2algebraic(...next);
+            if (! open.has(cell)) {
+                break;
+            }
+            if (! this.graph.graph.hasEdge(fromCell, cell)) {
+                break;
+            }
+            if (board.has(cell)) {
+                break;
+            }
+            cells.push(cell);
+            [cx, cy] = next;
+        }
+        return cells;
+    }
+
+    private isBlockedEdge(a: string, b: string, blocked: [string, string]): boolean {
+        return (a === blocked[0] && b === blocked[1]) || (a === blocked[1] && b === blocked[0]);
+    }
+
+    private collectOpenComponent(
+        open: Set<string>,
+        start: string,
+        blocked: [string, string],
+    ): Set<string> {
+        const seen = new Set<string>();
+        const stack = [start];
+        while (stack.length > 0) {
+            const cell = stack.pop()!;
+            if (seen.has(cell) || ! open.has(cell)) {
+                continue;
+            }
+            seen.add(cell);
+            for (const nb of this.graph.neighbours(cell)) {
+                if (this.isBlockedEdge(cell, nb, blocked)) {
+                    continue;
+                }
+                if (! seen.has(nb)) {
+                    stack.push(nb);
+                }
+            }
+        }
+        return seen;
+    }
+
+    private isFenceValidAfterMove(
+        board: Map<string, playerid>,
+        open: Set<string>,
+        target: string,
+        n: string,
+    ): boolean {
+        const blocked: [string, string] = [target, n];
+        const sideA = this.collectOpenComponent(open, target, blocked);
+        if (sideA.has(n)) {
+            return true;
+        }
+        let piecesA = 0;
+        let piecesB = 0;
+        for (const cell of open) {
+            if (! board.has(cell)) {
+                continue;
+            }
+            if (sideA.has(cell)) {
+                piecesA++;
+            } else {
+                piecesB++;
+            }
+        }
+        if (piecesA === 0 || piecesB === 0) {
+            return false;
+        }
+        if (piecesA >= 2 && piecesB >= 2) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -222,7 +379,7 @@ export class FendoGame extends GameBase {
      * @memberof FendoGame
      */
     public naivePath(from: string, to: string): string[] | null {
-        const grid = new RectGrid(7, 7);
+        const grid = new RectGrid(this.boardSize, this.boardSize);
         const dirs: Direction[] = [];
         const [xFrom, yFrom] = this.graph.algebraic2coords(from);
         const [xTo, yTo] = this.graph.algebraic2coords(to);
@@ -395,6 +552,38 @@ export class FendoGame extends GameBase {
         }
     }
 
+    private parseStationaryFence(m: string): { cell: string; dir: Direction } | null {
+        if (m.includes("-") || ! /[NESW]$/.test(m)) {
+            return null;
+        }
+        const dir = m[m.length - 1] as Direction;
+        if (! ["N", "E", "S", "W"].includes(dir)) {
+            return null;
+        }
+        const cell = m.substring(0, m.length - 1);
+        if (! /^[a-z]+\d+$/i.test(cell)) {
+            return null;
+        }
+        return { cell, dir };
+    }
+
+    private parseMoveWithOptionalFence(m: string): { from: string; to?: string; dir?: Direction } {
+        const dash = m.indexOf("-");
+        if (dash < 0) {
+            return { from: m };
+        }
+        const from = m.substring(0, dash);
+        const rest = m.substring(dash + 1);
+        if (/[NESW]$/.test(rest)) {
+            return {
+                from,
+                to: rest.substring(0, rest.length - 1),
+                dir: rest[rest.length - 1] as Direction,
+            };
+        }
+        return { from, to: rest };
+    }
+
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
@@ -418,10 +607,9 @@ export class FendoGame extends GameBase {
             }
         }
 
-        if ( (m.length === 3) && (/[NESW]$/.test(m)) ) {
-            const cell = m.substring(0, 2);
-
-            const dir = m[2] as Direction;
+        const stationary = this.parseStationaryFence(m);
+        if (stationary !== null) {
+            const { cell, dir } = stationary;
 
             const allcells = this.graph.listCells(false) as string[];
 
@@ -438,7 +626,7 @@ export class FendoGame extends GameBase {
                 return result;
             }
             // fence is between two cells
-            const grid = new RectGrid(7, 7);
+            const grid = new RectGrid(this.boardSize, this.boardSize);
             const [x, y] = this.graph.algebraic2coords(cell);
             const ray = grid.ray(x, y, dir).map(pt => this.graph.coords2algebraic(...pt));
             if (ray.length === 0) {
@@ -455,12 +643,9 @@ export class FendoGame extends GameBase {
                 return result;
             }
             // placing the fence doesn't violate any rules
-            // Make the move, set the fence, and test that the result is valid
-            const cloned: FendoGame = Object.assign(new FendoGame(), deepclone(this) as FendoGame);
-            cloned.buildGraph();
-            cloned.graph.graph.dropEdge(cell, next);
-            const clonedAreas = cloned.getAreas();
-            if ( (clonedAreas.empty.length > 0) || (clonedAreas.open.length > 1) ) {
+            const areas = this.getAreas();
+            const open = areas.open[0];
+            if (! this.isFenceValidAfterMove(this.board, open, cell, next)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.fendo.INVALID_FENCE");
                 return result;
@@ -473,13 +658,7 @@ export class FendoGame extends GameBase {
             return result;
         }
 
-        const [from, target] = m.split("-");
-        let to = target;
-        let dir: Direction | undefined;
-        if (/[NESW]$/.test(m)) {
-            to = target.slice(0, target.length - 1);
-            dir = target.slice(target.length - 1) as Direction;
-        }
+        const { from, to, dir } = this.parseMoveWithOptionalFence(m);
         const allcells = this.graph.listCells(false) as string[];
 
         if (from !== undefined) {
@@ -551,7 +730,7 @@ export class FendoGame extends GameBase {
                             return result;
                         }
                         // fence is between two cells
-                        const grid = new RectGrid(7, 7);
+                        const grid = new RectGrid(this.boardSize, this.boardSize);
                         const [x, y] = this.graph.algebraic2coords(to);
                         const ray = grid.ray(x, y, dir).map(pt => this.graph.coords2algebraic(...pt));
                         if (ray.length === 0) {
@@ -568,14 +747,10 @@ export class FendoGame extends GameBase {
                             return result;
                         }
                         // placing the fence doesn't violate any rules
-                        // Make the move, set the fence, and test that the result is valid
-                        const cloned: FendoGame = Object.assign(new FendoGame(), deepclone(this) as FendoGame);
-                        cloned.buildGraph();
-                        cloned.board.delete(from);
-                        cloned.board.set(to, this.currplayer);
-                        cloned.graph.graph.dropEdge(to, next);
-                        const clonedAreas = cloned.getAreas();
-                        if ( (clonedAreas.empty.length > 0) || (clonedAreas.open.length > 1) ) {
+                        const boardAfterMove = new Map(this.board);
+                        boardAfterMove.delete(from);
+                        boardAfterMove.set(to, this.currplayer);
+                        if (! this.isFenceValidAfterMove(boardAfterMove, open, to, next)) {
                             result.valid = false;
                             result.message = i18next.t("apgames:validation.fendo.INVALID_FENCE");
                             return result;
@@ -639,43 +814,36 @@ export class FendoGame extends GameBase {
             this.results.push({type: "pass"});
         // Now look for movement
         } else if (m.includes("-")) {
-            const [from, target] = m.split("-");
-            let to = target;
-            let dir: Direction | undefined;
-            if (/[NESW]$/.test(target)) {
-                to = target.slice(0, target.length - 1);
-                dir = target[target.length - 1] as Direction;
-            }
-            let path = this.naivePath(from, to);
+            const { from, to, dir } = this.parseMoveWithOptionalFence(m);
+            let path = this.naivePath(from, to!);
             if (path === null) {
-                path = this.graph.path(from, to);
+                path = this.graph.path(from, to!);
             }
             this.board.delete(from);
-            this.board.set(to, this.currplayer);
+            this.board.set(to!, this.currplayer);
             for (let i = 0; i < path!.length - 1; i++) {
                 this.results.push({type: "move", from: path![i], to: path![i+1]});
             }
             if (dir !== undefined) {
-                const neighbour = this.graph.coords2algebraic(...RectGrid.move(...this.graph.algebraic2coords(to), dir));
-                this.fences.push([to, neighbour]);
-                this.graph.graph.dropEdge(to, neighbour);
-                this.results.push({type: "block", between: [to, neighbour]});
+                const neighbour = this.graph.coords2algebraic(...RectGrid.move(...this.graph.algebraic2coords(to!), dir));
+                this.fences.push([to!, neighbour]);
+                this.graph.graph.dropEdge(to!, neighbour);
+                this.results.push({type: "block", between: [to!, neighbour]});
             }
         // Check for stationary fence placement
-        } else if ( (m.length === 3) && (/[NESW]$/.test(m)) ) {
-            const cell = m.substring(0, m.length - 1);
-            const dir = m[m.length - 1] as Direction;
-            if (dir !== undefined) {
+        } else {
+            const stationary = this.parseStationaryFence(m);
+            if (stationary !== null) {
+                const { cell, dir } = stationary;
                 const neighbour = this.graph.coords2algebraic(...RectGrid.move(...this.graph.algebraic2coords(cell), dir));
                 this.fences.push([cell, neighbour]);
                 this.graph.graph.dropEdge(cell, neighbour);
                 this.results.push({type: "block", between: [cell, neighbour]});
+            } else {
+                this.board.set(m, this.currplayer);
+                this.pieces[this.currplayer - 1]--;
+                this.results.push({type: "place", where: m})
             }
-        // Otherwise it's placement
-        } else {
-            this.board.set(m, this.currplayer);
-            this.pieces[this.currplayer - 1]--;
-            this.results.push({type: "place", where: m})
         }
 
         if (partial) { return this; }
@@ -699,12 +867,13 @@ export class FendoGame extends GameBase {
         if ( (this.lastmove === "pass") && (this.stack[this.stack.length - 1].lastmove === "pass") ) {
             passedout = true;
         }
-        // If no more open areas, tally up
         const areas = this.getAreas();
-        if ( (areas.open.length === 0) || (passedout) ) {
+        const score1 = this.getPlayerScore(1);
+        const score2 = this.getPlayerScore(2);
+        const majorityThreshold = Math.floor((this.boardSize ** 2) / 2);
+        const majorityClaimed = (score1 > majorityThreshold) || (score2 > majorityThreshold);
+        if ( (areas.open.length === 0) || passedout || majorityClaimed) {
             this.gameover = true;
-            const score1 = this.getPlayerScore(1);
-            const score2 = this.getPlayerScore(2);
             if (score1 > score2) {
                 this.winner = [1];
             } else if (score1 < score2) {
@@ -789,8 +958,8 @@ export class FendoGame extends GameBase {
 
         const board: BoardBasic = {
             style: "squares-beveled",
-            width: 7,
-            height: 7,
+            width: this.boardSize,
+            height: this.boardSize,
             markers,
         }
         const rep: APRenderRep =  {

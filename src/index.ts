@@ -23,3 +23,8 @@ export const addResource = i18nModule.addResource as (
     host?: import("i18next").i18n,
     options?: import("./i18n-shared").AddResourceOptions,
 ) => import("i18next").i18n;
+
+// Browser-only: shared i18next singleton used by games and the playground.
+export const i18n: import("i18next").i18n | undefined = isNode
+    ? undefined
+    : (i18nModule as { i18n: import("i18next").i18n }).i18n;

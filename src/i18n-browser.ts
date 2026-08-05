@@ -1,12 +1,36 @@
-import i18next, { type i18n } from "i18next";
+import i18next, { type i18n, type InitOptions } from "i18next";
+import HttpApi from "i18next-http-backend";
 import { supportedLocales } from "./i18n-shared";
 
 const GAMESLIB_NAMESPACES = ["apgames", "apresults"] as const;
+const DEFAULT_LANG = "en";
 
 let browserInitStarted = false;
+let pendingLang = DEFAULT_LANG;
+
+export function normalizeBrowserLang(lang?: string): string {
+    if (lang !== undefined && supportedLocales.includes(lang)) {
+        return lang;
+    }
+    return DEFAULT_LANG;
+}
+
+export function getBrowserI18nInitOptions(lang: string): InitOptions {
+    const lng = normalizeBrowserLang(lang);
+    return {
+        lng,
+        fallbackLng: lng,
+        supportedLngs: [...supportedLocales],
+        nonExplicitSupportedLngs: false,
+        ns: [...GAMESLIB_NAMESPACES],
+        backend: {
+            loadPath: "/locales/{{lng}}/{{ns}}.json",
+        },
+    };
+}
 
 const copyHostBundles = (instance: i18n, host: i18n, lang?: string): void => {
-    const targetLang = lang ?? host.language;
+    const targetLang = normalizeBrowserLang(lang ?? host.language);
     for (const ns of GAMESLIB_NAMESPACES) {
         const bundle = host.getResourceBundle(targetLang, ns);
         if (bundle) {
@@ -16,31 +40,37 @@ const copyHostBundles = (instance: i18n, host: i18n, lang?: string): void => {
 };
 
 const ensureBrowserHttpInit = (lang: string): void => {
-    if (browserInitStarted || i18next.isInitialized) {
+    pendingLang = normalizeBrowserLang(lang);
+    if (i18next.isInitialized) {
+        if (i18next.language !== pendingLang) {
+            void i18next.changeLanguage(pendingLang);
+        }
+        return;
+    }
+    if (browserInitStarted) {
         return;
     }
     browserInitStarted = true;
-    void import("i18next-http-backend").then(({ default: HttpApi }) => {
-        void i18next
-            .use(HttpApi)
-            .init({
-                lng: lang,
-                ns: [...GAMESLIB_NAMESPACES],
-                backend: {
-                    loadPath: "/locales/{{lng}}/{{ns}}.json",
-                },
-            });
-    });
+    void i18next
+        .use(HttpApi)
+        .init(getBrowserI18nInitOptions(pendingLang))
+        .catch((err: unknown) => {
+            // eslint-disable-next-line no-console
+            console.error("gameslib i18n init failed:", err);
+        });
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const addResource = (lang?: string, host?: i18n, _options?: import("./i18n-shared").AddResourceOptions) => {
-    const targetLang = lang ?? host?.language ?? "en";
+    const targetLang = normalizeBrowserLang(lang ?? host?.language);
 
     if (host) {
         if (!i18next.isInitialized) {
             void i18next.init({
                 lng: targetLang,
+                fallbackLng: targetLang,
+                supportedLngs: [...supportedLocales],
+                nonExplicitSupportedLngs: false,
                 ns: [...GAMESLIB_NAMESPACES],
                 initImmediate: false,
                 resources: {},
@@ -54,12 +84,13 @@ export const addResource = (lang?: string, host?: i18n, _options?: import("./i18
     }
 
     if (host && host !== i18next && host.isInitialized && i18next.isInitialized && host.language !== i18next.language) {
-        void i18next.changeLanguage(host.language);
-    } else if (lang !== undefined && i18next.isInitialized && i18next.language !== lang) {
-        void i18next.changeLanguage(lang);
+        void i18next.changeLanguage(normalizeBrowserLang(host.language));
+    } else if (lang !== undefined && i18next.isInitialized && i18next.language !== targetLang) {
+        void i18next.changeLanguage(targetLang);
     }
 
     return host ?? i18next;
 };
 
 export { supportedLocales };
+export { default as i18n } from "i18next";

@@ -1503,6 +1503,17 @@
                 "name": "Arbeiter"
             }
         },
+        "fendo": {
+            "#board": {
+                "name": "Default 7x7 board"
+            },
+            "size-9": {
+                "name": "9x9 board"
+            },
+            "size-11": {
+                "name": "11x11 board"
+            }
+        },
         "flume": {
             "7x7": {
                 "name": "Smaller board: 7x7"

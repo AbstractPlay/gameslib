@@ -433,6 +433,40 @@ function addCustomizeStyles() {
     document.head.appendChild(style);
 }
 
+function populateGameSelect() {
+    const select = document.getElementById("selectGame");
+    if (!select || select.dataset.gamesPopulated === "true") {
+        return;
+    }
+    if (!APGames.gameinfoSorted || APGames.gameinfoSorted.length === 0) {
+        return;
+    }
+    APGames.gameinfoSorted.forEach((g) => {
+        const opt = document.createElement("option");
+        opt.value = g.uid;
+        opt.textContent = g.name;
+        select.appendChild(opt);
+    });
+    select.dataset.gamesPopulated = "true";
+}
+
+function bindHexColorPicker(picker, hexInput, onColorChange) {
+    if (!picker || !hexInput) {
+        return;
+    }
+    picker.addEventListener("color-changed", (e) => {
+        hexInput.value = e.detail.value;
+        if (onColorChange) {
+            onColorChange(e.detail.value);
+        }
+    });
+    hexInput.addEventListener("input", () => {
+        if (/^#[0-9A-Fa-f]{6}$/.test(hexInput.value) && "color" in picker) {
+            picker.color = hexInput.value;
+        }
+    });
+}
+
 function createCustomizeModal() {
     if (document.getElementById("customizeModal")) return;
 
@@ -536,16 +570,15 @@ function createCustomizeModal() {
     // Palette
     const paletteColorPicker = document.getElementById("customizePaletteColor");
     const paletteHexInput = document.getElementById("customizePaletteHex");
-    paletteColorPicker.addEventListener('color-changed', e => {
-        paletteHexInput.value = e.detail.value;
-    });
-    paletteHexInput.addEventListener('input', () => {
-        if (/^#[0-9A-Fa-f]{6}$/.test(paletteHexInput.value)) {
-            paletteColorPicker.color = paletteHexInput.value;
-        }
-    });
+    bindHexColorPicker(paletteColorPicker, paletteHexInput);
     document.getElementById("customizeAddColor").addEventListener("click", (e) => { e.preventDefault();
-        customizations.palette.push(paletteColorPicker.color);
+        const color = paletteColorPicker && "color" in paletteColorPicker
+            ? paletteColorPicker.color
+            : paletteHexInput.value;
+        if (!color) {
+            return;
+        }
+        customizations.palette.push(color);
         settingsDirty = true;
         syncCustomizeUI();
     });
@@ -580,13 +613,10 @@ function createCustomizeModal() {
         settingsDirty = true;
         syncCustomizeUI();
     };
-    contextColorPicker.addEventListener('color-changed', e => {
-        contextHexInput.value = e.detail.value;
-        contextUpdate(e.detail.value);
-    });
-    contextHexInput.addEventListener('input', () => {
+    bindHexColorPicker(contextColorPicker, contextHexInput, contextUpdate);
+    contextHexInput.addEventListener("input", () => {
         if (/^#[0-9A-Fa-f]{6}$/.test(contextHexInput.value)) {
-            contextColorPicker.color = contextHexInput.value;
+            contextUpdate(contextHexInput.value);
         }
     });
 
@@ -1396,6 +1426,14 @@ let selectedGroupVariants = {};
 let selectedNonGroupVariants = {};
 let currentGameInfo = null;
 
+function playgroundT(key) {
+    const inst = APGames.i18n;
+    if (inst && inst.isInitialized && typeof inst.t === "function") {
+        return inst.t(key);
+    }
+    return key;
+}
+
 // Tooltip for variant info
 function showVariantTooltip(variantUid, anchorElem) {
     let tooltip = document.getElementById("variantTooltip");
@@ -1437,8 +1475,8 @@ function showVariantTooltip(variantUid, anchorElem) {
     }
 
     if (variant) {
-        const t = (APGames.i18n && typeof APGames.i18n.t === 'function')
-            ? APGames.i18n.t
+        const t = (APGames.i18n && typeof APGames.i18n.t === "function")
+            ? APGames.i18n.t.bind(APGames.i18n)
             : (key) => key;
 
         const nameKey = `variants.${gameUid}.${variantUid}.name`;
@@ -1548,25 +1586,32 @@ function updateDisplayOptions(gameEngine) {
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
-    var i18n = APGames.addResource("en");
-    var startPlayground = function() {
-    var { t } = i18n;
+    populateGameSelect();
+
+    const i18n = APGames.addResource("en");
+    let playgroundStarted = false;
+    const startPlayground = function() {
+    if (playgroundStarted) {
+        return;
+    }
+
+    populateGameSelect();
 
     const autoSubmitCheckbox = document.getElementById("autoSubmit");
     const savedAutoSubmit = window.localStorage.getItem("autoSubmit");
-    if (savedAutoSubmit !== null) {
+    if (autoSubmitCheckbox && savedAutoSubmit !== null) {
         autoSubmitCheckbox.checked = savedAutoSubmit === "true";
     }
 
     const rotationInput = document.getElementById("rotation");
     const savedRotation = window.localStorage.getItem("rotation");
-    if (savedRotation !== null) {
+    if (rotationInput && savedRotation !== null) {
         rotationInput.value = savedRotation;
     }
 
     const annotateCheckbox = document.getElementById("annotate");
     const savedAnnotate = window.localStorage.getItem("annotate");
-    if (savedAnnotate !== null) {
+    if (annotateCheckbox && savedAnnotate !== null) {
         annotateCheckbox.checked = savedAnnotate === "true";
     }
 
@@ -1578,25 +1623,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
     });
 
-    loadCustomizations();
-    createCustomizeModal();
-
-    const isDark = window.localStorage.getItem("darkMode") === "true";
-    setDarkMode(isDark);
-
     var select = document.getElementById("selectGame");
     var variantsContainer = document.getElementById("variantsContainer");
     var varInfo = document.getElementById("varInfo");
     var playerCountContainer = document.getElementById("playerCountContainer");
 
-    APGames.gameinfoSorted.forEach((g) => {
-        var opt = document.createElement('option');
-        opt.value = g.uid;
-        opt.innerHTML = g.name;
-        select.appendChild(opt);
-    });
+    if (!select || !variantsContainer || !varInfo || !playerCountContainer) {
+        console.error("Playground game-selection elements are missing from the page.");
+        return;
+    }
 
-    autoSubmitCheckbox.addEventListener("change", () => {
+    autoSubmitCheckbox?.addEventListener("change", () => {
         window.localStorage.setItem("autoSubmit", autoSubmitCheckbox.checked);
     });
 
@@ -1607,18 +1644,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
     customizeBtn.className = "button is-small";
     customizeBtn.style.marginTop = "0.5em";
     customizeBtn.addEventListener("click", showCustomizeModal);
-    const existingContent = renderSettings.querySelector(".render-settings-content");
+    const existingContent = renderSettings?.querySelector(".render-settings-content");
     if (existingContent) {
         existingContent.innerHTML = "";
         existingContent.appendChild(customizeBtn);
     }
 
-    rotationInput.addEventListener("input", () => {
+    rotationInput?.addEventListener("input", () => {
         window.localStorage.setItem("rotation", rotationInput.value);
         renderGame();
     });
 
-    annotateCheckbox.addEventListener("change", () => {
+    annotateCheckbox?.addEventListener("change", () => {
         window.localStorage.setItem("annotate", annotateCheckbox.checked);
         renderGame();
     });
@@ -1649,7 +1686,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
 
         var converter = new showdown.Converter();
-        infobox.innerHTML = converter.makeHtml(t(currentGameInfo.description));
+        infobox.innerHTML = converter.makeHtml(playgroundT(currentGameInfo.description));
 
         let gameEngine;
         try {
@@ -1725,7 +1762,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 const label = document.createElement('label');
                 label.htmlFor = radio.id;
                 const nameKey = `variants.${gameUid}.${variant.uid}.name`;
-                let vname = t(nameKey);
+                let vname = playgroundT(nameKey);
                 if (vname === nameKey) vname = variant.name || variant.uid;
                 label.textContent = ` ${vname}`;
 
@@ -1765,7 +1802,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 const label = document.createElement('label');
                 label.htmlFor = checkbox.id;
                 const nameKey = `variants.${gameUid}.${variant.uid}.name`;
-                let vname = t(nameKey);
+                let vname = playgroundT(nameKey);
                 if (vname === nameKey) vname = variant.name || variant.uid;
                 label.textContent = ` ${vname}`;
 
@@ -1892,6 +1929,21 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
         updateGameStatusPanel(game, gameUid);
     }, false);
+
+    loadCustomizations();
+    try {
+        createCustomizeModal();
+    } catch (err) {
+        console.error("Customize modal setup failed; playground will continue without it:", err);
+    }
+    try {
+        const isDark = window.localStorage.getItem("darkMode") === "true";
+        setDarkMode(isDark);
+    } catch (err) {
+        console.error("Dark mode setup failed; playground will continue without it:", err);
+    }
+
+    playgroundStarted = true;
 
     document.getElementById("inject").addEventListener("click", () => {
         const field = document.getElementById("stateInject");
@@ -2533,9 +2585,21 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
     };
 
-    if (i18n.isInitialized) {
+    try {
         startPlayground();
+    } catch (err) {
+        console.error("Playground startup failed:", err);
+    }
+
+    const refreshPlaygroundI18n = () => {
+        const gameSelect = document.getElementById("selectGame");
+        if (gameSelect && gameSelect.value) {
+            gameSelect.dispatchEvent(new Event("change"));
+        }
+    };
+    if (i18n.isInitialized) {
+        refreshPlaygroundI18n();
     } else {
-        i18n.on("initialized", startPlayground);
+        i18n.on("initialized", refreshPlaygroundI18n);
     }
 });

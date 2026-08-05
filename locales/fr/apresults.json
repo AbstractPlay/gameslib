@@ -567,7 +567,9 @@
     "streetcar_place_41": "Un bâtiment BLANC de hauteur 1 a été placé en {{where}}.",
     "streetcar_place_42": "Un bâtiment BLANC de hauteur 2 a été placé en {{where}}.",
     "streetcar_place_43": "Un bâtiment BLANC de hauteur 3 a été placé en {{where}}.",
-    "streetcar_place_default": "Un bâtiment a été placé en {{where}}."
+    "streetcar_place_default": "Un bâtiment a été placé en {{where}}.",
+    "estate_one": "{{player}} a placé une pièce en {{where}} ({{what}} pt).",
+    "estate_other": "{{player}} a placé une pièce en {{where}} ({{what}} pts)."
   },
   "PLAYSECOND": "{{player}} a choisi de jouer en second.",
   "PROMOTE": {

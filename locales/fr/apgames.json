@@ -276,7 +276,8 @@
     "y": "Le jeu de connexion classique. Connectez les trois côtés pour gagner.",
     "yavalath": "Formez une ligne de quatre pièces ou plus de votre couleur *sans* former une ligne de trois pièces au préalable.",
     "yonmoque": "Essayez de former un alignement de quatre pièces dans un jeu où toutes les cases ne se valent pas et où les pièces adverses peuvent être converties.",
-    "zola": "Un jeu où vos déplacements sont contraints par votre distance par rapport au centre du plateau. Les coups de capture ne doivent pas augmenter cette distance. Les coups sans capture doivent augmenter cette distance. La première personne à capturer toutes les pièces adverses gagne."
+    "zola": "Un jeu où vos déplacements sont contraints par votre distance par rapport au centre du plateau. Les coups de capture ne doivent pas augmenter cette distance. Les coups sans capture doivent augmenter cette distance. La première personne à capturer toutes les pièces adverses gagne.",
+    "estate": "Un jeu de connexion hexagonal où les cases ont des coûts différents. Dépensez vos points judicieusement !"
   },
   "notes": {
     "akimbo": "Akimbo, conçu par Luis Bolaños Mures en 2026, est un jeu de connexion sans égalité pour deux joueurs. Une _diagonale nue_ est une paire de pièces de même couleur, adjacentes en diagonale, sans aucune autre pièce de même couleur adjacente aux deux. Une _coupe croisée_ est une zone 2×2 avec deux diagonales nues imbriquées de couleurs opposées.\n\nÀ son tour, le joueur place une pièce amie sur une case vide. Si cela complète une coupe croisée, l'autre pièce de la coupe croisée est retirée. Il ne doit jamais y avoir plus d'une diagonale nue de chaque couleur sur le plateau — pas même momentanément avant de retirer une pièce. Un joueur gagne si, à la fin de son tour, il existe une chaîne de pièces de sa couleur connectées orthogonalement touchant les deux bords opposés du plateau du joueur.\n\nOkimba est une variante où une seule diagonale nue au maximum peut exister sur le plateau (ainsi, tant qu'un joueur possède la diagonale, l'adversaire ne peut pas en créer une autre).",
@@ -7537,6 +7538,12 @@
       "SWAP21_other": "Placez {{count}} pierres supplémentaires sur le plateau.",
       "SWAP22_EXCESS": "Vous avez placé trop de pierres. Vous ne pouvez placer que 2 pierres.",
       "SWAP22_PARTIAL": "Terminez le coup pour continuer en tant que joueur 2, ou placez une autre pierre sur le plateau pour laisser l'adversaire décider de jouer en tant que joueur 1 ou joueur 2."
+    },
+    "estate": {
+      "EXCEEDS": "Vous ne pouvez pas dépenser plus de {{budget}} points pour votre coup. Vous avez essayé de dépenser {{cost}} points.",
+      "INITIAL_INSTRUCTIONS_one": "Cliquez sur une case vide pour placer l'une de vos pièces ou cliquez sur l'une de vos pièces déjà placées pour la retirer. Vous pouvez encore placer {{count}} point de pièces.",
+      "INITIAL_INSTRUCTIONS_other": "Cliquez sur une case vide pour placer l'une de vos pièces ou cliquez sur l'une de vos pièces déjà placées pour la retirer. Vous pouvez encore placer {{count}} points de pièces.",
+      "INITIAL_INSTRUCTIONS_zero": "Vous n'avez plus de points à dépenser. Terminez votre coup ou cliquez sur l'une de vos pièces déjà placées pour la placer ailleurs."
     }
   },
   "INITIAL_UNDO": "Vous ne pouvez pas annuler la position de départ initiale de la partie.",

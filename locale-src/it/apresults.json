@@ -389,6 +389,8 @@
   "PLACE.entrapment_barrier": "{{player}} placed a barrier at {{where}}.",
   "PLACE.entrapment_roamer": "{{player}} placed a roamer at {{where}}.",
   "PLACE.epam": "{{player}} placed a stone at {{where}}.",
+  "PLACE.estate_one": "{{player}} placed a piece at {{where}} ({{what}} pt).",
+  "PLACE.estate_other": "{{player}} placed a piece at {{where}} ({{what}} pts).",
   "PLACE.evenatodds": "{{player}} placed the {{what}} domino at {{where}}.",
   "PLACE.gorogo_henge": "{{player}} placed a henge piece at {{where}}.",
   "PLACE.gorogo_piece": "{{player}} placed a piece at {{where}}.",

@@ -276,7 +276,8 @@
     "y": "Il classico gioco di connessione. Connetti tutti e tre i lati per vincere.",
     "yavalath": "Forma una linea di quattro o più pezzi del tuo colore *senza* prima formare una linea di tre pezzi.",
     "yonmoque": "Cerca di formare un quattro in linea in un gioco in cui non tutti gli spazi sono uguali e i pezzi avversari possono essere convertiti.",
-    "zola": "Un gioco in cui il tuo movimento è vincolato dalla tua distanza dal centro del tabellone. Le mosse di cattura non devono aumentare tale distanza. Le mosse non di cattura devono aumentare tale distanza. La prima persona che cattura tutti i pezzi avversari vince."
+    "zola": "Un gioco in cui il tuo movimento è vincolato dalla tua distanza dal centro del tabellone. Le mosse di cattura non devono aumentare tale distanza. Le mosse non di cattura devono aumentare tale distanza. La prima persona che cattura tutti i pezzi avversari vince.",
+    "estate": "Un gioco di connessione esagonale in cui le caselle hanno costi diversi. Spendi saggiamente i tuoi punti!"
   },
   "notes": {
     "akimbo": "Akimbo, progettato da Luis Bolaños Mures nel 2026, è un gioco di connessione senza pareggi per due giocatori. Una _diagonale nuda_ è una coppia di pezzi adiacenti in diagonale dello stesso colore privi di altri pezzi dello stesso colore adiacenti a entrambi. Un _crosscut_ è un'area 2×2 con due diagonali nude incrociate di colori opposti.\n\nNel proprio turno, il giocatore piazza un pezzo amico su una casella vuota. Se ciò completa un crosscut, l'altro pezzo nel crosscut viene rimosso. Non deve mai esserci più di una diagonale nuda per colore sul tabellone — nemmeno momentaneamente prima di rimuovere un pezzo. Un giocatore vince se, alla fine del proprio turno, c'è una catena di pezzi del proprio colore connessi ortogonalmente che tocca i due bordi opposti del tabellone del giocatore.\n\nOkimba è una variante in cui può esistere al massimo una diagonale nuda sul tabellone (quindi mentre un giocatore ha la diagonale, l'avversario non può crearne un'altra).",
@@ -7537,6 +7538,12 @@
       "SWAP21_other": "Piazza ancora {{count}} pietre sul tabellone.",
       "SWAP22_EXCESS": "Hai piazzato troppe pietre. Puoi piazzare solo 2 pietre.",
       "SWAP22_PARTIAL": "Completa la mossa per continuare come giocatore 2, oppure piazza un'altra pietra sul tabellone per permettere all'avversario di decidere se giocare come giocatore 1 o giocatore 2."
+    },
+    "estate": {
+      "EXCEEDS": "Non puoi spendere più di {{budget}} punti per la tua mossa. Hai provato a spendere {{cost}} punti.",
+      "INITIAL_INSTRUCTIONS_one": "Fai clic su una casella vuota per piazzare uno dei tuoi pezzi o fai clic su uno dei tuoi pezzi piazzati per rimuoverlo. Puoi piazzare pezzi per un valore di {{count}} altro punto.",
+      "INITIAL_INSTRUCTIONS_other": "Fai clic su una casella vuota per piazzare uno dei tuoi pezzi o fai clic su uno dei tuoi pezzi piazzati per rimuoverlo. Puoi piazzare pezzi per un valore di altri {{count}} punti.",
+      "INITIAL_INSTRUCTIONS_zero": "Non hai più punti da spendere. Completa la tua mossa o fai clic su uno dei tuoi pezzi piazzati per piazzarlo altrove."
     }
   },
   "INITIAL_UNDO": "Non puoi annullare la posizione iniziale di partenza del gioco.",

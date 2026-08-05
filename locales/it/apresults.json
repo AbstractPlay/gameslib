@@ -567,7 +567,9 @@
     "streetcar_place_41": "Un edificio BIANCO di altezza 1 è stato posizionato in {{where}}.",
     "streetcar_place_42": "Un edificio BIANCO di altezza 2 è stato posizionato in {{where}}.",
     "streetcar_place_43": "Un edificio BIANCO di altezza 3 è stato posizionato in {{where}}.",
-    "streetcar_place_default": "Un edificio è stato posizionato in {{where}}."
+    "streetcar_place_default": "Un edificio è stato posizionato in {{where}}.",
+    "estate_one": "{{player}} ha posizionato una pedina in {{where}} ({{what}} pt).",
+    "estate_other": "{{player}} ha posizionato una pedina in {{where}} ({{what}} pt)."
   },
   "PLAYSECOND": "{{player}} ha scelto di giocare per secondo.",
   "PROMOTE": {

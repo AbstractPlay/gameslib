@@ -1472,6 +1472,17 @@
         "name": "Arbeiter"
       }
     },
+    "fendo": {
+      "#board": {
+        "name": "Standard-7x7-Brett"
+      },
+      "size-9": {
+        "name": "9x9-Brett"
+      },
+      "size-11": {
+        "name": "11x11-Brett"
+      }
+    },
     "flume": {
       "7x7": {
         "name": "Kleineres Brett: 7x7"

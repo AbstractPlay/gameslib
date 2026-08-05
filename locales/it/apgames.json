@@ -1472,6 +1472,17 @@
         "name": "Arbeiter"
       }
     },
+    "fendo": {
+      "#board": {
+        "name": "Tavoliere predefinito 7x7"
+      },
+      "size-9": {
+        "name": "Tavoliere 9x9"
+      },
+      "size-11": {
+        "name": "Tavoliere 11x11"
+      }
+    },
     "flume": {
       "7x7": {
         "name": "Tabellone più piccolo: 7x7"

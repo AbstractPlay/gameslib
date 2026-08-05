@@ -1472,6 +1472,17 @@
         "name": "Arbeiter"
       }
     },
+    "fendo": {
+      "#board": {
+        "name": "Plateau 7x7 par défaut"
+      },
+      "size-9": {
+        "name": "Plateau 9x9"
+      },
+      "size-11": {
+        "name": "Plateau 11x11"
+      }
+    },
     "flume": {
       "7x7": {
         "name": "Petit plateau : 7x7"

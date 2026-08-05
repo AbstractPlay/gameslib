@@ -539,7 +539,21 @@ async function translateFile(ai, sourcePath) {
     const leavesToTranslate = Object.keys(diffLeaves);
 
     if (leavesToTranslate.length === 0) {
-      console.log(`[${lang.code}] ${fileName}: 100% up to date. Skipping.`);
+      const sourceLeaves = collectLeaves(sourceData);
+      let backfilled = false;
+      for (const [leafPath, sourceValue] of Object.entries(sourceLeaves)) {
+        const translated = getLeafValue(targetData, leafPath);
+        if (translated && srcTracking[leafPath] !== sourceValue) {
+          srcTracking[leafPath] = sourceValue;
+          backfilled = true;
+        }
+      }
+      if (backfilled) {
+        writeSrcTracking(repoRoot, lang.code, fileName, srcTracking);
+        console.log(`[${lang.code}] ${fileName}: Backfilled locale-src stamps (translations already up to date).`);
+      } else {
+        console.log(`[${lang.code}] ${fileName}: 100% up to date. Skipping.`);
+      }
       continue;
     }
 

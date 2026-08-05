@@ -52,7 +52,6 @@ export class TraxGame extends GameBase {
         // i18next.t("apgames:descriptions.trax")
         description: "apgames:descriptions.trax",
         urls: [
-            "http://www.traxgame.com",
             "https://boardgamegeek.com/boardgame/748/trax",
         ],
         bggid: "748",

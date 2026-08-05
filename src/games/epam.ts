@@ -29,7 +29,6 @@ export class EpamGame extends GameBase {
         // i18next.t("apgames:descriptions.epam")
         description: "apgames:descriptions.epam",
         urls: [
-            "http://www.logicmazes.com/games/epam.html",
             "https://boardgamegeek.com/boardgame/7338/epaminondas",
         ],
         bggid: "7338",
@@ -37,7 +36,6 @@ export class EpamGame extends GameBase {
             {
                 type: "designer",
                 name: "Robert Abbott",
-                urls: ["https://www.logicmazes.com/"]
             },
             {
                 type: "coder",

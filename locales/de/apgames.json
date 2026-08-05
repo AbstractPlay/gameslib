@@ -276,7 +276,8 @@
     "y": "Das klassische Verbindungsspiel. Verbinden Sie alle drei Seiten, um zu gewinnen.",
     "yavalath": "Bilden Sie eine Reihe von vier oder mehr Steinen Ihrer Farbe, *ohne* zuerst eine Reihe von drei Steinen zu bilden.",
     "yonmoque": "Versuchen Sie, eine Viererreihe zu bilden, in einem Spiel, in dem nicht alle Felder gleich sind und gegnerische Steine umgewandelt werden können.",
-    "zola": "Ein Spiel, bei dem Ihre Bewegung durch den Abstand zum Mittelpunkt des Bretts eingeschränkt ist. Schlagzüge dürfen diesen Abstand nicht vergrößern. Nicht-Schlagzüge müssen diesen Abstand vergrößern. Gewinner ist, wer als Erster alle gegnerischen Steine schlägt."
+    "zola": "Ein Spiel, bei dem Ihre Bewegung durch den Abstand zum Mittelpunkt des Bretts eingeschränkt ist. Schlagzüge dürfen diesen Abstand nicht vergrößern. Nicht-Schlagzüge müssen diesen Abstand vergrößern. Gewinner ist, wer als Erster alle gegnerischen Steine schlägt.",
+    "estate": "Ein hexagonales Verbindungsspiel, bei dem Felder unterschiedliche Kosten haben. Gib deine Punkte klug aus!"
   },
   "notes": {
     "akimbo": "Akimbo, entworfen von Luis Bolaños Mures im Jahr 2026, ist ein unentschieden-freies Verbindungsspiel für zwei Spieler. Eine _nackte Diagonale_ (naked diagonal) ist ein Paar gleichfarbiger, diagonal benachbarter Steine, ohne dass ein weiterer gleichfarbiger Stein an beide angrenzt. Ein _Kreuzschnitt_ (crosscut) ist ein 2×2-Bereich mit zwei ineinandergreifenden nackten Diagonalen entgegengesetzter Farben.\n\nIn seinem Zug platziert der Spieler einen eigenen Stein auf einem leeren Feld. Wenn dies einen Kreuzschnitt vervollständigt, wird der andere Stein im Kreuzschnitt entfernt. Es darf sich zu keinem Zeitpunkt mehr als eine nackte Diagonale jeder Farbe auf dem Brett befinden – nicht einmal vorübergehend vor dem Entfernen eines Steins. Ein Spieler gewinnt, wenn sich am Ende seines Zugs eine Kette von orthogonal verbundenen Steinen seiner Farbe befindet, die die beiden gegenüberliegenden Brettränder des Spielers berührt.\n\nOkimba ist eine Variante, bei der insgesamt nur maximal eine nackte Diagonale auf dem Brett existieren darf (wenn also ein Spieler die Diagonale besitzt, kann der Gegner keine weitere erstellen).",
@@ -7490,6 +7491,12 @@
       "SWAP21_other": "Platziere {{count}} weitere Steine auf dem Spielfeld.",
       "SWAP22_EXCESS": "Du hast zu viele Steine platziert. Du darfst nur 2 Steine platzieren.",
       "SWAP22_PARTIAL": "Schließe den Zug ab, um als Spieler 2 fortzufahren, oder platziere einen weiteren Stein auf dem Spielfeld, damit der Gegner entscheiden kann, ob er als Spieler 1 oder Spieler 2 spielt."
+    },
+    "estate": {
+      "EXCEEDS": "Du darfst für deinen Zug nicht mehr als {{budget}} Punkte ausgeben. Du hast versucht, {{cost}} Punkte auszugeben.",
+      "INITIAL_INSTRUCTIONS_one": "Klicke auf ein leeres Feld, um einen deiner Spielsteine zu platzieren, oder klicke auf einen deiner platzierten Spielsteine, um ihn zu entfernen. Du kannst noch Spielsteine im Wert von {{count}} weiteren Punkt platzieren.",
+      "INITIAL_INSTRUCTIONS_other": "Klicke auf ein leeres Feld, um einen deiner Spielsteine zu platzieren, oder klicke auf einen deiner platzierten Spielsteine, um ihn zu entfernen. Du kannst noch Spielsteine im Wert von {{count}} weiteren Punkten platzieren.",
+      "INITIAL_INSTRUCTIONS_zero": "Du hast keine Punkte mehr übrig. Beende deinen Zug oder klicke auf einen deiner platzierten Spielsteine, um ihn woanders zu platzieren."
     }
   },
   "INITIAL_UNDO": "Du kannst die anfängliche Startposition des Spiels nicht rückgängig machen.",

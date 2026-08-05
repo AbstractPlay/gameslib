@@ -531,7 +531,9 @@
     "streetcar_place_41": "Ein WEISSES Gebäude der Höhe 1 wurde bei {{where}} platziert.",
     "streetcar_place_42": "Ein WEISSES Gebäude der Höhe 2 wurde bei {{where}} platziert.",
     "streetcar_place_43": "Ein WEISSES Gebäude der Höhe 3 wurde bei {{where}} platziert.",
-    "streetcar_place_default": "Ein Gebäude wurde bei {{where}} platziert."
+    "streetcar_place_default": "Ein Gebäude wurde bei {{where}} platziert.",
+    "estate_one": "{{player}} hat einen Stein auf {{where}} platziert ({{what}} Punkt).",
+    "estate_other": "{{player}} hat einen Stein auf {{where}} platziert ({{what}} Punkte)."
   },
   "PLAYSECOND": "{{player}} hat gewählt, als Zweites zu spielen.",
   "PROMOTE": {

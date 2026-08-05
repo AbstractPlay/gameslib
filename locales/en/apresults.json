@@ -443,6 +443,8 @@
         "boxes_claim2": "{{player}} adds a line at {{where}}, claiming {{box1}} and {{box2}}.",
         "decktet": "{{player}} placed \"{{what}}\" at {{where}}.",
         "deckfish": "{{player}} placed a piece at {{where}}.",
+        "estate_one": "{{player}} placed a piece at {{where}} ({{what}} pt).",
+        "estate_other": "{{player}} placed a piece at {{where}} ({{what}} pts).",
         "emu_discard": "{{player}} discarded the card {{what}}.",
         "emu_existing": "{{player}} used the {{what}} to grow bird #{{where}}.",
         "emu_new": "{{player}} hatched a new bird with the {{what}}.",

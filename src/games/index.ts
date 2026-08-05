@@ -276,6 +276,7 @@ import { MutternlandGame, IMutternlandState } from "./mutternland";
 import { IntermediumGame, IIntermediumState } from "./intermedium";
 import { StapeldammenGame, IStapeldammenState } from "./stapeldammen";
 import { KnightLineGame, IKnightLineState } from "./knightline";
+import { EstateGame, IEstateState } from "./estate";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -555,6 +556,7 @@ export {
     IntermediumGame, IIntermediumState,
     StapeldammenGame, IStapeldammenState,
     KnightLineGame, IKnightLineState,
+    EstateGame, IEstateState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -637,7 +639,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof MagnateGame | typeof ProductGame | typeof OonpiaGame |
                               typeof GoGame | typeof StilettoGame | typeof BTTGame |
                               typeof MinefieldGame | typeof SentinelGame | typeof XanaGame |
-                              typeof SporaGame | typeof SquirmGame | typeof PinchGame | 
+                              typeof SporaGame | typeof SquirmGame | typeof PinchGame |
                               typeof DomineeringGame| typeof TwinFlamesGame | typeof YGame |
                               typeof ShapeChessGame | typeof SlimetrailGame | typeof CatsDogsGame |
                               typeof SoccolotGame | typeof CourtGame | typeof HalmaGame |
@@ -649,7 +651,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof CompartGame | typeof AkimboGame | typeof CrossControlGame |
                               typeof UnstackGame | typeof SwarmGame | typeof EatYourNeighborGame |
                               typeof MutternlandGame | typeof IntermediumGame | typeof StapeldammenGame |
-                              typeof CarnacGame | typeof DruidGame | typeof KnightLineGame
+                              typeof CarnacGame | typeof DruidGame | typeof KnightLineGame |
+                              typeof EstateGame
                 >();
 // Manually add each game to the following array
 [
@@ -685,13 +688,13 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     SiegeOfJGame, StairsGame, EmuGame, DeckfishGame, BluestoneGame, SunspotGame, StawvsGame,
     LascaGame, EmergoGame, FroggerGame, ArimaaGame, RampartGame, KrypteGame, EnsoGame, RincalaGame,
     WaldMeisterGame, WunchunkGame, BambooGame, PluralityGame, CrosshairsGame, MagnateGame,
-    ProductGame, OonpiaGame, GoGame, StilettoGame, BTTGame, MinefieldGame, SentinelGame, 
+    ProductGame, OonpiaGame, GoGame, StilettoGame, BTTGame, MinefieldGame, SentinelGame,
     XanaGame, SporaGame, SquirmGame, PinchGame, DomineeringGame, TwinFlamesGame, YGame, ShapeChessGame,
     SlimetrailGame, CatsDogsGame, SoccolotGame, CourtGame, HalmaGame, MinimizeGame, HalmaClimbersGame,
     SynapseGame, AtariGoGame, TanboGame, UnaneGame, LinageGame, PolluxGame, PippinzipGame, NarrowsGame,
     InvectorGame, TricouleurGame, PositGame, VirusWarGame, FormsGame, CompartGame, AkimboGame,
     CrossControlGame, UnstackGame, SwarmGame, EatYourNeighborGame, MutternlandGame, IntermediumGame,
-    StapeldammenGame, KnightLineGame
+    StapeldammenGame, KnightLineGame, EstateGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -1255,7 +1258,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new StapeldammenGame(...args);
         case "knightline":
             return new KnightLineGame(args[0], ...args.slice(1));
-
+        case "estate":
+            return new EstateGame(...args);
     }
     return;
 }

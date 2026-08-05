@@ -100,3 +100,47 @@ export function findLastIndex<T>(array: Array<T>, predicate: (value: T, index: n
     }
     return -1;
 }
+
+export function permute<T>(items: T[]): T[][] {
+    if (items.length <= 1) {
+        return [[...items]];
+    }
+    const result: T[][] = [];
+    for (let i = 0; i < items.length; i++) {
+        const rest = [...items.slice(0, i), ...items.slice(i + 1)];
+        for (const tail of permute(rest)) {
+            result.push([items[i], ...tail]);
+        }
+    }
+    return result;
+}
+
+export function cartesianProduct(arrays: string[][]): string[][] {
+    return arrays.reduce<string[][]>(
+        (acc, curr) => acc.flatMap(prefix => curr.map(item => [...prefix, item])),
+        [[]],
+    );
+}
+
+export function mergePaths(a: string[], b: string[]): string[] {
+    if (a.length === 0) {
+        return [...b];
+    }
+    if (b.length === 0) {
+        return [...a];
+    }
+    const maxOverlap = Math.min(a.length, b.length);
+    for (let overlap = maxOverlap; overlap > 0; overlap--) {
+        let match = true;
+        for (let i = 0; i < overlap; i++) {
+            if (a[a.length - overlap + i] !== b[i]) {
+                match = false;
+                break;
+            }
+        }
+        if (match) {
+            return [...a, ...b.slice(overlap)];
+        }
+    }
+    return [...a, ...b];
+}

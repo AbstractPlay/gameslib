@@ -6246,7 +6246,9 @@
             "INITIAL_INSTRUCTIONS_PLACE": "Select an empty cell to place a lake.",
             "INVALID_MOVES": "This sequence of moves {{moves}} is invalid.",
             "OPTIONAL_CONTINUE": "You have landed on your opponent's piece. If you wish to continue your move, select another destination to jump to, otherwise submit the move.",
-            "SELECT_TO": "Select a destination to walk to or jump to."
+            "SELECT_MORE_SUPERKO": "You must continue jumping because stopping here would repeat a previous board state.",
+            "SELECT_TO": "Select a destination to walk to or jump to.",
+            "SUPERKO": "Superko: you may not repeat a previous board state."
         },
         "onyx": {
             "INITIAL_INSTRUCTIONS": "Select an intersection to place a piece",

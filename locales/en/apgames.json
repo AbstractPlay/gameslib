@@ -1853,12 +1853,28 @@
             "#board": {
                 "name": "19x19 board"
             },
+"#overline": {
+                "description": "The first player loses if they make an overline, but the second player may win by overline.",
+                "name": "Asymmetric overline"
+            },
             "#tiebreaker": {
                 "name": "No tiebreak"
             },
             "pass": {
                 "description": "After the opening phase, a player may pass instead of make a move to win the tiebreaker. If the board is filled without a winner, the player who passed wins. If no player passed, then the second player wins.",
                 "name": "Pass tiebreak"
+            },
+"sym-no-overline": {
+                "description": "The overline rule applies to both players: either player loses if they make an overline, so only a line of exactly seven wins.",
+                "name": "Symmetric overline loss"
+            },
+            "sym-overline": {
+                "description": "The overline rule applies to neither player: either player may win by overline, so any line of seven or more wins.",
+                "name": "Symmetric overline win"
+            },
+            "swap-1st": {
+                "description": "The first player places a stone anywhere on the board. The next player has the option to swap colours.",
+                "name": "Swap-1st opening"
             },
             "swap-2": {
                 "description": "The first player places three stones. The next player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2.",
@@ -4032,7 +4048,7 @@
         },
         "irensei": {
             "hide-restrictions": {
-                "description": "Don't show intersections where the first player cannot place their stones.",
+                "description": "Don't show intersections where a player would lose by overline.",
                 "name": "Hide restriction indicators"
             }
         },

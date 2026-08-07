@@ -208,6 +208,7 @@ import { BloqueoGame, IBloqueoState } from "./bloqueo";
 import { PilastriGame, IPilastriState } from "./pilastri";
 import { TessellaGame, ITessellaState } from "./tessella";
 import { GorogoGame, IGorogoState } from "./gorogo";
+import { GuerrillaGame, IGuerrillaState } from "./guerrilla";
 import { BiscuitGame, IBiscuitState } from "./biscuit";
 import { QuincunxGame, IQuincunxState } from "./quincunx";
 import { SiegeOfJGame, ISiegeOfJState } from "./siegeofj";
@@ -488,6 +489,7 @@ export {
     PilastriGame, IPilastriState,
     TessellaGame, ITessellaState,
     GorogoGame, IGorogoState,
+    GuerrillaGame, IGuerrillaState,
     BiscuitGame, IBiscuitState,
     QuincunxGame, IQuincunxState,
     SiegeOfJGame, ISiegeOfJState,
@@ -627,7 +629,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof SurmountGame | typeof GlissGame | typeof MorphosGame |
                               typeof AssemblyGame | typeof PaintbucketGame | typeof C1Game |
                               typeof BloqueoGame | typeof PilastriGame |
-                              typeof TessellaGame | typeof GorogoGame | typeof StibroGame |
+                              typeof TessellaGame | typeof GorogoGame | typeof GuerrillaGame | typeof StibroGame |
                               typeof BiscuitGame | typeof QuincunxGame | typeof SiegeOfJGame |
                               typeof StairsGame | typeof EmuGame | typeof DeckfishGame |
                               typeof EmuGame | typeof DeckfishGame | typeof BluestoneGame |
@@ -684,7 +686,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     PenguinGame, OwlmanGame, SquaredanceGame, MegGame, YonmoqueGame, ChameleonGame, KachitGame,
     GyveGame, PahTumGame, NakattaGame, OmnyGame, PacruGame, AzacruGame, CifraGame, GygesGame,
     PonteDDGame, SurmountGame, GlissGame, MorphosGame, AssemblyGame, PaintbucketGame, C1Game,
-    BloqueoGame, PilastriGame, TessellaGame, GorogoGame, BiscuitGame, QuincunxGame,
+    BloqueoGame, PilastriGame, TessellaGame, GorogoGame, GuerrillaGame, BiscuitGame, QuincunxGame,
     SiegeOfJGame, StairsGame, EmuGame, DeckfishGame, BluestoneGame, SunspotGame, StawvsGame,
     LascaGame, EmergoGame, FroggerGame, ArimaaGame, RampartGame, KrypteGame, EnsoGame, RincalaGame,
     WaldMeisterGame, WunchunkGame, BambooGame, PluralityGame, CrosshairsGame, MagnateGame,
@@ -1122,6 +1124,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new TessellaGame(...args);
         case "gorogo":
             return new GorogoGame(...args);
+        case "guerrilla":
+            return new GuerrillaGame(...args);
         case "biscuit":
             return new BiscuitGame(args[0], ...args.slice(1));
         case "quincunx":

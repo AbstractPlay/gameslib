@@ -177,6 +177,25 @@ describe("Canoe", () => {
         expect(v.complete).to.equal(0);
     });
 
+    it("setup move records a place result for every bank cube and the grid cube", () => {
+        const g = playFixture([], {phase: "setup-1", setupRoll: [8, 16, 24, 32, 40, 1]});
+        const move = "8@b1,16@c1,24@d1,32@b2,40@c2,1@d2";
+        g.move(move);
+        const places = g.results.filter(r => r.type === "place") as Array<{what?: string; where?: string}>;
+        expect(places).to.have.length(7);
+        expect(places.slice(0, 6)).to.eql([
+            {type: "place", what: "8", where: "b1"},
+            {type: "place", what: "16", where: "c1"},
+            {type: "place", what: "24", where: "d1"},
+            {type: "place", what: "32", where: "b2"},
+            {type: "place", what: "40", where: "c2"},
+            {type: "place", what: "1", where: "d2"},
+        ].map(({what, where}) => ({type: "place" as const, what, where})));
+        expect(places[6]!.where).to.equal("c7");
+        expect(places[6]!.what).to.equal(g.gridCubes[0].toString());
+        expect(g.stack[1]!._results.filter(r => r.type === "place")).to.eql(places);
+    });
+
     it("setup click on occupied cell removes placement", () => {
         const g = playFixture([], {phase: "setup-1", setupRoll: [8, 16, 24, 32, 40, 1]});
         const [row, col] = clickCell("b1");

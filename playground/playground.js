@@ -854,9 +854,33 @@ function _renderInCheckSection(game, playerNames) {
     return inCheckBlockHTML;
 }
 
+// Helper to render a single IStatus value entry (string or glyph object)
+function _formatStatusValue(value, glyphRenderOptions) {
+    if (typeof value === "string") {
+        return value;
+    }
+    if (typeof value === "object" && value !== null && value.glyph) {
+        try {
+            const colour = value.colour ?? 1;
+            const glyphSVG = APRender.renderglyph(value.glyph, colour, {
+                ...glyphRenderOptions,
+                prefix: generateUniqueSvgId(),
+            });
+            return `<span class="status-glyph" style="display:inline-flex;vertical-align:middle;width:1.25em;height:1.25em;">${glyphSVG}</span>`;
+        } catch (e) {
+            console.error("Error rendering status glyph:", e);
+            return "";
+        }
+    }
+    return String(value);
+}
+
 // Helper function to render the general statuses section
-function _renderStatusesSection(game, playerNames) {
+function _renderStatusesSection(game, playerNames, glyphRenderOptions) {
     let statusBlockHTML = "";
+    if (typeof game.sidebarStatuses !== "function") {
+        return statusBlockHTML;
+    }
     const statuses = game.sidebarStatuses();
     let actualStatusContent = "";
 
@@ -867,6 +891,13 @@ function _renderStatusesSection(game, playerNames) {
                     actualStatusContent += "<ul>";
                     statuses.forEach((s, idx) => {
                         actualStatusContent += `<li>${playerNames[idx] || `Player ${idx+1}`}: ${s}</li>`;
+                    });
+                    actualStatusContent += "</ul>";
+                } else if (statuses.every(s => typeof s === 'object' && s !== null && typeof s.key === 'string' && Array.isArray(s.value))) {
+                    actualStatusContent += "<ul>";
+                    statuses.forEach(s => {
+                        const values = s.value.map(v => _formatStatusValue(v, glyphRenderOptions)).join(" ");
+                        actualStatusContent += `<li><strong>${s.key}:</strong> ${values}</li>`;
                     });
                     actualStatusContent += "</ul>";
                 } else {
@@ -1054,8 +1085,8 @@ function updateGameStatusPanel(game, gamename) {
     }
 
     // General Statuses from game.sidebarStatuses()
-    if (typeof game.statuses === "function") {
-        content += _renderStatusesSection(game, playerNames);
+    if (typeof game.sidebarStatuses === "function") {
+        content += _renderStatusesSection(game, playerNames, glyphRenderOptions);
     }
 
     // Scores

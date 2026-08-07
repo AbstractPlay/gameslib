@@ -483,6 +483,46 @@ export class CanoeGame extends GameBase {
         }
     }
 
+    private recordSetupPlacementResults(m: string): void {
+        for (const part of m.split(",")) {
+            const match = part.match(/^(\d+)@([a-g][1-7])$/);
+            if (match === null) {
+                continue;
+            }
+            this.results.push({type: "place", what: match[1], where: match[2]});
+        }
+    }
+
+    private recordSetupGridCubeResult(face: CubeFace): void {
+        this.results.push({
+            type: "place",
+            what: face.toString(),
+            where: CanoeGame.gridCubeCell(this.currplayer),
+        });
+    }
+
+    private stackEntryAfterSetup(m: string): IMoveState | undefined {
+        for (let i = 1; i < this.stack.length; i++) {
+            if (this.stack[i].lastmove === m) {
+                return this.stack[i];
+            }
+        }
+        return undefined;
+    }
+
+    private recordEmulatedSetupResults(m: string): void {
+        this.recordSetupPlacementResults(m);
+        const postEntry = this.stackEntryAfterSetup(m);
+        if (postEntry === undefined) {
+            return;
+        }
+        const gridCell = CanoeGame.gridCubeCell(this.currplayer);
+        const stackOnGrid = postEntry.board.get(gridCell);
+        if (stackOnGrid !== undefined && stackOnGrid.owner === this.currplayer) {
+            this.recordSetupGridCubeResult(stackOnGrid.face);
+        }
+    }
+
     private unplacedSetupFaces(placements: Map<string, CubeFace>): CubeFace[] {
         const pool = [...(this.setupRoll ?? [])];
         for (const face of placements.values()) {
@@ -846,7 +886,7 @@ export class CanoeGame extends GameBase {
             face: gridFace,
             set: false,
         });
-        this.results.push({type: "place", where: CanoeGame.gridCubeCell(this.currplayer)});
+        this.recordSetupGridCubeResult(gridFace);
 
         if (this.phase === "setup-1") {
             this.phase = "setup-2";
@@ -2093,15 +2133,20 @@ export class CanoeGame extends GameBase {
         if (this.phase.startsWith("setup")) {
             const placements = this.parseSetupMove(m);
             this.applySetupPlacements(placements);
-            if (partial || emulation) {
-                if (emulation) {
-                    this.lastmove = m;
+            if (partial) {
+                return this;
+            }
+            if (emulation) {
+                if (placements.size >= 6) {
+                    this.recordEmulatedSetupResults(m);
                 }
+                this.lastmove = m;
                 return this;
             }
             if (placements.size < 6) {
                 throw new UserFacingError("VALIDATION_GENERAL", i18next.t("apgames:validation.canoe.SETUP_INCOMPLETE"));
             }
+            this.recordSetupPlacementResults(m);
             this.finishSetup();
             this.lastmove = m;
             this.saveState();

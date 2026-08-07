@@ -897,7 +897,8 @@ function _renderStatusesSection(game, playerNames, glyphRenderOptions) {
                     actualStatusContent += "<ul>";
                     statuses.forEach(s => {
                         const values = s.value.map(v => _formatStatusValue(v, glyphRenderOptions)).join(" ");
-                        actualStatusContent += `<li><strong>${s.key}:</strong> ${values}</li>`;
+                        const label = isI18nKey(s.key) ? playgroundT(s.key) : s.key;
+                        actualStatusContent += `<li><strong>${label}:</strong> ${values}</li>`;
                     });
                     actualStatusContent += "</ul>";
                 } else {
@@ -1463,6 +1464,10 @@ function playgroundT(key) {
         return inst.t(key);
     }
     return key;
+}
+
+function isI18nKey(key) {
+    return typeof key === "string" && (key.includes(":") || (key.includes(".") && !key.includes(" ")));
 }
 
 // Tooltip for variant info
@@ -2627,6 +2632,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         if (gameSelect && gameSelect.value) {
             gameSelect.dispatchEvent(new Event("change"));
         }
+        renderGame();
     };
     if (i18n.isInitialized) {
         refreshPlaygroundI18n();

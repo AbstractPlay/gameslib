@@ -27,7 +27,8 @@
     "deckfish": "{{player}} ne pouvait pas déplacer et doit passer à partir de maintenant.",
     "frogger": "{{player}} a choisi de remplir la pioche. Les autres joueurs doivent passer pour qu'il puisse effectuer ses {{moves}} coup(s) restant(s).",
     "quincunx": "Le joueur {{playerNum}} avait les cartes suivantes en main : {{cards}}.",
-    "stawvs": "{{player}} ne pouvait pas déplacer et doit passer à partir de maintenant. Ses pièces restent sur les pyramides suivantes : {{pyramids}}."
+    "stawvs": "{{player}} ne pouvait pas déplacer et doit passer à partir de maintenant. Ses pièces restent sur les pyramides suivantes : {{pyramids}}.",
+    "scribe_super": "Super formation de {{player}} : {{formation}}."
   },
   "BEAROFF": {
     "canoe": "{{player}} a sorti un cube du plateau.",
@@ -180,7 +181,9 @@
     "meg": "{{player}} a pris la bille et l'a placée en {{where}}.",
     "penguin": "Le pingouin en {{where}} a réclamé la bille !",
     "toguz": "La fosse {{pit}} est devenue un tuz.",
-    "veletas": "Le tireur en {{where}} est piégé et est réclamé par {{who}}."
+    "veletas": "Le tireur en {{where}} est piégé et est réclamé par {{who}}.",
+    "scribe_mini": "{{player}} a remporté la mini-grille {{where}} avec {{formation}}.",
+    "scribe_mini_none": "{{player}} a remporté la mini-grille {{where}} au départage (aucune formation marquée)."
   },
   "CONNECT": {
     "pontedd": "{{player}} a placé un pont entre {{left}} et {{right}}."
@@ -725,6 +728,41 @@
     "camelot_castle_move_many": "",
     "camelot_castle_move_other": "{{player}} dispose de {{count}} déplacements de château supplémentaires.",
     "camelot_castle_move_none": "{{player}} n'a plus de déplacements de château."
+  },
+  "SCRIBE": {
+    "no_formation": "aucune formation",
+    "glyphs": {
+      "single": "Simple",
+      "double": "Double",
+      "line": "Ligne",
+      "pipe": "Tuyau",
+      "squat_t": "T trapu",
+      "four_block": "Bloc de 4",
+      "t": "T",
+      "cross": "Croix",
+      "six_block": "Bloc de 6",
+      "bomber": "Bombardier",
+      "chair": "Chaise",
+      "j": "J",
+      "earring": "Boucle d'oreille",
+      "house": "Maison",
+      "h": "H",
+      "u": "U",
+      "ottoman": "Ottomane",
+      "o": "O",
+      "nine_block": "Bloc de 9"
+    },
+    "mini": {
+      "0_0": "en haut à gauche",
+      "1_0": "en haut au centre",
+      "2_0": "en haut à droite",
+      "0_1": "au centre à gauche",
+      "1_1": "au centre",
+      "2_1": "au centre à droite",
+      "0_2": "en bas à gauche",
+      "1_2": "en bas au centre",
+      "2_2": "en bas à droite"
+    }
   },
   "WINNERSNONE": "Il n'y a eu aucun gagnant.",
   "WINNERS_one": "Le joueur suivant a gagné : {{winners}}.",

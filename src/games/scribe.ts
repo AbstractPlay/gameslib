@@ -132,18 +132,111 @@ export function findGlyphMatches(playerCells: Set<string>, gridSize = MINI_SIZE)
         }
     }
 
+    return matches;
+}
+
+function withoutStrictSubsets(matches: GlyphMatch[]): GlyphMatch[] {
     return matches.filter(m => ! matches.some(other =>
         other !== m && isStrictSubset(m.cells, other.cells)
     ));
 }
 
+function parseLocalKey(key: string): LocalCoord {
+    const [c, r] = key.split(",").map(Number);
+    return [c!, r!];
+}
+
+function connectedComponents(playerCells: Set<string>): Set<string>[] {
+    const remaining = new Set(playerCells);
+    const components: Set<string>[] = [];
+    while (remaining.size > 0) {
+        const start = remaining.values().next().value!;
+        const component = new Set<string>();
+        const queue = [start];
+        remaining.delete(start);
+        component.add(start);
+        while (queue.length > 0) {
+            const key = queue.pop()!;
+            const [c, r] = parseLocalKey(key);
+            for (const [dc, dr] of [[0, 1], [0, -1], [1, 0], [-1, 0]] as const) {
+                const nk = localKey([c + dc, r + dr]);
+                if (remaining.has(nk)) {
+                    remaining.delete(nk);
+                    component.add(nk);
+                    queue.push(nk);
+                }
+            }
+        }
+        components.push(component);
+    }
+    return components;
+}
+
+function bestGlyphInComponent(component: Set<string>, gridSize = MINI_SIZE): GlyphMatch|undefined {
+    const matches = withoutStrictSubsets(findGlyphMatches(component, gridSize));
+    if (matches.length === 0) { return undefined; }
+    const bestValue = Math.max(...matches.map(m => m.glyph.value));
+    const best = matches.filter(m => m.glyph.value === bestValue);
+    best.sort((a, b) => a.glyph.name.localeCompare(b.glyph.name) || matchKey(a.cells).localeCompare(matchKey(b.cells)));
+    return best[0];
+}
+
+/** One best non-subset glyph per orthogonally connected group of stones. */
+export function scoringGlyphMatches(playerCells: Set<string>, gridSize = MINI_SIZE): GlyphMatch[] {
+    const matches: GlyphMatch[] = [];
+    for (const component of connectedComponents(playerCells)) {
+        const best = bestGlyphInComponent(component, gridSize);
+        if (best !== undefined) { matches.push(best); }
+    }
+    matches.sort((a, b) => matchKey(a.cells).localeCompare(matchKey(b.cells)));
+    return matches;
+}
+
 export function glyphScore(playerCells: Set<string>, gridSize = MINI_SIZE): number {
-    return findGlyphMatches(playerCells, gridSize).reduce((sum, m) => sum + m.glyph.value, 0);
+    return scoringGlyphMatches(playerCells, gridSize).reduce((sum, m) => sum + m.glyph.value, 0);
 }
 
 export function bestGlyphValue(playerCells: Set<string>, gridSize = MINI_SIZE): number {
-    const values = findGlyphMatches(playerCells, gridSize).map(m => m.glyph.value);
-    return values.length === 0 ? 0 : Math.max(...values);
+    const scored = scoringGlyphMatches(playerCells, gridSize);
+    return scored.length === 0 ? 0 : Math.max(...scored.map(m => m.glyph.value));
+}
+
+const GLYPH_NAME_TO_LOCALE: Record<string, string> = {
+    "Single": "single",
+    "Double": "double",
+    "Line": "line",
+    "Pipe": "pipe",
+    "Squat-T": "squat_t",
+    "4-block": "four_block",
+    "T": "t",
+    "Cross": "cross",
+    "6-block": "six_block",
+    "Bomber": "bomber",
+    "Chair": "chair",
+    "J": "j",
+    "Earring": "earring",
+    "House": "house",
+    "H": "h",
+    "U": "u",
+    "Ottoman": "ottoman",
+    "O": "o",
+    "9-block": "nine_block",
+};
+
+export function formationWhat(matches: GlyphMatch[]): string {
+    return matches.map(m => m.glyph.name).join("|");
+}
+
+export function formatFormationWhat(what: string | undefined): string {
+    if (!what || what.length === 0) {
+        return i18next.t("apresults:SCRIBE.no_formation");
+    }
+    return what.split("|").map(name => {
+        const key = GLYPH_NAME_TO_LOCALE[name];
+        return key === undefined
+            ? name
+            : i18next.t(`apresults:SCRIBE.glyphs.${key}`);
+    }).join(", ");
 }
 
 export class ScribeGame extends GameBase {
@@ -379,6 +472,27 @@ export class ScribeGame extends GameBase {
         return cells;
     }
 
+    private miniGridLabel(key: string): string {
+        return i18next.t(`apresults:SCRIBE.mini.${key.replace(",", "_")}`);
+    }
+
+    private winnerFormationsInMini(mgx: number, mgy: number, player: playerid): string {
+        return formationWhat(scoringGlyphMatches(this.playerCellsInMini(mgx, mgy, player)));
+    }
+
+    private superFormations(player: playerid): string {
+        const keys = new Set<string>();
+        for (const [key, owner] of this.miniwinners.entries()) {
+            if (owner === player) { keys.add(key); }
+        }
+        return formationWhat(scoringGlyphMatches(keys, MINI_SIZE));
+    }
+
+    private playerName(players: string[], who: number | undefined): string {
+        if (who === undefined) { return "Player ?"; }
+        return who <= players.length ? players[who - 1]! : `Player ${who}`;
+    }
+
     private resolveMiniWinner(mgx: number, mgy: number, lastMover: playerid): playerid {
         const score1 = glyphScore(this.playerCellsInMini(mgx, mgy, 1));
         const score2 = glyphScore(this.playerCellsInMini(mgx, mgy, 2));
@@ -413,7 +527,12 @@ export class ScribeGame extends GameBase {
         if (this.miniIsFull(mgx, mgy) && ! this.miniwinners.has(key)) {
             const miniWinner = this.resolveMiniWinner(mgx, mgy, this.currplayer);
             this.miniwinners.set(key, miniWinner);
-            this.results.push({type: "claim", who: miniWinner, where: key});
+            this.results.push({
+                type: "claim",
+                who: miniWinner,
+                where: key,
+                what: this.winnerFormationsInMini(mgx, mgy, miniWinner),
+            });
         }
 
         this.lastmove = m;
@@ -434,6 +553,13 @@ export class ScribeGame extends GameBase {
                 if (owner === 1) { super1.add(key); }
                 else { super2.add(key); }
             }
+            this.results.push({
+                type: "announce",
+                payload: [
+                    {player: 1, formations: this.superFormations(1)},
+                    {player: 2, formations: this.superFormations(2)},
+                ],
+            });
             const best1 = bestGlyphValue(super1, MINI_SIZE);
             const best2 = bestGlyphValue(super2, MINI_SIZE);
             if (best1 > best2) {
@@ -599,6 +725,42 @@ export class ScribeGame extends GameBase {
         }
 
         return rep;
+    }
+
+    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult, players: string[] = []): boolean {
+        let resolved = false;
+        switch (r.type) {
+            case "claim":
+                if (r.what === undefined || r.what.length === 0) {
+                    node.push(i18next.t("apresults:CLAIM.scribe_mini_none", {
+                        player: this.playerName(players, r.who),
+                        where: this.miniGridLabel(r.where ?? ""),
+                    }));
+                } else {
+                    node.push(i18next.t("apresults:CLAIM.scribe_mini", {
+                        player: this.playerName(players, r.who),
+                        where: this.miniGridLabel(r.where ?? ""),
+                        formation: formatFormationWhat(r.what),
+                    }));
+                }
+                resolved = true;
+                break;
+            case "announce":
+                if (Array.isArray(r.payload)) {
+                    for (const item of r.payload) {
+                        if (item !== null && typeof item === "object" && "player" in item && "formations" in item) {
+                            const entry = item as {player: number; formations: string};
+                            node.push(i18next.t("apresults:ANNOUNCE.scribe_super", {
+                                player: this.playerName(players, entry.player),
+                                formation: formatFormationWhat(entry.formations),
+                            }));
+                        }
+                    }
+                }
+                resolved = true;
+                break;
+        }
+        return resolved;
     }
 
     public clone(): ScribeGame {

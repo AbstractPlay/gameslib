@@ -27,7 +27,8 @@
     "deckfish": "{{player}} non è stato in grado di muovere e deve passare d'ora in poi.",
     "frogger": "{{player}} ha scelto di riempire la riserva di pesca. Gli altri giocatori devono passare affinché possa effettuare le sue {{moves}} mosse rimanenti.",
     "quincunx": "Il giocatore {{playerNum}} aveva le seguenti carte rimanenti in mano: {{cards}}.",
-    "stawvs": "{{player}} non è stato in grado di muovere e deve passare d'ora in poi. I suoi pezzi rimangono sulle seguenti piramidi: {{pyramids}}."
+    "stawvs": "{{player}} non è stato in grado di muovere e deve passare d'ora in poi. I suoi pezzi rimangono sulle seguenti piramidi: {{pyramids}}.",
+    "scribe_super": "Super formazione di {{player}}: {{formation}}."
   },
   "BEAROFF": {
     "canoe": "{{player}} ha rimosso un cubo dal tabellone.",
@@ -180,7 +181,9 @@
     "meg": "{{player}} ha preso la palla e l'ha posizionata in {{where}}.",
     "penguin": "Il pinguino in {{where}} ha reclamato la palla!",
     "toguz": "La fossa {{pit}} è diventata una tuz.",
-    "veletas": "Il tiratore in {{where}} è intrappolato ed è reclamato da {{who}}."
+    "veletas": "Il tiratore in {{where}} è intrappolato ed è reclamato da {{who}}.",
+    "scribe_mini": "{{player}} ha vinto la mini griglia {{where}} con {{formation}}.",
+    "scribe_mini_none": "{{player}} ha vinto la mini griglia {{where}} allo spareggio (nessuna formazione ha ottenuto punti)."
   },
   "CONNECT": {
     "pontedd": "{{player}} ha piazzato un ponte tra {{left}} e {{right}}."
@@ -725,6 +728,41 @@
     "camelot_castle_move_many": "",
     "camelot_castle_move_other": "{{player}} ha usato {{count}} mosse arrocco in più.",
     "camelot_castle_move_none": "{{player}} non ha più mosse arrocco."
+  },
+  "SCRIBE": {
+    "no_formation": "nessuna formazione",
+    "glyphs": {
+      "single": "Singolo",
+      "double": "Doppio",
+      "line": "Linea",
+      "pipe": "Tubo",
+      "squat_t": "T tozza",
+      "four_block": "Blocco da 4",
+      "t": "T",
+      "cross": "Croce",
+      "six_block": "Blocco da 6",
+      "bomber": "Bombardiere",
+      "chair": "Sedia",
+      "j": "J",
+      "earring": "Orecchino",
+      "house": "Casa",
+      "h": "H",
+      "u": "U",
+      "ottoman": "Ottomana",
+      "o": "O",
+      "nine_block": "Blocco da 9"
+    },
+    "mini": {
+      "0_0": "in alto a sinistra",
+      "1_0": "in alto al centro",
+      "2_0": "in alto a destra",
+      "0_1": "al centro a sinistra",
+      "1_1": "al centro",
+      "2_1": "al centro a destra",
+      "0_2": "in basso a sinistra",
+      "1_2": "in basso al centro",
+      "2_2": "in basso a destra"
+    }
   },
   "WINNERSNONE": "Non c'è stato alcun vincitore.",
   "WINNERS_one": "Il seguente giocatore ha vinto: {{winners}}.",

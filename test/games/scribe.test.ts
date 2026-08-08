@@ -7,6 +7,8 @@ import {
     IMoveState,
     glyphScore,
     findGlyphMatches,
+    scoringGlyphMatches,
+    formationWhat,
     playerid,
 } from "../../src/games/scribe";
 
@@ -86,14 +88,32 @@ describe("Scribe", () => {
     it("scores singles without double-counting subsets", () => {
         const cells = new Set(["0,0", "2,0", "1,2"]);
         expect(glyphScore(cells)).to.equal(3);
-        expect(findGlyphMatches(cells).every(m => m.glyph.name === "Single")).to.be.true;
+        expect(findGlyphMatches(cells).filter(m => m.glyph.name === "Single").length).to.equal(3);
+    });
+
+    it("scores one best glyph per connected group", () => {
+        const cells = new Set(["0,2", "1,0", "1,1", "1,2", "2,1", "2,2"]);
+        expect(glyphScore(cells)).to.equal(5);
+        expect(formationWhat(scoringGlyphMatches(cells))).to.equal("T");
+    });
+
+    it("scores separate groups independently like figure 3", () => {
+        const cells = new Set(["0,0", "2,0", "0,2", "2,2"]);
+        expect(glyphScore(cells)).to.equal(4);
+        expect(scoringGlyphMatches(cells).every(m => m.glyph.name === "Single")).to.be.true;
+    });
+
+    it("does not score a pipe that is only a subset of a larger group", () => {
+        const sixBlock = new Set(["0,0", "1,0", "2,0", "0,1", "1,1", "2,1"]);
+        expect(glyphScore(sixBlock)).to.equal(6);
+        expect(formationWhat(scoringGlyphMatches(sixBlock))).to.equal("6-block");
     });
 
     it("prefers a pipe over embedded doubles", () => {
         const pipe = new Set(["2,0", "0,1", "1,1", "2,1"]);
         expect(glyphScore(pipe)).to.equal(4);
-        expect(findGlyphMatches(pipe).some(m => m.glyph.name === "Pipe")).to.be.true;
-        expect(findGlyphMatches(pipe).some(m => m.glyph.name === "Double")).to.be.false;
+        expect(scoringGlyphMatches(pipe).some(m => m.glyph.name === "Pipe")).to.be.true;
+        expect(scoringGlyphMatches(pipe).some(m => m.glyph.name === "Double")).to.be.false;
     });
 
     it("awards a completed mini grid to the higher glyph score", () => {
@@ -110,6 +130,36 @@ describe("Scribe", () => {
         const g = scribeFrom({board, currplayer: 1});
         g.move(topLeft[8]!, {trusted: true});
         expect(g.miniwinners.get("0,0")).to.equal(1);
+        const claim = g.stack[g.stack.length - 1]!._results.find(r => r.type === "claim");
+        const p1Cells = new Set<string>();
+        for (const cell of ScribeGame.cellsInMini(0, 0)) {
+            if (g.board.get(cell) === 1) {
+                const [lx, ly] = ScribeGame.localInMini(cell);
+                p1Cells.add(`${lx},${ly}`);
+            }
+        }
+        expect(claim?.what).to.equal(formationWhat(scoringGlyphMatches(p1Cells)));
+    });
+
+    it("announces both players' super formations at the end of the advanced game", () => {
+        const winners: [string, playerid][] = [
+            ["0,0", 1], ["1,0", 1], ["2,0", 1],
+            ["0,1", 2], ["1,1", 2], ["2,1", 2],
+            ["0,2", 1], ["1,2", 2], ["2,2", 1],
+        ];
+        const board: BoardCell[] = [];
+        for (let y = 0; y < 9; y++) {
+            for (let x = 0; x < 9; x++) {
+                board.push([ScribeGame.coords2algebraic(x, y), ((x + y) % 2) + 1 as playerid]);
+            }
+        }
+        const g = scribeFrom({board, miniwinners: winners, currplayer: 1, variants: ["advanced"]});
+        (g as unknown as {checkEOG(): ScribeGame}).checkEOG();
+        const announce = g.results.find(r => r.type === "announce");
+        expect(announce?.payload).to.deep.equal([
+            {player: 1, formations: formationWhat(scoringGlyphMatches(new Set(["0,0", "1,0", "2,0", "0,2", "2,2"])))},
+            {player: 2, formations: formationWhat(scoringGlyphMatches(new Set(["0,1", "1,1", "2,1", "1,2"])))},
+        ]);
     });
 
     it("ends the standard game with the most mini grids won", () => {

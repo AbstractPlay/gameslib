@@ -26,6 +26,7 @@
         "deckfish": "{{player}} was unable to move and must pass from now on.",
         "frogger": "{{player}} chose to refill the draw pool.  Other players must pass so he can take his {{moves}} remaining move(s).",
         "quincunx": "Player {{playerNum}} had the following cards left in their hand: {{cards}}.",
+        "scribe_super": "{{player}}'s super formation: {{formation}}.",
         "stawvs": "{{player}} was unable to move and must pass from now on.  Their pieces remain on the following pyramids: {{pyramids}}."
     },
     "BEAROFF": {
@@ -158,6 +159,8 @@
         "majorities_D": "{{player}} claimed the descending direction.",
         "meg": "{{player}} has taken the ball and placed it at {{where}}.",
         "penguin": "The penguin at {{where}} claimed the ball!",
+        "scribe_mini": "{{player}} won the {{where}} mini grid with {{formation}}.",
+        "scribe_mini_none": "{{player}} won the {{where}} mini grid on a tie-break (no formations scored).",
         "toguz": "Pit {{pit}} became a tuz.",
         "veletas": "Shooter at {{where}} is trapped and is claimed by {{who}}."
     },
@@ -669,6 +672,41 @@
         "camelot_castle_move_one": "{{player}} used has 1 more castle move.",
         "camelot_castle_move_other": "{{player}} used has {{count}} more castle moves.",
         "camelot_castle_move_none": "{{player}} has no more castle moves."
+    },
+    "SCRIBE": {
+        "no_formation": "no formations",
+        "glyphs": {
+            "single": "Single",
+            "double": "Double",
+            "line": "Line",
+            "pipe": "Pipe",
+            "squat_t": "Squat-T",
+            "four_block": "4-block",
+            "t": "T",
+            "cross": "Cross",
+            "six_block": "6-block",
+            "bomber": "Bomber",
+            "chair": "Chair",
+            "j": "J",
+            "earring": "Earring",
+            "house": "House",
+            "h": "H",
+            "u": "U",
+            "ottoman": "Ottoman",
+            "o": "O",
+            "nine_block": "9-block"
+        },
+        "mini": {
+            "0_0": "top-left",
+            "1_0": "top-centre",
+            "2_0": "top-right",
+            "0_1": "centre-left",
+            "1_1": "centre",
+            "2_1": "centre-right",
+            "0_2": "bottom-left",
+            "1_2": "bottom-centre",
+            "2_2": "bottom-right"
+        }
     },
     "WINNERSNONE": "There were no winners.",
     "WINNERS_one": "The following player won: {{winners}}.",

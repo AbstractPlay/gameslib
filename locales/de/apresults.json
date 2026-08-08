@@ -26,7 +26,8 @@
     "deckfish": "{{player}} konnte nicht ziehen und muss ab jetzt passen.",
     "frogger": "{{player}} hat sich entschieden, den Nachziehstapel aufzufüllen. Andere Spieler müssen passen, damit er seine verbleibenden {{moves}} Zug/Züge machen kann.",
     "quincunx": "Spieler {{playerNum}} hatte folgende Karten auf der Hand: {{cards}}.",
-    "stawvs": "{{player}} konnte nicht ziehen und muss ab jetzt passen. Seine Steine verbleiben auf folgenden Pyramiden: {{pyramids}}."
+    "stawvs": "{{player}} konnte nicht ziehen und muss ab jetzt passen. Seine Steine verbleiben auf folgenden Pyramiden: {{pyramids}}.",
+    "scribe_super": "{{player}}s Superformation: {{formation}}."
   },
   "BEAROFF": {
     "canoe": "{{player}} hat einen Würfel vom Spielbrett ausgetragen.",
@@ -160,7 +161,9 @@
     "meg": "{{player}} hat die Kugel genommen und auf {{where}} platziert.",
     "penguin": "Der Pinguin auf {{where}} hat die Kugel beansprucht!",
     "toguz": "Mulde {{pit}} wurde zu einer Tuz.",
-    "veletas": "Schütze auf {{where}} ist gefangen und wird von {{who}} beansprucht."
+    "veletas": "Schütze auf {{where}} ist gefangen und wird von {{who}} beansprucht.",
+    "scribe_mini": "{{player}} hat das Minifeld {{where}} mit {{formation}} gewonnen.",
+    "scribe_mini_none": "{{player}} hat das Minifeld {{where}} im Tie-Break gewonnen (keine Formationen gewertet)."
   },
   "CONNECT": {
     "pontedd": "{{player}} hat eine Brücke zwischen {{left}} und {{right}} platziert."
@@ -672,6 +675,41 @@
     "camelot_castle_move_one": "{{player}} hat noch 1 Burgzug übrig.",
     "camelot_castle_move_other": "{{player}} hat noch {{count}} weitere Burgzüge übrig.",
     "camelot_castle_move_none": "{{player}} hat keine Burgzüge mehr übrig."
+  },
+  "SCRIBE": {
+    "no_formation": "keine Formationen",
+    "glyphs": {
+      "single": "Einzel",
+      "double": "Doppel",
+      "line": "Linie",
+      "pipe": "Rohr",
+      "squat_t": "Flaches T",
+      "four_block": "4er-Block",
+      "t": "T",
+      "cross": "Kreuz",
+      "six_block": "6er-Block",
+      "bomber": "Bomber",
+      "chair": "Stuhl",
+      "j": "J",
+      "earring": "Ohrring",
+      "house": "Haus",
+      "h": "H",
+      "u": "U",
+      "ottoman": "Ottomane",
+      "o": "O",
+      "nine_block": "9er-Block"
+    },
+    "mini": {
+      "0_0": "oben links",
+      "1_0": "oben Mitte",
+      "2_0": "oben rechts",
+      "0_1": "Mitte links",
+      "1_1": "Mitte",
+      "2_1": "Mitte rechts",
+      "0_2": "unten links",
+      "1_2": "unten Mitte",
+      "2_2": "unten rechts"
+    }
   },
   "WINNERSNONE": "Es gab keine Gewinner.",
   "WINNERS_one": "Folgender Spieler hat gewonnen: {{winners}}.",

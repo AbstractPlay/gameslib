@@ -37,7 +37,7 @@ export class GuerrillaGame extends GameBase {
         // i18next.t("apgames:notes.guerrilla")
         notes: "apgames:notes.guerrilla",
         urls: [
-            "https://brtrain.wordpress.com/free-games/",
+            "https://brtrain.wordpress.com/wp-content/uploads/2018/03/gcheck-2sided.docx",
             "https://boardgamegeek.com/boardgame/71035/guerrilla-checkers",
         ],
         bggid: "71035",
@@ -600,7 +600,7 @@ export class GuerrillaGame extends GameBase {
 
     public sidebarStatuses(): IStatus[] {
         return [
-            { key: "apgames:status.guerrilla.INSURGENTS", value: [this.insurgents.toString()] },
+            { key: i18next.t("apgames:status.guerrilla.INSURGENTS"), value: [this.insurgents.toString()] },
         ];
     }
 

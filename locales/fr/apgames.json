@@ -278,7 +278,8 @@
     "yonmoque": "Essayez de former un alignement de quatre pièces dans un jeu où toutes les cases ne se valent pas et où les pièces adverses peuvent être converties.",
     "zola": "Un jeu où vos déplacements sont contraints par votre distance par rapport au centre du plateau. Les coups de capture ne doivent pas augmenter cette distance. Les coups sans capture doivent augmenter cette distance. La première personne à capturer toutes les pièces adverses gagne.",
     "estate": "Un jeu de connexion hexagonal où les cases ont des coûts différents. Dépensez vos points judicieusement !",
-    "guerrilla": "Un jeu asymétrique de guérilla. Les deux joueurs cherchent à éliminer toutes les pièces de l'adversaire du plateau, mais ils doivent s'appuyer sur des tactiques très différentes pour y parvenir."
+    "guerrilla": "Un jeu asymétrique de guérilla. Les deux joueurs cherchent à éliminer toutes les pièces de l'adversaire du plateau, mais ils doivent s'appuyer sur des tactiques très différentes pour y parvenir.",
+    "scribe": "Un jeu papier-crayon sur une super-grille 9×9 composée de neuf mini-grilles 3×3. Remportez le plus grand nombre de mini-grilles ou, dans la variante avancée, formez le super-glyphe de plus grande valeur grâce à vos victoires."
   },
   "notes": {
     "akimbo": "Akimbo, conçu par Luis Bolaños Mures en 2026, est un jeu de connexion sans égalité pour deux joueurs. Une _diagonale nue_ est une paire de pièces de même couleur, adjacentes en diagonale, sans aucune autre pièce de même couleur adjacente aux deux. Une _coupe croisée_ est une zone 2×2 avec deux diagonales nues imbriquées de couleurs opposées.\n\nÀ son tour, le joueur place une pièce amie sur une case vide. Si cela complète une coupe croisée, l'autre pièce de la coupe croisée est retirée. Il ne doit jamais y avoir plus d'une diagonale nue de chaque couleur sur le plateau — pas même momentanément avant de retirer une pièce. Un joueur gagne si, à la fin de son tour, il existe une chaîne de pièces de sa couleur connectées orthogonalement touchant les deux bords opposés du plateau du joueur.\n\nOkimba est une variante où une seule diagonale nue au maximum peut exister sur le plateau (ainsi, tant qu'un joueur possède la diagonale, l'adversaire ne peut pas en créer une autre).",
@@ -373,7 +374,8 @@
     "witch": "Le premier joueur ne commence en possédant aucune pièce et peut retirer n'importe quelle pièce (autre qu'une couronne) lors de son premier tour. Le second joueur choisit sa couleur lors de son premier tour, après quoi il n'est plus possible de retirer les pièces de votre adversaire.",
     "xana": "Les joueurs, à leur tour, posent/déplacent une pile (il y a une quantité limitée de pièces empilables) et posent optionnellement deux murs sur des cases hexagonales vides. Les piles sans libertés sont capturées. Une pile a une liberté si au moins une des cases hexagonales adjacentes est vide (il n'y a pas de concept de groupe de piles). Une case hexagonale est accessible si elle est vide et reliée à une pile amie par un chemin de cases hexagonales vides. Le but est d'obtenir le plus haut score de territoire plus captures. Xana a été conçu en 2005.",
     "y": "Le jeu a été conçu par Charles Titus et Craige Schensted (Ea Ea) en 1953. Descendant direct de Hex, le jeu se jouait à l'origine sur un plateau triangulaire, où le but est de relier les trois côtés par une chaîne de pierres amies. Y est considéré comme un jeu plus fondamental que Hex, compte tenu de ses règles plus simples et du fait qu'une partie de Hex peut être configurée sur un plateau de Y suffisamment grand. Dans leur livre de 1975 **Mudcrack Y & Poly-Y**, les concepteurs ont introduit le _principe du mudcrack_ affirmant que les jeux de connexion peuvent être joués sur une large gamme de plateaux progressivement élaborés. L'un de ces designs (« le Y courbé », avec trois cellules pentagonales) est devenu le plateau commercial de Y, au lieu du plateau triangulaire standard.",
-    "guerrilla": "Chaque joueur gagne en retirant toutes les pièces de l'adversaire. J2 gagne également s'il survit suffisamment longtemps pour que J1 n'ait plus d'insurgés à placer."
+    "guerrilla": "Chaque joueur gagne en retirant toutes les pièces de l'adversaire. J2 gagne également s'il survit suffisamment longtemps pour que J1 n'ait plus d'insurgés à placer.",
+    "scribe": "Le tableau de référence des glyphes est affiché dans la marge de gauche. Un point indique le dernier coup de chaque joueur. Lorsqu'une mini-grille est remplie, les points de glyphe sont comptabilisés et le score le plus élevé remporte cette grille (en cas d'égalité, la victoire revient au joueur qui l'a complétée)."
   },
   "variants": {
     "abande": {
@@ -3855,6 +3857,12 @@
       "variant": {
         "name": "Variante par défaut"
       }
+    },
+    "scribe": {
+      "advanced": {
+        "name": "Avancé",
+        "description": "Gagnez en formant le super-glyphe de plus grande valeur avec les mini-grilles capturées, plutôt qu'en remportant le plus de mini-grilles."
+      }
     }
   },
   "displays": {
@@ -4512,6 +4520,9 @@
     "YEAR": "Année",
     "guerrilla": {
       "INSURGENTS": "Insurgés restants"
+    },
+    "scribe": {
+      "MINI_GRIDS": "Mini-grilles remportées"
     }
   },
   "validation": {
@@ -7556,6 +7567,11 @@
       "PARTIAL_p1second": "Sélectionnez où placer votre second insurgé.",
       "PARTIAL_p2move": "Sélectionnez une destination.",
       "PARTIAL_p2cap": "Sélectionnez une destination. Vous devez continuer à capturer."
+    },
+    "scribe": {
+      "INITIAL_INSTRUCTIONS": "Sélectionnez une case vide à marquer.",
+      "OCCUPIED": "{{where}} est déjà occupée.",
+      "WRONG_MINI": "Vous devez jouer dans la mini-grille indiquée par votre dernier coup."
     }
   },
   "INITIAL_UNDO": "Vous ne pouvez pas annuler la position de départ initiale de la partie.",

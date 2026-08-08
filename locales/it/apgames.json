@@ -278,7 +278,8 @@
     "yonmoque": "Cerca di formare un quattro in linea in un gioco in cui non tutti gli spazi sono uguali e i pezzi avversari possono essere convertiti.",
     "zola": "Un gioco in cui il tuo movimento è vincolato dalla tua distanza dal centro del tabellone. Le mosse di cattura non devono aumentare tale distanza. Le mosse non di cattura devono aumentare tale distanza. La prima persona che cattura tutti i pezzi avversari vince.",
     "estate": "Un gioco di connessione esagonale in cui le caselle hanno costi diversi. Spendi saggiamente i tuoi punti!",
-    "guerrilla": "Un gioco asimmetrico di guerriglia. Entrambi i giocatori cercano di eliminare dal tabellone tutti i pezzi dell'avversario, ma devono affidarsi a tattiche molto diverse per farlo."
+    "guerrilla": "Un gioco asimmetrico di guerriglia. Entrambi i giocatori cercano di eliminare dal tabellone tutti i pezzi dell'avversario, ma devono affidarsi a tattiche molto diverse per farlo.",
+    "scribe": "Un gioco con carta e penna su una super-griglia 9×9 composta da nove mini-griglie 3×3. Vinci il maggior numero di mini-griglie o, nella variante avanzata, crea il super-glifo di maggior valore con le tue vittorie."
   },
   "notes": {
     "akimbo": "Akimbo, progettato da Luis Bolaños Mures nel 2026, è un gioco di connessione senza pareggi per due giocatori. Una _diagonale nuda_ è una coppia di pezzi adiacenti in diagonale dello stesso colore privi di altri pezzi dello stesso colore adiacenti a entrambi. Un _crosscut_ è un'area 2×2 con due diagonali nude incrociate di colori opposti.\n\nNel proprio turno, il giocatore piazza un pezzo amico su una casella vuota. Se ciò completa un crosscut, l'altro pezzo nel crosscut viene rimosso. Non deve mai esserci più di una diagonale nuda per colore sul tabellone — nemmeno momentaneamente prima di rimuovere un pezzo. Un giocatore vince se, alla fine del proprio turno, c'è una catena di pezzi del proprio colore connessi ortogonalmente che tocca i due bordi opposti del tabellone del giocatore.\n\nOkimba è una variante in cui può esistere al massimo una diagonale nuda sul tabellone (quindi mentre un giocatore ha la diagonale, l'avversario non può crearne un'altra).",
@@ -373,7 +374,8 @@
     "witch": "Il primo giocatore non inizia possedendo alcun pezzo e può rimuovere qualsiasi pezzo (tranne una corona) nel suo primo turno. Il secondo giocatore sceglie il proprio colore nel suo primo turno, dopodiché non è più possibile rimuovere i pezzi dell'avversario.",
     "xana": "I giocatori, nel proprio turno, posizionano/muovono una pila (c'è una quantità limitata di pezzi impilabili) e opzionalmente posizionano due muri in esagoni vuoti. Le pile senza libertà vengono catturate. Una pila ha libertà se almeno uno degli esagoni adiacenti è vuoto (non esiste il concetto di gruppo di pile). Un esagono è accessibile se è vuoto e collegato a una pila amica da un percorso di esagoni vuoti. L'obiettivo è ottenere il punteggio più alto sommando territorio e catture. Xana è stato progettato nel 2005.",
     "y": "Il gioco è stato progettato da Charles Titus e Craige Schensted (Ea Ea) nel 1953. Discendente diretto del Hex, il gioco era originariamente giocato su un tavoliere triangolare, dove l'obiettivo è collegare tutti e tre i lati con una catena di pedine amiche. Il Y è considerato un gioco più fondamentale rispetto all'Hex, date le sue regole più semplici e dato che una partita a Hex può essere impostata su un tavoliere da Y sufficientemente grande. Nel loro libro del 1975 **Mudcrack Y & Poly-Y**, i designer hanno introdotto il _principio di mudcrack_ affermando che i giochi di connessione possono essere giocati su un'ampia gamma di tavolieri progressivamente elaborati. Uno di quei design ('il Y piegato', con tre celle pentagonali) è diventato il tavoliere commerciale del Y, al posto di quello triangolare standard.",
-    "guerrilla": "Ciascun giocatore vince rimuovendo tutti i pezzi dell'avversario. P2 vince anche se sopravvive abbastanza a lungo da far esaurire a P1 gli insorti da piazzare."
+    "guerrilla": "Ciascun giocatore vince rimuovendo tutti i pezzi dell'avversario. P2 vince anche se sopravvive abbastanza a lungo da far esaurire a P1 gli insorti da piazzare.",
+    "scribe": "La tabella di riferimento dei glifi è mostrata nel margine sinistro. Un punto indica il posizionamento più recente di ciascun giocatore. Quando una mini-griglia si riempie, vengono calcolati i punti glifo e il punteggio più alto si aggiudica la griglia (in caso di parità, la griglia va al giocatore che l'ha completata)."
   },
   "variants": {
     "abande": {
@@ -3855,6 +3857,12 @@
       "variant": {
         "name": "Variante predefinita"
       }
+    },
+    "scribe": {
+      "advanced": {
+        "name": "Avanzata",
+        "description": "Vinci formando il super-glifo di maggior valore con le mini-griglie che hai conquistato, anziché vincendo il maggior numero di mini-griglie."
+      }
     }
   },
   "displays": {
@@ -4512,6 +4520,9 @@
     "YEAR": "Anno",
     "guerrilla": {
       "INSURGENTS": "Insorti rimasti"
+    },
+    "scribe": {
+      "MINI_GRIDS": "Mini-griglie vinte"
     }
   },
   "validation": {
@@ -7556,6 +7567,11 @@
       "PARTIAL_p1second": "Seleziona dove piazzare il tuo secondo insorto.",
       "PARTIAL_p2move": "Seleziona una destinazione.",
       "PARTIAL_p2cap": "Seleziona una destinazione. Devi continuare a catturare."
+    },
+    "scribe": {
+      "INITIAL_INSTRUCTIONS": "Seleziona una casella vuota da segnare.",
+      "OCCUPIED": "{{where}} è già occupata.",
+      "WRONG_MINI": "Devi giocare nella mini-griglia indicata dalla tua ultima mossa."
     }
   },
   "INITIAL_UNDO": "Non puoi annullare la posizione iniziale di partenza del gioco.",

@@ -33,6 +33,7 @@ import { ACityGame, IACityState } from "./acity";
 import { FanoronaGame, IFanoronaState } from "./fanorona";
 import { FocusGame, IFocusState } from "./focus";
 import { StringsGame, IStringsState } from "./strings";
+import { ScribeGame, IScribeState } from "./scribe";
 import { WitchGame, IWitchState } from "./witch";
 import { ComplicaGame, IComplicaState } from "./complica";
 import { PigsGame, IPigsState } from "./pigs";
@@ -314,6 +315,7 @@ export {
     FanoronaGame, IFanoronaState,
     FocusGame, IFocusState,
     StringsGame, IStringsState,
+    ScribeGame, IScribeState,
     WitchGame, IWitchState,
     ComplicaGame, IComplicaState,
     PigsGame, IPigsState,
@@ -571,7 +573,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof UrbinoGame | typeof FendoGame | typeof ArchimedesGame |
                               typeof ZolaGame | typeof MonkeyQueenGame | typeof DipoleGame |
                               typeof AlfredsWykeGame | typeof RealmGame | typeof ACityGame |
-                              typeof FanoronaGame | typeof FocusGame | typeof StringsGame |
+                              typeof FanoronaGame | typeof FocusGame | typeof StringsGame | typeof ScribeGame |
                               typeof WitchGame | typeof ComplicaGame | typeof PigsGame |
                               typeof GardenGame | typeof OrbGame | typeof MixtourGame |
                               typeof CrosswayGame | typeof TintasGame | typeof StreetcarGame |
@@ -662,7 +664,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     VolcanoGame, MvolcanoGame, ChaseGame, AbandeGame, CephalopodGame, LinesOfActionGame,
     PikemenGame, OrdoGame, AttangleGame, AccastaGame, EpamGame, TaijiGame, BreakthroughGame,
     FabrikGame, ManalathGame, UrbinoGame, FendoGame, ArchimedesGame, ZolaGame, MonkeyQueenGame,
-    DipoleGame, AlfredsWykeGame, RealmGame, ACityGame, FanoronaGame, FocusGame, StringsGame,
+    DipoleGame, AlfredsWykeGame, RealmGame, ACityGame, FanoronaGame, FocusGame, StringsGame, ScribeGame,
     WitchGame, ComplicaGame, PigsGame, GardenGame, OrbGame, MixtourGame, CrosswayGame, TintasGame,
     StreetcarGame, CourtesanGame, PhutballGame, ArmadasGame, FlumeGame, BoomGame,
     AgereGame, BideGame, MiradorGame, RazzleGame, DagEnNachtGame, HexYGame, MurusGame, BounceGame,
@@ -774,6 +776,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new FocusGame(...args);
         case "strings":
             return new StringsGame(...args);
+        case "scribe":
+            return new ScribeGame(...args);
         case "witch":
             return new WitchGame(...args);
         case "complica":

@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IScores, IStatus, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, AreaPieces, Colourfuncs, DominoTileRef, Glyph, IsoPiece, RowCol } from "@abstractplay/renderer/build/schemas/schema";
+import { APRenderRep, AreaPieces, Colourfuncs, DominoTileRef, Glyph, IsoPiece } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import { Domino } from "../common/dominoes/Domino";
@@ -1263,7 +1263,7 @@ export class EvenAtOddsGame extends GameBase {
         return [this.renderMinX + col, this.renderMaxY - row];
     }
 
-    private halfToRenderCell(h: Half): RowCol {
+    private halfToRenderCell(h: Half): { row: number; col: number } {
         return {
             row: this.renderMaxY - h[1],
             col: h[0] - this.renderMinX,
@@ -1492,7 +1492,7 @@ export class EvenAtOddsGame extends GameBase {
         }
 
         const ghostHalves = this.ghostHalvesForPartial();
-        const flatGhostOverlays: { key: string; cell: RowCol }[] = [];
+        const flatGhostOverlays: { key: string; cell: { row: number; col: number } }[] = [];
         const ghostOther = ghostHalves.length === 2
             ? (ghostHalves[0].half[0] === this.anchor![0] && ghostHalves[0].half[1] === this.anchor![1]
                 ? ghostHalves[1].half : ghostHalves[0].half)

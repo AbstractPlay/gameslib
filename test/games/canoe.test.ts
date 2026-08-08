@@ -125,6 +125,7 @@ function annotationDotCells(rep: ReturnType<CanoeGame["render"]>): string[] {
     for (const a of rep.annotations ?? []) {
         if ("type" in a && a.type === "dots" && "targets" in a) {
             for (const t of a.targets) {
+                if (t.col === undefined || t.row === undefined) { continue; }
                 cells.push(CanoeGame.coords2algebraic(t.col, t.row));
             }
         }

@@ -701,9 +701,8 @@ export class ScribeGame extends GameBase {
                 markers,
                 reference: {
                     layout: "sidebar",
-                    source: "scribe-chart",
-                    position: "left",
-                    rotateWithBoard: false,
+                    sides: ["left", "right"],
+                    source: ["scribe-chart-left", "scribe-chart-right"],                    rotateWithBoard: false,
                     gap: 1.25,
                     styles: {
                         glyphs: "_context_strokes",

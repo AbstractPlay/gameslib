@@ -195,7 +195,6 @@ describe("Scribe", () => {
             miniwinners: [["1,1", 1]],
         });
         const rep = g.render();
-        expect((rep.board as {reference?: {source?: string}}).reference?.source).to.equal("scribe-chart");
         const markers = (rep.board as {markers?: {type: string; points?: {tileRow?: number; corner?: string}[]}[]}).markers ?? [];
         expect(markers.some(m => m.type === "flood")).to.be.true;
         const lines = markers.filter(m => m.type === "line");

@@ -17,8 +17,12 @@ function playFixture(
         canoeDone?: boolean;
         phase?: "setup-1" | "setup-2" | "play";
         setupRoll?: CubeFace[];
+        version?: string;
+        gridCubes?: [CubeFace, CubeFace];
     } = {},
 ): CanoeGame {
+    const version = opts.version ?? CanoeGame.gameinfo.version;
+    const gridCubes = opts.gridCubes ?? ([16, 8] as [CubeFace, CubeFace]);
     const state = {
         game: "canoe",
         numplayers: 2,
@@ -26,7 +30,7 @@ function playFixture(
         gameover: false,
         winner: [] as number[],
         stack: [{
-            _version: "20260725",
+            _version: version,
             _results: [],
             _timestamp: "2026-07-25T00:00:00.000Z",
             currplayer: opts.currplayer ?? 1,
@@ -37,7 +41,7 @@ function playFixture(
             },
             roll: opts.roll,
             setupRoll: opts.setupRoll,
-            gridCubes: [16, 8] as [CubeFace, CubeFace],
+            gridCubes,
             pocket: opts.pocket ?? [0, 0],
             canoeDone: opts.canoeDone ?? false,
             firstPlayer: opts.firstPlayer ?? 1,
@@ -178,8 +182,8 @@ describe("Canoe", () => {
         expect(v.complete).to.equal(0);
     });
 
-    it("setup move records a place result for every bank cube and the grid cube", () => {
-        const g = playFixture([], {phase: "setup-1", setupRoll: [8, 16, 24, 32, 40, 1]});
+    it("legacy setup move records a place result for every bank cube and the grid cube", () => {
+        const g = playFixture([], {phase: "setup-1", setupRoll: [8, 16, 24, 32, 40, 1], version: "20260725"});
         const move = "8@b1,16@c1,24@d1,32@b2,40@c2,1@d2";
         g.move(move);
         const places = g.results.filter(r => r.type === "place") as Array<{what?: string; where?: string}>;
@@ -308,6 +312,75 @@ describe("Canoe", () => {
         const result = g.handleClick("40@d1,32@c1,32@b1,16@b2,8@c2,1@d2", f4Row, f4Col);
         expect(result.valid).to.be.true;
         expect(result.move).to.equal("40@f4");
+    });
+
+    it("modern setup-1 submit places bank cubes only", () => {
+        const g = playFixture([], {phase: "setup-1", setupRoll: [8, 16, 24, 32, 40, 1]});
+        const move = "8@b1,16@c1,24@d1,32@b2,40@c2,1@d2";
+        g.move(move);
+        const places = g.results.filter(r => r.type === "place") as Array<{what?: string; where?: string}>;
+        expect(places).to.have.length(6);
+        expect(g.board.has("c7")).to.be.false;
+        expect(g.phase).to.equal("setup-2");
+        expect(g.currplayer).to.equal(2);
+    });
+
+    it("modern setup-2 mid-phase has no grid cubes on the board", () => {
+        const g = playFixture([
+            ["d1", {owner: 1, face: 40}],
+            ["c1", {owner: 1, face: 32}],
+            ["b1", {owner: 1, face: 32}],
+            ["b2", {owner: 1, face: 16}],
+            ["c2", {owner: 1, face: 8}],
+            ["d2", {owner: 1, face: 1}],
+        ], {phase: "setup-2", currplayer: 2, setupRoll: [16, 32, 1, 40, 8, 16], gridCubes: [1, 1]});
+        expect(g.board.has("a5")).to.be.false;
+        expect(g.gridCubes).to.eql([1, 1]);
+    });
+
+    it("modern setup-2 submit places both grid cubes and starts play", () => {
+        const g = playFixture([
+            ["d1", {owner: 1, face: 40}],
+            ["c1", {owner: 1, face: 32}],
+            ["b1", {owner: 1, face: 32}],
+            ["b2", {owner: 1, face: 16}],
+            ["c2", {owner: 1, face: 8}],
+            ["d2", {owner: 1, face: 1}],
+        ], {phase: "setup-2", currplayer: 2, setupRoll: [16, 32, 1, 40, 8, 16], gridCubes: [1, 1]});
+        const move = "16@f4,32@g4,1@f5,40@g5,8@f6,16@g6";
+        g.move(move);
+        const places = g.results.filter(r => r.type === "place") as Array<{where?: string}>;
+        expect(places).to.have.length(8);
+        expect(places.some(p => p.where === "c7")).to.be.true;
+        expect(places.some(p => p.where === "a5")).to.be.true;
+        expect(g.board.has("c7")).to.be.true;
+        expect(g.board.has("a5")).to.be.true;
+        expect(g.phase).to.equal("play");
+    });
+
+    it("modern chatLog attributes end-of-turn roll to upcoming player", () => {
+        const g = playFixture([
+            ["e5", {owner: 1, face: 16}],
+            ["c7", {owner: 1, face: 8}],
+        ], {phase: "play", roll: [3, 5], firstPlayer: 1, currplayer: 1});
+        const full = g.moves().find(m => m.includes(","));
+        expect(full).to.not.equal(undefined);
+        g.move(full!, {trusted: true});
+        const log = g.chatLog(["Alice", "Bob"]);
+        const rollLine = log[log.length - 1]!.find(line => line.includes("rolled"));
+        expect(rollLine).to.include("Bob");
+        expect(rollLine).to.not.include("Alice");
+    });
+
+    it("modern chatLog attributes stymie roll to active player", () => {
+        const g = playFixture([
+            ["c3", {owner: 1, face: 8}],
+            ["c5", {owner: 1, face: 8}],
+        ], {phase: "play", currplayer: 1});
+        g.move("roll:1", {trusted: true});
+        const log = g.chatLog(["Alice", "Bob"]);
+        const rollLine = log[log.length - 1]!.find(line => line.includes("rolled"));
+        expect(rollLine).to.include("Alice");
     });
 
     it("play-phase dice render on f2 and g1", () => {

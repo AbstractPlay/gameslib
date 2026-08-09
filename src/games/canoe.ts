@@ -52,7 +52,7 @@ export class CanoeGame extends GameBase {
         name: "Canoe",
         uid: "canoe",
         playercounts: [2],
-        version: "20260725",
+        version: "20260809",
         dateAdded: "2026-08-03",
         description: "apgames:descriptions.canoe",
         notes: "apgames:notes.canoe",
@@ -149,6 +149,11 @@ export class CanoeGame extends GameBase {
     private static readonly DICE_CELLS = ["f2", "g1"];
     private static readonly P1_GRID_CUBE = "c7";
     private static readonly P2_GRID_CUBE = "a5";
+    private static readonly RULES_VERSION = "20260809";
+
+    private usesLegacyRules(): boolean {
+        return parseInt(this.stack[0]._version, 10) < parseInt(CanoeGame.RULES_VERSION, 10);
+    }
 
     constructor(state?: ICanoeState | string, variants?: string[]) {
         super();
@@ -493,11 +498,11 @@ export class CanoeGame extends GameBase {
         }
     }
 
-    private recordSetupGridCubeResult(face: CubeFace): void {
+    private recordSetupGridCubeResult(face: CubeFace, player: playerid): void {
         this.results.push({
             type: "place",
             what: face.toString(),
-            where: CanoeGame.gridCubeCell(this.currplayer),
+            where: CanoeGame.gridCubeCell(player),
         });
     }
 
@@ -516,10 +521,20 @@ export class CanoeGame extends GameBase {
         if (postEntry === undefined) {
             return;
         }
-        const gridCell = CanoeGame.gridCubeCell(this.currplayer);
-        const stackOnGrid = postEntry.board.get(gridCell);
-        if (stackOnGrid !== undefined && stackOnGrid.owner === this.currplayer) {
-            this.recordSetupGridCubeResult(stackOnGrid.face);
+        if (this.usesLegacyRules()) {
+            const gridCell = CanoeGame.gridCubeCell(this.currplayer);
+            const stackOnGrid = postEntry.board.get(gridCell);
+            if (stackOnGrid !== undefined && stackOnGrid.owner === this.currplayer) {
+                this.recordSetupGridCubeResult(stackOnGrid.face, this.currplayer);
+            }
+            return;
+        }
+        for (const player of [1, 2] as const) {
+            const gridCell = CanoeGame.gridCubeCell(player);
+            const stackOnGrid = postEntry.board.get(gridCell);
+            if (stackOnGrid !== undefined && stackOnGrid.owner === player) {
+                this.recordSetupGridCubeResult(stackOnGrid.face, player);
+            }
         }
     }
 
@@ -875,32 +890,72 @@ export class CanoeGame extends GameBase {
         return pool.reduce((a, b) => (a > b ? a : b));
     }
 
-    private finishSetup(): void {
-        if (this.emulated) {
-            return;
-        }
-        const gridFace = CanoeGame.rollCubeFace();
-        this.gridCubes[this.currplayer - 1] = gridFace;
-        this.board.set(CanoeGame.gridCubeCell(this.currplayer), {
-            owner: this.currplayer,
-            face: gridFace,
+    private placeGridCube(player: playerid, face: CubeFace): void {
+        this.gridCubes[player - 1] = face;
+        this.board.set(CanoeGame.gridCubeCell(player), {
+            owner: player,
+            face,
             set: false,
         });
-        this.recordSetupGridCubeResult(gridFace);
+    }
+
+    private startPlayAfterSetup(): void {
+        this.phase = "play";
+        this.setupRoll = undefined;
+        this.firstPlayer = this.gridCubes[0] >= this.gridCubes[1] ? 1 : 2;
+        if (this.gridCubes[0] === this.gridCubes[1]) {
+            this.firstPlayer = 1;
+        }
+        this.currplayer = this.firstPlayer;
+        this.prepareNextTurnRoll();
+    }
+
+    private finishSetupLegacy(): void {
+        const gridFace = CanoeGame.rollCubeFace();
+        this.placeGridCube(this.currplayer, gridFace);
+        this.recordSetupGridCubeResult(gridFace, this.currplayer);
 
         if (this.phase === "setup-1") {
             this.phase = "setup-2";
             this.currplayer = 2;
             this.setupRoll = CanoeGame.rollSetup();
         } else {
-            this.phase = "play";
-            this.setupRoll = undefined;
-            this.firstPlayer = this.gridCubes[0] >= this.gridCubes[1] ? 1 : 2;
-            if (this.gridCubes[0] === this.gridCubes[1]) {
-                this.firstPlayer = 1;
-            }
-            this.currplayer = this.firstPlayer;
-            this.prepareNextTurnRoll();
+            this.startPlayAfterSetup();
+        }
+    }
+
+    private finishSetupModern(): void {
+        if (this.phase === "setup-1") {
+            this.phase = "setup-2";
+            this.currplayer = 2;
+            this.setupRoll = CanoeGame.rollSetup();
+            return;
+        }
+        const p1Face = CanoeGame.rollCubeFace();
+        const p2Face = CanoeGame.rollCubeFace();
+        this.placeGridCube(1, p1Face);
+        this.placeGridCube(2, p2Face);
+        this.recordSetupGridCubeResult(p1Face, 1);
+        this.recordSetupGridCubeResult(p2Face, 2);
+        this.startPlayAfterSetup();
+    }
+
+    private finishSetup(): void {
+        if (this.emulated) {
+            return;
+        }
+        if (this.usesLegacyRules()) {
+            this.finishSetupLegacy();
+        } else {
+            this.finishSetupModern();
+        }
+    }
+
+    private pushRollResult(values: number[]): void {
+        if (this.usesLegacyRules()) {
+            this.results.push({type: "roll", values});
+        } else {
+            this.results.push({type: "roll", values, who: this.currplayer});
         }
     }
 
@@ -912,7 +967,7 @@ export class CanoeGame extends GameBase {
         const d1 = randomInt(6);
         const d2 = randomInt(6);
         this.roll = [d1, d2];
-        this.results.push({type: "roll", values: [d1, d2]});
+        this.pushRollResult([d1, d2]);
     }
 
     private addToPocket(player: playerid, face: CubeFace): void {
@@ -2122,7 +2177,7 @@ export class CanoeGame extends GameBase {
                 values.push(randomInt(6));
             }
             this.roll = values.length === 1 ? [values[0]] : [values[0], values[1]];
-            this.results.push({type: "roll", values});
+            this.pushRollResult(values);
             if (!partial && !emulation) {
                 this.lastmove = m;
                 this.saveState();
@@ -2666,11 +2721,17 @@ export class CanoeGame extends GameBase {
         };
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
+    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult, players: string[] = []): boolean {
         switch (r.type) {
-            case "roll":
-                node.push(i18next.t("apresults:ROLL.canoe", {player, values: (r as {values: number[]}).values.join(",")}));
+            case "roll": {
+                const who = (r as {who?: number}).who;
+                let roller = player;
+                if (who !== undefined) {
+                    roller = who <= players.length ? players[who - 1] : `Player ${who}`;
+                }
+                node.push(i18next.t("apresults:ROLL.canoe", {player: roller, values: (r as {values: number[]}).values.join(",")}));
                 return true;
+            }
             case "pass":
                 node.push(i18next.t("apresults:PASS.canoe", {player}));
                 return true;

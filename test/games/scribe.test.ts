@@ -91,10 +91,16 @@ describe("Scribe", () => {
         expect(findGlyphMatches(cells).filter(m => m.glyph.name === "Single").length).to.equal(3);
     });
 
-    it("scores one best glyph per connected group", () => {
+    it("scores zero when a connected group is not an exact glyph", () => {
         const cells = new Set(["0,2", "1,0", "1,1", "1,2", "2,1", "2,2"]);
-        expect(glyphScore(cells)).to.equal(5);
-        expect(formationWhat(scoringGlyphMatches(cells))).to.equal("T");
+        expect(glyphScore(cells)).to.equal(0);
+        expect(scoringGlyphMatches(cells)).to.deep.equal([]);
+    });
+
+    it("scores an exact glyph for a connected group", () => {
+        const pipe = new Set(["2,0", "0,1", "1,1", "2,1"]);
+        expect(glyphScore(pipe)).to.equal(4);
+        expect(formationWhat(scoringGlyphMatches(pipe))).to.equal("Pipe");
     });
 
     it("scores separate groups independently like figure 3", () => {
@@ -138,6 +144,7 @@ describe("Scribe", () => {
                 p1Cells.add(`${lx},${ly}`);
             }
         }
+        expect(glyphScore(p1Cells)).to.equal(1);
         expect(claim?.what).to.equal(formationWhat(scoringGlyphMatches(p1Cells)));
     });
 

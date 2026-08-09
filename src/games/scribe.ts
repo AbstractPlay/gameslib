@@ -67,10 +67,12 @@ function normalizeCells(cells: LocalCoord[]): LocalCoord[] {
     return [...cells].sort((a, b) => (a[0] - b[0]) || (a[1] - b[1]));
 }
 
-function isStrictSubset(a: LocalCoord[], b: LocalCoord[]): boolean {
-    if (a.length >= b.length) { return false; }
-    const setB = new Set(b.map(localKey));
-    return a.every(c => setB.has(localKey(c)));
+function setsEqual(a: Set<string>, b: Set<string>): boolean {
+    if (a.size !== b.size) { return false; }
+    for (const key of a) {
+        if (!b.has(key)) { return false; }
+    }
+    return true;
 }
 
 function rotateCW(cells: LocalCoord[]): LocalCoord[] {
@@ -135,10 +137,26 @@ export function findGlyphMatches(playerCells: Set<string>, gridSize = MINI_SIZE)
     return matches;
 }
 
-function withoutStrictSubsets(matches: GlyphMatch[]): GlyphMatch[] {
-    return matches.filter(m => ! matches.some(other =>
-        other !== m && isStrictSubset(m.cells, other.cells)
-    ));
+function exactGlyphInComponent(component: Set<string>, gridSize = MINI_SIZE): GlyphMatch|undefined {
+    if (component.size === 0) { return undefined; }
+    let found: GlyphMatch|undefined;
+    for (const glyph of SCRIBE_GLYPHS) {
+        if (glyph.cells.length !== component.size) { continue; }
+        for (const transformed of uniqueTransforms(glyph.cells)) {
+            for (let dc = 0; dc < gridSize; dc++) {
+                for (let dr = 0; dr < gridSize; dr++) {
+                    const placed = translateCells(transformed, dc, dr);
+                    if (placed === undefined) { continue; }
+                    if (!setsEqual(component, new Set(placed.map(localKey)))) { continue; }
+                    const match: GlyphMatch = {glyph, cells: placed};
+                    if (found === undefined || glyph.name.localeCompare(found.glyph.name) < 0) {
+                        found = match;
+                    }
+                }
+            }
+        }
+    }
+    return found;
 }
 
 function parseLocalKey(key: string): LocalCoord {
@@ -172,21 +190,12 @@ function connectedComponents(playerCells: Set<string>): Set<string>[] {
     return components;
 }
 
-function bestGlyphInComponent(component: Set<string>, gridSize = MINI_SIZE): GlyphMatch|undefined {
-    const matches = withoutStrictSubsets(findGlyphMatches(component, gridSize));
-    if (matches.length === 0) { return undefined; }
-    const bestValue = Math.max(...matches.map(m => m.glyph.value));
-    const best = matches.filter(m => m.glyph.value === bestValue);
-    best.sort((a, b) => a.glyph.name.localeCompare(b.glyph.name) || matchKey(a.cells).localeCompare(matchKey(b.cells)));
-    return best[0];
-}
-
-/** One best non-subset glyph per orthogonally connected group of stones. */
+/** One exact glyph match per orthogonally connected group; non-matching groups score nothing. */
 export function scoringGlyphMatches(playerCells: Set<string>, gridSize = MINI_SIZE): GlyphMatch[] {
     const matches: GlyphMatch[] = [];
     for (const component of connectedComponents(playerCells)) {
-        const best = bestGlyphInComponent(component, gridSize);
-        if (best !== undefined) { matches.push(best); }
+        const exact = exactGlyphInComponent(component, gridSize);
+        if (exact !== undefined) { matches.push(exact); }
     }
     matches.sort((a, b) => matchKey(a.cells).localeCompare(matchKey(b.cells)));
     return matches;

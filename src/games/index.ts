@@ -279,6 +279,7 @@ import { IntermediumGame, IIntermediumState } from "./intermedium";
 import { StapeldammenGame, IStapeldammenState } from "./stapeldammen";
 import { KnightLineGame, IKnightLineState } from "./knightline";
 import { EstateGame, IEstateState } from "./estate";
+import { CircleOfLifeGame, ICircleOfLifeState } from "./circleOfLife";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -561,6 +562,7 @@ export {
     StapeldammenGame, IStapeldammenState,
     KnightLineGame, IKnightLineState,
     EstateGame, IEstateState,
+    CircleOfLifeGame, ICircleOfLifeState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -656,7 +658,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof UnstackGame | typeof SwarmGame | typeof EatYourNeighborGame |
                               typeof MutternlandGame | typeof IntermediumGame | typeof StapeldammenGame |
                               typeof CarnacGame | typeof DruidGame | typeof KnightLineGame |
-                              typeof EstateGame
+                              typeof EstateGame | typeof CircleOfLifeGame
                 >();
 // Manually add each game to the following array
 [
@@ -698,7 +700,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     SynapseGame, AtariGoGame, TanboGame, UnaneGame, LinageGame, PolluxGame, PippinzipGame, NarrowsGame,
     InvectorGame, TricouleurGame, PositGame, VirusWarGame, FormsGame, CompartGame, AkimboGame,
     CrossControlGame, UnstackGame, SwarmGame, EatYourNeighborGame, MutternlandGame, IntermediumGame,
-    StapeldammenGame, KnightLineGame, EstateGame,
+    StapeldammenGame, KnightLineGame, EstateGame, CircleOfLifeGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -1268,6 +1270,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new KnightLineGame(args[0], ...args.slice(1));
         case "estate":
             return new EstateGame(...args);
+        case "circleOfLife":
+            return new CircleOfLifeGame(...args);
     }
     return;
 }

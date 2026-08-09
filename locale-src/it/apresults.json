@@ -44,6 +44,8 @@
   "CAPTURE.buku": "{{count}} pieces were captured at {{where}}.",
   "CAPTURE.c1": "{{player}} eliminates a tile at {{where}}.",
   "CAPTURE.canoe": "{{player}} pinched a cube at {{where}}.",
+  "CAPTURE.circleOfLife_one": "{{player}} devoured opponent species {{prey}} ({{count}} stone) at {{where}}.",
+  "CAPTURE.circleOfLife_other": "{{player}} devoured opponent species {{prey}} ({{count}} stones) at {{where}}.",
   "CAPTURE.complete": "{{player}} captured a {{what}} at {{where}}.",
   "CAPTURE.crosshairs": "{{player}} shot down a plane at {{where}}.",
   "CAPTURE.dameo_king": "{{player}} captured a king at {{where}}.",

@@ -154,7 +154,9 @@
       "single_E": "{{player}} ha raccolto una Pietra della Terra in {{where}}.",
       "single_M": "{{player}} ha raccolto una Pietra di Luna in {{where}}.",
       "single_S": "{{player}} ha raccolto una Pietra di Sole in {{where}}."
-    }
+    },
+    "circleOfLife_one": "{{player}} ha divorato la specie avversaria {{prey}} ({{count}} pietra) in {{where}}.",
+    "circleOfLife_other": "{{player}} ha divorato la specie avversaria {{prey}} ({{count}} pietre) in {{where}}."
   },
   "CLAIM": {
     "buku_singletons_one": "{{player}} ha reclamato l'ultimo 1 pezzo del proprio colore.",

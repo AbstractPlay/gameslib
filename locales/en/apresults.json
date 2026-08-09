@@ -60,6 +60,8 @@
         "dameo_king": "{{player}} captured a king at {{where}}.",
         "dameo_soldier": "{{player}} captured a soldier at {{where}}.",
         "eatyourneighbor": "{{player}} captured group {{where}} of size {{count}}.",
+        "circleOfLife_one": "{{player}} devoured opponent species {{prey}} ({{count}} stone) at {{where}}.",
+        "circleOfLife_other": "{{player}} devoured opponent species {{prey}} ({{count}} stones) at {{where}}.",
         "entrapment_opponent": "{{player}} captured an opponent's roamer at {{where}}.",
         "entrapment_self": "{{player}} captured their own roamer at {{where}}.",
         "fightopia_1": "{{player}} captured a pawn at {{where}}.",

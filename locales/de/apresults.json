@@ -136,7 +136,9 @@
       "single_E": "{{player}} hat einen Erdstein auf {{where}} aufgenommen.",
       "single_M": "{{player}} hat einen Mondstein auf {{where}} aufgenommen.",
       "single_S": "{{player}} hat einen Sonnenstein auf {{where}} aufgenommen."
-    }
+    },
+    "circleOfLife_one": "{{player}} hat die gegnerische Spezies {{prey}} ({{count}} Stein) auf {{where}} verschlungen.",
+    "circleOfLife_other": "{{player}} hat die gegnerische Spezies {{prey}} ({{count}} Steine) auf {{where}} verschlungen."
   },
   "CLAIM": {
     "buku_singletons_one": "{{player}} hat den verbleibenden 1 Stein in der eigenen Farbe beansprucht.",

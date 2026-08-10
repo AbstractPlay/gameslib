@@ -4420,8 +4420,8 @@
     },
     "blam": {
       "NUMPIECES_one": "{{count}} pezzo",
-      "NUMPIECES_other": "{{count}} pezzi",
-      "NUMPIECES_many": ""
+      "NUMPIECES_many": "",
+      "NUMPIECES_other": "{{count}} pezzi"
     },
     "bug": {
       "PLACEABLE_COUNT": "Conteggio posizionabili"
@@ -4548,13 +4548,13 @@
       "MORE_THAN_THREE": "Nella mossa '{{move}}', il passaggio '{{step}}' creerebbe una pila con più di 3 pezzi dello stesso colore.",
       "PARTIAL_FULLSTACK": "Sembra che tu voglia muovere un'intera pila. Indica la destinazione.",
       "PARTIAL_SUBSTACK_one": "Sembra che tu voglia muovere il pezzo superiore dalla pila. Indica la destinazione.",
+      "PARTIAL_SUBSTACK_many": "",
       "PARTIAL_SUBSTACK_other": "Sembra che tu voglia muovere i {{count}} pezzi superiori dalla pila. Indica la destinazione.",
       "SOURCE_EMPTY": "Nella mossa '{{move}}', quando arrivi al passaggio '{{step}}', non hai più pezzi da muovere.",
       "TOOFAR": "Nella mossa '{{move}}', il passaggio '{{step}}' tenta di muoversi più lontano di quanto sia consentito.",
       "TOOHIGH": "Nella mossa '{{move}}', il passaggio '{{step}}' creerebbe una pila alta più di sei pezzi.",
       "USEMINUS": "Nel passaggio {{step}}, usa un segno meno (-) quando ti sposti su una casella vuota.",
-      "USEPLUS": "Nel passaggio {{step}}, usa un segno più (+) quando ti sposti su una pila esistente.",
-      "PARTIAL_SUBSTACK_many": ""
+      "USEPLUS": "Nel passaggio {{step}}, usa un segno più (+) quando ti sposti su una pila esistente."
     },
     "acity": {
       "BAD_DOME": "Le cupole possono essere posizionate solo su tessere dello stesso colore, a meno che tutti i posizionamenti di quel tipo non interrompano la rete stradale.",
@@ -4654,15 +4654,16 @@
       "NOT_DRAGON_JUMPABLE_CORNER": "Il drago non può saltare su un angolo.",
       "SELECT_DIR": "Seleziona una direzione verso cui muovere il gruppo.",
       "SELECT_MORE_BARRIER": "Devi continuare a fare mosse di gruppo perché hai creato una barriera.",
-      "SELECT_MORE_many": "Puoi continuare a fare altre {{count}} mosse di gruppo.",
       "SELECT_MORE_one": "Puoi continuare a fare ancora una mossa di gruppo.",
+      "SELECT_MORE_many": "Puoi continuare a fare altre {{count}} mosse di gruppo.",
+      "SELECT_MORE_other": "",
       "SELECT_MORE_PIECES_one": "Puoi selezionare un altro pezzo da muovere in gruppo, oppure selezionare una direzione per muovere il gruppo.",
+      "SELECT_MORE_PIECES_many": "",
       "SELECT_MORE_PIECES_other": "Puoi selezionare fino a {{count}} pezzi da muovere in gruppo, oppure selezionare una direzione per muovere il gruppo.",
       "SELECT_MORE_SUPERKO": "Devi continuare a fare mosse di gruppo perché lo stato attuale della plancia non è valido a causa del superko.",
       "SUPERKO": "Superko: non puoi ripetere uno stato della plancia precedente.",
       "TOO_MANY": "Puoi selezionare solo fino a {{count}} pezzi da muovere in gruppo.",
-      "TOO_MANY_MOVES": "Puoi muovere solo due gruppi in un turno normale.",
-      "SELECT_MORE_PIECES_many": ""
+      "TOO_MANY_MOVES": "Puoi muovere solo due gruppi in un turno normale."
     },
     "archimedes": {
       "FLEET_FULL": "Non puoi avere più di 12 pezzi.",
@@ -4684,6 +4685,7 @@
       "NOPIECE": "Stai cercando di posizionare un pezzo che non hai in mano: {{piece}}.",
       "NOT_ADJ": "I pezzi possono muoversi solo di uno spazio in senso ortogonale.",
       "PARTIAL_one": "Puoi effettuare ancora {{count}} mossa, oppure clicca su Completa mossa per terminare il tuo turno.",
+      "PARTIAL_many": "",
       "PARTIAL_other": "Puoi effettuare ancora {{count}} mosse, oppure clicca su Completa mossa per terminare il tuo turno.",
       "PARTIAL_MOVE": "Seleziona la destinazione.",
       "PARTIAL_PLACE": "Clicca su una casella vuota per posizionare il pezzo.",
@@ -4696,8 +4698,7 @@
       "WARN_BALANCE": "Bilancia i tuoi quattro pezzi più forti da est a ovest.",
       "WARN_FILE": "Non mettere il tuo elefante nella stessa colonna dell'elefante avversario.",
       "WARN_HIDE": "Non nascondere pezzi più forti dietro pezzi più deboli (eccetto i gatti dietro i conigli).",
-      "WARNINGS": "La tua configurazione è completa, ma ci sono alcune cose da considerare per i nuovi giocatori. Puoi cliccare su Completa mossa per ignorare, oppure puoi leggere i seguenti consigli:",
-      "PARTIAL_many": ""
+      "WARNINGS": "La tua configurazione è completa, ma ci sono alcune cose da considerare per i nuovi giocatori. Puoi cliccare su Completa mossa per ignorare, oppure puoi leggere i seguenti consigli:"
     },
     "armadas": {
       "BAD_PASS": "Quando passi, quello deve essere l'unico comando fornito.",
@@ -4963,21 +4964,21 @@
       "INVALID_COLLECT_COL": "La colonna '{{col}}' non è valida",
       "WRONG_COLLECT_COUNT_COL": "Il numero di pezzi raccolti nella colonna '{{col}}' non è corretto. Dovrebbe essere {{count}}.",
       "TOO_MANY_SOWS_one": "Puoi seminare solo 1 pezzo.",
+      "TOO_MANY_SOWS_many": "",
       "TOO_MANY_SOWS_other": "Puoi seminare solo {{count}} pezzi.",
       "DUPLICATE_SOW": "Hai già seminato un pezzo in {{where}}.",
       "NOT_NEIGHBOURS": "Le caselle {{curr}} e {{prev}} non sono adiacenti.",
       "INVALID_MOVE": "La mossa {{move}} non è valida.",
       "START_SOWING_one": "Hai raccolto 1 pezzo. Selezionata una casella per iniziare a seminare.",
+      "START_SOWING_many": "",
       "START_SOWING_other": "Hai raccolto {{count}} pezzi. Selezionata una casella per iniziare a seminare.",
       "GO_BACK_one": "Hai ancora 1 pezzo da seminare. Fai clic su un pezzo sul percorso di semina per tornare a quel punto e riprovare.",
+      "GO_BACK_many": "",
       "GO_BACK_other": "Hai ancora {{count}} pezzi da seminare. Fai clic su un pezzo sul percorso di semina per tornare indietro e riprovare.",
       "CONTINUE_one": "Hai ancora 1 pezzo da seminare.",
+      "CONTINUE_many": "",
       "CONTINUE_other": "Hai ancora {{count}} pezzi da seminare.",
-      "NORMALISE": "La mossa deve essere normalizzata. Prova '{{normalised}}'.",
-      "TOO_MANY_SOWS_many": "",
-      "START_SOWING_many": "",
-      "GO_BACK_many": "",
-      "CONTINUE_many": ""
+      "NORMALISE": "La mossa deve essere normalizzata. Prova '{{normalised}}'."
     },
     "byte": {
       "ADJ_ONLY": "Le pile possono muoversi solo in caselle adiacenti.",
@@ -4990,9 +4991,9 @@
       "MUST_APPROACH": "Quando muovi una pila verso uno spazio vuoto, devi avvicinarti alle pile più vicine.",
       "MUST_CLIMB": "Quando unisci pile, la pedina inferiore deve finire in una posizione più alta rispetto a quella da cui ha iniziato.",
       "TOO_HIGH_one": "Spostare {{count}} pedina da {{from}} a {{to}} comporterebbe una pila troppo alta.",
+      "TOO_HIGH_many": "",
       "TOO_HIGH_other": "Spostare {{count}} pedine da {{from}} a {{to}} comporterebbe una pila troppo alta.",
-      "UNOWNED_INDEX": "Non controlli la pedina alla posizione {{index}} nella pila in {{where}}.",
-      "TOO_HIGH_many": ""
+      "UNOWNED_INDEX": "Non controlli la pedina alla posizione {{index}} nella pila in {{where}}."
     },
     "c1": {
       "INITIAL_INSTRUCTIONS": "Seleziona un pezzo o una tessera da muovere.",
@@ -5027,6 +5028,7 @@
       "NOT_TREE_PLACEABLE": "Non puoi posizionare un albero in {{where}}.",
       "DUPLICATE_TREE": "Hai già posizionato un albero in {{where}}.",
       "TREE_CONTINUE_one": "Seleziona ancora 1 casella evidenziata su cui posizionare un albero.",
+      "TREE_CONTINUE_many": "",
       "TREE_CONTINUE_other": "Seleziona ancora {{count}} caselle evidenziate su cui posizionare alberi.",
       "NORMALISED": "La mossa deve essere normalizzata. Prova {{normalised}}.",
       "CANNOT_CLAIM_DRAW": "Puoi richiedere la patta solo se la stessa posizione si ripete per almeno la terza volta dallo stesso giocatore a ogni mossa o se non ci sono state catture né movimenti nella casella del castello avversario nelle ultime 50 mosse.",
@@ -5042,8 +5044,7 @@
       "CANTER_NOTATION": "La mossa da {{from}} a {{to}} è una mossa di piccolo trotto. Usa la notazione '^' per indicare un piccolo trotto.",
       "INVALID_TO": "Il pezzo in {{from}} non può muoversi in {{to}}.",
       "NEED_TO_JUMP": "Devi continuare ad effettuare una cattura.",
-      "CAN_CANTER": "Puoi continuare con una mossa di piccolo trotto o terminare il turno qui.",
-      "TREE_CONTINUE_many": ""
+      "CAN_CANTER": "Puoi continuare con una mossa di piccolo trotto o terminare il turno qui."
     },
     "carnac": {
       "INVALID_ORIENTATION": "{{orient}} non è un posizionamento valido (usa le cifre superiore+frontale 11, 12, 21 o 22).",
@@ -5093,14 +5094,14 @@
     "catchup": {
       "DUPLICATE": "Hai già posizionato un pezzo in {{where}}.",
       "INITIAL_INSTRUCTIONS_one": "Posiziona {{count}} pezzo sulla plancia.",
+      "INITIAL_INSTRUCTIONS_many": "",
       "INITIAL_INSTRUCTIONS_other": "Posiziona fino a {{count}} pezzi sulla plancia.",
       "MAKE_MORE_MOVES_one": "Posiziona ancora {{count}} pezzo o completa il tuo turno.",
+      "MAKE_MORE_MOVES_many": "",
       "MAKE_MORE_MOVES_other": "Posiziona fino a {{count}} altri pezzi o completa il tuo turno.",
       "TOO_MANY_MOVES_one": "Puoi posizionare solo {{count}} pezzo sul tabellone.",
-      "TOO_MANY_MOVES_other": "Puoi posizionare solo fino a {{count}} pezzi sul tabellone.",
-      "INITIAL_INSTRUCTIONS_many": "",
-      "MAKE_MORE_MOVES_many": "",
-      "TOO_MANY_MOVES_many": ""
+      "TOO_MANY_MOVES_many": "",
+      "TOO_MANY_MOVES_other": "Puoi posizionare solo fino a {{count}} pezzi sul tabellone."
     },
     "catsdogs": {
       "INITIAL_INSTRUCTIONS": "Posiziona un pezzo amico non ortogonalmente adiacente a un pezzo nemico.",
@@ -5161,8 +5162,8 @@
       "PARTIAL": "Seleziona una destinazione.",
       "PARTIAL_PLACE": "Seleziona la cella sulla tua riga di partenza per posizionare il tuo pezzo {{piece}}.",
       "PARTIAL_SETUP_one": "Posiziona il tuo ultimo pezzo.",
-      "PARTIAL_SETUP_other": "Hai ancora {{count}} pezzi da posizionare.",
-      "PARTIAL_SETUP_many": ""
+      "PARTIAL_SETUP_many": "",
+      "PARTIAL_SETUP_other": "Hai ancora {{count}} pezzi da posizionare."
     },
     "clearcut": {
       "BAD_CROSSING": "Le linee possono incrociarsi solo se il gruppo creato dal pezzo posizionato è più grande di almeno un gruppo avversario nell'incrocio.",
@@ -5201,11 +5202,11 @@
     },
     "compart": {
       "INSTRUCTIONS_one": "Posiziona un pezzo sull'ultima area vitale.",
+      "INSTRUCTIONS_many": "",
       "INSTRUCTIONS_other": "Posiziona {{count}} pezzi, uno su ciascuna area vitale amica (gruppi connessi di pezzi amici e celle vuote).",
       "OCCUPIED": "I posizionamenti possono essere effettuati solo su celle vuote!",
       "VIABLE_AREA_REPEATED": "Puoi posizionare solo un singolo pezzo in ciascuna area vitale.",
-      "INSTRUCTIONS_ANY": "Posiziona un pezzo su qualsiasi cella vuota.",
-      "INSTRUCTIONS_many": ""
+      "INSTRUCTIONS_ANY": "Posiziona un pezzo su qualsiasi cella vuota."
     },
     "complica": {
       "INITIAL_INSTRUCTIONS": "Seleziona la colonna in cui far cadere la tua pedina."
@@ -5296,12 +5297,16 @@
       "CLOUD_OCCUPIED": "C'è già una nuvola su {{cell}}.",
       "CLOUD_TOO_BIG": "Non puoi posizionare una nuvola su {{cell}}. Sono consentite solo nuvole di dimensione 2. Questa nuvola sarebbe troppo grande.",
       "INITIAL_INSTRUCTIONS_one": "Seleziona un aereo da muovere, o fai entrare un nuovo aereo dal tuo bordo iniziale. Devi muovere/far entrare {{count}} aereo in questo turno.",
+      "INITIAL_INSTRUCTIONS_many": "",
       "INITIAL_INSTRUCTIONS_other": "Seleziona un aereo da muovere, o fai entrare un nuovo aereo dal tuo bordo iniziale. Devi muovere/far entrare {{count}} aerei in questo turno.",
       "INITIAL_INSTRUCTIONS_NO_ENTRY_one": "Seleziona un aereo da muovere. Devi muovere {{count}} aereo in questo turno. Fai clic sugli aerei nemici se ritieni che possano essere abbattuti.",
+      "INITIAL_INSTRUCTIONS_NO_ENTRY_many": "",
       "INITIAL_INSTRUCTIONS_NO_ENTRY_other": "Seleziona un aereo da muovere. Devi muovere {{count}} aerei in questo turno. Fai clic sugli aerei nemici se ritieni che possano essere abbattuti.",
       "INITIAL_INSTRUCTIONS_MOVE_ONLY_one": "Seleziona un aereo da muovere. Devi muovere {{count}} aereo in questo turno.",
+      "INITIAL_INSTRUCTIONS_MOVE_ONLY_many": "",
       "INITIAL_INSTRUCTIONS_MOVE_ONLY_other": "Seleziona un aereo da muovere. Devi muovere {{count}} aerei in questo turno.",
       "INITIAL_INSTRUCTIONS_ENTRY_ONLY_one": "Fai entrare un aereo dal tuo bordo iniziale. Devi far entrare {{count}} aereo in questo turno.",
+      "INITIAL_INSTRUCTIONS_ENTRY_ONLY_many": "",
       "INITIAL_INSTRUCTIONS_ENTRY_ONLY_other": "Fai entrare aerei dal tuo bordo iniziale. Devi far entrare {{count}} aerei in questo turno.",
       "PARTIAL_MOVE": "Continua a selezionare la destinazione e la direzione del movimento.",
       "PARTIAL_PLANE_MOVE": "Fai clic su dove vuoi salire di quota (1 in avanti) o volare in quota (2 in avanti), oppure fai nuovamente clic sull'aereo per iniziare una picchiata.",
@@ -5312,18 +5317,14 @@
       "PARTIAL_DIVE_DIR": "Fai clic su una cella adiacente per scegliere la direzione verso cui sarà rivolto l'aereo dopo la manovra.",
       "DIVE_CONTINUE_OR_END": "Continua la picchiata (picchiata leggera in avanti o picchiata ripida), oppure seleziona un altro aereo per terminare la picchiata.",
       "NEED_MORE_PLANES_one": "Devi muovere/far entrare ancora {{count}} aereo in questo turno. Seleziona l'aereo successivo.",
+      "NEED_MORE_PLANES_many": "",
       "NEED_MORE_PLANES_other": "Devi muovere/far entrare ancora {{count}} aerei in questo turno. Seleziona l'aereo successivo.",
       "NEED_MORE_PLANES_NO_ENTRY_one": "Devi muovere ancora {{count}} aereo in questo turno. Seleziona l'aereo successivo. Fai clic sugli aerei nemici se ritieni che possano essere abbattuti.",
+      "NEED_MORE_PLANES_NO_ENTRY_many": "",
       "NEED_MORE_PLANES_NO_ENTRY_other": "Devi muovere ancora {{count}} aerei in questo turno. Seleziona l'aereo successivo. Fai clic sugli aerei nemici se ritieni che possano essere abbattuti.",
       "INVALID_ENTRY_POSITION": "Non puoi far entrare un aereo da {{cell}}, gli aerei possono entrare solo dal bordo iniziale evidenziato.",
       "CAN_SHOOT": "Puoi anche fare clic su un aereo nemico per abbatterlo.",
-      "MOVE_COMPLETE_CAN_SHOOT": "Mossa completata. Puoi sparare agli aerei nemici o inviare la tua mossa.",
-      "INITIAL_INSTRUCTIONS_many": "",
-      "INITIAL_INSTRUCTIONS_NO_ENTRY_many": "",
-      "INITIAL_INSTRUCTIONS_MOVE_ONLY_many": "",
-      "INITIAL_INSTRUCTIONS_ENTRY_ONLY_many": "",
-      "NEED_MORE_PLANES_many": "",
-      "NEED_MORE_PLANES_NO_ENTRY_many": ""
+      "MOVE_COMPLETE_CAN_SHOOT": "Mossa completata. Puoi sparare agli aerei nemici o inviare la tua mossa."
     },
     "cubeo": {
       "BAD_MERGE": "Puoi unire i dadi solo quando ne hai almeno tre nella formazione, e non puoi rimuovere un dado bloccato o un dado che non può scivolare fuori dalla formazione.",
@@ -5591,10 +5592,10 @@
       "NOT_PLACEABLE": "Non puoi posizionare in {{where}}. La pedina deve essere supportata.",
       "SWAP21_EXCESS": "Hai posizionato troppe pedine. Puoi posizionare solo 3 pedine.",
       "SWAP21_one": "Posiziona un'altra pedina sul tabellone.",
+      "SWAP21_many": "",
       "SWAP21_other": "Posiziona altre {{count}} pedine sul tabellone.",
       "SWAP22_EXCESS": "Hai posizionato troppe pedine. Puoi posizionare solo 2 pedine.",
-      "SWAP22_PARTIAL": "Completa la mossa per continuare come giocatore 2, oppure posiziona un'altra pedina sul tabellone per permettere all'avversario di decidere se giocare come giocatore 1 o giocatore 2.",
-      "SWAP21_many": ""
+      "SWAP22_PARTIAL": "Completa la mossa per continuare come giocatore 2, oppure posiziona un'altra pedina sul tabellone per permettere all'avversario di decidere se giocare come giocatore 1 o giocatore 2."
     },
     "frames": {
       "INITIAL_INSTRUCTIONS": "Fai clic su una casella vuota per aggiungere una pedina al tabellone."
@@ -6108,8 +6109,8 @@
       "MOVE_MUST_STACK": "Le pile in movimento devono terminare il loro movimento sopra un'altra pila.",
       "PARTIAL_FULLSTACK": "Sembra che tu voglia muovere un'intera pila. Indica la destinazione.",
       "PARTIAL_SUBSTACK_one": "Sembra che tu voglia muovere il pezzo in cima dalla pila. Indica la destinazione.",
-      "PARTIAL_SUBSTACK_other": "Sembra che tu voglia muovere i {{count}} pezzi superiori dalla pila. Indica la destinazione.",
-      "PARTIAL_SUBSTACK_many": ""
+      "PARTIAL_SUBSTACK_many": "",
+      "PARTIAL_SUBSTACK_other": "Sembra che tu voglia muovere i {{count}} pezzi superiori dalla pila. Indica la destinazione."
     },
     "monkey": {
       "INITIAL_INSTRUCTIONS": "Seleziona uno dei tuoi pezzi.",
@@ -6325,10 +6326,10 @@
       "SELECT_CELL_both": "Hai cambiato terra di confine *e* creato una connessione. Seleziona una delle caselle evidenziate per convertirla nel tuo colore, oppure seleziona la tua casella di partenza per attivare il cambio di connessione. Non puoi fare entrambe le cose.",
       "SELECT_CELL_meeting": "Si è verificato un incontro! Seleziona qualsiasi casella da convertire nel tuo colore.",
       "SELECT_CELL_orientation_one": "Riorientamento: Seleziona un'altra casella evidenziata da abbandonare.",
+      "SELECT_CELL_orientation_many": "",
       "SELECT_CELL_orientation_other": "Riorientamento: Seleziona altre {{count}} caselle evidenziate da abbandonare.",
       "TOO_MANY_CELLS": "Hai selezionato più caselle di quelle consentite dagli effetti collaterali attivati.",
-      "WITHIN_BL": "Le caselle rivendicate/convertite a seguito di un cambio di terra di confine devono trovarsi all'interno della terra di confine di destinazione.",
-      "SELECT_CELL_orientation_many": ""
+      "WITHIN_BL": "Le caselle rivendicate/convertite a seguito di un cambio di terra di confine devono trovarsi all'interno della terra di confine di destinazione."
     },
     "pahtum": {
       "INITIAL_INSTRUCTIONS_offer": "Piazza tutti e cinque i blocchi e una singola pietra. Il tuo avversario sceglierà poi con quale colore giocare.",
@@ -6637,6 +6638,7 @@
       "INITIAL_INSTRUCTIONS_SOOSYRV3": "Posiziona {{count}} quinti tentativi. Puoi passare per scambiare i colori.",
       "INITIAL_INSTRUCTIONS_SOOSYRV3_PASSED": "Posiziona {{count}} quinti tentativi.",
       "INITIAL_INSTRUCTIONS_SOOSYRV4_one": "Scegli l'unico quinto tentativo, quindi posiziona la sesta pietra.",
+      "INITIAL_INSTRUCTIONS_SOOSYRV4_many": "",
       "INITIAL_INSTRUCTIONS_SOOSYRV4_other": "Scegli uno dei {{count}} quinti tentativi, quindi posiziona la sesta pietra.",
       "INITIAL_INSTRUCTIONS_TARAGUCHI1": "Posiziona la prima pietra al centro del tavoliere.",
       "INITIAL_INSTRUCTIONS_TARAGUCHI2": "Posiziona la seconda pietra nel quadrato 3x3 centrale, oppure passa per scambiare i colori. Le simmetrie non sono consentite.",
@@ -6653,8 +6655,10 @@
       "INITIAL_INSTRUCTIONS_YAMAGUCHI2": "Seleziona un'intersezione per posizionare la quarta pietra, oppure passa per scambiare i colori.",
       "INITIAL_INSTRUCTIONS_YAMAGUCHI2_PASSED": "Seleziona un'intersezione per posizionare la quarta pietra.",
       "INITIAL_INSTRUCTIONS_YAMAGUCHI3_one": "Posiziona 1 quinto tentativo.",
+      "INITIAL_INSTRUCTIONS_YAMAGUCHI3_many": "",
       "INITIAL_INSTRUCTIONS_YAMAGUCHI3_other": "Posiziona {{count}} quinti tentativi.",
       "INITIAL_INSTRUCTIONS_YAMAGUCHI4_one": "Scegli l'unico quinto tentativo, quindi posiziona la sesta pietra.",
+      "INITIAL_INSTRUCTIONS_YAMAGUCHI4_many": "",
       "INITIAL_INSTRUCTIONS_YAMAGUCHI4_other": "Scegli uno dei {{count}} quinti tentativi, quindi posiziona la sesta pietra.",
       "RENJU_OPENING_EXCESS": "Puoi posizionare solo 3 pietre.",
       "RENJU_OPENING1_INCORRECT": "La prima pietra deve essere al centro del tavoliere.",
@@ -6671,10 +6675,13 @@
       "SOOSYRV2_TENTATIVE": "Dichiara il numero di quinti tentativi.",
       "SOOSYRV2_TENTATIVE_COUNT_EXCEED": "Il numero di quinti tentativi deve essere al massimo 8.",
       "SOOSYRV3_EXCESS_one": "Puoi posizionare solo 1 quinto tentativo.",
+      "SOOSYRV3_EXCESS_many": "",
       "SOOSYRV3_EXCESS_other": "Puoi posizionare solo {{count}} quinti tentativi.",
       "SOOSYRV3_MORE_one": "Posiziona ancora 1 quinto tentativo.",
+      "SOOSYRV3_MORE_many": "",
       "SOOSYRV3_MORE_other": "Posiziona altri {{count}} quinti tentativi.",
       "SOOSYRV4_CHOOSE_one": "Devi scegliere l'unico quinto tentativo.",
+      "SOOSYRV4_CHOOSE_many": "",
       "SOOSYRV4_CHOOSE_other": "Devi scegliere uno dei {{count}} quinti tentativi.",
       "SOOSYRV4_EXCESS": "Ci sono troppi elementi nella tua mossa.",
       "SOOSYRV42": "Seleziona un'intersezione per posizionare la sesta pietra.",
@@ -6687,6 +6694,7 @@
       "TARAGUCHI_RESTRICTION5_EXCESS": "Puoi posizionare solo 10 quinti tentativi.",
       "TARAGUCHI_RESTRICTION5_INSIDE": "Invia la mossa, oppure continua a posizionare altri 9 quinti tentativi.",
       "TARAGUCHI_RESTRICTION5_MORE_one": "Posiziona ancora un quinto tentativo.",
+      "TARAGUCHI_RESTRICTION5_MORE_many": "",
       "TARAGUCHI_RESTRICTION5_MORE_other": "Posiziona altri {{count}} quinti tentativi.",
       "TARAGUCHI6_CHOOSE": "Devi scegliere uno dei 10 quinti tentativi.",
       "TARAGUCHI6_EXCESS": "Ci sono troppi elementi nella tua mossa.",
@@ -6696,23 +6704,16 @@
       "YAMAGUCHI1_TENTATIVE": "Dichiara il numero di quinti tentativi.",
       "YAMAGUCHI1_TENTATIVE_COUNT_EXCEED": "Il numero di quinti tentativi deve essere al massimo 12.",
       "YAMAGUCHI3_EXCESS_one": "Puoi posizionare solo 1 quinto tentativo.",
+      "YAMAGUCHI3_EXCESS_many": "",
       "YAMAGUCHI3_EXCESS_other": "Puoi posizionare solo {{count}} quinti tentativi.",
       "YAMAGUCHI3_MORE_one": "Posiziona ancora un quinto tentativo.",
+      "YAMAGUCHI3_MORE_many": "",
       "YAMAGUCHI3_MORE_other": "Posiziona altri {{count}} quinti tentativi.",
       "YAMAGUCHI4_CHOOSE_one": "Devi scegliere l'unico quinto tentativo.",
+      "YAMAGUCHI4_CHOOSE_many": "",
       "YAMAGUCHI4_CHOOSE_other": "Devi scegliere uno dei {{count}} quinti tentativi.",
       "YAMAGUCHI4_EXCESS": "Ci sono troppi elementi nella tua mossa.",
-      "YAMAGUCHI42": "Seleziona un'intersezione per posizionare la sesta pietra.",
-      "INITIAL_INSTRUCTIONS_SOOSYRV4_many": "",
-      "INITIAL_INSTRUCTIONS_YAMAGUCHI3_many": "",
-      "INITIAL_INSTRUCTIONS_YAMAGUCHI4_many": "",
-      "SOOSYRV3_EXCESS_many": "",
-      "SOOSYRV3_MORE_many": "",
-      "SOOSYRV4_CHOOSE_many": "",
-      "TARAGUCHI_RESTRICTION5_MORE_many": "",
-      "YAMAGUCHI3_EXCESS_many": "",
-      "YAMAGUCHI3_MORE_many": "",
-      "YAMAGUCHI4_CHOOSE_many": ""
+      "YAMAGUCHI42": "Seleziona un'intersezione per posizionare la sesta pietra."
     },
     "resolve": {
       "INITIAL_INSTRUCTIONS": "Seleziona un'intersezione per posizionare un pezzo.",
@@ -7002,16 +7003,16 @@
       "INITIAL_INSTRUCTIONS_rest": "Clicca su una pila per muoverla. Il numero di pezzi che si muovono dipende dalla distanza percorsa.",
       "INVALID_SUBSTACK": "La notazione della sottopila non è corretta. Stai cercando di muovere più pezzi di quanti siano disponibili. Se cerchi di muovere l'intera pila, non specificare l'altezza della pila.",
       "PARTIAL_PLACE_FIRST_one": "Puoi piazzare ancora un pezzo.",
+      "PARTIAL_PLACE_FIRST_many": "",
       "PARTIAL_PLACE_FIRST_other": "Puoi piazzare altri {{count}} pezzi.",
       "PARTIAL_PLACE_FIRST_MORE": "Devi piazzare almeno un altro pezzo",
       "PARTIAL_PLACE_SECOND_one": "Devi piazzare ancora un pezzo.",
+      "PARTIAL_PLACE_SECOND_many": "",
       "PARTIAL_PLACE_SECOND_other": "Devi piazzare altri {{count}} pezzi.",
       "STRAIGHT_ONLY": "I pezzi possono muoversi solo in linea retta.",
       "TOO_MANY": "Hai piazzato troppi pezzi. Per favore ripristina la mossa e riprova.",
       "WALL_CLIMB": "I pezzi non possono muoversi dal terreno su una tessera muro.",
-      "WALL_JUMP": "I pezzi possono saltare sopra una tessera muro solo se quella tessera contiene almeno uno dei tuoi pezzi.",
-      "PARTIAL_PLACE_FIRST_many": "",
-      "PARTIAL_PLACE_SECOND_many": ""
+      "WALL_JUMP": "I pezzi possono saltare sopra una tessera muro solo se quella tessera contiene almeno uno dei tuoi pezzi."
     },
     "stormc": {
       "INITIAL_INSTRUCTIONS": "Seleziona uno dei tuoi pezzi da muovere.",
@@ -7027,11 +7028,11 @@
       "INVALID_PLACEMENT": "Impossibile interpretare la notazione della mossa: {{move}}.",
       "NORMALISE": "La mossa deve essere normalizzata. Prova {{normalised}}.",
       "PLACE_MORE_one": "Piazza un altro pezzo su uno spazio con il numero {{num}}.",
+      "PLACE_MORE_many": "",
       "PLACE_MORE_other": "Piazza altri {{count}} pezzi su spazi con il numero {{num}}.",
       "TOO_MANY_one": "Puoi piazzare solo 1 pezzo.",
-      "TOO_MANY_other": "Puoi piazzare solo {{count}} pezzi.",
-      "PLACE_MORE_many": "",
-      "TOO_MANY_many": ""
+      "TOO_MANY_many": "",
+      "TOO_MANY_other": "Puoi piazzare solo {{count}} pezzi."
     },
     "streetcar": {
       "ADJ_TO_BLDG": "Non puoi rimuovere un limite di alloggi adiacente a un edificio.",
@@ -7125,11 +7126,11 @@
       "NO_MATCHING_DIE": "Non hai ottenuto un {{die}} con il dado.",
       "NOT_HOME": "Puoi piazzare pezzi o muovere pile solo sulla tua riga di partenza.",
       "PARTIAL_MOVE_one": "Continua a muoverti finché non hai rilasciato tutti i pezzi dalla pila. Ti rimane {{count}} pedina da rilasciare.",
+      "PARTIAL_MOVE_many": "",
       "PARTIAL_MOVE_other": "Continua a muoverti finché non hai rilasciato tutti i pezzi dalla pila. Ti rimangono {{count}} pedine da rilasciare.",
       "PARTIAL_PLACE": "Scegli la casella in cui desideri piazzare la pedina.",
       "PARTIAL_TAKE": "Fai clic sulla pila sotto il tuo controllo da cui desideri rimuovere una pedina.",
-      "VALID_PARTIAL": "Prima mossa completata. Ora fanne una seconda.",
-      "PARTIAL_MOVE_many": ""
+      "VALID_PARTIAL": "Prima mossa completata. Ora fanne una seconda."
     },
     "tafl": {
       "BERSERK": "La mossa berserk verso {{to}} non è valida.",
@@ -7339,12 +7340,14 @@
       "DUPLICATE": "Hai già piazzato un tiratore su {{where}}.",
       "INITIAL_INSTRUCTIONS": "Seleziona un tiratore da muovere o seleziona una casella per piazzare il tuo pezzo.",
       "INITIAL_INSTRUCTIONS_PLACE_one": "Piazza ancora {{count}} tiratore in uno spazio vuoto del tabellone, quindi piazza una pedina del tuo colore sul tabellone.",
+      "INITIAL_INSTRUCTIONS_PLACE_many": "",
       "INITIAL_INSTRUCTIONS_PLACE_other": "Posiziona altri {{count}} tiratori su spazi vuoti del tavoliere, poi posiziona un pezzo del tuo colore sul tavoliere.",
       "INVALID_PLACEMENT": "Impossibile interpretare la notazione della mossa: {{move}}.",
       "MOVE_NON_SHOOTER": "Puoi muovere solo i tiratori liberi.",
       "NO_MOVELIST": "Lista mosse non disponibile durante la fase di posizionamento. Clicca sul tavoliere per posizionare i tiratori.",
       "PLACE_PIECE": "Posiziona un pezzo del tuo colore sul tavoliere.",
       "PLACE_SHOOTER_one": "Posiziona ancora {{count}} tiratore sul tavoliere, poi posiziona un pezzo del tuo colore sul tavoliere.",
+      "PLACE_SHOOTER_many": "",
       "PLACE_SHOOTER_other": "Posiziona altri {{count}} tiratori sul tavoliere, poi posiziona un pezzo del tuo colore sul tavoliere.",
       "POTENTIAL_BLOCK": "Fin qui tutto bene. Indica lo spazio in cui vuoi posizionare il tuo pezzo.",
       "POTENTIAL_MOVE": "Fin qui tutto bene. Indica lo spazio in cui vuoi muovere il tiratore.",
@@ -7353,10 +7356,8 @@
       "STATIONARY_LOS": "Non c'è linea di vista per posizionare su {{where}}.",
       "STRAIGHTLINE": "Puoi muoverti e posizionare solo in linea retta.",
       "TOO_MANY_SHOOTERS_one": "Puoi posizionare solo {{count}} tiratore.",
-      "TOO_MANY_SHOOTERS_other": "Puoi posizionare solo {{count}} tiratori.",
-      "INITIAL_INSTRUCTIONS_PLACE_many": "",
-      "PLACE_SHOOTER_many": "",
-      "TOO_MANY_SHOOTERS_many": ""
+      "TOO_MANY_SHOOTERS_many": "",
+      "TOO_MANY_SHOOTERS_other": "Puoi posizionare solo {{count}} tiratori."
     },
     "verge": {
       "FROZEN_NEIGHBOUR": "Non puoi posizionare un pezzo accanto a uno dei tuoi gruppi congelati.",
@@ -7364,9 +7365,9 @@
     },
     "viruswar": {
       "INITIAL_INSTRUCTIONS_one": "Posiziona un pezzo adiacente al gruppo di pezzi amici, inclusa la tua base di partenza. Il pezzo può essere un virus attivo (cerchio) o un muro difensivo (quadrato). Posiziona un virus su una casella vuota oppure sostituisci un virus nemico con un muro difensivo amico.",
+      "INITIAL_INSTRUCTIONS_many": "",
       "INITIAL_INSTRUCTIONS_other": "Posiziona {{count}} pezzi, ciascuno adiacente al gruppo di pezzi amici, inclusa la tua base di partenza. I pezzi possono essere virus attivi (cerchi) o muri difensivi (quadrati). Posiziona un virus su una casella vuota oppure sostituisci un virus nemico con un muro difensivo amico.",
-      "CANNOT_GROW": "La casella {{where}} non può ricevere un nuovo virus/muro! Deve essere posizionato su una casella vuota o su un virus attivo e deve essere adiacente al gruppo della base di partenza.",
-      "INITIAL_INSTRUCTIONS_many": ""
+      "CANNOT_GROW": "La casella {{where}} non può ricevere un nuovo virus/muro! Deve essere posizionato su una casella vuota o su un virus attivo e deve essere adiacente al gruppo della base di partenza."
     },
     "volcano": {
       "BAD_FROM": "{{from}} non sembra una posizione sul tavoliere né un pezzo nella tua riserva.",
@@ -7427,8 +7428,10 @@
       "BOARD_FULL": "Il tavoliere è pieno.",
       "INITIAL_INSTRUCTIONS_choose": "Usa i pulsanti per scegliere se giocare per primo o per secondo.",
       "INITIAL_INSTRUCTIONS_play_one": "Puoi posizionare fino a {{count}} pezzo in questo turno. Clicca sul pezzo a lato del tavoliere e poi su una casella vuota per posizionarlo. Oppure clicca semplicemente su una casella vuota per posizionare uno dei tuoi pezzi.",
+      "INITIAL_INSTRUCTIONS_play_many": "",
       "INITIAL_INSTRUCTIONS_play_other": "Puoi posizionare fino a {{count}} pezzi in questo turno. Clicca sul pezzo a lato del tavoliere e poi su una casella vuota per posizionarlo. Oppure clicca semplicemente su una casella vuota per posizionare uno dei tuoi pezzi.",
       "INITIAL_INSTRUCTIONS_setup_one": "Crea un blocco (due pezzi adiacenti) per ciascun colore in qualsiasi punto del tavoliere (rimane {{count}} pezzo).",
+      "INITIAL_INSTRUCTIONS_setup_many": "",
       "INITIAL_INSTRUCTIONS_setup_other": "Crea un blocco (due pezzi adiacenti) per ciascun colore in qualsiasi punto del tavoliere (rimangono {{count}} pezzi).",
       "INVALID_COLOUR": "Il colore richiesto ({{colour}}) non è valido.",
       "MUST_CHOOSE": "Devi scegliere con quale parte giocare. Clicca sul pulsante appropriato, oppure digita 'swap' per giocare per primo o 'pass' per giocare per secondo.",
@@ -7436,13 +7439,11 @@
       "SETUP_CHUNKS": "I pezzi che posizioni devono essere adiacenti l'uno all'altro (un blocco per giocatore).",
       "SETUP_TOOMANY": "Puoi posizionare solo un blocco da due pezzi per ciascun giocatore.",
       "TOO_MANY_one": "Puoi posizionare solo fino a {{count}} pezzo in questo turno.",
+      "TOO_MANY_many": "",
       "TOO_MANY_other": "Puoi posizionare solo fino a {{count}} pezzi in questo turno.",
       "VALID_BUT_one": "Valido fin qui. Puoi fermarti o posizionare ancora {{count}} pezzo.",
-      "VALID_BUT_other": "Valido fin qui. Puoi fermarti o posizionare altri {{count}} pezzi.",
-      "INITIAL_INSTRUCTIONS_play_many": "",
-      "INITIAL_INSTRUCTIONS_setup_many": "",
-      "TOO_MANY_many": "",
-      "VALID_BUT_many": ""
+      "VALID_BUT_many": "",
+      "VALID_BUT_other": "Valido fin qui. Puoi fermarti o posizionare altri {{count}} pezzi."
     },
     "wyke": {
       "CELL_CLAIMED": "La casella {{cell}} è già stata rivendicata e non può essere ulteriormente utilizzata.",
@@ -7553,6 +7554,7 @@
       "SWAP2_CAPTURE": "Questo posizionamento comporterà una cattura.",
       "SWAP21_EXCESS": "Hai piazzato troppe pietre. Puoi piazzare solo 3 pietre.",
       "SWAP21_one": "Piazza ancora 1 pietra sul tabellone.",
+      "SWAP21_many": "",
       "SWAP21_other": "Piazza ancora {{count}} pietre sul tabellone.",
       "SWAP22_EXCESS": "Hai piazzato troppe pietre. Puoi piazzare solo 2 pietre.",
       "SWAP22_PARTIAL": "Completa la mossa per continuare come giocatore 2, oppure piazza un'altra pietra sul tabellone per permettere all'avversario di decidere se giocare come giocatore 1 o giocatore 2."
@@ -7560,8 +7562,8 @@
     "estate": {
       "EXCEEDS": "Non puoi spendere più di {{budget}} punti per la tua mossa. Hai provato a spendere {{cost}} punti.",
       "INITIAL_INSTRUCTIONS_one": "Fai clic su una casella vuota per piazzare uno dei tuoi pezzi o fai clic su uno dei tuoi pezzi piazzati per rimuoverlo. Puoi piazzare pezzi per un valore di {{count}} altro punto.",
-      "INITIAL_INSTRUCTIONS_other": "Fai clic su una casella vuota per piazzare uno dei tuoi pezzi o fai clic su uno dei tuoi pezzi piazzati per rimuoverlo. Puoi piazzare pezzi per un valore di altri {{count}} punti.",
-      "INITIAL_INSTRUCTIONS_zero": "Non hai più punti da spendere. Completa la tua mossa o fai clic su uno dei tuoi pezzi piazzati per piazzarlo altrove."
+      "INITIAL_INSTRUCTIONS_many": "",
+      "INITIAL_INSTRUCTIONS_other": "Fai clic su una casella vuota per piazzare uno dei tuoi pezzi o fai clic su uno dei tuoi pezzi piazzati per rimuoverlo. Puoi piazzare pezzi per un valore di altri {{count}} punti."
     },
     "guerrilla": {
       "INITIAL_INSTRUCTIONS_p1": "Seleziona dove piazzare il tuo primo insorto.",

@@ -1569,6 +1569,10 @@
       "swap-5": {
         "description": "Pour les cinq premières pièces sur le plateau, après le placement, le joueur suivant a l'option d'échanger les couleurs.",
         "name": "Ouverture Swap-5"
+      },
+      "swap-1st": {
+        "description": "Le premier joueur place une pièce n'importe où sur le plateau. Le joueur suivant a la possibilité d'échanger les couleurs.",
+        "name": "Ouverture Swap-1st"
       }
     },
     "frogger": {
@@ -1839,6 +1843,22 @@
       },
       "toroidal-15": {
         "name": "Plateau toroïdal 15x15"
+      },
+      "#overline": {
+        "description": "Le premier joueur perd s'il forme un overline, mais le second joueur peut gagner par overline.",
+        "name": "Overline asymétrique"
+      },
+      "sym-no-overline": {
+        "description": "La règle de l'overline s'applique aux deux joueurs : chaque joueur perd s'il forme un overline, donc seule une ligne d'exactement sept pierres l'emporte.",
+        "name": "Défaite par overline symétrique"
+      },
+      "sym-overline": {
+        "description": "La règle de l'overline ne s'applique à aucun des deux joueurs : chaque joueur peut gagner par overline, donc toute ligne de sept pierres ou plus l'emporte.",
+        "name": "Victoire par overline symétrique"
+      },
+      "swap-1st": {
+        "description": "Le premier joueur place une pierre n'importe où sur le plateau. Le joueur suivant a la possibilité d'échanger les couleurs.",
+        "name": "Ouverture Swap-1st"
       }
     },
     "invector": {
@@ -4090,7 +4110,7 @@
     },
     "irensei": {
       "hide-restrictions": {
-        "description": "Ne pas afficher les intersections où le premier joueur ne peut pas placer ses pierres.",
+        "description": "Ne pas afficher les intersections où un joueur perdrait par overline.",
         "name": "Masquer les indicateurs de restriction"
       }
     },
@@ -5594,7 +5614,9 @@
       "SWAP21_other": "Placez {{count}} pièces de plus sur le plateau.",
       "SWAP22_EXCESS": "Vous avez placé trop de pièces. Vous ne pouvez placer que 2 pièces.",
       "SWAP22_PARTIAL": "Terminez le coup pour continuer en tant que joueur 2, ou placez une autre pièce sur le plateau pour laisser l'adversaire décider de jouer en tant que joueur 1 ou joueur 2.",
-      "SWAP21_many": ""
+      "SWAP21_many": "",
+      "INITIAL_INSTRUCTIONS_SWAP1ST1": "Sélectionnez une case supportée pour placer une pièce. L'adversaire a la possibilité d'échanger les couleurs au tour suivant.",
+      "INITIAL_INSTRUCTIONS_SWAP1ST2": "Vous pouvez placer une pièce pour continuer en tant que joueur 2, ou passer pour échanger les couleurs et jouer en tant que joueur 1."
     },
     "frames": {
       "INITIAL_INSTRUCTIONS": "Cliquez sur une case vide pour ajouter une pièce au plateau."
@@ -6252,7 +6274,9 @@
       "INITIAL_INSTRUCTIONS_PLACE": "Sélectionnez une case vide pour placer un lac.",
       "INVALID_MOVES": "Cette séquence de coups {{moves}} est invalide.",
       "OPTIONAL_CONTINUE": "Vous atterrissez sur une pièce de votre adversaire. Si vous souhaitez continuer votre déplacement, sélectionnez une autre destination pour sauter, sinon validez le coup.",
-      "SELECT_TO": "Sélectionnez une destination vers laquelle vous déplacer ou sauter."
+      "SELECT_TO": "Sélectionnez une destination vers laquelle vous déplacer ou sauter.",
+      "SELECT_MORE_SUPERKO": "Vous devez continuer à sauter car vous arrêter ici répéterait un état antérieur du plateau.",
+      "SUPERKO": "Superko : vous ne pouvez pas répéter un état antérieur du plateau."
     },
     "onyx": {
       "INITIAL_INSTRUCTIONS": "Sélectionnez une intersection pour placer une pièce",

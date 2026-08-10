@@ -47,8 +47,11 @@ export class IrenseiGame extends InARowBase {
         ],
         variants: [
             // { uid: "toroidal-15", group: "board" },
+            { uid: "swap-1st", group: "opening" },
             { uid: "swap-2", group: "opening" },
             { uid: "swap-5", group: "opening" },
+            { uid: "sym-overline", group: "overline" },
+            { uid: "sym-no-overline", group: "overline" },
             { uid: "pass", group: "tiebreaker" },
         ],
         categories: ["goal>arrange", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
@@ -76,9 +79,12 @@ export class IrenseiGame extends InARowBase {
     public swapped = false;
     public boardSize = 0;
     public defaultBoardSize = 19;
-    private openingProtocol: "none" | "swap-2" | "swap-5";
+    private openingProtocol: "none" | "swap-1st" | "swap-2" | "swap-5";
     public toroidal = false;
     public winningLineLength = 7;
+    // In the standard game, only the first player loses by overline.
+    // In the symmetric variants, the same overline rule applies to both players.
+    private overlineRule: "asymmetric" | "sym-overline" | "sym-no-overline";
     private passTiebreaker = false;
     private tiebreaker?: playerid;
     private border = 2;
@@ -114,6 +120,7 @@ export class IrenseiGame extends InARowBase {
         }
         this.load();
         this.openingProtocol = this.getOpeningProtocol();
+        this.overlineRule = this.getOverlineRule();
         this.toroidal = this.variants.some(v => v.startsWith("toroidal"));
         this.passTiebreaker = this.variants.includes("pass");
     }
@@ -156,8 +163,20 @@ export class IrenseiGame extends InARowBase {
         return 19;
     }
 
-    private getOpeningProtocol(): "none" | "swap-2" | "swap-5" {
-        return this.variants.includes("swap-2") ? "swap-2" : this.variants.includes("swap-5") ? "swap-5" : "none";
+    private getOpeningProtocol(): "none" | "swap-1st" | "swap-2" | "swap-5" {
+        return this.variants.includes("swap-1st") ? "swap-1st" : this.variants.includes("swap-2") ? "swap-2" : this.variants.includes("swap-5") ? "swap-5" : "none";
+    }
+
+    private getOverlineRule(): "asymmetric" | "sym-overline" | "sym-no-overline" {
+        return this.variants.includes("sym-overline") ? "sym-overline" : this.variants.includes("sym-no-overline") ? "sym-no-overline" : "asymmetric";
+    }
+
+    private overlineLoses(player: playerid): boolean {
+        // Check if an overline is a loss for `player`.
+        // If it isn't, an overline is a win, just like any line of seven or more.
+        if (this.overlineRule === "sym-overline") { return false; }
+        if (this.overlineRule === "sym-no-overline") { return true; }
+        return player === this.player1();
     }
 
     private hasMoveGeneration(): boolean {
@@ -192,6 +211,9 @@ export class IrenseiGame extends InARowBase {
 
     private canSwap(): boolean {
         // Check if the player is able to invoke the pie rule on this turn.
+        if (this.openingProtocol === "swap-1st") {
+            if (this.stack.length === 2) { return true; }
+        }
         if (this.openingProtocol === "swap-2") {
             if (this.stack.length === 2) { return true; }
             if (this.stack.length === 3 && this.stack[2].lastmove?.includes(",")) { return true; }
@@ -212,6 +234,8 @@ export class IrenseiGame extends InARowBase {
         // For safety, passing is not allowed for the first two moves after the opening phase.
         if (this.openingProtocol === "none") {
             if (this.stack.length > buffer) { return true; }
+        } else if (this.openingProtocol === "swap-1st") {
+            if (this.stack.length > 2 + buffer) { return true; }
         } else if (this.openingProtocol === "swap-2") {
             if (this.stack.length < 3) { return false; }
             if (this.stack.length > 4 + buffer) { return true; }
@@ -277,6 +301,13 @@ export class IrenseiGame extends InARowBase {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
         if (m.length === 0) {
             let message = i18next.t("apgames:validation._inarow.INITIAL_INSTRUCTIONS");
+            if (this.openingProtocol === "swap-1st") {
+                if (this.stack.length === 1) {
+                    message = i18next.t("apgames:validation._inarow.INITIAL_INSTRUCTIONS_SWAP1ST1");
+                } else if (this.stack.length === 2) {
+                    message = i18next.t("apgames:validation._inarow.INITIAL_INSTRUCTIONS_SWAP1ST2");
+                }
+            }
             if (this.openingProtocol === "swap-2") {
                 if (this.stack.length === 1) {
                     message = i18next.t("apgames:validation._inarow.INITIAL_INSTRUCTIONS_SWAP21");
@@ -467,7 +498,7 @@ export class IrenseiGame extends InARowBase {
 
     private isSelfCapture(cell: string, player: playerid): boolean {
         // Check if placing `cell` would result in a self-capture.
-        if (this.hasInARow(...this.algebraic2coords(cell), player, 7, this.getPlayerColour(player) === 1)) { return false; }
+        if (this.hasInARow(...this.algebraic2coords(cell), player, 7, this.overlineLoses(player))) { return false; }
         if (this.getCaptures(cell, player).length > 0) { return false; }
         return this.getGroupLiberties(cell, [], player)[1] === 0;
     }
@@ -559,16 +590,18 @@ export class IrenseiGame extends InARowBase {
 
     protected checkEOG(): IrenseiGame {
         const winner: playerid[] = [];
-        if (this.currplayer === this.player2()) {
+        const prevPlayer = this.currplayer % 2 + 1 as playerid;
+        if (this.overlineLoses(prevPlayer)) {
             if (this.lastmove !== undefined && !this.specialMove(this.lastmove) && this.lastmove !== "pass" && this.lastmove.split(",").length === 1) {
-                if (this.isOverlineAll(...this.algebraic2coords(this.lastmove), this.player1())) {
+                if (this.isOverlineAll(...this.algebraic2coords(this.lastmove), prevPlayer)) {
                     winner.push(this.currplayer);
                 }
             }
         }
         if (winner.length === 0) {
             this.winningLines = [];
-            const winningLinesMap = this.getWinningLinesMap([this.player1()], this.toroidal ? 0 : 2);
+            const exact = ([1, 2] as playerid[]).filter(p => this.overlineLoses(p));
+            const winningLinesMap = this.getWinningLinesMap(exact, this.toroidal ? 0 : 2);
             for (const player of [1, 2] as playerid[]) {
                 if (winningLinesMap.get(player)!.length > 0) {
                     winner.push(player);
@@ -639,7 +672,9 @@ export class IrenseiGame extends InARowBase {
         // Build piece string
         let pstr = "";
         const renderBoardSize = this.toroidal ? this.boardSize + 2 * this.toroidalPadding : this.boardSize;
-        const overlines = showRestrictions && !this.gameover ? this.getOverlines(this.player1()) : new Map();
+        const showOverlines = showRestrictions && !this.gameover;
+        const overlines1 = showOverlines && this.overlineLoses(this.player1()) ? this.getOverlines(this.player1()) : new Set<string>();
+        const overlines2 = showOverlines && this.overlineLoses(this.player2()) ? this.getOverlines(this.player2()) : new Set<string>();
         for (let row = 0; row < renderBoardSize; row++) {
             if (pstr.length > 0) {
                 pstr += "\n";
@@ -653,8 +688,10 @@ export class IrenseiGame extends InARowBase {
                     } else if (contents === 2) {
                         pstr += "B";
                     }
-                } else if (overlines.has(cell)) {
+                } else if (overlines1.has(cell)) {
                     pstr += "E";
+                } else if (overlines2.has(cell)) {
+                    pstr += "F";
                 } else {
                     pstr += "-";
                 }
@@ -726,6 +763,11 @@ export class IrenseiGame extends InARowBase {
                 E: [
                     { name: "piece-borderless", colour: "#FFF" },
                     { name: "piece-borderless", colour: 1 as playerid, opacity: 0.2 },
+                    { text: "8+" },
+                ],
+                F: [
+                    { name: "piece-borderless", colour: "#FFF" },
+                    { name: "piece-borderless", colour: 2 as playerid, opacity: 0.2 },
                     { text: "8+" },
                 ],
             },

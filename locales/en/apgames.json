@@ -1593,6 +1593,10 @@
             "standard-10": {
                 "name": "10x10 board"
             },
+            "swap-1st": {
+                "description": "The first player places a piece anywhere on the board. The next player has the option to swap colours.",
+                "name": "Swap-1st opening"
+            },
             "swap-2": {
                 "description": "The first player places three pieces. The next player may do one of (1) place a single pieces to continue as player 2, (2) swap colours to play as player 1, or (3) place two more pieces and allow the opponent to decide to play as player 1 or player 2.",
                 "name": "Swap-2 opening"
@@ -1853,12 +1857,28 @@
             "#board": {
                 "name": "19x19 board"
             },
+            "#overline": {
+                "description": "The first player loses if they make an overline, but the second player may win by overline.",
+                "name": "Asymmetric overline"
+            },
             "#tiebreaker": {
                 "name": "No tiebreak"
             },
             "pass": {
                 "description": "After the opening phase, a player may pass instead of make a move to win the tiebreaker. If the board is filled without a winner, the player who passed wins. If no player passed, then the second player wins.",
                 "name": "Pass tiebreak"
+            },
+            "sym-no-overline": {
+                "description": "The overline rule applies to both players: either player loses if they make an overline, so only a line of exactly seven wins.",
+                "name": "Symmetric overline loss"
+            },
+            "sym-overline": {
+                "description": "The overline rule applies to neither player: either player may win by overline, so any line of seven or more wins.",
+                "name": "Symmetric overline win"
+            },
+            "swap-1st": {
+                "description": "The first player places a stone anywhere on the board. The next player has the option to swap colours.",
+                "name": "Swap-1st opening"
             },
             "swap-2": {
                 "description": "The first player places three stones. The next player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2.",
@@ -4032,7 +4052,7 @@
         },
         "irensei": {
             "hide-restrictions": {
-                "description": "Don't show intersections where the first player cannot place their stones.",
+                "description": "Don't show intersections where a player would lose by overline.",
                 "name": "Hide restriction indicators"
             }
         },
@@ -5573,6 +5593,8 @@
         "fourinarow": {
             "EXCESS": "You have placed too many pieces. You may only place 1 piece.",
             "INITIAL_INSTRUCTIONS": "Select a supported space to place a piece.",
+            "INITIAL_INSTRUCTIONS_SWAP1ST1": "Select a supported space to place a piece. The opponent has the option to swap colours on the next turn.",
+            "INITIAL_INSTRUCTIONS_SWAP1ST2": "You may place a piece to continue as player 2, or pass to swap colours to play as player 1.",
             "INITIAL_INSTRUCTIONS_SWAP5": "Select an space to place a piece, or pass to swap colours.",
             "INITIAL_INSTRUCTIONS_SWAP21": "Place three pieces on the board.",
             "INITIAL_INSTRUCTIONS_SWAP22": "You may do one of (1) place a single piece to continue as player 2, (2) pass to swap colours to play as player 1, or (3) place two more pieces and allow the opponent to decide to play as player 1 or player 2.",
@@ -6246,7 +6268,9 @@
             "INITIAL_INSTRUCTIONS_PLACE": "Select an empty cell to place a lake.",
             "INVALID_MOVES": "This sequence of moves {{moves}} is invalid.",
             "OPTIONAL_CONTINUE": "You have landed on your opponent's piece. If you wish to continue your move, select another destination to jump to, otherwise submit the move.",
-            "SELECT_TO": "Select a destination to walk to or jump to."
+            "SELECT_MORE_SUPERKO": "You must continue jumping because stopping here would repeat a previous board state.",
+            "SELECT_TO": "Select a destination to walk to or jump to.",
+            "SUPERKO": "Superko: you may not repeat a previous board state."
         },
         "onyx": {
             "INITIAL_INSTRUCTIONS": "Select an intersection to place a piece",

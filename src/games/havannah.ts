@@ -360,6 +360,14 @@ export class HavannahGame extends GameBase {
             }
         }
 
+        if (! this.gameover) {
+            // If the player to move has nowhere to place, the game is a draw.
+            if (this.moves().length === 0) {
+                this.gameover = true;
+                this.winner = [1, 2];
+            }
+        }
+
         if (this.gameover) {
             this.results.push(
                 {type: "eog"},

@@ -28,7 +28,9 @@ export class OnagerGame extends GameBase {
         name: "Onager",
         uid: "onager",
         playercounts: [2],
-        version: "20240121",
+        // version: "20240121",
+        // Ban superko and add pie.
+        version: "20260806",
         dateAdded: "2024-02-01",
         // i18next.t("apgames:descriptions.onager")
         description: "apgames:descriptions.onager",
@@ -48,7 +50,7 @@ export class OnagerGame extends GameBase {
             },
         ],
         categories: ["goal>breakthrough", "mechanic>capture",  "mechanic>move", "board>shape>hex", "board>connect>hex", "components>simple>3c"],
-        flags: ["check", "perspective"],
+        flags: ["check", "perspective", "pie"],
         variants: [
             // { uid: "size-7", group: "board" },
         ],
@@ -219,6 +221,33 @@ export class OnagerGame extends GameBase {
         return jumps;
     }
 
+    private postMoveBoard(moves: string[], player: playerid): Map<string, playerid[]> {
+        // Get the board as it would look after the (complete) move `moves` is made.
+        // No checks are done to see if the move is valid.
+        const board = deepclone(this.board) as Map<string, playerid[]>;
+        const from = moves[0];
+        const to = moves[moves.length - 1];
+        const fromStack = board.get(from)!;
+        if (fromStack.length === 1) {
+            board.delete(from);
+        } else {
+            board.set(from, fromStack.slice(0, fromStack.length - 1));
+        }
+        if (board.has(to)) {
+            board.set(to, [...board.get(to)!, player]);
+        } else {
+            board.set(to, [player]);
+        }
+        return board;
+    }
+
+    private isSuperko(moves: string[], player: playerid): boolean {
+        // Check if the complete move `moves` recreates a board state that has already occurred.
+        const newBoard = this.postMoveBoard(moves, player);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return this.stateCount(new Map<string, any>([["board", newBoard], ["currplayer", player % 2 + 1]])) >= 1;
+    }
+
     public moves(player?: playerid): string[] {
         if (this.gameover) { return []; }
         if (player === undefined) {
@@ -237,9 +266,11 @@ export class OnagerGame extends GameBase {
         const controlledCells = this.getControlledCells(player);
         for (const cell of controlledCells) {
             for (const walk of this.getWalks(cell)) {
+                if (this.isSuperko([cell, walk], player)) { continue; }
                 moves.push(`${cell}-${walk}`);
             }
             for (const jump of this.getAllJumps([cell], player)) {
+                if (this.isSuperko(jump, player)) { continue; }
                 moves.push(jump.join("-"));
             }
         }
@@ -378,6 +409,11 @@ export class OnagerGame extends GameBase {
                 result.message = i18next.t("apgames:validation.onager.CONTINUE");
                 return result;
             }
+            if (this.isSuperko(moves, this.currplayer)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.onager.SUPERKO");
+                return result;
+            }
             result.valid = true;
             result.complete = 1;
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
@@ -397,14 +433,23 @@ export class OnagerGame extends GameBase {
             result.message = i18next.t("apgames:validation.onager.INVALID_MOVES", {moves: m});
             return result;
         }
+        const superko = this.isSuperko(moves, this.currplayer);
         if (this.getTopPiece(moves[moves.length - 1]) === this.currplayer % 2 + 1) {
             if (this.getJumps(moves, this.currplayer).length > 0) {
                 result.valid = true;
-                result.complete = 0;
+                // If stopping here would repeat an earlier position, you have to keep jumping.
+                result.complete = superko ? -1 : 0;
                 result.canrender = true;
-                result.message = i18next.t("apgames:validation.onager.OPTIONAL_CONTINUE");
+                result.message = superko
+                    ? i18next.t("apgames:validation.onager.SELECT_MORE_SUPERKO")
+                    : i18next.t("apgames:validation.onager.OPTIONAL_CONTINUE");
                 return result
             }
+        }
+        if (superko) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.onager.SUPERKO");
+            return result;
         }
         // we're good
         result.valid = true;

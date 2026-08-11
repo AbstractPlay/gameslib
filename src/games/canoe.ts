@@ -56,7 +56,10 @@ export class CanoeGame extends GameBase {
         dateAdded: "2026-08-03",
         description: "apgames:descriptions.canoe",
         notes: "apgames:notes.canoe",
-        urls: ["https://boardgamegeek.com/boardgame/18867/canoe"],
+        urls: [
+            "https://boardgamegeek.com/boardgame/18867/canoe",
+            "https://web.archive.org/web/20210516215829/http://www.canoegame.com/faq_setup.asp",
+        ],
         bggid: "18867",
         people: [
             {

@@ -23,6 +23,7 @@ import { PentaHexGraph } from "./penta-hex";
 export { RectTriGraph } from "./rect-tri";
 export { BentTriGraph, type BentTriNodeData } from "./bent-tri";
 export { StarGraph, type StarNodeData, starFrequencyFromWidth, STAR_DEFAULT_FREQUENCY } from "./star";
+export { FracturedFlatGraph, type FracturedFlatNodeData } from "./fractured-flat";
 
 export { IGraph, IGraph3D, Square3DGraph, SquareGraph, SquareDirectedGraph,
         SquareOrth3DGraph, SquareOrthGraph, SquareOrthDirectedGraph, SquareDiag3DGraph,

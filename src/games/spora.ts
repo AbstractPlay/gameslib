@@ -1038,7 +1038,7 @@ export class SporaGame extends GameBase {
         const p2nStacks = [...this.board.entries()].filter(e => e[1][0] === 2).length;
 
         return [
-            { name: i18next.t("apgames:status.spora.RESERVE"),
+            { name: i18next.t("apgames:status.RESERVE"),
                   scores: [...this.reserve] },
             { name: i18next.t("apgames:status.SCORES"),
                   //scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },

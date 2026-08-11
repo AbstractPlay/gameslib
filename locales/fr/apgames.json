@@ -280,7 +280,8 @@
     "estate": "Un jeu de connexion hexagonal où les cases ont des coûts différents. Dépensez vos points judicieusement !",
     "guerrilla": "Un jeu asymétrique de guérilla. Les deux joueurs cherchent à éliminer toutes les pièces de l'adversaire du plateau, mais ils doivent s'appuyer sur des tactiques très différentes pour y parvenir.",
     "scribe": "Un jeu papier-crayon sur une super-grille 9×9 composée de neuf mini-grilles 3×3. Remportez le plus grand nombre de mini-grilles ou, dans la variante avancée, formez le super-glyphe de plus grande valeur grâce à vos victoires.",
-    "circleOfLife": "Placez des pierres sur un écosystème hexagonal pour former des formes d'espèces. Chaque espèce dévore l'espèce immédiatement inférieure dans la chaîne alimentaire. Capturez 20 pierres adverses, ou remplissez le plateau autant que possible."
+    "circleOfLife": "Placez des pierres sur un écosystème hexagonal pour former des formes d'espèces. Chaque espèce dévore l'espèce immédiatement inférieure dans la chaîne alimentaire. Capturez 20 pierres adverses, ou remplissez le plateau autant que possible.",
+    "fractured": "Un jeu de contrôle de zones sur un plateau unique \"fracturé\". Le décompte des points s'effectue sur une piste commune."
   },
   "notes": {
     "akimbo": "Akimbo, conçu par Luis Bolaños Mures en 2026, est un jeu de connexion sans égalité pour deux joueurs. Une _diagonale nue_ est une paire de pièces de même couleur, adjacentes en diagonale, sans aucune autre pièce de même couleur adjacente aux deux. Une _coupe croisée_ est une zone 2×2 avec deux diagonales nues imbriquées de couleurs opposées.\n\nÀ son tour, le joueur place une pièce amie sur une case vide. Si cela complète une coupe croisée, l'autre pièce de la coupe croisée est retirée. Il ne doit jamais y avoir plus d'une diagonale nue de chaque couleur sur le plateau — pas même momentanément avant de retirer une pièce. Un joueur gagne si, à la fin de son tour, il existe une chaîne de pièces de sa couleur connectées orthogonalement touchant les deux bords opposés du plateau du joueur.\n\nOkimba est une variante où une seule diagonale nue au maximum peut exister sur le plateau (ainsi, tant qu'un joueur possède la diagonale, l'adversaire ne peut pas en créer une autre).",
@@ -4453,13 +4454,9 @@
       "CASTLE_MOVE_COUNTS": "Nombre de coups de château"
     },
     "carnac": {
-      "DOLMENS": "Dolmens",
-      "RESERVE": "Réserve"
+      "DOLMENS": "Dolmens"
     },
     "CARDSINHAND": "Cartes en main",
-    "catapult": {
-      "DAGGER": "Dague"
-    },
     "chase": {
       "BALANCE": "Déséquilibre",
       "IMBALANCE": "Le joueur actuel a un déséquilibre de vitesse de {{delta}}."
@@ -4473,6 +4470,7 @@
     },
     "CLAIMS_REMAINING": "Revendications restantes",
     "DAMAGE": "Dégâts subis",
+    "DAGGER": "Dague",
     "DISTANCES": "Distances",
     "entrapment": {
       "BARRIERS_REMAINING": "Barrières restantes"
@@ -4498,9 +4496,6 @@
       "OFFENSE": "Joueur offensif",
       "COUNTDOWN": "Demis-coups restants"
     },
-    "mutternland": {
-      "RESERVE": "Réserve"
-    },
     "pacru": {
       "TARGET": "Tuiles pour gagner",
       "TILES": "Tuiles sur le plateau"
@@ -4519,25 +4514,17 @@
       "GAME2": "Partie 2"
     },
     "ROUND": "Manche",
+    "RESERVE": "Réserve",
     "SCORES": "Scores",
     "STACKSIZES": "Hauteurs des piles",
-    "stiletto": {
-      "DAGGER": "Dague"
-    },
     "tumbleweed": "Score (pièces + influence)",
     "ESTIMATEDSCORES": "Scores estimés",
-    "spora": {
-      "RESERVE": "Réserve"
-    },
     "TOPLACE": "Pièce à placer",
     "valley": "Jetons Lune",
     "waldmeister": {
       "COLOUR": "couleurs",
       "GOALS": "Objectifs",
       "HEIGHT": "hauteurs"
-    },
-    "xana": {
-      "RESERVE": "Réserve"
     },
     "YEAR": "Année",
     "guerrilla": {
@@ -7602,6 +7589,14 @@
     "circleOfLife": {
       "INSTRUCTIONS": "Placez une pièce alliée sur un hexagone vide. Il est interdit de créer une espèce de plus de quatre pièces.",
       "GROUP_TOO_LARGE": "Ce placement créerait une espèce de plus de quatre pièces !"
+    },
+    "fractured": {
+      "BAD_MOVE": "Ce coup n'est pas légal.",
+      "BAD_PLACE": "Vous ne pouvez pas placer de pierre là.",
+      "CLOSED": "Cette région n'est pas ouverte au placement.",
+      "INITIAL_INSTRUCTIONS": "Placez une pierre dans une région ouverte, ou sélectionnez l'une de vos pierres à déplacer.",
+      "NO_RESERVE": "Vous n'avez plus de pierres en réserve.",
+      "PARTIAL_MOVE": "Sélectionnez une destination d'une taille supérieure."
     }
   },
   "INITIAL_UNDO": "Vous ne pouvez pas annuler la position de départ initiale de la partie.",

@@ -493,7 +493,7 @@ export class CarnacGame extends GameBase {
 
     public sidebarStatuses(): IStatus[] {
         return [
-            { key: i18next.t("apgames:status.carnac.RESERVE"), value: [this.reserve.toString()] },
+            { key: i18next.t("apgames:status.RESERVE"), value: [this.reserve.toString()] },
         ];
     }
 

@@ -280,7 +280,8 @@
     "estate": "Un gioco di connessione esagonale in cui le caselle hanno costi diversi. Spendi saggiamente i tuoi punti!",
     "guerrilla": "Un gioco asimmetrico di guerriglia. Entrambi i giocatori cercano di eliminare dal tabellone tutti i pezzi dell'avversario, ma devono affidarsi a tattiche molto diverse per farlo.",
     "scribe": "Un gioco con carta e penna su una super-griglia 9×9 composta da nove mini-griglie 3×3. Vinci il maggior numero di mini-griglie o, nella variante avanzata, crea il super-glifo di maggior valore con le tue vittorie.",
-    "circleOfLife": "Posiziona pietre su un ecosistema esagonale per formare sagome di specie. Ogni specie divora la specie immediatamente inferiore nella catena alimentare. Cattura 20 pietre avversarie, oppure riempi la plancia il più possibile."
+    "circleOfLife": "Posiziona pietre su un ecosistema esagonale per formare sagome di specie. Ogni specie divora la specie immediatamente inferiore nella catena alimentare. Cattura 20 pietre avversarie, oppure riempi la plancia il più possibile.",
+    "fractured": "Un gioco di controllo area su un unico tabellone \"fratturato\". Il punteggio si calcola su un tracciato condiviso."
   },
   "notes": {
     "akimbo": "Akimbo, progettato da Luis Bolaños Mures nel 2026, è un gioco di connessione senza pareggi per due giocatori. Una _diagonale nuda_ è una coppia di pezzi adiacenti in diagonale dello stesso colore privi di altri pezzi dello stesso colore adiacenti a entrambi. Un _crosscut_ è un'area 2×2 con due diagonali nude incrociate di colori opposti.\n\nNel proprio turno, il giocatore piazza un pezzo amico su una casella vuota. Se ciò completa un crosscut, l'altro pezzo nel crosscut viene rimosso. Non deve mai esserci più di una diagonale nuda per colore sul tabellone — nemmeno momentaneamente prima di rimuovere un pezzo. Un giocatore vince se, alla fine del proprio turno, c'è una catena di pezzi del proprio colore connessi ortogonalmente che tocca i due bordi opposti del tabellone del giocatore.\n\nOkimba è una variante in cui può esistere al massimo una diagonale nuda sul tabellone (quindi mentre un giocatore ha la diagonale, l'avversario non può crearne un'altra).",
@@ -4453,13 +4454,9 @@
       "CASTLE_MOVE_COUNTS": "Conteggio mosse del castello"
     },
     "carnac": {
-      "DOLMENS": "Dolmen",
-      "RESERVE": "Riserva"
+      "DOLMENS": "Dolmen"
     },
     "CARDSINHAND": "Carte in mano",
-    "catapult": {
-      "DAGGER": "Pugnale"
-    },
     "chase": {
       "BALANCE": "Sbilanciamento",
       "IMBALANCE": "Il giocatore di turno è sbilanciato di {{delta}} velocità."
@@ -4473,6 +4470,7 @@
     },
     "CLAIMS_REMAINING": "Rivendicazioni rimanenti",
     "DAMAGE": "Danni subiti",
+    "DAGGER": "Pugnale",
     "DISTANCES": "Distanze",
     "entrapment": {
       "BARRIERS_REMAINING": "Barriere rimanenti"
@@ -4498,9 +4496,6 @@
       "OFFENSE": "Giocatore in attacco",
       "COUNTDOWN": "Mosse rimanenti"
     },
-    "mutternland": {
-      "RESERVE": "Riserva"
-    },
     "pacru": {
       "TARGET": "Tessere per vincere",
       "TILES": "Tessere sulla plancia"
@@ -4519,25 +4514,17 @@
       "GAME2": "Partita 2"
     },
     "ROUND": "Round",
+    "RESERVE": "Riserva",
     "SCORES": "Punteggi",
     "STACKSIZES": "Altezze delle pile",
-    "stiletto": {
-      "DAGGER": "Pugnale"
-    },
     "tumbleweed": "Punteggio (pezzi + influenza)",
     "ESTIMATEDSCORES": "Punteggi stimati",
-    "spora": {
-      "RESERVE": "Riserva"
-    },
     "TOPLACE": "Pezzo da posizionare",
     "valley": "Segnalini Luna",
     "waldmeister": {
       "COLOUR": "colori",
       "GOALS": "Obiettivi",
       "HEIGHT": "altezze"
-    },
-    "xana": {
-      "RESERVE": "Riserva"
     },
     "YEAR": "Anno",
     "guerrilla": {
@@ -7602,6 +7589,14 @@
     "circleOfLife": {
       "INSTRUCTIONS": "Posiziona un tuo pezzo su un esagono vuoto. Non è consentito creare una specie di dimensioni superiori a quattro pezzi.",
       "GROUP_TOO_LARGE": "Questo posizionamento renderebbe una specie più grande di quattro pezzi!"
+    },
+    "fractured": {
+      "BAD_MOVE": "Questa mossa non è valida.",
+      "BAD_PLACE": "Non puoi piazzare una pietra lì.",
+      "CLOSED": "Quella regione non è aperta al piazzamento.",
+      "INITIAL_INSTRUCTIONS": "Piazza una pietra in una regione aperta o seleziona una delle tue pietre da muovere.",
+      "NO_RESERVE": "Non hai più pietre in riserva.",
+      "PARTIAL_MOVE": "Seleziona una destinazione di una dimensione più grande."
     }
   },
   "INITIAL_UNDO": "Non puoi annullare la posizione iniziale di partenza del gioco.",

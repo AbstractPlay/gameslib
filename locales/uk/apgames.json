@@ -340,6 +340,7 @@
         },
         "CLAIMS_REMAINING": "Претензії залишилися",
         "DAMAGE": "Заподіяна шкода",
+        "DAGGER": "Кинджал",
         "DISTANCES": "Відстані",
         "entropy": {
             "CHAOS": "Хаос",
@@ -388,9 +389,6 @@
         "majorities": "Оцінки (─, ⟋, ⟍)",
         "PIECESINHANDSTASH": "Штуки в руках / схованка",
         "valley": "Місячні жетони",
-        "catapult": {
-            "DAGGER": "Кинджал"
-        },
         "control": {
             "CONTROLLED_SPACES": "Контрольовані порожні місця"
         },

@@ -831,7 +831,7 @@ export class XanaGame extends GameBase {
 
     public sidebarScores(): IScores[] {
         return [
-            { name: i18next.t("apgames:status.xana.RESERVE"),
+            { name: i18next.t("apgames:status.RESERVE"),
                   scores: [...this.reserve] },
             { name: i18next.t("apgames:status.SCORES"),
                   scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },

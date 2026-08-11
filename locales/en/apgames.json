@@ -103,6 +103,7 @@
         "fourinarow": "A simple game of getting four (or more) in a row with the twist: there is gravity.",
         "forms": "Players collapse their own groups to stalemate themselves.",
         "frames": "A simple \"get into the head of your opponent\" game where both players simultaneously select an empty cell on a Go board. The placements define a rectangle. The player with the most stones within that rectangle gets a point. Play to a certain number of points.",
+        "fractured": "An area-control game on a unique \"fractured\" board. Scoring happens on a shared track.",
         "frogger": "A racing game for the Decktet inspired by the eponymous videogame and the classic boardgame Cartagena.  Move your frogs along a dangerous path to reach home first.",
         "furl": "Either furl up a row of your discs, or unfurl a stack. If you have a disc in your end row at the start of your turn, you win.",
         "garden": "Two wizards share a garden plot and try to harvest valuable reagents. Both are sharing the same pool of seeds. Planting a seed changes the plants around it. Form four in a row to harvest. Most harvests wins!",
@@ -4394,13 +4395,9 @@
             "CASTLE_MOVE_COUNTS": "Castle move count"
         },
         "carnac": {
-            "DOLMENS": "Dolmens",
-            "RESERVE": "Reserve"
+            "DOLMENS": "Dolmens"
         },
         "CARDSINHAND": "Cards in hand",
-        "catapult": {
-            "DAGGER": "Dagger"
-        },
         "chase": {
             "BALANCE": "Imbalance",
             "IMBALANCE": "Current player is imbalanced by {{delta}} speed."
@@ -4414,6 +4411,7 @@
         },
         "CLAIMS_REMAINING": "Claims Remaining",
         "DAMAGE": "Damage taken",
+        "DAGGER": "Dagger",
         "DISTANCES": "Distances",
         "entrapment": {
             "BARRIERS_REMAINING": "Barriers remaining"
@@ -4445,9 +4443,6 @@
             "OFFENSE": "Offensive player",
             "COUNTDOWN": "Plies remaining"
         },
-        "mutternland": {
-            "RESERVE": "Reserve"
-        },
         "pacru": {
             "TARGET": "Tiles to win",
             "TILES": "Tiles on board"
@@ -4466,25 +4461,17 @@
             "GAME2": "Game 2"
         },
         "ROUND": "Round",
+        "RESERVE": "Reserve",
         "SCORES": "Scores",
         "STACKSIZES": "Stack heights",
-        "stiletto": {
-            "DAGGER": "Dagger"
-        },
         "tumbleweed": "Score (pieces + influence)",
         "ESTIMATEDSCORES": "Estimated scores",
-        "spora": {
-            "RESERVE": "Reserve"
-        },
         "TOPLACE": "Piece to place",
         "valley": "Moon Tokens",
         "waldmeister": {
             "COLOUR": "colours",
             "GOALS": "Goals",
             "HEIGHT": "heights"
-        },
-        "xana": {
-            "RESERVE": "Reserve"
         },
         "YEAR": "Year"
     },
@@ -5608,6 +5595,14 @@
         },
         "frames": {
             "INITIAL_INSTRUCTIONS": "Click an empty cell to add a piece to the board."
+        },
+        "fractured": {
+            "BAD_MOVE": "That move is not legal.",
+            "BAD_PLACE": "You may not place a stone there.",
+            "CLOSED": "That region is not open for placement.",
+            "INITIAL_INSTRUCTIONS": "Place a stone in an open region, or select one of your stones to move.",
+            "NO_RESERVE": "You have no stones left in reserve.",
+            "PARTIAL_MOVE": "Select a destination one size larger."
         },
         "forms": {
             "INITIAL_INSTRUCTIONS": "Click a friendly piece.",

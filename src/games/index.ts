@@ -280,6 +280,7 @@ import { StapeldammenGame, IStapeldammenState } from "./stapeldammen";
 import { KnightLineGame, IKnightLineState } from "./knightline";
 import { EstateGame, IEstateState } from "./estate";
 import { CircleOfLifeGame, ICircleOfLifeState } from "./circleOfLife";
+import { FracturedGame, IFracturedState } from "./fractured";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -563,6 +564,7 @@ export {
     KnightLineGame, IKnightLineState,
     EstateGame, IEstateState,
     CircleOfLifeGame, ICircleOfLifeState,
+    FracturedGame, IFracturedState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -658,7 +660,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof UnstackGame | typeof SwarmGame | typeof EatYourNeighborGame |
                               typeof MutternlandGame | typeof IntermediumGame | typeof StapeldammenGame |
                               typeof CarnacGame | typeof DruidGame | typeof KnightLineGame |
-                              typeof EstateGame | typeof CircleOfLifeGame
+                              typeof EstateGame | typeof CircleOfLifeGame |
+                              typeof FracturedGame
                 >();
 // Manually add each game to the following array
 [
@@ -700,7 +703,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     SynapseGame, AtariGoGame, TanboGame, UnaneGame, LinageGame, PolluxGame, PippinzipGame, NarrowsGame,
     InvectorGame, TricouleurGame, PositGame, VirusWarGame, FormsGame, CompartGame, AkimboGame,
     CrossControlGame, UnstackGame, SwarmGame, EatYourNeighborGame, MutternlandGame, IntermediumGame,
-    StapeldammenGame, KnightLineGame, EstateGame, CircleOfLifeGame,
+    StapeldammenGame, KnightLineGame, EstateGame, CircleOfLifeGame, FracturedGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -1272,6 +1275,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new EstateGame(...args);
         case "circleOfLife":
             return new CircleOfLifeGame(...args);
+        case "fractured":
+            return new FracturedGame(...args);
     }
     return;
 }

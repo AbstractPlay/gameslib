@@ -280,7 +280,8 @@
     "y": "El clásico juego de conexión. Conecta los tres lados para ganar.",
     "yavalath": "Forma una línea de cuatro o más piezas de tu color *sin* formar primero una línea de tres piezas.",
     "yonmoque": "Intenta formar cuatro en línea en un juego donde no todos los espacios son iguales y las piezas enemigas se pueden convertir.",
-    "zola": "Un juego donde tu movimiento está limitado por tu distancia desde el centro del tablero. Los movimientos de captura no deben aumentar esa distancia. Los movimientos que no son de captura deben aumentar esa distancia. La primera persona que capture todas las piezas enemigas gana."
+    "zola": "Un juego donde tu movimiento está limitado por tu distancia desde el centro del tablero. Los movimientos de captura no deben aumentar esa distancia. Los movimientos que no son de captura deben aumentar esa distancia. La primera persona que capture todas las piezas enemigas gana.",
+    "fractured": "Un juego de control de áreas en un tablero único \"fracturado\". La puntuación se lleva en un marcador compartido."
   },
   "notes": {
     "akimbo": "Akimbo, diseñado por Luis Bolaños Mures en 2026, es un juego de conexión sin empates para dos jugadores. Una _diagonal desnuda_ es un par de piezas del mismo color, adyacentes en diagonal, sin ninguna otra pieza del mismo color adyacente a ambas. Un _corte cruzado_ es un área de 2×2 con dos diagonales desnudas entrelazadas de colores opuestos.\n\nEn su turno, el jugador coloca una pieza propia en una casilla vacía. Si esto completa un corte cruzado, la otra pieza en el corte cruzado se elimina. Nunca debe haber más de una diagonal desnuda de cada color en el tablero, ni siquiera de forma momentánea antes de quitar una pieza. Un jugador gana si, al final de su turno, hay una cadena de piezas de su color conectadas ortogonalmente que toque los dos bordes opuestos del tablero pertenecientes a ese jugador.\n\nOkimba es una variante donde solo puede existir como máximo una diagonal desnuda en el tablero (por lo que mientras un jugador tenga la diagonal, el adversario no puede crear otra).",
@@ -4452,13 +4453,9 @@
       "CASTLE_MOVE_COUNTS": "Movimientos del castillo"
     },
     "carnac": {
-      "DOLMENS": "Dólmenes",
-      "RESERVE": "Reserva"
+      "DOLMENS": "Dólmenes"
     },
     "CARDSINHAND": "Cartas en mano",
-    "catapult": {
-      "DAGGER": "Daga"
-    },
     "chase": {
       "BALANCE": "Desequilibrio",
       "IMBALANCE": "El jugador actual tiene un desequilibrio de velocidad de {{delta}}."
@@ -4472,6 +4469,7 @@
     },
     "CLAIMS_REMAINING": "Reclamaciones restantes",
     "DAMAGE": "Daño recibido",
+    "DAGGER": "Daga",
     "DISTANCES": "Distancias",
     "entrapment": {
       "BARRIERS_REMAINING": "Barreras restantes"
@@ -4503,9 +4501,6 @@
       "OFFENSE": "Jugador atacante",
       "COUNTDOWN": "Plies restantes"
     },
-    "mutternland": {
-      "RESERVE": "Reserva"
-    },
     "pacru": {
       "TARGET": "Fichas para ganar",
       "TILES": "Fichas en el tablero"
@@ -4524,25 +4519,17 @@
       "GAME2": "Partida 2"
     },
     "ROUND": "Ronda",
+    "RESERVE": "Reserva",
     "SCORES": "Puntuaciones",
     "STACKSIZES": "Alturas de pilas",
-    "stiletto": {
-      "DAGGER": "Daga"
-    },
     "tumbleweed": "Puntuación (piezas + influencia)",
     "ESTIMATEDSCORES": "Puntuaciones estimadas",
-    "spora": {
-      "RESERVE": "Reserva"
-    },
     "TOPLACE": "Pieza por colocar",
     "valley": "Fichas de luna",
     "waldmeister": {
       "COLOUR": "colores",
       "GOALS": "Objetivos",
       "HEIGHT": "alturas"
-    },
-    "xana": {
-      "RESERVE": "Reserva"
     },
     "YEAR": "Año"
   },
@@ -7555,6 +7542,14 @@
       "MUST_MOVE": "Si tienes un movimiento disponible, no puedes pasar tu turno.",
       "NONCAPTURES_KINGS": "Los movimientos sin captura solo pueden avanzar un espacio a la vez.",
       "PARTIAL": "Selecciona un destino."
+    },
+    "fractured": {
+      "BAD_MOVE": "Ese movimiento no es legal.",
+      "BAD_PLACE": "No puedes colocar una piedra ahí.",
+      "CLOSED": "Esa región no está abierta para colocar.",
+      "INITIAL_INSTRUCTIONS": "Coloca una piedra en una región abierta o selecciona una de tus piedras para moverla.",
+      "NO_RESERVE": "No te quedan piedras en la reserva.",
+      "PARTIAL_MOVE": "Selecciona un destino un tamaño mayor."
     }
   },
   "INITIAL_UNDO": "No puedes deshacer la posición inicial del juego.",

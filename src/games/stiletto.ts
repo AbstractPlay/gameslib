@@ -671,7 +671,7 @@ export class StilettoGame extends InARowBase {
         }
 
         return [
-            { name: i18next.t("apgames:status.stiletto.DAGGER"),
+            { name: i18next.t("apgames:status.DAGGER"),
               scores: [...daggerReport] },
         ];
     }

@@ -61,7 +61,7 @@ jobs:
             commit_message: "i18n: Auto-translate locale files [skip ci]"
             # Directory paths only — no globs/braces. git-auto-commit passes file_pattern
             # to `git add` with disable_globbing, so `*.json` and `{de,fr,it}` never expand.
-            file_pattern: locales/de/ locales/fr/ locales/it/ locale-src/de/ locale-src/fr/ locale-src/it/
+            file_pattern: locales/de/ locales/fr/ locales/it/ locales/es-US/ locale-src/de/ locale-src/fr/ locale-src/it/ locale-src/es-US/
             disable_globbing: true
 
         - name: Verify locale-src was committed

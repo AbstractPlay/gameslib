@@ -10,7 +10,8 @@ The root module (`src/index.ts`) exports the public API used by the front end an
 | `gameinfoSorted` | Same metadata, sorted by name |
 | `GameFactory(uid, ...args)` | Instantiate or resume a game |
 | `addResource(lang?)` | Merge i18n bundles into host or internal i18next |
-| `supportedLocales` | e.g. `["en", "fr"]` |
+| `supportedLocales` | e.g. `["en", "fr", "es-US"]` |
+| `resolveLocale` | Map a browser/user language tag to a supported locale (e.g. `es-MX` → `es-US`) |
 | `GameBase`, `GameBaseSimultaneous` | Base classes for game authors |
 | Types | `IAPGameState`, `APMoveResult`, `APGamesInformation`, etc. |
 

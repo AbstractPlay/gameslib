@@ -16,6 +16,12 @@ describe("i18n-browser", () => {
         }
     });
 
+    it("maps Spanish variants to es-US", () => {
+        expect(normalizeBrowserLang("es")).to.equal("es-US");
+        expect(normalizeBrowserLang("es-MX")).to.equal("es-US");
+        expect(normalizeBrowserLang("es-419")).to.equal("es-US");
+    });
+
     it("does not use i18next default dev fallback locale for HTTP loading", () => {
         const options = getBrowserI18nInitOptions("en");
         expect(options.lng).to.equal("en");

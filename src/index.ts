@@ -12,7 +12,7 @@ games.forEach((v, k) => {
 const gameinfoSorted: APGamesInformation[] = [...games.values()].sort((a, b) => {return a.gameinfo.name.localeCompare(b.gameinfo.name);}).map(a => a.gameinfo);
 export {gameinfo, gameinfoSorted};
 
-export { supportedLocales, type AddResourceOptions } from "./i18n-shared";
+export { resolveLocale, supportedLocales, type AddResourceOptions } from "./i18n-shared";
 
 const isNode = typeof window === "undefined";
 // eslint-disable-next-line @typescript-eslint/no-require-imports

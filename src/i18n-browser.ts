@@ -1,6 +1,6 @@
 import i18next, { type i18n, type InitOptions } from "i18next";
 import HttpApi from "i18next-http-backend";
-import { supportedLocales } from "./i18n-shared";
+import { resolveLocale, supportedLocales } from "./i18n-shared";
 
 const GAMESLIB_NAMESPACES = ["apgames", "apresults"] as const;
 const DEFAULT_LANG = "en";
@@ -9,10 +9,7 @@ let browserInitStarted = false;
 let pendingLang = DEFAULT_LANG;
 
 export function normalizeBrowserLang(lang?: string): string {
-    if (lang !== undefined && supportedLocales.includes(lang)) {
-        return lang;
-    }
-    return DEFAULT_LANG;
+    return resolveLocale(lang);
 }
 
 export function getBrowserI18nInitOptions(lang: string): InitOptions {

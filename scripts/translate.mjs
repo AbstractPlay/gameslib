@@ -2,10 +2,22 @@ import { GoogleGenAI } from "@google/genai";
 import fs from "fs";
 import path from "path";
 
+const ES_US_DIALECT = [
+  "Use Latin American Spanish as spoken in the United States (es-US).",
+  'Use "ustedes" (not "vosotros"), LatAm vocabulary (e.g. computadora, celular, aplicación), and informal "tú" for game UI where natural.',
+  "Avoid European Spanish forms (vuestro, os, ordenador).",
+  "Use standard board-game terms (Pasar, Rendirse, Tablero, etc.).",
+].join(" ");
+
 const TARGET_LANGUAGES = [
   { code: "fr", name: "French" },
   { code: "de", name: "German" },
   { code: "it", name: "Italian" },
+  {
+    code: "es-US",
+    name: "Latin American Spanish (United States)",
+    dialect: ES_US_DIALECT,
+  },
 ];
 
 const CHUNK_BYTES = Number(process.env.TRANSLATE_CHUNK_BYTES) || 24 * 1024;
@@ -280,9 +292,10 @@ function chunkLeaves(diffLeaves, budgetBytes) {
   return chunks;
 }
 
-function buildPrompt(langName) {
+function buildPrompt(lang) {
+  const dialectBlock = lang.dialect ? `\n\nDIALECT:\n${lang.dialect}` : "";
   return `You are an expert translator specializing in UI strings for abstract strategy board games (like Chess, Go, Tak, etc.).
-Translate the provided JSON key-value pairs from English to ${langName}.
+Translate the provided JSON key-value pairs from English to ${lang.name} (${lang.code}).${dialectBlock}
 
 STRICT RULES:
 1. Preserve all placeholders verbatim (e.g. {{count}}, {{player}}, {0}, %s, HTML tags). Do not modify variables inside braces.
@@ -419,7 +432,7 @@ async function callModel(ai, lang, chunk, prompt) {
 }
 
 async function translateChunk(ai, lang, chunk, chunkIndex, totalChunks, fileName, quotaContext) {
-  const prompt = buildPrompt(lang.name);
+  const prompt = buildPrompt(lang);
   const chunkKeys = Object.keys(chunk);
   let lastRawText = "";
   let lastError = null;

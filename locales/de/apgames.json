@@ -1569,6 +1569,10 @@
       "swap-5": {
         "description": "Für die ersten fünf Steine auf dem Brett hat der nächste Spieler nach dem Platzieren die Option, die Farben zu tauschen.",
         "name": "Swap-5-Eröffnung"
+      },
+      "swap-1st": {
+        "description": "Der erste Spieler platziert einen Stein beliebig auf dem Spielfeld. Der nächste Spieler hat die Option, die Farben zu tauschen.",
+        "name": "Swap-1st-Eröffnung"
       }
     },
     "frogger": {
@@ -1839,6 +1843,22 @@
       },
       "toroidal-15": {
         "name": "Toroidales 15x15-Brett"
+      },
+      "#overline": {
+        "description": "Der erste Spieler verliert, wenn er eine Überlänge bildet, aber der zweite Spieler kann durch eine Überlänge gewinnen.",
+        "name": "Asymmetrische Überlänge"
+      },
+      "sym-no-overline": {
+        "description": "Die Überlängen-Regel gilt für beide Spieler: Jeder Spieler verliert, wenn er eine Überlänge bildet, sodass nur eine Reihe von genau sieben Steinen gewinnt.",
+        "name": "Symmetrischer Überlängen-Verlust"
+      },
+      "sym-overline": {
+        "description": "Die Überlängen-Regel gilt für keinen der beiden Spieler: Jeder Spieler kann durch eine Überlänge gewinnen, sodass jede Reihe von sieben oder mehr Steinen gewinnt.",
+        "name": "Symmetrischer Überlängen-Sieg"
+      },
+      "swap-1st": {
+        "description": "Der erste Spieler platziert einen Stein beliebig auf dem Spielfeld. Der nächste Spieler hat die Option, die Farben zu tauschen.",
+        "name": "Swap-1st-Eröffnung"
       }
     },
     "invector": {
@@ -4090,7 +4110,7 @@
     },
     "irensei": {
       "hide-restrictions": {
-        "description": "Kreuzungspunkte, auf denen der erste Spieler keine Steine platzieren darf, ausblenden.",
+        "description": "Schnittpunkte nicht anzeigen, an denen ein Spieler durch eine Überlänge verlieren würde.",
         "name": "Einschränkungsanzeigen ausblenden"
       }
     },
@@ -5572,7 +5592,9 @@
       "SWAP21_one": "Platziere 1 weiteren Stein auf dem Brett.",
       "SWAP21_other": "Platziere {{count}} weitere Steine auf dem Brett.",
       "SWAP22_EXCESS": "Du hast zu viele Steine platziert. Du darfst nur 2 Steine platzieren.",
-      "SWAP22_PARTIAL": "Schließe den Zug ab, um als Spieler 2 fortzufahren, oder platziere einen weiteren Stein auf dem Brett, damit der Gegner entscheiden kann, als Spieler 1 oder Spieler 2 zu spielen."
+      "SWAP22_PARTIAL": "Schließe den Zug ab, um als Spieler 2 fortzufahren, oder platziere einen weiteren Stein auf dem Brett, damit der Gegner entscheiden kann, als Spieler 1 oder Spieler 2 zu spielen.",
+      "INITIAL_INSTRUCTIONS_SWAP1ST1": "Wähle ein unterstütztes Feld, um einen Stein zu platzieren. Der Gegner hat im nächsten Zug die Option, die Farben zu tauschen.",
+      "INITIAL_INSTRUCTIONS_SWAP1ST2": "Du kannst einen Stein platzieren, um als Spieler 2 fortzufahren, oder passen, um die Farben zu tauschen und als Spieler 1 zu spielen."
     },
     "frames": {
       "INITIAL_INSTRUCTIONS": "Klicke auf ein freies Feld, um einen Stein zum Brett hinzuzufügen."
@@ -6229,7 +6251,9 @@
       "INITIAL_INSTRUCTIONS_PLACE": "Wähle ein leeres Feld, um einen See zu platzieren.",
       "INVALID_MOVES": "Diese Zugfolge {{moves}} ist ungültig.",
       "OPTIONAL_CONTINUE": "Du bist auf einer gegnerischen Figur gelandet. Wenn du deinen Zug fortsetzen möchtest, wähle ein anderes Ziel für einen Sprung, andernfalls schicke den Zug ab.",
-      "SELECT_TO": "Wähle ein Ziel zum Ziehen oder Springen."
+      "SELECT_TO": "Wähle ein Ziel zum Ziehen oder Springen.",
+      "SELECT_MORE_SUPERKO": "Du musst weiter springen, da das Anhalten hier einen vorherigen Brettzustand wiederholen würde.",
+      "SUPERKO": "Superko: Du darfst einen vorherigen Brettzustand nicht wiederholen."
     },
     "onyx": {
       "INITIAL_INSTRUCTIONS": "Wähle einen Schnittpunkt, um einen Stein zu platzieren",

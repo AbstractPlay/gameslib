@@ -51,6 +51,7 @@ export class FourInARowGame extends InARowBase {
         ],
         variants: [
             { uid: "standard-10", group: "board" },
+            { uid: "swap-1st", group: "opening" },
             { uid: "swap-2", group: "opening" },
             { uid: "swap-5", group: "opening" },
             { uid: "edge-grow-4", group: "placement" },
@@ -83,7 +84,7 @@ export class FourInARowGame extends InARowBase {
     public swapped = false;
     public boardSize = 0;
     public defaultBoardSize = 8;
-    private openingProtocol: "none" | "swap-2" | "swap-5";
+    private openingProtocol: "none" | "swap-1st" | "swap-2" | "swap-5";
     public toroidal = false;
     public winningLineLength = 4;
     public overline = "win" as "win" | "ignored" | "forbidden";
@@ -161,8 +162,8 @@ export class FourInARowGame extends InARowBase {
         return 8;
     }
 
-    private getOpeningProtocol(): "none" | "swap-2" | "swap-5" {
-        return this.variants.includes("swap-2") ? "swap-2" : this.variants.includes("swap-5") ? "swap-5" : "none";
+    private getOpeningProtocol(): "none" | "swap-1st" | "swap-2" | "swap-5" {
+        return this.variants.includes("swap-1st") ? "swap-1st" : this.variants.includes("swap-2") ? "swap-2" : this.variants.includes("swap-5") ? "swap-5" : "none";
     }
 
     private getPlacement(): "bottom" | "grow-4" | "drop-4" | "gravity-4" {
@@ -357,6 +358,9 @@ export class FourInARowGame extends InARowBase {
 
     private canSwap(): boolean {
         // Check if the player is able to invoke the pie rule on this turn.
+        if (this.openingProtocol === "swap-1st") {
+            if (this.stack.length === 2) { return true; }
+        }
         if (this.openingProtocol === "swap-2") {
             if (this.stack.length === 2) { return true; }
             if (this.stack.length === 3 && this.stack[2].lastmove?.includes(",")) { return true; }
@@ -431,6 +435,13 @@ export class FourInARowGame extends InARowBase {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
         if (m.length === 0) {
             let message = i18next.t("apgames:validation.fourinarow.INITIAL_INSTRUCTIONS");
+            if (this.openingProtocol === "swap-1st") {
+                if (this.stack.length === 1) {
+                    message = i18next.t("apgames:validation.fourinarow.INITIAL_INSTRUCTIONS_SWAP1ST1");
+                } else if (this.stack.length === 2) {
+                    message = i18next.t("apgames:validation.fourinarow.INITIAL_INSTRUCTIONS_SWAP1ST2");
+                }
+            }
             if (this.openingProtocol === "swap-2") {
                 if (this.stack.length === 1) {
                     message = i18next.t("apgames:validation.fourinarow.INITIAL_INSTRUCTIONS_SWAP21");

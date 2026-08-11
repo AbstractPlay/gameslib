@@ -1569,6 +1569,10 @@
       "swap-5": {
         "description": "Per i primi cinque pezzi sul tabellone, dopo il piazzamento, il giocatore successivo ha l'opzione di scambiare i colori.",
         "name": "Apertura Swap-5"
+      },
+      "swap-1st": {
+        "description": "Il primo giocatore posiziona un pezzo in qualsiasi punto del tabellone. Il giocatore successivo ha la possibilità di scambiare i colori.",
+        "name": "Apertura Swap-1st"
       }
     },
     "frogger": {
@@ -1839,6 +1843,22 @@
       },
       "toroidal-15": {
         "name": "Tabellone toroidale 15x15"
+      },
+      "#overline": {
+        "description": "Il primo giocatore perde se forma un overline, ma il secondo giocatore può vincere con un overline.",
+        "name": "Overline asimmetrico"
+      },
+      "sym-no-overline": {
+        "description": "La regola dell'overline si applica a entrambi i giocatori: qualsiasi giocatore perde se forma un overline, quindi vince solo una linea di esattamente sette pietre.",
+        "name": "Sconfitta per overline simmetrica"
+      },
+      "sym-overline": {
+        "description": "La regola dell'overline non si applica a nessun giocatore: qualsiasi giocatore può vincere con un overline, quindi vince qualsiasi linea di sette o più pietre.",
+        "name": "Vittoria per overline simmetrica"
+      },
+      "swap-1st": {
+        "description": "Il primo giocatore posiziona una pietra in qualsiasi punto del tabellone. Il giocatore successivo ha la possibilità di scambiare i colori.",
+        "name": "Apertura Swap-1st"
       }
     },
     "invector": {
@@ -4090,7 +4110,7 @@
     },
     "irensei": {
       "hide-restrictions": {
-        "description": "Non mostrare le intersezioni in cui il primo giocatore non può posizionare le proprie pietre.",
+        "description": "Non mostrare le intersezioni in cui un giocatore perderebbe per overline.",
         "name": "Nascondi indicatori di restrizione"
       }
     },
@@ -5594,7 +5614,9 @@
       "SWAP21_other": "Posiziona altre {{count}} pedine sul tabellone.",
       "SWAP22_EXCESS": "Hai posizionato troppe pedine. Puoi posizionare solo 2 pedine.",
       "SWAP22_PARTIAL": "Completa la mossa per continuare come giocatore 2, oppure posiziona un'altra pedina sul tabellone per permettere all'avversario di decidere se giocare come giocatore 1 o giocatore 2.",
-      "SWAP21_many": ""
+      "SWAP21_many": "",
+      "INITIAL_INSTRUCTIONS_SWAP1ST1": "Seleziona uno spazio supportato per posizionare un pezzo. L'avversario ha la possibilità di scambiare i colori al turno successivo.",
+      "INITIAL_INSTRUCTIONS_SWAP1ST2": "Puoi posizionare un pezzo per continuare come giocatore 2, oppure passare per scambiare i colori e giocare come giocatore 1."
     },
     "frames": {
       "INITIAL_INSTRUCTIONS": "Fai clic su una casella vuota per aggiungere una pedina al tabellone."
@@ -6252,7 +6274,9 @@
       "INITIAL_INSTRUCTIONS_PLACE": "Seleziona una casella vuota per piazzare un lago.",
       "INVALID_MOVES": "Questa sequenza di mosse {{moves}} non è valida.",
       "OPTIONAL_CONTINUE": "Sei atterrato su un pezzo del tuo avversario. Se desideri continuare la tua mossa, seleziona un'altra destinazione su cui saltare, altrimenti invia la mossa.",
-      "SELECT_TO": "Seleziona una destinazione verso cui camminare o saltare."
+      "SELECT_TO": "Seleziona una destinazione verso cui camminare o saltare.",
+      "SELECT_MORE_SUPERKO": "Devi continuare a saltare perché fermandoti qui ripeteresti uno stato precedente del tabellone.",
+      "SUPERKO": "Superko: non puoi ripetere uno stato precedente del tabellone."
     },
     "onyx": {
       "INITIAL_INSTRUCTIONS": "Seleziona un'intersezione per piazzare un pezzo",

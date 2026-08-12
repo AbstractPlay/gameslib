@@ -484,10 +484,6 @@ export class FracturedGame extends GameBase {
                 name: i18next.t("apgames:status.RESERVE"),
                 scores: [...this.reserve],
             },
-            {
-                name: i18next.t("apgames:status.SCORES"),
-                scores: [this.getPlayerScore(1), this.getPlayerScore(2)],
-            },
         ];
     }
 
@@ -582,7 +578,6 @@ export class FracturedGame extends GameBase {
                     trackAnnotations.push({
                         type: "move",
                         targets: [{ row: 0, col: from }, { row: 0, col: to }],
-                        colour: who === 1 ? 6 : 7,
                         arrow: false,
                     });
                 }

@@ -747,7 +747,7 @@ export class CarnacGame extends GameBase {
             if (matches.length > 0) {
                 result.valid = true;
                 if (/^>[nesw]$/.test(m)) {
-                    result.complete = 0;
+                    result.complete = -1;
                     result.canrender = true;
                     result.message = i18next.t("apgames:validation.carnac.TIP_THEN_PLACE");
                 } else if (/^>[nesw],(11|12|21|22)$/.test(m)) {
@@ -859,7 +859,7 @@ export class CarnacGame extends GameBase {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message);
             }
             if (!partial && !this.moves().includes(m)) {
-                // Prefix-valid tip moves (complete 0 or -1) are for rendering only.
+                // Prefix-valid tip moves (complete -1) are for rendering only.
                 if (result.complete === 1) {
                     throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", { move: m }));
                 }

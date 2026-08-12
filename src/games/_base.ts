@@ -115,14 +115,17 @@ export interface IRenderOpts {
  * message: A localized message that explains the state of the move at this point.
  * complete?: This describes how the game engine currently views the returned move's completeness:
  * It is only present if `valid` is true.
- * - 1 means the move is recognized as wholly complete. No further interaction by the user could
- * reasonably be expected (other than starting over). Implies `canrender`.
+ * - 1 means the move is a fully legal finished move with no meaningful extension; the frontend
+ * typically auto-commits. Implies `canrender`.
  * - -1 means the move is definitively incomplete and would be rejected if submitted as is.
- * - 0 is in between. It signals that the move *could* be processed as is, but it indicates that
- * other moves may still be possible.
+ * - 0 means the move string is itself a fully legal finished move (would be accepted by `move()`
+ * without partial mode), but the frontend should not treat it as final — either because optional
+ * in-game extension remains (e.g. Jacynth influence after placement), or because auto-commit
+ * should be deferred (e.g. Canoe setup rearrangement). Do not use 0 for prefixes that would be
+ * rejected as finished moves.
  * canrender?: A simple boolean that will only ever be present if `valid` is true. It asserts that
  * the move to this point would be accepted by the game engine as partial and would result in an
- * updated `APRenderRep` that may be helpful to the user.
+ * updated `APRenderRep` that may be helpful to the user. Game logic must not rely on this flag.
  *
  * @export
  * @interface IValidationResult

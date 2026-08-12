@@ -55,12 +55,12 @@ describe("Carnac", () => {
         expect(northMoves).to.include(">n,11-a1");
     });
 
-    it("validates partial tip with canrender", () => {
+    it("validates tip-only prefix as incomplete with canrender", () => {
         const g = new CarnacGame();
         g.move("11-a1");
         const result = g.validateMove(">n");
         expect(result.valid).to.be.true;
-        expect(result.complete).to.equal(0);
+        expect(result.complete).to.equal(-1);
         expect(result.canrender).to.be.true;
     });
 

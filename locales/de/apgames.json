@@ -4659,8 +4659,8 @@
       "NOT_DRAGON_JUMPABLE_CORNER": "Der Drache kann nicht auf eine Ecke springen.",
       "SELECT_DIR": "Wähle eine Richtung, um die Gruppe zu bewegen.",
       "SELECT_MORE_BARRIER": "Du musst weiterhin Gruppenzüge machen, da du eine Barriere erzeugt hast.",
-      "SELECT_MORE_many": "Du darfst noch {{count}} weitere Gruppenzüge machen.",
       "SELECT_MORE_one": "Du darfst noch einen weiteren Gruppenzug machen.",
+      "SELECT_MORE_other": "",
       "SELECT_MORE_PIECES_one": "Du kannst noch einen weiteren Stein auswählen, um ihn als Gruppe zu bewegen, oder wähle eine Richtung, um die Gruppe zu bewegen.",
       "SELECT_MORE_PIECES_other": "Du kannst bis zu {{count}} weitere Steine auswählen, um sie als Gruppe zu bewegen, oder wähle eine Richtung, um die Gruppe zu bewegen.",
       "SELECT_MORE_SUPERKO": "Du musst weiterhin Gruppenzüge machen, da der aktuelle Brettzustand aufgrund von Superko ungültig ist.",
@@ -7524,8 +7524,7 @@
     "estate": {
       "EXCEEDS": "Du darfst bei deinem Zug nicht mehr als {{budget}} Punkte ausgeben. Du hast versucht, {{cost}} Punkte auszugeben.",
       "INITIAL_INSTRUCTIONS_one": "Klicke auf ein leeres Feld, um einen deiner Spielsteine zu platzieren, oder klicke auf einen deiner platzierten Spielsteine, um ihn zu entfernen. Du kannst noch Spielsteine im Wert von {{count}} Punkt platzieren.",
-      "INITIAL_INSTRUCTIONS_other": "Klicke auf ein leeres Feld, um einen deiner Spielsteine zu platzieren, oder klicke auf einen deiner platzierten Spielsteine, um ihn zu entfernen. Du kannst noch Spielsteine im Wert von {{count}} Punkten platzieren.",
-      "INITIAL_INSTRUCTIONS_zero": "Du hast keine Punkte mehr zum Ausgeben. Schließe deinen Zug ab oder klicke auf einen deiner platzierten Spielsteine, um ihn woanders zu platzieren."
+      "INITIAL_INSTRUCTIONS_other": "Klicke auf ein leeres Feld, um einen deiner Spielsteine zu platzieren, oder klicke auf einen deiner platzierten Spielsteine, um ihn zu entfernen. Du kannst noch Spielsteine im Wert von {{count}} Punkten platzieren."
     },
     "guerrilla": {
       "INITIAL_INSTRUCTIONS_p1": "Wähle aus, wo du deinen ersten Aufständischen platzieren möchtest.",

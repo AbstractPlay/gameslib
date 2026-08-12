@@ -33,10 +33,4 @@ to keep eslint happy.
 
 ## Develop
 
-To test any new code (before you deploy to the dev server) you can use the playground:
-From the gameslib\playground folder:
-- `npm run dist-dev`
-- `cp ..\dist\APGames.min.js .`
-- Also run `npm run dist-dev` in the renderer folder.
-- `cp ..\..\renderer\dist\APRender.min.js .`
-Now simply double click 'index.html'.
+To run the browser playground locally, see [Testing — Browser playground](https://docs.abstractplay.com/gameslib/testing/) on the docs site.

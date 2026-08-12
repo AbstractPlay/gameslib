@@ -22,12 +22,43 @@ The **standalone** gameslib playground is not part of the docs site:
 
 **[gameslib.dev.abstractplay.com](https://gameslib.dev.abstractplay.com)**
 
-To run locally you need:
+### Local setup
 
-1. A local web server (LAMP or similar)
-2. `playground/playground.*`
-3. `APRender.min.js` from [renderer playground](https://renderer.dev.abstractplay.com/APRender.min.js) or `npm run dist-dev` in renderer
-4. `APGames.min.js` from `npm run dist-dev` in gameslib
+1. **Build** — from the gameslib repo root:
+
+   ```bash
+   npm run playground
+   ```
+
+   This builds `APGames.min.js`, copies `locales/`, and copies `playground.*` into `dist/`.
+
+2. **Serve over HTTP** — required (do not open `playground.html` via `file://`). Use WAMP/LAMP/nginx, or:
+
+   ```bash
+   npm run playground:serve
+   ```
+
+   Point your server at **`dist/`** as the document root (or copy the contents of `dist/` into your vhost).
+
+3. **Open** — `http://localhost:<port>/` or `http://localhost:<port>/playground.html`
+
+4. **Renderer** — `playground.html` loads `APRender.min.js` from the dev CDN by default. Only build or copy a local renderer bundle if you are working on renderer.
+
+### Translations
+
+Game descriptions, variant names, and other strings are loaded at runtime from `./locales/{lang}/{ns}.json` beside `playground.html`. `npm run playground` copies these into `dist/locales/`.
+
+If descriptions show raw keys like `apgames:descriptions.complica`:
+
+- Confirm `dist/locales/en/apgames.json` exists.
+- Confirm you are serving over HTTP, not `file://`.
+- Do not serve only `playground/` without `locales/` — serve the full `dist/` output.
+
+The browser console will warn if locale bundles failed to load.
+
+### Troubleshooting (WAMP / subfolder hosting)
+
+If you serve from a subdirectory (e.g. `http://localhost/myproject/playground.html`), locale files must still sit beside `playground.html` in that folder (`myproject/locales/...`). The relative load path resolves from the page URL, not the server document root — so copying the full `dist/` contents into your vhost subfolder is the simplest approach.
 
 ## Renderer output
 

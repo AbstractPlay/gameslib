@@ -52,6 +52,8 @@ export class KnightLineGame extends GameBase {
         dateAdded: "2026-08-03",
         // i18next.t("apgames:descriptions.knightline")
         description: "apgames:descriptions.knightline",
+        // i18next.t("apgames:notes.knightline")
+        notes: "apgames:notes.knightline",
         urls: [
             "http://www.nestorgames.com/rulebooks/KNIGHTLINE_EN.pdf",
             "https://boardgamegeek.com/boardgame/146989/knight-line",

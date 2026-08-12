@@ -21,7 +21,7 @@ export function getBrowserI18nInitOptions(lang: string): InitOptions {
         nonExplicitSupportedLngs: false,
         ns: [...GAMESLIB_NAMESPACES],
         backend: {
-            loadPath: "/locales/{{lng}}/{{ns}}.json",
+            loadPath: "./locales/{{lng}}/{{ns}}.json",
         },
     };
 }

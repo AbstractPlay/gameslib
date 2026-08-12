@@ -1466,6 +1466,21 @@ function playgroundT(key) {
     return key;
 }
 
+const PLAYGROUND_LOCALE_PROBE_KEY = "apgames:variants.archimedes.8x10.name";
+
+function warnIfPlaygroundLocalesMissing() {
+    const inst = APGames.i18n;
+    if (!inst?.isInitialized || typeof inst.t !== "function") {
+        return;
+    }
+    const probe = inst.t(PLAYGROUND_LOCALE_PROBE_KEY);
+    if (probe.startsWith("variants.")) {
+        console.warn(
+            "gameslib: locale bundles not loaded — serve dist/ over HTTP and ensure locales/ is beside playground.html",
+        );
+    }
+}
+
 function isI18nKey(key) {
     return typeof key === "string" && (key.includes(":") || (key.includes(".") && !key.includes(" ")));
 }
@@ -2634,9 +2649,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
         renderGame();
     };
-    if (i18n.isInitialized) {
+    const onPlaygroundI18nReady = () => {
+        warnIfPlaygroundLocalesMissing();
         refreshPlaygroundI18n();
+    };
+    if (i18n.isInitialized) {
+        onPlaygroundI18nReady();
     } else {
-        i18n.on("initialized", refreshPlaygroundI18n);
+        i18n.on("initialized", onPlaygroundI18nReady);
     }
 });

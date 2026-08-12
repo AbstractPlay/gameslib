@@ -29,4 +29,11 @@ describe("i18n-browser", () => {
         expect(options.fallbackLng).to.not.deep.equal(["dev"]);
         expect(options.supportedLngs).to.deep.equal(supportedLocales);
     });
+
+    it("loads locale bundles relative to the page URL", () => {
+        const options = getBrowserI18nInitOptions("en");
+        expect(options.backend).to.deep.equal({
+            loadPath: "./locales/{{lng}}/{{ns}}.json",
+        });
+    });
 });

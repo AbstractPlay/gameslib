@@ -617,7 +617,6 @@ export class FracturedGame extends GameBase {
         const rep: APRenderRep = {
             board: {
                 style: "fractured-flat",
-                strokeWeight: 0.5,
                 markers,
             },
             legend,

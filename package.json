@@ -20,7 +20,9 @@
     "test": "mocha -r ts-node/register test/**/*.test.ts",
     "lint": "npm run check-weblate-keys && npx eslint .",
     "dist-dev": "rimraf dist && webpack && shx cp -r locales dist/",
+    "predist-dev": "node scripts/generate-registry.mjs",
     "dist-prod": "rimraf dist && webpack --mode=production && shx cp -r locales dist/",
+    "predist-prod": "node scripts/generate-registry.mjs",
     "full-dev": "npm run test && npm run build && npm run dist-dev && npm run deploy",
     "full-prod": "npm run test && npm run build && npm run dist-prod && npm run deploy",
     "deploy": "shx cp ./playground/playground.* ./dist && npx serverless client deploy --no-confirm --no-delete-contents",
@@ -79,7 +81,7 @@
   },
   "dependencies": {
     "@abstractplay/recranks": "latest",
-    "@abstractplay/renderer": "^1.0.0-ci-31451693361.0",
+    "@abstractplay/renderer": "^1.0.0-ci-31603656455.0",
     "@turf/boolean-contains": "^6.5.0",
     "@turf/boolean-intersects": "^6.5.0",
     "@turf/boolean-point-in-polygon": "^6.5.0",

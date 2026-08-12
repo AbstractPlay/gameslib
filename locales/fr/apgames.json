@@ -7574,7 +7574,8 @@
       "EXCEEDS": "Vous ne pouvez pas dépenser plus de {{budget}} points pour votre coup. Vous avez essayé de dépenser {{cost}} points.",
       "INITIAL_INSTRUCTIONS_one": "Cliquez sur une case vide pour placer l'une de vos pièces ou cliquez sur l'une de vos pièces déjà placées pour la retirer. Vous pouvez encore placer {{count}} point de pièces.",
       "INITIAL_INSTRUCTIONS_many": "",
-      "INITIAL_INSTRUCTIONS_other": "Cliquez sur une case vide pour placer l'une de vos pièces ou cliquez sur l'une de vos pièces déjà placées pour la retirer. Vous pouvez encore placer {{count}} points de pièces."
+      "INITIAL_INSTRUCTIONS_other": "Cliquez sur une case vide pour placer l'une de vos pièces ou cliquez sur l'une de vos pièces déjà placées pour la retirer. Vous pouvez encore placer {{count}} points de pièces.",
+      "INITIAL_INSTRUCTIONS_zero": "Vous n'avez plus de points à dépenser. Terminez votre coup ou cliquez sur l'une de vos pièces posées pour la placer ailleurs."
     },
     "guerrilla": {
       "INITIAL_INSTRUCTIONS_p1": "Sélectionnez où placer votre premier insurgé.",

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import "mocha";
 import { expect } from "chai";
-import { BlamGame } from '../../src/games';
+import { BlamGame, GameFactory } from '../../src/games';
 
 describe("Blam!", () => {
     it ("Converting coordinates to algebraic format", () => {
@@ -102,6 +102,11 @@ describe("Blam!", () => {
         g.move("pass");
         expect(g.gameover).to.be.true;
         expect(g.winner).to.have.members([2]);
+    });
+    it ("GameFactory applies overloaded variant", () => {
+        const g = GameFactory("blam", 2, ["overloaded"]);
+        expect(g).to.not.be.undefined;
+        expect(g!.variants).to.deep.equal(["overloaded"]);
     });
     it ("EOG: Four players, two-way draw", () => {
         const g = new BlamGame(4);

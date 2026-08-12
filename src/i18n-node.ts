@@ -8,7 +8,9 @@ const GAMESLIB_NAMESPACES = ["apgames", "apresults"] as const;
 export type { AddResourceOptions };
 
 const loadLocaleBundles = (lang: string): Record<string, object> => {
-    const localesPath = path.join(__dirname, "../locales");
+    const packagedLocales = path.join(__dirname, "locales");
+    const sourceLocales = path.join(__dirname, "../locales");
+    const localesPath = existsSync(packagedLocales) ? packagedLocales : sourceLocales;
     const bundles: Record<string, object> = {};
     for (const ns of GAMESLIB_NAMESPACES) {
         const filePath = path.join(localesPath, lang, `${ns}.json`);

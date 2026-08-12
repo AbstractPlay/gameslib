@@ -14,7 +14,7 @@ Prose descriptions below; the authoritative enum is auto-generated.
 | `custom-colours` | Implement `getPlayerColour(n)` — not with `shared-pieces` |
 | `custom-randomization` | `randomMove()` despite `no-moves` |
 | `custom-rotation` | `getCustomRotation()` for board angle |
-| `experimental` | Hidden on production; visible on dev |
+| `experimental` | Omitted from production builds and `gameinfo`; visible on dev |
 | `no-explore` | Disable exploration mode |
 | `no-moves` | Cannot list all legal moves |
 | `perspective` | Per-player board rotation |

@@ -3,6 +3,7 @@ import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { filterLocalesForProd } from "./filter-locales-prod.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -101,7 +102,19 @@ function main() {
   const { stage, config } = parseArgs();
   console.log(`Publishing gameslib locale files to ${config.bucket} (${stage})`);
 
-  const localesDir = path.join(ROOT, "locales");
+  let localesDir = path.join(ROOT, "locales");
+  if (stage === "prod") {
+    const metaPath = path.join(ROOT, "src", "games", "_registry-meta.generated.json");
+    if (!fs.existsSync(metaPath)) {
+      console.error("Missing registry meta — run npm run generate-registry first");
+      process.exit(1);
+    }
+    const meta = JSON.parse(fs.readFileSync(metaPath, "utf8"));
+    const filteredDir = path.join(ROOT, "build", "locales-publish-prod");
+    filterLocalesForProd(localesDir, filteredDir, meta.experimentalUids ?? []);
+    localesDir = filteredDir;
+  }
+
   const total = uploadLocaleDir(localesDir, config);
 
   if (total === 0) {

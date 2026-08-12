@@ -10,7 +10,11 @@
     "path": false
   },
   "scripts": {
-    "build": "npm run json2ts && npm run build-ts && npm run lint",
+    "generate-registry": "node scripts/generate-registry.mjs",
+    "check-registry": "node scripts/check-registry.mjs",
+    "filter-locales-prod": "node scripts/filter-locales-prod.mjs",
+    "pretest": "node scripts/generate-registry.mjs",
+    "build": "npm run json2ts && npm run generate-registry && npm run build-ts && node scripts/post-build.mjs && npm run check-registry && npm run lint",
     "build-ts": "tsc && npm pack",
     "test0": "mocha -r ts-node/register test/common/graphs/hexMoon.test.ts",
     "test": "mocha -r ts-node/register test/**/*.test.ts",

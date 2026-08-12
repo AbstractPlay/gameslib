@@ -7,7 +7,7 @@ Guide for adding a new game to gameslib. For API details see [Game object](/game
 1. **Fork** [gameslib](https://github.com/AbstractPlay/gameslib) and work on the `develop` branch.
 2. Before first `npm install`, run `npm run npm-login` for GitHub Packages access.
 3. **Create** `src/games/<uid>.ts` extending `GameBase` (or `GameBaseSimultaneous`).
-4. **Register** in `src/games/index.ts` (import, type union, array entry, `GameFactory` case).
+4. **Run** `npm run generate-registry` (or any build/test) — the game registry is auto-generated from `static gameinfo`.
 5. **Add i18n** strings to `locales/en/apgames.json` (and `apresults.json` if needed).
 6. **Flag** new games with `experimental` in `gameinfo`.
 7. **Test** locally — [Testing](/gameslib/testing/).

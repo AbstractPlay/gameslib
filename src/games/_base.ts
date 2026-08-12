@@ -185,6 +185,11 @@ export interface IMoveOptions {partial?: boolean; trusted?: boolean};
 
 export abstract class GameBase  {
     public static readonly gameinfo: APGamesInformation;
+
+    public static create(...args: unknown[]): GameBase {
+        return new (this as any)(...args);
+    }
+
     public description(): string {
         const ctor = this.constructor as typeof GameBase;
         return i18next.t(ctor.gameinfo.description!);

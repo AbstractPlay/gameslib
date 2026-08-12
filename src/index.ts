@@ -2,14 +2,31 @@ import { APGamesInformation } from './schemas/gameinfo';
 import { APMoveResult } from './schemas/moveresults';
 import { games, GameFactory, IAPGameState, GameBase, GameBaseSimultaneous } from "./games";
 import { AIFactory, supportedGames as aiSupported, fastGames as aiFast, slowGames as aiSlow } from './ais';
+import { APGAMES_PRODUCTION } from "./games/_build-flags.generated";
 
 export {GameFactory, IAPGameState, APMoveResult, APGamesInformation, AIFactory, aiSupported, aiFast, aiSlow, GameBase, GameBaseSimultaneous};
 
+function filterGameinfoForExport(info: APGamesInformation): APGamesInformation {
+    if (!APGAMES_PRODUCTION) {
+        return info;
+    }
+    const filtered: APGamesInformation = { ...info };
+    if (filtered.variants !== undefined) {
+        filtered.variants = filtered.variants.filter((v) => !v.experimental);
+    }
+    if (filtered.flags !== undefined) {
+        filtered.flags = filtered.flags.filter((f) => f !== "experimental");
+    }
+    return filtered;
+}
+
 const gameinfo: Map<string, APGamesInformation> = new Map();
 games.forEach((v, k) => {
-    gameinfo.set(k, v.gameinfo);
+    gameinfo.set(k, filterGameinfoForExport(v.gameinfo));
 });
-const gameinfoSorted: APGamesInformation[] = [...games.values()].sort((a, b) => {return a.gameinfo.name.localeCompare(b.gameinfo.name);}).map(a => a.gameinfo);
+const gameinfoSorted: APGamesInformation[] = [...games.values()]
+    .sort((a, b) => a.gameinfo.name.localeCompare(b.gameinfo.name))
+    .map((a) => filterGameinfoForExport(a.gameinfo));
 export {gameinfo, gameinfoSorted};
 
 export { resolveLocale, supportedLocales, type AddResourceOptions } from "./i18n-shared";

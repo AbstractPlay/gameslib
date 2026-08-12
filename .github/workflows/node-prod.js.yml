@@ -96,7 +96,7 @@ jobs:
             npm pkg set "dependencies.@abstractplay/renderer=$RENDERER_VERSION"
             echo "gameslib_version=$GAMESLIB_VERSION" >> $GITHUB_OUTPUT
             echo "renderer_version=$RENDERER_VERSION" >> $GITHUB_OUTPUT
-        - run: npm run build
+        - run: APGAMES_PRODUCTION=1 npm run build
         - run: npm pack
         - name: Upload
           uses: actions/upload-artifact@v4

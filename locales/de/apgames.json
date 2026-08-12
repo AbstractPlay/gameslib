@@ -4666,7 +4666,8 @@
       "SELECT_MORE_SUPERKO": "Du musst weiterhin Gruppenzüge machen, da der aktuelle Brettzustand aufgrund von Superko ungültig ist.",
       "SUPERKO": "Superko: Du darfst einen früheren Brettzustand nicht wiederholen.",
       "TOO_MANY": "Du darfst nur bis zu {{count}} Steine auswählen, um sie als Gruppe zu bewegen.",
-      "TOO_MANY_MOVES": "In einem normalen Zug darfst du nur zwei Gruppen bewegen."
+      "TOO_MANY_MOVES": "In einem normalen Zug darfst du nur zwei Gruppen bewegen.",
+      "SELECT_MORE_many": "Du kannst noch {{count}} weitere Gruppenzüge ausführen."
     },
     "archimedes": {
       "FLEET_FULL": "Du darfst nicht mehr als 12 Steine haben.",
@@ -7524,7 +7525,8 @@
     "estate": {
       "EXCEEDS": "Du darfst bei deinem Zug nicht mehr als {{budget}} Punkte ausgeben. Du hast versucht, {{cost}} Punkte auszugeben.",
       "INITIAL_INSTRUCTIONS_one": "Klicke auf ein leeres Feld, um einen deiner Spielsteine zu platzieren, oder klicke auf einen deiner platzierten Spielsteine, um ihn zu entfernen. Du kannst noch Spielsteine im Wert von {{count}} Punkt platzieren.",
-      "INITIAL_INSTRUCTIONS_other": "Klicke auf ein leeres Feld, um einen deiner Spielsteine zu platzieren, oder klicke auf einen deiner platzierten Spielsteine, um ihn zu entfernen. Du kannst noch Spielsteine im Wert von {{count}} Punkten platzieren."
+      "INITIAL_INSTRUCTIONS_other": "Klicke auf ein leeres Feld, um einen deiner Spielsteine zu platzieren, oder klicke auf einen deiner platzierten Spielsteine, um ihn zu entfernen. Du kannst noch Spielsteine im Wert von {{count}} Punkten platzieren.",
+      "INITIAL_INSTRUCTIONS_zero": "Du hast keine Punkte mehr zum Ausgeben. Schließe deinen Zug ab oder klicke auf eine deiner platzierten Figuren, um sie woanders zu platzieren."
     },
     "guerrilla": {
       "INITIAL_INSTRUCTIONS_p1": "Wähle aus, wo du deinen ersten Aufständischen platzieren möchtest.",

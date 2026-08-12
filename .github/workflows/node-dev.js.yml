@@ -59,7 +59,7 @@ jobs:
           uses: stefanzweifel/git-auto-commit-action@v5
           with:
             commit_message: "i18n: Auto-translate locale files [skip ci]"
-            # Directory paths only — no globs/braces. git-auto-commit passes file_pattern
+            # Directory paths only â€” no globs/braces. git-auto-commit passes file_pattern
             # to `git add` with disable_globbing, so `*.json` and `{de,fr,it}` never expand.
             file_pattern: locales/de/ locales/fr/ locales/it/ locales/es-US/ locale-src/de/ locale-src/fr/ locale-src/it/ locale-src/es-US/
             disable_globbing: true
@@ -67,7 +67,7 @@ jobs:
         - name: Verify locale-src was committed
           run: |
             if git status --porcelain locale-src/ | grep -q .; then
-              echo "::error::locale-src/ has unstaged changes after auto-commit — sidecar stamps were not pushed"
+              echo "::error::locale-src/ has unstaged changes after auto-commit â€” sidecar stamps were not pushed"
               git status --porcelain locale-src/
               exit 1
             fi
@@ -109,7 +109,19 @@ jobs:
         - name: Trigger docs rebuild
           if: github.event_name == 'push'
           run: |
-            if git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" | grep -q '^docs/'; then
+            BEFORE="${{ github.event.before }}"
+            SHA="${{ github.sha }}"
+            if [[ "$BEFORE" == "0000000000000000000000000000000000000000" ]]; then
+              CHANGED=""
+              for commit in ${{ join(github.event.commits.*.id, ' ') }}; do
+                git fetch --depth=1 origin "$commit"
+                CHANGED+="$(git show --name-only --pretty=format: "$commit")"$'\n'
+              done
+            else
+              git fetch --depth=1 origin "$BEFORE"
+              CHANGED="$(git diff --name-only "$BEFORE" "$SHA")"
+            fi
+            if echo "$CHANGED" | grep -q '^docs/'; then
               curl -L \
               -X POST \
               -H "Accept: application/vnd.github+json" \

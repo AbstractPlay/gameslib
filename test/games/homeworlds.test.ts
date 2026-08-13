@@ -3,7 +3,9 @@
 import "mocha";
 import { expect } from "chai";
 // import { HomeworldsGame } from '../../src/games';
-import { Stash, Ship, System } from "../../src/games/homeworlds/"
+import { Stash } from "../../src/games/homeworlds/stash";
+import { Ship } from "../../src/games/homeworlds/ship";
+import { System } from "../../src/games/homeworlds/system";
 import { HomeworldsGame, HomeworldsErrors as HWError } from "../../src/games/homeworlds";
 import { IValidationResult } from "../../src/games/_base";
 

@@ -2,7 +2,9 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResu
 import { APGamesInformation } from "../schemas/gameinfo";
 import { AnnotationHomeworlds, APRenderRep, AreaHWStash, BoardHomeworlds, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { Ship, System, Stash } from "./homeworlds/";
+import { Ship } from "./homeworlds/ship";
+import { System } from "./homeworlds/system";
+import { Stash } from "./homeworlds/stash";
 import { reviver } from "../common";
 import { CartesianProduct, Permutation, PowerSet } from "js-combinatorics";
 import { UserFacingError } from "../common";

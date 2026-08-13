@@ -562,6 +562,46 @@ export class EntropyGame extends GameBaseSimultaneous {
         };
     }
 
+    private pushMoveAnnotation(
+        rep: APRenderRep,
+        move: APMoveResult,
+        playerIndex: 0 | 1,
+    ): void {
+        if (move.type === "pass") {
+            return;
+        }
+        if (move.type === "move") {
+            const [from, to] = [move.from, move.to];
+            // eslint-disable-next-line prefer-const
+            let [xFrom, yFrom] = this.algebraic2coords(from);
+            // eslint-disable-next-line prefer-const
+            let [xTo, yTo] = this.algebraic2coords(to);
+            if (playerIndex === 1) {
+                xFrom += this.boardsize;
+                xTo += this.boardsize;
+            }
+            rep.annotations!.push({
+                type: "move",
+                targets: [
+                    {col: xFrom, row: yFrom},
+                    {col: xTo, row: yTo}
+                ]
+            });
+        } else if (move.type === "place") {
+            // eslint-disable-next-line prefer-const
+            let [x, y] = this.algebraic2coords(move.where!);
+            if (playerIndex === 0) {
+                x += this.boardsize;
+            }
+            rep.annotations!.push({
+                type: "enter",
+                targets: [
+                    {col: x, row: y}
+                ]
+            });
+        }
+    }
+
     public render({perspective, altDisplay}: IRenderOpts): APRenderRep {
         let display: string|undefined;
         if (altDisplay !== undefined) {
@@ -658,37 +698,10 @@ export class EntropyGame extends GameBaseSimultaneous {
             }
             rep.annotations.push({type: "dots", targets: [{col: x, row}]});
         }
-        // check for pending annotations
-        if (this.results.length > 0 && perspective !== undefined) {
-            for (const move of this.results) {
-                if (move.type !== "pass") {
-                    if (move.type === "move") {
-                        const [from, to] = [move.from, move.to];
-                        // eslint-disable-next-line prefer-const
-                        let [xFrom, yFrom] = this.algebraic2coords(from);
-                        if (perspective === 2) { xFrom += this.boardsize; }
-                        // eslint-disable-next-line prefer-const
-                        let [xTo, yTo] = this.algebraic2coords(to);
-                        if (perspective === 2) { xTo += this.boardsize; }
-                        rep.annotations.push({
-                            type: "move",
-                            targets: [
-                                {col: xFrom, row: yFrom},
-                                {col: xTo, row: yTo}
-                            ]
-                        });
-                    } else if (move.type === "place") {
-                        // eslint-disable-next-line prefer-const
-                        let [x, y] = this.algebraic2coords(move.where!);
-                        if (perspective === 1) { x += this.boardsize; }
-                        rep.annotations.push({
-                            type: "enter",
-                            targets: [
-                                {col: x, row: y}
-                            ]
-                        });
-                    }
-                }
+        // check for pending annotations (incomplete simultaneous turn only)
+        if (this.results.length > 0 && this.results.length < 2 && perspective !== undefined) {
+            for (let i = 0; i < this.results.length; i++) {
+                this.pushMoveAnnotation(rep, this.results[i], i as 0 | 1);
             }
         }
         for (let turn = 1; turn <= 2; turn++) {
@@ -697,35 +710,11 @@ export class EntropyGame extends GameBaseSimultaneous {
                 // if all moves are in
                 if (this.stack[this.stack.length - turn]._results.length === 2) {
                     for (let i = 0; i < 2; i++) {
-                        const move = this.stack[this.stack.length - turn]._results[i];
-                        if (move.type !== "pass") {
-                            if (move.type === "move") {
-                                const [from, to] = [move.from, move.to];
-                                // eslint-disable-next-line prefer-const
-                                let [xFrom, yFrom] = this.algebraic2coords(from);
-                                if (i === 1) { xFrom += this.boardsize; }
-                                // eslint-disable-next-line prefer-const
-                                let [xTo, yTo] = this.algebraic2coords(to);
-                                if (i === 1) { xTo += this.boardsize; }
-                                rep.annotations.push({
-                                    type: "move",
-                                    targets: [
-                                        {col: xFrom, row: yFrom},
-                                        {col: xTo, row: yTo}
-                                    ]
-                                });
-                            } else if (move.type === "place") {
-                                // eslint-disable-next-line prefer-const
-                                let [x, y] = this.algebraic2coords(move.where!);
-                                if (i === 0) { x += this.boardsize; }
-                                rep.annotations.push({
-                                    type: "enter",
-                                    targets: [
-                                        {col: x, row: y}
-                                    ]
-                                });
-                            }
-                        }
+                        this.pushMoveAnnotation(
+                            rep,
+                            this.stack[this.stack.length - turn]._results[i],
+                            i as 0 | 1,
+                        );
                     }
                 }
             }

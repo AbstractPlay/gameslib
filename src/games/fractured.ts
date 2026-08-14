@@ -53,7 +53,11 @@ export class FracturedGame extends GameBase {
         version: "20260810",
         dateAdded: "2026-08-10",
         description: "apgames:descriptions.fractured",
-        urls: [],
+        urls: [
+            "https://crabfragmentlabs.com/fractured-flat",
+            "https://boardgamegeek.com/boardgame/427272/the-fractured-flat",
+        ],
+        bggid: "427272",
         people: [
             {
                 type: "designer",

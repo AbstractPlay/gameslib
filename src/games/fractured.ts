@@ -591,7 +591,6 @@ export class FracturedGame extends GameBase {
                 style: "squares",
                 width: TRACK_LEN,
                 height: 1,
-                strokeWeight: 3,
                 markers: [
                     { type: "flood", colour: 6,opacity: 0.75, points: trackFloodP1 as [RowCol, ...RowCol[]] },
                     { type: "flood", colour: 7, opacity: 0.75,points: trackFloodP2 as [RowCol, ...RowCol[]] },
@@ -618,6 +617,7 @@ export class FracturedGame extends GameBase {
         const rep: APRenderRep = {
             board: {
                 style: "fractured-flat",
+                strokeWeight: 3,
                 markers,
             },
             legend,

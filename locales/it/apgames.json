@@ -7574,8 +7574,7 @@
       "EXCEEDS": "Non puoi spendere più di {{budget}} punti per la tua mossa. Hai provato a spendere {{cost}} punti.",
       "INITIAL_INSTRUCTIONS_one": "Fai clic su una casella vuota per piazzare uno dei tuoi pezzi o fai clic su uno dei tuoi pezzi piazzati per rimuoverlo. Puoi piazzare pezzi per un valore di {{count}} altro punto.",
       "INITIAL_INSTRUCTIONS_many": "",
-      "INITIAL_INSTRUCTIONS_other": "Fai clic su una casella vuota per piazzare uno dei tuoi pezzi o fai clic su uno dei tuoi pezzi piazzati per rimuoverlo. Puoi piazzare pezzi per un valore di altri {{count}} punti.",
-      "INITIAL_INSTRUCTIONS_zero": "Non hai più punti da spendere. Completa la tua mossa o fai clic su uno dei tuoi pezzi piazzati per posizionarlo altrove."
+      "INITIAL_INSTRUCTIONS_other": "Fai clic su una casella vuota per piazzare uno dei tuoi pezzi o fai clic su uno dei tuoi pezzi piazzati per rimuoverlo. Puoi piazzare pezzi per un valore di altri {{count}} punti."
     },
     "guerrilla": {
       "INITIAL_INSTRUCTIONS_p1": "Seleziona dove piazzare il tuo primo insorto.",

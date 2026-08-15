@@ -254,14 +254,89 @@ function writeSrcTracking(repoRoot, langCode, fileName, srcTracking) {
   fs.writeFileSync(srcPath, JSON.stringify(sortedSrc, null, 2) + "\n");
 }
 
+function normalizeTrackingEntry(entry) {
+  if (entry == null) {
+    return { src: undefined, out: undefined };
+  }
+  if (typeof entry === "string") {
+    return { src: entry, out: undefined };
+  }
+  if (typeof entry === "object") {
+    return {
+      src: typeof entry.src === "string" ? entry.src : undefined,
+      out: typeof entry.out === "string" ? entry.out : undefined,
+    };
+  }
+  return { src: undefined, out: undefined };
+}
+
+function makeTrackingEntry(sourceValue, translatedValue) {
+  return { src: sourceValue, out: translatedValue };
+}
+
+function isSuspectEnglishCopy(value) {
+  if (typeof value !== "string" || value.length < 40) {
+    return false;
+  }
+  if (/\.\s+[A-Z]/.test(value)) {
+    return true;
+  }
+  return value.trim().split(/\s+/).length >= 8;
+}
+
+function isVerifiedSame(trackingEntry, sourceValue, translated) {
+  const { src, out } = normalizeTrackingEntry(trackingEntry);
+  return src === sourceValue && out === translated;
+}
+
+function backfillSrcTracking(sourceData, targetData, srcTracking) {
+  const sourceLeaves = collectLeaves(sourceData);
+  let backfilled = false;
+  for (const [leafPath, sourceValue] of Object.entries(sourceLeaves)) {
+    const translated = getLeafValue(targetData, leafPath);
+    if (!translated) {
+      continue;
+    }
+    const { src, out } = normalizeTrackingEntry(srcTracking[leafPath]);
+    if (src !== sourceValue || out !== translated) {
+      srcTracking[leafPath] = makeTrackingEntry(sourceValue, translated);
+      backfilled = true;
+    }
+  }
+  return backfilled;
+}
+
 function getDiffLeaves(sourceData, targetData, srcTracking) {
   const sourceLeaves = collectLeaves(sourceData);
   const diff = {};
 
   for (const [leafPath, sourceValue] of Object.entries(sourceLeaves)) {
     const translated = getLeafValue(targetData, leafPath);
-    if (!translated || srcTracking[leafPath] !== sourceValue) {
+    const tracking = srcTracking[leafPath];
+    const { src, out } = normalizeTrackingEntry(tracking);
+
+    if (!translated) {
       diff[leafPath] = sourceValue;
+      continue;
+    }
+
+    if (src !== undefined && src !== sourceValue) {
+      diff[leafPath] = sourceValue;
+      continue;
+    }
+
+    if (out !== undefined && out !== translated) {
+      diff[leafPath] = sourceValue;
+      continue;
+    }
+
+    if (translated === sourceValue) {
+      if (isVerifiedSame(tracking, sourceValue, translated)) {
+        continue;
+      }
+      if (isSuspectEnglishCopy(sourceValue)) {
+        diff[leafPath] = sourceValue;
+      }
     }
   }
 
@@ -552,16 +627,7 @@ async function translateFile(ai, sourcePath) {
     const leavesToTranslate = Object.keys(diffLeaves);
 
     if (leavesToTranslate.length === 0) {
-      const sourceLeaves = collectLeaves(sourceData);
-      let backfilled = false;
-      for (const [leafPath, sourceValue] of Object.entries(sourceLeaves)) {
-        const translated = getLeafValue(targetData, leafPath);
-        if (translated && srcTracking[leafPath] !== sourceValue) {
-          srcTracking[leafPath] = sourceValue;
-          backfilled = true;
-        }
-      }
-      if (backfilled) {
+      if (backfillSrcTracking(sourceData, targetData, srcTracking)) {
         writeSrcTracking(repoRoot, lang.code, fileName, srcTracking);
         console.log(`[${lang.code}] ${fileName}: Backfilled locale-src stamps (translations already up to date).`);
       } else {
@@ -595,7 +661,9 @@ async function translateFile(ai, sourcePath) {
         deepMerge(targetData, nestedChunk);
 
         for (const leafPath of Object.keys(chunk)) {
-          srcTracking[leafPath] = diffLeaves[leafPath];
+          const sourceValue = diffLeaves[leafPath];
+          const translatedValue = translatedChunk[leafPath] ?? getLeafValue(targetData, leafPath);
+          srcTracking[leafPath] = makeTrackingEntry(sourceValue, translatedValue);
         }
 
         writeTargetFile(targetPath, repoRoot, lang.code, fileName, sourceData, targetData, srcTracking);

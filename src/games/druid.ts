@@ -53,11 +53,15 @@ export interface IDruidState extends IAPGameState {
 }
 
 export class DruidGame extends GameBase {
+    // private static readonly PREV_VERSION = "20260706";
+    private static readonly SIDES_INVERTED_SINCE = "20260815";
+
     public static readonly gameinfo: APGamesInformation = {
         name: "Druid",
         uid: "druid",
         playercounts: [2],
-        version: "20260706",
+        // version: "20260706",
+        version: "20260815",
         dateAdded: "2026-08-03",
         description: "apgames:descriptions.druid",
         notes: "apgames:notes.druid",
@@ -177,6 +181,16 @@ export class DruidGame extends GameBase {
 
     private isWalk(): boolean {
         return this.boardMode() === "rect" && this.variants.includes("walk");
+    }
+
+    private rectSidesInverted(): boolean {
+        return this.boardMode() === "rect"
+            && parseInt(this.stack[0]._version, 10) >= parseInt(DruidGame.SIDES_INVERTED_SINCE, 10);
+    }
+
+    private rectPlayerConnectsHorizontal(player: playerid): boolean {
+        const legacy = player === 1;
+        return this.rectSidesInverted() ? !legacy : legacy;
     }
 
     private configureBoard(): void {
@@ -373,7 +387,7 @@ export class DruidGame extends GameBase {
 
     /** Which of the player's edges (if any) this cell lies on. */
     private spawnEdgeAt(cell: string, player: playerid): Dir | undefined {
-        if (player === 1) {
+        if (this.rectPlayerConnectsHorizontal(player)) {
             if (this.onEdge(cell, "W")) {
                 return "W";
             }
@@ -421,7 +435,7 @@ export class DruidGame extends GameBase {
     private edgeLines(player: playerid): [string[], string[]] {
         const sources: string[] = [];
         const targets: string[] = [];
-        if (player === 1) {
+        if (this.rectPlayerConnectsHorizontal(player)) {
             for (let y = 0; y < this.height; y++) {
                 sources.push(this.coords2algebraic(0, y));
                 targets.push(this.coords2algebraic(this.width - 1, y));
@@ -436,6 +450,14 @@ export class DruidGame extends GameBase {
     }
 
     private edgeMarkers(): MarkerEdge[] {
+        if (this.rectSidesInverted()) {
+            return [
+                { type: "edge", edge: "E", colour: 2 },
+                { type: "edge", edge: "W", colour: 2 },
+                { type: "edge", edge: "N", colour: 1 },
+                { type: "edge", edge: "S", colour: 1 },
+            ];
+        }
         return [
             { type: "edge", edge: "E", colour: 1 },
             { type: "edge", edge: "W", colour: 1 },

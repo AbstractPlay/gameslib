@@ -421,7 +421,6 @@ export class BaghChalGame extends GameBase {
                 result.move = "";
             } else {
                 result.move = newmove;
-                result.canrender = true;
             }
             return result;
         } catch (e) {
@@ -457,12 +456,14 @@ export class BaghChalGame extends GameBase {
         if (validMoves.includes(m)) {
             result.valid = true;
             result.complete = 1;
+            result.canrender = true;
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;
         }
         if (validStarts.includes(m)) {
             result.valid = true;
             result.complete = -1
+            result.canrender = true;
             result.message = i18next.t("apgames:validation.baghchal.VALID_PARTIAL");
             return result;
         }

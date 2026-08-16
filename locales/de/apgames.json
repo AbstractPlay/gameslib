@@ -22,6 +22,7 @@
     "attangle": "Attangle ist der letzte Teil von Dieter Steins Stapel-Trilogie. Platziere und bewege Steine, um Stapel zu bauen. Die erste Person, die drei Dreierstapel baut, gewinnt. Die Variante \"Grand Attangle\" ist ebenfalls enthalten.",
     "ayu": "Ein Vereinigungsspiel, bei dem sich schlangenartige Gruppen von Steinen auf ihre Freunde zubewegen und schließlich verschmelzen. Wenn du in deinem Zug keinen Zug machen kannst, gewinnst du. Dies tritt ein, wenn du nur noch eine Gruppe hast oder kein freier Pfad zwischen deinen Gruppen existiert.",
     "azacru": "Ein Gebietskontrollspiel, bei dem richtungsgebundene Steine über ein unterteiltes Brett navigieren, um Felder zu beanspruchen.",
+    "baghchal": "Ein traditionelles asymmetrisches Zwei-Spieler-Spiel aus Nepal. Die Tiger versuchen, 5 Ziegen durch Überspringen zu schlagen; die Ziegen versuchen, alle Tiger bewegungsunfähig zu machen.",
     "bamboo": "Platziere Steine so, dass keine Gruppe mehr Steine hat als die Anzahl deiner Gruppen auf dem Brett. Sei dann der letzte Spieler, der noch ziehen kann.",
     "bao": "Ein traditionelles Mancala-Säspiel aus Ostafrika, bei dem du versuchst, alle Steine aus der vorderen Reihe des Gegners zu eliminieren oder ihm keine legalen Züge zu lassen.",
     "basalt": "Ein dreieckiges Verbindungsspiel an der Flanke eines Vulkans, bei dem Lava und Basalt darum wetteifern, die drei Seiten zuerst zu verbinden.",
@@ -4804,6 +4805,12 @@
       "NO_CAPTURES": "Du darfst nicht auf ein Feld mit einem anderen Chevron ziehen.",
       "REORIENT": "Klicke auf ein benachbartes Feld oder eine Randzone, um die Richtung auszuwählen, in die du blicken möchtest.",
       "TOO_FAR": "Du kannst dich nicht weiter bewegen als deine Bewegungsreichweite (derzeit {{pom}})."
+    },
+    "baghchal": {
+      "INITIAL_INSTRUCTIONS_TIGER_MOVEMENT": "Wähle einen Tiger aus, um ihn zu ziehen.",
+      "INITIAL_INSTRUCTIONS_GOAT_MOVEMENT": "Wähle eine Ziege aus, um sie zu ziehen.",
+      "INITIAL_INSTRUCTIONS_GOAT_PLACEMENT": "Setze eine Ziege auf einen freien Kreuzungspunkt.",
+      "VALID_PARTIAL": "Wähle einen freien Kreuzungspunkt aus, um dorthin zu ziehen. Ziegen und Tiger können auf auf freie benachbarte (verbundene) Kreuzungspunkte ziehen. Tiger dürfen auch eine benachbarte Ziege überspringen und auf dem freien Kreuzungspunkt dahinter landen, jedoch können sie nur vorwärts, schräg vorwärts und seitwärts springen, niemals rückwärts oder schräg rückwärts."
     },
     "bamboo": {
       "BAD_PLACE": "Keine deiner Gruppen darf mehr Steine enthalten als die Anzahl der Gruppen deiner Farbe auf dem Spielplan.",

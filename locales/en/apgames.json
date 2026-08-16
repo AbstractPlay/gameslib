@@ -22,6 +22,7 @@
         "attangle": "Attangle is the final entry in Dieter Stein's stacking trilogy. Place and move pieces to build stacks. First person to build three triple stacks wins. The \"Grand Attangle\" variant is also implemented.",
         "ayu": "Unification game where snaky groups of pieces crawl toward their friends and eventually coalesce. If you cannot make a move on your turn, you win. This occurs when you have only one group or there is no free path between any of your groups.",
         "azacru": "A territory-control game where directional pieces navigate a subdivided board to claim cells.",
+        "baghchal": "A traditional asymmetric two-player game from Nepal. The tiger player tries to capture 5 goats by jumping across them, the goat player tries to immobilize all tigers.",
         "bamboo": "Place stones such that no group has more pieces than the number of your groups on the board. Then, be the last player able to move.",
         "bao": "A traditional mancala-style sowing game from East Africa where you attempt to eliminate all pieces from the opposing front row or leave them with no legal moves.",
         "basalt": "A triangular connection game played on the side of a volcano, where lava and basalt vye to connect the three sides first.",
@@ -4378,6 +4379,10 @@
         "asli": {
             "TERRITORY": "Territory & Prisoners"
         },
+        "baghchal": {
+            "GOATS_IN_HAND": "Goats in hand",
+            "GOATS_CAPTURED": "Goats captured"
+        },
         "bao": {
             "BALANCE": "Material balance"
         },
@@ -4803,6 +4808,12 @@
             "NO_CAPTURES": "You may not move onto a cell with another chevron.",
             "REORIENT": "Click a neighbouring cell or edge zone to select the direction you want to face.",
             "TOO_FAR": "You can't move further than your power of movement (currently {{pom}})."
+        },
+        "baghchal": {
+            "INITIAL_INSTRUCTIONS_TIGER_MOVEMENT": "Select a tiger to move.",
+            "INITIAL_INSTRUCTIONS_GOAT_MOVEMENT": "Select a goat to move.",
+            "INITIAL_INSTRUCTIONS_GOAT_PLACEMENT": "Place a goat onto an empty intersection.",
+            "VALID_PARTIAL": "Select an empty intersection to move to. Goats as well as tigers can move to any free adjacent (connected) intersection. Tigers may jump across a goat to the free intersection behind it, but jumps can only occur forwards, diagonally forwards or sideways, never backwards or diagonally backwards."
         },
         "bamboo": {
             "BAD_PLACE": "None of your groups may contain more stones than number of groups of your colour on the board.",

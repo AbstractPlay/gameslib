@@ -103,6 +103,10 @@
     "src": "A territory-control game where directional pieces navigate a subdivided board to claim cells.",
     "out": "Un jeu de contrôle de territoire où des pièces directionnelles arpentent un plateau subdivisé pour revendiquer des cases."
   },
+  "descriptions.baghchal": {
+    "src": "A traditional asymmetric two-player game from Nepal. The tiger player tries to capture 5 goats by jumping across them, the goat player tries to immobilize all tigers.",
+    "out": "Un jeu traditionnel asymétrique à deux joueurs originaire du Népal. Le joueur jouant les tigres tente de capturer 5 chèvres en sautant par-dessus, tandis que le joueur jouant les chèvres cherche à immobiliser tous les tigres."
+  },
   "descriptions.bamboo": {
     "src": "Place stones such that no group has more pieces than the number of your groups on the board. Then, be the last player able to move.",
     "out": "Placez des pierres de manière à ce qu'aucun groupe n'ait plus de pièces que le nombre de vos groupes sur le plateau. Ensuite, soyez le dernier joueur en mesure de jouer."
@@ -2475,6 +2479,14 @@
     "src": "Territory & Prisoners",
     "out": "Territoire & Prisonniers"
   },
+  "status.baghchal.GOATS_CAPTURED": {
+    "src": "Goats captured",
+    "out": "Chèvres capturées"
+  },
+  "status.baghchal.GOATS_IN_HAND": {
+    "src": "Goats in hand",
+    "out": "Chèvres en main"
+  },
   "status.bao.BALANCE": {
     "src": "Material balance",
     "out": "Équilibre matériel"
@@ -3734,6 +3746,22 @@
   "validation.azacru.TOO_FAR": {
     "src": "You can't move further than your power of movement (currently {{pom}}).",
     "out": "Vous ne pouvez pas vous déplacer plus loin que votre puissance de mouvement (actuellement {{pom}})."
+  },
+  "validation.baghchal.INITIAL_INSTRUCTIONS_GOAT_MOVEMENT": {
+    "src": "Select a goat to move.",
+    "out": "Sélectionnez une chèvre à déplacer."
+  },
+  "validation.baghchal.INITIAL_INSTRUCTIONS_GOAT_PLACEMENT": {
+    "src": "Place a goat onto an empty intersection.",
+    "out": "Placez une chèvre sur une intersection vide."
+  },
+  "validation.baghchal.INITIAL_INSTRUCTIONS_TIGER_MOVEMENT": {
+    "src": "Select a tiger to move.",
+    "out": "Sélectionnez un tigre à déplacer."
+  },
+  "validation.baghchal.VALID_PARTIAL": {
+    "src": "Select an empty intersection to move to. Goats as well as tigers can move to any free adjacent (connected) intersection. Tigers may jump across a goat to the free intersection behind it, but jumps can only occur forwards, diagonally forwards or sideways, never backwards or diagonally backwards.",
+    "out": "Sélectionnez une intersection vide vers laquelle vous déplacer. Les chèvres ainsi que les tigres peuvent se déplacer vers n'importe quelle intersection adjacente (connectée) libre. Les tigres peuvent sauter par-dessus une chèvre vers l'intersection libre située derrière elle, mais les sauts ne peuvent s'effectuer que vers l'avant, en diagonale vers l'avant ou latéralement, jamais vers l'arrière ni en diagonale vers l'arrière."
   },
   "validation.bamboo.BAD_PLACE": {
     "src": "None of your groups may contain more stones than number of groups of your colour on the board.",

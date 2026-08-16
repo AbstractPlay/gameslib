@@ -103,6 +103,10 @@
     "src": "A territory-control game where directional pieces navigate a subdivided board to claim cells.",
     "out": "Un gioco di controllo territorio in cui pezzi direzionali navigano un tavoliere suddiviso per conquistare celle."
   },
+  "descriptions.baghchal": {
+    "src": "A traditional asymmetric two-player game from Nepal. The tiger player tries to capture 5 goats by jumping across them, the goat player tries to immobilize all tigers.",
+    "out": "Un tradizionale gioco asimmetrico per due giocatori del Nepal. Il giocatore che controlla le tigri cerca di catturare 5 capre saltandole, mentre il giocatore che controlla le capre cerca di immobilizzare tutte le tigri."
+  },
   "descriptions.bamboo": {
     "src": "Place stones such that no group has more pieces than the number of your groups on the board. Then, be the last player able to move.",
     "out": "Posiziona le pietre in modo che nessun gruppo abbia più pezzi del numero totale dei tuoi gruppi sul tavoliere. Poi, sii l'ultimo giocatore in grado di muovere."
@@ -2475,6 +2479,14 @@
     "src": "Territory & Prisoners",
     "out": "Territorio e prigionieri"
   },
+  "status.baghchal.GOATS_CAPTURED": {
+    "src": "Goats captured",
+    "out": "Capre catturate"
+  },
+  "status.baghchal.GOATS_IN_HAND": {
+    "src": "Goats in hand",
+    "out": "Capre in mano"
+  },
   "status.bao.BALANCE": {
     "src": "Material balance",
     "out": "Bilancio del materiale"
@@ -3734,6 +3746,22 @@
   "validation.azacru.TOO_FAR": {
     "src": "You can't move further than your power of movement (currently {{pom}}).",
     "out": "Non puoi muoverti più lontano del tuo potere di movimento (attualmente {{pom}})."
+  },
+  "validation.baghchal.INITIAL_INSTRUCTIONS_GOAT_MOVEMENT": {
+    "src": "Select a goat to move.",
+    "out": "Seleziona una capra da muovere."
+  },
+  "validation.baghchal.INITIAL_INSTRUCTIONS_GOAT_PLACEMENT": {
+    "src": "Place a goat onto an empty intersection.",
+    "out": "Posiziona una capra su un'intersezione vuota."
+  },
+  "validation.baghchal.INITIAL_INSTRUCTIONS_TIGER_MOVEMENT": {
+    "src": "Select a tiger to move.",
+    "out": "Seleziona una tigre da muovere."
+  },
+  "validation.baghchal.VALID_PARTIAL": {
+    "src": "Select an empty intersection to move to. Goats as well as tigers can move to any free adjacent (connected) intersection. Tigers may jump across a goat to the free intersection behind it, but jumps can only occur forwards, diagonally forwards or sideways, never backwards or diagonally backwards.",
+    "out": "Seleziona un'intersezione vuota verso cui muoverti. Sia le capre che le tigri possono muoversi verso qualsiasi intersezione adiacente (collegata) libera. Le tigri possono saltare una capra raggiungendo l'intersezione libera dietro di essa, ma i salti possono avvenire solo in avanti, in diagonale in avanti o lateralmente, mai all'indietro o in diagonale all'indietro."
   },
   "validation.bamboo.BAD_PLACE": {
     "src": "None of your groups may contain more stones than number of groups of your colour on the board.",

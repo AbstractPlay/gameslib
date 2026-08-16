@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IStashEntry } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IStatus } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APMoveResult } from "../schemas/moveresults";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
@@ -693,16 +693,12 @@ export class BaghChalGame extends GameBase {
         return rep;
     }
 
-    public getPlayerStash(player: number): IStashEntry[] | undefined {
-        if (player === 1) {
-            return [{ count: this.goatsInHand, glyph: { name: "piece", colour: player }, movePart: "" }];
-        }
-        else {
-            return [{ count: this.goatsCaptured, glyph: { name: "star-outline", colour: player }, movePart: "" }];
-        }
+    public sidebarStatuses(): IStatus[] {
+        return [
+            { key: i18next.t("apgames:status.baghchal.GOATS_IN_HAND"), value: [this.goatsInHand.toString()] },
+            { key: i18next.t("apgames:status.baghchal.GOATS_CAPTURED"), value: [this.goatsCaptured.toString()] },
+        ];
     }
-
-
 
     public clone(): BaghChalGame {
         return new BaghChalGame(this.serialize());

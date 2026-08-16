@@ -4437,6 +4437,10 @@
     "asli": {
       "TERRITORY": "Territorium & Gefangene"
     },
+    "baghchal": {
+      "GOATS_IN_HAND": "Ziegen auf der Hand",
+      "GOATS_CAPTURED": "Ziegen geschlagen"
+    },
     "bao": {
       "BALANCE": "Materialbilanz"
     },

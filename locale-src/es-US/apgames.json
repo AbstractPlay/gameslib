@@ -103,6 +103,10 @@
     "src": "A territory-control game where directional pieces navigate a subdivided board to claim cells.",
     "out": "Un juego de control territorial donde piezas direccionales navegan por un tablero subdividido para reclamar casillas."
   },
+  "descriptions.baghchal": {
+    "src": "A traditional asymmetric two-player game from Nepal. The tiger player tries to capture 5 goats by jumping across them, the goat player tries to immobilize all tigers.",
+    "out": "Un juego tradicional asimétrico para dos jugadores originario de Nepal. El jugador tigre intenta capturar 5 cabras saltando sobre ellas; el jugador cabra intenta inmovilizar a todos los tigres."
+  },
   "descriptions.bamboo": {
     "src": "Place stones such that no group has more pieces than the number of your groups on the board. Then, be the last player able to move.",
     "out": "Coloca piedras de tal manera que ningún grupo tenga más piezas que el número total de tus grupos en el tablero. Luego, sé el último jugador capaz de mover."
@@ -2475,6 +2479,14 @@
     "src": "Territory & Prisoners",
     "out": "Territorio y prisioneros"
   },
+  "status.baghchal.GOATS_CAPTURED": {
+    "src": "Goats captured",
+    "out": "Cabras capturadas"
+  },
+  "status.baghchal.GOATS_IN_HAND": {
+    "src": "Goats in hand",
+    "out": "Cabras en mano"
+  },
   "status.bao.BALANCE": {
     "src": "Material balance",
     "out": "Balance de material"
@@ -3734,6 +3746,22 @@
   "validation.azacru.TOO_FAR": {
     "src": "You can't move further than your power of movement (currently {{pom}}).",
     "out": "No puedes moverte más allá de tu poder de movimiento (actualmente {{pom}})."
+  },
+  "validation.baghchal.INITIAL_INSTRUCTIONS_GOAT_MOVEMENT": {
+    "src": "Select a goat to move.",
+    "out": "Selecciona una cabra para mover."
+  },
+  "validation.baghchal.INITIAL_INSTRUCTIONS_GOAT_PLACEMENT": {
+    "src": "Place a goat onto an empty intersection.",
+    "out": "Coloca una cabra en una intersección vacía."
+  },
+  "validation.baghchal.INITIAL_INSTRUCTIONS_TIGER_MOVEMENT": {
+    "src": "Select a tiger to move.",
+    "out": "Selecciona un tigre para mover."
+  },
+  "validation.baghchal.VALID_PARTIAL": {
+    "src": "Select an empty intersection to move to. Goats as well as tigers can move to any free adjacent (connected) intersection. Tigers may jump across a goat to the free intersection behind it, but jumps can only occur forwards, diagonally forwards or sideways, never backwards or diagonally backwards.",
+    "out": "Selecciona una intersección vacía para moverte. Tanto las cabras como los tigres pueden moverse a cualquier intersección adyacente (conectada) que esté libre. Los tigres pueden saltar sobre una cabra hacia la intersección libre detrás de ella, pero los saltos solo se pueden realizar hacia adelante, en diagonal hacia adelante o hacia los lados, nunca hacia atrás ni en diagonal hacia atrás."
   },
   "validation.bamboo.BAD_PLACE": {
     "src": "None of your groups may contain more stones than number of groups of your colour on the board.",

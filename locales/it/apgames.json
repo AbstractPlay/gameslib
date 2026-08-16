@@ -281,7 +281,8 @@
     "guerrilla": "Un gioco asimmetrico di guerriglia. Entrambi i giocatori cercano di eliminare dal tabellone tutti i pezzi dell'avversario, ma devono affidarsi a tattiche molto diverse per farlo.",
     "scribe": "Un gioco con carta e penna su una super-griglia 9×9 composta da nove mini-griglie 3×3. Vinci il maggior numero di mini-griglie o, nella variante avanzata, crea il super-glifo di maggior valore con le tue vittorie.",
     "circleOfLife": "Posiziona pietre su un ecosistema esagonale per formare sagome di specie. Ogni specie divora la specie immediatamente inferiore nella catena alimentare. Cattura 20 pietre avversarie, oppure riempi la plancia il più possibile.",
-    "fractured": "Un gioco di controllo area su un unico tabellone \"fratturato\". Il punteggio si calcola su un tracciato condiviso."
+    "fractured": "Un gioco di controllo area su un unico tabellone \"fratturato\". Il punteggio si calcola su un tracciato condiviso.",
+    "baghchal": "Un tradizionale gioco asimmetrico per due giocatori del Nepal. Il giocatore che controlla le tigri cerca di catturare 5 capre saltandole, mentre il giocatore che controlla le capre cerca di immobilizzare tutte le tigri."
   },
   "notes": {
     "akimbo": "Akimbo, progettato da Luis Bolaños Mures nel 2026, è un gioco di connessione senza pareggi per due giocatori. Una _diagonale nuda_ è una coppia di pezzi adiacenti in diagonale dello stesso colore privi di altri pezzi dello stesso colore adiacenti a entrambi. Un _crosscut_ è un'area 2×2 con due diagonali nude incrociate di colori opposti.\n\nNel proprio turno, il giocatore piazza un pezzo amico su una casella vuota. Se ciò completa un crosscut, l'altro pezzo nel crosscut viene rimosso. Non deve mai esserci più di una diagonale nuda per colore sul tabellone — nemmeno momentaneamente prima di rimuovere un pezzo. Un giocatore vince se, alla fine del proprio turno, c'è una catena di pezzi del proprio colore connessi ortogonalmente che tocca i due bordi opposti del tabellone del giocatore.\n\nOkimba è una variante in cui può esistere al massimo una diagonale nuda sul tabellone (quindi mentre un giocatore ha la diagonale, l'avversario non può crearne un'altra).",
@@ -4532,6 +4533,10 @@
     },
     "scribe": {
       "MINI_GRIDS": "Mini-griglie vinte"
+    },
+    "baghchal": {
+      "GOATS_IN_HAND": "Capre in mano",
+      "GOATS_CAPTURED": "Capre catturate"
     }
   },
   "validation": {
@@ -7600,6 +7605,12 @@
       "INITIAL_INSTRUCTIONS": "Piazza una pietra in una regione aperta o seleziona una delle tue pietre da muovere.",
       "NO_RESERVE": "Non hai più pietre in riserva.",
       "PARTIAL_MOVE": "Seleziona una destinazione di una dimensione più grande."
+    },
+    "baghchal": {
+      "INITIAL_INSTRUCTIONS_TIGER_MOVEMENT": "Seleziona una tigre da muovere.",
+      "INITIAL_INSTRUCTIONS_GOAT_MOVEMENT": "Seleziona una capra da muovere.",
+      "INITIAL_INSTRUCTIONS_GOAT_PLACEMENT": "Posiziona una capra su un'intersezione vuota.",
+      "VALID_PARTIAL": "Seleziona un'intersezione vuota verso cui muoverti. Sia le capre che le tigri possono muoversi verso qualsiasi intersezione adiacente (collegata) libera. Le tigri possono saltare una capra raggiungendo l'intersezione libera dietro di essa, ma i salti possono avvenire solo in avanti, in diagonale in avanti o lateralmente, mai all'indietro o in diagonale all'indietro."
     }
   },
   "INITIAL_UNDO": "Non puoi annullare la posizione iniziale di partenza del gioco.",

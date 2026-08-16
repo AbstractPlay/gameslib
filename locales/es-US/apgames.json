@@ -281,7 +281,8 @@
     "yavalath": "Forma una línea de cuatro o más piezas de tu color *sin* formar primero una línea de tres piezas.",
     "yonmoque": "Intenta formar cuatro en línea en un juego donde no todos los espacios son iguales y las piezas enemigas se pueden convertir.",
     "zola": "Un juego donde tu movimiento está limitado por tu distancia desde el centro del tablero. Los movimientos de captura no deben aumentar esa distancia. Los movimientos que no son de captura deben aumentar esa distancia. La primera persona que capture todas las piezas enemigas gana.",
-    "fractured": "Un juego de control de áreas en un tablero único \"fracturado\". La puntuación se lleva en un marcador compartido."
+    "fractured": "Un juego de control de áreas en un tablero único \"fracturado\". La puntuación se lleva en un marcador compartido.",
+    "baghchal": "Un juego tradicional asimétrico para dos jugadores originario de Nepal. El jugador tigre intenta capturar 5 cabras saltando sobre ellas; el jugador cabra intenta inmovilizar a todos los tigres."
   },
   "notes": {
     "akimbo": "Akimbo, diseñado por Luis Bolaños Mures en 2026, es un juego de conexión sin empates para dos jugadores. Una _diagonal desnuda_ es un par de piezas del mismo color, adyacentes en diagonal, sin ninguna otra pieza del mismo color adyacente a ambas. Un _corte cruzado_ es un área de 2×2 con dos diagonales desnudas entrelazadas de colores opuestos.\n\nEn su turno, el jugador coloca una pieza propia en una casilla vacía. Si esto completa un corte cruzado, la otra pieza en el corte cruzado se elimina. Nunca debe haber más de una diagonal desnuda de cada color en el tablero, ni siquiera de forma momentánea antes de quitar una pieza. Un jugador gana si, al final de su turno, hay una cadena de piezas de su color conectadas ortogonalmente que toque los dos bordes opuestos del tablero pertenecientes a ese jugador.\n\nOkimba es una variante donde solo puede existir como máximo una diagonal desnuda en el tablero (por lo que mientras un jugador tenga la diagonal, el adversario no puede crear otra).",
@@ -4531,7 +4532,11 @@
       "GOALS": "Objetivos",
       "HEIGHT": "alturas"
     },
-    "YEAR": "Año"
+    "YEAR": "Año",
+    "baghchal": {
+      "GOATS_IN_HAND": "Cabras en mano",
+      "GOATS_CAPTURED": "Cabras capturadas"
+    }
   },
   "validation": {
     "_general": {
@@ -7550,6 +7555,12 @@
       "INITIAL_INSTRUCTIONS": "Coloca una piedra en una región abierta o selecciona una de tus piedras para moverla.",
       "NO_RESERVE": "No te quedan piedras en la reserva.",
       "PARTIAL_MOVE": "Selecciona un destino un tamaño mayor."
+    },
+    "baghchal": {
+      "INITIAL_INSTRUCTIONS_TIGER_MOVEMENT": "Selecciona un tigre para mover.",
+      "INITIAL_INSTRUCTIONS_GOAT_MOVEMENT": "Selecciona una cabra para mover.",
+      "INITIAL_INSTRUCTIONS_GOAT_PLACEMENT": "Coloca una cabra en una intersección vacía.",
+      "VALID_PARTIAL": "Selecciona una intersección vacía para moverte. Tanto las cabras como los tigres pueden moverse a cualquier intersección adyacente (conectada) que esté libre. Los tigres pueden saltar sobre una cabra hacia la intersección libre detrás de ella, pero los saltos solo se pueden realizar hacia adelante, en diagonal hacia adelante o hacia los lados, nunca hacia atrás ni en diagonal hacia atrás."
     }
   },
   "INITIAL_UNDO": "No puedes deshacer la posición inicial del juego.",

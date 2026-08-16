@@ -154,8 +154,7 @@ export class BaghChalGame extends GameBase {
             "components>simple>1per",
         ],
         flags: [
-            "experimental",
-            "player-stashes",
+            "experimental"
         ]
     };
 

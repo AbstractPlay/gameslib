@@ -149,8 +149,12 @@ export class BaghChalGame extends GameBase {
             "mechanic>move",
             "mechanic>capture",
             "mechanic>asymmetry",
+            "board>shape>rect",
+            "board>connect>rect",
+            "components>simple>1per",
         ],
         flags: [
+            "experimental",
             "player-stashes",
         ]
     };

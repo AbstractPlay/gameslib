@@ -314,6 +314,25 @@ export class CifraGame extends GameBase {
         return p === 1 ? c1 : c2;
     }
 
+    private inSetupPhase(): boolean {
+        return this.firstChoice !== undefined
+            && (this.variants.includes("king") || this.variants.includes("sum"))
+            && this.stack.length <= 3;
+    }
+
+    private highestUnplacedSetupPiece(move: string): number | undefined {
+        const used = new Set<number>();
+        for (const seg of move.split(",").filter(s => s.length > 0)) {
+            used.add(parseInt(seg[0], 10));
+        }
+        for (let v = this.boardSize; v >= 1; v--) {
+            if (!used.has(v)) {
+                return v;
+            }
+        }
+        return undefined;
+    }
+
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             let newmove: string;
@@ -328,6 +347,9 @@ export class CifraGame extends GameBase {
                         throw new Error("No piece passed.");
                     }
                     newmove = piece.substring(piece.length - 1);
+                } else if (this.inSetupPhase() && this.getHomeCells(this.currplayer)!.includes(cell)) {
+                    const highest = this.highestUnplacedSetupPiece("");
+                    newmove = highest !== undefined ? `${highest}${cell}` : cell;
                 } else {
                     newmove = cell;
                 }
@@ -360,7 +382,7 @@ export class CifraGame extends GameBase {
                     // destination
                     else {
                         // initial placement
-                        if (move.length === 1 || move.includes(",")) {
+                        if (this.inSetupPhase() || move.length === 1 || move.includes(",")) {
                             let lst = move.split(",");
                             const idx = lst.findIndex(l => l.endsWith(cell!));
                             if (idx >= 0) {
@@ -368,6 +390,11 @@ export class CifraGame extends GameBase {
                             }
                             if (lst[lst.length - 1].length === 1) {
                                 lst[lst.length - 1] += cell;
+                            } else if (this.inSetupPhase()) {
+                                const highest = this.highestUnplacedSetupPiece(move);
+                                if (highest !== undefined) {
+                                    lst.push(`${highest}${cell}`);
+                                }
                             }
                             newmove = lst.join(",");
                         } else {

@@ -34,6 +34,7 @@ export class PinchGame extends GameBase {
         description: "apgames:descriptions.pinch",
         notes: "apgames:notes.pinch",
         urls: [
+            "https://docs.google.com/document/d/1uJp0J4AAloGinSVW1JBlIuxtyjHO37HUmSyOAIKj0RU",
             "https://boardgamegeek.com/boardgame/285214/pinch",
         ],
         bggid: "285214",

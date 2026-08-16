@@ -178,7 +178,7 @@ export class BaghChalGame extends GameBase {
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
-    private _points: [number, number][] = [];
+    private _dots: string[] =[];
 
     constructor(state?: IBaghChalState | string) {
         super();
@@ -228,6 +228,7 @@ export class BaghChalGame extends GameBase {
         this.goatsInHand = state.goatsInHand;
         this.goatsCaptured = state.goatsCaptured;
         this.lastmove = state.lastmove;
+        this.results = [...state._results]
         return this;
     }
 
@@ -260,6 +261,7 @@ export class BaghChalGame extends GameBase {
             throw new Error("Cannot place goat on non-empty cell.");
         }
         this.board.set(cell, {owner: 1, animal: "Goat", facingDirection: "N"}); // Goats by default face north, but their direction is irrelevant.
+        this.results.push({type: "place", where: cell, count: 1 });
         this.goatsInHand -= 1;
     }
 
@@ -280,6 +282,7 @@ export class BaghChalGame extends GameBase {
             throw Error("No piece here to move!");
         }
 
+        this.results.push({ type: "move", from: from, to: to, what: oldPiece.animal });
         const pair = new BaghChalCellPair(from, to);
         const [dX, dY] = pair.deltaVector();
         if ((Math.abs(dX) === 2) || (Math.abs(dY) === 2)) {
@@ -288,11 +291,13 @@ export class BaghChalGame extends GameBase {
             const prey = BaghChalGame.coords2algebraic(preyX, preyY);
             this.board.delete(prey);
             this.goatsCaptured += 1;
+            this.results.push({ type: "capture", where: prey, what: "Goat"});
         }
 
         const newPiece = { owner: oldPiece.owner, animal: oldPiece.animal, facingDirection: this.newDirection(from, to) };
         this.board.delete(from);
         this.board.set(to, newPiece);
+
     }
 
     public jumpsAvailable(from: string) {
@@ -416,6 +421,7 @@ export class BaghChalGame extends GameBase {
                 result.move = "";
             } else {
                 result.move = newmove;
+                result.canrender = true;
             }
             return result;
         } catch (e) {
@@ -485,16 +491,16 @@ export class BaghChalGame extends GameBase {
             }
         }
 
-        if (partial && !m.includes("-")) {
+        if (partial) {
             const start = m;
             const validMoves = this.moves()
                 .filter((vm) => { return vm.split("-")[0] === start});
             const validEnds = validMoves
                  .map((vm) => { return vm.split("-")[1] });
-            this._points = validEnds.map((ve) => {return BaghChalGame.algebraic2coords(ve);});
+            this._dots = validEnds;
             return this;
         } else {
-            this._points = [];
+            this._dots = [];
         }
 
         if (m.length === 2) {
@@ -507,7 +513,6 @@ export class BaghChalGame extends GameBase {
             this.executeMove(from, to);
         }
         this.results = [];
-
 
 
         this.lastmove = m;
@@ -655,9 +660,28 @@ export class BaghChalGame extends GameBase {
 
         rep.annotations = [];
 
-        if (this._points.length > 0) {
+        if (this.results.length > 0) {
+            for (const move of this.results) {
+                if (move.type === "place") {
+                    const [x, y] = BaghChalGame.algebraic2coords(move.where!);
+                    rep.annotations.push({ type: "enter", targets: [{ row: y, col: x }] });
+                } else if (move.type === "move") {
+                    const [fromX, fromY] = BaghChalGame.algebraic2coords(move.from);
+                    const [toX, toY] = BaghChalGame.algebraic2coords(move.to);
+                    rep.annotations.push({ type: "move", targets: [{ row: fromY, col: fromX }, { row: toY, col: toX }] });
+                } else if (move.type === "capture") {
+                    for (const cell of move.where!.split(",")) {
+                        const [x, y] = BaghChalGame.algebraic2coords(cell);
+                        rep.annotations.push({ type: "exit", targets: [{ row: y, col: x }] });
+                    }
+                }
+            }
+        }
+
+        if (this._dots.length > 0) {
             const points = [];
-            for (const [x, y] of this._points) {
+            for (const dot of this._dots) {
+                const [x, y] = BaghChalGame.algebraic2coords(dot);
                 points.push({ row: y, col: x });
             }
             rep.annotations.push({

@@ -27,6 +27,7 @@
         "basalt": "A triangular connection game played on the side of a volcano, where lava and basalt vye to connect the three sides first.",
         "bide": "Up to six players take turns placing pieces on the board, pushing adjacent pieces outward. One can also pass to build up a number of pieces that can be placed at once later. Pieces closer to the centre are more valuable. Highest-scoring group wins!",
         "biscuit": "A domino-style Decktet game where you play cards to immediately score points and try to be the first to play all the cards in your hand. A game is played over multiple rounds to a specified target.",
+        "bitesize": "Get points for eating creatures in a growing ecosystem.",
         "blam": "An Icehouse game for 2–4 players played on a standard chess board. Pieces placed push adjacent pieces away. Push pieces off the board to capture them. Whoever has captured the highest pip total of pieces at the end of the game wins.",
         "blastradius": "An abstract war game where pieces irradiate the spaces around them. Eliminate all opposing pieces.",
         "blockade": "Blockade (also known as Cul-de-sac) is a 'beat the barrier' game where you get one of your pawns to a starting space of your opponent. Players place 2-wide walls to block each other.",
@@ -81,7 +82,6 @@
         "dragoneyes": "A variant of checkers with incomplete information, enchanted dragon eye spaces, and played on a hexagonal board.",
         "druid": "Place sarsens and lintels to connect your edges of the board. On the standard rectangular board, player 1 connects east and west; player 2 connects north and south. On Druid's Y, connect all three sides (corners count for both adjacent edges). On Druid's Hex, connect any three alternating (non-adjacent) sides. Only the topmost stone on each cell counts toward a connection.",
         "domineering": "Players place dominoes, one vertically, another horizontally, until one cannot play, thus losing the game.",
-        "eatyourneighbor": "Get points for eating creatures in a growing ecosystem.",
         "emergo": "A Draughts variant where captured pieces remain on the board and can be freed later. Capture all opposing pieces to win. Derived from Lasca but with two game phases and compulsory maximal captures.",
         "emu": "Each bird on your ranch is represented by a stack of cards. At the end of the hand, the value of a bird is determined by the sum of the number cards in the stack. The object, naturally enough, is to raise profitable birds. Highest score after a number of \"years\" wins.",
         "enso": "A Zen-inspired game of movement and capture in which you attempt to fully surround one of your pieces with emptiness.",
@@ -759,6 +759,22 @@
                 "description": "The game ends after the round in which someone reaches the goal score. Highest score wins."
             }
         },
+        "bitesize": {
+            "#board": {
+                "name": "Hexagonal board (base-4)"
+            },
+            "size-5": {
+                "name": "Hexagonal board (base-5)"
+            },
+            "#ruleset": {
+                "description": "Players need to capture 16 pieces to win on the small board or 25 to win on the large board.",
+                "name": "Capture pieces"
+            },
+            "no-threshold": {
+                "description": "The game continues while there are valid placements.",
+                "name": "No capture threshold"
+            }
+        },
         "blastradius": {
             "#board": {
                 "name": "Hexagonal board (base-6)"
@@ -1416,22 +1432,6 @@
             "claimdraw": {
                 "description": "You must choose to claim a draw on your turn.",
                 "name": "Claim Draws"
-            }
-        },
-        "eatyourneighbor": {
-            "#board": {
-                "name": "Hexagonal board (base-4)"
-            },
-            "size-5": {
-                "name": "Hexagonal board (base-5)"
-            },
-            "#ruleset": {
-                "description": "Player need to capture 12 pieces to win.",
-                "name": "Capture 12 pieces"
-            },
-            "no-threshold": {
-                "description": "The game continues while there are valid placements.",
-                "name": "No maximum captures"
             }
         },
         "emu": {
@@ -4851,6 +4851,11 @@
             "INVALID_MOVE": "That move is invalid. You may only place cards next to cards with at least one matching suit.",
             "PARTIAL": "Select the cell where you want to place the card."
         },
+        "bitesize": {
+            "INSTRUCTIONS": "Place a friendly piece on an empty hex. It is invalid to make creatures bigger than size 4.",
+            "CANNOT_PASS": "Cannot pass, there are still valid placements (like {{move}})!",
+            "GROUP_TOO_LARGE": "This placement would make a creature bigger than four pieces!"
+        },
         "blam": {
             "BADSYNTAX": "Invalid syntax: {{move}}. It should be the number 1, 2, or 3 followed by an empty cell (e.g., 1e4, or 3b2).",
             "INITIAL_INSTRUCTIONS": "Enter the size of the piece to place. You can click on your stash.",
@@ -5394,11 +5399,6 @@
             "INITIAL_INSTRUCTIONS_CAPTURE": "Click a piece/space with a dot to begin or continue a capture chain.",
             "INITIAL_INSTRUCTIONS_ONE": "Click a gray piece to flip and reveal the owner.",
             "INITIAL_INSTRUCTIONS_TWO": "Select one of your pieces to move. Then click a space with a dot to choose where to move."
-        },
-        "eatyourneighbor": {
-            "INSTRUCTIONS": "Place a friendly piece on an empty hex. It is invalid to make creatures bigger than size 4.",
-            "CANNOT_PASS": "Cannot pass, there are still valid placements (like {{move}})!",
-            "GROUP_TOO_LARGE": "This placement would make a creature bigger than four pieces!"
         },
         "emergo": {
             "INITIAL_INSTRUCTIONS_enter": "Select an empty dark cell to place a piece.",

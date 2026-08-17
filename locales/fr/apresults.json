@@ -156,7 +156,8 @@
       "single_S": "{{player}} a ramassé une pierre de soleil en {{where}}."
     },
     "circleOfLife_one": "{{player}} a dévoré l'espèce adverse {{prey}} ({{count}} pierre) en {{where}}.",
-    "circleOfLife_other": "{{player}} a dévoré l'espèce adverse {{prey}} ({{count}} pierres) en {{where}}."
+    "circleOfLife_other": "{{player}} a dévoré l'espèce adverse {{prey}} ({{count}} pierres) en {{where}}.",
+    "bitesize": "{{player}} a capturé le groupe {{where}} de taille {{count}}."
   },
   "CLAIM": {
     "buku_singletons_one": "{{player}} a réclamé la dernière pièce restante de sa couleur.",

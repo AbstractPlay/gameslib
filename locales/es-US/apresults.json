@@ -137,7 +137,8 @@
       "single_E": "{{player}} recogió una Piedra Terrestre en {{where}}.",
       "single_M": "{{player}} recogió una Piedra Lunar en {{where}}.",
       "single_S": "{{player}} recogió una Piedra Solar en {{where}}."
-    }
+    },
+    "bitesize": "{{player}} capturó el grupo {{where}} de tamaño {{count}}."
   },
   "CLAIM": {
     "buku_singletons_one": "{{player}} reclamó la pieza restante de su color.",

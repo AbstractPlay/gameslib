@@ -1722,12 +1722,14 @@ export class DruidGame extends GameBase {
             rep.annotations = [];
             for (const r of this.results) {
                 if (r.type === "place" && r.what !== "druid") {
-                    const where = r.what === "lintel" ? r.where!.split("+")[0] : r.where!;
-                    const [x, y] = this.algebraic2coords(where);
-                    if (isIso) {
-                        rep.annotations!.push({ type: "dots", targets: [{ row: y, col: x }], size: 0.3 });
-                    } else {
-                        rep.annotations!.push({ type: "enter", targets: [{ row: y, col: x }] });
+                    const where = r.what === "lintel" ? r.where!.split("+") : [r.where!];
+                    for (const end of where) {
+                        const [x, y] = this.algebraic2coords(end);
+                        if (isIso) {
+                            rep.annotations!.push({ type: "dots", targets: [{ row: y, col: x }], size: 0.3 });
+                        } else {
+                            rep.annotations!.push({ type: "enter", targets: [{ row: y, col: x }] });
+                        }
                     }
                 } else if (r.type === "move") {
                     const [fx, fy] = this.algebraic2coords(r.from);

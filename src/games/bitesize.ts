@@ -49,8 +49,7 @@ export class BitesizeGame extends GameBase {
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>capture", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         variants: [
-            { uid: "size-5", group: "board" },
-            { uid: "no-threshold", group: "ruleset" },
+            { uid: "size-5", group: "board" }
         ],
         flags: ["scores", "automove", "experimental"]
     };
@@ -66,7 +65,6 @@ export class BitesizeGame extends GameBase {
     public variants: string[] = [];
     public scores: [number, number] = [0, 0];
     public boardSize = 4;
-    private ruleset: "default" | "no-threshold";
 
     constructor(state?: IBitesizeState | string, variants?: string[]) {
         super();
@@ -96,7 +94,6 @@ export class BitesizeGame extends GameBase {
             this.stack = [...state.stack];
         }
         this.load();
-        this.ruleset = this.getRuleset();
     }
 
     public load(idx = -1): BitesizeGame {
@@ -136,11 +133,6 @@ export class BitesizeGame extends GameBase {
 
     private getThreshold(): number {
         return (this.getBoardSize() === 4) ? 16 : 25;
-    }
-
-    private getRuleset(): "default" | "no-threshold" {
-        if (this.variants.includes("no-threshold")) { return "no-threshold"; }
-        return "default";
     }
 
     private getGraph(): HexTriGraph {
@@ -208,12 +200,7 @@ export class BitesizeGame extends GameBase {
         if (this.gameover) { return []; }
         const groups = this.getGroups(); // get current player's groups
         const cells = this.graph.listCells(false) as string[];
-        const moves = cells.filter(c => !this.board.has(c))
-                           .filter(c => this.newGroup(c, groups).length <= 4);
-        if (this.ruleset === "no-threshold") {
-            return moves.length === 0 ? ["pass"] : moves;
-        }
-        return moves;
+        return cells.filter(c => !this.board.has(c)).filter(c => this.newGroup(c, groups).length <= 4);
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -245,18 +232,6 @@ export class BitesizeGame extends GameBase {
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
         const allMoves = this.moves();
-
-        if (this.ruleset === "no-threshold" && m === "pass") {
-            if (! allMoves.includes(m) ) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.bitesize.CANNOT_PASS", {move: allMoves[0]});
-                return result;
-            }
-            result.valid = true;
-            result.complete = 1;
-            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
-            return result;
-        }
 
         try { // check if valid cell
             this.graph.algebraic2coords(m);
@@ -361,18 +336,11 @@ export class BitesizeGame extends GameBase {
     protected checkEOG(): BitesizeGame {
         const prevplayer = this.currplayer % 2 + 1 as playerid;
 
-        if (this.ruleset === "no-threshold") { // ends with two consecutive passes
-            this.gameover = this.lastmove === "pass" &&
-                            this.stack[this.stack.length - 1].lastmove === "pass";
-        } else { // ends when a player can't place legally or has eaten at least enough pieces
-            this.gameover = this.moves().length === 0 ||
-                            this.getPlayerScore(prevplayer) >= this.getThreshold();
-        }
-
+        this.gameover = this.moves().length === 0 || this.getPlayerScore(prevplayer) >= this.getThreshold();
         if (this.gameover) {
-            if ( this.getPlayerScore(1) === this.getPlayerScore(2) ) {
-                this.winner = [prevplayer]; // the last player who placed a piece wins
-                // This isn't technically correct (no-threshold = last pass wins / theshold = last _placed piece_ wins)
+            if (this.getPlayerScore(1) === this.getPlayerScore(2)) {
+                // The player who ran out of moves loses ties
+                this.winner = [prevplayer];
             } else {
                 this.winner = this.getPlayerScore(1) >= this.getPlayerScore(2) ? [1] : [2];
             }

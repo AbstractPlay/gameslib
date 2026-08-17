@@ -6,8 +6,6 @@ import { reviver, UserFacingError } from "../common";
 import { HexTriGraph } from "../common/graphs";
 import i18next from "i18next";
 
-const THRESHOLD = 12
-
 export type playerid = 1|2;
 
 export interface IMoveState extends IIndividualState {
@@ -17,22 +15,22 @@ export interface IMoveState extends IIndividualState {
     scores: [number, number];
 };
 
-export interface IEatYourNeighborState extends IAPGameState {
+export interface IBitesizeState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
 };
 
-export class EatYourNeighborGame extends GameBase {
+export class BitesizeGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
-        name: "Eat Your Neighbor",
-        uid: "eatyourneighbor",
+        name: "BITESIZE",
+        uid: "bitesize",
         playercounts: [2],
-        version: "20260616",
-        dateAdded: "2026-06-16",
-        // i18next.t("apgames:descriptions.eatyourneighbor")
-        description: "apgames:descriptions.eatyourneighbor",
+        version: "20260815",
+        dateAdded: "2026-08-15",
+        // i18next.t("apgames:descriptions.bitesize")
+        description: "apgames:descriptions.bitesize",
         urls: [
-                "https://grateful-pantry-bd4.notion.site/Eat-your-Neighbor-1f9105b4dd21804caa9ac5d24cfd68e8",
+                "https://rustic-title-6c1.notion.site/BITESIZE-24926037bce18169a00fd15aacc5dfbb",
                 "https://boardgamegeek.com/thread/3499194",
               ],
         people: [
@@ -51,9 +49,7 @@ export class EatYourNeighborGame extends GameBase {
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>capture", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         variants: [
-            { uid: "#board", }, // size-4
-            { uid: "size-5", group: "board" },
-            { uid: "no-threshold", group: "ruleset" },
+            { uid: "size-5", group: "board" }
         ],
         flags: ["scores", "automove", "experimental"]
     };
@@ -69,16 +65,15 @@ export class EatYourNeighborGame extends GameBase {
     public variants: string[] = [];
     public scores: [number, number] = [0, 0];
     public boardSize = 4;
-    private ruleset: "default" | "no-threshold";
 
-    constructor(state?: IEatYourNeighborState | string, variants?: string[]) {
+    constructor(state?: IBitesizeState | string, variants?: string[]) {
         super();
         if (state === undefined) {
             if (variants !== undefined) {
                 this.variants = [...variants];
             }
             const fresh: IMoveState = {
-                _version: EatYourNeighborGame.gameinfo.version,
+                _version: BitesizeGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
@@ -88,10 +83,10 @@ export class EatYourNeighborGame extends GameBase {
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
-                state = JSON.parse(state, reviver) as IEatYourNeighborState;
+                state = JSON.parse(state, reviver) as IBitesizeState;
             }
-            if (state.game !== EatYourNeighborGame.gameinfo.uid) {
-                throw new Error(`The Eat Your Neighbor engine cannot process a game of '${state.game}'.`);
+            if (state.game !== BitesizeGame.gameinfo.uid) {
+                throw new Error(`The BITESIZE engine cannot process a game of '${state.game}'.`);
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
@@ -99,10 +94,9 @@ export class EatYourNeighborGame extends GameBase {
             this.stack = [...state.stack];
         }
         this.load();
-        this.ruleset = this.getRuleset();
     }
 
-    public load(idx = -1): EatYourNeighborGame {
+    public load(idx = -1): BitesizeGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -123,8 +117,8 @@ export class EatYourNeighborGame extends GameBase {
 
     private getBoardSize(): number {
         // Get board size from variants.
-        if ( (this.variants !== undefined) && (this.variants.length > 0) &&
-             (this.variants[0] !== undefined) && (this.variants[0].length > 0) ) {
+        if (this.variants !== undefined && this.variants.length > 0 &&
+                this.variants[0] !== undefined && this.variants[0].length > 0) {
             const sizeVariants = this.variants.filter(v => v.includes("size"));
             if (sizeVariants.length > 0) {
                 const size = sizeVariants[0].match(/\d+/);
@@ -137,16 +131,20 @@ export class EatYourNeighborGame extends GameBase {
         return 4;
     }
 
-    private getRuleset(): "default" | "no-threshold" {
-        if (this.variants.includes("no-threshold")) { return "no-threshold"; }
-        return "default";
+    private getThreshold(): number {
+        return (this.getBoardSize() === 4) ? 16 : 25;
+    }
+
+    private getMaxGroupSize(): number {
+        // This isn't necessarily always true, but it's true for size 4 and 5
+        return this.getBoardSize();
     }
 
     private getGraph(): HexTriGraph {
         return new HexTriGraph(this.boardSize, this.boardSize * 2 - 1);
     }
 
-    private buildGraph(): EatYourNeighborGame {
+    private buildGraph(): BitesizeGame {
         this.graph = this.getGraph();
         return this;
     }
@@ -205,14 +203,9 @@ export class EatYourNeighborGame extends GameBase {
 
     public moves(): string[] {
         if (this.gameover) { return []; }
-        const groups = this.getGroups(); // get current player's groups
+        const groups = this.getGroups();
         const cells = this.graph.listCells(false) as string[];
-        const moves = cells.filter(c => !this.board.has(c))
-                           .filter(c => this.newGroup(c, groups).length <= 4);
-        if (this.ruleset === "no-threshold") {
-            return moves.length === 0 ? ["pass"] : moves;
-        }
-        return moves;
+        return cells.filter(c => !this.board.has(c)).filter(c => this.newGroup(c, groups).length <= this.getMaxGroupSize());
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -237,7 +230,7 @@ export class EatYourNeighborGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.eatyourneighbor.INSTRUCTIONS");
+            result.message = i18next.t("apgames:validation.bitesize.INSTRUCTIONS", {size: this.getMaxGroupSize()});
             return result;
         }
 
@@ -245,19 +238,8 @@ export class EatYourNeighborGame extends GameBase {
         m = m.replace(/\s+/g, "");
         const allMoves = this.moves();
 
-        if (this.ruleset === "no-threshold" && m === "pass") {
-            if (! allMoves.includes(m) ) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.eatyourneighbor.CANNOT_PASS", {move: allMoves[0]});
-                return result;
-            }
-            result.valid = true;
-            result.complete = 1;
-            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
-            return result;
-        }
-
-        try { // check if valid cell
+        // check if valid cell
+        try {
             this.graph.algebraic2coords(m);
         } catch {
             result.valid = false;
@@ -265,16 +247,16 @@ export class EatYourNeighborGame extends GameBase {
             return result;
         }
 
-        if ( this.board.has(m) ) {
+        if (this.board.has(m)) {
             result.valid = false;
             result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: m});
             return result;
         }
 
-        if (! allMoves.includes(m) ) {
+        if (!allMoves.includes(m) ) {
             result.valid = false;
             if ( this.newGroup(m, this.getGroups()).length > 4 ) {
-                result.message = i18next.t("apgames:validation.eatyourneighbor.GROUP_TOO_LARGE");
+                result.message = i18next.t("apgames:validation.bitesize.GROUP_TOO_LARGE");
             } else {
                 result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: m});
             }
@@ -288,7 +270,7 @@ export class EatYourNeighborGame extends GameBase {
         return result;
     }
 
-    public move(m: string, { trusted = false } = {}): EatYourNeighborGame {
+    public move(m: string, { trusted = false } = {}): BitesizeGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -301,54 +283,50 @@ export class EatYourNeighborGame extends GameBase {
 
         this.results = [];
 
-        if (m === "pass") {
-            this.results.push({type: "pass"});
-        } else {
-            const newGroup = this.newGroup(m, this.getGroups()); // necessary to check captures
-            this.board.set(m, this.currplayer);
-            this.results.push({type: "place", where: m});
+        const newGroup = this.newGroup(m, this.getGroups()); // necessary to check captures
+        this.board.set(m, this.currplayer);
+        this.results.push({type: "place", where: m});
 
-            const prevplayer = this.currplayer % 2 + 1 as playerid;
-            const oppGroups = this.getGroups(prevplayer);
+        const prevplayer = this.currplayer % 2 + 1 as playerid;
+        const oppGroups = this.getGroups(prevplayer);
 
-            // check captures
-            if (newGroup.length > 1 ) {
-                for (const oppGroup of oppGroups) {
-                    if ( oppGroup.length + 1 !== newGroup.length ) { continue; } // not of capturable size
-                    if ( oppGroup.some(c => this.isAdjacent(c, newGroup)) ) {
-                        // this opponent's group is adjacent to the new formed group => capture it
-                        for (const cell of oppGroup) {
-                            this.board.delete(cell);
-                        }
-                        this.scores[this.currplayer - 1] += oppGroup.length;
-                        this.results.push({ type: "capture", where: [...oppGroup].join(), count: oppGroup.length });
+        // check captures
+        if (newGroup.length > 1 ) {
+            for (const oppGroup of oppGroups) {
+                if ( oppGroup.length + 1 !== newGroup.length ) { continue; } // not of capturable size
+                if ( oppGroup.some(c => this.isAdjacent(c, newGroup)) ) {
+                    // this opponent's group is adjacent to the new formed group => capture it
+                    for (const cell of oppGroup) {
+                        this.board.delete(cell);
                     }
-                }
-            } else { // current move is singleton: check if it can help capture 4-sized groups
-                // get all singletons
-                const singletons: string[] = this.getGroups().filter(group => group.length === 1).map(cs => cs[0]);
-                // get opponent 4-size groups
-                const oppSize4s: string[][] = oppGroups.filter(group => group.length === 4);
-                // check if any opponent group is adjacent to three singletons
-                for (const oppGroup of oppSize4s) {
-                    let count = 0;
-                    let includeCurrentMove = false; // need to include the current singleton move `m`
-                    for (const singleton of singletons) {
-                        if ( this.isAdjacent(singleton, oppGroup) ) {
-                            count += 1;
-                            includeCurrentMove = includeCurrentMove || (singleton === m);
-                        }
-                    }
-                    if ( includeCurrentMove && count === 3 ) { // capture it!
-                        for (const cell of oppGroup) {
-                            this.board.delete(cell);
-                        }
-                        this.scores[this.currplayer - 1] += oppGroup.length;
-                        this.results.push({ type: "capture", where: [...oppGroup].join(), count: oppGroup.length });
-                    }
+                    this.scores[this.currplayer - 1] += oppGroup.length;
+                    this.results.push({ type: "capture", where: [...oppGroup].join(), count: oppGroup.length });
                 }
             }
-        } // else (!pass)
+        } else { // current move is singleton: check if it can help capture 4-sized groups
+            // get all singletons
+            const singletons: string[] = this.getGroups().filter(group => group.length === 1).map(cs => cs[0]);
+            // get opponent max-size groups
+            const oppMaxSizeGroups: string[][] = oppGroups.filter(group => group.length === this.getMaxGroupSize());
+            // check if any opponent group is adjacent to three singletons
+            for (const oppGroup of oppMaxSizeGroups) {
+                let count = 0;
+                let includeCurrentMove = false; // need to include the current singleton move `m`
+                for (const singleton of singletons) {
+                    if ( this.isAdjacent(singleton, oppGroup) ) {
+                        count += 1;
+                        includeCurrentMove = includeCurrentMove || (singleton === m);
+                    }
+                }
+                if ( includeCurrentMove && count === 3 ) { // capture it!
+                    for (const cell of oppGroup) {
+                        this.board.delete(cell);
+                    }
+                    this.scores[this.currplayer - 1] += oppGroup.length;
+                    this.results.push({ type: "capture", where: [...oppGroup].join(), count: oppGroup.length });
+                }
+            }
+        }
 
         this.lastmove = m;
         this.currplayer = this.currplayer % 2 + 1 as playerid;
@@ -357,20 +335,14 @@ export class EatYourNeighborGame extends GameBase {
         return this;
     }
 
-    protected checkEOG(): EatYourNeighborGame {
+    protected checkEOG(): BitesizeGame {
         const prevplayer = this.currplayer % 2 + 1 as playerid;
 
-        if (this.ruleset === "no-threshold") { // ends with two consecutive passes
-            this.gameover = this.lastmove === "pass" &&
-                            this.stack[this.stack.length - 1].lastmove === "pass";
-        } else { // ends when a player can't place legally or has eaten at least enough pieces
-            this.gameover = this.moves().length === 0 ||
-                            this.getPlayerScore(prevplayer) >= THRESHOLD;
-        }
-
+        this.gameover = this.moves().length === 0 || this.getPlayerScore(prevplayer) >= this.getThreshold();
         if (this.gameover) {
-            if ( this.getPlayerScore(1) === this.getPlayerScore(2) ) {
-                this.winner = [prevplayer]; // the last player who placed a piece wins
+            if (this.getPlayerScore(1) === this.getPlayerScore(2)) {
+                // The player who ran out of moves loses ties
+                this.winner = [prevplayer];
             } else {
                 this.winner = this.getPlayerScore(1) >= this.getPlayerScore(2) ? [1] : [2];
             }
@@ -449,7 +421,7 @@ export class EatYourNeighborGame extends GameBase {
                 resolved = true;
                 break;
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.eatyourneighbor", { player, where: r.where, count: r.count}));
+                node.push(i18next.t("apresults:CAPTURE.bitesize", { player, where: r.where, count: r.count}));
                 resolved = true;
                 break;
             case "eog":
@@ -460,9 +432,9 @@ export class EatYourNeighborGame extends GameBase {
         return resolved;
     }
 
-    public state(): IEatYourNeighborState {
+    public state(): IBitesizeState {
         return {
-            game: EatYourNeighborGame.gameinfo.uid,
+            game: BitesizeGame.gameinfo.uid,
             numplayers: this.numplayers,
             variants: this.variants,
             gameover: this.gameover,
@@ -473,7 +445,7 @@ export class EatYourNeighborGame extends GameBase {
 
     public moveState(): IMoveState {
         return {
-            _version: EatYourNeighborGame.gameinfo.version,
+            _version: BitesizeGame.gameinfo.version,
             _results: [...this.results],
             _timestamp: new Date(),
             currplayer: this.currplayer,
@@ -483,7 +455,7 @@ export class EatYourNeighborGame extends GameBase {
         };
     }
 
-    public clone(): EatYourNeighborGame {
-        return new EatYourNeighborGame(this.serialize());
+    public clone(): BitesizeGame {
+        return new BitesizeGame(this.serialize());
     }
 }

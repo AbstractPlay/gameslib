@@ -2543,6 +2543,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
         setSidebarState(!isCurrentlyCollapsed); // Toggle state
     });
 
+    openSidebarBtn.addEventListener('click', () => {
+        const isCurrentlyCollapsed = sidebar.classList.contains('collapsed');
+        setSidebarState(!isCurrentlyCollapsed); // Toggle state
+    });
+
     document.getElementById("darkMode").addEventListener("click", () => {
         const isDark = window.localStorage.getItem("darkMode") === "true";
         setDarkMode(!isDark);

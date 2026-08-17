@@ -59,7 +59,7 @@
         "crosshairs": "{{player}} shot down a plane at {{where}}.",
         "dameo_king": "{{player}} captured a king at {{where}}.",
         "dameo_soldier": "{{player}} captured a soldier at {{where}}.",
-        "eatyourneighbor": "{{player}} captured group {{where}} of size {{count}}.",
+        "bitesize": "{{player}} captured group {{where}} of size {{count}}.",
         "circleOfLife_one": "{{player}} devoured opponent species {{prey}} ({{count}} stone) at {{where}}.",
         "circleOfLife_other": "{{player}} devoured opponent species {{prey}} ({{count}} stones) at {{where}}.",
         "entrapment_opponent": "{{player}} captured an opponent's roamer at {{where}}.",

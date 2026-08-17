@@ -27,6 +27,7 @@
     "basalt": "Un gioco di connessione triangolare giocato sul fianco di un vulcano, dove lava e basalto gareggiano per connettere per primi i tre lati.",
     "bide": "Fino a sei giocatori si alternano a posizionare pezzi sul tavoliere, spingendo all'esterno i pezzi adiacenti. È anche possibile passare per accumulare pezzi da piazzare tutti insieme più tardi. I pezzi più vicini al centro valgono di più. Vince il gruppo con il punteggio più alto!",
     "biscuit": "Un gioco con il Decktet in stile domino in cui giochi carte per ottenere immediatamente punti e cerchi di essere il primo a giocare tutte le carte dalla tua mano. La partita si gioca su più round fino a un obiettivo specificato.",
+    "bitesize": "Ottieni punti mangiando creature in un ecosistema in crescita.",
     "blam": "Un gioco Icehouse per 2–4 giocatori giocato su una scacchiera standard. I pezzi posizionati spingono via quelli adiacenti. Spingi i pezzi fuori dal tavoliere per catturarli. Chi ha catturato il totale di valori dei punti più alto alla fine della partita vince.",
     "blastradius": "Un wargame astratto in cui i pezzi irradiano gli spazi attorno a loro. Elimina tutti i pezzi avversari.",
     "blockade": "Blockade (noto anche come Cul-de-sac) è un gioco \"scavalca la barriera\" in cui devi portare una delle tue pedine su una casella di partenza del tuo avversario. I giocatori posizionano muri larghi 2 per bloccarsi a vicenda.",
@@ -81,7 +82,6 @@
     "dragoneyes": "Una variante della dama con informazione incompleta, caselle magiche \"occhio di drago\", e giocata su un tavoliere esagonale.",
     "druid": "Posiziona sarsen e architravi per connettere i tuoi bordi del tavoliere. Sul tavoliere rettangolare standard, il Giocatore 1 connette est e ovest; il Giocatore 2 connette nord e sud. Su Druid's Y, connetti tutti e tre i lati (gli angoli contano per entrambi i bordi adiacenti). Su Druid's Hex, connetti tre lati alternati qualsiasi (non adiacenti). Solo la pietra più in alto su ciascuna cella conta ai fini della connessione.",
     "domineering": "I giocatori posizionano tessere del domino, una in verticale e un'altra in orizzontale, finché uno dei due non può più giocare, perdendo così la partita.",
-    "eatyourneighbor": "Ottieni punti mangiando creature in un ecosistema in crescita.",
     "emergo": "Una variante della Dama in cui i pezzi catturati rimangono sul tavoliere e possono essere liberati in seguito. Cattura tutti i pezzi avversari per vincere. Derivato da Lasca ma con due fasi di gioco e catture massime obbligatorie.",
     "emu": "Ogni uccello nel tuo allevamento è rappresentato da una pila di carte. Alla fine della mano, il valore di un uccello è determinato dalla somma delle carte numeriche nella pila. Lo scopo, ovviamente, è allevare uccelli redditizi. Vince il punteggio più alto dopo un determinato numero di \"anni\".",
     "enso": "Un gioco d'ispirazione Zen di movimento e cattura in cui tenti di circondare completamente uno dei tuoi pezzi con il vuoto.",
@@ -728,6 +728,14 @@
       "goal-120": {
         "name": "Punteggio obiettivo: 120 punti",
         "description": "La partita termina dopo la manche in cui qualcuno raggiunge il punteggio obiettivo. Vince il punteggio più alto."
+      }
+    },
+    "bitesize": {
+      "#board": {
+        "name": "Tabellone esagonale (base 4)"
+      },
+      "size-5": {
+        "name": "Tabellone esagonale (base 5)"
       }
     },
     "blastradius": {
@@ -1387,22 +1395,6 @@
       "claimdraw": {
         "description": "Devi scegliere di richiedere la patta durante il tuo turno.",
         "name": "Reclama patta"
-      }
-    },
-    "eatyourneighbor": {
-      "#board": {
-        "name": "Tabellone esagonale (base 4)"
-      },
-      "size-5": {
-        "name": "Tabellone esagonale (base 5)"
-      },
-      "#ruleset": {
-        "description": "I giocatori devono catturare 12 pezzi per vincere.",
-        "name": "Cattura 12 pezzi"
-      },
-      "no-threshold": {
-        "description": "Il gioco continua finché ci sono piazzamenti validi.",
-        "name": "Nessun limite massimo di catture"
       }
     },
     "emu": {
@@ -4878,6 +4870,11 @@
       "INVALID_MOVE": "Mossa non valida. Puoi posizionare carte solo accanto a carte con almeno un seme corrispondente.",
       "PARTIAL": "Seleziona la casella in cui vuoi posizionare la carta."
     },
+    "bitesize": {
+      "INSTRUCTIONS": "Posiziona una pedina amica su un esagono vuoto. Non è valido creare creature di dimensione superiore a 4.",
+      "CANNOT_PASS": "Impossibile passare, ci sono ancora posizionamenti validi (come {{move}})!",
+      "GROUP_TOO_LARGE": "Questo posizionamento creerebbe una creatura più grande di quattro pedine!"
+    },
     "blam": {
       "BADSYNTAX": "Sintassi non valida: {{move}}. Dovrebbe essere il numero 1, 2 o 3 seguito da una casella vuota (ad es. 1e4, o 3b2).",
       "INITIAL_INSTRUCTIONS": "Inserisci la dimensione del pezzo da posizionare. Puoi fare clic sulla tua riserva.",
@@ -5434,11 +5431,6 @@
       "INITIAL_INSTRUCTIONS_CAPTURE": "Fai clic su una pedina/spazio con un pallino per iniziare o continuare una catena di cattura.",
       "INITIAL_INSTRUCTIONS_ONE": "Fai clic su una pedina grigia per girarla e rivelarne il proprietario.",
       "INITIAL_INSTRUCTIONS_TWO": "Seleziona una delle tue pedine da muovere. Poi fai clic su uno spazio con un pallino per scegliere dove muoverti."
-    },
-    "eatyourneighbor": {
-      "INSTRUCTIONS": "Posiziona una pedina amica su un esagono vuoto. Non è valido creare creature di dimensione superiore a 4.",
-      "CANNOT_PASS": "Impossibile passare, ci sono ancora posizionamenti validi (come {{move}})!",
-      "GROUP_TOO_LARGE": "Questo posizionamento creerebbe una creatura più grande di quattro pedine!"
     },
     "emergo": {
       "INITIAL_INSTRUCTIONS_enter": "Seleziona una casella scura vuota per posizionare una pedina.",

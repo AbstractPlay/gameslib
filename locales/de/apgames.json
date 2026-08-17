@@ -28,6 +28,7 @@
     "basalt": "Ein dreieckiges Verbindungsspiel an der Flanke eines Vulkans, bei dem Lava und Basalt darum wetteifern, die drei Seiten zuerst zu verbinden.",
     "bide": "Bis zu sechs Spieler setzen abwechselnd Steine auf das Brett und drücken benachbarte Steine nach außen. Man kann auch passen, um eine Anzahl von Steinen anzusammeln, die später auf einmal platziert werden können. Steine näher am Zentrum sind wertvoller. Die Gruppe mit den meisten Punkten gewinnt!",
     "biscuit": "Ein Decktet-Spiel im Domino-Stil, bei dem du Karten ausspielst, um sofort Punkte zu erzielen, und versuchst, als Erster alle Karten deiner Hand auszuspielen. Ein Spiel wird über mehrere Runden bis zu einem festgelegten Zielwert gespielt.",
+    "bitesize": "Erhalte Punkte für das Fressen von Kreaturen in einem wachsenden Ökosystem.",
     "blam": "Ein Icehouse-Spiel für 2–4 Spieler auf einem Standard-Schachbrett. Platzierte Steine schieben benachbarte Steine weg. Schiebe Steine vom Brett, um sie zu schlagen. Wer am Ende des Spiels den höchsten Augenzahl-Wert an geschlagenen Steinen hat, gewinnt.",
     "blastradius": "Ein abstraktes Kriegsspiel, bei dem Steine die Felder um sie herum verstrahlen. Eliminiere alle gegnerischen Steine.",
     "blockade": "Blockade (auch bekannt als Cul-de-sac) ist ein Spiel, bei dem du einen deiner Bauern auf ein Startfeld deines Gegners bringen musst. Die Spieler platzieren 2 Felder breite Wände, um sich gegenseitig zu blockieren.",
@@ -82,7 +83,6 @@
     "dragoneyes": "Eine Variante von Dame mit unvollständiger Information, verzauberten Drachenaugen-Feldern und gespielt auf einem Sechseck-Brett.",
     "druid": "Platziere Sarsen-Steine und Decksteine (Lintels), um deine Ränder des Bretts zu verbinden. Auf dem rechteckigen Standardbrett verbindet Spieler 1 Ost und West; Spieler 2 verbindet Nord und Süd. Auf Druid's Y verbindest du alle drei Seiten (Ecken zählen für beide angrenzenden Ränder). Auf Druid's Hex verbindest du drei beliebige abwechselnde (nicht angrenzende) Seiten. Nur der oberste Stein auf jedem Feld zählt für eine Verbindung.",
     "domineering": "Die Spieler platzieren Dominosteine, einer vertikal, der andere horizontal, bis einer nicht mehr spielen kann und somit das Spiel verliert.",
-    "eatyourneighbor": "Erhalte Punkte für das Fressen von Kreaturen in einem wachsenden Ökosystem.",
     "emergo": "Eine Dame-Variante, bei der geschlagene Steine auf dem Brett verbleiben und später befreit werden können. Schlage alle gegnerischen Steine, um zu gewinnen. Abgeleitet von Lasca, aber mit zwei Spielphasen und verflichtenden maximalen Schlagzügen.",
     "emu": "Jeder Vogel auf deiner Ranch wird durch einen Kartenstapel dargestellt. Am Ende der Hand wird der Wert eines Vogels durch die Summe der Zahlenkarten im Stapel bestimmt. Das Ziel ist natürlich, gewinnbringende Vögel zu züchten. Die höchste Punktzahl nach einer Reihe von \"Jahren\" gewinnt.",
     "enso": "Ein Zen-inspiriertes Bewegungs- und Schlagspiel, bei dem du versuchst, einen deiner Steine vollständig mit Leere zu umgeben.",
@@ -728,6 +728,14 @@
       "goal-120": {
         "name": "Zielpunktzahl: 120 Punkte",
         "description": "Das Spiel endet nach der Runde, in der jemand die Zielpunktzahl erreicht. Die höchste Punktzahl gewinnt."
+      }
+    },
+    "bitesize": {
+      "#board": {
+        "name": "Hexagonales Brett (Basis 4)"
+      },
+      "size-5": {
+        "name": "Hexagonales Brett (Basis 5)"
       }
     },
     "blastradius": {
@@ -1387,22 +1395,6 @@
       "claimdraw": {
         "description": "Du musst in deinem Zug entscheiden, ein Remis einzufordern.",
         "name": "Remis einfordern"
-      }
-    },
-    "eatyourneighbor": {
-      "#board": {
-        "name": "Hexagonales Brett (Basis 4)"
-      },
-      "size-5": {
-        "name": "Hexagonales Brett (Basis 5)"
-      },
-      "#ruleset": {
-        "description": "Spieler müssen 12 Steine schlagen, um zu gewinnen.",
-        "name": "12 Steine schlagen"
-      },
-      "no-threshold": {
-        "description": "Das Spiel wird fortgesetzt, solange gültige Platzierungen möglich sind.",
-        "name": "Kein Schlaglimit"
       }
     },
     "emu": {
@@ -4879,6 +4871,11 @@
       "INVALID_MOVE": "Dieser Zug ist ungültig. Du darfst Karten nur neben Karten mit mindestens einer übereinstimmenden Farbe legen.",
       "PARTIAL": "Wähle das Feld, auf das du die Karte legen möchtest."
     },
+    "bitesize": {
+      "INSTRUCTIONS": "Setze einen eigenen Stein auf ein freies Hex-Feld. Kreaturen mit einer Größe von mehr als 4 Steinen sind ungültig.",
+      "CANNOT_PASS": "Passen nicht möglich, es gibt noch gültige Platzierungen (wie {{move}})!",
+      "GROUP_TOO_LARGE": "Diese Platzierung würde eine Kreatur mit mehr als vier Steinen erzeugen!"
+    },
     "blam": {
       "BADSYNTAX": "Ungültige Syntax: {{move}}. Es sollte die Zahl 1, 2 oder 3 gefolgt von einem leeren Feld sein (z. B. 1e4 oder 3b2).",
       "INITIAL_INSTRUCTIONS": "Gib die Größe des zu platzierenden Steins ein. Du kannst auf deinen Vorrat klicken.",
@@ -5418,11 +5415,6 @@
       "INITIAL_INSTRUCTIONS_CAPTURE": "Klicke auf einen Stein/ein Feld mit einem Punkt, um eine Schlagkette zu beginnen oder fortzusetzen.",
       "INITIAL_INSTRUCTIONS_ONE": "Klicke auf einen grauen Stein, um ihn umzudrehen und den Besitzer zu enthüllen.",
       "INITIAL_INSTRUCTIONS_TWO": "Wähle einen deiner Steine zum Ziehen aus. Klicke dann auf ein Feld mit einem Punkt, um das Ziel zu wählen."
-    },
-    "eatyourneighbor": {
-      "INSTRUCTIONS": "Setze einen eigenen Stein auf ein freies Hex-Feld. Kreaturen mit einer Größe von mehr als 4 Steinen sind ungültig.",
-      "CANNOT_PASS": "Passen nicht möglich, es gibt noch gültige Platzierungen (wie {{move}})!",
-      "GROUP_TOO_LARGE": "Diese Platzierung würde eine Kreatur mit mehr als vier Steinen erzeugen!"
     },
     "emergo": {
       "INITIAL_INSTRUCTIONS_enter": "Wähle ein freies dunkles Feld, um einen Stein zu platzieren.",

@@ -766,14 +766,6 @@
             },
             "size-5": {
                 "name": "Hexagonal board (base-5)"
-            },
-            "#ruleset": {
-                "description": "Players need to capture 16 pieces to win on the small board or 25 to win on the large board.",
-                "name": "Capture pieces"
-            },
-            "no-threshold": {
-                "description": "The game continues while there are valid placements.",
-                "name": "No capture threshold"
             }
         },
         "blastradius": {

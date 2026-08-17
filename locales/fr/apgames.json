@@ -27,6 +27,7 @@
     "basalt": "Un jeu de connexion triangulaire joué sur le flanc d'un volcan, où la lave et le basalte rivalisent pour relier les trois côtés en premier.",
     "bide": "Jusqu'à six joueurs placent à tour de rôle des pièces sur le plateau, repoussant les pièces adjacentes vers l'extérieur. On peut aussi passer son tour pour accumuler des pièces pouvant être placées d'un coup plus tard. Les pièces plus proches du centre ont plus de valeur. Le groupe qui marque le plus de points l'emporte !",
     "biscuit": "Un jeu de Decktet de style domino où vous jouez des cartes pour marquer immédiatement des points et tenter d'être le premier à jouer toutes les cartes de votre main. Une partie se joue en plusieurs manches jusqu'à atteindre un score cible.",
+    "bitesize": "Gagnez des points en dévorant des créatures dans un écosystème en expansion.",
     "blam": "Un jeu Icehouse pour 2 à 4 joueurs joué sur un échiquier standard. Les pièces placées repoussent les pièces adjacentes. Poussez les pièces hors du plateau pour les capturer. Le joueur ayant capturé le total de points le plus élevé à la fin de la partie l'emporte.",
     "blastradius": "Un jeu de guerre abstrait où les pièces irradient les cases environnantes. Éliminez toutes les pièces adverses.",
     "blockade": "Blockade (également connu sous le nom de Cul-de-sac) est un jeu de course d'obstacles où vous devez amener l'un de vos pions sur une case de départ de votre adversaire. Les joueurs placent des murs de 2 cases de large pour se bloquer mutuellement.",
@@ -81,7 +82,6 @@
     "dragoneyes": "Une variante du jeu de dames à information incomplète, avec des cases enchantées « œil de dragon », jouée sur un plateau hexagonal.",
     "druid": "Placez des sarsens et des linteaux pour relier vos bords du plateau. Sur le plateau rectangulaire standard, le joueur 1 relie l'est et l'ouest ; le joueur 2 relie le nord et le sud. Sur Druid's Y, reliez les trois côtés (les coins comptent pour les deux bords adjacents). Sur Druid's Hex, reliez trois côtés alternés (non adjacents). Seule la pierre supérieure de chaque case compte pour la connexion.",
     "domineering": "Les joueurs placent des dominos, l'un verticalement, l'autre horizontalement, jusqu'à ce que l'un d'eux ne puisse plus jouer et perde ainsi la partie.",
-    "eatyourneighbor": "Gagnez des points en dévorant des créatures dans un écosystème en expansion.",
     "emergo": "Une variante du jeu de dames où les pièces capturées restent sur le plateau et peuvent être libérées plus tard. Capturez toutes les pièces adverses pour l'emporter. Dérivé du Lasca mais avec deux phases de jeu et capture maximale obligatoire.",
     "emu": "Chaque oiseau de votre ranch est représenté par une pile de cartes. À la fin de la main, la valeur d'un oiseau est déterminée par la somme des cartes numérotées dans la pile. Le but est naturellement de faire prospérer des oiseaux rentables. Le score le plus élevé après un certain nombre d'« années » l'emporte.",
     "enso": "Un jeu de déplacement et de capture d'inspiration zen dans lequel vous tentez d'encercler complètement l'une de vos pièces avec du vide.",
@@ -728,6 +728,14 @@
       "goal-120": {
         "name": "Score cible : 120 points",
         "description": "La partie se termine après la manche au cours de laquelle quelqu'un atteint le score cible. Le score le plus élevé gagne."
+      }
+    },
+    "bitesize": {
+      "#board": {
+        "name": "Plateau hexagonal (base 4)"
+      },
+      "size-5": {
+        "name": "Plateau hexagonal (base 5)"
       }
     },
     "blastradius": {
@@ -1387,22 +1395,6 @@
       "claimdraw": {
         "description": "Vous devez choisir de réclamer une égalité à votre tour.",
         "name": "Réclamer l'égalité"
-      }
-    },
-    "eatyourneighbor": {
-      "#board": {
-        "name": "Plateau hexagonal (base 4)"
-      },
-      "size-5": {
-        "name": "Plateau hexagonal (base 5)"
-      },
-      "#ruleset": {
-        "description": "Le joueur doit capturer 12 pièces pour gagner.",
-        "name": "Capturer 12 pièces"
-      },
-      "no-threshold": {
-        "description": "La partie continue tant qu'il y a des placements valides.",
-        "name": "Sans limite de captures"
       }
     },
     "emu": {
@@ -4878,6 +4870,11 @@
       "INVALID_MOVE": "Ce coup n'est pas valide. Vous ne pouvez placer des cartes qu'à côté de cartes possédant au moins une enseigne correspondante.",
       "PARTIAL": "Sélectionnez la case où vous souhaitez placer la carte."
     },
+    "bitesize": {
+      "INSTRUCTIONS": "Placez une pièce alliée sur un hexagone vide. Il est interdit de créer des créatures d'une taille supérieure à 4.",
+      "CANNOT_PASS": "Impossible de passer, il y a encore des placements valides (comme {{move}}) !",
+      "GROUP_TOO_LARGE": "Ce placement créerait une créature de plus de quatre pièces !"
+    },
     "blam": {
       "BADSYNTAX": "Syntaxe non valide : {{move}}. Ce doit être le chiffre 1, 2 ou 3 suivi d'une case vide (par ex. 1e4, ou 3b2).",
       "INITIAL_INSTRUCTIONS": "Entrez la taille de la pièce à placer. Vous pouvez cliquer sur votre réserve.",
@@ -5434,11 +5431,6 @@
       "INITIAL_INSTRUCTIONS_CAPTURE": "Cliquez sur une pièce/case avec un point pour commencer ou continuer une chaîne de capture.",
       "INITIAL_INSTRUCTIONS_ONE": "Cliquez sur une pièce grise pour la retourner et en révéler le propriétaire.",
       "INITIAL_INSTRUCTIONS_TWO": "Sélectionnez l'une de vos pièces à déplacer. Cliquez ensuite sur une case avec un point pour choisir où la déplacer."
-    },
-    "eatyourneighbor": {
-      "INSTRUCTIONS": "Placez une pièce alliée sur un hexagone vide. Il est interdit de créer des créatures d'une taille supérieure à 4.",
-      "CANNOT_PASS": "Impossible de passer, il y a encore des placements valides (comme {{move}}) !",
-      "GROUP_TOO_LARGE": "Ce placement créerait une créature de plus de quatre pièces !"
     },
     "emergo": {
       "INITIAL_INSTRUCTIONS_enter": "Sélectionnez une case sombre vide pour y placer une pièce.",

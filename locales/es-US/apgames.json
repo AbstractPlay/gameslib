@@ -27,6 +27,7 @@
     "basalt": "Un juego de conexión triangular en la ladera de un volcán, donde la lava y el basalto compiten por conectar primero los tres lados.",
     "bide": "Hasta seis jugadores se turnan para colocar piezas en el tablero, empujando las piezas adyacentes hacia afuera. También se puede pasar para acumular piezas que se podrán colocar todas juntas más adelante. Las piezas más cercanas al centro valen más puntos. ¡Gana el grupo con la puntuación más alta!",
     "biscuit": "Un juego de Decktet al estilo dominó en el que juegas cartas para sumar puntos de inmediato e intentas ser el primero en jugar todas las cartas de tu mano. Las partidas se juegan a lo largo de varias rondas hasta alcanzar un objetivo determinado.",
+    "bitesize": "Obtén puntos devorando criaturas en un ecosistema en crecimiento.",
     "blam": "Un juego de Icehouse para 2 a 4 jugadores que se juega en un tablero de ajedrez estándar. Las piezas colocadas empujan a las piezas adyacentes. Empuja piezas fuera del tablero para capturarlas. Quien haya capturado el mayor total de puntos (pips) en piezas al final de la partida gana.",
     "blastradius": "Un juego de guerra abstracto donde las piezas irradian los espacios a su alrededor. Elimina todas las piezas enemigas.",
     "blockade": "Blockade (también conocido como Cul-de-sac) es un juego de superar barreras en el que debes llevar uno de tus peones a una casilla de salida de tu oponente. Los jugadores colocan muros de 2 casillas de ancho para bloquearse mutuamente.",
@@ -81,7 +82,6 @@
     "dragoneyes": "Una variante de damas con información incompleta, casillas encantadas de ojos de dragón y jugada en un tablero hexagonal.",
     "druid": "Coloca sarsenes y dinteles para conectar tus bordes del tablero. En el tablero rectangular estándar, el jugador 1 conecta este y oeste; el jugador 2 conecta norte y sur. En Druid's Y, conecta los tres lados (las esquinas cuentan para ambos bordes adyacentes). En Druid's Hex, conecta tres lados alternos (no adyacentes) cualesquiera. Solo la piedra superior de cada casilla cuenta para la conexión.",
     "domineering": "Los jugadores colocan fichas de dominó, uno verticalmente y el otro horizontalmente, hasta que alguno no pueda jugar, perdiendo así la partida.",
-    "eatyourneighbor": "Obtén puntos devorando criaturas en un ecosistema en crecimiento.",
     "emergo": "Una variante de damas en la que las piezas capturadas permanecen en el tablero y pueden liberarse más adelante. Captura todas las piezas enemigas para ganar. Derivado de Lasca pero con dos fases de juego y capturas máximas obligatorias.",
     "emu": "Cada ave de tu rancho está representada por una pila de cartas. Al final de la mano, el valor de un ave se determina por la suma de las cartas numéricas de la pila. El objetivo, por supuesto, es criar aves rentables. Gana la puntuación más alta después de un número de \"años\".",
     "enso": "Un juego de movimiento y captura de inspiración zen en el que intentas rodear completamente una de tus piezas con el vacío.",
@@ -819,6 +819,14 @@
         "description": "El juego termina después de la ronda en la que alguien alcanza el puntaje objetivo. El puntaje más alto gana."
       }
     },
+    "bitesize": {
+      "#board": {
+        "name": "Tablero hexagonal (base 4)"
+      },
+      "size-5": {
+        "name": "Tablero hexagonal (base 5)"
+      }
+    },
     "blastradius": {
       "#board": {
         "name": "Tablero hexagonal (base 6)"
@@ -1476,22 +1484,6 @@
       "claimdraw": {
         "description": "Debes elegir reclamar un empate en tu turno.",
         "name": "Reclamar empates"
-      }
-    },
-    "eatyourneighbor": {
-      "#board": {
-        "name": "Tablero hexagonal (base 4)"
-      },
-      "size-5": {
-        "name": "Tablero hexagonal (base 5)"
-      },
-      "#ruleset": {
-        "description": "El jugador necesita capturar 12 piezas para ganar.",
-        "name": "Capturar 12 piezas"
-      },
-      "no-threshold": {
-        "description": "El juego continúa mientras haya colocaciones válidas.",
-        "name": "Sin capturas máximas"
       }
     },
     "emu": {
@@ -4937,6 +4929,11 @@
       "INVALID_MOVE": "Ese movimiento no es válido. Solo puedes colocar cartas junto a cartas con al menos un palo coincidente.",
       "PARTIAL": "Selecciona la casilla donde quieres colocar la carta."
     },
+    "bitesize": {
+      "INSTRUCTIONS": "Coloca una pieza aliada en un hexágono vacío. No es válido crear criaturas mayores a tamaño 4.",
+      "CANNOT_PASS": "¡No puedes pasar, aún hay colocaciones válidas (como {{move}})!",
+      "GROUP_TOO_LARGE": "¡Esta colocación crearía una criatura mayor a cuatro piezas!"
+    },
     "blam": {
       "BADSYNTAX": "Sintaxis no válida: {{move}}. Debe ser el número 1, 2 o 3 seguido de una casilla vacía (por ejemplo, 1e4 o 3b2).",
       "INITIAL_INSTRUCTIONS": "Ingresa el tamaño de la pieza a colocar. Puedes hacer clic en tu reserva.",
@@ -5497,11 +5494,6 @@
       "INITIAL_INSTRUCTIONS_CAPTURE": "Haz clic en una pieza/espacio con un punto para comenzar o continuar una cadena de captura.",
       "INITIAL_INSTRUCTIONS_ONE": "Haz clic en una pieza gris para darla vuelta y revelar al propietario.",
       "INITIAL_INSTRUCTIONS_TWO": "Selecciona una de tus piezas para moverla. Luego, haz clic en un espacio con un punto para elegir adónde moverla."
-    },
-    "eatyourneighbor": {
-      "INSTRUCTIONS": "Coloca una pieza aliada en un hexágono vacío. No es válido crear criaturas mayores a tamaño 4.",
-      "CANNOT_PASS": "¡No puedes pasar, aún hay colocaciones válidas (como {{move}})!",
-      "GROUP_TOO_LARGE": "¡Esta colocación crearía una criatura mayor a cuatro piezas!"
     },
     "emergo": {
       "INITIAL_INSTRUCTIONS_enter": "Selecciona una casilla oscura vacía para colocar una pieza.",

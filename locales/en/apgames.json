@@ -4852,7 +4852,7 @@
             "PARTIAL": "Select the cell where you want to place the card."
         },
         "bitesize": {
-            "INSTRUCTIONS": "Place a friendly piece on an empty hex. It is invalid to make creatures bigger than size 4.",
+            "INSTRUCTIONS": "Place a friendly piece on an empty hex. It is invalid to make creatures bigger than size {{size}}.",
             "CANNOT_PASS": "Cannot pass, there are still valid placements (like {{move}})!",
             "GROUP_TOO_LARGE": "This placement would make a creature bigger than four pieces!"
         },

@@ -135,6 +135,11 @@ export class BitesizeGame extends GameBase {
         return (this.getBoardSize() === 4) ? 16 : 25;
     }
 
+    private getMaxGroupSize(): number {
+        // This isn't necessarily always true, but it's true for size 4 and 5
+        return this.getBoardSize();
+    }
+
     private getGraph(): HexTriGraph {
         return new HexTriGraph(this.boardSize, this.boardSize * 2 - 1);
     }
@@ -198,9 +203,9 @@ export class BitesizeGame extends GameBase {
 
     public moves(): string[] {
         if (this.gameover) { return []; }
-        const groups = this.getGroups(); // get current player's groups
+        const groups = this.getGroups();
         const cells = this.graph.listCells(false) as string[];
-        return cells.filter(c => !this.board.has(c)).filter(c => this.newGroup(c, groups).length <= 4);
+        return cells.filter(c => !this.board.has(c)).filter(c => this.newGroup(c, groups).length <= this.getMaxGroupSize());
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -225,7 +230,7 @@ export class BitesizeGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.bitesize.INSTRUCTIONS");
+            result.message = i18next.t("apgames:validation.bitesize.INSTRUCTIONS", {size: this.getMaxGroupSize()});
             return result;
         }
 
@@ -233,7 +238,8 @@ export class BitesizeGame extends GameBase {
         m = m.replace(/\s+/g, "");
         const allMoves = this.moves();
 
-        try { // check if valid cell
+        // check if valid cell
+        try {
             this.graph.algebraic2coords(m);
         } catch {
             result.valid = false;
@@ -241,13 +247,13 @@ export class BitesizeGame extends GameBase {
             return result;
         }
 
-        if ( this.board.has(m) ) {
+        if (this.board.has(m)) {
             result.valid = false;
             result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: m});
             return result;
         }
 
-        if (! allMoves.includes(m) ) {
+        if (!allMoves.includes(m) ) {
             result.valid = false;
             if ( this.newGroup(m, this.getGroups()).length > 4 ) {
                 result.message = i18next.t("apgames:validation.bitesize.GROUP_TOO_LARGE");
@@ -277,54 +283,50 @@ export class BitesizeGame extends GameBase {
 
         this.results = [];
 
-        if (m === "pass") {
-            this.results.push({type: "pass"});
-        } else {
-            const newGroup = this.newGroup(m, this.getGroups()); // necessary to check captures
-            this.board.set(m, this.currplayer);
-            this.results.push({type: "place", where: m});
+        const newGroup = this.newGroup(m, this.getGroups()); // necessary to check captures
+        this.board.set(m, this.currplayer);
+        this.results.push({type: "place", where: m});
 
-            const prevplayer = this.currplayer % 2 + 1 as playerid;
-            const oppGroups = this.getGroups(prevplayer);
+        const prevplayer = this.currplayer % 2 + 1 as playerid;
+        const oppGroups = this.getGroups(prevplayer);
 
-            // check captures
-            if (newGroup.length > 1 ) {
-                for (const oppGroup of oppGroups) {
-                    if ( oppGroup.length + 1 !== newGroup.length ) { continue; } // not of capturable size
-                    if ( oppGroup.some(c => this.isAdjacent(c, newGroup)) ) {
-                        // this opponent's group is adjacent to the new formed group => capture it
-                        for (const cell of oppGroup) {
-                            this.board.delete(cell);
-                        }
-                        this.scores[this.currplayer - 1] += oppGroup.length;
-                        this.results.push({ type: "capture", where: [...oppGroup].join(), count: oppGroup.length });
+        // check captures
+        if (newGroup.length > 1 ) {
+            for (const oppGroup of oppGroups) {
+                if ( oppGroup.length + 1 !== newGroup.length ) { continue; } // not of capturable size
+                if ( oppGroup.some(c => this.isAdjacent(c, newGroup)) ) {
+                    // this opponent's group is adjacent to the new formed group => capture it
+                    for (const cell of oppGroup) {
+                        this.board.delete(cell);
                     }
-                }
-            } else { // current move is singleton: check if it can help capture 4-sized groups
-                // get all singletons
-                const singletons: string[] = this.getGroups().filter(group => group.length === 1).map(cs => cs[0]);
-                // get opponent 4-size groups
-                const oppSize4s: string[][] = oppGroups.filter(group => group.length === 4);
-                // check if any opponent group is adjacent to three singletons
-                for (const oppGroup of oppSize4s) {
-                    let count = 0;
-                    let includeCurrentMove = false; // need to include the current singleton move `m`
-                    for (const singleton of singletons) {
-                        if ( this.isAdjacent(singleton, oppGroup) ) {
-                            count += 1;
-                            includeCurrentMove = includeCurrentMove || (singleton === m);
-                        }
-                    }
-                    if ( includeCurrentMove && count === 3 ) { // capture it!
-                        for (const cell of oppGroup) {
-                            this.board.delete(cell);
-                        }
-                        this.scores[this.currplayer - 1] += oppGroup.length;
-                        this.results.push({ type: "capture", where: [...oppGroup].join(), count: oppGroup.length });
-                    }
+                    this.scores[this.currplayer - 1] += oppGroup.length;
+                    this.results.push({ type: "capture", where: [...oppGroup].join(), count: oppGroup.length });
                 }
             }
-        } // else (!pass)
+        } else { // current move is singleton: check if it can help capture 4-sized groups
+            // get all singletons
+            const singletons: string[] = this.getGroups().filter(group => group.length === 1).map(cs => cs[0]);
+            // get opponent max-size groups
+            const oppMaxSizeGroups: string[][] = oppGroups.filter(group => group.length === this.getMaxGroupSize());
+            // check if any opponent group is adjacent to three singletons
+            for (const oppGroup of oppMaxSizeGroups) {
+                let count = 0;
+                let includeCurrentMove = false; // need to include the current singleton move `m`
+                for (const singleton of singletons) {
+                    if ( this.isAdjacent(singleton, oppGroup) ) {
+                        count += 1;
+                        includeCurrentMove = includeCurrentMove || (singleton === m);
+                    }
+                }
+                if ( includeCurrentMove && count === 3 ) { // capture it!
+                    for (const cell of oppGroup) {
+                        this.board.delete(cell);
+                    }
+                    this.scores[this.currplayer - 1] += oppGroup.length;
+                    this.results.push({ type: "capture", where: [...oppGroup].join(), count: oppGroup.length });
+                }
+            }
+        }
 
         this.lastmove = m;
         this.currplayer = this.currplayer % 2 + 1 as playerid;

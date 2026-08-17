@@ -147,6 +147,10 @@
     "src": "{{player}} captured a total of {{count}} stones from the following pits (in order): {{pits}}",
     "out": "{{player}} ha catturato un totale di {{count}} pietre dalle seguenti fosse (in ordine): {{pits}}"
   },
+  "CAPTURE.bitesize": {
+    "src": "{{player}} captured group {{where}} of size {{count}}.",
+    "out": "{{player}} ha catturato il gruppo {{where}} di dimensione {{count}}."
+  },
   "CAPTURE.blastradius_one": {
     "src": "{{player}} removed one enemy piece from {{where}}.",
     "out": "{{player}} ha rimosso un pezzo nemico da {{where}}."

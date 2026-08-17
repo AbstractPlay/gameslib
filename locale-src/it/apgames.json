@@ -127,6 +127,10 @@
     "src": "A domino-style Decktet game where you play cards to immediately score points and try to be the first to play all the cards in your hand. A game is played over multiple rounds to a specified target.",
     "out": "Un gioco con il Decktet in stile domino in cui giochi carte per ottenere immediatamente punti e cerchi di essere il primo a giocare tutte le carte dalla tua mano. La partita si gioca su più round fino a un obiettivo specificato."
   },
+  "descriptions.bitesize": {
+    "src": "Get points for eating creatures in a growing ecosystem.",
+    "out": "Ottieni punti mangiando creature in un ecosistema in crescita."
+  },
   "descriptions.blam": {
     "src": "An Icehouse game for 2–4 players played on a standard chess board. Pieces placed push adjacent pieces away. Push pieces off the board to capture them. Whoever has captured the highest pip total of pieces at the end of the game wins.",
     "out": "Un gioco Icehouse per 2–4 giocatori giocato su una scacchiera standard. I pezzi posizionati spingono via quelli adiacenti. Spingi i pezzi fuori dal tavoliere per catturarli. Chi ha catturato il totale di valori dei punti più alto alla fine della partita vince."
@@ -3910,6 +3914,18 @@
   "validation.biscuit.PARTIAL": {
     "src": "Select the cell where you want to place the card.",
     "out": "Seleziona la casella in cui vuoi posizionare la carta."
+  },
+  "validation.bitesize.CANNOT_PASS": {
+    "src": "Cannot pass, there are still valid placements (like {{move}})!",
+    "out": "Impossibile passare, ci sono ancora posizionamenti validi (come {{move}})!"
+  },
+  "validation.bitesize.GROUP_TOO_LARGE": {
+    "src": "This placement would make a creature bigger than four pieces!",
+    "out": "Questo posizionamento renderebbe una creatura più grande di quattro pezzi!"
+  },
+  "validation.bitesize.INSTRUCTIONS": {
+    "src": "Place a friendly piece on an empty hex. It is invalid to make creatures bigger than size {{size}}.",
+    "out": "Posiziona un tuo pezzo su un esagono vuoto. Non è consentito creare creature più grandi della dimensione {{size}}."
   },
   "validation.blam.BADSYNTAX": {
     "src": "Invalid syntax: {{move}}. It should be the number 1, 2, or 3 followed by an empty cell (e.g., 1e4, or 3b2).",
@@ -12998,6 +13014,30 @@
   "variants.biscuit.pawns-only.name": {
     "src": "Pawns only",
     "out": "Solo pedoni"
+  },
+  "variants.bitesize.#board.name": {
+    "src": "Hexagonal board (base-4)",
+    "out": "Tabellone esagonale (base-4)"
+  },
+  "variants.bitesize.#ruleset.description": {
+    "src": "Players need to capture 16 pieces to win on the small board or 25 to win on the large board.",
+    "out": "I giocatori devono catturare 16 pezzi per vincere sul tabellone piccolo o 25 per vincere sul tabellone grande."
+  },
+  "variants.bitesize.#ruleset.name": {
+    "src": "Capture pieces",
+    "out": "Cattura pezzi"
+  },
+  "variants.bitesize.no-threshold.description": {
+    "src": "The game continues while there are valid placements.",
+    "out": "La partita continua finché ci sono posizionamenti validi."
+  },
+  "variants.bitesize.no-threshold.name": {
+    "src": "No capture threshold",
+    "out": "Nessuna soglia di cattura"
+  },
+  "variants.bitesize.size-5.name": {
+    "src": "Hexagonal board (base-5)",
+    "out": "Tabellone esagonale (base-5)"
   },
   "variants.blastradius.#board.name": {
     "src": "Hexagonal board (base-6)",

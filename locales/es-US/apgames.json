@@ -282,7 +282,8 @@
     "yonmoque": "Intenta formar cuatro en línea en un juego donde no todos los espacios son iguales y las piezas enemigas se pueden convertir.",
     "zola": "Un juego donde tu movimiento está limitado por tu distancia desde el centro del tablero. Los movimientos de captura no deben aumentar esa distancia. Los movimientos que no son de captura deben aumentar esa distancia. La primera persona que capture todas las piezas enemigas gana.",
     "fractured": "Un juego de control de áreas en un tablero único \"fracturado\". La puntuación se lleva en un marcador compartido.",
-    "baghchal": "Un juego tradicional asimétrico para dos jugadores originario de Nepal. El jugador tigre intenta capturar 5 cabras saltando sobre ellas; el jugador cabra intenta inmovilizar a todos los tigres."
+    "baghchal": "Un juego tradicional asimétrico para dos jugadores originario de Nepal. El jugador tigre intenta capturar 5 cabras saltando sobre ellas; el jugador cabra intenta inmovilizar a todos los tigres.",
+    "bitesize": "Gana puntos por comer criaturas en un ecosistema en crecimiento."
   },
   "notes": {
     "akimbo": "Akimbo, diseñado por Luis Bolaños Mures en 2026, es un juego de conexión sin empates para dos jugadores. Una _diagonal desnuda_ es un par de piezas del mismo color, adyacentes en diagonal, sin ninguna otra pieza del mismo color adyacente a ambas. Un _corte cruzado_ es un área de 2×2 con dos diagonales desnudas entrelazadas de colores opuestos.\n\nEn su turno, el jugador coloca una pieza propia en una casilla vacía. Si esto completa un corte cruzado, la otra pieza en el corte cruzado se elimina. Nunca debe haber más de una diagonal desnuda de cada color en el tablero, ni siquiera de forma momentánea antes de quitar una pieza. Un jugador gana si, al final de su turno, hay una cadena de piezas de su color conectadas ortogonalmente que toque los dos bordes opuestos del tablero pertenecientes a ese jugador.\n\nOkimba es una variante donde solo puede existir como máximo una diagonal desnuda en el tablero (por lo que mientras un jugador tenga la diagonal, el adversario no puede crear otra).",
@@ -3886,6 +3887,22 @@
       },
       "8x8": {
         "name": "Tablero de 8x8"
+      }
+    },
+    "bitesize": {
+      "#board": {
+        "name": "Tablero hexagonal (base 4)"
+      },
+      "size-5": {
+        "name": "Tablero hexagonal (base 5)"
+      },
+      "#ruleset": {
+        "description": "Los jugadores deben capturar 16 piezas para ganar en el tablero pequeño o 25 para ganar en el tablero grande.",
+        "name": "Capturar piezas"
+      },
+      "no-threshold": {
+        "description": "La partida continúa mientras haya colocaciones válidas.",
+        "name": "Sin umbral de captura"
       }
     }
   },
@@ -7610,6 +7627,11 @@
       "INITIAL_INSTRUCTIONS_GOAT_MOVEMENT": "Selecciona una cabra para mover.",
       "INITIAL_INSTRUCTIONS_GOAT_PLACEMENT": "Coloca una cabra en una intersección vacía.",
       "VALID_PARTIAL": "Selecciona una intersección vacía para moverte. Tanto las cabras como los tigres pueden moverse a cualquier intersección adyacente (conectada) que esté libre. Los tigres pueden saltar sobre una cabra hacia la intersección libre detrás de ella, pero los saltos solo se pueden realizar hacia adelante, en diagonal hacia adelante o hacia los lados, nunca hacia atrás ni en diagonal hacia atrás."
+    },
+    "bitesize": {
+      "INSTRUCTIONS": "Coloca una pieza propia en un hexágono vacío. No es válido crear criaturas de un tamaño mayor a {{size}}.",
+      "CANNOT_PASS": "¡No puedes pasar, todavía hay colocaciones válidas (como {{move}})!",
+      "GROUP_TOO_LARGE": "¡Esta colocación haría que una criatura fuera más grande que cuatro piezas!"
     }
   },
   "INITIAL_UNDO": "No puedes deshacer la posición inicial del juego.",

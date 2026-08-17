@@ -282,7 +282,8 @@
     "scribe": "Un gioco con carta e penna su una super-griglia 9×9 composta da nove mini-griglie 3×3. Vinci il maggior numero di mini-griglie o, nella variante avanzata, crea il super-glifo di maggior valore con le tue vittorie.",
     "circleOfLife": "Posiziona pietre su un ecosistema esagonale per formare sagome di specie. Ogni specie divora la specie immediatamente inferiore nella catena alimentare. Cattura 20 pietre avversarie, oppure riempi la plancia il più possibile.",
     "fractured": "Un gioco di controllo area su un unico tabellone \"fratturato\". Il punteggio si calcola su un tracciato condiviso.",
-    "baghchal": "Un tradizionale gioco asimmetrico per due giocatori del Nepal. Il giocatore che controlla le tigri cerca di catturare 5 capre saltandole, mentre il giocatore che controlla le capre cerca di immobilizzare tutte le tigri."
+    "baghchal": "Un tradizionale gioco asimmetrico per due giocatori del Nepal. Il giocatore che controlla le tigri cerca di catturare 5 capre saltandole, mentre il giocatore che controlla le capre cerca di immobilizzare tutte le tigri.",
+    "bitesize": "Ottieni punti mangiando creature in un ecosistema in crescita."
   },
   "notes": {
     "akimbo": "Akimbo, progettato da Luis Bolaños Mures nel 2026, è un gioco di connessione senza pareggi per due giocatori. Una _diagonale nuda_ è una coppia di pezzi adiacenti in diagonale dello stesso colore privi di altri pezzi dello stesso colore adiacenti a entrambi. Un _crosscut_ è un'area 2×2 con due diagonali nude incrociate di colori opposti.\n\nNel proprio turno, il giocatore piazza un pezzo amico su una casella vuota. Se ciò completa un crosscut, l'altro pezzo nel crosscut viene rimosso. Non deve mai esserci più di una diagonale nuda per colore sul tabellone — nemmeno momentaneamente prima di rimuovere un pezzo. Un giocatore vince se, alla fine del proprio turno, c'è una catena di pezzi del proprio colore connessi ortogonalmente che tocca i due bordi opposti del tabellone del giocatore.\n\nOkimba è una variante in cui può esistere al massimo una diagonale nuda sul tabellone (quindi mentre un giocatore ha la diagonale, l'avversario non può crearne un'altra).",
@@ -3886,6 +3887,22 @@
       "advanced": {
         "name": "Avanzata",
         "description": "Vinci formando il super-glifo di maggior valore con le mini-griglie che hai conquistato, anziché vincendo il maggior numero di mini-griglie."
+      }
+    },
+    "bitesize": {
+      "#board": {
+        "name": "Tabellone esagonale (base-4)"
+      },
+      "size-5": {
+        "name": "Tabellone esagonale (base-5)"
+      },
+      "#ruleset": {
+        "description": "I giocatori devono catturare 16 pezzi per vincere sul tabellone piccolo o 25 per vincere sul tabellone grande.",
+        "name": "Cattura pezzi"
+      },
+      "no-threshold": {
+        "description": "La partita continua finché ci sono posizionamenti validi.",
+        "name": "Nessuna soglia di cattura"
       }
     }
   },
@@ -7610,6 +7627,11 @@
       "INITIAL_INSTRUCTIONS_GOAT_MOVEMENT": "Seleziona una capra da muovere.",
       "INITIAL_INSTRUCTIONS_GOAT_PLACEMENT": "Posiziona una capra su un'intersezione vuota.",
       "VALID_PARTIAL": "Seleziona un'intersezione vuota verso cui muoverti. Sia le capre che le tigri possono muoversi verso qualsiasi intersezione adiacente (collegata) libera. Le tigri possono saltare una capra raggiungendo l'intersezione libera dietro di essa, ma i salti possono avvenire solo in avanti, in diagonale in avanti o lateralmente, mai all'indietro o in diagonale all'indietro."
+    },
+    "bitesize": {
+      "INSTRUCTIONS": "Posiziona un tuo pezzo su un esagono vuoto. Non è consentito creare creature più grandi della dimensione {{size}}.",
+      "CANNOT_PASS": "Impossibile passare, ci sono ancora posizionamenti validi (come {{move}})!",
+      "GROUP_TOO_LARGE": "Questo posizionamento renderebbe una creatura più grande di quattro pezzi!"
     }
   },
   "INITIAL_UNDO": "Non puoi annullare la posizione iniziale di partenza del gioco.",

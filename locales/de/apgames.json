@@ -282,7 +282,8 @@
     "guerrilla": "Ein asymmetrisches Spiel über Guerillakriegsführung. Beide Spieler versuchen, alle gegnerischen Steine vom Brett zu entfernen, müssen sich dabei jedoch auf sehr unterschiedliche Taktiken stützen.",
     "scribe": "Ein Stift-und-Papier-Spiel auf einem 9×9-Supergitter aus neun 3×3-Minigittern. Gewinne die meisten Minigitter oder bilde in der fortgeschrittenen Variante die wertvollste Superglyphe aus deinen Siegen.",
     "circleOfLife": "Platziere Steine auf einem Hex-Ökosystem, um Arten-Muster zu bilden. Jede Art verschlingt die in der Nahrungskette nächstniedrigere Art. Schlage 20 gegnerische Steine oder fülle das Spielbrett so weit wie möglich.",
-    "fractured": "Ein Area-Control-Spiel auf einem einzigartigen \"gebrochenen\" Spielbrett. Die Punktewertung erfolgt auf einer gemeinsamen Leiste."
+    "fractured": "Ein Area-Control-Spiel auf einem einzigartigen \"gebrochenen\" Spielbrett. Die Punktewertung erfolgt auf einer gemeinsamen Leiste.",
+    "bitesize": "Sammle Punkte für das Fressen von Kreaturen in einem wachsenden Ökosystem."
   },
   "notes": {
     "akimbo": "Akimbo, entworfen von Luis Bolaños Mures im Jahr 2026, ist ein unentschieden-freies Verbindungsspiel für zwei Spieler. Eine _nackte Diagonale_ (naked diagonal) ist ein Paar gleichfarbiger, diagonal benachbarter Steine, ohne dass ein weiterer gleichfarbiger Stein an beide angrenzt. Ein _Kreuzschnitt_ (crosscut) ist ein 2×2-Bereich mit zwei ineinandergreifenden nackten Diagonalen entgegengesetzter Farben.\n\nIn seinem Zug platziert der Spieler einen eigenen Stein auf einem leeren Feld. Wenn dies einen Kreuzschnitt vervollständigt, wird der andere Stein im Kreuzschnitt entfernt. Es darf sich zu keinem Zeitpunkt mehr als eine nackte Diagonale jeder Farbe auf dem Brett befinden – nicht einmal vorübergehend vor dem Entfernen eines Steins. Ein Spieler gewinnt, wenn sich am Ende seines Zugs eine Kette von orthogonal verbundenen Steinen seiner Farbe befindet, die die beiden gegenüberliegenden Brettränder des Spielers berührt.\n\nOkimba ist eine Variante, bei der insgesamt nur maximal eine nackte Diagonale auf dem Brett existieren darf (wenn also ein Spieler die Diagonale besitzt, kann der Gegner keine weitere erstellen).",
@@ -3886,6 +3887,22 @@
       "advanced": {
         "name": "Fortgeschritten",
         "description": "Gewinne, indem du aus den von dir eroberten Minigittern die wertvollste Superglyphe bildest, anstatt die meisten Minigitter zu gewinnen."
+      }
+    },
+    "bitesize": {
+      "#board": {
+        "name": "Hexagonales Spielbrett (Basis 4)"
+      },
+      "size-5": {
+        "name": "Hexagonales Spielbrett (Basis 5)"
+      },
+      "#ruleset": {
+        "description": "Spieler müssen 16 Steine schlagen, um auf dem kleinen Spielbrett zu gewinnen, oder 25 auf dem großen Spielbrett.",
+        "name": "Steine schlagen"
+      },
+      "no-threshold": {
+        "description": "Das Spiel läuft weiter, solange es noch gültige Platzierungen gibt.",
+        "name": "Kein Schlaglimit"
       }
     }
   },
@@ -7560,6 +7577,11 @@
       "INITIAL_INSTRUCTIONS": "Platziere einen Stein in einer offenen Region oder wähle einen deiner Steine aus, um ihn zu bewegen.",
       "NO_RESERVE": "Du hast keine Steine mehr im Vorrat.",
       "PARTIAL_MOVE": "Wähle ein Ziel, das eine Größe größer ist."
+    },
+    "bitesize": {
+      "INSTRUCTIONS": "Platziere einen eigenen Stein auf einem leeren Hex-Feld. Es ist ungültig, Kreaturen zu erschaffen, die größer als Größe {{size}} sind.",
+      "CANNOT_PASS": "Passen nicht möglich, es gibt noch gültige Platzierungen (wie {{move}})!",
+      "GROUP_TOO_LARGE": "Diese Platzierung würde eine Kreatur größer als vier Steine machen!"
     }
   },
   "INITIAL_UNDO": "Du kannst die anfängliche Startposition des Spiels nicht rückgängig machen.",

@@ -181,7 +181,7 @@ export interface IRecordDetails {
     pied?: boolean;             // Optional indicator of whether the pie rule was invoked
 }
 
-export interface IMoveOptions {partial?: boolean; trusted?: boolean};
+export interface IMoveOptions {partial?: boolean; trusted?: boolean, emulation?: false};
 
 export abstract class GameBase  {
     public static readonly gameinfo: APGamesInformation;

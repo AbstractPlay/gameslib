@@ -546,12 +546,12 @@ export class CarnacGame extends GameBase {
     }
 
     private compareDolmenScores(a: number[], b: number[]): number {
-        const max = Math.max(a.length, b.length);
-        for (let i = 0; i < max; i++) {
-            const av = a[i] ?? 0;
-            const bv = b[i] ?? 0;
-            if (av !== bv) {
-                return av - bv;
+        if (a.length !== b.length) {
+            return a.length - b.length;
+        }
+        for (let i = 0; i < a.length; i++) {
+            if (a[i] !== b[i]) {
+                return a[i]! - b[i]!;
             }
         }
         return 0;

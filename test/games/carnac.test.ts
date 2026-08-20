@@ -332,4 +332,74 @@ describe("Carnac", () => {
         expect(g.gameover).to.be.true;
         expect(g.winner.length).to.be.greaterThan(0);
     });
+
+    it("wins by dolmen count before comparing sizes", () => {
+        const g = carnacFromBoard(moreDolmensBeatLargerOnesBoard);
+        (g as unknown as { checkEOG(): CarnacGame }).checkEOG();
+        expect(g.dolmenCounts()).to.deep.equal([4, 2]);
+        expect(g.winner).to.deep.equal([1]);
+    });
+
+    it("breaks tied dolmen count by largest dolmen size", () => {
+        const g = carnacFromBoard(tiedCountLargerDolmenWinsBoard);
+        (g as unknown as { checkEOG(): CarnacGame }).checkEOG();
+        expect(g.dolmenCounts()).to.deep.equal([2, 2]);
+        expect(g.winner).to.deep.equal([1]);
+    });
+
+    it("draws when dolmen count and sizes match", () => {
+        const g = carnacFromBoard(matchedDolmenScoresBoard);
+        (g as unknown as { checkEOG(): CarnacGame }).checkEOG();
+        expect(g.winner).to.deep.equal([1, 2]);
+    });
 });
+
+type StandBoard = Array<[string, "11" | "12" | "21" | "22"]>;
+
+function carnacFromBoard(cells: StandBoard): CarnacGame {
+    const board = new Map(cells.map(([cell, orient]) => [cell, { kind: "stand" as const, orient }]));
+    const g = new CarnacGame({
+        game: "carnac",
+        numplayers: 2,
+        variants: ["8x5"],
+        gameover: false,
+        winner: [],
+        stack: [{
+            _version: CarnacGame.gameinfo.version,
+            _results: [],
+            _timestamp: new Date(),
+            currplayer: 1,
+            board,
+            phase: "place",
+            pending: null,
+            reserve: 0,
+        }],
+    });
+    return g;
+}
+
+/** Player 1: four size-3 dolmens; player 2: two size-6 dolmens. */
+const moreDolmensBeatLargerOnesBoard: StandBoard = [
+    ["a1", "11"], ["b1", "11"], ["c1", "11"],
+    ["e1", "11"], ["f1", "11"], ["g1", "11"],
+    ["a3", "11"], ["b3", "11"], ["c3", "11"],
+    ["e3", "11"], ["f3", "11"], ["g3", "11"],
+    ["a2", "22"], ["b2", "22"], ["c2", "22"], ["d2", "22"], ["e2", "22"], ["f2", "22"],
+    ["a4", "22"], ["b4", "22"], ["c4", "22"], ["d4", "22"], ["e4", "22"], ["f4", "22"],
+];
+
+/** Both players: two dolmens; player 1's largest is 4, player 2's largest is 3. */
+const tiedCountLargerDolmenWinsBoard: StandBoard = [
+    ["a1", "11"], ["b1", "11"], ["c1", "11"], ["d1", "11"],
+    ["a3", "11"], ["b3", "11"], ["c3", "11"],
+    ["a2", "22"], ["b2", "22"], ["c2", "22"],
+    ["e4", "22"], ["f4", "22"], ["g4", "22"],
+];
+
+/** Both players: two size-3 dolmens. */
+const matchedDolmenScoresBoard: StandBoard = [
+    ["a1", "11"], ["b1", "11"], ["c1", "11"],
+    ["a3", "11"], ["b3", "11"], ["c3", "11"],
+    ["a2", "22"], ["b2", "22"], ["c2", "22"],
+    ["a4", "22"], ["b4", "22"], ["c4", "22"],
+];

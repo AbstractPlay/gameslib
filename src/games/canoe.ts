@@ -845,6 +845,15 @@ export class CanoeGame extends GameBase {
         return used ? `U${slot}` : `D${slot}`;
     }
 
+    /** Stymie roll preview: local roll values are not authoritative until persisted. */
+    private showEmulatedStymieRollDice(): boolean {
+        if (!this.emulated || this.roll === undefined || this.phase !== "play") {
+            return false;
+        }
+        const top = this.stack[this.stack.length - 1];
+        return top.roll === undefined;
+    }
+
     private dieSlotIndex(cell?: string, piece?: string): number | undefined {
         if (this.roll === undefined) {
             return undefined;
@@ -2605,11 +2614,13 @@ export class CanoeGame extends GameBase {
             ];
         }
         if (this.phase === "play" && this.roll !== undefined) {
+            const emptyDice = this.showEmulatedStymieRollDice();
             for (let idx = 0; idx < this.roll.length && idx < CanoeGame.DICE_CELLS.length; idx++) {
                 const val = this.roll[idx];
                 const slot = idx + 1;
-                legend[`D${slot}`] = {name: `d6-${val}`, opacity: 1};
-                legend[`U${slot}`] = {name: `d6-${val}`, opacity: 0.5};
+                const dieName = emptyDice ? "d6-empty" : `d6-${val}`;
+                legend[`D${slot}`] = {name: dieName, opacity: 1};
+                legend[`U${slot}`] = {name: dieName, opacity: 0.5};
             }
         }
 

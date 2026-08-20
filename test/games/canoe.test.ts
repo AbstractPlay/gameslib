@@ -452,6 +452,31 @@ describe("Canoe", () => {
         expect(rep.legend?.D2).to.deep.equal({name: "d6-5", opacity: 1});
     });
 
+    it("emulated stymie roll shows empty dice until roll is persisted", () => {
+        const g = playFixture([
+            ["c3", {owner: 1, face: 8}],
+            ["c6", {owner: 1, face: 8}],
+        ]);
+        g.move("roll:1", {emulation: true});
+        const rep = g.render();
+        expect(rep.legend?.D1).to.deep.equal({name: "d6-empty", opacity: 1});
+        expect(rep.legend?.D2).to.equal(undefined);
+        const [f2Row, f2Col] = clickCell("f2");
+        const pstr = rep.pieces as string;
+        expect(pstr.split("\n")[f2Row].split(",")[f2Col]).to.equal("D1");
+    });
+
+    it("emulated stymie roll:2 shows two empty dice", () => {
+        const g = playFixture([
+            ["c3", {owner: 1, face: 8}],
+            ["c6", {owner: 1, face: 8}],
+        ]);
+        g.move("roll:2", {emulation: true});
+        const rep = g.render();
+        expect(rep.legend?.D1).to.deep.equal({name: "d6-empty", opacity: 1});
+        expect(rep.legend?.D2).to.deep.equal({name: "d6-empty", opacity: 1});
+    });
+
     it("partial die selection keeps dice pips visible when emulated", () => {
         const g = playFixture([
             ["e5", {owner: 1, face: 16}],

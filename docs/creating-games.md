@@ -6,7 +6,7 @@ Guide for adding a new game to gameslib. For API details see [Game object](/game
 
 1. **Fork** [gameslib](https://github.com/AbstractPlay/gameslib) and work on the `develop` branch.
 2. Before first `npm install`, run `npm run npm-login` for GitHub Packages access.
-3. **Create** `src/games/<uid>.ts` extending `GameBase` (or `GameBaseSimultaneous`).
+3. **Create** `src/games/<uid>.ts` extending `GameBase`, `GameBaseSimultaneous`, or `GameBaseSkipTurn` as appropriate ([Game object](/gameslib/game-object/) — turn model and `recordExportExclude`).
 4. **Run** `npm run generate-registry` (or any build/test) — the game registry is auto-generated from `static gameinfo`.
 5. **Add i18n** strings to `locales/en/apgames.json` (and `apresults.json` if needed).
 6. **Flag** new games with `experimental` in `gameinfo`.
@@ -19,6 +19,7 @@ Guide for adding a new game to gameslib. For API details see [Game object](/game
 - [ ] State interfaces (`IMoveState`, `I<Name>State`)
 - [ ] Constructor (new + deserialize via `reviver`)
 - [ ] `move`, `render`, `state`, `load`, `clone`, `moveState`
+- [ ] `recordExportExclude()` only if published records should omit extra `_results` types beyond `eog` / `winners` (see [Game object — record export](/gameslib/game-object/#turn-model-and-record-export))
 - [ ] `moves()` unless using `no-moves` flag
 - [ ] `handleClick` for interactive placement
 - [ ] `validateMove` / `checkEOG` as needed

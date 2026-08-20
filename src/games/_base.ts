@@ -9,6 +9,17 @@ import { algebraic2coords, coords2algebraic, replacer, sortingReplacer, UserFaci
 import { omit } from "lodash";
 import i18next from "i18next";
 import JSDstringify from 'json-stringify-deterministic';
+import type { IGamePly, IGameRound, IGameRoundSlot, TurnModel } from "./_turn-model";
+import {
+    defaultPlyActor,
+    defaultShouldCloseRound,
+    walkStackPlies,
+} from "./_turn-plies";
+import {
+    buildSimultaneousPlies,
+    buildSimultaneousRounds,
+} from "./_turn-simultaneous";
+import { skipTurnShouldCloseRound } from "./_turn-skip";
 
 /**
  * The minimum requirements of the individual game states.
@@ -364,6 +375,132 @@ export abstract class GameBase  {
         return [] as IScores[];
     }
 
+    public turnModel(): TurnModel {
+        return "sequential";
+    }
+
+    /** Who made the move that produced `stack[stackIndex]`? */
+    protected plyActor(stackIndex: number): number {
+        return defaultPlyActor(this, stackIndex);
+    }
+
+    protected plyFromStack(stackIndex: number): IGamePly {
+        const state = this.stack[stackIndex];
+        if (!state.hasOwnProperty("lastmove")) {
+            throw new Error("No `lastmove` property found.");
+        }
+        return {
+            actor: this.plyActor(stackIndex),
+            move: state.lastmove as string,
+            results: state._results !== undefined ? [...state._results] : [],
+            stackIndex,
+            round: 0,
+            playOrder: 0,
+        };
+    }
+
+    protected shouldCloseRound(roundPlies: IGamePly[], stackIndex: number): boolean {
+        void stackIndex;
+        return defaultShouldCloseRound(this, roundPlies);
+    }
+
+    public getPlies(): IGamePly[] {
+        return walkStackPlies({
+            stack: this.stack,
+            numplayers: this.numplayers,
+            plyFromStack: (stackIndex) => this.plyFromStack(stackIndex),
+            shouldCloseRound: (roundPlies, stackIndex) => this.shouldCloseRound(roundPlies, stackIndex),
+        });
+    }
+
+    protected buildRoundRow(roundPlies: IGamePly[]): IGameRound {
+        const row: IGameRound = new Array(this.numplayers).fill(null);
+        for (const ply of roundPlies) {
+            const seatIdx = ply.actor - 1;
+            if (seatIdx < 0 || seatIdx >= this.numplayers) {
+                throw new Error(`Ply actor ${ply.actor} is out of range for ${this.numplayers} players.`);
+            }
+            const results = ply.results;
+            let slot: string | IGameRoundSlot;
+            if (ply.playOrder !== ply.actor) {
+                slot = results.length > 0
+                    ? { move: ply.move, sequence: ply.playOrder, result: [...results] }
+                    : { move: ply.move, sequence: ply.playOrder };
+            } else if (results.length > 0) {
+                slot = { move: ply.move, result: [...results] };
+            } else {
+                slot = ply.move;
+            }
+            row[seatIdx] = slot;
+        }
+        return row;
+    }
+
+    public getRounds(): IGameRound[] {
+        const plies = this.getPlies();
+        const rounds: IGameRound[] = [];
+        let currentRound = -1;
+        let roundPlies: IGamePly[] = [];
+        for (const ply of plies) {
+            if (ply.round !== currentRound) {
+                if (roundPlies.length > 0) {
+                    rounds.push(this.buildRoundRow(roundPlies));
+                }
+                currentRound = ply.round;
+                roundPlies = [];
+            }
+            roundPlies.push(ply);
+        }
+        if (roundPlies.length > 0) {
+            rounds.push(this.buildRoundRow(roundPlies));
+        }
+        return rounds;
+    }
+
+    /**
+     * Result `type` values omitted from published gamerecord move-slot `result` arrays.
+     * Default: `eog` and `winners` (header already carries outcome). Override when more types should be omitted.
+     */
+    protected recordExportExclude(): string[] {
+        return ["eog", "winners"];
+    }
+
+    /** Strip excluded result types from round slots (does not change round count or seating). */
+    protected filterRoundsForRecord(rounds: IGameRound[], exclude: string[]): IGameRound[] {
+        return rounds.map((row) => row.map((slot) => {
+            if (slot === null) {
+                return null;
+            }
+            if (typeof slot === "string") {
+                return slot;
+            }
+            const filtered = slot.result !== undefined
+                ? slot.result.filter((obj) => !exclude.includes(obj.type))
+                : [];
+            if (slot.sequence !== undefined) {
+                if (filtered.length > 0) {
+                    return { move: slot.move, sequence: slot.sequence, result: filtered };
+                }
+                return { move: slot.move, sequence: slot.sequence };
+            }
+            if (filtered.length > 0) {
+                return { move: slot.move, result: filtered };
+            }
+            return slot.move;
+        }));
+    }
+
+    /** Drop trailing `null` seats — stride-shaped {@link getMoveList} rows omit them today. */
+    protected compactExportRounds(rounds: IGameRound[]): IGameRound[] {
+        return rounds.map((row) => {
+            const copy: IGameRound = [...row];
+            while (copy.length > 0 && copy[copy.length - 1] === null) {
+                copy.pop();
+            }
+            return copy;
+        });
+    }
+
     public moveHistory(): string[][] {
         const moves: string[][] = [];
         for (let i = 1; i < this.stack.length; i += this.numplayers) {
@@ -489,7 +626,9 @@ export abstract class GameBase  {
     }
 
     protected getMoveList(): any[] {
-        return this.moveHistory();
+        return this.compactExportRounds(
+            this.filterRoundsForRecord(this.getRounds(), this.recordExportExclude()),
+        );
     }
 
     // Check whether two moves with potentially different string representations are actually the same move.
@@ -675,6 +814,7 @@ export abstract class GameBase  {
         return result;
     }
 
+    /** Frozen stride shim — zips {@link moveHistory} with {@link resultsHistory}. Prefer {@link recordExportExclude} + default {@link getMoveList}. */
     protected getMovesAndResults(exclude: string[] = []): any[] {
         const moves = this.moveHistory();
         const moveCount = moves.map((x) => { return x.length; }).reduce((a, b) => { return a + b; });
@@ -707,6 +847,7 @@ export abstract class GameBase  {
         return combined;
     }
 
+    /** Frozen stride shim — zips {@link moveHistoryWithSequence} with {@link resultsHistory}. */
     protected getMovesAndResultsWithSequence(exclude: string[] = []): any[] {
         const moves = this.moveHistoryWithSequence();
         const moveCount = moves.map((x) => { return x.length; }).reduce((a, b) => { return a + b; });
@@ -810,6 +951,8 @@ export abstract class GameBase  {
             });
         }
 
+        rec.header["turn-model"] = this.turnModel();
+
         return rec;
     }
 
@@ -889,4 +1032,57 @@ export abstract class GameBaseSimultaneous extends GameBase {
     }
 
     public currplayer = undefined;
+
+    public turnModel(): TurnModel {
+        return "simultaneous";
+    }
+
+    public getPlies(): IGamePly[] {
+        return buildSimultaneousPlies(this);
+    }
+
+    public getRounds(): IGameRound[] {
+        return buildSimultaneousRounds(this);
+    }
+
+    /** Keep full seating width — trailing nulls are eliminated seats, not padding. */
+    protected compactExportRounds(rounds: IGameRound[]): IGameRound[] {
+        return rounds;
+    }
+}
+
+export abstract class GameBaseSkipTurn extends GameBase {
+    public turnModel(): TurnModel {
+        return "skip-turn";
+    }
+
+    /** Whether `seat` (1-based) may act at the pre-move state for `stack[stackIndex]`. */
+    protected abstract isSeatActive(seat: number, stackIndex: number): boolean;
+
+    protected shouldCloseRound(roundPlies: IGamePly[], stackIndex: number): boolean {
+        return skipTurnShouldCloseRound(this, roundPlies, stackIndex);
+    }
+
+    protected buildRoundRow(roundPlies: IGamePly[]): IGameRound {
+        const row = super.buildRoundRow(roundPlies);
+        if (roundPlies.length === 0) {
+            return row;
+        }
+        const stackIndex = roundPlies[roundPlies.length - 1]!.stackIndex;
+        const actorsInRound = new Set(roundPlies.map((ply) => ply.actor));
+        for (let seat = 1; seat <= this.numplayers; seat++) {
+            if (actorsInRound.has(seat)) {
+                continue;
+            }
+            if (!this.isSeatActive(seat, stackIndex)) {
+                row[seat - 1] = null;
+            }
+        }
+        return row;
+    }
+
+    /** Keep full seating width — trailing nulls are inactive seats, not padding. */
+    protected compactExportRounds(rounds: IGameRound[]): IGameRound[] {
+        return rounds;
+    }
 }

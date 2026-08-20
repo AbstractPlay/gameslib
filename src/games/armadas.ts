@@ -1,4 +1,5 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBaseSkipTurn, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import type { IGamePly, IGameRound, IGameRoundSlot } from "./_turn-model";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AnnotationFreespace, BoardFreespace, Freepiece, Glyph, MarkerFreespaceGlyph, MarkerPath } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -48,7 +49,7 @@ interface IKey {
     clickable?: boolean;
 }
 
-export class ArmadasGame extends GameBase {
+export class ArmadasGame extends GameBaseSkipTurn {
     public static readonly gameinfo: APGamesInformation = {
         name: "Armadas",
         uid: "armadas",
@@ -1312,13 +1313,41 @@ export class ArmadasGame extends GameBase {
         return rep;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    protected getMoveList(): any[] {
-        if (this.numplayers > 2) {
-            return this.getMovesAndResultsWithSequence();
-        } else {
-            return this.getMovesAndResults();
+    protected isSeatActive(seat: number, stackIndex: number): boolean {
+        if (this.stack.length <= this.numplayers) {
+            return true;
         }
+        const prev = this.stack[stackIndex - 1] as IMoveState;
+        return prev.ships.some((s) => s.owner === seat);
+    }
+
+    protected buildRoundRow(roundPlies: IGamePly[]): IGameRound {
+        if (this.numplayers <= 2) {
+            return super.buildRoundRow(roundPlies);
+        }
+        const row: IGameRound = new Array(this.numplayers).fill(null);
+        for (const ply of roundPlies) {
+            const seatIdx = ply.actor - 1;
+            const slot: IGameRoundSlot = { move: ply.move, sequence: ply.actor };
+            if (ply.results.length > 0) {
+                slot.result = [...ply.results];
+            }
+            row[seatIdx] = slot;
+        }
+        if (roundPlies.length === 0) {
+            return row;
+        }
+        const stackIndex = roundPlies[roundPlies.length - 1]!.stackIndex;
+        const actorsInRound = new Set(roundPlies.map((ply) => ply.actor));
+        for (let seat = 1; seat <= this.numplayers; seat++) {
+            if (actorsInRound.has(seat)) {
+                continue;
+            }
+            if (!this.isSeatActive(seat, stackIndex)) {
+                row[seat - 1] = null;
+            }
+        }
+        return row;
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

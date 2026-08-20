@@ -33,6 +33,9 @@
     "check-weblate-keys": "node scripts/check-weblate-keys.mjs",
     "check-locale-readiness": "node scripts/check-locale-readiness.mjs",
     "check-links": "node scripts/check-links.mjs",
+    "fetch-turnModel-fixtures": "tsx scripts/fetch-turnModel-fixtures.ts",
+    "refresh-turnModel-golden": "tsx scripts/refresh-turnModel-golden-state.ts",
+    "refresh-turnModel-golden-moves": "tsx scripts/refresh-turnModel-golden-moves.ts",
     "json2ts": "npx json2ts -i src/schemas/gameinfo.json -o src/schemas/gameinfo.d.ts && npx json2ts -i src/schemas/moveresults.json -o src/schemas/moveresults.d.ts && npx json2ts -i src/games/tafl/ruleset.json -o src/games/tafl/ruleset.d.ts",
     "npm-login": "npm login --scope=@abstractplay --auth-type=web --registry=https://npm.pkg.github.com"
   },
@@ -67,6 +70,8 @@
     "graphology-types": "^0.24.7",
     "i18next-resources-to-backend": "^1.2.1",
     "json-schema-to-typescript": "^15.0.4",
+    "@aws-sdk/client-dynamodb": "^3.758.0",
+    "@aws-sdk/lib-dynamodb": "^3.758.0",
     "mocha": "^11.2.2",
     "rimraf": "^5.0.1",
     "serverless": "3.40.0-19128fad",

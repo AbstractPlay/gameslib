@@ -1000,9 +1000,8 @@ export class MchessGame extends GameBase {
         return [{ name: i18next.t("apgames:status.SCORES"), scores: this.scores }]
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move", "capture", "promote", "eog", "winners"]);
+    protected recordExportExclude(): string[] {
+        return ["move", "capture", "promote", "eog", "winners"];
     }
 
     public getPlayerScore(player: number): number | undefined {

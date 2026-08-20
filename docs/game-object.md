@@ -1,6 +1,12 @@
 # Game object
 
-Every game is a class extending `GameBase` (or `GameBaseSimultaneous` for simultaneous moves).
+Every game is a class extending one of the `GameBase` hierarchy:
+
+| Base class | `turnModel()` | When to use |
+|------------|---------------|-------------|
+| `GameBase` | `"sequential"` | Default — one stack entry per ply; turns advance in seat order |
+| `GameBaseSimultaneous` | `"simultaneous"` | One stack entry per round; `lastmove` is comma-split per seat (Pigs, Entropy, …) |
+| `GameBaseSkipTurn` | `"skip-turn"` | Inactive seats skipped in turn order; `null` in export for eliminated players (Armadas, Homeworlds) |
 
 ## Required abstract methods
 
@@ -12,6 +18,8 @@ Every game is a class extending `GameBase` (or `GameBaseSimultaneous` for simult
 | `load(idx)` | Load stack position (default: latest) |
 | `clone()` | Deep copy |
 | `moveState()` | Snapshot for pushing onto stack (protected) |
+
+`GameBaseSkipTurn` also requires `isSeatActive(seat, stackIndex)` — whether a 1-based seat may act at the pre-move state for `stack[stackIndex]`.
 
 ## State shape (`IAPGameState`)
 
@@ -36,7 +44,94 @@ Serialization: `serialize()`, `undo()`, `resign()`, `timeout()`, `draw()`, `aban
 
 UI: `handleClick()`, `moves()`, `validateMove()`, `sidebarStatuses()`, `getButtons()` (when flagged).
 
-History: `moveHistory()`, `resultsHistory()`, `chatLog()`, `chat()`, `genRecord()`.
+History and records: `moveHistory()`, `getPlies()`, `getRounds()`, `recordExportExclude()`, `resultsHistory()`, `chatLog()`, `chat()`, `genRecord()`.
+
+## Turn model and record export
+
+There are two related layers:
+
+1. **Canonical turn structure** — `getPlies()` / `getRounds()` walk the stack with ply-correct round boundaries. Slots include full `_results` (no export filtering).
+2. **Published gamerecord** — `genRecord().moves` comes from the export pipeline below.
+
+```mermaid
+flowchart LR
+  GP[getPlies]
+  GR[getRounds]
+  RE[recordExportExclude]
+  FR[filterRoundsForRecord]
+  CE[compactExportRounds]
+  GML[getMoveList / genRecord.moves]
+  GP --> GR
+  GR --> FR
+  RE --> FR
+  FR --> CE
+  CE --> GML
+```
+
+### `getPlies()` and `getRounds()`
+
+- **`getPlies()`** — flat list of plies with `actor`, `move`, `results`, `round`, `playOrder`, `stackIndex`.
+- **`getRounds()`** — seating-indexed rows (`IGameRound`), one entry per player seat per round. A slot is a move string, `{ move, result? }`, `{ move, sequence, result? }`, or `null` when that seat did not act (eliminated / inactive).
+
+Simultaneous and skip-turn games keep **full row width** (including `null` columns); sequential games may trim trailing `null` seats in export only.
+
+### `recordExportExclude()`
+
+Override this protected hook to control which `_results.type` values are **stripped from published move slots** in `genRecord().moves`. It does **not** change `getRounds()` — only the export copy.
+
+**Default** (no override needed for most games):
+
+```ts
+protected recordExportExclude(): string[] {
+    return ["eog", "winners"];
+}
+```
+
+`eog` and `winners` are already in the gamerecord header; omitting them from per-move `result` arrays avoids duplication.
+
+**When to override:** your game previously used `getMoveList()` → `getMovesAndResults([...exclude])` to hide annotation types from the published record (e.g. per-move `move`, `place`, `capture` objects that duplicate the move string). Copy the **same type list** into `recordExportExclude()` — do **not** override `getMoveList()`.
+
+Example (Volcano — omits move annotations from export):
+
+```ts
+protected recordExportExclude(): string[] {
+    return ["move", "eog", "winners"];
+}
+```
+
+Example (Tablero — several annotation types):
+
+```ts
+protected recordExportExclude(): string[] {
+    return ["place", "take", "pass", "eog", "winners"];
+}
+```
+
+**Do not override `getMoveList()`** for export filtering. The default implementation is:
+
+```ts
+protected getMoveList(): any[] {
+    return this.compactExportRounds(
+        this.filterRoundsForRecord(this.getRounds(), this.recordExportExclude()),
+    );
+}
+```
+
+Only override `getMoveList()` if export row **shape** must differ from `getRounds()` after filtering (rare; Armadas 3+ used to be an example — now handled by `GameBaseSkipTurn` + `buildRoundRow`).
+
+### `genRecord()` header
+
+`genRecord()` sets `header["turn-model"]` from `turnModel()` (Phase 4). Values: `sequential`, `simultaneous`, `sequenced`, `skip-turn`. Recranks and stats consumers use this to replay sequenced/skip-turn rounds and count null-aware move totals; legacy records without the header keep stride replay and `rec.moves.length`.
+
+### `moveHistory()` (frozen)
+
+Legacy stride-based grouping (`i += numplayers`). Still used by bots, AiAi, and some golden tests. **Not** the source for `genRecord().moves` after the Phase 1b export pipeline.
+
+Do not override `moveHistory()` to fix record export — use `getRounds()` / `recordExportExclude()` instead.
+
+### `getMovesAndResults()` (deprecated for export)
+
+Frozen stride shim for old code paths. New games should not call it. Migrating games: replace `getMoveList() { return this.getMovesAndResults([...]); }` with `recordExportExclude()` only.
 
 ## `IRenderOpts`
 
@@ -48,6 +143,7 @@ Returned by `handleClick`: `valid`, `message`, `move`, optional `complete` and `
 
 ## Example games
 
-- **[Complica](https://play.abstractplay.com/games/complica)** — full `GameBase` lifecycle
-- **[Volcano](https://play.abstractplay.com/games/volcano)** — `stacking-expanding` renderer integration
-- **[Homeworlds](https://play.abstractplay.com/games/homeworlds)** — complex multi-system state (advanced reference)
+- **[Complica](https://play.abstractplay.com/games/complica)** — full `GameBase` lifecycle; default `recordExportExclude()`
+- **[Volcano](https://play.abstractplay.com/games/volcano)** — `recordExportExclude()` omits `move` annotations from export
+- **[Homeworlds](https://play.abstractplay.com/games/homeworlds)** — `GameBaseSkipTurn`; `null` export slots for eliminated seats
+- **[Robo Battle Pigs](https://play.abstractplay.com/games/pigs)** — `GameBaseSimultaneous`; one stack entry per round

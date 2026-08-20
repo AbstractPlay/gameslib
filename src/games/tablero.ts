@@ -1134,9 +1134,8 @@ export class TableroGame extends GameBase {
         return resolved;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["place", "take", "pass", "eog", "winners"]);
+    protected recordExportExclude(): string[] {
+        return ["place", "take", "pass", "eog", "winners"];
     }
 
     public getCustomRotation(): number | undefined {

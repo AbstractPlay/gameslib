@@ -774,9 +774,8 @@ export class HensGame extends GameBase {
         return resolved;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move", "winners", "eog"]);
+    protected recordExportExclude(): string[] {
+        return ["move", "winners", "eog"];
     }
 
     public clone(): HensGame {

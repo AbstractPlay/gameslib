@@ -19,7 +19,7 @@ const SKIP_FILES = new Set([
     "_build-flags.generated.ts",
 ]);
 
-const VALID_BASES = new Set(["GameBase", "GameBaseSimultaneous", "InARowBase"]);
+const VALID_BASES = new Set(["GameBase", "GameBaseSimultaneous", "GameBaseSkipTurn", "InARowBase"]);
 
 function collectGameFiles(dir) {
     const files = [];

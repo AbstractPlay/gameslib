@@ -4673,7 +4673,7 @@
   },
   "validation.canoe.STYMIE_ROLL": {
     "src": "Stymie! Choose whether to roll one die or two.",
-    "out": "Stymie ! Choisissez de lancer un dé ou deux."
+    "out": "Stymie ! Choisissez de lancer un ou deux dés."
   },
   "validation.canoe.TOO_MANY_SETUP": {
     "src": "You may only place six cubes during setup.",

@@ -5198,7 +5198,7 @@
     },
     "canoe": {
       "SETUP_INSTRUCTIONS": "Placez vos six cubes sur la réserve, puis validez.",
-      "STYMIE_ROLL": "Stymie ! Choisissez de lancer un dé ou deux.",
+      "STYMIE_ROLL": "Stymie ! Choisissez de lancer un ou deux dés.",
       "INITIAL_INSTRUCTIONS": "Sélectionnez un dé, puis un cube ou ensemble, puis une destination.",
       "NO_PASS": "Vous ne pouvez passer que si vous n'avez pas encore commencé de coup et qu'aucun coup légal n'existe.",
       "BAD_ROLL": "Vous ne pouvez lancer les dés que lorsque Stymie s'applique et qu'aucun dé n'est affiché.",

@@ -1038,6 +1038,60 @@ function _renderSharedStashSection(game, glyphRenderOptions) {
     return sharedStashHTML;
 }
 
+const CUSTOM_BUTTON_LABEL_FALLBACKS = {
+    roll1: "Roll 1 die",
+    roll2: "Roll 2 dice",
+    pass: "Pass",
+};
+
+function formatCustomButtonLabel(label) {
+    const keys = [
+        `apgames:buttons.${label}`,
+        `apgames:${label}`,
+        label,
+    ];
+    for (const key of keys) {
+        const translated = playgroundT(key);
+        if (translated !== key && !isI18nKey(translated)) {
+            return translated;
+        }
+    }
+    return CUSTOM_BUTTON_LABEL_FALLBACKS[label] ?? label;
+}
+
+function updateCustomButtons(game, gamename) {
+    const container = document.getElementById("customButtons");
+    if (!container) {
+        return;
+    }
+    container.replaceChildren();
+    const gameMetaInfo = gamename ? APGames.gameinfo.get(gamename) : null;
+    if (!game
+        || !gameMetaInfo?.flags?.includes("custom-buttons")
+        || typeof game.getButtons !== "function") {
+        container.style.display = "none";
+        return;
+    }
+    const buttons = game.getButtons();
+    if (!buttons || buttons.length === 0) {
+        container.style.display = "none";
+        return;
+    }
+    container.style.display = "inline-flex";
+    container.style.gap = "0.35em";
+    container.style.flexWrap = "wrap";
+    for (const btn of buttons) {
+        const el = document.createElement("button");
+        el.type = "button";
+        el.textContent = formatCustomButtonLabel(btn.label);
+        el.addEventListener("click", () => {
+            document.getElementById("moveEntry").value = btn.move;
+            document.getElementById("moveBtn").click();
+        });
+        container.appendChild(el);
+    }
+}
+
 function updateGameStatusPanel(game, gamename) {
     const panel = document.getElementById("gameStatusPanel");
     const inCheckPanel = document.getElementById("inCheckPanel");
@@ -1289,6 +1343,7 @@ function renderGame(...args) {
         }
 
         updateGameStatusPanel(game, gamename);
+        updateCustomButtons(game, gamename);
 
         if (displayOptionsContainer && displayOptionsContainer.children.length > 0) {
             displayOptionsContainer.style.display = 'block';
@@ -1411,6 +1466,7 @@ function renderGame(...args) {
             playerInfoDisplay.innerHTML = '<p style="font-style: italic; color: #888;">No game loaded.</p>';
         }
         updateGameStatusPanel(null, null);
+        updateCustomButtons(null, null);
     }
 
     return false;
@@ -2115,6 +2171,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
             try {
                 generatedMove = game.randomMove();
                 console.log(`Random move: ${generatedMove}`);
+
+                if (generatedMove === undefined || generatedMove === null || generatedMove === "") {
+                    alert("No random move available.");
+                    return;
+                }
 
                 if (redoStack.length > 0 && redoStack[redoStack.length - 1] === generatedMove) {
                     redoStack.pop();

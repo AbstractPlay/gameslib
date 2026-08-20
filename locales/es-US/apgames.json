@@ -5245,7 +5245,7 @@
     },
     "canoe": {
       "SETUP_INSTRUCTIONS": "Coloca tus seis cubos en la orilla, luego confirma.",
-      "STYMIE_ROLL": "¡Bloqueo! Elige si lanzar un dado o dos.",
+      "STYMIE_ROLL": "¡Bloqueo! Elige si quieres lanzar un dado o dos.",
       "INITIAL_INSTRUCTIONS": "Selecciona un dado, luego un cubo o conjunto, y luego un destino.",
       "NO_PASS": "Solo puedes pasar cuando aún no has comenzado un movimiento y no existen movimientos legales.",
       "BAD_ROLL": "Solo puedes lanzar cuando se aplique Stymie y no haya dados visibles.",

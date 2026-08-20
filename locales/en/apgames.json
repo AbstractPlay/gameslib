@@ -5185,7 +5185,7 @@
         },
         "canoe": {
             "SETUP_INSTRUCTIONS": "Place your six cubes on the bank, then submit.",
-            "STYMIE_ROLL": "Choose whether to roll one die or two.",
+            "STYMIE_ROLL": "Stymie! Choose whether to roll one die or two.",
             "INITIAL_INSTRUCTIONS": "Select a die, then a cube or set, then a destination.",
             "NO_PASS": "You may only pass when you have not yet begun a move and no legal moves exist.",
             "BAD_ROLL": "You may only roll when Stymie applies and no dice are showing.",

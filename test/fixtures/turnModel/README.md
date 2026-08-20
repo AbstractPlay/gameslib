@@ -17,9 +17,18 @@ The script:
 
 1. Downloads `https://records.abstractplay.com/meta/{uid}.json` for Tier 1 and pattern games.
 2. Resolves display names to uids via gameslib `gameinfo` (e.g. Adere → `agere`, King's Valley → `valley`).
-3. Selects representative records (normal / timeout / resign for Tier 1; elimination patterns for Armadas, Homeworlds, Pigs, etc.).
+3. Selects representative records (normal / timeout / resign for Tier 1; elimination patterns for Armadas, Homeworlds, Pigs, etc.; Frogger refills/`skipto` for Phase 6 prep).
 4. Loads each game's serialized state from DynamoDB (`pk=GAME`, `sk={metaGame}#1#{id}`).
 5. Writes `manifest.json` plus per-fixture JSON under `test/fixtures-local/turnModel/` (Maps/Sets via `replacer`/`reviver`, same as live `serialize()`).
+
+**Frogger dev fixtures** (refills/`skipto`, 2p/4p, no-refills control) — pull from `abstract-play-dev` by game id:
+
+```bash
+export ABSTRACT_PLAY_TABLE=abstract-play-dev
+npm run fetch-frogger-dev-fixtures
+```
+
+Games are listed in `scripts/fetch-frogger-dev-fixtures.ts` (dev Lab/Playground URLs under `play.dev.abstractplay.com/move/frogger/1/{id}`).
 
 Solo sequential coverage uses the inline `SoloSequentialFake` in `soloSequential.ts` (no DB fetch).
 

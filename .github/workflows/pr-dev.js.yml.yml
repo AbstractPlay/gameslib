@@ -34,6 +34,17 @@ jobs:
         - run: npm list @abstractplay/renderer
         - run: cat package-lock.json
         - run: npm test --if-present
+        - name: Checkout docs site
+          uses: actions/checkout@v4
+          with:
+            repository: AbstractPlay/docs
+            path: _ap_docs
+            token: ${{ secrets.PAT_READ_PACKAGES }}
+            submodules: recursive
+        - name: Docs link check
+          env:
+            AP_DOCS_ROOT: _ap_docs
+          run: npm run docs:check
         # prerelease --preid=ci-$GITHUB_RUN_ID
         - run: npm version prerelease --preid=ci-$GITHUB_RUN_ID --no-git-tag-version
         - run: npm run build

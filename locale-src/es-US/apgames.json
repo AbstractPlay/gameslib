@@ -4672,8 +4672,8 @@
     "out": "Continúa colocando cubos en tu orilla."
   },
   "validation.canoe.STYMIE_ROLL": {
-    "src": "Choose whether to roll one die or two.",
-    "out": "Elige si deseas lanzar un dado o dos."
+    "src": "Stymie! Choose whether to roll one die or two.",
+    "out": "¡Bloqueo! Elige si quieres lanzar un dado o dos."
   },
   "validation.canoe.TOO_MANY_SETUP": {
     "src": "You may only place six cubes during setup.",

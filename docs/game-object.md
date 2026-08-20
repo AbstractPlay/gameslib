@@ -7,6 +7,9 @@ Every game is a class extending one of the `GameBase` hierarchy:
 | `GameBase` | `"sequential"` | Default — one stack entry per ply; turns advance in seat order |
 | `GameBaseSimultaneous` | `"simultaneous"` | One stack entry per round; `lastmove` is comma-split per seat (Pigs, Entropy, …) |
 | `GameBaseSkipTurn` | `"skip-turn"` | Inactive seats skipped in turn order; `null` in export for eliminated players (Armadas, Homeworlds) |
+| `GameBaseSequenced` | `"sequenced"` | Seat may act **multiple times** before the cycle completes; sparse one-row-per-ply export (optional sugar — see mixin hooks) |
+
+See **[Creating games — Choosing a base class](/gameslib/creating-games/#choosing-a-base-class)** for a decision guide and worked examples.
 
 ## Required abstract methods
 
@@ -20,6 +23,23 @@ Every game is a class extending one of the `GameBase` hierarchy:
 | `moveState()` | Snapshot for pushing onto stack (protected) |
 
 `GameBaseSkipTurn` also requires `isSeatActive(seat, stackIndex)` — whether a 1-based seat may act at the pre-move state for `stack[stackIndex]`.
+
+### Mixin hooks (`plyActor`, `shouldCloseRound`)
+
+All bases inherit overridable hooks from `GameBase` (implemented in `_turn-plies.ts` and base `getRounds()`). Override these when turn structure is **not** strict round-robin but you are **not** using skip-turn nulls or simultaneous comma-moves:
+
+| Hook | Default behaviour |
+|------|-------------------|
+| `plyActor(stackIndex)` | Actor = `stack[stackIndex - 1].currplayer` |
+| `shouldCloseRound(roundPlies, stackIndex)` | Close every `numplayers` plies (every ply when `numplayers === 1`) |
+| `getRounds()` | Pack plies into `numplayers`-wide rows via `buildRoundRow` |
+| `compactExportRounds()` | Trim trailing `null` seats per row (sequential export) |
+
+**`GameBaseSequenced`** sets `turnModel()` → `"sequenced"`, uses seat-cycle `shouldCloseRound`, sparse `getRounds()` (one row per ply), and skips trailing-null compaction.
+
+**[Frogger](https://play.abstractplay.com/games/frogger)** (`refills` variant) overrides these hooks on **`GameBase`** instead of extending `GameBaseSequenced`, because only that variant needs sequenced export and `plyActor` must read `skipto`.
+
+Do **not** override `moveHistory()` for export fixes — bots and legacy tests depend on the frozen stride shape.
 
 ## State shape (`IAPGameState`)
 
@@ -147,3 +167,4 @@ Returned by `handleClick`: `valid`, `message`, `move`, optional `complete` and `
 - **[Volcano](https://play.abstractplay.com/games/volcano)** — `recordExportExclude()` omits `move` annotations from export
 - **[Homeworlds](https://play.abstractplay.com/games/homeworlds)** — `GameBaseSkipTurn`; `null` export slots for eliminated seats
 - **[Robo Battle Pigs](https://play.abstractplay.com/games/pigs)** — `GameBaseSimultaneous`; one stack entry per round
+- **[Frogger](https://play.abstractplay.com/games/frogger)** — `GameBase`; `refills` variant overrides mixin hooks for `sequenced` export (`skipto`, sparse rows)

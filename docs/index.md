@@ -4,10 +4,8 @@
 
 ## Documentation
 
-- [Creating games](/gameslib/creating-games/) — fork, implement, register, PR workflow
-- [Testing](/gameslib/testing/) — CLI, playground, unit tests
-- [API](/gameslib/api/) — `gameinfo`, `GameFactory`, `addResource`
-- [Game object](/gameslib/game-object/) — `GameBase` contract, turn model, and `recordExportExclude` for gamerecord export
+- [Creating games](/gameslib/creating-games/) — workflow, **choosing a base class**, helpers, renderer, PR
+- [Game object](/gameslib/game-object/) — `GameBase` contract, turn model, mixin hooks, and `recordExportExclude` for gamerecord export
 - [Flags](/gameslib/flags/) — `gameinfo` flags reference
 - [Helpers](/gameslib/helpers/) — grids, graphs, serialization, and shared utilities
 - [i18n](/gameslib/i18n/) — translation files

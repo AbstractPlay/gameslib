@@ -12,7 +12,7 @@ The root module (`src/index.ts`) exports the public API used by the front end an
 | `addResource(lang?)` | Merge i18n bundles into host or internal i18next |
 | `supportedLocales` | e.g. `["en", "fr", "es-US"]` |
 | `resolveLocale` | Map a browser/user language tag to a supported locale (e.g. `es-MX` → `es-US`) |
-| `GameBase`, `GameBaseSimultaneous`, `GameBaseSkipTurn` | Base classes for game authors |
+| `GameBase`, `GameBaseSequenced`, `GameBaseSimultaneous`, `GameBaseSkipTurn` | Base classes for game authors |
 | `TurnModel`, `IGamePly`, `IGameRound`, `IGameRoundSlot` | Turn-model types (`getPlies` / `getRounds`) |
 
 AI helpers (`AIFactory`, etc.) exist for testing only and are not part of the public release API.

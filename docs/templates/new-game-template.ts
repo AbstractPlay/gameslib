@@ -42,7 +42,8 @@ export interface IComplicaState extends IAPGameState {
 };
 
 /**
- * Each game is its own class that inherits and extends GameBase (or GameBaseSimultaneous).
+ * Each game is its own class that inherits and extends GameBase, GameBaseSimultaneous,
+ * GameBaseSkipTurn, or GameBaseSequenced — see /gameslib/creating-games/#choosing-a-base-class.
  * The base object defines the required functions and provides sensible defaults for the rest.
  */
 export class ComplicaGame extends GameBase {

@@ -616,9 +616,8 @@ export class HalfcutGame extends GameBase {
         return rep;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["place", "pass", "eog", "winners"]);
+    protected recordExportExclude(): string[] {
+        return ["place", "pass", "eog", "winners"];
     }
 
     public clone(): HalfcutGame {

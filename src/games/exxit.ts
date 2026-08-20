@@ -912,8 +912,7 @@ export class ExxitGame extends GameBase {
         return new ExxitGame(this.serialize());
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["claim", "place", "move", "eog", "winners"]);
+    protected recordExportExclude(): string[] {
+        return ["claim", "place", "move", "eog", "winners"];
     }
 }

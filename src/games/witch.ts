@@ -725,9 +725,8 @@ export class WitchGame extends GameBase {
         return resolved;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["capture", "affiliate", "eog", "winners"]);
+    protected recordExportExclude(): string[] {
+        return ["capture", "affiliate", "eog", "winners"];
     }
 
     public getStartingPosition(): string {

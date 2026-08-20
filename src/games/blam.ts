@@ -587,9 +587,8 @@ export class BlamGame extends GameBase {
         return [{ name: i18next.t("apgames:status.SCORES"), scores: this.scores.map((s,i) => `${s} (${i18next.t("apgames:status.blam.NUMPIECES", {count: this.caps[i]})})`)}];
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move", "place", "pass", "winners", "eog", "deltaScore"]);
+    protected recordExportExclude(): string[] {
+        return ["move", "place", "pass", "winners", "eog", "deltaScore"];
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

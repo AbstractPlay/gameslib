@@ -621,9 +621,8 @@ export class PinchGame extends GameBase {
         return rep;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["place", "eog", "winners"]);
+    protected recordExportExclude(): string[] {
+        return ["place", "eog", "winners"];
     }
 
     public clone(): PinchGame {

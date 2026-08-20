@@ -627,9 +627,8 @@ export class ArchimedesGame extends GameBase {
         return rep;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move", "eog", "winners"]);
+    protected recordExportExclude(): string[] {
+        return ["move", "eog", "winners"];
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

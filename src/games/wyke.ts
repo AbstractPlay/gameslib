@@ -594,9 +594,8 @@ export class AlfredsWykeGame extends GameBase {
         return rep;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["add", "remove", "eog", "winners"]);
+    protected recordExportExclude(): string[] {
+        return ["add", "remove", "eog", "winners"];
     }
 
     public clone(): AlfredsWykeGame {

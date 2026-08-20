@@ -726,11 +726,6 @@ export class DameoGame extends GameBase {
         return resolved;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move", "winners", "eog"]);
-    }
-
     public getPlayerPieces(player: number): number {
         return [...this.board.values()].filter(p => p[0] === player).length;
     }

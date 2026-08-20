@@ -1234,9 +1234,8 @@ export class StreetcarGame extends GameBase {
         return `[${edges.map(e => edge2string(e)).join(",")}]${house}`;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["claim", "take", "eog", "winners"]);
+    protected recordExportExclude(): string[] {
+        return ["claim", "take", "eog", "winners"];
     }
 
     public getCustomRotation(): number | undefined {

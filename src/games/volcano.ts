@@ -983,9 +983,8 @@ export class VolcanoGame extends GameBase {
         return rep;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move", "eog", "winners"]);
+    protected recordExportExclude(): string[] {
+        return ["move", "eog", "winners"];
     }
 
     public chatLog(players: string[]): string[][] {

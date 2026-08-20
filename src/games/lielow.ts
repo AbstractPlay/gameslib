@@ -639,11 +639,6 @@ export class LielowGame extends GameBase {
         return rep;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move", "damage", "destroy", "bearoff", "eog", "winners"]);
-    }
-
     public chatLog(players: string[]): string[][] {
         const result: string[][] = [];
         for (const state of this.stack) {

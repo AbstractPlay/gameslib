@@ -635,9 +635,8 @@ export class ByteGame extends GameBase {
         ]
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move", "capture", "deltaScore", "eog", "winners"]);
+    protected recordExportExclude(): string[] {
+        return ["move", "capture", "deltaScore", "eog", "winners"];
     }
 
     public chatLog(players: string[]): string[][] {

@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBaseSkipTurn, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { AnnotationHomeworlds, APRenderRep, AreaHWStash, BoardHomeworlds, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -78,7 +78,7 @@ export interface IHomeworldsState extends IAPGameState {
     stack: Array<IMoveState>;
 };
 
-export class HomeworldsGame extends GameBase {
+export class HomeworldsGame extends GameBaseSkipTurn {
     public static readonly gameinfo: APGamesInformation = {
         name: "Homeworlds",
         uid: "homeworlds",
@@ -2677,13 +2677,14 @@ export class HomeworldsGame extends GameBase {
         return rep;
     }
 
-    // protected getMoveList(): any[] {
-    //     if (this.numplayers > 2) {
-    //         return this.getMovesAndResultsWithSequence();
-    //     } else {
-    //         return this.getMovesAndResults();
-    //     }
-    // }
+    protected isSeatActive(seat: number, stackIndex: number): boolean {
+        if (this.stack.length <= this.numplayers) {
+            return true;
+        }
+        const prev = this.stack[stackIndex - 1];
+        const seatLetter = this.player2seat(seat as playerid);
+        return prev.systems.some((s) => s.owner === seatLetter);
+    }
 
     public chatLog(players: string[]): string[][] {
         // eog, resign, winners, homeworld, discover, move, place, convert, capture, sacrifice, catastrophe, pass

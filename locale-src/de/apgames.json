@@ -4672,8 +4672,8 @@
     "out": "Setze das Platzieren von Würfeln auf deiner Bank fort."
   },
   "validation.canoe.STYMIE_ROLL": {
-    "src": "Choose whether to roll one die or two.",
-    "out": "Wähle, ob du einen oder zwei Würfel werfen möchtest."
+    "src": "Stymie! Choose whether to roll one die or two.",
+    "out": "Stymie! Wähle, ob du einen oder zwei Würfel werfen möchtest."
   },
   "validation.canoe.TOO_MANY_SETUP": {
     "src": "You may only place six cubes during setup.",

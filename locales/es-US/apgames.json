@@ -27,7 +27,7 @@
     "basalt": "Un juego de conexión triangular en la ladera de un volcán, donde la lava y el basalto compiten por conectar primero los tres lados.",
     "bide": "Hasta seis jugadores se turnan para colocar piezas en el tablero, empujando las piezas adyacentes hacia afuera. También se puede pasar para acumular piezas que se podrán colocar todas juntas más adelante. Las piezas más cercanas al centro valen más puntos. ¡Gana el grupo con la puntuación más alta!",
     "biscuit": "Un juego de Decktet al estilo dominó en el que juegas cartas para sumar puntos de inmediato e intentas ser el primero en jugar todas las cartas de tu mano. Las partidas se juegan a lo largo de varias rondas hasta alcanzar un objetivo determinado.",
-    "bitesize": "Obtén puntos devorando criaturas en un ecosistema en crecimiento.",
+    "bitesize": "Gana puntos por comer criaturas en un ecosistema en crecimiento.",
     "blam": "Un juego de Icehouse para 2 a 4 jugadores que se juega en un tablero de ajedrez estándar. Las piezas colocadas empujan a las piezas adyacentes. Empuja piezas fuera del tablero para capturarlas. Quien haya capturado el mayor total de puntos (pips) en piezas al final de la partida gana.",
     "blastradius": "Un juego de guerra abstracto donde las piezas irradian los espacios a su alrededor. Elimina todas las piezas enemigas.",
     "blockade": "Blockade (también conocido como Cul-de-sac) es un juego de superar barreras en el que debes llevar uno de tus peones a una casilla de salida de tu oponente. Los jugadores colocan muros de 2 casillas de ancho para bloquearse mutuamente.",
@@ -282,8 +282,7 @@
     "yonmoque": "Intenta formar cuatro en línea en un juego donde no todos los espacios son iguales y las piezas enemigas se pueden convertir.",
     "zola": "Un juego donde tu movimiento está limitado por tu distancia desde el centro del tablero. Los movimientos de captura no deben aumentar esa distancia. Los movimientos que no son de captura deben aumentar esa distancia. La primera persona que capture todas las piezas enemigas gana.",
     "fractured": "Un juego de control de áreas en un tablero único \"fracturado\". La puntuación se lleva en un marcador compartido.",
-    "baghchal": "Un juego tradicional asimétrico para dos jugadores originario de Nepal. El jugador tigre intenta capturar 5 cabras saltando sobre ellas; el jugador cabra intenta inmovilizar a todos los tigres.",
-    "bitesize": "Gana puntos por comer criaturas en un ecosistema en crecimiento."
+    "baghchal": "Un juego tradicional asimétrico para dos jugadores originario de Nepal. El jugador tigre intenta capturar 5 cabras saltando sobre ellas; el jugador cabra intenta inmovilizar a todos los tigres."
   },
   "notes": {
     "akimbo": "Akimbo, diseñado por Luis Bolaños Mures en 2026, es un juego de conexión sin empates para dos jugadores. Una _diagonal desnuda_ es un par de piezas del mismo color, adyacentes en diagonal, sin ninguna otra pieza del mismo color adyacente a ambas. Un _corte cruzado_ es un área de 2×2 con dos diagonales desnudas entrelazadas de colores opuestos.\n\nEn su turno, el jugador coloca una pieza propia en una casilla vacía. Si esto completa un corte cruzado, la otra pieza en el corte cruzado se elimina. Nunca debe haber más de una diagonal desnuda de cada color en el tablero, ni siquiera de forma momentánea antes de quitar una pieza. Un jugador gana si, al final de su turno, hay una cadena de piezas de su color conectadas ortogonalmente que toque los dos bordes opuestos del tablero pertenecientes a ese jugador.\n\nOkimba es una variante donde solo puede existir como máximo una diagonal desnuda en el tablero (por lo que mientras un jugador tenga la diagonal, el adversario no puede crear otra).",
@@ -825,6 +824,14 @@
       },
       "size-5": {
         "name": "Tablero hexagonal (base 5)"
+      },
+      "#ruleset": {
+        "description": "Los jugadores deben capturar 16 piezas para ganar en el tablero pequeño o 25 para ganar en el tablero grande.",
+        "name": "Capturar piezas"
+      },
+      "no-threshold": {
+        "description": "La partida continúa mientras haya colocaciones válidas.",
+        "name": "Sin umbral de captura"
       }
     },
     "blastradius": {
@@ -3880,22 +3887,6 @@
       "8x8": {
         "name": "Tablero de 8x8"
       }
-    },
-    "bitesize": {
-      "#board": {
-        "name": "Tablero hexagonal (base 4)"
-      },
-      "size-5": {
-        "name": "Tablero hexagonal (base 5)"
-      },
-      "#ruleset": {
-        "description": "Los jugadores deben capturar 16 piezas para ganar en el tablero pequeño o 25 para ganar en el tablero grande.",
-        "name": "Capturar piezas"
-      },
-      "no-threshold": {
-        "description": "La partida continúa mientras haya colocaciones válidas.",
-        "name": "Sin umbral de captura"
-      }
     }
   },
   "displays": {
@@ -4924,9 +4915,9 @@
       "PARTIAL": "Selecciona la casilla donde quieres colocar la carta."
     },
     "bitesize": {
-      "INSTRUCTIONS": "Coloca una pieza aliada en un hexágono vacío. No es válido crear criaturas mayores a tamaño 4.",
-      "CANNOT_PASS": "¡No puedes pasar, aún hay colocaciones válidas (como {{move}})!",
-      "GROUP_TOO_LARGE": "¡Esta colocación crearía una criatura mayor a cuatro piezas!"
+      "INSTRUCTIONS": "Coloca una pieza propia en un hexágono vacío. No es válido crear criaturas de un tamaño mayor a {{size}}.",
+      "CANNOT_PASS": "¡No puedes pasar, todavía hay colocaciones válidas (como {{move}})!",
+      "GROUP_TOO_LARGE": "¡Esta colocación haría que una criatura fuera más grande que cuatro piezas!"
     },
     "blam": {
       "BADSYNTAX": "Sintaxis no válida: {{move}}. Debe ser el número 1, 2 o 3 seguido de una casilla vacía (por ejemplo, 1e4 o 3b2).",
@@ -5254,7 +5245,7 @@
     },
     "canoe": {
       "SETUP_INSTRUCTIONS": "Coloca tus seis cubos en la orilla, luego confirma.",
-      "STYMIE_ROLL": "Elige si deseas lanzar un dado o dos.",
+      "STYMIE_ROLL": "¡Bloqueo! Elige si lanzar un dado o dos.",
       "INITIAL_INSTRUCTIONS": "Selecciona un dado, luego un cubo o conjunto, y luego un destino.",
       "NO_PASS": "Solo puedes pasar cuando aún no has comenzado un movimiento y no existen movimientos legales.",
       "BAD_ROLL": "Solo puedes lanzar cuando se aplique Stymie y no haya dados visibles.",
@@ -7570,11 +7561,6 @@
       "INITIAL_INSTRUCTIONS_GOAT_MOVEMENT": "Selecciona una cabra para mover.",
       "INITIAL_INSTRUCTIONS_GOAT_PLACEMENT": "Coloca una cabra en una intersección vacía.",
       "VALID_PARTIAL": "Selecciona una intersección vacía para moverte. Tanto las cabras como los tigres pueden moverse a cualquier intersección adyacente (conectada) que esté libre. Los tigres pueden saltar sobre una cabra hacia la intersección libre detrás de ella, pero los saltos solo se pueden realizar hacia adelante, en diagonal hacia adelante o hacia los lados, nunca hacia atrás ni en diagonal hacia atrás."
-    },
-    "bitesize": {
-      "INSTRUCTIONS": "Coloca una pieza propia en un hexágono vacío. No es válido crear criaturas de un tamaño mayor a {{size}}.",
-      "CANNOT_PASS": "¡No puedes pasar, todavía hay colocaciones válidas (como {{move}})!",
-      "GROUP_TOO_LARGE": "¡Esta colocación haría que una criatura fuera más grande que cuatro piezas!"
     }
   },
   "INITIAL_UNDO": "No puedes deshacer la posición inicial del juego.",

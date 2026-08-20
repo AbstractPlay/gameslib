@@ -184,6 +184,19 @@ function pigsHasElimination(engine: GameBase): boolean {
     return false;
 }
 
+function froggerHasSkipto(engine: GameBase): boolean {
+    for (const state of engine.stack) {
+        if ("skipto" in state && state.skipto !== undefined) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function froggerHasRefillsVariant(engine: GameBase): boolean {
+    return engine.getVariants().includes("refills");
+}
+
 const PATTERN_SPECS: PatternSpec[] = [
     {
         key: "armadas3pElimination",
@@ -234,6 +247,26 @@ const PATTERN_SPECS: PatternSpec[] = [
         subtype: "entropyBaseline",
         recordFilter: (rec) => rec.header.players.length === 2,
         verifyEngine: (engine) => engine.numplayers === 2 && !pigsHasElimination(engine),
+    },
+    {
+        key: "frogger2pBaseline",
+        displayName: "Frogger",
+        category: "pattern",
+        subtype: "frogger2pBaseline",
+        recordFilter: (rec) =>
+            rec.header.players.length === 2 && classifyRecord(rec) === "normal",
+        verifyEngine: (engine) => engine.numplayers === 2,
+    },
+    {
+        key: "frogger2pRefillsSkipto",
+        displayName: "Frogger",
+        category: "pattern",
+        subtype: "frogger2pRefillsSkipto",
+        recordFilter: (rec) => rec.header.players.length === 2,
+        verifyEngine: (engine) =>
+            engine.numplayers === 2
+            && froggerHasRefillsVariant(engine)
+            && froggerHasSkipto(engine),
     },
 ];
 

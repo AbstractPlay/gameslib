@@ -1,10 +1,10 @@
 import { APGamesInformation } from './schemas/gameinfo';
 import { APMoveResult } from './schemas/moveresults';
-import { games, GameFactory, IAPGameState, GameBase, GameBaseSimultaneous, GameBaseSkipTurn } from "./games";
+import { games, GameFactory, IAPGameState, GameBase, GameBaseSequenced, GameBaseSimultaneous, GameBaseSkipTurn } from "./games";
 import { AIFactory, supportedGames as aiSupported, fastGames as aiFast, slowGames as aiSlow } from './ais';
 import { APGAMES_PRODUCTION } from "./games/_build-flags.generated";
 
-export {GameFactory, IAPGameState, APMoveResult, APGamesInformation, AIFactory, aiSupported, aiFast, aiSlow, GameBase, GameBaseSimultaneous, GameBaseSkipTurn};
+export {GameFactory, IAPGameState, APMoveResult, APGamesInformation, AIFactory, aiSupported, aiFast, aiSlow, GameBase, GameBaseSequenced, GameBaseSimultaneous, GameBaseSkipTurn};
 export type { TurnModel, IGamePly, IGameRound, IGameRoundSlot } from "./games/_turn-model";
 
 function filterGameinfoForExport(info: APGamesInformation): APGamesInformation {

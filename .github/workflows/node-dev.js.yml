@@ -49,6 +49,19 @@ jobs:
         - run: npm list @svgdotjs/svg.js
         - run: ls node_modules | grep @svgdotjs
         - run: npm test --if-present
+        - name: Checkout docs site
+          if: github.event_name == 'push'
+          uses: actions/checkout@v4
+          with:
+            repository: AbstractPlay/docs
+            path: _ap_docs
+            token: ${{ secrets.PAT_READ_PACKAGES }}
+            submodules: recursive
+        - name: Docs link check
+          if: github.event_name == 'push'
+          env:
+            AP_DOCS_ROOT: _ap_docs
+          run: npm run docs:check
         # --- MACHINE TRANSLATION PIPELINE START ---
         - name: Run Machine Translation on Locales
           env:

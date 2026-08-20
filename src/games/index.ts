@@ -1,10 +1,12 @@
 import { APGamesInformation } from "../schemas/gameinfo";
 import { GameBase, GameBaseSimultaneous, GameBaseSkipTurn, IAPGameState } from "./_base";
+import { GameBaseSequenced } from "./_turn-sequenced";
 import { games, GameConstructor } from "./_registry.generated";
 
 export {
     APGamesInformation,
     GameBase,
+    GameBaseSequenced,
     GameBaseSimultaneous,
     GameBaseSkipTurn,
     IAPGameState,

@@ -33,7 +33,7 @@
     "check-weblate-keys": "node scripts/check-weblate-keys.mjs",
     "check-locale-readiness": "node scripts/check-locale-readiness.mjs",
     "check-links": "node scripts/check-links.mjs",
-    "docs:check": "node bin/docs-check.mjs",
+    "docs:check": "node scripts/docs-check.mjs",
     "fetch-turnModel-fixtures": "tsx scripts/fetch-turnModel-fixtures.ts",
     "fetch-frogger-dev-fixtures": "tsx scripts/fetch-frogger-dev-fixtures.ts",
     "refresh-turnModel-golden": "tsx scripts/refresh-turnModel-golden-state.ts",

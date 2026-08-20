@@ -1213,14 +1213,14 @@ describe("Canoe", () => {
         });
     });
 
-    it("stymie offers roll buttons and no auto-roll moves", () => {
+    it("stymie offers roll buttons and roll moves before dice are shown", () => {
         const g = playFixture([
             ["c3", {owner: 1, face: 8}],
             ["c6", {owner: 1, face: 8}],
         ]);
         expect(g.isStymieEligible()).to.be.true;
         expect(g.roll).to.equal(undefined);
-        expect(g.moves()).to.eql([]);
+        expect(g.moves()).to.eql(["roll:1", "roll:2"]);
         const buttons = g.getButtons();
         expect(buttons.map(b => b.move)).to.eql(["roll:1", "roll:2"]);
     });
@@ -1228,13 +1228,68 @@ describe("Canoe", () => {
     it("stymie roll:1 enables single-die moves", () => {
         const g = playFixture([
             ["c3", {owner: 1, face: 8}],
-            ["c5", {owner: 1, face: 8}],
+            ["c6", {owner: 1, face: 8}],
         ]);
-        g.move("roll:1", {trusted: true});
+        g.move("roll:1");
         expect(g.roll).to.not.equal(undefined);
         expect(g.roll!.length).to.equal(1);
         expect(g.moves().length).to.be.greaterThan(0);
         expect(g.moves().every(m => !m.includes(","))).to.be.true;
+    });
+
+    it("stymie roll persists on stack until play move completes", () => {
+        const g = playFixture([
+            ["c3", {owner: 1, face: 8}],
+            ["c6", {owner: 1, face: 8}],
+        ]);
+        const stackBefore = g.stack.length;
+        g.move("roll:1");
+        expect(g.stack.length).to.equal(stackBefore + 1);
+        const top = g.stack[g.stack.length - 1]!;
+        expect(top.lastmove).to.equal("roll:1");
+        expect(top.roll).to.not.equal(undefined);
+        expect(top._results.some(r => r.type === "roll")).to.be.true;
+    });
+
+    it("completed stymie turn merges roll into one stack entry", () => {
+        const g = playFixture([
+            ["c3", {owner: 1, face: 8}],
+            ["c6", {owner: 1, face: 8}],
+        ]);
+        const stackBefore = g.stack.length;
+        g.move("roll:1");
+        const playMove = g.moves()[0]!;
+        g.move(playMove);
+        expect(g.stack.length).to.equal(stackBefore + 1);
+        const top = g.stack[g.stack.length - 1]!;
+        expect(top.lastmove).to.equal(playMove);
+        expect(top.lastmove).to.not.match(/^roll:/);
+        expect(top._results.some(r => r.type === "roll")).to.be.true;
+        expect(top._results.some(r => r.type === "move" || r.type === "convert")).to.be.true;
+    });
+
+    it("moveHistory omits stymie roll commands after turn completes", () => {
+        const g = playFixture([
+            ["c3", {owner: 1, face: 8}],
+            ["c6", {owner: 1, face: 8}],
+        ]);
+        g.move("roll:1");
+        g.move(g.moves()[0]!);
+        const flat = g.moveHistory().flat();
+        expect(flat.some(m => m.startsWith("roll:"))).to.be.false;
+    });
+
+    it("chatLog groups stymie roll with play results in one node", () => {
+        const g = playFixture([
+            ["c3", {owner: 1, face: 8}],
+            ["c6", {owner: 1, face: 8}],
+        ]);
+        g.move("roll:1");
+        g.move(g.moves()[0]!);
+        const log = g.chatLog(["Alice", "Bob"]);
+        const turnNode = log[log.length - 1]!;
+        expect(turnNode.some(line => line.includes("rolled"))).to.be.true;
+        expect(turnNode.some(line => line.includes("moved") || line.includes("rotated"))).to.be.true;
     });
 
     it("pass is only valid with an empty move string and no legal moves", () => {

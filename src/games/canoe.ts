@@ -1686,6 +1686,9 @@ export class CanoeGame extends GameBase {
             return [];
         }
         if (this.roll === undefined) {
+            if (this.isStymieEligible()) {
+                return ["roll:1", "roll:2"];
+            }
             return [];
         }
 
@@ -2155,6 +2158,9 @@ export class CanoeGame extends GameBase {
         }
 
         this.emulated = emulation;
+        if (m === undefined || m === null) {
+            throw new UserFacingError("VALIDATION_GENERAL", i18next.t("apgames:validation._general.DEFAULT_HANDLER"));
+        }
         m = m.toLowerCase().replace(/\s+/g, "");
         if (!trusted && m !== "pass") {
             const v = this.validateMove(m);
@@ -2162,7 +2168,7 @@ export class CanoeGame extends GameBase {
                 throw new UserFacingError("VALIDATION_GENERAL", v.message);
             }
         }
-        if (!trusted && !partial && !emulation && m !== "pass" && this.phase === "play" && !this.moves().includes(m)) {
+        if (!trusted && !partial && !emulation && m !== "pass" && !m.startsWith("roll:") && this.phase === "play" && !this.moves().includes(m)) {
             throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}));
         }
 
@@ -2301,8 +2307,23 @@ export class CanoeGame extends GameBase {
         stack.face = CanoeGame.rotateFace(stack.face, die);
     }
 
+    private absorbStymieRollStackEntry(): void {
+        if (this.stack.length === 0) {
+            return;
+        }
+        const top = this.stack[this.stack.length - 1];
+        const lm = top.lastmove;
+        if (lm === undefined || !lm.startsWith("roll:")) {
+            return;
+        }
+        const rollResults = top._results.filter(r => r.type === "roll");
+        this.results = [...rollResults, ...this.results];
+        this.stack.pop();
+    }
+
     private endTurn(): void {
         this.freshFromBankThisTurn.clear();
+        this.absorbStymieRollStackEntry();
         let newplayer = (this.currplayer + 1) as number;
         if (newplayer > this.numplayers) {
             newplayer = 1;

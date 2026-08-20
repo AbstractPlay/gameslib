@@ -282,8 +282,7 @@
     "scribe": "Un jeu papier-crayon sur une super-grille 9×9 composée de neuf mini-grilles 3×3. Remportez le plus grand nombre de mini-grilles ou, dans la variante avancée, formez le super-glyphe de plus grande valeur grâce à vos victoires.",
     "circleOfLife": "Placez des pierres sur un écosystème hexagonal pour former des formes d'espèces. Chaque espèce dévore l'espèce immédiatement inférieure dans la chaîne alimentaire. Capturez 20 pierres adverses, ou remplissez le plateau autant que possible.",
     "fractured": "Un jeu de contrôle de zones sur un plateau unique \"fracturé\". Le décompte des points s'effectue sur une piste commune.",
-    "baghchal": "Un jeu traditionnel asymétrique à deux joueurs originaire du Népal. Le joueur jouant les tigres tente de capturer 5 chèvres en sautant par-dessus, tandis que le joueur jouant les chèvres cherche à immobiliser tous les tigres.",
-    "bitesize": "Gagnez des points en dévorant des créatures dans un écosystème en expansion."
+    "baghchal": "Un jeu traditionnel asymétrique à deux joueurs originaire du Népal. Le joueur jouant les tigres tente de capturer 5 chèvres en sautant par-dessus, tandis que le joueur jouant les chèvres cherche à immobiliser tous les tigres."
   },
   "notes": {
     "akimbo": "Akimbo, conçu par Luis Bolaños Mures en 2026, est un jeu de connexion sans égalité pour deux joueurs. Une _diagonale nue_ est une paire de pièces de même couleur, adjacentes en diagonale, sans aucune autre pièce de même couleur adjacente aux deux. Une _coupe croisée_ est une zone 2×2 avec deux diagonales nues imbriquées de couleurs opposées.\n\nÀ son tour, le joueur place une pièce amie sur une case vide. Si cela complète une coupe croisée, l'autre pièce de la coupe croisée est retirée. Il ne doit jamais y avoir plus d'une diagonale nue de chaque couleur sur le plateau — pas même momentanément avant de retirer une pièce. Un joueur gagne si, à la fin de son tour, il existe une chaîne de pièces de sa couleur connectées orthogonalement touchant les deux bords opposés du plateau du joueur.\n\nOkimba est une variante où une seule diagonale nue au maximum peut exister sur le plateau (ainsi, tant qu'un joueur possède la diagonale, l'adversaire ne peut pas en créer une autre).",
@@ -736,6 +735,14 @@
       },
       "size-5": {
         "name": "Plateau hexagonal (base 5)"
+      },
+      "#ruleset": {
+        "description": "Les joueurs doivent capturer 16 pièces pour gagner sur le petit plateau ou 25 pour gagner sur le grand plateau.",
+        "name": "Capture de pièces"
+      },
+      "no-threshold": {
+        "description": "La partie continue tant qu'il y a des placements valides.",
+        "name": "Sans seuil de capture"
       }
     },
     "blastradius": {
@@ -3880,22 +3887,6 @@
         "name": "Avancé",
         "description": "Gagnez en formant le super-glyphe de plus grande valeur avec les mini-grilles capturées, plutôt qu'en remportant le plus de mini-grilles."
       }
-    },
-    "bitesize": {
-      "#board": {
-        "name": "Plateau hexagonal (base 4)"
-      },
-      "size-5": {
-        "name": "Plateau hexagonal (base 5)"
-      },
-      "#ruleset": {
-        "description": "Les joueurs doivent capturer 16 pièces pour gagner sur le petit plateau ou 25 pour gagner sur le grand plateau.",
-        "name": "Capture de pièces"
-      },
-      "no-threshold": {
-        "description": "La partie continue tant qu'il y a des placements valides.",
-        "name": "Sans seuil de capture"
-      }
     }
   },
   "displays": {
@@ -4871,8 +4862,8 @@
       "PARTIAL": "Sélectionnez la case où vous souhaitez placer la carte."
     },
     "bitesize": {
-      "INSTRUCTIONS": "Placez une pièce alliée sur un hexagone vide. Il est interdit de créer des créatures d'une taille supérieure à 4.",
-      "CANNOT_PASS": "Impossible de passer, il y a encore des placements valides (comme {{move}}) !",
+      "INSTRUCTIONS": "Placez une de vos pièces sur un hexagone vide. Il est interdit de créer des créatures de taille supérieure à {{size}}.",
+      "CANNOT_PASS": "Impossible de passer, il reste des placements valides (comme {{move}}) !",
       "GROUP_TOO_LARGE": "Ce placement créerait une créature de plus de quatre pièces !"
     },
     "blam": {
@@ -5207,7 +5198,7 @@
     },
     "canoe": {
       "SETUP_INSTRUCTIONS": "Placez vos six cubes sur la réserve, puis validez.",
-      "STYMIE_ROLL": "Choisissez de lancer un dé ou deux.",
+      "STYMIE_ROLL": "Stymie ! Choisissez de lancer un ou deux dés.",
       "INITIAL_INSTRUCTIONS": "Sélectionnez un dé, puis un cube ou ensemble, puis une destination.",
       "NO_PASS": "Vous ne pouvez passer que si vous n'avez pas encore commencé de coup et qu'aucun coup légal n'existe.",
       "BAD_ROLL": "Vous ne pouvez lancer les dés que lorsque Stymie s'applique et qu'aucun dé n'est affiché.",
@@ -7620,11 +7611,6 @@
       "INITIAL_INSTRUCTIONS_GOAT_MOVEMENT": "Sélectionnez une chèvre à déplacer.",
       "INITIAL_INSTRUCTIONS_GOAT_PLACEMENT": "Placez une chèvre sur une intersection vide.",
       "VALID_PARTIAL": "Sélectionnez une intersection vide vers laquelle vous déplacer. Les chèvres ainsi que les tigres peuvent se déplacer vers n'importe quelle intersection adjacente (connectée) libre. Les tigres peuvent sauter par-dessus une chèvre vers l'intersection libre située derrière elle, mais les sauts ne peuvent s'effectuer que vers l'avant, en diagonale vers l'avant ou latéralement, jamais vers l'arrière ni en diagonale vers l'arrière."
-    },
-    "bitesize": {
-      "INSTRUCTIONS": "Placez une de vos pièces sur un hexagone vide. Il est interdit de créer des créatures de taille supérieure à {{size}}.",
-      "CANNOT_PASS": "Impossible de passer, il reste des placements valides (comme {{move}}) !",
-      "GROUP_TOO_LARGE": "Ce placement créerait une créature de plus de quatre pièces !"
     }
   },
   "INITIAL_UNDO": "Vous ne pouvez pas annuler la position de départ initiale de la partie.",

@@ -25,7 +25,7 @@ Prose descriptions below; the authoritative enum is auto-generated.
 | `scores` | Final scores in EOG emails |
 | `shared-pieces` | No player-owned colours |
 | `shared-stash` | `getSharedStash()` |
-| `simultaneous` | Use `GameBaseSimultaneous` |
+| `simultaneous` | Turn-based simultaneous rounds — use **`GameBaseSimultaneous`** (not merely a UI hint) |
 | `stacking-expanding` | Pass click row/col into `render()` |
 
 <!-- generated-flags -->

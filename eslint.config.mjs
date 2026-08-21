@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
-    ignores: ["src/schemas/*", "src/ais/*", "playground/*", "bin/*", "build/*", "dist/*", "docs/*", "src/games/tafl/ruleset.d.ts", "src/games/_registry.generated.ts", "src/games/_build-flags.generated.ts", "**/*.config.js"],
+    ignores: ["src/schemas/*", "src/ais/*", "playground/*", "bin/*", "build/*", "dist/*", "docs/*", "_ap_docs/**", "src/games/tafl/ruleset.d.ts", "src/games/_registry.generated.ts", "src/games/_build-flags.generated.ts", "**/*.config.js"],
   },
   eslint.configs.recommended,
   tseslint.configs.recommended,

@@ -90,14 +90,14 @@ export class ArmadasGame extends GameBaseSkipTurn {
 
 #### Sequenced export — consecutive plies by one seat
 
-**[Frogger](https://play.abstractplay.com/games/frogger)** with the **`refills`** variant is the current production example: a seat may announce a refill, others pass, then the same seat submits again — **two plies by one seat before the cycle completes**. Stride grouping would mis-place those moves in the move table.
+**[Frogger](https://play.abstractplay.com/games/frogger)** with the **`refills`** variant is the reference case: one seat announces a refill (`!`), then submits again on the **next ply** before the seat cycle continues. Sequenced export puts both moves in that seat’s column — **without** fake `pass` plies for other seats.
 
-Full walkthrough (ply list, sparse rows, round-close pitfall, hook checklist): **[Sequenced turn model](/gameslib/sequenced-turn-model/)**.
+Full walkthrough (recommended `refillPending` shape, hooks, tests): **[Sequenced turn model](/gameslib/sequenced-turn-model/)**.
 
 Summary:
 
-- **New game, always sequenced** → `extends GameBaseSequenced`; override `plyActor` / `shouldCloseRound` only for your phase logic.
-- **Variant-gated (Frogger)** → stay on `GameBase`, gate `turnModel()` and mixin hooks on the variant; Frogger uses legacy `_turn-sequenced-skipto` helpers — **do not copy `skipto` into new games**.
+- **New game, always sequenced** → `extends GameBaseSequenced`; override `shouldCloseRound` while a supplemental obligation is open.
+- **Variant-gated (Frogger refactor)** → gate `turnModel()` and sparse export on `refills`; replace legacy `skipto` / pass chains with explicit pending state (see doc). Shipped Frogger still uses `_turn-sequenced-skipto` until that refactor lands.
 
 #### `GameBase` + hooks — variant-gated or special-case
 
@@ -109,8 +109,8 @@ These protected methods on **`GameBase`** are the extension points when the stoc
 
 | Hook | Default | Override when |
 |------|---------|---------------|
-| **`plyActor(stackIndex)`** | `stack[stackIndex - 1].currplayer` | Actor is not the pre-move `currplayer` (Frogger `skipto`, future Gnostica branches). |
-| **`shouldCloseRound(roundPlies, stackIndex)`** | Close every `numplayers` plies | Round ends on **seat-cycle wrap**, not fixed ply count; or mid-cycle waits (`skipto`). |
+| **`plyActor(stackIndex)`** | `stack[stackIndex - 1].currplayer` | Actor is not the pre-move `currplayer` (unusual; prefer fixing `currplayer` in `move()`). |
+| **`shouldCloseRound(roundPlies, stackIndex)`** | Close every `numplayers` plies | Round ends on **seat-cycle wrap**, not fixed ply count; or while supplemental obligation still open (`refillPending`). |
 | **`getRounds()`** | Pack plies into `numplayers`-wide rows | Consecutive plies by one seat would **overwrite** in `buildRoundRow` — emit **one row per ply** instead. |
 | **`compactExportRounds()`** | Trim trailing `null` seats | Skip-turn / simultaneous / sequenced sparse rows must keep full width. |
 | **`turnModel()`** | `"sequential"` (or base class default) | Consumer hint for replay and UI; must match export shape. |

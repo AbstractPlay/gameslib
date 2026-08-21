@@ -52,7 +52,7 @@ flowchart TD
 | **`skip-turn`** | Full-width rows; **`null`** where a seat did not act (eliminated / inactive). | Turn order skips seats that cannot act (elimination, no ships, no homeworld). Implement **`isSeatActive(seat, stackIndex)`**. |
 | **`sequenced`** | **Sparse rows**: often **one ply per row**, move in the actor’s column; `{ move, sequence }` when play order ≠ seating. | A seat may act **more than once** before the cycle completes (refill follow-ups, branch depth). |
 
-Setting **`turnModel()` alone is not enough** for sequenced export — you also need **`shouldCloseRound`**, and usually **sparse `getRounds()`** (see [Game object — mixin hooks](/gameslib/game-object/#mixin-hooks-plyactor-shouldcloseround)). `GameBaseSequenced` bundles those defaults.
+Setting **`turnModel()` alone is not enough** for sequenced export — you also need **`shouldCloseRound`**, and usually **sparse `getRounds()`** (see [Game object — mixin hooks](/gameslib/game-object/#mixin-hooks-plyactor-shouldcloseround)). `GameBaseSequenced` bundles those defaults. For a worked example (including Frogger-style two actions in one round), see **[Sequenced turn model](/gameslib/sequenced-turn-model/)**.
 
 ### Worked examples
 
@@ -90,17 +90,14 @@ export class ArmadasGame extends GameBaseSkipTurn {
 
 #### Sequenced export — consecutive plies by one seat
 
-**[Frogger](https://play.abstractplay.com/games/frogger)** with the **`refills`** variant: after a market refill (`!`), other players pass while the refilling player owes a **supplemental** submit. That yields **multiple plies by the same seat** before the seat cycle completes. Stride grouping would put those moves in the wrong columns.
+**[Frogger](https://play.abstractplay.com/games/frogger)** with the **`refills`** variant is the current production example: a seat may announce a refill, others pass, then the same seat submits again — **two plies by one seat before the cycle completes**. Stride grouping would mis-place those moves in the move table.
 
-Frogger stays on **`GameBase`** but overrides mixin hooks **only when `refills` is enabled**:
+Full walkthrough (ply list, sparse rows, round-close pitfall, hook checklist): **[Sequenced turn model](/gameslib/sequenced-turn-model/)**.
 
-- `turnModel()` → `"sequenced"` (else `"sequential"`)
-- `plyActor()` — reads `skipto` on the pre-move stack entry
-- `shouldCloseRound()` — seat-cycle wrap, but **do not close while `skipto` is set**
-- `getRounds()` — **one sparse row per ply**
-- `compactExportRounds()` — keep full seat width (no trailing-null trim)
+Summary:
 
-For a **new** game that is **always** sequenced (no variant gate), prefer **`extends GameBaseSequenced`** and override only what is unique (e.g. custom `plyActor`).
+- **New game, always sequenced** → `extends GameBaseSequenced`; override `plyActor` / `shouldCloseRound` only for your phase logic.
+- **Variant-gated (Frogger)** → stay on `GameBase`, gate `turnModel()` and mixin hooks on the variant; Frogger uses legacy `_turn-sequenced-skipto` helpers — **do not copy `skipto` into new games**.
 
 #### `GameBase` + hooks — variant-gated or special-case
 
@@ -165,6 +162,6 @@ Implement `render(opts?)` returning `APRenderRep` for `@abstractplay/renderer`. 
 | Default sequential | [Complica](https://play.abstractplay.com/games/complica), [Hex](https://play.abstractplay.com/games/hex) |
 | Simultaneous rounds | [Robo Battle Pigs](https://play.abstractplay.com/games/pigs), [Entropy](https://play.abstractplay.com/games/entropy) |
 | Skip-turn / elimination | [Armadas](https://play.abstractplay.com/games/armadas), [Homeworlds](https://play.abstractplay.com/games/homeworlds) |
-| Sequenced / refills (hooks on `GameBase`) | [Frogger](https://play.abstractplay.com/games/frogger) (`refills` variant) |
+| Sequenced / duplicate actor per round | [Sequenced turn model](/gameslib/sequenced-turn-model/) · [Frogger](https://play.abstractplay.com/games/frogger) (`refills`) |
 | Hex graph | [Yavalath](https://play.abstractplay.com/games/yavalath) |
 | Custom `recordExportExclude` | [Volcano](https://play.abstractplay.com/games/volcano), [Tablero](https://play.abstractplay.com/games/tablero) |

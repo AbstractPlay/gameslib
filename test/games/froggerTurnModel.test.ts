@@ -2,9 +2,9 @@ import "mocha";
 import { expect } from "chai";
 import { FroggerGame } from "../../src/games/frogger";
 import {
-    froggerPlyActor,
-    froggerRefillsShouldCloseRound,
-} from "../../src/games/_turn-sequenced";
+    sequencedSkiptoPlyActor,
+    sequencedSkiptoShouldCloseRound,
+} from "../../src/games/_turn-sequenced-skipto";
 import { plyOrderedMovesFromRounds } from "../fixtures/turnModel/helpers";
 
 describe("Frogger refills turn model (Phase 6)", () => {
@@ -45,11 +45,11 @@ describe("Frogger refills turn model (Phase 6)", () => {
         expect(rounds[2]![1]).to.deep.include({ move: "b3-a2,8MS/", sequence: 3 });
     });
 
-    it("froggerPlyActor respects skipto on supplemental refill turns", () => {
+    it("sequencedSkiptoPlyActor respects skipto on supplemental refill turns", () => {
         const g = new FroggerGame(emptyDeckRefills);
         g.move("c3-b3,NV!/");
         g.move("pass");
-        expect(froggerPlyActor(g, g.stack.length - 1)).to.equal(1);
+        expect(sequencedSkiptoPlyActor(g, g.stack.length - 1)).to.equal(1);
     });
 
     it("does not close a round while skipto is still pending", () => {
@@ -57,6 +57,6 @@ describe("Frogger refills turn model (Phase 6)", () => {
         g.move("c3-b3,NV!/");
         const plies = g.getPlies();
         const stackIndex = plies[plies.length - 1]!.stackIndex;
-        expect(froggerRefillsShouldCloseRound(g, plies, stackIndex)).to.equal(false);
+        expect(sequencedSkiptoShouldCloseRound(g, plies, stackIndex)).to.equal(false);
     });
 });

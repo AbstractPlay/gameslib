@@ -1,7 +1,7 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import type { IGamePly, IGameRound, TurnModel } from "./_turn-model";
 import { defaultPlyActor, defaultShouldCloseRound } from "./_turn-plies";
-import { froggerPlyActor, froggerRefillsShouldCloseRound } from "./_turn-sequenced";
+import { sequencedSkiptoPlyActor, sequencedSkiptoShouldCloseRound } from "./_turn-sequenced-skipto";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaPieces, Glyph, MarkerFlood, MarkerGlyph, RowCol} from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -2386,14 +2386,14 @@ export class FroggerGame extends GameBase {
         if (!this.variants.includes("refills")) {
             return defaultPlyActor(this, stackIndex);
         }
-        return froggerPlyActor(this, stackIndex);
+        return sequencedSkiptoPlyActor(this, stackIndex);
     }
 
     protected shouldCloseRound(roundPlies: IGamePly[], stackIndex: number): boolean {
         if (!this.variants.includes("refills")) {
             return defaultShouldCloseRound(this, roundPlies);
         }
-        return froggerRefillsShouldCloseRound(this, roundPlies, stackIndex);
+        return sequencedSkiptoShouldCloseRound(this, roundPlies, stackIndex);
     }
 
     /** Refill follow-ups can place several plies on one seat in a cycle — one sparse row per ply. */

@@ -238,6 +238,19 @@ body[data-theme='dark'] .collapsible summary {
     max-width: 500px;
 }
 
+.move-history-panel .move-history-table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.move-history-panel td.move-history-empty {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+body[data-theme='dark'] .move-history-panel td.move-history-empty {
+    background-color: rgba(255, 255, 255, 0.06);
+}
+
 /* Highlighting for move input based on validation */
 #moveEntry.move-incomplete {
     border-color: #ff9900;

@@ -744,6 +744,181 @@ function getPlayerNamesForStatus(game, gamename) {
     return playerNames;
 }
 
+/** @typedef {"sequential" | "simultaneous" | "sequenced" | "skip-turn"} TurnModel */
+
+function gameIsSimultaneous(game, gamename) {
+    if (game && game.simultaneous) {
+        return true;
+    }
+    const meta = APGames.gameinfo.get(gamename || game?.uid);
+    return Boolean(meta?.flags?.includes("simultaneous"));
+}
+
+function effectiveTurnModel({ game, engine, gameRec, gamename }) {
+    const fromHeader = gameRec?.header?.["turn-model"];
+    if (
+        fromHeader === "sequential" ||
+        fromHeader === "simultaneous" ||
+        fromHeader === "sequenced" ||
+        fromHeader === "skip-turn"
+    ) {
+        return fromHeader;
+    }
+    if (typeof engine?.turnModel === "function") {
+        const fromEngine = engine.turnModel();
+        if (
+            fromEngine === "sequential" ||
+            fromEngine === "simultaneous" ||
+            fromEngine === "sequenced" ||
+            fromEngine === "skip-turn"
+        ) {
+            return fromEngine;
+        }
+    }
+    if (gameIsSimultaneous(game, gamename)) {
+        return "simultaneous";
+    }
+    return "sequential";
+}
+
+function resolveMoveTableLayout({ game, engine, gameRec, gamename }) {
+    const model = effectiveTurnModel({ game, engine, gameRec, gamename });
+    const headerFromRecord = gameRec?.header?.["turn-model"];
+    const engineModel =
+        typeof engine?.turnModel === "function" ? engine.turnModel() : undefined;
+
+    const useRoundGrid =
+        model === "skip-turn" ||
+        (model === "sequenced" &&
+            (headerFromRecord === "sequenced" || engineModel === "sequenced")) ||
+        (model === "simultaneous" &&
+            (headerFromRecord === "simultaneous" || engineModel === "simultaneous"));
+
+    const legacySimulHeader = Boolean(gameIsSimultaneous(game, gamename) && !useRoundGrid);
+    const numcolumns = legacySimulHeader ? 1 : game.numplayers;
+
+    return { model, numcolumns, useRoundGrid, legacySimulHeader };
+}
+
+function formatMoveHistoryCell(slot) {
+    if (slot === null || slot === undefined) {
+        return "";
+    }
+    if (typeof slot === "string") {
+        return slot;
+    }
+    if (typeof slot === "object" && slot !== null && typeof slot.move === "string") {
+        return slot.move;
+    }
+    return "";
+}
+
+function playgroundRecordForMoveLayout(game, gamename, playerNames) {
+    if (!game.gameover || typeof game.genRecord !== "function") {
+        return undefined;
+    }
+    try {
+        return game.genRecord({
+            uid: gamename,
+            players: playerNames.map((name, i) => ({
+                id: String(i + 1),
+                name: name || `Player ${i + 1}`,
+            })),
+        });
+    } catch (err) {
+        console.warn("genRecord failed for move layout:", err);
+        return undefined;
+    }
+}
+
+function buildMoveHistoryTableHtml(game, gamename) {
+    const playerNames = getPlayerNamesForStatus(game, gamename);
+    const gameRec = playgroundRecordForMoveLayout(game, gamename, playerNames);
+    const layout = resolveMoveTableLayout({
+        game,
+        engine: game,
+        gameRec,
+        gamename,
+    });
+    const { numcolumns, legacySimulHeader, useRoundGrid, model } = layout;
+
+    let rows = null;
+    if (useRoundGrid && typeof game.getRounds === "function") {
+        try {
+            rows = game.getRounds();
+        } catch (err) {
+            console.warn("getRounds failed, falling back to moveHistory:", err);
+        }
+    }
+
+    if (!Array.isArray(rows)) {
+        if (typeof game.moveHistory !== "function") {
+            return { kind: "unavailable" };
+        }
+        let movelst;
+        try {
+            movelst = game.moveHistory();
+        } catch (err) {
+            console.warn("moveHistory failed:", err);
+            return { kind: "unavailable" };
+        }
+        if (!Array.isArray(movelst)) {
+            return { kind: "unavailable" };
+        }
+        if (movelst.length === 0) {
+            return { kind: "empty" };
+        }
+        if (legacySimulHeader) {
+            rows = movelst.map((round) => {
+                const text = Array.isArray(round)
+                    ? round.filter(Boolean).join(", ")
+                    : String(round ?? "");
+                return [text];
+            });
+        } else {
+            rows = movelst;
+        }
+    }
+
+    if (!Array.isArray(rows) || rows.length === 0) {
+        return { kind: "empty" };
+    }
+
+    let table =
+        `<table class="striped hoverable move-history-table" data-turn-model="${model}"><thead><tr>`;
+    table += "<th>Move</th>";
+    if (legacySimulHeader) {
+        table += `<th>${playerNames.join(", ")}</th>`;
+    } else {
+        for (let i = 0; i < numcolumns; i++) {
+            table += `<th>${playerNames[i] || `Player ${i + 1}`}</th>`;
+        }
+    }
+    table += "</tr></thead><tbody>";
+
+    rows.forEach((round, index) => {
+        if (index === rows.length - 1) {
+            table += '<tr id="lastMoveInHistory">';
+        } else {
+            table += "<tr>";
+        }
+        table += `<td>${index + 1}</td>`;
+        for (let i = 0; i < numcolumns; i++) {
+            const slot = Array.isArray(round) ? round[i] : undefined;
+            const move = formatMoveHistoryCell(slot);
+            const emptyClass =
+                useRoundGrid && (slot === null || slot === undefined)
+                    ? ' class="move-history-empty"'
+                    : "";
+            table += `<td${emptyClass}>${move}</td>`;
+        }
+        table += "</tr>";
+    });
+    table += "</tbody></table>";
+
+    return { kind: "table", html: table };
+}
+
 // Helper to format score (can be simple string or object)
 function formatScore(score) {
     if (typeof score === 'object' && score !== null) {
@@ -1405,41 +1580,20 @@ function renderGame(...args) {
             myNode.innerHTML = errorMsg;
         }
 
-        const movelst = game.moveHistory();
-        const div = document.getElementById("moveHistory");
-        if (Array.isArray(movelst) && movelst.length > 0) {
-            let table = '<table class="striped hoverable"><thead><tr>';
-            table += '<th>Move</th>';
-            const playerNames = getPlayerNamesForStatus(game, gamename);
-            for (let i = 0; i < game.numplayers; i++) {
-                table += `<th>${playerNames[i] || `Player ${i + 1}`}</th>`;
-            }
-            table += '</tr></thead><tbody>';
-            movelst.forEach((round, index) => {
-                if (index === movelst.length - 1) {
-                    table += '<tr id="lastMoveInHistory">';
-                } else {
-                    table += '<tr>';
-                }
-                table += `<td>${index + 1}</td>`;
-                for (let i = 0; i < game.numplayers; i++) {
-                    const move = round[i] || "";
-                    table += `<td>${move}</td>`;
-                }
-                table += '</tr>';
-            });
-            table += '</tbody></table>';
-            div.innerHTML = table;
+        const moveHistoryDiv = document.getElementById("moveHistory");
+        const moveHistoryResult = buildMoveHistoryTableHtml(game, gamename);
+        if (moveHistoryResult.kind === "unavailable") {
+            moveHistoryDiv.innerHTML = "[move history unavailable]";
+        } else if (moveHistoryResult.kind === "empty") {
+            moveHistoryDiv.innerHTML = "<p>No moves have been made yet.</p>";
+        } else {
+            moveHistoryDiv.innerHTML = moveHistoryResult.html;
             requestAnimationFrame(() => {
                 const lastRow = document.getElementById("lastMoveInHistory");
                 if (lastRow) {
                     lastRow.scrollIntoView({ behavior: "auto", block: "end" });
                 }
             });
-        } else if (Array.isArray(movelst)) {
-            div.innerHTML = '<p>No moves have been made yet.</p>';
-        } else {
-            div.innerHTML = "[move history unavailable]";
         }
 
         var status = "";

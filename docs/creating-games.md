@@ -52,7 +52,7 @@ flowchart TD
 | **`skip-turn`** | Full-width rows; **`null`** where a seat did not act (eliminated / inactive). | Turn order skips seats that cannot act (elimination, no ships, no homeworld). Implement **`isSeatActive(seat, stackIndex)`**. |
 | **`sequenced`** | **Sparse rows**: often **one ply per row**, move in the actor’s column; `{ move, sequence }` when play order ≠ seating. | A seat may act **more than once** before the cycle completes (refill follow-ups, branch depth). |
 
-Setting **`turnModel()` alone is not enough** for sequenced export — you also need **`shouldCloseRound`**, and usually **sparse `getRounds()`** (see [Game object — mixin hooks](/gameslib/game-object/#mixin-hooks-plyactor-shouldcloseround)). `GameBaseSequenced` bundles those defaults.
+Setting **`turnModel()` alone is not enough** for sequenced export — you also need **`shouldCloseRound`**, and usually **sparse `getRounds()`** (see [Game object — mixin hooks](/gameslib/game-object/#mixin-hooks-plyactor-shouldcloseround)). `GameBaseSequenced` bundles those defaults. For a worked example (including Frogger-style two actions in one round), see **[Sequenced turn model](/gameslib/sequenced-turn-model/)**.
 
 ### Worked examples
 
@@ -90,17 +90,14 @@ export class ArmadasGame extends GameBaseSkipTurn {
 
 #### Sequenced export — consecutive plies by one seat
 
-**[Frogger](https://play.abstractplay.com/games/frogger)** with the **`refills`** variant: after a market refill (`!`), other players pass while the refilling player owes a **supplemental** submit. That yields **multiple plies by the same seat** before the seat cycle completes. Stride grouping would put those moves in the wrong columns.
+**[Frogger](https://play.abstractplay.com/games/frogger)** with the **`refills`** variant is the reference case: one seat announces a refill (`!`), then submits again on the **next ply** before the seat cycle continues. Sequenced export puts both moves in that seat’s column — **without** fake `pass` plies for other seats.
 
-Frogger stays on **`GameBase`** but overrides mixin hooks **only when `refills` is enabled**:
+Full walkthrough (recommended `refillPending` shape, hooks, tests): **[Sequenced turn model](/gameslib/sequenced-turn-model/)**.
 
-- `turnModel()` → `"sequenced"` (else `"sequential"`)
-- `plyActor()` — reads `skipto` on the pre-move stack entry
-- `shouldCloseRound()` — seat-cycle wrap, but **do not close while `skipto` is set**
-- `getRounds()` — **one sparse row per ply**
-- `compactExportRounds()` — keep full seat width (no trailing-null trim)
+Summary:
 
-For a **new** game that is **always** sequenced (no variant gate), prefer **`extends GameBaseSequenced`** and override only what is unique (e.g. custom `plyActor`).
+- **New game, always sequenced** → `extends GameBaseSequenced`; override `shouldCloseRound` while a supplemental obligation is open.
+- **Variant-gated (Frogger refactor)** → gate `turnModel()` and sparse export on `refills`; replace legacy `skipto` / pass chains with explicit pending state (see doc). Shipped Frogger still uses `_turn-sequenced-skipto` until that refactor lands.
 
 #### `GameBase` + hooks — variant-gated or special-case
 
@@ -112,8 +109,8 @@ These protected methods on **`GameBase`** are the extension points when the stoc
 
 | Hook | Default | Override when |
 |------|---------|---------------|
-| **`plyActor(stackIndex)`** | `stack[stackIndex - 1].currplayer` | Actor is not the pre-move `currplayer` (Frogger `skipto`, future Gnostica branches). |
-| **`shouldCloseRound(roundPlies, stackIndex)`** | Close every `numplayers` plies | Round ends on **seat-cycle wrap**, not fixed ply count; or mid-cycle waits (`skipto`). |
+| **`plyActor(stackIndex)`** | `stack[stackIndex - 1].currplayer` | Actor is not the pre-move `currplayer` (unusual; prefer fixing `currplayer` in `move()`). |
+| **`shouldCloseRound(roundPlies, stackIndex)`** | Close every `numplayers` plies | Round ends on **seat-cycle wrap**, not fixed ply count; or while supplemental obligation still open (`refillPending`). |
 | **`getRounds()`** | Pack plies into `numplayers`-wide rows | Consecutive plies by one seat would **overwrite** in `buildRoundRow` — emit **one row per ply** instead. |
 | **`compactExportRounds()`** | Trim trailing `null` seats | Skip-turn / simultaneous / sequenced sparse rows must keep full width. |
 | **`turnModel()`** | `"sequential"` (or base class default) | Consumer hint for replay and UI; must match export shape. |
@@ -165,6 +162,6 @@ Implement `render(opts?)` returning `APRenderRep` for `@abstractplay/renderer`. 
 | Default sequential | [Complica](https://play.abstractplay.com/games/complica), [Hex](https://play.abstractplay.com/games/hex) |
 | Simultaneous rounds | [Robo Battle Pigs](https://play.abstractplay.com/games/pigs), [Entropy](https://play.abstractplay.com/games/entropy) |
 | Skip-turn / elimination | [Armadas](https://play.abstractplay.com/games/armadas), [Homeworlds](https://play.abstractplay.com/games/homeworlds) |
-| Sequenced / refills (hooks on `GameBase`) | [Frogger](https://play.abstractplay.com/games/frogger) (`refills` variant) |
+| Sequenced / duplicate actor per round | [Sequenced turn model](/gameslib/sequenced-turn-model/) · [Frogger](https://play.abstractplay.com/games/frogger) (`refills`) |
 | Hex graph | [Yavalath](https://play.abstractplay.com/games/yavalath) |
 | Custom `recordExportExclude` | [Volcano](https://play.abstractplay.com/games/volcano), [Tablero](https://play.abstractplay.com/games/tablero) |

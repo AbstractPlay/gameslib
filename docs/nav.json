@@ -4,6 +4,7 @@
   { "slug": "testing" },
   { "slug": "api", "title": "API" },
   { "slug": "game-object", "title": "Game object" },
+  { "slug": "sequenced-turn-model", "title": "Sequenced turn model" },
   { "slug": "flags" },
   { "slug": "helpers" },
   { "slug": "helpers/rect-grid", "title": "RectGrid" },

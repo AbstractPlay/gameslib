@@ -1,4 +1,8 @@
 import { customAlphabet } from 'https://cdn.jsdelivr.net/npm/nanoid/+esm';
+import {
+    getRoundsForLayout,
+    resolveMoveTableDensity,
+} from "./move-table-display.mjs";
 const nanoid = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', 5);
 
 let currentRenderRep = null;
@@ -796,8 +800,9 @@ function resolveMoveTableLayout({ game, engine, gameRec, gamename }) {
 
     const legacySimulHeader = Boolean(gameIsSimultaneous(game, gamename) && !useRoundGrid);
     const numcolumns = legacySimulHeader ? 1 : game.numplayers;
+    const density = resolveMoveTableDensity(model, useRoundGrid);
 
-    return { model, numcolumns, useRoundGrid, legacySimulHeader };
+    return { model, numcolumns, useRoundGrid, legacySimulHeader, density };
 }
 
 function formatMoveHistoryCell(slot) {
@@ -845,9 +850,9 @@ function buildMoveHistoryTableHtml(game, gamename) {
     let rows = null;
     if (useRoundGrid && typeof game.getRounds === "function") {
         try {
-            rows = game.getRounds();
+            rows = getRoundsForLayout(game, layout);
         } catch (err) {
-            console.warn("getRounds failed, falling back to moveHistory:", err);
+            console.warn("getRoundsForLayout failed, falling back to moveHistory:", err);
         }
     }
 

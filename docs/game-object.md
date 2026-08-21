@@ -35,9 +35,9 @@ All bases inherit overridable hooks from `GameBase` (implemented in `_turn-plies
 | `getRounds()` | Pack plies into `numplayers`-wide rows via `buildRoundRow` |
 | `compactExportRounds()` | Trim trailing `null` seats per row (sequential export) |
 
-**`GameBaseSequenced`** sets `turnModel()` → `"sequenced"`, uses seat-cycle `shouldCloseRound`, sparse `getRounds()` (one row per ply), and skips trailing-null compaction.
+**`GameBaseSequenced`** sets `turnModel()` → `"sequenced"`, uses seat-cycle `shouldCloseRound`, sparse `getRounds()` (one row per ply), and skips trailing-null compaction. See **[Sequenced turn model](/gameslib/sequenced-turn-model/)** for a full example (duplicate actions per round, round-close rules, Frogger `refills`).
 
-**[Frogger](https://play.abstractplay.com/games/frogger)** (`refills` variant) overrides these hooks on **`GameBase`** instead of extending `GameBaseSequenced`, because only that variant needs sequenced export and `plyActor` must read `skipto`.
+**[Frogger](https://play.abstractplay.com/games/frogger)** (`refills` variant) is migrating to this model; shipped code still uses legacy stack `skipto` via [`_turn-sequenced-skipto.ts`](/gameslib/src/games/_turn-sequenced-skipto.ts). See **[Sequenced turn model](/gameslib/sequenced-turn-model/)** for the target refactor shape.
 
 Do **not** override `moveHistory()` for export fixes — bots and legacy tests depend on the frozen stride shape.
 
@@ -167,4 +167,4 @@ Returned by `handleClick`: `valid`, `message`, `move`, optional `complete` and `
 - **[Volcano](https://play.abstractplay.com/games/volcano)** — `recordExportExclude()` omits `move` annotations from export
 - **[Homeworlds](https://play.abstractplay.com/games/homeworlds)** — `GameBaseSkipTurn`; `null` export slots for eliminated seats
 - **[Robo Battle Pigs](https://play.abstractplay.com/games/pigs)** — `GameBaseSimultaneous`; one stack entry per round
-- **[Frogger](https://play.abstractplay.com/games/frogger)** — `GameBase`; `refills` variant overrides mixin hooks for `sequenced` export (`skipto`, sparse rows)
+- **[Frogger](https://play.abstractplay.com/games/frogger)** — `refills` variant: sequenced export (see [Sequenced turn model](/gameslib/sequenced-turn-model/)); legacy `skipto` until refactor

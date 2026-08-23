@@ -24,7 +24,7 @@
         "arimaa": "This position has occurred before. Further repeats of this position are forbidden.",
         "biscuit": "The following cards were in opposing hands: {{cards}}.",
         "deckfish": "{{player}} was unable to move and must pass from now on.",
-        "frogger": "{{player}} chose to refill the draw pool.  Other players must pass so he can take his {{moves}} remaining move(s).",
+        "frogger": "{{player}} chose to refill the draw pool mid-move, so will take a partial turn to complete his {{moves}} remaining move(s).",
         "quincunx": "Player {{playerNum}} had the following cards left in their hand: {{cards}}.",
         "scribe_super": "{{player}}'s super formation: {{formation}}.",
         "stawvs": "{{player}} was unable to move and must pass from now on.  Their pieces remain on the following pyramids: {{pyramids}}."

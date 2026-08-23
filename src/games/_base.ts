@@ -687,10 +687,14 @@ export abstract class GameBase  {
 
     public chatLog(players: string[]): string[][] {
         const result: string[][] = [];
-        for (const state of this.stack) {
+        // Index 0 has no associated ply) so it's skipped.
+        for (let i = 1; i < this.stack.length; i++) {
+            const state = this.stack[i];
             if ( (state._results !== undefined) && (state._results.length > 0) ) {
                 const node: string[] = [(state._timestamp && new Date(state._timestamp).toISOString()) || "unknown"];
-                let otherPlayer = state.currplayer as number - 1;
+                // Resolved via plyActor(), not `state.currplayer - 1`,
+                // to fix turn model cases of skip-turn and sequenced.
+                let otherPlayer = this.plyActor(i);
                 if (otherPlayer < 1) {
                     otherPlayer = this.numplayers;
                 }

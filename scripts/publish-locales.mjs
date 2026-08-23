@@ -111,7 +111,7 @@ function main() {
     }
     const meta = JSON.parse(fs.readFileSync(metaPath, "utf8"));
     const filteredDir = path.join(ROOT, "build", "locales-publish-prod");
-    filterLocalesForProd(localesDir, filteredDir, meta.experimentalUids ?? []);
+    filterLocalesForProd(localesDir, filteredDir, meta.experimentalUids ?? [], meta.experimentalVariantsByUid ?? {});
     localesDir = filteredDir;
   }
 

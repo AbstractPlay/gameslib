@@ -13,6 +13,7 @@ The root module (`src/index.ts`) exports the public API used by the front end an
 | `supportedLocales` | e.g. `["en", "fr", "es-US"]` |
 | `resolveLocale` | Map a browser/user language tag to a supported locale (e.g. `es-MX` → `es-US`) |
 | `GameBase`, `GameBaseSequenced`, `GameBaseSimultaneous`, `GameBaseSkipTurn` | Base classes for game authors |
+| `filterGameinfoForProduction`, `allowedChallengeVariantUids`, `assertAllowedChallengeVariants` | Production filtering for challenge metadata |
 | `TurnModel`, `IGamePly`, `IGameRound`, `IGameRoundSlot` | Turn-model types (`getPlies` / `getRounds`) |
 
 AI helpers (`AIFactory`, etc.) exist for testing only and are not part of the public release API.
@@ -26,6 +27,8 @@ AI helpers (`AIFactory`, etc.) exist for testing only and are not part of the pu
 ## `gameinfo`
 
 Self-describing metadata per game, matching [`gameinfo.json`](https://github.com/AbstractPlay/gameslib/blob/develop/src/schemas/gameinfo.json). Each entry includes uid, name, description (i18n key), URLs, people, player counts, variants, and flags.
+
+In production builds, `gameinfo` omits experimental games and experimental variants. Use `gameinfo` / `gameinfoSorted` variants for new challenges and tournaments. On a game instance, use `challengeVariants()` for the same filtered picker UI. Use `allvariants()` for historical games and in-game display of active variant uids.
 
 See [Flags](/gameslib/flags/) for flag semantics.
 

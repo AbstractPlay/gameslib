@@ -6,7 +6,13 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { Project, SyntaxKind } from "ts-morph";
+import { Project } from "ts-morph";
+import {
+    collectGameFiles,
+    discoverGames,
+    buildExperimentalVariantsByUid,
+    DEFAULT_SKIP_FILES,
+} from "./registry-discovery.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -14,152 +20,26 @@ const GAMES_DIR = path.join(ROOT, "src", "games");
 const OUT_REGISTRY = path.join(GAMES_DIR, "_registry.generated.ts");
 const OUT_FLAGS = path.join(GAMES_DIR, "_build-flags.generated.ts");
 const OUT_META = path.join(GAMES_DIR, "_registry-meta.generated.json");
+const OUT_FILTER = path.join(GAMES_DIR, "_registry-filter.generated.ts");
 
 const APGAMES_PRODUCTION = process.env.APGAMES_PRODUCTION === "1";
 
-const SKIP_FILES = new Set([
-    "_base.ts",
-    "index.ts",
-    "_registry.generated.ts",
-    "_build-flags.generated.ts",
-]);
-
-function collectGameFiles(dir) {
-    const files = [];
-    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-        const full = path.join(dir, entry.name);
-        if (entry.isDirectory()) {
-            files.push(...collectGameFiles(full));
-        } else if (entry.isFile() && entry.name.endsWith(".ts") && !entry.name.endsWith(".d.ts")) {
-            if (!SKIP_FILES.has(entry.name)) {
-                files.push(full);
-            }
-        }
-    }
-    return files;
-}
-
-function getLiteralProperty(obj, name) {
-    const prop = obj.getProperty(name);
-    if (!prop || !prop.isKind(SyntaxKind.PropertyAssignment)) {
-        return undefined;
-    }
-    const init = prop.getInitializer();
-    if (!init) {
-        return undefined;
-    }
-    if (init.isKind(SyntaxKind.StringLiteral)) {
-        return init.getLiteralValue();
-    }
-    if (init.isKind(SyntaxKind.NumericLiteral)) {
-        return Number(init.getLiteralValue());
-    }
-    return undefined;
-}
-
-function flagsIncludeExperimental(flagsInit) {
-    if (!flagsInit || !flagsInit.isKind(SyntaxKind.ArrayLiteralExpression)) {
-        return false;
-    }
-    return flagsInit.getElements().some((el) => {
-        return el.isKind(SyntaxKind.StringLiteral) && el.getLiteralValue() === "experimental";
+function buildFilterTs(experimentalVariantsByUid) {
+    const entries = Object.entries(experimentalVariantsByUid).sort(([a], [b]) => a.localeCompare(b));
+    const lines = entries.map(([uid, uids]) => {
+        const arr = uids.map((u) => JSON.stringify(u)).join(", ");
+        return `    ${JSON.stringify(uid)}: [${arr}],`;
     });
-}
-
-function findStateInterfaces(sourceFile, gameClassName) {
-    const prefix = gameClassName.replace(/Game$/, "");
-    const candidates = sourceFile.getInterfaces()
-        .filter((iface) => iface.isExported())
-        .filter((iface) => iface.getName().startsWith("I") && iface.getName().endsWith("State"))
-        .map((iface) => iface.getName());
-
-    const exact = candidates.find((n) => n === `I${prefix}State`);
-    if (exact) {
-        return [exact];
-    }
-    const mainState = candidates.filter((n) => n !== "IMoveState" && n !== "IIndividualState");
-    if (mainState.length === 1) {
-        return mainState;
-    }
-    return mainState.length > 0 ? [mainState[0]] : [];
-}
-
-function relativeImport(fromDir, targetFile) {
-    let rel = path.relative(fromDir, targetFile).replace(/\\/g, "/");
-    if (!rel.startsWith(".")) {
-        rel = `./${rel}`;
-    }
-    rel = rel.replace(/\.ts$/, "");
-    return rel;
-}
-
-function discoverGames(project) {
-    const entries = [];
-    const files = collectGameFiles(GAMES_DIR);
-
-    for (const filePath of files) {
-        const sourceFile = project.getSourceFile(filePath);
-        if (!sourceFile) {
-            continue;
-        }
-
-        for (const cls of sourceFile.getClasses()) {
-            if (!cls.isExported()) {
-                continue;
-            }
-            const name = cls.getName();
-            if (!name || !name.endsWith("Game")) {
-                continue;
-            }
-
-            const extendsExpr = cls.getExtends();
-            if (!extendsExpr) {
-                continue;
-            }
-            const baseName = extendsExpr.getText();
-            const VALID_BASES = new Set(["GameBase", "GameBaseSimultaneous", "GameBaseSkipTurn", "InARowBase"]);
-            if (!VALID_BASES.has(baseName)) {
-                continue;
-            }
-
-            const gameinfoProp = cls.getStaticProperty("gameinfo");
-            if (!gameinfoProp || !gameinfoProp.isKind(SyntaxKind.PropertyDeclaration)) {
-                continue;
-            }
-
-            const init = gameinfoProp.getInitializer();
-            if (!init || !init.isKind(SyntaxKind.ObjectLiteralExpression)) {
-                continue;
-            }
-
-            const uid = getLiteralProperty(init, "uid");
-            if (!uid) {
-                console.warn(`Skipping ${name}: gameinfo.uid not found as string literal in ${filePath}`);
-                continue;
-            }
-
-            const flagsInit = init.getProperty("flags")?.getInitializer();
-            const experimental = flagsIncludeExperimental(flagsInit);
-            const stateInterfaces = findStateInterfaces(sourceFile, name);
-            const importPath = relativeImport(GAMES_DIR, filePath);
-
-            entries.push({
-                className: name,
-                uid,
-                experimental,
-                importPath,
-                stateInterfaces,
-                filePath,
-            });
-        }
-    }
-
-    return entries;
+    const body = lines.length > 0 ? `\n${lines.join("\n")}\n` : "\n";
+    return `// Generated by scripts/generate-registry.mjs — do not edit
+export const EXPERIMENTAL_VARIANT_UIDS_BY_GAME: Readonly<Record<string, readonly string[]>> = {${body}};
+`;
 }
 
 function buildRegistry(entries) {
     const included = entries.filter((e) => !APGAMES_PRODUCTION || !e.experimental);
     const experimentalUids = entries.filter((e) => e.experimental).map((e) => e.uid);
+    const experimentalVariantsByUid = buildExperimentalVariantsByUid(entries);
 
     included.sort((a, b) => a.uid.localeCompare(b.uid));
 
@@ -222,18 +102,21 @@ export const APGAMES_PRODUCTION = ${APGAMES_PRODUCTION};
         production: APGAMES_PRODUCTION,
         gameCount: included.length,
         experimentalUids,
+        experimentalVariantsByUid,
         uids: included.map((e) => e.uid),
     };
 
     fs.writeFileSync(OUT_REGISTRY, registryTs);
     fs.writeFileSync(OUT_FLAGS, flagsTs);
     fs.writeFileSync(OUT_META, JSON.stringify(meta, null, 2));
+    fs.writeFileSync(OUT_FILTER, buildFilterTs(experimentalVariantsByUid));
 
+    const experimentalVariantCount = Object.values(experimentalVariantsByUid).reduce((n, uids) => n + uids.length, 0);
     console.log(
-        `Registry: ${included.length} games (${experimentalUids.length} experimental; ${APGAMES_PRODUCTION ? "omitted from build" : "included in build"})`,
+        `Registry: ${included.length} games (${experimentalUids.length} experimental games; ${experimentalVariantCount} experimental variants; ${APGAMES_PRODUCTION ? "omitted from build" : "included in build"})`,
     );
 
-    return { included, experimentalUids, all: entries };
+    return { included, experimentalUids, experimentalVariantsByUid, all: entries };
 }
 
 const project = new Project({
@@ -241,11 +124,11 @@ const project = new Project({
     skipAddingFilesFromTsConfig: true,
 });
 
-for (const filePath of collectGameFiles(GAMES_DIR)) {
+for (const filePath of collectGameFiles(GAMES_DIR, DEFAULT_SKIP_FILES)) {
     project.addSourceFileAtPath(filePath);
 }
 
-const entries = discoverGames(project);
+const entries = discoverGames(project, GAMES_DIR, DEFAULT_SKIP_FILES);
 
 const uids = new Set();
 for (const e of entries) {

@@ -1972,7 +1972,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             return;
         }
 
-        let allVariants = gameEngine.allvariants() || [];
+        let allVariants = gameEngine.challengeVariants() || [];
         currentGameInfo.variants = allVariants;
 
         const groups = {};

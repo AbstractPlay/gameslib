@@ -12,16 +12,19 @@ const ROOT = path.resolve(__dirname, "..");
 const META_PATH = path.join(ROOT, "src", "games", "_registry-meta.generated.json");
 const SUPPORTED_LANGUAGES = ["en", "fr", "de", "it", "es-US"];
 
-function loadExperimentalUids() {
+function loadRegistryMeta() {
     if (!fs.existsSync(META_PATH)) {
         console.error("Missing registry meta — run npm run generate-registry first");
         process.exit(1);
     }
     const meta = JSON.parse(fs.readFileSync(META_PATH, "utf8"));
-    return meta.experimentalUids ?? [];
+    return {
+        experimentalUids: meta.experimentalUids ?? [],
+        experimentalVariantsByUid: meta.experimentalVariantsByUid ?? {},
+    };
 }
 
-function stripExperimentalFromApgames(data, experimentalUids) {
+function stripExperimentalFromApgames(data, experimentalUids, experimentalVariantsByUid) {
     if (data.descriptions && typeof data.descriptions === "object") {
         for (const uid of experimentalUids) {
             delete data.descriptions[uid];
@@ -30,6 +33,15 @@ function stripExperimentalFromApgames(data, experimentalUids) {
     if (data.variants && typeof data.variants === "object") {
         for (const uid of experimentalUids) {
             delete data.variants[uid];
+        }
+        for (const [gameUid, variantUids] of Object.entries(experimentalVariantsByUid)) {
+            const gameVariants = data.variants[gameUid];
+            if (!gameVariants || typeof gameVariants !== "object") {
+                continue;
+            }
+            for (const variantUid of variantUids) {
+                delete gameVariants[variantUid];
+            }
         }
     }
     for (const uid of experimentalUids) {
@@ -49,9 +61,9 @@ function stripExperimentalFromApresults(data, experimentalUids) {
     return data;
 }
 
-function filterLocaleFile(data, fileName, experimentalUids) {
+function filterLocaleFile(data, fileName, experimentalUids, experimentalVariantsByUid) {
     if (fileName === "apgames.json") {
-        return stripExperimentalFromApgames(data, experimentalUids);
+        return stripExperimentalFromApgames(data, experimentalUids, experimentalVariantsByUid);
     }
     if (fileName === "apresults.json") {
         return stripExperimentalFromApresults(data, experimentalUids);
@@ -59,7 +71,12 @@ function filterLocaleFile(data, fileName, experimentalUids) {
     return data;
 }
 
-export function filterLocalesForProd(sourceLocalesDir, destLocalesDir, experimentalUids) {
+export function filterLocalesForProd(
+    sourceLocalesDir,
+    destLocalesDir,
+    experimentalUids,
+    experimentalVariantsByUid = {},
+) {
     for (const lang of SUPPORTED_LANGUAGES) {
         const srcLangDir = path.join(sourceLocalesDir, lang);
         if (!fs.existsSync(srcLangDir)) {
@@ -74,7 +91,7 @@ export function filterLocalesForProd(sourceLocalesDir, destLocalesDir, experimen
             }
             const srcPath = path.join(srcLangDir, file);
             const data = JSON.parse(fs.readFileSync(srcPath, "utf8"));
-            const filtered = filterLocaleFile(data, file, experimentalUids);
+            const filtered = filterLocaleFile(data, file, experimentalUids, experimentalVariantsByUid);
             fs.writeFileSync(path.join(destLangDir, file), `${JSON.stringify(filtered, null, 4)}\n`);
         }
     }
@@ -82,12 +99,15 @@ export function filterLocalesForProd(sourceLocalesDir, destLocalesDir, experimen
 
 function main() {
     const outDir = process.argv[2] ?? path.join(ROOT, "build", "locales");
-    const experimentalUids = loadExperimentalUids();
+    const { experimentalUids, experimentalVariantsByUid } = loadRegistryMeta();
     const sourceDir = path.join(ROOT, "locales");
+    const experimentalVariantCount = Object.values(experimentalVariantsByUid).reduce((n, uids) => n + uids.length, 0);
 
     fs.mkdirSync(outDir, { recursive: true });
-    filterLocalesForProd(sourceDir, outDir, experimentalUids);
-    console.log(`Filtered locales for prod (${experimentalUids.length} experimental uids) → ${outDir}`);
+    filterLocalesForProd(sourceDir, outDir, experimentalUids, experimentalVariantsByUid);
+    console.log(
+        `Filtered locales for prod (${experimentalUids.length} experimental games; ${experimentalVariantCount} experimental variants) → ${outDir}`,
+    );
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

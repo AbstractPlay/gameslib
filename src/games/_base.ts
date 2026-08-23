@@ -20,6 +20,8 @@ import {
     buildSimultaneousRounds,
 } from "./_turn-simultaneous";
 import { skipTurnShouldCloseRound } from "./_turn-skip";
+import { APGAMES_PRODUCTION } from "./_build-flags.generated";
+import { allowedChallengeVariantUids } from "./_gameinfo-filter";
 
 /**
  * The minimum requirements of the individual game states.
@@ -253,6 +255,20 @@ export abstract class GameBase  {
             });
         }
         return variants;
+    }
+
+    /**
+     * Variants available for new challenges and tournaments (production-filtered).
+     * Use allvariants() for historical games and in-game display.
+     */
+    public challengeVariants(): Variant[] | undefined {
+        const all = this.allvariants();
+        if (!all || !APGAMES_PRODUCTION) {
+            return all;
+        }
+        const ctor = this.constructor as typeof GameBase;
+        const allowed = allowedChallengeVariantUids(ctor.gameinfo);
+        return all.filter((v) => allowed.has(v.uid));
     }
 
     public alternativeDisplays(): AlternativeDisplay[] | undefined {

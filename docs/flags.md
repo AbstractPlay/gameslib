@@ -15,6 +15,8 @@ Prose descriptions below; the authoritative enum is auto-generated.
 | `custom-randomization` | `randomMove()` despite `no-moves` |
 | `custom-rotation` | `getCustomRotation()` for board angle |
 | `experimental` | Omitted from production builds and `gameinfo`; visible on dev |
+
+Variants marked `experimental: true` in `gameinfo.variants` are omitted from production `gameinfo` exports and from `challengeVariants()`, but remain in `allvariants()` for historical games.
 | `no-explore` | Disable exploration mode |
 | `no-moves` | Cannot list all legal moves |
 | `perspective` | Per-player board rotation |

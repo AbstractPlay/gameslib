@@ -1093,9 +1093,8 @@ export class StawvsGame extends GameBase {
         return [iscoreObj];
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move", "place", "pass", "winners", "eog", "deltaScore"]);
+    protected recordExportExclude(): string[] {
+        return ["move", "place", "pass", "winners", "eog", "deltaScore"];
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

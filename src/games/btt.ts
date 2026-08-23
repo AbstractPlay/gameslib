@@ -919,8 +919,8 @@ export class BTTGame extends GameBase {
         return;
     }
 
-    protected getMoveList(): APMoveResult[] {
-        return this.getMovesAndResults(["move", "capture", "orient", "eog", "winners"]) as APMoveResult[];
+    protected recordExportExclude(): string[] {
+        return ["move", "capture", "orient", "eog", "winners"];
     }
 
     public getPlayerScore(player: number): number {

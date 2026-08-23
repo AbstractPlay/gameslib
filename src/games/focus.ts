@@ -563,9 +563,8 @@ export class FocusGame extends GameBase {
         ]
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move", "place", "eog", "winners"]);
+    protected recordExportExclude(): string[] {
+        return ["move", "place", "eog", "winners"];
     }
 
     public chatLog(players: string[]): string[][] {

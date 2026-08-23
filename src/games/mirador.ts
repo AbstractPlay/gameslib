@@ -536,9 +536,8 @@ export class MiradorGame extends GameBase {
         return rep;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["place", "move"]);
+    protected recordExportExclude(): string[] {
+        return ["place", "move", "winners", "eog"];
     }
 
     public clone(): MiradorGame {

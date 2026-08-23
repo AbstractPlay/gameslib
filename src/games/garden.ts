@@ -699,9 +699,8 @@ export class GardenGame extends GameBase {
         }]
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["place", "take", "eog", "winners"]);
+    protected recordExportExclude(): string[] {
+        return ["place", "take", "eog", "winners"];
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

@@ -1,19 +1,24 @@
 import { APGamesInformation } from "../schemas/gameinfo";
-import { GameBase, GameBaseSimultaneous, IAPGameState } from "./_base";
+import { GameBase, GameBaseSimultaneous, GameBaseSkipTurn, IAPGameState } from "./_base";
+import { GameBaseSequenced } from "./_turn-sequenced";
 import { games, GameConstructor } from "./_registry.generated";
 
 export {
     APGamesInformation,
     GameBase,
+    GameBaseSequenced,
     GameBaseSimultaneous,
+    GameBaseSkipTurn,
     IAPGameState,
     games,
     GameConstructor,
 };
 
+export type { TurnModel, IGamePly, IGameRound, IGameRoundSlot } from "./_turn-model";
+
 export * from "./_registry.generated";
 
-export const GameFactory = (game: string, ...args: unknown[]): GameBase | GameBaseSimultaneous | undefined => {
+export const GameFactory = (game: string, ...args: unknown[]): GameBase | GameBaseSimultaneous | GameBaseSkipTurn | undefined => {
     const ctor = games.get(game);
     if (ctor === undefined) {
         return undefined;

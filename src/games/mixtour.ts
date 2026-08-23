@@ -537,9 +537,8 @@ export class MixtourGame extends GameBase {
         ]
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["pass", "move", "place", "eog", "winners"]);
+    protected recordExportExclude(): string[] {
+        return ["pass", "move", "place", "eog", "winners"];
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

@@ -143,7 +143,11 @@ debug.json
 src/games/_registry.generated.ts
 src/games/_build-flags.generated.ts
 src/games/_registry-meta.generated.json
+src/games/_registry-filter.generated.ts
 
 # Cursor — keep shared rules, ignore other local state
 .cursor/*
 !.cursor/rules/
+
+# Turn-model golden states (large; fetch locally via npm run fetch-turnModel-fixtures)
+test/fixtures-local/

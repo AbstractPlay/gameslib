@@ -18,7 +18,7 @@ export type { TurnModel, IGamePly, IGameRound, IGameRoundSlot } from "./_turn-mo
 
 export * from "./_registry.generated";
 
-export const GameFactory = (game: string, ...args: unknown[]): GameBase | GameBaseSimultaneous | GameBaseSkipTurn | undefined => {
+export const GameFactory = (game: string, ...args: unknown[]): GameBase | GameBaseSimultaneous | GameBaseSkipTurn | GameBaseSequenced | undefined => {
     const ctor = games.get(game);
     if (ctor === undefined) {
         return undefined;

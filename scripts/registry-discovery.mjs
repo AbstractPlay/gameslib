@@ -15,7 +15,7 @@ export const DEFAULT_SKIP_FILES = new Set([
     "_gameinfo-filter.ts",
 ]);
 
-export const VALID_BASES = new Set(["GameBase", "GameBaseSimultaneous", "GameBaseSkipTurn", "InARowBase"]);
+export const VALID_BASES = new Set(["GameBase", "GameBaseSimultaneous", "GameBaseSkipTurn", "GameBaseSequenced", "InARowBase"]);
 
 export function collectGameFiles(dir, skipFiles = DEFAULT_SKIP_FILES) {
     const files = [];

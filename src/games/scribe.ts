@@ -254,7 +254,7 @@ export class ScribeGame extends GameBase {
         uid: "scribe",
         playercounts: [2],
         version: "20260809",
-        dateAdded: "2026-08-08",
+        dateAdded: "2026-08-25",
         // i18next.t("apgames:descriptions.scribe")
         description: "apgames:descriptions.scribe",
         // i18next.t("apgames:notes.scribe")
@@ -279,7 +279,7 @@ export class ScribeGame extends GameBase {
             },
         ],
         categories: ["goal>area", "goal>arrange", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "scores"],
+        flags: ["scores"],
     };
 
     public static coords2algebraic(x: number, y: number): string {

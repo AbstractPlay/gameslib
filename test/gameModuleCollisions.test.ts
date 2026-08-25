@@ -98,30 +98,38 @@ describe("game module collisions", () => {
         ).to.deep.equal([]);
     });
 
-    it("browser bundle can construct colliding games without constructor errors", () => {
-        const gl = bundleGameslibForBrowser();
-        const constructorErrors: string[] = [];
+    describe("browser bundle", function () {
+        let gl: BundledGameslib;
 
-        for (const uid of collidingGameNames()) {
-            try {
-                instantiateGame(gl, uid);
-            } catch (error) {
-                const message = (error as Error).message;
-                if (/is not a constructor/.test(message)) {
-                    constructorErrors.push(`${uid}: ${message}`);
+        before(function () {
+            // Full gameslib esbuild can exceed Mocha's default 2s on loaded machines.
+            this.timeout(30_000);
+            gl = bundleGameslibForBrowser();
+        });
+
+        it("can construct colliding games without constructor errors", () => {
+            const constructorErrors: string[] = [];
+
+            for (const uid of collidingGameNames()) {
+                try {
+                    instantiateGame(gl, uid);
+                } catch (error) {
+                    const message = (error as Error).message;
+                    if (/is not a constructor/.test(message)) {
+                        constructorErrors.push(`${uid}: ${message}`);
+                    }
                 }
             }
-        }
 
-        expect(
-            constructorErrors,
-            "suspected bundler module-id collision"
-        ).to.deep.equal([]);
-    });
+            expect(
+                constructorErrors,
+                "suspected bundler module-id collision"
+            ).to.deep.equal([]);
+        });
 
-    it("browser bundle can instantiate Homeworlds (regression)", () => {
-        const gl = bundleGameslibForBrowser();
-        const game = gl.GameFactory("homeworlds", 2);
-        expect(game).to.not.equal(undefined);
+        it("can instantiate Homeworlds (regression)", () => {
+            const game = gl.GameFactory("homeworlds", 2);
+            expect(game).to.not.equal(undefined);
+        });
     });
 });

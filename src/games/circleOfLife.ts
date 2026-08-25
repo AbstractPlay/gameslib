@@ -33,7 +33,7 @@ export class CircleOfLifeGame extends GameBase {
         uid: "circleOfLife",
         playercounts: [2],
         version: "20260808",
-        dateAdded: "2026-08-08",
+        dateAdded: "2026-08-25",
         // i18next.t("apgames:descriptions.circleOfLife")
         description: "apgames:descriptions.circleOfLife",
         // i18next.t("apgames:notes.circleOfLife")
@@ -64,7 +64,7 @@ export class CircleOfLifeGame extends GameBase {
             "board>shape>hex",
             "components>simple>1per",
         ],
-        flags: ["scores", "experimental"],
+        flags: ["scores"],
     };
 
     public static readonly boardSize = 5;

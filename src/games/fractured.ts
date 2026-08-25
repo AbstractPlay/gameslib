@@ -51,7 +51,7 @@ export class FracturedGame extends GameBase {
         uid: "fractured",
         playercounts: [2],
         version: "20260810",
-        dateAdded: "2026-08-10",
+        dateAdded: "2026-08-25",
         description: "apgames:descriptions.fractured",
         urls: [
             "https://crabfragmentlabs.com/fractured-flat",
@@ -82,7 +82,7 @@ export class FracturedGame extends GameBase {
             { num: 8, default: "#fff", explanation: "City colour" },
         ],
         categories: ["goal>score>race", "mechanic>place", "mechanic>move", "board>other", "board>connect>other", "components>simple>1per"],
-        flags: ["experimental", "scores", "custom-colours"],
+        flags: ["scores", "custom-colours"],
     };
 
     public readonly graph = new FracturedFlatGraph();

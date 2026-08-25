@@ -31,7 +31,7 @@ export class GuerrillaGame extends GameBase {
         uid: "guerrilla",
         playercounts: [2],
         version: "20260807",
-        dateAdded: "2026-08-07",
+        dateAdded: "2026-08-25",
         // i18next.t("apgames:descriptions.guerrilla")
         description: "apgames:descriptions.guerrilla",
         // i18next.t("apgames:notes.guerrilla")
@@ -55,7 +55,7 @@ export class GuerrillaGame extends GameBase {
             },
         ],
         categories: ["goal>annihilate", "mechanic>place", "mechanic>move", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental"]
+        flags: []
     };
 
     public numplayers = 2;

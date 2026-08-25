@@ -52,6 +52,8 @@
     "games"
   ],
   "devDependencies": {
+    "@aws-sdk/client-dynamodb": "^3.758.0",
+    "@aws-sdk/lib-dynamodb": "^3.758.0",
     "@eslint/js": "^9.26.0",
     "@google/genai": "^2.13.0",
     "@types/chai": "^4.3.4",
@@ -72,8 +74,6 @@
     "graphology-types": "^0.24.7",
     "i18next-resources-to-backend": "^1.2.1",
     "json-schema-to-typescript": "^15.0.4",
-    "@aws-sdk/client-dynamodb": "^3.758.0",
-    "@aws-sdk/lib-dynamodb": "^3.758.0",
     "mocha": "^11.2.2",
     "rimraf": "^5.0.1",
     "serverless": "3.40.0-19128fad",
@@ -91,7 +91,7 @@
   },
   "dependencies": {
     "@abstractplay/recranks": "latest",
-    "@abstractplay/renderer": "^1.0.0-ci-31603656455.0",
+    "@abstractplay/renderer": "^1.0.0-ci-32897368007.0",
     "@turf/boolean-contains": "^6.5.0",
     "@turf/boolean-intersects": "^6.5.0",
     "@turf/boolean-point-in-polygon": "^6.5.0",

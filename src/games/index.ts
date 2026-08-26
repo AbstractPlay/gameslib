@@ -15,6 +15,17 @@ export {
 };
 
 export type { TurnModel, IGamePly, IGameRound, IGameRoundSlot } from "./_turn-model";
+export type {
+    SoloOutcomeType,
+    ScoreDirection,
+    IGradeTier,
+    ISoloOutcomeMeta,
+} from "./_solo-outcome";
+export {
+    evaluateGrade,
+    computeElapsedMs,
+    soloScoreDirection,
+} from "./_solo-outcome";
 
 export * from "./_registry.generated";
 

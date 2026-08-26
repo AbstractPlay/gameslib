@@ -168,3 +168,64 @@ Returned by `handleClick`: `valid`, `message`, `move`, optional `complete` and `
 - **[Homeworlds](https://play.abstractplay.com/games/homeworlds)** — `GameBaseSkipTurn`; `null` export slots for eliminated seats
 - **[Robo Battle Pigs](https://play.abstractplay.com/games/pigs)** — `GameBaseSimultaneous`; one stack entry per round
 - **[Frogger](https://play.abstractplay.com/games/frogger)** — `refills` variant: sequenced export (see [Sequenced turn model](/gameslib/sequenced-turn-model/)); legacy `skipto` until refactor
+
+## Solo play (`numplayers === 1`)
+
+Solo titles use ordinary `GameBase` with `turnModel: "sequential"` — there is no `SoloGameBase`. A class may serve both solo and multiplayer (`playercounts: [1, 2, …]`); solo-only paths activate when `numplayers === 1`.
+
+### Outcome types
+
+Declare the outcome model via `getSoloOutcomeMeta()`:
+
+| `outcome-type` | Record fields | Score source |
+|----------------|---------------|--------------|
+| `binary` | `passed` (boolean), optional `score` | `getPlayerScore()` + `getBinaryPassed()` |
+| `graded` | `grade` (tier id), `score` | `getPlayerScore()` + `getGradeTiers()` |
+| `score` | `score` only | `getPlayerScore()` |
+| `timed` | `score` = elapsed ms | `getPlayerElapsedMs()` (stack timestamps) |
+
+Games must declare `score-direction` (`higher` or `lower`) for binary, graded, and score. **`timed` always archives `score-direction: lower`** (faster is better).
+
+Types and helpers live in [`_solo-outcome.ts`](/gameslib/src/games/_solo-outcome.ts): `evaluateGrade()`, `computeElapsedMs()`, `soloScoreDirection()`.
+
+### Seeded RNG (`GameRng`)
+
+New solo games that need deterministic puzzles use [`GameRng`](/gameslib/src/common/rng.ts) (`seedrandom.alea`) — **not** unseeded `Math.random()`.
+
+| Step | Contract |
+|------|----------|
+| Create | `challengeSeed` optional; `resolveChallengeSeed()` / `generateChallengeSeed()` assign one before play |
+| Setup | `initRng(seed)` before any random event |
+| Play | Pass `this.rng` to `randomInt()` / `shuffle()` / `Deck.shuffle(rng)` |
+| Save | `saveState()` snapshots `rngCounter` on each stack entry (via `attachSoloStateFields`) |
+| Load | `restoreSoloRngFromEntry(stack[idx])` after copying board state |
+| Archive | `genRecord()` writes `header["challenge-seed"]` when present |
+
+**Strategy A (persist outcomes):** store rolls, draw-pile order (`drawPile` / `serializeDrawOrder()`), etc. on stack entries — do not re-roll on `load()`.
+
+**Strategy B (RNG stream):** `rngCounter` on stack entries enables catch-up without replaying all prior draws.
+
+`randomInt` and `shuffle` accept an optional `GameRng`; default remains `Math.random()` so shipped multiplayer games need no changes.
+
+### Replay helpers
+
+[`replay.ts`](/gameslib/src/common/replay.ts): `replayToStackIndex()` and `assertReplayMatches()` for tests and recranks validation.
+
+### Move-handler rules (solo)
+
+| Rule | Why |
+|------|-----|
+| Never call `randomInt` / `shuffle` when `emulation: true` | Preview must not advance RNG |
+| Never reroll if `stack[idx].roll` already set | Dice games |
+| Never `shuffle()` in `load()` if draw order on stack | Deck games |
+| Consume RNG only on committed moves | Optional rolls / stymie |
+
+Canoe `syncFromStackEntry()` + emulation tests are the reference pattern for dice — inspiration only; do not retrofit shipped multiplayer titles.
+
+### `genRecord()` solo header (additive)
+
+- `outcome-type`, `score-direction`, optional `score-label`
+- `challenge-seed` when solo RNG is in use
+- `players[0].passed` (binary), `players[0].grade` (graded), `players[0].score` (raw numeric; timed = ms)
+
+Solo EOG uses `{type: "eog"}` plus outcome fields — not `{type: "winners"}` as the primary narrative.

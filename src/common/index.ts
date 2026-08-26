@@ -11,8 +11,13 @@ import { hexhexAi2Ap, hexhexAp2Ai, triAi2Ap, triAp2Ai } from "./aiai";
 import stringify from "json-stringify-deterministic";
 import fnv from "fnv-plus";
 import { columnLabels, indexToColumnLabel, columnLabelToIndex, generateColumnLabel } from "./columnLabels";
+import type { GameRng } from "./rng";
 
 export { columnLabels, indexToColumnLabel, columnLabelToIndex, generateColumnLabel };
+export { GameRng } from "./rng";
+export { generateChallengeSeed, resolveChallengeSeed } from "./challenge-seed";
+export { replayToStackIndex, assertReplayMatches } from "./replay";
+export type { SoloReplayFactory } from "./replay";
 
 export { RectGrid, StackSet, reviver, replacer, sortingReplacer, shuffle, UserFacingError, HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareDiagGraph, SquareGraph, Square3DGraph, SquareDirectedGraph, SquareFanoronaGraph, BaoGraph, SowingNoEndsGraph, RectTriGraph, BentTriGraph, StarGraph, HexMoonGraph, FracturedFlatGraph, starFrequencyFromWidth, wng, projectPoint, ptDistance, smallestDegreeDiff, normDeg, deg2rad, rad2deg, toggleFacing, calcBearing, matrixRectRot90, matrixRectRotN90, transposeRect, hexhexAi2Ap, hexhexAp2Ai, triAi2Ap, triAp2Ai, circle2poly, midpoint, distFromCircle, dir2deg, deg2dir, rotateFacing };
 
@@ -51,7 +56,10 @@ export const setsIntersect = (left: Set<any>, right: Set<any>): boolean => {
     return false;
 }
 
-export const randomInt = (max: number, min = 1): number => {
+export const randomInt = (max: number, min = 1, rng?: GameRng): number => {
+    if (rng !== undefined) {
+        return rng.randomInt(max, min);
+    }
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;

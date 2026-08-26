@@ -1287,7 +1287,7 @@ export class ArimaaGame extends GameBase {
                             },
                             palette: 4 + colour,
                         },
-                        // flipy: colour === 2 ? true : false,
+                        flipx: colour === 2 ? true : false,
                         orientation: "vertical",
                     },
                 ];

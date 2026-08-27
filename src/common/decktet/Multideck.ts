@@ -2,6 +2,7 @@ import { shuffle } from "../shuffle";
 import { Card, cardsBasic, cardsExtended } from "./Card";
 import { Deck } from "./Deck";
 import { Multicard } from "./Multicard";
+import type { GameRng } from "../rng";
 
 export class Multideck {
     private _cards: Multicard[];
@@ -38,11 +39,11 @@ export class Multideck {
         return this._isSingle ? this._singleDeck!.size : this._cards.length ;
     }
 
-    public shuffle(): Multideck {
+    public shuffle(rng?: GameRng): Multideck {
         if (this._isSingle)
-            this._singleDeck!.shuffle();
+            this._singleDeck!.shuffle(rng);
         else
-            this._cards = shuffle(this._cards) as Multicard[];
+            this._cards = shuffle(this._cards, rng) as Multicard[];
         return this;
     }
 
@@ -172,6 +173,45 @@ export class Multideck {
         const des = new Multideck([], deck.decks);
         des._cards = deck._cards.map(m => new Multicard(new Card(m), m.deck));
         return des;
+    }
+
+    /** Ordered multicard UIDs remaining in the draw pile (top = next draw). */
+    public serializeDrawOrder(): string[] {
+        if (this._isSingle) {
+            return this._singleDeck!.serializeDrawOrder();
+        }
+        return this._cards.map((m) => m.uid);
+    }
+
+    /** Rebuild draw pile without shuffling (solo mid-game reload). */
+    public loadDrawOrder(uids: string[]): Multideck {
+        if (this._isSingle) {
+            this._singleDeck!.loadDrawOrder(uids);
+            return this;
+        }
+        const catalog = new Map(
+            this._cards.map((m) => [m.uid, m]),
+        );
+        [...cardsBasic, ...cardsExtended].forEach((c) => {
+            for (let d = 1; d <= this._decks; d++) {
+                const muid = [c.uid, d].join("");
+                if (!catalog.has(muid)) {
+                    catalog.set(muid, new Multicard(c, d));
+                }
+            }
+        });
+        this._cards = uids.map((uid) => {
+            const found = catalog.get(uid);
+            if (found === undefined) {
+                const parsed = Multicard.deserialize(uid);
+                if (parsed === undefined) {
+                    throw new Error(`Could not find a card in the deck with the uid "${uid}"`);
+                }
+                return parsed;
+            }
+            return new Multicard(new Card(found), found.deck);
+        });
+        return this;
     }
 
 }

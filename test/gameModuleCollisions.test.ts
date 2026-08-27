@@ -6,11 +6,10 @@ import esbuild from "esbuild";
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath } from "node:url";
 
-const testFile = fileURLToPath(import.meta.url);
-const testDir = path.dirname(testFile);
-const require = createRequire(testFile);
+const testDir = path.dirname(fileURLToPath(import.meta.url));
+const require = createRequire(import.meta.url);
 const ROOT = path.resolve(testDir, "..");
 const GAMES_SRC = path.join(ROOT, "src", "games");
 const BUILD_INDEX = path.join(ROOT, "build", "index.js");

@@ -18,7 +18,8 @@
     "build-ts": "tsc && npm pack",
     "test0": "mocha test/common/graphs/hexMoon.test.ts",
     "test": "mocha",
-    "lint": "npm run check-weblate-keys && npx eslint .",
+    "test:postbuild": "node scripts/smoke-cjs-entry.mjs",
+    "lint": "npm run check-weblate-keys && node scripts/check-cjs-runtime-deps.mjs && npx eslint .",
     "dist-dev": "rimraf dist && webpack && shx cp -r locales dist/",
     "playground": "npm run dist-dev && shx cp ./playground/playground.* ./dist && shx cp ./playground/*.mjs ./dist/ && shx cp ./playground/index.html ./dist",
     "playground:serve": "npm run playground && npx --yes serve dist -p 3000",
@@ -120,5 +121,8 @@
     "pako": "^2.1.0",
     "rfdc": "^1.3.0",
     "seedrandom": "^3.0.5"
+  },
+  "overrides": {
+    "nanoid": "3.3.11"
   }
 }

@@ -26,6 +26,14 @@ export default tseslint.config(
     rules: {
       "no-console": "off",
     },
+  },
+  {
+    files: ["**/*.cjs"],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
   }
 );
 

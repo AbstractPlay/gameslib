@@ -33,7 +33,7 @@ jobs:
         - name: Use Node.js 20.x
           uses: actions/setup-node@v3
           with:
-            node-version: 20.x
+            node-version: 24
             cache: 'npm'
         - run: echo "@abstractplay:registry=https://npm.pkg.github.com/" >> .npmrc
         - run: echo "//npm.pkg.github.com/:_authToken=${{secrets.PAT_READ_PACKAGES}}" >> .npmrc
@@ -155,7 +155,7 @@ jobs:
             name: package
         - uses: actions/setup-node@v3
           with:
-            node-version: 20.x
+            node-version: 24
             registry-url: https://npm.pkg.github.com/
             scope: "@abstractplay"
         - run: echo "registry=https://npm.pkg.github.com/@abstractplay" > .npmrc
@@ -173,7 +173,7 @@ jobs:
         - name: Use Node.js 20.x
           uses: actions/setup-node@v4
           with:
-            node-version: 20.x
+            node-version: 24
             cache: 'npm'
         - run: echo "@abstractplay:registry=https://npm.pkg.github.com/" >> .npmrc
         - run: echo "//npm.pkg.github.com/:_authToken=${{secrets.PAT_READ_PACKAGES}}" >> .npmrc

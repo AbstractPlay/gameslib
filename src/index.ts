@@ -43,8 +43,12 @@ export {
     resolveChallengeSeed,
     replayToStackIndex,
     assertReplayMatches,
+    formatChatLogEntries,
+    formatChatLogEntryNodes,
+    applyChatPlayerNames,
+    chatPlayerToken,
 } from "./common";
-export type { SoloReplayFactory } from "./common";
+export type { SoloReplayFactory, ChatActorRef, ChatLogLine, ChatLogEntry, ChatLogTranslate } from "./common";
 
 const gameinfo: Map<string, APGamesInformation> = new Map();
 games.forEach((v, k) => {

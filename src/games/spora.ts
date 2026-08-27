@@ -1060,7 +1060,7 @@ export class SporaGame extends GameBase {
                 resolved = true;
                 break;
             case "place":
-                node.push(i18next.t("apresults:PLACE.spora", { player, where: r.where, size : r.count }));
+                node.push(i18next.t("apresults:PLACE.spora", { player, where: r.where, size: r.count, count: r.count }));
                 resolved = true;
                 break;
             case "move":

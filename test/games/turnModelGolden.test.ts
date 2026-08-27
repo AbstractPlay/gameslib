@@ -11,6 +11,8 @@ import {
     loadTurnModelFixture,
     loadTurnModelManifest,
     normalizeGameState,
+    normalizeChatLogForGolden,
+    normalizeChatLogLineForGolden,
     normalizeRecordHeaderForGolden,
     normalizeSerializedState,
     plyOrderedMovesFromRounds,
@@ -28,6 +30,31 @@ import {
 describe("Turn model golden (Phase 0)", () => {
     before(() => {
         addResource("en");
+    });
+
+    describe("chatLog golden normalization", () => {
+        it("maps legacy optional (s) plurals to count-based forms", () => {
+            expect(normalizeChatLogLineForGolden(
+                "mcd2 chose to refill the draw pool.  Other players must pass so he can take his 1 remaining move(s).",
+            )).to.equal(
+                "mcd2 chose to refill the draw pool. Other players must pass so he can take his 1 remaining move.",
+            );
+            expect(normalizeChatLogLineForGolden(
+                "mcd3 chose to refill the draw pool. Other players must pass so he can take his 2 remaining move(s).",
+            )).to.equal(
+                "mcd3 chose to refill the draw pool. Other players must pass so he can take his 2 remaining moves.",
+            );
+            expect(normalizeChatLogLineForGolden(
+                "Alice added 3 token(s) to their deeded card c1.",
+            )).to.equal(
+                "Alice added 3 tokens to their deeded card c1.",
+            );
+        });
+
+        it("leaves already-pluralized lines unchanged", () => {
+            const line = "mcd1 chose to refill the draw pool. Other players must pass so he can take his 2 remaining moves.";
+            expect(normalizeChatLogLineForGolden(line)).to.equal(line);
+        });
     });
 
     describe("solo sequential (inline)", () => {
@@ -121,7 +148,9 @@ describe("Turn model golden (Phase 0)", () => {
 
             it("chatLog matches golden baseline", () => {
                 const g = gameFromTurnModelFixture(fixture);
-                expect(g.chatLog(playerNames)).to.deep.equal(fixture.golden.chatLog);
+                expect(normalizeChatLogForGolden(g.chatLog(playerNames))).to.deep.equal(
+                    normalizeChatLogForGolden(fixture.golden.chatLog),
+                );
             });
 
             it("state() matches golden normalized snapshot", () => {

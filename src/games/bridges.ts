@@ -326,7 +326,7 @@ export class BridgesGame extends GameBase {
 
         // we're good
         result.valid = true;
-        result.complete = 1;
+        result.complete = (this.stack.length === 1 || m.includes(",")) ? 1 : 0;
         result.message = i18next.t("apgames:validation._general.VALID_MOVE");
         return result;
     }

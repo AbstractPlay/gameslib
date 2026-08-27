@@ -112,6 +112,7 @@ jobs:
             echo "gameslib_version=$GAMESLIB_VERSION" >> $GITHUB_OUTPUT
             echo "renderer_version=$RENDERER_VERSION" >> $GITHUB_OUTPUT
         - run: npm run build
+        - run: npm run test:postbuild
         - run: npm pack
         - name: Upload
           uses: actions/upload-artifact@v4

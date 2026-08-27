@@ -39,6 +39,7 @@
         "bounce": "Manoeuvre your disconnected checkers into a single, orthogonally connected whole.",
         "boxes": "A territorial game where you try to complete boxes by drawing lines to connect the dots. If a box is claimed, you may make another move.",
         "breakthrough": "One of the simplest \"get to your opponent's home row\" games around. Pieces move and capture like chess pawns. First to the other home row wins. Also includes a \"Bombardment\" variant where instead of regular capture moves, one can detonate a piece, which destroys it and all pieces around it.",
+        "bridges": "Bridges is a two-player game played on a hexagonal board, designed by Marc Rebillet. Players place bases and join them with bridges. The player with the most bridge pieces on the board at the end wins. Longer bridge breaks ties.",
         "btt": "A game of pyramids branching across a chessboard, in which you gain points when opponents point at your pyramids, and lose them when you point at theirs.",
         "bug": "Fill the ecosystem with your bugs so much that you can no longer expand. On your turn, place a piece to start a new bug or grow an existing bug. Then, if any of your bugs are adjacent to enemy bugs of the same shape, they must eat them, and perform a bonus growth (if bonus growth is not possible, no eating occurs). This can result in chain reactions. If there are multiple choices of bugs that can eat, you may determine which bugs do it and in which order.",
         "buku": "Buku is a two-dimensional sowing game on a checkerboard where the colour corresponds to the pits of each player. The first player selects a row to collect, then pieces are sown from any square towards any orthogonal direction but never passing the same square twice. The second player does the same, but collects from columns. After sowing, any square with 3 or 4 pieces on their colour are captured. The game ends when one player gets more than half the total number of possible points, or all pieces are singletons (each player claims one point for every piece in their pit), or when the board position is repeated (other player claims the rest of the pieces). The first player gets an additonal piece on the first sow.",
@@ -4942,6 +4943,10 @@
             "ONLY_FORWARD": "Pieces may only move forward.",
             "PARTIAL": "Provide the destination.",
             "TOOFAR": "Pieces can only move one space at a time."
+        },
+        "bridges": {
+            "INITIAL_INSTRUCTIONS_FIRST_TURN": "Place a new base on any empty space except the middle.",
+            "INITIAL_INSTRUCTIONS": "Make two moves: Place a new base on an empty space that is not adjacent to an existing base or in the middle, or connect two of your bases with a bridge."
         },
         "btt": {
             "BAD_NULL": "A null square may not isolate a part of the board.",

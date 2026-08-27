@@ -283,7 +283,8 @@
     "circleOfLife": "Posiziona pietre su un ecosistema esagonale per formare sagome di specie. Ogni specie divora la specie immediatamente inferiore nella catena alimentare. Cattura 20 pietre avversarie, oppure riempi la plancia il più possibile.",
     "fractured": "Un gioco di controllo area su un unico tabellone \"fratturato\". Il punteggio si calcola su un tracciato condiviso.",
     "baghchal": "Un tradizionale gioco asimmetrico per due giocatori del Nepal. Il giocatore che controlla le tigri cerca di catturare 5 capre saltandole, mentre il giocatore che controlla le capre cerca di immobilizzare tutte le tigri.",
-    "bridges": "Bridges è un gioco per due giocatori giocato su una plancia esagonale, ideato da Marc Rebillet. I giocatori posizionano basi e le collegano con dei ponti. Vince il giocatore con più pezzi ponte sulla plancia alla fine della partita. In caso di parità vince il ponte più lungo."
+    "bridges": "Bridges è un gioco per due giocatori giocato su una plancia esagonale, ideato da Marc Rebillet. I giocatori posizionano basi e le collegano con dei ponti. Vince il giocatore con più pezzi ponte sulla plancia alla fine della partita. In caso di parità vince il ponte più lungo.",
+    "elOso": "Un solitario ambientato nel mondo di Carrisor. Muovi le tue pile fuori dalla parte superiore della plancia verso il Cielo mentre l'Orso lancia i dadi e avanza dall'alto. Porta dieci o più pezzi nel Cielo per vincere."
   },
   "notes": {
     "akimbo": "Akimbo, progettato da Luis Bolaños Mures nel 2026, è un gioco di connessione senza pareggi per due giocatori. Una _diagonale nuda_ è una coppia di pezzi adiacenti in diagonale dello stesso colore privi di altri pezzi dello stesso colore adiacenti a entrambi. Un _crosscut_ è un'area 2×2 con due diagonali nude incrociate di colori opposti.\n\nNel proprio turno, il giocatore piazza un pezzo amico su una casella vuota. Se ciò completa un crosscut, l'altro pezzo nel crosscut viene rimosso. Non deve mai esserci più di una diagonale nuda per colore sul tabellone — nemmeno momentaneamente prima di rimuovere un pezzo. Un giocatore vince se, alla fine del proprio turno, c'è una catena di pezzi del proprio colore connessi ortogonalmente che tocca i due bordi opposti del tabellone del giocatore.\n\nOkimba è una variante in cui può esistere al massimo una diagonale nuda sul tabellone (quindi mentre un giocatore ha la diagonale, l'avversario non può crearne un'altra).",
@@ -380,7 +381,8 @@
     "y": "Il gioco è stato progettato da Charles Titus e Craige Schensted (Ea Ea) nel 1953. Discendente diretto del Hex, il gioco era originariamente giocato su un tavoliere triangolare, dove l'obiettivo è collegare tutti e tre i lati con una catena di pedine amiche. Il Y è considerato un gioco più fondamentale rispetto all'Hex, date le sue regole più semplici e dato che una partita a Hex può essere impostata su un tavoliere da Y sufficientemente grande. Nel loro libro del 1975 **Mudcrack Y & Poly-Y**, i designer hanno introdotto il _principio di mudcrack_ affermando che i giochi di connessione possono essere giocati su un'ampia gamma di tavolieri progressivamente elaborati. Uno di quei design ('il Y piegato', con tre celle pentagonali) è diventato il tavoliere commerciale del Y, al posto di quello triangolare standard.",
     "guerrilla": "Ciascun giocatore vince rimuovendo tutti i pezzi dell'avversario. P2 vince anche se sopravvive abbastanza a lungo da far esaurire a P1 gli insorti da piazzare.",
     "scribe": "La tabella di riferimento dei glifi è mostrata nel margine sinistro. Un punto indica il posizionamento più recente di ciascun giocatore. Quando una mini-griglia si riempie, vengono calcolati i punti glifo e il punteggio più alto si aggiudica la griglia (in caso di parità, la griglia va al giocatore che l'ha completata).",
-    "circleOfLife": "Le specie sono numerate da 0 a 11 in senso antiorario sull'anello, a partire dalla specie a singolo esagono in alto. La specie 0 mangia la 11; ogni altra specie mangia quella con il numero immediatamente inferiore. La predazione avviene solo quando posizioni una pietra che forma una specie adiacente alla preda. I gruppi non possono superare le quattro pietre. Vince il primo giocatore che cattura 20 pietre avversarie, oppure vince il giocatore che non può posizionare nel proprio turno (avendo riempito l'ecosistema)."
+    "circleOfLife": "Le specie sono numerate da 0 a 11 in senso antiorario sull'anello, a partire dalla specie a singolo esagono in alto. La specie 0 mangia la 11; ogni altra specie mangia quella con il numero immediatamente inferiore. La predazione avviene solo quando posizioni una pietra che forma una specie adiacente alla preda. I gruppi non possono superare le quattro pietre. Vince il primo giocatore che cattura 20 pietre avversarie, oppure vince il giocatore che non può posizionare nel proprio turno (avendo riempito l'ecosistema).",
+    "elOso": "La preparazione viene eseguita automaticamente all'avvio del gioco. I conteggi di Cielo, Caverna, Terra e Fossa appaiono nella barra laterale. Dopo ogni mossa, usa i controlli del fotogramma per scorrere la risposta dell'Orso. Portare dieci o più pezzi nel Cielo equivale a una vittoria."
   },
   "variants": {
     "abande": {
@@ -4385,6 +4387,12 @@
         "description": "Elevazione leggera: una vista quasi-3D del campo in cui gli spazi diventano più alti man mano che ti allontani dal centro.",
         "name": "Isometrica: Elevazione leggera"
       }
+    },
+    "elOso": {
+      "nums": {
+        "description": "Pile mostrate come numeri",
+        "name": "Numeri"
+      }
     }
   },
   "homeworlds": {
@@ -4538,6 +4546,16 @@
     "baghchal": {
       "GOATS_IN_HAND": "Capre in mano",
       "GOATS_CAPTURED": "Capre catturate"
+    },
+    "elOso": {
+      "SKY": "Cielo",
+      "CAVE": "Caverna",
+      "GROUND": "Terra",
+      "PIT": "Fossa",
+      "GRADE_LOSS": "Sconfitta (9 o meno)",
+      "GRADE_WIN": "Vittoria (10)",
+      "GRADE_SUPERIOR": "Superiore (11)",
+      "GRADE_EXCELLENT": "Eccellente (12)"
     }
   },
   "validation": {
@@ -4897,7 +4915,9 @@
       "NO_WALL_OPTIONAL": "Posiziona un muro se lo desideri, altrimenti puoi completare la mossa.",
       "OCCUPIED_WALL": "Impossibile posizionare un muro in {{wall}} perché quello spazio è già occupato.",
       "SELECT_SECOND_WALL": "Ci sono due modi possibili per completare il muro da {{wall}}. Seleziona il lato che desideri completare.",
-      "SELECT_TO": "Seleziona una destinazione verso cui muoverti."
+      "SELECT_TO": "Seleziona una destinazione verso cui muoverti.",
+      "BLOCKS_GOAL_one": "Impossibile posizionare il muro in {{wall}} perché blocca l'obiettivo per uno dei pezzi sulla plancia.",
+      "BLOCKS_GOAL_other": "Impossibile posizionare il muro in {{wall}} perché blocca gli obiettivi per uno dei pezzi sulla plancia."
     },
     "blooms": {
       "DESTINATION": "Seleziona una casella in cui posizionare il pezzo.",
@@ -5667,7 +5687,9 @@
       "TOO_EARLY_FOR_REFILL": "Invia la tua richiesta di riempimento prima di effettuare le mosse rimanenti.",
       "TOO_LATE_FOR_BLOCKED": "Non sei considerato bloccato se hai già mosso in questo turno.",
       "TOO_LATE_FOR_REFILL": "Non è necessario forzare un riempimento della riserva di pesca dopo la tua terza mossa. Si riempirà automaticamente dopo l'invio.",
-      "VALID_REFILL": "Invia la tua mossa per attivare il riempimento. Gli altri giocatori passeranno automaticamente e ti rimarranno {{count}} mosse nel tuo turno parziale (oltre all'opzione di passare)."
+      "VALID_REFILL": "Invia la tua mossa per attivare il riempimento. Gli altri giocatori passeranno automaticamente e ti rimarranno {{count}} mosse nel tuo turno parziale (oltre all'opzione di passare).",
+      "VALID_REFILL_one": "Invia la tua mossa per attivare il riempimento. Gli avversari passeranno automaticamente e ti rimarrà una mossa nel tuo turno parziale (oltre all'opzione di passare).",
+      "VALID_REFILL_other": "Invia la tua mossa per attivare il riempimento. Gli avversari passeranno automaticamente e ti rimarranno {{count}} mosse nel tuo turno parziale (oltre all'opzione di passare)."
     },
     "furl": {
       "CAPTURE4UNFURL": "Hai segnalato una mossa di spiegamento con cattura, ma {{to}} non è occupata dall'avversario. Usa \">\" per indicare lo spiegamento senza cattura.",
@@ -6419,7 +6441,19 @@
       "OPP_STONES_TO_PLACE": "Ci sono ancora {{opp}} pietra/e avversaria/e catturata/e da riposizionare.",
       "SELF_OPP_STONES_TO_PLACE": "Ci sono ancora {{own}} pietra/e amica/he catturata/e, e poi {{opp}} pietra/e avversaria/e, da riposizionare.",
       "OPP_SELF_STONES_TO_PLACE": "Ci sono ancora {{opp}} pietra/e avversaria/e catturata/e, e poi {{own}} pietra/e amica/he, da riposizionare.",
-      "INITIAL_INSTRUCTIONS_ORIGINAL": "Piazza una pietra su una casella vuota. Se viene effettuata una cattura a tenaglia, la pietra catturata capovolge il proprio colore. Questo capovolgimento potrebbe causare capovolgimenti successivi, avviando una reazione a catena finché la plancia non si stabilizza."
+      "INITIAL_INSTRUCTIONS_ORIGINAL": "Piazza una pietra su una casella vuota. Se viene effettuata una cattura a tenaglia, la pietra catturata capovolge il proprio colore. Questo capovolgimento potrebbe causare capovolgimenti successivi, avviando una reazione a catena finché la plancia non si stabilizza.",
+      "SELF_STONES_TO_PLACE_one": "C'è ancora una pietra amica catturata da riposizionare.",
+      "SELF_STONES_TO_PLACE_other": "Ci sono ancora {{count}} pietre amiche catturate da riposizionare.",
+      "OPP_STONES_TO_PLACE_one": "C'è ancora una pietra avversaria catturata da riposizionare.",
+      "OPP_STONES_TO_PLACE_other": "Ci sono ancora {{count}} pietre avversarie catturate da riposizionare.",
+      "SELF_OPP_STONES_TO_PLACE_own_one_opp_one": "C'è ancora una pietra amica catturata, e poi una pietra avversaria, da riposizionare.",
+      "SELF_OPP_STONES_TO_PLACE_own_one_opp_other": "C'è ancora una pietra amica catturata, e poi {{opp}} pietre avversarie, da riposizionare.",
+      "SELF_OPP_STONES_TO_PLACE_own_other_opp_one": "Ci sono ancora {{own}} pietre amiche catturate, e poi una pietra avversaria, da riposizionare.",
+      "SELF_OPP_STONES_TO_PLACE_own_other_opp_other": "Ci sono ancora {{own}} pietre amiche catturate, e poi {{opp}} pietre avversarie, da riposizionare.",
+      "OPP_SELF_STONES_TO_PLACE_own_one_opp_one": "C'è ancora una pietra avversaria catturata, e poi una pietra amica, da riposizionare.",
+      "OPP_SELF_STONES_TO_PLACE_own_one_opp_other": "C'è ancora una pietra avversaria catturata, e poi {{own}} pietre amiche, da riposizionare.",
+      "OPP_SELF_STONES_TO_PLACE_own_other_opp_one": "Ci sono ancora {{opp}} pietre avversarie catturate, e poi una pietra amica, da riposizionare.",
+      "OPP_SELF_STONES_TO_PLACE_own_other_opp_other": "Ci sono ancora {{opp}} pietre avversarie catturate, e poi {{own}} pietre amiche, da riposizionare."
     },
     "pippinzip": {
       "INITIAL_INSTRUCTIONS": "Questa è la fase di asta. Piazza da uno a tre pezzi su caselle vuote per migliorare la posizione 'Zip', oppure premi 'Passa' per terminare l'asta ed essere 'Zip'.",
@@ -7616,6 +7650,15 @@
     "bridges": {
       "INITIAL_INSTRUCTIONS_FIRST_TURN": "Posiziona una nuova base su qualsiasi spazio vuoto eccetto il centro.",
       "INITIAL_INSTRUCTIONS": "Esegui due mosse: posiziona una nuova base su uno spazio vuoto non adiacente a una base esistente o al centro, oppure collega due delle tue basi con un ponte."
+    },
+    "elOso": {
+      "INITIAL_INSTRUCTIONS": "Seleziona una delle tue pile da muovere. Fai clic due volte su una pila per passare.",
+      "VALID_PARTIAL": "Seleziona una destinazione. Fai clic di nuovo sulla stessa pila per passare.",
+      "VALID_PARTIAL_TOP": "Seleziona una destinazione o fai clic sulla barra del Cielo in alto. Fai clic di nuovo sulla stessa pila per passare.",
+      "SELECT_STACK_FOR_PASS": "Seleziona prima una pila, poi fai clic di nuovo su di essa per passare.",
+      "INVALID_DIRECTION": "Le pile possono muoversi in diagonale o lateralmente, ma non direttamente in avanti o all'indietro.",
+      "TOO_FAR": "Questa pila può muoversi al massimo di {{dist}} caselle.",
+      "SKY_FROM_TOP": "Solo le pile nella riga superiore possono muoversi nel Cielo."
     }
   },
   "INITIAL_UNDO": "Non puoi annullare la posizione iniziale di partenza del gioco.",

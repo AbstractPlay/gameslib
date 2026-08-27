@@ -3,6 +3,10 @@
     "src": "The game was abandoned.",
     "out": "Das Spiel wurde abgebrochen."
   },
+  "ACTOR.elOso.bear": {
+    "src": "The Bear",
+    "out": "Der Bär"
+  },
   "ADD.add_one": {
     "src": "{{player}} added 1 piece to {{where}}.",
     "out": "{{player}} hat 1 Stein zu {{where}} hinzugefügt."
@@ -18,6 +22,14 @@
   "ADD.magnate": {
     "src": "{{player}} added {{count}} token(s) to their deeded card {{where}}.",
     "out": "{{player}} hat {{count}} Marker zu der eigenen Anwesenskarte {{where}} hinzugefügt."
+  },
+  "ADD.magnate_one": {
+    "src": "{{player}} added one token to their deeded card {{where}}.",
+    "out": "{{player}} hat einen Marker auf der Urkundenkarte {{where}} hinzugefügt."
+  },
+  "ADD.magnate_other": {
+    "src": "{{player}} added {{count}} tokens to their deeded card {{where}}.",
+    "out": "{{player}} hat {{count}} Marker auf der Urkundenkarte {{where}} hinzugefügt."
   },
   "ADD.nonum": {
     "src": "{{player}} added a piece to {{where}}.",
@@ -79,9 +91,25 @@
     "src": "{{player}} was unable to move and must pass from now on.",
     "out": "{{player}} konnte nicht ziehen und muss ab jetzt passen."
   },
+  "ANNOUNCE.elOso.bearSetup": {
+    "src": "Bear setup",
+    "out": "Bärenaufbau"
+  },
+  "ANNOUNCE.elOso.playerSetup": {
+    "src": "Player setup",
+    "out": "Spieleraufbau"
+  },
   "ANNOUNCE.frogger": {
     "src": "{{player}} chose to refill the draw pool.  Other players must pass so he can take his {{moves}} remaining move(s).",
     "out": "{{player}} hat sich entschieden, den Nachziehstapel aufzufüllen. Andere Spieler müssen passen, damit er seine verbleibenden {{moves}} Zug/Züge machen kann."
+  },
+  "ANNOUNCE.frogger_one": {
+    "src": "{{player}} chose to refill the draw pool. Other players must pass so he can take his {{count}} remaining move.",
+    "out": "{{player}} hat entschieden, den Nachziehpool aufzufüllen. Die anderen Spieler müssen passen, damit er seinen {{count}} verbleibenden Zug ausführen kann."
+  },
+  "ANNOUNCE.frogger_other": {
+    "src": "{{player}} chose to refill the draw pool. Other players must pass so he can take his {{count}} remaining moves.",
+    "out": "{{player}} hat entschieden, den Nachziehpool aufzufüllen. Die anderen Spieler müssen passen, damit er seine {{count}} verbleibenden Züge ausführen kann."
   },
   "ANNOUNCE.quincunx": {
     "src": "Player {{playerNum}} had the following cards left in their hand: {{cards}}.",
@@ -207,6 +235,14 @@
     "src": "{{player}} captured a soldier at {{where}}.",
     "out": "{{player}} hat einen Soldaten auf {{where}} geschlagen."
   },
+  "CAPTURE.elOso_one": {
+    "src": "{{player}} annihilated one piece at {{where}}.",
+    "out": "{{player}} hat einen Stein bei {{where}} vernichtet."
+  },
+  "CAPTURE.elOso_other": {
+    "src": "{{player}} annihilated {{count}} pieces at {{where}}.",
+    "out": "{{player}} hat {{count}} Steine bei {{where}} vernichtet."
+  },
   "CAPTURE.entrapment_opponent": {
     "src": "{{player}} captured an opponent's roamer at {{where}}.",
     "out": "{{player}} hat den gegnerischen Streuner auf {{where}} geschlagen."
@@ -226,6 +262,14 @@
   "CAPTURE.forms": {
     "src": "{{player}} move eliminates {{count}} piece(s).",
     "out": "Der Zug von {{player}} eliminiert {{count}} Stein(e)."
+  },
+  "CAPTURE.forms_one": {
+    "src": "{{player}} move eliminates one piece.",
+    "out": "Der Zug von {{player}} eliminiert einen Stein."
+  },
+  "CAPTURE.forms_other": {
+    "src": "{{player}} move eliminates {{count}} pieces.",
+    "out": "Der Zug von {{player}} eliminiert {{count}} Steine."
   },
   "CAPTURE.furl": {
     "src": "{{player}} captured a stack of size {{size}} at {{where}}.",
@@ -414,6 +458,14 @@
   "CAPTURE.spora": {
     "src": "{{player}} surrounded and captured {{count}} piece(s): {{group}}.",
     "out": "{{player}} hat {{count}} Stein(e) umzingelt und geschlagen: {{group}}."
+  },
+  "CAPTURE.spora_one": {
+    "src": "{{player}} surrounded and captured one piece: {{group}}.",
+    "out": "{{player}} hat einen Stein umzingelt und geschlagen: {{group}}."
+  },
+  "CAPTURE.spora_other": {
+    "src": "{{player}} surrounded and captured {{count}} pieces: {{group}}.",
+    "out": "{{player}} hat {{count}} Steine umzingelt und geschlagen: {{group}}."
   },
   "CAPTURE.stawvs": {
     "src": "{{player}} captured the {{what}} at {{where}}.",
@@ -1139,6 +1191,14 @@
     "src": "{{player}} moved their Druid from {{from}} to {{to}}.",
     "out": "{{player}} hat den eigenen Druiden von {{from}} nach {{to}} gezogen."
   },
+  "MOVE.elOso_one": {
+    "src": "{{player}} moved one piece from {{from}} to {{to}}.",
+    "out": "{{player}} hat einen Stein von {{from}} nach {{to}} bewegt."
+  },
+  "MOVE.elOso_other": {
+    "src": "{{player}} moved {{count}} pieces from {{from}} to {{to}}.",
+    "out": "{{player}} hat {{count}} Steine von {{from}} nach {{to}} bewegt."
+  },
   "MOVE.entrapment_barrier": {
     "src": "{{player}} moved a barrier from {{from}} to {{to}}.",
     "out": "{{player}} hat eine Barriere von {{from}} nach {{to}} verschoben."
@@ -1355,6 +1415,10 @@
     "src": "{{player}} passed.",
     "out": "{{player}} hat gepasst."
   },
+  "PASS.elOso": {
+    "src": "{{player}} passed.",
+    "out": "{{player}} hat gepasst."
+  },
   "PASS.entropy": {
     "src": "{{player}} chose not to move any pieces this turn.",
     "out": "{{player}} hat sich entschieden, in diesem Zug keine Steine zu bewegen."
@@ -1555,6 +1619,14 @@
     "src": "{{player}} placed a sarsen at {{where}}.",
     "out": "{{player}} hat einen Sarsenstein bei {{where}} platziert."
   },
+  "PLACE.elOso_one": {
+    "src": "{{player}} placed one piece at {{where}}.",
+    "out": "{{player}} hat einen Stein bei {{where}} platziert."
+  },
+  "PLACE.elOso_other": {
+    "src": "{{player}} placed {{count}} pieces at {{where}}.",
+    "out": "{{player}} hat {{count}} Steine bei {{where}} platziert."
+  },
   "PLACE.emu_discard": {
     "src": "{{player}} discarded the card {{what}}.",
     "out": "{{player}} hat die Karte {{what}} abgelegt."
@@ -1734,6 +1806,14 @@
   "PLACE.spora": {
     "src": "{{player}} added {{size}} piece(s) to stack at {{where}}.",
     "out": "{{player}} hat {{size}} Stein(e) zum Stapel bei {{where}} hinzugefügt."
+  },
+  "PLACE.spora_one": {
+    "src": "{{player}} added one piece to stack at {{where}}.",
+    "out": "{{player}} hat einen Stein zum Stapel bei {{where}} hinzugefügt."
+  },
+  "PLACE.spora_other": {
+    "src": "{{player}} added {{size}} pieces to stack at {{where}}.",
+    "out": "{{player}} hat {{size}} Steine zum Stapel bei {{where}} hinzugefügt."
   },
   "PLACE.stawvs": {
     "src": "{{player}} placed a piece at {{where}}.",
@@ -2046,6 +2126,14 @@
   "ROLL.canoe": {
     "src": "{{player}} rolled: {{values}}.",
     "out": "{{player}} hat gewürfelt: {{values}}."
+  },
+  "ROLL.elOso": {
+    "src": "The Bear rolled: {{dice}}.",
+    "out": "Der Bär hat gewürfelt: {{dice}}."
+  },
+  "ROLL.elOso_player": {
+    "src": "{{player}} rolled: {{dice}}.",
+    "out": "{{player}} hat gewürfelt: {{dice}}."
   },
   "ROLL.magnate": {
     "src": "{{who}} rolled a {{values}}.",

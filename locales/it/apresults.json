@@ -1,5 +1,10 @@
 {
   "ABANDONED": "La partita è stata abbandonata.",
+  "ACTOR": {
+    "elOso": {
+      "bear": "L'Orso"
+    }
+  },
   "ADD": {
     "add_one": "{{player}} ha aggiunto 1 pezzo in {{where}}.",
     "add_many": "",
@@ -7,7 +12,9 @@
     "logger": "L'albero in {{where}} è cresciuto di un livello.",
     "magnate": "{{player}} ha aggiunto {{count}} segnalino/i alla propria carta con titolo in {{where}}.",
     "nonum": "{{player}} ha aggiunto un pezzo in {{where}}.",
-    "twixt": "{{player}} ha aggiunto un collegamento in {{where}}."
+    "twixt": "{{player}} ha aggiunto un collegamento in {{where}}.",
+    "magnate_one": "{{player}} ha aggiunto un segnalino alla sua carta di proprietà {{where}}.",
+    "magnate_other": "{{player}} ha aggiunto {{count}} segnalini alla sua carta di proprietà {{where}}."
   },
   "AFFILIATE": {
     "cifra_lt": "{{player}} ha scelto di giocare i pezzi chiari dalla riga superiore.",
@@ -28,7 +35,13 @@
     "frogger": "{{player}} ha scelto di riempire la riserva di pesca. Gli altri giocatori devono passare affinché possa effettuare le sue {{moves}} mosse rimanenti.",
     "quincunx": "Il giocatore {{playerNum}} aveva le seguenti carte rimanenti in mano: {{cards}}.",
     "stawvs": "{{player}} non è stato in grado di muovere e deve passare d'ora in poi. I suoi pezzi rimangono sulle seguenti piramidi: {{pyramids}}.",
-    "scribe_super": "Super formazione di {{player}}: {{formation}}."
+    "scribe_super": "Super formazione di {{player}}: {{formation}}.",
+    "frogger_one": "{{player}} ha scelto di riempire la riserva di pesca. Gli altri giocatori devono passare per permettergli di effettuare la sua {{count}} mossa rimanente.",
+    "frogger_other": "{{player}} ha scelto di riempire la riserva di pesca. Gli altri giocatori devono passare per permettergli di effettuare le sue {{count}} mosse rimanenti.",
+    "elOso": {
+      "playerSetup": "Preparazione del giocatore",
+      "bearSetup": "Preparazione dell'Orso"
+    }
   },
   "BEAROFF": {
     "canoe": "{{player}} ha rimosso un cubo dal tabellone.",
@@ -157,7 +170,12 @@
     },
     "circleOfLife_one": "{{player}} ha divorato la specie avversaria {{prey}} ({{count}} pietra) in {{where}}.",
     "circleOfLife_other": "{{player}} ha divorato la specie avversaria {{prey}} ({{count}} pietre) in {{where}}.",
-    "bitesize": "{{player}} ha catturato il gruppo {{where}} di dimensione {{count}}."
+    "forms_one": "La mossa di {{player}} elimina un pezzo.",
+    "forms_other": "La mossa di {{player}} elimina {{count}} pezzi.",
+    "elOso_one": "{{player}} ha annientato un pezzo in {{where}}.",
+    "elOso_other": "{{player}} ha annientato {{count}} pezzi in {{where}}.",
+    "spora_one": "{{player}} ha circondato e catturato un pezzo: {{group}}.",
+    "spora_other": "{{player}} ha circondato e catturato {{count}} pezzi: {{group}}."
   },
   "CLAIM": {
     "buku_singletons_one": "{{player}} ha reclamato l'ultimo 1 pezzo del proprio colore.",
@@ -422,7 +440,9 @@
     "volo_one": "{{player}} ha mosso uno stormo di 1 uccello da {{from}} in direzione {{how}}.",
     "volo_many": "",
     "volo_other": "{{player}} ha mosso uno stormo di {{count}} uccelli da {{from}} in direzione {{how}}.",
-    "complete_what": "{{player}} ha mosso un {{what}} da {{from}} a {{to}}."
+    "complete_what": "{{player}} ha mosso un {{what}} da {{from}} a {{to}}.",
+    "elOso_one": "{{player}} ha mosso un pezzo da {{from}} a {{to}}.",
+    "elOso_other": "{{player}} ha mosso {{count}} pezzi da {{from}} a {{to}}."
   },
   "NULLIFY_CLAIM": "Le torri non possono essere rivendicate nell'ultimo turno di gioco. La rivendicazione a {{where}} è stata annullata.",
   "ORIENT": {
@@ -445,7 +465,8 @@
     "pippinzip": "{{player}} decide di passare e diventa Zip",
     "simple": "{{player}} ha passato.",
     "tablero": "{{player}} ha passato!",
-    "tiebreaker": "{{player}} ha passato, vincendo lo spareggio."
+    "tiebreaker": "{{player}} ha passato, vincendo lo spareggio.",
+    "elOso": "{{player}} ha passato."
   },
   "PIE": {
     "deckfish": "{{player}} muove per secondo.",
@@ -575,7 +596,11 @@
     "streetcar_place_43": "Un edificio BIANCO di altezza 3 è stato posizionato in {{where}}.",
     "streetcar_place_default": "Un edificio è stato posizionato in {{where}}.",
     "estate_one": "{{player}} ha posizionato una pedina in {{where}} ({{what}} pt).",
-    "estate_other": "{{player}} ha posizionato una pedina in {{where}} ({{what}} pt)."
+    "estate_other": "{{player}} ha posizionato una pedina in {{where}} ({{what}} pt).",
+    "elOso_one": "{{player}} ha piazzato un pezzo in {{where}}.",
+    "elOso_other": "{{player}} ha piazzato {{count}} pezzi in {{where}}.",
+    "spora_one": "{{player}} ha aggiunto un pezzo alla pila in {{where}}.",
+    "spora_other": "{{player}} ha aggiunto {{size}} pezzi alla pila in {{where}}."
   },
   "PLAYSECOND": "{{player}} ha scelto di giocare per secondo.",
   "PROMOTE": {
@@ -635,7 +660,9 @@
     "magnate_eight": "{{who}} ha tirato un {{values}}.",
     "canoe": "{{player}} ha tirato: {{values}}.",
     "single": "Il dado è stato tirato: {{values}}.",
-    "tablero": "I dadi sono stati tirati: {{values}}."
+    "tablero": "I dadi sono stati tirati: {{values}}.",
+    "elOso": "L'Orso ha tirato: {{dice}}.",
+    "elOso_player": "{{player}} ha tirato: {{dice}}."
   },
   "SACRIFICE": {
     "moonsquad": "{{player}} ha sacrificato un minerale ({{ore}}) per muovere le proprie squadre.",

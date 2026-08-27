@@ -283,7 +283,8 @@
     "zola": "Un juego donde tu movimiento está limitado por tu distancia desde el centro del tablero. Los movimientos de captura no deben aumentar esa distancia. Los movimientos que no son de captura deben aumentar esa distancia. La primera persona que capture todas las piezas enemigas gana.",
     "fractured": "Un juego de control de áreas en un tablero único \"fracturado\". La puntuación se lleva en un marcador compartido.",
     "baghchal": "Un juego tradicional asimétrico para dos jugadores originario de Nepal. El jugador tigre intenta capturar 5 cabras saltando sobre ellas; el jugador cabra intenta inmovilizar a todos los tigres.",
-    "bridges": "Bridges es un juego para dos jugadores que se juega en un tablero hexagonal, diseñado por Marc Rebillet. Los jugadores colocan bases y las unen con puentes. Gana el jugador que tenga más piezas de puente en el tablero al final. En caso de empate, gana el puente más largo."
+    "bridges": "Bridges es un juego para dos jugadores que se juega en un tablero hexagonal, diseñado por Marc Rebillet. Los jugadores colocan bases y las unen con puentes. Gana el jugador que tenga más piezas de puente en el tablero al final. En caso de empate, gana el puente más largo.",
+    "elOso": "Un juego de solitario del mundo de Carrisor. Mueve tus pilas fuera de la parte superior del tablero hacia el Cielo mientras el Oso tira los dados y avanza desde arriba. Logra diez o más piezas en el Cielo para ganar."
   },
   "notes": {
     "akimbo": "Akimbo, diseñado por Luis Bolaños Mures en 2026, es un juego de conexión sin empates para dos jugadores. Una _diagonal desnuda_ es un par de piezas del mismo color, adyacentes en diagonal, sin ninguna otra pieza del mismo color adyacente a ambas. Un _corte cruzado_ es un área de 2×2 con dos diagonales desnudas entrelazadas de colores opuestos.\n\nEn su turno, el jugador coloca una pieza propia en una casilla vacía. Si esto completa un corte cruzado, la otra pieza en el corte cruzado se elimina. Nunca debe haber más de una diagonal desnuda de cada color en el tablero, ni siquiera de forma momentánea antes de quitar una pieza. Un jugador gana si, al final de su turno, hay una cadena de piezas de su color conectadas ortogonalmente que toque los dos bordes opuestos del tablero pertenecientes a ese jugador.\n\nOkimba es una variante donde solo puede existir como máximo una diagonal desnuda en el tablero (por lo que mientras un jugador tenga la diagonal, el adversario no puede crear otra).",
@@ -380,7 +381,8 @@
     "waldmeister": "Los jugadores juegan dos partidas consecutivas. En la primera ronda, el Jugador 1 juega por colores y el Jugador 2 juega por alturas. Al final de la primera ronda, se tabulan las puntuaciones y se destacan los grupos anotadores. Luego, en la segunda ronda, el Jugador 2 juega primero y juega por colores, y el Jugador 1 juega por alturas.",
     "witch": "El primer jugador no comienza siendo dueño de ninguna pieza y puede eliminar cualquier pieza (que no sea una corona) en su primer turno. El segundo jugador elige su color en su primer turno, después de lo cual ya no es posible eliminar las piezas de tu oponente.",
     "xana": "En sus turnos, los jugadores colocan o mueven una pila (hay una cantidad limitada de piezas apilables) y, opcionalmente, colocan dos muros en hexágonos vacíos. Las pilas sin libertades son capturadas. Una pila tiene libertad si al menos uno de los hexágonos adyacentes está vacío (no existe el concepto de grupo de pilas). Un hexágono es accesible si está vacío y conectado a una pila aliada por un camino de hexágonos vacíos. El objetivo es conseguir la puntuación más alta sumando territorio más capturas. Xana fue diseñado en 2005.",
-    "y": "El juego fue diseñado por Charles Titus y Craige Schensted (Ea Ea) en 1953. Un descendiente directo del Hex, el juego se jugaba originalmente en un tablero triangular, donde el objetivo es conectar los tres lados mediante una cadena de fichas aliadas. Y se considera un juego más fundamental que Hex, dadas sus reglas más simples y dado que una partida de Hex se puede preparar en un tablero de Y suficientemente grande. En su libro de 1975 **Mudcrack Y & Poly-Y**, los diseñadores introdujeron el _principio del patrón de grietas_ (mudcrack principle), afirmando que los juegos de conexión se pueden jugar en una amplia variedad de tableros progresivamente más elaborados. Uno de esos diseños ('el Y doblado', con tres celdas pentagonales) se convirtió en el tablero comercial de Y, en lugar del triangular estándar."
+    "y": "El juego fue diseñado por Charles Titus y Craige Schensted (Ea Ea) en 1953. Un descendiente directo del Hex, el juego se jugaba originalmente en un tablero triangular, donde el objetivo es conectar los tres lados mediante una cadena de fichas aliadas. Y se considera un juego más fundamental que Hex, dadas sus reglas más simples y dado que una partida de Hex se puede preparar en un tablero de Y suficientemente grande. En su libro de 1975 **Mudcrack Y & Poly-Y**, los diseñadores introdujeron el _principio del patrón de grietas_ (mudcrack principle), afirmando que los juegos de conexión se pueden jugar en una amplia variedad de tableros progresivamente más elaborados. Uno de esos diseños ('el Y doblado', con tres celdas pentagonales) se convirtió en el tablero comercial de Y, en lugar del triangular estándar.",
+    "elOso": "La preparación se realiza automáticamente al iniciar el juego. Los conteos de Cielo, Cueva, Suelo y Fosa aparecen en la barra lateral. Después de cada movimiento, usa los controles de fotograma para avanzar paso a paso la respuesta del Oso. Diez o más piezas en el Cielo representan una victoria."
   },
   "variants": {
     "_default": {
@@ -4385,6 +4387,12 @@
         "description": "Elevación sutil: Una vista casi 3D del campo donde los espacios se elevan a medida que te alejas del centro.",
         "name": "Isométrica: Elevación sutil"
       }
+    },
+    "elOso": {
+      "nums": {
+        "description": "Pilas mostradas como números",
+        "name": "Números"
+      }
     }
   },
   "homeworlds": {
@@ -4537,6 +4545,16 @@
     "baghchal": {
       "GOATS_IN_HAND": "Cabras en mano",
       "GOATS_CAPTURED": "Cabras capturadas"
+    },
+    "elOso": {
+      "SKY": "Cielo",
+      "CAVE": "Cueva",
+      "GROUND": "Suelo",
+      "PIT": "Fosa",
+      "GRADE_LOSS": "Derrota (9 o menos)",
+      "GRADE_WIN": "Victoria (10)",
+      "GRADE_SUPERIOR": "Superior (11)",
+      "GRADE_EXCELLENT": "Excelente (12)"
     }
   },
   "validation": {
@@ -4950,7 +4968,9 @@
       "NO_WALL_OPTIONAL": "Coloca una pared si lo deseas; de lo contrario, puedes completar el movimiento.",
       "OCCUPIED_WALL": "No se puede colocar una pared en {{wall}} porque ese espacio ya está ocupado.",
       "SELECT_SECOND_WALL": "Hay dos formas posibles de completar la pared desde {{wall}}. Selecciona el lado que deseas completar.",
-      "SELECT_TO": "Selecciona un destino al cual moverte."
+      "SELECT_TO": "Selecciona un destino al cual moverte.",
+      "BLOCKS_GOAL_one": "No se puede colocar una pared en {{wall}} porque bloquea la meta de una de las piezas del tablero.",
+      "BLOCKS_GOAL_other": "No se puede colocar una pared en {{wall}} porque bloquea las metas de una de las piezas del tablero."
     },
     "blooms": {
       "DESTINATION": "Selecciona una casilla para colocar la pieza.",
@@ -5712,7 +5732,9 @@
       "TOO_EARLY_FOR_REFILL": "Envía tu solicitud de reposición antes de realizar tus movimientos restantes.",
       "TOO_LATE_FOR_BLOCKED": "No te cuentas como bloqueado si ya te has movido en este turno.",
       "TOO_LATE_FOR_REFILL": "No es necesario forzar una reposición de la reserva de robo después de tu tercer movimiento. Se repondrá automáticamente después de que envíes tu turno.",
-      "VALID_REFILL": "Envía tu movimiento para activar la reposición. Los demás jugadores pasarán automáticamente y te quedarán {{count}} movimientos restantes en tu turno parcial (así como la opción de pasar)."
+      "VALID_REFILL": "Envía tu movimiento para activar la reposición. Los demás jugadores pasarán automáticamente y te quedarán {{count}} movimientos restantes en tu turno parcial (así como la opción de pasar).",
+      "VALID_REFILL_one": "Envía tu movimiento para activar la recarga. Los oponentes pasarán automáticamente y te quedará un movimiento restante en tu turno parcial (así como la opción de pasar).",
+      "VALID_REFILL_other": "Envía tu movimiento para activar la recarga. Los oponentes pasarán automáticamente y te quedarán {{count}} movimientos restantes en tu turno parcial (así como la opción de pasar)."
     },
     "furl": {
       "CAPTURE4UNFURL": "Señalaste un movimiento de desplegar con captura, pero {{to}} no está ocupado por el oponente. Usa \">\" para denotar un despliegue sin captura.",
@@ -6469,7 +6491,19 @@
       "OPP_STONES_TO_PLACE": "Todavía hay {{opp}} piedra(s) capturada(s) del oponente por recolocar.",
       "SELF_OPP_STONES_TO_PLACE": "Todavía hay {{own}} piedra(s) capturada(s) aliada(s), y luego {{opp}} piedra(s) del adversario, por recolocar.",
       "OPP_SELF_STONES_TO_PLACE": "Todavía hay {{opp}} piedra(s) capturada(s) del oponente, y luego {{own}} piedra(s) aliada(s), por recolocar.",
-      "INITIAL_INSTRUCTIONS_ORIGINAL": "Coloca una piedra en una casilla vacía. Si se realiza una captura por pellizco, la piedra capturada cambia de color. Este cambio de color puede provocar cambios posteriores, iniciando una reacción en cadena hasta que el tablero se estabilice."
+      "INITIAL_INSTRUCTIONS_ORIGINAL": "Coloca una piedra en una casilla vacía. Si se realiza una captura por pellizco, la piedra capturada cambia de color. Este cambio de color puede provocar cambios posteriores, iniciando una reacción en cadena hasta que el tablero se estabilice.",
+      "SELF_STONES_TO_PLACE_one": "Aún queda una piedra capturada propia por recolocar.",
+      "SELF_STONES_TO_PLACE_other": "Aún quedan {{count}} piedras capturadas propias por recolocar.",
+      "OPP_STONES_TO_PLACE_one": "Aún queda una piedra capturada del oponente por recolocar.",
+      "OPP_STONES_TO_PLACE_other": "Aún quedan {{count}} piedras capturadas del oponente por recolocar.",
+      "SELF_OPP_STONES_TO_PLACE_own_one_opp_one": "Aún queda una piedra capturada propia y luego una piedra adversaria por recolocar.",
+      "SELF_OPP_STONES_TO_PLACE_own_one_opp_other": "Aún queda una piedra capturada propia y luego {{opp}} piedras adversarias por recolocar.",
+      "SELF_OPP_STONES_TO_PLACE_own_other_opp_one": "Aún quedan {{own}} piedras capturadas propias y luego una piedra adversaria por recolocar.",
+      "SELF_OPP_STONES_TO_PLACE_own_other_opp_other": "Aún quedan {{own}} piedras capturadas propias y luego {{opp}} piedras adversarias por recolocar.",
+      "OPP_SELF_STONES_TO_PLACE_own_one_opp_one": "Aún queda una piedra capturada del oponente y luego una piedra propia por recolocar.",
+      "OPP_SELF_STONES_TO_PLACE_own_one_opp_other": "Aún queda una piedra capturada del oponente y luego {{own}} piedras propias por recolocar.",
+      "OPP_SELF_STONES_TO_PLACE_own_other_opp_one": "Aún quedan {{opp}} piedras capturadas del oponente y luego una piedra propia por recolocar.",
+      "OPP_SELF_STONES_TO_PLACE_own_other_opp_other": "Aún quedan {{opp}} piedras capturadas del oponente y luego {{own}} piedras propias por recolocar."
     },
     "pippinzip": {
       "INITIAL_INSTRUCTIONS": "Esta es la fase de subasta. Coloca de una a tres piezas en casillas vacías para mejorar la posición de 'Zip', o presiona 'pasar' para finalizar la subasta y ser 'Zip'.",
@@ -7566,6 +7600,15 @@
     "bridges": {
       "INITIAL_INSTRUCTIONS_FIRST_TURN": "Coloca una base nueva en cualquier espacio vacío, excepto en el centro.",
       "INITIAL_INSTRUCTIONS": "Haz dos movimientos: coloca una base nueva en un espacio vacío que no esté adyacente a una base existente ni en el centro, o conecta dos de tus bases con un puente."
+    },
+    "elOso": {
+      "INITIAL_INSTRUCTIONS": "Selecciona una de tus pilas para moverla. Haz clic en una pila dos veces para pasar.",
+      "VALID_PARTIAL": "Selecciona un destino. Haz clic en la misma pila de nuevo para pasar.",
+      "VALID_PARTIAL_TOP": "Selecciona un destino o haz clic en la barra del Cielo arriba. Haz clic en la misma pila de nuevo para pasar.",
+      "SELECT_STACK_FOR_PASS": "Primero selecciona una pila y luego vuelve a hacer clic en ella para pasar.",
+      "INVALID_DIRECTION": "Las pilas pueden moverse en diagonal o hacia los lados, pero no en línea recta hacia adelante o hacia atrás.",
+      "TOO_FAR": "Esta pila puede moverse como máximo {{dist}} casillas.",
+      "SKY_FROM_TOP": "Solo las pilas en la fila superior pueden moverse hacia el Cielo."
     }
   },
   "INITIAL_UNDO": "No puedes deshacer la posición inicial del juego.",

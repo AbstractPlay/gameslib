@@ -283,7 +283,8 @@
     "scribe": "Ein Stift-und-Papier-Spiel auf einem 9×9-Supergitter aus neun 3×3-Minigittern. Gewinne die meisten Minigitter oder bilde in der fortgeschrittenen Variante die wertvollste Superglyphe aus deinen Siegen.",
     "circleOfLife": "Platziere Steine auf einem Hex-Ökosystem, um Arten-Muster zu bilden. Jede Art verschlingt die in der Nahrungskette nächstniedrigere Art. Schlage 20 gegnerische Steine oder fülle das Spielbrett so weit wie möglich.",
     "fractured": "Ein Area-Control-Spiel auf einem einzigartigen \"gebrochenen\" Spielbrett. Die Punktewertung erfolgt auf einer gemeinsamen Leiste.",
-    "bridges": "Bridges ist ein Spiel für zwei Personen auf einem sechseckigen Spielbrett, entworfen von Marc Rebillet. Die Spieler platzieren Basen und verbinden sie mit Brücken. Wer am Ende die meisten Brückenteile auf dem Brett hat, gewinnt. Bei Gleichstand entscheidet die längere Brücke."
+    "bridges": "Bridges ist ein Spiel für zwei Personen auf einem sechseckigen Spielbrett, entworfen von Marc Rebillet. Die Spieler platzieren Basen und verbinden sie mit Brücken. Wer am Ende die meisten Brückenteile auf dem Brett hat, gewinnt. Bei Gleichstand entscheidet die längere Brücke.",
+    "elOso": "Ein Solitärspiel aus der Welt von Carrisor. Bewege deine Stapel vom oberen Rand des Spielbretts in den Himmel, während der Bär würfelt und von oben vorrückt. Bringe zehn oder mehr Steine in den Himmel, um zu gewinnen."
   },
   "notes": {
     "akimbo": "Akimbo, entworfen von Luis Bolaños Mures im Jahr 2026, ist ein unentschieden-freies Verbindungsspiel für zwei Spieler. Eine _nackte Diagonale_ (naked diagonal) ist ein Paar gleichfarbiger, diagonal benachbarter Steine, ohne dass ein weiterer gleichfarbiger Stein an beide angrenzt. Ein _Kreuzschnitt_ (crosscut) ist ein 2×2-Bereich mit zwei ineinandergreifenden nackten Diagonalen entgegengesetzter Farben.\n\nIn seinem Zug platziert der Spieler einen eigenen Stein auf einem leeren Feld. Wenn dies einen Kreuzschnitt vervollständigt, wird der andere Stein im Kreuzschnitt entfernt. Es darf sich zu keinem Zeitpunkt mehr als eine nackte Diagonale jeder Farbe auf dem Brett befinden – nicht einmal vorübergehend vor dem Entfernen eines Steins. Ein Spieler gewinnt, wenn sich am Ende seines Zugs eine Kette von orthogonal verbundenen Steinen seiner Farbe befindet, die die beiden gegenüberliegenden Brettränder des Spielers berührt.\n\nOkimba ist eine Variante, bei der insgesamt nur maximal eine nackte Diagonale auf dem Brett existieren darf (wenn also ein Spieler die Diagonale besitzt, kann der Gegner keine weitere erstellen).",
@@ -380,7 +381,8 @@
     "y": "Das Spiel wurde 1953 von Charles Titus und Craige Schensted (Ea Ea) entworfen. Als direkter Nachfahre von Hex wurde das Spiel ursprünglich auf einem dreieckigen Brett gespielt, auf dem das Ziel darin besteht, alle drei Seiten durch eine Kette eigener Steine zu verbinden. Y gilt aufgrund seiner einfacheren Regeln und der Tatsache, dass eine Hex-Partie auf einem ausreichend großen Y-Brett aufgebaut werden kann, als grundlegenderes Spiel als Hex. In ihrem 1975 erschienenen Buch **Mudcrack Y & Poly-Y** führten die Entwickler das _Mudcrack-Prinzip_ ein, das besagt, dass Verbindungsspiele auf einer Vielzahl von zunehmend komplexen Brettern gespielt werden können. Eines dieser Designs ('das gebogene Y' mit drei fünfeckigen Feldern) wurde zum kommerziellen Y-Brett anstelle des standardmäßigen dreieckigen.",
     "guerrilla": "Jeder Spieler gewinnt, indem er alle gegnerischen Steine entfernt. P2 gewinnt auch, wenn er lange genug überlebt, bis P1 keine Aufständischen mehr zum Platzieren hat.",
     "scribe": "Die Glyphen-Referenztabelle wird am linken Rand angezeigt. Ein Punkt markiert die jeweils letzte Platzierung jedes Spielers. Wenn sich ein Minigitter füllt, werden die Glyphenpunkte zusammengezählt und die höhere Punktzahl gewinnt dieses Gitter (bei Gleichstand gewinnt der Spieler, der es fertiggestellt hat).",
-    "circleOfLife": "Die Arten sind auf dem Ring gegen den Uhrzeigersinn von 0–11 nummeriert, beginnend mit der Einzel-Hex-Art ganz oben. Art 0 frisst 11; jede andere Art frisst die direkt darunter nummerierte Art. Räuberisches Fressen findet nur statt, wenn du einen Stein platzierst, der eine Art angrenzend an Beute bildet. Gruppen dürfen nicht mehr als vier Steine umfassen. Wer zuerst 20 gegnerische Steine schlägt, gewinnt, oder der Spieler gewinnt, der in seinem Zug nicht mehr platzieren kann (nachdem das Ökosystem gefüllt wurde)."
+    "circleOfLife": "Die Arten sind auf dem Ring gegen den Uhrzeigersinn von 0–11 nummeriert, beginnend mit der Einzel-Hex-Art ganz oben. Art 0 frisst 11; jede andere Art frisst die direkt darunter nummerierte Art. Räuberisches Fressen findet nur statt, wenn du einen Stein platzierst, der eine Art angrenzend an Beute bildet. Gruppen dürfen nicht mehr als vier Steine umfassen. Wer zuerst 20 gegnerische Steine schlägt, gewinnt, oder der Spieler gewinnt, der in seinem Zug nicht mehr platzieren kann (nachdem das Ökosystem gefüllt wurde).",
+    "elOso": "Der Aufbau erfolgt automatisch beim Starten des Spiels. Die Anzahl für Himmel, Höhle, Boden und Grube wird in der Seitenleiste angezeigt. Verwende nach jedem Zug die Einzelbild-Steuerung, um die Reaktion des Bären Schritt für Schritt zu verfolgen. Zehn oder mehr Steine im Himmel bedeuten einen Sieg."
   },
   "variants": {
     "abande": {
@@ -4385,6 +4387,12 @@
         "description": "Dezente Erhöhung: Eine Quasi-3D-Ansicht des Feldes, bei der die Felder höher werden, je weiter sie vom Zentrum entfernt sind.",
         "name": "Isometrisch: Dezente Erhöhung"
       }
+    },
+    "elOso": {
+      "nums": {
+        "description": "Stapel als Zahlen dargestellt",
+        "name": "Zahlen"
+      }
     }
   },
   "homeworlds": {
@@ -4537,6 +4545,16 @@
     },
     "scribe": {
       "MINI_GRIDS": "Gewonnene Minigitter"
+    },
+    "elOso": {
+      "SKY": "Himmel",
+      "CAVE": "Höhle",
+      "GROUND": "Boden",
+      "PIT": "Grube",
+      "GRADE_LOSS": "Niederlage (9 oder weniger)",
+      "GRADE_WIN": "Sieg (10)",
+      "GRADE_SUPERIOR": "Überragend (11)",
+      "GRADE_EXCELLENT": "Exzellent (12)"
     }
   },
   "validation": {
@@ -4899,7 +4917,9 @@
       "NO_WALL_OPTIONAL": "Platziere eine Wand, wenn du möchtest, andernfalls kannst du den Zug abschließen.",
       "OCCUPIED_WALL": "Wand kann nicht bei {{wall}} platziert werden, da dieser Platz bereits besetzt ist.",
       "SELECT_SECOND_WALL": "Es gibt zwei Möglichkeiten, die Wand von {{wall}} aus zu vervollständigen. Wähle die Seite, die du vervollständigen möchtest.",
-      "SELECT_TO": "Wähle ein Ziel für die Bewegung aus."
+      "SELECT_TO": "Wähle ein Ziel für die Bewegung aus.",
+      "BLOCKS_GOAL_one": "Wand kann nicht bei {{wall}} platziert werden, da sie das Ziel für einen der Steine auf dem Spielbrett blockiert.",
+      "BLOCKS_GOAL_other": "Wand kann nicht bei {{wall}} platziert werden, da sie die Ziele für einen der Steine auf dem Spielbrett blockiert."
     },
     "blooms": {
       "DESTINATION": "Wähle ein Feld, um den Stein zu platzieren.",
@@ -5651,7 +5671,9 @@
       "TOO_EARLY_FOR_REFILL": "Bitte sende deine Auffüllanforderung ab, bevor du deine verbleibenden Züge machst.",
       "TOO_LATE_FOR_BLOCKED": "Du gilst nicht als blockiert, wenn du dich in diesem Zug bereits bewegt hast.",
       "TOO_LATE_FOR_REFILL": "Nach deinem dritten Zug musst du kein manuelles Auffüllen des Auslagen-Pools erzwingen. Er wird nach dem Absenden automatisch aufgefüllt.",
-      "VALID_REFILL": "Bitte sende deinen Zug ab, um das Auffüllen auszulösen. Die anderen Spieler passen automatisch und du hast noch {{count}} verbleibende Züge in deinem Teilzug (sowie die Option zu passen)."
+      "VALID_REFILL": "Bitte sende deinen Zug ab, um das Auffüllen auszulösen. Die anderen Spieler passen automatisch und du hast noch {{count}} verbleibende Züge in deinem Teilzug (sowie die Option zu passen).",
+      "VALID_REFILL_one": "Bitte sende deinen Zug ab, um das Nachfüllen auszulösen. Gegner passen automatisch, und du hast noch einen Zug in deinem Teilzug übrig (sowie die Option zu passen).",
+      "VALID_REFILL_other": "Bitte sende deinen Zug ab, um das Nachfüllen auszulösen. Gegner passen automatisch, und du hast noch {{count}} Züge in deinem Teilzug übrig (sowie die Option zu passen)."
     },
     "furl": {
       "CAPTURE4UNFURL": "Du hast einen schlagenden Entfaltungszug angegeben, aber {{to}} ist nicht vom Gegner besetzt. Verwende \">\", um ein nicht-schlagendes Entfalten anzuzeigen.",
@@ -6401,7 +6423,19 @@
       "OPP_STONES_TO_PLACE": "Es müssen noch {{opp}} gegnerische geschlagene Steine versetzt werden.",
       "SELF_OPP_STONES_TO_PLACE": "Es müssen noch {{own}} eigene geschlagene Steine und danach {{opp}} gegnerische Steine versetzt werden.",
       "OPP_SELF_STONES_TO_PLACE": "Es müssen noch {{opp}} gegnerische geschlagene Steine und danach {{own}} eigene Steine versetzt werden.",
-      "INITIAL_INSTRUCTIONS_ORIGINAL": "Platziere einen Stein auf einem leeren Feld. Wenn ein Kneif-Schlagen ausgeführt wird, wechselt der geschlagene Stein seine Farbe. Dieser Farbwechsel kann nachfolgende Wechsel auslösen und eine Kettenreaktion starten, bis sich das Brett stabilisiert."
+      "INITIAL_INSTRUCTIONS_ORIGINAL": "Platziere einen Stein auf einem leeren Feld. Wenn ein Kneif-Schlagen ausgeführt wird, wechselt der geschlagene Stein seine Farbe. Dieser Farbwechsel kann nachfolgende Wechsel auslösen und eine Kettenreaktion starten, bis sich das Brett stabilisiert.",
+      "SELF_STONES_TO_PLACE_one": "Es ist noch ein eigener geschlagener Stein umzusetzen.",
+      "SELF_STONES_TO_PLACE_other": "Es sind noch {{count}} eigene geschlagene Steine umzusetzen.",
+      "OPP_STONES_TO_PLACE_one": "Es ist noch ein gegnerischer geschlagener Stein umzusetzen.",
+      "OPP_STONES_TO_PLACE_other": "Es sind noch {{count}} gegnerische geschlagene Steine umzusetzen.",
+      "SELF_OPP_STONES_TO_PLACE_own_one_opp_one": "Es ist noch ein eigener geschlagener Stein und danach ein gegnerischer Stein umzusetzen.",
+      "SELF_OPP_STONES_TO_PLACE_own_one_opp_other": "Es ist noch ein eigener geschlagener Stein und danach {{opp}} gegnerische Steine umzusetzen.",
+      "SELF_OPP_STONES_TO_PLACE_own_other_opp_one": "Es sind noch {{own}} eigene geschlagene Steine und danach ein gegnerischer Stein umzusetzen.",
+      "SELF_OPP_STONES_TO_PLACE_own_other_opp_other": "Es sind noch {{own}} eigene geschlagene Steine und danach {{opp}} gegnerische Steine umzusetzen.",
+      "OPP_SELF_STONES_TO_PLACE_own_one_opp_one": "Es ist noch ein gegnerischer geschlagener Stein und danach ein eigener Stein umzusetzen.",
+      "OPP_SELF_STONES_TO_PLACE_own_one_opp_other": "Es ist noch ein gegnerischer geschlagener Stein und danach {{own}} eigene Steine umzusetzen.",
+      "OPP_SELF_STONES_TO_PLACE_own_other_opp_one": "Es sind noch {{opp}} gegnerische geschlagene Steine und danach ein eigener Stein umzusetzen.",
+      "OPP_SELF_STONES_TO_PLACE_own_other_opp_other": "Es sind noch {{opp}} gegnerische geschlagene Steine und danach {{own}} eigene Steine umzusetzen."
     },
     "pippinzip": {
       "INITIAL_INSTRUCTIONS": "Dies ist die Auktionsphase. Platziere entweder einen bis drei Steine auf leere Felder, um die 'Zip'-Position zu verbessern, oder drücke 'Passen', um die Auktion zu beenden und 'Zip' zu sein.",
@@ -7567,6 +7601,15 @@
     "bridges": {
       "INITIAL_INSTRUCTIONS_FIRST_TURN": "Platziere eine neue Basis auf einem beliebigen freien Feld, außer in der Mitte.",
       "INITIAL_INSTRUCTIONS": "Führe zwei Züge aus: Platziere eine neue Basis auf einem freien Feld, das nicht an eine bestehende Basis angrenzt und nicht in der Mitte liegt, oder verbinde zwei deiner Basen mit einer Brücke."
+    },
+    "elOso": {
+      "INITIAL_INSTRUCTIONS": "Wähle einen deiner Stapel zum Bewegen aus. Klicke zweimal auf einen Stapel, um zu passen.",
+      "VALID_PARTIAL": "Wähle ein Ziel. Klicke erneut auf denselben Stapel, um zu passen.",
+      "VALID_PARTIAL_TOP": "Wähle ein Ziel oder klicke oben auf die Himmelsleiste. Klicke erneut auf denselben Stapel, um zu passen.",
+      "SELECT_STACK_FOR_PASS": "Wähle zuerst einen Stapel aus und klicke dann erneut darauf, um zu passen.",
+      "INVALID_DIRECTION": "Stapel dürfen sich diagonal oder seitwärts bewegen, aber nicht gerade nach vorne oder hinten.",
+      "TOO_FAR": "Dieser Stapel kann sich höchstens {{dist}} Felder weit bewegen.",
+      "SKY_FROM_TOP": "Nur Stapel in der obersten Reihe dürfen sich in den Himmel bewegen."
     }
   },
   "INITIAL_UNDO": "Du kannst die anfängliche Startposition des Spiels nicht rückgängig machen.",

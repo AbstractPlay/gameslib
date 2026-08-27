@@ -355,6 +355,10 @@
     "src": "Place sarsens and lintels to connect your edges of the board. On the standard rectangular board, player 1 connects north and south; player 2 connects east and west. On Druid's Y, connect all three sides (corners count for both adjacent edges). On Druid's Hex, connect any three alternating (non-adjacent) sides. Only the topmost stone on each cell counts toward a connection.",
     "out": "Coloca sarsenes y dinteles para conectar tus bordes del tablero. En el tablero rectangular estándar, el jugador 1 conecta este y oeste; el jugador 2 conecta norte y sur. En Druid's Y, conecta los tres lados (las esquinas cuentan para ambos bordes adyacentes). En Druid's Hex, conecta tres lados alternos (no adyacentes) cualesquiera. Solo la piedra superior de cada casilla cuenta para la conexión."
   },
+  "descriptions.elOso": {
+    "src": "A solitaire game from the world of Carrisor. Move your stacks off the top of the board into the Sky while the Bear rolls dice and advances from above. Score ten or more pieces in the Sky to win.",
+    "out": "Un juego de solitario del mundo de Carrisor. Mueve tus pilas fuera de la parte superior del tablero hacia el Cielo mientras el Oso tira los dados y avanza desde arriba. Logra diez o más piezas en el Cielo para ganar."
+  },
   "descriptions.emergo": {
     "src": "A Draughts variant where captured pieces remain on the board and can be freed later. Capture all opposing pieces to win. Derived from Lasca but with two game phases and compulsory maximal captures.",
     "out": "Una variante de damas en la que las piezas capturadas permanecen en el tablero y pueden liberarse más adelante. Captura todas las piezas enemigas para ganar. Derivado de Lasca pero con dos fases de juego y capturas máximas obligatorias."
@@ -1399,6 +1403,14 @@
     "src": "Overhead view",
     "out": "Vista superior"
   },
+  "displays.elOso.nums.description": {
+    "src": "Stacks shown as numbers",
+    "out": "Pilas mostradas como números"
+  },
+  "displays.elOso.nums.name": {
+    "src": "Numbers",
+    "out": "Números"
+  },
   "displays.entropy.piece-numbers.description": {
     "src": "Add numbers to the pieces to further distinguish them.",
     "out": "Añadir números a las piezas para distinguirlas mejor."
@@ -2095,6 +2107,10 @@
     "src": "A lintel must be supported at both ends (not on bare ground) and rest on exactly two of your stones (which need not both be at the ends). Lintels must lie flat: both ends must rest on stacks of equal height. Lintels may cross one another, but you may not thread a new lintel through the gap beneath an existing lintel's centre. Only the topmost stone on each cell counts toward connections.\n\nWith the Druid's Walk variant on the rectangular board, your Druid appears the first time you place a stone on either of your edges (west or east for player 2, north or south for player 1). To win, the druid must be borne off the board on the opposite edge. Each turn you either place a stone or move your Druid — not both. Druids move onto orthogonally adjacent stones of their colour and always stand on the topmost stone; they cannot step into bare gaps under lintels. Stones cannot be placed on a Druid. The first player to bear their Druid off wins. Druid's Walk does not apply to Druid's Y or Druid's Hex boards.",
     "out": "Un dintel debe estar apoyado en ambos extremos (no en el suelo descubierto) y descansar sobre exactamente dos de tus piedras (que no necesitan estar ambas en los extremos). Los dinteles deben quedar planos: ambos extremos deben descansar sobre torres de igual altura. Los dinteles pueden cruzarse entre sí, pero no puedes pasar un nuevo dintel a través del espacio debajo del centro de un dintel existente. Solo la piedra superior de cada casilla cuenta para las conexiones.\n\nCon la variante El paseo del druida (Druid's Walk) en el tablero rectangular, tu Druida aparece la primera vez que colocas una piedra en cualquiera de tus bordes (oeste o este para el jugador 1, norte o sur para el jugador 2). Para ganar, el druida debe ser retirado del tablero por el borde opuesto. En cada turno colocas una piedra o mueves a tu Druida, no ambos. Los druidas se mueven a piedras adyacentes ortogonalmente de su color y siempre se paran en la piedra superior; no pueden pisar huecos descubiertos debajo de los dinteles. No se pueden colocar piedras sobre un Druida. El primer jugador que retire a su Druida gana. El paseo del druida no se aplica a los tableros Druid's Y o Druid's Hex."
   },
+  "notes.elOso": {
+    "src": "Setup is performed automatically when you launch the game. Sky, Cave, Ground, and Pit counts appear in the sidebar. After each move, use the frame controls to step through the Bear's response. Ten or more pieces in the Sky is a win.",
+    "out": "La preparación se realiza automáticamente al iniciar el juego. Los conteos de Cielo, Cueva, Suelo y Fosa aparecen en la barra lateral. Después de cada movimiento, usa los controles de fotograma para avanzar paso a paso la respuesta del Oso. Diez o más piezas en el Cielo representan una victoria."
+  },
   "notes.emu": {
     "src": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers, and they are hidden from opponents until the deck is empty, at which point the players have perfect information, so the hands are revealed. Cards drawn from the discard pile are also always visible to opponents.",
     "out": "Puedes encontrar más información sobre el sistema Decktet en el [sitio web oficial de Decktet](https://www.decktet.com). Las cartas en las manos de los jugadores están ocultas para los observadores y permanecen ocultas para los oponentes hasta que el mazo se agota, momento en el cual los jugadores tienen información perfecta, por lo que las manos se revelan. Las cartas robadas del pozo de descarte también son siempre visibles para los oponentes."
@@ -2538,6 +2554,38 @@
   "status.control.CONTROLLED_SPACES": {
     "src": "Controlled empty spaces",
     "out": "Casillas vacías controladas"
+  },
+  "status.elOso.CAVE": {
+    "src": "Cave",
+    "out": "Cueva"
+  },
+  "status.elOso.GRADE_EXCELLENT": {
+    "src": "Excellent (12)",
+    "out": "Excelente (12)"
+  },
+  "status.elOso.GRADE_LOSS": {
+    "src": "Loss (9 or fewer)",
+    "out": "Derrota (9 o menos)"
+  },
+  "status.elOso.GRADE_SUPERIOR": {
+    "src": "Superior (11)",
+    "out": "Superior (11)"
+  },
+  "status.elOso.GRADE_WIN": {
+    "src": "Win (10)",
+    "out": "Victoria (10)"
+  },
+  "status.elOso.GROUND": {
+    "src": "Ground",
+    "out": "Suelo"
+  },
+  "status.elOso.PIT": {
+    "src": "Pit",
+    "out": "Fosa"
+  },
+  "status.elOso.SKY": {
+    "src": "Sky",
+    "out": "Cielo"
   },
   "status.entrapment.BARRIERS_REMAINING": {
     "src": "Barriers remaining",
@@ -3962,6 +4010,14 @@
   "validation.blockade.BLOCKS_GOAL": {
     "src": "Cannot place wall at {{wall}} because it blocks the goal(s) for one of the pieces on the board.",
     "out": "No se puede colocar la pared en {{wall}} porque bloquea la(s) meta(s) para una de las piezas en el tablero."
+  },
+  "validation.blockade.BLOCKS_GOAL_one": {
+    "src": "Cannot place wall at {{wall}} because it blocks the goal for one of the pieces on the board.",
+    "out": "No se puede colocar una pared en {{wall}} porque bloquea la meta de una de las piezas del tablero."
+  },
+  "validation.blockade.BLOCKS_GOAL_other": {
+    "src": "Cannot place wall at {{wall}} because it blocks the goals for one of the pieces on the board.",
+    "out": "No se puede colocar una pared en {{wall}} porque bloquea las metas de una de las piezas del tablero."
   },
   "validation.blockade.EXCLUSIVE": {
     "src": "You may only move a piece or place a wall, not both.",
@@ -5671,6 +5727,34 @@
     "src": "Place a sarsen, lay a lintel, move your Druid, or pass.",
     "out": "Coloca un sarsen, tiende un dintel, mueve tu Druida o pasa."
   },
+  "validation.elOso.INITIAL_INSTRUCTIONS": {
+    "src": "Select one of your stacks to move. Click a stack twice to pass.",
+    "out": "Selecciona una de tus pilas para moverla. Haz clic en una pila dos veces para pasar."
+  },
+  "validation.elOso.INVALID_DIRECTION": {
+    "src": "Stacks may move diagonally or sideways, but not straight forward or back.",
+    "out": "Las pilas pueden moverse en diagonal o hacia los lados, pero no en línea recta hacia adelante o hacia atrás."
+  },
+  "validation.elOso.SELECT_STACK_FOR_PASS": {
+    "src": "Select a stack first, then click it again to pass.",
+    "out": "Primero selecciona una pila y luego vuelve a hacer clic en ella para pasar."
+  },
+  "validation.elOso.SKY_FROM_TOP": {
+    "src": "Only stacks on the top row may move into the Sky.",
+    "out": "Solo las pilas en la fila superior pueden moverse hacia el Cielo."
+  },
+  "validation.elOso.TOO_FAR": {
+    "src": "This stack can move at most {{dist}} spaces.",
+    "out": "Esta pila puede moverse como máximo {{dist}} casillas."
+  },
+  "validation.elOso.VALID_PARTIAL": {
+    "src": "Select a destination. Click the same stack again to pass.",
+    "out": "Selecciona un destino. Haz clic en la misma pila de nuevo para pasar."
+  },
+  "validation.elOso.VALID_PARTIAL_TOP": {
+    "src": "Select a destination or click the Sky bar above. Click the same stack again to pass.",
+    "out": "Selecciona un destino o haz clic en la barra del Cielo arriba. Haz clic en la misma pila de nuevo para pasar."
+  },
   "validation.emergo.FIRST_MOVE": {
     "src": "The first move of the game can not be in the center",
     "out": "El primer movimiento del juego no puede ser en el centro"
@@ -6526,6 +6610,14 @@
   "validation.frogger.VALID_REFILL": {
     "src": "Please submit your move to trigger the refill. The other player(s) will pass automatically, and you will have {{count}} moves remaining in your partial turn (as well as the option to pass).",
     "out": "Envía tu movimiento para activar la reposición. Los demás jugadores pasarán automáticamente y te quedarán {{count}} movimientos restantes en tu turno parcial (así como la opción de pasar)."
+  },
+  "validation.frogger.VALID_REFILL_one": {
+    "src": "Please submit your move to trigger the refill. Opponents will pass automatically, and you will have one move remaining in your partial turn (as well as the option to pass).",
+    "out": "Envía tu movimiento para activar la recarga. Los oponentes pasarán automáticamente y te quedará un movimiento restante en tu turno parcial (así como la opción de pasar)."
+  },
+  "validation.frogger.VALID_REFILL_other": {
+    "src": "Please submit your move to trigger the refill. Opponents will pass automatically, and you will have {{count}} moves remaining in your partial turn (as well as the option to pass).",
+    "out": "Envía tu movimiento para activar la recarga. Los oponentes pasarán automáticamente y te quedarán {{count}} movimientos restantes en tu turno parcial (así como la opción de pasar)."
   },
   "validation.furl.CAPTURE4UNFURL": {
     "src": "You signalled a capture unfurl move, but {{to}} not is occupied by the opponent. Use \">\" to denote non-capture unfurl.",
@@ -8859,9 +8951,33 @@
     "src": "There are still {{opp}} opponent captured stone(s), and then {{own}} friendly stone(s), to relocate.",
     "out": "Todavía hay {{opp}} piedra(s) capturada(s) del oponente, y luego {{own}} piedra(s) aliada(s), por recolocar."
   },
+  "validation.pinch.OPP_SELF_STONES_TO_PLACE_own_one_opp_one": {
+    "src": "There is still one opponent captured stone, and then one friendly stone, to relocate.",
+    "out": "Aún queda una piedra capturada del oponente y luego una piedra propia por recolocar."
+  },
+  "validation.pinch.OPP_SELF_STONES_TO_PLACE_own_one_opp_other": {
+    "src": "There is still one opponent captured stone, and then {{own}} friendly stones, to relocate.",
+    "out": "Aún queda una piedra capturada del oponente y luego {{own}} piedras propias por recolocar."
+  },
+  "validation.pinch.OPP_SELF_STONES_TO_PLACE_own_other_opp_one": {
+    "src": "There are still {{opp}} opponent captured stones, and then one friendly stone, to relocate.",
+    "out": "Aún quedan {{opp}} piedras capturadas del oponente y luego una piedra propia por recolocar."
+  },
+  "validation.pinch.OPP_SELF_STONES_TO_PLACE_own_other_opp_other": {
+    "src": "There are still {{opp}} opponent captured stones, and then {{own}} friendly stones, to relocate.",
+    "out": "Aún quedan {{opp}} piedras capturadas del oponente y luego {{own}} piedras propias por recolocar."
+  },
   "validation.pinch.OPP_STONES_TO_PLACE": {
     "src": "There are still {{opp}} opponent captured stone(s) to relocate.",
     "out": "Todavía hay {{opp}} piedra(s) capturada(s) del oponente por recolocar."
+  },
+  "validation.pinch.OPP_STONES_TO_PLACE_one": {
+    "src": "There is still one opponent captured stone to relocate.",
+    "out": "Aún queda una piedra capturada del oponente por recolocar."
+  },
+  "validation.pinch.OPP_STONES_TO_PLACE_other": {
+    "src": "There are still {{count}} opponent captured stones to relocate.",
+    "out": "Aún quedan {{count}} piedras capturadas del oponente por recolocar."
   },
   "validation.pinch.REUSED_CELL": {
     "src": "This cell {{cell}} was already used in this turn. Once the status of a cell changes from occupied to unoccupied, or vice versa, it cannot change again that same turn.",
@@ -8871,9 +8987,33 @@
     "src": "There are still {{own}} friendly captured stone(s), and then {{opp}} adversary stone(s), to relocate.",
     "out": "Todavía hay {{own}} piedra(s) capturada(s) aliada(s), y luego {{opp}} piedra(s) del adversario, por recolocar."
   },
+  "validation.pinch.SELF_OPP_STONES_TO_PLACE_own_one_opp_one": {
+    "src": "There is still one friendly captured stone, and then one adversary stone, to relocate.",
+    "out": "Aún queda una piedra capturada propia y luego una piedra adversaria por recolocar."
+  },
+  "validation.pinch.SELF_OPP_STONES_TO_PLACE_own_one_opp_other": {
+    "src": "There is still one friendly captured stone, and then {{opp}} adversary stones, to relocate.",
+    "out": "Aún queda una piedra capturada propia y luego {{opp}} piedras adversarias por recolocar."
+  },
+  "validation.pinch.SELF_OPP_STONES_TO_PLACE_own_other_opp_one": {
+    "src": "There are still {{own}} friendly captured stones, and then one adversary stone, to relocate.",
+    "out": "Aún quedan {{own}} piedras capturadas propias y luego una piedra adversaria por recolocar."
+  },
+  "validation.pinch.SELF_OPP_STONES_TO_PLACE_own_other_opp_other": {
+    "src": "There are still {{own}} friendly captured stones, and then {{opp}} adversary stones, to relocate.",
+    "out": "Aún quedan {{own}} piedras capturadas propias y luego {{opp}} piedras adversarias por recolocar."
+  },
   "validation.pinch.SELF_STONES_TO_PLACE": {
     "src": "There are still {{own}} friendly captured stone(s) to relocate.",
     "out": "Todavía hay {{own}} piedra(s) capturada(s) aliada(s) por recolocar."
+  },
+  "validation.pinch.SELF_STONES_TO_PLACE_one": {
+    "src": "There is still one friendly captured stone to relocate.",
+    "out": "Aún queda una piedra capturada propia por recolocar."
+  },
+  "validation.pinch.SELF_STONES_TO_PLACE_other": {
+    "src": "There are still {{count}} friendly captured stones to relocate.",
+    "out": "Aún quedan {{count}} piedras capturadas propias por recolocar."
   },
   "validation.pippinzip.ADJACENT_PLACEMENT_PIP": {
     "src": "The second piece is orthogonally adjacent to the first!",

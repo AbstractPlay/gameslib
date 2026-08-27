@@ -283,7 +283,8 @@
     "circleOfLife": "Placez des pierres sur un écosystème hexagonal pour former des formes d'espèces. Chaque espèce dévore l'espèce immédiatement inférieure dans la chaîne alimentaire. Capturez 20 pierres adverses, ou remplissez le plateau autant que possible.",
     "fractured": "Un jeu de contrôle de zones sur un plateau unique \"fracturé\". Le décompte des points s'effectue sur une piste commune.",
     "baghchal": "Un jeu traditionnel asymétrique à deux joueurs originaire du Népal. Le joueur jouant les tigres tente de capturer 5 chèvres en sautant par-dessus, tandis que le joueur jouant les chèvres cherche à immobiliser tous les tigres.",
-    "bridges": "Bridges est un jeu pour deux joueurs se jouant sur un plateau hexagonal, conçu par Marc Rebillet. Les joueurs placent des bases et les relient par des ponts. Le joueur qui possède le plus de pièces de pont sur le plateau à la fin de la partie gagne. En cas d'égalité, le pont le plus long l'emporte."
+    "bridges": "Bridges est un jeu pour deux joueurs se jouant sur un plateau hexagonal, conçu par Marc Rebillet. Les joueurs placent des bases et les relient par des ponts. Le joueur qui possède le plus de pièces de pont sur le plateau à la fin de la partie gagne. En cas d'égalité, le pont le plus long l'emporte.",
+    "elOso": "Un jeu en solitaire issu du monde de Carrisor. Déplacez vos piles hors du haut du plateau vers le Ciel pendant que l'Ours lance les dés et avance depuis le haut. Marquez dix pièces ou plus dans le Ciel pour gagner."
   },
   "notes": {
     "akimbo": "Akimbo, conçu par Luis Bolaños Mures en 2026, est un jeu de connexion sans égalité pour deux joueurs. Une _diagonale nue_ est une paire de pièces de même couleur, adjacentes en diagonale, sans aucune autre pièce de même couleur adjacente aux deux. Une _coupe croisée_ est une zone 2×2 avec deux diagonales nues imbriquées de couleurs opposées.\n\nÀ son tour, le joueur place une pièce amie sur une case vide. Si cela complète une coupe croisée, l'autre pièce de la coupe croisée est retirée. Il ne doit jamais y avoir plus d'une diagonale nue de chaque couleur sur le plateau — pas même momentanément avant de retirer une pièce. Un joueur gagne si, à la fin de son tour, il existe une chaîne de pièces de sa couleur connectées orthogonalement touchant les deux bords opposés du plateau du joueur.\n\nOkimba est une variante où une seule diagonale nue au maximum peut exister sur le plateau (ainsi, tant qu'un joueur possède la diagonale, l'adversaire ne peut pas en créer une autre).",
@@ -380,7 +381,8 @@
     "y": "Le jeu a été conçu par Charles Titus et Craige Schensted (Ea Ea) en 1953. Descendant direct de Hex, le jeu se jouait à l'origine sur un plateau triangulaire, où le but est de relier les trois côtés par une chaîne de pierres amies. Y est considéré comme un jeu plus fondamental que Hex, compte tenu de ses règles plus simples et du fait qu'une partie de Hex peut être configurée sur un plateau de Y suffisamment grand. Dans leur livre de 1975 **Mudcrack Y & Poly-Y**, les concepteurs ont introduit le _principe du mudcrack_ affirmant que les jeux de connexion peuvent être joués sur une large gamme de plateaux progressivement élaborés. L'un de ces designs (« le Y courbé », avec trois cellules pentagonales) est devenu le plateau commercial de Y, au lieu du plateau triangulaire standard.",
     "guerrilla": "Chaque joueur gagne en retirant toutes les pièces de l'adversaire. J2 gagne également s'il survit suffisamment longtemps pour que J1 n'ait plus d'insurgés à placer.",
     "scribe": "Le tableau de référence des glyphes est affiché dans la marge de gauche. Un point indique le dernier coup de chaque joueur. Lorsqu'une mini-grille est remplie, les points de glyphe sont comptabilisés et le score le plus élevé remporte cette grille (en cas d'égalité, la victoire revient au joueur qui l'a complétée).",
-    "circleOfLife": "Les espèces sont numérotées de 0 à 11 dans le sens antihoraire sur l'anneau, en commençant par l'espèce à un seul hexagone en haut. L'espèce 0 mange la 11 ; chaque autre espèce mange celle dont le numéro est directement en dessous du sien. La prédation ne se produit que lorsque vous placez une pierre qui forme une espèce adjacente à une proie. Les groupes ne peuvent pas dépasser quatre pierres. Le premier joueur à capturer 20 pierres adverses gagne, ou le joueur qui ne peut pas poser de pierre à son tour gagne (ayant rempli l'écosystème)."
+    "circleOfLife": "Les espèces sont numérotées de 0 à 11 dans le sens antihoraire sur l'anneau, en commençant par l'espèce à un seul hexagone en haut. L'espèce 0 mange la 11 ; chaque autre espèce mange celle dont le numéro est directement en dessous du sien. La prédation ne se produit que lorsque vous placez une pierre qui forme une espèce adjacente à une proie. Les groupes ne peuvent pas dépasser quatre pierres. Le premier joueur à capturer 20 pierres adverses gagne, ou le joueur qui ne peut pas poser de pierre à son tour gagne (ayant rempli l'écosystème).",
+    "elOso": "La mise en place est effectuée automatiquement lorsque vous lancez la partie. Les décomptes du Ciel, de la Grotte, du Sol et de la Fosse apparaissent dans la barre latérale. Après chaque coup, utilisez les commandes d'images pour parcourir la réponse de l'Ours. Placer dix pièces ou plus dans le Ciel constitue une victoire."
   },
   "variants": {
     "abande": {
@@ -4385,6 +4387,12 @@
         "description": "Élévation subtile : une vue quasi-3D du terrain où les cases s'élèvent en s'éloignant du centre.",
         "name": "Isométrique : Élévation subtile"
       }
+    },
+    "elOso": {
+      "nums": {
+        "description": "Piles affichées sous forme de nombres",
+        "name": "Nombres"
+      }
     }
   },
   "homeworlds": {
@@ -4538,6 +4546,16 @@
     "baghchal": {
       "GOATS_IN_HAND": "Chèvres en main",
       "GOATS_CAPTURED": "Chèvres capturées"
+    },
+    "elOso": {
+      "SKY": "Ciel",
+      "CAVE": "Grotte",
+      "GROUND": "Sol",
+      "PIT": "Fosse",
+      "GRADE_LOSS": "Défaite (9 ou moins)",
+      "GRADE_WIN": "Victoire (10)",
+      "GRADE_SUPERIOR": "Supérieur (11)",
+      "GRADE_EXCELLENT": "Excellent (12)"
     }
   },
   "validation": {
@@ -4897,7 +4915,9 @@
       "NO_WALL_OPTIONAL": "Placez un mur si vous le souhaitez, sinon vous pouvez terminer le coup.",
       "OCCUPIED_WALL": "Impossible de placer un mur en {{wall}} car cet emplacement est déjà occupé.",
       "SELECT_SECOND_WALL": "Il existe deux façons possibles de compléter le mur à partir de {{wall}}. Sélectionnez le côté que vous souhaitez compléter.",
-      "SELECT_TO": "Sélectionnez une destination où vous déplacer."
+      "SELECT_TO": "Sélectionnez une destination où vous déplacer.",
+      "BLOCKS_GOAL_one": "Impossible de placer un mur en {{wall}} car cela bloque l'objectif pour l'une des pièces sur le plateau.",
+      "BLOCKS_GOAL_other": "Impossible de placer un mur en {{wall}} car cela bloque les objectifs pour l'une des pièces sur le plateau."
     },
     "blooms": {
       "DESTINATION": "Sélectionnez une case pour placer la pièce.",
@@ -5667,7 +5687,9 @@
       "TOO_EARLY_FOR_REFILL": "Veuillez soumettre votre demande de remplissage avant d'effectuer vos coups restants.",
       "TOO_LATE_FOR_BLOCKED": "Vous n'êtes pas considéré comme bloqué si vous vous êtes déjà déplacé au cours de ce tour.",
       "TOO_LATE_FOR_REFILL": "Il n'est pas nécessaire de forcer un remplissage de la réserve après votre troisième coup. Elle se remplira automatiquement après validation.",
-      "VALID_REFILL": "Veuillez valider votre coup pour déclencher le remplissage. Le ou les autres joueurs passeront automatiquement, et il vous restera {{count}} coups dans votre tour partiel (ainsi que l'option de passer)."
+      "VALID_REFILL": "Veuillez valider votre coup pour déclencher le remplissage. Le ou les autres joueurs passeront automatiquement, et il vous restera {{count}} coups dans votre tour partiel (ainsi que l'option de passer).",
+      "VALID_REFILL_one": "Veuillez valider votre coup pour déclencher le remplissage. Les adversaires passeront automatiquement, et il vous restera un coup dans votre tour partiel (ainsi que la possibilité de passer).",
+      "VALID_REFILL_other": "Veuillez valider votre coup pour déclencher le remplissage. Les adversaires passeront automatiquement, et il vous restera {{count}} coups dans votre tour partiel (ainsi que la possibilité de passer)."
     },
     "furl": {
       "CAPTURE4UNFURL": "Vous avez indiqué un coup de déploiement avec capture, mais {{to}} n'est pas occupé par l'adversaire. Utilisez « > » pour indiquer un déploiement sans capture.",
@@ -6419,7 +6441,19 @@
       "OPP_STONES_TO_PLACE": "Il reste encore {{opp}} pierre(s) capturée(s) adverse(s) à replacer.",
       "SELF_OPP_STONES_TO_PLACE": "Il reste encore {{own}} pierre(s) capturée(s) alliée(s), puis {{opp}} pierre(s) adverse(s), à replacer.",
       "OPP_SELF_STONES_TO_PLACE": "Il reste encore {{opp}} pierre(s) capturée(s) adverse(s), puis {{own}} pierre(s) alliée(s), à replacer.",
-      "INITIAL_INSTRUCTIONS_ORIGINAL": "Placez une pierre sur une case vide. Si une capture en pince a lieu, la pierre capturée change de couleur. Ce retournement peut en entraîner d'autres, déclenchant une réaction en chaîne jusqu'à ce que le plateau se stabilise."
+      "INITIAL_INSTRUCTIONS_ORIGINAL": "Placez une pierre sur une case vide. Si une capture en pince a lieu, la pierre capturée change de couleur. Ce retournement peut en entraîner d'autres, déclenchant une réaction en chaîne jusqu'à ce que le plateau se stabilise.",
+      "SELF_STONES_TO_PLACE_one": "Il reste une pierre alliée capturée à replacer.",
+      "SELF_STONES_TO_PLACE_other": "Il reste {{count}} pierres alliées capturées à replacer.",
+      "OPP_STONES_TO_PLACE_one": "Il reste une pierre adverse capturée à replacer.",
+      "OPP_STONES_TO_PLACE_other": "Il reste {{count}} pierres adverses capturées à replacer.",
+      "SELF_OPP_STONES_TO_PLACE_own_one_opp_one": "Il reste une pierre alliée capturée, puis une pierre adverse, à replacer.",
+      "SELF_OPP_STONES_TO_PLACE_own_one_opp_other": "Il reste une pierre alliée capturée, puis {{opp}} pierres adverses, à replacer.",
+      "SELF_OPP_STONES_TO_PLACE_own_other_opp_one": "Il reste {{own}} pierres alliées capturées, puis une pierre adverse, à replacer.",
+      "SELF_OPP_STONES_TO_PLACE_own_other_opp_other": "Il reste {{own}} pierres alliées capturées, puis {{opp}} pierres adverses, à replacer.",
+      "OPP_SELF_STONES_TO_PLACE_own_one_opp_one": "Il reste une pierre adverse capturée, puis une pierre alliée, à replacer.",
+      "OPP_SELF_STONES_TO_PLACE_own_one_opp_other": "Il reste une pierre adverse capturée, puis {{own}} pierres alliées, à replacer.",
+      "OPP_SELF_STONES_TO_PLACE_own_other_opp_one": "Il reste {{opp}} pierres adverses capturées, puis une pierre alliée, à replacer.",
+      "OPP_SELF_STONES_TO_PLACE_own_other_opp_other": "Il reste {{opp}} pierres adverses capturées, puis {{own}} pierres alliées, à replacer."
     },
     "pippinzip": {
       "INITIAL_INSTRUCTIONS": "C'est la phase d'enchères. Placez d'une à trois pièces sur des cases vides pour améliorer la position de « Zip », ou appuyez sur « Passer » pour terminer l'enchère et être « Zip ».",
@@ -7616,6 +7650,15 @@
     "bridges": {
       "INITIAL_INSTRUCTIONS_FIRST_TURN": "Placez une nouvelle base sur n'importe quelle case vide, sauf au centre.",
       "INITIAL_INSTRUCTIONS": "Effectuez deux coups : placez une nouvelle base sur une case vide qui n'est ni adjacente à une base existante ni au centre, ou reliez deux de vos bases par un pont."
+    },
+    "elOso": {
+      "INITIAL_INSTRUCTIONS": "Sélectionnez l'une de vos piles à déplacer. Cliquez deux fois sur une pile pour passer.",
+      "VALID_PARTIAL": "Sélectionnez une destination. Cliquez à nouveau sur la même pile pour passer.",
+      "VALID_PARTIAL_TOP": "Sélectionnez une destination ou cliquez sur la barre du Ciel ci-dessus. Cliquez à nouveau sur la même pile pour passer.",
+      "SELECT_STACK_FOR_PASS": "Sélectionnez d'abord une pile, puis cliquez dessus à nouveau pour passer.",
+      "INVALID_DIRECTION": "Les piles peuvent se déplacer en diagonale ou latéralement, mais pas tout droit vers l'avant ou l'arrière.",
+      "TOO_FAR": "Cette pile peut se déplacer d'au maximum {{dist}} cases.",
+      "SKY_FROM_TOP": "Seules les piles de la rangée supérieure peuvent se déplacer vers le Ciel."
     }
   },
   "INITIAL_UNDO": "Vous ne pouvez pas annuler la position de départ initiale de la partie.",

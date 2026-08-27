@@ -1,5 +1,10 @@
 {
   "ABANDONED": "La partie a été abandonnée.",
+  "ACTOR": {
+    "elOso": {
+      "bear": "L'Ours"
+    }
+  },
   "ADD": {
     "add_one": "{{player}} a ajouté 1 pièce en {{where}}.",
     "add_many": "",
@@ -7,7 +12,9 @@
     "logger": "L'arbre en {{where}} a grandi d'un stade.",
     "magnate": "{{player}} a ajouté {{count}} jeton(s) à sa carte sous titre de propriété en {{where}}.",
     "nonum": "{{player}} a ajouté une pièce en {{where}}.",
-    "twixt": "{{player}} a ajouté une liaison en {{where}}."
+    "twixt": "{{player}} a ajouté une liaison en {{where}}.",
+    "magnate_one": "{{player}} a ajouté un jeton sur sa carte de propriété {{where}}.",
+    "magnate_other": "{{player}} a ajouté {{count}} jetons sur sa carte de propriété {{where}}."
   },
   "AFFILIATE": {
     "cifra_lt": "{{player}} a choisi de jouer les pièces claires de la rangée supérieure.",
@@ -28,7 +35,13 @@
     "frogger": "{{player}} a choisi de remplir la pioche. Les autres joueurs doivent passer pour qu'il puisse effectuer ses {{moves}} coup(s) restant(s).",
     "quincunx": "Le joueur {{playerNum}} avait les cartes suivantes en main : {{cards}}.",
     "stawvs": "{{player}} ne pouvait pas déplacer et doit passer à partir de maintenant. Ses pièces restent sur les pyramides suivantes : {{pyramids}}.",
-    "scribe_super": "Super formation de {{player}} : {{formation}}."
+    "scribe_super": "Super formation de {{player}} : {{formation}}.",
+    "frogger_one": "{{player}} a choisi de remplir la réserve de pioche. Les autres joueurs doivent passer afin qu'il puisse effectuer son {{count}} déplacement restant.",
+    "frogger_other": "{{player}} a choisi de remplir la réserve de pioche. Les autres joueurs doivent passer afin qu'il puisse effectuer ses {{count}} déplacements restants.",
+    "elOso": {
+      "playerSetup": "Mise en place du joueur",
+      "bearSetup": "Mise en place de l'Ours"
+    }
   },
   "BEAROFF": {
     "canoe": "{{player}} a sorti un cube du plateau.",
@@ -157,7 +170,12 @@
     },
     "circleOfLife_one": "{{player}} a dévoré l'espèce adverse {{prey}} ({{count}} pierre) en {{where}}.",
     "circleOfLife_other": "{{player}} a dévoré l'espèce adverse {{prey}} ({{count}} pierres) en {{where}}.",
-    "bitesize": "{{player}} a capturé le groupe {{where}} de taille {{count}}."
+    "forms_one": "Le coup de {{player}} élimine une pièce.",
+    "forms_other": "Le coup de {{player}} élimine {{count}} pièces.",
+    "elOso_one": "{{player}} a anéanti une pièce en {{where}}.",
+    "elOso_other": "{{player}} a anéanti {{count}} pièces en {{where}}.",
+    "spora_one": "{{player}} a encerclé et capturé une pièce : {{group}}.",
+    "spora_other": "{{player}} a encerclé et capturé {{count}} pièces : {{group}}."
   },
   "CLAIM": {
     "buku_singletons_one": "{{player}} a réclamé la dernière pièce restante de sa couleur.",
@@ -422,7 +440,9 @@
     "volo_one": "{{player}} a déplacé une nuée de 1 oiseau depuis {{from}} dans la direction {{how}}.",
     "volo_many": "",
     "volo_other": "{{player}} a déplacé une nuée de {{count}} oiseaux depuis {{from}} dans la direction {{how}}.",
-    "complete_what": "{{player}} a déplacé un {{what}} de {{from}} vers {{to}}."
+    "complete_what": "{{player}} a déplacé un {{what}} de {{from}} vers {{to}}.",
+    "elOso_one": "{{player}} a déplacé une pièce de {{from}} vers {{to}}.",
+    "elOso_other": "{{player}} a déplacé {{count}} pièces de {{from}} vers {{to}}."
   },
   "NULLIFY_CLAIM": "Les tours ne peuvent pas être réclamées lors du dernier tour de jeu. La réclamation en {{where}} a été annulée.",
   "ORIENT": {
@@ -445,7 +465,8 @@
     "pippinzip": "{{player}} décide de passer et devient Zip",
     "simple": "{{player}} a passé.",
     "tablero": "{{player}} a passé !",
-    "tiebreaker": "{{player}} a passé, remportant le départage."
+    "tiebreaker": "{{player}} a passé, remportant le départage.",
+    "elOso": "{{player}} a passé."
   },
   "PIE": {
     "deckfish": "{{player}} joue en second.",
@@ -575,7 +596,11 @@
     "streetcar_place_43": "Un bâtiment BLANC de hauteur 3 a été placé en {{where}}.",
     "streetcar_place_default": "Un bâtiment a été placé en {{where}}.",
     "estate_one": "{{player}} a placé une pièce en {{where}} ({{what}} pt).",
-    "estate_other": "{{player}} a placé une pièce en {{where}} ({{what}} pts)."
+    "estate_other": "{{player}} a placé une pièce en {{where}} ({{what}} pts).",
+    "elOso_one": "{{player}} a placé une pièce en {{where}}.",
+    "elOso_other": "{{player}} a placé {{count}} pièces en {{where}}.",
+    "spora_one": "{{player}} a ajouté une pièce à la pile en {{where}}.",
+    "spora_other": "{{player}} a ajouté {{size}} pièces à la pile en {{where}}."
   },
   "PLAYSECOND": "{{player}} a choisi de jouer en second.",
   "PROMOTE": {
@@ -635,7 +660,9 @@
     "magnate_eight": "{{who}} a obtenu un {{values}}.",
     "canoe": "{{player}} a obtenu : {{values}}.",
     "single": "Le dé a été lancé : {{values}}.",
-    "tablero": "Les dés ont été lancés : {{values}}."
+    "tablero": "Les dés ont été lancés : {{values}}.",
+    "elOso": "L'Ours a obtenu : {{dice}}.",
+    "elOso_player": "{{player}} a obtenu : {{dice}}."
   },
   "SACRIFICE": {
     "moonsquad": "{{player}} a sacrifié un minerai ({{ore}}) pour déplacer ses escouades.",

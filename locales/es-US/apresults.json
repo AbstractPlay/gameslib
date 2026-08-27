@@ -1,12 +1,19 @@
 {
   "ABANDONED": "La partida fue abandonada.",
+  "ACTOR": {
+    "elOso": {
+      "bear": "El Oso"
+    }
+  },
   "ADD": {
     "add_one": "{{player}} agregó 1 pieza en {{where}}.",
     "add_other": "{{player}} agregó {{count}} piezas en {{where}}.",
     "logger": "El árbol en {{where}} creció una etapa.",
     "magnate": "{{player}} agregó {{count}} ficha(s) a su carta de propiedad {{where}}.",
     "nonum": "{{player}} agregó una pieza en {{where}}.",
-    "twixt": "{{player}} agregó un enlace en {{where}}."
+    "twixt": "{{player}} agregó un enlace en {{where}}.",
+    "magnate_one": "{{player}} agregó una ficha a su carta de propiedad {{where}}.",
+    "magnate_other": "{{player}} agregó {{count}} fichas a su carta de propiedad {{where}}."
   },
   "AFFILIATE": {
     "cifra_lt": "{{player}} eligió jugar con las piezas claras de la fila superior.",
@@ -27,7 +34,13 @@
     "frogger": "{{player}} eligió rellenar el pozo de robo. Los demás jugadores deben pasar para que pueda realizar sus {{moves}} movimiento(s) restante(s).",
     "quincunx": "Al jugador {{playerNum}} le quedaron las siguientes cartas en la mano: {{cards}}.",
     "scribe_super": "Superformación de {{player}}: {{formation}}.",
-    "stawvs": "{{player}} no pudo mover y debe pasar de ahora en adelante. Sus piezas permanecen en las siguientes pirámides: {{pyramids}}."
+    "stawvs": "{{player}} no pudo mover y debe pasar de ahora en adelante. Sus piezas permanecen en las siguientes pirámides: {{pyramids}}.",
+    "frogger_one": "{{player}} eligió reponer la reserva de robo. Los demás jugadores deben pasar para que pueda hacer su {{count}} movimiento restante.",
+    "frogger_other": "{{player}} eligió reponer la reserva de robo. Los demás jugadores deben pasar para que pueda hacer sus {{count}} movimientos restantes.",
+    "elOso": {
+      "playerSetup": "Preparación del jugador",
+      "bearSetup": "Preparación del Oso"
+    }
   },
   "BEAROFF": {
     "canoe": "{{player}} sacó un cubo del tablero.",
@@ -138,7 +151,12 @@
       "single_M": "{{player}} recogió una Piedra Lunar en {{where}}.",
       "single_S": "{{player}} recogió una Piedra Solar en {{where}}."
     },
-    "bitesize": "{{player}} capturó el grupo {{where}} de tamaño {{count}}."
+    "forms_one": "El movimiento de {{player}} elimina una pieza.",
+    "forms_other": "El movimiento de {{player}} elimina {{count}} piezas.",
+    "elOso_one": "{{player}} aniquiló una pieza en {{where}}.",
+    "elOso_other": "{{player}} aniquiló {{count}} piezas en {{where}}.",
+    "spora_one": "{{player}} rodeó y capturó una pieza: {{group}}.",
+    "spora_other": "{{player}} rodeó y capturó {{count}} piezas: {{group}}."
   },
   "CLAIM": {
     "buku_singletons_one": "{{player}} reclamó la pieza restante de su color.",
@@ -384,7 +402,9 @@
     "veletas": "{{player}} movió el tirador de {{from}} a {{to}}.",
     "volo_one": "{{player}} movió una bandada de 1 ave de {{from}} en dirección {{how}}.",
     "volo_other": "{{player}} movió una bandada de {{count}} aves de {{from}} en dirección {{how}}.",
-    "complete_what": "{{player}} movió un {{what}} de {{from}} a {{to}}."
+    "complete_what": "{{player}} movió un {{what}} de {{from}} a {{to}}.",
+    "elOso_one": "{{player}} movió una pieza de {{from}} a {{to}}.",
+    "elOso_other": "{{player}} movió {{count}} piezas de {{from}} a {{to}}."
   },
   "NULLIFY_CLAIM": "No se pueden reclamar torres en el último turno del juego. Se anuló el reclamo en {{where}}.",
   "ORIENT": {
@@ -407,7 +427,8 @@
     "pippinzip": "{{player}} decide pasar y se convierte en Zip.",
     "simple": "{{player}} pasó.",
     "tablero": "¡{{player}} chocó!",
-    "tiebreaker": "{{player}} pasó, ganando el desempate."
+    "tiebreaker": "{{player}} pasó, ganando el desempate.",
+    "elOso": "{{player}} pasó."
   },
   "PIE": {
     "deckfish": "{{player}} juega segundo.",
@@ -536,7 +557,11 @@
     "streetcar_place_41": "Se colocó un edificio BLANCO de altura 1 en {{where}}.",
     "streetcar_place_42": "Se colocó un edificio BLANCO de altura 2 en {{where}}.",
     "streetcar_place_43": "Se colocó un edificio BLANCO de altura 3 en {{where}}.",
-    "streetcar_place_default": "Se colocó un edificio en {{where}}."
+    "streetcar_place_default": "Se colocó un edificio en {{where}}.",
+    "elOso_one": "{{player}} colocó una pieza en {{where}}.",
+    "elOso_other": "{{player}} colocó {{count}} piezas en {{where}}.",
+    "spora_one": "{{player}} agregó una pieza a la pila en {{where}}.",
+    "spora_other": "{{player}} agregó {{size}} piezas a la pila en {{where}}."
   },
   "PLAYSECOND": "{{player}} eligió jugar segundo.",
   "PROMOTE": {
@@ -592,7 +617,9 @@
     "magnate_eight": "{{who}} tiró un {{values}}.",
     "canoe": "{{player}} tiró: {{values}}.",
     "single": "Se tiró el dado: {{values}}.",
-    "tablero": "Se tiraron los dados: {{values}}."
+    "tablero": "Se tiraron los dados: {{values}}.",
+    "elOso": "El Oso lanzó: {{dice}}.",
+    "elOso_player": "{{player}} lanzó: {{dice}}."
   },
   "SACRIFICE": {
     "moonsquad": "{{player}} sacrificó un mineral ({{ore}}) para mover sus escuadrones.",

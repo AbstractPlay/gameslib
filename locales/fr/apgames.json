@@ -282,7 +282,8 @@
     "scribe": "Un jeu papier-crayon sur une super-grille 9×9 composée de neuf mini-grilles 3×3. Remportez le plus grand nombre de mini-grilles ou, dans la variante avancée, formez le super-glyphe de plus grande valeur grâce à vos victoires.",
     "circleOfLife": "Placez des pierres sur un écosystème hexagonal pour former des formes d'espèces. Chaque espèce dévore l'espèce immédiatement inférieure dans la chaîne alimentaire. Capturez 20 pierres adverses, ou remplissez le plateau autant que possible.",
     "fractured": "Un jeu de contrôle de zones sur un plateau unique \"fracturé\". Le décompte des points s'effectue sur une piste commune.",
-    "baghchal": "Un jeu traditionnel asymétrique à deux joueurs originaire du Népal. Le joueur jouant les tigres tente de capturer 5 chèvres en sautant par-dessus, tandis que le joueur jouant les chèvres cherche à immobiliser tous les tigres."
+    "baghchal": "Un jeu traditionnel asymétrique à deux joueurs originaire du Népal. Le joueur jouant les tigres tente de capturer 5 chèvres en sautant par-dessus, tandis que le joueur jouant les chèvres cherche à immobiliser tous les tigres.",
+    "bridges": "Bridges est un jeu pour deux joueurs se jouant sur un plateau hexagonal, conçu par Marc Rebillet. Les joueurs placent des bases et les relient par des ponts. Le joueur qui possède le plus de pièces de pont sur le plateau à la fin de la partie gagne. En cas d'égalité, le pont le plus long l'emporte."
   },
   "notes": {
     "akimbo": "Akimbo, conçu par Luis Bolaños Mures en 2026, est un jeu de connexion sans égalité pour deux joueurs. Une _diagonale nue_ est une paire de pièces de même couleur, adjacentes en diagonale, sans aucune autre pièce de même couleur adjacente aux deux. Une _coupe croisée_ est une zone 2×2 avec deux diagonales nues imbriquées de couleurs opposées.\n\nÀ son tour, le joueur place une pièce amie sur une case vide. Si cela complète une coupe croisée, l'autre pièce de la coupe croisée est retirée. Il ne doit jamais y avoir plus d'une diagonale nue de chaque couleur sur le plateau — pas même momentanément avant de retirer une pièce. Un joueur gagne si, à la fin de son tour, il existe une chaîne de pièces de sa couleur connectées orthogonalement touchant les deux bords opposés du plateau du joueur.\n\nOkimba est une variante où une seule diagonale nue au maximum peut exister sur le plateau (ainsi, tant qu'un joueur possède la diagonale, l'adversaire ne peut pas en créer une autre).",
@@ -7610,6 +7611,10 @@
       "INITIAL_INSTRUCTIONS_GOAT_MOVEMENT": "Sélectionnez une chèvre à déplacer.",
       "INITIAL_INSTRUCTIONS_GOAT_PLACEMENT": "Placez une chèvre sur une intersection vide.",
       "VALID_PARTIAL": "Sélectionnez une intersection vide vers laquelle vous déplacer. Les chèvres ainsi que les tigres peuvent se déplacer vers n'importe quelle intersection adjacente (connectée) libre. Les tigres peuvent sauter par-dessus une chèvre vers l'intersection libre située derrière elle, mais les sauts ne peuvent s'effectuer que vers l'avant, en diagonale vers l'avant ou latéralement, jamais vers l'arrière ni en diagonale vers l'arrière."
+    },
+    "bridges": {
+      "INITIAL_INSTRUCTIONS_FIRST_TURN": "Placez une nouvelle base sur n'importe quelle case vide, sauf au centre.",
+      "INITIAL_INSTRUCTIONS": "Effectuez deux coups : placez une nouvelle base sur une case vide qui n'est ni adjacente à une base existante ni au centre, ou reliez deux de vos bases par un pont."
     }
   },
   "INITIAL_UNDO": "Vous ne pouvez pas annuler la position de départ initiale de la partie.",

@@ -171,6 +171,10 @@
     "src": "One of the simplest \"get to your opponent's home row\" games around. Pieces move and capture like chess pawns. First to the other home row wins. Also includes a \"Bombardment\" variant where instead of regular capture moves, one can detonate a piece, which destroys it and all pieces around it.",
     "out": "Uno de los juegos más sencillos de \"llegar a la fila inicial de tu oponente\". Las piezas se mueven y capturan como los peones de ajedrez. El primero en llegar a la fila inicial contraria gana. También incluye una variante de \"Bombardeo\" donde, en lugar de movimientos de captura regulares, se puede detonar una pieza, lo que la destruye a ella y a todas las piezas a su alrededor."
   },
+  "descriptions.bridges": {
+    "src": "Bridges is a two-player game played on a hexagonal board, designed by Marc Rebillet. Players place bases and join them with bridges. The player with the most bridge pieces on the board at the end wins. Longer bridge breaks ties.",
+    "out": "Bridges es un juego para dos jugadores que se juega en un tablero hexagonal, diseñado por Marc Rebillet. Los jugadores colocan bases y las unen con puentes. Gana el jugador que tenga más piezas de puente en el tablero al final. En caso de empate, gana el puente más largo."
+  },
   "descriptions.btt": {
     "src": "A game of pyramids branching across a chessboard, in which you gain points when opponents point at your pyramids, and lose them when you point at theirs.",
     "out": "Un juego de pirámides que se ramifican a través de un tablero de ajedrez, en el que ganas puntos cuando los oponentes apuntan a tus pirámides y los pierdes cuando tú apuntas a las suyas."
@@ -4178,6 +4182,14 @@
   "validation.breakthrough.TOOFAR": {
     "src": "Pieces can only move one space at a time.",
     "out": "Las piezas solo pueden moverse un espacio a la vez."
+  },
+  "validation.bridges.INITIAL_INSTRUCTIONS": {
+    "src": "Make two moves: Place a new base on an empty space that is not adjacent to an existing base or in the middle, or connect two of your bases with a bridge.",
+    "out": "Haz dos movimientos: coloca una base nueva en un espacio vacío que no esté adyacente a una base existente ni en el centro, o conecta dos de tus bases con un puente."
+  },
+  "validation.bridges.INITIAL_INSTRUCTIONS_FIRST_TURN": {
+    "src": "Place a new base on any empty space except the middle.",
+    "out": "Coloca una base nueva en cualquier espacio vacío, excepto en el centro."
   },
   "validation.btt.BAD_NULL": {
     "src": "A null square may not isolate a part of the board.",

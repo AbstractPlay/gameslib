@@ -1,5 +1,6 @@
 import { shuffle } from "../shuffle";
 import { Card, cardsBasic, cardsExtended } from "./Card";
+import type { GameRng } from "../rng";
 
 export class Deck {
     private _cards: Card[];
@@ -16,8 +17,8 @@ export class Deck {
         return this._cards.length;
     }
 
-    public shuffle(): Deck {
-        this._cards = shuffle(this._cards) as Card[];
+    public shuffle(rng?: GameRng): Deck {
+        this._cards = shuffle(this._cards, rng) as Card[];
         return this;
     }
 
@@ -60,5 +61,26 @@ export class Deck {
 
     public static deserialize(deck: Deck): Deck {
         return new Deck(deck.cards);
+    }
+
+    /** Ordered UIDs remaining in the draw pile (top = next draw). */
+    public serializeDrawOrder(): string[] {
+        return this._cards.map((c) => c.uid);
+    }
+
+    /** Rebuild draw pile without shuffling (solo mid-game reload). */
+    public loadDrawOrder(uids: string[]): Deck {
+        const catalog = new Map(
+            [...cardsBasic, ...cardsExtended].map((c) => [c.uid, c]),
+        );
+        this._cards = uids.map((uid) => {
+            const fromPile = this._cards.find((c) => c.uid === uid);
+            const template = fromPile ?? catalog.get(uid);
+            if (template === undefined) {
+                throw new Error(`Could not find a Decktet card with the uid "${uid}"`);
+            }
+            return new Card(fromPile ?? template);
+        });
+        return this;
     }
 }

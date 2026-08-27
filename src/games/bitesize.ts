@@ -26,7 +26,7 @@ export class BitesizeGame extends GameBase {
         uid: "bitesize",
         playercounts: [2],
         version: "20260815",
-        dateAdded: "2026-08-15",
+        dateAdded: "2026-08-25",
         // i18next.t("apgames:descriptions.bitesize")
         description: "apgames:descriptions.bitesize",
         urls: [
@@ -51,7 +51,7 @@ export class BitesizeGame extends GameBase {
         variants: [
             { uid: "size-5", group: "board" }
         ],
-        flags: ["scores", "automove", "experimental"]
+        flags: ["scores", "automove"]
     };
 
     public numplayers = 2;

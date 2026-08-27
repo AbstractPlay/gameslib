@@ -26,6 +26,25 @@ export {
     assertAllowedChallengeVariants,
 };
 export type { TurnModel, IGamePly, IGameRound, IGameRoundSlot } from "./games/_turn-model";
+export type {
+    SoloOutcomeType,
+    ScoreDirection,
+    IGradeTier,
+    ISoloOutcomeMeta,
+} from "./games/_solo-outcome";
+export {
+    evaluateGrade,
+    computeElapsedMs,
+    soloScoreDirection,
+} from "./games/_solo-outcome";
+export {
+    GameRng,
+    generateChallengeSeed,
+    resolveChallengeSeed,
+    replayToStackIndex,
+    assertReplayMatches,
+} from "./common";
+export type { SoloReplayFactory } from "./common";
 
 const gameinfo: Map<string, APGamesInformation> = new Map();
 games.forEach((v, k) => {

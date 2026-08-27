@@ -28,7 +28,7 @@ export class EstateGame extends GameBase {
         uid: "estate",
         playercounts: [2],
         version: "20260805",
-        dateAdded: "2026-08-05",
+        dateAdded: "2026-08-25",
         // i18next.t("apgames:descriptions.estate")
         description: "apgames:descriptions.estate",
         urls: [
@@ -63,7 +63,7 @@ export class EstateGame extends GameBase {
             },
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["experimental", "no-moves", "pie", "custom-randomization"]
+        flags: ["no-moves", "pie", "custom-randomization"]
     };
 
     public static winningEdges: string[][][] = [

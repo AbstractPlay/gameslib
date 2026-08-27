@@ -6,11 +6,10 @@ import esbuild from "esbuild";
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath } from "node:url";
 
-const testFile = fileURLToPath(import.meta.url);
-const testDir = path.dirname(testFile);
-const require = createRequire(testFile);
+const testDir = path.dirname(fileURLToPath(import.meta.url));
+const require = createRequire(import.meta.url);
 const ROOT = path.resolve(testDir, "..");
 const GAMES_SRC = path.join(ROOT, "src", "games");
 const BUILD_INDEX = path.join(ROOT, "build", "index.js");
@@ -98,30 +97,38 @@ describe("game module collisions", () => {
         ).to.deep.equal([]);
     });
 
-    it("browser bundle can construct colliding games without constructor errors", () => {
-        const gl = bundleGameslibForBrowser();
-        const constructorErrors: string[] = [];
+    describe("browser bundle", function () {
+        let gl: BundledGameslib;
 
-        for (const uid of collidingGameNames()) {
-            try {
-                instantiateGame(gl, uid);
-            } catch (error) {
-                const message = (error as Error).message;
-                if (/is not a constructor/.test(message)) {
-                    constructorErrors.push(`${uid}: ${message}`);
+        before(function () {
+            // Full gameslib esbuild can exceed Mocha's default 2s on loaded machines.
+            this.timeout(30_000);
+            gl = bundleGameslibForBrowser();
+        });
+
+        it("can construct colliding games without constructor errors", () => {
+            const constructorErrors: string[] = [];
+
+            for (const uid of collidingGameNames()) {
+                try {
+                    instantiateGame(gl, uid);
+                } catch (error) {
+                    const message = (error as Error).message;
+                    if (/is not a constructor/.test(message)) {
+                        constructorErrors.push(`${uid}: ${message}`);
+                    }
                 }
             }
-        }
 
-        expect(
-            constructorErrors,
-            "suspected bundler module-id collision"
-        ).to.deep.equal([]);
-    });
+            expect(
+                constructorErrors,
+                "suspected bundler module-id collision"
+            ).to.deep.equal([]);
+        });
 
-    it("browser bundle can instantiate Homeworlds (regression)", () => {
-        const gl = bundleGameslibForBrowser();
-        const game = gl.GameFactory("homeworlds", 2);
-        expect(game).to.not.equal(undefined);
+        it("can instantiate Homeworlds (regression)", () => {
+            const game = gl.GameFactory("homeworlds", 2);
+            expect(game).to.not.equal(undefined);
+        });
     });
 });

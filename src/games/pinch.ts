@@ -7,6 +7,12 @@ import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted";
 import i18next from "i18next";
 
+const pinchDualRelocateKey = (base: string, own: number, opp: number): string => {
+    const ownPart = own === 1 ? "own_one" : "own_other";
+    const oppPart = opp === 1 ? "opp_one" : "opp_other";
+    return `apgames:validation.pinch.${base}_${ownPart}_${oppPart}`;
+};
+
 export type playerid = 1|2;
 
 export interface IMoveState extends IIndividualState {
@@ -356,18 +362,18 @@ export class PinchGame extends GameBase {
             if ( queue[0][0] === this.currplayer ) {
                 const n = queue.filter(e => e[0] === this.currplayer).length;
                 if (n === queue.length) {
-                    result.message = i18next.t("apgames:validation.pinch.SELF_STONES_TO_PLACE", { own: n });
+                    result.message = i18next.t("apgames:validation.pinch.SELF_STONES_TO_PLACE", { count: n });
                 } else {
-                    result.message = i18next.t("apgames:validation.pinch.SELF_OPP_STONES_TO_PLACE",
-                                               { own: n, opp: queue.length - n });
+                    const opp = queue.length - n;
+                    result.message = i18next.t(pinchDualRelocateKey("SELF_OPP_STONES_TO_PLACE", n, opp), { own: n, opp });
                 }
             } else {
                 const n = queue.filter(e => e[0] === (this.currplayer%2 + 1 as playerid)).length;
                 if (n === queue.length) {
-                    result.message = i18next.t("apgames:validation.pinch.OPP_STONES_TO_PLACE", { opp: n });
+                    result.message = i18next.t("apgames:validation.pinch.OPP_STONES_TO_PLACE", { count: n });
                 } else {
-                    result.message = i18next.t("apgames:validation.pinch.OPP_SELF_STONES_TO_PLACE",
-                                               { own: queue.length - n, opp: n });
+                    const own = queue.length - n;
+                    result.message = i18next.t(pinchDualRelocateKey("OPP_SELF_STONES_TO_PLACE", own, n), { own, opp: n });
                 }
             }
             return result;

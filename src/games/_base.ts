@@ -23,6 +23,9 @@ import { skipTurnShouldCloseRound } from "./_turn-skip";
 import { APGAMES_PRODUCTION } from "./_build-flags.generated";
 import { allowedChallengeVariantUids } from "./_gameinfo-filter";
 import { GameRng } from "../common/rng";
+import type { ChatActorRef } from "../common/chat-log";
+export type { ChatActorRef, ChatLogLine, ChatLogEntry, ChatLogTranslate } from "../common/chat-log";
+export { formatChatLogEntries, formatChatLogEntryNodes, chatPlayerToken, applyChatPlayerNames } from "../common/chat-log";
 import {
     computeElapsedMs,
     evaluateGrade,
@@ -806,6 +809,11 @@ export abstract class GameBase  {
         }
         const moves = myself.moves();
         return moves[Math.floor(Math.random() * moves.length)];
+    }
+
+    /** Structured chat: map a game seat to an actor ref (override for automated opponents). */
+    public getChatActorRef(seat: number): ChatActorRef {
+        return { kind: "seat", seat };
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -714,7 +714,10 @@ export class BlockadeGame extends GameBase {
         if (!playerLocs[this.currplayer - 1].some((cell) => this.winningSpaces[this.currplayer - 1].includes(cell)) &&
                 this.wallBlocks(second, playerLocs)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.blockade.BLOCKS_GOAL", { wall: second });
+            result.message = i18next.t("apgames:validation.blockade.BLOCKS_GOAL", {
+                wall: second,
+                count: this.winningSpaces[this.currplayer - 1].length,
+            });
             return result;
         }
         result.valid = true;

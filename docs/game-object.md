@@ -229,3 +229,28 @@ Canoe `syncFromStackEntry()` + emulation tests are the reference pattern for dic
 - `players[0].passed` (binary), `players[0].grade` (graded), `players[0].score` (raw numeric; timed = ms)
 
 Solo EOG uses `{type: "eog"}` plus outcome fields — not `{type: "winners"}` as the primary narrative.
+
+### Structured chat log (`chatLogEntries`)
+
+Some solo games expose an opt-in structured move log for correct attribution of automated opponents (e.g. El Oso’s bear on seat `2`).
+
+| Export | Role |
+|--------|------|
+| `ChatActorRef`, `ChatLogLine`, `ChatLogEntry` | Types in [`chat-log.ts`](/gameslib/src/common/chat-log.ts) |
+| `formatChatLogEntries`, `formatChatLogEntryNodes` | Resolve `textKey` / label actors at display time |
+| `chatPlayerToken`, `applyChatPlayerNames` | Seat lines embed `Player N`; only seat actors get display-name substitution |
+
+**Game hooks**
+
+- `getChatActorRef(seat)` — default `{ kind: "seat", seat }`; override for non-human seats (label actor with `apresults:` i18n key, not English text).
+- `chatLogEntries(players)` — optional; walk `stack` and emit structured lines (no `i18next.t()` inside the walker).
+- `chatLog(players)` — unchanged legacy string API; games may keep custom `chat()` overrides.
+
+**Consumer integration (playground / front)**
+
+1. If `typeof game.chatLogEntries === "function"`, call `formatChatLogEntryNodes(entries, playerNames, t)` (or `formatChatLogEntries` for a flat list).
+2. For solo (`numplayers === 1`), pass one human display name — do not map seat `2` to a second player name.
+3. Otherwise fall back to `chatLog(playerNames)` and existing replace logic.
+4. Optional: render `line.actor.kind === "label"` with `t(actor.key)` for styling; `formatChatLogEntries` substitutes the label into `textParams.player` when present.
+
+El Oso is the first consumer; other games stay on `chatLog()` until migrated in a follow-up audit.

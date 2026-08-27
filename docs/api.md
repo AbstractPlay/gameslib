@@ -15,6 +15,9 @@ The root module (`src/index.ts`) exports the public API used by the front end an
 | `GameBase`, `GameBaseSequenced`, `GameBaseSimultaneous`, `GameBaseSkipTurn` | Base classes for game authors |
 | `filterGameinfoForProduction`, `allowedChallengeVariantUids`, `assertAllowedChallengeVariants` | Production filtering for challenge metadata |
 | `TurnModel`, `IGamePly`, `IGameRound`, `IGameRoundSlot` | Turn-model types (`getPlies` / `getRounds`) |
+| `ChatActorRef`, `ChatLogLine`, `ChatLogEntry`, `ChatLogTranslate` | Structured move-log types ([`chat-log.ts`](/gameslib/src/common/chat-log.ts)) |
+| `formatChatLogEntries`, `formatChatLogEntryNodes` | Format structured entries with i18n + seat display names |
+| `chatPlayerToken`, `applyChatPlayerNames` | `Player N` token helpers for seat-actor lines |
 
 AI helpers (`AIFactory`, etc.) exist for testing only and are not part of the public release API.
 
@@ -53,7 +56,9 @@ Player-facing errors use `UserFacingError` with localized `client` messages.
 
 ## Game object
 
-Games returned by `GameFactory` implement the [game object](/gameslib/game-object/) interface: `move`, `render`, `state`, `serialize`, UI hooks, turn model (`getPlies`, `getRounds`, `turnModel`), and record export (`recordExportExclude`, `genRecord`).
+Games returned by `GameFactory` implement the [game object](/gameslib/game-object/) interface: `move`, `render`, `state`, `serialize`, UI hooks, turn model (`getPlies`, `getRounds`, `turnModel`), record export (`recordExportExclude`, `genRecord`), and move log (`chatLog`, optional `chatLogEntries`).
+
+**Structured move log:** when `typeof game.chatLogEntries === "function"`, consumers should call `formatChatLogEntryNodes(game.chatLogEntries(playerNames), playerNames, t)` instead of `chatLog`. For solo games pass one human name. See [game object — structured chat](/gameslib/game-object/#structured-chat-log-chatlogentries).
 
 ## Example games
 

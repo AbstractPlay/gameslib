@@ -45,6 +45,10 @@
                     <div id="gameInfo"></div>
                     <div id="variantsContainer"></div>
                     <div id="playerCountContainer" style="margin-top: 0.5em;"></div>
+                    <div id="challengeSeedContainer" style="margin-top: 0.5em; display: none;">
+                        <label for="challengeSeedInput">Challenge seed (optional)</label>
+                        <input id="challengeSeedInput" type="text" placeholder="Random if empty" style="width: 100%; box-sizing: border-box;">
+                    </div>
                     <div id="varInfo"></div>
                 </details>
 
@@ -122,7 +126,14 @@
                 <button class="collapse-button" aria-label="Collapse Sidebar">▲</button>
                 <div id="clickstatus"></div>
                 <div class="board-container">
-                    <div id="drawing"></div>
+                    <div class="board-stage">
+                        <div id="frameControls" class="frame-controls" hidden>
+                            <button id="framePrev" type="button" aria-label="Previous frame">&#9664;</button>
+                            <span id="frameLabel">1 / 1</span>
+                            <button id="frameNext" type="button" aria-label="Next frame">&#9654;</button>
+                        </div>
+                        <div id="drawing"></div>
+                    </div>
                     <div class="game-info">
                         <h3>Move History</h3>
                         <div id="moveHistory" class="move-history-panel"></div>

@@ -181,6 +181,28 @@ export function plyOrderedMovesFromRounds(rounds: IGameRound[]): string[] {
     return moves;
 }
 
+/**
+ * Normalize a chat-log line so golden baselines tolerate i18n plural refactors
+ * (legacy optional "(s)" → count-based _one/_other strings) and whitespace drift.
+ */
+export function normalizeChatLogLineForGolden(line: string): string {
+    let s = line.replace(/\s+/g, " ").trim();
+    s = s.replace(
+        /(\d+)\s+([\w\s]*?)(\w+)\(s\)/g,
+        (_match, n, middle, word) => {
+            const num = Number(n);
+            const resolved = num === 1 ? word : `${word}s`;
+            return `${n} ${middle}${resolved}`;
+        },
+    );
+    return s;
+}
+
+/** Apply {@link normalizeChatLogLineForGolden} to each chat-log node (timestamp + lines). */
+export function normalizeChatLogForGolden(chatLog: string[][]): string[][] {
+    return chatLog.map((node) => node.map(normalizeChatLogLineForGolden));
+}
+
 /** Strip volatile {@link APGameRecord} header fields before golden comparison. */
 export function normalizeRecordHeaderForGolden(header: APGameRecord["header"]): unknown {
     const copy = JSON.parse(JSON.stringify(header)) as Record<string, unknown>;

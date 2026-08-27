@@ -2344,7 +2344,10 @@ export class FroggerGame extends GameBase {
 
         switch (r.type) {
             case "announce":
-                return i18next.t("apresults:ANNOUNCE.frogger", {player, moves: (r.payload as string[]).join("") });
+                return i18next.t("apresults:ANNOUNCE.frogger", {
+                    player,
+                    count: Number((r.payload as number[])[0]),
+                });
             case "claim":
                 return i18next.t("apresults:CLAIM.frogger", {player, card: r.what});
             case "deckDraw":

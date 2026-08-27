@@ -212,8 +212,35 @@ body[data-theme='dark'] .collapsible summary {
     max-height: 80vh;
     overflow: hidden;
 }
-#drawing {
+.board-stage {
     flex: 3;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+.frame-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    flex: 0 0 auto;
+}
+.frame-controls[hidden] {
+    display: none !important;
+}
+.frame-controls button {
+    min-width: 2.25rem;
+    padding: 0.2rem 0.5rem;
+}
+#frameLabel {
+    font-size: 0.95em;
+    min-width: 4.5rem;
+    text-align: center;
+}
+#drawing {
+    flex: 1;
     overflow: auto;
     transition: background-color 0.3s;
     background-color: inherit;

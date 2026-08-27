@@ -85,6 +85,7 @@
         "druid": "Place sarsens and lintels to connect your edges of the board. On the standard rectangular board, player 1 connects north and south; player 2 connects east and west. On Druid's Y, connect all three sides (corners count for both adjacent edges). On Druid's Hex, connect any three alternating (non-adjacent) sides. Only the topmost stone on each cell counts toward a connection.",
         "domineering": "Players place dominoes, one vertically, another horizontally, until one cannot play, thus losing the game.",
         "emergo": "A Draughts variant where captured pieces remain on the board and can be freed later. Capture all opposing pieces to win. Derived from Lasca but with two game phases and compulsory maximal captures.",
+        "elOso": "A solitaire game from the world of Carrisor. Move your stacks off the top of the board into the Sky while the Bear rolls dice and advances from above. Score ten or more pieces in the Sky to win.",
         "emu": "Each bird on your ranch is represented by a stack of cards. At the end of the hand, the value of a bird is determined by the sum of the number cards in the stack. The object, naturally enough, is to raise profitable birds. Highest score after a number of \"years\" wins.",
         "enso": "A Zen-inspired game of movement and capture in which you attempt to fully surround one of your pieces with emptiness.",
         "entrapment": "The object of Entrapment is to eliminate your opponent's roamers by surrounding them with impenetrable obstacles and thus rendering them incapable of movement. A roamer that cannot move is considered captured, and is eliminated from the board. When all a player's roamers have been 'entrapped' in this way, the game is over and his or her opponent declared the winner.",
@@ -305,6 +306,7 @@
         "chase": "Currently, most exchange moves will need to be hand edited. We're working on fixing this.",
         "conspirateurs": "In the base game, pieces may move through sanctuaries as part of a multistep jump. They're not frozen until they end their move in a sanctuary. In the strict variant, pieces are frozen as soon as they enter a sanctuary.\n\nIn four-player games, players 1 and 2 are partnered, as are players 3 and 4.",
         "deckfish": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com).\n\nThe suit powers (token movement abilities) are:\n* Moons: Jump orthogonally over gaps. \n* Suns: Move one or two cards diagonally. \n* Waves: Move orthogonally until the last unobstructed card. \n* Leaves: Move orthogonally onto any card with no neighboring obstacles.\n* Wyrms: Move orthogonally onto the first occupied card, bumping that piece to the next card.\n* Knots: Make three orthogonal one-card moves, without backtracking.\n\nIn the rules, the \"first\" player is the player who places second in the placement phase but moves first in the movement phase, but here the first player is the one who places first but moves second. This is implemented using an automatic pass for the appropriate player.\n\nThe rule is enforced that, even when the last player is already winning, he must continue playing until he is out of moves.",
+        "elOso": "Setup is performed automatically when you launch the game. Sky, Cave, Ground, and Pit counts appear in the sidebar. After each move, use the frame controls to step through the Bear's response. Ten or more pieces in the Sky is a win.",
         "domineering": "Domineering, aka, Stop-Gate, is a partisan combinatorial game. The game was designed by Göran Andersson, c.1973, and was presented in the seminal CGT book *Winning Ways for Your Mathematical Plays*. There is an impartial version, called Cram, where players can both place horizontal or vertical dominoes. The variant \"Quelhas\" was proposed by Carlos P. Santos and Alfie Davies in 2025, being a misère version (the player without options wins the game) and using longer domino-like polyominoes.",
         "emu": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers, and they are hidden from opponents until the deck is empty, at which point the players have perfect information, so the hands are revealed. Cards drawn from the discard pile are also always visible to opponents.",
         "entropy": "In this implementation, the players play two games simultaneously but with a single shared stream of randomized pieces. Each player places a piece on their *opponent's* Order board and then makes a move on their *own* Order board; players thus act as both Order and Chaos at the same time. The player with the greatest score wins! Since both players had the exact same placement choices, this provides the cleanest measure of relative skill.",
@@ -3935,6 +3937,12 @@
                 "name": "Overhead view"
             }
         },
+        "elOso": {
+            "nums": {
+                "description": "Stacks shown as numbers",
+                "name": "Numbers"
+            }
+        },
         "ccorridor": {
             "hide-markers": {
                 "description": "Don't show visual markers for the location of the corridor and scored tiles.",
@@ -4421,6 +4429,16 @@
         "evenatodds": {
             "BONEYARD": "Boneyard"
         },
+        "elOso": {
+            "SKY": "Sky",
+            "CAVE": "Cave",
+            "GROUND": "Ground",
+            "PIT": "Pit",
+            "GRADE_LOSS": "Loss (9 or fewer)",
+            "GRADE_WIN": "Win (10)",
+            "GRADE_SUPERIOR": "Superior (11)",
+            "GRADE_EXCELLENT": "Excellent (12)"
+        },
         "fnap": "FNAP token",
         "focus": "Controlled",
         "guerrilla": {
@@ -4873,7 +4891,8 @@
             "INVALID": "You may not place pieces within radiation exclusion zones, and you must always create the smallest stack legally possible."
         },
         "blockade": {
-            "BLOCKS_GOAL": "Cannot place wall at {{wall}} because it blocks the goal(s) for one of the pieces on the board.",
+            "BLOCKS_GOAL_one": "Cannot place wall at {{wall}} because it blocks the goal for one of the pieces on the board.",
+            "BLOCKS_GOAL_other": "Cannot place wall at {{wall}} because it blocks the goals for one of the pieces on the board.",
             "EXCLUSIVE": "You may only move a piece or place a wall, not both.",
             "INITIAL_INSTRUCTIONS": "Select a piece to move, then place a wall if you have any.",
             "INITIAL_INSTRUCTIONS_EXCLUSIVE": "Select a piece to move or place a wall if you have any.",
@@ -5075,6 +5094,15 @@
             "SELECT_DRUID_DEST": "Select where your Druid should move.",
             "SELECT_LINTEL_END": "Select the other end of the lintel.",
             "SELECT_MOVE": "Place a sarsen, lay a lintel, move your Druid, or pass."
+        },
+        "elOso": {
+            "INITIAL_INSTRUCTIONS": "Select one of your stacks to move. Click a stack twice to pass.",
+            "VALID_PARTIAL": "Select a destination. Click the same stack again to pass.",
+            "VALID_PARTIAL_TOP": "Select a destination or click the Sky bar above. Click the same stack again to pass.",
+            "SELECT_STACK_FOR_PASS": "Select a stack first, then click it again to pass.",
+            "INVALID_DIRECTION": "Stacks may move diagonally or sideways, but not straight forward or back.",
+            "TOO_FAR": "This stack can move at most {{dist}} spaces.",
+            "SKY_FROM_TOP": "Only stacks on the top row may move into the Sky."
         },
         "cannon": {
             "BAD_RETREAT": "Pieces can only retreat if they are adjacent to at least one enemy piece.",
@@ -5664,7 +5692,8 @@
             "TOO_EARLY_FOR_REFILL": "Please submit your refill request before making your remaining moves.",
             "TOO_LATE_FOR_BLOCKED": "You do not count as blocked if you've already moved on this turn.",
             "TOO_LATE_FOR_REFILL": "There is no need to force a refill of the draw pool after your third move. It will refill automatically after you submit.",
-            "VALID_REFILL": "Please submit your move to trigger the refill. The other player(s) will pass automatically, and you will have {{count}} moves remaining in your partial turn (as well as the option to pass)."
+            "VALID_REFILL_one": "Please submit your move to trigger the refill. Opponents will pass automatically, and you will have one move remaining in your partial turn (as well as the option to pass).",
+            "VALID_REFILL_other": "Please submit your move to trigger the refill. Opponents will pass automatically, and you will have {{count}} moves remaining in your partial turn (as well as the option to pass)."
         },
         "furl": {
             "CAPTURE4UNFURL": "You signalled a capture unfurl move, but {{to}} not is occupied by the opponent. Use \">\" to denote non-capture unfurl.",
@@ -6417,10 +6446,18 @@
             "INITIAL_INSTRUCTIONS": "Place a stone on an empty cell. If a pinch capture is made, the capturing player relocates the captured stone to any empty cell of their choosing. If this placement causes the capture of an own-stone, the same player relocates the captured own-stone, and resolves any new capture, if there is one. This process continues until a relocation causes no new capture. If there is no available placement left, the captured stone is removed from the game.",
             "OCCUPIED_CELL": "Only placements on empty cells are valid.",
             "REUSED_CELL": "This cell {{cell}} was already used in this turn. Once the status of a cell changes from occupied to unoccupied, or vice versa, it cannot change again that same turn.",
-            "SELF_STONES_TO_PLACE": "There are still {{own}} friendly captured stone(s) to relocate.",
-            "OPP_STONES_TO_PLACE": "There are still {{opp}} opponent captured stone(s) to relocate.",
-            "SELF_OPP_STONES_TO_PLACE": "There are still {{own}} friendly captured stone(s), and then {{opp}} adversary stone(s), to relocate.",
-            "OPP_SELF_STONES_TO_PLACE": "There are still {{opp}} opponent captured stone(s), and then {{own}} friendly stone(s), to relocate.",
+            "SELF_STONES_TO_PLACE_one": "There is still one friendly captured stone to relocate.",
+            "SELF_STONES_TO_PLACE_other": "There are still {{count}} friendly captured stones to relocate.",
+            "OPP_STONES_TO_PLACE_one": "There is still one opponent captured stone to relocate.",
+            "OPP_STONES_TO_PLACE_other": "There are still {{count}} opponent captured stones to relocate.",
+            "SELF_OPP_STONES_TO_PLACE_own_one_opp_one": "There is still one friendly captured stone, and then one adversary stone, to relocate.",
+            "SELF_OPP_STONES_TO_PLACE_own_one_opp_other": "There is still one friendly captured stone, and then {{opp}} adversary stones, to relocate.",
+            "SELF_OPP_STONES_TO_PLACE_own_other_opp_one": "There are still {{own}} friendly captured stones, and then one adversary stone, to relocate.",
+            "SELF_OPP_STONES_TO_PLACE_own_other_opp_other": "There are still {{own}} friendly captured stones, and then {{opp}} adversary stones, to relocate.",
+            "OPP_SELF_STONES_TO_PLACE_own_one_opp_one": "There is still one opponent captured stone, and then one friendly stone, to relocate.",
+            "OPP_SELF_STONES_TO_PLACE_own_one_opp_other": "There is still one opponent captured stone, and then {{own}} friendly stones, to relocate.",
+            "OPP_SELF_STONES_TO_PLACE_own_other_opp_one": "There are still {{opp}} opponent captured stones, and then one friendly stone, to relocate.",
+            "OPP_SELF_STONES_TO_PLACE_own_other_opp_other": "There are still {{opp}} opponent captured stones, and then {{own}} friendly stones, to relocate.",
             "INITIAL_INSTRUCTIONS_ORIGINAL": "Place a stone on an empty cell. If a pinch capture is made, the captured stone flips color. This flip might cause subsequent flips, starting a chain-reaction until the board stabilizes."
         },
         "pippinzip": {

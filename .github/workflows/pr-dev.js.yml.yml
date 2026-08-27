@@ -27,6 +27,8 @@ jobs:
           with:
             node-version: 24
             cache: 'npm'
+        - name: Pin npm
+          run: npm install -g npm@11.6.2
         - run: echo "@abstractplay:registry=https://npm.pkg.github.com/" >> .npmrc
         - run: echo "//npm.pkg.github.com/:_authToken=${{secrets.GITHUB_TOKEN}}" >> .npmrc
         - run: npm ci

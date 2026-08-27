@@ -1,10 +1,16 @@
 {
     "ABANDONED": "The game was abandoned.",
+    "ACTOR": {
+        "elOso": {
+            "bear": "The Bear"
+        }
+    },
     "ADD": {
         "add_one": "{{player}} added 1 piece to {{where}}.",
         "add_other": "{{player}} added {{count}} pieces to {{where}}.",
         "logger": "The tree at {{where}} grew one stage.",
-        "magnate": "{{player}} added {{count}} token(s) to their deeded card {{where}}.",
+        "magnate_one": "{{player}} added one token to their deeded card {{where}}.",
+        "magnate_other": "{{player}} added {{count}} tokens to their deeded card {{where}}.",
         "nonum": "{{player}} added a piece to {{where}}.",
         "twixt": "{{player}} added a link at {{where}}."
     },
@@ -24,8 +30,13 @@
         "arimaa": "This position has occurred before. Further repeats of this position are forbidden.",
         "biscuit": "The following cards were in opposing hands: {{cards}}.",
         "deckfish": "{{player}} was unable to move and must pass from now on.",
-        "frogger": "{{player}} chose to refill the draw pool.  Other players must pass so he can take his {{moves}} remaining move(s).",
+        "frogger_one": "{{player}} chose to refill the draw pool. Other players must pass so he can take his {{count}} remaining move.",
+        "frogger_other": "{{player}} chose to refill the draw pool. Other players must pass so he can take his {{count}} remaining moves.",
         "quincunx": "Player {{playerNum}} had the following cards left in their hand: {{cards}}.",
+        "elOso": {
+            "playerSetup": "Player setup",
+            "bearSetup": "Bear setup"
+        },
         "scribe_super": "{{player}}'s super formation: {{formation}}.",
         "stawvs": "{{player}} was unable to move and must pass from now on.  Their pieces remain on the following pyramids: {{pyramids}}."
     },
@@ -66,7 +77,8 @@
         "entrapment_self": "{{player}} captured their own roamer at {{where}}.",
         "fightopia_1": "{{player}} captured a pawn at {{where}}.",
         "fightopia_2": "{{player}} captured a tank at {{where}}.",
-        "forms": "{{player}} move eliminates {{count}} piece(s).",
+        "forms_one": "{{player}} move eliminates one piece.",
+        "forms_other": "{{player}} move eliminates {{count}} pieces.",
         "furl": "{{player}} captured a stack of size {{size}} at {{where}}.",
         "gess_one": "{{count}} stone is removed from the board.",
         "gess_other": "{{count}} stones are removed from the board.",
@@ -74,6 +86,8 @@
         "group_other": "{{player}} captured {{count}} stones at the following cells: {{cells}}.",
         "hens_chick": "{{player}} captured a chick at {{where}}.",
         "hens_hen": "{{player}} captured a hen at {{where}}.",
+        "elOso_one": "{{player}} annihilated one piece at {{where}}.",
+        "elOso_other": "{{player}} annihilated {{count}} pieces at {{where}}.",
         "hexentafl_king": "The king was captured at {{where}}.",
         "lasca_officer": "{{player}} captured an officer at {{where}}.",
         "lasca_soldier": "{{player}} captured a soldier at {{where}}.",
@@ -115,7 +129,8 @@
         "spook_lateral_opponent_other": "{{player}} has {{count}} of their opponent's balls captured by Spooky on the same level at {{where}}.",
         "spook_lateral_self_one": "{{player}} has 1 of their own ball captured by Spooky on the same level at {{where}}.",
         "spook_lateral_self_other": "{{player}} has {{count}} of their own balls captured by Spooky on the same level at {{where}}.",
-        "spora": "{{player}} surrounded and captured {{count}} piece(s): {{group}}.",
+        "spora_one": "{{player}} surrounded and captured one piece: {{group}}.",
+        "spora_other": "{{player}} surrounded and captured {{count}} pieces: {{group}}.",
         "stawvs": "{{player}} captured the {{what}} at {{where}}.",
         "swarm": "{{player}} captured stack {{where}} using {{count}} singletons.",
         "tafl": "{{player}} captured a piece at {{where}}.",
@@ -327,6 +342,8 @@
         "camelot_castle": "{{player}} made a castle move with a man from {{from}} to {{to}}.",
         "carnac_tip": "{{player}} tipped the megalith at {{from}} onto {{to}} toward {{how}}.",
         "druid_walk": "{{player}} moved their Druid from {{from}} to {{to}}.",
+        "elOso_one": "{{player}} moved one piece from {{from}} to {{to}}.",
+        "elOso_other": "{{player}} moved {{count}} pieces from {{from}} to {{to}}.",
         "camelot_plain_knight": "{{player}} made a plain move with a knight from {{from}} to {{to}}.",
         "camelot_plain": "{{player}} made a plain move with a man from {{from}} to {{to}}.",
         "camelot_canter_knight": "{{player}} made a canter with a knight from {{from}} to {{to}}.",
@@ -399,6 +416,7 @@
         "carnac": "{{player}} declined to tip the megalith.",
         "canoe": "{{player}} passed.",
         "druid": "{{player}} passed.",
+        "elOso": "{{player}} passed.",
         "frogger": "{{player}} passed {{why}}.",
         "linage": "{{player}} passes.",
         "pie": "{{player}} accepted the komi offer and will continue playing second.",
@@ -456,6 +474,8 @@
         "entrapment_barrier": "{{player}} placed a barrier at {{where}}.",
         "entrapment_roamer": "{{player}} placed a roamer at {{where}}.",
         "evenatodds": "{{player}} placed the {{what}} domino at {{where}}.",
+        "elOso_one": "{{player}} placed one piece at {{where}}.",
+        "elOso_other": "{{player}} placed {{count}} pieces at {{where}}.",
         "epam": "{{player}} placed a stone at {{where}}.",
         "gorogo_henge": "{{player}} placed a henge piece at {{where}}.",
         "gorogo_piece": "{{player}} placed a piece at {{where}}.",
@@ -495,7 +515,8 @@
         "spire_neutral": "{{player}} placed a neutral ball at {{where}}.",
         "spire_player": "{{player}} placed a ball of their colour at {{where}}.",
         "spooky": "Spooky has entered the board at {{where}}.",
-        "spora": "{{player}} added {{size}} piece(s) to stack at {{where}}.",
+        "spora_one": "{{player}} added one piece to stack at {{where}}.",
+        "spora_other": "{{player}} added {{size}} pieces to stack at {{where}}.",
         "stawvs": "{{player}} placed a piece at {{where}}.",
         "strands_initial": "{{player}} placed a piece on a space labelled 2 at {{where}}.",
         "strands_one": "{{player}} placed a piece at {{where}}.",
@@ -590,6 +611,8 @@
         "magnate": "{{who}} rolled a {{values}}.",
         "magnate_eight": "{{who}} rolled an {{values}}.",
         "canoe": "{{player}} rolled: {{values}}.",
+        "elOso": "The Bear rolled: {{dice}}.",
+        "elOso_player": "{{player}} rolled: {{dice}}.",
         "single": "The die was rolled: {{values}}.",
         "tablero": "The dice were rolled: {{values}}."
     },

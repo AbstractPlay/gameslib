@@ -3,9 +3,194 @@ import {
     getRoundsForLayout,
     resolveMoveTableDensity,
 } from "./move-table-display.mjs";
+
+/** Webpack exposes the library as a classic-script global; module scope cannot use a bare `APGames` binding. */
+const APGames = globalThis.APGames;
+
+function assertAPGamesLoaded() {
+    if (APGames) {
+        return true;
+    }
+    const message =
+        "APGames bundle not loaded. Run `npm run playground` (or `npm run playground:serve`) and open the copy served from dist/.";
+    console.error(message);
+    const anchor = document.querySelector(".page-title") || document.body;
+    if (anchor && !document.getElementById("apgamesLoadError")) {
+        const banner = document.createElement("p");
+        banner.id = "apgamesLoadError";
+        banner.style.color = "#c00";
+        banner.style.fontWeight = "bold";
+        banner.textContent = message;
+        anchor.insertAdjacentElement("afterend", banner);
+    }
+    return false;
+}
+
 const nanoid = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', 5);
 
 let currentRenderRep = null;
+let currentRenderFrames = null;
+let currentRenderFrameIndex = 0;
+let skipFrameRefresh = false;
+let currentPlaygroundGame = null;
+let currentPlaygroundGamename = null;
+
+function isSoloGame(info) {
+    return Boolean(
+        info &&
+        Array.isArray(info.playercounts) &&
+        info.playercounts.length === 1 &&
+        info.playercounts[0] === 1,
+    );
+}
+
+function formatGameOverMessage(game) {
+    if (typeof game.getSoloOutcomeMeta === "function") {
+        const solo = game.getSoloOutcomeMeta();
+        if (solo && game.gameover) {
+            const score = typeof game.getPlayerScore === "function" ? game.getPlayerScore(1) : undefined;
+            const grade = typeof game.getPlayerGrade === "function" ? game.getPlayerGrade(1) : undefined;
+            let msg = `<p style="color: #0a0; font-weight: bold;">Game Over! Score: ${score ?? "?"}`;
+            if (grade) {
+                msg += ` (grade: ${grade})`;
+            }
+            msg += "</p>";
+            return msg;
+        }
+    }
+    const winnerStr = game.winner.length > 0 ? game.winner.join(", ") : "none";
+    return `<p style="color: #0a0; font-weight: bold;">Game Over! Winner: Player ${winnerStr}</p>`;
+}
+
+function updateFrameControls() {
+    const controls = document.getElementById("frameControls");
+    const label = document.getElementById("frameLabel");
+    if (!controls || !label) {
+        return;
+    }
+    if (currentRenderFrames && currentRenderFrames.length > 1) {
+        controls.hidden = false;
+        let labelText = `${currentRenderFrameIndex + 1} / ${currentRenderFrames.length}`;
+        if (
+            currentPlaygroundGame &&
+            currentPlaygroundGamename === "elOso" &&
+            typeof currentPlaygroundGame.frameCaptionLines === "function" &&
+            typeof APGames.formatChatLogEntries === "function"
+        ) {
+            const logNames = currentPlaygroundGame.numplayers === 1
+                ? [PREDEFINED_LOG_NAMES[0]]
+                : PREDEFINED_LOG_NAMES;
+            const lines = currentPlaygroundGame.frameCaptionLines(currentRenderFrameIndex);
+            if (lines.length > 0) {
+                const formatted = APGames.formatChatLogEntries(
+                    [{ timestamp: "", lines }],
+                    logNames,
+                    playgroundTranslate,
+                );
+                if (formatted.length > 0) {
+                    labelText += " — " + formatted.join(" ");
+                }
+            }
+        }
+        label.textContent = labelText;
+    } else {
+        controls.hidden = true;
+        label.textContent = "1 / 1";
+    }
+}
+
+function cacheRenderFrames(reps) {
+    if (Array.isArray(reps) && reps.length > 0) {
+        currentRenderFrames = reps;
+        currentRenderFrameIndex = reps.length - 1;
+    } else {
+        currentRenderFrames = null;
+        currentRenderFrameIndex = 0;
+    }
+    updateFrameControls();
+}
+
+function activeRenderFrame(reps) {
+    if (currentRenderFrames && currentRenderFrames.length > 0) {
+        return currentRenderFrames[currentRenderFrameIndex];
+    }
+    if (Array.isArray(reps)) {
+        return reps[reps.length - 1];
+    }
+    return reps;
+}
+
+function renderGameFrames(game, renderOpts) {
+    const reps = game.render(renderOpts);
+    cacheRenderFrames(reps);
+    return activeRenderFrame(reps);
+}
+
+function createFreshGame(uid, playerCount, variants, challengeSeed) {
+    const trimmedSeed = (challengeSeed || "").trim();
+    if (trimmedSeed && isSoloGame(APGames.gameinfo.get(uid))) {
+        // Solo engines take (state?, challengeSeed?); GameFactory forwards create(...args).
+        return APGames.GameFactory(uid, undefined, trimmedSeed);
+    }
+    return APGames.GameFactory(
+        uid,
+        playerCount,
+        variants && variants.length > 0 ? variants : undefined,
+    );
+}
+
+function updateChallengeSeedPanel(info) {
+    const container = document.getElementById("challengeSeedContainer");
+    const input = document.getElementById("challengeSeedInput");
+    if (!container || !input) {
+        return;
+    }
+    if (isSoloGame(info)) {
+        container.style.display = "block";
+        const saved = window.localStorage.getItem("challengeSeed");
+        if (saved) {
+            input.value = saved;
+        }
+    } else {
+        container.style.display = "none";
+        input.value = "";
+    }
+}
+
+function renderChallengeSeedStatus(game, playerInfoDisplay) {
+    if (!playerInfoDisplay || typeof game.getChallengeSeed !== "function") {
+        return;
+    }
+    const seed = game.getChallengeSeed();
+    if (!seed) {
+        return;
+    }
+    const existing = document.getElementById("challengeSeedStatus");
+    if (existing) {
+        existing.textContent = `Challenge seed: ${seed}`;
+        return;
+    }
+    const line = document.createElement("p");
+    line.id = "challengeSeedStatus";
+    line.style.fontSize = "0.9em";
+    line.style.color = "#666";
+    line.textContent = `Challenge seed: ${seed}`;
+    playerInfoDisplay.appendChild(line);
+}
+
+function shiftRenderFrame(delta) {
+    if (!currentRenderFrames || currentRenderFrames.length <= 1) {
+        return;
+    }
+    currentRenderFrameIndex = Math.max(
+        0,
+        Math.min(currentRenderFrames.length - 1, currentRenderFrameIndex + delta),
+    );
+    updateFrameControls();
+    skipFrameRefresh = true;
+    renderGame();
+    skipFrameRefresh = false;
+}
 
 function boardClick(row, col, piece) {
     console.log("Row: " + row + ", Col: " + col + ", Piece: " + piece);
@@ -49,9 +234,8 @@ function boardClick(row, col, piece) {
         }
         game.move(result.move, {partial: true});
         let render = game.render(renderOpts);
-        if (Array.isArray(render)) {
-            render = render[render.length - 1];
-        }
+        cacheRenderFrames(render);
+        render = activeRenderFrame(render);
         var interim = JSON.stringify(render);
         window.localStorage.setItem("interim", interim);
     }
@@ -442,7 +626,7 @@ function populateGameSelect() {
     if (!select || select.dataset.gamesPopulated === "true") {
         return;
     }
-    if (!APGames.gameinfoSorted || APGames.gameinfoSorted.length === 0) {
+    if (!APGames || !APGames.gameinfoSorted || APGames.gameinfoSorted.length === 0) {
         return;
     }
     APGames.gameinfoSorted.forEach((g) => {
@@ -1419,11 +1603,12 @@ function renderGame(...args) {
         }
 
         var game = APGames.GameFactory(gamename, state);
+        currentPlaygroundGame = game;
+        currentPlaygroundGamename = gamename;
         const isDark = window.localStorage.getItem("darkMode") === "true";
 
         if (game.gameover && clickStatusBox) {
-            var winnerStr = game.winner.length > 0 ? game.winner.join(", ") : "none";
-            clickStatusBox.innerHTML = '<p style="color: #0a0; font-weight: bold;">Game Over! Winner: Player ' + winnerStr + '</p>';
+            clickStatusBox.innerHTML = formatGameOverMessage(game);
         }
 
         if (playerInfoDisplay) {
@@ -1431,7 +1616,7 @@ function renderGame(...args) {
 
             // Add the heading for player info
             const playerInfoHeading = document.createElement('h3');
-            playerInfoHeading.textContent = "Players:";
+            playerInfoHeading.textContent = game.numplayers === 1 ? "Player" : "Players:";
             playerInfoDisplay.appendChild(playerInfoHeading);
 
             const numPlayers = game.numplayers;
@@ -1520,6 +1705,7 @@ function renderGame(...args) {
                 playerDiv.appendChild(nameSpan);
                 playerInfoDisplay.appendChild(playerDiv);
             }
+            renderChallengeSeedStatus(game, playerInfoDisplay);
         }
 
         updateGameStatusPanel(game, gamename);
@@ -1536,9 +1722,10 @@ function renderGame(...args) {
             renderOpts.altDisplay = selectedDisplay;
         }
         if (data === null) {
-            data = game.render(renderOpts);
-            if (Array.isArray(data)) {
-                data = data[data.length - 1];
+            if (skipFrameRefresh && currentRenderFrames && currentRenderFrames.length > 0) {
+                data = currentRenderFrames[currentRenderFrameIndex];
+            } else {
+                data = renderGameFrames(game, renderOpts);
             }
         }
         currentRenderRep = data;
@@ -1602,8 +1789,21 @@ function renderGame(...args) {
         }
 
         var status = "";
-        if (typeof game.chatLog === "function") {
-            var results = game.chatLog(PREDEFINED_LOG_NAMES).reverse().map(e => e.join(" "));
+        var logNames = PREDEFINED_LOG_NAMES;
+        if (game.numplayers === 1) {
+            logNames = [PREDEFINED_LOG_NAMES[0]];
+        }
+        if (typeof game.chatLogEntries === "function" && typeof APGames.formatChatLogEntryNodes === "function") {
+            var t = (APGames.i18n && typeof APGames.i18n.t === "function")
+                ? APGames.i18n.t.bind(APGames.i18n)
+                : function (key) { return key; };
+            var nodes = APGames.formatChatLogEntryNodes(game.chatLogEntries(logNames), logNames, t);
+            var results = nodes.reverse().map(function (e) { return e.join(" "); });
+            if (results.length > 0) {
+                status += "\n\n* " + results.join("\n* ");
+            }
+        } else if (typeof game.chatLog === "function") {
+            var results = game.chatLog(logNames).reverse().map(e => e.join(" "));
             if (results.length > 0) {
                 status += "\n\n* " + results.join("\n* ");
             }
@@ -1617,6 +1817,8 @@ function renderGame(...args) {
         var converter = new showdown.Converter();
         statusbox.innerHTML = converter.makeHtml(status);
     } else {
+        currentPlaygroundGame = null;
+        currentPlaygroundGamename = null;
         currentRenderRep = null;
         if (displayOptionsContainer) {
             displayOptionsContainer.style.display = 'none';
@@ -1681,7 +1883,16 @@ function playgroundT(key) {
     return key;
 }
 
+function playgroundTranslate(key, params) {
+    const inst = APGames.i18n;
+    if (inst && inst.isInitialized && typeof inst.t === "function") {
+        return inst.t(key, params);
+    }
+    return key;
+}
+
 const PLAYGROUND_LOCALE_PROBE_KEY = "apgames:variants.archimedes.8x10.name";
+const PLAYGROUND_ROLL_PROBE_KEY = "apresults:ROLL.elOso";
 
 function warnIfPlaygroundLocalesMissing() {
     const inst = APGames.i18n;
@@ -1692,6 +1903,12 @@ function warnIfPlaygroundLocalesMissing() {
     if (probe.startsWith("variants.")) {
         console.warn(
             "gameslib: locale bundles not loaded — serve dist/ over HTTP and ensure locales/ is beside playground.html",
+        );
+    }
+    const rollProbe = inst.t(PLAYGROUND_ROLL_PROBE_KEY, { dice: "1" });
+    if (rollProbe.includes("ROLL.elOso") || rollProbe === PLAYGROUND_ROLL_PROBE_KEY) {
+        console.warn(
+            "gameslib: apresults ROLL.elOso missing — bear dice rolls will not display in the chat log",
         );
     }
 }
@@ -1852,6 +2069,10 @@ function updateDisplayOptions(gameEngine) {
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
+    if (!assertAPGamesLoaded()) {
+        return;
+    }
+
     populateGameSelect();
 
     const i18n = APGames.addResource("en");
@@ -2120,6 +2341,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         } else {
             playerCountContainer.style.display = "none";
         }
+        updateChallengeSeedPanel(currentGameInfo);
     });
 
     const displayOptionsContainer = document.getElementById("displayOptionsContainer");
@@ -2165,7 +2387,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
         let game;
         try {
-            game = APGames.GameFactory(gameUid, info.playercounts.length > 1 ? playerCount : undefined, finalVariants.length > 0 ? finalVariants : undefined);
+            const seedInput = document.getElementById("challengeSeedInput");
+            const challengeSeed = seedInput ? seedInput.value : "";
+            if (challengeSeed.trim()) {
+                window.localStorage.setItem("challengeSeed", challengeSeed.trim());
+            } else {
+                window.localStorage.removeItem("challengeSeed");
+            }
+            game = createFreshGame(
+                gameUid,
+                info.playercounts.length > 1 ? playerCount : undefined,
+                finalVariants,
+                challengeSeed,
+            );
         } catch (error) {
             alert(`Failed to launch game: ${error.message}`);
             console.error(error);
@@ -2299,8 +2533,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 movebox.value = "";
                 var statusbox = document.getElementById("clickstatus");
                 if (game.gameover) {
-                    var winnerStr = game.winner.length > 0 ? game.winner.join(", ") : "none";
-                    statusbox.innerHTML = '<p style="color: #0a0; font-weight: bold;">Game Over! Winner: Player ' + winnerStr + '</p>';
+                    statusbox.innerHTML = formatGameOverMessage(game);
                 } else {
                     var result = game.validateMove("");
                     var resultStr = '<p style="color: #888">' + result.message + '</p>';
@@ -2351,8 +2584,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 movebox.classList.remove("move-incomplete", "move-ready");
                 var statusbox = document.getElementById("clickstatus");
                 if (game.gameover) {
-                    var winnerStr = game.winner.length > 0 ? game.winner.join(", ") : "none";
-                    statusbox.innerHTML = '<p style="color: #0a0; font-weight: bold;">Game Over! Winner: Player ' + winnerStr + '</p>';
+                    statusbox.innerHTML = formatGameOverMessage(game);
                 } else {
                     var result = game.validateMove("");
                     var resultStr = '<p style="color: #888">' + result.message + '</p>';
@@ -2454,8 +2686,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     movebox.classList.remove("move-incomplete", "move-ready");
                     var statusbox = document.getElementById("clickstatus");
                     if (game.gameover) {
-                        var winnerStr = game.winner.length > 0 ? game.winner.join(", ") : "none";
-                        statusbox.innerHTML = '<p style="color: #0a0; font-weight: bold;">Game Over! Winner: Player ' + winnerStr + '</p>';
+                        statusbox.innerHTML = formatGameOverMessage(game);
                     } else {
                         var result = game.validateMove("");
                         var resultStr = '<p style="color: #888">' + result.message + '</p>';
@@ -2489,8 +2720,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     window.localStorage.setItem("state", game.serialize());
                     window.localStorage.removeItem("interim");
                     if (game.gameover) {
-                        var winnerStr = game.winner.length > 0 ? game.winner.join(", ") : "none";
-                        document.getElementById("clickstatus").innerHTML = '<p style="color: #0a0; font-weight: bold;">Game Over! Winner: Player ' + winnerStr + '</p>';
+                        document.getElementById("clickstatus").innerHTML = formatGameOverMessage(game);
                     }
                     renderGame();
                     updateGameStatusPanel(game, gamename);
@@ -2520,8 +2750,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     window.localStorage.setItem("state", game.serialize());
                     window.localStorage.removeItem("interim");
                     if (game.gameover) {
-                        var winnerStr = game.winner.length > 0 ? game.winner.join(", ") : "none";
-                        document.getElementById("clickstatus").innerHTML = '<p style="color: #0a0; font-weight: bold;">Game Over! Winner: Player ' + winnerStr + '</p>';
+                        document.getElementById("clickstatus").innerHTML = formatGameOverMessage(game);
                     }
                     renderGame();
                     updateGameStatusPanel(game, gamename);
@@ -2775,11 +3004,36 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     document.getElementById("passBtn").addEventListener("click", () => {
         const moveEntry = document.getElementById("moveEntry");
-        moveEntry.value = "pass";
+        const gamename = window.localStorage.getItem("gamename");
+        const partial = moveEntry.value.trim();
+        if (gamename === "elOso" && partial.length === 2 && partial.indexOf("-") === -1) {
+            moveEntry.value = `${partial}-pass`;
+        } else {
+            moveEntry.value = "pass";
+        }
         document.getElementById("moveBtn").click();
     });
 
+    const framePrev = document.getElementById("framePrev");
+    const frameNext = document.getElementById("frameNext");
+    if (framePrev) {
+        framePrev.addEventListener("click", () => shiftRenderFrame(-1));
+    }
+    if (frameNext) {
+        frameNext.addEventListener("click", () => shiftRenderFrame(1));
+    }
+
     document.addEventListener("keydown", function(event) {
+        if (event.key === "," && currentRenderFrames && currentRenderFrames.length > 1) {
+            shiftRenderFrame(-1);
+            event.preventDefault();
+            return;
+        }
+        if (event.key === "." && currentRenderFrames && currentRenderFrames.length > 1) {
+            shiftRenderFrame(1);
+            event.preventDefault();
+            return;
+        }
         if (event.key === "Escape") {
             let closed = false;
             if (modal.style.display === "block") {

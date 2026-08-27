@@ -142,7 +142,8 @@ export class StawvsGame extends GameBase {
                 for (let y = 0; y < boardDim; y++) {
                     const cell = StawvsGame.coords2algebraic(x, y);
                     if (emptyCells.indexOf(cell) === -1) {
-                        board.set(cell, [shuffled.pop()]);
+                        const piece = shuffled.pop()!;
+                        board.set(cell, [piece]);
                     }
                 }
             }

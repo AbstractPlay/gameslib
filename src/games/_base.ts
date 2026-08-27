@@ -22,6 +22,14 @@ import {
 import { skipTurnShouldCloseRound } from "./_turn-skip";
 import { APGAMES_PRODUCTION } from "./_build-flags.generated";
 import { allowedChallengeVariantUids } from "./_gameinfo-filter";
+import { GameRng } from "../common/rng";
+import {
+    computeElapsedMs,
+    evaluateGrade,
+    type IGradeTier,
+    type ISoloOutcomeMeta,
+    soloScoreDirection,
+} from "./_solo-outcome";
 
 /**
  * The minimum requirements of the individual game states.
@@ -106,6 +114,10 @@ export interface IAPGameState {
     gameover: boolean;
     winner: number[];
     stack: Array<IIndividualState>;
+    /** Seeded solo: challenge id assigned before first random event. */
+    challengeSeed?: string;
+    /** Seeded solo: RNG stream position at top of stack (mirrors stack entry when present). */
+    rngCounter?: number;
 }
 
 /**
@@ -198,6 +210,10 @@ export interface IMoveOptions {partial?: boolean; trusted?: boolean, emulation?:
 
 export abstract class GameBase  {
     public static readonly gameinfo: APGamesInformation;
+
+    /** Seeded solo (`numplayers === 1`): challenge id and PRNG stream. */
+    protected challengeSeed?: string;
+    protected rng?: GameRng;
 
     public static create(...args: unknown[]): GameBase {
         return new (this as any)(...args);
@@ -361,8 +377,102 @@ export abstract class GameBase  {
     }
 
     protected saveState(): void {
+        const state = this.moveState();
+        this.attachSoloStateFields(state);
+        this.stack.push(state);
+    }
 
-        this.stack.push(this.moveState());
+    /** Solo seeded play: persist challenge seed and RNG counter on stack entries. */
+    protected attachSoloStateFields(state: IIndividualState): void {
+        if (this.numplayers !== 1) {
+            return;
+        }
+        if (this.challengeSeed !== undefined) {
+            state.challengeSeed = this.challengeSeed;
+        }
+        if (this.rng !== undefined) {
+            state.rngCounter = this.rng.getCounter();
+        }
+    }
+
+    /**
+     * Solo seeded play: restore RNG stream from a stack entry after `load(idx)`.
+     * Call from game `load()` once board/hand state is copied from `stack[idx]`.
+     */
+    protected restoreSoloRngFromEntry(entry: IIndividualState): void {
+        if (this.numplayers !== 1 || this.challengeSeed === undefined) {
+            return;
+        }
+        const counter = typeof entry.rngCounter === "number" ? entry.rngCounter : 0;
+        if (this.rng === undefined) {
+            this.rng = new GameRng(this.challengeSeed, counter);
+        } else {
+            this.rng.restore(this.challengeSeed, counter);
+        }
+    }
+
+    /** Solo seeded play: initialise PRNG before any random setup when `numplayers === 1`. */
+    public initRng(seed: string, counter = 0): void {
+        if (this.numplayers !== 1) {
+            return;
+        }
+        this.challengeSeed = seed;
+        this.rng = new GameRng(seed, counter);
+    }
+
+    /** Challenge seed for archive / replay; undefined when solo RNG is not in use. */
+    public getChallengeSeed(): string | undefined {
+        return this.challengeSeed;
+    }
+
+    /** Solo outcome model; override in solo titles. Multiplayer: leave undefined. */
+    public getSoloOutcomeMeta(): ISoloOutcomeMeta | undefined {
+        return undefined;
+    }
+
+    /** Graded solo: tier definitions. */
+    public getGradeTiers(): IGradeTier[] | undefined {
+        return undefined;
+    }
+
+    /** Graded solo: best tier id for final score. */
+    public getPlayerGrade(player: number): string | undefined {
+        const solo = this.getSoloOutcomeMeta();
+        if (solo?.outcomeType !== "graded" || player !== 1) {
+            return undefined;
+        }
+        const score = this.getPlayerScore(player);
+        const tiers = this.getGradeTiers();
+        if (score === undefined || tiers === undefined) {
+            return undefined;
+        }
+        return evaluateGrade(score, tiers, soloScoreDirection(solo))?.id;
+    }
+
+    /** Binary solo: pass/fail at EOG. */
+    public getBinaryPassed(player: number): boolean | undefined {
+        void player;
+        return undefined;
+    }
+
+    /** Timed solo: elapsed ms from stack timestamps (override only for pause variants). */
+    public getPlayerElapsedMs(): number | undefined {
+        const solo = this.getSoloOutcomeMeta();
+        if (solo?.outcomeType !== "timed") {
+            return undefined;
+        }
+        return computeElapsedMs(this.stack);
+    }
+
+    private getSoloArchiveScore(player: number): number | undefined {
+        const solo = this.getSoloOutcomeMeta();
+        if (solo === undefined || this.numplayers !== 1 || player !== 1) {
+            return undefined;
+        }
+        if (solo.outcomeType === "timed") {
+            return this.getPlayerElapsedMs();
+        }
+        return this.getPlayerScore(player);
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -633,6 +743,24 @@ export abstract class GameBase  {
     protected getPlayerResult(player: number): number | undefined {
         if (! this.gameover) {
             return undefined;
+        }
+        const solo = this.getSoloOutcomeMeta();
+        if (solo !== undefined && this.numplayers === 1 && player === 1) {
+            switch (solo.outcomeType) {
+                case "binary": {
+                    const passed = this.getBinaryPassed(player);
+                    return passed ? 1 : 0;
+                }
+                case "graded": {
+                    const gradeId = this.getPlayerGrade(player);
+                    const tiers = this.getGradeTiers() ?? [];
+                    const idx = tiers.findIndex((t) => t.id === gradeId);
+                    return idx >= 0 ? idx : 0;
+                }
+                case "score":
+                case "timed":
+                    return this.getSoloArchiveScore(player);
+            }
         }
         if (this.winner.includes(player)) {
             return 1;
@@ -948,8 +1076,18 @@ export abstract class GameBase  {
             rec.header.startingPosition = this.getStartingPosition();
         }
 
-        if (gameinfo.flags?.includes("random-start")) {
-            rec.header.startingPosition = this.getStartingPosition();
+        const solo = this.getSoloOutcomeMeta();
+        if (solo !== undefined && this.numplayers === 1) {
+            const direction = soloScoreDirection(solo);
+            rec.header["outcome-type"] = solo.outcomeType;
+            rec.header["score-direction"] = direction;
+            if (solo.scoreLabel !== undefined) {
+                rec.header["score-label"] = solo.scoreLabel;
+            }
+            const challengeSeed = this.getChallengeSeed();
+            if (challengeSeed !== undefined) {
+                rec.header["challenge-seed"] = challengeSeed;
+            }
         }
 
         for (let i = 0; i < data.players.length; i++) {
@@ -957,14 +1095,28 @@ export abstract class GameBase  {
             if (result === undefined) {
                 result = -Infinity;
             }
-            rec.header.players.push({
+            const playerEntry: Record<string, unknown> = {
                 name: data.players[i].name,
                 userid: data.players[i].uid,
-
                 is_ai: data.players[i].isai,
-                score: this.getPlayerScore(i + 1),
+                score: this.getSoloArchiveScore(i + 1) ?? this.getPlayerScore(i + 1),
                 result,
-            });
+            };
+            if (solo !== undefined && this.numplayers === 1 && i === 0) {
+                if (solo.outcomeType === "binary") {
+                    const passed = this.getBinaryPassed(i + 1);
+                    if (passed !== undefined) {
+                        playerEntry.passed = passed;
+                    }
+                }
+                if (solo.outcomeType === "graded") {
+                    const grade = this.getPlayerGrade(i + 1);
+                    if (grade !== undefined) {
+                        playerEntry.grade = grade;
+                    }
+                }
+            }
+            rec.header.players.push(playerEntry as (typeof rec.header.players)[number]);
         }
 
         rec.header["turn-model"] = this.turnModel();

@@ -796,7 +796,7 @@ export class SubdivisionGame extends GameBase {
         for (let p = 1; p <= this.numplayers; p++) {
             scores.push(this.getPlayerScore(p));
         }
-        return [{ name: i18next.t("apgames:status.SCORES"), scores}];
+        return [{ name: this.neutralAreaLabel("apgames:status.SCORES"), scores}];
     }
 
 

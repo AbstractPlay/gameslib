@@ -835,7 +835,7 @@ export class PonteDDGame extends GameBase {
 
 
     public sidebarScores(): IScores[] {
-        const scores: IScores[] = [{ name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }];
+        const scores: IScores[] = [{ name: this.neutralAreaLabel("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }];
         return scores;
     }
 

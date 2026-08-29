@@ -737,9 +737,9 @@ export class EntropyGame extends GameBaseSimultaneous {
     }
 
     public sidebarStatuses(isPartial: boolean): IStatus[] {
-        const returned = [{ key: i18next.t("apgames:status.PHASE"), value: [i18next.t("apgames:status.entropy." + this.phase.toUpperCase())] } as IStatus];
+        const returned = [{ key: this.neutralAreaLabel("apgames:status.PHASE"), value: [this.neutralAreaLabel(`apgames:status.entropy.${this.phase.toUpperCase()}`)] } as IStatus];
         if (this.phase === "chaos" && !isPartial) {
-            const key = i18next.t("apgames:status.TOPLACE");
+            const key = this.neutralAreaLabel("apgames:status.TOPLACE");
             const value = { glyph: "piece", colour: allColours.findIndex(c => c === this.nextPiece()) + 1 };
             returned.push({ key, value: [value] });
         }
@@ -748,7 +748,7 @@ export class EntropyGame extends GameBaseSimultaneous {
 
     public sidebarScores(): IScores[] {
         return [
-            { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)], spoiler: true }
+            { name: this.neutralAreaLabel("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)], spoiler: true }
         ]
     }
 

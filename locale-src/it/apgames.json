@@ -2523,6 +2523,14 @@
     "src": "{{count}} pieces",
     "out": "{{count}} pezzi"
   },
+  "status.blam.SCORE_one": {
+    "src": "{{score}} ({{count}} piece)",
+    "out": "{{score}} ({{count}} pezzo)"
+  },
+  "status.blam.SCORE_other": {
+    "src": "{{score}} ({{count}} pieces)",
+    "out": "{{score}} ({{count}} pezzi)"
+  },
   "status.bug.PLACEABLE_COUNT": {
     "src": "Placeable count",
     "out": "Conteggio posizionabili"

@@ -4455,7 +4455,9 @@
     },
     "blam": {
       "NUMPIECES_one": "{{count}} Stein",
-      "NUMPIECES_other": "{{count}} Steine"
+      "NUMPIECES_other": "{{count}} Steine",
+      "SCORE_one": "{{score}} ({{count}} Stein)",
+      "SCORE_other": "{{score}} ({{count}} Steine)"
     },
     "bug": {
       "PLACEABLE_COUNT": "Plazierbare Anzahl"

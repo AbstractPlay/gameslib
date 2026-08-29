@@ -1372,7 +1372,7 @@ export class DeckfishGame extends GameBase {
             scores.push(this.getPlayerScore(p));
         }
         return [
-            { name: i18next.t("apgames:status.SCORES"), scores},
+            { name: this.neutralAreaLabel("apgames:status.SCORES"), scores},
         ];
     }
 

@@ -821,7 +821,7 @@ export class AsliGame extends GameBase {
                 terr.filter(t => t.owner === 2).reduce((prev, curr) => prev + curr.cells.length, 0) + this.prison[0],
             ];
         }
-        return [{ name: i18next.t("apgames:status.asli.TERRITORY"), scores, spoiler: true}];
+        return [{ name: this.neutralAreaLabel("apgames:status.asli.TERRITORY"), scores, spoiler: true}];
     }
 
     public getPlayerColour(p: playerid): number|string {

@@ -544,7 +544,7 @@ export class OwareGame extends GameBase {
     public sidebarScores(): IScores[] {
         if (this.scores.reduce((prev, curr) => prev + curr, 0) > 0) {
             return [
-                { name: i18next.t("apgames:status.SCORES"), scores: this.scores }
+                { name: this.neutralAreaLabel("apgames:status.SCORES"), scores: this.scores }
             ]
         } else {
             return [];

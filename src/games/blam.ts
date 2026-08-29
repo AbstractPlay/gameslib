@@ -584,7 +584,10 @@ export class BlamGame extends GameBase {
     }
 
     public sidebarScores(): IScores[] {
-        return [{ name: i18next.t("apgames:status.SCORES"), scores: this.scores.map((s,i) => `${s} (${i18next.t("apgames:status.blam.NUMPIECES", {count: this.caps[i]})})`)}];
+        return [{
+            name: this.neutralAreaLabel("apgames:status.SCORES"),
+            scores: this.scores.map((s, i) => this.neutralAreaLabel("apgames:status.blam.SCORE", { score: s, count: this.caps[i]! })),
+        }];
     }
 
     protected recordExportExclude(): string[] {

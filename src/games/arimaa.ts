@@ -1431,7 +1431,7 @@ export class ArimaaGame extends GameBase {
     }
 
     public sidebarStatuses(): IStatus[] {
-        return [{ key: i18next.t("apgames:status.arimaa.HARLOG"), value: [this.harlog().toFixed(2)] } as IStatus];
+        return [{ key: this.neutralAreaLabel("apgames:status.arimaa.HARLOG"), value: [this.harlog().toFixed(2)] } as IStatus];
     }
 
 

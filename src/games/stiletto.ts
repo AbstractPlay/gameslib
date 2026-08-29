@@ -671,7 +671,7 @@ export class StilettoGame extends InARowBase {
         }
 
         return [
-            { name: i18next.t("apgames:status.DAGGER"),
+            { name: this.neutralAreaLabel("apgames:status.DAGGER"),
               scores: [...daggerReport] },
         ];
     }

@@ -1200,9 +1200,9 @@ export class BaoGame extends GameBase {
     public sidebarScores(): IScores[] {
         const statuses: IScores[] = [];
         if (this.inhand.reduce((prev, curr) => prev + curr, 0) > 0) {
-            statuses.push({ name: i18next.t("apgames:status.PIECESINHAND"), scores: this.inhand });
+            statuses.push({ name: this.neutralAreaLabel("apgames:status.PIECESINHAND"), scores: this.inhand });
         }
-        statuses.push({ name: i18next.t("apgames:status.bao.BALANCE"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] });
+        statuses.push({ name: this.neutralAreaLabel("apgames:status.bao.BALANCE"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] });
         return statuses;
     }
 

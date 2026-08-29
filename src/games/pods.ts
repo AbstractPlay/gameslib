@@ -626,7 +626,7 @@ export class PodsGame extends GameBase {
 
     public sidebarScores(): IScores[] {
         return [{
-            name: i18next.t("apgames:status.SCORES"),
+            name: this.neutralAreaLabel("apgames:status.SCORES"),
             scores: [this.scores[0], this.scores[1]]
         }];
     }

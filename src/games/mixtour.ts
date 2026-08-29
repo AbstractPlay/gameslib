@@ -532,8 +532,8 @@ export class MixtourGame extends GameBase {
 
     public sidebarScores(): IScores[] {
         return [
-            { name: i18next.t("apgames:status.SCORES"), scores: this.scores },
-            { name: i18next.t("apgames:status.PIECESINHAND"), scores: this.inhand }
+            { name: this.neutralAreaLabel("apgames:status.SCORES"), scores: this.scores },
+            { name: this.neutralAreaLabel("apgames:status.PIECESINHAND"), scores: this.inhand }
         ]
     }
 

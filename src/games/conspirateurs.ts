@@ -586,13 +586,13 @@ export class ConspirateursGame extends GameBase {
             toDrop.push(this.toDrop(p as playerid));
         }
         if (toDrop.reduce((prev, curr) => prev + curr, 0) > 0) {
-            return [{ name: i18next.t("apgames:status.conspirateurs.TO_PLACE"), scores: toDrop}];
+            return [{ name: this.neutralAreaLabel("apgames:status.conspirateurs.TO_PLACE"), scores: toDrop}];
         } else {
             const inDanger: number[] = [];
             for (let p = 1; p <= this.numplayers; p++) {
                 inDanger.push(this.numToCatch(p as playerid));
             }
-            return [{ name: i18next.t("apgames:status.conspirateurs.IN_DANGER"), scores: inDanger}];
+            return [{ name: this.neutralAreaLabel("apgames:status.conspirateurs.IN_DANGER"), scores: inDanger}];
         }
     }
 

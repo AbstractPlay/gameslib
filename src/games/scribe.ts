@@ -626,7 +626,7 @@ export class ScribeGame extends GameBase {
     public sidebarScores(): IScores[] {
         const [count1, count2] = this.miniGridCounts();
         return [{
-            name: i18next.t("apgames:status.scribe.MINI_GRIDS"),
+            name: this.neutralAreaLabel("apgames:status.scribe.MINI_GRIDS"),
             scores: [count1, count2],
         }];
     }

@@ -1000,8 +1000,8 @@ export class FendoGame extends GameBase {
 
     public sidebarScores(): IScores[] {
         return [
-            { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
-            { name: i18next.t("apgames:status.PIECESINHAND"), scores: this.pieces }
+            { name: this.neutralAreaLabel("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
+            { name: this.neutralAreaLabel("apgames:status.PIECESINHAND"), scores: this.pieces }
         ]
     }
 

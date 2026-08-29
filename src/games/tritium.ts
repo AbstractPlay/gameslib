@@ -585,7 +585,7 @@ export class TritiumGame extends GameBase {
             else if (counts[2] > counts[1]) {scores[1]++;}
         }
 
-        return [{ name: i18next.t("apgames:status.SCORES"), scores }];
+        return [{ name: this.neutralAreaLabel("apgames:status.SCORES"), scores }];
     }
 
 

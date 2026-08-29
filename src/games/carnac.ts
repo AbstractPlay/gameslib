@@ -487,13 +487,13 @@ export class CarnacGame extends GameBase {
     public sidebarScores(): IScores[] {
         const counts = this.dolmenCounts();
         return [
-            { name: i18next.t("apgames:status.carnac.DOLMENS"), scores: [counts[0], counts[1]] },
+            { name: this.neutralAreaLabel("apgames:status.carnac.DOLMENS"), scores: [counts[0], counts[1]] },
         ];
     }
 
     public sidebarStatuses(): IStatus[] {
         return [
-            { key: i18next.t("apgames:status.RESERVE"), value: [this.reserve.toString()] },
+            { key: this.neutralAreaLabel("apgames:status.RESERVE"), value: [this.reserve.toString()] },
         ];
     }
 

@@ -1145,13 +1145,13 @@ export class BiscuitGame extends GameBase {
             }
         }
         return [
-            { name: i18next.t("apgames:status.SCORES"), scores: combined},
-            // { name: i18next.t("apgames:status.CARDSINHAND"), scores: this.hands.map(h => h.length)},
+            { name: this.neutralAreaLabel("apgames:status.SCORES"), scores: combined},
+            // { name: this.neutralAreaLabel("apgames:status.CARDSINHAND"), scores: this.hands.map(h => h.length)},
         ];
     }
 
     public sidebarStatuses(): IStatus[] {
-        return [{ key: i18next.t("apgames:status.ROUND"), value: [this.round.toString()] }];
+        return [{ key: this.neutralAreaLabel("apgames:status.ROUND"), value: [this.round.toString()] }];
     }
 
 

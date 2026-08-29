@@ -783,7 +783,7 @@ export class StrandsGame extends GameBase {
     }
 
     public sidebarScores(): IScores[] {
-        return [{ name: i18next.t("apgames:status.GROUPSIZES"), scores: [this.sizes[0].join(","), this.sizes[1].join(",")] }];
+        return [{ name: this.neutralAreaLabel("apgames:status.GROUPSIZES"), scores: [this.sizes[0].join(","), this.sizes[1].join(",")] }];
     }
 
 

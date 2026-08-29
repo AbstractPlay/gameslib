@@ -564,8 +564,8 @@ export class OustGame extends GameBase {
         const groupSizes1 = this.getGroupSizes(1);
         const groupSizes2 = this.getGroupSizes(2);
         return [
-            { name: i18next.t("apgames:status.GROUPCOUNT"), scores: [groupSizes1.length, groupSizes2.length] },
-            { name: i18next.t("apgames:status.GROUPSIZES"), scores: [groupSizes1.join(","), groupSizes2.join(",")] },
+            { name: this.neutralAreaLabel("apgames:status.GROUPCOUNT"), scores: [groupSizes1.length, groupSizes2.length] },
+            { name: this.neutralAreaLabel("apgames:status.GROUPSIZES"), scores: [groupSizes1.join(","), groupSizes2.join(",")] },
         ]
     }
 

@@ -600,7 +600,7 @@ export class GuerrillaGame extends GameBase {
 
     public sidebarStatuses(): IStatus[] {
         return [
-            { key: i18next.t("apgames:status.guerrilla.INSURGENTS"), value: [this.insurgents.toString()] },
+            { key: this.neutralAreaLabel("apgames:status.guerrilla.INSURGENTS"), value: [this.insurgents.toString()] },
         ];
     }
 

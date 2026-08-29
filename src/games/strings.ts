@@ -561,7 +561,7 @@ export class StringsGame extends GameBaseSimultaneous {
 
     public sidebarScores(): IScores[] {
         return [
-            { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }
+            { name: this.neutralAreaLabel("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }
         ]
     }
 

@@ -4452,7 +4452,9 @@
     "blam": {
       "NUMPIECES_one": "{{count}} pezzo",
       "NUMPIECES_many": "",
-      "NUMPIECES_other": "{{count}} pezzi"
+      "NUMPIECES_other": "{{count}} pezzi",
+      "SCORE_one": "{{score}} ({{count}} pezzo)",
+      "SCORE_other": "{{score}} ({{count}} pezzi)"
     },
     "bug": {
       "PLACEABLE_COUNT": "Conteggio posizionabili"

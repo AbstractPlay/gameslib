@@ -631,7 +631,7 @@ export class ByteGame extends GameBase {
 
     public sidebarScores(): IScores[] {
         return [
-            { name: i18next.t("apgames:status.SCORES"), scores: [...this.scores] },
+            { name: this.neutralAreaLabel("apgames:status.SCORES"), scores: [...this.scores] },
         ]
     }
 

@@ -656,7 +656,7 @@ export class BloomsGame extends GameBase {
     }
 
     public sidebarScores(): IScores[] {
-        return [{ name: i18next.t("apgames:status.SCORES"), scores: [`${this.scores[0]} / ${this.threshold}`, `${this.scores[1]} / ${this.threshold}`] }];
+        return [{ name: this.neutralAreaLabel("apgames:status.SCORES"), scores: [`${this.scores[0]} / ${this.threshold}`, `${this.scores[1]} / ${this.threshold}`] }];
     }
 
 

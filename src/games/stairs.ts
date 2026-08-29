@@ -215,7 +215,7 @@ export class StairsGame extends GameBase {
         const stackSizes1 = this.getStackSizes(1);
         const stackSizes2 = this.getStackSizes(2);
         return [
-            { name: i18next.t("apgames:status.STACKSIZES"), scores: [this.truncateStackCounts(stackSizes1), this.truncateStackCounts(stackSizes2)] },
+            { name: this.neutralAreaLabel("apgames:status.STACKSIZES"), scores: [this.truncateStackCounts(stackSizes1), this.truncateStackCounts(stackSizes2)] },
         ]
     }
 

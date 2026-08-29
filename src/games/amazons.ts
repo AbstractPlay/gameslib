@@ -731,13 +731,13 @@ export class AmazonsGame extends GameBase {
 
     // public sidebarStatuses(): IStatus[] {
     //     if (this.areIsolated())
-    //         return [{ key: i18next.t("apgames:status.PHASE"), value: [i18next.t("apgames:status.amazons.ISOLATEDQUEENS")] }];
+    //         return [{ key: this.neutralAreaLabel("apgames:status.PHASE"), value: [this.neutralAreaLabel("apgames:status.amazons.ISOLATEDQUEENS")] }];
     //     else
     //         return [];
     // }
 
     public sidebarScores(): IScores[] {
-        return [{ name: i18next.t("apgames:status.amazons.TERRITORY"), scores: this.territory(), spoiler: true}];
+        return [{ name: this.neutralAreaLabel("apgames:status.amazons.TERRITORY"), scores: this.territory(), spoiler: true}];
     }
 
 

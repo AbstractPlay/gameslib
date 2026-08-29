@@ -917,7 +917,7 @@ export class SiegeOfJGame extends GameBase {
             combined.push(scores[0].toString(), scores[1].toString());
         }
         return [
-            { name: i18next.t("apgames:status.SCORES"), scores: combined},
+            { name: this.neutralAreaLabel("apgames:status.SCORES"), scores: combined},
         ];
     }
 

@@ -136,7 +136,7 @@ export class OrdoGame extends GameBase {
 
     public sidebarScores(): IScores[] {
         return [
-            { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
+            { name: this.neutralAreaLabel("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
         ]
     }
 

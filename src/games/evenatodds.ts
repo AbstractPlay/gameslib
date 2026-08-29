@@ -1690,14 +1690,14 @@ export class EvenAtOddsGame extends GameBase {
 
     public sidebarStatuses(): IStatus[] {
         return [
-            { key: i18next.t("apgames:status.evenatodds.BONEYARD"), value: [this.boneyard.length.toString()] },
+            { key: this.neutralAreaLabel("apgames:status.evenatodds.BONEYARD"), value: [this.boneyard.length.toString()] },
         ];
     }
 
     public sidebarScores(): IScores[] {
         if (!this.gameover) { return []; }
         return [{
-            name: i18next.t("apgames:status.SCORES"),
+            name: this.neutralAreaLabel("apgames:status.SCORES"),
             scores: [this.scorePlayer(1).toString(), this.scorePlayer(2).toString()],
         }];
     }

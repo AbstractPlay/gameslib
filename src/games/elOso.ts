@@ -1003,10 +1003,10 @@ export class ElOsoGame extends GameBase {
 
     public sidebarStatuses(): IStatus[] {
         return [
-            { key: i18next.t("apgames:status.elOso.SKY"), value: [this.sky.toString()] },
-            { key: i18next.t("apgames:status.elOso.CAVE"), value: [this.cave.toString()] },
-            { key: i18next.t("apgames:status.elOso.GROUND"), value: [this.ground.toString()] },
-            { key: i18next.t("apgames:status.elOso.PIT"), value: [this.pit.toString()] },
+            { key: this.neutralAreaLabel("apgames:status.elOso.SKY"), value: [this.sky.toString()] },
+            { key: this.neutralAreaLabel("apgames:status.elOso.CAVE"), value: [this.cave.toString()] },
+            { key: this.neutralAreaLabel("apgames:status.elOso.GROUND"), value: [this.ground.toString()] },
+            { key: this.neutralAreaLabel("apgames:status.elOso.PIT"), value: [this.pit.toString()] },
         ];
     }
 
@@ -1016,7 +1016,7 @@ export class ElOsoGame extends GameBase {
         }
         return [
             {
-                name: i18next.t("apgames:status.elOso.SKY"),
+                name: this.neutralAreaLabel("apgames:status.elOso.SKY"),
                 scores: [this.getPlayerScore(1)!.toString()],
             },
         ];

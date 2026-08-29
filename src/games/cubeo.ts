@@ -657,7 +657,7 @@ export class CubeoGame extends GameBase {
 
 
     public sidebarScores(): IScores[] {
-        return [{ name: i18next.t("apgames:status.PIECESINHAND"), scores: [this.diceInHand(1), this.diceInHand(2)] }];
+        return [{ name: this.neutralAreaLabel("apgames:status.PIECESINHAND"), scores: [this.diceInHand(1), this.diceInHand(2)] }];
     }
 
     public clone(): CubeoGame {

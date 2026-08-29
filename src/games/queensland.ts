@@ -510,8 +510,8 @@ export class QueenslandGame extends GameBase {
 
     public sidebarScores(): IScores[] {
         return [
-            { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
-            { name: i18next.t("apgames:status.PIECESINHAND"), scores: this.pieces }
+            { name: this.neutralAreaLabel("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
+            { name: this.neutralAreaLabel("apgames:status.PIECESINHAND"), scores: this.pieces }
         ]
     }
 
@@ -698,9 +698,9 @@ export class QueenslandGame extends GameBase {
 
     public sidebarStatuses(): IStatus[] {
         if (this.g1scores === undefined)
-            return [{ key: i18next.t("apgames:status.PHASE"), value: [i18next.t("apgames:status.queensland.GAME1")] }];
+            return [{ key: this.neutralAreaLabel("apgames:status.PHASE"), value: [this.neutralAreaLabel("apgames:status.queensland.GAME1")] }];
         else
-            return [{ key: i18next.t("apgames:status.PHASE"), value: [i18next.t("apgames:status.queensland.GAME2")] }];
+            return [{ key: this.neutralAreaLabel("apgames:status.PHASE"), value: [this.neutralAreaLabel("apgames:status.queensland.GAME2")] }];
     }
 
 

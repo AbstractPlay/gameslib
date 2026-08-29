@@ -1328,11 +1328,11 @@ export class PacruGame extends GameBase {
         for (let p = 1; p <= this.numplayers; p++) {
             scores.push(this.getPlayerScore(p));
         }
-        return [{ name: i18next.t("apgames:status.pacru.TILES"), scores }];
+        return [{ name: this.neutralAreaLabel("apgames:status.pacru.TILES"), scores }];
     }
 
     public sidebarStatuses(): IStatus[] {
-        return [{ key: i18next.t("apgames:status.pacru.TARGET"), value: [this.targetScore.toString()] }];
+        return [{ key: this.neutralAreaLabel("apgames:status.pacru.TARGET"), value: [this.targetScore.toString()] }];
     }
 
     protected checkEOG(): PacruGame {

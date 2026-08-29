@@ -4451,7 +4451,9 @@
     },
     "blam": {
       "NUMPIECES_one": "{{count}} pieza",
-      "NUMPIECES_other": "{{count}} piezas"
+      "NUMPIECES_other": "{{count}} piezas",
+      "SCORE_one": "{{score}} ({{count}} pieza)",
+      "SCORE_other": "{{score}} ({{count}} piezas)"
     },
     "bug": {
       "PLACEABLE_COUNT": "Piezas colocables"

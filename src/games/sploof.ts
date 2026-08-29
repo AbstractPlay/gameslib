@@ -951,7 +951,7 @@ export class SploofGame extends GameBase {
 
     public sidebarScores(): IScores[] {
         return [
-            { name: i18next.t("apgames:status.PIECESINHANDSTASH"), scores: [`${this.hands[0]} / ${this.stash[0]}`, `${this.hands[1]} / ${this.stash[1]}`] }
+            { name: this.neutralAreaLabel("apgames:status.PIECESINHANDSTASH"), scores: [`${this.hands[0]} / ${this.stash[0]}`, `${this.hands[1]} / ${this.stash[1]}`] }
         ]
     }
 

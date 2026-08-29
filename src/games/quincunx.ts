@@ -921,13 +921,13 @@ export class QuincunxGame extends GameBase {
             scores.push(this.getPlayerScore(p));
         }
         return [
-            { name: i18next.t("apgames:status.SCORES"), scores},
-            { name: i18next.t("apgames:status.CARDSINHAND"), scores: this.hands.map(h => h.length)},
+            { name: this.neutralAreaLabel("apgames:status.SCORES"), scores},
+            { name: this.neutralAreaLabel("apgames:status.CARDSINHAND"), scores: this.hands.map(h => h.length)},
         ];
     }
 
     public sidebarStatuses(): IStatus[] {
-        return [{ key: i18next.t("apgames:status.ROUND"), value: [this.round.toString()] }];
+        return [{ key: this.neutralAreaLabel("apgames:status.ROUND"), value: [this.round.toString()] }];
     }
 
 

@@ -945,12 +945,12 @@ export class RootBoundGame extends GameBase {
     public sidebarScores(): IScores[] {
         if (this.gameover) {
             return [{
-                name: i18next.t("apgames:status.SCORES"),
+                name: this.neutralAreaLabel("apgames:status.SCORES"),
                 scores: [this.scores[0], this.scores[1]]
             }];
         } else {
             return [{
-                name: i18next.t("apgames:status.ESTIMATEDSCORES"),
+                name: this.neutralAreaLabel("apgames:status.ESTIMATEDSCORES"),
                 scores: [this.scores[0], this.scores[1]]
             }];
         }

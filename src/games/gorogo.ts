@@ -641,8 +641,8 @@ export class GorogoGame extends GameBase {
     public sidebarScores(): IScores[] {
         const inhand = this.pieces.map(({normal, neutral}) => parseFloat(`${normal}.${neutral}`))
         return [
-            { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
-            { name: i18next.t("apgames:status.PIECESINHAND"), scores: inhand }
+            { name: this.neutralAreaLabel("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
+            { name: this.neutralAreaLabel("apgames:status.PIECESINHAND"), scores: inhand }
         ]
     }
 

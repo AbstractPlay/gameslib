@@ -576,7 +576,7 @@ export class BluestoneGame extends GameBase {
 
     public sidebarScores(): IScores[] {
         return [{
-            name: i18next.t("apgames:status.SCORES"),
+            name: this.neutralAreaLabel("apgames:status.SCORES"),
             scores: [this.groupScores[0].join(","), this.groupScores[1].join(",")]
         }];
     }

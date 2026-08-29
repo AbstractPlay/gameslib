@@ -639,7 +639,7 @@ export class PikemenGame extends GameBase {
     }
 
     public sidebarScores(): IScores[] {
-        return [{ name: i18next.t("apgames:status.SCORES"), scores: this.scores }]
+        return [{ name: this.neutralAreaLabel("apgames:status.SCORES"), scores: this.scores }]
     }
 
     protected recordExportExclude(): string[] {

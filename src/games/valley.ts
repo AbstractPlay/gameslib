@@ -626,7 +626,7 @@ export class ValleyGame extends GameBase {
     public sidebarScores(): IScores[] {
         if (this.moon !== undefined) {
             return [
-                { name: i18next.t("apgames:status.valley"), scores: this.moon }
+                { name: this.neutralAreaLabel("apgames:status.valley"), scores: this.moon }
             ]
         }
         return [];

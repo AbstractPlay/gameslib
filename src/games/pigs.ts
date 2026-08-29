@@ -523,7 +523,7 @@ export class PigsGame extends GameBaseSimultaneous {
 
     public sidebarScores(): IScores[] {
         return [
-            { name: i18next.t("apgames:status.DAMAGE"), scores: [...this.damage] },
+            { name: this.neutralAreaLabel("apgames:status.DAMAGE"), scores: [...this.damage] },
         ]
     }
 

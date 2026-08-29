@@ -754,8 +754,8 @@ export class LascaGame extends GameBase {
 
     public sidebarScores(): IScores[] {
         return [
-            { name: i18next.t("apgames:status.lasca.STEPS"), scores: [this.getStepsToOfficer(1), this.getStepsToOfficer(2)] },
-            { name: i18next.t("apgames:status.lasca.MATERIAL"), scores: [this.getMaterial(1), this.getMaterial(2)] },
+            { name: this.neutralAreaLabel("apgames:status.lasca.STEPS"), scores: [this.getStepsToOfficer(1), this.getStepsToOfficer(2)] },
+            { name: this.neutralAreaLabel("apgames:status.lasca.MATERIAL"), scores: [this.getMaterial(1), this.getMaterial(2)] },
         ]
     }
 

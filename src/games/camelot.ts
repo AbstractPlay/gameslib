@@ -1297,12 +1297,12 @@ export class CamelotGame extends GameBase {
         if (this.castleCells[0].length >= 2 && !this.variants.includes("anti")) {
             // For variants with more than one castle cell per player, we show the castle move counts.
             return [
-                { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] },
-                { name: i18next.t("apgames:status.camelot.CASTLE_MOVE_COUNTS"), scores: this.castleMoveCounts }
+                { name: this.neutralAreaLabel("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] },
+                { name: this.neutralAreaLabel("apgames:status.camelot.CASTLE_MOVE_COUNTS"), scores: this.castleMoveCounts }
             ]
         }
         return [
-            { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] },
+            { name: this.neutralAreaLabel("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] },
         ];
     }
 

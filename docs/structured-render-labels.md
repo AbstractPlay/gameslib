@@ -169,6 +169,8 @@ returned.push({
 
 Abstract Play front resolves via `resolveSidebarStatuses()` / `resolveSidebarScores()` inside `setStatus()` before `GameStatus` renders.
 
+**Do not** call `i18next.t()` for `apgames:status.*` keys inside `sidebarStatuses()` or `sidebarScores()`. Emit `this.neutralAreaLabel("apgames:status.…")` (with `textParams` when needed) so front resolves locale at display time. Player name values use `seatStatusValue(seat)`; numeric counts and glyphs stay plain.
+
 ## Testing
 
 - Assert `render()` emits a structured object with expected `textKey` and `actor.seat` (not a resolved string).

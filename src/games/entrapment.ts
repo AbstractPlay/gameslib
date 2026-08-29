@@ -1428,11 +1428,11 @@ export class EntrapmentGame extends GameBase {
             const pieceCount1 = [...this.boardCell.values()].filter(p => p === 1).length;
             const pieceCount2 = [...this.boardCell.values()].filter(p => p === 2).length;
             return [
-                { name: i18next.t("apgames:status.TOPLACE"), scores: [SETUP_PLIES / 2 - pieceCount1, SETUP_PLIES / 2 - pieceCount2]},
+                { name: this.neutralAreaLabel("apgames:status.TOPLACE"), scores: [SETUP_PLIES / 2 - pieceCount1, SETUP_PLIES / 2 - pieceCount2]},
             ]
         }
         return [
-            { name: i18next.t("apgames:status.entrapment.BARRIERS_REMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
+            { name: this.neutralAreaLabel("apgames:status.entrapment.BARRIERS_REMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
         ]
     }
 

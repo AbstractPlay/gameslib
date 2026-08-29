@@ -1386,7 +1386,7 @@ export class EmuGame extends GameBase {
     }
 
     public sidebarStatuses(): IStatus[] {
-        return [{ key: i18next.t("apgames:status.YEAR"), value: [this.year.toString()] }];
+        return [{ key: this.neutralAreaLabel("apgames:status.YEAR"), value: [this.year.toString()] }];
     }
 
     public getPlayerScore(player: number): number {
@@ -1399,7 +1399,7 @@ export class EmuGame extends GameBase {
             scores.push(this.getPlayerScore(p));
         }
         return [
-            { name: i18next.t("apgames:status.SCORES"), scores},
+            { name: this.neutralAreaLabel("apgames:status.SCORES"), scores},
         ];
     }
 

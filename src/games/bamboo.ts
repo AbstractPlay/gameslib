@@ -350,7 +350,7 @@ export class BambooGame extends GameBase {
 
     public sidebarScores(): IScores[] {
         return [
-            { name: i18next.t("apgames:status.GROUPCOUNT"), scores: [this.getGroups(1).length, this.getGroups(2).length] }
+            { name: this.neutralAreaLabel("apgames:status.GROUPCOUNT"), scores: [this.getGroups(1).length, this.getGroups(2).length] }
         ]
     }
 

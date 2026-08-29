@@ -514,7 +514,7 @@ export class ToguzGame extends GameBase {
     public sidebarScores(): IScores[] {
         if (this.kazna.reduce((prev, curr) => prev + curr, 0) > 0) {
             return [
-                { name: i18next.t("apgames:status.SCORES"), scores: this.kazna }
+                { name: this.neutralAreaLabel("apgames:status.SCORES"), scores: this.kazna }
             ]
         } else {
             return [];

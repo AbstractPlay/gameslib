@@ -361,7 +361,7 @@ export class ControlGame extends GameBase {
 
     public sidebarScores(): IScores[] {
         return [{
-            name: i18next.t("apgames:status.control.CONTROLLED_SPACES"),
+            name: this.neutralAreaLabel("apgames:status.control.CONTROLLED_SPACES"),
             scores: [this.getPlayerScore(1), this.getPlayerScore(2)]
         }]
     }

@@ -485,7 +485,7 @@ export class FracturedGame extends GameBase {
     public sidebarScores(): IScores[] {
         return [
             {
-                name: i18next.t("apgames:status.RESERVE"),
+                name: this.neutralAreaLabel("apgames:status.RESERVE"),
                 scores: [...this.reserve],
             },
         ];

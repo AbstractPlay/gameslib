@@ -2523,6 +2523,14 @@
     "src": "{{count}} pieces",
     "out": "{{count}} Steine"
   },
+  "status.blam.SCORE_one": {
+    "src": "{{score}} ({{count}} piece)",
+    "out": "{{score}} ({{count}} Stein)"
+  },
+  "status.blam.SCORE_other": {
+    "src": "{{score}} ({{count}} pieces)",
+    "out": "{{score}} ({{count}} Steine)"
+  },
   "status.bug.PLACEABLE_COUNT": {
     "src": "Placeable count",
     "out": "Plazierbare Anzahl"

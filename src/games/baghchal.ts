@@ -695,8 +695,8 @@ export class BaghChalGame extends GameBase {
 
     public sidebarStatuses(): IStatus[] {
         return [
-            { key: i18next.t("apgames:status.baghchal.GOATS_IN_HAND"), value: [this.goatsInHand.toString()] },
-            { key: i18next.t("apgames:status.baghchal.GOATS_CAPTURED"), value: [this.goatsCaptured.toString()] },
+            { key: this.neutralAreaLabel("apgames:status.baghchal.GOATS_IN_HAND"), value: [this.goatsInHand.toString()] },
+            { key: this.neutralAreaLabel("apgames:status.baghchal.GOATS_CAPTURED"), value: [this.goatsCaptured.toString()] },
         ];
     }
 

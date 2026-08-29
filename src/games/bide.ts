@@ -585,8 +585,8 @@ export class BideGame extends GameBase {
         }
 
         return [
-            { name: i18next.t("apgames:status.SCORES"), scores: finalScores },
-            { name: i18next.t("apgames:status.PIECESINHAND"), scores: this.inhand },
+            { name: this.neutralAreaLabel("apgames:status.SCORES"), scores: finalScores },
+            { name: this.neutralAreaLabel("apgames:status.PIECESINHAND"), scores: this.inhand },
         ]
     }
 

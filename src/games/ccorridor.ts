@@ -665,7 +665,7 @@ export class CairoCorridorGame extends GameBase {
     }
 
     public sidebarScores(): IScores[] {
-        return [{ name: i18next.t("apgames:status.SCORES"), scores: [this.scores[0], this.scores[1]] }];
+        return [{ name: this.neutralAreaLabel("apgames:status.SCORES"), scores: [this.scores[0], this.scores[1]] }];
     }
 
     public clone(): CairoCorridorGame {

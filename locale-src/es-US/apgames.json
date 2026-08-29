@@ -2523,6 +2523,14 @@
     "src": "{{count}} pieces",
     "out": "{{count}} piezas"
   },
+  "status.blam.SCORE_one": {
+    "src": "{{score}} ({{count}} piece)",
+    "out": "{{score}} ({{count}} pieza)"
+  },
+  "status.blam.SCORE_other": {
+    "src": "{{score}} ({{count}} pieces)",
+    "out": "{{score}} ({{count}} piezas)"
+  },
   "status.bug.PLACEABLE_COUNT": {
     "src": "Placeable count",
     "out": "Piezas colocables"

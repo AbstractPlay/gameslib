@@ -880,7 +880,7 @@ export class AzacruGame extends GameBase {
         for (let p = 1; p <= this.numplayers; p++) {
             scores.push(this.getPlayerScore(p));
         }
-        return [{ name: i18next.t("apgames:status.pacru.TILES"), scores }];
+        return [{ name: this.neutralAreaLabel("apgames:status.pacru.TILES"), scores }];
     }
 
     protected checkEOG(): AzacruGame {

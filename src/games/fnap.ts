@@ -976,8 +976,8 @@ export class FnapGame extends GameBaseSimultaneous {
 
     public sidebarScores(): IScores[] {
         return [
-            { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
-            { name: i18next.t("apgames:status.fnap"), scores: this.fnap === 1 ? ["\u2021", ""] : ["", "\u2021"] }
+            { name: this.neutralAreaLabel("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
+            { name: this.neutralAreaLabel("apgames:status.fnap"), scores: this.fnap === 1 ? ["\u2021", ""] : ["", "\u2021"] }
         ]
     }
 

@@ -898,7 +898,7 @@ export class BukuGame extends GameBase {
     public sidebarScores(): IScores[] {
         const pieceCounts = this.gameover ? [0, 0] : this.pieceCounts();
         return [
-            { name: i18next.t("apgames:status.buku.SCORES_ONBOARD"), scores: [`${this.getPlayerScore(1)} / ${pieceCounts[0]}`, `${this.getPlayerScore(2)} / ${pieceCounts[1]}`] },
+            { name: this.neutralAreaLabel("apgames:status.buku.SCORES_ONBOARD"), scores: [`${this.getPlayerScore(1)} / ${pieceCounts[0]}`, `${this.getPlayerScore(2)} / ${pieceCounts[1]}`] },
         ]
     }
 

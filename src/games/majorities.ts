@@ -918,7 +918,7 @@ export class MajoritiesGame extends GameBase {
         const d1 = this.lineWinners[2].filter(w => w === 1).length;
         const d2 = this.lineWinners[2].filter(w => w === 2).length;
         return [{
-            name: i18next.t("apgames:status.majorities"),
+            name: this.neutralAreaLabel("apgames:status.majorities"),
             scores: [
                 `${h1}, ${a1}, ${d1}`,
                 `${h2}, ${a2}, ${d2}`,

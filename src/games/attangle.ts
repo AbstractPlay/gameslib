@@ -614,7 +614,7 @@ export class AttangleGame extends GameBase {
 
     public sidebarScores(): IScores[] {
         return [
-            { name: i18next.t("apgames:status.PIECESINHAND"), scores: this.pieces }
+            { name: this.neutralAreaLabel("apgames:status.PIECESINHAND"), scores: this.pieces }
         ]
     }
 

@@ -558,8 +558,8 @@ export class FocusGame extends GameBase {
 
     public sidebarScores(): IScores[] {
         return [
-            { name: i18next.t("apgames:status.focus"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
-            { name: i18next.t("apgames:status.PIECESINHAND"), scores: this.inhand }
+            { name: this.neutralAreaLabel("apgames:status.focus"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
+            { name: this.neutralAreaLabel("apgames:status.PIECESINHAND"), scores: this.inhand }
         ]
     }
 

@@ -1000,8 +1000,8 @@ export class ACityGame extends GameBase {
 
     public sidebarScores(): IScores[] {
         return [
-            { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
-            { name: i18next.t("apgames:status.CLAIMS_REMAINING"), scores: [3 - this.claimed[0].length, 3 - this.claimed[1].length] },
+            { name: this.neutralAreaLabel("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
+            { name: this.neutralAreaLabel("apgames:status.CLAIMS_REMAINING"), scores: [3 - this.claimed[0].length, 3 - this.claimed[1].length] },
         ]
     }
 

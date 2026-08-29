@@ -747,7 +747,7 @@ export class EmergoGame extends GameBase {
         const inhand = this.inhand;
         if (inhand.reduce((acc, curr) => acc + curr, 0) > 0) {
             return [
-                { name: i18next.t("apgames:status.PIECESINHAND"), scores: this.inhand }
+                { name: this.neutralAreaLabel("apgames:status.PIECESINHAND"), scores: this.inhand }
             ]
         }
         return [];

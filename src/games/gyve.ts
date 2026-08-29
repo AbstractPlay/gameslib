@@ -605,7 +605,7 @@ export class GyveGame extends GameBase {
 
     public sidebarScores(): IScores[] {
         const scores: number[] = [this.getPlayerScore(1), this.getPlayerScore(2)];
-        return [{ name: i18next.t("apgames:status.GROUPCOUNT"), scores}];
+        return [{ name: this.neutralAreaLabel("apgames:status.GROUPCOUNT"), scores}];
     }
 
     public clone(): GyveGame {

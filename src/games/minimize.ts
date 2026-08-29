@@ -526,7 +526,7 @@ export class MinimizeGame extends GameBase {
 
     public sidebarScores(): IScores[] {
         return [
-            { name: i18next.t("apgames:status.SCORES"),
+            { name: this.neutralAreaLabel("apgames:status.SCORES"),
               scores: [this.getGroupSizes(1).join(","),
                        this.getGroupSizes(2).join(",")] }
         ]

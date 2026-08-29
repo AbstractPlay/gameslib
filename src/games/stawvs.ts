@@ -1085,7 +1085,7 @@ export class StawvsGame extends GameBase {
 
     public sidebarScores(): IScores[] {
         const iscoreObj = {
-            name: i18next.t("apgames:status.SCORES"),
+            name: this.neutralAreaLabel("apgames:status.SCORES"),
             scores: [this.getPlayerScore(1), this.getPlayerScore(2)]
         };
         for (let n = 3; n <= this.numplayers; n++) {

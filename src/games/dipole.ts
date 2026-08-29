@@ -713,7 +713,7 @@ export class DipoleGame extends GameBase {
 
     public sidebarScores(): IScores[] {
         return [
-            { name: i18next.t("apgames:status.DISTANCES"), scores: [this.totalDist(1), this.totalDist(2)] }
+            { name: this.neutralAreaLabel("apgames:status.DISTANCES"), scores: [this.totalDist(1), this.totalDist(2)] }
         ]
     }
 

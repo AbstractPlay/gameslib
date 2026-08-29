@@ -800,7 +800,7 @@ export class KachitGame extends GameBase {
 
     public sidebarScores(): IScores[] {
         return [
-            { name: i18next.t("apgames:status.PIECESINHAND"), scores: this.inhand }
+            { name: this.neutralAreaLabel("apgames:status.PIECESINHAND"), scores: this.inhand }
         ]
     }
 

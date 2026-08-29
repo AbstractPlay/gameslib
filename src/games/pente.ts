@@ -996,7 +996,7 @@ export class PenteGame extends InARowBase {
 
     public sidebarScores(): IScores[] {
         return [
-            { name: i18next.t("apgames:status.SCORES"), scores: [`${this.getPlayerScore(1)} / ${this.threshold}`, `${this.getPlayerScore(2)} / ${this.threshold}`] },
+            { name: this.neutralAreaLabel("apgames:status.SCORES"), scores: [`${this.getPlayerScore(1)} / ${this.threshold}`, `${this.getPlayerScore(2)} / ${this.threshold}`] },
         ]
     }
 

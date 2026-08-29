@@ -1409,7 +1409,7 @@ export class ChaseGame extends GameBase {
         const speed = this.totalSpeed();
         if (speed < 25) {
             const delta = 25 - speed;
-            return [{ key: i18next.t("apgames:status.chase.BALANCE"), value: [i18next.t("apgames:status.chase.IMBALANCE", {delta})] }];
+            return [{ key: this.neutralAreaLabel("apgames:status.chase.BALANCE"), value: [this.neutralAreaLabel("apgames:status.chase.IMBALANCE", {delta})] }];
         } else
             return [];
     }

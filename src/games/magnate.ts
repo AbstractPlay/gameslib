@@ -2908,7 +2908,7 @@ export class MagnateGame extends GameBase {
             s + " (" + this.getTotalScore((i + 1) as playerid) + ")"
                               );
         return [
-            { name: i18next.t("apgames:status.SCORES"), scores },
+            { name: this.neutralAreaLabel("apgames:status.SCORES"), scores },
         ];
     }
 

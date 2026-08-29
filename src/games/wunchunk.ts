@@ -698,7 +698,7 @@ export class WunchunkGame extends GameBase {
         const strings = scores.map(lst => `${lst[0]}${lst.length > 1 ? ` (size ${lst.length - 1}: ${lst[lst.length - 1]})` : ""}`);
         return [
             {
-                name: i18next.t("apgames:status.SCORES"),
+                name: this.neutralAreaLabel("apgames:status.SCORES"),
                 scores: strings,
             }
         ];

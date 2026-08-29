@@ -4452,7 +4452,9 @@
     "blam": {
       "NUMPIECES_one": "{{count}} pièce",
       "NUMPIECES_many": "",
-      "NUMPIECES_other": "{{count}} pièces"
+      "NUMPIECES_other": "{{count}} pièces",
+      "SCORE_one": "{{score}} ({{count}} pièce)",
+      "SCORE_other": "{{score}} ({{count}} pièces)"
     },
     "bug": {
       "PLACEABLE_COUNT": "Nombre placable"

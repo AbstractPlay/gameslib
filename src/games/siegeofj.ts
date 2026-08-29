@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { AnnotationTree, APRenderRep, AreaPieces, Glyph, PiecesTree } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -925,16 +925,20 @@ export class SiegeOfJGame extends GameBase {
         return this.orgBoard[0].map(n => n.id).join(",");
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                node.push(i18next.t("apresults:PLACE.siegeofj", {player, where: r.where, what: r.what}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.siegeofj", {
+                    where: r.where!, what: r.what!,
+                });
+                return true;
+
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): SiegeOfJGame {
         return Object.assign(new SiegeOfJGame(), deepclone(this) as SiegeOfJGame);

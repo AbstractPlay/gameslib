@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph, IsoPiece, MarkerEdge } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -1761,52 +1761,48 @@ export class DruidGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult, players: string[] = []): boolean {
-        let resolved = false;
+
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "eog": {
                 const edges = r.reason !== undefined ? this.parseHexEdgeReason(r.reason) : undefined;
-                if (edges !== undefined) {
-                    const winResult = results.find(x => x.type === "winners");
-                    let winnerName = player;
-                    if (winResult?.type === "winners" && winResult.players.length > 0) {
-                        const w = winResult.players[0];
-                        winnerName = w <= players.length ? players[w - 1] : `Player ${w}`;
-                    }
-                    node.push(i18next.t("apresults:EOG.druid_hex", {
-                        player: winnerName,
-                        edges: this.hexEdgeListLabel(edges),
-                    }));
-                    resolved = true;
+                if (edges === undefined) {
+                    return false;
                 }
-                break;
+                const winResult = ctx.results.find(x => x.type === "winners");
+                let winnerSeat = ctx.defaultSeat;
+                if (winResult?.type === "winners" && winResult.players.length > 0) {
+                    winnerSeat = winResult.players[0];
+                }
+                this.pushSeatChatLine(lines, winnerSeat, "apresults:EOG.druid_hex", {
+                    edges: this.hexEdgeListLabel(edges),
+                });
+                return true;
             }
             case "place":
                 if (r.what === "lintel") {
-                    node.push(i18next.t("apresults:PLACE.druid_lintel", { player, where: r.where }));
-                    resolved = true;
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.druid_lintel", {where: r.where!});
                 } else if (r.what === "druid") {
-                    node.push(i18next.t("apresults:PLACE.druid_druid", { player, where: r.where }));
-                    resolved = true;
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.druid_druid", {where: r.where!});
                 } else {
-                    node.push(i18next.t("apresults:PLACE.druid_sarsen", { player, where: r.where }));
-                    resolved = true;
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.druid_sarsen", {where: r.where!});
                 }
-                break;
+                return true;
             case "move":
-                node.push(i18next.t("apresults:MOVE.druid_walk", { player, from: r.from, to: r.to }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.druid_walk", {
+                    from: r.from!, to: r.to!,
+                });
+                return true;
             case "bearoff":
-                node.push(i18next.t("apresults:BEAROFF.druid", { player, from: r.from }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:BEAROFF.druid", {from: r.from!});
+                return true;
             case "pass":
-                node.push(i18next.t("apresults:PASS.druid", { player }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.druid", {});
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
 
     public clone(): DruidGame {

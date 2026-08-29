@@ -1,10 +1,9 @@
-import {
+import { 
     GameBase,
     IAPGameState,
     IClickResult,
     IIndividualState,
-    IValidationResult,
-} from "./_base";
+    IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -699,32 +698,31 @@ export class PhutballGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                node.push(i18next.t("apresults:PLACE.phutball", {player, where: r.where}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.phutball", {where: r.where!});
+                return true;
             case "move":
-                if (results.length === 2) {
-                    node.push(i18next.t("apresults:MOVE.phutball_last", {player, from: r.from, to: r.to}));
-                } else if (node.length === 1) {
-                    node.push(i18next.t("apresults:MOVE.phutball", {player, from: r.from, to: r.to}));
-                } else if (node.length < results.length - 1) {
-                    node.push(i18next.t("apresults:MOVE.phutball_to", {to: r.to}));
+                if (ctx.results.length === 2) {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.phutball_last", {from: r.from!, to: r.to!});
+                } else if (lines.length === 0) {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.phutball", {from: r.from!, to: r.to!});
+                } else if (lines.length < ctx.results.length - 1) {
+                    this.pushNeutralChatLine(lines, "apresults:MOVE.phutball_to", {to: r.to!});
                 } else {
-                    node.push(i18next.t("apresults:MOVE.phutball_to_last", {to: r.to}));
+                    this.pushNeutralChatLine(lines, "apresults:MOVE.phutball_to_last", {to: r.to!});
                 }
-                resolved = true;
-                break;
+                return true;
             case "remove":
-                node.push(i18next.t("apresults:REMOVE.phutball", {count: r.num}));
-                resolved = true;
-                break;
+                this.pushNeutralChatLine(lines, "apresults:REMOVE.phutball", {count: r.num!});
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     protected recordExportExclude(): string[] {
         return ["place", "move", "winners", "eog"];

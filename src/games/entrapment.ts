@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, MarkerLine } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -1436,57 +1436,53 @@ export class EntrapmentGame extends GameBase {
         ]
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
                 if (r.what === "roamer") {
-                    node.push(i18next.t("apresults:PLACE.entrapment_roamer", { player, where: r.where }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.entrapment_roamer", { where: r.where! });
                 } else {
-                    node.push(i18next.t("apresults:PLACE.entrapment_barrier", { player, where: r.where }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.entrapment_barrier", { where: r.where! });
                 }
-                resolved = true;
-                break;
+                return true;
             case "move":
                 if (r.what === "roamer") {
-                    if (r.how !== undefined) {
-                        node.push(i18next.t("apresults:MOVE.entrapment_roamer_jump", { player, from: r.from, to: r.to, jumped: r.how }));
-                    } else {
-                        node.push(i18next.t("apresults:MOVE.entrapment_roamer", { player, from: r.from, to: r.to }));
-                    }
+                if (r.how !== undefined) {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.entrapment_roamer_jump", { from: r.from!, to: r.to!, jumped: r.how! });
                 } else {
-                    node.push(i18next.t("apresults:MOVE.entrapment_barrier", { player, from: r.from, to: r.to }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.entrapment_roamer", { from: r.from!, to: r.to! });
                 }
-                resolved = true;
-                break;
+                } else {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.entrapment_barrier", { from: r.from!, to: r.to! });
+                }
+                return true;
             case "capture":
                 if (r.what === "self") {
-                    node.push(i18next.t("apresults:CAPTURE.entrapment_self", { player, where: r.where }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.entrapment_self", { where: r.where! });
                 } else {
-                    node.push(i18next.t("apresults:CAPTURE.entrapment_opponent", { player, where: r.where }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.entrapment_opponent", { where: r.where! });
                 }
-                resolved = true;
-                break;
+                return true;
             case "remove":
                 if (r.what === "self") {
-                    node.push(i18next.t("apresults:REMOVE.entrapment_self", { player, where: r.where, how: r.how }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:REMOVE.entrapment_self", { where: r.where!, how: r.how! });
                 } else {
-                    node.push(i18next.t("apresults:REMOVE.entrapment_opponent", { player, where: r.where, how: r.how }));
-
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:REMOVE.entrapment_opponent", { where: r.where!, how: r.how! });
                 }
-                resolved = true;
-                break;
+                return true;
             case "eog":
                 if (r.reason === "stalemate") {
-                    node.push(i18next.t("apresults:EOG.stalemate"));
+                this.pushNeutralChatLine(lines, "apresults:EOG.stalemate");
                 } else {
-                    node.push(i18next.t("apresults:EOG.default"));
+                this.pushNeutralChatLine(lines, "apresults:EOG.default");
                 }
-                resolved = true;
-                break;
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): EntrapmentGame {
         return new EntrapmentGame(this.serialize());

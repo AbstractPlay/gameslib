@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, MarkerEdge, MarkerFlood } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -687,19 +687,23 @@ export class ConhexGame extends GameBase {
         return rep;
     }
 
-    public chat(vertex: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                vertex.push(i18next.t("apresults:PLACE.conhex", {player, where: r.where, what: r.what}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.conhex", {
+                    where: r.where!, what: r.what!,
+                });
+                return true;
             case "claim":
-                vertex.push(i18next.t("apresults:CLAIM.conhex", {player, where: r.where}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.conhex", {
+                    where: r.where!,
+                });
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
 
     public clone(): ConhexGame {

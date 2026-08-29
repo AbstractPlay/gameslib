@@ -1404,6 +1404,7 @@ export class AgereGame extends GameBase {
         }
     }
 
+
     public clone(): AgereGame {
         return Object.assign(new AgereGame(), deepclone(this) as AgereGame);
         // return new AgereGame(this.serialize());

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic, MarkerFlood } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -979,24 +979,23 @@ export class StorisendeGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                node.push(i18next.t("apresults:MOVE.complete", {player, from: r.from, to: r.to, count: r.count}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.complete", {from: r.from!, to: r.to!, count: r.count!});
+                return true;
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.multiple", {player, count: r.count}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.multiple", {count: r.count!});
+                return true;
             case "convert":
-                node.push(i18next.t("apresults:CONVERT.storisende", {player, where: r.what, context: r.into}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONVERT.storisende", {where: r.what!, context: r.into!});
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public getCustomRotation(): number | undefined {
         return 0;

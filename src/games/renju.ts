@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
@@ -1699,39 +1699,36 @@ export class RenjuGame extends InARowBase {
         };
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
                 if (r.what === "tentative") {
-                    node.push(i18next.t("apresults:PLACE.renju_tentative", { player, where: r.where }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.renju_tentative", { where: r.where! });
                 } else if (r.what === "choose") {
-                    node.push(i18next.t("apresults:PLACE.renju_tentative_choose", { player, where: r.where }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.renju_tentative_choose", { where: r.where! });
                 } else {
-                    node.push(i18next.t("apresults:PLACE.nowhat", { player, where: r.where }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
                 }
-                resolved = true;
-                break;
+                return true;
             case "pie":
-                node.push(i18next.t("apresults:PIE.default", { player }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PIE.default", {});
+                return true;
             case "pass":
                 if (r.why === "tiebreaker") {
-                    node.push(i18next.t("apresults:PASS.tiebreaker", { player }));
-                    resolved = true;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.tiebreaker", {});
                 } else {
-                    node.push(i18next.t("apresults:PASS.simple", { player }));
-                    resolved = true;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.simple", {});
                 }
-                break;
+                return true;
             case "declare":
-                node.push(i18next.t("apresults:DECLARE.renju", { player, count: r.count }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DECLARE.renju", { count: r.count! });
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): RenjuGame {
         return new RenjuGame(this.serialize());

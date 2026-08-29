@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -968,40 +968,37 @@ export class VoloGame extends GameBase {
         ]
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                node.push(i18next.t("apresults:MOVE.volo", { player, from: r.from, how: r.how, count: r.count }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.volo", { from: r.from!, how: r.how!, count: r.count! });
+                return true;
             case "place":
-                node.push(i18next.t("apresults:PLACE.volo", { player, where: r.where }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.volo", { where: r.where! });
+                return true;
             case "remove":
-                node.push(i18next.t("apresults:REMOVE.volo", { player, how: r.how, num: r.num }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:REMOVE.volo", { how: r.how!, num: r.num! });
+                return true;
             case "pass":
                 if (r.why === "forced") {
-                    node.push(i18next.t("apresults:PASS.forced", { player }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.forced", {});
                 } else {
-                    node.push(i18next.t("apresults:PASS.simple", { player }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.simple", {});
                 }
-                resolved = true;
-                break;
+                return true;
             case "eog":
                 if (r.reason === "pass") {
-                    node.push(i18next.t("apresults:EOG.consecutive_passes"));
+                this.pushNeutralChatLine(lines, "apresults:EOG.consecutive_passes");
                 } else {
-                    node.push(i18next.t("apresults:EOG.default"));
+                this.pushNeutralChatLine(lines, "apresults:EOG.default");
                 }
-                resolved = true;
-                break;
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): VoloGame {
         return new VoloGame(this.serialize());

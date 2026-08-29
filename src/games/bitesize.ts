@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -413,24 +413,23 @@ export class BitesizeGame extends GameBase {
                   scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }];
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
-            case "place": // note that when chat() is invoked, the current player is already updated
-                node.push(i18next.t("apresults:PLACE.complete", { player, where: r.where, what: "piece" }));
-                resolved = true;
-                break;
+            case "place":
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.complete", { where: r.where!, what: "piece" });
+                return true;
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.bitesize", { player, where: r.where, count: r.count}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.bitesize", { where: r.where!, count: r.count!});
+                return true;
             case "eog":
-                node.push(i18next.t("apresults:EOG.default"));
-                resolved = true;
-                break;
+                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public state(): IBitesizeState {
         return {

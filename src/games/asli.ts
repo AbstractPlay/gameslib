@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult, IScores, IRenderOpts } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult, IScores, IRenderOpts, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic, MarkerDots, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -797,20 +797,20 @@ export class AsliGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                node.push(i18next.t("apresults:PLACE.nowhat", {player, where: r.where}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", {where: r.where!});
+                return true;
             case "pass":
-                node.push(i18next.t(r.why === undefined ? "apresults:PASS.asli" : "apresults:PASS.pie", {player}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, r.why === undefined ? "apresults:PASS.asli" : "apresults:PASS.pie", {});
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public sidebarScores(): IScores[] {
         let scores: number[] = [this.prison[1], this.prison[0]];

@@ -1,5 +1,5 @@
 /* eslint-disable no-constant-condition */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AnnotationBasic, MarkerFlood, MarkerLine, MarkerShading } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -1328,38 +1328,37 @@ export class AnacheGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
                 if (r.what === "dragon") {
-                    if (r.how === "jump") {
-                        node.push(i18next.t("apresults:MOVE.anache_dragon_jump", { player, from: r.from, to: r.to }));
-                    } else {
-                        node.push(i18next.t("apresults:MOVE.anache_dragon", { player, from: r.from, dir: r.how, count: r.count }));
-                    }
-                } else if (r.what === "knight") {
-                    node.push(i18next.t("apresults:MOVE.anache_knight", { player, from: r.from, dir: r.how, count: r.count }));
-                } else if (r.what === "man") {
-                    node.push(i18next.t("apresults:MOVE.anache_man", { player, from: r.from, dir: r.how, count: r.count }));
+                if (r.how === "jump") {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.anache_dragon_jump", { from: r.from!, to: r.to! });
+                } else {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.anache_dragon", { from: r.from!, dir: r.how!, count: r.count! });
                 }
-                resolved = true;
-                break;
+                } else if (r.what === "knight") {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.anache_knight", { from: r.from!, dir: r.how!, count: r.count! });
+                } else if (r.what === "man") {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.anache_man", { from: r.from!, dir: r.how!, count: r.count! });
+                }
+                return true;
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.noperson.nowhere_count", { player, count: r.count }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.noperson.nowhere_count", { count: r.count! });
+                return true;
             case "eog":
                 if (r.reason === "breakthrough") {
-                    node.push(i18next.t("apresults:EOG.default"));
+                this.pushNeutralChatLine(lines, "apresults:EOG.default");
                 } else if (r.reason === "stalemate") {
-                    node.push(i18next.t("apresults:EOG.stalemate"));
+                this.pushNeutralChatLine(lines, "apresults:EOG.stalemate");
                 }
-                resolved = true;
-                break;
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public getPlayerPieces(player: number): number {
         return [...this.board.values()].filter(x => x === player).length;

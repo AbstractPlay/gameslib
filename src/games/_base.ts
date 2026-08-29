@@ -23,9 +23,10 @@ import { skipTurnShouldCloseRound } from "./_turn-skip";
 import { APGAMES_PRODUCTION } from "./_build-flags.generated";
 import { allowedChallengeVariantUids } from "./_gameinfo-filter";
 import { GameRng } from "../common/rng";
-import type { ChatActorRef } from "../common/chat-log";
-export type { ChatActorRef, ChatLogLine, ChatLogEntry, ChatLogTranslate } from "../common/chat-log";
+import type { ChatActorRef, ChatLogCollectContext, ChatLogEntry, ChatLogLine, ChatLogTextParamsInput } from "../common/chat-log";
+export type { ChatActorRef, ChatLogLine, ChatLogEntry, ChatLogTranslate, ChatLogCollectContext, ChatLogTextParamsInput } from "../common/chat-log";
 export { formatChatLogEntries, formatChatLogEntryNodes, chatPlayerToken, applyChatPlayerNames } from "../common/chat-log";
+import { chatPlayerToken, formatChatLogEntryNodes } from "../common/chat-log";
 import {
     computeElapsedMs,
     evaluateGrade,
@@ -816,154 +817,242 @@ export abstract class GameBase  {
         return { kind: "seat", seat };
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    /**
+     * Seat attributed to player-facing lines in a stack frame.
+     * Override when results use `r.who` or simultaneous indexing instead of `currplayer - 1`.
+     */
+    public resolveChatSeat(r: APMoveResult, currplayer: number): number {
+        void r;
+        let seat = currplayer - 1;
+        if (seat < 1) {
+            seat = this.numplayers;
+        }
+        return seat;
+    }
+
+    protected pushSeatChatLine(
+        lines: ChatLogLine[],
+        seat: number,
+        textKey: string,
+        textParams: ChatLogTextParamsInput = {},
+    ): void {
+        const merged: ChatLogTextParamsInput = { ...textParams, player: chatPlayerToken(seat) };
+        const cleaned = Object.fromEntries(
+            Object.entries(merged).filter((entry): entry is [string, string | number] => entry[1] !== undefined),
+        );
+        lines.push({
+            actor: this.getChatActorRef(seat),
+            textKey,
+            textParams: cleaned,
+        });
+    }
+
+    protected pushNeutralChatLine(
+        lines: ChatLogLine[],
+        textKey: string,
+        textParams?: ChatLogTextParamsInput,
+    ): void {
+        const line: ChatLogLine = {
+            actor: { kind: "none" },
+            textKey,
+        };
+        if (textParams !== undefined) {
+            const cleaned = Object.fromEntries(
+                Object.entries(textParams).filter((entry): entry is [string, string | number] => entry[1] !== undefined),
+            );
+            if (Object.keys(cleaned).length > 0) {
+                line.textParams = cleaned;
+            }
+        }
+        lines.push(line);
+    }
+
+    /**
+     * Emit structured chat for one result. Return true when handled.
+     * Games override alongside or instead of legacy {@link chat}.
+     */
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
+        const seat = ctx.defaultSeat;
+        switch (r.type) {
+            case "move":
+                if (r.what === undefined) {
+                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.nowhat", { from: r.from, to: r.to });
+                } else {
+                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.complete_what", {
+                        what: r.what, from: r.from, to: r.to,
+                    });
+                }
+                return true;
+            case "place":
+                if (r.what === undefined) {
+                    this.pushSeatChatLine(lines, seat, "apresults:PLACE.nowhat", { where: r.where });
+                } else {
+                    this.pushSeatChatLine(lines, seat, "apresults:PLACE.complete", {
+                        what: r.what, where: r.where,
+                    });
+                }
+                return true;
+            case "pass":
+                this.pushSeatChatLine(lines, seat, "apresults:PASS.simple", {});
+                return true;
+            case "button":
+            case "take-button":
+                this.pushSeatChatLine(lines, seat, "apresults:BUTTON", {});
+                return true;
+            case "play-second":
+                this.pushSeatChatLine(lines, seat, "apresults:PLAYSECOND", {});
+                return true;
+            case "komi":
+                this.pushSeatChatLine(lines, seat, "apresults:KOMI", { value: r.value });
+                return true;
+            case "flip":
+                this.pushSeatChatLine(lines, seat, "apresults:FLIP", { where: r.where, revealed: r.revealed });
+                return true;
+            case "reclaim":
+                this.pushNeutralChatLine(lines, "apresults:RECLAIM.noperson", { what: r.what });
+                return true;
+            case "capture":
+                if (r.where === undefined) {
+                    if (r.what === undefined) {
+                        this.pushNeutralChatLine(lines, "apresults:CAPTURE.minimal");
+                    } else {
+                        this.pushNeutralChatLine(lines, "apresults:CAPTURE.noperson.nowhere_what", { what: r.what });
+                    }
+                } else if (r.what === undefined) {
+                    this.pushNeutralChatLine(lines, "apresults:CAPTURE.noperson.nowhat", { where: r.where });
+                } else {
+                    this.pushNeutralChatLine(lines, "apresults:CAPTURE.noperson.simple", {
+                        what: r.what, where: r.where,
+                    });
+                }
+                return true;
+            case "bearoff":
+                this.pushSeatChatLine(lines, seat, "apresults:BEAROFF.complete", {
+                    count: parseInt(r.what!, 10), from: r.from,
+                });
+                return true;
+            case "promote":
+                this.pushNeutralChatLine(lines, "apresults:PROMOTE.mchess", { into: r.to });
+                return true;
+            case "orient":
+                this.pushSeatChatLine(lines, seat, "apresults:ORIENT.nowhat", {
+                    facing: r.facing, where: r.where,
+                });
+                return true;
+            case "add":
+                if (r.num === undefined) {
+                    this.pushSeatChatLine(lines, seat, "apresults:ADD.nonum", { where: r.where });
+                } else {
+                    this.pushSeatChatLine(lines, seat, "apresults:ADD.add", { count: r.num, where: r.where });
+                }
+                return true;
+            case "remove":
+                if (r.num === undefined) {
+                    this.pushSeatChatLine(lines, seat, "apresults:REMOVE.nonum", { count: r.num, where: r.where });
+                } else {
+                    this.pushSeatChatLine(lines, seat, "apresults:REMOVE.remove", { count: r.num, where: r.where });
+                }
+                return true;
+            case "claim":
+                this.pushSeatChatLine(lines, seat, "apresults:CLAIM.default", { where: r.where });
+                return true;
+            case "eog":
+                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                return true;
+            case "resigned": {
+                const rname = this.resolveChatPlayerName(r.player, ctx.players);
+                this.pushNeutralChatLine(lines, "apresults:RESIGN", { player: rname });
+                return true;
+            }
+            case "timeout": {
+                const tname = this.resolveChatPlayerName(r.player, ctx.players);
+                this.pushNeutralChatLine(lines, "apresults:TIMEOUT", { player: tname });
+                return true;
+            }
+            case "drawagreed":
+                this.pushNeutralChatLine(lines, "apresults:DRAWAGREED");
+                return true;
+            case "gameabandoned":
+                this.pushNeutralChatLine(lines, "apresults:ABANDONED");
+                return true;
+            case "winners": {
+                const names: string[] = [];
+                for (const w of r.players) {
+                    names.push(this.resolveChatPlayerName(w, ctx.players));
+                }
+                if (r.players.length === 0) {
+                    this.pushNeutralChatLine(lines, "apresults:WINNERSNONE");
+                } else {
+                    this.pushNeutralChatLine(lines, "apresults:WINNERS", {
+                        count: r.players.length,
+                        winners: names.join(", "),
+                    });
+                }
+                return true;
+            }
+            default:
+                return false;
+        }
+    }
+
+    protected resolveChatPlayerName(seat: number, players: string[]): string {
+        if (seat <= players.length && players[seat - 1] !== undefined && players[seat - 1].length > 0) {
+            return players[seat - 1];
+        }
+        return chatPlayerToken(seat);
+    }
+
+    public chatLogEntries(players: string[] = []): ChatLogEntry[] {
+        const entries: ChatLogEntry[] = [];
+        for (const state of this.stack) {
+            if (state._results !== undefined && state._results.length > 0) {
+                const lines: ChatLogLine[] = [];
+                const currplayer = state.currplayer as number;
+                const defaultSeat = this.resolveChatSeat(state._results[0], currplayer);
+                const ctx: ChatLogCollectContext = {
+                    results: state._results,
+                    currplayer,
+                    defaultSeat,
+                    players,
+                };
+                for (const r of state._results) {
+                    this.collectChatLogLine(lines, r, ctx);
+                }
+                if (state._results.find((res) => res.type === "deltaScore") !== undefined) {
+                    const thisInfo = Object.getPrototypeOf(this).constructor.gameinfo as APGamesInformation;
+                    if ("scores" in state && (thisInfo.flags === undefined || !thisInfo.flags.includes("simultaneous"))) {
+                        this.pushSeatChatLine(lines, defaultSeat, "apresults:SCORE_REPORT", {
+                            score: (state.scores as number[])[defaultSeat - 1],
+                        });
+                    }
+                }
+                entries.push({
+                    timestamp: (state._timestamp && new Date(state._timestamp).toISOString()) || "unknown",
+                    lines,
+                });
+            }
+        }
+        return entries;
+    }
+
+    /**
+     * @deprecated Legacy per-result hook; no longer used — implement {@link collectChatLogLine} instead.
+     */
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult, players: string[] = []): boolean {
+        void node;
+        void player;
+        void results;
+        void r;
+        void players;
         return false;
     }
 
     public chatLog(players: string[]): string[][] {
-        const result: string[][] = [];
-        for (const state of this.stack) {
-            if ( (state._results !== undefined) && (state._results.length > 0) ) {
-                const node: string[] = [(state._timestamp && new Date(state._timestamp).toISOString()) || "unknown"];
-                let otherPlayer = state.currplayer as number - 1;
-                if (otherPlayer < 1) {
-                    otherPlayer = this.numplayers;
-                }
-                let name = `Player ${otherPlayer}`;
-                if (otherPlayer <= players.length) {
-                    name = players[otherPlayer - 1];
-                }
-                for (const r of state._results) {
-                    if (!this.chat(node, name, state._results, r, players)) {
-                        switch (r.type) {
-                            case "move":
-                                if (r.what === undefined) {
-                                    node.push(i18next.t("apresults:MOVE.nowhat", {player: name, from: r.from, to: r.to}));
-                                } else {
-                                    node.push(i18next.t("apresults:MOVE.complete_what", {player: name, what: r.what, from: r.from, to: r.to}));
-                                }
-                                break;
-                            case "place":
-                                if (r.what === undefined) {
-                                    node.push(i18next.t("apresults:PLACE.nowhat", {player: name, where: r.where}));
-                                } else {
-                                    node.push(i18next.t("apresults:PLACE.complete", {player: name, what: r.what, where: r.where}));
-                                }
-                                break;
-                            case "pass":
-                                node.push(i18next.t("apresults:PASS.simple", {player: name}));
-                                break;
-                            case "button":
-                            case "take-button":
-                                node.push(i18next.t("apresults:BUTTON", {player: name}));
-                                break;
-                            case "play-second":
-                                node.push(i18next.t("apresults:PLAYSECOND", {player: name}));
-                                break;
-                            case "komi":
-                                node.push(i18next.t("apresults:KOMI", {player: name, value: r.value}));
-                                break;
-                            case "flip":
-                                node.push(i18next.t("apresults:FLIP", {player: name, where: r.where, revealed: r.revealed}));
-                                break;
-                            case "reclaim":
-                                node.push(i18next.t("apresults:RECLAIM.noperson", {what: r.what}));
-                                break;
-                            case "capture":
-                                if (r.where === undefined) {
-                                    if (r.what === undefined) {
-                                        node.push(i18next.t("apresults:CAPTURE.minimal"));
-                                    } else {
-                                        node.push(i18next.t("apresults:CAPTURE.noperson.nowhere_what", {what: r.what}));
-                                    }
-                                } else {
-                                    if (r.what === undefined) {
-                                        node.push(i18next.t("apresults:CAPTURE.noperson.nowhat", {where: r.where}));
-                                    } else {
-                                        node.push(i18next.t("apresults:CAPTURE.noperson.simple", {what: r.what, where: r.where}));
-                                    }
-                                }
-                                break;
-                            case "bearoff":
-                                node.push(i18next.t("apresults:BEAROFF.complete", {count: parseInt(r.what!, 10), player: name, from: r.from}));
-                                break;
-                            case "promote":
-                                node.push(i18next.t("apresults:PROMOTE.mchess", {into: r.to}));
-                                break;
-                            case "orient":
-                                node.push(i18next.t("apresults:ORIENT.nowhat", {player: name, facing: r.facing, where: r.where}));
-                                break;
-                            case "add":
-                                if (r.num === undefined) {
-                                    node.push(i18next.t("apresults:ADD.nonum", { player: name, where: r.where }));
-                                } else {
-                                    node.push(i18next.t("apresults:ADD.add", { count: r.num , player: name, where: r.where }));
-                                }
-                                break;
-                            case "remove":
-                                if (r.num === undefined) {
-                                    node.push(i18next.t("apresults:REMOVE.nonum", { count: r.num , player: name, where: r.where }));
-                                } else {
-                                    node.push(i18next.t("apresults:REMOVE.remove", { count: r.num , player: name, where: r.where }));
-                                }
-                                break;
-                            case "claim":
-                                node.push(i18next.t("apresults:CLAIM.default", {player: name, where: r.where }));
-                                break;
-                            case "eog":
-                                node.push(i18next.t("apresults:EOG.default"));
-                                break;
-                            case "resigned": {
-                                let rname = `Player ${r.player}`;
-                                if (r.player <= players.length) {
-                                    rname = players[r.player - 1]
-                                }
-                                node.push(i18next.t("apresults:RESIGN", {player: rname}));
-                                break;
-                            }
-                            case "timeout": {
-                                let tname = `Player ${r.player}`;
-                                if (r.player <= players.length) {
-                                    tname = players[r.player - 1]
-                                }
-                                node.push(i18next.t("apresults:TIMEOUT", {player: tname}));
-                                break;
-                            }
-                            case "drawagreed":
-                                node.push(i18next.t("apresults:DRAWAGREED"));
-                                break;
-                            case "gameabandoned":
-                                node.push(i18next.t("apresults:ABANDONED"));
-                                break;
-                            case "winners": {
-                                const names: string[] = [];
-                                for (const w of r.players) {
-                                    if (w <= players.length) {
-                                        names.push(players[w - 1]);
-                                    } else {
-                                        names.push(`Player ${w}`);
-                                    }
-                                }
-                                if (r.players.length === 0)
-                                    node.push(i18next.t("apresults:WINNERSNONE"));
-                                else
-                                    node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
-                                break;
-                            }
-                        }
-                    }
-                }
-                if (state._results.find(r => r.type === "deltaScore") !== undefined) {
-                    const thisInfo = Object.getPrototypeOf(this).constructor.gameinfo as APGamesInformation;
-                    if ("scores" in state && (thisInfo.flags === undefined || !thisInfo.flags.includes("simultaneous"))) {
-                        node.push(i18next.t("apresults:SCORE_REPORT", {player: name, score: (state.scores as number[])[otherPlayer - 1]}));
-                    }
-                }
-                result.push(node);
-            }
-        }
-        return result;
+        return formatChatLogEntryNodes(
+            this.chatLogEntries(players),
+            players,
+            (key, params) => i18next.t(key, params),
+        );
     }
 
     /** Frozen stride shim — zips {@link moveHistory} with {@link resultsHistory}. Prefer {@link recordExportExclude} + default {@link getMoveList}. */

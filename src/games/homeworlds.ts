@@ -1,4 +1,4 @@
-import { GameBaseSkipTurn, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBaseSkipTurn, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { AnnotationHomeworlds, APRenderRep, AreaHWStash, BoardHomeworlds, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -2686,82 +2686,88 @@ export class HomeworldsGame extends GameBaseSkipTurn {
         return prev.systems.some((s) => s.owner === seatLetter);
     }
 
-    public chatLog(players: string[]): string[][] {
-        // eog, resign, winners, homeworld, discover, move, place, convert, capture, sacrifice, catastrophe, pass
-        const result: string[][] = [];
-        for (const state of this.stack) {
-            if ( (state._results !== undefined) && (state._results.length > 0) ) {
-                const node: string[] = [(state._timestamp && new Date(state._timestamp).toISOString()) || "unknown"];
-                let otherPlayer = state.currplayer - 1;
-                if (otherPlayer < 1) {
-                    otherPlayer = this.numplayers;
-                }
-                let name = `Player ${otherPlayer} (${this.player2seat(otherPlayer as playerid)})`;
-                if (otherPlayer <= players.length) {
-                    name = players[otherPlayer - 1] + ` (${this.player2seat(otherPlayer as playerid)})`;
-                }
-                for (const r of state._results) {
-                    switch (r.type) {
-                        case "homeworld":
-                            node.push(i18next.t("apresults:homeworlds.ESTABLISH", {player: name, name: r.name, ship: r.ship, stars: r.stars.join("+")}));
-                            break;
-                        case "discover":
-                            node.push(i18next.t("apresults:homeworlds.DISCOVER", {player: name, name: r.called, what: r.what}));
-                            break;
-                        case "move":
-                            node.push(i18next.t("apresults:homeworlds.MOVE", {player: name, from: r.from, to: r.to, what: r.what}));
-                            break;
-                        case "place":
-                            node.push(i18next.t("apresults:homeworlds.BUILD", {player: name, where: r.where, what: r.what}));
-                            break;
-                        case "convert":
-                            node.push(i18next.t("apresults:homeworlds.CONVERT", {player: name, what: r.what, into: r.into, where: r.where}));
-                            break;
-                        case "capture":
-                            node.push(i18next.t("apresults:homeworlds.CAPTURE", {player: name, where: r.where, what: r.what}));
-                            break;
-                        case "sacrifice":
-                            node.push(i18next.t("apresults:homeworlds.SACRIFICE", {player: name, where: r.where, what: r.what}));
-                            break;
-                        case "catastrophe":
-                            node.push(i18next.t("apresults:homeworlds.CATASTROPHE", {player: name, where: r.where, colour: r.trigger}));
-                            break;
-                        case "pass":
-                            node.push(i18next.t("apresults:homeworlds.PASS", {player: name}));
-                            break;
-                        case "eog":
-                            node.push(i18next.t("apresults:EOG.default"));
-                            break;
-                        case "resigned": {
-                            let rname = `Player ${r.player}`;
-                            if (r.player <= players.length) {
-                                rname = players[r.player - 1]
-                            }
-                            node.push(i18next.t("apresults:RESIGN", {player: rname}));
-                            break;
-                        }
-                        case "winners": {
-                            const names: string[] = [];
-                            for (const w of r.players) {
-                                if (w <= players.length) {
-                                    names.push(players[w - 1]);
-                                } else {
-                                    names.push(`Player ${w}`);
-                                }
-                            }
-                            if (r.players.length === 0)
-                                node.push(i18next.t("apresults:WINNERSNONE"));
-                            else
-                                node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
 
-                            break;
-                        }
-                    }
-                }
-                result.push(node);
-            }
+
+    protected homeworldsPlayerLabel(seat: number, players: string[]): string {
+        const base = this.resolveChatPlayerName(seat, players);
+        return `${base} (${this.player2seat(seat as playerid)})`;
+    }
+
+    protected pushHomeworldsSeatChatLine(
+        lines: ChatLogLine[],
+        seat: number,
+        players: string[],
+        textKey: string,
+        textParams: Record<string, string | number> = {},
+    ): void {
+        lines.push({
+            actor: { kind: "seat", seat },
+            textKey,
+            textParams: { ...textParams, player: this.homeworldsPlayerLabel(seat, players) },
+        });
+    }
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
+        const seat = ctx.defaultSeat;
+        const { players } = ctx;
+        switch (r.type) {
+            case "homeworld":
+                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.ESTABLISH", {
+                    name: r.name!,
+                    ship: r.ship!,
+                    stars: r.stars!.join("+"),
+                });
+                return true;
+            case "discover":
+                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.DISCOVER", {
+                    name: r.called!,
+                    what: r.what!,
+                });
+                return true;
+            case "move":
+                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.MOVE", {
+                    from: r.from!,
+                    to: r.to!,
+                    what: r.what!,
+                });
+                return true;
+            case "place":
+                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.BUILD", {
+                    where: r.where!,
+                    what: r.what!,
+                });
+                return true;
+            case "convert":
+                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.CONVERT", {
+                    what: r.what!,
+                    into: r.into!,
+                    where: r.where!,
+                });
+                return true;
+            case "capture":
+                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.CAPTURE", {
+                    where: r.where!,
+                    what: r.what!,
+                });
+                return true;
+            case "sacrifice":
+                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.SACRIFICE", {
+                    where: r.where!,
+                    what: r.what!,
+                });
+                return true;
+            case "catastrophe":
+                this.pushNeutralChatLine(lines, "apresults:homeworlds.CATASTROPHE", {
+                    where: r.where!,
+                    colour: r.trigger!,
+                });
+                return true;
+            case "pass":
+                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.PASS");
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return result;
     }
 
     public getCustomRotation(): number | undefined {

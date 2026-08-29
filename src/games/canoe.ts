@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, MarkerDots, MarkerFlood, MarkerLabel, MarkerLine, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -2756,58 +2756,48 @@ export class CanoeGame extends GameBase {
         };
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult, players: string[] = []): boolean {
+
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "roll": {
-                const who = (r as {who?: number}).who;
-                let roller = player;
-                if (who !== undefined) {
-                    roller = who <= players.length ? players[who - 1] : `Player ${who}`;
-                }
-                node.push(i18next.t("apresults:ROLL.canoe", {player: roller, values: (r as {values: number[]}).values.join(",")}));
+                const seat = r.who ?? ctx.defaultSeat;
+                this.pushSeatChatLine(lines, seat, "apresults:ROLL.canoe", {
+                    values: r.values!.join(","),
+                });
                 return true;
             }
             case "pass":
-                node.push(i18next.t("apresults:PASS.canoe", {player}));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.canoe", {});
                 return true;
             case "convert":
-                node.push(i18next.t("apresults:CONVERT.canoe", {
-                    player,
-                    where: (r as {where: string}).where,
-                    what: (r as {what: string}).what,
-                    into: (r as {into: string}).into,
-                }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONVERT.canoe", {
+                    where: r.where!, what: r.what!, into: r.into!,
+                });
                 return true;
             case "move":
-                node.push(i18next.t("apresults:MOVE.complete_what", {
-                    player,
-                    what: (r as {what: string}).what,
-                    from: (r as {from: string}).from,
-                    to: (r as {to: string}).to,
-                }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.complete_what", {
+                    what: r.what!, from: r.from!, to: r.to!,
+                });
                 return true;
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.canoe", {player, where: (r as {where: string}).where}));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.canoe", {where: r.where!});
                 return true;
             case "bearoff":
-                node.push(i18next.t("apresults:BEAROFF.canoe", {player}));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:BEAROFF.canoe", {});
                 return true;
             case "promote":
-                node.push(i18next.t("apresults:PROMOTE.canoe", {
-                    player,
-                    where: (r as {where: string}).where,
-                    from: (r as {from: string}).from,
-                }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PROMOTE.canoe", {
+                    where: r.where!, from: r.from!,
+                });
                 return true;
             case "deltaScore":
-                node.push(i18next.t("apresults:DELTA_SCORE_GAIN", {
-                    player,
-                    delta: (r as {delta: number}).delta,
-                    count: (r as {delta: number}).delta,
-                }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DELTA_SCORE_GAIN", {
+                    delta: r.delta!, count: r.delta!,
+                });
                 return true;
             default:
-                return false;
+                return super.collectChatLogLine(lines, r, ctx);
         }
     }
 

@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, MarkerFlood, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -806,28 +806,26 @@ export class MattockGame extends GameBase {
         ]
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                node.push(i18next.t("apresults:PLACE.mattock", {player, where: r.where}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.mattock", {where: r.where!});
+                return true;
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.mattock", {player, where: r.where}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.mattock", {where: r.where!});
+                return true;
             case "move":
-                node.push(i18next.t("apresults:MOVE.mattock", {player, from: r.from, to: r.to}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.mattock", {from: r.from!, to: r.to!});
+                return true;
             case "destroy":
-                node.push(i18next.t("apresults:DESTROY.mattock", {player, where: r.where}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DESTROY.mattock", {where: r.where!});
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public getStartingPosition(): string {
         // Return the locations of Player 1's miners at start of game.

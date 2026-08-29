@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -565,28 +565,27 @@ export class UnlurGame extends GameBase {
         return 1;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                node.push(i18next.t("apresults:PLACE.nowhat", { player, where: r.where }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                return true;
             case "pie":
-                node.push(i18next.t("apresults:PIE.unlur", { player }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PIE.unlur", {});
+                return true;
             case "eog":
                 if (r.reason === "foul") {
-                    node.push(i18next.t("apresults:EOG.unlur_foul"));
+                this.pushNeutralChatLine(lines, "apresults:EOG.unlur_foul");
                 } else {
-                    node.push(i18next.t("apresults:EOG.default"));
+                this.pushNeutralChatLine(lines, "apresults:EOG.default");
                 }
-                resolved = true;
-                break;
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): UnlurGame {
         return new UnlurGame(this.serialize());

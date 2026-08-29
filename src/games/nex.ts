@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -669,28 +669,28 @@ export class NexGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
                 if (r.who === 3) {
-                    node.push(i18next.t("apresults:PLACE.nex_neutral", { player, where: r.where }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nex_neutral", { where: r.where! });
                 } else {
-                    node.push(i18next.t("apresults:PLACE.nex", { player, where: r.where }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nex", { where: r.where! });
                 }
-                resolved = true;
-                break;
+                return true;
             case "swap":
                 if (r.who === 3) {
-                    node.push(i18next.t("apresults:SWAP.nex_neutral", { player, where: r.where }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SWAP.nex_neutral", { where: r.where! });
                 } else {
-                    node.push(i18next.t("apresults:SWAP.nex", { player, where: r.where }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SWAP.nex", { where: r.where! });
                 }
-                resolved = true;
-                break;
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): NexGame {
         return new NexGame(this.serialize());

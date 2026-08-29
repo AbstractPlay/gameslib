@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph, IsoPiece, MarkerFlood, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -924,20 +924,20 @@ export class TerraceGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.terrace", {context: r.what?.startsWith("*") ? "self" : "other", player, where: r.where, what: r.what?.substring(1)}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.terrace", {context: r.what?.startsWith("*") ? "self" : "other", where: r.where!, what: r.what?.substring(1) ?? ""});
+                return true;
             case "move":
-                node.push(i18next.t("apresults:PLACE.terrace", {player, size: r.what, from: r.from, to: r.to}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.terrace", {size: r.what!, from: r.from!, to: r.to!});
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): TerraceGame {
 

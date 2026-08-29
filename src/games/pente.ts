@@ -1,4 +1,4 @@
-import { IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
+import { IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -1000,28 +1000,28 @@ export class PenteGame extends InARowBase {
         ]
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                node.push(i18next.t("apresults:PLACE.nowhat", { player, where: r.where }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                return true;
             case "capture":
                 if (r.what === "self") {
-                    node.push(i18next.t("apresults:CAPTURE.pente_self", { player, count: r.count }));
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.pente_self", { count: r.count! });
                 } else {
-                    node.push(i18next.t("apresults:CAPTURE.pente", { player, count: r.count }));
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.pente", { count: r.count! });
                 }
-                resolved = true;
-                break;
+                return true;
             case "pass":
-                node.push(i18next.t("apresults:PASS.pie", { player }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.pie", {});
+                return true;
+
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): PenteGame {
         return new PenteGame(this.serialize());

@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, MarkerFlood, MarkerGlyph, MarkerLine, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -926,34 +926,33 @@ export class MajoritiesGame extends GameBase {
         }];
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                node.push(i18next.t("apresults:PLACE.nowhat", { player, where: r.where }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                return true;
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.majorities", { player, where: r.where, count: r.count }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.majorities", { where: r.where!, count: r.count! });
+                return true;
             case "claim":
                 if (r.what === "line") {
-                    node.push(i18next.t("apresults:CLAIM.majorities_line", { player, where: r.where }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.majorities_line", { where: r.where! });
                 } else {
-                    if (r.where === "H") {
-                        node.push(i18next.t("apresults:CLAIM.majorities_H", { player }));
-                    } else if (r.where === "A") {
-                        node.push(i18next.t("apresults:CLAIM.majorities_A", { player }));
-                    } else {
-                        node.push(i18next.t("apresults:CLAIM.majorities_D", { player }));
-                    }
+                if (r.where === "H") {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.majorities_H", {});
+                } else if (r.where === "A") {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.majorities_A", {});
+                } else {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.majorities_D", {});
                 }
-                resolved = true;
-                break;
+                }
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): MajoritiesGame {
         return new MajoritiesGame(this.serialize());

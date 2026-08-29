@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -540,28 +540,28 @@ export class MonkeyQueenGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
                 if (r.what === "queen") {
-                    node.push(i18next.t("apresults:MOVE.monkey", {context: "queen", player, from: r.from, to: r.to}));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.monkey", {context: "queen", from: r.from!, to: r.to!});
                 } else {
-                    node.push(i18next.t("apresults:MOVE.monkey", {context: "single", player, from: r.from, to: r.to}));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.monkey", {context: "single", from: r.from!, to: r.to!});
                 }
-                resolved = true;
-                break;
+                return true;
             case "capture":
                 if (r.what === "queen") {
-                    node.push(i18next.t("apresults:CAPTURE.monkey", {context: "queen"}));
+                this.pushNeutralChatLine(lines, "apresults:CAPTURE.monkey", {context: "queen"});
                 } else {
-                    node.push(i18next.t("apresults:CAPTURE.monkey", {context: "single"}));
+                this.pushNeutralChatLine(lines, "apresults:CAPTURE.monkey", {context: "single"});
                 }
-                resolved = true;
-                break;
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public inCheck(): number[] {
         const checked: number[] = [];

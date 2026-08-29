@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaPieces, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -724,14 +724,23 @@ export class RincalaGame extends GameBase {
         return this.hands[player - 1].map(pc => RincalaGame.value(pc)).reduce((a, b) => a + b, 0);
     }
 
-     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
+
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         if (r.type === "_group") {
             let resolved = true;
             for (const nested of r.results) {
                 if (nested.type === "sow") {
-                    node.push(i18next.t("apresults:SOW.rincala", {player, count: nested.pieces!.length, pieces: nested.pieces!.join(","), from: nested.from, to: nested.to!.join(",")}));
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SOW.rincala", {
+                        count: nested.pieces!.length,
+                        pieces: nested.pieces!.join(","),
+                        from: nested.from!.join(","),
+                        to: nested.to!.join(","),
+                    });
                 } else if (nested.type === "capture") {
-                    node.push(i18next.t("apresults:CAPTURE.complete", {player, where: nested.where, what: nested.what}));
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.complete", {
+                        where: nested.where!, what: nested.what!,
+                    });
                 } else {
                     resolved = false;
                     break;
@@ -739,7 +748,7 @@ export class RincalaGame extends GameBase {
             }
             return resolved;
         }
-        return false;
+        return super.collectChatLogLine(lines, r, ctx);
     }
 
     public sameMove(move1: string, move2: string): boolean {

@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IStatus, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaPieces, BoardBasic, Colourfuncs, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -1434,28 +1434,26 @@ export class ArimaaGame extends GameBase {
         return [{ key: i18next.t("apgames:status.arimaa.HARLOG"), value: [this.harlog().toFixed(2)] } as IStatus];
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                node.push(i18next.t("apresults:PLACE.complete", {player, what: pc2name.get(r.what as Piece), where: r.where}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.complete", {what: pc2name.get(r.what! as Piece)!, where: r.where!});
+                return true;
             case "move":
-                node.push(i18next.t("apresults:MOVE.nowhat", {player, from: r.from, to: r.to}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.nowhat", {from: r.from!, to: r.to!});
+                return true;
             case "destroy":
-                node.push(i18next.t("apresults:DESTROY.arimaa", {colour: isLower(r.what!) ? "silver" : "gold", what: pc2name.get(r.what!.toUpperCase() as Piece), where: r.where}));
-                resolved = true;
-                break;
+                this.pushNeutralChatLine(lines, "apresults:DESTROY.arimaa", {colour: isLower(r.what!) ? "silver" : "gold", what: pc2name.get(r.what!.toUpperCase() as Piece)!, where: r.where!});
+                return true;
             case "announce":
-                node.push(i18next.t("apresults:ANNOUNCE.arimaa"));
-                resolved = true;
-                break;
+                this.pushNeutralChatLine(lines, "apresults:ANNOUNCE.arimaa");
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): ArimaaGame {
         const cloned = Object.assign(new ArimaaGame(), deepclone(this) as ArimaaGame);

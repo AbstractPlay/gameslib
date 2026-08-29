@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -681,24 +681,24 @@ export class OnagerGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
                 if (this.graph.neighbours(r.from).includes(r.to)) {
-                    node.push(i18next.t("apresults:MOVE.onager_walk", {player, from: r.from, to: r.to}));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.onager_walk", {from: r.from!, to: r.to!});
                 } else {
-                    node.push(i18next.t("apresults:MOVE.onager_jump", {player, from: r.from, to: r.to}));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.onager_jump", {from: r.from!, to: r.to!});
                 }
-                resolved = true;
-                break;
+                return true;
             case "place":
-                node.push(i18next.t("apresults:PLACE.onager", {player, where: r.where}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.onager", {where: r.where!});
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): OnagerGame {
         return new OnagerGame(this.serialize());

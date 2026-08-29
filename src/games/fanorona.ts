@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, type ChatLogCollectContext, type ChatLogEntry, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { Direction, RectGrid } from "../common";
@@ -726,71 +726,69 @@ export class FanoronaGame extends GameBase {
     //     return resolved;
     // }
 
-    public chatLog(players: string[]): string[][] {
-        // move, capture, eog, resign, winners
-        const result: string[][] = [];
+
+
+    protected frameChatActorSeat(currplayer: number): number {
+        let seat = currplayer + 1;
+        if (seat > this.numplayers) {
+            seat = 1;
+        }
+        return seat;
+    }
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
+        if (r.type === "eog") {
+            if (r.reason === "repetition") {
+                this.pushNeutralChatLine(lines, "apresults:EOG.repetition", { count: 4 });
+            } else {
+                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+            }
+            return true;
+        }
+        return super.collectChatLogLine(lines, r, ctx);
+    }
+
+    public chatLogEntries(players: string[] = []): ChatLogEntry[] {
+        const entries: ChatLogEntry[] = [];
         for (const state of this.stack) {
-            if ( (state._results !== undefined) && (state._results.length > 0) ) {
-                const node: string[] = [(state._timestamp && new Date(state._timestamp).toISOString()) || "unknown"];
-                let otherPlayer = state.currplayer + 1;
-                if (otherPlayer > this.numplayers) {
-                    otherPlayer = 1;
-                }
-                let name = `Player ${otherPlayer}`;
-                if (otherPlayer <= players.length) {
-                    name = players[otherPlayer - 1];
-                }
-                const moves = state._results.filter(r => r.type === "move");
-                node.push(i18next.t("apresults:MOVE.multiple", {player: name, moves: moves.map(m => {
+            if (state._results === undefined || state._results.length === 0) {
+                continue;
+            }
+            const lines: ChatLogLine[] = [];
+            const currplayer = state.currplayer as number;
+            const seat = this.frameChatActorSeat(currplayer);
+            const moves = state._results.filter((r) => r.type === "move");
+            this.pushSeatChatLine(lines, seat, "apresults:MOVE.multiple", {
+                moves: moves.map((m) => {
                     if (m.type === "move") {
                         return `${m.from}-${m.to}`;
-                    } else {
-                        throw new Error("Should never happen.");
                     }
-                }).join(", ")}));
-                const captures = state._results.filter(r => r.type === "capture");
-                if (captures.length > 0) {
-                    node.push(i18next.t("apresults:CAPTURE.noperson.nowhere_count", {count: captures.length}));
-                }
-                for (const r of state._results) {
-                    switch (r.type) {
-                        case "eog":
-                            if (r.reason === "repetition") {
-                                node.push(i18next.t("apresults:EOG.repetition", {count: 4}));
-                            } else {
-                                node.push(i18next.t("apresults:EOG.default"));
-                            }
-                            break;
-                        case "resigned": {
-                            let rname = `Player ${r.player}`;
-                            if (r.player <= players.length) {
-                                rname = players[r.player - 1]
-                            }
-                            node.push(i18next.t("apresults:RESIGN", {player: rname}));
-                            break;
-                        }
-                        case "winners": {
-                            const names: string[] = [];
-                            for (const w of r.players) {
-                                if (w <= players.length) {
-                                    names.push(players[w - 1]);
-                                } else {
-                                    names.push(`Player ${w}`);
-                                }
-                            }
-                            if (r.players.length === 0)
-                                node.push(i18next.t("apresults:WINNERSNONE"));
-                            else
-                                node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
-
-                            break;
-                        }
-                    }
-                }
-                result.push(node);
+                    throw new Error("Should never happen.");
+                }).join(", "),
+            });
+            const captures = state._results.filter((r) => r.type === "capture");
+            if (captures.length > 0) {
+                this.pushNeutralChatLine(lines, "apresults:CAPTURE.noperson.nowhere_count", {
+                    count: captures.length,
+                });
             }
+            const ctx: ChatLogCollectContext = {
+                results: state._results,
+                currplayer,
+                defaultSeat: seat,
+                players,
+            };
+            for (const r of state._results) {
+                if (r.type === "eog" || r.type === "resigned" || r.type === "winners") {
+                    this.collectChatLogLine(lines, r, ctx);
+                }
+            }
+            entries.push({
+                timestamp: (state._timestamp && new Date(state._timestamp).toISOString()) || "unknown",
+                lines,
+            });
         }
-        return result;
+        return entries;
     }
 
     public clone(): FanoronaGame {

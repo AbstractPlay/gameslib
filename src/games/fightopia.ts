@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import type { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -778,22 +778,29 @@ export class FightopiaGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                node.push(r.how !== undefined ?
-                    i18next.t("apresults:MOVE.fightopia", {context: "pivot", player, from: r.from, to: r.to}) :
-                    i18next.t("apresults:MOVE.fightopia", {context: r.what, player, from: r.from, to: r.to})
-                );
-                resolved = true;
-                break;
+                if (r.how !== undefined) {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.fightopia", {
+                        context: "pivot", from: r.from!, to: r.to!,
+                    });
+                } else {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.fightopia", {
+                        context: r.what!, from: r.from!, to: r.to!,
+                    });
+                }
+                return true;
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.fightopia", {context: r.what, player, where: r.where}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.fightopia", {
+                    context: r.what!, where: r.where!,
+                });
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
 
     public clone(): FightopiaGame {

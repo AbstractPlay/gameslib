@@ -9,9 +9,10 @@ Guide for adding a new game to gameslib. For API details see [Game object](/game
 3. **Choose a base class** (see below) and **create** `src/games/<uid>.ts`.
 4. **Run** `npm run generate-registry` (or any build/test) — the game registry is auto-generated from `static gameinfo`.
 5. **Add i18n** strings to `locales/en/apgames.json` (and `apresults.json` if needed).
-6. **Flag** new games with `experimental` in `gameinfo`.
-7. **Test** locally — [Testing](/gameslib/testing/).
-8. **PR** against `develop`; test on [play.dev.abstractplay.com](https://play.dev.abstractplay.com) after merge.
+6. **Move log** — plan chat output while implementing `move()`; see [Move log](#move-log) below and [Structured move log](/gameslib/structured-chat-log/).
+7. **Flag** new games with `experimental` in `gameinfo`.
+8. **Test** locally — [Testing](/gameslib/testing/) (including `assertChatLogParity` when you customize the collector).
+9. **PR** against `develop`; test on [play.dev.abstractplay.com](https://play.dev.abstractplay.com) after merge.
 
 ## Choosing a base class
 
@@ -124,6 +125,29 @@ Full detail: [Game object — mixin hooks](/gameslib/game-object/#mixin-hooks-pl
 - **Only setting `turnModel()` to `"sequenced"`** without sparse `getRounds()` — the header will say sequenced but export will still mis-pack moves.
 - **Subclassing `GameBaseSkipTurn` for “sequenced” reordering** — skip-turn is for **absence** (`null`), not extra actions by an active seat.
 
+## Move log
+
+The finished-game move table includes a **chat column** built from `chatLogEntries`. Treat it as part of shipping a game, not an afterthought.
+
+**Most games need some customization.** `GameBase.collectChatLogLine` only covers generic `APMoveResult` types (`move`, `place`, `capture`, `eog`, `winners`, …). Real games usually emit custom result types, game-specific wording, variant EOG lines, simultaneous per-seat attribution, or aggregated summaries — all of which need author code.
+
+| Situation | What to implement |
+|-----------|-------------------|
+| Custom or renamed result types | Override `collectChatLogLine`; add `apresults:` strings; always `super.collectChatLogLine` for unhandled types |
+| Simultaneous rounds (`GameBaseSimultaneous`) | Custom `chatLogEntries` — attribute each result by index or `r.who`, not one `defaultSeat` per frame |
+| Many atomic results, few log lines (Volcano-style) | Override `chatLogEntries` and aggregate at log time — do not change `results.push()` shape only for chat |
+| Non-human actor (bear, dealer) | Override `getChatActorRef` with a `label` actor |
+| Only standard result types, sequential turns | No override needed — default collector is enough |
+
+**Checklist while coding:**
+
+1. List every `_results` type your `move()` pushes — which need custom lines vs `super`?
+2. Add English strings to `locales/en/apresults.json` for any new `textKey`.
+3. Run `assertChatLogParity` in game tests when you override the collector (see [Testing — Chat log](/gameslib/testing/#chat-log)).
+4. Play through a finished game in the playground and read the move log — wrong seat, missing winner line, or duplicate noise means fix the collector before merge.
+
+Full API, patterns, and anti-patterns: **[Structured move log](/gameslib/structured-chat-log/)**.
+
 ## Implementation checklist
 
 - [ ] `static readonly gameinfo: APGamesInformation` (flag `experimental` must be set for all new games)
@@ -137,6 +161,7 @@ Full detail: [Game object — mixin hooks](/gameslib/game-object/#mixin-hooks-pl
 - [ ] `moves()` unless using `no-moves` flag
 - [ ] `handleClick` for interactive placement
 - [ ] `validateMove` / `checkEOG` as needed
+- [ ] **Move log** — reviewed every `_results` type; `collectChatLogLine` and/or `chatLogEntries` customized if needed (most games); `apresults.json` strings added; `assertChatLogParity` passes
 - [ ] Unit tests under `test/games/`
 - [ ] Renderer JSON validated against [renderer schema](/renderer/schema-reference/)
 
@@ -165,3 +190,4 @@ Implement `render(opts?)` returning `APRenderRep` for `@abstractplay/renderer`. 
 | Sequenced / duplicate actor per round | [Sequenced turn model](/gameslib/sequenced-turn-model/) · [Frogger](https://play.abstractplay.com/games/frogger) (`refills`) |
 | Hex graph | [Yavalath](https://play.abstractplay.com/games/yavalath) |
 | Custom `recordExportExclude` | [Volcano](https://play.abstractplay.com/games/volcano), [Tablero](https://play.abstractplay.com/games/tablero) |
+| Custom move log | [Minimize](https://play.abstractplay.com/games/minimize) (per-type collector), [Volcano](https://play.abstractplay.com/games/volcano) (aggregation), [Entropy](https://play.abstractplay.com/games/entropy) (simultaneous) |

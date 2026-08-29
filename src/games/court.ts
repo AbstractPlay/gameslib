@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IStashEntry } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IStashEntry, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -490,24 +490,23 @@ export class CourtGame extends GameBase {
         ];
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                node.push(i18next.t("apresults:PLACE.court", { player, where: r.where, what: r.what }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.court", { where: r.where!, what: r.what! });
+                return true;
             case "move":
-                node.push(i18next.t("apresults:MOVE.complete_one", { player, from: r.from, to: r.to }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.complete_one", { from: r.from!, to: r.to! });
+                return true;
             case "eog":
-                node.push(i18next.t("apresults:EOG.default"));
-                resolved = true;
-                break;
+                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): CourtGame {
         return new CourtGame(this.serialize());

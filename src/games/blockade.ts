@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IStashEntry, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IStashEntry, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, MarkerFence, MarkerFlood, MarkerLine, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -1139,28 +1139,27 @@ export class BlockadeGame extends GameBase {
         ];
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                node.push(i18next.t("apresults:MOVE.blockade", { player, from: r.from, to: r.to, count: r.count }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.blockade", { from: r.from!, to: r.to!, count: r.count! });
+                return true;
             case "place":
                 if (r.what === "h") {
-                    node.push(i18next.t("apresults:PLACE.blockade_h", { player, where: r.where }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.blockade_h", { where: r.where! });
                 } else {
-                    node.push(i18next.t("apresults:PLACE.blockade_v", { player, where: r.where }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.blockade_v", { where: r.where! });
                 }
-                resolved = true;
-                break;
+                return true;
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.blockade", { player, where: r.where }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.blockade", { where: r.where! });
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): BlockadeGame {
         return new BlockadeGame(this.serialize());

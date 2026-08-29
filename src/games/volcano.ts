@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogEntry, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaStackingExpanded, AreaVolcanoStash, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -987,71 +987,74 @@ export class VolcanoGame extends GameBase {
         return ["move", "eog", "winners"];
     }
 
-    public chatLog(players: string[]): string[][] {
-        // move, eject, capture, eog, resign, winners
-        const result: string[][] = [];
-        for (const state of this.stack) {
-            if ( (state._results !== undefined) && (state._results.length > 0) ) {
-                const node: string[] = [(state._timestamp && new Date(state._timestamp).toISOString()) || "unknown"];
-                let otherPlayer = state.currplayer + 1;
-                if (otherPlayer > this.numplayers) {
-                    otherPlayer = 1;
-                }
-                let name = `Player ${otherPlayer}`;
-                if (otherPlayer <= players.length) {
-                    name = players[otherPlayer - 1];
-                }
-                const moves = state._results.filter(r => r.type === "move" || r.type === "place");
-                node.push(i18next.t("apresults:MOVE.multiple", {player: name, moves: moves.map(m => {
-                    if (m.type === "move") {
-                        return `${m.from}-${m.to}`;
-                    } else if (m.type === "place") {
-                        return `${m.what!}-${m.where!}`;
-                    } else {
-                        throw new Error("Should never happen.");
-                    }
-                }).join(", ")}));
-                const eruptions = state._results.filter(r => r.type === "eject") as {type: "eject"; what: string}[];
-                node.push(i18next.t("apresults:ERUPTIONS", {eruptions: eruptions.map(m => m.what).join(", ")}));
-                const captures = state._results.filter(r => r.type === "capture") as {type: "capture"; what: string}[];
-                if (captures.length > 0) {
-                    node.push(i18next.t("apresults:CAPTURE.noperson.multiple", {capped: captures.map(m => m.what).join(", ")}));
-                }
-                for (const r of state._results) {
-                    switch (r.type) {
-                        case "eog":
-                            node.push(i18next.t("apresults:EOG.default"));
-                            break;
-                        case "resigned": {
-                            let rname = `Player ${r.player}`;
-                            if (r.player <= players.length) {
-                                rname = players[r.player - 1]
-                            }
-                            node.push(i18next.t("apresults:RESIGN", {player: rname}));
-                            break;
-                        }
-                        case "winners":{
-                            const names: string[] = [];
-                            for (const w of r.players) {
-                                if (w <= players.length) {
-                                    names.push(players[w - 1]);
-                                } else {
-                                    names.push(`Player ${w}`);
-                                }
-                            }
-                            if (r.players.length === 0)
-                                node.push(i18next.t("apresults:WINNERSNONE"));
-                            else
-                                node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
 
-                            break;
-                        }
-                    }
-                }
-                result.push(node);
-            }
+
+    protected frameChatActorSeat(currplayer: number): number {
+        let seat = currplayer + 1;
+        if (seat > this.numplayers) {
+            seat = 1;
         }
-        return result;
+        return seat;
+    }
+
+    protected collectVolcanoFrameChatLines(
+        lines: ChatLogLine[],
+        results: APMoveResult[],
+        seat: number,
+        includePlace: boolean,
+    ): void {
+        const moves = results.filter(
+            (r) => r.type === "move" || (includePlace && r.type === "place"),
+        );
+        const moveDesc = moves.map((m) => {
+            if (m.type === "move") {
+                return `${m.from}-${m.to}`;
+            }
+            if (m.type === "place") {
+                return `${m.what!}-${m.where!}`;
+            }
+            throw new Error("Should never happen.");
+        }).join(", ");
+        this.pushSeatChatLine(lines, seat, "apresults:MOVE.multiple", { moves: moveDesc });
+        const eruptions = results.filter((r) => r.type === "eject") as { type: "eject"; what: string }[];
+        this.pushNeutralChatLine(lines, "apresults:ERUPTIONS", {
+            eruptions: eruptions.map((m) => m.what).join(", "),
+        });
+        const captures = results.filter((r) => r.type === "capture") as { type: "capture"; what: string }[];
+        if (captures.length > 0) {
+            this.pushNeutralChatLine(lines, "apresults:CAPTURE.noperson.multiple", {
+                capped: captures.map((m) => m.what).join(", "),
+            });
+        }
+    }
+
+    public chatLogEntries(players: string[] = []): ChatLogEntry[] {
+        const entries: ChatLogEntry[] = [];
+        for (const state of this.stack) {
+            if (state._results === undefined || state._results.length === 0) {
+                continue;
+            }
+            const lines: ChatLogLine[] = [];
+            const currplayer = state.currplayer as number;
+            const seat = this.frameChatActorSeat(currplayer);
+            this.collectVolcanoFrameChatLines(lines, state._results, seat, true);
+            const ctx: ChatLogCollectContext = {
+                results: state._results,
+                currplayer,
+                defaultSeat: seat,
+                players,
+            };
+            for (const r of state._results) {
+                if (r.type === "eog" || r.type === "resigned" || r.type === "winners") {
+                    this.collectChatLogLine(lines, r, ctx);
+                }
+            }
+            entries.push({
+                timestamp: (state._timestamp && new Date(state._timestamp).toISOString()) || "unknown",
+                lines,
+            });
+        }
+        return entries;
     }
 
     public getStartingPosition(): string {

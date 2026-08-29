@@ -632,6 +632,7 @@ export class ValleyGame extends GameBase {
         return [];
     }
 
+
     public clone(): ValleyGame {
         return new ValleyGame(this.serialize());
     }

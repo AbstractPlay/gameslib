@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -692,32 +692,32 @@ export class SlydeGame extends GameBase {
         }];
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                node.push(i18next.t("apresults:MOVE.slyde", { player, from: r.from, to: r.to }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.slyde", { from: r.from!, to: r.to! });
+                return true;
             case "select":
                 if (r.what === "fixed") {
-                    if (r.how === "self") {
-                        node.push(i18next.t("apresults:SELECT.slyde_fixed_self", { player, where: r.where }));
-                    } else {
-                        node.push(i18next.t("apresults:SELECT.slyde_fixed_opponent", { player, where: r.where }));
-                    }
+                if (r.how === "self") {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SELECT.slyde_fixed_self", { where: r.where! });
                 } else {
-                    if (r.how === "self") {
-                        node.push(i18next.t("apresults:SELECT.slyde_mobile_self", { player, where: r.where }));
-                    } else {
-                        node.push(i18next.t("apresults:SELECT.slyde_mobile_opponent", { player, where: r.where }));
-                    }
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SELECT.slyde_fixed_opponent", { where: r.where! });
                 }
-                resolved = true;
-                break;
+                } else {
+                if (r.how === "self") {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SELECT.slyde_mobile_self", { where: r.where! });
+                } else {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SELECT.slyde_mobile_opponent", { where: r.where! });
+                }
+                }
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): SlydeGame {
         return new SlydeGame(this.serialize());

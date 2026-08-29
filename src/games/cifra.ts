@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaPieces, Colourfuncs, Colourstrings, Glyph, MarkerFlood, PatternName, PositiveInteger, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -1071,24 +1071,26 @@ export class CifraGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                node.push(i18next.t("apresults:PLACE.complete", {player, where: r.where, what: r.what}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.complete", {
+                    where: r.where!, what: r.what!,
+                });
+                return true;
             case "affiliate": {
                 const [shade, pos] = this.stack[1].lastmove!.split(",");
                 const context = shade === "light" ?
                     (pos === "top" ? "lt" : pos === "bottom" ? "lb" : pos === "left" ? "ll" : "lr") :
                     (pos === "top" ? "dt" : pos === "bottom" ? "db" : pos === "left" ? "dl" : "dr");
-                node.push(i18next.t("apresults:AFFILIATE.cifra", {player, context}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:AFFILIATE.cifra", {context});
+                return true;
             }
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
 
     public clone(): CifraGame {

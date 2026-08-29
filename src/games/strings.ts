@@ -1,4 +1,4 @@
-import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogEntry, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -565,65 +565,51 @@ export class StringsGame extends GameBaseSimultaneous {
         ]
     }
 
-    public chatLog(players: string[]): string[][] {
-        const result: string[][] = [];
-        for (const state of this.stack) {
-            if ( (state._results !== undefined) && (state._results.length > 0) ) {
-                const node: string[] = [(state._timestamp && new Date(state._timestamp).toISOString()) || "unknown"];
-                if (state._results.length >= 2) {
-                    for (let p = 0; p < 2; p++) {
-                        let name = `Player ${p + 1}`;
-                        if (players.length >= p + 1) {
-                            name = players[p];
-                        }
-                        const r = state._results[p];
-                        switch (r.type) {
-                            case "pull":
-                                node.push(i18next.t("apresults:PULL", {player: name, where: r.where}));
-                                break;
-                        }
-                    }
-                }
-                if (state._results.length > 2) {
-                    for (const r of state._results) {
-                        switch (r.type) {
-                            case "destroy":
-                                node.push(i18next.t("apresults:DESTROY.string", { where: r.where}));
-                                break;
-                            case "eog":
-                                node.push(i18next.t("apresults:EOG.default"));
-                                break;
-                            case "resigned": {
-                                let rname = `Player ${r.player}`;
-                                if (r.player <= players.length) {
-                                    rname = players[r.player - 1]
-                                }
-                                node.push(i18next.t("apresults:RESIGN", {player: rname}));
-                                break;
-                            }
-                            case "winners": {
-                                const names: string[] = [];
-                                for (const w of r.players) {
-                                    if (w <= players.length) {
-                                        names.push(players[w - 1]);
-                                    } else {
-                                        names.push(`Player ${w}`);
-                                    }
-                                }
-                                if (r.players.length === 0)
-                                    node.push(i18next.t("apresults:WINNERSNONE"));
-                                else
-                                    node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
 
-                                break;
-                            }
-                        }
+
+    public chatLogEntries(players: string[] = []): ChatLogEntry[] {
+        const entries: ChatLogEntry[] = [];
+        for (const state of this.stack) {
+            if (state._results === undefined || state._results.length === 0) {
+                continue;
+            }
+            const lines: ChatLogLine[] = [];
+            if (state._results.length >= 2) {
+                for (let p = 0; p < 2; p++) {
+                    const r = state._results[p];
+                    if (r.type === "pull") {
+                        this.pushSeatChatLine(lines, p + 1, "apresults:PULL", { where: r.where });
                     }
                 }
-                result.push(node);
             }
+            if (state._results.length > 2) {
+                const currplayer = state.currplayer as number;
+                const defaultSeat = this.resolveChatSeat(state._results[0], currplayer);
+                const ctx: ChatLogCollectContext = {
+                    results: state._results,
+                    currplayer,
+                    defaultSeat,
+                    players,
+                };
+                for (const r of state._results) {
+                    switch (r.type) {
+                        case "destroy":
+                            this.pushNeutralChatLine(lines, "apresults:DESTROY.string", { where: r.where });
+                            break;
+                        case "eog":
+                        case "resigned":
+                        case "winners":
+                            this.collectChatLogLine(lines, r, ctx);
+                            break;
+                    }
+                }
+            }
+            entries.push({
+                timestamp: (state._timestamp && new Date(state._timestamp).toISOString()) || "unknown",
+                lines,
+            });
         }
-        return result;
+        return entries;
     }
 
     public getCustomRotation(): number | undefined {

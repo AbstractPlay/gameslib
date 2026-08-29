@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AnnotationBasic, BoardBasic, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -1047,24 +1047,24 @@ export class AkronGame extends GameBase {
         }
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                node.push(i18next.t("apresults:PLACE.ball", { player, where: r.where }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.ball", { where: r.where! });
+                return true;
             case "move":
                 if (r.how === "drop") {
-                    node.push(i18next.t("apresults:MOVE.ball_drop", { player, from: r.from, to: r.to, count: r.count }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.ball_drop", { from: r.from!, to: r.to!, count: r.count! });
                 } else {
-                    node.push(i18next.t("apresults:MOVE.ball", { player, from: r.from, to: r.to }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.ball", { from: r.from!, to: r.to! });
                 }
-                resolved = true;
-                break;
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): AkronGame {
         return new AkronGame(this.serialize());

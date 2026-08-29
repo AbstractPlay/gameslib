@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IStashEntry } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IStashEntry, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -703,20 +703,23 @@ export class GardenGame extends GameBase {
         return ["place", "take", "eog", "winners"];
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place": {
                 let what = "dovetail";
                 if (r.what! === "b") {
                     what = "ravenclaw";
                 }
-                node.push(i18next.t("apresults:PLACE.complete", {player, where: r.where, what}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.complete", {
+                    where: r.where!, what,
+                });
+                return true;
             }
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
 
     public getCustomRotation(): number | undefined {

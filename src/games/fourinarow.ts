@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APMoveResult } from "../schemas/moveresults";
 import { Direction, reviver, UserFacingError } from "../common";
@@ -907,24 +907,17 @@ export class FourInARowGame extends InARowBase {
         };
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
-            case "place":
-                node.push(i18next.t("apresults:PLACE.nowhat", { player, where: r.where }));
-                resolved = true;
-                break;
-            case "pie":
-                node.push(i18next.t("apresults:PIE.default", { player }));
-                resolved = true;
-                break;
             case "remove":
-                node.push(i18next.t(`apresults:REMOVE.fourinarow_${r.where.toLowerCase()}`, { player }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:REMOVE.fourinarow_${r.where!.toLowerCase()}`, {});
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): FourInARowGame {
         return new FourInARowGame(this.serialize());

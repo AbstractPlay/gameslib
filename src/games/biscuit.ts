@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IStatus, IValidationResult, ICustomButton, IRenderOpts } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IStatus, IValidationResult, ICustomButton, IRenderOpts, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaPieces, Glyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -1154,44 +1154,38 @@ export class BiscuitGame extends GameBase {
         return [{ key: i18next.t("apgames:status.ROUND"), value: [this.round.toString()] }];
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                node.push(i18next.t("apresults:PLACE.decktet", {player, where: r.where, what: r.what}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.decktet", {where: r.where!, what: r.what!});
+                return true;
             case "set":
-                node.push(i18next.t("apresults:SET.biscuit", {player, count: r.count, context: r.what}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SET.biscuit", {count: r.count!, context: r.what!});
+                return true;
             case "deltaScore":
-                node.push(i18next.t("apresults:DELTA_SCORE_GAIN", {player, count: r.delta, delta: r.delta}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DELTA_SCORE_GAIN", {count: r.delta!, delta: r.delta!});
+                return true;
             case "declare":
-                node.push(i18next.t("apresults:DECLARE.biscuit", {player}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DECLARE.biscuit", {});
+                return true;
             case "announce":
-                node.push(i18next.t("apresults:ANNOUNCE.biscuit", {cards: (r.payload as string[]).join(", ")}));
-                resolved = true;
-                break;
+                this.pushNeutralChatLine(lines, "apresults:ANNOUNCE.biscuit", {cards: (r.payload! as string[]).join(", ")});
+                return true;
             case "stalemate":
-                node.push(i18next.t("apresults:STALEMATE.biscuit", {player}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:STALEMATE.biscuit", {});
+                return true;
             case "reset":
-                node.push(i18next.t("apresults:RESET.biscuit", {player}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:RESET.biscuit", {});
+                return true;
             case "deckDraw":
-                node.push(i18next.t("apresults:DECKDRAW.biscuit", {player}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DECKDRAW.biscuit", {});
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public serialize(opts?: {strip?: boolean, player?: number}): string {
         const json = JSON.stringify(this.state(opts), replacer);

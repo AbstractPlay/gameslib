@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, MarkerGlyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -786,20 +786,21 @@ export class StrandsGame extends GameBase {
         return [{ name: i18next.t("apgames:status.GROUPSIZES"), scores: [this.sizes[0].join(","), this.sizes[1].join(",")] }];
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
                 if (r.what === "2" && r.count === 1) {
-                    node.push(i18next.t("apresults:PLACE.strands_initial", { player, where: r.where }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.strands_initial", { where: r.where! });
                 } else {
-                    node.push(i18next.t("apresults:PLACE.strands", { player, where: r.where!.split(",").join(", "), count: r.count }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.strands", { where: r.where!.split(",").join(", "), count: r.count! });
                 }
-                resolved = true;
-                break;
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public getStartingPosition(): string {
         const start: string[] = [];

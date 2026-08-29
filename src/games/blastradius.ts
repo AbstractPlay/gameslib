@@ -1,5 +1,5 @@
 
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic, Glyph, MarkerFlood } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -475,25 +475,27 @@ export class BlastRadiusGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
             case "add":
-                node.push(i18next.t("apresults:PLACE.blastradius", { player, where: r.where, height: r.type === "place" ? 1 : r.num }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.blastradius", {
+                    where: r.where!,
+                    height: r.type === "place" ? 1 : r.num!,
+                });
+                return true;
             case "take":
-                node.push(i18next.t("apresults:TAKE.blastradius", { player, where: r.from, count: r.count }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:TAKE.blastradius", { where: r.from!, count: r.count! });
+                return true;
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.blastradius", { player, where: r.where, count: r.count }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.blastradius", { where: r.where!, count: r.count! });
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): BlastRadiusGame {
         return new BlastRadiusGame(this.serialize());

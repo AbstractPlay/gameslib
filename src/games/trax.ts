@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaKey, MarkerGlyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -1039,24 +1039,24 @@ export class TraxGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                node.push(i18next.t("apresults:PLACE.trax", { player, where: r.where, piece: r.what, algebraic: r.how }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.trax", { where: r.where!, piece: r.what!, algebraic: r.how! });
+                return true;
             case "eog":
                 if (r.reason === "stalemate") {
-                    node.push(i18next.t("apresults:EOG.stalemate", { count: 1 }));
+                this.pushNeutralChatLine(lines, "apresults:EOG.stalemate", { count: 1 });
                 } else {
-                    node.push(i18next.t("apresults:EOG.default"));
+                this.pushNeutralChatLine(lines, "apresults:EOG.default");
                 }
-                resolved = true;
-                break;
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): TraxGame {
         return new TraxGame(this.serialize());

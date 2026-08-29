@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -868,79 +868,28 @@ export class TumbleweedGame extends GameBase {
         return threatenedPieces
     }
 
-    public chatLog(players: string[]): string[][] {
-        // Use `chatLog` to determine if capture is self-capture.
-        const result: string[][] = [];
-        for (const state of this.stack) {
-            if ( (state._results !== undefined) && (state._results.length > 0) ) {
-                const node: string[] = [(state._timestamp && new Date(state._timestamp).toISOString()) || "unknown"];
-                let otherPlayer = state.currplayer as number - 1;
-                if (otherPlayer < 1) {
-                    otherPlayer = this.numplayers;
-                }
-                let name = `Player ${otherPlayer}`;
-                if (otherPlayer <= players.length) {
-                    name = players[otherPlayer - 1];
-                }
-                for (const r of state._results) {
-                    if (!this.chat(node, name, state._results, r)) {
-                        switch (r.type) {
-                            case "place":
-                                node.push(i18next.t("apresults:PLACE.tumbleweed", {player: name, where: r.where, count: r.count}));
-                                break;
-                            case "capture": {
-                                // Check if capture is self-capture.
-                                const str = r.whose === otherPlayer ? "apresults:CAPTURE.tumbleweed_self" : "apresults:CAPTURE.tumbleweed";
-                                node.push(i18next.t(str, {player: name, where: r.where, count: r.count}));
-                                break;
-                            }
-                            case "pass":
-                                node.push(i18next.t("apresults:PASS.simple", {player: name}));
-                                break;
-                            case "eog":
-                                node.push(i18next.t("apresults:EOG.default"));
-                                break;
-                            case "resigned": {
-                                let rname = `Player ${r.player}`;
-                                if (r.player <= players.length) {
-                                    rname = players[r.player - 1]
-                                }
-                                node.push(i18next.t("apresults:RESIGN", {player: rname}));
-                                break;
-                            }
-                            case "timeout": {
-                                let tname = `Player ${r.player}`;
-                                if (r.player <= players.length) {
-                                    tname = players[r.player - 1]
-                                }
-                                node.push(i18next.t("apresults:TIMEOUT", {player: tname}));
-                                break;
-                            }
-                            case "gameabandoned":
-                                node.push(i18next.t("apresults:ABANDONED"));
-                                break;
-                            case "winners": {
-                                const names: string[] = [];
-                                for (const w of r.players) {
-                                    if (w <= players.length) {
-                                        names.push(players[w - 1]);
-                                    } else {
-                                        names.push(`Player ${w}`);
-                                    }
-                                }
-                                if (r.players.length === 0)
-                                    node.push(i18next.t("apresults:WINNERSNONE"));
-                                else
-                                    node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
-                                break;
-                            }
-                        }
-                    }
-                }
-                result.push(node);
+
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
+        switch (r.type) {
+            case "place":
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.tumbleweed", {
+                    where: r.where!, count: r.count!,
+                });
+                return true;
+            case "capture": {
+                const selfCapture = (r as { whose?: number }).whose === ctx.defaultSeat;
+                this.pushSeatChatLine(
+                    lines,
+                    ctx.defaultSeat,
+                    selfCapture ? "apresults:CAPTURE.tumbleweed_self" : "apresults:CAPTURE.tumbleweed",
+                    { where: r.where!, count: r.count! },
+                );
+                return true;
             }
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return result;
     }
 
     public clone(): TumbleweedGame {

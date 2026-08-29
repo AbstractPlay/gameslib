@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, MarkerLine, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -569,22 +569,27 @@ export class BoxesGame extends GameBase {
         return [...this.boardCell.values()].filter(n => n === player).length;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
                 if (r.count === undefined) {
-                    node.push(i18next.t("apresults:PLACE.boxes", { player, where: r.where }));
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.boxes", {where: r.where!});
                 } else if (r.count === 1) {
-                    node.push(i18next.t("apresults:PLACE.boxes_claim1", { player, where: r.where, box: r.how }));
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.boxes_claim1", {
+                        where: r.where!, box: r.how!,
+                    });
                 } else {
                     const cells = r.how!.split(",");
-                    node.push(i18next.t("apresults:PLACE.boxes_claim2", { player, where: r.where, box1: cells[0], box2: cells[1] }));
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.boxes_claim2", {
+                        where: r.where!, box1: cells[0]!, box2: cells[1]!,
+                    });
                 }
-                resolved = true;
-                break;
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
 
     public clone(): BoxesGame {

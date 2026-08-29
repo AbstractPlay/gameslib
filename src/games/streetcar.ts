@@ -1,5 +1,5 @@
 import { Direction, Grid, rectangle, defineHex, Orientation, Hex } from "honeycomb-grid";
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic, MarkerFence } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -1194,20 +1194,20 @@ export class StreetcarGame extends GameBase {
         }
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "take":
-                node.push(i18next.t("apresults:TAKE.streetcar_take", {player, from: r.from, context: r.what || "default"}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:TAKE.streetcar_take", {from: r.from!, context: r.what! || "default"});
+                return true;
             case "place":
-                node.push(i18next.t("apresults:PLACE.streetcar_place", {player, where: r.where, context: r.what || "default"}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.streetcar_place", {where: r.where!, context: r.what! || "default"});
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): StreetcarGame {
         return new StreetcarGame(this.serialize());

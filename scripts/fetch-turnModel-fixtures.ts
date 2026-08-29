@@ -3,6 +3,7 @@
  *
  * Usage:
  *   ABSTRACT_PLAY_TABLE=abstract-play-prod npm run fetch-turnModel-fixtures
+ *   ABSTRACT_PLAY_TABLE=abstract-play-prod npm run fetch-chat-golden-fixtures
  */
 /* eslint-disable no-console */
 import fs from "fs";
@@ -30,7 +31,9 @@ import type {
 import {
     normalizeGameState,
     TURN_MODEL_FIXTURES_DIR,
+    lielowHasCrossPlayerPromote,
 } from "../test/fixtures/turnModel/helpers";
+import { parseSiteGameId } from "../test/fixtures/turnModel/siteGameId";
 
 const RECORDS_BASE = "https://records.abstractplay.com";
 const REGION = "us-east-1";
@@ -50,6 +53,8 @@ type PatternSpec = {
     subtype: string;
     recordFilter: (rec: APGameRecord) => boolean;
     verifyEngine: (engine: GameBase) => boolean;
+    /** Try these game ids first (from probe-chat-fixture-candidates). */
+    preferredGameIds?: string[];
 };
 
 const TIER1_SPECS: Tier1Spec[] = [
@@ -132,14 +137,6 @@ function recordHasSentinel(rec: APGameRecord, sentinel: string): boolean {
     return false;
 }
 
-function parseSiteGameId(siteGameId: string): { metaGame: string; id: string } {
-    const idx = siteGameId.indexOf("#");
-    if (idx === -1) {
-        throw new Error(`Unexpected site.gameid format: ${siteGameId}`);
-    }
-    return { metaGame: siteGameId.slice(0, idx), id: siteGameId.slice(idx + 1) };
-}
-
 async function fetchMetaRecords(metaUid: string): Promise<APGameRecord[]> {
     const url = `${RECORDS_BASE}/meta/${metaUid}.json`;
     const res = await fetch(url);
@@ -197,7 +194,50 @@ function froggerHasRefillsVariant(engine: GameBase): boolean {
     return engine.getVariants().includes("refills");
 }
 
-const PATTERN_SPECS: PatternSpec[] = [
+function stackResultsIncludeType(engine: GameBase, type: string): boolean {
+    return engine.stack.some(
+        (state) => state._results !== undefined && state._results.some((r) => r.type === type),
+    );
+}
+
+function stackFrameHasMinResults(engine: GameBase, min: number): boolean {
+    return engine.stack.some(
+        (state) => state._results !== undefined && state._results.length >= min,
+    );
+}
+
+function stackFrameHasMinResultType(engine: GameBase, type: string, min: number): boolean {
+    return engine.stack.some((state) => {
+        if (state._results === undefined) {
+            return false;
+        }
+        return state._results.filter((r) => r.type === type).length >= min;
+    });
+}
+
+function stackResultsIncludeWhoZero(engine: GameBase): boolean {
+    return engine.stack.some(
+        (state) => state._results !== undefined && state._results.some((r) => (r as { who?: number }).who === 0),
+    );
+}
+
+function breakthroughHasDetonateOrDestroyBatch(engine: GameBase): boolean {
+    if (stackResultsIncludeType(engine, "detonate")) {
+        return true;
+    }
+    return engine.stack.some((state) => {
+        if (state._results === undefined) {
+            return false;
+        }
+        return state._results.filter((r) => r.type === "destroy").length >= 2;
+    });
+}
+
+function completedNormal2p(rec: APGameRecord): boolean {
+    return rec.header.players.length === 2 && classifyRecord(rec) === "normal" && rec.moves.length > 0;
+}
+
+const TURN_MODEL_PATTERN_SPECS: PatternSpec[] = [
     {
         key: "armadas3pElimination",
         displayName: "Armadas",
@@ -270,6 +310,219 @@ const PATTERN_SPECS: PatternSpec[] = [
     },
 ];
 
+/** Chat-log override games — golden baselines for migration (category `chat`). */
+const CHAT_PATTERN_SPECS: PatternSpec[] = [
+    {
+        key: "byteBaseline",
+        displayName: "Byte",
+        category: "chat",
+        subtype: "byteBaseline",
+        recordFilter: completedNormal2p,
+        verifyEngine: (engine) =>
+            stackResultsIncludeType(engine, "deltaScore")
+            || stackFrameHasMinResultType(engine, "move", 2),
+    },
+    {
+        key: "breakthroughBaseline",
+        displayName: "Breakthrough",
+        category: "chat",
+        subtype: "breakthroughBaseline",
+        recordFilter: completedNormal2p,
+        verifyEngine: breakthroughHasDetonateOrDestroyBatch,
+        preferredGameIds: ["c2572c14-04ed-477a-b9a9-ca4c66dce615"],
+    },
+    {
+        key: "bukuBaseline",
+        displayName: "Buku",
+        category: "chat",
+        subtype: "bukuBaseline",
+        recordFilter: completedNormal2p,
+        verifyEngine: (engine) =>
+            stackResultsIncludeType(engine, "claim")
+            || stackResultsIncludeType(engine, "sow"),
+    },
+    {
+        key: "chaseBaseline",
+        displayName: "Chase",
+        category: "chat",
+        subtype: "chaseBaseline",
+        recordFilter: completedNormal2p,
+        verifyEngine: (engine) => stackFrameHasMinResultType(engine, "move", 2),
+    },
+    {
+        key: "epamBaseline",
+        displayName: "Epaminondas",
+        category: "chat",
+        subtype: "epamBaseline",
+        recordFilter: completedNormal2p,
+        verifyEngine: (engine) => stackFrameHasMinResultType(engine, "capture", 2),
+    },
+    {
+        key: "fendoBaseline",
+        displayName: "Fendo",
+        category: "chat",
+        subtype: "fendoBaseline",
+        recordFilter: completedNormal2p,
+        verifyEngine: (engine) => stackFrameHasMinResultType(engine, "move", 2),
+    },
+    {
+        key: "fanoronaBaseline",
+        displayName: "Fanorona",
+        category: "chat",
+        subtype: "fanoronaBaseline",
+        recordFilter: completedNormal2p,
+        verifyEngine: (engine) => stackFrameHasMinResultType(engine, "move", 2),
+    },
+    {
+        key: "fnapBaseline",
+        displayName: "FNAP",
+        category: "chat",
+        subtype: "fnapBaseline",
+        recordFilter: completedNormal2p,
+        verifyEngine: (engine) =>
+            stackResultsIncludeType(engine, "select")
+            || stackResultsIncludeType(engine, "claim"),
+    },
+    {
+        key: "focusBaseline",
+        displayName: "Focus",
+        category: "chat",
+        subtype: "focusBaseline",
+        recordFilter: completedNormal2p,
+        verifyEngine: (engine) =>
+            stackFrameHasMinResultType(engine, "capture", 2)
+            || stackResultsIncludeType(engine, "reclaim"),
+    },
+    {
+        key: "framesBaseline",
+        displayName: "Frames",
+        category: "chat",
+        subtype: "framesBaseline",
+        recordFilter: completedNormal2p,
+        verifyEngine: (engine) =>
+            stackResultsIncludeWhoZero(engine)
+            || stackResultsIncludeType(engine, "deltaScore"),
+    },
+    {
+        key: "magnateBaseline",
+        displayName: "Magnate",
+        category: "chat",
+        subtype: "magnateBaseline",
+        recordFilter: completedNormal2p,
+        verifyEngine: (engine) =>
+            stackResultsIncludeType(engine, "roll")
+            && stackResultsIncludeType(engine, "claim"),
+    },
+    {
+        key: "mvolcanoBaseline",
+        displayName: "Mega-Volcano",
+        category: "chat",
+        subtype: "mvolcanoBaseline",
+        recordFilter: completedNormal2p,
+        verifyEngine: (engine) =>
+            stackResultsIncludeType(engine, "eject")
+            || stackFrameHasMinResultType(engine, "move", 2),
+    },
+    {
+        key: "stringsBaseline",
+        displayName: "Pulling Strings",
+        category: "chat",
+        subtype: "stringsBaseline",
+        recordFilter: completedNormal2p,
+        verifyEngine: (engine) => stackResultsIncludeType(engine, "pull"),
+    },
+    {
+        key: "tumbleweedBaseline",
+        displayName: "Tumbleweed",
+        category: "chat",
+        subtype: "tumbleweedBaseline",
+        recordFilter: completedNormal2p,
+        verifyEngine: (engine) => stackResultsIncludeType(engine, "capture"),
+    },
+    {
+        key: "upperhandBaseline",
+        displayName: "Upper Hand",
+        category: "chat",
+        subtype: "upperhandBaseline",
+        recordFilter: completedNormal2p,
+        verifyEngine: (engine) =>
+            stackResultsIncludeType(engine, "place")
+            && stackFrameHasMinResults(engine, 2),
+    },
+    {
+        key: "veletasBaseline",
+        displayName: "Veletas",
+        category: "chat",
+        subtype: "veletasBaseline",
+        recordFilter: completedNormal2p,
+        verifyEngine: (engine) => stackResultsIncludeType(engine, "claim"),
+    },
+    {
+        key: "volcanoBaseline",
+        displayName: "Volcano",
+        category: "chat",
+        subtype: "volcanoBaseline",
+        recordFilter: completedNormal2p,
+        verifyEngine: (engine) =>
+            stackResultsIncludeType(engine, "eject")
+            || stackFrameHasMinResultType(engine, "move", 2),
+    },
+];
+
+/** Extra chat scenarios (gap-fill) — merged with --extra-chat. */
+const EXTENDED_CHAT_SPECS: PatternSpec[] = [
+    {
+        key: "breakthroughDetonate",
+        displayName: "Breakthrough",
+        category: "chat",
+        subtype: "breakthroughDetonate",
+        recordFilter: completedNormal2p,
+        verifyEngine: (engine) => stackResultsIncludeType(engine, "detonate"),
+        preferredGameIds: ["c2572c14-04ed-477a-b9a9-ca4c66dce615"],
+    },
+    {
+        key: "bukuRepetition",
+        displayName: "Buku",
+        category: "chat",
+        subtype: "bukuRepetition",
+        recordFilter: completedNormal2p,
+        verifyEngine: (engine) =>
+            engine.stack.some((s) =>
+                s._results?.some(
+                    (r) => r.type === "claim" && (r as { how?: string }).how === "repetition",
+                ),
+            ),
+        preferredGameIds: ["f405dc71-6a94-4ca5-9aa9-2492854727ab"],
+    },
+    {
+        key: "lielowPromoteSwap",
+        displayName: "Lielow",
+        category: "chat",
+        subtype: "lielowPromoteSwap",
+        recordFilter: completedNormal2p,
+        verifyEngine: lielowHasCrossPlayerPromote,
+    },
+    {
+        key: "magnateEconomy",
+        displayName: "Magnate",
+        category: "chat",
+        subtype: "magnateEconomy",
+        recordFilter: completedNormal2p,
+        verifyEngine: (engine) => {
+            const types = new Set<string>();
+            for (const s of engine.stack) {
+                for (const r of s._results ?? []) {
+                    types.add(r.type);
+                }
+            }
+            return types.has("roll") && types.has("claim") && types.has("capture");
+        },
+        preferredGameIds: ["e7c6ea98-62e0-48b0-9d5f-5a305baae3ab"],
+    },
+];
+
+const PATTERN_SPECS: PatternSpec[] = [...TURN_MODEL_PATTERN_SPECS, ...CHAT_PATTERN_SPECS];
+
 function recordDetailsFromPublished(rec: APGameRecord): IRecordDetails {
     const siteId = rec.header.site.gameid as string;
     return {
@@ -297,6 +550,7 @@ function computeGolden(engine: GameBase, rec: APGameRecord): TurnModelGolden {
     return {
         moveHistory: engine.moveHistory(),
         chatLog: engine.chatLog(playerNames),
+        chatLogEntries: engine.chatLogEntries(playerNames),
         stateNormalized: normalizeGameState(engine.state() as IAPGameState),
         genRecordMoves: genRec.moves,
     };
@@ -359,7 +613,7 @@ async function pickTier1Fixture(
     const metaUid = uidForDisplayName(displayName);
     const candidates = records.filter((rec) => {
         const siteId = rec.header.site.gameid as string;
-        const { id } = parseSiteGameId(siteId);
+        const { id } = parseSiteGameId(siteId, metaUid);
         if (usedIds.has(id)) {
             return false;
         }
@@ -379,9 +633,12 @@ async function pickTier1Fixture(
 
     for (const rec of candidates) {
         const siteId = rec.header.site.gameid as string;
-        const { metaGame, id } = parseSiteGameId(siteId);
-        if (metaGame !== metaUid) {
-            console.warn(`Record meta mismatch: expected ${metaUid}, got ${metaGame} for ${siteId}`);
+        let metaGame: string;
+        let id: string;
+        try {
+            ({ metaGame, id } = parseSiteGameId(siteId, metaUid));
+        } catch (err) {
+            console.warn(`Skipping ${siteId} (${subtype}): ${err}`);
             continue;
         }
         try {
@@ -418,23 +675,23 @@ async function pickPatternFixture(
     usedIds: Set<string>,
 ): Promise<TurnModelLocalFixture | undefined> {
     const metaUid = uidForDisplayName(spec.displayName);
-    const candidates = records
-        .filter((rec) => spec.recordFilter(rec))
-        .sort((a, b) => b.moves.length - a.moves.length);
 
-    for (const rec of candidates) {
+    const tryRecord = async (rec: APGameRecord): Promise<TurnModelLocalFixture | undefined> => {
         const siteId = rec.header.site.gameid as string;
-        const { metaGame, id } = parseSiteGameId(siteId);
-        if (metaGame !== metaUid) {
-            continue;
+        let metaGame: string;
+        let id: string;
+        try {
+            ({ metaGame, id } = parseSiteGameId(siteId, metaUid));
+        } catch {
+            return undefined;
         }
         if (usedIds.has(id)) {
-            continue;
+            return undefined;
         }
         try {
             const { state, engine } = await loadGameFromDynamo(ddb, tableName, metaGame, id);
             if (!spec.verifyEngine(engine)) {
-                continue;
+                return undefined;
             }
             usedIds.add(id);
             const golden = computeGolden(engine, rec);
@@ -454,6 +711,36 @@ async function pickPatternFixture(
             };
         } catch (err) {
             console.warn(`Skipping pattern candidate ${siteId}: ${err}`);
+            return undefined;
+        }
+    };
+
+    if (spec.preferredGameIds !== undefined) {
+        for (const prefId of spec.preferredGameIds) {
+            const rec = records.find((r) => {
+                try {
+                    return parseSiteGameId(r.header.site.gameid as string, metaUid).id === prefId;
+                } catch {
+                    return false;
+                }
+            });
+            if (rec !== undefined) {
+                const fixture = await tryRecord(rec);
+                if (fixture !== undefined) {
+                    return fixture;
+                }
+            }
+        }
+    }
+
+    const candidates = records
+        .filter((rec) => spec.recordFilter(rec))
+        .sort((a, b) => b.moves.length - a.moves.length);
+
+    for (const rec of candidates) {
+        const fixture = await tryRecord(rec);
+        if (fixture !== undefined) {
+            return fixture;
         }
     }
     console.warn(`No pattern fixture for ${spec.key}`);
@@ -466,55 +753,30 @@ function writeFixture(fixture: TurnModelLocalFixture): void {
     console.log(`Wrote ${outPath}`);
 }
 
-async function main(): Promise<void> {
-    addResource("en");
-
-    const tableName = process.env.ABSTRACT_PLAY_TABLE ?? DEFAULT_TABLE;
-    const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: REGION }));
-
-    fs.mkdirSync(TURN_MODEL_FIXTURES_DIR, { recursive: true });
-
-    const manifestEntries: TurnModelManifestEntry[] = [];
-    const usedGameIds = new Set<string>();
-
-    for (const tierSpec of TIER1_SPECS) {
-        const metaUid = uidForDisplayName(tierSpec.displayName);
-        console.log(`Tier1 ${tierSpec.displayName} (${metaUid})…`);
-        const records = await fetchMetaRecords(metaUid);
-
-        for (const subtype of tierSpec.subtypes) {
-            const fixture = await pickTier1Fixture(
-                ddb,
-                tableName,
-                tierSpec.displayName,
-                subtype,
-                records,
-                usedGameIds,
-            );
-            if (fixture !== undefined) {
-                writeFixture(fixture);
-                manifestEntries.push({
-                    id: fixture.id,
-                    category: fixture.category,
-                    metaGame: fixture.metaGame,
-                    subtype: fixture.subtype,
-                    gameid: fixture.gameid,
-                    recordUid: fixture.recordUid,
-                    numplayers: fixture.numplayers,
-                    displayName: fixture.displayName,
-                });
-            }
-        }
+function loadExistingManifest(): TurnModelManifestEntry[] {
+    const manifestPath = path.join(TURN_MODEL_FIXTURES_DIR, "manifest.json");
+    if (!fs.existsSync(manifestPath)) {
+        return [];
     }
+    const parsed = JSON.parse(fs.readFileSync(manifestPath, "utf8")) as TurnModelManifest;
+    return parsed.fixtures;
+}
 
-    for (const patternSpec of PATTERN_SPECS) {
+async function fetchPatternSpecs(
+    ddb: DynamoDBDocumentClient,
+    tableName: string,
+    specs: PatternSpec[],
+    usedGameIds: Set<string>,
+): Promise<TurnModelManifestEntry[]> {
+    const entries: TurnModelManifestEntry[] = [];
+    for (const patternSpec of specs) {
         const metaUid = uidForDisplayName(patternSpec.displayName);
         console.log(`Pattern ${patternSpec.key} (${metaUid})…`);
         const records = await fetchMetaRecords(metaUid);
         const fixture = await pickPatternFixture(ddb, tableName, patternSpec, records, usedGameIds);
         if (fixture !== undefined) {
             writeFixture(fixture);
-            manifestEntries.push({
+            entries.push({
                 id: fixture.id,
                 category: fixture.category,
                 metaGame: fixture.metaGame,
@@ -525,6 +787,73 @@ async function main(): Promise<void> {
                 displayName: fixture.displayName,
             });
         }
+    }
+    return entries;
+}
+
+async function main(): Promise<void> {
+    const chatOnly = process.argv.includes("--chat-only");
+    const extraChat = process.argv.includes("--extra-chat");
+    addResource("en");
+
+    const tableName = process.env.ABSTRACT_PLAY_TABLE ?? DEFAULT_TABLE;
+    const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: REGION }));
+
+    fs.mkdirSync(TURN_MODEL_FIXTURES_DIR, { recursive: true });
+
+    const manifestEntries: TurnModelManifestEntry[] = [];
+    const usedGameIds = new Set<string>();
+
+    if (extraChat) {
+        const preserved = loadExistingManifest();
+        manifestEntries.push(...preserved);
+        for (const entry of preserved) {
+            usedGameIds.add(entry.gameid);
+        }
+        console.log(`Extra-chat fetch — preserving ${preserved.length} manifest entries`);
+        const extraEntries = await fetchPatternSpecs(ddb, tableName, EXTENDED_CHAT_SPECS, usedGameIds);
+        manifestEntries.push(...extraEntries);
+    } else if (chatOnly) {
+        const preserved = loadExistingManifest().filter((e) => e.category !== "chat");
+        manifestEntries.push(...preserved);
+        for (const entry of preserved) {
+            usedGameIds.add(entry.gameid);
+        }
+        console.log(`Chat-only fetch — preserving ${preserved.length} non-chat manifest entries`);
+        const chatEntries = await fetchPatternSpecs(ddb, tableName, CHAT_PATTERN_SPECS, usedGameIds);
+        manifestEntries.push(...chatEntries);
+    } else {
+        for (const tierSpec of TIER1_SPECS) {
+            const metaUid = uidForDisplayName(tierSpec.displayName);
+            console.log(`Tier1 ${tierSpec.displayName} (${metaUid})…`);
+            const records = await fetchMetaRecords(metaUid);
+
+            for (const subtype of tierSpec.subtypes) {
+                const fixture = await pickTier1Fixture(
+                    ddb,
+                    tableName,
+                    tierSpec.displayName,
+                    subtype,
+                    records,
+                    usedGameIds,
+                );
+                if (fixture !== undefined) {
+                    writeFixture(fixture);
+                    manifestEntries.push({
+                        id: fixture.id,
+                        category: fixture.category,
+                        metaGame: fixture.metaGame,
+                        subtype: fixture.subtype,
+                        gameid: fixture.gameid,
+                        recordUid: fixture.recordUid,
+                        numplayers: fixture.numplayers,
+                        displayName: fixture.displayName,
+                    });
+                }
+            }
+        }
+
+        manifestEntries.push(...await fetchPatternSpecs(ddb, tableName, PATTERN_SPECS, usedGameIds));
     }
 
     const manifest: TurnModelManifest = {

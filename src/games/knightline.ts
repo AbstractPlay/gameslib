@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -1155,36 +1155,33 @@ export class KnightLineGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                node.push(i18next.t("apresults:MOVE.knightline", { player, from: r.from, to: r.to, what: r.what }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.knightline", { from: r.from!, to: r.to!, what: r.what! });
+                return true;
             case "pass":
-                node.push(i18next.t("apresults:PASS.forced", { player }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.forced", {});
+                return true;
             case "place":
-                node.push(i18next.t("apresults:PLACE.knightline", { player, where: r.where }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.knightline", { where: r.where! });
+                return true;
             case "eliminated":
-                node.push(i18next.t("apresults:ELIMINATED", {player}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:ELIMINATED", {});
+                return true;
             case "eog":
                 if (r.reason === "stalemate") {
-                    node.push(i18next.t("apresults:EOG.stalemate_all"));
+                this.pushNeutralChatLine(lines, "apresults:EOG.stalemate_all");
                 } else {
-                    node.push(i18next.t("apresults:EOG.default"));
+                this.pushNeutralChatLine(lines, "apresults:EOG.default");
                 }
-                resolved = true;
-                break;
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): KnightLineGame {
         return new KnightLineGame(this.serialize());

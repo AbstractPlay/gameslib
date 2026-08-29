@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -639,79 +639,38 @@ export class LielowGame extends GameBase {
         return rep;
     }
 
-    public chatLog(players: string[]): string[][] {
-        const result: string[][] = [];
-        for (const state of this.stack) {
-            if ( (state._results !== undefined) && (state._results.length > 0) ) {
-                const node: string[] = [(state._timestamp && new Date(state._timestamp).toISOString()) || "unknown"];
-                let otherPlayer = state.currplayer as number - 1;
-                if (otherPlayer < 1) {
-                    otherPlayer = this.numplayers;
-                }
-                let name = `Player ${otherPlayer}`;
-                if (otherPlayer <= players.length) {
-                    name = players[otherPlayer - 1];
-                }
-                const otherName = players.filter(p => p !== name)[0];
-                for (const r of state._results) {
-                    if (!this.chat(node, name, state._results, r)) {
-                        switch (r.type) {
-                            case "move":
-                                    node.push(i18next.t("apresults:MOVE.nowhat", {player: name, from: r.from, to: r.to}));
-                                break;
-                            case "capture":
-                                node.push(i18next.t("apresults:CAPTURE.nowhat", {player: name, where: r.where}));
-                                break;
-                            case "bearoff":
-                                node.push(i18next.t("apresults:BEAROFF.nowhat", {player: name, from: r.from}));
-                                break;
-                            case "promote":
-                                node.push(i18next.t("apresults:PROMOTE.lielow", {player: r.player !== state.currplayer ? name : otherName, where: r.where}));
-                                break;
-                            case "eog":
-                                node.push(i18next.t("apresults:EOG.default"));
-                                break;
-                            case "resigned": {
-                                let rname = `Player ${r.player}`;
-                                if (r.player <= players.length) {
-                                    rname = players[r.player - 1]
-                                }
-                                node.push(i18next.t("apresults:RESIGN", {player: rname}));
-                                break;
-                            }
-                            case "timeout": {
-                                let tname = `Player ${r.player}`;
-                                if (r.player <= players.length) {
-                                    tname = players[r.player - 1]
-                                }
-                                node.push(i18next.t("apresults:TIMEOUT", {player: tname}));
-                                break;
-                            }
-                            case "gameabandoned":
-                                node.push(i18next.t("apresults:ABANDONED"));
-                                break;
-                            case "winners": {
-                                const names: string[] = [];
-                                for (const w of r.players) {
-                                    if (w <= players.length) {
-                                        names.push(players[w - 1]);
-                                    } else {
-                                        names.push(`Player ${w}`);
-                                    }
-                                }
-                                if (r.players.length === 0)
-                                    node.push(i18next.t("apresults:WINNERSNONE"));
-                                else
-                                    node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
-                                break;
-                            }
-                        }
-                    }
-                }
-                result.push(node);
+
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
+        const opponentSeat = ctx.defaultSeat === 1 ? 2 : 1;
+        switch (r.type) {
+            case "move":
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.nowhat", {
+                    from: r.from!, to: r.to!,
+                });
+                return true;
+            case "capture":
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.nowhat", {
+                    where: r.where!,
+                });
+                return true;
+            case "bearoff":
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:BEAROFF.nowhat", {
+                    from: r.from!,
+                });
+                return true;
+            case "promote": {
+                const creditedSeat = (r as { player?: number }).player !== ctx.currplayer
+                    ? ctx.defaultSeat
+                    : opponentSeat;
+                this.pushSeatChatLine(lines, creditedSeat, "apresults:PROMOTE.lielow", {
+                    where: r.where!,
+                });
+                return true;
             }
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return result;
     }
 
     public getPlayerPieces(player: number): number {

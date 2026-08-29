@@ -24,7 +24,7 @@ export {
     applyChatPlayerNames,
     chatPlayerToken,
 } from "./chat-log";
-export type { ChatActorRef, ChatLogLine, ChatLogEntry, ChatLogTranslate } from "./chat-log";
+export type { ChatActorRef, ChatLogLine, ChatLogEntry, ChatLogTranslate, ChatLogCollectContext } from "./chat-log";
 
 export { RectGrid, StackSet, reviver, replacer, sortingReplacer, shuffle, UserFacingError, HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareDiagGraph, SquareGraph, Square3DGraph, SquareDirectedGraph, SquareFanoronaGraph, BaoGraph, SowingNoEndsGraph, RectTriGraph, BentTriGraph, StarGraph, HexMoonGraph, FracturedFlatGraph, starFrequencyFromWidth, wng, projectPoint, ptDistance, smallestDegreeDiff, normDeg, deg2rad, rad2deg, toggleFacing, calcBearing, matrixRectRot90, matrixRectRotN90, transposeRect, hexhexAi2Ap, hexhexAp2Ai, triAi2Ap, triAp2Ai, circle2poly, midpoint, distFromCircle, dir2deg, deg2dir, rotateFacing };
 

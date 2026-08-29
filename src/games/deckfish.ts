@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaPieces, Colourfuncs, Glyph, MarkerGlyph } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -1398,44 +1398,38 @@ export class DeckfishGame extends GameBase {
         return pcs.join(",");
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                node.push(i18next.t("apresults:PLACE.deckfish", {player, where: r.where}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.deckfish", {where: r.where!});
+                return true;
             case "pie":
-                node.push(i18next.t("apresults:PIE.deckfish", {player}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PIE.deckfish", {});
+                return true;
             case "move":
-                node.push(i18next.t("apresults:MOVE.deckfish", {player, from: r.from, to: r.to, what: r.what}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.deckfish", {from: r.from!, to: r.to!, what: r.what!});
+                return true;
             case "eject":
-                node.push(i18next.t("apresults:EJECT.deckfish", {player, from: r.from, to: r.to}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:EJECT.deckfish", {from: r.from!, to: r.to!});
+                return true;
             case "swap":
-                node.push(i18next.t("apresults:SWAP.deckfish", {player, what: r.what, with: r.with, where: r.where}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SWAP.deckfish", {what: r.what!, with: r.with!, where: r.where!});
+                return true;
             case "pass":
-                node.push(i18next.t("apresults:PASS.simple", {player}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.simple", {});
+                return true;
             case "announce":
-                node.push(i18next.t("apresults:ANNOUNCE.deckfish", {player, payload: r.payload}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:ANNOUNCE.deckfish", {});
+                return true;
             case "eog":
-                node.push(i18next.t("apresults:EOG.deckfish", {player}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:EOG.deckfish", {});
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): DeckfishGame {
         return Object.assign(new DeckfishGame(), deepclone(this) as DeckfishGame);

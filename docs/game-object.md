@@ -230,27 +230,28 @@ Canoe `syncFromStackEntry()` + emulation tests are the reference pattern for dic
 
 Solo EOG uses `{type: "eog"}` plus outcome fields — not `{type: "winners"}` as the primary narrative.
 
-### Structured chat log (`chatLogEntries`)
+### Structured move log (`chatLogEntries`)
 
-Some solo games expose an opt-in structured move log for correct attribution of automated opponents (e.g. El Oso’s bear on seat `2`).
+Structured move logs separate **who spoke** (`ChatActorRef`) from **what was said** (i18n `textKey` / `textParams`), so consumers substitute display names and style automated actors at render time. Full guide: **[Structured move log](/gameslib/structured-chat-log/)**.
 
 | Export | Role |
 |--------|------|
-| `ChatActorRef`, `ChatLogLine`, `ChatLogEntry` | Types in [`chat-log.ts`](/gameslib/src/common/chat-log.ts) |
+| `ChatActorRef`, `ChatLogLine`, `ChatLogEntry`, `ChatLogCollectContext` | Types in [`chat-log.ts`](/gameslib/src/common/chat-log.ts) |
 | `formatChatLogEntries`, `formatChatLogEntryNodes` | Resolve `textKey` / label actors at display time |
 | `chatPlayerToken`, `applyChatPlayerNames` | Seat lines embed `Player N`; only seat actors get display-name substitution |
 
 **Game hooks**
 
-- `getChatActorRef(seat)` — default `{ kind: "seat", seat }`; override for non-human seats (label actor with `apresults:` i18n key, not English text).
-- `chatLogEntries(players)` — optional; walk `stack` and emit structured lines (no `i18next.t()` inside the walker).
-- `chatLog(players)` — unchanged legacy string API; games may keep custom `chat()` overrides.
+- `chatLogEntries(players)` — walk `stack` and emit structured lines. Default on `GameBase` handles standard `apresults:*` result types.
+- `collectChatLogLine(lines, r, ctx)` — emit structured lines per result; override for game-specific result types (always delegate unhandled types to `super`).
+- `pushSeatChatLine` / `pushNeutralChatLine` — protected helpers; emit i18n keys, not translated strings.
+- `getChatActorRef(seat)` — default `{ kind: "seat", seat }`; override for non-human seats (label actor with `apresults:` i18n key).
+- `resolveChatSeat(r, currplayer)` — default `currplayer - 1` (wrap); override when the first result encodes the frame actor.
+
+Override `chatLogEntries` for simultaneous indexing or aggregated frames — see the guide.
 
 **Consumer integration (playground / front)**
 
-1. If `typeof game.chatLogEntries === "function"`, call `formatChatLogEntryNodes(entries, playerNames, t)` (or `formatChatLogEntries` for a flat list).
+1. Call `formatChatLogEntryNodes(game.chatLogEntries(playerNames), playerNames, t)` (or `formatChatLogEntries` for a flat list).
 2. For solo (`numplayers === 1`), pass one human display name — do not map seat `2` to a second player name.
-3. Otherwise fall back to `chatLog(playerNames)` and existing replace logic.
-4. Optional: render `line.actor.kind === "label"` with `t(actor.key)` for styling; `formatChatLogEntries` substitutes the label into `textParams.player` when present.
-
-El Oso is the first consumer; other games stay on `chatLog()` until migrated in a follow-up audit.
+3. Optional: render `line.actor.kind` in the UI for label/neutral styling.

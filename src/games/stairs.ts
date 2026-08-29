@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -515,28 +515,26 @@ export class StairsGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "lead":
-                node.push(i18next.t("apresults:LEAD", { player }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:LEAD", {});
+                return true;
             case "move":
-                node.push(i18next.t("apresults:MOVE.complete_what", { player, from: r.from, to: r.to, what: "piece" }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.complete_what", { from: r.from!, to: r.to!, what: "piece" });
+                return true;
             case "pass":
-                node.push(i18next.t("apresults:PASS.forced", { player }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.forced", {});
+                return true;
             case "eog":
-                node.push(i18next.t("apresults:EOG.default"));
-                resolved = true;
-                break;
+                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): StairsGame {
         return new StairsGame(this.serialize());

@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -1049,24 +1049,32 @@ export class GlissGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.group", { player, count: r.count, cells: r.where }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.group", {
+                    count: r.count!, cells: r.where!,
+                });
+                return true;
             case "convert":
-                node.push(i18next.t("apresults:CONVERT.simple", { player, where: r.where }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONVERT.simple", { where: r.where! });
+                return true;
             case "move":
-                node.push(r.to.length === 1 ? i18next.t("apresults:REMOVE.gliss", { player, where: r.from }) : i18next.t("apresults:MOVE.nowhat", {player, from: r.from, to: r.to}));
-                resolved = true;
-                break;
+                if (r.to!.length === 1) {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:REMOVE.gliss", { where: r.from! });
+                } else {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.nowhat", {
+                        from: r.from!, to: r.to!,
+                    });
+                }
+                return true;
+
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public sameMove(move1: string, move2: string): boolean {
         move1 = move1.toLowerCase().replace(/\s+/g, "");

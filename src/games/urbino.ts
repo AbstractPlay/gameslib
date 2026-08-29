@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IStashEntry, IScores, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IStashEntry, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -1185,29 +1185,31 @@ export class UrbinoGame extends GameBase {
         return [{ name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }]
     }
 
-    public chat(node: string[], name: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
                 switch (r.what) {
                     case "0":
-                        node.push(i18next.t("apresults:PLACE.urbino.worker", {player: name, where: r.where}));
-                        break;
+                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.urbino.worker", { where: r.where! });
+                        return true;
                     case "1":
-                        node.push(i18next.t("apresults:PLACE.urbino.house", {player: name, where: r.where}));
-                        break;
+                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.urbino.house", { where: r.where! });
+                        return true;
                     case "2":
-                        node.push(i18next.t("apresults:PLACE.urbino.palace", {player: name, where: r.where}));
-                        break;
+                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.urbino.palace", { where: r.where! });
+                        return true;
                     case "3":
-                        node.push(i18next.t("apresults:PLACE.urbino.tower", {player: name, where: r.where}));
-                        break;
+                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.urbino.tower", { where: r.where! });
+                        return true;
+                    default:
+                        return false;
                 }
-                resolved = true;
-                break;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public stashClick(this: void, move: string, movePart: string): string {
         move = move.toLowerCase().replace(/\s+/g, "");

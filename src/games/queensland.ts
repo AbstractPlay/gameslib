@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IStatus, IRenderOpts } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IStatus, IRenderOpts, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -703,16 +703,17 @@ export class QueenslandGame extends GameBase {
             return [{ key: i18next.t("apgames:status.PHASE"), value: [i18next.t("apgames:status.queensland.GAME2")] }];
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "reset":
-                node.push(i18next.t("apresults:RESET.queensland"));
-                resolved = true;
-                break;
+                this.pushNeutralChatLine(lines, "apresults:RESET.queensland");
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): QueenslandGame {
         return new QueenslandGame(this.serialize());

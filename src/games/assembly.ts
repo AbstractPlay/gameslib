@@ -1,4 +1,4 @@
-import { GameBaseSimultaneous, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBaseSimultaneous, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { AnnotationBasic, APRenderRep, AreaPieces, Colourfuncs, Glyph, MarkerFlood, MarkerGlyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -509,24 +509,26 @@ export class AssemblyGame extends GameBaseSimultaneous {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult, players: string[] = []): boolean {
-        let resolved = false;
+
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "pass":
-                node.push(i18next.t("apresults:PASS.assembly"));
-                resolved = true;
-                break;
+                this.pushNeutralChatLine(lines, "apresults:PASS.assembly");
+                return true;
             case "eject": {
-                const dist = parseInt(r.to, 10);
-                node.push(i18next.t("apresults:EJECT.assembly", {distance: dist}));
-                resolved = true;
-                break;
+                const dist = parseInt(r.to!, 10);
+                this.pushNeutralChatLine(lines, "apresults:EJECT.assembly", {distance: dist});
+                return true;
             }
             case "deltaScore":
-                node.push(i18next.t("apresults:DELTA_SCORE_GAIN", {count: r.delta, delta: r.delta, player: players[r.who! - 1]}));
-                break;
+                this.pushSeatChatLine(lines, r.who!, "apresults:DELTA_SCORE_GAIN", {
+                    count: r.delta!, delta: r.delta!,
+                });
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
 
     public getCustomRotation(): number | undefined {

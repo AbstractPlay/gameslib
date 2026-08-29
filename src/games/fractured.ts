@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, chatPlayerToken, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { AnnotationBasic, APRenderRep, AreaTrack, Colourfuncs, MarkerFlood, MarkerGlyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -666,16 +666,25 @@ export class FracturedGame extends GameBase {
         }
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult, players: string[] = []): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "deltaScore":
-                node.push(i18next.t("apresults:DELTA_SCORE_GAIN", {count: r.delta, delta: r.delta, player: players[r.who! - 1]}));
-                resolved = true;
-                break;
+                lines.push({
+                    actor: this.getChatActorRef(ctx.defaultSeat),
+                    textKey: "apresults:DELTA_SCORE_GAIN",
+                    textParams: {
+                        count: r.delta!,
+                        delta: r.delta!,
+                        player: ctx.players[(r as { who: number }).who - 1] ?? chatPlayerToken((r as { who: number }).who),
+                    },
+                });
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): FracturedGame {
         return new FracturedGame(this.serialize());

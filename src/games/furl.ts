@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -650,24 +650,23 @@ export class FurlGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "furl":
-                node.push(i18next.t("apresults:FURL.furl", {player, from: r.from, to: r.to, count: r.count}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:FURL.furl", {from: r.from!, to: r.to!, count: r.count!});
+                return true;
             case "unfurl":
-                node.push(i18next.t("apresults:UNFURL.furl", {player, from: r.from, to: r.to, count: r.count}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:UNFURL.furl", {from: r.from!, to: r.to!, count: r.count!});
+                return true;
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.furl", {player, where: r.where, size: r.count}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.furl", {where: r.where!, size: r.count!});
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public getPlayerPieces(player: number): number {
         if (this.stack[0]._version === "20231229") {

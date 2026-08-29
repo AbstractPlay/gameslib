@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, ICustomButton } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, ICustomButton, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, MarkerEdge } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -610,20 +610,20 @@ export class AkimboGame extends GameBase {
         };
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "remove":
-                node.push(i18next.t("apresults:REMOVE.akimbo", { player, where: r.where }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:REMOVE.akimbo", { where: r.where! });
+                return true;
             case "eog":
-                node.push(i18next.t("apresults:EOG.default"));
-                resolved = true;
-                break;
+                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): AkimboGame {
         return new AkimboGame(this.serialize());

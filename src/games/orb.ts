@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -848,28 +848,26 @@ export class OrbGame extends GameBase {
         ]
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                node.push(i18next.t("apresults:PLACE.orb", {player, where: r.where}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.orb", {where: r.where!});
+                return true;
             case "move":
-                node.push(i18next.t("apresults:MOVE.orb", {player, from: r.from, to: r.to, context: r.what!}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.orb", {from: r.from!, to: r.to!, context: r.what!});
+                return true;
             case "promote":
-                node.push(i18next.t("apresults:PROMOTE.orb", {player, where: r.where!, context: `${r.from!}${r.to}`}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PROMOTE.orb", {where: r.where!, context: `${r.from!}${r.to!}`});
+                return true;
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.orb", {player, where: r.where!, context: r.what!}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.orb", {where: r.where!, context: r.what!});
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public inCheck(): number[] {
         const checked: number[] = [];

@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IStashEntry } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IStashEntry, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph, Colourfuncs } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -466,26 +466,30 @@ export class SynapseGame extends GameBase {
         ];
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                if ( r.how !== undefined ) {
-                    const [subtype, size, direction] : string[] = r.how!.split(',');
-                    if ( subtype === "complete" ) {
-                        node.push(i18next.t("apresults:PLACE.synapse", { player, where: r.where, size: size, dir: direction }));
+                if (r.how !== undefined) {
+                    const [subtype, size, direction]: string[] = r.how!.split(",");
+                    if (subtype === "complete") {
+                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.synapse", {
+                            where: r.where!, size, dir: direction!,
+                        });
                     } else {
-                        node.push(i18next.t("apresults:PLACE.complete", { player, where: r.where, what: "upward piece" }));
+                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.complete", {
+                            where: r.where!, what: "upward piece",
+                        });
                     }
                 }
-                resolved = true;
-                break;
+                return true;
             case "eog":
-                node.push(i18next.t("apresults:EOG.default"));
-                resolved = true;
-                break;
+                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
 
     public clone(): SynapseGame {

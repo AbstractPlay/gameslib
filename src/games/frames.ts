@@ -1,4 +1,4 @@
-import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { AnnotationBasic, APRenderRep, Glyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -410,52 +410,24 @@ export class FramesGame extends GameBaseSimultaneous {
         ]
     }
 
-    public chatLog(players: string[]): string[][] {
-        const result: string[][] = [];
-        for (const state of this.stack) {
-            if ( (state._results !== undefined) && (state._results.length > 0) ) {
-                const node: string[] = [(state._timestamp && new Date(state._timestamp).toISOString()) || "unknown"];
-                for (const r of state._results) {
-                    switch (r.type) {
-                        case "place":
-                            node.push(i18next.t(r.who === 0 ? "apresults:PLACE.neutral" : "apresults:PLACE.nowhat", {where: r.where, player: r.who === 0 ? "" : players[r.who! - 1]}));
-                            break;
-                        case "deltaScore":
-                            node.push(i18next.t("apresults:DELTA_SCORE_GAIN", {count: 1, delta: 1, player: players[r.who! - 1]}));
-                            break;
-                        case "eog":
-                            node.push(i18next.t("apresults:EOG.default"));
-                            break;
-                        case "resigned": {
-                            let rname = `Player ${r.player}`;
-                            if (r.player <= players.length) {
-                                rname = players[r.player - 1]
-                            }
-                            node.push(i18next.t("apresults:RESIGN", {player: rname}));
-                            break;
-                        }
-                        case "winners": {
-                            const names: string[] = [];
-                            for (const w of r.players) {
-                                if (w <= players.length) {
-                                    names.push(players[w - 1]);
-                                } else {
-                                    names.push(`Player ${w}`);
-                                }
-                            }
-                            if (r.players.length === 0)
-                                node.push(i18next.t("apresults:WINNERSNONE"));
-                            else
-                                node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
 
-                            break;
-                        }
-                    }
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
+        const who = (r as { who?: number }).who;
+        switch (r.type) {
+            case "place":
+                if (who === 0) {
+                    this.pushNeutralChatLine(lines, "apresults:PLACE.neutral", { where: r.where });
+                } else {
+                    this.pushSeatChatLine(lines, who!, "apresults:PLACE.nowhat", { where: r.where });
                 }
-                result.push(node);
-            }
+                return true;
+            case "deltaScore":
+                this.pushSeatChatLine(lines, who!, "apresults:DELTA_SCORE_GAIN", { count: 1, delta: 1 });
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return result;
     }
 
     public getCustomRotation(): number | undefined {

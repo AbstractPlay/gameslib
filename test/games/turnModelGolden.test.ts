@@ -5,6 +5,7 @@ import type { IGameRound } from "../../src/games/_turn-model";
 import {
     gameFromTurnModelFixture,
     compactTrailingNullRounds,
+    chatLogEntriesParitySupported,
     genRecordGoldenSupported,
     getMoveListFromGame,
     getRoundsRecordExportSupported,
@@ -26,6 +27,7 @@ import {
     soloSequentialMoveHistoryGolden,
     soloSequentialPlayerNames,
 } from "../fixtures/turnModel/soloSequential";
+import { assertChatLogParity } from "../fixtures/chat/helpers";
 
 describe("Turn model golden (Phase 0)", () => {
     before(() => {
@@ -151,6 +153,22 @@ describe("Turn model golden (Phase 0)", () => {
                 expect(normalizeChatLogForGolden(g.chatLog(playerNames))).to.deep.equal(
                     normalizeChatLogForGolden(fixture.golden.chatLog),
                 );
+            });
+
+            it("chatLogEntries parity with chatLog when supported", () => {
+                const g = gameFromTurnModelFixture(fixture);
+                if (!chatLogEntriesParitySupported(entry.metaGame, g)) {
+                    return;
+                }
+                assertChatLogParity(g, playerNames);
+            });
+
+            it("chatLogEntries matches golden baseline when present", () => {
+                if (fixture.golden.chatLogEntries === undefined) {
+                    return;
+                }
+                const g = gameFromTurnModelFixture(fixture);
+                expect(g.chatLogEntries(playerNames)).to.deep.equal(fixture.golden.chatLogEntries);
             });
 
             it("state() matches golden normalized snapshot", () => {

@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, type ChatLogCollectContext, type ChatLogEntry, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -639,88 +639,70 @@ export class ByteGame extends GameBase {
         return ["move", "capture", "deltaScore", "eog", "winners"];
     }
 
-    public chatLog(players: string[]): string[][] {
-        const result: string[][] = [];
+
+
+
+    public chatLogEntries(players: string[] = []): ChatLogEntry[] {
+        const entries: ChatLogEntry[] = [];
         for (const state of this.stack) {
-            if ( (state._results !== undefined) && (state._results.length > 0) ) {
-                const node: string[] = [(state._timestamp && new Date(state._timestamp).toISOString()) || "unknown"];
-                let otherPlayer = state.currplayer as number - 1;
-                if (otherPlayer < 1) {
-                    otherPlayer = this.numplayers;
-                }
-                let name = `Player ${otherPlayer}`;
-                if (otherPlayer <= players.length) {
-                    name = players[otherPlayer - 1];
-                }
+            if (state._results !== undefined && state._results.length > 0) {
+                const lines: ChatLogLine[] = [];
+                const currplayer = state.currplayer as number;
+                const defaultSeat = this.resolveChatSeat(state._results[0], currplayer);
+                const ctx: ChatLogCollectContext = {
+                    results: state._results,
+                    currplayer,
+                    defaultSeat,
+                    players,
+                };
                 for (const r of state._results) {
-                    if (!this.chat(node, name, state._results, r)) {
-                        switch (r.type) {
-                            case "move":
-                                if ("count" in r) {
-                                    node.push(i18next.t("apresults:MOVE.byte.partial", {player: name, from: r.from, to: r.to, count: r.count as number}));
-                                } else {
-                                    node.push(i18next.t("apresults:MOVE.byte.full", {player: name, from: r.from, to: r.to}));
-                                }
-                                break;
-                            case "pass":
-                                node.push(i18next.t("apresults:PASS.simple", {player: name}));
-                                break;
-                            case "capture":
-                                node.push(i18next.t("apresults:CAPTURE.noperson.simple", {what: "stack", where: r.where}));
-                                break;
-                            case "deltaScore": {
-                                const scorer = players[(r.who as number) - 1];
-                                node.push(i18next.t("apresults:DELTA_SCORE_GAIN", {player: scorer, delta: r.delta as number, count: r.delta as number}));
-                                node.push(i18next.t("apresults:SCORE_REPORT", {player: scorer, score: (state.scores as number[])[(r.who as number) - 1]}));
-                                break;
-                            }
-                            case "eog":
-                                node.push(i18next.t("apresults:EOG.default"));
-                                break;
-                            case "resigned": {
-                                let rname = `Player ${r.player}`;
-                                if (r.player <= players.length) {
-                                    rname = players[r.player - 1]
-                                }
-                                node.push(i18next.t("apresults:RESIGN", {player: rname}));
-                                break;
-                            }
-                            case "timeout": {
-                                let tname = `Player ${r.player}`;
-                                if (r.player <= players.length) {
-                                    tname = players[r.player - 1]
-                                }
-                                node.push(i18next.t("apresults:TIMEOUT", {player: tname}));
-                                break;
-                            }
-                            case "gameabandoned":
-                                node.push(i18next.t("apresults:ABANDONED"));
-                                break;
-                            case "drawagreed":
-                                node.push(i18next.t("apresults:DRAWAGREED"));
-                            break;
-                            case "winners": {
-                                const names: string[] = [];
-                                for (const w of r.players) {
-                                    if (w <= players.length) {
-                                        names.push(players[w - 1]);
-                                    } else {
-                                        names.push(`Player ${w}`);
-                                    }
-                                }
-                                if (r.players.length === 0)
-                                    node.push(i18next.t("apresults:WINNERSNONE"));
-                                else
-                                    node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
-                                break;
-                            }
-                        }
-                    }
+                    this.collectChatLogLine(lines, r, ctx);
                 }
-                result.push(node);
+                entries.push({
+                    timestamp: (state._timestamp && new Date(state._timestamp).toISOString()) || "unknown",
+                    lines,
+                });
             }
         }
-        return result;
+        return entries;
+    }
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
+        const frame = this.stack.find((s) => s._results === ctx.results);
+        const scores = frame?.scores as [number, number] | undefined;
+        switch (r.type) {
+            case "move":
+                if ("count" in r && r.count !== undefined) {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.byte.partial", {
+                        from: r.from!, to: r.to!, count: r.count as number,
+                    });
+                } else {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.byte.full", {
+                        from: r.from!, to: r.to!,
+                    });
+                }
+                return true;
+            case "capture":
+                this.pushNeutralChatLine(lines, "apresults:CAPTURE.noperson.simple", {
+                    what: "stack", where: r.where!,
+                });
+                return true;
+            case "deltaScore": {
+                const who = (r as { who?: number }).who!;
+                const scorer = this.resolveChatPlayerName(who, ctx.players);
+                this.pushNeutralChatLine(lines, "apresults:DELTA_SCORE_GAIN", {
+                    player: scorer, delta: r.delta as number, count: r.delta as number,
+                });
+                if (scores !== undefined) {
+                    this.pushNeutralChatLine(lines, "apresults:SCORE_REPORT", {
+                        player: scorer, score: scores[who - 1],
+                    });
+                }
+                return true;
+            }
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
+        }
     }
 
     public clone(): ByteGame {

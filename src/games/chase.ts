@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 import { Direction, Grid, rectangle, defineHex, Orientation, Hex } from "honeycomb-grid";
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IStatus, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogEntry, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -1414,82 +1414,93 @@ export class ChaseGame extends GameBase {
             return [];
     }
 
-    public chatLog(players: string[]): string[][] {
-        // eog, resign, winners, convert, capture, eject, move, take, place
-        const result: string[][] = [];
-        for (const state of this.stack) {
-            if ( (state._results !== undefined) && (state._results.length > 0) ) {
-                const node: string[] = [(state._timestamp && new Date(state._timestamp).toISOString()) || "unknown"];
-                let otherPlayer = state.currplayer + 1;
-                if (otherPlayer > this.numplayers) {
-                    otherPlayer = 1;
-                }
-                let name = `Player ${otherPlayer}`;
-                if (otherPlayer <= players.length) {
-                    name = players[otherPlayer - 1];
-                }
 
-                const moves = state._results.filter(r => r.type === "move") as {type: "move"; from: string, to: string}[];
-                if (moves.length > 0) {
-                    const first = moves[0];
-                    const last = moves[moves.length - 1];
-                    const rest = moves.slice(0, moves.length - 1);
-                    if ( moves.length > 2) {
-                        node.push(i18next.t("apresults:MOVE.chase", {player: name, from: first.from, to: last.to, through: rest.map(r => r.to).join(", ")}));
-                    } else {
-                        node.push(i18next.t("apresults:MOVE.nowhat", {player: name, from: first.from, to: last.to}));
-                    }
-                }
-                for (const r of state._results) {
-                    switch (r.type) {
-                        case "capture":
-                            node.push(i18next.t("apresults:CAPTURE.complete", {player: name, what: r.what, where: r.where}));
-                            break;
-                        case "eject":
-                            node.push(i18next.t("apresults:MOVE.push", {what: r.what, from: r.from, to: r.to}));
-                            break;
-                        case "convert":
-                            node.push(i18next.t("apresults:CONVERT.complete", {player: name, what: r.what, into: r.into, where: r.where}));
-                            break;
-                        case "take":
-                            node.push(i18next.t("apresults:TAKE.chase", {what: r.what}));
-                            break;
-                        case "place":
-                            node.push(i18next.t("apresults:PLACE.chase", {what: r.what, where: r.where}));
-                            break;
-                        case "eog":
-                            node.push(i18next.t("apresults:EOG.default"));
-                            break;
-                        case "resigned": {
-                            let rname = `Player ${r.player}`;
-                            if (r.player <= players.length) {
-                                rname = players[r.player - 1]
-                            }
-                            node.push(i18next.t("apresults:RESIGN", {player: rname}));
-                            break;
-                        }
-                        case "winners": {
-                            const names: string[] = [];
-                            for (const w of r.players) {
-                                if (w <= players.length) {
-                                    names.push(players[w - 1]);
-                                } else {
-                                    names.push(`Player ${w}`);
-                                }
-                            }
-                            if (r.players.length === 0)
-                                node.push(i18next.t("apresults:WINNERSNONE"));
-                            else
-                                node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
 
-                            break;
-                        }
-                    }
-                }
-                result.push(node);
-            }
+    protected frameChatActorSeat(currplayer: number): number {
+        let seat = currplayer + 1;
+        if (seat > this.numplayers) {
+            seat = 1;
         }
-        return result;
+        return seat;
+    }
+
+    public chatLogEntries(players: string[] = []): ChatLogEntry[] {
+        const entries: ChatLogEntry[] = [];
+        for (const state of this.stack) {
+            if (state._results === undefined || state._results.length === 0) {
+                continue;
+            }
+            const lines: ChatLogLine[] = [];
+            const currplayer = state.currplayer as number;
+            const seat = this.frameChatActorSeat(currplayer);
+            const moves = state._results.filter((r) => r.type === "move") as { type: "move"; from: string; to: string }[];
+            if (moves.length > 0) {
+                const first = moves[0];
+                const last = moves[moves.length - 1];
+                const rest = moves.slice(0, moves.length - 1);
+                if (moves.length > 2) {
+                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.chase", {
+                        from: first.from,
+                        to: last.to,
+                        through: rest.map((m) => m.to).join(", "),
+                    });
+                } else {
+                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.nowhat", {
+                        from: first.from,
+                        to: last.to,
+                    });
+                }
+            }
+            for (const r of state._results) {
+                switch (r.type) {
+                    case "capture":
+                        this.pushSeatChatLine(lines, seat, "apresults:CAPTURE.complete", {
+                            what: r.what,
+                            where: r.where,
+                        });
+                        break;
+                    case "eject":
+                        this.pushNeutralChatLine(lines, "apresults:MOVE.push", {
+                            what: r.what,
+                            from: r.from,
+                            to: r.to,
+                        });
+                        break;
+                    case "convert":
+                        this.pushSeatChatLine(lines, seat, "apresults:CONVERT.complete", {
+                            what: r.what,
+                            into: r.into,
+                            where: r.where,
+                        });
+                        break;
+                    case "take":
+                        this.pushNeutralChatLine(lines, "apresults:TAKE.chase", { what: r.what });
+                        break;
+                    case "place":
+                        this.pushNeutralChatLine(lines, "apresults:PLACE.chase", {
+                            what: r.what,
+                            where: r.where,
+                        });
+                        break;
+                }
+            }
+            const ctx: ChatLogCollectContext = {
+                results: state._results,
+                currplayer,
+                defaultSeat: seat,
+                players,
+            };
+            for (const r of state._results) {
+                if (r.type === "eog" || r.type === "resigned" || r.type === "winners") {
+                    this.collectChatLogLine(lines, r, ctx);
+                }
+            }
+            entries.push({
+                timestamp: (state._timestamp && new Date(state._timestamp).toISOString()) || "unknown",
+                lines,
+            });
+        }
+        return entries;
     }
 
     public clone(): ChaseGame {

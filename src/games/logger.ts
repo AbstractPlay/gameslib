@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid, shuffle, SquareOrthGraph } from "../common";
 import { APRenderRep, AreaPieces, Glyph } from "@abstractplay/renderer/build/schemas/schema";
@@ -1044,38 +1044,35 @@ export class LoggerGame extends GameBase {
         return ["move", "place", "destroy", "add", "winners", "eog", "deltaScore"];
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        // move, place, destroy, claim, deltaScore
+
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         if (r.type === "move") {
-            node.push(i18next.t("apresults:MOVE.nowhat", {player, from: r.from, to: r.to}));
+            this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.nowhat", {from: r.from!, to: r.to!});
             return true;
-        }
-        else if (r.type === "place") {
-            // logger, spawn, plant
-            if (r.what === "logger") {
-                node.push(i18next.t("apresults:PLACE.logger", {context: r.what, player, where: r.where}));
-                return true;
-            } else if (r.what === "spawn") {
-                node.push(i18next.t("apresults:PLACE.logger", {context: r.what, player, where: r.where}));
-                return true;
-            } else if (r.what === "plant") {
-                node.push(i18next.t("apresults:PLACE.logger", {context: r.what, player, where: r.where}));
+        } else if (r.type === "place") {
+            if (r.what === "logger" || r.what === "spawn" || r.what === "plant") {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.logger", {
+                    context: r.what, where: r.where!,
+                });
                 return true;
             }
         } else if (r.type === "add") {
-            node.push(i18next.t("apresults:ADD.logger", {where: r.where}));
+            this.pushNeutralChatLine(lines, "apresults:ADD.logger", {where: r.where!});
             return true;
         } else if (r.type === "destroy") {
-            node.push(i18next.t("apresults:DESTROY.logger", {player, where: r.where}));
+            this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DESTROY.logger", {where: r.where!});
             return true;
         } else if (r.type === "claim") {
-            node.push(i18next.t("apresults:CLAIM.logger", {player, where: r.where}));
+            this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.logger", {where: r.where!});
             return true;
         } else if (r.type === "deltaScore") {
-            node.push(i18next.t("apresults:DELTA_SCORE_GAIN", {count: r.delta, delta: r.delta, player}));
+            this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DELTA_SCORE_GAIN", {
+                count: r.delta!, delta: r.delta!,
+            });
             return true;
         }
-        return false;
+        return super.collectChatLogLine(lines, r, ctx);
     }
 
     public getPlayerColour(p: playerid): number | string {

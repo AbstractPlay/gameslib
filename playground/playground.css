@@ -23,6 +23,8 @@ html, body {
 }
 
 body {
+    display: flex;
+    flex-direction: column;
     transition: background-color 0.3s, color 0.3s;
     height: 100vh;
     min-height: 0;
@@ -81,12 +83,13 @@ body[data-theme='dark'] .collapsible summary {
 
 .main-container {
     display: flex;
+    flex: 1 1 auto;
     gap: 1rem;
     padding: 0.5rem;
     margin-top: 0;
     position: relative;
-    height: 100vh;
     min-height: 0;
+    overflow: hidden;
     box-sizing: border-box;
     transition: padding-left 0.3s;
 }
@@ -153,6 +156,7 @@ body[data-theme='dark'] .collapsible summary {
 
 .top-bar {
     display: flex;
+    flex: 0 0 auto;
     align-items: center;
     justify-content: flex-start;
     padding: 0.5rem;
@@ -170,11 +174,11 @@ body[data-theme='dark'] .collapsible summary {
 }
 
 .play-area {
-    flex: 1;
+    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
-    height: 100vh;
     min-height: 0;
+    overflow: hidden;
     margin-left: var(--sidebar-width);
     transition: margin-left 0.3s;
 }
@@ -196,6 +200,7 @@ body[data-theme='dark'] .collapsible summary {
 }
 
 #clickstatus {
+    flex: 0 0 auto;
     height: 3em;
     overflow: auto;
     margin: 0;
@@ -205,20 +210,20 @@ body[data-theme='dark'] .collapsible summary {
 }
 
 .board-container {
-    flex: 1;
+    flex: 1 1 auto;
     min-height: 0;
     display: flex;
     gap: 1rem;
-    max-height: 80vh;
     overflow: hidden;
 }
 .board-stage {
-    flex: 3;
+    flex: 3 1 0;
     min-width: 0;
     min-height: 0;
     display: flex;
     flex-direction: column;
     gap: 0.35rem;
+    overflow: hidden;
 }
 .frame-controls {
     display: flex;
@@ -240,29 +245,29 @@ body[data-theme='dark'] .collapsible summary {
     text-align: center;
 }
 #drawing {
-    flex: 1;
+    flex: 1 1 auto;
     overflow: auto;
     transition: background-color 0.3s;
     background-color: inherit;
-    height: 100%;
     min-height: 0;
     min-width: 0;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     box-sizing: border-box;
 }
 #drawing > svg {
+    flex-shrink: 0;
     max-width: 100%;
-    max-height: 100%;
     width: auto;
     height: auto;
 }
 .game-info {
-    flex: 2;
+    flex: 2 1 0;
     overflow-y: auto;
     min-width: 300px;
     max-width: 500px;
+    min-height: 0;
 }
 
 .move-history-panel .move-history-table {
@@ -435,17 +440,15 @@ body[data-theme='dark'] input[type="radio"] {
 @media (max-width: 1000px) {
     .board-container {
         flex-direction: column;
-        max-height: none;
     }
     #drawing {
         width: 100%;
-        flex: initial;
-        height: auto !important;
-        min-height: 0 !important;
-        align-items: stretch !important;
-        justify-content: flex-start !important;
-        padding: 0 !important;
-        margin: 0 !important;
+        flex: 1 1 auto;
+        min-height: 0;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 0;
+        margin: 0;
     }
     .game-info {
         width: 100%;

@@ -10,6 +10,9 @@ Cross-index of helpers and modules to games that import them. Auto-generated fro
 
 | Helper / module | Example games |
 | --- | --- |
+| **Custom move log lines** | [Minimize](https://play.abstractplay.com/games/minimize), [Frogger](https://play.abstractplay.com/games/frogger), [El Oso](https://play.abstractplay.com/games/elOso), [Byte](https://play.abstractplay.com/games/byte) |
+| **Simultaneous move log** | [Strings](https://play.abstractplay.com/games/strings), [Entropy](https://play.abstractplay.com/games/entropy), [Frames](https://play.abstractplay.com/games/frames) |
+| **Aggregated move log** | [Volcano](https://play.abstractplay.com/games/volcano), [Fanorona](https://play.abstractplay.com/games/fanorona), [Epaminondas](https://play.abstractplay.com/games/epam), [Fendo](https://play.abstractplay.com/games/fendo), [Chase](https://play.abstractplay.com/games/chase) |
 | `BaoGraph` | [Bao](https://play.abstractplay.com/games/bao) |
 | `Direction` | [Akimbo](https://play.abstractplay.com/games/akimbo), [Ataxx](https://play.abstractplay.com/games/ataxx), [Azacru](https://play.abstractplay.com/games/azacru), [Breakthrough](https://play.abstractplay.com/games/breakthrough), [Branches and Twigs and Thorns](https://play.abstractplay.com/games/btt), [Camelot](https://play.abstractplay.com/games/camelot), [Catapult](https://play.abstractplay.com/games/catapult), [Halfcut](https://play.abstractplay.com/games/clearcut) (+34 more) |
 | `DirectionCardinal` | [Branches and Twigs and Thorns](https://play.abstractplay.com/games/btt), [Gliss](https://play.abstractplay.com/games/gliss), [Krypte](https://play.abstractplay.com/games/krypte) |

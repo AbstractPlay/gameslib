@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic, MarkerDots, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -1047,37 +1047,32 @@ export class SporaGame extends GameBase {
         ];
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
 
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "komi":
-                node.push(i18next.t("apresults:KOMI", { player, value: r.value }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:KOMI", { value: r.value! });
+                return true;
             case "play-second":
-                node.push(i18next.t("apresults:PLAYSECOND", { player }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLAYSECOND", {});
+                return true;
             case "place":
-                node.push(i18next.t("apresults:PLACE.spora", { player, where: r.where, size: r.count, count: r.count }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.spora", { where: r.where!, size: r.count!, count: r.count! });
+                return true;
             case "move":
-                node.push(i18next.t("apresults:MOVE.spora", { player, from: r.from, to : r.to }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.spora", { from: r.from!, to : r.to! });
+                return true;
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.spora", { player, group: r.where!, count: r.count }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.spora", { group: r.where!, count: r.count! });
+                return true;
             case "eog":
-                node.push(i18next.t("apresults:EOG.default"));
-                resolved = true;
-                break;
+                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public serialize(opts?: {strip?: boolean, player?: number}): string {

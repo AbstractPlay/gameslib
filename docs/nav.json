@@ -4,6 +4,7 @@
   { "slug": "testing" },
   { "slug": "api", "title": "API" },
   { "slug": "game-object", "title": "Game object" },
+  { "slug": "structured-chat-log", "title": "Structured move log" },
   { "slug": "sequenced-turn-model", "title": "Sequenced turn model" },
   { "slug": "flags" },
   { "slug": "helpers" },

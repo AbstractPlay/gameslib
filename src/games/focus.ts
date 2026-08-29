@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -567,67 +567,37 @@ export class FocusGame extends GameBase {
         return ["move", "place", "eog", "winners"];
     }
 
-    public chatLog(players: string[]): string[][] {
-        // eog, resign, winners, move, capture, promote, deltaScore
-        const result: string[][] = [];
-        for (const state of this.stack) {
-            if ( (state._results !== undefined) && (state._results.length > 0) ) {
-                const node: string[] = [(state._timestamp && new Date(state._timestamp).toISOString()) || "unknown"];
-                let otherPlayer = state.currplayer + 1;
-                if (otherPlayer > this.numplayers) {
-                    otherPlayer = 1;
-                }
-                let name = `Player ${otherPlayer}`;
-                if (otherPlayer <= players.length) {
-                    name = players[otherPlayer - 1];
-                }
-                for (const r of state._results) {
-                    switch (r.type) {
-                        case "move":
-                            node.push(i18next.t("apresults:MOVE.complete", {player: name, from: r.from, to: r.to, count: r.count as number}));
-                            break;
-                        case "place":
-                            node.push(i18next.t("apresults:PLACE.nowhat", {player: name, where: r.where!}));
-                            break;
-                        case "capture":
-                            node.push(i18next.t("apresults:CAPTURE.multiple", {count: r.count!}));
-                            break;
-                        case "reclaim":
-                            node.push(i18next.t("apresults:RECLAIM.nowhat", {count: r.count!}));
-                            break;
-                        case "eog":
-                            node.push(i18next.t("apresults:EOG.default"));
-                            break;
-                            case "resigned": {
-                                let rname = `Player ${r.player}`;
-                                if (r.player <= players.length) {
-                                    rname = players[r.player - 1]
-                                }
-                                node.push(i18next.t("apresults:RESIGN", {player: rname}));
-                                break;
-                            }
-                            case "winners": {
-                                const names: string[] = [];
-                                for (const w of r.players) {
-                                    if (w <= players.length) {
-                                        names.push(players[w - 1]);
-                                    } else {
-                                        names.push(`Player ${w}`);
-                                    }
-                                }
-                                if (r.players.length === 0)
-                                    node.push(i18next.t("apresults:WINNERSNONE"));
-                                else
-                                    node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
 
-                                break;
-                            }
-                        }
-                }
-                result.push(node);
-            }
+
+    public resolveChatSeat(_r: APMoveResult, currplayer: number): number {
+        let seat = currplayer + 1;
+        if (seat > this.numplayers) {
+            seat = 1;
         }
-        return result;
+        return seat;
+    }
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
+        switch (r.type) {
+            case "move":
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.complete", {
+                    from: r.from,
+                    to: r.to,
+                    count: r.count as number,
+                });
+                return true;
+            case "place":
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                return true;
+            case "capture":
+                this.pushNeutralChatLine(lines, "apresults:CAPTURE.multiple", { count: r.count! });
+                return true;
+            case "reclaim":
+                this.pushNeutralChatLine(lines, "apresults:RECLAIM.nowhat", { count: r.count! });
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
+        }
     }
 
     public clone(): FocusGame {

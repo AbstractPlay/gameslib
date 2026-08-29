@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
@@ -740,20 +740,22 @@ export class AmazonsGame extends GameBase {
         return [{ name: i18next.t("apgames:status.amazons.TERRITORY"), scores: this.territory(), spoiler: true}];
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move": {
-                const block = results.find(mr => mr.type === "block")! as {type: "block"; where: string};
-                node.push(i18next.t("apresults:MOVE.amazons", {player, from: r.from, to: r.to, block: block.where}));
-                resolved = true;
-                break;
+                const block = ctx.results.find((mr) => mr.type === "block")! as { type: "block"; where: string };
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.amazons", {
+                    from: r.from, to: r.to, block: block.where,
+                });
+                return true;
             }
             case "block":
-                resolved = true;
-                break;
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
 
     public clone(): AmazonsGame {

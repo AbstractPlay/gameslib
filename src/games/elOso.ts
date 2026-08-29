@@ -1,9 +1,9 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IStatus, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IStatus, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, resolveChallengeSeed, reviver, UserFacingError, type Direction, chatPlayerToken } from "../common";
-import type { ChatActorRef, ChatLogEntry, ChatLogLine } from "../common/chat-log";
+import { RectGrid, resolveChallengeSeed, reviver, UserFacingError, type Direction } from "../common";
+import { chatPlayerToken, forEachGroupResult, type ChatActorRef, type ChatLogEntry, type ChatLogLine } from "../common/chat-log";
 import { type IGradeTier, type ISoloOutcomeMeta } from "./_solo-outcome";
 import i18next from "i18next";
 // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -1259,69 +1259,11 @@ export class ElOsoGame extends GameBase {
         return who ?? fallback;
     }
 
-    private resolveChatPlayer(seat: number, players: string[]): string {
-        if (seat === 2) {
-            return i18next.t("apresults:ACTOR.elOso.bear");
-        }
-        if (seat - 1 < players.length && players[seat - 1] !== undefined && players[seat - 1].length > 0) {
-            return players[seat - 1];
-        }
-        return chatPlayerToken(seat);
-    }
-
     private rollChatKey(seat: number): string {
         return seat === 2 ? "apresults:ROLL.elOso" : "apresults:ROLL.elOso_player";
     }
 
-    private pushLegacyChatLine(node: string[], r: APMoveResult, defaultWho: number, players: string[]): void {
-        const seat = this.seatFromResult(r, defaultWho);
-        const player = this.resolveChatPlayer(seat, players);
-        switch (r.type) {
-            case "place":
-                node.push(
-                    i18next.t("apresults:PLACE.elOso", {
-                        player,
-                        count: r.count,
-                        where: r.where,
-                    }),
-                );
-                break;
-            case "move":
-                node.push(
-                    i18next.t("apresults:MOVE.elOso", {
-                        player,
-                        from: r.from,
-                        to: r.to,
-                        count: r.count,
-                    }),
-                );
-                break;
-            case "capture":
-                node.push(
-                    i18next.t("apresults:CAPTURE.elOso", {
-                        player,
-                        where: r.where,
-                        count: r.count,
-                    }),
-                );
-                break;
-            case "roll":
-                node.push(
-                    i18next.t(this.rollChatKey(seat), {
-                        player,
-                        dice: r.values.join(", "),
-                    }),
-                );
-                break;
-            case "pass":
-                node.push(i18next.t("apresults:PASS.elOso", { player }));
-                break;
-            default:
-                break;
-        }
-    }
-
-    private pushStructuredChatLine(lines: ChatLogLine[], r: APMoveResult, defaultWho: number): void {
+    private pushElOsoChatLine(lines: ChatLogLine[], r: APMoveResult, defaultWho: number): void {
         const seat = this.seatFromResult(r, defaultWho);
         const actor = this.getChatActorRef(seat);
         const player = chatPlayerToken(seat);
@@ -1367,11 +1309,7 @@ export class ElOsoGame extends GameBase {
     }
 
     private collectChatLogLines(lines: ChatLogLine[], r: APMoveResult, defaultWho: number): void {
-        if (r.type === "_group") {
-            const who = r.who ?? defaultWho;
-            for (const nested of r.results) {
-                this.pushStructuredChatLine(lines, nested, who);
-            }
+        if (forEachGroupResult(r, defaultWho, (nested, who) => this.pushElOsoChatLine(lines, nested, who))) {
             return;
         }
         if (r.type === "announce") {
@@ -1388,9 +1326,10 @@ export class ElOsoGame extends GameBase {
             return;
         }
         if (r.type === "place" || r.type === "move" || r.type === "pass" || r.type === "capture" || r.type === "roll") {
-            this.pushStructuredChatLine(lines, r, defaultWho);
+            this.pushElOsoChatLine(lines, r, defaultWho);
         }
     }
+
 
     public chatLogEntries(players: string[] = []): ChatLogEntry[] {
         void players;
@@ -1408,39 +1347,6 @@ export class ElOsoGame extends GameBase {
             }
         }
         return entries;
-    }
-
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult, players: string[] = []): boolean {
-        void player;
-        void results;
-        if (r.type === "_group") {
-            const who = r.who ?? 1;
-            for (const nested of r.results) {
-                this.pushLegacyChatLine(node, nested, who, players);
-            }
-            return true;
-        }
-        if (r.type === "announce") {
-            const tag = (r.payload as string[])[0];
-            if (tag === "playerSetup") {
-                node.push(i18next.t("apresults:ANNOUNCE.elOso.playerSetup"));
-                return true;
-            }
-            if (tag === "bearSetup") {
-                node.push(i18next.t("apresults:ANNOUNCE.elOso.bearSetup"));
-                return true;
-            }
-            return false;
-        }
-        if (r.type === "eog") {
-            node.push(i18next.t("apresults:EOG.default"));
-            return true;
-        }
-        if (r.type === "place" || r.type === "move" || r.type === "pass" || r.type === "capture" || r.type === "roll") {
-            this.pushLegacyChatLine(node, r, 1, players);
-            return true;
-        }
-        return false;
     }
 
     public clone(): ElOsoGame {

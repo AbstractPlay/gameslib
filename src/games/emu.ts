@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IScores, IStatus, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IScores, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { AnnotationFreespace, APRenderRep, AreaPieces, Freepiece, Glyph, MarkerFreespaceLabel, MarkerPath } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -1403,29 +1403,35 @@ export class EmuGame extends GameBase {
         ];
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place": {
                 const context = r.where === "new" ? "new" : r.where === "discard" ? "discard" : "existing";
-                node.push(i18next.t("apresults:PLACE.emu", {context, player, where: r.where, what: r.what}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.emu", {
+                    context, where: r.where!, what: r.what!,
+                });
+                return true;
             }
             case "deckDraw":
-                node.push(i18next.t("apresults:DECKDRAW.emu", {context: r.from, player, what: r.what}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DECKDRAW.emu", {
+                    context: r.from!, what: r.what!,
+                });
+                return true;
             case "declare":
-                node.push(i18next.t("apresults:DECLARE.emu", {player, year: r.count}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DECLARE.emu", {year: r.count!});
+                return true;
             case "deltaScore":
-                node.push(i18next.t("apresults:DELTASCORE.emu", {context: r.description === "excuse" ? "excuse" : "score", player, delta: r.delta, ranks: r.description}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DELTASCORE.emu", {
+                    context: r.description === "excuse" ? "excuse" : "score",
+                    delta: r.delta!,
+                    ranks: r.description!,
+                });
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
 
     public clone(): EmuGame {

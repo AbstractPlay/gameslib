@@ -1793,17 +1793,12 @@ function renderGame(...args) {
         if (game.numplayers === 1) {
             logNames = [PREDEFINED_LOG_NAMES[0]];
         }
-        if (typeof game.chatLogEntries === "function" && typeof APGames.formatChatLogEntryNodes === "function") {
+        if (typeof APGames.formatChatLogEntryNodes === "function") {
             var t = (APGames.i18n && typeof APGames.i18n.t === "function")
                 ? APGames.i18n.t.bind(APGames.i18n)
                 : function (key) { return key; };
             var nodes = APGames.formatChatLogEntryNodes(game.chatLogEntries(logNames), logNames, t);
             var results = nodes.reverse().map(function (e) { return e.join(" "); });
-            if (results.length > 0) {
-                status += "\n\n* " + results.join("\n* ");
-            }
-        } else if (typeof game.chatLog === "function") {
-            var results = game.chatLog(logNames).reverse().map(e => e.join(" "));
             if (results.length > 0) {
                 status += "\n\n* " + results.join("\n* ");
             }

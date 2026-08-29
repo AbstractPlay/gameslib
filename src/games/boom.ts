@@ -1,5 +1,5 @@
 
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -597,24 +597,23 @@ export class BoomGame extends GameBase {
         return ["move", "damage", "destroy", "bearoff", "eog", "winners"];
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                node.push(i18next.t("apresults:MOVE.complete", {count: parseInt(r.what!, 10), player, from: r.from, to: r.to}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.complete", {count: parseInt(r.what!, 10), from: r.from!, to: r.to!});
+                return true;
             case "damage":
-                node.push(i18next.t("apresults:CAPTURE.boom", {player, where: r.where}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.boom", {where: r.where!});
+                return true;
             case "bearoff":
-                node.push(i18next.t("apresults:BEAROFF.complete", {player, from: r.from, count: parseInt(r.what!, 10)}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:BEAROFF.complete", {from: r.from!, count: parseInt(r.what!, 10)});
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public sidebarScores(): IScores[] {
         return [

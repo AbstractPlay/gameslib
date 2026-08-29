@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, ICustomButton } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, ICustomButton, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaKey, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -794,24 +794,24 @@ export class WunchunkGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
                 if (r.what === "mine") {
-                    node.push(i18next.t("apresults:PLACE.mine", {player, where: r.where}));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.mine", {where: r.where!});
                 } else {
-                    node.push(i18next.t("apresults:PLACE.theirs_specific", {player, where: r.where, enemy: `P${r.who}`}));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.theirs_specific", {where: r.where!, enemy: `P${r.who!}`});
                 }
-                resolved = true;
-                break;
+                return true;
             case "swap":
-                node.push(i18next.t("apresults:SWAP.wunchunk", {player}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SWAP.wunchunk", {});
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): WunchunkGame {
         const clonedState = this.serialize();

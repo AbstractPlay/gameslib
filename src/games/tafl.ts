@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid, Direction } from "../common";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema";
@@ -1426,49 +1426,54 @@ export class TaflGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
                 if (r.how === "jump") {
-                    node.push(i18next.t("apresults:MOVE.tafl_jump", { player, from: r.from, to: r.to }));
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.tafl_jump", {
+                        from: r.from, to: r.to,
+                    });
                 } else {
-                    node.push(i18next.t("apresults:MOVE.tafl", { player, from: r.from, to: r.to }));
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.tafl", {
+                        from: r.from, to: r.to,
+                    });
                 }
-                resolved = true;
-                break;
+                return true;
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.tafl", { player, where: r.where }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.tafl", {
+                    where: r.where!,
+                });
+                return true;
             case "eog":
                 switch (r.reason) {
                     case "king-captured":
-                        node.push(i18next.t("apresults:EOG.tafl_king_captured"));
+                        this.pushNeutralChatLine(lines, "apresults:EOG.tafl_king_captured");
                         break;
                     case "king-escaped":
-                        node.push(i18next.t("apresults:EOG.tafl_king_escaped"));
+                        this.pushNeutralChatLine(lines, "apresults:EOG.tafl_king_escaped");
                         break;
                     case "repetition":
-                        node.push(i18next.t("apresults:EOG.repetition", { count: 3 }));
+                        this.pushNeutralChatLine(lines, "apresults:EOG.repetition", { count: 3 });
                         break;
                     case "stalemate":
-                        node.push(i18next.t("apresults:EOG.stalemate"));
+                        this.pushNeutralChatLine(lines, "apresults:EOG.stalemate");
                         break;
                     case "encirclement":
-                        node.push(i18next.t("apresults:EOG.tafl_encirclement"));
+                        this.pushNeutralChatLine(lines, "apresults:EOG.tafl_encirclement");
                         break;
                     case "exit-fort":
-                        node.push(i18next.t("apresults:EOG.tafl_exit_fort"));
+                        this.pushNeutralChatLine(lines, "apresults:EOG.tafl_exit_fort");
                         break;
                     case undefined:
-                        node.push(i18next.t("apresults:EOG.default"));
+                        this.pushNeutralChatLine(lines, "apresults:EOG.default");
                         break;
                 }
-                resolved = true;
-                break;
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
 
     public clone(): TaflGame {

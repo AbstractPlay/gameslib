@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogEntry, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -665,68 +665,59 @@ export class EpamGame extends GameBase {
         ]
     }
 
-    public chatLog(players: string[]): string[][] {
-        // eog, resign, winners, move, capture, promote, deltaScore
-        const result: string[][] = [];
-        for (const state of this.stack) {
-            if ( (state._results !== undefined) && (state._results.length > 0) ) {
-                const node: string[] = [(state._timestamp && new Date(state._timestamp).toISOString()) || "unknown"];
-                let otherPlayer = state.currplayer + 1;
-                if (otherPlayer > this.numplayers) {
-                    otherPlayer = 1;
-                }
-                let name = `Player ${otherPlayer}`;
-                if (otherPlayer <= players.length) {
-                    name = players[otherPlayer - 1];
-                }
-                let captureCount = 0;
-                for (const r of state._results) {
-                    switch (r.type) {
-                        case "move":
-                            node.push(i18next.t("apresults:MOVE.nowhat", {player: name, from: r.from, to: r.to}));
-                            break;
-                        case "capture":
-                            captureCount++;
-                            break;
-                        case "place":
-                            node.push(i18next.t("apresults:PLACE.epam", {player: name, where: r.where}));
-                            break;
-                        case "eog":
-                            node.push(i18next.t("apresults:EOG.default"));
-                            break;
-                            case "resigned": {
-                                let rname = `Player ${r.player}`;
-                                if (r.player <= players.length) {
-                                    rname = players[r.player - 1]
-                                }
-                                node.push(i18next.t("apresults:RESIGN", {player: rname}));
-                                break;
-                            }
-                            case "winners": {
-                                const names: string[] = [];
-                                for (const w of r.players) {
-                                    if (w <= players.length) {
-                                        names.push(players[w - 1]);
-                                    } else {
-                                        names.push(`Player ${w}`);
-                                    }
-                                }
-                                if (r.players.length === 0)
-                                    node.push(i18next.t("apresults:WINNERSNONE"));
-                                else
-                                    node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
 
-                                break;
-                            }
-                        }
-                }
-                if (captureCount > 0) {
-                    node.push(i18next.t("apresults:CAPTURE.multiple", {count: captureCount}));
-                }
-                result.push(node);
-            }
+
+    protected frameChatActorSeat(currplayer: number): number {
+        let seat = currplayer + 1;
+        if (seat > this.numplayers) {
+            seat = 1;
         }
-        return result;
+        return seat;
+    }
+
+    public chatLogEntries(players: string[] = []): ChatLogEntry[] {
+        const entries: ChatLogEntry[] = [];
+        for (const state of this.stack) {
+            if (state._results === undefined || state._results.length === 0) {
+                continue;
+            }
+            const lines: ChatLogLine[] = [];
+            const currplayer = state.currplayer as number;
+            const seat = this.frameChatActorSeat(currplayer);
+            let captureCount = 0;
+            for (const r of state._results) {
+                switch (r.type) {
+                    case "move":
+                        this.pushSeatChatLine(lines, seat, "apresults:MOVE.nowhat", { from: r.from, to: r.to });
+                        break;
+                    case "capture":
+                        captureCount++;
+                        break;
+                    case "place":
+                        this.pushSeatChatLine(lines, seat, "apresults:PLACE.epam", { where: r.where });
+                        break;
+                }
+            }
+            if (captureCount > 0) {
+                this.pushNeutralChatLine(lines, "apresults:CAPTURE.multiple", { count: captureCount });
+            }
+            const ctx: ChatLogCollectContext = {
+                results: state._results,
+                currplayer,
+                defaultSeat: seat,
+                players,
+            };
+            for (const r of state._results) {
+                if (r.type === "eog" || r.type === "resigned" || r.type === "winners") {
+                    this.collectChatLogLine(lines, r, ctx);
+                }
+            }
+            entries.push({
+                timestamp: (state._timestamp && new Date(state._timestamp).toISOString()) || "unknown",
+                lines,
+            });
+        }
+        return entries;
     }
 
     public clone(): EpamGame {

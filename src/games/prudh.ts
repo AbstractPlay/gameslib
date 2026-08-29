@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic, Colourfuncs, MarkerEdge, MarkerFlood } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -683,24 +683,23 @@ export class PrudhGame extends GameBase {
         }
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "sow":
-                node.push(i18next.t("apresults:SOW.prudh", {player, from: r.pits![0], to: r.pits![1]}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SOW.prudh", {from: r.pits![0], to: r.pits![1]});
+                return true;
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.multiple", {player, where: r.where, count: parseInt(r.what!, 10)}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.multiple", {where: r.where!, count: parseInt(r.what!, 10)});
+                return true;
             case "deltaScore":
-                node.push(i18next.t("apresults:DELTA_SCORE_GAIN", {player, delta: r.delta, count: r.delta}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DELTA_SCORE_GAIN", {delta: r.delta!, count: r.delta!});
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): PrudhGame {
         return new PrudhGame(this.serialize());

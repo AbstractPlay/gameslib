@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -491,27 +491,25 @@ export class ToguzGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                resolved = true;
-                break;
+                return true;
             case "sow":
-                node.push(i18next.t("apresults:SOW.general", {player, pits: r.pits!.join(", "), count: r.pits!.length}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SOW.general", {pits: r.pits!.join(", "), count: r.pits!.length});
+                return true;
             case "claim":
-                node.push(i18next.t("apresults:CLAIM.toguz", {pit: r.where}));
-                resolved = true;
-                break;
+                this.pushNeutralChatLine(lines, "apresults:CLAIM.toguz", {pit: r.where!});
+                return true;
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.mancala", {player, pit: r.where, count: r.count}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.mancala", {pit: r.where!, count: r.count!});
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public sidebarScores(): IScores[] {
         if (this.kazna.reduce((prev, curr) => prev + curr, 0) > 0) {

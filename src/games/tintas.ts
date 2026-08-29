@@ -907,6 +907,7 @@ export class TintasGame extends GameBase {
         return 0;
     }
 
+
     public clone(): TintasGame {
         return new TintasGame(this.serialize());
     }

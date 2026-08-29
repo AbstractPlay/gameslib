@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -497,11 +497,6 @@ export class ScribeGame extends GameBase {
         return formationWhat(scoringGlyphMatches(keys, MINI_SIZE));
     }
 
-    private playerName(players: string[], who: number | undefined): string {
-        if (who === undefined) { return "Player ?"; }
-        return who <= players.length ? players[who - 1]! : `Player ${who}`;
-    }
-
     private resolveMiniWinner(mgx: number, mgy: number, lastMover: playerid): playerid {
         const score1 = glyphScore(this.playerCellsInMini(mgx, mgy, 1));
         const score2 = glyphScore(this.playerCellsInMini(mgx, mgy, 2));
@@ -735,40 +730,39 @@ export class ScribeGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult, players: string[] = []): boolean {
-        let resolved = false;
+
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
-            case "claim":
+            case "claim": {
+                const seat = r.who ?? ctx.defaultSeat;
                 if (r.what === undefined || r.what.length === 0) {
-                    node.push(i18next.t("apresults:CLAIM.scribe_mini_none", {
-                        player: this.playerName(players, r.who),
+                    this.pushSeatChatLine(lines, seat, "apresults:CLAIM.scribe_mini_none", {
                         where: this.miniGridLabel(r.where ?? ""),
-                    }));
+                    });
                 } else {
-                    node.push(i18next.t("apresults:CLAIM.scribe_mini", {
-                        player: this.playerName(players, r.who),
+                    this.pushSeatChatLine(lines, seat, "apresults:CLAIM.scribe_mini", {
                         where: this.miniGridLabel(r.where ?? ""),
                         formation: formatFormationWhat(r.what),
-                    }));
+                    });
                 }
-                resolved = true;
-                break;
+                return true;
+            }
             case "announce":
                 if (Array.isArray(r.payload)) {
                     for (const item of r.payload) {
                         if (item !== null && typeof item === "object" && "player" in item && "formations" in item) {
                             const entry = item as {player: number; formations: string};
-                            node.push(i18next.t("apresults:ANNOUNCE.scribe_super", {
-                                player: this.playerName(players, entry.player),
+                            this.pushSeatChatLine(lines, entry.player, "apresults:ANNOUNCE.scribe_super", {
                                 formation: formatFormationWhat(entry.formations),
-                            }));
+                            });
                         }
                     }
                 }
-                resolved = true;
-                break;
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
 
     public clone(): ScribeGame {

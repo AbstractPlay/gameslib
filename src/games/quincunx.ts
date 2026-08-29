@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IStatus, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaPieces, Glyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -930,51 +930,53 @@ export class QuincunxGame extends GameBase {
         return [{ key: i18next.t("apgames:status.ROUND"), value: [this.round.toString()] }];
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                node.push(i18next.t("apresults:PLACE.decktet", {player, where: r.where, what: r.what}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.decktet", {
+                    where: r.where!, what: r.what!,
+                });
+                return true;
             case "set":
-                node.push(i18next.t("apresults:SET.quincunx", {player, count: r.count, context: r.what}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SET.quincunx", {
+                    count: r.count!, context: r.what!,
+                });
+                return true;
             case "deltaScore":
-                // announcing penalties at the end of the round
                 if (r.who !== undefined) {
-                    node.push(i18next.t("apresults:DELTASCORE.quincunx.penalty", {player, count: r.delta, delta: r.delta, playerNum: r.who}));
-                    resolved = true;
-                }
-                // basic score components
-                else if (r.description !== undefined && r.description.startsWith("basic-")) {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DELTASCORE.quincunx.penalty", {
+                        count: r.delta!, delta: r.delta!, playerNum: r.who,
+                    });
+                } else if (r.description !== undefined && r.description.startsWith("basic-")) {
                     const idx = r.description.indexOf("-");
-                    node.push(i18next.t("apresults:DELTASCORE.quincunx.basic", {player, count: Math.abs(r.delta!), delta: r.delta, card: r.description.substring(idx+1)}));
-                    resolved = true;
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DELTASCORE.quincunx.basic", {
+                        count: Math.abs(r.delta!), delta: r.delta!, card: r.description.substring(idx + 1),
+                    });
+                } else {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat,
+                        r.delta! >= 0 ? "apresults:DELTA_SCORE_GAIN" : "apresults:DELTA_SCORE_LOSS",
+                        {count: Math.abs(r.delta!), delta: Math.abs(r.delta!)},
+                    );
                 }
-                // individual score components
-                else {
-                    node.push(i18next.t(r.delta! >= 0 ? "apresults:DELTA_SCORE_GAIN" : "apresults:DELTA_SCORE_LOSS", {player, count: Math.abs(r.delta!), delta: Math.abs(r.delta!)}));
-                    resolved = true;
-                }
-                break;
+                return true;
             case "announce":
                 (r.payload as string[][]).forEach((hand, idx) => {
-                    node.push(i18next.t("apresults:ANNOUNCE.quincunx", {playerNum: idx+1, cards: hand.join(", ")}));
+                    this.pushSeatChatLine(lines, idx + 1, "apresults:ANNOUNCE.quincunx", {
+                        playerNum: idx + 1, cards: hand.join(", "),
+                    });
                 });
-                resolved = true;
-                break;
+                return true;
             case "reset":
-                node.push(i18next.t("apresults:RESET.biscuit", {player}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:RESET.biscuit", {});
+                return true;
             case "deckDraw":
-                node.push(i18next.t("apresults:DECKDRAW.quincunx", {player, count: r.count}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DECKDRAW.quincunx", {count: r.count!});
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
 
     public sameMove(move1: string, move2: string): boolean {

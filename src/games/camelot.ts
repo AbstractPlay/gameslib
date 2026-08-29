@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, MarkerFlood, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -1306,71 +1306,68 @@ export class CamelotGame extends GameBase {
         ];
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                node.push(i18next.t("apresults:PLACE.camelot_place", { player, where: r.where!.split(",").join(", ") }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.camelot_place", { where: r.where!.split(",").join(", ") });
+                return true;
             case "capture":
-                resolved = true;
-                break;
+                return true;
             case "move":
                 if (r.how === "castle") {
-                    if (r.what === "knight") {
-                        node.push(i18next.t("apresults:MOVE.camelot_castle_knight", { player, from: r.from, to: r.to }));
-                    } else {
-                        node.push(i18next.t("apresults:MOVE.camelot_castle", { player, from: r.from, to: r.to }));
-                    }
-                } else if (r.how === "plain") {
-                    if (r.what === "knight") {
-                        node.push(i18next.t("apresults:MOVE.camelot_plain_knight", { player, from: r.from, to: r.to }));
-                    } else {
-                        node.push(i18next.t("apresults:MOVE.camelot_plain", { player, from: r.from, to: r.to }));
-                    }
-                } else if (r.how === "canter") {
-                    if (r.what === "knight") {
-                        node.push(i18next.t("apresults:MOVE.camelot_canter_knight", { player, from: r.from, to: r.to }));
-                    } else {
-                        node.push(i18next.t("apresults:MOVE.camelot_canter", { player, from: r.from, to: r.to }));
-                    }
-                } else if (r.how === "jump") {
-                    if (r.what === "knight") {
-                        node.push(i18next.t("apresults:MOVE.camelot_jump_knight", { player, from: r.from, to: r.to, captured: r.by }));
-                    } else {
-                        node.push(i18next.t("apresults:MOVE.camelot_jump", { player, from: r.from, to: r.to, captured: r.by }));
-                    }
+                if (r.what === "knight") {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.camelot_castle_knight", { from: r.from!, to: r.to! });
+                } else {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.camelot_castle", { from: r.from!, to: r.to! });
                 }
-                resolved = true;
-                break;
+                } else if (r.how === "plain") {
+                if (r.what === "knight") {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.camelot_plain_knight", { from: r.from!, to: r.to! });
+                } else {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.camelot_plain", { from: r.from!, to: r.to! });
+                }
+                } else if (r.how === "canter") {
+                if (r.what === "knight") {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.camelot_canter_knight", { from: r.from!, to: r.to! });
+                } else {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.camelot_canter", { from: r.from!, to: r.to! });
+                }
+                } else if (r.how === "jump") {
+                if (r.what === "knight") {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.camelot_jump_knight", { from: r.from!, to: r.to!, captured: r.by! });
+                } else {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.camelot_jump", { from: r.from!, to: r.to!, captured: r.by! });
+                }
+                }
+                return true;
             case "use":
                 if (r.remaining === 0) {
-                    node.push(i18next.t("apresults:USE.camelot_castle_move_none", { player, count: r.remaining }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:USE.camelot_castle_move_none", { count: r.remaining! });
                 } else {
-                    node.push(i18next.t("apresults:USE.camelot_castle_move", { player, count: r.remaining }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:USE.camelot_castle_move", { count: r.remaining! });
                 }
-                resolved = true;
-                break;
+                return true;
             case "claim":
-                resolved = true;
-                break;
+                return true;
             case "eog":
                 if (r.reason === "claim-draw-repetition") {
-                    node.push(i18next.t("apresults:EOG.camelot_claim_draw_repetition", { player }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:EOG.camelot_claim_draw_repetition", {});
                 } else if (r.reason === "claim-draw-progression") {
-                    node.push(i18next.t("apresults:EOG.camelot_claim_draw_progression", { player }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:EOG.camelot_claim_draw_progression", {});
                 } else if (r.reason === "stalemate") {
-                    node.push(i18next.t("apresults:EOG.stalemate"));
+                this.pushNeutralChatLine(lines, "apresults:EOG.stalemate");
                 } else if (r.reason === "material") {
-                    node.push(i18next.t("apresults:EOG.material"));
+                this.pushNeutralChatLine(lines, "apresults:EOG.material");
                 } else if (r.reason === "breakthrough") {
-                    node.push(i18next.t("apresults:EOG.default"));
+                this.pushNeutralChatLine(lines, "apresults:EOG.default");
                 }
-                resolved = true;
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): CamelotGame {
         return new CamelotGame(this.serialize());

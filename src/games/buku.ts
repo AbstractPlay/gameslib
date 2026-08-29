@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, MarkerFlood, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -837,97 +837,58 @@ export class BukuGame extends GameBase {
         return rep;
     }
 
-    public chatLog(players: string[]): string[][] {
-        // Use `chatLog` to determine if capture is self-capture.
-        const result: string[][] = [];
-        for (const state of this.stack) {
-            if (state._results !== undefined && state._results.length > 0) {
-                const node: string[] = [(state._timestamp && new Date(state._timestamp).toISOString()) || "unknown"];
-                let otherPlayer = state.currplayer as number - 1;
-                if (otherPlayer < 1) {
-                    otherPlayer = this.numplayers;
+
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
+        const opponentSeat = ctx.defaultSeat === 1 ? 2 : 1;
+        switch (r.type) {
+            case "take":
+                if (r.how === "row_bonus") {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:TAKE.buku_row_bonus", {
+                        row: r.from!, count: r.count! - 1,
+                    });
+                } else if (r.how === "row") {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:TAKE.buku_row", {
+                        row: r.from!, count: r.count!,
+                    });
+                } else {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:TAKE.buku_col", {
+                        col: r.from!, count: r.count!,
+                    });
                 }
-                let name = `Player ${otherPlayer}`;
-                if (otherPlayer <= players.length) {
-                    name = players[otherPlayer - 1];
-                }
-                for (const r of state._results) {
-                    if (!this.chat(node, name, state._results, r)) {
-                        switch (r.type) {
-                            case "take":
-                                if (r.how === "row_bonus") {
-                                    node.push(i18next.t("apresults:TAKE.buku_row_bonus", { player: name, row: r.from, count: r.count! - 1 }));
-                                } else if (r.how === "row") {
-                                    node.push(i18next.t("apresults:TAKE.buku_row", { player: name, row: r.from, count: r.count }));
-                                } else {
-                                    node.push(i18next.t("apresults:TAKE.buku_col", { player: name, col: r.from, count: r.count }));
-                                }
-                                break;
-                            case "sow":
-                                node.push(i18next.t("apresults:SOW.into", { player: name, pits: r.pits!.join(", ") }));
-                                break;
-                            case "capture":
-                                node.push(i18next.t("apresults:CAPTURE.buku", { player: name, where: r.where, count: r.count }));
-                                break;
-                            case "claim": {
-                                const who = r.who !== this.currplayer ? name : players.filter(p => p !== name)[0];
-                                if (r.how === "singletons") {
-                                    node.push(i18next.t("apresults:CLAIM.buku_singletons", { player: who, count: r.count }));
-                                } else {
-                                    node.push(i18next.t("apresults:CLAIM.buku_repetition", { player: who, count: r.count }));
-                                }
-                                break;
-                            }
-                            case "eog":
-                                if (r.reason === "singletons") {
-                                    node.push(i18next.t("apresults:EOG.buku_singletons"));
-                                } else if (r.reason === "repetition") {
-                                    node.push(i18next.t("apresults:EOG.repetition_positional", { count: 1 }));
-                                } else {
-                                    node.push(i18next.t("apresults:EOG.default"));
-                                }
-                                break;
-                            case "resigned": {
-                                let rname = `Player ${r.player}`;
-                                if (r.player <= players.length) {
-                                    rname = players[r.player - 1]
-                                }
-                                node.push(i18next.t("apresults:RESIGN", { player: rname }));
-                                break;
-                            }
-                            case "timeout": {
-                                let tname = `Player ${r.player}`;
-                                if (r.player <= players.length) {
-                                    tname = players[r.player - 1]
-                                }
-                                node.push(i18next.t("apresults:TIMEOUT", { player: tname }));
-                                break;
-                            }
-                            case "gameabandoned":
-                                node.push(i18next.t("apresults:ABANDONED"));
-                                break;
-                            case "winners": {
-                                const names: string[] = [];
-                                for (const w of r.players) {
-                                    if (w <= players.length) {
-                                        names.push(players[w - 1]);
-                                    } else {
-                                        names.push(`Player ${w}`);
-                                    }
-                                }
-                                if (r.players.length === 0)
-                                    node.push(i18next.t("apresults:WINNERSNONE"));
-                                else
-                                    node.push(i18next.t("apresults:WINNERS", { count: r.players.length, winners: names.join(", ") }));
-                                break;
-                            }
-                        }
-                    }
-                }
-                result.push(node);
+                return true;
+            case "sow":
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SOW.into", {
+                    pits: (r as { pits?: string[] }).pits!.join(", "),
+                });
+                return true;
+            case "capture":
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.buku", {
+                    where: r.where!, count: r.count!,
+                });
+                return true;
+            case "claim": {
+                const creditedSeat = (r as { who?: number }).who !== ctx.currplayer
+                    ? ctx.defaultSeat
+                    : opponentSeat;
+                const key = r.how === "singletons"
+                    ? "apresults:CLAIM.buku_singletons"
+                    : "apresults:CLAIM.buku_repetition";
+                this.pushSeatChatLine(lines, creditedSeat, key, { count: r.count! });
+                return true;
             }
+            case "eog":
+                if (r.reason === "singletons") {
+                    this.pushNeutralChatLine(lines, "apresults:EOG.buku_singletons");
+                } else if (r.reason === "repetition") {
+                    this.pushNeutralChatLine(lines, "apresults:EOG.repetition_positional", { count: 1 });
+                } else {
+                    this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                }
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return result;
     }
 
     public getPlayerScore(player: playerid): number {

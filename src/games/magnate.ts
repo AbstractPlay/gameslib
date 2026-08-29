@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaButtonBar, AreaPieces, AreaKey, ButtonBarButton, Glyph, MarkerFlood, MarkerOutline, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -2950,106 +2950,83 @@ export class MagnateGame extends GameBase {
 
     /* end scoring functions */
 
-    public chatLog(players: string[]): string[][] {
-        // chatLog to get players' names.
-        const result: string[][] = [];
-        for (const state of this.stack) {
-            if ( (state._results !== undefined) && (state._results.length > 0) ) {
-                const node: string[] = [(state._timestamp && new Date(state._timestamp).toISOString()) || "unknown"];
-                let otherPlayer = state.currplayer as number - 1;
-                if (otherPlayer < 1) {
-                    otherPlayer = this.numplayers;
-                }
-                let name = `Player ${otherPlayer}`;
-                if (otherPlayer <= players.length) {
-                    name = players[otherPlayer - 1];
-                }
-                for (const r of state._results) {
-                    if (!this.chat(node, name, state._results, r)) {
 
-                        switch (r.type) {
-                            case "roll":
-                                if (r.values[0] === 8)
-                                    node.push(i18next.t("apresults:ROLL.magnate_eight", {values: r.values, who: r.who !== state.currplayer ? name : players.filter(p => p !== name)[0]}));
-                                else
-                                    node.push(i18next.t("apresults:ROLL.magnate", {values: r.values, who: r.who !== state.currplayer ? name : players.filter(p => p !== name)[0]}));
-                                break;
-                            case "claim":
-                                if (r.how)
-                                    node.push(i18next.t("apresults:CLAIM.magnate_initial"));
-                                else
-                                    node.push(i18next.t("apresults:CLAIM.magnate", {what: r.what, who: r.who !== state.currplayer ? name : players.filter(p => p !== name)[0]}));
-                                break;
-                            case "capture": //taxation
-                                node.push(i18next.t("apresults:CAPTURE.magnate", {count: r.count, where: r.where, whose: r.whose !== state.currplayer ? name : players.filter(p => p !== name)[0]}));
-                                break;
-                            case "place":
-                                if (r.where === "discards")
-                                    node.push(i18next.t("apresults:PLACE.magnate_sell", {player: name, what: r.what}));
-                                else if (r.how === "D")
-                                    node.push(i18next.t("apresults:PLACE.magnate_deed_start", {player: name, where: r.where, what: r.what}));
-                                else if (r.how === "A")
-                                    node.push(i18next.t("apresults:PLACE.magnate_deed_end", {player: name, where: r.where, what: r.what}));
-                                else
-                                    node.push(i18next.t("apresults:PLACE.magnate_buy", {player: name, where: r.where, what: r.what}));
-                                break;
-                            case "add": //to a deed
-                                node.push(i18next.t("apresults:ADD.magnate", {player: name, where: r.where, count: r.num}));
-                                break;
-                            case "convert": //Complete deed.
-                                if (r.into)
-                                    node.push(i18next.t("apresults:CONVERT.magnate_trade", {player: name, what: r.what, into: r.into}));
-                                else
-                                    node.push(i18next.t("apresults:CONVERT.magnate_deed", {player: name, what: r.what, where: r.where}));
-                                break;
-                            case "deckDraw": //For the single shuffle.
-                                node.push(i18next.t("apresults:DECKDRAW.magnate"));
-                                break;
-                            case "eog":
-                                node.push(i18next.t("apresults:EOG.default"));
-                                break;
-                       /* boilerplate cases */
-                            case "resigned": {
-                                let rname = `Player ${r.player}`;
-                                if (r.player <= players.length) {
-                                    rname = players[r.player - 1];
-                                }
-                                node.push(i18next.t("apresults:RESIGN", {player: rname}));
-                                break;
-                            }
-                            case "timeout": {
-                                let tname = `Player ${r.player}`;
-                                if (r.player <= players.length) {
-                                    tname = players[r.player - 1];
-                                }
-                                node.push(i18next.t("apresults:TIMEOUT", {player: tname}));
-                                break;
-                            }
-                            case "gameabandoned":
-                                node.push(i18next.t("apresults:ABANDONED"));
-                                break;
-                            case "winners": {
-                                const names: string[] = [];
-                                for (const w of r.players) {
-                                    if (w <= players.length) {
-                                        names.push(players[w - 1]);
-                                    } else {
-                                        names.push(`Player ${w}`);
-                                    }
-                                }
-                                if (r.players.length === 0)
-                                    node.push(i18next.t("apresults:WINNERSNONE"));
-                                else
-                                    node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
-                                break;
-                            }
-                        }
-                    }
-                }
-                result.push(node);
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
+        const opponentSeat = ctx.defaultSeat === 1 ? 2 : 1;
+        switch (r.type) {
+            case "roll": {
+                const whoSeat = (r as { who?: number }).who !== ctx.currplayer ? ctx.defaultSeat : opponentSeat;
+                const who = this.resolveChatPlayerName(whoSeat, ctx.players);
+                const key = (r as { values: number[] }).values[0] === 8
+                    ? "apresults:ROLL.magnate_eight"
+                    : "apresults:ROLL.magnate";
+                this.pushNeutralChatLine(lines, key, {
+                    values: (r as { values: number[] }).values.join(","),
+                    who,
+                });
+                return true;
             }
+            case "claim":
+                if (r.how) {
+                    this.pushNeutralChatLine(lines, "apresults:CLAIM.magnate_initial");
+                } else {
+                    const whoSeat = (r as { who?: number }).who !== ctx.currplayer ? ctx.defaultSeat : opponentSeat;
+                    this.pushNeutralChatLine(lines, "apresults:CLAIM.magnate", {
+                        what: r.what!,
+                        who: this.resolveChatPlayerName(whoSeat, ctx.players),
+                    });
+                }
+                return true;
+            case "capture":
+                {
+                    const whoseSeat = (r as { whose?: number }).whose !== ctx.currplayer ? ctx.defaultSeat : opponentSeat;
+                    this.pushNeutralChatLine(lines, "apresults:CAPTURE.magnate", {
+                        count: r.count!,
+                        where: r.where!,
+                        whose: this.resolveChatPlayerName(whoseSeat, ctx.players),
+                    });
+                }
+                return true;
+            case "place":
+                if (r.where === "discards") {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.magnate_sell", { what: r.what! });
+                } else if (r.how === "D") {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.magnate_deed_start", {
+                        where: r.where!, what: r.what!,
+                    });
+                } else if (r.how === "A") {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.magnate_deed_end", {
+                        where: r.where!, what: r.what!,
+                    });
+                } else {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.magnate_buy", {
+                        where: r.where!, what: r.what!,
+                    });
+                }
+                return true;
+            case "add":
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:ADD.magnate", {
+                    where: r.where!, count: r.num!,
+                });
+                return true;
+            case "convert":
+                if (r.into) {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONVERT.magnate_trade", {
+                        what: r.what!, into: r.into,
+                    });
+                } else {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONVERT.magnate_deed", {
+                        what: r.what!, where: r.where!,
+                    });
+                }
+                return true;
+            case "deckDraw":
+                this.pushNeutralChatLine(lines, "apresults:DECKDRAW.magnate");
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return result;
     }
 
     public clone(): MagnateGame {

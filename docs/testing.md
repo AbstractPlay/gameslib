@@ -64,6 +64,14 @@ If you serve from a subdirectory (e.g. `http://localhost/myproject/playground.ht
 
 Prototype board JSON at [renderer.dev.abstractplay.com](https://renderer.dev.abstractplay.com) before wiring `render()` in your game.
 
+## Chat log
+
+When you override `collectChatLogLine` or `chatLogEntries`, verify output with `assertChatLogParity(game, playerNames)` from [`test/fixtures/chat/helpers.ts`](/gameslib/test/fixtures/chat/helpers.ts). CI runs [`test/games/chatLogParity.test.ts`](/gameslib/test/games/chatLogParity.test.ts) for registry games with fixtures.
+
+After collector changes, refresh local goldens (gitignored fixtures): `npm run refresh-chat-golden-entries` and/or `npm run refresh-chat-golden`.
+
+See [Structured move log](/gameslib/structured-chat-log/) for simultaneous indexing, aggregated frames, and anti-patterns.
+
 ## Example games
 
 - **[Complica tests](https://github.com/AbstractPlay/gameslib/tree/develop/test/games)** — grep `complica` under `test/games/`

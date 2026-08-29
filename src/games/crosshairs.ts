@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph, MarkerFlood, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -3183,42 +3183,39 @@ export class CrosshairsGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
                 if (r.what === "plane") {
-                    node.push(i18next.t("apresults:PLACE.crosshairs_plane", { player, where: r.where }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.crosshairs_plane", { where: r.where! });
                 } else if (r.what === "cloud") {
-                    node.push(i18next.t("apresults:PLACE.crosshairs_cloud", { player, where: r.where }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.crosshairs_cloud", { where: r.where! });
                 }
-                resolved = true;
-                break;
+                return true;
             case "move":
                 if (r.how === "swoop") {
-                    node.push(i18next.t("apresults:MOVE.crosshairs_swoop", { player, from: r.from, to: r.to }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.crosshairs_swoop", { from: r.from!, to: r.to! });
                 } else if (r.how === "power-dive") {
-                    node.push(i18next.t("apresults:MOVE.crosshairs_power-dive", { player, from: r.from }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.crosshairs_power-dive", { from: r.from! });
                 } else {
-                    node.push(i18next.t("apresults:MOVE.crosshairs", { player, from: r.from, to: r.to }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.crosshairs", { from: r.from!, to: r.to! });
                 }
-                resolved = true;
-                break;
+                return true;
             case "orient":
-                node.push(i18next.t("apresults:ORIENT.crosshairs", { player, where: r.where, facing: r.facing }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:ORIENT.crosshairs", { where: r.where!, facing: r.facing! });
+                return true;
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.crosshairs", { player, where: r.where }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.crosshairs", { where: r.where! });
+                return true;
             case "destroy":
-                node.push(i18next.t("apresults:DESTROY.crosshairs", { player, where: r.where }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DESTROY.crosshairs", { where: r.where! });
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): CrosshairsGame {
         return new CrosshairsGame(this.serialize());

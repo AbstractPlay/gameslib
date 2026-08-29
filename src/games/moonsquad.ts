@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaPieces, Glyph, MarkerEdge, MarkerFlood, MarkerHalo, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -1162,41 +1162,36 @@ export class MoonSquadGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
-        // place, move, capture, convert?, sacrifice, take
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
                 if (r.what === undefined) {
-                    node.push(i18next.t("apresults:PLACE.nowhat", {player, where: r.where}));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", {where: r.where!});
                 } else {
-                    node.push(i18next.t("apresults:PLACE.moonsquad", {player, where: r.where}));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.moonsquad", {where: r.where!});
                 }
-                resolved = true;
-                break;
+                return true;
             case "move":
-                node.push(i18next.t("apresults:MOVE.nowhat", {player, from: r.from, to: r.to}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.nowhat", {from: r.from!, to: r.to!});
+                return true;
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.nowhat", {player, where: r.where}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.nowhat", {where: r.where!});
+                return true;
             case "sacrifice":
-                node.push(i18next.t("apresults:SACRIFICE.moonsquad", {player, ore: r.what}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SACRIFICE.moonsquad", {ore: r.what!});
+                return true;
             case "take":
-                node.push(i18next.t("apresults:TAKE.moonsquad", {player, ore: r.what}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:TAKE.moonsquad", {ore: r.what!});
+                return true;
             case "convert":
-                node.push(i18next.t("apresults:CONVERT.moonsquad", {player}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONVERT.moonsquad", {});
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     // Only detects check for the current player
     public inCheck(): number[] {

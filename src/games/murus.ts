@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -900,24 +900,24 @@ export class MurusGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "fire":
-                node.push(i18next.t("apresults:FIRE.murus", {player, from: r.from, to: r.to}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:FIRE.murus", {from: r.from!, to: r.to!});
+                return true;
             case "capture":
                 if ("count" in r) {
-                    node.push(i18next.t("apresults:CAPTURE.murus_double", {player, where: r.where}));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.murus_double", {where: r.where!});
                 } else {
-                    node.push(i18next.t("apresults:CAPTURE.nowhat", {player, where: r.where}));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.nowhat", {where: r.where!});
                 }
-                resolved = true;
-                break;
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): MurusGame {
         return new MurusGame(this.serialize());

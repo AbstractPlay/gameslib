@@ -48,7 +48,7 @@ export {
     applyChatPlayerNames,
     chatPlayerToken,
 } from "./common";
-export type { SoloReplayFactory, ChatActorRef, ChatLogLine, ChatLogEntry, ChatLogTranslate } from "./common";
+export type { SoloReplayFactory, ChatActorRef, ChatLogLine, ChatLogEntry, ChatLogTranslate, ChatLogCollectContext } from "./common";
 
 const gameinfo: Map<string, APGamesInformation> = new Map();
 games.forEach((v, k) => {

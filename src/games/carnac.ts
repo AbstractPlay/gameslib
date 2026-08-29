@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IScores, IStatus, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IScores, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaKey, Glyph, IsoCubeFaces, IsoPiece } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -1132,28 +1132,32 @@ export class CarnacGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place": {
                 const orient = r.what as Orient;
                 const { top, front } = this.parseOrient(orient);
-                node.push(i18next.t("apresults:PLACE.carnac", { player, where: r.where, top, south: front }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.carnac", {
+                    where: r.where!, top, south: front,
+                });
+                return true;
             }
             case "move":
                 if (r.how !== undefined) {
-                    node.push(i18next.t("apresults:MOVE.carnac_tip", { player, from: r.from, to: r.to, how: r.how }));
-                    resolved = true;
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.carnac_tip", {
+                        from: r.from!, to: r.to!, how: r.how,
+                    });
+                    return true;
                 }
-                break;
+                return false;
             case "pass":
-                node.push(i18next.t("apresults:PASS.carnac", { player }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.carnac", {});
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
 
     public clone(): CarnacGame {

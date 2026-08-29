@@ -1,4 +1,4 @@
-import { GameBaseSkipTurn, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import {  GameBaseSkipTurn, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import type { IGamePly, IGameRound, IGameRoundSlot } from "./_turn-model";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AnnotationFreespace, BoardFreespace, Freepiece, Glyph, MarkerFreespaceGlyph, MarkerPath } from "@abstractplay/renderer/build/schemas/schema";
@@ -1350,28 +1350,26 @@ export class ArmadasGame extends GameBaseSkipTurn {
         return row;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                node.push(i18next.t("apresults:MOVE.armadas", {player, name: r.what}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.armadas", {name: r.what!});
+                return true;
             case "damage":
-                node.push(i18next.t("apresults:DAMAGE.armadas", {player, myName: r.where, theirName: r.who}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DAMAGE.armadas", {myName: r.where!, theirName: r.who!});
+                return true;
             case "destroy":
-                node.push(i18next.t("apresults:DESTROY.armadas", {player, name: r.what}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DESTROY.armadas", {name: r.what!});
+                return true;
             case "place":
-                node.push(i18next.t("apresults:PLACE.armadas", {player, name: r.where, context: r.what}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.armadas", {name: r.where!, context: r.what!});
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): ArmadasGame {
         // Have to use Object.assign to track internal variables (like showArcs) that are not part of the persistent state

@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, MarkerFlood, MarkerShading, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -840,36 +840,34 @@ export class AtaxxGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
                 if (r.how === "split") {
-                    node.push(i18next.t("apresults:MOVE.ataxx_split", { player, from: r.from, to: r.to }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.ataxx_split", { from: r.from!, to: r.to! });
                 } else {
-                    node.push(i18next.t("apresults:MOVE.ataxx_jump", { player, from: r.from, to: r.to }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.ataxx_jump", { from: r.from!, to: r.to! });
                 }
-                resolved = true;
-                break;
+                return true;
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.ataxx", { count: r.count }));
-                resolved = true;
-                break;
+                this.pushNeutralChatLine(lines, "apresults:CAPTURE.ataxx", { count: r.count! });
+                return true;
             case "pass":
-                node.push(i18next.t("apresults:PASS.forced", { player }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.forced", {});
+                return true;
             case "eog":
                 if (r.reason === "repetition") {
-                    node.push(i18next.t("apresults:EOG.repetition", { count: 3 }));
+                this.pushNeutralChatLine(lines, "apresults:EOG.repetition", { count: 3 });
                 } else {
-                    node.push(i18next.t("apresults:EOG.default"));
+                this.pushNeutralChatLine(lines, "apresults:EOG.default");
                 }
-                resolved = true;
-                break;
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): AtaxxGame {
         return new AtaxxGame(this.serialize());

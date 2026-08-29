@@ -738,6 +738,7 @@ export class LinesOfActionGame extends GameBase {
         return checked;
     }
 
+
     public clone(): LinesOfActionGame {
         return new LinesOfActionGame(this.serialize());
     }

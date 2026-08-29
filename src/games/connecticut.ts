@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, MarkerEdge, MarkerLine } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -577,20 +577,22 @@ export class ConnecticutGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
                 if (r.where!.includes("-")) {
-                    node.push(i18next.t("apresults:PLACE.connecticut", { player, where: r.where }));
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.connecticut", { where: r.where! });
                 } else {
-                    node.push(i18next.t("apresults:PLACE.nowhat", { player, where: r.where }));
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
                 }
-                resolved = true;
-                break;
+                return true;
+
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): ConnecticutGame {
         return new ConnecticutGame(this.serialize());

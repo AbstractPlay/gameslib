@@ -6,11 +6,12 @@ import type { IGameRound, IGameRoundSlot } from "../../../src/games/_turn-model"
 import { replacer, reviver } from "../../../src/common";
 import type { APGameRecord } from "@abstractplay/recranks";
 import type { IRecordDetails } from "../../../src/games/_base";
+import type { ChatLogEntry } from "../../../src/common/chat-log";
 
 /** Gitignored root — see test/fixtures/turnModel/README.md */
 export const TURN_MODEL_FIXTURES_DIR = path.join(__dirname, "../../fixtures-local/turnModel");
 
-export type TurnModelFixtureCategory = "tier1" | "pattern" | "solo";
+export type TurnModelFixtureCategory = "tier1" | "pattern" | "solo" | "chat";
 
 export interface TurnModelManifestEntry {
     id: string;
@@ -31,6 +32,8 @@ export interface TurnModelManifest {
 export interface TurnModelGolden {
     moveHistory: string[][];
     chatLog: string[][];
+    /** Structured chat baseline for diff-friendly migration debugging. */
+    chatLogEntries: ChatLogEntry[];
     stateNormalized: unknown;
     genRecordMoves: APGameRecord["moves"];
 }
@@ -233,4 +236,22 @@ export function getRoundsRecordExportSupported(_metaGame: string, _numplayers: n
     void _metaGame;
     void _numplayers;
     return true;
+}
+
+/** Whether {@link assertChatLogParity} should run for this game. */
+export function chatLogEntriesParitySupported(_metaGame: string, game?: GameBase): boolean {
+    return game !== undefined;
+}
+
+/** Lielow cross-player accession: promote credited to non-{@link currplayer}. */
+export function lielowHasCrossPlayerPromote(game: GameBase): boolean {
+    return game.stack.some(
+        (state) =>
+            state._results !== undefined
+            && state._results.some(
+                (r) =>
+                    r.type === "promote"
+                    && (r as { player?: number }).player !== state.currplayer,
+            ),
+    );
 }

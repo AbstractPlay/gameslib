@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { shuffle, SquareGraph, SquareOrthGraph } from "../common";
 import { APRenderRep, AreaPieces, Glyph, MarkerFlood, RowCol } from "@abstractplay/renderer/build/schemas/schema";
@@ -799,17 +799,22 @@ export class SubdivisionGame extends GameBase {
         return [{ name: i18next.t("apgames:status.SCORES"), scores}];
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
+
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         if (r.type === "place") {
-            // park, 1, 2, 3
             if (r.what === "park") {
-                node.push(i18next.t("apresults:PLACE.subdivision", {context: r.what, player, where: r.where}));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.subdivision", {
+                    context: r.what, where: r.where!,
+                });
             } else {
-                node.push(i18next.t("apresults:PLACE.PYRAMID", {context: r.what, player, where: r.where}));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.PYRAMID", {
+                    context: r.what!, where: r.where!,
+                });
             }
             return true;
         }
-        return false;
+        return super.collectChatLogLine(lines, r, ctx);
     }
 
     public getPlayerColour(p: playerid): number | string {

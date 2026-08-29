@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IRenderOpts, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IRenderOpts, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic, MarkerDots, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -759,30 +759,32 @@ export class GoGame extends GameBase {
                   scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }];
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                node.push(i18next.t("apresults:PLACE.nowhat", { player, where: r.where }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                return true;
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.noperson.group_nowhere", { player, count: r.count }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.noperson.group_nowhere", {
+                    count: r.count!,
+                });
+                return true;
             case "eog":
                 if (r.reason === "repetition") {
-                    node.push(i18next.t("apresults:EOG.repetition", { count: 1 }));
+                    this.pushNeutralChatLine(lines, "apresults:EOG.repetition", { count: 1 });
                 } else if (r.reason === "stalemate") {
-                    node.push(i18next.t("apresults:EOG.stalemate"));
+                    this.pushNeutralChatLine(lines, "apresults:EOG.stalemate");
                 } else {
-                    node.push(i18next.t("apresults:EOG.default"));
+                    this.pushNeutralChatLine(lines, "apresults:EOG.default");
                 }
-                resolved = true;
-                break;
+                return true;
+
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public serialize(opts?: {strip?: boolean, player?: number}): string {

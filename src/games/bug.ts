@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -778,25 +778,25 @@ export class BugGame extends GameBase {
         ]
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
                 if (r.what === "new") {
-                    node.push(i18next.t("apresults:PLACE.bug_new", { player, where: r.where }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.bug_new", { where: r.where! });
                 } else if (r.what === "grow") {
-                    node.push(i18next.t("apresults:PLACE.bug_grow", { player, where: r.where, size: r.count }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.bug_grow", { where: r.where!, size: r.count! });
                 } else {
-                    node.push(i18next.t("apresults:PLACE.bug_bonus_grow", { player, where: r.where, size: r.count }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.bug_bonus_grow", { where: r.where!, size: r.count! });
                 }
-                resolved = true;
-                break;
+                return true;
             case "capture":
-                resolved = true;
-                break;
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): BugGame {
         return new BugGame(this.serialize());

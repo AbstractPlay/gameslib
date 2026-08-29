@@ -440,6 +440,7 @@ export class HexGame extends GameBase {
         return rep;
     }
 
+
     public clone(): HexGame {
         return new HexGame(this.serialize());
     }

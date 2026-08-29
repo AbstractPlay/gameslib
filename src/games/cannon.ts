@@ -1,5 +1,5 @@
 // import { IGame } from "./IGame";
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IRenderOpts } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IRenderOpts, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Colourfuncs } from "@abstractplay/renderer/build/schemas/schema";
 import { RectGrid } from "../common";
@@ -1056,20 +1056,20 @@ export class CannonGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                node.push(i18next.t("apresults:PLACE.cannon", {player, where: r.where}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.cannon", {where: r.where!});
+                return true;
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.nowhat", {player, where: r.where}));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.nowhat", {where: r.where!});
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): CannonGame {
         return new CannonGame(this.serialize());

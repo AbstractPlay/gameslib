@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -1158,52 +1158,49 @@ export class SpookGame extends GameBase {
         ]
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
                 if (r.what === "spooky") {
-                    node.push(i18next.t("apresults:PLACE.spooky", { where: r.where }));
+                this.pushNeutralChatLine(lines, "apresults:PLACE.spooky", { where: r.where! });
                 } else {
-                    node.push(i18next.t("apresults:PLACE.ball", { player, where: r.where }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.ball", { where: r.where! });
                 }
-                resolved = true;
-                break;
+                return true;
             case "capture":
                 if (r.how === "drop") {
-                    if (r.what === "self") {
-                        node.push(i18next.t("apresults:CAPTURE.spook_drop_self", { player, where: r.where, count: r.count }));
-                    } else {
-                        node.push(i18next.t("apresults:CAPTURE.spook_drop_opponent", { player, where: r.where, count: r.count }));
-                    }
+                if (r.what === "self") {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.spook_drop_self", { where: r.where!, count: r.count! });
                 } else {
-                    if (r.what === "self") {
-                        node.push(i18next.t("apresults:CAPTURE.spook_lateral_self", { player, where: r.where, count: r.count }));
-                    } else {
-                        node.push(i18next.t("apresults:CAPTURE.spook_lateral_opponent", { player, where: r.where, count: r.count }));
-                    }
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.spook_drop_opponent", { where: r.where!, count: r.count! });
                 }
-                resolved = true;
-                break;
+                } else {
+                if (r.what === "self") {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.spook_lateral_self", { where: r.where!, count: r.count! });
+                } else {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.spook_lateral_opponent", { where: r.where!, count: r.count! });
+                }
+                }
+                return true;
             case "remove":
                 if (r.num === 0) {
-                    node.push(i18next.t("apresults:REMOVE.spook", { player, where: r.where }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:REMOVE.spook", { where: r.where! });
                 } else {
-                    node.push(i18next.t("apresults:REMOVE.spook_drop", { player, where: r.where, count: r.num, how: r.how }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:REMOVE.spook_drop", { where: r.where!, count: r.num!, how: r.how! });
                 }
-                resolved = true;
-                break;
+                return true;
             case "move":
-                node.push(i18next.t("apresults:MOVE.spook", { player, from: r.from, to: r.to }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.spook", { from: r.from!, to: r.to! });
+                return true;
             case "pass":
-                node.push(i18next.t("apresults:PASS.forced", { player }));
-                resolved = true;
-                break;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.forced", {});
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public getStartingPosition(): string {
         if (!this.variants.includes("random")) { return ""; }

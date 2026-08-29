@@ -1,8 +1,9 @@
-import { GameBaseSimultaneous, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBaseSimultaneous, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogEntry, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaPieces, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Direction, RectGrid, reviver, UserFacingError } from "../common";
+import { forEachGroupResult } from "../common/chat-log";
 import i18next from "i18next";
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const clone = require("rfdc/default");
@@ -808,101 +809,95 @@ export class Pigs2Game extends GameBaseSimultaneous {
         return rep;
     }
 
-    public chatLog(players: string[]): string[][] {
-        const result: string[][] = [];
-        for (const state of this.stack) {
-            if ( (state._results !== undefined) && (state._results.length > 0) ) {
-                const node: string[] = [(state._timestamp && new Date(state._timestamp).toISOString()) || "unknown"];
-                for (const r1 of state._results) {
-                    if (r1.type === "_group") {
-                        const player = players[r1.who - 1];
-                        for (const r2 of r1.results) {
-                            switch (r2.type) {
-                                case "move":
-                                    if (r2.from !== r2.to) {
-                                        node.push(i18next.t("apresults:MOVE.nowhat", {player, from: r2.from, to: r2.to}));
-                                    } else {
-                                        node.push(i18next.t("apresults:MOVE.collision", {player, from: r2.from, to: r2.to}));
-                                    }
-                                    break;
-                                case "orient":
-                                    node.push(i18next.t("apresults:ORIENT.nowhat", {player, where: r2.where, facing: r2.facing}));
-                                    break;
-                                case "pass":
-                                    node.push(i18next.t("apresults:PASS.pigs", {player}));
-                                    break;
-                                case "fire":
-                                    node.push(i18next.t("apresults:FIRE.pigs", {player, context: r2.which as string, direction: r2.to}));
-                                    break;
-                                case "damage":
-                                    if ( (r2.amount !== undefined) && (r2.amount > 0) ) {
-                                        const opponent = players[parseInt(r2.who as string, 10) - 1];
-                                        node.push(i18next.t("apresults:DAMAGE.pigs", {player, where: r2.where as string, opponent}));
-                                        break;
-                                    } else {
-                                        break;
-                                    }
-                                case "eliminated": {
-                                    const oppPlayer = players[parseInt(r2.who!, 10) - 1];
-                                    node.push(i18next.t("apresults:ELIMINATED", {player: oppPlayer}));
-                                    break;
-                                }
-                                case "resigned": {
-                                    let rname = `Player ${r2.player}`;
-                                    if (r2.player <= players.length) {
-                                        rname = players[r2.player - 1]
-                                    }
-                                    node.push(i18next.t("apresults:RESIGN", {player: rname}));
-                                    break;
-                                }
-                                case "timeout": {
-                                    let tname = `Player ${r2.player}`;
-                                    if (r2.player <= players.length) {
-                                        tname = players[r2.player - 1]
-                                    }
-                                    node.push(i18next.t("apresults:TIMEOUT", {player: tname}));
-                                    break;
-                                }
-                                case "gameabandoned":
-                                    node.push(i18next.t("apresults:ABANDONED"));
-                                    break;
-                            }
-                        }
-                    } else {
-                        switch (r1.type) {
-                            case "eog":
-                                node.push(i18next.t("apresults:EOG.default"));
-                                break;
-                            case "resigned": {
-                                let rname = `Player ${r1.player}`;
-                                if (r1.player <= players.length) {
-                                    rname = players[r1.player - 1]
-                                }
-                                node.push(i18next.t("apresults:RESIGN", {player: rname}));
-                                break;
-                            }
-                            case "winners": {
-                                const names: string[] = [];
-                                for (const w of r1.players) {
-                                    if (w <= players.length) {
-                                        names.push(players[w - 1]);
-                                    } else {
-                                        names.push(`Player ${w}`);
-                                    }
-                                }
-                                if (r1.players.length === 0)
-                                    node.push(i18next.t("apresults:WINNERSNONE"));
-                                else
-                                    node.push(i18next.t("apresults:WINNERS", {count: r1.players.length, winners: names.join(", ")}));
-                                break;
-                            }
-                        }
-                    }
+
+
+    protected collectPigs2GroupLine(
+        lines: ChatLogLine[],
+        r: APMoveResult,
+        seat: number,
+        players: string[],
+    ): void {
+        switch (r.type) {
+            case "move":
+                if (r.from !== r.to) {
+                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.nowhat", { from: r.from!, to: r.to! });
+                } else {
+                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.collision", { from: r.from!, to: r.to! });
                 }
-                result.push(node);
+                break;
+            case "orient":
+                this.pushSeatChatLine(lines, seat, "apresults:ORIENT.nowhat", {
+                    where: r.where!,
+                    facing: r.facing!,
+                });
+                break;
+            case "pass":
+                this.pushSeatChatLine(lines, seat, "apresults:PASS.pigs");
+                break;
+            case "fire":
+                this.pushSeatChatLine(lines, seat, "apresults:FIRE.pigs", {
+                    context: r.which as string,
+                    direction: r.to!,
+                });
+                break;
+            case "damage":
+                if (r.amount !== undefined && r.amount > 0) {
+                    const oppSeat = parseInt(r.who as string, 10);
+                    this.pushSeatChatLine(lines, seat, "apresults:DAMAGE.pigs", {
+                        where: r.where as string,
+                        opponent: this.resolveChatPlayerName(oppSeat, players),
+                    });
+                }
+                break;
+            case "eliminated": {
+                const oppSeat = parseInt(r.who!, 10);
+                this.pushNeutralChatLine(lines, "apresults:ELIMINATED", {
+                    player: this.resolveChatPlayerName(oppSeat, players),
+                });
+                break;
             }
+            case "resigned": {
+                const rname = this.resolveChatPlayerName(r.player, players);
+                this.pushNeutralChatLine(lines, "apresults:RESIGN", { player: rname });
+                break;
+            }
+            case "timeout": {
+                const tname = this.resolveChatPlayerName(r.player, players);
+                this.pushNeutralChatLine(lines, "apresults:TIMEOUT", { player: tname });
+                break;
+            }
+            case "gameabandoned":
+                this.pushNeutralChatLine(lines, "apresults:ABANDONED");
+                break;
         }
-        return result;
+    }
+
+    public chatLogEntries(players: string[] = []): ChatLogEntry[] {
+        const entries: ChatLogEntry[] = [];
+        for (const state of this.stack) {
+            if (state._results === undefined || state._results.length === 0) {
+                continue;
+            }
+            const lines: ChatLogLine[] = [];
+            const currplayer = state.currplayer as number;
+            const ctx: ChatLogCollectContext = {
+                results: state._results,
+                currplayer,
+                defaultSeat: this.resolveChatSeat(state._results[0], currplayer),
+                players,
+            };
+            for (const r of state._results) {
+                if (forEachGroupResult(r, currplayer, (nested, who) => this.collectPigs2GroupLine(lines, nested, who, players))) {
+                    continue;
+                }
+                this.collectChatLogLine(lines, r, ctx);
+            }
+            entries.push({
+                timestamp: (state._timestamp && new Date(state._timestamp).toISOString()) || "unknown",
+                lines,
+            });
+        }
+        return entries;
     }
 
     // In this version, timeouts and resignations result in being eliminated

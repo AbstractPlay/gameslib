@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import type { IGamePly, IGameRound, TurnModel } from "./_turn-model";
 import { defaultPlyActor, defaultShouldCloseRound } from "./_turn-plies";
 import { sequencedSkiptoPlyActor, sequencedSkiptoShouldCloseRound } from "./_turn-sequenced-skipto";
@@ -2318,62 +2318,71 @@ export class FroggerGame extends GameBase {
         return renders;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let chatstring: string = "";
-        let resolved = false;
-        if (r.type !== "_group") {
-            chatstring = this.chatHelper(r, player);
-            if (chatstring !== "") {
-                node.push(chatstring);
-                resolved = true;
-            }
-        } else {
+
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
+        if (r.type === "_group") {
+            let resolved = false;
             for (const nested of r.results) {
-                chatstring = this.chatHelper(nested, player);
-                if (chatstring !== "") {
-                    node.push(chatstring);
+                if (this.collectFroggerChatLine(lines, nested, ctx.defaultSeat)) {
+                    resolved = true;
+                } else if (super.collectChatLogLine(lines, nested, ctx)) {
                     resolved = true;
                 }
             }
+            return resolved;
         }
-
-        return resolved;
+        if (this.collectFroggerChatLine(lines, r, ctx.defaultSeat)) {
+            return true;
+        }
+        return super.collectChatLogLine(lines, r, ctx);
     }
 
-    public chatHelper(r: APMoveResult, player: string): string {
-
+    private collectFroggerChatLine(lines: ChatLogLine[], r: APMoveResult, seat: number): boolean {
         switch (r.type) {
             case "announce":
-                return i18next.t("apresults:ANNOUNCE.frogger", {
-                    player,
+                this.pushSeatChatLine(lines, seat, "apresults:ANNOUNCE.frogger", {
                     count: Number((r.payload as number[])[0]),
                 });
+                return true;
             case "claim":
-                return i18next.t("apresults:CLAIM.frogger", {player, card: r.what});
+                this.pushSeatChatLine(lines, seat, "apresults:CLAIM.frogger", {card: r.what!});
+                return true;
             case "deckDraw":
-                return i18next.t("apresults:DECKDRAW.frogger", {what: r.what});
+                this.pushNeutralChatLine(lines, "apresults:DECKDRAW.frogger", {what: r.what!});
+                return true;
             case "declare":
-                return i18next.t("apresults:DECLARE.frogger");
+                this.pushNeutralChatLine(lines, "apresults:DECLARE.frogger");
+                return true;
             case "eject":
                 if (r.what === "crocodiles") {
-                    return i18next.t("apresults:EJECT.frogger_croc", {player, from: r.from, to: r.to});
+                    this.pushSeatChatLine(lines, seat, "apresults:EJECT.frogger_croc", {from: r.from!, to: r.to!});
                 } else {
-                    return i18next.t("apresults:EJECT.frogger_card", {player, from: r.from, to: r.to});
+                    this.pushSeatChatLine(lines, seat, "apresults:EJECT.frogger_card", {from: r.from!, to: r.to!});
                 }
+                return true;
             case "move":
                 if (r.how === "forward") {
-                    return i18next.t("apresults:MOVE.frogger_forward", {player, from: r.from, to: r.to, card: r.what});
+                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.frogger_forward", {
+                        from: r.from!, to: r.to!, card: r.what!,
+                    });
                 } else if (r.how === "back") {
-                    return i18next.t("apresults:MOVE.frogger_back", {player, from: r.from, to: r.to, card: r.what});
+                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.frogger_back", {
+                        from: r.from!, to: r.to!, card: r.what!,
+                    });
                 } else {
-                    return i18next.t("apresults:MOVE.frogger_blocked", {player, card: r.what});
+                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.frogger_blocked", {card: r.what!});
                 }
+                return true;
             case "pass":
-                return i18next.t("apresults:PASS.frogger", {player, why: r.why});
+                this.pushSeatChatLine(lines, seat, "apresults:PASS.frogger", {why: r.why!});
+                return true;
             case "eog":
-                return i18next.t("apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                return true;
+            default:
+                return false;
         }
-        return "";
     }
 
     public getStartingPosition(): string {

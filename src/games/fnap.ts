@@ -1,4 +1,4 @@
-import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -981,68 +981,45 @@ export class FnapGame extends GameBaseSimultaneous {
         ]
     }
 
-    public chatLog(players: string[]): string[][] {
-        const result: string[][] = [];
-        for (const state of this.stack) {
-            if ( (state._results !== undefined) && (state._results.length > 0) ) {
-                const node: string[] = [(state._timestamp && new Date(state._timestamp).toISOString()) || "unknown"];
-                for (const r of state._results) {
-                    switch (r.type) {
-                        case "select":
-                            node.push(i18next.t("apresults:SELECT.fnap", {player: players[r.who! - 1], tile: r.what as string}));
-                            break;
-                        case "pass":
-                            node.push(i18next.t("apresults:PASS.simple", {player: players[r.who! - 1]}));
-                            break;
-                        case "place":
-                            node.push(i18next.t("apresults:PLACE.complete", {player: players[r.who! - 1], what: r.what, where: r.where}));
-                            break;
-                        case "claim":
-                            node.push(i18next.t("apresults:CLAIM.fnap", {context: r.what as string, player: players[r.who! - 1], where: r.where}));
-                            break;
-                        case "deltaScore":
-                            node.push(i18next.t("apresults:DELTA_SCORE_GAIN", {delta: r.delta, count: r.delta, player: players[r.who! - 1]}));
-                            break;
-                        case "set":
-                            if ( ("what" in r) && (r.what !== undefined) ) {
-                                node.push(i18next.t("apresults:SET.fnap_circles", {where: r.where}));
-                            } else {
-                                node.push(i18next.t("apresults:SET.fnap_triplets", {count: r.count, player: players[r.who! - 1]}));
-                            }
-                            break;
-                        case "eog":
-                            node.push(i18next.t("apresults:EOG.default"));
-                            break;
-                        case "resigned": {
-                            let rname = `Player ${r.player}`;
-                            if (r.player <= players.length) {
-                                rname = players[r.player - 1]
-                            }
-                            node.push(i18next.t("apresults:RESIGN", {player: rname}));
-                            break;
-                        }
-                        case "winners": {
-                            const names: string[] = [];
-                            for (const w of r.players) {
-                                if (w <= players.length) {
-                                    names.push(players[w - 1]);
-                                } else {
-                                    names.push(`Player ${w}`);
-                                }
-                            }
-                            if (r.players.length === 0)
-                                node.push(i18next.t("apresults:WINNERSNONE"));
-                            else
-                                node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
 
-                            break;
-                        }
-                    }
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
+        const who = (r as { who: number }).who;
+        switch (r.type) {
+            case "select":
+                this.pushSeatChatLine(lines, who, "apresults:SELECT.fnap", { tile: r.what as string });
+                return true;
+            case "pass":
+                this.pushSeatChatLine(lines, who, "apresults:PASS.simple");
+                return true;
+            case "place":
+                this.pushSeatChatLine(lines, who, "apresults:PLACE.complete", {
+                    what: r.what,
+                    where: r.where,
+                });
+                return true;
+            case "claim":
+                this.pushSeatChatLine(lines, who, "apresults:CLAIM.fnap", {
+                    context: r.what as string,
+                    where: r.where,
+                });
+                return true;
+            case "deltaScore":
+                this.pushSeatChatLine(lines, who, "apresults:DELTA_SCORE_GAIN", {
+                    delta: r.delta,
+                    count: r.delta,
+                });
+                return true;
+            case "set":
+                if ("what" in r && r.what !== undefined) {
+                    this.pushNeutralChatLine(lines, "apresults:SET.fnap_circles", { where: r.where });
+                } else {
+                    this.pushSeatChatLine(lines, who, "apresults:SET.fnap_triplets", { count: r.count });
                 }
-                result.push(node);
-            }
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return result;
     }
 
     public isEliminated(player: playerid): boolean {

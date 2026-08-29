@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, MarkerFlood } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -639,36 +639,35 @@ export class HexentaflGame extends GameBase {
         return checks;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
                 if (r.what === "K") {
-                    node.push(i18next.t("apresults:MOVE.hexentafl_king", { player, from: r.from, to: r.to }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.hexentafl_king", { from: r.from!, to: r.to! });
                 } else {
-                    node.push(i18next.t("apresults:MOVE.nowhat", { player, from: r.from, to: r.to }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.nowhat", { from: r.from!, to: r.to! });
                 }
-                resolved = true;
-                break;
+                return true;
             case "capture":
                 if (r.what === "K") {
-                    node.push(i18next.t("apresults:CAPTURE.hexentafl_king", { player, where: r.where }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.hexentafl_king", { where: r.where! });
                 } else {
-                    node.push(i18next.t("apresults:CAPTURE.nowhat", { player, where: r.where }));
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.nowhat", { where: r.where! });
                 }
-                resolved = true;
-                break;
+                return true;
             case "eog":
                 if (r.reason === "repetition") {
-                    node.push(i18next.t("apresults:EOG.repetition", { count: 3 }));
+                this.pushNeutralChatLine(lines, "apresults:EOG.repetition", { count: 3 });
                 } else {
-                    node.push(i18next.t("apresults:EOG.default"));
+                this.pushNeutralChatLine(lines, "apresults:EOG.default");
                 }
-                resolved = true;
-                break;
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
+
 
     public clone(): HexentaflGame {
         return new HexentaflGame(this.serialize());

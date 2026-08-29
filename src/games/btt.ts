@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, IStashEntry } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, IStashEntry, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -927,35 +927,43 @@ export class BTTGame extends GameBase {
         return this.scores[player - 1];
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "deltaScore":
-                if ( r.delta === 1 )
-                    node.push(i18next.t("apresults:DELTASCORE.btt_opponent_gain_one", {player, delta: r.delta }));
-                else if ( r.delta! > 0 )
-                    node.push(i18next.t("apresults:DELTASCORE.btt_opponent_gain_other", {player, delta: r.delta! }));
-                else if ( r.delta === -1 )
-                    node.push(i18next.t("apresults:DELTA_SCORE_LOSS_one", {player, delta: r.delta! * -1}));
-                else if ( r.delta! < 0 )
-                    node.push(i18next.t("apresults:DELTA_SCORE_LOSS_other", {player, delta: r.delta! * -1}));
-                resolved = true;
-                break;
-        }
-        switch (r.type) {
+                if (r.delta === 1) {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DELTASCORE.btt_opponent_gain_one", {delta: r.delta});
+                } else if (r.delta! > 0) {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DELTASCORE.btt_opponent_gain_other", {delta: r.delta!});
+                } else if (r.delta === -1) {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DELTA_SCORE_LOSS_one", {delta: r.delta! * -1});
+                } else if (r.delta! < 0) {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DELTA_SCORE_LOSS_other", {delta: r.delta! * -1});
+                }
+                return true;
             case "place":
-                if (r.what === "1")
-                    node.push(i18next.t("apresults:PLACE.btt_small", {player, what: r.what, where: r.where, how: r.how}));
-                else if (r.what === "2")
-                    node.push(i18next.t("apresults:PLACE.btt_medium", {player, what: r.what, where: r.where, how: r.how}));
-                else if (r.what === "3")
-                    node.push(i18next.t("apresults:PLACE.btt_large", {player, what: r.what, where: r.where, how: r.how}));
-                else
-                    node.push(i18next.t("apresults:PLACE.btt", {player, what: r.what!.toLowerCase(), where: r.where, how: r.how}));
-                resolved = true;
-                break;
+                if (r.what === "1") {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.btt_small", {
+                        what: r.what, where: r.where!, how: r.how!,
+                    });
+                } else if (r.what === "2") {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.btt_medium", {
+                        what: r.what, where: r.where!, how: r.how!,
+                    });
+                } else if (r.what === "3") {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.btt_large", {
+                        what: r.what, where: r.where!, how: r.how!,
+                    });
+                } else {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.btt", {
+                        what: r.what!.toLowerCase(), where: r.where!, how: r.how!,
+                    });
+                }
+                return true;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
 
     public clone(): BTTGame {

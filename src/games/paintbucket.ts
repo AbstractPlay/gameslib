@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -385,17 +385,20 @@ export class PaintbucketGame extends GameBase {
         return rep;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "convert": {
-                const count = r.what.split(",").length;
-                node.push(i18next.t("apresults:CONVERT.paintbucket", {player, count, where: r.where}));
-                resolved = true;
-                break;
+                const count = r.what!.split(",").length;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONVERT.paintbucket", {
+                    count, where: r.where!,
+                });
+                return true;
             }
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return resolved;
     }
 
     public clone(): PaintbucketGame {

@@ -379,7 +379,7 @@
     "witch": "Le premier joueur ne commence en possédant aucune pièce et peut retirer n'importe quelle pièce (autre qu'une couronne) lors de son premier tour. Le second joueur choisit sa couleur lors de son premier tour, après quoi il n'est plus possible de retirer les pièces de votre adversaire.",
     "xana": "Les joueurs, à leur tour, posent/déplacent une pile (il y a une quantité limitée de pièces empilables) et posent optionnellement deux murs sur des cases hexagonales vides. Les piles sans libertés sont capturées. Une pile a une liberté si au moins une des cases hexagonales adjacentes est vide (il n'y a pas de concept de groupe de piles). Une case hexagonale est accessible si elle est vide et reliée à une pile amie par un chemin de cases hexagonales vides. Le but est d'obtenir le plus haut score de territoire plus captures. Xana a été conçu en 2005.",
     "y": "Le jeu a été conçu par Charles Titus et Craige Schensted (Ea Ea) en 1953. Descendant direct de Hex, le jeu se jouait à l'origine sur un plateau triangulaire, où le but est de relier les trois côtés par une chaîne de pierres amies. Y est considéré comme un jeu plus fondamental que Hex, compte tenu de ses règles plus simples et du fait qu'une partie de Hex peut être configurée sur un plateau de Y suffisamment grand. Dans leur livre de 1975 **Mudcrack Y & Poly-Y**, les concepteurs ont introduit le _principe du mudcrack_ affirmant que les jeux de connexion peuvent être joués sur une large gamme de plateaux progressivement élaborés. L'un de ces designs (« le Y courbé », avec trois cellules pentagonales) est devenu le plateau commercial de Y, au lieu du plateau triangulaire standard.",
-    "guerrilla": "Chaque joueur gagne en retirant toutes les pièces de l'adversaire. J2 gagne également s'il survit suffisamment longtemps pour que J1 n'ait plus d'insurgés à placer.",
+    "guerrilla": "Un joueur gagne en retirant toutes les pièces de son adversaire. Le joueur de la sécurité gagne également s'il survit jusqu'à ce que les insurgés n'aient plus de pierres à poser.\n\nPar défaut, un match se compose de deux parties avec inversion des rôles. Chaque joueur joue une partie en tant qu'insurgés et une en tant que sécurité. Lorsque les deux joueurs gagnent en tant qu'insurgés, le match est remporté par celui qui a utilisé le moins de pierres (`66 − restantes` à la fin de cette partie ; le score le plus bas l'emporte). Des scores d'insurgés égaux constituent la seule égalité possible dans ce cas. Une victoire de la sécurité dans une partie rapporte 67 points. Si un joueur remporte les deux parties (gagne en tant qu'insurgés dans l'une et en sécurité dans l'autre), il remporte directement le match. Si les deux joueurs ne gagnent qu'en tant que sécurité, le match est nul.",
     "scribe": "Le tableau de référence des glyphes est affiché dans la marge de gauche. Un point indique le dernier coup de chaque joueur. Lorsqu'une mini-grille est remplie, les points de glyphe sont comptabilisés et le score le plus élevé remporte cette grille (en cas d'égalité, la victoire revient au joueur qui l'a complétée).",
     "circleOfLife": "Les espèces sont numérotées de 0 à 11 dans le sens antihoraire sur l'anneau, en commençant par l'espèce à un seul hexagone en haut. L'espèce 0 mange la 11 ; chaque autre espèce mange celle dont le numéro est directement en dessous du sien. La prédation ne se produit que lorsque vous placez une pierre qui forme une espèce adjacente à une proie. Les groupes ne peuvent pas dépasser quatre pierres. Le premier joueur à capturer 20 pierres adverses gagne, ou le joueur qui ne peut pas poser de pierre à son tour gagne (ayant rempli l'écosystème).",
     "elOso": "La mise en place est effectuée automatiquement lorsque vous lancez la partie. Les décomptes du Ciel, de la Grotte, du Sol et de la Fosse apparaissent dans la barre latérale. Après chaque coup, utilisez les commandes d'images pour parcourir la réponse de l'Ours. Placer dix pièces ou plus dans le Ciel constitue une victoire."
@@ -4393,6 +4393,16 @@
         "description": "Piles affichées sous forme de nombres",
         "name": "Nombres"
       }
+    },
+    "guerrilla": {
+      "#length": {
+        "description": "Une seule partie ; pas d'inversion des rôles ni de score de match.",
+        "name": "Partie unique"
+      },
+      "match": {
+        "description": "Jouez deux parties avec inversion des rôles. Lorsque les deux joueurs gagnent en tant qu'insurgés, le nombre de pierres le plus bas (`66 − restantes`) l'emporte ; des scores égaux entraînent une égalité.",
+        "name": "Match en deux parties"
+      }
     }
   },
   "homeworlds": {
@@ -4540,7 +4550,10 @@
     },
     "YEAR": "Année",
     "guerrilla": {
-      "INSURGENTS": "Insurgés restants"
+      "INSURGENTS": "Insurgés restants",
+      "G1_SCORE": "Score insurgé Partie 1",
+      "GAME1": "Partie 1",
+      "GAME2": "Partie 2"
     },
     "scribe": {
       "MINI_GRIDS": "Mini-grilles remportées"

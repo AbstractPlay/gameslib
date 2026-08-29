@@ -1239,6 +1239,23 @@ function _formatStatusValue(value, glyphRenderOptions) {
     return String(value);
 }
 
+function resolveSidebarLabel(label, playerNames) {
+    if (APGames?.isStructuredRenderLabel?.(label)) {
+        return APGames.resolveRenderLabel(label, playerNames, playgroundTranslate);
+    }
+    if (isI18nKey(label)) {
+        return playgroundT(label);
+    }
+    return String(label);
+}
+
+function formatSidebarStatusValue(value, playerNames, glyphRenderOptions) {
+    if (APGames?.isStructuredRenderLabel?.(value)) {
+        return APGames.resolveRenderLabel(value, playerNames, playgroundTranslate);
+    }
+    return _formatStatusValue(value, glyphRenderOptions);
+}
+
 // Helper function to render the general statuses section
 function _renderStatusesSection(game, playerNames, glyphRenderOptions) {
     let statusBlockHTML = "";
@@ -1257,11 +1274,13 @@ function _renderStatusesSection(game, playerNames, glyphRenderOptions) {
                         actualStatusContent += `<li>${playerNames[idx] || `Player ${idx+1}`}: ${s}</li>`;
                     });
                     actualStatusContent += "</ul>";
-                } else if (statuses.every(s => typeof s === 'object' && s !== null && typeof s.key === 'string' && Array.isArray(s.value))) {
+                } else if (statuses.every(s => typeof s === 'object' && s !== null && Array.isArray(s.value))) {
                     actualStatusContent += "<ul>";
                     statuses.forEach(s => {
-                        const values = s.value.map(v => _formatStatusValue(v, glyphRenderOptions)).join(" ");
-                        const label = isI18nKey(s.key) ? playgroundT(s.key) : s.key;
+                        const values = s.value
+                            .map(v => formatSidebarStatusValue(v, playerNames, glyphRenderOptions))
+                            .join(" ");
+                        const label = resolveSidebarLabel(s.key, playerNames);
                         actualStatusContent += `<li><strong>${label}:</strong> ${values}</li>`;
                     });
                     actualStatusContent += "</ul>";

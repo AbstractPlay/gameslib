@@ -379,7 +379,7 @@
     "witch": "Il primo giocatore non inizia possedendo alcun pezzo e può rimuovere qualsiasi pezzo (tranne una corona) nel suo primo turno. Il secondo giocatore sceglie il proprio colore nel suo primo turno, dopodiché non è più possibile rimuovere i pezzi dell'avversario.",
     "xana": "I giocatori, nel proprio turno, posizionano/muovono una pila (c'è una quantità limitata di pezzi impilabili) e opzionalmente posizionano due muri in esagoni vuoti. Le pile senza libertà vengono catturate. Una pila ha libertà se almeno uno degli esagoni adiacenti è vuoto (non esiste il concetto di gruppo di pile). Un esagono è accessibile se è vuoto e collegato a una pila amica da un percorso di esagoni vuoti. L'obiettivo è ottenere il punteggio più alto sommando territorio e catture. Xana è stato progettato nel 2005.",
     "y": "Il gioco è stato progettato da Charles Titus e Craige Schensted (Ea Ea) nel 1953. Discendente diretto del Hex, il gioco era originariamente giocato su un tavoliere triangolare, dove l'obiettivo è collegare tutti e tre i lati con una catena di pedine amiche. Il Y è considerato un gioco più fondamentale rispetto all'Hex, date le sue regole più semplici e dato che una partita a Hex può essere impostata su un tavoliere da Y sufficientemente grande. Nel loro libro del 1975 **Mudcrack Y & Poly-Y**, i designer hanno introdotto il _principio di mudcrack_ affermando che i giochi di connessione possono essere giocati su un'ampia gamma di tavolieri progressivamente elaborati. Uno di quei design ('il Y piegato', con tre celle pentagonali) è diventato il tavoliere commerciale del Y, al posto di quello triangolare standard.",
-    "guerrilla": "Ciascun giocatore vince rimuovendo tutti i pezzi dell'avversario. P2 vince anche se sopravvive abbastanza a lungo da far esaurire a P1 gli insorti da piazzare.",
+    "guerrilla": "Ciascun giocatore vince rimuovendo tutte le pedine dell'avversario. Il giocatore della sicurezza vince anche se sopravvive abbastanza a lungo da far esaurire le pietre da piazzare agli insorti.\n\nPer impostazione predefinita, un incontro consiste in due partite a ruoli invertiti. Ciascun giocatore gioca una partita come insorti e una come sicurezza. Quando entrambi i giocatori vincono come insorti, l'incontro va a chi ha usato meno pietre (`66 − rimanenti` alla fine di quella partita; vince il punteggio più basso). Punteggi uguali degli insorti sono l'unica patta in tal caso. Una vittoria della sicurezza in una partita assegna 67 punti. Se un giocatore vince entrambe le partite (come insorti in una e come sicurezza nell'altra), vince direttamente l'incontro. Se entrambi i giocatori vincono solo come sicurezza, l'incontro finisce in patta.",
     "scribe": "La tabella di riferimento dei glifi è mostrata nel margine sinistro. Un punto indica il posizionamento più recente di ciascun giocatore. Quando una mini-griglia si riempie, vengono calcolati i punti glifo e il punteggio più alto si aggiudica la griglia (in caso di parità, la griglia va al giocatore che l'ha completata).",
     "circleOfLife": "Le specie sono numerate da 0 a 11 in senso antiorario sull'anello, a partire dalla specie a singolo esagono in alto. La specie 0 mangia la 11; ogni altra specie mangia quella con il numero immediatamente inferiore. La predazione avviene solo quando posizioni una pietra che forma una specie adiacente alla preda. I gruppi non possono superare le quattro pietre. Vince il primo giocatore che cattura 20 pietre avversarie, oppure vince il giocatore che non può posizionare nel proprio turno (avendo riempito l'ecosistema).",
     "elOso": "La preparazione viene eseguita automaticamente all'avvio del gioco. I conteggi di Cielo, Caverna, Terra e Fossa appaiono nella barra laterale. Dopo ogni mossa, usa i controlli del fotogramma per scorrere la risposta dell'Orso. Portare dieci o più pezzi nel Cielo equivale a una vittoria."
@@ -4393,6 +4393,16 @@
         "description": "Pile mostrate come numeri",
         "name": "Numeri"
       }
+    },
+    "guerrilla": {
+      "#length": {
+        "description": "Una sola partita; nessun cambio di ruolo o punteggio dell'incontro.",
+        "name": "Partita singola"
+      },
+      "match": {
+        "description": "Gioca due partite a ruoli invertiti. Quando entrambi i giocatori vincono come insorti, vince il conteggio di pietre più basso (`66 − rimanenti`); in caso di punteggi uguali è patta.",
+        "name": "Incontro di due partite"
+      }
     }
   },
   "homeworlds": {
@@ -4540,7 +4550,10 @@
     },
     "YEAR": "Anno",
     "guerrilla": {
-      "INSURGENTS": "Insorti rimasti"
+      "INSURGENTS": "Insorti rimasti",
+      "G1_SCORE": "Punteggio insorti Partita 1",
+      "GAME1": "Partita 1",
+      "GAME2": "Partita 2"
     },
     "scribe": {
       "MINI_GRIDS": "Mini-griglie vinte"

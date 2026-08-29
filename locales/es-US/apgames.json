@@ -315,7 +315,7 @@
     "forms": "Forms fue diseñado por Steven Meyers en 2007. Después de cada movimiento, todas las piezas fuera del grupo que contiene la última pieza movida son capturadas. El último jugador en mover pierde (por lo que Forms es un juego misère). La primera versión permitía que una pieza capturara cualquier pieza del oponente. Más tarde, en 2011, Meyers desarrolló una segunda versión, **Advanced Forms**, donde solo podías capturar piezas adyacentes ortogonalmente, pero una pieza también podía moverse a una casilla vacía si ambas estaban conectadas por una secuencia de pasos ortogonales sobre casillas vacías. La preparación inicial también cambió a un patrón ajedrezado. Esta segunda versión es la variante predeterminada aquí en AP. Se puede encontrar más información en [WAG](https://jpneto.github.io/world_abstract_games/forms.htm).",
     "frogger": "Al igual que en otros juegos de Decktet en Abstract Play, el mazo se muestra en la parte inferior del tablero e incluye tanto las cartas del mazo como las cartas desconocidas en las manos de los otros jugadores. Después de la primera mano, todas las cartas se roban de la reserva pública de robo, por lo que las manos se vuelven abiertas gradualmente. El pozo de descarte también se muestra.\n\nDebido a cómo funciona la aleatorización en Abstract Play, se necesitan pases forzados para que un jugador reabastezca la reserva de robo en mitad de su turno. El servidor maneja los pases automáticamente, pero también hay una variante de reserva de robo que evita el pase forzado si se desea.\n\nLa variante Cocodrilos es de Jorge Arroyo, el traductor de las reglas al inglés. Las reglas avanzadas y otras variantes menores son de P. D. Magnus; aparecen en The Decktet Book, donde el juego se llama Xing.",
     "garden": "Para dejar muy claro qué sucedió en un turno anterior, cada movimiento se muestra a lo largo de cuatro tableros separados. El primer tablero muestra la partida justo después de colocar la pieza. El segundo tablero muestra el estado después de voltear las piezas adyacentes. El tercer tablero muestra cualquier cosecha. El cuarto tablero es el estado final del juego y es donde haces tus movimientos.\n\nEn nuestra implementación, el negro es siempre el color del \"tomo\" o desempate. El último jugador en cosechar negro tendrá un `0.1` después de su puntuación.",
-    "guerrilla": "Cualquiera de los dos jugadores gana si elimina todas las piezas del oponente. El J2 también gana si sobrevive lo suficiente como para que el J1 se quede sin insurgentes para colocar.",
+    "guerrilla": "Cualquier jugador gana al eliminar todas las piezas del oponente. El jugador de seguridad también gana si sobrevive lo suficiente como para que a los insurgentes se les acaben las piedras para colocar.\n\nPor defecto, una partida consta de dos juegos con los roles invertidos. Cada jugador juega un juego como insurgentes y uno como seguridad. Cuando ambos jugadores ganan como insurgentes, la partida es para quien haya usado menos piedras (`66 − remaining` al final de ese juego; gana la puntuación más baja). Puntuaciones iguales de los insurgentes son el único empate en ese caso. Una victoria de seguridad en un juego otorga 67 puntos. Si un jugador gana ambos juegos (gana como insurgentes en uno y como seguridad en el otro), gana la partida rotundamente. Si ambos jugadores solo ganan como seguridad, la partida termina en empate.",
     "scribe": "La tabla de referencia de glifos se muestra en el margen izquierdo. Un punto marca la colocación más reciente de cada jugador. Cuando una minicuadrícula se llena, se cuentan los puntos de los glifos y la puntuación más alta gana esa cuadrícula (los empates son para el jugador que la completó).",
     "gyges": "Las casillas de meta son adyacentes a todas las casillas de la fila trasera. El renderizador actualmente no puede manejar casillas \"flotantes\".",
     "halma": "Para evitar la [tendencia al empate](https://boardgamegeek.com/thread/3706389/unspoiling-halma-redux) del juego, se aplican las siguientes reglas: (a) un jugador gana si la base inicial opuesta está completa con al menos una piedra propia (criterio de David Parlett); (b) Cualquier pieza en la base inicial del jugador debe avanzar hacia el campo enemigo siempre que sea posible saltando sobre una pieza enemiga (regla de Zillions, para eliminar estrategias tendientes al empate); (c) Ninguna piedra puede regresar a su base inicial.\n\n[Halma](https://en.wikipedia.org/wiki/Halma) fue uno de los primeros éxitos comerciales de un juego abstracto. El juego fue diseñado por [George Howard Monks](https://en.wikipedia.org/wiki/George_Howard_Monks) en 1883/4. Se dice que Halma se inspiró en un juego británico más antiguo llamado *Hoppity*. Sin embargo, este juego no cuenta con documentación ni tableros supervivientes, lo que convierte esta afirmación en un misterio histórico. Halma se adaptó más tarde (c. 1892/3) en un éxito aún mayor: las [Damas chinas](https://boardgamegeek.com/boardgame/2386/chinese-checkers) (que podían ser jugadas fácilmente por tres o seis jugadores).\n\nSuper Halma es una variante más dinámica, sin acreditación, presentada en el libro de 1992 **New Rules for Classic Games** de Wayne Schmittberger. Esta variante propone saltos largos, donde el número de casillas vacías antes y después de la piedra saltada debe ser igual. Las restricciones de movimiento de la base aún se aplican en esta implementación de Super Halma.",
@@ -4393,6 +4393,16 @@
         "description": "Pilas mostradas como números",
         "name": "Números"
       }
+    },
+    "guerrilla": {
+      "#length": {
+        "description": "Un solo juego; sin intercambio de roles ni puntuación de partida.",
+        "name": "Juego único"
+      },
+      "match": {
+        "description": "Juega dos juegos con los roles invertidos. Cuando ambos jugadores ganan como insurgentes, gana quien tenga el menor conteo de piedras (`66 − remaining`); las puntuaciones iguales empatan.",
+        "name": "Partida de dos juegos"
+      }
     }
   },
   "homeworlds": {
@@ -4496,7 +4506,10 @@
     "fnap": "Ficha FNAP",
     "focus": "Controladas",
     "guerrilla": {
-      "INSURGENTS": "Insurgentes restantes"
+      "INSURGENTS": "Insurgentes restantes",
+      "G1_SCORE": "Puntuación de insurgente del Juego 1",
+      "GAME1": "Juego 1",
+      "GAME2": "Juego 2"
     },
     "scribe": {
       "MINI_GRIDS": "Minicuadrículas ganadas"

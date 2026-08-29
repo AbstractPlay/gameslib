@@ -604,6 +604,7 @@
     },
     "RESET": {
         "biscuit": "A new round has begun.",
+        "guerrilla": "{{player}} won the first game. The second game has begun, with roles reversed.",
         "queensland": "The second game has begun."
     },
     "RESIGN": "{{player}} has resigned.",

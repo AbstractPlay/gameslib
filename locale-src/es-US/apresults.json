@@ -2115,6 +2115,10 @@
     "src": "A new round has begun.",
     "out": "Ha comenzado una nueva ronda."
   },
+  "RESET.guerrilla": {
+    "src": "{{player}} won the first game. The second game has begun, with roles reversed.",
+    "out": "{{player}} ganó la primera partida. La segunda partida ha comenzado, con los roles invertidos."
+  },
   "RESET.queensland": {
     "src": "The second game has begun.",
     "out": "Ha comenzado la segunda partida."

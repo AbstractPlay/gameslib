@@ -652,7 +652,8 @@
   },
   "RESET": {
     "biscuit": "Une nouvelle manche a commencé.",
-    "queensland": "La deuxième partie a commencé."
+    "queensland": "La deuxième partie a commencé.",
+    "guerrilla": "{{player}} a remporté la première partie. La deuxième partie a commencé, avec les rôles inversés."
   },
   "RESIGN": "{{player}} a abandonné.",
   "ROLL": {

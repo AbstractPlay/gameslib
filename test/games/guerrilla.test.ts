@@ -9,11 +9,14 @@ function guerrillaFrom(opts: {
     board: BoardCell[];
     currplayer?: playerid;
     insurgents?: number;
+    variants?: string[];
+    rolesSwapped?: boolean;
+    g1insurgentScore?: number;
 }): GuerrillaGame {
     const state: IGuerrillaState = {
         game: "guerrilla",
         numplayers: 2,
-        variants: [],
+        variants: opts.variants ?? [],
         gameover: false,
         winner: [],
         stack: [{
@@ -23,20 +26,32 @@ function guerrillaFrom(opts: {
             currplayer: opts.currplayer ?? 1,
             board: new Map(opts.board),
             insurgents: opts.insurgents ?? 66,
+            rolesSwapped: opts.rolesSwapped,
+            g1insurgentScore: opts.g1insurgentScore,
         } as IMoveState],
     };
     return new GuerrillaGame(state);
 }
 
+function checkEOG(g: GuerrillaGame): void {
+    (g as unknown as {checkEOG: () => void}).checkEOG();
+}
+
 describe("Guerrilla", () => {
-    it("offers double placements on the opening turn", () => {
+    it("defaults new games to match mode", () => {
         const g = new GuerrillaGame();
+        expect(g.variants).to.deep.equal(["match"]);
+        expect(g.isMatch()).to.be.true;
+    });
+
+    it("offers double placements on the opening turn", () => {
+        const g = new GuerrillaGame(undefined, []);
         expect(g.moves().length).to.be.greaterThan(0);
         expect(g.moves()[0]).to.match(/^[^,]+\|[^,]+,[^,]+\|[^,]+$/);
     });
 
     it("places two insurgents and decrements the reserve", () => {
-        const g = new GuerrillaGame();
+        const g = new GuerrillaGame(undefined, []);
         const mv = g.moves()[0]!;
         g.move(mv, {trusted: true});
         const [first, second] = mv.split(",");
@@ -79,12 +94,12 @@ describe("Guerrilla", () => {
             currplayer: 2,
             insurgents: 64,
         });
-        (g as unknown as {checkEOG: () => void}).checkEOG();
+        checkEOG(g);
         expect(g.gameover).to.be.true;
         expect(g.winner).to.deep.equal([1]);
     });
 
-    it("awards P2 a win when P1 cannot place", () => {
+    it("awards security a win when insurgents cannot place", () => {
         const g = guerrillaFrom({
             board: [
                 ["f4", 2],
@@ -94,12 +109,12 @@ describe("Guerrilla", () => {
             insurgents: 0,
         });
         expect(g.moves()).to.deep.equal([]);
-        (g as unknown as {checkEOG: () => void}).checkEOG();
+        checkEOG(g);
         expect(g.gameover).to.be.true;
         expect(g.winner).to.deep.equal([2]);
     });
 
-    it("removes surrounded security forces after P1 placements", () => {
+    it("removes surrounded security forces after insurgent placements", () => {
         const g = guerrillaFrom({
             board: [
                 ["f4", 2],
@@ -116,7 +131,7 @@ describe("Guerrilla", () => {
         expect(g.results.some(r => r.type === "capture" && r.where === "f4")).to.be.true;
     });
 
-    it("shows only the immediate next step during P2 partial moves", () => {
+    it("shows only the immediate next step during security partial moves", () => {
         const g = guerrillaFrom({
             board: [
                 ["e5", 2],
@@ -131,8 +146,8 @@ describe("Guerrilla", () => {
         expect(findPoints("e5xf6")).to.deep.equal(["g7"]);
     });
 
-    it("renders the first insurgent during a partial P1 placement", () => {
-        const g = new GuerrillaGame();
+    it("renders the first insurgent during a partial placement", () => {
+        const g = new GuerrillaGame(undefined, []);
         const first = g.moves()[0]!.split(",")[0]!;
         g.move(first, {partial: true});
         const rep = g.render();
@@ -152,5 +167,237 @@ describe("Guerrilla", () => {
         expect(mv).to.not.equal(undefined);
         g.move(mv!, {trusted: true});
         expect(g.board.has("a8")).to.be.false;
+    });
+
+    describe("legacy single-game (variants: [])", () => {
+        it("is not match mode", () => {
+            const g = guerrillaFrom({ board: [["f4", 2]], variants: [] });
+            expect(g.isMatch()).to.be.false;
+        });
+
+        it("ends a single game when security is eliminated", () => {
+            const g = guerrillaFrom({
+                board: [["d3|e4", 1]],
+                currplayer: 2,
+                insurgents: 64,
+                variants: [],
+            });
+            checkEOG(g);
+            expect(g.gameover).to.be.true;
+            expect(g.winner).to.deep.equal([1]);
+            expect(g.rolesSwapped).to.be.false;
+            expect(g.g1insurgentScore).to.equal(undefined);
+        });
+
+        it("ends a single game when insurgents are eliminated", () => {
+            const g = guerrillaFrom({
+                board: [["f4", 2]],
+                currplayer: 2,
+                variants: [],
+            });
+            checkEOG(g);
+            expect(g.gameover).to.be.true;
+            expect(g.winner).to.deep.equal([2]);
+        });
+
+        it("ends a single game when insurgents cannot place", () => {
+            const g = guerrillaFrom({
+                board: [["f4", 2], ["d3|e4", 1]],
+                currplayer: 1,
+                insurgents: 0,
+                variants: [],
+            });
+            checkEOG(g);
+            expect(g.gameover).to.be.true;
+            expect(g.winner).to.deep.equal([2]);
+        });
+
+        it("does not reset for a second game", () => {
+            const g = guerrillaFrom({
+                board: [["d3|e4", 1]],
+                currplayer: 2,
+                insurgents: 64,
+                variants: [],
+            });
+            checkEOG(g);
+            expect(g.gameover).to.be.true;
+            expect(g.results.some(r => r.type === "reset")).to.be.false;
+        });
+    });
+
+    describe("match variant", () => {
+        it("resets for game 2 after game 1 ends", () => {
+            const g = guerrillaFrom({
+                board: [["d3|e4", 1]],
+                currplayer: 2,
+                insurgents: 64,
+                variants: ["match"],
+            });
+            checkEOG(g);
+            expect(g.gameover).to.be.false;
+            expect(g.rolesSwapped).to.be.true;
+            expect(g.g1insurgentScore).to.equal(2);
+            expect(g.currplayer).to.equal(2);
+            expect(g.board.get("f4")).to.equal(2);
+            expect(g.insurgents).to.equal(66);
+            expect(g.results.map(r => r.type)).to.deep.equal(["winners", "reset"]);
+        });
+
+        it("announces the game 1 winner on the reset ply", () => {
+            const g = guerrillaFrom({
+                board: [["d3|e4", 1]],
+                currplayer: 2,
+                insurgents: 64,
+                variants: ["match"],
+            });
+            checkEOG(g);
+            (g as unknown as {saveState: () => void}).saveState();
+            const lines = g.chatLogEntries(["Alice", "Bob"]);
+            expect(lines).to.have.length(1);
+            expect(lines[0]!.lines).to.have.length(1);
+            expect(lines[0]!.lines[0]!.textKey).to.equal("apresults:RESET.guerrilla");
+            expect(lines[0]!.lines[0]!.textParams?.player).to.equal("Alice");
+        });
+
+        it("offers insurgent placements at the start of game 2", () => {
+            const g = guerrillaFrom({
+                board: [
+                    ["f4", 2],
+                    ["e3", 2], ["e5", 2],
+                    ["d4", 2], ["d6", 2],
+                    ["c5", 2],
+                ],
+                currplayer: 2,
+                variants: ["match"],
+                rolesSwapped: true,
+            });
+            expect(g.moves().length).to.be.greaterThan(0);
+            expect(g.moves()[0]).to.match(/^[^,]+\|[^,]+,[^,]+\|[^,]+$/);
+        });
+
+        it("records 67 when security wins by eliminating insurgents in game 1", () => {
+            const g = guerrillaFrom({
+                board: [["f4", 2]],
+                currplayer: 2,
+                variants: ["match"],
+            });
+            checkEOG(g);
+            expect(g.g1insurgentScore).to.equal(67);
+            expect(g.gameover).to.be.false;
+            expect(g.rolesSwapped).to.be.true;
+        });
+
+        it("records 67 when security wins a game", () => {
+            const g = guerrillaFrom({
+                board: [
+                    ["f4", 2],
+                    ["d3|e4", 1],
+                ],
+                currplayer: 1,
+                insurgents: 0,
+                variants: ["match"],
+            });
+            checkEOG(g);
+            expect(g.g1insurgentScore).to.equal(67);
+            expect(g.gameover).to.be.false;
+        });
+
+        it("awards the match to P1 on insurgent win plus security sweep (I+S)", () => {
+            const g = guerrillaFrom({
+                board: [
+                    ["f4", 2],
+                    ["d3|e4", 1],
+                ],
+                currplayer: 2,
+                insurgents: 0,
+                variants: ["match"],
+                rolesSwapped: true,
+                g1insurgentScore: 25,
+            });
+            checkEOG(g);
+            expect(g.gameover).to.be.true;
+            expect(g.winner).to.deep.equal([1]);
+        });
+
+        it("awards the match to P2 on security sweep plus insurgent win (S+I)", () => {
+            const g = guerrillaFrom({
+                board: [["d3|e4", 1]],
+                currplayer: 2,
+                insurgents: 50,
+                variants: ["match"],
+                rolesSwapped: true,
+                g1insurgentScore: 67,
+            });
+            checkEOG(g);
+            expect(g.gameover).to.be.true;
+            expect(g.winner).to.deep.equal([2]);
+        });
+
+        it("draws when both players only win as security (S+S)", () => {
+            const g = guerrillaFrom({
+                board: [
+                    ["f4", 2],
+                    ["d3|e4", 1],
+                ],
+                currplayer: 2,
+                insurgents: 0,
+                variants: ["match"],
+                rolesSwapped: true,
+                g1insurgentScore: 67,
+            });
+            checkEOG(g);
+            expect(g.gameover).to.be.true;
+            expect(g.winner).to.deep.equal([1, 2]);
+        });
+
+        it("compares insurgent scores when both win as insurgents (I+I)", () => {
+            const p1Wins = guerrillaFrom({
+                board: [["d3|e4", 1]],
+                currplayer: 2,
+                insurgents: 36,
+                variants: ["match"],
+                rolesSwapped: true,
+                g1insurgentScore: 25,
+            });
+            checkEOG(p1Wins);
+            expect(p1Wins.winner).to.deep.equal([1]);
+
+            const p2Wins = guerrillaFrom({
+                board: [["d3|e4", 1]],
+                currplayer: 2,
+                insurgents: 50,
+                variants: ["match"],
+                rolesSwapped: true,
+                g1insurgentScore: 30,
+            });
+            checkEOG(p2Wins);
+            expect(p2Wins.winner).to.deep.equal([2]);
+
+            const tie = guerrillaFrom({
+                board: [["d3|e4", 1]],
+                currplayer: 2,
+                insurgents: 41,
+                variants: ["match"],
+                rolesSwapped: true,
+                g1insurgentScore: 25,
+            });
+            checkEOG(tie);
+            expect(tie.winner).to.deep.equal([1, 2]);
+        });
+
+        it("renders swapped role colours in game 2", () => {
+            const g = guerrillaFrom({
+                board: [["f4", 2]],
+                variants: ["match"],
+                rolesSwapped: true,
+            });
+            const rep = g.render();
+            const insurgentGlyph = rep.legend.A;
+            const securityGlyph = rep.legend.B;
+            const insurgentColour = Array.isArray(insurgentGlyph) ? insurgentGlyph[0].colour : insurgentGlyph.colour;
+            const securityColour = Array.isArray(securityGlyph) ? securityGlyph[0].colour : securityGlyph.colour;
+            expect(insurgentColour).to.equal(2);
+            expect(securityColour).to.equal(1);
+        });
     });
 });

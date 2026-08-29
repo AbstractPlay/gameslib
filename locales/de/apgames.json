@@ -379,7 +379,7 @@
     "witch": "Der erste Spieler besitzt zu Beginn keine Steine und darf in seinem ersten Zug jeden beliebigen Stein (außer einer Krone) entfernen. Der zweite Spieler wählt in seinem ersten Zug seine Farbe, wonach das Entfernen gegnerischer Steine nicht mehr möglich ist.",
     "xana": "Spieler setzen/bewegen in ihrem Zug einen Stapel (es gibt eine begrenzte Menge stapelbarer Steine) und setzen optional zwei Wände in leere Hex-Felder. Stapel ohne Freiheiten werden geschlagen. Ein Stapel hat eine Freiheit, wenn mindestens eines der angrenzenden Hex-Felder leer ist (es gibt kein Konzept einer Gruppe von Stapeln). Ein Hex-Feld ist zugänglich, wenn es leer ist und über einen Pfad aus leeren Hex-Feldern mit einem eigenen Stapel verbunden ist. Das Ziel ist es, die höchste Punktzahl aus Territorium plus Schlägen zu erzielen. Xana wurde 2005 entworfen.",
     "y": "Das Spiel wurde 1953 von Charles Titus und Craige Schensted (Ea Ea) entworfen. Als direkter Nachfahre von Hex wurde das Spiel ursprünglich auf einem dreieckigen Brett gespielt, auf dem das Ziel darin besteht, alle drei Seiten durch eine Kette eigener Steine zu verbinden. Y gilt aufgrund seiner einfacheren Regeln und der Tatsache, dass eine Hex-Partie auf einem ausreichend großen Y-Brett aufgebaut werden kann, als grundlegenderes Spiel als Hex. In ihrem 1975 erschienenen Buch **Mudcrack Y & Poly-Y** führten die Entwickler das _Mudcrack-Prinzip_ ein, das besagt, dass Verbindungsspiele auf einer Vielzahl von zunehmend komplexen Brettern gespielt werden können. Eines dieser Designs ('das gebogene Y' mit drei fünfeckigen Feldern) wurde zum kommerziellen Y-Brett anstelle des standardmäßigen dreieckigen.",
-    "guerrilla": "Jeder Spieler gewinnt, indem er alle gegnerischen Steine entfernt. P2 gewinnt auch, wenn er lange genug überlebt, bis P1 keine Aufständischen mehr zum Platzieren hat.",
+    "guerrilla": "Ein Spieler gewinnt, indem er alle Steine des Gegners entfernt. Der Sicherheitsspieler gewinnt auch, wenn er lange genug überlebt, bis den Aufständischen die Steine zum Setzen ausgehen.\n\nStandardmäßig besteht ein Match aus zwei Spielen mit vertauschten Rollen. Jeder Spieler spielt ein Spiel als Aufständische und eines als Sicherheitskräfte. Wenn beide Spieler als Aufständische gewinnen, geht das Match an denjenigen, der weniger Steine verbraucht hat (`66 − verbleibend` am Ende dieses Spiels; die niedrigere Punktzahl gewinnt). Gleiche Aufständischen-Punktzahlen sind in diesem Fall das einzige Unentschieden. Ein Sieg der Sicherheitskräfte in einem Spiel bringt 67 Punkte. Wenn ein Spieler beide Spiele gewinnt (eines als Aufständische und eines als Sicherheitskräfte), gewinnt er das Match direkt. Wenn beide Spieler nur als Sicherheitskräfte gewinnen, endet das Match unentschieden.",
     "scribe": "Die Glyphen-Referenztabelle wird am linken Rand angezeigt. Ein Punkt markiert die jeweils letzte Platzierung jedes Spielers. Wenn sich ein Minigitter füllt, werden die Glyphenpunkte zusammengezählt und die höhere Punktzahl gewinnt dieses Gitter (bei Gleichstand gewinnt der Spieler, der es fertiggestellt hat).",
     "circleOfLife": "Die Arten sind auf dem Ring gegen den Uhrzeigersinn von 0–11 nummeriert, beginnend mit der Einzel-Hex-Art ganz oben. Art 0 frisst 11; jede andere Art frisst die direkt darunter nummerierte Art. Räuberisches Fressen findet nur statt, wenn du einen Stein platzierst, der eine Art angrenzend an Beute bildet. Gruppen dürfen nicht mehr als vier Steine umfassen. Wer zuerst 20 gegnerische Steine schlägt, gewinnt, oder der Spieler gewinnt, der in seinem Zug nicht mehr platzieren kann (nachdem das Ökosystem gefüllt wurde).",
     "elOso": "Der Aufbau erfolgt automatisch beim Starten des Spiels. Die Anzahl für Himmel, Höhle, Boden und Grube wird in der Seitenleiste angezeigt. Verwende nach jedem Zug die Einzelbild-Steuerung, um die Reaktion des Bären Schritt für Schritt zu verfolgen. Zehn oder mehr Steine im Himmel bedeuten einen Sieg."
@@ -4393,6 +4393,16 @@
         "description": "Stapel als Zahlen dargestellt",
         "name": "Zahlen"
       }
+    },
+    "guerrilla": {
+      "#length": {
+        "description": "Nur ein Spiel; kein Rollentausch oder Match-Wertung.",
+        "name": "Einzelspiel"
+      },
+      "match": {
+        "description": "Zwei Spiele mit vertauschten Rollen spielen. Wenn beide Spieler als Aufständische gewinnen, gewinnt die geringere Steinanzahl (`66 − verbleibend`); gleiche Punktzahlen enden unentschieden.",
+        "name": "Zwei-Spiele-Match"
+      }
     }
   },
   "homeworlds": {
@@ -4543,7 +4553,10 @@
     },
     "YEAR": "Jahr",
     "guerrilla": {
-      "INSURGENTS": "Verbleibende Aufständische"
+      "INSURGENTS": "Verbleibende Aufständische",
+      "G1_SCORE": "Aufständischen-Punktzahl Spiel 1",
+      "GAME1": "Spiel 1",
+      "GAME2": "Spiel 2"
     },
     "scribe": {
       "MINI_GRIDS": "Gewonnene Minigitter"

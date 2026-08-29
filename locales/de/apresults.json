@@ -612,7 +612,8 @@
   },
   "RESET": {
     "biscuit": "Eine neue Runde hat begonnen.",
-    "queensland": "Das zweite Spiel hat begonnen."
+    "queensland": "Das zweite Spiel hat begonnen.",
+    "guerrilla": "{{player}} hat die erste Partie gewonnen. Die zweite Partie hat begonnen, mit vertauschten Rollen."
   },
   "RESIGN": "{{player}} hat aufgegeben.",
   "ROLL": {

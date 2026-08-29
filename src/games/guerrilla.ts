@@ -12,6 +12,8 @@ export interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, playerid>;
     insurgents: number;
+    rolesSwapped?: boolean;
+    g1insurgentScore?: number;
     lastmove?: string;
 };
 
@@ -23,6 +25,8 @@ export interface IGuerrillaState extends IAPGameState {
 export class GuerrillaGame extends GameBase {
     private static readonly BOARD_SIZE = 8;
     private static readonly DIAMOND_SIZE = 7;
+    private static readonly INSURGENT_POOL = 66;
+    private static readonly SECURITY_WIN_SCORE = 67;
     private static readonly squareGraph = new SquareDiagGraph(GuerrillaGame.BOARD_SIZE, GuerrillaGame.BOARD_SIZE);
     private static readonly diamondGraph = new SquareOrthGraph(GuerrillaGame.DIAMOND_SIZE, GuerrillaGame.DIAMOND_SIZE);
 
@@ -55,7 +59,11 @@ export class GuerrillaGame extends GameBase {
             },
         ],
         categories: ["goal>annihilate", "mechanic>place", "mechanic>move", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: []
+        flags: [],
+        variants: [
+            { uid: "match", group: "length", default: true },
+            { uid: "#length" },
+        ],
     };
 
     public numplayers = 2;
@@ -66,26 +74,23 @@ export class GuerrillaGame extends GameBase {
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
-    public insurgents = 66;
+    public insurgents = GuerrillaGame.INSURGENT_POOL;
+    public rolesSwapped = false;
+    public g1insurgentScore?: number;
     private dots: string[] = [];
     private partialPlacement?: string;
 
-    constructor(state?: IGuerrillaState | string) {
+    constructor(state?: IGuerrillaState | string, variants?: string[]) {
         super();
         if (state === undefined) {
-            const board = new Map<string, playerid>([
-                ["f4", 2],
-                ["e3", 2], ["e5", 2],
-                ["d4", 2], ["d6", 2],
-                ["c5", 2],
-            ]);
+            this.variants = variants === undefined ? ["match"] : [...variants];
             const fresh: IMoveState = {
                 _version: GuerrillaGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
-                insurgents: 66,
-                board,
+                insurgents: GuerrillaGame.INSURGENT_POOL,
+                board: GuerrillaGame.startingBoard(),
             };
             this.stack = [fresh];
         } else {
@@ -117,9 +122,60 @@ export class GuerrillaGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.insurgents = state.insurgents;
+        this.rolesSwapped = state.rolesSwapped ?? false;
+        this.g1insurgentScore = state.g1insurgentScore;
         this.dots = [];
         this.partialPlacement = undefined;
         return this;
+    }
+
+    public isMatch(): boolean {
+        return this.variants.includes("match");
+    }
+
+    private insurgentSeat(): playerid {
+        return this.rolesSwapped ? 2 : 1;
+    }
+
+    private securitySeat(): playerid {
+        return this.rolesSwapped ? 1 : 2;
+    }
+
+    private isInsurgentTurn(): boolean {
+        return this.currplayer === this.insurgentSeat();
+    }
+
+    private insurgentColour(): playerid {
+        return this.insurgentSeat();
+    }
+
+    private securityColour(): playerid {
+        return this.securitySeat();
+    }
+
+    private insurgentGameScore(insurgentsWon: boolean): number {
+        return insurgentsWon
+            ? GuerrillaGame.INSURGENT_POOL - this.insurgents
+            : GuerrillaGame.SECURITY_WIN_SCORE;
+    }
+
+    private static startingBoard(): Map<string, playerid> {
+        return new Map<string, playerid>([
+            ["f4", 2],
+            ["e3", 2], ["e5", 2],
+            ["d4", 2], ["d6", 2],
+            ["c5", 2],
+        ]);
+    }
+
+    private resetForG2(): void {
+        this.board = GuerrillaGame.startingBoard();
+        this.insurgents = GuerrillaGame.INSURGENT_POOL;
+        this.rolesSwapped = true;
+        this.currplayer = this.insurgentSeat();
+        this.gameover = false;
+        this.winner = [];
+        this.lastmove = undefined;
     }
 
     public get graph(): SquareDiamondsDirectedGraph {
@@ -364,14 +420,14 @@ export class GuerrillaGame extends GameBase {
     public moves(): string[] {
         if (this.gameover) { return []; }
 
-        if (this.currplayer === 1) {
+        if (this.isInsurgentTurn()) {
             return this.movesP1();
         }
         return this.movesP2();
     }
 
     private matchingMoves(m: string, allMoves: string[]): string[] {
-        if (this.currplayer === 1 && !m.includes(",")) {
+        if (this.isInsurgentTurn() && !m.includes(",")) {
             return allMoves.filter(mv => mv.startsWith(`${m},`));
         }
         return allMoves.filter(mv => mv.startsWith(m) && (mv.length === m.length || "-x".includes(mv[m.length]!)));
@@ -379,7 +435,7 @@ export class GuerrillaGame extends GameBase {
 
     private findPoints(partial: string): string[] {
         const moves = this.matchingMoves(partial, this.moves());
-        if (this.currplayer === 1) {
+        if (this.isInsurgentTurn()) {
             return [...new Set(moves.map(mv => mv.split(",")[1]!))];
         }
 
@@ -423,7 +479,7 @@ export class GuerrillaGame extends GameBase {
             const cell = g.coords2algebraic(col, row);
             let newmove = "";
 
-            if (this.currplayer === 1) {
+            if (this.isInsurgentTurn()) {
                 if (!GuerrillaGame.isDiamond(cell)) {
                     newmove = move;
                 } else if (move.length === 0 || move.includes(",")) {
@@ -475,7 +531,7 @@ export class GuerrillaGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.message = i18next.t("apgames:validation.guerrilla.INITIAL_INSTRUCTIONS", {
-                context: this.currplayer === 1 ? "p1" : "p2",
+                context: this.isInsurgentTurn() ? "p1" : "p2",
             });
             return result;
         }
@@ -494,7 +550,7 @@ export class GuerrillaGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            if (this.currplayer === 1) {
+            if (this.isInsurgentTurn()) {
                 result.message = i18next.t("apgames:validation.guerrilla.PARTIAL", {context: "p1second"});
             } else {
                 result.message = i18next.t("apgames:validation.guerrilla.PARTIAL", {context: cancap ? "p2cap" : "p2move"});
@@ -531,13 +587,13 @@ export class GuerrillaGame extends GameBase {
 
         if (partial) {
             this.dots = this.findPoints(m);
-            if (this.currplayer === 1 && !m.includes(",")) {
+            if (this.isInsurgentTurn() && !m.includes(",")) {
                 this.partialPlacement = m;
             }
             return this;
         }
 
-        if (this.currplayer === 1) {
+        if (this.isInsurgentTurn()) {
             const [first, second] = m.split(",");
             this.board.set(first, 1);
             this.board.set(second, 1);
@@ -575,33 +631,96 @@ export class GuerrillaGame extends GameBase {
     }
 
     protected checkEOG(): GuerrillaGame {
-        const p1count = this.pieceCount(1);
-        const p2count = this.pieceCount(2);
+        const insurgentPieces = this.pieceCount(1);
+        const securityPieces = this.pieceCount(2);
 
-        if (p1count === 0) {
-            this.gameover = true;
-            this.winner = [2];
-        } else if (p2count === 0) {
-            this.gameover = true;
-            this.winner = [1];
-        } else if (this.currplayer === 1 && this.movesP1().length === 0) {
-            this.gameover = true;
-            this.winner = [2];
+        let gameWinner: playerid | undefined;
+        let insurgentsWon: boolean | undefined;
+
+        if (insurgentPieces === 0) {
+            gameWinner = this.securitySeat();
+            insurgentsWon = false;
+        } else if (securityPieces === 0) {
+            gameWinner = this.insurgentSeat();
+            insurgentsWon = true;
+        } else if (this.isInsurgentTurn() && this.movesP1().length === 0) {
+            gameWinner = this.securitySeat();
+            insurgentsWon = false;
         }
 
-        if (this.gameover) {
+        if (gameWinner === undefined) {
+            return this;
+        }
+
+        if (!this.isMatch()) {
+            this.gameover = true;
+            this.winner = [gameWinner];
             this.results.push(
                 {type: "eog"},
                 {type: "winners", players: [...this.winner]}
             );
+            return this;
         }
+
+        const score = this.insurgentGameScore(insurgentsWon!);
+
+        if (this.g1insurgentScore === undefined && !this.rolesSwapped) {
+            this.g1insurgentScore = score;
+            this.results.push({type: "winners", players: [gameWinner]});
+            this.results.push({type: "reset"});
+            this.resetForG2();
+            return this;
+        }
+
+        const g2Score = score;
+        const g1I = this.g1insurgentScore! < GuerrillaGame.SECURITY_WIN_SCORE;
+        const g2I = g2Score < GuerrillaGame.SECURITY_WIN_SCORE;
+
+        this.gameover = true;
+        if (g1I && g2I) {
+            if (this.g1insurgentScore! < g2Score) {
+                this.winner = [1];
+            } else if (g2Score < this.g1insurgentScore!) {
+                this.winner = [2];
+            } else {
+                this.winner = [1, 2];
+            }
+        } else if (g1I && !g2I) {
+            this.winner = [1];
+        } else if (!g1I && g2I) {
+            this.winner = [2];
+        } else {
+            this.winner = [1, 2];
+        }
+
+        this.results.push(
+            {type: "eog"},
+            {type: "winners", players: [...this.winner]}
+        );
         return this;
     }
 
     public sidebarStatuses(): IStatus[] {
-        return [
-            { key: this.neutralAreaLabel("apgames:status.guerrilla.INSURGENTS"), value: [this.insurgents.toString()] },
-        ];
+        const statuses: IStatus[] = [];
+        if (this.isMatch()) {
+            statuses.push({
+                key: this.neutralAreaLabel("apgames:status.PHASE"),
+                value: [this.neutralAreaLabel(this.rolesSwapped
+                    ? "apgames:status.guerrilla.GAME2"
+                    : "apgames:status.guerrilla.GAME1")],
+            });
+            if (this.g1insurgentScore !== undefined) {
+                statuses.push({
+                    key: this.neutralAreaLabel("apgames:status.guerrilla.G1_SCORE"),
+                    value: [this.g1insurgentScore.toString()],
+                });
+            }
+        }
+        statuses.push({
+            key: this.neutralAreaLabel("apgames:status.guerrilla.INSURGENTS"),
+            value: [this.insurgents.toString()],
+        });
+        return statuses;
     }
 
     public state(): IGuerrillaState {
@@ -624,11 +743,15 @@ export class GuerrillaGame extends GameBase {
             lastmove: this.lastmove,
             board: new Map(this.board),
             insurgents: this.insurgents,
+            rolesSwapped: this.rolesSwapped,
+            g1insurgentScore: this.g1insurgentScore,
         };
     }
 
     public render(): APRenderRep {
         const g = this.graph;
+        const insurgentColour = this.insurgentColour();
+        const securityColour = this.securityColour();
         let pstr = "";
         for (const row of g.listCells(true) as string[][]) {
             if (pstr.length > 0) {
@@ -657,12 +780,12 @@ export class GuerrillaGame extends GameBase {
             legend: {
                 A: {
                     name: "piece",
-                    colour: 1,
+                    colour: insurgentColour,
                     scale: 0.4,
                 },
                 B: {
                     name: "piece",
-                    colour: 2,
+                    colour: securityColour,
                     scale: 0.95,
                 },
             },
@@ -712,6 +835,26 @@ export class GuerrillaGame extends GameBase {
 
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
+            case "winners": {
+                const idx = ctx.results.indexOf(r);
+                if (idx >= 0 && ctx.results[idx + 1]?.type === "reset") {
+                    return true;
+                }
+                return super.collectChatLogLine(lines, r, ctx);
+            }
+            case "reset": {
+                const idx = ctx.results.indexOf(r);
+                const prev = idx > 0 ? ctx.results[idx - 1] : undefined;
+                if (prev?.type === "winners" && prev.players.length > 0) {
+                    const names = prev.players.map(w => this.resolveChatPlayerName(w, ctx.players));
+                    this.pushNeutralChatLine(lines, "apresults:RESET.guerrilla", {
+                        player: names.join(", "),
+                    });
+                    return true;
+                }
+                this.pushNeutralChatLine(lines, "apresults:RESET.guerrilla");
+                return true;
+            }
             case "place":
                 this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", {where: r.where!});
                 return true;

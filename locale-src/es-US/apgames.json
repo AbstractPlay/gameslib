@@ -3404,8 +3404,8 @@
     "out": "Solo puedes mover piezas enemigas al completar un tirón o comenzar un empuje. Ninguno parece aplicarse en este caso."
   },
   "validation.arimaa.LABEL_STASH": {
-    "src": "Player {{playerNum}}'s stash",
-    "out": "Reserva del jugador {{playerNum}}"
+    "src": "{{player}}'s stash",
+    "out": "Reserva de {{player}}"
   },
   "validation.arimaa.NOPASS": {
     "src": "You may not make a move that does not change the board state (no passing).",
@@ -5564,8 +5564,8 @@
     "out": "El destino {{cell}} no es legal."
   },
   "validation.deckfish.LABEL_COLLECTION": {
-    "src": "Player {{playerNum}}'s suits",
-    "out": "Palos del Jugador {{playerNum}}"
+    "src": "{{player}}'s suits",
+    "out": "Palos de {{player}}"
   },
   "validation.deckfish.LABEL_MARKET": {
     "src": "Market cards",
@@ -6000,12 +6000,12 @@
     "out": "Elige pares o impares."
   },
   "validation.evenatodds.LABEL_HAND": {
-    "src": "Player {{playerNum}} hand ({{side}})",
-    "out": "Mano del Jugador {{playerNum}} ({{side}})"
+    "src": "{{player}} hand ({{side}})",
+    "out": "Mano de {{player}} ({{side}})"
   },
   "validation.evenatodds.LABEL_HAND_NO_SIDE": {
-    "src": "Player {{playerNum}} hand",
-    "out": "Mano del Jugador {{playerNum}}"
+    "src": "{{player}} hand",
+    "out": "Mano de {{player}}"
   },
   "validation.evenatodds.LABEL_REMAINING": {
     "src": "Tiles not on board",
@@ -6264,8 +6264,8 @@
     "out": "Fichas seleccionadas"
   },
   "validation.fnap.LABEL_STASH": {
-    "src": "Player {{playerNum}}'s stash",
-    "out": "Reserva del jugador {{playerNum}}"
+    "src": "{{player}}'s stash",
+    "out": "Reserva de {{player}}"
   },
   "validation.fnap.MUST_PASS": {
     "src": "The only move available to you is to pass.",
@@ -6348,8 +6348,8 @@
     "out": "Pieza seleccionada"
   },
   "validation.four.LABEL_STASH": {
-    "src": "Player {{playerNum}}'s stash",
-    "out": "Reserva del jugador {{playerNum}}"
+    "src": "{{player}}'s stash",
+    "out": "Reserva de {{player}}"
   },
   "validation.four.MUST_CONNECT": {
     "src": "Each piece placed after the first must orthogonally connect to at least one other piece.",
@@ -6524,8 +6524,8 @@
     "out": "Cartas en el mazo"
   },
   "validation.frogger.LABEL_STASH": {
-    "src": "Player {{playerNum}}'s hand",
-    "out": "Mano del jugador {{playerNum}}"
+    "src": "{{player}}'s hand",
+    "out": "Mano de {{player}}"
   },
   "validation.frogger.LATER_INSTRUCTIONS": {
     "src": "Click a card in your hand to use to move a frog forward, or click a frog to move it back (and possibly draw a card from the draw pool).",
@@ -7252,8 +7252,8 @@
     "out": "Cartas en el mazo"
   },
   "validation.jacynth.LABEL_STASH": {
-    "src": "Player {{playerNum}}'s hand",
-    "out": "Mano del Jugador {{playerNum}}"
+    "src": "{{player}}'s hand",
+    "out": "Mano de {{player}}"
   },
   "validation.jacynth.NOT_ADJ": {
     "src": "New cards must be placed adjacent to at least one existing card.",
@@ -7548,8 +7548,8 @@
     "out": "Los leñadores deben colocarse en una de las esquinas."
   },
   "validation.logger.PROTESTOR_LABEL": {
-    "src": "Player {{playerNum}}'s protestors",
-    "out": "Manifestantes del Jugador {{playerNum}}"
+    "src": "{{player}}'s protestors",
+    "out": "Manifestantes de {{player}}"
   },
   "validation.logger.TOO_MANY_PROTESTS": {
     "src": "You are attempting to protest more trees than you have protestors.",
@@ -7660,8 +7660,8 @@
     "out": "No tienes tres fichas de ese palo disponibles para comerciar."
   },
   "validation.magnate.LABEL_BOTH": {
-    "src": "Player {{playerNum}}'s hand and suit tokens",
-    "out": "Mano y fichas de palo del Jugador {{playerNum}}"
+    "src": "{{player}}'s hand and suit tokens",
+    "out": "Mano y fichas de palo de {{player}}"
   },
   "validation.magnate.LABEL_COLLECTION": {
     "src": "Player {{playerNum}}'s suit tokens",
@@ -7684,8 +7684,8 @@
     "out": "Mano del Jugador {{playerNum}}"
   },
   "validation.magnate.LABEL_STACKED_DECK": {
-    "src": "Player {{playerNum}}'s deck",
-    "out": "Mazo del Jugador {{playerNum}}"
+    "src": "{{player}}'s deck",
+    "out": "Mazo de {{player}}"
   },
   "validation.magnate.LABEL_WARNING": {
     "src": "This is the last round!",
@@ -8920,8 +8920,8 @@
     "out": "El carácter '{{cmd}}' no es un comando reconocido."
   },
   "validation.pigs2.LABEL_ORDERS": {
-    "src": "Player {{playerNum}}'s orders (right-most order next)",
-    "out": "Órdenes del jugador {{playerNum}} (la orden más a la derecha es la siguiente)"
+    "src": "{{player}}'s orders (right-most order next)",
+    "out": "Órdenes de {{player}} (la siguiente es la orden más a la derecha)"
   },
   "validation.pigs2.TOOLONG_first": {
     "src": "You may only enter three commands to start.",
@@ -10160,8 +10160,8 @@
     "out": "Selecciona una pila para sembrar."
   },
   "validation.rincala.LABEL_STASH": {
-    "src": "Player {{playerNum}}'s captures",
-    "out": "Capturas del Jugador {{playerNum}}"
+    "src": "{{player}}'s captures",
+    "out": "Capturas de {{player}}"
   },
   "validation.rincala.NO_MOVES": {
     "src": "That stack doesn't have any legal moves.",
@@ -10352,8 +10352,8 @@
     "out": "Ese movimiento no es válido. Recuerda que cada carta colocada debe estar completamente apoyada (las cartas no pueden \"sobresalir del borde\" de una sola carta)."
   },
   "validation.siegeofj.LABEL_STASH": {
-    "src": "Player {{playerNum}}'s hand",
-    "out": "Mano del Jugador {{playerNum}}"
+    "src": "{{player}}'s hand",
+    "out": "Mano de {{player}}"
   },
   "validation.siegeofj.PARTIAL": {
     "src": "Click the card on the board you want this card attached to.",
@@ -10896,8 +10896,8 @@
     "out": "Haz clic en una pirámide para colocar tu pieza en el tablero."
   },
   "validation.stawvs.LABEL_COLLECTION": {
-    "src": "Player {{playerNum}}'s pyramids",
-    "out": "Pirámides del jugador {{playerNum}}"
+    "src": "{{player}}'s pyramids",
+    "out": "Pirámides de {{player}}"
   },
   "validation.stawvs.MUST_PASS": {
     "src": "Once you have passed, you must continue passing.",
@@ -11212,8 +11212,8 @@
     "out": "La pieza que seleccionaste no es válida. Debe ser de tamaño 1, 2 o 3."
   },
   "validation.subdivision.LABEL_STASH": {
-    "src": "Player {{playerNum}}'s stash",
-    "out": "Reserva del jugador {{playerNum}}"
+    "src": "{{player}}'s stash",
+    "out": "Reserva de {{player}}"
   },
   "validation.subdivision.MALFORMED": {
     "src": "Your move could not be interpreted. If this persists, please let an administrator know.",
@@ -11556,8 +11556,8 @@
     "out": "Selecciona un destino. Esta pieza solo puede moverse."
   },
   "validation.tintas.CAPTURED_LABEL": {
-    "src": "Player {{playerNum}}'s captured pieces",
-    "out": "Piezas capturadas del jugador {{playerNum}}"
+    "src": "{{player}}'s captured pieces",
+    "out": "Piezas capturadas de {{player}}"
   },
   "validation.tintas.INITIAL_INSTRUCTIONS_movepawn": {
     "src": "Select the cell where you want the pawn to move.",
@@ -12276,8 +12276,8 @@
     "out": "Selecciona una de tus piezas para colocar en el tablero."
   },
   "validation.waldmeister.LABEL_STASH": {
-    "src": "Player {{playerNum}}'s stash",
-    "out": "Reserva del Jugador {{playerNum}}"
+    "src": "{{player}}'s stash",
+    "out": "Reserva de {{player}}"
   },
   "validation.waldmeister.PARTIAL_MOVE": {
     "src": "Select the destination.",

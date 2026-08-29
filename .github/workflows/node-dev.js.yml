@@ -40,13 +40,13 @@ jobs:
         - run: echo "@abstractplay:registry=https://npm.pkg.github.com/" >> .npmrc
         - run: echo "//npm.pkg.github.com/:_authToken=${{secrets.PAT_READ_PACKAGES}}" >> .npmrc
         - run: npm ci
-        - name: Install renderer dependency
-          run: |
-            if [ "${{ github.event_name }}" = "repository_dispatch" ] && [ -n "${{ github.event.client_payload.renderer_version }}" ]; then
-              npm install @abstractplay/renderer@${{ github.event.client_payload.renderer_version }}
-            else
-              npm install @abstractplay/renderer@development
-            fi
+        - name: Check ci-deps manifests
+          run: node scripts/check-ci-deps.mjs
+        - name: Install pinned renderer dependency
+          env:
+            AP_RENDERER_VERSION: ${{ github.event.client_payload.renderer_version }}
+            AP_SOURCE: ${{ github.event.client_payload.source_run_id && format('renderer-ci-{0}', github.event.client_payload.source_run_id) || '' }}
+          run: node scripts/install-ap-deps.mjs --stage dev
         - run: npm list @abstractplay/renderer
         - run: npm list @svgdotjs/svg.js
         - run: ls node_modules | grep @svgdotjs
@@ -110,9 +110,15 @@ jobs:
           run: |
             GAMESLIB_VERSION=$(node -p "require('./package.json').version")
             RENDERER_VERSION=$(node -p "require('./node_modules/@abstractplay/renderer/package.json').version")
-            npm pkg set "dependencies.@abstractplay/renderer=$RENDERER_VERSION"
             echo "gameslib_version=$GAMESLIB_VERSION" >> $GITHUB_OUTPUT
             echo "renderer_version=$RENDERER_VERSION" >> $GITHUB_OUTPUT
+        - name: Sync renderer pin manifests
+          if: github.event_name == 'repository_dispatch'
+          uses: stefanzweifel/git-auto-commit-action@v5
+          with:
+            commit_message: "deps: sync renderer pin [skip ci]"
+            file_pattern: ci-deps.dev.json package-lock.json package.json
+            disable_globbing: true
         - run: npm run build
         - run: npm run test:postbuild
         - run: npm pack
@@ -184,7 +190,8 @@ jobs:
         - run: echo "@abstractplay:registry=https://npm.pkg.github.com/" >> .npmrc
         - run: echo "//npm.pkg.github.com/:_authToken=${{secrets.PAT_READ_PACKAGES}}" >> .npmrc
         - run: npm ci
-        - run: npm install @abstractplay/renderer@development
+        - name: Install pinned renderer dependency
+          run: node scripts/install-ap-deps.mjs --stage dev
         - run: npm run dist-dev
         - name: Configure AWS credentials
           uses: Fooji/create-aws-profile-action@v1

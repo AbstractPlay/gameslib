@@ -20,7 +20,7 @@
     "test0": "mocha test/common/graphs/hexMoon.test.ts",
     "test": "mocha",
     "test:postbuild": "node scripts/smoke-cjs-entry.mjs",
-    "lint": "npm run check-weblate-keys && node scripts/check-cjs-runtime-deps.mjs && npx eslint .",
+    "lint": "npm run check-weblate-keys && node scripts/check-ci-deps.mjs && node scripts/check-cjs-runtime-deps.mjs && npx eslint .",
     "dist-dev": "rimraf dist && webpack && shx cp -r locales dist/",
     "playground": "npm run dist-dev && shx cp ./playground/playground.* ./dist && shx cp ./playground/*.mjs ./dist/ && shx cp ./playground/index.html ./dist",
     "playground:serve": "npm run playground && npx --yes serve dist -p 3000",

@@ -40,13 +40,13 @@ jobs:
         - run: echo "@abstractplay:registry=https://npm.pkg.github.com/" >> .npmrc
         - run: echo "//npm.pkg.github.com/:_authToken=${{secrets.PAT_READ_PACKAGES}}" >> .npmrc
         - run: npm ci
-        - name: Install renderer dependency
-          run: |
-            if [ "${{ github.event_name }}" = "repository_dispatch" ] && [ -n "${{ github.event.client_payload.renderer_version }}" ]; then
-              npm install @abstractplay/renderer@${{ github.event.client_payload.renderer_version }}
-            else
-              npm install @abstractplay/renderer@latest
-            fi
+        - name: Check ci-deps manifests
+          run: node scripts/check-ci-deps.mjs
+        - name: Install pinned renderer dependency
+          env:
+            AP_RENDERER_VERSION: ${{ github.event.client_payload.renderer_version }}
+            AP_SOURCE: ${{ github.event.client_payload.source_run_id && format('renderer-ci-{0}', github.event.client_payload.source_run_id) || '' }}
+          run: node scripts/install-ap-deps.mjs --stage prod
         - run: npm list @abstractplay/renderer
         - run: npm test --if-present
         - name: Checkout docs site
@@ -108,9 +108,15 @@ jobs:
           run: |
             GAMESLIB_VERSION=$(node -p "require('./package.json').version")
             RENDERER_VERSION=$(node -p "require('./node_modules/@abstractplay/renderer/package.json').version")
-            npm pkg set "dependencies.@abstractplay/renderer=$RENDERER_VERSION"
             echo "gameslib_version=$GAMESLIB_VERSION" >> $GITHUB_OUTPUT
             echo "renderer_version=$RENDERER_VERSION" >> $GITHUB_OUTPUT
+        - name: Sync renderer pin manifests
+          if: github.event_name == 'repository_dispatch'
+          uses: stefanzweifel/git-auto-commit-action@v5
+          with:
+            commit_message: "deps: sync renderer pin [skip ci]"
+            file_pattern: ci-deps.prod.json package-lock.json package.json
+            disable_globbing: true
         - run: APGAMES_PRODUCTION=1 npm run build
         - run: npm run test:postbuild
         - run: npm pack

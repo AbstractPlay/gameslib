@@ -1,0 +1,2 @@
+# Keep production renderer pin when merging develop into main.
+ci-deps.prod.json merge=ours

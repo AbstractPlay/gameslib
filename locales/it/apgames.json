@@ -22,6 +22,7 @@
     "attangle": "Attangle è l'ultimo capitolo della trilogia d'impilamento di Dieter Stein. Posiziona e muovi i pezzi per costruire pile. La prima persona che costruisce tre pile triple vince. È implementata anche la variante \"Grand Attangle\".",
     "ayu": "Gioco di unificazione in cui sinuosi gruppi di pezzi strisciano verso i loro compagni finché non si fondono. Se non puoi muovere nel tuo turno, vinci. Questo accade quando hai un solo gruppo o quando non c'è alcun percorso libero tra i tuoi gruppi.",
     "azacru": "Un gioco di controllo territorio in cui pezzi direzionali navigano un tavoliere suddiviso per conquistare celle.",
+    "baghchal": "Un tradizionale gioco asimmetrico per due giocatori del Nepal. Il giocatore che controlla le tigri cerca di catturare 5 capre saltandole, mentre il giocatore che controlla le capre cerca di immobilizzare tutte le tigri.",
     "bamboo": "Posiziona le pietre in modo che nessun gruppo abbia più pezzi del numero totale dei tuoi gruppi sul tavoliere. Poi, sii l'ultimo giocatore in grado di muovere.",
     "bao": "Un tradizionale gioco di semina in stile mancala dell'Africa orientale in cui si tenta di eliminare tutti i pezzi dalla prima fila avversaria o lasciarlo senza mosse legali.",
     "basalt": "Un gioco di connessione triangolare giocato sul fianco di un vulcano, dove lava e basalto gareggiano per connettere per primi i tre lati.",
@@ -38,6 +39,7 @@
     "bounce": "Manovra le tue pedine scollegate per formarne un unico insieme connesso ortogonalmente.",
     "boxes": "Un gioco territoriale in cui cerchi di completare i quadrati tracciando linee per unire i punti. Se un quadrato viene conquistato, puoi effettuare un'altra mossa.",
     "breakthrough": "Uno dei giochi più semplici sul tema \"raggiungi la prima fila dell'avversario\". I pezzi si muovono e catturano come i pedoni degli scacchi. Vince chi raggiunge per primo la prima fila avversaria. Include anche la variante \"Bombardment\", in cui al posto delle regolari mosse di cattura è possibile far detonare un pezzo, distruggendo se stesso e tutti i pezzi circostanti.",
+    "bridges": "Bridges è un gioco per due giocatori giocato su una plancia esagonale, ideato da Marc Rebillet. I giocatori posizionano basi e le collegano con dei ponti. Vince il giocatore con più pezzi ponte sulla plancia alla fine della partita. In caso di parità vince il ponte più lungo.",
     "btt": "Un gioco di piramidi che si ramificano su una scacchiera, in cui guadagni punti quando gli avversari puntano alle tue piramidi e li perdi quando punti alle loro.",
     "bug": "Riempi l'ecosistema con i tuoi insetti al punto da non poterti più espandere. Nel tuo turno, posiziona un pezzo per iniziare un nuovo insetto o farne crescere uno esistente. Poi, se uno qualsiasi dei tuoi insetti è adiacente a insetti nemici della stessa forma, deve mangiarli ed effettuare una crescita bonus (se la crescita bonus non è possibile, non si mangia). Questo può scatenare reazioni a catena. Se ci sono più scelte di insetti che possono mangiare, puoi determinare quali insetti lo fanno e in quale ordine.",
     "buku": "Buku è un gioco di semina bidimensionale su una scacchiera a scacchi in cui il colore corrisponde alle buche di ciascun giocatore. Il primo giocatore seleziona una riga da raccogliere, poi i pezzi vengono seminati da qualsiasi casella verso qualsiasi direzione ortogonale senza mai passare due volte per la stessa casella. Il secondo giocatore fa lo stesso, ma raccoglie dalle colonne. Dopo la semina, qualsiasi casella con 3 o 4 pezzi del proprio colore viene catturata. La partita termina quando un giocatore ottiene più della metà dei punti totali possibili, oppure quando tutti i pezzi sono isolati (ciascun giocatore rivendica un punto per ogni pezzo nella propria buca), o quando la posizione sul tavoliere si ripete (l'altro giocatore rivendica i pezzi rimanenti). Il primo giocatore ottiene un pezzo aggiuntivo sulla prima semina.",
@@ -83,11 +85,14 @@
     "druid": "Posiziona sarsen e architravi per connettere i tuoi bordi del tavoliere. Sul tavoliere rettangolare standard, il Giocatore 1 connette est e ovest; il Giocatore 2 connette nord e sud. Su Druid's Y, connetti tutti e tre i lati (gli angoli contano per entrambi i bordi adiacenti). Su Druid's Hex, connetti tre lati alternati qualsiasi (non adiacenti). Solo la pietra più in alto su ciascuna cella conta ai fini della connessione.",
     "domineering": "I giocatori posizionano tessere del domino, una in verticale e un'altra in orizzontale, finché uno dei due non può più giocare, perdendo così la partita.",
     "emergo": "Una variante della Dama in cui i pezzi catturati rimangono sul tavoliere e possono essere liberati in seguito. Cattura tutti i pezzi avversari per vincere. Derivato da Lasca ma con due fasi di gioco e catture massime obbligatorie.",
+    "elOso": "Un solitario ambientato nel mondo di Carrisor. Muovi le tue pile fuori dalla parte superiore della plancia verso il Cielo mentre l'Orso lancia i dadi e avanza dall'alto. Porta dieci o più pezzi nel Cielo per vincere.",
     "emu": "Ogni uccello nel tuo allevamento è rappresentato da una pila di carte. Alla fine della mano, il valore di un uccello è determinato dalla somma delle carte numeriche nella pila. Lo scopo, ovviamente, è allevare uccelli redditizi. Vince il punteggio più alto dopo un determinato numero di \"anni\".",
     "enso": "Un gioco d'ispirazione Zen di movimento e cattura in cui tenti di circondare completamente uno dei tuoi pezzi con il vuoto.",
     "entrapment": "Lo scopo di Entrapment è eliminare i girovaghi dell'avversario circondandoli con ostacoli impenetrabili e rendendoli così incapaci di muoversi. Un girovago che non può muoversi è considerato catturato ed viene eliminato dal tavoliere. Quando tutti i girovaghi di un giocatore sono stati \"intrappolati\" in questo modo, la partita finisce e il suo avversario viene dichiarato vincitore.",
     "entropy": "Entropy è un gioco per 2 giocatori che rappresenta la lotta tra Ordine e Caos. Il giocatore Ordine cerca di organizzare il proprio tavoliere in modo da ottenere il punteggio più alto. Ma il giocatore Caos sceglie dove *posizionare* i pezzi e tenta di ostacolare l'Ordine ogni volta che è possibile.",
     "evenatodds": "Un gioco di impilamento domino per due giocatori dove i pari (2/4/6) e i dispari (1/3/5) gareggiano per formare il più grande gruppo connesso di facce attive su un tavoliere in crescita.",
+    "estate": "Un gioco di connessione esagonale in cui le caselle hanno costi diversi. Spendi saggiamente i tuoi punti!",
+    "circleOfLife": "Posiziona pietre su un ecosistema esagonale per formare sagome di specie. Ogni specie divora la specie immediatamente inferiore nella catena alimentare. Cattura 20 pietre avversarie, oppure riempi la plancia il più possibile.",
     "epam": "Epaminondas è un elegante gioco per 2 giocatori in cui cerchi di travolgere la prima fila dell'avversario. I pezzi si muovono come falangi per un numero di spazi fino alla loro lunghezza. Le regole sono estremamente semplici, ma il risultato è qualcosa di profondo e complesso.",
     "exxit": "Exxit è fondamentalmente un gioco di controllo area. Manovra i tuoi pezzi per creare nuove tessere. Lotta per creare la più grande isola connessa di tessere del tuo colore. Il tavoliere di gioco si sviluppa man mano che si gioca.",
     "fabrik": "In Fabrik, i giocatori manipolano lavoratori per determinare dove possono essere posizionati i pezzi. L'obiettivo è ottenere un certo numero di propri pezzi in fila. Nel gioco predefinito, i giocatori possono muovere qualsiasi lavoratore. La variante \"Arbeiter\" dà a ciascun giocatore il controllo su un lavoratore specifico.",
@@ -101,6 +106,7 @@
     "fourinarow": "Un semplice gioco in cui bisogna allineare quattro (o più) pezzi in fila con un colpo di scena: c'è la gravità.",
     "forms": "I giocatori fondono i propri gruppi per mandarsi in stallo.",
     "frames": "Un semplice gioco sul tema \"entra nella testa del tuo avversario\" in cui entrambi i giocatori selezionano simultaneamente una cella vuota su un tavoliere da Go. I posizionamenti definiscono un rettangolo. Il giocatore con più pietre all'interno di quel rettangolo ottiene un punto. Si gioca fino a un certo numero di punti.",
+    "fractured": "Un gioco di controllo area su un unico tabellone \"fratturato\". Il punteggio si calcola su un tracciato condiviso.",
     "frogger": "Un gioco di corsa per il Decktet ispirato all'omonimo videogioco e al classico gioco da tavolo Cartagena. Muovi le tue rane lungo un percorso pericoloso per raggiungere la tana per primo.",
     "furl": "Arrotola una riga dei tuoi dischi oppure srotola una pila. Se hai un disco nella tua fila finale all'inizio del tuo turno, vinci.",
     "garden": "Due maghi condividono un appezzamento di giardino e cercano di raccogliere reagenti preziosi. Entrambi condividono la stessa riserva di semi. Piantare un seme modifica le piante intorno ad esso. Forma quattro elementi in fila per raccogliere. Vince chi effettua più raccolti!",
@@ -111,6 +117,7 @@
     "gonnect": "Gonnect è un gioco di connessione in cui i giocatori cercano di collegare due lati opposti qualsiasi. Si applicano tutte le regole del Go, tranne che i giocatori non possono passare.",
     "gorogo": "Una variante del Go giocata su un tabellone piccolo in cui l'obiettivo è catturare più pezzi dell'avversario, invece di conquistare territorio.",
     "gyges": "Un gioco di sfondamento in cui nessuno possiede i pezzi e i pezzi rimbalzano l'uno sull'altro.",
+    "guerrilla": "Un gioco asimmetrico di guerriglia. Entrambi i giocatori cercano di eliminare dal tabellone tutti i pezzi dell'avversario, ma devono affidarsi a tattiche molto diverse per farlo.",
     "gyve": "Un gioco di unificazione senza patta in cui cerchi di formare meno gruppi rispetto al tuo avversario. Ad ogni turno, posi due pietre in sequenza in modo che ciascuna sia adiacente allo stesso numero di gruppi alleati al momento del posizionamento.",
     "halma": "Il gioco di attraversamento originale. I giocatori devono essere i primi a muovere tutti i loro eserciti nella base casalinga dell'avversario.",
     "halmaclimbers": "Un gioco a punteggio originale ispirato alle dinamiche di movimento di Halma.",
@@ -233,6 +240,7 @@
     "strands": "In Strands, i giocatori si alternano nel piazzare sul tabellone un numero di pezzi del proprio colore corrispondente al numero riportato sugli spazi. L'obiettivo è formare il gruppo contiguo di pedine più grande. In caso di parità tra i gruppi più grandi, si confrontano i secondi più grandi, e così via. Il primo giocatore inizia la partita piazzando un pezzo su uno spazio contrassegnato dal numero 2.",
     "streetcar": "In questo quartiere benestante è contro la legge costruire alloggi o trasporti pubblici. Rimuovi i limiti alle abitazioni unifamiliari per consentire ai cittadini di costruire, rendendo il quartiere più accessibile e vario. Quindi collega i nuovi edifici con linee di tram del tuo colore per guadagnare punti.",
     "strings": "I giocatori scelgono contemporaneamente una corda da tirare, muovendo, dividendo e unendo pile di monete. Vince il primo che riesce a portare cinque monete sulle proprie caselle di partenza. Stai tirando tu le fila, o è il tuo avversario a manovrarti?",
+    "scribe": "Un gioco con carta e penna su una super-griglia 9×9 composta da nove mini-griglie 3×3. Vinci il maggior numero di mini-griglie o, nella variante avanzata, crea il super-glifo di maggior valore con le tue vittorie.",
     "swarm": "Creare pile tramite attacchi collettivi.",
     "subdivision": "Sei uno sviluppatore immobiliare in competizione con altri per sviluppare una nuova lottizzazione. Dove puoi costruire è parzialmente limitato, e ciò che viene costruito accanto a te influisce sul tuo valore. Riduci il valore dei tuoi concorrenti massimizzando al tempo stesso il tuo.",
     "sunspot": "Forma un anello piazzando pedine e ribaltando sottogruppi.",
@@ -276,15 +284,7 @@
     "y": "Il classico gioco di connessione. Connetti tutti e tre i lati per vincere.",
     "yavalath": "Forma una linea di quattro o più pezzi del tuo colore *senza* prima formare una linea di tre pezzi.",
     "yonmoque": "Cerca di formare un quattro in linea in un gioco in cui non tutti gli spazi sono uguali e i pezzi avversari possono essere convertiti.",
-    "zola": "Un gioco in cui il tuo movimento è vincolato dalla tua distanza dal centro del tabellone. Le mosse di cattura non devono aumentare tale distanza. Le mosse non di cattura devono aumentare tale distanza. La prima persona che cattura tutti i pezzi avversari vince.",
-    "estate": "Un gioco di connessione esagonale in cui le caselle hanno costi diversi. Spendi saggiamente i tuoi punti!",
-    "guerrilla": "Un gioco asimmetrico di guerriglia. Entrambi i giocatori cercano di eliminare dal tabellone tutti i pezzi dell'avversario, ma devono affidarsi a tattiche molto diverse per farlo.",
-    "scribe": "Un gioco con carta e penna su una super-griglia 9×9 composta da nove mini-griglie 3×3. Vinci il maggior numero di mini-griglie o, nella variante avanzata, crea il super-glifo di maggior valore con le tue vittorie.",
-    "circleOfLife": "Posiziona pietre su un ecosistema esagonale per formare sagome di specie. Ogni specie divora la specie immediatamente inferiore nella catena alimentare. Cattura 20 pietre avversarie, oppure riempi la plancia il più possibile.",
-    "fractured": "Un gioco di controllo area su un unico tabellone \"fratturato\". Il punteggio si calcola su un tracciato condiviso.",
-    "baghchal": "Un tradizionale gioco asimmetrico per due giocatori del Nepal. Il giocatore che controlla le tigri cerca di catturare 5 capre saltandole, mentre il giocatore che controlla le capre cerca di immobilizzare tutte le tigri.",
-    "bridges": "Bridges è un gioco per due giocatori giocato su una plancia esagonale, ideato da Marc Rebillet. I giocatori posizionano basi e le collegano con dei ponti. Vince il giocatore con più pezzi ponte sulla plancia alla fine della partita. In caso di parità vince il ponte più lungo.",
-    "elOso": "Un solitario ambientato nel mondo di Carrisor. Muovi le tue pile fuori dalla parte superiore della plancia verso il Cielo mentre l'Orso lancia i dadi e avanza dall'alto. Porta dieci o più pezzi nel Cielo per vincere."
+    "zola": "Un gioco in cui il tuo movimento è vincolato dalla tua distanza dal centro del tabellone. Le mosse di cattura non devono aumentare tale distanza. Le mosse non di cattura devono aumentare tale distanza. La prima persona che cattura tutti i pezzi avversari vince."
   },
   "notes": {
     "akimbo": "Akimbo, progettato da Luis Bolaños Mures nel 2026, è un gioco di connessione senza pareggi per due giocatori. Una _diagonale nuda_ è una coppia di pezzi adiacenti in diagonale dello stesso colore privi di altri pezzi dello stesso colore adiacenti a entrambi. Un _crosscut_ è un'area 2×2 con due diagonali nude incrociate di colori opposti.\n\nNel proprio turno, il giocatore piazza un pezzo amico su una casella vuota. Se ciò completa un crosscut, l'altro pezzo nel crosscut viene rimosso. Non deve mai esserci più di una diagonale nuda per colore sul tabellone — nemmeno momentaneamente prima di rimuovere un pezzo. Un giocatore vince se, alla fine del proprio turno, c'è una catena di pezzi del proprio colore connessi ortogonalmente che tocca i due bordi opposti del tabellone del giocatore.\n\nOkimba è una variante in cui può esistere al massimo una diagonale nuda sul tabellone (quindi mentre un giocatore ha la diagonale, l'avversario non può crearne un'altra).",
@@ -306,14 +306,18 @@
     "chase": "Attualmente, la maggior parte delle mosse di scambio dovrà essere modificata manualmente. Stiamo lavorando per risolvere questo problema.",
     "conspirateurs": "Nel gioco base, i pezzi possono attraversare i santuari come parte di un salto a più passaggi. Non vengono congelati finché non terminano la mossa in un santuario. Nella variante rigida, i pezzi vengono congelati non appena entrano in un santuario.\n\nNelle partite a quattro giocatori, i giocatori 1 e 2 giocano in squadra, così come i giocatori 3 e 4.",
     "deckfish": "Maggiori informazioni sul sistema Decktet si possono trovare sul [sito ufficiale di Decktet](https://www.decktet.com).\n\nI poteri dei semi (abilità di movimento dei segnalini) sono:\n* Lune: Salta ortogonalmente sopra gli spazi vuoti.\n* Soli: Sposta una o due carte in diagonale.\n* Onde: Muovi ortogonalmente fino all'ultima carta non ostruita.\n* Foglie: Muovi ortogonalmente su qualsiasi carta senza ostacoli adiacenti.\n* Wyrm: Muovi ortogonalmente sulla prima carta occupata, spingendo quel pezzo sulla carta successiva.\n* Nodi: Esegui tre mosse ortogonali di una carta, senza tornare indietro.\n\nNel regolamento, il \"primo\" giocatore è colui che piazza per secondo nella fase di piazzamento ma muove per primo nella fase di movimento, ma qui il primo giocatore è colui che piazza per primo ma muove per secondo. Questo è implementato mediante un passo automatico per il giocatore appropriato.\n\nViene applicata la regola secondo cui, anche quando l'ultimo giocatore sta già vincendo, deve continuare a giocare finché non esaurisce le mosse.",
+    "elOso": "La preparazione viene eseguita automaticamente all'avvio del gioco. I conteggi di Cielo, Caverna, Terra e Fossa appaiono nella barra laterale. Dopo ogni mossa, usa i controlli del fotogramma per scorrere la risposta dell'Orso. Portare dieci o più pezzi nel Cielo equivale a una vittoria.",
     "domineering": "Domineering, noto anche come Stop-Gate, è un gioco combinatorio di tipo partisan. Il gioco è stato progettato da Göran Andersson intorno al 1973 ed è stato presentato nel fondamentale libro di CGT *Winning Ways for Your Mathematical Plays*. Esiste una versione imparziale, chiamata Cram, in cui i giocatori possono piazzare entrambi tessere del domino orizzontali o verticali. La variante \"Quelhas\" è stata proposta da Carlos P. Santos e Alfie Davies nel 2025: si tratta di una versione misère (il giocatore senza opzioni vince la partita) e utilizza poliamini simili a domino più lunghi.",
     "emu": "Maggiori informazioni sul sistema Decktet si possono trovare sul [sito ufficiale di Decktet](https://www.decktet.com). Le carte in mano ai giocatori sono nascoste agli osservatori e sono nascoste agli avversari finché il mazzo non è vuoto, momento in cui i giocatori hanno informazione perfetta e quindi le mani vengono rivelate. Anche le carte pescate dal mazzo degli scarti sono sempre visibili agli avversari.",
     "entropy": "In questa implementazione, i giocatori giocano due partite contemporaneamente ma con un unico flusso condiviso di pezzi casuali. Ciascun giocatore piazza un pezzo sul tabellone Ordine del proprio *avversario* e poi effettua una mossa sul *proprio* tabellone Ordine; i giocatori agiscono quindi sia da Ordine che da Caos allo stesso tempo. Vince il giocatore con il punteggio più alto! Poiché entrambi i giocatori hanno avuto le medesime opzioni di piazzamento, questo offre la misura più pura dell'abilità relativa.",
+    "circleOfLife": "Le specie sono numerate da 0 a 11 in senso antiorario sull'anello, a partire dalla specie a singolo esagono in alto. La specie 0 mangia la 11; ogni altra specie mangia quella con il numero immediatamente inferiore. La predazione avviene solo quando posizioni una pietra che forma una specie adiacente alla preda. I gruppi non possono superare le quattro pietre. Vince il primo giocatore che cattura 20 pietre avversarie, oppure vince il giocatore che non può posizionare nel proprio turno (avendo riempito l'ecosistema).",
     "evenatodds": "Per piazzare sul tavolo, posiziona un'estremità su uno spazio vuoto adiacente a una faccia attiva corrispondente; l'altra estremità può andare su qualsiasi spazio vuoto adiacente. Per impilare, un'estremità deve corrispondere alla faccia sottostante; l'altra estremità può coprire qualsiasi faccia attiva *su una tessera diversa* alla stessa altezza. Nella notazione, la prima coordinata è l'estremità che soddisfa una di queste regole. Gli spazi vuoti sono bloccanti e non appartengono a nessuno.\n\nLe tessere nella tua mano sono nascoste all'avversario. Le identità del cimitero (boneyard) e le due tessere rimosse per i tempi supplementari rimangono nascoste fino alla fine della partita. Il conteggio del cimitero è mostrato nella barra laterale.",
     "exxit": "Le traduzioni del regolamento tendono a omettere alcune sfumature. Questa implementazione è conforme all'edizione originale francese del regolamento.\n\nPoiché il tabellone viene costruito man mano che si gioca creando forme irregolari, gli esagoni sono etichettati numericamente anziché algebricamente. Ciò garantisce che le etichette non cambino con l'espandersi della mappa.",
     "forms": "Forms è stato progettato da Steven Meyers nel 2007. Dopo ogni mossa, tutti i pezzi all'esterno del gruppo che contiene l'ultimo pezzo mosso vengono catturati. L'ultimo giocatore a muovere perde (Forms è quindi un gioco misère). La prima versione permettava a un pezzo di catturare qualsiasi pezzo avversario. Più tardi, nel 2011, Meyers ha sviluppato una seconda versione, **Advanced Forms**, in cui si potevano catturare solo i pezzi ortogonalmente adiacenti, ma un pezzo poteva anche muoversi su una casella vuota se entrambe erano collegate da una sequenza di passi ortogonali su caselle vuote. Anche la disposizione iniziale è cambiata in uno schema a scacchiera. Questa seconda versione è la variante predefinita qui su AP. Maggiori informazioni sono disponibili su [WAG](https://jpneto.github.io/world_abstract_games/forms.htm).",
     "frogger": "Come in altri giochi del Decktet su Abstract Play, il mazzo è mostrato in fondo al tabellone e include sia le carte nel mazzo sia le carte sconosciute nelle mani degli altri giocatori. Dopo la prima mano, tutte le carte vengono pescate dalla riserva di pesca scoperta, quindi le mani diventano gradualmente scoperte. È mostrata anche la pila degli scarti.\n\nA causa di come funziona la casualizzazione su Abstract Play, sono necessari passi forzati affinché un giocatore possa riempire la riserva di pesca a metà del proprio turno. I passi vengono gestiti automaticamente dal server, ma esiste anche una variante della riserva di pesca che evita i passi forzati, se desiderato.\n\nLa variante Coccodrilli è di Jorge Arroyo, il traduttore delle regole inglesi. Le regole avanzate e altre varianti minori sono di P. D. Magnus; compaiono in The Decktet Book, dove il gioco è chiamato Xing.",
     "garden": "Per rendere molto chiaro quanto accaduto nel turno precedente, ogni mossa viene mostrata su quattro tabelloni separati. Il primo tabellone mostra il gioco subito dopo il posizionamento del pezzo. Il secondo tabellone mostra lo stato dopo il ribaltamento dei pezzi adiacenti. Il terzo tabellone mostra eventuali raccolti. Il quarto tabellone è lo stato finale del gioco ed è quello su cui esegui le tue mosse.\n\nNella nostra implementazione, il nero è sempre il colore \"tome\" o di spareggio. L'ultimo giocatore a raccogliere il nero avrà un `0.1` dopo il proprio punteggio.",
+    "guerrilla": "Ciascun giocatore vince rimuovendo tutte le pedine dell'avversario. Il giocatore della sicurezza vince anche se sopravvive abbastanza a lungo da far esaurire le pietre da piazzare agli insorti.\n\nPer impostazione predefinita, un incontro consiste in due partite a ruoli invertiti. Ciascun giocatore gioca una partita come insorti e una come sicurezza. Quando entrambi i giocatori vincono come insorti, l'incontro va a chi ha usato meno pietre (`66 − rimanenti` alla fine di quella partita; vince il punteggio più basso). Punteggi uguali degli insorti sono l'unica patta in tal caso. Una vittoria della sicurezza in una partita assegna 67 punti. Se un giocatore vince entrambe le partite (come insorti in una e come sicurezza nell'altra), vince direttamente l'incontro. Se entrambi i giocatori vincono solo come sicurezza, l'incontro finisce in patta.",
+    "scribe": "La tabella di riferimento dei glifi è mostrata nel margine sinistro. Un punto indica il posizionamento più recente di ciascun giocatore. Quando una mini-griglia si riempie, vengono calcolati i punti glifo e il punteggio più alto si aggiudica la griglia (in caso di parità, la griglia va al giocatore che l'ha completata).",
     "gyges": "Le caselle di arrivo sono adiacenti a tutte le caselle dell'ultima traversa. Il motore grafico attualmente non può gestire caselle \"fluttuanti\".",
     "halma": "Per prevenire la [tendenza alla patta](https://boardgamegeek.com/thread/3706389/unspoiling-halma-redux) del gioco, si applicano le seguenti regole: (a) un giocatore vince se la base di partenza opposta è completa con almeno una pedina amica (criterio di David Parlett); (b) qualsiasi pezzo nella base di partenza del giocatore deve avanzare verso il campo nemico ogni volta che ciò è possibile saltando sopra un pezzo nemico (regola di Zillions, per rimuovere le strategie di patta); (c) nessuna pedina può ritornare nella propria base di partenza.\n\n[Halma](https://en.wikipedia.org/wiki/Halma) è stato uno dei primi successi commerciali per un gioco astratto. Il gioco è stato progettato da [George Howard Monks](https://en.wikipedia.org/wiki/George_Howard_Monks) nel 1883/4. Si dice che Halma sia stato ispirato da un più antico gioco britannico chiamato *Hoppity*. Tuttavia, non esistono documenti né tabelloni superstiti di questo gioco, trasformando questa affermazione in un mistero storico. Halma è stato poi adattato (c.1892/3) in un successo ancora maggiore: la [Dama Cinese](https://boardgamegeek.com/boardgame/2386/chinese-checkers) (che poteva essere facilmente giocata da tre o sei giocatori).\n\nSuper Halma è una variante più dinamica, non accreditata, presentata nel libro del 1992 **New Rules for Classic Games** di Wayne Schmittberger. Questa variante propone salti lunghi, in cui il numero di caselle vuote prima e dopo la pedina saltata deve essere uguale. Le restrizioni di movimento nella base si applicano anche in questa implementazione di Super Halma.",
     "halmaclimbers": "Halma Climbers è stato progettato da Alexander Brady nel 2021.\n\nQuesta implementazione consente ai giocatori di muoversi a piacimento, anziché limitarli a mosse che aumentano rigorosamente il punteggio complessivo (come menzionato nel [regolamento](https://blackandwhite.develz.org/games/HalmaClimbers.pdf) di David Ploog). Questa scelta di progettazione rimuove l'onere di verificare molteplici combinazioni di mosse solo per scoprire che non esistono più mosse che aumentino il punteggio complessivo. Ciò impedisce inoltre al software di dover calcolare un numero eccessivo di permutazioni, che può essere piuttosto elevato data la struttura del turno a due azioni e le complesse sequenze di salti. La partita termina quando entrambi i giocatori passano il turno consecutivamente, oppure se il giocatore precedente svuota la propria area, o se il giocatore di turno non ha salti in avanti disponibili.",
@@ -378,13 +382,98 @@
     "waldmeister": "I giocatori giocano due partite in sequenza. Nel primo turno, il Giocatore 1 gioca per i colori e il Giocatore 2 gioca per le altezze. Alla fine del primo turno, i punteggi vengono calcolati e i gruppi di punteggio evidenziati. Poi, nel secondo turno, il Giocatore 2 gioca per primo e gioca per i colori, mentre il Giocatore 1 gioca per le altezze.",
     "witch": "Il primo giocatore non inizia possedendo alcun pezzo e può rimuovere qualsiasi pezzo (tranne una corona) nel suo primo turno. Il secondo giocatore sceglie il proprio colore nel suo primo turno, dopodiché non è più possibile rimuovere i pezzi dell'avversario.",
     "xana": "I giocatori, nel proprio turno, posizionano/muovono una pila (c'è una quantità limitata di pezzi impilabili) e opzionalmente posizionano due muri in esagoni vuoti. Le pile senza libertà vengono catturate. Una pila ha libertà se almeno uno degli esagoni adiacenti è vuoto (non esiste il concetto di gruppo di pile). Un esagono è accessibile se è vuoto e collegato a una pila amica da un percorso di esagoni vuoti. L'obiettivo è ottenere il punteggio più alto sommando territorio e catture. Xana è stato progettato nel 2005.",
-    "y": "Il gioco è stato progettato da Charles Titus e Craige Schensted (Ea Ea) nel 1953. Discendente diretto del Hex, il gioco era originariamente giocato su un tavoliere triangolare, dove l'obiettivo è collegare tutti e tre i lati con una catena di pedine amiche. Il Y è considerato un gioco più fondamentale rispetto all'Hex, date le sue regole più semplici e dato che una partita a Hex può essere impostata su un tavoliere da Y sufficientemente grande. Nel loro libro del 1975 **Mudcrack Y & Poly-Y**, i designer hanno introdotto il _principio di mudcrack_ affermando che i giochi di connessione possono essere giocati su un'ampia gamma di tavolieri progressivamente elaborati. Uno di quei design ('il Y piegato', con tre celle pentagonali) è diventato il tavoliere commerciale del Y, al posto di quello triangolare standard.",
-    "guerrilla": "Ciascun giocatore vince rimuovendo tutte le pedine dell'avversario. Il giocatore della sicurezza vince anche se sopravvive abbastanza a lungo da far esaurire le pietre da piazzare agli insorti.\n\nPer impostazione predefinita, un incontro consiste in due partite a ruoli invertiti. Ciascun giocatore gioca una partita come insorti e una come sicurezza. Quando entrambi i giocatori vincono come insorti, l'incontro va a chi ha usato meno pietre (`66 − rimanenti` alla fine di quella partita; vince il punteggio più basso). Punteggi uguali degli insorti sono l'unica patta in tal caso. Una vittoria della sicurezza in una partita assegna 67 punti. Se un giocatore vince entrambe le partite (come insorti in una e come sicurezza nell'altra), vince direttamente l'incontro. Se entrambi i giocatori vincono solo come sicurezza, l'incontro finisce in patta.",
-    "scribe": "La tabella di riferimento dei glifi è mostrata nel margine sinistro. Un punto indica il posizionamento più recente di ciascun giocatore. Quando una mini-griglia si riempie, vengono calcolati i punti glifo e il punteggio più alto si aggiudica la griglia (in caso di parità, la griglia va al giocatore che l'ha completata).",
-    "circleOfLife": "Le specie sono numerate da 0 a 11 in senso antiorario sull'anello, a partire dalla specie a singolo esagono in alto. La specie 0 mangia la 11; ogni altra specie mangia quella con il numero immediatamente inferiore. La predazione avviene solo quando posizioni una pietra che forma una specie adiacente alla preda. I gruppi non possono superare le quattro pietre. Vince il primo giocatore che cattura 20 pietre avversarie, oppure vince il giocatore che non può posizionare nel proprio turno (avendo riempito l'ecosistema).",
-    "elOso": "La preparazione viene eseguita automaticamente all'avvio del gioco. I conteggi di Cielo, Caverna, Terra e Fossa appaiono nella barra laterale. Dopo ogni mossa, usa i controlli del fotogramma per scorrere la risposta dell'Orso. Portare dieci o più pezzi nel Cielo equivale a una vittoria."
+    "y": "Il gioco è stato progettato da Charles Titus e Craige Schensted (Ea Ea) nel 1953. Discendente diretto del Hex, il gioco era originariamente giocato su un tavoliere triangolare, dove l'obiettivo è collegare tutti e tre i lati con una catena di pedine amiche. Il Y è considerato un gioco più fondamentale rispetto all'Hex, date le sue regole più semplici e dato che una partita a Hex può essere impostata su un tavoliere da Y sufficientemente grande. Nel loro libro del 1975 **Mudcrack Y & Poly-Y**, i designer hanno introdotto il _principio di mudcrack_ affermando che i giochi di connessione possono essere giocati su un'ampia gamma di tavolieri progressivamente elaborati. Uno di quei design ('il Y piegato', con tre celle pentagonali) è diventato il tavoliere commerciale del Y, al posto di quello triangolare standard."
   },
   "variants": {
+    "_default": {
+      "bases": {
+        "name": "Basi predefinite"
+      },
+      "blockers": {
+        "name": "Ostruzioni predefinite"
+      },
+      "board": {
+        "name": "Tabellone predefinito"
+      },
+      "boardtype": {
+        "name": "Tipo di tabellone predefinito"
+      },
+      "capture": {
+        "name": "Regole di cattura predefinite"
+      },
+      "dice": {
+        "name": "Dimensione dadi predefinita"
+      },
+      "enforcers": {
+        "name": "Enforcer predefiniti"
+      },
+      "eog": {
+        "name": "Condizione di fine partita predefinita"
+      },
+      "fleet": {
+        "name": "Flotta predefinita"
+      },
+      "form": {
+        "name": "Forma predefinita"
+      },
+      "groups": {
+        "name": "Gruppi predefiniti"
+      },
+      "komi": {
+        "name": "Komi predefinito"
+      },
+      "length": {
+        "name": "Lunghezza partita predefinita"
+      },
+      "movement": {
+        "name": "Regole di movimento predefinite"
+      },
+      "moves": {
+        "name": "Regole di movimento predefinite"
+      },
+      "objective": {
+        "name": "Obiettivo predefinito"
+      },
+      "obstacles": {
+        "name": "Ostacoli predefiniti"
+      },
+      "opening": {
+        "name": "Apertura predefinita"
+      },
+      "parks": {
+        "name": "Posizionamento parchi predefinito"
+      },
+      "penalty": {
+        "name": "Penalità predefinita"
+      },
+      "powers": {
+        "name": "Poteri predefiniti"
+      },
+      "rules": {
+        "name": "Regole predefinite"
+      },
+      "ruleset": {
+        "name": "Set di regole predefinito"
+      },
+      "scoring": {
+        "name": "Punteggio predefinito"
+      },
+      "setup": {
+        "name": "Configurazione iniziale predefinita"
+      },
+      "size": {
+        "name": "Dimensione pila predefinita"
+      },
+      "tiebreaker": {
+        "name": "Criterio di spareggio predefinito"
+      },
+      "ties": {
+        "name": "Patte predefinite"
+      },
+      "variant": {
+        "name": "Variante predefinita"
+      }
+    },
     "abande": {
       "#board": {
         "description": "Tavoliere quadrato 7x7"
@@ -738,14 +827,6 @@
       },
       "size-5": {
         "name": "Tabellone esagonale (base-5)"
-      },
-      "#ruleset": {
-        "description": "I giocatori devono catturare 16 pezzi per vincere sul tabellone piccolo o 25 per vincere sul tabellone grande.",
-        "name": "Cattura pezzi"
-      },
-      "no-threshold": {
-        "description": "La partita continua finché ci sono posizionamenti validi.",
-        "name": "Nessuna soglia di cattura"
       }
     },
     "blastradius": {
@@ -1567,6 +1648,10 @@
       "standard-10": {
         "name": "Tabellone 10x10"
       },
+      "swap-1st": {
+        "description": "Il primo giocatore posiziona un pezzo in qualsiasi punto del tabellone. Il giocatore successivo ha la possibilità di scambiare i colori.",
+        "name": "Apertura Swap-1st"
+      },
       "swap-2": {
         "description": "Il primo giocatore piazza tre pezzi. Il giocatore successivo può: (1) piazzare un singolo pezzo per continuare come giocatore 2, (2) scambiare i colori per giocare come giocatore 1, oppure (3) piazzare altri due pezzi e permettere all'avversario di decidere se giocare come giocatore 1 o giocatore 2.",
         "name": "Apertura Swap-2"
@@ -1574,10 +1659,6 @@
       "swap-5": {
         "description": "Per i primi cinque pezzi sul tabellone, dopo il piazzamento, il giocatore successivo ha l'opzione di scambiare i colori.",
         "name": "Apertura Swap-5"
-      },
-      "swap-1st": {
-        "description": "Il primo giocatore posiziona un pezzo in qualsiasi punto del tabellone. Il giocatore successivo ha la possibilità di scambiare i colori.",
-        "name": "Apertura Swap-1st"
       }
     },
     "frogger": {
@@ -1703,6 +1784,16 @@
       },
       "size-19": {
         "name": "Tabellone 19x19"
+      }
+    },
+    "guerrilla": {
+      "#length": {
+        "description": "Una sola partita; nessun cambio di ruolo o punteggio del match.",
+        "name": "Partita singola"
+      },
+      "match": {
+        "description": "Gioca due partite a ruoli invertiti. Quando entrambi i giocatori vincono come insorti, vince il minor numero di pedine (`66 − rimanenti`); in caso di punteggio pari è pareggio.",
+        "name": "Match su due partite"
       }
     },
     "gyve": {
@@ -1831,27 +1922,16 @@
       "#board": {
         "name": "Tabellone 19x19"
       },
+      "#overline": {
+        "description": "Il primo giocatore perde se forma un overline, ma il secondo giocatore può vincere con un overline.",
+        "name": "Overline asimmetrico"
+      },
       "#tiebreaker": {
         "name": "Senza spareggio"
       },
       "pass": {
         "description": "Dopo la fase di apertura, un giocatore può passare invece di effettuare una mossa per vincere lo spareggio. Se il tabellone viene riempito senza un vincitore, vince il giocatore che ha passato. Se nessun giocatore ha passato, vince il secondo giocatore.",
         "name": "Spareggio al passo"
-      },
-      "swap-2": {
-        "description": "Il primo giocatore posiziona tre pedine. Il giocatore successivo può: (1) posizionare una singola pedina per continuare come giocatore 2, (2) scambiare i colori per giocare come giocatore 1, oppure (3) posizionare altre due pedine e lasciare che l'avversario decida se giocare come giocatore 1 o giocatore 2.",
-        "name": "Apertura Swap-2"
-      },
-      "swap-5": {
-        "description": "Per le prime cinque pedine sul tabellone, dopo il posizionamento, il giocatore successivo ha la possibilità di scambiare i colori.",
-        "name": "Apertura Swap-5"
-      },
-      "toroidal-15": {
-        "name": "Tabellone toroidale 15x15"
-      },
-      "#overline": {
-        "description": "Il primo giocatore perde se forma un overline, ma il secondo giocatore può vincere con un overline.",
-        "name": "Overline asimmetrico"
       },
       "sym-no-overline": {
         "description": "La regola dell'overline si applica a entrambi i giocatori: qualsiasi giocatore perde se forma un overline, quindi vince solo una linea di esattamente sette pietre.",
@@ -1864,6 +1944,17 @@
       "swap-1st": {
         "description": "Il primo giocatore posiziona una pietra in qualsiasi punto del tabellone. Il giocatore successivo ha la possibilità di scambiare i colori.",
         "name": "Apertura Swap-1st"
+      },
+      "swap-2": {
+        "description": "Il primo giocatore posiziona tre pedine. Il giocatore successivo può: (1) posizionare una singola pedina per continuare come giocatore 2, (2) scambiare i colori per giocare come giocatore 1, oppure (3) posizionare altre due pedine e lasciare che l'avversario decida se giocare come giocatore 1 o giocatore 2.",
+        "name": "Apertura Swap-2"
+      },
+      "swap-5": {
+        "description": "Per le prime cinque pedine sul tabellone, dopo il posizionamento, il giocatore successivo ha la possibilità di scambiare i colori.",
+        "name": "Apertura Swap-5"
+      },
+      "toroidal-15": {
+        "name": "Tabellone toroidale 15x15"
       }
     },
     "invector": {
@@ -3126,6 +3217,12 @@
         "description": "Il numero di pezzi può opzionalmente essere ridotto da 3 a 2 ciascuno in una partita a quattro giocatori. (Questa variante non è pensata per un numero inferiore di giocatori.)"
       }
     },
+    "scribe": {
+      "advanced": {
+        "name": "Avanzata",
+        "description": "Vinci formando il super-glifo di maggior valore con le mini-griglie che hai conquistato, anziché vincendo il maggior numero di mini-griglie."
+      }
+    },
     "stibro": {
       "size-5": {
         "name": "Tabellone di dimensione 5"
@@ -3795,111 +3892,6 @@
       "8x8": {
         "name": "Plancia 8x8"
       }
-    },
-    "_default": {
-      "bases": {
-        "name": "Basi predefinite"
-      },
-      "blockers": {
-        "name": "Ostruzioni predefinite"
-      },
-      "board": {
-        "name": "Tabellone predefinito"
-      },
-      "boardtype": {
-        "name": "Tipo di tabellone predefinito"
-      },
-      "capture": {
-        "name": "Regole di cattura predefinite"
-      },
-      "dice": {
-        "name": "Dimensione dadi predefinita"
-      },
-      "enforcers": {
-        "name": "Enforcer predefiniti"
-      },
-      "eog": {
-        "name": "Condizione di fine partita predefinita"
-      },
-      "fleet": {
-        "name": "Flotta predefinita"
-      },
-      "form": {
-        "name": "Forma predefinita"
-      },
-      "groups": {
-        "name": "Gruppi predefiniti"
-      },
-      "komi": {
-        "name": "Komi predefinito"
-      },
-      "length": {
-        "name": "Lunghezza partita predefinita"
-      },
-      "movement": {
-        "name": "Regole di movimento predefinite"
-      },
-      "moves": {
-        "name": "Regole di movimento predefinite"
-      },
-      "objective": {
-        "name": "Obiettivo predefinito"
-      },
-      "obstacles": {
-        "name": "Ostacoli predefiniti"
-      },
-      "opening": {
-        "name": "Apertura predefinita"
-      },
-      "parks": {
-        "name": "Posizionamento parchi predefinito"
-      },
-      "penalty": {
-        "name": "Penalità predefinita"
-      },
-      "powers": {
-        "name": "Poteri predefiniti"
-      },
-      "rules": {
-        "name": "Regole predefinite"
-      },
-      "ruleset": {
-        "name": "Set di regole predefinito"
-      },
-      "scoring": {
-        "name": "Punteggio predefinito"
-      },
-      "setup": {
-        "name": "Configurazione iniziale predefinita"
-      },
-      "size": {
-        "name": "Dimensione pila predefinita"
-      },
-      "tiebreaker": {
-        "name": "Criterio di spareggio predefinito"
-      },
-      "ties": {
-        "name": "Patte predefinite"
-      },
-      "variant": {
-        "name": "Variante predefinita"
-      }
-    },
-    "scribe": {
-      "advanced": {
-        "name": "Avanzata",
-        "description": "Vinci formando il super-glifo di maggior valore con le mini-griglie che hai conquistato, anziché vincendo il maggior numero di mini-griglie."
-      }
-    },
-    "guerrilla": {
-      "#length": {
-        "description": "Una sola partita; nessun cambio di ruolo o punteggio del match.",
-        "name": "Partita singola"
-      },
-      "match": {
-        "description": "Gioca due partite a ruoli invertiti. Quando entrambi i giocatori vincono come insorti, vince il minor numero di pedine (`66 − rimanenti`); in caso di punteggio pari è pareggio.",
-        "name": "Match su due partite"
-      }
     }
   },
   "displays": {
@@ -4011,6 +4003,12 @@
       "flat": {
         "description": "Vista a volo d'uccello delle pile di tessere del domino.",
         "name": "Vista dall'alto"
+      }
+    },
+    "elOso": {
+      "nums": {
+        "description": "Pile mostrate come numeri",
+        "name": "Numeri"
       }
     },
     "ccorridor": {
@@ -4397,22 +4395,6 @@
         "description": "Elevazione leggera: una vista quasi-3D del campo in cui gli spazi diventano più alti man mano che ti allontani dal centro.",
         "name": "Isometrica: Elevazione leggera"
       }
-    },
-    "elOso": {
-      "nums": {
-        "description": "Pile mostrate come numeri",
-        "name": "Numeri"
-      }
-    },
-    "guerrilla": {
-      "#length": {
-        "description": "Una sola partita; nessun cambio di ruolo o punteggio dell'incontro.",
-        "name": "Partita singola"
-      },
-      "match": {
-        "description": "Gioca due partite a ruoli invertiti. Quando entrambi i giocatori vincono come insorti, vince il conteggio di pietre più basso (`66 − rimanenti`); in caso di punteggi uguali è patta.",
-        "name": "Incontro di due partite"
-      }
     }
   },
   "homeworlds": {
@@ -4456,6 +4438,7 @@
     "SYSTEM_NOSHIP": "Impossibile trovare la nave {{ship}} nel sistema {{system}}."
   },
   "status": {
+    "_player": "{{player}}",
     "amazons": {
       "ISOLATEDQUEENS": "Le regine sono ora isolate",
       "TERRITORY": "Territorio"
@@ -4466,12 +4449,15 @@
     "asli": {
       "TERRITORY": "Territorio e prigionieri"
     },
+    "baghchal": {
+      "GOATS_IN_HAND": "Capre in mano",
+      "GOATS_CAPTURED": "Capre catturate"
+    },
     "bao": {
       "BALANCE": "Bilancio del materiale"
     },
     "blam": {
       "NUMPIECES_one": "{{count}} pezzo",
-      "NUMPIECES_many": "",
       "NUMPIECES_other": "{{count}} pezzi",
       "SCORE_one": "{{score}} ({{count}} pezzo)",
       "SCORE_other": "{{score}} ({{count}} pezzi)"
@@ -4514,8 +4500,27 @@
     "evenatodds": {
       "BONEYARD": "Monte"
     },
+    "elOso": {
+      "SKY": "Cielo",
+      "CAVE": "Caverna",
+      "GROUND": "Terra",
+      "PIT": "Fossa",
+      "GRADE_LOSS": "Sconfitta (9 o meno)",
+      "GRADE_WIN": "Vittoria (10)",
+      "GRADE_SUPERIOR": "Superiore (11)",
+      "GRADE_EXCELLENT": "Eccellente (12)"
+    },
     "fnap": "Segnalino FNAP",
     "focus": "Controllati",
+    "guerrilla": {
+      "G1_SCORE": "Punteggio insorti Partita 1",
+      "GAME1": "Partita 1",
+      "GAME2": "Partita 2",
+      "INSURGENTS": "Insorti rimasti"
+    },
+    "scribe": {
+      "MINI_GRIDS": "Mini-griglie vinte"
+    },
     "GROUPCOUNT": "Conteggio gruppi",
     "GROUPSIZES": "Dimensioni dei gruppi",
     "jacynth": "Segnalini influenza",
@@ -4558,33 +4563,67 @@
       "GOALS": "Obiettivi",
       "HEIGHT": "altezze"
     },
-    "YEAR": "Anno",
-    "guerrilla": {
-      "INSURGENTS": "Insorti rimasti",
-      "G1_SCORE": "Punteggio insorti Partita 1",
-      "GAME1": "Partita 1",
-      "GAME2": "Partita 2"
-    },
-    "scribe": {
-      "MINI_GRIDS": "Mini-griglie vinte"
-    },
-    "baghchal": {
-      "GOATS_IN_HAND": "Capre in mano",
-      "GOATS_CAPTURED": "Capre catturate"
-    },
-    "elOso": {
-      "SKY": "Cielo",
-      "CAVE": "Caverna",
-      "GROUND": "Terra",
-      "PIT": "Fossa",
-      "GRADE_LOSS": "Sconfitta (9 o meno)",
-      "GRADE_WIN": "Vittoria (10)",
-      "GRADE_SUPERIOR": "Superiore (11)",
-      "GRADE_EXCELLENT": "Eccellente (12)"
-    },
-    "_player": "{{player}}"
+    "YEAR": "Anno"
   },
   "validation": {
+    "_general": {
+      "CAPTURE4MOVE": "Hai segnalato una cattura, ma non c'è alcuna pedina su {{where}}.",
+      "DEFAULT_HANDLER": "Questo è il gestore predefinito e non dovrebbe mai essere chiamato direttamente. Per favore, informa l'amministratore.",
+      "FAILSAFE": "La mossa '{{move}}' ha superato la convalida ma non sembra essere legale. Per favore, informa l'amministratore.",
+      "GENERIC": "Si è verificato un errore generico durante l'elaborazione del clic:\nMessaggio di errore: {{emessage}}\nStack: {{estack}}\nMossa: {{move}}, Riga: {{row}}, Colonna: {{col}}, Indice: {{index}}",
+      "INCOMPLETE_MOVE": "Questa mossa sembra incompleta.",
+      "INVALID_MOVE": "'{{move}}' non sembra essere una mossa valida.",
+      "INVALID_NUMBER": "Impossibile elaborare {{num}} come numero.",
+      "INVALIDCELL": "Impossibile trovare la casella '{{cell}}' sul tabellone.",
+      "MOVE4CAPTURE": "Hai segnalato una mossa normale, ma {{where}} è occupata.",
+      "NEED_DESTINATION": "Fornisci la destinazione.",
+      "NO_MOVES": "La pedina su {{where}} non ha mosse legali.",
+      "NOLOS": "Non c'è linea di vista tra {{from}} e {{to}}.",
+      "NONEXISTENT": "Tentativo di interagire con una pedina o pila che non esiste su {{where}}.",
+      "NOPIECES": "Non hai pedine da piazzare.",
+      "NOT_ORTH": "Le caselle {{from}} e {{to}} non sono ortogonali tra loro.",
+      "NOT_ORTH_OR_DIAG": "Le caselle {{from}} e {{to}} non sono ortogonali o diagonali tra loro.",
+      "OBSTRUCTED": "C'è un'ostruzione su {{obstruction}} tra {{from}} e {{to}}.",
+      "OCCUPIED": "La casella {{where}} è già occupata.",
+      "SAME_FROM_TO": "Le caselle di partenza e di arrivo devono essere diverse.",
+      "SELECT_OWN": "Seleziona una delle tue pedine.",
+      "SELFCAPTURE": "Non puoi catturare le tue stesse pedine.",
+      "UNCONTROLLED": "Non puoi muovere pedine che non controlli.",
+      "UNKNOWN_CLICK": "Non so come interpretare questo clic.",
+      "VALID_MOVE": "Sembra una mossa valida."
+    },
+    "_inarow": {
+      "CANNOT_PASS": "Non puoi passare per le prime due mosse dopo la fase di apertura.",
+      "CANNOT_SWAP": "Non puoi scambiare i colori in questo momento.",
+      "CENTRE_OFFCENTRE": "Devi piazzare la tua prima pietra al centro del tabellone nell'apertura normale.",
+      "DUPLICATE": "Hai già piazzato una pedina su {{where}}.",
+      "EXCESS": "Hai piazzato troppe pietre. Puoi piazzare solo 1 pietra.",
+      "INITIAL_INSTRUCTIONS": "Seleziona un'intersezione per piazzare una pietra.",
+      "INITIAL_INSTRUCTIONS_CENTRE1": "Piazza la tua prima pietra al centro del tabellone.",
+      "INITIAL_INSTRUCTIONS_LONGPRO1": "Piazza la tua prima pietra al centro del tabellone.",
+      "INITIAL_INSTRUCTIONS_LONGPRO3": "Seleziona un'intersezione per piazzare una pietra. La tua mossa deve distare almeno quattro intersezioni dal centro del tabellone.",
+      "INITIAL_INSTRUCTIONS_PRO1": "Piazza la tua prima pietra al centro del tabellone.",
+      "INITIAL_INSTRUCTIONS_PRO3": "Seleziona un'intersezione per piazzare una pietra. La tua mossa deve distare almeno tre intersezioni dal centro del tabellone.",
+      "INITIAL_INSTRUCTIONS_SWAP1ST1": "Seleziona un'intersezione per piazzare una pietra. L'avversario ha l'opzione di scambiare i colori al turno successivo.",
+      "INITIAL_INSTRUCTIONS_SWAP1ST2": "Puoi piazzare una pietra per continuare come giocatore 2, oppure passare per scambiare i colori e giocare come giocatore 1.",
+      "INITIAL_INSTRUCTIONS_SWAP5": "Seleziona un'intersezione per piazzare una pietra, oppure passa per scambiare i colori.",
+      "INITIAL_INSTRUCTIONS_SWAP21": "Piazza tre pietre sul tabellone",
+      "INITIAL_INSTRUCTIONS_SWAP22": "Puoi fare una delle seguenti cose: (1) piazzare una singola pietra per continuare come giocatore 2, (2) passare per scambiare i colori e giocare come giocatore 1, oppure (3) piazzare altre due pietre e permettere all'avversario di decidere se giocare come giocatore 1 o giocatore 2.",
+      "INITIAL_INSTRUCTIONS_SWAP23": "Puoi piazzare una pietra per continuare come giocatore 1, oppure passare per scambiare i colori e giocare come giocatore 2.",
+      "INVALID_PLACEMENT": "Impossibile interpretare la notazione della mossa: {{move}}.",
+      "LONGPRO_RESTRICTION_FIRST": "Devi piazzare la tua prima pietra al centro del tabellone nell'apertura long pro.",
+      "LONGPRO_RESTRICTION_THIRD": "La tua terza pietra deve distare almeno quattro intersezioni dal centro del tabellone nell'apertura long pro.",
+      "NO_MOVELIST": "Elenco mosse non disponibile durante questa mossa di apertura. Clicca sul tabellone per piazzare le pietre.",
+      "NORMALISE": "La mossa deve essere normalizzata. Prova {{normalised}}.",
+      "PRO_RESTRICTION_FIRST": "Devi piazzare la tua prima pietra al centro del tabellone nell'apertura pro.",
+      "PRO_RESTRICTION_THIRD": "La tua terza pietra deve distare almeno tre intersezioni dal centro del tabellone nell'apertura pro.",
+      "SWAP2_CAPTURE": "Questo posizionamento comporterà una cattura.",
+      "SWAP21_EXCESS": "Hai piazzato troppe pietre. Puoi piazzare solo 3 pietre.",
+      "SWAP21_one": "Piazza ancora 1 pietra sul tabellone.",
+      "SWAP21_other": "Piazza ancora {{count}} pietre sul tabellone.",
+      "SWAP22_EXCESS": "Hai piazzato troppe pietre. Puoi piazzare solo 2 pietre.",
+      "SWAP22_PARTIAL": "Completa la mossa per continuare come giocatore 2, oppure piazza un'altra pietra sul tabellone per permettere all'avversario di decidere se giocare come giocatore 1 o giocatore 2."
+    },
     "abande": {
       "DISCONNECTEDMOVE": "Una mossa da {{from}} a {{to}} disconnetterebbe il gruppo.",
       "DISCONNECTEDPLACE": "Posizionare un pezzo in {{where}} disconnetterebbe il gruppo.",
@@ -4605,7 +4644,6 @@
       "MORE_THAN_THREE": "Nella mossa '{{move}}', il passaggio '{{step}}' creerebbe una pila con più di 3 pezzi dello stesso colore.",
       "PARTIAL_FULLSTACK": "Sembra che tu voglia muovere un'intera pila. Indica la destinazione.",
       "PARTIAL_SUBSTACK_one": "Sembra che tu voglia muovere il pezzo superiore dalla pila. Indica la destinazione.",
-      "PARTIAL_SUBSTACK_many": "",
       "PARTIAL_SUBSTACK_other": "Sembra che tu voglia muovere i {{count}} pezzi superiori dalla pila. Indica la destinazione.",
       "SOURCE_EMPTY": "Nella mossa '{{move}}', quando arrivi al passaggio '{{step}}', non hai più pezzi da muovere.",
       "TOOFAR": "Nella mossa '{{move}}', il passaggio '{{step}}' tenta di muoversi più lontano di quanto sia consentito.",
@@ -4712,11 +4750,9 @@
       "NOT_DRAGON_JUMPABLE_CORNER": "Il drago non può saltare su un angolo.",
       "SELECT_DIR": "Seleziona una direzione verso cui muovere il gruppo.",
       "SELECT_MORE_BARRIER": "Devi continuare a fare mosse di gruppo perché hai creato una barriera.",
-      "SELECT_MORE_one": "Puoi continuare a fare ancora una mossa di gruppo.",
       "SELECT_MORE_many": "Puoi continuare a fare altre {{count}} mosse di gruppo.",
-      "SELECT_MORE_other": "",
+      "SELECT_MORE_one": "Puoi continuare a fare ancora una mossa di gruppo.",
       "SELECT_MORE_PIECES_one": "Puoi selezionare un altro pezzo da muovere in gruppo, oppure selezionare una direzione per muovere il gruppo.",
-      "SELECT_MORE_PIECES_many": "",
       "SELECT_MORE_PIECES_other": "Puoi selezionare fino a {{count}} pezzi da muovere in gruppo, oppure selezionare una direzione per muovere il gruppo.",
       "SELECT_MORE_SUPERKO": "Devi continuare a fare mosse di gruppo perché lo stato attuale della plancia non è valido a causa del superko.",
       "SUPERKO": "Superko: non puoi ripetere uno stato della plancia precedente.",
@@ -4743,7 +4779,6 @@
       "NOPIECE": "Stai cercando di posizionare un pezzo che non hai in mano: {{piece}}.",
       "NOT_ADJ": "I pezzi possono muoversi solo di uno spazio in senso ortogonale.",
       "PARTIAL_one": "Puoi effettuare ancora {{count}} mossa, oppure clicca su Completa mossa per terminare il tuo turno.",
-      "PARTIAL_many": "",
       "PARTIAL_other": "Puoi effettuare ancora {{count}} mosse, oppure clicca su Completa mossa per terminare il tuo turno.",
       "PARTIAL_MOVE": "Seleziona la destinazione.",
       "PARTIAL_PLACE": "Clicca su una casella vuota per posizionare il pezzo.",
@@ -4860,6 +4895,12 @@
       "REORIENT": "Clicca su una casella adiacente o su una zona al bordo per selezionare la direzione verso cui orientarti.",
       "TOO_FAR": "Non puoi muoverti più lontano del tuo potere di movimento (attualmente {{pom}})."
     },
+    "baghchal": {
+      "INITIAL_INSTRUCTIONS_TIGER_MOVEMENT": "Seleziona una tigre da muovere.",
+      "INITIAL_INSTRUCTIONS_GOAT_MOVEMENT": "Seleziona una capra da muovere.",
+      "INITIAL_INSTRUCTIONS_GOAT_PLACEMENT": "Posiziona una capra su un'intersezione vuota.",
+      "VALID_PARTIAL": "Seleziona un'intersezione vuota verso cui muoverti. Sia le capre che le tigri possono muoversi verso qualsiasi intersezione adiacente (collegata) libera. Le tigri possono saltare una capra raggiungendo l'intersezione libera dietro di essa, ma i salti possono avvenire solo in avanti, in diagonale in avanti o lateralmente, mai all'indietro o in diagonale all'indietro."
+    },
     "bamboo": {
       "BAD_PLACE": "Nessuno dei tuoi gruppi può contenere più pietre del numero di gruppi del tuo colore sulla plancia.",
       "INITIAL_INSTRUCTIONS": "Seleziona una casella vuota per posizionare una pietra."
@@ -4925,7 +4966,8 @@
       "INVALID": "Non puoi posizionare pezzi all'interno delle zone d'esclusione da radiazioni e devi sempre creare la pila più piccola legalmente possibile."
     },
     "blockade": {
-      "BLOCKS_GOAL": "Impossibile posizionare il muro in {{wall}} perché blocca l'obiettivo/gli obiettivi per uno dei pezzi sulla plancia.",
+      "BLOCKS_GOAL_one": "Impossibile posizionare il muro in {{wall}} perché blocca l'obiettivo per uno dei pezzi sulla plancia.",
+      "BLOCKS_GOAL_other": "Impossibile posizionare il muro in {{wall}} perché blocca gli obiettivi per uno dei pezzi sulla plancia.",
       "EXCLUSIVE": "Puoi solo muovere un pezzo o posizionare un muro, non entrambi.",
       "INITIAL_INSTRUCTIONS": "Seleziona un pezzo da muovere, poi posiziona un muro se ne hai.",
       "INITIAL_INSTRUCTIONS_EXCLUSIVE": "Seleziona un pezzo da muovere o posiziona un muro se ne hai.",
@@ -4942,9 +4984,7 @@
       "NO_WALL_OPTIONAL": "Posiziona un muro se lo desideri, altrimenti puoi completare la mossa.",
       "OCCUPIED_WALL": "Impossibile posizionare un muro in {{wall}} perché quello spazio è già occupato.",
       "SELECT_SECOND_WALL": "Ci sono due modi possibili per completare il muro da {{wall}}. Seleziona il lato che desideri completare.",
-      "SELECT_TO": "Seleziona una destinazione verso cui muoverti.",
-      "BLOCKS_GOAL_one": "Impossibile posizionare il muro in {{wall}} perché blocca l'obiettivo per uno dei pezzi sulla plancia.",
-      "BLOCKS_GOAL_other": "Impossibile posizionare il muro in {{wall}} perché blocca gli obiettivi per uno dei pezzi sulla plancia."
+      "SELECT_TO": "Seleziona una destinazione verso cui muoverti."
     },
     "blooms": {
       "DESTINATION": "Seleziona una casella in cui posizionare il pezzo.",
@@ -4998,6 +5038,10 @@
       "PARTIAL": "Indica la destinazione.",
       "TOOFAR": "I pezzi possono muoversi di un solo spazio alla volta."
     },
+    "bridges": {
+      "INITIAL_INSTRUCTIONS_FIRST_TURN": "Posiziona una nuova base su qualsiasi spazio vuoto eccetto il centro.",
+      "INITIAL_INSTRUCTIONS": "Esegui due mosse: posiziona una nuova base su uno spazio vuoto non adiacente a una base esistente o al centro, oppure collega due delle tue basi con un ponte."
+    },
     "btt": {
       "BAD_NULL": "Una casella nulla non può isolare una parte della plancia.",
       "INITIAL_INSTRUCTIONS": "Seleziona una casella per posizionarvi una delle tue piramidi.",
@@ -5029,19 +5073,15 @@
       "INVALID_COLLECT_COL": "La colonna '{{col}}' non è valida",
       "WRONG_COLLECT_COUNT_COL": "Il numero di pezzi raccolti nella colonna '{{col}}' non è corretto. Dovrebbe essere {{count}}.",
       "TOO_MANY_SOWS_one": "Puoi seminare solo 1 pezzo.",
-      "TOO_MANY_SOWS_many": "",
       "TOO_MANY_SOWS_other": "Puoi seminare solo {{count}} pezzi.",
       "DUPLICATE_SOW": "Hai già seminato un pezzo in {{where}}.",
       "NOT_NEIGHBOURS": "Le caselle {{curr}} e {{prev}} non sono adiacenti.",
       "INVALID_MOVE": "La mossa {{move}} non è valida.",
       "START_SOWING_one": "Hai raccolto 1 pezzo. Selezionata una casella per iniziare a seminare.",
-      "START_SOWING_many": "",
       "START_SOWING_other": "Hai raccolto {{count}} pezzi. Selezionata una casella per iniziare a seminare.",
       "GO_BACK_one": "Hai ancora 1 pezzo da seminare. Fai clic su un pezzo sul percorso di semina per tornare a quel punto e riprovare.",
-      "GO_BACK_many": "",
       "GO_BACK_other": "Hai ancora {{count}} pezzi da seminare. Fai clic su un pezzo sul percorso di semina per tornare indietro e riprovare.",
       "CONTINUE_one": "Hai ancora 1 pezzo da seminare.",
-      "CONTINUE_many": "",
       "CONTINUE_other": "Hai ancora {{count}} pezzi da seminare.",
       "NORMALISE": "La mossa deve essere normalizzata. Prova '{{normalised}}'."
     },
@@ -5056,7 +5096,6 @@
       "MUST_APPROACH": "Quando muovi una pila verso uno spazio vuoto, devi avvicinarti alle pile più vicine.",
       "MUST_CLIMB": "Quando unisci pile, la pedina inferiore deve finire in una posizione più alta rispetto a quella da cui ha iniziato.",
       "TOO_HIGH_one": "Spostare {{count}} pedina da {{from}} a {{to}} comporterebbe una pila troppo alta.",
-      "TOO_HIGH_many": "",
       "TOO_HIGH_other": "Spostare {{count}} pedine da {{from}} a {{to}} comporterebbe una pila troppo alta.",
       "UNOWNED_INDEX": "Non controlli la pedina alla posizione {{index}} nella pila in {{where}}."
     },
@@ -5093,7 +5132,6 @@
       "NOT_TREE_PLACEABLE": "Non puoi posizionare un albero in {{where}}.",
       "DUPLICATE_TREE": "Hai già posizionato un albero in {{where}}.",
       "TREE_CONTINUE_one": "Seleziona ancora 1 casella evidenziata su cui posizionare un albero.",
-      "TREE_CONTINUE_many": "",
       "TREE_CONTINUE_other": "Seleziona ancora {{count}} caselle evidenziate su cui posizionare alberi.",
       "NORMALISED": "La mossa deve essere normalizzata. Prova {{normalised}}.",
       "CANNOT_CLAIM_DRAW": "Puoi richiedere la patta solo se la stessa posizione si ripete per almeno la terza volta dallo stesso giocatore a ogni mossa o se non ci sono state catture né movimenti nella casella del castello avversario nelle ultime 50 mosse.",
@@ -5132,6 +5170,15 @@
       "SELECT_LINTEL_END": "Seleziona l'altra estremità dell'architrave.",
       "SELECT_MOVE": "Posiziona un sarsen, posa un architrave, muovi il tuo Druido o passa."
     },
+    "elOso": {
+      "INITIAL_INSTRUCTIONS": "Seleziona una delle tue pile da muovere. Fai clic due volte su una pila per passare.",
+      "VALID_PARTIAL": "Seleziona una destinazione. Fai clic di nuovo sulla stessa pila per passare.",
+      "VALID_PARTIAL_TOP": "Seleziona una destinazione o fai clic sulla barra del Cielo in alto. Fai clic di nuovo sulla stessa pila per passare.",
+      "SELECT_STACK_FOR_PASS": "Seleziona prima una pila, poi fai clic di nuovo su di essa per passare.",
+      "INVALID_DIRECTION": "Le pile possono muoversi in diagonale o lateralmente, ma non direttamente in avanti o all'indietro.",
+      "TOO_FAR": "Questa pila può muoversi al massimo di {{dist}} caselle.",
+      "SKY_FROM_TOP": "Solo le pile nella riga superiore possono muoversi nel Cielo."
+    },
     "cannon": {
       "BAD_RETREAT": "I pezzi possono ritirarsi solo se sono adiacenti ad almeno un pezzo nemico.",
       "FIXED_TOWNS": "Le città non possono essere mosse.",
@@ -5159,13 +5206,10 @@
     "catchup": {
       "DUPLICATE": "Hai già posizionato un pezzo in {{where}}.",
       "INITIAL_INSTRUCTIONS_one": "Posiziona {{count}} pezzo sulla plancia.",
-      "INITIAL_INSTRUCTIONS_many": "",
       "INITIAL_INSTRUCTIONS_other": "Posiziona fino a {{count}} pezzi sulla plancia.",
       "MAKE_MORE_MOVES_one": "Posiziona ancora {{count}} pezzo o completa il tuo turno.",
-      "MAKE_MORE_MOVES_many": "",
       "MAKE_MORE_MOVES_other": "Posiziona fino a {{count}} altri pezzi o completa il tuo turno.",
       "TOO_MANY_MOVES_one": "Puoi posizionare solo {{count}} pezzo sul tabellone.",
-      "TOO_MANY_MOVES_many": "",
       "TOO_MANY_MOVES_other": "Puoi posizionare solo fino a {{count}} pezzi sul tabellone."
     },
     "catsdogs": {
@@ -5227,9 +5271,12 @@
       "PARTIAL": "Seleziona una destinazione.",
       "PARTIAL_PLACE": "Seleziona la cella sulla tua riga di partenza per posizionare il tuo pezzo {{piece}}.",
       "PARTIAL_SETUP_one": "Posiziona il tuo ultimo pezzo.",
-      "PARTIAL_SETUP_many": "",
       "PARTIAL_SETUP_other": "Hai ancora {{count}} pezzi da posizionare.",
       "LABEL_STASH": "Riserva di {{player}}"
+    },
+    "circleOfLife": {
+      "INSTRUCTIONS": "Posiziona un tuo pezzo su un esagono vuoto. Non è consentito creare una specie di dimensioni superiori a quattro pezzi.",
+      "GROUP_TOO_LARGE": "Questo posizionamento renderebbe una specie più grande di quattro pezzi!"
     },
     "clearcut": {
       "BAD_CROSSING": "Le linee possono incrociarsi solo se il gruppo creato dal pezzo posizionato è più grande di almeno un gruppo avversario nell'incrocio.",
@@ -5268,7 +5315,6 @@
     },
     "compart": {
       "INSTRUCTIONS_one": "Posiziona un pezzo sull'ultima area vitale.",
-      "INSTRUCTIONS_many": "",
       "INSTRUCTIONS_other": "Posiziona {{count}} pezzi, uno su ciascuna area vitale amica (gruppi connessi di pezzi amici e celle vuote).",
       "OCCUPIED": "I posizionamenti possono essere effettuati solo su celle vuote!",
       "VIABLE_AREA_REPEATED": "Puoi posizionare solo un singolo pezzo in ciascuna area vitale.",
@@ -5363,16 +5409,12 @@
       "CLOUD_OCCUPIED": "C'è già una nuvola su {{cell}}.",
       "CLOUD_TOO_BIG": "Non puoi posizionare una nuvola su {{cell}}. Sono consentite solo nuvole di dimensione 2. Questa nuvola sarebbe troppo grande.",
       "INITIAL_INSTRUCTIONS_one": "Seleziona un aereo da muovere, o fai entrare un nuovo aereo dal tuo bordo iniziale. Devi muovere/far entrare {{count}} aereo in questo turno.",
-      "INITIAL_INSTRUCTIONS_many": "",
       "INITIAL_INSTRUCTIONS_other": "Seleziona un aereo da muovere, o fai entrare un nuovo aereo dal tuo bordo iniziale. Devi muovere/far entrare {{count}} aerei in questo turno.",
       "INITIAL_INSTRUCTIONS_NO_ENTRY_one": "Seleziona un aereo da muovere. Devi muovere {{count}} aereo in questo turno. Fai clic sugli aerei nemici se ritieni che possano essere abbattuti.",
-      "INITIAL_INSTRUCTIONS_NO_ENTRY_many": "",
       "INITIAL_INSTRUCTIONS_NO_ENTRY_other": "Seleziona un aereo da muovere. Devi muovere {{count}} aerei in questo turno. Fai clic sugli aerei nemici se ritieni che possano essere abbattuti.",
       "INITIAL_INSTRUCTIONS_MOVE_ONLY_one": "Seleziona un aereo da muovere. Devi muovere {{count}} aereo in questo turno.",
-      "INITIAL_INSTRUCTIONS_MOVE_ONLY_many": "",
       "INITIAL_INSTRUCTIONS_MOVE_ONLY_other": "Seleziona un aereo da muovere. Devi muovere {{count}} aerei in questo turno.",
       "INITIAL_INSTRUCTIONS_ENTRY_ONLY_one": "Fai entrare un aereo dal tuo bordo iniziale. Devi far entrare {{count}} aereo in questo turno.",
-      "INITIAL_INSTRUCTIONS_ENTRY_ONLY_many": "",
       "INITIAL_INSTRUCTIONS_ENTRY_ONLY_other": "Fai entrare aerei dal tuo bordo iniziale. Devi far entrare {{count}} aerei in questo turno.",
       "PARTIAL_MOVE": "Continua a selezionare la destinazione e la direzione del movimento.",
       "PARTIAL_PLANE_MOVE": "Fai clic su dove vuoi salire di quota (1 in avanti) o volare in quota (2 in avanti), oppure fai nuovamente clic sull'aereo per iniziare una picchiata.",
@@ -5383,10 +5425,8 @@
       "PARTIAL_DIVE_DIR": "Fai clic su una cella adiacente per scegliere la direzione verso cui sarà rivolto l'aereo dopo la manovra.",
       "DIVE_CONTINUE_OR_END": "Continua la picchiata (picchiata leggera in avanti o picchiata ripida), oppure seleziona un altro aereo per terminare la picchiata.",
       "NEED_MORE_PLANES_one": "Devi muovere/far entrare ancora {{count}} aereo in questo turno. Seleziona l'aereo successivo.",
-      "NEED_MORE_PLANES_many": "",
       "NEED_MORE_PLANES_other": "Devi muovere/far entrare ancora {{count}} aerei in questo turno. Seleziona l'aereo successivo.",
       "NEED_MORE_PLANES_NO_ENTRY_one": "Devi muovere ancora {{count}} aereo in questo turno. Seleziona l'aereo successivo. Fai clic sugli aerei nemici se ritieni che possano essere abbattuti.",
-      "NEED_MORE_PLANES_NO_ENTRY_many": "",
       "NEED_MORE_PLANES_NO_ENTRY_other": "Devi muovere ancora {{count}} aerei in questo turno. Seleziona l'aereo successivo. Fai clic sugli aerei nemici se ritieni che possano essere abbattuti.",
       "INVALID_ENTRY_POSITION": "Non puoi far entrare un aereo da {{cell}}, gli aerei possono entrare solo dal bordo iniziale evidenziato.",
       "CAN_SHOOT": "Puoi anche fare clic su un aereo nemico per abbatterlo.",
@@ -5529,14 +5569,20 @@
     },
     "evenatodds": {
       "INITIAL_INSTRUCTIONS": "Seleziona un domino dalla tua mano da giocare.",
+      "INITIAL_INSTRUCTIONS_choose": "Scegli pari o dispari.",
       "LABEL_HAND": "Mano di {{player}} ({{side}})",
+      "LABEL_HAND_NO_SIDE": "Mano di {{player}}",
       "LABEL_REMAINING": "Tessere non sul tabellone",
+      "MUST_CHOOSE_SIDE": "Devi scegliere pari o dispari prima di giocare.",
       "NOT_IN_HAND": "Quel domino non è nella tua mano.",
       "NEEDS_ANCHOR_PIP": "Questo posizionamento è ambiguo. Contrassegna il punto di ancoraggio con un asterisco (ad es. 1*-2@-3,1N o 1-2*@-3,1N).",
-      "PARTIAL": "Fai clic su una mezza casella di ancoraggio, poi sull'altra estremità del domino.",
-      "INITIAL_INSTRUCTIONS_choose": "Scegli pari o dispari.",
-      "LABEL_HAND_NO_SIDE": "Mano di {{player}}",
-      "MUST_CHOOSE_SIDE": "Devi scegliere pari o dispari prima di giocare."
+      "PARTIAL": "Fai clic su una mezza casella di ancoraggio, poi sull'altra estremità del domino."
+    },
+    "estate": {
+      "EXCEEDS": "Non puoi spendere più di {{budget}} punti per la tua mossa. Hai provato a spendere {{cost}} punti.",
+      "INITIAL_INSTRUCTIONS_one": "Fai clic su una casella vuota per piazzare uno dei tuoi pezzi o fai clic su uno dei tuoi pezzi piazzati per rimuoverlo. Puoi piazzare pezzi per un valore di {{count}} altro punto.",
+      "INITIAL_INSTRUCTIONS_other": "Fai clic su una casella vuota per piazzare uno dei tuoi pezzi o fai clic su uno dei tuoi pezzi piazzati per rimuoverlo. Puoi piazzare pezzi per un valore di altri {{count}} punti.",
+      "INITIAL_INSTRUCTIONS_zero": "Non hai più punti da spendere. Completa la tua mossa o fai clic su uno dei tuoi pezzi piazzati per posizionarlo altrove."
     },
     "epam": {
       "INITIAL_INSTRUCTIONS_move": "Seleziona la coda della falange che desideri muovere.",
@@ -5648,6 +5694,8 @@
     "fourinarow": {
       "EXCESS": "Hai posizionato troppe pedine. Puoi posizionare solo 1 pedina.",
       "INITIAL_INSTRUCTIONS": "Seleziona uno spazio supportato per posizionare una pedina.",
+      "INITIAL_INSTRUCTIONS_SWAP1ST1": "Seleziona uno spazio supportato per posizionare un pezzo. L'avversario ha la possibilità di scambiare i colori al turno successivo.",
+      "INITIAL_INSTRUCTIONS_SWAP1ST2": "Puoi posizionare un pezzo per continuare come giocatore 2, oppure passare per scambiare i colori e giocare come giocatore 1.",
       "INITIAL_INSTRUCTIONS_SWAP5": "Seleziona uno spazio per posizionare una pedina, oppure passa per scambiare i colori.",
       "INITIAL_INSTRUCTIONS_SWAP21": "Posiziona tre pedine sul tabellone.",
       "INITIAL_INSTRUCTIONS_SWAP22": "Puoi fare una di queste azioni: (1) posizionare una singola pedina per continuare come giocatore 2, (2) passare per scambiare i colori e giocare come giocatore 1, o (3) posizionare altre due pedine e permettere all'avversario di decidere se giocare come giocatore 1 o giocatore 2.",
@@ -5655,15 +5703,20 @@
       "NOT_PLACEABLE": "Non puoi posizionare in {{where}}. La pedina deve essere supportata.",
       "SWAP21_EXCESS": "Hai posizionato troppe pedine. Puoi posizionare solo 3 pedine.",
       "SWAP21_one": "Posiziona un'altra pedina sul tabellone.",
-      "SWAP21_many": "",
       "SWAP21_other": "Posiziona altre {{count}} pedine sul tabellone.",
       "SWAP22_EXCESS": "Hai posizionato troppe pedine. Puoi posizionare solo 2 pedine.",
-      "SWAP22_PARTIAL": "Completa la mossa per continuare come giocatore 2, oppure posiziona un'altra pedina sul tabellone per permettere all'avversario di decidere se giocare come giocatore 1 o giocatore 2.",
-      "INITIAL_INSTRUCTIONS_SWAP1ST1": "Seleziona uno spazio supportato per posizionare un pezzo. L'avversario ha la possibilità di scambiare i colori al turno successivo.",
-      "INITIAL_INSTRUCTIONS_SWAP1ST2": "Puoi posizionare un pezzo per continuare come giocatore 2, oppure passare per scambiare i colori e giocare come giocatore 1."
+      "SWAP22_PARTIAL": "Completa la mossa per continuare come giocatore 2, oppure posiziona un'altra pedina sul tabellone per permettere all'avversario di decidere se giocare come giocatore 1 o giocatore 2."
     },
     "frames": {
       "INITIAL_INSTRUCTIONS": "Fai clic su una casella vuota per aggiungere una pedina al tabellone."
+    },
+    "fractured": {
+      "BAD_MOVE": "Questa mossa non è valida.",
+      "BAD_PLACE": "Non puoi piazzare una pietra lì.",
+      "CLOSED": "Quella regione non è aperta al piazzamento.",
+      "INITIAL_INSTRUCTIONS": "Piazza una pietra in una regione aperta o seleziona una delle tue pietre da muovere.",
+      "NO_RESERVE": "Non hai più pietre in riserva.",
+      "PARTIAL_MOVE": "Seleziona una destinazione di una dimensione più grande."
     },
     "forms": {
       "INITIAL_INSTRUCTIONS": "Fai clic su una pedina amica.",
@@ -5717,7 +5770,6 @@
       "TOO_EARLY_FOR_REFILL": "Invia la tua richiesta di riempimento prima di effettuare le mosse rimanenti.",
       "TOO_LATE_FOR_BLOCKED": "Non sei considerato bloccato se hai già mosso in questo turno.",
       "TOO_LATE_FOR_REFILL": "Non è necessario forzare un riempimento della riserva di pesca dopo la tua terza mossa. Si riempirà automaticamente dopo l'invio.",
-      "VALID_REFILL": "Invia la tua mossa per attivare il riempimento. Gli altri giocatori passeranno automaticamente e ti rimarranno {{count}} mosse nel tuo turno parziale (oltre all'opzione di passare).",
       "VALID_REFILL_one": "Invia la tua mossa per attivare il riempimento. Gli avversari passeranno automaticamente e ti rimarrà una mossa nel tuo turno parziale (oltre all'opzione di passare).",
       "VALID_REFILL_other": "Invia la tua mossa per attivare il riempimento. Gli avversari passeranno automaticamente e ti rimarranno {{count}} mosse nel tuo turno parziale (oltre all'opzione di passare)."
     },
@@ -5789,6 +5841,13 @@
       "NO_PIECES_normal": "Non ti sono rimasti pezzi normali.",
       "PARTIAL": "Seleziona la casella in cui desideri piazzare il pezzo henge.",
       "LABEL_NEUTRAL": "Pezzi neutrali di {{player}}"
+    },
+    "guerrilla": {
+      "INITIAL_INSTRUCTIONS_p1": "Seleziona dove piazzare il tuo primo insorto.",
+      "INITIAL_INSTRUCTIONS_p2": "Seleziona un pezzo da muovere.",
+      "PARTIAL_p1second": "Seleziona dove piazzare il tuo secondo insorto.",
+      "PARTIAL_p2move": "Seleziona una destinazione.",
+      "PARTIAL_p2cap": "Seleziona una destinazione. Devi continuare a catturare."
     },
     "gyges": {
       "BAD_DISPLACE": "Non puoi spiazzare un pezzo in {{cell}}. La casella di destinazione deve essere vuota e non può trovarsi oltre la riga giocabile dell'avversario.",
@@ -6178,7 +6237,6 @@
       "MOVE_MUST_STACK": "Le pile in movimento devono terminare il loro movimento sopra un'altra pila.",
       "PARTIAL_FULLSTACK": "Sembra che tu voglia muovere un'intera pila. Indica la destinazione.",
       "PARTIAL_SUBSTACK_one": "Sembra che tu voglia muovere il pezzo in cima dalla pila. Indica la destinazione.",
-      "PARTIAL_SUBSTACK_many": "",
       "PARTIAL_SUBSTACK_other": "Sembra che tu voglia muovere i {{count}} pezzi superiori dalla pila. Indica la destinazione."
     },
     "monkey": {
@@ -6324,8 +6382,8 @@
       "INITIAL_INSTRUCTIONS_PLACE": "Seleziona una casella vuota per piazzare un lago.",
       "INVALID_MOVES": "Questa sequenza di mosse {{moves}} non è valida.",
       "OPTIONAL_CONTINUE": "Sei atterrato su un pezzo del tuo avversario. Se desideri continuare la tua mossa, seleziona un'altra destinazione su cui saltare, altrimenti invia la mossa.",
-      "SELECT_TO": "Seleziona una destinazione verso cui camminare o saltare.",
       "SELECT_MORE_SUPERKO": "Devi continuare a saltare perché fermandoti qui ripeteresti uno stato precedente del tabellone.",
+      "SELECT_TO": "Seleziona una destinazione verso cui camminare o saltare.",
       "SUPERKO": "Superko: non puoi ripetere uno stato precedente del tabellone."
     },
     "onyx": {
@@ -6399,7 +6457,6 @@
       "SELECT_CELL_both": "Hai cambiato terra di confine *e* creato una connessione. Seleziona una delle caselle evidenziate per convertirla nel tuo colore, oppure seleziona la tua casella di partenza per attivare il cambio di connessione. Non puoi fare entrambe le cose.",
       "SELECT_CELL_meeting": "Si è verificato un incontro! Seleziona qualsiasi casella da convertire nel tuo colore.",
       "SELECT_CELL_orientation_one": "Riorientamento: Seleziona un'altra casella evidenziata da abbandonare.",
-      "SELECT_CELL_orientation_many": "",
       "SELECT_CELL_orientation_other": "Riorientamento: Seleziona altre {{count}} caselle evidenziate da abbandonare.",
       "TOO_MANY_CELLS": "Hai selezionato più caselle di quelle consentite dagli effetti collaterali attivati.",
       "WITHIN_BL": "Le caselle rivendicate/convertite a seguito di un cambio di terra di confine devono trovarsi all'interno della terra di confine di destinazione."
@@ -6472,11 +6529,6 @@
       "INITIAL_INSTRUCTIONS": "Piazza una pietra su una casella vuota. Se si effettua una cattura a tenaglia, il giocatore catturante riposiziona la pietra catturata in qualsiasi casella vuota a sua scelta. Se questo piazzamento causa la cattura di una propria pietra, lo stesso giocatore riposiziona la propria pietra catturata e risolve ogni nuova cattura, se ce n'è una. Questo processo continua finché un riposizionamento non causa nuove catture. Se non è rimasto alcun piazzamento disponibile, la pietra catturata viene rimossa dal gioco.",
       "OCCUPIED_CELL": "Sono validi solo i piazzamenti su caselle vuote.",
       "REUSED_CELL": "Questa casella {{cell}} è già stata usata in questo turno. Una volta che lo stato di una casella cambia da occupata a vuota, o viceversa, non può cambiare di nuovo nello stesso turno.",
-      "SELF_STONES_TO_PLACE": "Ci sono ancora {{own}} pietra/e amica/he catturata/e da riposizionare.",
-      "OPP_STONES_TO_PLACE": "Ci sono ancora {{opp}} pietra/e avversaria/e catturata/e da riposizionare.",
-      "SELF_OPP_STONES_TO_PLACE": "Ci sono ancora {{own}} pietra/e amica/he catturata/e, e poi {{opp}} pietra/e avversaria/e, da riposizionare.",
-      "OPP_SELF_STONES_TO_PLACE": "Ci sono ancora {{opp}} pietra/e avversaria/e catturata/e, e poi {{own}} pietra/e amica/he, da riposizionare.",
-      "INITIAL_INSTRUCTIONS_ORIGINAL": "Piazza una pietra su una casella vuota. Se viene effettuata una cattura a tenaglia, la pietra catturata capovolge il proprio colore. Questo capovolgimento potrebbe causare capovolgimenti successivi, avviando una reazione a catena finché la plancia non si stabilizza.",
       "SELF_STONES_TO_PLACE_one": "C'è ancora una pietra amica catturata da riposizionare.",
       "SELF_STONES_TO_PLACE_other": "Ci sono ancora {{count}} pietre amiche catturate da riposizionare.",
       "OPP_STONES_TO_PLACE_one": "C'è ancora una pietra avversaria catturata da riposizionare.",
@@ -6488,7 +6540,8 @@
       "OPP_SELF_STONES_TO_PLACE_own_one_opp_one": "C'è ancora una pietra avversaria catturata, e poi una pietra amica, da riposizionare.",
       "OPP_SELF_STONES_TO_PLACE_own_one_opp_other": "C'è ancora una pietra avversaria catturata, e poi {{own}} pietre amiche, da riposizionare.",
       "OPP_SELF_STONES_TO_PLACE_own_other_opp_one": "Ci sono ancora {{opp}} pietre avversarie catturate, e poi una pietra amica, da riposizionare.",
-      "OPP_SELF_STONES_TO_PLACE_own_other_opp_other": "Ci sono ancora {{opp}} pietre avversarie catturate, e poi {{own}} pietre amiche, da riposizionare."
+      "OPP_SELF_STONES_TO_PLACE_own_other_opp_other": "Ci sono ancora {{opp}} pietre avversarie catturate, e poi {{own}} pietre amiche, da riposizionare.",
+      "INITIAL_INSTRUCTIONS_ORIGINAL": "Piazza una pietra su una casella vuota. Se viene effettuata una cattura a tenaglia, la pietra catturata capovolge il proprio colore. Questo capovolgimento potrebbe causare capovolgimenti successivi, avviando una reazione a catena finché la plancia non si stabilizza."
     },
     "pippinzip": {
       "INITIAL_INSTRUCTIONS": "Questa è la fase di asta. Piazza da uno a tre pezzi su caselle vuote per migliorare la posizione 'Zip', oppure premi 'Passa' per terminare l'asta ed essere 'Zip'.",
@@ -6724,7 +6777,6 @@
       "INITIAL_INSTRUCTIONS_SOOSYRV3": "Posiziona {{count}} quinti tentativi. Puoi passare per scambiare i colori.",
       "INITIAL_INSTRUCTIONS_SOOSYRV3_PASSED": "Posiziona {{count}} quinti tentativi.",
       "INITIAL_INSTRUCTIONS_SOOSYRV4_one": "Scegli l'unico quinto tentativo, quindi posiziona la sesta pietra.",
-      "INITIAL_INSTRUCTIONS_SOOSYRV4_many": "",
       "INITIAL_INSTRUCTIONS_SOOSYRV4_other": "Scegli uno dei {{count}} quinti tentativi, quindi posiziona la sesta pietra.",
       "INITIAL_INSTRUCTIONS_TARAGUCHI1": "Posiziona la prima pietra al centro del tavoliere.",
       "INITIAL_INSTRUCTIONS_TARAGUCHI2": "Posiziona la seconda pietra nel quadrato 3x3 centrale, oppure passa per scambiare i colori. Le simmetrie non sono consentite.",
@@ -6741,10 +6793,8 @@
       "INITIAL_INSTRUCTIONS_YAMAGUCHI2": "Seleziona un'intersezione per posizionare la quarta pietra, oppure passa per scambiare i colori.",
       "INITIAL_INSTRUCTIONS_YAMAGUCHI2_PASSED": "Seleziona un'intersezione per posizionare la quarta pietra.",
       "INITIAL_INSTRUCTIONS_YAMAGUCHI3_one": "Posiziona 1 quinto tentativo.",
-      "INITIAL_INSTRUCTIONS_YAMAGUCHI3_many": "",
       "INITIAL_INSTRUCTIONS_YAMAGUCHI3_other": "Posiziona {{count}} quinti tentativi.",
       "INITIAL_INSTRUCTIONS_YAMAGUCHI4_one": "Scegli l'unico quinto tentativo, quindi posiziona la sesta pietra.",
-      "INITIAL_INSTRUCTIONS_YAMAGUCHI4_many": "",
       "INITIAL_INSTRUCTIONS_YAMAGUCHI4_other": "Scegli uno dei {{count}} quinti tentativi, quindi posiziona la sesta pietra.",
       "RENJU_OPENING_EXCESS": "Puoi posizionare solo 3 pietre.",
       "RENJU_OPENING1_INCORRECT": "La prima pietra deve essere al centro del tavoliere.",
@@ -6761,13 +6811,10 @@
       "SOOSYRV2_TENTATIVE": "Dichiara il numero di quinti tentativi.",
       "SOOSYRV2_TENTATIVE_COUNT_EXCEED": "Il numero di quinti tentativi deve essere al massimo 8.",
       "SOOSYRV3_EXCESS_one": "Puoi posizionare solo 1 quinto tentativo.",
-      "SOOSYRV3_EXCESS_many": "",
       "SOOSYRV3_EXCESS_other": "Puoi posizionare solo {{count}} quinti tentativi.",
       "SOOSYRV3_MORE_one": "Posiziona ancora 1 quinto tentativo.",
-      "SOOSYRV3_MORE_many": "",
       "SOOSYRV3_MORE_other": "Posiziona altri {{count}} quinti tentativi.",
       "SOOSYRV4_CHOOSE_one": "Devi scegliere l'unico quinto tentativo.",
-      "SOOSYRV4_CHOOSE_many": "",
       "SOOSYRV4_CHOOSE_other": "Devi scegliere uno dei {{count}} quinti tentativi.",
       "SOOSYRV4_EXCESS": "Ci sono troppi elementi nella tua mossa.",
       "SOOSYRV42": "Seleziona un'intersezione per posizionare la sesta pietra.",
@@ -6780,7 +6827,6 @@
       "TARAGUCHI_RESTRICTION5_EXCESS": "Puoi posizionare solo 10 quinti tentativi.",
       "TARAGUCHI_RESTRICTION5_INSIDE": "Invia la mossa, oppure continua a posizionare altri 9 quinti tentativi.",
       "TARAGUCHI_RESTRICTION5_MORE_one": "Posiziona ancora un quinto tentativo.",
-      "TARAGUCHI_RESTRICTION5_MORE_many": "",
       "TARAGUCHI_RESTRICTION5_MORE_other": "Posiziona altri {{count}} quinti tentativi.",
       "TARAGUCHI6_CHOOSE": "Devi scegliere uno dei 10 quinti tentativi.",
       "TARAGUCHI6_EXCESS": "Ci sono troppi elementi nella tua mossa.",
@@ -6790,13 +6836,10 @@
       "YAMAGUCHI1_TENTATIVE": "Dichiara il numero di quinti tentativi.",
       "YAMAGUCHI1_TENTATIVE_COUNT_EXCEED": "Il numero di quinti tentativi deve essere al massimo 12.",
       "YAMAGUCHI3_EXCESS_one": "Puoi posizionare solo 1 quinto tentativo.",
-      "YAMAGUCHI3_EXCESS_many": "",
       "YAMAGUCHI3_EXCESS_other": "Puoi posizionare solo {{count}} quinti tentativi.",
       "YAMAGUCHI3_MORE_one": "Posiziona ancora un quinto tentativo.",
-      "YAMAGUCHI3_MORE_many": "",
       "YAMAGUCHI3_MORE_other": "Posiziona altri {{count}} quinti tentativi.",
       "YAMAGUCHI4_CHOOSE_one": "Devi scegliere l'unico quinto tentativo.",
-      "YAMAGUCHI4_CHOOSE_many": "",
       "YAMAGUCHI4_CHOOSE_other": "Devi scegliere uno dei {{count}} quinti tentativi.",
       "YAMAGUCHI4_EXCESS": "Ci sono troppi elementi nella tua mossa.",
       "YAMAGUCHI42": "Seleziona un'intersezione per posizionare la sesta pietra."
@@ -7089,11 +7132,9 @@
       "INITIAL_INSTRUCTIONS_rest": "Clicca su una pila per muoverla. Il numero di pezzi che si muovono dipende dalla distanza percorsa.",
       "INVALID_SUBSTACK": "La notazione della sottopila non è corretta. Stai cercando di muovere più pezzi di quanti siano disponibili. Se cerchi di muovere l'intera pila, non specificare l'altezza della pila.",
       "PARTIAL_PLACE_FIRST_one": "Puoi piazzare ancora un pezzo.",
-      "PARTIAL_PLACE_FIRST_many": "",
       "PARTIAL_PLACE_FIRST_other": "Puoi piazzare altri {{count}} pezzi.",
       "PARTIAL_PLACE_FIRST_MORE": "Devi piazzare almeno un altro pezzo",
       "PARTIAL_PLACE_SECOND_one": "Devi piazzare ancora un pezzo.",
-      "PARTIAL_PLACE_SECOND_many": "",
       "PARTIAL_PLACE_SECOND_other": "Devi piazzare altri {{count}} pezzi.",
       "STRAIGHT_ONLY": "I pezzi possono muoversi solo in linea retta.",
       "TOO_MANY": "Hai piazzato troppi pezzi. Per favore ripristina la mossa e riprova.",
@@ -7114,10 +7155,8 @@
       "INVALID_PLACEMENT": "Impossibile interpretare la notazione della mossa: {{move}}.",
       "NORMALISE": "La mossa deve essere normalizzata. Prova {{normalised}}.",
       "PLACE_MORE_one": "Piazza un altro pezzo su uno spazio con il numero {{num}}.",
-      "PLACE_MORE_many": "",
       "PLACE_MORE_other": "Piazza altri {{count}} pezzi su spazi con il numero {{num}}.",
       "TOO_MANY_one": "Puoi piazzare solo 1 pezzo.",
-      "TOO_MANY_many": "",
       "TOO_MANY_other": "Puoi piazzare solo {{count}} pezzi."
     },
     "streetcar": {
@@ -7139,6 +7178,11 @@
     "strings": {
       "INITIAL_INSTRUCTIONS": "Seleziona una corda da tirare.",
       "NOSTRING": "Non c'è alcuna corda con il numero {{string}}."
+    },
+    "scribe": {
+      "INITIAL_INSTRUCTIONS": "Seleziona una casella vuota da segnare.",
+      "OCCUPIED": "{{where}} è già occupata.",
+      "WRONG_MINI": "Devi giocare nella mini-griglia indicata dalla tua ultima mossa."
     },
     "swarm": {
       "INSTRUCTIONS": "Piazza una pedina amica su una casella vuota o fai clic su una pila nemica circondata da abbastanza pedine singole amiche.",
@@ -7212,7 +7256,6 @@
       "NO_MATCHING_DIE": "Non hai ottenuto un {{die}} con il dado.",
       "NOT_HOME": "Puoi piazzare pezzi o muovere pile solo sulla tua riga di partenza.",
       "PARTIAL_MOVE_one": "Continua a muoverti finché non hai rilasciato tutti i pezzi dalla pila. Ti rimane {{count}} pedina da rilasciare.",
-      "PARTIAL_MOVE_many": "",
       "PARTIAL_MOVE_other": "Continua a muoverti finché non hai rilasciato tutti i pezzi dalla pila. Ti rimangono {{count}} pedine da rilasciare.",
       "PARTIAL_PLACE": "Scegli la casella in cui desideri piazzare la pedina.",
       "PARTIAL_TAKE": "Fai clic sulla pila sotto il tuo controllo da cui desideri rimuovere una pedina.",
@@ -7426,14 +7469,12 @@
       "DUPLICATE": "Hai già piazzato un tiratore su {{where}}.",
       "INITIAL_INSTRUCTIONS": "Seleziona un tiratore da muovere o seleziona una casella per piazzare il tuo pezzo.",
       "INITIAL_INSTRUCTIONS_PLACE_one": "Piazza ancora {{count}} tiratore in uno spazio vuoto del tabellone, quindi piazza una pedina del tuo colore sul tabellone.",
-      "INITIAL_INSTRUCTIONS_PLACE_many": "",
       "INITIAL_INSTRUCTIONS_PLACE_other": "Posiziona altri {{count}} tiratori su spazi vuoti del tavoliere, poi posiziona un pezzo del tuo colore sul tavoliere.",
       "INVALID_PLACEMENT": "Impossibile interpretare la notazione della mossa: {{move}}.",
       "MOVE_NON_SHOOTER": "Puoi muovere solo i tiratori liberi.",
       "NO_MOVELIST": "Lista mosse non disponibile durante la fase di posizionamento. Clicca sul tavoliere per posizionare i tiratori.",
       "PLACE_PIECE": "Posiziona un pezzo del tuo colore sul tavoliere.",
       "PLACE_SHOOTER_one": "Posiziona ancora {{count}} tiratore sul tavoliere, poi posiziona un pezzo del tuo colore sul tavoliere.",
-      "PLACE_SHOOTER_many": "",
       "PLACE_SHOOTER_other": "Posiziona altri {{count}} tiratori sul tavoliere, poi posiziona un pezzo del tuo colore sul tavoliere.",
       "POTENTIAL_BLOCK": "Fin qui tutto bene. Indica lo spazio in cui vuoi posizionare il tuo pezzo.",
       "POTENTIAL_MOVE": "Fin qui tutto bene. Indica lo spazio in cui vuoi muovere il tiratore.",
@@ -7442,7 +7483,6 @@
       "STATIONARY_LOS": "Non c'è linea di vista per posizionare su {{where}}.",
       "STRAIGHTLINE": "Puoi muoverti e posizionare solo in linea retta.",
       "TOO_MANY_SHOOTERS_one": "Puoi posizionare solo {{count}} tiratore.",
-      "TOO_MANY_SHOOTERS_many": "",
       "TOO_MANY_SHOOTERS_other": "Puoi posizionare solo {{count}} tiratori."
     },
     "verge": {
@@ -7451,7 +7491,6 @@
     },
     "viruswar": {
       "INITIAL_INSTRUCTIONS_one": "Posiziona un pezzo adiacente al gruppo di pezzi amici, inclusa la tua base di partenza. Il pezzo può essere un virus attivo (cerchio) o un muro difensivo (quadrato). Posiziona un virus su una casella vuota oppure sostituisci un virus nemico con un muro difensivo amico.",
-      "INITIAL_INSTRUCTIONS_many": "",
       "INITIAL_INSTRUCTIONS_other": "Posiziona {{count}} pezzi, ciascuno adiacente al gruppo di pezzi amici, inclusa la tua base di partenza. I pezzi possono essere virus attivi (cerchi) o muri difensivi (quadrati). Posiziona un virus su una casella vuota oppure sostituisci un virus nemico con un muro difensivo amico.",
       "CANNOT_GROW": "La casella {{where}} non può ricevere un nuovo virus/muro! Deve essere posizionato su una casella vuota o su un virus attivo e deve essere adiacente al gruppo della base di partenza."
     },
@@ -7515,10 +7554,8 @@
       "BOARD_FULL": "Il tavoliere è pieno.",
       "INITIAL_INSTRUCTIONS_choose": "Usa i pulsanti per scegliere se giocare per primo o per secondo.",
       "INITIAL_INSTRUCTIONS_play_one": "Puoi posizionare fino a {{count}} pezzo in questo turno. Clicca sul pezzo a lato del tavoliere e poi su una casella vuota per posizionarlo. Oppure clicca semplicemente su una casella vuota per posizionare uno dei tuoi pezzi.",
-      "INITIAL_INSTRUCTIONS_play_many": "",
       "INITIAL_INSTRUCTIONS_play_other": "Puoi posizionare fino a {{count}} pezzi in questo turno. Clicca sul pezzo a lato del tavoliere e poi su una casella vuota per posizionarlo. Oppure clicca semplicemente su una casella vuota per posizionare uno dei tuoi pezzi.",
       "INITIAL_INSTRUCTIONS_setup_one": "Crea un blocco (due pezzi adiacenti) per ciascun colore in qualsiasi punto del tavoliere (rimane {{count}} pezzo).",
-      "INITIAL_INSTRUCTIONS_setup_many": "",
       "INITIAL_INSTRUCTIONS_setup_other": "Crea un blocco (due pezzi adiacenti) per ciascun colore in qualsiasi punto del tavoliere (rimangono {{count}} pezzi).",
       "INVALID_COLOUR": "Il colore richiesto ({{colour}}) non è valido.",
       "MUST_CHOOSE": "Devi scegliere con quale parte giocare. Clicca sul pulsante appropriato, oppure digita 'swap' per giocare per primo o 'pass' per giocare per secondo.",
@@ -7526,10 +7563,8 @@
       "SETUP_CHUNKS": "I pezzi che posizioni devono essere adiacenti l'uno all'altro (un blocco per giocatore).",
       "SETUP_TOOMANY": "Puoi posizionare solo un blocco da due pezzi per ciascun giocatore.",
       "TOO_MANY_one": "Puoi posizionare solo fino a {{count}} pezzo in questo turno.",
-      "TOO_MANY_many": "",
       "TOO_MANY_other": "Puoi posizionare solo fino a {{count}} pezzi in questo turno.",
       "VALID_BUT_one": "Valido fin qui. Puoi fermarti o posizionare ancora {{count}} pezzo.",
-      "VALID_BUT_many": "",
       "VALID_BUT_other": "Valido fin qui. Puoi fermarti o posizionare altri {{count}} pezzi."
     },
     "wyke": {
@@ -7586,115 +7621,6 @@
       "MUST_MOVE": "Se hai una mossa disponibile, non puoi passare il turno.",
       "NONCAPTURES_KINGS": "Le mosse di non-cattura possono muovere solo di uno spazio alla volta.",
       "PARTIAL": "Seleziona una destinazione."
-    },
-    "_general": {
-      "CAPTURE4MOVE": "Hai segnalato una cattura, ma non c'è alcuna pedina su {{where}}.",
-      "DEFAULT_HANDLER": "Questo è il gestore predefinito e non dovrebbe mai essere chiamato direttamente. Per favore, informa l'amministratore.",
-      "FAILSAFE": "La mossa '{{move}}' ha superato la convalida ma non sembra essere legale. Per favore, informa l'amministratore.",
-      "GENERIC": "Si è verificato un errore generico durante l'elaborazione del clic:\nMessaggio di errore: {{emessage}}\nStack: {{estack}}\nMossa: {{move}}, Riga: {{row}}, Colonna: {{col}}, Indice: {{index}}",
-      "INCOMPLETE_MOVE": "Questa mossa sembra incompleta.",
-      "INVALID_MOVE": "'{{move}}' non sembra essere una mossa valida.",
-      "INVALID_NUMBER": "Impossibile elaborare {{num}} come numero.",
-      "INVALIDCELL": "Impossibile trovare la casella '{{cell}}' sul tabellone.",
-      "MOVE4CAPTURE": "Hai segnalato una mossa normale, ma {{where}} è occupata.",
-      "NEED_DESTINATION": "Fornisci la destinazione.",
-      "NO_MOVES": "La pedina su {{where}} non ha mosse legali.",
-      "NOLOS": "Non c'è linea di vista tra {{from}} e {{to}}.",
-      "NONEXISTENT": "Tentativo di interagire con una pedina o pila che non esiste su {{where}}.",
-      "NOPIECES": "Non hai pedine da piazzare.",
-      "NOT_ORTH": "Le caselle {{from}} e {{to}} non sono ortogonali tra loro.",
-      "NOT_ORTH_OR_DIAG": "Le caselle {{from}} e {{to}} non sono ortogonali o diagonali tra loro.",
-      "OBSTRUCTED": "C'è un'ostruzione su {{obstruction}} tra {{from}} e {{to}}.",
-      "OCCUPIED": "La casella {{where}} è già occupata.",
-      "SAME_FROM_TO": "Le caselle di partenza e di arrivo devono essere diverse.",
-      "SELECT_OWN": "Seleziona una delle tue pedine.",
-      "SELFCAPTURE": "Non puoi catturare le tue stesse pedine.",
-      "UNCONTROLLED": "Non puoi muovere pedine che non controlli.",
-      "UNKNOWN_CLICK": "Non so come interpretare questo clic.",
-      "VALID_MOVE": "Sembra una mossa valida."
-    },
-    "_inarow": {
-      "CANNOT_PASS": "Non puoi passare per le prime due mosse dopo la fase di apertura.",
-      "CANNOT_SWAP": "Non puoi scambiare i colori in questo momento.",
-      "CENTRE_OFFCENTRE": "Devi piazzare la tua prima pietra al centro del tabellone nell'apertura normale.",
-      "DUPLICATE": "Hai già piazzato una pedina su {{where}}.",
-      "EXCESS": "Hai piazzato troppe pietre. Puoi piazzare solo 1 pietra.",
-      "INITIAL_INSTRUCTIONS": "Seleziona un'intersezione per piazzare una pietra.",
-      "INITIAL_INSTRUCTIONS_CENTRE1": "Piazza la tua prima pietra al centro del tabellone.",
-      "INITIAL_INSTRUCTIONS_LONGPRO1": "Piazza la tua prima pietra al centro del tabellone.",
-      "INITIAL_INSTRUCTIONS_LONGPRO3": "Seleziona un'intersezione per piazzare una pietra. La tua mossa deve distare almeno quattro intersezioni dal centro del tabellone.",
-      "INITIAL_INSTRUCTIONS_PRO1": "Piazza la tua prima pietra al centro del tabellone.",
-      "INITIAL_INSTRUCTIONS_PRO3": "Seleziona un'intersezione per piazzare una pietra. La tua mossa deve distare almeno tre intersezioni dal centro del tabellone.",
-      "INITIAL_INSTRUCTIONS_SWAP1ST1": "Seleziona un'intersezione per piazzare una pietra. L'avversario ha l'opzione di scambiare i colori al turno successivo.",
-      "INITIAL_INSTRUCTIONS_SWAP1ST2": "Puoi piazzare una pietra per continuare come giocatore 2, oppure passare per scambiare i colori e giocare come giocatore 1.",
-      "INITIAL_INSTRUCTIONS_SWAP5": "Seleziona un'intersezione per piazzare una pietra, oppure passa per scambiare i colori.",
-      "INITIAL_INSTRUCTIONS_SWAP21": "Piazza tre pietre sul tabellone",
-      "INITIAL_INSTRUCTIONS_SWAP22": "Puoi fare una delle seguenti cose: (1) piazzare una singola pietra per continuare come giocatore 2, (2) passare per scambiare i colori e giocare come giocatore 1, oppure (3) piazzare altre due pietre e permettere all'avversario di decidere se giocare come giocatore 1 o giocatore 2.",
-      "INITIAL_INSTRUCTIONS_SWAP23": "Puoi piazzare una pietra per continuare come giocatore 1, oppure passare per scambiare i colori e giocare come giocatore 2.",
-      "INVALID_PLACEMENT": "Impossibile interpretare la notazione della mossa: {{move}}.",
-      "LONGPRO_RESTRICTION_FIRST": "Devi piazzare la tua prima pietra al centro del tabellone nell'apertura long pro.",
-      "LONGPRO_RESTRICTION_THIRD": "La tua terza pietra deve distare almeno quattro intersezioni dal centro del tabellone nell'apertura long pro.",
-      "NO_MOVELIST": "Elenco mosse non disponibile durante questa mossa di apertura. Clicca sul tabellone per piazzare le pietre.",
-      "NORMALISE": "La mossa deve essere normalizzata. Prova {{normalised}}.",
-      "PRO_RESTRICTION_FIRST": "Devi piazzare la tua prima pietra al centro del tabellone nell'apertura pro.",
-      "PRO_RESTRICTION_THIRD": "La tua terza pietra deve distare almeno tre intersezioni dal centro del tabellone nell'apertura pro.",
-      "SWAP2_CAPTURE": "Questo posizionamento comporterà una cattura.",
-      "SWAP21_EXCESS": "Hai piazzato troppe pietre. Puoi piazzare solo 3 pietre.",
-      "SWAP21_one": "Piazza ancora 1 pietra sul tabellone.",
-      "SWAP21_many": "",
-      "SWAP21_other": "Piazza ancora {{count}} pietre sul tabellone.",
-      "SWAP22_EXCESS": "Hai piazzato troppe pietre. Puoi piazzare solo 2 pietre.",
-      "SWAP22_PARTIAL": "Completa la mossa per continuare come giocatore 2, oppure piazza un'altra pietra sul tabellone per permettere all'avversario di decidere se giocare come giocatore 1 o giocatore 2."
-    },
-    "estate": {
-      "EXCEEDS": "Non puoi spendere più di {{budget}} punti per la tua mossa. Hai provato a spendere {{cost}} punti.",
-      "INITIAL_INSTRUCTIONS_one": "Fai clic su una casella vuota per piazzare uno dei tuoi pezzi o fai clic su uno dei tuoi pezzi piazzati per rimuoverlo. Puoi piazzare pezzi per un valore di {{count}} altro punto.",
-      "INITIAL_INSTRUCTIONS_many": "",
-      "INITIAL_INSTRUCTIONS_other": "Fai clic su una casella vuota per piazzare uno dei tuoi pezzi o fai clic su uno dei tuoi pezzi piazzati per rimuoverlo. Puoi piazzare pezzi per un valore di altri {{count}} punti.",
-      "INITIAL_INSTRUCTIONS_zero": "Non hai più punti da spendere. Completa la tua mossa o fai clic su uno dei tuoi pezzi piazzati per posizionarlo altrove."
-    },
-    "guerrilla": {
-      "INITIAL_INSTRUCTIONS_p1": "Seleziona dove piazzare il tuo primo insorto.",
-      "INITIAL_INSTRUCTIONS_p2": "Seleziona un pezzo da muovere.",
-      "PARTIAL_p1second": "Seleziona dove piazzare il tuo secondo insorto.",
-      "PARTIAL_p2move": "Seleziona una destinazione.",
-      "PARTIAL_p2cap": "Seleziona una destinazione. Devi continuare a catturare."
-    },
-    "scribe": {
-      "INITIAL_INSTRUCTIONS": "Seleziona una casella vuota da segnare.",
-      "OCCUPIED": "{{where}} è già occupata.",
-      "WRONG_MINI": "Devi giocare nella mini-griglia indicata dalla tua ultima mossa."
-    },
-    "circleOfLife": {
-      "INSTRUCTIONS": "Posiziona un tuo pezzo su un esagono vuoto. Non è consentito creare una specie di dimensioni superiori a quattro pezzi.",
-      "GROUP_TOO_LARGE": "Questo posizionamento renderebbe una specie più grande di quattro pezzi!"
-    },
-    "fractured": {
-      "BAD_MOVE": "Questa mossa non è valida.",
-      "BAD_PLACE": "Non puoi piazzare una pietra lì.",
-      "CLOSED": "Quella regione non è aperta al piazzamento.",
-      "INITIAL_INSTRUCTIONS": "Piazza una pietra in una regione aperta o seleziona una delle tue pietre da muovere.",
-      "NO_RESERVE": "Non hai più pietre in riserva.",
-      "PARTIAL_MOVE": "Seleziona una destinazione di una dimensione più grande."
-    },
-    "baghchal": {
-      "INITIAL_INSTRUCTIONS_TIGER_MOVEMENT": "Seleziona una tigre da muovere.",
-      "INITIAL_INSTRUCTIONS_GOAT_MOVEMENT": "Seleziona una capra da muovere.",
-      "INITIAL_INSTRUCTIONS_GOAT_PLACEMENT": "Posiziona una capra su un'intersezione vuota.",
-      "VALID_PARTIAL": "Seleziona un'intersezione vuota verso cui muoverti. Sia le capre che le tigri possono muoversi verso qualsiasi intersezione adiacente (collegata) libera. Le tigri possono saltare una capra raggiungendo l'intersezione libera dietro di essa, ma i salti possono avvenire solo in avanti, in diagonale in avanti o lateralmente, mai all'indietro o in diagonale all'indietro."
-    },
-    "bridges": {
-      "INITIAL_INSTRUCTIONS_FIRST_TURN": "Posiziona una nuova base su qualsiasi spazio vuoto eccetto il centro.",
-      "INITIAL_INSTRUCTIONS": "Esegui due mosse: posiziona una nuova base su uno spazio vuoto non adiacente a una base esistente o al centro, oppure collega due delle tue basi con un ponte."
-    },
-    "elOso": {
-      "INITIAL_INSTRUCTIONS": "Seleziona una delle tue pile da muovere. Fai clic due volte su una pila per passare.",
-      "VALID_PARTIAL": "Seleziona una destinazione. Fai clic di nuovo sulla stessa pila per passare.",
-      "VALID_PARTIAL_TOP": "Seleziona una destinazione o fai clic sulla barra del Cielo in alto. Fai clic di nuovo sulla stessa pila per passare.",
-      "SELECT_STACK_FOR_PASS": "Seleziona prima una pila, poi fai clic di nuovo su di essa per passare.",
-      "INVALID_DIRECTION": "Le pile possono muoversi in diagonale o lateralmente, ma non direttamente in avanti o all'indietro.",
-      "TOO_FAR": "Questa pila può muoversi al massimo di {{dist}} caselle.",
-      "SKY_FROM_TOP": "Solo le pile nella riga superiore possono muoversi nel Cielo."
     }
   },
   "INITIAL_UNDO": "Non puoi annullare la posizione iniziale di partenza del gioco.",

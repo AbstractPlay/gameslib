@@ -9,11 +9,10 @@
     "add_one": "{{player}} hat 1 Stein zu {{where}} hinzugefügt.",
     "add_other": "{{player}} hat {{count}} Steine zu {{where}} hinzugefügt.",
     "logger": "Der Baum bei {{where}} ist um eine Stufe gewachsen.",
-    "magnate": "{{player}} hat {{count}} Marker zu der eigenen Anwesenskarte {{where}} hinzugefügt.",
-    "nonum": "{{player}} hat einen Stein zu {{where}} hinzugefügt.",
-    "twixt": "{{player}} hat eine Verbindung bei {{where}} hinzugefügt.",
     "magnate_one": "{{player}} hat einen Marker auf der Urkundenkarte {{where}} hinzugefügt.",
-    "magnate_other": "{{player}} hat {{count}} Marker auf der Urkundenkarte {{where}} hinzugefügt."
+    "magnate_other": "{{player}} hat {{count}} Marker auf der Urkundenkarte {{where}} hinzugefügt.",
+    "nonum": "{{player}} hat einen Stein zu {{where}} hinzugefügt.",
+    "twixt": "{{player}} hat eine Verbindung bei {{where}} hinzugefügt."
   },
   "AFFILIATE": {
     "cifra_lt": "{{player}} hat sich entschieden, die hellen Steine aus der obersten Reihe zu spielen.",
@@ -31,16 +30,15 @@
     "arimaa": "Diese Stellung kam bereits vor. Weitere Wiederholungen dieser Stellung sind verboten.",
     "biscuit": "Die folgenden Karten befanden sich auf den gegnerischen Händen: {{cards}}.",
     "deckfish": "{{player}} konnte nicht ziehen und muss ab jetzt passen.",
-    "frogger": "{{player}} hat sich entschieden, den Nachziehstapel aufzufüllen. Andere Spieler müssen passen, damit er seine verbleibenden {{moves}} Zug/Züge machen kann.",
-    "quincunx": "Spieler {{playerNum}} hatte folgende Karten auf der Hand: {{cards}}.",
-    "stawvs": "{{player}} konnte nicht ziehen und muss ab jetzt passen. Seine Steine verbleiben auf folgenden Pyramiden: {{pyramids}}.",
-    "scribe_super": "{{player}}s Superformation: {{formation}}.",
     "frogger_one": "{{player}} hat entschieden, den Nachziehpool aufzufüllen. Die anderen Spieler müssen passen, damit er seinen {{count}} verbleibenden Zug ausführen kann.",
     "frogger_other": "{{player}} hat entschieden, den Nachziehpool aufzufüllen. Die anderen Spieler müssen passen, damit er seine {{count}} verbleibenden Züge ausführen kann.",
+    "quincunx": "Spieler {{playerNum}} hatte folgende Karten auf der Hand: {{cards}}.",
     "elOso": {
       "playerSetup": "Spieleraufbau",
       "bearSetup": "Bärenaufbau"
-    }
+    },
+    "scribe_super": "{{player}}s Superformation: {{formation}}.",
+    "stawvs": "{{player}} konnte nicht ziehen und muss ab jetzt passen. Seine Steine verbleiben auf folgenden Pyramiden: {{pyramids}}."
   },
   "BEAROFF": {
     "canoe": "{{player}} hat einen Würfel vom Spielbrett ausgetragen.",
@@ -73,11 +71,14 @@
     "crosshairs": "{{player}} hat ein Flugzeug auf {{where}} abgeschossen.",
     "dameo_king": "{{player}} hat eine Dame auf {{where}} geschlagen.",
     "dameo_soldier": "{{player}} hat einen Soldaten auf {{where}} geschlagen.",
+    "circleOfLife_one": "{{player}} hat die gegnerische Spezies {{prey}} ({{count}} Stein) auf {{where}} verschlungen.",
+    "circleOfLife_other": "{{player}} hat die gegnerische Spezies {{prey}} ({{count}} Steine) auf {{where}} verschlungen.",
     "entrapment_opponent": "{{player}} hat den gegnerischen Streuner auf {{where}} geschlagen.",
     "entrapment_self": "{{player}} hat den eigenen Streuner auf {{where}} geschlagen.",
     "fightopia_1": "{{player}} hat einen Bauern auf {{where}} geschlagen.",
     "fightopia_2": "{{player}} hat einen Panzer auf {{where}} geschlagen.",
-    "forms": "Der Zug von {{player}} eliminiert {{count}} Stein(e).",
+    "forms_one": "Der Zug von {{player}} eliminiert einen Stein.",
+    "forms_other": "Der Zug von {{player}} eliminiert {{count}} Steine.",
     "furl": "{{player}} hat einen Stapel der Größe {{size}} auf {{where}} geschlagen.",
     "gess_one": "{{count}} Stein wird vom Spielbrett entfernt.",
     "gess_other": "{{count}} Steine werden vom Spielbrett entfernt.",
@@ -85,6 +86,8 @@
     "group_other": "{{player}} hat {{count}} Steine auf folgenden Feldern geschlagen: {{cells}}.",
     "hens_chick": "{{player}} hat ein Küken auf {{where}} geschlagen.",
     "hens_hen": "{{player}} hat eine Henne auf {{where}} geschlagen.",
+    "elOso_one": "{{player}} hat einen Stein bei {{where}} vernichtet.",
+    "elOso_other": "{{player}} hat {{count}} Steine bei {{where}} vernichtet.",
     "hexentafl_king": "Der König wurde auf {{where}} geschlagen.",
     "lasca_officer": "{{player}} hat einen Offizier auf {{where}} geschlagen.",
     "lasca_soldier": "{{player}} hat einen Soldaten auf {{where}} geschlagen.",
@@ -126,11 +129,11 @@
     "spook_lateral_opponent_other": "{{player}} hat {{count}} gegnerische Kugeln durch Spooky auf derselben Ebene auf {{where}} geschlagen.",
     "spook_lateral_self_one": "{{player}} hat 1 eigene Kugel durch Spooky auf derselben Ebene auf {{where}} geschlagen.",
     "spook_lateral_self_other": "{{player}} hat {{count}} eigene Kugeln durch Spooky auf derselben Ebene auf {{where}} geschlagen.",
-    "spora": "{{player}} hat {{count}} Stein(e) umzingelt und geschlagen: {{group}}.",
+    "spora_one": "{{player}} hat einen Stein umzingelt und geschlagen: {{group}}.",
+    "spora_other": "{{player}} hat {{count}} Steine umzingelt und geschlagen: {{group}}.",
     "stawvs": "{{player}} hat {{what}} auf {{where}} geschlagen.",
     "swarm": "{{player}} hat den Stapel auf {{where}} mit {{count}} einzelnen Steinen geschlagen.",
     "tafl": "{{player}} hat einen Stein auf {{where}} geschlagen.",
-    "terrace_one": "",
     "terrace_other": "{{player}} hat einen Stein der Größe {{what}} auf {{where}} geschlagen.",
     "terrace_self": "{{player}} hat den eigenen Stein der Größe {{what}} auf {{where}} geschlagen.",
     "tricouleur": "{{count}} Steine haben die Farbe gewechselt.",
@@ -149,15 +152,7 @@
       "single_E": "{{player}} hat einen Erdstein auf {{where}} aufgenommen.",
       "single_M": "{{player}} hat einen Mondstein auf {{where}} aufgenommen.",
       "single_S": "{{player}} hat einen Sonnenstein auf {{where}} aufgenommen."
-    },
-    "circleOfLife_one": "{{player}} hat die gegnerische Spezies {{prey}} ({{count}} Stein) auf {{where}} verschlungen.",
-    "circleOfLife_other": "{{player}} hat die gegnerische Spezies {{prey}} ({{count}} Steine) auf {{where}} verschlungen.",
-    "forms_one": "Der Zug von {{player}} eliminiert einen Stein.",
-    "forms_other": "Der Zug von {{player}} eliminiert {{count}} Steine.",
-    "elOso_one": "{{player}} hat einen Stein bei {{where}} vernichtet.",
-    "elOso_other": "{{player}} hat {{count}} Steine bei {{where}} vernichtet.",
-    "spora_one": "{{player}} hat einen Stein umzingelt und geschlagen: {{group}}.",
-    "spora_other": "{{player}} hat {{count}} Steine umzingelt und geschlagen: {{group}}."
+    }
   },
   "CLAIM": {
     "buku_singletons_one": "{{player}} hat den verbleibenden 1 Stein in der eigenen Farbe beansprucht.",
@@ -181,10 +176,10 @@
     "majorities_D": "{{player}} hat die absteigende Richtung beansprucht.",
     "meg": "{{player}} hat die Kugel genommen und auf {{where}} platziert.",
     "penguin": "Der Pinguin auf {{where}} hat die Kugel beansprucht!",
-    "toguz": "Mulde {{pit}} wurde zu einer Tuz.",
-    "veletas": "Schütze auf {{where}} ist gefangen und wird von {{who}} beansprucht.",
     "scribe_mini": "{{player}} hat das Minifeld {{where}} mit {{formation}} gewonnen.",
-    "scribe_mini_none": "{{player}} hat das Minifeld {{where}} im Tie-Break gewonnen (keine Formationen gewertet)."
+    "scribe_mini_none": "{{player}} hat das Minifeld {{where}} im Tie-Break gewonnen (keine Formationen gewertet).",
+    "toguz": "Mulde {{pit}} wurde zu einer Tuz.",
+    "veletas": "Schütze auf {{where}} ist gefangen und wird von {{who}} beansprucht."
   },
   "CONNECT": {
     "pontedd": "{{player}} hat eine Brücke zwischen {{left}} und {{right}} platziert."
@@ -232,12 +227,12 @@
     "emu_excuse": "{{player}} spielt Die Entschuldigung, um den Vogel mit der niedrigsten Punktzahl ({{delta}} Punkte) auszugleichen.",
     "emu_score": "Der Vogel von {{player}} mit folgenden Rängen brachte {{delta}} Punkte: {{ranks}}.",
     "quincunx": {
+      "basic_zero": "Gegen {{card}} hat es keine Punkte erzielt.",
       "basic_one": "Gegen {{card}} erzielte dies 1 Punkt.",
       "basic_other": "Gegen {{card}} erzielte dies {{delta}} Punkte.",
+      "penalty_zero": "Spieler {{playerNum}} hat keine Punkte durch Karten auf der Hand verloren.",
       "penalty_one": "Spieler {{playerNum}} hat durch Karten auf der Hand {{count}} Punkt verloren.",
-      "penalty_other": "Spieler {{playerNum}} hat durch Karten auf der Hand {{count}} Punkte verloren.",
-      "basic_zero": "Gegen {{card}} hat es keine Punkte erzielt.",
-      "penalty_zero": "Spieler {{playerNum}} hat keine Punkte durch Karten auf der Hand verloren."
+      "penalty_other": "Spieler {{playerNum}} hat durch Karten auf der Hand {{count}} Punkte verloren."
     },
     "btt_opponent_gain_one": "Ein Gegner hat {{delta}} Punkt erhalten.",
     "btt_opponent_gain_other": "Ein Gegner hat {{delta}} Punkte erhalten."
@@ -284,8 +279,6 @@
     "repetition_one": "Das Spiel ist zu Ende, da dieselbe Stellung durch denselben Spieler aufgetreten ist.",
     "repetition_other": "Das Spiel ist zu Ende, da dieselbe Stellung {{count}}-mal durch denselben Spieler aufgetreten ist.",
     "repetition_positional_one": "Das Spiel ist zu Ende, da dieselbe Stellung aufgetreten ist.",
-    "repetition_positional_other": "",
-    "repetition_positionas_one": "",
     "repetition_positionas_other": "Das Spiel ist zu Ende, da dieselbe Stellung {{count}}-mal aufgetreten ist.",
     "stalemate": "Das Spiel ist zu Ende, da einem Spieler die Züge ausgegangen sind.",
     "stalemate_all": "Das Spiel ist zu Ende, da allen Spielern die Züge ausgegangen sind.",
@@ -349,6 +342,8 @@
     "camelot_castle": "{{player}} hat einen Rochade-Zug mit einem Mann von {{from}} nach {{to}} gemacht.",
     "carnac_tip": "{{player}} hat den Megalithen bei {{from}} in Richtung {{how}} auf {{to}} gekippt.",
     "druid_walk": "{{player}} hat den eigenen Druiden von {{from}} nach {{to}} gezogen.",
+    "elOso_one": "{{player}} hat einen Stein von {{from}} nach {{to}} bewegt.",
+    "elOso_other": "{{player}} hat {{count}} Steine von {{from}} nach {{to}} bewegt.",
     "camelot_plain_knight": "{{player}} hat einen einfachen Zug mit einem Springer von {{from}} nach {{to}} gemacht.",
     "camelot_plain": "{{player}} hat einen einfachen Zug mit einem Mann von {{from}} nach {{to}} gemacht.",
     "camelot_canter_knight": "{{player}} hat einen Galoppsprung mit einem Springer von {{from}} nach {{to}} gemacht.",
@@ -405,9 +400,7 @@
     "veletas": "{{player}} hat den Schützen von {{from}} nach {{to}} bewegt.",
     "volo_one": "{{player}} hat einen Schwarm von 1 Vogel von {{from}} in Richtung {{how}} bewegt.",
     "volo_other": "{{player}} hat einen Schwarm von {{count}} Vögeln von {{from}} in Richtung {{how}} bewegt.",
-    "complete_what": "{{player}} hat einen {{what}} von {{from}} nach {{to}} gezogen.",
-    "elOso_one": "{{player}} hat einen Stein von {{from}} nach {{to}} bewegt.",
-    "elOso_other": "{{player}} hat {{count}} Steine von {{from}} nach {{to}} bewegt."
+    "complete_what": "{{player}} hat einen {{what}} von {{from}} nach {{to}} gezogen."
   },
   "NULLIFY_CLAIM": "Türme dürfen im letzten Zug des Spiels nicht beansprucht werden. Der Anspruch bei {{where}} wurde annulliert.",
   "ORIENT": {
@@ -423,6 +416,7 @@
     "carnac": "{{player}} hat darauf verzichtet, den Megalithen umzukippen.",
     "canoe": "{{player}} hat gepasst.",
     "druid": "{{player}} hat gepasst.",
+    "elOso": "{{player}} hat gepasst.",
     "frogger": "{{player}} hat gepasst ({{why}}).",
     "linage": "{{player}} passt.",
     "pie": "{{player}} hat das Komi-Angebot angenommen und spielt als Zweiter weiter.",
@@ -430,8 +424,7 @@
     "pippinzip": "{{player}} entscheidet sich zu passen und wird Zip",
     "simple": "{{player}} hat gepasst.",
     "tablero": "{{player}} hat ausgesetzt!",
-    "tiebreaker": "{{player}} hat gepasst und den Gleichstand entschieden.",
-    "elOso": "{{player}} hat gepasst."
+    "tiebreaker": "{{player}} hat gepasst und den Gleichstand entschieden."
   },
   "PIE": {
     "deckfish": "{{player}} zieht als Zweites.",
@@ -473,12 +466,16 @@
     "boxes_claim2": "{{player}} fügt eine Linie bei {{where}} hinzu und erobert {{box1}} und {{box2}}.",
     "decktet": "{{player}} hat \"{{what}}\" bei {{where}} platziert.",
     "deckfish": "{{player}} hat einen Stein bei {{where}} platziert.",
+    "estate_one": "{{player}} hat einen Spielstein auf {{where}} platziert ({{what}} Punkt).",
+    "estate_other": "{{player}} hat einen Spielstein auf {{where}} platziert ({{what}} Punkte).",
     "emu_discard": "{{player}} hat die Karte {{what}} abgelegt.",
     "emu_existing": "{{player}} nutzte {{what}}, um Vogel #{{where}} wachsen zu lassen.",
     "emu_new": "{{player}} hat mit dem {{what}} einen neuen Vogel ausgebrütet.",
     "entrapment_barrier": "{{player}} hat eine Barriere bei {{where}} platziert.",
     "entrapment_roamer": "{{player}} hat einen Wanderer bei {{where}} platziert.",
     "evenatodds": "{{player}} hat den Domino-Stein {{what}} bei {{where}} platziert.",
+    "elOso_one": "{{player}} hat einen Stein bei {{where}} platziert.",
+    "elOso_other": "{{player}} hat {{count}} Steine bei {{where}} platziert.",
     "epam": "{{player}} hat einen Stein bei {{where}} platziert.",
     "gorogo_henge": "{{player}} hat ein Henge-Teil bei {{where}} platziert.",
     "gorogo_piece": "{{player}} hat einen Stein bei {{where}} platziert.",
@@ -518,7 +515,8 @@
     "spire_neutral": "{{player}} hat eine neutrale Kugel bei {{where}} platziert.",
     "spire_player": "{{player}} hat eine Kugel in eigener Farbe bei {{where}} platziert.",
     "spooky": "Spooky ist bei {{where}} auf das Spielbrett gekommen.",
-    "spora": "{{player}} hat {{size}} Stein(e) zum Stapel bei {{where}} hinzugefügt.",
+    "spora_one": "{{player}} hat einen Stein zum Stapel bei {{where}} hinzugefügt.",
+    "spora_other": "{{player}} hat {{size}} Steine zum Stapel bei {{where}} hinzugefügt.",
     "stawvs": "{{player}} hat einen Stein bei {{where}} platziert.",
     "strands_initial": "{{player}} hat einen Stein auf einem Feld mit der Aufschrift 2 bei {{where}} platziert.",
     "strands_one": "{{player}} hat einen Stein bei {{where}} platziert.",
@@ -558,13 +556,7 @@
     "streetcar_place_41": "Ein WEISSES Gebäude der Höhe 1 wurde bei {{where}} platziert.",
     "streetcar_place_42": "Ein WEISSES Gebäude der Höhe 2 wurde bei {{where}} platziert.",
     "streetcar_place_43": "Ein WEISSES Gebäude der Höhe 3 wurde bei {{where}} platziert.",
-    "streetcar_place_default": "Ein Gebäude wurde bei {{where}} platziert.",
-    "estate_one": "{{player}} hat einen Spielstein auf {{where}} platziert ({{what}} Punkt).",
-    "estate_other": "{{player}} hat einen Spielstein auf {{where}} platziert ({{what}} Punkte).",
-    "elOso_one": "{{player}} hat einen Stein bei {{where}} platziert.",
-    "elOso_other": "{{player}} hat {{count}} Steine bei {{where}} platziert.",
-    "spora_one": "{{player}} hat einen Stein zum Stapel bei {{where}} hinzugefügt.",
-    "spora_other": "{{player}} hat {{size}} Steine zum Stapel bei {{where}} hinzugefügt."
+    "streetcar_place_default": "Ein Gebäude wurde bei {{where}} platziert."
   },
   "PLAYSECOND": "{{player}} hat gewählt, als Zweites zu spielen.",
   "PROMOTE": {
@@ -612,18 +604,18 @@
   },
   "RESET": {
     "biscuit": "Eine neue Runde hat begonnen.",
-    "queensland": "Das zweite Spiel hat begonnen.",
-    "guerrilla": "{{player}} hat die erste Partie gewonnen. Die zweite Partie hat begonnen, mit vertauschten Rollen."
+    "guerrilla": "{{player}} hat die erste Partie gewonnen. Die zweite Partie hat begonnen, mit vertauschten Rollen.",
+    "queensland": "Das zweite Spiel hat begonnen."
   },
   "RESIGN": "{{player}} hat aufgegeben.",
   "ROLL": {
     "magnate": "{{who}} hat {{values}} gewürfelt.",
     "magnate_eight": "{{who}} hat {{values}} gewürfelt.",
     "canoe": "{{player}} hat gewürfelt: {{values}}.",
-    "single": "Der Würfel wurde gewürfelt: {{values}}.",
-    "tablero": "Die Würfel wurden gewürfelt: {{values}}.",
     "elOso": "Der Bär hat gewürfelt: {{dice}}.",
-    "elOso_player": "{{player}} hat gewürfelt: {{dice}}."
+    "elOso_player": "{{player}} hat gewürfelt: {{dice}}.",
+    "single": "Der Würfel wurde gewürfelt: {{values}}.",
+    "tablero": "Die Würfel wurden gewürfelt: {{values}}."
   },
   "SACRIFICE": {
     "moonsquad": "{{player}} hat ein Erz ({{ore}}) geopfert, um eigene Trupps zu bewegen.",

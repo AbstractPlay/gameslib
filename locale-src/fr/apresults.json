@@ -19,10 +19,6 @@
     "src": "The tree at {{where}} grew one stage.",
     "out": "L'arbre en {{where}} a grandi d'un stade."
   },
-  "ADD.magnate": {
-    "src": "{{player}} added {{count}} token(s) to their deeded card {{where}}.",
-    "out": "{{player}} a ajouté {{count}} jeton(s) à sa carte sous titre de propriété en {{where}}."
-  },
   "ADD.magnate_one": {
     "src": "{{player}} added one token to their deeded card {{where}}.",
     "out": "{{player}} a ajouté un jeton sur sa carte de propriété {{where}}."
@@ -98,10 +94,6 @@
   "ANNOUNCE.elOso.playerSetup": {
     "src": "Player setup",
     "out": "Mise en place du joueur"
-  },
-  "ANNOUNCE.frogger": {
-    "src": "{{player}} chose to refill the draw pool.  Other players must pass so he can take his {{moves}} remaining move(s).",
-    "out": "{{player}} a choisi de remplir la pioche. Les autres joueurs doivent passer pour qu'il puisse effectuer ses {{moves}} coup(s) restant(s)."
   },
   "ANNOUNCE.frogger_one": {
     "src": "{{player}} chose to refill the draw pool. Other players must pass so he can take his {{count}} remaining move.",
@@ -258,10 +250,6 @@
   "CAPTURE.fightopia_2": {
     "src": "{{player}} captured a tank at {{where}}.",
     "out": "{{player}} a capturé un char en {{where}}."
-  },
-  "CAPTURE.forms": {
-    "src": "{{player}} move eliminates {{count}} piece(s).",
-    "out": "Le coup de {{player}} élimine {{count}} pièce(s)."
   },
   "CAPTURE.forms_one": {
     "src": "{{player}} move eliminates one piece.",
@@ -454,10 +442,6 @@
   "CAPTURE.spook_lateral_self_other": {
     "src": "{{player}} has {{count}} of their own balls captured by Spooky on the same level at {{where}}.",
     "out": "{{player}} a capturé {{count}} de ses propres billes par Spooky au même niveau en {{where}}."
-  },
-  "CAPTURE.spora": {
-    "src": "{{player}} surrounded and captured {{count}} piece(s): {{group}}.",
-    "out": "{{player}} a encerclé et capturé {{count}} pièce(s) : {{group}}."
   },
   "CAPTURE.spora_one": {
     "src": "{{player}} surrounded and captured one piece: {{group}}.",
@@ -1802,10 +1786,6 @@
   "PLACE.spooky": {
     "src": "Spooky has entered the board at {{where}}.",
     "out": "Spooky a rejoint le plateau en {{where}}."
-  },
-  "PLACE.spora": {
-    "src": "{{player}} added {{size}} piece(s) to stack at {{where}}.",
-    "out": "{{player}} a ajouté {{size}} pièce(s) à la pile en {{where}}."
   },
   "PLACE.spora_one": {
     "src": "{{player}} added one piece to stack at {{where}}.",

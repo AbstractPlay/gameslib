@@ -1,6 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 import fs from "fs";
 import path from "path";
+import { pruneManagedLocale, pruneToSourceShape } from "./locale-prune.mjs";
 
 const ES_US_DIALECT = [
   "Use Latin American Spanish as spoken in the United States (es-US).",
@@ -471,19 +472,8 @@ function writeDebugSuccess({ langCode, fileName, chunkIndex, rawText }) {
   console.log(`[${langCode}] ${fileName}: Debug response saved to ${rawPath}`);
 }
 
-function buildCleanTargetData(sourceData, targetData) {
-  const cleanTargetData = {};
-  for (const key of Object.keys(sourceData)) {
-    if (isTrackingKey(key)) continue;
-    if (targetData[key] !== undefined) {
-      cleanTargetData[key] = targetData[key];
-    }
-  }
-  return cleanTargetData;
-}
-
 function writeTargetFile(targetPath, repoRoot, langCode, fileName, sourceData, targetData, srcTracking) {
-  const cleanTargetData = buildCleanTargetData(sourceData, targetData);
+  const cleanTargetData = pruneToSourceShape(sourceData, targetData) ?? {};
   fs.writeFileSync(targetPath, JSON.stringify(cleanTargetData, null, 2) + "\n");
   writeSrcTracking(repoRoot, langCode, fileName, srcTracking);
 }
@@ -623,6 +613,21 @@ async function translateFile(ai, sourcePath) {
     }
 
     let srcTracking = loadSrcTracking(repoRoot, lang.code, fileName, targetData);
+    const pruneResult = pruneManagedLocale({ sourceData, targetData, srcTracking });
+    targetData = pruneResult.targetData;
+    srcTracking = pruneResult.srcTracking;
+    if (pruneResult.changed) {
+      writeTargetFile(targetPath, repoRoot, lang.code, fileName, sourceData, targetData, srcTracking);
+      const parts = [];
+      if (pruneResult.removedLeaves > 0) {
+        parts.push(`${pruneResult.removedLeaves} stale translation leaf${pruneResult.removedLeaves === 1 ? "" : "ves"}`);
+      }
+      if (pruneResult.removedTracking > 0) {
+        parts.push(`${pruneResult.removedTracking} locale-src entr${pruneResult.removedTracking === 1 ? "y" : "ies"}`);
+      }
+      console.log(`[${lang.code}] ${fileName}: Pruned ${parts.join(", ")}.`);
+    }
+
     const diffLeaves = getDiffLeaves(sourceData, targetData, srcTracking);
     const leavesToTranslate = Object.keys(diffLeaves);
 

@@ -1459,22 +1459,6 @@
     "src": "Show controlled areas",
     "out": "Afficher les zones contrôlées"
   },
-  "displays.guerrilla.#length.description": {
-    "src": "One game only; no role swap or match scoring.",
-    "out": "Une seule partie ; pas d'inversion des rôles ni de score de match."
-  },
-  "displays.guerrilla.#length.name": {
-    "src": "Single game",
-    "out": "Partie unique"
-  },
-  "displays.guerrilla.match.description": {
-    "src": "Play two games with roles reversed. When both players win as insurgents, lower stone count (`66 − remaining`) wins; equal scores draw.",
-    "out": "Jouez deux parties avec inversion des rôles. Lorsque les deux joueurs gagnent en tant qu'insurgés, le nombre de pierres le plus bas (`66 − restantes`) l'emporte ; des scores égaux entraînent une égalité."
-  },
-  "displays.guerrilla.match.name": {
-    "src": "Two-game match",
-    "out": "Match en deux parties"
-  },
   "displays.gyve.vertex-style.description": {
     "src": "Display the board using vertices instead of hexes.",
     "out": "Afficher le plateau en utilisant les sommets au lieu des hexagones."
@@ -4050,10 +4034,6 @@
   "validation.blastradius.INVALID": {
     "src": "You may not place pieces within radiation exclusion zones, and you must always create the smallest stack legally possible.",
     "out": "Vous ne pouvez pas placer de pièces dans les zones d'exclusion des radiations, et vous devez toujours créer la plus petite pile légalement possible."
-  },
-  "validation.blockade.BLOCKS_GOAL": {
-    "src": "Cannot place wall at {{wall}} because it blocks the goal(s) for one of the pieces on the board.",
-    "out": "Impossible de placer un mur en {{wall}} car cela bloque la ou les cibles d'une des pièces sur le plateau."
   },
   "validation.blockade.BLOCKS_GOAL_one": {
     "src": "Cannot place wall at {{wall}} because it blocks the goal for one of the pieces on the board.",
@@ -6663,10 +6643,6 @@
     "src": "There is no need to force a refill of the draw pool after your third move. It will refill automatically after you submit.",
     "out": "Il n'est pas nécessaire de forcer un remplissage de la réserve après votre troisième coup. Elle se remplira automatiquement après validation."
   },
-  "validation.frogger.VALID_REFILL": {
-    "src": "Please submit your move to trigger the refill. The other player(s) will pass automatically, and you will have {{count}} moves remaining in your partial turn (as well as the option to pass).",
-    "out": "Veuillez valider votre coup pour déclencher le remplissage. Le ou les autres joueurs passeront automatiquement, et il vous restera {{count}} coups dans votre tour partiel (ainsi que l'option de passer)."
-  },
   "validation.frogger.VALID_REFILL_one": {
     "src": "Please submit your move to trigger the refill. Opponents will pass automatically, and you will have one move remaining in your partial turn (as well as the option to pass).",
     "out": "Veuillez valider votre coup pour déclencher le remplissage. Les adversaires passeront automatiquement, et il vous restera un coup dans votre tour partiel (ainsi que la possibilité de passer)."
@@ -9023,10 +8999,6 @@
     "src": "Only placements on empty cells are valid.",
     "out": "Seuls les placements sur des cases vides sont valides."
   },
-  "validation.pinch.OPP_SELF_STONES_TO_PLACE": {
-    "src": "There are still {{opp}} opponent captured stone(s), and then {{own}} friendly stone(s), to relocate.",
-    "out": "Il reste encore {{opp}} pierre(s) capturée(s) adverse(s), puis {{own}} pierre(s) alliée(s), à replacer."
-  },
   "validation.pinch.OPP_SELF_STONES_TO_PLACE_own_one_opp_one": {
     "src": "There is still one opponent captured stone, and then one friendly stone, to relocate.",
     "out": "Il reste une pierre adverse capturée, puis une pierre alliée, à replacer."
@@ -9043,10 +9015,6 @@
     "src": "There are still {{opp}} opponent captured stones, and then {{own}} friendly stones, to relocate.",
     "out": "Il reste {{opp}} pierres adverses capturées, puis {{own}} pierres alliées, à replacer."
   },
-  "validation.pinch.OPP_STONES_TO_PLACE": {
-    "src": "There are still {{opp}} opponent captured stone(s) to relocate.",
-    "out": "Il reste encore {{opp}} pierre(s) capturée(s) adverse(s) à replacer."
-  },
   "validation.pinch.OPP_STONES_TO_PLACE_one": {
     "src": "There is still one opponent captured stone to relocate.",
     "out": "Il reste une pierre adverse capturée à replacer."
@@ -9058,10 +9026,6 @@
   "validation.pinch.REUSED_CELL": {
     "src": "This cell {{cell}} was already used in this turn. Once the status of a cell changes from occupied to unoccupied, or vice versa, it cannot change again that same turn.",
     "out": "Cette case {{cell}} a déjà été utilisée pendant ce tour. Une fois que le statut d'une case passe d'occupée à vide, ou vice versa, il ne peut plus changer pendant le même tour."
-  },
-  "validation.pinch.SELF_OPP_STONES_TO_PLACE": {
-    "src": "There are still {{own}} friendly captured stone(s), and then {{opp}} adversary stone(s), to relocate.",
-    "out": "Il reste encore {{own}} pierre(s) capturée(s) alliée(s), puis {{opp}} pierre(s) adverse(s), à replacer."
   },
   "validation.pinch.SELF_OPP_STONES_TO_PLACE_own_one_opp_one": {
     "src": "There is still one friendly captured stone, and then one adversary stone, to relocate.",
@@ -9078,10 +9042,6 @@
   "validation.pinch.SELF_OPP_STONES_TO_PLACE_own_other_opp_other": {
     "src": "There are still {{own}} friendly captured stones, and then {{opp}} adversary stones, to relocate.",
     "out": "Il reste {{own}} pierres alliées capturées, puis {{opp}} pierres adverses, à replacer."
-  },
-  "validation.pinch.SELF_STONES_TO_PLACE": {
-    "src": "There are still {{own}} friendly captured stone(s) to relocate.",
-    "out": "Il reste encore {{own}} pierre(s) capturée(s) alliée(s) à replacer."
   },
   "validation.pinch.SELF_STONES_TO_PLACE_one": {
     "src": "There is still one friendly captured stone to relocate.",

@@ -63,6 +63,9 @@ jobs:
             AP_DOCS_ROOT: _ap_docs
           run: npm run docs:check
         # --- MACHINE TRANSLATION PIPELINE START ---
+        - name: Prune stale managed locale keys
+          run: node scripts/locale-prune.mjs locales/en/apgames.json locales/en/apresults.json
+
         - name: Run Machine Translation on Locales
           env:
             GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}

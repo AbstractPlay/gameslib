@@ -1728,6 +1728,16 @@
                 "name": "19x19 board"
             }
         },
+        "guerrilla": {
+            "#length": {
+                "description": "One game only; no role swap or match scoring.",
+                "name": "Single game"
+            },
+            "match": {
+                "description": "Play two games with roles reversed. When both players win as insurgents, lower stone count (`66 − remaining`) wins; equal scores draw.",
+                "name": "Two-game match"
+            }
+        },
         "gyve": {
             "#board": {
                 "name": "Hexhex 8 board (169 spaces)"
@@ -4033,16 +4043,6 @@
             "hide-piece-highlight": {
                 "description": "Don't highlight the 9x9 pieces.",
                 "name": "Hide 9x9 piece highlight"
-            }
-        },
-        "guerrilla": {
-            "#length": {
-                "description": "One game only; no role swap or match scoring.",
-                "name": "Single game"
-            },
-            "match": {
-                "description": "Play two games with roles reversed. When both players win as insurgents, lower stone count (`66 − remaining`) wins; equal scores draw.",
-                "name": "Two-game match"
             }
         },
         "go": {

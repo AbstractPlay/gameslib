@@ -121,7 +121,7 @@
         },
         "connecticut": {
             "size-15": {
-                "name": "Tabulo (15×15)"
+                "name": "15×15 tabulo"
             },
             "#board": {
                 "name": "Defaŭlta tabulo 19×19"
@@ -278,7 +278,7 @@
         },
         "wyke": {
             "6x6": {
-                "name": "Pli granda tabulo: 6×6"
+                "name": "6×6 tabulo"
             },
             "#size": {
                 "name": "Tabulo 4×4"
@@ -297,7 +297,7 @@
         },
         "scaffold": {
             "size-25": {
-                "name": "Tabulo (25×25)"
+                "name": "25×25 tabulo"
             },
             "#board": {
                 "name": "Defaŭlta tabulo 19×19"
@@ -354,7 +354,7 @@
         },
         "bounce": {
             "10": {
-                "name": "Pli granda tabulo: 10×10"
+                "name": "10×10 tabulo"
             },
             "#board": {
                 "name": "Tabulo 8×8"
@@ -410,7 +410,7 @@
         },
         "zola": {
             "8x8": {
-                "name": "Pli granda tabulo: 8×8"
+                "name": "8×8 tabulo"
             },
             "#board": {
                 "name": "Tabulo 6×6"

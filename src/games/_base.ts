@@ -844,11 +844,14 @@ export abstract class GameBase  {
             : Object.fromEntries(
                 Object.entries(textParams).filter((entry): entry is [string, string | number] => entry[1] !== undefined),
             );
-        return {
+        const label: StructuredRenderLabel = {
             textKey,
             actor: { kind: "seat", seat },
-            textParams: cleaned,
         };
+        if (cleaned !== undefined && Object.keys(cleaned).length > 0) {
+            label.textParams = cleaned;
+        }
+        return label;
     }
 
     protected pushSeatChatLine(

@@ -12,13 +12,13 @@ Types live in [`src/common/render-label.ts`](/gameslib/src/common/render-label.t
 4. Each structured label becomes a plain `string` with the correct username and locale.
 
 ```typescript
-// In render()
-label: this.seatAreaLabel(p, "apgames:validation.mygame.LABEL_STASH"),
+// Streetcar — taken housing limits (canonical pilot)
+label: this.seatAreaLabel(player, "apgames:validation.streetcar.TAKEN_LABEL"),
 ```
 
 ```json
-// locales/en/apgames.json — validation.mygame
-"LABEL_STASH": "{{player}}'s stash"
+// locales/en/apgames.json — validation.streetcar
+"TAKEN_LABEL": "{{player}}'s housing limits"
 ```
 
 ## Data model
@@ -59,6 +59,8 @@ areas.push({
     pieces: [...],
 });
 ```
+
+Reference: [Streetcar](https://play.abstractplay.com/games/streetcar) (`TAKEN_LABEL` on taken housing limits).
 
 ### Neutral labels
 
@@ -140,12 +142,18 @@ Abstract Play front walks the full rep via `resolveRenderLabels()` — game auth
 | Rely on front `replaceNames()` regex | structured label with `actor.seat` |
 | Bake `players[0].name` into the render rep | seat + key only |
 
+## Canonical examples
+
+| Pattern | Reference game | Source |
+|---------|---------------|--------|
+| Seat-owned `pieces` area | [Streetcar](https://play.abstractplay.com/games/streetcar) | [`streetcar.ts`](/gameslib/src/games/streetcar.ts) — `TAKEN_LABEL` |
+
 ## Testing
 
 - Assert `render()` emits a structured object with expected `textKey` and `actor.seat` (not a resolved string).
 - Optionally call `resolveRenderLabel(label, names, mockT)` in unit tests to verify wording.
-- Play through the game in Lab / GameMove once wired in front.
+- Play through [Streetcar](https://play.abstractplay.com/games/streetcar) in Lab / GameMove to confirm area titles show usernames.
 
 ## Status
 
-Phase 1 ships the types, formatter, and schema. Game migrations and canonical source examples (streetcar, volcano, entropy) land in later phases. Until migration completes, legacy string labels still work via the `replaceNames()` shim in front.
+Streetcar is the first migrated game (Phase 2). Remaining games still use legacy string labels or `i18next.t()` in `render()`; front `replaceNames()` remains as a shim until migration completes.

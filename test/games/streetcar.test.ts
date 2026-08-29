@@ -212,3 +212,34 @@ describe("Streetcar Suburb", () => {
         expect(result.complete).eq(-1);
     });
 });
+
+describe("Structured render labels", () => {
+    it("emits seatAreaLabel on taken pieces areas", () => {
+        const g = new StreetcarGame();
+        g.taken = [[1, 2], []];
+        const rep = g.render();
+        expect(rep.areas).to.have.length(1);
+        const area = rep.areas![0]!;
+        expect(area.type).to.equal("pieces");
+        expect(area.label).to.deep.equal({
+            textKey: "apgames:validation.streetcar.TAKEN_LABEL",
+            actor: { kind: "seat", seat: 1 },
+        });
+        expect(area.ownerMark).to.equal(1);
+    });
+
+    it("emits separate labels per seat when both players have taken pieces", () => {
+        const g = new StreetcarGame();
+        g.taken = [[1], [2]];
+        const rep = g.render();
+        expect(rep.areas).to.have.length(2);
+        expect(rep.areas![0]!.label).to.deep.equal({
+            textKey: "apgames:validation.streetcar.TAKEN_LABEL",
+            actor: { kind: "seat", seat: 1 },
+        });
+        expect(rep.areas![1]!.label).to.deep.equal({
+            textKey: "apgames:validation.streetcar.TAKEN_LABEL",
+            actor: { kind: "seat", seat: 2 },
+        });
+    });
+});

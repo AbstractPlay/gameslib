@@ -1149,7 +1149,7 @@ export class StreetcarGame extends GameBase {
                 rep.areas.push({
                     type: "pieces",
                     pieces: [...taken] as [string, ...string[]],
-                    label: i18next.t("apgames:validation.streetcar.TAKEN_LABEL", {playerNum: player}) || "local",
+                    label: this.seatAreaLabel(player, "apgames:validation.streetcar.TAKEN_LABEL"),
                     background: {
                         func: "custom",
                         default: "#cede86",

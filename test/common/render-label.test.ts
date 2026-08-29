@@ -76,4 +76,14 @@ describe("render-label", () => {
             `${params?.player} (${params?.side})`;
         expect(resolveRenderLabel(label, ["Alice"], t)).to.equal("Alice (north)");
     });
+
+    it("resolveRenderLabel handles streetcar TAKEN_LABEL shape", () => {
+        const label: StructuredRenderLabel = {
+            textKey: "apgames:validation.streetcar.TAKEN_LABEL",
+            actor: { kind: "seat", seat: 2 },
+        };
+        const t = (key: string, params?: Record<string, unknown>) =>
+            key.endsWith("TAKEN_LABEL") ? `${params?.player}'s housing limits` : key;
+        expect(resolveRenderLabel(label, ["Alice", "Bob"], t)).to.equal("Bob's housing limits");
+    });
 });

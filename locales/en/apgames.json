@@ -4370,6 +4370,7 @@
         "SYSTEM_NOSHIP": "Could not find the ship {{ship}} in the {{system}} system."
     },
     "status": {
+        "_player": "{{player}}",
         "amazons": {
             "ISOLATEDQUEENS": "The queens are now isolated",
             "TERRITORY": "Territory"
@@ -6041,11 +6042,11 @@
             "INVALID_SUIT": "The selected suit does not appear on the card.",
             "INVALID_TRADE": "You do not have three tokens of that suit available to trade.",
             "LABEL_BOTH": "{{player}}'s hand and suit tokens",
-            "LABEL_COLLECTION": "Player {{playerNum}}'s suit tokens",
+            "LABEL_COLLECTION": "{{player}}'s suit tokens",
             "LABEL_DECK": "Cards in deck",
             "LABEL_DISCARDS_NONE": "Discard pile (no shuffles left)",
             "LABEL_DISCARDS_ONE": "Discard pile (one shuffle left)",
-            "LABEL_HAND": "Player {{playerNum}}'s hand",
+            "LABEL_HAND": "{{player}}'s hand",
             "LABEL_STACKED_DECK": "{{player}}'s deck",
             "LABEL_WARNING": "This is the last round!",
             "MALFORMED_TRADE": "You must choose three tokens of the same suit to begin a trade.",

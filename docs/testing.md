@@ -72,6 +72,10 @@ After collector changes, refresh local goldens (gitignored fixtures): `npm run r
 
 See [Structured move log](/gameslib/structured-chat-log/) for simultaneous indexing, aggregated frames, and anti-patterns.
 
+## Render labels
+
+When a game emits player-named area or board titles, assert `render()` returns a structured object (`textKey`, `actor.seat`) — not a resolved username string. Optionally verify wording with `resolveRenderLabel(label, names, mockT)`. See [Structured render labels](/gameslib/structured-render-labels/#testing).
+
 ## Example games
 
 - **[Complica tests](https://github.com/AbstractPlay/gameslib/tree/develop/test/games)** — grep `complica` under `test/games/`

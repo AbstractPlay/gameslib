@@ -406,6 +406,13 @@ export class ComplicaGame extends GameBase {
             pieces: pstr
         };
 
+        // Seat-specific area titles: use structured labels (resolved in front), not hard-coded "Player N".
+        // rep.areas = [{
+        //     type: "pieces",
+        //     label: this.seatAreaLabel(1, "apgames:validation.mygame.LABEL_STASH"),
+        //     pieces: [...],
+        // }];
+
         // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {
             // @ts-ignore

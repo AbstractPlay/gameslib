@@ -62,7 +62,7 @@ Each `IIndividualState` requires `_version`, `_results`, `_timestamp`. The rest 
 
 Serialization: `serialize()`, `undo()`, `resign()`, `timeout()`, `draw()`, `abandoned()`.
 
-UI: `handleClick()`, `moves()`, `validateMove()`, `sidebarStatuses()`, `getButtons()` (when flagged).
+UI: `handleClick()`, `moves()`, `validateMove()`, `sidebarStatuses()`, `sidebarScores()`, `getButtons()` (when flagged). Sidebar status/score labels use structured `RenderLabel` objects (`seatStatusValue()`, `neutralAreaLabel()`); front resolves them at display time. See **[Structured render labels](/gameslib/structured-render-labels/#sidebar-status)**.
 
 History and records: `moveHistory()`, `getPlies()`, `getRounds()`, `recordExportExclude()`, `resultsHistory()`, `chatLog()`, `chat()`, `genRecord()`.
 

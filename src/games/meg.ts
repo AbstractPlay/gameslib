@@ -615,8 +615,14 @@ export class MegGame extends GameBase {
     public sidebarStatuses(): IStatus[] {
         const returned: IStatus[] = [];
         if (this.offense !== undefined) {
-            returned.push({key: i18next.t("apgames:status.meg.OFFENSE"), value: [`Player ${this.offense}`]});
-            returned.push({key: i18next.t("apgames:status.meg.COUNTDOWN"), value: [this.countdown!.toString()]});
+            returned.push({
+                key: this.neutralAreaLabel("apgames:status.meg.OFFENSE"),
+                value: [this.seatStatusValue(this.offense)],
+            });
+            returned.push({
+                key: this.neutralAreaLabel("apgames:status.meg.COUNTDOWN"),
+                value: [this.countdown!.toString()],
+            });
 
         }
         return returned;

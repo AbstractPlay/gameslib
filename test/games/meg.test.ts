@@ -94,5 +94,26 @@ describe("Meg", () => {
         expect(g.gameover).to.be.true;
         expect(g.winner).to.have.members([1]);
     });
+
+    it("emits structured sidebar status for offensive player", () => {
+        const g = new MegGame();
+        g.offense = 2;
+        g.countdown = 7;
+        const statuses = g.sidebarStatuses();
+        expect(statuses).to.have.length(2);
+        expect(statuses[0]!.key).to.deep.equal({
+            textKey: "apgames:status.meg.OFFENSE",
+            actor: { kind: "none" },
+        });
+        expect(statuses[0]!.value[0]).to.deep.equal({
+            textKey: "apgames:status._player",
+            actor: { kind: "seat", seat: 2 },
+        });
+        expect(statuses[1]!.key).to.deep.equal({
+            textKey: "apgames:status.meg.COUNTDOWN",
+            actor: { kind: "none" },
+        });
+        expect(statuses[1]!.value[0]).to.equal("7");
+    });
 });
 

@@ -27,7 +27,7 @@ import type { ChatActorRef, ChatLogCollectContext, ChatLogEntry, ChatLogLine, Ch
 export type { ChatActorRef, ChatLogLine, ChatLogEntry, ChatLogTranslate, ChatLogCollectContext, ChatLogTextParamsInput } from "../common/chat-log";
 export { formatChatLogEntries, formatChatLogEntryNodes, chatPlayerToken, applyChatPlayerNames } from "../common/chat-log";
 import { chatPlayerToken, formatChatLogEntryNodes } from "../common/chat-log";
-import type { StructuredRenderLabel } from "../common/render-label";
+import type { RenderLabel, StructuredRenderLabel } from "../common/render-label";
 export type { RenderLabel, StructuredRenderLabel } from "../common/render-label";
 export { resolveRenderLabel, isStructuredRenderLabel } from "../common/render-label";
 import {
@@ -61,9 +61,12 @@ export interface IIndividualState {
  * @interface IStatus
  */
 export interface IStatus {
-    key: string;
-    value: (string | Glyph)[];
+    key: RenderLabel;
+    value: StatusValue[];
 }
+
+/** Sidebar status value: plain text, piece glyph, or structured label. */
+export type StatusValue = string | Glyph | RenderLabel;
 
 /**
  * Represents an entry in a player (or shared) stash of player pieces.
@@ -84,8 +87,8 @@ export interface IStashEntry {
  * @interface IScores
  */
  export interface IScores {
-    name: string;
-    scores: (number | string)[];
+    name: RenderLabel;
+    scores: (number | string | RenderLabel)[];
     spoiler?: boolean;
 }
 
@@ -872,6 +875,11 @@ export abstract class GameBase  {
             label.textParams = cleaned;
         }
         return label;
+    }
+
+    /** Structured sidebar status value for a seat (display name only). */
+    protected seatStatusValue(seat: number): StructuredRenderLabel {
+        return this.seatAreaLabel(seat, "apgames:status._player");
     }
 
     protected pushSeatChatLine(

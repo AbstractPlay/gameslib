@@ -141,7 +141,7 @@ Abstract Play front walks the full rep via `resolveRenderLabels()` — game auth
 | `` label: `Player ${p}'s stash` `` | `label: this.seatAreaLabel(p, "apgames:validation.…")` |
 | `label: i18next.t(…, { playerNum: p })` in `render()` | structured label; front calls `t()` |
 | `"Player {{playerNum}}'s hand"` in locale JSON | `"{{player}}'s hand"` |
-| Rely on front `replaceNames()` regex | structured label with `actor.seat` |
+| Embed `"Player N"` in label strings | `seatAreaLabel()` with `{{player}}` in the locale key |
 | Bake `players[0].name` into the render rep | seat + key only |
 
 ## Canonical examples
@@ -153,6 +153,21 @@ Abstract Play front walks the full rep via `resolveRenderLabels()` — game auth
 | Dual board titles | [Entropy](https://play.abstractplay.com/games/entropy) | [`entropy.ts`](/gameslib/src/games/entropy.ts) — `BOARD_ORDER` / `BOARD_CHAOS` |
 | Multi-area Decktet (hand + deck) | [Magnate](https://play.abstractplay.com/games/magnate) | [`magnate.ts`](/gameslib/src/games/magnate.ts) — `LABEL_BOTH`, `LABEL_DECK` |
 | Seat collection + neutral market | [Deckfish](https://play.abstractplay.com/games/deckfish) | [`deckfish.ts`](/gameslib/src/games/deckfish.ts) — `LABEL_COLLECTION`, `LABEL_MARKET` |
+| Hand label with extra param | [Even at Odds](https://play.abstractplay.com/games/evenatodds) | [`evenatodds.ts`](/gameslib/src/games/evenatodds.ts) — `LABEL_HAND` + `{ side }` |
+| Sidebar offensive player | [Meg](https://play.abstractplay.com/games/meg) | [`meg.ts`](/gameslib/src/games/meg.ts) — `status.meg.OFFENSE` + `seatStatusValue()` |
+
+## Sidebar status
+
+`sidebarStatuses()` / `sidebarScores()` follow the same `RenderLabel` contract. Use `neutralAreaLabel()` for row keys and table titles; use `seatStatusValue(seat)` when a status **value** is a player display name.
+
+```typescript
+returned.push({
+    key: this.neutralAreaLabel("apgames:status.meg.OFFENSE"),
+    value: [this.seatStatusValue(this.offense)],
+});
+```
+
+Abstract Play front resolves via `resolveSidebarStatuses()` / `resolveSidebarScores()` inside `setStatus()` before `GameStatus` renders.
 
 ## Testing
 
@@ -162,8 +177,6 @@ Abstract Play front walks the full rep via `resolveRenderLabels()` — game auth
 
 ## Status
 
-**Phase 2 (Aug 2026):** Streetcar — first migrated game (`TAKEN_LABEL`).
+**Migration complete (Aug 2026).** All player-named area/board labels use structured `RenderLabel` objects. Abstract Play front resolves labels via `resolveRenderLabels()` before draw; the legacy whole-rep `replaceNames()` regex has been removed.
 
-**Phase 3 (Aug 2026):** Hardcoded `Player N` labels removed from volcano, mvolcano, penguin, moonsquad, gyges, gorogo, cifra, acity, and entropy board titles.
-
-**Phase 4 (Aug 2026):** All `i18next.t(…, { playerNum })` area labels in `render()` migrated to `seatAreaLabel()` / `neutralAreaLabel()` across 25 games (waldmeister through arimaa). Grep `label: i18next` in `src/games` is clean. Remaining `{{playerNum}}` keys in en locale (unused magnate variants, Phase 5 cleanup). Front `replaceNames()` shim still active until Phase 5.
+Phases 1–4 covered foundation, streetcar pilot, hardcoded `Player N` strings, and `i18next.t()` at render time. See the implementation plan for history.

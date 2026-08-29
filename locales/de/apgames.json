@@ -7064,7 +7064,7 @@
       "MUST_TOUCH": "Wenn zwei Kanten beansprucht werden, müssen sie sich berühren.",
       "NO_REMOVE_BLDGS": "Du darfst keine Gebäude vom Brett entfernen.",
       "ONLY_TWO": "Du darfst pro Zug nur zwei Kanten beanspruchen.",
-      "TAKEN_LABEL": "Wohnlimits von Spieler {{playerNum}}",
+      "TAKEN_LABEL": "Wohnraumlimits von {{player}}",
       "TWO_LINES": "Sie müssen eine zweite Linie platzieren, wenn das Verlängern Ihrer ersten Linie legal ist.",
       "VALID_PARTIAL_haveedge": "Soweit so gut. Wählen Sie ein Häuserlimit zum Entfernen aus.",
       "VALID_PARTIAL_havehouse": "Soweit so gut. Wählen Sie mindestens eine Kante aus."

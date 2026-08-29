@@ -7132,7 +7132,7 @@
       "MUST_TOUCH": "Al reclamar dos bordes, deben tocarse.",
       "NO_REMOVE_BLDGS": "No puedes quitar edificios del tablero.",
       "ONLY_TWO": "Solo puedes reclamar dos bordes por turno.",
-      "TAKEN_LABEL": "Límites de vivienda del jugador {{playerNum}}",
+      "TAKEN_LABEL": "Límites de vivienda de {{player}}",
       "TWO_LINES": "Debes colocar una segunda línea si extender tu primera línea es legal.",
       "VALID_PARTIAL_haveedge": "Todo bien por ahora. Selecciona un límite de vivienda para quitar.",
       "VALID_PARTIAL_havehouse": "Todo bien por ahora. Selecciona al menos un borde."

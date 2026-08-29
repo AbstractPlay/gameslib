@@ -7096,7 +7096,7 @@
       "MUST_TOUCH": "Quando si rivendicano due bordi, devono toccarsi.",
       "NO_REMOVE_BLDGS": "Non puoi rimuovere edifici dal tabellone.",
       "ONLY_TWO": "Puoi rivendicare solo due bordi per turno.",
-      "TAKEN_LABEL": "Limiti di alloggi del Giocatore {{playerNum}}",
+      "TAKEN_LABEL": "Limiti di alloggio di {{player}}",
       "TWO_LINES": "Devi piazzare una seconda linea se estendere la prima è legale.",
       "VALID_PARTIAL_haveedge": "Fin qui tutto bene. Seleziona un limite di case da rimuovere.",
       "VALID_PARTIAL_havehouse": "Fin qui tutto bene. Seleziona almeno un bordo."

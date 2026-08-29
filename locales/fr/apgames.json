@@ -7096,7 +7096,7 @@
       "MUST_TOUCH": "Lorsque vous revendiquez deux arêtes, elles doivent se toucher.",
       "NO_REMOVE_BLDGS": "Vous ne pouvez pas retirer de bâtiments du plateau.",
       "ONLY_TWO": "Vous ne pouvez revendiquer que deux arêtes par tour.",
-      "TAKEN_LABEL": "Limites d'habitation du Joueur {{playerNum}}",
+      "TAKEN_LABEL": "Limites de logement de {{player}}",
       "TWO_LINES": "Vous devez placer une seconde ligne s'il est légal de prolonger votre première ligne.",
       "VALID_PARTIAL_haveedge": "C'est un bon début. Sélectionnez une limite de logement à retirer.",
       "VALID_PARTIAL_havehouse": "C'est un bon début. Sélectionnez au moins un côté."

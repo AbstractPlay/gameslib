@@ -11124,8 +11124,8 @@
     "out": "Du darfst pro Zug nur zwei Kanten beanspruchen."
   },
   "validation.streetcar.TAKEN_LABEL": {
-    "src": "Player {{playerNum}}'s housing limits",
-    "out": "Wohnlimits von Spieler {{playerNum}}"
+    "src": "{{player}}'s housing limits",
+    "out": "Wohnraumlimits von {{player}}"
   },
   "validation.streetcar.TWO_LINES": {
     "src": "You must place a second line if extending your first line is legal.",

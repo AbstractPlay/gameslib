@@ -11124,8 +11124,8 @@
     "out": "Puoi rivendicare solo due bordi per turno."
   },
   "validation.streetcar.TAKEN_LABEL": {
-    "src": "Player {{playerNum}}'s housing limits",
-    "out": "Limiti di alloggi del Giocatore {{playerNum}}"
+    "src": "{{player}}'s housing limits",
+    "out": "Limiti di alloggio di {{player}}"
   },
   "validation.streetcar.TWO_LINES": {
     "src": "You must place a second line if extending your first line is legal.",

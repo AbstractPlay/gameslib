@@ -564,7 +564,7 @@ export class GorogoGame extends GameBase {
             if (neutral > 0) {
                 areas.push({
                     type: "pieces",
-                    label: `Player ${p}'s neutral pieces`,
+                    label: this.seatAreaLabel(p, "apgames:validation.gorogo.LABEL_NEUTRAL"),
                     pieces: Array.from({length: neutral}, () => "pcX") as [string, ...string[]],
                 });
             }

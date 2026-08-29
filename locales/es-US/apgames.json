@@ -4656,7 +4656,8 @@
       "MARKER": "No puedes construir en el lote que contiene el ícono de palo hasta que todos los demás lotes legalmente edificables en esa loseta estén ocupados.",
       "NO_MORE_CLAIMS": "Ya has reclamado tres torres. No puedes reclamar más.",
       "PARTIAL_MOVE": "Selecciona el lote donde quieres construir.",
-      "VALID_W_CLAIMS": "Parece un movimiento válido. También puedes optar por reclamar una torre."
+      "VALID_W_CLAIMS": "Parece un movimiento válido. También puedes optar por reclamar una torre.",
+      "LABEL_STASH": "Reserva de {{player}}"
     },
     "agere": {
       "ADJACENCY": "Solo puedes capturar pilas adyacentes.",
@@ -5244,7 +5245,8 @@
       "PARTIAL": "Selecciona un destino.",
       "PARTIAL_PLACE": "Selecciona la casilla en tu fila inicial para colocar tu pieza {{piece}}.",
       "PARTIAL_SETUP_one": "Coloca tu última pieza.",
-      "PARTIAL_SETUP_other": "Tienes {{count}} piezas más para colocar."
+      "PARTIAL_SETUP_other": "Tienes {{count}} piezas más para colocar.",
+      "LABEL_STASH": "Reserva de {{player}}"
     },
     "circleOfLife": {
       "INSTRUCTIONS": "Coloca una pieza aliada en un hexágono vacío. No es válido crear una especie de más de cuatro piezas.",
@@ -5535,7 +5537,9 @@
       "INITIAL_INSTRUCTIONS_order": "Selecciona una pieza en tu tablero para moverla, o pasa.",
       "INVALID_MOVEMENT": "No puedes mover piezas en la fase de CAOS.",
       "PARTIAL": "Selecciona un destino.",
-      "STRAIGHT_LINES": "Las piezas solo pueden moverse en líneas rectas horizontales o verticales."
+      "STRAIGHT_LINES": "Las piezas solo pueden moverse en líneas rectas horizontales o verticales.",
+      "BOARD_ORDER": "{{player}}: Orden",
+      "BOARD_CHAOS": "{{player}}: Caos"
     },
     "evenatodds": {
       "INITIAL_INSTRUCTIONS": "Selecciona una ficha de dominó de tu mano para jugarla.",
@@ -5802,7 +5806,8 @@
       "INVALID_MOVE": "El movimiento {{move}} no es válido. Recuerda que no puedes colocar una pieza normal en una posición sin libertades a menos que active una captura que cree una libertad.",
       "NO_PIECES_neutral": "No tienes piezas henge en la mano.",
       "NO_PIECES_normal": "No te quedan piezas normales.",
-      "PARTIAL": "Selecciona la casilla donde deseas colocar la pieza henge."
+      "PARTIAL": "Selecciona la casilla donde deseas colocar la pieza henge.",
+      "LABEL_NEUTRAL": "Piezas neutrales de {{player}}"
     },
     "guerrilla": {
       "INITIAL_INSTRUCTIONS_p1": "Selecciona dónde colocar tu primer insurgente.",
@@ -5823,7 +5828,8 @@
       "PARTIAL_displace": "Selecciona una de las casillas vacías resaltadas para desplazar la pieza actual.",
       "PARTIAL_move": "Selecciona el siguiente destino, o vuelve a hacer clic en esta misma casilla para desplazar la pieza.",
       "PARTIAL_setup": "Selecciona una casilla vacía en tu fila inicial para colocar la pieza.",
-      "PARTIAL_setup2": "Selecciona otra pieza de tu reserva para colocarla en el tablero."
+      "PARTIAL_setup2": "Selecciona otra pieza de tu reserva para colocarla en el tablero.",
+      "LABEL_STASH": "Reserva de {{player}}"
     },
     "gyve": {
       "BAD_FIRST": "No puedes colocar una segunda piedra en el primer turno del juego.",
@@ -6225,7 +6231,8 @@
       "PARTIAL_MOVE_first": "Selecciona un escuadrón para mover. Debes mover al menos un escuadrón.",
       "PARTIAL_MOVE_second": "Selecciona un destino. El escuadrón debe permanecer en el mismo grupo conectado.",
       "PARTIAL_PLACE1": "En el primer movimiento del juego, coloca dos piezas rojas y una pieza azul. Haz clic en un espacio vacío para colocar la segunda pieza roja.",
-      "PARTIAL_PLACE2": "En el primer movimiento del juego, coloca dos piezas rojas y una pieza azul. Haz clic en un espacio vacío para colocar la pieza azul."
+      "PARTIAL_PLACE2": "En el primer movimiento del juego, coloca dos piezas rojas y una pieza azul. Haz clic en un espacio vacío para colocar la pieza azul.",
+      "LABEL_ORE": "Mineral de {{player}}"
     },
     "morphos": {
       "BAD_PASS": "No puedes pasar si hay movimientos legales disponibles.",
@@ -6261,7 +6268,8 @@
       "WALLS_IMMOBILE": "Las murallas no pueden moverse ni capturar."
     },
     "mvolcano": {
-      "INITIAL_INSTRUCTIONS": "Selecciona una cubierta para mover."
+      "INITIAL_INSTRUCTIONS": "Selecciona una cubierta para mover.",
+      "CAPTURED_LABEL": "{{player}}: Piezas capturadas"
     },
     "mutternland": {
       "INITIAL_PLACE": "Coloca una pieza aliada, luego una pieza oponente, ambas en el borde del campo de juego. Las casillas con menos de tres vecinas no se pueden usar para colocar piezas.",
@@ -6434,7 +6442,8 @@
       "INITIAL_INSTRUCTIONS": "Selecciona uno de tus pingüinos en el tablero o en tu mano.",
       "PARTIAL_DIRECTION_kick": "Selecciona una casilla vecina para patear el balón en esa dirección.",
       "PARTIAL_DIRECTION_penguin": "Selecciona una casilla vecina para desplazarte en esa dirección o, si estás acostado, haz clic en la casilla de nuevo para levantarte.",
-      "PARTIAL_ORIENTATION": "Selecciona una casilla vecina para reorientar a tu pingüino, o haz clic en tu pingüino para mantener la dirección a la que ya estás mirando."
+      "PARTIAL_ORIENTATION": "Selecciona una casilla vecina para reorientar a tu pingüino, o haz clic en tu pingüino para mantener la dirección a la que ya estás mirando.",
+      "LABEL_STASH": "Reserva de {{player}}"
     },
     "pente": {
       "OVERLINE_FORBIDDEN": "En esta variante, no puedes realizar una colocación que cree una sobrelínea.",
@@ -7467,7 +7476,8 @@
       "MOVES_ONE_POWERPLAY": "Solo puedes hacer un movimiento de poder por turno.",
       "MOVES_ONE_SPACE": "Los tapones solo pueden moverse un espacio a la vez.",
       "PARTIAL_ERUPTION": "Sigue moviendo tapones hasta causar una erupción.",
-      "PARTIAL_MOVE": "Selecciona el destino."
+      "PARTIAL_MOVE": "Selecciona el destino.",
+      "CAPTURED_LABEL": "{{player}}: Piezas capturadas"
     },
     "volo": {
       "BEARING": "El rango {{range}} no da como resultado una orientación válida.",

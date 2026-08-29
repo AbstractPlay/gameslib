@@ -114,4 +114,42 @@ describe("Entropy", () => {
             }
         });
     });
+
+    describe("structured render labels", () => {
+        it("emits seat board labels for chaos phase", () => {
+            const g = new EntropyGame();
+            expect(g.phase).to.equal("chaos");
+            const board = g.render({}).board;
+            expect(board).to.not.equal(null);
+            if (board === null || !("boardOne" in board)) {
+                throw new Error("expected entropy board");
+            }
+            expect(board.boardOne!.label).to.deep.equal({
+                textKey: "apgames:validation.entropy.BOARD_CHAOS",
+                actor: { kind: "seat", seat: 2 },
+            });
+            expect(board.boardTwo!.label).to.deep.equal({
+                textKey: "apgames:validation.entropy.BOARD_CHAOS",
+                actor: { kind: "seat", seat: 1 },
+            });
+        });
+
+        it("emits seat board labels for order phase", () => {
+            const g = new EntropyGame();
+            g.phase = "order";
+            const board = g.render({}).board;
+            expect(board).to.not.equal(null);
+            if (board === null || !("boardOne" in board)) {
+                throw new Error("expected entropy board");
+            }
+            expect(board.boardOne!.label).to.deep.equal({
+                textKey: "apgames:validation.entropy.BOARD_ORDER",
+                actor: { kind: "seat", seat: 1 },
+            });
+            expect(board.boardTwo!.label).to.deep.equal({
+                textKey: "apgames:validation.entropy.BOARD_ORDER",
+                actor: { kind: "seat", seat: 2 },
+            });
+        });
+    });
 });

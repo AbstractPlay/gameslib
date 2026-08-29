@@ -4590,7 +4590,8 @@
             "MARKER": "You may not build on the lot containing the suit icon until all other legally buildable lots on that tile are occupied.",
             "NO_MORE_CLAIMS": "You have already claimed three towers. You may not claim any more.",
             "PARTIAL_MOVE": "Select the lot where you want to build.",
-            "VALID_W_CLAIMS": "Looks like a valid move. You may also choose to claim a tower."
+            "VALID_W_CLAIMS": "Looks like a valid move. You may also choose to claim a tower.",
+            "LABEL_STASH": "{{player}}'s stash"
         },
         "agere": {
             "ADJACENCY": "You can only capture adjacent stacks.",
@@ -5196,7 +5197,8 @@
             "PARTIAL": "Select a destination.",
             "PARTIAL_PLACE": "Select the cell on your home row to place your {{piece}} piece.",
             "PARTIAL_SETUP_one": "Place your last piece.",
-            "PARTIAL_SETUP_other": "You have {{count}} more pieces to place."
+            "PARTIAL_SETUP_other": "You have {{count}} more pieces to place.",
+            "LABEL_STASH": "{{player}}'s stash"
         },
         "circleOfLife": {
             "INSTRUCTIONS": "Place a friendly piece on an empty hex. It is invalid to make a species bigger than four pieces.",
@@ -5487,7 +5489,9 @@
             "INITIAL_INSTRUCTIONS_order": "Select a piece on your board to move, or pass.",
             "INVALID_MOVEMENT": "You cannot move pieces in the CHAOS phase.",
             "PARTIAL": "Select a destination.",
-            "STRAIGHT_LINES": "Pieces may only be moved in straight horizontal or vertical lines."
+            "STRAIGHT_LINES": "Pieces may only be moved in straight horizontal or vertical lines.",
+            "BOARD_ORDER": "{{player}}: Order",
+            "BOARD_CHAOS": "{{player}}: Chaos"
         },
         "evenatodds": {
             "INITIAL_INSTRUCTIONS": "Select a domino from your hand to play.",
@@ -5761,7 +5765,8 @@
             "INVALID_MOVE": "The move {{move}} is not valid. Remember that you may not place a normal piece in a position with no liberties unless it triggers a capture that creates a liberty.",
             "NO_PIECES_neutral": "You have no henge pieces in hand.",
             "NO_PIECES_normal": "You don't have any normal pieces left.",
-            "PARTIAL": "Select the cell where you wish to place the henge piece."
+            "PARTIAL": "Select the cell where you wish to place the henge piece.",
+            "LABEL_NEUTRAL": "{{player}}'s neutral pieces"
         },
         "guerrilla": {
             "INITIAL_INSTRUCTIONS_p1": "Select where to place your first insurgent.",
@@ -5782,7 +5787,8 @@
             "PARTIAL_displace": "Select one of the highlighted empty cells to displace the current piece.",
             "PARTIAL_move": "Select the next destination, or click this same cell again to displace the piece.",
             "PARTIAL_setup": "Select an empty cell on your home row to place the piece.",
-            "PARTIAL_setup2": "Select another piece from your stash to place on the board."
+            "PARTIAL_setup2": "Select another piece from your stash to place on the board.",
+            "LABEL_STASH": "{{player}}'s stash"
         },
         "gyve": {
             "BAD_FIRST": "You may not place a second stone on the first turn of the game.",
@@ -6184,7 +6190,8 @@
             "PARTIAL_MOVE_first": "Select a squad to move. You must move at least one squad.",
             "PARTIAL_MOVE_second": "Select a destination. The squad must stay in the same connected group.",
             "PARTIAL_PLACE1": "On the first move of the game, place two red pieces and one blue piece. Click an empty space to place the second red piece.",
-            "PARTIAL_PLACE2": "On the first move of the game, place two red pieces and one blue piece. Click an empty space to place the blue piece."
+            "PARTIAL_PLACE2": "On the first move of the game, place two red pieces and one blue piece. Click an empty space to place the blue piece.",
+            "LABEL_ORE": "{{player}}'s ore"
         },
         "morphos": {
             "BAD_PASS": "You may not pass if legal moves are available.",
@@ -6220,7 +6227,8 @@
             "WALLS_IMMOBILE": "Walls may not move or capture."
         },
         "mvolcano": {
-            "INITIAL_INSTRUCTIONS": "Select a cap to move."
+            "INITIAL_INSTRUCTIONS": "Select a cap to move.",
+            "CAPTURED_LABEL": "{{player}}: Captured Pieces"
         },
         "mutternland": {
             "INITIAL_PLACE": "Place a friendly piece, then an opponent piece, both at the edge of the playing field. Cells with less than three neighbors cannot be used to place pieces.",
@@ -6393,7 +6401,8 @@
             "INITIAL_INSTRUCTIONS": "Select one of your penguins on the board or in your hand.",
             "PARTIAL_DIRECTION_kick": "Select a neigbouring cell to kick the ball in that direction.",
             "PARTIAL_DIRECTION_penguin": "Select a neigbouring cell to travel in that direction or, if you're laying down, click the cell again to stand up.",
-            "PARTIAL_ORIENTATION": "Select a neighbouring cell to reorient your penguin, or click your penguin to stay in the direction you're already facing."
+            "PARTIAL_ORIENTATION": "Select a neighbouring cell to reorient your penguin, or click your penguin to stay in the direction you're already facing.",
+            "LABEL_STASH": "{{player}}'s stash"
         },
         "pente": {
             "OVERLINE_FORBIDDEN": "In this variant, you may not make a placement that creates an overline.",
@@ -7422,7 +7431,8 @@
             "MOVES_ONE_POWERPLAY": "You may only make one power play per turn.",
             "MOVES_ONE_SPACE": "Caps may only be moved one space at a time.",
             "PARTIAL_ERUPTION": "Keep moving caps until you cause an eruption.",
-            "PARTIAL_MOVE": "Select the destination."
+            "PARTIAL_MOVE": "Select the destination.",
+            "CAPTURED_LABEL": "{{player}}: Captured Pieces"
         },
         "volo": {
             "BEARING": "The range {{range}} does not result in a valid bearing.",

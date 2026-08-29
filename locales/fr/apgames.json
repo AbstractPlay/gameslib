@@ -4600,7 +4600,8 @@
       "MARKER": "Vous ne pouvez pas construire sur le terrain contenant l'icône d'enseigne tant que tous les autres terrains légalement constructibles de cette tuile ne sont pas occupés.",
       "NO_MORE_CLAIMS": "Vous avez déjà revendiqué trois tours. Vous ne pouvez plus en revendiquer.",
       "PARTIAL_MOVE": "Sélectionnez le terrain où vous souhaitez construire.",
-      "VALID_W_CLAIMS": "Ceci semble être un coup valide. Vous pouvez également choisir de revendiquer une tour."
+      "VALID_W_CLAIMS": "Ceci semble être un coup valide. Vous pouvez également choisir de revendiquer une tour.",
+      "LABEL_STASH": "Réserve de {{player}}"
     },
     "agere": {
       "ADJACENCY": "Vous ne pouvez capturer que des piles adjacentes.",
@@ -5201,7 +5202,8 @@
       "PARTIAL_PLACE": "Sélectionnez la case de votre rangée de départ où placer votre pièce {{piece}}.",
       "PARTIAL_SETUP_one": "Placez votre dernière pièce.",
       "PARTIAL_SETUP_many": "",
-      "PARTIAL_SETUP_other": "Vous avez encore {{count}} pièces à placer."
+      "PARTIAL_SETUP_other": "Vous avez encore {{count}} pièces à placer.",
+      "LABEL_STASH": "Réserve de {{player}}"
     },
     "clearcut": {
       "BAD_CROSSING": "Les lignes ne peuvent se croiser que si le groupe créé par la pièce placée est plus grand qu'au moins un groupe adverse dans l'intersection.",
@@ -5495,7 +5497,9 @@
       "INITIAL_INSTRUCTIONS_order": "Sélectionnez une pièce sur votre plateau à déplacer, ou passez.",
       "INVALID_MOVEMENT": "Vous ne pouvez pas déplacer de pièces durant la phase CHAOS.",
       "PARTIAL": "Sélectionnez une destination.",
-      "STRAIGHT_LINES": "Les pièces ne peuvent être déplacées qu'en lignes droites horizontales ou verticales."
+      "STRAIGHT_LINES": "Les pièces ne peuvent être déplacées qu'en lignes droites horizontales ou verticales.",
+      "BOARD_ORDER": "{{player}} : Ordre",
+      "BOARD_CHAOS": "{{player}} : Chaos"
     },
     "evenatodds": {
       "INITIAL_INSTRUCTIONS": "Sélectionnez un domino de votre main à jouer.",
@@ -5757,7 +5761,8 @@
       "INVALID_MOVE": "Le coup {{move}} n'est pas valide. N'oubliez pas que vous ne pouvez pas placer de pièce normale dans une position sans libertés, sauf si cela déclenche une capture qui crée une liberté.",
       "NO_PIECES_neutral": "Vous n'avez aucune pièce henge en main.",
       "NO_PIECES_normal": "Vous n'avez plus de pièces normales.",
-      "PARTIAL": "Sélectionnez la case où vous souhaitez placer la pièce henge."
+      "PARTIAL": "Sélectionnez la case où vous souhaitez placer la pièce henge.",
+      "LABEL_NEUTRAL": "Pièces neutres de {{player}}"
     },
     "gyges": {
       "BAD_DISPLACE": "Vous ne pouvez pas déplacer une pièce vers {{cell}}. La case cible doit être libre et ne peut pas dépasser la rangée jouable de l'adversaire.",
@@ -5771,7 +5776,8 @@
       "PARTIAL_displace": "Sélectionnez l'une des cases vides mises en surbrillance pour déplacer la pièce actuelle.",
       "PARTIAL_move": "Sélectionnez la destination suivante, ou cliquez à nouveau sur cette même case pour déplacer la pièce.",
       "PARTIAL_setup": "Sélectionnez une case vide sur votre rangée de départ pour placer la pièce.",
-      "PARTIAL_setup2": "Sélectionnez une autre pièce de votre réserve à placer sur le plateau."
+      "PARTIAL_setup2": "Sélectionnez une autre pièce de votre réserve à placer sur le plateau.",
+      "LABEL_STASH": "Réserve de {{player}}"
     },
     "gyve": {
       "BAD_FIRST": "Vous ne pouvez pas placer de seconde pierre lors du premier tour de la partie.",
@@ -6174,7 +6180,8 @@
       "PARTIAL_MOVE_first": "Sélectionnez une escouade à déplacer. Vous devez déplacer au moins une escouade.",
       "PARTIAL_MOVE_second": "Sélectionnez une destination. L'escouade doit rester au sein du même groupe connecté.",
       "PARTIAL_PLACE1": "Au premier coup de la partie, placez deux pièces rouges et une pièce bleue. Cliquez sur un espace vide pour placer la deuxième pièce rouge.",
-      "PARTIAL_PLACE2": "Au premier coup de la partie, placez deux pièces rouges et une pièce bleue. Cliquez sur un espace vide pour placer la pièce bleue."
+      "PARTIAL_PLACE2": "Au premier coup de la partie, placez deux pièces rouges et une pièce bleue. Cliquez sur un espace vide pour placer la pièce bleue.",
+      "LABEL_ORE": "Minerai de {{player}}"
     },
     "morphos": {
       "BAD_PASS": "Vous ne pouvez pas passer si des coups légaux sont disponibles.",
@@ -6210,7 +6217,8 @@
       "WALLS_IMMOBILE": "Les murs ne peuvent ni se déplacer ni capturer."
     },
     "mvolcano": {
-      "INITIAL_INSTRUCTIONS": "Sélectionnez un chapeau à déplacer."
+      "INITIAL_INSTRUCTIONS": "Sélectionnez un chapeau à déplacer.",
+      "CAPTURED_LABEL": "{{player}} : Pièces capturées"
     },
     "mutternland": {
       "INITIAL_PLACE": "Placez une pièce alliée, puis une pièce adverse, toutes deux sur le bord du terrain de jeu. Les cases ayant moins de trois voisins ne peuvent pas être utilisées pour placer des pièces.",
@@ -6384,7 +6392,8 @@
       "INITIAL_INSTRUCTIONS": "Sélectionnez l'un de vos pingouins sur le plateau ou dans votre main.",
       "PARTIAL_DIRECTION_kick": "Sélectionnez une case voisine pour tirer la balle dans cette direction.",
       "PARTIAL_DIRECTION_penguin": "Sélectionnez une case voisine pour vous déplacer dans cette direction ou, si vous êtes allongé, cliquez à nouveau sur la case pour vous relever.",
-      "PARTIAL_ORIENTATION": "Sélectionnez une case voisine pour réorienter votre pingouin, ou cliquez sur votre pingouin pour rester orienté dans la même direction."
+      "PARTIAL_ORIENTATION": "Sélectionnez une case voisine pour réorienter votre pingouin, ou cliquez sur votre pingouin pour rester orienté dans la même direction.",
+      "LABEL_STASH": "Réserve de {{player}}"
     },
     "pente": {
       "OVERLINE_FORBIDDEN": "Dans cette variante, vous ne pouvez pas effectuer de placement qui crée un suralignement.",
@@ -7431,7 +7440,8 @@
       "MOVES_ONE_POWERPLAY": "Vous ne pouvez faire qu'un seul coup spécial (« power play ») par tour.",
       "MOVES_ONE_SPACE": "Les chapeaux ne peuvent être déplacés que d'une case à la fois.",
       "PARTIAL_ERUPTION": "Continuez à déplacer des chapeaux jusqu'à provoquer une éruption.",
-      "PARTIAL_MOVE": "Sélectionnez la destination."
+      "PARTIAL_MOVE": "Sélectionnez la destination.",
+      "CAPTURED_LABEL": "{{player}} : Pièces capturées"
     },
     "volo": {
       "BEARING": "La portée {{range}} ne donne pas un cap valide.",

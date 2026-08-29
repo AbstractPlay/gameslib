@@ -1017,7 +1017,7 @@ export class CifraGame extends GameBase {
                     areas = [{
                         type: "pieces",
                         pieces: [...allPcs].map(n => `p${n}`) as [string, ...string[]],
-                        label: `Player ${this.currplayer}'s stash`
+                        label: this.seatAreaLabel(this.currplayer, "apgames:validation.cifra.LABEL_STASH")
                     }];
                 }
             }

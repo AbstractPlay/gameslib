@@ -1111,7 +1111,7 @@ export class MoonSquadGame extends GameBase {
             if (this.ore[i].length > 0) {
                 areas.push({
                     type: "pieces",
-                    label: `Player ${i+1}'s ore`,
+                    label: this.seatAreaLabel(i + 1, "apgames:validation.moonsquad.LABEL_ORE"),
                     pieces: this.ore[i].sort((a,b) => a - b).map(ore => colourNum2Name.get(ore)!) as [string, ...string[]],
                 });
             }

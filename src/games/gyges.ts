@@ -1080,7 +1080,7 @@ export class GygesGame extends GameBase {
                     areas.push({
                         type: "pieces",
                         pieces: inhand.map(n => `p${n}`) as [string, ...string[]],
-                        label: `Player ${p}'s stash`
+                        label: this.seatAreaLabel(p, "apgames:validation.gyges.LABEL_STASH"),
                     });
                 }
             }

@@ -4598,7 +4598,8 @@
       "MARKER": "Du darfst das Baugrundstück mit dem Symbol erst bebauen, wenn alle anderen legal bebaubaren Grundstücke auf diesem Plättchen besetzt sind.",
       "NO_MORE_CLAIMS": "Du hast bereits drei Türme beansprucht. Du darfst keine weiteren beanspruchen.",
       "PARTIAL_MOVE": "Wähle das Baugrundstück aus, auf dem du bauen möchtest.",
-      "VALID_W_CLAIMS": "Das sieht nach einem gültigen Zug aus. Du kannst auch einen Turm beanspruchen."
+      "VALID_W_CLAIMS": "Das sieht nach einem gültigen Zug aus. Du kannst auch einen Turm beanspruchen.",
+      "LABEL_STASH": "{{player}}s Vorrat"
     },
     "agere": {
       "ADJACENCY": "Du kannst nur angrenzende Stapel schlagen.",
@@ -5193,7 +5194,8 @@
       "PARTIAL": "Wähle ein Ziel.",
       "PARTIAL_PLACE": "Wähle das Feld in deiner Startreihe, um deinen {{piece}}-Stein zu platzieren.",
       "PARTIAL_SETUP_one": "Platziere deinen letzten Stein.",
-      "PARTIAL_SETUP_other": "Du musst noch {{count}} weitere Steine platzieren."
+      "PARTIAL_SETUP_other": "Du musst noch {{count}} weitere Steine platzieren.",
+      "LABEL_STASH": "{{player}}s Vorrat"
     },
     "clearcut": {
       "BAD_CROSSING": "Linien dürfen sich nur kreuzen, wenn die durch den platzierten Stein entstandene Gruppe größer ist als mindestens eine gegnerische Gruppe im Kreuzungspunkt.",
@@ -5480,7 +5482,9 @@
       "INITIAL_INSTRUCTIONS_order": "Wähle einen Stein auf deinem Brett zum Ziehen aus oder passe.",
       "INVALID_MOVEMENT": "Du kannst in der CHAOS-Phase keine Steine bewegen.",
       "PARTIAL": "Wähle ein Ziel.",
-      "STRAIGHT_LINES": "Steine dürfen nur in geraden horizontalen oder vertikalen Linien bewegt werden."
+      "STRAIGHT_LINES": "Steine dürfen nur in geraden horizontalen oder vertikalen Linien bewegt werden.",
+      "BOARD_ORDER": "{{player}}: Ordnung",
+      "BOARD_CHAOS": "{{player}}: Chaos"
     },
     "evenatodds": {
       "INITIAL_INSTRUCTIONS": "Wähle einen Dominostein aus deiner Hand zum Spielen aus.",
@@ -5741,7 +5745,8 @@
       "INVALID_MOVE": "Der Zug {{move}} ist ungültig. Denke daran, dass du einen normalen Stein nicht auf eine Position ohne Freiheiten setzen darfst, es sei denn, er löst ein Schlagen aus, das eine Freiheit schafft.",
       "NO_PIECES_neutral": "Du hast keine Henge-Steine auf der Hand.",
       "NO_PIECES_normal": "Du hast keine normalen Steine mehr.",
-      "PARTIAL": "Wähle das Feld, auf dem du den Henge-Stein platzieren möchtest."
+      "PARTIAL": "Wähle das Feld, auf dem du den Henge-Stein platzieren möchtest.",
+      "LABEL_NEUTRAL": "{{player}}s neutrale Steine"
     },
     "gyges": {
       "BAD_DISPLACE": "Du darfst keine Figur nach {{cell}} verdrängen. Das Zielfeld muss unbesetzt sein und darf nicht jenseits der bespielbaren Reihe des Gegners liegen.",
@@ -5755,7 +5760,8 @@
       "PARTIAL_displace": "Wähle eines der hervorgehobenen leeren Felder, um die aktuelle Figur zu verdrängen.",
       "PARTIAL_move": "Wähle das nächste Ziel, oder klicke erneut auf dasselbe Feld, um die Figur zu verdrängen.",
       "PARTIAL_setup": "Wähle ein leeres Feld in deiner Grundreihe, um die Figur zu platzieren.",
-      "PARTIAL_setup2": "Wähle eine weitere Figur aus deinem Vorrat, um sie auf dem Brett zu platzieren."
+      "PARTIAL_setup2": "Wähle eine weitere Figur aus deinem Vorrat, um sie auf dem Brett zu platzieren.",
+      "LABEL_STASH": "{{player}}s Vorrat"
     },
     "gyve": {
       "BAD_FIRST": "Im ersten Zug des Spiels darfst du keinen zweiten Stein platzieren.",
@@ -6157,7 +6163,8 @@
       "PARTIAL_MOVE_first": "Wähle einen Squad zum Bewegen aus. Du musst mindestens einen Squad bewegen.",
       "PARTIAL_MOVE_second": "Wähle ein Ziel aus. Der Squad muss in derselben zusammenhängenden Gruppe bleiben.",
       "PARTIAL_PLACE1": "Platziere beim ersten Zug des Spiels zwei rote Steine und einen blauen Stein. Klicke auf ein leeres Feld, um den zweiten roten Stein zu platzieren.",
-      "PARTIAL_PLACE2": "Platziere beim ersten Zug des Spiels zwei rote Steine und einen blauen Stein. Klicke auf ein leeres Feld, um den blauen Stein zu platzieren."
+      "PARTIAL_PLACE2": "Platziere beim ersten Zug des Spiels zwei rote Steine und einen blauen Stein. Klicke auf ein leeres Feld, um den blauen Stein zu platzieren.",
+      "LABEL_ORE": "{{player}}s Erz"
     },
     "morphos": {
       "BAD_PASS": "Du darfst nicht passen, wenn legale Züge verfügbar sind.",
@@ -6193,7 +6200,8 @@
       "WALLS_IMMOBILE": "Mauern dürfen sich weder bewegen noch schlagen."
     },
     "mvolcano": {
-      "INITIAL_INSTRUCTIONS": "Wähle eine Kappe zum Ziehen aus."
+      "INITIAL_INSTRUCTIONS": "Wähle eine Kappe zum Ziehen aus.",
+      "CAPTURED_LABEL": "{{player}}: Geschlagene Steine"
     },
     "mutternland": {
       "INITIAL_PLACE": "Platziere eine eigene Figur, dann eine gegnerische Figur, beide am Rand des Spielfelds. Felder mit weniger als drei Nachbarn können nicht zum Platzieren von Figuren verwendet werden.",
@@ -6366,7 +6374,8 @@
       "INITIAL_INSTRUCTIONS": "Wähle einen deiner Pinguine auf dem Brett oder auf deiner Hand.",
       "PARTIAL_DIRECTION_kick": "Wähle ein Nachbarfeld, um den Ball in diese Richtung zu kicken.",
       "PARTIAL_DIRECTION_penguin": "Wähle ein Nachbarfeld, um dich in diese Richtung zu bewegen, oder klicke erneut auf das Feld, um aufzustehen, wenn du liegst.",
-      "PARTIAL_ORIENTATION": "Wähle ein Nachbarfeld, um deinen Pinguin neu auszurichten, oder klicke auf deinen Pinguin, um in der aktuellen Blickrichtung zu bleiben."
+      "PARTIAL_ORIENTATION": "Wähle ein Nachbarfeld, um deinen Pinguin neu auszurichten, oder klicke auf deinen Pinguin, um in der aktuellen Blickrichtung zu bleiben.",
+      "LABEL_STASH": "{{player}}s Vorrat"
     },
     "pente": {
       "OVERLINE_FORBIDDEN": "In dieser Variante darfst du keine Steine so platzieren, dass eine Überlänge entsteht.",
@@ -7394,7 +7403,8 @@
       "MOVES_ONE_POWERPLAY": "Du darfst nur einen Powerplay-Zug pro Zug machen.",
       "MOVES_ONE_SPACE": "Kappen dürfen pro Schritt nur um ein Feld bewegt werden.",
       "PARTIAL_ERUPTION": "Bewege weiterhin Kappen, bis du einen Ausbruch auslöst.",
-      "PARTIAL_MOVE": "Wähle das Ziel."
+      "PARTIAL_MOVE": "Wähle das Ziel.",
+      "CAPTURED_LABEL": "{{player}}: Geschlagene Steine"
     },
     "volo": {
       "BEARING": "Die Reichweite {{range}} ergibt keine gültige Peilung.",

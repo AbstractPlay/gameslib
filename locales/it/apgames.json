@@ -4600,7 +4600,8 @@
       "MARKER": "Non puoi costruire sul lotto contenente l'icona del seme finché tutti gli altri lotti legalmente edificabili su quella tessera non sono occupati.",
       "NO_MORE_CLAIMS": "Hai già rivendicato tre torri. Non puoi rivendicarne altre.",
       "PARTIAL_MOVE": "Seleziona il lotto in cui vuoi costruire.",
-      "VALID_W_CLAIMS": "Sembra una mossa valida. Puoi anche scegliere di rivendicare una torre."
+      "VALID_W_CLAIMS": "Sembra una mossa valida. Puoi anche scegliere di rivendicare una torre.",
+      "LABEL_STASH": "Riserva di {{player}}"
     },
     "agere": {
       "ADJACENCY": "Puoi catturare solo pile adiacenti.",
@@ -5201,7 +5202,8 @@
       "PARTIAL_PLACE": "Seleziona la cella sulla tua riga di partenza per posizionare il tuo pezzo {{piece}}.",
       "PARTIAL_SETUP_one": "Posiziona il tuo ultimo pezzo.",
       "PARTIAL_SETUP_many": "",
-      "PARTIAL_SETUP_other": "Hai ancora {{count}} pezzi da posizionare."
+      "PARTIAL_SETUP_other": "Hai ancora {{count}} pezzi da posizionare.",
+      "LABEL_STASH": "Riserva di {{player}}"
     },
     "clearcut": {
       "BAD_CROSSING": "Le linee possono incrociarsi solo se il gruppo creato dal pezzo posizionato è più grande di almeno un gruppo avversario nell'incrocio.",
@@ -5495,7 +5497,9 @@
       "INITIAL_INSTRUCTIONS_order": "Seleziona una pedina sul tuo tabellone da muovere, oppure passa.",
       "INVALID_MOVEMENT": "Non puoi muovere pedine nella fase CAOS.",
       "PARTIAL": "Seleziona una destinazione.",
-      "STRAIGHT_LINES": "Le pedine possono essere mosse solo in linee rette orizzontali o verticali."
+      "STRAIGHT_LINES": "Le pedine possono essere mosse solo in linee rette orizzontali o verticali.",
+      "BOARD_ORDER": "{{player}}: Ordine",
+      "BOARD_CHAOS": "{{player}}: Caos"
     },
     "evenatodds": {
       "INITIAL_INSTRUCTIONS": "Seleziona un domino dalla tua mano da giocare.",
@@ -5757,7 +5761,8 @@
       "INVALID_MOVE": "La mossa {{move}} non è valida. Ricorda che non puoi piazzare un pezzo normale in una posizione senza libertà, a meno che non attivi una cattura che crei una libertà.",
       "NO_PIECES_neutral": "Non hai pezzi henge in mano.",
       "NO_PIECES_normal": "Non ti sono rimasti pezzi normali.",
-      "PARTIAL": "Seleziona la casella in cui desideri piazzare il pezzo henge."
+      "PARTIAL": "Seleziona la casella in cui desideri piazzare il pezzo henge.",
+      "LABEL_NEUTRAL": "Pezzi neutrali di {{player}}"
     },
     "gyges": {
       "BAD_DISPLACE": "Non puoi spiazzare un pezzo in {{cell}}. La casella di destinazione deve essere vuota e non può trovarsi oltre la riga giocabile dell'avversario.",
@@ -5771,7 +5776,8 @@
       "PARTIAL_displace": "Seleziona una delle caselle vuote evidenziate per spiazzare il pezzo attuale.",
       "PARTIAL_move": "Seleziona la destinazione successiva, oppure clicca nuovamente su questa casella per spiazzare il pezzo.",
       "PARTIAL_setup": "Seleziona una casella vuota sulla tua riga iniziale per piazzare il pezzo.",
-      "PARTIAL_setup2": "Seleziona un altro pezzo dalla tua riserva per piazzarlo sulla scacchiera."
+      "PARTIAL_setup2": "Seleziona un altro pezzo dalla tua riserva per piazzarlo sulla scacchiera.",
+      "LABEL_STASH": "Riserva di {{player}}"
     },
     "gyve": {
       "BAD_FIRST": "Non puoi piazzare una seconda pietra nel primo turno di gioco.",
@@ -6174,7 +6180,8 @@
       "PARTIAL_MOVE_first": "Seleziona una squadra da muovere. Devi muovere almeno una squadra.",
       "PARTIAL_MOVE_second": "Seleziona una destinazione. La squadra deve rimanere nello stesso gruppo connesso.",
       "PARTIAL_PLACE1": "Nella prima mossa della partita, piazza due pezzi rossi e un pezzo blu. Fai clic su uno spazio vuoto per piazzare il secondo pezzo rosso.",
-      "PARTIAL_PLACE2": "Nella prima mossa della partita, piazza due pezzi rossi e un pezzo blu. Fai clic su uno spazio vuoto per piazzare il pezzo blu."
+      "PARTIAL_PLACE2": "Nella prima mossa della partita, piazza due pezzi rossi e un pezzo blu. Fai clic su uno spazio vuoto per piazzare il pezzo blu.",
+      "LABEL_ORE": "Minerale di {{player}}"
     },
     "morphos": {
       "BAD_PASS": "Non puoi passare se hai mosse legali disponibili.",
@@ -6210,7 +6217,8 @@
       "WALLS_IMMOBILE": "Le mura non possono muoversi o catturare."
     },
     "mvolcano": {
-      "INITIAL_INSTRUCTIONS": "Seleziona un cappuccio da muovere."
+      "INITIAL_INSTRUCTIONS": "Seleziona un cappuccio da muovere.",
+      "CAPTURED_LABEL": "{{player}}: Pezzi catturati"
     },
     "mutternland": {
       "INITIAL_PLACE": "Piazza un pezzo alleato, poi un pezzo avversario, entrambi sul bordo del campo di gioco. Le caselle con meno di tre vicini non possono essere usate per piazzare pezzi.",
@@ -6384,7 +6392,8 @@
       "INITIAL_INSTRUCTIONS": "Seleziona uno dei tuoi pinguini sulla plancia o nella tua mano.",
       "PARTIAL_DIRECTION_kick": "Seleziona una casella adiacente per calciare la palla in quella direzione.",
       "PARTIAL_DIRECTION_penguin": "Seleziona una casella adiacente per viaggiare in quella direzione oppure, se sei sdraiato, clicca di nuovo sulla casella per alzarti.",
-      "PARTIAL_ORIENTATION": "Seleziona una casella adiacente per riorientare il tuo pinguino, oppure clicca sul tuo pinguino per rimanere nella direzione attuale."
+      "PARTIAL_ORIENTATION": "Seleziona una casella adiacente per riorientare il tuo pinguino, oppure clicca sul tuo pinguino per rimanere nella direzione attuale.",
+      "LABEL_STASH": "Riserva di {{player}}"
     },
     "pente": {
       "OVERLINE_FORBIDDEN": "In questa variante, non puoi effettuare un piazzamento che crei un soprallinea.",
@@ -7431,7 +7440,8 @@
       "MOVES_ONE_POWERPLAY": "Puoi effettuare solo un power play per turno.",
       "MOVES_ONE_SPACE": "I cappucci possono essere mossi solo di uno spazio alla volta.",
       "PARTIAL_ERUPTION": "Continua a muovere i cappucci finché non causi un'eruzione.",
-      "PARTIAL_MOVE": "Seleziona la destinazione."
+      "PARTIAL_MOVE": "Seleziona la destinazione.",
+      "CAPTURED_LABEL": "{{player}}: Pezzi catturati"
     },
     "volo": {
       "BEARING": "L'intervallo {{range}} non produce un orientamento valido.",

@@ -147,6 +147,8 @@ Abstract Play front walks the full rep via `resolveRenderLabels()` — game auth
 | Pattern | Reference game | Source |
 |---------|---------------|--------|
 | Seat-owned `pieces` area | [Streetcar](https://play.abstractplay.com/games/streetcar) | [`streetcar.ts`](/gameslib/src/games/streetcar.ts) — `TAKEN_LABEL` |
+| `localStash` captured pieces | [Volcano](https://play.abstractplay.com/games/volcano) | [`volcano.ts`](/gameslib/src/games/volcano.ts) — `CAPTURED_LABEL` |
+| Dual board titles | [Entropy](https://play.abstractplay.com/games/entropy) | [`entropy.ts`](/gameslib/src/games/entropy.ts) — `BOARD_ORDER` / `BOARD_CHAOS` |
 
 ## Testing
 
@@ -156,4 +158,6 @@ Abstract Play front walks the full rep via `resolveRenderLabels()` — game auth
 
 ## Status
 
-Streetcar is the first migrated game (Phase 2). Remaining games still use legacy string labels or `i18next.t()` in `render()`; front `replaceNames()` remains as a shim until migration completes.
+**Phase 2 (Aug 2026):** Streetcar — first migrated game (`TAKEN_LABEL`).
+
+**Phase 3 (Aug 2026):** Hardcoded `Player N` labels removed from volcano, mvolcano, penguin, moonsquad, gyges, gorogo, cifra, acity, and entropy board titles. Remaining games still use `i18next.t(…, { playerNum })` in `render()` (Phase 4). Front `replaceNames()` remains as a shim until migration completes.

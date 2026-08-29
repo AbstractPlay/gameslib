@@ -873,7 +873,7 @@ export class PenguinGame extends GameBase {
             if (inhand.length > 0) {
                 areas.push({
                     type: "pieces",
-                    label: `Player ${p}'s stash`,
+                    label: this.seatAreaLabel(p, "apgames:validation.penguin.LABEL_STASH"),
                     pieces: inhand.map(size => `p${p === 1 ? "A" : "B"}${size}U`) as [string, ...string[]],
                 });
             }

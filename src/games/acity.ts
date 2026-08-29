@@ -971,7 +971,7 @@ export class ACityGame extends GameBase {
             if (this.stashes[n].length > 0) {
                 rep.areas!.push({
                     type: "pieces",
-                    label: `Player ${n + 1}'s stash`,
+                    label: this.seatAreaLabel(n + 1, "apgames:validation.acity.LABEL_STASH"),
                     ownerMark: n === 0 ? this.getPlayerColour(1) : this.getPlayerColour(2),
                     pieces: [...this.stashes[n]]
                 } as AreaPieces);

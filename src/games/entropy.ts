@@ -655,11 +655,11 @@ export class EntropyGame extends GameBaseSimultaneous {
             }
         }
         if (this.phase === "order") {
-            board.boardOne!.label = "Player 1: Order";
-            board.boardTwo!.label = "Player 2: Order";
+            board.boardOne!.label = this.seatAreaLabel(1, "apgames:validation.entropy.BOARD_ORDER");
+            board.boardTwo!.label = this.seatAreaLabel(2, "apgames:validation.entropy.BOARD_ORDER");
         } else {
-            board.boardOne!.label = "Player 2: Chaos";
-            board.boardTwo!.label = "Player 1: Chaos";
+            board.boardOne!.label = this.seatAreaLabel(2, "apgames:validation.entropy.BOARD_CHAOS");
+            board.boardTwo!.label = this.seatAreaLabel(1, "apgames:validation.entropy.BOARD_CHAOS");
         }
 
         const legend : { [k: string]: [Glyph, ...Glyph[]]|Glyph } = {};

@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogEntry, type ChatLogLine } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogEntry, type ChatLogLine, type RenderLabel } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaStackingExpanded, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -15,7 +15,7 @@ interface ILegendObj {
 interface ILocalStash {
     [k: string]: unknown;
     type: "localStash";
-    label: string;
+    label: RenderLabel;
     stash: string[][];
 }
 
@@ -917,7 +917,7 @@ export class MvolcanoGame extends GameBase {
             if (this.captured[player].length > 0) {
                 const node: ILocalStash = {
                     type: "localStash",
-                    label: `Player ${player + 1}: Captured Pieces`,
+                    label: this.seatAreaLabel(player + 1, "apgames:validation.mvolcano.CAPTURED_LABEL"),
                     stash: []
                 };
                 const org = this.organizeCaps((player + 1) as playerid);

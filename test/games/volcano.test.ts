@@ -35,5 +35,18 @@ describe("Volcano", () => {
         // expect(org.triosMono).to.have.deep.members([[["PK", 3], ["PK", 2], ["PK", 1]]]);
         // expect(org.miscellaneous).to.have.deep.members([["YE", 1], ["YE", 3]]);
     });
+
+    it("emits structured label on captured localStash areas", () => {
+        const g = new VolcanoGame();
+        g.captured[0] = [["RD", 1]];
+        const rep = g.render();
+        expect(rep.areas).to.have.length(1);
+        const area = rep.areas![0]!;
+        expect(area.type).to.equal("localStash");
+        expect(area.label).to.deep.equal({
+            textKey: "apgames:validation.volcano.CAPTURED_LABEL",
+            actor: { kind: "seat", seat: 1 },
+        });
+    });
 });
 

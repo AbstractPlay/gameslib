@@ -3031,6 +3031,10 @@
     "src": "Placing a piece at {{where}} would cut another piece off from the road network.",
     "out": "Placer une pièce en {{where}} isolerait une autre pièce du réseau routier."
   },
+  "validation.acity.LABEL_STASH": {
+    "src": "{{player}}'s stash",
+    "out": "Réserve de {{player}}"
+  },
   "validation.acity.MARKER": {
     "src": "You may not build on the lot containing the suit icon until all other legally buildable lots on that tile are occupied.",
     "out": "Vous ne pouvez pas construire sur le terrain contenant l'icône d'enseigne tant que tous les autres terrains légalement constructibles de cette tuile ne sont pas occupés."
@@ -5007,6 +5011,10 @@
     "src": "The move {{move}} does not appear to be valid. Remember that you may not move or capture pieces that have made it to the far row.",
     "out": "Le coup {{move}} ne semble pas valide. N'oubliez pas que vous ne pouvez ni déplacer ni capturer les pièces ayant atteint la rangée opposée."
   },
+  "validation.cifra.LABEL_STASH": {
+    "src": "{{player}}'s stash",
+    "out": "Réserve de {{player}}"
+  },
   "validation.cifra.NO_DUPES_cell": {
     "src": "You may only place one piece per cell.",
     "out": "Vous ne pouvez placer qu'une seule pièce par case."
@@ -5906,6 +5914,14 @@
   "validation.entrapment.UNCONTROLLED_BARRIER": {
     "src": "You may only move barriers that you control.",
     "out": "Vous ne pouvez déplacer que les barrières que vous contrôlez."
+  },
+  "validation.entropy.BOARD_CHAOS": {
+    "src": "{{player}}: Chaos",
+    "out": "{{player}} : Chaos"
+  },
+  "validation.entropy.BOARD_ORDER": {
+    "src": "{{player}}: Order",
+    "out": "{{player}} : Ordre"
   },
   "validation.entropy.INITIAL_INSTRUCTIONS_chaos": {
     "src": "Select an empty cell on your opponent's board to place the next piece.",
@@ -6823,6 +6839,10 @@
     "src": "The move {{move}} is not valid. Remember that you may not place a normal piece in a position with no liberties unless it triggers a capture that creates a liberty.",
     "out": "Le coup {{move}} n'est pas valide. N'oubliez pas que vous ne pouvez pas placer de pièce normale dans une position sans libertés, sauf si cela déclenche une capture qui crée une liberté."
   },
+  "validation.gorogo.LABEL_NEUTRAL": {
+    "src": "{{player}}'s neutral pieces",
+    "out": "Pièces neutres de {{player}}"
+  },
   "validation.gorogo.NO_PIECES_neutral": {
     "src": "You have no henge pieces in hand.",
     "out": "Vous n'avez aucune pièce henge en main."
@@ -6874,6 +6894,10 @@
   "validation.gyges.INVALID_PATH": {
     "src": "There is no valid path for the move {{move}}. Remember that you may only cross a cell edge one time per move, regardless of direction.",
     "out": "Il n'y a pas de chemin valide pour le coup {{move}}. N'oubliez pas que vous ne pouvez traverser le bord d'une case qu'une seule fois par coup, quelle que soit la direction."
+  },
+  "validation.gyges.LABEL_STASH": {
+    "src": "{{player}}'s stash",
+    "out": "Réserve de {{player}}"
   },
   "validation.gyges.NOT_INHAND": {
     "src": "You don't have a size {{size}} piece to place.",
@@ -8091,6 +8115,10 @@
     "src": "The code {{ore}} is not a valid ore type.",
     "out": "Le code {{ore}} n'est pas un type de minerai valide."
   },
+  "validation.moonsquad.LABEL_ORE": {
+    "src": "{{player}}'s ore",
+    "out": "Minerai de {{player}}"
+  },
   "validation.moonsquad.MISSING_ORE": {
     "src": "Could not find any {{ore}} ore in your supply.",
     "out": "Impossible de trouver du minerai {{ore}} dans votre réserve."
@@ -8326,6 +8354,10 @@
   "validation.mutternland.RESERVE_EMPTY": {
     "src": "No pieces on reserve for placement!",
     "out": "Aucune pièce en réserve pour le placement !"
+  },
+  "validation.mvolcano.CAPTURED_LABEL": {
+    "src": "{{player}}: Captured Pieces",
+    "out": "{{player}} : Pièces capturées"
   },
   "validation.mvolcano.INITIAL_INSTRUCTIONS": {
     "src": "Select a cap to move.",
@@ -8782,6 +8814,10 @@
   "validation.penguin.INITIAL_INSTRUCTIONS": {
     "src": "Select one of your penguins on the board or in your hand.",
     "out": "Sélectionnez l'un de vos pingouins sur le plateau ou dans votre main."
+  },
+  "validation.penguin.LABEL_STASH": {
+    "src": "{{player}}'s stash",
+    "out": "Réserve de {{player}}"
   },
   "validation.penguin.PARTIAL_DIRECTION_kick": {
     "src": "Select a neigbouring cell to kick the ball in that direction.",
@@ -12118,6 +12154,10 @@
   "validation.volcano.BAD_FROM": {
     "src": "{{from}} doesn't look like a position on the board, or a piece in your stash.",
     "out": "{{from}} ne semble pas être une position sur le plateau, ni une pièce de votre réserve."
+  },
+  "validation.volcano.CAPTURED_LABEL": {
+    "src": "{{player}}: Captured Pieces",
+    "out": "{{player}} : Pièces capturées"
   },
   "validation.volcano.INITIAL_INSTRUCTIONS": {
     "src": "Select a cap to move or a piece from your captured pile to place on the board.",

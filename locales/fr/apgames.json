@@ -4556,7 +4556,8 @@
       "GRADE_WIN": "Victoire (10)",
       "GRADE_SUPERIOR": "Supérieur (11)",
       "GRADE_EXCELLENT": "Excellent (12)"
-    }
+    },
+    "_player": "{{player}}"
   },
   "validation": {
     "abande": {
@@ -6030,11 +6031,11 @@
       "INVALID_SUIT": "L'enseigne sélectionnée n'apparaît pas sur la carte.",
       "INVALID_TRADE": "Vous ne disposez pas de trois jetons de cette enseigne à échanger.",
       "LABEL_BOTH": "Main et jetons de couleur de {{player}}",
-      "LABEL_COLLECTION": "Jetons d'enseigne du joueur {{playerNum}}",
+      "LABEL_COLLECTION": "Jetons de couleur de {{player}}",
       "LABEL_DECK": "Cartes dans la pioche",
       "LABEL_DISCARDS_NONE": "Défausse (aucun mélange restant)",
       "LABEL_DISCARDS_ONE": "Défausse (un mélange restant)",
-      "LABEL_HAND": "Main du joueur {{playerNum}}",
+      "LABEL_HAND": "Main de {{player}}",
       "LABEL_STACKED_DECK": "Pioche de {{player}}",
       "LABEL_WARNING": "C'est le dernier tour !",
       "MALFORMED_TRADE": "Vous devez choisir trois jetons de la même enseigne pour lancer un échange.",

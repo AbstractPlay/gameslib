@@ -4556,7 +4556,8 @@
       "GRADE_WIN": "Vittoria (10)",
       "GRADE_SUPERIOR": "Superiore (11)",
       "GRADE_EXCELLENT": "Eccellente (12)"
-    }
+    },
+    "_player": "{{player}}"
   },
   "validation": {
     "abande": {
@@ -6030,11 +6031,11 @@
       "INVALID_SUIT": "Il seme selezionato non compare sulla carta.",
       "INVALID_TRADE": "Non hai tre segnalini di quel seme disponibili da scambiare.",
       "LABEL_BOTH": "Mano e gettoni seme di {{player}}",
-      "LABEL_COLLECTION": "Segnalini seme del Giocatore {{playerNum}}",
+      "LABEL_COLLECTION": "Segnalini seme di {{player}}",
       "LABEL_DECK": "Carte nel mazzo",
       "LABEL_DISCARDS_NONE": "Pila degli scarti (nessun mescolamento rimasto)",
       "LABEL_DISCARDS_ONE": "Pila degli scarti (un mescolamento rimasto)",
-      "LABEL_HAND": "Mano del Giocatore {{playerNum}}",
+      "LABEL_HAND": "Mano di {{player}}",
       "LABEL_STACKED_DECK": "Mazzo di {{player}}",
       "LABEL_WARNING": "Questo è l'ultimo round!",
       "MALFORMED_TRADE": "Devi scegliere tre segnalini dello stesso seme per iniziare uno scambio.",

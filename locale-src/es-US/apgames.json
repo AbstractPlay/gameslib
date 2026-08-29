@@ -2483,6 +2483,10 @@
     "src": "Year",
     "out": "Año"
   },
+  "status._player": {
+    "src": "{{player}}",
+    "out": "{{player}}"
+  },
   "status.amazons.ISOLATEDQUEENS": {
     "src": "The queens are now isolated",
     "out": "Las reinas ahora están aisladas"
@@ -7664,8 +7668,8 @@
     "out": "Mano y fichas de palo de {{player}}"
   },
   "validation.magnate.LABEL_COLLECTION": {
-    "src": "Player {{playerNum}}'s suit tokens",
-    "out": "Fichas de palo del Jugador {{playerNum}}"
+    "src": "{{player}}'s suit tokens",
+    "out": "Fichas de palo de {{player}}"
   },
   "validation.magnate.LABEL_DECK": {
     "src": "Cards in deck",
@@ -7680,8 +7684,8 @@
     "out": "Pila de descarte (queda un barajeo)"
   },
   "validation.magnate.LABEL_HAND": {
-    "src": "Player {{playerNum}}'s hand",
-    "out": "Mano del Jugador {{playerNum}}"
+    "src": "{{player}}'s hand",
+    "out": "Mano de {{player}}"
   },
   "validation.magnate.LABEL_STACKED_DECK": {
     "src": "{{player}}'s deck",

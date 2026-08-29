@@ -2483,6 +2483,10 @@
     "src": "Year",
     "out": "Anno"
   },
+  "status._player": {
+    "src": "{{player}}",
+    "out": "{{player}}"
+  },
   "status.amazons.ISOLATEDQUEENS": {
     "src": "The queens are now isolated",
     "out": "Le regine sono ora isolate"
@@ -7664,8 +7668,8 @@
     "out": "Mano e gettoni seme di {{player}}"
   },
   "validation.magnate.LABEL_COLLECTION": {
-    "src": "Player {{playerNum}}'s suit tokens",
-    "out": "Segnalini seme del Giocatore {{playerNum}}"
+    "src": "{{player}}'s suit tokens",
+    "out": "Segnalini seme di {{player}}"
   },
   "validation.magnate.LABEL_DECK": {
     "src": "Cards in deck",
@@ -7680,8 +7684,8 @@
     "out": "Pila degli scarti (un mescolamento rimasto)"
   },
   "validation.magnate.LABEL_HAND": {
-    "src": "Player {{playerNum}}'s hand",
-    "out": "Mano del Giocatore {{playerNum}}"
+    "src": "{{player}}'s hand",
+    "out": "Mano di {{player}}"
   },
   "validation.magnate.LABEL_STACKED_DECK": {
     "src": "{{player}}'s deck",

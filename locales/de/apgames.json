@@ -4555,7 +4555,8 @@
       "GRADE_WIN": "Sieg (10)",
       "GRADE_SUPERIOR": "Überragend (11)",
       "GRADE_EXCELLENT": "Exzellent (12)"
-    }
+    },
+    "_player": "{{player}}"
   },
   "validation": {
     "abande": {
@@ -6014,11 +6015,11 @@
       "INVALID_SUIT": "Die ausgewählte Farbe ist auf der Karte nicht vorhanden.",
       "INVALID_TRADE": "Du hast keine drei Marker dieser Farbe zum Tauschen zur Verfügung.",
       "LABEL_BOTH": "{{player}}s Hand- und Farbmarker",
-      "LABEL_COLLECTION": "Farb-Marker von Spieler {{playerNum}}",
+      "LABEL_COLLECTION": "Farbenmarker von {{player}}",
       "LABEL_DECK": "Karten im Deck",
       "LABEL_DISCARDS_NONE": "Ablagestapel (keine Mischungen übrig)",
       "LABEL_DISCARDS_ONE": "Ablagestapel (eine Mischung übrig)",
-      "LABEL_HAND": "Hand von Spieler {{playerNum}}",
+      "LABEL_HAND": "Hand von {{player}}",
       "LABEL_STACKED_DECK": "{{player}}s Deck",
       "LABEL_WARNING": "Dies ist die letzte Runde!",
       "MALFORMED_TRADE": "Du musst drei Marker derselben Farbe auswählen, um einen Tausch zu beginnen.",

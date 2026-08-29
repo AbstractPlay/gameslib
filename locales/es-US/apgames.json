@@ -4555,7 +4555,8 @@
       "GRADE_WIN": "Victoria (10)",
       "GRADE_SUPERIOR": "Superior (11)",
       "GRADE_EXCELLENT": "Excelente (12)"
-    }
+    },
+    "_player": "{{player}}"
   },
   "validation": {
     "_general": {
@@ -6082,11 +6083,11 @@
       "INVALID_SUIT": "El palo seleccionado no aparece en la carta.",
       "INVALID_TRADE": "No tienes tres fichas de ese palo disponibles para comerciar.",
       "LABEL_BOTH": "Mano y fichas de palo de {{player}}",
-      "LABEL_COLLECTION": "Fichas de palo del Jugador {{playerNum}}",
+      "LABEL_COLLECTION": "Fichas de palo de {{player}}",
       "LABEL_DECK": "Cartas en el mazo",
       "LABEL_DISCARDS_NONE": "Pila de descarte (no quedan barajeos)",
       "LABEL_DISCARDS_ONE": "Pila de descarte (queda un barajeo)",
-      "LABEL_HAND": "Mano del Jugador {{playerNum}}",
+      "LABEL_HAND": "Mano de {{player}}",
       "LABEL_STACKED_DECK": "Mazo de {{player}}",
       "LABEL_WARNING": "¡Esta es la última ronda!",
       "MALFORMED_TRADE": "Debes elegir tres fichas del mismo palo para comenzar un intercambio.",

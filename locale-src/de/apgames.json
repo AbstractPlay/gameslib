@@ -14579,6 +14579,22 @@
     "src": "9x9 board",
     "out": "9x9-Brett"
   },
+  "variants.guerrilla.#length.description": {
+    "src": "One game only; no role swap or match scoring.",
+    "out": "Nur eine Partie; kein Rollentausch oder Match-Wertung."
+  },
+  "variants.guerrilla.#length.name": {
+    "src": "Single game",
+    "out": "Einzelpartie"
+  },
+  "variants.guerrilla.match.description": {
+    "src": "Play two games with roles reversed. When both players win as insurgents, lower stone count (`66 − remaining`) wins; equal scores draw.",
+    "out": "Zwei Partien mit vertauschten Rollen spielen. Wenn beide Spieler als Aufständische gewinnen, gewinnt die niedrigere Steinanzahl (`66 − verbleibend`); bei gleicher Punktzahl unentschieden."
+  },
+  "variants.guerrilla.match.name": {
+    "src": "Two-game match",
+    "out": "Zwei-Partien-Match"
+  },
   "variants.gyve.#board.name": {
     "src": "Hexhex 8 board (169 spaces)",
     "out": "Hexhex-8-Brett (169 Felder)"

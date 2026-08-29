@@ -3890,6 +3890,16 @@
         "name": "Avanzata",
         "description": "Vinci formando il super-glifo di maggior valore con le mini-griglie che hai conquistato, anziché vincendo il maggior numero di mini-griglie."
       }
+    },
+    "guerrilla": {
+      "#length": {
+        "description": "Una sola partita; nessun cambio di ruolo o punteggio del match.",
+        "name": "Partita singola"
+      },
+      "match": {
+        "description": "Gioca due partite a ruoli invertiti. Se entrambi i giocatori vincono come insorti, vince chi ha il minor numero di pietre (`66 − rimanenti`); con punteggi uguali è patta.",
+        "name": "Match di due partite"
+      }
     }
   },
   "displays": {

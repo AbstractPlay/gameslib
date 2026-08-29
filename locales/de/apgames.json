@@ -3890,6 +3890,16 @@
         "name": "Fortgeschritten",
         "description": "Gewinne, indem du aus den von dir eroberten Minigittern die wertvollste Superglyphe bildest, anstatt die meisten Minigitter zu gewinnen."
       }
+    },
+    "guerrilla": {
+      "#length": {
+        "description": "Nur eine Partie; kein Rollentausch oder Match-Wertung.",
+        "name": "Einzelpartie"
+      },
+      "match": {
+        "description": "Zwei Partien mit vertauschten Rollen spielen. Wenn beide Spieler als Aufständische gewinnen, gewinnt die niedrigere Steinanzahl (`66 − verbleibend`); bei gleicher Punktzahl unentschieden.",
+        "name": "Zwei-Partien-Match"
+      }
     }
   },
   "displays": {

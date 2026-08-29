@@ -3890,6 +3890,16 @@
         "name": "Avancé",
         "description": "Gagnez en formant le super-glyphe de plus grande valeur avec les mini-grilles capturées, plutôt qu'en remportant le plus de mini-grilles."
       }
+    },
+    "guerrilla": {
+      "#length": {
+        "description": "Une seule partie ; pas d'inversion des rôles ni de score de match.",
+        "name": "Partie unique"
+      },
+      "match": {
+        "description": "Jouez deux parties en inversant les rôles. Si les deux joueurs gagnent en tant qu'insurgés, le plus petit nombre de pierres (`66 − restantes`) l'emporte ; des scores égaux font match nul.",
+        "name": "Match en deux parties"
+      }
     }
   },
   "displays": {

@@ -2182,7 +2182,7 @@ export class MagnateGame extends GameBase {
 
         buttons.forEach(b => {
             b.attributes = [{name: "font-size", value: "larger"}]
-            if (this.highlights.indexOf(b.label) > -1)
+            if (typeof b.label === "string" && this.highlights.indexOf(b.label) > -1)
                 b.attributes.push({name:  "font-weight", value: "bold"});
         });
 

@@ -162,6 +162,7 @@ Full API, patterns, and anti-patterns: **[Structured move log](/gameslib/structu
 - [ ] `handleClick` for interactive placement
 - [ ] `validateMove` / `checkEOG` as needed
 - [ ] **Move log** — reviewed every `_results` type; `collectChatLogLine` and/or `chatLogEntries` customized if needed (most games); `apresults.json` strings added; `assertChatLogParity` passes
+- [ ] **Area labels** — seat-specific stash / panel titles use `seatAreaLabel()` when applicable ([Structured render labels](/gameslib/structured-render-labels/))
 - [ ] Unit tests under `test/games/`
 - [ ] Renderer JSON validated against [renderer schema](/renderer/schema-reference/)
 
@@ -179,6 +180,8 @@ Use the [examples by feature](/gameslib/examples/by-feature/) index to find game
 ## Renderer
 
 Implement `render(opts?)` returning `APRenderRep` for `@abstractplay/renderer`. Prototype JSON in the [renderer playground](https://renderer.dev.abstractplay.com).
+
+**Player-named area labels** (pieces stashes, captured piles, and similar) should use structured labels via `seatAreaLabel()` — not hard-coded `"Player 1"` strings. Front resolves display names at draw time. See **[Structured render labels](/gameslib/structured-render-labels/)**.
 
 ## Example games
 

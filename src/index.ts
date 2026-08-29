@@ -47,8 +47,19 @@ export {
     formatChatLogEntryNodes,
     applyChatPlayerNames,
     chatPlayerToken,
+    resolveRenderLabel,
+    isStructuredRenderLabel,
 } from "./common";
-export type { SoloReplayFactory, ChatActorRef, ChatLogLine, ChatLogEntry, ChatLogTranslate, ChatLogCollectContext } from "./common";
+export type {
+    SoloReplayFactory,
+    ChatActorRef,
+    ChatLogLine,
+    ChatLogEntry,
+    ChatLogTranslate,
+    ChatLogCollectContext,
+    RenderLabel,
+    StructuredRenderLabel,
+} from "./common";
 
 const gameinfo: Map<string, APGamesInformation> = new Map();
 games.forEach((v, k) => {

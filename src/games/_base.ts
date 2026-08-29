@@ -27,6 +27,9 @@ import type { ChatActorRef, ChatLogCollectContext, ChatLogEntry, ChatLogLine, Ch
 export type { ChatActorRef, ChatLogLine, ChatLogEntry, ChatLogTranslate, ChatLogCollectContext, ChatLogTextParamsInput } from "../common/chat-log";
 export { formatChatLogEntries, formatChatLogEntryNodes, chatPlayerToken, applyChatPlayerNames } from "../common/chat-log";
 import { chatPlayerToken, formatChatLogEntryNodes } from "../common/chat-log";
+import type { StructuredRenderLabel } from "../common/render-label";
+export type { RenderLabel, StructuredRenderLabel } from "../common/render-label";
+export { resolveRenderLabel, isStructuredRenderLabel } from "../common/render-label";
 import {
     computeElapsedMs,
     evaluateGrade,
@@ -828,6 +831,24 @@ export abstract class GameBase  {
             seat = this.numplayers;
         }
         return seat;
+    }
+
+    /** Structured area/board label for a seat; resolved to a display string in front. */
+    protected seatAreaLabel(
+        seat: number,
+        textKey: string,
+        textParams?: ChatLogTextParamsInput,
+    ): StructuredRenderLabel {
+        const cleaned = textParams === undefined
+            ? undefined
+            : Object.fromEntries(
+                Object.entries(textParams).filter((entry): entry is [string, string | number] => entry[1] !== undefined),
+            );
+        return {
+            textKey,
+            actor: { kind: "seat", seat },
+            textParams: cleaned,
+        };
     }
 
     protected pushSeatChatLine(

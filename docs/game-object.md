@@ -157,6 +157,10 @@ Frozen stride shim for old code paths. New games should not call it. Migrating g
 
 Optional `render()` arguments: `perspective`, `altDisplay`, `hideLayer`. Games with `stacking-expanding` pass click coordinates through render options.
 
+### Render labels
+
+Area and board `label` fields may be plain strings or structured `RenderLabel` objects (`textKey`, optional `textParams`, optional `actor`). Use **`seatAreaLabel(seat, textKey)`** on `GameBase` for player-owned pieces areas; front resolves usernames and i18n at draw time. Full guide: **[Structured render labels](/gameslib/structured-render-labels/)**.
+
 ## `IClickResult`
 
 Returned by `handleClick`: `valid`, `message`, `move`, optional `complete` and `canrender`.

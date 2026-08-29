@@ -475,7 +475,7 @@ export class AssemblyGame extends GameBaseSimultaneous {
         if (this.bag.length > 0) {
             areas.push({
                 type: "pieces",
-                label: i18next.t("apgames:validation.assembly.LABEL_BAG") || "Bag",
+                label: this.neutralAreaLabel("apgames:validation.assembly.LABEL_BAG"),
                 pieces: [...this.bag] as [string, ...string[]],
             });
         }

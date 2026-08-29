@@ -828,7 +828,7 @@ export class TintasGame extends GameBase {
                 rep.areas.push({
                     type: "pieces",
                     pieces: [...captured] as [string, ...string[]],
-                    label: i18next.t("apgames:validation.tintas.CAPTURED_LABEL", {playerNum: player}) || "local"
+                    label: this.seatAreaLabel(player, "apgames:validation.tintas.CAPTURED_LABEL"),
                 });
             }
         }

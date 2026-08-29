@@ -2185,7 +2185,7 @@ export class FroggerGame extends GameBase {
                         areas.push({
                             type: "pieces",
                             pieces: hand.map(c => "c" + (c === "" ? "UNKNOWN" : c)) as [string, ...string[]],
-                            label: i18next.t("apgames:validation.frogger.LABEL_STASH", {playerNum: p}) || `P${p} Hand`,
+                            label: this.seatAreaLabel(p, "apgames:validation.frogger.LABEL_STASH"),
                             spacing: 0.5,
                             ownerMark: p
                         });
@@ -2197,14 +2197,14 @@ export class FroggerGame extends GameBase {
                 areas.push({
                     type: "pieces",
                     pieces: market.map(c => "c" + c) as [string, ...string[]],
-                    label: i18next.t("apgames:validation.frogger.LABEL_MARKET") || "Market",
+                    label: this.neutralAreaLabel("apgames:validation.frogger.LABEL_MARKET"),
                     spacing: 0.375,
                 });
             } else if ( this.variants.includes("refills") && this._button ) {
                 areas.push({
                     type: "pieces",
                     pieces: ["refill"],
-                    label: i18next.t("apgames:validation.frogger.LABEL_MARKET") || "Market",
+                    label: this.neutralAreaLabel("apgames:validation.frogger.LABEL_MARKET"),
                     spacing: 0.375,
                 });
             }
@@ -2213,7 +2213,7 @@ export class FroggerGame extends GameBase {
                 areas.push({
                     type: "pieces",
                     pieces: discards.map(c => "c" + c) as [string, ...string[]],
-                    label: i18next.t("apgames:validation.frogger.LABEL_DISCARDS") || "Discards",
+                    label: this.neutralAreaLabel("apgames:validation.frogger.LABEL_DISCARDS"),
                     spacing: 0.25,
                     width: this.columns + 2,
                 });
@@ -2235,7 +2235,7 @@ export class FroggerGame extends GameBase {
                 if (remaining.length > 0) {
                     areas.push({
                         type: "pieces",
-                        label: i18next.t("apgames:validation.frogger.LABEL_REMAINING") || "Cards in deck",
+                        label: this.neutralAreaLabel("apgames:validation.frogger.LABEL_REMAINING"),
                         spacing: 0.25,
                         width: this.columns + 2,
                         pieces: remaining,

@@ -314,4 +314,24 @@ describe("Magnate", () => {
         }
     });
 
+    it("emits structured labels on player hand areas", () => {
+        const g = new MagnateGame();
+        const rep = g.render();
+        const handAreas = rep.areas?.filter(
+            (a) => typeof a.label === "object"
+                && a.label !== null
+                && "textKey" in a.label
+                && a.label.textKey === "apgames:validation.magnate.LABEL_BOTH",
+        );
+        expect(handAreas).to.have.length(2);
+        expect(handAreas![0]!.label).to.deep.equal({
+            textKey: "apgames:validation.magnate.LABEL_BOTH",
+            actor: { kind: "seat", seat: 1 },
+        });
+        expect(handAreas![1]!.label).to.deep.equal({
+            textKey: "apgames:validation.magnate.LABEL_BOTH",
+            actor: { kind: "seat", seat: 2 },
+        });
+    });
+
 });

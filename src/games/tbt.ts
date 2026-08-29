@@ -542,7 +542,7 @@ export class TBTGame extends GameBase {
             rep.areas!.push({
                 type: "pieces",
                 pieces: ["PD1"],
-                label: i18next.t("apgames:validation.tbt.LABEL_PREVIOUS") || "local",
+                label: this.neutralAreaLabel("apgames:validation.tbt.LABEL_PREVIOUS"),
             });
         }
 

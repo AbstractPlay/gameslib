@@ -1315,7 +1315,7 @@ export class ArimaaGame extends GameBase {
                 {
                     type: "pieces",
                     pieces: pcs.map(pc => `p${pc}`) as [string, ...string[]],
-                    label: i18next.t("apgames:validation.arimaa.LABEL_STASH", {playerNum: this.currplayer}) || `P${this.currplayer} Hand`,
+                    label: this.seatAreaLabel(this.currplayer, "apgames:validation.arimaa.LABEL_STASH"),
                 }
             ];
         }

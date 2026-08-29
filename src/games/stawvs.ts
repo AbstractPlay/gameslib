@@ -1,4 +1,4 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine, type RenderLabel } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -26,7 +26,7 @@ interface ILegendObj {
 interface ILocalStash {
     [k: string]: unknown;
     type: "localStash";
-    label: string;
+    label: RenderLabel;
     stash: string[][];
 }
 
@@ -1014,7 +1014,7 @@ export class StawvsGame extends GameBase {
 
                 const node: ILocalStash = {
                     type: "localStash",
-                    label: i18next.t("apgames:validation.stawvs.LABEL_COLLECTION", {playerNum: p}) || `P${p}'s pyramids`,
+                    label: this.seatAreaLabel(p, "apgames:validation.stawvs.LABEL_COLLECTION"),
                     stash: []
                 };
 

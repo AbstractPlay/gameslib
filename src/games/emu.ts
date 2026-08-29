@@ -1160,7 +1160,7 @@ export class EmuGame extends GameBase {
                 areas.push({
                     type: "pieces",
                     pieces: hand.map(c => "c" + (c === "" ? "UNKNOWN" : c)) as [string, ...string[]],
-                    label: i18next.t("apgames:validation.jacynth.LABEL_STASH", {playerNum: p}) || `P${p} hand`,
+                    label: this.seatAreaLabel(p, "apgames:validation.jacynth.LABEL_STASH"),
                     spacing: 0.5,
                     width: 6,
                     ownerMark: p,
@@ -1172,7 +1172,7 @@ export class EmuGame extends GameBase {
             areas.push({
                 type: "pieces",
                 pieces: this.discard.map(c => `c${c}`) as [string, ...string[]],
-                label: i18next.t("apgames:validation.emu.LABEL_DISCARD") || `Discard pile`,
+                label: this.neutralAreaLabel("apgames:validation.emu.LABEL_DISCARD"),
                 spacing: 0.25,
                 width: 8,
             });
@@ -1195,7 +1195,7 @@ export class EmuGame extends GameBase {
         if (remaining.length > 0) {
             areas.push({
                 type: "pieces",
-                label: i18next.t("apgames:validation.jacynth.LABEL_REMAINING") || "Cards in deck",
+                label: this.neutralAreaLabel("apgames:validation.jacynth.LABEL_REMAINING"),
                 spacing: 0.25,
                 pieces: remaining.map(c => "c" + c) as [string, ...string[]],
                 width: 8,

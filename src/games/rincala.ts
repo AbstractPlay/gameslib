@@ -632,7 +632,7 @@ export class RincalaGame extends GameBase {
                     areas.push({
                         type: "pieces",
                         pieces: hand as [Colour, ...Colour[]],
-                        label: i18next.t("apgames:validation.rincala.LABEL_STASH", {playerNum: i+1}) || `P${i+1} Hand`,
+                        label: this.seatAreaLabel(i + 1, "apgames:validation.rincala.LABEL_STASH"),
                     });
                 }
             }

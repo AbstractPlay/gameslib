@@ -1626,7 +1626,7 @@ export class RealmGame extends GameBase {
             rep.areas = [{
                 type: "pieces",
                 pieces: [...this.inhand[1].map(p => `${p[1] === "E" ? "En" : p[1]}${p[0]}${p[1].startsWith("E") ? "N" : ""}`)] as [string, ...string[]],
-                label: i18next.t("apgames:validation.realm.INHAND_LABEL", {realm: this.inhand[0]})
+                label: this.neutralAreaLabel("apgames:validation.realm.INHAND_LABEL", { realm: this.inhand[0] }),
             }];
         }
 

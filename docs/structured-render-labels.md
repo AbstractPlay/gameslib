@@ -67,10 +67,12 @@ Reference: [Streetcar](https://play.abstractplay.com/games/streetcar) (`TAKEN_LA
 No seat — use a plain string or structured label without a seat actor:
 
 ```typescript
+label: this.neutralAreaLabel("apgames:validation.mygame.LABEL_REMAINING"),
+// or plain string for fixed English:
 label: "Cards in deck",
-// or
-label: { textKey: "apgames:validation.mygame.LABEL_REMAINING", actor: { kind: "none" } },
 ```
+
+`neutralAreaLabel(textKey, textParams?)` is the protected `GameBase` helper (mirrors `seatAreaLabel` without a seat actor).
 
 ### Board-level labels
 
@@ -149,6 +151,8 @@ Abstract Play front walks the full rep via `resolveRenderLabels()` — game auth
 | Seat-owned `pieces` area | [Streetcar](https://play.abstractplay.com/games/streetcar) | [`streetcar.ts`](/gameslib/src/games/streetcar.ts) — `TAKEN_LABEL` |
 | `localStash` captured pieces | [Volcano](https://play.abstractplay.com/games/volcano) | [`volcano.ts`](/gameslib/src/games/volcano.ts) — `CAPTURED_LABEL` |
 | Dual board titles | [Entropy](https://play.abstractplay.com/games/entropy) | [`entropy.ts`](/gameslib/src/games/entropy.ts) — `BOARD_ORDER` / `BOARD_CHAOS` |
+| Multi-area Decktet (hand + deck) | [Magnate](https://play.abstractplay.com/games/magnate) | [`magnate.ts`](/gameslib/src/games/magnate.ts) — `LABEL_BOTH`, `LABEL_DECK` |
+| Seat collection + neutral market | [Deckfish](https://play.abstractplay.com/games/deckfish) | [`deckfish.ts`](/gameslib/src/games/deckfish.ts) — `LABEL_COLLECTION`, `LABEL_MARKET` |
 
 ## Testing
 
@@ -160,4 +164,6 @@ Abstract Play front walks the full rep via `resolveRenderLabels()` — game auth
 
 **Phase 2 (Aug 2026):** Streetcar — first migrated game (`TAKEN_LABEL`).
 
-**Phase 3 (Aug 2026):** Hardcoded `Player N` labels removed from volcano, mvolcano, penguin, moonsquad, gyges, gorogo, cifra, acity, and entropy board titles. Remaining games still use `i18next.t(…, { playerNum })` in `render()` (Phase 4). Front `replaceNames()` remains as a shim until migration completes.
+**Phase 3 (Aug 2026):** Hardcoded `Player N` labels removed from volcano, mvolcano, penguin, moonsquad, gyges, gorogo, cifra, acity, and entropy board titles.
+
+**Phase 4 (Aug 2026):** All `i18next.t(…, { playerNum })` area labels in `render()` migrated to `seatAreaLabel()` / `neutralAreaLabel()` across 25 games (waldmeister through arimaa). Grep `label: i18next` in `src/games` is clean. Remaining `{{playerNum}}` keys in en locale (unused magnate variants, Phase 5 cleanup). Front `replaceNames()` shim still active until Phase 5.

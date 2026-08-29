@@ -595,14 +595,12 @@ export class EvenAtOddsGame extends GameBase {
             .sort((a, b) => this.dominoSortAsc(this.pool.get(a)!, this.pool.get(b)!));
     }
 
-    private handLabel(player: playerid): string {
+    private handLabel(player: playerid) {
         const side = this.playerSide(player);
         if (side !== undefined) {
-            return i18next.t("apgames:validation.evenatodds.LABEL_HAND", { playerNum: player, side })
-                || `P${player} hand (${side})`;
+            return this.seatAreaLabel(player, "apgames:validation.evenatodds.LABEL_HAND", { side });
         }
-        return i18next.t("apgames:validation.evenatodds.LABEL_HAND_NO_SIDE", { playerNum: player })
-            || `P${player} hand`;
+        return this.seatAreaLabel(player, "apgames:validation.evenatodds.LABEL_HAND_NO_SIDE");
     }
 
     private tableAnchorValid(anchor: Half, pipAnchor: Pip): boolean {
@@ -1557,7 +1555,7 @@ export class EvenAtOddsGame extends GameBase {
         if (remaining.length > 0) {
             areas.push({
                 type: "pieces",
-                label: i18next.t("apgames:validation.evenatodds.LABEL_REMAINING") || "Tiles not on board",
+                label: this.neutralAreaLabel("apgames:validation.evenatodds.LABEL_REMAINING"),
                 spacing: 0.25,
                 pieces: remaining,
                 width: 6,

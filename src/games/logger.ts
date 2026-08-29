@@ -954,7 +954,7 @@ export class LoggerGame extends GameBase {
                 areas.push({
                     type: "pieces",
                     pieces: pcs as [string, ...string[]],
-                    label: i18next.t("apgames:validation.logger.PROTESTOR_LABEL", {playerNum: p}) || "local"
+                    label: this.seatAreaLabel(p, "apgames:validation.logger.PROTESTOR_LABEL"),
                 });
             }
         }

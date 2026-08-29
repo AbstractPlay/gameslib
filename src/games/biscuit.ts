@@ -1013,7 +1013,7 @@ export class BiscuitGame extends GameBase {
                 areas.push({
                     type: "pieces",
                     pieces: hand.map(c => "c" + c) as [string, ...string[]],
-                    label: i18next.t("apgames:validation.jacynth.LABEL_STASH", {playerNum: p}) || `P${p} Hand`,
+                    label: this.seatAreaLabel(p, "apgames:validation.jacynth.LABEL_STASH"),
                     spacing: 0.5,
                     width: width < 6 ? 6 : undefined,
                 });
@@ -1021,7 +1021,7 @@ export class BiscuitGame extends GameBase {
                 areas.push({
                     type: "pieces",
                     pieces: hand.map(() => "cUNKNOWN") as [string, ...string[]],
-                    label: i18next.t("apgames:validation.jacynth.LABEL_STASH", {playerNum: p}) || `P${p} Hand`,
+                    label: this.seatAreaLabel(p, "apgames:validation.jacynth.LABEL_STASH"),
                     spacing: 0.5,
                     width: width < 6 ? 6 : undefined,
                 });
@@ -1038,7 +1038,7 @@ export class BiscuitGame extends GameBase {
         if (remaining.length > 0) {
             areas.push({
                 type: "pieces",
-                label: i18next.t("apgames:validation.jacynth.LABEL_REMAINING") || "Cards in deck",
+                label: this.neutralAreaLabel("apgames:validation.jacynth.LABEL_REMAINING"),
                 spacing: 0.25,
                 pieces: remaining,
                 width: width < 6 ? 6 : undefined,

@@ -677,7 +677,7 @@ export class JacynthGame extends GameBase {
                 areas.push({
                     type: "pieces",
                     pieces: hand.map(c => "c" + c) as [string, ...string[]],
-                    label: i18next.t("apgames:validation.jacynth.LABEL_STASH", {playerNum: p}) || "local",
+                    label: this.seatAreaLabel(p, "apgames:validation.jacynth.LABEL_STASH"),
                     spacing: 0.5,
                 });
             }
@@ -692,7 +692,7 @@ export class JacynthGame extends GameBase {
         if (remaining.length > 0) {
             areas.push({
                 type: "pieces",
-                label: i18next.t("apgames:validation.jacynth.LABEL_REMAINING") || "Cards in deck",
+                label: this.neutralAreaLabel("apgames:validation.jacynth.LABEL_REMAINING"),
                 spacing: 0.25,
                 pieces: remaining,
             });

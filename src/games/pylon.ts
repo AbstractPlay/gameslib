@@ -663,7 +663,7 @@ export class PylonGame extends GameBase {
                     type: "pieces",
                     pieces: pcs as [string, ...string[]],
                     width: 5,
-                    label: i18next.t("apgames:validation.subdivision.LABEL_STASH", {playerNum: p}) || "local"
+                    label: this.seatAreaLabel(p, "apgames:validation.subdivision.LABEL_STASH"),
                 });
             }
         }

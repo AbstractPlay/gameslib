@@ -2692,7 +2692,7 @@ export class MagnateGame extends GameBase {
                 areas.push({
                     type: "pieces",
                     pieces: hand.concat(tokens) as [string, ...string[]],
-                    label: i18next.t("apgames:validation.magnate.LABEL_BOTH", {playerNum: p}) || `P${p}'s Hand and Tokens`,
+                    label: this.seatAreaLabel(p, "apgames:validation.magnate.LABEL_BOTH"),
                     spacing: 0.25,
                     width: width,
                     ownerMark: p
@@ -2731,7 +2731,9 @@ export class MagnateGame extends GameBase {
             areas.push({
                 type: "pieces",
                 pieces: this.discards.map(c => "k" + c) as [string, ...string[]],
-                label: this.shuffled ? i18next.t("apgames:validation.magnate.LABEL_DISCARDS_NONE") : i18next.t("apgames:validation.magnate.LABEL_DISCARDS_ONE") || "Discards",
+                label: this.shuffled
+                    ? this.neutralAreaLabel("apgames:validation.magnate.LABEL_DISCARDS_NONE")
+                    : this.neutralAreaLabel("apgames:validation.magnate.LABEL_DISCARDS_ONE"),
                 spacing: 0.25,
                 width: this.districts + 2,
             });
@@ -2749,7 +2751,7 @@ export class MagnateGame extends GameBase {
                     if (pr.length > 0)
                         areas.push({
                             type: "pieces",
-                            label: i18next.t("apgames:validation.magnate.LABEL_STACKED_DECK", {playerNum: p}) || `Cards in P${p}'s deck`,
+                            label: this.seatAreaLabel(p, "apgames:validation.magnate.LABEL_STACKED_DECK"),
                             spacing: 0.25,
                             width: this.districts + 2,
                             pieces: pr as [string, ...string[]]
@@ -2758,7 +2760,7 @@ export class MagnateGame extends GameBase {
             } else {
                 areas.push({
                     type: "pieces",
-                    label: i18next.t("apgames:validation.magnate.LABEL_DECK") || "Cards in deck",
+                    label: this.neutralAreaLabel("apgames:validation.magnate.LABEL_DECK"),
                     spacing: 0.25,
                     width: this.districts + 2,
                     pieces: remaining as [string, ...string[]]
@@ -2768,7 +2770,7 @@ export class MagnateGame extends GameBase {
         } else if (this.shuffled === true && this.gameover === false) {
                 areas.push({
                     type: "pieces",
-                    label: i18next.t("apgames:validation.magnate.LABEL_WARNING") || "Last round!",
+                    label: this.neutralAreaLabel("apgames:validation.magnate.LABEL_WARNING"),
                     spacing: 0.25,
                     width: this.districts + 2,
                     pieces: ["Warning"] as [string, ...string[]]

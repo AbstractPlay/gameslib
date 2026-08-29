@@ -660,7 +660,7 @@ export class FourGame extends GameBase {
         if (this.selected !== undefined) {
             rep.areas.push({
                 type: "polyomino",
-                label: i18next.t("apgames:validation.four.LABEL_SELECTED") || "local",
+                label: this.neutralAreaLabel("apgames:validation.four.LABEL_SELECTED"),
                 matrix: this.selected,
             });
         }
@@ -687,7 +687,7 @@ export class FourGame extends GameBase {
             rep.areas.push({
                 type: "pieces",
                 pieces: [...strs] as [string, ...string[]],
-                label: i18next.t("apgames:validation.fnap.LABEL_STASH", {playerNum: player}) || "local",
+                label: this.seatAreaLabel(player, "apgames:validation.fnap.LABEL_STASH"),
                 width: areaWidth,
             });
         }

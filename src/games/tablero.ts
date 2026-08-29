@@ -1077,7 +1077,7 @@ export class TableroGame extends GameBase {
             rep.areas!.push({
                 type: "pieces",
                 pieces: prevRoll.length > 1 ? ["PD1","PD2"] : ["PD1"],
-                label: i18next.t("apgames:validation.tablero.LABEL_PREVIOUS") || "local",
+                label: this.neutralAreaLabel("apgames:validation.tablero.LABEL_PREVIOUS"),
             });
         }
 

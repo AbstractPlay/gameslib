@@ -854,6 +854,26 @@ export abstract class GameBase  {
         return label;
     }
 
+    /** Structured area/board label with no seat actor; resolved in front via i18n only. */
+    protected neutralAreaLabel(
+        textKey: string,
+        textParams?: ChatLogTextParamsInput,
+    ): StructuredRenderLabel {
+        const cleaned = textParams === undefined
+            ? undefined
+            : Object.fromEntries(
+                Object.entries(textParams).filter((entry): entry is [string, string | number] => entry[1] !== undefined),
+            );
+        const label: StructuredRenderLabel = {
+            textKey,
+            actor: { kind: "none" },
+        };
+        if (cleaned !== undefined && Object.keys(cleaned).length > 0) {
+            label.textParams = cleaned;
+        }
+        return label;
+    }
+
     protected pushSeatChatLine(
         lines: ChatLogLine[],
         seat: number,

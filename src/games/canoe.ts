@@ -2663,7 +2663,7 @@ export class CanoeGame extends GameBase {
             if (unplaced.length > 0) {
                 rep.areas = [{
                     type: "pieces",
-                    label: i18next.t("apgames:validation.canoe.SETUP_HAND"),
+                    label: this.neutralAreaLabel("apgames:validation.canoe.SETUP_HAND"),
                     pieces: unplaced.map(i => CanoeGame.setupDieGlyph(i)) as [string, ...string[]],
                 }];
             }

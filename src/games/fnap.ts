@@ -915,7 +915,7 @@ export class FnapGame extends GameBaseSimultaneous {
                 type: "pieces",
                 width: 6,
                 pieces: mapped.map(s => `x${s}`) as [string, ...string[]],
-                label: i18next.t("apgames:validation.fnap.LABEL_SELECTED") || "local",
+                label: this.neutralAreaLabel("apgames:validation.fnap.LABEL_SELECTED"),
             });
         }
         for (const player of [1,2] as playerid[]) {
@@ -949,7 +949,7 @@ export class FnapGame extends GameBaseSimultaneous {
                 type: "pieces",
                 width: 6,
                 pieces: [...strs] as [string, ...string[]],
-                label: i18next.t("apgames:validation.fnap.LABEL_STASH", {playerNum: player}) || "local",
+                label: this.seatAreaLabel(player, "apgames:validation.fnap.LABEL_STASH"),
             });
         }
 

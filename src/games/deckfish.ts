@@ -1271,7 +1271,7 @@ export class DeckfishGame extends GameBase {
 
             areas.push({
                 type: "pieces",
-                label: i18next.t("apgames:validation.deckfish.LABEL_MARKET") || "Market cards",
+                label: this.neutralAreaLabel("apgames:validation.deckfish.LABEL_MARKET"),
                 spacing: 0.25,
                 pieces: marketCards,
                 width: 3,
@@ -1294,7 +1294,7 @@ export class DeckfishGame extends GameBase {
                 areas.push({
                     type: "pieces",
                     pieces: captives as [string, ...string[]],
-                    label: i18next.t("apgames:validation.deckfish.LABEL_COLLECTION", {playerNum: p}) || `P${p} suits`,
+                    label: this.seatAreaLabel(p, "apgames:validation.deckfish.LABEL_COLLECTION"),
                     spacing: -0.25,
                     ownerMark: p,
                     width: 16,

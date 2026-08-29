@@ -3890,6 +3890,16 @@
         "name": "Avanzata",
         "description": "Vinci formando il super-glifo di maggior valore con le mini-griglie che hai conquistato, anziché vincendo il maggior numero di mini-griglie."
       }
+    },
+    "guerrilla": {
+      "#length": {
+        "description": "Una sola partita; nessun cambio di ruolo o punteggio del match.",
+        "name": "Partita singola"
+      },
+      "match": {
+        "description": "Gioca due partite a ruoli invertiti. Quando entrambi i giocatori vincono come insorti, vince il minor numero di pedine (`66 − rimanenti`); in caso di punteggio pari è pareggio.",
+        "name": "Match su due partite"
+      }
     }
   },
   "displays": {

@@ -3890,6 +3890,16 @@
       "8x8": {
         "name": "Tablero de 8x8"
       }
+    },
+    "guerrilla": {
+      "#length": {
+        "description": "Solo una partida; sin cambio de roles ni puntuación del encuentro.",
+        "name": "Partida única"
+      },
+      "match": {
+        "description": "Juega dos partidas con los roles invertidos. Si ambos jugadores ganan como insurgentes, gana la menor cantidad de piedras (`66 − restantes`); los puntajes iguales empatan.",
+        "name": "Encuentro de dos partidas"
+      }
     }
   },
   "displays": {

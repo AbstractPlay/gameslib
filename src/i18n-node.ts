@@ -2,18 +2,21 @@ import type { i18n } from "i18next";
 import * as i18nextModule from "i18next";
 import { existsSync, readFileSync } from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 import { supportedLocales, type AddResourceOptions } from "./i18n-shared.js";
 
 /** Node uses the global i18next singleton so game validation shares the same instance. */
 const i18next: i18n = (i18nextModule as unknown as { default: i18n }).default;
+
+const MODULE_DIR = path.dirname(fileURLToPath(import.meta.url));
 
 const GAMESLIB_NAMESPACES = ["apgames", "apresults"] as const;
 
 export type { AddResourceOptions };
 
 const loadLocaleBundles = (lang: string): Record<string, object> => {
-    const packagedLocales = path.join(__dirname, "locales");
-    const sourceLocales = path.join(__dirname, "../locales");
+    const packagedLocales = path.join(MODULE_DIR, "locales");
+    const sourceLocales = path.join(MODULE_DIR, "../locales");
     const localesPath = existsSync(packagedLocales) ? packagedLocales : sourceLocales;
     const bundles: Record<string, object> = {};
     for (const ns of GAMESLIB_NAMESPACES) {

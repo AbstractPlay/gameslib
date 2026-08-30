@@ -1,9 +1,9 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
-import { SquareGraph } from "../common/graphs";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError } from "../common/index.js";
+import { SquareGraph } from "../common/graphs/index.js";
 import { connectedComponents } from 'graphology-components';
 import i18next from "i18next";
 

@@ -1,6 +1,6 @@
 import { UndirectedGraph } from "graphology";
-import { bidirectional } from 'graphology-shortest-path/unweighted';
-import { IGraph } from "./IGraph";
+import { bidirectional } from 'graphology-shortest-path/unweighted.js';
+import { IGraph } from "./IGraph.js";
 
 // Similar to PentaHexGraph but the center node only has 5 edges
 export class PentaHexGraph implements IGraph {

@@ -1,5 +1,5 @@
-import { IPoint, calcBearing, circle2poly, ptDistance } from "../../common";
-import { playerid } from "../calculus";
+import { IPoint, calcBearing, circle2poly, ptDistance } from "../../common/index.js";
+import { playerid } from "../calculus.js";
 import { polygon as turfPoly } from "@turf/helpers";
 import turfWithin from "@turf/boolean-within";
 import turfIntersects from "@turf/boolean-intersects";

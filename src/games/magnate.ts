@@ -1,13 +1,11 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaButtonBar, AreaPieces, AreaKey, ButtonBarButton, Glyph, MarkerFlood, MarkerOutline, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { randomInt, reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { randomInt, reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { Card, Multicard, Multideck, cardSortAsc, cardsBasic, cardsExtended, suits } from "../common/decktet";
+import { Card, Multicard, Multideck, cardSortAsc, cardsBasic, cardsExtended, suits } from "../common/decktet/index.js";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 export type moveType = "B"|"D"|"S"|"A"|"T"|"P"|"C"|"E";
@@ -314,7 +312,7 @@ export class MagnateGame extends GameBase {
         const state = this.stack[idx];
         this.results = [...state._results];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board) as [string[], string[][], string[][]];
+        this.board = cloneState(state.board) as [string[], string[][], string[][]];
         this.crowns = [[...state.crowns[0]], [...state.crowns[1]]];
         this.deeds = [new Map(state.deeds[0]),new Map(state.deeds[1])];
         this.discards = [...state.discards];
@@ -1154,7 +1152,7 @@ export class MagnateGame extends GameBase {
         if (this.gameover)
             return "";
 
-        const cloned = Object.assign(new MagnateGame(), deepclone(this) as MagnateGame);
+        const cloned = Object.assign(new MagnateGame(), cloneState(this) as MagnateGame);
         const usedCardCount = (cloned.variants.includes("mega") ? 2 : 1);
         const leverageCount = usedCardCount * 2 + 1;
 
@@ -1457,7 +1455,7 @@ export class MagnateGame extends GameBase {
         }
 
         //If the move is complicated, we need a clone here.
-        const cloned = Object.assign(new MagnateGame(), deepclone(this) as MagnateGame);
+        const cloned = Object.assign(new MagnateGame(), cloneState(this) as MagnateGame);
 
         const moves: string[] = cloned.splitMove(m);
         const cards2use = cloned.variants.includes("mega") ? 2 : 1;
@@ -2109,7 +2107,7 @@ export class MagnateGame extends GameBase {
             _results: [...this.results],
             _timestamp: new Date(),
             currplayer: this.currplayer,
-            board: deepclone(this.board) as [string[], string[][], string[][]],
+            board: cloneState(this.board) as [string[], string[][], string[][]],
             crowns: [[...this.crowns[0]],[...this.crowns[1]]],
             deeds: [new Map(this.deeds[0]),new Map(this.deeds[1])],
             discards: [...this.discards],
@@ -3032,6 +3030,6 @@ export class MagnateGame extends GameBase {
     }
 
     public clone(): MagnateGame {
-        return Object.assign(new MagnateGame(), deepclone(this) as MagnateGame);
+        return Object.assign(new MagnateGame(), cloneState(this) as MagnateGame);
     }
 }

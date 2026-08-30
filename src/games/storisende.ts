@@ -1,17 +1,12 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, BoardBasic, MarkerFlood } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { replacer, reviver, UserFacingError, x2uid } from "../common";
-import { generateField } from "../common/hexes";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { cloneState, reviver, shuffle, UserFacingError, x2uid } from "../common/index.js";
+import { generateField } from "../common/hexes.js";
 import i18next from "i18next";
-import { StorisendeHex } from "./storisende/hex";
-import { StorisendeBoard } from "./storisende/board";
-import { shuffle } from "../common";
-const Buffer = require('buffer/').Buffer  // note: the trailing slash is important!
-import pako, { Data } from "pako";
-const deepclone = require("rfdc/default");
+import { StorisendeHex } from "./storisende/hex.js";
+import { StorisendeBoard } from "./storisende/board.js";
 
 export type playerid = 1|2;
 export type Tile = undefined|"virgin"|"territory"|"wall";
@@ -91,7 +86,7 @@ export class StorisendeGame extends GameBase {
     };
 
     public static clone(obj: StorisendeGame): StorisendeGame {
-        const cloned: StorisendeGame = Object.assign(new StorisendeGame(), deepclone(obj) as StorisendeGame);
+        const cloned: StorisendeGame = Object.assign(new StorisendeGame(), cloneState(obj) as StorisendeGame);
         cloned.board = obj.board.clone();
         return cloned;
     }
@@ -111,16 +106,10 @@ export class StorisendeGame extends GameBase {
         super();
         if (state !== undefined) {
             if (typeof state === "string") {
-                // is the state a raw JSON obj
-                if (state.startsWith("{")) {
-                    state = JSON.parse(state, reviver) as IStorisendeState;
+                if (!state.startsWith("{") && !state.startsWith("[")) {
+                    throw new Error("Compressed game state must be decompressed before constructing the engine.");
                 }
-                // or is it a b64 encoded gzip
-                else {
-                    const decoded = Buffer.from(state, "base64") as Data;
-                    const decompressed = pako.ungzip(decoded, {to: "string"});
-                    state = JSON.parse(decompressed, reviver) as IStorisendeState;
-                }
+                state = JSON.parse(state, reviver) as IStorisendeState;
             }
             if (state.game !== StorisendeGame.gameinfo.uid) {
                 throw new Error(`The Storisende game code cannot process a game of '${state.game}'.`);
@@ -185,13 +174,7 @@ export class StorisendeGame extends GameBase {
         this.load();
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public serialize(opts?: {strip?: boolean, player?: number}): string {
-        const json = JSON.stringify(this.state(), replacer);
-        const compressed = pako.gzip(json);
-        return Buffer.from(compressed).toString("base64") as string;
-    }
-
+    
     public load(idx = -1): StorisendeGame {
         if (idx < 0) {
             idx += this.stack.length;

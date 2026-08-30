@@ -1,8 +1,8 @@
 import { Orientation } from "honeycomb-grid";
-import { hexNeighbours } from "../../common/hexes";
-import { StorisendeGraph } from "./graph";
-import { StorisendeHex, type HexArgs } from "./hex";
-import type { playerid, Tile } from "../storisende";
+import { hexNeighbours } from "../../common/hexes.js";
+import { StorisendeGraph } from "./graph.js";
+import { StorisendeHex, type HexArgs } from "./hex.js";
+import type { playerid, Tile } from "../storisende.js";
 import { connectedComponents } from "graphology-components";
 
 type BoardArgs = {

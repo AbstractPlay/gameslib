@@ -1,12 +1,10 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { allDirections, RectGrid, reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { allDirections, RectGrid, reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 export type Size = 1|2;
@@ -63,7 +61,7 @@ export class DameoGame extends GameBase {
 
     public static clone(obj: DameoGame): DameoGame {
 
-        const cloned = Object.assign(new DameoGame(), deepclone(obj) as DameoGame);
+        const cloned = Object.assign(new DameoGame(), cloneState(obj) as DameoGame);
         return cloned;
     }
 

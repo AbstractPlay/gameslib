@@ -1,13 +1,13 @@
 
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, Glyph, MarkerEdge, MarkerFence, MarkerFlood, MarkerGlyph, MarkerHalo, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
-import { HexConeGraph, HexSlantedGraph } from "../common/graphs";
+import { HexConeGraph, HexSlantedGraph } from "../common/graphs/index.js";
 import { UndirectedGraph } from "graphology";
-import { bidirectional } from "graphology-shortest-path/unweighted";
+import { bidirectional } from "graphology-shortest-path/unweighted.js";
 
 export type playerid = 1|2;
 

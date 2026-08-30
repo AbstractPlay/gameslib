@@ -1,13 +1,11 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, MarkerDots, MarkerGlyph } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, shuffle, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, shuffle, UserFacingError, cloneState } from "../common/index.js";
 import { connectedComponents } from 'graphology-components';
 import i18next from "i18next";
-import { HexTriGraph } from "../common/graphs";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
+import { HexTriGraph } from "../common/graphs/index.js";
 
 type playerid = 1|2;
 
@@ -188,7 +186,7 @@ export class OmnyGame extends GameBase {
         }
         this.results = [...state._results];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board) as Map<string, CellContents>;
+        this.board = cloneState(state.board) as Map<string, CellContents>;
         this.lastmove = state.lastmove;
         return this;
     }
@@ -696,7 +694,7 @@ export class OmnyGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board) as Map<string, playerid[]>,
+            board: cloneState(this.board) as Map<string, playerid[]>,
         };
     }
 
@@ -870,7 +868,7 @@ export class OmnyGame extends GameBase {
     }
 
     public clone(): OmnyGame {
-        return Object.assign(new OmnyGame(), deepclone(this) as OmnyGame);
+        return Object.assign(new OmnyGame(), cloneState(this) as OmnyGame);
         // return new OmnyGame(this.serialize());
     }
 }

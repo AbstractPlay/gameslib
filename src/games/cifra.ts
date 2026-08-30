@@ -1,10 +1,10 @@
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaPieces, Colourfuncs, Colourstrings, Glyph, MarkerFlood, PatternName, PositiveInteger, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { allDirections, reviver, shuffle, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { allDirections, reviver, shuffle, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
-import { CifraGraph } from "./cifra/graph";
+import { CifraGraph } from "./cifra/graph.js";
 
 export type playerid = 1|2;
 export type ContentsDash = playerid;

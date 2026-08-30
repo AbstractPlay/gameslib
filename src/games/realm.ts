@@ -1,11 +1,9 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IStashEntry, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IStashEntry, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, BoardBasic } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { RectGrid, reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 export type Piece = "B"|"P"|"E"|"Ex";
@@ -264,8 +262,8 @@ export class RealmGame extends GameBase {
         this.lastmove = state.lastmove;
         this.phase = state.phase;
         this.captured = [...state.captured];
-        this.inhand = deepclone(state.inhand) as [string, CellContents[]]|undefined;
-        this.pieces = deepclone(state.pieces) as [[number,number,number],[number,number,number]];
+        this.inhand = cloneState(state.inhand) as [string, CellContents[]]|undefined;
+        this.pieces = cloneState(state.pieces) as [[number,number,number],[number,number,number]];
         this.results = [...state._results];
         return this;
     }
@@ -275,7 +273,7 @@ export class RealmGame extends GameBase {
         const contents: [string, CellContents][] = [];
         for (const c of [...border, cell]) {
             if (this.board.has(c)) {
-                contents.push([c, deepclone(this.board.get(c)!) as CellContents]);
+                contents.push([c, cloneState(this.board.get(c)!) as CellContents]);
             }
         }
         return contents;
@@ -335,7 +333,7 @@ export class RealmGame extends GameBase {
                     lastmove = "";
                 }
 
-                const cloned = Object.assign(new RealmGame(), deepclone(this) as RealmGame);
+                const cloned = Object.assign(new RealmGame(), cloneState(this) as RealmGame);
                 if (moves.length > 0) {
                     cloned.move(moves.join(";"), {partial: true});
                 }
@@ -575,7 +573,7 @@ export class RealmGame extends GameBase {
             }
         }
 
-        let cloned: RealmGame = Object.assign(new RealmGame(), deepclone(this) as RealmGame);
+        let cloned: RealmGame = Object.assign(new RealmGame(), cloneState(this) as RealmGame);
 
         if (m.length === 0) {
             result.valid = true;
@@ -1139,7 +1137,7 @@ export class RealmGame extends GameBase {
                     triggered.clear();
                 } // move type (rearrangement or movement)
 
-                cloned = Object.assign(new RealmGame(), deepclone(this) as RealmGame);
+                cloned = Object.assign(new RealmGame(), cloneState(this) as RealmGame);
                 cloned.move(moves.slice(0, i+1).join(";"), {partial:true});
             } // for each submove
 
@@ -1425,10 +1423,10 @@ export class RealmGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
-            pieces: deepclone(this.pieces) as [[number,number,number],[number,number,number]],
+            pieces: cloneState(this.pieces) as [[number,number,number],[number,number,number]],
             phase: this.phase,
-            captured: deepclone(this.captured) as [number,number],
-            inhand: deepclone(this.inhand) as [string, CellContents[]]|undefined,
+            captured: cloneState(this.captured) as [number,number],
+            inhand: cloneState(this.inhand) as [string, CellContents[]]|undefined,
         };
     }
 

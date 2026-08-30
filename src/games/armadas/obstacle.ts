@@ -1,4 +1,4 @@
-import { IPoint, projectPoint } from "../../common";
+import { IPoint, projectPoint } from "../../common/index.js";
 
 export interface IObstacleOpts {
     vertices?: number;

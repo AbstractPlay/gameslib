@@ -1,4 +1,4 @@
-import type { APMoveResult } from "../schemas/moveresults";
+import type { APMoveResult } from "../schemas/moveresults.js";
 
 export type TurnModel = "sequential" | "simultaneous" | "sequenced" | "skip-turn";
 

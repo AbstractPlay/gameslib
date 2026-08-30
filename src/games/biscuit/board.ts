@@ -1,4 +1,4 @@
-import { BiscuitCard } from "./card";
+import { BiscuitCard } from "./card.js";
 
 export class BiscuitBoard {
     private _cards: BiscuitCard[];

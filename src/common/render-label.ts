@@ -1,5 +1,5 @@
-import type { ChatActorRef, ChatLogTextParamValue, ChatLogTranslate } from "./chat-log";
-import { applyChatPlayerNames, chatPlayerToken } from "./chat-log";
+import type { ChatActorRef, ChatLogTextParamValue, ChatLogTranslate } from "./chat-log.js";
+import { applyChatPlayerNames, chatPlayerToken } from "./chat-log.js";
 
 export type StructuredRenderLabel = {
     textKey: string;

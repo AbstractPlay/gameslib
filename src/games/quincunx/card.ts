@@ -1,4 +1,4 @@
-import { Card } from "../../common/decktet";
+import { Card } from "../../common/decktet/index.js";
 
 export class QuincunxCard {
     private readonly _x: number;

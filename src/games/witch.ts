@@ -1,11 +1,9 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IStashEntry, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IStashEntry, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, reviver, UserFacingError, shuffle } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { RectGrid, reviver, UserFacingError, shuffle, cloneState } from "../common/index.js";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 export type CellContents = "S"|"M"|"C"|"E";
@@ -159,7 +157,7 @@ export class WitchGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.results = [...state._results];
-        this.captured = deepclone(state.captured) as [CellContents[],CellContents[]];
+        this.captured = cloneState(state.captured) as [CellContents[],CellContents[]];
         this.affiliations = [...state.affiliations]
         return this;
     }
@@ -606,7 +604,7 @@ export class WitchGame extends GameBase {
             lastmove: this.lastmove,
             board: new Map(this.board),
             affiliations: [...this.affiliations],
-            captured: deepclone(this.captured) as [CellContents[],CellContents[]],
+            captured: cloneState(this.captured) as [CellContents[],CellContents[]],
         };
     }
 

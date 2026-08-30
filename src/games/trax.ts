@@ -1,12 +1,12 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaKey, MarkerGlyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path";
-import { UnboundedSquareBoard } from "../common/unbounded-square-board";
+import { UnboundedSquareBoard } from "../common/unbounded-square-board.js";
 
 type playerid = 1 | 2;
 const colLabels = "abcdefghijklmnopqrstuvwxyz".split("");

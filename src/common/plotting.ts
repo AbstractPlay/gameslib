@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { IPoint, Direction } from ".";
+import { IPoint, Direction } from "./index.js";
 
 /** Maps compass bearings in degrees (multiples of 45) to `Direction` labels. */
 export const deg2dir = new Map<number, Direction>([

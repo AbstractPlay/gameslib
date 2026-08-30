@@ -1,4 +1,4 @@
-import { Ruleset } from "./ruleset";
+import { Ruleset } from "./ruleset.js";
 
 // 1 is attacker, 2 is defender
 type playerid = 1 | 2;

@@ -1,4 +1,4 @@
-import type { IGamePly } from "./_turn-model";
+import type { IGamePly } from "./_turn-model.js";
 
 export interface ISkipTurnHost {
     readonly stack: Array<Record<string, unknown>>;

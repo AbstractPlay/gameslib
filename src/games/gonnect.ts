@@ -1,14 +1,11 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, replacer, reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { RectGrid, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const Buffer = require('buffer/').Buffer  // note: the trailing slash is important!
-import pako, { Data } from "pako";
 
 type playerid = 1 | 2;
 type PlayerLines = [string[], string[]];
@@ -98,14 +95,10 @@ export class GonnectGame extends GameBase {
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
-                // is the state a raw JSON obj
-                if (state.startsWith("{")) {
-                    state = JSON.parse(state, reviver) as IGonnectState;
-                } else {
-                    const decoded = Buffer.from(state, "base64") as Data;
-                    const decompressed = pako.ungzip(decoded, {to: "string"});
-                    state = JSON.parse(decompressed, reviver) as IGonnectState;
+                if (!state.startsWith("{") && !state.startsWith("[")) {
+                    throw new Error("Compressed game state must be decompressed before constructing the engine.");
                 }
+                state = JSON.parse(state, reviver) as IGonnectState;
             }
             if (state.game !== GonnectGame.gameinfo.uid) {
                 throw new Error(`The Gonnect game code cannot process a game of '${state.game}'.`);
@@ -555,14 +548,7 @@ export class GonnectGame extends GameBase {
     }
 
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public serialize(opts?: {strip?: boolean, player?: number}): string {
-        const json = JSON.stringify(this.state(), replacer);
-        const compressed = pako.gzip(json);
-
-        return Buffer.from(compressed).toString("base64") as string;
-    }
-
+    
     public clone(): GonnectGame {
         return new GonnectGame(this.serialize());
     }

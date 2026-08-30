@@ -1,16 +1,14 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaPieces, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, shuffle, UserFacingError } from "../common";
-import { GygesGraph } from "./gyges/graph";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, shuffle, UserFacingError, cloneState } from "../common/index.js";
+import { GygesGraph } from "./gyges/graph.js";
 import i18next from "i18next";
-import Graph, { DirectedGraph, MultiDirectedGraph } from "graphology";
+import { DirectedGraph, MultiDirectedGraph } from "graphology";
 import { allSimpleEdgeGroupPaths } from "graphology-simple-path";
 import { bidirectional } from "graphology-shortest-path";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 export type Size = 1|2|3;
@@ -42,7 +40,7 @@ const pathsOfLen = (g: DirectedGraph, target: number, paths: string[][]): string
     }
 }
 
-const edges2cells = (g: Graph, edges: string[]): string[] => {
+const edges2cells = (g: Pick<DirectedGraph, "extremities">, edges: string[]): string[] => {
     const cells: string[] = [];
     for (let i = 0; i < edges.length; i++) {
         const [from, to] = g.extremities(edges[i]);
@@ -124,7 +122,7 @@ const buildMoveGraph = (opts: Opts): [MultiDirectedGraph, GygesGraph] => {
     }
     const paths: string[][] = pathsOfLen(gBase.graph, size, [[start]]);
     for (const path of paths) {
-        const localSeen = deepclone(seen) as Set<string>;
+        const localSeen = cloneState(seen) as Set<string>;
         // can't use the same edge twice
         let haveSeen = false;
         const uidPath: string[] = [];
@@ -168,7 +166,7 @@ const buildMoveGraph = (opts: Opts): [MultiDirectedGraph, GygesGraph] => {
         }
         // if destination is occupied, recurse
         if (board.has(dest)) {
-            buildMoveGraph({gBase, start: dest, seen: localSeen, board: deepclone(board) as Map<string, Size>, gWorking});
+            buildMoveGraph({gBase, start: dest, seen: localSeen, board: cloneState(board) as Map<string, Size>, gWorking});
         }
     }
     return [gWorking, gBase];
@@ -332,7 +330,7 @@ export class GygesGame extends GameBase {
     //         for (const row of rows) {
     //             const avail = [...this.board.entries()].filter(([c,]) => c.endsWith(row));
     //             for (const [from,] of avail) {
-    //                 const [gMove, gBase] = buildMoveGraph({gBase: g, start: from, seen: new Set<string>(), board: deepclone(this.board) as Map<string,Size>});
+    //                 const [gMove, gBase] = buildMoveGraph({gBase: g, start: from, seen: new Set<string>(), board: cloneState(this.board) as Map<string,Size>});
     //                 for (const to of gMove.nodes()) {
     //                     // if (from === to) { continue; }
     //                     // bounce moves require you to end on an empty cell
@@ -419,7 +417,7 @@ export class GygesGame extends GameBase {
         for (const row of rows) {
             const avail = [...this.board.entries()].filter(([c,]) => c.endsWith(row));
             for (const [from,] of avail) {
-                const [gMove, ] = buildMoveGraph({gBase: g, start: from, seen: new Set<string>(), board: deepclone(this.board) as Map<string,Size>});
+                const [gMove, ] = buildMoveGraph({gBase: g, start: from, seen: new Set<string>(), board: cloneState(this.board) as Map<string,Size>});
                 for (const to of gMove.nodes()) {
                     const paths = allSimpleEdgeGroupPaths(gMove, from, to);
                     for (const path of paths) {
@@ -463,7 +461,7 @@ export class GygesGame extends GameBase {
     //     this.detailedPaths = new Map<string, string[]>();
     //     const validEmpty = this.getDisplacements(p);
 
-    //     const [gMove, gBase] = buildMoveGraph({gBase: g, start, seen: new Set<string>(), board: deepclone(this.board) as Map<string,Size>});
+    //     const [gMove, gBase] = buildMoveGraph({gBase: g, start, seen: new Set<string>(), board: cloneState(this.board) as Map<string,Size>});
     //     for (const to of gMove.nodes()) {
     //         // if (from === to) { continue; }
     //         // bounce moves require you to end on an empty cell
@@ -516,7 +514,7 @@ export class GygesGame extends GameBase {
 
         // only calculate if you landed on an occupied cell (which can't be your start cell)
         if (mv.length === 2 || (this.board.has(end) && end !== start)) {
-            const [gMove, ] = buildMoveGraph({gBase: g, start, seen: new Set<string>(), board: deepclone(this.board) as Map<string,Size>});
+            const [gMove, ] = buildMoveGraph({gBase: g, start, seen: new Set<string>(), board: cloneState(this.board) as Map<string,Size>});
             // accumulate all valid edge paths so far
             const allEdges: string[][] = [];
             for (let i = 1; i < cells.length; i++) {
@@ -555,7 +553,7 @@ export class GygesGame extends GameBase {
             return true;
         }
         const start = cells[0];
-        const [gMove, ] = buildMoveGraph({gBase: g, start, seen: new Set<string>(), board: deepclone(this.board) as Map<string,Size>});
+        const [gMove, ] = buildMoveGraph({gBase: g, start, seen: new Set<string>(), board: cloneState(this.board) as Map<string,Size>});
         // accumulate all valid edge paths so far
         const allEdges: string[][] = [];
         for (let i = 1; i < cells.length; i++) {
@@ -579,7 +577,7 @@ export class GygesGame extends GameBase {
         const g = new GygesGraph(p);
         const cells = mv.split("-");
         const start = cells[0];
-        const [gMove, gBase] = buildMoveGraph({gBase: g, start, seen: new Set<string>(), board: deepclone(this.board) as Map<string,Size>});
+        const [gMove, gBase] = buildMoveGraph({gBase: g, start, seen: new Set<string>(), board: cloneState(this.board) as Map<string,Size>});
         // accumulate all valid edge paths so far
         const allEdges: string[][] = [];
         for (let i = 1; i < cells.length; i++) {
@@ -616,7 +614,7 @@ export class GygesGame extends GameBase {
             const pcs = shuffle([...this.board.keys()].filter(c => c.endsWith(playable))) as string[];
             const start = pcs[0];
             const g = new GygesGraph(this.currplayer);
-            const [gMove,] = buildMoveGraph({gBase: g, start, board: deepclone(this.board) as Map<string, Size>, seen: new Set<string>()});
+            const [gMove,] = buildMoveGraph({gBase: g, start, board: cloneState(this.board) as Map<string, Size>, seen: new Set<string>()});
             // check for winning move
             const goal = this.currplayer === 1 ? "d8" : "c1";
             if (gMove.hasNode(goal)) {
@@ -1219,6 +1217,6 @@ export class GygesGame extends GameBase {
 
 
     public clone(): GygesGame {
-        return Object.assign(new GygesGame(), deepclone(this) as GygesGame);
+        return Object.assign(new GygesGame(), cloneState(this) as GygesGame);
     }
 }

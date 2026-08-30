@@ -1,12 +1,10 @@
-import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogEntry, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogEntry, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { Direction, RectGrid, reviver, UserFacingError } from "../common";
-import { forEachGroupResult } from "../common/chat-log";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { Direction, RectGrid, reviver, UserFacingError, cloneState } from "../common/index.js";
+import { forEachGroupResult } from "../common/chat-log.js";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const clone = require("rfdc/default");
 
 type playerid = 1|2|3|4;
 type Facing = "N"|"E"|"S"|"W"|"U";
@@ -174,7 +172,7 @@ export class PigsGame extends GameBaseSimultaneous {
 
         const state = this.stack[idx];
         this.board = new Map(state.board);
-        this.ghosts = clone(state.ghosts) as [string,CellContents][];
+        this.ghosts = cloneState(state.ghosts) as [string,CellContents][];
         this.damage = [...state.damage];
         this.lastmove = state.lastmove.join(',');
         return this;
@@ -373,7 +371,7 @@ export class PigsGame extends GameBaseSimultaneous {
                     }
                     continue;
                 }
-                const others = clone(next) as [string,string][];
+                const others = cloneState(next) as unknown as [string, string][];
                 others.splice(i, 1);
                 // see if `to` is already occupied
                 if (others.map(o => o[1]).includes(to)) {
@@ -546,7 +544,7 @@ export class PigsGame extends GameBaseSimultaneous {
             lastmove: (this.lastmove === undefined ? [] : this.lastmove.split(',')),
             board: new Map(this.board),
             damage: [...this.damage],
-            ghosts: clone(this.ghosts) as [string,CellContents][]
+            ghosts: cloneState(this.ghosts) as [string,CellContents][]
         };
     }
 

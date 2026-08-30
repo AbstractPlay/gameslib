@@ -1,14 +1,11 @@
-import {  GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult, IScores, IRenderOpts, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult, IScores, IRenderOpts, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, BoardBasic, MarkerDots, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { randomInt, replacer, reviver, shuffle, SquareOrthGraph, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { randomInt, reviver, shuffle, SquareOrthGraph, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { connectedComponents } from "graphology-components";
 import { Glyph } from "@abstractplay/renderer";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const Buffer = require('buffer/').Buffer  // note: the trailing slash is important!
-import pako, { Data } from "pako";
 
 export type playerid = 1|2;
 type Territory = {
@@ -112,14 +109,10 @@ export class AsliGame extends GameBase {
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
-                // is the state a raw JSON obj
-                if (state.startsWith("{")) {
-                    state = JSON.parse(state, reviver) as IAsliState;
-                } else {
-                    const decoded = Buffer.from(state, "base64") as Data;
-                    const decompressed = pako.ungzip(decoded, {to: "string"});
-                    state = JSON.parse(decompressed, reviver) as IAsliState;
+                if (!state.startsWith("{") && !state.startsWith("[")) {
+                    throw new Error("Compressed game state must be decompressed before constructing the engine.");
                 }
+                state = JSON.parse(state, reviver) as IAsliState;
             }
             if (state.game !== AsliGame.gameinfo.uid) {
                 throw new Error(`The Asli engine cannot process a game of '${state.game}'.`);
@@ -859,14 +852,7 @@ export class AsliGame extends GameBase {
         return swap ? 2 : 1;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public serialize(opts?: {strip?: boolean, player?: number}): string {
-        const json = JSON.stringify(this.state(), replacer);
-        const compressed = pako.gzip(json);
-
-        return Buffer.from(compressed).toString("base64") as string;
-    }
-
+    
     public clone(): AsliGame {
         return new AsliGame(this.serialize());
     }

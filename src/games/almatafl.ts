@@ -1,16 +1,14 @@
 
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, Colourfuncs } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { HexTriGraph } from "../common/graphs";
+import { HexTriGraph } from "../common/graphs/index.js";
 import { DirectedGraph } from "graphology";
-import { bidirectional } from 'graphology-shortest-path/unweighted';
+import { bidirectional } from 'graphology-shortest-path/unweighted.js';
 import { allSimplePaths } from "graphology-simple-path";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerID = 1|2;
 type Piece = "piece"|"king";
@@ -164,7 +162,7 @@ export class AlmataflGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board) as Map<string, CellContents[]>;
+        this.board = cloneState(state.board) as Map<string, CellContents[]>;
         this.lastmove = state.lastmove;
         this.buildGraph();
         return this;
@@ -599,7 +597,7 @@ export class AlmataflGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board) as Map<string, CellContents[]>,
+            board: cloneState(this.board) as Map<string, CellContents[]>,
         };
     }
 

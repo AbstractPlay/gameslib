@@ -1,4 +1,4 @@
-import type { playerid, Pips } from "../cubeo";
+import type { playerid, Pips } from "../cubeo.js";
 
 export class CubeoDie {
     private readonly _x: number;

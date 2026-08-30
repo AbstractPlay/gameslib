@@ -1,11 +1,9 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { randomInt, reviver, UserFacingError, SquareOrthGraph } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { randomInt, reviver, UserFacingError, SquareOrthGraph, cloneState } from "../common/index.js";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 
@@ -65,7 +63,7 @@ export class TBTGame extends GameBase {
         return GameBase.algebraic2coords(cell, 3);
     }
     public static clone(obj: TBTGame): TBTGame {
-        const cloned: TBTGame = Object.assign(new TBTGame(), deepclone(obj) as TBTGame);
+        const cloned: TBTGame = Object.assign(new TBTGame(), cloneState(obj) as TBTGame);
         return cloned;
     }
 

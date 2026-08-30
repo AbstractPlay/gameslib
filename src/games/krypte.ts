@@ -1,9 +1,9 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
-import { APMoveResult } from "../schemas/moveresults";
-import { DirectionCardinal, allDirections, oppositeDirections, RectGrid, reviver, UserFacingError } from "../common";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { DirectionCardinal, allDirections, oppositeDirections, RectGrid, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
-import { InARowBase } from "./in_a_row/InARowBase";
+import { InARowBase } from "./in_a_row/InARowBase.js";
 import { APRenderRep } from "@abstractplay/renderer";
 import { MarkerEdge } from "@abstractplay/renderer/build/schemas/schema";
 

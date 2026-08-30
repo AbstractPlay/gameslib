@@ -1,11 +1,9 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { allDirections, reviver, SquareGraph, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { allDirections, reviver, SquareGraph, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 export type ConnectionStatus = "enemy"|"self"|"isolated";
@@ -122,7 +120,7 @@ export class EnsoGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board) as Map<string, playerid>;
+        this.board = cloneState(state.board) as Map<string, playerid>;
         this.lastmove = state.lastmove;
         this.results = [...state._results];
         return this;
@@ -413,7 +411,7 @@ export class EnsoGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board),
+            board: cloneState(this.board),
         };
     }
 
@@ -497,7 +495,7 @@ export class EnsoGame extends GameBase {
     }
 
     public clone(): EnsoGame {
-        const cloned = Object.assign(new EnsoGame(), deepclone(this) as EnsoGame);
+        const cloned = Object.assign(new EnsoGame(), cloneState(this) as EnsoGame);
         return cloned;
     }
 }

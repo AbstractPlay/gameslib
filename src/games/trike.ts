@@ -1,11 +1,9 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError, triAi2Ap, triAp2Ai } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError, triAi2Ap, triAp2Ai, cloneState } from "../common/index.js";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 type playerid = 1|2;
 type Directions = "NE"|"E"|"SE"|"SW"|"W"|"NW";
@@ -115,7 +113,7 @@ export class TrikeGame extends GameBase {
         }
         this.results = [...state._results];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board) as Map<string, CellContents>;
+        this.board = cloneState(state.board) as Map<string, CellContents>;
         this.lastmove = state.lastmove;
 
         const standardVariants = this.variants.filter(v => v.includes("standard"))
@@ -428,7 +426,7 @@ export class TrikeGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board) as Map<string, playerid>,
+            board: cloneState(this.board) as Map<string, playerid>,
         };
     }
 
@@ -521,7 +519,7 @@ export class TrikeGame extends GameBase {
     }
 
     public clone(): TrikeGame {
-        return Object.assign(new TrikeGame(), deepclone(this) as TrikeGame);
+        return Object.assign(new TrikeGame(), cloneState(this) as TrikeGame);
         // return new TrikeGame(this.serialize());
     }
 

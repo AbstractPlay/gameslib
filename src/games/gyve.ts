@@ -1,17 +1,12 @@
 
 
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IScores, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IScores, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { HexTriGraph, replacer, reviver, setsIntersect, shuffle, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { HexTriGraph, reviver, setsIntersect, shuffle, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { connectedComponents } from "graphology-components";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const Buffer = require('buffer/').Buffer  // note: the trailing slash is important!
-import pako, { Data } from "pako";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 
@@ -90,16 +85,10 @@ export class GyveGame extends GameBase {
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
-                // is the state a raw JSON obj
-                if (state.startsWith("{")) {
-                    state = JSON.parse(state, reviver) as IGyveState;
+                if (!state.startsWith("{") && !state.startsWith("[")) {
+                    throw new Error("Compressed game state must be decompressed before constructing the engine.");
                 }
-                // or is it a b64 encoded gzip
-                else {
-                    const decoded = Buffer.from(state, "base64") as Data;
-                    const decompressed = pako.ungzip(decoded, {to: "string"});
-                    state = JSON.parse(decompressed, reviver) as IGyveState;
-                }
+                state = JSON.parse(state, reviver) as IGyveState;
             }
             if (state.game !== GyveGame.gameinfo.uid) {
                 throw new Error(`The Gyve engine cannot process a game of '${state.game}'.`);
@@ -126,12 +115,6 @@ export class GyveGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         return this;
-    }
-
-    public serialize(): string {
-        const json = JSON.stringify(this.state(), replacer);
-        const compressed = pako.gzip(json);
-        return Buffer.from(compressed).toString("base64") as string;
     }
 
     public get boardsize(): number {
@@ -609,6 +592,6 @@ export class GyveGame extends GameBase {
     }
 
     public clone(): GyveGame {
-        return Object.assign(new GyveGame(), deepclone(this) as GyveGame);
+        return Object.assign(new GyveGame(), cloneState(this) as GyveGame);
     }
 }

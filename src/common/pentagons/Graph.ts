@@ -1,5 +1,5 @@
-import { Edge } from "./Edge";
-import { Vertex } from "./Vertex";
+import { Edge } from "./Edge.js";
+import { Vertex } from "./Vertex.js";
 
 export class Graph {
     public vertices: Vertex[] = [];

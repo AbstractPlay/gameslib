@@ -1,6 +1,7 @@
-import i18next, { type i18n, type InitOptions } from "i18next";
+import { type i18n, type InitOptions } from "i18next";
 import HttpApi from "i18next-http-backend";
-import { resolveLocale, supportedLocales } from "./i18n-shared";
+import { i18next } from "./i18n-instance.js";
+import { resolveLocale, supportedLocales } from "./i18n-shared.js";
 
 const GAMESLIB_NAMESPACES = ["apgames", "apresults"] as const;
 const DEFAULT_LANG = "en";
@@ -58,7 +59,7 @@ const ensureBrowserHttpInit = (lang: string): void => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const addResource = (lang?: string, host?: i18n, _options?: import("./i18n-shared").AddResourceOptions) => {
+export const addResource = (lang?: string, host?: i18n, _options?: import("./i18n-shared.js").AddResourceOptions) => {
     const targetLang = normalizeBrowserLang(lang ?? host?.language);
 
     if (host) {

@@ -1,22 +1,20 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AnnotationFreespace, BoardFreespace, Freepiece, MarkerPath } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { Board } from "./calculus/board";
-import { Piece, type RelativePos, type Quadrant } from "./calculus/piece";
-import { Cycle } from "./calculus/cycle";
-import { calcBearing, midpoint, projectPoint, ptDistance, reviver } from "../common";
-import { fundamentalGraphCycles } from "../common/graphs";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { Board } from "./calculus/board.js";
+import { Piece, type RelativePos, type Quadrant } from "./calculus/piece.js";
+import { Cycle } from "./calculus/cycle.js";
+import { calcBearing, midpoint, projectPoint, ptDistance, reviver, cloneState } from "../common/index.js";
+import { fundamentalGraphCycles } from "../common/graphs/index.js";
 import { Feature, Polygon, polygon as turfPoly } from "@turf/helpers";
 import turfDiff from "@turf/difference";
-import { UserFacingError } from "../common";
+import { UserFacingError } from "../common/index.js";
 import { Combination } from "js-combinatorics";
 import { UndirectedGraph } from "graphology";
-import { bidirectional } from "graphology-shortest-path/unweighted";
+import { bidirectional } from "graphology-shortest-path/unweighted.js";
 import i18next from "i18next";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 type Vertex = [number,number];
 export type playerid = 1|2;
@@ -97,7 +95,7 @@ export class CalculusGame extends GameBase {
     };
 
     public static clone(obj: CalculusGame): CalculusGame {
-        const cloned: CalculusGame = Object.assign(new CalculusGame(), deepclone(obj) as CalculusGame);
+        const cloned: CalculusGame = Object.assign(new CalculusGame(), cloneState(obj) as CalculusGame);
         cloned.load();
         return cloned;
     }
@@ -1152,7 +1150,7 @@ export class CalculusGame extends GameBase {
 
     public clone(): CalculusGame {
         // Have to use Object.assign to track internal variables (like showArcs) that are not part of the persistent state
-        // return Object.assign(new CalculusGame(this.numplayers), deepclone(this) as CalculusGame);
+        // return Object.assign(new CalculusGame(this.numplayers), cloneState(this) as CalculusGame);
         return new CalculusGame(this.serialize());
     }
 }

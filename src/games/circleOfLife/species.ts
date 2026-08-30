@@ -1,4 +1,4 @@
-import { HexTriGraph, HexDir } from "../../common/graphs/hextri";
+import { HexTriGraph, HexDir } from "../../common/graphs/hextri.js";
 
 export const SPECIES_COUNT = 12;
 export const CAPTURE_THRESHOLD = 20;

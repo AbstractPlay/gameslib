@@ -1,4 +1,4 @@
-import { Card, Params } from "./Card";
+import { Card, Params } from "./Card.js";
 
 export class Multicard extends Card {
     private readonly _deck: number|undefined;

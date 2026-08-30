@@ -1,12 +1,10 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { HexTriGraph, reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { HexTriGraph, reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 export type Piece = "kernel"|"piece";
@@ -103,7 +101,7 @@ export class AmoebaGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board) as Map<string, [playerid, Piece][]>;
+        this.board = cloneState(state.board) as Map<string, [playerid, Piece][]>;
         this.lastmove = state.lastmove;
         return this;
     }
@@ -372,7 +370,7 @@ export class AmoebaGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board) as Map<string, [playerid, Piece][]>,
+            board: cloneState(this.board) as Map<string, [playerid, Piece][]>,
         };
     }
 
@@ -456,6 +454,6 @@ export class AmoebaGame extends GameBase {
 
 
     public clone(): AmoebaGame {
-        return Object.assign(new AmoebaGame(), deepclone(this) as AmoebaGame);
+        return Object.assign(new AmoebaGame(), cloneState(this) as AmoebaGame);
     }
 }

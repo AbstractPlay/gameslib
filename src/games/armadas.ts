@@ -1,14 +1,14 @@
-import {  GameBaseSkipTurn, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import type { IGamePly, IGameRound, IGameRoundSlot } from "./_turn-model";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBaseSkipTurn, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { IGamePly, IGameRound, IGameRoundSlot } from "./_turn-model.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AnnotationFreespace, BoardFreespace, Freepiece, Glyph, MarkerFreespaceGlyph, MarkerPath } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { Ship } from "./armadas/ship";
-import { IPoint, calcBearing, projectPoint, reviver, smallestDegreeDiff } from "../common";
-import { UserFacingError } from "../common";
-import { wng } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { Ship } from "./armadas/ship.js";
+import { IPoint, calcBearing, projectPoint, reviver, smallestDegreeDiff } from "../common/index.js";
+import { UserFacingError } from "../common/index.js";
+import { wng } from "../common/index.js";
 import i18next from "i18next";
-import { Obstacle } from "./armadas/obstacle";
+import { Obstacle } from "./armadas/obstacle.js";
 
 export type playerid = 1|2|3|4;
 export type Size = 1|2|3;

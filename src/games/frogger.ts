@@ -1,16 +1,14 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import type { IGamePly, IGameRound, TurnModel } from "./_turn-model";
-import { defaultPlyActor, defaultShouldCloseRound } from "./_turn-plies";
-import { sequencedSkiptoPlyActor, sequencedSkiptoShouldCloseRound } from "./_turn-sequenced-skipto";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { IGamePly, IGameRound, TurnModel } from "./_turn-model.js";
+import { defaultPlyActor, defaultShouldCloseRound } from "./_turn-plies.js";
+import { sequencedSkiptoPlyActor, sequencedSkiptoShouldCloseRound } from "./_turn-sequenced-skipto.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaPieces, Glyph, MarkerFlood, MarkerGlyph, RowCol} from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { Card, Deck, cardSortAsc, cardsBasic, cardsExtended, suits } from "../common/decktet";
+import { Card, Deck, cardSortAsc, cardsBasic, cardsExtended, suits } from "../common/decktet/index.js";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2|3|4|5;
 export type Suit = "M"|"S"|"V"|"L"|"Y"|"K";
@@ -261,7 +259,7 @@ export class FroggerGame extends GameBase {
         this.discards = [...state.discards];
         this.nummoves = state.nummoves;
         this.lastmove = state.lastmove;
-        this.frames = state.frames ? deepclone(state.frames) as FrameState[] : [];
+        this.frames = state.frames ? cloneState(state.frames) as FrameState[] : [];
 
         if (this.variants.includes("advanced"))
             this.columns = 12;
@@ -1335,7 +1333,7 @@ export class FroggerGame extends GameBase {
             }
         }
 
-        const cloned: FroggerGame = Object.assign(new FroggerGame(this.numplayers, [...this.variants]), deepclone(this) as FroggerGame);
+        const cloned: FroggerGame = Object.assign(new FroggerGame(this.numplayers, [...this.variants]), cloneState(this) as FroggerGame);
 
         let allcomplete = false;
         let refill = false;
@@ -1893,7 +1891,7 @@ export class FroggerGame extends GameBase {
             market: [...this.market],
             discards: [...this.discards],
             nummoves: this.nummoves,
-            frames: this.frames ? deepclone(this.frames) : [],
+            frames: this.frames ? cloneState(this.frames) : [],
         };
     }
 
@@ -2424,6 +2422,6 @@ export class FroggerGame extends GameBase {
     }
 
     public clone(): FroggerGame {
-        return Object.assign(new FroggerGame(this.numplayers), deepclone(this) as FroggerGame);
+        return Object.assign(new FroggerGame(this.numplayers), cloneState(this) as FroggerGame);
     }
 }

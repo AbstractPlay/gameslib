@@ -1,11 +1,9 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { randomInt, reviver, UserFacingError, SquareOrthGraph } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { randomInt, reviver, UserFacingError, SquareOrthGraph, cloneState } from "../common/index.js";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 
@@ -84,7 +82,7 @@ export class TableroGame extends GameBase {
         throw new Error(`Could not convert move "${move}" into a d6 result.`);
     }
     public static clone(obj: TableroGame): TableroGame {
-        const cloned: TableroGame = Object.assign(new TableroGame(), deepclone(obj) as TableroGame);
+        const cloned: TableroGame = Object.assign(new TableroGame(), cloneState(obj) as TableroGame);
         return cloned;
     }
 

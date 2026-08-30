@@ -1,12 +1,10 @@
-import {  GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { HexTriGraph, reviver, shuffle, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { HexTriGraph, reviver, shuffle, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { connectedComponents } from "graphology-components";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 type playerid = 1 | 2;
 
@@ -873,6 +871,6 @@ export class SurmountGame extends GameBase {
     }
 
     public clone(): SurmountGame {
-        return Object.assign(new SurmountGame(), deepclone(this) as SurmountGame);
+        return Object.assign(new SurmountGame(), cloneState(this) as SurmountGame);
     }
 }

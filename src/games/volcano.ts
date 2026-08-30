@@ -1,11 +1,9 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogEntry, type ChatLogLine, type RenderLabel } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogEntry, type ChatLogLine, type RenderLabel } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaStackingExpanded, AreaVolcanoStash, Glyph } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, shuffle, RectGrid, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, shuffle, RectGrid, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 interface ILegendObj {
     [key: string]: Glyph|[Glyph, ...Glyph[]];
@@ -228,7 +226,7 @@ export class VolcanoGame extends GameBase {
             }
             // Assume all previous moves are valid
             // Update the caps, ignoring any power plays
-            const cloned: VolcanoGame = Object.assign(new VolcanoGame(), deepclone(this) as VolcanoGame);
+            const cloned: VolcanoGame = Object.assign(new VolcanoGame(), cloneState(this) as VolcanoGame);
             for (const m of moves) {
                 const [from, to] = m.split("-");
                 if (from.length === 2) {
@@ -304,7 +302,7 @@ export class VolcanoGame extends GameBase {
             return result;
         }
 
-        const cloned: VolcanoGame = Object.assign(new VolcanoGame(), deepclone(this) as VolcanoGame);
+        const cloned: VolcanoGame = Object.assign(new VolcanoGame(), cloneState(this) as VolcanoGame);
         const moves = m.split(/\s*[\n,;/\\]\s*/);
         const grid = new RectGrid(5, 5);
         let erupted = false;
@@ -557,7 +555,7 @@ export class VolcanoGame extends GameBase {
         if (move1.toLowerCase().replace(/\s+/g, "") === move2.toLowerCase().replace(/\s+/g, "")) {
             return true;
         }
-        const cloned: VolcanoGame = Object.assign(new VolcanoGame(), deepclone(this));
+        const cloned: VolcanoGame = Object.assign(new VolcanoGame(), cloneState(this));
         cloned.stack.pop();
         cloned.load(-1);
         cloned.gameover = false;

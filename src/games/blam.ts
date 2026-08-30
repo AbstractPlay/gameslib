@@ -1,14 +1,12 @@
 
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IStashEntry, IScores, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
-import { RectGrid } from "../common";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IStashEntry, IScores, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
+import { RectGrid, cloneState } from "../common/index.js";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema";
-import { Direction } from "../common";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import { Direction } from "../common/index.js";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const clone = require("rfdc/default");
 
 export type playerid = 1|2|3|4;
 
@@ -129,7 +127,7 @@ export class BlamGame extends GameBase {
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
-        this.stashes = clone(state.stashes) as Map<playerid, number[]>;
+        this.stashes = cloneState(state.stashes) as Map<playerid, number[]>;
         this.lastmove = state.lastmove;
         this.scores = [...state.scores];
         this.caps = [...state.caps];
@@ -490,7 +488,7 @@ export class BlamGame extends GameBase {
             board: new Map(this.board),
             scores: [...this.scores],
             caps: [...this.caps],
-            stashes: clone(this.stashes) as Map<playerid, number[]>
+            stashes: cloneState(this.stashes) as Map<playerid, number[]>
         };
     }
 

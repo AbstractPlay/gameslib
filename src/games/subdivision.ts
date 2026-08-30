@@ -1,13 +1,11 @@
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
-import { shuffle, SquareGraph, SquareOrthGraph } from "../common";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
+import { shuffle, SquareGraph, SquareOrthGraph, cloneState } from "../common/index.js";
 import { APRenderRep, AreaPieces, Glyph, MarkerFlood, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { connectedComponents } from "graphology-components";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const clone = require("rfdc/default");
 
 export type playerid = 1|2|3|4;
 
@@ -210,7 +208,7 @@ export class SubdivisionGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.board = clone(state.board) as Map<string, CellContents>;
+        this.board = cloneState(state.board) as Map<string, CellContents>;
         this.lastmove = state.lastmove;
         return this;
     }
@@ -591,7 +589,7 @@ export class SubdivisionGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: clone(this.board) as Map<string, CellContents>,
+            board: cloneState(this.board) as Map<string, CellContents>,
         };
     }
 
@@ -827,6 +825,6 @@ export class SubdivisionGame extends GameBase {
     }
 
     public clone(): SubdivisionGame {
-        return Object.assign(new SubdivisionGame(this.numplayers), clone(this) as SubdivisionGame);
+        return Object.assign(new SubdivisionGame(this.numplayers), cloneState(this) as SubdivisionGame);
     }
 }

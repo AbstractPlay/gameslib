@@ -1,14 +1,12 @@
 
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { SquareOrthGraph } from "../common/graphs";
+import { SquareOrthGraph } from "../common/graphs/index.js";
 import {connectedComponents} from 'graphology-components';
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 
@@ -176,7 +174,7 @@ export class ClusterfussGame extends GameBase {
         // validate each of these moves
         for (const move of moves) {
             const [from, to] = move.split("-");
-            const board = deepclone(this.board) as Map<string,playerid>;
+            const board = cloneState(this.board) as Map<string,playerid>;
             board.delete(from);
             board.set(to, player);
             const g = this.getGraph();
@@ -499,7 +497,7 @@ export class ClusterfussGame extends GameBase {
     }
 
     public clone(): ClusterfussGame {
-        return Object.assign(new ClusterfussGame(), deepclone(this) as ClusterfussGame);
+        return Object.assign(new ClusterfussGame(), cloneState(this) as ClusterfussGame);
         // return new ClusterfussGame(this.serialize());
     }
 }

@@ -1,12 +1,10 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IStashEntry, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IStashEntry, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, BoardBasic, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { RectGrid, reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { CartesianProduct } from "js-combinatorics";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 0|1|2;
 export type Size = 0|1|2|3;
@@ -130,7 +128,7 @@ export class UrbinoGame extends GameBase {
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
-        this.pieces = deepclone(state.pieces) as [[number,number,number],[number,number,number]];
+        this.pieces = cloneState(state.pieces) as [[number,number,number],[number,number,number]];
         this.results = [...state._results];
         return this;
     }
@@ -269,7 +267,7 @@ export class UrbinoGame extends GameBase {
         }
 
         // Now check for district restrictions
-        const g: UrbinoGame = Object.assign(new UrbinoGame(), deepclone(this) as UrbinoGame);
+        const g: UrbinoGame = Object.assign(new UrbinoGame(), cloneState(this) as UrbinoGame);
         g.board.set(cell, [player, size])
         const district = g.getDistrict(cell);
         if (district.length > 2) {
@@ -1063,7 +1061,7 @@ export class UrbinoGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
-            pieces: deepclone(this.pieces) as [[number,number,number],[number,number,number]],
+            pieces: cloneState(this.pieces) as [[number,number,number],[number,number,number]],
         };
     }
 

@@ -1,16 +1,14 @@
 
 import { defineHex, Orientation } from "honeycomb-grid";
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IStashEntry, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IStashEntry, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, BoardBasic } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
-import { CompassDirection, hexNeighbours, nextHex, bearing as calcBearing } from "../common/hexes";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError, cloneState } from "../common/index.js";
+import { CompassDirection, hexNeighbours, nextHex, bearing as calcBearing } from "../common/hexes.js";
 import { UndirectedGraph } from "graphology";
 import { connectedComponents } from 'graphology-components';
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 type playerid = 1|2;
 
@@ -90,7 +88,7 @@ export class ExxitGame extends GameBase {
     };
 
     public static clone(obj: ExxitGame): ExxitGame {
-        const cloned: ExxitGame = Object.assign(new ExxitGame(), deepclone(obj) as ExxitGame);
+        const cloned: ExxitGame = Object.assign(new ExxitGame(), cloneState(obj) as ExxitGame);
         for (const old of cloned.board.values()) {
             const hex = ExxitHex.create(old);
             cloned.board.set(hex.uid, hex);
@@ -744,7 +742,7 @@ export class ExxitGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board) as Map<string, ExxitHex>,
+            board: cloneState(this.board) as Map<string, ExxitHex>,
             tiles: this.tiles,
             inhand: [...this.inhand] as [number,number],
         };

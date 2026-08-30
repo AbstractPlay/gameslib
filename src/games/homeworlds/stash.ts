@@ -1,11 +1,10 @@
 
 
-import { Colour, Size, HomeworldsErrors as HWErrors } from "../homeworlds";
-import { UserFacingError } from "../../common";
+import { Colour, Size, HomeworldsErrors as HWErrors } from "../homeworlds.js";
+import { UserFacingError } from "../../common/index.js";
 import i18next from "i18next";
+import { cloneState } from "../../common/index.js";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 interface IStashContents {
     R: [number, number, number];
@@ -76,7 +75,7 @@ export class Stash {
 
     public clone(): Stash {
         const newStash = new Stash(this.maxStash);
-        newStash.contents = deepclone(this.contents);
+        newStash.contents = cloneState(this.contents);
         return newStash;
     }
 }

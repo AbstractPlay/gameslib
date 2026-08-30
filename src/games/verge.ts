@@ -1,12 +1,10 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { HexTriGraph } from "../common/graphs";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
+import { HexTriGraph } from "../common/graphs/index.js";
 
 type playerid = 1|2;
 
@@ -112,7 +110,7 @@ export class VergeGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board) as Map<string, CellContent>;
+        this.board = cloneState(state.board) as Map<string, CellContent>;
         this.boardsize = this.getBoardSize();
         this.lastmove = state.lastmove;
         this.lastgroupid = state.lastgroupid;
@@ -253,7 +251,7 @@ export class VergeGame extends GameBase {
     }
 
     private shouldFreezeGroup(groupId: number): boolean {
-        const boardClone = deepclone(this.board) as Map<string, CellContent>;
+        const boardClone = cloneState(this.board) as Map<string, CellContent>;
         const removals: string[] = [];
         boardClone.forEach((value, key) => {
             if (value[1] !== groupId) {
@@ -410,7 +408,7 @@ export class VergeGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             lastgroupid: this.lastgroupid,
-            board: deepclone(this.board) as Map<string, CellContent>
+            board: cloneState(this.board) as Map<string, CellContent>
         };
     }
 

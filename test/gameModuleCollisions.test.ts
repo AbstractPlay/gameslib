@@ -1,18 +1,16 @@
 import "mocha";
 import { expect } from "chai";
 import { execSync } from "child_process";
-import { createRequire } from "module";
 import esbuild from "esbuild";
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const testDir = path.dirname(fileURLToPath(import.meta.url));
-const require = createRequire(import.meta.url);
 const ROOT = path.resolve(testDir, "..");
 const GAMES_SRC = path.join(ROOT, "src", "games");
-const BUILD_INDEX = path.join(ROOT, "build", "index.js");
+const BUILD_BROWSER_INDEX = path.join(ROOT, "build", "index-browser.js");
 
 /** Game files that share a name with a sibling subfolder (e.g. homeworlds.ts + homeworlds/). */
 function collidingGameNames(): string[] {
@@ -42,7 +40,7 @@ function findDirectoryBarrelImports(gameName: string): string[] {
 }
 
 function ensureBuildOutput(): void {
-    if (!fs.existsSync(BUILD_INDEX)) {
+    if (!fs.existsSync(BUILD_BROWSER_INDEX)) {
         execSync("npx tsc", { cwd: ROOT, stdio: "pipe" });
     }
 }
@@ -54,17 +52,17 @@ type BundledGameslib = {
     };
 };
 
-function bundleGameslibForBrowser(): BundledGameslib {
+async function bundleGameslibForBrowser(): Promise<BundledGameslib> {
     ensureBuildOutput();
-    const out = path.join(os.tmpdir(), `gameslib-browser-test-${process.pid}.cjs`);
+    const out = path.join(os.tmpdir(), `gameslib-browser-test-${process.pid}.mjs`);
     esbuild.buildSync({
-        entryPoints: [BUILD_INDEX],
+        entryPoints: [BUILD_BROWSER_INDEX],
         bundle: true,
         platform: "browser",
-        format: "cjs",
+        format: "esm",
         outfile: out,
     });
-    return require(out) as BundledGameslib;
+    return import(pathToFileURL(out).href) as Promise<BundledGameslib>;
 }
 
 function instantiateGame(gl: BundledGameslib, uid: string) {
@@ -100,10 +98,10 @@ describe("game module collisions", () => {
     describe("browser bundle", function () {
         let gl: BundledGameslib;
 
-        before(function () {
+        before(async function () {
             // Full gameslib esbuild can exceed Mocha's default 2s on loaded machines.
             this.timeout(30_000);
-            gl = bundleGameslibForBrowser();
+            gl = await bundleGameslibForBrowser();
         });
 
         it("can construct colliding games without constructor errors", () => {

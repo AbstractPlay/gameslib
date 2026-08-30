@@ -1,4 +1,4 @@
-import { Component, ranks, suits } from "./Component";
+import { Component, ranks, suits } from "./Component.js";
 import { Colourfuncs, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 
 export type Params = {

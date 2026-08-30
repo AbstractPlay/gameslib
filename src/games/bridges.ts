@@ -1,11 +1,11 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
-import { HexTriGraph } from "../common/graphs";
-import type { HexDir } from "../common/graphs/hextri";
+import { HexTriGraph } from "../common/graphs/index.js";
+import type { HexDir } from "../common/graphs/hextri.js";
 
 export type PlayerId = 1|2;
 export type PieceType = 1|2;

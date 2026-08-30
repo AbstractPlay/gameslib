@@ -1,4 +1,4 @@
-import { calcBearing } from "../plotting";
+import { calcBearing } from "../plotting.js";
 
 export type Point = { x: number; y: number };
 

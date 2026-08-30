@@ -1,8 +1,8 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
-import { InARowBase } from "./in_a_row/InARowBase";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError } from "../common/index.js";
+import { InARowBase } from "./in_a_row/InARowBase.js";
 import { APRenderRep } from "@abstractplay/renderer";
 
 import i18next from "i18next";

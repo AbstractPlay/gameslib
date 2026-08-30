@@ -1,17 +1,12 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, BoardBasic } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { HexTriGraph, replacer, reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { HexTriGraph, reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { IGraph } from "../common/graphs";
+import { IGraph } from "../common/graphs/index.js";
 import { UndirectedGraph } from "graphology";
 import { connectedComponents } from "graphology-components";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const Buffer = require('buffer/').Buffer  // note: the trailing slash is important!
-import pako, { Data } from "pako";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 
@@ -88,14 +83,10 @@ export class ChurnGame extends GameBase {
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
-                // is the state a raw JSON obj
-                if (state.startsWith("{")) {
-                    state = JSON.parse(state, reviver) as IChurnState;
-                } else {
-                    const decoded = Buffer.from(state, "base64") as Data;
-                    const decompressed = pako.ungzip(decoded, {to: "string"});
-                    state = JSON.parse(decompressed, reviver) as IChurnState;
+                if (!state.startsWith("{") && !state.startsWith("[")) {
+                    throw new Error("Compressed game state must be decompressed before constructing the engine.");
                 }
+                state = JSON.parse(state, reviver) as IChurnState;
             }
             if (state.game !== ChurnGame.gameinfo.uid) {
                 throw new Error(`The Churn engine cannot process a game of '${state.game}'.`);
@@ -108,14 +99,7 @@ export class ChurnGame extends GameBase {
         this.load();
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public serialize(opts?: {strip?: boolean, player?: number}): string {
-        const json = JSON.stringify(this.state(), replacer);
-        const compressed = pako.gzip(json);
-
-        return Buffer.from(compressed).toString("base64") as string;
-    }
-
+    
     public load(idx = -1): ChurnGame {
         if (idx < 0) {
             idx += this.stack.length;
@@ -127,7 +111,7 @@ export class ChurnGame extends GameBase {
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
 
-        this.board = deepclone(state.board) as Map<string, playerid>;
+        this.board = cloneState(state.board) as Map<string, playerid>;
         this.lastmove = state.lastmove;
         return this;
     }
@@ -150,7 +134,7 @@ export class ChurnGame extends GameBase {
 
     private getGroupSize(g: UndirectedGraph, cell: string): number {
 
-        const cloned = deepclone(this.board) as Map<string, playerid>;
+        const cloned = cloneState(this.board) as Map<string, playerid>;
         cloned.set(cell, this.currplayer);
         for (const node of g.nodes()) {
             if (!cloned.has(node) || cloned.get(node)! !== this.currplayer) {
@@ -346,7 +330,7 @@ export class ChurnGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board) as Map<string, playerid>
+            board: cloneState(this.board) as Map<string, playerid>
         };
     }
 
@@ -460,6 +444,6 @@ export class ChurnGame extends GameBase {
     }
 
     public clone(): ChurnGame {
-        return Object.assign(new ChurnGame(), deepclone(this) as ChurnGame);
+        return Object.assign(new ChurnGame(), cloneState(this) as ChurnGame);
     }
 }

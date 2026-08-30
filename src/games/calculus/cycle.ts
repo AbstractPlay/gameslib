@@ -1,4 +1,4 @@
-import { playerid } from "../calculus";
+import { playerid } from "../calculus.js";
 
 type Vertex = [number,number];
 

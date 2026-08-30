@@ -1,4 +1,4 @@
-import { Direction } from ".";
+import { Direction } from "./index.js";
 
 /** Bounded rectangular grid with `(x, y)` cell coordinates; `(0, 0)` is the top-left corner. */
 export class RectGrid {

@@ -1,6 +1,6 @@
-import type { GameBaseSimultaneous } from "./_base";
-import type { APMoveResult } from "../schemas/moveresults";
-import type { IGamePly, IGameRound, IGameRoundSlot } from "./_turn-model";
+import type { GameBaseSimultaneous } from "./_base.js";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import type { IGamePly, IGameRound, IGameRoundSlot } from "./_turn-model.js";
 
 /** Eliminated-seat sentinel in pigs simultaneous move strings. */
 export const SIMULTANEOUS_ELIM_TOKEN = "\u0091";

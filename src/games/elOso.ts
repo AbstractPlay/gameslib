@@ -1,13 +1,11 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IStatus, IValidationResult } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IStatus, IValidationResult } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, Glyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, resolveChallengeSeed, reviver, UserFacingError, type Direction } from "../common";
-import { chatPlayerToken, forEachGroupResult, type ChatActorRef, type ChatLogEntry, type ChatLogLine } from "../common/chat-log";
-import { type IGradeTier, type ISoloOutcomeMeta } from "./_solo-outcome";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { RectGrid, resolveChallengeSeed, reviver, UserFacingError, type Direction, cloneState } from "../common/index.js";
+import { chatPlayerToken, forEachGroupResult, type ChatActorRef, type ChatLogEntry, type ChatLogLine } from "../common/chat-log.js";
+import { type IGradeTier, type ISoloOutcomeMeta } from "./_solo-outcome.js";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1 | 2;
 
@@ -328,7 +326,7 @@ export class ElOsoGame extends GameBase {
         this.cave = state.cave;
         this.pit = state.pit;
         this.ground = state.ground;
-        this.frames = deepclone(state.frames) as FrameState[];
+        this.frames = cloneState(state.frames) as FrameState[];
         this.lastmove = state.lastmove;
         this.results = [...state._results];
         this.clearMoveHints();
@@ -1053,7 +1051,7 @@ export class ElOsoGame extends GameBase {
             cave: this.cave,
             pit: this.pit,
             ground: this.ground,
-            frames: deepclone(this.frames),
+            frames: cloneState(this.frames),
             challengeSeed: this.challengeSeed,
             rngCounter: this.rng?.getCounter(),
         };

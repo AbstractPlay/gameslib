@@ -1,5 +1,5 @@
-import { fracturedFlatCellLabel } from "./labels";
-import { type Point, type Poly } from "./polys";
+import { fracturedFlatCellLabel } from "./labels.js";
+import { type Point, type Poly } from "./polys.js";
 
 const pointKey = (p: Point): string =>
     `${Math.round(p.x * 100)}:${Math.round(p.y * 100)}`;

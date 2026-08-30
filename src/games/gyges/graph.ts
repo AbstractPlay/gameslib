@@ -1,6 +1,6 @@
-import type { EdgeData } from "../../common/graphs/square-directed";
-import { Direction, SquareDirectedGraph } from "../../common";
-import type { playerid } from "../gyges";
+import type { EdgeData } from "../../common/graphs/square-directed.js";
+import { Direction, SquareDirectedGraph } from "../../common/index.js";
+import type { playerid } from "../gyges.js";
 
 type GygesDirection = Direction|"any";
 type GygesEdgeData = EdgeData & {direction: GygesDirection; uid: string};

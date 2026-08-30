@@ -1,13 +1,11 @@
 
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, BoardBasic, Glyph, MarkerFlood } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { HexTriGraph } from "../common/graphs";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
+import { HexTriGraph } from "../common/graphs/index.js";
 
 export type playerid = 1|2;
 
@@ -119,7 +117,7 @@ export class BlastRadiusGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board) as Map<string, playerid[]>;
+        this.board = cloneState(state.board) as Map<string, playerid[]>;
         this.lastmove = state.lastmove;
         this.buildGraph();
         return this;
@@ -349,7 +347,7 @@ export class BlastRadiusGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board) as Map<string, playerid[]>,
+            board: cloneState(this.board) as Map<string, playerid[]>,
         };
     }
 

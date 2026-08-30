@@ -1,4 +1,4 @@
-import { Seat, Colour, Size } from "../homeworlds";
+import { Seat, Colour, Size } from "../homeworlds.js";
 
 export interface IShip {
     owner: Seat;

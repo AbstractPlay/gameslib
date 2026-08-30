@@ -1,12 +1,10 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, BoardBasic, Glyph } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, reviver, UserFacingError, allDirections } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { RectGrid, reviver, UserFacingError, allDirections, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { CartesianProduct } from "js-combinatorics";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 export type CellContents = 1|2|11|22;
@@ -175,7 +173,7 @@ export class FabrikGame extends GameBase {
             }
             const pairs = new CartesianProduct(workers, empties);
             for (const pair of pairs) {
-                const g: FabrikGame = Object.assign(new FabrikGame(), deepclone(this) as FabrikGame);
+                const g: FabrikGame = Object.assign(new FabrikGame(), cloneState(this) as FabrikGame);
                 const contents = g.board.get(pair[0])!;
                 g.board.delete(pair[0]);
                 g.board.set(pair[1], contents);

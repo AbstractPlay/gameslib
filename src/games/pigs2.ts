@@ -1,12 +1,10 @@
-import { GameBaseSimultaneous, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogEntry, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBaseSimultaneous, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogEntry, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaPieces, Glyph } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { Direction, RectGrid, reviver, UserFacingError } from "../common";
-import { forEachGroupResult } from "../common/chat-log";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { Direction, RectGrid, reviver, UserFacingError, cloneState } from "../common/index.js";
+import { forEachGroupResult } from "../common/chat-log.js";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const clone = require("rfdc/default");
 
 type playerid = 1|2|3|4|5|6|7|8;
 type Facing = "N"|"E"|"S"|"W"|"U";
@@ -175,7 +173,7 @@ export class Pigs2Game extends GameBaseSimultaneous {
         }
 
         const state = this.stack[idx];
-        this.board = clone(state.board) as Map<string, CellContents>;
+        this.board = cloneState(state.board) as Map<string, CellContents>;
         this.orders = state.orders.map(o => [...o]);
         this.damage = [...state.damage];
         this.lastmove = state.lastmove.join(',');
@@ -457,7 +455,7 @@ export class Pigs2Game extends GameBaseSimultaneous {
                 }
                 continue;
             }
-            const others = clone(next) as [string,string][];
+            const others = cloneState(next) as unknown as [string, string][];
             others.splice(i, 1);
             // see if `to` is already occupied
             if (others.map(o => o[1]).includes(to)) {

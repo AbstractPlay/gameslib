@@ -1,13 +1,11 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, IStashEntry, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, IStashEntry, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { Direction, DirectionCardinal, RectGrid, reviver, oppositeDirections, orthDirections, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { Direction, DirectionCardinal, RectGrid, reviver, oppositeDirections, orthDirections, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { SquareOrthGraph } from "../common/graphs";
+import { SquareOrthGraph } from "../common/graphs/index.js";
 import {connectedComponents} from 'graphology-components';
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 interface ILegendObj {
     [key: string]: Glyph | [Glyph, ...Glyph[]];
@@ -150,10 +148,10 @@ export class BTTGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board) as Map<string, CellContents>;
+        this.board = cloneState(state.board) as Map<string, CellContents>;
         this.lastmove = state.lastmove;
         this.scores = [...state.scores];
-        this.stashes = deepclone(state.stashes) as Map<playerid, [number, number, number]>;
+        this.stashes = cloneState(state.stashes) as Map<playerid, [number, number, number]>;
         this.results = [...state._results];
         return this;
     }
@@ -700,7 +698,7 @@ export class BTTGame extends GameBase {
                 }
             } else {
                 //Pick a direction for the highlight.
-                this.highlight = deepclone(mm);
+                this.highlight = cloneState(mm);
                 this.highlight!.direction =  this.getNeighborDir(mm.cell);
             }
         }
@@ -764,9 +762,9 @@ export class BTTGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board) as Map<string, CellContents>,
+            board: cloneState(this.board) as Map<string, CellContents>,
             scores: [...this.scores],
-            stashes: deepclone(this.stashes) as Map<playerid, [number, number, number]>
+            stashes: cloneState(this.stashes) as Map<playerid, [number, number, number]>
         };
     }
 

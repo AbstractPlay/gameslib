@@ -1,7 +1,8 @@
-import i18next, { type i18n } from "i18next";
+import { type i18n } from "i18next";
 import { existsSync, readFileSync } from "fs";
 import path from "path";
-import { supportedLocales, type AddResourceOptions } from "./i18n-shared";
+import { i18next } from "./i18n-instance.js";
+import { supportedLocales, type AddResourceOptions } from "./i18n-shared.js";
 
 const GAMESLIB_NAMESPACES = ["apgames", "apresults"] as const;
 

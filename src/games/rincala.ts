@@ -1,11 +1,9 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaPieces, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 export type Colour = "R"|"B"|"G"|"Y";
@@ -162,9 +160,9 @@ export class RincalaGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board) as Colour[][];
-        this.hands = deepclone(state.hands) as [Colour[], Colour[]];
-        this.frames = deepclone(state.frames) as FrameState[];
+        this.board = cloneState(state.board) as Colour[][];
+        this.hands = cloneState(state.hands) as [Colour[], Colour[]];
+        this.frames = cloneState(state.frames) as FrameState[];
         this.lastmove = state.lastmove;
         this.results = [...state._results];
         return this;
@@ -253,7 +251,7 @@ export class RincalaGame extends GameBase {
     // tells you what pits the move will drop pieces on
     // will automatically skip stacks of 8 pieces
     public mv2pits(start: number, dir: Direction): number[] {
-        const cloned = deepclone(this.board);
+        const cloned = cloneState(this.board);
         const pits: number[] = [];
         const dist = cloned[start].length;
         cloned[start] = [];
@@ -479,8 +477,8 @@ export class RincalaGame extends GameBase {
 
         this.results = [];
         this.frames = [{
-            board: deepclone(this.board),
-            hands: deepclone(this.hands),
+            board: cloneState(this.board),
+            hands: cloneState(this.hands),
         }];
         const capped: Colour[] = [];
 
@@ -519,8 +517,8 @@ export class RincalaGame extends GameBase {
             this.results.push({type: "_group", who: this.currplayer, results: results as [APMoveResult, ...APMoveResult[]]});
             // store current board and hands in frames
             this.frames.push({
-                board: deepclone(this.board) as Colour[][],
-                hands: deepclone(this.hands) as [Colour[], Colour[]]
+                board: cloneState(this.board) as Colour[][],
+                hands: cloneState(this.hands) as [Colour[], Colour[]]
             });
         }
 
@@ -592,9 +590,9 @@ export class RincalaGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board),
-            hands: deepclone(this.hands),
-            frames: deepclone(this.frames),
+            board: cloneState(this.board),
+            hands: cloneState(this.hands),
+            frames: cloneState(this.frames),
         };
     }
 
@@ -765,7 +763,7 @@ export class RincalaGame extends GameBase {
     }
 
     public clone(): RincalaGame {
-        const cloned = Object.assign(new RincalaGame(), deepclone(this) as RincalaGame);
+        const cloned = Object.assign(new RincalaGame(), cloneState(this) as RincalaGame);
         return cloned;
     }
 }

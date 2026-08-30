@@ -1,14 +1,12 @@
 
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import type { APRenderRep, Polymatrix } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { Piece } from "./four/piece";
-import { reviver, UserFacingError, matrixRectRot90, matrixRectRotN90, x2uid } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { Piece } from "./four/piece.js";
+import { reviver, UserFacingError, matrixRectRot90, matrixRectRotN90, x2uid, cloneState } from "../common/index.js";
 import i18next from "i18next";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 export type PieceCode = "R1"|"R2"|"R3"|"R4"|"B1"|"B2"|"B3"|"B4"|"G1"|"G2"|"G3"|"G4"|"Y1"|"Y2"|"Y3"|"Y4";
@@ -732,7 +730,7 @@ export class FourGame extends GameBase {
 
     public clone(): FourGame {
 
-        const cloned = Object.assign(new FourGame(), deepclone(this) as FourGame);
+        const cloned = Object.assign(new FourGame(), cloneState(this) as FourGame);
         cloned.board = cloned.board.map(obj => new Piece(obj));
         return cloned;
     }

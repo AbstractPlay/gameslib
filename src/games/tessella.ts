@@ -1,10 +1,10 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { allDirections, oppositeDirections, reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { allDirections, oppositeDirections, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
-import { SquareDiamondsDirectedGraph } from "../common/graphs";
+import { SquareDiamondsDirectedGraph } from "../common/graphs/index.js";
 
 export type playerid = 1|2;
 

@@ -1,13 +1,11 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaPieces, Glyph, MarkerEdge, MarkerFlood, MarkerHalo, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError, intersects, shuffle } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError, intersects, shuffle, cloneState } from "../common/index.js";
 import { connectedComponents } from 'graphology-components';
 import i18next from "i18next";
-import { HexMoonGraph, HexTriGraph } from "../common/graphs";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
+import { HexMoonGraph, HexTriGraph } from "../common/graphs/index.js";
 
 type playerid = 1|2;
 type OreColour = 3|4|5|6|7;
@@ -138,9 +136,9 @@ export class MoonSquadGame extends GameBase {
         }
         this.results = [...state._results];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board) as Map<string, CellContents>;
-        this.ore = deepclone(state.ore) as [OreColour[], OreColour[]];
-        this.squads = deepclone(state.squads) as Set<string>;
+        this.board = cloneState(state.board) as Map<string, CellContents>;
+        this.ore = cloneState(state.ore) as [OreColour[], OreColour[]];
+        this.squads = cloneState(state.squads) as Set<string>;
         this.lastmove = state.lastmove;
         return this;
     }
@@ -837,8 +835,8 @@ export class MoonSquadGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board) as Map<string, CellContents>,
-            squads: deepclone(this.squads) as Set<string>,
+            board: cloneState(this.board) as Map<string, CellContents>,
+            squads: cloneState(this.squads) as Set<string>,
             ore: [[...this.ore[0]], [...this.ore[1]]],
         };
     }
@@ -1229,7 +1227,7 @@ export class MoonSquadGame extends GameBase {
     }
 
     public clone(): MoonSquadGame {
-        return Object.assign(new MoonSquadGame(), deepclone(this) as MoonSquadGame);
+        return Object.assign(new MoonSquadGame(), cloneState(this) as MoonSquadGame);
         // return new MoonSquadGame(this.serialize());
     }
 }

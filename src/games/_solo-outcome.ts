@@ -1,4 +1,4 @@
-import type { IIndividualState } from "./_base";
+import type { IIndividualState } from "./_base.js";
 
 export type SoloOutcomeType = "binary" | "graded" | "score" | "timed";
 export type ScoreDirection = "higher" | "lower";

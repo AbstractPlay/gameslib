@@ -1,5 +1,5 @@
-import type { GameBase } from "./_base";
-import type { IGamePly } from "./_turn-model";
+import type { GameBase } from "./_base.js";
+import type { IGamePly } from "./_turn-model.js";
 
 export interface IPlyWalkHost {
     readonly stack: GameBase["stack"];

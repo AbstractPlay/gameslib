@@ -1,17 +1,15 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, MarkerOutline, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, SquareOrthGraph, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, SquareOrthGraph, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { CubeoBoard } from "./cubeo/board";
-import { CubeoDie } from "./cubeo/die";
-import { UndirectedGraph } from "graphology/dist/graphology";
+import { CubeoBoard } from "./cubeo/board.js";
+import { CubeoDie } from "./cubeo/die.js";
+import { UndirectedGraph } from "graphology";
 import { Combination } from "js-combinatorics";
 import { Glyph } from "@abstractplay/renderer";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 // 0 means > diesize, and therefore a winning merge
@@ -661,6 +659,6 @@ export class CubeoGame extends GameBase {
     }
 
     public clone(): CubeoGame {
-        return Object.assign(new CubeoGame(), deepclone(this) as CubeoGame);
+        return Object.assign(new CubeoGame(), cloneState(this) as CubeoGame);
     }
 }

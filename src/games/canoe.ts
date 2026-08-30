@@ -1,11 +1,9 @@
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, MarkerDots, MarkerFlood, MarkerLabel, MarkerLine, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { randomInt, reviver, UserFacingError, SquareOrthGraph } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { randomInt, reviver, UserFacingError, SquareOrthGraph, cloneState } from "../common/index.js";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 export type CubeFace = 1|8|16|24|32|40;
@@ -95,7 +93,7 @@ export class CanoeGame extends GameBase {
         return GameBase.algebraic2coords(cell, BOARD_SIZE);
     }
     public static clone(obj: CanoeGame): CanoeGame {
-        return Object.assign(new CanoeGame(), deepclone(obj) as CanoeGame);
+        return Object.assign(new CanoeGame(), cloneState(obj) as CanoeGame);
     }
     private static cloneBoard(board: Map<string, CellStack>): Map<string, CellStack> {
         return new Map([...board.entries()].map(([cell, stack]) => [cell, {...stack}]));

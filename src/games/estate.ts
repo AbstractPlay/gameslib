@@ -1,12 +1,12 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { cartesianProduct, HexTriGraph, intersects, mergePaths, permute, reviver, shuffle, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { cartesianProduct, HexTriGraph, intersects, mergePaths, permute, reviver, shuffle, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { connectedComponents } from "graphology-components";
 import { UndirectedGraph } from "graphology";
-import { bidirectional } from 'graphology-shortest-path/unweighted';
+import { bidirectional } from 'graphology-shortest-path/unweighted.js';
 
 export type playerid = 1|2;
 

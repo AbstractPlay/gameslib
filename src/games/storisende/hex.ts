@@ -1,5 +1,5 @@
 import { defineHex, Orientation } from "honeycomb-grid";
-import type { playerid, Tile } from "../storisende";
+import type { playerid, Tile } from "../storisende.js";
 
 export type HexArgs = {q: number; r: number; tile?: Tile; stack?: playerid[]};
 

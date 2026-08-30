@@ -1,33 +1,32 @@
-import { APGamesInformation } from "../schemas/gameinfo";
-import { GameBase, GameBaseSimultaneous, GameBaseSkipTurn, IAPGameState } from "./_base";
-import { GameBaseSequenced } from "./_turn-sequenced";
-import { games, GameConstructor } from "./_registry.generated";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
+import { GameBase, GameBaseSimultaneous, GameBaseSkipTurn } from "./_base.js";
+import type { IAPGameState } from "./_base.js";
+import { GameBaseSequenced } from "./_turn-sequenced.js";
+import { games, GameConstructor } from "./_registry.generated.js";
 
+export type { APGamesInformation, IAPGameState, GameConstructor };
 export {
-    APGamesInformation,
     GameBase,
     GameBaseSequenced,
     GameBaseSimultaneous,
     GameBaseSkipTurn,
-    IAPGameState,
     games,
-    GameConstructor,
 };
 
-export type { TurnModel, IGamePly, IGameRound, IGameRoundSlot } from "./_turn-model";
+export type { TurnModel, IGamePly, IGameRound, IGameRoundSlot } from "./_turn-model.js";
 export type {
     SoloOutcomeType,
     ScoreDirection,
     IGradeTier,
     ISoloOutcomeMeta,
-} from "./_solo-outcome";
+} from "./_solo-outcome.js";
 export {
     evaluateGrade,
     computeElapsedMs,
     soloScoreDirection,
-} from "./_solo-outcome";
+} from "./_solo-outcome.js";
 
-export * from "./_registry.generated";
+export * from "./_registry.generated.js";
 
 export const GameFactory = (game: string, ...args: unknown[]): GameBase | GameBaseSimultaneous | GameBaseSkipTurn | GameBaseSequenced | undefined => {
     const ctor = games.get(game);

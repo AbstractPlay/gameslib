@@ -1,14 +1,12 @@
 import { Direction, Grid, rectangle, defineHex, Orientation } from "honeycomb-grid";
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, BoardBasic, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError, shuffle } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError, shuffle, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { generateField, IHexCoord } from "../common/hexes";
-import { ModularBoard } from "../common/modular/board";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
+import { generateField, IHexCoord } from "../common/hexes.js";
+import { ModularBoard } from "../common/modular/board.js";
 
 type playerid = 1|2;
 type CellContents = 1|2|3|4|5|6|7;
@@ -154,7 +152,7 @@ export class TintasGame extends GameBase {
             this.stack = [...state.stack];
             this.startpos = state.startpos;
             this.variants = [...state.variants];
-            this.ctrs = deepclone(state.ctrs) as IHexCoord[]|undefined;
+            this.ctrs = cloneState(state.ctrs) as IHexCoord[]|undefined;
         } else {
             if (variants !== undefined) {
                 this.variants = [...variants];
@@ -217,7 +215,7 @@ export class TintasGame extends GameBase {
         }
         this.results = [...state._results];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board) as Map<string, CellContents>;
+        this.board = cloneState(state.board) as Map<string, CellContents>;
         this.lastmove = state.lastmove;
         this.pawnPos = state.pawnPos;
         this.captured = [[...state.captured[0]], [...state.captured[1]]];
@@ -700,7 +698,7 @@ export class TintasGame extends GameBase {
             winner: [...this.winner],
             stack: [...this.stack],
             startpos: this.startpos,
-            ctrs: deepclone(this.ctrs) as IHexCoord[]|undefined,
+            ctrs: cloneState(this.ctrs) as IHexCoord[]|undefined,
         };
     }
 
@@ -711,7 +709,7 @@ export class TintasGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board) as Map<string, CellContents>,
+            board: cloneState(this.board) as Map<string, CellContents>,
             pawnPos: this.pawnPos,
             captured: [[...this.captured[0]],[...this.captured[1]]],
         };

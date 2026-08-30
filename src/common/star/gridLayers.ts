@@ -1,4 +1,4 @@
-import { Vertex } from "../pentagons";
+import { Vertex } from "../pentagons/index.js";
 
 /**
  * Vertices of one pentagonal ring, clockwise from the top quark (side 0 corner).

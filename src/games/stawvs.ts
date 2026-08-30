@@ -1,11 +1,9 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine, type RenderLabel } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine, type RenderLabel } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, reviver, shuffle, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { RectGrid, reviver, shuffle, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const clone = require("rfdc/default");
 
 export type playerid = 1|2|3|4;
 export type Mode = "place"|"collect";
@@ -192,7 +190,7 @@ export class StawvsGame extends GameBase {
         this.mode = state.mode;
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
-        this.captured = clone(state.captured) as Pyramid[][];
+        this.captured = cloneState(state.captured) as Pyramid[][];
         this.eliminated = [...state.eliminated];
 
         return this;
@@ -853,18 +851,18 @@ export class StawvsGame extends GameBase {
         for (const stack of stacks) {
             if (stack.length === 3) {
                 if ((new Set(stack.map(c => c[0]))).size === 1) {
-                    org.triosMono.push(clone(stack) as Pyramid[]);
+                    org.triosMono.push(cloneState(stack) as Pyramid[]);
                 } else {
-                    org.triosMixed.push(clone(stack) as Pyramid[]);
+                    org.triosMixed.push(cloneState(stack) as Pyramid[]);
                 }
             } else if (stack.length === 2) {
                 if ((new Set(stack.map(c => c[0]))).size === 1) {
-                    org.partialsMono.push(clone(stack) as Pyramid[]);
+                    org.partialsMono.push(cloneState(stack) as Pyramid[]);
                 } else {
-                    org.partialsMixed.push(clone(stack) as Pyramid[]);
+                    org.partialsMixed.push(cloneState(stack) as Pyramid[]);
                 }
             } else {
-                org.miscellaneous.push(...clone(stack) as Pyramid[]);
+                org.miscellaneous.push(...cloneState(stack) as Pyramid[]);
             }
         }
 
@@ -892,7 +890,7 @@ export class StawvsGame extends GameBase {
             lastmove: this.lastmove,
             eliminated: [...this.eliminated],
             board: new Map(this.board),
-            captured: clone(this.captured) as Pyramid[][],
+            captured: cloneState(this.captured) as Pyramid[][],
         };
     }
 

@@ -1,10 +1,10 @@
-import {  GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaKey, BoardBasic, Colourfuncs } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { randomInt, reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { randomInt, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
-import { HexTriGraph } from "../common/graphs";
+import { HexTriGraph } from "../common/graphs/index.js";
 import { Glyph } from "@abstractplay/renderer";
 
 export type playerid = 1|2|3; // 3 is neutral

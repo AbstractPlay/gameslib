@@ -1,6 +1,6 @@
-import { GameBase } from "./_base";
-import type { IGamePly, IGameRound, TurnModel } from "./_turn-model";
-import { skipTurnShouldCloseRound, type ISkipTurnHost } from "./_turn-skip";
+import { GameBase } from "./_base.js";
+import type { IGamePly, IGameRound, TurnModel } from "./_turn-model.js";
+import { skipTurnShouldCloseRound, type ISkipTurnHost } from "./_turn-skip.js";
 
 /** Seat-cycle round close (wrap to round opener), without skip-turn null slots. */
 export function sequencedShouldCloseRound(

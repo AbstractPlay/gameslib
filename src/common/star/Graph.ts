@@ -2,8 +2,8 @@ import {
     Edge,
     Graph as PentGraph,
     Vertex,
-} from "../pentagons";
-import { buildGridLayers } from "./gridLayers";
+} from "../pentagons/index.js";
+import { buildGridLayers } from "./gridLayers.js";
 
 /**
  * Pentagonal vertex-mesh topology for the Star board (pieces on intersections).

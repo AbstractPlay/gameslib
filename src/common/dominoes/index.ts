@@ -1,2 +1,2 @@
-export { Domino } from "./Domino";
-export { DominoDeck } from "./DominoDeck";
+export { Domino } from "./Domino.js";
+export { DominoDeck } from "./DominoDeck.js";

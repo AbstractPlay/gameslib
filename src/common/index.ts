@@ -16,6 +16,7 @@ import type { GameRng } from "./rng";
 export { columnLabels, indexToColumnLabel, columnLabelToIndex, generateColumnLabel };
 export { GameRng } from "./rng";
 export { generateChallengeSeed, resolveChallengeSeed } from "./challenge-seed";
+export { cloneState } from "./clone-state";
 export { replayToStackIndex, assertReplayMatches } from "./replay";
 export type { SoloReplayFactory } from "./replay";
 export {

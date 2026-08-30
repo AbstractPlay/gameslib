@@ -2,11 +2,8 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IV
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import { reviver, UserFacingError, cloneState } from "../common";
 import i18next from "i18next";
-
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 
@@ -59,7 +56,7 @@ export class DiffusionGame extends GameBase {
     };
 
     public static clone(obj: DiffusionGame): DiffusionGame {
-        const cloned: DiffusionGame = Object.assign(new DiffusionGame(), deepclone(obj) as DiffusionGame);
+        const cloned: DiffusionGame = Object.assign(new DiffusionGame(), cloneState(obj) as DiffusionGame);
         return cloned;
     }
 

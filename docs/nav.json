@@ -2,7 +2,6 @@
   { "slug": "index", "title": "Overview" },
   { "slug": "creating-games", "title": "Creating games" },
   { "slug": "testing" },
-  { "slug": "esm-migration", "title": "ESM migration" },
   { "slug": "api", "title": "API" },
   { "slug": "game-object", "title": "Game object" },
   { "slug": "structured-chat-log", "title": "Structured move log" },

@@ -55,6 +55,7 @@ export {
     chatPlayerToken,
     resolveRenderLabel,
     isStructuredRenderLabel,
+    replacer,
 } from "./common/index.js";
 export type {
     SoloReplayFactory,

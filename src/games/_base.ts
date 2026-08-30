@@ -6,7 +6,7 @@ import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema"
 import type { APMoveResult } from '../schemas/moveresults.js';
 import { APGameRecord } from "@abstractplay/recranks";
 import { algebraic2coords, coords2algebraic, replacer, sortingReplacer, UserFacingError } from '../common/index.js';
-import { omit } from "lodash";
+import _ from "lodash";
 import i18next from "i18next";
 import JSDstringify from 'json-stringify-deterministic';
 import type { IGamePly, IGameRound, IGameRoundSlot, TurnModel } from "./_turn-model.js";
@@ -802,8 +802,8 @@ export abstract class GameBase  {
         cloned.gameover = false;
         cloned.winner = [];
         cloned.move(move2, {trusted: true});
-        const currPosition1 = omit(this.moveState(), ["lastmove", "_version", "_results", "_timestamp"]);
-        const currPosition2 = omit(cloned.moveState(), ["lastmove", "_version", "_results", "_timestamp"]);
+        const currPosition1 = _.omit(this.moveState(), ["lastmove", "_version", "_results", "_timestamp"]);
+        const currPosition2 = _.omit(cloned.moveState(), ["lastmove", "_version", "_results", "_timestamp"]);
         const s1 = JSON.stringify(currPosition1, sortingReplacer);
         const s2 = JSON.stringify(currPosition2, sortingReplacer);
         return s1 === s2;

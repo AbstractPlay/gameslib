@@ -4,7 +4,7 @@ import { APRenderRep, MarkerLine, RowCol } from "@abstractplay/renderer/build/sc
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
-import { shuffle } from "lodash";
+import _ from "lodash";
 
 type playerid = 1 | 2;
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
@@ -217,7 +217,7 @@ export class BoxesGame extends GameBase {
     }
 
     public randomMove(): string {
-        const available = shuffle(this.moves());
+        const available = _.shuffle(this.moves());
         let curr = available.pop()!;
         const moves: string[] = [curr];
         while (available.length > 0 && this.getEnclosed(curr, moves).length > 0) {

@@ -19,10 +19,6 @@
     "src": "The tree at {{where}} grew one stage.",
     "out": "L'albero in {{where}} è cresciuto di un livello."
   },
-  "ADD.magnate": {
-    "src": "{{player}} added {{count}} token(s) to their deeded card {{where}}.",
-    "out": "{{player}} ha aggiunto {{count}} segnalino/i alla propria carta con titolo in {{where}}."
-  },
   "ADD.magnate_one": {
     "src": "{{player}} added one token to their deeded card {{where}}.",
     "out": "{{player}} ha aggiunto un segnalino alla sua carta di proprietà {{where}}."
@@ -98,10 +94,6 @@
   "ANNOUNCE.elOso.playerSetup": {
     "src": "Player setup",
     "out": "Preparazione del giocatore"
-  },
-  "ANNOUNCE.frogger": {
-    "src": "{{player}} chose to refill the draw pool.  Other players must pass so he can take his {{moves}} remaining move(s).",
-    "out": "{{player}} ha scelto di riempire la riserva di pesca. Gli altri giocatori devono passare affinché possa effettuare le sue {{moves}} mosse rimanenti."
   },
   "ANNOUNCE.frogger_one": {
     "src": "{{player}} chose to refill the draw pool. Other players must pass so he can take his {{count}} remaining move.",
@@ -258,10 +250,6 @@
   "CAPTURE.fightopia_2": {
     "src": "{{player}} captured a tank at {{where}}.",
     "out": "{{player}} ha catturato un carro armato in {{where}}."
-  },
-  "CAPTURE.forms": {
-    "src": "{{player}} move eliminates {{count}} piece(s).",
-    "out": "La mossa di {{player}} elimina {{count}} pezzo/i."
   },
   "CAPTURE.forms_one": {
     "src": "{{player}} move eliminates one piece.",
@@ -454,10 +442,6 @@
   "CAPTURE.spook_lateral_self_other": {
     "src": "{{player}} has {{count}} of their own balls captured by Spooky on the same level at {{where}}.",
     "out": "{{player}} ha {{count}} delle proprie sfere catturate da Spooky sullo stesso livello in {{where}}."
-  },
-  "CAPTURE.spora": {
-    "src": "{{player}} surrounded and captured {{count}} piece(s): {{group}}.",
-    "out": "{{player}} ha circondato e catturato {{count}} pezzo/i: {{group}}."
   },
   "CAPTURE.spora_one": {
     "src": "{{player}} surrounded and captured one piece: {{group}}.",
@@ -1803,10 +1787,6 @@
     "src": "Spooky has entered the board at {{where}}.",
     "out": "Spooky è entrato sulla plancia in {{where}}."
   },
-  "PLACE.spora": {
-    "src": "{{player}} added {{size}} piece(s) to stack at {{where}}.",
-    "out": "{{player}} ha aggiunto {{size}} pezzo/i alla pila in {{where}}."
-  },
   "PLACE.spora_one": {
     "src": "{{player}} added one piece to stack at {{where}}.",
     "out": "{{player}} ha aggiunto un pezzo alla pila in {{where}}."
@@ -2114,6 +2094,10 @@
   "RESET.biscuit": {
     "src": "A new round has begun.",
     "out": "È iniziato un nuovo round."
+  },
+  "RESET.guerrilla": {
+    "src": "{{player}} won the first game. The second game has begun, with roles reversed.",
+    "out": "{{player}} ha vinto la prima partita. La seconda partita è iniziata, a ruoli invertiti."
   },
   "RESET.queensland": {
     "src": "The second game has begun.",

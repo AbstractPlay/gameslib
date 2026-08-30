@@ -2140,8 +2140,8 @@
     "out": "Per rendere molto chiaro quanto accaduto nel turno precedente, ogni mossa viene mostrata su quattro tabelloni separati. Il primo tabellone mostra il gioco subito dopo il posizionamento del pezzo. Il secondo tabellone mostra lo stato dopo il ribaltamento dei pezzi adiacenti. Il terzo tabellone mostra eventuali raccolti. Il quarto tabellone è lo stato finale del gioco ed è quello su cui esegui le tue mosse.\n\nNella nostra implementazione, il nero è sempre il colore \"tome\" o di spareggio. L'ultimo giocatore a raccogliere il nero avrà un `0.1` dopo il proprio punteggio."
   },
   "notes.guerrilla": {
-    "src": "Either player wins by removing all of the opponent's pieces. P2 also wins if they survive long enough that P1 runs out of insurgents to place.",
-    "out": "Ciascun giocatore vince rimuovendo tutti i pezzi dell'avversario. P2 vince anche se sopravvive abbastanza a lungo da far esaurire a P1 gli insorti da piazzare."
+    "src": "Either player wins by removing all of the opponent's pieces. The security player also wins if they survive long enough that the insurgents run out of stones to place.\n\nBy default, a match consists of two games with roles reversed. Each player plays one game as insurgents and one as security. When both players win as insurgents, the match goes to whoever used fewer stones (`66 − remaining` at the end of that game; lower score wins). Equal insurgent scores are the only draw in that case. A security win in a game scores 67. If one player sweeps both games (wins as insurgents in one and security in the other), they win the match outright. If both players only win as security, the match is drawn.",
+    "out": "Ciascun giocatore vince rimuovendo tutte le pedine dell'avversario. Il giocatore della sicurezza vince anche se sopravvive abbastanza a lungo da far esaurire le pietre da piazzare agli insorti.\n\nPer impostazione predefinita, un incontro consiste in due partite a ruoli invertiti. Ciascun giocatore gioca una partita come insorti e una come sicurezza. Quando entrambi i giocatori vincono come insorti, l'incontro va a chi ha usato meno pietre (`66 − rimanenti` alla fine di quella partita; vince il punteggio più basso). Punteggi uguali degli insorti sono l'unica patta in tal caso. Una vittoria della sicurezza in una partita assegna 67 punti. Se un giocatore vince entrambe le partite (come insorti in una e come sicurezza nell'altra), vince direttamente l'incontro. Se entrambi i giocatori vincono solo come sicurezza, l'incontro finisce in patta."
   },
   "notes.gyges": {
     "src": "The goal squares are adjacent to all the cells in the back row. The renderer cannot currently handle \"floating\" cells.",
@@ -2622,6 +2622,18 @@
   "status.focus": {
     "src": "Controlled",
     "out": "Controllati"
+  },
+  "status.guerrilla.G1_SCORE": {
+    "src": "Game 1 insurgent score",
+    "out": "Punteggio insorti Partita 1"
+  },
+  "status.guerrilla.GAME1": {
+    "src": "Game 1",
+    "out": "Partita 1"
+  },
+  "status.guerrilla.GAME2": {
+    "src": "Game 2",
+    "out": "Partita 2"
   },
   "status.guerrilla.INSURGENTS": {
     "src": "Insurgents remaining",
@@ -4022,10 +4034,6 @@
   "validation.blastradius.INVALID": {
     "src": "You may not place pieces within radiation exclusion zones, and you must always create the smallest stack legally possible.",
     "out": "Non puoi posizionare pezzi all'interno delle zone d'esclusione da radiazioni e devi sempre creare la pila più piccola legalmente possibile."
-  },
-  "validation.blockade.BLOCKS_GOAL": {
-    "src": "Cannot place wall at {{wall}} because it blocks the goal(s) for one of the pieces on the board.",
-    "out": "Impossibile posizionare il muro in {{wall}} perché blocca l'obiettivo/gli obiettivi per uno dei pezzi sulla plancia."
   },
   "validation.blockade.BLOCKS_GOAL_one": {
     "src": "Cannot place wall at {{wall}} because it blocks the goal for one of the pieces on the board.",
@@ -6635,10 +6643,6 @@
     "src": "There is no need to force a refill of the draw pool after your third move. It will refill automatically after you submit.",
     "out": "Non è necessario forzare un riempimento della riserva di pesca dopo la tua terza mossa. Si riempirà automaticamente dopo l'invio."
   },
-  "validation.frogger.VALID_REFILL": {
-    "src": "Please submit your move to trigger the refill. The other player(s) will pass automatically, and you will have {{count}} moves remaining in your partial turn (as well as the option to pass).",
-    "out": "Invia la tua mossa per attivare il riempimento. Gli altri giocatori passeranno automaticamente e ti rimarranno {{count}} mosse nel tuo turno parziale (oltre all'opzione di passare)."
-  },
   "validation.frogger.VALID_REFILL_one": {
     "src": "Please submit your move to trigger the refill. Opponents will pass automatically, and you will have one move remaining in your partial turn (as well as the option to pass).",
     "out": "Invia la tua mossa per attivare il riempimento. Gli avversari passeranno automaticamente e ti rimarrà una mossa nel tuo turno parziale (oltre all'opzione di passare)."
@@ -8995,10 +8999,6 @@
     "src": "Only placements on empty cells are valid.",
     "out": "Sono validi solo i piazzamenti su caselle vuote."
   },
-  "validation.pinch.OPP_SELF_STONES_TO_PLACE": {
-    "src": "There are still {{opp}} opponent captured stone(s), and then {{own}} friendly stone(s), to relocate.",
-    "out": "Ci sono ancora {{opp}} pietra/e avversaria/e catturata/e, e poi {{own}} pietra/e amica/he, da riposizionare."
-  },
   "validation.pinch.OPP_SELF_STONES_TO_PLACE_own_one_opp_one": {
     "src": "There is still one opponent captured stone, and then one friendly stone, to relocate.",
     "out": "C'è ancora una pietra avversaria catturata, e poi una pietra amica, da riposizionare."
@@ -9015,10 +9015,6 @@
     "src": "There are still {{opp}} opponent captured stones, and then {{own}} friendly stones, to relocate.",
     "out": "Ci sono ancora {{opp}} pietre avversarie catturate, e poi {{own}} pietre amiche, da riposizionare."
   },
-  "validation.pinch.OPP_STONES_TO_PLACE": {
-    "src": "There are still {{opp}} opponent captured stone(s) to relocate.",
-    "out": "Ci sono ancora {{opp}} pietra/e avversaria/e catturata/e da riposizionare."
-  },
   "validation.pinch.OPP_STONES_TO_PLACE_one": {
     "src": "There is still one opponent captured stone to relocate.",
     "out": "C'è ancora una pietra avversaria catturata da riposizionare."
@@ -9030,10 +9026,6 @@
   "validation.pinch.REUSED_CELL": {
     "src": "This cell {{cell}} was already used in this turn. Once the status of a cell changes from occupied to unoccupied, or vice versa, it cannot change again that same turn.",
     "out": "Questa casella {{cell}} è già stata usata in questo turno. Una volta che lo stato di una casella cambia da occupata a vuota, o viceversa, non può cambiare di nuovo nello stesso turno."
-  },
-  "validation.pinch.SELF_OPP_STONES_TO_PLACE": {
-    "src": "There are still {{own}} friendly captured stone(s), and then {{opp}} adversary stone(s), to relocate.",
-    "out": "Ci sono ancora {{own}} pietra/e amica/he catturata/e, e poi {{opp}} pietra/e avversaria/e, da riposizionare."
   },
   "validation.pinch.SELF_OPP_STONES_TO_PLACE_own_one_opp_one": {
     "src": "There is still one friendly captured stone, and then one adversary stone, to relocate.",
@@ -9050,10 +9042,6 @@
   "validation.pinch.SELF_OPP_STONES_TO_PLACE_own_other_opp_other": {
     "src": "There are still {{own}} friendly captured stones, and then {{opp}} adversary stones, to relocate.",
     "out": "Ci sono ancora {{own}} pietre amiche catturate, e poi {{opp}} pietre avversarie, da riposizionare."
-  },
-  "validation.pinch.SELF_STONES_TO_PLACE": {
-    "src": "There are still {{own}} friendly captured stone(s) to relocate.",
-    "out": "Ci sono ancora {{own}} pietra/e amica/he catturata/e da riposizionare."
   },
   "validation.pinch.SELF_STONES_TO_PLACE_one": {
     "src": "There is still one friendly captured stone to relocate.",
@@ -14550,6 +14538,22 @@
   "variants.gonnect.size-9.name": {
     "src": "9x9 board",
     "out": "Tabellone 9x9"
+  },
+  "variants.guerrilla.#length.description": {
+    "src": "One game only; no role swap or match scoring.",
+    "out": "Una sola partita; nessun cambio di ruolo o punteggio del match."
+  },
+  "variants.guerrilla.#length.name": {
+    "src": "Single game",
+    "out": "Partita singola"
+  },
+  "variants.guerrilla.match.description": {
+    "src": "Play two games with roles reversed. When both players win as insurgents, lower stone count (`66 − remaining`) wins; equal scores draw.",
+    "out": "Gioca due partite a ruoli invertiti. Quando entrambi i giocatori vincono come insorti, vince il minor numero di pedine (`66 − rimanenti`); in caso di punteggio pari è pareggio."
+  },
+  "variants.guerrilla.match.name": {
+    "src": "Two-game match",
+    "out": "Match su due partite"
   },
   "variants.gyve.#board.name": {
     "src": "Hexhex 8 board (169 spaces)",

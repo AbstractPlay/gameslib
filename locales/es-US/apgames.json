@@ -22,6 +22,7 @@
     "attangle": "Attangle es la entrega final de la trilogía de apilamiento de Dieter Stein. Coloca y mueve piezas para construir pilas. La primera persona que construya tres pilas triples gana. También está implementada la variante \"Grand Attangle\".",
     "ayu": "Un juego de unificación donde grupos de piezas serpenteantes reptan hacia sus aliadas para terminar uniéndose. Si no puedes hacer un movimiento en tu turno, ganas. Esto ocurre cuando solo tienes un grupo o cuando no hay un camino libre entre ninguno de tus grupos.",
     "azacru": "Un juego de control territorial donde piezas direccionales navegan por un tablero subdividido para reclamar casillas.",
+    "baghchal": "Un juego tradicional asimétrico para dos jugadores originario de Nepal. El jugador tigre intenta capturar 5 cabras saltando sobre ellas; el jugador cabra intenta inmovilizar a todos los tigres.",
     "bamboo": "Coloca piedras de tal manera que ningún grupo tenga más piezas que el número total de tus grupos en el tablero. Luego, sé el último jugador capaz de mover.",
     "bao": "Un juego tradicional de siembra al estilo mancala del África oriental, donde intentas eliminar todas las piezas de la fila frontal del oponente o dejarlo sin movimientos legales.",
     "basalt": "Un juego de conexión triangular en la ladera de un volcán, donde la lava y el basalto compiten por conectar primero los tres lados.",
@@ -38,6 +39,7 @@
     "bounce": "Maniobra tus fichas desconectadas para unirlas en un único conjunto conectado ortogonalmente.",
     "boxes": "Un juego territorial en el que intentas completar cajas trazando líneas para conectar los puntos. Si reclamas una caja, puedes realizar otro movimiento.",
     "breakthrough": "Uno de los juegos más sencillos de \"llegar a la fila inicial de tu oponente\". Las piezas se mueven y capturan como los peones de ajedrez. El primero en llegar a la fila inicial contraria gana. También incluye una variante de \"Bombardeo\" donde, en lugar de movimientos de captura regulares, se puede detonar una pieza, lo que la destruye a ella y a todas las piezas a su alrededor.",
+    "bridges": "Bridges es un juego para dos jugadores que se juega en un tablero hexagonal, diseñado por Marc Rebillet. Los jugadores colocan bases y las unen con puentes. Gana el jugador que tenga más piezas de puente en el tablero al final. En caso de empate, gana el puente más largo.",
     "btt": "Un juego de pirámides que se ramifican a través de un tablero de ajedrez, en el que ganas puntos cuando los oponentes apuntan a tus pirámides y los pierdes cuando tú apuntas a las suyas.",
     "bug": "Llena el ecosistema con tus bichos hasta el punto de que ya no puedas expandirte más. En tu turno, coloca una pieza para comenzar un nuevo bicho o hacer crecer uno existente. Luego, si alguno de tus bichos está adyacente a bichos enemigos de la misma forma, debe comerlos y realizar un crecimiento de bonificación (si el crecimiento de bonificación no es posible, no se come nada). Esto puede provocar reacciones en cadena. Si hay múltiples opciones de bichos que pueden comer, puedes determinar qué bichos lo hacen y en qué orden.",
     "buku": "Buku es un juego de siembra bidimensional sobre un tablero de ajedrez donde el color corresponde a los hoyos de cada jugador. El primer jugador selecciona una fila para recolectar, luego las piezas se siembran desde cualquier casilla hacia cualquier dirección ortogonal, pero sin pasar nunca por la misma casilla dos veces. El segundo jugador hace lo mismo, pero recolecta desde columnas. Después de sembrar, cualquier casilla con 3 o 4 piezas de su color es capturada. El juego termina cuando un jugador obtiene más de la mitad del total de puntos posibles, cuando todas las piezas están aisladas (cada jugador reclama un punto por cada pieza en su hoyo) o cuando se repite la posición del tablero (el otro jugador reclama el resto de las piezas). El primer jugador obtiene una pieza adicional en la primera siembra.",
@@ -83,6 +85,7 @@
     "druid": "Coloca sarsenes y dinteles para conectar tus bordes del tablero. En el tablero rectangular estándar, el jugador 1 conecta este y oeste; el jugador 2 conecta norte y sur. En Druid's Y, conecta los tres lados (las esquinas cuentan para ambos bordes adyacentes). En Druid's Hex, conecta tres lados alternos (no adyacentes) cualesquiera. Solo la piedra superior de cada casilla cuenta para la conexión.",
     "domineering": "Los jugadores colocan fichas de dominó, uno verticalmente y el otro horizontalmente, hasta que alguno no pueda jugar, perdiendo así la partida.",
     "emergo": "Una variante de damas en la que las piezas capturadas permanecen en el tablero y pueden liberarse más adelante. Captura todas las piezas enemigas para ganar. Derivado de Lasca pero con dos fases de juego y capturas máximas obligatorias.",
+    "elOso": "Un juego de solitario del mundo de Carrisor. Mueve tus pilas fuera de la parte superior del tablero hacia el Cielo mientras el Oso tira los dados y avanza desde arriba. Logra diez o más piezas en el Cielo para ganar.",
     "emu": "Cada ave de tu rancho está representada por una pila de cartas. Al final de la mano, el valor de un ave se determina por la suma de las cartas numéricas de la pila. El objetivo, por supuesto, es criar aves rentables. Gana la puntuación más alta después de un número de \"años\".",
     "enso": "Un juego de movimiento y captura de inspiración zen en el que intentas rodear completamente una de tus piezas con el vacío.",
     "entrapment": "El objetivo de Entrapment es eliminar a los merodeadores de tu oponente rodeándolos con obstáculos impenetrales para dejarlos incapaces de moverse. Un merodeador que no puede moverse se considera capturado y queda eliminado del tablero. Cuando todos los merodeadores de un jugador han sido 'atrapados' de esta manera, la partida termina y se declara ganador a su oponente.",
@@ -103,6 +106,7 @@
     "fourinarow": "Un juego sencillo de conseguir cuatro (o más) en línea con un giro: hay gravedad.",
     "forms": "Los jugadores colapsan sus propios grupos para provocar su propio ahogado.",
     "frames": "Un juego sencillo de \"adivinar la mente de tu oponente\" donde ambos jugadores eligen simultáneamente una casilla vacía en un tablero de Go. Las colocaciones definen un rectángulo. El jugador con más piedras dentro de ese rectángulo obtiene un punto. Se juega hasta alcanzar un determinado número de puntos.",
+    "fractured": "Un juego de control de áreas en un tablero único \"fracturado\". La puntuación se lleva en un marcador compartido.",
     "frogger": "Un juego de carreras para el Decktet inspirado en el videojuego homónimo y en el juego de mesa clásico Cartagena. Mueve a tus ranas a lo largo de un camino peligroso para llegar primero a casa.",
     "furl": "Enrolla una fila de tus discos o desenrolla una pila. Si tienes un disco en tu fila final al comienzo de tu turno, ganas.",
     "garden": "Dos magos comparten una parcela de jardín e intentas cosechar reactivos valiosos. Ambos comparten la misma reserva de semillas. Plantar una semilla cambia las plantas a su alrededor. ¡Forma cuatro en fila para cosechar. Quien consiga más cosechas gana!",
@@ -280,11 +284,7 @@
     "y": "El clásico juego de conexión. Conecta los tres lados para ganar.",
     "yavalath": "Forma una línea de cuatro o más piezas de tu color *sin* formar primero una línea de tres piezas.",
     "yonmoque": "Intenta formar cuatro en línea en un juego donde no todos los espacios son iguales y las piezas enemigas se pueden convertir.",
-    "zola": "Un juego donde tu movimiento está limitado por tu distancia desde el centro del tablero. Los movimientos de captura no deben aumentar esa distancia. Los movimientos que no son de captura deben aumentar esa distancia. La primera persona que capture todas las piezas enemigas gana.",
-    "fractured": "Un juego de control de áreas en un tablero único \"fracturado\". La puntuación se lleva en un marcador compartido.",
-    "baghchal": "Un juego tradicional asimétrico para dos jugadores originario de Nepal. El jugador tigre intenta capturar 5 cabras saltando sobre ellas; el jugador cabra intenta inmovilizar a todos los tigres.",
-    "bridges": "Bridges es un juego para dos jugadores que se juega en un tablero hexagonal, diseñado por Marc Rebillet. Los jugadores colocan bases y las unen con puentes. Gana el jugador que tenga más piezas de puente en el tablero al final. En caso de empate, gana el puente más largo.",
-    "elOso": "Un juego de solitario del mundo de Carrisor. Mueve tus pilas fuera de la parte superior del tablero hacia el Cielo mientras el Oso tira los dados y avanza desde arriba. Logra diez o más piezas en el Cielo para ganar."
+    "zola": "Un juego donde tu movimiento está limitado por tu distancia desde el centro del tablero. Los movimientos de captura no deben aumentar esa distancia. Los movimientos que no son de captura deben aumentar esa distancia. La primera persona que capture todas las piezas enemigas gana."
   },
   "notes": {
     "akimbo": "Akimbo, diseñado por Luis Bolaños Mures en 2026, es un juego de conexión sin empates para dos jugadores. Una _diagonal desnuda_ es un par de piezas del mismo color, adyacentes en diagonal, sin ninguna otra pieza del mismo color adyacente a ambas. Un _corte cruzado_ es un área de 2×2 con dos diagonales desnudas entrelazadas de colores opuestos.\n\nEn su turno, el jugador coloca una pieza propia en una casilla vacía. Si esto completa un corte cruzado, la otra pieza en el corte cruzado se elimina. Nunca debe haber más de una diagonal desnuda de cada color en el tablero, ni siquiera de forma momentánea antes de quitar una pieza. Un jugador gana si, al final de su turno, hay una cadena de piezas de su color conectadas ortogonalmente que toque los dos bordes opuestos del tablero pertenecientes a ese jugador.\n\nOkimba es una variante donde solo puede existir como máximo una diagonal desnuda en el tablero (por lo que mientras un jugador tenga la diagonal, el adversario no puede crear otra).",
@@ -306,6 +306,7 @@
     "chase": "Actualmente, la mayoría de los movimientos de intercambio deberán editarse manualmente. Estamos trabajando para solucionar esto.",
     "conspirateurs": "En el juego base, las piezas pueden moverse a través de santuarios como parte de un salto de varios pasos. No se congelan hasta que terminan su movimiento en un santuario. En la variante estricta, las piezas se congelan tan pronto como entran en un santuario.\n\nEn partidas de cuatro jugadores, los jugadores 1 y 2 son compañeros, al igual que los jugadores 3 y 4.",
     "deckfish": "Puedes encontrar más información sobre el sistema Decktet en el [sitio web oficial de Decktet](https://www.decktet.com).\n\nLos poderes de los palos (habilidades de movimiento de fichas) son:\n* Lunas: Saltar ortogonalmente sobre huecos.\n* Soles: Mover una o dos cartas en diagonal.\n* Olas: Moverse ortogonalmente hasta la última carta sin obstrucciones.\n* Hojas: Moverse ortogonalmente a cualquier carta que no tenga obstáculos vecinos.\n* Sierpes: Moverse ortogonalmente a la primera carta ocupada, empujando esa pieza a la siguiente carta.\n* Nudos: Realizar tres movimientos ortogonales de una carta, sin retroceder.\n\nEn las reglas, el \"primer\" jugador es el jugador que coloca en segundo lugar en la fase de colocación pero se mueve primero en la fase de movimiento, pero aquí el primer jugador es quien coloca primero pero se mueve en segundo lugar. Esto se implementa mediante un pase automático para el jugador correspondiente.\n\nSe aplica la regla de que, incluso cuando el último jugador ya esté ganando, debe continuar jugando hasta que se quede sin movimientos.",
+    "elOso": "La preparación se realiza automáticamente al iniciar el juego. Los conteos de Cielo, Cueva, Suelo y Fosa aparecen en la barra lateral. Después de cada movimiento, usa los controles de fotograma para avanzar paso a paso la respuesta del Oso. Diez o más piezas en el Cielo representan una victoria.",
     "domineering": "Domineering, también conocido como Stop-Gate, es un juego combinatorio partisano. El juego fue diseñado por Göran Andersson hacia 1973 y se presentó en el libro fundamental de CGT *Winning Ways for Your Mathematical Plays*. Existe una versión imparcial, llamada Cram, donde ambos jugadores pueden colocar dominós horizontales o verticales. La variante \"Quelhas\" fue propuesta por Carlos P. Santos y Alfie Davies en 2025, siendo una versión misère (el jugador sin opciones gana la partida) y utiliza poliominós más largos similares a fichas de dominó.",
     "emu": "Puedes encontrar más información sobre el sistema Decktet en el [sitio web oficial de Decktet](https://www.decktet.com). Las cartas en las manos de los jugadores están ocultas para los observadores y permanecen ocultas para los oponentes hasta que el mazo se agota, momento en el cual los jugadores tienen información perfecta, por lo que las manos se revelan. Las cartas robadas del pozo de descarte también son siempre visibles para los oponentes.",
     "entropy": "En esta implementación, los jugadores juegan dos partidas simultáneamente pero con una sola secuencia compartida de piezas aleatorias. Cada jugador coloca una pieza en el tablero de Orden de su *oponente* y luego realiza un movimiento en su *propio* tablero de Orden; por lo tanto, los jugadores actúan como Orden y Caos al mismo tiempo. ¡Gana el jugador con la puntuación más alta! Dado que ambos jugadores tuvieron exactamente las mismas opciones de colocación, esto proporciona la medida más pura de habilidad relativa.",
@@ -315,7 +316,7 @@
     "forms": "Forms fue diseñado por Steven Meyers en 2007. Después de cada movimiento, todas las piezas fuera del grupo que contiene la última pieza movida son capturadas. El último jugador en mover pierde (por lo que Forms es un juego misère). La primera versión permitía que una pieza capturara cualquier pieza del oponente. Más tarde, en 2011, Meyers desarrolló una segunda versión, **Advanced Forms**, donde solo podías capturar piezas adyacentes ortogonalmente, pero una pieza también podía moverse a una casilla vacía si ambas estaban conectadas por una secuencia de pasos ortogonales sobre casillas vacías. La preparación inicial también cambió a un patrón ajedrezado. Esta segunda versión es la variante predeterminada aquí en AP. Se puede encontrar más información en [WAG](https://jpneto.github.io/world_abstract_games/forms.htm).",
     "frogger": "Al igual que en otros juegos de Decktet en Abstract Play, el mazo se muestra en la parte inferior del tablero e incluye tanto las cartas del mazo como las cartas desconocidas en las manos de los otros jugadores. Después de la primera mano, todas las cartas se roban de la reserva pública de robo, por lo que las manos se vuelven abiertas gradualmente. El pozo de descarte también se muestra.\n\nDebido a cómo funciona la aleatorización en Abstract Play, se necesitan pases forzados para que un jugador reabastezca la reserva de robo en mitad de su turno. El servidor maneja los pases automáticamente, pero también hay una variante de reserva de robo que evita el pase forzado si se desea.\n\nLa variante Cocodrilos es de Jorge Arroyo, el traductor de las reglas al inglés. Las reglas avanzadas y otras variantes menores son de P. D. Magnus; aparecen en The Decktet Book, donde el juego se llama Xing.",
     "garden": "Para dejar muy claro qué sucedió en un turno anterior, cada movimiento se muestra a lo largo de cuatro tableros separados. El primer tablero muestra la partida justo después de colocar la pieza. El segundo tablero muestra el estado después de voltear las piezas adyacentes. El tercer tablero muestra cualquier cosecha. El cuarto tablero es el estado final del juego y es donde haces tus movimientos.\n\nEn nuestra implementación, el negro es siempre el color del \"tomo\" o desempate. El último jugador en cosechar negro tendrá un `0.1` después de su puntuación.",
-    "guerrilla": "Cualquiera de los dos jugadores gana si elimina todas las piezas del oponente. El J2 también gana si sobrevive lo suficiente como para que el J1 se quede sin insurgentes para colocar.",
+    "guerrilla": "Cualquier jugador gana al eliminar todas las piezas del oponente. El jugador de seguridad también gana si sobrevive lo suficiente como para que a los insurgentes se les acaben las piedras para colocar.\n\nPor defecto, una partida consta de dos juegos con los roles invertidos. Cada jugador juega un juego como insurgentes y uno como seguridad. Cuando ambos jugadores ganan como insurgentes, la partida es para quien haya usado menos piedras (`66 − remaining` al final de ese juego; gana la puntuación más baja). Puntuaciones iguales de los insurgentes son el único empate en ese caso. Una victoria de seguridad en un juego otorga 67 puntos. Si un jugador gana ambos juegos (gana como insurgentes en uno y como seguridad en el otro), gana la partida rotundamente. Si ambos jugadores solo ganan como seguridad, la partida termina en empate.",
     "scribe": "La tabla de referencia de glifos se muestra en el margen izquierdo. Un punto marca la colocación más reciente de cada jugador. Cuando una minicuadrícula se llena, se cuentan los puntos de los glifos y la puntuación más alta gana esa cuadrícula (los empates son para el jugador que la completó).",
     "gyges": "Las casillas de meta son adyacentes a todas las casillas de la fila trasera. El renderizador actualmente no puede manejar casillas \"flotantes\".",
     "halma": "Para evitar la [tendencia al empate](https://boardgamegeek.com/thread/3706389/unspoiling-halma-redux) del juego, se aplican las siguientes reglas: (a) un jugador gana si la base inicial opuesta está completa con al menos una piedra propia (criterio de David Parlett); (b) Cualquier pieza en la base inicial del jugador debe avanzar hacia el campo enemigo siempre que sea posible saltando sobre una pieza enemiga (regla de Zillions, para eliminar estrategias tendientes al empate); (c) Ninguna piedra puede regresar a su base inicial.\n\n[Halma](https://en.wikipedia.org/wiki/Halma) fue uno de los primeros éxitos comerciales de un juego abstracto. El juego fue diseñado por [George Howard Monks](https://en.wikipedia.org/wiki/George_Howard_Monks) en 1883/4. Se dice que Halma se inspiró en un juego británico más antiguo llamado *Hoppity*. Sin embargo, este juego no cuenta con documentación ni tableros supervivientes, lo que convierte esta afirmación en un misterio histórico. Halma se adaptó más tarde (c. 1892/3) en un éxito aún mayor: las [Damas chinas](https://boardgamegeek.com/boardgame/2386/chinese-checkers) (que podían ser jugadas fácilmente por tres o seis jugadores).\n\nSuper Halma es una variante más dinámica, sin acreditación, presentada en el libro de 1992 **New Rules for Classic Games** de Wayne Schmittberger. Esta variante propone saltos largos, donde el número de casillas vacías antes y después de la piedra saltada debe ser igual. Las restricciones de movimiento de la base aún se aplican en esta implementación de Super Halma.",
@@ -381,8 +382,7 @@
     "waldmeister": "Los jugadores juegan dos partidas consecutivas. En la primera ronda, el Jugador 1 juega por colores y el Jugador 2 juega por alturas. Al final de la primera ronda, se tabulan las puntuaciones y se destacan los grupos anotadores. Luego, en la segunda ronda, el Jugador 2 juega primero y juega por colores, y el Jugador 1 juega por alturas.",
     "witch": "El primer jugador no comienza siendo dueño de ninguna pieza y puede eliminar cualquier pieza (que no sea una corona) en su primer turno. El segundo jugador elige su color en su primer turno, después de lo cual ya no es posible eliminar las piezas de tu oponente.",
     "xana": "En sus turnos, los jugadores colocan o mueven una pila (hay una cantidad limitada de piezas apilables) y, opcionalmente, colocan dos muros en hexágonos vacíos. Las pilas sin libertades son capturadas. Una pila tiene libertad si al menos uno de los hexágonos adyacentes está vacío (no existe el concepto de grupo de pilas). Un hexágono es accesible si está vacío y conectado a una pila aliada por un camino de hexágonos vacíos. El objetivo es conseguir la puntuación más alta sumando territorio más capturas. Xana fue diseñado en 2005.",
-    "y": "El juego fue diseñado por Charles Titus y Craige Schensted (Ea Ea) en 1953. Un descendiente directo del Hex, el juego se jugaba originalmente en un tablero triangular, donde el objetivo es conectar los tres lados mediante una cadena de fichas aliadas. Y se considera un juego más fundamental que Hex, dadas sus reglas más simples y dado que una partida de Hex se puede preparar en un tablero de Y suficientemente grande. En su libro de 1975 **Mudcrack Y & Poly-Y**, los diseñadores introdujeron el _principio del patrón de grietas_ (mudcrack principle), afirmando que los juegos de conexión se pueden jugar en una amplia variedad de tableros progresivamente más elaborados. Uno de esos diseños ('el Y doblado', con tres celdas pentagonales) se convirtió en el tablero comercial de Y, en lugar del triangular estándar.",
-    "elOso": "La preparación se realiza automáticamente al iniciar el juego. Los conteos de Cielo, Cueva, Suelo y Fosa aparecen en la barra lateral. Después de cada movimiento, usa los controles de fotograma para avanzar paso a paso la respuesta del Oso. Diez o más piezas en el Cielo representan una victoria."
+    "y": "El juego fue diseñado por Charles Titus y Craige Schensted (Ea Ea) en 1953. Un descendiente directo del Hex, el juego se jugaba originalmente en un tablero triangular, donde el objetivo es conectar los tres lados mediante una cadena de fichas aliadas. Y se considera un juego más fundamental que Hex, dadas sus reglas más simples y dado que una partida de Hex se puede preparar en un tablero de Y suficientemente grande. En su libro de 1975 **Mudcrack Y & Poly-Y**, los diseñadores introdujeron el _principio del patrón de grietas_ (mudcrack principle), afirmando que los juegos de conexión se pueden jugar en una amplia variedad de tableros progresivamente más elaborados. Uno de esos diseños ('el Y doblado', con tres celdas pentagonales) se convirtió en el tablero comercial de Y, en lugar del triangular estándar."
   },
   "variants": {
     "_default": {
@@ -827,14 +827,6 @@
       },
       "size-5": {
         "name": "Tablero hexagonal (base 5)"
-      },
-      "#ruleset": {
-        "description": "Los jugadores deben capturar 16 piezas para ganar en el tablero pequeño o 25 para ganar en el tablero grande.",
-        "name": "Capturar piezas"
-      },
-      "no-threshold": {
-        "description": "La partida continúa mientras haya colocaciones válidas.",
-        "name": "Sin umbral de captura"
       }
     },
     "blastradius": {
@@ -1792,6 +1784,16 @@
       },
       "size-19": {
         "name": "Tablero de 19x19"
+      }
+    },
+    "guerrilla": {
+      "#length": {
+        "description": "Solo una partida; sin cambio de roles ni puntuación del encuentro.",
+        "name": "Partida única"
+      },
+      "match": {
+        "description": "Juega dos partidas con los roles invertidos. Si ambos jugadores ganan como insurgentes, gana la menor cantidad de piedras (`66 − restantes`); los puntajes iguales empatan.",
+        "name": "Encuentro de dos partidas"
       }
     },
     "gyve": {
@@ -4003,6 +4005,12 @@
         "name": "Vista superior"
       }
     },
+    "elOso": {
+      "nums": {
+        "description": "Pilas mostradas como números",
+        "name": "Números"
+      }
+    },
     "ccorridor": {
       "hide-markers": {
         "description": "No mostrar marcadores visuales para la ubicación del corredor y fichas puntuadas.",
@@ -4387,12 +4395,6 @@
         "description": "Elevación sutil: Una vista casi 3D del campo donde los espacios se elevan a medida que te alejas del centro.",
         "name": "Isométrica: Elevación sutil"
       }
-    },
-    "elOso": {
-      "nums": {
-        "description": "Pilas mostradas como números",
-        "name": "Números"
-      }
     }
   },
   "homeworlds": {
@@ -4436,6 +4438,7 @@
     "SYSTEM_NOSHIP": "No se pudo encontrar la nave {{ship}} en el sistema {{system}}."
   },
   "status": {
+    "_player": "{{player}}",
     "amazons": {
       "ISOLATEDQUEENS": "Las reinas ahora están aisladas",
       "TERRITORY": "Territorio"
@@ -4445,6 +4448,10 @@
     },
     "asli": {
       "TERRITORY": "Territorio y prisioneros"
+    },
+    "baghchal": {
+      "GOATS_IN_HAND": "Cabras en mano",
+      "GOATS_CAPTURED": "Cabras capturadas"
     },
     "bao": {
       "BALANCE": "Balance de material"
@@ -4493,9 +4500,22 @@
     "evenatodds": {
       "BONEYARD": "Pozo"
     },
+    "elOso": {
+      "SKY": "Cielo",
+      "CAVE": "Cueva",
+      "GROUND": "Suelo",
+      "PIT": "Fosa",
+      "GRADE_LOSS": "Derrota (9 o menos)",
+      "GRADE_WIN": "Victoria (10)",
+      "GRADE_SUPERIOR": "Superior (11)",
+      "GRADE_EXCELLENT": "Excelente (12)"
+    },
     "fnap": "Ficha FNAP",
     "focus": "Controladas",
     "guerrilla": {
+      "G1_SCORE": "Puntuación de insurgente del Juego 1",
+      "GAME1": "Juego 1",
+      "GAME2": "Juego 2",
       "INSURGENTS": "Insurgentes restantes"
     },
     "scribe": {
@@ -4543,22 +4563,7 @@
       "GOALS": "Objetivos",
       "HEIGHT": "alturas"
     },
-    "YEAR": "Año",
-    "baghchal": {
-      "GOATS_IN_HAND": "Cabras en mano",
-      "GOATS_CAPTURED": "Cabras capturadas"
-    },
-    "elOso": {
-      "SKY": "Cielo",
-      "CAVE": "Cueva",
-      "GROUND": "Suelo",
-      "PIT": "Fosa",
-      "GRADE_LOSS": "Derrota (9 o menos)",
-      "GRADE_WIN": "Victoria (10)",
-      "GRADE_SUPERIOR": "Superior (11)",
-      "GRADE_EXCELLENT": "Excelente (12)"
-    },
-    "_player": "{{player}}"
+    "YEAR": "Año"
   },
   "validation": {
     "_general": {
@@ -4890,6 +4895,12 @@
       "REORIENT": "Haz clic en una casilla vecina o zona de borde para seleccionar la dirección hacia la que quieres apuntar.",
       "TOO_FAR": "No puedes moverte más allá de tu poder de movimiento (actualmente {{pom}})."
     },
+    "baghchal": {
+      "INITIAL_INSTRUCTIONS_TIGER_MOVEMENT": "Selecciona un tigre para mover.",
+      "INITIAL_INSTRUCTIONS_GOAT_MOVEMENT": "Selecciona una cabra para mover.",
+      "INITIAL_INSTRUCTIONS_GOAT_PLACEMENT": "Coloca una cabra en una intersección vacía.",
+      "VALID_PARTIAL": "Selecciona una intersección vacía para moverte. Tanto las cabras como los tigres pueden moverse a cualquier intersección adyacente (conectada) que esté libre. Los tigres pueden saltar sobre una cabra hacia la intersección libre detrás de ella, pero los saltos solo se pueden realizar hacia adelante, en diagonal hacia adelante o hacia los lados, nunca hacia atrás ni en diagonal hacia atrás."
+    },
     "bamboo": {
       "BAD_PLACE": "Ninguno de tus grupos puede contener más piedras que el número de grupos de tu color en el tablero.",
       "INITIAL_INSTRUCTIONS": "Selecciona una casilla vacía para colocar una piedra."
@@ -4955,7 +4966,8 @@
       "INVALID": "No puedes colocar piezas dentro de las zonas de exclusión por radiación, y siempre debes crear la pila más pequeña legalmente posible."
     },
     "blockade": {
-      "BLOCKS_GOAL": "No se puede colocar la pared en {{wall}} porque bloquea la(s) meta(s) para una de las piezas en el tablero.",
+      "BLOCKS_GOAL_one": "No se puede colocar una pared en {{wall}} porque bloquea la meta de una de las piezas del tablero.",
+      "BLOCKS_GOAL_other": "No se puede colocar una pared en {{wall}} porque bloquea las metas de una de las piezas del tablero.",
       "EXCLUSIVE": "Solo puedes mover una pieza o colocar una pared, no ambas cosas.",
       "INITIAL_INSTRUCTIONS": "Selecciona una pieza para mover, luego coloca una pared si tienes alguna.",
       "INITIAL_INSTRUCTIONS_EXCLUSIVE": "Selecciona una pieza para mover o coloca una pared si tienes alguna.",
@@ -4972,9 +4984,7 @@
       "NO_WALL_OPTIONAL": "Coloca una pared si lo deseas; de lo contrario, puedes completar el movimiento.",
       "OCCUPIED_WALL": "No se puede colocar una pared en {{wall}} porque ese espacio ya está ocupado.",
       "SELECT_SECOND_WALL": "Hay dos formas posibles de completar la pared desde {{wall}}. Selecciona el lado que deseas completar.",
-      "SELECT_TO": "Selecciona un destino al cual moverte.",
-      "BLOCKS_GOAL_one": "No se puede colocar una pared en {{wall}} porque bloquea la meta de una de las piezas del tablero.",
-      "BLOCKS_GOAL_other": "No se puede colocar una pared en {{wall}} porque bloquea las metas de una de las piezas del tablero."
+      "SELECT_TO": "Selecciona un destino al cual moverte."
     },
     "blooms": {
       "DESTINATION": "Selecciona una casilla para colocar la pieza.",
@@ -5027,6 +5037,10 @@
       "ONLY_FORWARD": "Las piezas solo pueden moverse hacia adelante.",
       "PARTIAL": "Proporciona el destino.",
       "TOOFAR": "Las piezas solo pueden moverse un espacio a la vez."
+    },
+    "bridges": {
+      "INITIAL_INSTRUCTIONS_FIRST_TURN": "Coloca una base nueva en cualquier espacio vacío, excepto en el centro.",
+      "INITIAL_INSTRUCTIONS": "Haz dos movimientos: coloca una base nueva en un espacio vacío que no esté adyacente a una base existente ni en el centro, o conecta dos de tus bases con un puente."
     },
     "btt": {
       "BAD_NULL": "Un cuadro nulo no puede aislar una parte del tablero.",
@@ -5155,6 +5169,15 @@
       "SELECT_DRUID_DEST": "Selecciona adónde debe moverse tu Druida.",
       "SELECT_LINTEL_END": "Selecciona el otro extremo del dintel.",
       "SELECT_MOVE": "Coloca un sarsen, tiende un dintel, mueve tu Druida o pasa."
+    },
+    "elOso": {
+      "INITIAL_INSTRUCTIONS": "Selecciona una de tus pilas para moverla. Haz clic en una pila dos veces para pasar.",
+      "VALID_PARTIAL": "Selecciona un destino. Haz clic en la misma pila de nuevo para pasar.",
+      "VALID_PARTIAL_TOP": "Selecciona un destino o haz clic en la barra del Cielo arriba. Haz clic en la misma pila de nuevo para pasar.",
+      "SELECT_STACK_FOR_PASS": "Primero selecciona una pila y luego vuelve a hacer clic en ella para pasar.",
+      "INVALID_DIRECTION": "Las pilas pueden moverse en diagonal o hacia los lados, pero no en línea recta hacia adelante o hacia atrás.",
+      "TOO_FAR": "Esta pila puede moverse como máximo {{dist}} casillas.",
+      "SKY_FROM_TOP": "Solo las pilas en la fila superior pueden moverse hacia el Cielo."
     },
     "cannon": {
       "BAD_RETREAT": "Las piezas solo pueden retirarse si están adyacentes a al menos una pieza enemiga.",
@@ -5687,6 +5710,14 @@
     "frames": {
       "INITIAL_INSTRUCTIONS": "Haz clic en una casilla vacía para añadir una pieza al tablero."
     },
+    "fractured": {
+      "BAD_MOVE": "Ese movimiento no es legal.",
+      "BAD_PLACE": "No puedes colocar una piedra ahí.",
+      "CLOSED": "Esa región no está abierta para colocar.",
+      "INITIAL_INSTRUCTIONS": "Coloca una piedra en una región abierta o selecciona una de tus piedras para moverla.",
+      "NO_RESERVE": "No te quedan piedras en la reserva.",
+      "PARTIAL_MOVE": "Selecciona un destino un tamaño mayor."
+    },
     "forms": {
       "INITIAL_INSTRUCTIONS": "Haz clic en una pieza aliada.",
       "INSTRUCTIONS": "Haz clic en una pieza enemiga ortogonalmente opuesta para capturarla por reemplazo, o muévete a una casilla vacía adyacente por camino que cree múltiples grupos de piezas (los grupos incluyen ambos colores).",
@@ -5739,7 +5770,6 @@
       "TOO_EARLY_FOR_REFILL": "Envía tu solicitud de reposición antes de realizar tus movimientos restantes.",
       "TOO_LATE_FOR_BLOCKED": "No te cuentas como bloqueado si ya te has movido en este turno.",
       "TOO_LATE_FOR_REFILL": "No es necesario forzar una reposición de la reserva de robo después de tu tercer movimiento. Se repondrá automáticamente después de que envíes tu turno.",
-      "VALID_REFILL": "Envía tu movimiento para activar la reposición. Los demás jugadores pasarán automáticamente y te quedarán {{count}} movimientos restantes en tu turno parcial (así como la opción de pasar).",
       "VALID_REFILL_one": "Envía tu movimiento para activar la recarga. Los oponentes pasarán automáticamente y te quedará un movimiento restante en tu turno parcial (así como la opción de pasar).",
       "VALID_REFILL_other": "Envía tu movimiento para activar la recarga. Los oponentes pasarán automáticamente y te quedarán {{count}} movimientos restantes en tu turno parcial (así como la opción de pasar)."
     },
@@ -6499,11 +6529,6 @@
       "INITIAL_INSTRUCTIONS": "Coloca una piedra en una casilla vacía. Si se realiza una captura por pellizco (pinch), el jugador que captura recoloca la piedra capturada en cualquier casilla vacía de su elección. Si esta colocación provoca la captura de una piedra propia, el mismo jugador recoloca la piedra propia capturada y resuelve cualquier nueva captura, si la hay. Este proceso continúa hasta que una recolocación no provoque ninguna nueva captura. Si no quedan colocaciones disponibles, la piedra capturada se elimina del juego.",
       "OCCUPIED_CELL": "Solo son válidas las colocaciones en casillas vacías.",
       "REUSED_CELL": "Esta casilla {{cell}} ya se utilizó en este turno. Una vez que el estado de una casilla cambia de ocupada a desocupada, o viceversa, no puede volver a cambiar en ese mismo turno.",
-      "SELF_STONES_TO_PLACE": "Todavía hay {{own}} piedra(s) capturada(s) aliada(s) por recolocar.",
-      "OPP_STONES_TO_PLACE": "Todavía hay {{opp}} piedra(s) capturada(s) del oponente por recolocar.",
-      "SELF_OPP_STONES_TO_PLACE": "Todavía hay {{own}} piedra(s) capturada(s) aliada(s), y luego {{opp}} piedra(s) del adversario, por recolocar.",
-      "OPP_SELF_STONES_TO_PLACE": "Todavía hay {{opp}} piedra(s) capturada(s) del oponente, y luego {{own}} piedra(s) aliada(s), por recolocar.",
-      "INITIAL_INSTRUCTIONS_ORIGINAL": "Coloca una piedra en una casilla vacía. Si se realiza una captura por pellizco, la piedra capturada cambia de color. Este cambio de color puede provocar cambios posteriores, iniciando una reacción en cadena hasta que el tablero se estabilice.",
       "SELF_STONES_TO_PLACE_one": "Aún queda una piedra capturada propia por recolocar.",
       "SELF_STONES_TO_PLACE_other": "Aún quedan {{count}} piedras capturadas propias por recolocar.",
       "OPP_STONES_TO_PLACE_one": "Aún queda una piedra capturada del oponente por recolocar.",
@@ -6515,7 +6540,8 @@
       "OPP_SELF_STONES_TO_PLACE_own_one_opp_one": "Aún queda una piedra capturada del oponente y luego una piedra propia por recolocar.",
       "OPP_SELF_STONES_TO_PLACE_own_one_opp_other": "Aún queda una piedra capturada del oponente y luego {{own}} piedras propias por recolocar.",
       "OPP_SELF_STONES_TO_PLACE_own_other_opp_one": "Aún quedan {{opp}} piedras capturadas del oponente y luego una piedra propia por recolocar.",
-      "OPP_SELF_STONES_TO_PLACE_own_other_opp_other": "Aún quedan {{opp}} piedras capturadas del oponente y luego {{own}} piedras propias por recolocar."
+      "OPP_SELF_STONES_TO_PLACE_own_other_opp_other": "Aún quedan {{opp}} piedras capturadas del oponente y luego {{own}} piedras propias por recolocar.",
+      "INITIAL_INSTRUCTIONS_ORIGINAL": "Coloca una piedra en una casilla vacía. Si se realiza una captura por pellizco, la piedra capturada cambia de color. Este cambio de color puede provocar cambios posteriores, iniciando una reacción en cadena hasta que el tablero se estabilice."
     },
     "pippinzip": {
       "INITIAL_INSTRUCTIONS": "Esta es la fase de subasta. Coloca de una a tres piezas en casillas vacías para mejorar la posición de 'Zip', o presiona 'pasar' para finalizar la subasta y ser 'Zip'.",
@@ -7595,33 +7621,6 @@
       "MUST_MOVE": "Si tienes un movimiento disponible, no puedes pasar tu turno.",
       "NONCAPTURES_KINGS": "Los movimientos sin captura solo pueden avanzar un espacio a la vez.",
       "PARTIAL": "Selecciona un destino."
-    },
-    "fractured": {
-      "BAD_MOVE": "Ese movimiento no es legal.",
-      "BAD_PLACE": "No puedes colocar una piedra ahí.",
-      "CLOSED": "Esa región no está abierta para colocar.",
-      "INITIAL_INSTRUCTIONS": "Coloca una piedra en una región abierta o selecciona una de tus piedras para moverla.",
-      "NO_RESERVE": "No te quedan piedras en la reserva.",
-      "PARTIAL_MOVE": "Selecciona un destino un tamaño mayor."
-    },
-    "baghchal": {
-      "INITIAL_INSTRUCTIONS_TIGER_MOVEMENT": "Selecciona un tigre para mover.",
-      "INITIAL_INSTRUCTIONS_GOAT_MOVEMENT": "Selecciona una cabra para mover.",
-      "INITIAL_INSTRUCTIONS_GOAT_PLACEMENT": "Coloca una cabra en una intersección vacía.",
-      "VALID_PARTIAL": "Selecciona una intersección vacía para moverte. Tanto las cabras como los tigres pueden moverse a cualquier intersección adyacente (conectada) que esté libre. Los tigres pueden saltar sobre una cabra hacia la intersección libre detrás de ella, pero los saltos solo se pueden realizar hacia adelante, en diagonal hacia adelante o hacia los lados, nunca hacia atrás ni en diagonal hacia atrás."
-    },
-    "bridges": {
-      "INITIAL_INSTRUCTIONS_FIRST_TURN": "Coloca una base nueva en cualquier espacio vacío, excepto en el centro.",
-      "INITIAL_INSTRUCTIONS": "Haz dos movimientos: coloca una base nueva en un espacio vacío que no esté adyacente a una base existente ni en el centro, o conecta dos de tus bases con un puente."
-    },
-    "elOso": {
-      "INITIAL_INSTRUCTIONS": "Selecciona una de tus pilas para moverla. Haz clic en una pila dos veces para pasar.",
-      "VALID_PARTIAL": "Selecciona un destino. Haz clic en la misma pila de nuevo para pasar.",
-      "VALID_PARTIAL_TOP": "Selecciona un destino o haz clic en la barra del Cielo arriba. Haz clic en la misma pila de nuevo para pasar.",
-      "SELECT_STACK_FOR_PASS": "Primero selecciona una pila y luego vuelve a hacer clic en ella para pasar.",
-      "INVALID_DIRECTION": "Las pilas pueden moverse en diagonal o hacia los lados, pero no en línea recta hacia adelante o hacia atrás.",
-      "TOO_FAR": "Esta pila puede moverse como máximo {{dist}} casillas.",
-      "SKY_FROM_TOP": "Solo las pilas en la fila superior pueden moverse hacia el Cielo."
     }
   },
   "INITIAL_UNDO": "No puedes deshacer la posición inicial del juego.",

@@ -39,6 +39,7 @@
     "bounce": "Manövriere deine unverbundenen Dame-Steine zu einem einzigen, orthogonal zusammenhängenden Ganzen.",
     "boxes": "Ein Gebietsspiel, bei dem du versuchst, Kästchen zu vervollständigen, indem du Linien ziehst, um die Punkte zu verbinden. Wenn ein Kästchen beansprucht wird, darfst du einen weiteren Zug machen.",
     "breakthrough": "Eines der einfachsten Spiele, bei denen man die Grundreihe des Gegners erreichen muss. Steine bewegen sich und schlagen wie Schachbauern. Wer zuerst die andere Grundreihe erreicht, gewinnt. Enthält auch eine \"Bombardement\"-Variante, bei der man anstelle regulärer Schlagzüge einen Stein detonieren lassen kann, wodurch er und alle umgebenden Steine zerstört werden.",
+    "bridges": "Bridges ist ein Spiel für zwei Personen auf einem sechseckigen Spielbrett, entworfen von Marc Rebillet. Die Spieler platzieren Basen und verbinden sie mit Brücken. Wer am Ende die meisten Brückenteile auf dem Brett hat, gewinnt. Bei Gleichstand entscheidet die längere Brücke.",
     "btt": "Ein Spiel mit Pyramiden, die sich über ein Schachbrett verzweigen, bei dem du Punkte erhältst, wenn Gegner auf deine Pyramiden zeigen, und Punkte verlierst, wenn du auf ihre zeigst.",
     "bug": "Fülle das Ökosystem so sehr mit deinen Käfern, dass du dich nicht mehr ausbreiten kannst. Platziere in deinem Zug einen Stein, um einen neuen Käfer zu beginnen oder einen bestehenden Käfer wachsen zu lassen. Wenn dann einer deiner Käfer an gegnerische Käfer derselben Form grenzt, müssen sie sie fressen und ein Bonuswachstum ausführen (wenn kein Bonuswachstum möglich ist, findet kein Fressen statt). Dies kann zu Kettenreaktionen führen. Wenn mehrere Käfer fressen können, darfst du bestimmen, welche Käfer dies in welcher Reihenfolge tun.",
     "buku": "Buku ist ein zweidimensionales Säspiel auf einem Schachbrett, bei dem die Farbe den Mulden jedes Spielers entspricht. Der erste Spieler wählt eine Reihe zum Einsammeln aus, dann werden Steine von einem beliebigen Feld aus in jede orthogonale Richtung gesät, wobei dasselbe Feld nie zweimal passiert werden darf. Der zweite Spieler tut dasselbe, sammelt aber aus Spalten. Nach dem Säen werden alle Felder mit 3 oder 4 Steinen in ihrer Farbe geschlagen. Das Spiel endet, wenn ein Spieler mehr als die Hälfte der insgesamt möglichen Punkte erzielt oder alle Steine Einzelsteine sind (jeder Spieler beansprucht einen Punkt für jeden Stein in seiner Mulde) oder wenn sich die Brettposition wiederholt (der andere Spieler beansprucht den Rest der Steine). Der erste Spieler erhält beim ersten Säen einen zusätzlichen Stein.",
@@ -84,11 +85,14 @@
     "druid": "Platziere Sarsen-Steine und Decksteine (Lintels), um deine Ränder des Bretts zu verbinden. Auf dem rechteckigen Standardbrett verbindet Spieler 1 Ost und West; Spieler 2 verbindet Nord und Süd. Auf Druid's Y verbindest du alle drei Seiten (Ecken zählen für beide angrenzenden Ränder). Auf Druid's Hex verbindest du drei beliebige abwechselnde (nicht angrenzende) Seiten. Nur der oberste Stein auf jedem Feld zählt für eine Verbindung.",
     "domineering": "Die Spieler platzieren Dominosteine, einer vertikal, der andere horizontal, bis einer nicht mehr spielen kann und somit das Spiel verliert.",
     "emergo": "Eine Dame-Variante, bei der geschlagene Steine auf dem Brett verbleiben und später befreit werden können. Schlage alle gegnerischen Steine, um zu gewinnen. Abgeleitet von Lasca, aber mit zwei Spielphasen und verflichtenden maximalen Schlagzügen.",
+    "elOso": "Ein Solitärspiel aus der Welt von Carrisor. Bewege deine Stapel vom oberen Rand des Spielbretts in den Himmel, während der Bär würfelt und von oben vorrückt. Bringe zehn oder mehr Steine in den Himmel, um zu gewinnen.",
     "emu": "Jeder Vogel auf deiner Ranch wird durch einen Kartenstapel dargestellt. Am Ende der Hand wird der Wert eines Vogels durch die Summe der Zahlenkarten im Stapel bestimmt. Das Ziel ist natürlich, gewinnbringende Vögel zu züchten. Die höchste Punktzahl nach einer Reihe von \"Jahren\" gewinnt.",
     "enso": "Ein Zen-inspiriertes Bewegungs- und Schlagspiel, bei dem du versuchst, einen deiner Steine vollständig mit Leere zu umgeben.",
     "entrapment": "Das Ziel von Entrapment ist es, die Streuner (Roamer) deines Gegners zu eliminieren, indem du sie mit undurchdringlichen Hindernissen umgibst und sie so bewegungsunfähig machst. Ein Streuner, der sich nicht bewegen kann, gilt als geschlagen und wird vom Brett entfernt. Wenn alle Streuner eines Spielers auf diese Weise 'eingeschlossen' wurden, ist das Spiel vorbei und der Gegner wird zum Sieger erklärt.",
     "entropy": "Entropy ist ein 2-Spieler-Spiel, das den Kampf zwischen Ordnung und Chaos darstellt. Der Ordnung-Spieler versucht, sein Brett so zu organisieren, dass er die höchste Punktzahl erzielt. Aber der Chaos-Spieler darf die Steine *platzieren* und versucht, die Ordnung wann immer möglich zu vereiteln.",
     "evenatodds": "Ein Domino-Stapelspiel für zwei Spieler, bei dem gerade (2/4/6) und ungerade (1/3/5) Zahlen darum konkurrieren, die größte zusammenhängende Gruppe aktiver Flächen auf einem wachsenden Brett zu bilden.",
+    "estate": "Ein hexagonales Verbindungsspiel, bei dem Felder unterschiedliche Kosten haben. Gib deine Punkte weise aus!",
+    "circleOfLife": "Platziere Steine auf einem Hex-Ökosystem, um Arten-Muster zu bilden. Jede Art verschlingt die in der Nahrungskette nächstniedrigere Art. Schlage 20 gegnerische Steine oder fülle das Spielbrett so weit wie möglich.",
     "epam": "Epaminondas ist ein elegantes 2-Spieler-Spiel, bei dem du versuchst, die Grundreihe deines Gegners zu überrennen. Steine bewegen sich als Phalanxen um eine Anzahl von Feldern bis zu ihrer Länge. Die Regeln sind äußerst einfach, aber das Ergebnis ist tiefgründig und komplex.",
     "exxit": "Exxit ist im Grunde ein Gebietskontrollspiel. Manövriere deine Steine, um neue Plättchen zu erschaffen. Kämpfe darum, die größte zusammenhängende Insel aus Plättchen deiner Farbe zu bilden. Das Spielbrett wird im Laufe des Spiels aufgebaut.",
     "fabrik": "In Fabrik manipulieren die Spieler Arbeiter, um zu bestimmen, wo Steine platziert werden können. Das Ziel ist es, eine bestimmte Anzahl eigener Steine in eine Reihe zu bringen. Im Standardspiel können die Spieler jeden der beiden Arbeiter bewegen. Die Variante \"Arbeiter\" gibt jedem Spieler die Kontrolle über einen bestimmten Arbeiter.",
@@ -102,6 +106,7 @@
     "fourinarow": "Ein einfaches Spiel, bei dem man vier (oder mehr) in eine Reihe bringen muss, mit dem gewissen Etwas: Es gibt Schwerkraft.",
     "forms": "Die Spieler lassen ihre eigenen Gruppen kollabieren, um sich selbst patt zu setzen.",
     "frames": "Ein einfaches Spiel, bei dem man sich in die Gedanken des Gegners hineinversetzen muss: Beide Spieler wählen gleichzeitig ein leeres Feld auf einem Go-Brett aus. Die Platzierungen definieren ein Rechteck. Der Spieler mit den meisten Steinen innerhalb dieses Rechtecks erhält einen Punkt. Gespielt wird bis zu einer bestimmten Punktzahl.",
+    "fractured": "Ein Area-Control-Spiel auf einem einzigartigen \"gebrochenen\" Spielbrett. Die Punktewertung erfolgt auf einer gemeinsamen Leiste.",
     "frogger": "Ein Rennspiel für das Decktet, inspiriert vom gleichnamigen Videospiel und dem Brettspielklassiker Cartagena. Bewege deine Frösche entlang eines gefährlichen Pfades, um als Erster das Ziel zu erreichen.",
     "furl": "Rolle entweder eine Reihe deiner Scheiben auf oder rolle einen Stapel aus. Wenn du zu Beginn deines Zugs eine Scheibe in deiner Endreihe hast, gewinnst du.",
     "garden": "Zwei Zauberer teilen sich ein Gartenbeet und versuchen, wertvolle Reagenzien zu ernten. Beide teilen sich denselben Samenvorrat. Das Pflanzen eines Samens verändert die Pflanzen um ihn herum. Bilde vier in einer Reihe zum Ernten. Die meisten Ernten gewinnen!",
@@ -112,6 +117,7 @@
     "gonnect": "Gonnect ist ein Verbindungsspiel, bei dem die Spieler versuchen, zwei beliebige gegenüberliegende Seiten zu verbinden. Es gelten alle Regeln von Go, außer dass die Spieler nicht passen dürfen.",
     "gorogo": "Eine Go-Variante auf einem kleinen Spielbrett, bei der das Ziel darin besteht, mehr Steine als der Gegner zu schlagen, anstatt Territorium zu erobern.",
     "gyges": "Ein Durchbruchsspiel, bei dem niemand eigene Steine besitzt und die Steine voneinander abprallen.",
+    "guerrilla": "Ein asymmetrisches Spiel über Guerillakriegsführung. Beide Spieler versuchen, alle gegnerischen Steine vom Brett zu entfernen, müssen sich dabei jedoch auf sehr unterschiedliche Taktiken stützen.",
     "gyve": "Ein unentschiedenfreies Vereinigungsspiel, bei dem Sie versuchen, weniger Gruppen als Ihr Gegner zu bilden. In jedem Zug platzieren Sie nacheinander zwei Steine so, dass jeder im Moment des Platzierens an dieselbe Anzahl eigener Gruppen angrenzt.",
     "halma": "Das ursprüngliche Überquerungsspiel. Die Spieler müssen als Erste all ihre Steine in das gegnerische Startfeld bewegen.",
     "halmaclimbers": "Ein originelles Punktespiel, das von der Zugdynamik von Halma inspiriert ist.",
@@ -234,6 +240,7 @@
     "strands": "In Strands platzieren die Spieler abwechselnd so viele Steine ihrer Farbe auf dem Brett, wie die Zahl auf dem Feld angibt. Das Ziel ist es, die größte zusammenhängende Gruppe von Steinen zu bilden. Bei Gleichstand der größten Gruppen werden die zweitgrößten Gruppen verglichen und so weiter. Der erste Spieler beginnt das Spiel, indem er einen Stein auf ein mit 2 beschriftetes Feld setzt.",
     "streetcar": "In dieser wohlhabenden Nachbarschaft ist der Bau von Wohnraum oder öffentlichen Verkehrsmitteln gesetzlich verboten. Heben Sie die Beschränkungen für Einfamilienhäuser auf, um Bürger bauen zu lassen und das Viertel erschwinglicher und vielfältiger zu machen. Verbinden Sie dann neue Gebäude mit Straßenbahnlinien Ihrer eigenen Farbe, um Punkte zu erzielen.",
     "strings": "Die Spieler wählen gleichzeitig eine Schnur aus, an der sie ziehen, wodurch Münzstapel bewegt, geteilt und zusammengefügt werden. Gewinner ist, wer als Erster fünf Münzen auf seine Heimatfelder bringt. Ziehen Sie die Strippen? Oder zieht Ihr Gegner an Ihren?",
+    "scribe": "Ein Stift-und-Papier-Spiel auf einem 9×9-Supergitter aus neun 3×3-Minigittern. Gewinne die meisten Minigitter oder bilde in der fortgeschrittenen Variante die wertvollste Superglyphe aus deinen Siegen.",
     "swarm": "Stapelbildung durch kollektive Angriffe.",
     "subdivision": "Sie sind ein Immobilienentwickler, der mit anderen um die Erschließung eines neuen Wohngebiets konkurriert. Wo Sie bauen können, ist gewissen Einschränkungen unterworfen, und was neben Ihnen gebaut wird, beeinflusst Ihren Wert. Senken Sie den Wert Ihrer Konkurrenten, während Sie Ihren eigenen maximieren.",
     "sunspot": "Bilden Sie eine Schleife durch das Platzieren von Steinen und Umdrehen von Untergruppen.",
@@ -277,14 +284,7 @@
     "y": "Das klassische Verbindungsspiel. Verbinden Sie alle drei Seiten, um zu gewinnen.",
     "yavalath": "Bilden Sie eine Reihe von vier oder mehr Steinen Ihrer Farbe, *ohne* zuerst eine Reihe von drei Steinen zu bilden.",
     "yonmoque": "Versuchen Sie, eine Viererreihe zu bilden, in einem Spiel, in dem nicht alle Felder gleich sind und gegnerische Steine umgewandelt werden können.",
-    "zola": "Ein Spiel, bei dem Ihre Bewegung durch den Abstand zum Mittelpunkt des Bretts eingeschränkt ist. Schlagzüge dürfen diesen Abstand nicht vergrößern. Nicht-Schlagzüge müssen diesen Abstand vergrößern. Gewinner ist, wer als Erster alle gegnerischen Steine schlägt.",
-    "estate": "Ein hexagonales Verbindungsspiel, bei dem Felder unterschiedliche Kosten haben. Gib deine Punkte weise aus!",
-    "guerrilla": "Ein asymmetrisches Spiel über Guerillakriegsführung. Beide Spieler versuchen, alle gegnerischen Steine vom Brett zu entfernen, müssen sich dabei jedoch auf sehr unterschiedliche Taktiken stützen.",
-    "scribe": "Ein Stift-und-Papier-Spiel auf einem 9×9-Supergitter aus neun 3×3-Minigittern. Gewinne die meisten Minigitter oder bilde in der fortgeschrittenen Variante die wertvollste Superglyphe aus deinen Siegen.",
-    "circleOfLife": "Platziere Steine auf einem Hex-Ökosystem, um Arten-Muster zu bilden. Jede Art verschlingt die in der Nahrungskette nächstniedrigere Art. Schlage 20 gegnerische Steine oder fülle das Spielbrett so weit wie möglich.",
-    "fractured": "Ein Area-Control-Spiel auf einem einzigartigen \"gebrochenen\" Spielbrett. Die Punktewertung erfolgt auf einer gemeinsamen Leiste.",
-    "bridges": "Bridges ist ein Spiel für zwei Personen auf einem sechseckigen Spielbrett, entworfen von Marc Rebillet. Die Spieler platzieren Basen und verbinden sie mit Brücken. Wer am Ende die meisten Brückenteile auf dem Brett hat, gewinnt. Bei Gleichstand entscheidet die längere Brücke.",
-    "elOso": "Ein Solitärspiel aus der Welt von Carrisor. Bewege deine Stapel vom oberen Rand des Spielbretts in den Himmel, während der Bär würfelt und von oben vorrückt. Bringe zehn oder mehr Steine in den Himmel, um zu gewinnen."
+    "zola": "Ein Spiel, bei dem Ihre Bewegung durch den Abstand zum Mittelpunkt des Bretts eingeschränkt ist. Schlagzüge dürfen diesen Abstand nicht vergrößern. Nicht-Schlagzüge müssen diesen Abstand vergrößern. Gewinner ist, wer als Erster alle gegnerischen Steine schlägt."
   },
   "notes": {
     "akimbo": "Akimbo, entworfen von Luis Bolaños Mures im Jahr 2026, ist ein unentschieden-freies Verbindungsspiel für zwei Spieler. Eine _nackte Diagonale_ (naked diagonal) ist ein Paar gleichfarbiger, diagonal benachbarter Steine, ohne dass ein weiterer gleichfarbiger Stein an beide angrenzt. Ein _Kreuzschnitt_ (crosscut) ist ein 2×2-Bereich mit zwei ineinandergreifenden nackten Diagonalen entgegengesetzter Farben.\n\nIn seinem Zug platziert der Spieler einen eigenen Stein auf einem leeren Feld. Wenn dies einen Kreuzschnitt vervollständigt, wird der andere Stein im Kreuzschnitt entfernt. Es darf sich zu keinem Zeitpunkt mehr als eine nackte Diagonale jeder Farbe auf dem Brett befinden – nicht einmal vorübergehend vor dem Entfernen eines Steins. Ein Spieler gewinnt, wenn sich am Ende seines Zugs eine Kette von orthogonal verbundenen Steinen seiner Farbe befindet, die die beiden gegenüberliegenden Brettränder des Spielers berührt.\n\nOkimba ist eine Variante, bei der insgesamt nur maximal eine nackte Diagonale auf dem Brett existieren darf (wenn also ein Spieler die Diagonale besitzt, kann der Gegner keine weitere erstellen).",
@@ -306,14 +306,18 @@
     "chase": "Derzeit müssen die meisten Tauschzüge manuell bearbeitet werden. Wir arbeiten daran, dies zu beheben.",
     "conspirateurs": "Im Grundspiel dürfen sich Steine als Teil eines Mehrfachsprungs durch Zufluchtsorte bewegen. Sie sind erst eingefroren, wenn sie ihren Zug in einem Zufluchtsort beenden. In der strikten Variante werden Steine eingefroren, sobald sie einen Zufluchtsort betreten.\n\nIn Spielen mit vier Spielern bilden Spieler 1 und 2 ein Team, ebenso wie Spieler 3 und 4.",
     "deckfish": "Weitere Informationen zum Decktet-System finden Sie auf der [offiziellen Decktet-Website](https://www.decktet.com).\n\nDie Farben-Kräfte (Bewegungsfähigkeiten der Marker) sind:\n* Mond (Moons): Springe orthogonal über Lücken.\n* Sonne (Suns): Bewege ein oder zwei Karten diagonal.\n* Welle (Waves): Bewege dich orthogonal bis zur letzten unversperrten Karte.\n* Blatt (Leaves): Bewege dich orthogonal auf eine beliebige Karte ohne benachbarte Hindernisse.\n* Wurm (Wyrms): Bewege dich orthogonal auf die erste besetzte Karte und schiebe diesen Stein auf die nächste Karte.\n* Knoten (Knots): Mache drei orthogonale Ein-Karten-Züge ohne Zurückgehen.\n\nIn den Regeln ist der \"erste\" Spieler derjenige, der in der Platzierungsphase als Zweiter platziert, sich aber in der Bewegungsphase als Erster bewegt. Hier ist der erste Spieler jedoch derjenige, der als Erster platziert, sich aber als Zweiter bewegt. Dies wird durch ein automatisches Passen für den entsprechenden Spieler umgesetzt.\n\nEs gilt die Regel, dass der letzte Spieler, selbst wenn er bereits gewinnt, weiterspielen muss, bis ihm die Züge ausgehen.",
+    "elOso": "Der Aufbau erfolgt automatisch beim Starten des Spiels. Die Anzahl für Himmel, Höhle, Boden und Grube wird in der Seitenleiste angezeigt. Verwende nach jedem Zug die Einzelbild-Steuerung, um die Reaktion des Bären Schritt für Schritt zu verfolgen. Zehn oder mehr Steine im Himmel bedeuten einen Sieg.",
     "domineering": "Domineering, auch bekannt als Stop-Gate, ist ein parteiisches kombinatorisches Spiel. Das Spiel wurde um 1973 von Göran Andersson entworfen und im einflussreichen CGT-Buch *Winning Ways for Your Mathematical Plays* vorgestellt. Es gibt eine unparteiische Version namens Cram, bei der beide Spieler sowohl horizontale als auch vertikale Dominosteine platzieren können. Die Variante \"Quelhas\" wurde 2025 von Carlos P. Santos und Alfie Davies vorgeschlagen; sie ist eine Misère-Version (der Spieler ohne Zugmöglichkeiten gewinnt das Spiel) und verwendet längere dominoartige Polyominos.",
     "emu": "Weitere Informationen zum Decktet-System finden Sie auf der [offiziellen Decktet-Website](https://www.decktet.com). Karten auf den Händen der Spieler sind vor Zuschauern verborgen, und sie sind vor Gegnern verborgen, bis der Stapel leer ist. Ab diesem Zeitpunkt verfügen die Spieler über perfekte Information, sodass die Hände aufgedeckt werden. Vom Ablagestapel gezogene Karten sind für Gegner ebenfalls immer sichtbar.",
     "entropy": "In dieser Implementierung spielen die Spieler zwei Spiele gleichzeitig, jedoch mit einem einzigen gemeinsamen Strom zufälliger Steine. Jeder Spieler platziert einen Stein auf dem Ordnung-Brett seines *Gegners* und macht dann einen Zug auf seinem *eigenen* Ordnung-Brett; die Spieler agieren somit gleichzeitig als Ordnung und Chaos. Der Spieler mit der höchsten Punktzahl gewinnt! Da beide Spieler exakt dieselben Platzierungsmöglichkeiten hatten, bietet dies das meiste Maß an relativer Spielstärke.",
+    "circleOfLife": "Die Arten sind auf dem Ring gegen den Uhrzeigersinn von 0–11 nummeriert, beginnend mit der Einzel-Hex-Art ganz oben. Art 0 frisst 11; jede andere Art frisst die direkt darunter nummerierte Art. Räuberisches Fressen findet nur statt, wenn du einen Stein platzierst, der eine Art angrenzend an Beute bildet. Gruppen dürfen nicht mehr als vier Steine umfassen. Wer zuerst 20 gegnerische Steine schlägt, gewinnt, oder der Spieler gewinnt, der in seinem Zug nicht mehr platzieren kann (nachdem das Ökosystem gefüllt wurde).",
     "evenatodds": "Um auf das Feld zu legen, platziere ein Ende auf einem leeren Feld angrenzend an eine passende aktive Seite; das andere Ende kann auf jedem angrenzenden leeren Feld liegen. Um zu stapeln, muss ein Ende mit der darunter liegenden Seite übereinstimmen; das andere Ende darf jede aktive Seite *auf einem anderen Stein* auf derselben Höhe bedecken. In der Notation ist die erste Koordinate das Ende, das einer dieser Regeln entspricht. Blanks sind Blocker, die niemandem gehören.\n\nSteine auf deiner Hand sind vor deinem Gegner verborgen. Die Identitäten des Friedhofs (Boneyard) und die zwei entfernten Verlängerungssteine sind bis Spielende verborgen. Die Anzahl der Steine im Friedhof wird in der Seitenleiste angezeigt.",
     "exxit": "Übersetzungen der Regeln neigen dazu, bestimmte Nuancen auszulassen. Diese Implementierung entspricht der französischen Originalausgabe der Regeln.\n\nDa das Spielbrett während des Spiels in unregelmäßigen Formen aufgebaut wird, sind die Felder nummeriert statt algebraisch beschriftet. Dies stellt sicher, dass sich die Beschriftungen mit wachsendem Spielfeld nicht verändern.",
     "forms": "Forms wurde 2007 von Steven Meyers entworfen. Nach jedem Zug werden alle Steine außerhalb der Gruppe geschlagen, die den zuletzt bewegten Stein enthält. Der letzte Spieler, der zieht, verliert (Forms ist also ein Misère-Spiel). Die erste Version erlaubte es einem Stein, jeden gegnerischen Stein zu schlagen. Später, im Jahr 2011, entwickelte Meyers eine zweite Version, **Advanced Forms**, bei der man nur orthogonal angrenzende Steine schlagen konnte, sich ein Stein aber auch auf ein leeres Feld bewegen konnte, wenn beide durch eine Sequenz orthogonaler Schritte über leere Felder verbunden waren. Der Aufbau änderte sich ebenfalls zu einem Schachbrettmuster. Diese zweite Version ist die Standardvariante hier bei AP. Weitere Informationen finden Sie bei [WAG](https://jpneto.github.io/world_abstract_games/forms.htm).",
     "frogger": "Wie bei anderen Decktet-Spielen auf Abstract Play wird das Deck unten auf dem Spielbrett angezeigt und enthält sowohl Karten im Deck als auch unbekannte Karten auf den Händen anderer Spieler. Nach der ersten Hand werden alle Karten aus dem offenen Nachziehstapel gezogen, sodass die Hände nach und nach offen werden. Der Ablagestapel wird ebenfalls angezeigt.\n\nAufgrund der Funktionsweise von Zufallselementen bei Abstract Play sind erzwungene Pässe erforderlich, damit ein Spieler den Nachziehstapel in der Mitte seines Zugs auffüllen kann. Passen wird automatisch vom Server ausgeführt, aber es gibt auch eine Nachziehstapel-Variante, die erzwungenes Passen auf Wunsch vermeidet.\n\nDie Krokodil-Variante stammt von Jorge Arroyo, dem Übersetzer der englischen Regeln. Die Fortgeschrittenen-Regeln und andere kleinere Varianten stammen von P. D. Magnus; sie erscheinen in *The Decktet Book*, wo das Spiel *Xing* genannt wird.",
     "garden": "Um sehr deutlich zu machen, was im vorherigen Zug passiert ist, wird jeder Zug auf vier separaten Spielbrettern dargestellt. Das erste Spielbrett zeigt das Spiel nach dem ersten Platzieren des Steins. Das zweite Spielbrett zeigt den Zustand, nachdem angrenzende Steine umgedreht wurden. Das dritte Spielbrett zeigt etwaige Ernten. Das vierte Spielbrett zeigt den finalen Spielzustand und ist die Stelle, an der Sie Ihre Züge ausführen.\n\nIn unserer Implementierung ist Schwarz immer die \"Tome\"- oder Gleichstands-Farbe. Der letzte Spieler, der Schwarz erntet, erhält ein `0.1` hinter seiner Punktzahl.",
+    "guerrilla": "Ein Spieler gewinnt, indem er alle Steine des Gegners entfernt. Der Sicherheitsspieler gewinnt auch, wenn er lange genug überlebt, bis den Aufständischen die Steine zum Setzen ausgehen.\n\nStandardmäßig besteht ein Match aus zwei Spielen mit vertauschten Rollen. Jeder Spieler spielt ein Spiel als Aufständische und eines als Sicherheitskräfte. Wenn beide Spieler als Aufständische gewinnen, geht das Match an denjenigen, der weniger Steine verbraucht hat (`66 − verbleibend` am Ende dieses Spiels; die niedrigere Punktzahl gewinnt). Gleiche Aufständischen-Punktzahlen sind in diesem Fall das einzige Unentschieden. Ein Sieg der Sicherheitskräfte in einem Spiel bringt 67 Punkte. Wenn ein Spieler beide Spiele gewinnt (eines als Aufständische und eines als Sicherheitskräfte), gewinnt er das Match direkt. Wenn beide Spieler nur als Sicherheitskräfte gewinnen, endet das Match unentschieden.",
+    "scribe": "Die Glyphen-Referenztabelle wird am linken Rand angezeigt. Ein Punkt markiert die jeweils letzte Platzierung jedes Spielers. Wenn sich ein Minigitter füllt, werden die Glyphenpunkte zusammengezählt und die höhere Punktzahl gewinnt dieses Gitter (bei Gleichstand gewinnt der Spieler, der es fertiggestellt hat).",
     "gyges": "Die Zielfelder grenzen an alle Felder in der hintersten Reihe an. Der Renderer kann derzeit keine \"schwebenden\" Felder darstellen.",
     "halma": "Um der [Remis-Tendenz](https://boardgamegeek.com/thread/3706389/unspoiling-halma-redux) des Spiels entgegenzuwirken, gelten folgende Regeln: (a) Ein Spieler gewinnt, wenn das gegenüberliegende Heimatlager mit mindestens einem eigenen Stein vollständig besetzt ist (David Parletts Kriterium); (b) Jeder Stein im Heimatlager des Spielers muss Fortschritte in Richtung des feindlichen Lagers machen, wann immer dies durch Überspringen eines gegnerischen Steins möglich ist (Zillions-Regel, um Remis-Strategien zu eliminieren); (c) Kein Stein darf in sein Heimatlager zurückkehren.\n\n[Halma](https://de.wikipedia.org/wiki/Halma) war einer der ersten kommerziellen Erfolge für ein abstraktes Spiel. Das Spiel wurde 1883/4 von [George Howard Monks](https://en.wikipedia.org/wiki/George_Howard_Monks) entworfen. Es heißt, Halma sei von einem älteren britischen Spiel namens *Hoppity* inspiriert worden. Für dieses Spiel gibt es jedoch keine Dokumentation oder überlebende Spielbretter, was diese Aussage zu einem historischen Rätsel macht. Halma wurde später (ca. 1892/3) zu einem noch größeren Erfolg adaptiert: [Halma (Sternhalma)](https://boardgamegeek.com/boardgame/2386/chinese-checkers) (das leicht von drei oder sechs Spielern gespielt werden konnte).\n\nSuper Halma ist eine dynamischere, ungenannte Variante, die 1992 im Buch **New Rules for Classic Games** von Wayne Schmittberger vorgestellt wurde. Diese Variante schlägt Weitsprünge vor, bei denen die Anzahl der leeren Felder vor und nach dem übersprungenen Stein gleich sein muss. Die Zugbeschränkungen im Heimatlager gelten auch in dieser Implementierung von Super Halma.",
     "halmaclimbers": "Halma Climbers wurde 2021 von Alexander Brady entworfen.\n\nDiese Implementierung erlaubt es den Spielern, nach Belieben zu ziehen, anstatt sie auf Züge zu beschränken, die die Gesamtpunktzahl strikt erhöhen (wie in David Ploogs [Regelwerk](https://blackandwhite.develz.org/games/HalmaClimbers.pdf) beschrieben). Diese Designentscheidung erspart das Überprüfen mehrerer Zugkombinationen, nur um festzustellen, dass keine weiteren Züge mehr existieren, die die Gesamtpunktzahl erhöhen. Dies verhindert auch, dass die Software eine übermäßige Anzahl von Permutationen berechnen muss, die angesichts der Struktur aus zwei Aktionen pro Zug und komplexen Sprungsequenzen recht hoch sein kann. Das Spiel endet, wenn beide Spieler nacheinander passen, wenn der vorherige Spieler seinen eigenen Bereich räumt oder wenn dem aktuellen Spieler keine Vorwärtssprünge mehr zur Verfügung stehen.",
@@ -378,13 +382,98 @@
     "waldmeister": "Die Spieler spielen zwei Spiele nacheinander. In der ersten Runde spielt Spieler 1 auf Farben und Spieler 2 auf Höhen. Am Ende der ersten Runde werden die Punkte zusammengezählt und die wertenden Gruppen hervorgehoben. In der zweiten Runde spielt dann Spieler 2 zuerst und spielt auf Farben, während Spieler 1 auf Höhen spielt.",
     "witch": "Der erste Spieler besitzt zu Beginn keine Steine und darf in seinem ersten Zug jeden beliebigen Stein (außer einer Krone) entfernen. Der zweite Spieler wählt in seinem ersten Zug seine Farbe, wonach das Entfernen gegnerischer Steine nicht mehr möglich ist.",
     "xana": "Spieler setzen/bewegen in ihrem Zug einen Stapel (es gibt eine begrenzte Menge stapelbarer Steine) und setzen optional zwei Wände in leere Hex-Felder. Stapel ohne Freiheiten werden geschlagen. Ein Stapel hat eine Freiheit, wenn mindestens eines der angrenzenden Hex-Felder leer ist (es gibt kein Konzept einer Gruppe von Stapeln). Ein Hex-Feld ist zugänglich, wenn es leer ist und über einen Pfad aus leeren Hex-Feldern mit einem eigenen Stapel verbunden ist. Das Ziel ist es, die höchste Punktzahl aus Territorium plus Schlägen zu erzielen. Xana wurde 2005 entworfen.",
-    "y": "Das Spiel wurde 1953 von Charles Titus und Craige Schensted (Ea Ea) entworfen. Als direkter Nachfahre von Hex wurde das Spiel ursprünglich auf einem dreieckigen Brett gespielt, auf dem das Ziel darin besteht, alle drei Seiten durch eine Kette eigener Steine zu verbinden. Y gilt aufgrund seiner einfacheren Regeln und der Tatsache, dass eine Hex-Partie auf einem ausreichend großen Y-Brett aufgebaut werden kann, als grundlegenderes Spiel als Hex. In ihrem 1975 erschienenen Buch **Mudcrack Y & Poly-Y** führten die Entwickler das _Mudcrack-Prinzip_ ein, das besagt, dass Verbindungsspiele auf einer Vielzahl von zunehmend komplexen Brettern gespielt werden können. Eines dieser Designs ('das gebogene Y' mit drei fünfeckigen Feldern) wurde zum kommerziellen Y-Brett anstelle des standardmäßigen dreieckigen.",
-    "guerrilla": "Jeder Spieler gewinnt, indem er alle gegnerischen Steine entfernt. P2 gewinnt auch, wenn er lange genug überlebt, bis P1 keine Aufständischen mehr zum Platzieren hat.",
-    "scribe": "Die Glyphen-Referenztabelle wird am linken Rand angezeigt. Ein Punkt markiert die jeweils letzte Platzierung jedes Spielers. Wenn sich ein Minigitter füllt, werden die Glyphenpunkte zusammengezählt und die höhere Punktzahl gewinnt dieses Gitter (bei Gleichstand gewinnt der Spieler, der es fertiggestellt hat).",
-    "circleOfLife": "Die Arten sind auf dem Ring gegen den Uhrzeigersinn von 0–11 nummeriert, beginnend mit der Einzel-Hex-Art ganz oben. Art 0 frisst 11; jede andere Art frisst die direkt darunter nummerierte Art. Räuberisches Fressen findet nur statt, wenn du einen Stein platzierst, der eine Art angrenzend an Beute bildet. Gruppen dürfen nicht mehr als vier Steine umfassen. Wer zuerst 20 gegnerische Steine schlägt, gewinnt, oder der Spieler gewinnt, der in seinem Zug nicht mehr platzieren kann (nachdem das Ökosystem gefüllt wurde).",
-    "elOso": "Der Aufbau erfolgt automatisch beim Starten des Spiels. Die Anzahl für Himmel, Höhle, Boden und Grube wird in der Seitenleiste angezeigt. Verwende nach jedem Zug die Einzelbild-Steuerung, um die Reaktion des Bären Schritt für Schritt zu verfolgen. Zehn oder mehr Steine im Himmel bedeuten einen Sieg."
+    "y": "Das Spiel wurde 1953 von Charles Titus und Craige Schensted (Ea Ea) entworfen. Als direkter Nachfahre von Hex wurde das Spiel ursprünglich auf einem dreieckigen Brett gespielt, auf dem das Ziel darin besteht, alle drei Seiten durch eine Kette eigener Steine zu verbinden. Y gilt aufgrund seiner einfacheren Regeln und der Tatsache, dass eine Hex-Partie auf einem ausreichend großen Y-Brett aufgebaut werden kann, als grundlegenderes Spiel als Hex. In ihrem 1975 erschienenen Buch **Mudcrack Y & Poly-Y** führten die Entwickler das _Mudcrack-Prinzip_ ein, das besagt, dass Verbindungsspiele auf einer Vielzahl von zunehmend komplexen Brettern gespielt werden können. Eines dieser Designs ('das gebogene Y' mit drei fünfeckigen Feldern) wurde zum kommerziellen Y-Brett anstelle des standardmäßigen dreieckigen."
   },
   "variants": {
+    "_default": {
+      "bases": {
+        "name": "Standard-Basen"
+      },
+      "blockers": {
+        "name": "Standard-Blocker"
+      },
+      "board": {
+        "name": "Standard-Spielfeld"
+      },
+      "boardtype": {
+        "name": "Standard-Spielfeldtyp"
+      },
+      "capture": {
+        "name": "Standard-Schlagregeln"
+      },
+      "dice": {
+        "name": "Standard-Würfelgröße"
+      },
+      "enforcers": {
+        "name": "Standard-Enforcer"
+      },
+      "eog": {
+        "name": "Standard-Endbedingung"
+      },
+      "fleet": {
+        "name": "Standard-Flotte"
+      },
+      "form": {
+        "name": "Standard-Form"
+      },
+      "groups": {
+        "name": "Standard-Gruppen"
+      },
+      "komi": {
+        "name": "Standard-Komi"
+      },
+      "length": {
+        "name": "Standard-Spieldauer"
+      },
+      "movement": {
+        "name": "Standard-Zugregeln"
+      },
+      "moves": {
+        "name": "Standard-Zugregeln"
+      },
+      "objective": {
+        "name": "Standard-Spielziel"
+      },
+      "obstacles": {
+        "name": "Standard-Hindernisse"
+      },
+      "opening": {
+        "name": "Standard-Eröffnung"
+      },
+      "parks": {
+        "name": "Standard-Parkplatzierung"
+      },
+      "penalty": {
+        "name": "Standard-Strafe"
+      },
+      "powers": {
+        "name": "Standard-Kräfte"
+      },
+      "rules": {
+        "name": "Standard-Regeln"
+      },
+      "ruleset": {
+        "name": "Standard-Regelwerk"
+      },
+      "scoring": {
+        "name": "Standard-Wertung"
+      },
+      "setup": {
+        "name": "Standard-Aufbau"
+      },
+      "size": {
+        "name": "Standard-Stapelgröße"
+      },
+      "tiebreaker": {
+        "name": "Standard-Feinwertung"
+      },
+      "ties": {
+        "name": "Standard-Unentschieden-Regel"
+      },
+      "variant": {
+        "name": "Standard-Variante"
+      }
+    },
     "abande": {
       "#board": {
         "description": "7x7 quadratisches Brett"
@@ -738,14 +827,6 @@
       },
       "size-5": {
         "name": "Hexagonales Spielbrett (Basis 5)"
-      },
-      "#ruleset": {
-        "description": "Spieler müssen 16 Steine schlagen, um auf dem kleinen Spielbrett zu gewinnen, oder 25 auf dem großen Spielbrett.",
-        "name": "Steine schlagen"
-      },
-      "no-threshold": {
-        "description": "Das Spiel läuft weiter, solange es noch gültige Platzierungen gibt.",
-        "name": "Kein Schlaglimit"
       }
     },
     "blastradius": {
@@ -1567,6 +1648,10 @@
       "standard-10": {
         "name": "10x10-Brett"
       },
+      "swap-1st": {
+        "description": "Der erste Spieler platziert einen Stein beliebig auf dem Spielfeld. Der nächste Spieler hat die Option, die Farben zu tauschen.",
+        "name": "Swap-1st-Eröffnung"
+      },
       "swap-2": {
         "description": "Der erste Spieler platziert drei Steine. Der nächste Spieler kann (1) einen einzelnen Stein platzieren, um als Spieler 2 fortzufahren, (2) die Farben tauschen, um als Spieler 1 zu spielen, oder (3) zwei weitere Steine platzieren und dem Gegner die Entscheidung überlassen, als Spieler 1 oder Spieler 2 zu spielen.",
         "name": "Swap-2-Eröffnung"
@@ -1574,10 +1659,6 @@
       "swap-5": {
         "description": "Für die ersten fünf Steine auf dem Brett hat der nächste Spieler nach dem Platzieren die Option, die Farben zu tauschen.",
         "name": "Swap-5-Eröffnung"
-      },
-      "swap-1st": {
-        "description": "Der erste Spieler platziert einen Stein beliebig auf dem Spielfeld. Der nächste Spieler hat die Option, die Farben zu tauschen.",
-        "name": "Swap-1st-Eröffnung"
       }
     },
     "frogger": {
@@ -1703,6 +1784,16 @@
       },
       "size-19": {
         "name": "19x19-Brett"
+      }
+    },
+    "guerrilla": {
+      "#length": {
+        "description": "Nur ein Spiel; kein Rollentausch oder Match-Wertung.",
+        "name": "Einzelspiel"
+      },
+      "match": {
+        "description": "Spiele zwei Partien mit vertauschten Rollen. Wenn beide Spieler als Aufständische gewinnen, gewinnt die niedrigere Steinanzahl (`66 − verbleibend`); gleiche Punktestände enden unentschieden.",
+        "name": "Zwei-Partien-Match"
       }
     },
     "gyve": {
@@ -1831,27 +1922,16 @@
       "#board": {
         "name": "19x19-Brett"
       },
+      "#overline": {
+        "description": "Der erste Spieler verliert, wenn er eine Überlänge bildet, aber der zweite Spieler kann durch eine Überlänge gewinnen.",
+        "name": "Asymmetrische Überlänge"
+      },
       "#tiebreaker": {
         "name": "Kein Tiebreak"
       },
       "pass": {
         "description": "Nach der Eröffnungsphase kann ein Spieler passen, anstatt einen Zug zu machen, um den Tiebreak zu gewinnen. Wenn das Brett ohne Gewinner gefüllt ist, gewinnt der Spieler, der gepasst hat. Hat kein Spieler gepasst, gewinnt der zweite Spieler.",
         "name": "Pass-Tiebreak"
-      },
-      "swap-2": {
-        "description": "Der erste Spieler setzt drei Steine. Der nächste Spieler kann entweder (1) einen einzelnen Stein setzen, um als Spieler 2 fortzufahren, (2) die Farben tauschen, um als Spieler 1 zu spielen, oder (3) zwei weitere Steine setzen und dem Gegner die Entscheidung überlassen, als Spieler 1 oder Spieler 2 zu spielen.",
-        "name": "Swap-2-Eröffnung"
-      },
-      "swap-5": {
-        "description": "Bei den ersten fünf Steinen auf dem Brett hat der nächste Spieler nach dem Setzen die Option, die Farben zu tauschen.",
-        "name": "Swap-5-Eröffnung"
-      },
-      "toroidal-15": {
-        "name": "Toroidales 15x15-Brett"
-      },
-      "#overline": {
-        "description": "Der erste Spieler verliert, wenn er eine Überlänge bildet, aber der zweite Spieler kann durch eine Überlänge gewinnen.",
-        "name": "Asymmetrische Überlänge"
       },
       "sym-no-overline": {
         "description": "Die Überlängen-Regel gilt für beide Spieler: Jeder Spieler verliert, wenn er eine Überlänge bildet, sodass nur eine Reihe von genau sieben Steinen gewinnt.",
@@ -1864,6 +1944,17 @@
       "swap-1st": {
         "description": "Der erste Spieler platziert einen Stein beliebig auf dem Spielfeld. Der nächste Spieler hat die Option, die Farben zu tauschen.",
         "name": "Swap-1st-Eröffnung"
+      },
+      "swap-2": {
+        "description": "Der erste Spieler setzt drei Steine. Der nächste Spieler kann entweder (1) einen einzelnen Stein setzen, um als Spieler 2 fortzufahren, (2) die Farben tauschen, um als Spieler 1 zu spielen, oder (3) zwei weitere Steine setzen und dem Gegner die Entscheidung überlassen, als Spieler 1 oder Spieler 2 zu spielen.",
+        "name": "Swap-2-Eröffnung"
+      },
+      "swap-5": {
+        "description": "Bei den ersten fünf Steinen auf dem Brett hat der nächste Spieler nach dem Setzen die Option, die Farben zu tauschen.",
+        "name": "Swap-5-Eröffnung"
+      },
+      "toroidal-15": {
+        "name": "Toroidales 15x15-Brett"
       }
     },
     "invector": {
@@ -3126,6 +3217,12 @@
         "description": "In einem Spiel mit vier Spielern kann die Anzahl der Figuren optional von 3 auf 2 pro Spieler reduziert werden. (Diese Variante ist nicht für geringere Spielerzahlen gedacht.)"
       }
     },
+    "scribe": {
+      "advanced": {
+        "name": "Fortgeschritten",
+        "description": "Gewinne, indem du aus den von dir eroberten Minigittern die wertvollste Superglyphe bildest, anstatt die meisten Minigitter zu gewinnen."
+      }
+    },
     "stibro": {
       "size-5": {
         "name": "Brett der Größe 5"
@@ -3795,101 +3892,6 @@
       "8x8": {
         "name": "8x8-Spielfeld"
       }
-    },
-    "_default": {
-      "bases": {
-        "name": "Standard-Basen"
-      },
-      "blockers": {
-        "name": "Standard-Blocker"
-      },
-      "board": {
-        "name": "Standard-Spielfeld"
-      },
-      "boardtype": {
-        "name": "Standard-Spielfeldtyp"
-      },
-      "capture": {
-        "name": "Standard-Schlagregeln"
-      },
-      "dice": {
-        "name": "Standard-Würfelgröße"
-      },
-      "enforcers": {
-        "name": "Standard-Enforcer"
-      },
-      "eog": {
-        "name": "Standard-Endbedingung"
-      },
-      "fleet": {
-        "name": "Standard-Flotte"
-      },
-      "form": {
-        "name": "Standard-Form"
-      },
-      "groups": {
-        "name": "Standard-Gruppen"
-      },
-      "komi": {
-        "name": "Standard-Komi"
-      },
-      "length": {
-        "name": "Standard-Spieldauer"
-      },
-      "movement": {
-        "name": "Standard-Zugregeln"
-      },
-      "moves": {
-        "name": "Standard-Zugregeln"
-      },
-      "objective": {
-        "name": "Standard-Spielziel"
-      },
-      "obstacles": {
-        "name": "Standard-Hindernisse"
-      },
-      "opening": {
-        "name": "Standard-Eröffnung"
-      },
-      "parks": {
-        "name": "Standard-Parkplatzierung"
-      },
-      "penalty": {
-        "name": "Standard-Strafe"
-      },
-      "powers": {
-        "name": "Standard-Kräfte"
-      },
-      "rules": {
-        "name": "Standard-Regeln"
-      },
-      "ruleset": {
-        "name": "Standard-Regelwerk"
-      },
-      "scoring": {
-        "name": "Standard-Wertung"
-      },
-      "setup": {
-        "name": "Standard-Aufbau"
-      },
-      "size": {
-        "name": "Standard-Stapelgröße"
-      },
-      "tiebreaker": {
-        "name": "Standard-Feinwertung"
-      },
-      "ties": {
-        "name": "Standard-Unentschieden-Regel"
-      },
-      "variant": {
-        "name": "Standard-Variante"
-      }
-    },
-    "scribe": {
-      "advanced": {
-        "name": "Fortgeschritten",
-        "description": "Gewinne, indem du aus den von dir eroberten Minigittern die wertvollste Superglyphe bildest, anstatt die meisten Minigitter zu gewinnen."
-      }
     }
   },
   "displays": {
@@ -4001,6 +4003,12 @@
       "flat": {
         "description": "Vogelperspektive der Dominostapel.",
         "name": "Draufsicht"
+      }
+    },
+    "elOso": {
+      "nums": {
+        "description": "Stapel als Zahlen dargestellt",
+        "name": "Zahlen"
       }
     },
     "ccorridor": {
@@ -4387,12 +4395,6 @@
         "description": "Dezente Erhöhung: Eine Quasi-3D-Ansicht des Feldes, bei der die Felder höher werden, je weiter sie vom Zentrum entfernt sind.",
         "name": "Isometrisch: Dezente Erhöhung"
       }
-    },
-    "elOso": {
-      "nums": {
-        "description": "Stapel als Zahlen dargestellt",
-        "name": "Zahlen"
-      }
     }
   },
   "homeworlds": {
@@ -4436,6 +4438,7 @@
     "SYSTEM_NOSHIP": "Das Schiff {{ship}} konnte im System {{system}} nicht gefunden werden."
   },
   "status": {
+    "_player": "{{player}}",
     "amazons": {
       "ISOLATEDQUEENS": "Die Damen sind jetzt isoliert",
       "TERRITORY": "Territorium"
@@ -4497,8 +4500,27 @@
     "evenatodds": {
       "BONEYARD": "Friedhof"
     },
+    "elOso": {
+      "SKY": "Himmel",
+      "CAVE": "Höhle",
+      "GROUND": "Boden",
+      "PIT": "Grube",
+      "GRADE_LOSS": "Niederlage (9 oder weniger)",
+      "GRADE_WIN": "Sieg (10)",
+      "GRADE_SUPERIOR": "Überragend (11)",
+      "GRADE_EXCELLENT": "Exzellent (12)"
+    },
     "fnap": "FNAP-Marker",
     "focus": "Kontrolliert",
+    "guerrilla": {
+      "G1_SCORE": "Aufständischen-Punktzahl Spiel 1",
+      "GAME1": "Spiel 1",
+      "GAME2": "Spiel 2",
+      "INSURGENTS": "Verbleibende Aufständische"
+    },
+    "scribe": {
+      "MINI_GRIDS": "Gewonnene Minigitter"
+    },
     "GROUPCOUNT": "Gruppenanzahl",
     "GROUPSIZES": "Gruppengrößen",
     "jacynth": "Einflussmarker",
@@ -4541,26 +4563,67 @@
       "GOALS": "Ziele",
       "HEIGHT": "Höhen"
     },
-    "YEAR": "Jahr",
-    "guerrilla": {
-      "INSURGENTS": "Verbleibende Aufständische"
-    },
-    "scribe": {
-      "MINI_GRIDS": "Gewonnene Minigitter"
-    },
-    "elOso": {
-      "SKY": "Himmel",
-      "CAVE": "Höhle",
-      "GROUND": "Boden",
-      "PIT": "Grube",
-      "GRADE_LOSS": "Niederlage (9 oder weniger)",
-      "GRADE_WIN": "Sieg (10)",
-      "GRADE_SUPERIOR": "Überragend (11)",
-      "GRADE_EXCELLENT": "Exzellent (12)"
-    },
-    "_player": "{{player}}"
+    "YEAR": "Jahr"
   },
   "validation": {
+    "_general": {
+      "CAPTURE4MOVE": "Du hast ein Schlagen signalisiert, aber bei {{where}} befindet sich kein Stein.",
+      "DEFAULT_HANDLER": "Dies ist der Standard-Handler und sollte nie direkt aufgerufen werden. Bitte informiere den Administrator.",
+      "FAILSAFE": "Der Zug '{{move}}' hat die Validierung bestanden, scheint aber nicht legal zu sein. Bitte informiere den Administrator.",
+      "GENERIC": "Beim Verarbeiten deines Klicks ist ein generischer Fehler aufgetreten:\nFehlermeldung: {{emessage}}\nStack: {{estack}}\nZug: {{move}}, Zeile: {{row}}, Spalte: {{col}}, Index: {{index}}",
+      "INCOMPLETE_MOVE": "Dieser Zug sieht unvollständig aus.",
+      "INVALID_MOVE": "'{{move}}' sieht nicht wie ein gültiger Zug aus.",
+      "INVALID_NUMBER": "{{num}} konnte nicht als Zahl verarbeitet werden.",
+      "INVALIDCELL": "Feld '{{cell}}' konnte auf dem Spielfeld nicht gefunden werden.",
+      "MOVE4CAPTURE": "Du hast einen normalen Zug signalisiert, aber {{where}} ist besetzt.",
+      "NEED_DESTINATION": "Gib das Ziel an.",
+      "NO_MOVES": "Der Stein bei {{where}} hat keine legalen Züge.",
+      "NOLOS": "Es gibt keine Sichtlinie zwischen {{from}} und {{to}}.",
+      "NONEXISTENT": "Versuch, mit einem Stein oder Stapel bei {{where}} zu interagieren, der nicht existiert.",
+      "NOPIECES": "Du hast keine Steine zum Einsetzen.",
+      "NOT_ORTH": "Die Felder {{from}} und {{to}} liegen nicht orthogonal zueinander.",
+      "NOT_ORTH_OR_DIAG": "Die Felder {{from}} und {{to}} liegen weder orthogonal noch diagonal zueinander.",
+      "OBSTRUCTED": "Es gibt ein Hindernis bei {{obstruction}} zwischen {{from}} und {{to}}.",
+      "OCCUPIED": "Das Feld {{where}} ist bereits besetzt.",
+      "SAME_FROM_TO": "Start- und Zielfeld müssen unterschiedlich sein.",
+      "SELECT_OWN": "Wähle einen deiner eigenen Steine aus.",
+      "SELFCAPTURE": "Du kannst deine eigenen Steine nicht schlagen.",
+      "UNCONTROLLED": "Du kannst keine Steine bewegen, die du nicht kontrollierst.",
+      "UNKNOWN_CLICK": "Dieser Klick kann nicht interpretiert werden.",
+      "VALID_MOVE": "Sieht nach einem gültigen Zug aus."
+    },
+    "_inarow": {
+      "CANNOT_PASS": "In den ersten zwei Zügen nach der Eröffnungsphase darfst du nicht passen.",
+      "CANNOT_SWAP": "Du kannst die Farben zu diesem Zeitpunkt nicht tauschen.",
+      "CENTRE_OFFCENTRE": "In der normalen Eröffnung musst du deinen ersten Stein in die Mitte des Spielfelds setzen.",
+      "DUPLICATE": "Du hast bereits einen Stein bei {{where}} platziert.",
+      "EXCESS": "Du hast zu viele Steine platziert. Du darfst nur 1 Stein platzieren.",
+      "INITIAL_INSTRUCTIONS": "Wähle einen Schnittpunkt, um einen Stein zu platzieren.",
+      "INITIAL_INSTRUCTIONS_CENTRE1": "Platziere deinen ersten Stein in der Mitte des Spielfelds.",
+      "INITIAL_INSTRUCTIONS_LONGPRO1": "Platziere deinen ersten Stein in der Mitte des Spielfelds.",
+      "INITIAL_INSTRUCTIONS_LONGPRO3": "Wähle einen Schnittpunkt, um einen Stein zu platzieren. Dein Zug muss mindestens vier Schnittpunkte von der Mitte des Spielfelds entfernt sein.",
+      "INITIAL_INSTRUCTIONS_PRO1": "Platziere deinen ersten Stein in der Mitte des Spielfelds.",
+      "INITIAL_INSTRUCTIONS_PRO3": "Wähle einen Schnittpunkt, um einen Stein zu platzieren. Dein Zug muss mindestens drei Schnittpunkte von der Mitte des Spielfelds entfernt sein.",
+      "INITIAL_INSTRUCTIONS_SWAP1ST1": "Wähle einen Schnittpunkt, um einen Stein zu platzieren. Der Gegner hat im nächsten Zug die Option, die Farben zu tauschen.",
+      "INITIAL_INSTRUCTIONS_SWAP1ST2": "Du kannst einen Stein platzieren, um als Spieler 2 fortzufahren, oder passen, um die Farben zu tauschen und als Spieler 1 zu spielen.",
+      "INITIAL_INSTRUCTIONS_SWAP5": "Wähle einen Schnittpunkt, um einen Stein zu platzieren, oder passe, um die Farben zu tauschen.",
+      "INITIAL_INSTRUCTIONS_SWAP21": "Platziere drei Steine auf dem Spielfeld.",
+      "INITIAL_INSTRUCTIONS_SWAP22": "Du kannst entweder (1) einen einzelnen Stein platzieren, um als Spieler 2 fortzufahren, (2) passen, um die Farben zu tauschen und als Spieler 1 zu spielen, oder (3) zwei weitere Steine platzieren und den Gegner entscheiden lassen, ob er als Spieler 1 oder Spieler 2 spielt.",
+      "INITIAL_INSTRUCTIONS_SWAP23": "Du kannst einen Stein platzieren, um als Spieler 1 fortzufahren, oder passen, um die Farben zu tauschen und als Spieler 2 zu spielen.",
+      "INVALID_PLACEMENT": "Die Zugnotation konnte nicht interpretiert werden: {{move}}.",
+      "LONGPRO_RESTRICTION_FIRST": "In der Long-Pro-Eröffnung musst du deinen ersten Stein in die Mitte des Spielfelds setzen.",
+      "LONGPRO_RESTRICTION_THIRD": "Dein dritter Stein muss in der Long-Pro-Eröffnung mindestens vier Schnittpunkte von der Mitte des Spielfelds entfernt sein.",
+      "NO_MOVELIST": "Zugliste während dieses Eröffnungszugs nicht verfügbar. Klicke auf das Spielfeld, um Steine zu platzieren.",
+      "NORMALISE": "Der Zug muss normalisiert werden. Versuche {{normalised}}.",
+      "PRO_RESTRICTION_FIRST": "In der Pro-Eröffnung musst du deinen ersten Stein in die Mitte des Spielfelds setzen.",
+      "PRO_RESTRICTION_THIRD": "Dein dritter Stein muss in der Pro-Eröffnung mindestens drei Schnittpunkte von der Mitte des Spielfelds entfernt sein.",
+      "SWAP2_CAPTURE": "Diese Platzierung führt zu einem Schlagen.",
+      "SWAP21_EXCESS": "Du hast zu viele Steine platziert. Du darfst nur 3 Steine platzieren.",
+      "SWAP21_one": "Platziere 1 weiteren Stein auf dem Spielfeld.",
+      "SWAP21_other": "Platziere {{count}} weitere Steine auf dem Spielfeld.",
+      "SWAP22_EXCESS": "Du hast zu viele Steine platziert. Du darfst nur 2 Steine platzieren.",
+      "SWAP22_PARTIAL": "Schließe den Zug ab, um als Spieler 2 fortzufahren, oder platziere einen weiteren Stein auf dem Spielfeld, damit der Gegner entscheiden kann, ob er als Spieler 1 oder Spieler 2 spielt."
+    },
     "abande": {
       "DISCONNECTEDMOVE": "Ein Zug von {{from}} nach {{to}} würde das Band trennen.",
       "DISCONNECTEDPLACE": "Das Platzieren eines Steins bei {{where}} würde das Band trennen.",
@@ -4687,15 +4750,14 @@
       "NOT_DRAGON_JUMPABLE_CORNER": "Der Drache kann nicht auf eine Ecke springen.",
       "SELECT_DIR": "Wähle eine Richtung, um die Gruppe zu bewegen.",
       "SELECT_MORE_BARRIER": "Du musst weiterhin Gruppenzüge machen, da du eine Barriere erzeugt hast.",
+      "SELECT_MORE_many": "Du kannst noch {{count}} weitere Gruppenzüge ausführen.",
       "SELECT_MORE_one": "Du darfst noch einen weiteren Gruppenzug machen.",
-      "SELECT_MORE_other": "",
       "SELECT_MORE_PIECES_one": "Du kannst noch einen weiteren Stein auswählen, um ihn als Gruppe zu bewegen, oder wähle eine Richtung, um die Gruppe zu bewegen.",
       "SELECT_MORE_PIECES_other": "Du kannst bis zu {{count}} weitere Steine auswählen, um sie als Gruppe zu bewegen, oder wähle eine Richtung, um die Gruppe zu bewegen.",
       "SELECT_MORE_SUPERKO": "Du musst weiterhin Gruppenzüge machen, da der aktuelle Brettzustand aufgrund von Superko ungültig ist.",
       "SUPERKO": "Superko: Du darfst einen früheren Brettzustand nicht wiederholen.",
       "TOO_MANY": "Du darfst nur bis zu {{count}} Steine auswählen, um sie als Gruppe zu bewegen.",
-      "TOO_MANY_MOVES": "In einem normalen Zug darfst du nur zwei Gruppen bewegen.",
-      "SELECT_MORE_many": "Du kannst noch {{count}} weitere Gruppenzüge ausführen."
+      "TOO_MANY_MOVES": "In einem normalen Zug darfst du nur zwei Gruppen bewegen."
     },
     "archimedes": {
       "FLEET_FULL": "Du darfst nicht mehr als 12 Steine haben.",
@@ -4904,7 +4966,8 @@
       "INVALID": "Du darfst keine Steine in Strahlungs-Sperrzonen platzieren und musst immer den kleinsten legal möglichen Stapel bilden."
     },
     "blockade": {
-      "BLOCKS_GOAL": "Wand kann nicht bei {{wall}} platziert werden, da sie das Ziel / die Ziele einer der Figuren auf dem Brett blockiert.",
+      "BLOCKS_GOAL_one": "Wand kann nicht bei {{wall}} platziert werden, da sie das Ziel für einen der Steine auf dem Spielbrett blockiert.",
+      "BLOCKS_GOAL_other": "Wand kann nicht bei {{wall}} platziert werden, da sie die Ziele für einen der Steine auf dem Spielbrett blockiert.",
       "EXCLUSIVE": "Du darfst nur eine Figur bewegen oder eine Wand platzieren, nicht beides.",
       "INITIAL_INSTRUCTIONS": "Wähle eine Figur zum Bewegen aus und platziere dann eine Wand, falls du welche hast.",
       "INITIAL_INSTRUCTIONS_EXCLUSIVE": "Wähle eine Figur zum Bewegen aus oder platziere eine Wand, falls du welche hast.",
@@ -4921,9 +4984,7 @@
       "NO_WALL_OPTIONAL": "Platziere eine Wand, wenn du möchtest, andernfalls kannst du den Zug abschließen.",
       "OCCUPIED_WALL": "Wand kann nicht bei {{wall}} platziert werden, da dieser Platz bereits besetzt ist.",
       "SELECT_SECOND_WALL": "Es gibt zwei Möglichkeiten, die Wand von {{wall}} aus zu vervollständigen. Wähle die Seite, die du vervollständigen möchtest.",
-      "SELECT_TO": "Wähle ein Ziel für die Bewegung aus.",
-      "BLOCKS_GOAL_one": "Wand kann nicht bei {{wall}} platziert werden, da sie das Ziel für einen der Steine auf dem Spielbrett blockiert.",
-      "BLOCKS_GOAL_other": "Wand kann nicht bei {{wall}} platziert werden, da sie die Ziele für einen der Steine auf dem Spielbrett blockiert."
+      "SELECT_TO": "Wähle ein Ziel für die Bewegung aus."
     },
     "blooms": {
       "DESTINATION": "Wähle ein Feld, um den Stein zu platzieren.",
@@ -4976,6 +5037,10 @@
       "ONLY_FORWARD": "Steine dürfen sich nur vorwärts bewegen.",
       "PARTIAL": "Gib das Ziel an.",
       "TOOFAR": "Steine können sich jeweils nur ein Feld weit bewegen."
+    },
+    "bridges": {
+      "INITIAL_INSTRUCTIONS_FIRST_TURN": "Platziere eine neue Basis auf einem beliebigen freien Feld, außer in der Mitte.",
+      "INITIAL_INSTRUCTIONS": "Führe zwei Züge aus: Platziere eine neue Basis auf einem freien Feld, das nicht an eine bestehende Basis angrenzt und nicht in der Mitte liegt, oder verbinde zwei deiner Basen mit einer Brücke."
     },
     "btt": {
       "BAD_NULL": "Ein Null-Feld darf keinen Teil des Bretts isolieren.",
@@ -5105,6 +5170,15 @@
       "SELECT_LINTEL_END": "Wähle das andere Ende des Decksteins.",
       "SELECT_MOVE": "Platziere einen Sarsen-Stein, lege einen Deckstein, bewege deinen Druiden oder passe."
     },
+    "elOso": {
+      "INITIAL_INSTRUCTIONS": "Wähle einen deiner Stapel zum Bewegen aus. Klicke zweimal auf einen Stapel, um zu passen.",
+      "VALID_PARTIAL": "Wähle ein Ziel. Klicke erneut auf denselben Stapel, um zu passen.",
+      "VALID_PARTIAL_TOP": "Wähle ein Ziel oder klicke oben auf die Himmelsleiste. Klicke erneut auf denselben Stapel, um zu passen.",
+      "SELECT_STACK_FOR_PASS": "Wähle zuerst einen Stapel aus und klicke dann erneut darauf, um zu passen.",
+      "INVALID_DIRECTION": "Stapel dürfen sich diagonal oder seitwärts bewegen, aber nicht gerade nach vorne oder hinten.",
+      "TOO_FAR": "Dieser Stapel kann sich höchstens {{dist}} Felder weit bewegen.",
+      "SKY_FROM_TOP": "Nur Stapel in der obersten Reihe dürfen sich in den Himmel bewegen."
+    },
     "cannon": {
       "BAD_RETREAT": "Figuren können sich nur zurückziehen, wenn sie an mindestens eine gegnerische Figur angrenzen.",
       "FIXED_TOWNS": "Städte können nicht bewegt werden.",
@@ -5199,6 +5273,10 @@
       "PARTIAL_SETUP_one": "Platziere deinen letzten Stein.",
       "PARTIAL_SETUP_other": "Du musst noch {{count}} weitere Steine platzieren.",
       "LABEL_STASH": "{{player}}s Vorrat"
+    },
+    "circleOfLife": {
+      "INSTRUCTIONS": "Platziere einen eigenen Stein auf einem leeren Hex-Feld. Es ist ungültig, eine Art aus mehr als vier Steinen zu bilden.",
+      "GROUP_TOO_LARGE": "Diese Platzierung würde eine Art aus mehr als vier Steinen bilden!"
     },
     "clearcut": {
       "BAD_CROSSING": "Linien dürfen sich nur kreuzen, wenn die durch den platzierten Stein entstandene Gruppe größer ist als mindestens eine gegnerische Gruppe im Kreuzungspunkt.",
@@ -5491,14 +5569,20 @@
     },
     "evenatodds": {
       "INITIAL_INSTRUCTIONS": "Wähle einen Dominostein aus deiner Hand zum Spielen aus.",
+      "INITIAL_INSTRUCTIONS_choose": "Wähle gerade oder ungerade.",
       "LABEL_HAND": "{{player}}s Hand ({{side}})",
+      "LABEL_HAND_NO_SIDE": "{{player}}s Hand",
       "LABEL_REMAINING": "Steine nicht auf dem Brett",
+      "MUST_CHOOSE_SIDE": "Du musst gerade oder ungerade wählen, bevor du spielst.",
       "NOT_IN_HAND": "Dieser Dominostein ist nicht in deiner Hand.",
       "NEEDS_ANCHOR_PIP": "Diese Platzierung ist mehrdeutig. Markiere die Anker-Augenzahl mit einem Sternchen (z. B. 1*-2@-3,1N oder 1-2*@-3,1N).",
-      "PARTIAL": "Klicke auf eine Anker-Hälfte und dann auf das andere Ende des Dominosteins.",
-      "INITIAL_INSTRUCTIONS_choose": "Wähle gerade oder ungerade.",
-      "LABEL_HAND_NO_SIDE": "{{player}}s Hand",
-      "MUST_CHOOSE_SIDE": "Du musst gerade oder ungerade wählen, bevor du spielst."
+      "PARTIAL": "Klicke auf eine Anker-Hälfte und dann auf das andere Ende des Dominosteins."
+    },
+    "estate": {
+      "EXCEEDS": "Du darfst bei deinem Zug nicht mehr als {{budget}} Punkte ausgeben. Du hast versucht, {{cost}} Punkte auszugeben.",
+      "INITIAL_INSTRUCTIONS_one": "Klicke auf ein leeres Feld, um einen deiner Spielsteine zu platzieren, oder klicke auf einen deiner platzierten Spielsteine, um ihn zu entfernen. Du kannst noch Spielsteine im Wert von {{count}} Punkt platzieren.",
+      "INITIAL_INSTRUCTIONS_other": "Klicke auf ein leeres Feld, um einen deiner Spielsteine zu platzieren, oder klicke auf einen deiner platzierten Spielsteine, um ihn zu entfernen. Du kannst noch Spielsteine im Wert von {{count}} Punkten platzieren.",
+      "INITIAL_INSTRUCTIONS_zero": "Du hast keine Punkte mehr zum Ausgeben. Schließe deinen Zug ab oder klicke auf eine deiner platzierten Figuren, um sie woanders zu platzieren."
     },
     "epam": {
       "INITIAL_INSTRUCTIONS_move": "Wähle das Ende der Phalanx, die du bewegen möchtest.",
@@ -5610,6 +5694,8 @@
     "fourinarow": {
       "EXCESS": "Du hast zu viele Steine platziert. Du darfst nur 1 Stein platzieren.",
       "INITIAL_INSTRUCTIONS": "Wähle ein gestütztes Feld, um einen Stein zu platzieren.",
+      "INITIAL_INSTRUCTIONS_SWAP1ST1": "Wähle ein unterstütztes Feld, um einen Stein zu platzieren. Der Gegner hat im nächsten Zug die Option, die Farben zu tauschen.",
+      "INITIAL_INSTRUCTIONS_SWAP1ST2": "Du kannst einen Stein platzieren, um als Spieler 2 fortzufahren, oder passen, um die Farben zu tauschen und als Spieler 1 zu spielen.",
       "INITIAL_INSTRUCTIONS_SWAP5": "Wähle ein Feld, um einen Stein zu platzieren, oder passe, um die Farben zu tauschen.",
       "INITIAL_INSTRUCTIONS_SWAP21": "Platziere drei Steine auf dem Brett.",
       "INITIAL_INSTRUCTIONS_SWAP22": "Du kannst entweder (1) einen einzelnen Stein platzieren, um als Spieler 2 fortzufahren, (2) passen, um die Farben zu tauschen und als Spieler 1 zu spielen, oder (3) zwei weitere Steine platzieren und dem Gegner die Entscheidung überlassen, ob er als Spieler 1 oder Spieler 2 spielt.",
@@ -5619,12 +5705,18 @@
       "SWAP21_one": "Platziere 1 weiteren Stein auf dem Brett.",
       "SWAP21_other": "Platziere {{count}} weitere Steine auf dem Brett.",
       "SWAP22_EXCESS": "Du hast zu viele Steine platziert. Du darfst nur 2 Steine platzieren.",
-      "SWAP22_PARTIAL": "Schließe den Zug ab, um als Spieler 2 fortzufahren, oder platziere einen weiteren Stein auf dem Brett, damit der Gegner entscheiden kann, als Spieler 1 oder Spieler 2 zu spielen.",
-      "INITIAL_INSTRUCTIONS_SWAP1ST1": "Wähle ein unterstütztes Feld, um einen Stein zu platzieren. Der Gegner hat im nächsten Zug die Option, die Farben zu tauschen.",
-      "INITIAL_INSTRUCTIONS_SWAP1ST2": "Du kannst einen Stein platzieren, um als Spieler 2 fortzufahren, oder passen, um die Farben zu tauschen und als Spieler 1 zu spielen."
+      "SWAP22_PARTIAL": "Schließe den Zug ab, um als Spieler 2 fortzufahren, oder platziere einen weiteren Stein auf dem Brett, damit der Gegner entscheiden kann, als Spieler 1 oder Spieler 2 zu spielen."
     },
     "frames": {
       "INITIAL_INSTRUCTIONS": "Klicke auf ein freies Feld, um einen Stein zum Brett hinzuzufügen."
+    },
+    "fractured": {
+      "BAD_MOVE": "Dieser Zug ist nicht erlaubt.",
+      "BAD_PLACE": "Du darfst dort keinen Stein platzieren.",
+      "CLOSED": "Diese Region ist nicht für Platzierungen geöffnet.",
+      "INITIAL_INSTRUCTIONS": "Platziere einen Stein in einer offenen Region oder wähle einen deiner Steine aus, um ihn zu bewegen.",
+      "NO_RESERVE": "Du hast keine Steine mehr im Vorrat.",
+      "PARTIAL_MOVE": "Wähle ein Ziel, das eine Größe größer ist."
     },
     "forms": {
       "INITIAL_INSTRUCTIONS": "Klicke auf einen eigenen Stein.",
@@ -5678,7 +5770,6 @@
       "TOO_EARLY_FOR_REFILL": "Bitte sende deine Auffüllanforderung ab, bevor du deine verbleibenden Züge machst.",
       "TOO_LATE_FOR_BLOCKED": "Du gilst nicht als blockiert, wenn du dich in diesem Zug bereits bewegt hast.",
       "TOO_LATE_FOR_REFILL": "Nach deinem dritten Zug musst du kein manuelles Auffüllen des Auslagen-Pools erzwingen. Er wird nach dem Absenden automatisch aufgefüllt.",
-      "VALID_REFILL": "Bitte sende deinen Zug ab, um das Auffüllen auszulösen. Die anderen Spieler passen automatisch und du hast noch {{count}} verbleibende Züge in deinem Teilzug (sowie die Option zu passen).",
       "VALID_REFILL_one": "Bitte sende deinen Zug ab, um das Nachfüllen auszulösen. Gegner passen automatisch, und du hast noch einen Zug in deinem Teilzug übrig (sowie die Option zu passen).",
       "VALID_REFILL_other": "Bitte sende deinen Zug ab, um das Nachfüllen auszulösen. Gegner passen automatisch, und du hast noch {{count}} Züge in deinem Teilzug übrig (sowie die Option zu passen)."
     },
@@ -5750,6 +5841,13 @@
       "NO_PIECES_normal": "Du hast keine normalen Steine mehr.",
       "PARTIAL": "Wähle das Feld, auf dem du den Henge-Stein platzieren möchtest.",
       "LABEL_NEUTRAL": "{{player}}s neutrale Steine"
+    },
+    "guerrilla": {
+      "INITIAL_INSTRUCTIONS_p1": "Wähle aus, wo du deinen ersten Aufständischen platzieren möchtest.",
+      "INITIAL_INSTRUCTIONS_p2": "Wähle eine Figur zum Ziehen aus.",
+      "PARTIAL_p1second": "Wähle aus, wo du deinen zweiten Aufständischen platzieren möchtest.",
+      "PARTIAL_p2move": "Wähle ein Zielfeld aus.",
+      "PARTIAL_p2cap": "Wähle ein Zielfeld aus. Du musst weiter schlagen."
     },
     "gyges": {
       "BAD_DISPLACE": "Du darfst keine Figur nach {{cell}} verdrängen. Das Zielfeld muss unbesetzt sein und darf nicht jenseits der bespielbaren Reihe des Gegners liegen.",
@@ -6284,8 +6382,8 @@
       "INITIAL_INSTRUCTIONS_PLACE": "Wähle ein leeres Feld, um einen See zu platzieren.",
       "INVALID_MOVES": "Diese Zugfolge {{moves}} ist ungültig.",
       "OPTIONAL_CONTINUE": "Du bist auf einer gegnerischen Figur gelandet. Wenn du deinen Zug fortsetzen möchtest, wähle ein anderes Ziel für einen Sprung, andernfalls schicke den Zug ab.",
-      "SELECT_TO": "Wähle ein Ziel zum Ziehen oder Springen.",
       "SELECT_MORE_SUPERKO": "Du musst weiter springen, da das Anhalten hier einen vorherigen Brettzustand wiederholen würde.",
+      "SELECT_TO": "Wähle ein Ziel zum Ziehen oder Springen.",
       "SUPERKO": "Superko: Du darfst einen vorherigen Brettzustand nicht wiederholen."
     },
     "onyx": {
@@ -6431,11 +6529,6 @@
       "INITIAL_INSTRUCTIONS": "Platziere einen Stein auf einem leeren Feld. Wenn ein Kneif-Schlagen ausgeführt wird, versetzt der schlagende Spieler den geschlagenen Stein auf ein beliebiges leeres Feld seiner Wahl. Wenn diese Platzierung das Schlagen eines eigenen Steins verursacht, versetzt derselbe Spieler den geschlagenen eigenen Stein und löst jedes neue Schlagen auf, falls vorhanden. Dieser Vorgang wird fortgesetzt, bis ein Versetzen kein neues Schlagen mehr verursacht. Wenn keine Platzierung mehr verfügbar ist, wird der geschlagene Stein aus dem Spiel entfernt.",
       "OCCUPIED_CELL": "Nur Platzierungen auf leeren Feldern sind gültig.",
       "REUSED_CELL": "Dieses Feld {{cell}} wurde in diesem Zug bereits verwendet. Sobald sich der Status eines Feldes von besetzt zu unbesetzt oder umgekehrt ändert, kann er sich in demselben Zug nicht mehr ändern.",
-      "SELF_STONES_TO_PLACE": "Es müssen noch {{own}} eigene geschlagene Steine versetzt werden.",
-      "OPP_STONES_TO_PLACE": "Es müssen noch {{opp}} gegnerische geschlagene Steine versetzt werden.",
-      "SELF_OPP_STONES_TO_PLACE": "Es müssen noch {{own}} eigene geschlagene Steine und danach {{opp}} gegnerische Steine versetzt werden.",
-      "OPP_SELF_STONES_TO_PLACE": "Es müssen noch {{opp}} gegnerische geschlagene Steine und danach {{own}} eigene Steine versetzt werden.",
-      "INITIAL_INSTRUCTIONS_ORIGINAL": "Platziere einen Stein auf einem leeren Feld. Wenn ein Kneif-Schlagen ausgeführt wird, wechselt der geschlagene Stein seine Farbe. Dieser Farbwechsel kann nachfolgende Wechsel auslösen und eine Kettenreaktion starten, bis sich das Brett stabilisiert.",
       "SELF_STONES_TO_PLACE_one": "Es ist noch ein eigener geschlagener Stein umzusetzen.",
       "SELF_STONES_TO_PLACE_other": "Es sind noch {{count}} eigene geschlagene Steine umzusetzen.",
       "OPP_STONES_TO_PLACE_one": "Es ist noch ein gegnerischer geschlagener Stein umzusetzen.",
@@ -6447,7 +6540,8 @@
       "OPP_SELF_STONES_TO_PLACE_own_one_opp_one": "Es ist noch ein gegnerischer geschlagener Stein und danach ein eigener Stein umzusetzen.",
       "OPP_SELF_STONES_TO_PLACE_own_one_opp_other": "Es ist noch ein gegnerischer geschlagener Stein und danach {{own}} eigene Steine umzusetzen.",
       "OPP_SELF_STONES_TO_PLACE_own_other_opp_one": "Es sind noch {{opp}} gegnerische geschlagene Steine und danach ein eigener Stein umzusetzen.",
-      "OPP_SELF_STONES_TO_PLACE_own_other_opp_other": "Es sind noch {{opp}} gegnerische geschlagene Steine und danach {{own}} eigene Steine umzusetzen."
+      "OPP_SELF_STONES_TO_PLACE_own_other_opp_other": "Es sind noch {{opp}} gegnerische geschlagene Steine und danach {{own}} eigene Steine umzusetzen.",
+      "INITIAL_INSTRUCTIONS_ORIGINAL": "Platziere einen Stein auf einem leeren Feld. Wenn ein Kneif-Schlagen ausgeführt wird, wechselt der geschlagene Stein seine Farbe. Dieser Farbwechsel kann nachfolgende Wechsel auslösen und eine Kettenreaktion starten, bis sich das Brett stabilisiert."
     },
     "pippinzip": {
       "INITIAL_INSTRUCTIONS": "Dies ist die Auktionsphase. Platziere entweder einen bis drei Steine auf leere Felder, um die 'Zip'-Position zu verbessern, oder drücke 'Passen', um die Auktion zu beenden und 'Zip' zu sein.",
@@ -7085,6 +7179,11 @@
       "INITIAL_INSTRUCTIONS": "Wählen Sie einen Faden zum Ziehen aus.",
       "NOSTRING": "Es gibt keinen Faden mit der Nummer {{string}}."
     },
+    "scribe": {
+      "INITIAL_INSTRUCTIONS": "Wähle ein leeres Feld zum Markieren aus.",
+      "OCCUPIED": "{{where}} ist bereits besetzt.",
+      "WRONG_MINI": "Du musst in dem Minigitter spielen, das durch deinen letzten Zug vorgegeben wird."
+    },
     "swarm": {
       "INSTRUCTIONS": "Platzieren Sie einen eigenen Spielstein auf einem leeren Feld oder klicken Sie auf einen gegnerischen Stapel, der von genügend eigenen Einzelsteinen umgeben ist.",
       "CANNOT_CAPTURE": "Nicht genügend Einzelsteine, um den Stapel {{move}} zu schlagen!",
@@ -7522,107 +7621,6 @@
       "MUST_MOVE": "Wenn dir ein Zug zur Verfügung steht, kannst du deinen Zug nicht passen.",
       "NONCAPTURES_KINGS": "Nicht-Schlagzüge können sich jeweils nur um ein Feld bewegen.",
       "PARTIAL": "Wähle ein Ziel."
-    },
-    "_general": {
-      "CAPTURE4MOVE": "Du hast ein Schlagen signalisiert, aber bei {{where}} befindet sich kein Stein.",
-      "DEFAULT_HANDLER": "Dies ist der Standard-Handler und sollte nie direkt aufgerufen werden. Bitte informiere den Administrator.",
-      "FAILSAFE": "Der Zug '{{move}}' hat die Validierung bestanden, scheint aber nicht legal zu sein. Bitte informiere den Administrator.",
-      "GENERIC": "Beim Verarbeiten deines Klicks ist ein generischer Fehler aufgetreten:\nFehlermeldung: {{emessage}}\nStack: {{estack}}\nZug: {{move}}, Zeile: {{row}}, Spalte: {{col}}, Index: {{index}}",
-      "INCOMPLETE_MOVE": "Dieser Zug sieht unvollständig aus.",
-      "INVALID_MOVE": "'{{move}}' sieht nicht wie ein gültiger Zug aus.",
-      "INVALID_NUMBER": "{{num}} konnte nicht als Zahl verarbeitet werden.",
-      "INVALIDCELL": "Feld '{{cell}}' konnte auf dem Spielfeld nicht gefunden werden.",
-      "MOVE4CAPTURE": "Du hast einen normalen Zug signalisiert, aber {{where}} ist besetzt.",
-      "NEED_DESTINATION": "Gib das Ziel an.",
-      "NO_MOVES": "Der Stein bei {{where}} hat keine legalen Züge.",
-      "NOLOS": "Es gibt keine Sichtlinie zwischen {{from}} und {{to}}.",
-      "NONEXISTENT": "Versuch, mit einem Stein oder Stapel bei {{where}} zu interagieren, der nicht existiert.",
-      "NOPIECES": "Du hast keine Steine zum Einsetzen.",
-      "NOT_ORTH": "Die Felder {{from}} und {{to}} liegen nicht orthogonal zueinander.",
-      "NOT_ORTH_OR_DIAG": "Die Felder {{from}} und {{to}} liegen weder orthogonal noch diagonal zueinander.",
-      "OBSTRUCTED": "Es gibt ein Hindernis bei {{obstruction}} zwischen {{from}} und {{to}}.",
-      "OCCUPIED": "Das Feld {{where}} ist bereits besetzt.",
-      "SAME_FROM_TO": "Start- und Zielfeld müssen unterschiedlich sein.",
-      "SELECT_OWN": "Wähle einen deiner eigenen Steine aus.",
-      "SELFCAPTURE": "Du kannst deine eigenen Steine nicht schlagen.",
-      "UNCONTROLLED": "Du kannst keine Steine bewegen, die du nicht kontrollierst.",
-      "UNKNOWN_CLICK": "Dieser Klick kann nicht interpretiert werden.",
-      "VALID_MOVE": "Sieht nach einem gültigen Zug aus."
-    },
-    "_inarow": {
-      "CANNOT_PASS": "In den ersten zwei Zügen nach der Eröffnungsphase darfst du nicht passen.",
-      "CANNOT_SWAP": "Du kannst die Farben zu diesem Zeitpunkt nicht tauschen.",
-      "CENTRE_OFFCENTRE": "In der normalen Eröffnung musst du deinen ersten Stein in die Mitte des Spielfelds setzen.",
-      "DUPLICATE": "Du hast bereits einen Stein bei {{where}} platziert.",
-      "EXCESS": "Du hast zu viele Steine platziert. Du darfst nur 1 Stein platzieren.",
-      "INITIAL_INSTRUCTIONS": "Wähle einen Schnittpunkt, um einen Stein zu platzieren.",
-      "INITIAL_INSTRUCTIONS_CENTRE1": "Platziere deinen ersten Stein in der Mitte des Spielfelds.",
-      "INITIAL_INSTRUCTIONS_LONGPRO1": "Platziere deinen ersten Stein in der Mitte des Spielfelds.",
-      "INITIAL_INSTRUCTIONS_LONGPRO3": "Wähle einen Schnittpunkt, um einen Stein zu platzieren. Dein Zug muss mindestens vier Schnittpunkte von der Mitte des Spielfelds entfernt sein.",
-      "INITIAL_INSTRUCTIONS_PRO1": "Platziere deinen ersten Stein in der Mitte des Spielfelds.",
-      "INITIAL_INSTRUCTIONS_PRO3": "Wähle einen Schnittpunkt, um einen Stein zu platzieren. Dein Zug muss mindestens drei Schnittpunkte von der Mitte des Spielfelds entfernt sein.",
-      "INITIAL_INSTRUCTIONS_SWAP1ST1": "Wähle einen Schnittpunkt, um einen Stein zu platzieren. Der Gegner hat im nächsten Zug die Option, die Farben zu tauschen.",
-      "INITIAL_INSTRUCTIONS_SWAP1ST2": "Du kannst einen Stein platzieren, um als Spieler 2 fortzufahren, oder passen, um die Farben zu tauschen und als Spieler 1 zu spielen.",
-      "INITIAL_INSTRUCTIONS_SWAP5": "Wähle einen Schnittpunkt, um einen Stein zu platzieren, oder passe, um die Farben zu tauschen.",
-      "INITIAL_INSTRUCTIONS_SWAP21": "Platziere drei Steine auf dem Spielfeld.",
-      "INITIAL_INSTRUCTIONS_SWAP22": "Du kannst entweder (1) einen einzelnen Stein platzieren, um als Spieler 2 fortzufahren, (2) passen, um die Farben zu tauschen und als Spieler 1 zu spielen, oder (3) zwei weitere Steine platzieren und den Gegner entscheiden lassen, ob er als Spieler 1 oder Spieler 2 spielt.",
-      "INITIAL_INSTRUCTIONS_SWAP23": "Du kannst einen Stein platzieren, um als Spieler 1 fortzufahren, oder passen, um die Farben zu tauschen und als Spieler 2 zu spielen.",
-      "INVALID_PLACEMENT": "Die Zugnotation konnte nicht interpretiert werden: {{move}}.",
-      "LONGPRO_RESTRICTION_FIRST": "In der Long-Pro-Eröffnung musst du deinen ersten Stein in die Mitte des Spielfelds setzen.",
-      "LONGPRO_RESTRICTION_THIRD": "Dein dritter Stein muss in der Long-Pro-Eröffnung mindestens vier Schnittpunkte von der Mitte des Spielfelds entfernt sein.",
-      "NO_MOVELIST": "Zugliste während dieses Eröffnungszugs nicht verfügbar. Klicke auf das Spielfeld, um Steine zu platzieren.",
-      "NORMALISE": "Der Zug muss normalisiert werden. Versuche {{normalised}}.",
-      "PRO_RESTRICTION_FIRST": "In der Pro-Eröffnung musst du deinen ersten Stein in die Mitte des Spielfelds setzen.",
-      "PRO_RESTRICTION_THIRD": "Dein dritter Stein muss in der Pro-Eröffnung mindestens drei Schnittpunkte von der Mitte des Spielfelds entfernt sein.",
-      "SWAP2_CAPTURE": "Diese Platzierung führt zu einem Schlagen.",
-      "SWAP21_EXCESS": "Du hast zu viele Steine platziert. Du darfst nur 3 Steine platzieren.",
-      "SWAP21_one": "Platziere 1 weiteren Stein auf dem Spielfeld.",
-      "SWAP21_other": "Platziere {{count}} weitere Steine auf dem Spielfeld.",
-      "SWAP22_EXCESS": "Du hast zu viele Steine platziert. Du darfst nur 2 Steine platzieren.",
-      "SWAP22_PARTIAL": "Schließe den Zug ab, um als Spieler 2 fortzufahren, oder platziere einen weiteren Stein auf dem Spielfeld, damit der Gegner entscheiden kann, ob er als Spieler 1 oder Spieler 2 spielt."
-    },
-    "estate": {
-      "EXCEEDS": "Du darfst bei deinem Zug nicht mehr als {{budget}} Punkte ausgeben. Du hast versucht, {{cost}} Punkte auszugeben.",
-      "INITIAL_INSTRUCTIONS_one": "Klicke auf ein leeres Feld, um einen deiner Spielsteine zu platzieren, oder klicke auf einen deiner platzierten Spielsteine, um ihn zu entfernen. Du kannst noch Spielsteine im Wert von {{count}} Punkt platzieren.",
-      "INITIAL_INSTRUCTIONS_other": "Klicke auf ein leeres Feld, um einen deiner Spielsteine zu platzieren, oder klicke auf einen deiner platzierten Spielsteine, um ihn zu entfernen. Du kannst noch Spielsteine im Wert von {{count}} Punkten platzieren.",
-      "INITIAL_INSTRUCTIONS_zero": "Du hast keine Punkte mehr zum Ausgeben. Schließe deinen Zug ab oder klicke auf eine deiner platzierten Figuren, um sie woanders zu platzieren."
-    },
-    "guerrilla": {
-      "INITIAL_INSTRUCTIONS_p1": "Wähle aus, wo du deinen ersten Aufständischen platzieren möchtest.",
-      "INITIAL_INSTRUCTIONS_p2": "Wähle eine Figur zum Ziehen aus.",
-      "PARTIAL_p1second": "Wähle aus, wo du deinen zweiten Aufständischen platzieren möchtest.",
-      "PARTIAL_p2move": "Wähle ein Zielfeld aus.",
-      "PARTIAL_p2cap": "Wähle ein Zielfeld aus. Du musst weiter schlagen."
-    },
-    "scribe": {
-      "INITIAL_INSTRUCTIONS": "Wähle ein leeres Feld zum Markieren aus.",
-      "OCCUPIED": "{{where}} ist bereits besetzt.",
-      "WRONG_MINI": "Du musst in dem Minigitter spielen, das durch deinen letzten Zug vorgegeben wird."
-    },
-    "circleOfLife": {
-      "INSTRUCTIONS": "Platziere einen eigenen Stein auf einem leeren Hex-Feld. Es ist ungültig, eine Art aus mehr als vier Steinen zu bilden.",
-      "GROUP_TOO_LARGE": "Diese Platzierung würde eine Art aus mehr als vier Steinen bilden!"
-    },
-    "fractured": {
-      "BAD_MOVE": "Dieser Zug ist nicht erlaubt.",
-      "BAD_PLACE": "Du darfst dort keinen Stein platzieren.",
-      "CLOSED": "Diese Region ist nicht für Platzierungen geöffnet.",
-      "INITIAL_INSTRUCTIONS": "Platziere einen Stein in einer offenen Region oder wähle einen deiner Steine aus, um ihn zu bewegen.",
-      "NO_RESERVE": "Du hast keine Steine mehr im Vorrat.",
-      "PARTIAL_MOVE": "Wähle ein Ziel, das eine Größe größer ist."
-    },
-    "bridges": {
-      "INITIAL_INSTRUCTIONS_FIRST_TURN": "Platziere eine neue Basis auf einem beliebigen freien Feld, außer in der Mitte.",
-      "INITIAL_INSTRUCTIONS": "Führe zwei Züge aus: Platziere eine neue Basis auf einem freien Feld, das nicht an eine bestehende Basis angrenzt und nicht in der Mitte liegt, oder verbinde zwei deiner Basen mit einer Brücke."
-    },
-    "elOso": {
-      "INITIAL_INSTRUCTIONS": "Wähle einen deiner Stapel zum Bewegen aus. Klicke zweimal auf einen Stapel, um zu passen.",
-      "VALID_PARTIAL": "Wähle ein Ziel. Klicke erneut auf denselben Stapel, um zu passen.",
-      "VALID_PARTIAL_TOP": "Wähle ein Ziel oder klicke oben auf die Himmelsleiste. Klicke erneut auf denselben Stapel, um zu passen.",
-      "SELECT_STACK_FOR_PASS": "Wähle zuerst einen Stapel aus und klicke dann erneut darauf, um zu passen.",
-      "INVALID_DIRECTION": "Stapel dürfen sich diagonal oder seitwärts bewegen, aber nicht gerade nach vorne oder hinten.",
-      "TOO_FAR": "Dieser Stapel kann sich höchstens {{dist}} Felder weit bewegen.",
-      "SKY_FROM_TOP": "Nur Stapel in der obersten Reihe dürfen sich in den Himmel bewegen."
     }
   },
   "INITIAL_UNDO": "Du kannst die anfängliche Startposition des Spiels nicht rückgängig machen.",

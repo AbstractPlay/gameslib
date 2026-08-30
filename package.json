@@ -15,6 +15,7 @@
     },
     "./build/index.js": "./build/index.js",
     "./build/index-browser.js": "./build/index-browser.js",
+    "./build/*": "./build/*",
     "./i18n-node": {
       "types": "./build/i18n-node.d.ts",
       "import": "./build/i18n-node.js"

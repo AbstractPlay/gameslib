@@ -16,6 +16,7 @@
     "./build/index.js": "./build/index.js",
     "./build/index-browser.js": "./build/index-browser.js",
     "./build/*": "./build/*",
+    "./package.json": "./package.json",
     "./i18n-node": {
       "types": "./build/i18n-node.d.ts",
       "import": "./build/i18n-node.js"
@@ -38,6 +39,7 @@
     "test": "mocha",
     "test:scripts": "node --test test/scripts/*.test.mjs",
     "test:postbuild": "node scripts/smoke-package-entry.mjs",
+    "test:consumer": "node scripts/smoke-consumer-node.mjs",
     "lint": "npm run check-weblate-keys && node scripts/check-ci-deps.mjs && npx eslint .",
     "dist-dev": "rimraf dist && vite build --config playground/vite.config.ts && shx cp -r locales dist/",
     "playground": "npm run dist-dev && shx cp ./playground/playground.* ./dist && shx cp ./playground/*.mjs ./dist/ && shx cp ./playground/index.html ./dist",

@@ -1,7 +1,7 @@
 /* eslint-env node */
 /**
  * Post-build smoke: verify ESM subpath modules and nanoid v5 challenge seeds.
- * Full `build/index.js` import requires a consumer bundler (graphology CJS interop).
+ * Full `build/index.js` import still needs a bundler (lodash CJS interop, etc.).
  */
 import fs from "fs";
 import path from "path";

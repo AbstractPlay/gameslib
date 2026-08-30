@@ -91,4 +91,4 @@ export const addResource = (lang?: string, host?: i18n, _options?: import("./i18
 };
 
 export { supportedLocales };
-export { default as i18n } from "i18next";
+export { i18next as i18n } from "./i18n-instance.js";

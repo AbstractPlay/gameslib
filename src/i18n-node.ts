@@ -1,8 +1,11 @@
-import { type i18n } from "i18next";
+import type { i18n } from "i18next";
+import * as i18nextModule from "i18next";
 import { existsSync, readFileSync } from "fs";
 import path from "path";
-import { i18next } from "./i18n-instance.js";
 import { supportedLocales, type AddResourceOptions } from "./i18n-shared.js";
+
+/** Node uses the global i18next singleton so game validation shares the same instance. */
+const i18next: i18n = (i18nextModule as unknown as { default: i18n }).default;
 
 const GAMESLIB_NAMESPACES = ["apgames", "apresults"] as const;
 

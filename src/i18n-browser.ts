@@ -63,18 +63,18 @@ export const addResource = (lang?: string, host?: i18n, _options?: import("./i18
     const targetLang = normalizeBrowserLang(lang ?? host?.language);
 
     if (host) {
-        if (!i18next.isInitialized) {
-            void i18next.init({
-                lng: targetLang,
-                fallbackLng: targetLang,
-                supportedLngs: [...supportedLocales],
-                nonExplicitSupportedLngs: false,
-                ns: [...GAMESLIB_NAMESPACES],
-                initImmediate: false,
-                resources: {},
-            });
-        }
         if (host.isInitialized) {
+            if (!i18next.isInitialized) {
+                void i18next.init({
+                    lng: targetLang,
+                    fallbackLng: targetLang,
+                    supportedLngs: [...supportedLocales],
+                    nonExplicitSupportedLngs: false,
+                    ns: [...GAMESLIB_NAMESPACES],
+                    initImmediate: false,
+                    resources: {},
+                });
+            }
             copyHostBundles(i18next, host, targetLang);
         }
     } else {

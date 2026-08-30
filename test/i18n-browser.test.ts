@@ -1,6 +1,7 @@
 import "mocha";
 import { expect } from "chai";
-import { getBrowserI18nInitOptions, normalizeBrowserLang } from "../src/i18n-browser";
+import { createInstance } from "i18next";
+import { addResource, getBrowserI18nInitOptions, i18n as gameslibI18n, normalizeBrowserLang } from "../src/i18n-browser";
 import { supportedLocales } from "../src/i18n-shared";
 
 describe("i18n-browser", () => {
@@ -35,5 +36,25 @@ describe("i18n-browser", () => {
         expect(options.backend).to.deep.equal({
             loadPath: "./locales/{{lng}}/{{ns}}.json",
         });
+    });
+
+    it("syncs game bundles to a dedicated instance without reconfiguring the host", async () => {
+        const host = createInstance();
+        await host.init({
+            lng: "en",
+            defaultNS: "apfront",
+            ns: ["apfront", "apgames"],
+            resources: {
+                en: {
+                    apfront: { Close: "Close" },
+                    apgames: { SOME_GAME_KEY: "game string" },
+                },
+            },
+        });
+        addResource("en", host);
+        expect(host.options.defaultNS).to.equal("apfront");
+        expect(host.t("Close")).to.equal("Close");
+        expect(gameslibI18n).to.not.equal(host);
+        expect(gameslibI18n.t("apgames:SOME_GAME_KEY")).to.equal("game string");
     });
 });

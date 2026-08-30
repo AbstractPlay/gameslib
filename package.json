@@ -9,8 +9,12 @@
     ".": {
       "types": "./build/index.d.ts",
       "node": "./build/index.js",
+      "import": "./build/index.js",
+      "require": "./build/index.js",
       "default": "./build/index-browser.js"
     },
+    "./build/index.js": "./build/index.js",
+    "./build/index-browser.js": "./build/index-browser.js",
     "./i18n-node": {
       "types": "./build/i18n-node.d.ts",
       "import": "./build/i18n-node.js"

@@ -31,11 +31,19 @@ jobs:
           run: npm install -g npm@11.6.2
         - run: echo "@abstractplay:registry=https://npm.pkg.github.com/" >> .npmrc
         - run: echo "//npm.pkg.github.com/:_authToken=${{secrets.GITHUB_TOKEN}}" >> .npmrc
+        - name: Reject merge conflict markers in dep files
+          run: |
+            if grep -r '^<<<<<<<' package.json package-lock.json ci-deps.dev.json ci-deps.prod.json 2>/dev/null; then
+              echo "Conflict markers found in dependency files"
+              exit 1
+            fi
         - run: npm ci
-        - name: Check ci-deps manifests
+        - name: Validate ci-deps manifests
           run: node scripts/check-ci-deps.mjs
         - name: Install pinned renderer dependency
           run: node scripts/install-ap-deps.mjs --stage dev
+        - name: Verify package.json matches ci-deps
+          run: node scripts/check-ci-deps.mjs --stage dev --strict
         - run: npm list @abstractplay/renderer
         - run: cat package-lock.json
         - run: npm test --if-present

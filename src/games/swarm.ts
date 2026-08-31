@@ -52,7 +52,7 @@ export class SwarmGame extends GameBase {
             { uid: "#board", }, // hexhex3
             { uid: "size-4", group: "board" },
         ],
-        flags: ["pie", "scores"]
+        flags: ["pie", "scores", "automove"]
     };
 
     public numplayers = 2;

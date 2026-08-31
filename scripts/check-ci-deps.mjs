@@ -39,4 +39,17 @@ if (manifests.prod.renderer === manifests.dev.renderer) {
     );
 }
 
+const pkgJsonPath = path.join(ROOT, "package.json");
+if (fs.existsSync(pkgJsonPath)) {
+    const pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath, "utf8"));
+    const renderer = pkgJson.dependencies?.["@abstractplay/renderer"];
+    const devRenderer = manifests.dev.renderer;
+    if (renderer && devRenderer && renderer !== devRenderer) {
+        fail(
+            `package.json renderer is ${renderer} but ci-deps.dev.json pins ${devRenderer}. ` +
+                "Run: node scripts/install-ap-deps.mjs --stage dev",
+        );
+    }
+}
+
 console.log("check-ci-deps OK");

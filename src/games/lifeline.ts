@@ -111,10 +111,6 @@ export class LifelineGame extends GameBase {
         }
     }
 
-    public shouldOfferPie(): boolean {
-        return true;
-    }
-
     public isPieTurn(): boolean {
         return this.stack.length === 2;
     }

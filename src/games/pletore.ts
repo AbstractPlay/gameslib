@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base.js";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IScores, IValidationResult, type FlagContext, type GameFlag } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -54,7 +54,7 @@ export class PletoreGame extends GameBase {
             },
         ],
         categories: ["goal>area", "mechanic>place",  "mechanic>capture", "board>shape>rect"],
-        flags: ["pie-even", "automove", "custom-buttons"],
+        flags: ["automove", "custom-buttons"],
         variants: [
             {
                 uid: "size-11",
@@ -76,6 +76,18 @@ export class PletoreGame extends GameBase {
         ],
         displays: [{uid: "hide-threatened"}, {uid: "hide-influence"}, {uid: "hide-both"}],
     };
+
+    public static resolveFlags(context: FlagContext = {}): readonly GameFlag[] {
+        const flags: GameFlag[] = [...(this.gameinfo.flags ?? [])];
+        if (PletoreGame.komiRuleActive(context.variants)) {
+            flags.push("pie-even");
+        }
+        return flags;
+    }
+
+    private static komiRuleActive(variants?: string[]): boolean {
+        return variants === undefined || variants.length === 0 || !variants.includes("nokomi");
+    }
 
     public numplayers = 2;
     public currplayer: playerid = 1;
@@ -188,15 +200,11 @@ export class PletoreGame extends GameBase {
     }
 
     private isKomiRuleActive(): boolean {
-        return this.variants === undefined || this.variants.length === 0 || !this.variants.includes("nokomi");
+        return PletoreGame.komiRuleActive(this.variants);
     }
 
     public isPieTurn(): boolean {
         return this.stack.length === 2;
-    }
-
-    public shouldOfferPie(): boolean {
-        return this.isKomiRuleActive();
     }
 
     public moves(player?: playerid): string[] {

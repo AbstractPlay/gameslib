@@ -3,6 +3,7 @@ import { expect } from "chai";
 import {
     isStructuredRenderLabel,
     resolveRenderLabel,
+    resolveRenderLabels,
     type StructuredRenderLabel,
 } from "../../src/common/render-label";
 
@@ -85,5 +86,52 @@ describe("render-label", () => {
         const t = (key: string, params?: Record<string, unknown>) =>
             key.endsWith("TAKEN_LABEL") ? `${params?.player}'s housing limits` : key;
         expect(resolveRenderLabel(label, ["Alice", "Bob"], t)).to.equal("Bob's housing limits");
+    });
+});
+
+describe("resolveRenderLabels", () => {
+    it("resolves structured area labels in a render rep", () => {
+        const rep = {
+            areas: [
+                {
+                    type: "pieces",
+                    label: {
+                        textKey: "test:STASH",
+                        actor: { kind: "seat" as const, seat: 1 },
+                    },
+                },
+            ],
+        };
+        const resolved = resolveRenderLabels(rep, ["Alice", "Bob"], mockT);
+        expect(resolved.areas[0].label).to.equal("Alice's stash");
+        expect(rep.areas[0].label).to.deep.equal({
+            textKey: "test:STASH",
+            actor: { kind: "seat", seat: 1 },
+        });
+    });
+
+    it("resolves board markers and dual-board labels", () => {
+        const rep = {
+            board: {
+                boardOne: {
+                    label: {
+                        textKey: "test:STASH",
+                        actor: { kind: "seat" as const, seat: 2 },
+                    },
+                },
+                markers: [
+                    {
+                        type: "label",
+                        label: {
+                            textKey: "test:DECK",
+                            actor: { kind: "none" as const },
+                        },
+                    },
+                ],
+            },
+        };
+        const resolved = resolveRenderLabels(rep, ["Alice", "Bob"], mockT);
+        expect(resolved.board.boardOne.label).to.equal("Bob's stash");
+        expect(resolved.board.markers[0].label).to.equal("Cards in deck");
     });
 });

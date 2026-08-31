@@ -1,4 +1,4 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine, type FlagContext, type GameFlag } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -45,8 +45,16 @@ export class YavalathGame extends GameBase {
             },
         ],
         categories: ["goal>arrange", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per", "other>2+players"],
-        flags: ["pie", "no-moves", "custom-randomization"]
+        flags: ["no-moves", "custom-randomization"]
     };
+
+    public static resolveFlags(context: FlagContext = {}): readonly GameFlag[] {
+        const flags: GameFlag[] = [...(this.gameinfo.flags ?? [])];
+        if ((context.numplayers ?? 2) === 2) {
+            flags.push("pie");
+        }
+        return flags;
+    }
 
     public numplayers = 2;
     public currplayer: playerid = 1;
@@ -465,10 +473,6 @@ export class YavalathGame extends GameBase {
         }
     }
 
-
-    public shouldOfferPie(): boolean {
-        return this.numplayers === 2;
-    }
 
     public clone(): YavalathGame {
         return Object.assign(new YavalathGame(this.numplayers), cloneState(this) as YavalathGame);

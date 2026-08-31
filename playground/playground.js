@@ -1,4 +1,3 @@
-import { customAlphabet } from "nanoid";
 import * as APGames from "@abstractplay/gameslib";
 import {
     getRoundsForLayout,
@@ -9,7 +8,13 @@ function assertAPGamesLoaded() {
     return true;
 }
 
-const nanoid = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', 5);
+// Helper to create a unique ID for SVG elements
+function generateUniqueSvgId(base = "") {
+    const suffix = typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+        ? crypto.randomUUID().slice(0, 8)
+        : Math.random().toString(36).slice(2, 9);
+    return `${base}_${suffix}`;
+}
 
 let currentRenderRep = null;
 let currentRenderFrames = null;
@@ -404,6 +409,7 @@ function renderCustomizePreview() {
         if (Array.isArray(data)) {
             data = data[data.length - 1];
         }
+        data = prepareRenderRep(data, game, gamename);
         const svgString = APRender.renderStatic(data, options);
         previewDiv.innerHTML = svgString;
     } catch (e) {
@@ -891,13 +897,24 @@ function createCustomizeModal() {
 
 const PREDEFINED_LOG_NAMES = ["Alice", "Bob", "Charlie", "Dave", "Eve", "Frank", "Grace", "Heidi", "Ivan", "Judy"];
 
-// Helper to get player names for status panel
+/** Effective flags for an active engine, or static gameinfo when no instance. */
+function effectiveGameFlags(game, gamename) {
+    if (game && typeof game.getFlags === "function") {
+        return game.getFlags();
+    }
+    const meta = gamename ? APGames.gameinfo.get(gamename) : null;
+    return meta?.flags ?? [];
+}
+
+function gameFlagsInclude(game, gamename, flag) {
+    return effectiveGameFlags(game, gamename).includes(flag);
+}
+
 function getPlayerNamesForStatus(game, gamename) {
-    const gameMetaInfo = APGames.gameinfo.get(gamename);
     let playerNames = [];
     if (typeof game.getPlayerNames === "function") {
         playerNames = game.getPlayerNames();
-    } else if (gameMetaInfo && gameMetaInfo.flags && gameMetaInfo.flags.includes("shared-pieces")) {
+    } else if (gameFlagsInclude(game, gamename, "shared-pieces")) {
         if (typeof game.player2seat === 'function') {
             for (let i = 1; i <= game.numplayers; i++) playerNames.push(game.player2seat(i));
         } else {
@@ -913,6 +930,17 @@ function getPlayerNamesForStatus(game, gamename) {
         }
     }
     return playerNames;
+}
+
+function prepareRenderRep(rep, game, gamename) {
+    if (!rep || typeof rep !== "object" || !APGames?.resolveRenderLabels) {
+        return rep;
+    }
+    return APGames.resolveRenderLabels(
+        rep,
+        getPlayerNamesForStatus(game, gamename),
+        playgroundTranslate,
+    );
 }
 
 /** @typedef {"sequential" | "simultaneous" | "sequenced" | "skip-turn"} TurnModel */
@@ -1097,11 +1125,6 @@ function formatScore(score) {
         return JSON.stringify(score); // Or a more sophisticated formatting
     }
     return String(score);
-}
-
-// Helper to create a unique ID for SVG elements
-function generateUniqueSvgId(base = "") {
-    return `${base}_${nanoid()}`;
 }
 
 // Helper to format the content of a single stash item that represents a piece/glyph
@@ -1431,10 +1454,12 @@ function updateCustomButtons(game, gamename) {
         return;
     }
     container.replaceChildren();
-    const gameMetaInfo = gamename ? APGames.gameinfo.get(gamename) : null;
-    if (!game
-        || !gameMetaInfo?.flags?.includes("custom-buttons")
-        || typeof game.getButtons !== "function") {
+    if (!game || typeof game.getButtons !== "function") {
+        container.style.display = "none";
+        return;
+    }
+    const gameFlags = effectiveGameFlags(game, gamename);
+    if (!gameFlags.includes("custom-buttons")) {
         container.style.display = "none";
         return;
     }
@@ -1485,7 +1510,7 @@ function updateGameStatusPanel(game, gamename) {
     let content = "";
     let inCheckBlockHTML = "";
 
-    const gameFlags = gameMetaInfo.flags || [];
+    const gameFlags = effectiveGameFlags(game, gamename);
     const playerNames = getPlayerNamesForStatus(game, gamename);
 
     const isDark = window.localStorage.getItem("darkMode") === "true";
@@ -1622,10 +1647,9 @@ function renderGame(...args) {
             playerInfoDisplay.appendChild(playerInfoHeading);
 
             const numPlayers = game.numplayers;
-            const gameMetaInfo = APGames.gameinfo.get(gamename);
             let playerNames = [];
-            const hasSharedPieces = gameMetaInfo && gameMetaInfo.flags && gameMetaInfo.flags.includes("shared-pieces");
-            const hasCustomColours = gameMetaInfo && gameMetaInfo.flags && gameMetaInfo.flags.includes("custom-colours");
+            const hasSharedPieces = gameFlagsInclude(game, gamename, "shared-pieces");
+            const hasCustomColours = gameFlagsInclude(game, gamename, "custom-colours");
 
             if (typeof game.getPlayerNames === "function") {
                 playerNames = game.getPlayerNames();
@@ -1731,6 +1755,7 @@ function renderGame(...args) {
             }
         }
         currentRenderRep = data;
+        data = prepareRenderRep(data, game, gamename);
         var canvas;
         try {
             canvas = APRender.render(data, options);
@@ -2549,7 +2574,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         if (state !== null) {
             var gamename = window.localStorage.getItem("gamename");
             var game = APGames.GameFactory(gamename, state);
-            if (typeof game.moves !== 'function' && !APGames.gameinfo.get(gamename).flags.includes("custom-randomization")) {
+            if (typeof game.moves !== 'function' && !gameFlagsInclude(game, gamename, "custom-randomization")) {
                 alert("This game doesn't support random moves.")
                 return;
             }

@@ -37,6 +37,8 @@ import {
     type ISoloOutcomeMeta,
     soloScoreDirection,
 } from "./_solo-outcome.js";
+import type { FlagContext, GameFlag } from "../common/flags.js";
+export type { FlagContext, GameFlag } from "../common/flags.js";
 
 /**
  * The minimum requirements of the individual game states.
@@ -227,6 +229,26 @@ export abstract class GameBase  {
 
     public static create(...args: unknown[]): GameBase {
         return new (this as any)(...args);
+    }
+
+    /**
+     * Effective flags for a session matching `context`. Defaults to static `gameinfo.flags`.
+     * Override when flags depend on variants, player count, or other context.
+     */
+    public static resolveFlags(context: FlagContext = {}): readonly GameFlag[] {
+        void context;
+        return this.gameinfo.flags ?? [];
+    }
+
+    /**
+     * Effective flags for this game instance. Prefer over raw `gameinfo.flags` for UI and optional APIs.
+     */
+    public getFlags(): readonly GameFlag[] {
+        const ctor = this.constructor as typeof GameBase;
+        return ctor.resolveFlags({
+            variants: this.variants,
+            numplayers: this.numplayers,
+        });
     }
 
     public description(): string {

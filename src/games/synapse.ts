@@ -63,7 +63,7 @@ export class SynapseGame extends GameBase {
             },
         ],
         categories: ["goal>immobilize", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>pyramids"],
-        flags: ["player-stashes"]
+        flags: ["player-stashes", "automove"]
     };
 
     public static coords2algebraic(x: number, y: number): string {

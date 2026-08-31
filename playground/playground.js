@@ -1,4 +1,3 @@
-import { customAlphabet } from "nanoid";
 import * as APGames from "@abstractplay/gameslib";
 import {
     getRoundsForLayout,
@@ -9,7 +8,13 @@ function assertAPGamesLoaded() {
     return true;
 }
 
-const nanoid = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', 5);
+// Helper to create a unique ID for SVG elements
+function generateUniqueSvgId(base = "") {
+    const suffix = typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+        ? crypto.randomUUID().slice(0, 8)
+        : Math.random().toString(36).slice(2, 9);
+    return `${base}_${suffix}`;
+}
 
 let currentRenderRep = null;
 let currentRenderFrames = null;
@@ -1109,11 +1114,6 @@ function formatScore(score) {
         return JSON.stringify(score); // Or a more sophisticated formatting
     }
     return String(score);
-}
-
-// Helper to create a unique ID for SVG elements
-function generateUniqueSvgId(base = "") {
-    return `${base}_${nanoid()}`;
 }
 
 // Helper to format the content of a single stash item that represents a piece/glyph

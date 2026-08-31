@@ -233,16 +233,6 @@ export class MorphosGame extends GameBase {
         return this.graph.graph.nodes().filter(c => !this.board.has(c));
     }
 
-    // new rules remove this pie restriction
-    // not doing any grandfathering
-    // public shouldOfferPie(): boolean {
-    //     return (!this.variants.includes("double"));
-    // }
-
-    // public isPieTurn(): boolean {
-    //     return this.stack.length === 2;
-    // }
-
     private randomCap(player?: playerid): string|null {
         if (player === undefined) {
             player = this.currplayer

@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base.js";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IScores, IValidationResult, type FlagContext, type GameFlag } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -69,6 +69,18 @@ export class CrossControlGame extends GameBase {
         ],
         displays: [{uid: "hide-threatened"}, {uid: "hide-influence"}, {uid: "hide-both"}],
     };
+
+    public static resolveFlags(context: FlagContext = {}): readonly GameFlag[] {
+        const flags: GameFlag[] = [...(this.gameinfo.flags ?? [])];
+        if (CrossControlGame.komiRuleActive(context.variants)) {
+            flags.push("pie-even");
+        }
+        return flags;
+    }
+
+    private static komiRuleActive(variants?: string[]): boolean {
+        return variants === undefined || variants.length === 0 || !variants.includes("nokomi");
+    }
 
     public numplayers = 2;
     public version = CrossControlGame.gameinfo.version;
@@ -196,7 +208,7 @@ export class CrossControlGame extends GameBase {
     }
 
     private isKomiRuleActive(): boolean {
-        return this.variants === undefined || this.variants.length === 0 || !this.variants.includes("nokomi");
+        return CrossControlGame.komiRuleActive(this.variants);
     }
 
     public isKomiTurn(): boolean {
@@ -205,10 +217,6 @@ export class CrossControlGame extends GameBase {
 
     public isPieTurn(): boolean {
         return this.stack.length === 2;
-    }
-
-    public shouldOfferPie(): boolean {
-        return this.isKomiRuleActive();
     }
 
     public moves(player?: playerid): string[] {

@@ -1,5 +1,5 @@
 
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult } from "./_base.js";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult, type FlagContext, type GameFlag } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaKey, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -61,8 +61,16 @@ export class BasaltGame extends GameBase {
             {uid: "pie"},
         ],
         categories: ["goal>connect", "mechanic>stack",  "mechanic>move", "mechanic>coopt", "board>shape>tri", "board>connect>hex", "components>simple>1per"],
-        flags: ["pie-even", "automove", "custom-rotation", "custom-randomization", "custom-buttons"],
+        flags: ["automove", "custom-rotation", "custom-randomization", "custom-buttons"],
     };
+
+    public static resolveFlags(context: FlagContext = {}): readonly GameFlag[] {
+        const flags: GameFlag[] = [...(this.gameinfo.flags ?? [])];
+        if (context.variants?.includes("pie")) {
+            flags.push("pie-even");
+        }
+        return flags;
+    }
     public numplayers = 2;
     public currplayer!: playerid;
     public board!: Map<string, playerid[]>;
@@ -133,10 +141,6 @@ export class BasaltGame extends GameBase {
 
     public isPieTurn(): boolean {
         return this.stack.length === 2;
-    }
-
-    public shouldOfferPie(): boolean {
-        return this.variants.includes("pie");
     }
 
     // In this game only one button is active at a time.

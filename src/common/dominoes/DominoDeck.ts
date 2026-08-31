@@ -1,4 +1,4 @@
-import { Domino, IDominoData } from "./Domino";
+import { Domino, IDominoData } from "./Domino.js";
 
 interface IDeckItem {
     domino: Domino;

@@ -1,12 +1,10 @@
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IScores, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IScores, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { AnnotationFreespace, APRenderRep, AreaPieces, Freepiece, Glyph, MarkerFreespaceLabel, MarkerPath } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { findLastIndex, reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { findLastIndex, reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { Card, Deck, cardSortAsc, cardsBasic, cardsExtended } from "../common/decktet";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
+import { Card, Deck, cardSortAsc, cardsBasic, cardsExtended } from "../common/decktet/index.js";
 import { PowerSet } from "js-combinatorics";
 
 export type playerid = 1|2;
@@ -344,7 +342,7 @@ export const eoyMoves =
         for (let j = 0; j < birds.length; j++) {
             const bird = birds[j];
             if (canGrowBird(bird, card)) {
-                const newbirds = deepclone(birds) as string[][];
+                const newbirds = cloneState(birds) as string[][];
                 newbirds[j].push(card);
                 // if card is an Ace or Crown, don't continue this line
                 // if the new bird is negative scoring
@@ -511,7 +509,7 @@ export class EmuGame extends GameBase {
         const state = this.stack[idx];
         this.results = [...state._results];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board) as [string[][], string[][]];
+        this.board = cloneState(state.board) as [string[][], string[][]];
         this.hands = state.hands.map(h => [...h]);
         this.discard = [...state.discard];
         this.drawn = [...state.drawn];
@@ -1076,7 +1074,7 @@ export class EmuGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board) as [string[][], string[][]],
+            board: cloneState(this.board) as [string[][], string[][]],
             hands: this.hands.map(h => [...h]),
             discard: [...this.discard],
             drawn: [...this.drawn],
@@ -1435,6 +1433,6 @@ export class EmuGame extends GameBase {
     }
 
     public clone(): EmuGame {
-        return Object.assign(new EmuGame(), deepclone(this) as EmuGame);
+        return Object.assign(new EmuGame(), cloneState(this) as EmuGame);
     }
 }

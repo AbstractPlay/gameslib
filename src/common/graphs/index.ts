@@ -1,31 +1,32 @@
-import { SquareGraph } from "./square";
-import { SquareDirectedGraph } from "./square-directed";
-import { SquareOrthGraph } from "./square-orth";
-import { SquareOrthDirectedGraph } from "./square-orth-directed";
-import { SquareDiagGraph } from "./square-diag";
-import { SquareFanoronaGraph } from "./square-fanorona";
-import { SnubSquareGraph } from "./snubsquare";
-import { OnyxGraph } from "./onyx";
-import { HexTriGraph } from "./hextri";
-import { HexMoonGraph } from "./hexMoon";
-import { HexSlantedGraph } from "./hex-slanted";
-import { HexConeGraph } from "./hex-cone";
-import { BaoGraph } from "./bao";
-import { SowingNoEndsGraph } from "./sowing-no-ends";
-import { IGraph } from "./IGraph";
-import { IGraph3D } from "./IGraph3D";
-import { Square3DGraph } from "./square-3d";
-import { SquareOrth3DGraph } from "./square-orth-3d";
-import { SquareDiag3DGraph } from "./square-diag-3d";
-import { HexFieldGraph } from "./hex-field";
-import { SquareDiamondsDirectedGraph } from "./square-diamonds-directed";
-import { PentaHexGraph } from "./penta-hex";
-export { RectTriGraph } from "./rect-tri";
-export { BentTriGraph, type BentTriNodeData } from "./bent-tri";
-export { StarGraph, type StarNodeData, starFrequencyFromWidth, STAR_DEFAULT_FREQUENCY } from "./star";
-export { FracturedFlatGraph, type FracturedFlatNodeData } from "./fractured-flat";
+import { SquareGraph } from "./square.js";
+import { SquareDirectedGraph } from "./square-directed.js";
+import { SquareOrthGraph } from "./square-orth.js";
+import { SquareOrthDirectedGraph } from "./square-orth-directed.js";
+import { SquareDiagGraph } from "./square-diag.js";
+import { SquareFanoronaGraph } from "./square-fanorona.js";
+import { SnubSquareGraph } from "./snubsquare.js";
+import { OnyxGraph } from "./onyx.js";
+import { HexTriGraph } from "./hextri.js";
+import { HexMoonGraph } from "./hexMoon.js";
+import { HexSlantedGraph } from "./hex-slanted.js";
+import { HexConeGraph } from "./hex-cone.js";
+import { BaoGraph } from "./bao.js";
+import { SowingNoEndsGraph } from "./sowing-no-ends.js";
+import type { IGraph } from "./IGraph.js";
+import type { IGraph3D } from "./IGraph3D.js";
+import { Square3DGraph } from "./square-3d.js";
+import { SquareOrth3DGraph } from "./square-orth-3d.js";
+import { SquareDiag3DGraph } from "./square-diag-3d.js";
+import { HexFieldGraph } from "./hex-field.js";
+import { SquareDiamondsDirectedGraph } from "./square-diamonds-directed.js";
+import { PentaHexGraph } from "./penta-hex.js";
+export { RectTriGraph } from "./rect-tri.js";
+export { BentTriGraph, type BentTriNodeData } from "./bent-tri.js";
+export { StarGraph, type StarNodeData, starFrequencyFromWidth, STAR_DEFAULT_FREQUENCY } from "./star.js";
+export { FracturedFlatGraph, type FracturedFlatNodeData } from "./fractured-flat.js";
 
-export { IGraph, IGraph3D, Square3DGraph, SquareGraph, SquareDirectedGraph,
+export type { IGraph, IGraph3D };
+export { Square3DGraph, SquareGraph, SquareDirectedGraph,
         SquareOrth3DGraph, SquareOrthGraph, SquareOrthDirectedGraph, SquareDiag3DGraph,
         SquareDiagGraph, SquareFanoronaGraph, SnubSquareGraph, OnyxGraph, HexTriGraph,
         HexMoonGraph, HexSlantedGraph, HexConeGraph, HexFieldGraph, BaoGraph,
@@ -33,7 +34,7 @@ export { IGraph, IGraph3D, Square3DGraph, SquareGraph, SquareDirectedGraph,
 
 import { UndirectedGraph } from "graphology";
 import { connectedComponents } from "graphology-components";
-import { bidirectional } from "graphology-shortest-path/unweighted";
+import { bidirectional } from "graphology-shortest-path/unweighted.js";
 import { PowerSet } from "js-combinatorics";
 import { allSimplePaths } from "graphology-simple-path";
 

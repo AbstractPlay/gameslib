@@ -1,13 +1,11 @@
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { HexTriGraph } from "../common/graphs";
+import { HexTriGraph } from "../common/graphs/index.js";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 type PlayerId = 1|2|3|4;
 type CellContent = [PlayerId, boolean];
@@ -125,7 +123,7 @@ export class DragonEyesGame extends GameBase {
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
 
-        this.board = deepclone(state.board) as Map<string, CellContent>;
+        this.board = cloneState(state.board) as Map<string, CellContent>;
         this.lastmove = state.lastmove;
         this.results = [...state._results];
         this.scores = [...state.scores];
@@ -261,7 +259,7 @@ export class DragonEyesGame extends GameBase {
             const landings = this.getLandingCells(start, enemy, board);
             for (const empty of landings) {
 
-                const boardClone = deepclone(board) as Map<string, CellContent>;
+                const boardClone = cloneState(board) as Map<string, CellContent>;
                 const enchanted = boardClone.get(start)![1] || this.eyes.includes(empty);
                 boardClone.set(empty, [boardClone.get(start)![0], enchanted]);
                 boardClone.delete(start);
@@ -515,7 +513,7 @@ export class DragonEyesGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
 
-            board: deepclone(this.board) as Map<string, CellContent>,
+            board: cloneState(this.board) as Map<string, CellContent>,
             scores: [...this.scores],
             flips: [...this.flips],
             remainingPieces: [...this.remainingPieces],

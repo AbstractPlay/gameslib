@@ -1,14 +1,12 @@
 
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, BoardBasic } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { HexTriGraph } from "../common/graphs";
+import { HexTriGraph } from "../common/graphs/index.js";
 import { Combination } from "js-combinatorics";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 const voids: string[][] = [["d4"], ["h4", "g2", "f7", "e5", "d2", "c6", "b3"]]
@@ -119,7 +117,7 @@ export class AttangleGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board) as Map<string, playerid[]>;
+        this.board = cloneState(state.board) as Map<string, playerid[]>;
         this.lastmove = state.lastmove;
         this.pieces = [...state.pieces];
         this.buildGraph();
@@ -526,7 +524,7 @@ export class AttangleGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board) as Map<string, playerid[]>,
+            board: cloneState(this.board) as Map<string, playerid[]>,
             pieces: [...this.pieces],
         };
     }

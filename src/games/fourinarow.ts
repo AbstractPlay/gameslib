@@ -1,9 +1,9 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
-import { APMoveResult } from "../schemas/moveresults";
-import { Direction, reviver, UserFacingError } from "../common";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { Direction, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
-import { InARowBase } from "./in_a_row/InARowBase";
+import { InARowBase } from "./in_a_row/InARowBase.js";
 import { APRenderRep } from "@abstractplay/renderer";
 import { MarkerEdge, MarkerLine, MarkerShading } from "@abstractplay/renderer/build/schemas/schema";
 

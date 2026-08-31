@@ -1,6 +1,6 @@
-import { Direction, SquareDirectedGraph } from "../../common";
-import { type Shade } from "../cifra";
-import { type EdgeData } from "../../common/graphs/square-directed";
+import { Direction, SquareDirectedGraph } from "../../common/index.js";
+import { type Shade } from "../cifra.js";
+import { type EdgeData } from "../../common/graphs/square-directed.js";
 
 export type WeightedEdgeData = EdgeData & {cost: number};
 export type NodeData = {shade?: Shade};

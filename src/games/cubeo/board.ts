@@ -1,8 +1,8 @@
-import type { Pips, playerid } from "../cubeo";
-import { CubeoDie } from "./die";
-import { matrixRectRot90, SquareGraph, SquareOrthGraph } from "../../common";
+import type { Pips, playerid } from "../cubeo.js";
+import { CubeoDie } from "./die.js";
+import { matrixRectRot90, SquareGraph, SquareOrthGraph } from "../../common/index.js";
 import { connectedComponents } from "graphology-components";
-import type { EdgeData } from "../../common/graphs/square";
+import type { EdgeData } from "../../common/graphs/square.js";
 
 export class CubeoBoard {
     private _dice: CubeoDie[];

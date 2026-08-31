@@ -1,17 +1,12 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IStatus, IValidationResult, ICustomButton, IRenderOpts, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IStatus, IValidationResult, ICustomButton, IRenderOpts, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaPieces, Glyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, replacer, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { Card, Deck, cardSortAsc, cardsBasic, cardsExtended } from "../common/decktet";
-import { BiscuitBoard } from "./biscuit/board";
-import { BiscuitCard } from "./biscuit/card";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const Buffer = require('buffer/').Buffer  // note: the trailing slash is important!
-import pako, { Data } from "pako";
+import { Card, Deck, cardSortAsc, cardsBasic, cardsExtended } from "../common/decktet/index.js";
+import { BiscuitBoard } from "./biscuit/board.js";
+import { BiscuitCard } from "./biscuit/card.js";
 
 export type playerid = 1|2|3;
 
@@ -192,14 +187,10 @@ export class BiscuitGame extends GameBase {
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
-                // is the state a raw JSON obj
-                if (state.startsWith("{")) {
-                    state = JSON.parse(state, reviver) as IBiscuitState;
-                } else {
-                    const decoded = Buffer.from(state, "base64") as Data;
-                    const decompressed = pako.ungzip(decoded, {to: "string"});
-                    state = JSON.parse(decompressed, reviver) as IBiscuitState;
+                if (!state.startsWith("{") && !state.startsWith("[")) {
+                    throw new Error("Compressed game state must be decompressed before constructing the engine.");
                 }
+                state = JSON.parse(state, reviver) as IBiscuitState;
             }
             if (state.game !== BiscuitGame.gameinfo.uid) {
                 throw new Error(`The Biscuit engine cannot process a game of '${state.game}'.`);
@@ -229,7 +220,7 @@ export class BiscuitGame extends GameBase {
         this.round = state.round;
         this.facedown = state.facedown;
         this.board = BiscuitBoard.deserialize(state.board);
-        this.hands = deepclone(state.hands) as string[][];
+        this.hands = cloneState(state.hands) as string[][];
         this.lastmove = state.lastmove;
 
         // Deck is reset every time you load
@@ -903,12 +894,12 @@ export class BiscuitGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board) as BiscuitBoard,
+            board: cloneState(this.board) as BiscuitBoard,
             scores: [...this.scores],
             facedown: this.facedown,
             round: this.round,
             passes: this.passes,
-            hands: deepclone(this.hands) as string[][],
+            hands: cloneState(this.hands) as string[][],
         };
     }
 
@@ -1187,14 +1178,7 @@ export class BiscuitGame extends GameBase {
     }
 
 
-    public serialize(opts?: {strip?: boolean, player?: number}): string {
-        const json = JSON.stringify(this.state(opts), replacer);
-        const compressed = pako.gzip(json);
-
-        return Buffer.from(compressed).toString("base64") as string;
-    }
-
     public clone(): BiscuitGame {
-        return Object.assign(new BiscuitGame(this.numplayers), deepclone(this) as BiscuitGame);
+        return Object.assign(new BiscuitGame(this.numplayers), cloneState(this) as BiscuitGame);
     }
 }

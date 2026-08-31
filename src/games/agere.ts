@@ -1,17 +1,15 @@
 
 import { Direction, Grid, rectangle, defineHex, Orientation, Hex } from "honeycomb-grid";
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, BoardBasic, MarkerFlood, MarkerHalo } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError, intersects } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError, intersects, cloneState } from "../common/index.js";
 import { UndirectedGraph } from "graphology";
-import { bidirectional } from "graphology-shortest-path/unweighted";
+import { bidirectional } from "graphology-shortest-path/unweighted.js";
 import { connectedComponents } from 'graphology-components';
 import i18next from "i18next";
-import { HexMoonGraph, HexSlantedGraph, HexTriGraph } from "../common/graphs";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
+import { HexMoonGraph, HexSlantedGraph, HexTriGraph } from "../common/graphs/index.js";
 
 type playerid = 1|2;
 
@@ -302,7 +300,7 @@ export class AgereGame extends GameBase {
         }
         this.results = [...state._results];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board) as Map<string, CellContents>;
+        this.board = cloneState(state.board) as Map<string, CellContents>;
         this.lastmove = state.lastmove;
         return this;
     }
@@ -890,7 +888,7 @@ export class AgereGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board) as Map<string, playerid[]>,
+            board: cloneState(this.board) as Map<string, playerid[]>,
         };
     }
 
@@ -1406,7 +1404,7 @@ export class AgereGame extends GameBase {
 
 
     public clone(): AgereGame {
-        return Object.assign(new AgereGame(), deepclone(this) as AgereGame);
+        return Object.assign(new AgereGame(), cloneState(this) as AgereGame);
         // return new AgereGame(this.serialize());
     }
 }

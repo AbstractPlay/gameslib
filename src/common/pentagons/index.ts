@@ -1,6 +1,6 @@
-import { Graph } from "./Graph";
-import { Vertex } from "./Vertex";
-import { Edge } from "./Edge";
+import { Graph } from "./Graph.js";
+import { Vertex } from "./Vertex.js";
+import { Edge } from "./Edge.js";
 
 export { Vertex, Edge, Graph };
 

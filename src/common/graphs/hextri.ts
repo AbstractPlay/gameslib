@@ -1,7 +1,7 @@
 import { UndirectedGraph } from "graphology";
-import { bidirectional } from 'graphology-shortest-path/unweighted';
-import { indexToColumnLabel, columnLabelToIndex } from "../columnLabels";
-import { IGraph } from "./IGraph";
+import { bidirectional } from 'graphology-shortest-path/unweighted.js';
+import { indexToColumnLabel, columnLabelToIndex } from "../columnLabels.js";
+import { IGraph } from "./IGraph.js";
 export type Edge = "N"|"NE"|"SE"|"S"|"SW"|"NW";
 export type HexDir = "NE"|"E"|"SE"|"SW"|"W"|"NW";
 

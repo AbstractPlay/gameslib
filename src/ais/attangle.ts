@@ -1,8 +1,8 @@
-import { AttangleGame, IAttangleState } from "../games";
+import { AttangleGame, IAttangleState } from "../games/index.js";
 import {minmax} from 'minmax-wt-alpha-beta-pruning';
-import { AIBase } from "./_base";
-import { IAIResult } from ".";
-import { shuffle } from "../common";
+import { AIBase } from "./_base.js";
+import { IAIResult } from "./index.js";
+import { shuffle } from "../common/index.js";
 
 const gameRules = {
     listMoves: (state: IAttangleState): string[] => {

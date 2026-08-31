@@ -1,35 +1,36 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { RectGrid } from "./rectGrid";
-import { StackSet} from "./stackset";
-import { reviver, replacer, sortingReplacer } from "./serialization";
-import { shuffle } from "./shuffle";
-import { UserFacingError } from "./errors";
-import { HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareDiagGraph, SquareGraph, Square3DGraph, SquareDirectedGraph, SquareFanoronaGraph, BaoGraph, SowingNoEndsGraph, RectTriGraph, BentTriGraph, StarGraph, starFrequencyFromWidth, HexMoonGraph, FracturedFlatGraph } from "./graphs";
-import { wng } from "./namegenerator";
-import { projectPoint, ptDistance, smallestDegreeDiff, normDeg, deg2rad, rad2deg, toggleFacing, calcBearing, matrixRectRot90, matrixRectRotN90, transposeRect, circle2poly, midpoint, distFromCircle, deg2dir, dir2deg, rotateFacing } from "./plotting";
-import { hexhexAi2Ap, hexhexAp2Ai, triAi2Ap, triAp2Ai } from "./aiai";
+import { RectGrid } from "./rectGrid.js";
+import { StackSet} from "./stackset.js";
+import { reviver, replacer, sortingReplacer } from "./serialization.js";
+import { shuffle } from "./shuffle.js";
+import { UserFacingError } from "./errors.js";
+import { HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareDiagGraph, SquareGraph, Square3DGraph, SquareDirectedGraph, SquareFanoronaGraph, BaoGraph, SowingNoEndsGraph, RectTriGraph, BentTriGraph, StarGraph, starFrequencyFromWidth, HexMoonGraph, FracturedFlatGraph } from "./graphs/index.js";
+import { wng } from "./namegenerator.js";
+import { projectPoint, ptDistance, smallestDegreeDiff, normDeg, deg2rad, rad2deg, toggleFacing, calcBearing, matrixRectRot90, matrixRectRotN90, transposeRect, circle2poly, midpoint, distFromCircle, deg2dir, dir2deg, rotateFacing } from "./plotting.js";
+import { hexhexAi2Ap, hexhexAp2Ai, triAi2Ap, triAp2Ai } from "./aiai.js";
 import stringify from "json-stringify-deterministic";
 import fnv from "fnv-plus";
-import { columnLabels, indexToColumnLabel, columnLabelToIndex, generateColumnLabel } from "./columnLabels";
-import type { GameRng } from "./rng";
+import { columnLabels, indexToColumnLabel, columnLabelToIndex, generateColumnLabel } from "./columnLabels.js";
+import type { GameRng } from "./rng.js";
 
 export { columnLabels, indexToColumnLabel, columnLabelToIndex, generateColumnLabel };
-export { GameRng } from "./rng";
-export { generateChallengeSeed, resolveChallengeSeed } from "./challenge-seed";
-export { replayToStackIndex, assertReplayMatches } from "./replay";
-export type { SoloReplayFactory } from "./replay";
+export { GameRng } from "./rng.js";
+export { generateChallengeSeed, resolveChallengeSeed } from "./challenge-seed.js";
+export { cloneState } from "./clone-state.js";
+export { replayToStackIndex, assertReplayMatches } from "./replay.js";
+export type { SoloReplayFactory } from "./replay.js";
 export {
     formatChatLogEntries,
     formatChatLogEntryNodes,
     applyChatPlayerNames,
     chatPlayerToken,
-} from "./chat-log";
-export type { ChatActorRef, ChatLogLine, ChatLogEntry, ChatLogTranslate, ChatLogCollectContext } from "./chat-log";
+} from "./chat-log.js";
+export type { ChatActorRef, ChatLogLine, ChatLogEntry, ChatLogTranslate, ChatLogCollectContext } from "./chat-log.js";
 export {
     resolveRenderLabel,
     isStructuredRenderLabel,
-} from "./render-label";
-export type { RenderLabel, StructuredRenderLabel } from "./render-label";
+} from "./render-label.js";
+export type { RenderLabel, StructuredRenderLabel } from "./render-label.js";
 
 export { RectGrid, StackSet, reviver, replacer, sortingReplacer, shuffle, UserFacingError, HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareDiagGraph, SquareGraph, Square3DGraph, SquareDirectedGraph, SquareFanoronaGraph, BaoGraph, SowingNoEndsGraph, RectTriGraph, BentTriGraph, StarGraph, HexMoonGraph, FracturedFlatGraph, starFrequencyFromWidth, wng, projectPoint, ptDistance, smallestDegreeDiff, normDeg, deg2rad, rad2deg, toggleFacing, calcBearing, matrixRectRot90, matrixRectRotN90, transposeRect, hexhexAi2Ap, hexhexAp2Ai, triAi2Ap, triAp2Ai, circle2poly, midpoint, distFromCircle, dir2deg, deg2dir, rotateFacing };
 

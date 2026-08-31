@@ -1,8 +1,8 @@
-import { shuffle } from "../shuffle";
-import { Card, cardsBasic, cardsExtended } from "./Card";
-import { Deck } from "./Deck";
-import { Multicard } from "./Multicard";
-import type { GameRng } from "../rng";
+import { shuffle } from "../shuffle.js";
+import { Card, cardsBasic, cardsExtended } from "./Card.js";
+import { Deck } from "./Deck.js";
+import { Multicard } from "./Multicard.js";
+import type { GameRng } from "../rng.js";
 
 export class Multideck {
     private _cards: Multicard[];

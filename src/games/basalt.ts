@@ -1,15 +1,13 @@
 
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaKey, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError, shuffle, intersects } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError, shuffle, intersects, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { connectedComponents } from "graphology-components";
 import { bidirectional } from "graphology-shortest-path";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 type playerid = 1|2;
 type Directions = "NE"|"E"|"SE"|"SW"|"W"|"NW";
@@ -128,7 +126,7 @@ export class BasaltGame extends GameBase {
         }
         this.results = [...state._results];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board) as Map<string, playerid[]>;
+        this.board = cloneState(state.board) as Map<string, playerid[]>;
         this.lastmove = state.lastmove;
         return this;
     }
@@ -774,7 +772,7 @@ export class BasaltGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board) as Map<string, playerid[]>,
+            board: cloneState(this.board) as Map<string, playerid[]>,
             connPath: [...this.connPath],
         };
     }
@@ -880,7 +878,7 @@ export class BasaltGame extends GameBase {
     }
 
     public clone(): BasaltGame {
-        return Object.assign(new BasaltGame(), deepclone(this) as BasaltGame);
+        return Object.assign(new BasaltGame(), cloneState(this) as BasaltGame);
         // return new BasaltGame(this.serialize());
     }
 

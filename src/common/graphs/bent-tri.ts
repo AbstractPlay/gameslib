@@ -1,8 +1,8 @@
 import { UndirectedGraph } from "graphology";
-import { bidirectional } from "graphology-shortest-path/unweighted";
-import { bentTriBoard, Graph as BentTriTopology, type BentTriOptions } from "../bentTri";
-import { indexToColumnLabel, columnLabelToIndex } from "../columnLabels";
-import { IGraph } from "./IGraph";
+import { bidirectional } from "graphology-shortest-path/unweighted.js";
+import { bentTriBoard, Graph as BentTriTopology, type BentTriOptions } from "../bentTri/index.js";
+import { indexToColumnLabel, columnLabelToIndex } from "../columnLabels.js";
+import { IGraph } from "./IGraph.js";
 
 const parseAlgebraic = (cell: string): [number, number] => {
     const match = cell.match(/^([a-z]+)(\d+)$/);

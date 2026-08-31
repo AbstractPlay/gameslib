@@ -6,11 +6,11 @@
  * builds the playable adjacency graph.
  */
 
-import { Graph, type BentTriOptions } from "./Graph";
-import { Vertex } from "./Vertex";
-import { Edge } from "./Edge";
-import { overlapRowsFor } from "./lattice";
-import { buildGridLayers, northApexId } from "./gridLayers";
+import { Graph, type BentTriOptions } from "./Graph.js";
+import { Vertex } from "./Vertex.js";
+import { Edge } from "./Edge.js";
+import { overlapRowsFor } from "./lattice.js";
+import { buildGridLayers, northApexId } from "./gridLayers.js";
 
 export { Vertex, Edge, Graph, overlapRowsFor, buildGridLayers, northApexId };
 export type { BentTriOptions };

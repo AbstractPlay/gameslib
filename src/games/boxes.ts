@@ -1,10 +1,10 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, MarkerLine, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
-import { shuffle } from "lodash";
+import _ from "lodash";
 
 type playerid = 1 | 2;
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
@@ -217,7 +217,7 @@ export class BoxesGame extends GameBase {
     }
 
     public randomMove(): string {
-        const available = shuffle(this.moves());
+        const available = _.shuffle(this.moves());
         let curr = available.pop()!;
         const moves: string[] = [curr];
         while (available.length > 0 && this.getEnclosed(curr, moves).length > 0) {

@@ -1,6 +1,6 @@
-import { Graph } from "./Graph";
-import { Vertex } from "./Vertex";
-import { refKey } from "./lattice";
+import { Graph } from "./Graph.js";
+import { Vertex } from "./Vertex.js";
+import { refKey } from "./lattice.js";
 
 /** North apex of the board (copy-1 wing tip). */
 export const northApexId = (graph: Graph): number => {

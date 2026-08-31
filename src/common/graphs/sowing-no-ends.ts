@@ -1,6 +1,6 @@
 import { DirectedGraph } from "graphology";
-import { indexToColumnLabel, columnLabelToIndex } from "../columnLabels";
-import { IGraph } from "./IGraph";
+import { indexToColumnLabel, columnLabelToIndex } from "../columnLabels.js";
+import { IGraph } from "./IGraph.js";
 
 type EdgeData = {
     direction: "CW"|"CCW";

@@ -1,12 +1,10 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaKey } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { HexTriGraph } from "../common/graphs";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
+import { HexTriGraph } from "../common/graphs/index.js";
 
 export type playerid = 1|2;
 
@@ -130,7 +128,7 @@ export class ManalathGame extends GameBase {
             }
         }
         const valid = moves.filter(m => {
-            const g: ManalathGame = Object.assign(new ManalathGame(), deepclone(this) as ManalathGame);
+            const g: ManalathGame = Object.assign(new ManalathGame(), cloneState(this) as ManalathGame);
             g.buildGraph();
             const cell = m.slice(0, m.length - 1);
             let owner: playerid = 1;
@@ -268,7 +266,7 @@ export class ManalathGame extends GameBase {
             return result;
         }
         // doesn't create oversized group
-        const g: ManalathGame = Object.assign(new ManalathGame(), deepclone(this) as ManalathGame);
+        const g: ManalathGame = Object.assign(new ManalathGame(), cloneState(this) as ManalathGame);
         g.buildGraph();
         g.board.set(cell, colour);
         const groups = g.getGroups(colour);

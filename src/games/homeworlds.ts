@@ -1,14 +1,14 @@
-import { GameBaseSkipTurn, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBaseSkipTurn, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { AnnotationHomeworlds, APRenderRep, AreaHWStash, BoardHomeworlds, Glyph } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { Ship } from "./homeworlds/ship";
-import { System } from "./homeworlds/system";
-import { Stash } from "./homeworlds/stash";
-import { reviver } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { Ship } from "./homeworlds/ship.js";
+import { System } from "./homeworlds/system.js";
+import { Stash } from "./homeworlds/stash.js";
+import { reviver } from "../common/index.js";
 import { CartesianProduct, Permutation, PowerSet } from "js-combinatorics";
-import { UserFacingError } from "../common";
-import { wng } from "../common";
+import { UserFacingError } from "../common/index.js";
+import { wng } from "../common/index.js";
 import i18next from "i18next";
 
 export type playerid = 1|2|3|4;

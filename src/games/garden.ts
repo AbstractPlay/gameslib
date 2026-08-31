@@ -1,12 +1,10 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IStashEntry, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IStashEntry, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { RectGrid, reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 export type CellContents = "b"|"w";
@@ -151,7 +149,7 @@ export class GardenGame extends GameBase {
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
-        this.stages = deepclone(state.stages) as IStageBoard[];
+        this.stages = cloneState(state.stages) as IStageBoard[];
         this.scores = [...state.scores];
         this.pool = state.pool;
         this.ravenclaw = state.ravenclaw;
@@ -518,7 +516,7 @@ export class GardenGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
-            stages: deepclone(this.stages) as IStageBoard[],
+            stages: cloneState(this.stages) as IStageBoard[],
             scores: [...this.scores],
             ravenclaw: this.ravenclaw,
             pool: this.pool,

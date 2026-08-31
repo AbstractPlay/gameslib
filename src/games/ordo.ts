@@ -1,11 +1,9 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, reviver, UserFacingError, Direction } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { RectGrid, reviver, UserFacingError, Direction, cloneState } from "../common/index.js";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 
@@ -259,7 +257,7 @@ export class OrdoGame extends GameBase {
                 if ( (ordoStart === undefined) || (ordoEnd === undefined) ) {
                     throw new Error("An error occurred while calculating ordos.");
                 }
-                const cloned: OrdoGame = Object.assign(new OrdoGame(), deepclone(this) as OrdoGame);
+                const cloned: OrdoGame = Object.assign(new OrdoGame(), cloneState(this) as OrdoGame);
                 for (const cell of ordoStart) {
                     cloned.board.delete(cell);
                 }
@@ -269,7 +267,7 @@ export class OrdoGame extends GameBase {
                 return cloned.isConnected(this.currplayer);
             } else {
                 const [from, to] = m.split(/[-x]/);
-                const cloned: OrdoGame = Object.assign(new OrdoGame(), deepclone(this) as OrdoGame);
+                const cloned: OrdoGame = Object.assign(new OrdoGame(), cloneState(this) as OrdoGame);
                 cloned.board.delete(from);
                 cloned.board.set(to, this.currplayer);
                 return cloned.isConnected(this.currplayer);
@@ -594,7 +592,7 @@ export class OrdoGame extends GameBase {
                 if ( (ordoStart === undefined) || (ordoEnd === undefined) ) {
                     throw new Error("An error occurred while calculating ordos.");
                 }
-                const cloned: OrdoGame = Object.assign(new OrdoGame(), deepclone(this) as OrdoGame);
+                const cloned: OrdoGame = Object.assign(new OrdoGame(), cloneState(this) as OrdoGame);
                 for (const cell of ordoStart) {
                     cloned.board.delete(cell);
                 }
@@ -698,7 +696,7 @@ export class OrdoGame extends GameBase {
                     }
                 }
                 // connection test
-                const cloned: OrdoGame = Object.assign(new OrdoGame(), deepclone(this) as OrdoGame);
+                const cloned: OrdoGame = Object.assign(new OrdoGame(), cloneState(this) as OrdoGame);
                 cloned.board.delete(left);
                 cloned.board.set(right, this.currplayer);
                 if (! cloned.isConnected(this.currplayer)) {

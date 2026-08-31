@@ -1,4 +1,4 @@
-import { Point } from "./lattice";
+import { Point } from "./lattice.js";
 
 export class Vertex {
     private _id: number;

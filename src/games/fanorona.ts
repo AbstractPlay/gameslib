@@ -1,13 +1,11 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, type ChatLogCollectContext, type ChatLogEntry, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, type ChatLogCollectContext, type ChatLogEntry, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
-import { Direction, RectGrid } from "../common";
-import { SquareFanoronaGraph } from "../common/graphs";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import { Direction, RectGrid, cloneState } from "../common/index.js";
+import { SquareFanoronaGraph } from "../common/graphs/index.js";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 type playerid = 1|2;
 
@@ -137,7 +135,7 @@ export class FanoronaGame extends GameBase {
             const cell = FanoronaGame.coords2algebraic(col, row);
             const moves = move.split(/\s*,\s*/);
             if (moves[0] === "") { moves.splice(0, 1); }
-            const cloned = Object.assign(new FanoronaGame(), deepclone(this) as FanoronaGame);
+            const cloned = Object.assign(new FanoronaGame(), cloneState(this) as FanoronaGame);
             cloned.move(move, {partial: true});
             const contents = cloned.board.get(cell);
 
@@ -216,7 +214,7 @@ export class FanoronaGame extends GameBase {
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
         const graph = new SquareFanoronaGraph(9, 5);
-        let cloned = Object.assign(new FanoronaGame(), deepclone(this) as FanoronaGame);
+        let cloned = Object.assign(new FanoronaGame(), cloneState(this) as FanoronaGame);
 
         if (m.length === 0) {
             result.valid = true;
@@ -409,7 +407,7 @@ export class FanoronaGame extends GameBase {
                 }
             } // initial or continuation?
 
-            cloned = Object.assign(new FanoronaGame(), deepclone(this) as FanoronaGame);
+            cloned = Object.assign(new FanoronaGame(), cloneState(this) as FanoronaGame);
             cloned.move(moves.slice(0, i+1).join(","), {partial: true});
 
         } // foreach submove

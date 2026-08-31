@@ -1,14 +1,12 @@
 /* eslint-disable no-console */
 
 import { Direction, Grid, rectangle, defineHex, Orientation, Hex } from "honeycomb-grid";
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogEntry, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogEntry, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 type playerid = 1|2;
 type Speed = 1|2|3|4|5|6;
@@ -339,7 +337,7 @@ export class ChaseGame extends GameBase {
         }
         this.results = [...state._results];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board) as Map<string, CellContents>;
+        this.board = cloneState(state.board) as Map<string, CellContents>;
         this.lastmove = state.lastmove;
        return this;
     }
@@ -358,7 +356,7 @@ export class ChaseGame extends GameBase {
         if (balanceMoves.length > 0) {
             // For each balance move, execute it and then check for other moves
             for (const balances of balanceMoves) {
-                const cloned: ChaseGame = Object.assign(new ChaseGame(), deepclone(this) as ChaseGame);
+                const cloned: ChaseGame = Object.assign(new ChaseGame(), cloneState(this) as ChaseGame);
                 const playerPieces = [...cloned.board.entries()].filter(e => e[1][0] === player);
                 const speed: number = playerPieces.map(p => p[1][1] as number).reduce((a, b) => a + b);
                 let delta  = 25 - speed;
@@ -500,7 +498,7 @@ export class ChaseGame extends GameBase {
                             const [xFrom, yFrom] = ChaseGame.algebraic2coords(start);
                             const pFrom = this.board.get(start)!;
                             const {finalDir} = ChaseGame.vector(xFrom, yFrom, dir, pFrom[1]);
-                            const clone = Object.assign(new ChaseGame(), deepclone(this) as ChaseGame);
+                            const clone = Object.assign(new ChaseGame(), cloneState(this) as ChaseGame);
                             // delete starting piece to avoid infinite loops
                             clone.board.delete(start);
                             try {
@@ -532,7 +530,7 @@ export class ChaseGame extends GameBase {
                 if (l[1][1] + delta <= 6) {
                     moves.push([...sofar, l[0]])
                 } else {
-                    const clone = Object.assign(new ChaseGame(), deepclone(this) as ChaseGame);
+                    const clone = Object.assign(new ChaseGame(), cloneState(this) as ChaseGame);
                     const piece = clone.board.get(l[0])!;
                     piece[1] = 6;
                     moves.push(...clone.recurseBalance(player, [...sofar, l[0]]))
@@ -554,7 +552,7 @@ export class ChaseGame extends GameBase {
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            const cloned: ChaseGame = Object.assign(new ChaseGame(), deepclone(this) as ChaseGame);
+            const cloned: ChaseGame = Object.assign(new ChaseGame(), cloneState(this) as ChaseGame);
             const cell = ChaseGame.coords2algebraic(col, row);
             let newmove = "";
             const speed = cloned.totalSpeed();
@@ -676,7 +674,7 @@ export class ChaseGame extends GameBase {
 
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
-        const cloned: ChaseGame = Object.assign(new ChaseGame(), deepclone(this) as ChaseGame);
+        const cloned: ChaseGame = Object.assign(new ChaseGame(), cloneState(this) as ChaseGame);
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
@@ -1287,7 +1285,7 @@ export class ChaseGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board) as Map<string, CellContents>
+            board: cloneState(this.board) as Map<string, CellContents>
         };
     }
 

@@ -1,5 +1,5 @@
-import { SquareDirectedGraph, SquareOrthGraph } from "../../common";
-import { QuincunxCard } from "./card";
+import { SquareDirectedGraph, SquareOrthGraph } from "../../common/index.js";
+import { QuincunxCard } from "./card.js";
 
 export class QuincunxBoard {
     private _cards: QuincunxCard[];

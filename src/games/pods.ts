@@ -1,12 +1,10 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { HexTriGraph } from "../common/graphs";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
+import { HexTriGraph } from "../common/graphs/index.js";
 
 type Player = 1|2;
 
@@ -115,9 +113,9 @@ export class PodsGame extends GameBase {
         this.version = parseInt(state._version, 10);
         this.currplayer = state.currplayer;
 
-        this.board = deepclone(state.board) as Map<string, Player>;
+        this.board = cloneState(state.board) as Map<string, Player>;
 
-        this.influenceBoard = deepclone(state.influenceBoard) as Map<string, Player>;
+        this.influenceBoard = cloneState(state.influenceBoard) as Map<string, Player>;
         this.lastmove = state.lastmove;
         this.results = [...state._results];
         this.scores = [...state.scores];
@@ -278,7 +276,7 @@ export class PodsGame extends GameBase {
                 }
             }
 
-            const boardClone = deepclone(this.board) as Map<string, Player>;
+            const boardClone = cloneState(this.board) as Map<string, Player>;
             for (const cell of playerCells) {
                 const steps = this.getSteps(player, cell, boardClone);
                 for (const step of steps) {
@@ -524,9 +522,9 @@ export class PodsGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
 
-            board: deepclone(this.board) as Map<string, Player>,
+            board: cloneState(this.board) as Map<string, Player>,
 
-            influenceBoard: deepclone(this.influenceBoard) as Map<string, Player>,
+            influenceBoard: cloneState(this.influenceBoard) as Map<string, Player>,
             scores: [...this.scores]
         };
     }

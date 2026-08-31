@@ -1,9 +1,9 @@
 import { UndirectedGraph } from "graphology";
-import { bidirectional } from 'graphology-shortest-path/unweighted';
+import { bidirectional } from 'graphology-shortest-path/unweighted.js';
 import {connectedComponents} from 'graphology-components';
-import { Direction } from "..";
-import { IGraph3D } from ".";
-import { algebraic2coords, coords2algebraic } from "..";
+import { Direction } from "../index.js";
+import { IGraph3D } from "./index.js";
+import { algebraic2coords, coords2algebraic } from "../index.js";
 
 export class SquareOrth3DGraph implements IGraph3D {
     public readonly width: number;

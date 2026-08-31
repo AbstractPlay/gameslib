@@ -1,13 +1,11 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { SowingNoEndsGraph, reviver, UserFacingError } from "../common";
-import type { IRenderOpts, IScores } from "./_base";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { SowingNoEndsGraph, reviver, UserFacingError, cloneState } from "../common/index.js";
+import type { IRenderOpts, IScores } from "./_base.js";
 import i18next from "i18next";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 
@@ -54,7 +52,7 @@ export class OwareGame extends GameBase {
     };
 
     public static clone(obj: OwareGame): OwareGame {
-        const cloned: OwareGame = Object.assign(new OwareGame(), deepclone(obj) as OwareGame);
+        const cloned: OwareGame = Object.assign(new OwareGame(), cloneState(obj) as OwareGame);
         return cloned;
     }
 
@@ -552,7 +550,7 @@ export class OwareGame extends GameBase {
     }
 
     public clone(): OwareGame {
-        return Object.assign(new OwareGame(), deepclone(this) as OwareGame)
+        return Object.assign(new OwareGame(), cloneState(this) as OwareGame)
     }
 
     protected cloneBoard(): number[][] {

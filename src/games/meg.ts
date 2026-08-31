@@ -1,12 +1,12 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { allDirections, IPoint, RectGrid, reviver, SquareDirectedGraph, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { allDirections, IPoint, RectGrid, reviver, SquareDirectedGraph, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { allSimplePaths } from "graphology-simple-path";
-import { linesIntersect } from "../common/plotting";
+import { linesIntersect } from "../common/plotting.js";
 
 export type playerid = 1|2;
 export type Piece = "CUP"|"CAP"|"BALL";

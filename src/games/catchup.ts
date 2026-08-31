@@ -1,15 +1,13 @@
 
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, MarkerFlood } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { HexTriGraph } from "../common/graphs";
+import { HexTriGraph } from "../common/graphs/index.js";
 import _ from "lodash";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 
@@ -121,7 +119,7 @@ export class CatchupGame extends GameBase {
         this.lastmove = state.lastmove;
         this.results = [...state._results];
         this.boardSize = this.getBoardSize();
-        this.sizes = deepclone(state.sizes) as number[][];
+        this.sizes = cloneState(state.sizes) as number[][];
         this.lastMaxs = [...state.lastMaxs];
         this.buildGraph();
         return this;
@@ -492,7 +490,7 @@ export class CatchupGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
-            sizes: deepclone(this.sizes) as number[][],
+            sizes: cloneState(this.sizes) as number[][],
             lastMaxs: [...this.lastMaxs],
         };
     }

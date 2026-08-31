@@ -1,13 +1,11 @@
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, MarkerDots, MarkerEdge, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, shuffle, SquareOrthGraph, UserFacingError } from "../common";
-import { bidirectional } from "graphology-shortest-path/unweighted";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, shuffle, SquareOrthGraph, UserFacingError, cloneState } from "../common/index.js";
+import { bidirectional } from "graphology-shortest-path/unweighted.js";
 import i18next from "i18next";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 
@@ -925,6 +923,6 @@ export class MorphosGame extends GameBase {
     }
 
     public clone(): MorphosGame {
-        return Object.assign(new MorphosGame(), deepclone(this) as MorphosGame);
+        return Object.assign(new MorphosGame(), cloneState(this) as MorphosGame);
     }
 }

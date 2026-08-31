@@ -1,11 +1,11 @@
-// import { IGame } from "./IGame";
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IRenderOpts, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+// import { IGame } from "./IGame.js";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IRenderOpts, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, Colourfuncs } from "@abstractplay/renderer/build/schemas/schema";
-import { RectGrid } from "../common";
-import { Direction } from "../common";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import { RectGrid } from "../common/index.js";
+import { Direction } from "../common/index.js";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 
 type playerid = 1|2;

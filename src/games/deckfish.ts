@@ -1,13 +1,11 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaPieces, Colourfuncs, Glyph, MarkerGlyph } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { diagDirections, Direction, oppositeDirections, orthDirections, reviver, shuffle, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { diagDirections, Direction, oppositeDirections, orthDirections, reviver, shuffle, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { Card, Deck, cardsBasic, cardsExtended, suits } from "../common/decktet";
+import { Card, Deck, cardsBasic, cardsExtended, suits } from "../common/decktet/index.js";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 export type Mode = "place"|"collect";
@@ -1432,6 +1430,6 @@ export class DeckfishGame extends GameBase {
 
 
     public clone(): DeckfishGame {
-        return Object.assign(new DeckfishGame(), deepclone(this) as DeckfishGame);
+        return Object.assign(new DeckfishGame(), cloneState(this) as DeckfishGame);
     }
 }

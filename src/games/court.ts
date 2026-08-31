@@ -1,11 +1,9 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IStashEntry, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IStashEntry, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError, SquareGraph, Direction } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError, SquareGraph, Direction, cloneState } from "../common/index.js";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1 | 2; // regarding pieces: 1 is the ball, 2 are the walls
 export type Piece = "P" | "R" | "N" | "B";
@@ -117,7 +115,7 @@ export class CourtGame extends GameBase {
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
-        this.hands = deepclone(state.hands);
+        this.hands = cloneState(state.hands);
         this.results = [...state._results];
         return this;
     }
@@ -396,7 +394,7 @@ export class CourtGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
-            hands: deepclone(this.hands),
+            hands: cloneState(this.hands),
         };
     }
 

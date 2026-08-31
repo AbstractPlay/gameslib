@@ -1,12 +1,10 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, Glyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { allDirections, Direction, oppositeDirections, reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { allDirections, Direction, oppositeDirections, reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { UnboundedSquareBoard } from "../common/unbounded-square-board";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
+import { UnboundedSquareBoard } from "../common/unbounded-square-board.js";
 
 type playerid = 1 | 2 | 3 ;
 type ColorID = 0 | 1 | 2 | 3 ;
@@ -799,7 +797,7 @@ export class KnightLineGame extends GameBase {
                 else
                     this.results = [{type: "select", what: mm.cell}];
 
-                this.highlight = deepclone(mm);
+                this.highlight = cloneState(mm);
 
                 return this;
             } else if ( mm.targetCell !== undefined && mm.restack !== undefined ) {

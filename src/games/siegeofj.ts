@@ -1,13 +1,11 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { AnnotationTree, APRenderRep, AreaPieces, Glyph, PiecesTree } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { randomInt, reviver, shuffle, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { randomInt, reviver, shuffle, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { Card, Deck, Component, cardSortAsc, cardsBasic, cardsExtended, suits as decktetSuits } from "../common/decktet";
+import { Card, Deck, Component, cardSortAsc, cardsBasic, cardsExtended, suits as decktetSuits } from "../common/decktet/index.js";
 import { DirectedGraph } from "graphology";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 
@@ -204,7 +202,7 @@ export class SiegeOfJGame extends GameBase {
         const state = this.stack[idx];
         this.results = [...state._results];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board) as Node[];
+        this.board = cloneState(state.board) as Node[];
         this.hands = state.hands.map(h => [...h]);
         this.lastmove = state.lastmove;
 
@@ -778,7 +776,7 @@ export class SiegeOfJGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board) as Node[],
+            board: cloneState(this.board) as Node[],
             hands: this.hands.map(h => [...h]),
         };
     }
@@ -941,6 +939,6 @@ export class SiegeOfJGame extends GameBase {
 
 
     public clone(): SiegeOfJGame {
-        return Object.assign(new SiegeOfJGame(), deepclone(this) as SiegeOfJGame);
+        return Object.assign(new SiegeOfJGame(), cloneState(this) as SiegeOfJGame);
     }
 }

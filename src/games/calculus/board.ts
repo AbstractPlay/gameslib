@@ -1,4 +1,4 @@
-import { IPoint, calcBearing, circle2poly, projectPoint, ptDistance } from "../../common";
+import { IPoint, calcBearing, circle2poly, projectPoint, ptDistance } from "../../common/index.js";
 import { polygon as turfPoly } from "@turf/helpers";
 import turfContans from "@turf/boolean-contains";
 import booleanPointInPolygon from "@turf/boolean-point-in-polygon";
@@ -37,7 +37,7 @@ export class Board {
         if (Array.isArray(p[0])) {
             return turfContans(turfPoly(this.circularForm), turfPoly(p as CircularForm));
         } else {
-            return booleanPointInPolygon(p as Vertex, turfPoly(this.circularForm));
+            return booleanPointInPolygon(p as unknown as import("geojson").Point, turfPoly(this.circularForm));
         }
     }
     public ownedVerts(p: 1|2): Vertex[] {

@@ -1,4 +1,4 @@
-import type { GameRng } from "./rng";
+import type { GameRng } from "./rng.js";
 
 export const shuffle = <T>(lst: T[], rng?: GameRng): T[] => {
     const random = rng !== undefined ? () => rng.random() : Math.random;

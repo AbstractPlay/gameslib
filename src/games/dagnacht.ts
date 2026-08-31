@@ -4,11 +4,11 @@ import {
     IClickResult,
     IIndividualState,
     IValidationResult,
-} from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+} from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { Direction, RectGrid, reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { Direction, RectGrid, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 
 export type playerid = 1 | 2;

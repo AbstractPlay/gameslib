@@ -1,4 +1,4 @@
-import { HexFieldGraph } from "../../common/graphs";
+import { HexFieldGraph } from "../../common/graphs/index.js";
 import { Orientation, type HexOffset } from "honeycomb-grid";
 
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");

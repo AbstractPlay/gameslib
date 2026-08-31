@@ -1,15 +1,13 @@
 import { Direction, Grid, rectangle, defineHex, Orientation, Hex } from "honeycomb-grid";
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, BoardBasic, MarkerFence } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError, shuffle, oppositeDirections } from "../common";
-import { CompassDirection, IEdge, IVertex, edge2hexes, edge2verts, hex2edges, vert2edges, vert2hexes } from "../common/hexes";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError, shuffle, oppositeDirections, cloneState } from "../common/index.js";
+import { CompassDirection, IEdge, IVertex, edge2hexes, edge2verts, hex2edges, vert2edges, vert2hexes } from "../common/hexes.js";
 import { UndirectedGraph } from "graphology";
 import {connectedComponents} from 'graphology-components';
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 type playerid = 1|2;
 type Colour = 1|2|3|4;
@@ -301,10 +299,10 @@ export class StreetcarGame extends GameBase {
         }
         this.results = [...state._results];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board) as Map<string, CellContents>;
+        this.board = cloneState(state.board) as Map<string, CellContents>;
         this.lastmove = state.lastmove;
         this.taken = [[...state.taken[0]], [...state.taken[1]]];
-        this.claimed = deepclone(state.claimed) as [IEdge[],IEdge[]];
+        this.claimed = cloneState(state.claimed) as [IEdge[],IEdge[]];
        return this;
     }
 
@@ -668,7 +666,7 @@ export class StreetcarGame extends GameBase {
         }
         // claim the edges
         for (const edge of edges) {
-            this.claimed[this.currplayer - 1].push(deepclone(edge) as IEdge);
+            this.claimed[this.currplayer - 1].push(cloneState(edge) as IEdge);
             this.results.push({type: "claim", where: edge2string(edge)!})
         }
         // remove the housing limit (and add to taken list)
@@ -852,9 +850,9 @@ export class StreetcarGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board) as Map<string, CellContents>,
+            board: cloneState(this.board) as Map<string, CellContents>,
             taken: [[...this.taken[0]],[...this.taken[1]]],
-            claimed: deepclone(this.claimed) as [IEdge[],IEdge[]],
+            claimed: cloneState(this.claimed) as [IEdge[],IEdge[]],
         };
     }
 

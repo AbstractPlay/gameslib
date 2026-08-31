@@ -1,10 +1,10 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogEntry, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogEntry, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, BoardBasic, MarkerFence, MarkerShading } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { Direction, oppositeDirections, RectGrid, reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { Direction, oppositeDirections, RectGrid, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
-import { SquareOrthGraph } from "../common/graphs";
+import { SquareOrthGraph } from "../common/graphs/index.js";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const clonelst = (items: Array<any>): Array<any> => items.map((item: any) => Array.isArray(item) ? clonelst(item) : item);

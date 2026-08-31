@@ -1,6 +1,6 @@
-import { Star, Seat, Colour, Size, HomeworldsErrors as HWErrors } from "../homeworlds";
-import { Ship, IShip } from "./ship";
-import { UserFacingError } from "../../common";
+import { Star, Seat, Colour, Size, HomeworldsErrors as HWErrors } from "../homeworlds.js";
+import { Ship, IShip } from "./ship.js";
+import { UserFacingError } from "../../common/index.js";
 import i18next from "i18next";
 
 interface ISysRender {

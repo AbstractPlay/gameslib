@@ -1,7 +1,7 @@
-import { APGamesInformation } from "../schemas/gameinfo";
-import { UserFacingError } from "../common";
-import { APGAMES_PRODUCTION } from "./_build-flags.generated";
-import { EXPERIMENTAL_VARIANT_UIDS_BY_GAME } from "./_registry-filter.generated";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
+import { UserFacingError } from "../common/index.js";
+import { APGAMES_PRODUCTION } from "./_build-flags.generated.js";
+import { EXPERIMENTAL_VARIANT_UIDS_BY_GAME } from "./_registry-filter.generated.js";
 
 function blockedVariantUidsForGame(gameUid: string): ReadonlySet<string> {
     return new Set(EXPERIMENTAL_VARIANT_UIDS_BY_GAME[gameUid] ?? []);

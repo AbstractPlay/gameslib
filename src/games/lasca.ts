@@ -1,12 +1,10 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { DirectionDiagonal, RectGrid, reviver, SquareDiagGraph, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { DirectionDiagonal, RectGrid, reviver, SquareDiagGraph, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 export type Size = 1|2;
@@ -61,7 +59,7 @@ export class LascaGame extends GameBase {
     };
 
     public static clone(obj: LascaGame): LascaGame {
-        const cloned = Object.assign(new LascaGame(), deepclone(obj) as LascaGame);
+        const cloned = Object.assign(new LascaGame(), cloneState(obj) as LascaGame);
         return cloned;
     }
 
@@ -152,7 +150,7 @@ export class LascaGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board);
+        this.board = cloneState(state.board);
         this.lastmove = state.lastmove;
         return this;
     }
@@ -515,7 +513,7 @@ export class LascaGame extends GameBase {
             const [tx, ty] = g.algebraic2coords(to);
             // move the piece
             const stack = this.board.get(from)!;
-            this.board.set(to, deepclone(stack));
+            this.board.set(to, cloneState(stack));
             this.board.delete(from);
             this.results.push({type: "move", from, to});
             // if the in-between cells contain an enemy piece, capture it
@@ -535,10 +533,10 @@ export class LascaGame extends GameBase {
                 const enemyStack = this.board.get(enemy)!;
                 const top = enemyStack.pop()!;
                 // add top piece to the bottom of the toStack
-                this.board.set(to, deepclone([top, ...toStack]))
+                this.board.set(to, cloneState([top, ...toStack]))
                 // save the new enemyStack
                 if (enemyStack.length > 0) {
-                    this.board.set(enemy, deepclone(enemyStack));
+                    this.board.set(enemy, cloneState(enemyStack));
                 } else {
                     this.board.delete(enemy);
                 }
@@ -552,7 +550,7 @@ export class LascaGame extends GameBase {
                 if (ty === last) {
                     const stack = this.board.get(to)!;
                     stack[stack.length - 1][1] = 2;
-                    this.board.set(to, deepclone(stack));
+                    this.board.set(to, cloneState(stack));
                     this.results.push({type: "promote", where: to, to: "officer"});
                     promoted = to;
                 }
@@ -617,7 +615,7 @@ export class LascaGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board),
+            board: cloneState(this.board),
         };
     }
 

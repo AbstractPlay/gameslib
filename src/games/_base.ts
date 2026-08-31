@@ -1,42 +1,42 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-prototype-builtins */
 
-import { APGamesInformation, AlternativeDisplay, Variant } from '../schemas/gameinfo';
+import { APGamesInformation, AlternativeDisplay, Variant } from '../schemas/gameinfo.js';
 import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from '../schemas/moveresults';
-import { APGameRecord } from "@abstractplay/recranks/src";
-import { algebraic2coords, coords2algebraic, replacer, sortingReplacer, UserFacingError } from '../common';
-import { omit } from "lodash";
+import type { APMoveResult } from '../schemas/moveresults.js';
+import { APGameRecord } from "@abstractplay/recranks";
+import { algebraic2coords, coords2algebraic, replacer, sortingReplacer, UserFacingError } from '../common/index.js';
+import _ from "lodash";
 import i18next from "i18next";
 import JSDstringify from 'json-stringify-deterministic';
-import type { IGamePly, IGameRound, IGameRoundSlot, TurnModel } from "./_turn-model";
+import type { IGamePly, IGameRound, IGameRoundSlot, TurnModel } from "./_turn-model.js";
 import {
     defaultPlyActor,
     defaultShouldCloseRound,
     walkStackPlies,
-} from "./_turn-plies";
+} from "./_turn-plies.js";
 import {
     buildSimultaneousPlies,
     buildSimultaneousRounds,
-} from "./_turn-simultaneous";
-import { skipTurnShouldCloseRound } from "./_turn-skip";
-import { APGAMES_PRODUCTION } from "./_build-flags.generated";
-import { allowedChallengeVariantUids } from "./_gameinfo-filter";
-import { GameRng } from "../common/rng";
-import type { ChatActorRef, ChatLogCollectContext, ChatLogEntry, ChatLogLine, ChatLogTextParamsInput } from "../common/chat-log";
-export type { ChatActorRef, ChatLogLine, ChatLogEntry, ChatLogTranslate, ChatLogCollectContext, ChatLogTextParamsInput } from "../common/chat-log";
-export { formatChatLogEntries, formatChatLogEntryNodes, chatPlayerToken, applyChatPlayerNames } from "../common/chat-log";
-import { chatPlayerToken, formatChatLogEntryNodes } from "../common/chat-log";
-import type { RenderLabel, StructuredRenderLabel } from "../common/render-label";
-export type { RenderLabel, StructuredRenderLabel } from "../common/render-label";
-export { resolveRenderLabel, isStructuredRenderLabel } from "../common/render-label";
+} from "./_turn-simultaneous.js";
+import { skipTurnShouldCloseRound } from "./_turn-skip.js";
+import { APGAMES_PRODUCTION } from "./_build-flags.generated.js";
+import { allowedChallengeVariantUids } from "./_gameinfo-filter.js";
+import { GameRng } from "../common/rng.js";
+import type { ChatActorRef, ChatLogCollectContext, ChatLogEntry, ChatLogLine, ChatLogTextParamsInput } from "../common/chat-log.js";
+export type { ChatActorRef, ChatLogLine, ChatLogEntry, ChatLogTranslate, ChatLogCollectContext, ChatLogTextParamsInput } from "../common/chat-log.js";
+export { formatChatLogEntries, formatChatLogEntryNodes, chatPlayerToken, applyChatPlayerNames } from "../common/chat-log.js";
+import { chatPlayerToken, formatChatLogEntryNodes } from "../common/chat-log.js";
+import type { RenderLabel, StructuredRenderLabel } from "../common/render-label.js";
+export type { RenderLabel, StructuredRenderLabel } from "../common/render-label.js";
+export { resolveRenderLabel, isStructuredRenderLabel } from "../common/render-label.js";
 import {
     computeElapsedMs,
     evaluateGrade,
     type IGradeTier,
     type ISoloOutcomeMeta,
     soloScoreDirection,
-} from "./_solo-outcome";
+} from "./_solo-outcome.js";
 
 /**
  * The minimum requirements of the individual game states.
@@ -802,8 +802,8 @@ export abstract class GameBase  {
         cloned.gameover = false;
         cloned.winner = [];
         cloned.move(move2, {trusted: true});
-        const currPosition1 = omit(this.moveState(), ["lastmove", "_version", "_results", "_timestamp"]);
-        const currPosition2 = omit(cloned.moveState(), ["lastmove", "_version", "_results", "_timestamp"]);
+        const currPosition1 = _.omit(this.moveState(), ["lastmove", "_version", "_results", "_timestamp"]);
+        const currPosition2 = _.omit(cloned.moveState(), ["lastmove", "_version", "_results", "_timestamp"]);
         const s1 = JSON.stringify(currPosition1, sortingReplacer);
         const s2 = JSON.stringify(currPosition2, sortingReplacer);
         return s1 === s2;
@@ -1209,7 +1209,6 @@ export abstract class GameBase  {
                 "date-generated": new Date().toISOString(),
                 // This exception is here because the type requires 1+ entries
                 // but here at initialization, we can't.
-                // @ts-expect-error (See above)
                 players: []
             },
                         moves: this.getMoveList()

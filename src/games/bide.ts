@@ -1,14 +1,12 @@
 
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { HexTriGraph } from "../common/graphs";
+import { HexTriGraph } from "../common/graphs/index.js";
 import { connectedComponents } from 'graphology-components';
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2|3|4|5|6;
 
@@ -111,7 +109,7 @@ export class BideGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board) as Map<string, playerid>;
+        this.board = cloneState(state.board) as Map<string, playerid>;
         this.lastmove = state.lastmove;
         this.inhand = [...state.inhand];
         this.released = state.released;
@@ -394,7 +392,7 @@ export class BideGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board) as Map<string, playerid>,
+            board: cloneState(this.board) as Map<string, playerid>,
             inhand: [...this.inhand],
             released: this.released,
         };
@@ -654,7 +652,7 @@ export class BideGame extends GameBase {
 
 
     public clone(): BideGame {
-        return Object.assign(new BideGame(this.numplayers), deepclone(this) as BideGame);
+        return Object.assign(new BideGame(this.numplayers), cloneState(this) as BideGame);
         // return new BideGame(this.serialize());
     }
 }

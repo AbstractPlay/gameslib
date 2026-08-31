@@ -1,17 +1,12 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { deg2dir, dir2deg, Direction, normDeg, RectGrid, replacer, reviver, rotateFacing, smallestDegreeDiff, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { deg2dir, dir2deg, Direction, normDeg, RectGrid, reviver, rotateFacing, smallestDegreeDiff, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { PacruGraph } from "./pacru/graph";
+import { PacruGraph } from "./pacru/graph.js";
 import { Glyph } from "@abstractplay/renderer";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const Buffer = require('buffer/').Buffer  // note: the trailing slash is important!
-import pako, { Data } from "pako";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2|3|4;
 export type Chevron = {
@@ -143,17 +138,10 @@ export class AzacruGame extends GameBase {
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
-                // is the state a raw JSON obj
-                if (state.startsWith("{")) {
-                    state = JSON.parse(state, reviver) as IAzacruState;
+                if (!state.startsWith("{") && !state.startsWith("[")) {
+                    throw new Error("Compressed game state must be decompressed before constructing the engine.");
                 }
-                // or is it a b64 encoded gzip
-                else {
-
-                    const decoded = Buffer.from(state, "base64") as Data;
-                    const decompressed = pako.ungzip(decoded, {to: "string"});
-                    state = JSON.parse(decompressed, reviver) as IAzacruState;
-                }
+                state = JSON.parse(state, reviver) as IAzacruState;
             }
             if (state.game !== AzacruGame.gameinfo.uid) {
                 throw new Error(`The Azacru engine cannot process a game of '${state.game}'.`);
@@ -167,14 +155,7 @@ export class AzacruGame extends GameBase {
         this.load();
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public serialize(opts?: {strip?: boolean, player?: number}): string {
-        const json = JSON.stringify(this.state(), replacer);
-        const compressed = pako.gzip(json);
-
-        return Buffer.from(compressed).toString("base64") as string;
-    }
-
+    
     public load(idx = -1): AzacruGame {
         if (idx < 0) {
             idx += this.stack.length;
@@ -924,7 +905,7 @@ export class AzacruGame extends GameBase {
             lastmove: this.lastmove,
             triggered: this.triggered,
 
-            board: deepclone(this.board) as Map<string, CellContents>,
+            board: cloneState(this.board) as Map<string, CellContents>,
         };
     }
 
@@ -1057,7 +1038,7 @@ export class AzacruGame extends GameBase {
 
 
     public clone(): AzacruGame {
-        const cloned = Object.assign(new AzacruGame(this.numplayers), deepclone(this) as AzacruGame);
+        const cloned = Object.assign(new AzacruGame(this.numplayers), cloneState(this) as AzacruGame);
         return cloned;
     }
 }

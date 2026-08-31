@@ -1,12 +1,10 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaPieces, BoardBasic, Colourfuncs, Glyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError, HexTriGraph } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError, HexTriGraph, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { connectedComponents } from "graphology-components";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 type playerid = 1|2|3|4|5;
 type Colour = "G"|"L"|"Y";
@@ -152,7 +150,7 @@ export class WaldMeisterGame extends GameBase {
                 _timestamp: new Date(),
                 currplayer: 1,
                 board,
-                hands: [deepclone(hand), deepclone(hand)],
+                hands: [cloneState(hand), cloneState(hand)],
                 round: 1,
             };
             this.stack = [fresh];
@@ -176,10 +174,10 @@ export class WaldMeisterGame extends GameBase {
         }
         this.results = [...state._results];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board) as Map<string, CellContents>;
+        this.board = cloneState(state.board) as Map<string, CellContents>;
         this.lastmove = state.lastmove;
         this.round = state.round;
-        this.hands = deepclone(state.hands);
+        this.hands = cloneState(state.hands);
         return this;
     }
 
@@ -504,7 +502,7 @@ export class WaldMeisterGame extends GameBase {
                 }
             }
             this.board = board;
-            this.hands = [deepclone(hand), deepclone(hand)];
+            this.hands = [cloneState(hand), cloneState(hand)];
             // don't saveState here
             // let the normal loop take over
         }
@@ -644,8 +642,8 @@ export class WaldMeisterGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board) as Map<string, CellContents>,
-            hands: deepclone(this.hands) as [CellContents[], CellContents[]],
+            board: cloneState(this.board) as Map<string, CellContents>,
+            hands: cloneState(this.hands) as [CellContents[], CellContents[]],
             round: this.round,
         };
     }
@@ -888,7 +886,7 @@ export class WaldMeisterGame extends GameBase {
 
 
     public clone(): WaldMeisterGame {
-        return Object.assign(new WaldMeisterGame(), deepclone(this) as WaldMeisterGame);
+        return Object.assign(new WaldMeisterGame(), cloneState(this) as WaldMeisterGame);
         // return new WaldMeisterGame(this.serialize());
     }
 }

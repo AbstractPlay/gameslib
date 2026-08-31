@@ -1,5 +1,5 @@
-import { GameBase, type ChatLogCollectContext, type ChatLogLine } from "../_base";
-import { APMoveResult } from "../../schemas/moveresults";
+import { GameBase, type ChatLogCollectContext, type ChatLogLine } from "../_base.js";
+import { APMoveResult } from "../../schemas/moveresults.js";
 
 type playerid = 1 | 2;
 const checkDirs = [[1, 0], [0, 1], [1, 1], [1, -1]] as const;

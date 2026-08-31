@@ -123,6 +123,7 @@ jobs:
         - run: APGAMES_PRODUCTION=1 npm run build
         - run: npm run test:postbuild
         - run: npm pack
+        - run: npm run test:consumer
         - name: Upload
           uses: actions/upload-artifact@v4
           with:

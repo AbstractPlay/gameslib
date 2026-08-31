@@ -1,12 +1,10 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogEntry, type ChatLogLine, type RenderLabel } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogEntry, type ChatLogLine, type RenderLabel } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaStackingExpanded, Glyph } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, shuffle, RectGrid, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, shuffle, RectGrid, UserFacingError, cloneState } from "../common/index.js";
 import { CartesianProduct } from "js-combinatorics";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const clone = require("rfdc/default");
 
 interface ILegendObj {
     [key: string]: Glyph|[Glyph, ...Glyph[]];
@@ -33,7 +31,7 @@ export type Colour = "RD"|"BU"|"GN"|"YE"|"VT"|"OG"|"BN"|"WH";
 export type CellContents = [Colour, Size];
 const allColours: string[] = ["RD", "BU", "GN", "YE", "VT", "OG", "BN"];
 
-// const clone = (items: any) => items.map((item: any) => Array.isArray(item) ? clone(item) : item);
+// const clone = (items: any) => items.map((item: any) => Array.isArray(item) ? cloneState(item) : item);
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -161,9 +159,9 @@ export class MvolcanoGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.board = clone(state.board) as Array<Array<CellContents[]>>;
+        this.board = cloneState(state.board) as Array<Array<CellContents[]>>;
         this.lastmove = state.lastmove;
-        this.captured = clone(state.captured) as [CellContents[], CellContents[]];
+        this.captured = cloneState(state.captured) as [CellContents[], CellContents[]];
         this.caps = new Set(state.caps);
         this.results = [...state._results];
         return this;
@@ -185,7 +183,7 @@ export class MvolcanoGame extends GameBase {
             }
             // Assume all previous moves are valid
             // Update the caps
-            const cloned: MvolcanoGame = Object.assign(new MvolcanoGame(), clone(this) as MvolcanoGame);
+            const cloned: MvolcanoGame = Object.assign(new MvolcanoGame(), cloneState(this) as MvolcanoGame);
             for (const m of moves) {
                 const [from, to] = m.split("-");
                 cloned.caps.delete(from);
@@ -242,7 +240,7 @@ export class MvolcanoGame extends GameBase {
             return result;
         }
 
-        const cloned: MvolcanoGame = Object.assign(new MvolcanoGame(), clone(this) as MvolcanoGame);
+        const cloned: MvolcanoGame = Object.assign(new MvolcanoGame(), cloneState(this) as MvolcanoGame);
         const moves = m.split(/\s*[\n,;/\\]\s*/);
         const grid = new RectGrid(6, 6);
         let erupted = false;
@@ -439,7 +437,7 @@ export class MvolcanoGame extends GameBase {
         if (move1.toLowerCase().replace(/\s+/g, "") === move2.toLowerCase().replace(/\s+/g, "")) {
             return true;
         }
-                const cloned: MvolcanoGame = Object.assign(new MvolcanoGame(), clone(this));
+                const cloned: MvolcanoGame = Object.assign(new MvolcanoGame(), cloneState(this));
         cloned.stack.pop();
         cloned.load(-1);
         cloned.gameover = false;
@@ -643,18 +641,18 @@ export class MvolcanoGame extends GameBase {
         for (const stack of stacks) {
             if (stack.length === 3) {
                 if ((new Set(stack.map(c => c[0]))).size === 1) {
-                    org.triosMono.push(clone(stack) as CellContents[]);
+                    org.triosMono.push(cloneState(stack) as CellContents[]);
                 } else {
-                    org.triosMixed.push(clone(stack) as CellContents[]);
+                    org.triosMixed.push(cloneState(stack) as CellContents[]);
                 }
             } else if (stack.length === 2) {
                 if ((new Set(stack.map(c => c[0]))).size === 1) {
-                    org.partialsMono.push(clone(stack) as CellContents[]);
+                    org.partialsMono.push(cloneState(stack) as CellContents[]);
                 } else {
-                    org.partialsMixed.push(clone(stack) as CellContents[]);
+                    org.partialsMixed.push(cloneState(stack) as CellContents[]);
                 }
             } else {
-                org.miscellaneous.push(...clone(stack) as CellContents[]);
+                org.miscellaneous.push(...cloneState(stack) as CellContents[]);
             }
         }
 
@@ -706,7 +704,7 @@ export class MvolcanoGame extends GameBase {
                         }
                     }
 
-                    org = clone(neworg) as IOrganizedCaps;
+                    org = cloneState(neworg) as IOrganizedCaps;
                     highestScore = newscore;
                 }
             }
@@ -733,9 +731,9 @@ export class MvolcanoGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: clone(this.board) as Array<Array<CellContents[]>>,
+            board: cloneState(this.board) as Array<Array<CellContents[]>>,
             caps: new Set(this.caps),
-            captured: clone(this.captured) as [CellContents[], CellContents[]]
+            captured: cloneState(this.captured) as [CellContents[], CellContents[]]
         };
     }
 

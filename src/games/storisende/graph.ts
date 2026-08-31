@@ -1,4 +1,4 @@
-import { HexFieldGraph } from "../../common/graphs";
+import { HexFieldGraph } from "../../common/graphs/index.js";
 
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 

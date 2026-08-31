@@ -1,13 +1,13 @@
 import { UndirectedGraph } from "graphology";
-import { bidirectional } from "graphology-shortest-path/unweighted";
+import { bidirectional } from "graphology-shortest-path/unweighted.js";
 import {
     buildFracturedFlatAdjacency,
     fracturedFlatCellLabel,
     parseLabel,
     prepareFracturedFlatPolys,
     vertsToTierLetter,
-} from "../fracturedFlat";
-import { IGraph } from "./IGraph";
+} from "../fracturedFlat/index.js";
+import { IGraph } from "./IGraph.js";
 
 export type FracturedFlatNodeData = {
     verts: number;

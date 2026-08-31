@@ -1,14 +1,12 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaPieces, Glyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { oppositeDirections, reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { oppositeDirections, reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { Card, Deck, cardSortAsc, cardsBasic, cardsExtended } from "../common/decktet";
-import { QuincunxBoard } from "./quincunx/board";
-import { QuincunxCard } from "./quincunx/card";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
+import { Card, Deck, cardSortAsc, cardsBasic, cardsExtended } from "../common/decktet/index.js";
+import { QuincunxBoard } from "./quincunx/board.js";
+import { QuincunxCard } from "./quincunx/card.js";
 
 export type playerid = 1|2|3;
 
@@ -201,7 +199,7 @@ export class QuincunxGame extends GameBase {
         this.scores = [...state.scores];
         this.round = state.round;
         this.board = QuincunxBoard.deserialize(state.board);
-        this.hands = deepclone(state.hands) as string[][];
+        this.hands = cloneState(state.hands) as string[][];
         this.lastmove = state.lastmove;
 
         // Deck is reset every time you load
@@ -745,10 +743,10 @@ export class QuincunxGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board) as QuincunxBoard,
+            board: cloneState(this.board) as QuincunxBoard,
             scores: [...this.scores],
             round: this.round,
-            hands: deepclone(this.hands) as string[][],
+            hands: cloneState(this.hands) as string[][],
         };
     }
 
@@ -988,6 +986,6 @@ export class QuincunxGame extends GameBase {
     }
 
     public clone(): QuincunxGame {
-        return Object.assign(new QuincunxGame(this.numplayers), deepclone(this) as QuincunxGame);
+        return Object.assign(new QuincunxGame(this.numplayers), cloneState(this) as QuincunxGame);
     }
 }

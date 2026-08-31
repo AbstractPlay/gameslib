@@ -1,7 +1,7 @@
-import { AmazonsGame, IAmazonsState } from "../games";
+import { AmazonsGame, IAmazonsState } from "../games/index.js";
 import {minmax} from 'minmax-wt-alpha-beta-pruning';
-import { AIBase } from "./_base";
-import { IAIResult } from ".";
+import { AIBase } from "./_base.js";
+import { IAIResult } from "./index.js";
 
 const gameRules = {
     listMoves: (state: IAmazonsState): string[] => {

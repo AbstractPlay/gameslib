@@ -1,7 +1,7 @@
 import { UndirectedGraph } from "graphology";
-import { bidirectional } from 'graphology-shortest-path/unweighted';
-import { IGraph3D } from "./IGraph3D";
-import { algebraic2coords, coords2algebraic } from "..";
+import { bidirectional } from 'graphology-shortest-path/unweighted.js';
+import { IGraph3D } from "./IGraph3D.js";
+import { algebraic2coords, coords2algebraic } from "../index.js";
 
 export class Square3DGraph implements IGraph3D {
     public readonly width: number;

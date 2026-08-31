@@ -1,13 +1,11 @@
 
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { HexTriGraph } from "../common/graphs";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
+import { HexTriGraph } from "../common/graphs/index.js";
 
 export type playerid = 1|2;
 export type Piece = "C"|"H"|"S";
@@ -150,7 +148,7 @@ export class AccastaGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board) as Map<string, CellContents[]>;
+        this.board = cloneState(state.board) as Map<string, CellContents[]>;
         this.lastmove = state.lastmove;
         this.results = [...state._results];
         return this;
@@ -166,7 +164,7 @@ export class AccastaGame extends GameBase {
 
         const playerPieces = [...this.board.entries()].filter(e => e[1][e[1].length - 1][1] === player);
         for (const [cell,] of playerPieces) {
-            const movelsts = this.recurseMoves(deepclone(this.board) as Map<string, CellContents[]>, this.graph, player, cell, this.variants.includes("pari"));
+            const movelsts = this.recurseMoves(cloneState(this.board) as Map<string, CellContents[]>, this.graph, player, cell, this.variants.includes("pari"));
             for (const move of movelsts) {
                 moves.push(`${cell}:${move.join(",")}`)
             }
@@ -223,7 +221,7 @@ export class AccastaGame extends GameBase {
                             // If we found a valid move, we need to recurse
                             if (step !== undefined) {
                                 // Make the move on a cloned board, which you will pass when recursing
-                                const newboard = deepclone(board) as Map<string, CellContents[]>;
+                                const newboard = cloneState(board) as Map<string, CellContents[]>;
                                 const remaining = stack.slice(0, stack.length - substack.length);
                                 if (remaining.length > 0) {
                                     newboard.set(cell, [...remaining])
@@ -425,7 +423,7 @@ export class AccastaGame extends GameBase {
         }
 
         // Validate each step along the way
-        let stack: CellContents[] = deepclone(sourceContents) as CellContents[];
+        let stack: CellContents[] = cloneState(sourceContents) as CellContents[];
         const cloned = this.clone();
         for (const step of steps) {
             const [num, destination] = step.split(/[-+]/);
@@ -689,7 +687,7 @@ export class AccastaGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board) as Map<string, CellContents[]>,
+            board: cloneState(this.board) as Map<string, CellContents[]>,
         };
     }
 

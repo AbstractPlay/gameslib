@@ -2,9 +2,15 @@
 
 import "mocha";
 import { expect } from "chai";
+import { gunzipSync } from "node:zlib";
 import { PacruGame } from '../../src/games';
 import type {CellContents} from "../../src/games/pacru";
 import { PacruGraph } from "../../src/games/pacru/graph";
+
+/** Legacy gameslib gzip+base64 state (decompress before GameFactory/engine). */
+function legacyGameslibState(b64: string): string {
+    return gunzipSync(Buffer.from(b64, "base64")).toString("utf8");
+}
 
 const old2PStart = (): PacruGame => {
     const g = new PacruGame(2);
@@ -177,7 +183,7 @@ describe("Pacru", () => {
         expect(results.complete).equal(1);
 
         // Meeting detected after placing a marker after blChange
-        g = new PacruGame(bugstate2);
+        g = new PacruGame(legacyGameslibState(bugstate2));
         results = g.validateMove("h3-f3(f3)");
         expect(results.valid).to.be.true;
         expect(results.complete).equal(-1);
@@ -216,7 +222,7 @@ describe("Pacru", () => {
     });
 
     it("Connection change bug", () => {
-        const g = new PacruGame(bugstate);
+        const g = new PacruGame(legacyGameslibState(bugstate));
         const results = g.validateMove("f7-i4(*)");
         expect(results.valid).to.be.true;
         expect(results.complete).equal(1);

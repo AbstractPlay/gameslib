@@ -1,11 +1,9 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, Glyph, MarkerFlood, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { HexTriGraph, reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { HexTriGraph, reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1 | 2;
 
@@ -228,7 +226,7 @@ export class CrosshairsGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board) as Map<string, PlaneInfo>;
+        this.board = cloneState(state.board) as Map<string, PlaneInfo>;
         this.clouds = new Set(state.clouds);
         this.planesRemaining = [...state.planesRemaining];
         this.turnNumber = state.turnNumber;
@@ -2843,7 +2841,7 @@ export class CrosshairsGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board) as Map<string, PlaneInfo>,
+            board: cloneState(this.board) as Map<string, PlaneInfo>,
             clouds: new Set(this.clouds),
             planesRemaining: [...this.planesRemaining],
             turnNumber: this.turnNumber,

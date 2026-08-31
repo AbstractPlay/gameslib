@@ -1,9 +1,9 @@
 import { DirectedGraph } from "graphology";
-import { bidirectional } from 'graphology-shortest-path/unweighted';
-import { IGraph } from "./IGraph";
-import { Direction as Direction } from "..";
+import { bidirectional } from 'graphology-shortest-path/unweighted.js';
+import { IGraph } from "./IGraph.js";
+import { Direction as Direction } from "../index.js";
 import { Attributes } from "graphology-types";
-import { coords2algebraic } from "..";
+import { coords2algebraic } from "../index.js";
 
 export type EdgeData = {
     type: "orth"|"diag";

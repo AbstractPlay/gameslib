@@ -1,15 +1,13 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, Glyph, IsoPiece, MarkerFlood, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { IGraph3D, SquareDiag3DGraph, SquareOrth3DGraph } from "../common/graphs";
-import { Square3DGraph } from "../common/graphs";
+import { IGraph3D, SquareDiag3DGraph, SquareOrth3DGraph } from "../common/graphs/index.js";
+import { Square3DGraph } from "../common/graphs/index.js";
 import { connectedComponents } from "graphology-components";
 import { bidirectional } from "graphology-shortest-path";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 export type size = 1|2|3|4;
@@ -228,7 +226,7 @@ export class TerraceGame extends GameBase {
         const state = this.stack[idx];
         this.results = [...state._results];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board) as Map<string, TerracePiece>;
+        this.board = cloneState(state.board) as Map<string, TerracePiece>;
         this.lastmove = state.lastmove;
         return this;
     }
@@ -649,7 +647,7 @@ export class TerraceGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board) as Map<string, TerracePiece>,
+            board: cloneState(this.board) as Map<string, TerracePiece>,
         };
     }
 
@@ -941,6 +939,6 @@ export class TerraceGame extends GameBase {
 
     public clone(): TerraceGame {
 
-        return Object.assign(new TerraceGame(), deepclone(this) as TerraceGame);
+        return Object.assign(new TerraceGame(), cloneState(this) as TerraceGame);
     }
 }

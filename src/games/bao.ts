@@ -1,14 +1,12 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, BoardBasic } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { BaoGraph, reviver, UserFacingError } from "../common";
-import type { IRenderOpts, IScores } from "./_base";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { BaoGraph, reviver, UserFacingError, cloneState } from "../common/index.js";
+import type { IRenderOpts, IScores } from "./_base.js";
 import i18next from "i18next";
-import type { PitType } from "../common/graphs/bao";
+import type { PitType } from "../common/graphs/bao.js";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 
@@ -89,7 +87,7 @@ export class BaoGame extends GameBase {
     ]);
 
     public static clone(obj: BaoGame): BaoGame {
-        const cloned: BaoGame = Object.assign(new BaoGame(), deepclone(obj) as BaoGame);
+        const cloned: BaoGame = Object.assign(new BaoGame(), cloneState(obj) as BaoGame);
         cloned.graph = new BaoGraph(cloned.houses);
         return cloned;
     }

@@ -1,12 +1,10 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
-import { RectGrid, shuffle, SquareOrthGraph } from "../common";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
+import { RectGrid, shuffle, SquareOrthGraph, cloneState } from "../common/index.js";
 import { APRenderRep, AreaPieces, Glyph } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const clone = require("rfdc/default");
 
 export type playerid = 1|2|3|4;
 
@@ -160,7 +158,7 @@ export class LoggerGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.board = clone(state.board) as Map<string, CellContents>;
+        this.board = cloneState(state.board) as Map<string, CellContents>;
         this.lastmove = state.lastmove;
         this.scores = [...state.scores];
         this.protestors = [...state.protestors];
@@ -846,7 +844,7 @@ export class LoggerGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: clone(this.board) as Map<string, CellContents>,
+            board: cloneState(this.board) as Map<string, CellContents>,
             scores: [...this.scores],
             protestors: [...this.protestors],
         };
@@ -1080,7 +1078,7 @@ export class LoggerGame extends GameBase {
     }
 
     public clone(): LoggerGame {
-        return Object.assign(new LoggerGame(this.numplayers), clone(this) as LoggerGame);
+        return Object.assign(new LoggerGame(this.numplayers), cloneState(this) as LoggerGame);
     }
 
     protected saveState(): void {

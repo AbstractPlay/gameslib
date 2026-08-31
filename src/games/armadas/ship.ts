@@ -1,6 +1,6 @@
 
-import { Size, playerid } from "../armadas";
-import { projectPoint, IPoint, smallestDegreeDiff, ptDistance } from "../../common";
+import { Size, playerid } from "../armadas.js";
+import { projectPoint, IPoint, smallestDegreeDiff, ptDistance } from "../../common/index.js";
 import { polygon as turfPoly, lineString as turfLine } from "@turf/helpers";
 import turfIntersects from "@turf/boolean-intersects";
 

@@ -1,13 +1,11 @@
 
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, IStashEntry, ICustomButton, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, IStashEntry, ICustomButton, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaPieces, BoardBasic, Colourfuncs, Glyph, MarkerGlyph, MarkerShading } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError, shuffle } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError, shuffle, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { SquareOrthGraph } from "../common/graphs";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
+import { SquareOrthGraph } from "../common/graphs/index.js";
 
 export type playerid = 1|2;
 
@@ -173,7 +171,7 @@ export class ACityGame extends GameBase {
             this.winner = [...state.winner];
             this.variants = state.variants;
             this.stack = [...state.stack];
-            this.startpos = deepclone(state.startpos) as [Color,MarkerPos][];
+            this.startpos = cloneState(state.startpos) as [Color,MarkerPos][];
         }
         this.load();
     }
@@ -191,8 +189,8 @@ export class ACityGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.results = [...state._results];
-        this.stashes = deepclone(state.stashes) as [Piece[],Piece[]];
-        this.claimed = deepclone(state.claimed) as [string[],string[]];
+        this.stashes = cloneState(state.stashes) as [Piece[],Piece[]];
+        this.claimed = cloneState(state.claimed) as [string[],string[]];
         this.buildGraph();
         return this;
     }
@@ -539,7 +537,7 @@ export class ACityGame extends GameBase {
     // But to score, you need all the buildings present
     // So chose to do it here when testing connectivity because it's easier to remove than add
     public isConnected(): boolean {
-        const cloned = Object.assign(new ACityGame(), deepclone(this) as ACityGame);
+        const cloned = Object.assign(new ACityGame(), cloneState(this) as ACityGame);
         cloned.buildGraph();
         for (const cell of this.board.keys()) {
             cloned.graph.graph.dropNode(cell);
@@ -551,7 +549,7 @@ export class ACityGame extends GameBase {
     // This function has to call itself to validate certain types of placement.
     private canPlace(piece: Piece, cell: string): PlacementResult {
         // ROAD
-        let cloned = Object.assign(new ACityGame(), deepclone(this) as ACityGame);
+        let cloned = Object.assign(new ACityGame(), cloneState(this) as ACityGame);
         cloned.buildGraph();
         cloned.placePiece(piece, cell);
         if (! cloned.isConnected()) {
@@ -576,7 +574,7 @@ export class ACityGame extends GameBase {
                 // check that every cell breaks the road
                 let broken = true;
                 for (const c of cells) {
-                    cloned = Object.assign(new ACityGame(), deepclone(this) as ACityGame);
+                    cloned = Object.assign(new ACityGame(), cloneState(this) as ACityGame);
                     cloned.buildGraph();
                     cloned.placePiece(piece, c);
                     if (cloned.isConnected()) {
@@ -621,7 +619,7 @@ export class ACityGame extends GameBase {
             let otherOptions = false;
             for (const other of empties) {
                 for (const pc of allPieces) {
-                    cloned = Object.assign(new ACityGame(), deepclone(this) as ACityGame);
+                    cloned = Object.assign(new ACityGame(), cloneState(this) as ACityGame);
                     cloned.buildGraph();
                     if (cloned.canPlace(pc as Piece, other) === "GOOD") {
                         otherOptions = true;
@@ -766,7 +764,7 @@ export class ACityGame extends GameBase {
             gameover: this.gameover,
             winner: [...this.winner],
             stack: [...this.stack],
-            startpos: deepclone(this.startpos) as [Color,MarkerPos][],
+            startpos: cloneState(this.startpos) as [Color,MarkerPos][],
         };
     }
 
@@ -778,8 +776,8 @@ export class ACityGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
-            stashes: deepclone(this.stashes) as [Piece[],Piece[]],
-            claimed: deepclone(this.claimed) as [string[],string[]],
+            stashes: cloneState(this.stashes) as [Piece[],Piece[]],
+            claimed: cloneState(this.claimed) as [string[],string[]],
         };
     }
 
@@ -1044,7 +1042,7 @@ export class ACityGame extends GameBase {
     }
 
     private getRealDistance(from: string, to: string): number {
-        const cloned = Object.assign(new ACityGame(), deepclone(this) as ACityGame);
+        const cloned = Object.assign(new ACityGame(), cloneState(this) as ACityGame);
         cloned.buildGraph();
         const drop = [...this.board.keys()].filter(c => c !== from && c !== to);
         const path = cloned.graph.path(from, to, drop)!;

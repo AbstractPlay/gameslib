@@ -1,4 +1,4 @@
-import { Direction, SquareDirectedGraph } from "../../common";
+import { Direction, SquareDirectedGraph } from "../../common/index.js";
 
 type Centre = "b2"|"b5"|"b8"|"e2"|"e5"|"e8"|"h2"|"h5"|"h8";
 

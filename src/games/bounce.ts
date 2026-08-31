@@ -1,14 +1,12 @@
 
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { SquareOrthGraph } from "../common/graphs";
+import { SquareOrthGraph } from "../common/graphs/index.js";
 import {connectedComponents} from 'graphology-components';
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 
@@ -189,7 +187,7 @@ export class BounceGame extends GameBase {
             // pair with empty cell
             for (const to of empties) {
                 // move the piece
-                const board = deepclone(this.board) as Map<string, playerid>;
+                const board = cloneState(this.board) as Map<string, playerid>;
                 board.delete(from);
                 board.set(to, player);
                 // clone the graph
@@ -524,7 +522,7 @@ export class BounceGame extends GameBase {
     }
 
     public clone(): BounceGame {
-        return Object.assign(new BounceGame(), deepclone(this) as BounceGame);
+        return Object.assign(new BounceGame(), cloneState(this) as BounceGame);
         // return new BounceGame(this.serialize());
     }
 }

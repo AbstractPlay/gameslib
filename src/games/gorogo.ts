@@ -1,14 +1,12 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaPieces, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { SquareOrthDirectedGraph } from "../common/graphs";
+import { SquareOrthDirectedGraph } from "../common/graphs/index.js";
 import { connectedComponents } from "graphology-components";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 export type Piece = playerid|"X";
@@ -130,9 +128,9 @@ export class GorogoGame extends GameBase {
         const state = this.stack[idx];
         this.results = [...state._results];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board) as Map<string,Piece>;
+        this.board = cloneState(state.board) as Map<string,Piece>;
         this.lastmove = state.lastmove;
-        this.pieces = deepclone(state.pieces) as [InHand,InHand];
+        this.pieces = cloneState(state.pieces) as [InHand,InHand];
         return this;
     }
 
@@ -519,8 +517,8 @@ export class GorogoGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board) as Map<string,Piece>,
-            pieces: deepclone(this.pieces) as [InHand,InHand],
+            board: cloneState(this.board) as Map<string,Piece>,
+            pieces: cloneState(this.pieces) as [InHand,InHand],
         };
     }
 
@@ -647,6 +645,6 @@ export class GorogoGame extends GameBase {
     }
 
     public clone(): GorogoGame {
-        return Object.assign(new GorogoGame(), deepclone(this) as GorogoGame);
+        return Object.assign(new GorogoGame(), cloneState(this) as GorogoGame);
     }
 }

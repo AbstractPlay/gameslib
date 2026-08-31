@@ -1,11 +1,9 @@
-import {  GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaPieces, BoardBasic, Colourfuncs, Glyph } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { randomInt, RectGrid, reviver, shuffle, SquareOrthGraph, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { randomInt, RectGrid, reviver, shuffle, SquareOrthGraph, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 export type Piece = "E" | "M" | "H" | "D" | "C" | "R";
@@ -293,9 +291,9 @@ export class ArimaaGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board);
+        this.board = cloneState(state.board);
         this.lastmove = state.lastmove;
-        this.hands = deepclone(state.hands);
+        this.hands = cloneState(state.hands);
         this.results = [...state._results];
         return this;
     }
@@ -1209,7 +1207,7 @@ export class ArimaaGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
-            hands: deepclone(this.hands),
+            hands: cloneState(this.hands),
         };
     }
 
@@ -1456,7 +1454,7 @@ export class ArimaaGame extends GameBase {
 
 
     public clone(): ArimaaGame {
-        const cloned = Object.assign(new ArimaaGame(), deepclone(this) as ArimaaGame);
+        const cloned = Object.assign(new ArimaaGame(), cloneState(this) as ArimaaGame);
         return cloned;
     }
 

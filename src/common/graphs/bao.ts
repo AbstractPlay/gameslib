@@ -1,6 +1,6 @@
 import { DirectedGraph } from "graphology";
-import { indexToColumnLabel, columnLabelToIndex } from "../columnLabels";
-import { IGraph } from "./IGraph";
+import { indexToColumnLabel, columnLabelToIndex } from "../columnLabels.js";
+import { IGraph } from "./IGraph.js";
 
 export type PitType = "nyumba"|"kichwa1L"|"kichwa1R"|"kimbi1L"|"kimbi1R"|"kichwa2L"|"kichwa2R"|"kimbi2L"|"kimbi2R"|"pit";
 type NodeData = {

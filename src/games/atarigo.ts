@@ -1,17 +1,12 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, BoardBasic, MarkerDots, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, replacer, reviver, UserFacingError, SquareOrthGraph } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { RectGrid, reviver, UserFacingError, SquareOrthGraph, cloneState } from "../common/index.js";
 import { connectedComponents } from "graphology-components";
-import pako, { Data } from "pako";
 
 import i18next from "i18next";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const Buffer = require('buffer/').Buffer  // note: the trailing slash is important!
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 type playerid = 1 | 2 | 3; // 3 is for neutral owned areas
 
@@ -108,14 +103,10 @@ export class AtariGoGame extends GameBase {
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
-                // is the state a raw JSON obj
-                if (state.startsWith("{")) {
-                    state = JSON.parse(state, reviver) as IAtariGoState;
-                } else {
-                    const decoded = Buffer.from(state, "base64") as Data;
-                    const decompressed = pako.ungzip(decoded, {to: "string"});
-                    state = JSON.parse(decompressed, reviver) as IAtariGoState;
+                if (!state.startsWith("{") && !state.startsWith("[")) {
+                    throw new Error("Compressed game state must be decompressed before constructing the engine.");
                 }
+                state = JSON.parse(state, reviver) as IAtariGoState;
             }
             if (state.game !== AtariGoGame.gameinfo.uid) {
                 throw new Error(`The Atari Go game code cannot process a game of '${state.game}'.`);
@@ -577,19 +568,12 @@ export class AtariGoGame extends GameBase {
     }
 
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public serialize(opts?: {strip?: boolean, player?: number}): string {
-        const json = JSON.stringify(this.state(), replacer);
-        const compressed = pako.gzip(json);
-
-        return Buffer.from(compressed).toString("base64") as string;
-    }
-
+    
     public clone(): AtariGoGame {
-        const cloned = Object.assign(new AtariGoGame(), deepclone(this) as AtariGoGame);
-        // deepclone() is not cloning RectGrid, so DIY:
+        const cloned = Object.assign(new AtariGoGame(), cloneState(this) as AtariGoGame);
+        // cloneState() is not cloning RectGrid, so DIY:
         cloned.grid = Object.assign(new RectGrid(this.boardSize, this.boardSize),
-                                    deepclone(this.grid) as RectGrid);
+                                    cloneState(this.grid) as RectGrid);
         return cloned;
     }
 }

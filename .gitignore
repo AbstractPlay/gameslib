@@ -50,6 +50,7 @@ bower_components
 build/
 build/Release
 dist/
+dist-vite/
 
 # Dependency directories
 node_modules/

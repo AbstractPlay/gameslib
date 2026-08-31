@@ -1,8 +1,8 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IRenderOpts } from "./_base";
-import { APGamesInformation, Variant } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IRenderOpts } from "./_base.js";
+import { APGamesInformation, Variant } from "../schemas/gameinfo.js";
 import { APRenderRep, Glyph, IsoPiece, MarkerGlyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { allDirections, RectGrid, reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { allDirections, RectGrid, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 
 export type playerid = 1|2;

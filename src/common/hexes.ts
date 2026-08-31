@@ -4,7 +4,7 @@
  */
 
 import { Orientation, Hex } from "honeycomb-grid";
-import { shuffle } from "./shuffle";
+import { shuffle } from "./shuffle.js";
 
 /** Compass direction label; valid neighbours depend on hex orientation (pointy vs flat). */
 export type CompassDirection = "N"|"NE"|"E"|"SE"|"S"|"SW"|"W"|"NW";

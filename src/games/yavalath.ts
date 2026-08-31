@@ -1,12 +1,10 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { HexTriGraph, reviver, UserFacingError } from "../common";
-import type { HexDir } from "../common/graphs/hextri";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { HexTriGraph, reviver, UserFacingError, cloneState } from "../common/index.js";
+import type { HexDir } from "../common/graphs/hextri.js";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2|3;
 
@@ -473,6 +471,6 @@ export class YavalathGame extends GameBase {
     }
 
     public clone(): YavalathGame {
-        return Object.assign(new YavalathGame(this.numplayers), deepclone(this) as YavalathGame);
+        return Object.assign(new YavalathGame(this.numplayers), cloneState(this) as YavalathGame);
     }
 }

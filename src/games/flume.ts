@@ -1,12 +1,10 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
-import { APGamesInformation } from "../schemas/gameinfo";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base.js";
+import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
-import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, reviver, UserFacingError } from "../common";
+import type { APMoveResult } from "../schemas/moveresults.js";
+import { RectGrid, reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 
@@ -161,7 +159,7 @@ export class FlumeGame extends GameBase {
             const [x, y] = FlumeGame.algebraic2coords(last, this.boardsize);
             const neighbours = grid.adjacencies(x, y, false).map(n => FlumeGame.coords2algebraic(...n, this.boardsize)).filter(c => this.board.has(c));
             if (neighbours.length >= 3) {
-                const cloned: FlumeGame = Object.assign(new FlumeGame(), deepclone(this) as FlumeGame);
+                const cloned: FlumeGame = Object.assign(new FlumeGame(), cloneState(this) as FlumeGame);
                 cloned.board.set(move, this.currplayer);
                 // if board is full, just push this move and return
                 if (cloned.board.size === this.boardsize * this.boardsize) {
@@ -236,7 +234,7 @@ export class FlumeGame extends GameBase {
 
         const cells = m.split(/\s*,\s*/);
         const grid = new RectGrid(this.boardsize, this.boardsize);
-        const scratchBoard = deepclone(this.board) as Map<string,1|2|3>;
+        const scratchBoard = cloneState(this.board) as Map<string,1|2|3>;
         for (let i = 0; i < cells.length; i++) {
             const cell = cells[i];
 

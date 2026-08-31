@@ -1,8 +1,8 @@
-import type { GameBase } from "./_base";
-import { defaultPlyActor } from "./_turn-plies";
-import type { IGamePly } from "./_turn-model";
-import { sequencedShouldCloseRound } from "./_turn-sequenced";
-import type { ISkipTurnHost } from "./_turn-skip";
+import type { GameBase } from "./_base.js";
+import { defaultPlyActor } from "./_turn-plies.js";
+import type { IGamePly } from "./_turn-model.js";
+import { sequencedShouldCloseRound } from "./_turn-sequenced.js";
+import type { ISkipTurnHost } from "./_turn-skip.js";
 
 /**
  * Legacy stack-field support for Frogger refills (`skipto`). New sequenced games

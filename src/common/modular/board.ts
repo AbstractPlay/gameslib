@@ -1,7 +1,7 @@
 import { Direction, Grid, Orientation, rectangle, type HexOffset } from "honeycomb-grid";
-import { hexNeighbours } from "../../common/hexes";
-import { ModularGraph } from "./graph";
-import { createModularHex, ModularHex, type HexArgs } from "./hex";
+import { hexNeighbours } from "../../common/hexes.js";
+import { ModularGraph } from "./graph.js";
+import { createModularHex, ModularHex, type HexArgs } from "./hex.js";
 
 type BoardArgs = {
     centres?: {q: number; r: number}[];

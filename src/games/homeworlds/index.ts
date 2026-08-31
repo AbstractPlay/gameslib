@@ -1,5 +1,5 @@
-import { System } from "./system";
-import { Ship } from "./ship";
-import { Stash } from "./stash";
+import { System } from "./system.js";
+import { Ship } from "./ship.js";
+import { Stash } from "./stash.js";
 
 export { System, Ship, Stash };

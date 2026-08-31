@@ -1,6 +1,6 @@
-import { shuffle } from "../shuffle";
-import { Card, cardsBasic, cardsExtended } from "./Card";
-import type { GameRng } from "../rng";
+import { shuffle } from "../shuffle.js";
+import { Card, cardsBasic, cardsExtended } from "./Card.js";
+import type { GameRng } from "../rng.js";
 
 export class Deck {
     private _cards: Card[];

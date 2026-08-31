@@ -11,7 +11,7 @@ export {
     type FracturedFlatSweepKey,
     type Point,
     type Poly,
-} from "./polys";
+} from "./polys.js";
 export {
     fracturedFlatCellLabel,
     makeLabel,
@@ -19,5 +19,5 @@ export {
     tierLetterToVerts,
     vertsToTierLetter,
     type ParsedLabel,
-} from "./labels";
-export { buildFracturedFlatAdjacency } from "./adjacency";
+} from "./labels.js";
+export { buildFracturedFlatAdjacency } from "./adjacency.js";

@@ -1,29 +1,12 @@
-import { customAlphabet } from 'https://cdn.jsdelivr.net/npm/nanoid/+esm';
+import { customAlphabet } from "nanoid";
+import * as APGames from "@abstractplay/gameslib";
 import {
     getRoundsForLayout,
     resolveMoveTableDensity,
 } from "./move-table-display.mjs";
 
-/** Webpack exposes the library as a classic-script global; module scope cannot use a bare `APGames` binding. */
-const APGames = globalThis.APGames;
-
 function assertAPGamesLoaded() {
-    if (APGames) {
-        return true;
-    }
-    const message =
-        "APGames bundle not loaded. Run `npm run playground` (or `npm run playground:serve`) and open the copy served from dist/.";
-    console.error(message);
-    const anchor = document.querySelector(".page-title") || document.body;
-    if (anchor && !document.getElementById("apgamesLoadError")) {
-        const banner = document.createElement("p");
-        banner.id = "apgamesLoadError";
-        banner.style.color = "#c00";
-        banner.style.fontWeight = "bold";
-        banner.textContent = message;
-        anchor.insertAdjacentElement("afterend", banner);
-    }
-    return false;
+    return true;
 }
 
 const nanoid = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', 5);

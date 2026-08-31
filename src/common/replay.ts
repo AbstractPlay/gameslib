@@ -1,4 +1,4 @@
-import type { GameBase, IIndividualState, IAPGameState } from "../games/_base";
+import type { GameBase, IIndividualState, IAPGameState } from "../games/_base.js";
 
 export type SoloReplayFactory = (seed: string, variants?: string[]) => GameBase;
 

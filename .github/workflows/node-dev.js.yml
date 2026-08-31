@@ -225,7 +225,7 @@ jobs:
                 --arg r "$RENDERER_VERSION" \
                 --arg s "$SOURCE_RUN_ID" \
                 '{event_type:"dep_update_dev", client_payload:{gameslib_version:$g, renderer_version:$r, source_run_id:$s}}')
-              for repo in front node-backend backend-crons backend-thumbnails; do
+              for repo in front node-backend backend-crons; do
                 curl -L -X POST \
                   -H "Accept: application/vnd.github+json" \
                   -H "Authorization: Bearer ${{ secrets.PAT_WORKFLOWS }}" \

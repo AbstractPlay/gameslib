@@ -7,8 +7,8 @@ import {
     GameBaseSequenced,
     GameBaseSimultaneous,
     GameBaseSkipTurn,
+    resolveGameFlags,
 } from "./games/index.js";
-import type { IAPGameState } from "./games/index.js";
 import { AIFactory, supportedGames as aiSupported, fastGames as aiFast, slowGames as aiSlow } from "./ais/index.js";
 import {
     filterGameinfoForProduction,
@@ -18,6 +18,7 @@ import {
 
 export {
     GameFactory,
+    resolveGameFlags,
     AIFactory,
     aiSupported,
     aiFast,
@@ -30,7 +31,8 @@ export {
     allowedChallengeVariantUids,
     assertAllowedChallengeVariants,
 };
-export type { IAPGameState, APMoveResult, APGamesInformation };
+export type { IAPGameState, FlagContext, GameFlag } from "./games/index.js";
+export type { APMoveResult, APGamesInformation };
 export type { TurnModel, IGamePly, IGameRound, IGameRoundSlot } from "./games/_turn-model.js";
 export type {
     SoloOutcomeType,

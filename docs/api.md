@@ -9,6 +9,9 @@ The root module (`src/index.ts`) exports the public API used by the front end an
 | `gameinfo` | `Map<string, APGamesInformation>` of all games |
 | `gameinfoSorted` | Same metadata, sorted by name |
 | `GameFactory(uid, ...args)` | Instantiate or resume a game |
+| `resolveGameFlags(uid, context?)` | Effective flags for a challenge context (variants, player count) |
+| `getFlags()` (on game instances) | Effective flags for the active session — see [Flags](/gameslib/flags/) |
+| `GameFlag`, `FlagContext` | Types for flag resolution |
 | `addResource(lang?)` | Merge i18n bundles into host or internal i18next |
 | `supportedLocales` | e.g. `["en", "fr", "es-US"]` |
 | `resolveLocale` | Map a browser/user language tag to a supported locale (e.g. `es-MX` → `es-US`) |
@@ -34,7 +37,7 @@ Self-describing metadata per game, matching [`gameinfo.json`](https://github.com
 
 In production builds, `gameinfo` omits experimental games and experimental variants. Use `gameinfo` / `gameinfoSorted` variants for new challenges and tournaments. On a game instance, use `challengeVariants()` for the same filtered picker UI. Use `allvariants()` for historical games and in-game display of active variant uids.
 
-See [Flags](/gameslib/flags/) for flag semantics.
+See [Flags](/gameslib/flags/) for flag semantics. Static `gameinfo.flags` is the default set; use `resolveGameFlags` or `game.getFlags()` when flags may vary by variant or player count.
 
 ## `GameFactory`
 

@@ -1,8 +1,8 @@
 /* eslint-env node */
 /**
  * Validate split ci-deps manifests (ci-deps.dev.json / ci-deps.prod.json).
- * Canonical AP pins live in ci-deps.*.json; run `npm run sync-deps` (or
- * install-ap-deps) to copy them into package.json after a merge or dispatch.
+ * Canonical AP pins live in ci-deps.*.json; run install-ap-deps to copy them
+ * into package.json after a merge or dispatch.
  */
 import fs from "fs";
 import path from "path";
@@ -41,8 +41,6 @@ if (manifests.prod.renderer === manifests.dev.renderer) {
     );
 }
 
-<<<<<<< Updated upstream
-=======
 const pkgJsonPath = path.join(ROOT, "package.json");
 if (fs.existsSync(pkgJsonPath)) {
     const pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath, "utf8"));
@@ -51,10 +49,9 @@ if (fs.existsSync(pkgJsonPath)) {
     if (renderer && devRenderer && renderer !== devRenderer) {
         console.warn(
             `check-ci-deps: warning: package.json renderer (${renderer}) differs from ` +
-                `ci-deps.dev.json (${devRenderer}); run: npm run sync-deps`,
+                `ci-deps.dev.json (${devRenderer}); run: node scripts/install-ap-deps.mjs --stage dev`,
         );
     }
 }
 
->>>>>>> Stashed changes
 console.log("check-ci-deps OK");

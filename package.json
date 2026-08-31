@@ -1,7 +1,6 @@
 {
   "name": "@abstractplay/gameslib",
-  "version": "1.0.0-ci-33416906683.0",
-  "description": "TypeScript implementations of the core Abstract Play games, intended to be wrapped by the front- and backends",
+  "version": "1.0.0-ci-33416597828.0",  "description": "TypeScript implementations of the core Abstract Play games, intended to be wrapped by the front- and backends",
   "type": "module",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -124,8 +123,7 @@
   },
   "dependencies": {
     "@abstractplay/recranks": "latest",
-    "@abstractplay/renderer": "1.0.0-ci-33416451579.0",
-    "@turf/boolean-contains": "^6.5.0",
+    "@abstractplay/renderer": "1.0.0-ci-33416463329.0",    "@turf/boolean-contains": "^6.5.0",
     "@turf/boolean-intersects": "^6.5.0",
     "@turf/boolean-point-in-polygon": "^6.5.0",
     "@turf/boolean-within": "^6.5.0",

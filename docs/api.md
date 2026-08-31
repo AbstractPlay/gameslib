@@ -39,6 +39,19 @@ In production builds, `gameinfo` omits experimental games and experimental varia
 
 See [Flags](/gameslib/flags/) for flag semantics. Static `gameinfo.flags` is the default set; use `resolveGameFlags` or `game.getFlags()` when flags may vary by variant or player count.
 
+## `resolveGameFlags`
+
+```ts
+import { resolveGameFlags } from "@abstractplay/gameslib";
+
+const flags = resolveGameFlags("basalt", { variants: ["pie"], numplayers: 2 });
+// → includes "pie-even" when pie variant selected
+```
+
+Looks up the game class and calls `GameClass.resolveFlags(context)`. Returns `[]` for unknown uids. Use in challenge UI when variants or player count change and no engine instance exists yet.
+
+`FlagContext`: `{ variants?: string[]; numplayers?: number }`. `GameFlag` is the union of allowed flag strings from `gameinfo.json`.
+
 ## `GameFactory`
 
 ```ts
@@ -60,7 +73,9 @@ Player-facing errors use `UserFacingError` with localized `client` messages.
 
 ## Game object
 
-Games returned by `GameFactory` implement the [game object](/gameslib/game-object/) interface: `move`, `render`, `state`, `serialize`, UI hooks, turn model (`getPlies`, `getRounds`, `turnModel`), record export (`recordExportExclude`, `genRecord`), and move log (`chatLogEntries`).
+Games returned by `GameFactory` implement the [game object](/gameslib/game-object/) interface: `move`, `render`, `state`, `serialize`, UI hooks, turn model (`getPlies`, `getRounds`, `turnModel`), record export (`recordExportExclude`, `genRecord`), move log (`chatLogEntries`), and **`getFlags()`** for effective session flags.
+
+**Flags (consumers):** call `game.getFlags()` for optional UI (pie, stashes, check display, etc.). For challenge setup before an instance exists, use `resolveGameFlags(uid, { variants, numplayers })`. See [Flags](/gameslib/flags/).
 
 **Move log (consumers):** call `formatChatLogEntryNodes(game.chatLogEntries(playerNames), playerNames, t)`. For solo games pass one human name. See [Structured move log](/gameslib/structured-chat-log/#consumer-integration).
 

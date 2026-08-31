@@ -6,6 +6,7 @@ import {
     BasaltGame,
     ConnectionsGame,
     CrossControlGame,
+    LifelineGame,
     PletoreGame,
     StigmergyGame,
     YavalathGame,
@@ -21,7 +22,62 @@ function hasFlag(flags: readonly string[], name: string): boolean {
     return flags.includes(name);
 }
 
+function flagsEqual(a: readonly string[], b: readonly string[]): boolean {
+    return [...a].sort().join() === [...b].sort().join();
+}
+
 describe("resolveFlags / getFlags", () => {
+    it("resolveGameFlags returns [] for unknown uid", () => {
+        expect(resolveGameFlags("not-a-real-game", {})).to.deep.equal([]);
+    });
+
+    describe("serialize round-trip", () => {
+        it("Basalt pie flags stable after serialize → resume", () => {
+            const before = new BasaltGame(undefined, ["pie"]);
+            const flagsBefore = [...before.getFlags()];
+            const resumed = GameFactory("basalt", before.serialize())!;
+            expect([...resumed.getFlags()].sort()).to.deep.equal(flagsBefore.sort());
+            expect(resumed.isPieTurn()).to.equal(before.isPieTurn());
+        });
+
+        it("Yavalath 3p flags stable after serialize → resume", () => {
+            const before = GameFactory("yavalath", yavalath3pState)!;
+            const flagsBefore = [...before.getFlags()];
+            const resumed = GameFactory("yavalath", before.serialize())!;
+            expect([...resumed.getFlags()].sort()).to.deep.equal(flagsBefore.sort());
+            expect(hasFlag(resumed.getFlags(), "pie")).to.be.false;
+        });
+    });
+
+    describe("resolveGameFlags matches instance getFlags", () => {
+        const cases: Array<{ uid: string; variants?: string[]; numplayers?: number }> = [
+            { uid: "basalt" },
+            { uid: "basalt", variants: ["pie"] },
+            { uid: "yavalath", numplayers: 2 },
+            { uid: "yavalath", numplayers: 3 },
+            { uid: "pletore" },
+            { uid: "pletore", variants: ["nokomi"] },
+            { uid: "stigmergy", variants: [] },
+            { uid: "stigmergy", variants: ["nokomi"] },
+            { uid: "crosscontrol" },
+            { uid: "crosscontrol", variants: ["nokomi"] },
+            { uid: "connections" },
+            { uid: "lifeline" },
+        ];
+
+        for (const { uid, variants, numplayers } of cases) {
+            it(`${uid} ${JSON.stringify({ variants, numplayers })}`, () => {
+                const context = { variants, numplayers };
+                const resolved = resolveGameFlags(uid, context);
+                const instance = numplayers !== undefined
+                    ? GameFactory(uid, numplayers, variants)
+                    : GameFactory(uid, undefined, variants);
+                expect(instance).to.not.equal(undefined);
+                expect(flagsEqual(resolved, instance!.getFlags())).to.be.true;
+            });
+        }
+    });
+
     describe("Basalt", () => {
         it("default has no pie-even", () => {
             const g = new BasaltGame();
@@ -110,6 +166,14 @@ describe("resolveFlags / getFlags", () => {
             const g = new ConnectionsGame();
             const staticFlags = ConnectionsGame.gameinfo.flags ?? [];
             expect([...g.getFlags()].sort()).to.deep.equal([...staticFlags].sort());
+        });
+    });
+
+    describe("Lifeline", () => {
+        it("always includes pie", () => {
+            const g = new LifelineGame();
+            expect(hasFlag(g.getFlags(), "pie")).to.be.true;
+            expect(flagsEqual(resolveGameFlags("lifeline", {}), g.getFlags())).to.be.true;
         });
     });
 });

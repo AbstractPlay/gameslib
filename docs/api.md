@@ -21,7 +21,7 @@ The root module (`src/index.ts`) exports the public API used by the front end an
 | `ChatActorRef`, `ChatLogLine`, `ChatLogEntry`, `ChatLogCollectContext`, `ChatLogTranslate` | Structured move-log types ([`chat-log.ts`](/gameslib/src/common/chat-log.ts)) |
 | `formatChatLogEntries`, `formatChatLogEntryNodes` | Format structured entries with i18n + seat display names |
 | `chatPlayerToken`, `applyChatPlayerNames` | `Player N` token helpers for seat-actor lines |
-| `RenderLabel`, `StructuredRenderLabel`, `isStructuredRenderLabel`, `resolveRenderLabel` | Structured area/board labels ([`render-label.ts`](/gameslib/src/common/render-label.ts)) |
+| `RenderLabel`, `StructuredRenderLabel`, `isStructuredRenderLabel`, `resolveRenderLabel`, `resolveRenderLabels` | Structured area/board labels ([`render-label.ts`](/gameslib/src/common/render-label.ts)) |
 
 AI helpers (`AIFactory`, etc.) exist for testing only and are not part of the public release API.
 
@@ -79,7 +79,7 @@ Games returned by `GameFactory` implement the [game object](/gameslib/game-objec
 
 **Move log (consumers):** call `formatChatLogEntryNodes(game.chatLogEntries(playerNames), playerNames, t)`. For solo games pass one human name. See [Structured move log](/gameslib/structured-chat-log/#consumer-integration).
 
-**Render labels (consumers):** call `resolveRenderLabels(rep, players, users, t)` before drawing (implemented in Abstract Play front). Resolves structured `label` fields only.
+**Render labels (consumers):** call `resolveRenderLabels(rep, playerNames, t)` before drawing (exported from gameslib; playground and Abstract Play front use this). Resolves structured `label` fields only.
 
 **Move log (game authors):** see [Structured move log](/gameslib/structured-chat-log/).
 

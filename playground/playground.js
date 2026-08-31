@@ -409,6 +409,7 @@ function renderCustomizePreview() {
         if (Array.isArray(data)) {
             data = data[data.length - 1];
         }
+        data = prepareRenderRep(data, game, gamename);
         const svgString = APRender.renderStatic(data, options);
         previewDiv.innerHTML = svgString;
     } catch (e) {
@@ -909,7 +910,6 @@ function gameFlagsInclude(game, gamename, flag) {
     return effectiveGameFlags(game, gamename).includes(flag);
 }
 
-// Helper to get player names for status panel
 function getPlayerNamesForStatus(game, gamename) {
     let playerNames = [];
     if (typeof game.getPlayerNames === "function") {
@@ -930,6 +930,17 @@ function getPlayerNamesForStatus(game, gamename) {
         }
     }
     return playerNames;
+}
+
+function prepareRenderRep(rep, game, gamename) {
+    if (!rep || typeof rep !== "object" || !APGames?.resolveRenderLabels) {
+        return rep;
+    }
+    return APGames.resolveRenderLabels(
+        rep,
+        getPlayerNamesForStatus(game, gamename),
+        playgroundTranslate,
+    );
 }
 
 /** @typedef {"sequential" | "simultaneous" | "sequenced" | "skip-turn"} TurnModel */
@@ -1744,6 +1755,7 @@ function renderGame(...args) {
             }
         }
         currentRenderRep = data;
+        data = prepareRenderRep(data, game, gamename);
         var canvas;
         try {
             canvas = APRender.render(data, options);

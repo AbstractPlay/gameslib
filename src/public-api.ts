@@ -56,6 +56,7 @@ export {
     applyChatPlayerNames,
     chatPlayerToken,
     resolveRenderLabel,
+    resolveRenderLabels,
     isStructuredRenderLabel,
     replacer,
 } from "./common/index.js";

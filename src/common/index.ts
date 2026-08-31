@@ -28,6 +28,7 @@ export {
 export type { ChatActorRef, ChatLogLine, ChatLogEntry, ChatLogTranslate, ChatLogCollectContext } from "./chat-log.js";
 export {
     resolveRenderLabel,
+    resolveRenderLabels,
     isStructuredRenderLabel,
 } from "./render-label.js";
 export type { RenderLabel, StructuredRenderLabel } from "./render-label.js";

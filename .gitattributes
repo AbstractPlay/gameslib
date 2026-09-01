@@ -1,2 +1,5 @@
 # Keep production renderer pin when merging develop into main.
 ci-deps.prod.json merge=ours
+
+# Keep develop dependency pins when merging l10n/weblate (or other branches) into develop.
+ci-deps.dev.json merge=ours

@@ -53,6 +53,8 @@
     "translate": "node scripts/translate.mjs locales/en/apgames.json locales/en/apresults.json",
     "prune-locales": "node scripts/locale-prune.mjs locales/en/apgames.json locales/en/apresults.json",
     "check-weblate-keys": "node scripts/check-weblate-keys.mjs",
+    "check-weblate-branch": "node scripts/check-weblate-branch.mjs",
+    "merge-weblate-branch": "node scripts/merge-weblate-branch.mjs",
     "sync-deps": "node scripts/install-ap-deps.mjs --stage dev",
     "sync-deps:prod": "node scripts/install-ap-deps.mjs --stage prod",
     "check-locale-readiness": "node scripts/check-locale-readiness.mjs",

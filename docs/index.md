@@ -7,6 +7,7 @@
 - [Creating games](/gameslib/creating-games/) — workflow, **choosing a base class**, helpers, renderer, PR
 - [Game object](/gameslib/game-object/) — `GameBase` contract, turn model, mixin hooks, and `recordExportExclude` for gamerecord export
 - [Flags](/gameslib/flags/) — `gameinfo` flags reference
+- [Variants](/gameslib/variants/) — optional rules, constraint fields, constructor helper
 - [Helpers](/gameslib/helpers/) — grids, graphs, serialization, and shared utilities
 - [i18n](/gameslib/i18n/) — translation files
 - [Examples by feature](/gameslib/examples/by-feature/) — which games use which helpers

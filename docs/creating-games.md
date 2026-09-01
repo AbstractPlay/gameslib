@@ -148,6 +148,14 @@ The finished-game move table includes a **chat column** built from `chatLogEntri
 
 Full API, patterns, and anti-patterns: **[Structured move log](/gameslib/structured-chat-log/)**.
 
+## Variants
+
+Declare optional rules in `gameinfo.variants`. Use `group` for mutually exclusive radio choices; omit `group` for independent checkboxes. When some combinations are invalid, add `enabledWhen`, `conflictsWith`, or `requires` rather than private `sanitize*` helpers.
+
+On the **fresh-game** constructor path, assign variants with `this.applyVariantConstraints(variants)`. When loading saved state, copy `state.variants` unchanged.
+
+Full field reference, examples ([LOA](https://play.abstractplay.com/games/loa), [Druid](https://play.abstractplay.com/games/druid)), and consumer APIs: **[Variants](/gameslib/variants/)**.
+
 ## Implementation checklist
 
 - [ ] `static readonly gameinfo: APGamesInformation` (flag `experimental` must be set for all new games)
@@ -155,7 +163,7 @@ Full API, patterns, and anti-patterns: **[Structured move log](/gameslib/structu
 - [ ] **`simultaneous` flag** in `gameinfo` iff using `GameBaseSimultaneous`
 - [ ] **`isSeatActive`** iff using `GameBaseSkipTurn`
 - [ ] State interfaces (`IMoveState`, `I<Name>State`)
-- [ ] Constructor (new + deserialize via `reviver`)
+- [ ] Constructor (new + deserialize via `reviver`); fresh init uses `applyVariantConstraints` when variants are passed — see [Variants](/gameslib/variants/)
 - [ ] `move`, `render`, `state`, `load`, `clone`, `moveState`
 - [ ] `recordExportExclude()` only if published records should omit extra `_results` types beyond `eog` / `winners` (see [Game object — record export](/gameslib/game-object/#turn-model-and-record-export))
 - [ ] `moves()` unless using `no-moves` flag

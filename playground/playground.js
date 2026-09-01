@@ -1896,6 +1896,77 @@ function setDarkMode(isDark) {
 let selectedGroupVariants = {};
 let selectedNonGroupVariants = {};
 let currentGameInfo = null;
+let currentAllVariants = [];
+
+function collectActiveVariantUids() {
+    const uids = [];
+    Object.values(selectedGroupVariants).forEach((uid) => {
+        if (!uid.startsWith("#")) {
+            uids.push(uid);
+        }
+    });
+    Object.keys(selectedNonGroupVariants).forEach((uid) => {
+        if (selectedNonGroupVariants[uid]) {
+            uids.push(uid);
+        }
+    });
+    return uids;
+}
+
+function applySanitizedVariantSelection(sanitized) {
+    const sanitizedSet = new Set(sanitized);
+    for (const group of Object.keys(selectedGroupVariants)) {
+        const member = sanitized.find((uid) => {
+            const def = currentAllVariants.find((v) => v.uid === uid);
+            return def?.group === group;
+        });
+        selectedGroupVariants[group] = member ?? `#${group}`;
+        const radio = document.getElementById(`variant_${selectedGroupVariants[group]}`);
+        if (radio) {
+            radio.checked = true;
+        }
+    }
+    for (const uid of Object.keys(selectedNonGroupVariants)) {
+        selectedNonGroupVariants[uid] = sanitizedSet.has(uid);
+        const checkbox = document.getElementById(uid);
+        if (checkbox) {
+            checkbox.checked = selectedNonGroupVariants[uid];
+        }
+    }
+}
+
+function refreshVariantAvailability() {
+    if (!currentAllVariants || currentAllVariants.length === 0) {
+        return;
+    }
+    const availability = APGames.evaluateAvailability(currentAllVariants, collectActiveVariantUids());
+    for (const v of currentAllVariants) {
+        if (v.uid.startsWith("#")) {
+            continue;
+        }
+        const input = document.getElementById(v.group ? `variant_${v.uid}` : v.uid);
+        if (!input) {
+            continue;
+        }
+        const entry = availability.get(v.uid);
+        input.disabled = entry !== undefined && !entry.selectable;
+    }
+}
+
+function syncVariantConstraints() {
+    if (!currentAllVariants || currentAllVariants.length === 0) {
+        return;
+    }
+    const raw = collectActiveVariantUids();
+    const sanitized = APGames.sanitizeVariantSelection(currentAllVariants, raw);
+    const same =
+        raw.length === sanitized.length &&
+        raw.every((uid, index) => uid === sanitized[index]);
+    if (!same) {
+        applySanitizedVariantSelection(sanitized);
+    }
+    refreshVariantAvailability();
+}
 
 function playgroundT(key) {
     const inst = APGames.i18n;
@@ -2191,6 +2262,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
         if (!currentGameInfo) {
             infobox.innerHTML = "";
+            currentAllVariants = [];
             return;
         }
 
@@ -2217,6 +2289,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
         let allVariants = gameEngine.challengeVariants() || [];
         currentGameInfo.variants = allVariants;
+        currentAllVariants = allVariants;
 
         const groups = {};
         const nonGrouped = [];
@@ -2277,6 +2350,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
                 const updateFunc = () => {
                     selectedGroupVariants[groupName] = radio.value;
+                    syncVariantConstraints();
                 };
                 radio.addEventListener('change', updateFunc);
                 radio.addEventListener('focus', updateFunc);
@@ -2317,6 +2391,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
                 const updateFunc = () => {
                     selectedNonGroupVariants[variant.uid] = checkbox.checked;
+                    syncVariantConstraints();
                 };
                 checkbox.addEventListener('change', updateFunc);
                 checkbox.addEventListener('focus', updateFunc);
@@ -2363,6 +2438,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         } else {
             playerCountContainer.style.display = "none";
         }
+        syncVariantConstraints();
         updateChallengeSeedPanel(currentGameInfo);
     });
 

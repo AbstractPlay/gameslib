@@ -6,6 +6,7 @@ import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema"
 import type { APMoveResult } from '../schemas/moveresults.js';
 import { APGameRecord } from "@abstractplay/recranks";
 import { algebraic2coords, coords2algebraic, replacer, sortingReplacer, UserFacingError } from '../common/index.js';
+import { resolveIncomingVariants, type ResolveIncomingVariantsMode } from '../common/variant-constraints.js';
 import _ from "lodash";
 import i18next from "i18next";
 import JSDstringify from 'json-stringify-deterministic';
@@ -266,6 +267,19 @@ export abstract class GameBase  {
         }
         return undefined;
     }
+
+    /**
+     * Apply declarative variant constraints from gameinfo on fresh game init.
+     * Do not call when deserializing saved state.
+     */
+    protected applyVariantConstraints(
+        incoming?: string[],
+        options?: { mode?: ResolveIncomingVariantsMode },
+    ): string[] {
+        const ctor = this.constructor as typeof GameBase;
+        return resolveIncomingVariants(ctor.gameinfo.variants, incoming, options);
+    }
+
     public allvariants(): Variant[] | undefined {
         const ctor = this.constructor as typeof GameBase;
         const variants: Variant[]|undefined = ctor.gameinfo.variants?.map(v => {return {
@@ -275,6 +289,10 @@ export abstract class GameBase  {
             "group": v.group,
             "experimental": v.experimental,
             "default": v.default,
+            "unrated": v.unrated,
+            "enabledWhen": v.enabledWhen,
+            "conflictsWith": v.conflictsWith,
+            "requires": v.requires,
         }});
         // add a `#` entry for each group, if not already present
         if (variants !== undefined) {

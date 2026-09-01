@@ -8,6 +8,7 @@
   { "slug": "structured-render-labels", "title": "Structured render labels" },
   { "slug": "sequenced-turn-model", "title": "Sequenced turn model" },
   { "slug": "flags" },
+  { "slug": "variants", "title": "Variants" },
   { "slug": "helpers" },
   { "slug": "helpers/rect-grid", "title": "RectGrid" },
   { "slug": "helpers/graphs", "title": "Graph classes" },

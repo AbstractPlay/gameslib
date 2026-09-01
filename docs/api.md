@@ -17,6 +17,8 @@ The root module (`src/index.ts`) exports the public API used by the front end an
 | `resolveLocale` | Map a browser/user language tag to a supported locale (e.g. `es-MX` → `es-US`) |
 | `GameBase`, `GameBaseSequenced`, `GameBaseSimultaneous`, `GameBaseSkipTurn` | Base classes for game authors |
 | `filterGameinfoForProduction`, `allowedChallengeVariantUids`, `assertAllowedChallengeVariants` | Production filtering for challenge metadata |
+| `validateVariantSelection`, `assertValidVariantSelection`, `sanitizeVariantSelection`, `evaluateAvailability`, `resolveIncomingVariants` | Declarative variant constraint evaluation — see [Variants](/gameslib/variants/) |
+| `assertChallengeVariantSelection`, `assertChallengeVariants` | Challenge API guards (combination + production allowlist) |
 | `TurnModel`, `IGamePly`, `IGameRound`, `IGameRoundSlot` | Turn-model types (`getPlies` / `getRounds`) |
 | `ChatActorRef`, `ChatLogLine`, `ChatLogEntry`, `ChatLogCollectContext`, `ChatLogTranslate` | Structured move-log types ([`chat-log.ts`](/gameslib/src/common/chat-log.ts)) |
 | `formatChatLogEntries`, `formatChatLogEntryNodes` | Format structured entries with i18n + seat display names |
@@ -37,7 +39,7 @@ Self-describing metadata per game, matching [`gameinfo.json`](https://github.com
 
 In production builds, `gameinfo` omits experimental games and experimental variants. Use `gameinfo` / `gameinfoSorted` variants for new challenges and tournaments. On a game instance, use `challengeVariants()` for the same filtered picker UI. Use `allvariants()` for historical games and in-game display of active variant uids.
 
-See [Flags](/gameslib/flags/) for flag semantics. Static `gameinfo.flags` is the default set; use `resolveGameFlags` or `game.getFlags()` when flags may vary by variant or player count.
+See [Flags](/gameslib/flags/) for flag semantics. Static `gameinfo.flags` is the default set; use `resolveGameFlags` or `game.getFlags()` when flags may vary by variant or player count. Variant **combinations** are separate — see [Variants](/gameslib/variants/).
 
 ## `resolveGameFlags`
 
@@ -76,6 +78,8 @@ Player-facing errors use `UserFacingError` with localized `client` messages.
 Games returned by `GameFactory` implement the [game object](/gameslib/game-object/) interface: `move`, `render`, `state`, `serialize`, UI hooks, turn model (`getPlies`, `getRounds`, `turnModel`), record export (`recordExportExclude`, `genRecord`), move log (`chatLogEntries`), and **`getFlags()`** for effective session flags.
 
 **Flags (consumers):** call `game.getFlags()` for optional UI (pie, stashes, check display, etc.). For challenge setup before an instance exists, use `resolveGameFlags(uid, { variants, numplayers })`. See [Flags](/gameslib/flags/).
+
+**Variants (consumers):** call `validateVariantSelection` or `evaluateAvailability` when building variant pickers; use `assertChallengeVariants` on the server for new challenges. See [Variants](/gameslib/variants/).
 
 **Move log (consumers):** call `formatChatLogEntryNodes(game.chatLogEntries(playerNames), playerNames, t)`. For solo games pass one human name. See [Structured move log](/gameslib/structured-chat-log/#consumer-integration).
 

@@ -93,8 +93,9 @@ export class ComplicaGame extends GameBase {
 
     /**
      * This is where you create a new game or load in an existing state handed to you by the front end. This is where you'd track variants, initialize your board, whatever else you need to do.
+     * Variant constraints: /gameslib/variants/
      */
-    constructor(state?: IComplicaState | string) {
+    constructor(state?: IComplicaState | string, variants?: string[]) {
         super();
         if (state === undefined) {
             const board = new Map<string, playerid>();
@@ -106,6 +107,9 @@ export class ComplicaGame extends GameBase {
                 board,
             };
             this.stack = [fresh];
+            if (variants !== undefined && variants.length > 0) {
+                this.variants = this.applyVariantConstraints(variants);
+            }
         } else {
             if (typeof state === "string") {
                 state = JSON.parse(state, reviver) as IComplicaState;

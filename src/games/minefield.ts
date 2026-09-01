@@ -65,7 +65,7 @@ export class MinefieldGame extends GameBase {
             { uid: "size-15", group: "board", default: true },
             { uid: "size-17", group: "board" },
             { uid: "size-19", group: "board" },
-            { uid: "pinwheel" },
+            { uid: "pinwheel", conflictsWith: ["cartwheel"] },
             // marked as experimental so it still shows up
             // in the variant list but not in the new challenge dialog
             { uid: "cartwheel", experimental: true}
@@ -96,7 +96,7 @@ export class MinefieldGame extends GameBase {
         super();
         if (state === undefined) {
             if (variants !== undefined) {
-                this.variants = [...variants];
+                this.variants = this.applyVariantConstraints(variants);
             }
             const board = new Map<string, playerid>();
             const fresh: IMoveState = {

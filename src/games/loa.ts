@@ -58,7 +58,8 @@ export class LinesOfActionGame extends GameBase {
             { uid: "hex6", group: "board" },
             {
                 uid: "scrambled",
-                group: "setup"
+                group: "setup",
+                enabledWhen: { board: ["#board", "classic"] },
             },
         ],
         categories: ["goal>unify", "mechanic>capture", "mechanic>move", "board>shape>rect", "board>shape>hex", "board>connect>rect", "board>connect>hex", "components>simple>1per"],
@@ -79,10 +80,7 @@ export class LinesOfActionGame extends GameBase {
         super();
         if (state === undefined) {
             if ( (variants !== undefined) && (variants.length > 0) ) {
-                this.variants = [...variants];
-                if (this.variants.includes("hex5")) {
-                    this.variants = this.variants.filter(v => v !== "scrambled");
-                }
+                this.variants = this.applyVariantConstraints(variants);
             }
             let board: Map<string,playerid>;
             if (this.variants.includes("classic")) {

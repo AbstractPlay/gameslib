@@ -47,7 +47,7 @@ Do **not** override `moveHistory()` for export fixes — bots and legacy tests d
 {
   game: string;        // uid
   numplayers: number;
-  variants: string[];
+  variants: string[];  // active variant uids — see [Variants](/gameslib/variants/)
   gameover: boolean;
   winner: number[];
   stack: IIndividualState[];

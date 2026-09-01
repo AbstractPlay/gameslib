@@ -147,6 +147,20 @@ export interface Variant {
    * If present and `true`, the variant will not appear in the production environment.
    */
   experimental?: boolean;
+  /**
+   * If present, this variant is only selectable when every listed radio group's current value is one of the allowed uids (include `#[group]` for the default choice).
+   */
+  enabledWhen?: {
+    [k: string]: string[];
+  };
+  /**
+   * If present, this variant cannot be selected while any listed variant uid is active. Evaluators treat conflicts as symmetric.
+   */
+  conflictsWith?: string[];
+  /**
+   * If present, this variant is only selectable when all listed variant uids are also active.
+   */
+  requires?: string[];
   [k: string]: unknown;
 }
 export interface AlternativeDisplay {

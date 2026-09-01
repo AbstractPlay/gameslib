@@ -14,6 +14,8 @@ import {
     filterGameinfoForProduction,
     allowedChallengeVariantUids,
     assertAllowedChallengeVariants,
+    assertChallengeVariantSelection,
+    assertChallengeVariants,
 } from "./games/_gameinfo-filter.js";
 
 export {
@@ -30,9 +32,12 @@ export {
     filterGameinfoForProduction,
     allowedChallengeVariantUids,
     assertAllowedChallengeVariants,
+    assertChallengeVariantSelection,
+    assertChallengeVariants,
 };
 export type { IAPGameState, FlagContext, GameFlag } from "./games/index.js";
 export type { APMoveResult, APGamesInformation };
+export type { Variant } from "./schemas/gameinfo.js";
 export type { TurnModel, IGamePly, IGameRound, IGameRoundSlot } from "./games/_turn-model.js";
 export type {
     SoloOutcomeType,
@@ -45,6 +50,24 @@ export {
     computeElapsedMs,
     soloScoreDirection,
 } from "./games/_solo-outcome.js";
+export {
+    resolveVariantGroups,
+    resolveSelection,
+    isVariantSelectable,
+    evaluateAvailability,
+    validateVariantSelection,
+    sanitizeVariantSelection,
+    assertValidVariantSelection,
+    resolveIncomingVariants,
+} from "./common/variant-constraints.js";
+export type {
+    ResolveIncomingVariantsMode,
+    VariantConstraintReason,
+    VariantConstraintError,
+    VariantAvailability,
+    VariantSelectionState,
+    ValidateVariantSelectionResult,
+} from "./common/variant-constraints.js";
 export {
     GameRng,
     generateChallengeSeed,

@@ -1,5 +1,5 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IRenderOpts } from "./_base.js";
-import { APGamesInformation, Variant } from "../schemas/gameinfo.js";
+import { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, Glyph, IsoPiece, MarkerGlyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { allDirections, RectGrid, reviver, UserFacingError } from "../common/index.js";
@@ -78,14 +78,7 @@ export class ZolaGame extends GameBase {
         super();
         if (state === undefined) {
             if ( (variants !== undefined) && (variants.length > 0) && (variants[0] !== "") ) {
-                const varInfo: (Variant|undefined)[] = variants.map(v => ZolaGame.gameinfo.variants!.find(n => n.uid === v));
-                if (varInfo.includes(undefined)) {
-                    throw new Error("Invalid variant passed.");
-                }
-                if (varInfo.filter(v => v?.group === "board").length > 1) {
-                    throw new Error("You can't select two board variants.")
-                }
-                this.variants = [...variants];
+                this.variants = this.applyVariantConstraints(variants);
             }
             this.boardSize = 6;
             if (this.variants.includes("8x8")) {

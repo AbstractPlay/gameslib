@@ -10,6 +10,7 @@ Cross-index of helpers and modules to games that import them. Auto-generated fro
 
 | Helper / module | Example games |
 | --- | --- |
+| **Incompatible variant combinations** | [Lines of Action](https://play.abstractplay.com/games/loa), [Druid](https://play.abstractplay.com/games/druid), [Magnate](https://play.abstractplay.com/games/magnate), [Minefield](https://play.abstractplay.com/games/minefield) — see [Variants](/gameslib/variants/) |
 | **Custom move log lines** | [Minimize](https://play.abstractplay.com/games/minimize), [Frogger](https://play.abstractplay.com/games/frogger), [El Oso](https://play.abstractplay.com/games/elOso), [Byte](https://play.abstractplay.com/games/byte) |
 | **Simultaneous move log** | [Strings](https://play.abstractplay.com/games/strings), [Entropy](https://play.abstractplay.com/games/entropy), [Frames](https://play.abstractplay.com/games/frames) |
 | **Aggregated move log** | [Volcano](https://play.abstractplay.com/games/volcano), [Fanorona](https://play.abstractplay.com/games/fanorona), [Epaminondas](https://play.abstractplay.com/games/epam), [Fendo](https://play.abstractplay.com/games/fendo), [Chase](https://play.abstractplay.com/games/chase) |

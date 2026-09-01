@@ -71,6 +71,24 @@
                     "description": "If present and `true`, the variant will not appear in the production environment.",
                     "type": "boolean",
                     "default": false
+                },
+                "enabledWhen": {
+                    "description": "If present, this variant is only selectable when every listed radio group's current value is one of the allowed uids (include `#[group]` for the default choice).",
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "array",
+                        "items": { "type": "string" }
+                    }
+                },
+                "conflictsWith": {
+                    "description": "If present, this variant cannot be selected while any listed variant uid is active. Evaluators treat conflicts as symmetric.",
+                    "type": "array",
+                    "items": { "type": "string" }
+                },
+                "requires": {
+                    "description": "If present, this variant is only selectable when all listed variant uids are also active.",
+                    "type": "array",
+                    "items": { "type": "string" }
                 }
             },
             "required": ["uid"]

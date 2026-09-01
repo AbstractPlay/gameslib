@@ -5,7 +5,10 @@ import {
     filterGameinfoForProduction,
     allowedChallengeVariantUids,
     assertAllowedChallengeVariants,
+    assertChallengeVariantSelection,
 } from "../src/games/_gameinfo-filter";
+import { LinesOfActionGame } from "../src/games/loa";
+import { UserFacingError } from "../src/common/errors";
 import { EXPERIMENTAL_VARIANT_UIDS_BY_GAME } from "../src/games/_registry-filter.generated";
 import { APGAMES_PRODUCTION } from "../src/games/_build-flags.generated";
 
@@ -69,5 +72,12 @@ describe("registry experimental variant filtering", () => {
         } else {
             expect(challenge.map((v) => v.uid)).to.deep.equal(all.map((v) => v.uid));
         }
+    });
+
+    it("assertChallengeVariantSelection rejects invalid LOA combinations", () => {
+        expect(() =>
+            assertChallengeVariantSelection(LinesOfActionGame.gameinfo, ["hex5", "scrambled"]),
+        ).to.throw(UserFacingError, "INVALID_VARIANT_COMBINATION");
+        assertChallengeVariantSelection(LinesOfActionGame.gameinfo, ["classic", "scrambled"]);
     });
 });

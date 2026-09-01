@@ -94,7 +94,11 @@ export class DruidGame extends GameBase {
             { uid: "hex-4", group: "board" },
             { uid: "hex-5", group: "board" },
             { uid: "hex-6", group: "board" },
-            { uid: "walk", group: "ruleset" },
+            {
+                uid: "walk",
+                group: "ruleset",
+                enabledWhen: { board: ["#board", "size-8", "size-12"] },
+            },
         ],
         displays: [{ uid: "flat" }],
         categories: ["goal>connect", "mechanic>place", "mechanic>move", "board>3d", "board>shape>rect", "board>connect>rect", "components>special"],
@@ -124,9 +128,8 @@ export class DruidGame extends GameBase {
         super();
         if (state === undefined) {
             if (variants !== undefined && variants.length > 0) {
-                this.variants = [...variants];
+                this.variants = this.applyVariantConstraints(variants);
             }
-            this.sanitizeVariants();
             const fresh: IMoveState = {
                 _version: DruidGame.gameinfo.version,
                 _results: [],
@@ -152,7 +155,6 @@ export class DruidGame extends GameBase {
             this.variants = [...state.variants];
             this.stack = [...state.stack];
         }
-        this.sanitizeVariants();
         this.configureBoard();
         this.load();
     }
@@ -170,13 +172,6 @@ export class DruidGame extends GameBase {
             return "hex";
         }
         return "rect";
-    }
-
-    /** Druid's Walk applies only to the rectangular board. */
-    private sanitizeVariants(): void {
-        if (this.boardMode() !== "rect") {
-            this.variants = this.variants.filter(v => v !== "walk");
-        }
     }
 
     private isWalk(): boolean {

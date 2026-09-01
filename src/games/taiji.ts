@@ -1,5 +1,5 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base.js";
-import { APGamesInformation, Variant } from "../schemas/gameinfo.js";
+import { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError } from "../common/index.js";
@@ -93,17 +93,7 @@ export class TaijiGame extends GameBase {
         if (state === undefined) {
             const board = new Map<string, playerid>();
             if ( (variants !== undefined) && (variants.length > 0) && (variants[0] !== "") ) {
-                const varInfo: (Variant|undefined)[] = variants.map(v => TaijiGame.gameinfo.variants!.find(n => n.uid === v));
-                if (varInfo.includes(undefined)) {
-                    throw new Error("Invalid variant passed.");
-                }
-                if (varInfo.filter(v => v?.group === "board").length > 1) {
-                    throw new Error("You can't select two board variants.")
-                }
-                if (varInfo.filter(v => v?.group === "scoring").length > 1) {
-                    throw new Error("You can't select two scoring variants.")
-                }
-                this.variants = [...variants];
+                this.variants = this.applyVariantConstraints(variants);
             }
             const fresh: IMoveState = {
                 _version: TaijiGame.gameinfo.version,

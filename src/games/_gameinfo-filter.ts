@@ -1,5 +1,6 @@
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { UserFacingError } from "../common/index.js";
+import { assertValidVariantSelection } from "../common/variant-constraints.js";
 import { APGAMES_PRODUCTION } from "./_build-flags.generated.js";
 import { EXPERIMENTAL_VARIANT_UIDS_BY_GAME } from "./_registry-filter.generated.js";
 
@@ -48,4 +49,25 @@ export function assertAllowedChallengeVariants(info: APGamesInformation, variant
             `Variant(s) not allowed: ${disallowed.join(", ")}`,
         );
     }
+}
+
+/**
+ * Reject variant combinations that violate declarative constraints in gameinfo.
+ */
+export function assertChallengeVariantSelection(
+    info: APGamesInformation,
+    variantUids: string[],
+): void {
+    assertValidVariantSelection(info.variants, variantUids);
+}
+
+/**
+ * Production allowlist plus declarative combination checks for new challenges.
+ */
+export function assertChallengeVariants(
+    info: APGamesInformation,
+    variantUids: string[],
+): void {
+    assertAllowedChallengeVariants(info, variantUids);
+    assertChallengeVariantSelection(info, variantUids);
 }

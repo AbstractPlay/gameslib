@@ -94,7 +94,7 @@ export class MagnateGame extends GameBase {
             { uid: "courtpawns" }, //courts for pawns
             { uid: "deucey" }, //ace scoring variant
             { uid: "mega" }, //double deck double hand
-            { uid: "stacked" }, //stacking the deck(s)
+            { uid: "stacked", requires: ["mega"] }, //stacking the deck(s)
             { uid: "taxtax" }, //double taxation
         ],
         categories: ["goal>area", "goal>score>eog", "mechanic>place", "mechanic>economy", "mechanic>hidden", "mechanic>random>play", "board>none", "components>decktet"],
@@ -137,7 +137,7 @@ export class MagnateGame extends GameBase {
         super();
         if (state === undefined) {
             if (variants !== undefined) {
-                this.variants = [...variants];
+                this.variants = this.applyVariantConstraints(variants);
             }
 
             if (this.variants.includes("courtpawns")) {

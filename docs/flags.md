@@ -50,7 +50,7 @@ public static resolveFlags(context: FlagContext = {}): readonly GameFlag[] {
 | `aiai` | AiAi bot support (`state2aiai`, `translateAiai`) |
 | `experimental` | Omitted from production registry and `gameinfo` export |
 
-Variants marked `experimental: true` in `gameinfo.variants` are omitted from production `gameinfo` exports and from `challengeVariants()`, but remain in `allvariants()` for historical games.
+Variants marked `experimental: true` in `gameinfo.variants` are omitted from production `gameinfo` exports and from `challengeVariants()`, but remain in `allvariants()` for historical games. Incompatible variant **combinations** are declared separately — see [Variants](/gameslib/variants/).
 
 ### 2. Capability (typically static; optional game methods)
 

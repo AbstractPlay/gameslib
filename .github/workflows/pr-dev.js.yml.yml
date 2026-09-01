@@ -48,6 +48,8 @@ jobs:
         - run: cat package-lock.json
         - run: npm test --if-present
         - name: Checkout docs site
+          # Fork PRs do not receive repo secrets (only GITHUB_TOKEN); skip docs checkout.
+          if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
           uses: actions/checkout@v4
           with:
             repository: AbstractPlay/docs
@@ -55,6 +57,7 @@ jobs:
             token: ${{ secrets.PAT_READ_PACKAGES }}
             submodules: recursive
         - name: Docs link check
+          if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
           env:
             AP_DOCS_ROOT: _ap_docs
           run: npm run docs:check

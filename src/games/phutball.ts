@@ -634,7 +634,7 @@ export class PhutballGame extends GameBase {
                     {
                         type: "label",
                         belowGrid: true,
-                        label: "⇧ player 1 ⇧",
+                        label: this.seatAreaLabel(1, "apgames:validation.phutball.LABEL_GOAL"),
                         points: [
                             { row: 15.1, col: 0 },
                             { row: 15.1, col: 14 },
@@ -646,7 +646,7 @@ export class PhutballGame extends GameBase {
                     {
                         type: "label",
                         belowGrid: true,
-                        label: "⇧ player 2 ⇧",
+                        label: this.seatAreaLabel(2, "apgames:validation.phutball.LABEL_GOAL"),
                         points: [
                             { row: 2.9, col: 14 },
                             { row: 2.9, col: 0 },

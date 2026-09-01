@@ -6431,6 +6431,7 @@
             "CAN_JUMP_MORE": "Looks good so far. Either complete your move or keep jumping",
             "CANT_JUMP": "You selected the ball, but there are no jumps available",
             "INITIAL_INSTRUCTIONS": "Place a player at an empty vertex or jump the ball over adjacent players.",
+            "LABEL_GOAL": "⇧ {{player}} ⇧",
             "MUST_JUMP_PLAYER": "You can only jump over players, not empty vertices. There is no player at {{cell}}",
             "NO_BALL_HERE": "Jumping must start at the ball. There is no ball at {{cell}}.",
             "NO_MOVE": "You must jump over at least one player.",

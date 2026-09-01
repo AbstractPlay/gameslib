@@ -6489,6 +6489,7 @@
       "CAN_JUMP_MORE": "Tout semble correct jusqu'ici. Terminez votre coup ou continuez de sauter",
       "CANT_JUMP": "Vous avez sélectionné le ballon, mais aucun saut n'est disponible",
       "INITIAL_INSTRUCTIONS": "Placez un joueur sur un sommet vide ou faites sauter le ballon par-dessus des joueurs adjacents.",
+      "LABEL_GOAL": "⇧ {{player}} ⇧",
       "MUST_JUMP_PLAYER": "Vous ne pouvez sauter que par-dessus des joueurs, pas des sommets vides. Il n'y a pas de joueur en {{cell}}",
       "NO_BALL_HERE": "Un saut doit commencer à partir du ballon. Il n'y a pas de ballon en {{cell}}.",
       "NO_MOVE": "Vous devez sauter par-dessus au moins un joueur.",

@@ -8879,6 +8879,10 @@
     "src": "Place a player at an empty vertex or jump the ball over adjacent players.",
     "out": "Placez un joueur sur un sommet vide ou faites sauter le ballon par-dessus des joueurs adjacents."
   },
+  "validation.phutball.LABEL_GOAL": {
+    "src": "⇧ {{player}} ⇧",
+    "out": "⇧ {{player}} ⇧"
+  },
   "validation.phutball.MUST_JUMP_PLAYER": {
     "src": "You can only jump over players, not empty vertices. There is no player at {{cell}}",
     "out": "Vous ne pouvez sauter que par-dessus des joueurs, pas des sommets vides. Il n'y a pas de joueur en {{cell}}"

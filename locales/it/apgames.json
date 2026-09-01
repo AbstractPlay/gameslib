@@ -6489,6 +6489,7 @@
       "CAN_JUMP_MORE": "Sembra valido finora. Completa la tua mossa oppure continua a saltare",
       "CANT_JUMP": "Hai selezionato la palla, ma non ci sono salti disponibili",
       "INITIAL_INSTRUCTIONS": "Piazza un giocatore su un vertice vuoto o fai saltare la palla sopra i giocatori adiacenti.",
+      "LABEL_GOAL": "⇧ {{player}} ⇧",
       "MUST_JUMP_PLAYER": "Puoi saltare solo sopra i giocatori, non sui vertici vuoti. Non c'è alcun giocatore in {{cell}}",
       "NO_BALL_HERE": "Il salto deve iniziare dalla palla. Non c'è alcuna palla in {{cell}}.",
       "NO_MOVE": "Devi saltare sopra almeno un giocatore.",

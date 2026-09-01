@@ -6489,6 +6489,7 @@
       "CAN_JUMP_MORE": "Se ve bien por ahora. Completa tu movimiento o sigue saltando",
       "CANT_JUMP": "Seleccionaste el balón, pero no hay saltos disponibles",
       "INITIAL_INSTRUCTIONS": "Coloca un jugador en un vértice vacío o salta el balón sobre jugadores adyacentes.",
+      "LABEL_GOAL": "⇧ {{player}} ⇧",
       "MUST_JUMP_PLAYER": "Solo puedes saltar sobre jugadores, no sobre vértices vacíos. No hay ningún jugador en {{cell}}",
       "NO_BALL_HERE": "El salto debe comenzar en el balón. No hay ningún balón en {{cell}}.",
       "NO_MOVE": "Debes saltar sobre al menos un jugador.",

@@ -6489,6 +6489,7 @@
       "CAN_JUMP_MORE": "Sieht bisher gut aus. Schließe deinen Zug ab oder springe weiter.",
       "CANT_JUMP": "Du hast den Ball ausgewählt, aber es sind keine Sprünge verfügbar.",
       "INITIAL_INSTRUCTIONS": "Platziere einen Spieler auf einem leeren Schnittpunkt oder überspringe mit dem Ball benachbarte Spieler.",
+      "LABEL_GOAL": "⇧ {{player}} ⇧",
       "MUST_JUMP_PLAYER": "Du kannst nur über Spieler springen, nicht über leere Schnittpunkte. Auf {{cell}} befindet sich kein Spieler.",
       "NO_BALL_HERE": "Das Springen muss beim Ball beginnen. Auf {{cell}} befindet sich kein Ball.",
       "NO_MOVE": "Du musst über mindestens einen Spieler springen.",

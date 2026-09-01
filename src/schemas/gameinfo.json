@@ -89,6 +89,16 @@
                     "description": "If present, this variant is only selectable when all listed variant uids are also active.",
                     "type": "array",
                     "items": { "type": "string" }
+                },
+                "implies": {
+                    "description": "If present, selecting this variant causes the listed uids to be added during sanitize (UI auto-select). Does not apply in assert/API validation.",
+                    "type": "array",
+                    "items": { "type": "string" }
+                },
+                "impliesLock": {
+                    "description": "If true with `implies`, implied variants cannot be deselected while this variant is active; sanitize re-adds them.",
+                    "type": "boolean",
+                    "default": false
                 }
             },
             "required": ["uid"]

@@ -3,7 +3,13 @@ import { UserFacingError } from "./errors.js";
 
 export type ResolveIncomingVariantsMode = "sanitize" | "assert";
 
-export type VariantConstraintReason = "enabledWhen" | "requires" | "conflictsWith" | "duplicateGroup" | "unknown";
+export type VariantConstraintReason =
+    | "enabledWhen"
+    | "requires"
+    | "conflictsWith"
+    | "duplicateGroup"
+    | "unknown"
+    | "impliesLock";
 
 export interface VariantConstraintError {
     uid: string;
@@ -114,7 +120,68 @@ function enabledWhenPasses(def: Variant, groupChoice: Record<string, string>): b
     return true;
 }
 
-function constraintReasonsForUid(
+/** State if the user selected this uid (radio choice or checkbox on). */
+function hypotheticalSelectState(
+    uid: string,
+    variants: Variant[] | undefined,
+    active: string[],
+    groupChoice: Record<string, string>,
+): VariantSelectionState {
+    const byUid = variantByUid(variants);
+    const def = byUid.get(uid);
+    if (def?.group !== undefined) {
+        const nextGroupChoice = { ...groupChoice, [def.group]: uid };
+        const nextActive = active.filter((u) => byUid.get(u)?.group !== def.group);
+        if (!uid.startsWith("#")) {
+            nextActive.push(uid);
+        }
+        return { active: nextActive, groupChoice: nextGroupChoice };
+    }
+    if (active.includes(uid)) {
+        return { active: [...active], groupChoice: { ...groupChoice } };
+    }
+    return { active: [...active, uid], groupChoice: { ...groupChoice } };
+}
+
+function enabledWhenBackpressureReasons(
+    variants: Variant[] | undefined,
+    active: string[],
+    groupChoice: Record<string, string>,
+): VariantConstraintReason[] {
+    const byUid = variantByUid(variants);
+    for (const uid of active) {
+        const activeDef = byUid.get(uid);
+        if (activeDef?.enabledWhen === undefined) {
+            continue;
+        }
+        if (!enabledWhenPasses(activeDef, groupChoice)) {
+            return ["enabledWhen"];
+        }
+    }
+    return [];
+}
+
+function isImpliedLocked(
+    variants: Variant[] | undefined,
+    uid: string,
+    active: string[],
+): boolean {
+    const activeSet = new Set(active);
+    if (!activeSet.has(uid)) {
+        return false;
+    }
+    for (const trigger of variants ?? []) {
+        if (!activeSet.has(trigger.uid) || trigger.implies === undefined) {
+            continue;
+        }
+        if (trigger.impliesLock && trigger.implies.includes(uid)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function forwardConstraintReasonsForUid(
     uid: string,
     variants: Variant[] | undefined,
     active: string[],
@@ -143,6 +210,64 @@ function constraintReasonsForUid(
         }
     }
     return reasons;
+}
+
+function constraintReasonsForState(
+    uid: string,
+    variants: Variant[] | undefined,
+    active: string[],
+    groupChoice: Record<string, string>,
+): VariantConstraintReason[] {
+    const byUid = variantByUid(variants);
+    const def = byUid.get(uid);
+    if (def === undefined) {
+        return [];
+    }
+    const reasons: VariantConstraintReason[] = [];
+    const activeSet = new Set(active);
+
+    if (!enabledWhenPasses(def, groupChoice)) {
+        reasons.push("enabledWhen");
+    }
+    reasons.push(...enabledWhenBackpressureReasons(variants, active, groupChoice));
+    for (const req of def.requires ?? []) {
+        if (!activeSet.has(req)) {
+            reasons.push("requires");
+        }
+    }
+    for (const conflict of symmetricConflicts(variants, uid)) {
+        if (activeSet.has(conflict)) {
+            reasons.push("conflictsWith");
+            break;
+        }
+    }
+    return reasons;
+}
+
+function constraintReasonsForUid(
+    uid: string,
+    variants: Variant[] | undefined,
+    active: string[],
+    groupChoice: Record<string, string>,
+): VariantConstraintReason[] {
+    const byUid = variantByUid(variants);
+    const def = byUid.get(uid);
+    const isActive = active.includes(uid);
+
+    if (def?.group !== undefined) {
+        const hypo = hypotheticalSelectState(uid, variants, active, groupChoice);
+        return constraintReasonsForState(uid, variants, hypo.active, hypo.groupChoice);
+    }
+
+    if (isActive) {
+        if (isImpliedLocked(variants, uid, active)) {
+            return ["impliesLock"];
+        }
+        return constraintReasonsForState(uid, variants, active, groupChoice);
+    }
+
+    const hypo = hypotheticalSelectState(uid, variants, active, groupChoice);
+    return constraintReasonsForState(uid, variants, hypo.active, hypo.groupChoice);
 }
 
 /**
@@ -217,7 +342,7 @@ export function validateVariantSelection(
             errors.push({ uid, reason: "unknown" });
             continue;
         }
-        for (const reason of constraintReasonsForUid(uid, variants, active, groupChoice)) {
+        for (const reason of forwardConstraintReasonsForUid(uid, variants, active, groupChoice)) {
             errors.push({ uid, reason });
         }
     }
@@ -248,16 +373,47 @@ function resolveConflictsKeepLast(variants: Variant[] | undefined, uids: string[
     return uids.filter((u) => !toRemove.has(u));
 }
 
-/**
- * Keep the last-listed uid per radio group; drop uids that violate constraints.
- */
-export function sanitizeVariantSelection(
-    variants: Variant[] | undefined,
-    activeUids: string[] | undefined,
-): string[] {
+function applyImplies(variants: Variant[] | undefined, uids: string[]): string[] {
     const byUid = variantByUid(variants);
-    let uids = (activeUids ?? []).filter((u) => !u.startsWith("#"));
+    const next = [...uids];
+    const activeSet = new Set(next);
+    let changed = true;
+    while (changed) {
+        changed = false;
+        for (const uid of [...next]) {
+            for (const implied of byUid.get(uid)?.implies ?? []) {
+                if (!activeSet.has(implied)) {
+                    next.push(implied);
+                    activeSet.add(implied);
+                    changed = true;
+                }
+            }
+        }
+    }
+    return next;
+}
 
+function applyImpliesLock(variants: Variant[] | undefined, uids: string[]): string[] {
+    const byUid = variantByUid(variants);
+    const next = [...uids];
+    const activeSet = new Set(next);
+    for (const uid of next) {
+        const def = byUid.get(uid);
+        if (def?.impliesLock !== true || def.implies === undefined) {
+            continue;
+        }
+        for (const implied of def.implies) {
+            if (!activeSet.has(implied)) {
+                next.push(implied);
+                activeSet.add(implied);
+            }
+        }
+    }
+    return next;
+}
+
+function dedupeRadioGroups(variants: Variant[] | undefined, uids: string[]): string[] {
+    const byUid = variantByUid(variants);
     const lastIndexByGroup = new Map<string, number>();
     uids.forEach((uid, index) => {
         const group = byUid.get(uid)?.group;
@@ -265,25 +421,53 @@ export function sanitizeVariantSelection(
             lastIndexByGroup.set(group, index);
         }
     });
-    uids = uids.filter((uid, index) => {
+    return uids.filter((uid, index) => {
         const group = byUid.get(uid)?.group;
         if (group === undefined) {
             return true;
         }
         return lastIndexByGroup.get(group) === index;
     });
+}
 
+function pruneInvalidUids(variants: Variant[] | undefined, uids: string[]): string[] {
+    const { active, groupChoice } = resolveSelection(variants, uids);
+    return active.filter(
+        (uid) =>
+            forwardConstraintReasonsForUid(uid, variants, active, groupChoice).length === 0,
+    );
+}
+
+/**
+ * Keep the last-listed uid per radio group; drop uids that violate constraints.
+ */
+export function sanitizeVariantSelection(
+    variants: Variant[] | undefined,
+    activeUids: string[] | undefined,
+): string[] {
+    let uids = (activeUids ?? []).filter((u) => !u.startsWith("#"));
+    uids = dedupeRadioGroups(variants, uids);
     uids = resolveConflictsKeepLast(variants, uids);
 
     let changed = true;
-    while (changed) {
+    let passes = 0;
+    const maxPasses = 32;
+    while (changed && passes < maxPasses) {
+        passes++;
         changed = false;
-        const { active, groupChoice } = resolveSelection(variants, uids);
-        const next = active.filter(
-            (uid) => constraintReasonsForUid(uid, variants, active, groupChoice).length === 0,
-        );
-        if (next.length !== uids.length || next.some((u, i) => u !== uids[i])) {
-            uids = next;
+        const withImplies = applyImplies(variants, uids);
+        if (withImplies.length !== uids.length || withImplies.some((u, i) => u !== uids[i])) {
+            uids = withImplies;
+            changed = true;
+        }
+        const locked = applyImpliesLock(variants, uids);
+        if (locked.length !== uids.length || locked.some((u, i) => u !== uids[i])) {
+            uids = locked;
+            changed = true;
+        }
+        const pruned = pruneInvalidUids(variants, uids);
+        if (pruned.length !== uids.length || pruned.some((u, i) => u !== uids[i])) {
+            uids = pruned;
             changed = true;
         }
     }

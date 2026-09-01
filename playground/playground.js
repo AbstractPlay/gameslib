@@ -2374,13 +2374,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
             fieldset.appendChild(legend);
 
             nonGrouped.forEach(variant => {
-                selectedNonGroupVariants[variant.uid] = false;
+                const defaultChecked = variant.default === true;
+                selectedNonGroupVariants[variant.uid] = defaultChecked;
 
                 const div = document.createElement('div');
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
                 checkbox.value = variant.uid;
                 checkbox.id = `variant_${variant.uid}`;
+                checkbox.checked = defaultChecked;
 
                 const label = document.createElement('label');
                 label.htmlFor = checkbox.id;

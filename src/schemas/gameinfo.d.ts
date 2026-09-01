@@ -161,6 +161,14 @@ export interface Variant {
    * If present, this variant is only selectable when all listed variant uids are also active.
    */
   requires?: string[];
+  /**
+   * If present, selecting this variant causes the listed uids to be added during sanitize (UI auto-select). Does not apply in assert/API validation.
+   */
+  implies?: string[];
+  /**
+   * If true with `implies`, implied variants cannot be deselected while this variant is active; sanitize re-adds them.
+   */
+  impliesLock?: boolean;
   [k: string]: unknown;
 }
 export interface AlternativeDisplay {

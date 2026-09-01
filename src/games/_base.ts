@@ -293,6 +293,8 @@ export abstract class GameBase  {
             "enabledWhen": v.enabledWhen,
             "conflictsWith": v.conflictsWith,
             "requires": v.requires,
+            "implies": v.implies,
+            "impliesLock": v.impliesLock,
         }});
         // add a `#` entry for each group, if not already present
         if (variants !== undefined) {

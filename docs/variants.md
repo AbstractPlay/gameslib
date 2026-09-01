@@ -12,7 +12,7 @@ Each entry in `gameinfo.variants` is a `Variant` object (see [`gameinfo.json`](/
 |-------|---------|
 | `uid` | Stable identifier stored in `state.variants` and sent to the API |
 | `group` | When present, mutually exclusive with other variants in the same group (radio UI) |
-| `default` | `true` on the default radio choice for that group |
+| `default` | `true` on the default radio choice for that group, or on a checkbox to start checked in the challenge picker |
 | `#group` sentinel | `{ uid: "#board" }` marks the implicit default for group `board` when no member uid is in the submitted array |
 | `experimental` | Omitted from production `gameinfo` and `challengeVariants()` (see [Flags](/gameslib/flags/)) |
 | `unrated` | Challenge is not rated when this variant is active |
@@ -33,9 +33,11 @@ Each entry in `gameinfo.variants` is a `Variant` object (see [`gameinfo.json`](/
 
 | Field | Type | Meaning |
 |-------|------|---------|
-| `enabledWhen` | `Record<group, uid[]>` | Selectable only when every listed group's current choice is in the allowed list (include `#group` for default) |
+| `enabledWhen` | `Record<group, uid[]>` | Selectable only when every listed group's current choice is in the allowed list (include `#group` for default). **Back-pressure:** while this variant is active, options in gated groups that would violate its `enabledWhen` are disabled in the UI. |
 | `conflictsWith` | `uid[]` | Not selectable while any listed uid is active (evaluator treats this as **symmetric**) |
 | `requires` | `uid[]` | Selectable only when all listed uids are also active |
+| `implies` | `uid[]` | When this variant is active, `sanitize` / the picker add the listed uids (soft auto-select). Not applied in API `assert` validation. |
+| `impliesLock` | `boolean` | With `implies`: implied checkboxes cannot be unchecked while this variant is active; sanitize re-adds them. |
 
 **Evaluation rule** (all must pass for a uid to be selectable):
 
@@ -64,7 +66,7 @@ variants: [
 ],
 ```
 
-`scrambled` is not offered when `hex5` or `hex6` is the board choice.
+`scrambled` is not offered when `hex5` or `hex6` is the board choice. While `scrambled` is active, hex boards are disabled automatically (back-pressure from `enabledWhen` — no extra metadata on hex variants).
 
 ### Druid — optional rule gated by board shape
 
@@ -106,6 +108,15 @@ variants: [
 ```
 
 `stacked` only affects deck split when `mega` is also active.
+
+### Auto-select — `implies` / `impliesLock`
+
+```typescript
+{ uid: "mega", implies: ["stacked"], impliesLock: true },
+{ uid: "stacked", requires: ["mega"] },
+```
+
+Selecting `mega` auto-checks `stacked`. With `impliesLock`, the user cannot uncheck `stacked` while `mega` remains on.
 
 ### Minefield — redundant tile sets
 
@@ -191,7 +202,7 @@ Exported from `@abstractplay/gameslib` (detail in [API](/gameslib/api/)):
 
 `applyVariantConstraints(incoming?, options?)` is a **protected** method on `GameBase` — not part of the package export surface.
 
-On a game instance, `allvariants()` and `challengeVariants()` pass constraint metadata (`enabledWhen`, `conflictsWith`, `requires`, `unrated`) to the front end.
+On a game instance, `allvariants()` and `challengeVariants()` pass constraint metadata (`enabledWhen`, `conflictsWith`, `requires`, `implies`, `impliesLock`, `unrated`) to the front end.
 
 ## i18n
 

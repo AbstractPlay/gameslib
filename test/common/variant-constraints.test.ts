@@ -48,6 +48,16 @@ const conflictVariants: Variant[] = [
     { uid: "beginner", conflictsWith: ["advanced"] },
 ];
 
+const impliesVariants: Variant[] = [
+    { uid: "mega", implies: ["stacked"] },
+    { uid: "stacked", requires: ["mega"] },
+];
+
+const impliesLockVariants: Variant[] = [
+    { uid: "mega", implies: ["stacked"], impliesLock: true },
+    { uid: "stacked", requires: ["mega"] },
+];
+
 describe("variant-constraints", () => {
     describe("resolveSelection", () => {
         it("uses #group sentinel when no group member is active", () => {
@@ -70,6 +80,15 @@ describe("variant-constraints", () => {
                 "classic",
                 "scrambled",
             ]);
+        });
+
+        it("LOA: back-pressure disables hex boards while scrambled is active", () => {
+            expect(isVariantSelectable("hex5", loaVariants, ["classic", "scrambled"])).to.be.false;
+            expect(isVariantSelectable("hex6", loaVariants, ["classic", "scrambled"])).to.be.false;
+            expect(isVariantSelectable("classic", loaVariants, ["classic", "scrambled"])).to.be.true;
+            const map = evaluateAvailability(loaVariants, ["classic", "scrambled"]);
+            expect(map.get("hex5")?.selectable).to.be.false;
+            expect(map.get("hex5")?.reasons).to.include("enabledWhen");
         });
 
         it("Druid: walk stripped on hex board", () => {
@@ -108,6 +127,43 @@ describe("variant-constraints", () => {
             expect(sanitizeVariantSelection(conflictVariants, ["advanced", "beginner"])).to.deep.equal([
                 "beginner",
             ]);
+        });
+    });
+
+    describe("implies", () => {
+        it("sanitize adds implied uids when trigger is active", () => {
+            expect(sanitizeVariantSelection(impliesVariants, ["mega"])).to.deep.equal([
+                "mega",
+                "stacked",
+            ]);
+        });
+
+        it("does not add implied uids in assert validation", () => {
+            expect(validateVariantSelection(impliesVariants, ["mega"]).ok).to.be.true;
+        });
+
+        it("soft implies re-adds on sanitize but does not lock the checkbox", () => {
+            expect(sanitizeVariantSelection(impliesVariants, ["mega"])).to.deep.equal([
+                "mega",
+                "stacked",
+            ]);
+            const map = evaluateAvailability(impliesVariants, ["mega", "stacked"]);
+            expect(map.get("stacked")?.selectable).to.be.true;
+        });
+    });
+
+    describe("impliesLock", () => {
+        it("sanitize re-adds locked implied uids", () => {
+            expect(sanitizeVariantSelection(impliesLockVariants, ["mega"])).to.deep.equal([
+                "mega",
+                "stacked",
+            ]);
+        });
+
+        it("marks locked implied checkbox not selectable while trigger active", () => {
+            const map = evaluateAvailability(impliesLockVariants, ["mega", "stacked"]);
+            expect(map.get("stacked")?.selectable).to.be.false;
+            expect(map.get("stacked")?.reasons).to.include("impliesLock");
         });
     });
 

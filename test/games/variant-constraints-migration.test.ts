@@ -4,7 +4,6 @@ import { GameFactory } from "../../src/games";
 import { MagnateGame } from "../../src/games/magnate";
 import { MinefieldGame } from "../../src/games/minefield";
 import { TaijiGame } from "../../src/games/taiji";
-import { ZolaGame } from "../../src/games/zola";
 import { assertChallengeVariantSelection } from "../../src/games/_gameinfo-filter";
 import { UserFacingError } from "../../src/common/errors";
 
@@ -35,7 +34,8 @@ describe("variant constraint migrations", () => {
     describe("Minefield", () => {
         it("does not keep pinwheel and cartwheel together", () => {
             const g = GameFactory("minefield", undefined, ["size-15", "pinwheel", "cartwheel"]);
-            expect(g.variants.includes("pinwheel") && g.variants.includes("cartwheel")).to.be.false;
+            const tileModes = g.variants.filter((v) => v === "pinwheel" || v === "cartwheel");
+            expect(tileModes.length).to.be.at.most(1);
         });
 
         it("allvariants includes conflictsWith on pinwheel", () => {

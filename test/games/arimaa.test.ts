@@ -1,9 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import "mocha";
 import { expect } from "chai";
+import i18next from "i18next";
+import { addResource } from "../../src";
 import { ArimaaGame } from '../../src/games';
 
 describe("Arimaa", () => {
+    before(() => {
+        addResource("en");
+    });
+
     it ("EOG scenarios", () => {
         // all rabbits on same turn
         let g = new ArimaaGame(undefined, ["free"]);
@@ -72,18 +78,18 @@ describe("Arimaa", () => {
         g.move("Ee2,Md2,Hb2,Hg2,Ra2,Ra1,Rb1,Rc1,Rf1,Rg1,Rh1,Rh2,Cf2,Cc2,Dd1,De1");
         // no warnings
         let result = g.validateMove("me7,ed7,hb7,hg7,ra7,ra8,rb8,rc8,rf8,rg8,rh8,rh7,cf7,de8,cd8,dc7");
-        expect(result.message).to.be.undefined;
+        expect(result.message).to.equal(i18next.t("apgames:validation._general.VALID_MOVE"));
         // same file
         result = g.validateMove("ee7,md7,hb7,hg7,ra7,ra8,rb8,rc8,rf8,rg8,rh8,rh7,cf7,de8,cd8,dc7");
-        expect(result.message).to.equal(" WARN");
+        expect(result.message).to.include(i18next.t("apgames:validation.arimaa.WARN_FILE"));
         // unbalanced
         result = g.validateMove("ea7,mb7,hc7,hd7,ce7,df7,dg7,ch7,ra8,rb8,rc8,rd8,re8,rf8,rg8,rh8");
-        expect(result.message).to.equal(" WARN");
+        expect(result.message).to.include(i18next.t("apgames:validation.arimaa.WARN_BALANCE"));
         // hiding
         result = g.validateMove("ed7,me7,hb7,hg7,ra7,ra8,rb8,rc8,rg8,rh8,rh7,cf8,rf7,cd8,de8,dc7");
-        expect(result.message).to.be.undefined;
+        expect(result.message).to.equal(i18next.t("apgames:validation._general.VALID_MOVE"));
         result = g.validateMove("ed7,hb7,hg7,ra7,ra8,rb8,rc8,rf8,rg8,rh8,rh7,cf7,ce7,dc7,dd8,me8");
-        expect(result.message).to.equal(" WARN");
+        expect(result.message).to.include(i18next.t("apgames:validation.arimaa.WARN_HIDE"));
     });
 
     it ("classifications", () => {

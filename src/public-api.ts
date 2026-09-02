@@ -104,3 +104,4 @@ const gameinfoSorted: APGamesInformation[] = [...games.values()]
 export { gameinfo, gameinfoSorted };
 
 export { resolveLocale, supportedLocales, type AddResourceOptions } from "./i18n-shared.js";
+export { resolveGameName } from "./i18n-node.js";

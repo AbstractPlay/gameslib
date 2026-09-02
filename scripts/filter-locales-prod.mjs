@@ -30,6 +30,11 @@ function stripExperimentalFromApgames(data, experimentalUids, experimentalVarian
             delete data.descriptions[uid];
         }
     }
+    if (data.names && typeof data.names === "object") {
+        for (const uid of experimentalUids) {
+            delete data.names[uid];
+        }
+    }
     if (data.variants && typeof data.variants === "object") {
         for (const uid of experimentalUids) {
             delete data.variants[uid];

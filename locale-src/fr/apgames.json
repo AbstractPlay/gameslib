@@ -2023,6 +2023,1142 @@
     "src": "Could not find the ship {{ship}} in the {{system}} system.",
     "out": "Impossible de trouver le vaisseau {{ship}} dans le système {{system}}."
   },
+  "names.abande": {
+    "src": "Abande",
+    "out": "Abande"
+  },
+  "names.accasta": {
+    "src": "Accasta",
+    "out": "Accasta"
+  },
+  "names.acity": {
+    "src": "Alien City",
+    "out": "Alien City"
+  },
+  "names.agere": {
+    "src": "Adere",
+    "out": "Adere"
+  },
+  "names.akimbo": {
+    "src": "Akimbo",
+    "out": "Akimbo"
+  },
+  "names.akron": {
+    "src": "Akron",
+    "out": "Akron"
+  },
+  "names.almatafl": {
+    "src": "AlmaTafl",
+    "out": "AlmaTafl"
+  },
+  "names.alta": {
+    "src": "Alta",
+    "out": "Alta"
+  },
+  "names.amazons": {
+    "src": "Amazons",
+    "out": "Amazons"
+  },
+  "names.amoeba": {
+    "src": "Amoeba",
+    "out": "Amoeba"
+  },
+  "names.anache": {
+    "src": "Anache",
+    "out": "Anache"
+  },
+  "names.archimedes": {
+    "src": "Archimedes",
+    "out": "Archimedes"
+  },
+  "names.arimaa": {
+    "src": "Arimaa",
+    "out": "Arimaa"
+  },
+  "names.armadas": {
+    "src": "Armadas",
+    "out": "Armadas"
+  },
+  "names.asli": {
+    "src": "Asli",
+    "out": "Asli"
+  },
+  "names.assembly": {
+    "src": "Assembly Line",
+    "out": "Assembly Line"
+  },
+  "names.atarigo": {
+    "src": "Atari Go",
+    "out": "Atari Go"
+  },
+  "names.ataxx": {
+    "src": "Ataxx",
+    "out": "Ataxx"
+  },
+  "names.atoll": {
+    "src": "Atoll",
+    "out": "Atoll"
+  },
+  "names.attangle": {
+    "src": "Attangle",
+    "out": "Attangle"
+  },
+  "names.ayu": {
+    "src": "Ayu",
+    "out": "Ayu"
+  },
+  "names.azacru": {
+    "src": "Azacru",
+    "out": "Azacru"
+  },
+  "names.baghchal": {
+    "src": "Bagh Chal",
+    "out": "Bagh Chal"
+  },
+  "names.bamboo": {
+    "src": "Bamboo",
+    "out": "Bamboo"
+  },
+  "names.bao": {
+    "src": "Bao",
+    "out": "Bao"
+  },
+  "names.basalt": {
+    "src": "Basalt",
+    "out": "Basalt"
+  },
+  "names.bide": {
+    "src": "Bide",
+    "out": "Bide"
+  },
+  "names.biscuit": {
+    "src": "Biscuit",
+    "out": "Biscuit"
+  },
+  "names.bitesize": {
+    "src": "BITESIZE",
+    "out": "BITESIZE"
+  },
+  "names.blam": {
+    "src": "Blam!",
+    "out": "Blam!"
+  },
+  "names.blastradius": {
+    "src": "Blast Radius",
+    "out": "Blast Radius"
+  },
+  "names.blockade": {
+    "src": "Blockade",
+    "out": "Blockade"
+  },
+  "names.blooms": {
+    "src": "Blooms",
+    "out": "Blooms"
+  },
+  "names.bloqueo": {
+    "src": "Bloqueo",
+    "out": "Bloqueo"
+  },
+  "names.bluestone": {
+    "src": "Bluestone",
+    "out": "Bluestone"
+  },
+  "names.boom": {
+    "src": "Boom & Zoom",
+    "out": "Boom & Zoom"
+  },
+  "names.bounce": {
+    "src": "Bounce",
+    "out": "Bounce"
+  },
+  "names.boxes": {
+    "src": "Dots and Boxes",
+    "out": "Dots and Boxes"
+  },
+  "names.breakthrough": {
+    "src": "Breakthrough",
+    "out": "Breakthrough"
+  },
+  "names.bridges": {
+    "src": "Bridges",
+    "out": "Bridges"
+  },
+  "names.btt": {
+    "src": "Branches and Twigs and Thorns",
+    "out": "Branches and Twigs and Thorns"
+  },
+  "names.bug": {
+    "src": "Bug",
+    "out": "Bug"
+  },
+  "names.buku": {
+    "src": "Buku",
+    "out": "Buku"
+  },
+  "names.byte": {
+    "src": "Byte",
+    "out": "Byte"
+  },
+  "names.c1": {
+    "src": "C1",
+    "out": "C1"
+  },
+  "names.calculus": {
+    "src": "Calculus",
+    "out": "Calculus"
+  },
+  "names.camelot": {
+    "src": "Camelot",
+    "out": "Camelot"
+  },
+  "names.cannon": {
+    "src": "Cannon",
+    "out": "Cannon"
+  },
+  "names.canoe": {
+    "src": "Canoe",
+    "out": "Canoe"
+  },
+  "names.carnac": {
+    "src": "Carnac",
+    "out": "Carnac"
+  },
+  "names.catapult": {
+    "src": "Catapult",
+    "out": "Catapult"
+  },
+  "names.catchup": {
+    "src": "Catchup",
+    "out": "Catchup"
+  },
+  "names.catsdogs": {
+    "src": "Cats and Dogs",
+    "out": "Cats and Dogs"
+  },
+  "names.ccorridor": {
+    "src": "Cairo Corridor",
+    "out": "Cairo Corridor"
+  },
+  "names.ceph": {
+    "src": "Cephalopod",
+    "out": "Cephalopod"
+  },
+  "names.chameleon": {
+    "src": "Chameleon",
+    "out": "Chameleon"
+  },
+  "names.chase": {
+    "src": "Chase",
+    "out": "Chase"
+  },
+  "names.churn": {
+    "src": "Churn",
+    "out": "Churn"
+  },
+  "names.cifra": {
+    "src": "CIFRA",
+    "out": "CIFRA"
+  },
+  "names.circleOfLife": {
+    "src": "Circle of Life",
+    "out": "Circle of Life"
+  },
+  "names.clearcut": {
+    "src": "Halfcut",
+    "out": "Halfcut"
+  },
+  "names.clusterfuss": {
+    "src": "Clusterfuss",
+    "out": "Clusterfuss"
+  },
+  "names.compart": {
+    "src": "Compart",
+    "out": "Compart"
+  },
+  "names.complica": {
+    "src": "Complica",
+    "out": "Complica"
+  },
+  "names.conect": {
+    "src": "Conect",
+    "out": "Conect"
+  },
+  "names.conhex": {
+    "src": "ConHex",
+    "out": "ConHex"
+  },
+  "names.connect6": {
+    "src": "Connect6",
+    "out": "Connect6"
+  },
+  "names.connecticut": {
+    "src": "Connecticut",
+    "out": "Connecticut"
+  },
+  "names.connections": {
+    "src": "Connections",
+    "out": "Connections"
+  },
+  "names.conspirateurs": {
+    "src": "Conspirateurs",
+    "out": "Conspirateurs"
+  },
+  "names.control": {
+    "src": "Control",
+    "out": "Control"
+  },
+  "names.court": {
+    "src": "Court",
+    "out": "Court"
+  },
+  "names.courtesan": {
+    "src": "King & Courtesan",
+    "out": "King & Courtesan"
+  },
+  "names.crosscontrol": {
+    "src": "Crosscontrol",
+    "out": "Crosscontrol"
+  },
+  "names.crosshairs": {
+    "src": "Crosshairs",
+    "out": "Crosshairs"
+  },
+  "names.crossway": {
+    "src": "Crossway",
+    "out": "Crossway"
+  },
+  "names.cubeo": {
+    "src": "Cubeo",
+    "out": "Cubeo"
+  },
+  "names.dagnacht": {
+    "src": "Dag en Nacht",
+    "out": "Dag en Nacht"
+  },
+  "names.dameo": {
+    "src": "Dameo",
+    "out": "Dameo"
+  },
+  "names.deckfish": {
+    "src": "Deckfish",
+    "out": "Deckfish"
+  },
+  "names.diffusion": {
+    "src": "Diffusion",
+    "out": "Diffusion"
+  },
+  "names.dipole": {
+    "src": "Dipole",
+    "out": "Dipole"
+  },
+  "names.domineering": {
+    "src": "Domineering",
+    "out": "Domineering"
+  },
+  "names.dragoneyes": {
+    "src": "Dragon Eyes",
+    "out": "Dragon Eyes"
+  },
+  "names.druid": {
+    "src": "Druid",
+    "out": "Druid"
+  },
+  "names.elOso": {
+    "src": "El Oso",
+    "out": "El Oso"
+  },
+  "names.emergo": {
+    "src": "Emergo",
+    "out": "Emergo"
+  },
+  "names.emu": {
+    "src": "Emu Ranchers",
+    "out": "Emu Ranchers"
+  },
+  "names.enso": {
+    "src": "Enso",
+    "out": "Enso"
+  },
+  "names.entrapment": {
+    "src": "Entrapment",
+    "out": "Entrapment"
+  },
+  "names.entropy": {
+    "src": "Entropy",
+    "out": "Entropy"
+  },
+  "names.epam": {
+    "src": "Epaminondas",
+    "out": "Epaminondas"
+  },
+  "names.estate": {
+    "src": "Estate",
+    "out": "Estate"
+  },
+  "names.evenatodds": {
+    "src": "Even at Odds",
+    "out": "Even at Odds"
+  },
+  "names.exxit": {
+    "src": "Exxit",
+    "out": "Exxit"
+  },
+  "names.fabrik": {
+    "src": "Fabrik",
+    "out": "Fabrik"
+  },
+  "names.fanorona": {
+    "src": "Fanorona",
+    "out": "Fanorona"
+  },
+  "names.fendo": {
+    "src": "Fendo",
+    "out": "Fendo"
+  },
+  "names.fightopia": {
+    "src": "Fightopia",
+    "out": "Fightopia"
+  },
+  "names.flume": {
+    "src": "Flume",
+    "out": "Flume"
+  },
+  "names.fnap": {
+    "src": "FNAP",
+    "out": "FNAP"
+  },
+  "names.focus": {
+    "src": "Focus",
+    "out": "Focus"
+  },
+  "names.forms": {
+    "src": "Forms",
+    "out": "Forms"
+  },
+  "names.four": {
+    "src": "Four",
+    "out": "Four"
+  },
+  "names.fourinarow": {
+    "src": "Four In A Row",
+    "out": "Four In A Row"
+  },
+  "names.fractured": {
+    "src": "Fractured Flat",
+    "out": "Fractured Flat"
+  },
+  "names.frames": {
+    "src": "Frames",
+    "out": "Frames"
+  },
+  "names.frogger": {
+    "src": "Frogger",
+    "out": "Frogger"
+  },
+  "names.furl": {
+    "src": "Furl",
+    "out": "Furl"
+  },
+  "names.garden": {
+    "src": "Wizard's Garden",
+    "out": "Wizard's Garden"
+  },
+  "names.gess": {
+    "src": "Gess",
+    "out": "Gess"
+  },
+  "names.gliss": {
+    "src": "Gliss",
+    "out": "Gliss"
+  },
+  "names.go": {
+    "src": "Go",
+    "out": "Go"
+  },
+  "names.gomoku": {
+    "src": "Gomoku",
+    "out": "Gomoku"
+  },
+  "names.gonnect": {
+    "src": "Gonnect",
+    "out": "Gonnect"
+  },
+  "names.gorogo": {
+    "src": "GoRoGo",
+    "out": "GoRoGo"
+  },
+  "names.guerrilla": {
+    "src": "Guerrilla Checkers",
+    "out": "Guerrilla Checkers"
+  },
+  "names.gyges": {
+    "src": "Gyges",
+    "out": "Gyges"
+  },
+  "names.gyve": {
+    "src": "Gyve",
+    "out": "Gyve"
+  },
+  "names.halma": {
+    "src": "Halma",
+    "out": "Halma"
+  },
+  "names.halmaclimbers": {
+    "src": "Halma Climbers",
+    "out": "Halma Climbers"
+  },
+  "names.havannah": {
+    "src": "Havannah",
+    "out": "Havannah"
+  },
+  "names.hens": {
+    "src": "Hens and Chicks",
+    "out": "Hens and Chicks"
+  },
+  "names.hex": {
+    "src": "Hex",
+    "out": "Hex"
+  },
+  "names.hexentafl": {
+    "src": "heXentafl",
+    "out": "heXentafl"
+  },
+  "names.hexy": {
+    "src": "Hexagonal Y",
+    "out": "Hexagonal Y"
+  },
+  "names.homeworlds": {
+    "src": "Homeworlds",
+    "out": "Homeworlds"
+  },
+  "names.hula": {
+    "src": "Hula",
+    "out": "Hula"
+  },
+  "names.intermedium": {
+    "src": "Intermedium",
+    "out": "Intermedium"
+  },
+  "names.invector": {
+    "src": "Invector",
+    "out": "Invector"
+  },
+  "names.iqishiqi": {
+    "src": "Iqishiqi",
+    "out": "Iqishiqi"
+  },
+  "names.irensei": {
+    "src": "Irensei",
+    "out": "Irensei"
+  },
+  "names.jacynth": {
+    "src": "Jacynth",
+    "out": "Jacynth"
+  },
+  "names.kachit": {
+    "src": "Kachit Knights",
+    "out": "Kachit Knights"
+  },
+  "names.knightline": {
+    "src": "Knight Line",
+    "out": "Knight Line"
+  },
+  "names.konane": {
+    "src": "Konane",
+    "out": "Konane"
+  },
+  "names.krypte": {
+    "src": "Krypte",
+    "out": "Krypte"
+  },
+  "names.lasca": {
+    "src": "Lasca",
+    "out": "Lasca"
+  },
+  "names.lielow": {
+    "src": "Lielow",
+    "out": "Lielow"
+  },
+  "names.lifeline": {
+    "src": "Lifeline",
+    "out": "Lifeline"
+  },
+  "names.linage": {
+    "src": "Linage",
+    "out": "Linage"
+  },
+  "names.loa": {
+    "src": "Lines of Action",
+    "out": "Lines of Action"
+  },
+  "names.logger": {
+    "src": "Logger",
+    "out": "Logger"
+  },
+  "names.lox": {
+    "src": "Lox",
+    "out": "Lox"
+  },
+  "names.magnate": {
+    "src": "Magnate",
+    "out": "Magnate"
+  },
+  "names.majorities": {
+    "src": "Majorities",
+    "out": "Majorities"
+  },
+  "names.manalath": {
+    "src": "Manalath",
+    "out": "Manalath"
+  },
+  "names.margo": {
+    "src": "Margo",
+    "out": "Margo"
+  },
+  "names.mattock": {
+    "src": "Mattock",
+    "out": "Mattock"
+  },
+  "names.mchess": {
+    "src": "Martian Chess",
+    "out": "Martian Chess"
+  },
+  "names.meg": {
+    "src": "Meg",
+    "out": "Meg"
+  },
+  "names.meridians": {
+    "src": "Meridians",
+    "out": "Meridians"
+  },
+  "names.mimic": {
+    "src": "Mimic",
+    "out": "Mimic"
+  },
+  "names.minefield": {
+    "src": "Minefield",
+    "out": "Minefield"
+  },
+  "names.minimize": {
+    "src": "Minimize",
+    "out": "Minimize"
+  },
+  "names.mirador": {
+    "src": "Mirador",
+    "out": "Mirador"
+  },
+  "names.mixtour": {
+    "src": "Mixtour",
+    "out": "Mixtour"
+  },
+  "names.monkey": {
+    "src": "Monkey Queen",
+    "out": "Monkey Queen"
+  },
+  "names.moonsquad": {
+    "src": "Moon Squad",
+    "out": "Moon Squad"
+  },
+  "names.morphos": {
+    "src": "Morphos",
+    "out": "Morphos"
+  },
+  "names.murus": {
+    "src": "Murus Gallicus",
+    "out": "Murus Gallicus"
+  },
+  "names.mutternland": {
+    "src": "Mutternland",
+    "out": "Mutternland"
+  },
+  "names.mvolcano": {
+    "src": "Mega-Volcano",
+    "out": "Mega-Volcano"
+  },
+  "names.nakatta": {
+    "src": "Nakatta",
+    "out": "Nakatta"
+  },
+  "names.narrows": {
+    "src": "Narrows",
+    "out": "Narrows"
+  },
+  "names.necklace": {
+    "src": "Necklace",
+    "out": "Necklace"
+  },
+  "names.nex": {
+    "src": "Nex",
+    "out": "Nex"
+  },
+  "names.omny": {
+    "src": "Omny",
+    "out": "Omny"
+  },
+  "names.onager": {
+    "src": "Onager",
+    "out": "Onager"
+  },
+  "names.onyx": {
+    "src": "Onyx",
+    "out": "Onyx"
+  },
+  "names.oonpia": {
+    "src": "Oonpia",
+    "out": "Oonpia"
+  },
+  "names.orb": {
+    "src": "Generatorb",
+    "out": "Generatorb"
+  },
+  "names.ordo": {
+    "src": "Ordo",
+    "out": "Ordo"
+  },
+  "names.oust": {
+    "src": "Oust",
+    "out": "Oust"
+  },
+  "names.oware": {
+    "src": "Oware",
+    "out": "Oware"
+  },
+  "names.owlman": {
+    "src": "Owlman",
+    "out": "Owlman"
+  },
+  "names.pacru": {
+    "src": "Pacru",
+    "out": "Pacru"
+  },
+  "names.pahtum": {
+    "src": "Pah-Tum",
+    "out": "Pah-Tum"
+  },
+  "names.paintbucket": {
+    "src": "Paintbucket",
+    "out": "Paintbucket"
+  },
+  "names.penguin": {
+    "src": "Penguin Soccer",
+    "out": "Penguin Soccer"
+  },
+  "names.pente": {
+    "src": "Pente",
+    "out": "Pente"
+  },
+  "names.phutball": {
+    "src": "Phutball",
+    "out": "Phutball"
+  },
+  "names.pigs": {
+    "src": "Robo Battle Pigs",
+    "out": "Robo Battle Pigs"
+  },
+  "names.pigs2": {
+    "src": "Robo Battle Pigs (Continuous)",
+    "out": "Robo Battle Pigs (Continuous)"
+  },
+  "names.pikemen": {
+    "src": "Pikemen",
+    "out": "Pikemen"
+  },
+  "names.pilastri": {
+    "src": "Pilastri",
+    "out": "Pilastri"
+  },
+  "names.pinch": {
+    "src": "Pinch",
+    "out": "Pinch"
+  },
+  "names.pippinzip": {
+    "src": "Pippinzip",
+    "out": "Pippinzip"
+  },
+  "names.pletore": {
+    "src": "Pletore",
+    "out": "Pletore"
+  },
+  "names.plurality": {
+    "src": "Plurality",
+    "out": "Plurality"
+  },
+  "names.pods": {
+    "src": "Natal Seas - Pods",
+    "out": "Natal Seas - Pods"
+  },
+  "names.pollux": {
+    "src": "Pollux",
+    "out": "Pollux"
+  },
+  "names.pontedd": {
+    "src": "Ponte del Diavolo",
+    "out": "Ponte del Diavolo"
+  },
+  "names.posit": {
+    "src": "Posit",
+    "out": "Posit"
+  },
+  "names.product": {
+    "src": "Product",
+    "out": "Product"
+  },
+  "names.prudh": {
+    "src": "Prudh",
+    "out": "Prudh"
+  },
+  "names.pylon": {
+    "src": "Pylon",
+    "out": "Pylon"
+  },
+  "names.quagmire": {
+    "src": "Quagmire",
+    "out": "Quagmire"
+  },
+  "names.quax": {
+    "src": "Quax",
+    "out": "Quax"
+  },
+  "names.queensland": {
+    "src": "Queensland",
+    "out": "Queensland"
+  },
+  "names.query": {
+    "src": "Query",
+    "out": "Query"
+  },
+  "names.quincunx": {
+    "src": "Quincunx",
+    "out": "Quincunx"
+  },
+  "names.rampart": {
+    "src": "Rampart",
+    "out": "Rampart"
+  },
+  "names.razzle": {
+    "src": "Razzle Dazzle",
+    "out": "Razzle Dazzle"
+  },
+  "names.realm": {
+    "src": "Realm",
+    "out": "Realm"
+  },
+  "names.renju": {
+    "src": "Renju",
+    "out": "Renju"
+  },
+  "names.resolve": {
+    "src": "Resolve",
+    "out": "Resolve"
+  },
+  "names.reversi": {
+    "src": "Reversi",
+    "out": "Reversi"
+  },
+  "names.rincala": {
+    "src": "Rincala",
+    "out": "Rincala"
+  },
+  "names.rootbound": {
+    "src": "Root Bound",
+    "out": "Root Bound"
+  },
+  "names.saltire": {
+    "src": "Saltire",
+    "out": "Saltire"
+  },
+  "names.scaffold": {
+    "src": "Scaffold",
+    "out": "Scaffold"
+  },
+  "names.scribe": {
+    "src": "Scribe",
+    "out": "Scribe"
+  },
+  "names.sentinel": {
+    "src": "Sentinel",
+    "out": "Sentinel"
+  },
+  "names.shapechess": {
+    "src": "Shape Chess",
+    "out": "Shape Chess"
+  },
+  "names.shifty": {
+    "src": "Shifty",
+    "out": "Shifty"
+  },
+  "names.siegeofj": {
+    "src": "Siege of Jacynth",
+    "out": "Siege of Jacynth"
+  },
+  "names.slimetrail": {
+    "src": "Slimetrail",
+    "out": "Slimetrail"
+  },
+  "names.slither": {
+    "src": "Advanced Slither",
+    "out": "Advanced Slither"
+  },
+  "names.slyde": {
+    "src": "Slyde",
+    "out": "Slyde"
+  },
+  "names.soccolot": {
+    "src": "Soccolot",
+    "out": "Soccolot"
+  },
+  "names.spire": {
+    "src": "Spire",
+    "out": "Spire"
+  },
+  "names.spline": {
+    "src": "Spline",
+    "out": "Spline"
+  },
+  "names.sploof": {
+    "src": "Sploof",
+    "out": "Sploof"
+  },
+  "names.sponnect": {
+    "src": "Sponnect",
+    "out": "Sponnect"
+  },
+  "names.spook": {
+    "src": "Spook",
+    "out": "Spook"
+  },
+  "names.spora": {
+    "src": "Spora",
+    "out": "Spora"
+  },
+  "names.spree": {
+    "src": "Spree",
+    "out": "Spree"
+  },
+  "names.squaredance": {
+    "src": "Squaredance",
+    "out": "Squaredance"
+  },
+  "names.squirm": {
+    "src": "Squirm",
+    "out": "Squirm"
+  },
+  "names.stairs": {
+    "src": "Stairs",
+    "out": "Stairs"
+  },
+  "names.stapeldammen": {
+    "src": "Stapeldammen II",
+    "out": "Stapeldammen II"
+  },
+  "names.stawvs": {
+    "src": "Stawvs",
+    "out": "Stawvs"
+  },
+  "names.stibro": {
+    "src": "Stibro",
+    "out": "Stibro"
+  },
+  "names.stigmergy": {
+    "src": "Stigmergy",
+    "out": "Stigmergy"
+  },
+  "names.stiletto": {
+    "src": "Stiletto",
+    "out": "Stiletto"
+  },
+  "names.storisende": {
+    "src": "Storisende",
+    "out": "Storisende"
+  },
+  "names.strands": {
+    "src": "Strands",
+    "out": "Strands"
+  },
+  "names.streetcar": {
+    "src": "Streetcar Suburb",
+    "out": "Streetcar Suburb"
+  },
+  "names.strings": {
+    "src": "Pulling Strings",
+    "out": "Pulling Strings"
+  },
+  "names.subdivision": {
+    "src": "Subdivision",
+    "out": "Subdivision"
+  },
+  "names.sunspot": {
+    "src": "Sunspot",
+    "out": "Sunspot"
+  },
+  "names.surmount": {
+    "src": "Surmount",
+    "out": "Surmount"
+  },
+  "names.susan": {
+    "src": "Susan",
+    "out": "Susan"
+  },
+  "names.swarm": {
+    "src": "Swarm",
+    "out": "Swarm"
+  },
+  "names.symple": {
+    "src": "Symple",
+    "out": "Symple"
+  },
+  "names.synapse": {
+    "src": "Synapse",
+    "out": "Synapse"
+  },
+  "names.tablero": {
+    "src": "Tablero di Berona",
+    "out": "Tablero di Berona"
+  },
+  "names.tafl": {
+    "src": "Hnefatafl",
+    "out": "Hnefatafl"
+  },
+  "names.taiji": {
+    "src": "Taiji",
+    "out": "Taiji"
+  },
+  "names.take": {
+    "src": "Take",
+    "out": "Take"
+  },
+  "names.tanbo": {
+    "src": "Tanbo",
+    "out": "Tanbo"
+  },
+  "names.tbt": {
+    "src": "Take-Back-Toe",
+    "out": "Take-Back-Toe"
+  },
+  "names.terrace": {
+    "src": "Terrace",
+    "out": "Terrace"
+  },
+  "names.tessella": {
+    "src": "Tessella",
+    "out": "Tessella"
+  },
+  "names.tintas": {
+    "src": "Tintas",
+    "out": "Tintas"
+  },
+  "names.toguz": {
+    "src": "Toguz Kumalak",
+    "out": "Toguz Kumalak"
+  },
+  "names.trax": {
+    "src": "Trax",
+    "out": "Trax"
+  },
+  "names.tricouleur": {
+    "src": "Tricouleur",
+    "out": "Tricouleur"
+  },
+  "names.trike": {
+    "src": "Trike",
+    "out": "Trike"
+  },
+  "names.tritium": {
+    "src": "Tritium",
+    "out": "Tritium"
+  },
+  "names.tumbleweed": {
+    "src": "Tumbleweed",
+    "out": "Tumbleweed"
+  },
+  "names.twinflames": {
+    "src": "Twin Flames",
+    "out": "Twin Flames"
+  },
+  "names.twixt": {
+    "src": "Twixt",
+    "out": "Twixt"
+  },
+  "names.unane": {
+    "src": "Unane",
+    "out": "Unane"
+  },
+  "names.unlur": {
+    "src": "Unlur",
+    "out": "Unlur"
+  },
+  "names.unstack": {
+    "src": "Unstack",
+    "out": "Unstack"
+  },
+  "names.upperhand": {
+    "src": "Upper Hand",
+    "out": "Upper Hand"
+  },
+  "names.urbino": {
+    "src": "Urbino",
+    "out": "Urbino"
+  },
+  "names.valley": {
+    "src": "King's Valley",
+    "out": "King's Valley"
+  },
+  "names.veletas": {
+    "src": "Veletas",
+    "out": "Veletas"
+  },
+  "names.verge": {
+    "src": "Verge",
+    "out": "Verge"
+  },
+  "names.viruswar": {
+    "src": "Virus War",
+    "out": "Virus War"
+  },
+  "names.volcano": {
+    "src": "Volcano",
+    "out": "Volcano"
+  },
+  "names.volo": {
+    "src": "Volo",
+    "out": "Volo"
+  },
+  "names.waldmeister": {
+    "src": "WaldMeister",
+    "out": "WaldMeister"
+  },
+  "names.witch": {
+    "src": "Witch Stones",
+    "out": "Witch Stones"
+  },
+  "names.wunchunk": {
+    "src": "Wunchunk",
+    "out": "Wunchunk"
+  },
+  "names.wyke": {
+    "src": "Alfred's Wyke",
+    "out": "Alfred's Wyke"
+  },
+  "names.xana": {
+    "src": "Xana",
+    "out": "Xana"
+  },
+  "names.y": {
+    "src": "Y",
+    "out": "Y"
+  },
+  "names.yavalath": {
+    "src": "Yavalath",
+    "out": "Yavalath"
+  },
+  "names.yonmoque": {
+    "src": "Yonmoque",
+    "out": "Yonmoque"
+  },
+  "names.zola": {
+    "src": "Zola",
+    "out": "Zola"
+  },
   "notes.akimbo": {
     "src": "Akimbo, designed by Luis Bolaños Mures in 2026, is a drawless connection game for two players. A _naked diagonal_ is a pair of like-colored, diagonally adjacent pieces with no other like-colored piece adjacent to both. A _crosscut_ is a 2×2 area with two interlocking naked diagonals of opposite colors.\n\nOn their turn, the player places a friendly piece on an empty cell. If this completes a crosscut, the other piece in the crosscut is removed. There must never be more than one naked diagonal of each color on the board — not even momentarily before removing a piece. A player wins if, at the end of their turn, there is a chain of orthogonally connected pieces of their color touching the player's two opposite board edges.\n\nOkimba is a variant where only up to one naked diagonal can exist on the board (so while one player has the diagonal, the adversary cannot create another).",
     "out": "Akimbo, conçu par Luis Bolaños Mures en 2026, est un jeu de connexion sans égalité pour deux joueurs. Une _diagonale nue_ est une paire de pièces de même couleur, adjacentes en diagonale, sans aucune autre pièce de même couleur adjacente aux deux. Une _coupe croisée_ est une zone 2×2 avec deux diagonales nues imbriquées de couleurs opposées.\n\nÀ son tour, le joueur place une pièce amie sur une case vide. Si cela complète une coupe croisée, l'autre pièce de la coupe croisée est retirée. Il ne doit jamais y avoir plus d'une diagonale nue de chaque couleur sur le plateau — pas même momentanément avant de retirer une pièce. Un joueur gagne si, à la fin de son tour, il existe une chaîne de pièces de sa couleur connectées orthogonalement touchant les deux bords opposés du plateau du joueur.\n\nOkimba est une variante où une seule diagonale nue au maximum peut exister sur le plateau (ainsi, tant qu'un joueur possède la diagonale, l'adversaire ne peut pas en créer une autre)."

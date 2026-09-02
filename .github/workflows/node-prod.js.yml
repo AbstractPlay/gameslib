@@ -19,6 +19,7 @@ jobs:
         outputs:
           gameslib_version: ${{ steps.capture_versions.outputs.gameslib_version }}
           renderer_version: ${{ steps.capture_versions.outputs.renderer_version }}
+          recranks_version: ${{ steps.capture_versions.outputs.recranks_version }}
           source_run_id: ${{ github.run_id }}
 
         # strategy:
@@ -48,10 +49,11 @@ jobs:
         - run: npm ci
         - name: Validate ci-deps manifests
           run: node scripts/check-ci-deps.mjs
-        - name: Install pinned renderer dependency
+        - name: Install pinned AP dependencies
           env:
             AP_RENDERER_VERSION: ${{ github.event.client_payload.renderer_version }}
-            AP_SOURCE: ${{ github.event.client_payload.source_run_id && format('renderer-ci-{0}', github.event.client_payload.source_run_id) || '' }}
+            AP_RECRANKS_VERSION: ${{ github.event.client_payload.recranks_version }}
+            AP_SOURCE: ${{ github.event.client_payload.source_run_id && (github.event.client_payload.recranks_version && format('recranks-ci-{0}', github.event.client_payload.source_run_id) || format('renderer-ci-{0}', github.event.client_payload.source_run_id)) || '' }}
           run: node scripts/install-ap-deps.mjs --stage prod
         - name: Verify package.json matches ci-deps
           run: node scripts/check-ci-deps.mjs --stage prod --strict
@@ -119,13 +121,15 @@ jobs:
           run: |
             GAMESLIB_VERSION=$(node -p "require('./package.json').version")
             RENDERER_VERSION=$(node -p "require('./node_modules/@abstractplay/renderer/package.json').version")
+            RECRANKS_VERSION=$(node -p "require('./node_modules/@abstractplay/recranks/package.json').version")
             echo "gameslib_version=$GAMESLIB_VERSION" >> $GITHUB_OUTPUT
             echo "renderer_version=$RENDERER_VERSION" >> $GITHUB_OUTPUT
-        - name: Sync renderer pin manifests
+            echo "recranks_version=$RECRANKS_VERSION" >> $GITHUB_OUTPUT
+        - name: Sync AP dependency pin manifests
           if: github.event_name == 'repository_dispatch'
           uses: stefanzweifel/git-auto-commit-action@v5
           with:
-            commit_message: "deps: sync renderer pin [skip ci]"
+            commit_message: "deps: sync AP pins [skip ci]"
             file_pattern: ci-deps.prod.json package-lock.json package.json
             disable_globbing: true
         - run: APGAMES_PRODUCTION=1 npm run build
@@ -191,13 +195,15 @@ jobs:
             env:
               GAMESLIB_VERSION: ${{ needs.build-prod.outputs.gameslib_version }}
               RENDERER_VERSION: ${{ needs.build-prod.outputs.renderer_version }}
+              RECRANKS_VERSION: ${{ needs.build-prod.outputs.recranks_version }}
               SOURCE_RUN_ID: ${{ needs.build-prod.outputs.source_run_id }}
             run: |
               payload=$(jq -n \
                 --arg g "$GAMESLIB_VERSION" \
                 --arg r "$RENDERER_VERSION" \
+                --arg k "$RECRANKS_VERSION" \
                 --arg s "$SOURCE_RUN_ID" \
-                '{event_type:"dep_update_prod", client_payload:{gameslib_version:$g, renderer_version:$r, source_run_id:$s}}')
+                '{event_type:"dep_update_prod", client_payload:{gameslib_version:$g, renderer_version:$r, recranks_version:$k, source_run_id:$s}}')
               for repo in front node-backend backend-crons; do
                 curl -L -X POST \
                   -H "Accept: application/vnd.github+json" \

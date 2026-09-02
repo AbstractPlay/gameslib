@@ -130,7 +130,7 @@
     "vite": "^6.3.5"
   },
   "dependencies": {
-    "@abstractplay/recranks": "latest",
+    "@abstractplay/recranks": "1.0.0-ci-33680898910.0",
     "@abstractplay/renderer": "1.0.0-ci-33584630705.0",
     "@turf/boolean-contains": "^6.5.0",
     "@turf/boolean-intersects": "^6.5.0",

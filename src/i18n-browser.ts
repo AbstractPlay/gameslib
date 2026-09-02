@@ -2,6 +2,7 @@ import { type i18n, type InitOptions } from "i18next";
 import HttpApi from "i18next-http-backend";
 import { i18next } from "./i18n-instance.js";
 import { resolveLocale, supportedLocales } from "./i18n-shared.js";
+import { resolveGameNameOn } from "./i18n-resolve.js";
 
 const GAMESLIB_NAMESPACES = ["apgames", "apresults"] as const;
 const DEFAULT_LANG = "en";
@@ -89,6 +90,10 @@ export const addResource = (lang?: string, host?: i18n, _options?: import("./i18
 
     return host ?? i18next;
 };
+
+export function resolveGameName(uid: string, englishFallback?: string): string {
+    return resolveGameNameOn(i18next, uid, englishFallback);
+}
 
 export { supportedLocales };
 export { i18next as i18n } from "./i18n-instance.js";

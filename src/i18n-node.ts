@@ -4,6 +4,7 @@ import { existsSync, readFileSync } from "fs";
 import path from "path";
 import { fileURLToPath } from "node:url";
 import { supportedLocales, type AddResourceOptions } from "./i18n-shared.js";
+import { resolveGameNameOn } from "./i18n-resolve.js";
 
 /** Node uses the global i18next singleton so game validation shares the same instance. */
 const i18next: i18n = (i18nextModule as unknown as { default: i18n }).default;
@@ -89,13 +90,8 @@ export const addResource = (lang?: string, host?: i18n, options?: AddResourceOpt
     return host ?? i18next;
 };
 
-/** Localized meta-game title; falls back to englishFallback or uid when the key is absent. */
 export function resolveGameName(uid: string, englishFallback?: string): string {
-    const key = `names.${uid}`;
-    if (i18next.exists(`apgames:${key}`)) {
-        return i18next.t(`apgames:${key}`);
-    }
-    return englishFallback ?? uid;
+    return resolveGameNameOn(i18next, uid, englishFallback);
 }
 
 export { supportedLocales };

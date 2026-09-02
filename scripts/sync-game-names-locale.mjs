@@ -7,7 +7,7 @@
  *   node scripts/sync-game-names-locale.mjs --seed-managed
  *
  * `--seed-managed` copies English titles into de/fr/it/es-US locales and locale-src
- * sidecars (src=out) so CI translate skips game names that stay in English.
+ * sidecars (src=out). Translate never MTs `names.*`; it copies English only for missing keys.
  */
 import fs from "fs";
 import path from "path";

@@ -275,6 +275,44 @@ function makeTrackingEntry(sourceValue, translatedValue) {
   return { src: sourceValue, out: translatedValue };
 }
 
+/** Game titles (`names.{uid}`) are never machine-translated. */
+function isNoMachineTranslateLeaf(leafPath) {
+  return leafPath.startsWith("names.");
+}
+
+function partitionDiffLeaves(diffLeaves, targetData) {
+  const englishOnly = {};
+  const namesTrackingOnly = {};
+  const toTranslate = {};
+  for (const [leafPath, sourceValue] of Object.entries(diffLeaves)) {
+    if (isNoMachineTranslateLeaf(leafPath)) {
+      const existing = getLeafValue(targetData, leafPath);
+      if (existing === undefined) {
+        englishOnly[leafPath] = sourceValue;
+      } else {
+        namesTrackingOnly[leafPath] = { sourceValue, existing };
+      }
+    } else {
+      toTranslate[leafPath] = sourceValue;
+    }
+  }
+  return { englishOnly, namesTrackingOnly, toTranslate };
+}
+
+function applyEnglishLeafCopies(targetData, srcTracking, englishLeaves) {
+  for (const [leafPath, sourceValue] of Object.entries(englishLeaves)) {
+    setLeafValue(targetData, leafPath, sourceValue);
+    srcTracking[leafPath] = makeTrackingEntry(sourceValue, sourceValue);
+  }
+}
+
+/** Refresh locale-src for game names without changing existing locale text (Weblate edits). */
+function applyNamesTrackingOnly(srcTracking, namesTrackingOnly) {
+  for (const [leafPath, { sourceValue, existing }] of Object.entries(namesTrackingOnly)) {
+    srcTracking[leafPath] = makeTrackingEntry(sourceValue, existing);
+  }
+}
+
 function isSuspectEnglishCopy(value) {
   if (typeof value !== "string" || value.length < 40) {
     return false;
@@ -629,7 +667,31 @@ async function translateFile(ai, sourcePath) {
     }
 
     const diffLeaves = getDiffLeaves(sourceData, targetData, srcTracking);
-    const leavesToTranslate = Object.keys(diffLeaves);
+    const { englishOnly, namesTrackingOnly, toTranslate } = partitionDiffLeaves(
+      diffLeaves,
+      targetData,
+    );
+
+    let namesHandled = false;
+    if (Object.keys(englishOnly).length > 0) {
+      applyEnglishLeafCopies(targetData, srcTracking, englishOnly);
+      namesHandled = true;
+      console.log(
+        `[${lang.code}] ${fileName}: Copied ${Object.keys(englishOnly).length} new game name key(s) from English (no machine translation).`,
+      );
+    }
+    if (Object.keys(namesTrackingOnly).length > 0) {
+      applyNamesTrackingOnly(srcTracking, namesTrackingOnly);
+      namesHandled = true;
+      console.log(
+        `[${lang.code}] ${fileName}: Refreshed tracking for ${Object.keys(namesTrackingOnly).length} game name key(s) (existing translations preserved).`,
+      );
+    }
+    if (namesHandled) {
+      writeTargetFile(targetPath, repoRoot, lang.code, fileName, sourceData, targetData, srcTracking);
+    }
+
+    const leavesToTranslate = Object.keys(toTranslate);
 
     if (leavesToTranslate.length === 0) {
       if (backfillSrcTracking(sourceData, targetData, srcTracking)) {
@@ -641,7 +703,7 @@ async function translateFile(ai, sourcePath) {
       continue;
     }
 
-    const chunks = chunkLeaves(diffLeaves, CHUNK_BYTES);
+    const chunks = chunkLeaves(toTranslate, CHUNK_BYTES);
     console.log(
       `[${lang.code}] ${fileName}: Translating ${leavesToTranslate.length} new/updated leaves in ${chunks.length} chunk(s)...`,
     );
@@ -666,7 +728,7 @@ async function translateFile(ai, sourcePath) {
         deepMerge(targetData, nestedChunk);
 
         for (const leafPath of Object.keys(chunk)) {
-          const sourceValue = diffLeaves[leafPath];
+          const sourceValue = toTranslate[leafPath];
           const translatedValue = translatedChunk[leafPath] ?? getLeafValue(targetData, leafPath);
           srcTracking[leafPath] = makeTrackingEntry(sourceValue, translatedValue);
         }

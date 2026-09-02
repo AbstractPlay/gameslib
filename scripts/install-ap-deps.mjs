@@ -1,11 +1,12 @@
 /* eslint-env node */
 /**
- * Resolve and install pinned @abstractplay/renderer for gameslib CI.
+ * Resolve and install pinned @abstractplay/renderer and @abstractplay/recranks for gameslib CI.
  *
- * Resolution order:
- *   1. AP_RENDERER_VERSION env (from repository_dispatch)
- *   2. ci-deps.<stage>.json (ci-deps.dev.json or ci-deps.prod.json)
- *   3. fallback: @development (dev) or @latest (prod)
+ * Resolution order (each package):
+ *   1. AP_*_VERSION env (from repository_dispatch)
+ *   2. ci-deps.<stage>.json
+ *   3. package.json
+ *   4. fallback: @development (dev) or @latest (prod)
  *
  * Usage: node scripts/install-ap-deps.mjs --stage dev|prod
  */
@@ -90,15 +91,17 @@ function getInstalledVersion(pkg) {
     }
 }
 
-function resolveVersions({ stage }) {
+function resolveVersions({ stage, pkgJson }) {
     const dispatchRenderer = process.env.AP_RENDERER_VERSION?.trim() || null;
+    const dispatchRecranks = process.env.AP_RECRANKS_VERSION?.trim() || null;
     const manifest = readManifest(stage);
     const manifestName = manifestLabel(stage);
 
     let renderer = dispatchRenderer || manifest?.renderer || null;
+    let recranks = dispatchRecranks || manifest?.recranks || null;
     let source = manifestName;
 
-    if (dispatchRenderer) {
+    if (dispatchRenderer || dispatchRecranks) {
         source = process.env.AP_SOURCE || "repository_dispatch";
     }
 
@@ -107,22 +110,39 @@ function resolveVersions({ stage }) {
     if (!renderer) {
         console.warn(`No renderer version resolved; falling back to @${tag}`);
         renderer = tag;
-        source = `fallback@${tag}`;
+        if (source === manifestName) {
+            source = `fallback@${tag}`;
+        }
     }
 
-    return { stage, renderer, source };
+    if (!recranks) {
+        recranks = pkgJson.dependencies?.["@abstractplay/recranks"] || null;
+        if (!recranks) {
+            console.warn(`No recranks version resolved; falling back to @${tag}`);
+            recranks = tag;
+            if (source === manifestName) {
+                source = `fallback@${tag}`;
+            }
+        }
+    }
+
+    return { stage, renderer, recranks, source };
 }
 
 function syncPackageJson(pkgJson, versions) {
     pkgJson.dependencies = pkgJson.dependencies ?? {};
     pkgJson.dependencies["@abstractplay/renderer"] = versions.renderer;
+    pkgJson.dependencies["@abstractplay/recranks"] = versions.recranks;
     writeJson(PACKAGE_JSON_PATH, pkgJson);
 }
 
-function installRenderer(renderer) {
-    const spec = `@abstractplay/renderer@${renderer}`;
-    console.log(`Installing: ${spec}`);
-    execSync(`npm install --save-exact ${spec}`, {
+function installPackages(versions) {
+    const pkgs = [
+        `@abstractplay/renderer@${versions.renderer}`,
+        `@abstractplay/recranks@${versions.recranks}`,
+    ];
+    console.log(`Installing: ${pkgs.join(" ")}`);
+    execSync(`npm install --save-exact ${pkgs.join(" ")}`, {
         cwd: ROOT,
         stdio: "inherit",
     });
@@ -138,7 +158,7 @@ function versionMatches(installed, expected) {
     return installed === expected;
 }
 
-function verifyInstalledVersion(versions) {
+function verifyInstalledVersions(versions) {
     const installedRenderer = getInstalledVersion("@abstractplay/renderer");
     if (!versionMatches(installedRenderer, versions.renderer)) {
         throw new Error(
@@ -146,11 +166,20 @@ function verifyInstalledVersion(versions) {
         );
     }
     console.log(`@abstractplay/renderer@${installedRenderer}`);
+
+    const installedRecranks = getInstalledVersion("@abstractplay/recranks");
+    if (!versionMatches(installedRecranks, versions.recranks)) {
+        throw new Error(
+            `Recranks version mismatch: expected ${versions.recranks}, got ${installedRecranks}`,
+        );
+    }
+    console.log(`@abstractplay/recranks@${installedRecranks}`);
 }
 
 function writeCiDeps(versions) {
     const data = {
         renderer: versions.renderer,
+        recranks: versions.recranks,
         updatedAt: new Date().toISOString(),
         source: versions.source,
     };
@@ -163,6 +192,7 @@ function writeGithubOutput(versions) {
         return;
     }
     fs.appendFileSync(outFile, `renderer_version=${versions.renderer}\n`);
+    fs.appendFileSync(outFile, `recranks_version=${versions.recranks}\n`);
 }
 
 const args = parseArgs(process.argv);
@@ -171,12 +201,12 @@ if (!pkgJson) {
     throw new Error(`Missing ${PACKAGE_JSON_PATH}`);
 }
 
-const versions = resolveVersions(args);
+const versions = resolveVersions({ ...args, pkgJson });
 console.log("Resolved AP dependency versions:", versions);
 
 syncPackageJson(pkgJson, versions);
-installRenderer(versions.renderer);
-verifyInstalledVersion(versions);
+installPackages(versions);
+verifyInstalledVersions(versions);
 writeCiDeps(versions);
 writeGithubOutput(versions);
 

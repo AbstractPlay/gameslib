@@ -308,7 +308,7 @@ export class BitesizeGame extends GameBase {
             const singletons: string[] = this.getGroups().filter(group => group.length === 1).map(cs => cs[0]);
             // get opponent max-size groups
             const oppMaxSizeGroups: string[][] = oppGroups.filter(group => group.length === this.getMaxGroupSize());
-            // check if any opponent group is adjacent to three singletons
+            // check if any opponent group is adjacent to at least three singletons
             for (const oppGroup of oppMaxSizeGroups) {
                 let count = 0;
                 let includeCurrentMove = false; // need to include the current singleton move `m`
@@ -318,7 +318,7 @@ export class BitesizeGame extends GameBase {
                         includeCurrentMove = includeCurrentMove || (singleton === m);
                     }
                 }
-                if ( includeCurrentMove && count === 3 ) { // capture it!
+                if ( includeCurrentMove && count >= 3 ) { // capture it!
                     for (const cell of oppGroup) {
                         this.board.delete(cell);
                     }

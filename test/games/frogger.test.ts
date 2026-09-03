@@ -2,7 +2,13 @@
 
 import "mocha";
 import { expect } from "chai";
+import { addResource } from "../../src";
 import { FroggerGame } from '../../src/games';
+import {
+    sequencedSkiptoPlyActor,
+    sequencedSkiptoShouldCloseRound,
+} from "../../src/games/_turn-sequenced-skipto";
+import { plyOrderedMovesFromRounds } from "../fixtures/turnModel/helpers";
 
 describe("Frogger", () => {
     const g = new FroggerGame(2);
@@ -274,6 +280,16 @@ describe("Frogger", () => {
 
     });
 
+    it ("continuous market top up regression test", () => {
+        // Only top up the market in the continuous variant.
+        const g = new FroggerGame(`{"game":"frogger","numplayers":2,"variants":["crocodiles","continuous"],"gameover":false,"winner":[],"stack":[{"_version":"20251220","_results":[],"_timestamp":"2025-12-28T02:33:17.187Z","currplayer":1,"board":{"dataType":"Map","value":[["b4","PMSL"],["b3","X0"],["c4","PSVK"],["c3","X0"],["d4","NV"],["e4","PVLY"],["e3","X0"],["f4","9VY"],["g4","8MS"],["h4","PMYK"],["h3","X0"],["i4","NL"],["j4","1Y"],["k4","2MK"],["l4","2VL"],["m4","8VL"],["a3","X1-6"],["a2","X2-6"]]},"closedhands":[["1M","7SK","1L","1K"],["5SV","4MS","3MV","9LK"]],"hands":[[],[]],"market":["6SY","6LK","4VL"],"discards":[],"nummoves":3}]}`);
+        g.move("1M:a3-g3/g3-f3,6LK/6LK:f3-i3/"); // pops only 6LK; 6SY and 4VL are never touched
+        expect(g.market).to.include("6SY");
+        expect(g.market).to.include("4VL");
+        expect(g.market).to.not.include("6LK"); // popped, replaced by exactly one new card
+        expect(g.market.length).to.equal(3);
+    });
+
     it ("Implements basic suit movement rules", () => {
         const g = new FroggerGame(`{"game":"frogger","numplayers":2,"variants":["courts","#market"],"gameover":false,"winner":[],"stack":[{"_version":"20251220","_results":[],"_timestamp":"2025-12-29T03:38:17.329Z","currplayer":1,"board":{"dataType":"Map","value":[["b4","7VY"],["c4","PVLY"],["d4","PMSL"],["e4","2MK"],["f4","3LY"],["g4","PMYK"],["h4","5ML"],["i4","8YK"],["j4","NY"],["k4","PSVK"],["l4","1L"],["m4","6MV"],["a3","X1-6"],["a2","X2-6"]]},"closedhands":[["TSLK","NM","9LK","TMLY"],["9MS","7SK","1K","2VL"]],"hands":[[],[]],"market":["NS","3SK","TMVK","5YK","TSVY","NV"],"discards":[],"nummoves":3}]}`);
 
@@ -365,6 +381,33 @@ describe("Frogger", () => {
         expect(g.handleClick("5YK:b2-e2/e2-d2,NV/", -1, -1, "refill")).to.have.deep.property("move", "5YK:b2-e2/e2-d2,NV!/");
         expect(g.handleClick("5YK:b2-e2/e2-d2,NV!/", -1, -1, "refill")).to.have.deep.property("move", "5YK:b2-e2/e2-d2,NV!/");
 
+    });
+
+    it ("Regression test of a submove with refill", () => {
+        // Regression test for a chatlogging issue.
+        const g = new FroggerGame(`{"game":"frogger","numplayers":2,"variants":["courts","#market","refills"],"gameover":false,"winner":[],"stack":[{"_version":"20251220","_results":[],"_timestamp":"2025-12-29T03:38:17.329Z","currplayer":1,"board":{"dataType":"Map","value":[["b4","7VY"],["c4","PVLY"],["d4","PMSL"],["e4","2MK"],["f4","3LY"],["g4","PMYK"],["h4","5ML"],["i4","8YK"],["j4","NY"],["k4","PSVK"],["l4","1L"],["m4","6MV"],["a3","X1-6"],["a2","X2-6"]]},"closedhands":[["TSLK","NM","9LK","TMLY"],["9MS","7SK","1K","2VL"]],"hands":[[],[]],"market":["NS","3SK","TMVK","5YK","TSVY","NV"],"discards":[],"nummoves":3}]}`);
+        g.move("NM:a3-d3/9LK:a3-c2/TSLK:a3-d2/");
+        g.move("9MS:a2-k3/7SK:a2-n2/1K:k3-n2/");
+        g.move("d3-c3,5YK/c2-b2,TMVK/d2-c2,TSVY/");
+        g.move("2VL:a2-d1/d1-c1,3SK/c1-b3,NS/");
+        g.move("5YK:b2-e2/e2-d2,NV!/");
+        const group = g.results.find(r => r.type === "_group");
+        expect(group).to.not.equal(undefined);
+        expect((group as {results: {type: string}[]}).results.some(r => r.type === "move")).to.equal(true);
+        expect(g.results.some(r => r.type === "announce")).to.equal(true);
+    });
+
+    it ("Render() does not corrupt the shared results array", () => {
+        // Regression test for an issue with the chatlog.
+        addResource("en");
+        const g = new FroggerGame(`{"game":"frogger","numplayers":2,"variants":["crocodiles","continuous"],"gameover":false,"winner":[],"stack":[{"_version":"20251220","_results":[],"_timestamp":"2025-12-28T02:33:17.187Z","currplayer":1,"board":{"dataType":"Map","value":[["b4","PMSL"],["b3","X0"],["c4","PSVK"],["c3","X0"],["d4","NV"],["e4","PVLY"],["e3","X0"],["f4","9VY"],["g4","8MS"],["h4","PMYK"],["h3","X0"],["i4","NL"],["j4","1Y"],["k4","2MK"],["l4","2VL"],["m4","8VL"],["a3","X1-6"],["a2","X2-6"]]},"closedhands":[["1M","7SK","1L","1K"],["5SV","4MS","3MV","9LK"]],"hands":[[],[]],"market":["6SY","6LK","4VL"],"discards":[],"nummoves":3}]}`);
+        g.move("1M:a3-g3/g3-f3,6LK/6LK:f3-i3/");
+        g.render(); // triggers the aliasing bug, if present
+        const log = g.chatLog(["Alice", "Bob"]);
+        const lastNode = log[log.length - 1];
+        // Match only the refill message itself, not related draw messages.
+        const occurrences = lastNode.filter(line => line.startsWith("The draw pool was")).length;
+        expect(occurrences).to.equal(1);
     });
 
     it ("Implements the original market rules", () => {
@@ -497,4 +540,106 @@ describe("Frogger", () => {
         expect(g5.validateMove(g5.randomMove())).to.have.deep.property("valid", true);
     });
 
+});
+
+describe("Frogger refills turn model (Phase 6)", () => {
+    const emptyDeckRefills = `{"game":"frogger","numplayers":2,"variants":["freeswim","refills"],"gameover":false,"winner":[],"stack":[{"_version":"20251229","_results":[{"type":"move","from":"g3","to":"f3","what":"2MK","how":"back"},{"type":"move","from":"f3","to":"e2","what":"6MV","how":"back"},{"type":"move","from":"e2","to":"d3","what":"NS","how":"back"}],"_timestamp":"2026-01-08T20:08:26.404Z","currplayer":2,"lastmove":"g3-f3,2MK/f3-e2,6MV/e2-d3,NS/","board":{"dataType":"Map","value":[["b4","3MV"],["c4","4YK"],["d4","NY"],["e4","PVLY"],["f4","5SV"],["g4","5YK"],["h4","PMSL"],["i4","PMYK"],["j4","NM"],["k4","4VL"],["l4","PSVK"],["m4","4MS"],["a3","X1-5"],["a2","X2-5"],["c3","X2"],["d3","X1"]]},"closedhands":[["5ML","8VL","3LY"],["2VL","9VY","7SK"]],"hands":[["1Y","6LK","9LK","NK","8YK","2SY","1K","2MK","6MV","NS"],["9MS","1L","7VY","1S","6SY","1M","NL","1V","3SK","7ML"]],"market":["NV"],"discards":[],"nummoves":3}]}`;
+
+    it("uses sequenced turn model when refills variant is active", () => {
+        const g = new FroggerGame(emptyDeckRefills);
+        expect(g.turnModel()).to.equal("sequenced");
+    });
+
+    it("uses sequential turn model without refills variant", () => {
+        const g = new FroggerGame(`{"game":"frogger","numplayers":2,"variants":["advanced"],"gameover":false,"winner":[],"stack":[{"_version":"20251229","_results":[],"_timestamp":"2026-01-27T00:12:42.159Z","currplayer":1,"board":{"dataType":"Map","value":[["b4","4YK"],["c4","4MS"],["d4","PSVK"],["e4","NM"],["f4","PMSL"],["g4","8VL"],["h4","PVLY"],["i4","3MV"],["j4","3LY"],["k4","PMYK"],["a3","X1-6"],["a2","X2-6"]]},"closedhands":[["1M","6SY","1L","7ML"],["8MS","NY","5ML","7VY"]],"hands":[[],[]],"market":["NS","1V","1S","2VL","4VL","5YK"],"discards":[],"nummoves":3}]}`);
+        expect(g.turnModel()).to.equal("sequential");
+    });
+
+    it("groups refill follow-up plies in one seat cycle before closing the round", () => {
+        const g = new FroggerGame(emptyDeckRefills);
+        g.move("c3-b3,NV!/");
+        g.move("pass");
+        g.move("b3-a2,8MS/");
+
+        const plies = g.getPlies();
+        expect(plies.map((p) => p.actor)).to.deep.equal([2, 1, 2]);
+        expect(plies.map((p) => p.round)).to.deep.equal([0, 0, 0]);
+        expect(g.getRounds()).to.have.length(3);
+        expect(plyOrderedMovesFromRounds(g.getRounds())).to.deep.equal(plies.map((p) => p.move));
+    });
+
+    it("exports one sparse row per ply with sequence when play order differs from seating", () => {
+        const g = new FroggerGame(emptyDeckRefills);
+        g.move("c3-b3,NV!/");
+        g.move("pass");
+        g.move("b3-a2,8MS/");
+
+        const rounds = g.getRounds();
+        expect(rounds[0]![1]).to.deep.include({ move: "c3-b3,NV!/", sequence: 1 });
+        expect(rounds[1]![0]).to.deep.include({ move: "pass", sequence: 2 });
+        expect(rounds[2]![1]).to.deep.include({ move: "b3-a2,8MS/", sequence: 3 });
+    });
+
+    it("sequencedSkiptoPlyActor respects skipto on supplemental refill turns", () => {
+        const g = new FroggerGame(emptyDeckRefills);
+        g.move("c3-b3,NV!/");
+        g.move("pass");
+        expect(sequencedSkiptoPlyActor(g, g.stack.length - 1)).to.equal(1);
+    });
+
+    it("does not close a round while skipto is still pending", () => {
+        const g = new FroggerGame(emptyDeckRefills);
+        g.move("c3-b3,NV!/");
+        const plies = g.getPlies();
+        const stackIndex = plies[plies.length - 1]!.stackIndex;
+        expect(sequencedSkiptoShouldCloseRound(g, plies, stackIndex)).to.equal(false);
+    });
+});
+
+describe("Frogger refills use sequenced mechanism correctly", () => {
+    // Same board/hands as emptyDeckRefills above, but _version bumped.
+    const sequencedRefills = `{"game":"frogger","numplayers":2,"variants":["freeswim","refills"],"gameover":false,"winner":[],"stack":[{"_version":"20260822","_results":[{"type":"move","from":"g3","to":"f3","what":"2MK","how":"back"},{"type":"move","from":"f3","to":"e2","what":"6MV","how":"back"},{"type":"move","from":"e2","to":"d3","what":"NS","how":"back"}],"_timestamp":"2026-01-08T20:08:26.404Z","currplayer":2,"lastmove":"g3-f3,2MK/f3-e2,6MV/e2-d3,NS/","board":{"dataType":"Map","value":[["b4","3MV"],["c4","4YK"],["d4","NY"],["e4","PVLY"],["f4","5SV"],["g4","5YK"],["h4","PMSL"],["i4","PMYK"],["j4","NM"],["k4","4VL"],["l4","PSVK"],["m4","4MS"],["a3","X1-5"],["a2","X2-5"],["c3","X2"],["d3","X1"]]},"closedhands":[["5ML","8VL","3LY"],["2VL","9VY","7SK"]],"hands":[["1Y","6LK","9LK","NK","8YK","2SY","1K","2MK","6MV","NS"],["9MS","1L","7VY","1S","6SY","1M","NL","1V","3SK","7ML"]],"market":["NV"],"discards":[],"nummoves":3}]}`;
+
+    it("a refill request sets refillPending, not skipto", () => {
+        const g = new FroggerGame(sequencedRefills);
+        g.move("c3-b3,NV!/");
+        expect(g.currplayer).to.equal(2);
+        expect(g.refillPending).to.equal(2);
+        expect(g.skipto).to.equal(undefined);
+    });
+
+    it("the supplemental submit doesn't involve forced passes", () => {
+        const g = new FroggerGame(sequencedRefills);
+        g.move("c3-b3,NV!/");
+        // No intervening g.move("pass") - the other seat is never prompted.
+        g.move("b3-a2,8MS/");
+        expect(g.refillPending).to.equal(undefined);
+        expect(g.currplayer).to.equal(1);
+    });
+
+    it("getPlies groups both plies under the same actor and round, with no passes", () => {
+        const g = new FroggerGame(sequencedRefills);
+        g.move("c3-b3,NV!/");
+        g.move("b3-a2,8MS/");
+
+        const plies = g.getPlies();
+        expect(plies.map((p) => p.actor)).to.deep.equal([2, 2]);
+        expect(plies.map((p) => p.round)).to.deep.equal([0, 0]);
+        expect(g.getRounds()).to.have.length(2);
+        expect(plyOrderedMovesFromRounds(g.getRounds())).to.deep.equal(plies.map((p) => p.move));
+    });
+
+    it("chatLog names the refilling player correctly", () => {
+        // Regression test for the shared GameBase.chatLog(). The fixture's
+        // own baked-in _results (stack index 0) now produce their own
+        // chatLog entry too - chatLogEntries() no longer skips index 0 the
+        // way the legacy chatLog() body used to - so the entry under test
+        // is the LAST one (this move's own), not necessarily [0].
+        addResource("en");
+        const g = new FroggerGame(sequencedRefills);
+        g.move("c3-b3,NV!/");
+        const entries = g.chatLog(["Alice", "Bob"]);
+        const [, message] = entries[entries.length - 1];
+        expect(message).to.include("Bob"); // player 2, who announced - not "Alice"
+    });
 });

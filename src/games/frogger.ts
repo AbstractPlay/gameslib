@@ -2,6 +2,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IV
 import type { IGamePly, IGameRound, TurnModel } from "./_turn-model.js";
 import { defaultPlyActor, defaultShouldCloseRound } from "./_turn-plies.js";
 import { sequencedSkiptoPlyActor, sequencedSkiptoShouldCloseRound } from "./_turn-sequenced-skipto.js";
+import { sequencedShouldCloseRound } from "./_turn-sequenced.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaPieces, Glyph, MarkerFlood, MarkerGlyph, RowCol} from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -26,6 +27,7 @@ export type FrameState = {
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
     skipto?: playerid;
+    refillPending?: playerid;
     board: Map<string, string>;
     closedhands: string[][];
     hands: string[][];
@@ -60,7 +62,7 @@ export class FroggerGame extends GameBase {
         name: "Frogger",
         uid: "frogger",
         playercounts: [2,3,4,5],
-        version: "20251229",
+        version: "20260822",
         dateAdded: "2026-01-26",
         // i18next.t("apgames:descriptions.frogger")
         description: "apgames:descriptions.frogger",
@@ -108,6 +110,7 @@ export class FroggerGame extends GameBase {
     public numplayers = 2;
     public currplayer: playerid = 1;
     public skipto?: playerid|undefined;
+    public refillPending?: playerid|undefined;
     public board!: Map<string, string>;
     public closedhands: string[][] = [];
     public hands: string[][] = [];
@@ -130,6 +133,16 @@ export class FroggerGame extends GameBase {
     private _highlight: string[] = [];
     private _points: string[] = [];
     private _button: boolean = true; //for refill button hiding
+
+    // Games created before this version used the legacy `skipto` pass-chain
+    // mechanism for refills (see _turn-sequenced-skipto.ts); games created
+    // at or after it use the same-seat `refillPending` mechanism instead.
+    // Checked against stack[0], not the current entry, so the answer is
+    // fixed for a game's whole life - never a per-entry/mid-game switch.
+    private static readonly SEQUENCED_REFILLS_SINCE = "20260822";
+    private usesSequencedRefills(): boolean {
+        return parseInt(this.stack[0]._version, 10) >= parseInt(FroggerGame.SEQUENCED_REFILLS_SINCE, 10);
+    }
 
     constructor(state: number | IFroggerState | string, variants?: string[]) {
         super();
@@ -252,6 +265,7 @@ export class FroggerGame extends GameBase {
         this.results = [...state._results];
         this.currplayer = state.currplayer;
         this.skipto = state.skipto;
+        this.refillPending = state.refillPending;
         this.board = new Map(state.board);
         this.closedhands = state.closedhands.map(h => [...h]);
         this.hands = state.hands.map(h => [...h]);
@@ -878,18 +892,20 @@ export class FroggerGame extends GameBase {
     }
 
     private refillMarket(): number {
-        //Fills the market regardless of current size.
+        //Tops the market up to marketsize.
         //Shuffles the discards when necessary.
-        //Refill variant behavior is mostly handled by the caller,
+        //Refill variant behavior is mostly handled by the caller.
+        //Returns how many cards were actually drawn this call.
 
         //May be called when the market is already full (in the continuous variant).
         if (this.market.length === this.marketsize)
             return 0;
 
         //First, try to draw what we need from the deck.
-        let toDraw = Math.min(this.marketsize, this.deck.size);
+        const needed = this.marketsize - this.market.length;
+        let toDraw = Math.min(needed, this.deck.size);
 
-        this.market = [...this.deck.draw(toDraw).map(c => c.uid)];
+        this.market.push(...this.deck.draw(toDraw).map(c => c.uid));
 
         if (this.market.length === this.marketsize) {
             return toDraw;
@@ -939,7 +955,7 @@ export class FroggerGame extends GameBase {
             player = this.currplayer;
         }
 
-        if (this.skipto !== undefined && this.skipto !== this.currplayer ) {
+        if (!this.usesSequencedRefills() && this.skipto !== undefined && this.skipto !== this.currplayer ) {
             //Passing for market hiding.
             return ["pass"];
         }
@@ -1011,7 +1027,7 @@ export class FroggerGame extends GameBase {
         }
 
         //Refill/skipto case.  Not reachable from the move list, but useful for testing.
-        if ( this.variants.includes("refills") && this.skipto !== undefined && this.skipto !== this.currplayer )
+        if ( this.variants.includes("refills") && !this.usesSequencedRefills() && this.skipto !== undefined && this.skipto !== this.currplayer )
             return "pass";
 
         if (this.checkBlocked()) {
@@ -1104,7 +1120,7 @@ export class FroggerGame extends GameBase {
 
         try {
 
-            if ( this.variants.includes("refills") && this.skipto && this.skipto !== this.currplayer ) {
+            if ( this.variants.includes("refills") && !this.usesSequencedRefills() && this.skipto && this.skipto !== this.currplayer ) {
                 //All clicks are bad clicks.  We don't bother with a pass button
                 // because the back end should have autopassed you.
                 return {
@@ -1308,15 +1324,19 @@ export class FroggerGame extends GameBase {
 
         if (m === "pass") {
             //May only pass in rare/refill situations.
-            if ( this.variants.includes("refills") && this.skipto !== undefined ) {
+            if ( this.variants.includes("refills") && (
+                (!this.usesSequencedRefills() && this.skipto !== undefined) ||
+                (this.usesSequencedRefills() && this.refillPending !== undefined && this.refillPending === this.currplayer)
+            ) ) {
 
-                // && this.skipto !== this.currplayer
-                //You must pass if you're not the player being skipped to.
+                // Legacy (!usesSequencedRefills): any pass while skipto is
+                // pending is valid - either you're not the obligated seat
+                // (forced pass for market hiding) or you are and are
+                // declining your own supplemental turn.
 
-                // && this.skipto === this.currplayer && this.nummoves < 3
-                //But you also may pass if you were skipped to
-                //  and it's your supplemental refill turn,
-                //  because you already made at least one move in the main turn.
+                // Sequenced (usesSequencedRefills): currplayer never becomes
+                // a non-obligated seat, so the only reachable case is the
+                // obligated seat declining its own supplemental turn.
 
                 result.valid = true;
                 result.message = i18next.t("apgames:validation._general.VALID_MOVE");
@@ -1645,6 +1665,11 @@ export class FroggerGame extends GameBase {
             }
         }
 
+        // Captured before anything mutates, so checkEOG() can always check
+        // the seat that just acted, regardless of whether currplayer
+        // advances this turn (it doesn't, on a fresh refill announce).
+        const actingPlayer = this.currplayer;
+
         this.results = [];
         this.frames = [];
 
@@ -1661,7 +1686,10 @@ export class FroggerGame extends GameBase {
             //  once he sees the market and (perhaps) doesn't like it.
             //In that case, we need to clean up (below).
 
-            if ( this.variants.includes("refills") && this.skipto !== undefined && this.skipto === this.currplayer) {
+            if ( this.variants.includes("refills") && (
+                (!this.usesSequencedRefills() && this.skipto !== undefined && this.skipto === this.currplayer) ||
+                (this.usesSequencedRefills() && this.refillPending !== undefined && this.refillPending === this.currplayer)
+            ) ) {
                 //Player passed during refill turn.
                 this.results.push({type: "pass", why: "to complete their partial turn"});
             } else if (this.checkBlocked() && this.market.length === 0) {
@@ -1749,6 +1777,15 @@ export class FroggerGame extends GameBase {
                     this.moveFrog(subIFM.from,subIFM.to);
                 }
 
+                // Group results before a possible refill break to prevent data loss on exit.
+                this.results.push({type: "_group", who: this.currplayer, results: results as [APMoveResult, ...APMoveResult[]]});
+                // store current board, market, and discards in frames
+                this.frames.push({
+                    board: new Map(this.board),
+                    market: [...this.market],
+                    discards: frameDiscards
+                })
+
                 if (refill) {
                     remaining = 2 - s;
                     break;
@@ -1759,21 +1796,12 @@ export class FroggerGame extends GameBase {
                     //but we need an array to highlight legal market cards.
                     this._highlight = [subIFM.card];
                 }
-
-                // group the results for each step together
-                this.results.push({type: "_group", who: this.currplayer, results: results as [APMoveResult, ...APMoveResult[]]});
-                // store current board, market, and discards in frames
-                this.frames.push({
-                    board: new Map(this.board),
-                    market: [...this.market],
-                    discards: frameDiscards
-                })
             }
 
             //We may leave the last frame in case of crocodile action, so just check the results length for now.
             if (this.results.length + 1 !== this.frames.length) {
                 throw new Error(`There's a mismatch in the length of the results array and the frames array. This should never happen.`);
-            } else if (!this.variants.includes("crocodiles") || this.currplayer as number !== this.numplayers || this.skipto) {
+            } else if (!this.variants.includes("crocodiles") || this.currplayer as number !== this.numplayers || this.skipto || this.refillPending) {
                 //We don't need the last frame.
                 this.frames.pop();
             }
@@ -1781,26 +1809,41 @@ export class FroggerGame extends GameBase {
 
         if (partial || emulation) { return this; }
 
+        // Only a fresh sequenced-model announce skips the currplayer
+        // advance below (it stays on this seat for the supplemental
+        // submit). Every other path - a legacy announce, a normal move,
+        // or either kind of pass - still advances as always.
+        let staysOnSeat = false;
+
         if (refill) {
-            //Set skipto and nummoves.
+            //Set skipto/refillPending and nummoves.
             //Don't progress crocodiles.
-            //Skip to my lou.
-            //After the new turn, we'll need to update nummoves, skipto, and crocs.
+            //After the new turn, we'll need to update nummoves, skipto/refillPending, and crocs.
             this.results.push({type: "announce", payload: [remaining!]});
-            this.skipto = this.currplayer;
+            if (this.usesSequencedRefills()) {
+                this.refillPending = this.currplayer;
+                staysOnSeat = true;
+            } else {
+                this.skipto = this.currplayer;
+            }
             this.nummoves = remaining!;
 
         } else {
 
-            //If this was the refill turn, unset skipto and nummoves,
+            //If this was the refill turn, unset skipto/refillPending and nummoves,
             //  regardless of whether currplayer passed or moved.
-            if ( this.variants.includes("refills") && this.skipto !== undefined && this.skipto === this.currplayer) {
+            if (this.usesSequencedRefills()) {
+                if (this.refillPending !== undefined && this.refillPending === this.currplayer) {
+                    this.refillPending = undefined;
+                    this.nummoves = 3;
+                }
+            } else if ( this.variants.includes("refills") && this.skipto !== undefined && this.skipto === this.currplayer) {
                 this.skipto = undefined;
                 this.nummoves = 3;
             }
 
             //update crocodiles if croccy but don't add a frame.
-            if (this.variants.includes("crocodiles") && this.currplayer as number === this.numplayers && !this.skipto) {
+            if (this.variants.includes("crocodiles") && this.currplayer as number === this.numplayers && !this.skipto && !this.refillPending) {
                 this.results.push({type: "declare"});
                 //Advance the crocodiles.
                 const victims = this.popCrocs();
@@ -1823,27 +1866,24 @@ export class FroggerGame extends GameBase {
 
         // update currplayer
         this.lastmove = m;
-        let newplayer = (this.currplayer as number) + 1;
-        if (newplayer > this.numplayers) {
-            newplayer = 1;
+        if (!staysOnSeat) {
+            let newplayer = (this.currplayer as number) + 1;
+            if (newplayer > this.numplayers) {
+                newplayer = 1;
+            }
+            this.currplayer = newplayer as playerid;
         }
-        this.currplayer = newplayer as playerid;
 
-        this.checkEOG();
+        this.checkEOG(actingPlayer);
         this.saveState();
         return this;
     }
 
-    protected checkEOG(): FroggerGame {
+    protected checkEOG(actingPlayer: playerid): FroggerGame {
         //You can only win on your own turn.
-        let prevplayer = this.currplayer - 1;
-        if (prevplayer < 1) {
-            prevplayer = this.numplayers;
-        }
-
-        if ( this.countColumnFrogs(true, prevplayer as playerid) === 6 ) {
+        if ( this.countColumnFrogs(true, actingPlayer) === 6 ) {
             this.gameover = true;
-            this.winner.push(prevplayer as playerid);
+            this.winner.push(actingPlayer);
         }
 
         if (this.gameover) {
@@ -1884,6 +1924,7 @@ export class FroggerGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             skipto: this.skipto,
+            refillPending: this.refillPending,
             lastmove: this.lastmove,
             board: new Map(this.board),
             closedhands: this.closedhands.map(h => [...h]),
@@ -2135,7 +2176,8 @@ export class FroggerGame extends GameBase {
                 const group = this.results[i-1];
                 if (group !== undefined && group.type === "_group") {
                     //throw new Error(`The only results that should be present are _group results!`);
-                    results = group.results;
+                    // Changed alias to a copy, fixing weird chatlog issues.
+                    results = [...group.results];
                 } else if (group !== undefined) {
                     results = [group];
                 }
@@ -2318,6 +2360,23 @@ export class FroggerGame extends GameBase {
 
 
 
+    // Frogger's sequenced-refill mechanic can leave the same seat on the
+    // move after their own refill announce (see cmdMove's own
+    // `staysOnSeat` handling) - the base class default (`currplayer - 1`)
+    // assumes currplayer always simply advances by one seat per ply,
+    // which isn't true here. Every frogger ply's own leading result is
+    // grouped under a `_group` carrying the ACTING player's seat directly
+    // (`who`, set from `this.currplayer` before any turn advancement -
+    // see cmdMove's own `_group` push) - preferred here over the default
+    // whenever it's present, per resolveChatSeat's own documented
+    // override contract.
+    public resolveChatSeat(r: APMoveResult, currplayer: number): number {
+        if (r.type === "_group") {
+            return r.who;
+        }
+        return super.resolveChatSeat(r, currplayer);
+    }
+
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         if (r.type === "_group") {
             let resolved = false;
@@ -2393,17 +2452,26 @@ export class FroggerGame extends GameBase {
     }
 
     protected plyActor(stackIndex: number): number {
-        if (!this.variants.includes("refills")) {
+        if (!this.variants.includes("refills") || this.usesSequencedRefills()) {
+            // New model: currplayer never leaves the obligated seat, so the
+            // default (stack[stackIndex-1].currplayer) is always right.
             return defaultPlyActor(this, stackIndex);
         }
-        return sequencedSkiptoPlyActor(this, stackIndex);
+        return sequencedSkiptoPlyActor(this, stackIndex); // legacy
     }
 
     protected shouldCloseRound(roundPlies: IGamePly[], stackIndex: number): boolean {
         if (!this.variants.includes("refills")) {
             return defaultShouldCloseRound(this, roundPlies);
         }
-        return sequencedSkiptoShouldCloseRound(this, roundPlies, stackIndex);
+        if (!this.usesSequencedRefills()) {
+            return sequencedSkiptoShouldCloseRound(this, roundPlies, stackIndex); // legacy
+        }
+        const after = this.stack[stackIndex];
+        if (after.refillPending !== undefined) {
+            return false; // stay open until the supplemental resolves
+        }
+        return sequencedShouldCloseRound(this, roundPlies, stackIndex);
     }
 
     /** Refill follow-ups can place several plies on one seat in a cycle — one sparse row per ply. */

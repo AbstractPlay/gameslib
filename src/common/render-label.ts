@@ -112,6 +112,20 @@ function walkBoard(
     walkMarkers(board.markers, playerNames, t);
 }
 
+function resolveOneRenderRep<T>(
+    rep: T,
+    playerNames: string[],
+    t: ChatLogTranslate,
+): T {
+    const out = structuredClone(rep) as T & {
+        board?: Parameters<typeof walkBoard>[0];
+        areas?: Parameters<typeof walkAreas>[0];
+    };
+    walkBoard(out.board, playerNames, t);
+    walkAreas(out.areas, playerNames, t);
+    return out;
+}
+
 /**
  * Resolve structured render labels to display strings before drawing.
  * Walks board markers, dual-board labels, areas, and button-bar buttons.
@@ -121,14 +135,11 @@ export function resolveRenderLabels<T>(
     playerNames: string[],
     t: ChatLogTranslate,
 ): T {
-    if (!rep || typeof rep !== "object") {
+    if (rep == null || typeof rep !== "object") {
         return rep;
     }
-    const out = structuredClone(rep) as T & {
-        board?: Parameters<typeof walkBoard>[0];
-        areas?: Parameters<typeof walkAreas>[0];
-    };
-    walkBoard(out.board, playerNames, t);
-    walkAreas(out.areas, playerNames, t);
-    return out;
+    if (Array.isArray(rep)) {
+        return rep.map((r) => resolveOneRenderRep(r, playerNames, t)) as T;
+    }
+    return resolveOneRenderRep(rep, playerNames, t);
 }

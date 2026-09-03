@@ -2360,6 +2360,23 @@ export class FroggerGame extends GameBase {
 
 
 
+    // Frogger's sequenced-refill mechanic can leave the same seat on the
+    // move after their own refill announce (see cmdMove's own
+    // `staysOnSeat` handling) - the base class default (`currplayer - 1`)
+    // assumes currplayer always simply advances by one seat per ply,
+    // which isn't true here. Every frogger ply's own leading result is
+    // grouped under a `_group` carrying the ACTING player's seat directly
+    // (`who`, set from `this.currplayer` before any turn advancement -
+    // see cmdMove's own `_group` push) - preferred here over the default
+    // whenever it's present, per resolveChatSeat's own documented
+    // override contract.
+    public resolveChatSeat(r: APMoveResult, currplayer: number): number {
+        if (r.type === "_group") {
+            return r.who;
+        }
+        return super.resolveChatSeat(r, currplayer);
+    }
+
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         if (r.type === "_group") {
             let resolved = false;

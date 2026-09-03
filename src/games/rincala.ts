@@ -624,13 +624,13 @@ export class RincalaGame extends GameBase {
 
             // build pieces areas for hands
             const areas: AreaPieces[] = [];
-            for (let i = 0; i < 2; i++) {
-                const hand = hands[i];
+            for (let seat = 1; seat <= 2; seat++) {
+                const hand = hands[seat - 1];
                 if (hand.length > 0) {
                     areas.push({
                         type: "pieces",
                         pieces: hand as [Colour, ...Colour[]],
-                        label: this.seatAreaLabel(i + 1, "apgames:validation.rincala.LABEL_STASH"),
+                        label: this.seatAreaLabel(seat, "apgames:validation.rincala.LABEL_STASH"),
                     });
                 }
             }

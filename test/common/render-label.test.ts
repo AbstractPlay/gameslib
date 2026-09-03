@@ -134,4 +134,42 @@ describe("resolveRenderLabels", () => {
         expect(resolved.board.boardOne.label).to.equal("Bob's stash");
         expect(resolved.board.markers[0].label).to.equal("Cards in deck");
     });
+
+    it("resolves structured area labels in each rep of a multi-frame array", () => {
+        const rep = [
+            {
+                areas: [
+                    {
+                        type: "pieces",
+                        label: {
+                            textKey: "test:STASH",
+                            actor: { kind: "seat" as const, seat: 1 },
+                        },
+                    },
+                ],
+            },
+            {
+                areas: [
+                    {
+                        type: "pieces",
+                        label: {
+                            textKey: "test:STASH",
+                            actor: { kind: "seat" as const, seat: 2 },
+                        },
+                    },
+                ],
+            },
+        ];
+        const resolved = resolveRenderLabels(rep, ["Alice", "Bob"], mockT);
+        expect(resolved[0].areas[0].label).to.equal("Alice's stash");
+        expect(resolved[1].areas[0].label).to.equal("Bob's stash");
+        expect(rep[0].areas[0].label).to.deep.equal({
+            textKey: "test:STASH",
+            actor: { kind: "seat", seat: 1 },
+        });
+        expect(rep[1].areas[0].label).to.deep.equal({
+            textKey: "test:STASH",
+            actor: { kind: "seat", seat: 2 },
+        });
+    });
 });

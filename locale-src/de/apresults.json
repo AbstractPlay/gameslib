@@ -97,11 +97,11 @@
   },
   "ANNOUNCE.frogger_one": {
     "src": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining move.",
-    "out": "{{player}} hat sich entschieden, den Nachziehvorrat aufzufüllen. Er erhält einen weiteren Zug, um seinen {{count}} verbleibenden Zug auszuführen."
+    "out": "{{player}} hat sich entschieden, den Nachziehpool aufzufüllen. Er erhält einen weiteren Zug, um seinen {{count}} verbleibenden Zug zu machen."
   },
   "ANNOUNCE.frogger_other": {
     "src": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining moves.",
-    "out": "{{player}} hat sich entschieden, den Nachziehvorrat aufzufüllen. Er erhält einen weiteren Zug, um seine {{count}} verbleibenden Züge auszuführen."
+    "out": "{{player}} hat sich entschieden, den Nachziehpool aufzufüllen. Er erhält einen weiteren Zug, um seine {{count}} verbleibenden Züge zu machen."
   },
   "ANNOUNCE.quincunx": {
     "src": "Player {{playerNum}} had the following cards left in their hand: {{cards}}.",
@@ -1038,6 +1038,10 @@
   "MOVE.amazons": {
     "src": "{{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
     "out": "{{player}} ist von {{from}} nach {{to}} gezogen und hat danach das Feld {{block}} gesperrt."
+  },
+  "MOVE.amazonsNoFirstShot": {
+    "src": "{{player}} moved from {{from}} to {{to}}.",
+    "out": "{{player}} ist von {{from}} nach {{to}} gezogen."
   },
   "MOVE.anache_dragon": {
     "src": "{{player}} moved a group of size {{count}} via a dragon move from {{from}} in the direction {{dir}}.",

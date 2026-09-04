@@ -30,8 +30,8 @@
     "arimaa": "Cette position s'est déjà produite. Les répétitions ultérieures de cette position sont interdites.",
     "biscuit": "Les cartes suivantes étaient dans les mains adverses : {{cards}}.",
     "deckfish": "{{player}} ne pouvait pas déplacer et doit passer à partir de maintenant.",
-    "frogger_one": "{{player}} a choisi de remplir la réserve de pioche. Les autres joueurs doivent passer afin qu'il puisse effectuer son {{count}} déplacement restant.",
-    "frogger_other": "{{player}} a choisi de remplir la réserve de pioche. Les autres joueurs doivent passer afin qu'il puisse effectuer ses {{count}} déplacements restants.",
+    "frogger_one": "{{player}} a choisi de recharger la pioche. Il obtient un autre tour pour effectuer son {{count}} coup restant.",
+    "frogger_other": "{{player}} a choisi de recharger la pioche. Il obtient un autre tour pour effectuer ses {{count}} coups restants.",
     "quincunx": "Le joueur {{playerNum}} avait les cartes suivantes en main : {{cards}}.",
     "elOso": {
       "playerSetup": "Mise en place du joueur",
@@ -318,6 +318,7 @@
   "LEAD": "{{player}} a pris la tête.",
   "MOVE": {
     "amazons": "{{player}} a déplacé de {{from}} vers {{to}} puis a bloqué la case {{block}}.",
+    "amazonsNoFirstShot": "{{player}} s'est déplacé de {{from}} à {{to}}.",
     "anache_dragon": "{{player}} a déplacé un groupe de taille {{count}} via un coup de dragon depuis {{from}} dans la direction {{dir}}.",
     "anache_dragon_jump": "{{player}} fait sauter son dragon de {{from}} vers {{to}}.",
     "anache_knight": "{{player}} a déplacé un groupe de taille {{count}} via un coup de cavalier depuis {{from}} dans la direction {{dir}}.",

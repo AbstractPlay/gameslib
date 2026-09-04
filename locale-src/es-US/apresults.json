@@ -97,11 +97,11 @@
   },
   "ANNOUNCE.frogger_one": {
     "src": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining move.",
-    "out": "{{player}} eligió rellenar la reserva de robo. Obtiene otro turno para hacer su {{count}} movimiento restante."
+    "out": "{{player}} eligió reponer la reserva de robo.  Obtiene otro turno para realizar su {{count}} movimiento restante."
   },
   "ANNOUNCE.frogger_other": {
     "src": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining moves.",
-    "out": "{{player}} eligió rellenar la reserva de robo. Obtiene otro turno para hacer sus {{count}} movimientos restantes."
+    "out": "{{player}} eligió reponer la reserva de robo.  Obtiene otro turno para realizar sus {{count}} movimientos restantes."
   },
   "ANNOUNCE.quincunx": {
     "src": "Player {{playerNum}} had the following cards left in their hand: {{cards}}.",
@@ -1038,6 +1038,10 @@
   "MOVE.amazons": {
     "src": "{{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
     "out": "{{player}} se movió de {{from}} a {{to}} y luego bloqueó la casilla {{block}}."
+  },
+  "MOVE.amazonsNoFirstShot": {
+    "src": "{{player}} moved from {{from}} to {{to}}.",
+    "out": "{{player}} se movió de {{from}} a {{to}}."
   },
   "MOVE.anache_dragon": {
     "src": "{{player}} moved a group of size {{count}} via a dragon move from {{from}} in the direction {{dir}}.",

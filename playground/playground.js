@@ -1127,6 +1127,40 @@ function formatScore(score) {
     return String(score);
 }
 
+function resolveSidebarLabel(label, playerNames) {
+    if (APGames?.isStructuredRenderLabel?.(label)) {
+        return APGames.resolveRenderLabel(label, playerNames, playgroundTranslate);
+    }
+    if (isI18nKey(label)) {
+        return playgroundT(label);
+    }
+    return String(label);
+}
+
+function isSidebarStatusEntry(status) {
+    return typeof status === 'object' && status !== null && Array.isArray(status.value);
+}
+
+function isPerPlayerStatusLabel(status) {
+    return typeof status === 'string' || APGames?.isStructuredRenderLabel?.(status);
+}
+
+function formatSidebarScoreValue(value, playerNames, glyphRenderOptions) {
+    if (APGames?.isStructuredRenderLabel?.(value)) {
+        return APGames.resolveRenderLabel(value, playerNames, playgroundTranslate);
+    }
+    if (isI18nKey(value)) {
+        return playgroundT(value);
+    }
+    return formatScore(value);
+}
+
+function metricNameIdSuffix(label, playerNames) {
+    const display = resolveSidebarLabel(label, playerNames);
+    const safe = display.replace(/\s+/g, "_").replace(/[^\w-]/g, "");
+    return safe.length > 0 ? safe : "metric";
+}
+
 // Helper to format the content of a single stash item that represents a piece/glyph
 function formatSingleStashItemContent(item, glyphRenderOptions) {
     let content = "";
@@ -1224,9 +1258,12 @@ function _renderInCheckSection(game, playerNames) {
     return inCheckBlockHTML;
 }
 
-// Helper to render a single IStatus value entry (string or glyph object)
+// Helper to render a single IStatus value entry (string, glyph object, or i18n key)
 function _formatStatusValue(value, glyphRenderOptions) {
     if (typeof value === "string") {
+        if (isI18nKey(value)) {
+            return playgroundT(value);
+        }
         return value;
     }
     if (typeof value === "object" && value !== null && value.glyph) {
@@ -1245,21 +1282,25 @@ function _formatStatusValue(value, glyphRenderOptions) {
     return String(value);
 }
 
-function resolveSidebarLabel(label, playerNames) {
-    if (APGames?.isStructuredRenderLabel?.(label)) {
-        return APGames.resolveRenderLabel(label, playerNames, playgroundTranslate);
-    }
-    if (isI18nKey(label)) {
-        return playgroundT(label);
-    }
-    return String(label);
-}
-
 function formatSidebarStatusValue(value, playerNames, glyphRenderOptions) {
     if (APGames?.isStructuredRenderLabel?.(value)) {
         return APGames.resolveRenderLabel(value, playerNames, playgroundTranslate);
     }
+    if (typeof value === 'string' && isI18nKey(value)) {
+        return playgroundT(value);
+    }
     return _formatStatusValue(value, glyphRenderOptions);
+}
+
+function renderStatusListItem(status, playerNames, glyphRenderOptions) {
+    if (isSidebarStatusEntry(status)) {
+        const values = status.value
+            .map(v => formatSidebarStatusValue(v, playerNames, glyphRenderOptions))
+            .join(" ");
+        const label = resolveSidebarLabel(status.key, playerNames);
+        return `<li><strong>${label}:</strong> ${values}</li>`;
+    }
+    return `<li>${resolveSidebarLabel(status, playerNames)}</li>`;
 }
 
 // Helper function to render the general statuses section
@@ -1274,28 +1315,22 @@ function _renderStatusesSection(game, playerNames, glyphRenderOptions) {
     if (statuses) {
         if (Array.isArray(statuses)) {
             if (statuses.length > 0) {
-                if (statuses.length === game.numplayers && statuses.every(s => typeof s === 'string')) {
+                if (statuses.length === game.numplayers && statuses.every(isPerPlayerStatusLabel)) {
                     actualStatusContent += "<ul>";
                     statuses.forEach((s, idx) => {
-                        actualStatusContent += `<li>${playerNames[idx] || `Player ${idx+1}`}: ${s}</li>`;
-                    });
-                    actualStatusContent += "</ul>";
-                } else if (statuses.every(s => typeof s === 'object' && s !== null && Array.isArray(s.value))) {
-                    actualStatusContent += "<ul>";
-                    statuses.forEach(s => {
-                        const values = s.value
-                            .map(v => formatSidebarStatusValue(v, playerNames, glyphRenderOptions))
-                            .join(" ");
-                        const label = resolveSidebarLabel(s.key, playerNames);
-                        actualStatusContent += `<li><strong>${label}:</strong> ${values}</li>`;
+                        actualStatusContent += `<li>${playerNames[idx] || `Player ${idx+1}`}: ${resolveSidebarLabel(s, playerNames)}</li>`;
                     });
                     actualStatusContent += "</ul>";
                 } else {
-                    actualStatusContent += `<ul>${statuses.map(s => `<li>${s}</li>`).join("")}</ul>`;
+                    actualStatusContent += "<ul>";
+                    statuses.forEach(s => {
+                        actualStatusContent += renderStatusListItem(s, playerNames, glyphRenderOptions);
+                    });
+                    actualStatusContent += "</ul>";
                 }
             }
         } else if (typeof statuses === 'string' && statuses.trim() !== "") {
-            actualStatusContent += `<p>${statuses.trim()}</p>`;
+            actualStatusContent += `<p>${resolveSidebarLabel(statuses, playerNames)}</p>`;
         }
     }
 
@@ -1315,8 +1350,10 @@ function _renderScoresSection(game, gamename, playerNames, gameFlags, glyphRende
             scoresBlockHTML += `<h3>Scores:</h3>`;
 
             metricsArray.forEach(metric => {
-                if (typeof metric === 'object' && metric !== null && metric.hasOwnProperty('name') && typeof metric.name === 'string' && metric.hasOwnProperty('scores') && Array.isArray(metric.scores)) {
-                    scoresBlockHTML += `<h4>${metric.name}:</h4>`;
+                if (typeof metric === 'object' && metric !== null && metric.hasOwnProperty('name') && metric.hasOwnProperty('scores') && Array.isArray(metric.scores)) {
+                    const metricLabel = resolveSidebarLabel(metric.name, playerNames);
+                    const metricId = metricNameIdSuffix(metric.name, playerNames);
+                    scoresBlockHTML += `<h4>${metricLabel}:</h4>`;
                     metric.scores.forEach((playerScore, playerIndex) => {
                         const playerNum = playerIndex + 1;
                         const playerName = playerNames[playerIndex] || `Player ${playerNum}`;
@@ -1346,7 +1383,7 @@ function _renderScoresSection(game, gamename, playerNames, gameFlags, glyphRende
 
                         const localGlyphOpts = {
                             ...glyphRenderOptions,
-                            svgid: `scoreSwatchGlyph_${metric.name.replace(/\s+/g, '_')}_${playerNum}`,
+                            svgid: `scoreSwatchGlyph_${metricId}_${playerNum}`,
                             prefix: generateUniqueSvgId(),
                         };
 
@@ -1369,7 +1406,7 @@ function _renderScoresSection(game, gamename, playerNames, gameFlags, glyphRende
                         playerDiv.appendChild(swatch);
 
                         const scoreTextSpan = document.createElement('span');
-                        scoreTextSpan.textContent = `${playerName}: ${formatScore(playerScore)}`;
+                        scoreTextSpan.textContent = `${playerName}: ${formatSidebarScoreValue(playerScore, playerNames, glyphRenderOptions)}`;
                         playerDiv.appendChild(scoreTextSpan);
                         scoresBlockHTML += playerDiv.outerHTML;
                     });

@@ -4371,6 +4371,10 @@
     "src": "Select one of your amazons to move.",
     "out": "Selecciona una de tus amazonas para mover."
   },
+  "validation.amazons.NO_FIRST_SHOT": {
+    "src": "The first player may not shoot an arrow on their opening turn.",
+    "out": "El primer jugador no puede disparar una flecha en su turno inicial."
+  },
   "validation.amazons.POTENTIAL_BLOCK": {
     "src": "So far so good. Provide the space you want to block.",
     "out": "Hasta aquí todo bien. Proporciona el espacio que quieres bloquear."
@@ -7781,11 +7785,11 @@
   },
   "validation.frogger.VALID_REFILL_one": {
     "src": "Please submit your move to trigger the refill. You will get another turn automatically, and you will have one move remaining in your partial turn (as well as the option to pass).",
-    "out": "Por favor, envía tu movimiento para activar la reposición. Obtendrás otro turno automáticamente y te quedará un movimiento restante en tu turno parcial (además de la opción de pasar)."
+    "out": "Por favor, envía tu movimiento para activar la reposición. Obtendrás otro turno automáticamente y te quedará un movimiento en tu turno parcial (así como la opción de pasar)."
   },
   "validation.frogger.VALID_REFILL_other": {
     "src": "Please submit your move to trigger the refill. You will get another turn automatically, and you will have {{count}} moves remaining in your partial turn (as well as the option to pass).",
-    "out": "Por favor, envía tu movimiento para activar la reposición. Obtendrás otro turno automáticamente y te quedarán {{count}} movimientos restantes en tu turno parcial (además de la opción de pasar)."
+    "out": "Por favor, envía tu movimiento para activar la reposición. Obtendrás otro turno automáticamente y te quedarán {{count}} movimientos en tu turno parcial (así como la opción de pasar)."
   },
   "validation.furl.CAPTURE4UNFURL": {
     "src": "You signalled a capture unfurl move, but {{to}} not is occupied by the opponent. Use \">\" to denote non-capture unfurl.",
@@ -13998,6 +14002,14 @@
   "variants.amazons.cross.name": {
     "src": "Cross",
     "out": "Cruz"
+  },
+  "variants.amazons.noFirstShot.description": {
+    "src": "Instead of the standard pie rule, the first player instead may not shoot an arrow on their first turn.",
+    "out": "En lugar de la regla estándar del pastel, el primer jugador no puede disparar una flecha en su primer turno."
+  },
+  "variants.amazons.noFirstShot.name": {
+    "src": "No First Shot",
+    "out": "Sin primer disparo"
   },
   "variants.amazons.scrambled.description": {
     "src": "Queens alternate colour around the board.",

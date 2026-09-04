@@ -37,14 +37,14 @@ describe("Turn model golden (Phase 0)", () => {
     describe("chatLog golden normalization", () => {
         it("maps legacy optional (s) plurals to count-based forms", () => {
             expect(normalizeChatLogLineForGolden(
-                "mcd2 chose to refill the draw pool.  Other players must pass so he can take his 1 remaining move(s).",
+                "mcd2 chose to refill the draw pool.  He gets another turn to take his 1 remaining move(s).",
             )).to.equal(
-                "mcd2 chose to refill the draw pool. Other players must pass so he can take his 1 remaining move.",
+                "mcd2 chose to refill the draw pool. He gets another turn to take his 1 remaining move.",
             );
             expect(normalizeChatLogLineForGolden(
-                "mcd3 chose to refill the draw pool. Other players must pass so he can take his 2 remaining move(s).",
+                "mcd3 chose to refill the draw pool. He gets another turn to take his 2 remaining move(s).",
             )).to.equal(
-                "mcd3 chose to refill the draw pool. Other players must pass so he can take his 2 remaining moves.",
+                "mcd3 chose to refill the draw pool. He gets another turn to take his 2 remaining moves.",
             );
             expect(normalizeChatLogLineForGolden(
                 "Alice added 3 token(s) to their deeded card c1.",
@@ -54,7 +54,7 @@ describe("Turn model golden (Phase 0)", () => {
         });
 
         it("leaves already-pluralized lines unchanged", () => {
-            const line = "mcd1 chose to refill the draw pool. Other players must pass so he can take his 2 remaining moves.";
+            const line = "mcd1 chose to refill the draw pool. He gets another turn to take his 2 remaining moves.";
             expect(normalizeChatLogLineForGolden(line)).to.equal(line);
         });
     });

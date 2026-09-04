@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
-import { RectGrid } from "../common/index.js";
+import { FlagContext, GameFlag, RectGrid } from "../common/index.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { Direction } from "../common/index.js";
 import { UndirectedGraph } from "graphology";
@@ -23,6 +23,7 @@ interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, CellContents>;
     lastmove?: string;
+    variants?: string[];
 }
 
 export interface IAmazonsState extends IAPGameState {
@@ -59,6 +60,7 @@ export class AmazonsGame extends GameBase {
         variants: [
             {uid: "cross", group: "setup"},
             {uid: "scrambled", group: "setup"},
+            {uid: "noFirstShot" },
         ],
         categories: ["goal>immobilize", "mechanic>block", "mechanic>move", "mechanic>enclose", "board>shape>rect", "board>connect>rect", "components>simple>3c"],
         flags: ["perspective", "pie", "aiai"],
@@ -69,6 +71,14 @@ export class AmazonsGame extends GameBase {
     }
     public static algebraic2coords(cell: string): [number, number] {
         return GameBase.algebraic2coords(cell, 10);
+    }
+
+    public static resolveFlags(context: FlagContext = {}): readonly GameFlag[] {
+        let flags: GameFlag[] = [...(this.gameinfo.flags ?? [])];
+        if (context.variants?.includes("noFirstShot")) {
+            flags = flags.filter((f) => f !== "pie");
+        }
+        return flags;
     }
 
     private buildGraph(): UndirectedGraph {
@@ -132,6 +142,7 @@ export class AmazonsGame extends GameBase {
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
+            this.variants = [...state.variants];
             this.stack = [...state.stack];
         } else {
             let board = new Map<string, CellContents>([
@@ -176,6 +187,7 @@ export class AmazonsGame extends GameBase {
                 _timestamp: new Date(),
                 currplayer: 1,
                 board,
+                variants: [...this.variants],
             };
             this.stack = [fresh];
         }
@@ -193,6 +205,9 @@ export class AmazonsGame extends GameBase {
         const state = this.stack[idx];
         if (state === undefined) {
             throw new Error(`Could not load state index ${idx}`);
+        }
+        if (state.variants !== undefined) {
+            this.variants = [...state.variants];
         }
         this.results = [...state._results];
         this.currplayer = state.currplayer;
@@ -231,6 +246,11 @@ export class AmazonsGame extends GameBase {
                 }
             });
         });
+
+        if (this.noFirstShotTurn()) {
+            return moves.map((m) => m[0] + "-" + m[1]);
+        }
+
         // For each move
         const finals: Array<[string, string, string]> = [];
         moves.forEach((m) => {
@@ -362,17 +382,28 @@ export class AmazonsGame extends GameBase {
                     return result;
                 }
             }
-            // possible partial
+            // possible partial, or complete when first player may not shoot
             if (block === undefined) {
                 result.valid = true;
-                result.complete = -1;
-                result.canrender = true;
-                result.message = i18next.t("apgames:validation.amazons.POTENTIAL_BLOCK");
+                if (this.noFirstShotTurn()) {
+                    result.complete = 1;
+                    result.canrender = false;
+                    result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                } else {
+                    result.complete = -1;
+                    result.canrender = true;
+                    result.message = i18next.t("apgames:validation.amazons.POTENTIAL_BLOCK");
+                }
                 return result
             }
         }
 
         if (block !== undefined) {
+            if (this.noFirstShotTurn()) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.amazons.NO_FIRST_SHOT");
+                return result;
+            }
             const [xTo, yTo] = AmazonsGame.algebraic2coords(to);
             const [xBlock, yBlock] = AmazonsGame.algebraic2coords(block);
             // destination is empty, unless you're blocking your starting space
@@ -455,19 +486,18 @@ export class AmazonsGame extends GameBase {
         const [from, to, block] = m.split(/[-/]/);
         this.board.delete(from);
         this.board.set(to, this.currplayer);
-        this.board.set(block, 0);
-        this.graph.dropNode(block);
         this.lastmove = m;
+        this.results = [{type: "move", from, to}];
+        if (block !== undefined) {
+            this.board.set(block, 0);
+            this.graph.dropNode(block);
+            this.results.push({type: "block", where: block});
+        }
         if (this.currplayer === 1) {
             this.currplayer = 2;
         } else {
             this.currplayer = 1;
         }
-        // Assign results, don't add to them
-        this.results = [
-            {type: "move", from, to},
-            {type: "block", where: block}
-        ];
 
         this.checkEOG();
         this.saveState();
@@ -493,7 +523,7 @@ export class AmazonsGame extends GameBase {
         return {
             game: AmazonsGame.gameinfo.uid,
             numplayers: 2,
-            variants: [],
+            variants: [...this.variants],
             gameover: this.gameover,
             winner: [...this.winner],
             stack: [...this.stack]
@@ -507,8 +537,15 @@ export class AmazonsGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: new Map(this.board)
+            board: new Map(this.board),
+            variants: [...this.variants],
         };
+    }
+
+    private noFirstShotTurn(): boolean {
+        return this.variants.includes("noFirstShot")
+            && this.stack.length === 1
+            && this.currplayer === 1;
     }
 
     public findPieces(): string[] {
@@ -745,10 +782,16 @@ export class AmazonsGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move": {
-                const block = ctx.results.find((mr) => mr.type === "block")! as { type: "block"; where: string };
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.amazons", {
-                    from: r.from, to: r.to, block: block.where,
-                });
+                const block = ctx.results.find((mr) => mr.type === "block") as { type: "block"; where: string } | undefined;
+                if (block !== undefined) {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.amazons", {
+                        from: r.from, to: r.to, block: block.where,
+                    });
+                } else {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.amazonsNoFirstShot", {
+                        from: r.from, to: r.to,
+                    });
+                }
                 return true;
             }
             case "block":

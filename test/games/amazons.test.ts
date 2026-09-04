@@ -125,5 +125,37 @@ describe("Amazons", () => {
         expect(() => g.move("a4-a5/a4")).to.not.throw;
         expect(() => g.move("a4-a5/a3")).to.not.throw;
     });
+
+    describe("noFirstShot variant", () => {
+        it("allows a move without an arrow on the opening turn", () => {
+            const g = new AmazonsGame(undefined, ["noFirstShot"]);
+            expect(g.moves().every((m) => !m.includes("/"))).to.be.true;
+            expect(() => g.move("d1-e2")).to.not.throw();
+            expect(g.currplayer).to.equal(2);
+            expect(g.stack.length).to.equal(2);
+            expect(g.stack[1]!._results).to.deep.equal([{type: "move", from: "d1", to: "e2"}]);
+        });
+
+        it("rejects an arrow on the opening turn", () => {
+            const g = new AmazonsGame(undefined, ["noFirstShot"]);
+            expect(() => g.move("d1-e2/f3")).to.throw(Error, "VALIDATION_GENERAL");
+        });
+
+        it("requires arrows after the opening turn", () => {
+            const g = new AmazonsGame(undefined, ["noFirstShot"]);
+            g.move("d1-e2");
+            expect(g.currplayer).to.equal(2);
+            expect(g.moves().every((m) => m.includes("/"))).to.be.true;
+            expect(() => g.move("a7-b7")).to.throw(Error, "VALIDATION_FAILSAFE");
+        });
+
+        it("round-trips variants through serialize", () => {
+            const g = new AmazonsGame(undefined, ["noFirstShot"]);
+            g.move("d1-e2");
+            const restored = new AmazonsGame(g.serialize());
+            expect(restored.variants).to.deep.equal(["noFirstShot"]);
+            expect(restored.moves().every((m) => m.includes("/"))).to.be.true;
+        });
+    });
 });
 

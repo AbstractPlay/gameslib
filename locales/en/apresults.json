@@ -318,6 +318,7 @@
     "LEAD": "{{player}} took the lead.",
     "MOVE": {
         "amazons": "{{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
+        "amazonsNoFirstShot": "{{player}} moved from {{from}} to {{to}}.",
         "anache_dragon": "{{player}} moved a group of size {{count}} via a dragon move from {{from}} in the direction {{dir}}.",
         "anache_dragon_jump": "{{player}} jumps their dragon from {{from}} to {{to}}.",
         "anache_knight": "{{player}} moved a group of size {{count}} via a knight move from {{from}} in the direction {{dir}}.",

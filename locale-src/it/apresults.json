@@ -97,11 +97,11 @@
   },
   "ANNOUNCE.frogger_one": {
     "src": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining move.",
-    "out": "{{player}} ha scelto di ripristinare la riserva di pesca. Ottiene un altro turno per eseguire la sua {{count}} mossa rimanente."
+    "out": "{{player}} ha scelto di riempire la riserva di pesca. Ottiene un altro turno per effettuare la sua {{count}} mossa rimanente."
   },
   "ANNOUNCE.frogger_other": {
     "src": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining moves.",
-    "out": "{{player}} ha scelto di ripristinare la riserva di pesca. Ottiene un altro turno per eseguire le sue {{count}} mosse rimanenti."
+    "out": "{{player}} ha scelto di riempire la riserva di pesca. Ottiene un altro turno per effettuare le sue {{count}} mosse rimanenti."
   },
   "ANNOUNCE.quincunx": {
     "src": "Player {{playerNum}} had the following cards left in their hand: {{cards}}.",
@@ -1038,6 +1038,10 @@
   "MOVE.amazons": {
     "src": "{{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
     "out": "{{player}} si è mosso da {{from}} a {{to}} e poi ha bloccato la casella {{block}}."
+  },
+  "MOVE.amazonsNoFirstShot": {
+    "src": "{{player}} moved from {{from}} to {{to}}.",
+    "out": "{{player}} ha mosso da {{from}} a {{to}}."
   },
   "MOVE.anache_dragon": {
     "src": "{{player}} moved a group of size {{count}} via a dragon move from {{from}} in the direction {{dir}}.",

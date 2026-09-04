@@ -4371,6 +4371,10 @@
     "src": "Select one of your amazons to move.",
     "out": "Sélectionnez une de vos amazones à déplacer."
   },
+  "validation.amazons.NO_FIRST_SHOT": {
+    "src": "The first player may not shoot an arrow on their opening turn.",
+    "out": "Le premier joueur ne peut pas tirer de flèche lors de son tour d'ouverture."
+  },
   "validation.amazons.POTENTIAL_BLOCK": {
     "src": "So far so good. Provide the space you want to block.",
     "out": "Jusqu'ici tout va bien. Indiquez la case que vous souhaitez bloquer."
@@ -7781,11 +7785,11 @@
   },
   "validation.frogger.VALID_REFILL_one": {
     "src": "Please submit your move to trigger the refill. You will get another turn automatically, and you will have one move remaining in your partial turn (as well as the option to pass).",
-    "out": "Veuillez valider votre coup pour déclencher le réapprovisionnement. Vous rejouerez automatiquement et il vous restera un coup dans votre tour partiel (ainsi que la possibilité de passer)."
+    "out": "Veuillez valider votre coup pour déclencher le réapprovisionnement. Vous obtiendrez automatiquement un autre tour et il vous restera un coup dans votre tour partiel (ainsi que la possibilité de passer)."
   },
   "validation.frogger.VALID_REFILL_other": {
     "src": "Please submit your move to trigger the refill. You will get another turn automatically, and you will have {{count}} moves remaining in your partial turn (as well as the option to pass).",
-    "out": "Veuillez valider votre coup pour déclencher le réapprovisionnement. Vous rejouerez automatiquement et il vous restera {{count}} coups dans votre tour partiel (ainsi que la possibilité de passer)."
+    "out": "Veuillez valider votre coup pour déclencher le réapprovisionnement. Vous obtiendrez automatiquement un autre tour et il vous restera {{count}} coups dans votre tour partiel (ainsi que la possibilité de passer)."
   },
   "validation.furl.CAPTURE4UNFURL": {
     "src": "You signalled a capture unfurl move, but {{to}} not is occupied by the opponent. Use \">\" to denote non-capture unfurl.",
@@ -13998,6 +14002,14 @@
   "variants.amazons.cross.name": {
     "src": "Cross",
     "out": "Croix"
+  },
+  "variants.amazons.noFirstShot.description": {
+    "src": "Instead of the standard pie rule, the first player instead may not shoot an arrow on their first turn.",
+    "out": "Au lieu de la règle du gâteau habituelle, le premier joueur ne peut pas tirer de flèche lors de son premier tour."
+  },
+  "variants.amazons.noFirstShot.name": {
+    "src": "No First Shot",
+    "out": "Sans premier tir"
   },
   "variants.amazons.scrambled.description": {
     "src": "Queens alternate colour around the board.",

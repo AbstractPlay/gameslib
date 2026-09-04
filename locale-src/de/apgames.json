@@ -4371,6 +4371,10 @@
     "src": "Select one of your amazons to move.",
     "out": "Wähle eine deiner Amazonen zum Bewegen aus."
   },
+  "validation.amazons.NO_FIRST_SHOT": {
+    "src": "The first player may not shoot an arrow on their opening turn.",
+    "out": "Der erste Spieler darf in seinem Eröffnungszug keinen Pfeil schießen."
+  },
   "validation.amazons.POTENTIAL_BLOCK": {
     "src": "So far so good. Provide the space you want to block.",
     "out": "So weit, so gut. Gib das Feld an, das du blockieren möchtest."
@@ -7781,11 +7785,11 @@
   },
   "validation.frogger.VALID_REFILL_one": {
     "src": "Please submit your move to trigger the refill. You will get another turn automatically, and you will have one move remaining in your partial turn (as well as the option to pass).",
-    "out": "Bitte sende deinen Zug ab, um das Nachfüllen auszulösen. Du erhältst automatisch einen weiteren Zug und hast noch einen verbleibenden Zug in deinem Teilzug (sowie die Option zu passen)."
+    "out": "Bitte sende deinen Zug ab, um das Nachfüllen auszulösen. Du bist automatisch erneut am Zug und hast noch einen verbleibenden Zug in deinem Teilzug (sowie die Option zu passen)."
   },
   "validation.frogger.VALID_REFILL_other": {
     "src": "Please submit your move to trigger the refill. You will get another turn automatically, and you will have {{count}} moves remaining in your partial turn (as well as the option to pass).",
-    "out": "Bitte sende deinen Zug ab, um das Nachfüllen auszulösen. Du erhältst automatisch einen weiteren Zug und hast noch {{count}} verbleibende Züge in deinem Teilzug (sowie die Option zu passen)."
+    "out": "Bitte sende deinen Zug ab, um das Nachfüllen auszulösen. Du bist automatisch erneut am Zug und hast noch {{count}} verbleibende Züge in deinem Teilzug (sowie die Option zu passen)."
   },
   "validation.furl.CAPTURE4UNFURL": {
     "src": "You signalled a capture unfurl move, but {{to}} not is occupied by the opponent. Use \">\" to denote non-capture unfurl.",
@@ -13998,6 +14002,14 @@
   "variants.amazons.cross.name": {
     "src": "Cross",
     "out": "Kreuz"
+  },
+  "variants.amazons.noFirstShot.description": {
+    "src": "Instead of the standard pie rule, the first player instead may not shoot an arrow on their first turn.",
+    "out": "Anstelle der üblichen Pie-Regel darf der erste Spieler in seinem ersten Zug keinen Pfeil schießen."
+  },
+  "variants.amazons.noFirstShot.name": {
+    "src": "No First Shot",
+    "out": "Kein erster Schuss"
   },
   "variants.amazons.scrambled.description": {
     "src": "Queens alternate colour around the board.",

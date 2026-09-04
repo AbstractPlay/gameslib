@@ -882,6 +882,10 @@
             "scrambled": {
                 "description": "Queens alternate colour around the board.",
                 "name": "Scrambled"
+            },
+            "noFirstShot": {
+                "name": "No First Shot",
+                "description": "Instead of the standard pie rule, the first player instead may not shoot an arrow on their first turn."
             }
         },
         "anache": {
@@ -5004,6 +5008,7 @@
         },
         "amazons": {
             "INITIAL_INSTRUCTIONS": "Select one of your amazons to move.",
+            "NO_FIRST_SHOT": "The first player may not shoot an arrow on their opening turn.",
             "POTENTIAL_BLOCK": "So far so good. Provide the space you want to block.",
             "POTENTIAL_MOVE": "So far so good. Provide the space you want to move to.",
             "STRAIGHTLINE": "You can only move and block in straight lines."

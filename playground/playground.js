@@ -1,4 +1,6 @@
 import * as APGames from "@abstractplay/gameslib";
+import i18next from "i18next";
+import HttpApi from "i18next-http-backend";
 import {
     getRoundsForLayout,
     resolveMoveTableDensity,
@@ -1315,8 +1317,9 @@ function _renderScoresSection(game, gamename, playerNames, gameFlags, glyphRende
             scoresBlockHTML += `<h3>Scores:</h3>`;
 
             metricsArray.forEach(metric => {
-                if (typeof metric === 'object' && metric !== null && metric.hasOwnProperty('name') && typeof metric.name === 'string' && metric.hasOwnProperty('scores') && Array.isArray(metric.scores)) {
-                    scoresBlockHTML += `<h4>${metric.name}:</h4>`;
+                if (typeof metric === 'object' && metric !== null && metric.hasOwnProperty('name') && metric.hasOwnProperty('scores') && Array.isArray(metric.scores)) {
+                    const metricName = resolveSidebarLabel(metric.name, playerNames);
+                    scoresBlockHTML += `<h4>${metricName}:</h4>`;
                     metric.scores.forEach((playerScore, playerIndex) => {
                         const playerNum = playerIndex + 1;
                         const playerName = playerNames[playerIndex] || `Player ${playerNum}`;
@@ -1346,7 +1349,7 @@ function _renderScoresSection(game, gamename, playerNames, gameFlags, glyphRende
 
                         const localGlyphOpts = {
                             ...glyphRenderOptions,
-                            svgid: `scoreSwatchGlyph_${metric.name.replace(/\s+/g, '_')}_${playerNum}`,
+                            svgid: `scoreSwatchGlyph_${metricName.replace(/\s+/g, '_')}_${playerNum}`,
                             prefix: generateUniqueSvgId(),
                         };
 
@@ -1368,8 +1371,11 @@ function _renderScoresSection(game, gamename, playerNames, gameFlags, glyphRende
                         }
                         playerDiv.appendChild(swatch);
 
+                        const resolvedScore = APGames?.isStructuredRenderLabel?.(playerScore)
+                            ? APGames.resolveRenderLabel(playerScore, playerNames, playgroundTranslate)
+                            : formatScore(playerScore);
                         const scoreTextSpan = document.createElement('span');
-                        scoreTextSpan.textContent = `${playerName}: ${formatScore(playerScore)}`;
+                        scoreTextSpan.textContent = `${playerName}: ${resolvedScore}`;
                         playerDiv.appendChild(scoreTextSpan);
                         scoresBlockHTML += playerDiv.outerHTML;
                     });
@@ -2169,6 +2175,27 @@ document.addEventListener("DOMContentLoaded", function(event) {
     populateGameSelect();
 
     const i18n = APGames.addResource("en");
+    // Game classes inside gameslib call i18next.t() on the bare "i18next"
+    // package singleton directly (import i18next from "i18next"), not on
+    // the dedicated instance addResource() configures above. This import
+    // resolves to that same singleton (one copy of i18next in
+    // node_modules), so initializing it here makes validateMove()/render()
+    // strings resolve for real instead of showing "undefined".
+    if (!i18next.isInitialized) {
+        i18next
+            .use(HttpApi)
+            .init({
+                lng: "en",
+                fallbackLng: "en",
+                ns: ["apgames", "apresults"],
+                backend: {
+                    loadPath: "./locales/{{lng}}/{{ns}}.json",
+                },
+            })
+            .catch((err) => {
+                console.error("playground i18n init (bare singleton) failed:", err);
+            });
+    }
     let playgroundStarted = false;
     const startPlayground = function() {
     if (playgroundStarted) {

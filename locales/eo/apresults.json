@@ -94,7 +94,13 @@
             "single_E": "{{player}} prenis Terŝtonon ĉe {{where}}.",
             "single_M": "{{player}} prenis Lunŝtonon ĉe {{where}}.",
             "single_S": "{{player}} prenis Sunŝtonon ĉe {{where}}."
-        }
+        },
+        "forms_one": "La movo de {{player}} forigis unu pecon.",
+        "forms_other": "La movo de {{player}} forigis {{count}} pecojn.",
+        "elOso_one": "{{player}} neniigis unu pecon ĉe {{where}}.",
+        "elOso_other": "{{player}} neniigis {{count}} pecojn ĉe {{where}}.",
+        "spora_one": "{{player}} ĉirkaŭis kaj kaptis unu pecon: {{group}}.",
+        "spora_other": "{{player}} ĉirkaŭis kaj kaptis {{count}} pecojn: {{group}}."
     },
     "MOVE": {
         "phutball_to_last": "al {{to}}.",
@@ -178,7 +184,9 @@
         "veletas": "{{player}} movis pafanton de {{from}} al {{to}}.",
         "volo_one": "{{player}} movis aron de 1 birdo de {{from}} en la direkto {{how}}.",
         "volo_other": "{{player}} movis aron de {{count}} birdoj de {{from}} en la direkto {{how}}.",
-        "complete_what": "{{player}} movis {{what}} de {{from}} al {{to}}."
+        "complete_what": "{{player}} movis {{what}} de {{from}} al {{to}}.",
+        "elOso_one": "{{player}} movis unu pecon de {{from}} al {{to}}.",
+        "elOso_other": "{{player}} movis {{count}} pecojn de {{from}} al {{to}}."
     },
     "ABANDONED": "La ludo estis forlasita.",
     "ADD": {
@@ -187,7 +195,9 @@
         "logger": "La arbo ĉe {{where}} kreskis je unu stadio.",
         "magnate": "{{player}} aldonis {{count}} ĵetonojn al sia proprietigita karto {{where}}.",
         "nonum": "{{player}} aldonis pecon al {{where}}.",
-        "twixt": "{{player}} aldonis ligilon ĉe {{where}}."
+        "twixt": "{{player}} aldonis ligilon ĉe {{where}}.",
+        "magnate_one": "{{player}} aldonis unu ĵetonon al sia proprietigita karto {{where}}.",
+        "magnate_other": "{{player}} aldonis {{count}} ĵetonojn al sia proprietigita karto {{where}}."
     },
     "AFFILIATE": {
         "cifra_lt": "{{player}} elektis ludi per la helaj pecoj el la supra vico.",
@@ -208,7 +218,13 @@
         "frogger": "{{player}} elektis replenigi la tirprovizon. La aliaj ludantoj devas preterpasi, por ke tiu ludanto povu fari siajn restantajn {{moves}} movojn.",
         "quincunx": "Al la ludanto {{playerNum}} restis la jenaj kartoj enmane: {{cards}}.",
         "scribe_super": "Superformacio de {{player}}: {{formation}}.",
-        "stawvs": "{{player}} ne povis movi kaj devas de nun preterpasi. La pecoj de tiu ludanto restas sur la jenaj piramidoj: {{pyramids}}."
+        "stawvs": "{{player}} ne povis movi kaj devas de nun preterpasi. La pecoj de tiu ludanto restas sur la jenaj piramidoj: {{pyramids}}.",
+        "frogger_one": "{{player}} elektis replenigi la tirprovizon. La aliaj ludantoj devas preterpasi, por ke li povu fari sian restantan {{count}} movon.",
+        "frogger_other": "{{player}} elektis replenigi la tirprovizon. La aliaj ludantoj devas preterpasi, por ke li povu fari siajn restantajn {{count}} movojn.",
+        "elOso": {
+            "playerSetup": "Komenca aranĝo de la ludanto",
+            "bearSetup": "Komenca aranĝo de la Urso"
+        }
     },
     "BEAROFF": {
         "canoe": "{{player}} eligis kubon de la tabulo.",
@@ -406,7 +422,8 @@
         "pippinzip": "{{player}} decidis preterpasi kaj fariĝis Zip.",
         "simple": "{{player}} preterpasis.",
         "tablero": "{{player}} puŝetis!",
-        "tiebreaker": "{{player}} preterpasis kaj gajnis la egalecrompon."
+        "tiebreaker": "{{player}} preterpasis kaj gajnis la egalecrompon.",
+        "elOso": "{{player}} preterpasis."
     },
     "PIE": {
         "deckfish": "{{player}} movas kiel la dua.",
@@ -535,7 +552,11 @@
         "streetcar_place_41": "BLANKA konstruaĵo de alto 1 estis metita ĉe {{where}}.",
         "streetcar_place_42": "BLANKA konstruaĵo de alto 2 estis metita ĉe {{where}}.",
         "streetcar_place_43": "BLANKA konstruaĵo de alto 3 estis metita ĉe {{where}}.",
-        "streetcar_place_default": "Konstruaĵo estis metita ĉe {{where}}."
+        "streetcar_place_default": "Konstruaĵo estis metita ĉe {{where}}.",
+        "elOso_one": "{{player}} metis unu pecon ĉe {{where}}.",
+        "elOso_other": "{{player}} metis {{count}} pecojn ĉe {{where}}.",
+        "spora_one": "{{player}} aldonis unu pecon al la stako ĉe {{where}}.",
+        "spora_other": "{{player}} aldonis {{size}} pecojn al la stako ĉe {{where}}."
     },
     "PLAYSECOND": "{{player}} elektis ludi kiel la dua.",
     "PROMOTE": {
@@ -583,7 +604,8 @@
     },
     "RESET": {
         "biscuit": "Nova raŭndo komenciĝis.",
-        "queensland": "La dua ludo komenciĝis."
+        "queensland": "La dua ludo komenciĝis.",
+        "guerrilla": "{{player}} gajnis la unuan ludon. La dua ludo komenciĝis kun interŝanĝitaj roloj."
     },
     "RESIGN": "{{player}} rezignis.",
     "ROLL": {
@@ -591,7 +613,9 @@
         "magnate_eight": "{{who}} ĵetis {{values}}.",
         "canoe": "{{player}} ĵetis: {{values}}.",
         "single": "La ĵetkubo estis ĵetita: {{values}}.",
-        "tablero": "La ĵetkuboj estis ĵetitaj: {{values}}."
+        "tablero": "La ĵetkuboj estis ĵetitaj: {{values}}.",
+        "elOso": "La Urso ĵetis: {{dice}}.",
+        "elOso_player": "{{player}} ĵetis: {{dice}}."
     },
     "SACRIFICE": {
         "moonsquad": "{{player}} oferis ercon ({{ore}}) por movi siajn taĉmentojn.",
@@ -723,5 +747,10 @@
         "MOVE": "{{player}} flugigis sian {{what}} de {{from}} al {{to}}.",
         "PASS": "{{player}} preterpasis agon.",
         "SACRIFICE": "{{player}} oferis {{what}} en la sistemo {{where}}."
+    },
+    "ACTOR": {
+        "elOso": {
+            "bear": "La Urso"
+        }
     }
 }

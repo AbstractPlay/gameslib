@@ -6056,8 +6056,8 @@
       "TOO_EARLY_FOR_REFILL": "Veuillez soumettre votre demande de remplissage avant d'effectuer vos coups restants.",
       "TOO_LATE_FOR_BLOCKED": "Vous n'êtes pas considéré comme bloqué si vous vous êtes déjà déplacé au cours de ce tour.",
       "TOO_LATE_FOR_REFILL": "Il n'est pas nécessaire de forcer un remplissage de la réserve après votre troisième coup. Elle se remplira automatiquement après validation.",
-      "VALID_REFILL_one": "Veuillez valider votre coup pour déclencher le réapprovisionnement. Vous rejouerez automatiquement et il vous restera un coup dans votre tour partiel (ainsi que la possibilité de passer).",
-      "VALID_REFILL_other": "Veuillez valider votre coup pour déclencher le réapprovisionnement. Vous rejouerez automatiquement et il vous restera {{count}} coups dans votre tour partiel (ainsi que la possibilité de passer)."
+      "VALID_REFILL_one": "Veuillez valider votre coup pour déclencher le remplissage. Les adversaires passeront automatiquement, et il vous restera un coup dans votre tour partiel (ainsi que la possibilité de passer).",
+      "VALID_REFILL_other": "Veuillez valider votre coup pour déclencher le remplissage. Les adversaires passeront automatiquement, et il vous restera {{count}} coups dans votre tour partiel (ainsi que la possibilité de passer)."
     },
     "furl": {
       "CAPTURE4UNFURL": "Vous avez indiqué un coup de déploiement avec capture, mais {{to}} n'est pas occupé par l'adversaire. Utilisez « > » pour indiquer un déploiement sans capture.",

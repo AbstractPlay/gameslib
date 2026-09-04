@@ -30,8 +30,8 @@
     "arimaa": "Cette position s'est déjà produite. Les répétitions ultérieures de cette position sont interdites.",
     "biscuit": "Les cartes suivantes étaient dans les mains adverses : {{cards}}.",
     "deckfish": "{{player}} ne pouvait pas déplacer et doit passer à partir de maintenant.",
-    "frogger_one": "{{player}} a choisi de recharger la pioche. Il obtient un tour supplémentaire pour effectuer son {{count}} coup restant.",
-    "frogger_other": "{{player}} a choisi de recharger la pioche. Il obtient un tour supplémentaire pour effectuer ses {{count}} coups restants.",
+    "frogger_one": "{{player}} a choisi de remplir la réserve de pioche. Les autres joueurs doivent passer afin qu'il puisse effectuer son {{count}} déplacement restant.",
+    "frogger_other": "{{player}} a choisi de remplir la réserve de pioche. Les autres joueurs doivent passer afin qu'il puisse effectuer ses {{count}} déplacements restants.",
     "quincunx": "Le joueur {{playerNum}} avait les cartes suivantes en main : {{cards}}.",
     "elOso": {
       "playerSetup": "Mise en place du joueur",

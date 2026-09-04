@@ -30,8 +30,8 @@
     "arimaa": "Questa posizione si è già verificata. Ulteriori ripetizioni di questa posizione sono vietate.",
     "biscuit": "Le seguenti carte erano nelle mani avversarie: {{cards}}.",
     "deckfish": "{{player}} non è stato in grado di muovere e deve passare d'ora in poi.",
-    "frogger_one": "{{player}} ha scelto di ripristinare la riserva di pesca. Ottiene un altro turno per eseguire la sua {{count}} mossa rimanente.",
-    "frogger_other": "{{player}} ha scelto di ripristinare la riserva di pesca. Ottiene un altro turno per eseguire le sue {{count}} mosse rimanenti.",
+    "frogger_one": "{{player}} ha scelto di riempire la riserva di pesca. Gli altri giocatori devono passare per permettergli di effettuare la sua {{count}} mossa rimanente.",
+    "frogger_other": "{{player}} ha scelto di riempire la riserva di pesca. Gli altri giocatori devono passare per permettergli di effettuare le sue {{count}} mosse rimanenti.",
     "quincunx": "Il giocatore {{playerNum}} aveva le seguenti carte rimanenti in mano: {{cards}}.",
     "elOso": {
       "playerSetup": "Preparazione del giocatore",

@@ -3498,6 +3498,16 @@
             "progressive": {
                 "name": "Progresema kun gruprestrikto"
             }
+        },
+        "guerrilla": {
+            "#length": {
+                "description": "Nur unu ludo; sen interŝanĝo de roloj aŭ matĉa poentado.",
+                "name": "Unu ludo"
+            },
+            "match": {
+                "description": "Ludu du ludojn, interŝanĝante la rolojn por la dua. Se ambaŭ ludantoj venkas kiel ribelantoj, venkas tiu, kiu uzis malpli da ŝtonoj (`66 − restantaj ŝtonoj`); ĉe egalaj poentaroj la matĉo finiĝas per remizo.",
+                "name": "Duluda matĉo"
+            }
         }
     },
     "status": {
@@ -3530,7 +3540,9 @@
         },
         "blam": {
             "NUMPIECES_one": "{{count}} peco",
-            "NUMPIECES_other": "{{count}} pecoj"
+            "NUMPIECES_other": "{{count}} pecoj",
+            "SCORE_one": "{{score}} ({{count}} peco)",
+            "SCORE_other": "{{score}} ({{count}} pecoj)"
         },
         "bug": {
             "PLACEABLE_COUNT": "Nombro de meteblaj pecoj"
@@ -3568,7 +3580,10 @@
         "fnap": "FNAP-ĵetono",
         "focus": "Regata",
         "guerrilla": {
-            "INSURGENTS": "Restantaj ribelantoj"
+            "INSURGENTS": "Restantaj ribelantoj",
+            "G1_SCORE": "Poentaro de la ribelantoj en ludo 1",
+            "GAME1": "Ludo 1",
+            "GAME2": "Ludo 2"
         },
         "scribe": {
             "MINI_GRIDS": "Gajnitaj minikradoj"
@@ -3610,7 +3625,18 @@
             "GOALS": "Celoj",
             "HEIGHT": "altoj"
         },
-        "YEAR": "Jaro"
+        "YEAR": "Jaro",
+        "_player": "{{player}}",
+        "elOso": {
+            "SKY": "Ĉielo",
+            "CAVE": "Kaverno",
+            "GROUND": "Grundo",
+            "PIT": "Kavo",
+            "GRADE_LOSS": "Malvenko (9 aŭ malpli)",
+            "GRADE_WIN": "Venko (10)",
+            "GRADE_SUPERIOR": "Supera (11)",
+            "GRADE_EXCELLENT": "Bonega (12)"
+        }
     },
     "variantGroups": {
         "twixt": {
@@ -4246,6 +4272,12 @@
                 "description": "Subtila alteco: kvazaŭ-3D-a vido de la ludkampo, en kiu la spacoj altiĝas ju pli oni malproksimiĝas de la centro.",
                 "name": "Izometria: subtila alteco"
             }
+        },
+        "elOso": {
+            "nums": {
+                "description": "Stakoj montrataj kiel nombroj",
+                "name": "Nombroj"
+            }
         }
     },
     "descriptions": {
@@ -4531,7 +4563,9 @@
         "y": "La klasika konektludo. Konektu ĉiujn tri flankojn por venki.",
         "yavalath": "Formu linion de almenaŭ kvar pecoj de via koloro *sen* unue formi linion de tri pecoj.",
         "yonmoque": "Provu formi kvaropan vicon en ludo, en kiu ne ĉiuj spacoj estas egalaj kaj oni povas konverti kontraŭulajn pecojn.",
-        "zola": "Ludo, en kiu la distanco de peco disde la centro de la tabulo limigas ĝian movadon. Kapta movo ne rajtas pliigi tiun distancon; senkapta movo devas ĝin pliigi. Gajnas la unua, kiu kaptas ĉiujn kontraŭulajn pecojn."
+        "zola": "Ludo, en kiu la distanco de peco disde la centro de la tabulo limigas ĝian movadon. Kapta movo ne rajtas pliigi tiun distancon; senkapta movo devas ĝin pliigi. Gajnas la unua, kiu kaptas ĉiujn kontraŭulajn pecojn.",
+        "bridges": "Pontoj (angle Bridges) estas ludo por du ludantoj sur sesangula tabulo, elpensita de Marc Rebillet. La ludantoj metas bazojn kaj kunligas ilin per pontoj. Venkas la ludanto, kiu havas plej multajn pontpecojn sur la tabulo je la ludofino. Okaze de egaleco venkas tiu kun la pli longa ponto.",
+        "elOso": "Solludo el la mondo de Carrisor. Movu viajn stakojn trans la supran randon de la tabulo en la Ĉielon, dum la Urso ĵetas ĵetkubojn kaj antaŭeniras de supre. Por venki, alportu almenaŭ dek pecojn en la Ĉielon."
     },
     "notes": {
         "akimbo": "Akimbo, projektita de Luis Bolaños Mures en 2026, estas konektludo sen egalvenkoj por du ludantoj. _Nuda diagonalo_ estas paro de samkoloraj, diagonale apudaj pecoj, sen alia samkolora peco apuda al ambaŭ. _Kructranĉo_ estas areo 2×2 kun du interplektitaj nudaj diagonaloj de kontraŭaj koloroj.\n\nDum sia vico, la ludanto metas amikan pecon sur malplenan ĉelon. Se tio kompletigas kructranĉon, la alia peco en la kructranĉo estas forigita. Neniam rajtas esti pli ol unu nuda diagonalo de ĉiu koloro sur la tabulo — eĉ ne momente antaŭ la forigo de peco. Ludanto venkas se, je la fino de sia vico, ĉeno de ortangule konektitaj samkoloraj pecoj tuŝas la du kontraŭajn randojn de la tabulo apartenantajn al tiu ludanto.\n\nOkimba estas variaĵo, en kiu maksimume unu nuda diagonalo rajtas ekzisti sur la tabulo (do dum unu ludanto havas la diagonalon, la kontraŭulo ne povas krei alian).",
@@ -4560,9 +4594,9 @@
         "evenatodds": "Por meti kahelon sur la tablon, metu unu finon sur malplenan grundon apud kongrua aktiva flanko; la alia fino povas iri sur ajnan apudan malplenan grundon. Por stakigi, unu fino devas kongrui kun la flanko sub ĝi; la alia povas kovri ajnan aktivan flankon *sur alia kahelo* je la sama alto. En la notacio, la unua koordinato estas la fino, kiu plenumas unu el tiuj reguloj. Malplenaj flankoj estas bariloj kaj apartenas al neniu.\n\nLa kaheloj en via mano estas kaŝitaj de la kontraŭulo. La identecoj de la kaheloj en la provizo kaj de la du forigitaj kromtempaj kaheloj restas kaŝitaj ĝis la ludo finiĝas. La kvanto en la provizo aperas en la flankpanelo.",
         "exxit": "Tradukoj de la regularo ofte preterlasas kelkajn nuancojn. Ĉi tiu realigo sekvas la originan francan eldonon de la reguloj.\n\nĈar la tabulo kreskas dum la ludo laŭ neregulaj formoj, la seslateroj estas etikeditaj nombre anstataŭ algebre. Tiel la etikedoj ne ŝanĝiĝas dum la mapo kreskas.",
         "forms": "Forms estis projektita de Steven Meyers en 2007. Post ĉiu movo, ĉiuj pecoj ekster la grupo, kiu enhavas la laste movitan pecon, estas kaptitaj. La lasta movinto malgajnas (do Forms estas miserludo). La unua versio permesis al peco kapti ajnan kontraŭulan pecon. Poste, en 2011, Meyers kreis duan version, **Advanced Forms**, en kiu oni rajtis kapti nur ortangule apudajn pecojn, sed peco povis ankaŭ moviĝi al malplena ĉelo, se sekvo de ortaj paŝoj tra malplenaj ĉeloj konektis la du lokojn. Ankaŭ la komenca aranĝo ŝanĝiĝis al ŝaktabula ŝablono. Tiu dua versio estas la defaŭlta variaĵo ĉi tie ĉe AP. Pliaj informoj troveblas ĉe [WAG](https://jpneto.github.io/world_abstract_games/forms.htm).",
-        "frogger": "Kiel en aliaj Decktet-ludoj ĉe Abstract Play, la kartaro aperas malsupre de la tabulo kaj inkluzivas kaj la kartojn restantajn en la kartaro kaj la nekonatajn kartojn en la manoj de aliaj ludantoj. Post la unua mano, ĉiuj kartoj estas prenataj el la malferma tirprovizo, do la manoj iom post iom malkaŝiĝas. Ankaŭ la forĵetamaso estas montrata.\n\nPro la maniero, laŭ kiu hazardigo funkcias ĉe Abstract Play, ludanto foje devas devige preterpasi por replenigi la tirprovizon meze de sia vico. La servilo aŭtomate traktas tiajn preterpasojn, sed disponeblas ankaŭ variaĵo de la tirprovizo, kiu evitas ilin.\n\nLa variaĵo Crocodiles estas de Jorge Arroyo, la tradukinto de la anglaj reguloj. La altnivelaj reguloj kaj aliaj malgrandaj variaĵoj estas de P. D. Magnus; ili aperas en *The Decktet Book*, kie la ludo nomiĝas Xing.",
+        "frogger": "Kiel en aliaj Decktet-ludoj ĉe Abstract Play, la kartaro montriĝas ĉe la malsupro de la tabulo kaj inkluzivas kaj la kartojn en la kartaro kaj la nekonatajn kartojn en la manoj de la aliaj ludantoj. Post la komenca disdono, ĉiuj kartoj estas prenataj el la malkaŝa prenrezervo, do la enhavo de la manoj iom post iom fariĝas konata. La stako de forĵetitaj kartoj ankaŭ montriĝas.\n\nDevigaj pasoj ne plu estas uzataj, kiam ludanto replenigas la prenrezervon (kaj submetas la movon) meze de sia vico. La servilo aŭtomate traktas la duan parton de la vico de tiu ludanto. Ekzistas ankaŭ variaĵo pri la prenrezervo, kiu laŭdezire ebligas eviti la dividon de la vico en du apartajn movojn.\n\nLa variaĵo \"Krokodiloj\" estas verko de Jorge Arroyo, la tradukinto de la angla versio de la reguloj. La altnivelaj reguloj kaj aliaj etaj variaĵoj estas verkoj de P. D. Magnus; ili aperas en The Decktet Book, kie la ludo nomiĝas Xing.",
         "garden": "Por tute klare montri, kio okazis dum la antaŭa vico, ĉiu movo aperas sur kvar apartaj tabuloj. La unua montras la ludon tuj post la komenca meto de la peco. La dua montras la staton post renverso de la apudaj pecoj. La tria montras eventualajn rikoltojn. La kvara montras la finan ludstaton kaj estas tiu, sur kiu vi faras viajn movojn.\n\nEn nia realigo, nigro estas ĉiam la „tome“-koloro, kiu rompas egalecon. La lasta ludanto, kiu rikoltis nigron, havos `0.1` post sia poentaro.",
-        "guerrilla": "Ambaŭ ludantoj povas venki forigante ĉiujn pecojn de la kontraŭulo. Ludanto 2 ankaŭ venkas, se li postvivas sufiĉe longe por ke al Ludanto 1 manku pliaj ribeluloj por meti.",
+        "guerrilla": "Ĉiu el la du ludantoj povas venki per forigo de ĉiuj pecoj de sia kontraŭulo. La ludanto de la sekurecaj fortoj ankaŭ venkas, se tiuj fortoj postvivas ĝis la ribeluloj ne plu havas ŝtonojn por meti.\n\nDefaŭlte matĉo konsistas el du ludoj kun interŝanĝitaj roloj. Ĉiu ludanto unufoje regas la ribelulojn kaj unufoje la sekurecajn fortojn. Kiam ambaŭ ludantoj venkas kiel ribeluloj, la matĉon venkas tiu, kiu uzis malpli da ŝtonoj (66 − nombro de restantaj ŝtonoj ĉe la fino de tiu ludo; la malpli alta poentaro venkas). Tiuokaze la matĉo estas remiza nur se iliaj poentaroj kiel ribeluloj egalas. Venko kiel sekurecaj fortoj donas poentaron de 67. Se unu ludanto venkas en ambaŭ ludoj (en unu kiel ribeluloj kaj en la alia kiel sekurecaj fortoj), tiu venkas la tutan matĉon. Se ambaŭ ludantoj venkas nur kiel sekurecaj fortoj, la matĉo estas remiza.",
         "scribe": "La referenctabelo de glifoj aperas en la maldekstra marĝeno. Punkto markas la plej lastan meton de ĉiu ludanto. Kiam minikrado pleniĝas, la glifpoentoj estas sumataj kaj la pli alta poentaro gajnas tiun kradon (okaze de egaleco gajnas la ludanto, kiu kompletigis ĝin).",
         "gyges": "La celkvadratoj estas apudaj al ĉiuj ĉeloj en la lasta vico. La bildigilo nuntempe ne povas prezenti „flosantajn“ ĉelojn.",
         "halma": "Por malpliigi la [egalecreman naturon](https://boardgamegeek.com/thread/3706389/unspoiling-halma-redux) de la ludo, validas jenaj reguloj: (a) ludanto venkas se la kontraŭa hejmbazo estas plena kaj enhavas almenaŭ unu amikan ŝtonon (la kriterio de David Parlett); (b) ĉiu peco en la hejmbazo de la ludanto devas progresi al la malamika tendaro, kiam tio eblas per salto super malamika peco (la regulo de Zillions, por forigi strategiojn celantajn egalvenkon); (c) neniu ŝtono rajtas reveni al sia hejmbazo.\n\n[Halma](https://en.wikipedia.org/wiki/Halma) estis unu el la unuaj komercaj sukcesoj de abstrakta ludo. [George Howard Monks](https://en.wikipedia.org/wiki/George_Howard_Monks) projektis ĝin en 1883/4. Oni diras, ke Halma estis inspirita de pli malnova brita ludo nomata *Hoppity*. Tamen mankas kaj dokumentoj kaj konservitaj tabuloj pri tiu ludo, kio igas la aserton pri deveno historia mistero. Halma poste estis adaptita (ĉirkaŭ 1892/3) al eĉ pli granda sukceso: [Chinese Checkers](https://boardgamegeek.com/boardgame/2386/chinese-checkers), facile ludebla de tri aŭ ses ludantoj.\n\nSuper Halma estas pli dinamika variaĵo de nekonata aŭtoro, prezentita en la libro de 1992 **New Rules for Classic Games** de Wayne Schmittberger. Ĝi proponas longajn saltojn, ĉe kiuj devas esti egala la nombro de malplenaj ĉeloj antaŭ kaj post la transsaltata ŝtono. La limigoj pri movoj en la bazoj ankoraŭ validas en ĉi tiu realigo de Super Halma.",
@@ -4628,7 +4662,8 @@
         "waldmeister": "La ludantoj ludas du partiojn sinsekve. En la unua raŭndo, Ludanto 1 ludas por koloroj kaj Ludanto 2 por altoj. Je la fino de la raŭndo la poentaroj estas sumataj kaj la poentantaj grupoj emfazitaj. En la dua raŭndo, Ludanto 2 ludas unue kaj por koloroj, dum Ludanto 1 ludas por altoj.",
         "witch": "La unua ludanto komence ne posedas iun pecon kaj rajtas forigi ajnan pecon krom krono dum sia unua vico. La dua ludanto elektas sian koloron dum sia unua vico; poste ne plu eblas forigi pecojn de la kontraŭulo.",
         "xana": "Dum sia vico, ludanto metas aŭ movas stakon (la nombro de stakigeblaj pecoj estas limigita) kaj laŭvole metas du murojn sur malplenajn seslaterojn. Stakoj sen liberecoj estas kaptitaj. Stako havas liberecon, se almenaŭ unu el la ses apudaj seslateroj estas malplena (ne ekzistas koncepto de stakgrupo). Seslatero estas atingebla, se ĝi estas malplena kaj vojo de malplenaj seslateroj konektas ĝin al amika stako. La celo estas akiri la plej altan sumon de teritoria kaj kapta poentaroj. Xana estis projektita en 2005.",
-        "y": "Charles Titus kaj Craige Schensted (Ea Ea) projektis la ludon en 1953. Kiel rekta posteulo de Hex, ĝi origine estis ludata sur triangula tabulo, kaj la celo estis konekti ĉiujn tri flankojn per ĉeno de amikaj ŝtonoj. Y estas konsiderata pli fundamenta ludo ol Hex pro siaj pli simplaj reguloj kaj ĉar eblas aranĝi partion de Hex sur sufiĉe granda Y-tabulo. En sia libro de 1975 **Mudcrack Y & Poly-Y**, la projektintoj prezentis la _principon de ŝlimfendo_, laŭ kiu konektludoj povas okazi sur vasta gamo de iom post iom pli kompleksaj tabuloj. Unu el tiuj projektoj („la fleksita Y“, kun tri kvinangulaj ĉeloj) fariĝis la komerca Y-tabulo anstataŭ la norma triangula tabulo."
+        "y": "Charles Titus kaj Craige Schensted (Ea Ea) projektis la ludon en 1953. Kiel rekta posteulo de Hex, ĝi origine estis ludata sur triangula tabulo, kaj la celo estis konekti ĉiujn tri flankojn per ĉeno de amikaj ŝtonoj. Y estas konsiderata pli fundamenta ludo ol Hex pro siaj pli simplaj reguloj kaj ĉar eblas aranĝi partion de Hex sur sufiĉe granda Y-tabulo. En sia libro de 1975 **Mudcrack Y & Poly-Y**, la projektintoj prezentis la _principon de ŝlimfendo_, laŭ kiu konektludoj povas okazi sur vasta gamo de iom post iom pli kompleksaj tabuloj. Unu el tiuj projektoj („la fleksita Y“, kun tri kvinangulaj ĉeloj) fariĝis la komerca Y-tabulo anstataŭ la norma triangula tabulo.",
+        "elOso": "La komenca aranĝo estas aŭtomate farata kiam vi lanĉas la ludon. La flankpanelo montras la nombrojn de pecoj por la Ĉielo, la Kaverno, la Grundo kaj la Kavo. Post ĉiu movo, uzu la regilojn de filmeroj por trairi la respondon de la Urso paŝon post paŝo. Dek aŭ pli da pecoj en la Ĉielo signifas venkon."
     },
     "homeworlds": {
         "CMD_ATK_OWNER": "En ludoj kun pli ol du ludantoj, vi devas ĉiam specifi la posedanton de la ŝipo, kiun vi atakas.",
@@ -4769,7 +4804,8 @@
             "MARKER": "Vi ne rajtas konstrui sur la parcelo kun la emblembildo ĝis ĉiuj aliaj valide konstrueblaj parceloj sur tiu kahelo estas okupataj.",
             "NO_MORE_CLAIMS": "Vi jam postulis tri turojn. Vi ne rajtas postuli pli.",
             "PARTIAL_MOVE": "Elektu la lokon, kie vi volas konstrui.",
-            "VALID_W_CLAIMS": "Ŝajnas kiel valida movo. Vi ankaŭ povas elekti postuli turon."
+            "VALID_W_CLAIMS": "Ŝajnas kiel valida movo. Vi ankaŭ povas elekti postuli turon.",
+            "LABEL_STASH": "Provizo de {{player}}"
         },
         "agere": {
             "ADJACENCY": "Vi povas kapti nur apudajn stakon.",
@@ -5087,7 +5123,9 @@
             "NO_WALL_OPTIONAL": "Metu muron, se vi volas, alie vi povas kompletigi la movadon.",
             "OCCUPIED_WALL": "Ne eblas meti muron ĉe {{wall}} ĉar tiu spaco jam estas okupita.",
             "SELECT_SECOND_WALL": "Ekzistas du eblaj manieroj kompletigi la muron de {{wall}}. Elektu la flankon, kiun vi volas kompletigi.",
-            "SELECT_TO": "Elektu celon por translokiĝi."
+            "SELECT_TO": "Elektu celon por translokiĝi.",
+            "BLOCKS_GOAL_one": "Ne eblas meti muron ĉe {{wall}}, ĉar ĝi malebligas al unu el la pecoj sur la tabulo atingi la celon.",
+            "BLOCKS_GOAL_other": "Ne eblas meti muron ĉe {{wall}}, ĉar ĝi malebligas al unu el la pecoj sur la tabulo atingi la celojn."
         },
         "blooms": {
             "DESTINATION": "Elektu ĉelon por meti la pecon.",
@@ -5361,7 +5399,8 @@
             "PARTIAL": "Elektu celon.",
             "PARTIAL_PLACE": "Elektu la ĉelon sur via hejma vico por meti vian pecon {{piece}}.",
             "PARTIAL_SETUP_one": "Metu vian lastan pecon.",
-            "PARTIAL_SETUP_other": "Restas al vi meti {{count}} pecojn."
+            "PARTIAL_SETUP_other": "Restas al vi meti {{count}} pecojn.",
+            "LABEL_STASH": "Provizo de {{player}}"
         },
         "circleOfLife": {
             "INSTRUCTIONS": "Metu amikan pecon sur malplenan seslateron. Specio ne rajtas havi pli ol kvar pecojn.",
@@ -5652,7 +5691,9 @@
             "INITIAL_INSTRUCTIONS_order": "Elektu pecon sur via tabulo por moviĝi, aŭ preterpasi.",
             "INVALID_MOVEMENT": "Oni ne povas movi pecojn en la fazo de ĈAOS.",
             "PARTIAL": "Elektu celon.",
-            "STRAIGHT_LINES": "Pecoj povas esti movataj nur en rektaj horizontalaj aŭ vertikalaj linioj."
+            "STRAIGHT_LINES": "Pecoj povas esti movataj nur en rektaj horizontalaj aŭ vertikalaj linioj.",
+            "BOARD_ORDER": "{{player}}: Ordo",
+            "BOARD_CHAOS": "{{player}}: Ĥaoso"
         },
         "evenatodds": {
             "INITIAL_INSTRUCTIONS": "Elektu dominon el via mano por ludi.",
@@ -5857,7 +5898,9 @@
             "TOO_EARLY_FOR_REFILL": "Bonvolu sendi vian pliajn movadojn.",
             "TOO_LATE_FOR_BLOCKED": "Vi ne estas blokita, se vi jam moviĝis en ĉi tiu kurbo.",
             "TOO_LATE_FOR_REFILL": "Ne necesas devigi replenigon de la tirprovizo post via tria movo. Ĝi repleniĝos aŭtomate post kiam vi sendos la movon.",
-            "VALID_REFILL": "Sendu vian movon por replenigi la tirprovizon. La alia(j) ludanto(j) aŭtomate preterpasos, kaj al vi restos {{count}} movoj en via parta vico (kaj ankaŭ la eblo preterpasi)."
+            "VALID_REFILL": "Sendu vian movon por replenigi la tirprovizon. La alia(j) ludanto(j) aŭtomate preterpasos, kaj al vi restos {{count}} movoj en via parta vico (kaj ankaŭ la eblo preterpasi).",
+            "VALID_REFILL_one": "Sendu vian movon por replenigi la tirprovizon. La kontraŭuloj aŭtomate preterpasos, kaj al vi restos unu movo en via parta vico (kaj ankaŭ la eblo preterpasi).",
+            "VALID_REFILL_other": "Sendu vian movon por replenigi la tirprovizon. La kontraŭuloj aŭtomate preterpasos, kaj al vi restos {{count}} movoj en via parta vico (kaj ankaŭ la eblo preterpasi)."
         },
         "furl": {
             "CAPTURE4UNFURL": "Vi signalis kapton nefurla movo, sed {{to}} ne estas okupita fare de la kontraŭulo. Uzu \">\" por indiki ne-kaptan nefurl.",
@@ -5925,7 +5968,8 @@
             "INVALID_MOVE": "La movo {{move}} ne validas. Memoru, ke vi ne povas meti normalan pecon en pozicion sen liberecoj, krom se ĝi ekfunkciigas kapton, kiu kreas liberecon.",
             "NO_PIECES_neutral": "Vi ne havas pecojn de la peno en mano.",
             "NO_PIECES_normal": "Ne restas al vi normalaj pecoj.",
-            "PARTIAL": "Elektu la ĉelon, kie vi volas meti la ĉenon."
+            "PARTIAL": "Elektu la ĉelon, kie vi volas meti la ĉenon.",
+            "LABEL_NEUTRAL": "Neŭtralaj pecoj de {{player}}"
         },
         "guerrilla": {
             "INITIAL_INSTRUCTIONS_p1": "Elektu kie meti vian unuan ribelinton.",
@@ -5946,7 +5990,8 @@
             "PARTIAL_displace": "Elektu unu el la elstarigitaj malplenaj ĉeloj por anstataŭigi la aktualan pecon.",
             "PARTIAL_move": "Elektu la sekvan celon, aŭ klaku tiun saman ĉelon denove por forigi la pecon.",
             "PARTIAL_setup": "Elektu malplenan ĉelon sur via hejma vico por meti la pecon.",
-            "PARTIAL_setup2": "Elektu alian pecon el via provizo por meti sur la tablon."
+            "PARTIAL_setup2": "Elektu alian pecon el via provizo por meti sur la tablon.",
+            "LABEL_STASH": "Provizo de {{player}}"
         },
         "gyve": {
             "BAD_FIRST": "Vi ne rajtas meti duan ŝtonon sur la unuan vicon de la ludo.",
@@ -6348,7 +6393,8 @@
             "PARTIAL_MOVE_first": "Elektu grupon por moviĝi. Vi devas movi almenaŭ unu grupon.",
             "PARTIAL_MOVE_second": "Elektu celon. La grupo devas resti en la sama konektita grupo.",
             "PARTIAL_PLACE1": "En la unua movo de la ludo, metu du ruĝajn pecojn kaj unu bluan pecon. Klaku malplenan spacon por meti la duan ruĝan pecon.",
-            "PARTIAL_PLACE2": "En la unua movo de la ludo, metu du ruĝajn pecojn kaj unu bluan pecon. Klaku malplenan spacon por meti la bluan pecon."
+            "PARTIAL_PLACE2": "En la unua movo de la ludo, metu du ruĝajn pecojn kaj unu bluan pecon. Klaku malplenan spacon por meti la bluan pecon.",
+            "LABEL_ORE": "Erco de {{player}}"
         },
         "morphos": {
             "BAD_PASS": "Vi ne rajtas preterpasi se estas validaj movoj haveblaj.",
@@ -6384,7 +6430,8 @@
             "WALLS_IMMOBILE": "Muroj ne povas moviĝi aŭ kapti."
         },
         "mvolcano": {
-            "INITIAL_INSTRUCTIONS": "Elektu ĉapon por moviĝi."
+            "INITIAL_INSTRUCTIONS": "Elektu ĉapon por moviĝi.",
+            "CAPTURED_LABEL": "{{player}}: Kaptitaj pecoj"
         },
         "mutternland": {
             "INITIAL_PLACE": "Metu amikan pecon, tiam kontraŭan pecon, ambaŭ ĉe la rando de la ludkampo. Ĉeloj kun malpli ol tri najbaroj ne povas esti uzataj por meti pecojn.",
@@ -6557,7 +6604,8 @@
             "INITIAL_INSTRUCTIONS": "Elektu unu el viaj pingvenoj sur la tabulo aŭ en via mano.",
             "PARTIAL_DIRECTION_kick": "Elektu najbaran ĉelon por piedbatadi la pilkon en tiu direkto.",
             "PARTIAL_DIRECTION_penguin": "Elektu najbaran ĉelon por vojaĝi en tiu direkto aŭ, se vi kuŝas, klaku la ĉelon denove por stariĝi.",
-            "PARTIAL_ORIENTATION": "Elektu najbaran ĉelon por reorientigi vian pingvenon, aŭ klaku vian pingvenon por resti en la direkto, kiun vi jam alfrontas."
+            "PARTIAL_ORIENTATION": "Elektu najbaran ĉelon por reorientigi vian pingvenon, aŭ klaku vian pingvenon por resti en la direkto, kiun vi jam alfrontas.",
+            "LABEL_STASH": "Provizo de {{player}}"
         },
         "pente": {
             "OVERLINE_FORBIDDEN": "En ĉi tiu variaĵo vi ne rajtas fari meton, kiu kreas tro longan linion.",
@@ -6573,7 +6621,8 @@
             "MUST_JUMP_PLAYER": "Oni povas nur saltadi super ludantoj, ne super malplenaj pintoj. Neniu ludanto ĉe {{cell}}",
             "NO_BALL_HERE": "La salto devas komenciĝi ĉe la pilko. Ne estas pilko ĉe {{cell}}.",
             "NO_MOVE": "Vi devas transsalti almenaŭ unu ludanton.",
-            "NOT_EMPTY_JUMP": "Salto devas finiĝi en malplena vertiko. {{to}} ne estas malplena."
+            "NOT_EMPTY_JUMP": "Salto devas finiĝi en malplena vertiko. {{to}} ne estas malplena.",
+            "LABEL_GOAL": "⇧ {{player}} ⇧"
         },
         "pigs": {
             "INITIAL_INSTRUCTIONS": "Enigu \"R\" por ripari vian tutan vicon, aŭ tajpu kvin el la sekvaj karakteroj: ^ (antaŭen), v (maldekstre), \\ (antaŭen maldekstre), / (antaŭen dekstren), < (turni maldekstren), > (dekstren turni), F (fajra lasero), H (frapita per la muzelo), X (se difektita)",
@@ -6614,7 +6663,19 @@
             "OPP_STONES_TO_PLACE": "Estas ankoraŭ {{opp}} kontraŭulo kaptis ŝtonojn(s) por translokigi.",
             "SELF_OPP_STONES_TO_PLACE": "Ekzistas ankoraŭ {{own}} amika kaptita ŝtono (((s), kaj tiam {{opp}} kontraŭulo ŝtono (((s), por translokigi.",
             "OPP_SELF_STONES_TO_PLACE": "Estas ankoraŭ {{opp}} kontraŭulo kaptis ŝtono(s), kaj tiam {{own}} amika ŝtono(s), por translokigi.",
-            "INITIAL_INSTRUCTIONS_ORIGINAL": "Metu ŝtonon sur malplena ĉelo. Se oni kaptas la ŝtonon, ĝi fariĝas kolora. Tiu flip povas kaŭzi sekvajn flip-ojn, komencante ĉenreagon ĝis la tabulo establiĝas."
+            "INITIAL_INSTRUCTIONS_ORIGINAL": "Metu ŝtonon sur malplena ĉelo. Se oni kaptas la ŝtonon, ĝi fariĝas kolora. Tiu flip povas kaŭzi sekvajn flip-ojn, komencante ĉenreagon ĝis la tabulo establiĝas.",
+            "SELF_STONES_TO_PLACE_one": "Ankoraŭ necesas translokigi unu kaptitan amikan ŝtonon.",
+            "SELF_STONES_TO_PLACE_other": "Ankoraŭ necesas translokigi {{count}} kaptitajn amikajn ŝtonojn.",
+            "OPP_STONES_TO_PLACE_one": "Ankoraŭ necesas translokigi unu kaptitan kontraŭulan ŝtonon.",
+            "OPP_STONES_TO_PLACE_other": "Ankoraŭ necesas translokigi {{count}} kaptitajn kontraŭulajn ŝtonojn.",
+            "SELF_OPP_STONES_TO_PLACE_own_one_opp_one": "Ankoraŭ necesas translokigi unu kaptitan amikan ŝtonon kaj poste unu kontraŭulan ŝtonon.",
+            "SELF_OPP_STONES_TO_PLACE_own_one_opp_other": "Ankoraŭ necesas translokigi unu kaptitan amikan ŝtonon kaj poste {{opp}} kontraŭulajn ŝtonojn.",
+            "SELF_OPP_STONES_TO_PLACE_own_other_opp_one": "Ankoraŭ necesas translokigi {{own}} kaptitajn amikajn ŝtonojn kaj poste unu kontraŭulan ŝtonon.",
+            "SELF_OPP_STONES_TO_PLACE_own_other_opp_other": "Ankoraŭ necesas translokigi {{own}} kaptitajn amikajn ŝtonojn kaj poste {{opp}} kontraŭulajn ŝtonojn.",
+            "OPP_SELF_STONES_TO_PLACE_own_one_opp_one": "Ankoraŭ necesas translokigi unu kaptitan kontraŭulan ŝtonon kaj poste unu amikan ŝtonon.",
+            "OPP_SELF_STONES_TO_PLACE_own_one_opp_other": "Ankoraŭ necesas translokigi unu kaptitan kontraŭulan ŝtonon kaj poste {{own}} amikajn ŝtonojn.",
+            "OPP_SELF_STONES_TO_PLACE_own_other_opp_one": "Ankoraŭ necesas translokigi {{opp}} kaptitajn kontraŭulajn ŝtonojn kaj poste unu amikan ŝtonon.",
+            "OPP_SELF_STONES_TO_PLACE_own_other_opp_other": "Ankoraŭ necesas translokigi {{opp}} kaptitajn kontraŭulajn ŝtonojn kaj poste {{own}} amikajn ŝtonojn."
         },
         "pippinzip": {
             "INITIAL_INSTRUCTIONS": "Jen la aŭkcia fazo. Aŭ metu unu ĝis tri pecojn sur malplenajn ĉelojn por plibonigi la pozicion de \"Zip\", aŭ premu \"preterpasu\" por fini la aukcion kaj esti \"Zip\".",
@@ -7578,7 +7639,8 @@
             "MOVES_ONE_POWERPLAY": "Vi povas ludi nur unu potencojn je vico.",
             "MOVES_ONE_SPACE": "Kapuzoj povas esti movitaj nur unu spacon en tempo.",
             "PARTIAL_ERUPTION": "Daŭrigu movi ĉapojn ĝis vi kaŭzas erupcion.",
-            "PARTIAL_MOVE": "Elektu la celon."
+            "PARTIAL_MOVE": "Elektu la celon.",
+            "CAPTURED_LABEL": "{{player}}: Kaptitaj pecoj"
         },
         "volo": {
             "BEARING": "La intervalo {{range}} ne rezultigas validan rulon.",
@@ -7693,10 +7755,309 @@
             "MUST_MOVE": "Se vi havas disponeblan movon, vi ne povas preterpasi vian vicon.",
             "NONCAPTURES_KINGS": "Ne-kaptantaj movoj povas movi nur unu spacon samtempe.",
             "PARTIAL": "Elektu celon."
+        },
+        "bridges": {
+            "INITIAL_INSTRUCTIONS_FIRST_TURN": "Metu novan bazon sur ajnan malplenan spacon krom la centra.",
+            "INITIAL_INSTRUCTIONS": "Faru du movojn. En ĉiu movo, aŭ metu novan bazon sur malplenan spacon, kiu nek apudas ekzistantan bazon nek estas la centra spaco, aŭ kunligu du el viaj bazoj per ponto."
+        },
+        "elOso": {
+            "INITIAL_INSTRUCTIONS": "Elektu unu el viaj stakoj por movi. Alklaku stakon dufoje por preterpasi.",
+            "VALID_PARTIAL": "Elektu celon. Alklaku la saman stakon denove por preterpasi.",
+            "VALID_PARTIAL_TOP": "Elektu celon aŭ alklaku la supran strion «Ĉielo». Alklaku la saman stakon denove por preterpasi.",
+            "SELECT_STACK_FOR_PASS": "Unue elektu stakon, poste alklaku ĝin denove por preterpasi.",
+            "INVALID_DIRECTION": "Stakoj povas moviĝi diagonale aŭ flanken, sed ne rekte antaŭen aŭ malantaŭen.",
+            "TOO_FAR": "Ĉi tiu stako povas moviĝi je maksimume {{dist}} spacoj.",
+            "SKY_FROM_TOP": "Nur stakoj sur la supra vico povas moviĝi en la Ĉielon."
         }
     },
     "INITIAL_UNDO": "Vi ne povas malfari la komencan pozicion de la ludo.",
     "MOVES_GAMEOVER": "Vi ne povas fari movojn en finitaj ludoj.",
     "MOVES_INVALID": "La movo „{{move}}“ estas nevalida. Kontrolu la regulojn kaj provu denove.",
-    "MOVES_SIMULTANEOUS_PARTIAL": "En samtempaj ludoj, la movoj de ambaŭ ludantoj devas esti senditaj samtempe."
+    "MOVES_SIMULTANEOUS_PARTIAL": "En samtempaj ludoj, la movoj de ambaŭ ludantoj devas esti senditaj samtempe.",
+    "names": {
+        "abande": "Abande",
+        "accasta": "Accasta",
+        "acity": "Eksterterana Urbo",
+        "agere": "Adere",
+        "akimbo": "Akimbo",
+        "akron": "Akron",
+        "almatafl": "AlmaTafl",
+        "alta": "Alta",
+        "amazons": "Amazonoj",
+        "amoeba": "Amebo",
+        "anache": "Anache",
+        "archimedes": "Arkimedo",
+        "arimaa": "Arimaa",
+        "armadas": "Ŝiparoj",
+        "asli": "Asli",
+        "assembly": "Muntolinio",
+        "atarigo": "Minaca Goo",
+        "ataxx": "Ataxx",
+        "atoll": "Atolo",
+        "attangle": "Attangle",
+        "ayu": "Ayu",
+        "azacru": "Azacru",
+        "baghchal": "Bagh Chal",
+        "bamboo": "Bambuo",
+        "bao": "Bao",
+        "basalt": "Bazalto",
+        "bide": "Atendo",
+        "biscuit": "Biskvito",
+        "bitesize": "BITESIZE",
+        "blam": "Blam!",
+        "blastradius": "Eksplodradiuso",
+        "blockade": "Blokado",
+        "blooms": "Floroj",
+        "bloqueo": "Bloqueo",
+        "bluestone": "Bluŝtono",
+        "boom": "Bumi & Zomi",
+        "bounce": "Resalto",
+        "boxes": "Punktoj kaj Kvadratoj",
+        "breakthrough": "Trarompo",
+        "bridges": "Pontoj",
+        "btt": "Branĉoj kaj Branĉetoj kaj Dornoj",
+        "bug": "Insekto",
+        "buku": "Buku",
+        "byte": "Bajto",
+        "c1": "C1",
+        "calculus": "Kalkulo",
+        "camelot": "Kameloto",
+        "cannon": "Kanono",
+        "canoe": "Kanuo",
+        "carnac": "Carnac",
+        "catapult": "Katapulto",
+        "catchup": "Reatingo",
+        "catsdogs": "Katoj kaj Hundoj",
+        "ccorridor": "Kaira Koridoro",
+        "ceph": "Kapopiedulo",
+        "chameleon": "Kameleono",
+        "chase": "Ĉaso",
+        "churn": "Kirlo",
+        "cifra": "CIFRA",
+        "circleOfLife": "Cirklo de Vivo",
+        "clearcut": "Duontranĉo",
+        "clusterfuss": "Clusterfuss",
+        "compart": "Compart",
+        "complica": "Complica",
+        "conect": "Conect",
+        "conhex": "ConHex",
+        "connect6": "Kunligu 6",
+        "connecticut": "Connecticut",
+        "connections": "Konektoj",
+        "conspirateurs": "Conspirateurs",
+        "control": "Regado",
+        "court": "Kortego",
+        "courtesan": "King & Courtesan",
+        "crosscontrol": "Krucregado",
+        "crosshairs": "Fadenkrucoj",
+        "crossway": "Krucvojo",
+        "cubeo": "Cubeo",
+        "dagnacht": "Dag en Nacht",
+        "dameo": "Dameo",
+        "deckfish": "Kartarfiŝo",
+        "diffusion": "Difuzo",
+        "dipole": "Dupoluso",
+        "domineering": "Domineering",
+        "dragoneyes": "Drakaj Okuloj",
+        "druid": "Druido",
+        "elOso": "El Oso",
+        "emergo": "Emergo",
+        "emu": "Emubredistoj",
+        "enso": "Enso",
+        "entrapment": "Enkaptiligo",
+        "entropy": "Entropio",
+        "epam": "Epaminondas",
+        "estate": "Bieno",
+        "evenatodds": "Even at Odds",
+        "exxit": "Exxit",
+        "fabrik": "Fabrik",
+        "fanorona": "Fanorona",
+        "fendo": "Fendo",
+        "fightopia": "Fightopia",
+        "flume": "Flume",
+        "fnap": "FNAP",
+        "focus": "Fokuso",
+        "forms": "Formoj",
+        "four": "Kvar",
+        "fourinarow": "Kvar en Vico",
+        "fractured": "Frakasita Ebeno",
+        "frames": "Kadroj",
+        "frogger": "Frogger",
+        "furl": "Volvo",
+        "garden": "Ĝardeno de Sorĉisto",
+        "gess": "Gess",
+        "gliss": "Gliss",
+        "go": "Goo",
+        "gomoku": "Gomokuo",
+        "gonnect": "Gonnect",
+        "gorogo": "GoRoGo",
+        "guerrilla": "Gerila Damludo",
+        "gyges": "Gyges",
+        "gyve": "Gyve",
+        "halma": "Halma",
+        "halmaclimbers": "Grimpistoj de Halma",
+        "havannah": "Havannah",
+        "hens": "Kokinoj kaj Kokidoj",
+        "hex": "Heksludo",
+        "hexentafl": "heXentafl",
+        "hexy": "Sesangula Y",
+        "homeworlds": "Hejmmondoj",
+        "hula": "Hula",
+        "intermedium": "Intermedium",
+        "invector": "Invector",
+        "iqishiqi": "Iqishiqi",
+        "irensei": "Irensei",
+        "jacynth": "Jacynth",
+        "kachit": "Kachit Knights",
+        "knightline": "Ĉevalira Linio",
+        "konane": "Konane",
+        "krypte": "Krypte",
+        "lasca": "Laska",
+        "lielow": "Lielow",
+        "lifeline": "Vivŝnuro",
+        "linage": "Linage",
+        "loa": "Linioj de Agoj",
+        "logger": "Hakisto",
+        "lox": "Lox",
+        "magnate": "Magnato",
+        "majorities": "Plejmultoj",
+        "manalath": "Manalath",
+        "margo": "Margo",
+        "mattock": "Pioĉo",
+        "mchess": "Marsa Ŝako",
+        "meg": "Meg",
+        "meridians": "Meridianoj",
+        "mimic": "Imitanto",
+        "minefield": "Minkampo",
+        "minimize": "Minimumigo",
+        "mirador": "Mirador",
+        "mixtour": "Mixtour",
+        "monkey": "Simia Damo",
+        "moonsquad": "Luna Taĉmento",
+        "morphos": "Morphos",
+        "murus": "Murus Gallicus",
+        "mutternland": "Mutternland",
+        "mvolcano": "Vulkanego",
+        "nakatta": "Nakatta",
+        "narrows": "Mallarĝejo",
+        "necklace": "Kolĉeno",
+        "nex": "Nex",
+        "omny": "Omny",
+        "onager": "Katapulto (Onager)",
+        "onyx": "Onyx",
+        "oonpia": "Oonpia",
+        "orb": "Generatorb",
+        "ordo": "Ordo",
+        "oust": "Elpelo",
+        "oware": "Oware",
+        "owlman": "Strighomo",
+        "pacru": "Pacru",
+        "pahtum": "Pah-Tum",
+        "paintbucket": "Farbsitelo",
+        "penguin": "Pingvena Futbalo",
+        "pente": "Pente",
+        "phutball": "Phutball",
+        "pigs": "Robotbatalporkoj",
+        "pigs2": "Robotbatalporkoj (Kontinua)",
+        "pikemen": "Pikstangistoj",
+        "pilastri": "Pilastri",
+        "pinch": "Pinĉo",
+        "pippinzip": "Pippinzip",
+        "pletore": "Pletore",
+        "plurality": "Relativa Plimulto",
+        "pods": "Naskaj Maroj - Balenaroj",
+        "pollux": "Polukso",
+        "pontedd": "Ponte del Diavolo",
+        "posit": "Posit",
+        "product": "Produto",
+        "prudh": "Prudh",
+        "pylon": "Pilono",
+        "quagmire": "Marĉo",
+        "quax": "Quax",
+        "queensland": "Queensland",
+        "query": "Demando",
+        "quincunx": "Kvinkunkso",
+        "rampart": "Remparo",
+        "razzle": "Razzle Dazzle",
+        "realm": "Regno",
+        "renju": "Renĝuo",
+        "resolve": "Solvo",
+        "reversi": "Reverso",
+        "rincala": "Rincala",
+        "rootbound": "Root Bound",
+        "saltire": "Andrea Kruco",
+        "scaffold": "Skafaldo",
+        "scribe": "Skribisto",
+        "sentinel": "Sentinelo",
+        "shapechess": "Formŝako",
+        "shifty": "Ŝovema",
+        "siegeofj": "Sieĝo de Jacynth",
+        "slimetrail": "Ŝlimspuro",
+        "slither": "Altnivela Serpentumo",
+        "slyde": "Slyde",
+        "soccolot": "Soccolot",
+        "spire": "Spire",
+        "spline": "Spline",
+        "sploof": "Sploof",
+        "sponnect": "Sponnect",
+        "spook": "Spook",
+        "spora": "Spora",
+        "spree": "Spree",
+        "squaredance": "Kvadrila Danco",
+        "squirm": "Tordiĝo",
+        "stairs": "Ŝtuparo",
+        "stapeldammen": "Stapeldammen II",
+        "stawvs": "Stawvs",
+        "stibro": "Stibro",
+        "stigmergy": "Stigmergy",
+        "stiletto": "Stileto",
+        "storisende": "Storisende",
+        "strands": "Fadenoj",
+        "streetcar": "Trama Antaŭurbo",
+        "strings": "Tiro de Fadenoj",
+        "subdivision": "Loĝkvartalo",
+        "sunspot": "Sunmakulo",
+        "surmount": "Superado",
+        "susan": "Susan",
+        "swarm": "Svarmo",
+        "symple": "Symple",
+        "synapse": "Sinapso",
+        "tablero": "Tablero di Berona",
+        "tafl": "Hnefatafl",
+        "taiji": "Taiji",
+        "take": "Take",
+        "tanbo": "Tanbo",
+        "tbt": "Take-Back-Toe",
+        "terrace": "Teraso",
+        "tessella": "Tessella",
+        "tintas": "Tintas",
+        "toguz": "Toguz Kumalak",
+        "trax": "Trax",
+        "tricouleur": "Tricouleur",
+        "trike": "Trike",
+        "tritium": "Tritium",
+        "tumbleweed": "Rultigaro",
+        "twinflames": "Ĝemelaj Flamoj",
+        "twixt": "Twixt",
+        "unane": "Unane",
+        "unlur": "Unlur",
+        "unstack": "Malstakigo",
+        "upperhand": "Supereco",
+        "urbino": "Urbino",
+        "valley": "Valo de Reĝo",
+        "veletas": "Veletas",
+        "verge": "Limo",
+        "viruswar": "Virusa Milito",
+        "volcano": "Vulkano",
+        "volo": "Volo",
+        "waldmeister": "WaldMeister",
+        "witch": "Sorĉistinaj Ŝtonoj",
+        "wunchunk": "Wunchunk",
+        "wyke": "Wyke de Alfredo",
+        "xana": "Xana",
+        "y": "Y",
+        "yavalath": "Yavalath",
+        "yonmoque": "Yonmoque",
+        "zola": "Zola"
+    }
 }

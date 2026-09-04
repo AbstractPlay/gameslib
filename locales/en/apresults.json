@@ -30,8 +30,8 @@
         "arimaa": "This position has occurred before. Further repeats of this position are forbidden.",
         "biscuit": "The following cards were in opposing hands: {{cards}}.",
         "deckfish": "{{player}} was unable to move and must pass from now on.",
-        "frogger_one": "{{player}} chose to refill the draw pool. Other players must pass so he can take his {{count}} remaining move.",
-        "frogger_other": "{{player}} chose to refill the draw pool. Other players must pass so he can take his {{count}} remaining moves.",
+        "frogger_one": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining move.",
+        "frogger_other": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining moves.",
         "quincunx": "Player {{playerNum}} had the following cards left in their hand: {{cards}}.",
         "elOso": {
             "playerSetup": "Player setup",

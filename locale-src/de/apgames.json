@@ -13880,12 +13880,12 @@
     "out": "Eine Variante auf einem runden Brett, bei der man versucht, zwei gegenüberliegende Seiten zu verbinden."
   },
   "variants.agere.cobweb-small.name": {
-    "src": "Cobweb (3 rings)",
-    "out": "Spinnennetz (3 Ringe)"
+    "src": "Cobweb (3 rings, designer preferred)",
+    "out": "Cobweb (3 Ringe, vom Autor bevorzugt)"
   },
   "variants.agere.cobweb.name": {
-    "src": "Cobweb (4 rings)",
-    "out": "Spinnennetz (4 Ringe)"
+    "src": "Cobweb (4 rings, experimental)",
+    "out": "Cobweb (4 Ringe, experimentell)"
   },
   "variants.agere.limping.name": {
     "src": "Limping 5-6 (75 spaces)",

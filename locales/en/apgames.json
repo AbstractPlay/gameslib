@@ -788,11 +788,11 @@
                 "name": "Triangle board (8 wide)"
             },
             "cobweb": {
-                "name": "Cobweb (4 rings)"
+                "name": "Cobweb (4 rings, experimental)"
             },
             "cobweb-small": {
                 "description": "A variant played on a round board where you try to connect two opposite sides.",
-                "name": "Cobweb (3 rings)"
+                "name": "Cobweb (3 rings, designer preferred)"
             },
             "limping": {
                 "name": "Limping 5-6 (75 spaces)"

@@ -13880,12 +13880,12 @@
     "out": "Una variante giocata su un tavoliere rotondo in cui cerchi di collegare due lati opposti."
   },
   "variants.agere.cobweb-small.name": {
-    "src": "Cobweb (3 rings)",
-    "out": "Ragnatela (3 anelli)"
+    "src": "Cobweb (3 rings, designer preferred)",
+    "out": "Cobweb (3 anelli, preferita dal designer)"
   },
   "variants.agere.cobweb.name": {
-    "src": "Cobweb (4 rings)",
-    "out": "Ragnatela (4 anelli)"
+    "src": "Cobweb (4 rings, experimental)",
+    "out": "Cobweb (4 anelli, sperimentale)"
   },
   "variants.agere.limping.name": {
     "src": "Limping 5-6 (75 spaces)",

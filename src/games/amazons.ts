@@ -23,7 +23,6 @@ interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, CellContents>;
     lastmove?: string;
-    variants?: string[];
 }
 
 export interface IAmazonsState extends IAPGameState {
@@ -145,6 +144,7 @@ export class AmazonsGame extends GameBase {
             this.variants = [...state.variants];
             this.stack = [...state.stack];
         } else {
+            this.variants = [...(variants ?? [])];
             let board = new Map<string, CellContents>([
                 ["d10", 2],
                 ["g10", 2],
@@ -155,31 +155,28 @@ export class AmazonsGame extends GameBase {
                 ["d1", 1],
                 ["g1", 1]
             ]);
-            if (variants !== undefined) {
-                this.variants = [...variants];
-                if (this.variants.includes("cross")) {
-                    board = new Map<string, CellContents>([
-                        ["d10", 2],
-                        ["g10", 2],
-                        ["a7", 1],
-                        ["j7", 1],
-                        ["a4", 1],
-                        ["j4", 1],
-                        ["d1", 2],
-                        ["g1", 2]
-                    ]);
-                } else if (this.variants.includes("scrambled")) {
-                    board = new Map<string, CellContents>([
-                        ["d10", 2],
-                        ["g10", 1],
-                        ["a7", 1],
-                        ["j7", 2],
-                        ["a4", 2],
-                        ["j4", 1],
-                        ["d1", 1],
-                        ["g1", 2]
-                    ]);
-                }
+            if (this.variants.includes("cross")) {
+                board = new Map<string, CellContents>([
+                    ["d10", 2],
+                    ["g10", 2],
+                    ["a7", 1],
+                    ["j7", 1],
+                    ["a4", 1],
+                    ["j4", 1],
+                    ["d1", 2],
+                    ["g1", 2]
+                ]);
+            } else if (this.variants.includes("scrambled")) {
+                board = new Map<string, CellContents>([
+                    ["d10", 2],
+                    ["g10", 1],
+                    ["a7", 1],
+                    ["j7", 2],
+                    ["a4", 2],
+                    ["j4", 1],
+                    ["d1", 1],
+                    ["g1", 2]
+                ]);
             }
             const fresh: IMoveState = {
                 _version: AmazonsGame.gameinfo.version,
@@ -187,7 +184,6 @@ export class AmazonsGame extends GameBase {
                 _timestamp: new Date(),
                 currplayer: 1,
                 board,
-                variants: [...this.variants],
             };
             this.stack = [fresh];
         }
@@ -205,9 +201,6 @@ export class AmazonsGame extends GameBase {
         const state = this.stack[idx];
         if (state === undefined) {
             throw new Error(`Could not load state index ${idx}`);
-        }
-        if (state.variants !== undefined) {
-            this.variants = [...state.variants];
         }
         this.results = [...state._results];
         this.currplayer = state.currplayer;
@@ -538,7 +531,6 @@ export class AmazonsGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
-            variants: [...this.variants],
         };
     }
 

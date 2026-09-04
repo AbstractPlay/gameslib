@@ -13880,12 +13880,12 @@
     "out": "Una variante jugada en un tablero redondo donde intentas conectar dos lados opuestos."
   },
   "variants.agere.cobweb-small.name": {
-    "src": "Cobweb (3 rings)",
-    "out": "Telaraña (3 anillos)"
+    "src": "Cobweb (3 rings, designer preferred)",
+    "out": "Cobweb (3 anillos, preferencia del diseñador)"
   },
   "variants.agere.cobweb.name": {
-    "src": "Cobweb (4 rings)",
-    "out": "Telaraña (4 anillos)"
+    "src": "Cobweb (4 rings, experimental)",
+    "out": "Cobweb (4 anillos, experimental)"
   },
   "variants.agere.limping.name": {
     "src": "Limping 5-6 (75 spaces)",

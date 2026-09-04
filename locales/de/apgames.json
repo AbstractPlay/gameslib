@@ -788,11 +788,11 @@
         "name": "Dreiecksbrett (8 breit)"
       },
       "cobweb": {
-        "name": "Spinnennetz (4 Ringe)"
+        "name": "Cobweb (4 Ringe, experimentell)"
       },
       "cobweb-small": {
         "description": "Eine Variante auf einem runden Brett, bei der man versucht, zwei gegenüberliegende Seiten zu verbinden.",
-        "name": "Spinnennetz (3 Ringe)"
+        "name": "Cobweb (3 Ringe, vom Autor bevorzugt)"
       },
       "limping": {
         "name": "Humpelnd 5-6 (75 Felder)"

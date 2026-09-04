@@ -13880,12 +13880,12 @@
     "out": "Une variante jouée sur un plateau rond où vous essayez de relier deux côtés opposés."
   },
   "variants.agere.cobweb-small.name": {
-    "src": "Cobweb (3 rings)",
-    "out": "Toile d'araignée (3 anneaux)"
+    "src": "Cobweb (3 rings, designer preferred)",
+    "out": "Toile d'araignée (3 anneaux, préféré par l'auteur)"
   },
   "variants.agere.cobweb.name": {
-    "src": "Cobweb (4 rings)",
-    "out": "Toile d'araignée (4 anneaux)"
+    "src": "Cobweb (4 rings, experimental)",
+    "out": "Toile d'araignée (4 anneaux, expérimental)"
   },
   "variants.agere.limping.name": {
     "src": "Limping 5-6 (75 spaces)",

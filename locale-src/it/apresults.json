@@ -96,12 +96,12 @@
     "out": "Preparazione del giocatore"
   },
   "ANNOUNCE.frogger_one": {
-    "src": "{{player}} chose to refill the draw pool. Other players must pass so he can take his {{count}} remaining move.",
-    "out": "{{player}} ha scelto di riempire la riserva di pesca. Gli altri giocatori devono passare per permettergli di effettuare la sua {{count}} mossa rimanente."
+    "src": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining move.",
+    "out": "{{player}} ha scelto di ripristinare la riserva di pesca. Ottiene un altro turno per eseguire la sua {{count}} mossa rimanente."
   },
   "ANNOUNCE.frogger_other": {
-    "src": "{{player}} chose to refill the draw pool. Other players must pass so he can take his {{count}} remaining moves.",
-    "out": "{{player}} ha scelto di riempire la riserva di pesca. Gli altri giocatori devono passare per permettergli di effettuare le sue {{count}} mosse rimanenti."
+    "src": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining moves.",
+    "out": "{{player}} ha scelto di ripristinare la riserva di pesca. Ottiene un altro turno per eseguire le sue {{count}} mosse rimanenti."
   },
   "ANNOUNCE.quincunx": {
     "src": "Player {{playerNum}} had the following cards left in their hand: {{cards}}.",

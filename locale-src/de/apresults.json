@@ -96,12 +96,12 @@
     "out": "Spieleraufbau"
   },
   "ANNOUNCE.frogger_one": {
-    "src": "{{player}} chose to refill the draw pool. Other players must pass so he can take his {{count}} remaining move.",
-    "out": "{{player}} hat entschieden, den Nachziehpool aufzufüllen. Die anderen Spieler müssen passen, damit er seinen {{count}} verbleibenden Zug ausführen kann."
+    "src": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining move.",
+    "out": "{{player}} hat sich entschieden, den Nachziehvorrat aufzufüllen. Er erhält einen weiteren Zug, um seinen {{count}} verbleibenden Zug auszuführen."
   },
   "ANNOUNCE.frogger_other": {
-    "src": "{{player}} chose to refill the draw pool. Other players must pass so he can take his {{count}} remaining moves.",
-    "out": "{{player}} hat entschieden, den Nachziehpool aufzufüllen. Die anderen Spieler müssen passen, damit er seine {{count}} verbleibenden Züge ausführen kann."
+    "src": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining moves.",
+    "out": "{{player}} hat sich entschieden, den Nachziehvorrat aufzufüllen. Er erhält einen weiteren Zug, um seine {{count}} verbleibenden Züge auszuführen."
   },
   "ANNOUNCE.quincunx": {
     "src": "Player {{playerNum}} had the following cards left in their hand: {{cards}}.",

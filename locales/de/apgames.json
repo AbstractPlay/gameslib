@@ -6056,8 +6056,8 @@
       "TOO_EARLY_FOR_REFILL": "Bitte sende deine Auffüllanforderung ab, bevor du deine verbleibenden Züge machst.",
       "TOO_LATE_FOR_BLOCKED": "Du gilst nicht als blockiert, wenn du dich in diesem Zug bereits bewegt hast.",
       "TOO_LATE_FOR_REFILL": "Nach deinem dritten Zug musst du kein manuelles Auffüllen des Auslagen-Pools erzwingen. Er wird nach dem Absenden automatisch aufgefüllt.",
-      "VALID_REFILL_one": "Bitte sende deinen Zug ab, um das Nachfüllen auszulösen. Gegner passen automatisch, und du hast noch einen Zug in deinem Teilzug übrig (sowie die Option zu passen).",
-      "VALID_REFILL_other": "Bitte sende deinen Zug ab, um das Nachfüllen auszulösen. Gegner passen automatisch, und du hast noch {{count}} Züge in deinem Teilzug übrig (sowie die Option zu passen)."
+      "VALID_REFILL_one": "Bitte sende deinen Zug ab, um das Nachfüllen auszulösen. Du erhältst automatisch einen weiteren Zug und hast noch einen verbleibenden Zug in deinem Teilzug (sowie die Option zu passen).",
+      "VALID_REFILL_other": "Bitte sende deinen Zug ab, um das Nachfüllen auszulösen. Du erhältst automatisch einen weiteren Zug und hast noch {{count}} verbleibende Züge in deinem Teilzug (sowie die Option zu passen)."
     },
     "furl": {
       "CAPTURE4UNFURL": "Du hast einen schlagenden Entfaltungszug angegeben, aber {{to}} ist nicht vom Gegner besetzt. Verwende \">\", um ein nicht-schlagendes Entfalten anzuzeigen.",

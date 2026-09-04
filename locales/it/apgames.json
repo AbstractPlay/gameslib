@@ -6056,8 +6056,8 @@
       "TOO_EARLY_FOR_REFILL": "Invia la tua richiesta di riempimento prima di effettuare le mosse rimanenti.",
       "TOO_LATE_FOR_BLOCKED": "Non sei considerato bloccato se hai già mosso in questo turno.",
       "TOO_LATE_FOR_REFILL": "Non è necessario forzare un riempimento della riserva di pesca dopo la tua terza mossa. Si riempirà automaticamente dopo l'invio.",
-      "VALID_REFILL_one": "Invia la tua mossa per attivare il riempimento. Gli avversari passeranno automaticamente e ti rimarrà una mossa nel tuo turno parziale (oltre all'opzione di passare).",
-      "VALID_REFILL_other": "Invia la tua mossa per attivare il riempimento. Gli avversari passeranno automaticamente e ti rimarranno {{count}} mosse nel tuo turno parziale (oltre all'opzione di passare)."
+      "VALID_REFILL_one": "Invia la tua mossa per attivare il ripristino. Otterrai automaticamente un altro turno e ti rimarrà una mossa nel tuo turno parziale (oltre alla possibilità di passare).",
+      "VALID_REFILL_other": "Invia la tua mossa per attivare il ripristino. Otterrai automaticamente un altro turno e ti rimarranno {{count}} mosse nel tuo turno parziale (oltre alla possibilità di passare)."
     },
     "furl": {
       "CAPTURE4UNFURL": "Hai segnalato una mossa di spiegamento con cattura, ma {{to}} non è occupata dall'avversario. Usa \">\" per indicare lo spiegamento senza cattura.",

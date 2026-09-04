@@ -30,8 +30,8 @@
     "arimaa": "Esta posición ya ha ocurrido antes. Quedan prohibidas más repeticiones de esta posición.",
     "biscuit": "Las siguientes cartas estaban en las manos opuestas: {{cards}}.",
     "deckfish": "{{player}} no pudo mover y debe pasar de ahora en adelante.",
-    "frogger_one": "{{player}} eligió reponer la reserva de robo. Los demás jugadores deben pasar para que pueda hacer su {{count}} movimiento restante.",
-    "frogger_other": "{{player}} eligió reponer la reserva de robo. Los demás jugadores deben pasar para que pueda hacer sus {{count}} movimientos restantes.",
+    "frogger_one": "{{player}} eligió rellenar la reserva de robo. Obtiene otro turno para hacer su {{count}} movimiento restante.",
+    "frogger_other": "{{player}} eligió rellenar la reserva de robo. Obtiene otro turno para hacer sus {{count}} movimientos restantes.",
     "quincunx": "Al jugador {{playerNum}} le quedaron las siguientes cartas en la mano: {{cards}}.",
     "elOso": {
       "playerSetup": "Preparación del jugador",

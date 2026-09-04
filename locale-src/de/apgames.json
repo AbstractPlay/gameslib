@@ -7780,12 +7780,12 @@
     "out": "Nach deinem dritten Zug musst du kein manuelles Auffüllen des Auslagen-Pools erzwingen. Er wird nach dem Absenden automatisch aufgefüllt."
   },
   "validation.frogger.VALID_REFILL_one": {
-    "src": "Please submit your move to trigger the refill. Opponents will pass automatically, and you will have one move remaining in your partial turn (as well as the option to pass).",
-    "out": "Bitte sende deinen Zug ab, um das Nachfüllen auszulösen. Gegner passen automatisch, und du hast noch einen Zug in deinem Teilzug übrig (sowie die Option zu passen)."
+    "src": "Please submit your move to trigger the refill. You will get another turn automatically, and you will have one move remaining in your partial turn (as well as the option to pass).",
+    "out": "Bitte sende deinen Zug ab, um das Nachfüllen auszulösen. Du erhältst automatisch einen weiteren Zug und hast noch einen verbleibenden Zug in deinem Teilzug (sowie die Option zu passen)."
   },
   "validation.frogger.VALID_REFILL_other": {
-    "src": "Please submit your move to trigger the refill. Opponents will pass automatically, and you will have {{count}} moves remaining in your partial turn (as well as the option to pass).",
-    "out": "Bitte sende deinen Zug ab, um das Nachfüllen auszulösen. Gegner passen automatisch, und du hast noch {{count}} Züge in deinem Teilzug übrig (sowie die Option zu passen)."
+    "src": "Please submit your move to trigger the refill. You will get another turn automatically, and you will have {{count}} moves remaining in your partial turn (as well as the option to pass).",
+    "out": "Bitte sende deinen Zug ab, um das Nachfüllen auszulösen. Du erhältst automatisch einen weiteren Zug und hast noch {{count}} verbleibende Züge in deinem Teilzug (sowie die Option zu passen)."
   },
   "validation.furl.CAPTURE4UNFURL": {
     "src": "You signalled a capture unfurl move, but {{to}} not is occupied by the opponent. Use \">\" to denote non-capture unfurl.",

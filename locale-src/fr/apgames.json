@@ -7780,12 +7780,12 @@
     "out": "Il n'est pas nécessaire de forcer un remplissage de la réserve après votre troisième coup. Elle se remplira automatiquement après validation."
   },
   "validation.frogger.VALID_REFILL_one": {
-    "src": "Please submit your move to trigger the refill. Opponents will pass automatically, and you will have one move remaining in your partial turn (as well as the option to pass).",
-    "out": "Veuillez valider votre coup pour déclencher le remplissage. Les adversaires passeront automatiquement, et il vous restera un coup dans votre tour partiel (ainsi que la possibilité de passer)."
+    "src": "Please submit your move to trigger the refill. You will get another turn automatically, and you will have one move remaining in your partial turn (as well as the option to pass).",
+    "out": "Veuillez valider votre coup pour déclencher le réapprovisionnement. Vous rejouerez automatiquement et il vous restera un coup dans votre tour partiel (ainsi que la possibilité de passer)."
   },
   "validation.frogger.VALID_REFILL_other": {
-    "src": "Please submit your move to trigger the refill. Opponents will pass automatically, and you will have {{count}} moves remaining in your partial turn (as well as the option to pass).",
-    "out": "Veuillez valider votre coup pour déclencher le remplissage. Les adversaires passeront automatiquement, et il vous restera {{count}} coups dans votre tour partiel (ainsi que la possibilité de passer)."
+    "src": "Please submit your move to trigger the refill. You will get another turn automatically, and you will have {{count}} moves remaining in your partial turn (as well as the option to pass).",
+    "out": "Veuillez valider votre coup pour déclencher le réapprovisionnement. Vous rejouerez automatiquement et il vous restera {{count}} coups dans votre tour partiel (ainsi que la possibilité de passer)."
   },
   "validation.furl.CAPTURE4UNFURL": {
     "src": "You signalled a capture unfurl move, but {{to}} not is occupied by the opponent. Use \">\" to denote non-capture unfurl.",

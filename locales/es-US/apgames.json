@@ -6056,8 +6056,8 @@
       "TOO_EARLY_FOR_REFILL": "Envía tu solicitud de reposición antes de realizar tus movimientos restantes.",
       "TOO_LATE_FOR_BLOCKED": "No te cuentas como bloqueado si ya te has movido en este turno.",
       "TOO_LATE_FOR_REFILL": "No es necesario forzar una reposición de la reserva de robo después de tu tercer movimiento. Se repondrá automáticamente después de que envíes tu turno.",
-      "VALID_REFILL_one": "Envía tu movimiento para activar la recarga. Los oponentes pasarán automáticamente y te quedará un movimiento restante en tu turno parcial (así como la opción de pasar).",
-      "VALID_REFILL_other": "Envía tu movimiento para activar la recarga. Los oponentes pasarán automáticamente y te quedarán {{count}} movimientos restantes en tu turno parcial (así como la opción de pasar)."
+      "VALID_REFILL_one": "Por favor, envía tu movimiento para activar la reposición. Obtendrás otro turno automáticamente y te quedará un movimiento restante en tu turno parcial (además de la opción de pasar).",
+      "VALID_REFILL_other": "Por favor, envía tu movimiento para activar la reposición. Obtendrás otro turno automáticamente y te quedarán {{count}} movimientos restantes en tu turno parcial (además de la opción de pasar)."
     },
     "furl": {
       "CAPTURE4UNFURL": "Señalaste un movimiento de desplegar con captura, pero {{to}} no está ocupado por el oponente. Usa \">\" para denotar un despliegue sin captura.",

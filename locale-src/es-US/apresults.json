@@ -96,12 +96,12 @@
     "out": "Preparación del jugador"
   },
   "ANNOUNCE.frogger_one": {
-    "src": "{{player}} chose to refill the draw pool. Other players must pass so he can take his {{count}} remaining move.",
-    "out": "{{player}} eligió reponer la reserva de robo. Los demás jugadores deben pasar para que pueda hacer su {{count}} movimiento restante."
+    "src": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining move.",
+    "out": "{{player}} eligió rellenar la reserva de robo. Obtiene otro turno para hacer su {{count}} movimiento restante."
   },
   "ANNOUNCE.frogger_other": {
-    "src": "{{player}} chose to refill the draw pool. Other players must pass so he can take his {{count}} remaining moves.",
-    "out": "{{player}} eligió reponer la reserva de robo. Los demás jugadores deben pasar para que pueda hacer sus {{count}} movimientos restantes."
+    "src": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining moves.",
+    "out": "{{player}} eligió rellenar la reserva de robo. Obtiene otro turno para hacer sus {{count}} movimientos restantes."
   },
   "ANNOUNCE.quincunx": {
     "src": "Player {{playerNum}} had the following cards left in their hand: {{cards}}.",

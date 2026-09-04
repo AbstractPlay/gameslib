@@ -96,12 +96,12 @@
     "out": "Mise en place du joueur"
   },
   "ANNOUNCE.frogger_one": {
-    "src": "{{player}} chose to refill the draw pool. Other players must pass so he can take his {{count}} remaining move.",
-    "out": "{{player}} a choisi de remplir la réserve de pioche. Les autres joueurs doivent passer afin qu'il puisse effectuer son {{count}} déplacement restant."
+    "src": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining move.",
+    "out": "{{player}} a choisi de recharger la pioche. Il obtient un tour supplémentaire pour effectuer son {{count}} coup restant."
   },
   "ANNOUNCE.frogger_other": {
-    "src": "{{player}} chose to refill the draw pool. Other players must pass so he can take his {{count}} remaining moves.",
-    "out": "{{player}} a choisi de remplir la réserve de pioche. Les autres joueurs doivent passer afin qu'il puisse effectuer ses {{count}} déplacements restants."
+    "src": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining moves.",
+    "out": "{{player}} a choisi de recharger la pioche. Il obtient un tour supplémentaire pour effectuer ses {{count}} coups restants."
   },
   "ANNOUNCE.quincunx": {
     "src": "Player {{playerNum}} had the following cards left in their hand: {{cards}}.",

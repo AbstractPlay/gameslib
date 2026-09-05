@@ -223,7 +223,68 @@
     "krypte": "Гра «4 в ряд», де фігури виходять з активних сторін, які обертаються після кожного ходу, а розміщення фігури перевертає всі сусідні фігури.",
     "rincala": "Кругла гра з посівом у стилі Манкали, де фішки різних кольорів мають різне значення. Наберіть найбільше очок, щоб виграти.",
     "waldmeister": "Гравці по черзі садять дерева, намагаючись створити групи за кольором або висотою. Перемагає той, хто має найвищий бал після двох раундів.",
-    "wunchunk": "Об'єднайте свої фігури якомога більше до кінця гри, водночас тримаючи їх окремо на початку та в середині гри, щоб збільшити їхню силу. Перемагає найменша кількість груп наприкінці."
+    "wunchunk": "Об'єднайте свої фігури якомога більше до кінця гри, водночас тримаючи їх окремо на початку та в середині гри, щоб збільшити їхню силу. Перемагає найменша кількість груп наприкінці.",
+    "posit": "",
+    "narrows": "",
+    "plurality": "",
+    "shapechess": "",
+    "soccolot": "",
+    "domineering": "",
+    "atarigo": "",
+    "tricouleur": "",
+    "stiletto": "",
+    "tanbo": "",
+    "fractured": "",
+    "evenatodds": "",
+    "catsdogs": "",
+    "guerrilla": "",
+    "squirm": "",
+    "halmaclimbers": "",
+    "crosshairs": "",
+    "twinflames": "",
+    "elOso": "",
+    "akimbo": "",
+    "bitesize": "",
+    "spora": "",
+    "linage": "",
+    "oonpia": "",
+    "sentinel": "",
+    "synapse": "",
+    "scribe": "",
+    "product": "",
+    "court": "",
+    "invector": "",
+    "viruswar": "",
+    "bridges": "",
+    "crosscontrol": "",
+    "pippinzip": "",
+    "bamboo": "",
+    "estate": "",
+    "baghchal": "",
+    "pinch": "",
+    "canoe": "",
+    "xana": "",
+    "halma": "",
+    "druid": "",
+    "circleOfLife": "",
+    "minimize": "",
+    "intermedium": "",
+    "carnac": "",
+    "btt": "",
+    "mutternland": "",
+    "magnate": "",
+    "swarm": "",
+    "go": "",
+    "minefield": "",
+    "unstack": "",
+    "y": "",
+    "stapeldammen": "",
+    "slimetrail": "",
+    "knightline": "",
+    "compart": "",
+    "pollux": "",
+    "forms": "",
+    "unane": ""
   },
   "notes": {
     "blooms": "Пороговим значенням є X(n) = 5n, де n є основою шістнадцяткової дошки (наприклад, дошка за замовчуванням має базу 6, тому порогове значення дорівнює 30).",
@@ -277,7 +338,51 @@
     "arimaa": "Доступно згідно з розділом 3 [публічної ліцензії Arimaa](https://arimaa.com/arimaa/license/).\n\nHarlog – це прийнятний метод визначення переваги. Позитивні бали надають перевагу золоту, негативні – сріблу. Жорсткий діапазон становить ±112, але на практиці ±20 – це дуже сильна перевага.\n\nОскільки ми не можемо генерувати вичерпні списки ходів, система не може виявити рідкісні випадки, коли ваші єдині доступні ходи є незаконними через повторення позицій. Система не дозволить вам зробити ці незаконні повторення, і вам доведеться здатися вручну.",
     "frogger": "Як і в інших іграх Decktet в Abstract Play, колода відображається внизу дошки та включає як карти з колоди, так і невідомі карти з рук інших гравців. Після першої роздачі всі карти витягуються з відкритого пулу, тому руки поступово стають відкритими. Також відображається колода скинутих карт.\n\nЧерез те, як працює рандомізація в Abstract Play, гравцеві потрібні примусові паси, щоб поповнити пул посеред свого ходу. Паси обробляються автоматично сервером, але є також варіант пулу, який дозволяє уникнути примусового пасу, якщо це необхідно.\n\nВаріант «Крокодили» написав Хорхе Арройо, перекладач англійських правил. Розширені правила та інші другорядні варіанти належать П. Д. Магнусу; вони з'являються в книзі «Дектет», де гра називається «Сін».",
     "rincala": "З певних причин кольори натомість червоний (4 бали), синій (3 бали), зелений (2 бали), жовтий (1 бал). Також гра закінчується, як тільки один гравець набирає більше половини очок (>=26 балів).",
-    "waldmeister": "Гравці грають дві гри послідовно. У першому раунді Гравець 1 грає за кольори, а Гравець 2 – за висоту. В кінці першого раунду підраховуються бали та виділяються групи очок. Потім у другому раунді Гравець 2 грає першим і грає за кольори, а Гравець 1 грає за висоту."
+    "waldmeister": "Гравці грають дві гри послідовно. У першому раунді Гравець 1 грає за кольори, а Гравець 2 – за висоту. В кінці першого раунду підраховуються бали та виділяються групи очок. Потім у другому раунді Гравець 2 грає першим і грає за кольори, а Гравець 1 грає за висоту.",
+    "swarm": "",
+    "elOso": "",
+    "linage": "",
+    "carnac": "",
+    "mutternland": "",
+    "sentinel": "",
+    "halmaclimbers": "",
+    "unane": "",
+    "shapechess": "",
+    "pippinzip": "",
+    "akimbo": "",
+    "forms": "",
+    "halma": "",
+    "soccolot": "",
+    "druid": "",
+    "domineering": "",
+    "squirm": "",
+    "evenatodds": "",
+    "posit": "",
+    "scribe": "",
+    "invector": "",
+    "guerrilla": "",
+    "pinch": "",
+    "twinflames": "",
+    "tricouleur": "",
+    "tanbo": "",
+    "xana": "",
+    "knightline": "",
+    "stiletto": "",
+    "intermedium": "",
+    "slimetrail": "",
+    "oonpia": "",
+    "catsdogs": "",
+    "narrows": "",
+    "spora": "",
+    "stapeldammen": "",
+    "plurality": "",
+    "magnate": "",
+    "viruswar": "",
+    "y": "",
+    "canoe": "",
+    "btt": "",
+    "circleOfLife": "",
+    "synapse": ""
   },
   "homeworlds": {
     "CMD_ATK_SELF": "Ви не можете нападати на себе.",
@@ -329,7 +434,10 @@
     "blam": {
       "NUMPIECES_one": "{{count}} штука",
       "NUMPIECES_few": "{{count}} штуки",
-      "NUMPIECES_many": "{{count}} штук"
+      "NUMPIECES_many": "{{count}} штук",
+      "SCORE_other": "",
+      "NUMPIECES_other": "",
+      "SCORE_one": ""
     },
     "bao": {
       "BALANCE": "Матеріальний баланс"
@@ -415,7 +523,38 @@
       "COLOUR": "кольори",
       "GOALS": "Цілі",
       "HEIGHT": "висоти"
-    }
+    },
+    "elOso": {
+      "GRADE_SUPERIOR": "",
+      "GRADE_LOSS": "",
+      "GRADE_EXCELLENT": "",
+      "GROUND": "",
+      "PIT": "",
+      "SKY": "",
+      "GRADE_WIN": "",
+      "CAVE": ""
+    },
+    "scribe": {
+      "MINI_GRIDS": ""
+    },
+    "carnac": {
+      "DOLMENS": ""
+    },
+    "evenatodds": {
+      "BONEYARD": ""
+    },
+    "guerrilla": {
+      "GAME1": "",
+      "G1_SCORE": "",
+      "GAME2": "",
+      "INSURGENTS": ""
+    },
+    "baghchal": {
+      "GOATS_CAPTURED": "",
+      "GOATS_IN_HAND": ""
+    },
+    "_player": "",
+    "RESERVE": ""
   },
   "validation": {
     "_general": {
@@ -475,7 +614,8 @@
       "INITIAL_INSTRUCTIONS_LONGPRO1": "Покладіть свій перший камінь у центр дошки.",
       "INITIAL_INSTRUCTIONS_LONGPRO3": "Виберіть перехрестя, щоб поставити камінь. Ваш хід має бути щонайменше на чотири перехрестя від центру дошки.",
       "INITIAL_INSTRUCTIONS_SWAP1ST1": "Виберіть перехрестя, щоб поставити камінь. Супротивник має можливість поміняти кольори наступного ходу.",
-      "LONGPRO_RESTRICTION_THIRD": "Ваш третій камінь має бути принаймні на чотири перехрестя від центру дошки в довгому професійному отворі."
+      "LONGPRO_RESTRICTION_THIRD": "Ваш третій камінь має бути принаймні на чотири перехрестя від центру дошки в довгому професійному отворі.",
+      "SWAP21_other": ""
     },
     "abande": {
       "DISCONNECTEDMOVE": "Переміщення від {{from}} до {{to}} призвело б до роз’єднання діапазону.",
@@ -488,7 +628,8 @@
       "TOOHIGH": "Переміщення від {{from}} до {{to}} призведе до того, що висота стопки перевищує три фігури.",
       "TRIPLESTACK": "Ви не можете перемістити потрійні стопки.",
       "INITIAL_INSTRUCTIONS": "Покладіть частину на порожнє місце, з’єднану з іншими частинами.",
-      "TOOFAR": "Ви можете перейти лише до сусідньої комірки. {{to}} не є суміжною з {{from}}."
+      "TOOFAR": "Ви можете перейти лише до сусідньої комірки. {{to}} не є суміжною з {{from}}.",
+      "TOOEARLY_libre": ""
     },
     "accasta": {
       "MORE_THAN_THREE": "У ході \"{{move}}\" крок \"{{step}}\" створить стопку з більш ніж 3 фігурами одного кольору.",
@@ -502,7 +643,8 @@
       "PARTIAL_SUBSTACK_many": "Схоже, ви хочете перемістити верхні {{count}} фігури зі стека. Вкажіть пункт призначення.",
       "SOURCE_EMPTY": "У ході \"{{move}}\", коли ви переходите до кроку \"{{step}}\", у вас не залишилося жодної фігури для ходу.",
       "TOOHIGH": "У ході \"{{move}}\" крок \"{{step}}\" створить стопку, висота якої перевищує шість фігур.",
-      "USEPLUS": "На кроці {{step}} використовуйте знак плюс під час переходу до наявного стека."
+      "USEPLUS": "На кроці {{step}} використовуйте знак плюс під час переходу до наявного стека.",
+      "PARTIAL_SUBSTACK_other": ""
     },
     "acity": {
       "CLAIM_TOWERS": "Ви можете претендувати лише на вежі.",
@@ -517,7 +659,8 @@
       "INITIAL_INSTRUCTIONS": "Виберіть фігуру зі свого запасу або введіть «pass», якщо у вас не залишилося дозволених ходів.",
       "ISOLATED": "Розмістивши шматок у {{where}}, інший шматок буде відрізано від дорожньої мережі.",
       "MARKER": "Ви не можете будувати на ділянці, що містить піктограму костюма, доки не будуть зайняті всі інші законні ділянки на цій плитці.",
-      "PARTIAL_MOVE": "Виберіть ділянку, де ви хочете побудувати."
+      "PARTIAL_MOVE": "Виберіть ділянку, де ви хочете побудувати.",
+      "LABEL_STASH": ""
     },
     "agere": {
       "PARTIAL": "Виберіть, куди ви хочете перемістити фрагмент.",
@@ -585,7 +728,8 @@
       "SELECT_MORE_SUPERKO": "Ви повинні продовжувати робити групові ходи, оскільки поточний стан дошки недійсний через superko.",
       "SELECT_MORE_BARRIER": "Ви повинні продовжувати робити групові рухи, тому що ви створили бар'єр.",
       "NOT_DRAGON_JUMPABLE_CORNER": "Дракон не може заскочити в кут.",
-      "FIRST_MOVE_NO_DOUBLE": "У перший хід ви можете перемістити лише одну групу."
+      "FIRST_MOVE_NO_DOUBLE": "У перший хід ви можете перемістити лише одну групу.",
+      "SELECT_MORE_PIECES_other": ""
     },
     "archimedes": {
       "FLEET_FULL": "Ви можете мати не більше 12 штук.",
@@ -694,7 +838,9 @@
       "OCCUPIED_WALL": "Неможливо розмістити стіну на {{wall}}, оскільки це місце вже зайняте.",
       "BLOCKS_GOAL": "Неможливо розмістити стіну біля {{wall}}, оскільки вона блокує ціль(и) для однієї з фігур на дошці.",
       "NO_COMPLETEABLE_WALL": "Часткова стіна {{wall}} недійсна, оскільки немає стіни, яку можна завершити.",
-      "INSUFFICIENT_HWALL": "У вас закінчилися горизонтальні стіни."
+      "INSUFFICIENT_HWALL": "У вас закінчилися горизонтальні стіни.",
+      "BLOCKS_GOAL_one": "",
+      "BLOCKS_GOAL_other": ""
     },
     "blooms": {
       "INITIAL_INSTRUCTIONS_FIRST": "Покладіть 1 фігуру будь-якого кольору на дошку.",
@@ -742,7 +888,8 @@
       "TOO_HIGH_few": "Переміщення {{count}} шашок із {{from}} до {{to}} призведе до надто високого стека.",
       "TOO_HIGH_many": "Переміщення {{count}} шашок із {{from}} до {{to}} призведе до надто високого стека.",
       "UNOWNED_INDEX": "Ви не контролюєте перевірку на позиції {{index}} у стеку на {{where}}.",
-      "ADJ_ONLY": "Стоси можуть переміщатися лише до сусідніх клітинок."
+      "ADJ_ONLY": "Стоси можуть переміщатися лише до сусідніх клітинок.",
+      "TOO_HIGH_other": ""
     },
     "calculus": {
       "BAD_MOVE": "Ви не можете переміщати фігури, які формують периметр навколо дозволених зон.",
@@ -780,7 +927,10 @@
       "TOO_MANY_MOVES_many": "Ви можете розмістити не більше {{count}} фігур на дошці.",
       "MAKE_MORE_MOVES_one": "Покладіть ще {{count}} фішку або закінчіть свій хід.",
       "MAKE_MORE_MOVES_few": "Розмістіть ще {{count}} фігур або завершіть свій хід.",
-      "MAKE_MORE_MOVES_many": "Розмістіть ще {{count}} фігур або завершіть свій хід."
+      "MAKE_MORE_MOVES_many": "Розмістіть ще {{count}} фігур або завершіть свій хід.",
+      "INITIAL_INSTRUCTIONS_other": "",
+      "TOO_MANY_MOVES_other": "",
+      "MAKE_MORE_MOVES_other": ""
     },
     "ccorridor": {
       "ILLEGAL_PLACEMENT": "Розміщення плитки в {{where}} блокує коридор.",
@@ -893,7 +1043,9 @@
       "INVALID_MOVEMENT": "Ви не можете рухати фігури у фазі ХАОСУ.",
       "PARTIAL": "Виберіть пункт Призначення.",
       "STRAIGHT_LINES": "Фігури можна переміщати лише по прямих горизонтальних або вертикальних лініях.",
-      "INITIAL_INSTRUCTIONS_order": "Виберіть фігуру на дошці для переміщення або передачі."
+      "INITIAL_INSTRUCTIONS_order": "Виберіть фігуру на дошці для переміщення або передачі.",
+      "BOARD_CHAOS": "",
+      "BOARD_ORDER": ""
     },
     "epam": {
       "INITIAL_INSTRUCTIONS_move": "Виберіть хвіст фаланги, яку ви хочете перемістити.",
@@ -1015,7 +1167,10 @@
       "SWAP21_few": "Розмістіть ще {{count}} фігур на дошці.",
       "SWAP21_many": "Розмістіть ще {{count}} фігур на дошці.",
       "NOT_PLACEABLE": "Ви не можете розмістити в {{where}}. Твір треба підтримувати.",
-      "SWAP22_EXCESS": "Ви розмістили забагато частин. Ви можете розмістити лише 2 шт."
+      "SWAP22_EXCESS": "Ви розмістили забагато частин. Ви можете розмістити лише 2 шт.",
+      "INITIAL_INSTRUCTIONS_SWAP1ST1": "",
+      "INITIAL_INSTRUCTIONS_SWAP1ST2": "",
+      "SWAP21_other": ""
     },
     "furl": {
       "INITIAL_INSTRUCTIONS": "Виберіть шматок, який потрібно згорнути, або стопку, яку потрібно розгорнути.",
@@ -1227,7 +1382,8 @@
       "INVALID_TILE_NUM": "Якщо ви вказуєте номер плитки, він не повинен перевищувати висоту стопки. Верхня плитка стопки — це плитка під номером «1».",
       "PARTIAL_SUBSTACK_one": "Схоже, ви хочете перемістити верхню {{count}} частину зі стека. Вкажіть пункт призначення.",
       "PARTIAL_SUBSTACK_few": "Схоже, ви хочете перемістити верхні {{count}} фігури зі стека. Вкажіть пункт призначення.",
-      "PARTIAL_SUBSTACK_many": "Схоже, ви хочете перемістити верхні {{count}} фігури зі стека. Вкажіть пункт призначення."
+      "PARTIAL_SUBSTACK_many": "Схоже, ви хочете перемістити верхні {{count}} фігури зі стека. Вкажіть пункт призначення.",
+      "PARTIAL_SUBSTACK_other": ""
     },
     "necklace": {
       "BAD_PASS": "Ви можете не пройти, якщо доступні законні кроки.",
@@ -1260,7 +1416,9 @@
       "CENTRE_PLACEMENT": "Озеро не можна розмістити в центральній клітинці, {{where}}.",
       "INVALID_MOVES": "Ця послідовність ходів {{moves}} недійсна.",
       "SELECT_TO": "Виберіть пункт призначення, до якого потрібно пройти або стрибнути.",
-      "OPTIONAL_CONTINUE": "Ви потрапили на фігуру суперника. Якщо ви бажаєте продовжити рух, виберіть інший пункт призначення, до якого потрібно перейти, інакше надішліть рух."
+      "OPTIONAL_CONTINUE": "Ви потрапили на фігуру суперника. Якщо ви бажаєте продовжити рух, виберіть інший пункт призначення, до якого потрібно перейти, інакше надішліть рух.",
+      "SELECT_MORE_SUPERKO": "",
+      "SUPERKO": ""
     },
     "orb": {
       "INITIAL_INSTRUCTIONS": "Виберіть одну зі своїх частин для Переміщення.",
@@ -1305,7 +1463,8 @@
       "BAD_DIRECTION": "Стрибати можна тільки ортогонально або діагонально. Перехід від {{from}} до {{to}} недійсний.",
       "NO_MOVE": "Ви повинні перестрибнути хоча б одного гравця.",
       "INITIAL_INSTRUCTIONS": "Поставте гравця на порожню вершину або перестрибніть м’ячем сусідніх гравців.",
-      "CAN_JUMP": "Виберіть пункт призначення вашого стрибка."
+      "CAN_JUMP": "Виберіть пункт призначення вашого стрибка.",
+      "LABEL_GOAL": ""
     },
     "pigs": {
       "TOOLONG": "Ви можете ввести лише п'ять команд.",
@@ -1516,7 +1675,17 @@
       "TARAGUCHI62": "Виберіть перехрестя, щоб поставити шостий камінь.",
       "YAMAGUCHI3_EXCESS_one": "Ви можете поставити лише {{count}} умовну п’яту позицію.",
       "YAMAGUCHI3_EXCESS_few": "Ви можете поставити лише {{count}} умовних квінтів.",
-      "YAMAGUCHI3_EXCESS_many": "Ви можете поставити лише {{count}} умовних квінтів."
+      "YAMAGUCHI3_EXCESS_many": "Ви можете поставити лише {{count}} умовних квінтів.",
+      "INITIAL_INSTRUCTIONS_SOOSYRV4_other": "",
+      "YAMAGUCHI3_EXCESS_other": "",
+      "YAMAGUCHI4_CHOOSE_other": "",
+      "SOOSYRV4_CHOOSE_other": "",
+      "TARAGUCHI_RESTRICTION5_MORE_other": "",
+      "INITIAL_INSTRUCTIONS_YAMAGUCHI3_other": "",
+      "SOOSYRV3_EXCESS_other": "",
+      "YAMAGUCHI3_MORE_other": "",
+      "SOOSYRV3_MORE_other": "",
+      "INITIAL_INSTRUCTIONS_YAMAGUCHI4_other": ""
     },
     "reversi": {
       "INITIAL_INSTRUCTIONS": "Виберіть клітинку, щоб розмістити шматок.",
@@ -1667,7 +1836,8 @@
       "PARTIAL_TAKE": "Клацніть стек під вашим контролем, з якого ви хочете видалити шашку.",
       "INVALID_MOVE": "Цей крок не виглядає законним. Пам'ятайте, що кожен кубик можна використати лише один раз.",
       "NO_MATCHING_DIE": "Ви не кинули a {{die}}.",
-      "PARTIAL_PLACE": "Виберіть клітинку, куди ви хочете розмістити шашку."
+      "PARTIAL_PLACE": "Виберіть клітинку, куди ви хочете розмістити шашку.",
+      "PARTIAL_MOVE_other": ""
     },
     "tafl": {
       "CONTIGUOUS": "У рухах «Берсерк» наступні клітинки «від» мають бути попередніми клітинками «до».",
@@ -1770,7 +1940,8 @@
       "INITIAL_INSTRUCTIONS_fresh": "Помістіть архітектора в порожню клітинку.",
       "MUST_PASS_PLAY": "Перша черга після розміщення другого працівника має бути пропуском або розміщенням.",
       "NOPLACEMENTS": "Ви не можете перемістити працівників так, щоб у вас не було доступних дійсних розміщень.",
-      "INVALID_PIECE": "У вас немає {{piece}} у запасах, щоб розмістити."
+      "INVALID_PIECE": "У вас немає {{piece}} у запасах, щоб розмістити.",
+      "VALID_MOVE": ""
     },
     "valley": {
       "INITIAL_INSTRUCTIONS": "Виберіть фрагмент для переміщення.",
@@ -1806,7 +1977,10 @@
       "PLACE_SHOOTER_few": "Розмістіть на дошці ще {{count}} стрільців, а потім помістіть на дошку фігуру свого кольору.",
       "PLACE_SHOOTER_many": "Розмістіть на дошці ще {{count}} стрільців, а потім помістіть на дошку фігуру свого кольору.",
       "POTENTIAL_MOVE": "Поки що добре. Надайте простір, куди ви хочете перемістити шутера.",
-      "ALREADY_SHOT": "Ви вже стріляли {{where}}."
+      "ALREADY_SHOT": "Ви вже стріляли {{where}}.",
+      "PLACE_SHOOTER_other": "",
+      "INITIAL_INSTRUCTIONS_PLACE_other": "",
+      "TOO_MANY_SHOOTERS_other": ""
     },
     "verge": {
       "INITIAL_INSTRUCTIONS": "Виберіть порожню клітинку, яка не є суміжною з однією з ваших закріплених груп.",
@@ -1823,7 +1997,8 @@
       "INITIAL_INSTRUCTIONS": "Виберіть кришку, щоб перемістити, або частину із захопленої купи, щоб розмістити її на дошці.",
       "MOVES_NOPIECE": "У вашій схованці немає {{piece}} предмета, який можна помістити.",
       "MOVES_ONE_POWERPLAY": "Ви можете зробити лише одну сильну гру за хід.",
-      "MOVES_ONE_SPACE": "Капі можна переміщати лише на одну клітинку за раз."
+      "MOVES_ONE_SPACE": "Капі можна переміщати лише на одну клітинку за раз.",
+      "CAPTURED_LABEL": ""
     },
     "witch": {
       "2P_PRIVILEGE": "Лише другий гравець може вибрати фігури, якими хоче зіграти.",
@@ -1892,7 +2067,8 @@
       "MOVE_TO_EMPTY": "Виберіть сусіднє порожнє місце для переходу."
     },
     "mvolcano": {
-      "INITIAL_INSTRUCTIONS": "Виберіть кришку для переміщення."
+      "INITIAL_INSTRUCTIONS": "Виберіть кришку для переміщення.",
+      "CAPTURED_LABEL": ""
     },
     "take": {
       "INITIAL_INSTRUCTIONS": "Посадіть нове насіння в землю або виростіть рослину, помістивши поряд із рівно одним членом союзника (брудом або без бруду)."
@@ -2086,7 +2262,8 @@
       "MUST_JUMP_SELECTED": "Вибраний фрагмент у {{where}} має зробити захоплення.",
       "CANTER_NOTATION": "Перехід від {{from}} до {{to}} є галопом. Використовуйте позначення '^' для позначення галопа.",
       "INVALID_TO": "Частина з {{from}} не може переміститися на {{to}}.",
-      "CAN_CANTER": "Ви можете продовжити рух галопом або завершити хід тут."
+      "CAN_CANTER": "Ви можете продовжити рух галопом або завершити хід тут.",
+      "TREE_CONTINUE_other": ""
     },
     "amoeba": {
       "PARTIAL": "Щоб перемістити стек, клацніть безпосередньо на цільовій клітинці. Щоб засіяти стек, клацніть клітинку поруч зі стеком у напрямку, у якому ви хочете рухатися.",
@@ -2131,7 +2308,11 @@
       "CONTINUE_one": "Вам залишилося посіяти ще {{count}} шт.",
       "CONTINUE_few": "У вас є ще {{count}} штук, щоб посіяти.",
       "CONTINUE_many": "У вас є ще {{count}} штук, щоб посіяти.",
-      "NORMALISE": "Рух потрібно нормалізувати. Спробуй '{{normalised}}'."
+      "NORMALISE": "Рух потрібно нормалізувати. Спробуй '{{normalised}}'.",
+      "TOO_MANY_SOWS_other": "",
+      "GO_BACK_other": "",
+      "START_SOWING_other": "",
+      "CONTINUE_other": ""
     },
     "moonsquad": {
       "PARTIAL_PLACE1": "На першому ході гри покладіть дві червоні фігури й одну синю. Натисніть порожнє місце, щоб розмістити другу червону фігуру.",
@@ -2152,13 +2333,15 @@
       "NO_MOVES": "Цей загін не має допустимих місць для переміщення.",
       "PARTIAL_CAPTURE": "Виберіть протилежну фігуру для захоплення.",
       "PARTIAL_MOVE_first": "Виберіть загін для переміщення. Ви повинні перемістити принаймні один загін.",
-      "PARTIAL_PLACE2": "На першому ході гри покладіть дві червоні фігури й одну синю. Клацніть порожнє місце, щоб розмістити синю фігуру."
+      "PARTIAL_PLACE2": "На першому ході гри покладіть дві червоні фігури й одну синю. Клацніть порожнє місце, щоб розмістити синю фігуру.",
+      "LABEL_ORE": ""
     },
     "penguin": {
       "PARTIAL_DIRECTION_penguin": "Виберіть сусідню клітинку, щоб рухатися в цьому напрямку, або, якщо ви лягаєте, клацніть клітинку ще раз, щоб встати.",
       "INITIAL_INSTRUCTIONS": "Виберіть одного зі своїх пінгвінів на дошці або в руці.",
       "PARTIAL_DIRECTION_kick": "Виберіть сусідню клітинку, щоб ударити м'яч у цьому напрямку.",
-      "PARTIAL_ORIENTATION": "Виберіть сусідню комірку, щоб змінити орієнтацію свого пінгвіна, або клацніть пінгвіна, щоб залишатися в тому напрямку, у якому ви вже дивитеся."
+      "PARTIAL_ORIENTATION": "Виберіть сусідню комірку, щоб змінити орієнтацію свого пінгвіна, або клацніть пінгвіна, щоб залишатися в тому напрямку, у якому ви вже дивитеся.",
+      "LABEL_STASH": ""
     },
     "spree": {
       "CHOOSE_NEXT": "Виберіть колір, щоб передати супернику.",
@@ -2188,7 +2371,9 @@
       "PARTIAL_PLACE_SECOND_one": "Ви повинні розмістити ще {{count}} частину.",
       "PARTIAL_PLACE_SECOND_few": "Ви повинні розмістити ще {{count}} штук.",
       "PARTIAL_PLACE_SECOND_many": "Ви повинні розмістити ще {{count}} штук.",
-      "STRAIGHT_ONLY": "Фігури можуть рухатися лише по прямій лінії."
+      "STRAIGHT_ONLY": "Фігури можуть рухатися лише по прямій лінії.",
+      "PARTIAL_PLACE_FIRST_other": "",
+      "PARTIAL_PLACE_SECOND_other": ""
     },
     "slyde": {
       "INITIAL_INSTRUCTIONS": "Виберіть мобільний елемент для обміну.",
@@ -2287,7 +2472,9 @@
       "PLACE_MORE_many": "Розмістіть ще {{count}} фігур на місцях під номером {{num}}.",
       "DIFFERENT_NUMS": "Ви повинні вибрати місця з однаковим номером.",
       "INITIAL_INSTRUCTIONS": "Виберіть місця для розміщення своїх фігур.",
-      "INITIAL_INSTRUCTIONS_FIRST": "Виберіть місце під номером 2 для першого ходу."
+      "INITIAL_INSTRUCTIONS_FIRST": "Виберіть місце під номером 2 для першого ходу.",
+      "TOO_MANY_other": "",
+      "PLACE_MORE_other": ""
     },
     "subdivision": {
       "BAD_PARK": "Ви більше не можете розміщувати парки. Якщо ви намагаєтеся помістити частину, спочатку клацніть її у своїй схованці.",
@@ -2518,7 +2705,8 @@
       "ONLY_UNOCCUPIED": "Ви ніколи не можете вимагати/перетворювати простір за допомогою шеврона, окрім випадків, коли ви заявляєте нейтральну плитку, на яку ви рухаєтеся під час зміни кордону.",
       "NOT_ENOUGH_any": "У вас недостатньо незайнятих фішок на дошці, щоб переорієнтувати будь-які фігури.",
       "NOT_ENOUGH_45": "У вас недостатньо незайнятих плиток на дошці для повороту на 45 градусів.",
-      "NOT_ENOUGH_90": "У вас недостатньо незайнятих плиток на дошці для повороту на 90 градусів."
+      "NOT_ENOUGH_90": "У вас недостатньо незайнятих плиток на дошці для повороту на 90 градусів.",
+      "SELECT_CELL_orientation_other": ""
     },
     "azacru": {
       "ENEMY_TILE": "Ви не можете приземлитися на протилежні плитки.",
@@ -2543,7 +2731,9 @@
       "NO_DUPES_cell": "Ви можете розмістити лише одну фігуру на клітинку.",
       "NO_DUPES_pc": "Ви можете розмістити лише одну фігуру кожного типу на дошці.",
       "PARTIAL": "Виберіть пункт призначення.",
-      "PARTIAL_PLACE": "Виберіть клітинку в домашньому рядку, щоб розмістити {{piece}}."
+      "PARTIAL_PLACE": "Виберіть клітинку в домашньому рядку, щоб розмістити {{piece}}.",
+      "PARTIAL_SETUP_other": "",
+      "LABEL_STASH": ""
     },
     "gyges": {
       "NOT_INHAND": "У вас немає предмета розміром {{size}} для розміщення.",
@@ -2557,7 +2747,8 @@
       "NO_DUPES": "Ви не можете розміщувати кілька частин на одному місці.",
       "PARTIAL_displace": "Виберіть одну з виділених порожніх комірок, щоб перемістити поточний фрагмент.",
       "PARTIAL_move": "Виберіть наступне місце призначення або знову клацніть ту саму комірку, щоб перемістити фрагмент.",
-      "PARTIAL_setup2": "Виберіть іншу частину зі свого запасу, щоб розмістити її на дошці."
+      "PARTIAL_setup2": "Виберіть іншу частину зі свого запасу, щоб розмістити її на дошці.",
+      "LABEL_STASH": ""
     },
     "pontedd": {
       "BAD_BRIDGE_BLOCKED": "Плитки під мостом може не бути.",
@@ -2663,7 +2854,8 @@
       "NO_PIECES_neutral": "У вас в руках немає деталей хенге.",
       "PARTIAL": "Виберіть комірку, куди ви бажаєте розмістити деталь петлі.",
       "INVALID_MOVE": "Переміщення {{move}} недійсне. Пам’ятайте, що ви не можете розміщувати звичайну фігуру в позиції без свободи, якщо вона не ініціює захоплення, яке створює свободу.",
-      "NO_PIECES_normal": "У вас не залишилося нормальних частин."
+      "NO_PIECES_normal": "У вас не залишилося нормальних частин.",
+      "LABEL_NEUTRAL": ""
     },
     "stibro": {
       "FREE_GROUPS_AFTER": "У вас завжди має бути принаймні одна вільна група: група, яка не торкається краю та має два проміжки між собою та групою суперника, яка не торкається краю.",
@@ -2800,7 +2992,9 @@
       "INVALID_HOP_BACKWARD_EXCUSE": "Ваша жаба не може відстрибнути назад від Виправдання.",
       "NO_CARDS_FOR_REFILL": "Не залишилося карток, якими можна поповнити пул розіграшів.",
       "NO_CARDS_BLOCKED": "Якщо на початку вашого ходу у вас немає карт на руці, жодна з ваших жаб не може рухатися назад, а якщо пул тягнутих карт порожній, ви повинні пасувати.",
-      "VALID_REFILL": "Будь ласка, подайте свій хід, щоб розпочати поповнення. Інший(і) гравець(и) пасуватиме автоматично, і у вас залишиться {{count}} ходів у вашому частковому ході (а також можливість пасувати)."
+      "VALID_REFILL": "Будь ласка, подайте свій хід, щоб розпочати поповнення. Інший(і) гравець(и) пасуватиме автоматично, і у вас залишиться {{count}} ходів у вашому частковому ході (а також можливість пасувати).",
+      "VALID_REFILL_one": "",
+      "VALID_REFILL_other": ""
     },
     "arimaa": {
       "BACKWARDS": "Ви не можете рухати своїх кроликів назад.",
@@ -2828,7 +3022,8 @@
       "WARN_BALANCE": "Збалансуйте свої чотири найсильніші частини зі сходу на захід.",
       "WARN_FILE": "Не ставте свого слона в один ряд зі слонами суперника.",
       "WARN_HIDE": "Не ховайте міцніші частини за слабшими (крім котів за кроликами).",
-      "WARNINGS": "Ваше налаштування завершено, але є кілька речей, які варто врахувати новим гравцям. Ви можете натиснути «Завершити переміщення», щоб ігнорувати це, або прочитати наступну пораду:"
+      "WARNINGS": "Ваше налаштування завершено, але є кілька речей, які варто врахувати новим гравцям. Ви можете натиснути «Завершити переміщення», щоб ігнорувати це, або прочитати наступну пораду:",
+      "PARTIAL_other": ""
     },
     "rampart": {
       "BAD_PLACEMENT": "Одна з клітин, на яку ви намагаєтеся розмістити фігуру, або не існує, або зайнята.",
@@ -2876,7 +3071,639 @@
       "TOO_MANY_many": "Цього ходу ви можете розмістити лише до {{count}} фішок.",
       "VALID_BUT_one": "Дійсно наразі. Ви можете зупинитися або розмістити ще {{count}} елемент.",
       "VALID_BUT_few": "Дійсно наразі. Ви можете зупинитися або розмістити ще {{count}} елементи.",
-      "VALID_BUT_many": "Дійсно наразі. Ви можете зупинитися або розмістити ще {{count}} елементів."
+      "VALID_BUT_many": "Дійсно наразі. Ви можете зупинитися або розмістити ще {{count}} елементів.",
+      "MUST_CHOOSE": "",
+      "INITIAL_INSTRUCTIONS_setup_one": "",
+      "INITIAL_INSTRUCTIONS_choose": "",
+      "SETUP_CHUNKS": "",
+      "VALID_BUT_other": "",
+      "BALANCE": "",
+      "INITIAL_INSTRUCTIONS_play_other": "",
+      "INITIAL_INSTRUCTIONS_setup_other": "",
+      "SETUP_TOOMANY": "",
+      "INITIAL_INSTRUCTIONS_play_one": "",
+      "TOO_MANY_other": ""
+    },
+    "forms": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_MOVE": "",
+      "INVALID_MOVE_ORIGINAL": "",
+      "NO_MOVES": "",
+      "INSTRUCTIONS": "",
+      "INVALID_SELECTION": "",
+      "INSTRUCTIONS_ORIGINAL": "",
+      "INVALID_NUM_GROUPS": ""
+    },
+    "crosscontrol": {
+      "INSUFFICIENT_LOS": "",
+      "INITIAL_INSTRUCTIONS_BUTTON": "",
+      "OPPONENT_CONTROL": "",
+      "INITIAL_SETUP": "",
+      "KOMI_CHOICE": "",
+      "INVALIDKOMI": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALIDPASS": "",
+      "INVALIDBUTTON": "",
+      "INVALIDPLAYSECOND": ""
+    },
+    "btt": {
+      "OUT_OF_BOUNDS": "",
+      "NO_DIAGONALS": "",
+      "ROOT_INSTRUCTIONS": "",
+      "NULL_INSTRUCTIONS": "",
+      "BAD_NULL": "",
+      "NO_TARGET": "",
+      "OCCUPIED": "",
+      "MALFORMED_MOVE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "NO_STASH": "",
+      "NULL_TARGET": "",
+      "PARTIAL_MOVE": ""
+    },
+    "knightline": {
+      "INVALID_TARGET": "",
+      "NO_STACK": "",
+      "INVALID_FIRST_MOVE": "",
+      "SELECT_CELL": "",
+      "BAD_OPENING_MOVE": "",
+      "NO_KNIGHT": "",
+      "INVALID_NOTATION": "",
+      "INVALID_STACK": "",
+      "INITIAL_INSTRUCTIONS_VARIANTS": "",
+      "BAD_VALUE": "",
+      "BAD_PASS": "",
+      "SHORT_STACK": "",
+      "INVALID_MOVE": "",
+      "NO_NEIGHBORS": "",
+      "BAD_START_PLACE": "",
+      "SPLIT_STACK": "",
+      "MUST_PASS": "",
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "pippinzip": {
+      "INSTRUCTIONS_PIP_SECOND": "",
+      "ERROR_PLACEMENT_PIP": "",
+      "INSTRUCTIONS_ZIP": "",
+      "INSTRUCTIONS_PIP": "",
+      "TOO_MANY_PLACEMENTS_AUCTION": "",
+      "ADJACENT_PLACEMENT_PIP": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "ERROR_PLACEMENT_ZIP": ""
+    },
+    "magnate": {
+      "CHOICE_BUTTON_INSTRUCTIONS": "",
+      "INVALID_PLACEMENT": "",
+      "BUTTON_INSTRUCTIONS": "",
+      "LABEL_DISCARDS_ONE": "",
+      "INVALID_MOVE": "",
+      "INVALID_TRADE": "",
+      "DEEDED_CARD_INSTRUCTIONS": "",
+      "NOT_DEEDED": "",
+      "TOKEN_ADD_INSTRUCTIONS": "",
+      "INVALID_BUY": "",
+      "DISTRICT_INSTRUCTIONS": "",
+      "INVALID_DEED_PAYMENT": "",
+      "MUST_CHOOSE": "",
+      "LABEL_COLLECTION": "",
+      "INVALID_ACTION": "",
+      "NOT_IN_HAND": "",
+      "INITIAL_PLACEMENT_INSTRUCTIONS": "",
+      "SPEND_INSTRUCTIONS": "",
+      "LABEL_DECK": "",
+      "HAND_CARD_INSTRUCTIONS": "",
+      "INCOMPLETE_ACTION": "",
+      "LABEL_HAND": "",
+      "CARD_NOT_DONE_INSTRUCTIONS": "",
+      "INVALID_PAYMENT": "",
+      "TOKEN_TRADE_INSTRUCTIONS": "",
+      "INVALID_OTHER_PAYMENT": "",
+      "LABEL_WARNING": "",
+      "LABEL_BOTH": "",
+      "VALID_PLACEMENT": "",
+      "INVALID_SUIT": "",
+      "PREFER_SUIT_INSTRUCTIONS": "",
+      "LABEL_STACKED_DECK": "",
+      "LABEL_DISCARDS_NONE": "",
+      "INVALID_DEED_TWO": "",
+      "INITIAL_BUTTON_INSTRUCTIONS": "",
+      "CHOOSE_SUIT_INSTRUCTIONS": "",
+      "MALFORMED_TRADE": ""
+    },
+    "swarm": {
+      "NOT_MAX_CAPTURE": "",
+      "FRIENDLY_PIECE": "",
+      "CANNOT_CAPTURE": "",
+      "CANNOT_PASS": "",
+      "CAPTURES_MANDATORY": "",
+      "INSTRUCTIONS": ""
+    },
+    "mutternland": {
+      "INSTRUCTIONS": "",
+      "NUT_NOT_ADJACENT_FRIEND": "",
+      "PLACE_TOO_HIGH": "",
+      "NUT_CANNOT_MOVE": "",
+      "MARBLE_ILLEGAL_MOVE": "",
+      "INSTRUCTIONS_STEP2": "",
+      "MARBLE_CANNOT_MOVE": "",
+      "INITIAL_PLACE_STEP2": "",
+      "NOT_A_NUT": "",
+      "OCCUPIED": "",
+      "NUT_IN_TOWER": "",
+      "MOVE_MARBLE": "",
+      "MOVE_NUT": "",
+      "CELL_VOID": "",
+      "NOT_AT_EDGE": "",
+      "MARBLE_ILLEGAL_PUSH": "",
+      "MOVE_NUT_OR_PLACE": "",
+      "NUT_ILLEGAL_MOVE": "",
+      "RESERVE_EMPTY": "",
+      "ENEMY_MARBLE": "",
+      "INITIAL_PLACE": ""
+    },
+    "evenatodds": {
+      "MUST_CHOOSE_SIDE": "",
+      "LABEL_REMAINING": "",
+      "LABEL_HAND": "",
+      "NOT_IN_HAND": "",
+      "PARTIAL": "",
+      "LABEL_HAND_NO_SIDE": "",
+      "INITIAL_INSTRUCTIONS_choose": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "NEEDS_ANCHOR_PIP": ""
+    },
+    "go": {
+      "KO": "",
+      "KOMI_CHOICE": "",
+      "INVALID_PIE": "",
+      "CYCLE": "",
+      "INITIAL_SETUP": "",
+      "INSTRUCTIONS": "",
+      "INVALID_PLAYSECOND": "",
+      "SELF_CAPTURE": "",
+      "INVALID_PASS": "",
+      "INVALID_KOMI": ""
+    },
+    "baghchal": {
+      "INITIAL_INSTRUCTIONS_GOAT_PLACEMENT": "",
+      "INITIAL_INSTRUCTIONS_GOAT_MOVEMENT": "",
+      "INITIAL_INSTRUCTIONS_TIGER_MOVEMENT": "",
+      "VALID_PARTIAL": ""
+    },
+    "shapechess": {
+      "PUSH_NO_FREEDOM": "",
+      "PUSH_NEIGHBOR": "",
+      "JUMP_OCCUPIED": "",
+      "JUMP_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "PUSH_INSTRUCTIONS": ""
+    },
+    "spora": {
+      "END_PHASE_INSTRUCTIONS": "",
+      "INVALID_KOMI": "",
+      "ENEMY_PIECE": "",
+      "INITIAL_SETUP": "",
+      "SAME_PLACE_SOW_STACK": "",
+      "END_PHASE_LAST": "",
+      "INVALID_SOW_PATH": "",
+      "SELF_CAPTURE": "",
+      "KOMI_CHOICE": "",
+      "NOT_ENOUGH_PIECES": "",
+      "SOW_TOO_LARGE": "",
+      "SOW_INSTRUCTIONS": "",
+      "MAXIMUM_STACK": "",
+      "SOW_FRIENDLY": "",
+      "INSTRUCTIONS": "",
+      "INVALID_PLAYSECOND": "",
+      "SOW_SIZE_SELECTION": ""
+    },
+    "crosshairs": {
+      "NEED_MORE_PLANES_one": "",
+      "PARTIAL_PLANE_MOVE_NO_DIVE": "",
+      "INITIAL_INSTRUCTIONS_ENTRY_ONLY_one": "",
+      "INITIAL_INSTRUCTIONS_NO_ENTRY_other": "",
+      "INITIAL_INSTRUCTIONS_one": "",
+      "PARTIAL_PLANE_MOVE": "",
+      "PARTIAL_MOVE": "",
+      "MOVE_COMPLETE_CAN_SHOOT": "",
+      "PARTIAL_ENTRY": "",
+      "INITIAL_INSTRUCTIONS_ENTRY_ONLY_other": "",
+      "NEED_MORE_PLANES_NO_ENTRY_one": "",
+      "INITIAL_INSTRUCTIONS_NO_ENTRY_one": "",
+      "CLOUD_OCCUPIED": "",
+      "NEED_MORE_PLANES_other": "",
+      "INITIAL_INSTRUCTIONS_MOVE_ONLY_one": "",
+      "CLOUD_TOO_BIG": "",
+      "NEED_MORE_PLANES_NO_ENTRY_other": "",
+      "CAN_SHOOT": "",
+      "INVALID_ENTRY_POSITION": "",
+      "INITIAL_INSTRUCTIONS_other": "",
+      "PARTIAL_DIVE": "",
+      "INITIAL_INSTRUCTIONS_MOVE_ONLY_other": "",
+      "PARTIAL_MOVEMENT": "",
+      "PLACE_CLOUD": "",
+      "PARTIAL_DIVE_DIR": "",
+      "DIVE_CONTINUE_OR_END": ""
+    },
+    "elOso": {
+      "TOO_FAR": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "SELECT_STACK_FOR_PASS": "",
+      "VALID_PARTIAL_TOP": "",
+      "INVALID_DIRECTION": "",
+      "VALID_PARTIAL": "",
+      "SKY_FROM_TOP": ""
+    },
+    "linage": {
+      "TABOO": "",
+      "INVALID_PLAYSECOND": "",
+      "KOMI_CHOICE": "",
+      "INVALID_KOMI": "",
+      "INVALID_PASS": "",
+      "OCCUPIED": "",
+      "INSTRUCTIONS": "",
+      "INITIAL_SETUP": ""
+    },
+    "domineering": {
+      "OCCUPIED_CELL": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "PLACE_NEXT_STONE_VERT": "",
+      "MUST_BE_DOMINO_VERT": "",
+      "PLACE_NEXT_STONE_HORZ": "",
+      "INITIAL_INSTRUCTIONS_QUELHAS": "",
+      "PLACE_NEXT_STONE_LINE_VERT": "",
+      "MUST_BE_LINE_VERT": "",
+      "MUST_BE_DOMINO_HORZ": "",
+      "PLACE_NEXT_STONE_LINE_HORZ": "",
+      "MUST_BE_LINE_HORZ": "",
+      "NO_SPACE_LEFT": ""
+    },
+    "unstack": {
+      "INSTRUCTIONS": "",
+      "INVALID_SOW_PATH": "",
+      "SOW_TOO_LARGE": "",
+      "PASS_ONLY": "",
+      "CAN_SOW": "",
+      "SOW_INSTRUCTIONS": "",
+      "CAPTURES_MANDATORY": "",
+      "MULTIPLE_CAPTURES": "",
+      "NOT_FRIENDLY_STACK": ""
+    },
+    "plurality": {
+      "INVALID_PLAYSECOND": "",
+      "INSTRUCTIONS": "",
+      "INVALID_PIE": "",
+      "TABOO": "",
+      "INCOMPLETE_TURN": "",
+      "INVALID_KOMI": "",
+      "INVALID_PASS": "",
+      "KOMI_CHOICE": "",
+      "INITIAL_SETUP": ""
+    },
+    "compart": {
+      "INSTRUCTIONS_one": "",
+      "INSTRUCTIONS_other": "",
+      "OCCUPIED": "",
+      "INSTRUCTIONS_ANY": "",
+      "VIABLE_AREA_REPEATED": ""
+    },
+    "bamboo": {
+      "BAD_PLACE": "",
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "intermedium": {
+      "INVALID_SOW_PATH": "",
+      "SOW_TOO_LARGE": "",
+      "INSTRUCTIONS": "",
+      "NOT_FRIENDLY_STACK": "",
+      "SOW_INSTRUCTIONS": ""
+    },
+    "product": {
+      "TOO_MANY_MOVES": "",
+      "NORMALISE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_PLACEMENT": "",
+      "TOO_MANY_MOVES_START": "",
+      "INCOMPLETE_TURN": "",
+      "INSTRUCTIONS": ""
+    },
+    "xana": {
+      "UNACCESSIBLE_WALL": "",
+      "SAME_WALL": "",
+      "NOT_PLACED_ON_FRIEND": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "DROP_MOVE_INSTRUCTIONS": "",
+      "NOT_ENOUGH_PIECES_TO_MOVE": "",
+      "OCCUPIED_WALL": "",
+      "PIE_CHOICE": "",
+      "UNACCESSIBLE_PIECE": "",
+      "ENEMY_PIECE": "",
+      "INVALID_PLAYSECOND": "",
+      "MOVE_TO_OCCUPIED_CELL": "",
+      "RESERVE_EMPTY": "",
+      "MOVE_NOT_INSIDE_CIRCLE": ""
+    },
+    "carnac": {
+      "TIP_OR_PASS": "",
+      "NOT_TIP_PHASE": "",
+      "INVALID_TIP": "",
+      "INVALID_HOLE_ORIENTATION": "",
+      "SELECT_CELL": "",
+      "INVALID_PASS": "",
+      "TIP_THEN_PLACE": "",
+      "INVALID_ORIENTATION": "",
+      "SELECT_ORIENTATION": "",
+      "NOT_PLACE_PHASE": "",
+      "NO_RESERVE": ""
+    },
+    "soccolot": {
+      "DRIBBLE_INSTRUCTIONS": "",
+      "ERROR_KICK_DRIBBLE": "",
+      "MAN_INSTRUCTIONS": "",
+      "BALL_INSTRUCTIONS": "",
+      "KICK_INSTRUCTIONS": "",
+      "DRIBBLE_SWAP_INSTRUCTIONS": "",
+      "ERROR_SELECT": "",
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "y": {
+      "INSTRUCTIONS_134*": "",
+      "INSTRUCTIONS": "",
+      "VALID_MOVE_PROGRESSIVE": "",
+      "INSTRUCTIONS_12*": "",
+      "GROUP_INFRACTION": "",
+      "INITIAL_INSTRUCTIONS_12*": "",
+      "INSTRUCTIONS_PROGRESSIVE": "",
+      "INITIAL_INSTRUCTIONS_134*": ""
+    },
+    "fractured": {
+      "NO_RESERVE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "PARTIAL_MOVE": "",
+      "BAD_PLACE": "",
+      "BAD_MOVE": "",
+      "CLOSED": ""
+    },
+    "oonpia": {
+      "INVALID_BOTH": "",
+      "INITIAL_INSTRUCTIONS_komi": "",
+      "INVALID_PLACE": "",
+      "DESTINATION": "",
+      "INVALID_CAPTURE": "",
+      "BAD_KOMI": "",
+      "ARC": "",
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "minimize": {
+      "INITIAL_INSTRUCTIONS": "",
+      "TOO_MANY_MOVES_START": "",
+      "INVALID_PLACEMENT": "",
+      "NORMALISE": "",
+      "TOO_MANY_MOVES": "",
+      "INSTRUCTIONS": ""
+    },
+    "halma": {
+      "FORCED_MOVES": "",
+      "NONEXISTENT": "",
+      "ILLEGAL_MOVE": "",
+      "BAD_MOVE": "",
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "unane": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_SELECTION": "",
+      "INSTRUCTIONS": "",
+      "INVALID_MOVE": ""
+    },
+    "invector": {
+      "INITIAL_INSTRUCTIONS": "",
+      "CANNOT_MOVE": "",
+      "INSTRUCTIONS": "",
+      "ONLY_PASS": "",
+      "INVALID_PASS": "",
+      "INVALID_SELECTION": "",
+      "INVALID_MOVE": ""
+    },
+    "estate": {
+      "EXCEEDS": "",
+      "INITIAL_INSTRUCTIONS_other": "",
+      "INITIAL_INSTRUCTIONS_zero": "",
+      "INITIAL_INSTRUCTIONS_one": ""
+    },
+    "pollux": {
+      "TOWER_STRAIGHT_LINE": "",
+      "INSTRUCTION_SLIDE": "",
+      "PIECE_OCCUPIED_CELL": "",
+      "BAD_PASS": "",
+      "INITIAL_INSTRUCTIONS_2": "",
+      "INSTRUCTION_SHOOT": "",
+      "INITIAL_INSTRUCTIONS_3": "",
+      "PIECE_STRAIGHT_LINE": "",
+      "INITIAL_INSTRUCTIONS_1": "",
+      "NEED_FRIENDLY_TOWER": "",
+      "TOWER_ADJACENT": "",
+      "TOWER_OCCUPIED_CELL": ""
+    },
+    "bridges": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_FIRST_TURN": ""
+    },
+    "narrows": {
+      "INVALID_MOVE": "",
+      "INVALID_SELECTION": "",
+      "CANNOT_MOVE": "",
+      "INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "pinch": {
+      "REUSED_CELL": "",
+      "SELF_OPP_STONES_TO_PLACE_own_one_opp_one": "",
+      "OCCUPIED_CELL": "",
+      "OPP_STONES_TO_PLACE_one": "",
+      "INITIAL_INSTRUCTIONS_ORIGINAL": "",
+      "OPP_SELF_STONES_TO_PLACE_own_one_opp_other": "",
+      "SELF_STONES_TO_PLACE_other": "",
+      "SELF_OPP_STONES_TO_PLACE_own_other_opp_one": "",
+      "OPP_SELF_STONES_TO_PLACE_own_one_opp_one": "",
+      "SELF_STONES_TO_PLACE_one": "",
+      "SELF_OPP_STONES_TO_PLACE_own_one_opp_other": "",
+      "OPP_SELF_STONES_TO_PLACE_own_other_opp_one": "",
+      "SELF_OPP_STONES_TO_PLACE_own_other_opp_other": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "OPP_STONES_TO_PLACE_other": "",
+      "OPP_SELF_STONES_TO_PLACE_own_other_opp_other": ""
+    },
+    "twinflames": {
+      "TOO_MANY_MOVES_START": "",
+      "NORMALISE": "",
+      "INSTRUCTIONS": "",
+      "INCOMPLETE_TURN": "",
+      "TOO_MANY_MOVES": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_PLACEMENT": ""
+    },
+    "guerrilla": {
+      "PARTIAL_p1second": "",
+      "PARTIAL_p2cap": "",
+      "PARTIAL_p2move": "",
+      "INITIAL_INSTRUCTIONS_p2": "",
+      "INITIAL_INSTRUCTIONS_p1": ""
+    },
+    "posit": {
+      "INSTRUCTIONS": "",
+      "CANNOT_CLIMB": "",
+      "STACK_TOO_BIG": "",
+      "NOT_ADJACENT": "",
+      "CANNOT_GO_UPUP": "",
+      "SELECT_PLACEMENT": "",
+      "SELECT_MOVE": "",
+      "SELECT_ERROR": "",
+      "OPPONENT_MOVE": "",
+      "CANNOT_GO_DOWN": "",
+      "PLACE_ON_PIECE": ""
+    },
+    "canoe": {
+      "NO_COMBINED_MOVES": "",
+      "BAD_FACE": "",
+      "STYMIE_ROLL": "",
+      "VALID_PARTIAL": "",
+      "BAD_ROLL": "",
+      "BAD_SETUP_CELL": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "TOO_MANY_SETUP": "",
+      "SETUP_COMPLETE": "",
+      "INVALID_MOVE": "",
+      "BAD_SETUP": "",
+      "SETUP_INCOMPLETE": "",
+      "SETUP_PARTIAL": "",
+      "SETUP_HAND": "",
+      "BAD_FACE_COUNT": "",
+      "DUP_CELL": "",
+      "NO_PASS": "",
+      "SETUP_INSTRUCTIONS": "",
+      "MUST_USE_BOTH_DICE": ""
+    },
+    "stapeldammen": {
+      "WHITE_SQUARE": "",
+      "VALID_PARTIAL": "",
+      "INVALID_MOVE": "",
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "halmaclimbers": {
+      "TOO_MANY_ACTIONS": "",
+      "ILLEGAL_JUMP": "",
+      "INSTRUCTIONS": "",
+      "BAD_MOVE": "",
+      "NONEXISTENT": "",
+      "INCOMPLETE_ACTION": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "NEXT_ACTION": ""
+    },
+    "squirm": {
+      "INVALID_3ROW": "",
+      "INVALID_NEIGH": "",
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "scribe": {
+      "OCCUPIED": "",
+      "WRONG_MINI": "",
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "sentinel": {
+      "NO_STACK_TURN_3": "",
+      "PIECE_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "EDGE_INSTRUCTIONS": "",
+      "INVALID_CENTER": "",
+      "STACK_INSTRUCTIONS": "",
+      "MOVE_INSTRUCTIONS": ""
+    },
+    "tricouleur": {
+      "SELECT_TO": "",
+      "SAME_PIECE": "",
+      "ILLEGAL_PASS": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "MUST_PASS": "",
+      "INVALID_TO": "",
+      "SECOND_MOVE": "",
+      "JUMP4SPLIT": "",
+      "SPLIT4JUMP": "",
+      "NO_TOS": "",
+      "INITIAL_INSTRUCTIONS_PASS": ""
+    },
+    "tanbo": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_MOVE": ""
+    },
+    "bitesize": {
+      "INSTRUCTIONS": "",
+      "CANNOT_PASS": "",
+      "GROUP_TOO_LARGE": ""
+    },
+    "atarigo": {
+      "SELF_CAPTURE": "",
+      "INVALID_PASS": "",
+      "INSTRUCTIONS": ""
+    },
+    "druid": {
+      "SELECT_DRUID_DEST": "",
+      "SELECT_LINTEL_END": "",
+      "INVALID_SARSEN": "",
+      "SARSEN_OR_LINTEL": "",
+      "INVALID_LINTEL": "",
+      "SELECT_MOVE": ""
+    },
+    "court": {
+      "NOT_FRIENDLY_PIECE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "PIECE_INSTRUCTIONS": ""
+    },
+    "akimbo": {
+      "OCCUPIED": "",
+      "NO_CROSSINGS": "",
+      "EXCESS_NAKED_DIAGONALS": "",
+      "INSTRUCTIONS": "",
+      "INSTRUCTIONS_OKIMBA": ""
+    },
+    "stiletto": {
+      "INSTRUCTIONS_DAGGER": "",
+      "INSTRUCTIONS": "",
+      "EXCESS_FIRST": "",
+      "ILLEGAL_OPEN4": "",
+      "INSTRUCTIONS_INACTIVE_DAGGER": "",
+      "EXTENSION": "",
+      "EXCESS": "",
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "synapse": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INSTRUCTIONS": "",
+      "INVALID_MOVE": "",
+      "PLACE_INSTRUCTIONS": ""
+    },
+    "catsdogs": {
+      "PLY_2_NO_CENTER": "",
+      "INVALID_MOVE": "",
+      "INIT_NO_CENTER": "",
+      "INIT_CENTER": "",
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "slimetrail": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_MOVE": ""
+    },
+    "viruswar": {
+      "INITIAL_INSTRUCTIONS_one": "",
+      "INITIAL_INSTRUCTIONS_other": "",
+      "CANNOT_GROW": ""
+    },
+    "minefield": {
+      "BAD_PASS": "",
+      "FORBIDDEN": "",
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "circleOfLife": {
+      "INSTRUCTIONS": "",
+      "GROUP_TOO_LARGE": ""
     }
   },
   "variantGroups": {
@@ -3539,6 +4366,13 @@
       "snub": {
         "description": "Гібридна ортогональна/шестикутна форма плати з унікальними характеристиками з’єднання.",
         "name": "Дошка: Снуб Квадрат"
+      },
+      "libre": {
+        "description": "",
+        "name": ""
+      },
+      "#board": {
+        "description": ""
       }
     },
     "accasta": {
@@ -3661,6 +4495,9 @@
       },
       "size-17": {
         "name": "Дошка 17х17"
+      },
+      "size-19": {
+        "name": ""
       }
     },
     "bao": {
@@ -3964,6 +4801,10 @@
       },
       "#board": {
         "name": "Стандартна дошка 8x8"
+      },
+      "swap-1st": {
+        "name": "",
+        "description": ""
       }
     },
     "gomoku": {
@@ -4057,6 +4898,9 @@
       },
       "#board": {
         "name": "Розмір дошки 13"
+      },
+      "size-17": {
+        "name": ""
       }
     },
     "hexy": {
@@ -4094,6 +4938,22 @@
       },
       "#tiebreaker": {
         "name": "Без тай-брейку"
+      },
+      "#overline": {
+        "name": "",
+        "description": ""
+      },
+      "sym-overline": {
+        "name": "",
+        "description": ""
+      },
+      "sym-no-overline": {
+        "description": "",
+        "name": ""
+      },
+      "swap-1st": {
+        "description": "",
+        "name": ""
       }
     },
     "loa": {
@@ -4447,6 +5307,9 @@
       },
       "size-17": {
         "name": "Дошка 17х17"
+      },
+      "#rules": {
+        "description": ""
       }
     },
     "scaffold": {
@@ -5240,10 +6103,28 @@
     },
     "konane": {
       "size-8": {
-        "name": "Дошка 8 розміру"
+        "name": "Дошка 8 розміру",
+        "description": ""
       },
       "#board": {
-        "name": "Розмір дошки 6"
+        "name": "Розмір дошки 6",
+        "description": ""
+      },
+      "size-7": {
+        "name": "",
+        "description": ""
+      },
+      "size-15": {
+        "name": "",
+        "description": ""
+      },
+      "size-11": {
+        "name": "",
+        "description": ""
+      },
+      "size-9": {
+        "description": "",
+        "name": ""
       }
     },
     "sploof": {
@@ -6035,11 +6916,997 @@
         "name": "Hexhex 5 (61 пробіл)"
       },
       "hex7": {
-        "name": "Hexhex 7 (127 пробілів)"
+        "name": "Hexhex 7 (127 пробілів)",
+        "description": ""
       },
       "hex8": {
         "name": "Hexhex 8 (193 пробіли)",
         "description": "Для ігор на 3 та 4 гравців ігрове поле hex8 буде вибрано автоматично."
+      },
+      "open": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "compart": {
+      "size-7": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-13": {
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      },
+      "size-11": {
+        "name": ""
+      }
+    },
+    "akimbo": {
+      "size-11": {
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      },
+      "#ruleset": {
+        "name": ""
+      },
+      "size-19": {
+        "name": ""
+      },
+      "size-9": {
+        "name": ""
+      },
+      "okimba": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-17": {
+        "name": ""
+      }
+    },
+    "_default": {
+      "scoring": {
+        "name": ""
+      },
+      "enforcers": {
+        "name": ""
+      },
+      "variant": {
+        "name": ""
+      },
+      "size": {
+        "name": ""
+      },
+      "powers": {
+        "name": ""
+      },
+      "objective": {
+        "name": ""
+      },
+      "bases": {
+        "name": ""
+      },
+      "form": {
+        "name": ""
+      },
+      "fleet": {
+        "name": ""
+      },
+      "ties": {
+        "name": ""
+      },
+      "opening": {
+        "name": ""
+      },
+      "rules": {
+        "name": ""
+      },
+      "eog": {
+        "name": ""
+      },
+      "board": {
+        "name": ""
+      },
+      "komi": {
+        "name": ""
+      },
+      "length": {
+        "name": ""
+      },
+      "penalty": {
+        "name": ""
+      },
+      "groups": {
+        "name": ""
+      },
+      "obstacles": {
+        "name": ""
+      },
+      "movement": {
+        "name": ""
+      },
+      "dice": {
+        "name": ""
+      },
+      "tiebreaker": {
+        "name": ""
+      },
+      "parks": {
+        "name": ""
+      },
+      "ruleset": {
+        "name": ""
+      },
+      "moves": {
+        "name": ""
+      },
+      "capture": {
+        "name": ""
+      },
+      "setup": {
+        "name": ""
+      },
+      "boardtype": {
+        "name": ""
+      },
+      "blockers": {
+        "name": ""
+      }
+    },
+    "forms": {
+      "#ruleset": {
+        "name": "",
+        "description": ""
+      },
+      "original": {
+        "description": "",
+        "name": ""
+      },
+      "size-14": {
+        "name": ""
+      },
+      "size-12": {
+        "name": ""
+      },
+      "size-16": {
+        "name": ""
+      },
+      "size-10": {
+        "name": ""
+      },
+      "size-18": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      }
+    },
+    "scribe": {
+      "advanced": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "catsdogs": {
+      "#ruleset": {
+        "name": ""
+      },
+      "misere": {
+        "name": ""
+      },
+      "original": {
+        "name": ""
+      },
+      "tournament": {
+        "name": ""
+      }
+    },
+    "spora": {
+      "size-9": {
+        "name": ""
+      },
+      "size-25": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-19": {
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      }
+    },
+    "y": {
+      "progressive": {
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      },
+      "#boardtype": {
+        "name": ""
+      },
+      "#ruleset": {
+        "name": ""
+      },
+      "size-9": {
+        "name": ""
+      },
+      "size-21": {
+        "name": ""
+      },
+      "12-free": {
+        "name": ""
+      },
+      "size-11": {
+        "name": ""
+      },
+      "size-25": {
+        "name": ""
+      },
+      "size-19": {
+        "name": ""
+      },
+      "134-group": {
+        "name": ""
+      },
+      "bent": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      }
+    },
+    "magnate": {
+      "stacked": {
+        "description": "",
+        "name": ""
+      },
+      "taxtax": {
+        "name": "",
+        "description": ""
+      },
+      "mega": {
+        "description": "",
+        "name": ""
+      },
+      "courts": {
+        "name": "",
+        "description": ""
+      },
+      "deucey": {
+        "description": "",
+        "name": ""
+      },
+      "courtpawns": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "crosscontrol": {
+      "nokomi": {
+        "name": "",
+        "description": ""
+      },
+      "#komi": {
+        "description": "",
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      },
+      "size-19": {
+        "name": ""
+      },
+      "size-25": {
+        "name": ""
+      },
+      "size-9": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      }
+    },
+    "court": {
+      "#board": {
+        "name": ""
+      }
+    },
+    "narrows": {
+      "size-10": {
+        "name": ""
+      },
+      "size-16": {
+        "name": ""
+      },
+      "size-14": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-8": {
+        "name": ""
+      },
+      "size-6": {
+        "name": ""
+      }
+    },
+    "pinch": {
+      "#board": {
+        "name": ""
+      },
+      "size-21": {
+        "name": ""
+      },
+      "original": {
+        "name": "",
+        "description": ""
+      },
+      "size-19": {
+        "name": ""
+      },
+      "size-9": {
+        "name": ""
+      },
+      "size-13": {
+        "name": ""
+      }
+    },
+    "minefield": {
+      "#board": {
+        "name": ""
+      },
+      "size-17": {
+        "name": ""
+      },
+      "pinwheel": {
+        "name": "",
+        "description": ""
+      },
+      "size-9": {
+        "name": ""
+      },
+      "cartwheel": {
+        "name": "",
+        "description": ""
+      },
+      "size-15": {
+        "name": ""
+      },
+      "size-19": {
+        "name": ""
+      },
+      "size-13": {
+        "name": ""
+      },
+      "size-8": {
+        "name": ""
+      }
+    },
+    "invector": {
+      "size-10": {
+        "name": ""
+      },
+      "size-6": {
+        "name": ""
+      },
+      "size-12": {
+        "name": ""
+      },
+      "size-14": {
+        "name": ""
+      },
+      "size-16": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      }
+    },
+    "oonpia": {
+      "#board": {
+        "name": ""
+      },
+      "size-9": {
+        "name": ""
+      },
+      "size-11": {
+        "name": ""
+      },
+      "size-12": {
+        "name": ""
+      },
+      "size-7": {
+        "name": ""
+      },
+      "size-5": {
+        "name": ""
+      },
+      "size-8": {
+        "name": ""
+      },
+      "size-10": {
+        "name": ""
+      }
+    },
+    "shapechess": {
+      "size-18": {
+        "name": ""
+      },
+      "size-16": {
+        "name": ""
+      },
+      "size-10": {
+        "name": ""
+      },
+      "7-pts": {
+        "description": "",
+        "name": ""
+      },
+      "#ruleset": {
+        "description": "",
+        "name": ""
+      },
+      "8-pts": {
+        "description": "",
+        "name": ""
+      },
+      "9-pts": {
+        "description": "",
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "6-pts": {
+        "name": "",
+        "description": ""
+      },
+      "5-pts": {
+        "description": "",
+        "name": ""
+      },
+      "size-14": {
+        "name": ""
+      }
+    },
+    "product": {
+      "1-group": {
+        "description": "",
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-7": {
+        "name": ""
+      },
+      "size-6": {
+        "name": ""
+      },
+      "#ruleset": {
+        "description": "",
+        "name": ""
+      },
+      "size-4": {
+        "name": ""
+      }
+    },
+    "minimize": {
+      "size-8": {
+        "name": ""
+      },
+      "size-7": {
+        "name": ""
+      },
+      "size-5": {
+        "name": ""
+      },
+      "size-4": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      }
+    },
+    "stiletto": {
+      "#board": {
+        "name": ""
+      },
+      "open4": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "druid": {
+      "hex-6": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "y-7": {
+        "name": ""
+      },
+      "size-8": {
+        "name": ""
+      },
+      "hex-4": {
+        "name": ""
+      },
+      "walk": {
+        "name": "",
+        "description": ""
+      },
+      "y-8": {
+        "name": ""
+      },
+      "size-12": {
+        "name": ""
+      },
+      "hex-5": {
+        "name": ""
+      },
+      "y-9": {
+        "name": ""
+      }
+    },
+    "slimetrail": {
+      "#board": {
+        "description": "",
+        "name": ""
+      },
+      "rhombus11": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "halmaclimbers": {
+      "size-8": {
+        "name": ""
+      },
+      "size-11": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-13": {
+        "name": ""
+      }
+    },
+    "btt": {
+      "arcade": {
+        "description": "",
+        "name": ""
+      },
+      "martian-go": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "canoe": {
+      "#scoring": {
+        "name": "",
+        "description": ""
+      },
+      "no-canoe": {
+        "description": "",
+        "name": ""
+      },
+      "leaky-canoe": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "linage": {
+      "size-17": {
+        "name": ""
+      },
+      "size-19": {
+        "name": ""
+      },
+      "size-13": {
+        "name": ""
+      },
+      "line-2": {
+        "name": ""
+      },
+      "#line": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-11": {
+        "name": ""
+      },
+      "line-5": {
+        "name": ""
+      },
+      "line-4": {
+        "name": ""
+      }
+    },
+    "plurality": {
+      "size-13": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-19": {
+        "name": ""
+      }
+    },
+    "fendo": {
+      "size-11": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-9": {
+        "name": ""
+      }
+    },
+    "twinflames": {
+      "#blockers": {
+        "name": ""
+      },
+      "size-8": {
+        "name": ""
+      },
+      "blocker-6": {
+        "name": ""
+      },
+      "size-7": {
+        "name": ""
+      },
+      "blocker-2": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "blocker-0": {
+        "name": ""
+      },
+      "blocker-8": {
+        "name": ""
+      },
+      "blocker-4": {
+        "name": ""
+      }
+    },
+    "tricouleur": {
+      "#board": {
+        "name": ""
+      },
+      "hex-7": {
+        "name": ""
+      },
+      "hex-10": {
+        "name": ""
+      },
+      "hex-9": {
+        "name": ""
+      }
+    },
+    "squirm": {
+      "#ruleset": {
+        "description": "",
+        "name": ""
+      },
+      "neto": {
+        "description": "",
+        "name": ""
+      },
+      "tromp": {
+        "description": "",
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-5": {
+        "name": ""
+      },
+      "size-4": {
+        "name": ""
+      },
+      "size-6": {
+        "name": ""
+      }
+    },
+    "go": {
+      "positional": {
+        "name": "",
+        "description": ""
+      },
+      "size-9": {
+        "name": ""
+      },
+      "size-13": {
+        "name": ""
+      },
+      "size-37": {
+        "name": ""
+      },
+      "size-25": {
+        "name": ""
+      },
+      "#ruleset": {
+        "name": "",
+        "description": ""
+      },
+      "size-5": {
+        "name": ""
+      },
+      "size-21": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-17": {
+        "name": ""
+      }
+    },
+    "guerrilla": {
+      "#length": {
+        "name": "",
+        "description": ""
+      },
+      "match": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "unane": {
+      "size-16": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-14": {
+        "name": ""
+      },
+      "size-10": {
+        "name": ""
+      },
+      "size-6": {
+        "name": ""
+      },
+      "size-12": {
+        "name": ""
+      }
+    },
+    "swarm": {
+      "size-4": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-5": {
+        "name": ""
+      }
+    },
+    "knightline": {
+      "size-24": {
+        "name": "",
+        "description": ""
+      },
+      "blocker": {
+        "description": "",
+        "name": ""
+      },
+      "#size": {
+        "name": "",
+        "description": ""
+      },
+      "wildcard": {
+        "name": "",
+        "description": ""
+      },
+      "#setup": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "domineering": {
+      "size-6": {
+        "name": ""
+      },
+      "quelhas": {
+        "name": "",
+        "description": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-12": {
+        "name": ""
+      },
+      "size-10": {
+        "name": ""
+      },
+      "size-7": {
+        "name": ""
+      },
+      "size-9": {
+        "name": ""
+      },
+      "size-11": {
+        "name": ""
+      }
+    },
+    "pollux": {
+      "size-16": {
+        "name": ""
+      },
+      "size-18": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-14": {
+        "name": ""
+      },
+      "size-12": {
+        "name": ""
+      }
+    },
+    "halma": {
+      "superhalma": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      }
+    },
+    "crosshairs": {
+      "random-start": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "pippinzip": {
+      "#board": {
+        "name": ""
+      },
+      "size-13": {
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      },
+      "size-19": {
+        "name": ""
+      },
+      "size-9": {
+        "name": ""
+      }
+    },
+    "viruswar": {
+      "#board": {
+        "name": ""
+      },
+      "size-10": {
+        "name": ""
+      },
+      "size-25": {
+        "name": ""
+      },
+      "size-20": {
+        "name": ""
+      }
+    },
+    "carnac": {
+      "8x5": {
+        "name": ""
+      },
+      "14x9": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      }
+    },
+    "atarigo": {
+      "size-13": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-11": {
+        "name": ""
+      },
+      "size-9": {
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      }
+    },
+    "xana": {
+      "#board": {
+        "name": ""
+      }
+    },
+    "bitesize": {
+      "size-5": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      }
+    },
+    "sentinel": {
+      "#board": {
+        "name": ""
+      }
+    },
+    "tintas": {
+      "modular": {
+        "name": "",
+        "description": ""
+      },
+      "#board": {
+        "description": ""
+      }
+    },
+    "tanbo": {
+      "#board": {
+        "name": ""
+      },
+      "size-19": {
+        "name": ""
+      },
+      "size-11": {
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      }
+    },
+    "bamboo": {
+      "hex6": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      }
+    },
+    "soccolot": {
+      "swap": {
+        "name": ""
+      },
+      "original": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      }
+    },
+    "synapse": {
+      "#board": {
+        "name": ""
       }
     }
   },
@@ -6450,8 +8317,388 @@
         "description": "Відображайте камені у вигляді точок, а не цифр.",
         "name": "Піпси"
       }
+    },
+    "crosscontrol": {
+      "hide-threatened": {
+        "description": "",
+        "name": ""
+      },
+      "hide-both": {
+        "name": "",
+        "description": ""
+      },
+      "hide-influence": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "compart": {
+      "show-viable-areas": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "asli": {
+      "swap-prison": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "carnac": {
+      "flat": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "crosshairs": {
+      "numeric-abstract": {
+        "name": "",
+        "description": ""
+      },
+      "abstract": {
+        "name": "",
+        "description": ""
+      },
+      "numeric": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "druid": {
+      "flat": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "intermedium": {
+      "hide-diagonals": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "elOso": {
+      "nums": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "evenatodds": {
+      "flat": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "blastradius": {
+      "nums": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "go": {
+      "show-controlled-areas": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "knightline": {
+      "show-origin": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "oonpia": {
+      "blocked_no": {
+        "description": "",
+        "name": ""
+      }
     }
   },
   "MOVES_INVALID": "Переміщення \"{{move}}\" недійсне. Перевірте правила та повторіть спробу.",
-  "MOVES_SIMULTANEOUS_PARTIAL": "В одночасних іграх ходи обох гравців повинні бути подані одночасно."
+  "MOVES_SIMULTANEOUS_PARTIAL": "В одночасних іграх ходи обох гравців повинні бути подані одночасно.",
+  "names": {
+    "c1": "",
+    "bloqueo": "",
+    "synapse": "",
+    "evenatodds": "",
+    "witch": "",
+    "taiji": "",
+    "pikemen": "",
+    "hexy": "",
+    "armadas": "",
+    "irensei": "",
+    "dipole": "",
+    "stigmergy": "",
+    "ccorridor": "",
+    "pente": "",
+    "furl": "",
+    "amoeba": "",
+    "atoll": "",
+    "y": "",
+    "courtesan": "",
+    "stawvs": "",
+    "narrows": "",
+    "mvolcano": "",
+    "frogger": "",
+    "mutternland": "",
+    "phutball": "",
+    "dameo": "",
+    "acity": "",
+    "valley": "",
+    "volcano": "",
+    "cifra": "",
+    "rincala": "",
+    "catsdogs": "",
+    "ceph": "",
+    "pods": "",
+    "crossway": "",
+    "lielow": "",
+    "chase": "",
+    "quincunx": "",
+    "strings": "",
+    "pylon": "",
+    "spora": "",
+    "clusterfuss": "",
+    "akimbo": "",
+    "linage": "",
+    "akron": "",
+    "oware": "",
+    "symple": "",
+    "lasca": "",
+    "blastradius": "",
+    "verge": "",
+    "baghchal": "",
+    "boom": "",
+    "gliss": "",
+    "waldmeister": "",
+    "knightline": "",
+    "shifty": "",
+    "prudh": "",
+    "fourinarow": "",
+    "pinch": "",
+    "konane": "",
+    "rootbound": "",
+    "slither": "",
+    "swarm": "",
+    "bide": "",
+    "subdivision": "",
+    "minefield": "",
+    "twinflames": "",
+    "fractured": "",
+    "epam": "",
+    "mirador": "",
+    "asli": "",
+    "toguz": "",
+    "bluestone": "",
+    "chameleon": "",
+    "conhex": "",
+    "hula": "",
+    "enso": "",
+    "pletore": "",
+    "orb": "",
+    "tablero": "",
+    "gyve": "",
+    "crosscontrol": "",
+    "nakatta": "",
+    "tritium": "",
+    "twixt": "",
+    "plurality": "",
+    "stairs": "",
+    "pilastri": "",
+    "volo": "",
+    "bridges": "",
+    "calculus": "",
+    "meridians": "",
+    "monkey": "",
+    "shapechess": "",
+    "pontedd": "",
+    "havannah": "",
+    "storisende": "",
+    "owlman": "",
+    "almatafl": "",
+    "go": "",
+    "control": "",
+    "minimize": "",
+    "lifeline": "",
+    "druid": "",
+    "gonnect": "",
+    "ordo": "",
+    "loa": "",
+    "garden": "",
+    "siegeofj": "",
+    "tessella": "",
+    "alta": "",
+    "terrace": "",
+    "frames": "",
+    "mchess": "",
+    "krypte": "",
+    "tbt": "",
+    "rampart": "",
+    "amazons": "",
+    "accasta": "",
+    "agere": "",
+    "entropy": "",
+    "tintas": "",
+    "upperhand": "",
+    "surmount": "",
+    "sentinel": "",
+    "trax": "",
+    "spree": "",
+    "mattock": "",
+    "slyde": "",
+    "breakthrough": "",
+    "jacynth": "",
+    "basalt": "",
+    "strands": "",
+    "manalath": "",
+    "quax": "",
+    "reversi": "",
+    "gorogo": "",
+    "pigs2": "",
+    "logger": "",
+    "pahtum": "",
+    "gess": "",
+    "ataxx": "",
+    "query": "",
+    "oonpia": "",
+    "product": "",
+    "scribe": "",
+    "murus": "",
+    "abande": "",
+    "biscuit": "",
+    "sploof": "",
+    "bao": "",
+    "mimic": "",
+    "canoe": "",
+    "viruswar": "",
+    "fnap": "",
+    "onager": "",
+    "moonsquad": "",
+    "buku": "",
+    "attangle": "",
+    "streetcar": "",
+    "unlur": "",
+    "azacru": "",
+    "penguin": "",
+    "tumbleweed": "",
+    "mixtour": "",
+    "invector": "",
+    "resolve": "",
+    "diffusion": "",
+    "hens": "",
+    "carnac": "",
+    "spook": "",
+    "wyke": "",
+    "hexentafl": "",
+    "homeworlds": "",
+    "emu": "",
+    "fabrik": "",
+    "trike": "",
+    "pigs": "",
+    "fendo": "",
+    "halmaclimbers": "",
+    "squirm": "",
+    "cubeo": "",
+    "morphos": "",
+    "margo": "",
+    "court": "",
+    "cannon": "",
+    "connecticut": "",
+    "connect6": "",
+    "pippinzip": "",
+    "spline": "",
+    "anache": "",
+    "spire": "",
+    "catchup": "",
+    "bitesize": "",
+    "circleOfLife": "",
+    "dagnacht": "",
+    "intermedium": "",
+    "majorities": "",
+    "renju": "",
+    "conect": "",
+    "sunspot": "",
+    "domineering": "",
+    "bounce": "",
+    "paintbucket": "",
+    "stiletto": "",
+    "complica": "",
+    "yonmoque": "",
+    "entrapment": "",
+    "yavalath": "",
+    "veletas": "",
+    "saltire": "",
+    "blooms": "",
+    "queensland": "",
+    "zola": "",
+    "wunchunk": "",
+    "nex": "",
+    "tanbo": "",
+    "unane": "",
+    "emergo": "",
+    "quagmire": "",
+    "stapeldammen": "",
+    "scaffold": "",
+    "necklace": "",
+    "lox": "",
+    "susan": "",
+    "elOso": "",
+    "compart": "",
+    "gyges": "",
+    "squaredance": "",
+    "churn": "",
+    "slimetrail": "",
+    "fanorona": "",
+    "assembly": "",
+    "sponnect": "",
+    "tafl": "",
+    "archimedes": "",
+    "meg": "",
+    "bamboo": "",
+    "deckfish": "",
+    "omny": "",
+    "magnate": "",
+    "pollux": "",
+    "catapult": "",
+    "crosshairs": "",
+    "pacru": "",
+    "stibro": "",
+    "camelot": "",
+    "connections": "",
+    "oust": "",
+    "exxit": "",
+    "fightopia": "",
+    "bug": "",
+    "xana": "",
+    "razzle": "",
+    "dragoneyes": "",
+    "ayu": "",
+    "blam": "",
+    "guerrilla": "",
+    "estate": "",
+    "onyx": "",
+    "btt": "",
+    "urbino": "",
+    "four": "",
+    "boxes": "",
+    "iqishiqi": "",
+    "conspirateurs": "",
+    "unstack": "",
+    "byte": "",
+    "forms": "",
+    "halma": "",
+    "clearcut": "",
+    "arimaa": "",
+    "focus": "",
+    "gomoku": "",
+    "atarigo": "",
+    "realm": "",
+    "posit": "",
+    "soccolot": "",
+    "kachit": "",
+    "blockade": "",
+    "flume": "",
+    "take": "",
+    "hex": "",
+    "tricouleur": ""
+  }
 }

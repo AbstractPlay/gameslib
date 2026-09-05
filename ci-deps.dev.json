@@ -1,6 +1,6 @@
 {
   "renderer": "1.0.0-ci-33912110632.0",
-  "recranks": "1.0.0-ci-33686810882.0",
-  "updatedAt": "2026-09-04T19:43:43.287Z",
-  "source": "repository_dispatch"
+  "updatedAt": "2026-09-05T14:22:05.936Z",
+  "source": "ci-deps.dev.json",
+  "recranks": "1.0.0-ci-33686810882.0"
 }

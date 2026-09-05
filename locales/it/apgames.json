@@ -788,11 +788,11 @@
         "name": "Tavoliere triangolare (larghezza 8)"
       },
       "cobweb": {
-        "name": "Cobweb (4 anelli, sperimentale)"
+        "name": "Ragnatela (4 anelli)"
       },
       "cobweb-small": {
         "description": "Una variante giocata su un tavoliere rotondo in cui cerchi di collegare due lati opposti.",
-        "name": "Cobweb (3 anelli, preferita dall'autore)"
+        "name": "Ragnatela (3 anelli)"
       },
       "limping": {
         "name": "Zoppicante 5-6 (75 spazi)"

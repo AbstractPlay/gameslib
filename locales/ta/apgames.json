@@ -123,8 +123,7 @@
       "MOVES_NOPIECE": "உங்கள் இடத்திற்கு உங்கள் ச்டாசில் {{piece}} துண்டு இல்லை.",
       "MOVES_ONE_POWERPLAY": "நீங்கள் ஒரு திருப்பத்திற்கு ஒரு ஆற்றல் நாடகத்தை மட்டுமே செய்யலாம்.",
       "PARTIAL_ERUPTION": "நீங்கள் வெடிப்பை ஏற்படுத்தும் வரை தொப்பிகளை நகர்த்திக் கொள்ளுங்கள்.",
-      "PARTIAL_MOVE": "இலக்கைத் தேர்ந்தெடுக்கவும்.",
-      "CAPTURED_LABEL": ""
+      "PARTIAL_MOVE": "இலக்கைத் தேர்ந்தெடுக்கவும்."
     },
     "zola": {
       "MUST_MOVE": "உங்களிடம் ஒரு நகர்வு இருந்தால், உங்கள் திருப்பத்தை நீங்கள் கடக்க முடியாது.",
@@ -190,8 +189,7 @@
       "BARRIER": "நீங்கள் ஒரு தடையை உருவாக்கக்கூடாது.",
       "NORMALISE": "நகர்வை இயல்பாக்க வேண்டும். {{normalised}} ஐ முயற்சிக்கவும்.",
       "SELECT_MORE_one": "நீங்கள் தொடர்ந்து ஒரு குழு நகர்வை மேற்கொள்ளலாம்.",
-      "SELECT_MORE_other": "நீங்கள் தொடர்ந்து ஒரு குழு நகர்களை மேற்கொள்ளலாம்.",
-      "SELECT_MORE_many": ""
+      "SELECT_MORE_other": "நீங்கள் தொடர்ந்து ஒரு குழு நகர்களை மேற்கொள்ளலாம்."
     },
     "armadas": {
       "INVALID_SIZE": "தவறான கப்பல் அளவு. 1, 2, அல்லது 3 ஆக இருக்க வேண்டும்.",
@@ -623,8 +621,7 @@
       "MARKER": "அந்த ஓடு மீது சட்டப்பூர்வமாக கட்டமைக்கக்கூடிய அனைத்து இடங்களும் ஆக்கிரமிக்கப்படும் வரை நீங்கள் சூட் ஐகானைக் கொண்ட இடத்தை உருவாக்கக்கூடாது.",
       "NO_MORE_CLAIMS": "நீங்கள் ஏற்கனவே மூன்று கோபுரங்களை கோரியுள்ளீர்கள். நீங்கள் இனி உரிமை கோரக்கூடாது.",
       "PARTIAL_MOVE": "நீங்கள் உருவாக்க விரும்பும் இடத்தைத் தேர்ந்தெடுக்கவும்.",
-      "VALID_W_CLAIMS": "சரியான நடவடிக்கை போல் தெரிகிறது. நீங்கள் ஒரு கோபுரத்தை கோரவும் தேர்வு செய்யலாம்.",
-      "LABEL_STASH": ""
+      "VALID_W_CLAIMS": "சரியான நடவடிக்கை போல் தெரிகிறது. நீங்கள் ஒரு கோபுரத்தை கோரவும் தேர்வு செய்யலாம்."
     },
     "agere": {
       "ADJACENCY": "நீங்கள் அருகிலுள்ள அடுக்குகளை மட்டுமே கைப்பற்ற முடியும்.",
@@ -734,9 +731,7 @@
       "INSUFFICIENT_HWALL": "நீங்கள் கிடைமட்ட சுவர்கள் வெளியேறிவிட்டீர்கள்.",
       "SELECT_SECOND_WALL": "{{wall}} இலிருந்து சுவரை முடிக்க இரண்டு வழிகள் உள்ளன. நீங்கள் முடிக்க விரும்பும் பக்கத்தைத் தேர்ந்தெடுக்கவும்.",
       "INSUFFICIENT_VWALL": "நீங்கள் செங்குத்து சுவர்கள் வெளியேறிவிட்டீர்கள்.",
-      "BLOCKS_GOAL": "சுவரை {{wall}} இல் வைக்க முடியாது, ஏனெனில் இது பலகையில் உள்ள ஒரு துண்டுக்கான இலக்கை (களை) தடுக்கிறது.",
-      "BLOCKS_GOAL_one": "",
-      "BLOCKS_GOAL_other": ""
+      "BLOCKS_GOAL": "சுவரை {{wall}} இல் வைக்க முடியாது, ஏனெனில் இது பலகையில் உள்ள ஒரு துண்டுக்கான இலக்கை (களை) தடுக்கிறது."
     },
     "breakthrough": {
       "BADVARIANT": "அந்த மாறுபாடு செயலில் இருக்கும்போது மட்டுமே குண்டுவெடிப்பு நகர்வுகள் அனுமதிக்கப்படுகின்றன.",
@@ -880,9 +875,7 @@
       "INITIAL_INSTRUCTIONS_order": "நகர்த்த அல்லது கடந்து செல்ல உங்கள் போர்டில் ஒரு பகுதியைத் தேர்ந்தெடுக்கவும்.",
       "INVALID_MOVEMENT": "குழப்பமான கட்டத்தில் நீங்கள் துண்டுகளை நகர்த்த முடியாது.",
       "PARTIAL": "ஒரு இலக்கைத் தேர்ந்தெடுக்கவும்.",
-      "STRAIGHT_LINES": "துண்டுகள் நேராக கிடைமட்ட அல்லது செங்குத்து கோடுகளில் மட்டுமே நகர்த்தப்படலாம்.",
-      "BOARD_CHAOS": "",
-      "BOARD_ORDER": ""
+      "STRAIGHT_LINES": "துண்டுகள் நேராக கிடைமட்ட அல்லது செங்குத்து கோடுகளில் மட்டுமே நகர்த்தப்படலாம்."
     },
     "epam": {
       "INITIAL_INSTRUCTIONS_move": "நீங்கள் நகர்த்த விரும்பும் ஃபாலங்கின் வால் என்பதைத் தேர்ந்தெடுக்கவும்.",
@@ -1003,9 +996,7 @@
       "SWAP21_EXCESS": "நீங்கள் பல துண்டுகளை வைத்துள்ளீர்கள். நீங்கள் 3 துண்டுகளை மட்டுமே வைக்கலாம்.",
       "SWAP22_EXCESS": "நீங்கள் பல துண்டுகளை வைத்துள்ளீர்கள். நீங்கள் 2 துண்டு மட்டுமே வைக்கலாம்.",
       "EXCESS": "நீங்கள் பல துண்டுகளை வைத்துள்ளீர்கள். நீங்கள் 1 துண்டு மட்டுமே வைக்கலாம்.",
-      "NOT_PLACEABLE": "நீங்கள் {{where}} இல் வைக்கக்கூடாது. துண்டு ஆதரிக்கப்பட வேண்டும்.",
-      "INITIAL_INSTRUCTIONS_SWAP1ST1": "",
-      "INITIAL_INSTRUCTIONS_SWAP1ST2": ""
+      "NOT_PLACEABLE": "நீங்கள் {{where}} இல் வைக்கக்கூடாது. துண்டு ஆதரிக்கப்பட வேண்டும்."
     },
     "furl": {
       "INITIAL_INSTRUCTIONS": "ஃபர்லிற்கு ஒரு துண்டு அல்லது அவிழ்க்க ஒரு அடுக்கைத் தேர்ந்தெடுக்கவும்.",
@@ -1156,8 +1147,7 @@
       "QUEEN_DEPLETED": "உங்கள் அரசி இனி வகுப்பற்ற நகர்வுகளைச் செய்ய முடியாது."
     },
     "mvolcano": {
-      "INITIAL_INSTRUCTIONS": "நகர்த்த ஒரு தொப்பியைத் தேர்ந்தெடுக்கவும்.",
-      "CAPTURED_LABEL": ""
+      "INITIAL_INSTRUCTIONS": "நகர்த்த ஒரு தொப்பியைத் தேர்ந்தெடுக்கவும்."
     },
     "mixtour": {
       "INITIAL_INSTRUCTIONS": "புதிய பகுதியை உள்ளிட வெற்று இடத்தைக் சொடுக்கு செய்க, அல்லது அதை நகர்த்த ஒரு அடுக்கு அல்லது சஃப்ரேக்கின் கீழ் ஓடு என்பதைக் சொடுக்கு செய்க.",
@@ -1181,9 +1171,7 @@
       "CENTRE_PLACEMENT": "ஏரியை மைய கலத்தில் வைக்க முடியாது, {{where}}.",
       "SELECT_TO": "நடக்க அல்லது செல்ல ஒரு இலக்கைத் தேர்ந்தெடுக்கவும்.",
       "OPTIONAL_CONTINUE": "நீங்கள் உங்கள் எதிரியின் துண்டில் இறங்கியுள்ளீர்கள். உங்கள் நகர்வைத் தொடர விரும்பினால், செல்ல மற்றொரு இலக்கைத் தேர்ந்தெடுக்கவும், இல்லையெனில் நகர்வை சமர்ப்பிக்கவும்.",
-      "INVALID_MOVES": "நகர்வுகளின் இந்த வரிசை {{moves}} தவறானது.",
-      "SELECT_MORE_SUPERKO": "",
-      "SUPERKO": ""
+      "INVALID_MOVES": "நகர்வுகளின் இந்த வரிசை {{moves}} தவறானது."
     },
     "orb": {
       "INITIAL_INSTRUCTIONS": "நகர்த்த உங்கள் சொந்த துண்டுகளில் ஒன்றைத் தேர்ந்தெடுக்கவும்.",
@@ -1209,8 +1197,7 @@
       "NOT_EMPTY_JUMP": "ஒரு சம்ப் ஒரு வெற்று வெர்டெக்சில் முடிவடைய வேண்டும். {{to}} காலியாக இல்லை.",
       "CAN_JUMP_MORE": "இதுவரை நன்றாக இருக்கிறது. உங்கள் நகர்வை முடிக்கவும் அல்லது குதிக்கவும்",
       "CAN_JUMP": "உங்கள் தாவலின் இலக்கைத் தேர்ந்தெடுக்கவும்.",
-      "CANT_JUMP": "நீங்கள் பந்தைத் தேர்ந்தெடுத்தீர்கள், ஆனால் தாவல்கள் எதுவும் கிடைக்கவில்லை",
-      "LABEL_GOAL": ""
+      "CANT_JUMP": "நீங்கள் பந்தைத் தேர்ந்தெடுத்தீர்கள், ஆனால் தாவல்கள் எதுவும் கிடைக்கவில்லை"
     },
     "pigs": {
       "TOOLONG": "நீங்கள் ஐந்து கட்டளைகளை மட்டுமே உள்ளிடலாம்.",
@@ -1420,8 +1407,7 @@
       "PARTIAL_MOVE": "இலக்கை வழங்கவும்.",
       "PARTIAL_PLACE": "ஒரு பகுதியை வைக்க ஒரு கலத்தைத் தேர்வுசெய்க.",
       "PARTIAL_PLACE_SIZE": "இடத்திற்கு ஒரு துண்டின் அளவைத் தேர்ந்தெடுக்கவும்.",
-      "INVALID_PIECE": "வைக்க உங்கள் ச்டாசில் {{piece}} இல்லை.",
-      "VALID_MOVE": ""
+      "INVALID_PIECE": "வைக்க உங்கள் ச்டாசில் {{piece}} இல்லை."
     },
     "upperhand": {
       "INITIAL_INSTRUCTIONS": "ஒரு பந்தை வைக்க ஒரு இடத்தைத் தேர்ந்தெடுக்கவும்.",
@@ -1542,8 +1528,7 @@
       "PARTIAL_PLACE1": "விளையாட்டின் முதல் நகர்வில், இரண்டு சிவப்பு துண்டுகள் மற்றும் ஒரு நீல நிற துண்டு வைக்கவும். இரண்டாவது சிவப்பு துண்டு வைக்க வெற்று இடத்தைக் சொடுக்கு செய்க.",
       "BAD_PLACEMENT": "நீங்கள் {{where}} இல் ஒரு பகுதியை வைக்க முடியாது. அதில் ஒரு தாது கனசதுரத்தைக் கொண்டிருக்க வேண்டும்.",
       "INITIAL_INSTRUCTIONS_normal": "உங்கள் துண்டுகளில் ஒன்றை வைக்க ஒரு தாது கனசதுரத்தைக் சொடுக்கு செய்க. பிடிப்பைத் தொடங்க உங்கள் அணிகளில் ஒன்றைக் சொடுக்கு செய்க. அல்லது உங்கள் அணிகளை நகர்த்த உங்கள் விநியோகத்தில் ஒரு கனசதுரத்தைக் சொடுக்கு செய்க.",
-      "PARTIAL_PLACE2": "விளையாட்டின் முதல் நகர்வில், இரண்டு சிவப்பு துண்டுகள் மற்றும் ஒரு நீல நிற துண்டு வைக்கவும். நீல நிறத்தை வைக்க வெற்று இடத்தைக் சொடுக்கு செய்க.",
-      "LABEL_ORE": ""
+      "PARTIAL_PLACE2": "விளையாட்டின் முதல் நகர்வில், இரண்டு சிவப்பு துண்டுகள் மற்றும் ஒரு நீல நிற துண்டு வைக்கவும். நீல நிறத்தை வைக்க வெற்று இடத்தைக் சொடுக்கு செய்க."
     },
     "nakatta": {
       "BAD_PASS": "சட்ட நகர்வுகள் கிடைத்தால் நீங்கள் தேர்ச்சி பெறக்கூடாது.",
@@ -1580,8 +1565,7 @@
       "PARTIAL_setup2": "பலகையில் வைக்க உங்கள் ச்டாசிலிருந்து மற்றொரு பகுதியைத் தேர்ந்தெடுக்கவும்.",
       "HOMEROW": "உங்களுக்கு மிக நெருக்கமான வரிசையில் மட்டுமே துண்டுகளை வைக்கலாம்.",
       "NO_MOVES": "{{cell}} இல் உள்ள துண்டு சரியான நகர்வுகள் இல்லை. உங்களுக்கு மிக நெருக்கமான வரிசையிலிருந்து மட்டுமே நீங்கள் துண்டுகளை இயக்க முடியும் என்பதை நினைவில் கொள்ளுங்கள்.",
-      "BAD_DISPLACE": "நீங்கள் ஒரு பகுதியை {{cell}} க்கு இடம்பெயரக் கூடாது. இலக்குச் செல் பயன்படுத்தப்படாமல் இருக்க வேண்டும் மற்றும் எதிராளியின் விளையாடக்கூடிய வரிசைக்கு அப்பாற்பட்டதாக இருக்கக் கூடாது.",
-      "LABEL_STASH": ""
+      "BAD_DISPLACE": "நீங்கள் ஒரு பகுதியை {{cell}} க்கு இடம்பெயரக் கூடாது. இலக்குச் செல் பயன்படுத்தப்படாமல் இருக்க வேண்டும் மற்றும் எதிராளியின் விளையாடக்கூடிய வரிசைக்கு அப்பாற்பட்டதாக இருக்கக் கூடாது."
     },
     "majorities": {
       "INITIAL_INSTRUCTIONS": "உங்கள் துண்டுகளை வைக்க இரண்டு கலங்களைத் தேர்ந்தெடுக்கவும்.",
@@ -1799,8 +1783,7 @@
       "PARTIAL_PLACE": "உங்கள் {{piece}} துண்டு வைக்க உங்கள் வீட்டு வரிசையில் உள்ள கலத்தைத் தேர்ந்தெடுக்கவும்.",
       "INITIAL_INSTRUCTIONS_play": "நகர்த்த ஒரு பகுதியைத் தேர்ந்தெடுக்கவும்.",
       "PARTIAL_SETUP_one": "உங்கள் கடைசி பகுதியை வைக்கவும்.",
-      "PARTIAL_SETUP_other": "உங்களிடம் {{count}} இடங்கள் இன்னும் துண்டுகள் உள்ளன.",
-      "LABEL_STASH": ""
+      "PARTIAL_SETUP_other": "உங்களிடம் {{count}} இடங்கள் இன்னும் துண்டுகள் உள்ளன."
     },
     "owlman": {
       "PARTIAL": "ஒரு இலக்கைத் தேர்ந்தெடுக்கவும்.",
@@ -2064,8 +2047,7 @@
       "PARTIAL_DIRECTION_kick": "அந்த திசையில் பந்தை உதைக்க ஒரு நெய்க்போரிங் கலத்தைத் தேர்ந்தெடுக்கவும்.",
       "PARTIAL_DIRECTION_penguin": "அந்த திசையில் பயணிக்க அண்டை கலங்களைத் தேர்ந்தெடுக்கவும் அல்லது, நீங்கள் படுத்துக் கொண்டால், எழுந்து நிற்க மீண்டும் கலத்தைக் சொடுக்கு செய்க.",
       "INITIAL_INSTRUCTIONS": "பலகையில் அல்லது உங்கள் கையில் உங்கள் பெங்குவின் ஒன்றைத் தேர்ந்தெடுக்கவும்.",
-      "PARTIAL_ORIENTATION": "உங்கள் பென்குயினை மாற்றியமைக்க அண்டை கலத்தைத் தேர்ந்தெடுக்கவும், அல்லது நீங்கள் ஏற்கனவே எதிர்கொள்ளும் திசையில் இருக்க உங்கள் பென்குயினைக் சொடுக்கு செய்க.",
-      "LABEL_STASH": ""
+      "PARTIAL_ORIENTATION": "உங்கள் பென்குயினை மாற்றியமைக்க அண்டை கலத்தைத் தேர்ந்தெடுக்கவும், அல்லது நீங்கள் ஏற்கனவே எதிர்கொள்ளும் திசையில் இருக்க உங்கள் பென்குயினைக் சொடுக்கு செய்க."
     },
     "boxes": {
       "OCCUPIED": "{{where}} இல் ஏற்கனவே ஒரு சுவர் உள்ளது.",
@@ -2120,8 +2102,7 @@
       "INITIAL_INSTRUCTIONS_play": "ஒரு சாதாரண துண்டு வைக்க ஒரு கலத்தைத் தேர்ந்தெடுக்கவும், அல்லது அதற்கு பதிலாக வைக்க உங்கள் எங்கே துண்டுகளில் ஒன்றைக் சொடுக்கு செய்க.",
       "INITIAL_INSTRUCTIONS_setup": "ஒரு எங்கே துண்டு வைக்க ஒரு கலத்தைத் தேர்ந்தெடுக்கவும்.",
       "INVALID_MOVE": "{{move}} நகர்வு செல்லுபடியாகாது. ஒரு சுதந்திரத்தை உருவாக்கும் ஒரு பிடிப்பைத் தூண்டாவிட்டால், நீங்கள் ஒரு சாதாரண பகுதியை விடுதலை இல்லாத நிலையில் வைக்கக்கூடாது என்பதை நினைவில் கொள்ளுங்கள்.",
-      "NO_PIECES_neutral": "உங்களிடம் கையில் எந்தவிதமான துண்டுகளும் இல்லை.",
-      "LABEL_NEUTRAL": ""
+      "NO_PIECES_neutral": "உங்களிடம் கையில் எந்தவிதமான துண்டுகளும் இல்லை."
     },
     "hexentafl": {
       "INVALID_TO": "{{from}} இல் உள்ள துண்டு {{to}} க்கு நகர முடியாது.",
@@ -2399,9 +2380,7 @@
       "TOO_LATE_FOR_REFILL": "உங்கள் மூன்றாவது நகர்வுக்குப் பிறகு டிரா பூலை மீண்டும் நிரப்ப வேண்டிய தேவை இல்லை. நீங்கள் சமர்ப்பித்த பிறகு அது தானாகவே நிரப்பப்படும்.",
       "VALID_REFILL": "நிரப்புதலைத் தூண்டுவதற்கு உங்கள் நகர்வைச் சமர்ப்பிக்கவும். மற்ற வீரர்(கள்) தானாகவே கடந்து செல்லும், மேலும் உங்கள் பகுதியளவு திருப்பத்தில் {{count}} நகர்வுகள் மீதமிருக்கும் (அதே போல் கடந்து செல்வதற்கான விருப்பமும்).",
       "NO_CARDS_BLOCKED": "உங்கள் திருப்பத்தின் தொடக்கத்தில், உங்களிடம் கை அட்டைகள் இல்லை என்றால், உங்கள் தவளைகள் எதுவும் பின்வாங்க முடியாது, மற்றும் டிரா பூல் காலியாக இருந்தால், நீங்கள் கடந்து செல்ல வேண்டும்.",
-      "OCCUPIED": "ஒரு சூட் இடத்துக்கு ஒரே ஒரு தவளை.",
-      "VALID_REFILL_one": "",
-      "VALID_REFILL_other": ""
+      "OCCUPIED": "ஒரு சூட் இடத்துக்கு ஒரே ஒரு தவளை."
     },
     "krypte": {
       "INITIAL_INSTRUCTIONS": "போர்டின் செயலில் உள்ள பக்கத்தில் ஒரு பகுதியை உள்ளிடவும்",
@@ -2450,8 +2429,7 @@
       "SPEND_INSTRUCTIONS": "நீங்கள் பயன்படுத்த விரும்பும் சூட் டோக்கன்களைக் சொடுக்கு செய்யவும்.",
       "TOKEN_ADD_INSTRUCTIONS": "இந்தப் பத்திரத்தில் சேர்க்க டோக்கன்களைக் சொடுக்கு செய்யவும்.",
       "TOKEN_TRADE_INSTRUCTIONS": "மாற்றாக நீங்கள் விரும்பும் சூட்டைக் சொடுக்கு செய்யவும்.",
-      "VALID_PLACEMENT": "நல்ல இடம் போல் தெரிகிறது.",
-      "LABEL_WARNING": ""
+      "VALID_PLACEMENT": "நல்ல இடம் போல் தெரிகிறது."
     },
     "oonpia": {
       "DESTINATION": "துண்டு வைக்க ஒரு கலத்தைத் தேர்ந்தெடுக்கவும்.",
@@ -2542,528 +2520,7 @@
       "TOO_MANY_one": "இந்த திருப்பத்தில் நீங்கள் {{count}} துண்டு வரை மட்டுமே வைக்கலாம்.",
       "TOO_MANY_other": "இந்த முறை நீங்கள் {{count}} துண்டுகள் வரை மட்டுமே வைக்கலாம்.",
       "VALID_BUT_one": "இதுவரை செல்லுபடியாகும். நீங்கள் நிறுத்தலாம் அல்லது மேலும் {{count}} துண்டுகளை வைக்கலாம்.",
-      "VALID_BUT_other": "இதுவரை செல்லுபடியாகும். நீங்கள் நிறுத்தலாம் அல்லது மேலும் {{count}} துண்டுகளை வைக்கலாம்.",
-      "BALANCE": ""
-    },
-    "forms": {
-      "INITIAL_INSTRUCTIONS": "",
-      "INVALID_MOVE": "",
-      "INVALID_MOVE_ORIGINAL": "",
-      "NO_MOVES": "",
-      "INSTRUCTIONS": "",
-      "INVALID_SELECTION": "",
-      "INSTRUCTIONS_ORIGINAL": "",
-      "INVALID_NUM_GROUPS": ""
-    },
-    "crosscontrol": {
-      "INSUFFICIENT_LOS": "",
-      "INITIAL_INSTRUCTIONS_BUTTON": "",
-      "OPPONENT_CONTROL": "",
-      "INITIAL_SETUP": "",
-      "KOMI_CHOICE": "",
-      "INVALIDKOMI": "",
-      "INITIAL_INSTRUCTIONS": "",
-      "INVALIDPASS": "",
-      "INVALIDBUTTON": "",
-      "INVALIDPLAYSECOND": ""
-    },
-    "btt": {
-      "OUT_OF_BOUNDS": "",
-      "NO_DIAGONALS": "",
-      "ROOT_INSTRUCTIONS": "",
-      "NULL_INSTRUCTIONS": "",
-      "BAD_NULL": "",
-      "NO_TARGET": "",
-      "OCCUPIED": "",
-      "MALFORMED_MOVE": "",
-      "INITIAL_INSTRUCTIONS": "",
-      "NO_STASH": "",
-      "NULL_TARGET": "",
-      "PARTIAL_MOVE": ""
-    },
-    "knightline": {
-      "INVALID_TARGET": "",
-      "NO_STACK": "",
-      "INVALID_FIRST_MOVE": "",
-      "SELECT_CELL": "",
-      "BAD_OPENING_MOVE": "",
-      "NO_KNIGHT": "",
-      "INVALID_NOTATION": "",
-      "INVALID_STACK": "",
-      "INITIAL_INSTRUCTIONS_VARIANTS": "",
-      "BAD_VALUE": "",
-      "BAD_PASS": "",
-      "SHORT_STACK": "",
-      "INVALID_MOVE": "",
-      "NO_NEIGHBORS": "",
-      "BAD_START_PLACE": "",
-      "SPLIT_STACK": "",
-      "MUST_PASS": "",
-      "INITIAL_INSTRUCTIONS": ""
-    },
-    "pippinzip": {
-      "INSTRUCTIONS_PIP_SECOND": "",
-      "ERROR_PLACEMENT_PIP": "",
-      "INSTRUCTIONS_ZIP": "",
-      "INSTRUCTIONS_PIP": "",
-      "TOO_MANY_PLACEMENTS_AUCTION": "",
-      "ADJACENT_PLACEMENT_PIP": "",
-      "INITIAL_INSTRUCTIONS": "",
-      "ERROR_PLACEMENT_ZIP": ""
-    },
-    "swarm": {
-      "NOT_MAX_CAPTURE": "",
-      "FRIENDLY_PIECE": "",
-      "CANNOT_CAPTURE": "",
-      "CANNOT_PASS": "",
-      "CAPTURES_MANDATORY": "",
-      "INSTRUCTIONS": ""
-    },
-    "mutternland": {
-      "INSTRUCTIONS": "",
-      "NUT_NOT_ADJACENT_FRIEND": "",
-      "PLACE_TOO_HIGH": "",
-      "NUT_CANNOT_MOVE": "",
-      "MARBLE_ILLEGAL_MOVE": "",
-      "INSTRUCTIONS_STEP2": "",
-      "MARBLE_CANNOT_MOVE": "",
-      "INITIAL_PLACE_STEP2": "",
-      "NOT_A_NUT": "",
-      "OCCUPIED": "",
-      "NUT_IN_TOWER": "",
-      "MOVE_MARBLE": "",
-      "MOVE_NUT": "",
-      "CELL_VOID": "",
-      "NOT_AT_EDGE": "",
-      "MARBLE_ILLEGAL_PUSH": "",
-      "MOVE_NUT_OR_PLACE": "",
-      "NUT_ILLEGAL_MOVE": "",
-      "RESERVE_EMPTY": "",
-      "ENEMY_MARBLE": "",
-      "INITIAL_PLACE": ""
-    },
-    "evenatodds": {
-      "MUST_CHOOSE_SIDE": "",
-      "LABEL_REMAINING": "",
-      "LABEL_HAND": "",
-      "NOT_IN_HAND": "",
-      "PARTIAL": "",
-      "LABEL_HAND_NO_SIDE": "",
-      "INITIAL_INSTRUCTIONS_choose": "",
-      "INITIAL_INSTRUCTIONS": "",
-      "NEEDS_ANCHOR_PIP": ""
-    },
-    "go": {
-      "KO": "",
-      "KOMI_CHOICE": "",
-      "INVALID_PIE": "",
-      "CYCLE": "",
-      "INITIAL_SETUP": "",
-      "INSTRUCTIONS": "",
-      "INVALID_PLAYSECOND": "",
-      "SELF_CAPTURE": "",
-      "INVALID_PASS": "",
-      "INVALID_KOMI": ""
-    },
-    "baghchal": {
-      "INITIAL_INSTRUCTIONS_GOAT_PLACEMENT": "",
-      "INITIAL_INSTRUCTIONS_GOAT_MOVEMENT": "",
-      "INITIAL_INSTRUCTIONS_TIGER_MOVEMENT": "",
-      "VALID_PARTIAL": ""
-    },
-    "shapechess": {
-      "PUSH_NO_FREEDOM": "",
-      "PUSH_NEIGHBOR": "",
-      "JUMP_OCCUPIED": "",
-      "JUMP_INSTRUCTIONS": "",
-      "INITIAL_INSTRUCTIONS": "",
-      "PUSH_INSTRUCTIONS": ""
-    },
-    "spora": {
-      "END_PHASE_INSTRUCTIONS": "",
-      "INVALID_KOMI": "",
-      "ENEMY_PIECE": "",
-      "INITIAL_SETUP": "",
-      "SAME_PLACE_SOW_STACK": "",
-      "END_PHASE_LAST": "",
-      "INVALID_SOW_PATH": "",
-      "SELF_CAPTURE": "",
-      "KOMI_CHOICE": "",
-      "NOT_ENOUGH_PIECES": "",
-      "SOW_TOO_LARGE": "",
-      "SOW_INSTRUCTIONS": "",
-      "MAXIMUM_STACK": "",
-      "SOW_FRIENDLY": "",
-      "INSTRUCTIONS": "",
-      "INVALID_PLAYSECOND": "",
-      "SOW_SIZE_SELECTION": ""
-    },
-    "elOso": {
-      "TOO_FAR": "",
-      "INITIAL_INSTRUCTIONS": "",
-      "SELECT_STACK_FOR_PASS": "",
-      "VALID_PARTIAL_TOP": "",
-      "INVALID_DIRECTION": "",
-      "VALID_PARTIAL": "",
-      "SKY_FROM_TOP": ""
-    },
-    "linage": {
-      "TABOO": "",
-      "INVALID_PLAYSECOND": "",
-      "KOMI_CHOICE": "",
-      "INVALID_KOMI": "",
-      "INVALID_PASS": "",
-      "OCCUPIED": "",
-      "INSTRUCTIONS": "",
-      "INITIAL_SETUP": ""
-    },
-    "domineering": {
-      "OCCUPIED_CELL": "",
-      "INITIAL_INSTRUCTIONS": "",
-      "PLACE_NEXT_STONE_VERT": "",
-      "MUST_BE_DOMINO_VERT": "",
-      "PLACE_NEXT_STONE_HORZ": "",
-      "INITIAL_INSTRUCTIONS_QUELHAS": "",
-      "PLACE_NEXT_STONE_LINE_VERT": "",
-      "MUST_BE_LINE_VERT": "",
-      "MUST_BE_DOMINO_HORZ": "",
-      "PLACE_NEXT_STONE_LINE_HORZ": "",
-      "MUST_BE_LINE_HORZ": "",
-      "NO_SPACE_LEFT": ""
-    },
-    "unstack": {
-      "INSTRUCTIONS": "",
-      "INVALID_SOW_PATH": "",
-      "SOW_TOO_LARGE": "",
-      "PASS_ONLY": "",
-      "CAN_SOW": "",
-      "SOW_INSTRUCTIONS": "",
-      "CAPTURES_MANDATORY": "",
-      "MULTIPLE_CAPTURES": "",
-      "NOT_FRIENDLY_STACK": ""
-    },
-    "compart": {
-      "INSTRUCTIONS_one": "",
-      "INSTRUCTIONS_other": "",
-      "OCCUPIED": "",
-      "INSTRUCTIONS_ANY": "",
-      "VIABLE_AREA_REPEATED": ""
-    },
-    "intermedium": {
-      "INVALID_SOW_PATH": "",
-      "SOW_TOO_LARGE": "",
-      "INSTRUCTIONS": "",
-      "NOT_FRIENDLY_STACK": "",
-      "SOW_INSTRUCTIONS": ""
-    },
-    "xana": {
-      "UNACCESSIBLE_WALL": "",
-      "SAME_WALL": "",
-      "NOT_PLACED_ON_FRIEND": "",
-      "INITIAL_INSTRUCTIONS": "",
-      "DROP_MOVE_INSTRUCTIONS": "",
-      "NOT_ENOUGH_PIECES_TO_MOVE": "",
-      "OCCUPIED_WALL": "",
-      "PIE_CHOICE": "",
-      "UNACCESSIBLE_PIECE": "",
-      "ENEMY_PIECE": "",
-      "INVALID_PLAYSECOND": "",
-      "MOVE_TO_OCCUPIED_CELL": "",
-      "RESERVE_EMPTY": "",
-      "MOVE_NOT_INSIDE_CIRCLE": ""
-    },
-    "carnac": {
-      "TIP_OR_PASS": "",
-      "NOT_TIP_PHASE": "",
-      "INVALID_TIP": "",
-      "INVALID_HOLE_ORIENTATION": "",
-      "SELECT_CELL": "",
-      "INVALID_PASS": "",
-      "TIP_THEN_PLACE": "",
-      "INVALID_ORIENTATION": "",
-      "SELECT_ORIENTATION": "",
-      "NOT_PLACE_PHASE": "",
-      "NO_RESERVE": ""
-    },
-    "soccolot": {
-      "DRIBBLE_INSTRUCTIONS": "",
-      "ERROR_KICK_DRIBBLE": "",
-      "MAN_INSTRUCTIONS": "",
-      "BALL_INSTRUCTIONS": "",
-      "KICK_INSTRUCTIONS": "",
-      "DRIBBLE_SWAP_INSTRUCTIONS": "",
-      "ERROR_SELECT": "",
-      "INITIAL_INSTRUCTIONS": ""
-    },
-    "y": {
-      "INSTRUCTIONS_134*": "",
-      "INSTRUCTIONS": "",
-      "VALID_MOVE_PROGRESSIVE": "",
-      "INSTRUCTIONS_12*": "",
-      "GROUP_INFRACTION": "",
-      "INITIAL_INSTRUCTIONS_12*": "",
-      "INSTRUCTIONS_PROGRESSIVE": "",
-      "INITIAL_INSTRUCTIONS_134*": ""
-    },
-    "fractured": {
-      "NO_RESERVE": "",
-      "INITIAL_INSTRUCTIONS": "",
-      "PARTIAL_MOVE": "",
-      "BAD_PLACE": "",
-      "BAD_MOVE": "",
-      "CLOSED": ""
-    },
-    "minimize": {
-      "INITIAL_INSTRUCTIONS": "",
-      "TOO_MANY_MOVES_START": "",
-      "INVALID_PLACEMENT": "",
-      "NORMALISE": "",
-      "TOO_MANY_MOVES": "",
-      "INSTRUCTIONS": ""
-    },
-    "halma": {
-      "FORCED_MOVES": "",
-      "NONEXISTENT": "",
-      "ILLEGAL_MOVE": "",
-      "BAD_MOVE": "",
-      "INITIAL_INSTRUCTIONS": ""
-    },
-    "unane": {
-      "INITIAL_INSTRUCTIONS": "",
-      "INVALID_SELECTION": "",
-      "INSTRUCTIONS": "",
-      "INVALID_MOVE": ""
-    },
-    "invector": {
-      "INITIAL_INSTRUCTIONS": "",
-      "CANNOT_MOVE": "",
-      "INSTRUCTIONS": "",
-      "ONLY_PASS": "",
-      "INVALID_PASS": "",
-      "INVALID_SELECTION": "",
-      "INVALID_MOVE": ""
-    },
-    "estate": {
-      "EXCEEDS": "",
-      "INITIAL_INSTRUCTIONS_other": "",
-      "INITIAL_INSTRUCTIONS_zero": "",
-      "INITIAL_INSTRUCTIONS_one": ""
-    },
-    "pollux": {
-      "TOWER_STRAIGHT_LINE": "",
-      "INSTRUCTION_SLIDE": "",
-      "PIECE_OCCUPIED_CELL": "",
-      "BAD_PASS": "",
-      "INITIAL_INSTRUCTIONS_2": "",
-      "INSTRUCTION_SHOOT": "",
-      "INITIAL_INSTRUCTIONS_3": "",
-      "PIECE_STRAIGHT_LINE": "",
-      "INITIAL_INSTRUCTIONS_1": "",
-      "NEED_FRIENDLY_TOWER": "",
-      "TOWER_ADJACENT": "",
-      "TOWER_OCCUPIED_CELL": ""
-    },
-    "bridges": {
-      "INITIAL_INSTRUCTIONS": "",
-      "INITIAL_INSTRUCTIONS_FIRST_TURN": ""
-    },
-    "narrows": {
-      "INVALID_MOVE": "",
-      "INVALID_SELECTION": "",
-      "CANNOT_MOVE": "",
-      "INSTRUCTIONS": "",
-      "INITIAL_INSTRUCTIONS": ""
-    },
-    "pinch": {
-      "REUSED_CELL": "",
-      "SELF_OPP_STONES_TO_PLACE_own_one_opp_one": "",
-      "OCCUPIED_CELL": "",
-      "OPP_STONES_TO_PLACE_one": "",
-      "INITIAL_INSTRUCTIONS_ORIGINAL": "",
-      "OPP_SELF_STONES_TO_PLACE_own_one_opp_other": "",
-      "SELF_STONES_TO_PLACE_other": "",
-      "SELF_OPP_STONES_TO_PLACE_own_other_opp_one": "",
-      "OPP_SELF_STONES_TO_PLACE_own_one_opp_one": "",
-      "SELF_STONES_TO_PLACE_one": "",
-      "SELF_OPP_STONES_TO_PLACE_own_one_opp_other": "",
-      "OPP_SELF_STONES_TO_PLACE_own_other_opp_one": "",
-      "SELF_OPP_STONES_TO_PLACE_own_other_opp_other": "",
-      "INITIAL_INSTRUCTIONS": "",
-      "OPP_STONES_TO_PLACE_other": "",
-      "OPP_SELF_STONES_TO_PLACE_own_other_opp_other": ""
-    },
-    "twinflames": {
-      "TOO_MANY_MOVES_START": "",
-      "NORMALISE": "",
-      "INSTRUCTIONS": "",
-      "INCOMPLETE_TURN": "",
-      "TOO_MANY_MOVES": "",
-      "INITIAL_INSTRUCTIONS": "",
-      "INVALID_PLACEMENT": ""
-    },
-    "guerrilla": {
-      "PARTIAL_p1second": "",
-      "PARTIAL_p2cap": "",
-      "PARTIAL_p2move": "",
-      "INITIAL_INSTRUCTIONS_p2": "",
-      "INITIAL_INSTRUCTIONS_p1": ""
-    },
-    "posit": {
-      "INSTRUCTIONS": "",
-      "CANNOT_CLIMB": "",
-      "STACK_TOO_BIG": "",
-      "NOT_ADJACENT": "",
-      "CANNOT_GO_UPUP": "",
-      "SELECT_PLACEMENT": "",
-      "SELECT_MOVE": "",
-      "SELECT_ERROR": "",
-      "OPPONENT_MOVE": "",
-      "CANNOT_GO_DOWN": "",
-      "PLACE_ON_PIECE": ""
-    },
-    "canoe": {
-      "NO_COMBINED_MOVES": "",
-      "BAD_FACE": "",
-      "STYMIE_ROLL": "",
-      "VALID_PARTIAL": "",
-      "BAD_ROLL": "",
-      "BAD_SETUP_CELL": "",
-      "INITIAL_INSTRUCTIONS": "",
-      "TOO_MANY_SETUP": "",
-      "SETUP_COMPLETE": "",
-      "INVALID_MOVE": "",
-      "BAD_SETUP": "",
-      "SETUP_INCOMPLETE": "",
-      "SETUP_PARTIAL": "",
-      "SETUP_HAND": "",
-      "BAD_FACE_COUNT": "",
-      "DUP_CELL": "",
-      "NO_PASS": "",
-      "SETUP_INSTRUCTIONS": "",
-      "MUST_USE_BOTH_DICE": ""
-    },
-    "stapeldammen": {
-      "WHITE_SQUARE": "",
-      "VALID_PARTIAL": "",
-      "INVALID_MOVE": "",
-      "INITIAL_INSTRUCTIONS": ""
-    },
-    "halmaclimbers": {
-      "TOO_MANY_ACTIONS": "",
-      "ILLEGAL_JUMP": "",
-      "INSTRUCTIONS": "",
-      "BAD_MOVE": "",
-      "NONEXISTENT": "",
-      "INCOMPLETE_ACTION": "",
-      "INITIAL_INSTRUCTIONS": "",
-      "NEXT_ACTION": ""
-    },
-    "squirm": {
-      "INVALID_3ROW": "",
-      "INVALID_NEIGH": "",
-      "INITIAL_INSTRUCTIONS": ""
-    },
-    "scribe": {
-      "OCCUPIED": "",
-      "WRONG_MINI": "",
-      "INITIAL_INSTRUCTIONS": ""
-    },
-    "sentinel": {
-      "NO_STACK_TURN_3": "",
-      "PIECE_INSTRUCTIONS": "",
-      "INITIAL_INSTRUCTIONS": "",
-      "EDGE_INSTRUCTIONS": "",
-      "INVALID_CENTER": "",
-      "STACK_INSTRUCTIONS": "",
-      "MOVE_INSTRUCTIONS": ""
-    },
-    "tricouleur": {
-      "SELECT_TO": "",
-      "SAME_PIECE": "",
-      "ILLEGAL_PASS": "",
-      "INITIAL_INSTRUCTIONS": "",
-      "MUST_PASS": "",
-      "INVALID_TO": "",
-      "SECOND_MOVE": "",
-      "JUMP4SPLIT": "",
-      "SPLIT4JUMP": "",
-      "NO_TOS": "",
-      "INITIAL_INSTRUCTIONS_PASS": ""
-    },
-    "tanbo": {
-      "INITIAL_INSTRUCTIONS": "",
-      "INVALID_MOVE": ""
-    },
-    "bitesize": {
-      "INSTRUCTIONS": "",
-      "CANNOT_PASS": "",
-      "GROUP_TOO_LARGE": ""
-    },
-    "atarigo": {
-      "SELF_CAPTURE": "",
-      "INVALID_PASS": "",
-      "INSTRUCTIONS": ""
-    },
-    "druid": {
-      "SELECT_DRUID_DEST": "",
-      "SELECT_LINTEL_END": "",
-      "INVALID_SARSEN": "",
-      "SARSEN_OR_LINTEL": "",
-      "INVALID_LINTEL": "",
-      "SELECT_MOVE": ""
-    },
-    "court": {
-      "NOT_FRIENDLY_PIECE": "",
-      "INITIAL_INSTRUCTIONS": "",
-      "PIECE_INSTRUCTIONS": ""
-    },
-    "akimbo": {
-      "OCCUPIED": "",
-      "NO_CROSSINGS": "",
-      "EXCESS_NAKED_DIAGONALS": "",
-      "INSTRUCTIONS": "",
-      "INSTRUCTIONS_OKIMBA": ""
-    },
-    "stiletto": {
-      "INSTRUCTIONS_DAGGER": "",
-      "INSTRUCTIONS": "",
-      "EXCESS_FIRST": "",
-      "ILLEGAL_OPEN4": "",
-      "INSTRUCTIONS_INACTIVE_DAGGER": "",
-      "EXTENSION": "",
-      "EXCESS": "",
-      "INITIAL_INSTRUCTIONS": ""
-    },
-    "synapse": {
-      "INITIAL_INSTRUCTIONS": "",
-      "INSTRUCTIONS": "",
-      "INVALID_MOVE": "",
-      "PLACE_INSTRUCTIONS": ""
-    },
-    "catsdogs": {
-      "PLY_2_NO_CENTER": "",
-      "INVALID_MOVE": "",
-      "INIT_NO_CENTER": "",
-      "INIT_CENTER": "",
-      "INITIAL_INSTRUCTIONS": ""
-    },
-    "slimetrail": {
-      "INITIAL_INSTRUCTIONS": "",
-      "INVALID_MOVE": ""
-    },
-    "viruswar": {
-      "INITIAL_INSTRUCTIONS_one": "",
-      "INITIAL_INSTRUCTIONS_other": "",
-      "CANNOT_GROW": ""
-    },
-    "minefield": {
-      "BAD_PASS": "",
-      "FORBIDDEN": "",
-      "INITIAL_INSTRUCTIONS": ""
-    },
-    "circleOfLife": {
-      "INSTRUCTIONS": "",
-      "GROUP_TOO_LARGE": ""
+      "VALID_BUT_other": "இதுவரை செல்லுபடியாகும். நீங்கள் நிறுத்தலாம் அல்லது மேலும் {{count}} துண்டுகளை வைக்கலாம்."
     }
   },
   "variantGroups": {
@@ -3497,22 +2954,6 @@
       },
       "#tiebreaker": {
         "name": "டைபிரேக் இல்லை"
-      },
-      "#overline": {
-        "name": "",
-        "description": ""
-      },
-      "sym-overline": {
-        "name": "",
-        "description": ""
-      },
-      "sym-no-overline": {
-        "description": "",
-        "name": ""
-      },
-      "swap-1st": {
-        "description": "",
-        "name": ""
       }
     },
     "loa": {
@@ -3873,9 +3314,6 @@
       },
       "#board": {
         "name": "13x13 போர்டு"
-      },
-      "size-19": {
-        "name": ""
       }
     },
     "bao": {
@@ -4203,10 +3641,6 @@
       },
       "#clear": {
         "name": "தெளிவாக இல்லை"
-      },
-      "swap-1st": {
-        "name": "",
-        "description": ""
       }
     },
     "four": {
@@ -4271,9 +3705,6 @@
       },
       "size-14": {
         "name": "அளவு -14 போர்டு"
-      },
-      "size-17": {
-        "name": ""
       }
     },
     "hexy": {
@@ -5681,28 +5112,10 @@
     },
     "konane": {
       "size-8": {
-        "name": "அளவு 8 போர்டு",
-        "description": ""
+        "name": "அளவு 8 போர்டு"
       },
       "#board": {
-        "name": "அளவு 6 போர்டு",
-        "description": ""
-      },
-      "size-7": {
-        "name": "",
-        "description": ""
-      },
-      "size-15": {
-        "name": "",
-        "description": ""
-      },
-      "size-11": {
-        "name": "",
-        "description": ""
-      },
-      "size-9": {
-        "description": "",
-        "name": ""
+        "name": "அளவு 6 போர்டு"
       }
     },
     "assembly": {
@@ -5979,14 +5392,6 @@
       },
       "size-7": {
         "name": "அறுகோண பலகை (அடிப்படை-7)"
-      },
-      "1-group": {
-        "description": "",
-        "name": ""
-      },
-      "#ruleset": {
-        "description": "",
-        "name": ""
       }
     },
     "rampart": {
@@ -6067,8 +5472,7 @@
         "name": "Hexhex 5 (61 இடைவெளிகள்)"
       },
       "hex7": {
-        "name": "Hexhex 7 (127 இடைவெளிகள்)",
-        "description": ""
+        "name": "Hexhex 7 (127 இடைவெளிகள்)"
       },
       "hex8": {
         "name": "Hexhex 8 (169 இடைவெளிகள்)",
@@ -6077,879 +5481,6 @@
       "open": {
         "name": "திறந்த தொடக்கம்",
         "description": "இருவர் விளையாடும் விளையாட்டுகளுக்கு மட்டுமே பொருந்தும். இங்கே முதல் வீரர் ஒவ்வொரு வண்ணத்தின் ஒரு பகுதியையும் வைக்கிறார், இரண்டாவது வீரர் பக்கங்களைத் தேர்ந்தெடுக்கிறார்."
-      }
-    },
-    "compart": {
-      "size-7": {
-        "name": ""
-      },
-      "#board": {
-        "name": ""
-      },
-      "size-13": {
-        "name": ""
-      },
-      "size-15": {
-        "name": ""
-      },
-      "size-11": {
-        "name": ""
-      }
-    },
-    "akimbo": {
-      "size-11": {
-        "name": ""
-      },
-      "size-15": {
-        "name": ""
-      },
-      "#ruleset": {
-        "name": ""
-      },
-      "size-19": {
-        "name": ""
-      },
-      "size-9": {
-        "name": ""
-      },
-      "okimba": {
-        "name": ""
-      },
-      "#board": {
-        "name": ""
-      },
-      "size-17": {
-        "name": ""
-      }
-    },
-    "_default": {
-      "scoring": {
-        "name": ""
-      },
-      "enforcers": {
-        "name": ""
-      },
-      "variant": {
-        "name": ""
-      },
-      "size": {
-        "name": ""
-      },
-      "powers": {
-        "name": ""
-      },
-      "objective": {
-        "name": ""
-      },
-      "bases": {
-        "name": ""
-      },
-      "form": {
-        "name": ""
-      },
-      "fleet": {
-        "name": ""
-      },
-      "ties": {
-        "name": ""
-      },
-      "opening": {
-        "name": ""
-      },
-      "rules": {
-        "name": ""
-      },
-      "eog": {
-        "name": ""
-      },
-      "board": {
-        "name": ""
-      },
-      "komi": {
-        "name": ""
-      },
-      "length": {
-        "name": ""
-      },
-      "penalty": {
-        "name": ""
-      },
-      "groups": {
-        "name": ""
-      },
-      "obstacles": {
-        "name": ""
-      },
-      "movement": {
-        "name": ""
-      },
-      "dice": {
-        "name": ""
-      },
-      "tiebreaker": {
-        "name": ""
-      },
-      "parks": {
-        "name": ""
-      },
-      "ruleset": {
-        "name": ""
-      },
-      "moves": {
-        "name": ""
-      },
-      "capture": {
-        "name": ""
-      },
-      "setup": {
-        "name": ""
-      },
-      "boardtype": {
-        "name": ""
-      },
-      "blockers": {
-        "name": ""
-      }
-    },
-    "forms": {
-      "#ruleset": {
-        "name": "",
-        "description": ""
-      },
-      "original": {
-        "description": "",
-        "name": ""
-      },
-      "size-14": {
-        "name": ""
-      },
-      "size-12": {
-        "name": ""
-      },
-      "size-16": {
-        "name": ""
-      },
-      "size-10": {
-        "name": ""
-      },
-      "size-18": {
-        "name": ""
-      },
-      "#board": {
-        "name": ""
-      }
-    },
-    "scribe": {
-      "advanced": {
-        "description": "",
-        "name": ""
-      }
-    },
-    "catsdogs": {
-      "#ruleset": {
-        "name": ""
-      },
-      "misere": {
-        "name": ""
-      },
-      "original": {
-        "name": ""
-      },
-      "tournament": {
-        "name": ""
-      }
-    },
-    "spora": {
-      "size-9": {
-        "name": ""
-      },
-      "size-25": {
-        "name": ""
-      },
-      "#board": {
-        "name": ""
-      },
-      "size-19": {
-        "name": ""
-      },
-      "size-15": {
-        "name": ""
-      }
-    },
-    "y": {
-      "progressive": {
-        "name": ""
-      },
-      "size-15": {
-        "name": ""
-      },
-      "#boardtype": {
-        "name": ""
-      },
-      "#ruleset": {
-        "name": ""
-      },
-      "size-9": {
-        "name": ""
-      },
-      "size-21": {
-        "name": ""
-      },
-      "12-free": {
-        "name": ""
-      },
-      "size-11": {
-        "name": ""
-      },
-      "size-25": {
-        "name": ""
-      },
-      "size-19": {
-        "name": ""
-      },
-      "134-group": {
-        "name": ""
-      },
-      "bent": {
-        "name": ""
-      },
-      "#board": {
-        "name": ""
-      }
-    },
-    "crosscontrol": {
-      "nokomi": {
-        "name": "",
-        "description": ""
-      },
-      "#komi": {
-        "description": "",
-        "name": ""
-      },
-      "size-15": {
-        "name": ""
-      },
-      "size-19": {
-        "name": ""
-      },
-      "size-25": {
-        "name": ""
-      },
-      "size-9": {
-        "name": ""
-      },
-      "#board": {
-        "name": ""
-      }
-    },
-    "court": {
-      "#board": {
-        "name": ""
-      }
-    },
-    "narrows": {
-      "size-10": {
-        "name": ""
-      },
-      "size-16": {
-        "name": ""
-      },
-      "size-14": {
-        "name": ""
-      },
-      "#board": {
-        "name": ""
-      },
-      "size-8": {
-        "name": ""
-      },
-      "size-6": {
-        "name": ""
-      }
-    },
-    "pinch": {
-      "#board": {
-        "name": ""
-      },
-      "size-21": {
-        "name": ""
-      },
-      "original": {
-        "name": "",
-        "description": ""
-      },
-      "size-19": {
-        "name": ""
-      },
-      "size-9": {
-        "name": ""
-      },
-      "size-13": {
-        "name": ""
-      }
-    },
-    "minefield": {
-      "#board": {
-        "name": ""
-      },
-      "size-17": {
-        "name": ""
-      },
-      "pinwheel": {
-        "name": "",
-        "description": ""
-      },
-      "size-9": {
-        "name": ""
-      },
-      "cartwheel": {
-        "name": "",
-        "description": ""
-      },
-      "size-15": {
-        "name": ""
-      },
-      "size-19": {
-        "name": ""
-      },
-      "size-13": {
-        "name": ""
-      },
-      "size-8": {
-        "name": ""
-      }
-    },
-    "invector": {
-      "size-10": {
-        "name": ""
-      },
-      "size-6": {
-        "name": ""
-      },
-      "size-12": {
-        "name": ""
-      },
-      "size-14": {
-        "name": ""
-      },
-      "size-16": {
-        "name": ""
-      },
-      "#board": {
-        "name": ""
-      }
-    },
-    "shapechess": {
-      "size-18": {
-        "name": ""
-      },
-      "size-16": {
-        "name": ""
-      },
-      "size-10": {
-        "name": ""
-      },
-      "7-pts": {
-        "description": "",
-        "name": ""
-      },
-      "#ruleset": {
-        "description": "",
-        "name": ""
-      },
-      "8-pts": {
-        "description": "",
-        "name": ""
-      },
-      "9-pts": {
-        "description": "",
-        "name": ""
-      },
-      "#board": {
-        "name": ""
-      },
-      "6-pts": {
-        "name": "",
-        "description": ""
-      },
-      "5-pts": {
-        "description": "",
-        "name": ""
-      },
-      "size-14": {
-        "name": ""
-      }
-    },
-    "minimize": {
-      "size-8": {
-        "name": ""
-      },
-      "size-7": {
-        "name": ""
-      },
-      "size-5": {
-        "name": ""
-      },
-      "size-4": {
-        "name": ""
-      },
-      "#board": {
-        "name": ""
-      }
-    },
-    "stiletto": {
-      "#board": {
-        "name": ""
-      },
-      "open4": {
-        "description": "",
-        "name": ""
-      }
-    },
-    "druid": {
-      "hex-6": {
-        "name": ""
-      },
-      "#board": {
-        "name": ""
-      },
-      "y-7": {
-        "name": ""
-      },
-      "size-8": {
-        "name": ""
-      },
-      "hex-4": {
-        "name": ""
-      },
-      "walk": {
-        "name": "",
-        "description": ""
-      },
-      "y-8": {
-        "name": ""
-      },
-      "size-12": {
-        "name": ""
-      },
-      "hex-5": {
-        "name": ""
-      },
-      "y-9": {
-        "name": ""
-      }
-    },
-    "slimetrail": {
-      "#board": {
-        "description": "",
-        "name": ""
-      },
-      "rhombus11": {
-        "description": "",
-        "name": ""
-      }
-    },
-    "halmaclimbers": {
-      "size-8": {
-        "name": ""
-      },
-      "size-11": {
-        "name": ""
-      },
-      "#board": {
-        "name": ""
-      },
-      "size-13": {
-        "name": ""
-      }
-    },
-    "btt": {
-      "arcade": {
-        "description": "",
-        "name": ""
-      },
-      "martian-go": {
-        "description": "",
-        "name": ""
-      }
-    },
-    "canoe": {
-      "#scoring": {
-        "name": "",
-        "description": ""
-      },
-      "no-canoe": {
-        "description": "",
-        "name": ""
-      },
-      "leaky-canoe": {
-        "name": "",
-        "description": ""
-      }
-    },
-    "linage": {
-      "size-17": {
-        "name": ""
-      },
-      "size-19": {
-        "name": ""
-      },
-      "size-13": {
-        "name": ""
-      },
-      "line-2": {
-        "name": ""
-      },
-      "#line": {
-        "name": ""
-      },
-      "#board": {
-        "name": ""
-      },
-      "size-11": {
-        "name": ""
-      },
-      "line-5": {
-        "name": ""
-      },
-      "line-4": {
-        "name": ""
-      }
-    },
-    "fendo": {
-      "size-11": {
-        "name": ""
-      },
-      "#board": {
-        "name": ""
-      },
-      "size-9": {
-        "name": ""
-      }
-    },
-    "twinflames": {
-      "#blockers": {
-        "name": ""
-      },
-      "size-8": {
-        "name": ""
-      },
-      "blocker-6": {
-        "name": ""
-      },
-      "size-7": {
-        "name": ""
-      },
-      "blocker-2": {
-        "name": ""
-      },
-      "#board": {
-        "name": ""
-      },
-      "blocker-0": {
-        "name": ""
-      },
-      "blocker-8": {
-        "name": ""
-      },
-      "blocker-4": {
-        "name": ""
-      }
-    },
-    "tricouleur": {
-      "#board": {
-        "name": ""
-      },
-      "hex-7": {
-        "name": ""
-      },
-      "hex-10": {
-        "name": ""
-      },
-      "hex-9": {
-        "name": ""
-      }
-    },
-    "squirm": {
-      "#ruleset": {
-        "description": "",
-        "name": ""
-      },
-      "neto": {
-        "description": "",
-        "name": ""
-      },
-      "tromp": {
-        "description": "",
-        "name": ""
-      },
-      "#board": {
-        "name": ""
-      },
-      "size-5": {
-        "name": ""
-      },
-      "size-4": {
-        "name": ""
-      },
-      "size-6": {
-        "name": ""
-      }
-    },
-    "go": {
-      "positional": {
-        "name": "",
-        "description": ""
-      },
-      "size-9": {
-        "name": ""
-      },
-      "size-13": {
-        "name": ""
-      },
-      "size-37": {
-        "name": ""
-      },
-      "size-25": {
-        "name": ""
-      },
-      "#ruleset": {
-        "name": "",
-        "description": ""
-      },
-      "size-5": {
-        "name": ""
-      },
-      "size-21": {
-        "name": ""
-      },
-      "#board": {
-        "name": ""
-      },
-      "size-17": {
-        "name": ""
-      }
-    },
-    "guerrilla": {
-      "#length": {
-        "name": "",
-        "description": ""
-      },
-      "match": {
-        "name": "",
-        "description": ""
-      }
-    },
-    "unane": {
-      "size-16": {
-        "name": ""
-      },
-      "#board": {
-        "name": ""
-      },
-      "size-14": {
-        "name": ""
-      },
-      "size-10": {
-        "name": ""
-      },
-      "size-6": {
-        "name": ""
-      },
-      "size-12": {
-        "name": ""
-      }
-    },
-    "swarm": {
-      "size-4": {
-        "name": ""
-      },
-      "#board": {
-        "name": ""
-      },
-      "size-5": {
-        "name": ""
-      }
-    },
-    "knightline": {
-      "size-24": {
-        "name": "",
-        "description": ""
-      },
-      "blocker": {
-        "description": "",
-        "name": ""
-      },
-      "#size": {
-        "name": "",
-        "description": ""
-      },
-      "wildcard": {
-        "name": "",
-        "description": ""
-      },
-      "#setup": {
-        "name": "",
-        "description": ""
-      }
-    },
-    "domineering": {
-      "size-6": {
-        "name": ""
-      },
-      "quelhas": {
-        "name": "",
-        "description": ""
-      },
-      "#board": {
-        "name": ""
-      },
-      "size-12": {
-        "name": ""
-      },
-      "size-10": {
-        "name": ""
-      },
-      "size-7": {
-        "name": ""
-      },
-      "size-9": {
-        "name": ""
-      },
-      "size-11": {
-        "name": ""
-      }
-    },
-    "pollux": {
-      "size-16": {
-        "name": ""
-      },
-      "size-18": {
-        "name": ""
-      },
-      "#board": {
-        "name": ""
-      },
-      "size-14": {
-        "name": ""
-      },
-      "size-12": {
-        "name": ""
-      }
-    },
-    "halma": {
-      "superhalma": {
-        "name": ""
-      },
-      "#board": {
-        "name": ""
-      }
-    },
-    "pippinzip": {
-      "#board": {
-        "name": ""
-      },
-      "size-13": {
-        "name": ""
-      },
-      "size-15": {
-        "name": ""
-      },
-      "size-19": {
-        "name": ""
-      },
-      "size-9": {
-        "name": ""
-      }
-    },
-    "viruswar": {
-      "#board": {
-        "name": ""
-      },
-      "size-10": {
-        "name": ""
-      },
-      "size-25": {
-        "name": ""
-      },
-      "size-20": {
-        "name": ""
-      }
-    },
-    "carnac": {
-      "8x5": {
-        "name": ""
-      },
-      "14x9": {
-        "name": ""
-      },
-      "#board": {
-        "name": ""
-      }
-    },
-    "atarigo": {
-      "size-13": {
-        "name": ""
-      },
-      "#board": {
-        "name": ""
-      },
-      "size-11": {
-        "name": ""
-      },
-      "size-9": {
-        "name": ""
-      },
-      "size-15": {
-        "name": ""
-      }
-    },
-    "xana": {
-      "#board": {
-        "name": ""
-      }
-    },
-    "bitesize": {
-      "size-5": {
-        "name": ""
-      },
-      "#board": {
-        "name": ""
-      }
-    },
-    "sentinel": {
-      "#board": {
-        "name": ""
-      }
-    },
-    "tanbo": {
-      "#board": {
-        "name": ""
-      },
-      "size-19": {
-        "name": ""
-      },
-      "size-11": {
-        "name": ""
-      },
-      "size-15": {
-        "name": ""
-      }
-    },
-    "soccolot": {
-      "swap": {
-        "name": ""
-      },
-      "original": {
-        "name": ""
-      },
-      "#board": {
-        "name": ""
-      }
-    },
-    "synapse": {
-      "#board": {
-        "name": ""
       }
     }
   },
@@ -7385,10 +5916,6 @@
       "palette_yes_blocked_no": {
         "description": "தட்டு நிறங்கள், தடுக்கப்பட்ட கலங்களை முன்னிலைப்படுத்த வேண்டாம்.",
         "name": "தட்டு_ஆம்_தடுக்கப்பட்ட_இல்லை"
-      },
-      "blocked_no": {
-        "description": "",
-        "name": ""
       }
     },
     "oware": {
@@ -7407,68 +5934,6 @@
       "pips": {
         "description": "கற்களை எண்களாகக் காட்டாமல் பைப்களாகக் காட்டவும்.",
         "name": "பிப்ச்"
-      }
-    },
-    "crosscontrol": {
-      "hide-threatened": {
-        "description": "",
-        "name": ""
-      },
-      "hide-both": {
-        "name": "",
-        "description": ""
-      },
-      "hide-influence": {
-        "name": "",
-        "description": ""
-      }
-    },
-    "compart": {
-      "show-viable-areas": {
-        "description": "",
-        "name": ""
-      }
-    },
-    "carnac": {
-      "flat": {
-        "description": "",
-        "name": ""
-      }
-    },
-    "druid": {
-      "flat": {
-        "name": "",
-        "description": ""
-      }
-    },
-    "intermedium": {
-      "hide-diagonals": {
-        "description": "",
-        "name": ""
-      }
-    },
-    "elOso": {
-      "nums": {
-        "description": "",
-        "name": ""
-      }
-    },
-    "evenatodds": {
-      "flat": {
-        "description": "",
-        "name": ""
-      }
-    },
-    "go": {
-      "show-controlled-areas": {
-        "name": "",
-        "description": ""
-      }
-    },
-    "knightline": {
-      "show-origin": {
-        "name": "",
-        "description": ""
       }
     }
   },
@@ -7702,62 +6167,7 @@
     "stawvs": "அமேசான்களைப் போலவே 2-4 வீரர்களுக்கான தொகுப்பு சேகரிப்பு கேம், பழைய பாணியில் எரிமலை ச்கோரிங். தனித்தனி பிரமிடுகளால் தோராயமாக நிரப்பப்பட்ட செக்கர்போர்டில், பிளேயர் பீச்கள் பிரமிடுகளை ஒரு நேர் கோட்டில் (ஆர்த்தோகனலாக அல்லது குறுக்காக) நகர்த்தலாம் மற்றும் கைப்பற்றலாம், ஆனால் அனைத்து இடையிடும் இடங்களும் இலக்கு இடமும் பிரமிடுகளைக் கொண்டிருந்தால் மட்டுமே ஆனால் துண்டுகளாக இல்லை.",
     "sunspot": "கற்களை வைப்பதன் மூலமும் துணைக்குழுக்களை புரட்டுவதன் மூலமும் ஒரு வளையத்தை உருவாக்கவும்.",
     "waldmeister": "வண்ணங்கள் அல்லது உயரங்களின் குழுக்களை உருவாக்கும் முயற்சியில் வீரர்கள் மாறி மாறி மரங்களை நடுகிறார்கள். இரண்டு சுற்று வெற்றிகளுக்குப் பிறகு அதிக மதிப்பெண்.",
-    "wunchunk": "ஆட்டத்தின் முடிவில் உங்களால் முடிந்தவரை உங்கள் காய்களை ஒருங்கிணைக்கவும், அதே நேரத்தில் ஆட்டத்தின் தொடக்கத்திலும் நடுப்பகுதியிலும் உங்கள் காய்களை தனித்தனியாக வைத்து அவற்றின் சக்தியை அதிகரிக்கும். இறுதியில் சில குழுக்கள் செய் பெறுகின்றன.",
-    "posit": "",
-    "narrows": "",
-    "shapechess": "",
-    "soccolot": "",
-    "domineering": "",
-    "atarigo": "",
-    "tricouleur": "",
-    "stiletto": "",
-    "tanbo": "",
-    "fractured": "",
-    "evenatodds": "",
-    "catsdogs": "",
-    "guerrilla": "",
-    "squirm": "",
-    "halmaclimbers": "",
-    "twinflames": "",
-    "elOso": "",
-    "akimbo": "",
-    "bitesize": "",
-    "spora": "",
-    "linage": "",
-    "sentinel": "",
-    "synapse": "",
-    "scribe": "",
-    "court": "",
-    "invector": "",
-    "viruswar": "",
-    "bridges": "",
-    "crosscontrol": "",
-    "pippinzip": "",
-    "estate": "",
-    "baghchal": "",
-    "pinch": "",
-    "canoe": "",
-    "xana": "",
-    "halma": "",
-    "druid": "",
-    "circleOfLife": "",
-    "minimize": "",
-    "intermedium": "",
-    "carnac": "",
-    "btt": "",
-    "mutternland": "",
-    "swarm": "",
-    "go": "",
-    "minefield": "",
-    "unstack": "",
-    "y": "",
-    "stapeldammen": "",
-    "slimetrail": "",
-    "knightline": "",
-    "compart": "",
-    "pollux": "",
-    "forms": "",
-    "unane": ""
+    "wunchunk": "ஆட்டத்தின் முடிவில் உங்களால் முடிந்தவரை உங்கள் காய்களை ஒருங்கிணைக்கவும், அதே நேரத்தில் ஆட்டத்தின் தொடக்கத்திலும் நடுப்பகுதியிலும் உங்கள் காய்களை தனித்தனியாக வைத்து அவற்றின் சக்தியை அதிகரிக்கும். இறுதியில் சில குழுக்கள் செய் பெறுகின்றன."
   },
   "notes": {
     "chase": "தற்போது, பெரும்பாலான பரிமாற்ற நகர்வுகள் கை திருத்தப்பட வேண்டும். இதை சரிசெய்ய நாங்கள் பணியாற்றுகிறோம்.",
@@ -7812,50 +6222,7 @@
     "magnate": "சில பெரிய செயல்களின் சொற்கள் தெளிவு மற்றும் சுருக்கத்திற்காக மாற்றப்பட்டுள்ளன. ஒரு புதிய சொத்தை முழுமையாக உருவாக்குவது \"வாங்க\" நடவடிக்கை என்று அழைக்கப்படுகிறது; ஒரு புதிய சொத்துக்கான பத்திரத்தை வாங்குவது \"பத்திரம்\" என்றும், பத்திரங்களை உருவாக்குதல் (அதாவது, பத்திரப்பதிவு செய்யப்பட்ட சொத்தில் டோக்கன்களைச் சேர்ப்பது, பத்திரம் முழுவதுமாக வளர்ந்தாலும் இல்லாவிட்டாலும்) \"சேர்\" என்று அழைக்கப்படுகிறது. (ஒரு கார்டை விற்பது மற்றும் டிரேடிங் சூட் டோக்கன்கள் 1க்கு 3 மாறாமல் இருக்கும்.) \n\nவளங்களை உருட்டும் செயல்முறையை விரைவுபடுத்த, இரண்டு கூடுதல் செயல்கள் உள்ளன: \n* \"முன்னுரிமை\" என்பது உங்கள் எதிரியின் பட்டியலில் ஒரு பத்திரம் செலுத்தப்படும்போது எந்த சூட் கிள்ளாக்கை எடுக்க வேண்டும் என்பதை உங்கள் விருப்பத்தை அமைப்பதற்காகும். நீங்கள் வெளிப்படையான விருப்பத்தை அமைக்கவில்லை எனில், உங்கள் கிரீடம் அல்லாத உடைகள் மற்றும் டோக்கன்களின் தற்போதைய விநியோகத்தின் அடிப்படையில் குறியீடு உங்களுக்கான அரிதான டோக்கனைத் தேர்ந்தெடுக்கும். தற்போது விருப்பமான கிள்ளாக்கு UI இல் வட்டமிடப்பட்டுள்ளது, ஆனால் உங்கள் விருப்பம் மற்ற பிளேயருக்கு ஒருபோதும் தெரியாது. \n* \"தேர்வு\" என்பது உங்கள் சொந்த ரோலில் ஒரு பத்திரம் செலுத்தப்படும்போது, சூட் டோக்கன்களை சேகரிப்பதற்கான கட்டாய முதல் செயலாகும். \nஉங்கள் டோக்கன்களில் ஏற்கனவே இல்லாத சூட் கிள்ளாக்கை நீங்கள் தேர்வு செய்ய வேண்டிய எல்லா சந்தர்ப்பங்களிலும், நீங்கள் இன்னும் பொருத்தமான கிள்ளாக்கு பைலில் சொடுக்கு செய்க. \n\nஇறுதி ரிசோர்ச் டை முடிவு மட்டுமே காட்டப்படும் என்பதை நினைவில் கொள்ளவும், ஆனால் எதிர்பார்க்கப்படும் விளைவுகளின் வழங்கல் இன்னும் 2d10 ஐ உருட்டி அதிக மதிப்பை எடுக்கும். 2d10 இன் கீழ் 1 வரும்போது வரிவிதிப்பு நிகழ்கிறது; ஒரு சூட் டை உருட்டப்பட்டது (அல்லது இரண்டு, இரட்டை வரிவிதிப்பு மாறுபாட்டில்), மற்றும் ஆதார முடிவுக்கு அடியில் சூட்(கள்) காட்டப்படும். ரோல் ஒரு வீரரின் திருப்பத்தின் முடிவில் உள்நுழைந்துள்ளது, மேலும் அடுத்த வீரருக்கு (உடல் விளையாட்டில் சுருட்டியிருப்பவர்) காரணம். ஒரு \"தேர்வு\" தவிர, பயனர் நடவடிக்கை தேவையில்லை; திருப்பங்களுக்கு இடையில் சேவையகத்தால் ஆதாரங்கள் சேர்க்கப்படுகின்றன மற்றும்/அல்லது அகற்றப்படும். \n\nஒரு மாவட்டத்தில் ஒரு வீரர் முன்னிலையில் இருக்கும்போது, அந்த மாவட்டத்திற்கான சிப்பாய் அல்லது மன்னிப்பு அந்த வீரரின் நிறத்தில் கோடிட்டுக் காட்டப்படும். முதல் டைபிரேக்கர் மதிப்பெண் (மொத்த சொத்து மதிப்பு) மாவட்ட மதிப்பெண்ணுக்கு பிறகு அடைப்புக்குறிக்குள் காட்டப்படும். இரண்டாவது டைபிரேக்கர் மீதமுள்ள டோக்கன்களின் மொத்த எண்ணிக்கையாகும்.",
     "rincala": "காரணங்களுக்காக, நிறங்கள் பதிலாக சிவப்பு (4 புள்ளிகள்), நீலம் (3 புள்ளிகள்), பச்சை (2 புள்ளிகள்), மஞ்சள் (1 pt) ஆகும். மேலும், ஒரு வீரர் பாதி புள்ளிகளுக்கு மேல் (>=26 புள்ளிகள்) சம்பாதித்தவுடன் ஆட்டம் முடிவடைகிறது.",
     "stawvs": "தெளிவுக்காக, விளையாட்டுத் துண்டுகள் வட்டங்களாகக் குறிப்பிடப்படுகின்றன, இருப்பினும் நிச வாழ்க்கையில், தொப்பிகள் (தனிப்பட்ட பிளேயர் நிறங்களின் சிறிய பிரமிடுகள்) பொதுவாகப் பயன்படுத்தப்படுகின்றன. இடைமுகம் மெகா-எரிமலையில் உள்ளதைப் போல உங்களுக்காக உங்கள் மரங்களை (ஒவ்வொரு பிரமிடு அளவிலும் ஒன்றைக் கொண்ட ட்ரையோச்) வரிசைப்படுத்தி மதிப்பெண் எடுக்கும், ஆனால் குறிப்புக்கு புள்ளி மதிப்புகள்: ஒவ்வொரு மோனோக்ரோம் மரத்திற்கும் 7 புள்ளிகள், பல வண்ண மரங்களுக்கு 5 புள்ளிகள் மற்றும் தளர்வான பிரமிடுகளுக்கு தலா 1 புள்ளிகள். இறுதிப் பிரமிடுகள் சேகரிக்கப்படாத மாறுபாடுகளைத் தவிர, பிளேயர் பீச்களின் கீழ் உள்ள பிரமிடுகள் வீரர்களின் சேகரிப்பில் சேர்க்கப்பட்டு ச்கோர் செய்யப்படுகின்றன, ஆனால் கிரே-அவுட் பிரமிடுகள் இறுதி நிலையை தெளிவுபடுத்த துண்டுகளின் கீழ் பலகையில் இருக்கும்.",
-    "waldmeister": "வீரர்கள் இரண்டு ஆட்டங்களை தொடர்ச்சியாக விளையாடுகிறார்கள். முதல் சுற்றில், பிளேயர் 1 வண்ணங்களுக்காகவும், பிளேயர் 2 உயரத்திற்காகவும் விளையாடுகிறார்கள். முதல் சுற்றின் முடிவில், மதிப்பெண்கள் அட்டவணைப்படுத்தப்பட்டு, ச்கோரிங் குழுக்கள் முன்னிலைப்படுத்தப்படுகின்றன. பின்னர் இரண்டாவது சுற்றில், பிளேயர் 2 முதலில் விளையாடுகிறது மற்றும் வண்ணங்களுக்காக விளையாடுகிறது, மேலும் பிளேயர் 1 உயரத்திற்காக விளையாடுகிறது.",
-    "swarm": "",
-    "elOso": "",
-    "linage": "",
-    "carnac": "",
-    "mutternland": "",
-    "sentinel": "",
-    "halmaclimbers": "",
-    "unane": "",
-    "shapechess": "",
-    "pippinzip": "",
-    "akimbo": "",
-    "forms": "",
-    "halma": "",
-    "soccolot": "",
-    "druid": "",
-    "domineering": "",
-    "squirm": "",
-    "evenatodds": "",
-    "posit": "",
-    "scribe": "",
-    "invector": "",
-    "guerrilla": "",
-    "pinch": "",
-    "twinflames": "",
-    "tricouleur": "",
-    "tanbo": "",
-    "xana": "",
-    "knightline": "",
-    "stiletto": "",
-    "intermedium": "",
-    "slimetrail": "",
-    "oonpia": "",
-    "catsdogs": "",
-    "narrows": "",
-    "spora": "",
-    "stapeldammen": "",
-    "plurality": "",
-    "viruswar": "",
-    "y": "",
-    "canoe": "",
-    "btt": "",
-    "circleOfLife": "",
-    "synapse": ""
+    "waldmeister": "வீரர்கள் இரண்டு ஆட்டங்களை தொடர்ச்சியாக விளையாடுகிறார்கள். முதல் சுற்றில், பிளேயர் 1 வண்ணங்களுக்காகவும், பிளேயர் 2 உயரத்திற்காகவும் விளையாடுகிறார்கள். முதல் சுற்றின் முடிவில், மதிப்பெண்கள் அட்டவணைப்படுத்தப்பட்டு, ச்கோரிங் குழுக்கள் முன்னிலைப்படுத்தப்படுகின்றன. பின்னர் இரண்டாவது சுற்றில், பிளேயர் 2 முதலில் விளையாடுகிறது மற்றும் வண்ணங்களுக்காக விளையாடுகிறது, மேலும் பிளேயர் 1 உயரத்திற்காக விளையாடுகிறது."
   },
   "homeworlds": {
     "CMD_ATK_SELF": "நீங்களே தாக்கக்கூடாது.",
@@ -7904,9 +6271,7 @@
     },
     "blam": {
       "NUMPIECES_one": "{{count}} துண்டு",
-      "NUMPIECES_other": "{{count}} துண்டுகள்",
-      "SCORE_other": "",
-      "SCORE_one": ""
+      "NUMPIECES_other": "{{count}} துண்டுகள்"
     },
     "bao": {
       "BALANCE": "பொருள் சமநிலை"
@@ -7992,327 +6357,10 @@
       "COLOUR": "நிறங்கள்",
       "GOALS": "இலக்குகள்",
       "HEIGHT": "உயரங்கள்"
-    },
-    "elOso": {
-      "GRADE_SUPERIOR": "",
-      "GRADE_LOSS": "",
-      "GRADE_EXCELLENT": "",
-      "GROUND": "",
-      "PIT": "",
-      "SKY": "",
-      "GRADE_WIN": "",
-      "CAVE": ""
-    },
-    "scribe": {
-      "MINI_GRIDS": ""
-    },
-    "carnac": {
-      "DOLMENS": ""
-    },
-    "evenatodds": {
-      "BONEYARD": ""
-    },
-    "guerrilla": {
-      "GAME1": "",
-      "G1_SCORE": "",
-      "GAME2": "",
-      "INSURGENTS": ""
-    },
-    "baghchal": {
-      "GOATS_CAPTURED": "",
-      "GOATS_IN_HAND": ""
-    },
-    "_player": "",
-    "RESERVE": ""
+    }
   },
   "INITIAL_UNDO": "விளையாட்டின் ஆரம்ப தொடக்க நிலையை நீங்கள் செயல்தவிர்க்க முடியாது.",
   "MOVES_GAMEOVER": "முடிவடைந்த ஆட்டங்களில் நீங்கள் நகர்த்த முடியாது.",
   "MOVES_INVALID": "'{{move}}' நகர்வு தவறானது. தயவுசெய்து விதிகளை சரிபார்த்து மீண்டும் முயற்சிக்கவும்.",
-  "MOVES_SIMULTANEOUS_PARTIAL": "ஒரே நேரத்தில், இரு வீரர்களின் நகர்வுகளும் ஒரே நேரத்தில் சமர்ப்பிக்கப்பட வேண்டும்.",
-  "names": {
-    "c1": "",
-    "bloqueo": "",
-    "synapse": "",
-    "evenatodds": "",
-    "witch": "",
-    "taiji": "",
-    "pikemen": "",
-    "hexy": "",
-    "armadas": "",
-    "irensei": "",
-    "dipole": "",
-    "stigmergy": "",
-    "ccorridor": "",
-    "pente": "",
-    "furl": "",
-    "amoeba": "",
-    "atoll": "",
-    "y": "",
-    "courtesan": "",
-    "stawvs": "",
-    "narrows": "",
-    "mvolcano": "",
-    "frogger": "",
-    "mutternland": "",
-    "phutball": "",
-    "dameo": "",
-    "acity": "",
-    "valley": "",
-    "volcano": "",
-    "cifra": "",
-    "rincala": "",
-    "catsdogs": "",
-    "ceph": "",
-    "pods": "",
-    "crossway": "",
-    "lielow": "",
-    "chase": "",
-    "quincunx": "",
-    "strings": "",
-    "pylon": "",
-    "spora": "",
-    "clusterfuss": "",
-    "akimbo": "",
-    "linage": "",
-    "akron": "",
-    "oware": "",
-    "symple": "",
-    "lasca": "",
-    "blastradius": "",
-    "verge": "",
-    "baghchal": "",
-    "boom": "",
-    "gliss": "",
-    "waldmeister": "",
-    "knightline": "",
-    "shifty": "",
-    "prudh": "",
-    "fourinarow": "",
-    "pinch": "",
-    "konane": "",
-    "rootbound": "",
-    "slither": "",
-    "swarm": "",
-    "bide": "",
-    "subdivision": "",
-    "minefield": "",
-    "twinflames": "",
-    "fractured": "",
-    "epam": "",
-    "mirador": "",
-    "asli": "",
-    "toguz": "",
-    "bluestone": "",
-    "chameleon": "",
-    "conhex": "",
-    "hula": "",
-    "enso": "",
-    "pletore": "",
-    "orb": "",
-    "tablero": "",
-    "gyve": "",
-    "crosscontrol": "",
-    "nakatta": "",
-    "tritium": "",
-    "twixt": "",
-    "plurality": "",
-    "stairs": "",
-    "pilastri": "",
-    "volo": "",
-    "bridges": "",
-    "calculus": "",
-    "meridians": "",
-    "monkey": "",
-    "shapechess": "",
-    "pontedd": "",
-    "havannah": "",
-    "storisende": "",
-    "owlman": "",
-    "almatafl": "",
-    "go": "",
-    "control": "",
-    "minimize": "",
-    "lifeline": "",
-    "druid": "",
-    "gonnect": "",
-    "ordo": "",
-    "loa": "",
-    "garden": "",
-    "siegeofj": "",
-    "tessella": "",
-    "alta": "",
-    "terrace": "",
-    "frames": "",
-    "mchess": "",
-    "krypte": "",
-    "tbt": "",
-    "rampart": "",
-    "amazons": "",
-    "accasta": "",
-    "agere": "",
-    "entropy": "",
-    "tintas": "",
-    "upperhand": "",
-    "surmount": "",
-    "sentinel": "",
-    "trax": "",
-    "spree": "",
-    "mattock": "",
-    "slyde": "",
-    "breakthrough": "",
-    "jacynth": "",
-    "basalt": "",
-    "strands": "",
-    "manalath": "",
-    "quax": "",
-    "reversi": "",
-    "gorogo": "",
-    "pigs2": "",
-    "logger": "",
-    "pahtum": "",
-    "gess": "",
-    "ataxx": "",
-    "query": "",
-    "oonpia": "",
-    "product": "",
-    "scribe": "",
-    "murus": "",
-    "abande": "",
-    "biscuit": "",
-    "sploof": "",
-    "bao": "",
-    "mimic": "",
-    "canoe": "",
-    "viruswar": "",
-    "fnap": "",
-    "onager": "",
-    "moonsquad": "",
-    "buku": "",
-    "attangle": "",
-    "streetcar": "",
-    "unlur": "",
-    "azacru": "",
-    "penguin": "",
-    "tumbleweed": "",
-    "mixtour": "",
-    "invector": "",
-    "resolve": "",
-    "diffusion": "",
-    "hens": "",
-    "carnac": "",
-    "spook": "",
-    "wyke": "",
-    "hexentafl": "",
-    "homeworlds": "",
-    "emu": "",
-    "fabrik": "",
-    "trike": "",
-    "pigs": "",
-    "fendo": "",
-    "halmaclimbers": "",
-    "squirm": "",
-    "cubeo": "",
-    "morphos": "",
-    "margo": "",
-    "court": "",
-    "cannon": "",
-    "connecticut": "",
-    "connect6": "",
-    "pippinzip": "",
-    "spline": "",
-    "anache": "",
-    "spire": "",
-    "catchup": "",
-    "bitesize": "",
-    "circleOfLife": "",
-    "dagnacht": "",
-    "intermedium": "",
-    "majorities": "",
-    "renju": "",
-    "conect": "",
-    "sunspot": "",
-    "domineering": "",
-    "bounce": "",
-    "paintbucket": "",
-    "stiletto": "",
-    "complica": "",
-    "yonmoque": "",
-    "entrapment": "",
-    "yavalath": "",
-    "veletas": "",
-    "saltire": "",
-    "blooms": "",
-    "queensland": "",
-    "zola": "",
-    "wunchunk": "",
-    "nex": "",
-    "tanbo": "",
-    "unane": "",
-    "emergo": "",
-    "quagmire": "",
-    "stapeldammen": "",
-    "scaffold": "",
-    "necklace": "",
-    "lox": "",
-    "susan": "",
-    "elOso": "",
-    "compart": "",
-    "gyges": "",
-    "squaredance": "",
-    "churn": "",
-    "slimetrail": "",
-    "fanorona": "",
-    "assembly": "",
-    "sponnect": "",
-    "tafl": "",
-    "archimedes": "",
-    "meg": "",
-    "bamboo": "",
-    "deckfish": "",
-    "omny": "",
-    "magnate": "",
-    "pollux": "",
-    "catapult": "",
-    "crosshairs": "",
-    "pacru": "",
-    "stibro": "",
-    "camelot": "",
-    "connections": "",
-    "oust": "",
-    "exxit": "",
-    "fightopia": "",
-    "bug": "",
-    "xana": "",
-    "razzle": "",
-    "dragoneyes": "",
-    "ayu": "",
-    "blam": "",
-    "guerrilla": "",
-    "estate": "",
-    "onyx": "",
-    "btt": "",
-    "urbino": "",
-    "four": "",
-    "boxes": "",
-    "iqishiqi": "",
-    "conspirateurs": "",
-    "unstack": "",
-    "byte": "",
-    "forms": "",
-    "halma": "",
-    "clearcut": "",
-    "arimaa": "",
-    "focus": "",
-    "gomoku": "",
-    "atarigo": "",
-    "realm": "",
-    "posit": "",
-    "soccolot": "",
-    "kachit": "",
-    "blockade": "",
-    "flume": "",
-    "take": "",
-    "hex": "",
-    "tricouleur": ""
-  }
+  "MOVES_SIMULTANEOUS_PARTIAL": "ஒரே நேரத்தில், இரு வீரர்களின் நகர்வுகளும் ஒரே நேரத்தில் சமர்ப்பிக்கப்பட வேண்டும்."
 }

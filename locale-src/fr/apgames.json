@@ -7785,11 +7785,11 @@
   },
   "validation.frogger.VALID_REFILL_one": {
     "src": "Please submit your move to trigger the refill. You will get another turn automatically, and you will have one move remaining in your partial turn (as well as the option to pass).",
-    "out": "Veuillez valider votre coup pour déclencher le réapprovisionnement. Vous obtiendrez automatiquement un autre tour et il vous restera un coup dans votre tour partiel (ainsi que l'option de passer)."
+    "out": "Veuillez valider votre coup pour déclencher le réapprovisionnement. Vous obtiendrez automatiquement un autre tour et il vous restera un coup à jouer dans votre tour partiel (ainsi que la possibilité de passer)."
   },
   "validation.frogger.VALID_REFILL_other": {
     "src": "Please submit your move to trigger the refill. You will get another turn automatically, and you will have {{count}} moves remaining in your partial turn (as well as the option to pass).",
-    "out": "Veuillez valider votre coup pour déclencher le réapprovisionnement. Vous obtiendrez automatiquement un autre tour et il vous restera {{count}} coups dans votre tour partiel (ainsi que l'option de passer)."
+    "out": "Veuillez valider votre coup pour déclencher le réapprovisionnement. Vous obtiendrez automatiquement un autre tour et il vous restera {{count}} coups à jouer dans votre tour partiel (ainsi que la possibilité de passer)."
   },
   "validation.furl.CAPTURE4UNFURL": {
     "src": "You signalled a capture unfurl move, but {{to}} not is occupied by the opponent. Use \">\" to denote non-capture unfurl.",
@@ -13881,11 +13881,11 @@
   },
   "variants.agere.cobweb-small.name": {
     "src": "Cobweb (3 rings, designer preferred)",
-    "out": "Cobweb (3 anneaux, recommandé par l'auteur)"
+    "out": "Toile d'araignée (3 anneaux, préféré par l'auteur)"
   },
   "variants.agere.cobweb.name": {
     "src": "Cobweb (4 rings, experimental)",
-    "out": "Cobweb (4 anneaux, expérimental)"
+    "out": "Toile d'araignée (4 anneaux, expérimental)"
   },
   "variants.agere.limping.name": {
     "src": "Limping 5-6 (75 spaces)",

@@ -1,6 +1,6 @@
 {
   "name": "@abstractplay/gameslib",
-  "version": "1.0.0-ci-33912245274.0",
+  "version": "1.0.0-ci-33912589327.0",
   "description": "TypeScript implementations of the core Abstract Play games, intended to be wrapped by the front- and backends",
   "type": "module",
   "main": "build/index.js",
@@ -59,8 +59,8 @@
     "check-weblate-keys": "node scripts/check-weblate-keys.mjs",
     "check-weblate-branch": "node scripts/check-weblate-branch.mjs",
     "merge-weblate-branch": "node scripts/merge-weblate-branch.mjs",
-    "sync-deps": "node scripts/install-ap-deps.mjs --stage dev",
-    "sync-deps:prod": "node scripts/install-ap-deps.mjs --stage prod",
+    "sync-deps": "ap-install-deps --stage dev",
+    "sync-deps:prod": "ap-install-deps --stage prod",
     "check-locale-readiness": "node scripts/check-locale-readiness.mjs",
     "check-links": "node scripts/check-links.mjs",
     "docs:check": "node scripts/docs-check.mjs",
@@ -94,6 +94,7 @@
   },
   "packageManager": "npm@11.6.2",
   "devDependencies": {
+    "@abstractplay/ap-deps-tools": "^1.1.1",
     "@aws-sdk/client-dynamodb": "^3.758.0",
     "@aws-sdk/lib-dynamodb": "^3.758.0",
     "@eslint/js": "^9.26.0",
@@ -130,8 +131,8 @@
     "vite": "^6.3.5"
   },
   "dependencies": {
-    "@abstractplay/recranks": "1.0.0-ci-33687599936.0",
-    "@abstractplay/renderer": "1.0.0-ci-33912121649.0",
+    "@abstractplay/recranks": "1.0.0-ci-33686810882.0",
+    "@abstractplay/renderer": "1.0.0-ci-33912110632.0",
     "@turf/boolean-contains": "^6.5.0",
     "@turf/boolean-intersects": "^6.5.0",
     "@turf/boolean-point-in-polygon": "^6.5.0",

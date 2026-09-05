@@ -39,11 +39,11 @@ jobs:
             fi
         - run: npm ci
         - name: Validate ci-deps manifests
-          run: node scripts/check-ci-deps.mjs
+          run: npx ap-check-ci-deps
         - name: Install pinned renderer dependency
-          run: node scripts/install-ap-deps.mjs --stage dev
+          run: npx ap-install-deps --stage dev
         - name: Verify package.json matches ci-deps
-          run: node scripts/check-ci-deps.mjs --stage dev --strict
+          run: npx ap-check-ci-deps --stage dev --strict
         - run: npm list @abstractplay/renderer
         - run: cat package-lock.json
         - run: npm test --if-present

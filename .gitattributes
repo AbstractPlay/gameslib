@@ -3,3 +3,6 @@ ci-deps.prod.json merge=ours
 
 # Keep develop dependency pins when merging l10n/weblate (or other branches) into develop.
 ci-deps.dev.json merge=ours
+
+# Keep target-branch lockfile on cross-branch merges; run sync-deps if strict check fails.
+package-lock.json merge=ours

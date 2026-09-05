@@ -788,11 +788,11 @@
         "name": "Tablero triangular (8 de ancho)"
       },
       "cobweb": {
-        "name": "Telaraña (4 anillos, experimental)"
+        "name": "Telaraña (4 anillos)"
       },
       "cobweb-small": {
         "description": "Una variante jugada en un tablero redondo donde intentas conectar dos lados opuestos.",
-        "name": "Telaraña (3 anillos, preferido por el diseñador)"
+        "name": "Telaraña (3 anillos)"
       },
       "limping": {
         "name": "Rengueo 5-6 (75 casilleros)"

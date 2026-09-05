@@ -9,9 +9,7 @@
             "nowhat": "Фрагмент було знято в {{where}}.",
             "simple": "{{what}} було знято в {{where}}.",
             "group_nowhere": "Групу розміром {{count}} було захоплено.",
-            "nowhere_what": "{{what}} було захоплено.",
-            "nowhere_count_other": "",
-            "nowhere_count_one": ""
+            "nowhere_what": "{{what}} було захоплено."
         },
         "meridians": "Неактивну групу розміром {{count}} видалено.",
         "fightopia_2": "{{player}} захопили танк при {{where}}.",
@@ -51,11 +49,7 @@
             "nowhere_M_few": "{{player}} захопив {{count}} місячних каменів.",
             "nowhere_M_many": "{{player}} захопив {{count}} місячних каменів.",
             "single_S": "{{player}} взяв сонячний камінь у {{where}}.",
-            "single_M": "{{player}} взяв місячний камінь у {{where}}.",
-            "nowhere_C_other": "",
-            "nowhere_S_other": "",
-            "nowhere_E_other": "",
-            "nowhere_M_other": ""
+            "single_M": "{{player}} взяв місячний камінь у {{where}}."
         },
         "dameo_king": "{{player}} полонив короля в {{where}}.",
         "mancala_one": "{{player}} захоплено {{count}} камінь з {{pit}}.",
@@ -104,41 +98,13 @@
         "c1": "{{player}} усуває плитку при {{where}}.",
         "stawvs": "{{player}} захопив {{what}} у {{where}}.",
         "lasca_officer": "{{player}} захопив офіцера в {{where}}.",
-        "lasca_soldier": "{{player}} захопив солдата в {{where}}.",
-        "swarm": "",
-        "reversi_other": "",
-        "mancala_other": "",
-        "blastradius_other": "",
-        "multiple_other": "",
-        "magnate": "",
-        "spook_lateral_self_other": "",
-        "ataxx_other": "",
-        "forms_other": "",
-        "circleOfLife_other": "",
-        "gess_other": "",
-        "circleOfLife_one": "",
-        "spora_other": "",
-        "elOso_other": "",
-        "canoe": "",
-        "group_other": "",
-        "spook_lateral_opponent_other": "",
-        "terrace_other": "",
-        "bitesize": "",
-        "bao_other": "",
-        "tricouleur": "",
-        "forms_one": "",
-        "crosshairs": "",
-        "spora_one": "",
-        "elOso_one": ""
+        "lasca_soldier": "{{player}} захопив солдата в {{where}}."
     },
     "BEAROFF": {
         "complete_one": "{{player}} відрізати один шматок від {{from}}.",
         "complete_few": "{{player}} свердлити {{count}} штук від {{from}}.",
         "complete_many": "{{player}} свердлити {{count}} штук від {{from}}.",
-        "nowhat": "{{player}} виношувати з {{from}}.",
-        "complete_other": "",
-        "druid": "",
-        "canoe": ""
+        "nowhat": "{{player}} виношувати з {{from}}."
     },
     "BLOCK": {
         "veletas": "{{player}} поставив фігуру в {{where}}.",
@@ -165,10 +131,7 @@
         "add_many": "{{player}} додано {{count}} штук до {{where}}.",
         "nonum": "{{player}} додав фрагмент до {{where}}.",
         "logger": "Дерево в {{where}} росло один етап.",
-        "magnate": "“",
-        "magnate_one": "",
-        "magnate_other": "",
-        "add_other": ""
+        "magnate": "“"
     },
     "CLAIM": {
         "conhex": "{{player}} претендував на місце в ({{where}}).",
@@ -193,13 +156,7 @@
         "buku_singletons_few": "{{player}} забрав решти {{count}} фішки за своїх кольори.",
         "buku_singletons_many": "{{player}} забрав решти {{count}} фішки за своїми кольорів.",
         "toguz": "Яма {{pit}} стала тузом.",
-        "frogger": "{{player}} був заблокований і витягнув {{card}} з пулу.",
-        "buku_singletons_other": "",
-        "magnate": "",
-        "magnate_initial": "",
-        "scribe_mini": "",
-        "buku_repetition_other": "",
-        "scribe_mini_none": ""
+        "frogger": "{{player}} був заблокований і витягнув {{card}} з пулу."
     },
     "CONVERT": {
         "courtesan": "Король і куртизанка помінялися посадами {{where}}.",
@@ -211,11 +168,7 @@
         "paintbucket_one": "{{player}} конвертував 1 шт {{where}}.",
         "paintbucket_few": "{{player}} конвертували {{count}} фігури, починаючи з {{where}}.",
         "paintbucket_many": "{{player}} конвертували {{count}} фігури, починаючи з {{where}}.",
-        "pacru": "{{player}} конвертований {{where}}.",
-        "magnate_deed": "",
-        "paintbucket_other": "",
-        "canoe": "",
-        "magnate_trade": ""
+        "pacru": "{{player}} конвертований {{where}}."
     },
     "DAMAGE": {
         "pigs": "{{player}} вдарив {{opponent}} в {{where}}.",
@@ -236,21 +189,18 @@
         "friendly": {
             "minimal_one": "{{count}} дружній шматок було знищено.",
             "minimal_few": "{{count}} дружні частини були знищені.",
-            "minimal_many": "{{count}} дружні частини були знищені.",
-            "minimal_other": ""
+            "minimal_many": "{{count}} дружні частини були знищені."
         },
         "mattock": "{{player}} видобувається на {{where}}.",
         "enemy": {
             "minimal_one": "{{count}} частина ворога була знищена.",
             "minimal_few": "{{count}} частини противника були знищені.",
-            "minimal_many": "{{count}} частини противника були знищені.",
-            "minimal_other": ""
+            "minimal_many": "{{count}} частини противника були знищені."
         },
         "string": "Під напругою обірвалася струна {{where}}.",
         "armadas": "{{player}} потопив ворожий корабель ім {{name}}.",
         "logger": "{{player}} повалив дерево в {{where}}.",
-        "arimaa": "{{colour}} {{what}} застряг у пастці в {{where}}.",
-        "crosshairs": ""
+        "arimaa": "{{colour}} {{what}} застряг у пастці в {{where}}."
     },
     "DETONATE": {
         "nowhat": "{{player}} підірвав шматок на {{where}}."
@@ -279,12 +229,7 @@
         "repetition_positionas_few": "Гра закінчилася, оскільки така сами позицію повторювалася {{count}} разів.",
         "repetition_positionas_many": "Гра закінчилася, оскільки така сами позиції повторювалася {{count}} разів.",
         "deckfish": "Гра закінчилася, бо останній гравець не зміг зробити хід.",
-        "stawvs": "Гра закінчилася, бо останній гравець не зміг зробити хід.",
-        "repetition_other": "",
-        "stalemate_all": "",
-        "forms": "",
-        "druid_hex": "",
-        "repetition_positionas_other": ""
+        "stawvs": "Гра закінчилася, бо останній гравець не зміг зробити хід."
     },
     "ERUPTIONS": "Вибухнули наступні шматки: {{eruptions}}.",
     "FIRE": {
@@ -314,8 +259,6 @@
         "chase": "{{player}} перейшов із {{from}} до {{to}} (через {{through}}).",
         "collision": "{{player}} намагався перейти від {{from}} до {{to}}, але не зміг через зіткнення.",
         "complete_one": "{{player}} перемістив {{what}} з {{from}} на {{to}}.",
-        "complete_few": "",
-        "complete_many": "",
         "fightopia_1": "{{player}} перемістив пішака з {{from}} на {{to}}.",
         "iqishiqi": "{{player}} перемістив нейтральний камінь {{from}} на {{to}}.",
         "tafl": "{{player}} перемістив фігуру з {{from}} на {{to}}.",
@@ -339,8 +282,7 @@
             "full": "{{player}} перемістив повний стек із {{from}} до {{to}}.",
             "partial_one": "{{player}} перемістив {{count}} шашку з {{from}} на {{to}}.",
             "partial_few": "{{player}} перемістив {{count}} шашок з {{from}} на {{to}}.",
-            "partial_many": "{{player}} перемістив {{count}} шашок з {{from}} на {{to}}.",
-            "partial_other": ""
+            "partial_many": "{{player}} перемістив {{count}} шашок з {{from}} на {{to}}."
         },
         "orb_2": "{{player}} перемістив сфероїд із {{from}} на {{to}}.",
         "fightopia_3": "{{player}} перемістив свого гіганта з {{from}} на {{to}}.",
@@ -384,24 +326,7 @@
         "deckfish": "{{player}} перемістив фішку з {{from}} на {{to}}, отримавши {{what}}.",
         "stawvs": "{{player}} перемістив фігуру з {{from}} на {{to}} та взяв {{what}} о {{how}}.",
         "frogger_back": "{{player}} перемістив жабу назад з {{from}} на {{to}} та витягнув {{card}} з пулу.",
-        "frogger_forward": "{{player}} використав карту {{card}}, щоб перемістити жабу вперед з {{from}} на {{to}}.",
-        "crosshairs": "",
-        "knightline": "",
-        "tricouleur_jump": "",
-        "elOso_other": "",
-        "carnac_tip": "",
-        "complete_other": "",
-        "ball_drop_other": "",
-        "crosshairs_power-dive": "",
-        "tricouleur_duplicate": "",
-        "crosshairs_swoop": "",
-        "complete_what": "",
-        "elOso_one": "",
-        "spora": "",
-        "volo_other": "",
-        "gess_other": "",
-        "druid_walk": "",
-        "posit": ""
+        "frogger_forward": "{{player}} використав карту {{card}}, щоб перемістити жабу вперед з {{from}} на {{to}}."
     },
     "PASS": {
         "entropy": "{{player}} вирішив не рухати фігури цього ходу.",
@@ -414,13 +339,7 @@
         "assembly": "Виробнича лінія не рухається.",
         "pie": "{{player}} прийняв пропозицію Комі та продовжить грати другим.",
         "deckfish": "{{player}} не міг рухатися.",
-        "frogger": "{{player}} пройшов {{why}}.",
-        "linage": "",
-        "elOso": "",
-        "carnac": "",
-        "canoe": "",
-        "druid": "",
-        "pippinzip": ""
+        "frogger": "{{player}} пройшов {{why}}."
     },
     "PLACE": {
         "armadas_1": "{{player}} поставив невеликий корабель і назвав його {{name}}.",
@@ -521,35 +440,7 @@
         "streetcar_place_23": "Висота-3 ЖОВТА будівля була розміщена на {{where}}.",
         "streetcar_place_31": "Висота-1 ЧОРНА будівля була розміщена на {{where}}.",
         "streetcar_place_43": "Висота-3 БІЛА будівля була розміщена на {{where}}.",
-        "streetcar_place_default": "Будівля була розміщена на {{where}}.",
-        "crosshairs_plane": "",
-        "estate_other": "",
-        "evenatodds": "",
-        "carnac": "",
-        "spora_one": "",
-        "btt_small": "",
-        "druid_druid": "",
-        "spora_other": "",
-        "estate_one": "",
-        "btt_medium": "",
-        "crosshairs_cloud": "",
-        "elOso_other": "",
-        "synapse": "",
-        "strands_other": "",
-        "btt_large": "",
-        "unane": "",
-        "elOso_one": "",
-        "magnate_deed_end": "",
-        "druid_sarsen": "",
-        "magnate_buy": "",
-        "court": "",
-        "magnate_deed_start": "",
-        "knightline": "",
-        "druid_lintel": "",
-        "magnate_sell": "",
-        "viruswar": "",
-        "pollux": "",
-        "btt": ""
+        "streetcar_place_default": "Будівля була розміщена на {{where}}."
     },
     "PROMOTE": {
         "basicWhere": "Твір при {{where}} був підвищений.",
@@ -558,8 +449,7 @@
         "mchess": "У результаті було створено {{into}}.",
         "orb_12": "{{player}} перетворив кулю на сфероїд на {{where}}.",
         "orb_23": "{{player}} підвищив сфероїд до глобуса в {{where}}.",
-        "cubeo": "{{player}} підвищив кубик у {{where}} з {{from}} на {{to}}.",
-        "canoe": ""
+        "cubeo": "{{player}} підвищив кубик у {{where}} з {{from}} на {{to}}."
     },
     "REMOVE": {
         "fourinarow_n": "{{player}} очищав лінію, зрушуючи фігури на дошці вгору.",
@@ -585,28 +475,18 @@
         "entrapment_opponent": "{{player}} вирішив залишити роумер суперника на {{how}}, видаливши роумер на {{where}}.",
         "entrapment_self": "{{player}} вирішив зберегти свій власний роумер у {{how}}, видаливши роумер у {{where}}.",
         "volo": "{{player}} вирішив зберегти регіон на {{how}}, видаливши {{num}} птахів суперника.",
-        "gliss": "{{player}} перемістили планер на {{where}} від краю дошки.",
-        "phutball_other": "",
-        "akimbo": "",
-        "remove_other": "",
-        "spook_drop_other": ""
+        "gliss": "{{player}} перемістили планер на {{where}} від краю дошки."
     },
     "REPAIR": {
         "simple": "{{player}} ремонти."
     },
     "RESET": {
         "queensland": "Почалася друга гра.",
-        "biscuit": "Новий раунд розпочався.",
-        "guerrilla": ""
+        "biscuit": "Новий раунд розпочався."
     },
     "ROLL": {
         "single": "Гральний кубик кинули: {{values}}.",
-        "tablero": "Гральні кубики кинули: {{values}}.",
-        "magnate": "",
-        "magnate_eight": "",
-        "elOso_player": "",
-        "canoe": "",
-        "elOso": ""
+        "tablero": "Гральні кубики кинули: {{values}}."
     },
     "SELECT": {
         "fnap": "{{player}} вибрав плитку {{tile}}.",
@@ -641,13 +521,7 @@
         "quincunx_flushes_one": "{{player}} набрав {{count}} флеш.",
         "quincunx_flushes_few": "{{player}} набрав {{count}} флеши.",
         "quincunx_flushes_many": "{{player}} набрав {{count}} флешів.",
-        "quincunx_powerplay": "{{player}} забив гру в більшості!",
-        "quincunx_pairs_other": "",
-        "quincunx_flushes_other": "",
-        "fnap_triplets_other": "",
-        "quincunx_straights_other": "",
-        "biscuit_biscuit_other": "",
-        "quincunx_sets_other": ""
+        "quincunx_powerplay": "{{player}} забив гру в більшості!"
     },
     "SOW": {
         "prudh": "{{player}} сіяні шашки с {{from}} до {{to}}.",
@@ -657,9 +531,7 @@
         "into": "{{player}} посіяв у ями {{pits}}.",
         "rincala_one": "{{player}} посіяв {{count}} {{pieces}} фігуру з {{from}} до {{to}}.",
         "rincala_few": "{{player}} посіяв {{count}} фігури з {{from}} у такі ями: {{pieces}} -> {{to}}.",
-        "rincala_many": "{{player}} посіяв {{count}} фігур з {{from}} у такі ями: {{pieces}} -> {{to}}.",
-        "rincala_other": "",
-        "general_other": ""
+        "rincala_many": "{{player}} посіяв {{count}} фігур з {{from}} у такі ями: {{pieces}} -> {{to}}."
     },
     "TAKE": {
         "chase": "У камеру подано {{what}}.",
@@ -683,11 +555,7 @@
         "streetcar_take_3": "{{player}} взяв ЧОРНИЙ ліміт житла с {{from}}.",
         "streetcar_take_1": "{{player}} взяв ОРАНЖЕВИЙ ліміт житла з {{from}}.",
         "streetcar_take_2": "{{player}} взяв ЖОВТИЙ ліміт житла з {{from}}.",
-        "streetcar_take_default": "{{player}} взяв житловий ліміт з {{from}}.",
-        "general_other": "",
-        "buku_col_other": "",
-        "buku_row_other": "",
-        "blastradius_other": ""
+        "streetcar_take_default": "{{player}} взяв житловий ліміт з {{from}}."
     },
     "TIMEOUT": "{{player}} втрачені в часі.",
     "BUTTON": "{{player}} взяв кнопку.",
@@ -709,16 +577,14 @@
         "deckfish": "{{player}} рухається другим."
     },
     "ORIENT": {
-        "nowhat": "{{player}} повернув фігуру в {{where}} обличчям до {{facing}}.",
-        "crosshairs": ""
+        "nowhat": "{{player}} повернув фігуру в {{where}} обличчям до {{facing}}."
     },
     "PULL": "{{player}} натягнута струна {{where}}.",
     "SWAP": {
         "nex": "{{player}} поміняли частину свого кольору в {{where}} на нейтральну.",
         "nex_neutral": "{{player}} поміняли нейтральну фігуру в {{where}} на фігуру свого кольору.",
         "resolve": "Фрагмент міняється на {{where}}.",
-        "deckfish": "{{player}} обміняв {{what}} з ринку на {{with}} у {{where}}.",
-        "wunchunk": ""
+        "deckfish": "{{player}} обміняв {{what}} з ринку на {{with}} у {{where}}."
     },
     "WINNERSNONE": "Переможців не було.",
     "SCORE_REPORT": "{{player}}'s рахунок зараз {{score}}.",
@@ -726,8 +592,7 @@
         "noperson": "{{what}} було відновлено.",
         "nowhat_one": "{{count}} Шматок було повернуто.",
         "nowhat_few": "{{count}} штук було відновлено.",
-        "nowhat_many": "{{count}} штук було відновлено.",
-        "nowhat_other": ""
+        "nowhat_many": "{{count}} штук було відновлено."
     },
     "RESIGN": "{{player}} подав у відставку.",
     "UNFURL": {
@@ -754,8 +619,7 @@
         "camelot_castle_move_none": "У {{player}} більше немає ходів замку.",
         "camelot_castle_move_one": "Використаний {{player}} має ще 1 хід замку.",
         "camelot_castle_move_few": "Використаний {{player}} має більше ходів замку на {{count}}.",
-        "camelot_castle_move_many": "Використаний {{player}} має ще {{count}} ходів замку.",
-        "camelot_castle_move_other": ""
+        "camelot_castle_move_many": "Використаний {{player}} має ще {{count}} ходів замку."
     },
     "CONNECT": {
         "pontedd": "{{player}} поставив міст між {{left}} і {{right}}."
@@ -768,10 +632,7 @@
         "quincunx_many": "{{player}} витягнув {{count}} карт.",
         "emu_discard": "{{player}} витягнув {{what}} з верху купи скинутих карт.",
         "emu_deck": "{{player}} витягнув з колоди карту, що лежала сорочкою донизу.",
-        "frogger": "Басейн для розіграшу було {{what}} поповнено.",
-        "evenatodds": "",
-        "magnate": "",
-        "quincunx_other": ""
+        "frogger": "Басейн для розіграшу було {{what}} поповнено."
     },
     "STALEMATE": {
         "biscuit": "Рука зачерствіла."
@@ -782,14 +643,7 @@
         "deckfish": "{{player}} не міг рухатися і відтепер мусив проходити далі.",
         "stawvs": "{{player}} не зміг ходити і відтепер мусить пасувати. Його фігури залишаються на таких пірамідах: {{pyramids}}.",
         "frogger": "{{player}} вирішив поповнити пул жеребкування. Інші гравці повинні пасувати, щоб він міг зробити свій (решт) хід (ходів) у розмірі {{moves}}.",
-        "arimaa": "Ця позиція вже траплялася раніше. Подальші повторення цієї позиції заборонені.",
-        "elOso": {
-            "bearSetup": "",
-            "playerSetup": ""
-        },
-        "frogger_one": "",
-        "scribe_super": "",
-        "frogger_other": ""
+        "arimaa": "Ця позиція вже траплялася раніше. Подальші повторення цієї позиції заборонені."
     },
     "DELTASCORE": {
         "quincunx": {
@@ -798,68 +652,10 @@
             "penalty_many": "Гравець {{playerNum}} втратив {{count}} очок через наявні карт.",
             "basic_one": "Проти {{card}} вона набрала 1 очко.",
             "basic_few": "Проти {{card}} вона набрала {{delta}} очки.",
-            "basic_many": "Проти {{card}} вона набрала {{delta}} очок.",
-            "penalty_other": "",
-            "penalty_zero": "",
-            "basic_zero": "",
-            "basic_other": ""
+            "basic_many": "Проти {{card}} вона набрала {{delta}} очок."
         },
         "emu_excuse": "{{player}} грає \"Виправдання\", щоб компенсувати свого птаха з найнижчим балом ({{delta}} очок).",
-        "emu_score": "Птах гравця {{player}} з такими рангами набрав {{delta}} очок: {{ranks}}.",
-        "btt_opponent_gain_other": "",
-        "btt_opponent_gain_one": ""
+        "emu_score": "Птах гравця {{player}} з такими рангами набрав {{delta}} очок: {{ranks}}."
     },
-    "LEAD": "{{player}} взяв на себе лідерство.",
-    "SCRIBE": {
-        "glyphs": {
-            "six_block": "",
-            "squat_t": "",
-            "four_block": "",
-            "u": "",
-            "h": "",
-            "double": "",
-            "j": "",
-            "cross": "",
-            "earring": "",
-            "chair": "",
-            "house": "",
-            "t": "",
-            "nine_block": "",
-            "pipe": "",
-            "ottoman": "",
-            "single": "",
-            "bomber": "",
-            "line": "",
-            "o": ""
-        },
-        "no_formation": "",
-        "mini": {
-            "1_1": "",
-            "0_1": "",
-            "0_2": "",
-            "0_0": "",
-            "2_0": "",
-            "2_2": "",
-            "2_1": "",
-            "1_2": "",
-            "1_0": ""
-        }
-    },
-    "DRUID_HEX_EDGE": {
-        "SW": "",
-        "and": "",
-        "NW": "",
-        "NE": "",
-        "SE": "",
-        "N": "",
-        "S": ""
-    },
-    "DELTA_SCORE_LOSS_other": "",
-    "DELTA_SCORE_GAIN_other": "",
-    "WINNERS_other": "",
-    "ACTOR": {
-        "elOso": {
-            "bear": ""
-        }
-    }
+    "LEAD": "{{player}} взяв на себе лідерство."
 }

@@ -5,9 +5,7 @@
         "add_other": "{{player}} {{count}} துண்டுகளை {{where}} சேர்த்துள்ளார்.",
         "logger": "{{where}} இல் உள்ள மரம் ஒரு கட்டத்தை வளர்த்தது.",
         "nonum": "{{player}} ஒரு பகுதியை {{where}} இல் சேர்த்தார்.",
-        "twixt": "{{player}} {{where}} இல் ஒரு இணைப்பைச் சேர்த்தார்.",
-        "magnate_one": "",
-        "magnate_other": ""
+        "twixt": "{{player}} {{where}} இல் ஒரு இணைப்பைச் சேர்த்தார்."
     },
     "AFFILIATE": {
         "cifra_lt": "{{player}} மேல் வரிசையிலிருந்து ஒளி துண்டுகளை இயக்கத் தேர்வுசெய்தார்.",
@@ -24,23 +22,12 @@
     "ANNOUNCE": {
         "biscuit": "பின்வரும் அட்டைகள் எதிர்க்கும் கைகளில் இருந்தன: {{cards}}.",
         "deckfish": "{{player}}க்கு நகர முடியவில்லை, இனிமேல் கடந்து செல்ல வேண்டும்.",
-        "quincunx": "பிளேயர் {{playerNum}} பின்வரும் அட்டைகள் அவற்றின் கையில் எஞ்சியுள்ளன: {{cards}}.",
-        "elOso": {
-            "bearSetup": "",
-            "playerSetup": ""
-        },
-        "arimaa": "",
-        "stawvs": "",
-        "frogger_one": "",
-        "scribe_super": "",
-        "frogger_other": ""
+        "quincunx": "பிளேயர் {{playerNum}} பின்வரும் அட்டைகள் அவற்றின் கையில் எஞ்சியுள்ளன: {{cards}}."
     },
     "BEAROFF": {
         "complete_one": "{{player}}} {{from}} இலிருந்து ஒரு துண்டை எடுத்தார்.",
         "complete_other": "{{player}} {{from}} இலிருந்து {{count}} துண்டுகளை வீசினார்.",
-        "nowhat": "{{player}} {{from}} இலிருந்து சலிப்படைந்தார்.",
-        "druid": "",
-        "canoe": ""
+        "nowhat": "{{player}} {{from}} இலிருந்து சலிப்படைந்தார்."
     },
     "BLOCK": {
         "bao": "குழி {{pit}} குட்டகாட்டியாவில் உள்ளது (தடுக்கப்பட்டுள்ளது).",
@@ -92,9 +79,7 @@
             "multiple": "பின்வரும் துண்டுகள் கைப்பற்றப்பட்டன: {{capped}}.",
             "nowhat": "ஒரு துண்டு {{where}} இல் கைப்பற்றப்பட்டது.",
             "simple": "A {{what}} {{where}} இல் கைப்பற்றப்பட்டது.",
-            "nowhere_what": "A {{what}} கைப்பற்றப்பட்டது.",
-            "nowhere_count_other": "",
-            "nowhere_count_one": ""
+            "nowhere_what": "A {{what}} கைப்பற்றப்பட்டது."
         },
         "nowhat": "{{player}} ஒரு பகுதியை {{where}} இல் கைப்பற்றினார்.",
         "onyx": "ஒரு இணை துண்டுகள் {{where1}} மற்றும் {{where2}} இல் கைப்பற்றப்பட்டன.",
@@ -131,24 +116,7 @@
             "single_E": "{{player}} {{where}} இல் ஒரு எர்தோனை எடுத்தார்.",
             "single_M": "{{player}} ஒரு சந்திரனை {{where}} எடுத்தார்.",
             "single_S": "{{player}} ஒரு சன்ச்டோனை {{where}} எடுத்தார்."
-        },
-        "swarm": "",
-        "magnate": "",
-        "forms_other": "",
-        "circleOfLife_other": "",
-        "circleOfLife_one": "",
-        "stawvs": "",
-        "spora_other": "",
-        "elOso_other": "",
-        "canoe": "",
-        "lasca_soldier": "",
-        "bitesize": "",
-        "tricouleur": "",
-        "forms_one": "",
-        "crosshairs": "",
-        "spora_one": "",
-        "lasca_officer": "",
-        "elOso_one": ""
+        }
     },
     "CLAIM": {
         "buku_singletons_one": "{{{player}} அவற்றின் நிறத்தில் மீதமுள்ள 1 துண்டுகளை கோரினார்.",
@@ -170,12 +138,7 @@
         "meg": "{{{player}} பந்தை எடுத்து {{where}} இல் வைத்திருக்கிறார்.",
         "penguin": "{{இல் உள்ள பென்குயின் பந்தை கோரியது!",
         "toguz": "குழி {{pit} a ஒரு துச் ஆனது.",
-        "veletas": "{{where}}} சிக்கி {{who} by ஆல் உரிமை கோரப்படுகிறது.",
-        "frogger": "",
-        "magnate": "",
-        "magnate_initial": "",
-        "scribe_mini": "",
-        "scribe_mini_none": ""
+        "veletas": "{{where}}} சிக்கி {{who} by ஆல் உரிமை கோரப்படுகிறது."
     },
     "CONNECT": {
         "pontedd": "{{player} the {{player}} மற்றும் {{right} betweeen க்கு இடையில் ஒரு பாலத்தை வைத்தார்."
@@ -189,10 +152,7 @@
         "paintbucket_other": "{{player}} மாற்றப்பட்டது {{count}} துண்டுகள் {{where}}.",
         "simple": "{{player}} ஒரு பகுதியை {{where}} இல் மாற்றினார்.",
         "storisende_territory": "{{where} at இல் உள்ள ஓடு ஒரு பிரதேசமாக மாறியது.",
-        "storisende_wall": "{{where} at இல் ஓடு ஒரு சுவராக மாறியது.",
-        "magnate_deed": "",
-        "canoe": "",
-        "magnate_trade": ""
+        "storisende_wall": "{{where} at இல் ஓடு ஒரு சுவராக மாறியது."
     },
     "DAMAGE": {
         "armadas": "{{player}} இன் கப்பல் {{myName}} {{theirName}} என்ற பெயரிடப்பட்ட எதிரி கப்பலின் மீது சுடப்பட்டது.",
@@ -203,17 +163,13 @@
         "emu_deck": "{{player} the டெக்கிலிருந்து ஒரு முகம்-கீழே அட்டையை வரைந்தார்.",
         "emu_discard": "{{player}} நிராகரிக்கப்பட்ட குவியலின் மேலிருந்து {{what}} வரைந்தார்.",
         "quincunx_one": "{{player}} ட்ரூ {{count}} அட்டை.",
-        "quincunx_other": "{{player}} ட்ரூ {{count}} கார்டுகள்.",
-        "frogger": "",
-        "evenatodds": "",
-        "magnate": ""
+        "quincunx_other": "{{player}} ட்ரூ {{count}} கார்டுகள்."
     },
     "DECLARE": {
         "biscuit": "{{player}} வெளியே சென்றுவிட்டது!",
         "emu": "ஆண்டு {{year}} முடிந்தது.",
         "mchess": "{{player}} \"கடிகாரம் என்று அழைக்கப்பட்டார்.\" அடுத்த ஏழு திருப்பங்களில் பிடிப்பு எதுவும் செய்யப்படாவிட்டால், விளையாட்டு முடிவடைந்து அடித்தது.",
-        "renju": "{{player}} {{count}} தற்காலிக ஐந்தில் அறிவித்துள்ளது.",
-        "frogger": ""
+        "renju": "{{player}} {{count}} தற்காலிக ஐந்தில் அறிவித்துள்ளது."
     },
     "DELTA_SCORE_GAIN_one": "{{player}} பெறப்பட்டது {{delta}} புள்ளி.",
     "DELTA_SCORE_GAIN_other": "{{player}} பெறப்பட்டது {{delta}} புள்ளிகள்.",
@@ -226,12 +182,8 @@
             "basic_one": "{{card} fee க்கு எதிராக இது 1 புள்ளியைப் பெற்றது.",
             "basic_other": "{{card}} க்கு எதிராக இது {{delta}} புள்ளிகளைப் பெற்றது.",
             "penalty_one": "கையில் அட்டைகள் காரணமாக பிளேயர் {{playerNum}} இழந்த {{count}} புள்ளி.",
-            "penalty_other": "கையில் அட்டைகள் காரணமாக பிளேயர் {{playerNum}} இழந்த {{count}} புள்ளிகள்.",
-            "penalty_zero": "",
-            "basic_zero": ""
-        },
-        "btt_opponent_gain_other": "",
-        "btt_opponent_gain_one": ""
+            "penalty_other": "கையில் அட்டைகள் காரணமாக பிளேயர் {{playerNum}} இழந்த {{count}} புள்ளிகள்."
+        }
     },
     "DESTROY": {
         "armadas": "{{player}} பெயரிடப்பட்ட எதிரி கப்பலை {{name}}.",
@@ -246,9 +198,7 @@
         },
         "logger": "{{player}} ஒரு மரத்தை {{where}}.",
         "mattock": "{{player}} வெட்டப்பட்ட {{where}}.",
-        "string": "சரம் {{where}} திரிபுக்கு கீழ் உடைந்தது.",
-        "arimaa": "",
-        "crosshairs": ""
+        "string": "சரம் {{where}} திரிபுக்கு கீழ் உடைந்தது."
     },
     "DETONATE": {
         "nowhat": "{{player}} {{where}} இல் ஒரு பகுதியை வெடித்தது."
@@ -258,9 +208,7 @@
         "assembly": "விளைவாக்கம் வரி {{distance}} இடைவெளிகளை முன்னோக்கி நகர்த்தியது.",
         "deckfish": "{{player}} {{from}} {{to}} வரை தள்ளப்பட்டது.",
         "penguin_ball": "{{player}} {{from}} முதல் {{to}} வரை பந்தை உதைத்தார்.",
-        "penguin_penguin": "ஒரு பென்குயின் {{from}} முதல் {{to}} வரை தள்ளப்பட்டது.",
-        "frogger_card": "",
-        "frogger_croc": ""
+        "penguin_penguin": "ஒரு பென்குயின் {{from}} முதல் {{to}} வரை தள்ளப்பட்டது."
     },
     "ELIMINATED": "{{player}} அகற்றப்பட்டது.",
     "EOG": {
@@ -283,11 +231,7 @@
         "tafl_king_escaped": "மன்னன் தப்பித்ததால் விளையாட்டு முடிந்தது.",
         "unlur_foul": "ஒரு வீரர் தங்கள் சொந்தத்தை அடையாமல் எதிராளியின் செய் நிலையை அடைந்துள்ளதால் விளையாட்டு முடிந்துவிட்டது.",
         "repetition_positional_one": "அதே நிலை ஏற்பட்டதால் விளையாட்டு முடிந்தது.",
-        "repetition_positional_other": "அதே நிலை ஏற்பட்டதால் விளையாட்டு முடிந்தது.",
-        "stawvs": "",
-        "stalemate_all": "",
-        "forms": "",
-        "druid_hex": ""
+        "repetition_positional_other": "அதே நிலை ஏற்பட்டதால் விளையாட்டு முடிந்தது."
     },
     "ERUPTIONS": "பின்வரும் துண்டுகள் வெடித்தன: {{eruptions}}.",
     "FIRE": {
@@ -335,7 +279,6 @@
         "chase": "{{player}} {{{from} முதல் {{from}} வரை ({{to}} மூலம்) நகர்த்தப்பட்டது.",
         "collision": "{{player}} {{{from இலிருந்து {{from}} வரை செல்ல முயற்சித்தார், ஆனால் மோதல் காரணமாக முடியவில்லை.",
         "complete_one": "{{player}} {{{{{{what} க்கு {{what}} வரை நகர்த்தப்பட்டது.",
-        "complete_other": "",
         "deckfish": "{{player}}} {from இலிருந்து {{from}} வரை ஒரு பகுதியை நகர்த்தினார், {{to}} சேகரிக்கிறார்.",
         "entrapment_barrier": "{{player}} {{from இலிருந்து {{from}} ஒரு தடையை நகர்த்தினார்.",
         "entrapment_roamer": "{{player} a ஒரு ரோமரை {{from} {{player}} வரை நகர்த்தினார்.",
@@ -373,28 +316,11 @@
         "tafl_jump": "{{player}} {{from}} முதல் {{to}} வரை ஒரு பகுதியைத் தாண்டினார்.",
         "veletas": "{{player}} {{{from இலிருந்து {{from}} வரை சூட்டரை நகர்த்தினார்.",
         "volo_one": "{{player}} {{from திசையில் {{{from}}.",
-        "volo_other": "{{player} the {{{}} {}}}}}}}}}}}}}}}}}.",
-        "crosshairs": "",
-        "stawvs": "",
-        "knightline": "",
-        "tricouleur_jump": "",
-        "elOso_other": "",
-        "carnac_tip": "",
-        "crosshairs_power-dive": "",
-        "tricouleur_duplicate": "",
-        "frogger_back": "",
-        "crosshairs_swoop": "",
-        "frogger_forward": "",
-        "complete_what": "",
-        "elOso_one": "",
-        "spora": "",
-        "druid_walk": "",
-        "posit": ""
+        "volo_other": "{{player} the {{{}} {}}}}}}}}}}}}}}}}}."
     },
     "NULLIFY_CLAIM": "விளையாட்டின் கடைசி திருப்பத்தில் கோபுரங்கள் கோரப்படாமல் போகலாம். {{where}} இல் உரிமைகோரல் ரத்து செய்யப்பட்டது.",
     "ORIENT": {
-        "nowhat": "{{player}} {{} எதிர்கொள்ளும்}}}}.",
-        "crosshairs": ""
+        "nowhat": "{{player}} {{} எதிர்கொள்ளும்}}}}."
     },
     "PASS": {
         "asli": "{{{player}} சிறையில் இருந்து ஒரு எதிரெதிர் பகுதியை எடுத்து அவர்களின் திருப்பத்தை கடந்து சென்றார்.",
@@ -406,14 +332,7 @@
         "pigs": "{{player}} செயலற்றது.",
         "simple": "{{player}} கடந்து சென்றார்.",
         "tablero": "{{player}} மோதியது!",
-        "tiebreaker": "{{{player}} கடந்து, டைபிரேக்கரை வென்றது.",
-        "linage": "",
-        "elOso": "",
-        "carnac": "",
-        "canoe": "",
-        "druid": "",
-        "pippinzip": "",
-        "frogger": ""
+        "tiebreaker": "{{{player}} கடந்து, டைபிரேக்கரை வென்றது."
     },
     "PIE": {
         "deckfish": "{{player}} இரண்டாவது நகரும்.",
@@ -516,36 +435,7 @@
         "streetcar_place_41": "ஒரு உயரம் -1 வெள்ளை கட்டிடம் {{where}} இல் வைக்கப்பட்டது.",
         "streetcar_place_42": "ஒரு உயரம் -2 வெள்ளை கட்டிடம் {{where}} இல் வைக்கப்பட்டது.",
         "streetcar_place_43": "ஒரு உயரம் -3 வெள்ளை கட்டிடம் {{where}} இல் வைக்கப்பட்டது.",
-        "streetcar_place_default": "ஒரு கட்டிடம் {{where}} இல் வைக்கப்பட்டது.",
-        "crosshairs_plane": "",
-        "estate_other": "",
-        "evenatodds": "",
-        "carnac": "",
-        "spora_one": "",
-        "btt_small": "",
-        "druid_druid": "",
-        "spora_other": "",
-        "estate_one": "",
-        "btt_medium": "",
-        "crosshairs_cloud": "",
-        "stawvs": "",
-        "elOso_other": "",
-        "synapse": "",
-        "btt_large": "",
-        "unane": "",
-        "theirs_specific": "",
-        "elOso_one": "",
-        "magnate_deed_end": "",
-        "druid_sarsen": "",
-        "magnate_buy": "",
-        "court": "",
-        "magnate_deed_start": "",
-        "knightline": "",
-        "druid_lintel": "",
-        "magnate_sell": "",
-        "viruswar": "",
-        "pollux": "",
-        "btt": ""
+        "streetcar_place_default": "ஒரு கட்டிடம் {{where}} இல் வைக்கப்பட்டது."
     },
     "PLAYSECOND": "{{player}} இரண்டாவது விளையாடத் தேர்வுசெய்தார்.",
     "PROMOTE": {
@@ -555,8 +445,7 @@
         "mchess": "ஒரு {{into}} இதன் விளைவாக உருவாக்கப்பட்டது.",
         "orb_12": "{{player} a ஒரு உருண்டை ஒரு ச்பீராய்டுக்கு {{player}}.",
         "orb_13": "{{player} a ஒரு உருண்டை ஒரு பூகோளத்திற்கு {{player}} என்ற இடத்தில் ஊக்குவித்தது.",
-        "orb_23": "{{{player}} ஒரு பூகோளத்திற்கு {{where}} என்ற குளோப்பை ஊக்குவித்தது.",
-        "canoe": ""
+        "orb_23": "{{{player}} ஒரு பூகோளத்திற்கு {{where}} என்ற குளோப்பை ஊக்குவித்தது."
     },
     "PULL": "{{player}} இழுக்கப்பட்ட சரம் {{where}}.",
     "RECLAIM": {
@@ -585,26 +474,19 @@
         "spook_drop_one": "{{player} a ஒரு பந்தை {{player}} இல் அகற்றி, {{how} இருந்து இலிருந்து 1 பந்தைக் கைவிடுகிறார்.",
         "spook_drop_other": "{{player}} ஒரு பந்தை {{where}}, {{count}}} {how}} இலிருந்து கைவிடுவது.",
         "twixt": "{{player} a ஒரு இணைப்பை {{player}} இல் அகற்றினார்.",
-        "volo": "{{player} the பிராந்தியத்தை {{player}}, {{how}}} எதிராளியின் பறவைகளை அகற்றுவதைத் தேர்வுசெய்தார்.",
-        "akimbo": ""
+        "volo": "{{player} the பிராந்தியத்தை {{player}}, {{how}}} எதிராளியின் பறவைகளை அகற்றுவதைத் தேர்வுசெய்தார்."
     },
     "REPAIR": {
         "simple": "{{player}} பழுதுபார்ப்பு."
     },
     "RESET": {
         "biscuit": "ஒரு புதிய சுற்று தொடங்கியது.",
-        "queensland": "இரண்டாவது ஆட்டம் தொடங்கியது.",
-        "guerrilla": ""
+        "queensland": "இரண்டாவது ஆட்டம் தொடங்கியது."
     },
     "RESIGN": "{{player}}} ராசினாமா செய்துள்ளார்.",
     "ROLL": {
         "single": "இறப்பு உருட்டப்பட்டது: {{values}}.",
-        "tablero": "பகடை உருட்டப்பட்டது: {{values}}.",
-        "magnate": "",
-        "magnate_eight": "",
-        "elOso_player": "",
-        "canoe": "",
-        "elOso": ""
+        "tablero": "பகடை உருட்டப்பட்டது: {{values}}."
     },
     "SACRIFICE": {
         "moonsquad": "{{player}} தங்கள் அணிகளை நகர்த்துவதற்கு ஒரு தாது ({{ore}}) கொடை செய்தது.",
@@ -644,9 +526,7 @@
         "general_one": "{{player}} பின்வரும் குழியிலிருந்து விதைகளை விதைத்தார்: {{pits}}.",
         "general_other": "{{{player}} பின்வரும் குழிகளிலிருந்து விதைகளை விதைத்தது: {{pits}}.",
         "into": "{{player}} குழிகளுக்குள் விதைக்கப்பட்டது {{pits}}.",
-        "prudh": "{{player}} {{from}} முதல் {{to}} வரை விதைக்கப்பட்ட செக்கர்களை.",
-        "rincala_one": "",
-        "rincala_other": ""
+        "prudh": "{{player}} {{from}} முதல் {{to}} வரை விதைக்கப்பட்ட செக்கர்களை."
     },
     "STALEMATE": {
         "biscuit": "கை பழையதாகிவிட்டது."
@@ -655,8 +535,7 @@
         "deckfish": "{{player}} மாற்றப்பட்ட {{what}} சந்தையில் இருந்து {{with}} இல் {{where}}.",
         "nex": "{{player}} அவற்றின் நிறத்தின் ஒரு பகுதியை {{where}} ஒரு நடுநிலை துண்டுக்கு மாற்றின.",
         "nex_neutral": "{{{player}} ஒரு நடுநிலை துண்டுகளை {{where}} அவற்றின் நிறத்தின் ஒரு பகுதிக்கு மாற்றினார்.",
-        "resolve": "துண்டு {{where}} க்கு மாற்றப்படுகிறது.",
-        "wunchunk": ""
+        "resolve": "துண்டு {{where}} க்கு மாற்றப்படுகிறது."
     },
     "TAKE": {
         "blastradius_one": "{{player} their {{}} இலிருந்து அவற்றின் சொந்த துண்டுகளில் ஒன்றை அகற்றியது.",
@@ -701,54 +580,5 @@
         "MOVE": "{{player}} {{} {{{}} முதல் {{what}} வரை {{}} பறக்கவும்.",
         "PASS": "{{player} a ஒரு செயலில் தேர்ச்சி பெற்றார்.",
         "SACRIFICE": "{{}}}}}}} கணினியில் ஒரு {{player}} கொடை செய்தது."
-    },
-    "SCRIBE": {
-        "glyphs": {
-            "six_block": "",
-            "squat_t": "",
-            "four_block": "",
-            "u": "",
-            "h": "",
-            "double": "",
-            "j": "",
-            "cross": "",
-            "earring": "",
-            "chair": "",
-            "house": "",
-            "t": "",
-            "nine_block": "",
-            "pipe": "",
-            "ottoman": "",
-            "single": "",
-            "bomber": "",
-            "line": "",
-            "o": ""
-        },
-        "no_formation": "",
-        "mini": {
-            "1_1": "",
-            "0_1": "",
-            "0_2": "",
-            "0_0": "",
-            "2_0": "",
-            "2_2": "",
-            "2_1": "",
-            "1_2": "",
-            "1_0": ""
-        }
-    },
-    "DRUID_HEX_EDGE": {
-        "SW": "",
-        "and": "",
-        "NW": "",
-        "NE": "",
-        "SE": "",
-        "N": "",
-        "S": ""
-    },
-    "ACTOR": {
-        "elOso": {
-            "bear": ""
-        }
     }
 }

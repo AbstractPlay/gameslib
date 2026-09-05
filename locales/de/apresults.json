@@ -30,8 +30,8 @@
     "arimaa": "Diese Stellung kam bereits vor. Weitere Wiederholungen dieser Stellung sind verboten.",
     "biscuit": "Die folgenden Karten befanden sich auf den gegnerischen Händen: {{cards}}.",
     "deckfish": "{{player}} konnte nicht ziehen und muss ab jetzt passen.",
-    "frogger_one": "{{player}} hat sich entschieden, den Nachziehpool aufzufüllen. Er erhält einen weiteren Zug, um seinen {{count}} verbleibenden Zug zu machen.",
-    "frogger_other": "{{player}} hat sich entschieden, den Nachziehpool aufzufüllen. Er erhält einen weiteren Zug, um seine {{count}} verbleibenden Züge zu machen.",
+    "frogger_one": "{{player}} hat entschieden, den Nachziehpool aufzufüllen. Die anderen Spieler müssen passen, damit er seinen {{count}} verbleibenden Zug ausführen kann.",
+    "frogger_other": "{{player}} hat entschieden, den Nachziehpool aufzufüllen. Die anderen Spieler müssen passen, damit er seine {{count}} verbleibenden Züge ausführen kann.",
     "quincunx": "Spieler {{playerNum}} hatte folgende Karten auf der Hand: {{cards}}.",
     "elOso": {
       "playerSetup": "Spieleraufbau",
@@ -318,7 +318,6 @@
   "LEAD": "{{player}} hat die Führung übernommen.",
   "MOVE": {
     "amazons": "{{player}} ist von {{from}} nach {{to}} gezogen und hat danach das Feld {{block}} gesperrt.",
-    "amazonsNoFirstShot": "{{player}} ist von {{from}} nach {{to}} gezogen.",
     "anache_dragon": "{{player}} hat eine Gruppe der Größe {{count}} mit einem Drachenzug von {{from}} in Richtung {{dir}} gezogen.",
     "anache_dragon_jump": "{{player}} springt mit dem Drachen von {{from}} nach {{to}}.",
     "anache_knight": "{{player}} hat eine Gruppe der Größe {{count}} mit einem Springerzug von {{from}} in Richtung {{dir}} gezogen.",
@@ -401,7 +400,8 @@
     "veletas": "{{player}} hat den Schützen von {{from}} nach {{to}} bewegt.",
     "volo_one": "{{player}} hat einen Schwarm von 1 Vogel von {{from}} in Richtung {{how}} bewegt.",
     "volo_other": "{{player}} hat einen Schwarm von {{count}} Vögeln von {{from}} in Richtung {{how}} bewegt.",
-    "complete_what": "{{player}} hat einen {{what}} von {{from}} nach {{to}} gezogen."
+    "complete_what": "{{player}} hat einen {{what}} von {{from}} nach {{to}} gezogen.",
+    "amazonsNoFirstShot": "{{player}} ist von {{from}} nach {{to}} gezogen."
   },
   "NULLIFY_CLAIM": "Türme dürfen im letzten Zug des Spiels nicht beansprucht werden. Der Anspruch bei {{where}} wurde annulliert.",
   "ORIENT": {

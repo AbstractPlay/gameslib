@@ -30,8 +30,8 @@
     "arimaa": "Questa posizione si è già verificata. Ulteriori ripetizioni di questa posizione sono vietate.",
     "biscuit": "Le seguenti carte erano nelle mani avversarie: {{cards}}.",
     "deckfish": "{{player}} non è stato in grado di muovere e deve passare d'ora in poi.",
-    "frogger_one": "{{player}} ha scelto di riempire la riserva di pesca. Ottiene un altro turno per effettuare la sua {{count}} mossa rimanente.",
-    "frogger_other": "{{player}} ha scelto di riempire la riserva di pesca. Ottiene un altro turno per effettuare le sue {{count}} mosse rimanenti.",
+    "frogger_one": "{{player}} ha scelto di riempire la riserva di pesca. Gli altri giocatori devono passare per permettergli di effettuare la sua {{count}} mossa rimanente.",
+    "frogger_other": "{{player}} ha scelto di riempire la riserva di pesca. Gli altri giocatori devono passare per permettergli di effettuare le sue {{count}} mosse rimanenti.",
     "quincunx": "Il giocatore {{playerNum}} aveva le seguenti carte rimanenti in mano: {{cards}}.",
     "elOso": {
       "playerSetup": "Preparazione del giocatore",
@@ -318,7 +318,6 @@
   "LEAD": "{{player}} ha preso il comando.",
   "MOVE": {
     "amazons": "{{player}} si è mosso da {{from}} a {{to}} e poi ha bloccato la casella {{block}}.",
-    "amazonsNoFirstShot": "{{player}} ha mosso da {{from}} a {{to}}.",
     "anache_dragon": "{{player}} ha mosso un gruppo di dimensione {{count}} tramite una mossa del drago da {{from}} nella direzione {{dir}}.",
     "anache_dragon_jump": "{{player}} fa saltare il proprio drago da {{from}} a {{to}}.",
     "anache_knight": "{{player}} ha mosso un gruppo di dimensione {{count}} tramite una mossa di cavallo da {{from}} nella direzione {{dir}}.",
@@ -401,7 +400,8 @@
     "veletas": "{{player}} ha mosso il tiratore da {{from}} a {{to}}.",
     "volo_one": "{{player}} ha mosso uno stormo di 1 uccello da {{from}} in direzione {{how}}.",
     "volo_other": "{{player}} ha mosso uno stormo di {{count}} uccelli da {{from}} in direzione {{how}}.",
-    "complete_what": "{{player}} ha mosso un {{what}} da {{from}} a {{to}}."
+    "complete_what": "{{player}} ha mosso un {{what}} da {{from}} a {{to}}.",
+    "amazonsNoFirstShot": "{{player}} ha mosso da {{from}} a {{to}}."
   },
   "NULLIFY_CLAIM": "Le torri non possono essere rivendicate nell'ultimo turno di gioco. La rivendicazione a {{where}} è stata annullata.",
   "ORIENT": {

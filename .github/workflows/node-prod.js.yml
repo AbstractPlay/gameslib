@@ -48,15 +48,15 @@ jobs:
             fi
         - run: npm ci
         - name: Validate ci-deps manifests
-          run: node scripts/check-ci-deps.mjs
+          run: npx ap-check-ci-deps
         - name: Install pinned AP dependencies
           env:
             AP_RENDERER_VERSION: ${{ github.event.client_payload.renderer_version }}
             AP_RECRANKS_VERSION: ${{ github.event.client_payload.recranks_version }}
             AP_SOURCE: ${{ github.event.client_payload.source_run_id && (github.event.client_payload.recranks_version && format('recranks-ci-{0}', github.event.client_payload.source_run_id) || format('renderer-ci-{0}', github.event.client_payload.source_run_id)) || '' }}
-          run: node scripts/install-ap-deps.mjs --stage prod
+          run: npx ap-install-deps --stage prod
         - name: Verify package.json matches ci-deps
-          run: node scripts/check-ci-deps.mjs --stage prod --strict
+          run: npx ap-check-ci-deps --stage prod --strict
         - run: npm list @abstractplay/renderer
         - run: npm test --if-present
         - name: Checkout docs site

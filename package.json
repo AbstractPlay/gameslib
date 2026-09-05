@@ -59,8 +59,8 @@
     "check-weblate-keys": "node scripts/check-weblate-keys.mjs",
     "check-weblate-branch": "node scripts/check-weblate-branch.mjs",
     "merge-weblate-branch": "node scripts/merge-weblate-branch.mjs",
-    "sync-deps": "node scripts/install-ap-deps.mjs --stage dev",
-    "sync-deps:prod": "node scripts/install-ap-deps.mjs --stage prod",
+    "sync-deps": "ap-install-deps --stage dev",
+    "sync-deps:prod": "ap-install-deps --stage prod",
     "check-locale-readiness": "node scripts/check-locale-readiness.mjs",
     "check-links": "node scripts/check-links.mjs",
     "docs:check": "node scripts/docs-check.mjs",
@@ -94,6 +94,7 @@
   },
   "packageManager": "npm@11.6.2",
   "devDependencies": {
+    "@abstractplay/ap-deps-tools": "^1.1.1",
     "@aws-sdk/client-dynamodb": "^3.758.0",
     "@aws-sdk/lib-dynamodb": "^3.758.0",
     "@eslint/js": "^9.26.0",

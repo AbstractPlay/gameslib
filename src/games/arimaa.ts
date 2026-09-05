@@ -80,12 +80,14 @@ export class ArimaaGame extends GameBase {
             {
                 num: 1,
                 default: "#bf9212",
-                explanation: "Colour of player 1 (Gold)"
+                explanation: "Colour of player 1 (Gold)",
+                player: 1
             },
             {
                 num: 2,
                 default: "#989898",
-                explanation: "Colour of player 2 (Silver)"
+                explanation: "Colour of player 2 (Silver)",
+                player: 2
             },
             {
                 num: 3,

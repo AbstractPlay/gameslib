@@ -35,7 +35,9 @@ AI helpers (`AIFactory`, etc.) exist for testing only and are not part of the pu
 
 ## `gameinfo`
 
-Self-describing metadata per game, matching [`gameinfo.json`](https://github.com/AbstractPlay/gameslib/blob/develop/src/schemas/gameinfo.json). Each entry includes uid, name, description (i18n key), URLs, people, player counts, variants, and flags.
+Self-describing metadata per game, matching [`gameinfo.json`](/gameslib/src/schemas/gameinfo.json). Each entry includes uid, name, description (i18n key), URLs, people, player counts, variants, flags, and optional `customizations` (palette/context hints).
+
+**Schema changes:** edit `src/schemas/gameinfo.json` only, then run `npm run json2ts` — never hand-edit `gameinfo.d.ts`. See [gameinfo metadata](/gameslib/gameinfo/) for `customizations` and the `player` field on palette hints.
 
 In production builds, `gameinfo` omits experimental games and experimental variants. Use `gameinfo` / `gameinfoSorted` variants for new challenges and tournaments. On a game instance, use `challengeVariants()` for the same filtered picker UI. Use `allvariants()` for historical games and in-game display of active variant uids.
 

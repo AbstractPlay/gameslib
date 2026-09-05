@@ -65,12 +65,14 @@ export class XanaGame extends GameBase {
             {
                 num: 1,
                 default: 1,
-                explanation: "Colour of player 1"
+                explanation: "Colour of player 1",
+                player: 1
             },
             {
                 num: 2,
                 default: 2,
-                explanation: "Colour of player 2"
+                explanation: "Colour of player 2",
+                player: 2
             },
             {
                 num: 3,

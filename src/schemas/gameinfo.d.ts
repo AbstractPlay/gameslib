@@ -199,6 +199,10 @@ export interface CustomizationPalette {
    * A free text description of what this colour is used for and perhaps tips on customizing it (if it's complicated).
    */
   explanation: string;
+  /**
+   * 1-based player seat when this palette slot is that player's piece colour. Omit on non-player slots (pawns, trees, permits, shared pieces, etc.). Used by the front end to resolve which renderer slots participate in preferred-colour swap.
+   */
+  player?: number;
 }
 export interface CustomizationContext {
   /**

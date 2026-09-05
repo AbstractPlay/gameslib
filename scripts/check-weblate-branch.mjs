@@ -14,6 +14,9 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 
+/** merge-tree on large locale trees can exceed the default 1 MiB spawn buffer. */
+const GIT_MAX_BUFFER = 64 * 1024 * 1024;
+
 /** @typedef {{
  *   baseBranch: string;
  *   weblateBranch: string;
@@ -118,6 +121,7 @@ function runGit(cwd, args, opts = {}) {
     cwd,
     encoding: "utf8",
     stdio: ["ignore", "pipe", "pipe"],
+    maxBuffer: opts.maxBuffer ?? GIT_MAX_BUFFER,
   });
   if (result.status !== 0 && !opts.allowFail) {
     const detail = (result.stderr || result.stdout || "").trim();
@@ -168,6 +172,40 @@ function listChangedFiles(cwd, baseRef, weblateRef) {
     .filter(Boolean);
 }
 
+/** Blob path line in `git merge-tree` v2 output. */
+const MERGE_TREE_BLOB_LINE_RE =
+  /^\s+(?:base|our|their)\s+\d+\s+[0-9a-f]+\s+(\S.*)$/m;
+
+/**
+ * Parse `git merge-tree` stdout/stderr for unmerged paths.
+ * Supports legacy "Merge conflict in …" lines and Git 2.38+ merge-tree output.
+ * @param {string} output
+ * @returns {string[]}
+ */
+export function parseMergeTreeConflicts(output) {
+  const conflicts = new Set();
+
+  for (const line of output.split(/\r?\n/)) {
+    const legacy = line.match(/Merge conflict in (.+)$/);
+    if (legacy) {
+      conflicts.add(legacy[1].trim());
+    }
+  }
+
+  const blocks = output.split(/^changed in both$/m);
+  for (const block of blocks.slice(1)) {
+    if (!block.includes("<<<<<<<")) {
+      continue;
+    }
+    const pathMatch = block.match(MERGE_TREE_BLOB_LINE_RE);
+    if (pathMatch) {
+      conflicts.add(pathMatch[1].trim());
+    }
+  }
+
+  return [...conflicts].sort();
+}
+
 /**
  * @param {string} cwd
  * @param {string} baseRef
@@ -181,15 +219,7 @@ function detectMergeConflicts(cwd, baseRef, weblateRef) {
     ["merge-tree", mergeBase, baseRef, weblateRef],
     { allowFail: true },
   );
-  const output = `${result.stdout}\n${result.stderr}`;
-  const conflicts = new Set();
-  for (const line of output.split(/\r?\n/)) {
-    const match = line.match(/Merge conflict in (.+)$/);
-    if (match) {
-      conflicts.add(match[1].trim());
-    }
-  }
-  return [...conflicts];
+  return parseMergeTreeConflicts(`${result.stdout}\n${result.stderr}`);
 }
 
 /**

@@ -97,7 +97,7 @@ export function filterLocalesForProd(
             const srcPath = path.join(srcLangDir, file);
             const data = JSON.parse(fs.readFileSync(srcPath, "utf8"));
             const filtered = filterLocaleFile(data, file, experimentalUids, experimentalVariantsByUid);
-            fs.writeFileSync(path.join(destLangDir, file), `${JSON.stringify(filtered, null, 4)}\n`);
+            fs.writeFileSync(path.join(destLangDir, file), `${JSON.stringify(filtered, null, 2)}\n`);
         }
     }
 }

@@ -116,7 +116,7 @@ function seedManagedLocales(englishNames) {
         }
         const apgames = JSON.parse(fs.readFileSync(localePath, "utf8"));
         const merged = mergeNamesIntoApgames(apgames, englishNames);
-        fs.writeFileSync(localePath, `${JSON.stringify(merged, null, 4)}\n`);
+        fs.writeFileSync(localePath, `${JSON.stringify(merged, null, 2)}\n`);
 
         const srcPath = path.join(ROOT, "locale-src", lang, "apgames.json");
         const srcTracking = fs.existsSync(srcPath)
@@ -212,7 +212,7 @@ function main() {
 
     if (write) {
         const merged = mergeNamesIntoApgames(apgames, expectedNames);
-        fs.writeFileSync(APGAMES_PATH, `${JSON.stringify(merged, null, 4)}\n`);
+        fs.writeFileSync(APGAMES_PATH, `${JSON.stringify(merged, null, 2)}\n`);
         console.log(`Updated names (${Object.keys(expectedNames).length} games) in ${APGAMES_PATH}`);
         if (process.argv.includes("--seed-managed")) {
             seedManagedLocales(merged.names);

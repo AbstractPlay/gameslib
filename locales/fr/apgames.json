@@ -788,11 +788,11 @@
         "name": "Plateau triangulaire (largeur 8)"
       },
       "cobweb": {
-        "name": "Cobweb (4 anneaux, expérimental)"
+        "name": "Toile d'araignée (4 anneaux)"
       },
       "cobweb-small": {
         "description": "Une variante jouée sur un plateau rond où vous essayez de relier deux côtés opposés.",
-        "name": "Cobweb (3 anneaux, recommandé par l'auteur)"
+        "name": "Toile d'araignée (3 anneaux)"
       },
       "limping": {
         "name": "Boiteux 5-6 (75 espaces)"

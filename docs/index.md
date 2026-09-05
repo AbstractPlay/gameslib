@@ -5,6 +5,8 @@
 ## Documentation
 
 - [Creating games](/gameslib/creating-games/) — workflow, **choosing a base class**, helpers, renderer, PR
+- [API](/gameslib/api/) — `GameFactory`, `gameinfo`, `resolveGameFlags`
+- [gameinfo metadata](/gameslib/gameinfo/) — schema (`gameinfo.json`), `customizations`, `player` palette tags
 - [Game object](/gameslib/game-object/) — `GameBase` contract, turn model, mixin hooks, and `recordExportExclude` for gamerecord export
 - [Flags](/gameslib/flags/) — `gameinfo` flags reference
 - [Variants](/gameslib/variants/) — optional rules, constraint fields, constructor helper

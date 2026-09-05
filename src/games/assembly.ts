@@ -80,12 +80,14 @@ export class AssemblyGame extends GameBaseSimultaneous {
             {
                 num: 5,
                 default: "board context",
-                explanation: "Colour of tiles owned by player 1"
+                explanation: "Colour of tiles owned by player 1",
+                player: 1
             },
             {
                 num: 6,
                 default: "fill at 50% opacity",
-                explanation: "Colour of tiles owned by player 2"
+                explanation: "Colour of tiles owned by player 2",
+                player: 2
             },
         ],
         categories: ["goal>score>eog", "mechanic>displace",  "mechanic>simultaneous", "mechanic>random>setup", "mechanic>random>play", "board>shape>rect", "board>connect>rect", "components>simple>5c"],

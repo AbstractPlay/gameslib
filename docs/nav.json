@@ -3,6 +3,7 @@
   { "slug": "creating-games", "title": "Creating games" },
   { "slug": "testing" },
   { "slug": "api", "title": "API" },
+  { "slug": "gameinfo", "title": "gameinfo metadata" },
   { "slug": "game-object", "title": "Game object" },
   { "slug": "structured-chat-log", "title": "Structured move log" },
   { "slug": "structured-render-labels", "title": "Structured render labels" },

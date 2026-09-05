@@ -64,12 +64,14 @@ export class YonmoqueGame extends GameBase {
             {
                 num: 1,
                 default: 2,
-                explanation: "Colour of the \"dark\" player"
+                explanation: "Colour of the \"dark\" player",
+                player: 1
             },
             {
                 num: 2,
                 default: "board colour",
-                explanation: "Colour of the \"light\" player"
+                explanation: "Colour of the \"light\" player",
+                player: 2
             }
         ],
         categories: ["goal>arrange", "mechanic>asymmetry", "mechanic>place", "mechanic>move", "mechanic>convert", "board>shape>rect", "board>connect>rect", "components>simple>1per"],

@@ -159,6 +159,7 @@ Full field reference, examples ([LOA](https://play.abstractplay.com/games/loa), 
 ## Implementation checklist
 
 - [ ] `static readonly gameinfo: APGamesInformation` (flag `experimental` must be set for all new games)
+- [ ] **`custom-colours` games:** tag player piece slots with `player: N` on palette `customizations` where slot ≠ seat (see [gameinfo metadata](/gameslib/gameinfo/))
 - [ ] **Base class** chosen (`GameBase`, `GameBaseSimultaneous`, `GameBaseSkipTurn`, or `GameBaseSequenced`) — see above
 - [ ] **`simultaneous` flag** in `gameinfo` iff using `GameBaseSimultaneous`
 - [ ] **`isSeatActive`** iff using `GameBaseSkipTurn`

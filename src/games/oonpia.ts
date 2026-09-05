@@ -79,12 +79,14 @@ export class OonpiaGame extends GameBase {
             {
                 num: 1,
                 default: "#eeeeee",
-                explanation: "Player 1 colour"
+                explanation: "Player 1 colour",
+                player: 1
             },
             {
                 num: 2,
                 default: "#252525",
-                explanation: "Player 2 colour"
+                explanation: "Player 2 colour",
+                player: 2
             },
             {
                 num: 3,

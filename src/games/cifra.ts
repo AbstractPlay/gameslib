@@ -73,12 +73,14 @@ export class CifraGame extends GameBase {
             {
                 num: 1,
                 default: "board colour",
-                explanation: "Colour of the \"light\" player"
+                explanation: "Colour of the \"light\" player",
+                player: 1
             },
             {
                 num: 2,
                 default: 2,
-                explanation: "Colour of the \"dark\" player"
+                explanation: "Colour of the \"dark\" player",
+                player: 2
             }
         ],
         categories: ["goal>royal-capture", "goal>royal-escape", "goal>score>eog", "mechanic>place", "mechanic>move", "mechanic>capture", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>special"],

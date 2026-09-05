@@ -30,8 +30,8 @@
     "arimaa": "Esta posición ya ha ocurrido antes. Quedan prohibidas más repeticiones de esta posición.",
     "biscuit": "Las siguientes cartas estaban en las manos opuestas: {{cards}}.",
     "deckfish": "{{player}} no pudo mover y debe pasar de ahora en adelante.",
-    "frogger_one": "{{player}} eligió reponer la reserva de robo. Los demás jugadores deben pasar para que pueda hacer su {{count}} movimiento restante.",
-    "frogger_other": "{{player}} eligió reponer la reserva de robo. Los demás jugadores deben pasar para que pueda hacer sus {{count}} movimientos restantes.",
+    "frogger_one": "{{player}} eligió rellenar la reserva de robo. Tiene otro turno para realizar su {{count}} movimiento restante.",
+    "frogger_other": "{{player}} eligió rellenar la reserva de robo. Tiene otro turno para realizar sus {{count}} movimientos restantes.",
     "quincunx": "Al jugador {{playerNum}} le quedaron las siguientes cartas en la mano: {{cards}}.",
     "elOso": {
       "playerSetup": "Preparación del jugador",
@@ -318,6 +318,7 @@
   "LEAD": "{{player}} tomó la delantera.",
   "MOVE": {
     "amazons": "{{player}} se movió de {{from}} a {{to}} y luego bloqueó la casilla {{block}}.",
+    "amazonsNoFirstShot": "{{player}} se movió de {{from}} a {{to}}.",
     "anache_dragon": "{{player}} movió un grupo de tamaño {{count}} mediante un movimiento de dragón desde {{from}} en la dirección {{dir}}.",
     "anache_dragon_jump": "{{player}} salta con su dragón de {{from}} a {{to}}.",
     "anache_knight": "{{player}} movió un grupo de tamaño {{count}} mediante un movimiento de caballo desde {{from}} en la dirección {{dir}}.",
@@ -400,8 +401,7 @@
     "veletas": "{{player}} movió el tirador de {{from}} a {{to}}.",
     "volo_one": "{{player}} movió una bandada de 1 ave de {{from}} en dirección {{how}}.",
     "volo_other": "{{player}} movió una bandada de {{count}} aves de {{from}} en dirección {{how}}.",
-    "complete_what": "{{player}} movió un {{what}} de {{from}} a {{to}}.",
-    "amazonsNoFirstShot": "{{player}} se movió de {{from}} a {{to}}."
+    "complete_what": "{{player}} movió un {{what}} de {{from}} a {{to}}."
   },
   "NULLIFY_CLAIM": "No se pueden reclamar torres en el último turno del juego. Se anuló el reclamo en {{where}}.",
   "ORIENT": {

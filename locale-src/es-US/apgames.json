@@ -7785,11 +7785,11 @@
   },
   "validation.frogger.VALID_REFILL_one": {
     "src": "Please submit your move to trigger the refill. You will get another turn automatically, and you will have one move remaining in your partial turn (as well as the option to pass).",
-    "out": "Por favor, envía tu movimiento para activar la reposición. Obtendrás otro turno automáticamente y te quedará un movimiento en tu turno parcial (así como la opción de pasar)."
+    "out": "Por favor envía tu movimiento para activar la reposición. Obtendrás otro turno automáticamente y te quedará un movimiento en tu turno parcial (así como la opción de pasar)."
   },
   "validation.frogger.VALID_REFILL_other": {
     "src": "Please submit your move to trigger the refill. You will get another turn automatically, and you will have {{count}} moves remaining in your partial turn (as well as the option to pass).",
-    "out": "Por favor, envía tu movimiento para activar la reposición. Obtendrás otro turno automáticamente y te quedarán {{count}} movimientos en tu turno parcial (así como la opción de pasar)."
+    "out": "Por favor envía tu movimiento para activar la reposición. Obtendrás otro turno automáticamente y te quedarán {{count}} movimientos en tu turno parcial (así como la opción de pasar)."
   },
   "validation.furl.CAPTURE4UNFURL": {
     "src": "You signalled a capture unfurl move, but {{to}} not is occupied by the opponent. Use \">\" to denote non-capture unfurl.",
@@ -13881,11 +13881,11 @@
   },
   "variants.agere.cobweb-small.name": {
     "src": "Cobweb (3 rings, designer preferred)",
-    "out": "Cobweb (3 anillos, preferencia del diseñador)"
+    "out": "Telaraña (3 anillos, preferido por el diseñador)"
   },
   "variants.agere.cobweb.name": {
     "src": "Cobweb (4 rings, experimental)",
-    "out": "Cobweb (4 anillos, experimental)"
+    "out": "Telaraña (4 anillos, experimental)"
   },
   "variants.agere.limping.name": {
     "src": "Limping 5-6 (75 spaces)",

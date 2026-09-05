@@ -788,11 +788,11 @@
         "name": "Tavoliere triangolare (larghezza 8)"
       },
       "cobweb": {
-        "name": "Ragnatela (4 anelli)"
+        "name": "Cobweb (4 anelli, sperimentale)"
       },
       "cobweb-small": {
         "description": "Una variante giocata su un tavoliere rotondo in cui cerchi di collegare due lati opposti.",
-        "name": "Ragnatela (3 anelli)"
+        "name": "Cobweb (3 anelli, preferita dall'autore)"
       },
       "limping": {
         "name": "Zoppicante 5-6 (75 spazi)"
@@ -5008,10 +5008,10 @@
     },
     "amazons": {
       "INITIAL_INSTRUCTIONS": "Seleziona una delle tue amazzoni da muovere.",
+      "NO_FIRST_SHOT": "Il primo giocatore non può scagliare una freccia nel suo turno di apertura.",
       "POTENTIAL_BLOCK": "Fin qui tutto bene. Indica lo spazio che vuoi bloccare.",
       "POTENTIAL_MOVE": "Fin qui tutto bene. Indica lo spazio in cui vuoi muoverti.",
-      "STRAIGHTLINE": "Puoi muoverti e bloccare solo in linea retta.",
-      "NO_FIRST_SHOT": "Il primo giocatore non può scagliare una freccia nel suo turno di apertura."
+      "STRAIGHTLINE": "Puoi muoverti e bloccare solo in linea retta."
     },
     "amoeba": {
       "BAD_DISTANCE": "Le pile devono muoversi esattamente della distanza pari alla loro altezza.",
@@ -6061,8 +6061,8 @@
       "TOO_EARLY_FOR_REFILL": "Invia la tua richiesta di riempimento prima di effettuare le mosse rimanenti.",
       "TOO_LATE_FOR_BLOCKED": "Non sei considerato bloccato se hai già mosso in questo turno.",
       "TOO_LATE_FOR_REFILL": "Non è necessario forzare un riempimento della riserva di pesca dopo la tua terza mossa. Si riempirà automaticamente dopo l'invio.",
-      "VALID_REFILL_one": "Invia la tua mossa per attivare il riempimento. Gli avversari passeranno automaticamente e ti rimarrà una mossa nel tuo turno parziale (oltre all'opzione di passare).",
-      "VALID_REFILL_other": "Invia la tua mossa per attivare il riempimento. Gli avversari passeranno automaticamente e ti rimarranno {{count}} mosse nel tuo turno parziale (oltre all'opzione di passare)."
+      "VALID_REFILL_one": "Invia la tua mossa per attivare il ripristino. Otterrai automaticamente un altro turno e ti rimarrà una mossa nel tuo turno parziale (oltre alla possibilità di passare).",
+      "VALID_REFILL_other": "Invia la tua mossa per attivare il ripristino. Otterrai automaticamente un altro turno e ti rimarranno {{count}} mosse nel tuo turno parziale (oltre alla possibilità di passare)."
     },
     "furl": {
       "CAPTURE4UNFURL": "Hai segnalato una mossa di spiegamento con cattura, ma {{to}} non è occupata dall'avversario. Usa \">\" per indicare lo spiegamento senza cattura.",

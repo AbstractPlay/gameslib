@@ -97,11 +97,11 @@
   },
   "ANNOUNCE.frogger_one": {
     "src": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining move.",
-    "out": "{{player}} eligió reponer la reserva de robo.  Obtiene otro turno para realizar su {{count}} movimiento restante."
+    "out": "{{player}} eligió rellenar la reserva de robo. Tiene otro turno para realizar su {{count}} movimiento restante."
   },
   "ANNOUNCE.frogger_other": {
     "src": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining moves.",
-    "out": "{{player}} eligió reponer la reserva de robo.  Obtiene otro turno para realizar sus {{count}} movimientos restantes."
+    "out": "{{player}} eligió rellenar la reserva de robo. Tiene otro turno para realizar sus {{count}} movimientos restantes."
   },
   "ANNOUNCE.quincunx": {
     "src": "Player {{playerNum}} had the following cards left in their hand: {{cards}}.",

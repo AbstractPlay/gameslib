@@ -792,7 +792,7 @@
       },
       "cobweb-small": {
         "description": "Eine Variante auf einem runden Brett, bei der man versucht, zwei gegenüberliegende Seiten zu verbinden.",
-        "name": "Cobweb (3 Ringe, vom Designer bevorzugt)"
+        "name": "Spinnennetz (3 Ringe, vom Autor bevorzugt)"
       },
       "limping": {
         "name": "Humpelnd 5-6 (75 Felder)"

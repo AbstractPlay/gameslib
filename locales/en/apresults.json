@@ -182,6 +182,7 @@
         "veletas": "Shooter at {{where}} is trapped and is claimed by {{who}}."
     },
     "CONNECT": {
+        "bridges": "{{player}} built a bridge between {{left}} and {{right}}.",
         "pontedd": "{{player}} placed a bridge between {{left}} and {{right}}."
     },
     "CONVERT": {

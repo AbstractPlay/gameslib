@@ -182,6 +182,7 @@
     "veletas": "Schütze auf {{where}} ist gefangen und wird von {{who}} beansprucht."
   },
   "CONNECT": {
+    "bridges": "{{player}} hat eine Brücke zwischen {{left}} und {{right}} gebaut.",
     "pontedd": "{{player}} hat eine Brücke zwischen {{left}} und {{right}} platziert."
   },
   "CONVERT": {

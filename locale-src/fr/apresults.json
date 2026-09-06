@@ -631,6 +631,10 @@
     "src": "Shooter at {{where}} is trapped and is claimed by {{who}}.",
     "out": "Le tireur en {{where}} est piégé et est réclamé par {{who}}."
   },
+  "CONNECT.bridges": {
+    "src": "{{player}} built a bridge between {{left}} and {{right}}.",
+    "out": "{{player}} a construit un pont entre {{left}} et {{right}}."
+  },
   "CONNECT.pontedd": {
     "src": "{{player}} placed a bridge between {{left}} and {{right}}.",
     "out": "{{player}} a placé un pont entre {{left}} et {{right}}."

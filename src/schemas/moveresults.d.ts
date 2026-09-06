@@ -340,6 +340,10 @@ export type APMoveResult =
       type: "connect";
       p1: string;
       p2: string;
+      /**
+       * @minItems 1
+       */
+      between?: [string, ...string[]];
     }
   | {
       type: "lead";

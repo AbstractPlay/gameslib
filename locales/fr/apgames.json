@@ -5330,8 +5330,14 @@
       "TOOFAR": "Les pièces ne peuvent se déplacer que d'une seule case à la fois."
     },
     "bridges": {
-      "INITIAL_INSTRUCTIONS_FIRST_TURN": "Placez une nouvelle base sur n'importe quelle case vide, sauf au centre.",
-      "INITIAL_INSTRUCTIONS": "Effectuez deux coups : placez une nouvelle base sur une case vide qui n'est ni adjacente à une base existante ni au centre, ou reliez deux de vos bases par un pont."
+      "INITIAL_INSTRUCTIONS_FIRST_TURN": "Sélectionnez une case vide (sauf au centre) pour placer une nouvelle base, ou vous pouvez passer.",
+      "INITIAL_INSTRUCTIONS": "Jouez deux coups : sélectionnez une case vide non adjacente à une base existante (sauf au centre) pour placer une nouvelle base, ou sélectionnez l'une de vos bases existantes pour commencer à construire un pont. Ou vous pouvez passer tout votre tour.",
+      "BASE_HAS_BRIDGE_one": "Les bases ne peuvent pas supporter plus d'un pont. Vous devez encore jouer 1 coup.",
+      "BASE_HAS_BRIDGE_other": "Les bases ne peuvent pas supporter plus d'un pont. Vous devez encore jouer {{count}} coups.",
+      "NO_LINE_OF_SIGHT_one": "Cette base n'a pas de ligne de vue vers une autre base alliée. Vous devez encore jouer 1 coup.",
+      "NO_LINE_OF_SIGHT_other": "Cette base n'a pas de ligne de vue vers une autre base alliée. Vous devez encore jouer {{count}} coups.",
+      "ONE_MORE": "Vous devez encore jouer un coup. Sélectionnez une case vide non adjacente à une base existante (sauf au centre) pour placer une nouvelle base, ou sélectionnez l'une de vos bases existantes pour commencer à construire un pont. Ou vous pouvez passer tout votre tour.",
+      "SELECT_BRIDGE_END": "Sélectionnez une autre base alliée dans la ligne de vue pour construire le pont."
     },
     "btt": {
       "BAD_NULL": "Une case nulle ne peut pas isoler une partie du plateau.",

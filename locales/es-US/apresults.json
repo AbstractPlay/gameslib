@@ -182,6 +182,7 @@
     "veletas": "El tirador en {{where}} está atrapado y es reclamado por {{who}}."
   },
   "CONNECT": {
+    "bridges": "{{player}} construyó un puente entre {{left}} y {{right}}.",
     "pontedd": "{{player}} colocó un puente entre {{left}} y {{right}}."
   },
   "CONVERT": {

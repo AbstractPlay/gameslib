@@ -182,6 +182,7 @@
     "veletas": "Le tireur en {{where}} est piégé et est réclamé par {{who}}."
   },
   "CONNECT": {
+    "bridges": "{{player}} a construit un pont entre {{left}} et {{right}}.",
     "pontedd": "{{player}} a placé un pont entre {{left}} et {{right}}."
   },
   "CONVERT": {

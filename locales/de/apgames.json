@@ -5330,8 +5330,14 @@
       "TOOFAR": "Steine können sich jeweils nur ein Feld weit bewegen."
     },
     "bridges": {
-      "INITIAL_INSTRUCTIONS_FIRST_TURN": "Platziere eine neue Basis auf einem beliebigen freien Feld, außer in der Mitte.",
-      "INITIAL_INSTRUCTIONS": "Führe zwei Züge aus: Platziere eine neue Basis auf einem freien Feld, das nicht an eine bestehende Basis angrenzt und nicht in der Mitte liegt, oder verbinde zwei deiner Basen mit einer Brücke."
+      "INITIAL_INSTRUCTIONS_FIRST_TURN": "Wähle ein leeres Feld (außer der Mitte), um eine neue Basis zu platzieren, oder passe.",
+      "INITIAL_INSTRUCTIONS": "Führe zwei Züge aus: Wähle ein leeres Feld, das nicht an eine bestehende Basis angrenzt (außer der Mitte), um eine neue Basis zu platzieren, oder wähle eine deiner bestehenden Basen, um mit dem Bau einer Brücke zu beginnen. Oder du kannst deinen gesamten Zug passen.",
+      "BASE_HAS_BRIDGE_one": "Basen können nicht mehr als eine Brücke tragen. Du musst noch 1 weiteren Zug ausführen.",
+      "BASE_HAS_BRIDGE_other": "Basen können nicht mehr als eine Brücke tragen. Du musst noch {{count}} weitere Züge ausführen.",
+      "NO_LINE_OF_SIGHT_one": "Diese Basis hat keine Sichtlinie zu einer anderen eigenen Basis. Du musst noch 1 weiteren Zug ausführen.",
+      "NO_LINE_OF_SIGHT_other": "Diese Basis hat keine Sichtlinie zu einer anderen eigenen Basis. Du musst noch {{count}} weitere Züge ausführen.",
+      "ONE_MORE": "Du musst noch einen weiteren Zug ausführen. Wähle ein leeres Feld, das nicht an eine bestehende Basis angrenzt (außer der Mitte), um eine neue Basis zu platzieren, oder wähle eine deiner bestehenden Basen, um mit dem Bau einer Brücke zu beginnen. Oder du kannst deinen gesamten Zug passen.",
+      "SELECT_BRIDGE_END": "Wähle eine andere eigene Basis innerhalb der Sichtlinie, um die Brücke zu bauen."
     },
     "btt": {
       "BAD_NULL": "Ein Null-Feld darf keinen Teil des Bretts isolieren.",

@@ -5330,8 +5330,14 @@
       "TOOFAR": "I pezzi possono muoversi di un solo spazio alla volta."
     },
     "bridges": {
-      "INITIAL_INSTRUCTIONS_FIRST_TURN": "Posiziona una nuova base su qualsiasi spazio vuoto eccetto il centro.",
-      "INITIAL_INSTRUCTIONS": "Esegui due mosse: posiziona una nuova base su uno spazio vuoto non adiacente a una base esistente o al centro, oppure collega due delle tue basi con un ponte."
+      "INITIAL_INSTRUCTIONS_FIRST_TURN": "Seleziona uno spazio vuoto (eccetto il centro) per posizionare una nuova base, oppure puoi passare.",
+      "INITIAL_INSTRUCTIONS": "Esegui due mosse: seleziona uno spazio vuoto non adiacente a una base esistente (eccetto il centro) per posizionare una nuova base, oppure seleziona una delle tue basi esistenti per iniziare a costruire un ponte. Oppure puoi passare l'intero turno.",
+      "BASE_HAS_BRIDGE_one": "Le basi non possono supportare più di un ponte. Devi ancora effettuare 1 mossa.",
+      "BASE_HAS_BRIDGE_other": "Le basi non possono supportare più di un ponte. Devi ancora effettuare {{count}} mosse.",
+      "NO_LINE_OF_SIGHT_one": "Questa base non ha una linea di vista verso un'altra base alleata. Devi ancora effettuare 1 mossa.",
+      "NO_LINE_OF_SIGHT_other": "Questa base non ha una linea di vista verso un'altra base alleata. Devi ancora effettuare {{count}} mosse.",
+      "ONE_MORE": "Devi ancora effettuare un'altra mossa. Seleziona uno spazio vuoto non adiacente a una base esistente (eccetto il centro) per posizionare una nuova base, oppure seleziona una delle tue basi esistenti per iniziare a costruire un ponte. Oppure puoi passare l'intero turno.",
+      "SELECT_BRIDGE_END": "Seleziona un'altra base alleata sulla stessa linea di vista per costruire il ponte."
     },
     "btt": {
       "BAD_NULL": "Una casella nulla non può isolare una parte della plancia.",

@@ -1045,6 +1045,13 @@
                 },
                 "p2": {
                     "type": "string"
+                },
+                "between": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "minItems": 1
                 }
             },
             "required": ["type", "p1", "p2"],

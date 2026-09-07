@@ -1,4 +1,4 @@
-export const supportedLocales: string[] = ["en", "fr", "de", "it", "es-US"];
+export const supportedLocales: string[] = ["en", "eo", "fr", "de", "it", "es-US"];
 
 const SPANISH_LOCALE = "es-US";
 

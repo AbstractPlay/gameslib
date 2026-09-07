@@ -859,6 +859,10 @@ export class WaldMeisterGame extends GameBase {
         return display;
     }
 
+    public getPlayerScore(player: playerid): number {
+        return this.scores[player - 1];
+    }
+
     public sameMove(move1: string, move2: string): boolean {
         const parsed1 = WaldMeisterGame.parseMove(move1);
         const parsed2 = WaldMeisterGame.parseMove(move2);

@@ -410,7 +410,9 @@ export class FramesGame extends GameBaseSimultaneous {
         ]
     }
 
-
+    public getPlayerScore(player: playerid): number {
+        return this.scores[player - 1];
+    }
 
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         const who = (r as { who?: number }).who;

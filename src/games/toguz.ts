@@ -519,6 +519,10 @@ export class ToguzGame extends GameBase {
         }
     }
 
+    public getPlayerScore(player: playerid): number {
+        return this.kazna[player - 1];
+    }
+
     public clone(): ToguzGame {
         return new ToguzGame(this.serialize());
     }

@@ -586,6 +586,10 @@ export class TritiumGame extends GameBase {
         return [{ name: this.neutralAreaLabel("apgames:status.SCORES"), scores }];
     }
 
+    public getPlayerScore(player: playerid): number {
+        const scores = this.sidebarScores()[0].scores;
+        return scores[player - 1] as number;
+    }
 
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {

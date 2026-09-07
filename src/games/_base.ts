@@ -495,7 +495,7 @@ export abstract class GameBase  {
         }
         const score = this.getPlayerScore(player);
         const tiers = this.getGradeTiers();
-        if (score === undefined || tiers === undefined) {
+        if (score === undefined || typeof score !== "number" || tiers === undefined) {
             return undefined;
         }
         return evaluateGrade(score, tiers, soloScoreDirection(solo))?.id;
@@ -524,7 +524,8 @@ export abstract class GameBase  {
         if (solo.outcomeType === "timed") {
             return this.getPlayerElapsedMs();
         }
-        return this.getPlayerScore(player);
+        const score = this.getPlayerScore(player);
+        return typeof score === "number" ? score : undefined;
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -5330,8 +5330,14 @@
             "TOOFAR": "Pieces can only move one space at a time."
         },
         "bridges": {
-            "INITIAL_INSTRUCTIONS_FIRST_TURN": "Place a new base on any empty space except the middle.",
-            "INITIAL_INSTRUCTIONS": "Make two moves: Place a new base on an empty space that is not adjacent to an existing base or in the middle, or connect two of your bases with a bridge."
+            "INITIAL_INSTRUCTIONS_FIRST_TURN": "Select an empty space (except the middle) to place a new base, or you may pass.",
+            "INITIAL_INSTRUCTIONS": "Make two moves: Select an empty space not adjacent to an existing base (except the middle) to place a new base, or select one of your existing bases to begin building a bridge. Or you may pass your entire turn.",
+            "BASE_HAS_BRIDGE_one": "Bases cannot support more than one bridge. You must still make 1 more move.",
+            "BASE_HAS_BRIDGE_other": "Bases cannot support more than one bridge. You must still make {{count}} more moves.",
+            "NO_LINE_OF_SIGHT_one": "This base has no line of sight to another friendly base. You must still make 1 more move.",
+            "NO_LINE_OF_SIGHT_other": "This base has no line of sight to another friendly base. You must still make {{count}} more moves.",
+            "ONE_MORE": "You must still make one more move. Select an empty space not adjacent to an existing base (except the middle) to place a new base, or select one of your existing bases to begin building a bridge. Or you may pass your entire turn.",
+            "SELECT_BRIDGE_END": "Select another friendly base within line of sight to build the bridge."
         },
         "btt": {
             "BAD_NULL": "A null square may not isolate a part of the board.",

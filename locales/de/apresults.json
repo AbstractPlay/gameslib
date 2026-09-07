@@ -30,8 +30,8 @@
     "arimaa": "Diese Stellung kam bereits vor. Weitere Wiederholungen dieser Stellung sind verboten.",
     "biscuit": "Die folgenden Karten befanden sich auf den gegnerischen Händen: {{cards}}.",
     "deckfish": "{{player}} konnte nicht ziehen und muss ab jetzt passen.",
-    "frogger_one": "{{player}} hat sich entschieden, den Nachziehvorrat aufzufüllen. Er erhält einen weiteren Zug, um seinen {{count}} verbleibenden Zug auszuführen.",
-    "frogger_other": "{{player}} hat sich entschieden, den Nachziehvorrat aufzufüllen. Er erhält einen weiteren Zug, um seine {{count}} verbleibenden Züge auszuführen.",
+    "frogger_one": "{{player}} hat sich entschieden, den Nachziehpool aufzufüllen. Er erhält einen weiteren Zug, um seinen {{count}} verbleibenden Zug auszuführen.",
+    "frogger_other": "{{player}} hat sich entschieden, den Nachziehpool aufzufüllen. Er erhält einen weiteren Zug, um seine {{count}} verbleibenden Züge auszuführen.",
     "quincunx": "Spieler {{playerNum}} hatte folgende Karten auf der Hand: {{cards}}.",
     "elOso": {
       "playerSetup": "Spieleraufbau",
@@ -182,6 +182,7 @@
     "veletas": "Schütze auf {{where}} ist gefangen und wird von {{who}} beansprucht."
   },
   "CONNECT": {
+    "bridges": "{{player}} hat eine Brücke zwischen {{left}} und {{right}} gebaut.",
     "pontedd": "{{player}} hat eine Brücke zwischen {{left}} und {{right}} platziert."
   },
   "CONVERT": {

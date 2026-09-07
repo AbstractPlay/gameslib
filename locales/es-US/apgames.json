@@ -5330,8 +5330,14 @@
       "TOOFAR": "Las piezas solo pueden moverse un espacio a la vez."
     },
     "bridges": {
-      "INITIAL_INSTRUCTIONS_FIRST_TURN": "Coloca una base nueva en cualquier espacio vacío, excepto en el centro.",
-      "INITIAL_INSTRUCTIONS": "Haz dos movimientos: coloca una base nueva en un espacio vacío que no esté adyacente a una base existente ni en el centro, o conecta dos de tus bases con un puente."
+      "INITIAL_INSTRUCTIONS_FIRST_TURN": "Selecciona un espacio vacío (excepto el centro) para colocar una nueva base, o puedes pasar.",
+      "INITIAL_INSTRUCTIONS": "Haz dos movimientos: Selecciona un espacio vacío que no esté adyacente a una base existente (excepto el centro) para colocar una nueva base, o selecciona una de tus bases existentes para comenzar a construir un puente. O puedes pasar todo tu turno.",
+      "BASE_HAS_BRIDGE_one": "Las bases no pueden sostener más de un puente. Aún debes hacer 1 movimiento más.",
+      "BASE_HAS_BRIDGE_other": "Las bases no pueden sostener más de un puente. Aún debes hacer {{count}} movimientos más.",
+      "NO_LINE_OF_SIGHT_one": "Esta base no tiene línea de visión hacia otra base aliada. Aún debes hacer 1 movimiento más.",
+      "NO_LINE_OF_SIGHT_other": "Esta base no tiene línea de visión hacia otra base aliada. Aún debes hacer {{count}} movimientos más.",
+      "ONE_MORE": "Aún debes hacer un movimiento más. Selecciona un espacio vacío que no esté adyacente a una base existente (excepto el centro) para colocar una nueva base, o selecciona una de tus bases existentes para comenzar a construir un puente. O puedes pasar todo tu turno.",
+      "SELECT_BRIDGE_END": "Selecciona otra base aliada dentro de la línea de visión para construir el puente."
     },
     "btt": {
       "BAD_NULL": "Un cuadro nulo no puede aislar una parte del tablero.",
@@ -6061,8 +6067,8 @@
       "TOO_EARLY_FOR_REFILL": "Envía tu solicitud de reposición antes de realizar tus movimientos restantes.",
       "TOO_LATE_FOR_BLOCKED": "No te cuentas como bloqueado si ya te has movido en este turno.",
       "TOO_LATE_FOR_REFILL": "No es necesario forzar una reposición de la reserva de robo después de tu tercer movimiento. Se repondrá automáticamente después de que envíes tu turno.",
-      "VALID_REFILL_one": "Por favor envía tu movimiento para activar la reposición. Obtendrás otro turno automáticamente y te quedará un movimiento en tu turno parcial (así como la opción de pasar).",
-      "VALID_REFILL_other": "Por favor envía tu movimiento para activar la reposición. Obtendrás otro turno automáticamente y te quedarán {{count}} movimientos en tu turno parcial (así como la opción de pasar)."
+      "VALID_REFILL_one": "Por favor, envía tu movimiento para activar la recarga. Obtendrás otro turno automáticamente y te quedará un movimiento en tu turno parcial (además de la opción de pasar).",
+      "VALID_REFILL_other": "Por favor, envía tu movimiento para activar la recarga. Obtendrás otro turno automáticamente y te quedarán {{count}} movimientos en tu turno parcial (además de la opción de pasar)."
     },
     "furl": {
       "CAPTURE4UNFURL": "Señalaste un movimiento de desplegar con captura, pero {{to}} no está ocupado por el oponente. Usa \">\" para denotar un despliegue sin captura.",

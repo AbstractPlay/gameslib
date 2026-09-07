@@ -792,7 +792,7 @@
       },
       "cobweb-small": {
         "description": "Eine Variante auf einem runden Brett, bei der man versucht, zwei gegenüberliegende Seiten zu verbinden.",
-        "name": "Cobweb (3 Ringe, vom Designer bevorzugt)"
+        "name": "Spinnennetz (3 Ringe, vom Autor bevorzugt)"
       },
       "limping": {
         "name": "Humpelnd 5-6 (75 Felder)"
@@ -5330,8 +5330,14 @@
       "TOOFAR": "Steine können sich jeweils nur ein Feld weit bewegen."
     },
     "bridges": {
-      "INITIAL_INSTRUCTIONS_FIRST_TURN": "Platziere eine neue Basis auf einem beliebigen freien Feld, außer in der Mitte.",
-      "INITIAL_INSTRUCTIONS": "Führe zwei Züge aus: Platziere eine neue Basis auf einem freien Feld, das nicht an eine bestehende Basis angrenzt und nicht in der Mitte liegt, oder verbinde zwei deiner Basen mit einer Brücke."
+      "INITIAL_INSTRUCTIONS_FIRST_TURN": "Wähle ein leeres Feld (außer der Mitte), um eine neue Basis zu platzieren, oder passe.",
+      "INITIAL_INSTRUCTIONS": "Führe zwei Züge aus: Wähle ein leeres Feld, das nicht an eine bestehende Basis angrenzt (außer der Mitte), um eine neue Basis zu platzieren, oder wähle eine deiner bestehenden Basen, um mit dem Bau einer Brücke zu beginnen. Oder du kannst deinen gesamten Zug passen.",
+      "BASE_HAS_BRIDGE_one": "Basen können nicht mehr als eine Brücke tragen. Du musst noch 1 weiteren Zug ausführen.",
+      "BASE_HAS_BRIDGE_other": "Basen können nicht mehr als eine Brücke tragen. Du musst noch {{count}} weitere Züge ausführen.",
+      "NO_LINE_OF_SIGHT_one": "Diese Basis hat keine Sichtlinie zu einer anderen eigenen Basis. Du musst noch 1 weiteren Zug ausführen.",
+      "NO_LINE_OF_SIGHT_other": "Diese Basis hat keine Sichtlinie zu einer anderen eigenen Basis. Du musst noch {{count}} weitere Züge ausführen.",
+      "ONE_MORE": "Du musst noch einen weiteren Zug ausführen. Wähle ein leeres Feld, das nicht an eine bestehende Basis angrenzt (außer der Mitte), um eine neue Basis zu platzieren, oder wähle eine deiner bestehenden Basen, um mit dem Bau einer Brücke zu beginnen. Oder du kannst deinen gesamten Zug passen.",
+      "SELECT_BRIDGE_END": "Wähle eine andere eigene Basis innerhalb der Sichtlinie, um die Brücke zu bauen."
     },
     "btt": {
       "BAD_NULL": "Ein Null-Feld darf keinen Teil des Bretts isolieren.",
@@ -6061,8 +6067,8 @@
       "TOO_EARLY_FOR_REFILL": "Bitte sende deine Auffüllanforderung ab, bevor du deine verbleibenden Züge machst.",
       "TOO_LATE_FOR_BLOCKED": "Du gilst nicht als blockiert, wenn du dich in diesem Zug bereits bewegt hast.",
       "TOO_LATE_FOR_REFILL": "Nach deinem dritten Zug musst du kein manuelles Auffüllen des Auslagen-Pools erzwingen. Er wird nach dem Absenden automatisch aufgefüllt.",
-      "VALID_REFILL_one": "Bitte reiche deinen Zug ein, um das Nachfüllen auszulösen. Du kommst automatisch erneut an die Reihe und hast noch einen verbleibenden Zug in deinem Teilzug (sowie die Option zu passen).",
-      "VALID_REFILL_other": "Bitte reiche deinen Zug ein, um das Nachfüllen auszulösen. Du kommst automatisch erneut an die Reihe und hast noch {{count}} verbleibende Züge in deinem Teilzug (sowie die Option zu passen)."
+      "VALID_REFILL_one": "Bitte reiche deinen Zug ein, um das Auffüllen auszulösen. Du bist automatisch erneut an der Reihe und hast noch einen verbleibenden Zug in deinem Teilzug (sowie die Option zu passen).",
+      "VALID_REFILL_other": "Bitte reiche deinen Zug ein, um das Auffüllen auszulösen. Du bist automatisch erneut an der Reihe und hast noch {{count}} verbleibende Züge in deinem Teilzug (sowie die Option zu passen)."
     },
     "furl": {
       "CAPTURE4UNFURL": "Du hast einen schlagenden Entfaltungszug angegeben, aber {{to}} ist nicht vom Gegner besetzt. Verwende \">\", um ein nicht-schlagendes Entfalten anzuzeigen.",

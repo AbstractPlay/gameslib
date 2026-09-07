@@ -5403,13 +5403,37 @@
     "src": "Pieces can only move one space at a time.",
     "out": "Las piezas solo pueden moverse un espacio a la vez."
   },
+  "validation.bridges.BASE_HAS_BRIDGE_one": {
+    "src": "Bases cannot support more than one bridge. You must still make 1 more move.",
+    "out": "Las bases no pueden sostener más de un puente. Aún debes hacer 1 movimiento más."
+  },
+  "validation.bridges.BASE_HAS_BRIDGE_other": {
+    "src": "Bases cannot support more than one bridge. You must still make {{count}} more moves.",
+    "out": "Las bases no pueden sostener más de un puente. Aún debes hacer {{count}} movimientos más."
+  },
   "validation.bridges.INITIAL_INSTRUCTIONS": {
-    "src": "Make two moves: Place a new base on an empty space that is not adjacent to an existing base or in the middle, or connect two of your bases with a bridge.",
-    "out": "Haz dos movimientos: coloca una base nueva en un espacio vacío que no esté adyacente a una base existente ni en el centro, o conecta dos de tus bases con un puente."
+    "src": "Make two moves: Select an empty space not adjacent to an existing base (except the middle) to place a new base, or select one of your existing bases to begin building a bridge. Or you may pass your entire turn.",
+    "out": "Haz dos movimientos: Selecciona un espacio vacío que no esté adyacente a una base existente (excepto el centro) para colocar una nueva base, o selecciona una de tus bases existentes para comenzar a construir un puente. O puedes pasar todo tu turno."
   },
   "validation.bridges.INITIAL_INSTRUCTIONS_FIRST_TURN": {
-    "src": "Place a new base on any empty space except the middle.",
-    "out": "Coloca una base nueva en cualquier espacio vacío, excepto en el centro."
+    "src": "Select an empty space (except the middle) to place a new base, or you may pass.",
+    "out": "Selecciona un espacio vacío (excepto el centro) para colocar una nueva base, o puedes pasar."
+  },
+  "validation.bridges.NO_LINE_OF_SIGHT_one": {
+    "src": "This base has no line of sight to another friendly base. You must still make 1 more move.",
+    "out": "Esta base no tiene línea de visión hacia otra base aliada. Aún debes hacer 1 movimiento más."
+  },
+  "validation.bridges.NO_LINE_OF_SIGHT_other": {
+    "src": "This base has no line of sight to another friendly base. You must still make {{count}} more moves.",
+    "out": "Esta base no tiene línea de visión hacia otra base aliada. Aún debes hacer {{count}} movimientos más."
+  },
+  "validation.bridges.ONE_MORE": {
+    "src": "You must still make one more move. Select an empty space not adjacent to an existing base (except the middle) to place a new base, or select one of your existing bases to begin building a bridge. Or you may pass your entire turn.",
+    "out": "Aún debes hacer un movimiento más. Selecciona un espacio vacío que no esté adyacente a una base existente (excepto el centro) para colocar una nueva base, o selecciona una de tus bases existentes para comenzar a construir un puente. O puedes pasar todo tu turno."
+  },
+  "validation.bridges.SELECT_BRIDGE_END": {
+    "src": "Select another friendly base within line of sight to build the bridge.",
+    "out": "Selecciona otra base aliada dentro de la línea de visión para construir el puente."
   },
   "validation.btt.BAD_NULL": {
     "src": "A null square may not isolate a part of the board.",
@@ -7785,11 +7809,11 @@
   },
   "validation.frogger.VALID_REFILL_one": {
     "src": "Please submit your move to trigger the refill. You will get another turn automatically, and you will have one move remaining in your partial turn (as well as the option to pass).",
-    "out": "Por favor envía tu movimiento para activar la reposición. Obtendrás otro turno automáticamente y te quedará un movimiento en tu turno parcial (así como la opción de pasar)."
+    "out": "Por favor, envía tu movimiento para activar la recarga. Obtendrás otro turno automáticamente y te quedará un movimiento en tu turno parcial (además de la opción de pasar)."
   },
   "validation.frogger.VALID_REFILL_other": {
     "src": "Please submit your move to trigger the refill. You will get another turn automatically, and you will have {{count}} moves remaining in your partial turn (as well as the option to pass).",
-    "out": "Por favor envía tu movimiento para activar la reposición. Obtendrás otro turno automáticamente y te quedarán {{count}} movimientos en tu turno parcial (así como la opción de pasar)."
+    "out": "Por favor, envía tu movimiento para activar la recarga. Obtendrás otro turno automáticamente y te quedarán {{count}} movimientos en tu turno parcial (además de la opción de pasar)."
   },
   "validation.furl.CAPTURE4UNFURL": {
     "src": "You signalled a capture unfurl move, but {{to}} not is occupied by the opponent. Use \">\" to denote non-capture unfurl.",

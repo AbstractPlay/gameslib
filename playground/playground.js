@@ -201,7 +201,7 @@ function boardClick(row, col, piece) {
             colour = "#2196f3"; // Soft blue for auto-submit
         }
     }
-    var resultStr = '<p style="color: '+ colour +'">' + result.message + '</p>';
+    var resultStr = '<p style="color: '+ colour +'">' + formatValidationMessage(result.message) + '</p>';
     var statusbox = document.getElementById("clickstatus");
     statusbox.innerHTML = resultStr;
     movebox.classList.remove("move-incomplete", "move-ready");
@@ -252,7 +252,7 @@ function boardClickSimultaneous(row, col, piece) {
             colour = "#2196f3"; // Soft blue for auto-submit
         }
     }
-    var resultStr = '<p style="color: '+ colour +'">' + result.message + '</p>';
+    var resultStr = '<p style="color: '+ colour +'">' + formatValidationMessage(result.message) + '</p>';
     var statusbox = document.getElementById("clickstatus");
     statusbox.innerHTML = resultStr;
     movebox.classList.remove("move-incomplete", "move-ready");
@@ -2021,6 +2021,43 @@ function playgroundTranslate(key, params) {
     return key;
 }
 
+function formatValidationMessage(message) {
+    return (message !== undefined && message !== null) ? message : "";
+}
+
+function playgroundLocalesReady(inst) {
+    return Boolean(
+        inst?.isInitialized &&
+        typeof inst.hasLoadedNamespace === "function" &&
+        inst.hasLoadedNamespace("apgames") &&
+        inst.hasLoadedNamespace("apresults"),
+    );
+}
+
+function whenPlaygroundLocalesReady(inst, callback) {
+    const run = () => {
+        if (playgroundLocalesReady(inst)) {
+            callback();
+        }
+    };
+    run();
+    inst.on("initialized", run);
+    inst.on("loaded", run);
+}
+
+function refreshClickStatusMessage() {
+    const gamename = window.localStorage.getItem("gamename");
+    const movebox = document.getElementById("moveEntry");
+    const statusbox = document.getElementById("clickstatus");
+    if (!gamename || !movebox || !statusbox) {
+        return;
+    }
+    const state = window.localStorage.getItem("state");
+    const game = APGames.GameFactory(gamename, state);
+    const result = game.validateMove(movebox.value || "");
+    statusbox.innerHTML = '<p style="color: #888">' + formatValidationMessage(result.message) + '</p>';
+}
+
 const PLAYGROUND_LOCALE_PROBE_KEY = "apgames:variants.archimedes.8x10.name";
 const PLAYGROUND_ROLL_PROBE_KEY = "apresults:ROLL.elOso";
 
@@ -2555,7 +2592,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         movebox.value = "";
         movebox.classList.remove("move-incomplete", "move-ready");
         var result = game.validateMove("");
-        var resultStr = '<p style="color: #888">' + result.message + '</p>';
+        var resultStr = '<p style="color: #888">' + formatValidationMessage(result.message) + '</p>';
         var statusbox = document.getElementById("clickstatus");
         statusbox.innerHTML = resultStr;
         const isDark = window.localStorage.getItem("darkMode") === "true";
@@ -2617,7 +2654,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                         movebox.value = "";
                         movebox.classList.remove("move-incomplete", "move-ready");
                         var result = game.validateMove("");
-                        var resultStr = '<p style="color: #888">' + result.message + '</p>';
+                        var resultStr = '<p style="color: #888">' + formatValidationMessage(result.message) + '</p>';
                         var statusbox = document.getElementById("clickstatus");
                         statusbox.innerHTML = resultStr;
                         renderGame();
@@ -2673,7 +2710,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     statusbox.innerHTML = formatGameOverMessage(game);
                 } else {
                     var result = game.validateMove("");
-                    var resultStr = '<p style="color: #888">' + result.message + '</p>';
+                    var resultStr = '<p style="color: #888">' + formatValidationMessage(result.message) + '</p>';
                     statusbox.innerHTML = resultStr;
                 }
             }
@@ -2724,7 +2761,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     statusbox.innerHTML = formatGameOverMessage(game);
                 } else {
                     var result = game.validateMove("");
-                    var resultStr = '<p style="color: #888">' + result.message + '</p>';
+                    var resultStr = '<p style="color: #888">' + formatValidationMessage(result.message) + '</p>';
                     statusbox.innerHTML = resultStr;
                 }
             } catch (err) {
@@ -2778,7 +2815,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     var movebox = document.getElementById("moveEntry");
                     movebox.classList.remove("move-incomplete", "move-ready");
                     var result = game.validateMove("");
-                    var resultStr = '<p style="color: #888">' + result.message + '</p>';
+                    var resultStr = '<p style="color: #888">' + formatValidationMessage(result.message) + '</p>';
                     var statusbox = document.getElementById("clickstatus");
                     statusbox.innerHTML = resultStr;
                 }
@@ -2826,7 +2863,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                         statusbox.innerHTML = formatGameOverMessage(game);
                     } else {
                         var result = game.validateMove("");
-                        var resultStr = '<p style="color: #888">' + result.message + '</p>';
+                        var resultStr = '<p style="color: #888">' + formatValidationMessage(result.message) + '</p>';
                         statusbox.innerHTML = resultStr;
                     }
 
@@ -3268,10 +3305,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     const onPlaygroundI18nReady = () => {
         warnIfPlaygroundLocalesMissing();
         refreshPlaygroundI18n();
+        refreshClickStatusMessage();
     };
-    if (i18n.isInitialized) {
-        onPlaygroundI18nReady();
-    } else {
-        i18n.on("initialized", onPlaygroundI18nReady);
-    }
+    whenPlaygroundLocalesReady(i18n, onPlaygroundI18nReady);
 });

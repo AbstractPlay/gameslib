@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base.js";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -134,13 +134,14 @@ export class BridgesGame extends GameBase {
 
         const moves: string[] = ["pass"];
 
+        const graph = this.getGraph();
         const placementMoves: string[] = [];
-        const empties = (this.getGraph().listCells() as string[])
+        const empties = (graph.listCells() as string[])
             .filter(c => !this.board.has(c))
             .sort();
         for (const cell of empties) {
             if (cell === this.forbiddenCell) continue;
-            const occupiedNeighbors = this.getGraph().neighbours(cell)
+            const occupiedNeighbors = graph.neighbours(cell)
                 .filter(c => this.board.has(c) && this.board.get(c)![1] === 1);
             if (occupiedNeighbors.length === 0) {
                 placementMoves.push(cell);
@@ -149,11 +150,11 @@ export class BridgesGame extends GameBase {
         moves.push(...placementMoves);
 
         const bridgeMoves: string[] = [];
+        const bridgePaths = new Map<string, string[]>();
         const pieces = [...this.board.entries()]
             .filter(([, [owner, type, , usedBase]]) => owner === player && type === 1 && !usedBase)
             .map(([cell]) => cell)
             .sort();
-        const graph = this.getGraph();
         for (let i = 0; i < pieces.length - 1; i++) {
             for (let j = i + 1; j < pieces.length; j++) {
                 const direction = graph.bearing(pieces[i], pieces[j]);
@@ -162,10 +163,15 @@ export class BridgesGame extends GameBase {
                 const ray = graph.ray(...graph.algebraic2coords(pieces[i]), direction)
                     .map(coords => graph.coords2algebraic(...coords));
                 const target = ray.indexOf(pieces[j]);
-                if (ray.slice(0, target).some(cell => this.board.has(cell))) { continue; }
+                const path = ray.slice(0, target);
+                if (path.some(cell => this.board.has(cell))) { continue; }
 
-                bridgeMoves.push(`${pieces[i]}-${pieces[j]}`);
-                bridgeMoves.push(`${pieces[j]}-${pieces[i]}`);
+                const forward = `${pieces[i]}-${pieces[j]}`;
+                const reverse = `${pieces[j]}-${pieces[i]}`;
+                bridgePaths.set(forward, path);
+                bridgePaths.set(reverse, path);
+                bridgeMoves.push(forward);
+                bridgeMoves.push(reverse);
             }
         }
         moves.push(...bridgeMoves);
@@ -173,16 +179,13 @@ export class BridgesGame extends GameBase {
         if (this.stack.length > 1) {
             for (let i = 0; i < placementMoves.length - 1; i++) {
                 for (let j = i + 1; j < placementMoves.length; j++) {
-                    if (i === j) continue;
-                    if (this.getGraph().neighbours(placementMoves[i]).includes(placementMoves[j])) continue;
+                    if (graph.neighbours(placementMoves[i]).includes(placementMoves[j])) continue;
                     moves.push(`${placementMoves[i]},${placementMoves[j]}`);
                     moves.push(`${placementMoves[j]},${placementMoves[i]}`);
                 }
             }
             for (let i = 0; i < bridgeMoves.length - 1; i++) {
                 for (let j = i + 1; j < bridgeMoves.length; j++) {
-                    if (i === j) continue;
-                    const graph = this.getGraph();
                     const [fromA, toA] = bridgeMoves[i].split("-");
                     const [fromB, toB] = bridgeMoves[j].split("-");
                     const bridgeSet = new Set([fromA, toA, fromB, toB]);
@@ -190,21 +193,16 @@ export class BridgesGame extends GameBase {
 
                     // Only add if there is no overlap and all endpoints were unique
                     if (bridgeSet.size !== bridgeArray.length) continue;
-                    
-                    let direction = graph.bearing(fromA, toA)!;
-                    let ray = graph.ray(...graph.algebraic2coords(fromA), direction)
-                        .map(coords => graph.coords2algebraic(...coords));
-                    let target = ray.indexOf(toA);
-                    for (const cell of ray.slice(0, target)) {
+
+                    const pathA = bridgePaths.get(bridgeMoves[i]);
+                    const pathB = bridgePaths.get(bridgeMoves[j]);
+                    if (pathA === undefined || pathB === undefined) continue;
+
+                    for (const cell of pathA) {
                         bridgeArray.push(cell);
                         bridgeSet.add(cell);
                     }
-
-                    direction = graph.bearing(fromB, toB)!;
-                    ray = graph.ray(...graph.algebraic2coords(fromB), direction)
-                        .map(coords => graph.coords2algebraic(...coords));
-                    target = ray.indexOf(toB);
-                    for (const cell of ray.slice(0, target)) {
+                    for (const cell of pathB) {
                         bridgeArray.push(cell);
                         bridgeSet.add(cell);
                     }
@@ -218,16 +216,13 @@ export class BridgesGame extends GameBase {
             }
             for (let i = 0; i < placementMoves.length; i++) {
                 for (let j = 0; j < bridgeMoves.length; j++) {
-                    const graph = this.getGraph();
-                    const [from, to] = bridgeMoves[j].split("-");
                     const bridgeSet = new Set([placementMoves[i]]);
                     const bridgeArray = [placementMoves[i]];
 
-                    const direction = graph.bearing(from, to)!;
-                    const ray = graph.ray(...graph.algebraic2coords(from), direction)
-                        .map(coords => graph.coords2algebraic(...coords));
-                    const target = ray.indexOf(to);
-                    for (const cell of ray.slice(0, target)) {
+                    const path = bridgePaths.get(bridgeMoves[j]);
+                    if (path === undefined) continue;
+
+                    for (const cell of path) {
                         bridgeArray.push(cell);
                         bridgeSet.add(cell);
                     }
@@ -287,7 +282,11 @@ export class BridgesGame extends GameBase {
                 return {move, message: ""} as IClickResult;
             }
 
-            const result = this.validateMove(newmove) as IClickResult;
+            let result = this.validateMove(newmove) as IClickResult;
+            if (result.autocomplete !== undefined) {
+                newmove = result.autocomplete;
+                result = this.validateMove(newmove) as IClickResult;
+            }
             if (!result.valid) {
                 result.move = move;
             } else {
@@ -303,31 +302,137 @@ export class BridgesGame extends GameBase {
         }
     }
 
+    private completedMoves(m: string): number {
+        if (m.length === 0) { return 0; }
+        if (m === "pass") { return 1; }
+        return m.split(",").filter(part => !part.endsWith("-")).length;
+    }
+
+    private movesRemaining(m: string): number {
+        const maxMoves = this.stack.length === 1 ? 1 : 2;
+        if (m === "pass") { return 0; }
+        return Math.max(0, maxMoves - this.completedMoves(m));
+    }
+
+    private partialBaseRejectReason(m: string): "already_used" | "no_los" | undefined {
+        const parts = m.split(",");
+        const part = parts[parts.length - 1];
+        if (part === undefined || !part.endsWith("-")) { return undefined; }
+
+        const cell = part.slice(0, -1);
+        const piece = this.board.get(cell);
+        if (piece === undefined || piece[0] !== this.currplayer || piece[1] !== 1) {
+            return undefined;
+        }
+
+        if (piece[3]) {
+            return "already_used";
+        }
+
+        const graph = this.getGraph();
+        const availableBases = [...this.board.entries()]
+            .filter(([, [owner, type, , usedBase]]) => owner === this.currplayer && type === 1 && !usedBase)
+            .map(([c]) => c);
+        for (const other of availableBases) {
+            if (other === cell) { continue; }
+            const direction = graph.bearing(cell, other);
+            if (direction === undefined) { continue; }
+
+            const ray = graph.ray(...graph.algebraic2coords(cell), direction)
+                .map(coords => graph.coords2algebraic(...coords));
+            const target = ray.indexOf(other);
+            if (target >= 0 && !ray.slice(0, target).some(c => this.board.has(c))) {
+                return undefined;
+            }
+        }
+
+        return "no_los";
+    }
+
+    private bridgeCompletions(m: string, legalMoves: string[]): string[] {
+        if (!m.endsWith("-")) { return []; }
+
+        const completions = new Set<string>();
+        for (const mv of legalMoves) {
+            if (!mv.startsWith(m)) { continue; }
+            const rest = mv.slice(m.length);
+            const commaIdx = rest.indexOf(",");
+            const bridgeEnd = commaIdx === -1 ? rest : rest.slice(0, commaIdx);
+            if (bridgeEnd.length === 0) { continue; }
+            completions.add(m + bridgeEnd);
+        }
+        return [...completions];
+    }
+
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, complete: -1, canrender: true, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
         if (m.length === 0) {
             result.valid = true;
-            result.message = (this.stack.length > 1) ? i18next.t("apgames:validation.bridges.INITIAL_INSTRUCTIONS") : i18next.t("apgames:validation.bridges.INITIAL_INSTRUCTIONS_FIRST_TURN");
+            if (this.stack.length > 1) {
+                result.message = i18next.t("apgames:validation.bridges.INITIAL_INSTRUCTIONS");
+            } else {
+                result.message = i18next.t("apgames:validation.bridges.INITIAL_INSTRUCTIONS_FIRST_TURN");
+            }
             return result;
         }
 
         if (m !== "pass") {
-            if (m.endsWith("-") && this.moves().filter(move => move.startsWith(m)).length > 0) {
+            const legalMoves = this.moves();
+            if (m.endsWith("-")) {
+                const bridgeOptions = this.bridgeCompletions(m, legalMoves);
+                if (bridgeOptions.length === 1) {
+                    result.valid = true;
+                    result.complete = -1;
+                    result.autocomplete = bridgeOptions[0];
+                    return result;
+                }
+                if (bridgeOptions.length > 1) {
+                    result.valid = true;
+                    result.message = i18next.t("apgames:validation.bridges.SELECT_BRIDGE_END");
+                    return result;
+                }
+                const reason = this.partialBaseRejectReason(m);
+                if (reason !== undefined) {
+                    const count = this.movesRemaining(m);
+                    if (reason === "already_used") {
+                        if (count === 1) {
+                            result.message = i18next.t("apgames:validation.bridges.BASE_HAS_BRIDGE_one");
+                        } else {
+                            result.message = i18next.t("apgames:validation.bridges.BASE_HAS_BRIDGE_other", {count});
+                        }
+                    } else if (count === 1) {
+                        result.message = i18next.t("apgames:validation.bridges.NO_LINE_OF_SIGHT_one");
+                    } else {
+                        result.message = i18next.t("apgames:validation.bridges.NO_LINE_OF_SIGHT_other", {count});
+                    }
+                    return result;
+                }
+            }
+            const matches = legalMoves.filter(mv => mv.startsWith(m));
+            if (matches.length === 1 && matches[0] !== m) {
                 result.valid = true;
-                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                result.complete = -1;
+                result.autocomplete = matches[0];
                 return result;
-            } 
-            if (!this.moves().includes(m)) {
-                result.message = (this.stack.length > 1) ? i18next.t("apgames:validation.bridges.INITIAL_INSTRUCTIONS") : i18next.t("apgames:validation.bridges.INITIAL_INSTRUCTIONS_FIRST_TURN");
+            }
+            if (!legalMoves.includes(m)) {
+                if (this.stack.length > 1) {
+                    result.message = i18next.t("apgames:validation.bridges.INITIAL_INSTRUCTIONS");
+                } else {
+                    result.message = i18next.t("apgames:validation.bridges.INITIAL_INSTRUCTIONS_FIRST_TURN");
+                }
                 return result;
             }
         }
 
-        // we're good
         result.valid = true;
-        result.complete = (this.stack.length === 1 || m === "pass" || m.includes(",")) ? 1 : 0;
-        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        result.complete = (this.stack.length === 1 || m === "pass" || m.includes(",")) ? 1 : -1;
+        if (result.complete === -1) {
+            result.message = i18next.t("apgames:validation.bridges.ONE_MORE");
+        } else {
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        }
         return result;
     }
 
@@ -356,16 +461,22 @@ export class BridgesGame extends GameBase {
                 const ray = graph.ray(...graph.algebraic2coords(from), direction)
                     .map(coords => graph.coords2algebraic(...coords));
                 const target = ray.indexOf(to);
+                const between: string[] = [];
                 let bridgeLength = 0;
                 for (const cell of ray.slice(0, target)) {
                     bridgeLength++;
+                    between.push(cell);
                     this.board.set(cell, [this.currplayer, 2, direction, false]);
-                    this.results.push({type: "place", where: cell});
                 }
                 this.board.set(from, [this.currplayer, 1, undefined, true]);
                 this.board.set(to, [this.currplayer, 1, undefined, true]);
                 this.bridges[this.currplayer-1].push(bridgeLength);
                 this.bridges[this.currplayer-1].sort((a, b) => b-a);
+                this.results.push(
+                    between.length > 0
+                        ? {type: "connect", p1: from, p2: to, between: between as [string, ...string[]]}
+                        : {type: "connect", p1: from, p2: to},
+                );
             } else {
                 this.board.set(move, [this.currplayer, 1, undefined, false]);
                 this.results.push({type: "place", where: move});
@@ -385,7 +496,7 @@ export class BridgesGame extends GameBase {
         this.checkEOG();
         this.saveState();
 
-        
+
         return this;
     }
 
@@ -527,7 +638,13 @@ export class BridgesGame extends GameBase {
             // highlight last-placed piece
             // this has to happen after eog annotations to appear correctly
             for (const move of this.results) {
-                if (move.type === "place") {
+                if (move.type === "connect") {
+                    const cells = [move.p1, ...(move.between ?? []), move.p2];
+                    for (const cell of cells) {
+                        const [x, y] = this.getGraph().algebraic2coords(cell);
+                        rep.annotations.push({ type: "enter", targets: [{row: y, col: x}] });
+                    }
+                } else if (move.type === "place") {
                     const [x, y] = this.getGraph().algebraic2coords(move.where!);
                     rep.annotations.push({ type: "enter", targets: [{row: y, col: x}] });
                 }
@@ -543,6 +660,14 @@ export class BridgesGame extends GameBase {
 
     public getPlayerScore(player: PlayerId): number {
         return this.scores[player-1];
+    }
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
+        if (r.type === "connect") {
+            this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONNECT.bridges", {left: r.p1!, right: r.p2!});
+            return true;
+        }
+        return super.collectChatLogLine(lines, r, ctx);
     }
 
     public sidebarScores(): IScores[] {

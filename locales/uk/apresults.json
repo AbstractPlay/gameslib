@@ -259,8 +259,6 @@
         "chase": "{{player}} перейшов із {{from}} до {{to}} (через {{through}}).",
         "collision": "{{player}} намагався перейти від {{from}} до {{to}}, але не зміг через зіткнення.",
         "complete_one": "{{player}} перемістив {{what}} з {{from}} на {{to}}.",
-        "complete_few": "",
-        "complete_many": "",
         "fightopia_1": "{{player}} перемістив пішака з {{from}} на {{to}}.",
         "iqishiqi": "{{player}} перемістив нейтральний камінь {{from}} на {{to}}.",
         "tafl": "{{player}} перемістив фігуру з {{from}} на {{to}}.",

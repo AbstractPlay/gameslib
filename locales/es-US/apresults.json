@@ -30,8 +30,8 @@
     "arimaa": "Esta posición ya ha ocurrido antes. Quedan prohibidas más repeticiones de esta posición.",
     "biscuit": "Las siguientes cartas estaban en las manos opuestas: {{cards}}.",
     "deckfish": "{{player}} no pudo mover y debe pasar de ahora en adelante.",
-    "frogger_one": "{{player}} eligió rellenar la reserva de robo. Tiene otro turno para realizar su {{count}} movimiento restante.",
-    "frogger_other": "{{player}} eligió rellenar la reserva de robo. Tiene otro turno para realizar sus {{count}} movimientos restantes.",
+    "frogger_one": "{{player}} eligió reponer la reserva de robo. Obtiene otro turno para realizar su {{count}} movimiento restante.",
+    "frogger_other": "{{player}} eligió reponer la reserva de robo. Obtiene otro turno para realizar sus {{count}} movimientos restantes.",
     "quincunx": "Al jugador {{playerNum}} le quedaron las siguientes cartas en la mano: {{cards}}.",
     "elOso": {
       "playerSetup": "Preparación del jugador",
@@ -182,6 +182,7 @@
     "veletas": "El tirador en {{where}} está atrapado y es reclamado por {{who}}."
   },
   "CONNECT": {
+    "bridges": "{{player}} construyó un puente entre {{left}} y {{right}}.",
     "pontedd": "{{player}} colocó un puente entre {{left}} y {{right}}."
   },
   "CONVERT": {

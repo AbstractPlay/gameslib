@@ -484,6 +484,11 @@ export class CarnacGame extends GameBase {
         return [];
     }
 
+    public getPlayerScore(player: playerid): number {
+        const counts = this.dolmenCounts();
+        return counts[player - 1];
+    }
+
     public sidebarScores(): IScores[] {
         const counts = this.dolmenCounts();
         return [

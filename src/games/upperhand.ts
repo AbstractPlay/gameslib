@@ -630,7 +630,9 @@ export class UpperHandGame extends GameBase {
         ]
     }
 
-
+    public getPlayerScore(player: playerid): number {
+        return this.getPlayerPieces(player);
+    }
 
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         const opponentSeat = ctx.defaultSeat === 1 ? 2 : 1;

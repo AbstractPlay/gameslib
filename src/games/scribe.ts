@@ -631,6 +631,11 @@ export class ScribeGame extends GameBase {
         }];
     }
 
+    public getPlayerScore(player: playerid): number {
+        const counts = this.miniGridCounts();
+        return counts[player - 1];
+    }
+
     public render(): APRenderRep {
         type FloodMarker = {
             type: "flood";

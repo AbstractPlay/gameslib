@@ -415,6 +415,9 @@ export class SwarmGame extends GameBase {
         ]
     }
 
+    public getPlayerScore(player: playerid): number {
+        return this.getGroupSizes(player)[0];
+    }
 
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {

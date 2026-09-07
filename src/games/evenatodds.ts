@@ -1091,6 +1091,10 @@ export class EvenAtOddsGame extends GameBase {
         return best;
     }
 
+    public getPlayerScore(player: playerid): number {
+        return this.scorePlayer(player);
+    }
+
     private maxLevelTeamFaces(team: playerid): number {
         let maxLevel = -1;
         for (const t of this.tiles) {

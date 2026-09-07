@@ -217,6 +217,11 @@ export class StairsGame extends GameBase {
         ]
     }
 
+    public getPlayerScore(player: PlayerId): number {
+        const stackSizes = this.getStackSizes(player);
+        return stackSizes[0];
+    }
+
     public getUpperHand(player: PlayerId): PlayerId {
 	// Check whether the upper hand has passed from the previous holder (player) to currplayer, for tiebreaking.
 	// Necessary because ties are broken by who got there first, not by counts of shorter stacks.

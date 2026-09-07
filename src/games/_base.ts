@@ -788,7 +788,7 @@ export abstract class GameBase  {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public getPlayerScore(player: number): number | undefined {
+    public getPlayerScore(player: number): number | string | undefined {
         return undefined;
     }
 

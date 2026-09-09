@@ -50,7 +50,7 @@ export class BridgesGame extends GameBase {
             },
         ],
         categories: ["goal>score>eog", "mechanic>place", "board>shape>hex", "board>connect>hex"],
-        flags: ["automove", "experimental"]
+        flags: ["automove"]
     };
 
     public numplayers = 2;

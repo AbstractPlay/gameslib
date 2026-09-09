@@ -54,7 +54,7 @@ export class ElOsoGame extends GameBase {
         uid: "elOso",
         playercounts: [1],
         version: "20260827",
-        dateAdded: "2026-08-27",
+        dateAdded: "2026-09-09",
         description: "apgames:descriptions.elOso",
         notes: "apgames:notes.elOso",
         urls: [

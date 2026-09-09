@@ -30,7 +30,7 @@ export class BridgesGame extends GameBase {
         uid: "bridges",
         playercounts: [2],
         version: "20260817",
-        dateAdded: "2026-08-17",
+        dateAdded: "2026-09-09",
         // i18next.t("apgames:descriptions.bridges")
         description: "apgames:descriptions.bridges",
         urls: [

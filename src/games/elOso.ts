@@ -87,7 +87,7 @@ export class ElOsoGame extends GameBase {
             "components>simple>1per",
             "components>dice",
         ],
-        flags: ["scores", "random-start", "experimental", "automove", "no-explore"],
+        flags: ["scores", "random-start", "automove", "no-explore"],
         displays: [{ uid: "nums" }],
     };
 

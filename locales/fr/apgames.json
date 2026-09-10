@@ -4776,6 +4776,10 @@
     "control": {
       "CONTROLLED_SPACES": "Espaces vides contrôlés"
     },
+    "crosshairs": {
+      "PLANES": "Avions",
+      "TOTAL_ALTITUDE": "Altitude totale"
+    },
     "CLAIMS_REMAINING": "Revendications restantes",
     "DAMAGE": "Dégâts subis",
     "DAGGER": "Dague",

@@ -186,7 +186,8 @@
         "volo_other": "{{player}} movis aron de {{count}} birdoj de {{from}} en la direkto {{how}}.",
         "complete_what": "{{player}} movis {{what}} de {{from}} al {{to}}.",
         "elOso_one": "{{player}} movis unu pecon de {{from}} al {{to}}.",
-        "elOso_other": "{{player}} movis {{count}} pecojn de {{from}} al {{to}}."
+        "elOso_other": "{{player}} movis {{count}} pecojn de {{from}} al {{to}}.",
+        "amazonsNoFirstShot": "{{player}} moviĝis de {{from}} al {{to}}."
     },
     "ABANDONED": "La ludo estis forlasita.",
     "ADD": {
@@ -267,7 +268,8 @@
         "veletas": "La pafanto ĉe {{where}} estas kaptita kaj estis alproprigita de {{who}}."
     },
     "CONNECT": {
-        "pontedd": "{{player}} metis ponton inter {{left}} kaj {{right}}."
+        "pontedd": "{{player}} metis ponton inter {{left}} kaj {{right}}.",
+        "bridges": "{{player}} konstruis ponton inter {{left}} kaj {{right}}."
     },
     "CONVERT": {
         "complete": "{{player}} transformis {{what}} en {{into}} ĉe {{where}}.",

@@ -35,7 +35,7 @@
     "typecheck": "tsc --noEmit",
     "build": "npm run json2ts && npm run generate-registry && npm run build-ts && node scripts/post-build.mjs && npm run check-registry && npm run lint",
     "build-ts": "node scripts/patch-honeycomb-grid-dts.mjs && tsc && npm pack",
-    "test0": "mocha test/common/graphs/hexMoon.test.ts",
+    "test0": "mocha --no-config --require tsx/cjs --extension ts test/games/acity.test.ts",
     "test": "mocha",
     "test:scripts": "node --test test/scripts/*.test.mjs",
     "test:postbuild": "node scripts/smoke-package-entry.mjs",

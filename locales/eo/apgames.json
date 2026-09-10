@@ -44,6 +44,10 @@
       "scrambled": {
         "description": "La reĝinoj ŝanĝas koloron ĉirkaŭ la tabulo.",
         "name": "Malkonstruita"
+      },
+      "noFirstShot": {
+        "description": "Anstataŭ la kutima interŝanĝa regulo, la unua ludanto ne rajtas pafi sagon dum sia unua vico.",
+        "name": "Sen unua pafo"
       }
     },
     "boom": {
@@ -3568,6 +3572,10 @@
     "control": {
       "CONTROLLED_SPACES": "Regataj malplenaj spacoj"
     },
+    "crosshairs": {
+      "PLANES": "Aviadiloj",
+      "TOTAL_ALTITUDE": "Suma alto"
+    },
     "CLAIMS_REMAINING": "Restantaj alproprigoj",
     "DAMAGE": "Ricevita damaĝo",
     "DAGGER": "Ponardo",
@@ -4860,7 +4868,8 @@
       "INITIAL_INSTRUCTIONS": "Elektu unu el viaj amazonoj por moviĝi.",
       "POTENTIAL_BLOCK": "Ĝis nun bone. Provizi la spacon, kiun vi volas bloki.",
       "POTENTIAL_MOVE": "Ĝis nun bone. Provu la spacon, en kiu vi volas translokiĝi.",
-      "STRAIGHTLINE": "Vi povas moviĝi kaj bloki nur en rektaj linioj."
+      "STRAIGHTLINE": "Vi povas moviĝi kaj bloki nur en rektaj linioj.",
+      "NO_FIRST_SHOT": "La unua ludanto ne rajtas pafi sagon dum sia unua vico."
     },
     "amoeba": {
       "BAD_DISTANCE": "La stakoj devas moviĝi precize laŭ sia alteco.",
@@ -7758,7 +7767,13 @@
     },
     "bridges": {
       "INITIAL_INSTRUCTIONS_FIRST_TURN": "Metu novan bazon sur ajnan malplenan spacon krom la centra.",
-      "INITIAL_INSTRUCTIONS": "Faru du movojn. En ĉiu movo, aŭ metu novan bazon sur malplenan spacon, kiu nek apudas ekzistantan bazon nek estas la centra spaco, aŭ kunligu du el viaj bazoj per ponto."
+      "INITIAL_INSTRUCTIONS": "Faru du movojn. En ĉiu movo, aŭ metu novan bazon sur malplenan spacon, kiu nek apudas ekzistantan bazon nek estas la centra spaco, aŭ kunligu du el viaj bazoj per ponto.",
+      "BASE_HAS_BRIDGE_one": "Bazoj ne povas subteni pli ol unu ponton. Vi ankoraŭ devas fari 1 plian movon.",
+      "BASE_HAS_BRIDGE_other": "Bazoj ne povas subteni pli ol unu ponton. Vi ankoraŭ devas fari {{count}} pliajn movojn.",
+      "NO_LINE_OF_SIGHT_one": "Ĉi tiu bazo ne havas vidlinion al alia amika bazo. Vi ankoraŭ devas fari 1 plian movon.",
+      "NO_LINE_OF_SIGHT_other": "Ĉi tiu bazo ne havas vidlinion al alia amika bazo. Vi ankoraŭ devas fari {{count}} pliajn movojn.",
+      "ONE_MORE": "Vi ankoraŭ devas fari unu plian movon. Elektu malplenan spacon, kiu nek apudas ekzistantan bazon nek estas la centra spaco, por meti novan bazon, aŭ elektu unu el viaj ekzistantaj bazoj por komenci konstrui ponton. Aŭ vi povas preterpasi vian tutan vicon.",
+      "SELECT_BRIDGE_END": "Elektu alian amikan bazon laŭ vidlinio por konstrui la ponton."
     },
     "elOso": {
       "INITIAL_INSTRUCTIONS": "Elektu unu el viaj stakoj por movi. Alklaku stakon dufoje por preterpasi.",

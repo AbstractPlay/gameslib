@@ -4776,6 +4776,10 @@
         "control": {
             "CONTROLLED_SPACES": "Controlled empty spaces"
         },
+        "crosshairs": {
+            "PLANES": "Planes",
+            "TOTAL_ALTITUDE": "Total altitude"
+        },
         "CLAIMS_REMAINING": "Claims Remaining",
         "DAMAGE": "Damage taken",
         "DAGGER": "Dagger",

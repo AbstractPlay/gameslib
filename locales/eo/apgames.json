@@ -3572,6 +3572,10 @@
     "control": {
       "CONTROLLED_SPACES": "Regataj malplenaj spacoj"
     },
+    "crosshairs": {
+      "PLANES": "Aviadiloj",
+      "TOTAL_ALTITUDE": "Suma alto"
+    },
     "CLAIMS_REMAINING": "Restantaj alproprigoj",
     "DAMAGE": "Ricevita damaĝo",
     "DAGGER": "Ponardo",

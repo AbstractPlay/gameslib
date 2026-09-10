@@ -1,4 +1,4 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, Glyph, MarkerFlood, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -2846,6 +2846,17 @@ export class CrosshairsGame extends GameBase {
             planesRemaining: [...this.planesRemaining],
             turnNumber: this.turnNumber,
         };
+    }
+
+    public sidebarScores(): IScores[] {
+        const totalAltitude: [number, number] = [0, 0];
+        for (const [owner, , height] of this.board.values()) {
+            totalAltitude[owner - 1] += height;
+        }
+        return [
+            { name: this.neutralAreaLabel("apgames:status.crosshairs.PLANES"), scores: [this.countPlanesOnBoard(1), this.countPlanesOnBoard(2)] },
+            { name: this.neutralAreaLabel("apgames:status.crosshairs.TOTAL_ALTITUDE"), scores: totalAltitude },
+        ];
     }
 
     public getCustomRotation(): number {

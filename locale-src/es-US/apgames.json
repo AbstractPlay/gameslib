@@ -3703,6 +3703,14 @@
     "src": "Controlled empty spaces",
     "out": "Casillas vacías controladas"
   },
+  "status.crosshairs.PLANES": {
+    "src": "Planes",
+    "out": "Aviones"
+  },
+  "status.crosshairs.TOTAL_ALTITUDE": {
+    "src": "Total altitude",
+    "out": "Altitud total"
+  },
   "status.elOso.CAVE": {
     "src": "Cave",
     "out": "Cueva"

@@ -4776,6 +4776,10 @@
     "control": {
       "CONTROLLED_SPACES": "Kontrollierte leere Felder"
     },
+    "crosshairs": {
+      "PLANES": "Ebenen",
+      "TOTAL_ALTITUDE": "Gesamthöhe"
+    },
     "CLAIMS_REMAINING": "Verbleibende Gebietsansprüche",
     "DAMAGE": "Erlittener Schaden",
     "DAGGER": "Dolch",

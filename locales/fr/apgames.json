@@ -7068,6 +7068,7 @@
       "CHECKPOINT_CHARLEY": "Avec la variante « Checkpoint Charley », les pièces en déplacement doivent s'arrêter dans le premier royaume sous contrôle ennemi qu'elles pénètrent. Dans ce cas, la pièce doit s'arrêter dans le royaume {{realm}}.",
       "DOUBLE_POWER": "Lors de la phase initiale de placement des pouvoirs, vous ne pouvez pas placer plusieurs pouvoirs dans le même royaume.",
       "EMPTY_REARRANGE": "Il n'y a aucune pièce dans le royaume {{realm}} que vous puissiez réorganiser.",
+      "REARRANGE_THREE": "Vous ne pouvez pas réarranger le royaume {{realm}} trois tours d'affilée.",
       "ENFORCER_180": "Les exécuteurs ne peuvent pas faire de demi-tour à 180 degrés.",
       "INHAND": "Il vous reste des pièces à placer sur le plateau.",
       "INHAND_LABEL": "Réorganisation du royaume {{realm}}",

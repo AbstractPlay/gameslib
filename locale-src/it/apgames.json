@@ -10971,6 +10971,10 @@
     "src": "Click on an empty space in realm {{realm}} to place the piece.",
     "out": "Fai clic su uno spazio vuoto nel reame {{realm}} per posizionare il pezzo."
   },
+  "validation.realm.REARRANGE_THREE": {
+    "src": "You may not rearrange realm {{realm}} three turns in a row.",
+    "out": "Non puoi riorganizzare il reame {{realm}} per tre turni consecutivi."
+  },
   "validation.realm.SPECIAL_CAP_BASE": {
     "src": "You must specify that you are capturing the base in this realm.",
     "out": "Devi specificare che stai catturando la base in questo reame."

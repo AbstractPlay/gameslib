@@ -7068,6 +7068,7 @@
             "CHECKPOINT_CHARLEY": "With the 'Checkpoint Charley' variant, moving pieces must stop in the first enemy-controlled realm they enter. In this case, the piece must stop in realm {{realm}}.",
             "DOUBLE_POWER": "In the initial power placement phase, you may not place multiple powers in the same realm.",
             "EMPTY_REARRANGE": "There are no pieces in realm {{realm}} that you can rearrange.",
+            "REARRANGE_THREE": "You may not rearrange realm {{realm}} three turns in a row.",
             "ENFORCER_180": "Enforcers may not make 180-degree turns.",
             "INHAND": "You have pieces left to place on the board.",
             "INHAND_LABEL": "Rearranging {{realm}}",

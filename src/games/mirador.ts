@@ -2,6 +2,7 @@ import {
     GameBase,
     IAPGameState,
     IClickResult,
+    ICustomButton,
     IIndividualState,
     IValidationResult,
 } from "./_base.js";
@@ -37,6 +38,7 @@ export class MiradorGame extends GameBase {
         version: "20230729",
         dateAdded: "2023-08-25",
         description: "apgames:descriptions.mirador",
+        notes: "apgames:notes.mirador",
         urls: [
             "https://www.abstractgames.org/mirador.html",
             "https://boardgamegeek.com/boardgame/65822/mirador",
@@ -55,7 +57,7 @@ export class MiradorGame extends GameBase {
             },
         ],
         categories: ["goal>connect", "mechanic>block",  "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>pnp"],
-        flags: ["pie"],
+        flags: ["pie", "custom-buttons"],
     };
 
     public numplayers = 2;
@@ -141,6 +143,13 @@ export class MiradorGame extends GameBase {
             moves.push("declare");
         }
         return moves.sort((a, b) => a.localeCompare(b));
+    }
+
+    public getButtons(): ICustomButton[] {
+        if (this.stage === "play") {
+            return [{ label: "declare", move: "declare" }];
+        }
+        return [];
     }
 
     public handleClick(

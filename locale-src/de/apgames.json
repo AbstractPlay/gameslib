@@ -10971,6 +10971,10 @@
     "src": "Click on an empty space in realm {{realm}} to place the piece.",
     "out": "Klicken Sie auf ein leeres Feld im Reich {{realm}}, um die Figur zu platzieren."
   },
+  "validation.realm.REARRANGE_THREE": {
+    "src": "You may not rearrange realm {{realm}} three turns in a row.",
+    "out": "Du darfst das Reich {{realm}} nicht drei Züge in Folge neu anordnen."
+  },
   "validation.realm.SPECIAL_CAP_BASE": {
     "src": "You must specify that you are capturing the base in this realm.",
     "out": "Sie müssen angeben, dass Sie die Basis in diesem Reich erobern."

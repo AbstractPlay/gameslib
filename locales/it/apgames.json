@@ -7068,6 +7068,7 @@
       "CHECKPOINT_CHARLEY": "Con la variante 'Checkpoint Charley', i pezzi in movimento devono fermarsi nel primo reame controllato dal nemico in cui entrano. In questo caso, il pezzo deve fermarsi nel reame {{realm}}.",
       "DOUBLE_POWER": "Nella fase iniziale di posizionamento dei poteri, non puoi posizionare più poteri nello stesso reame.",
       "EMPTY_REARRANGE": "Non ci sono pezzi nel reame {{realm}} che tu possa riorganizzare.",
+      "REARRANGE_THREE": "Non puoi riorganizzare il reame {{realm}} per tre turni consecutivi.",
       "ENFORCER_180": "Gli Enforcer non possono effettuare svolte a 180 gradi.",
       "INHAND": "Ti rimangono dei pezzi da posizionare sulla plancia.",
       "INHAND_LABEL": "Riorganizzazione di {{realm}}",

@@ -7068,6 +7068,7 @@
       "CHECKPOINT_CHARLEY": "Mit der Variante 'Checkpoint Charley' müssen sich bewegende Figuren im ersten vom Gegner kontrollierten Reich anhalten, das sie betreten. In diesem Fall muss die Figur im Reich {{realm}} anhalten.",
       "DOUBLE_POWER": "In der anfänglichen Macht-Platzierungsphase dürfen Sie nicht mehrere Mächte im selben Reich platzieren.",
       "EMPTY_REARRANGE": "Im Reich {{realm}} gibt es keine Figuren, die Sie umordnen können.",
+      "REARRANGE_THREE": "Du darfst das Reich {{realm}} nicht drei Züge in Folge neu anordnen.",
       "ENFORCER_180": "Vollstrecker dürfen keine 180-Grad-Wendungen machen.",
       "INHAND": "Sie haben noch Figuren zum Platzieren auf dem Spielbrett.",
       "INHAND_LABEL": "Neuordnung von {{realm}}",

@@ -259,6 +259,10 @@
     "src": "Connect opposite sides of the board. Lines of pieces may cross in some circumstances, and this results in the removal of some opposing pieces.",
     "out": "Verbinde gegenüberliegende Seiten des Bretts. Linien von Steinen können sich unter bestimmten Umständen kreuzen, was zur Entfernung einiger gegnerischer Steine führt."
   },
+  "descriptions.clearpath": {
+    "src": "An orthogonal connection game on the points of a square grid. Red connects the top and bottom edges, Blue the left and right edges, with a chain of orthogonally adjacent stones. Each turn you place one stone. A point is vital to a player if every possible connection of theirs passes through it. You may not place on a point vital to your opponent unless it is also vital to you, or your placement completes your connection. Crosscuts are allowed.",
+    "out": "Ein orthogonales Verbindungsspiel auf den Punkten eines quadratischen Gitters. Rot verbindet die obere und untere Kante, Blau die linke und rechte Kante mit einer Kette orthogonal benachbarter Steine. In jedem Zug setzt du einen Stein. Ein Punkt ist für einen Spieler vital, wenn jede seiner möglichen Verbindungen durch ihn verläuft. Du darfst nicht auf einen Punkt setzen, der für deinen Gegner vital ist, es sei denn, er ist auch für dich vital oder dein Zug vollendet deine Verbindung. Crosscuts sind erlaubt."
+  },
   "descriptions.clusterfuss": {
     "src": "Continually capture pieces with the aim of detaching (and thereby eliminating) groups of opposing pieces. Be the last man standing!",
     "out": "Schlage kontinuierlich Steine mit dem Ziel, Gruppen gegnerischer Steine abzutrennen (und dadurch zu eliminieren). Sei der Letzte, der noch steht!"
@@ -2267,6 +2271,10 @@
     "src": "Halfcut",
     "out": "Halfcut"
   },
+  "names.clearpath": {
+    "src": "Clear Path",
+    "out": "Clear Path"
+  },
   "names.clusterfuss": {
     "src": "Clusterfuss",
     "out": "Clusterfuss"
@@ -3227,6 +3235,10 @@
     "src": "Species are numbered 0–11 counterclockwise on the ring, starting with the single-hex species at the top. Species 0 eats 11; each other species eats the one numbered directly below it. Predation only occurs when you place a stone that forms a species adjacent to prey. Groups may not exceed four stones. The first player to capture 20 opponent stones wins, or the player who cannot place on their turn wins (having filled the ecosystem).",
     "out": "Die Arten sind auf dem Ring gegen den Uhrzeigersinn von 0–11 nummeriert, beginnend mit der Einzel-Hex-Art ganz oben. Art 0 frisst 11; jede andere Art frisst die direkt darunter nummerierte Art. Räuberisches Fressen findet nur statt, wenn du einen Stein platzierst, der eine Art angrenzend an Beute bildet. Gruppen dürfen nicht mehr als vier Steine umfassen. Wer zuerst 20 gegnerische Steine schlägt, gewinnt, oder der Spieler gewinnt, der in seinem Zug nicht mehr platzieren kann (nachdem das Ökosystem gefüllt wurde)."
   },
+  "notes.clearpath": {
+    "src": "Clear Path was designed by Mark Steere in September 2026, in collaboration with Claude Fable 5.1, an AI model made by Anthropic.\n\nThe vital points are marked on the board. A red dot marks a point that every possible Red connection passes through, a blue dot marks a point that every possible Blue connection passes through, and a blue dot inside a red dot marks a point vital to both players. A point vital only to your opponent is illegal for you unless your placement completes your connection.\n\nPassing is not allowed, but a player with no legal placement has their turn skipped. The pass is submitted automatically.\n\nThis implementation shortens the game by acknowledging that a player who no longer has any possible connection has lost by force.",
+    "out": "Clear Path wurde im September 2026 von Mark Steere in Zusammenarbeit mit Claude Fable 5.1 entwickelt, einem KI-Modell von Anthropic.\n\nDie vitalen Punkte sind auf dem Spielbrett markiert. Ein roter Punkt markiert einen Punkt, durch den jede mögliche Verbindung von Rot verläuft, ein blauer Punkt markiert einen Punkt, durch den jede mögliche Verbindung von Blau verläuft, und ein blauer Punkt innerhalb eines roten Punktes markiert einen Punkt, der für beide Spieler vital ist. Ein Punkt, der nur für deinen Gegner vital ist, ist für dich regelwidrig, es sei denn, dein Zug vollendet deine Verbindung.\n\nPassen ist nicht erlaubt, aber wenn ein Spieler keinen legalen Zug hat, wird sein Zug übersprungen. Das Passen erfolgt automatisch.\n\nDiese Implementierung verkürzt das Spiel, indem sie berücksichtigt, dass ein Spieler, der keine mögliche Verbindung mehr hat, zwangsläufig verloren hat."
+  },
   "notes.conspirateurs": {
     "src": "In the base game, pieces may move through sanctuaries as part of a multistep jump. They're not frozen until they end their move in a sanctuary. In the strict variant, pieces are frozen as soon as they enter a sanctuary.\n\nIn four-player games, players 1 and 2 are partnered, as are players 3 and 4.",
     "out": "Im Grundspiel dürfen sich Steine als Teil eines Mehrfachsprungs durch Zufluchtsorte bewegen. Sie sind erst eingefroren, wenn sie ihren Zug in einem Zufluchtsort beenden. In der strikten Variante werden Steine eingefroren, sobald sie einen Zufluchtsort betreten.\n\nIn Spielen mit vier Spielern bilden Spieler 1 und 2 ein Team, ebenso wie Spieler 3 und 4."
@@ -3334,6 +3346,10 @@
   "notes.mchess": {
     "src": "If there have been seven consecutive turns without a capture, someone can \"call the clock\" by adding an asterisk (*) to the end of their move. This can only be done by selecting the move from the drop-down list. After another seven turns with no capture, the game will end and be scored.",
     "out": "Wenn sieben aufeinanderfolgende Züge lang kein Stein geschlagen wurde, kann jemand \"die Uhr aufrufen\", indem er am Ende seines Zugs ein Sternchen (*) hinzufügt. Dies kann nur durch Auswahl des Zugs aus der Dropdown-Liste erfolgen. Nach weiteren sieben Zügen ohne Schlagzug endet das Spiel und wird gewertet."
+  },
+  "notes.mirador": {
+    "src": "Declaring takes your entire turn. Complete your unassailable connection first, then declare on your next turn; you cannot place a mirador and declare on the same turn.",
+    "out": "Das Deklarieren verbraucht deinen gesamten Zug. Stelle zuerst deine unangreifbare Verbindung fertig und deklariere erst in deinem nächsten Zug; du kannst nicht im selben Zug einen Mirador setzen und deklarieren."
   },
   "notes.murus": {
     "src": "The default ruleset is \"Advanced Murus Gallicus\" (with catapults). By default, your first move is to redistribute one of your starting towers as walls on your second row. Additionally, the standard pie rule is also available. There are three variants you can mix and match:\n\n* \"Basic\" reverts the game to the \"no catapult\" state.\n* \"Static\" disables the initial tower redistribution.\n* \"Escape\" eliminates the breakthrough win condition.",
@@ -6258,6 +6274,30 @@
   "validation.clearcut.INITIAL_INSTRUCTIONS": {
     "src": "Select a point to place a piece.",
     "out": "Wähle einen Punkt, um einen Stein zu platzieren."
+  },
+  "validation.clearpath.INITIAL_INSTRUCTIONS": {
+    "src": "Place a stone on an empty point. A point vital to your opponent is only allowed if it is also vital to you, or if your placement completes your connection.",
+    "out": "Setze einen Stein auf einen leeren Punkt. Ein Punkt, der für deinen Gegner vital ist, ist nur erlaubt, wenn er auch für dich vital ist oder wenn dein Zug deine Verbindung vollendet."
+  },
+  "validation.clearpath.INVALIDCELL": {
+    "src": "The point {{cell}} does not exist.",
+    "out": "Der Punkt {{cell}} existiert nicht."
+  },
+  "validation.clearpath.MUST_PASS": {
+    "src": "You have no legal placement. Your turn is skipped.",
+    "out": "Du hast keinen legalen Zug. Dein Zug wird übersprungen."
+  },
+  "validation.clearpath.NO_PASS": {
+    "src": "You may not pass while you have a legal placement.",
+    "out": "Du darfst nicht passen, solange du einen legalen Zug hast."
+  },
+  "validation.clearpath.OCCUPIED": {
+    "src": "The point {{where}} is already occupied.",
+    "out": "Der Punkt {{where}} ist bereits besetzt."
+  },
+  "validation.clearpath.VITAL": {
+    "src": "You may not place a stone on {{where}}. It is vital to your opponent but not to you, and a stone there would not complete your connection.",
+    "out": "Du darfst keinen Stein auf {{where}} setzen. Er ist für deinen Gegner vital, aber nicht für dich, und ein Stein dort würde deine Verbindung nicht vollenden."
   },
   "validation.clusterfuss.ADJ_ONLY": {
     "src": "Pieces may only move to orthogonally adjacent spaces.",
@@ -10931,6 +10971,10 @@
     "src": "Click on an empty space in realm {{realm}} to place the piece.",
     "out": "Klicken Sie auf ein leeres Feld im Reich {{realm}}, um die Figur zu platzieren."
   },
+  "validation.realm.REARRANGE_THREE": {
+    "src": "You may not rearrange realm {{realm}} three turns in a row.",
+    "out": "Du darfst das Reich {{realm}} nicht drei Züge in Folge neu anordnen."
+  },
   "validation.realm.SPECIAL_CAP_BASE": {
     "src": "You must specify that you are capturing the base in this realm.",
     "out": "Sie müssen angeben, dass Sie die Basis in diesem Reich erobern."
@@ -14834,6 +14878,26 @@
   "variants.clearcut.size-15.name": {
     "src": "15x15 board",
     "out": "15x15-Brett"
+  },
+  "variants.clearpath.#board.name": {
+    "src": "8x8 board",
+    "out": "8x8-Brett"
+  },
+  "variants.clearpath.size-10.name": {
+    "src": "10x10 board",
+    "out": "10x10-Brett"
+  },
+  "variants.clearpath.size-11.name": {
+    "src": "11x11 board",
+    "out": "11x11-Brett"
+  },
+  "variants.clearpath.size-7.name": {
+    "src": "7x7 board",
+    "out": "7x7-Brett"
+  },
+  "variants.clearpath.size-9.name": {
+    "src": "9x9 board",
+    "out": "9x9-Brett"
   },
   "variants.clusterfuss.#board.name": {
     "src": "Default board (8x8)",

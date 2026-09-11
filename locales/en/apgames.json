@@ -60,6 +60,7 @@
         "churn": "A bloody territory-control game on a small board.",
         "cifra": "A breakthrough-style game where the board configuration changes from game to game.",
         "clearcut": "Connect opposite sides of the board. Lines of pieces may cross in some circumstances, and this results in the removal of some opposing pieces.",
+        "clearpath": "An orthogonal connection game on the points of a square grid. Red connects the top and bottom edges, Blue the left and right edges, with a chain of orthogonally adjacent stones. Each turn you place one stone. A point is vital to a player if every possible connection of theirs passes through it. You may not place on a point vital to your opponent unless it is also vital to you, or your placement completes your connection. Crosscuts are allowed.",
         "clusterfuss": "Continually capture pieces with the aim of detaching (and thereby eliminating) groups of opposing pieces. Be the last man standing!",
         "compart": "Play on each viable area, but be the one with fewer pieces at the end.",
         "complica": "A simple connect-4 game played on a narrow field where the columns never fill up.",
@@ -348,6 +349,7 @@
         "cifra": "CIFRA",
         "circleOfLife": "Circle of Life",
         "clearcut": "Halfcut",
+        "clearpath": "Clear Path",
         "clusterfuss": "Clusterfuss",
         "compart": "Compart",
         "complica": "Complica",
@@ -590,13 +592,14 @@
         "druid": "A lintel must be supported at both ends (not on bare ground) and rest on exactly two of your stones (which need not both be at the ends). Lintels must lie flat: both ends must rest on stacks of equal height. Lintels may cross one another, but you may not thread a new lintel through the gap beneath an existing lintel's centre. Only the topmost stone on each cell counts toward connections.\n\nWith the Druid's Walk variant on the rectangular board, your Druid appears the first time you place a stone on either of your edges (west or east for player 2, north or south for player 1). To win, the druid must be borne off the board on the opposite edge. Each turn you either place a stone or move your Druid — not both. Druids move onto orthogonally adjacent stones of their colour and always stand on the topmost stone; they cannot step into bare gaps under lintels. Stones cannot be placed on a Druid. The first player to bear their Druid off wins. Druid's Walk does not apply to Druid's Y or Druid's Hex boards.",
         "catsdogs": "The original game, *SNORT*, was designed by Simon Norton in 1970. The only rule was to prevent stones of different colors to be orthogonally adjacent. A stalemated player loses the game. Norton also proposed the misère version (stalemate is a win). The original game is, however, broken via a mirror strategy. Chris Huntoon proposed a bigger 11x11 board where the player cannot start at the center (in order to prevent mirroring) which he called *Cats and Dogs*, and is the main game here. Also available is the Portuguese tournament ruleset, played on the smaller 8x8 board, but where the first player must start at the central 2x2 area, and the second player must answer outside that area. This allows the game to break the mirror strategy, and still be played on the original smaller board. Check also Snort's article at [AGM#15](https://www.abstractgames.org/uploads/1/1/6/4/116462923/abstract_games_issue_15.pdf).",
         "chase": "Currently, most exchange moves will need to be hand edited. We're working on fixing this.",
+        "circleOfLife": "Species are numbered 0–11 counterclockwise on the ring, starting with the single-hex species at the top. Species 0 eats 11; each other species eats the one numbered directly below it. Predation only occurs when you place a stone that forms a species adjacent to prey. Groups may not exceed four stones. The first player to capture 20 opponent stones wins, or the player who cannot place on their turn wins (having filled the ecosystem).",
+        "clearpath": "Clear Path was designed by Mark Steere in September 2026, in collaboration with Claude Fable 5.1, an AI model made by Anthropic.\n\nThe vital points are marked on the board. A red dot marks a point that every possible Red connection passes through, a blue dot marks a point that every possible Blue connection passes through, and a blue dot inside a red dot marks a point vital to both players. A point vital only to your opponent is illegal for you unless your placement completes your connection.\n\nPassing is not allowed, but a player with no legal placement has their turn skipped. The pass is submitted automatically.\n\nThis implementation shortens the game by acknowledging that a player who no longer has any possible connection has lost by force.",
         "conspirateurs": "In the base game, pieces may move through sanctuaries as part of a multistep jump. They're not frozen until they end their move in a sanctuary. In the strict variant, pieces are frozen as soon as they enter a sanctuary.\n\nIn four-player games, players 1 and 2 are partnered, as are players 3 and 4.",
         "deckfish": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com).\n\nThe suit powers (token movement abilities) are:\n* Moons: Jump orthogonally over gaps. \n* Suns: Move one or two cards diagonally. \n* Waves: Move orthogonally until the last unobstructed card. \n* Leaves: Move orthogonally onto any card with no neighboring obstacles.\n* Wyrms: Move orthogonally onto the first occupied card, bumping that piece to the next card.\n* Knots: Make three orthogonal one-card moves, without backtracking.\n\nIn the rules, the \"first\" player is the player who places second in the placement phase but moves first in the movement phase, but here the first player is the one who places first but moves second. This is implemented using an automatic pass for the appropriate player.\n\nThe rule is enforced that, even when the last player is already winning, he must continue playing until he is out of moves.",
         "elOso": "Setup is performed automatically when you launch the game. Sky, Cave, Ground, and Pit counts appear in the sidebar. After each move, use the frame controls to step through the Bear's response. Ten or more pieces in the Sky is a win.",
         "domineering": "Domineering, aka, Stop-Gate, is a partisan combinatorial game. The game was designed by Göran Andersson, c.1973, and was presented in the seminal CGT book *Winning Ways for Your Mathematical Plays*. There is an impartial version, called Cram, where players can both place horizontal or vertical dominoes. The variant \"Quelhas\" was proposed by Carlos P. Santos and Alfie Davies in 2025, being a misère version (the player without options wins the game) and using longer domino-like polyominoes.",
         "emu": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers, and they are hidden from opponents until the deck is empty, at which point the players have perfect information, so the hands are revealed. Cards drawn from the discard pile are also always visible to opponents.",
         "entropy": "In this implementation, the players play two games simultaneously but with a single shared stream of randomized pieces. Each player places a piece on their *opponent's* Order board and then makes a move on their *own* Order board; players thus act as both Order and Chaos at the same time. The player with the greatest score wins! Since both players had the exact same placement choices, this provides the cleanest measure of relative skill.",
-        "circleOfLife": "Species are numbered 0–11 counterclockwise on the ring, starting with the single-hex species at the top. Species 0 eats 11; each other species eats the one numbered directly below it. Predation only occurs when you place a stone that forms a species adjacent to prey. Groups may not exceed four stones. The first player to capture 20 opponent stones wins, or the player who cannot place on their turn wins (having filled the ecosystem).",
         "evenatodds": "To place on the table, place one end on empty ground adjacent to a matching active face; the other end may go on any adjacent empty ground. To stack, one end must match the face underneath; the other end may cover any active face *on a different tile* at the same height. In the notation, the first coordinate is the end that matches one of these rules. Blanks are blockers, belonging to no one.\n\nTiles in your hand are hidden from your opponent. Boneyard identities and the two removed overtime tiles are hidden until the game ends. The boneyard count is shown in the sidebar.",
         "exxit": "Translations of the rules tend to omit certain nuances. This implementation conforms with the original French edition of the rules.\n\nBecause the board is built out as you play in irregular shapes, the hexes are labelled numerically instead of algebraically. This ensures that the labels don't change as the map grows.",
         "forms": "Forms was designed by Steven Meyers in 2007. After each move, all pieces outside the group that contains the last-moved piece are captured. The last player to move loses (so Forms is a misère game). The first version allowed a piece to capture any opponent's piece. Later, in 2011, Meyers developed a second version, **Advanced Forms**, where you could only capture orthogonally adjacent pieces, but a piece could also move to an empty cell if both were connected by a sequence of orthogonal steps over empty cells. The setup also changed to a checkered pattern. This second version is the default variant here at AP. More information can be found at [WAG](https://jpneto.github.io/world_abstract_games/forms.htm).",
@@ -618,6 +621,7 @@
         "loa": "In the centre of the 9x9 board is a \"black hole.\". Landing on the black hole means the piece is removed from the game. Simultaneous connections are scored as a draw.",
         "magnate": "The terminology of some Magnate actions has been altered for clarity and brevity. Completely developing a new property is called the \"Buy\" action; purchasing a deed for a new property is called \"Deed\", developing deeds (that is, adding tokens to a deeded property, whether it results in the deed becoming fully developed or not) is called \"Add\". (Selling a card and trading suit tokens 3 for 1 are unchanged.)\n\nIn order to speed up the process of rolling for resources, there are two additional actions:\n* \"Prefer\" is for setting your preference of which suit token to take when a deed pays out on your opponent's roll. If you do not set an explicit preference, the code will choose the rarer token for you based on your non-crown suits and current supply of tokens. The currently preferred token is circled in the UI, but your personal preference is never visible to the other player.\n* \"Choose\" is a mandatory first action for collecting suit tokens when a deed pays out on your own roll. (In all cases where you need to choose a suit token that is not already among your tokens, you still click on the appropriate token pile.)\n\nBecause you can perform several actions during a ply in any order, there is also an \"Undo\" action to back out your most recent action, whether or not it was complete.\n\nNote that only the final resource die result is displayed, but the distribution of expected outcomes is still that of rolling 2d10 and taking the higher value. Taxation happens when the lower of 2d10 comes up 1; a suit die is rolled (or two, in the double taxation variant), and the suits will be displayed underneath the resource result. The roll is logged at the end of a player's turn, and is attributed to the next player (who would have rolled in the physical game). Except for a \"Choose\", no user action is required; resources are added or removed automatically by the server in between turns.\n\nWhen a player is ahead in a district, the Pawn or Excuse for that district is outlined in that player's color. The first tiebreaker score (total property value) is displayed in parentheses after the district score. The second tiebreaker is total number of tokens remaining.",
         "mchess": "If there have been seven consecutive turns without a capture, someone can \"call the clock\" by adding an asterisk (*) to the end of their move. This can only be done by selecting the move from the drop-down list. After another seven turns with no capture, the game will end and be scored.",
+        "mirador": "Declaring takes your entire turn. Complete your unassailable connection first, then declare on your next turn; you cannot place a mirador and declare on the same turn.",
         "murus": "The default ruleset is \"Advanced Murus Gallicus\" (with catapults). By default, your first move is to redistribute one of your starting towers as walls on your second row. Additionally, the standard pie rule is also available. There are three variants you can mix and match:\n\n* \"Basic\" reverts the game to the \"no catapult\" state.\n* \"Static\" disables the initial tower redistribution.\n* \"Escape\" eliminates the breakthrough win condition.",
         "mutternland": "Mutternland was designed by Hartmut Witt in 1997. This implementation deals differently with the initial piece placements. While the original game had players, in the setup, place one _enemy_ piece per turn, here players place one friendly piece and then one opponent piece (including some restrictions to prevent unbalanced starts due to the random generation of the playing field). This makes the setup faster and provides some control of the player's own pieces. Also, pushed-off pieces, which go back to the player's reserve, are placed again by the owner.",
         "narrows": "Narrows, designed by Mark Steere in 2026, is an unification game inspired by the ancient Hawiian game of Kōnane. True to the spirit of Kōnane, Ūnane begins with a checkerboard pattern of stones and is extremely simple. In this case, the unification goal includes the use of orthogonal paths of empty cells to connect different groups of friendly pieces.",
@@ -1483,6 +1487,23 @@
             },
             "size-15": {
                 "name": "15x15 board"
+            }
+        },
+        "clearpath": {
+            "size-7": {
+                "name": "7x7 board"
+            },
+            "#board": {
+                "name": "8x8 board"
+            },
+            "size-9": {
+                "name": "9x9 board"
+            },
+            "size-10": {
+                "name": "10x10 board"
+            },
+            "size-11": {
+                "name": "11x11 board"
             }
         },
         "clusterfuss": {
@@ -5585,6 +5606,14 @@
             "BAD_PASS": "You may not pass if legal moves are available.",
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece."
         },
+        "clearpath": {
+            "INITIAL_INSTRUCTIONS": "Place a stone on an empty point. A point vital to your opponent is only allowed if it is also vital to you, or if your placement completes your connection.",
+            "INVALIDCELL": "The point {{cell}} does not exist.",
+            "OCCUPIED": "The point {{where}} is already occupied.",
+            "VITAL": "You may not place a stone on {{where}}. It is vital to your opponent but not to you, and a stone there would not complete your connection.",
+            "NO_PASS": "You may not pass while you have a legal placement.",
+            "MUST_PASS": "You have no legal placement. Your turn is skipped."
+        },
         "clusterfuss": {
             "ADJ_ONLY": "Pieces may only move to orthogonally adjacent spaces.",
             "BAD_PASS": "You may not pass if legal moves are available.",
@@ -7039,6 +7068,7 @@
             "CHECKPOINT_CHARLEY": "With the 'Checkpoint Charley' variant, moving pieces must stop in the first enemy-controlled realm they enter. In this case, the piece must stop in realm {{realm}}.",
             "DOUBLE_POWER": "In the initial power placement phase, you may not place multiple powers in the same realm.",
             "EMPTY_REARRANGE": "There are no pieces in realm {{realm}} that you can rearrange.",
+            "REARRANGE_THREE": "You may not rearrange realm {{realm}} three turns in a row.",
             "ENFORCER_180": "Enforcers may not make 180-degree turns.",
             "INHAND": "You have pieces left to place on the board.",
             "INHAND_LABEL": "Rearranging {{realm}}",

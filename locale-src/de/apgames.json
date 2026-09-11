@@ -3347,6 +3347,10 @@
     "src": "If there have been seven consecutive turns without a capture, someone can \"call the clock\" by adding an asterisk (*) to the end of their move. This can only be done by selecting the move from the drop-down list. After another seven turns with no capture, the game will end and be scored.",
     "out": "Wenn sieben aufeinanderfolgende Züge lang kein Stein geschlagen wurde, kann jemand \"die Uhr aufrufen\", indem er am Ende seines Zugs ein Sternchen (*) hinzufügt. Dies kann nur durch Auswahl des Zugs aus der Dropdown-Liste erfolgen. Nach weiteren sieben Zügen ohne Schlagzug endet das Spiel und wird gewertet."
   },
+  "notes.mirador": {
+    "src": "Declaring takes your entire turn. Complete your unassailable connection first, then declare on your next turn; you cannot place a mirador and declare on the same turn.",
+    "out": "Das Deklarieren verbraucht deinen gesamten Zug. Stelle zuerst deine unangreifbare Verbindung fertig und deklariere erst in deinem nächsten Zug; du kannst nicht im selben Zug einen Mirador setzen und deklarieren."
+  },
   "notes.murus": {
     "src": "The default ruleset is \"Advanced Murus Gallicus\" (with catapults). By default, your first move is to redistribute one of your starting towers as walls on your second row. Additionally, the standard pie rule is also available. There are three variants you can mix and match:\n\n* \"Basic\" reverts the game to the \"no catapult\" state.\n* \"Static\" disables the initial tower redistribution.\n* \"Escape\" eliminates the breakthrough win condition.",
     "out": "Das Standard-Regelwerk ist \"Advanced Murus Gallicus\" (mit Katapulten). Standardmäßig besteht dein erster Zug darin, einen deiner Starttürme als Mauern in deiner zweiten Reihe neu zu verteilen. Zusätzlich ist auch die Standard-Tortenregel (Pie-Rule) verfügbar. Es gibt drei Varianten, die du kombinieren kannst:\n\n* \"Basic\" setzt das Spiel in den Zustand \"ohne Katapult\" zurück.\n* \"Static\" deaktiviert die anfängliche Turmverteilung.\n* \"Escape\" eliminiert die Durchbruchs-Siegbedingung."

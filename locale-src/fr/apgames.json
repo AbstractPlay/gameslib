@@ -3347,6 +3347,10 @@
     "src": "If there have been seven consecutive turns without a capture, someone can \"call the clock\" by adding an asterisk (*) to the end of their move. This can only be done by selecting the move from the drop-down list. After another seven turns with no capture, the game will end and be scored.",
     "out": "S'il y a eu sept tours consécutifs sans capture, un joueur peut « réclamer l'horloge » en ajoutant un astérisque (*) à la fin de son coup. Cela ne peut se faire qu'en sélectionnant le coup dans la liste déroulante. Après sept autres tours sans capture, la partie se terminera et le score sera calculé."
   },
+  "notes.mirador": {
+    "src": "Declaring takes your entire turn. Complete your unassailable connection first, then declare on your next turn; you cannot place a mirador and declare on the same turn.",
+    "out": "Déclarer prend l'intégralité de votre tour. Complétez d'abord votre connexion inattaquable, puis déclarez lors de votre tour suivant ; vous ne pouvez pas placer un mirador et déclarer lors du même tour."
+  },
   "notes.murus": {
     "src": "The default ruleset is \"Advanced Murus Gallicus\" (with catapults). By default, your first move is to redistribute one of your starting towers as walls on your second row. Additionally, the standard pie rule is also available. There are three variants you can mix and match:\n\n* \"Basic\" reverts the game to the \"no catapult\" state.\n* \"Static\" disables the initial tower redistribution.\n* \"Escape\" eliminates the breakthrough win condition.",
     "out": "Le jeu de règles par défaut est « Advanced Murus Gallicus » (avec catapultes). Par défaut, votre premier coup consiste à redistribuer l'une de vos tours de départ sous forme de murs sur votre deuxième rangée. De plus, la règle du gâteau standard est également disponible. Il y a trois variantes que vous pouvez combiner :\n\n* « Basic » ramène le jeu à l'état « sans catapulte ».\n* « Static » désactive la redistribution initiale des tours.\n* « Escape » élimine la condition de victoire par percée."

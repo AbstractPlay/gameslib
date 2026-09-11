@@ -3347,6 +3347,10 @@
     "src": "If there have been seven consecutive turns without a capture, someone can \"call the clock\" by adding an asterisk (*) to the end of their move. This can only be done by selecting the move from the drop-down list. After another seven turns with no capture, the game will end and be scored.",
     "out": "Se ci sono stati sette turni consecutivi senza alcuna cattura, qualcuno può \"chiamare l'orologio\" aggiungendo un asterisco (*) alla fine della propria mossa. Questo può essere fatto solo selezionando la mossa dall'elenco a discesa. Dopo altri sette turni senza catture, la partita terminerà e si procederà al calcolo del punteggio."
   },
+  "notes.mirador": {
+    "src": "Declaring takes your entire turn. Complete your unassailable connection first, then declare on your next turn; you cannot place a mirador and declare on the same turn.",
+    "out": "Dichiarare occupa l'intero turno. Completa prima la tua connessione inattaccabile, poi dichiara nel tuo turno successivo; non puoi posizionare un mirador e dichiarare nello stesso turno."
+  },
   "notes.murus": {
     "src": "The default ruleset is \"Advanced Murus Gallicus\" (with catapults). By default, your first move is to redistribute one of your starting towers as walls on your second row. Additionally, the standard pie rule is also available. There are three variants you can mix and match:\n\n* \"Basic\" reverts the game to the \"no catapult\" state.\n* \"Static\" disables the initial tower redistribution.\n* \"Escape\" eliminates the breakthrough win condition.",
     "out": "Il regolamento predefinito è \"Advanced Murus Gallicus\" (con catapulte). Per impostazione predefinita, la tua prima mossa consiste nel ridistribuire una delle tue torri iniziali come mura sulla tua seconda riga. Inoltre, è disponibile anche la regola della torta (pie rule) standard. Ci sono tre varianti che puoi combinare tra loro:\n\n* \"Base\" riporta il gioco allo stato \"senza catapulte\".\n* \"Estatico\" disabilita la ridistribuzione iniziale delle torri.\n* \"Fuga\" elimina la condizione di vittoria per sfondamento."

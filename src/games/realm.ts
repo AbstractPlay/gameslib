@@ -178,6 +178,28 @@ export class RealmGame extends GameBase {
         return ( (ctrs.includes(x)) && (ctrs.includes(y)) );
     }
 
+    /** If `lastmove` began with a rearrangement trigger, return that realm's centre cell; else undefined. */
+    public static rearrangeRealmFromMove(lastmove?: string): string | undefined {
+        if (lastmove === undefined) { return undefined; }
+        const trigger = lastmove.replace(/\s+/g, "").split(";")[0];
+        if (!trigger.startsWith("-")) { return undefined; }
+        const centre = trigger.substring(1);
+        return RealmGame.isCentreSpace(centre) ? centre : undefined;
+    }
+
+    /** How many of this player's most recent turns were rearrangements of `realm`. */
+    private consecutiveRearrangesOf(player: playerid, realm: string): number {
+        let count = 0;
+        for (let i = this.stack.length - 1; i >= 1; i--) {
+            const entry = this.stack[i];
+            const mover = (entry.currplayer === 1 ? 2 : 1) as playerid;
+            if (mover !== player) { continue; }
+            const prev = RealmGame.rearrangeRealmFromMove(entry.lastmove);
+            if (prev === realm) { count++; } else { break; }
+        }
+        return count;
+    }
+
     public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, CellContents>;
@@ -705,6 +727,11 @@ export class RealmGame extends GameBase {
                     if (! hasPieces) {
                         result.valid = false;
                         result.message = i18next.t("apgames:validation.realm.EMPTY_REARRANGE", {realm});
+                        return result;
+                    }
+                    if (this.consecutiveRearrangesOf(cloned.currplayer, realm) >= 2) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.realm.REARRANGE_THREE", {realm});
                         return result;
                     }
                 // otherwise, everything else

@@ -7068,6 +7068,7 @@
       "CHECKPOINT_CHARLEY": "Con la variante 'Checkpoint Charley', las piezas en movimiento deben detenerse en el primer reino controlado por el enemigo en el que entren. En este caso, la pieza debe detenerse en el reino {{realm}}.",
       "DOUBLE_POWER": "En la fase inicial de colocación de poderes, no puedes colocar múltiples poderes en el mismo reino.",
       "EMPTY_REARRANGE": "No hay piezas en el reino {{realm}} que puedas reorganizar.",
+      "REARRANGE_THREE": "No puedes reordenar el reino {{realm}} tres turnos seguidos.",
       "ENFORCER_180": "Los ejecutores no pueden dar giros de 180 grados.",
       "INHAND": "Te quedan piezas por colocar en el tablero.",
       "INHAND_LABEL": "Reorganizando {{realm}}",

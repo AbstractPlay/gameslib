@@ -10971,6 +10971,10 @@
     "src": "Click on an empty space in realm {{realm}} to place the piece.",
     "out": "Cliquez sur une case vide dans le royaume {{realm}} pour y placer la pièce."
   },
+  "validation.realm.REARRANGE_THREE": {
+    "src": "You may not rearrange realm {{realm}} three turns in a row.",
+    "out": "Vous ne pouvez pas réarranger le royaume {{realm}} trois tours d'affilée."
+  },
   "validation.realm.SPECIAL_CAP_BASE": {
     "src": "You must specify that you are capturing the base in this realm.",
     "out": "Vous devez spécifier que vous capturez la base dans ce royaume."

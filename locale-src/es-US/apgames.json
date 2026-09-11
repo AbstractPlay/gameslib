@@ -3347,6 +3347,10 @@
     "src": "If there have been seven consecutive turns without a capture, someone can \"call the clock\" by adding an asterisk (*) to the end of their move. This can only be done by selecting the move from the drop-down list. After another seven turns with no capture, the game will end and be scored.",
     "out": "Si ha habido siete turnos consecutivos sin una captura, alguien puede \"pedir el reloj\" agregando un asterisco (*) al final de su movimiento. Esto solo se puede hacer seleccionando el movimiento de la lista desplegable. Después de otros siete turnos sin captura, la partida terminará y se puntuará."
   },
+  "notes.mirador": {
+    "src": "Declaring takes your entire turn. Complete your unassailable connection first, then declare on your next turn; you cannot place a mirador and declare on the same turn.",
+    "out": "Declarar consume todo tu turno. Completa primero tu conexión inexpugnable y luego declara en tu siguiente turno; no puedes colocar un mirador y declarar en el mismo turno."
+  },
   "notes.murus": {
     "src": "The default ruleset is \"Advanced Murus Gallicus\" (with catapults). By default, your first move is to redistribute one of your starting towers as walls on your second row. Additionally, the standard pie rule is also available. There are three variants you can mix and match:\n\n* \"Basic\" reverts the game to the \"no catapult\" state.\n* \"Static\" disables the initial tower redistribution.\n* \"Escape\" eliminates the breakthrough win condition.",
     "out": "El reglamento predeterminado es \"Advanced Murus Gallicus\" (con catapultas). Por defecto, tu primer movimiento es redistribuir una de tus torres iniciales como muros en tu segunda fila. Además, la regla estándar del pastel (pie rule) también está disponible. Hay tres variantes que puedes combinar:\n\n* \"Basic\" revierte el juego al estado \"sin catapultas\".\n* \"Static\" deshabilita la redistribución inicial de la torre.\n* \"Escape\" elimina la condición de victoria por avance decisivo."

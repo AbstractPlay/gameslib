@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import "mocha";
 import { expect } from "chai";
-import { ClearPathGame, cpHasWinningPath, cpLegalPlacements, cpVitalPoints } from "../../src/games/clearpath";
+import { ClearPathGame, cpVitalPoints } from "../../src/games/clearpath";
 
 // Board notation: columns a-e left to right, rows 1-5 bottom to top.
 // Red (player 1) connects the top and bottom rows.  Blue (player 2) connects

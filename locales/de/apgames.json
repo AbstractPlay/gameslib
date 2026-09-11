@@ -60,6 +60,7 @@
     "churn": "Ein blutiges Gebietskontrollspiel auf einem kleinen Brett.",
     "cifra": "Ein Spiel im Breakthrough-Stil, bei dem sich die Brettkonfiguration von Spiel zu Spiel ändert.",
     "clearcut": "Verbinde gegenüberliegende Seiten des Bretts. Linien von Steinen können sich unter bestimmten Umständen kreuzen, was zur Entfernung einiger gegnerischer Steine führt.",
+    "clearpath": "Ein orthogonales Verbindungsspiel auf den Punkten eines quadratischen Gitters. Rot verbindet die obere und untere Kante, Blau die linke und rechte Kante mit einer Kette orthogonal benachbarter Steine. In jedem Zug setzt du einen Stein. Ein Punkt ist für einen Spieler vital, wenn jede seiner möglichen Verbindungen durch ihn verläuft. Du darfst nicht auf einen Punkt setzen, der für deinen Gegner vital ist, es sei denn, er ist auch für dich vital oder dein Zug vollendet deine Verbindung. Crosscuts sind erlaubt.",
     "clusterfuss": "Schlage kontinuierlich Steine mit dem Ziel, Gruppen gegnerischer Steine abzutrennen (und dadurch zu eliminieren). Sei der Letzte, der noch steht!",
     "compart": "Spiele auf jedem nutzbaren Bereich, aber sei derjenige mit weniger Steinen am Ende.",
     "complica": "Ein einfaches Vier-gewinnt-Spiel auf einem schmalen Feld, bei dem die Spalten nie voll werden.",
@@ -348,6 +349,7 @@
     "cifra": "CIFRA",
     "circleOfLife": "Circle of Life",
     "clearcut": "Halfcut",
+    "clearpath": "Clear Path",
     "clusterfuss": "Clusterfuss",
     "compart": "Compart",
     "complica": "Complica",
@@ -590,13 +592,14 @@
     "druid": "Ein Deckstein (Lintel) muss an beiden Enden getragen werden (nicht auf bloßem Boden) und auf genau zwei Ihrer Steine aufliegen (die nicht beide an den Enden liegen müssen). Decksteine müssen flach liegen: Beide Enden müssen auf Stapeln gleicher Höhe ruhen. Decksteine dürfen einander kreuzen, aber Sie dürfen keinen neuen Deckstein durch die Lücke unter der Mitte eines bestehenden Decksteins fädeln. Nur der oberste Stein auf jedem Feld zählt für Verbindungen.\n\nBei der Variante \"Druid's Walk\" auf dem rechteckigen Brett erscheint Ihr Druide beim ersten Mal, wenn Sie einen Stein auf einen Ihrer Ränder (Westen oder Osten für Spieler 1, Norden oder Süden für Spieler 2) platzieren. Um zu gewinnen, muss der Druide am gegenüberliegenden Rand vom Brett heruntergezogen werden. In jedem Zug platzieren Sie entweder einen Stein oder bewegen Ihren Druiden – nicht beides. Druiden bewegen sich auf orthogonal benachbarte Steine ihrer Farbe und stehen immer auf dem obersten Stein; sie können nicht in freie Lücken unter Decksteinen treten. Steine können nicht auf einem Druiden platziert werden. Der erste Spieler, der seinen Druiden vom Brett zieht, gewinnt. Druid's Walk gilt nicht für Druid's Y- oder Druid's Hex-Bretter.",
     "catsdogs": "Das ursprüngliche Spiel, *SNORT*, wurde 1970 von Simon Norton entworfen. Die einzige Regel bestand darin, zu verhindern, dass Steine unterschiedlicher Farben orthogonal benachbart sind. Ein patt gesetzter Spieler verliert das Spiel. Norton schlug auch die Misère-Version vor (Patt ist ein Sieg). Das ursprüngliche Spiel ist jedoch durch eine Spiegelstrategie widerlegt. Chris Huntoon schlug ein größeres 11x11-Brett vor, bei dem der Spieler nicht in der Mitte beginnen kann (um das Spiegeln zu verhindern), was er *Cats and Dogs* nannte und das hier das Hauptspiel ist. Ebenfalls verfügbar ist das portugiesische Turnierregelwerk, das auf dem kleineren 8x8-Brett gespielt wird, bei dem der erste Spieler jedoch im zentralen 2x2-Bereich beginnen muss und der zweite Spieler außerhalb dieses Bereichs antworten muss. Dies ermöglicht es, die Spiegelstrategie zu durchbrechen und dennoch auf dem ursprünglichen kleineren Brett zu spielen. Siehe auch Snorts Artikel in [AGM#15](https://www.abstractgames.org/uploads/1/1/6/4/116462923/abstract_games_issue_15.pdf).",
     "chase": "Derzeit müssen die meisten Tauschzüge manuell bearbeitet werden. Wir arbeiten daran, dies zu beheben.",
+    "circleOfLife": "Die Arten sind auf dem Ring gegen den Uhrzeigersinn von 0–11 nummeriert, beginnend mit der Einzel-Hex-Art ganz oben. Art 0 frisst 11; jede andere Art frisst die direkt darunter nummerierte Art. Räuberisches Fressen findet nur statt, wenn du einen Stein platzierst, der eine Art angrenzend an Beute bildet. Gruppen dürfen nicht mehr als vier Steine umfassen. Wer zuerst 20 gegnerische Steine schlägt, gewinnt, oder der Spieler gewinnt, der in seinem Zug nicht mehr platzieren kann (nachdem das Ökosystem gefüllt wurde).",
+    "clearpath": "Clear Path wurde im September 2026 von Mark Steere in Zusammenarbeit mit Claude Fable 5.1 entwickelt, einem KI-Modell von Anthropic.\n\nDie vitalen Punkte sind auf dem Spielbrett markiert. Ein roter Punkt markiert einen Punkt, durch den jede mögliche Verbindung von Rot verläuft, ein blauer Punkt markiert einen Punkt, durch den jede mögliche Verbindung von Blau verläuft, und ein blauer Punkt innerhalb eines roten Punktes markiert einen Punkt, der für beide Spieler vital ist. Ein Punkt, der nur für deinen Gegner vital ist, ist für dich regelwidrig, es sei denn, dein Zug vollendet deine Verbindung.\n\nPassen ist nicht erlaubt, aber wenn ein Spieler keinen legalen Zug hat, wird sein Zug übersprungen. Das Passen erfolgt automatisch.\n\nDiese Implementierung verkürzt das Spiel, indem sie berücksichtigt, dass ein Spieler, der keine mögliche Verbindung mehr hat, zwangsläufig verloren hat.",
     "conspirateurs": "Im Grundspiel dürfen sich Steine als Teil eines Mehrfachsprungs durch Zufluchtsorte bewegen. Sie sind erst eingefroren, wenn sie ihren Zug in einem Zufluchtsort beenden. In der strikten Variante werden Steine eingefroren, sobald sie einen Zufluchtsort betreten.\n\nIn Spielen mit vier Spielern bilden Spieler 1 und 2 ein Team, ebenso wie Spieler 3 und 4.",
     "deckfish": "Weitere Informationen zum Decktet-System finden Sie auf der [offiziellen Decktet-Website](https://www.decktet.com).\n\nDie Farben-Kräfte (Bewegungsfähigkeiten der Marker) sind:\n* Mond (Moons): Springe orthogonal über Lücken.\n* Sonne (Suns): Bewege ein oder zwei Karten diagonal.\n* Welle (Waves): Bewege dich orthogonal bis zur letzten unversperrten Karte.\n* Blatt (Leaves): Bewege dich orthogonal auf eine beliebige Karte ohne benachbarte Hindernisse.\n* Wurm (Wyrms): Bewege dich orthogonal auf die erste besetzte Karte und schiebe diesen Stein auf die nächste Karte.\n* Knoten (Knots): Mache drei orthogonale Ein-Karten-Züge ohne Zurückgehen.\n\nIn den Regeln ist der \"erste\" Spieler derjenige, der in der Platzierungsphase als Zweiter platziert, sich aber in der Bewegungsphase als Erster bewegt. Hier ist der erste Spieler jedoch derjenige, der als Erster platziert, sich aber als Zweiter bewegt. Dies wird durch ein automatisches Passen für den entsprechenden Spieler umgesetzt.\n\nEs gilt die Regel, dass der letzte Spieler, selbst wenn er bereits gewinnt, weiterspielen muss, bis ihm die Züge ausgehen.",
     "elOso": "Der Aufbau erfolgt automatisch beim Starten des Spiels. Die Anzahl für Himmel, Höhle, Boden und Grube wird in der Seitenleiste angezeigt. Verwende nach jedem Zug die Einzelbild-Steuerung, um die Reaktion des Bären Schritt für Schritt zu verfolgen. Zehn oder mehr Steine im Himmel bedeuten einen Sieg.",
     "domineering": "Domineering, auch bekannt als Stop-Gate, ist ein parteiisches kombinatorisches Spiel. Das Spiel wurde um 1973 von Göran Andersson entworfen und im einflussreichen CGT-Buch *Winning Ways for Your Mathematical Plays* vorgestellt. Es gibt eine unparteiische Version namens Cram, bei der beide Spieler sowohl horizontale als auch vertikale Dominosteine platzieren können. Die Variante \"Quelhas\" wurde 2025 von Carlos P. Santos und Alfie Davies vorgeschlagen; sie ist eine Misère-Version (der Spieler ohne Zugmöglichkeiten gewinnt das Spiel) und verwendet längere dominoartige Polyominos.",
     "emu": "Weitere Informationen zum Decktet-System finden Sie auf der [offiziellen Decktet-Website](https://www.decktet.com). Karten auf den Händen der Spieler sind vor Zuschauern verborgen, und sie sind vor Gegnern verborgen, bis der Stapel leer ist. Ab diesem Zeitpunkt verfügen die Spieler über perfekte Information, sodass die Hände aufgedeckt werden. Vom Ablagestapel gezogene Karten sind für Gegner ebenfalls immer sichtbar.",
     "entropy": "In dieser Implementierung spielen die Spieler zwei Spiele gleichzeitig, jedoch mit einem einzigen gemeinsamen Strom zufälliger Steine. Jeder Spieler platziert einen Stein auf dem Ordnung-Brett seines *Gegners* und macht dann einen Zug auf seinem *eigenen* Ordnung-Brett; die Spieler agieren somit gleichzeitig als Ordnung und Chaos. Der Spieler mit der höchsten Punktzahl gewinnt! Da beide Spieler exakt dieselben Platzierungsmöglichkeiten hatten, bietet dies das meiste Maß an relativer Spielstärke.",
-    "circleOfLife": "Die Arten sind auf dem Ring gegen den Uhrzeigersinn von 0–11 nummeriert, beginnend mit der Einzel-Hex-Art ganz oben. Art 0 frisst 11; jede andere Art frisst die direkt darunter nummerierte Art. Räuberisches Fressen findet nur statt, wenn du einen Stein platzierst, der eine Art angrenzend an Beute bildet. Gruppen dürfen nicht mehr als vier Steine umfassen. Wer zuerst 20 gegnerische Steine schlägt, gewinnt, oder der Spieler gewinnt, der in seinem Zug nicht mehr platzieren kann (nachdem das Ökosystem gefüllt wurde).",
     "evenatodds": "Um auf das Feld zu legen, platziere ein Ende auf einem leeren Feld angrenzend an eine passende aktive Seite; das andere Ende kann auf jedem angrenzenden leeren Feld liegen. Um zu stapeln, muss ein Ende mit der darunter liegenden Seite übereinstimmen; das andere Ende darf jede aktive Seite *auf einem anderen Stein* auf derselben Höhe bedecken. In der Notation ist die erste Koordinate das Ende, das einer dieser Regeln entspricht. Blanks sind Blocker, die niemandem gehören.\n\nSteine auf deiner Hand sind vor deinem Gegner verborgen. Die Identitäten des Friedhofs (Boneyard) und die zwei entfernten Verlängerungssteine sind bis Spielende verborgen. Die Anzahl der Steine im Friedhof wird in der Seitenleiste angezeigt.",
     "exxit": "Übersetzungen der Regeln neigen dazu, bestimmte Nuancen auszulassen. Diese Implementierung entspricht der französischen Originalausgabe der Regeln.\n\nDa das Spielbrett während des Spiels in unregelmäßigen Formen aufgebaut wird, sind die Felder nummeriert statt algebraisch beschriftet. Dies stellt sicher, dass sich die Beschriftungen mit wachsendem Spielfeld nicht verändern.",
     "forms": "Forms wurde 2007 von Steven Meyers entworfen. Nach jedem Zug werden alle Steine außerhalb der Gruppe geschlagen, die den zuletzt bewegten Stein enthält. Der letzte Spieler, der zieht, verliert (Forms ist also ein Misère-Spiel). Die erste Version erlaubte es einem Stein, jeden gegnerischen Stein zu schlagen. Später, im Jahr 2011, entwickelte Meyers eine zweite Version, **Advanced Forms**, bei der man nur orthogonal angrenzende Steine schlagen konnte, sich ein Stein aber auch auf ein leeres Feld bewegen konnte, wenn beide durch eine Sequenz orthogonaler Schritte über leere Felder verbunden waren. Der Aufbau änderte sich ebenfalls zu einem Schachbrettmuster. Diese zweite Version ist die Standardvariante hier bei AP. Weitere Informationen finden Sie bei [WAG](https://jpneto.github.io/world_abstract_games/forms.htm).",
@@ -1483,6 +1486,23 @@
       },
       "size-15": {
         "name": "15x15-Brett"
+      }
+    },
+    "clearpath": {
+      "size-7": {
+        "name": "7x7-Brett"
+      },
+      "#board": {
+        "name": "8x8-Brett"
+      },
+      "size-9": {
+        "name": "9x9-Brett"
+      },
+      "size-10": {
+        "name": "10x10-Brett"
+      },
+      "size-11": {
+        "name": "11x11-Brett"
       }
     },
     "clusterfuss": {
@@ -5584,6 +5604,14 @@
       "BAD_CROSSING_CLEARCUT": "Linien dürfen sich nur kreuzen, wenn die durch den platzierten Stein entstandene Gruppe größer ist als jede einzelne gegnerische Gruppe im Kreuzungspunkt.",
       "BAD_PASS": "Du darfst nicht passen, wenn legale Züge verfügbar sind.",
       "INITIAL_INSTRUCTIONS": "Wähle einen Punkt, um einen Stein zu platzieren."
+    },
+    "clearpath": {
+      "INITIAL_INSTRUCTIONS": "Setze einen Stein auf einen leeren Punkt. Ein Punkt, der für deinen Gegner vital ist, ist nur erlaubt, wenn er auch für dich vital ist oder wenn dein Zug deine Verbindung vollendet.",
+      "INVALIDCELL": "Der Punkt {{cell}} existiert nicht.",
+      "OCCUPIED": "Der Punkt {{where}} ist bereits besetzt.",
+      "VITAL": "Du darfst keinen Stein auf {{where}} setzen. Er ist für deinen Gegner vital, aber nicht für dich, und ein Stein dort würde deine Verbindung nicht vollenden.",
+      "NO_PASS": "Du darfst nicht passen, solange du einen legalen Zug hast.",
+      "MUST_PASS": "Du hast keinen legalen Zug. Dein Zug wird übersprungen."
     },
     "clusterfuss": {
       "ADJ_ONLY": "Steine dürfen nur auf orthogonal angrenzende Felder ziehen.",

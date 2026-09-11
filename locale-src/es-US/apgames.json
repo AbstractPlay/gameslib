@@ -259,6 +259,10 @@
     "src": "Connect opposite sides of the board. Lines of pieces may cross in some circumstances, and this results in the removal of some opposing pieces.",
     "out": "Conecta lados opuestos del tablero. Las líneas de piezas pueden cruzarse en algunas circunstancias, lo que resulta en la eliminación de algunas piezas enemigas."
   },
+  "descriptions.clearpath": {
+    "src": "An orthogonal connection game on the points of a square grid. Red connects the top and bottom edges, Blue the left and right edges, with a chain of orthogonally adjacent stones. Each turn you place one stone. A point is vital to a player if every possible connection of theirs passes through it. You may not place on a point vital to your opponent unless it is also vital to you, or your placement completes your connection. Crosscuts are allowed.",
+    "out": "Un juego de conexión ortogonal en los puntos de una cuadrícula cuadrada. El Rojo conecta los bordes superior e inferior, y el Azul los bordes izquierdo y derecho, con una cadena de fichas adyacentes ortogonalmente. En cada turno colocas una ficha. Un punto es vital para un jugador si todas sus posibles conexiones pasan a través de él. No puedes colocar una ficha en un punto vital para tu oponente a menos que también sea vital para ti, o que tu jugada complete tu conexión. Los cortes cruzados están permitidos."
+  },
   "descriptions.clusterfuss": {
     "src": "Continually capture pieces with the aim of detaching (and thereby eliminating) groups of opposing pieces. Be the last man standing!",
     "out": "Captura piezas continuamente con el objetivo de separar (y por lo tanto eliminar) grupos de piezas enemigas. ¡Sé el último en quedar en pie!"
@@ -2267,6 +2271,10 @@
     "src": "Halfcut",
     "out": "Halfcut"
   },
+  "names.clearpath": {
+    "src": "Clear Path",
+    "out": "Clear Path"
+  },
   "names.clusterfuss": {
     "src": "Clusterfuss",
     "out": "Clusterfuss"
@@ -3227,6 +3235,10 @@
     "src": "Species are numbered 0–11 counterclockwise on the ring, starting with the single-hex species at the top. Species 0 eats 11; each other species eats the one numbered directly below it. Predation only occurs when you place a stone that forms a species adjacent to prey. Groups may not exceed four stones. The first player to capture 20 opponent stones wins, or the player who cannot place on their turn wins (having filled the ecosystem).",
     "out": "Las especies están numeradas de 0 a 11 en sentido contrario a las agujas del reloj en el anillo, comenzando con la especie de un solo hexágono en la parte superior. La especie 0 se come a la 11; cada una de las demás especies se come a la numerada inmediatamente debajo de ella. La depredación solo ocurre cuando colocas una piedra que forma una especie adyacente a una presa. Los grupos no pueden exceder las cuatro piedras. El primer jugador en capturar 20 piedras del oponente gana, o gana el jugador que no pueda colocar en su turno (al haber llenado el ecosistema)."
   },
+  "notes.clearpath": {
+    "src": "Clear Path was designed by Mark Steere in September 2026, in collaboration with Claude Fable 5.1, an AI model made by Anthropic.\n\nThe vital points are marked on the board. A red dot marks a point that every possible Red connection passes through, a blue dot marks a point that every possible Blue connection passes through, and a blue dot inside a red dot marks a point vital to both players. A point vital only to your opponent is illegal for you unless your placement completes your connection.\n\nPassing is not allowed, but a player with no legal placement has their turn skipped. The pass is submitted automatically.\n\nThis implementation shortens the game by acknowledging that a player who no longer has any possible connection has lost by force.",
+    "out": "Clear Path fue diseñado por Mark Steere en septiembre de 2026, en colaboración con Claude Fable 5.1, un modelo de IA creado por Anthropic.\n\nLos puntos vitales están marcados en el tablero. Un punto rojo marca un punto por el que pasan todas las conexiones posibles del Rojo, un punto azul marca un punto por el que pasan todas las conexiones posibles del Azul, y un punto azul dentro de uno rojo marca un punto vital para ambos jugadores. Un punto vital únicamente para tu oponente es ilegal para ti, a menos que tu jugada complete tu conexión.\n\nNo se permite pasar, pero si un jugador no tiene ninguna jugada legal, se le salta el turno. El pase se envía automáticamente.\n\nEsta implementación acorta la partida al reconocer que un jugador que ya no tiene ninguna conexión posible ha perdido de forma inevitable."
+  },
   "notes.conspirateurs": {
     "src": "In the base game, pieces may move through sanctuaries as part of a multistep jump. They're not frozen until they end their move in a sanctuary. In the strict variant, pieces are frozen as soon as they enter a sanctuary.\n\nIn four-player games, players 1 and 2 are partnered, as are players 3 and 4.",
     "out": "En el juego base, las piezas pueden moverse a través de santuarios como parte de un salto de varios pasos. No se congelan hasta que terminan su movimiento en un santuario. En la variante estricta, las piezas se congelan tan pronto como entran en un santuario.\n\nEn partidas de cuatro jugadores, los jugadores 1 y 2 son compañeros, al igual que los jugadores 3 y 4."
@@ -3334,6 +3346,10 @@
   "notes.mchess": {
     "src": "If there have been seven consecutive turns without a capture, someone can \"call the clock\" by adding an asterisk (*) to the end of their move. This can only be done by selecting the move from the drop-down list. After another seven turns with no capture, the game will end and be scored.",
     "out": "Si ha habido siete turnos consecutivos sin una captura, alguien puede \"pedir el reloj\" agregando un asterisco (*) al final de su movimiento. Esto solo se puede hacer seleccionando el movimiento de la lista desplegable. Después de otros siete turnos sin captura, la partida terminará y se puntuará."
+  },
+  "notes.mirador": {
+    "src": "Declaring takes your entire turn. Complete your unassailable connection first, then declare on your next turn; you cannot place a mirador and declare on the same turn.",
+    "out": "Declarar consume todo tu turno. Completa primero tu conexión inexpugnable y luego declara en tu siguiente turno; no puedes colocar un mirador y declarar en el mismo turno."
   },
   "notes.murus": {
     "src": "The default ruleset is \"Advanced Murus Gallicus\" (with catapults). By default, your first move is to redistribute one of your starting towers as walls on your second row. Additionally, the standard pie rule is also available. There are three variants you can mix and match:\n\n* \"Basic\" reverts the game to the \"no catapult\" state.\n* \"Static\" disables the initial tower redistribution.\n* \"Escape\" eliminates the breakthrough win condition.",
@@ -6258,6 +6274,30 @@
   "validation.clearcut.INITIAL_INSTRUCTIONS": {
     "src": "Select a point to place a piece.",
     "out": "Selecciona un punto para colocar una pieza."
+  },
+  "validation.clearpath.INITIAL_INSTRUCTIONS": {
+    "src": "Place a stone on an empty point. A point vital to your opponent is only allowed if it is also vital to you, or if your placement completes your connection.",
+    "out": "Coloca una ficha en un punto vacío. Un punto vital para tu oponente solo está permitido si también es vital para ti, o si tu jugada completa tu conexión."
+  },
+  "validation.clearpath.INVALIDCELL": {
+    "src": "The point {{cell}} does not exist.",
+    "out": "El punto {{cell}} no existe."
+  },
+  "validation.clearpath.MUST_PASS": {
+    "src": "You have no legal placement. Your turn is skipped.",
+    "out": "No tienes ninguna jugada legal. Se salta tu turno."
+  },
+  "validation.clearpath.NO_PASS": {
+    "src": "You may not pass while you have a legal placement.",
+    "out": "No puedes pasar mientras tengas una jugada legal."
+  },
+  "validation.clearpath.OCCUPIED": {
+    "src": "The point {{where}} is already occupied.",
+    "out": "El punto {{where}} ya está ocupado."
+  },
+  "validation.clearpath.VITAL": {
+    "src": "You may not place a stone on {{where}}. It is vital to your opponent but not to you, and a stone there would not complete your connection.",
+    "out": "No puedes colocar una ficha en {{where}}. Es vital para tu oponente pero no para ti, y una ficha allí no completaría tu conexión."
   },
   "validation.clusterfuss.ADJ_ONLY": {
     "src": "Pieces may only move to orthogonally adjacent spaces.",
@@ -14834,6 +14874,26 @@
   "variants.clearcut.size-15.name": {
     "src": "15x15 board",
     "out": "Tablero de 15x15"
+  },
+  "variants.clearpath.#board.name": {
+    "src": "8x8 board",
+    "out": "Tablero de 8x8"
+  },
+  "variants.clearpath.size-10.name": {
+    "src": "10x10 board",
+    "out": "Tablero de 10x10"
+  },
+  "variants.clearpath.size-11.name": {
+    "src": "11x11 board",
+    "out": "Tablero de 11x11"
+  },
+  "variants.clearpath.size-7.name": {
+    "src": "7x7 board",
+    "out": "Tablero de 7x7"
+  },
+  "variants.clearpath.size-9.name": {
+    "src": "9x9 board",
+    "out": "Tablero de 9x9"
   },
   "variants.clusterfuss.#board.name": {
     "src": "Default board (8x8)",

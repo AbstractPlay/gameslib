@@ -1675,9 +1675,28 @@
       }
     },
     "crosshairs": {
+      "#clouds": {
+        "name": "16 nuages"
+      },
+      "clouds-22": {
+        "name": "22 nuages",
+        "description": "Placez 22 nuages au lieu de 16. Avec la limite de taille par défaut de la réserve de nuages, le nombre total ne pourra pas toujours être atteint."
+      },
+      "clouds-28": {
+        "name": "28 nuages",
+        "description": "Placez 28 nuages au lieu de 16. Avec la limite de taille par défaut de la réserve de nuages, le nombre total ne pourra pas toujours être atteint."
+      },
       "random-start": {
-        "name": "Nuages aléatoires",
-        "description": "Il n'y a pas de phase de placement des nuages. Ils sont placés aléatoirement par le système."
+        "name": "Nuages aléatoires symétriques",
+        "description": "Il n'y a pas de phase de placement des nuages. Le système place les nuages aléatoirement avec une symétrie de rotation de 180 degrés."
+      },
+      "asymmetric-random-start": {
+        "name": "Nuages aléatoires asymétriques",
+        "description": "Il n'y a pas de phase de placement des nuages. Le système place les nuages aléatoirement sans exiger de symétrie."
+      },
+      "unbounded-cloud-banks": {
+        "name": "Réserves de nuages illimitées",
+        "description": "Les réserves de nuages peuvent contenir n'importe quel nombre de nuages."
       }
     },
     "crossway": {
@@ -5736,8 +5755,10 @@
     },
     "crosshairs": {
       "PLACE_CLOUD": "Cliquez sur une case vide pour placer un nuage. Les nuages ne peuvent pas dépasser 2 hexagones.",
+      "PLACE_CLOUD_UNBOUNDED": "Cliquez sur une case vide pour placer un nuage.",
       "CLOUD_OCCUPIED": "Il y a déjà un nuage en {{cell}}.",
       "CLOUD_TOO_BIG": "Vous ne pouvez pas placer de nuage en {{cell}}. Seuls les nuages de taille 2 sont autorisés. Ce nuage serait trop grand.",
+      "MUST_PASS_BEFORE_ENTRY": "Vous devez passer pour que le joueur 1 fasse entrer le premier avion.",
       "INITIAL_INSTRUCTIONS_one": "Sélectionnez un avion à déplacer, ou faites entrer un nouvel avion sur votre bord de départ. Vous devez déplacer/faire entrer {{count}} avion ce tour-ci.",
       "INITIAL_INSTRUCTIONS_other": "Sélectionnez un avion à déplacer, ou faites entrer un nouvel avion sur votre bord de départ. Vous devez déplacer/faire entrer {{count}} avions ce tour-ci.",
       "INITIAL_INSTRUCTIONS_NO_ENTRY_one": "Sélectionnez un avion à déplacer. Vous devez déplacer {{count}} avion ce tour-ci. Cliquez sur les avions ennemis si vous pensez qu'ils peuvent être abattus.",

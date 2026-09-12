@@ -6627,6 +6627,10 @@
     "src": "Move complete. You may shoot enemy planes or submit your move.",
     "out": "Déplacement terminé. Vous pouvez tirer sur des avions ennemis ou valider votre coup."
   },
+  "validation.crosshairs.MUST_PASS_BEFORE_ENTRY": {
+    "src": "You must pass so player 1 enters the first plane.",
+    "out": "Vous devez passer pour que le joueur 1 fasse entrer le premier avion."
+  },
   "validation.crosshairs.NEED_MORE_PLANES_NO_ENTRY_one": {
     "src": "You need to move {{count}} more plane this turn. Select the next plane. Click on enemy planes if you think they can be shot down.",
     "out": "Vous devez déplacer {{count}} avion supplémentaire ce tour-ci. Sélectionnez l'avion suivant. Cliquez sur les avions ennemis si vous pensez qu'ils peuvent être abattus."
@@ -6674,6 +6678,10 @@
   "validation.crosshairs.PLACE_CLOUD": {
     "src": "Click on an empty cell to place a cloud. Clouds cannot be larger than 2 hexes.",
     "out": "Cliquez sur une case vide pour placer un nuage. Les nuages ne peuvent pas dépasser 2 hexagones."
+  },
+  "validation.crosshairs.PLACE_CLOUD_UNBOUNDED": {
+    "src": "Click on an empty cell to place a cloud.",
+    "out": "Cliquez sur une case vide pour placer un nuage."
   },
   "validation.crossway.BAD_PASS": {
     "src": "You may not pass if legal moves are available.",
@@ -15123,13 +15131,49 @@
     "src": "9x9 board",
     "out": "Plateau 9x9"
   },
+  "variants.crosshairs.#clouds.name": {
+    "src": "16 clouds",
+    "out": "16 nuages"
+  },
+  "variants.crosshairs.asymmetric-random-start.description": {
+    "src": "There is no cloud placing phase. The system places the clouds randomly without requiring symmetry.",
+    "out": "Il n'y a pas de phase de placement des nuages. Le système place les nuages aléatoirement sans exiger de symétrie."
+  },
+  "variants.crosshairs.asymmetric-random-start.name": {
+    "src": "Asymmetric random clouds",
+    "out": "Nuages aléatoires asymétriques"
+  },
+  "variants.crosshairs.clouds-22.description": {
+    "src": "Place 22 clouds instead of 16. With the default cloud bank size limit, the full count may not always be achievable.",
+    "out": "Placez 22 nuages au lieu de 16. Avec la limite de taille par défaut de la réserve de nuages, le nombre total ne pourra pas toujours être atteint."
+  },
+  "variants.crosshairs.clouds-22.name": {
+    "src": "22 clouds",
+    "out": "22 nuages"
+  },
+  "variants.crosshairs.clouds-28.description": {
+    "src": "Place 28 clouds instead of 16. With the default cloud bank size limit, the full count may not always be achievable.",
+    "out": "Placez 28 nuages au lieu de 16. Avec la limite de taille par défaut de la réserve de nuages, le nombre total ne pourra pas toujours être atteint."
+  },
+  "variants.crosshairs.clouds-28.name": {
+    "src": "28 clouds",
+    "out": "28 nuages"
+  },
   "variants.crosshairs.random-start.description": {
-    "src": "There is no cloud placing phase. They are placed randomly by the system.",
-    "out": "Il n'y a pas de phase de placement des nuages. Ils sont placés aléatoirement par le système."
+    "src": "There is no cloud placing phase. The system places the clouds randomly with 180-degree rotational symmetry.",
+    "out": "Il n'y a pas de phase de placement des nuages. Le système place les nuages aléatoirement avec une symétrie de rotation de 180 degrés."
   },
   "variants.crosshairs.random-start.name": {
-    "src": "Random clouds",
-    "out": "Nuages aléatoires"
+    "src": "Symmetric random clouds",
+    "out": "Nuages aléatoires symétriques"
+  },
+  "variants.crosshairs.unbounded-cloud-banks.description": {
+    "src": "Cloud banks may contain any number of clouds.",
+    "out": "Les réserves de nuages peuvent contenir n'importe quel nombre de nuages."
+  },
+  "variants.crosshairs.unbounded-cloud-banks.name": {
+    "src": "Unbounded cloud banks",
+    "out": "Réserves de nuages illimitées"
   },
   "variants.crossway.#board.name": {
     "src": "Default board (19x19)",

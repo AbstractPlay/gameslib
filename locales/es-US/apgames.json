@@ -1675,9 +1675,28 @@
       }
     },
     "crosshairs": {
+      "#clouds": {
+        "name": "16 nubes"
+      },
+      "clouds-22": {
+        "name": "22 nubes",
+        "description": "Coloca 22 nubes en lugar de 16. Con el límite predeterminado para el tamaño del banco de nubes, puede que no siempre se logre la cantidad total."
+      },
+      "clouds-28": {
+        "name": "28 nubes",
+        "description": "Coloca 28 nubes en lugar de 16. Con el límite predeterminado para el tamaño del banco de nubes, puede que no siempre se logre la cantidad total."
+      },
       "random-start": {
-        "name": "Nubes aleatorias",
-        "description": "No hay fase de colocación de nubes. El sistema las coloca al azar."
+        "name": "Nubes aleatorias simétricas",
+        "description": "No hay fase de colocación de nubes. El sistema coloca las nubes al azar con simetría rotacional de 180 grados."
+      },
+      "asymmetric-random-start": {
+        "name": "Nubes aleatorias asimétricas",
+        "description": "No hay fase de colocación de nubes. El sistema coloca las nubes al azar sin requerir simetría."
+      },
+      "unbounded-cloud-banks": {
+        "name": "Bancos de nubes ilimitados",
+        "description": "Los bancos de nubes pueden contener cualquier cantidad de nubes."
       }
     },
     "crossway": {
@@ -5736,8 +5755,10 @@
     },
     "crosshairs": {
       "PLACE_CLOUD": "Haz clic en una casilla vacía para colocar una nube. Las nubes no pueden ser mayores a 2 hexágonos.",
+      "PLACE_CLOUD_UNBOUNDED": "Haz clic en una casilla vacía para colocar una nube.",
       "CLOUD_OCCUPIED": "Ya hay una nube en {{cell}}.",
       "CLOUD_TOO_BIG": "No puedes colocar una nube en {{cell}}. Solo se permiten nubes de tamaño 2. Esta nube sería demasiado grande.",
+      "MUST_PASS_BEFORE_ENTRY": "Debes pasar para que el jugador 1 ingrese el primer avión.",
       "INITIAL_INSTRUCTIONS_one": "Selecciona un avión para moverlo o ingresa un nuevo avión en tu borde inicial. Debes mover/ingresar {{count}} avión este turno.",
       "INITIAL_INSTRUCTIONS_other": "Selecciona un avión para moverlo o ingresa un nuevo avión en tu borde inicial. Debes mover/ingresar {{count}} aviones este turno.",
       "INITIAL_INSTRUCTIONS_NO_ENTRY_one": "Selecciona un avión para moverlo. Debes mover {{count}} avión este turno. Haz clic en los aviones enemigos si crees que pueden ser derribados.",

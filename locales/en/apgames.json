@@ -1681,7 +1681,7 @@
             },
             "unbounded-cloud-banks": {
                 "name": "Unbounded cloud banks",
-                "description": "Cloud banks may contain any number of adjacent cloud hexes."
+                "description": "Cloud banks may contain any number of clouds."
             }
         },
         "crossway": {

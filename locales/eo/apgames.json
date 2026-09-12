@@ -1269,8 +1269,12 @@
         "name": "28 nuboj"
       },
       "random-start": {
-        "name": "Hazardaj nuboj",
-        "description": "Ne ekzistas nubo-moviĝanta fazo. Ili estas hazarde metitaj de la sistemo."
+        "name": "Simetriaj hazardaj nuboj",
+        "description": "Ne ekzistas fazo de nubometado. La sistemo metas la nubojn hazarde kun 180-grada rotacia simetrio."
+      },
+      "asymmetric-random-start": {
+        "name": "Nesimetriaj hazardaj nuboj",
+        "description": "Ne ekzistas fazo de nubometado. La sistemo metas la nubojn hazarde sen deviga simetrio."
       },
       "unbounded-cloud-banks": {
         "name": "Senlimaj nubaroj",

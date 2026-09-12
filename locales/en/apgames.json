@@ -1685,8 +1685,12 @@
                 "name": "28 clouds"
             },
             "random-start": {
-                "name": "Random clouds",
-                "description": "There is no cloud placing phase. They are placed randomly by the system."
+                "name": "Symmetric random clouds",
+                "description": "There is no cloud placing phase. The system places the clouds randomly with 180-degree rotational symmetry."
+            },
+            "asymmetric-random-start": {
+                "name": "Asymmetric random clouds",
+                "description": "There is no cloud placing phase. The system places the clouds randomly without requiring symmetry."
             },
             "unbounded-cloud-banks": {
                 "name": "Unbounded cloud banks",

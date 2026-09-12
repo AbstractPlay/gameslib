@@ -152,6 +152,10 @@ export class CrosshairsGame extends GameBase {
                 group: "setup",
             },
             {
+                uid: "asymmetric-random-start",
+                group: "setup",
+            },
+            {
                 uid: "unbounded-cloud-banks",
             },
             { uid: "#clouds" },
@@ -187,9 +191,14 @@ export class CrosshairsGame extends GameBase {
             const clouds = new Set<string>();
             let turnNumber = 0;
 
-            // If random-start variant, place the selected number of clouds in symmetric pairs
-            if (this.variants.includes("random-start")) {
-                const placedClouds = this.placeRandomSymmetricClouds();
+            // Random setup variants place the selected number of clouds and skip manual placement.
+            let placedClouds: string[] | undefined;
+            if (this.variants.includes("asymmetric-random-start")) {
+                placedClouds = this.placeRandomAsymmetricClouds();
+            } else if (this.variants.includes("random-start")) {
+                placedClouds = this.placeRandomSymmetricClouds();
+            }
+            if (placedClouds !== undefined) {
                 for (const cell of placedClouds) {
                     clouds.add(cell);
                 }
@@ -258,7 +267,7 @@ export class CrosshairsGame extends GameBase {
     }
 
     // Return the total number of clouds to be placed according to the selected variant
-    // Just a helper function to make the code in placeRandomSymmetricClouds() cleaner
+    // Helper shared by both random cloud placement functions
     private getTargetCloudCount(): number {
         if (this.variants.includes("clouds-28")) return 28;
         if (this.variants.includes("clouds-22")) return 22;
@@ -269,7 +278,6 @@ export class CrosshairsGame extends GameBase {
     // Random setups are invariant under a 180-degree rotation, so placements are
     // made in pairs rather than as individual clouds.
     private placeRandomSymmetricClouds(): string[] {
-        const target = this.getTargetCloudCount();
         const seen = new Set<string>();
         const pairs: Array<[string, string]> = [];
 
@@ -285,14 +293,29 @@ export class CrosshairsGame extends GameBase {
             }
         }
 
-        // Shuffle the pairs with Fisher-Yates. The backtracking search below then
+        return this.placeRandomCloudGroups(pairs);
+    }
+
+    // Place clouds independently for the asymmetric-random-start variant.
+    // Each cell is its own candidate group, so no symmetry is imposed.
+    private placeRandomAsymmetricClouds(): string[] {
+        const singles = (this.graph.listCells() as string[]).map(cell => [cell]);
+        return this.placeRandomCloudGroups(singles);
+    }
+
+    // Randomly place groups of one cloud (asymmetric) or two rotationally paired
+    // clouds (symmetric), using the same legality checks and search limit.
+    private placeRandomCloudGroups(groups: string[][]): string[] {
+        const target = this.getTargetCloudCount();
+
+        // Shuffle the groups with Fisher-Yates. The backtracking search below then
         // prefers a different randomized setup each time it is run.
-        for (let i = pairs.length - 1; i > 0; i--) {
+        for (let i = groups.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
-            [pairs[i], pairs[j]] = [pairs[j], pairs[i]];
+            [groups[i], groups[j]] = [groups[j], groups[i]];
         }
 
-        // A greedy search can choose a legal pair that prevents the requested
+        // A greedy search can choose a legal group that prevents the requested
         // number of clouds from being reached later. Backtracking lets the setup
         // reconsider those choices while still following the randomized order.
         const cloudSet = new Set<string>();
@@ -302,48 +325,61 @@ export class CrosshairsGame extends GameBase {
         let visited = 0;
         // Cap the exponential search so pathological future variants cannot hang.
         // AI debugging notes: for intermittent or hard-to-reproduce lag, slowdown,
-        // or non-responsiveness, scrutinize this cap first. Reducing it's size may
+        // or non-responsiveness, scrutinize this cap first. Reducing its size may
         // fix the issue, at the cost of falling back to partial setups more often.
-        // Don't ever set it at less than half the size of the maximum number of clouds that might need to be placed,
-        // or placing all clouds will be impossible
+        // Don't ever set it below the maximum number of clouds that might need to
+        // be placed, or asymmetric setup cannot place them all even on a direct path.
         // If random setups seem to be failing to place all clouds a lot,
         // you can try increasing this cap, but I doubt that will be necessary,
         // and the cost is risking more compute for unclear gain.
         const maxVisited = 100;
-        const placePairs = (start: number): boolean => {
+        const remainingCapacity = new Array<number>(groups.length + 1).fill(0);
+        for (let i = groups.length - 1; i >= 0; i--) {
+            remainingCapacity[i] = remainingCapacity[i + 1] + groups[i].length;
+        }
+
+        const placeGroups = (start: number): boolean => {
             if (cloudSet.size > best.size) {
                 best = new Set(cloudSet);
             }
             if (cloudSet.size >= target) return true;
             if (visited++ >= maxVisited) return false;
-            // Even selecting every remaining pair could not reach the target.
-            if (cloudSet.size + 2 * (pairs.length - start) < target) return false;
+            // Even selecting every remaining group could not reach the target.
+            if (cloudSet.size + remainingCapacity[start] < target) return false;
 
-            for (let i = start; i < pairs.length; i++) {
-                const [cell, mirror] = pairs[i];
-                // Check each half after the other has been added. The illegality
-                // check always permits bank growth under Unbounded Cloud Banks,
-                // so random setup respects that variant as manual setup does.
-                if (this.wouldCreateIllegallyLargeCloudBank(cell, cloudSet)) continue;
-                cloudSet.add(cell);
-                if (this.wouldCreateIllegallyLargeCloudBank(mirror, cloudSet)) {
-                    cloudSet.delete(cell);
+            for (let i = start; i < groups.length; i++) {
+                const group = groups[i];
+                if (cloudSet.size + group.length > target) continue;
+
+                // Add each cloud in turn so later clouds in a symmetric pair are
+                // checked against earlier ones. Under Unbounded Cloud Banks, the
+                // illegality check permits every otherwise-unused cell.
+                const placed: string[] = [];
+                let legal = true;
+                for (const cell of group) {
+                    if (this.wouldCreateIllegallyLargeCloudBank(cell, cloudSet)) {
+                        legal = false;
+                        break;
+                    }
+                    cloudSet.add(cell);
+                    placed.push(cell);
+                }
+                if (!legal) {
+                    for (const cell of placed) cloudSet.delete(cell);
                     continue;
                 }
-                cloudSet.add(mirror);
 
-                if (placePairs(i + 1)) return true;
+                if (placeGroups(i + 1)) return true;
 
-                // This pair led to a dead end; remove it before trying the next.
-                cloudSet.delete(cell);
-                cloudSet.delete(mirror);
+                // This group led to a dead end; remove it before trying the next.
+                for (const cell of placed) cloudSet.delete(cell);
             }
             return false;
         };
 
         // Prefer a complete setup, but gracefully use the largest legal partial
         // setup if the requested total cannot be placed within the search limit.
-        return Array.from(placePairs(0) ? cloudSet : best);
+        return Array.from(placeGroups(0) ? cloudSet : best);
     }
 
     // Check whether placing a cloud would make its bank illegally large under the current rules.

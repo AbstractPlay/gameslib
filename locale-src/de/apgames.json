@@ -544,8 +544,8 @@
     "out": "Iqishiqi (ausgesprochen EE-tschi-schi-tschi) ist ein abstraktes Strategiespiel, das auf einem sechseckigen Brett aus Sechseckfeldern gespielt wird. Die Spieler besitzen bestimmte Brettränder und schieben durch geschicktes Platzieren von Steinen einen neutralen Stein über das Brett. Ein Spieler gewinnt, wenn er/sie den neutralen Stein zu einem seiner/ihrer Ränder bewegt oder den Gegner zugunfähig macht."
   },
   "descriptions.irensei": {
-    "src": "Irensei is a mixture of Go and Gomoku. Get a seven in a row inside the middle 15x15 region of the Go board to win. To reduce the first player's advantage, the first player loses if they make an overline (even if it extends beyond the 15x15 region), but the second player may win by overline.",
-    "out": "Irensei ist eine Mischung aus Go und Gomoku. Bilden Sie eine Siebenerreihe im mittleren 15x15-Bereich des Go-Bretts, um zu gewinnen. Um den Vorteil des Startspielers zu verringern, verliert dieser, wenn er eine Überlänge bildet (selbst wenn sie über den 15x15-Bereich hinausreicht), der zweite Spieler kann jedoch auch durch eine Überlänge gewinnen."
+    "src": "Irensei (Japanese: 囲連星) is a mixture of Go and Gomoku. Get a seven in a row inside the middle 15x15 region of the Go board to win. To reduce the first player's advantage, the first player loses if they make an overline (even if it extends beyond the 15x15 region), but the second player may win by overline.",
+    "out": "Irensei (japanisch: 囲連星) ist eine Mischung aus Go und Gomoku. Bilde eine Siebenerreihe innerhalb des mittleren 15x15-Bereichs des Go-Bretts, um zu gewinnen. Um den Vorteil des ersten Spielers zu verringern, verliert dieser, wenn er eine Überlänge bildet (selbst wenn sie sich über den 15x15-Bereich hinaus erstreckt), aber der zweite Spieler kann auch durch eine Überlänge gewinnen."
   },
   "descriptions.jacynth": {
     "src": "A Decktet card game where opponents vye for control of the city of Jacynth. Place cards, exert influence, and control the most area to win.",

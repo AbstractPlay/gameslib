@@ -1,4 +1,4 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, Glyph, MarkerFlood, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -145,7 +145,7 @@ export class CrosshairsGame extends GameBase {
             },
         ],
         categories: ["goal>annihilate", "mechanic>move", "mechanic>capture", "mechanic>block", "board>shape>hex", "board>connect>hex", "components>special"],
-        flags: ["no-moves", "custom-randomization", "custom-rotation"],
+        flags: ["no-moves", "custom-randomization", "custom-rotation", "custom-buttons"],
         variants: [
             {
                 uid: "random-start",
@@ -265,11 +265,16 @@ export class CrosshairsGame extends GameBase {
         return 16;
     }
 
-    // Place symmetric clouds up to the selected target for the random-start variant
+    // Place symmetric clouds up to the selected target for the random-start variant.
+    // Random setups are invariant under a 180-degree rotation, so placements are
+    // made in pairs rather than as individual clouds.
     private placeRandomSymmetricClouds(): string[] {
         const target = this.getTargetCloudCount();
         const seen = new Set<string>();
         const pairs: Array<[string, string]> = [];
+
+        // Collapse the board into unique rotational pairs. The centre cell maps
+        // to itself and is omitted because all available cloud counts are even.
         for (const cell of this.graph.listCells() as string[]) {
             if (seen.has(cell)) continue;
             const mirror = this.getSymmetricCell(cell);
@@ -280,15 +285,22 @@ export class CrosshairsGame extends GameBase {
             }
         }
 
-        // Randomize pair order, then backtrack if a legal choice later blocks the target.
+        // Shuffle the pairs with Fisher-Yates. The backtracking search below then
+        // prefers a different randomized setup each time it is run.
         for (let i = pairs.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [pairs[i], pairs[j]] = [pairs[j], pairs[i]];
         }
 
+        // A greedy search can choose a legal pair that prevents the requested
+        // number of clouds from being reached later. Backtracking lets the setup
+        // reconsider those choices while still following the randomized order.
         const cloudSet = new Set<string>();
+        // Keep the largest legal partial setup so an impossible future board or
+        // cloud-count variant can still advance to plane entry without crashing.
         let best = new Set<string>();
         let visited = 0;
+        // Cap the exponential search so pathological future variants cannot hang.
         const maxVisited = 100_000;
         const placePairs = (start: number): boolean => {
             if (cloudSet.size > best.size) {
@@ -296,10 +308,14 @@ export class CrosshairsGame extends GameBase {
             }
             if (cloudSet.size >= target) return true;
             if (visited++ >= maxVisited) return false;
+            // Even selecting every remaining pair could not reach the target.
             if (cloudSet.size + 2 * (pairs.length - start) < target) return false;
 
             for (let i = start; i < pairs.length; i++) {
                 const [cell, mirror] = pairs[i];
+                // Check each half after the other has been added. The shared rule
+                // helper short-circuits these checks for Unbounded Cloud Banks,
+                // so random setup respects that variant as manual setup does.
                 if (this.wouldCreateLargeCloud(cell, cloudSet)) continue;
                 cloudSet.add(cell);
                 if (this.wouldCreateLargeCloud(mirror, cloudSet)) {
@@ -310,12 +326,15 @@ export class CrosshairsGame extends GameBase {
 
                 if (placePairs(i + 1)) return true;
 
+                // This pair led to a dead end; remove it before trying the next.
                 cloudSet.delete(cell);
                 cloudSet.delete(mirror);
             }
             return false;
         };
 
+        // Prefer a complete setup, but gracefully use the largest legal partial
+        // setup if the requested total cannot be placed within the search limit.
         return Array.from(placePairs(0) ? cloudSet : best);
     }
 
@@ -1464,6 +1483,11 @@ export class CrosshairsGame extends GameBase {
 
         buildMoves("", 0, new Set());
         return completeMoves;
+    }
+
+    public getButtons(): ICustomButton[] {
+        if (this.mustPassBeforeEntry()) return [{ label: "pass", move: "pass" }];
+        return [];
     }
 
     // Get possible next actions given what's already been done

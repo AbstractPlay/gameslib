@@ -102,6 +102,7 @@ describe("Crosshairs", () => {
             expect(g.turnNumber).to.equal(1);
             expect(g.currplayer).to.equal(2);
             expect(g.moves()).to.deep.equal(["pass"]);
+            expect(g.getButtons()).to.deep.equal([{ label: "pass", move: "pass" }]);
             expect(g.randomMove()).to.equal("pass");
             expect(g.validateMove("pass")).to.include({ valid: true, complete: 1 });
             const playerTwoEntry = g.graph.getEdges().get("N")![0];
@@ -113,6 +114,7 @@ describe("Crosshairs", () => {
             expect(g.currplayer).to.equal(1);
             expect(g.results).to.deep.include({ type: "pass" });
             expect(g.moves()[0]).to.match(/^enter:/);
+            expect(g.getButtons()).to.deep.equal([]);
 
             g.move(g.moves()[0]);
             expect([...g.board.values()].filter(([owner]) => owner === 1)).to.have.length(1);
@@ -140,8 +142,13 @@ describe("Crosshairs", () => {
         });
 
         it("should not allow passing during ordinary cloud or entry turns", () => {
-            expect(new CrosshairsGame().validateMove("pass").valid).to.be.false;
-            expect(new CrosshairsGame(undefined, ["random-start"]).validateMove("pass").valid).to.be.false;
+            const manual = new CrosshairsGame();
+            const random = new CrosshairsGame(undefined, ["random-start"]);
+
+            expect(manual.validateMove("pass").valid).to.be.false;
+            expect(manual.getButtons()).to.deep.equal([]);
+            expect(random.validateMove("pass").valid).to.be.false;
+            expect(random.getButtons()).to.deep.equal([]);
         });
     });
 
@@ -155,12 +162,50 @@ describe("Crosshairs", () => {
             expect(moves[0]).to.match(/^enter:/);
         });
 
-        it("should combine with the unbounded cloud banks variant", () => {
-            const g = new CrosshairsGame(undefined, ["random-start", "unbounded-cloud-banks"]);
+        it("should respect the unbounded cloud banks variant", () => {
+            const largestCloudBank = (g: CrosshairsGame): number => {
+                const seen = new Set<string>();
+                let largest = 0;
 
-            expect(g.clouds.size).to.equal(16);
-            expect(g.turnNumber).to.equal(1);
-            expect(g.variants).to.include.members(["random-start", "unbounded-cloud-banks"]);
+                for (const cloud of g.clouds) {
+                    if (seen.has(cloud)) continue;
+                    const pending = [cloud];
+                    seen.add(cloud);
+                    let size = 0;
+                    while (pending.length > 0) {
+                        const current = pending.pop()!;
+                        size++;
+                        for (const neighbour of g.graph.neighbours(current)) {
+                            if (g.clouds.has(neighbour) && !seen.has(neighbour)) {
+                                seen.add(neighbour);
+                                pending.push(neighbour);
+                            }
+                        }
+                    }
+                    largest = Math.max(largest, size);
+                }
+
+                return largest;
+            };
+
+            const originalRandom = Math.random;
+            let bounded: CrosshairsGame;
+            let unbounded: CrosshairsGame;
+            try {
+                // Give both variants the same deterministic pair ordering.
+                Math.random = () => 0;
+                bounded = new CrosshairsGame(undefined, ["random-start", "clouds-28"]);
+                Math.random = () => 0;
+                unbounded = new CrosshairsGame(undefined, ["random-start", "clouds-28", "unbounded-cloud-banks"]);
+            } finally {
+                Math.random = originalRandom;
+            }
+
+            expect(bounded!.clouds.size).to.equal(28);
+            expect(largestCloudBank(bounded!)).to.be.at.most(2);
+            expect(unbounded!.clouds.size).to.equal(28);
+            expect(largestCloudBank(unbounded!)).to.be.greaterThan(2);
+            expect(unbounded!.turnNumber).to.equal(1);
         });
 
         for (const [variant, target] of [["clouds-22", 22], ["clouds-28", 28]] as const) {

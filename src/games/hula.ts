@@ -59,7 +59,14 @@ export class HulaGame extends GameBase {
             {uid: "size-5", group: "board"},
             { uid: "#board", },
             {uid: "size-7", group: "board"}
-        ]
+        ],
+        customizations: [
+            {
+                num: 3,
+                default: "#aaa",
+                explanation: "Neutral piece colour"
+            },
+        ],
     };
 
     public numplayers = 2;
@@ -527,7 +534,7 @@ export class HulaGame extends GameBase {
             legend: {
                 A: {name: "piece", colour: 1},
                 B: {name: "piece", colour: 2},
-                C: {name: "piece", colour: 9}
+                C: {name: "piece", colour: {func: "custom", default: "#aaa", palette: 3}}
             },
             pieces: pstr as [string[][], ...string[][][]]
         };

@@ -197,12 +197,14 @@ export class TumbleweedGame extends GameBase {
             } else {
                 // On first move, first player places two stones.
                 const centre = this.getCentre();
-                for (const cell of this.listCells() as string[]) {
-                    for (const cell2 of this.listCells() as string[]) {
-                        if (cell === cell2 || cell === centre || cell2 === centre) {
+                const cells = this.listCells() as string[];
+                const playableCells = cells.filter(c => c !== centre);
+                for (let i = 0; i < playableCells.length; i++) {
+                    for (let j = 0; j < playableCells.length; j++) {
+                        if (i === j) {
                             continue;
                         }
-                        moves.push(`${cell},${cell2}`);
+                        moves.push(`${playableCells[i]},${playableCells[j]}`);
                     }
                 }
                 return moves;
@@ -213,13 +215,17 @@ export class TumbleweedGame extends GameBase {
         const lm = this.lastmove!
         const suffixLastMove: string | undefined = lm[lm.length - 1] === "+" || lm[lm.length - 1] === "x" ? lm[lm.length - 1] : undefined;
         const withoutSuffixLastMave = suffixLastMove !== undefined ? lm.slice(0, lm.length - 1) : lm;
-        for (const cell of this.listCells() as string[]) {
-            const losCount = this.getLosCount(cell, player);
+        const captureDelay = this.variants.includes("capture-delay");
+        const useSuffixNotation = this.stack[0]._version !== "20231229";
+        const losMap = this.computeLosForPlayer(player);
+        const candidates = new Set<string>([...losMap.keys(), ...this.board.keys()]);
+        for (const cell of candidates) {
+            const losCount = losMap.get(cell) ?? 0;
             if (losCount === 0 || this.board.has(cell) && this.board.get(cell)![1] >= losCount) {
                 continue;
             }
-            if (this.variants.includes("capture-delay") && withoutSuffixLastMave === cell) { continue;}
-            if (this.stack[0]._version !== "20231229") {
+            if (captureDelay && withoutSuffixLastMave === cell) { continue;}
+            if (useSuffixNotation) {
                 // Games started after 20231229 have "x" and "+" in the notation.
                 if (this.board.has(cell)) {
                     if (this.board.get(cell)![0] === player) {
@@ -292,9 +298,11 @@ export class TumbleweedGame extends GameBase {
 
     private getLosCount(cell: string, player: playerid): number {
         let losCount = 0;
+        const graph = this.getGraph();
+        const [x, y] = graph.algebraic2coords(cell);
         for (const dir of allDirections) {
-            const ray = this.getGraph().ray(...this.getGraph().algebraic2coords(cell), dir).map(c => this.getGraph().coords2algebraic(c[0], c[1]));
-            for (const c of ray) {
+            for (const [cx, cy] of graph.ray(x, y, dir)) {
+                const c = graph.coords2algebraic(cx, cy);
                 if (this.board.has(c)) {
                     if (this.board.get(c)![0] === player) {
                         losCount++;
@@ -304,6 +312,27 @@ export class TumbleweedGame extends GameBase {
             }
         }
         return losCount;
+    }
+
+    private computeLosForPlayer(player: playerid): Map<string, number> {
+        const los = new Map<string, number>();
+        const graph = this.getGraph();
+        for (const [cell, [owner]] of this.board) {
+            if (owner !== player) {
+                continue;
+            }
+            const [x, y] = graph.algebraic2coords(cell);
+            for (const dir of allDirections) {
+                for (const [cx, cy] of graph.ray(x, y, dir)) {
+                    const target = graph.coords2algebraic(cx, cy);
+                    los.set(target, (los.get(target) ?? 0) + 1);
+                    if (this.board.has(target)) {
+                        break;
+                    }
+                }
+            }
+        }
+        return los;
     }
 
     public validateMove(m: string): IValidationResult {

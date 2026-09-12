@@ -1675,9 +1675,28 @@
       }
     },
     "crosshairs": {
+      "#clouds": {
+        "name": "16 Wolken"
+      },
+      "clouds-22": {
+        "name": "22 Wolken",
+        "description": "Platziere 22 Wolken statt 16. Mit dem standardmäßigen Größenlimit für Wolkenbänke kann die vollständige Anzahl möglicherweise nicht immer erreicht werden."
+      },
+      "clouds-28": {
+        "name": "28 Wolken",
+        "description": "Platziere 28 Wolken statt 16. Mit dem standardmäßigen Größenlimit für Wolkenbänke kann die vollständige Anzahl möglicherweise nicht immer erreicht werden."
+      },
       "random-start": {
-        "name": "Zufällige Wolken",
-        "description": "Es gibt keine Wolken-Platzierungsphase. Sie werden vom System zufällig platziert."
+        "name": "Symmetrische zufällige Wolken",
+        "description": "Es gibt keine Wolkenplatzierungsphase. Das System platziert die Wolken zufällig mit 180-Grad-Rotationssymmetrie."
+      },
+      "asymmetric-random-start": {
+        "name": "Asymmetrische zufällige Wolken",
+        "description": "Es gibt keine Wolkenplatzierungsphase. Das System platziert die Wolken zufällig, ohne Symmetrie zu erfordern."
+      },
+      "unbounded-cloud-banks": {
+        "name": "Unbegrenzte Wolkenbänke",
+        "description": "Wolkenbänke können eine beliebige Anzahl von Wolken enthalten."
       }
     },
     "crossway": {
@@ -5736,8 +5755,10 @@
     },
     "crosshairs": {
       "PLACE_CLOUD": "Klicke auf ein leeres Feld, um eine Wolke zu platzieren. Wolken dürfen nicht größer als 2 Hexfelder sein.",
+      "PLACE_CLOUD_UNBOUNDED": "Klicke auf ein leeres Feld, um eine Wolke zu platzieren.",
       "CLOUD_OCCUPIED": "Auf {{cell}} befindet sich bereits eine Wolke.",
       "CLOUD_TOO_BIG": "Du kannst auf {{cell}} keine Wolke platzieren. Es sind nur Wolken der Größe 2 erlaubt. Diese Wolke wäre zu groß.",
+      "MUST_PASS_BEFORE_ENTRY": "Du musst passen, damit Spieler 1 das erste Flugzeug ins Spiel bringt.",
       "INITIAL_INSTRUCTIONS_one": "Wähle ein Flugzeug zum Ziehen oder setze ein neues Flugzeug an deiner Startkante ein. Du musst in diesem Zug {{count}} Flugzeug ziehen/einsetzen.",
       "INITIAL_INSTRUCTIONS_other": "Wähle ein Flugzeug zum Ziehen oder setze ein neues Flugzeug an deiner Startkante ein. Du musst in diesem Zug {{count}} Flugzeuge ziehen/einsetzen.",
       "INITIAL_INSTRUCTIONS_NO_ENTRY_one": "Wähle ein Flugzeug zum Ziehen. Du musst in diesem Zug {{count}} Flugzeug ziehen. Klicke auf gegnerische Flugzeuge, wenn du glaubst, dass sie abgeschossen werden können.",

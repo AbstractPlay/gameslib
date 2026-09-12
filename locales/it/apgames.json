@@ -1675,9 +1675,28 @@
       }
     },
     "crosshairs": {
+      "#clouds": {
+        "name": "16 nuvole"
+      },
+      "clouds-22": {
+        "name": "22 nuvole",
+        "description": "Posiziona 22 nuvole invece di 16. Con il limite di dimensione predefinito per i banchi di nuvole, potrebbe non essere sempre possibile raggiungere il numero totale."
+      },
+      "clouds-28": {
+        "name": "28 nuvole",
+        "description": "Posiziona 28 nuvole invece di 16. Con il limite di dimensione predefinito per i banchi di nuvole, potrebbe non essere sempre possibile raggiungere il numero totale."
+      },
       "random-start": {
-        "name": "Nuvole casuali",
-        "description": "Non c'è alcuna fase di posizionamento delle nuvole. Vengono posizionate casualmente dal sistema."
+        "name": "Nuvole casuali simmetriche",
+        "description": "Non c'è alcuna fase di posizionamento delle nuvole. Il sistema posiziona le nuvole in modo casuale con una simmetria rotazionale di 180 gradi."
+      },
+      "asymmetric-random-start": {
+        "name": "Nuvole casuali asimmetriche",
+        "description": "Non c'è alcuna fase di posizionamento delle nuvole. Il sistema posiziona le nuvole in modo casuale senza richiedere simmetria."
+      },
+      "unbounded-cloud-banks": {
+        "name": "Banchi di nuvole illimitati",
+        "description": "I banchi di nuvole possono contenere qualsiasi numero di nuvole."
       }
     },
     "crossway": {
@@ -5736,8 +5755,10 @@
     },
     "crosshairs": {
       "PLACE_CLOUD": "Fai clic su una cella vuota per posizionare una nuvola. Le nuvole non possono essere più grandi di 2 esagoni.",
+      "PLACE_CLOUD_UNBOUNDED": "Fai clic su una casella vuota per posizionare una nuvola.",
       "CLOUD_OCCUPIED": "C'è già una nuvola su {{cell}}.",
       "CLOUD_TOO_BIG": "Non puoi posizionare una nuvola su {{cell}}. Sono consentite solo nuvole di dimensione 2. Questa nuvola sarebbe troppo grande.",
+      "MUST_PASS_BEFORE_ENTRY": "Devi passare affinché il giocatore 1 faccia entrare il primo aereo.",
       "INITIAL_INSTRUCTIONS_one": "Seleziona un aereo da muovere, o fai entrare un nuovo aereo dal tuo bordo iniziale. Devi muovere/far entrare {{count}} aereo in questo turno.",
       "INITIAL_INSTRUCTIONS_other": "Seleziona un aereo da muovere, o fai entrare un nuovo aereo dal tuo bordo iniziale. Devi muovere/far entrare {{count}} aerei in questo turno.",
       "INITIAL_INSTRUCTIONS_NO_ENTRY_one": "Seleziona un aereo da muovere. Devi muovere {{count}} aereo in questo turno. Fai clic sugli aerei nemici se ritieni che possano essere abbattuti.",

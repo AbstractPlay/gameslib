@@ -285,10 +285,11 @@ export class CrosshairsGame extends GameBase {
         return Array.from(cloudSet);
     }
 
-    // Check whether placing a cloud would violate the default maximum bank size of 2 hexes.
-    // Under the unbounded-cloud-banks variant, banks may be any size.
+    // Check whether placing a cloud would violate the default maximum bank size of 2 hexes
+    // Under the unbounded-cloud-banks variant, banks may be any size
     private wouldCreateLargeCloud(cell: string, existingClouds: Set<string>): boolean {
-        if (this.variants.includes("unbounded-cloud-banks")) return false; // Short-circuit the default size check for this variant.
+        // For the Unbounded Cloud Banks variant, short-circuit this function to skip the size <= 2 check
+        if (this.variants.includes("unbounded-cloud-banks")) return false;
 
         const [x, y] = this.graph.algebraic2coords(cell);
         let adjacentCloudCount = 0;

@@ -94,7 +94,7 @@ describe("Crosshairs", () => {
 
         it("should force player 2 to pass when legal placements run out after an odd number of clouds", () => {
             const g = new CrosshairsGame();
-            (g as unknown as { wouldCreateLargeCloud: () => boolean }).wouldCreateLargeCloud = () => true;
+            (g as unknown as { wouldCreateIllegallyLargeCloudBank: () => boolean }).wouldCreateIllegallyLargeCloudBank = () => true;
 
             g.move("cloud:a1", { trusted: true });
 
@@ -130,7 +130,7 @@ describe("Crosshairs", () => {
         it("should let player 1 enter immediately when placements run out after an even number of clouds", () => {
             const g = new CrosshairsGame();
             g.move("cloud:a1");
-            (g as unknown as { wouldCreateLargeCloud: () => boolean }).wouldCreateLargeCloud = () => true;
+            (g as unknown as { wouldCreateIllegallyLargeCloudBank: () => boolean }).wouldCreateIllegallyLargeCloudBank = () => true;
 
             g.move("cloud:b1", { trusted: true });
 
@@ -221,16 +221,16 @@ describe("Crosshairs", () => {
 
         it("should continue to the entry phase if no symmetric cloud pair can be placed", () => {
             const prototype = CrosshairsGame.prototype as unknown as {
-                wouldCreateLargeCloud: (cell: string, clouds: Set<string>) => boolean;
+                wouldCreateIllegallyLargeCloudBank: (cell: string, clouds: Set<string>) => boolean;
             };
-            const original = prototype.wouldCreateLargeCloud;
-            prototype.wouldCreateLargeCloud = () => true;
+            const original = prototype.wouldCreateIllegallyLargeCloudBank;
+            prototype.wouldCreateIllegallyLargeCloudBank = () => true;
 
             let g: CrosshairsGame;
             try {
                 g = new CrosshairsGame(undefined, ["random-start", "clouds-28"]);
             } finally {
-                prototype.wouldCreateLargeCloud = original;
+                prototype.wouldCreateIllegallyLargeCloudBank = original;
             }
 
             expect(g!.clouds.size).to.equal(0);

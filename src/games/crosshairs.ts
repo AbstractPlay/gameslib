@@ -301,6 +301,9 @@ export class CrosshairsGame extends GameBase {
         let best = new Set<string>();
         let visited = 0;
         // Cap the exponential search so pathological future variants cannot hang.
+        // AI debugging note: for intermittent or hard-to-reproduce lag, slowdown,
+        // or non-responsiveness, scrutinize this cap first. Reducing 100,000 may
+        // fix the issue, at the cost of falling back to partial setups more often.
         const maxVisited = 100_000;
         const placePairs = (start: number): boolean => {
             if (cloudSet.size > best.size) {
@@ -313,12 +316,12 @@ export class CrosshairsGame extends GameBase {
 
             for (let i = start; i < pairs.length; i++) {
                 const [cell, mirror] = pairs[i];
-                // Check each half after the other has been added. The shared rule
-                // helper short-circuits these checks for Unbounded Cloud Banks,
+                // Check each half after the other has been added. The illegality
+                // check always permits bank growth under Unbounded Cloud Banks,
                 // so random setup respects that variant as manual setup does.
-                if (this.wouldCreateLargeCloud(cell, cloudSet)) continue;
+                if (this.wouldCreateIllegallyLargeCloudBank(cell, cloudSet)) continue;
                 cloudSet.add(cell);
-                if (this.wouldCreateLargeCloud(mirror, cloudSet)) {
+                if (this.wouldCreateIllegallyLargeCloudBank(mirror, cloudSet)) {
                     cloudSet.delete(cell);
                     continue;
                 }
@@ -338,10 +341,10 @@ export class CrosshairsGame extends GameBase {
         return Array.from(placePairs(0) ? cloudSet : best);
     }
 
-    // Check whether placing a cloud would violate the default maximum bank size of 2 hexes
-    // Under the unbounded-cloud-banks variant, banks may be any size
-    private wouldCreateLargeCloud(cell: string, existingClouds: Set<string>): boolean {
-        // For the Unbounded Cloud Banks variant, short-circuit this function to skip the size <= 2 check
+    // Check whether placing a cloud would make its bank illegally large under the current rules.
+    // The default maximum is 2 hexes; the Unbounded Cloud Banks variant has no maximum.
+    private wouldCreateIllegallyLargeCloudBank(cell: string, existingClouds: Set<string>): boolean {
+        // Under Unbounded Cloud Banks, short-circuit because no bank size is illegal.
         if (this.variants.includes("unbounded-cloud-banks")) return false;
 
         const [x, y] = this.graph.algebraic2coords(cell);
@@ -376,7 +379,7 @@ export class CrosshairsGame extends GameBase {
 
     private getLegalCloudPlacements(): string[] {
         return (this.graph.listCells() as string[]).filter(cell =>
-            !this.clouds.has(cell) && !this.wouldCreateLargeCloud(cell, this.clouds)
+            !this.clouds.has(cell) && !this.wouldCreateIllegallyLargeCloudBank(cell, this.clouds)
         );
     }
 
@@ -1910,7 +1913,7 @@ export class CrosshairsGame extends GameBase {
                 return result;
             }
 
-            if (this.wouldCreateLargeCloud(cell, this.clouds)) {
+            if (this.wouldCreateIllegallyLargeCloudBank(cell, this.clouds)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.crosshairs.CLOUD_TOO_BIG", { cell });
                 return result;

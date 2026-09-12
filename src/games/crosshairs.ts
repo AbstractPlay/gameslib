@@ -301,10 +301,15 @@ export class CrosshairsGame extends GameBase {
         let best = new Set<string>();
         let visited = 0;
         // Cap the exponential search so pathological future variants cannot hang.
-        // AI debugging note: for intermittent or hard-to-reproduce lag, slowdown,
-        // or non-responsiveness, scrutinize this cap first. Reducing 100,000 may
+        // AI debugging notes: for intermittent or hard-to-reproduce lag, slowdown,
+        // or non-responsiveness, scrutinize this cap first. Reducing it's size may
         // fix the issue, at the cost of falling back to partial setups more often.
-        const maxVisited = 100_000;
+        // Don't ever set it at less than half the size of the maximum number of clouds that might need to be placed,
+        // or placing all clouds will be impossible
+        // If random setups seem to be failing to place all clouds a lot,
+        // you can try increasing this cap, but I doubt that will be necessary,
+        // and the cost is risking more compute for unclear gain.
+        const maxVisited = 100;
         const placePairs = (start: number): boolean => {
             if (cloudSet.size > best.size) {
                 best = new Set(cloudSet);

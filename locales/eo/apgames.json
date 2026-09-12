@@ -1259,9 +1259,28 @@
       }
     },
     "crosshairs": {
+      "#clouds": {
+        "name": "16 nuboj"
+      },
+      "clouds-22": {
+        "name": "22 nuboj",
+        "description": "Metu 22 nubojn anstataŭ 16. Kun la defaŭlta limo de grandeco de nubaroj, la plena nombro eble ne ĉiam estos atingebla."
+      },
+      "clouds-28": {
+        "name": "28 nuboj",
+        "description": "Metu 28 nubojn anstataŭ 16. Kun la defaŭlta limo de grandeco de nubaroj, la plena nombro eble ne ĉiam estos atingebla."
+      },
       "random-start": {
-        "name": "Hazardaj nuboj",
-        "description": "Ne ekzistas nubo-moviĝanta fazo. Ili estas hazarde metitaj de la sistemo."
+        "name": "Simetriaj hazardaj nuboj",
+        "description": "Ne ekzistas fazo de nubometado. La sistemo metas la nubojn hazarde kun 180-grada rotacia simetrio."
+      },
+      "asymmetric-random-start": {
+        "name": "Nesimetriaj hazardaj nuboj",
+        "description": "Ne ekzistas fazo de nubometado. La sistemo metas la nubojn hazarde sen deviga simetrio."
+      },
+      "unbounded-cloud-banks": {
+        "name": "Senlimaj nubaroj",
+        "description": "Nubaroj povas enhavi ajnan nombron da nuboj."
       }
     },
     "cubeo": {
@@ -5566,8 +5585,10 @@
     },
     "crosshairs": {
       "PLACE_CLOUD": "Klaku sur malplena ĉelo por meti nubon. Nuboj ne povas esti pli grandaj ol du hexoj.",
+      "PLACE_CLOUD_UNBOUNDED": "Klaku sur malplena ĉelo por meti nubon.",
       "CLOUD_OCCUPIED": "Jam estas nubo ĉe {{cell}}.",
       "CLOUD_TOO_BIG": "Vi ne povas meti nubojn ĉe {{cell}}. Nur nuboj de grandeco 2 estas permesitaj. Tiu nubo estus tro granda.",
+      "MUST_PASS_BEFORE_ENTRY": "Vi devas preterpasi, por ke ludanto 1 enigu la unuan aviadilon.",
       "INITIAL_INSTRUCTIONS_one": "Elektu aviadilon por movi, aŭ eniri novan aviadilon sur via komenca rando. Vi devas movi / eniri {{count}} aviadilo tiun vicon.",
       "INITIAL_INSTRUCTIONS_other": "Elektu aviadilon por movi, aŭ enigu novan aviadilon ĉe via komenca rando. Vi devas movi aŭ enigi {{count}} aviadilojn dum ĉi tiu vico.",
       "INITIAL_INSTRUCTIONS_NO_ENTRY_one": "Elektu aviadilon por moviĝi. Vi devas movi {{count}} aviadilo tiun vicon. Klaku sur malamikaj aviadiloj se vi opinias ke ili povas esti sinkitaj.",

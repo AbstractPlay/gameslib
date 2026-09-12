@@ -47,6 +47,20 @@ describe("Crosshairs", () => {
             expect(moves[0]).to.not.match(/^cloud:/);
         });
 
+        for (const [variant, target] of [["clouds-22", 22], ["clouds-28", 28]] as const) {
+            it(`should end cloud phase after ${target} clouds with the ${variant} variant`, () => {
+                const g = new CrosshairsGame(undefined, [variant, "unbounded-cloud-banks"]);
+                for (let i = 0; i < target; i++) {
+                    g.move(g.moves()[0]);
+                }
+
+                expect(g.clouds.size).to.equal(target);
+                expect(g.turnNumber).to.equal(1);
+                expect(g.currplayer).to.equal(1);
+                expect(g.moves()[0]).to.match(/^enter:/);
+            });
+        }
+
         it("should not allow clouds bigger than 2 hexes", () => {
             const g = new CrosshairsGame();
 
@@ -77,6 +91,58 @@ describe("Crosshairs", () => {
             g.move("cloud:f4");
             expect(g.clouds).to.include("f4");
         });
+
+        it("should force player 2 to pass when legal placements run out after an odd number of clouds", () => {
+            const g = new CrosshairsGame();
+            (g as unknown as { wouldCreateLargeCloud: () => boolean }).wouldCreateLargeCloud = () => true;
+
+            g.move("cloud:a1", { trusted: true });
+
+            expect(g.clouds.size).to.equal(1);
+            expect(g.turnNumber).to.equal(1);
+            expect(g.currplayer).to.equal(2);
+            expect(g.moves()).to.deep.equal(["pass"]);
+            expect(g.randomMove()).to.equal("pass");
+            expect(g.validateMove("pass")).to.include({ valid: true, complete: 1 });
+            const playerTwoEntry = g.graph.getEdges().get("N")![0];
+            expect(g.validateMove(`enter:${playerTwoEntry}/N`).valid).to.be.false;
+
+            g.move("pass");
+
+            expect(g.turnNumber).to.equal(1);
+            expect(g.currplayer).to.equal(1);
+            expect(g.results).to.deep.include({ type: "pass" });
+            expect(g.moves()[0]).to.match(/^enter:/);
+
+            g.move(g.moves()[0]);
+            expect([...g.board.values()].filter(([owner]) => owner === 1)).to.have.length(1);
+            expect(g.turnNumber).to.equal(2);
+            expect(g.currplayer).to.equal(2);
+
+            const firstEntry = g.actions()[0];
+            const secondEntry = g.actions(2, firstEntry)[0];
+            g.move(`${firstEntry},${secondEntry}`);
+            expect([...g.board.values()].filter(([owner]) => owner === 2)).to.have.length(2);
+        });
+
+        it("should let player 1 enter immediately when placements run out after an even number of clouds", () => {
+            const g = new CrosshairsGame();
+            g.move("cloud:a1");
+            (g as unknown as { wouldCreateLargeCloud: () => boolean }).wouldCreateLargeCloud = () => true;
+
+            g.move("cloud:b1", { trusted: true });
+
+            expect(g.clouds.size).to.equal(2);
+            expect(g.turnNumber).to.equal(1);
+            expect(g.currplayer).to.equal(1);
+            expect(g.moves()[0]).to.match(/^enter:/);
+            expect(g.validateMove("pass").valid).to.be.false;
+        });
+
+        it("should not allow passing during ordinary cloud or entry turns", () => {
+            expect(new CrosshairsGame().validateMove("pass").valid).to.be.false;
+            expect(new CrosshairsGame(undefined, ["random-start"]).validateMove("pass").valid).to.be.false;
+        });
     });
 
     describe("Random Start Variant", () => {
@@ -95,6 +161,37 @@ describe("Crosshairs", () => {
             expect(g.clouds.size).to.equal(16);
             expect(g.turnNumber).to.equal(1);
             expect(g.variants).to.include.members(["random-start", "unbounded-cloud-banks"]);
+        });
+
+        for (const [variant, target] of [["clouds-22", 22], ["clouds-28", 28]] as const) {
+            it(`should place ${target} symmetric clouds with the ${variant} variant`, () => {
+                const g = new CrosshairsGame(undefined, ["random-start", variant]);
+
+                expect(g.clouds.size).to.equal(target);
+                for (const cloud of g.clouds) {
+                    expect(g.clouds.has(g.graph.rot180(cloud))).to.be.true;
+                }
+            });
+        }
+
+        it("should continue to the entry phase if no symmetric cloud pair can be placed", () => {
+            const prototype = CrosshairsGame.prototype as unknown as {
+                wouldCreateLargeCloud: (cell: string, clouds: Set<string>) => boolean;
+            };
+            const original = prototype.wouldCreateLargeCloud;
+            prototype.wouldCreateLargeCloud = () => true;
+
+            let g: CrosshairsGame;
+            try {
+                g = new CrosshairsGame(undefined, ["random-start", "clouds-28"]);
+            } finally {
+                prototype.wouldCreateLargeCloud = original;
+            }
+
+            expect(g!.clouds.size).to.equal(0);
+            expect(g!.turnNumber).to.equal(1);
+            expect(g!.currplayer).to.equal(1);
+            expect(g!.moves()[0]).to.match(/^enter:/);
         });
 
         it("clouds should be placed symmetrically", () => {

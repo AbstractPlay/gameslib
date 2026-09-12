@@ -1675,6 +1675,15 @@
             }
         },
         "crosshairs": {
+            "#clouds": {
+                "name": "16 clouds"
+            },
+            "clouds-22": {
+                "name": "22 clouds"
+            },
+            "clouds-28": {
+                "name": "28 clouds"
+            },
             "random-start": {
                 "name": "Random clouds",
                 "description": "There is no cloud placing phase. They are placed randomly by the system."
@@ -5743,6 +5752,7 @@
             "PLACE_CLOUD_UNBOUNDED": "Click on an empty cell to place a cloud.",
             "CLOUD_OCCUPIED": "There is already a cloud at {{cell}}.",
             "CLOUD_TOO_BIG": "You cannot place a cloud at {{cell}}. Only clouds of size 2 are allowed. This cloud would be too big.",
+            "MUST_PASS_BEFORE_ENTRY": "You must pass so player 1 enters the first plane.",
             "INITIAL_INSTRUCTIONS_one": "Select a plane to move, or enter a new plane on your starting edge. You must move/enter {{count}} plane this turn.",
             "INITIAL_INSTRUCTIONS_other": "Select a plane to move, or enter a new plane on your starting edge. You must move/enter {{count}} planes this turn.",
             "INITIAL_INSTRUCTIONS_NO_ENTRY_one": "Select a plane to move. You must move {{count}} plane this turn. Click on enemy planes if you think they can be shot down.",

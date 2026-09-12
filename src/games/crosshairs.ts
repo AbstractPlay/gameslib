@@ -154,6 +154,9 @@ export class CrosshairsGame extends GameBase {
             {
                 uid: "unbounded-cloud-banks",
             },
+            { uid: "#clouds" },
+            { uid: "clouds-22", group: "clouds" },
+            { uid: "clouds-28", group: "clouds" },
         ],
         displays: [{uid: "abstract"}, {uid: "numeric"}, {uid: "numeric-abstract"}],
     };
@@ -184,7 +187,7 @@ export class CrosshairsGame extends GameBase {
             const clouds = new Set<string>();
             let turnNumber = 0;
 
-            // If random-start variant, place 8 pairs of symmetric clouds
+            // If random-start variant, place the selected number of clouds in symmetric pairs
             if (this.variants.includes("random-start")) {
                 const placedClouds = this.placeRandomSymmetricClouds();
                 for (const cell of placedClouds) {
@@ -254,35 +257,64 @@ export class CrosshairsGame extends GameBase {
         return this.graph.rot180(cell);
     }
 
-    // Place 8 pairs of symmetric clouds for the random-start variant
+    private getTargetCloudCount(): number {
+        if (this.variants.includes("clouds-28")) return 28;
+        if (this.variants.includes("clouds-22")) return 22;
+        return 16;
+    }
+
+    // Place symmetric clouds up to the selected target for the random-start variant
     private placeRandomSymmetricClouds(): string[] {
-        const cloudSet = new Set<string>();
-        const untried = this.graph.listCells() as string[];
-
-        // Keep picking random cells until we have 8 pairs
-        while (cloudSet.size < 16) {
-            // Pick a random cell we haven't tried yet
-            if (untried.length === 0) throw new Error("Failed to place symmetric clouds - no valid cells left.");
-
-            const cell = untried[Math.floor(Math.random() * untried.length)];
-            // Remove from untried
-            const index = untried.indexOf(cell);
-            untried.splice(index, 1);
-
+        const target = this.getTargetCloudCount();
+        const seen = new Set<string>();
+        const pairs: Array<[string, string]> = [];
+        for (const cell of this.graph.listCells() as string[]) {
+            if (seen.has(cell)) continue;
             const mirror = this.getSymmetricCell(cell);
-            untried.splice(untried.indexOf(mirror), 1); // Remove mirror from untried too
-
-            if (cell === mirror) continue; // Skip center cell
-
-            // Check if this pair would create clouds > 2 hexes
-            if (this.wouldCreateLargeCloud(cell, cloudSet)) continue;
-
-            // Valid pair - add both
-            cloudSet.add(cell);
-            cloudSet.add(mirror);
+            seen.add(cell);
+            seen.add(mirror);
+            if (cell !== mirror) {
+                pairs.push([cell, mirror]);
+            }
         }
 
-        return Array.from(cloudSet);
+        // Randomize pair order, then backtrack if a legal choice later blocks the target.
+        for (let i = pairs.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [pairs[i], pairs[j]] = [pairs[j], pairs[i]];
+        }
+
+        const cloudSet = new Set<string>();
+        let best = new Set<string>();
+        let visited = 0;
+        const maxVisited = 100_000;
+        const placePairs = (start: number): boolean => {
+            if (cloudSet.size > best.size) {
+                best = new Set(cloudSet);
+            }
+            if (cloudSet.size >= target) return true;
+            if (visited++ >= maxVisited) return false;
+            if (cloudSet.size + 2 * (pairs.length - start) < target) return false;
+
+            for (let i = start; i < pairs.length; i++) {
+                const [cell, mirror] = pairs[i];
+                if (this.wouldCreateLargeCloud(cell, cloudSet)) continue;
+                cloudSet.add(cell);
+                if (this.wouldCreateLargeCloud(mirror, cloudSet)) {
+                    cloudSet.delete(cell);
+                    continue;
+                }
+                cloudSet.add(mirror);
+
+                if (placePairs(i + 1)) return true;
+
+                cloudSet.delete(cell);
+                cloudSet.delete(mirror);
+            }
+            return false;
+        };
+
+        return Array.from(placePairs(0) ? cloudSet : best);
     }
 
     // Check whether placing a cloud would violate the default maximum bank size of 2 hexes
@@ -319,6 +351,12 @@ export class CrosshairsGame extends GameBase {
 
         // If adjacent to multiple clouds, would create 3+ hex cloud
         return adjacentCloudCount > 1;
+    }
+
+    private getLegalCloudPlacements(): string[] {
+        return (this.graph.listCells() as string[]).filter(cell =>
+            !this.clouds.has(cell) && !this.wouldCreateLargeCloud(cell, this.clouds)
+        );
     }
 
     // Split a move string by commas, but don't split inside parentheses.
@@ -381,7 +419,13 @@ export class CrosshairsGame extends GameBase {
 
     // Check if we're in cloud placement phase
     private inCloudPhase(): boolean {
-        return this.clouds.size < 16;
+        return this.turnNumber === 0 && this.clouds.size < this.getTargetCloudCount();
+    }
+
+    // If manual cloud placement ends after an odd number of clouds, player 2
+    // must pass so player 1 still enters the first plane.
+    private mustPassBeforeEntry(): boolean {
+        return this.turnNumber === 1 && this.currplayer === 2;
     }
 
     // Check if we're in entry phase (first few turns after clouds)
@@ -1309,6 +1353,8 @@ export class CrosshairsGame extends GameBase {
     public moves(): string[] {
         if (this.gameover) return [];
 
+        if (this.mustPassBeforeEntry()) return ["pass"];
+
         // Cloud phase: each cloud placement is a complete move
         if (this.inCloudPhase()) {
             return this.actions();
@@ -1428,13 +1474,12 @@ export class CrosshairsGame extends GameBase {
 
         const actions: string[] = [];
 
-        // Cloud placement phase - players alternate placing clouds until all 16 are placed
+        if (this.mustPassBeforeEntry()) return ["pass"];
+
+        // Cloud placement phase - players alternate placing clouds until the target is reached
         if (this.inCloudPhase()) {
-            for (const cell of this.graph.listCells() as string[]) {
-                if (this.clouds.has(cell)) continue;
-                if (!this.wouldCreateLargeCloud(cell, this.clouds)) {
-                    actions.push(`cloud:${cell}`);
-                }
+            for (const cell of this.getLegalCloudPlacements()) {
+                actions.push(`cloud:${cell}`);
             }
             return actions;
         }
@@ -1761,6 +1806,12 @@ export class CrosshairsGame extends GameBase {
         const result: IValidationResult = { valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER") };
 
         if (m.length === 0) {
+            if (this.mustPassBeforeEntry()) {
+                result.valid = true;
+                result.complete = -1;
+                result.message = i18next.t("apgames:validation.crosshairs.MUST_PASS_BEFORE_ENTRY");
+                return result;
+            }
             if (this.inCloudPhase()) {
                 result.valid = true;
                 result.complete = -1;
@@ -1796,6 +1847,17 @@ export class CrosshairsGame extends GameBase {
         }
 
         m = m.toLowerCase();
+
+        if (this.mustPassBeforeEntry()) {
+            if (m === "pass") {
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            } else {
+                result.message = i18next.t("apgames:validation.crosshairs.MUST_PASS_BEFORE_ENTRY");
+            }
+            return result;
+        }
 
         // Cloud phase: single action per turn
         if (this.inCloudPhase()) {
@@ -2590,6 +2652,9 @@ export class CrosshairsGame extends GameBase {
 
         m = m.toLowerCase();
 
+        const wasCloudPhase = this.inCloudPhase();
+        const forcedEntryPass = this.mustPassBeforeEntry() && m === "pass";
+
         if (!trusted) {
             const result = this.validateMove(m);
             if (!result.valid) {
@@ -2606,8 +2671,11 @@ export class CrosshairsGame extends GameBase {
 
         this.results = [];
 
-        // Cloud phase: single action
-        if (this.inCloudPhase()) {
+        // Player 2 may need one pass to preserve player 1's first entry turn.
+        if (forcedEntryPass) {
+            this.results.push({ type: "pass" });
+        } else if (wasCloudPhase) {
+            // Cloud phase: single action
             const parsed = this.parseMove(m);
             if (parsed.type === "cloud") {
                 this.clouds.add(parsed.cell!);
@@ -2633,8 +2701,10 @@ export class CrosshairsGame extends GameBase {
         // Update turn number and switch players
         this.lastmove = m;
 
-        // After cloud phase ends (16 clouds placed), set turn number to 1
-        const justEndedCloudPhase = this.clouds.size === 16 && this.turnNumber === 0;
+        // End setup at the selected target, or earlier if the bank-size rule
+        // leaves no legal cloud placement.
+        const justEndedCloudPhase = wasCloudPhase &&
+            (this.clouds.size >= this.getTargetCloudCount() || this.getLegalCloudPlacements().length === 0);
         if (justEndedCloudPhase) {
             this.turnNumber = 1;
         }
@@ -2642,7 +2712,7 @@ export class CrosshairsGame extends GameBase {
         // In non-cloud phases, increment turn number after each player's turn
         // (Turn 1: P1 moves 1, Turn 2: P2 moves 2, Turn 3: P1 moves 3, etc.)
         // Don't increment on the move that just ended cloud phase
-        if (!this.inCloudPhase() && this.turnNumber > 0 && !justEndedCloudPhase) {
+        if (!this.inCloudPhase() && this.turnNumber > 0 && !justEndedCloudPhase && !forcedEntryPass) {
             this.turnNumber++;
         }
 
@@ -2675,17 +2745,11 @@ export class CrosshairsGame extends GameBase {
     }
 
     public randomMove(sillymoves = false): string {
+        if (this.mustPassBeforeEntry()) return "pass";
+
         // Cloud phase: pick a random valid cloud cell
         if (this.inCloudPhase()) {
-            const validCells: string[] = [];
-            for (const cell of this.graph.listCells() as string[]) {
-                if (!this.clouds.has(cell) && !this.wouldCreateLargeCloud(cell, this.clouds)) {
-                    validCells.push(cell);
-                }
-            }
-            if (validCells.length === 0) {
-                throw new Error("No valid cloud placements available");
-            }
+            const validCells = this.getLegalCloudPlacements();
             return `cloud:${validCells[Math.floor(Math.random() * validCells.length)]}`;
         }
 

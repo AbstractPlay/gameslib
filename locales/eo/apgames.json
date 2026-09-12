@@ -224,9 +224,12 @@
       "#board": {
         "name": "Tabulo 19×19"
       },
+      "#opening": {
+        "name": "Malfermo"
+      },
       "#overline": {
         "description": "La unua ludanto perdas se ili faras superlinion, sed la dua ludanto povas gajni per superlinio.",
-        "name": "Asimetria ĉeftempo"
+        "name": "Nesimetria superlinia perdo"
       },
       "#tiebreaker": {
         "name": "Sen egalecrompo"
@@ -237,23 +240,23 @@
       },
       "sym-no-overline": {
         "description": "La regulo de superlinio validas por ambaŭ ludantoj: ĉiu ludanto perdas se ili faras superlinion, do nur linio de precize sep venkoj.",
-        "name": "Simetriaj superliniperdoj"
+        "name": "Simetria superlinia perdo"
       },
       "sym-overline": {
         "description": "La regulo de superlinio validas por neniu el la ludantoj: ĉiu ludanto povas gajni per superlinio, do ĉiu linio de sep aŭ pli gajnas.",
-        "name": "Simetriaj gajnadoj"
+        "name": "Simetria superlinia gajno"
       },
       "swap-1st": {
         "description": "La unua ludanto metas ŝtonon ie ajn sur la tabulo. La venonta ludanto havas la eblon interŝanĝi kolorojn.",
-        "name": "Malfermo Swap-1st"
+        "name": "Interŝanĝo-1-a"
       },
       "swap-2": {
         "description": "La unua ludanto metas tri ŝtonojn. La venonta ludanto povas fari unu el (1) meti unu ŝtonon por daŭrigi kiel ludanto 2, (2) ŝanĝi kolorojn por ludi kiel ludanto 1, aŭ (3) meti du pli da ŝtonoj kaj permesi al la kontraŭulo decidi ludi kiel ludanto 1 aŭ ludanto 2.",
-        "name": "Malfermo Swap-2"
+        "name": "Interŝanĝo-2"
       },
       "swap-5": {
         "description": "Por la unuaj kvin ŝtonoj sur la tabulo, post metado, la venonta ludanto havas la opcion interŝanĝi kolorojn.",
-        "name": "Malfermo Swap-5"
+        "name": "Interŝanĝo-5"
       }
     },
     "veletas": {
@@ -619,7 +622,7 @@
         "description": "Metu viajn 16 pecojn sur viajn plej proksimajn du rangojn laŭ la maniero, kiun vi deziras"
       },
       "eee": {
-        "name": "Senfina fina ludo",
+        "name": "Senfina finludo",
         "description": "Hazarde generita preparo kun reduktita armeo grandeco"
       },
       "free": {

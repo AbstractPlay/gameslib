@@ -257,6 +257,8 @@ export class CrosshairsGame extends GameBase {
         return this.graph.rot180(cell);
     }
 
+    // Return the total number of clouds to be placed according to the selected variant
+    // Just a helper function to make the code in placeRandomSymmetricClouds() cleaner
     private getTargetCloudCount(): number {
         if (this.variants.includes("clouds-28")) return 28;
         if (this.variants.includes("clouds-22")) return 22;

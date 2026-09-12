@@ -697,8 +697,8 @@
         "furl": "{{player}} malvolvis {{count}} pecojn de {{from}} al {{to}}."
     },
     "USE": {
-        "camelot_castle_move_one": "{{player}} uzis kastelan movon kaj havas ankoraŭ 1 kastelan movon.",
-        "camelot_castle_move_other": "{{player}} uzis kastelan movon kaj havas ankoraŭ {{count}} kastelajn movojn.",
+        "camelot_castle_move_one": "{{player}} havas ankoraŭ 1 kastelan movon.",
+        "camelot_castle_move_other": "{{player}} havas ankoraŭ {{count}} kastelajn movojn.",
         "camelot_castle_move_none": "{{player}} ne plu havas kastelajn movojn."
     },
     "SCRIBE": {

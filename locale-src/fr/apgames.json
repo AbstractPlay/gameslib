@@ -544,8 +544,8 @@
     "out": "Iqishiqi (prononcé EE-chee-shee-chee) est un jeu de stratégie abstrait qui se joue sur un plateau hexagonal composé de cases hexagonales. Les joueurs possèdent des bords désignés du plateau et, en plaçant habilement des pierres, ils poussent une pierre neutre sur le plateau. Un joueur gagne s'il déplace la pierre neutre vers l'un de ses bords, ou s'il laisse son adversaire sans coup possible."
   },
   "descriptions.irensei": {
-    "src": "Irensei is a mixture of Go and Gomoku. Get a seven in a row inside the middle 15x15 region of the Go board to win. To reduce the first player's advantage, the first player loses if they make an overline (even if it extends beyond the 15x15 region), but the second player may win by overline.",
-    "out": "Irensei est un mélange de Go et de Gomoku. Alignez sept pierres à la suite dans la région centrale de 15x15 du plateau de Go pour gagner. Pour réduire l'avantage du premier joueur, celui-ci perd s'il réalise un suralignement (même s'il dépasse de la zone 15x15), mais le second joueur peut gagner par suralignement."
+    "src": "Irensei (Japanese: 囲連星) is a mixture of Go and Gomoku. Get a seven in a row inside the middle 15x15 region of the Go board to win. To reduce the first player's advantage, the first player loses if they make an overline (even if it extends beyond the 15x15 region), but the second player may win by overline.",
+    "out": "L'Irensei (japonais : 囲連星) est un mélange de Go et de Gomoku. Alignez sept pierres d'affilée dans la zone centrale de 15x15 du goban pour gagner. Pour réduire l'avantage du premier joueur, celui-ci perd s'il réalise un suralignement (même si celui-ci s'étend au-delà de la zone de 15x15), mais le second joueur peut gagner par suralignement."
   },
   "descriptions.jacynth": {
     "src": "A Decktet card game where opponents vye for control of the city of Jacynth. Place cards, exert influence, and control the most area to win.",

@@ -151,6 +151,9 @@ export class CrosshairsGame extends GameBase {
                 uid: "random-start",
                 group: "setup",
             },
+            {
+                uid: "unbounded-cloud-banks",
+            },
         ],
         displays: [{uid: "abstract"}, {uid: "numeric"}, {uid: "numeric-abstract"}],
     };
@@ -284,6 +287,8 @@ export class CrosshairsGame extends GameBase {
 
     // Check if placing a cloud at cell would create a cloud group > 2 hexes
     private wouldCreateLargeCloud(cell: string, existingClouds: Set<string>): boolean {
+        if (this.variants.includes("unbounded-cloud-banks")) return false;
+
         const [x, y] = this.graph.algebraic2coords(cell);
         let adjacentCloudCount = 0;
 
@@ -1757,7 +1762,9 @@ export class CrosshairsGame extends GameBase {
             if (this.inCloudPhase()) {
                 result.valid = true;
                 result.complete = -1;
-                result.message = i18next.t("apgames:validation.crosshairs.PLACE_CLOUD");
+                result.message = this.variants.includes("unbounded-cloud-banks")
+                    ? i18next.t("apgames:validation.crosshairs.PLACE_CLOUD_UNBOUNDED")
+                    : i18next.t("apgames:validation.crosshairs.PLACE_CLOUD");
                 return result;
             }
             const requiredPlanes = this.getPlanesToMove();

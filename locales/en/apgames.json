@@ -1678,6 +1678,10 @@
             "random-start": {
                 "name": "Random clouds",
                 "description": "There is no cloud placing phase. They are placed randomly by the system."
+            },
+            "unbounded-cloud-banks": {
+                "name": "Unbounded cloud banks",
+                "description": "Cloud banks may contain any number of adjacent cloud hexes."
             }
         },
         "crossway": {
@@ -5736,6 +5740,7 @@
         },
         "crosshairs": {
             "PLACE_CLOUD": "Click on an empty cell to place a cloud. Clouds cannot be larger than 2 hexes.",
+            "PLACE_CLOUD_UNBOUNDED": "Click on an empty cell to place a cloud.",
             "CLOUD_OCCUPIED": "There is already a cloud at {{cell}}.",
             "CLOUD_TOO_BIG": "You cannot place a cloud at {{cell}}. Only clouds of size 2 are allowed. This cloud would be too big.",
             "INITIAL_INSTRUCTIONS_one": "Select a plane to move, or enter a new plane on your starting edge. You must move/enter {{count}} plane this turn.",

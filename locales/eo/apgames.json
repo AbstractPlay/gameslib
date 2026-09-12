@@ -1262,6 +1262,10 @@
       "random-start": {
         "name": "Hazardaj nuboj",
         "description": "Ne ekzistas nubo-moviĝanta fazo. Ili estas hazarde metitaj de la sistemo."
+      },
+      "unbounded-cloud-banks": {
+        "name": "Senlimaj nubaroj",
+        "description": "Nubaroj povas enhavi ajnan nombron da apudaj nubaj seslateroj."
       }
     },
     "cubeo": {
@@ -5547,6 +5551,7 @@
     },
     "crosshairs": {
       "PLACE_CLOUD": "Klaku sur malplena ĉelo por meti nubon. Nuboj ne povas esti pli grandaj ol du hexoj.",
+      "PLACE_CLOUD_UNBOUNDED": "Klaku sur malplena ĉelo por meti nubon.",
       "CLOUD_OCCUPIED": "Jam estas nubo ĉe {{cell}}.",
       "CLOUD_TOO_BIG": "Vi ne povas meti nubojn ĉe {{cell}}. Nur nuboj de grandeco 2 estas permesitaj. Tiu nubo estus tro granda.",
       "INITIAL_INSTRUCTIONS_one": "Elektu aviadilon por movi, aŭ eniri novan aviadilon sur via komenca rando. Vi devas movi / eniri {{count}} aviadilo tiun vicon.",

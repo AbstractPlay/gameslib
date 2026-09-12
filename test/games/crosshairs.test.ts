@@ -64,6 +64,19 @@ describe("Crosshairs", () => {
             // But placing an isolated cloud elsewhere should still work
             expect(moves.some(m => m === 'cloud:a1')).to.be.true;
         });
+
+        it("should allow clouds bigger than 2 hexes with the unbounded cloud banks variant", () => {
+            const g = new CrosshairsGame(undefined, ["unbounded-cloud-banks"]);
+
+            g.move("cloud:f5");
+            g.move("cloud:f6");
+
+            expect(g.moves()).to.include("cloud:f4");
+            expect(g.validateMove("cloud:f4")).to.include({ valid: true, complete: 1 });
+
+            g.move("cloud:f4");
+            expect(g.clouds).to.include("f4");
+        });
     });
 
     describe("Random Start Variant", () => {
@@ -74,6 +87,14 @@ describe("Crosshairs", () => {
             // Should be in entry phase, not cloud phase
             const moves = g.moves();
             expect(moves[0]).to.match(/^enter:/);
+        });
+
+        it("should combine with the unbounded cloud banks variant", () => {
+            const g = new CrosshairsGame(undefined, ["random-start", "unbounded-cloud-banks"]);
+
+            expect(g.clouds.size).to.equal(16);
+            expect(g.turnNumber).to.equal(1);
+            expect(g.variants).to.include.members(["random-start", "unbounded-cloud-banks"]);
         });
 
         it("clouds should be placed symmetrically", () => {

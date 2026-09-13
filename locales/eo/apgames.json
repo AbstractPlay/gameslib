@@ -656,6 +656,9 @@
       "board-19": {
         "name": "Tabulo 19×19"
       },
+      "board-23": {
+        "name": "Tabulo 23×23"
+      },
       "board-27": {
         "name": "Tabulo 27×27"
       },

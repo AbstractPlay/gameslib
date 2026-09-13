@@ -4863,6 +4863,9 @@
             "STEPS": "Maneuverability",
             "MATERIAL": "Material"
         },
+        "lielow": {
+            "MOVESUNTILSUICIDE": "Moves until suicide"
+        },
         "majorities": "Scores (─, ⟋, ⟍)",
         "meg": {
             "OFFENSE": "Offensive player",

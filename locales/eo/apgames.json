@@ -2056,6 +2056,14 @@
         "name": "Sesangula tabulo (bazo 8)"
       }
     },
+    "mirador": {
+      "#board": {
+        "name": "Tabulo 28×28"
+      },
+      "size-40": {
+        "name": "Tabulo 40×40"
+      }
+    },
     "mixtour": {
       "five": {
         "description": "La gajninto estas la unua, kiu gajnas tri poentojn.",
@@ -4481,7 +4489,7 @@
     "mimic": "Imitanto (angle Mimic): Ludo, en kiu malamikaj pecoj imitas viajn movojn dum vi konkuras por esti la unua, kiu atingas la malantaŭan vicon.",
     "minefield": "Minkampo (angle Minefield): Konektu kontraŭajn flankojn de la tabulo, sed iuj pecaranĝoj estas malpermesitaj.",
     "minimize": "Minimumigo (angle Minimize): Gajnas la ludanto, kies plej malgranda grupo estas la plej granda.",
-    "mirador": "Mirador estas rapida kaj ekscita konektludo sur kvadrata krado 27×27, kie kvadratoj 2×2 reprezentas gardoturojn. Ĝi uzas vidliniajn konektojn kaj ekvivalentajn celojn, do ĝi estas pli vetkuro ol pura konektludo.",
+    "mirador": "Mirador estas rapida kaj ekscita konektludo sur kvadrata krado (defaŭlte 27×27), kie kvadratoj 2×2 reprezentas gardoturojn. Ĝi uzas vidliniajn konektojn kaj ekvivalentajn celojn, do ĝi estas pli vetkuro ol pura konektludo.",
     "mixtour": "Du ludantoj konstruas turojn kun la celo fari turon almenaŭ kvin pecojn altan, kun sia koloro supre. Estas du apartaĵoj: (1) vi povas movi kontraŭulajn pecojn, kaj (2) la movdistanco dependas de la alto de la cela stako, ne de tiu de la movata stako.",
     "monkey": "Simia Damo (angle Monkey Queen): Vi komencas kun unu damo, kiu estas stako de dampecoj. Dum senkapta movo, la damo postlasas unuopan pecon. Damoj kaj unuopaj pecoj moviĝas kaj kaptas kiel ŝakaj damoj. Por venki, kaptu la kontraŭulan damon aŭ lasu la kontraŭulon sen validaj movoj.",
     "morphos": "Nur-orta kvadrata konektludo. Dum via vico, metu amikan ŝtonon aŭ renversu malamikan ŝtonon laŭ unu el tri antaŭdifinitaj ŝablonoj. Gajnu konektante viajn du kontraŭajn flankojn per ĉeno de samkoloraj ŝtonoj.",

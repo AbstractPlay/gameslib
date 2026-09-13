@@ -156,7 +156,7 @@
         "mimic": "A game where enemy pieces mimic your moves while you race to be the first player to reach the back row.",
         "minefield": "Connect opposite sides of the board, but certain piece configurations are forbidden.",
         "minimize": "The player with the largest smallest group wins the game.",
-        "mirador": "Mirador is a fast and exhilarating connection game played on a 27 x 27 square grid by placing 2 x 2 squares to represent watchtowers. It uses line-of-sight connections and equivalent goals (making it more of a race than a pure connection game).",
+        "mirador": "Mirador is a fast and exhilarating connection game played on a square grid (27 x 27 by default) by placing 2 x 2 squares to represent watchtowers. It uses line-of-sight connections and equivalent goals (making it more of a race than a pure connection game).",
         "mixtour": "Two players create towers with the goal of creating a tower at least five high with your colour at the top. The twist here is two-fold: (1) you can move opponent's pieces and (2) movement range is determined by the *target* stack height and not the moving stack height.",
         "monkey": "You start with a single queen, composed of a stack of checkers. When you make noncapturing moves, the queen leaves a singleton behind. Queens and singletons move and capture like chess queens. To win, capture the opposing queen or leave them with no legal moves.",
         "morphos": "Orthogonal-only square connection game. On your turn, place a friendly stone or flip an enemy stone in one of three predetermined patterns. Win by connecting your two opposite sides of the board with a chain of stones of your color.",
@@ -2612,6 +2612,14 @@
             },
             "size-8": {
                 "name": "Hexagonal board (base-8)"
+            }
+        },
+        "mirador": {
+            "#board": {
+                "name": "28x28 board"
+            },
+            "size-40": {
+                "name": "40x40 board"
             }
         },
         "mixtour": {

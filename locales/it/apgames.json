@@ -156,7 +156,7 @@
     "mimic": "Un gioco in cui i pezzi nemici imitano le tue mosse mentre fai a gara per essere il primo giocatore a raggiungere l'ultima riga.",
     "minefield": "Collega i lati opposti del tabellone, ma alcune configurazioni di pezzi sono proibite.",
     "minimize": "Il giocatore con il gruppo più piccolo più grande vince la partita.",
-    "mirador": "Mirador è un gioco di connessione veloce ed esaltante giocato su una griglia quadrata 27 x 27 posizionando quadrati 2 x 2 per rappresentare torri di guardia. Utilizza connessioni in linea di vista ed obiettivi equivalenti (rendendolo più una corsa che un puro gioco di connessione).",
+    "mirador": "Mirador è un gioco di connessione rapido ed entusiasmante giocato su una griglia quadrata (28 x 28 come impostazione predefinita) piazzando quadrati 2 x 2 per rappresentare torri di guardia. Utilizza connessioni in linea di vista e obiettivi equivalenti (rendendolo più una corsa che un puro gioco di connessione).",
     "mixtour": "Due giocatori creano torri con l'obiettivo di formarne una alta almeno cinque elementi con il proprio colore in cima. Il risvolto qui è duplice: (1) puoi muovere i pezzi dell'avversario e (2) il raggio di movimento è determinato dall'altezza della pila di *destinazione* e non dall'altezza della pila che si muove.",
     "monkey": "Inizi con una singola regina, composta da una pila di dame. Quando fai mosse senza cattura, la regina lascia indietro un singolo pezzo. Le regine e i pezzi singoli si muovono e catturano come le donne negli scacchi. Per vincere, cattura la regina avversaria o lasciala senza mosse legali.",
     "morphos": "Gioco di connessione su griglia quadrata solo ortogonale. Nel tuo turno, posiziona una pietra alleata o ribalta una pietra nemica in uno dei tre schemi predeterminati. Vinci collegando i due lati opposti del tabellone con una catena di pietre del tuo colore.",
@@ -967,6 +967,9 @@
       },
       "board-19": {
         "name": "Tavoliere 19x19"
+      },
+      "board-23": {
+        "name": "Plancia 23x23"
       },
       "board-27": {
         "name": "Tavoliere 27x27"
@@ -2613,6 +2616,14 @@
       },
       "size-8": {
         "name": "Tabellone esagonale (base 8)"
+      }
+    },
+    "mirador": {
+      "#board": {
+        "name": "Plancia 28x28"
+      },
+      "size-40": {
+        "name": "Plancia 40x40"
       }
     },
     "mixtour": {

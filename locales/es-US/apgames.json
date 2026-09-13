@@ -156,7 +156,7 @@
     "mimic": "Un juego donde las piezas enemigas imitan tus movimientos mientras compites por ser el primer jugador en llegar a la última fila.",
     "minefield": "Conecta lados opuestos del tablero, pero ciertas configuraciones de piezas están prohibidas.",
     "minimize": "El jugador cuyo grupo más pequeño sea el más grande gana el juego.",
-    "mirador": "Mirador es un juego de conexión rápido y emocionante que se juega en una cuadrícula de 27 x 27 colocando cuadrados de 2 x 2 para representar torres de vigilancia. Utiliza conexiones por línea de visión y objetivos equivalentes (lo que lo convierte más en una carrera que en un juego de conexión puro).",
+    "mirador": "Mirador es un juego de conexión rápido y emocionante que se juega en una cuadrícula cuadrada (de 28 x 28 por defecto) colocando cuadrados de 2 x 2 para representar torres de vigilancia. Usa conexiones por línea de visión y objetivos equivalentes (lo que lo convierte más en una carrera que en un juego de conexión puro).",
     "mixtour": "Dos jugadores crean torres con el objetivo de formar una torre de al menos cinco niveles de altura con su color en la parte superior. El giro aquí es doble: (1) puedes mover piezas del oponente y (2) el alcance de movimiento está determinado por la altura de la pila *de destino* y no por la altura de la pila que se mueve.",
     "monkey": "Empiezas con una sola reina, compuesta por una pila de fichas de damas. Cuando haces movimientos que no capturan, la reina deja una ficha individual detrás. Las reinas y las fichas individuales se mueven y capturan como reinas de ajedrez. Para ganar, captura a la reina opuesta o déjala sin movimientos legales.",
     "morphos": "Juego de conexión en cuadrícula únicamente ortogonal. En tu turno, coloca una ficha aliada o voltea una ficha enemiga según uno de tres patrones predeterminados. Gana conectando tus dos lados opuestos del tablero con una cadena de fichas de tu color.",
@@ -967,6 +967,9 @@
       },
       "board-19": {
         "name": "Tablero de 19x19"
+      },
+      "board-23": {
+        "name": "Tablero de 23x23"
       },
       "board-27": {
         "name": "Tablero de 27x27"
@@ -2613,6 +2616,14 @@
       },
       "size-8": {
         "name": "Tablero hexagonal (base 8)"
+      }
+    },
+    "mirador": {
+      "#board": {
+        "name": "Tablero de 28x28"
+      },
+      "size-40": {
+        "name": "Tablero de 40x40"
       }
     },
     "mixtour": {

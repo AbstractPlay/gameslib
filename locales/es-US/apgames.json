@@ -1272,6 +1272,7 @@
     },
     "calculus": {
       "#board": {
+        "name": "Tablero predeterminado",
         "description": "Aproximadamente 12 piezas de ancho"
       },
       "width-10": {

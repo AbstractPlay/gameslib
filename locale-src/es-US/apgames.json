@@ -14627,6 +14627,10 @@
     "src": "Roughly 12 pieces across",
     "out": "Aproximadamente 12 piezas de ancho"
   },
+  "variants.calculus.#board.name": {
+    "src": "Default board",
+    "out": "Tablero predeterminado"
+  },
   "variants.calculus.width-10.description": {
     "src": "Roughly 10 pieces across",
     "out": "Aproximadamente 10 piezas de ancho"

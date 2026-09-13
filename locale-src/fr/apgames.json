@@ -14627,6 +14627,10 @@
     "src": "Roughly 12 pieces across",
     "out": "Environ 12 pièces de largeur"
   },
+  "variants.calculus.#board.name": {
+    "src": "Default board",
+    "out": "Plateau par défaut"
+  },
   "variants.calculus.width-10.description": {
     "src": "Roughly 10 pieces across",
     "out": "Environ 10 pièces de largeur"

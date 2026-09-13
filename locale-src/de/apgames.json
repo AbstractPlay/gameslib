@@ -544,8 +544,8 @@
     "out": "Iqishiqi (ausgesprochen EE-tschi-schi-tschi) ist ein abstraktes Strategiespiel, das auf einem sechseckigen Brett aus Sechseckfeldern gespielt wird. Die Spieler besitzen bestimmte Brettränder und schieben durch geschicktes Platzieren von Steinen einen neutralen Stein über das Brett. Ein Spieler gewinnt, wenn er/sie den neutralen Stein zu einem seiner/ihrer Ränder bewegt oder den Gegner zugunfähig macht."
   },
   "descriptions.irensei": {
-    "src": "Irensei is a mixture of Go and Gomoku. Get a seven in a row inside the middle 15x15 region of the Go board to win. To reduce the first player's advantage, the first player loses if they make an overline (even if it extends beyond the 15x15 region), but the second player may win by overline.",
-    "out": "Irensei ist eine Mischung aus Go und Gomoku. Bilden Sie eine Siebenerreihe im mittleren 15x15-Bereich des Go-Bretts, um zu gewinnen. Um den Vorteil des Startspielers zu verringern, verliert dieser, wenn er eine Überlänge bildet (selbst wenn sie über den 15x15-Bereich hinausreicht), der zweite Spieler kann jedoch auch durch eine Überlänge gewinnen."
+    "src": "Irensei (Japanese: 囲連星) is a mixture of Go and Gomoku. Get a seven in a row inside the middle 15x15 region of the Go board to win. To reduce the first player's advantage, the first player loses if they make an overline (even if it extends beyond the 15x15 region), but the second player may win by overline.",
+    "out": "Irensei (japanisch: 囲連星) ist eine Mischung aus Go und Gomoku. Bilde eine Siebenerreihe innerhalb des mittleren 15x15-Bereichs des Go-Bretts, um zu gewinnen. Um den Vorteil des ersten Spielers zu verringern, verliert dieser, wenn er eine Überlänge bildet (selbst wenn sie sich über den 15x15-Bereich hinaus erstreckt), aber der zweite Spieler kann auch durch eine Überlänge gewinnen."
   },
   "descriptions.jacynth": {
     "src": "A Decktet card game where opponents vye for control of the city of Jacynth. Place cards, exert influence, and control the most area to win.",
@@ -6627,6 +6627,10 @@
     "src": "Move complete. You may shoot enemy planes or submit your move.",
     "out": "Zug abgeschlossen. Du kannst gegnerische Flugzeuge abschießen oder deinen Zug bestätigen."
   },
+  "validation.crosshairs.MUST_PASS_BEFORE_ENTRY": {
+    "src": "You must pass so player 1 enters the first plane.",
+    "out": "Du musst passen, damit Spieler 1 das erste Flugzeug ins Spiel bringt."
+  },
   "validation.crosshairs.NEED_MORE_PLANES_NO_ENTRY_one": {
     "src": "You need to move {{count}} more plane this turn. Select the next plane. Click on enemy planes if you think they can be shot down.",
     "out": "Du musst in diesem Zug noch {{count}} weiteres Flugzeug ziehen. Wähle das nächste Flugzeug. Klicke auf gegnerische Flugzeuge, wenn du glaubst, dass sie abgeschossen werden können."
@@ -6674,6 +6678,10 @@
   "validation.crosshairs.PLACE_CLOUD": {
     "src": "Click on an empty cell to place a cloud. Clouds cannot be larger than 2 hexes.",
     "out": "Klicke auf ein leeres Feld, um eine Wolke zu platzieren. Wolken dürfen nicht größer als 2 Hexfelder sein."
+  },
+  "validation.crosshairs.PLACE_CLOUD_UNBOUNDED": {
+    "src": "Click on an empty cell to place a cloud.",
+    "out": "Klicke auf ein leeres Feld, um eine Wolke zu platzieren."
   },
   "validation.crossway.BAD_PASS": {
     "src": "You may not pass if legal moves are available.",
@@ -14619,6 +14627,10 @@
     "src": "Roughly 12 pieces across",
     "out": "Ungefähr 12 Steine breit"
   },
+  "variants.calculus.#board.name": {
+    "src": "Default board",
+    "out": "Standardbrett"
+  },
   "variants.calculus.width-10.description": {
     "src": "Roughly 10 pieces across",
     "out": "Ungefähr 10 Steine breit"
@@ -15123,13 +15135,49 @@
     "src": "9x9 board",
     "out": "9x9-Brett"
   },
+  "variants.crosshairs.#clouds.name": {
+    "src": "16 clouds",
+    "out": "16 Wolken"
+  },
+  "variants.crosshairs.asymmetric-random-start.description": {
+    "src": "There is no cloud placing phase. The system places the clouds randomly without requiring symmetry.",
+    "out": "Es gibt keine Wolkenplatzierungsphase. Das System platziert die Wolken zufällig, ohne Symmetrie zu erfordern."
+  },
+  "variants.crosshairs.asymmetric-random-start.name": {
+    "src": "Asymmetric random clouds",
+    "out": "Asymmetrische zufällige Wolken"
+  },
+  "variants.crosshairs.clouds-22.description": {
+    "src": "Place 22 clouds instead of 16. With the default cloud bank size limit, the full count may not always be achievable.",
+    "out": "Platziere 22 Wolken statt 16. Mit dem standardmäßigen Größenlimit für Wolkenbänke kann die vollständige Anzahl möglicherweise nicht immer erreicht werden."
+  },
+  "variants.crosshairs.clouds-22.name": {
+    "src": "22 clouds",
+    "out": "22 Wolken"
+  },
+  "variants.crosshairs.clouds-28.description": {
+    "src": "Place 28 clouds instead of 16. With the default cloud bank size limit, the full count may not always be achievable.",
+    "out": "Platziere 28 Wolken statt 16. Mit dem standardmäßigen Größenlimit für Wolkenbänke kann die vollständige Anzahl möglicherweise nicht immer erreicht werden."
+  },
+  "variants.crosshairs.clouds-28.name": {
+    "src": "28 clouds",
+    "out": "28 Wolken"
+  },
   "variants.crosshairs.random-start.description": {
-    "src": "There is no cloud placing phase. They are placed randomly by the system.",
-    "out": "Es gibt keine Wolken-Platzierungsphase. Sie werden vom System zufällig platziert."
+    "src": "There is no cloud placing phase. The system places the clouds randomly with 180-degree rotational symmetry.",
+    "out": "Es gibt keine Wolkenplatzierungsphase. Das System platziert die Wolken zufällig mit 180-Grad-Rotationssymmetrie."
   },
   "variants.crosshairs.random-start.name": {
-    "src": "Random clouds",
-    "out": "Zufällige Wolken"
+    "src": "Symmetric random clouds",
+    "out": "Symmetrische zufällige Wolken"
+  },
+  "variants.crosshairs.unbounded-cloud-banks.description": {
+    "src": "Cloud banks may contain any number of clouds.",
+    "out": "Wolkenbänke können eine beliebige Anzahl von Wolken enthalten."
+  },
+  "variants.crosshairs.unbounded-cloud-banks.name": {
+    "src": "Unbounded cloud banks",
+    "out": "Unbegrenzte Wolkenbänke"
   },
   "variants.crossway.#board.name": {
     "src": "Default board (19x19)",

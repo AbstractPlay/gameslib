@@ -132,7 +132,7 @@
     "intermedium": "Siembra pilas para encerrar y capturar. Gana capturando la ciudad del oponente.",
     "invector": "Elimina el ejército adversario mientras te acercas al centro del tablero.",
     "iqishiqi": "Iqishiqi (pronunciado I-chi-shi-chi) es un juego de estrategia abstracta que se juega en un tablero hexagonal compuesto de casillas hexagonales. Los jugadores son dueños de bordes designados del tablero y, mediante una astuta colocación de fichas, empujan una ficha neutral por el tablero. Un jugador gana si mueve la ficha neutral a uno de sus bordes o deja a su oponente sin movimientos posibles.",
-    "irensei": "Irensei es una combinación de Go y Gomoku. Consigue siete en fila dentro de la región central de 15x15 del tablero de Go para ganar. Para reducir la ventaja del primer jugador, este pierde si hace una línea de más de siete fichas (incluso si se extiende más allá de la región de 15x15), pero el segundo jugador sí puede ganar con una línea más larga.",
+    "irensei": "Irensei (en japonés: 囲連星) es una mezcla de Go y Gomoku. Consigue siete en línea dentro de la región central de 15x15 del tablero de Go para ganar. Para reducir la ventaja del primer jugador, este pierde si realiza un overline (incluso si se extiende más allá de la región de 15x15), pero el segundo jugador puede ganar con un overline.",
     "jacynth": "Un juego de cartas Decktet donde los oponentes compiten por el control de la ciudad de Jacynth. Coloca cartas, ejerce influencia y controla la mayor parte del área para ganar.",
     "kachit": "Un juego similar al ajedrez en un tablero de 4x4 donde intentas eliminar al rey opuesto o coronar al tuyo. Las piezas pueden cambiar su orientación después de moverse.",
     "knightline": "Un juego de conexión de cuatro en fila que se juega dividiendo una pila de caballos en una cuadrícula sin límites.",
@@ -1272,6 +1272,7 @@
     },
     "calculus": {
       "#board": {
+        "name": "Tablero predeterminado",
         "description": "Aproximadamente 12 piezas de ancho"
       },
       "width-10": {
@@ -1675,9 +1676,28 @@
       }
     },
     "crosshairs": {
+      "#clouds": {
+        "name": "16 nubes"
+      },
+      "clouds-22": {
+        "name": "22 nubes",
+        "description": "Coloca 22 nubes en lugar de 16. Con el límite predeterminado para el tamaño del banco de nubes, puede que no siempre se logre la cantidad total."
+      },
+      "clouds-28": {
+        "name": "28 nubes",
+        "description": "Coloca 28 nubes en lugar de 16. Con el límite predeterminado para el tamaño del banco de nubes, puede que no siempre se logre la cantidad total."
+      },
       "random-start": {
-        "name": "Nubes aleatorias",
-        "description": "No hay fase de colocación de nubes. El sistema las coloca al azar."
+        "name": "Nubes aleatorias simétricas",
+        "description": "No hay fase de colocación de nubes. El sistema coloca las nubes al azar con simetría rotacional de 180 grados."
+      },
+      "asymmetric-random-start": {
+        "name": "Nubes aleatorias asimétricas",
+        "description": "No hay fase de colocación de nubes. El sistema coloca las nubes al azar sin requerir simetría."
+      },
+      "unbounded-cloud-banks": {
+        "name": "Bancos de nubes ilimitados",
+        "description": "Los bancos de nubes pueden contener cualquier cantidad de nubes."
       }
     },
     "crossway": {
@@ -5736,8 +5756,10 @@
     },
     "crosshairs": {
       "PLACE_CLOUD": "Haz clic en una casilla vacía para colocar una nube. Las nubes no pueden ser mayores a 2 hexágonos.",
+      "PLACE_CLOUD_UNBOUNDED": "Haz clic en una casilla vacía para colocar una nube.",
       "CLOUD_OCCUPIED": "Ya hay una nube en {{cell}}.",
       "CLOUD_TOO_BIG": "No puedes colocar una nube en {{cell}}. Solo se permiten nubes de tamaño 2. Esta nube sería demasiado grande.",
+      "MUST_PASS_BEFORE_ENTRY": "Debes pasar para que el jugador 1 ingrese el primer avión.",
       "INITIAL_INSTRUCTIONS_one": "Selecciona un avión para moverlo o ingresa un nuevo avión en tu borde inicial. Debes mover/ingresar {{count}} avión este turno.",
       "INITIAL_INSTRUCTIONS_other": "Selecciona un avión para moverlo o ingresa un nuevo avión en tu borde inicial. Debes mover/ingresar {{count}} aviones este turno.",
       "INITIAL_INSTRUCTIONS_NO_ENTRY_one": "Selecciona un avión para moverlo. Debes mover {{count}} avión este turno. Haz clic en los aviones enemigos si crees que pueden ser derribados.",

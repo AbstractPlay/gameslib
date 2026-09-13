@@ -132,7 +132,7 @@
     "intermedium": "Semez des piles pour encercler et capturer. Gagnez en capturant la cité adverse.",
     "invector": "Éliminez l'armée adverse tout en vous rapprochant du centre du plateau.",
     "iqishiqi": "Iqishiqi (prononcé EE-chee-shee-chee) est un jeu de stratégie abstrait qui se joue sur un plateau hexagonal composé de cases hexagonales. Les joueurs possèdent des bords désignés du plateau et, en plaçant habilement des pierres, ils poussent une pierre neutre sur le plateau. Un joueur gagne s'il déplace la pierre neutre vers l'un de ses bords, ou s'il laisse son adversaire sans coup possible.",
-    "irensei": "Irensei est un mélange de Go et de Gomoku. Alignez sept pierres à la suite dans la région centrale de 15x15 du plateau de Go pour gagner. Pour réduire l'avantage du premier joueur, celui-ci perd s'il réalise un suralignement (même s'il dépasse de la zone 15x15), mais le second joueur peut gagner par suralignement.",
+    "irensei": "L'Irensei (japonais : 囲連星) est un mélange de Go et de Gomoku. Alignez sept pierres d'affilée dans la zone centrale de 15x15 du goban pour gagner. Pour réduire l'avantage du premier joueur, celui-ci perd s'il réalise un suralignement (même si celui-ci s'étend au-delà de la zone de 15x15), mais le second joueur peut gagner par suralignement.",
     "jacynth": "Un jeu de cartes Decktet où les adversaires luttent pour le contrôle de la cité de Jacynth. Placez des cartes, exercez votre influence et contrôlez la plus grande zone pour gagner.",
     "kachit": "Un jeu proche des échecs joué sur un plateau 4x4 où vous essayez d'éliminer le roi adverse ou de promouvoir le vôtre. Les pièces peuvent changer d'orientation après s'être déplacées.",
     "knightline": "Un jeu de connexion à quatre alignés joué en divisant une pile de cavaliers sur une grille illimitée.",
@@ -1272,6 +1272,7 @@
     },
     "calculus": {
       "#board": {
+        "name": "Plateau par défaut",
         "description": "Environ 12 pièces de largeur"
       },
       "width-10": {
@@ -1675,9 +1676,28 @@
       }
     },
     "crosshairs": {
+      "#clouds": {
+        "name": "16 nuages"
+      },
+      "clouds-22": {
+        "name": "22 nuages",
+        "description": "Placez 22 nuages au lieu de 16. Avec la limite de taille par défaut de la réserve de nuages, le nombre total ne pourra pas toujours être atteint."
+      },
+      "clouds-28": {
+        "name": "28 nuages",
+        "description": "Placez 28 nuages au lieu de 16. Avec la limite de taille par défaut de la réserve de nuages, le nombre total ne pourra pas toujours être atteint."
+      },
       "random-start": {
-        "name": "Nuages aléatoires",
-        "description": "Il n'y a pas de phase de placement des nuages. Ils sont placés aléatoirement par le système."
+        "name": "Nuages aléatoires symétriques",
+        "description": "Il n'y a pas de phase de placement des nuages. Le système place les nuages aléatoirement avec une symétrie de rotation de 180 degrés."
+      },
+      "asymmetric-random-start": {
+        "name": "Nuages aléatoires asymétriques",
+        "description": "Il n'y a pas de phase de placement des nuages. Le système place les nuages aléatoirement sans exiger de symétrie."
+      },
+      "unbounded-cloud-banks": {
+        "name": "Réserves de nuages illimitées",
+        "description": "Les réserves de nuages peuvent contenir n'importe quel nombre de nuages."
       }
     },
     "crossway": {
@@ -5736,8 +5756,10 @@
     },
     "crosshairs": {
       "PLACE_CLOUD": "Cliquez sur une case vide pour placer un nuage. Les nuages ne peuvent pas dépasser 2 hexagones.",
+      "PLACE_CLOUD_UNBOUNDED": "Cliquez sur une case vide pour placer un nuage.",
       "CLOUD_OCCUPIED": "Il y a déjà un nuage en {{cell}}.",
       "CLOUD_TOO_BIG": "Vous ne pouvez pas placer de nuage en {{cell}}. Seuls les nuages de taille 2 sont autorisés. Ce nuage serait trop grand.",
+      "MUST_PASS_BEFORE_ENTRY": "Vous devez passer pour que le joueur 1 fasse entrer le premier avion.",
       "INITIAL_INSTRUCTIONS_one": "Sélectionnez un avion à déplacer, ou faites entrer un nouvel avion sur votre bord de départ. Vous devez déplacer/faire entrer {{count}} avion ce tour-ci.",
       "INITIAL_INSTRUCTIONS_other": "Sélectionnez un avion à déplacer, ou faites entrer un nouvel avion sur votre bord de départ. Vous devez déplacer/faire entrer {{count}} avions ce tour-ci.",
       "INITIAL_INSTRUCTIONS_NO_ENTRY_one": "Sélectionnez un avion à déplacer. Vous devez déplacer {{count}} avion ce tour-ci. Cliquez sur les avions ennemis si vous pensez qu'ils peuvent être abattus.",

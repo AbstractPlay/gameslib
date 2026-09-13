@@ -61,6 +61,12 @@ That recomputes `golden.stateNormalized` from the saved states (no DynamoDB). Af
 npm run refresh-turnModel-golden-moves
 ```
 
+When games gain the `scores` flag and published records include per-player `score`, sync vendored `publishedRecord` headers:
+
+```bash
+npm run refresh-turnModel-published-scores
+```
+
 After intentional chat-log copy or collector changes:
 
 ```bash

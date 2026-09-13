@@ -60,6 +60,11 @@ export {
     assertValidVariantSelection,
     resolveIncomingVariants,
 } from "./common/variant-constraints.js";
+export {
+    expandVariantLabels,
+    variantUidsForBatchRating,
+    filledVariantUidsForExpand,
+} from "./common/expandVariants.js";
 export type {
     ResolveIncomingVariantsMode,
     VariantConstraintReason,

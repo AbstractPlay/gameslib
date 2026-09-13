@@ -14,6 +14,13 @@ describe("expandVariantLabels", () => {
         expect(labels).to.contain("Akimbo");
     });
 
+    it("orders akimbo labels by variant group then uid (empty vs explicit board size)", () => {
+        const emptyLabels = expandVariantLabels("akimbo", 2, []);
+        const nineLabels = expandVariantLabels("akimbo", 2, ["size-9"]);
+        expect(emptyLabels).to.deep.equal(["13x13 board", "Akimbo"]);
+        expect(nineLabels).to.deep.equal(["9x9 board", "Akimbo"]);
+    });
+
     it("fills missing groups for partial uids (go)", () => {
         const labels = expandVariantLabels("go", 2, ["9x9"]);
         expect(

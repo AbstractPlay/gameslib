@@ -1,0 +1,557 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+import "mocha";
+import { expect } from "chai";
+import {
+    StorisendeGame,
+    type IStorisendeState,
+    type playerid,
+    type Tile,
+} from "../../src/games/storisende.js";
+import { StorisendeHex } from "../../src/games/storisende/hex.js";
+import { x2uid } from "../../src/common/index.js";
+import {
+    expectMovesMatchReference,
+    movesReference,
+    sortedMoves,
+} from "../fixtures/storisende/movesReference.js";
+import midgameHex6State from "../fixtures/storisende/midgameHex6State.json" with { type: "json" };
+
+type CellPatch = { tile?: Tile; stack?: playerid[] };
+
+export function storisendeFromState(state: IStorisendeState): StorisendeGame {
+    return new StorisendeGame(state);
+}
+
+export function storisendeFrom(opts: {
+    variants?: string[];
+    currplayer?: playerid;
+    lastmove?: string;
+    stackDepth?: number;
+    cells?: Record<string, CellPatch>;
+}): StorisendeGame {
+    const variants = opts.variants ?? [];
+    const seed = new StorisendeGame(undefined, variants);
+    const hexes = seed.board.serialize().map(hex => {
+        const alg = seed.board.hex2algebraic(hex);
+        const patch = opts.cells?.[alg];
+        if (patch === undefined) {
+            return hex;
+        }
+        return StorisendeHex.create({
+            q: hex.q,
+            r: hex.r,
+            tile: patch.tile ?? hex.tile,
+            stack: patch.stack ?? hex.stack,
+        });
+    });
+
+    const depth = opts.stackDepth ?? 3;
+    const version = StorisendeGame.gameinfo.version;
+    const stack = [];
+    for (let i = 0; i < depth; i++) {
+        const isLast = i === depth - 1;
+        stack.push({
+            _version: version,
+            _results: [],
+            _timestamp: new Date(),
+            currplayer: isLast ? (opts.currplayer ?? 1) : (((i + 1) % 2) + 1) as playerid,
+            board: hexes,
+            lastmove: isLast ? opts.lastmove : (i > 0 ? "pass" : undefined),
+        });
+    }
+
+    const state: IStorisendeState = {
+        game: "storisende",
+        numplayers: 2,
+        variants,
+        gameover: false,
+        winner: [],
+        stack,
+    };
+    return new StorisendeGame(state);
+}
+
+function enumerateFromCell(g: StorisendeGame, mover: playerid, from: string): string[] {
+    return (g as unknown as StorisendeGame & {
+        enumerateFromCell(m: playerid, f: string): string[];
+    }).enumerateFromCell(mover, from);
+}
+
+function sortedMovesFromCell(g: StorisendeGame, mover: playerid, from: string): string[] {
+    return sortedMoves(enumerateFromCell(g, mover, from));
+}
+
+function movesFromCellInFullList(g: StorisendeGame, from: string): string[] {
+    return sortedMoves(
+        g.moves().filter(m => m !== "pass" && (m.startsWith(`${from}-`) || m.startsWith(`${from}:`))),
+    );
+}
+
+function legacyVirginLeaveKind(g: StorisendeGame, cell: string): "wall" | "territory" {
+    const terr = g.board.territories;
+    const terrNeighbours = new Set<string>();
+    for (const n of g.board.graph.neighbours(cell)) {
+        const found = terr.find(t => t.includes(n));
+        if (found !== undefined) {
+            terrNeighbours.add(x2uid(found));
+        }
+    }
+    return terrNeighbours.size > 1 ? "wall" : "territory";
+}
+
+function modernVirginLeaveKind(g: StorisendeGame, cell: string): "wall" | "territory" {
+    return g.board.countDistinctTerritoryComponentsAdjacent(cell) > 1 ? "wall" : "territory";
+}
+
+function regularMoveLegal(
+    g: StorisendeGame,
+    mover: playerid,
+    from: string,
+    to: string,
+    height: number,
+): boolean {
+    const check = (g as unknown as StorisendeGame & {
+        regularMoveCheck(m: playerid, f: string, t: string, h: number): string | undefined;
+    }).regularMoveCheck;
+    return check.call(g, mover, from, to, height) === undefined;
+}
+
+function findStraightMove(
+    seed: StorisendeGame,
+    minDist: number,
+): { from: string; to: string; dist: number } | undefined {
+    const graph = seed.board.graph;
+    for (const fromHex of seed.board.hexes) {
+        if (fromHex.tile === "wall") {
+            continue;
+        }
+        const from = seed.board.hex2algebraic(fromHex);
+        for (const dir of graph.allDirs) {
+            const ray = graph.ray(from, dir);
+            for (let i = minDist - 1; i < ray.length; i++) {
+                const to = ray[i];
+                const thex = seed.board.getHexAtAlgebraic(to);
+                if (thex === undefined || thex.tile === "wall") {
+                    break;
+                }
+                const dist = i + 1;
+                if (dist >= minDist) {
+                    return { from, to, dist };
+                }
+            }
+        }
+    }
+    return undefined;
+}
+
+function parseRegularMoveNotation(m: string, g: StorisendeGame): { from: string; to: string; height: number } {
+    if (m === "pass") {
+        throw new Error("pass");
+    }
+    const [left, to] = m.split("-");
+    const [from, heightStr] = left.split(":");
+    const fhex = g.board.getHexAtAlgebraic(left.includes(":") ? from : left);
+    if (fhex === undefined) {
+        throw new Error(`no from in ${m}`);
+    }
+    const height = left.includes(":") ? parseInt(heightStr, 10) : fhex.stack.length;
+    return { from: left.includes(":") ? from : left, to, height };
+}
+
+function firstStraightTarget(g: StorisendeGame, from: string, maxDist: number): { to: string; dist: number } | undefined {
+    const graph = g.board.graph;
+    for (const dir of graph.allDirs) {
+        const ray = graph.ray(from, dir);
+        for (let i = 0; i < Math.min(ray.length, maxDist); i++) {
+            const to = ray[i];
+            const thex = g.board.getHexAtAlgebraic(to);
+            if (thex !== undefined && thex.tile !== "wall") {
+                return { to, dist: i + 1 };
+            }
+        }
+    }
+    return undefined;
+}
+
+function buildFullStackSlide(): StorisendeGame {
+    const seed = new StorisendeGame();
+    const fromHex = seed.board.hexes.find(h => h.stack.length === 0 && h.tile === "virgin");
+    expect(fromHex).to.not.equal(undefined);
+    const from = seed.board.hex2algebraic(fromHex!);
+    const hit = firstStraightTarget(seed, from, 1);
+    expect(hit).to.not.equal(undefined);
+    return storisendeFrom({
+        cells: {
+            [from]: { stack: [1] },
+        },
+        currplayer: 1,
+        lastmove: "pass",
+    });
+}
+
+function buildSubstackFixture(): StorisendeGame {
+    const seed = new StorisendeGame();
+    const hit = findStraightMove(seed, 2);
+    expect(hit).to.not.equal(undefined);
+    return storisendeFrom({
+        cells: {
+            [hit!.from]: { stack: [1, 1, 1] },
+        },
+        currplayer: 1,
+    });
+}
+
+function buildWallClimbBlocked(): StorisendeGame {
+    const seed = new StorisendeGame();
+    const graph = seed.board.graph;
+    const fromHex = seed.board.hexes.find(h => h.stack.length === 0 && h.tile === "virgin");
+    const from = seed.board.hex2algebraic(fromHex!);
+    for (const dir of graph.allDirs) {
+        const ray = graph.ray(from, dir);
+        if (ray.length >= 1) {
+            const to = ray[0];
+            return storisendeFrom({
+                cells: {
+                    [from]: { stack: [1], tile: "virgin" },
+                    [to]: { tile: "wall", stack: [] },
+                },
+                currplayer: 1,
+            });
+        }
+    }
+    throw new Error("could not build wall-climb fixture");
+}
+
+function buildWallJumpBlocked(): { g: StorisendeGame; blockedMove: string } {
+    const seed = new StorisendeGame();
+    const graph = seed.board.graph;
+    const fromHex = seed.board.hexes.find(h => h.stack.length === 0 && h.tile === "virgin");
+    const from = seed.board.hex2algebraic(fromHex!);
+    for (const dir of graph.allDirs) {
+        const ray = graph.ray(from, dir);
+        if (ray.length >= 2) {
+            const mid = ray[0];
+            const to = ray[1];
+            const blockedMove = `${from}-${to}`;
+            const g = storisendeFrom({
+                cells: {
+                    [from]: { stack: [1, 1], tile: "virgin" },
+                    [mid]: { tile: "wall", stack: [] },
+                },
+                currplayer: 1,
+            });
+            return { g, blockedMove };
+        }
+    }
+    throw new Error("could not build wall-jump blocked fixture");
+}
+
+function buildWallJumpAllowed(): StorisendeGame {
+    const seed = new StorisendeGame();
+    const graph = seed.board.graph;
+    const fromHex = seed.board.hexes.find(h => h.stack.length === 0 && h.tile === "virgin");
+    const from = seed.board.hex2algebraic(fromHex!);
+    for (const dir of graph.allDirs) {
+        const ray = graph.ray(from, dir);
+        if (ray.length >= 2) {
+            const mid = ray[0];
+            return storisendeFrom({
+                cells: {
+                    [from]: { stack: [1, 1], tile: "virgin" },
+                    [mid]: { tile: "wall", stack: [1] },
+                },
+                currplayer: 1,
+            });
+        }
+    }
+    throw new Error("could not build wall-jump allowed fixture");
+}
+
+function buildFromWall(): StorisendeGame {
+    const seed = new StorisendeGame();
+    const graph = seed.board.graph;
+    const fromHex = seed.board.hexes.find(h => h.stack.length === 0 && h.tile === "virgin");
+    const from = seed.board.hex2algebraic(fromHex!);
+    for (const dir of graph.allDirs) {
+        const ray = graph.ray(from, dir);
+        if (ray.length >= 1) {
+            const wallCell = ray[0];
+            return storisendeFrom({
+                cells: {
+                    [from]: { stack: [1], tile: "wall" },
+                    [wallCell]: { tile: "wall", stack: [] },
+                },
+                currplayer: 1,
+            });
+        }
+    }
+    throw new Error("could not build from-wall fixture");
+}
+
+function buildPlayerOverride(): StorisendeGame {
+    const seed = new StorisendeGame();
+    const fromHex = seed.board.hexes.find(h => h.stack.length === 0 && h.tile === "virgin");
+    const from = seed.board.hex2algebraic(fromHex!);
+    const hit = firstStraightTarget(seed, from, 1);
+    expect(hit).to.not.equal(undefined);
+    return storisendeFrom({
+        cells: {
+            [from]: { stack: [2] },
+        },
+        currplayer: 1,
+        lastmove: "pass",
+    });
+}
+
+const regressionFixtures: {
+    name: string;
+    build: () => StorisendeGame;
+    players?: playerid[];
+    skipValidate?: boolean;
+    timeoutMs?: number;
+}[] = [
+    {
+        name: "post-opening-pass",
+        build: () => buildFullStackSlide(),
+    },
+    {
+        name: "full-stack-slide",
+        build: () => buildFullStackSlide(),
+    },
+    {
+        name: "substack",
+        build: () => buildSubstackFixture(),
+    },
+    {
+        name: "wall-climb-blocked",
+        build: () => buildWallClimbBlocked(),
+    },
+    {
+        name: "wall-jump-blocked",
+        build: () => buildWallJumpBlocked().g,
+    },
+    {
+        name: "wall-jump-allowed",
+        build: () => buildWallJumpAllowed(),
+    },
+    {
+        name: "from-wall",
+        build: () => buildFromWall(),
+    },
+    {
+        name: "board-hex6-smoke",
+        build: () => storisendeFrom({
+            variants: ["board-hex6"],
+            cells: { b3: { stack: [1, 1] } },
+            currplayer: 1,
+            lastmove: "pass",
+        }),
+    },
+    {
+        name: "midgame-hex6-vendored",
+        build: () => storisendeFromState(midgameHex6State as IStorisendeState),
+        timeoutMs: 120_000,
+    },
+];
+
+describe("Storisende", () => {
+    describe("moves() regression", () => {
+        for (const { name, build, players, skipValidate, timeoutMs } of regressionFixtures) {
+            for (const player of players ?? [undefined as unknown as playerid]) {
+                const label = player === undefined ? name : `${name} (player ${player})`;
+                it(`matches reference oracle for ${label}`, function() {
+                    if (timeoutMs !== undefined) {
+                        this.timeout(timeoutMs);
+                    }
+                    const g = build();
+                    if (player !== undefined && player !== g.currplayer) {
+                        return;
+                    }
+                    expectMovesMatchReference(g, player);
+                });
+            }
+            if (!skipValidate) {
+                it(`every move validates for ${name}`, function() {
+                    if (timeoutMs !== undefined) {
+                        this.timeout(timeoutMs);
+                    }
+                    const g = build();
+                    for (const move of g.moves()) {
+                        expect(g.validateMove(move).valid, move).to.be.true;
+                    }
+                });
+            }
+        }
+
+        it("round-trip smoke: one ply still matches reference", () => {
+            const g = buildFullStackSlide();
+            const move = g.moves().find(m => m !== "pass");
+            expect(move).to.not.equal(undefined);
+            const g2 = g.move(move!, { trusted: true });
+            expectMovesMatchReference(g2);
+        });
+    });
+
+    describe("moves() contracts", () => {
+        it("opening stack length under 3 returns no moves", () => {
+            const g = new StorisendeGame();
+            expect(g.moves()).to.deep.equal([]);
+        });
+
+        it("post-opening includes pass", () => {
+            const g = regressionFixtures.find(f => f.name === "post-opening-pass")!.build();
+            expect(g.moves()).to.include("pass");
+        });
+
+        it("substack fixture includes colon notation", () => {
+            const g = regressionFixtures.find(f => f.name === "substack")!.build();
+            expect(g.moves().some(m => m.includes(":"))).to.be.true;
+        });
+
+        it("wall-climb fixture excludes landing on wall", () => {
+            const g = buildWallClimbBlocked();
+            const onWall = g.moves().filter(m => {
+                if (m === "pass") {
+                    return false;
+                }
+                const { to } = parseRegularMoveNotation(m, g);
+                return g.board.getHexAtAlgebraic(to)?.tile === "wall";
+            });
+            expect(onWall).to.deep.equal([]);
+        });
+
+        it("wall-jump-blocked omits full move over foreign wall", () => {
+            const { g, blockedMove } = buildWallJumpBlocked();
+            expect(g.moves()).to.not.include(blockedMove);
+            expect(movesReference(g)).to.not.include(blockedMove);
+        });
+    });
+
+    describe("moves(player) override", () => {
+        it("lists moves for the requested owner when currplayer differs", () => {
+            const g = buildPlayerOverride();
+            expect(g.currplayer).to.equal(1);
+            const forTwo = g.moves(2).filter(m => m !== "pass");
+            expect(forTwo.length).to.be.greaterThan(0);
+            const forOne = g.moves(1).filter(m => m !== "pass");
+            expect(forOne).to.deep.equal([]);
+            for (const m of forTwo) {
+                const { from, to, height } = parseRegularMoveNotation(m, g);
+                expect(regularMoveLegal(g, 2, from, to, height), m).to.be.true;
+            }
+        });
+    });
+
+    describe("enumerateFromCell", () => {
+        for (const { name, build } of regressionFixtures) {
+            it(`agrees with full moves() for each source on ${name}`, () => {
+                const g = build();
+                const sources = new Set<string>();
+                for (const m of g.moves()) {
+                    if (m === "pass") {
+                        continue;
+                    }
+                    const { from } = parseRegularMoveNotation(m, g);
+                    sources.add(from);
+                }
+                for (const from of sources) {
+                    expect(sortedMovesFromCell(g, g.currplayer, from)).to.deep.equal(
+                        movesFromCellInFullList(g, from),
+                        `from ${from}`,
+                    );
+                }
+            });
+        }
+    });
+
+    describe("partial dots", () => {
+        it("match dotDestinationsFrom enumerateFromCell", () => {
+            const g = buildFullStackSlide();
+            const from = g.moves().find(m => m !== "pass")!.split("-")[0].split(":")[0];
+            const partial = g.move(from, { partial: true, trusted: true });
+            const expected = new Set(
+                enumerateFromCell(partial, partial.currplayer, from).map(mv => mv.split("-")[1]!),
+            );
+            const dots = (partial as unknown as { dots: string[] }).dots;
+            expect(new Set(dots)).to.deep.equal(expected);
+        });
+    });
+
+    describe("virgin leave conversion", () => {
+        it("matches legacy territory-component count on midgame cells", () => {
+            const g = storisendeFromState(midgameHex6State as IStorisendeState);
+            const cells = g.board.hexes.map(h => g.board.hex2algebraic(h));
+            for (const cell of cells) {
+                expect(modernVirginLeaveKind(g, cell)).to.equal(
+                    legacyVirginLeaveKind(g, cell),
+                    cell,
+                );
+            }
+        });
+    });
+
+    describe("moves() performance (midgame hex6)", () => {
+        it("matches reference and logs timings", function() {
+            this.timeout(120_000);
+            const g = storisendeFromState(midgameHex6State as IStorisendeState);
+            g.moves();
+
+            const t0 = performance.now();
+            const expected = sortedMoves(movesReference(g));
+            const oracleMs = performance.now() - t0;
+
+            const t1 = performance.now();
+            const actual = sortedMoves(g.moves());
+            const fastMs = performance.now() - t1;
+
+            expect(actual).to.deep.equal(expected);
+            const ratio = oracleMs / Math.max(fastMs, 0.001);
+            // eslint-disable-next-line no-console -- intentional bench output for local STORISENDE_BENCH runs
+            console.info(
+                `[storisende midgame] oracle=${oracleMs.toFixed(1)}ms fast=${fastMs.toFixed(1)}ms ratio=${ratio.toFixed(1)}x`,
+            );
+
+            if (process.env.STORISENDE_BENCH === "1") {
+                expect(fastMs).to.be.lessThan(oracleMs * 0.25);
+            }
+        });
+
+        it("logs enumerateFromCell vs full moves on a busy source", function() {
+            this.timeout(120_000);
+            const g = storisendeFromState(midgameHex6State as IStorisendeState);
+            let bestFrom = "";
+            let bestCount = 0;
+            for (const hex of g.board.hexes) {
+                if (hex.stack.length === 0) {
+                    continue;
+                }
+                const from = g.board.hex2algebraic(hex);
+                const n = enumerateFromCell(g, g.currplayer, from).length;
+                if (n > bestCount) {
+                    bestCount = n;
+                    bestFrom = from;
+                }
+            }
+            expect(bestFrom).to.not.equal("");
+
+            g.moves();
+            const t0 = performance.now();
+            sortedMoves(g.moves());
+            const fullMs = performance.now() - t0;
+
+            const t1 = performance.now();
+            sortedMoves(enumerateFromCell(g, g.currplayer, bestFrom));
+            const fromMs = performance.now() - t1;
+
+            const ratio = fullMs / Math.max(fromMs, 0.001);
+            // eslint-disable-next-line no-console -- intentional bench output for local STORISENDE_BENCH runs
+            console.info(
+                `[storisende midgame] from=${bestFrom} full=${fullMs.toFixed(1)}ms fromOnly=${fromMs.toFixed(1)}ms ratio=${ratio.toFixed(1)}x`,
+            );
+
+            if (process.env.STORISENDE_BENCH === "1") {
+                expect(fromMs).to.be.lessThan(fullMs);
+            }
+        });
+    });
+});

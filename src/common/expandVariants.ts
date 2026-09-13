@@ -52,6 +52,37 @@ function buildVariantMaps(all: Variant[]): VariantMaps | undefined {
     };
 }
 
+/** Group name, then uid — grouped variants before ungrouped. */
+export function compareVariantUidsForExpand(
+    a: string,
+    b: string,
+    varId2Group: Map<string, string | undefined>,
+): number {
+    const ga = varId2Group.get(a);
+    const gb = varId2Group.get(b);
+    if (ga !== undefined && gb !== undefined) {
+        const byGroup = ga.localeCompare(gb);
+        if (byGroup !== 0) {
+            return byGroup;
+        }
+        return a.localeCompare(b);
+    }
+    if (ga !== undefined) {
+        return -1;
+    }
+    if (gb !== undefined) {
+        return 1;
+    }
+    return a.localeCompare(b);
+}
+
+function sortVariantUidsForExpand(
+    uids: readonly string[],
+    varId2Group: Map<string, string | undefined>,
+): string[] {
+    return [...uids].sort((a, b) => compareVariantUidsForExpand(a, b, varId2Group));
+}
+
 /** Shared fill logic for expand labels and batch-rating uid keys. */
 export function filledVariantUidsForExpand(
     maps: VariantMaps,
@@ -60,7 +91,10 @@ export function filledVariantUidsForExpand(
     const { variantMap, variantGroups, varId2Group } = maps;
 
     if (rawUids.length === 0) {
-        return [...variantMap.keys()].filter((k) => k.startsWith("#")).sort((a, b) => a.localeCompare(b));
+        return sortVariantUidsForExpand(
+            [...variantMap.keys()].filter((k) => k.startsWith("#")),
+            varId2Group,
+        );
     }
 
     const vars = [...rawUids];
@@ -74,7 +108,7 @@ export function filledVariantUidsForExpand(
     for (const g of groups) {
         vars.push(`#${g}`);
     }
-    return [...new Set(vars)].sort((a, b) => a.localeCompare(b));
+    return sortVariantUidsForExpand([...new Set(vars)], varId2Group);
 }
 
 function variantMapsForMeta(metaUid: string, playerCount: number): VariantMaps | undefined {

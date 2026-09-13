@@ -1272,6 +1272,7 @@
     },
     "calculus": {
       "#board": {
+        "name": "Scacchiera predefinita",
         "description": "Circa 12 pezzi di larghezza"
       },
       "width-10": {

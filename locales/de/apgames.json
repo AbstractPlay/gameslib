@@ -1272,6 +1272,7 @@
     },
     "calculus": {
       "#board": {
+        "name": "Standardbrett",
         "description": "Ungefähr 12 Steine breit"
       },
       "width-10": {

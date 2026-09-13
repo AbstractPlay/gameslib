@@ -1272,6 +1272,7 @@
     },
     "calculus": {
       "#board": {
+        "name": "Plateau par défaut",
         "description": "Environ 12 pièces de largeur"
       },
       "width-10": {

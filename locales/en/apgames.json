@@ -1272,6 +1272,7 @@
         },
         "calculus": {
             "#board": {
+                "name": "Default board",
                 "description": "Roughly 12 pieces across"
             },
             "width-10": {

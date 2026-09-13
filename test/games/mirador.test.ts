@@ -37,15 +37,15 @@ describe("Mirador", () => {
         const moves = game.moves();
         expect(moves).to.have.length(38 * 38 + 1);
         expect(moves).to.include.members(["a38", "z38", "aa38", "al1", "declare"]);
-        expect(game.validateMove("aa38").valid).to.be.true;
-        expect(game.validateMove("al1").valid).to.be.true;
-        expect(game.validateMove("am1").valid).to.be.false;
-        expect(game.validateMove("al0").valid).to.be.false;
+        expect(game.validateMove("aa38").valid).to.equal(true);
+        expect(game.validateMove("al1").valid).to.equal(true);
+        expect(game.validateMove("am1").valid).to.equal(false);
+        expect(game.validateMove("al0").valid).to.equal(false);
 
         const click = game.handleClick("", 1, 27);
-        expect(click.valid).to.be.true;
+        expect(click.valid).to.equal(true);
         expect(click.move).to.equal("aa38");
-        expect(game.handleClick("", 1, 39).valid).to.be.false;
+        expect(game.handleClick("", 1, 39).valid).to.equal(false);
 
         game.move("al1");
         expect(game.board[37][37]).to.equal(1);
@@ -63,7 +63,7 @@ describe("Mirador", () => {
         game.move("declare");
 
         const validation = game.validateMove("aa38-al1");
-        expect(validation.valid).to.be.true;
+        expect(validation.valid).to.equal(true);
         expect(validation.complete).to.equal(0);
     });
 
@@ -71,7 +71,7 @@ describe("Mirador", () => {
         const game = new MiradorGame(undefined, ["size-40"]);
         game.move("declare");
 
-        expect(game.validateMove("a38-c37").valid).to.be.false;
+        expect(game.validateMove("a38-c37").valid).to.equal(false);
     });
 
     it("checks connections against the enlarged board edge", () => {
@@ -80,6 +80,6 @@ describe("Mirador", () => {
         game.board[0][25] = 1;
         game.board[0][30] = 2;
 
-        expect(game["isConnected"](true, 1)).to.be.false;
+        expect(game["isConnected"](true, 1)).to.equal(false);
     });
 });

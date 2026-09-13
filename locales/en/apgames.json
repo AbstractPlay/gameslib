@@ -968,6 +968,9 @@
             "board-19": {
                 "name": "19x19 board"
             },
+            "board-23": {
+                "name": "23x23 board"
+            },
             "board-27": {
                 "name": "27x27 board"
             },

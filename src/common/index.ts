@@ -43,11 +43,6 @@ export {
     assertValidVariantSelection,
     resolveIncomingVariants,
 } from "./variant-constraints.js";
-export {
-    expandVariantLabels,
-    variantUidsForBatchRating,
-    filledVariantUidsForExpand,
-} from "./expandVariants.js";
 export type {
     ResolveIncomingVariantsMode,
     VariantConstraintReason,

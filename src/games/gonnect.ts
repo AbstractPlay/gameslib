@@ -27,7 +27,7 @@ export class GonnectGame extends GameBase {
         name: "Gonnect",
         uid: "gonnect",
         playercounts: [2],
-        version: "20260913",
+        version: "20240719",
         dateAdded: "2024-08-02",
         // i18next.t("apgames:descriptions.gonnect")
         description: "apgames:descriptions.gonnect",

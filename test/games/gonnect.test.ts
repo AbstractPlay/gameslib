@@ -47,6 +47,17 @@ describe("Gonnect", () => {
         expect(g.winner).to.eql([1, 2]);
     });
 
+    it("Black playing tengen alone, then two passes, wins on the final 1x1 subboard", () => {
+        // Default 13x13 board; tengen is "g7". Play it out with real moves rather than
+        // manipulating the board directly, to exercise the actual move/pass pipeline.
+        const g = new GonnectGame(undefined, ["cascading"]);
+        g.move("g7");   // Black (player 1) takes tengen
+        g.move("pass"); // White passes
+        g.move("pass"); // Black passes: two consecutive passes end the game
+        expect(g.gameover).to.be.true;
+        expect(g.winner).to.eql([1]);
+    });
+
     it("Cascading tiebreak: sole occupant of the centre point wins when nobody spans the full board", () => {
         const g = new GonnectGame(undefined, ["size-9", "cascading"]);
         // Tengen of a 9x9 board (0-indexed 4,4) is "e5".

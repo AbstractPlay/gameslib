@@ -156,7 +156,7 @@
     "mimic": "Ein Spiel, bei dem gegnerische Figuren Ihre Züge nachahmen, während Sie darum wetten, als erster Spieler die hinterste Reihe zu erreichen.",
     "minefield": "Verbinden Sie gegenüberliegende Seiten des Bretts, aber bestimmte Figurenkonfigurationen sind verboten.",
     "minimize": "Der Spieler mit der größten kleinsten Gruppe gewinnt das Spiel.",
-    "mirador": "Mirador ist ein schnelles und aufregendes Verbindungsspiel auf einem 27 x 27 Quadratgitter, bei dem 2 x 2 Quadrate platziert werden, die Wachtürme darstellen. Es nutzt Sichtlinienverbindungen und gleichwertige Ziele (was es eher zu einem Rennen als zu einem reinen Verbindungsspiel macht).",
+    "mirador": "Mirador ist ein schnelles und aufregendes Verbindungsspiel, das auf einem quadratischen Raster (standardmäßig 28 x 28) gespielt wird, indem 2 x 2-Quadrate platziert werden, die Wachtürme darstellen. Es nutzt Sichtlinienverbindungen und gleichwertige Ziele (was es eher zu einem Rennen als zu einem reinen Verbindungsspiel macht).",
     "mixtour": "Zwei Spieler errichten Türme mit dem Ziel, einen Turm von mindestens fünf Höhe mit der eigenen Farbe an der Spitze zu schaffen. Der Clou ist zweifach: (1) Sie können gegnerische Steine bewegen und (2) die Reicheweite der Bewegung wird durch die Höhe des *Zielstapels* und nicht des gezogenen Stapels bestimmt.",
     "monkey": "Sie beginnen mit einer einzelnen Dame, die aus einem Stapel von Spielsteinen besteht. Bei Zügen ohne Schlagen lässt die Dame einen Einzelstein zurück. Damen und Einzelsteine ziehen und schlagen wie Schachdamen. Um zu gewinnen, schlagen Sie die gegnerische Dame oder lassen Sie dem Gegner keine legalen Züge.",
     "morphos": "Rein orthogonales Quadrat-Verbindungsspiel. In Ihrem Zug platzieren Sie einen eigenen Stein oder drehen einen gegnerischen Stein in einem von drei vorgegebenen Mustern um. Gewinnen Sie, indem Sie Ihre zwei gegenüberliegenden Seiten des Bretts mit einer Kette aus Steinen Ihrer Farbe verbinden.",
@@ -967,6 +967,9 @@
       },
       "board-19": {
         "name": "19x19-Brett"
+      },
+      "board-23": {
+        "name": "23x23-Brett"
       },
       "board-27": {
         "name": "27x27-Brett"
@@ -2613,6 +2616,14 @@
       },
       "size-8": {
         "name": "Hexagonales Brett (Basis 8)"
+      }
+    },
+    "mirador": {
+      "#board": {
+        "name": "28x28-Brett"
+      },
+      "size-40": {
+        "name": "40x40-Brett"
       }
     },
     "mixtour": {

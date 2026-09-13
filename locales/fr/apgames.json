@@ -156,7 +156,7 @@
     "mimic": "Un jeu où les pièces ennemies imitent vos déplacements pendant que vous faites la course pour être le premier joueur à atteindre la dernière rangée.",
     "minefield": "Reliez les côtés opposés du plateau, mais certaines configurations de pièces sont interdites.",
     "minimize": "Le joueur ayant le plus grand groupe le plus petit gagne la partie.",
-    "mirador": "Mirador est un jeu de connexion rapide et palpitant joué sur une grille carrée de 27 x 27 en plaçant des carrés de 2 x 2 pour représenter des tours de guet. Il utilise des connexions par ligne de vue et des objectifs équivalents (ce qui en fait plus une course qu'un pur jeu de connexion).",
+    "mirador": "Mirador est un jeu de connexion rapide et captivant qui se joue sur une grille carrée (28 x 28 par défaut) en plaçant des carrés de 2 x 2 représentant des tours de guet. Il utilise des connexions en ligne de mire et des objectifs équivalents (ce qui en fait davantage une course qu'un pur jeu de connexion).",
     "mixtour": "Deux joueurs créent des tours dans le but de former une tour d'au moins cinq étages avec leur couleur au sommet. Le rebondissement est double : (1) vous pouvez déplacer les pièces adverses et (2) la portée de déplacement est déterminée par la hauteur de la pile *cible* et non par celle de la pile qui se déplace.",
     "monkey": "Vous commencez avec une seule reine, composée d'une pile de dames. Lorsque vous effectuez des déplacements sans capture, la reine laisse un pion isolé derrière elle. Les reines et les pions isolés se déplacent et capturent comme des dames d'échecs. Pour gagner, capturez la reine adverse ou laissez votre adversaire sans coup légal.",
     "morphos": "Jeu de connexion sur grille carrée uniquement orthogonale. À votre tour, placez une pierre amie ou retournez une pierre ennemie selon l'un des trois motifs prédéterminés. Gagnez en reliant vos deux côtés opposés du plateau avec une chaîne de pierres de votre couleur.",
@@ -967,6 +967,9 @@
       },
       "board-19": {
         "name": "Plateau 19x19"
+      },
+      "board-23": {
+        "name": "Plateau 23x23"
       },
       "board-27": {
         "name": "Plateau 27x27"
@@ -2613,6 +2616,14 @@
       },
       "size-8": {
         "name": "Plateau hexagonal (base 8)"
+      }
+    },
+    "mirador": {
+      "#board": {
+        "name": "Plateau 28x28"
+      },
+      "size-40": {
+        "name": "Plateau 40x40"
       }
     },
     "mixtour": {

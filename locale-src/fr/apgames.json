@@ -640,8 +640,8 @@
     "out": "Le joueur ayant le plus grand groupe le plus petit gagne la partie."
   },
   "descriptions.mirador": {
-    "src": "Mirador is a fast and exhilarating connection game played on a 27 x 27 square grid by placing 2 x 2 squares to represent watchtowers. It uses line-of-sight connections and equivalent goals (making it more of a race than a pure connection game).",
-    "out": "Mirador est un jeu de connexion rapide et palpitant joué sur une grille carrée de 27 x 27 en plaçant des carrés de 2 x 2 pour représenter des tours de guet. Il utilise des connexions par ligne de vue et des objectifs équivalents (ce qui en fait plus une course qu'un pur jeu de connexion)."
+    "src": "Mirador is a fast and exhilarating connection game played on a square grid (28 x 28 by default) by placing 2 x 2 squares to represent watchtowers. It uses line-of-sight connections and equivalent goals (making it more of a race than a pure connection game).",
+    "out": "Mirador est un jeu de connexion rapide et captivant qui se joue sur une grille carrée (28 x 28 par défaut) en plaçant des carrés de 2 x 2 représentant des tours de guet. Il utilise des connexions en ligne de mire et des objectifs équivalents (ce qui en fait davantage une course qu'un pur jeu de connexion)."
   },
   "descriptions.mixtour": {
     "src": "Two players create towers with the goal of creating a tower at least five high with your colour at the top. The twist here is two-fold: (1) you can move opponent's pieces and (2) movement range is determined by the *target* stack height and not the moving stack height.",
@@ -14215,6 +14215,10 @@
     "src": "19x19 board",
     "out": "Plateau 19x19"
   },
+  "variants.asli.board-23.name": {
+    "src": "23x23 board",
+    "out": "Plateau 23x23"
+  },
   "variants.asli.board-27.name": {
     "src": "27x27 board",
     "out": "Plateau 27x27"
@@ -16538,6 +16542,14 @@
   "variants.minimize.size-8.name": {
     "src": "Hexagonal board (base-8)",
     "out": "Plateau hexagonal (base 8)"
+  },
+  "variants.mirador.#board.name": {
+    "src": "28x28 board",
+    "out": "Plateau 28x28"
+  },
+  "variants.mirador.size-40.name": {
+    "src": "40x40 board",
+    "out": "Plateau 40x40"
   },
   "variants.mixtour.five.description": {
     "src": "The winner is the first to score three points.",

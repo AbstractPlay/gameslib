@@ -393,7 +393,7 @@ export class MiradorGame extends GameBase {
                 localBoard[coords[1]][coords[0]] = this.currplayer;
                 localBoard[coords[1]][coords[0] + 1] = this.currplayer;
                 localBoard[coords[1] + 1][coords[0]] = this.currplayer;
-                localBoard[coords[1] + 1][coords[0]] = this.currplayer;
+                localBoard[coords[1] + 1][coords[0] + 1] = this.currplayer;
             } else {
                 if (!this.canPlace(this.board, this.currplayer, coords[0], coords[1])) {
                     result.valid = false;

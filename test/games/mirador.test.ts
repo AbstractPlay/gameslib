@@ -67,6 +67,13 @@ describe("Mirador", () => {
         expect(validation.complete).to.equal(0);
     });
 
+    it("rejects adjacent placements within the same challenge response", () => {
+        const game = new MiradorGame(undefined, ["size-40"]);
+        game.move("declare");
+
+        expect(game.validateMove("a38-c37").valid).to.be.false;
+    });
+
     it("checks connections against the enlarged board edge", () => {
         const game = new MiradorGame(undefined, ["size-40"]);
         game.board[0][0] = 1;

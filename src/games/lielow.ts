@@ -223,6 +223,8 @@ export class LielowGame extends GameBase {
         dateAdded: "2023-12-24",
         // i18next.t("apgames:descriptions.lielow")
         description: "apgames:descriptions.lielow",
+        // i18next.t("apgames:notes.lielow")
+        notes: "apgames:notes.lielow",
         urls: ["https://boardgamegeek.com/boardgame/349408/lielow"],
         bggid: "349408",
         people: [

@@ -50,6 +50,26 @@ const recordFixtures: { variant: string; state: IStorisendeState }[] = (
     state: JSON.parse(readFileSync(join(recordsDir, entry.file), "utf8")) as IStorisendeState,
 }));
 
+/** Deterministic plies for compact-wire replay tests (avoids early EOG from random pass / blitz). */
+function steadyStorisendeMove(g: StorisendeGame): string {
+    if (g.stack.length < 3) {
+        const empties = g.board.hexes
+            .filter(h => h.stack.length === 0)
+            .sort((a, b) => (a.q !== b.q ? a.q - b.q : a.r - b.r));
+        const h0 = empties[0]!;
+        const h1 = empties[1]!;
+        const a0 = g.board.hex2algebraic(h0);
+        const a1 = g.board.hex2algebraic(h1);
+        return `${a0},${a0},${a1},${a1}`;
+    }
+    const options = g.moves().filter(m => m !== "pass").sort();
+    const m = options[0] ?? g.moves().sort()[0];
+    if (m === undefined) {
+        throw new Error("no legal moves");
+    }
+    return m;
+}
+
 describe("Storisende storage", () => {
     describe("boardCodec unit", () => {
         it("sparse round-trip matches full serialize on midgame top board", () => {
@@ -244,15 +264,8 @@ describe("Storisende storage", () => {
         it("replays 50+ ply compact game with keyframes", function() {
             this.timeout(180_000);
             let g = new StorisendeGame();
-            g = g.move(g.randomMove(), {trusted: true}) as StorisendeGame;
-            g = g.move(g.randomMove(), {trusted: true}) as StorisendeGame;
             while (g.stack.length < 52 && !g.gameover) {
-                const options = g.moves();
-                const m = options.find(x => x !== "pass") ?? options[0];
-                if (m === undefined) {
-                    break;
-                }
-                g = g.move(m, {trusted: true}) as StorisendeGame;
+                g = g.move(steadyStorisendeMove(g), {trusted: true}) as StorisendeGame;
             }
             expect(g.stack.length).to.be.at.least(52);
             assertCompactWireStack(g.stack);

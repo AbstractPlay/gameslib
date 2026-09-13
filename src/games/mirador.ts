@@ -58,6 +58,9 @@ export class MiradorGame extends GameBase {
         ],
         variants: [
             {
+                uid: "#board",
+            },
+            {
                 uid: "size-40",
                 group: "board",
             },
@@ -76,8 +79,14 @@ export class MiradorGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
 
+    private static readonly defaultBoardSize = 28;
+
     private get boardSize(): number {
-        return this.variants.includes("size-40") ? 40 : 28;
+        const sizeVariant = this.variants.find((variant) => /^size-\d+$/.test(variant));
+        if (sizeVariant === undefined) {
+            return MiradorGame.defaultBoardSize;
+        }
+        return Number.parseInt(sizeVariant.slice("size-".length), 10);
     }
 
     private get gridSize(): number {

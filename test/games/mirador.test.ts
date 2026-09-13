@@ -3,6 +3,13 @@ import { expect } from "chai";
 import { MiradorGame } from "../../src/games/mirador";
 
 describe("Mirador", () => {
+    it("names both board sizes in the variant metadata", () => {
+        expect(MiradorGame.gameinfo.variants).to.deep.equal([
+            { uid: "#board" },
+            { uid: "size-40", group: "board" },
+        ]);
+    });
+
     it("keeps the standard 28x28 board as the default", () => {
         const game = new MiradorGame();
         const rep = game.render();

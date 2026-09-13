@@ -5,71 +5,17 @@ import {
     StorisendeGame,
     type IStorisendeState,
     type playerid,
-    type Tile,
 } from "../../src/games/storisende.js";
-import { StorisendeHex } from "../../src/games/storisende/hex.js";
 import { x2uid } from "../../src/common/index.js";
 import {
     expectMovesMatchReference,
     movesReference,
     sortedMoves,
 } from "../fixtures/storisende/movesReference.js";
+import { storisendeFrom, storisendeFromState } from "../fixtures/storisende/builders.js";
 import midgameHex6State from "../fixtures/storisende/midgameHex6State.json" with { type: "json" };
-
-type CellPatch = { tile?: Tile; stack?: playerid[] };
-
-export function storisendeFromState(state: IStorisendeState): StorisendeGame {
-    return new StorisendeGame(state);
-}
-
-export function storisendeFrom(opts: {
-    variants?: string[];
-    currplayer?: playerid;
-    lastmove?: string;
-    stackDepth?: number;
-    cells?: Record<string, CellPatch>;
-}): StorisendeGame {
-    const variants = opts.variants ?? [];
-    const seed = new StorisendeGame(undefined, variants);
-    const hexes = seed.board.serialize().map(hex => {
-        const alg = seed.board.hex2algebraic(hex);
-        const patch = opts.cells?.[alg];
-        if (patch === undefined) {
-            return hex;
-        }
-        return StorisendeHex.create({
-            q: hex.q,
-            r: hex.r,
-            tile: patch.tile ?? hex.tile,
-            stack: patch.stack ?? hex.stack,
-        });
-    });
-
-    const depth = opts.stackDepth ?? 3;
-    const version = StorisendeGame.gameinfo.version;
-    const stack = [];
-    for (let i = 0; i < depth; i++) {
-        const isLast = i === depth - 1;
-        stack.push({
-            _version: version,
-            _results: [],
-            _timestamp: new Date(),
-            currplayer: isLast ? (opts.currplayer ?? 1) : (((i + 1) % 2) + 1) as playerid,
-            board: hexes,
-            lastmove: isLast ? opts.lastmove : (i > 0 ? "pass" : undefined),
-        });
-    }
-
-    const state: IStorisendeState = {
-        game: "storisende",
-        numplayers: 2,
-        variants,
-        gameover: false,
-        winner: [],
-        stack,
-    };
-    return new StorisendeGame(state);
-}
+import legacyShortOpening from "../fixtures/storisende/storage/legacy-short-opening.json" with { type: "json" };
+import { expectLoadIdxMatchesLegacyOracle } from "../fixtures/storisende/storage/helpers.js";
 
 function enumerateFromCell(g: StorisendeGame, mover: playerid, from: string): string[] {
     return (g as unknown as StorisendeGame & {
@@ -355,6 +301,26 @@ const regressionFixtures: {
 ];
 
 describe("Storisende", () => {
+    describe("storage read path (legacy goldens)", () => {
+        const legacyFixtures: IStorisendeState[] = [
+            midgameHex6State as IStorisendeState,
+            legacyShortOpening as IStorisendeState,
+        ];
+
+        for (const [i, fixture] of legacyFixtures.entries()) {
+            const label = i === 0 ? "midgameHex6" : "legacy-short-opening";
+            it(`${label}: moves() matches reference after codec load`, () => {
+                const g = storisendeFromState(fixture);
+                expectMovesMatchReference(g);
+            });
+            it(`${label}: load(0) and load(last) match fixture boards`, () => {
+                const g = storisendeFromState(fixture);
+                expectLoadIdxMatchesLegacyOracle(g, 0);
+                expectLoadIdxMatchesLegacyOracle(g, g.stack.length - 1);
+            });
+        }
+    });
+
     describe("moves() regression", () => {
         for (const { name, build, players, skipValidate, timeoutMs } of regressionFixtures) {
             for (const player of players ?? [undefined as unknown as playerid]) {

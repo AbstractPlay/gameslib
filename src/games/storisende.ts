@@ -3,23 +3,35 @@ import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, BoardBasic, MarkerFlood } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { cloneState, reviver, shuffle, UserFacingError } from "../common/index.js";
-import { generateField } from "../common/hexes.js";
 import i18next from "i18next";
 import { StorisendeHex } from "./storisende/hex.js";
 import { StorisendeBoard } from "./storisende/board.js";
+import {
+    COMPACT_BOARD_VERSION,
+    decodeBoardAtIndex,
+    encodeBoardWireForNewFrame,
+    formatModularStartingPosition,
+    modularModuleCount,
+    modularStartingPositionFromLegacyStack,
+    storisendeBoardCentres,
+    type BoardWire,
+    usesCompactWire,
+} from "./storisende/boardCodec.js";
 
 export type playerid = 1|2;
 export type Tile = undefined|"virgin"|"territory"|"wall";
 
 interface IMoveState extends IIndividualState {
     currplayer: playerid;
-    board: StorisendeHex[];
+    board: BoardWire;
     lastmove?: string;
 }
 
 export interface IStorisendeState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
+    /** Modular board centre layout (`modular-centres-v1/...`); required for compact modular decode. */
+    startingPosition?: string;
 };
 
 export class StorisendeGame extends GameBase {
@@ -27,7 +39,7 @@ export class StorisendeGame extends GameBase {
         name: "Storisende",
         uid: "storisende",
         playercounts: [2],
-        version: "20250109",
+        version: COMPACT_BOARD_VERSION,
         dateAdded: "2025-01-18",
         // i18next.t("apgames:descriptions.storisende")
         description: "apgames:descriptions.storisende",
@@ -90,6 +102,7 @@ export class StorisendeGame extends GameBase {
     public static clone(obj: StorisendeGame): StorisendeGame {
         const cloned: StorisendeGame = Object.assign(new StorisendeGame(), cloneState(obj) as StorisendeGame);
         cloned.board = obj.board.clone();
+        cloned.clearBoardDecodeCache();
         return cloned;
     }
 
@@ -101,8 +114,13 @@ export class StorisendeGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     public variants: string[] = [];
-    public startpos!: string;
+    public startingPosition = "";
     private dots: string[] = [];
+    private _boardDecodeCache = new Map<number, StorisendeHex[]>();
+
+    private clearBoardDecodeCache(): void {
+        this._boardDecodeCache.clear();
+    }
 
     constructor(state?: IStorisendeState | string, variants?: string[]) {
         super();
@@ -120,48 +138,21 @@ export class StorisendeGame extends GameBase {
             this.variants = [...state.variants];
             this.winner = [...state.winner];
             this.stack = [...state.stack];
+            this.startingPosition = state.startingPosition ?? "";
+            const fromStack = modularStartingPositionFromLegacyStack(this.stack, this.variants);
+            if (fromStack !== undefined && this.startingPosition.length === 0) {
+                this.startingPosition = fromStack;
+            }
         } else {
             if ( (variants !== undefined) && (variants.length > 0) ) {
                 this.variants = [...variants];
             }
 
-            const ctrs: {q: number; r: number}[] = [];
-            if (this.variants.includes("board-hex4")) {
-                ctrs.push({q: 0, r: 0}, {q: 0, r: -2}, {q: 2, r: -2}, {q: 2, r: 0}, {q: 0, r: 2}, {q: -2, r: 2}, {q: -2, r: 0});
-            } else if (this.variants.includes("board-hex6")) {
-                ctrs.push(
-                    {q: 2, r: -4}, {q: 4, r: -4}, {q: 0, r: -4},
-                    {q: 1, r: -2}, {q: 4, r: -2}, {q: -2, r: -2},
-                    {q: 0, r: 0}, {q: 2, r: 0}, {q: 4, r: 0}, {q: -2, r: 0}, {q: -4, r: 0},
-                    {q: -1, r: 2}, {q: 2, r: 2}, {q: -4, r: 2},
-                    {q: -2, r: 4}, {q: 0, r: 4}, {q: -4, r: 4},
-                );
-            } else if (this.variants.includes("board-hex7")) {
-                ctrs.push(
-                    {q: 0, r: -5}, {q: 2, r: -5}, {q: 3, r: -5}, {q: 5, r: -5},
-                    {q: -2, r: -3}, {q: 5, r: -3},
-                    {q: 0, r: -2}, {q: -3, r: -2}, {q: 2, r: -2}, {q: 5, r: -2},
-                    {q: 0, r: 0}, {q: 2, r: 0}, {q: 5, r: 0}, {q: -2, r: 0}, {q: -5, r: 0},
-                    {q: 0, r: 2}, {q: 3, r: 2}, {q: -2, r: 2}, {q: -5, r: 2},
-                    {q: -5, r: 3}, {q: 2, r: 3},
-                    {q: 0, r: 5}, {q: -2, r: 5}, {q: -3, r: 5}, {q: -5, r: 5},
-                );
-            } else if (this.variants.includes("board-modular-13")) {
-                ctrs.push(...generateField(13));
-            } else if (this.variants.includes("board-modular-18")) {
-                ctrs.push(...generateField(18));
-            } else {
-                ctrs.push(
-                    {q: 3, r: -3}, {q: 0, r: -3}, {q: 1, r: -3},
-                    {q: 1, r: -2},
-                    {q: 2, r: -1}, {q: -1, r: -1},
-                    {q: -2, r: -1}, {q: 3, r: -1},
-                    {q: 0, r: 0}, {q: 3, r: 0}, {q: -3, r: 0},
-                    {q: -3, r: 1}, {q: 2, r: 1},
-                    {q: 1, r: 1}, {q: -2, r: 1},
-                    {q: -1, r: 2},
-                    {q: 0, r: 3}, {q: -3, r: 3}, {q: -1, r: 3},
-                );
+            const centres = storisendeBoardCentres(this.variants);
+            const seedBoard = new StorisendeBoard({centres});
+            const numModules = modularModuleCount(this.variants);
+            if (numModules !== undefined) {
+                this.startingPosition = formatModularStartingPosition(centres, numModules);
             }
 
             const fresh: IMoveState = {
@@ -169,7 +160,12 @@ export class StorisendeGame extends GameBase {
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
-                board: new StorisendeBoard({centres: ctrs}).serialize(),
+                board: encodeBoardWireForNewFrame(
+                    seedBoard,
+                    this.variants,
+                    [],
+                    this.startingPosition,
+                ),
             };
             this.stack = [fresh];
         }
@@ -191,9 +187,26 @@ export class StorisendeGame extends GameBase {
         }
         this.results = [...state._results];
         this.currplayer = state.currplayer;
-        this.board = StorisendeBoard.deserialize(state.board);
+        const compact = usesCompactWire(this.stack);
+        let hexes = this._boardDecodeCache.get(idx);
+        if (hexes === undefined) {
+            hexes = decodeBoardAtIndex(this.stack, idx, this.variants, compact, this.startingPosition);
+            this._boardDecodeCache.set(idx, hexes);
+        }
+        this.board = StorisendeBoard.deserialize(hexes);
         this.lastmove = state.lastmove;
-       return this;
+        return this;
+    }
+
+    public override undo(): StorisendeGame {
+        super.undo();
+        this.clearBoardDecodeCache();
+        return this.load();
+    }
+
+    protected override saveState(): void {
+        this.clearBoardDecodeCache();
+        super.saveState();
     }
 
     public moves(player?: playerid): string[] {
@@ -861,17 +874,21 @@ export class StorisendeGame extends GameBase {
             gameover: this.gameover,
             winner: [...this.winner],
             stack: [...this.stack],
+            ...(this.startingPosition.length > 0 ? {startingPosition: this.startingPosition} : {}),
         };
     }
 
     protected moveState(): IMoveState {
+        const board: BoardWire = usesCompactWire(this.stack)
+            ? encodeBoardWireForNewFrame(this.board, this.variants, this.stack, this.startingPosition)
+            : this.board.serialize();
         return {
             _version: StorisendeGame.gameinfo.version,
             _results: [...this.results],
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: this.board.serialize(),
+            board,
         };
     }
 
@@ -1046,14 +1063,13 @@ export class StorisendeGame extends GameBase {
         return 0;
     }
 
-    // public getStartingPosition(): string {
-    //     if (this.stack.length > 1) {
-    //         const cells: string[][] = this.graph.listCells(true) as string[][];
-    //         const contents = cells.map(row => row.map(cell => this.board.get(cell)!));
-    //         return contents.map(row => row.join(",")).join("\n");
-    //     }
-    //     return "";
-    // }
+    public getStartingPosition(): string {
+        if (this.startingPosition.length > 0) {
+            return this.startingPosition;
+        }
+        const fromStack = modularStartingPositionFromLegacyStack(this.stack, this.variants);
+        return fromStack ?? "";
+    }
 
     public clone(): StorisendeGame {
         return new StorisendeGame(this.serialize());

@@ -493,7 +493,8 @@ export class GuerrillaGame extends GameBase {
                         newmove = cell;
                     }
                 } else if (this.board.get(cell) === 2) {
-                    newmove = cell;
+                    const extended = this.extendPartialMove(move, cell);
+                    newmove = extended ?? cell;
                 } else {
                     const extended = this.extendPartialMove(move, cell);
                     newmove = extended ?? move;

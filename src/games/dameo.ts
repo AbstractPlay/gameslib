@@ -324,13 +324,13 @@ export class DameoGame extends GameBase {
             if (move.length === 0) {
                 newmove = cell;
             } else {
-                // clicking on an occupied cell resets
-                if (this.board.has(cell)) {
+                const extended = `${move}-${cell}`;
+                if (this.moves().some(mv => mv.startsWith(extended))) {
+                    newmove = extended;
+                } else if (this.board.has(cell)) {
                     newmove = cell;
-                }
-                // otherwise, assume movement
-                else {
-                    newmove = `${move}-${cell}`;
+                } else {
+                    newmove = extended;
                 }
             }
 

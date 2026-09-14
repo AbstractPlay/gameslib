@@ -323,23 +323,20 @@ export class LascaGame extends GameBase {
                     newmove = cell;
                 }
             } else {
-                // clicking on an occupied cell resets
+                const parts = move.split(/[-x]/);
+                const last = parts[parts.length - 1];
+                const [lx, ly] = g.algebraic2coords(last);
+                const jump = Math.abs(lx - col) > 1 || Math.abs(ly - row) > 1;
                 if (this.board.has(cell)) {
-                    newmove = cell;
-                }
-                // otherwise, assume movement or capture
-                else {
-                    const parts = move.split(/[-x]/);
-                    const last = parts[parts.length - 1];
-                    const [lx, ly] = g.algebraic2coords(last);
-                    // if jumping more than one space, capture
-                    if (Math.abs(lx - col) > 1 || Math.abs(ly - row) > 1) {
-                        newmove = `${move}x${cell}`;
+                    if (this.findPoints(move)?.includes(cell)) {
+                        newmove = jump ? `${move}x${cell}` : `${move}-${cell}`;
+                    } else {
+                        newmove = cell;
                     }
-                    // otherwise movement
-                    else {
-                        newmove = `${move}-${cell}`;
-                    }
+                } else if (jump) {
+                    newmove = `${move}x${cell}`;
+                } else {
+                    newmove = `${move}-${cell}`;
                 }
             }
 

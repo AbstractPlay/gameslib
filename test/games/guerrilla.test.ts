@@ -131,6 +131,30 @@ describe("Guerrilla", () => {
         expect(g.results.some(r => r.type === "capture" && r.where === "f4")).to.be.true;
     });
 
+    it("handleClick extends partial capture onto the starting occupied square", () => {
+        const g = guerrillaFrom({
+            board: [["c3", 2], ["b4", 2]],
+            currplayer: 2,
+        });
+        const full = "c3xb2xc1xd2xc3";
+        const partial = "c3xb2xc1xd2";
+        Object.assign(g, {
+            moves() {
+                return [full, "b4-c5", "b4-d5"];
+            },
+            extendPartialMove(m: string, cell: string) {
+                return m === partial && cell === "c3" ? full : undefined;
+            },
+        });
+        const [c3x, c3y] = g.graph.algebraic2coords("c3");
+        const click = g.handleClick(partial, c3y, c3x);
+        expect(click.valid).to.be.true;
+        expect(click.move).to.equal(full);
+        const [b4x, b4y] = g.graph.algebraic2coords("b4");
+        const reset = g.handleClick(partial, b4y, b4x);
+        expect(reset.move).to.equal("b4");
+    });
+
     it("shows only the immediate next step during security partial moves", () => {
         const g = guerrillaFrom({
             board: [

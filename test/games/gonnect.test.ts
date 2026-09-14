@@ -121,4 +121,21 @@ describe("Gonnect", () => {
         g.move("pass");
         expect(g.gameover).to.be.true;
     });
+
+    it("A cascading win survives a serialize/deserialize round trip", () => {
+        // The server persists games as serialized state between moves; make sure a
+        // pass-decided cascading win (including its single-cell connPath) comes back
+        // intact rather than only working while the object stays in memory.
+        const g = new GonnectGame(undefined, ["cascading"]);
+        g.move("g7");
+        g.move("pass");
+        g.move("pass");
+        const reloaded = new GonnectGame(g.serialize());
+        expect(reloaded.gameover).to.be.true;
+        expect(reloaded.winner).to.eql([1]);
+        expect(reloaded.connPath).to.eql(["g7"]);
+        const rep = reloaded.render();
+        const moveAnnotations = (rep.annotations ?? []).filter(a => a.type === "move");
+        expect(moveAnnotations).to.eql([]);
+    });
 });

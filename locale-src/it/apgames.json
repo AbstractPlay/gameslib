@@ -3287,6 +3287,10 @@
     "src": "To make it very clear what happened on a previous turn, each move is displayed over four separate boards. The first board shows the game after the piece was first placed. The second board shows the state after adjacent pieces were flipped. The third board shows any harvests. The fourth board is the final game state and is where you make your moves.\n\nIn our implementation, black is always the \"tome\" or tie-breaker colour. The last player to harvest black will have a `0.1` after their score.",
     "out": "Per rendere molto chiaro quanto accaduto nel turno precedente, ogni mossa viene mostrata su quattro tabelloni separati. Il primo tabellone mostra il gioco subito dopo il posizionamento del pezzo. Il secondo tabellone mostra lo stato dopo il ribaltamento dei pezzi adiacenti. Il terzo tabellone mostra eventuali raccolti. Il quarto tabellone è lo stato finale del gioco ed è quello su cui esegui le tue mosse.\n\nNella nostra implementazione, il nero è sempre il colore \"tome\" o di spareggio. L'ultimo giocatore a raccogliere il nero avrà un `0.1` dopo il proprio punteggio."
   },
+  "notes.gonnect": {
+    "src": "In the base game, passing is not allowed, so play continues until someone connects or a player has no legal placement left.\n\nThe **Cascading Connection Goals** variant allows passing, and lets the game also end after two consecutive passes. If the game ends by an outright connection, that player wins as usual. Otherwise, the winner is found by comparing connections across a nested series of centred subboards: starting with the full board and shrinking by two rows and columns at a time (down to the single centre point), find the largest subboard on which exactly one player has an unbroken orthogonal connection between two opposite sides of that subboard; that player wins. If, at a given size, both players have such a connection or neither does, move on to the next smaller subboard. Because a single stone occupying the centre point always \"connects\" its own 1×1 subboard, a draw requires that the centre point be empty; on an odd-sized board with both players otherwise out of useful moves, this is expected to be extremely rare, if not impossible.",
+    "out": "Nel gioco base, passare non è consentito, quindi il gioco continua finché qualcuno non si connette o un giocatore non ha più mosse legali a disposizione.\n\nLa variante **Obiettivi di Connessione a Cascata** consente di passare e permette alla partita di terminare anche dopo due passi consecutivi. Se la partita termina con una connessione diretta, quel giocatore vince come di consueto. In caso contrario, il vincitore viene determinato confrontando le connessioni attraverso una serie annidata di sotto-scacchiere centrate: partendo dalla scacchiera completa e riducendosi di due righe e due colonne alla volta (fino al singolo punto centrale), si individua la sotto-scacchiera più grande in cui esattamente un giocatore possiede una connessione ortogonale ininterrotta tra due lati opposti di tale sotto-scacchiera; quel giocatore vince. Se, a una determinata dimensione, entrambi i giocatori hanno tale connessione o nessuno dei due la possiede, si passa alla sotto-scacchiera più piccola successiva. Poiché una singola pedina che occupa il punto centrale \"connette\" sempre la propria sotto-scacchiera 1×1, una patta richiede che il punto centrale sia vuoto; su una scacchiera di dimensioni dispari con entrambi i giocatori altrimenti privi di mosse utili, si prevede che ciò sia estremamente raro, se non impossibile."
+  },
   "notes.guerrilla": {
     "src": "Either player wins by removing all of the opponent's pieces. The security player also wins if they survive long enough that the insurgents run out of stones to place.\n\nBy default, a match consists of two games with roles reversed. Each player plays one game as insurgents and one as security. When both players win as insurgents, the match goes to whoever used fewer stones (`66 − remaining` at the end of that game; lower score wins). Equal insurgent scores are the only draw in that case. A security win in a game scores 67. If one player sweeps both games (wins as insurgents in one and security in the other), they win the match outright. If both players only win as security, the match is drawn.",
     "out": "Ciascun giocatore vince rimuovendo tutte le pedine dell'avversario. Il giocatore della sicurezza vince anche se sopravvive abbastanza a lungo da far esaurire le pietre da piazzare agli insorti.\n\nPer impostazione predefinita, un incontro consiste in due partite a ruoli invertiti. Ciascun giocatore gioca una partita come insorti e una come sicurezza. Quando entrambi i giocatori vincono come insorti, l'incontro va a chi ha usato meno pietre (`66 − rimanenti` alla fine di quella partita; vince il punteggio più basso). Punteggi uguali degli insorti sono l'unica patta in tal caso. Una vittoria della sicurezza in una partita assegna 67 punti. Se un giocatore vince entrambe le partite (come insorti in una e come sicurezza nell'altra), vince direttamente l'incontro. Se entrambi i giocatori vincono solo come sicurezza, l'incontro finisce in patta."
@@ -8062,6 +8066,10 @@
   "validation.gonnect.INITIAL_INSTRUCTIONS": {
     "src": "Select an intersection to place a piece.",
     "out": "Seleziona un'intersezione per piazzare un pezzo."
+  },
+  "validation.gonnect.INVALID_PASS": {
+    "src": "You cannot pass currently.",
+    "out": "Al momento non puoi passare."
   },
   "validation.gonnect.KO": {
     "src": "Ko rule: you may not immediately recapture your opponent's single stone if they just used it to capture one of yours.",
@@ -15838,6 +15846,14 @@
   "variants.gonnect.#board.name": {
     "src": "Default 13x13 board",
     "out": "Tabellone predefinito 13x13"
+  },
+  "variants.gonnect.cascading.description": {
+    "src": "Passing is allowed. The game also ends after two consecutive passes, in which case the winner is found by comparing connections across a nested series of centred subboards.",
+    "out": "Passare è consentito. La partita termina anche dopo due passi consecutivi, nel qual caso il vincitore viene determinato confrontando le connessioni attraverso una serie annidata di sotto-scacchiere centrate."
+  },
+  "variants.gonnect.cascading.name": {
+    "src": "Cascading Connection Goals",
+    "out": "Obiettivi di Connessione a Cascata"
   },
   "variants.gonnect.size-19.name": {
     "src": "19x19 board",

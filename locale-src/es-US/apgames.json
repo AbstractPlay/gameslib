@@ -3287,6 +3287,10 @@
     "src": "To make it very clear what happened on a previous turn, each move is displayed over four separate boards. The first board shows the game after the piece was first placed. The second board shows the state after adjacent pieces were flipped. The third board shows any harvests. The fourth board is the final game state and is where you make your moves.\n\nIn our implementation, black is always the \"tome\" or tie-breaker colour. The last player to harvest black will have a `0.1` after their score.",
     "out": "Para dejar muy claro qué sucedió en un turno anterior, cada movimiento se muestra a lo largo de cuatro tableros separados. El primer tablero muestra la partida justo después de colocar la pieza. El segundo tablero muestra el estado después de voltear las piezas adyacentes. El tercer tablero muestra cualquier cosecha. El cuarto tablero es el estado final del juego y es donde haces tus movimientos.\n\nEn nuestra implementación, el negro es siempre el color del \"tomo\" o desempate. El último jugador en cosechar negro tendrá un `0.1` después de su puntuación."
   },
+  "notes.gonnect": {
+    "src": "In the base game, passing is not allowed, so play continues until someone connects or a player has no legal placement left.\n\nThe **Cascading Connection Goals** variant allows passing, and lets the game also end after two consecutive passes. If the game ends by an outright connection, that player wins as usual. Otherwise, the winner is found by comparing connections across a nested series of centred subboards: starting with the full board and shrinking by two rows and columns at a time (down to the single centre point), find the largest subboard on which exactly one player has an unbroken orthogonal connection between two opposite sides of that subboard; that player wins. If, at a given size, both players have such a connection or neither does, move on to the next smaller subboard. Because a single stone occupying the centre point always \"connects\" its own 1×1 subboard, a draw requires that the centre point be empty; on an odd-sized board with both players otherwise out of useful moves, this is expected to be extremely rare, if not impossible.",
+    "out": "En el juego base, no se permite pasar, por lo que el juego continúa hasta que alguien conecta o a un jugador no le quedan jugadas legales.\n\nLa variante **Objetivos de conexión en cascada** permite pasar y hace que la partida también termine tras dos pases consecutivos. Si el juego termina por una conexión directa, ese jugador gana como de costumbre. De lo contrario, el ganador se determina comparando conexiones a través de una serie anidada de subtableros centrados: comenzando con el tablero completo y reduciéndose dos filas y columnas a la vez (hasta llegar al punto central único), busca el subtablero más grande en el que exactamente un jugador tenga una conexión ortogonal ininterrumpida entre dos lados opuestos de dicho subtablero; ese jugador gana. Si, en un tamaño determinado, ambos jugadores tienen dicha conexión o ninguno la tiene, se pasa al siguiente subtablero más pequeño. Dado que una sola piedra que ocupe el punto central siempre \"conecta\" su propio subtablero de 1×1, para que haya un empate se requiere que el punto central esté vacío; en un tablero de tamaño impar con ambos jugadores sin más jugadas útiles, se espera que esto sea extremadamente raro, si no imposible."
+  },
   "notes.guerrilla": {
     "src": "Either player wins by removing all of the opponent's pieces. The security player also wins if they survive long enough that the insurgents run out of stones to place.\n\nBy default, a match consists of two games with roles reversed. Each player plays one game as insurgents and one as security. When both players win as insurgents, the match goes to whoever used fewer stones (`66 − remaining` at the end of that game; lower score wins). Equal insurgent scores are the only draw in that case. A security win in a game scores 67. If one player sweeps both games (wins as insurgents in one and security in the other), they win the match outright. If both players only win as security, the match is drawn.",
     "out": "Cualquier jugador gana al eliminar todas las piezas del oponente. El jugador de seguridad también gana si sobrevive lo suficiente como para que a los insurgentes se les acaben las piedras para colocar.\n\nPor defecto, una partida consta de dos juegos con los roles invertidos. Cada jugador juega un juego como insurgentes y uno como seguridad. Cuando ambos jugadores ganan como insurgentes, la partida es para quien haya usado menos piedras (`66 − remaining` al final de ese juego; gana la puntuación más baja). Puntuaciones iguales de los insurgentes son el único empate en ese caso. Una victoria de seguridad en un juego otorga 67 puntos. Si un jugador gana ambos juegos (gana como insurgentes en uno y como seguridad en el otro), gana la partida rotundamente. Si ambos jugadores solo ganan como seguridad, la partida termina en empate."
@@ -8062,6 +8066,10 @@
   "validation.gonnect.INITIAL_INSTRUCTIONS": {
     "src": "Select an intersection to place a piece.",
     "out": "Selecciona una intersección para colocar una pieza."
+  },
+  "validation.gonnect.INVALID_PASS": {
+    "src": "You cannot pass currently.",
+    "out": "No puedes pasar en este momento."
   },
   "validation.gonnect.KO": {
     "src": "Ko rule: you may not immediately recapture your opponent's single stone if they just used it to capture one of yours.",
@@ -15838,6 +15846,14 @@
   "variants.gonnect.#board.name": {
     "src": "Default 13x13 board",
     "out": "Tablero predeterminado de 13x13"
+  },
+  "variants.gonnect.cascading.description": {
+    "src": "Passing is allowed. The game also ends after two consecutive passes, in which case the winner is found by comparing connections across a nested series of centred subboards.",
+    "out": "Se permite pasar. La partida también termina tras dos pases consecutivos, en cuyo caso el ganador se determina comparando conexiones a través de una serie anidada de subtableros centrados."
+  },
+  "variants.gonnect.cascading.name": {
+    "src": "Cascading Connection Goals",
+    "out": "Objetivos de conexión en cascada"
   },
   "variants.gonnect.size-19.name": {
     "src": "19x19 board",

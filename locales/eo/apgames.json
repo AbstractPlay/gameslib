@@ -198,7 +198,6 @@
     },
     "hex": {
       "size-15": {
-        "description": "Pli granda tabulo.",
         "name": "Tabulo de grando 15"
       },
       "#board": {
@@ -223,9 +222,6 @@
       },
       "#board": {
         "name": "Tabulo 19×19"
-      },
-      "#opening": {
-        "name": "Malfermo"
       },
       "#overline": {
         "description": "La unua ludanto perdas se ili faras superlinion, sed la dua ludanto povas gajni per superlinio.",
@@ -1112,6 +1108,23 @@
       },
       "size-15": {
         "name": "Tabulo 15×15"
+      }
+    },
+    "clearpath": {
+      "size-7": {
+        "name": "Tabulo 7×7"
+      },
+      "#board": {
+        "name": "Tabulo 8×8"
+      },
+      "size-9": {
+        "name": "Tabulo 9×9"
+      },
+      "size-10": {
+        "name": "Tabulo 10×10"
+      },
+      "size-11": {
+        "name": "Tabulo 11×11"
       }
     },
     "compart": {
@@ -3649,145 +3662,6 @@
       "GRADE_EXCELLENT": "Bonega (12)"
     }
   },
-  "variantGroups": {
-    "twixt": {
-      "ruleset": {
-        "name": "regularo"
-      },
-      "board": {
-        "name": "tabulo (24×24)"
-      }
-    },
-    "take": {
-      "rules": {
-        "name": "reguloj"
-      }
-    },
-    "saltire": {
-      "ruleset": {
-        "name": "reguloj"
-      },
-      "board": {
-        "name": "tabulo 13×13"
-      }
-    },
-    "connecticut": {
-      "board": {
-        "name": "tabulo (19×19)"
-      }
-    },
-    "pente": {
-      "board": {
-        "name": "tabulo 15×15"
-      },
-      "capture": {
-        "name": "reguloj pri kaptado"
-      }
-    },
-    "irensei": {
-      "board": {
-        "name": "tabulo 19×19"
-      }
-    },
-    "clearcut": {
-      "board": {
-        "name": "tabulo 19×19"
-      }
-    },
-    "gomoku": {
-      "board": {
-        "name": "tabulo 15×15"
-      }
-    },
-    "bounce": {
-      "board": {
-        "name": "tabulo (8×8)"
-      }
-    },
-    "conhex": {
-      "board": {
-        "name": "tabulo: 11×11"
-      }
-    },
-    "spook": {
-      "board": {
-        "name": "tabulo 4×4"
-      }
-    },
-    "dameo": {
-      "board": "tabulo (8×8)"
-    },
-    "spline": {
-      "board": {
-        "name": "tabulo 4×4"
-      }
-    },
-    "sponnect": {
-      "board": {
-        "name": "tabulo 4×4"
-      }
-    },
-    "upperhand": {
-      "board": {
-        "name": "tabulo 5×5"
-      }
-    },
-    "quax": {
-      "board": {
-        "name": "tabulo 11×11"
-      }
-    },
-    "clusterfuss": {
-      "board": {
-        "name": "tabulo (8×8)"
-      }
-    },
-    "connect6": {
-      "board": {
-        "name": "tabulo 19×19"
-      }
-    },
-    "courtesan": {
-      "board": {
-        "name": "tabulo (8×8)"
-      }
-    },
-    "crossway": {
-      "board": {
-        "name": "tabulo (19×19)"
-      }
-    },
-    "loa": {
-      "board": {
-        "name": "tabulo (9×9)"
-      }
-    },
-    "nex": {
-      "board": {
-        "name": "tabulo 11×11"
-      }
-    },
-    "pletore": {
-      "board": {
-        "name": "tabulo (13×13)"
-      }
-    },
-    "scaffold": {
-      "board": {
-        "name": "tabulo (19×19)"
-      }
-    },
-    "slither": {
-      "board": {
-        "name": "tabulo 9×9"
-      }
-    },
-    "veletas": {
-      "board": {
-        "name": "tabulo 10×10"
-      }
-    }
-  },
   "displays": {
     "oust": {
       "hide-moves": {
@@ -4293,9 +4167,9 @@
   },
   "descriptions": {
     "abande": "Abande estas la dua ludo en la stakiga trilogio de Dieter Stein. Metu aŭ movu pecojn kaj stakojn por atingi kiel eble plej altan poentaron, ĉiam konservante la tabulon konektita. Disponeblas kvadrata, stumpkvadrata kaj sesangula tabuloj.",
-    "accasta": "Accasta estas la unua ludo en la stakiga trilogio de Dieter Stein. La celo estas enigi tri proprajn stakojn en la kastelan areon de la malamiko. La baza versio havas tri malsamajn pecotipojn. En la variaĵo „Pari“, la movado dependas de la nombro da amikaj pecoj en la stako.",
+    "accasta": "Accasta estas la unua ludo en la stakiga trilogio de Dieter Stein. La celo estas enigi tri proprajn stakojn en la kastelan areon de la malamiko. La baza versio havas tri malsamajn pecotipojn. En la variaĵo \"Pari\", la movado dependas de la nombro da amikaj pecoj en la stako.",
     "acity": "Alien City estas kombina ludo por Piecepack kaj Icehouse pri konstruado de urbo sur nove koloniigita mondo. Kvar gildoj konkuras pri klientoj, kaj la ludanto devas antaŭvidi, kiuj vetoj donos profiton. Dum ĉiu vico, la ludanto metas aŭ turon aŭ kupolon kaj povas laŭvole alproprigi turon, kiu laŭ lia aŭ ŝia takso multe poentos je la ludofino. Oni plu ludas ĝis neniu plia konstruo eblas. La poentaroj dependas de la relativaj pozicioj de la konstruaĵoj rilate al la alproprigitaj turoj.",
-    "agere": "Konektludo, en kiu oni ankaŭ povas staki pecojn. Oni ludas aŭ sur triangula tabulo, kie la celo estas konekti ĉiujn tri flankojn, aŭ sur cirkla „araneaĵa“ tabulo, kie oni konektas kontraŭajn flankojn.",
+    "agere": "Konektludo, en kiu oni ankaŭ povas staki pecojn. Oni ludas aŭ sur triangula tabulo, kie la celo estas konekti ĉiujn tri flankojn, aŭ sur cirkla \"araneaĵa\" tabulo, kie oni konektas kontraŭajn flankojn.",
     "akimbo": "Minimumisma konektludo, en kiu ĉiu ludanto povas havi nur unu nudan diagonalon.",
     "akron": "Akron etendas normajn konektludojn al tri dimensioj. Dum sia vico, ludanto povas enmeti novan pilkon de sia koloro en la plej malsupran tavolon de la tabulo, aŭ movi nealpinglitan pilkon (pilkojn apogas ĝin el malplej du direktoj) al spaco ligita al la sama grupo kaj antaŭ kaj post la movo. Kiam pilko moviĝas, pilkoj apogitaj de ĝi falas kaj ŝanĝas la konektojn sur la tabulo.",
     "almatafl": "AlmaTafl estas malsimetria ludo: unu flanko ludas la defendantojn, kiuj provas sekurigi la reĝon, dum la alia provas kapti la reĝon aŭ lasi lin sen defendo.",
@@ -4311,7 +4185,7 @@
     "atarigo": "Variaĵo de Goo, en kiu la unua kapto gajnas la ludon (preterpaso ne eblas).",
     "ataxx": "Regu la plimulton de la spacoj per disvastiĝo, saltado kaj infektado.",
     "atoll": "Atoll estas ĝeneraligo de Hex, en kiu vi devas konekti du samkolorajn insulojn ĉe kontraŭaj flankoj de la tabulo per kontinua ĉeno de viaj ŝtonoj. La insuloj mem povas esti parto de la ĉeno. Ekzemple, por venki vi povus fari unu ponton inter viaj norda kaj okcidenta insuloj kaj duan inter viaj okcidenta kaj suda insuloj.",
-    "attangle": "Attangle estas la lasta ludo en la stakiga trilogio de Dieter Stein. Metu kaj movu pecojn por konstrui stakojn. La unua homo, kiu konstruas tri trioblajn stakojn, gajnas. Ankaŭ la variaĵo „Grand Attangle“ estas realigita.",
+    "attangle": "Attangle estas la lasta ludo en la stakiga trilogio de Dieter Stein. Metu kaj movu pecojn por konstrui stakojn. La unua homo, kiu konstruas tri trioblajn stakojn, gajnas. Ankaŭ la variaĵo \"Grand Attangle\" estas realigita.",
     "ayu": "Kunigludo, en kiu serpentecaj pecgrupoj rampas al siaj amikoj kaj fine kunfandiĝas. Se vi ne povas movi dum via vico, vi gajnas. Tio okazas kiam vi havas nur unu grupon aŭ kiam ne ekzistas libera vojo inter iuj du viaj grupoj.",
     "azacru": "Teritoriregada ludo, en kiu direktitaj pecoj navigas subdividitan tabulon por alproprigi ĉelojn.",
     "baghchal": "Tradicia malsimetria du-ludanta ludo el Nepalo. La tigroludanto provas kapti kvin kaprojn saltante super ili; la kaproludanto provas senmovigi ĉiujn tigrojn.",
@@ -4323,14 +4197,14 @@
     "bitesize": "Akiru poentojn manĝante estaĵojn en kreskanta ekosistemo.",
     "blam": "Icehouse-ludo por 2–4 ludantoj sur norma ŝaktabulo. Metita peco forpuŝas apudajn pecojn. Puŝu pecojn el la tabulo por kapti ilin. Gajnas tiu, kiu je la ludofino kaptis pecojn kun la plej granda suma punktovaloro.",
     "blastradius": "Abstrakta militludo, en kiu pecoj surradias la ĉirkaŭajn spacojn. Forigu ĉiujn kontraŭulajn pecojn.",
-    "blockade": "Blockade (ankaŭ nomata Cul-de-sac) estas ludo de „venku la barilon“, en kiu vi devas atingi unu el la komencaj spacoj de la kontraŭulo per unu el viaj peonoj. La ludantoj metas dulargajn murojn por bloki unu la alian.",
+    "blockade": "Blockade (ankaŭ nomata Cul-de-sac) estas ludo de \"venku la barilon\", en kiu vi devas atingi unu el la komencaj spacoj de la kontraŭulo per unu el viaj peonoj. La ludantoj metas dulargajn murojn por bloki unu la alian.",
     "blooms": "Ĉiu ludanto posedas du kolorojn de ŝtonoj. La ludantoj laŭvice metas unu aŭ du ŝtonojn dum ĉiu vico (se du, ili devas esti malsamkoloraj), kaj poste kaptas ĉiujn ĉirkaŭbaritajn malamikajn florojn. Gajnas la unua ludanto, kiu kaptas difinitan nombron da ŝtonoj.",
     "bloqueo": "Manipulu peonojn por krei turojn el ludantaj pecoj. Poentu laŭ la konektitaj grupoj de regataj turoj. Gajnas la plej alta poentaro.",
     "bluestone": "Konektu viajn grupojn al kiel eble plej multaj bluaj pecoj ĉe la rando de la tabulo en ĉi tiu miksaĵo de teritoria kaj konekta ludo.",
     "boom": "Minimumisma abstrakta ludo, kiu kunigas simplajn movajn kaj kaptajn mekanikojn kun poentado. Poentu eligante viajn stakojn trans la kontraŭan flankon de la tabulo, samtempe malpliigante la poenteblecojn de la kontraŭulo.",
     "bounce": "Manovru viajn malkonektitajn dampecojn en unu ortangule konektitan tuton.",
     "boxes": "Teritoria ludo, en kiu vi provas kompletigi skatolojn desegnante liniojn inter punktoj. Kiam vi alproprigas skatolon, vi rajtas fari plian movon.",
-    "breakthrough": "Unu el la plej simplaj ludoj de la tipo „atingu la hejman vicon de la kontraŭulo“. Pecoj moviĝas kaj kaptas kiel ŝakaj peonoj. La unua, kiu atingas la alian hejman vicon, gajnas. Ĝi ankaŭ enhavas la variaĵon „Bombardment“, en kiu oni anstataŭ ordinaraj kaptomovoj povas eksplodigi pecon, detruante ĝin kaj ĉiujn ĉirkaŭajn pecojn.",
+    "breakthrough": "Unu el la plej simplaj ludoj de la tipo \"atingu la hejman vicon de la kontraŭulo\". Pecoj moviĝas kaj kaptas kiel ŝakaj peonoj. La unua, kiu atingas la alian hejman vicon, gajnas. Ĝi ankaŭ enhavas la variaĵon \"Bombardment\", en kiu oni anstataŭ ordinaraj kaptomovoj povas eksplodigi pecon, detruante ĝin kaj ĉiujn ĉirkaŭajn pecojn.",
     "btt": "Ludo de piramidoj, kiuj branĉiĝas tra ŝaktabulo: vi akiras poentojn kiam kontraŭuloj direktas sin al viaj piramidoj kaj perdas poentojn kiam vi direktas vin al la iliaj.",
     "bug": "Plenigu la ekosistemon per viaj insektoj ĝis vi ne plu povas vastiĝi. Dum via vico, metu pecon por komenci novan insekton aŭ kreskigi ekzistantan. Se iu via insekto estas apuda al samforma malamika insekto, ĝi devas manĝi ĝin kaj ricevi kroman kreskon (se la kroma kresko ne eblas, manĝado ne okazas). Tio povas estigi ĉenreagojn. Se pluraj insektoj povas manĝi, vi rajtas decidi, kiuj faros tion kaj laŭ kiu ordo.",
     "buku": "Buku estas dudimensia semludo sur damtabulo, kie la koloro respondas al la kavoj de ĉiu ludanto. La unua ludanto elektas vicon por kolekti, poste semas pecojn el ajna kvadrato laŭ ajna orta direkto, neniam trapasante la saman kvadraton dufoje. La dua ludanto faras same, sed kolektas el kolumnoj. Post semado, oni kaptas pecojn en ĉiu kvadrato kun tri aŭ kvar pecoj sur la koloro de la ludanto. La ludo finiĝas kiam iu ricevas pli ol duonon de ĉiuj eblaj poentoj, kiam ĉiuj pecoj estas unuopaj (ĉiu ludanto ricevas po unu poenton por ĉiu peco en sia kavo), aŭ kiam tabulpozicio ripetiĝas (la alia ludanto ricevas la ceterajn pecojn). La unua ludanto ricevas kroman pecon dum la unua semado.",
@@ -4340,17 +4214,18 @@
     "camelot": "Klasika ludo, en kiu vi provas enigi du pecojn en la kastelon de la kontraŭulo aŭ forigi ĉiujn kontraŭulajn pecojn.",
     "canoe": "Ĵetkuba vetkuro por pinĉe kapti la kubojn de la kontraŭulo kaj eligi viajn proprajn de la tabulo por poentoj.",
     "carnac": "La ludantoj dividas komunan provizon de megalitoj, kiujn ili metas vertikale kaj povas laŭvole renversi la plej lastan pecon de la kontraŭulo, por ke ĝi kuŝu trans du kvadratoj. Poentu dolmenojn—grupojn de tri aŭ pli da ortangule konektitaj simboloj de via koloro, kiel vidataj desupre.",
-    "cannon": "Du-ludanta ludo sur tabulo 10×10. Soldatoj povas moviĝi aparte, sed tri soldatoj en vico formas „kanonon“, kiu povas moviĝi laŭ sia longo aŭ mortigi soldatojn je du aŭ tri spacoj for. Gajnas la unua ludanto, kiu kaptas la kontraŭulan urbon.",
+    "cannon": "Du-ludanta ludo sur tabulo 10×10. Soldatoj povas moviĝi aparte, sed tri soldatoj en vico formas \"kanonon\", kiu povas moviĝi laŭ sia longo aŭ mortigi soldatojn je du aŭ tri spacoj for. Gajnas la unua ludanto, kiu kaptas la kontraŭulan urbon.",
     "catapult": "Ĵetu viajn ŝtonojn trans la tabulon por neniigi la kontraŭulon.",
     "catchup": "Catchup estas simpla abstrakta ludo kun diableca dinamiko. La celo estas havi la plej grandan ŝtongrupon kiam la tabulo pleniĝas, sed ju pli vi proksimiĝas al venko, des pli potenca fariĝas la kontraŭulo. Dum plej multaj ŝtonmetaj ludoj temas pri pozicio, Catchup temas pri ĝustatempeco, pozicio kaj ilia interago.",
     "catsdogs": "Ludantoj ne povas meti pecojn ortangule apud kontraŭulaj pecoj. Gajnas la lasta ludanto, kiu povas movi.",
-    "ccorridor": "En Cairo Corridor la ludantoj alterne metas siajn kvinangulajn pecojn sur tabulon kun kaira kvinangula kahelaro. Fine restos nur unu „vojo“ de malplenaj spacoj konektanta la kvar flankojn. La ludantoj poentas laŭ la nombro da kaheloj apud tiu vojo. Okaze de egaleco, malgajnas la ludanto, kiu metis la lastan kahelon antaŭ la ludofino.",
+    "ccorridor": "En Cairo Corridor la ludantoj alterne metas siajn kvinangulajn pecojn sur tabulon kun kaira kvinangula kahelaro. Fine restos nur unu \"vojo\" de malplenaj spacoj konektanta la kvar flankojn. La ludantoj poentas laŭ la nombro da kaheloj apud tiu vojo. Okaze de egaleco, malgajnas la ludanto, kiu metis la lastan kahelon antaŭ la ludofino.",
     "ceph": "Du-ludanta areoregada ludo per kaptado kaj ĵetkuboj. La celo estas plenigi la tabulon per kiel eble plej multaj viaj ĵetkuboj. Kapta mekaniko tenas la tabulon en konstanta ŝanĝiĝo. La ludo finiĝas kiam la tabulo estas tute plena. Egalvenko ne eblas.",
     "chameleon": "Ŝakeca strategia ludo sur krado 5×5, en kiu la movkapablo de ĉiu peco dependas de la koloro de la kahelo, sur kiu ĝi komencas la movon.",
-    "chase": "Chase estas unika mov-kaj-kapta ludo sur cilindra sesangula tabulo kun ĵetkuboj. Pecoj moviĝas ĝuste tiom da spacoj, kiom montras la ĵetkubflanko (ilia „rapido“). Alteriĝo sur malamika peco kaptas ĝin; alteriĝo sur amika peco puŝetas ĝin, kio povas estigi ĉenreagojn. La ĉambro en la centro de la tabulo ebligas akiri pliajn pecojn. Vi devas konservi suman rapidon 25 dum la tuta ludo. Kiam vi ne plu povas tion fari, vi malgajnas.",
+    "chase": "Chase estas unika mov-kaj-kapta ludo sur cilindra sesangula tabulo kun ĵetkuboj. Pecoj moviĝas ĝuste tiom da spacoj, kiom montras la ĵetkubflanko (ilia \"rapido\"). Alteriĝo sur malamika peco kaptas ĝin; alteriĝo sur amika peco puŝetas ĝin, kio povas estigi ĉenreagojn. La ĉambro en la centro de la tabulo ebligas akiri pliajn pecojn. Vi devas konservi suman rapidon 25 dum la tuta ludo. Kiam vi ne plu povas tion fari, vi malgajnas.",
     "churn": "Sanga teritoriregada ludo sur malgranda tabulo.",
     "cifra": "Trarompo-stila ludo, en kiu la tabularanĝo ŝanĝiĝas de unu partio al alia.",
     "clearcut": "Konektu kontraŭajn flankojn de la tabulo. En iuj cirkonstancoj pecvicoj povas kruciĝi, tiel forigante kelkajn kontraŭulajn pecojn.",
+    "clearpath": "Libera Vojo (angle Clear Path) estas ortangula konektludo sur la punktoj de kvadrata krado. Ruĝo konektas la supran kaj malsupran randojn, Blua la maldekstran kaj dekstran, per ĉeno de ortangule apudaj ŝtonoj. Ĉiun vicon vi metas unu ŝtonon. Punkto estas vitala por ludanto, se ĉiu ebla konekto de tiu ludanto trapasas ĝin. Vi ne rajtas meti sur punkton vitalan por via kontraŭulo, krom se ĝi ankaŭ estas vitala por vi, aŭ via meto kompletigas vian konekton. Kructranĉoj estas permesitaj.",
     "clusterfuss": "Senĉese kaptu pecojn por malligi—kaj tiel forigi—grupojn de kontraŭulaj pecoj. Estu la lasta restanta ludanto!",
     "compart": "Ludu en ĉiu taŭga areo, sed havu malpli da pecoj je la fino.",
     "complica": "Simpla konektu-kvar-ludo sur mallarĝa kampo, kies kolumnoj neniam pleniĝas.",
@@ -4362,12 +4237,12 @@
     "conspirateurs": "Tradicia franca ludo, en kiu vi provas sekurigi ĉiujn viajn pecojn antaŭ ol la kontraŭulo sukcesas same.",
     "control": "Control estas finia teritoria ludo sen remizoj kaj kun eleganta simpleco. Aldonu pecojn kie la kontraŭulo ne havas pli da influo, aŭ forigu pecojn kie vi havas pli da influo. Gajnas la lasta movanto.",
     "court": "Aro de peonoj, kiujn oni iam ajn povas promocii al limigita aro de oficistoj. Tamen ludanto sen peonoj malgajnas. Ankaŭ ludanto en pato malgajnas.",
-    "courtesan": "Atingu la alian flankon de la tabulo per via reĝo, sekure „kaŝante“ ĝin inter viaj aliaj pecoj.",
+    "courtesan": "Atingu la alian flankon de la tabulo per via reĝo, sekure \"kaŝante\" ĝin inter viaj aliaj pecoj.",
     "crosscontrol": "Teritoria ludo de vidlinioj. La regadon de ĉeloj kaj la renverson de iliaj pecoj determinas la nombro de samkoloraj pecoj, kiuj povas vidi ilin. Gajnas la ludanto, kiu okupas pli grandan parton de la tabulo je la fino.",
     "crossway": "Ludo pri konektado de kontraŭaj flankoj de la tabulo, en kiu pecvicoj ne rajtas kruci unu la alian.",
     "crosshairs": "Ludo pri aera duelo dum la Unua mondmilito. Aviadiloj havas alton kaj direkton. Movoj inkluzivas supreniron, samaltan flugon kaj plonĝon. Batalo estas simpla: aviadilo en la paflinio de du malamikaj aviadiloj estas faligita. Reduktu la kontraŭulon al unu aviadilo por venki.",
     "cubeo": "Sentabula ĵetkuba ludo kun perfekta informo, en kiu vi provas promocii viajn ĵetkubojn pli rapide ol la kontraŭulo aŭ manovri la kontraŭulon en pozicion sen moveblo.",
-    "dagnacht": "N-en-vica ludo sur damkolora tabulo. Pecojn oni povas meti nur sur malhelajn kvadratojn, sed poste movi ilin sur helajn. Gajnu per kvinopa orta vico (kiu devas enhavi tri helajn kvadratojn se vi estas ludanto 1) aŭ per kvaropa vico sur hela diagonalo. Gajninto de la konkurso „Unequal Board Spaces Game Design Competition“ de la revuo Abstract Games en 2021.",
+    "dagnacht": "N-en-vica ludo sur damkolora tabulo. Pecojn oni povas meti nur sur malhelajn kvadratojn, sed poste movi ilin sur helajn. Gajnu per kvinopa orta vico (kiu devas enhavi tri helajn kvadratojn se vi estas ludanto 1) aŭ per kvaropa vico sur hela diagonalo. Gajninto de la konkurso \"Unequal Board Spaces Game Design Competition\" de la revuo Abstract Games en 2021.",
     "dameo": "Moderna damludo kun linia movado kaj ortaj kaptoj.",
     "deckfish": "Du-ludanta ludo pri reduktado de mapo kaj kolektado de emblemoj, en kiu gajnas la ludanto kun plej multaj kartoj de sia malplej kolektita Decktet-emblemo.",
     "diffusion": "Diffusion estas moderna mankaleca ludo, kies celo estas malplenigi la proprajn kavojn.",
@@ -4376,7 +4251,7 @@
     "druid": "Metu sarsenojn kaj lintelojn por konekti viajn randojn de la tabulo. Sur la norma rektangula tabulo, ludanto 1 konektas nordon kun sudo kaj ludanto 2 orienton kun okcidento. En Druid’s Y, konektu ĉiujn tri flankojn (angulo apartenas al ambaŭ apudaj randoj). En Druid’s Hex, konektu ajnajn tri alternajn, neapudajn flankojn. Nur la plej supra ŝtono en ĉiu ĉelo kontribuas al konekto.",
     "domineering": "La ludantoj metas domenojn—unu vertikale kaj la alia horizontale—ĝis iu ne plu povas ludi kaj tial malgajnas.",
     "emergo": "Damluda variaĵo, en kiu kaptitaj pecoj restas sur la tabulo kaj poste povas liberiĝi. Kaptu ĉiujn kontraŭulajn pecojn por venki. Ĝi devenas de Lasca, sed havas du ludfazojn kaj devigajn maksimumajn kaptojn.",
-    "emu": "Ĉiun birdon en via ranĉo reprezentas kartostako. Je la fino de mano, la valoro de birdo estas la sumo de la nombrokartoj en ĝia stako. La celo estas, kompreneble, bredi profitajn birdojn. Gajnas la plej alta poentaro post kelkaj „jaroj“.",
+    "emu": "Ĉiun birdon en via ranĉo reprezentas kartostako. Je la fino de mano, la valoro de birdo estas la sumo de la nombrokartoj en ĝia stako. La celo estas, kompreneble, bredi profitajn birdojn. Gajnas la plej alta poentaro post kelkaj \"jaroj\".",
     "enso": "Zen-inspira ludo de movado kaj kaptado, en kiu vi provas tute ĉirkaŭi unu el viaj pecoj per malpleno.",
     "entrapment": "La celo de Entrapment estas forigi la vagantojn de la kontraŭulo, ĉirkaŭante ilin per netrapaseblaj obstakloj kaj tiel senmovigante ilin. Vaganto, kiu ne povas movi, estas kaptita kaj forigita de la tabulo. Kiam ĉiuj vagantoj de ludanto estas tiel kaptitaj, la ludo finiĝas kaj la kontraŭulo gajnas.",
     "entropy": "Entropy estas du-ludanta ludo pri la lukto inter Ordo kaj Kaoso. La ludanto Ordo provas aranĝi sian tabulon por atingi kiel eble plej altan poentaron. Sed la ludanto Kaoso metas la pecojn kaj provas malhelpi Ordon kiam ajn eblas.",
@@ -4385,22 +4260,22 @@
     "circleOfLife": "Metu ŝtonojn en sesangula ekosistemo por formi speciojn. Ĉiu specio formanĝas la sekvan malpli altan specion en la nutroĉeno. Kaptu 20 kontraŭulajn ŝtonojn aŭ plenigu kiel eble plej grandan parton de la tabulo.",
     "epam": "Epaminondas estas eleganta du-ludanta ludo, en kiu vi provas superforti la hejman vicon de la kontraŭulo. Pecoj moviĝas kiel falangoj je ĝis tiom da spacoj, kiom ili longas. La reguloj estas treege simplaj, sed la rezulto estas profunda kaj kompleksa.",
     "exxit": "Exxit estas esence areoregada ludo. Manovru viajn pecojn por krei novajn kahelojn. Batalu por formi la plej grandan konektitan insulon de samkoloraj kaheloj. La ludtabulo konstruiĝas dum la ludo.",
-    "fabrik": "En Fabrik la ludantoj manipulas laboristojn por determini, kie pecoj povas esti metitaj. La celo estas fari difinitan nombron da viaj pecoj en vico. En la defaŭlta ludo, ambaŭ ludantoj povas movi ajnan laboriston. En la variaĵo „Arbeiter“, ĉiu ludanto regas specifan laboriston.",
+    "fabrik": "En Fabrik la ludantoj manipulas laboristojn por determini, kie pecoj povas esti metitaj. La celo estas fari difinitan nombron da viaj pecoj en vico. En la defaŭlta ludo, ambaŭ ludantoj povas movi ajnan laboriston. En la variaĵo \"Arbeiter\", ĉiu ludanto regas specifan laboriston.",
     "fanorona": "Fanorona estas la nacia ludo de Madagaskaro kaj verŝajne devenas de Alquerque. Dampecoj povas moviĝi al apudaj malplenaj spacoj kaj kapti kontraŭulajn pecojn per alproksimiĝo aŭ retiriĝo. Dum vi povas plu kapti, vi rajtas plu movi. Daŭrigu ĝis vi kaptos ĉiujn pecojn de la kontraŭulo!",
     "fendo": "En Fendo la ludantoj manovras siajn pecojn por konstrui barilojn kaj fine krei fermitajn areojn, kiujn espereble regas nur ili. Post kiam ĉiuj pecoj estas izolitaj, gajnas la ludanto, kiu regas la plej grandan areon.",
-    "fightopia": "Ludo de la tipo „atingu la hejman vicon de la kontraŭulo“, kun tri malsamaj pecgrandoj. Ĉiu moviĝas kaj kaptas alimaniere.",
+    "fightopia": "Ludo de la tipo \"atingu la hejman vicon de la kontraŭulo\", kun tri malsamaj pecgrandoj. Ĉiu moviĝas kaj kaptas alimaniere.",
     "flume": "Metu ŝtonojn por fari konektojn. Konektiĝi al tri aŭ kvar aliaj pecoj rajtigas vin meti plian ŝtonon. Kiam la tabulo pleniĝas, gajnas la ludanto kun plej multaj ŝtonoj sur ĝi.",
     "fnap": "Kahelmetada ludo, en kiu la ludantoj samtempe elektas sian ludotan kahelon, sed nur unu ludanto metas ambaŭ. Oni poentas per superregado de vicoj kaj kolumnoj kaj per kreado de grupoj de konektitaj kaj malkonektitaj kaheloj.",
     "focus": "Klasikaĵo de Sid Sackson. Stakon oni povas movi je tiom da spacoj, kiom ĝi enhavas pecojn. Kiam stako superas kvin pecojn, la plej malsupraj pecoj estas kaptitaj. Gajnas la lasta homo, kiu povas movi stakon.",
     "four": "Ludo, en kiu kvar formoj de kvar koloroj estas metataj en virtualan kradon laŭ kvar limigoj. Estu la lasta ludanto, kiu povas meti pecon.",
     "fourinarow": "Simpla ludo pri farado de kvar aŭ pli da pecoj en vico, kun unu apartaĵo: gravito.",
     "forms": "La ludantoj kolapsigas siajn proprajn grupojn por meti sin en paton.",
-    "frames": "Simpla ludo de „eniru la kapon de la kontraŭulo“, en kiu ambaŭ ludantoj samtempe elektas malplenan ĉelon sur Go-tabulo. La du metoj difinas rektangulon. La ludanto kun plej multaj ŝtonoj en tiu rektangulo ricevas poenton. Oni ludas ĝis difinita nombro da poentoj.",
-    "fractured": "Areoregada ludo sur unika „frakturita“ tabulo. Oni poentas sur komuna trako.",
+    "frames": "Simpla ludo de \"eniru la kapon de la kontraŭulo\", en kiu ambaŭ ludantoj samtempe elektas malplenan ĉelon sur Go-tabulo. La du metoj difinas rektangulon. La ludanto kun plej multaj ŝtonoj en tiu rektangulo ricevas poenton. Oni ludas ĝis difinita nombro da poentoj.",
+    "fractured": "Areoregada ludo sur unika \"frakturita\" tabulo. Oni poentas sur komuna trako.",
     "frogger": "Vetkura Decktet-ludo inspirita de la samnoma videoludo kaj la klasika tabulludo Cartagena. Movu viajn ranojn laŭ danĝera vojo por unue atingi la hejmon.",
     "furl": "Aŭ kunvolvu vicon de viaj diskoj, aŭ malvolvu stakon. Se vi havas diskon en via fina vico je la komenco de via vico, vi gajnas.",
     "garden": "Du sorĉistoj dividas ĝardenan bedon kaj provas rikolti valorajn reakciilojn. Ambaŭ uzas la saman semprovizon. Planti semon ŝanĝas la ĉirkaŭajn plantojn. Formu kvaropan vicon por rikolti. Gajnas la plej multaj rikoltoj!",
-    "gess": "En Gess la „pecoj“ estas 3×3-aranĝoj de ŝtonoj. Ludanto povas uzi ajnan 3×3-parton de la tabulo, kiu enhavas almenaŭ unu propran ŝtonon kaj neniun kontraŭulan. Se 3×3-peco moviĝas tiel, ke ĝi interkovras unu aŭ plurajn ŝtonojn de iu ajn ludanto, ĉiuj ŝtonoj sur kiujn ĝi moviĝas estas kaptitaj. Ĉiu ludanto devas ĉiam konservi unu pecon konsistantan el ringo de ok ŝtonoj ĉirkaŭ malplena kvadrato. Ludanto malgajnas tuj kiam li aŭ ŝi pro iu ajn kialo ne plu havas tian ringon sur la tabulo.",
+    "gess": "En Gess la \"pecoj\" estas 3×3-aranĝoj de ŝtonoj. Ludanto povas uzi ajnan 3×3-parton de la tabulo, kiu enhavas almenaŭ unu propran ŝtonon kaj neniun kontraŭulan. Se 3×3-peco moviĝas tiel, ke ĝi interkovras unu aŭ plurajn ŝtonojn de iu ajn ludanto, ĉiuj ŝtonoj sur kiujn ĝi moviĝas estas kaptitaj. Ĉiu ludanto devas ĉiam konservi unu pecon konsistantan el ringo de ok ŝtonoj ĉirkaŭ malplena kvadrato. Ludanto malgajnas tuj kiam li aŭ ŝi pro iu ajn kialo ne plu havas tian ringon sur la tabulo.",
     "gliss": "Starigu bazojn kaj dismetu glisilojn por kapti kontraŭulajn glisilojn kaj regi turojn. Venku forigante ĉiujn kontraŭulajn bazojn aŭ starigante kritikan nombron da regoturoj.",
     "gomoku": "Klasika ludo, en kiu vi provas fari vicon de ĝuste kvin ŝtonoj. Sesopa vico ne estas venko. La ludo finiĝas per remizo se neniu faras kvinopan vicon aŭ se okazas du sinsekvaj preterpasoj.",
     "go": "La tradicia ludo Goo.",
@@ -4431,7 +4306,7 @@
     "lielow": "Milita rakonto pri makiavela uzurpado. Vi gajnas se via peco alteriĝas sur la reĝon de la kontraŭulo. Vi ankaŭ gajnas se la kontraŭulo elektas movi sian reĝon el la tabulo.",
     "lifeline": "Konkeru teritorion kaj kaptu malamikajn grupojn fortranĉante ilin de ĉiuj aliancanoj. Grupo estas fortranĉita kiam ĝi ne havas liberan vojon—rektan aŭ alispecan—al aliaj grupoj de sia koloro. Gajnu lasante la kontraŭulon sen movoj.",
     "linage": "Teritoria ludo per nur unu koloro.",
-    "loa": "Klasika ludo, en kiu vi provas kunigi ĉiujn viajn pecojn en unu konektitan grupon. Peco povas moviĝi nur je ĝuste la nombro da spacoj egala al la nombro da pecoj laŭ ĝia movlinio. La komenca aranĝa variaĵo „Scrambled Eggs“ estas subtenata.",
+    "loa": "Klasika ludo, en kiu vi provas kunigi ĉiujn viajn pecojn en unu konektitan grupon. Peco povas moviĝi nur je ĝuste la nombro da spacoj egala al la nombro da pecoj laŭ ĝia movlinio. La komenca aranĝa variaĵo \"Scrambled Eggs\" estas subtenata.",
     "logger": "Ludo per Looney-piramidoj, en kiu la ludantoj konkuras por kreskigi kaj rikolti pli da arboj ol la kontraŭuloj.",
     "lox": "Sesangula konektludo kun kaptoj, inspirita de Tumbleweed. Ludanto regas ĉelon se pli ol duono de ĝiaj najbaroj havas vidlinion al pecoj de tiu ludanto. Se kontraŭula peco estas sur ĉelo regata de vi, dum via vico vi povas kapti ĝin anstataŭigante ĝin per propra peco. Gajnas la ludanto, kiu je la komenco de sia vico havas solidan konekton inter siaj du flankoj.",
     "magnate": "Ekonomia Decktet-ludo, en kiu la ludantoj konkuras pri regado de kvin distriktoj per disvolvado de kartosinsekvoj. Pli altrangaj kartoj kostas pli, sed pli kontribuas al via enspezo—eĉ parte disvolvitaj—kaj al via poentaro. La impostebla valuto estas emblemĵetonoj, kiujn oni kolektas vendante nedeziratajn kartojn aŭ ricevas de parte aŭ plene disvolvitaj kartoj laŭ ĵetkuba rezulto, kiel en Catan.",
@@ -4440,8 +4315,8 @@
     "margo": "Margo estas stakiga variaĵo de Goo. La ludantoj ne povas preterpasi. La ludo finiĝas kiam unu ludanto ne povas movi, kaj gajnas tiu kun plej multaj pilkoj sur la tabulo.",
     "mattock": "En Mattock vi ludas minadojn, kiuj fosas koridorojn tra roko. Oni tamen ne povas fosi tro proksime unu al la alia, ĉar la minejo kolapsus. Por venki, kaptu la kontraŭulon tiel, ke al li aŭ ŝi manku minebla spaco.",
     "mchess": "Ludo per Looney-piramidoj por du ludantoj sur duono de norma ŝaktabulo. En ĉi tiu ŝakeca strategia ludo la loko, ne la pecokoloro, determinas kiujn pecojn vi povas movi. Kiel en ŝako, ĉiu pecotipo havas propran movmanieron, kaj oni kaptas moviĝante sur kontraŭulan kvadraton; sed malsame ol en ŝako, vi povas movi nur pecojn en via propra kvadranto kaj ataki nur pecojn en aliaj kvadrantoj, kiuj eble estas viaj iamaj pecoj. La ludo finiĝas kiam iu perdas ĉiujn pecojn; gajnas la ludanto, kiu kaptis la plej multajn poentojn.",
-    "meg": "Meg estas malsimetria bonŝanc-prova ludo, en kiu unu ludanto provas „megi“ la kontraŭulon pasigante la pilkon inter ties kruroj.",
-    "meridians": "Meridians estas teritoria ludo, kies celo estas neniigi la kontraŭulajn ŝtonojn. Sur komence malplena tabulo, la ludantoj alterne metas ŝtonon sur malplenan punkton kiel en Goo. Alia amika ŝtono devas „vidi“ ĉiun grupon laŭ rekta vojo, alie la grupo estos forigita dum la vico de la kontraŭulo.",
+    "meg": "Meg estas malsimetria bonŝanc-prova ludo, en kiu unu ludanto provas \"megi\" la kontraŭulon pasigante la pilkon inter ties kruroj.",
+    "meridians": "Meridians estas teritoria ludo, kies celo estas neniigi la kontraŭulajn ŝtonojn. Sur komence malplena tabulo, la ludantoj alterne metas ŝtonon sur malplenan punkton kiel en Goo. Alia amika ŝtono devas \"vidi\" ĉiun grupon laŭ rekta vojo, alie la grupo estos forigita dum la vico de la kontraŭulo.",
     "mimic": "Ludo, en kiu malamikaj pecoj imitas viajn movojn dum vi konkuras por esti la unua, kiu atingas la malantaŭan vicon.",
     "minefield": "Konektu kontraŭajn flankojn de la tabulo, sed iuj pecaranĝoj estas malpermesitaj.",
     "minimize": "Gajnas la ludanto, kies plej malgranda grupo estas la plej granda.",
@@ -4462,8 +4337,8 @@
     "onyx": "Konektludo sur modifita stumpkvadrata tabulo kun kapta regulo.",
     "oonpia": "Sesangula, Go-simila ludo kun du pecotipoj. Nur pecoj de malsamaj tipoj estas konektitaj, kaj kvararka aranĝo de samtipaj pecoj—sendepende de koloro—estas malpermesita.",
     "orb": "Generatorb estas du-ludanta ludo sur norma ŝaktabulo. La ludantoj komencas en kontraŭaj anguloj kaj provas atingi la generatoran kernon de la kontraŭulo aŭ okupi la plimulton de la ĉeloj sur la frontlinio. Dum la ludo oni povas staki ĝis tri dampecojn en unu spaco. Stakoj de malsamaj altoj kondutas malsame kaj donas interesajn strategiajn eblojn.",
-    "ordo": "Ordo estas ludo de la tipo „atingu la hejman vicon de la kontraŭulo“, en kiu viaj pecoj devas ĉiam resti konektitaj. Pecoj povas moviĝi unuope kaj, en iuj situacioj, grupe. Vi ankaŭ povas venki disigante la grupon de la kontraŭulo tiel, ke ĝi ne plu povas rekonektiĝi.",
-    "oust": "Oust estas klasika „ekster-neniiga“ ludo: la tabulo komence estas malplena kaj la celo estas forigi ĉiujn kontraŭulajn pecojn. Dum via vico vi povas fari plurajn kaptajn metojn se eble, sed devas fini per senkapta meto. Se vi ne povas meti iun pecon, vi devas preterpasi.",
+    "ordo": "Ordo estas ludo de la tipo \"atingu la hejman vicon de la kontraŭulo\", en kiu viaj pecoj devas ĉiam resti konektitaj. Pecoj povas moviĝi unuope kaj, en iuj situacioj, grupe. Vi ankaŭ povas venki disigante la grupon de la kontraŭulo tiel, ke ĝi ne plu povas rekonektiĝi.",
+    "oust": "Oust estas klasika \"ekster-neniiga\" ludo: la tabulo komence estas malplena kaj la celo estas forigi ĉiujn kontraŭulajn pecojn. Dum via vico vi povas fari plurajn kaptajn metojn se eble, sed devas fini per senkapta meto. Se vi ne povas meti iun pecon, vi devas preterpasi.",
     "oware": "Tradicia okcidentafrika semludo, en kiu vi provas kapti la plej multajn pecojn.",
     "owlman": "Malsimetria ludo, en kiu profesoro kaj liaj asistantoj provas trovi la mitan Owlman kaj lian neston, dum Owlman provas fortimigi ĉiujn el la arbaro.",
     "pacru": "Teritoriregada ludo, en kiu direktitaj pecoj navigas subdividitan tabulon por alproprigi ĉelojn.",
@@ -4471,7 +4346,7 @@
     "paintbucket": "Elimina ludo, en kiu vi renversas grupojn de kontraŭulaj pecoj ĝis restas nur viaj.",
     "penguin": "Estas universale agnoskita vero, ke ĉiuj amas vidi pingvenojn gliti sur glacio. Kaj futbalo estas la monda ludo, ĉu ne? Do prenu kelkajn ĉarmajn pingvenajn familiojn, donu al ili glacian futbalkampon kaj pilkon, kaj rigardu la glitigan amuzon.",
     "pente": "En Pente la ludantoj laŭvice metas ŝtonojn sur la intersekcojn de la tabulo. Gajnas la unua, kiu faras kvinopan vicon aŭ kaptas dek ŝtonojn.",
-    "phutball": "Phutball (mallongigo de „philosopher’s football“) estas klasika du-ludanta, futbaleca tabulludo kun komunaj pecoj, en kiu vi provas porti la pilkon trans la golejon de la kontraŭulo.",
+    "phutball": "Phutball (mallongigo de \"philosopher’s football\") estas klasika du-ludanta, futbaleca tabulludo kun komunaj pecoj, en kiu vi provas porti la pilkon trans la golejon de la kontraŭulo.",
     "pigs": "La bazregula versio de Robo Battle Pigs, robota batalludo, en kiu vi programas sinsekvon de movoj por provi detrui ĉiujn kontraŭulajn porkojn. Ĉi tiu realigo subtenas 2–4 ludantojn, kaj ĉiu programas kvin movojn dum ĉiu vico.",
     "pigs2": "La kontinureliga versio de Robo Battle Pigs, robota batalludo, en kiu vi programas sinsekvon de movoj por provi detrui ĉiujn kontraŭulajn porkojn. Ĉi tiu realigo subtenas 2–8 ludantojn, kaj ĉiu programas nur unu movon dum ĉiu vico.",
     "pikemen": "Ludo per Looney-piramidoj, kiuj reprezentas soldatojn kun longaj pikiloj. Pecoj impetas en la direkto, al kiu ili rigardas, kaj poste povas ŝanĝi orientiĝon. Kaptu difinitan nombron da malamikaj soldatoj por venki.\n\nKvankam la ludo estas teknike ludebla de tri aŭ kvar ludantoj, ĉi tiu realigo subtenas nur du.",
@@ -4485,7 +4360,7 @@
     "pontedd": "La ludantoj konstruas insulojn kaj provas konekti kiel eble plej multajn per pontoj. Gajnas la plej multaj poentoj.",
     "posit": "Provu meti la kontraŭulon en paton per konstruado de negrimpeblaj stakoj.",
     "product": "La ludantoj poentas per multipliko de siaj du plej grandaj grupoj. Gajnas la plej alta poentaro; okaze de egaleco gajnas la dua ludanto.",
-    "prudh": "Prudh (prononcata „pru“) estas ludo kun komunaj pecoj, en kiu unu ludanto posedas la helajn kvadratojn kaj la alia la malhelajn. Manipulu pecstakojn por akiri poentojn. Gajnas la plej alta poentaro je la ludofino.",
+    "prudh": "Prudh (prononcata \"pru\") estas ludo kun komunaj pecoj, en kiu unu ludanto posedas la helajn kvadratojn kaj la alia la malhelajn. Manipulu pecstakojn por akiri poentojn. Gajnas la plej alta poentaro je la ludofino.",
     "pylon": "La ludo havas du fazojn: unue metan fazon, en kiu ĉiuj piramidoj estas metitaj sur la tabulon, poste stakigan fazon, en kiu oni kolektas piramidojn en stakojn. Regu la plimulton de la piramidoj por venki.",
     "quagmire": "Vetkuro por resti super la surfaco dum la tero cedas sub la piedoj. Marŝu, kuru kaj saltu tra la tabulo por ĝeni la alian teamon, sed nepre lasu sufiĉe da spaco por via propra!",
     "quax": "Quax estas konektludo sur kvadrata tabulo kun speciala movo: anstataŭ meti ŝtonon, vi povas konekti diagonale apudajn ŝtonojn.",
@@ -4499,7 +4374,7 @@
     "resolve": "Konektludo sur kvadrata krado. Se formiĝas kructranĉo, interŝanĝu la ĵus metitan pecon ĝis ĝi ne plu apartenas al kructranĉo. Se la tabulo estas plena sen gajninto, elektu unu el viaj ŝtonoj en kructranĉo kaj solvu ĝin.",
     "reversi": "Reversi estas klasika ludo, en kiu vi provas kapti la pecojn de la kontraŭulo enfermante ilin inter viaj propraj.",
     "rincala": "Ronda, mankaleca semludo, en kiu malsamkoloraj pecoj havas malsamajn valorojn. Akumulu la plej altan poentaron por venki.",
-    "rootbound": "En Root Bound du grupoj de „plantoj“ disvastiĝas vivsimile kaj konkuras pri regado de teritorio dum la spaco por nova kresko rapide malpliiĝas.",
+    "rootbound": "En Root Bound du grupoj de \"plantoj\" disvastiĝas vivsimile kaj konkuras pri regado de teritorio dum la spaco por nova kresko rapide malpliiĝas.",
     "saltire": "Konektu viajn du kontraŭajn flankojn metante ŝtonojn kaj interŝanĝante parojn de ortangule aŭ diagonale apudaj ŝtonoj. Interŝanĝo devas malpliigi aŭ la nombron de kructranĉoj aŭ tiun de supertranĉoj sur la tabulo, kaj ne rajtas pliigi la nombron de kructranĉoj.",
     "scaffold": "Scaffold estas konektludo sen remizoj, ludata per ŝtonoj sur la intersekcoj de kvadrata krado kiel en Goo. Nigro provas konekti la norda-sudan randojn per orta grupo, Blanko la orienta-okcidentajn. Dum via vico, metu ŝtonon de via koloro sur malplenan punkton. Poste, se eble, metu samkoloran ŝtonon sur malplenan punkton ortangule apudan al du samkoloraj grupoj, kaj daŭrigu tiajn metojn ĝis neniu plu eblas.",
     "shapechess": "Shape Chess estas ludo, en kiu la ludantoj uzas siajn pecojn por krei aksosimetriajn formojn. Per tri specoj de agoj (metoj, saltoj kaj puŝoj), ili provas krei simetriajn grupojn de almenaŭ ses pecoj; pli grandaj grupoj valoras pli da poentoj.",
@@ -4544,7 +4419,7 @@
     "take": "Kreskigu radikecajn ŝtonformaciojn el semoj. Plantoj mortas kiam mankas al ili spaco por kreski. Gajnas la lasta ludanto, kiu havas vivantan planton sur la tabulo.",
     "tanbo": "Kreu spacon por kreskigi viajn radikojn, ĉirkaŭbarante tiujn de la kontraŭulo.",
     "tbt": "Simpla ĵetkuba ludo, en kiu vi provas formi samaltajn stakojn sur via hejma vico.",
-    "tessella": "Pecoj kaptas duope per „pafa“ mekanismo. Estu la unua, kiu kaptas kvar kontraŭulajn pecojn.",
+    "tessella": "Pecoj kaptas duope per \"pafa\" mekanismo. Estu la unua, kiu kaptas kvar kontraŭulajn pecojn.",
     "tintas": "La ludantoj konkure provas kolekti aŭ ĉiujn sep pecojn de unu koloro, aŭ po kvar pecojn de kvar malsamaj koloroj.",
     "terrace": "Reĝa ludo pri kapto kaj eskapo, ludata sur tridimensia tabulo per diversgrandaj pecoj.",
     "toguz": "Tradicia, mankala semludo el Centra Azio, en kiu vi provas kapti la plimulton de la pecoj.",
@@ -4558,14 +4433,14 @@
     "unane": "Unuigludo inspirita de Konane.",
     "unlur": "Malsimetria konektludo, en kiu unu ludanto provas formi Y kaj la alia provas konekti kontraŭajn flankojn. Atingi la celon de la kontraŭulo sen atingi la propran signifas malvenkon. La ludo komenciĝas per kontrakta fazo: ambaŭ ludantoj metas pecojn de la koloro de la Y-ludanto ĝis iu preterpasas, post kio la kontraŭulo fariĝas la Linio-ludanto.",
     "upperhand": "Ludo pri elmetado, en kiu vi provas esti la unua, kiu metas ĉiujn siajn pecojn. Se formiĝas platformo kaj almenaŭ tri pecoj sur ĝi havas la koloron de unu ludanto, plia samkolora peco estas aŭtomate metita sur ĝin, kio povas kaŭzi ĉenreagojn. La tortregulo validas.",
-    "urbino": "En Urbino oni manipulas arkitektojn (kiel en la ludo Fabrik) por konstrui kvartalojn el diversspecaj konstruaĵoj laŭ kelkaj metreguloj. Kiam ne plu eblas movi, la kvartaloj estas poentataj, kaj gajnas la plej alta poentaro. La ludo ankaŭ inkluzivas la variaĵon „Monuments“.",
+    "urbino": "En Urbino oni manipulas arkitektojn (kiel en la ludo Fabrik) por konstrui kvartalojn el diversspecaj konstruaĵoj laŭ kelkaj metreguloj. Kiam ne plu eblas movi, la kvartaloj estas poentataj, kaj gajnas la plej alta poentaro. La ludo ankaŭ inkluzivas la variaĵon \"Monuments\".",
     "unstack": "Semu viajn stakojn por kapti la kontraŭulajn pecojn kaj fini kun pli da pecoj ol la kontraŭulo.",
     "valley": "Portu vian reĝon al la centra spaco, sed viaj pecoj devas ĉiam moviĝi kiel eble plej malproksimen. Kunlaboro estas nepra.",
     "veletas": "Teritoria ludo sen remizoj, en kiu la ludantoj regas plurajn neŭtralajn pafantojn kaj per ili pafas ŝtonojn de sia propra koloro. Por venki, ludanto devas pretendi la plimulton de la neŭtralaj pecoj, ĉirkaŭante ilin per pli grandaj grupoj de siaj pecoj ol tiuj de la kontraŭulo.",
     "verge": "En Verge la ludantoj provas krei grupojn, kiuj dividas la tabulon; tiaj grupoj estas frostigitaj kaj malamikaj grupoj estas forigitaj. Gajnas la unua ludanto, kiu ne plu povas fari validan meton.",
     "viruswar": "Papera-kaj-krajona ludo pri kreskigo kaj detruado de virusoj.",
     "volcano": "Icehouse-enigmoludo por du ludantoj. Stakoj de piramidoj estas vulkanoj, kelkaj kun ĉapo. Movante la ĉapojn, vi kaŭzas erupciojn, kiuj povas ebligi kapton de pecoj. Gajnas la unua, kiu kaptas difinitan nombron da triopoj.",
-    "volo": "Volo estis inspirita de la beleco de birdoj flugantaj en aroj. Ĉiu ludanto laŭvice metas pecon aŭ movas unu aŭ plurajn pecojn (ĉi tie nomatajn „birdoj“) sur la tabulo kaj provas kunigi ĉiujn en unu kontinuan „aron“. Ludanto venkas tuj kiam li havas unu kontinuan aron, sendepende de ĝia grandeco.",
+    "volo": "Volo estis inspirita de la beleco de birdoj flugantaj en aroj. Ĉiu ludanto laŭvice metas pecon aŭ movas unu aŭ plurajn pecojn (ĉi tie nomatajn \"birdoj\") sur la tabulo kaj provas kunigi ĉiujn en unu kontinuan \"aron\". Ludanto venkas tuj kiam li havas unu kontinuan aron, sendepende de ĝia grandeco.",
     "waldmeister": "La ludantoj laŭvice plantas arbojn por provi krei grupojn laŭ koloro aŭ alto. Gajnas la plej alta poentaro post du raŭndoj.",
     "witch": "Kvar specoj de pecoj estas hazarde aranĝitaj sur krado. La ludantoj laŭvice forigas pecojn ĝis iu atingas 50 poentojn.",
     "wunchunk": "Kiel eble plej unuigu viajn pecojn ĝis la fino de la ludo, sed tenu ilin apartaj dum la frua kaj meza fazoj por pliigi ilian povon. Gajnas tiu, kiu fine havas plej malmultajn grupojn.",
@@ -4583,48 +4458,49 @@
     "alta": "Estas du manieroj meti ŝaltilojn en la grafika interfaco: (1) elektu la orientiĝon de la ŝaltilo en la panelo, poste klaku la deziratan spacon sur la tabulo por meti ĝin; aŭ (2) klaku du verticojn. Vertico estas notata per steleto, sekvata de la algebra notacio de la spaco, kies malsupra-maldekstra angulo estas tiu vertico. Por baskuligi ŝaltilon, simple klaku la spacon.",
     "anache": "Ĉi tiu realigo sekvas la regularon de David Ploog. Tri rimarkindaj ŝanĝoj estas: (1) bariloj estas malpermesitaj; (2) anstataŭ tabulo 16×16 ekzistas variaĵo 15×15, en kiu pecoj promociiĝas al ĉevaloj sur la centra linio kaj la drako ne rajtas salti al la spaco 7×7 el la alia angulo; kaj (3) ĉe la anguloj pecoj estas kaptataj per dispremkapto anstataŭ gardista kapto, do devas esti almenaŭ du kontraŭulaj pecoj en linio antaŭ ol eblas kapti ĉe angulo.\n\nRimarko: la kontrolo pri pato estas komputile multekosta. Se vi ne povas fari validan movon, rezignu permane.",
     "arimaa": "Disponigita laŭ sekcio 3 de la [publika permesilo de Arimaa](https://arimaa.com/arimaa/license/).\n\nHarlog estas akceptita metodo por determini materialan avantaĝon. Pozitivaj valoroj favoras Oron, negativaj Arĝenton. La teoria intervalo estas ±112, sed praktike ±20 jam estas tre forta avantaĝo.\n\nĈar ni ne povas generi kompletajn listojn de movoj, la sistemo ne povas detekti la maloftajn okazojn, kiam viaj solaj disponeblaj movoj estas malvalidaj pro ripeto de pozicio. La sistemo malpermesos tiujn ripetojn, kaj vi devos rezigni permane.",
-    "armadas": "Estas konataj problemoj pri ĉi tiu ludo en iOS-aparatoj.\n\nLa ludo proponas du scenarojn:\n\n* Defaŭlte ĉiu ludanto havas du triopojn da pecoj. Dum la metfazo, ĉiu devas meti 1 ĝis 3 ŝipojn, ĝis ĉiuj estas metitaj.\n* La variaĵo „Freeform“ permesas meti ajnajn deziratajn ŝipojn (maksimume tri samtempe), ĝis ambaŭ ludantoj preterpasas. Tiel eblas krei malekvilibrajn aŭ alimaniere malsimetriajn ŝiparojn.\n\nDefaŭlte estas unu insulo en la centro de la ludkampo. Disponeblas variaĵoj kaj „sen insuloj“ kaj „du insuloj“. Oni ne povas moviĝi aŭ pafi tra insuloj. Por sukcese trafi ŝipon, almenaŭ unu angulo de la triangulo de via ŝipo devas havi liberan vidlinion al almenaŭ unu angulo de la celata ŝipo.\n\nMemoru, ke eblas meti ŝipon kontraŭ insulon aŭ la randon de la tabulo tiel, ke ĝi ne plu povos moviĝi! Estu singarda!",
+    "armadas": "Estas konataj problemoj pri ĉi tiu ludo en iOS-aparatoj.\n\nLa ludo proponas du scenarojn:\n\n* Defaŭlte ĉiu ludanto havas du triopojn da pecoj. Dum la metfazo, ĉiu devas meti 1 ĝis 3 ŝipojn, ĝis ĉiuj estas metitaj.\n* La variaĵo \"Freeform\" permesas meti ajnajn deziratajn ŝipojn (maksimume tri samtempe), ĝis ambaŭ ludantoj preterpasas. Tiel eblas krei malekvilibrajn aŭ alimaniere malsimetriajn ŝiparojn.\n\nDefaŭlte estas unu insulo en la centro de la ludkampo. Disponeblas variaĵoj kaj \"sen insuloj\" kaj \"du insuloj\". Oni ne povas moviĝi aŭ pafi tra insuloj. Por sukcese trafi ŝipon, almenaŭ unu angulo de la triangulo de via ŝipo devas havi liberan vidlinion al almenaŭ unu angulo de la celata ŝipo.\n\nMemoru, ke eblas meti ŝipon kontraŭ insulon aŭ la randon de la tabulo tiel, ke ĝi ne plu povos moviĝi! Estu singarda!",
     "ataxx": "Post tria ripeto de pozicio, la ludo finiĝas kaj la poentaroj estas kalkulataj.",
     "bao": "Movoj en Bao povas esti tre kompleksaj, kun pluraj rondiroj ĉirkaŭ la tabulo kaj ŝanĝoj de direkto. Tial la indikoj estas malmultaj. La komenca ĉelo kaj direkto estas emfazitaj, kaj kaptitaj ĉeloj ankaŭ estas markitaj, sed detala indiko de la movado ne eblas. Se vi kredas, ke vi trovis programeraron, bonvolu sciigi nin en Discord.",
-    "biscuit": "La ludo finiĝas kiam, je la fino de raŭndo, iu atingis aŭ superis la celpoentaron. Gajnas la plej alta poentaro. Egalvenkoj eblas.\n\nKiam oni kalkulas biskvitojn, unu karto ne rajtas esti kalkulata pli ol unu fojon. Ekzemple, se la radika karto estas 6, la fino de la ĉefa linio ankaŭ estas 6 (kruca karto), kaj vi ludas 6 super tiu kruca karto, vi poentas la „varman krucbiskviton“ (la supro kaj malsupro de la kruca linio kongruas), sed vi *ne ankaŭ* ricevas ordinaran „biskviton“ pro kongruo kun la fino de la ĉefa linio (ĉar temas pri la sama karto). Krome, krucaj linioj tute ne estas kalkulataj, se la linio ne enhavas almenaŭ du kartojn. Do ludi novan krucan karton (en nia ekzemplo, 6) ne aŭtomate donas „biskviton“ pro ludo de karto sur la ĉefa linio, kiu kongruas kun kruca linio.\n\nPliaj informoj pri la sistemo Decktet troveblas ĉe la [oficiala retejo de Decktet](https://www.decktet.com). La kartoj en la manoj de la ludantoj estas kaŝitaj de observantoj kaj kontraŭuloj.",
+    "biscuit": "La ludo finiĝas kiam, je la fino de raŭndo, iu atingis aŭ superis la celpoentaron. Gajnas la plej alta poentaro. Egalvenkoj eblas.\n\nKiam oni kalkulas biskvitojn, unu karto ne rajtas esti kalkulata pli ol unu fojon. Ekzemple, se la radika karto estas 6, la fino de la ĉefa linio ankaŭ estas 6 (kruca karto), kaj vi ludas 6 super tiu kruca karto, vi poentas la \"varman krucbiskviton\" (la supro kaj malsupro de la kruca linio kongruas), sed vi *ne ankaŭ* ricevas ordinaran \"biskviton\" pro kongruo kun la fino de la ĉefa linio (ĉar temas pri la sama karto). Krome, krucaj linioj tute ne estas kalkulataj, se la linio ne enhavas almenaŭ du kartojn. Do ludi novan krucan karton (en nia ekzemplo, 6) ne aŭtomate donas \"biskviton\" pro ludo de karto sur la ĉefa linio, kiu kongruas kun kruca linio.\n\nPliaj informoj pri la sistemo Decktet troveblas ĉe la [oficiala retejo de Decktet](https://www.decktet.com). La kartoj en la manoj de la ludantoj estas kaŝitaj de observantoj kaj kontraŭuloj.",
     "blooms": "La sojla valoro estas X(n) = 5n, kie n estas la bazo de la hexhex-tabulo (ekzemple, la defaŭlta tabulo havas bazon 6, do la sojlo estas 30).",
     "btt": "Nekutimaj nombroj da ludantoj (3, 5 aŭ 6) estas subtenataj, sed sur ordinara rektangula tabulo de konvena grando anstataŭ sur Martian Chessboard.",
     "bug": "En ĉi tiu realigo, post la komenca meto, se la ludanto havas insektojn, kiuj devas manĝi, la manĝopovaj insektoj estos emfazitaj. Manĝado kaj kroma kresko okazas samtempe; do fari kroman kreskon ĉe insekto, elektante validan spacon apud ĝi, malaperigos ĉiujn emfazitajn manĝopovajn insektojn apud ĝi. Eblas fari kroman kreskon sur spacon okupatan de manĝopova insekto. Rimarku, ke kiam oni elektas insekton por manĝi, ĈIUJ manĝopovaj insektoj de la sama formo apud ĝi estos forigitaj. Tio povas diferenci de aliaj realigoj, kiuj havas apartan fazon por elekti manĝotan insekton kaj eble lasas kelkajn por alia insekto.",
-    "calculus": "Klaku ekzistantan pecon por movi ĝin, aŭ klaku liberan punkton por meti novan pecon. De iu rando de la tabulo ĝis la metpunkto devas ekzisti sufiĉe larĝa vojo. Se la metita peco parte kovrus ekzistantajn pecojn, la sistemo provos „alkroĉi“ ĝin tiel, ke ĝi tuŝu ĉiujn parte kovritajn pecojn.\n\nStrekitaj linioj montras tuŝantajn pecojn. Plenaj linioj montras perimetrojn ĉirkaŭ validaj areoj. Pecoj konektitaj per plenaj linioj ne povas esti movitaj.",
+    "calculus": "Klaku ekzistantan pecon por movi ĝin, aŭ klaku liberan punkton por meti novan pecon. De iu rando de la tabulo ĝis la metpunkto devas ekzisti sufiĉe larĝa vojo. Se la metita peco parte kovrus ekzistantajn pecojn, la sistemo provos \"alkroĉi\" ĝin tiel, ke ĝi tuŝu ĉiujn parte kovritajn pecojn.\n\nStrekitaj linioj montras tuŝantajn pecojn. Plenaj linioj montras perimetrojn ĉirkaŭ validaj areoj. Pecoj konektitaj per plenaj linioj ne povas esti movitaj.",
     "canoe": "La ĵetkuboj por via vico aperas ĉe f2 kaj g1 post kiam la antaŭa ludanto finis. Dum la preparado, klaku ĉelon de la deponejo por meti kubon (se vi ne elektis kubon, estos uzata la plej alta ankoraŭ nemetita valoro). Klaku okupatan ĉelon de la deponejo por repreni kubon. Sendu la movon kiam ĉiuj ses kuboj estas metitaj.\n\nDum la ludo, klaku ĵetkubon, poste kubon aŭ aron, kaj fine emfazitan celon. Klaku duan ĵetkubon antaŭ ol elekti kubon por kombini la ĵetkubojn en ara movo (notata 3+4:, kun la ĵetkubo ĉe f2 unue). Preterpasi eblas nur antaŭ ol vi komencas movon. Anstataŭ stakoj, arojn prezentas plataj seslateroj.\n\nAroj ne povas formiĝi en la deponejo. Kiam unu ĵetkubo povas elporti ĉiujn viajn restantajn kubojn, vi rajtas uzi nur tiun ĵetkubon. La sepa kubo (via lasta kubo sur la tabulo) devas sekvi la plej rektan vojon por elportiĝi, kvazaŭ aro; ĝi povas uzi ambaŭ ĵetkubojn kiel du apartajn movojn (kun unu rotacio por ĉiu), sed ne laŭ kombinita notacio 3+4:. Elporti ĝin tamen forbalaas ĉiujn restantajn kubojn de la kontraŭulo.",
     "carnac": "Ĉiu megalito konsistas el du kuboj stakigitaj vertikale. Sur ĉiu kubo la supra kaj malsupra flankoj havas kontraŭajn kolorojn; la maldekstra kaj dekstra kongruas; la antaŭa kaj malantaŭa kongruas unu kun la alia kaj estas kontraŭaj al la maldekstra/dekstra paro.\n\nMetoj estas notataj `TF-cell`: la unua cifero estas la supra koloro kaj la dua estas la koloro de la flanko turnita al vico 1 (sudo). Ekzemple, `12-d4` signifas supran koloron 1 kaj sudan flankkoloron 2.\n\nKiam vi renversas megaliton, kombinu la renversdirekton kaj meton en unu movo: `>s,11-a1` renversas suden kaj poste metas la orientiĝon `11` ĉe `a1`.\n\nEn izometria vido povas esti malfacile klaki plankĉelojn kaŝitajn sub apudaj renversitaj megalitoj — turnu la vidon por trovi aperturon, aŭ uzu la platan vidon por tute enfermitaj truoj. En truoj, kie megalito ne povas esti renversita, gravas nur la supraj koloroj kaj oni supozas, ke la suda flanko havas koloron 1 (`11` aŭ `21`). En plata vido la metlegendo montras nur la supran flankon, sed ĉiuj kvar orientiĝoj restas disponeblaj.",
     "druid": "Lintelo devas esti apogita ĉe ambaŭ finoj (ne sur nuda grundo) kaj kuŝi sur precize du viaj ŝtonoj (kiuj ne nepre ambaŭ estas ĉe la finoj). Linteloj devas kuŝi horizontale: ambaŭ finoj devas ripozi sur samaltaj stakoj. Linteloj povas kruci unu la alian, sed vi ne rajtas enfadeni novan lintelon tra la breĉo sub la centro de ekzistanta lintelo. Nur la plej supra ŝtono de ĉiu ĉelo kalkuliĝas por konektoj.\n\nEn la variaĵo Druid's Walk sur la rektangula tabulo, via Druido aperas la unuan fojon, kiam vi metas ŝtonon sur unu el viaj randoj (okcidenta aŭ orienta por ludanto 2; norda aŭ suda por ludanto 1). Por venki, elportu la Druidon de la tabulo trans la kontraŭan randon. Dum ĉiu vico aŭ metu ŝtonon aŭ movu vian Druidon — ne ambaŭ. Druidoj moviĝas sur ortangule apudajn samkolorajn ŝtonojn kaj ĉiam staras sur la plej supra ŝtono; ili ne povas paŝi en nudajn breĉojn sub linteloj. Oni ne rajtas meti ŝtonon sur Druidon. Gajnas la unua ludanto, kiu elportas sian Druidon. Druid's Walk ne validas sur la tabuloj Druid's Y aŭ Druid's Hex.",
     "catsdogs": "La origina ludo, *SNORT*, estis projektita de Simon Norton en 1970. Ĝia sola regulo estis malebligi, ke diverskoloraj ŝtonoj estu ortangule apudaj. Patigita ludanto malgajnas. Norton proponis ankaŭ la miserludan version (pato estas venko). Tamen spegula strategio solvas la originan ludon. Chris Huntoon proponis pli grandan tabulon 11×11, sur kiu la unua ludanto ne rajtas komenci en la centro (por malhelpi speguladon); li nomis ĝin *Cats and Dogs*, kaj ĝi estas la ĉefa ludo ĉi tie. Disponeblas ankaŭ la portugala turnira regularo sur la malpli granda tabulo 8×8: la unua ludanto devas komenci en la centra areo 2×2, kaj la dua devas respondi ekster tiu areo. Tio rompas la spegulan strategion kaj tamen permesas ludi sur la origina malpli granda tabulo. Vidu ankaŭ la artikolon pri Snort en [AGM#15](https://www.abstractgames.org/uploads/1/1/6/4/116462923/abstract_games_issue_15.pdf).",
     "chase": "Nuntempe la plimulto de interŝanĝaj movoj devas esti mane redaktitaj. Ni laboras por korekti tion.",
     "conspirateurs": "En la baza ludo, pecoj povas trairi rifuĝejojn kadre de plurpaŝa salto. Ili fiksiĝas nur kiam ili finas sian movon en rifuĝejo. En la strikta variaĵo, pecoj fiksiĝas tuj kiam ili eniras rifuĝejon.\n\nEn kvar-ludantaj partioj, ludantoj 1 kaj 2 estas partneroj, same kiel ludantoj 3 kaj 4.",
-    "deckfish": "Pliaj informoj pri la sistemo Decktet troveblas ĉe la [oficiala retejo de Decktet](https://www.decktet.com).\n\nLa povoj de la emblemoj (kapabloj movi ludmarkon) estas:\n* Lunoj: saltu ortangule trans breĉojn.\n* Sunoj: movu unu aŭ du kartojn diagonale.\n* Ondoj: movu ortangule ĝis la lasta nebarita karto.\n* Folioj: movu ortangule sur ajnan karton sen najbaraj baroj.\n* Lindvormoj: movu ortangule sur la unuan okupatan karton, puŝante ties ludmarkon al la sekva karto.\n* Nodoj: faru tri ortajn movojn de po unu karto, sen retropaŝi.\n\nLaŭ la reguloj, la „unua“ ludanto estas tiu, kiu metas due en la metfazo sed movas unue en la movfazo. Ĉi tie la unua ludanto estas tiu, kiu metas unue sed movas due. Tion realigas aŭtomata preterpaso por la koncerna ludanto.\n\nEstas plenumata ankaŭ la regulo, ke eĉ se la lasta ludanto jam venkas, li devas plu ludi ĝis mankas al li movoj.",
-    "domineering": "Domineering, ankaŭ nomata Stop-Gate, estas partia kombineca ludo. Göran Andersson projektis ĝin ĉirkaŭ 1973, kaj ĝi aperis en la pionira libro pri kombineca ludteorio *Winning Ways for Your Mathematical Plays*. Ekzistas senpartia versio nomata Cram, en kiu ambaŭ ludantoj povas meti horizontalajn aŭ vertikalajn domenojn. La variaĵon „Quelhas“ proponis Carlos P. Santos kaj Alfie Davies en 2025; ĝi estas miserluda versio (la ludanto sen ebla movo venkas) kaj uzas pli longajn, domenecajn poliominojn.",
+    "deckfish": "Pliaj informoj pri la sistemo Decktet troveblas ĉe la [oficiala retejo de Decktet](https://www.decktet.com).\n\nLa povoj de la emblemoj (kapabloj movi ludmarkon) estas:\n* Lunoj: saltu ortangule trans breĉojn.\n* Sunoj: movu unu aŭ du kartojn diagonale.\n* Ondoj: movu ortangule ĝis la lasta nebarita karto.\n* Folioj: movu ortangule sur ajnan karton sen najbaraj baroj.\n* Lindvormoj: movu ortangule sur la unuan okupatan karton, puŝante ties ludmarkon al la sekva karto.\n* Nodoj: faru tri ortajn movojn de po unu karto, sen retropaŝi.\n\nLaŭ la reguloj, la \"unua\" ludanto estas tiu, kiu metas due en la metfazo sed movas unue en la movfazo. Ĉi tie la unua ludanto estas tiu, kiu metas unue sed movas due. Tion realigas aŭtomata preterpaso por la koncerna ludanto.\n\nEstas plenumata ankaŭ la regulo, ke eĉ se la lasta ludanto jam venkas, li devas plu ludi ĝis mankas al li movoj.",
+    "domineering": "Domineering, ankaŭ nomata Stop-Gate, estas partia kombineca ludo. Göran Andersson projektis ĝin ĉirkaŭ 1973, kaj ĝi aperis en la pionira libro pri kombineca ludteorio *Winning Ways for Your Mathematical Plays*. Ekzistas senpartia versio nomata Cram, en kiu ambaŭ ludantoj povas meti horizontalajn aŭ vertikalajn domenojn. La variaĵon \"Quelhas\" proponis Carlos P. Santos kaj Alfie Davies en 2025; ĝi estas miserluda versio (la ludanto sen ebla movo venkas) kaj uzas pli longajn, domenecajn poliominojn.",
     "emu": "Pliaj informoj pri la sistemo Decktet troveblas ĉe la [oficiala retejo de Decktet](https://www.decktet.com). La kartoj en la manoj de la ludantoj estas kaŝitaj de observantoj, kaj de kontraŭuloj ĝis la kartaro malpleniĝas. Tiam la ludantoj havas kompletan informon, do la manoj estas malkaŝitaj. Kartoj prenitaj el la forĵetamaso ankaŭ estas ĉiam videblaj al kontraŭuloj.",
     "entropy": "En ĉi tiu realigo la ludantoj ludas du partiojn samtempe, sed kun unu komuna fluo de hazardigitaj pecoj. Ĉiu ludanto metas pecon sur la tabulon de Ordo de sia *kontraŭulo* kaj poste faras movon sur sia *propra* tabulo de Ordo; tiel ambaŭ rolas samtempe kiel Ordo kaj Kaoso. Gajnas la ludanto kun la plej alta poentaro! Ĉar ambaŭ ricevis precize la samajn metelektojn, tio donas la plej puran mezuron de relativa lerteco.",
     "circleOfLife": "La specioj estas numeritaj 0–11 kontraŭhorloĝe sur la ringo, komencante per la unu-seslatera specio supre. Specio 0 manĝas specion 11; ĉiu alia specio manĝas tiun kun la tuj suba numero. Predado okazas nur kiam vi metas ŝtonon, kiu formas specion apud predo. Grupoj ne rajtas havi pli ol kvar ŝtonojn. Gajnas la unua ludanto, kiu kaptas 20 kontraŭulajn ŝtonojn, aŭ la ludanto, kiu ne povas meti dum sia vico (ĉar li plenigis la ekosistemon).",
+    "clearpath": "Libera Vojo estis projektita de Mark Steere en septembro 2026, kunlabore kun Claude Fable 5.1, AI-modelo farita de Anthropic.\n\nLa vitalaj punktoj estas markitaj sur la tabulo. Ruĝa punkto markas punkton, kiun ĉiu ebla Ruĝa konekto trapasas; blua punkto markas punkton, kiun ĉiu ebla Blua konekto trapasas; kaj blua punkto ene de ruĝa punkto markas punkton vitalan por ambaŭ ludantoj. Punkto vitala nur por via kontraŭulo estas malpermesita por vi, krom se via meto kompletigas vian konekton.\n\nPreterpasi ne estas permesita, sed ludanto sen valida meto havas sian vicon transsaltita. La preterpaso estas submetita aŭtomate.\n\nĈi tiu realigo mallongigas la ludon per agnosko, ke ludanto, kiu ne plu havas eblan konekton, malgajnis perforte.",
     "evenatodds": "Por meti kahelon sur la tablon, metu unu finon sur malplenan grundon apud kongrua aktiva flanko; la alia fino povas iri sur ajnan apudan malplenan grundon. Por stakigi, unu fino devas kongrui kun la flanko sub ĝi; la alia povas kovri ajnan aktivan flankon *sur alia kahelo* je la sama alto. En la notacio, la unua koordinato estas la fino, kiu plenumas unu el tiuj reguloj. Malplenaj flankoj estas bariloj kaj apartenas al neniu.\n\nLa kaheloj en via mano estas kaŝitaj de la kontraŭulo. La identecoj de la kaheloj en la provizo kaj de la du forigitaj kromtempaj kaheloj restas kaŝitaj ĝis la ludo finiĝas. La kvanto en la provizo aperas en la flankpanelo.",
     "exxit": "Tradukoj de la regularo ofte preterlasas kelkajn nuancojn. Ĉi tiu realigo sekvas la originan francan eldonon de la reguloj.\n\nĈar la tabulo kreskas dum la ludo laŭ neregulaj formoj, la seslateroj estas etikeditaj nombre anstataŭ algebre. Tiel la etikedoj ne ŝanĝiĝas dum la mapo kreskas.",
     "forms": "Forms estis projektita de Steven Meyers en 2007. Post ĉiu movo, ĉiuj pecoj ekster la grupo, kiu enhavas la laste movitan pecon, estas kaptitaj. La lasta movinto malgajnas (do Forms estas miserludo). La unua versio permesis al peco kapti ajnan kontraŭulan pecon. Poste, en 2011, Meyers kreis duan version, **Advanced Forms**, en kiu oni rajtis kapti nur ortangule apudajn pecojn, sed peco povis ankaŭ moviĝi al malplena ĉelo, se sekvo de ortaj paŝoj tra malplenaj ĉeloj konektis la du lokojn. Ankaŭ la komenca aranĝo ŝanĝiĝis al ŝaktabula ŝablono. Tiu dua versio estas la defaŭlta variaĵo ĉi tie ĉe AP. Pliaj informoj troveblas ĉe [WAG](https://jpneto.github.io/world_abstract_games/forms.htm).",
     "frogger": "Kiel en aliaj Decktet-ludoj ĉe Abstract Play, la kartaro montriĝas ĉe la malsupro de la tabulo kaj inkluzivas kaj la kartojn en la kartaro kaj la nekonatajn kartojn en la manoj de la aliaj ludantoj. Post la komenca disdono, ĉiuj kartoj estas prenataj el la malkaŝa prenrezervo, do la enhavo de la manoj iom post iom fariĝas konata. La stako de forĵetitaj kartoj ankaŭ montriĝas.\n\nDevigaj pasoj ne plu estas uzataj, kiam ludanto replenigas la prenrezervon (kaj submetas la movon) meze de sia vico. La servilo aŭtomate traktas la duan parton de la vico de tiu ludanto. Ekzistas ankaŭ variaĵo pri la prenrezervo, kiu laŭdezire ebligas eviti la dividon de la vico en du apartajn movojn.\n\nLa variaĵo \"Krokodiloj\" estas verko de Jorge Arroyo, la tradukinto de la angla versio de la reguloj. La altnivelaj reguloj kaj aliaj etaj variaĵoj estas verkoj de P. D. Magnus; ili aperas en The Decktet Book, kie la ludo nomiĝas Xing.",
-    "garden": "Por tute klare montri, kio okazis dum la antaŭa vico, ĉiu movo aperas sur kvar apartaj tabuloj. La unua montras la ludon tuj post la komenca meto de la peco. La dua montras la staton post renverso de la apudaj pecoj. La tria montras eventualajn rikoltojn. La kvara montras la finan ludstaton kaj estas tiu, sur kiu vi faras viajn movojn.\n\nEn nia realigo, nigro estas ĉiam la „tome“-koloro, kiu rompas egalecon. La lasta ludanto, kiu rikoltis nigron, havos `0.1` post sia poentaro.",
+    "garden": "Por tute klare montri, kio okazis dum la antaŭa vico, ĉiu movo aperas sur kvar apartaj tabuloj. La unua montras la ludon tuj post la komenca meto de la peco. La dua montras la staton post renverso de la apudaj pecoj. La tria montras eventualajn rikoltojn. La kvara montras la finan ludstaton kaj estas tiu, sur kiu vi faras viajn movojn.\n\nEn nia realigo, nigro estas ĉiam la \"tome\"-koloro, kiu rompas egalecon. La lasta ludanto, kiu rikoltis nigron, havos `0.1` post sia poentaro.",
     "guerrilla": "Ĉiu el la du ludantoj povas venki per forigo de ĉiuj pecoj de sia kontraŭulo. La ludanto de la sekurecaj fortoj ankaŭ venkas, se tiuj fortoj postvivas ĝis la ribeluloj ne plu havas ŝtonojn por meti.\n\nDefaŭlte matĉo konsistas el du ludoj kun interŝanĝitaj roloj. Ĉiu ludanto unufoje regas la ribelulojn kaj unufoje la sekurecajn fortojn. Kiam ambaŭ ludantoj venkas kiel ribeluloj, la matĉon venkas tiu, kiu uzis malpli da ŝtonoj (66 − nombro de restantaj ŝtonoj ĉe la fino de tiu ludo; la malpli alta poentaro venkas). Tiuokaze la matĉo estas remiza nur se iliaj poentaroj kiel ribeluloj egalas. Venko kiel sekurecaj fortoj donas poentaron de 67. Se unu ludanto venkas en ambaŭ ludoj (en unu kiel ribeluloj kaj en la alia kiel sekurecaj fortoj), tiu venkas la tutan matĉon. Se ambaŭ ludantoj venkas nur kiel sekurecaj fortoj, la matĉo estas remiza.",
     "scribe": "La referenctabelo de glifoj aperas en la maldekstra marĝeno. Punkto markas la plej lastan meton de ĉiu ludanto. Kiam minikrado pleniĝas, la glifpoentoj estas sumataj kaj la pli alta poentaro gajnas tiun kradon (okaze de egaleco gajnas la ludanto, kiu kompletigis ĝin).",
-    "gyges": "La celkvadratoj estas apudaj al ĉiuj ĉeloj en la lasta vico. La bildigilo nuntempe ne povas prezenti „flosantajn“ ĉelojn.",
+    "gyges": "La celkvadratoj estas apudaj al ĉiuj ĉeloj en la lasta vico. La bildigilo nuntempe ne povas prezenti \"flosantajn\" ĉelojn.",
     "halma": "Por malpliigi la [egalecreman naturon](https://boardgamegeek.com/thread/3706389/unspoiling-halma-redux) de la ludo, validas jenaj reguloj: (a) ludanto venkas se la kontraŭa hejmbazo estas plena kaj enhavas almenaŭ unu amikan ŝtonon (la kriterio de David Parlett); (b) ĉiu peco en la hejmbazo de la ludanto devas progresi al la malamika tendaro, kiam tio eblas per salto super malamika peco (la regulo de Zillions, por forigi strategiojn celantajn remizon); (c) neniu ŝtono rajtas reveni al sia hejmbazo.\n\n[Halma](https://en.wikipedia.org/wiki/Halma) estis unu el la unuaj komercaj sukcesoj de abstrakta ludo. [George Howard Monks](https://en.wikipedia.org/wiki/George_Howard_Monks) projektis ĝin en 1883/4. Oni diras, ke Halma estis inspirita de pli malnova brita ludo nomata *Hoppity*. Tamen mankas kaj dokumentoj kaj konservitaj tabuloj pri tiu ludo, kio igas la aserton pri deveno historia mistero. Halma poste estis adaptita (ĉirkaŭ 1892/3) al eĉ pli granda sukceso: [Chinese Checkers](https://boardgamegeek.com/boardgame/2386/chinese-checkers), facile ludebla de tri aŭ ses ludantoj.\n\nSuper Halma estas pli dinamika variaĵo de nekonata aŭtoro, prezentita en la libro de 1992 **New Rules for Classic Games** de Wayne Schmittberger. Ĝi proponas longajn saltojn, ĉe kiuj devas esti egala la nombro de malplenaj ĉeloj antaŭ kaj post la transsaltata ŝtono. La limigoj pri movoj en la bazoj ankoraŭ validas en ĉi tiu realigo de Super Halma.",
     "halmaclimbers": "Halma Climbers estis projektita de Alexander Brady en 2021.\n\nĈi tiu realigo permesas al la ludantoj movi laŭplaĉe, anstataŭ limigi ilin al movoj, kiuj strikte pliigas la totalan poentaron (kiel menciite en la [regularo](https://blackandwhite.develz.org/games/HalmaClimbers.pdf) de David Ploog). Tiu elekto forigas la penon kontroli plurajn kombinaĵojn de movoj nur por konstati, ke ne plu ekzistas movo, kiu pliigas la totalan poentaron. Ĝi ankaŭ evitigas al la programo kalkuli troan nombron da permutaĵoj, kiu povas esti tre granda pro la du-agaj vicoj kaj kompleksaj saltsinsekvoj. La ludo finiĝas kiam ambaŭ ludantoj sinsekve preterpasas, kiam la antaŭa ludanto evakuas sian propran areon, aŭ kiam la nuna ludanto ne havas disponeblan antaŭen-salton.",
-    "homeworlds": "La venkkondiĉo nomiĝas „Sinister Homeworlds“. Vi venkas nur se vi eliminas la kontraŭulon maldekstre de vi. Se tion faras iu alia, la ludo daŭras, sed via maldekstra kontraŭulo ŝoviĝas horloĝdirekte. Ekzemple, en kvar-ludanta partio, se mi estas Sudo, mi venkas eliminante Okcidenton. Sed se Nordo eliminas Okcidenton, la ludo daŭras kaj Nordo fariĝas mia maldekstra kontraŭulo.",
-    "intermedium": "Intermedium (ankaŭ nomata Stepping Stones) estas ludo de 1974 projektita de Matt Crispis. Ĝi estas ludo pri semado de stakoj, en kiu la ludantoj provas ĉirkaŭi la kontraŭan hejmbazon. Stakoj moviĝas nur diagonale, kaj ĉiu armeo komencas sur malsama diagonala koloro, do ili neniam povas kruci unu la alian (kiel du ŝakepiskopoj sur malsamkoloraj kvadratoj). Pecoj estas kaptataj per ĉirkaŭfermo de ĉiuj ortangule apudaj lokoj de kontraŭula stako.\n\nLaŭ la aŭtoro: „[Intermedium] estas facile lernebla, sed povas konduki al komplikaj situacioj, kiuj postulas profundan analizon kaj antaŭpensadon. Unuopaj pecoj ne moviĝas, sed ili estas utilaj ŝtupoj por viaj kaptoj. Kaj ili povas revivi, se oni metas alian pecon sur ilin. Antaŭ ol vi regas la ludon, evitu fruajn atakojn kontraŭ la Urbo, kiuj povas esti multekostaj. Iom post iom kaj egale kreskigu vian forton, laŭeble regante la centron. Evitu ankaŭ konstrui «timindajn» stakojn el ses aŭ pli da pecoj — se tia stako estas kaptita, vi povas perdi la ludon per unu bato. Lasu kelkajn fortojn malantaŭe por defendi vian Urbon okaze de urĝo.“",
+    "homeworlds": "La venkkondiĉo nomiĝas \"Sinister Homeworlds\". Vi venkas nur se vi eliminas la kontraŭulon maldekstre de vi. Se tion faras iu alia, la ludo daŭras, sed via maldekstra kontraŭulo ŝoviĝas horloĝdirekte. Ekzemple, en kvar-ludanta partio, se mi estas Sudo, mi venkas eliminante Okcidenton. Sed se Nordo eliminas Okcidenton, la ludo daŭras kaj Nordo fariĝas mia maldekstra kontraŭulo.",
+    "intermedium": "Intermedium (ankaŭ nomata Stepping Stones) estas ludo de 1974 projektita de Matt Crispis. Ĝi estas ludo pri semado de stakoj, en kiu la ludantoj provas ĉirkaŭi la kontraŭan hejmbazon. Stakoj moviĝas nur diagonale, kaj ĉiu armeo komencas sur malsama diagonala koloro, do ili neniam povas kruci unu la alian (kiel du ŝakepiskopoj sur malsamkoloraj kvadratoj). Pecoj estas kaptataj per ĉirkaŭfermo de ĉiuj ortangule apudaj lokoj de kontraŭula stako.\n\nLaŭ la aŭtoro: \"[Intermedium] estas facile lernebla, sed povas konduki al komplikaj situacioj, kiuj postulas profundan analizon kaj antaŭpensadon. Unuopaj pecoj ne moviĝas, sed ili estas utilaj ŝtupoj por viaj kaptoj. Kaj ili povas revivi, se oni metas alian pecon sur ilin. Antaŭ ol vi regas la ludon, evitu fruajn atakojn kontraŭ la Urbo, kiuj povas esti multekostaj. Iom post iom kaj egale kreskigu vian forton, laŭeble regante la centron. Evitu ankaŭ konstrui «timindajn» stakojn el ses aŭ pli da pecoj — se tia stako estas kaptita, vi povas perdi la ludon per unu bato. Lasu kelkajn fortojn malantaŭe por defendi vian Urbon okaze de urĝo.\"",
     "invector": "Invector, projektita de Mark Steere en 2026, estas eliminludo inspirita de la antikva havaja ludo Kōnane. Invector komenciĝas per ŝaktabula ŝablono de ŝtonoj, havas mallongdistancajn kaptojn kaj estas ege simpla. Ĝi kombinas nur du bazajn, pretajn ingrediencojn: ortajn kaptojn al apuda loko kaj ortajn movojn al apuda loko pli proksima al la centro.",
     "jacynth": "Pliaj informoj pri la sistemo Decktet troveblas ĉe la [oficiala retejo de Decktet](https://www.decktet.com). La kartoj en la manoj de la ludantoj estas kaŝitaj de observantoj kaj kontraŭuloj.",
     "konane": "Ekzistas pluraj konkurantaj malfermaj protokoloj, sed la plej ofta regularo estas tiu de Naihe, uzata en turniroj ĉe la Bishop Museum en Havajo kaj priskribita en la referenco de BGG. Ĝi estas la regularo realigita ĉi tie.",
     "knightline": "Por oportuno, via stako estas dividita proksimume duone je via unua klako. Ĉiu posta klako sur la fontan aŭ celan stakon movas unu pecon. Kiam vi finis, klaku malplenan ĉelon aŭ premu la butonon Fini la movon.\n\nLa koordinatsistemo estas adaptita el tiu, kiun la programinto kreis por Hive, ludo sur senlima (sed tamen laŭracie granda) sesangula tabulo. La y-akso estas etikedita per karteziaj koordinatoj (pozitivaj kaj negativaj entjeroj). La x-akso estas etikedita per literoj laŭ alfabeta ordo, kun la origino ĉe (m, 0). Se movado laŭ la x-akso preterpasas la alfabeton en iu direkto, la literoj ricevas alian literon kiel prefikson (post z venas aa, ab, ac ktp.; antaŭ a venas zz, zy, zx ktp.). Oni ne atendas, ke la ludo atingos larĝon postulantan pli ol duliterajn koordinatojn, sed por kompleteco: post az venas ba, antaŭ za venas yz, kaj tiel plu. La tabulo ne povas atingi grandon, kiu kaŭzus ambiguecon.",
     "lasca": "Moveblo mezuras kiom proksimaj viaj pecoj estas al promocio. Via maksimuma moveblo estas la grando de la tabulo multiplikita per la nombro da stakoj, kiujn vi regas.\n\nMaterialo estas kalkulata donante al vi poenton por ĉiu amika peco en stako, kiun vi regas, kaj plian poenton se oficiro estas supre de tiu stako.",
     "linage": "Linage estas ludo de 2016 projektita de Luis Bolaños Mures. Ĝi baziĝas sur jenaj difinoj: **regiono** estas maksimuma aro de ortangule kontinuaj malplenaj punktoj. **Linio** estas aro de N ortangule kontinuaj malplenaj punktoj en la sama vico aŭ kolumno (defaŭlte N=3). Regionon **posedas** Vertikalo se ĝi enhavas neniun horizontalan linion, kaj Horizontalo se ĝi enhavas neniun vertikalan linion. Regiono estas libera, se ĝin posedas nek unu nek la alia ludanto. Ĉiu regiono devas ĉiam enhavi almenaŭ unu linion.\n\nDum sia vico, la ludanto preterpasas aŭ metas ŝtonon en libera regiono. La ludo finiĝas kiam ambaŭ ludantoj sinsekve preterpasas, kaj gajnas tiu kun la plej alta poentaro (t.e. la nombro da punktoj en la regionoj posedataj de la ludanto, plus komio).",
-    "loa": "En la centro de la tabulo 9×9 estas „nigra truo“. Peco, kiu alteriĝas sur la nigra truo, estas forigita el la ludo. Samtempaj konektoj rezultigas remizon.",
-    "magnate": "La nomoj de kelkaj agoj en Magnate estas ŝanĝitaj por klareco kaj koncizeco. Plene evoluigi novan posedaĵon nomiĝas „Aĉeti“; aĉeti akton por nova posedaĵo nomiĝas „Akto“; evoluigi aktojn (t.e. aldoni ludmarkojn al posedaĵo kun akto, ĉu la posedaĵo per tio plene evoluas aŭ ne) nomiĝas „Aldoni“. Vendado de karto kaj interŝanĝo de tri emblemoludmarkoj kontraŭ unu ne ŝanĝiĝis.\n\nPor rapidigi la ĵetadon por rimedoj, ekzistas du pliaj agoj:\n* „Preferi“ agordas, kiun emblemoludmarkon vi preferas ricevi kiam akto pagas pro ĵeto de la kontraŭulo. Se vi ne eksplicite elektas preferon, la programo elektas por vi la pli maloftan ludmarkon laŭ viaj ne-kronaj emblemoj kaj nuna provizo de ludmarkoj. La nun preferata ludmarko estas ĉirkaŭita en la interfaco, sed la kontraŭulo neniam vidas vian personan preferon.\n* „Elekti“ estas deviga unua ago por kolekti emblemoludmarkojn kiam akto pagas pro via propra ĵeto. (Ĉiufoje kiam vi devas elekti emblemoludmarkon, kiu ne jam estas inter la viaj, vi ankoraŭ klaku la koncernan amason.)\n\nĈar vi povas fari plurajn agojn dum unu ludvico laŭ ajna ordo, ekzistas ankaŭ la ago „Malfari“ por nuligi vian plej lastan agon, sendepende de tio, ĉu ĝi estis kompleta.\n\nRimarku, ke nur la fina rezulto de la rimeda ĵetkubo estas montrata, sed la probablodistribuo restas tiu de ĵeto de 2d10 kun elekto de la pli alta valoro. Impostado okazas kiam la pli malalta el 2d10 montras 1; tiam oni ĵetas emblemĵetkubon (aŭ du en la variaĵo de duobla impostado), kaj la emblemoj aperas sub la rimeda rezulto. La ĵeto estas protokolata fine de la vico de ludanto kaj atribuata al la sekva ludanto (kiu ĵetus en la fizika ludo). Krom por „Elekti“, neniu ago de la uzanto estas bezonata; la servilo aŭtomate aldonas aŭ forigas rimedojn inter vicoj.\n\nKiam ludanto gvidas en distrikto, la Peono aŭ Senkulpigo de tiu distrikto estas konturita per la koloro de la ludanto. La unua egalecrompa poentaro (totala valoro de posedaĵoj) aperas en krampoj post la distrikta poentaro. La dua egalecrompo estas la totala nombro de restantaj ludmarkoj.",
-    "mchess": "Se pasis sep sinsekvaj vicoj sen kapto, iu povas „voki la horloĝon“ aldonante steleton (*) al la fino de sia movo. Tion eblas fari nur per elekto de la movo el la falmenuo. Post pliaj sep vicoj sen kapto, la ludo finiĝos kaj estos poentata.",
+    "loa": "En la centro de la tabulo 9×9 estas \"nigra truo\". Peco, kiu alteriĝas sur la nigra truo, estas forigita el la ludo. Samtempaj konektoj rezultigas remizon.",
+    "magnate": "La nomoj de kelkaj agoj en Magnate estas ŝanĝitaj por klareco kaj koncizeco. Plene evoluigi novan posedaĵon nomiĝas \"Aĉeti\"; aĉeti akton por nova posedaĵo nomiĝas \"Akto\"; evoluigi aktojn (t.e. aldoni ludmarkojn al posedaĵo kun akto, ĉu la posedaĵo per tio plene evoluas aŭ ne) nomiĝas \"Aldoni\". Vendado de karto kaj interŝanĝo de tri emblemoludmarkoj kontraŭ unu ne ŝanĝiĝis.\n\nPor rapidigi la ĵetadon por rimedoj, ekzistas du pliaj agoj:\n* \"Preferi\" agordas, kiun emblemoludmarkon vi preferas ricevi kiam akto pagas pro ĵeto de la kontraŭulo. Se vi ne eksplicite elektas preferon, la programo elektas por vi la pli maloftan ludmarkon laŭ viaj ne-kronaj emblemoj kaj nuna provizo de ludmarkoj. La nun preferata ludmarko estas ĉirkaŭita en la interfaco, sed la kontraŭulo neniam vidas vian personan preferon.\n* \"Elekti\" estas deviga unua ago por kolekti emblemoludmarkojn kiam akto pagas pro via propra ĵeto. (Ĉiufoje kiam vi devas elekti emblemoludmarkon, kiu ne jam estas inter la viaj, vi ankoraŭ klaku la koncernan amason.)\n\nĈar vi povas fari plurajn agojn dum unu ludvico laŭ ajna ordo, ekzistas ankaŭ la ago \"Malfari\" por nuligi vian plej lastan agon, sendepende de tio, ĉu ĝi estis kompleta.\n\nRimarku, ke nur la fina rezulto de la rimeda ĵetkubo estas montrata, sed la probablodistribuo restas tiu de ĵeto de 2d10 kun elekto de la pli alta valoro. Impostado okazas kiam la pli malalta el 2d10 montras 1; tiam oni ĵetas emblemĵetkubon (aŭ du en la variaĵo de duobla impostado), kaj la emblemoj aperas sub la rimeda rezulto. La ĵeto estas protokolata fine de la vico de ludanto kaj atribuata al la sekva ludanto (kiu ĵetus en la fizika ludo). Krom por \"Elekti\", neniu ago de la uzanto estas bezonata; la servilo aŭtomate aldonas aŭ forigas rimedojn inter vicoj.\n\nKiam ludanto gvidas en distrikto, la Peono aŭ Senkulpigo de tiu distrikto estas konturita per la koloro de la ludanto. La unua egalecrompa poentaro (totala valoro de posedaĵoj) aperas en krampoj post la distrikta poentaro. La dua egalecrompo estas la totala nombro de restantaj ludmarkoj.",
+    "mchess": "Se pasis sep sinsekvaj vicoj sen kapto, iu povas \"voki la horloĝon\" aldonante steleton (*) al la fino de sia movo. Tion eblas fari nur per elekto de la movo el la falmenuo. Post pliaj sep vicoj sen kapto, la ludo finiĝos kaj estos poentata.",
     "mirador": "Deklari okupas vian tutan vicon. Unue kompletigu vian ne-atakeblan konekton, poste deklaru dum via sekva vico; vi ne povas meti miradoron kaj deklari dum la sama vico.",
-    "murus": "La defaŭlta regularo estas „Advanced Murus Gallicus“ (kun katapultoj). Defaŭlte, via unua movo estas redistribui unu el viaj komencaj turoj kiel murojn sur via dua vico. Ankaŭ la norma tortregulo disponeblas. Tri variaĵoj estas libere kombineblaj:\n\n* „Basic“ revenigas la ludon al la stato „sen katapultoj“.\n* „Static“ malŝaltas la komencan redistribuon de turo.\n* „Escape“ forigas la venkkondiĉon de trarompo.",
+    "murus": "La defaŭlta regularo estas \"Advanced Murus Gallicus\" (kun katapultoj). Defaŭlte, via unua movo estas redistribui unu el viaj komencaj turoj kiel murojn sur via dua vico. Ankaŭ la norma tortregulo disponeblas. Tri variaĵoj estas libere kombineblaj:\n\n* \"Basic\" revenigas la ludon al la stato \"sen katapultoj\".\n* \"Static\" malŝaltas la komencan redistribuon de turo.\n* \"Escape\" forigas la venkkondiĉon de trarompo.",
     "mutternland": "Mutternland estis projektita de Hartmut Witt en 1997. Ĉi tiu realigo alimaniere traktas la komencajn metojn. En la origina ludo, dum la preparado, la ludantoj metis po unu *malamikan* pecon en ĉiu vico; ĉi tie ili metas unu amikan kaj poste unu kontraŭulan pecon (kun kelkaj limigoj por malhelpi malekvilibrajn komencojn pro la hazarda generado de la ludkampo). Tio rapidigas la preparadon kaj donas al ludanto iom da rego pri la propraj pecoj. Krome, pecojn puŝitajn de la tabulo, kiuj revenas al la provizo de la ludanto, remetas ilia posedanto.",
     "narrows": "Narrows, projektita de Mark Steere en 2026, estas unuigludo inspirita de la antikva havaja ludo Kōnane. Fidela al la spirito de Kōnane, Ūnane komenciĝas per ŝaktabula ŝablono de ŝtonoj kaj estas ege simpla. Ĉi-kaze la unuigcelo inkluzivas ortajn vojojn de malplenaj ĉeloj por konekti malsamajn grupojn de amikaj pecoj.",
     "oonpia": "Aŭ uzu la legendon por elekti pecon, aŭ klaku la saman lokon plurfoje por cikli tra ĉiuj eblaj pecoj. Baritaj ĉeloj estas emfazitaj: diafana punkto signifas, ke tie eblas meti nur punktitan ŝtonon (do la ĉelo estas barita por senpunktaj pecoj); diafana peco signifas, ke tie eblas meti nur senpunktan pecon (do la ĉelo estas barita por punktitaj pecoj). Se ambaŭ emfazoj ĉeestas, la ĉelo estas barita por ĉiuj pecoj.",
@@ -4633,8 +4509,8 @@
     "pigs": "Male al la malnova realigo ĉe Super Duper Games, ĉi tiu realigas la bazan regularon. Ĉiu ludanto enigas ĉiujn kvin movojn, kaj ili estas plenumataj samtempe.\n\nMovado estas plenumata antaŭ ol damaĝo estas aplikata.",
     "pigs2": "Ĉi tiu versio egalas al la malnova versio ĉe Super Duper Games. La ludo komenciĝas per programado de tri movoj, sed dum ĉiu vico nur unu movo estas plenumata kaj unu nova estas aldonata.\n\nMovado estas plenumata antaŭ ol damaĝo estas aplikata. Male al la plimulto de aliaj ludoj ĉe AP, la ludo ne tuj finiĝas kiam ludantoj rezignas aŭ perdas pro tempolimo. Ili estas anstataŭe eliminitaj kaj ilia roboto malaktiviĝas, sed la aliaj ludantoj povas daŭrigi.",
     "pinch": "Pinch estas reprojekto de 2026 surbaze de originala koncepto de 2019, kiu proponas novan perspektivon pri la ĝenro de orta konektado. Ĝia kerno estas la **pinĉkapto**: kiam du amikaj ŝtonoj flankas malamikan pecon laŭ orto, la kaptita ŝtono estas translokita anstataŭ forigita. Tiu mekanismo povas ekigi kaskadon de pliaj translokoj kaj tiel vastigi unu lokan kapton al ŝanĝoj en pluraj partoj de la tabulo.",
-    "pippinzip": "Komence, dum la aŭkcia fazo, ĉiu ludanto metas 1–3 blankajn ŝtonojn (de Ludanto 1), ĝis iu „prenas“ kaj fariĝas Zip. Zip ludos UNU blankan ŝtonon en ĉiu vico. La kontraŭulo fariĝas Pip kaj ludos DU nigrajn ŝtonojn (de Ludanto 2) en ĉiu vico; ili ne rajtas esti ortangule apudaj. Tuj post la anonco „preni“, Pip estas la sekva movanto.\n\nZip venkas konektante ĈIUJN KVAR flankojn de la tabulo per ĉeno de blankaj ŝtonoj ortangule aŭ diagonale apudaj. Pip venkas konektante IUJN DU kontraŭajn flankojn per ĉeno de nigraj ŝtonoj ortangule apudaj.",
-    "pletore": "Ludanto regas intersekcon, se li „pinĉas“ ĝin kaj la kontraŭulo ne. Vi pinĉas intersekcon, se viaj pecoj povas vidi ĝin laŭ du malsamaj aksoj. Via poentaro estas la nombro de samkoloraj ŝtonoj sur la tabulo plus la nombro de malplenaj punktoj, kiujn vi regas, kun kromaĵoj pro komio kaj la butono. La butono estas uzata kiam la sumo de la komiovaloro kaj la nombro de intersekcoj sur la tabulo estas para; se neniu ankoraŭ prenis ĝin, ajna ludanto povas ne fari alian agon dum sia vico kaj pretendi la butonon. La ludo finiĝas kiam ambaŭ ludantoj sinsekve preterpasas, sed pretendi la butonon ne kalkuliĝas kiel preterpaso. Ludantoj ne rajtas preterpasi ĝis la tuta tabulo estas aŭ okupata aŭ regata.",
+    "pippinzip": "Komence, dum la aŭkcia fazo, ĉiu ludanto metas 1–3 blankajn ŝtonojn (de Ludanto 1), ĝis iu \"prenas\" kaj fariĝas Zip. Zip ludos UNU blankan ŝtonon en ĉiu vico. La kontraŭulo fariĝas Pip kaj ludos DU nigrajn ŝtonojn (de Ludanto 2) en ĉiu vico; ili ne rajtas esti ortangule apudaj. Tuj post la anonco \"preni\", Pip estas la sekva movanto.\n\nZip venkas konektante ĈIUJN KVAR flankojn de la tabulo per ĉeno de blankaj ŝtonoj ortangule aŭ diagonale apudaj. Pip venkas konektante IUJN DU kontraŭajn flankojn per ĉeno de nigraj ŝtonoj ortangule apudaj.",
+    "pletore": "Ludanto regas intersekcon, se li \"pinĉas\" ĝin kaj la kontraŭulo ne. Vi pinĉas intersekcon, se viaj pecoj povas vidi ĝin laŭ du malsamaj aksoj. Via poentaro estas la nombro de samkoloraj ŝtonoj sur la tabulo plus la nombro de malplenaj punktoj, kiujn vi regas, kun kromaĵoj pro komio kaj la butono. La butono estas uzata kiam la sumo de la komiovaloro kaj la nombro de intersekcoj sur la tabulo estas para; se neniu ankoraŭ prenis ĝin, ajna ludanto povas ne fari alian agon dum sia vico kaj pretendi la butonon. La ludo finiĝas kiam ambaŭ ludantoj sinsekve preterpasas, sed pretendi la butonon ne kalkuliĝas kiel preterpaso. Ludantoj ne rajtas preterpasi ĝis la tuta tabulo estas aŭ okupata aŭ regata.",
     "posit": "Posit estis projektita de Shinichi Tobita en 1991. Yonezawa corp. publikigis la ludon kiel videoludon kun la nomo **Posit: 3-D board**.\n\nPosit estas ludata sur kvadrata tabulo 6×6. Ĉiu ludanto havas peonon. Komence la peonoj troviĝas ĉe c6 kaj d1. Dum ĉiu vico, la ludantoj movas sian peonon al apuda kvadrato (orte aŭ diagonale) kaj poste metas neŭtralan pecon en ajnan kvadraton sen peono. Neŭtralaj pecoj povas esti stakigitaj ĝis tri niveloj. Peono povas grimpi unu nivelon, sed ne malsupreniri, grimpi du nivelojn samtempe aŭ grimpi sur tri-nivelan stakon. Ludanto venkas patigante la kontraŭulon.",
     "plurality": "Plurality estas finia teritoria ludo. La koncepto de teritorio estas sendependa de konceptoj kiel grupoj aŭ liberecoj. La posedanto de teritorio estas la koloro plej ofta laŭ ĝia perimetro. Dum sia vico, ludanto metas du amikajn ŝtonojn kaj unu kontraŭulan ŝtonon kiel unu ortangule konektitan grupon (triominon). Estas malpermesite fari formon 2×2 el ŝtonoj, sendepende de iliaj koloroj.",
     "queensland": "Post la fino de la unua partio, la tabulo rekomenciĝas kaj vi ludas duan partion, sed Bluo ludas unue. Gajnas la plej alta sumigita poentaro.",
@@ -4643,25 +4519,25 @@
     "rincala": "Pro diversaj kialoj, la koloroj estas anstataŭe ruĝa (4 poentoj), blua (3), verda (2) kaj flava (1). Krome, la ludo finiĝas tuj kiam unu ludanto ricevas pli ol duonon de la poentoj (almenaŭ 26).",
     "rootbound": "La taksita poentaro montras la poentarojn, kiuj rezultus el la tabulo, se la ludo finiĝus en la nuna stato. Sekve, la unua ludanto, kiu formas dispartigon, mallonge ŝajnos havi maksimuman poentaron. Tio sin korektos dum la ludo progresas.\n\nLa realigo nuntempe donas komencantan protekton nur por la unua movo de la ludo. Atentu ne kunfandi ĉion ĝis restas unu Morta Grupo.",
     "siegeofj": "Pliaj informoj pri la sistemo Decktet troveblas ĉe la [oficiala retejo de Decktet](https://www.decktet.com). La kartoj en la manoj de la ludantoj estas kaŝitaj de observantoj, kaj de kontraŭuloj ĝis la kartaro malpleniĝas. Tiam la ludantoj havas kompletan informon, do la manoj estas malkaŝitaj.",
-    "shapechess": "Shape Chess, 形棋 („formo – tabulludo“), estis projektita ĉirkaŭ 2010 de 日出 (Richu) el Kantono, Ĉinio. La ludo evoluis al sia nuna formo dum jaroj da polurado en la ĉina ludprojekta komunumo (laŭ Kanare_Abstract). Ĝi ne estas ŝakeca ludo, sed uzas tre originalan koncepton, laŭ kiu la ludantoj konstruas spegulsimetriajn formojn. Ĉi tiu realigo inkluzivas plurajn grandojn de tabulo kaj ankaŭ diversajn celpoentarojn por ludantoj, kiuj preferas pli mallongajn aŭ pli longajn partiojn.",
+    "shapechess": "Shape Chess, 形棋 (\"formo – tabulludo\"), estis projektita ĉirkaŭ 2010 de 日出 (Richu) el Kantono, Ĉinio. La ludo evoluis al sia nuna formo dum jaroj da polurado en la ĉina ludprojekta komunumo (laŭ Kanare_Abstract). Ĝi ne estas ŝakeca ludo, sed uzas tre originalan koncepton, laŭ kiu la ludantoj konstruas spegulsimetriajn formojn. Ĉi tiu realigo inkluzivas plurajn grandojn de tabulo kaj ankaŭ diversajn celpoentarojn por ludantoj, kiuj preferas pli mallongajn aŭ pli longajn partiojn.",
     "sentinel": "Gardoludoj estas klaso de strategiaj ludoj, en kiuj la ludantoj devas konservi seninterrompan vidlinion inter siaj pecoj kaj difinita referenca punkto aŭ regiono de la tabulo. La unua dokumentita gardoludo estas Kastellet de 1892.\n\nSentinel estas gardoludo, en kiu la ludantoj ĉiam devas havi almenaŭ unu vidlinion al la centro de la tabulo. Sentinel estas la dua abstrakta ludo de tiu ĝenro (post pli ol 130 jaroj!), kaj miksas ordinarajn mekanismojn de movado kaj kaptado kun konstanta regado per vidlinio de la centra kvadrato.\n\nLa ludo kombinas antaŭenan movadon kun semado de stakoj, kiu estas la sola maniero pligrandigi armeojn.",
     "slimetrail": "Slimetrail estis projektita de Bill Taylor en 1992. Komence oni ludis ĝin sur Hex-tabulo, kaj pato rezultigis remizon. La ludo evoluis al versio sur tabulo 8×8, en kiu patigita ludanto malgajnas la partion. Tiu versio estis dum pluraj jaroj uzata en la Portugala Turniro de Tabulludoj. Ekzistas kelkaj antaŭuloj de la temo el la 1970-aj jaroj, ekzemple Knight Chase, Blokeo, ZigZag kaj Tesoro (vidu la paĝon de WAG en la ligiloj).",
     "soccolot": "Soccolot estas ludo de 1972 de David Wilson. La origina ludo okazis sur tabulo 8×8 kun ses homoj en ĉiu teamo. La ludantoj povas moviĝi aŭ interagi kun la pilko, ĉu pafante ĝin (piedbato), ĉu movante ĝin kune kun unu teamano (driblo). Oni konstante luktas por regi la tabulon kaj trovi aperturon por movi aŭ pafi la pilkon al la hejma vico de la kontraŭulo. La ĉefa variaĵo estas pli rapida kaj uzas tabulon 7×7 por pli bona interagado de pecoj. Robert A. Kraus realigis ambaŭ variaĵojn por [Zillions](https://www.zillions-of-games.com/cgi-bin/zilligames/submissions.cgi?do=show;id=802).",
     "spire": "En ĉi tiu realigo, se vi elektas nur unu spacon, la ludo supozas, ke vi metis la samkoloran pilkon. Se vi elektas du spacojn, la unua estas por la neŭtrala pilko kaj la dua por la samkolora pilko. Se je la unua klako la elektita spaco validas por nur unu el tiuj du pilkoj, tiu pilko estas aŭtomate konfirmita.",
     "spook": "Kiam oni uzas la hazardigitan komencan aranĝon, niaj nunaj kriterioj pri justeco estas nur jenaj: (1) ambaŭ ludantoj havas egalan nombron da pilkoj en plenaj kvin-pilkaj piramidoj de unu koloro; kaj (2) la dua plej alta tavolo enhavas pilkojn de ambaŭ koloroj. Se vi elpensas aliajn manierojn igi la ludon pli justa, bonvolu kontakti nin en Discord.",
-    "spora": "Spora prenas la konceptojn de grupo, libereco kaj teritorio, konatajn el teritoriaj ludoj kiel Goo, kaj aldonas subtenon por stakoj. Stako povas semi siajn pecojn sur apudajn intersekcojn, kaptante malamikajn pecojn aŭ subtenante proksimajn amikajn strukturojn. La totala nombro da pecoj estas limigita, do la ludantoj devas mastrumi sian finian buĝeton por regi kiel eble plej multe da teritorio je la ludofino. Pro tiu limigita buĝeto, ili devas zorge juĝi kiam kaj kiel uzi plurpecajn stakojn (kvazaŭ ili havus arsenalon da ponardoj, sed ĉiam hezitus kiam uzi ilin).\n\nLa greka vorto σπορά signifas „semado“.",
+    "spora": "Spora prenas la konceptojn de grupo, libereco kaj teritorio, konatajn el teritoriaj ludoj kiel Goo, kaj aldonas subtenon por stakoj. Stako povas semi siajn pecojn sur apudajn intersekcojn, kaptante malamikajn pecojn aŭ subtenante proksimajn amikajn strukturojn. La totala nombro da pecoj estas limigita, do la ludantoj devas mastrumi sian finian buĝeton por regi kiel eble plej multe da teritorio je la ludofino. Pro tiu limigita buĝeto, ili devas zorge juĝi kiam kaj kiel uzi plurpecajn stakojn (kvazaŭ ili havus arsenalon da ponardoj, sed ĉiam hezitus kiam uzi ilin).\n\nLa greka vorto σπορά signifas \"semado\".",
     "spree": "Ni uzas 1, 2 kaj 3 por indiki la tri kolorojn. Koloro 3 estas la neŭtrala koloro de la ĵokera pilko. Defaŭlte 1 kaj 2 estas respektive ruĝa kaj blua, kaj 3 estas verda.",
     "squirm": "Squirm estas unu el la unuaj serpent-/radik-ludoj, en kiuj grupo estas difinita per maksimume du amikaj konektoj por ĉiu ŝtono. Sed anstataŭ esti teritoria aŭ patiga ludo, Squirm estas poentludo: la ludantoj devas konstrui la plej longan eblan serpentecan grupon laŭ la origina regularo, aŭ akumuli kiel eble plej multajn poentojn laŭ iu disponebla variaĵo.",
     "stapeldammen": "Stapeldammen II estas ludo el la 1960-aj jaroj projektita de Tim ter Kuile. Ĝi apartenas al la familio Bashni de damludoj. [Bashni](https://boardgamegeek.com/boardgame/36550/bashni), de 1875, estas la unua ludo, kiu uzas verajn stakojn (damreĝoj ne estas stakoj). La koncepto famiĝis per la multe pli konata [Lasca](https://play.abstractplay.com/games/lasca) de 1911. Stapeldammen apartenas al tiu evolulinio kaj estas verŝajne unu el ĝiaj plej bonaj projektoj. Ĝi estas ankaŭ unu el la ludoj, kiuj influis Christian Freeling kaj Ed van Zon dum la projektado de [Emergo](https://play.abstractplay.com/games/emergo).",
     "stawvs": "Por klareco la ludpecoj estas prezentataj kiel cirkloj, kvankam en la fizika ludo oni kutime uzas ĉapojn (malgrandajn piramidojn kun distingaj koloroj de la ludantoj). La interfaco aŭtomate ordigos kaj poentos viajn arbojn (triopojn kun po unu piramido de ĉiu grando) kiel en Mega-Volcano. Por referenco, la valoroj estas: 7 poentoj por ĉiu unukolora arbo, 5 por multkolora arbo kaj po 1 por apartaj piramidoj. Krom en la variaĵo, en kiu la finaj piramidoj ne estas kolektataj, la piramidoj sub ludpecoj estas aldonataj al la kolektoj de la ludantoj kaj poentataj; tamen grizigitaj piramidoj restas sur la tabulo sub la pecoj por klarigi la finan pozicion.",
     "stigmergy": "Vi regas spacon, se pli ol duono de la vidlinioj al ĝi finiĝas ĉe peco de via koloro. Via poentaro estas la nombro de samkoloraj pecoj sur la tabulo plus la nombro de malplenaj spacoj, kiujn vi regas, kun kromaĵoj pro komio kaj la butono. La butono estas uzata kiam la sumo de la komiovaloro kaj la nombro de spacoj sur la tabulo estas para; se neniu ankoraŭ prenis ĝin, ajna ludanto povas ne fari alian agon dum sia vico kaj pretendi la butonon. La ludo finiĝas kiam ambaŭ ludantoj sinsekve preterpasas, sed pretendi la butonon ne kalkuliĝas kiel preterpaso. Ludantoj ne rajtas preterpasi ĝis la tuta tabulo estas aŭ okupata aŭ regata.",
-    "stiletto": "Ponardo reprezentas la eblon fari duoblan movon. Stiletto estas ludo de 2003 el la familio de Gomoku, en kiu la ludantoj provas formi kvinopan vicon. La ĉefa diferenco estas, ke la dua ludanto (tradicie Blanko) komencas kun ponardo. Tio kompensas la fortan komencan avantaĝon de Nigro. Kiam ludanto uzas la ponardon, li transdonas ĝin al la kontraŭulo.\n\nLaŭ la „povo“ disponebla al la ludantoj, ĉi tiu variaĵo situas inter Gomoku kaj Connect6. La fakto, ke la povo ludi du ŝtonojn ne estas komuna, aldonas streĉon al la ludado.\n\nLa variaĵo **Open-4** malpermesas krei malferman kvaropon per ambaŭ ŝtonoj de la ponardo, kio reduktas parton de ĝia povo.\n\nLa itala vorto _stiletto_ signifas malgrandan, sveltan ponardon kun longa, mallarĝa klingo destinita ĉefe por piki.",
+    "stiletto": "Ponardo reprezentas la eblon fari duoblan movon. Stiletto estas ludo de 2003 el la familio de Gomoku, en kiu la ludantoj provas formi kvinopan vicon. La ĉefa diferenco estas, ke la dua ludanto (tradicie Blanko) komencas kun ponardo. Tio kompensas la fortan komencan avantaĝon de Nigro. Kiam ludanto uzas la ponardon, li transdonas ĝin al la kontraŭulo.\n\nLaŭ la \"povo\" disponebla al la ludantoj, ĉi tiu variaĵo situas inter Gomoku kaj Connect6. La fakto, ke la povo ludi du ŝtonojn ne estas komuna, aldonas streĉon al la ludado.\n\nLa variaĵo **Open-4** malpermesas krei malferman kvaropon per ambaŭ ŝtonoj de la ponardo, kio reduktas parton de ĝia povo.\n\nLa itala vorto _stiletto_ signifas malgrandan, sveltan ponardon kun longa, mallarĝa klingo destinita ĉefe por piki.",
     "swarm": "Swarm uzas devigajn kaptojn de stakoj por krei la plej grandan eblan grupon sur malgranda tabulo. Ĝi estas projektita por doni solidan nombron da movoj ĉe malgrandaj tabulgrandoj (partio kun bazo 3 daŭras ĉirkaŭ 60 movojn, kaj kun bazo 4 ĉirkaŭ 120). Swarm estis projektita de Kanare Kato en 2026.",
     "synapse": "Pierre Berloquin unue proponis Synapse ĉirkaŭ 1970. La ludo okazis sur tabulo 4×4 kun po 15 ŝtonoj de du koloroj. Ĉiu ludanto elektis unu ĝis tri samkolorajn alumetojn kaj metis ilin en la sekvan kvadraton; la koloro difinis la vertikalan aŭ horizontalan direkton. La tabulo ne rajtis enhavi pli ol 25 ŝtonojn entute. Poste, en 1976, variaĵo de la sama aŭtoro uzis unukolorajn alumetojn, kies kapoj difinis la direkton. La nun realigita versio baziĝas sur tiu principo kaj uzas Looney-piramidojn. Joseph Kisenwether proponis en 2005 ĉi tiun pli grandan tabulon kun pli da pecoj.",
     "tablero": "Dum via vico vi vidas la ĵetkubojn disponeblajn al vi, sed post la fino de via movo ili estas reĵetataj. Esplorado ne helpas, ĉar la ĵeto fiksiĝas nur post sendo de la movo. Kiam vi retroiras tra la ludhistorio, la montrataj ĵetkuboj estas tiuj por la *sekva* vico. La ĵetkuboj uzitaj por la montrata movo aperas sub la tabulo.\n\nLa plimulto de movoj estas unusence farebla per simplaj klakoj, sed foje butono pli helpas. La butonoj Meti, Preni kaj Puŝi maldekstre de la tabulo estas disponeblaj kiam vi bezonas ilin.",
     "tafl": "La nomoj de variaĵoj havas la formaton {regularo}-{tabulgrando}-{komenca aranĝo}-{laŭvole: komenca ludanto}. Ekzemple, 'linnaean-9x9-tcross-w' signifas la regulojn linnaean sur tabulo 9×9 kun T-kruca aranĝo, kaj la defendantoj ludas unue. Se la komenca ludanto ne estas menciita, la atakantoj komencas.",
     "taiji": "Movoj estas farataj per du klakoj. La unua kahelo, kiun vi metas, estas ĉiam la hela; poste venas la malhela.",
-    "tanbo": "Tanbo (田んぼ, japane „rizkampo“) estas ludo de radikoj, aŭ pli precize de radikecaj grupoj. Komence loze intermiksitaj nigraj kaj blankaj ŝtonoj okupas la tabulon. Vi metu ŝtonon ortangule apud precize unu el viaj ŝtonoj jam sur la tabulo. Tio malhelpas kunfandiĝon de radikoj kaj formiĝon de amasoj. Kiam radikoj estas ĉirkaŭbaritaj (t.e. mankas al ili spaco por kreski), ili estas forigitaj. Se la nuna radiko (tiu pligrandigita dum via vico) estas inter la ĉirkaŭbaritaj radikoj, nur ĝi estas forigita, tiel liberigante ĉiujn aliajn. La celo estas esti la lasta ludanto, kiu ankoraŭ havas radikojn sur la tabulo.\n\nTanbo estis la dua ludo iam elpensita de Mark Steere kaj restas unu el liaj plej bonaj.",
+    "tanbo": "Tanbo (田んぼ, japane \"rizkampo\") estas ludo de radikoj, aŭ pli precize de radikecaj grupoj. Komence loze intermiksitaj nigraj kaj blankaj ŝtonoj okupas la tabulon. Vi metu ŝtonon ortangule apud precize unu el viaj ŝtonoj jam sur la tabulo. Tio malhelpas kunfandiĝon de radikoj kaj formiĝon de amasoj. Kiam radikoj estas ĉirkaŭbaritaj (t.e. mankas al ili spaco por kreski), ili estas forigitaj. Se la nuna radiko (tiu pligrandigita dum via vico) estas inter la ĉirkaŭbaritaj radikoj, nur ĝi estas forigita, tiel liberigante ĉiujn aliajn. La celo estas esti la lasta ludanto, kiu ankoraŭ havas radikojn sur la tabulo.\n\nTanbo estis la dua ludo iam elpensita de Mark Steere kaj restas unu el liaj plej bonaj.",
     "tbt": "Dum via vico vi vidas la ĵetkubon disponeblan al vi, sed post la fino de via movo ĝi estas reĵetata. Esplorado ne helpas, ĉar la ĵeto fiksiĝas nur post sendo de la movo. Kiam vi retroiras tra la ludhistorio, la montrata ĵetkubo estas tiu por la *sekva* vico. La ĵetkubo uzita por la montrata movo aperas sub la tabulo.",
     "terrace": "La variaĵo Assassination estas priskribita en [ĉi tiu fadeno ĉe BGG](https://boardgamegeek.com/thread/551125/variant-for-more-aggressive-less-drawish-play); jen resumo:\n\n- Rekte supren: via peco devas esti pli granda, aŭ peco de la plej malgranda grando povas murdi pecon de la plej granda grando.\n\n- Sur la sama nivelo (nur ortangule apude): via peco devas esti almenaŭ samgranda.\n\n- Diagonale malsupren: via peco povas esti unu rangon malpli granda.",
     "toguz": "Montri ŝanĝojn de stato en semludoj estas malfacile. La komence elektita kavo estas markita, same kiel ĉiu kapto. Malgrandaj nombroj montras la ŝanĝon de la nombro da ŝtonoj en ĉiu kavo. Se vi kredas, ke vi trovis programeraron, bonvolu sciigi nin en Discord.",
@@ -4669,12 +4545,12 @@
     "tumbleweed": "Ludanto pretendas spacon, se li havas pecon sur ĝi aŭ la plimulton de la vidlinioj al ĝi. La poentaro estas la kvanto da teritorio posedata de ĉiu ludanto. La ludo finiĝas kiam ambaŭ ludantoj sinsekve preterpasas. Ĝi finiĝas ankaŭ se la poentaro ne ŝanĝiĝas dum 20 duonvicoj.",
     "twinflames": "Twin Flames estas reprojekto de 2026 de Product, originala koncepto de Nick Bentley el 2013. La unua ludanto devas komence meti amikan ŝtonon, kio malhelpas tro fortajn respondmovojn en la malfermo kaj tiel forigas la bezonon de tortregulo. La ceteraj movoj uzas sinsekvon 12*, en kiu la ludantoj povas meti ŝtonojn de ambaŭ koloroj. Je la fino de la ludo, ludanto kun unu sola konektita grupo ricevas tiom da poentoj, kiom estas pecoj en tiu grupo. Alia aldonita mekanismo estas muroj aŭ bariloj, kiuj reduktas la ĝeneralan konektitecon kaj igas grupojn pli rezistaj kontraŭ malamikaj atakoj. La aranĝo de bariloj estas hazardigita, kio pliigas la variecon kaj malfaciligas la evoluon de malferma teorio.",
     "twixt": "La notacio baziĝas sur la notacio de Hansel ĉe <http://www.ibiblio.org/twixtpuzzles/>. Inter la modifoj estas, ke forigo de ligilo eksplicite indikas ĝian direkton, kaj komoj apartigas la movojn. Por aldoni aŭ forigi ligilojn, klaku la kejlojn inter ili. Vi povas ankaŭ forigi ligilon klakante la linion mem.",
-    "unane": "Ūnane, projektita de Mark Steere en 2026, estas unuigludo inspirita de la antikva havaja ludo Kōnane. Fidela al la spirito de Kōnane, Ūnane komenciĝas per ŝaktabula ŝablono de ŝtonoj, havas mallongdistancajn kaptojn kaj estas ege simpla. La nomo „Ūnane“ kunfandas Una (hispane „unu“) kaj Kōnane. Ĝi celas omaĝi al Kōnane, ne kulture alproprigi ĝin.\n\nŪnane havas multon komunan kun Kōnane, precipe ĉar en ambaŭ ludoj la ludantoj ĉefe provas izoli kaj forigi siajn proprajn ŝtonojn.",
+    "unane": "Ūnane, projektita de Mark Steere en 2026, estas unuigludo inspirita de la antikva havaja ludo Kōnane. Fidela al la spirito de Kōnane, Ūnane komenciĝas per ŝaktabula ŝablono de ŝtonoj, havas mallongdistancajn kaptojn kaj estas ege simpla. La nomo \"Ūnane\" kunfandas Una (hispane \"unu\") kaj Kōnane. Ĝi celas omaĝi al Kōnane, ne kulture alproprigi ĝin.\n\nŪnane havas multon komunan kun Kōnane, precipe ĉar en ambaŭ ludoj la ludantoj ĉefe provas izoli kaj forigi siajn proprajn ŝtonojn.",
     "viruswar": "Virus War (ankaŭ nomata Клоподавка aŭ Bug Supression) estas papera-kaj-krajona ludo ludata en Rusio ĉirkaŭ la 1970-aj/80-aj jaroj. La ludantoj havas `N` movojn en ĉiu vico (`N` dependas de la tabulgrando). Ĉiu havas hejmbazon en unu el du kontraŭaj anguloj. Dum sia vico, ludanto markas N kvadratojn de la krado. Li povas marki malplenan kvadraton (kreante novan viruson) aŭ anstataŭigi kontraŭulan viruson per defenda muro. Muro fariĝas ne plu ludebla. Tamen ludanto rajtas marki nur kvadratojn apudajn al la grupo de amikaj pecoj, kiu enhavas lian hejmbazon. Patigita ludanto malgajnas.",
     "waldmeister": "La ludantoj ludas du partiojn sinsekve. En la unua raŭndo, Ludanto 1 ludas por koloroj kaj Ludanto 2 por altoj. Je la fino de la raŭndo la poentaroj estas sumataj kaj la poentantaj grupoj emfazitaj. En la dua raŭndo, Ludanto 2 ludas unue kaj por koloroj, dum Ludanto 1 ludas por altoj.",
     "witch": "La unua ludanto komence ne posedas iun pecon kaj rajtas forigi ajnan pecon krom krono dum sia unua vico. La dua ludanto elektas sian koloron dum sia unua vico; poste ne plu eblas forigi pecojn de la kontraŭulo.",
     "xana": "Dum sia vico, ludanto metas aŭ movas stakon (la nombro de stakigeblaj pecoj estas limigita) kaj laŭvole metas du murojn sur malplenajn seslaterojn. Stakoj sen liberecoj estas kaptitaj. Stako havas liberecon, se almenaŭ unu el la ses apudaj seslateroj estas malplena (ne ekzistas koncepto de stakgrupo). Seslatero estas atingebla, se ĝi estas malplena kaj vojo de malplenaj seslateroj konektas ĝin al amika stako. La celo estas akiri la plej altan sumon de teritoria kaj kapta poentaroj. Xana estis projektita en 2005.",
-    "y": "Charles Titus kaj Craige Schensted (Ea Ea) projektis la ludon en 1953. Kiel rekta posteulo de Hex, ĝi origine estis ludata sur triangula tabulo, kaj la celo estis konekti ĉiujn tri flankojn per ĉeno de amikaj ŝtonoj. Y estas konsiderata pli fundamenta ludo ol Hex pro siaj pli simplaj reguloj kaj ĉar eblas aranĝi partion de Hex sur sufiĉe granda Y-tabulo. En sia libro de 1975 **Mudcrack Y & Poly-Y**, la projektintoj prezentis la _principon de ŝlimfendo_, laŭ kiu konektludoj povas okazi sur vasta gamo de iom post iom pli kompleksaj tabuloj. Unu el tiuj projektoj („la fleksita Y“, kun tri kvinangulaj ĉeloj) fariĝis la komerca Y-tabulo anstataŭ la norma triangula tabulo.",
+    "y": "Charles Titus kaj Craige Schensted (Ea Ea) projektis la ludon en 1953. Kiel rekta posteulo de Hex, ĝi origine estis ludata sur triangula tabulo, kaj la celo estis konekti ĉiujn tri flankojn per ĉeno de amikaj ŝtonoj. Y estas konsiderata pli fundamenta ludo ol Hex pro siaj pli simplaj reguloj kaj ĉar eblas aranĝi partion de Hex sur sufiĉe granda Y-tabulo. En sia libro de 1975 **Mudcrack Y & Poly-Y**, la projektintoj prezentis la _principon de ŝlimfendo_, laŭ kiu konektludoj povas okazi sur vasta gamo de iom post iom pli kompleksaj tabuloj. Unu el tiuj projektoj (\"la fleksita Y\", kun tri kvinangulaj ĉeloj) fariĝis la komerca Y-tabulo anstataŭ la norma triangula tabulo.",
     "elOso": "La komenca aranĝo estas aŭtomate farata kiam vi lanĉas la ludon. La flankpanelo montras la nombrojn de pecoj por la Ĉielo, la Kaverno, la Grundo kaj la Kavo. Post ĉiu movo, uzu la regilojn de filmeroj por trairi la respondon de la Urso paŝon post paŝo. Dek aŭ pli da pecoj en la Ĉielo signifas venkon."
   },
   "homeworlds": {
@@ -4687,8 +4563,8 @@
     "CMD_DISC_DOUBLE": "Sistemo kun la nomo {{name}} jam estis mapita.",
     "CMD_HOME_COLOURS": "Vi petas hejmmondon kun malpli ol tri disponeblaj teknologioj. Tio preskaŭ neniam estas saĝa. Se vi certe volas tion, resendu la komandon kaj metu steleton (*) ĉe ĝia fino.",
     "CMD_HOME_DOUBLE": "Vi jam havas hejmmondon.",
-    "CMD_HOME_RHO_DIRECT": "Via hejmmondo estas rekte konektita al via dekstraflanka kontraŭulo (neniu stelo de via hejmmondo samgrandas kiel ties steloj). Tio kreas tiel nomatan „mikrouniverson“, kiu ne estas rekomendata al novaj ludantoj. Se vi certe volas tion, resendu la komandon kaj metu steleton (*) ĉe ĝia fino.",
-    "CMD_HOME_RHO_SMALL": "Vi elektas esti nur du saltojn for de via dekstraflanka kontraŭulo (tiel nomata „malgranda“ universo), kvankam vi povas krei „grandan“ universon (meti la dekstraflankan kontraŭulon maksimume tri saltojn for), se vi elektas unu el la stelgrandoj de la kontraŭulo kaj la grandon, kiun ties hejmmondo ne enhavas. Al novaj ludantoj estas rekomendate komenci per granda universo. Se vi certe volas malgrandan universon, resendu la komandon kaj metu steleton (*) ĉe ĝia fino.",
+    "CMD_HOME_RHO_DIRECT": "Via hejmmondo estas rekte konektita al via dekstraflanka kontraŭulo (neniu stelo de via hejmmondo samgrandas kiel ties steloj). Tio kreas tiel nomatan \"mikrouniverson\", kiu ne estas rekomendata al novaj ludantoj. Se vi certe volas tion, resendu la komandon kaj metu steleton (*) ĉe ĝia fino.",
+    "CMD_HOME_RHO_SMALL": "Vi elektas esti nur du saltojn for de via dekstraflanka kontraŭulo (tiel nomata \"malgranda\" universo), kvankam vi povas krei \"grandan\" universon (meti la dekstraflankan kontraŭulon maksimume tri saltojn for), se vi elektas unu el la stelgrandoj de la kontraŭulo kaj la grandon, kiun ties hejmmondo ne enhavas. Al novaj ludantoj estas rekomendate komenci per granda universo. Se vi certe volas malgrandan universon, resendu la komandon kaj metu steleton (*) ĉe ĝia fino.",
     "CMD_HOME_SINGLE": "Vi petas hejmmondon kun nur unu stelo. Tio metas vin en gravan malavantaĝon. Se vi certe volas tion, resendu la komandon kaj metu steleton (*) ĉe ĝia fino.",
     "CMD_HOME_SMALLSHIP": "Vi petas hejmmondon sen granda ŝipo. Tio metas vin en malavantaĝon. Se vi certe volas tion, resendu la komandon kaj metu steleton (*) ĉe ĝia fino.",
     "CMD_HOME_TECHS": "Vi petas hejmmondon sen VERDAJ aŭ BLUAJ teknologioj. Tio preskaŭ neniam estas saĝa. Se vi certe volas tion, resendu la komandon kaj metu steleton (*) ĉe ĝia fino.",
@@ -4721,12 +4597,12 @@
     "_general": {
       "CAPTURE4MOVE": "Vi indikis kapton, sed ĉe {{where}} estas neniu peco.",
       "DEFAULT_HANDLER": "Ĉi tiu estas la defaŭlta traktanto kaj neniam devus esti rekte vokita. Bonvolu sciigi administranton.",
-      "FAILSAFE": "La movo „{{move}}“ trapasis la validigon, sed ne ŝajnas valida. Bonvolu sciigi administranton.",
+      "FAILSAFE": "La movo \"{{move}}\" trapasis la validigon, sed ne ŝajnas valida. Bonvolu sciigi administranton.",
       "GENERIC": "Okazis ĝenerala eraro dum traktado de via klako:\nErarmesaĝo: {{emessage}}\nVokstako: {{estack}}\nMovo: {{move}}, Vico: {{row}}, Kolumno: {{col}}, Indekso: {{index}}",
       "INCOMPLETE_MOVE": "Ĉi tiu movo ŝajnas nekompleta.",
-      "INVALID_MOVE": "„{{move}}“ ne ŝajnas valida movo.",
+      "INVALID_MOVE": "\"{{move}}\" ne ŝajnas valida movo.",
       "INVALID_NUMBER": "{{num}} ne estis traktebla kiel nombro.",
-      "INVALIDCELL": "Ne eblis trovi la ĉelon „{{cell}}“ sur la tabulo.",
+      "INVALIDCELL": "Ne eblis trovi la ĉelon \"{{cell}}\" sur la tabulo.",
       "MOVE4CAPTURE": "Vi indikis ordinaran movon, sed {{where}} estas okupita.",
       "NEED_DESTINATION": "Indiku la celon.",
       "NO_MOVES": "La peco ĉe {{where}} havas neniun validan movon.",
@@ -4737,7 +4613,7 @@
       "NOT_ORTH_OR_DIAG": "La ĉeloj {{from}} kaj {{to}} estas nek ortaj nek diagonalaj unu al la alia.",
       "OBSTRUCTED": "Estas obstaklo ĉe {{obstruction}} inter {{from}} kaj {{to}}.",
       "OCCUPIED": "La ĉelo {{where}} jam estas okupita.",
-      "SAME_FROM_TO": "La ĉeloj „de“ kaj „al“ devas esti malsamaj.",
+      "SAME_FROM_TO": "La ĉeloj \"de\" kaj \"al\" devas esti malsamaj.",
       "SELECT_OWN": "Elektu unu el viaj propraj pecoj.",
       "SELFCAPTURE": "Vi ne povas kapti viajn proprajn pecojn.",
       "UNCONTROLLED": "Vi ne povas movi pecojn, kiujn vi ne regas.",
@@ -4994,7 +4870,7 @@
       "MUST_PIE": "En tiu punkto de la ludo, meti pecojn ne estas permesite.",
       "NEGATIVE_KOMI": "Ĉu vi certas? Negativaj komiaj oferoj devus esti bezonataj nur en specifaj handikapuloj situacioj.",
       "SUICIDE": "Vi ne rajtas meti pecon tiel, ke je la fino de via vico restu mortaj amikaj grupoj.",
-      "WOVEN_INCURSION": "En la variaĵo „Woven“ enkursoj ne estas validaj."
+      "WOVEN_INCURSION": "En la variaĵo \"Woven\" enkursoj ne estas validaj."
     },
     "assembly": {
       "BAD_MOVE": "La sola valida movo estas nombro inter 1 kaj 3.",
@@ -5119,7 +4995,6 @@
       "INVALID": "Vi ne rajtas meti pecojn ene de radi-ekskluziĝzonoj, kaj vi ĉiam devas krei la plej malgrandan stakon valide eblan."
     },
     "blockade": {
-      "BLOCKS_GOAL": "Ne eblas meti muron ĉe {{wall}} ĉar ĝi blokas la celon (s) por unu el la pecoj sur la tabulo.",
       "EXCLUSIVE": "Vi rajtas nur movi pecon aŭ meti muron, ne ambaŭ.",
       "INITIAL_INSTRUCTIONS": "Elektu pecon por movi, kaj poste metu muron, se vi havas iun.",
       "INITIAL_INSTRUCTIONS_EXCLUSIVE": "Elektu pecon por moviĝi aŭ metu muron, se vi havas iun.",
@@ -5424,6 +5299,14 @@
       "BAD_CROSSING_CLEARCUT": "Linio povas interkruciĝi nur se la grupo kreita per la peco metita estas pli granda ol ĉiu individua kontraŭa grupo en la interkruciĝo.",
       "BAD_PASS": "Vi ne rajtas preterpasi se estas validaj movoj haveblaj.",
       "INITIAL_INSTRUCTIONS": "Elektu punkton por meti pecon."
+    },
+    "clearpath": {
+      "INITIAL_INSTRUCTIONS": "Metu ŝtonon sur malplenan punkton. Punkto vitala por via kontraŭulo estas permesita nur se ĝi ankaŭ estas vitala por vi, aŭ se via meto kompletigas vian konekton.",
+      "INVALIDCELL": "La punkto {{cell}} ne ekzistas.",
+      "OCCUPIED": "La punkto {{where}} jam estas okupita.",
+      "VITAL": "Vi ne rajtas meti ŝtonon sur {{where}}. Ĝi estas vitala por via kontraŭulo sed ne por vi, kaj ŝtono tie ne kompletigus vian konekton.",
+      "NO_PASS": "Vi ne rajtas preterpasi, dum vi povas fari validan meton.",
+      "MUST_PASS": "Vi ne povas fari validan meton. Via vico estas transsaltita."
     },
     "clusterfuss": {
       "ADJ_ONLY": "Pecoj povas moviĝi nur al ortangule apudaj spacoj.",
@@ -5911,7 +5794,6 @@
       "TOO_EARLY_FOR_REFILL": "Bonvolu sendi vian pliajn movadojn.",
       "TOO_LATE_FOR_BLOCKED": "Vi ne estas blokita, se vi jam moviĝis en ĉi tiu kurbo.",
       "TOO_LATE_FOR_REFILL": "Ne necesas devigi replenigon de la tirprovizo post via tria movo. Ĝi repleniĝos aŭtomate post kiam vi sendos la movon.",
-      "VALID_REFILL": "Sendu vian movon por replenigi la tirprovizon. La alia(j) ludanto(j) aŭtomate preterpasos, kaj al vi restos {{count}} movoj en via parta vico (kaj ankaŭ la eblo preterpasi).",
       "VALID_REFILL_one": "Sendu vian movon por replenigi la tirprovizon. La kontraŭuloj aŭtomate preterpasos, kaj al vi restos unu movo en via parta vico (kaj ankaŭ la eblo preterpasi).",
       "VALID_REFILL_other": "Sendu vian movon por replenigi la tirprovizon. La kontraŭuloj aŭtomate preterpasos, kaj al vi restos {{count}} movoj en via parta vico (kaj ankaŭ la eblo preterpasi)."
     },
@@ -6672,10 +6554,6 @@
       "INITIAL_INSTRUCTIONS": "Metu ŝtonon sur malplena ĉelo. Se pinĉkaptado estas farita, la kaptanta ludanto translokigas la kaptitan ŝtonon al iu malplena ĉelo de sia elekto. Se tiu pozicio kaŭzas la kapton de propra ŝtono, la sama ludanto translokigas la kaptitan propran ŝtono, kaj solvas ajnan novan kapton, se ekzistas unu. Tiu procezo daŭras ĝis translokigo kaŭzas neniun novan kapton. Se ne restas disponebla pozicio, la kaptita ŝtono estas forigita de la ludo.",
       "OCCUPIED_CELL": "Nur pozicioj sur malplenaj ĉeloj validas.",
       "REUSED_CELL": "Tiu ĉelo {{cell}} jam estis uzita en tiu vico. Post kiam la statuso de ĉelo ŝanĝiĝas de okupita al neokupita, aŭ inverse, ĝi ne povas ŝanĝi denove tiun saman vicon.",
-      "SELF_STONES_TO_PLACE": "Ekzistas daŭre {{own}} ĝentila kaptita ŝtono (j) por translokiĝi.",
-      "OPP_STONES_TO_PLACE": "Estas ankoraŭ {{opp}} kontraŭulo kaptis ŝtonojn(s) por translokigi.",
-      "SELF_OPP_STONES_TO_PLACE": "Ekzistas ankoraŭ {{own}} amika kaptita ŝtono (((s), kaj tiam {{opp}} kontraŭulo ŝtono (((s), por translokigi.",
-      "OPP_SELF_STONES_TO_PLACE": "Estas ankoraŭ {{opp}} kontraŭulo kaptis ŝtono(s), kaj tiam {{own}} amika ŝtono(s), por translokigi.",
       "INITIAL_INSTRUCTIONS_ORIGINAL": "Metu ŝtonon sur malplena ĉelo. Se oni kaptas la ŝtonon, ĝi fariĝas kolora. Tiu flip povas kaŭzi sekvajn flip-ojn, komencante ĉenreagon ĝis la tabulo establiĝas.",
       "SELF_STONES_TO_PLACE_one": "Ankoraŭ necesas translokigi unu kaptitan amikan ŝtonon.",
       "SELF_STONES_TO_PLACE_other": "Ankoraŭ necesas translokigi {{count}} kaptitajn amikajn ŝtonojn.",
@@ -6879,7 +6757,7 @@
       "NO_AVAILABLE_RECEIVERS": "Vi ne povas movi la pilkon, ĉar ne estas akceptemaj ricevantoj."
     },
     "realm": {
-      "ALIGNED_BASE": "Vi ne rajtas meti bazon en la sama vico aŭ kolumno kiel alia amika bazo, krom se (a) vi ne havas alian eblon aŭ (b) vi uzas la variaĵon „Relaxed Placement“.",
+      "ALIGNED_BASE": "Vi ne rajtas meti bazon en la sama vico aŭ kolumno kiel alia amika bazo, krom se (a) vi ne havas alian eblon aŭ (b) vi uzas la variaĵon \"Relaxed Placement\".",
       "BAD_MULTIMOVE": "Se vi movas plurajn pecojn, vi devas aŭ \"koncentri\" (ĉiuj pecoj finiĝas en la sama regno) aŭ \"disperdi\" (ĉiuj pecoj komenciĝas en la sama regno).",
       "CHECKPOINT_CHARLEY": "Kun la varianto de \"Checkpoint Charley\", moviĝantaj pecoj devas halti en la unua malamika regulo, kiun ili eniras. En tiu kazo, la peco devas halti en la regno {{realm}}.",
       "DOUBLE_POWER": "En la komenca potenco-moviĝfazo, vi ne povas meti plurajn potencojn en la saman regnon.",
@@ -6901,6 +6779,7 @@
       "ORIENT_ENFORCER": "Klaku ortogonale apuda ĉelo por orienti la deviganto al tiu direkto.",
       "PIECE_MISMATCH": "La peco en ĉelo {{where}} ne kongruas kun la tipo, kiun vi diras, ke vi moviĝas.",
       "PLACE_IN_REALM": "Klaku la malplenan spacon en la regno {{realm}} por meti la pecon.",
+      "REARRANGE_THREE": "Vi ne rajtas rearanĝi la regnon {{realm}} dum tri sinsekvaj vicoj.",
       "SPECIAL_CAP_BASE": "Vi devas precizi, ke vi kaptas la bazon en tiu regno.",
       "SPECIAL_CREATE_BASE": "Vi devas precizi, ke vi kreas bazon en tiu regno.",
       "SPECIAL_CREATE_ENFORCER": "Vi devas precizi la lokon kaj orientiĝon de la deviganto, kiun vi kreas.",
@@ -7419,7 +7298,7 @@
       "PREFIX": "La ĉelo {{cell}} devas esti antaŭfiksita kun la peca simbolo: {{prefixed}}"
     },
     "taiji": {
-      "ADJACENT": "Pecoj devas esti metitaj unu apud la alia. Diagonala meto estas permesita nur en la variaĵo „Tonga“.",
+      "ADJACENT": "Pecoj devas esti metitaj unu apud la alia. Diagonala meto estas permesita nur en la variaĵo \"Tonga\".",
       "INITIAL_INSTRUCTIONS": "Metu helan pecon sur malplenan spacon.",
       "NO_NEIGHBOUR": "Tiu spaco ne havas validan malplenan najbaron.",
       "PARTIAL": "Metu la malhelan pecon en apuda malplena spaco."
@@ -7791,7 +7670,7 @@
   },
   "INITIAL_UNDO": "Vi ne povas malfari la komencan pozicion de la ludo.",
   "MOVES_GAMEOVER": "Vi ne povas fari movojn en finitaj ludoj.",
-  "MOVES_INVALID": "La movo „{{move}}“ estas nevalida. Kontrolu la regulojn kaj provu denove.",
+  "MOVES_INVALID": "La movo \"{{move}}\" estas nevalida. Kontrolu la regulojn kaj provu denove.",
   "MOVES_SIMULTANEOUS_PARTIAL": "En samtempaj ludoj, la movoj de ambaŭ ludantoj devas esti senditaj samtempe.",
   "names": {
     "abande": "Abande",
@@ -7855,6 +7734,7 @@
     "cifra": "CIFRA",
     "circleOfLife": "Cirklo de Vivo",
     "clearcut": "Duontranĉo",
+    "clearpath": "Libera Vojo",
     "clusterfuss": "Clusterfuss",
     "compart": "Compart",
     "complica": "Complica",

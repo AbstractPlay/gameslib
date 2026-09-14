@@ -200,7 +200,7 @@ export class MiradorGame extends GameBase {
             const newmove = move ? `${move}-${cell}` : cell;
             const result = this.validateMove(newmove) as IClickResult;
             if (!result.valid) {
-                result.move = "";
+                result.move = move;
             } else {
                 result.move = newmove;
             }

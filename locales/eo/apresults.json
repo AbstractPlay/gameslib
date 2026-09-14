@@ -216,8 +216,8 @@
         "quincunx": "Al la ludanto {{playerNum}} restis la jenaj kartoj enmane: {{cards}}.",
         "scribe_super": "Superformacio de {{player}}: {{formation}}.",
         "stawvs": "{{player}} ne povis movi kaj devas de nun preterpasi. La pecoj de tiu ludanto restas sur la jenaj piramidoj: {{pyramids}}.",
-        "frogger_one": "{{player}} elektis replenigi la tirprovizon. La aliaj ludantoj devas preterpasi, por ke li povu fari sian restantan {{count}} movon.",
-        "frogger_other": "{{player}} elektis replenigi la tirprovizon. La aliaj ludantoj devas preterpasi, por ke li povu fari siajn restantajn {{count}} movojn.",
+        "frogger_one": "{{player}} elektis replenigi la tirprovizon. Li ricevas plian vicon por fari sian restantan {{count}} movon.",
+        "frogger_other": "{{player}} elektis replenigi la tirprovizon. Li ricevas plian vicon por fari siajn restantajn {{count}} movojn.",
         "elOso": {
             "playerSetup": "Komenca aranĝo de la ludanto",
             "bearSetup": "Komenca aranĝo de la Urso"

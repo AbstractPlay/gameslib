@@ -344,7 +344,7 @@
     "DETONATE": {
         "nowhat": "{{player}} eksplodigis pecon ĉe {{where}}."
     },
-    "DRAWAGREED": "La ludantoj konsentis pri egalvenko.",
+    "DRAWAGREED": "La ludantoj konsentis pri remizo.",
     "EJECT": {
         "assembly": "La produktolinio antaŭeniris je {{distance}} spacoj.",
         "deckfish": "{{player}} puŝis pecon de {{from}} al {{to}}.",
@@ -356,8 +356,8 @@
     "ELIMINATED": "{{player}} estis eliminita.",
     "EOG": {
         "buku_singletons": "La ludo finiĝis, ĉar ĉiuj ĉeloj enhavas nur unuopajn pecojn.",
-        "camelot_claim_draw_repetition": "La ludo finiĝis, ĉar {{player}} postulis egalvenkon pro ripeto.",
-        "camelot_claim_draw_progression": "La ludo finiĝis, ĉar {{player}} postulis egalvenkon laŭ la 50-mova regulo.",
+        "camelot_claim_draw_repetition": "La ludo finiĝis, ĉar {{player}} postulis remizon pro ripeto.",
+        "camelot_claim_draw_progression": "La ludo finiĝis, ĉar {{player}} postulis remizon laŭ la 50-mova regulo.",
         "consecutive_passes": "La ludo finiĝis, ĉar ambaŭ ludantoj sinsekve preterpasis.",
         "deckfish": "La ludo finiĝis, ĉar la lasta ludanto ne povis movi.",
         "default": "La ludo finiĝis.",
@@ -697,8 +697,8 @@
         "furl": "{{player}} malvolvis {{count}} pecojn de {{from}} al {{to}}."
     },
     "USE": {
-        "camelot_castle_move_one": "{{player}} uzis kastelan movon kaj havas ankoraŭ 1 kastelan movon.",
-        "camelot_castle_move_other": "{{player}} uzis kastelan movon kaj havas ankoraŭ {{count}} kastelajn movojn.",
+        "camelot_castle_move_one": "{{player}} havas ankoraŭ 1 kastelan movon.",
+        "camelot_castle_move_other": "{{player}} havas ankoraŭ {{count}} kastelajn movojn.",
         "camelot_castle_move_none": "{{player}} ne plu havas kastelajn movojn."
     },
     "SCRIBE": {

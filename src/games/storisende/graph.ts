@@ -1,22 +1,21 @@
+import { columnLabelToIndex, indexToColumnLabel } from "../../common/columnLabels.js";
 import { HexFieldGraph } from "../../common/graphs/index.js";
-
-const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 
 export class StorisendeGraph extends HexFieldGraph {
     public override coords2algebraic(x: number, y: number): string {
-        return columnLabels[y] + (x + 1).toString();
+        return indexToColumnLabel(y) + (x + 1).toString();
     }
 
     public override algebraic2coords(cell: string): [number, number] {
-        const pair: string[] = cell.split("");
-        const num = pair.slice(1).join("");
-        const y = columnLabels.indexOf(pair[0]);
-        if (y === undefined || y < 0) {
-            throw new Error(`The column label is invalid: ${pair[0]}`);
+        const match = cell.match(/^([a-z]+)(\d+)$/);
+        if (match === null) {
+            throw new Error(`The algebraic notation is invalid: ${cell}`);
         }
+        const y = columnLabelToIndex(match[1]);
+        const num = match[2];
         const x = Number(num);
-        if (x === undefined || isNaN(x) || num === "") {
-            throw new Error(`The row label is invalid: ${pair[1]}`);
+        if (isNaN(x) || num === "") {
+            throw new Error(`The column label is invalid: ${num}`);
         }
         return [x - 1, y];
     }

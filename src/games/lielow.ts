@@ -24,6 +24,196 @@ export interface ILielowState extends IAPGameState {
     stack: Array<IMoveState>;
 };
 
+// Number of moves a lone stack at [row][col] can make—growing by one each move,
+// choosing direction each time to survive as long as possible—before it has no
+// choice left but to bear off. Indexed as [stackHeight - 1][row][col]. Ignores
+// interference from other stacks, friendly or enemy.
+const stackMovesToSuicideEight: number[][][] = [
+    [ // 1-stacks
+        [8, 8, 8, 8, 8, 8, 8, 8],
+        [8, 8, 8, 8, 8, 8, 8, 8],
+        [8, 8, 8, 8, 8, 8, 8, 8],
+        [8, 8, 8, 8, 8, 8, 8, 8],
+        [8, 8, 8, 8, 8, 8, 8, 8],
+        [8, 8, 8, 8, 8, 8, 8, 8],
+        [8, 8, 8, 8, 8, 8, 8, 8],
+        [8, 8, 8, 8, 8, 8, 8, 8],
+    ],
+    [ // 2-stacks
+        [7, 7, 7, 7, 7, 7, 7, 7],
+        [7, 7, 7, 7, 7, 7, 7, 7],
+        [7, 7, 7, 7, 7, 7, 7, 7],
+        [7, 7, 7, 7, 7, 7, 7, 7],
+        [7, 7, 7, 7, 7, 7, 7, 7],
+        [7, 7, 7, 7, 7, 7, 7, 7],
+        [7, 7, 7, 7, 7, 7, 7, 7],
+        [7, 7, 7, 7, 7, 7, 7, 7],
+    ],
+    [ // 3-stacks
+        [5, 6, 6, 6, 6, 6, 6, 5],
+        [6, 6, 6, 6, 6, 6, 6, 6],
+        [6, 6, 6, 6, 6, 6, 6, 6],
+        [6, 6, 6, 6, 6, 6, 6, 6],
+        [6, 6, 6, 6, 6, 6, 6, 6],
+        [6, 6, 6, 6, 6, 6, 6, 6],
+        [6, 6, 6, 6, 6, 6, 6, 6],
+        [5, 6, 6, 6, 6, 6, 6, 5],
+    ],
+    [ // 4-stacks
+        [3, 5, 5, 4, 4, 5, 5, 3],
+        [5, 5, 5, 5, 5, 5, 5, 5],
+        [5, 5, 5, 5, 5, 5, 5, 5],
+        [4, 5, 5, 4, 4, 5, 5, 4],
+        [4, 5, 5, 4, 4, 5, 5, 4],
+        [5, 5, 5, 5, 5, 5, 5, 5],
+        [5, 5, 5, 5, 5, 5, 5, 5],
+        [3, 5, 5, 4, 4, 5, 5, 3],
+    ],
+    [ // 5-stacks
+        [3, 4, 4, 2, 2, 4, 4, 3],
+        [4, 4, 4, 4, 4, 4, 4, 4],
+        [4, 4, 4, 3, 3, 4, 4, 4],
+        [2, 4, 3, 1, 1, 3, 4, 2],
+        [2, 4, 3, 1, 1, 3, 4, 2],
+        [4, 4, 4, 3, 3, 4, 4, 4],
+        [4, 4, 4, 4, 4, 4, 4, 4],
+        [3, 4, 4, 2, 2, 4, 4, 3],
+    ],
+    [ // 6-stacks
+        [3, 3, 2, 2, 2, 2, 3, 3],
+        [3, 3, 3, 3, 3, 3, 3, 3],
+        [2, 3, 1, 1, 1, 1, 3, 2],
+        [2, 3, 1, 1, 1, 1, 3, 2],
+        [2, 3, 1, 1, 1, 1, 3, 2],
+        [2, 3, 1, 1, 1, 1, 3, 2],
+        [3, 3, 3, 3, 3, 3, 3, 3],
+        [3, 3, 2, 2, 2, 2, 3, 3],
+    ],
+    [ // 7-stacks
+        [2, 2, 2, 2, 2, 2, 2, 2],
+        [2, 1, 1, 1, 1, 1, 1, 2],
+        [2, 1, 1, 1, 1, 1, 1, 2],
+        [2, 1, 1, 1, 1, 1, 1, 2],
+        [2, 1, 1, 1, 1, 1, 1, 2],
+        [2, 1, 1, 1, 1, 1, 1, 2],
+        [2, 1, 1, 1, 1, 1, 1, 2],
+        [2, 2, 2, 2, 2, 2, 2, 2],
+    ],
+    [ // 8-stacks
+        [1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1],
+    ]
+];
+
+// Same as `stackMovesToSuicideEight`, but for the 9x9 board (the `size-9` variant).
+const stackMovesToSuicideNine: number[][][] = [
+    [ // 1-stacks
+        [9, 9, 9, 9, 9, 9, 9, 9, 9],
+        [9, 9, 9, 9, 9, 9, 9, 9, 9],
+        [9, 9, 9, 9, 9, 9, 9, 9, 9],
+        [9, 9, 9, 9, 9, 9, 9, 9, 9],
+        [9, 9, 9, 9, 9, 9, 9, 9, 9],
+        [9, 9, 9, 9, 9, 9, 9, 9, 9],
+        [9, 9, 9, 9, 9, 9, 9, 9, 9],
+        [9, 9, 9, 9, 9, 9, 9, 9, 9],
+        [9, 9, 9, 9, 9, 9, 9, 9, 9],
+    ],
+    [ // 2-stacks
+        [8, 8, 8, 8, 8, 8, 8, 8, 8],
+        [8, 8, 8, 8, 8, 8, 8, 8, 8],
+        [8, 8, 8, 8, 8, 8, 8, 8, 8],
+        [8, 8, 8, 8, 8, 8, 8, 8, 8],
+        [8, 8, 8, 8, 8, 8, 8, 8, 8],
+        [8, 8, 8, 8, 8, 8, 8, 8, 8],
+        [8, 8, 8, 8, 8, 8, 8, 8, 8],
+        [8, 8, 8, 8, 8, 8, 8, 8, 8],
+        [8, 8, 8, 8, 8, 8, 8, 8, 8],
+    ],
+    [ // 3-stacks
+        [7, 7, 7, 7, 7, 7, 7, 7, 7],
+        [7, 7, 7, 7, 7, 7, 7, 7, 7],
+        [7, 7, 7, 7, 7, 7, 7, 7, 7],
+        [7, 7, 7, 7, 7, 7, 7, 7, 7],
+        [7, 7, 7, 7, 7, 7, 7, 7, 7],
+        [7, 7, 7, 7, 7, 7, 7, 7, 7],
+        [7, 7, 7, 7, 7, 7, 7, 7, 7],
+        [7, 7, 7, 7, 7, 7, 7, 7, 7],
+        [7, 7, 7, 7, 7, 7, 7, 7, 7],
+    ],
+    [ // 4-stacks
+        [3, 5, 6, 6, 4, 6, 6, 5, 3],
+        [5, 6, 6, 6, 6, 6, 6, 6, 5],
+        [6, 6, 6, 6, 6, 6, 6, 6, 6],
+        [6, 6, 6, 6, 6, 6, 6, 6, 6],
+        [4, 6, 6, 6, 4, 6, 6, 6, 4],
+        [6, 6, 6, 6, 6, 6, 6, 6, 6],
+        [6, 6, 6, 6, 6, 6, 6, 6, 6],
+        [5, 6, 6, 6, 6, 6, 6, 6, 5],
+        [3, 5, 6, 6, 4, 6, 6, 5, 3],
+    ],
+    [ // 5-stacks
+        [3, 5, 5, 4, 2, 4, 5, 5, 3],
+        [5, 5, 5, 5, 4, 5, 5, 5, 5],
+        [5, 5, 5, 5, 5, 5, 5, 5, 5],
+        [4, 5, 5, 4, 3, 4, 5, 5, 4],
+        [2, 4, 5, 3, 1, 3, 5, 4, 2],
+        [4, 5, 5, 4, 3, 4, 5, 5, 4],
+        [5, 5, 5, 5, 5, 5, 5, 5, 5],
+        [5, 5, 5, 5, 4, 5, 5, 5, 5],
+        [3, 5, 5, 4, 2, 4, 5, 5, 3],
+    ],
+    [ // 6-stacks
+        [3, 4, 4, 2, 2, 2, 4, 4, 3],
+        [4, 4, 4, 4, 4, 4, 4, 4, 4],
+        [4, 4, 4, 3, 3, 3, 4, 4, 4],
+        [2, 4, 3, 1, 1, 1, 3, 4, 2],
+        [2, 4, 3, 1, 1, 1, 3, 4, 2],
+        [2, 4, 3, 1, 1, 1, 3, 4, 2],
+        [4, 4, 4, 3, 3, 3, 4, 4, 4],
+        [4, 4, 4, 4, 4, 4, 4, 4, 4],
+        [3, 4, 4, 2, 2, 2, 4, 4, 3],
+    ],
+    [ // 7-stacks
+        [3, 3, 2, 2, 2, 2, 2, 3, 3],
+        [3, 3, 3, 3, 3, 3, 3, 3, 3],
+        [2, 3, 1, 1, 1, 1, 1, 3, 2],
+        [2, 3, 1, 1, 1, 1, 1, 3, 2],
+        [2, 3, 1, 1, 1, 1, 1, 3, 2],
+        [2, 3, 1, 1, 1, 1, 1, 3, 2],
+        [2, 3, 1, 1, 1, 1, 1, 3, 2],
+        [3, 3, 3, 3, 3, 3, 3, 3, 3],
+        [3, 3, 2, 2, 2, 2, 2, 3, 3],
+    ],
+    [ // 8-stacks
+        [2, 2, 2, 2, 2, 2, 2, 2, 2],
+        [2, 1, 1, 1, 1, 1, 1, 1, 2],
+        [2, 1, 1, 1, 1, 1, 1, 1, 2],
+        [2, 1, 1, 1, 1, 1, 1, 1, 2],
+        [2, 1, 1, 1, 1, 1, 1, 1, 2],
+        [2, 1, 1, 1, 1, 1, 1, 1, 2],
+        [2, 1, 1, 1, 1, 1, 1, 1, 2],
+        [2, 1, 1, 1, 1, 1, 1, 1, 2],
+        [2, 2, 2, 2, 2, 2, 2, 2, 2],
+    ],
+    [ // 9-stacks
+        [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1],
+    ]
+];
+
 export class LielowGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
         name: "Lielow",
@@ -33,6 +223,8 @@ export class LielowGame extends GameBase {
         dateAdded: "2023-12-24",
         // i18next.t("apgames:descriptions.lielow")
         description: "apgames:descriptions.lielow",
+        // i18next.t("apgames:notes.lielow")
+        notes: "apgames:notes.lielow",
         urls: ["https://boardgamegeek.com/boardgame/349408/lielow"],
         bggid: "349408",
         people: [
@@ -677,9 +869,28 @@ export class LielowGame extends GameBase {
         return [...this.board.values()].filter(v => v[0] === player).map(v => v[1]).length;
     }
 
+    // For each player, the sum, over all of their stacks, of the number of moves
+    // that stack could make (ignoring interference from other stacks) before being
+    // forced to bear off. Returns [player1Total, player2Total].
+    private movesUntilSuicide(): number[] {
+        const movesUntilSuicide: number[] = [0, 0];
+        this.board.forEach((cell, coord) => {
+            const [x, y] = this.algebraic2coords(coord);
+            const [player, stackHeight] = cell;
+            if (this.boardSize === 8) {
+                movesUntilSuicide[player - 1] += stackMovesToSuicideEight[stackHeight - 1][y][x];
+            } else if (this.boardSize === 9) {
+                movesUntilSuicide[player - 1] += stackMovesToSuicideNine[stackHeight - 1][y][x];
+            }
+        });
+        return movesUntilSuicide;
+    }
+
     public sidebarScores(): IScores[] {
+        const suicideMoves = this.movesUntilSuicide();
         return [
-            { name: this.neutralAreaLabel("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
+            { name: this.neutralAreaLabel("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] },
+            { name: this.neutralAreaLabel("apgames:status.lielow.MOVESUNTILSUICIDE"), scores: [suicideMoves[0], suicideMoves[1]] }
         ]
     }
 

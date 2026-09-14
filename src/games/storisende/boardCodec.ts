@@ -190,6 +190,19 @@ function hexCoordKeys(hexes: StorisendeHex[]): Set<string> {
 
 /** Topology template for sparse decode (modular uses `startingPosition` centres). */
 export function topologyHexes(variants: string[], startingPosition = ""): StorisendeHex[] {
+    if (isModularStorisendeVariant(variants)) {
+        if (
+            startingPosition.length === 0
+            || !startingPosition.startsWith(`${MODULAR_STARTING_POSITION_PREFIX}/`)
+        ) {
+            throw new Error(
+                "Modular Storisende requires startingPosition (modular-centres-v1/...); "
+                + "persist it on game state or stack[0] when using compact board wire",
+            );
+        }
+        const {centres} = parseModularStartingPosition(startingPosition);
+        return new StorisendeBoard({centres}).serialize();
+    }
     if (
         startingPosition.length > 0
         && startingPosition.startsWith(`${MODULAR_STARTING_POSITION_PREFIX}/`)
@@ -200,21 +213,25 @@ export function topologyHexes(variants: string[], startingPosition = ""): Storis
     return emptyBoardHexes(variants);
 }
 
+/** Recover modular centres from any legacy full-hex stack frame (not compact sparse/delta). */
 export function modularStartingPositionFromLegacyStack(
     stack: Array<{board: BoardWire}>,
     variants: string[],
 ): string | undefined {
     const numModules = modularModuleCount(variants);
-    if (numModules === undefined || stack.length === 0) {
+    if (numModules === undefined) {
         return undefined;
     }
-    const wire = stack[0]!.board;
-    if (!Array.isArray(wire)) {
-        return undefined;
+    for (const frame of stack) {
+        const wire = frame.board;
+        if (!Array.isArray(wire)) {
+            continue;
+        }
+        const hexes = decodeLegacyBoardWire(wire);
+        const centres = recoverModularCentresFromHexes(hexes, numModules);
+        return formatModularStartingPosition(centres, numModules);
     }
-    const hexes = decodeLegacyBoardWire(wire);
-    const centres = recoverModularCentresFromHexes(hexes, numModules);
-    return formatModularStartingPosition(centres, numModules);
+    return undefined;
 }
 
 function stacksEqual(a: playerid[], b: playerid[]): boolean {

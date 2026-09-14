@@ -3287,6 +3287,10 @@
     "src": "To make it very clear what happened on a previous turn, each move is displayed over four separate boards. The first board shows the game after the piece was first placed. The second board shows the state after adjacent pieces were flipped. The third board shows any harvests. The fourth board is the final game state and is where you make your moves.\n\nIn our implementation, black is always the \"tome\" or tie-breaker colour. The last player to harvest black will have a `0.1` after their score.",
     "out": "Um sehr deutlich zu machen, was im vorherigen Zug passiert ist, wird jeder Zug auf vier separaten Spielbrettern dargestellt. Das erste Spielbrett zeigt das Spiel nach dem ersten Platzieren des Steins. Das zweite Spielbrett zeigt den Zustand, nachdem angrenzende Steine umgedreht wurden. Das dritte Spielbrett zeigt etwaige Ernten. Das vierte Spielbrett zeigt den finalen Spielzustand und ist die Stelle, an der Sie Ihre Züge ausführen.\n\nIn unserer Implementierung ist Schwarz immer die \"Tome\"- oder Gleichstands-Farbe. Der letzte Spieler, der Schwarz erntet, erhält ein `0.1` hinter seiner Punktzahl."
   },
+  "notes.gonnect": {
+    "src": "In the base game, passing is not allowed, so play continues until someone connects or a player has no legal placement left.\n\nThe **Cascading Connection Goals** variant allows passing, and lets the game also end after two consecutive passes. If the game ends by an outright connection, that player wins as usual. Otherwise, the winner is found by comparing connections across a nested series of centred subboards: starting with the full board and shrinking by two rows and columns at a time (down to the single centre point), find the largest subboard on which exactly one player has an unbroken orthogonal connection between two opposite sides of that subboard; that player wins. If, at a given size, both players have such a connection or neither does, move on to the next smaller subboard. Because a single stone occupying the centre point always \"connects\" its own 1×1 subboard, a draw requires that the centre point be empty; on an odd-sized board with both players otherwise out of useful moves, this is expected to be extremely rare, if not impossible.",
+    "out": "Im Grundspiel ist Passen nicht erlaubt, daher geht das Spiel weiter, bis jemand eine Verbindung herstellt oder ein Spieler keinen legalen Zug mehr hat.\n\nDie Variante **Kaskadierende Verbindungsziele** erlaubt das Passen und lässt das Spiel auch nach zwei aufeinanderfolgenden Passzügen enden. Endet das Spiel durch eine direkte Verbindung, gewinnt dieser Spieler wie gewohnt. Andernfalls wird der Sieger ermittelt, indem die Verbindungen über eine verschachtelte Reihe von zentrierten Teilbrettern verglichen werden: Beginnend mit dem gesamten Brett und jeweils um zwei Reihen und Spalten verkleinert (bis hin zum einzelnen Mittelpunkt), wird das größte Teilbrett gesucht, auf dem genau ein Spieler eine ununterbrochene orthogonale Verbindung zwischen zwei gegenüberliegenden Seiten dieses Teilbretts hat; dieser Spieler gewinnt. Wenn bei einer bestimmten Größe beide Spieler eine solche Verbindung haben oder keiner von beiden, wird das nächstkleinere Teilbrett geprüft. Da ein einzelner Stein auf dem Mittelpunkt sein eigenes 1×1-Teilbrett immer \"verbindet\", erfordert ein Unentschieden, dass der Mittelpunkt leer ist; auf einem Brett mit ungerader Größe, wenn beide Spieler ansonsten keine nützlichen Züge mehr haben, ist dies voraussichtlich extrem selten, wenn nicht gar unmöglich."
+  },
   "notes.guerrilla": {
     "src": "Either player wins by removing all of the opponent's pieces. The security player also wins if they survive long enough that the insurgents run out of stones to place.\n\nBy default, a match consists of two games with roles reversed. Each player plays one game as insurgents and one as security. When both players win as insurgents, the match goes to whoever used fewer stones (`66 − remaining` at the end of that game; lower score wins). Equal insurgent scores are the only draw in that case. A security win in a game scores 67. If one player sweeps both games (wins as insurgents in one and security in the other), they win the match outright. If both players only win as security, the match is drawn.",
     "out": "Ein Spieler gewinnt, indem er alle Steine des Gegners entfernt. Der Sicherheitsspieler gewinnt auch, wenn er lange genug überlebt, bis den Aufständischen die Steine zum Setzen ausgehen.\n\nStandardmäßig besteht ein Match aus zwei Spielen mit vertauschten Rollen. Jeder Spieler spielt ein Spiel als Aufständische und eines als Sicherheitskräfte. Wenn beide Spieler als Aufständische gewinnen, geht das Match an denjenigen, der weniger Steine verbraucht hat (`66 − verbleibend` am Ende dieses Spiels; die niedrigere Punktzahl gewinnt). Gleiche Aufständischen-Punktzahlen sind in diesem Fall das einzige Unentschieden. Ein Sieg der Sicherheitskräfte in einem Spiel bringt 67 Punkte. Wenn ein Spieler beide Spiele gewinnt (eines als Aufständische und eines als Sicherheitskräfte), gewinnt er das Match direkt. Wenn beide Spieler nur als Sicherheitskräfte gewinnen, endet das Match unentschieden."
@@ -8062,6 +8066,10 @@
   "validation.gonnect.INITIAL_INSTRUCTIONS": {
     "src": "Select an intersection to place a piece.",
     "out": "Wähle einen Schnittpunkt, um einen Stein zu platzieren."
+  },
+  "validation.gonnect.INVALID_PASS": {
+    "src": "You cannot pass currently.",
+    "out": "Du kannst derzeit nicht passen."
   },
   "validation.gonnect.KO": {
     "src": "Ko rule: you may not immediately recapture your opponent's single stone if they just used it to capture one of yours.",
@@ -15838,6 +15846,14 @@
   "variants.gonnect.#board.name": {
     "src": "Default 13x13 board",
     "out": "Standard-13x13-Brett"
+  },
+  "variants.gonnect.cascading.description": {
+    "src": "Passing is allowed. The game also ends after two consecutive passes, in which case the winner is found by comparing connections across a nested series of centred subboards.",
+    "out": "Passen ist erlaubt. Das Spiel endet auch nach zwei aufeinanderfolgenden Passzügen. In diesem Fall wird der Sieger ermittelt, indem die Verbindungen über eine verschachtelte Reihe zentrierter Teilbretter verglichen werden."
+  },
+  "variants.gonnect.cascading.name": {
+    "src": "Cascading Connection Goals",
+    "out": "Kaskadierende Verbindungsziele"
   },
   "variants.gonnect.size-19.name": {
     "src": "19x19 board",

@@ -334,7 +334,7 @@
     "saltire": {
       "basic": {
         "name": "Bazaj reguloj",
-        "description": "Interŝanĝo devas malpliigi la nombron de krucŝargoj. La remizoj estas eblaj."
+        "description": "Interŝanĝo devas malpliigi la nombron de kructranĉoj. Remizoj eblas."
       },
       "size-15": {
         "name": "tabulo 15×15"
@@ -1326,7 +1326,7 @@
     },
     "diffusion": {
       "topBottom": {
-        "description": "Ludantoj posedas la vicojn plej proksimajn al ili (kiel en la plej multaj mankalaj ludoj) prefere ol la maldekstran duonon de la tabulo.",
+        "description": "Ludantoj posedas la vicojn plej proksimajn al ili (kiel en plej multaj mankalaj ludoj) anstataŭ la maldekstran duonon de la tabulo.",
         "name": "Supre/Sube"
       }
     },
@@ -1546,7 +1546,7 @@
         "name": "Altnivela"
       },
       "continuous": {
-        "description": "La tiradpilo estas pli malgranda sed plenigas post ĉiu vico.",
+        "description": "La tirprovizo estas pli malgranda sed repleniĝas post ĉiu vico.",
         "name": "Kontinuaj replenigoj"
       },
       "courtpawns": {
@@ -1558,7 +1558,7 @@
         "name": "Tribunaloj"
       },
       "crocodiles": {
-        "description": "Aldonu malsatajn krokodilojn al la pionirkartoj. Krokodiloj avancas ĉe la fino de ĉiu rondo, sendante iun ajn ranon sur sia nova spaco reen al la Ekzakto. Tiu varianto estas destinita por du-ludanta ludo, sed vi povas aldoni krokodilojn ĉe ĉiu ludanto nombro.",
+        "description": "Aldonu malsatajn krokodilojn al la peonaj kartoj. Krokodiloj antaŭeniras fine de ĉiu rondo kaj resendas ĉiun ranon sur sia nova spaco al la Senkulpigo. Ĉi tiu variaĵo estas destinita por du ludantoj, sed vi povas uzi ĝin kun ajna nombro da ludantoj.",
         "name": "Krokodiloj"
       },
       "freeswim": {
@@ -1566,7 +1566,7 @@
         "name": "Libera naĝado"
       },
       "refills": {
-        "description": "La tiradpilo povas esti replendita dum la vico de ludanto, dividante siajn agojn en du parciajn vicojn.",
+        "description": "La tirprovizo povas esti replenigita dum la vico de ludanto, dividante liajn agojn inter du partaj vicoj.",
         "name": "Repleniĝoj"
       }
     },
@@ -1706,7 +1706,7 @@
     "homeworlds": {
       "#rules": {
         "name": "Ne permesu plenan preterpason",
-        "description": "Vi eble ne preterpasos vian liberan agon, sed vi eble preterpasos nedeziratajn oferdonajn agojn"
+        "description": "Vi ne rajtas preterpasi vian liberan agon, sed rajtas preterpasi nedeziratajn oferajn agojn"
       },
       "passFree": {
         "name": "Permesu plenan trairon"
@@ -1771,11 +1771,11 @@
       },
       "blocker": {
         "name": "Malfermo",
-        "description": "La ludo komenciĝas kun centra neŭtrala peco, kaj stakoj estas metitaj fare de ludantoj."
+        "description": "La ludo komenciĝas per centra neŭtrala peco, kaj la ludantoj metas la stakojn."
       },
       "wildcard": {
         "name": "Ĵokero",
-        "description": "Centra neŭtrala peco povas esti nombrita fare de iu ajn ludanto, kaj stakoj estas metitaj fare de ludantoj."
+        "description": "Ĉiu ludanto povas enkalkuli la centran neŭtralan pecon, kaj la ludantoj metas la stakojn."
       },
       "#size": {
         "name": "Defaŭlta stakgrando",
@@ -1915,23 +1915,23 @@
         "name": "Tribunaloj por peonoj"
       },
       "courts": {
-        "description": "Aldonas Tribunalojn al la kartaro. Plene konstruitaj Tribunaloj valoras dek poentojn dum poentado de distriktoj, sed donas neniun enspezon. Ili kostas dek emblemoludmarkojn, kun la ordinaraj limigoj por akto/aĉeto: almenaŭ unu ludmarko de ĉiu emblemo.",
+        "description": "Aldonu Tribunalojn al la kartaro. Plene konstruitaj Tribunaloj valoras dek poentojn dum poentado de distriktoj sed donas neniun enspezon. Ili kostas dek emblemoludmarkojn, kun la ordinaraj limigoj por akto aŭ aĉeto: almenaŭ unu ludmarko de ĉiu emblemo.",
         "name": "Tribunaloj"
       },
       "deucey": {
-        "description": "Asoj normale gajnas unu poenton je ĉiu karto de tiu emblemo en la distrikto de la ludanto, inkluzive de la Aso mem. En tiu varianto, Asoj gajnas poenton de ĉiuj matĉaj kartoj sur ambaŭ flankoj de la distrikto same kiel la Peono, se aparta.",
+        "description": "Asoj normale donas unu poenton por ĉiu karto de tiu emblemo en la propra distrikto de la ludanto, inkluzive la Ason mem. En ĉi tiu variaĵo, Asoj donas poenton por ĉiuj samemblemaj kartoj ambaŭflanke de la distrikto kaj ankaŭ por la Peono, se ĝi ekzistas.",
         "name": "Acey deucey"
       },
       "mega": {
-        "description": "Pliigita duobla-dekta versio de la ludo de Greg James, kun naŭ distriktoj, ses-kartaj manoj, kaj du kartaj movoj je vico. La duobla impostado estas intencita por iri kun tiu varianto.",
-        "name": "Mega-magneto"
+        "description": "Pli granda du-kartara versio de Greg James, kun naŭ distriktoj, seskartaj manoj kaj po du kartokonsumaj movoj en ĉiu vico. La variaĵo de duobla impostado estas destinita por ĉi tiu variaĵo.",
+        "name": "Mega-Magnate"
       },
       "stacked": {
-        "description": "Nur Mega-Magnato: por certigi justan distribuadon de kartoj, ĉiu ludanto tiras de sia propra kompleta fendo ĝis tiuj fendoj estas elĉerpitaj. La ĵetadojn oni miksas en unu solan tiradokon, unufoje, kiel kutime.",
+        "description": "Nur por Mega-Magnate: por certigi justan distribuon de kartoj, ĉiu ludanto tiras el sia propra kompleta kartaro ĝis tiuj kartaroj elĉerpiĝas. Poste la forĵetaĵoj estas unufoje miksitaj en unu tir-kartaron, kiel kutime.",
         "name": "Stakigita kartaro"
       },
       "taxtax": {
-        "description": "Du impostdandoj estas rulitaj, do du emblemoj povas esti impostitaj. (Kiam ili kongruas, nur unu emblemo estas impostata.)",
+        "description": "Oni ĵetas du impostĵetkubojn, do du emblemoj povas esti impostataj. Se ili kongruas, nur unu emblemo estas impostata.",
         "name": "Duobla imposto"
       }
     },
@@ -1951,7 +1951,7 @@
       },
       "capture": {
         "name": "Kaptado",
-        "description": "Kapta varianto proponita fare de Luis Bolaños Mures. Post ĉiu metado, ĉiuj pecoj en la postulataj linioj estas forigitaj. En la origina propono, Luis sugestas tiun varianton esti uzita kun la sen-blokita-ĉela varianto."
+        "description": "Kapta variaĵo proponita de Luis Bolaños Mures. Post ĉiu meto, ĉiuj pecoj en alproprigitaj linioj estas forigitaj. En sia origina propono Luis sugestas uzi ĉi tiun variaĵon kun la variaĵo sen blokitaj ĉeloj."
       }
     },
     "margo": {
@@ -2191,7 +2191,7 @@
       },
       "gyre": {
         "name": "Giro",
-        "description": "Steloj ĉirkaŭ la ĉirkaŭaĵo kaj en la centro (proponita fare de Mark Steere)"
+        "description": "Steloj ĉirkaŭ la rando kaj en la centro (propono de Mark Steere)"
       },
       "yex": {
         "name": "Jes",
@@ -2337,7 +2337,7 @@
         "name": "Overline malpermesita"
       },
       "overline-ignored": {
-        "description": "La movadoj estas validaj, sed ili ne estas venkoj. Estas eble kapti ŝtonon tia, ke via kontraŭulo gajnas. Tiradoj estas eblaj se ambaŭ ludantoj samtempe plenumas la venkan kondiĉon.",
+        "description": "Superliniaj movoj estas validaj sed ne venkaj. Eblas kapti ŝtonon tiel, ke via kontraŭulo venkas. Remizo eblas se ambaŭ ludantoj samtempe plenumas la venkkondiĉon.",
         "name": "Overline ignorita"
       },
       "overtime-capture": {
@@ -2626,39 +2626,39 @@
     },
     "renju": {
       "#opening": {
-        "description": "La unua ludanto devas meti sian unuan ŝtonon en la mezo de la tabulo. Ne ekzistas aliaj malfermaĵaj lokigrajtoj.",
-        "name": "La malfermo de la centro"
+        "description": "La unua ludanto devas meti sian unuan ŝtonon en la centron de la tabulo. Neniuj aliaj malfermaj metlimigoj validas.",
+        "name": "Centra malfermo"
       },
       "#tiebreaker": {
         "name": "Sen egalecrompo"
       },
       "pass": {
-        "description": "Post la malferma fazo, ludanto povas preterpasi anstataŭe fari movojn por gajni la tiebreaker. Se la tabulo estas plenigita sen gajninto, la ludanto, kiu preterpasis, gajnas. Se neniu ludanto preterpasis, la dua ludanto venkas.",
+        "description": "Post la malfermo, ludanto povas preterpasi anstataŭ movi por gajni la egalecrompon. Se la tabulo pleniĝas sen venkinto, gajnas la ludanto, kiu preterpasis. Se neniu preterpasis, gajnas la dua ludanto.",
         "name": "Egalecrompo per preterpaso"
       },
       "rif": {
-        "description": "Klasika Renju International Federation-reguloj. Elekti kanonikan malfermaĵon kaj la alia ludanto povas interŝanĝi. Du provizoraj kvinaj ŝtonoj estas donitaj. <https://www.renju.net/rule/1/>",
+        "description": "Klasikaj reguloj de la Renju International Federation. Elektu norman malfermon; la alia ludanto rajtas interŝanĝi kolorojn. Oni donas du provizorajn kvinajn ŝtonojn. <https://www.renju.net/rule/1/>",
         "name": "Klasika RIF malfermo"
       },
       "soosyrv-8": {
-        "description": "Oficiala turnirregulo ekde 2015. Komencante kiel RIF, sed sur metado de la kvara ŝtono, ĝis 8 provizoraj kvinaj ŝtonoj povas esti deklaritaj, kaj la alia ludanto povas interŝanĝi. <https://www.renju.net/rule/24/>",
-        "name": "Soosõrv-8 malfermaĵo"
+        "description": "Oficiala turnirregulo ekde 2015. Ĝi komenciĝas kiel RIF, sed post la meto de la kvara ŝtono oni povas deklari ĝis 8 provizorajn kvinajn ŝtonojn, kaj la alia ludanto rajtas interŝanĝi kolorojn. <https://www.renju.net/rule/24/>",
+        "name": "Malfermo Soosõrv-8"
       },
       "swap-2": {
-        "description": "Libera malfermo. La unua ludanto metas tri ŝtonojn. La venonta ludanto povas fari unu el (1) meti unu ŝtonon por daŭrigi kiel ludanto 2, (2) ŝanĝi kolorojn por ludi kiel ludanto 1, aŭ (3) meti du pli da ŝtonoj kaj permesi al la kontraŭulo decidi ludi kiel ludanto 1 aŭ ludanto 2.",
+        "description": "Libera malfermo. La unua ludanto metas tri ŝtonojn. La sekva ludanto povas (1) meti unu ŝtonon por daŭrigi kiel ludanto 2, (2) interŝanĝi kolorojn por ludi kiel ludanto 1 aŭ (3) meti du pliajn ŝtonojn kaj lasi la kontraŭulon elekti ludi kiel ludanto 1 aŭ 2.",
         "name": "Interŝanĝo-2"
       },
       "swap-5": {
-        "description": "Libera malfermo. Por la unuaj kvin ŝtonoj sur la tabulo, post metado, la venonta ludanto havas la opcion interŝanĝi kolorojn.",
+        "description": "Libera malfermo. Post ĉiu el la unuaj kvin metoj, la sekva ludanto rajtas interŝanĝi kolorojn.",
         "name": "Interŝanĝo-5"
       },
       "taraguchi-10": {
         "description": "Komencanto-amika regulo populara en korespondaj ludoj. Dum la malfermo ĉiu ludanto metas unu ŝtonon, kaj la alia povas interŝanĝi kolorojn. La regulo de 10 provizoraj kvinaj ŝtonoj validas se ludanto provas ekspluatan malfermon (komencantoj povas ignori tion). <https://www.renju.net/rule/25/>",
-        "name": "La malfermo de Taraguchi-10"
+        "name": "Malfermo Taraguchi-10"
       },
       "yamaguchi": {
-        "description": "Oficiala turnirregulo de 2009 ĝis 2015. Simpla modifo al la RIF-malfermaĵo kie anstataŭe de fiksa nombro da provizoraj kvinaj ŝtonoj (du), sur la unua movo, la ludanto deklaras la nombron da provizoraj kvinaj ŝtonoj. <https://www.renju.net/rule/5/>",
-        "name": "La malfermo de Yamaguchi"
+        "description": "Oficiala turnirregulo de 2009 ĝis 2015. Ĝi estas simpla modifo de la RIF-malfermo: dum la unua movo, anstataŭ uzi fiksan nombron da provizoraj kvinaj ŝtonoj (du), la ludanto deklaras ilian nombron. <https://www.renju.net/rule/5/>",
+        "name": "Malfermo Yamaguchi"
       }
     },
     "resolve": {
@@ -2678,11 +2678,11 @@
         "name": "Kontraŭ-reversiĝado"
       },
       "hexagon-5": {
-        "description": "Heksagona bazo-5 tabulo kun aranĝo popularigita fare de ItsYourTurn.com.",
+        "description": "Sesangula tabulo kun bazo 5 kaj aranĝo popularigita de ItsYourTurn.com.",
         "name": "Sesangula tabulo (bazo 5)"
       },
       "hexagon-6": {
-        "description": "Heksagona bazo-6 tabulo kun aranĝo popularigita fare de ItsYourTurn.com.",
+        "description": "Sesangula tabulo kun bazo 6 kaj aranĝo popularigita de ItsYourTurn.com.",
         "name": "Sesangula tabulo (bazo 6)"
       },
       "octagon-8": {
@@ -3525,7 +3525,7 @@
         "name": "Unu ludo"
       },
       "match": {
-        "description": "Ludu du ludojn, interŝanĝante la rolojn por la dua. Se ambaŭ ludantoj venkas kiel ribelantoj, venkas tiu, kiu uzis malpli da ŝtonoj (`66 − restantaj ŝtonoj`); ĉe egalaj poentaroj la matĉo finiĝas per remizo.",
+        "description": "Ludu du ludojn kun inversigitaj roloj. Se ambaŭ ludantoj venkas kiel ribeluloj, gajnas tiu, kiu uzis malpli da ŝtonoj (`66 − restantaj`); egalaj poentaroj rezultigas remizon.",
         "name": "Duluda matĉo"
       }
     }
@@ -4225,7 +4225,7 @@
     "churn": "Sanga teritoriregada ludo sur malgranda tabulo.",
     "cifra": "Trarompo-stila ludo, en kiu la tabularanĝo ŝanĝiĝas de unu partio al alia.",
     "clearcut": "Konektu kontraŭajn flankojn de la tabulo. En iuj cirkonstancoj pecvicoj povas kruciĝi, tiel forigante kelkajn kontraŭulajn pecojn.",
-    "clearpath": "Libera Vojo (angle Clear Path) estas ortangula konektludo sur la punktoj de kvadrata krado. Ruĝo konektas la supran kaj malsupran randojn, Blua la maldekstran kaj dekstran, per ĉeno de ortangule apudaj ŝtonoj. Ĉiun vicon vi metas unu ŝtonon. Punkto estas vitala por ludanto, se ĉiu ebla konekto de tiu ludanto trapasas ĝin. Vi ne rajtas meti sur punkton vitalan por via kontraŭulo, krom se ĝi ankaŭ estas vitala por vi, aŭ via meto kompletigas vian konekton. Kructranĉoj estas permesitaj.",
+    "clearpath": "Libera Vojo (angle Clear Path) estas ortangula konektludo sur la punktoj de kvadrata krado. Ruĝo konektas la supran kaj malsupran randojn, Bluo la maldekstran kaj dekstran, per ĉeno de ortangule apudaj ŝtonoj. Ĉiun vicon vi metas unu ŝtonon. Punkto estas vitala por ludanto, se ĉiu ebla konekto de tiu ludanto trapasas ĝin. Vi ne rajtas meti sur punkton vitalan por via kontraŭulo, krom se ĝi ankaŭ estas vitala por vi aŭ via meto kompletigas vian konekton. Kructranĉoj estas permesitaj.",
     "clusterfuss": "Senĉese kaptu pecojn por malligi—kaj tiel forigi—grupojn de kontraŭulaj pecoj. Estu la lasta restanta ludanto!",
     "compart": "Ludu en ĉiu taŭga areo, sed havu malpli da pecoj je la fino.",
     "complica": "Simpla konektu-kvar-ludo sur mallarĝa kampo, kies kolumnoj neniam pleniĝas.",
@@ -4370,7 +4370,7 @@
     "rampart": "Neniiga ludo, en kiu la ludantoj kreskas el antaŭdifinita aro de grupoj.",
     "razzle": "Razzle Dazzle, ankaŭ nomata Knight Moves, estas rapidmova ludo projektita por reprodukti kiel eble plej multe el la sperto de Ultimate Frisbee, kun simplaj kaj elegantaj reguloj. Du ludantoj provas porti sian pilkon al la kontraŭa flanko de la tabulo, uzante siajn kvin pecojn por transdonoj. Ludanto povas aŭ transdoni la pilkon aŭ movi pecon kiel ŝaka ĉevalo.",
     "realm": "Realm okazas sur unika tabulo 12×12 kun nur du tipoj de moveblaj pecoj. La celo estas kapti pli da teritorio ol la kontraŭulo per blokado kaj senmovigo de ties pecoj. Kelkaj simplaj reguloj ebligas generi pliajn pecojn, kio konstante evoluigas la taktikojn.",
-    "renju": "Malsimetria kvin-en-vica ludo, en kiu la unua ludanto ne rajtas krei duoblajn malfermajn triopojn, duoblajn kvaropojn aŭ tro longajn liniojn. Konkuraj malfermoj kiel Taraguchi-10 kaj Soosõrv-8 estas realigitaj.",
+    "renju": "Nesimetria kvin-en-vica ludo, en kiu la unua ludanto ne rajtas krei duoblajn malfermajn triopojn, duoblajn kvaropojn aŭ superliniojn. Konkuraj malfermoj kiel Taraguchi-10 kaj Soosõrv-8 estas realigitaj.",
     "resolve": "Konektludo sur kvadrata krado. Se formiĝas kructranĉo, interŝanĝu la ĵus metitan pecon ĝis ĝi ne plu apartenas al kructranĉo. Se la tabulo estas plena sen gajninto, elektu unu el viaj ŝtonoj en kructranĉo kaj solvu ĝin.",
     "reversi": "Reversi estas klasika ludo, en kiu vi provas kapti la pecojn de la kontraŭulo enfermante ilin inter viaj propraj.",
     "rincala": "Ronda, mankaleca semludo, en kiu malsamkoloraj pecoj havas malsamajn valorojn. Akumulu la plej altan poentaron por venki.",
@@ -4477,11 +4477,11 @@
     "emu": "Pliaj informoj pri la sistemo Decktet troveblas ĉe la [oficiala retejo de Decktet](https://www.decktet.com). La kartoj en la manoj de la ludantoj estas kaŝitaj de observantoj, kaj de kontraŭuloj ĝis la kartaro malpleniĝas. Tiam la ludantoj havas kompletan informon, do la manoj estas malkaŝitaj. Kartoj prenitaj el la forĵetamaso ankaŭ estas ĉiam videblaj al kontraŭuloj.",
     "entropy": "En ĉi tiu realigo la ludantoj ludas du partiojn samtempe, sed kun unu komuna fluo de hazardigitaj pecoj. Ĉiu ludanto metas pecon sur la tabulon de Ordo de sia *kontraŭulo* kaj poste faras movon sur sia *propra* tabulo de Ordo; tiel ambaŭ rolas samtempe kiel Ordo kaj Kaoso. Gajnas la ludanto kun la plej alta poentaro! Ĉar ambaŭ ricevis precize la samajn metelektojn, tio donas la plej puran mezuron de relativa lerteco.",
     "circleOfLife": "La specioj estas numeritaj 0–11 kontraŭhorloĝe sur la ringo, komencante per la unu-seslatera specio supre. Specio 0 manĝas specion 11; ĉiu alia specio manĝas tiun kun la tuj suba numero. Predado okazas nur kiam vi metas ŝtonon, kiu formas specion apud predo. Grupoj ne rajtas havi pli ol kvar ŝtonojn. Gajnas la unua ludanto, kiu kaptas 20 kontraŭulajn ŝtonojn, aŭ la ludanto, kiu ne povas meti dum sia vico (ĉar li plenigis la ekosistemon).",
-    "clearpath": "Libera Vojo estis projektita de Mark Steere en septembro 2026, kunlabore kun Claude Fable 5.1, AI-modelo farita de Anthropic.\n\nLa vitalaj punktoj estas markitaj sur la tabulo. Ruĝa punkto markas punkton, kiun ĉiu ebla Ruĝa konekto trapasas; blua punkto markas punkton, kiun ĉiu ebla Blua konekto trapasas; kaj blua punkto ene de ruĝa punkto markas punkton vitalan por ambaŭ ludantoj. Punkto vitala nur por via kontraŭulo estas malpermesita por vi, krom se via meto kompletigas vian konekton.\n\nPreterpasi ne estas permesita, sed ludanto sen valida meto havas sian vicon transsaltita. La preterpaso estas submetita aŭtomate.\n\nĈi tiu realigo mallongigas la ludon per agnosko, ke ludanto, kiu ne plu havas eblan konekton, malgajnis perforte.",
+    "clearpath": "Libera Vojo estis projektita de Mark Steere en septembro 2026, kunlabore kun Claude Fable 5.1, AI-modelo de Anthropic.\n\nLa vitalaj punktoj estas markitaj sur la tabulo. Ruĝa punkto markas punkton, kiun trapasas ĉiu ebla Ruĝa konekto; blua punkto markas punkton, kiun trapasas ĉiu ebla Blua konekto; kaj blua punkto ene de ruĝa markas punkton vitalan por ambaŭ ludantoj. Vi ne rajtas meti sur punkton vitalan nur por via kontraŭulo, krom se la meto kompletigas vian konekton.\n\nPreterpasi estas malpermesite, sed se ludanto ne havas validan meton, la sistemo aŭtomate sendas preterpason.\n\nĈi tiu realigo mallongigas la ludon rekonante, ke ludanto sen plu ebla konekto jam neeviteble malgajnis.",
     "evenatodds": "Por meti kahelon sur la tablon, metu unu finon sur malplenan grundon apud kongrua aktiva flanko; la alia fino povas iri sur ajnan apudan malplenan grundon. Por stakigi, unu fino devas kongrui kun la flanko sub ĝi; la alia povas kovri ajnan aktivan flankon *sur alia kahelo* je la sama alto. En la notacio, la unua koordinato estas la fino, kiu plenumas unu el tiuj reguloj. Malplenaj flankoj estas bariloj kaj apartenas al neniu.\n\nLa kaheloj en via mano estas kaŝitaj de la kontraŭulo. La identecoj de la kaheloj en la provizo kaj de la du forigitaj kromtempaj kaheloj restas kaŝitaj ĝis la ludo finiĝas. La kvanto en la provizo aperas en la flankpanelo.",
     "exxit": "Tradukoj de la regularo ofte preterlasas kelkajn nuancojn. Ĉi tiu realigo sekvas la originan francan eldonon de la reguloj.\n\nĈar la tabulo kreskas dum la ludo laŭ neregulaj formoj, la seslateroj estas etikeditaj nombre anstataŭ algebre. Tiel la etikedoj ne ŝanĝiĝas dum la mapo kreskas.",
     "forms": "Forms estis projektita de Steven Meyers en 2007. Post ĉiu movo, ĉiuj pecoj ekster la grupo, kiu enhavas la laste movitan pecon, estas kaptitaj. La lasta movinto malgajnas (do Forms estas miserludo). La unua versio permesis al peco kapti ajnan kontraŭulan pecon. Poste, en 2011, Meyers kreis duan version, **Advanced Forms**, en kiu oni rajtis kapti nur ortangule apudajn pecojn, sed peco povis ankaŭ moviĝi al malplena ĉelo, se sekvo de ortaj paŝoj tra malplenaj ĉeloj konektis la du lokojn. Ankaŭ la komenca aranĝo ŝanĝiĝis al ŝaktabula ŝablono. Tiu dua versio estas la defaŭlta variaĵo ĉi tie ĉe AP. Pliaj informoj troveblas ĉe [WAG](https://jpneto.github.io/world_abstract_games/forms.htm).",
-    "frogger": "Kiel en aliaj Decktet-ludoj ĉe Abstract Play, la kartaro montriĝas ĉe la malsupro de la tabulo kaj inkluzivas kaj la kartojn en la kartaro kaj la nekonatajn kartojn en la manoj de la aliaj ludantoj. Post la komenca disdono, ĉiuj kartoj estas prenataj el la malkaŝa prenrezervo, do la enhavo de la manoj iom post iom fariĝas konata. La stako de forĵetitaj kartoj ankaŭ montriĝas.\n\nDevigaj pasoj ne plu estas uzataj, kiam ludanto replenigas la prenrezervon (kaj submetas la movon) meze de sia vico. La servilo aŭtomate traktas la duan parton de la vico de tiu ludanto. Ekzistas ankaŭ variaĵo pri la prenrezervo, kiu laŭdezire ebligas eviti la dividon de la vico en du apartajn movojn.\n\nLa variaĵo \"Krokodiloj\" estas verko de Jorge Arroyo, la tradukinto de la angla versio de la reguloj. La altnivelaj reguloj kaj aliaj etaj variaĵoj estas verkoj de P. D. Magnus; ili aperas en The Decktet Book, kie la ludo nomiĝas Xing.",
+    "frogger": "Kiel en aliaj Decktet-ludoj ĉe Abstract Play, la kartaro aperas ĉe la malsupro de la tabulo kaj inkluzivas kaj la kartojn en la kartaro kaj nekonatajn kartojn en la manoj de aliaj ludantoj. Post la unua mano, ĉiuj kartoj estas tirataj el la malkaŝa tirprovizo, do la kartoj enmane iom post iom malkaŝiĝas. Ankaŭ la forĵetamaso aperas.\n\nOni ne plu uzas devigajn preterpasojn kiam ludanto replenigas la tirprovizon kaj sendas la movon meze de sia vico. La servilo aŭtomate traktas la duan partan vicon de tiu ludanto. Laŭvole, alia variaĵo de la tirprovizo evitas la duoblan duonmovon.\n\nLa variaĵon \"Krokodiloj\" kreis Jorge Arroyo, la tradukinto de la anglaj reguloj. La altnivelajn regulojn kaj aliajn etajn variaĵojn kreis P. D. Magnus; ili aperas en The Decktet Book, kie la ludo nomiĝas Xing.",
     "garden": "Por tute klare montri, kio okazis dum la antaŭa vico, ĉiu movo aperas sur kvar apartaj tabuloj. La unua montras la ludon tuj post la komenca meto de la peco. La dua montras la staton post renverso de la apudaj pecoj. La tria montras eventualajn rikoltojn. La kvara montras la finan ludstaton kaj estas tiu, sur kiu vi faras viajn movojn.\n\nEn nia realigo, nigro estas ĉiam la \"tome\"-koloro, kiu rompas egalecon. La lasta ludanto, kiu rikoltis nigron, havos `0.1` post sia poentaro.",
     "guerrilla": "Ĉiu el la du ludantoj povas venki per forigo de ĉiuj pecoj de sia kontraŭulo. La ludanto de la sekurecaj fortoj ankaŭ venkas, se tiuj fortoj postvivas ĝis la ribeluloj ne plu havas ŝtonojn por meti.\n\nDefaŭlte matĉo konsistas el du ludoj kun interŝanĝitaj roloj. Ĉiu ludanto unufoje regas la ribelulojn kaj unufoje la sekurecajn fortojn. Kiam ambaŭ ludantoj venkas kiel ribeluloj, la matĉon venkas tiu, kiu uzis malpli da ŝtonoj (66 − nombro de restantaj ŝtonoj ĉe la fino de tiu ludo; la malpli alta poentaro venkas). Tiuokaze la matĉo estas remiza nur se iliaj poentaroj kiel ribeluloj egalas. Venko kiel sekurecaj fortoj donas poentaron de 67. Se unu ludanto venkas en ambaŭ ludoj (en unu kiel ribeluloj kaj en la alia kiel sekurecaj fortoj), tiu venkas la tutan matĉon. Se ambaŭ ludantoj venkas nur kiel sekurecaj fortoj, la matĉo estas remiza.",
     "scribe": "La referenctabelo de glifoj aperas en la maldekstra marĝeno. Punkto markas la plej lastan meton de ĉiu ludanto. Kiam minikrado pleniĝas, la glifpoentoj estas sumataj kaj la pli alta poentaro gajnas tiun kradon (okaze de egaleco gajnas la ludanto, kiu kompletigis ĝin).",
@@ -4723,7 +4723,7 @@
       "BAD_DISTANCE": "Pecoj devas movi kelkajn spacojn egalajn al la alteco de sia stako.",
       "BOUNCE_INVADER": "Por daŭrigi la salton, la reĝo devas alteriĝi sur invadanton.",
       "BOUNCE_KING": "Nur la reĝo povas moviĝi plurajn fojojn.",
-      "FRIENDLY_FIRE": "La defendantoj eble ne staras sur sia reĝo.",
+      "FRIENDLY_FIRE": "La defendantoj ne rajtas stakigi pecojn sur sian reĝon.",
       "INITIAL_INSTRUCTIONS": "Elektu pecon por movi.",
       "KING_ONLY": "Nur la reĝo povas surteriĝi sur la trono aŭ sur la elirejo.",
       "PARTIAL": "Elektu la celon.",
@@ -4844,7 +4844,7 @@
       "place": {
         "OUT_OF_BOUNDS": "Tio lokus vian ŝipon ekster via elektita startareo.",
         "PARTIAL_FOUR_ARGS": "Donu al la ŝipo nomon. Ĝi devas esti unika inter ĉiuj ekzistantaj ŝipoj.",
-        "PARTIAL_NOARGS": "Elektu la grandecon de la ŝipo, kiun vi devas meti.",
+        "PARTIAL_NOARGS": "Elektu, kiagrandan ŝipon meti.",
         "PARTIAL_ONETWO_ARGS": "Klaku la kampon por elekti la x, y koordinatojn, aŭ manuale enmetu ambaŭ koordinatojn, apartigitaj de spaco.",
         "PARTIAL_THREE_ARGS": "Klaku la punkton, al kiu vi volas, ke la ŝipo signu.",
         "TOO_MANY": "En ĉi tiu scenaro, vi povas meti nur {{num}} ŝipojn de ĉiu grandeco."
@@ -4862,12 +4862,12 @@
       "BAD_INCURSION": "Vi ne rajtas fari minimumajn enkursojn.",
       "BAD_KOMI": "La unua movo de la ludo devas esti entjero reprezentanta la nombron da pecoj meti en la komencan malliberejon. Pozitiva nombro metas pecojn apartenantajn al la unua ludanto. Negativaj nombroj, tiuj de la dua ludanto. Vi ne rajtas meti pli da pecoj en la malliberejo ol la nombro da ĉeloj sur la tabulo plus unu.",
       "BAD_PASS": "Vi devas forigi malamikan pecon de la malliberejo por ke ĝi preterpasu.",
-      "BAD_PIE": "Vi eble ne akceptos la kukon en tiu punkto de la ludo.",
+      "BAD_PIE": "Vi ne rajtas akcepti la tortregulon en ĉi tiu momento de la ludo.",
       "INITIAL_INSTRUCTIONS_komi": "Enmetu la nombron da unuaj ludantaj pecoj, kiujn vi volas meti en la komencan malliberejon. La dua ludanto tiam decidos, kiun sidlokon li prenos.",
       "INITIAL_INSTRUCTIONS_pie": "Aŭ premu la butonon \"Luzu sekunde\" por resti tie, kie vi estas kaj daŭrigi ludi sekunde, aŭ klaku \"Swap ludanto seats\" por ŝanĝi sidlokojn.",
       "INITIAL_INSTRUCTIONS_pie2": "Aŭ preterpasu por akcepti la komi- oferton kaj daŭri ludi duonon, aŭ metu pecon por transpreni kiel unua ludanto.",
       "INITIAL_INSTRUCTIONS_play": "Metu pecon sur valida malplena spaco aŭ preterpasu por preni malamikan pecon el la malliberejo anstataŭe (se unu estas havebla).",
-      "MUST_PIE": "En tiu punkto de la ludo, meti pecojn ne estas permesite.",
+      "MUST_PIE": "En ĉi tiu momento de la ludo vi ne rajtas meti pecojn.",
       "NEGATIVE_KOMI": "Ĉu vi certas? Negativaj komiaj oferoj devus esti bezonataj nur en specifaj handikapuloj situacioj.",
       "SUICIDE": "Vi ne rajtas meti pecon tiel, ke je la fino de via vico restu mortaj amikaj grupoj.",
       "WOVEN_INCURSION": "En la variaĵo \"Woven\" enkursoj ne estas validaj."
@@ -4914,7 +4914,7 @@
       "NO_MOVES": "La peco ĉe {{where}} ne povas moviĝi."
     },
     "azacru": {
-      "BAD_MOVE": "Tiu movo ne ŝajnas valida. Pecoj povas moviĝi nur rekte antaŭen aŭ en angulo de 45 gradoj, eble ne surteriĝos sur malamikaj kaheloj aŭ ŝevroj, kaj normale ne povas salti aliajn ŝevrojn.",
+      "BAD_MOVE": "Tiu movo ne ŝajnas valida. Pecoj rajtas moviĝi nur rekte antaŭen aŭ je 45-grada angulo, ne rajtas alteriĝi sur malamikajn kahelojn aŭ ĉevrojn, kaj kutime ne povas transsalti aliajn ĉevrojn.",
       "BAD_ORIENTATION": "La nuraj validaj orientiĝaj notacioj estas \">\", \"<\", kaj \".",
       "BAD_PASS": "Vi ne rajtas preterpasi se estas validaj movoj haveblaj.",
       "ENEMY_TILE": "Vi ne povas alteriĝi sur kontraŭaj kaheloj.",
@@ -4944,9 +4944,9 @@
       "INITIAL_INSTRUCTIONS_mtaji|mtaji": "Elektu unu el viaj putoj, kiu enhavas du aŭ pli da ŝtonoj por komenci semadon. Kapto estas disponebla.",
       "INITIAL_INSTRUCTIONS_namua|kutakata": "Elektu unu el viaj internaj fosaĵoj, kiu enhavas ŝtonojn. Vi aldonos unu el viaj ŝtonoj en la manojn al ĝi kaj tiam komenciĝos semi. Neniu kaptado estas disponebla.",
       "INITIAL_INSTRUCTIONS_namua|mtaji": "Elektu unu el viaj internaj fosaĵoj, kiu enhavas ŝtonojn. Vi aldonos unu el viaj ŝtonoj en la mano al ĝi kaj tiam kaptos la kontraŭajn ŝtonojn. Kapto estas disponebla.",
-      "NEVER_SINGLE": "En la fazo de Mtaji, vi eble neniam komencos vian movon de truo kun nur unu ŝtono.",
+      "NEVER_SINGLE": "En la fazo mtaji, vi neniam rajtas komenci vian movon el truo kun nur unu ŝtono.",
       "NO_BACK_ROW_mtaji": "En la mtaji fazo, vi povas komenci nur de la malantaŭa vico se ĝi rezultigas kapton aŭ neniu kutakata estas ebla de la antaŭa vico.",
-      "NO_BACK_ROW_namua": "En la kunamua fazo, vi eble ne komencos de via malantaŭa vico.",
+      "NO_BACK_ROW_namua": "En la fazo kunamua, vi ne rajtas komenci de via malantaŭa vico.",
       "PLAY_HOUSE": "Via semado finiĝis en via domo. Vi povas halti aŭ \"iri en safarion\" (tiuj ŝanĝos vian nyumba en normalan truon). Por daŭrigi semadon, klaku vian nyumba aŭ tajpu \"+\" en la paĝo \"Movi\".",
       "TWO_PLUS": "Vi povas komenci kun kunamua-faza kutakata turni en fosaĵo nur per unu ŝtono se vi havas laborantan domon aŭ vi havas nur fosaĵojn kun ununuraj ŝtonoj en la unua vico."
     },
@@ -5098,7 +5098,7 @@
       "INVALID_COLLECT_COL": "La kolono \"{{col}}\" estas nevalida",
       "WRONG_COLLECT_COUNT_COL": "La nombro da pecoj kolektitaj en la kolumno '{{col}}' estas malĝusta. Ĝi devus esti {{count}}.",
       "TOO_MANY_SOWS_one": "Vi povas semi nur unu pecon.",
-      "TOO_MANY_SOWS_other": "Vi povas nur sow {{count}} pecoj.",
+      "TOO_MANY_SOWS_other": "Vi povas semi nur {{count}} pecojn.",
       "DUPLICATE_SOW": "Vi jam semis pecon ĉe {{where}}.",
       "NOT_NEIGHBOURS": "La ĉeloj {{curr}} kaj {{prev}} ne estas najbaroj.",
       "INVALID_MOVE": "La movo {{move}} estas nevalida.",
@@ -5301,12 +5301,12 @@
       "INITIAL_INSTRUCTIONS": "Elektu punkton por meti pecon."
     },
     "clearpath": {
-      "INITIAL_INSTRUCTIONS": "Metu ŝtonon sur malplenan punkton. Punkto vitala por via kontraŭulo estas permesita nur se ĝi ankaŭ estas vitala por vi, aŭ se via meto kompletigas vian konekton.",
+      "INITIAL_INSTRUCTIONS": "Metu ŝtonon sur malplenan punkton. Vi rajtas meti sur punkton vitalan por la kontraŭulo nur se ĝi ankaŭ estas vitala por vi aŭ la meto kompletigas vian konekton.",
       "INVALIDCELL": "La punkto {{cell}} ne ekzistas.",
       "OCCUPIED": "La punkto {{where}} jam estas okupita.",
-      "VITAL": "Vi ne rajtas meti ŝtonon sur {{where}}. Ĝi estas vitala por via kontraŭulo sed ne por vi, kaj ŝtono tie ne kompletigus vian konekton.",
-      "NO_PASS": "Vi ne rajtas preterpasi, dum vi povas fari validan meton.",
-      "MUST_PASS": "Vi ne povas fari validan meton. Via vico estas transsaltita."
+      "VITAL": "Vi ne rajtas meti ŝtonon sur {{where}}: la punkto estas vitala por via kontraŭulo sed ne por vi, kaj meto tie ne kompletigus vian konekton.",
+      "NO_PASS": "Vi ne rajtas preterpasi, se valida meto eblas.",
+      "MUST_PASS": "Vi ne havas validan meton. Via vico estas preterlasita."
     },
     "clusterfuss": {
       "ADJ_ONLY": "Pecoj povas moviĝi nur al ortangule apudaj spacoj.",
@@ -5458,7 +5458,7 @@
     },
     "cubeo": {
       "BAD_MERGE": "Vi povas kunfandi nur kiam vi havas almenaŭ tri ĵetkubojn en la formado, kaj vi ne rajtas forigi fiksitan ĵetkubo aŭ ĵetkubo kiu ne povas esti glitigita el la formado.",
-      "BAD_MOVE_standard": "Dum moviĝo, la ĵetkuboj devas moviĝi ĝian tutan distancon (kvankam ĝi povas retrokuri en iu punkto), finiĝi en spaco kiu tenas la formadon ligita, kaj eble ne finiĝas kie ĝi komenciĝis.",
+      "BAD_MOVE_standard": "Dum movo la ĵetkubo devas trairi sian plenan distancon (kvankam ĝi povas reiri iam ajn), fini sur spaco kiu tenas la formacion konektita, kaj ne reveni al sia deirspaco.",
       "BAD_MOVE_strict": "Dum moviĝo, la dayo devas movi ĝian tutan distancon (kvankam ĝi povas retrokuri en iu punkto), finiĝi en spaco kiu tenas la formadon ligita, kaj ĝi devas ŝanĝi la formadon (signifas ke vi ne povas moviĝi tia ke vi simple kreas rotacion aŭ reflektadon de la komenca formado).",
       "BAD_PLACE": "Vi povas meti nur novajn ĵetkubojn tiajn, ke ili dividas randon kun almenaŭ unu el viaj propraj ĵetkuboj kaj ne dividas * iujn ajn * randojn kun kontraŭaj ĵetkuboj. La dieto ankaŭ devas esti kapabla esti glitigita en la formadon de ekstere.",
       "INITIAL_INSTRUCTIONS": "Klaku malplenan ĉelon por meti novan ĵetkubon, aŭ unu el viaj propraj ĵetkuboj por komenci movon aŭ kunfandon.",
@@ -5648,7 +5648,7 @@
       "PAIKA_STOP": "Vi ne rajtas moviĝi denove post fari ne-kaptantan movon.",
       "PARTIAL": "Elektu malplenan apudan spacon.",
       "REVISIT": "Dum plurpaŝa movo, la peco neniam rajtas reveni al la sama spaco.",
-      "SAME_DIR": "Kiam oni faras multoblajn movojn, la peco eble neniam moviĝos en la sama direkto dufoje en vico."
+      "SAME_DIR": "Dum pluraj movoj, la peco neniam rajtas moviĝi samdirekten dufoje sinsekve."
     },
     "fendo": {
       "DUPLICATE_FENCE": "Inter tiuj du ĉeloj jam ekzistas barilo.",
@@ -5670,7 +5670,7 @@
       "FRIENDLY_FIRE": "Vi ne rajtas kapti viajn proprajn pecojn.",
       "INITIAL_INSTRUCTIONS": "Elektu unu el viaj propraj pecoj por moviĝi, aŭ elektu la kontraŭan pecon por kapti. Se vi movas/pivotas tankon, gravas, kiun finon vi klakas.",
       "INVALID_PARTIAL": "Ne ekzistas validaj movoj bazitaj sur la ĉelo kiun vi klakas.",
-      "INVULNERABLE": "Gigantoj eble ne estos kaptitaj.",
+      "INVULNERABLE": "Gigantoj ne estas kapteblaj.",
       "PARTIAL": "Elektu la celon."
     },
     "flume": {
@@ -5680,7 +5680,7 @@
       "KEEP_GOING": "Se vi faras ligon kun tri aŭ pli da pecoj, vi devas daŭre meti pecojn."
     },
     "fnap": {
-      "BAD_PASS": "Vi eble ne preterpasos vian vicon.",
+      "BAD_PASS": "Vi ne rajtas preterpasi vian vicon.",
       "BAD_SELECTED": "Tiu kahelo ne estis elektita en la antaŭa fazo.",
       "BAD_TILE": "Vi ne havas tiun kahelon en via provizo ({{tile}}).",
       "DUPLICATE_CELL": "Oni ne povas meti du kahelojn en la saman spacon.",
@@ -5775,19 +5775,19 @@
       "MUST_HOP_FORWARD": "Kiam vi uzas mankarton, via rano devas salti antaŭen.",
       "MUST_MOVE": "Via rano devas moviĝi al alia karto/kolono.",
       "MUST_PASS": "Vi devas preterpasi por permesi al alia ludanto kompletigi sian vicon.",
-      "NO_CARDS_FOR_REFILL": "Ne plu estas kartoj, per kiuj oni povas plenigi la tiran bazon.",
-      "NO_CARDS_BLOCKED": "Se, komence de via vico, vi ne havas manojn, neniu el viaj ranoj povas moviĝi malantaŭen, kaj se la hazardpilo estas malplena, vi devas preterpasi.",
-      "NO_CHOICE_BLOCKED": "Se, komence de via vico, vi ne havas manojn kaj neniu el viaj ranoj povas moviĝi malantaŭen, vi devas tiri ununuran karton de la tirprovizo kaj fini vian vicon.",
-      "NO_MOVE_BLOCKED": "Vi ne povas moviĝi post post postulado de karto pro esti blokita.",
-      "NO_PASSING": "En Frogger ne estas pasado. Se vi estas blokita, vi devas tiri ununuran karton el la tirkesto.",
-      "NO_REFILLS": "En tiu varianto ne estas permesite plenigi la tiran bazon.",
-      "NO_RETURN": "Ranoj eble ne foriros de la hejmo, kiam ili atingos ĝin.",
+      "NO_CARDS_FOR_REFILL": "Ne plu estas kartoj por replenigi la tirprovizon.",
+      "NO_CARDS_BLOCKED": "Se komence de via vico vi ne havas kartojn enmane, neniu el viaj ranoj povas moviĝi malantaŭen kaj la tirprovizo estas malplena, vi devas preterpasi.",
+      "NO_CHOICE_BLOCKED": "Se komence de via vico vi ne havas kartojn enmane kaj neniu el viaj ranoj povas moviĝi malantaŭen, vi devas tiri unu karton el la tirprovizo kaj fini vian vicon.",
+      "NO_MOVE_BLOCKED": "Vi ne povas moviĝi post postulo de karto pro blokiteco.",
+      "NO_PASSING": "En Frogger oni ne povas simple preterpasi. Se vi estas blokita, vi devas tiri unu karton el la tirprovizo.",
+      "NO_REFILLS": "En ĉi tiu variaĵo oni ne rajtas replenigi la tirprovizon.",
+      "NO_RETURN": "Ranoj ne rajtas forlasi la hejmon post kiam ili atingis ĝin.",
       "NO_SUCH_HAND_CARD": "La karto \"{{card}}\" ne ŝajnas esti en via mano.",
       "NO_SUCH_MARKET_CARD": "La karto \"{{card}}\" ne ŝajnas esti en la tirprovizo.",
       "NOT_BLOCKED": "Vi ne estas blokita, do vi devas moviĝi antaŭ postuli biljarokarton.",
-      "OCCUPIED": "Nur unu rano por ĉiu vestokarto.",
+      "OCCUPIED": "Ĉiu emblemoloko povas enhavi nur unu ranon.",
       "OFF_BOARD": "Ranoj devas esti metitaj hejme, ĉe la Ekzakto, aŭ en lokoj kun emblemoj.",
-      "OFFSIDES": "Bonvolu klaki vian deziratan vestoklibron, ne la informajn ikonojn en la supra vico.",
+      "OFFSIDES": "Klaku la deziratan emblemolokon, ne la informajn piktogramojn en la supra vico.",
       "PIECE_NEXT": "Klaku ranon por movi ĝin.",
       "PLACE_NEXT": "Klaku novan lokon por via rano.",
       "TOO_HOPPY": "Vi ne rajtas fari pli ol {{count}} movojn sur via vico.",
@@ -6009,7 +6009,7 @@
     "jacynth": {
       "ALREADY_CLAIMED": "La karto ĉe {{cell}} jam estis postulita.",
       "ALREADY_OWNED": "La karto ĉe {{cell}} estas parto de distrikto posedata de kontraŭulo.",
-      "BAD_INFLUENCE": "Vi ne rajtas influi la karton ĉe {{cell}}. La ekskuzo, peonoj kaj tribunaloj eble ne estas rekte influitaj.",
+      "BAD_INFLUENCE": "Vi ne rajtas influi la karton ĉe {{cell}}. Oni ne rajtas rekte influi la Senkulpigon, peonojn aŭ tribunalojn.",
       "INITIAL_INSTRUCTIONS": "Klaku karton en via mano por meti sur la tabulon.",
       "LABEL_REMAINING": "Kartoj en la kartaro",
       "LABEL_STASH": "Mano de {{player}}",
@@ -6127,14 +6127,14 @@
       "HAND_CARD_INSTRUCTIONS": "Klaku la karton por aĉeti, akordi aŭ vendi.",
       "INCOMPLETE_ACTION": "Bonvolu kompletigi la antaŭan agon antaŭ ol komenci alian.",
       "INITIAL_BUTTON_INSTRUCTIONS": "Premu butonon por elekti vian unuan agon.",
-      "INITIAL_PLACEMENT_INSTRUCTIONS": "Klaku la karton por aĉeti, aĉeti aŭ vendi.",
+      "INITIAL_PLACEMENT_INSTRUCTIONS": "Klaku mankarton por akiri akton, aĉeti aŭ vendi.",
       "INVALID_ACTION": "Vi ne povas konsumi alian karton de via mano, do vi ne povas preni alian aĉeti, agado, aŭ konstrui agadojn ĉi vicon.",
       "INVALID_BUY": "Vi ne havas la emblemoludmarkojn necesajn por aĉeti ĉi tiun karton.",
       "INVALID_DEED_PAYMENT": "Vi ne havas la emblemoludmarkojn necesajn por akiri akton por ĉi tiu karto.",
       "INVALID_DEED_TWO": "Vi ne povas fari karton de rango 2; - Mi ne povas.",
       "INVALID_MOVE": "La ago \"{{move}}\" ne povis esti analizita.",
       "INVALID_OTHER_PAYMENT": "La elektitaj emblemoludmarkoj ne estas disponeblaj al vi.",
-      "INVALID_PAYMENT": "La elektitaj ludmarkoj ne povas esti uzataj por aĉeti la elektitan karton aŭ aldoni al ĝi.",
+      "INVALID_PAYMENT": "Per la elektitaj ludmarkoj oni ne povas aĉeti la elektitan karton nek aldoni al ĝi.",
       "INVALID_PLACEMENT": "La elektita karto ne povas esti metita ĉi tie, ĉar neniu emblemo kongruas aŭ jam estas akto.",
       "INVALID_SUIT": "La elektita emblemo ne aperas sur la karto.",
       "INVALID_TRADE": "Vi ne havas tri monerojn de tiu emblemo disponebla por komerco.",
@@ -6280,7 +6280,7 @@
       "INITIAL_INSTRUCTIONS_pie": "En la dua movo de la ludo, aŭ premu la butonon \"Swap ludanto seats\" por ludi kiel ruĝa, aŭ faru normalan movo kiel blua. Se via kontraŭulo jam ŝanĝis sidlokojn, tiam via sola elekto estas fari normalan movo.",
       "INITIAL_INSTRUCTIONS_normal": "Klaku piedopilkon por meti unu el viaj pecoj. Klaku unu el viaj trupoj por komenci kapton. Aŭ klaku kubon en via provizo por movi viajn trupojn.",
       "INVALID_ORE": "La kodo {{ore}} ne estas valida tipo de mineralo.",
-      "MISSING_ORE": "Ne povas trovi ajnan {{ore}} ore en via provizo.",
+      "MISSING_ORE": "En via provizo ne troviĝis erco de tipo {{ore}}.",
       "MISSING_SQUAD": "Ne povis trovi taĉmenton ĉe {{where}}.",
       "NO_CAPTURES": "Tiu grupo ne havas validajn kaptitaĵojn disponeblaj.",
       "NO_MOVES": "Tiu grupo ne havas validajn lokojn por moviĝi.",
@@ -6330,7 +6330,7 @@
     },
     "mutternland": {
       "INITIAL_PLACE": "Metu amikan pecon, tiam kontraŭan pecon, ambaŭ ĉe la rando de la ludkampo. Ĉeloj kun malpli ol tri najbaroj ne povas esti uzataj por meti pecojn.",
-      "INITIAL_PLACE_STEP2": "Metu kontraŭulon ĉe la rando de la ludkampo. Ĉeloj kun malpli ol tri najbaroj ne povas esti uzataj por meti pecojn.",
+      "INITIAL_PLACE_STEP2": "Metu kontraŭulan pecon ĉe la rando de la ludkampo. Ĉeloj kun malpli ol tri najbaroj ne povas esti uzataj por meti pecojn.",
       "INSTRUCTIONS": "En sia vico, la ludanto (opcie) movas amikan marmoron kaj tiam (opcie) movas unu liberan nukson (t.e., ne en turo) najbara al amika peco. Do, elektu amikan pecon, disponeblan nukson, aŭ preterpasu.",
       "INSTRUCTIONS_STEP2": "Elektu la disponeblan nukson aŭ fini la movon.",
       "MOVE_MARBLE": "Elektu celon por via marmoro.",
@@ -6394,7 +6394,7 @@
       "EMPTY_MOVE": "Pecoj povas moviĝi nur en okupatajn ĉelojn.",
       "FRIENDLY_CAPTURE": "Vi ne rajtas kovri viajn proprajn stakojn.",
       "INITIAL_INSTRUCTIONS": "Elektu malplenan ĉelon por meti pecon de via koloro.",
-      "NO_DUPES": "Via movado eble ne inkluzivas duoblan ĉelon.",
+      "NO_DUPES": "Via movo ne rajtas ripeti ĉelojn.",
       "PARTIAL_MOVE": "Elektu la celon.",
       "PARTIAL_SETUP_p1": "Elektu ĉelon por meti stelpunkton (vi devas meti almenaŭ unu), aŭ elektu stelpunkton, kiun vi metis por forigi ĝin. Klaku \"Complete movo\" kiam vi finos.",
       "PARTIAL_SETUP_p2": "Elektu ĉelon por meti stelpunkton, aŭ elektu stelpunkton, kiun vi metis por forigi ĝin. Vi ne devas meti stelojn, sed kutime vi volas. Klaku \"Complete movo\" kiam vi finos.",
@@ -6424,7 +6424,7 @@
       "ARC": "Vi ne rajtas formi kvar-ŝtonan arkon de unu tipo, sendepende de la koloro.",
       "INVALID_CAPTURE": "Blua ŝtono ĉiam devas kapti iujn malamikajn aŭ amikajn ŝtonojn.",
       "INVALID_PLACE": "Metu ŝtonon de via propra koloro ne povas kapti ŝtonojn.",
-      "INVALID_BOTH": "Nek meti nek kapti estas eblaj ĉe {{where}}.",
+      "INVALID_BOTH": "Nek meto nek kapto eblas ĉe {{where}}.",
       "BAD_KOMI": "La unua movo de la ludo devas esti ne-negativa entjero reprezentanta la nombron da pecoj meti en la komencan malliberejon."
     },
     "orb": {
@@ -6786,8 +6786,8 @@
       "SPECIAL_IMMOB_ENFORCER": "Vi devas precizi la lokon de la malamika deviganto, kiun vi malmovigas.",
       "SPECIAL_IMMOB_SELF": "Vi devas precizi, ke la deviganto, kiun vi ĵus movis, estos imobiligita.",
       "UNCONTROLLED": "Vi ne regas la regnon {{realm}}.",
-      "WRONG_REALM_capBase": "Vi povas nur kapti la bazon en la regno kiun vi ĵus moviĝis al ({{realm}}).",
-      "WRONG_REALM_createBase": "Vi povas nur krei bazon en la regno kiun vi ĵus moviĝis al ({{realm}}).",
+      "WRONG_REALM_capBase": "Vi povas kapti nur la bazon en la regno, al kiu vi ĵus moviĝis ({{realm}}).",
+      "WRONG_REALM_createBase": "Vi povas krei bazon nur en la regno, al kiu vi ĵus moviĝis ({{realm}}).",
       "WRONG_REALM_createEnforcer": "Vi povas krei nur devigan en la regno vi ĵus translokiĝis al ({{realm}}).",
       "WRONG_REALM_rearrange": "Vi povas meti nur pecojn en la rearanĝita regno ({{realm}})."
     },
@@ -6801,9 +6801,9 @@
       "INITIAL_INSTRUCTIONS_SOOSYRV2": "Metu la kvaran ŝtonon, kaj poste deklaru la nombron de provizorajn kvinajn ŝtonojn. Vi povas ŝanĝi kolorojn.",
       "INITIAL_INSTRUCTIONS_SOOSYRV2_PASSED": "Metu la kvaran ŝtonon, kaj poste deklaru la nombron de provizorajn kvinajn ŝtonojn.",
       "INITIAL_INSTRUCTIONS_SOOSYRV3": "Metu {{count}} provizorajn kvinajn ŝtonojn. Vi povas preterpasi por interŝanĝi kolorojn.",
-      "INITIAL_INSTRUCTIONS_SOOSYRV3_PASSED": "Placu {{count}} provizorajn kvinonojn.",
-      "INITIAL_INSTRUCTIONS_SOOSYRV4_one": "Elektu la ununuran provizoran kvinonon, kaj poste metu la sesan ŝtonon.",
-      "INITIAL_INSTRUCTIONS_SOOSYRV4_other": "Elektu unu el la provizorajn kvinajn ŝtonojn de {{count}}, kaj poste metu la sesan ŝtonon.",
+      "INITIAL_INSTRUCTIONS_SOOSYRV3_PASSED": "Metu {{count}} provizorajn kvinajn ŝtonojn.",
+      "INITIAL_INSTRUCTIONS_SOOSYRV4_one": "Elektu la solan provizoran kvinan ŝtonon, kaj poste metu la sesan ŝtonon.",
+      "INITIAL_INSTRUCTIONS_SOOSYRV4_other": "Elektu unu el la {{count}} provizoraj kvinaj ŝtonoj, kaj poste metu la sesan ŝtonon.",
       "INITIAL_INSTRUCTIONS_TARAGUCHI1": "Metu la unuan ŝtonon en la mezon de la tabulo.",
       "INITIAL_INSTRUCTIONS_TARAGUCHI2": "Metu la duan ŝtonon en la mezon de la kvadrato 3x3, aŭ ŝanĝu kolorojn. Simetrio estas malpermesita.",
       "INITIAL_INSTRUCTIONS_TARAGUCHI2_PASSED": "Metu la duan ŝtonon en la centron de la kvadrato 3x3. Simetrio estas malpermesita.",
@@ -6811,7 +6811,7 @@
       "INITIAL_INSTRUCTIONS_TARAGUCHI3_PASSED": "Metu la trian ŝtonon en la mezon de la kvadrato 5x5. Simetrio estas malpermesita.",
       "INITIAL_INSTRUCTIONS_TARAGUCHI4": "Metu la kvaran ŝtonon en la mezon de la kvadrato 7x7, aŭ ŝanĝu kolorojn.",
       "INITIAL_INSTRUCTIONS_TARAGUCHI4_PASSED": "Metu la kvaran ŝtonon en la centron de la kvadrato 7x7.",
-      "INITIAL_INSTRUCTIONS_TARAGUCHI5": "Vi povas fari unu el 1) meti la kvinajn ŝtonojn en la centro de la kvadrato 9x9, 2) ŝanĝi kolorojn, aŭ 3) meti 10 provizorajn kvinonojn ie ajn sur la tabulo.",
+      "INITIAL_INSTRUCTIONS_TARAGUCHI5": "Vi povas (1) meti la kvinan ŝtonon en la centra kvadrato 9×9, (2) preterpasi por interŝanĝi kolorojn aŭ (3) meti 10 provizorajn kvinajn ŝtonojn ie ajn sur la tabulo.",
       "INITIAL_INSTRUCTIONS_TARAGUCHI5_PASSED": "Metu la kvinan ŝtonon en la centron de la kvadrato 9x9.",
       "INITIAL_INSTRUCTIONS_TARAGUCHI6": "Elektu intersekcon por meti ŝtonon, aŭ transiru al interŝanĝo de koloroj.",
       "INITIAL_INSTRUCTIONS_TARAGUCHI6_CHOOSE": "Elektu unu el la 10 provizorajn kvinajn ŝtonojn, kaj poste metu la sesan ŝtonon.",
@@ -6819,28 +6819,28 @@
       "INITIAL_INSTRUCTIONS_YAMAGUCHI2": "Elektu intersekcion por meti la kvaran ŝtonon, aŭ transiru al interŝanĝo de koloroj.",
       "INITIAL_INSTRUCTIONS_YAMAGUCHI2_PASSED": "Elektu intersekcion por meti la kvaran ŝtonon.",
       "INITIAL_INSTRUCTIONS_YAMAGUCHI3_one": "1-a provizora 5-a.",
-      "INITIAL_INSTRUCTIONS_YAMAGUCHI3_other": "Placu {{count}} provizorajn kvinonojn.",
-      "INITIAL_INSTRUCTIONS_YAMAGUCHI4_one": "Elektu la ununuran provizoran kvinan, kaj poste metu la sesan ŝtonon.",
-      "INITIAL_INSTRUCTIONS_YAMAGUCHI4_other": "Elektu unu el la provizorajn kvinajn ŝtonojn de {{count}}, kaj poste metu la sesan ŝtonon.",
+      "INITIAL_INSTRUCTIONS_YAMAGUCHI3_other": "Metu {{count}} provizorajn kvinajn ŝtonojn.",
+      "INITIAL_INSTRUCTIONS_YAMAGUCHI4_one": "Elektu la solan provizoran kvinan ŝtonon, kaj poste metu la sesan ŝtonon.",
+      "INITIAL_INSTRUCTIONS_YAMAGUCHI4_other": "Elektu unu el la {{count}} provizoraj kvinaj ŝtonoj, kaj poste metu la sesan ŝtonon.",
       "RENJU_OPENING_EXCESS": "Vi povas meti nur 3 ŝtonojn.",
       "RENJU_OPENING1_INCORRECT": "La unua ŝtono devas esti en la centro de la tabulo.",
       "RENJU_OPENING2": "Metu la duan ŝtonon en la mezo de la kvadrato 3x3. Elektu unu el la du elstarigitaj intersekcoj.",
       "RENJU_OPENING2_INCORRECT": "La dua ŝtono devas esti en la centro de la kvadrato 3x3. En tiu ĉi efektivigo, simetriaj agadoj estas malpermesitaj. Elektu unu el la du elstarigitaj intersekcoj.",
       "RENJU_OPENING3": "Metu la trian ŝtonon en la mezo de la kvadrato 5x5. Elektu unu el la 13 elstaraj intersekcoj.",
       "RENJU_OPENING3_INCORRECT": "La tria ŝtono devas esti en la centro de la kvadrato 5x5. En tiu ĉi efektivigo, simetriaj agadoj estas malpermesitaj. Elektu unu el la 13 elstaraj intersekcoj.",
-      "RIF3_EXCESS": "Vi povas meti nur 2 provizorajn kvinonojn.",
-      "RIF4_CHOOSE": "Vi devas elekti unu el la du provizoraj kvinaj ŝtonoj",
+      "RIF3_EXCESS": "Vi povas meti nur 2 provizorajn kvinajn ŝtonojn.",
+      "RIF4_CHOOSE": "Vi devas elekti unu el la du provizoraj kvinaj ŝtonoj.",
       "RIF4_EXCESS": "Vi havas tro da aĵoj en via movado.",
       "RIF32": "Metu ankoraŭ unu provizoran kvinan ŝtonon.",
       "RIF42": "Elektu intersekcon por meti la sesan ŝtonon.",
       "SOOSYRV2_STONES_BEFORE_TENTATIVE": "Vi devas meti vian ŝtonon antaŭ ol deklari la nombron de provizoraj kvinaj ŝtonoj.",
-      "SOOSYRV2_TENTATIVE": "Deklari la nombron de provizorajn kvinajn ŝtonojn.",
+      "SOOSYRV2_TENTATIVE": "Deklaru la nombron da provizoraj kvinaj ŝtonoj.",
       "SOOSYRV2_TENTATIVE_COUNT_EXCEED": "La nombro de provizoraj kvinaj ŝtonoj devas esti maksimume 8.",
-      "SOOSYRV3_EXCESS_one": "Vi povas meti nur unu provizoran kvinan.",
-      "SOOSYRV3_EXCESS_other": "Vi povas nur meti {{count}} provizoraj kvinaj ŝtonoj.",
-      "SOOSYRV3_MORE_one": "Unu plia provizoran kvinan ŝtonon ŝtono ŝtono ŝtono.",
-      "SOOSYRV3_MORE_other": "Metu {{count}} pli provizorajn kvinajn ŝtonojn.",
-      "SOOSYRV4_CHOOSE_one": "Vi devas elekti la ununuran provizoran kvinan.",
+      "SOOSYRV3_EXCESS_one": "Vi povas meti nur unu provizoran kvinan ŝtonon.",
+      "SOOSYRV3_EXCESS_other": "Vi povas meti nur {{count}} provizorajn kvinajn ŝtonojn.",
+      "SOOSYRV3_MORE_one": "Metu ankoraŭ unu provizoran kvinan ŝtonon.",
+      "SOOSYRV3_MORE_other": "Metu ankoraŭ {{count}} provizorajn kvinajn ŝtonojn.",
+      "SOOSYRV4_CHOOSE_one": "Vi devas elekti la solan provizoran kvinan ŝtonon.",
       "SOOSYRV4_CHOOSE_other": "Vi devas elekti unu el la {{count}} provizoraj kvinaj ŝtonoj.",
       "SOOSYRV4_EXCESS": "Vi havas tro da aĵoj en via movado.",
       "SOOSYRV42": "Elektu intersekcon por meti la sesan ŝtonon.",
@@ -6850,22 +6850,22 @@
       "TARAGUCHI_RESTRICTION3": "La tria ŝtono devas esti en la centro de la kvadrato 5x5. Simetrio estas malpermesita. Elektu unu el la 13 elstaraj intersekcoj.",
       "TARAGUCHI_RESTRICTION4": "La kvara ŝtono devas esti en la centro de la kvadrato 7x7.",
       "TARAGUCHI_RESTRICTION5": "La kvina ŝtono devas esti meze de la kvadrato 9x9.",
-      "TARAGUCHI_RESTRICTION5_EXCESS": "Vi povas meti nur 10 provizorajn kvinonojn.",
+      "TARAGUCHI_RESTRICTION5_EXCESS": "Vi povas meti nur 10 provizorajn kvinajn ŝtonojn.",
       "TARAGUCHI_RESTRICTION5_INSIDE": "Sendu la movon, aŭ daŭrigu metante ankoraŭ 9 provizorajn kvinajn ŝtonojn.",
-      "TARAGUCHI_RESTRICTION5_MORE_one": "Unu plia provizoran kvinan ŝtonon ŝtono ŝtono ŝtono.",
-      "TARAGUCHI_RESTRICTION5_MORE_other": "Metu {{count}} pli provizorajn kvinajn ŝtonojn.",
+      "TARAGUCHI_RESTRICTION5_MORE_one": "Metu ankoraŭ unu provizoran kvinan ŝtonon.",
+      "TARAGUCHI_RESTRICTION5_MORE_other": "Metu ankoraŭ {{count}} provizorajn kvinajn ŝtonojn.",
       "TARAGUCHI6_CHOOSE": "Vi devas elekti unu el la dek provizoraj kvinaj ŝtonoj.",
       "TARAGUCHI6_EXCESS": "Vi havas tro da aĵoj en via movado.",
       "TARAGUCHI62": "Elektu intersekcon por meti la sesan ŝtonon.",
       "YAMAGUCHI1_EXCESS": "Vi povas meti nur 3 ŝtonojn.",
-      "YAMAGUCHI1_STONES_BEFORE_TENTATIVE": "Vi devas meti la tri ŝtonojn antaŭ deklarado de la nombro de provizoraj kvinaj ŝtonoj.",
-      "YAMAGUCHI1_TENTATIVE": "Deklari la nombron de provizorajn kvinajn ŝtonojn.",
+      "YAMAGUCHI1_STONES_BEFORE_TENTATIVE": "Vi devas meti la tri ŝtonojn antaŭ ol deklari la nombron da provizoraj kvinaj ŝtonoj.",
+      "YAMAGUCHI1_TENTATIVE": "Deklaru la nombron da provizoraj kvinaj ŝtonoj.",
       "YAMAGUCHI1_TENTATIVE_COUNT_EXCEED": "La nombro de provizoraj kvinaj ŝtonoj devas esti maksimume 12.",
-      "YAMAGUCHI3_EXCESS_one": "Vi povas meti nur unu provizoran kvinan.",
-      "YAMAGUCHI3_EXCESS_other": "Vi povas nur meti {{count}} provizoraj kvinaj ŝtonoj.",
-      "YAMAGUCHI3_MORE_one": "Unu plia provizoran kvinan ŝtonon ŝtono ŝtono ŝtono.",
-      "YAMAGUCHI3_MORE_other": "Metu {{count}} pli provizorajn kvinajn ŝtonojn.",
-      "YAMAGUCHI4_CHOOSE_one": "Vi devas elekti la ununuran provizoran kvinan.",
+      "YAMAGUCHI3_EXCESS_one": "Vi povas meti nur unu provizoran kvinan ŝtonon.",
+      "YAMAGUCHI3_EXCESS_other": "Vi povas meti nur {{count}} provizorajn kvinajn ŝtonojn.",
+      "YAMAGUCHI3_MORE_one": "Metu ankoraŭ unu provizoran kvinan ŝtonon.",
+      "YAMAGUCHI3_MORE_other": "Metu ankoraŭ {{count}} provizorajn kvinajn ŝtonojn.",
+      "YAMAGUCHI4_CHOOSE_one": "Vi devas elekti la solan provizoran kvinan ŝtonon.",
       "YAMAGUCHI4_CHOOSE_other": "Vi devas elekti unu el la {{count}} provizoraj kvinaj ŝtonoj.",
       "YAMAGUCHI4_EXCESS": "Vi havas tro da aĵoj en via movado.",
       "YAMAGUCHI42": "Elektu intersekcon por meti la sesan ŝtonon."
@@ -6897,7 +6897,7 @@
       "FIRST_MOVE_INSTRUCTIONS": "Metu pecon ie ajn sur la tabulon.",
       "SECOND_MOVE_INSTRUCTIONS": "Metu du pecojn sur malplenajn spacojn. Vi devas fari duan grupon kiel eble plej baldaŭ.",
       "THIRD_MOVE_INSTRUCTIONS": "Metu unu aŭ du pecojn sur malplenajn spacojn. Vi devas fari duan grupon kiel eble plej baldaŭ.",
-      "INITIAL_INSTRUCTIONS": "Metu unu aŭ du pecojn sur ne-postulitan malplenaĵon. Viaj pecoj eble ne formas malgrandan triangulon nek vi povas kreskigi grupon en rekta linio de ekzistanta peco.",
+      "INITIAL_INSTRUCTIONS": "Metu unu aŭ du pecojn sur nealproprigitan malplenan spacon. Viaj pecoj ne rajtas formi malgrandan triangulon, kaj vi ne rajtas kreskigi grupon rektlinie el ekzistanta peco.",
       "BAD_SECOND_MOVE": "Vi devas komenci per la kreado de dua grupo kiel eble plej baldaŭ.",
       "CLAIMED_CELL": "Vi ne rajtas meti pecon en la teritorion, kiun vi postulas.",
       "RAPID_GROWTH": "Oni ne povas kreskigi grupon en rekta linio de ekzistanta peco en ununura vico.",
@@ -6917,12 +6917,12 @@
       "INVALID_MOVES": "Tiu sekvenco de movo {{moves}} estas malvalida."
     },
     "shapechess": {
-      "INITIAL_INSTRUCTIONS": "Sur tiu vico la ludanto aŭ (a) metas ŝtonon sur malplena ĉelo, (b) translokigas amikan ŝtonon al iu malplena ĉelo, aŭ (c) metas ŝtonon super kontraŭstaran ŝtonon kiu estas puŝita al apuda (ortogonala aŭ diagonala) malplena ĉelo.",
+      "INITIAL_INSTRUCTIONS": "Dum ĉi tiu vico la ludanto aŭ (a) metas ŝtonon sur malplenan ĉelon, (b) translokigas propran ŝtonon al ajna malplena ĉelo aŭ (c) metas ŝtonon sur kontraŭulan ŝtonon kaj puŝas ĝin al apuda malplena ĉelo (ortangule aŭ diagonale).",
       "JUMP_INSTRUCTIONS": "Nun elektu malplenan ĉelon por meti la elektitan ŝtonon.",
       "PUSH_INSTRUCTIONS": "Nun elektu apudan malplenan ĉelon por puŝi la elektitan ŝtonon de la kontraŭulo.",
-      "JUMP_OCCUPIED": "La saltado devas finiĝi sur malplenaj ĉeloj!",
-      "PUSH_NO_FREEDOM": "Neniu apudaj apudaj ĉeloj por puŝi!",
-      "PUSH_NEIGHBOR": "La puŝoj devas esti al la apudaj malplenaj ĉeloj!"
+      "JUMP_OCCUPIED": "Salto devas finiĝi sur malplena ĉelo!",
+      "PUSH_NO_FREEDOM": "Neniu apuda ĉelo disponeblas por puŝo!",
+      "PUSH_NEIGHBOR": "Puŝo devas celi apudan malplenan ĉelon!"
     },
     "sentinel": {
       "INITIAL_INSTRUCTIONS": "Movu pecon antaŭen aŭ semu stakon en iu ajn direkto. La centro ne povas esti transirita. La kaptitoj estas anstataŭigitaj.",
@@ -6950,7 +6950,7 @@
       "INVALID_MOVE": "Tiu movo estas nevalida. Memoru, ke ĉiu metita karto devas esti plene apogita (kartoj ne povas \"hang off the edge\" de ununura karto).",
       "PARTIAL": "Klaku la karton sur la tabulo, al kiu vi volas alkroĉi tiun karton.",
       "LABEL_STASH": "Mano de {{player}}",
-      "VALID_BUT": "Tiu pozicio validas. Estas ankaŭ eble distingi du kartojn. Klaku \"Complete Movo\" por konservi la ununuran gepatron, aŭ klaku la apudan karton por streĉi ambaŭ."
+      "VALID_BUT": "Tiu meto validas. Ĝi ankaŭ povas ampleksi du kartojn. Klaku \"Fini la movon\" por konservi la solan gepatran karton, aŭ klaku la apudan karton por ampleksi ambaŭ."
     },
     "slimetrail": {
       "INITIAL_INSTRUCTIONS": "Movu la pilkon al apuda malplena ĉelo.",
@@ -7192,7 +7192,7 @@
       "INITIAL_INSTRUCTIONS_initial": "Klaku unu aŭ du seslaterajn randojn por komenci vian tramreton.",
       "INITIAL_INSTRUCTIONS_normal": "Laŭ ajna ordo, klaku seslateron por forigi limigon pri loĝado, kaj klaku unu aŭ du seslaterajn randojn por vastigi vian tramreton.",
       "INVALID_EDGE": "La antaŭfiksita rando ne ŝajnas valida: {{edge}}.",
-      "MAY_NOT_TOUCH": "Kontraŭaj linioj eble ne interrilatas.",
+      "MAY_NOT_TOUCH": "Kontraŭaj linioj ne rajtas tuŝi unu la alian.",
       "MUST_TOUCH": "Kiam ili postulas du randojn, ili devas tuŝi.",
       "NO_REMOVE_BLDGS": "Vi ne rajtas forigi konstruaĵojn de la tabulo.",
       "ONLY_TWO": "Vi rajtas postuli nur du randojn je vico.",
@@ -7258,7 +7258,7 @@
     "symple": {
       "BAD_PLACEMENT": "Vi ne povas krei novan grupon metante {{where}}.",
       "CAN_BALANCE": "Vi rajtas krei novan grupon, se vi volas.",
-      "CANT_BALANCE": "Vi eble ne kreskos kaj kreos novan grupon en la sama vico.",
+      "CANT_BALANCE": "Vi ne rajtas kaj kreskigi grupon kaj krei novan grupon dum la sama vico.",
       "DOUBLE_GROW": "Vi ne rajtas kreskigi grupon pli ol unufoje laŭvice.",
       "DUPLICATES": "Via movo enhavas duoblan ĉelon.",
       "INITIAL_INSTRUCTIONS": "Klaku ĉelon por aldoni pecon al la tabulo.",
@@ -7363,7 +7363,7 @@
       "SECOND_MOVE": "Bonvolu fari vian duan movo.",
       "INVALID_TO": "La peco ĉe {{from}} ne povas dupliki aŭ salti al {{to}}.",
       "MUST_PASS": "La sola movado, kiun vi povas fari, estas preterpasi.",
-      "ILLEGAL_PASS": "Vi povas nur preterpasi, se vi havas tutan movon.",
+      "ILLEGAL_PASS": "Vi rajtas preterpasi nur kiel tutan movon.",
       "SAME_PIECE": "La dua movo devas esti de alia peco ol tiuj movitaj aŭ ŝanĝitaj en la unua.",
       "NO_TOS": "La elektita peco ĉe {{from}} havas neniun eblan celon por dupliki aŭ salti al.",
       "SELECT_TO": "Elektu celon por dupliki aŭ salti al ĝi.",
@@ -7428,7 +7428,7 @@
       "OCCUPIED": "La spaco {{move}} jam estas okupita per kejlo.",
       "OPPONENTS_AREA": "Vi ne rajtas meti kejlon en la areon de via kontraŭulo.",
       "PARTIAL_EMPTY": "Provante komenci partan movon ĉe malplena spaco {{move}}.",
-      "PARTIAL_LINK": "Elektu alian kejlon, al kiu aldoni ligilon aŭ de kiu forigi ligilon.",
+      "PARTIAL_LINK": "Elektu alian kejlon por aldoni aŭ forigi ligilon.",
       "PARTIAL_OPPONENT": "Vi ne rajtas rearanĝi la ligilojn de via kontraŭulo.",
       "TOO_MANY_PEGS": "Vi povas meti nur unu kejlon je vico."
     },
@@ -7470,7 +7470,7 @@
     "unstack": {
       "INSTRUCTIONS": "Elektu amikan stakon; klaku ĝin tiom da fojoj, kiom da pecoj vi volas movi; poste klaku ortan vojon, kiu komenciĝas apud tiu semata stako (po unu aŭ pli da pecoj sur ĉiu kvadrato) kaj turniĝas je 90°.",
       "NOT_FRIENDLY_STACK": "Elektu amikan stakon kun du aŭ pli da pecoj por semi.",
-      "CAN_SOW": "Ĝi povas nur preterpasi, kiam ne ekzistas valida semado!",
+      "CAN_SOW": "Vi rajtas preterpasi nur kiam neniu valida semado ekzistas!",
       "PASS_ONLY": "Nun semante maldekstren; Ludanto devas preterpasi!",
       "CAPTURES_MANDATORY": "Kaptado estas havebla kaj deviga. Ekzemple, {{from}} povas kapti {{to}}.",
       "MULTIPLE_CAPTURES": "Nur unu kaptado por semado estas permesata!",
@@ -7508,8 +7508,8 @@
       "SORTED": "La listo devas esti ordigita. Provu {{normalised}}.",
       "STATIONARY_LOS": "Ne estas vidlinio por meti ĉe {{where}}.",
       "STRAIGHTLINE": "Vi povas nur moviĝi kaj meti en rektaj linioj.",
-      "TOO_MANY_SHOOTERS_one": "Vi povas nur meti {{count}} pafanto.",
-      "TOO_MANY_SHOOTERS_other": "Vi povas nur meti {{count}} pafistoj."
+      "TOO_MANY_SHOOTERS_one": "Vi povas meti nur {{count}} pafanton.",
+      "TOO_MANY_SHOOTERS_other": "Vi povas meti nur {{count}} pafantojn."
     },
     "verge": {
       "FROZEN_NEIGHBOUR": "Vi ne povas meti alian el viaj frostaj grupoj.",
@@ -7588,8 +7588,8 @@
       "PARTIAL": "Elektu kie vi volas meti tiun pecon.",
       "SETUP_CHUNKS": "La pecoj, kiujn vi metas, devas esti apudaj unu al la alia (po unu pecaro por ĉiu ludanto).",
       "SETUP_TOOMANY": "Vi povas meti nur unu dupecan pecon por ĉiu ludanto.",
-      "TOO_MANY_one": "Vi povas nur meti supren al {{count}} peco ĉi vicon.",
-      "TOO_MANY_other": "Vi povas meti nur al {{count}} pecoj ĉi vicon.",
+      "TOO_MANY_one": "Vi povas meti maksimume {{count}} pecon dum ĉi tiu vico.",
+      "TOO_MANY_other": "Vi povas meti maksimume {{count}} pecojn dum ĉi tiu vico.",
       "VALID_BUT_one": "Valide ĝis nun. Vi povas halti aŭ meti {{count}} pli da peco.",
       "VALID_BUT_other": "Ĝis nun valide. Vi povas halti aŭ meti ankoraŭ {{count}} pecojn."
     },

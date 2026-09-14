@@ -602,7 +602,7 @@ export class GonnectGame extends GameBase {
                     }
                 }
             }
-            if (this.connPath.length > 0) {
+            if (this.connPath.length > 1) {
                 const targets: RowCol[] = [];
                 for (const cell of this.connPath) {
                     const [x,y] = this.algebraic2coords(cell);

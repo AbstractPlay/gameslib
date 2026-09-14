@@ -56,6 +56,14 @@ describe("Gonnect", () => {
         g.move("pass"); // Black passes: two consecutive passes end the game
         expect(g.gameover).to.be.true;
         expect(g.winner).to.eql([1]);
+        // A single-stone win gives a one-cell connPath. Rendering it must not throw,
+        // and it must not emit a "move" annotation (the renderer can't draw a line
+        // between a single point), matching the pattern used elsewhere in the codebase
+        // (e.g., havannah.ts, renju.ts) for single-point connections.
+        expect(g.connPath).to.eql(["g7"]);
+        const rep = g.render();
+        const moveAnnotations = (rep.annotations ?? []).filter(a => a.type === "move");
+        expect(moveAnnotations).to.eql([]);
     });
 
     it("Cascading tiebreak: sole occupant of the centre point wins when nobody spans the full board", () => {

@@ -5798,17 +5798,17 @@
       "VALID_REFILL_other": "Sendu vian movon por replenigi la tirprovizon. La kontraŭuloj aŭtomate preterpasos, kaj al vi restos {{count}} movoj en via parta vico (kaj ankaŭ la eblo preterpasi)."
     },
     "furl": {
-      "CAPTURE4UNFURL": "Vi signalis kapton nefurla movo, sed {{to}} ne estas okupita fare de la kontraŭulo. Uzu \">\" por indiki ne-kaptan nefurl.",
-      "FURL4UNFURL": "Vi indikis furl movas kun \"<\", sed la elektita stako havas altecon de {{size}}, kiu estas pli granda ol 1.",
-      "INITIAL_INSTRUCTIONS": "Elektu pecon por furlo aŭ stakon por unfurlo.",
-      "INVALID_FURL": "Ne eblas fari la floron de {{from}} al {{to}}. Vi povas nur flugi al ĉelo, kie vi havas du aŭ pli el viaj unu-partajn stakon en senĉesa linio.",
-      "INVALID_UNFURL": "Ne eblas disflorigi de {{from}} al {{to}}. Vi povas nur malplenigi al malplena ĉelo aŭ al la stako de kontraŭulo precize {{size}} spacojn for. La mezaj ĉeloj devas esti malplenaj.",
-      "NO_FURLS": "Ne eblas moviĝi de peco al peco ĉe {{from}}.",
-      "NO_UNFURLS": "Ne eblas moviĝi de stako ĉe {{from}}.",
-      "PARTIAL_FURL": "Elektu celon al furl.",
-      "PARTIAL_UNFURL": "Elektu celon por malkovri.",
-      "UNFURL4CAPTURE": "Vi indikis ne-kapti movon, sed kapti povas esti farita ĉe {{to}}. Uzu \"x\" por indiki kapton.",
-      "UNFURL4FURL": "Vi indikis malplenan movo kun \">\", sed la elektita stako havas nur altecon de 1."
+      "CAPTURE4UNFURL": "Vi indikis malvolvon kun kapto, sed ĉe {{to}} ne estas kontraŭula peco. Uzu \">\" por indiki senkaptan malvolvon.",
+      "FURL4UNFURL": "Vi indikis kunvolvon per \"<\", sed la elektita stako havas alton {{size}}, pli grandan ol 1.",
+      "INITIAL_INSTRUCTIONS": "Elektu pecon por kunvolvi aŭ stakon por malvolvi.",
+      "INVALID_FURL": "Ne eblas kunvolvi de {{from}} al {{to}}. Vi rajtas kunvolvi nur al ĉelo, ĉe kiu vi havas seninterrompan linion de du aŭ pli da viaj unuppecaj stakoj.",
+      "INVALID_UNFURL": "Ne eblas malvolvi de {{from}} al {{to}}. Vi rajtas malvolvi nur al malplena ĉelo aŭ kontraŭula stako precize {{size}} spacojn for; la interaj ĉeloj devas esti malplenaj.",
+      "NO_FURLS": "Neniu kunvolvo eblas de la peco ĉe {{from}}.",
+      "NO_UNFURLS": "Neniu malvolvo eblas de la stako ĉe {{from}}.",
+      "PARTIAL_FURL": "Elektu celon por kunvolvi.",
+      "PARTIAL_UNFURL": "Elektu celon por malvolvi.",
+      "UNFURL4CAPTURE": "Vi indikis senkaptan malvolvon, sed ĉe {{to}} eblas kapti. Uzu \"x\" por indiki kapton.",
+      "UNFURL4FURL": "Vi indikis malvolvon per \">\", sed la elektita stako havas alton nur 1."
     },
     "garden": {
       "BAD_PLACE_normal": "Vi devas planti semojn ortogonale alproksimiĝantajn al ekzistantaj plantoj.",

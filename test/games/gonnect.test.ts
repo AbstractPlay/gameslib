@@ -88,4 +88,37 @@ describe("Gonnect", () => {
         expect(g.gameover).to.be.true;
         expect(g.winner).to.eql([1]);
     });
+
+    it("Cascading tiebreak: both players connecting on the same subboard is a tie, and cascades to the next smaller one", () => {
+        const g = new GonnectGame(undefined, ["size-9", "cascading"]);
+        // 9x9 board: the centred 5x5 subboard occupies columns/rows c-g (indices 2-6).
+        // Player 1 connects north-south across it down column "c" (c3..c7) — entirely outside
+        // the smaller 3x3 subboard (columns/rows d-f, indices 3-5).
+        for (const cell of ["c3", "c4", "c5", "c6", "c7"]) {
+            g.board.set(cell, 1);
+        }
+        // Player 2 also connects north-south across the same 5x5 subboard, down column "e"
+        // (e3..e7), whose middle e4-e5-e6 run also spans the smaller 3x3 subboard.
+        for (const cell of ["e3", "e4", "e5", "e6", "e7"]) {
+            g.board.set(cell, 2);
+        }
+        // At size 5 both players connect: a tie, so the cascade must continue rather than stop
+        // here (stopping here on the first non-null path found would wrongly hand this to
+        // player 1). At the smaller 3x3 subboard, only player 2's column is in range, so
+        // player 2 alone connects there and should win.
+        g.move("pass");
+        g.move("pass");
+        expect(g.gameover).to.be.true;
+        expect(g.winner).to.eql([2]);
+    });
+
+    it("A pass not immediately followed by another pass does not end the game", () => {
+        const g = new GonnectGame(undefined, ["size-9", "cascading"]);
+        g.move("pass");
+        g.move("e5");
+        g.move("pass");
+        expect(g.gameover).to.be.false;
+        g.move("pass");
+        expect(g.gameover).to.be.true;
+    });
 });

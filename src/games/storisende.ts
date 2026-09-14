@@ -17,6 +17,12 @@ import {
     type BoardWire,
     usesCompactWire,
 } from "./storisende/boardCodec.js";
+import {
+    parseStorisendeRegularMove,
+    splitStorisendeOpeningCells,
+    storisendeRegularMoveDestination,
+    storisendeRegularMoveSourceCell,
+} from "./storisende/moveParse.js";
 
 export type playerid = 1|2;
 export type Tile = undefined|"virgin"|"territory"|"wall";
@@ -25,6 +31,8 @@ interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: BoardWire;
     lastmove?: string;
+    /** Duplicate of game `startingPosition` on stack[0] for backends that only persist stack frames. */
+    startingPosition?: string;
 }
 
 export interface IStorisendeState extends IAPGameState {
@@ -138,11 +146,14 @@ export class StorisendeGame extends GameBase {
             this.variants = [...state.variants];
             this.winner = [...state.winner];
             this.stack = [...state.stack];
-            this.startingPosition = state.startingPosition ?? "";
+            this.startingPosition = state.startingPosition
+                ?? this.stack[0]?.startingPosition
+                ?? "";
             const fromStack = modularStartingPositionFromLegacyStack(this.stack, this.variants);
             if (fromStack !== undefined && this.startingPosition.length === 0) {
                 this.startingPosition = fromStack;
             }
+            this.ensureStackStartingPositionPinned();
         } else {
             if ( (variants !== undefined) && (variants.length > 0) ) {
                 this.variants = [...variants];
@@ -166,10 +177,25 @@ export class StorisendeGame extends GameBase {
                     [],
                     this.startingPosition,
                 ),
+                ...(this.startingPosition.length > 0 ? {startingPosition: this.startingPosition} : {}),
             };
             this.stack = [fresh];
         }
         this.load();
+    }
+
+    /** Keep modular topology on stack[0] when state-level field is dropped by storage layers. */
+    private ensureStackStartingPositionPinned(): void {
+        if (this.startingPosition.length === 0 || this.stack.length === 0) {
+            return;
+        }
+        if (modularModuleCount(this.variants) === undefined) {
+            return;
+        }
+        const head = this.stack[0]!;
+        if (head.startingPosition !== this.startingPosition) {
+            head.startingPosition = this.startingPosition;
+        }
     }
 
 
@@ -280,7 +306,7 @@ export class StorisendeGame extends GameBase {
     private dotDestinationsFrom(mover: playerid, from: string): string[] {
         const dests = new Set<string>();
         for (const mv of this.enumerateFromCell(mover, from)) {
-            const dest = mv.split("-")[1];
+            const dest = storisendeRegularMoveDestination(mv);
             if (dest !== undefined) {
                 dests.add(dest);
             }
@@ -390,7 +416,7 @@ export class StorisendeGame extends GameBase {
                     if (move === cell) {
                         newmove = "";
                     } else {
-                        const fromCell = move.split(":")[0];
+                        const fromCell = storisendeRegularMoveSourceCell(move);
                         const matches = this.enumerateFromCell(this.currplayer, fromCell)
                             .filter(m => m.startsWith(move) && m.endsWith(cell));
                         if (matches.length === 1) {
@@ -432,7 +458,7 @@ export class StorisendeGame extends GameBase {
                 result.message = i18next.t("apgames:validation.storisende.INITIAL_INSTRUCTIONS", {context: "first"});
                 return result;
             }
-            const placed = m.split(",")
+            const placed = splitStorisendeOpeningCells(m);
             // all placements must be on valid hexes
             for (const cell of placed) {
                 const hex = this.board.getHexAtAlgebraic(cell);
@@ -475,7 +501,7 @@ export class StorisendeGame extends GameBase {
                 return result;
             }
             const target = this.board.hexes.map(h => h.stack.length).reduce((prev, curr) => prev + curr, 0);
-            const placed = m.split(",")
+            const placed = splitStorisendeOpeningCells(m);
             // all placements must be on valid hexes
             for (const cell of placed) {
                 const hex = this.board.getHexAtAlgebraic(cell);
@@ -525,8 +551,16 @@ export class StorisendeGame extends GameBase {
                 return result;
             }
 
-            const [left, to] = m.split("-");
-            const [from, heightStr] = left.split(":");
+            let from: string;
+            let to: string | undefined;
+            let substackHeight: number | undefined;
+            try {
+                ({from, to, height: substackHeight} = parseStorisendeRegularMove(m));
+            } catch {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.DEFAULT_HANDLER");
+                return result;
+            }
 
             const fhex = this.board.getHexAtAlgebraic(from);
             if (fhex === undefined || fhex.stack.length === 0) {
@@ -540,14 +574,13 @@ export class StorisendeGame extends GameBase {
                 return result;
             }
             let height = fhex.stack.length;
-            if (left.includes(":")) {
-                const h = parseInt(heightStr, 10);
-                if (h >= fhex.stack.length) {
+            if (substackHeight !== undefined) {
+                if (substackHeight >= fhex.stack.length) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.storisende.INVALID_SUBSTACK");
                     return result;
                 }
-                height = h;
+                height = substackHeight;
             }
 
             if (to === undefined || to === "") {
@@ -622,15 +655,14 @@ export class StorisendeGame extends GameBase {
 
         // if partial and after the opening, show dots and get out
         if (partial && this.stack.length >= 3) {
-            const [left,] = m.split("-");
-            const [from,] = left.split(":");
+            const {from} = parseStorisendeRegularMove(m);
             this.dots = this.dotDestinationsFrom(this.currplayer, from);
             return this;
         }
 
         // handle openings first
         if (this.stack.length < 3) {
-            const cells = m.split(",");
+            const cells = splitStorisendeOpeningCells(m);
             for (const cell of cells) {
                 const hex = this.board.getHexAtAlgebraic(cell)!;
                 this.board.updateHexStack(hex, [...hex.stack, this.currplayer]);
@@ -643,19 +675,17 @@ export class StorisendeGame extends GameBase {
                 this.results.push({type: "pass"});
             }
             else {
-                const [left, to] = m.split("-");
-                const [from, heightStr] = left.split(":");
+                const {from, to, height} = parseStorisendeRegularMove(m);
+                if (to === undefined || to.length === 0) {
+                    throw new Error(`Could not process the move "${m}" because no destination was given.`);
+                }
                 const fhex = this.board.getHexAtAlgebraic(from);
                 const thex = this.board.getHexAtAlgebraic(to);
                 if (fhex === undefined || thex === undefined) {
                     throw new Error(`Could not process the move "${m}" because at least one of the hexes doesn't exist.`);
                 }
                 // moving substack (no tile side effects)
-                if (left.includes(":")) {
-                    const height = parseInt(heightStr, 10);
-                    if (isNaN(height)) {
-                        throw new Error(`Could not interpret the substack height from "${m}."`);
-                    }
+                if (height !== undefined) {
                     this.board.updateHexStack(fhex, fhex.stack.slice(0, height * -1));
                     // new Array(height).map... doesn't work
                     const newstack = Array.from({length: height}, () => this.currplayer);

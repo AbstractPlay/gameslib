@@ -6,6 +6,12 @@ import {
     type IStorisendeState,
     type playerid,
 } from "../../src/games/storisende.js";
+import { StorisendeBoard } from "../../src/games/storisende/board.js";
+import { StorisendeHex } from "../../src/games/storisende/hex.js";
+import { StorisendeGraph } from "../../src/games/storisende/graph.js";
+import { parseStorisendeRegularMove } from "../../src/games/storisende/moveParse.js";
+import { hexNeighbours } from "../../src/common/hexes.js";
+import { Orientation } from "honeycomb-grid";
 import { x2uid } from "../../src/common/index.js";
 import {
     expectMovesMatchReference,
@@ -518,6 +524,74 @@ describe("Storisende", () => {
             if (process.env.STORISENDE_BENCH === "1") {
                 expect(fromMs).to.be.lessThan(fullMs);
             }
+        });
+    });
+
+    describe("algebraic coordinates", () => {
+        it("uses multi-letter row labels when height exceeds 26", () => {
+            const graph = new StorisendeGraph(10, 30, Orientation.POINTY, 1);
+            expect(graph.coords2algebraic(0, 26)).to.equal("aa1");
+            expect(graph.algebraic2coords("aa1")).to.deep.equal([0, 26]);
+            expect(graph.coords2algebraic(4, 29)).to.equal("ad5");
+            expect(graph.algebraic2coords("ad5")).to.deep.equal([4, 29]);
+
+            const hexes: StorisendeHex[] = [];
+            for (let r = 0; r < 30; r++) {
+                hexes.push(StorisendeHex.create({q: 0, r, tile: "virgin", stack: []}));
+            }
+            const board = StorisendeBoard.deserialize(hexes);
+            const top = board.getHexAtAxial(0, 29)!;
+            const label = board.hex2algebraic(top);
+            expect(label).to.match(/^ad\d+$/);
+            const roundTrip = board.getHexAtAlgebraic(label);
+            expect(roundTrip?.q).to.equal(0);
+            expect(roundTrip?.r).to.equal(29);
+        });
+
+        it("validates and plays regular moves between z and aa rows", () => {
+            const hexes: StorisendeHex[] = [];
+            for (let r = 0; r < 30; r++) {
+                hexes.push(StorisendeHex.create({q: 0, r, tile: "virgin", stack: []}));
+            }
+            const board = StorisendeBoard.deserialize(hexes);
+            const fromHex = board.getHexAtAxial(0, 25)!;
+            const neighbour = hexNeighbours(fromHex)
+                .map(({q, r}) => board.getHexAtAxial(q, r))
+                .find(h => h !== undefined)!;
+            const from = board.hex2algebraic(fromHex);
+            const to = board.hex2algebraic(neighbour);
+            expect(from.startsWith("z")).to.equal(true);
+            expect(to.startsWith("aa")).to.equal(true);
+
+            const wire = board.serialize().map(h => ({...h, stack: [...h.stack]}));
+            const pieceOnFrom = wire.find(h => h.q === fromHex.q && h.r === fromHex.r)!;
+            // Move distance must equal stack height; one piece → adjacent `aa` cell is legal.
+            pieceOnFrom.stack = [1];
+            const frame = {
+                _version: "20250109",
+                _results: [] as [],
+                currplayer: 1 as playerid,
+                board: wire,
+            };
+            const state: IStorisendeState = {
+                game: "storisende",
+                numplayers: 2,
+                variants: [],
+                gameover: false,
+                winner: [],
+                stack: [
+                    {...frame, currplayer: 1},
+                    {...frame, currplayer: 2, lastmove: "pass"},
+                    {...frame, currplayer: 1, lastmove: "pass"},
+                ],
+            };
+            const g = new StorisendeGame(state);
+            const moveStr = `${from}-${to}`;
+            expect(parseStorisendeRegularMove(moveStr).to).to.equal(to);
+            expect(g.validateMove(moveStr).valid).to.equal(true);
+            g.move(moveStr, {trusted: true});
+            expect(g.board.getHexAtAlgebraic(from)?.stack.length ?? -1).to.equal(0);
+            expect(g.board.getHexAtAlgebraic(to)?.stack.length ?? 0).to.equal(1);
         });
     });
 });

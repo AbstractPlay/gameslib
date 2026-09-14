@@ -74,6 +74,38 @@ describe("Mirador", () => {
         expect(game.validateMove("a38-c37").valid).to.equal(false);
     });
 
+    it("preserves earlier challenge placements after rejecting orthogonal adjacency", () => {
+        for (const variants of [[], ["size-40"]]) {
+            const game = new MiradorGame(undefined, variants);
+            game.move("declare");
+
+            const first = game.handleClick("", 1, 1);
+            expect(first.valid).to.equal(true);
+
+            const illegal = game.handleClick(first.move, 2, 3);
+            expect(illegal.valid).to.equal(false);
+            expect(illegal.move).to.equal(first.move);
+        }
+    });
+
+    it("preserves earlier challenge placements after rejecting diagonal contact with an opponent", () => {
+        for (const variants of [[], ["size-40"]]) {
+            const game = new MiradorGame(undefined, variants);
+            game.board[0][0] = 1;
+            game.board[0][1] = 1;
+            game.board[1][0] = 1;
+            game.board[1][1] = 1;
+            game.move("declare");
+
+            const first = game.handleClick("", 5, 5);
+            expect(first.valid).to.equal(true);
+
+            const illegal = game.handleClick(first.move, 3, 3);
+            expect(illegal.valid).to.equal(false);
+            expect(illegal.move).to.equal(first.move);
+        }
+    });
+
     it("checks connections against the enlarged board edge", () => {
         const game = new MiradorGame(undefined, ["size-40"]);
         game.board[0][0] = 1;

@@ -662,6 +662,9 @@
       "woven": {
         "name": "Teksitaj",
         "description": "Entrenado ne estas valida."
+      },
+      "board-23": {
+        "name": "Tabulo 23×23"
       }
     },
     "assembly": {
@@ -893,7 +896,8 @@
     },
     "calculus": {
       "#board": {
-        "description": "Proksimume 12 pecoj tra la diametro"
+        "description": "Proksimume 12 pecoj tra la diametro",
+        "name": "Defaŭlta tabulo"
       },
       "width-10": {
         "description": "Proksimume 10 pecoj tra la diametro",
@@ -1273,8 +1277,27 @@
     },
     "crosshairs": {
       "random-start": {
-        "name": "Hazardaj nuboj",
-        "description": "Ne ekzistas nubo-moviĝanta fazo. Ili estas hazarde metitaj de la sistemo."
+        "name": "Simetriaj hazardaj nuboj",
+        "description": "Ne estas fazo por meti nubojn. La sistemo hazarde metas ilin kun rotacia simetrio je 180 gradoj."
+      },
+      "#clouds": {
+        "name": "16 nuboj"
+      },
+      "clouds-22": {
+        "name": "22 nuboj",
+        "description": "Metu 22 nubojn anstataŭ 16. Pro la defaŭlta maksimuma grando de nubaro, eble ne ĉiam eblas meti ĉiujn."
+      },
+      "clouds-28": {
+        "name": "28 nuboj",
+        "description": "Metu 28 nubojn anstataŭ 16. Pro la defaŭlta maksimuma grando de nubaro, eble ne ĉiam eblas meti ĉiujn."
+      },
+      "asymmetric-random-start": {
+        "name": "Malsimetriaj hazardaj nuboj",
+        "description": "Ne estas fazo por meti nubojn. La sistemo hazarde metas ilin sen postuli simetrion."
+      },
+      "unbounded-cloud-banks": {
+        "name": "Senlimaj nubaroj",
+        "description": "Nubaroj povas enhavi ajnan nombron da nuboj."
       }
     },
     "cubeo": {
@@ -3528,6 +3551,14 @@
         "description": "Ludu du ludojn kun inversigitaj roloj. Se ambaŭ ludantoj venkas kiel ribeluloj, gajnas tiu, kiu uzis malpli da ŝtonoj (`66 − restantaj`); egalaj poentaroj rezultigas remizon.",
         "name": "Duluda matĉo"
       }
+    },
+    "mirador": {
+      "#board": {
+        "name": "Tabulo 28×28"
+      },
+      "size-40": {
+        "name": "Tabulo 40×40"
+      }
     }
   },
   "status": {
@@ -3660,6 +3691,9 @@
       "GRADE_WIN": "Venko (10)",
       "GRADE_SUPERIOR": "Supera (11)",
       "GRADE_EXCELLENT": "Bonega (12)"
+    },
+    "lielow": {
+      "MOVESUNTILSUICIDE": "Movoj ĝis memmortigo"
     }
   },
   "displays": {
@@ -4296,7 +4330,7 @@
     "intermedium": "Semu stakojn por ĉirkaŭfermi kaj kapti. Gajnu kaptante la urbon de la kontraŭulo.",
     "invector": "Forigu la malamikan armeon dum vi proksimiĝas al la centro de la tabulo.",
     "iqishiqi": "Iqishiqi (prononcata I-ĉi-ŝi-ĉi) estas abstrakta strategia ludo sur sesangula tabulo el sesangulaj ĉeloj. La ludantoj posedas difinitajn randojn de la tabulo kaj per lerta metado de ŝtonoj puŝas neŭtralan ŝtonon ĉirkaŭ ĝi. Ludanto gajnas se li aŭ ŝi movas la neŭtralan ŝtonon al unu el siaj randoj aŭ lasas la kontraŭulon sen moveblo.",
-    "irensei": "Irensei estas miksaĵo de Goo kaj Gomoku. Faru sep ŝtonojn en vico ene de la centra 15×15-regiono de la Go-tabulo por venki. Por malpliigi la avantaĝon de la unua ludanto, tiu malgajnas se li aŭ ŝi faras tro longan linion (eĉ se ĝi etendiĝas ekster la 15×15-regiono), sed la dua ludanto povas venki per tro longa linio.",
+    "irensei": "Irensei (japane 囲連星) estas miksaĵo de Goo kaj Gomoku. Faru sep ŝtonojn en vico ene de la centra 15×15-regiono de la Go-tabulo por venki. Por malpliigi la avantaĝon de la unua ludanto, tiu malgajnas se li aŭ ŝi faras tro longan linion (eĉ se ĝi etendiĝas ekster la 15×15-regiono), sed la dua ludanto povas venki per tro longa linio.",
     "jacynth": "Decktet-kartludo, en kiu kontraŭuloj konkuras pri regado de la urbo Jacynth. Metu kartojn, apliku influon kaj regu la plej grandan areon por venki.",
     "kachit": "Ŝakeca ludo sur tabulo 4×4, en kiu vi provas forigi la kontraŭulan reĝon aŭ promocii vian propran. Pecoj povas ŝanĝi orientiĝon post moviĝo.",
     "knightline": "Kvar-en-vica konektludo sur senlima krado, ludata per disigo de stako de ĉevaloj.",
@@ -4320,7 +4354,7 @@
     "mimic": "Ludo, en kiu malamikaj pecoj imitas viajn movojn dum vi konkuras por esti la unua, kiu atingas la malantaŭan vicon.",
     "minefield": "Konektu kontraŭajn flankojn de la tabulo, sed iuj pecaranĝoj estas malpermesitaj.",
     "minimize": "Gajnas la ludanto, kies plej malgranda grupo estas la plej granda.",
-    "mirador": "Mirador estas rapida kaj ekscita konektludo sur kvadrata krado 27×27, kie kvadratoj 2×2 reprezentas gardoturojn. Ĝi uzas vidliniajn konektojn kaj ekvivalentajn celojn, do ĝi estas pli vetkuro ol pura konektludo.",
+    "mirador": "Mirador estas rapida kaj ekscita konektludo sur kvadrata krado (defaŭlte 28×28), kie kvadratoj 2×2 reprezentas gardoturojn. Ĝi uzas vidliniajn konektojn kaj ekvivalentajn celojn, do ĝi estas pli vetkuro ol pura konektludo.",
     "mixtour": "Du ludantoj konstruas turojn kun la celo fari turon almenaŭ kvin pecojn altan, kun sia koloro supre. Estas du apartaĵoj: (1) vi povas movi kontraŭulajn pecojn, kaj (2) la movdistanco dependas de la alto de la cela stako, ne de tiu de la movata stako.",
     "monkey": "Vi komencas kun unu damo, kiu estas stako de dampecoj. Dum senkapta movo, la damo postlasas unuopan pecon. Damoj kaj unuopaj pecoj moviĝas kaj kaptas kiel ŝakaj damoj. Por venki, kaptu la kontraŭulan damon aŭ lasu la kontraŭulon sen validaj movoj.",
     "morphos": "Nur-orta kvadrata konektludo. Dum via vico, metu amikan ŝtonon aŭ renversu malamikan ŝtonon laŭ unu el tri antaŭdifinitaj ŝablonoj. Gajnu konektante viajn du kontraŭajn flankojn per ĉeno de samkoloraj ŝtonoj.",
@@ -4551,7 +4585,8 @@
     "witch": "La unua ludanto komence ne posedas iun pecon kaj rajtas forigi ajnan pecon krom krono dum sia unua vico. La dua ludanto elektas sian koloron dum sia unua vico; poste ne plu eblas forigi pecojn de la kontraŭulo.",
     "xana": "Dum sia vico, ludanto metas aŭ movas stakon (la nombro de stakigeblaj pecoj estas limigita) kaj laŭvole metas du murojn sur malplenajn seslaterojn. Stakoj sen liberecoj estas kaptitaj. Stako havas liberecon, se almenaŭ unu el la ses apudaj seslateroj estas malplena (ne ekzistas koncepto de stakgrupo). Seslatero estas atingebla, se ĝi estas malplena kaj vojo de malplenaj seslateroj konektas ĝin al amika stako. La celo estas akiri la plej altan sumon de teritoria kaj kapta poentaroj. Xana estis projektita en 2005.",
     "y": "Charles Titus kaj Craige Schensted (Ea Ea) projektis la ludon en 1953. Kiel rekta posteulo de Hex, ĝi origine estis ludata sur triangula tabulo, kaj la celo estis konekti ĉiujn tri flankojn per ĉeno de amikaj ŝtonoj. Y estas konsiderata pli fundamenta ludo ol Hex pro siaj pli simplaj reguloj kaj ĉar eblas aranĝi partion de Hex sur sufiĉe granda Y-tabulo. En sia libro de 1975 **Mudcrack Y & Poly-Y**, la projektintoj prezentis la _principon de ŝlimfendo_, laŭ kiu konektludoj povas okazi sur vasta gamo de iom post iom pli kompleksaj tabuloj. Unu el tiuj projektoj (\"la fleksita Y\", kun tri kvinangulaj ĉeloj) fariĝis la komerca Y-tabulo anstataŭ la norma triangula tabulo.",
-    "elOso": "La komenca aranĝo estas aŭtomate farata kiam vi lanĉas la ludon. La flankpanelo montras la nombrojn de pecoj por la Ĉielo, la Kaverno, la Grundo kaj la Kavo. Post ĉiu movo, uzu la regilojn de filmeroj por trairi la respondon de la Urso paŝon post paŝo. Dek aŭ pli da pecoj en la Ĉielo signifas venkon."
+    "elOso": "La komenca aranĝo estas aŭtomate farata kiam vi lanĉas la ludon. La flankpanelo montras la nombrojn de pecoj por la Ĉielo, la Kaverno, la Grundo kaj la Kavo. Post ĉiu movo, uzu la regilojn de filmeroj por trairi la respondon de la Urso paŝon post paŝo. Dek aŭ pli da pecoj en la Ĉielo signifas venkon.",
+    "lielow": "La valoro \"Movoj ĝis memmortigo\" sumas por ĉiu ludanto, kiom da movoj ĉiu el ties stakoj ankoraŭ povus fari — kreskante je unu kun ĉiu movo kaj ĉiam elektante la direkton, laŭ kiu ĝi plej longe restas sur la tabulo — antaŭ ol ĝi devus elportiĝi. La kalkulo ignoras ĉiujn aliajn stakojn sur la tabulo, ĉu amikajn, ĉu malamikajn. Ĝi do estas nur proksimuma mezuro de la senŝirmeco de la ludpecoj, ne la efektiva nombro da restantaj validaj movoj."
   },
   "homeworlds": {
     "CMD_ATK_OWNER": "En ludoj kun pli ol du ludantoj, vi devas ĉiam specifi la posedanton de la ŝipo, kiun vi atakas.",
@@ -5454,7 +5489,9 @@
       "NEED_MORE_PLANES_NO_ENTRY_other": "Vi devas movi {{count}} pli da aviadiloj tiun vicon. Elektu la sekvan aviadilon. Klaku sur malamikaj aviadiloj se vi opinias ke ili povas esti sinkitaj.",
       "INVALID_ENTRY_POSITION": "Oni ne povas eniri aviadilon ĉe {{cell}}, aviadiloj povas eniri nur sur la elstaranta rando.",
       "CAN_SHOOT": "Vi ankaŭ povas klaki malamikan aviadilon por faligi ĝin.",
-      "MOVE_COMPLETE_CAN_SHOOT": "La movo estas kompleta. Vi povas pafi malamikajn aviadilojn aŭ sendi vian movon."
+      "MOVE_COMPLETE_CAN_SHOOT": "La movo estas kompleta. Vi povas pafi malamikajn aviadilojn aŭ sendi vian movon.",
+      "PLACE_CLOUD_UNBOUNDED": "Klaku malplenan ĉelon por meti nubon.",
+      "MUST_PASS_BEFORE_ENTRY": "Vi devas preterpasi, por ke ludanto 1 enigu la unuan aviadilon."
     },
     "cubeo": {
       "BAD_MERGE": "Vi povas kunfandi nur kiam vi havas almenaŭ tri ĵetkubojn en la formado, kaj vi ne rajtas forigi fiksitan ĵetkubo aŭ ĵetkubo kiu ne povas esti glitigita el la formado.",

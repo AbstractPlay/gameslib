@@ -132,7 +132,7 @@
         "intermedium": "Sowing stacks to enclose and capture. Win by capturing the opponent's city.",
         "invector": "Eliminate the adversary army while getting near the board center.",
         "iqishiqi": "Iqishiqi (pronounced EE-chee-shee-chee) is an abstract strategy game that is played on a hexagonal board composed of hexagonal cells. Players own designated edges of the board, and by clever placement of stones they push a neutral stone around the board. A player wins if he/she moves the neutral stone to one of his/her edges, or leaves his/her opponent unable to move.",
-        "irensei": "Irensei is a mixture of Go and Gomoku. Get a seven in a row inside the middle 15x15 region of the Go board to win. To reduce the first player's advantage, the first player loses if they make an overline (even if it extends beyond the 15x15 region), but the second player may win by overline.",
+        "irensei": "Irensei (Japanese: 囲連星) is a mixture of Go and Gomoku. Get a seven in a row inside the middle 15x15 region of the Go board to win. To reduce the first player's advantage, the first player loses if they make an overline (even if it extends beyond the 15x15 region), but the second player may win by overline.",
         "jacynth": "A Decktet card game where opponents vye for control of the city of Jacynth. Place cards, exert influence, and control the most area to win.",
         "kachit": "A chess-like game played on a 4x4 board where you try to eliminate the opposing king or promote your own. Pieces can change their orientation after moving.",
         "knightline": "A four-in-a-row connection game played by splitting a stack of knights on an unbounded grid.",
@@ -156,7 +156,7 @@
         "mimic": "A game where enemy pieces mimic your moves while you race to be the first player to reach the back row.",
         "minefield": "Connect opposite sides of the board, but certain piece configurations are forbidden.",
         "minimize": "The player with the largest smallest group wins the game.",
-        "mirador": "Mirador is a fast and exhilarating connection game played on a 27 x 27 square grid by placing 2 x 2 squares to represent watchtowers. It uses line-of-sight connections and equivalent goals (making it more of a race than a pure connection game).",
+        "mirador": "Mirador is a fast and exhilarating connection game played on a square grid (28 x 28 by default) by placing 2 x 2 squares to represent watchtowers. It uses line-of-sight connections and equivalent goals (making it more of a race than a pure connection game).",
         "mixtour": "Two players create towers with the goal of creating a tower at least five high with your colour at the top. The twist here is two-fold: (1) you can move opponent's pieces and (2) movement range is determined by the *target* stack height and not the moving stack height.",
         "monkey": "You start with a single queen, composed of a stack of checkers. When you make noncapturing moves, the queen leaves a singleton behind. Queens and singletons move and capture like chess queens. To win, capture the opposing queen or leave them with no legal moves.",
         "morphos": "Orthogonal-only square connection game. On your turn, place a friendly stone or flip an enemy stone in one of three predetermined patterns. Win by connecting your two opposite sides of the board with a chain of stones of your color.",
@@ -618,6 +618,7 @@
         "konane": "Several competing opening protocols exist, but the most common ruleset is the Naihe Ruleset, used by tournaments at the Bishop Museum in Hawaii and described in the BGG reference. This is what is implemented here.",
         "knightline": "For convenience, your stack is split approximately in half on your first click.  Subsequent clicks on the source or target stack move one piece at a time.  When done, click on an empty cell or use the Complete Move button.\n\nThe coordinate system is adapted from the coder's coordinate system for Hive, a game on an unbounded (but still reasonably sized) hex board.  The y axis is labeled with Cartesian coordinates (positive and negative integers).  The x axis is labeled with letters in alphabetical order, with the origin at (m, 0).  If motion on the x-axis exceeds the confines of the alphabet in either direction, the letters are prefixed with another letter (z is followed by aa, ab, ac, etc., and a is preceded by zz, zy, zx, etc.).  The game is not expected to reach a width that requires more double coordinates, but for the record, az is followed by ba, za is preceded by yz, and so forth.  The board cannot reach a size that would result in ambiguity.",
         "lasca": "Maneuverability is a measure of how close your pieces are to promoting. Your maximum maneuverability is the board size times the number of stacks you control.\n\nMaterial is calculated by giving you a point for every friendly piece in a stack you control, plus an extra point if you have an officer on top of that stack.",
+        "lielow": "\"Moves until suicide\" totals for each player how many moves each of their stacks could still make — growing by one each move and always choosing the direction that survives longest — before being forced to bear off. It ignores every other stack on the board, friendly or enemy, so it's a rough measure of how exposed a player's pieces are, not a count of actual legal moves remaining.",
         "linage": "Linage is a 2016 game designed by Luis Bolaños Mures. The game is based on the following definitions: A **region** is a maximal set of orthogonally contiguous empty points. A **line** is a set of N orthogonally contiguous empty points on the same row or column (default is N=3); and a region is **owned** by Vertical if it contains no horizontal lines, and by Horizontal if it contains no vertical lines. A region is free if it is owned by neither player. Regions must always have at least one line.\n\nOn his turn, the player passes or places a stone in a free region. The game ends when both players pass in succession, and wins the one with highest score (i.e., the number of points in the regions the player owns, plus komi).",
         "loa": "In the centre of the 9x9 board is a \"black hole.\". Landing on the black hole means the piece is removed from the game. Simultaneous connections are scored as a draw.",
         "magnate": "The terminology of some Magnate actions has been altered for clarity and brevity. Completely developing a new property is called the \"Buy\" action; purchasing a deed for a new property is called \"Deed\", developing deeds (that is, adding tokens to a deeded property, whether it results in the deed becoming fully developed or not) is called \"Add\". (Selling a card and trading suit tokens 3 for 1 are unchanged.)\n\nIn order to speed up the process of rolling for resources, there are two additional actions:\n* \"Prefer\" is for setting your preference of which suit token to take when a deed pays out on your opponent's roll. If you do not set an explicit preference, the code will choose the rarer token for you based on your non-crown suits and current supply of tokens. The currently preferred token is circled in the UI, but your personal preference is never visible to the other player.\n* \"Choose\" is a mandatory first action for collecting suit tokens when a deed pays out on your own roll. (In all cases where you need to choose a suit token that is not already among your tokens, you still click on the appropriate token pile.)\n\nBecause you can perform several actions during a ply in any order, there is also an \"Undo\" action to back out your most recent action, whether or not it was complete.\n\nNote that only the final resource die result is displayed, but the distribution of expected outcomes is still that of rolling 2d10 and taking the higher value. Taxation happens when the lower of 2d10 comes up 1; a suit die is rolled (or two, in the double taxation variant), and the suits will be displayed underneath the resource result. The roll is logged at the end of a player's turn, and is attributed to the next player (who would have rolled in the physical game). Except for a \"Choose\", no user action is required; resources are added or removed automatically by the server in between turns.\n\nWhen a player is ahead in a district, the Pawn or Excuse for that district is outlined in that player's color. The first tiebreaker score (total property value) is displayed in parentheses after the district score. The second tiebreaker is total number of tokens remaining.",
@@ -969,6 +970,9 @@
             "board-19": {
                 "name": "19x19 board"
             },
+            "board-23": {
+                "name": "23x23 board"
+            },
             "board-27": {
                 "name": "27x27 board"
             },
@@ -1273,6 +1277,7 @@
         },
         "calculus": {
             "#board": {
+                "name": "Default board",
                 "description": "Roughly 12 pieces across"
             },
             "width-10": {
@@ -1676,9 +1681,28 @@
             }
         },
         "crosshairs": {
+            "#clouds": {
+                "name": "16 clouds"
+            },
+            "clouds-22": {
+                "name": "22 clouds",
+                "description": "Place 22 clouds instead of 16. With the default cloud bank size limit, the full count may not always be achievable."
+            },
+            "clouds-28": {
+                "name": "28 clouds",
+                "description": "Place 28 clouds instead of 16. With the default cloud bank size limit, the full count may not always be achievable."
+            },
             "random-start": {
-                "name": "Random clouds",
-                "description": "There is no cloud placing phase. They are placed randomly by the system."
+                "name": "Symmetric random clouds",
+                "description": "There is no cloud placing phase. The system places the clouds randomly with 180-degree rotational symmetry."
+            },
+            "asymmetric-random-start": {
+                "name": "Asymmetric random clouds",
+                "description": "There is no cloud placing phase. The system places the clouds randomly without requiring symmetry."
+            },
+            "unbounded-cloud-banks": {
+                "name": "Unbounded cloud banks",
+                "description": "Cloud banks may contain any number of clouds."
             }
         },
         "crossway": {
@@ -2598,6 +2622,14 @@
             },
             "size-8": {
                 "name": "Hexagonal board (base-8)"
+            }
+        },
+        "mirador": {
+            "#board": {
+                "name": "28x28 board"
+            },
+            "size-40": {
+                "name": "40x40 board"
             }
         },
         "mixtour": {
@@ -4848,6 +4880,9 @@
             "STEPS": "Maneuverability",
             "MATERIAL": "Material"
         },
+        "lielow": {
+            "MOVESUNTILSUICIDE": "Moves until suicide"
+        },
         "majorities": "Scores (─, ⟋, ⟍)",
         "meg": {
             "OFFENSE": "Offensive player",
@@ -5741,8 +5776,10 @@
         },
         "crosshairs": {
             "PLACE_CLOUD": "Click on an empty cell to place a cloud. Clouds cannot be larger than 2 hexes.",
+            "PLACE_CLOUD_UNBOUNDED": "Click on an empty cell to place a cloud.",
             "CLOUD_OCCUPIED": "There is already a cloud at {{cell}}.",
             "CLOUD_TOO_BIG": "You cannot place a cloud at {{cell}}. Only clouds of size 2 are allowed. This cloud would be too big.",
+            "MUST_PASS_BEFORE_ENTRY": "You must pass so player 1 enters the first plane.",
             "INITIAL_INSTRUCTIONS_one": "Select a plane to move, or enter a new plane on your starting edge. You must move/enter {{count}} plane this turn.",
             "INITIAL_INSTRUCTIONS_other": "Select a plane to move, or enter a new plane on your starting edge. You must move/enter {{count}} planes this turn.",
             "INITIAL_INSTRUCTIONS_NO_ENTRY_one": "Select a plane to move. You must move {{count}} plane this turn. Click on enemy planes if you think they can be shot down.",

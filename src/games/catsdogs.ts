@@ -52,7 +52,7 @@ export class CatsDogsGame extends GameBase {
         ],
         categories: ["goal>immobilize", "mechanic>move", "board>shape>rect", "components>simple>1per"],
         variants: [
-            { uid: "#board", },  // Huntoon's variant
+            { uid: "#ruleset", },  // Huntoon's variant
             { uid: "original",   group: "ruleset" },
             { uid: "tournament", group: "ruleset" }, // 8x8 Portuguese tournament rules
             { uid: "misere", group: "ruleset" }, // misÈre version of original 8x8

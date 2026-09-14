@@ -2,24 +2,36 @@ import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationRes
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, BoardBasic, MarkerFlood } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
-import { cloneState, reviver, shuffle, UserFacingError, x2uid } from "../common/index.js";
-import { generateField } from "../common/hexes.js";
+import { cloneState, reviver, shuffle, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { StorisendeHex } from "./storisende/hex.js";
 import { StorisendeBoard } from "./storisende/board.js";
+import {
+    COMPACT_BOARD_VERSION,
+    decodeBoardAtIndex,
+    encodeBoardWireForNewFrame,
+    formatModularStartingPosition,
+    modularModuleCount,
+    modularStartingPositionFromLegacyStack,
+    storisendeBoardCentres,
+    type BoardWire,
+    usesCompactWire,
+} from "./storisende/boardCodec.js";
 
 export type playerid = 1|2;
 export type Tile = undefined|"virgin"|"territory"|"wall";
 
 interface IMoveState extends IIndividualState {
     currplayer: playerid;
-    board: StorisendeHex[];
+    board: BoardWire;
     lastmove?: string;
 }
 
 export interface IStorisendeState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
+    /** Modular board centre layout (`modular-centres-v1/...`); required for compact modular decode. */
+    startingPosition?: string;
 };
 
 export class StorisendeGame extends GameBase {
@@ -27,7 +39,7 @@ export class StorisendeGame extends GameBase {
         name: "Storisende",
         uid: "storisende",
         playercounts: [2],
-        version: "20250109",
+        version: COMPACT_BOARD_VERSION,
         dateAdded: "2025-01-18",
         // i18next.t("apgames:descriptions.storisende")
         description: "apgames:descriptions.storisende",
@@ -90,6 +102,7 @@ export class StorisendeGame extends GameBase {
     public static clone(obj: StorisendeGame): StorisendeGame {
         const cloned: StorisendeGame = Object.assign(new StorisendeGame(), cloneState(obj) as StorisendeGame);
         cloned.board = obj.board.clone();
+        cloned.clearBoardDecodeCache();
         return cloned;
     }
 
@@ -101,8 +114,13 @@ export class StorisendeGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     public variants: string[] = [];
-    public startpos!: string;
+    public startingPosition = "";
     private dots: string[] = [];
+    private _boardDecodeCache = new Map<number, StorisendeHex[]>();
+
+    private clearBoardDecodeCache(): void {
+        this._boardDecodeCache.clear();
+    }
 
     constructor(state?: IStorisendeState | string, variants?: string[]) {
         super();
@@ -120,48 +138,21 @@ export class StorisendeGame extends GameBase {
             this.variants = [...state.variants];
             this.winner = [...state.winner];
             this.stack = [...state.stack];
+            this.startingPosition = state.startingPosition ?? "";
+            const fromStack = modularStartingPositionFromLegacyStack(this.stack, this.variants);
+            if (fromStack !== undefined && this.startingPosition.length === 0) {
+                this.startingPosition = fromStack;
+            }
         } else {
             if ( (variants !== undefined) && (variants.length > 0) ) {
                 this.variants = [...variants];
             }
 
-            const ctrs: {q: number; r: number}[] = [];
-            if (this.variants.includes("board-hex4")) {
-                ctrs.push({q: 0, r: 0}, {q: 0, r: -2}, {q: 2, r: -2}, {q: 2, r: 0}, {q: 0, r: 2}, {q: -2, r: 2}, {q: -2, r: 0});
-            } else if (this.variants.includes("board-hex6")) {
-                ctrs.push(
-                    {q: 2, r: -4}, {q: 4, r: -4}, {q: 0, r: -4},
-                    {q: 1, r: -2}, {q: 4, r: -2}, {q: -2, r: -2},
-                    {q: 0, r: 0}, {q: 2, r: 0}, {q: 4, r: 0}, {q: -2, r: 0}, {q: -4, r: 0},
-                    {q: -1, r: 2}, {q: 2, r: 2}, {q: -4, r: 2},
-                    {q: -2, r: 4}, {q: 0, r: 4}, {q: -4, r: 4},
-                );
-            } else if (this.variants.includes("board-hex7")) {
-                ctrs.push(
-                    {q: 0, r: -5}, {q: 2, r: -5}, {q: 3, r: -5}, {q: 5, r: -5},
-                    {q: -2, r: -3}, {q: 5, r: -3},
-                    {q: 0, r: -2}, {q: -3, r: -2}, {q: 2, r: -2}, {q: 5, r: -2},
-                    {q: 0, r: 0}, {q: 2, r: 0}, {q: 5, r: 0}, {q: -2, r: 0}, {q: -5, r: 0},
-                    {q: 0, r: 2}, {q: 3, r: 2}, {q: -2, r: 2}, {q: -5, r: 2},
-                    {q: -5, r: 3}, {q: 2, r: 3},
-                    {q: 0, r: 5}, {q: -2, r: 5}, {q: -3, r: 5}, {q: -5, r: 5},
-                );
-            } else if (this.variants.includes("board-modular-13")) {
-                ctrs.push(...generateField(13));
-            } else if (this.variants.includes("board-modular-18")) {
-                ctrs.push(...generateField(18));
-            } else {
-                ctrs.push(
-                    {q: 3, r: -3}, {q: 0, r: -3}, {q: 1, r: -3},
-                    {q: 1, r: -2},
-                    {q: 2, r: -1}, {q: -1, r: -1},
-                    {q: -2, r: -1}, {q: 3, r: -1},
-                    {q: 0, r: 0}, {q: 3, r: 0}, {q: -3, r: 0},
-                    {q: -3, r: 1}, {q: 2, r: 1},
-                    {q: 1, r: 1}, {q: -2, r: 1},
-                    {q: -1, r: 2},
-                    {q: 0, r: 3}, {q: -3, r: 3}, {q: -1, r: 3},
-                );
+            const centres = storisendeBoardCentres(this.variants);
+            const seedBoard = new StorisendeBoard({centres});
+            const numModules = modularModuleCount(this.variants);
+            if (numModules !== undefined) {
+                this.startingPosition = formatModularStartingPosition(centres, numModules);
             }
 
             const fresh: IMoveState = {
@@ -169,14 +160,19 @@ export class StorisendeGame extends GameBase {
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
-                board: new StorisendeBoard({centres: ctrs}).serialize(),
+                board: encodeBoardWireForNewFrame(
+                    seedBoard,
+                    this.variants,
+                    [],
+                    this.startingPosition,
+                ),
             };
             this.stack = [fresh];
         }
         this.load();
     }
 
-    
+
     public load(idx = -1): StorisendeGame {
         if (idx < 0) {
             idx += this.stack.length;
@@ -191,55 +187,167 @@ export class StorisendeGame extends GameBase {
         }
         this.results = [...state._results];
         this.currplayer = state.currplayer;
-        this.board = StorisendeBoard.deserialize(state.board);
+        const compact = usesCompactWire(this.stack);
+        let hexes = this._boardDecodeCache.get(idx);
+        if (hexes === undefined) {
+            hexes = decodeBoardAtIndex(this.stack, idx, this.variants, compact, this.startingPosition);
+            this._boardDecodeCache.set(idx, hexes);
+        }
+        this.board = StorisendeBoard.deserialize(hexes);
         this.lastmove = state.lastmove;
-       return this;
+        return this;
+    }
+
+    public override undo(): StorisendeGame {
+        super.undo();
+        this.clearBoardDecodeCache();
+        return this.load();
+    }
+
+    protected override saveState(): void {
+        this.clearBoardDecodeCache();
+        super.saveState();
     }
 
     public moves(player?: playerid): string[] {
         if (this.gameover) { return []; }
-        if (player === undefined) {
-            player = this.currplayer;
-        }
+        const mover = player ?? this.currplayer;
 
-        // no move list for the first two moves of the game
         if (this.stack.length < 3) {
             return [];
         }
 
-        // In this case, just compile a naive list of moves
-        // and then run them all through the validator,
-        // only returning moves that pass.
-        // This avoids duplicating validation logic.
         const moves: string[] = ["pass"];
-        const g = this.board.graph;
-        const mine = this.board.hexes.filter(h => h.stack.includes(this.currplayer));
-        for (const hex of mine) {
-            for (let dist = 1; dist <= hex.stack.length; dist++) {
-                const from = this.board.hex2algebraic(hex);
-                for (const dir of g.allDirs) {
-                    let to: string|undefined;
-                    const ray = g.ray(from, dir);
-                    if (ray.length >= dist) {
-                        to = ray[dist-1];
-                    }
-                    if (to !== undefined) {
-                        // if moving entire stack, notation is simpler
-                        if (dist === hex.stack.length) {
-                            moves.push(`${from}-${to}`);
-                        }
-                        // otherwise do the subset
-                        else {
-                            moves.push(`${from}:${dist}-${to}`);
-                        }
-                    }
+        for (const hex of this.board.liveHexes()) {
+            if (!hex.stack.includes(mover)) {
+                continue;
+            }
+            moves.push(...this.enumerateFromCell(mover, this.board.hex2algebraic(hex)));
+        }
 
+        return moves.sort((a, b) => a.localeCompare(b));
+    }
+
+    /** Legal move notations from a single source cell (unsorted). */
+    private enumerateFromCell(mover: playerid, from: string): string[] {
+        const fhex = this.board.getHexAtAlgebraicLive(from);
+        if (fhex === undefined || fhex.stack.length === 0 || !fhex.stack.includes(mover)) {
+            return [];
+        }
+
+        const maxH = fhex.stack.length;
+        const fromWall = fhex.tile === "wall";
+        const graph = this.board.graph;
+        const out: string[] = [];
+
+        for (const dir of graph.allDirs) {
+            const ray = graph.ray(from, dir);
+            const limit = Math.min(ray.length, maxH);
+            for (let i = 0; i < limit; i++) {
+                const to = ray[i];
+                const thex = this.board.getHexAtAlgebraicLive(to);
+                if (thex === undefined) {
+                    continue;
+                }
+                if (!fromWall) {
+                    if (thex.tile === "wall") {
+                        continue;
+                    }
+                    let blocked = false;
+                    for (let j = 0; j < i; j++) {
+                        const inter = this.board.getHexAtAlgebraicLive(ray[j]);
+                        if (inter !== undefined && inter.tile === "wall" && !inter.stack.includes(mover)) {
+                            blocked = true;
+                            break;
+                        }
+                    }
+                    if (blocked) {
+                        continue;
+                    }
+                }
+                const dist = i + 1;
+                if (dist === maxH) {
+                    out.push(`${from}-${to}`);
+                } else {
+                    out.push(`${from}:${dist}-${to}`);
                 }
             }
         }
 
-        const valid = moves.filter(mv => this.validateMove(mv).valid);
-        return valid.sort((a, b) => a.localeCompare(b));
+        return out;
+    }
+
+    private dotDestinationsFrom(mover: playerid, from: string): string[] {
+        const dests = new Set<string>();
+        for (const mv of this.enumerateFromCell(mover, from)) {
+            const dest = mv.split("-")[1];
+            if (dest !== undefined) {
+                dests.add(dest);
+            }
+        }
+        return [...dests];
+    }
+
+    /**
+     * Regular-move legality for a complete from-to move. Undefined when legal.
+     * @internal Used by tests via cast for player-override contracts.
+     */
+    private regularMoveCheck(
+        mover: playerid,
+        from: string,
+        to: string,
+        height: number,
+    ): "nonexistent_from"|"uncontrolled"|"nonexistent_to"|"straight"|"distance"|"wall_climb"|"wall_jump"|undefined {
+        const fhex = this.board.getHexAtAlgebraicLive(from);
+        if (fhex === undefined || fhex.stack.length === 0) {
+            return "nonexistent_from";
+        }
+        if (!fhex.stack.includes(mover)) {
+            return "uncontrolled";
+        }
+        if (height > fhex.stack.length || height < 1) {
+            return "distance";
+        }
+
+        const thex = this.board.getHexAtAlgebraicLive(to);
+        if (thex === undefined) {
+            return "nonexistent_to";
+        }
+
+        const graph = this.board.graph;
+        let isStraight = false;
+        let distance: number|undefined;
+        let intervening: string[]|undefined;
+        for (const dir of graph.allDirs) {
+            const ray = graph.ray(from, dir);
+            const idx = ray.findIndex(c => c === to);
+            if (idx !== -1) {
+                isStraight = true;
+                distance = idx + 1;
+                intervening = ray.slice(0, idx);
+                break;
+            }
+        }
+        if (!isStraight) {
+            return "straight";
+        }
+        if (distance !== height) {
+            return "distance";
+        }
+
+        if (fhex.tile !== "wall") {
+            if (thex.tile === "wall") {
+                return "wall_climb";
+            }
+            for (const cell of intervening!) {
+                const hex = this.board.getHexAtAlgebraicLive(cell);
+                if (hex !== undefined && hex.tile === "wall" && !hex.stack.includes(mover)) {
+                    return "wall_jump";
+                }
+            }
+        }
+
+        return undefined;
     }
 
     public randomMove(): string {
@@ -282,7 +390,9 @@ export class StorisendeGame extends GameBase {
                     if (move === cell) {
                         newmove = "";
                     } else {
-                        const matches = this.moves().filter(m => m.startsWith(move) && m.endsWith(cell));
+                        const fromCell = move.split(":")[0];
+                        const matches = this.enumerateFromCell(this.currplayer, fromCell)
+                            .filter(m => m.startsWith(move) && m.endsWith(cell));
                         if (matches.length === 1) {
                             newmove = matches[0];
                         } else {
@@ -313,7 +423,6 @@ export class StorisendeGame extends GameBase {
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        const g = this.board.graph;
 
         // check for early-game scenarios first
         if (this.stack.length === 1) {
@@ -419,21 +528,17 @@ export class StorisendeGame extends GameBase {
             const [left, to] = m.split("-");
             const [from, heightStr] = left.split(":");
 
-            // validate from first
-            // hex must exist
             const fhex = this.board.getHexAtAlgebraic(from);
             if (fhex === undefined || fhex.stack.length === 0) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: from});
                 return result;
             }
-            // must be yours
             if (!fhex.stack.includes(this.currplayer)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
                 return result;
             }
-            // substack notation is correct (reject overcomplicated full-stack movement)
             let height = fhex.stack.length;
             if (left.includes(":")) {
                 const h = parseInt(heightStr, 10);
@@ -445,78 +550,55 @@ export class StorisendeGame extends GameBase {
                 height = h;
             }
 
-            // validate to if present
             if (to === undefined || to === "") {
                 result.valid = true;
                 result.complete = -1;
                 result.canrender = true;
                 result.message = i18next.t("apgames:validation._general.NEED_DESTINATION");
                 return result;
-            } else {
-                // hex must exist
-                const thex = this.board.getHexAtAlgebraic(to);
-                if (thex === undefined) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: to});
-                    return result;
-                }
-                let isStraight = false;
-                let distance: number|undefined;
-                let intervening: string[]|undefined;
-                for (const dir of g.allDirs) {
-                    const ray = g.ray(from, dir);
-                    const idx = ray.findIndex(c => c === to);
-                    if (idx !== -1) {
-                        isStraight = true;
-                        distance = idx+1;
-                        // so no source or destination, only the in between cells
-                        intervening = ray.slice(0, idx);
-                        break;
-                    }
-                }
-                // is straightline
-                if (!isStraight) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation.storisende.STRAIGHT_ONLY");
-                    return result;
-                } else {
-                    // distance is right
-                    if (distance! !== height) {
-                        result.valid = false;
-                        result.message = i18next.t("apgames:validation.storisende.BAD_DISTANCE");
-                        return result;
-                    }
-                }
-                // restrictions when moving from the ground
-                if (fhex.tile !== "wall") {
-                    // can't land on a wall
-                    if (thex.tile === "wall") {
-                        result.valid = false;
-                        result.message = i18next.t("apgames:validation.storisende.WALL_CLIMB");
-                        return result;
-                    }
-                    // can jump over wall tiles unless one of your pieces are there
-                    let blocked = false;
-                    for (const cell of intervening!) {
-                        const hex = this.board.getHexAtAlgebraic(cell);
-                        if (hex !== undefined && hex.tile === "wall" && !hex.stack.includes(this.currplayer)) {
-                            blocked = true;
-                            break;
-                        }
-                    }
-                    if (blocked) {
-                        result.valid = false;
-                        result.message = i18next.t("apgames:validation.storisende.WALL_JUMP");
-                        return result;
-                    }
-                }
+            }
 
-                // if we make it here, we're good!
-                result.valid = true;
-                result.complete = 1;
-                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            const fail = this.regularMoveCheck(this.currplayer, from, to, height);
+            if (fail === "nonexistent_from") {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: from});
                 return result;
             }
+            if (fail === "uncontrolled") {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
+                return result;
+            }
+            if (fail === "nonexistent_to") {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: to});
+                return result;
+            }
+            if (fail === "straight") {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.storisende.STRAIGHT_ONLY");
+                return result;
+            }
+            if (fail === "distance") {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.storisende.BAD_DISTANCE");
+                return result;
+            }
+            if (fail === "wall_climb") {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.storisende.WALL_CLIMB");
+                return result;
+            }
+            if (fail === "wall_jump") {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.storisende.WALL_JUMP");
+                return result;
+            }
+
+            result.valid = true;
+            result.complete = 1;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
         }
     }
 
@@ -527,7 +609,6 @@ export class StorisendeGame extends GameBase {
         // Normalize
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        const g = this.board.graph;
 
         if (! trusted) {
             const result = this.validateMove(m);
@@ -543,7 +624,7 @@ export class StorisendeGame extends GameBase {
         if (partial && this.stack.length >= 3) {
             const [left,] = m.split("-");
             const [from,] = left.split(":");
-            this.dots = this.moves().filter(mv => mv.startsWith(from)).map(mv => mv.split("-")[1]);
+            this.dots = this.dotDestinationsFrom(this.currplayer, from);
             return this;
         }
 
@@ -602,15 +683,7 @@ export class StorisendeGame extends GameBase {
                     }
                     if (fhex.tile === "virgin") {
                         const cell = this.board.hex2algebraic(fhex);
-                        const terr = this.board.territories;
-                        const terrNeighbours = new Set<string>();
-                        for (const n of g.neighbours(cell)) {
-                            const found = terr.find(t => t.includes(n));
-                            if (found !== undefined) {
-                                terrNeighbours.add(x2uid(found));
-                            }
-                        }
-                        if (terrNeighbours.size > 1) {
+                        if (this.board.countDistinctTerritoryComponentsAdjacent(cell) > 1) {
                             this.board.updateHexTile(fhex, "wall");
                             this.results.push({type: "convert", what: from, into: "wall"});
                         } else {
@@ -801,17 +874,21 @@ export class StorisendeGame extends GameBase {
             gameover: this.gameover,
             winner: [...this.winner],
             stack: [...this.stack],
+            ...(this.startingPosition.length > 0 ? {startingPosition: this.startingPosition} : {}),
         };
     }
 
     protected moveState(): IMoveState {
+        const board: BoardWire = usesCompactWire(this.stack)
+            ? encodeBoardWireForNewFrame(this.board, this.variants, this.stack, this.startingPosition)
+            : this.board.serialize();
         return {
             _version: StorisendeGame.gameinfo.version,
             _results: [...this.results],
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: this.board.serialize(),
+            board,
         };
     }
 
@@ -986,14 +1063,13 @@ export class StorisendeGame extends GameBase {
         return 0;
     }
 
-    // public getStartingPosition(): string {
-    //     if (this.stack.length > 1) {
-    //         const cells: string[][] = this.graph.listCells(true) as string[][];
-    //         const contents = cells.map(row => row.map(cell => this.board.get(cell)!));
-    //         return contents.map(row => row.join(",")).join("\n");
-    //     }
-    //     return "";
-    // }
+    public getStartingPosition(): string {
+        if (this.startingPosition.length > 0) {
+            return this.startingPosition;
+        }
+        const fromStack = modularStartingPositionFromLegacyStack(this.stack, this.variants);
+        return fromStack ?? "";
+    }
 
     public clone(): StorisendeGame {
         return new StorisendeGame(this.serialize());

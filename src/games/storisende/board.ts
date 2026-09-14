@@ -21,6 +21,8 @@ export class StorisendeBoard {
     private _axial2hex: Map<string, StorisendeHex> = new Map();
     private _offset2hex: Map<string, StorisendeHex> = new Map();
     private _algebraic2hex: Map<string, StorisendeHex> = new Map();
+    private _nationsCache: string[][] | undefined;
+    private _territoriesCache: string[][] | undefined;
 
     constructor(args?: BoardArgs) {
         // populate from given centre points if requested
@@ -108,6 +110,15 @@ export class StorisendeBoard {
         }
     }
 
+    /** Live hex for engine hot paths (do not mutate returned instance). */
+    public getHexAtAlgebraicLive(cell: string): StorisendeHex|undefined {
+        return this._algebraic2hex.get(cell);
+    }
+
+    public liveHexes(): IterableIterator<StorisendeHex> {
+        return this._axial2hex.values();
+    }
+
     public getHexAtAlgebraic(cell: string): StorisendeHex|undefined {
         const found = this._algebraic2hex.get(cell);
         if (found !== undefined) {
@@ -121,13 +132,19 @@ export class StorisendeBoard {
         // return this.getHexAtOffset(absCol, absRow);
     }
 
+    private invalidateTopologyCache(): void {
+        this._nationsCache = undefined;
+        this._territoriesCache = undefined;
+    }
+
     public updateHexStack(hex: StorisendeHex, newstack: playerid[]): StorisendeHex {
         const found = this._axial2hex.get(`${hex.q},${hex.r}`);
         if (found !== undefined) {
             found.stack = [...newstack];
             this._axial2hex.set(`${found.q},${found.r}`, found);
             this._offset2hex.set(`${found.col},${found.row}`, found);
-            this._algebraic2hex.set(this.hex2algebraic(found), found)
+            this._algebraic2hex.set(this.hex2algebraic(found), found);
+            this.invalidateTopologyCache();
             return found.dupe();
         }
         throw new Error("Could not find a matching hex.");
@@ -139,7 +156,8 @@ export class StorisendeBoard {
             found.tile = newtile;
             this._axial2hex.set(`${found.q},${found.r}`, found);
             this._offset2hex.set(`${found.col},${found.row}`, found);
-            this._algebraic2hex.set(this.hex2algebraic(found), found)
+            this._algebraic2hex.set(this.hex2algebraic(found), found);
+            this.invalidateTopologyCache();
             return found.dupe();
         }
         throw new Error("Could not find a matching hex.");
@@ -193,28 +211,79 @@ export class StorisendeBoard {
 
     // list of connected "territory" tiles
     public get territories(): string[][] {
+        if (this._territoriesCache !== undefined) {
+            return this._territoriesCache;
+        }
         const g = this.graph.graph.copy();
-        // drop everything that's not a territory
         for (const node of g.nodes()) {
             const hex = this.getHexAtAlgebraic(node);
             if (hex === undefined || hex.tile !== "territory") {
                 g.dropNode(node);
             }
         }
-        return connectedComponents(g);
+        this._territoriesCache = connectedComponents(g);
+        return this._territoriesCache;
+    }
+
+    /**
+     * Territory components touching `cell` (via neighbours that are territory tiles).
+     * Matches counting distinct global territory components adjacent to `cell`.
+     */
+    public countDistinctTerritoryComponentsAdjacent(cell: string): number {
+        const graph = this.graph;
+        const visited = new Set<string>();
+        const componentKeys = new Set<string>();
+
+        const floodComponentKey = (start: string): string => {
+            const stack = [start];
+            let minKey = start;
+            while (stack.length > 0) {
+                const c = stack.pop()!;
+                if (visited.has(c)) {
+                    continue;
+                }
+                visited.add(c);
+                if (c.localeCompare(minKey) < 0) {
+                    minKey = c;
+                }
+                for (const n of graph.neighbours(c)) {
+                    if (visited.has(n)) {
+                        continue;
+                    }
+                    const hex = this.getHexAtAlgebraicLive(n);
+                    if (hex !== undefined && hex.tile === "territory") {
+                        stack.push(n);
+                    }
+                }
+            }
+            return minKey;
+        };
+
+        for (const n of graph.neighbours(cell)) {
+            const hex = this.getHexAtAlgebraicLive(n);
+            if (hex === undefined || hex.tile !== "territory" || visited.has(n)) {
+                continue;
+            }
+            componentKeys.add(floodComponentKey(n));
+        }
+
+        return componentKeys.size;
     }
 
     // list of connected "territory" AND "virgin" tiles
     public get nations(): string[][] {
+        if (this._nationsCache !== undefined) {
+            return this._nationsCache;
+        }
         const g = this.graph.graph.copy();
-        // drop everything that's not a territory or virgin
         for (const node of g.nodes()) {
             const hex = this.getHexAtAlgebraic(node);
             if (hex === undefined || hex.tile === "wall") {
                 g.dropNode(node);
             }
         }
-        return connectedComponents(g);
+        this._nationsCache = connectedComponents(g);
+        return this._nationsCache;
     }
 
     public clone(): StorisendeBoard {

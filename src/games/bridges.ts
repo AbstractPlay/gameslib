@@ -383,7 +383,6 @@ export class BridgesGame extends GameBase {
                 const bridgeOptions = this.bridgeCompletions(m, legalMoves);
                 if (bridgeOptions.length === 1) {
                     result.valid = true;
-                    result.complete = -1;
                     result.autocomplete = bridgeOptions[0];
                     return result;
                 }
@@ -412,7 +411,6 @@ export class BridgesGame extends GameBase {
             const matches = legalMoves.filter(mv => mv.startsWith(m));
             if (matches.length === 1 && matches[0] !== m) {
                 result.valid = true;
-                result.complete = -1;
                 result.autocomplete = matches[0];
                 return result;
             }
@@ -427,8 +425,8 @@ export class BridgesGame extends GameBase {
         }
 
         result.valid = true;
-        result.complete = (this.stack.length === 1 || m === "pass" || m.includes(",")) ? 1 : -1;
-        if (result.complete === -1) {
+        result.complete = (this.stack.length === 1 || m === "pass" || m.includes(",")) ? 1 : 0;
+        if (result.complete === 0) {
             result.message = i18next.t("apgames:validation.bridges.ONE_MORE");
         } else {
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");

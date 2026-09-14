@@ -1,0 +1,1780 @@
+{
+  "game": "storisende",
+  "numplayers": 2,
+  "variants": [
+    "board-hex6"
+  ],
+  "gameover": false,
+  "winner": [],
+  "stack": [
+    {
+      "_version": "20250109",
+      "_results": [],
+      "_timestamp": "2025-08-06T09:53:00.204Z",
+      "currplayer": 1,
+      "board": [
+        {
+          "q": 2,
+          "r": -4,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 3,
+          "r": -5,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 3,
+          "r": -4,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 2,
+          "r": -3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 1,
+          "r": -3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 1,
+          "r": -4,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 2,
+          "r": -5,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 4,
+          "r": -4,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 5,
+          "r": -5,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 5,
+          "r": -4,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 4,
+          "r": -3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 3,
+          "r": -3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 4,
+          "r": -5,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": -4,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 1,
+          "r": -5,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": -3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -1,
+          "r": -3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -1,
+          "r": -4,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": -5,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 1,
+          "r": -2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 2,
+          "r": -2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": -2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 4,
+          "r": -2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 5,
+          "r": -3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 5,
+          "r": -2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 4,
+          "r": -1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 3,
+          "r": -1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 3,
+          "r": -2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -2,
+          "r": -2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -1,
+          "r": -2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -2,
+          "r": -1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -3,
+          "r": -1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -3,
+          "r": -2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -2,
+          "r": -3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": 0,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 2,
+          "r": 0,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 3,
+          "r": 0,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 2,
+          "r": 1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 1,
+          "r": 1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 2,
+          "r": -1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 4,
+          "r": 0,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 5,
+          "r": -1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 5,
+          "r": 0,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 4,
+          "r": 1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 3,
+          "r": 1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -2,
+          "r": 0,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -1,
+          "r": -1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -2,
+          "r": 1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -3,
+          "r": 1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -3,
+          "r": 0,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -4,
+          "r": 0,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -4,
+          "r": 1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -5,
+          "r": 1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -5,
+          "r": 0,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -4,
+          "r": -1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -1,
+          "r": 2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": 2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -1,
+          "r": 3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -2,
+          "r": 3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -2,
+          "r": 2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 2,
+          "r": 2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 3,
+          "r": 2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 2,
+          "r": 3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 1,
+          "r": 3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 1,
+          "r": 2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -4,
+          "r": 2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -3,
+          "r": 2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -4,
+          "r": 3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -5,
+          "r": 3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -5,
+          "r": 2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -2,
+          "r": 4,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -1,
+          "r": 4,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -2,
+          "r": 5,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -3,
+          "r": 5,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -3,
+          "r": 4,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": 4,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 1,
+          "r": 4,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": 5,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -1,
+          "r": 5,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": 3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -4,
+          "r": 4,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -3,
+          "r": 3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -4,
+          "r": 5,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -5,
+          "r": 5,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -5,
+          "r": 4,
+          "tile": "virgin",
+          "stack": []
+        }
+      ]
+    },
+    {
+      "_version": "20250109",
+      "_results": [
+        {
+          "type": "place",
+          "where": "g5"
+        },
+        {
+          "type": "place",
+          "where": "g5"
+        },
+        {
+          "type": "place",
+          "where": "c8"
+        },
+        {
+          "type": "place",
+          "where": "c8"
+        }
+      ],
+      "_timestamp": "2025-08-06T14:53:10.701Z",
+      "currplayer": 2,
+      "lastmove": "g5,g5,c8,c8",
+      "board": [
+        {
+          "q": 2,
+          "r": -4,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 3,
+          "r": -5,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 3,
+          "r": -4,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 2,
+          "r": -3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 1,
+          "r": -3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 1,
+          "r": -4,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 2,
+          "r": -5,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 4,
+          "r": -4,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 5,
+          "r": -5,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 5,
+          "r": -4,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 4,
+          "r": -3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 3,
+          "r": -3,
+          "tile": "virgin",
+          "stack": [
+            1,
+            1
+          ]
+        },
+        {
+          "q": 4,
+          "r": -5,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": -4,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 1,
+          "r": -5,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": -3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -1,
+          "r": -3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -1,
+          "r": -4,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": -5,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 1,
+          "r": -2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 2,
+          "r": -2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": -2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 4,
+          "r": -2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 5,
+          "r": -3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 5,
+          "r": -2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 4,
+          "r": -1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 3,
+          "r": -1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 3,
+          "r": -2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -2,
+          "r": -2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -1,
+          "r": -2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -2,
+          "r": -1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -3,
+          "r": -1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -3,
+          "r": -2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -2,
+          "r": -3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": 0,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 2,
+          "r": 0,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 3,
+          "r": 0,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 2,
+          "r": 1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 1,
+          "r": 1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 2,
+          "r": -1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 4,
+          "r": 0,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 5,
+          "r": -1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 5,
+          "r": 0,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 4,
+          "r": 1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 3,
+          "r": 1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -2,
+          "r": 0,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -1,
+          "r": -1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -2,
+          "r": 1,
+          "tile": "virgin",
+          "stack": [
+            1,
+            1
+          ]
+        },
+        {
+          "q": -3,
+          "r": 1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -3,
+          "r": 0,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -4,
+          "r": 0,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -4,
+          "r": 1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -5,
+          "r": 1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -5,
+          "r": 0,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -4,
+          "r": -1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -1,
+          "r": 2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": 2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -1,
+          "r": 3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -2,
+          "r": 3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -2,
+          "r": 2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 2,
+          "r": 2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 3,
+          "r": 2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 2,
+          "r": 3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 1,
+          "r": 3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 1,
+          "r": 2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -4,
+          "r": 2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -3,
+          "r": 2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -4,
+          "r": 3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -5,
+          "r": 3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -5,
+          "r": 2,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -2,
+          "r": 4,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -1,
+          "r": 4,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -2,
+          "r": 5,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -3,
+          "r": 5,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -3,
+          "r": 4,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": 4,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 1,
+          "r": 4,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": 5,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -1,
+          "r": 5,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": 3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -4,
+          "r": 4,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -3,
+          "r": 3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -4,
+          "r": 5,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -5,
+          "r": 5,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -5,
+          "r": 4,
+          "tile": "virgin",
+          "stack": []
+        }
+      ]
+    },
+    {
+      "_version": "20250109",
+      "_results": [
+        {
+          "type": "move",
+          "from": "b3",
+          "to": "c4",
+          "count": 1
+        }
+      ],
+      "_timestamp": "2025-08-16T14:50:00.497Z",
+      "currplayer": 1,
+      "lastmove": "b3-c4",
+      "board": [
+        {
+          "q": 2,
+          "r": -4,
+          "tile": "wall",
+          "stack": []
+        },
+        {
+          "q": 3,
+          "r": -5,
+          "tile": "territory",
+          "stack": [
+            2,
+            2
+          ]
+        },
+        {
+          "q": 3,
+          "r": -4,
+          "tile": "wall",
+          "stack": [
+            2
+          ]
+        },
+        {
+          "q": 2,
+          "r": -3,
+          "tile": "wall",
+          "stack": [
+            2
+          ]
+        },
+        {
+          "q": 1,
+          "r": -3,
+          "tile": "wall",
+          "stack": []
+        },
+        {
+          "q": 1,
+          "r": -4,
+          "tile": "territory",
+          "stack": [
+            2
+          ]
+        },
+        {
+          "q": 2,
+          "r": -5,
+          "tile": "wall",
+          "stack": []
+        },
+        {
+          "q": 4,
+          "r": -4,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 5,
+          "r": -5,
+          "tile": "territory",
+          "stack": [
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "q": 5,
+          "r": -4,
+          "tile": "wall",
+          "stack": [
+            1
+          ]
+        },
+        {
+          "q": 4,
+          "r": -3,
+          "tile": "wall",
+          "stack": [
+            1
+          ]
+        },
+        {
+          "q": 3,
+          "r": -3,
+          "tile": "territory",
+          "stack": []
+        },
+        {
+          "q": 4,
+          "r": -5,
+          "tile": "wall",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": -4,
+          "tile": "territory",
+          "stack": []
+        },
+        {
+          "q": 1,
+          "r": -5,
+          "tile": "territory",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": -3,
+          "tile": "wall",
+          "stack": [
+            2,
+            2
+          ]
+        },
+        {
+          "q": -1,
+          "r": -3,
+          "tile": "wall",
+          "stack": [
+            2
+          ]
+        },
+        {
+          "q": -1,
+          "r": -4,
+          "tile": "wall",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": -5,
+          "tile": "territory",
+          "stack": []
+        },
+        {
+          "q": 1,
+          "r": -2,
+          "tile": "territory",
+          "stack": [
+            2,
+            2
+          ]
+        },
+        {
+          "q": 2,
+          "r": -2,
+          "tile": "wall",
+          "stack": []
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "tile": "wall",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "tile": "territory",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": -2,
+          "tile": "wall",
+          "stack": []
+        },
+        {
+          "q": 4,
+          "r": -2,
+          "tile": "wall",
+          "stack": [
+            1
+          ]
+        },
+        {
+          "q": 5,
+          "r": -3,
+          "tile": "territory",
+          "stack": []
+        },
+        {
+          "q": 5,
+          "r": -2,
+          "tile": "wall",
+          "stack": [
+            1
+          ]
+        },
+        {
+          "q": 4,
+          "r": -1,
+          "tile": "wall",
+          "stack": [
+            1
+          ]
+        },
+        {
+          "q": 3,
+          "r": -1,
+          "tile": "territory",
+          "stack": []
+        },
+        {
+          "q": 3,
+          "r": -2,
+          "tile": "wall",
+          "stack": []
+        },
+        {
+          "q": -2,
+          "r": -2,
+          "tile": "wall",
+          "stack": []
+        },
+        {
+          "q": -1,
+          "r": -2,
+          "tile": "territory",
+          "stack": []
+        },
+        {
+          "q": -2,
+          "r": -1,
+          "tile": "territory",
+          "stack": []
+        },
+        {
+          "q": -3,
+          "r": -1,
+          "tile": "wall",
+          "stack": []
+        },
+        {
+          "q": -3,
+          "r": -2,
+          "tile": "virgin",
+          "stack": [
+            1
+          ]
+        },
+        {
+          "q": -2,
+          "r": -3,
+          "tile": "territory",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": 0,
+          "tile": "wall",
+          "stack": [
+            2,
+            2
+          ]
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "tile": "territory",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "tile": "wall",
+          "stack": []
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "tile": "wall",
+          "stack": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "tile": "wall",
+          "stack": [
+            2
+          ]
+        },
+        {
+          "q": 2,
+          "r": 0,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 3,
+          "r": 0,
+          "tile": "wall",
+          "stack": [
+            1
+          ]
+        },
+        {
+          "q": 2,
+          "r": 1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 1,
+          "r": 1,
+          "tile": "wall",
+          "stack": []
+        },
+        {
+          "q": 2,
+          "r": -1,
+          "tile": "wall",
+          "stack": [
+            1
+          ]
+        },
+        {
+          "q": 4,
+          "r": 0,
+          "tile": "wall",
+          "stack": [
+            1
+          ]
+        },
+        {
+          "q": 5,
+          "r": -1,
+          "tile": "territory",
+          "stack": []
+        },
+        {
+          "q": 5,
+          "r": 0,
+          "tile": "territory",
+          "stack": []
+        },
+        {
+          "q": 4,
+          "r": 1,
+          "tile": "wall",
+          "stack": [
+            1
+          ]
+        },
+        {
+          "q": 3,
+          "r": 1,
+          "tile": "territory",
+          "stack": []
+        },
+        {
+          "q": -2,
+          "r": 0,
+          "tile": "wall",
+          "stack": []
+        },
+        {
+          "q": -1,
+          "r": -1,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -2,
+          "r": 1,
+          "tile": "territory",
+          "stack": []
+        },
+        {
+          "q": -3,
+          "r": 1,
+          "tile": "wall",
+          "stack": []
+        },
+        {
+          "q": -3,
+          "r": 0,
+          "tile": "wall",
+          "stack": []
+        },
+        {
+          "q": -4,
+          "r": 0,
+          "tile": "wall",
+          "stack": []
+        },
+        {
+          "q": -4,
+          "r": 1,
+          "tile": "territory",
+          "stack": []
+        },
+        {
+          "q": -5,
+          "r": 1,
+          "tile": "territory",
+          "stack": [
+            1,
+            1
+          ]
+        },
+        {
+          "q": -5,
+          "r": 0,
+          "tile": "wall",
+          "stack": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "q": -4,
+          "r": -1,
+          "tile": "territory",
+          "stack": [
+            1
+          ]
+        },
+        {
+          "q": -1,
+          "r": 2,
+          "tile": "territory",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": 2,
+          "tile": "wall",
+          "stack": []
+        },
+        {
+          "q": -1,
+          "r": 3,
+          "tile": "wall",
+          "stack": []
+        },
+        {
+          "q": -2,
+          "r": 3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -2,
+          "r": 2,
+          "tile": "wall",
+          "stack": [
+            1
+          ]
+        },
+        {
+          "q": 2,
+          "r": 2,
+          "tile": "virgin",
+          "stack": [
+            2,
+            2
+          ]
+        },
+        {
+          "q": 3,
+          "r": 2,
+          "tile": "territory",
+          "stack": []
+        },
+        {
+          "q": 2,
+          "r": 3,
+          "tile": "wall",
+          "stack": []
+        },
+        {
+          "q": 1,
+          "r": 3,
+          "tile": "wall",
+          "stack": [
+            2
+          ]
+        },
+        {
+          "q": 1,
+          "r": 2,
+          "tile": "territory",
+          "stack": [
+            2,
+            2
+          ]
+        },
+        {
+          "q": -4,
+          "r": 2,
+          "tile": "wall",
+          "stack": []
+        },
+        {
+          "q": -3,
+          "r": 2,
+          "tile": "wall",
+          "stack": []
+        },
+        {
+          "q": -4,
+          "r": 3,
+          "tile": "territory",
+          "stack": []
+        },
+        {
+          "q": -5,
+          "r": 3,
+          "tile": "wall",
+          "stack": []
+        },
+        {
+          "q": -5,
+          "r": 2,
+          "tile": "territory",
+          "stack": [
+            1
+          ]
+        },
+        {
+          "q": -2,
+          "r": 4,
+          "tile": "wall",
+          "stack": []
+        },
+        {
+          "q": -1,
+          "r": 4,
+          "tile": "territory",
+          "stack": []
+        },
+        {
+          "q": -2,
+          "r": 5,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -3,
+          "r": 5,
+          "tile": "territory",
+          "stack": []
+        },
+        {
+          "q": -3,
+          "r": 4,
+          "tile": "territory",
+          "stack": [
+            2
+          ]
+        },
+        {
+          "q": 0,
+          "r": 4,
+          "tile": "wall",
+          "stack": [
+            2
+          ]
+        },
+        {
+          "q": 1,
+          "r": 4,
+          "tile": "territory",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": 5,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -1,
+          "r": 5,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": 0,
+          "r": 3,
+          "tile": "wall",
+          "stack": []
+        },
+        {
+          "q": -4,
+          "r": 4,
+          "tile": "wall",
+          "stack": [
+            1,
+            1
+          ]
+        },
+        {
+          "q": -3,
+          "r": 3,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -4,
+          "r": 5,
+          "tile": "virgin",
+          "stack": []
+        },
+        {
+          "q": -5,
+          "r": 5,
+          "tile": "territory",
+          "stack": []
+        },
+        {
+          "q": -5,
+          "r": 4,
+          "tile": "wall",
+          "stack": []
+        }
+      ]
+    }
+  ]
+}

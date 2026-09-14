@@ -60,6 +60,7 @@ export class AsliGame extends GameBase {
             {uid: "board-15", group: "board"},
             {uid: "board-17", group: "board"},
             {uid: "board-19", group: "board"},
+            {uid: "board-23", group: "board"},
             {uid: "board-27", group: "board"},
             {uid: "woven", group: "rules"},
             {uid: "setkomi", group: "komi"},

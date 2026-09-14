@@ -132,7 +132,7 @@
     "intermedium": "Semina cataste per racchiudere e catturare. Vinci catturando la città dell'avversario.",
     "invector": "Elimina l'esercito avversario avvicinandoti al centro del tabellone.",
     "iqishiqi": "Iqishiqi (pronunciato EE-chee-shee-chee) è un gioco di strategia astratto giocato su una plancia esagonale composta da caselle esagonali. I giocatori possiedono bordi designati della plancia e, attraverso un posizionamento astuto delle pietre, spingono una pietra neutrale sul tabellone. Un giocatore vince se sposta la pietra neutrale su uno dei suoi bordi o se lascia l'avversario senza mosse disponibili.",
-    "irensei": "Irensei è una fusione tra Go e Gomoku. Allinea sette pietre in fila nella regione centrale 15x15 del tabellone da Go per vincere. Per ridurre il vantaggio del primo giocatore, quest'ultimo perde se crea una sovrallinea (anche se si estende oltre la regione 15x15), ma il secondo giocatore può vincere creando una sovrallinea.",
+    "irensei": "L'Irensei (in giapponese: 囲連星) è un incrocio tra Go e Gomoku. Allinea sette pedine di fila all'interno della regione centrale 15x15 della scacchiera da Go per vincere. Per ridurre il vantaggio del primo giocatore, quest'ultimo perde se crea una sovrallinea (anche se si estende oltre la regione 15x15), mentre il secondo giocatore può vincere tramite sovrallinea.",
     "jacynth": "Un gioco di carte Decktet in cui gli avversari lottano per il controllo della città di Jacynth. Posiziona le carte, esercita la tua influenza e controlla la maggior parte dell'area per vincere.",
     "kachit": "Un gioco simile agli scacchi giocato su una plancia 4x4 in cui cerchi di eliminare il re avversario o di promuovere il tuo. I pezzi possono cambiare orientamento dopo essersi mossi.",
     "knightline": "Un gioco di connessione quattro-in-fila giocato dividendo una pila di cavalli su una griglia illimitata.",
@@ -156,7 +156,7 @@
     "mimic": "Un gioco in cui i pezzi nemici imitano le tue mosse mentre fai a gara per essere il primo giocatore a raggiungere l'ultima riga.",
     "minefield": "Collega i lati opposti del tabellone, ma alcune configurazioni di pezzi sono proibite.",
     "minimize": "Il giocatore con il gruppo più piccolo più grande vince la partita.",
-    "mirador": "Mirador è un gioco di connessione veloce ed esaltante giocato su una griglia quadrata 27 x 27 posizionando quadrati 2 x 2 per rappresentare torri di guardia. Utilizza connessioni in linea di vista ed obiettivi equivalenti (rendendolo più una corsa che un puro gioco di connessione).",
+    "mirador": "Mirador è un gioco di connessione rapido ed entusiasmante giocato su una griglia quadrata (28 x 28 come impostazione predefinita) piazzando quadrati 2 x 2 per rappresentare torri di guardia. Utilizza connessioni in linea di vista e obiettivi equivalenti (rendendolo più una corsa che un puro gioco di connessione).",
     "mixtour": "Due giocatori creano torri con l'obiettivo di formarne una alta almeno cinque elementi con il proprio colore in cima. Il risvolto qui è duplice: (1) puoi muovere i pezzi dell'avversario e (2) il raggio di movimento è determinato dall'altezza della pila di *destinazione* e non dall'altezza della pila che si muove.",
     "monkey": "Inizi con una singola regina, composta da una pila di dame. Quando fai mosse senza cattura, la regina lascia indietro un singolo pezzo. Le regine e i pezzi singoli si muovono e catturano come le donne negli scacchi. Per vincere, cattura la regina avversaria o lasciala senza mosse legali.",
     "morphos": "Gioco di connessione su griglia quadrata solo ortogonale. Nel tuo turno, posiziona una pietra alleata o ribalta una pietra nemica in uno dei tre schemi predeterminati. Vinci collegando i due lati opposti del tabellone con una catena di pietre del tuo colore.",
@@ -617,6 +617,7 @@
     "konane": "Esistono diversi protocolli di apertura in concorrenza tra loro, ma il regolamento più comune è il regolamento Naihe, utilizzato nei tornei presso il Bishop Museum alle Hawaii e descritto nel riferimento su BGG. Questo è ciò che è implementato qui.",
     "knightline": "Per comodità, la tua pila viene divisa approssimativamente a metà al tuo primo clic. I clic successivi sulla pila di origine o di destinazione muovono un pezzo alla volta. Al termine, fai clic su una casella vuota o usa il pulsante Completa Mossa.\n\nIl sistema di coordinate è adattato dal sistema di coordinate dello sviluppatore per Hive, un gioco su un tabellone esagonale illimitato (ma comunque di dimensioni ragionevoli). L'asse y è etichettato con coordinate cartesiane (interi positivi e negativi). L'asse x è etichettato con lettere in ordine alfabetico, con l'origine in (m, 0). Se il movimento sull'asse x supera i confini dell'alfabeto in una delle due direzioni, le lettere vengono precedute da un'altra lettera (z è seguita da aa, ab, ac, ecc., e a è preceduta da zz, zy, zx, ecc.). Non si prevede che il gioco raggiunga una larghezza tale da richiedere ulteriori doppie coordinate, ma per la cronaca, az è seguita da ba, za è preceduta da yz e così via. Il tabellone non può raggiungere dimensioni tali da generare ambiguità.",
     "lasca": "La manovrabilità è una misura di quanto i tuoi pezzi siano vicini alla promozione. La tua manovrabilità massima è pari alla dimensione del tabellone moltiplicata per il numero di pile che controlli.\n\nIl materiale viene calcolato assegnandoti un punto per ogni pezzo amico in una pila che controlli, più un punto extra se hai un ufficiale in cima a quella pila.",
+    "lielow": "\"Mosse fino al suicidio\" calcola per ciascun giocatore quante mosse ciascuna delle sue pile potrebbe ancora compiere — crescendo di uno a ogni mossa e scegliendo sempre la direzione che sopravvive più a lungo — prima di essere costretta a uscire dal tabellone. Ignora ogni altra pila sul tabellone, amica o nemica, quindi è una misura approssimativa di quanto siano esposte le pedine di un giocatore, non un conteggio delle mosse legali effettivamente rimaste.",
     "linage": "Linage è un gioco del 2016 progettato da Luis Bolaños Mures. Il gioco si basa sulle seguenti definizioni: una **regione** è un insieme massimale di punti vuoti ortogonalmente contigui. Una **linea** è un insieme di N punti vuoti ortogonalmente contigui sulla stessa riga o colonna (il valore predefinito è N=3); e una regione è di **proprietà** di Verticale se non contiene linee orizzontali, e di Orizzontale se non contiene linee verticali. Una regione è libera se non appartiene a nessuno dei due giocatori. Le regioni devono sempre contenere almeno una linea.\n\nNel proprio turno, il giocatore passa o posiziona una pedina in una regione libera. La partita termina quando entrambi i giocatori passano consecutivamente, e vince chi ha il punteggio più alto (ovvero il numero di punti nelle regioni possedute dal giocatore, più il komi).",
     "loa": "Al centro del tabellone 9x9 c'è un \"buco nero\". Atterrare sul buco nero comporta la rimozione del pezzo dal gioco. Le connessioni simultanee sono considerate una patta.",
     "magnate": "La terminologia di alcune azioni di Magnate è stata modificata per chiarezza e brevità. Lo sviluppo completo di una nuova proprietà è chiamato azione \"Acquista\" (Buy); l'acquisto del titolo di proprietà per una nuova proprietà è chiamato \"Atto\" (Deed); lo sviluppo dei titoli (ovvero l'aggiunta di segnalini a una proprietà con atto, indipendentemente dal fatto che renda l'atto completamente sviluppato o meno) è chiamato \"Aggiungi\" (Add). (La vendita di una carta e lo scambio di 3 a 1 dei segnalini seme rimangono invariati.)\n\nPer velocizzare il processo di lancio dei dadi per le risorse, ci sono due azioni aggiuntive:\n* \"Preferisci\" serve a impostare la preferenza su quale segnalino seme prendere quando un atto paga sul lancio dell'avversario. Se non imposti una preferenza esplicita, il codice sceglierà per te il segnalino più raro in base ai tuoi semi non-corona e alla tua riserva attuale di segnalini. Il segnalino attualmente preferito è cerchiato nell'interfaccia, ma la tua preferenza personale non è mai visibile all'altro giocatore.\n* \"Scegli\" è un'azione iniziale obbligatoria per raccogliere i segnalini seme quando un atto paga sul tuo stesso lancio. (In tutti i casi in cui devi scegliere un segnalino seme non ancora presente tra i tuoi segnalini, fai comunque clic sulla pila di segnalini appropriata.)\n\nPoiché puoi eseguire diverse azioni durante una semimossa in qualsiasi ordine, c'è anche un'azione \"Annulla\" per annullare l'azione più recente, indipendentemente dal fatto che fosse completa o meno.\n\nNota che viene visualizzato solo il risultato finale del dado risorsa, ma la distribuzione dei risultati attesi è comunque quella di un lancio di 2d10 prendendo il valore più alto. La tassazione avviene quando il valore più basso di 2d10 è 1; viene lanciato un dado seme (o due, nella variante a doppia tassazione) e i semi verranno mostrati sotto il risultato della risorsa. Il lancio viene registrato alla fine del turno di un giocatore ed è attribuito al giocatore successivo (che avrebbe lanciato il dado nel gioco fisico). A eccezione di \"Scegli\", non è richiesta alcuna azione dell'utente; le risorse vengono aggiunte o rimosse automaticamente dal server tra un turno e l'altro.\n\nQuando un giocatore è in vantaggio in un distretto, la Pedina o la Scusa per quel distretto è contornata con il colore di quel giocatore. Il primo punteggio di spareggio (valore totale della proprietà) è mostrato tra parentesi dopo il punteggio del distretto. Il secondo criterio di spareggio è il numero totale di segnalini rimanenti.",
@@ -968,6 +969,9 @@
       "board-19": {
         "name": "Tavoliere 19x19"
       },
+      "board-23": {
+        "name": "Plancia 23x23"
+      },
       "board-27": {
         "name": "Tavoliere 27x27"
       },
@@ -1272,6 +1276,7 @@
     },
     "calculus": {
       "#board": {
+        "name": "Scacchiera predefinita",
         "description": "Circa 12 pezzi di larghezza"
       },
       "width-10": {
@@ -1675,9 +1680,28 @@
       }
     },
     "crosshairs": {
+      "#clouds": {
+        "name": "16 nuvole"
+      },
+      "clouds-22": {
+        "name": "22 nuvole",
+        "description": "Posiziona 22 nuvole invece di 16. Con il limite di dimensione predefinito per i banchi di nuvole, potrebbe non essere sempre possibile raggiungere il numero totale."
+      },
+      "clouds-28": {
+        "name": "28 nuvole",
+        "description": "Posiziona 28 nuvole invece di 16. Con il limite di dimensione predefinito per i banchi di nuvole, potrebbe non essere sempre possibile raggiungere il numero totale."
+      },
       "random-start": {
-        "name": "Nuvole casuali",
-        "description": "Non c'è alcuna fase di posizionamento delle nuvole. Vengono posizionate casualmente dal sistema."
+        "name": "Nuvole casuali simmetriche",
+        "description": "Non c'è alcuna fase di posizionamento delle nuvole. Il sistema posiziona le nuvole in modo casuale con una simmetria rotazionale di 180 gradi."
+      },
+      "asymmetric-random-start": {
+        "name": "Nuvole casuali asimmetriche",
+        "description": "Non c'è alcuna fase di posizionamento delle nuvole. Il sistema posiziona le nuvole in modo casuale senza richiedere simmetria."
+      },
+      "unbounded-cloud-banks": {
+        "name": "Banchi di nuvole illimitati",
+        "description": "I banchi di nuvole possono contenere qualsiasi numero di nuvole."
       }
     },
     "crossway": {
@@ -2593,6 +2617,14 @@
       },
       "size-8": {
         "name": "Tabellone esagonale (base 8)"
+      }
+    },
+    "mirador": {
+      "#board": {
+        "name": "Plancia 28x28"
+      },
+      "size-40": {
+        "name": "Plancia 40x40"
       }
     },
     "mixtour": {
@@ -4843,6 +4875,9 @@
       "STEPS": "Manovrabilità",
       "MATERIAL": "Materiale"
     },
+    "lielow": {
+      "MOVESUNTILSUICIDE": "Mosse fino al suicidio"
+    },
     "majorities": "Punteggi (─, ⟋, ⟍)",
     "meg": {
       "OFFENSE": "Giocatore in attacco",
@@ -5736,8 +5771,10 @@
     },
     "crosshairs": {
       "PLACE_CLOUD": "Fai clic su una cella vuota per posizionare una nuvola. Le nuvole non possono essere più grandi di 2 esagoni.",
+      "PLACE_CLOUD_UNBOUNDED": "Fai clic su una casella vuota per posizionare una nuvola.",
       "CLOUD_OCCUPIED": "C'è già una nuvola su {{cell}}.",
       "CLOUD_TOO_BIG": "Non puoi posizionare una nuvola su {{cell}}. Sono consentite solo nuvole di dimensione 2. Questa nuvola sarebbe troppo grande.",
+      "MUST_PASS_BEFORE_ENTRY": "Devi passare affinché il giocatore 1 faccia entrare il primo aereo.",
       "INITIAL_INSTRUCTIONS_one": "Seleziona un aereo da muovere, o fai entrare un nuovo aereo dal tuo bordo iniziale. Devi muovere/far entrare {{count}} aereo in questo turno.",
       "INITIAL_INSTRUCTIONS_other": "Seleziona un aereo da muovere, o fai entrare un nuovo aereo dal tuo bordo iniziale. Devi muovere/far entrare {{count}} aerei in questo turno.",
       "INITIAL_INSTRUCTIONS_NO_ENTRY_one": "Seleziona un aereo da muovere. Devi muovere {{count}} aereo in questo turno. Fai clic sugli aerei nemici se ritieni che possano essere abbattuti.",

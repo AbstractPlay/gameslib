@@ -640,8 +640,8 @@
     "out": "Il giocatore con il gruppo più piccolo più grande vince la partita."
   },
   "descriptions.mirador": {
-    "src": "Mirador is a fast and exhilarating connection game played on a 27 x 27 square grid by placing 2 x 2 squares to represent watchtowers. It uses line-of-sight connections and equivalent goals (making it more of a race than a pure connection game).",
-    "out": "Mirador è un gioco di connessione veloce ed esaltante giocato su una griglia quadrata 27 x 27 posizionando quadrati 2 x 2 per rappresentare torri di guardia. Utilizza connessioni in linea di vista ed obiettivi equivalenti (rendendolo più una corsa che un puro gioco di connessione)."
+    "src": "Mirador is a fast and exhilarating connection game played on a square grid (28 x 28 by default) by placing 2 x 2 squares to represent watchtowers. It uses line-of-sight connections and equivalent goals (making it more of a race than a pure connection game).",
+    "out": "Mirador è un gioco di connessione rapido ed entusiasmante giocato su una griglia quadrata (28 x 28 come impostazione predefinita) piazzando quadrati 2 x 2 per rappresentare torri di guardia. Utilizza connessioni in linea di vista e obiettivi equivalenti (rendendolo più una corsa che un puro gioco di connessione)."
   },
   "descriptions.mixtour": {
     "src": "Two players create towers with the goal of creating a tower at least five high with your colour at the top. The twist here is two-fold: (1) you can move opponent's pieces and (2) movement range is determined by the *target* stack height and not the moving stack height.",
@@ -3331,6 +3331,10 @@
     "src": "Maneuverability is a measure of how close your pieces are to promoting. Your maximum maneuverability is the board size times the number of stacks you control.\n\nMaterial is calculated by giving you a point for every friendly piece in a stack you control, plus an extra point if you have an officer on top of that stack.",
     "out": "La manovrabilità è una misura di quanto i tuoi pezzi siano vicini alla promozione. La tua manovrabilità massima è pari alla dimensione del tabellone moltiplicata per il numero di pile che controlli.\n\nIl materiale viene calcolato assegnandoti un punto per ogni pezzo amico in una pila che controlli, più un punto extra se hai un ufficiale in cima a quella pila."
   },
+  "notes.lielow": {
+    "src": "\"Moves until suicide\" totals for each player how many moves each of their stacks could still make — growing by one each move and always choosing the direction that survives longest — before being forced to bear off. It ignores every other stack on the board, friendly or enemy, so it's a rough measure of how exposed a player's pieces are, not a count of actual legal moves remaining.",
+    "out": "\"Mosse fino al suicidio\" calcola per ciascun giocatore quante mosse ciascuna delle sue pile potrebbe ancora compiere — crescendo di uno a ogni mossa e scegliendo sempre la direzione che sopravvive più a lungo — prima di essere costretta a uscire dal tabellone. Ignora ogni altra pila sul tabellone, amica o nemica, quindi è una misura approssimativa di quanto siano esposte le pedine di un giocatore, non un conteggio delle mosse legali effettivamente rimaste."
+  },
   "notes.linage": {
     "src": "Linage is a 2016 game designed by Luis Bolaños Mures. The game is based on the following definitions: A **region** is a maximal set of orthogonally contiguous empty points. A **line** is a set of N orthogonally contiguous empty points on the same row or column (default is N=3); and a region is **owned** by Vertical if it contains no horizontal lines, and by Horizontal if it contains no vertical lines. A region is free if it is owned by neither player. Regions must always have at least one line.\n\nOn his turn, the player passes or places a stone in a free region. The game ends when both players pass in succession, and wins the one with highest score (i.e., the number of points in the regions the player owns, plus komi).",
     "out": "Linage è un gioco del 2016 progettato da Luis Bolaños Mures. Il gioco si basa sulle seguenti definizioni: una **regione** è un insieme massimale di punti vuoti ortogonalmente contigui. Una **linea** è un insieme di N punti vuoti ortogonalmente contigui sulla stessa riga o colonna (il valore predefinito è N=3); e una regione è di **proprietà** di Verticale se non contiene linee orizzontali, e di Orizzontale se non contiene linee verticali. Una regione è libera se non appartiene a nessuno dei due giocatori. Le regioni devono sempre contenere almeno una linea.\n\nNel proprio turno, il giocatore passa o posiziona una pedina in una regione libera. La partita termina quando entrambi i giocatori passano consecutivamente, e vince chi ha il punteggio più alto (ovvero il numero di punti nelle regioni possedute dal giocatore, più il komi)."
@@ -3810,6 +3814,10 @@
   "status.lasca.STEPS": {
     "src": "Maneuverability",
     "out": "Manovrabilità"
+  },
+  "status.lielow.MOVESUNTILSUICIDE": {
+    "src": "Moves until suicide",
+    "out": "Mosse fino al suicidio"
   },
   "status.majorities": {
     "src": "Scores (─, ⟋, ⟍)",
@@ -14215,6 +14223,10 @@
     "src": "19x19 board",
     "out": "Tavoliere 19x19"
   },
+  "variants.asli.board-23.name": {
+    "src": "23x23 board",
+    "out": "Plancia 23x23"
+  },
   "variants.asli.board-27.name": {
     "src": "27x27 board",
     "out": "Tavoliere 27x27"
@@ -14626,6 +14638,10 @@
   "variants.calculus.#board.description": {
     "src": "Roughly 12 pieces across",
     "out": "Circa 12 pezzi di larghezza"
+  },
+  "variants.calculus.#board.name": {
+    "src": "Default board",
+    "out": "Scacchiera predefinita"
   },
   "variants.calculus.width-10.description": {
     "src": "Roughly 10 pieces across",
@@ -16534,6 +16550,14 @@
   "variants.minimize.size-8.name": {
     "src": "Hexagonal board (base-8)",
     "out": "Tabellone esagonale (base 8)"
+  },
+  "variants.mirador.#board.name": {
+    "src": "28x28 board",
+    "out": "Plancia 28x28"
+  },
+  "variants.mirador.size-40.name": {
+    "src": "40x40 board",
+    "out": "Plancia 40x40"
   },
   "variants.mixtour.five.description": {
     "src": "The winner is the first to score three points.",

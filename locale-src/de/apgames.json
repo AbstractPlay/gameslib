@@ -640,8 +640,8 @@
     "out": "Der Spieler mit der größten kleinsten Gruppe gewinnt das Spiel."
   },
   "descriptions.mirador": {
-    "src": "Mirador is a fast and exhilarating connection game played on a 27 x 27 square grid by placing 2 x 2 squares to represent watchtowers. It uses line-of-sight connections and equivalent goals (making it more of a race than a pure connection game).",
-    "out": "Mirador ist ein schnelles und aufregendes Verbindungsspiel auf einem 27 x 27 Quadratgitter, bei dem 2 x 2 Quadrate platziert werden, die Wachtürme darstellen. Es nutzt Sichtlinienverbindungen und gleichwertige Ziele (was es eher zu einem Rennen als zu einem reinen Verbindungsspiel macht)."
+    "src": "Mirador is a fast and exhilarating connection game played on a square grid (28 x 28 by default) by placing 2 x 2 squares to represent watchtowers. It uses line-of-sight connections and equivalent goals (making it more of a race than a pure connection game).",
+    "out": "Mirador ist ein schnelles und aufregendes Verbindungsspiel, das auf einem quadratischen Raster (standardmäßig 28 x 28) gespielt wird, indem 2 x 2-Quadrate platziert werden, die Wachtürme darstellen. Es nutzt Sichtlinienverbindungen und gleichwertige Ziele (was es eher zu einem Rennen als zu einem reinen Verbindungsspiel macht)."
   },
   "descriptions.mixtour": {
     "src": "Two players create towers with the goal of creating a tower at least five high with your colour at the top. The twist here is two-fold: (1) you can move opponent's pieces and (2) movement range is determined by the *target* stack height and not the moving stack height.",
@@ -3331,6 +3331,10 @@
     "src": "Maneuverability is a measure of how close your pieces are to promoting. Your maximum maneuverability is the board size times the number of stacks you control.\n\nMaterial is calculated by giving you a point for every friendly piece in a stack you control, plus an extra point if you have an officer on top of that stack.",
     "out": "Manövrierfähigkeit ist ein Maß dafür, wie nah deine Steine an der Umwandlung sind. Deine maximale Manövrierfähigkeit entspricht der Brettgröße multipliziert mit der Anzahl der Stapel, die du kontrollierst.\n\nMaterial wird berechnet, indem du einen Punkt für jeden eigenen Stein in einem von dir kontrollierten Stapel erhältst, plus einen Extra-Punkt, wenn sich ein Offizier an der Spitze dieses Stapels befindet."
   },
+  "notes.lielow": {
+    "src": "\"Moves until suicide\" totals for each player how many moves each of their stacks could still make — growing by one each move and always choosing the direction that survives longest — before being forced to bear off. It ignores every other stack on the board, friendly or enemy, so it's a rough measure of how exposed a player's pieces are, not a count of actual legal moves remaining.",
+    "out": "\"Züge bis zum Selbstmord\" summiert für jeden Spieler auf, wie viele Züge jeder seiner Stapel noch machen könnte — wobei er mit jedem Zug um eins wächst und immer die Richtung wählt, die am längsten überlebt — bevor er gezwungen ist, abgetragen zu werden. Es ignoriert jeden anderen Stapel auf dem Brett, ob eigene oder gegnerische, daher ist es ein grobes Maß dafür, wie exponiert die Steine eines Spielers sind, und keine Zählung der tatsächlich verbleibenden legalen Züge."
+  },
   "notes.linage": {
     "src": "Linage is a 2016 game designed by Luis Bolaños Mures. The game is based on the following definitions: A **region** is a maximal set of orthogonally contiguous empty points. A **line** is a set of N orthogonally contiguous empty points on the same row or column (default is N=3); and a region is **owned** by Vertical if it contains no horizontal lines, and by Horizontal if it contains no vertical lines. A region is free if it is owned by neither player. Regions must always have at least one line.\n\nOn his turn, the player passes or places a stone in a free region. The game ends when both players pass in succession, and wins the one with highest score (i.e., the number of points in the regions the player owns, plus komi).",
     "out": "Linage ist ein Spiel aus dem Jahr 2016 von Luis Bolaños Mures. Das Spiel basiert auf folgenden Definitionen: Eine **Region** ist eine maximale Menge orthogonal zusammenhängender leerer Punkte. Eine **Linie** ist eine Menge von N orthogonal zusammenhängenden leeren Punkten in derselben Reihe oder Spalte (Standard ist N=3); eine Region gehört **Vertikal**, wenn sie keine horizontalen Linien enthält, und **Horizontal**, wenn sie keine vertikalen Linien enthält. Eine Region ist frei, wenn sie keinem der beiden Spieler gehört. Regionen müssen immer mindestens eine Linie enthalten.\n\nIn seinem Zug passt der Spieler oder platziert einen Stein in einer freien Region. Das Spiel endet, wenn beide Spieler nacheinander passen, und es gewinnt derjenige mit der höchsten Punktzahl (d. h. die Anzahl der Punkte in den Regionen, die dem Spieler gehören, plus Komi)."
@@ -3810,6 +3814,10 @@
   "status.lasca.STEPS": {
     "src": "Maneuverability",
     "out": "Beweglichkeit"
+  },
+  "status.lielow.MOVESUNTILSUICIDE": {
+    "src": "Moves until suicide",
+    "out": "Züge bis zum Selbstmord"
   },
   "status.majorities": {
     "src": "Scores (─, ⟋, ⟍)",
@@ -14215,6 +14223,10 @@
     "src": "19x19 board",
     "out": "19x19-Brett"
   },
+  "variants.asli.board-23.name": {
+    "src": "23x23 board",
+    "out": "23x23-Brett"
+  },
   "variants.asli.board-27.name": {
     "src": "27x27 board",
     "out": "27x27-Brett"
@@ -14626,6 +14638,10 @@
   "variants.calculus.#board.description": {
     "src": "Roughly 12 pieces across",
     "out": "Ungefähr 12 Steine breit"
+  },
+  "variants.calculus.#board.name": {
+    "src": "Default board",
+    "out": "Standardbrett"
   },
   "variants.calculus.width-10.description": {
     "src": "Roughly 10 pieces across",
@@ -16534,6 +16550,14 @@
   "variants.minimize.size-8.name": {
     "src": "Hexagonal board (base-8)",
     "out": "Hexagonales Brett (Basis 8)"
+  },
+  "variants.mirador.#board.name": {
+    "src": "28x28 board",
+    "out": "28x28-Brett"
+  },
+  "variants.mirador.size-40.name": {
+    "src": "40x40 board",
+    "out": "40x40-Brett"
   },
   "variants.mixtour.five.description": {
     "src": "The winner is the first to score three points.",

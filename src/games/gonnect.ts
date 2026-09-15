@@ -54,7 +54,7 @@ export class GonnectGame extends GameBase {
             { uid: "size-9", group: "board" },
             { uid: "#board", },
             { uid: "size-19", group: "board" },
-            { uid: "cascading", experimental: true },
+            { uid: "cascading" },
         ],
         categories: ["goal>connect", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["pie", "custom-buttons"],
@@ -684,7 +684,7 @@ export class GonnectGame extends GameBase {
     }
 
 
-    
+
     public clone(): GonnectGame {
         return new GonnectGame(this.serialize());
     }

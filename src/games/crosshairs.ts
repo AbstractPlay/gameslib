@@ -3012,7 +3012,7 @@ export class CrosshairsGame extends GameBase {
     }
 
     public getCustomRotation(): number {
-        return 60;
+        return 30;
     }
 
     public render(opts?: IRenderOpts): APRenderRep {

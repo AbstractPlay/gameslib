@@ -276,6 +276,8 @@
     "deckfish": "La partie est terminée car le dernier joueur n'a pas pu déplacer.",
     "default": "La partie est terminée.",
     "forms": "La partie est terminée car le joueur suivant ne peut pas déplacer.",
+    "gonnect_cascading_subboard": "{{player}} a gagné sur le sous-plateau {{size}}x{{size}}.",
+    "gonnect_direct_connection": "{{player}} a gagné par connexion directe.",
     "material": "La partie est terminée car le matériel de chaque joueur est insuffisant.",
     "repetition_one": "La partie est terminée car la même position s'est produite par le même joueur.",
     "repetition_other": "La partie est terminée car la même position s'est produite {{count}} fois par le même joueur.",

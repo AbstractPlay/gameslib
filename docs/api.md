@@ -25,8 +25,6 @@ The root module (`src/index.ts`) exports the public API used by the front end an
 | `chatPlayerToken`, `applyChatPlayerNames` | `Player N` token helpers for seat-actor lines |
 | `RenderLabel`, `StructuredRenderLabel`, `isStructuredRenderLabel`, `resolveRenderLabel`, `resolveRenderLabels` | Structured area/board labels ([`render-label.ts`](/gameslib/src/common/render-label.ts)) |
 
-AI helpers (`AIFactory`, etc.) exist for testing only and are not part of the public release API.
-
 ## Usage
 
 **Browser:** load `APGames.min.js`, then `APGames.GameFactory("complica")`.

@@ -276,6 +276,8 @@
     "deckfish": "Das Spiel ist zu Ende, da der letzte Spieler keinen Zug machen konnte.",
     "default": "Das Spiel ist zu Ende.",
     "forms": "Das Spiel ist zu Ende, da der nächste Spieler keinen Zug machen kann.",
+    "gonnect_cascading_subboard": "{{player}} hat auf dem {{size}}x{{size}}-Teilbrett gewonnen.",
+    "gonnect_direct_connection": "{{player}} hat durch direkte Verbindung gewonnen.",
     "material": "Das Spiel ist zu Ende, da beide Spieler ungenügendes Material haben.",
     "repetition_one": "Das Spiel ist zu Ende, da dieselbe Stellung durch denselben Spieler aufgetreten ist.",
     "repetition_other": "Das Spiel ist zu Ende, da dieselbe Stellung {{count}}-mal durch denselben Spieler aufgetreten ist.",

@@ -53,13 +53,13 @@ describe("Gonnect", () => {
         expect(g.winner).to.eql([1, 2]);
     });
 
-    it("Black playing tengen alone, then two passes, wins on the final 1x1 subboard", () => {
+    it("Player 1 playing tengen alone, then two passes, wins on the final 1x1 subboard", () => {
         // Default 13x13 board; tengen is "g7". Play it out with real moves rather than
         // manipulating the board directly, to exercise the actual move/pass pipeline.
         const g = new GonnectGame(undefined, ["cascading"]);
-        g.move("g7");   // Black (player 1) takes tengen
-        g.move("pass"); // White passes
-        g.move("pass"); // Black passes: two consecutive passes end the game
+        g.move("g7");   // Player 1 takes tengen
+        g.move("pass"); // Player 2 passes
+        g.move("pass"); // Player 1 passes: two consecutive passes end the game
         expect(g.gameover).to.be.true;
         expect(g.winner).to.eql([1]);
         // A single-stone win gives a one-cell connPath. Rendering it must not throw,
@@ -74,8 +74,8 @@ describe("Gonnect", () => {
         const [gx, gy] = g.algebraic2coords("g7");
         expect(annotations.some(a => a.type === "enter" && a.targets.some(t => t.row === gy && t.col === gx))).to.be.true;
         // The chat log should name the deciding subboard, not just say passes ended the game.
-        const log = g.chatLog(["Black", "White"]).flat();
-        expect(log.some(l => l.includes("Black won on the 1x1 subboard"))).to.be.true;
+        const log = g.chatLog(["Alice", "Bob"]).flat();
+        expect(log.some(l => l.includes("Alice won on the 1x1 subboard"))).to.be.true;
     });
 
     it("Cascading tiebreak: sole occupant of the centre point wins when nobody spans the full board", () => {
@@ -100,8 +100,8 @@ describe("Gonnect", () => {
         expect(g.gameover).to.be.true;
         expect(g.winner).to.eql([1]);
         expect(g.cascadeWinSize).to.equal(3);
-        const log = g.chatLog(["Black", "White"]).flat();
-        expect(log.some(l => l.includes("Black won on the 3x3 subboard"))).to.be.true;
+        const log = g.chatLog(["Alice", "Bob"]).flat();
+        expect(log.some(l => l.includes("Alice won on the 3x3 subboard"))).to.be.true;
     });
 
     it("A draw's chat log still uses the generic consecutive-passes message", () => {
@@ -111,7 +111,7 @@ describe("Gonnect", () => {
         expect(g.gameover).to.be.true;
         expect(g.winner).to.eql([1, 2]);
         expect(g.cascadeWinSize).to.be.undefined;
-        const log = g.chatLog(["Black", "White"]).flat();
+        const log = g.chatLog(["Alice", "Bob"]).flat();
         expect(log.some(l => l.includes("both players passed consecutively"))).to.be.true;
     });
 
@@ -166,7 +166,7 @@ describe("Gonnect", () => {
         expect(annotations.filter(a => a.type === "move")).to.eql([]);
         const [gx, gy] = reloaded.algebraic2coords("g7");
         expect(annotations.some(a => a.type === "enter" && a.targets.some(t => t.row === gy && t.col === gx))).to.be.true;
-        const log = reloaded.chatLog(["Black", "White"]).flat();
-        expect(log.some(l => l.includes("Black won on the 1x1 subboard"))).to.be.true;
+        const log = reloaded.chatLog(["Alice", "Bob"]).flat();
+        expect(log.some(l => l.includes("Alice won on the 1x1 subboard"))).to.be.true;
     });
 });

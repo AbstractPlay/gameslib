@@ -3,8 +3,14 @@
 import "mocha";
 import { expect } from "chai";
 import { GonnectGame } from '../../src/games';
+import { addResource } from '../../src';
 
 describe("Gonnect", () => {
+    before(() => {
+        addResource("en");
+    });
+
+
     it("Passing is illegal by default", () => {
         const g = new GonnectGame(undefined, ["size-9"]);
         expect(g.moves().includes("pass")).to.be.false;
@@ -59,11 +65,17 @@ describe("Gonnect", () => {
         // A single-stone win gives a one-cell connPath. Rendering it must not throw,
         // and it must not emit a "move" annotation (the renderer can't draw a line
         // between a single point), matching the pattern used elsewhere in the codebase
-        // (e.g., havannah.ts, renju.ts) for single-point connections.
+        // (e.g., havannah.ts, renju.ts) for single-point connections. Instead it should
+        // highlight the winning stone with an "enter"-style annotation.
         expect(g.connPath).to.eql(["g7"]);
         const rep = g.render();
-        const moveAnnotations = (rep.annotations ?? []).filter(a => a.type === "move");
-        expect(moveAnnotations).to.eql([]);
+        const annotations = rep.annotations ?? [];
+        expect(annotations.filter(a => a.type === "move")).to.eql([]);
+        const [gx, gy] = g.algebraic2coords("g7");
+        expect(annotations.some(a => a.type === "enter" && a.targets.some(t => t.row === gy && t.col === gx))).to.be.true;
+        // The chat log should name the deciding subboard, not just say passes ended the game.
+        const log = g.chatLog(["Black", "White"]).flat();
+        expect(log.some(l => l.includes("Black won on the 1x1 subboard"))).to.be.true;
     });
 
     it("Cascading tiebreak: sole occupant of the centre point wins when nobody spans the full board", () => {
@@ -87,6 +99,20 @@ describe("Gonnect", () => {
         g.move("pass");
         expect(g.gameover).to.be.true;
         expect(g.winner).to.eql([1]);
+        expect(g.cascadeWinSize).to.equal(3);
+        const log = g.chatLog(["Black", "White"]).flat();
+        expect(log.some(l => l.includes("Black won on the 3x3 subboard"))).to.be.true;
+    });
+
+    it("A draw's chat log still uses the generic consecutive-passes message", () => {
+        const g = new GonnectGame(undefined, ["size-9", "cascading"]);
+        g.move("pass");
+        g.move("pass");
+        expect(g.gameover).to.be.true;
+        expect(g.winner).to.eql([1, 2]);
+        expect(g.cascadeWinSize).to.be.undefined;
+        const log = g.chatLog(["Black", "White"]).flat();
+        expect(log.some(l => l.includes("both players passed consecutively"))).to.be.true;
     });
 
     it("Cascading tiebreak: both players connecting on the same subboard is a tie, and cascades to the next smaller one", () => {
@@ -134,8 +160,13 @@ describe("Gonnect", () => {
         expect(reloaded.gameover).to.be.true;
         expect(reloaded.winner).to.eql([1]);
         expect(reloaded.connPath).to.eql(["g7"]);
+        expect(reloaded.cascadeWinSize).to.equal(1);
         const rep = reloaded.render();
-        const moveAnnotations = (rep.annotations ?? []).filter(a => a.type === "move");
-        expect(moveAnnotations).to.eql([]);
+        const annotations = rep.annotations ?? [];
+        expect(annotations.filter(a => a.type === "move")).to.eql([]);
+        const [gx, gy] = reloaded.algebraic2coords("g7");
+        expect(annotations.some(a => a.type === "enter" && a.targets.some(t => t.row === gy && t.col === gx))).to.be.true;
+        const log = reloaded.chatLog(["Black", "White"]).flat();
+        expect(log.some(l => l.includes("Black won on the 1x1 subboard"))).to.be.true;
     });
 });

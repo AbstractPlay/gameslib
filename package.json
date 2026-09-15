@@ -152,7 +152,7 @@
     "graphology-traversal": "^0.3.1",
     "honeycomb-grid": "^4.1.5",
     "i18next": "^21.10.0",
-    "i18next-http-backend": "^2.2.0",
+    "i18next-http-backend": "^3.0.5",
     "js-combinatorics": "^2.1.2",
     "json-stringify-deterministic": "^1.0.12",
     "lodash": "^4.17.21",

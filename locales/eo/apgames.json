@@ -641,6 +641,13 @@
       "#rules": {
         "description": "Entrenado estas valida."
       },
+      "#scoring": {
+        "description": "La ludo finiĝas kiam ludanto estas senmovigita. Teritorio kaj kaptitoj estas poentataj."
+      },
+      "area": {
+        "name": "Area poentado",
+        "description": "Memmortigo estas valida, preterpasi ĉiam estas valida kaj malhelpas la sekvan minimuman entrenadon de la kontraŭulo, kaj la ludo finiĝas post du sinsekvaj preterpasoj. Venkas tiu, kiu posedas la plej grandan areon: siaj pecoj sur la tabulo, plus sia teritorio, plus komi."
+      },
       "board-9": {
         "name": "Tabulo 9×9"
       },
@@ -3536,6 +3543,7 @@
       "HARLOG": "Harlog"
     },
     "asli": {
+      "AREA": "Areo",
       "TERRITORY": "Teritorio kaj kaptitoj"
     },
     "baghchal": {
@@ -4987,12 +4995,14 @@
       "BAD_KOMI": "La unua movo de la ludo devas esti entjero reprezentanta la nombron da pecoj meti en la komencan malliberejon. Pozitiva nombro metas pecojn apartenantajn al la unua ludanto. Negativaj nombroj, tiuj de la dua ludanto. Vi ne rajtas meti pli da pecoj en la malliberejo ol la nombro da ĉeloj sur la tabulo plus unu.",
       "BAD_PASS": "Vi devas forigi malamikan pecon de la malliberejo por ke ĝi preterpasu.",
       "BAD_PIE": "Vi eble ne akceptos la kukon en tiu punkto de la ludo.",
+      "INITIAL_INSTRUCTIONS_area": "Metu pecon sur valida malplena spaco, aŭ preterpasu. Preterpaso ankaŭ malhelpas la sekvan minimuman enkurson de via kontraŭulo.",
       "INITIAL_INSTRUCTIONS_komi": "Enmetu la nombron da unuaj ludantaj pecoj, kiujn vi volas meti en la komencan malliberejon. La dua ludanto tiam decidos, kiun sidlokon li prenos.",
       "INITIAL_INSTRUCTIONS_pie": "Aŭ premu la butonon \"Luzu sekunde\" por resti tie, kie vi estas kaj daŭrigi ludi sekunde, aŭ klaku \"Swap ludanto seats\" por ŝanĝi sidlokojn.",
       "INITIAL_INSTRUCTIONS_pie2": "Aŭ preterpasu por akcepti la komi- oferton kaj daŭri ludi duonon, aŭ metu pecon por transpreni kiel unua ludanto.",
       "INITIAL_INSTRUCTIONS_play": "Metu pecon sur valida malplena spaco aŭ preterpasu por preni malamikan pecon el la malliberejo anstataŭe (se unu estas havebla).",
       "MUST_PIE": "En tiu punkto de la ludo, meti pecojn ne estas permesite.",
       "NEGATIVE_KOMI": "Ĉu vi certas? Negativaj komiaj oferoj devus esti bezonataj nur en specifaj handikapuloj situacioj.",
+      "NO_CHANGE": "En area poentado, via movo devas ŝanĝi la tabulon. Ĉi tiu meto estus tuj denove forigita, kaptante nenion.",
       "SUICIDE": "Vi ne rajtas meti pecon tiel, ke je la fino de via vico restu mortaj amikaj grupoj.",
       "WOVEN_INCURSION": "En la variaĵo „Woven“ enkursoj ne estas validaj."
     },

@@ -20,9 +20,6 @@
             "*": [
                 "node_modules/*",
                 "src/@custom_types/*"
-            ],
-            "minmax-wt-alpha-beta-pruning": [
-                "src/@custom_types/minmax-wt-alpha-beta-pruning.d.ts"
             ]
         }
     },

@@ -2875,66 +2875,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
     });
 
-    document.getElementById("aiFast").addEventListener("click", () => {
-        var state = window.localStorage.getItem("state");
-        if (state !== null) {
-            var gamename = window.localStorage.getItem("gamename");
-            var game = APGames.GameFactory(gamename, state);
-            if (gamename !== null) {
-                var depth = APGames.aiFast.get(gamename);
-                if ( (depth !== undefined) && (depth !== null) ) {
-                    var movebox = document.getElementById("moveEntry");
-                    if ( (game.numplayers !== undefined) && (game.numplayers !== 2) ) {
-                        alert("AI only works with 2-player games.");
-                        return false;
-                    }
-                    var factory = APGames.AIFactory(gamename);
-                    var move = factory.constructor.findmove(game.state(), depth);
-                    game.move(move);
-                    window.localStorage.setItem("state", game.serialize());
-                    window.localStorage.removeItem("interim");
-                    if (game.gameover) {
-                        document.getElementById("clickstatus").innerHTML = formatGameOverMessage(game);
-                    }
-                    renderGame();
-                    updateGameStatusPanel(game, gamename);
-                } else {
-                    alert("This game does not support fast AI.");
-                }
-            }
-        }
-    });
-
-    document.getElementById("aiSlow").addEventListener("click", () => {
-        var state = window.localStorage.getItem("state");
-        if (state !== null) {
-            var gamename = window.localStorage.getItem("gamename");
-            var game = APGames.GameFactory(gamename, state);
-            if (gamename !== null) {
-                var depth = APGames.aiSlow.get(gamename);
-                if ( (depth !== undefined) && (depth !== null) ) {
-                    var movebox = document.getElementById("moveEntry");
-                    if ( (game.numplayers !== undefined) && (game.numplayers !== 2) ) {
-                        alert("AI only works with 2-player games.");
-                        return false;
-                    }
-                    var factory = APGames.AIFactory(gamename);
-                    var move = factory.constructor.findmove(game.state(), depth);
-                    game.move(move);
-                    window.localStorage.setItem("state", game.serialize());
-                    window.localStorage.removeItem("interim");
-                    if (game.gameover) {
-                        document.getElementById("clickstatus").innerHTML = formatGameOverMessage(game);
-                    }
-                    renderGame();
-                    updateGameStatusPanel(game, gamename);
-                } else {
-                    alert("This game does not support slow AI.");
-                }
-            }
-        }
-    });
-
     document.getElementById("saveSVG").addEventListener("click", () => {
         var state = window.localStorage.getItem("state");
         if (state !== null) {

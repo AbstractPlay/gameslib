@@ -43,6 +43,24 @@ describe("Gonnect", () => {
         g.move("a9");
         expect(g.gameover).to.be.true;
         expect(g.winner).to.eql([1]);
+        // This is the ordinary way any Gonnect game ends (cascading or not) — passing is
+        // not involved at all — so it should get the specific "direct connection" wording
+        // rather than the generic "The game has ended." fallback.
+        const log = g.chatLog(["Alice", "Bob"]).flat();
+        expect(log.some(l => l.includes("Alice won by direct connection"))).to.be.true;
+    });
+
+    it("A full connection wins immediately in the base game too, with the same wording", () => {
+        const g = new GonnectGame(undefined, ["size-9"]);
+        for (let row = 1; row <= 9; row++) {
+            g.board.set(`a${row}`, 1);
+        }
+        g.board.delete("a9");
+        g.move("a9");
+        expect(g.gameover).to.be.true;
+        expect(g.winner).to.eql([1]);
+        const log = g.chatLog(["Alice", "Bob"]).flat();
+        expect(log.some(l => l.includes("Alice won by direct connection"))).to.be.true;
     });
 
     it("An empty board ends in a draw after two passes (cascading)", () => {

@@ -490,7 +490,7 @@ export class GonnectGame extends GameBase {
                             this.gameover = true;
                             this.winner = [otherPlayer];
                             this.connPath = [...path];
-                            this.results.push({ type: "eog" });
+                            this.results.push({ type: "eog", reason: "gonnect_direct_connection" });
                             break;
                         }
                     }
@@ -649,14 +649,16 @@ export class GonnectGame extends GameBase {
                     this.pushNeutralChatLine(lines, "apresults:EOG.repetition", { count: 1 });
                 } else if (r.reason === "stalemate") {
                     this.pushNeutralChatLine(lines, "apresults:EOG.stalemate");
+                } else if (r.reason === "gonnect_direct_connection") {
+                    this.pushSeatChatLine(lines, this.winner[0], "apresults:EOG.gonnect_direct_connection");
                 } else if (r.reason === "consecutive_passes") {
                     if (this.winner.length === 1 && this.cascadeWinSize !== undefined) {
                         if (this.cascadeWinSize === this.boardSize) {
-                            // In practice a full-board connection always ends the game the
-                            // instant it appears, via the outright-connection check above, so
-                            // this branch is defensive rather than something a real game can
-                            // reach through the pass-based cascade.
-                            this.pushSeatChatLine(lines, this.winner[0], "apresults:EOG.gonnect_cascading_direct");
+                            // Reachable only defensively: in real play a full-board connection
+                            // always ends the game immediately via the "gonnect_direct_connection"
+                            // branch above, before a pass-based cascade could ever see it. Kept
+                            // for correctness in case that ever changes.
+                            this.pushSeatChatLine(lines, this.winner[0], "apresults:EOG.gonnect_direct_connection");
                         } else {
                             this.pushSeatChatLine(lines, this.winner[0], "apresults:EOG.gonnect_cascading_subboard", { size: this.cascadeWinSize });
                         }

@@ -132,7 +132,7 @@
     "intermedium": "Semez des piles pour encercler et capturer. Gagnez en capturant la cité adverse.",
     "invector": "Éliminez l'armée adverse tout en vous rapprochant du centre du plateau.",
     "iqishiqi": "Iqishiqi (prononcé EE-chee-shee-chee) est un jeu de stratégie abstrait qui se joue sur un plateau hexagonal composé de cases hexagonales. Les joueurs possèdent des bords désignés du plateau et, en plaçant habilement des pierres, ils poussent une pierre neutre sur le plateau. Un joueur gagne s'il déplace la pierre neutre vers l'un de ses bords, ou s'il laisse son adversaire sans coup possible.",
-    "irensei": "Irensei est un mélange de Go et de Gomoku. Alignez sept pierres à la suite dans la région centrale de 15x15 du plateau de Go pour gagner. Pour réduire l'avantage du premier joueur, celui-ci perd s'il réalise un suralignement (même s'il dépasse de la zone 15x15), mais le second joueur peut gagner par suralignement.",
+    "irensei": "L'Irensei (japonais : 囲連星) est un mélange de Go et de Gomoku. Alignez sept pierres d'affilée dans la zone centrale de 15x15 du goban pour gagner. Pour réduire l'avantage du premier joueur, celui-ci perd s'il réalise un suralignement (même si celui-ci s'étend au-delà de la zone de 15x15), mais le second joueur peut gagner par suralignement.",
     "jacynth": "Un jeu de cartes Decktet où les adversaires luttent pour le contrôle de la cité de Jacynth. Placez des cartes, exercez votre influence et contrôlez la plus grande zone pour gagner.",
     "kachit": "Un jeu proche des échecs joué sur un plateau 4x4 où vous essayez d'éliminer le roi adverse ou de promouvoir le vôtre. Les pièces peuvent changer d'orientation après s'être déplacées.",
     "knightline": "Un jeu de connexion à quatre alignés joué en divisant une pile de cavaliers sur une grille illimitée.",
@@ -156,7 +156,7 @@
     "mimic": "Un jeu où les pièces ennemies imitent vos déplacements pendant que vous faites la course pour être le premier joueur à atteindre la dernière rangée.",
     "minefield": "Reliez les côtés opposés du plateau, mais certaines configurations de pièces sont interdites.",
     "minimize": "Le joueur ayant le plus grand groupe le plus petit gagne la partie.",
-    "mirador": "Mirador est un jeu de connexion rapide et palpitant joué sur une grille carrée de 27 x 27 en plaçant des carrés de 2 x 2 pour représenter des tours de guet. Il utilise des connexions par ligne de vue et des objectifs équivalents (ce qui en fait plus une course qu'un pur jeu de connexion).",
+    "mirador": "Mirador est un jeu de connexion rapide et captivant qui se joue sur une grille carrée (28 x 28 par défaut) en plaçant des carrés de 2 x 2 représentant des tours de guet. Il utilise des connexions en ligne de mire et des objectifs équivalents (ce qui en fait davantage une course qu'un pur jeu de connexion).",
     "mixtour": "Deux joueurs créent des tours dans le but de former une tour d'au moins cinq étages avec leur couleur au sommet. Le rebondissement est double : (1) vous pouvez déplacer les pièces adverses et (2) la portée de déplacement est déterminée par la hauteur de la pile *cible* et non par celle de la pile qui se déplace.",
     "monkey": "Vous commencez avec une seule reine, composée d'une pile de dames. Lorsque vous effectuez des déplacements sans capture, la reine laisse un pion isolé derrière elle. Les reines et les pions isolés se déplacent et capturent comme des dames d'échecs. Pour gagner, capturez la reine adverse ou laissez votre adversaire sans coup légal.",
     "morphos": "Jeu de connexion sur grille carrée uniquement orthogonale. À votre tour, placez une pierre amie ou retournez une pierre ennemie selon l'un des trois motifs prédéterminés. Gagnez en reliant vos deux côtés opposés du plateau avec une chaîne de pierres de votre couleur.",
@@ -604,6 +604,7 @@
     "exxit": "Les traductions des règles ont tendance à omettre certaines nuances. Cette implémentation est conforme à l'édition originale française des règles.\n\nComme le plateau s'agrandit au fur et à mesure que vous jouez en formant des figures irrégulières, les hexagones sont numérotés au lieu d'utiliser des coordonnées algébriques. Cela garantit que les repères ne changent pas à mesure que la carte s'étend.",
     "forms": "Forms a été conçu par Steven Meyers en 2007. Après chaque coup, toutes les pièces situées en dehors du groupe contenant la dernière pièce déplacée sont capturées. Le dernier joueur à jouer perd (Forms est donc un jeu misère). La première version permettait à une pièce de capturer n'importe quelle pièce adverse. Plus tard, en 2011, Meyers a développé une seconde version, **Advanced Forms**, dans laquelle vous ne pouviez capturer que des pièces orthogonalement adjacentes, mais une pièce pouvait aussi se déplacer vers une case vide si les deux étaient reliées par une séquence de déplacements orthogonaux sur des cases vides. La disposition initiale a également changé pour un motif en damier. Cette seconde version est la variante par défaut ici sur AP. Plus d'informations sont disponibles sur [WAG](https://jpneto.github.io/world_abstract_games/forms.htm).",
     "frogger": "Comme dans les autres jeux du Decktet sur Abstract Play, le paquet est affiché en bas du plateau et comprend à la fois les cartes de la pioche et les cartes inconnues dans la main des autres joueurs. Après la première main, toutes les cartes sont tirées de la réserve ouverte, de sorte que les mains deviennent progressivement visibles. La pile de défausse est également affichée.\n\nLes passes forcées ne sont plus utilisées lorsqu'un joueur remplit la réserve de pioche (et valide) au milieu de son tour. Le second tour partiel de ce joueur est géré automatiquement par le serveur. Il existe également une variante de la réserve qui évite le double demi-coup, si désiré.\n\nLa variante Crocodiles est de Jorge Arroyo, le traducteur des règles en anglais. Les règles avancées et d'autres variantes mineures sont de P. D. Magnus ; elles apparaissent dans The Decktet Book, où le jeu est appelé Xing.",
+    "gonnect": "Dans le jeu de base, passer son tour n'est pas autorisé. La variante **Cascading Connection Goals** autorise à passer et se termine après deux passes consécutives. Une connexion directe donne la victoire immédiatement ; sinon, cherchez le plus grand sous-plateau centré dans lequel exactement un joueur relie des côtés opposés : ce joueur gagne.",
     "garden": "Pour rendre très clair ce qui s'est passé lors du tour précédent, chaque coup est affiché sur quatre plateaux distincts. Le premier plateau montre le jeu après la pose initiale de la pièce. Le deuxième plateau montre l'état après le retournement des pièces adjacentes. Le troisième plateau montre les récoltes éventuelles. Le quatrième plateau est l'état final du jeu et c'est là que vous jouez vos coups.\n\nDans notre implémentation, le noir est toujours la couleur « tome » ou de départage. Le dernier joueur à avoir récolté du noir aura un `0.1` ajouté à son score.",
     "guerrilla": "Un joueur gagne en retirant toutes les pièces de son adversaire. Le joueur de la sécurité gagne également s'il survit jusqu'à ce que les insurgés n'aient plus de pierres à poser.\n\nPar défaut, un match se compose de deux parties avec inversion des rôles. Chaque joueur joue une partie en tant qu'insurgés et une en tant que sécurité. Lorsque les deux joueurs gagnent en tant qu'insurgés, le match est remporté par celui qui a utilisé le moins de pierres (`66 − restantes` à la fin de cette partie ; le score le plus bas l'emporte). Des scores d'insurgés égaux constituent la seule égalité possible dans ce cas. Une victoire de la sécurité dans une partie rapporte 67 points. Si un joueur remporte les deux parties (gagne en tant qu'insurgés dans l'une et en sécurité dans l'autre), il remporte directement le match. Si les deux joueurs ne gagnent qu'en tant que sécurité, le match est nul.",
     "scribe": "Le tableau de référence des glyphes est affiché dans la marge de gauche. Un point indique le dernier coup de chaque joueur. Lorsqu'une mini-grille est remplie, les points de glyphe sont comptabilisés et le score le plus élevé remporte cette grille (en cas d'égalité, la victoire revient au joueur qui l'a complétée).",
@@ -617,6 +618,7 @@
     "konane": "Plusieurs protocoles d'ouverture existent, mais le jeu de règles le plus courant est le Naihe Ruleset, utilisé lors des tournois au Bishop Museum d'Hawaï et décrit dans la référence BGG. C'est ce qui est implémenté ici.",
     "knightline": "Pour votre commodité, votre pile est séparée environ en deux lors de votre premier clic. Les clics ultérieurs sur la pile source ou cible déplacent une pièce à la fois. Lorsque vous avez terminé, cliquez sur une case vide ou utilisez le bouton Valider le coup.\n\nLe système de coordonnées est adapté du système de coordonnées du développeur pour Hive, un jeu sur un plateau hexagonal non borné (mais de taille raisonnable). L'axe y est étiqueté avec des coordonnées cartésiennes (entiers positifs et négatifs). L'axe x est étiqueté avec des lettres par ordre alphabétique, avec l'origine en (m, 0). Si le déplacement sur l'axe x dépasse les limites de l'alphabet dans un sens ou dans l'autre, les lettres sont précédées d'une autre lettre (z est suivi de aa, ab, ac, etc., et a est précédé de zz, zy, zx, etc.). Il n'est pas prévu que le jeu atteigne une largeur nécessitant plus de doubles coordonnées, mais pour mémoire, az est suivi de ba, za est précédé de yz, et ainsi de suite. Le plateau ne peut pas atteindre une taille qui entraînerait une ambiguïté.",
     "lasca": "La manœuvrabilité mesure à quel point vos pièces sont proches de la promotion. Votre manœuvrabilité maximale est égale à la taille du plateau multipliée par le nombre de piles que vous contrôlez.\n\nLe matériel est calculé en vous accordant un point pour chaque pièce alliée dans une pile que vous contrôlez, plus un point supplémentaire si vous avez un officier au sommet de cette pile.",
+    "lielow": "\"Coups avant suicide\" totalise pour chaque joueur le nombre de coups que chacune de ses piles pourrait encore effectuer — augmentant d'un à chaque coup et choisissant toujours la direction qui survit le plus longtemps — avant d'être contrainte de sortir du plateau. Cet indicateur ignore toutes les autres piles sur le plateau, alliées comme ennemies ; c'est donc une mesure approximative de l'exposition des pièces d'un joueur, et non un décompte des coups légaux réellement restants.",
     "linage": "Linage est un jeu de 2016 conçu par Luis Bolaños Mures. Le jeu repose sur les définitions suivantes : Une **région** est un ensemble maximal de points vides contigus de manière orthogonale. Une **ligne** est un ensemble de N points vides contigus de manière orthogonale sur la même rangée ou colonne (par défaut N=3) ; et une région est **possédée** par Vertical si elle ne contient aucune ligne horizontale, et par Horizontal si elle ne contient aucune ligne verticale. Une région est libre si elle n'appartient à aucun des deux joueurs. Les régions doivent toujours contenir au moins une ligne.\n\nÀ son tour, le joueur passe ou place une pierre dans une région libre. La partie se termine lorsque les deux joueurs passent consécutivement, et le joueur avec le score le plus élevé l'emporte (c'est-à-dire le nombre de points dans les régions que le joueur possède, plus le komi).",
     "loa": "Au centre du plateau 9x9 se trouve un « trou noir ». S'arrêter sur le trou noir entraîne le retrait de la pièce du jeu. Des connexions simultanées se soldent par une partie nulle.",
     "magnate": "La terminologie de certaines actions de Magnate a été modifiée par souci de clarté et de concision. Développer complètement une nouvelle propriété est appelé l'action « Buy » ; acheter un titre de propriété pour une nouvelle propriété est appelé « Deed », développer des titres de propriété (c'est-à-dire ajouter des jetons à une propriété sous titre, que cela entraîne un développement complet ou non) est appelé « Add ». (Vendre une carte et échanger des jetons de couleur à 3 contre 1 restent inchangés.)\n\nAfin d'accélérer le processus de lancer pour les ressources, il existe deux actions supplémentaires :\n* « Prefer » sert à définir votre préférence sur le jeton de couleur à prendre lorsqu'un titre rapporte sur le lancer de votre adversaire. Si vous ne définissez pas de préférence explicite, le code choisira pour vous le jeton le plus rare en fonction de vos couleurs non-couronne et de votre réserve actuelle de jetons. Le jeton actuellement préféré est entouré dans l'interface, mais votre préférence personnelle n'est jamais visible par l'autre joueur.\n* « Choose » est une première action obligatoire pour collecter des jetons de couleur lorsqu'un titre rapporte sur votre propre lancer. (Dans tous les cas où vous devez choisir un jeton de couleur qui ne figure pas encore parmi vos jetons, vous cliquez toujours sur la pile de jetons appropriée.)\n\nComme vous pouvez effectuer plusieurs actions au cours d'un tour dans n'importe quel ordre, il existe également une action « Undo » pour annuler votre action la plus récente, qu'elle ait été terminée ou non.\n\nNotez que seul le résultat final du dé de ressources est affiché, mais la distribution des résultats attendus reste celle d'un lancer de 2d10 en retenant la valeur la plus élevée. La taxation a lieu lorsque le plus faible des 2d10 donne 1 ; un dé de couleur est lancé (ou deux, dans la variante de double taxation), et les couleurs seront affichées sous le résultat de la ressource. Le lancer est enregistré à la fin du tour d'un joueur, et est attribué au joueur suivant (qui aurait lancé dans le jeu physique). À l'exception d'un « Choose », aucune action de l'utilisateur n'est requise ; les ressources sont ajoutées ou retirées automatiquement par le serveur entre les tours.\n\nLorsqu'un joueur est en tête dans un quartier, le Pion ou l'Excuse de ce quartier est entouré de la couleur de ce joueur. Le premier score de départage (valeur totale de la propriété) est affiché entre parenthèses après le score du quartier. Le deuxième critère de départage est le nombre total de jetons restants.",
@@ -968,6 +970,9 @@
       "board-19": {
         "name": "Plateau 19x19"
       },
+      "board-23": {
+        "name": "Plateau 23x23"
+      },
       "board-27": {
         "name": "Plateau 27x27"
       },
@@ -1272,6 +1277,7 @@
     },
     "calculus": {
       "#board": {
+        "name": "Plateau par défaut",
         "description": "Environ 12 pièces de largeur"
       },
       "width-10": {
@@ -1675,9 +1681,28 @@
       }
     },
     "crosshairs": {
+      "#clouds": {
+        "name": "16 nuages"
+      },
+      "clouds-22": {
+        "name": "22 nuages",
+        "description": "Placez 22 nuages au lieu de 16. Avec la limite de taille par défaut de la réserve de nuages, le nombre total ne pourra pas toujours être atteint."
+      },
+      "clouds-28": {
+        "name": "28 nuages",
+        "description": "Placez 28 nuages au lieu de 16. Avec la limite de taille par défaut de la réserve de nuages, le nombre total ne pourra pas toujours être atteint."
+      },
       "random-start": {
-        "name": "Nuages aléatoires",
-        "description": "Il n'y a pas de phase de placement des nuages. Ils sont placés aléatoirement par le système."
+        "name": "Nuages aléatoires symétriques",
+        "description": "Il n'y a pas de phase de placement des nuages. Le système place les nuages aléatoirement avec une symétrie de rotation de 180 degrés."
+      },
+      "asymmetric-random-start": {
+        "name": "Nuages aléatoires asymétriques",
+        "description": "Il n'y a pas de phase de placement des nuages. Le système place les nuages aléatoirement sans exiger de symétrie."
+      },
+      "unbounded-cloud-banks": {
+        "name": "Réserves de nuages illimitées",
+        "description": "Les réserves de nuages peuvent contenir n'importe quel nombre de nuages."
       }
     },
     "crossway": {
@@ -2095,6 +2120,10 @@
       },
       "size-19": {
         "name": "Plateau 19x19"
+      },
+      "cascading": {
+        "name": "Objectifs de connexion en cascade",
+        "description": "Il est autorisé de passer. La partie se termine également après deux passes consécutives, auquel cas le gagnant est déterminé en comparant les connexions à travers une série imbriquée de sous-plateaux centrés."
       }
     },
     "guerrilla": {
@@ -2593,6 +2622,14 @@
       },
       "size-8": {
         "name": "Plateau hexagonal (base 8)"
+      }
+    },
+    "mirador": {
+      "#board": {
+        "name": "Plateau 28x28"
+      },
+      "size-40": {
+        "name": "Plateau 40x40"
       }
     },
     "mixtour": {
@@ -4843,6 +4880,9 @@
       "STEPS": "Maniabilité",
       "MATERIAL": "Matériel"
     },
+    "lielow": {
+      "MOVESUNTILSUICIDE": "Coups avant suicide"
+    },
     "majorities": "Scores (─, ⟋, ⟍)",
     "meg": {
       "OFFENSE": "Joueur offensif",
@@ -5736,8 +5776,10 @@
     },
     "crosshairs": {
       "PLACE_CLOUD": "Cliquez sur une case vide pour placer un nuage. Les nuages ne peuvent pas dépasser 2 hexagones.",
+      "PLACE_CLOUD_UNBOUNDED": "Cliquez sur une case vide pour placer un nuage.",
       "CLOUD_OCCUPIED": "Il y a déjà un nuage en {{cell}}.",
       "CLOUD_TOO_BIG": "Vous ne pouvez pas placer de nuage en {{cell}}. Seuls les nuages de taille 2 sont autorisés. Ce nuage serait trop grand.",
+      "MUST_PASS_BEFORE_ENTRY": "Vous devez passer pour que le joueur 1 fasse entrer le premier avion.",
       "INITIAL_INSTRUCTIONS_one": "Sélectionnez un avion à déplacer, ou faites entrer un nouvel avion sur votre bord de départ. Vous devez déplacer/faire entrer {{count}} avion ce tour-ci.",
       "INITIAL_INSTRUCTIONS_other": "Sélectionnez un avion à déplacer, ou faites entrer un nouvel avion sur votre bord de départ. Vous devez déplacer/faire entrer {{count}} avions ce tour-ci.",
       "INITIAL_INSTRUCTIONS_NO_ENTRY_one": "Sélectionnez un avion à déplacer. Vous devez déplacer {{count}} avion ce tour-ci. Cliquez sur les avions ennemis si vous pensez qu'ils peuvent être abattus.",
@@ -6160,6 +6202,7 @@
     },
     "gonnect": {
       "INITIAL_INSTRUCTIONS": "Sélectionnez une intersection pour placer une pierre.",
+      "INVALID_PASS": "Vous ne pouvez pas passer pour le moment.",
       "KO": "Règle du Ko : vous ne pouvez pas recapturer immédiatement la pierre unique de votre adversaire s'il vient de l'utiliser pour capturer la vôtre.",
       "SELF_CAPTURE": "Vous ne pouvez pas placer vos pierres en auto-capture."
     },

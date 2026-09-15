@@ -544,8 +544,8 @@
     "out": "Iqishiqi (prononcé EE-chee-shee-chee) est un jeu de stratégie abstrait qui se joue sur un plateau hexagonal composé de cases hexagonales. Les joueurs possèdent des bords désignés du plateau et, en plaçant habilement des pierres, ils poussent une pierre neutre sur le plateau. Un joueur gagne s'il déplace la pierre neutre vers l'un de ses bords, ou s'il laisse son adversaire sans coup possible."
   },
   "descriptions.irensei": {
-    "src": "Irensei is a mixture of Go and Gomoku. Get a seven in a row inside the middle 15x15 region of the Go board to win. To reduce the first player's advantage, the first player loses if they make an overline (even if it extends beyond the 15x15 region), but the second player may win by overline.",
-    "out": "Irensei est un mélange de Go et de Gomoku. Alignez sept pierres à la suite dans la région centrale de 15x15 du plateau de Go pour gagner. Pour réduire l'avantage du premier joueur, celui-ci perd s'il réalise un suralignement (même s'il dépasse de la zone 15x15), mais le second joueur peut gagner par suralignement."
+    "src": "Irensei (Japanese: 囲連星) is a mixture of Go and Gomoku. Get a seven in a row inside the middle 15x15 region of the Go board to win. To reduce the first player's advantage, the first player loses if they make an overline (even if it extends beyond the 15x15 region), but the second player may win by overline.",
+    "out": "L'Irensei (japonais : 囲連星) est un mélange de Go et de Gomoku. Alignez sept pierres d'affilée dans la zone centrale de 15x15 du goban pour gagner. Pour réduire l'avantage du premier joueur, celui-ci perd s'il réalise un suralignement (même si celui-ci s'étend au-delà de la zone de 15x15), mais le second joueur peut gagner par suralignement."
   },
   "descriptions.jacynth": {
     "src": "A Decktet card game where opponents vye for control of the city of Jacynth. Place cards, exert influence, and control the most area to win.",
@@ -640,8 +640,8 @@
     "out": "Le joueur ayant le plus grand groupe le plus petit gagne la partie."
   },
   "descriptions.mirador": {
-    "src": "Mirador is a fast and exhilarating connection game played on a 27 x 27 square grid by placing 2 x 2 squares to represent watchtowers. It uses line-of-sight connections and equivalent goals (making it more of a race than a pure connection game).",
-    "out": "Mirador est un jeu de connexion rapide et palpitant joué sur une grille carrée de 27 x 27 en plaçant des carrés de 2 x 2 pour représenter des tours de guet. Il utilise des connexions par ligne de vue et des objectifs équivalents (ce qui en fait plus une course qu'un pur jeu de connexion)."
+    "src": "Mirador is a fast and exhilarating connection game played on a square grid (28 x 28 by default) by placing 2 x 2 squares to represent watchtowers. It uses line-of-sight connections and equivalent goals (making it more of a race than a pure connection game).",
+    "out": "Mirador est un jeu de connexion rapide et captivant qui se joue sur une grille carrée (28 x 28 par défaut) en plaçant des carrés de 2 x 2 représentant des tours de guet. Il utilise des connexions en ligne de mire et des objectifs équivalents (ce qui en fait davantage une course qu'un pur jeu de connexion)."
   },
   "descriptions.mixtour": {
     "src": "Two players create towers with the goal of creating a tower at least five high with your colour at the top. The twist here is two-fold: (1) you can move opponent's pieces and (2) movement range is determined by the *target* stack height and not the moving stack height.",
@@ -3287,6 +3287,10 @@
     "src": "To make it very clear what happened on a previous turn, each move is displayed over four separate boards. The first board shows the game after the piece was first placed. The second board shows the state after adjacent pieces were flipped. The third board shows any harvests. The fourth board is the final game state and is where you make your moves.\n\nIn our implementation, black is always the \"tome\" or tie-breaker colour. The last player to harvest black will have a `0.1` after their score.",
     "out": "Pour rendre très clair ce qui s'est passé lors du tour précédent, chaque coup est affiché sur quatre plateaux distincts. Le premier plateau montre le jeu après la pose initiale de la pièce. Le deuxième plateau montre l'état après le retournement des pièces adjacentes. Le troisième plateau montre les récoltes éventuelles. Le quatrième plateau est l'état final du jeu et c'est là que vous jouez vos coups.\n\nDans notre implémentation, le noir est toujours la couleur « tome » ou de départage. Le dernier joueur à avoir récolté du noir aura un `0.1` ajouté à son score."
   },
+  "notes.gonnect": {
+    "src": "In the base game, passing is not allowed. The **Cascading Connection Goals** variant allows passing and ends after two consecutive passes. An outright connection wins immediately, otherwise find the largest centered subboard where exactly one player connects opposite sides: that player wins.",
+    "out": "Dans le jeu de base, passer son tour n'est pas autorisé. La variante **Cascading Connection Goals** autorise à passer et se termine après deux passes consécutives. Une connexion directe donne la victoire immédiatement ; sinon, cherchez le plus grand sous-plateau centré dans lequel exactement un joueur relie des côtés opposés : ce joueur gagne."
+  },
   "notes.guerrilla": {
     "src": "Either player wins by removing all of the opponent's pieces. The security player also wins if they survive long enough that the insurgents run out of stones to place.\n\nBy default, a match consists of two games with roles reversed. Each player plays one game as insurgents and one as security. When both players win as insurgents, the match goes to whoever used fewer stones (`66 − remaining` at the end of that game; lower score wins). Equal insurgent scores are the only draw in that case. A security win in a game scores 67. If one player sweeps both games (wins as insurgents in one and security in the other), they win the match outright. If both players only win as security, the match is drawn.",
     "out": "Un joueur gagne en retirant toutes les pièces de son adversaire. Le joueur de la sécurité gagne également s'il survit jusqu'à ce que les insurgés n'aient plus de pierres à poser.\n\nPar défaut, un match se compose de deux parties avec inversion des rôles. Chaque joueur joue une partie en tant qu'insurgés et une en tant que sécurité. Lorsque les deux joueurs gagnent en tant qu'insurgés, le match est remporté par celui qui a utilisé le moins de pierres (`66 − restantes` à la fin de cette partie ; le score le plus bas l'emporte). Des scores d'insurgés égaux constituent la seule égalité possible dans ce cas. Une victoire de la sécurité dans une partie rapporte 67 points. Si un joueur remporte les deux parties (gagne en tant qu'insurgés dans l'une et en sécurité dans l'autre), il remporte directement le match. Si les deux joueurs ne gagnent qu'en tant que sécurité, le match est nul."
@@ -3330,6 +3334,10 @@
   "notes.lasca": {
     "src": "Maneuverability is a measure of how close your pieces are to promoting. Your maximum maneuverability is the board size times the number of stacks you control.\n\nMaterial is calculated by giving you a point for every friendly piece in a stack you control, plus an extra point if you have an officer on top of that stack.",
     "out": "La manœuvrabilité mesure à quel point vos pièces sont proches de la promotion. Votre manœuvrabilité maximale est égale à la taille du plateau multipliée par le nombre de piles que vous contrôlez.\n\nLe matériel est calculé en vous accordant un point pour chaque pièce alliée dans une pile que vous contrôlez, plus un point supplémentaire si vous avez un officier au sommet de cette pile."
+  },
+  "notes.lielow": {
+    "src": "\"Moves until suicide\" totals for each player how many moves each of their stacks could still make — growing by one each move and always choosing the direction that survives longest — before being forced to bear off. It ignores every other stack on the board, friendly or enemy, so it's a rough measure of how exposed a player's pieces are, not a count of actual legal moves remaining.",
+    "out": "\"Coups avant suicide\" totalise pour chaque joueur le nombre de coups que chacune de ses piles pourrait encore effectuer — augmentant d'un à chaque coup et choisissant toujours la direction qui survit le plus longtemps — avant d'être contrainte de sortir du plateau. Cet indicateur ignore toutes les autres piles sur le plateau, alliées comme ennemies ; c'est donc une mesure approximative de l'exposition des pièces d'un joueur, et non un décompte des coups légaux réellement restants."
   },
   "notes.linage": {
     "src": "Linage is a 2016 game designed by Luis Bolaños Mures. The game is based on the following definitions: A **region** is a maximal set of orthogonally contiguous empty points. A **line** is a set of N orthogonally contiguous empty points on the same row or column (default is N=3); and a region is **owned** by Vertical if it contains no horizontal lines, and by Horizontal if it contains no vertical lines. A region is free if it is owned by neither player. Regions must always have at least one line.\n\nOn his turn, the player passes or places a stone in a free region. The game ends when both players pass in succession, and wins the one with highest score (i.e., the number of points in the regions the player owns, plus komi).",
@@ -3810,6 +3818,10 @@
   "status.lasca.STEPS": {
     "src": "Maneuverability",
     "out": "Maniabilité"
+  },
+  "status.lielow.MOVESUNTILSUICIDE": {
+    "src": "Moves until suicide",
+    "out": "Coups avant suicide"
   },
   "status.majorities": {
     "src": "Scores (─, ⟋, ⟍)",
@@ -6627,6 +6639,10 @@
     "src": "Move complete. You may shoot enemy planes or submit your move.",
     "out": "Déplacement terminé. Vous pouvez tirer sur des avions ennemis ou valider votre coup."
   },
+  "validation.crosshairs.MUST_PASS_BEFORE_ENTRY": {
+    "src": "You must pass so player 1 enters the first plane.",
+    "out": "Vous devez passer pour que le joueur 1 fasse entrer le premier avion."
+  },
   "validation.crosshairs.NEED_MORE_PLANES_NO_ENTRY_one": {
     "src": "You need to move {{count}} more plane this turn. Select the next plane. Click on enemy planes if you think they can be shot down.",
     "out": "Vous devez déplacer {{count}} avion supplémentaire ce tour-ci. Sélectionnez l'avion suivant. Cliquez sur les avions ennemis si vous pensez qu'ils peuvent être abattus."
@@ -6674,6 +6690,10 @@
   "validation.crosshairs.PLACE_CLOUD": {
     "src": "Click on an empty cell to place a cloud. Clouds cannot be larger than 2 hexes.",
     "out": "Cliquez sur une case vide pour placer un nuage. Les nuages ne peuvent pas dépasser 2 hexagones."
+  },
+  "validation.crosshairs.PLACE_CLOUD_UNBOUNDED": {
+    "src": "Click on an empty cell to place a cloud.",
+    "out": "Cliquez sur une case vide pour placer un nuage."
   },
   "validation.crossway.BAD_PASS": {
     "src": "You may not pass if legal moves are available.",
@@ -8046,6 +8066,10 @@
   "validation.gonnect.INITIAL_INSTRUCTIONS": {
     "src": "Select an intersection to place a piece.",
     "out": "Sélectionnez une intersection pour placer une pierre."
+  },
+  "validation.gonnect.INVALID_PASS": {
+    "src": "You cannot pass currently.",
+    "out": "Vous ne pouvez pas passer pour le moment."
   },
   "validation.gonnect.KO": {
     "src": "Ko rule: you may not immediately recapture your opponent's single stone if they just used it to capture one of yours.",
@@ -14207,6 +14231,10 @@
     "src": "19x19 board",
     "out": "Plateau 19x19"
   },
+  "variants.asli.board-23.name": {
+    "src": "23x23 board",
+    "out": "Plateau 23x23"
+  },
   "variants.asli.board-27.name": {
     "src": "27x27 board",
     "out": "Plateau 27x27"
@@ -14618,6 +14646,10 @@
   "variants.calculus.#board.description": {
     "src": "Roughly 12 pieces across",
     "out": "Environ 12 pièces de largeur"
+  },
+  "variants.calculus.#board.name": {
+    "src": "Default board",
+    "out": "Plateau par défaut"
   },
   "variants.calculus.width-10.description": {
     "src": "Roughly 10 pieces across",
@@ -15123,13 +15155,49 @@
     "src": "9x9 board",
     "out": "Plateau 9x9"
   },
+  "variants.crosshairs.#clouds.name": {
+    "src": "16 clouds",
+    "out": "16 nuages"
+  },
+  "variants.crosshairs.asymmetric-random-start.description": {
+    "src": "There is no cloud placing phase. The system places the clouds randomly without requiring symmetry.",
+    "out": "Il n'y a pas de phase de placement des nuages. Le système place les nuages aléatoirement sans exiger de symétrie."
+  },
+  "variants.crosshairs.asymmetric-random-start.name": {
+    "src": "Asymmetric random clouds",
+    "out": "Nuages aléatoires asymétriques"
+  },
+  "variants.crosshairs.clouds-22.description": {
+    "src": "Place 22 clouds instead of 16. With the default cloud bank size limit, the full count may not always be achievable.",
+    "out": "Placez 22 nuages au lieu de 16. Avec la limite de taille par défaut de la réserve de nuages, le nombre total ne pourra pas toujours être atteint."
+  },
+  "variants.crosshairs.clouds-22.name": {
+    "src": "22 clouds",
+    "out": "22 nuages"
+  },
+  "variants.crosshairs.clouds-28.description": {
+    "src": "Place 28 clouds instead of 16. With the default cloud bank size limit, the full count may not always be achievable.",
+    "out": "Placez 28 nuages au lieu de 16. Avec la limite de taille par défaut de la réserve de nuages, le nombre total ne pourra pas toujours être atteint."
+  },
+  "variants.crosshairs.clouds-28.name": {
+    "src": "28 clouds",
+    "out": "28 nuages"
+  },
   "variants.crosshairs.random-start.description": {
-    "src": "There is no cloud placing phase. They are placed randomly by the system.",
-    "out": "Il n'y a pas de phase de placement des nuages. Ils sont placés aléatoirement par le système."
+    "src": "There is no cloud placing phase. The system places the clouds randomly with 180-degree rotational symmetry.",
+    "out": "Il n'y a pas de phase de placement des nuages. Le système place les nuages aléatoirement avec une symétrie de rotation de 180 degrés."
   },
   "variants.crosshairs.random-start.name": {
-    "src": "Random clouds",
-    "out": "Nuages aléatoires"
+    "src": "Symmetric random clouds",
+    "out": "Nuages aléatoires symétriques"
+  },
+  "variants.crosshairs.unbounded-cloud-banks.description": {
+    "src": "Cloud banks may contain any number of clouds.",
+    "out": "Les réserves de nuages peuvent contenir n'importe quel nombre de nuages."
+  },
+  "variants.crosshairs.unbounded-cloud-banks.name": {
+    "src": "Unbounded cloud banks",
+    "out": "Réserves de nuages illimitées"
   },
   "variants.crossway.#board.name": {
     "src": "Default board (19x19)",
@@ -15778,6 +15846,14 @@
   "variants.gonnect.#board.name": {
     "src": "Default 13x13 board",
     "out": "Plateau 13x13 par défaut"
+  },
+  "variants.gonnect.cascading.description": {
+    "src": "Passing is allowed. The game also ends after two consecutive passes, in which case the winner is found by comparing connections across a nested series of centred subboards.",
+    "out": "Il est autorisé de passer. La partie se termine également après deux passes consécutives, auquel cas le gagnant est déterminé en comparant les connexions à travers une série imbriquée de sous-plateaux centrés."
+  },
+  "variants.gonnect.cascading.name": {
+    "src": "Cascading Connection Goals",
+    "out": "Objectifs de connexion en cascade"
   },
   "variants.gonnect.size-19.name": {
     "src": "19x19 board",
@@ -16490,6 +16566,14 @@
   "variants.minimize.size-8.name": {
     "src": "Hexagonal board (base-8)",
     "out": "Plateau hexagonal (base 8)"
+  },
+  "variants.mirador.#board.name": {
+    "src": "28x28 board",
+    "out": "Plateau 28x28"
+  },
+  "variants.mirador.size-40.name": {
+    "src": "40x40 board",
+    "out": "Plateau 40x40"
   },
   "variants.mixtour.five.description": {
     "src": "The winner is the first to score three points.",

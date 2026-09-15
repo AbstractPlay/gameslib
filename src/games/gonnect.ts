@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base.js";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -14,6 +14,7 @@ interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, playerid>;
     connPath: string[];
+    cascadeWinSize?: number;
     lastmove?: string;
 }
 
@@ -31,6 +32,8 @@ export class GonnectGame extends GameBase {
         dateAdded: "2024-08-02",
         // i18next.t("apgames:descriptions.gonnect")
         description: "apgames:descriptions.gonnect",
+        // i18next.t("apgames:notes.gonnect")
+        notes: "apgames:notes.gonnect",
         urls: ["https://boardgamegeek.com/boardgame/12146/gonnect"],
         bggid: "12146",
         people: [
@@ -51,9 +54,10 @@ export class GonnectGame extends GameBase {
             { uid: "size-9", group: "board" },
             { uid: "#board", },
             { uid: "size-19", group: "board" },
+            { uid: "cascading", experimental: true },
         ],
         categories: ["goal>connect", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple"],
-        flags: ["pie"],
+        flags: ["pie", "custom-buttons"],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -68,6 +72,7 @@ export class GonnectGame extends GameBase {
     public currplayer!: playerid;
     public board!: Map<string, playerid>;
     public connPath: string[] = [];
+    public cascadeWinSize?: number;
     public gameover = false;
     public winner: playerid[] = [];
     public stack!: Array<IMoveState>;
@@ -129,6 +134,7 @@ export class GonnectGame extends GameBase {
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
         this.connPath = [...state.connPath];
+        this.cascadeWinSize = state.cascadeWinSize;
         this.lastmove = state.lastmove;
         this.boardSize = this.getBoardSize();
         return this;
@@ -175,6 +181,9 @@ export class GonnectGame extends GameBase {
         }
         if (this.gameover) { return []; }
         const moves: string[] = [];
+        if (this.variants.includes("cascading")) {
+            moves.push("pass");
+        }
         for (let row = 0; row < this.boardSize; row++) {
             for (let col = 0; col < this.boardSize; col++) {
                 const cell = this.coords2algebraic(col, row);
@@ -202,6 +211,13 @@ export class GonnectGame extends GameBase {
             }
         }
         return false;
+    }
+
+    public getButtons(): ICustomButton[] {
+        if (this.variants.includes("cascading") && this.moves().includes("pass")) {
+            return [{ label: "pass", move: "pass" }];
+        }
+        return [];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -232,6 +248,17 @@ export class GonnectGame extends GameBase {
             result.complete = -1;
             result.canrender = true;
             result.message = i18next.t("apgames:validation.gonnect.INITIAL_INSTRUCTIONS");
+            return result;
+        }
+        if (m === "pass") {
+            if (this.variants.includes("cascading")) {
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            } else {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.gonnect.INVALID_PASS");
+            }
             return result;
         }
         // Valid cell
@@ -348,13 +375,17 @@ export class GonnectGame extends GameBase {
         if (m.length === 0) { return this; }
         this.dots = [];
         this.results = [];
-        this.results.push({ type: "place", where: m });
-        this.board.set(m, this.currplayer);
-        const allCaptures = this.getCaptures(m, this.currplayer);
-        if (allCaptures.length > 0) {
-            for (const captures of allCaptures) {
-                for (const capture of captures) { this.board.delete(capture); }
-                this.results.push({ type: "capture", where: [...captures].join(), count: captures.size });
+        if (m === "pass") {
+            this.results.push({ type: "pass" });
+        } else {
+            this.results.push({ type: "place", where: m });
+            this.board.set(m, this.currplayer);
+            const allCaptures = this.getCaptures(m, this.currplayer);
+            if (allCaptures.length > 0) {
+                for (const captures of allCaptures) {
+                    for (const capture of captures) { this.board.delete(capture); }
+                    this.results.push({ type: "capture", where: [...captures].join(), count: captures.size });
+                }
             }
         }
 
@@ -386,6 +417,67 @@ export class GonnectGame extends GameBase {
         return graph;
     }
 
+    private subboardConnection(player: playerid, lo: number, hi: number): string[] | null {
+        // Check whether `player` has an orthogonally connected path of stones spanning
+        // one side to the opposite side of the centred subboard occupying columns and
+        // rows `lo` to `hi` (inclusive). Returns the connecting path, or null if none.
+        const graph = new UndirectedGraph();
+        for (const [cell, owner] of this.board.entries()) {
+            if (owner !== player) { continue; }
+            const [x, y] = this.algebraic2coords(cell);
+            if (x < lo || x > hi || y < lo || y > hi) { continue; }
+            graph.addNode(cell);
+        }
+        for (const node of graph.nodes()) {
+            const [x, y] = this.algebraic2coords(node);
+            for (const n of this.grid.adjacencies(x, y, false).map(c => this.coords2algebraic(...c))) {
+                if ( (graph.hasNode(n)) && (! graph.hasEdge(node, n)) ) {
+                    graph.addEdge(node, n);
+                }
+            }
+        }
+        // north-south
+        for (let x = lo; x <= hi; x++) {
+            const north = this.coords2algebraic(x, lo);
+            if (!graph.hasNode(north)) { continue; }
+            for (let x2 = lo; x2 <= hi; x2++) {
+                const south = this.coords2algebraic(x2, hi);
+                if (!graph.hasNode(south)) { continue; }
+                if (north === south) { return [north]; }
+                const path = bidirectional(graph, north, south);
+                if (path !== null) { return path; }
+            }
+        }
+        // east-west
+        for (let y = lo; y <= hi; y++) {
+            const east = this.coords2algebraic(hi, y);
+            if (!graph.hasNode(east)) { continue; }
+            for (let y2 = lo; y2 <= hi; y2++) {
+                const west = this.coords2algebraic(lo, y2);
+                if (!graph.hasNode(west)) { continue; }
+                if (east === west) { return [east]; }
+                const path = bidirectional(graph, east, west);
+                if (path !== null) { return path; }
+            }
+        }
+        return null;
+    }
+
+    private getCascadingWinner(): { winner: playerid, path: string[], size: number } | undefined {
+        // Starting with the full board and shrinking by two each time, look for the largest
+        // centred subboard across which exactly one player has a connection. Returns undefined
+        // if no such subboard exists down to the centre point, meaning the game is drawn.
+        for (let i = this.boardSize; i >= 1; i -= 2) {
+            const lo = (this.boardSize - i) / 2;
+            const hi = lo + i - 1;
+            const path1 = this.subboardConnection(1, lo, hi);
+            const path2 = this.subboardConnection(2, lo, hi);
+            if (path1 !== null && path2 === null) { return { winner: 1, path: path1, size: i }; }
+            if (path2 !== null && path1 === null) { return { winner: 2, path: path2, size: i }; }
+        }
+        return undefined;
+    }
+
     protected checkEOG(): GonnectGame {
         const otherPlayer = this.currplayer % 2 + 1 as playerid;
         const graph = this.buildGraph(otherPlayer);
@@ -398,7 +490,15 @@ export class GonnectGame extends GameBase {
                             this.gameover = true;
                             this.winner = [otherPlayer];
                             this.connPath = [...path];
-                            this.results.push({ type: "eog" });
+                            // Scoped to the cascading variant for now, purely to avoid touching
+                            // established base-game chat log wording. "won by direct connection"
+                            // isn't semantically wrong for the base game too — it's the only way
+                            // that game ever ends — so if someone later decides the base game
+                            // should get the same wording, it's fine to drop this condition and
+                            // always push the "gonnect_direct_connection" reason.
+                            this.results.push(this.variants.includes("cascading") ?
+                                { type: "eog", reason: "gonnect_direct_connection" } :
+                                { type: "eog" });
                             break;
                         }
                     }
@@ -408,7 +508,20 @@ export class GonnectGame extends GameBase {
                 }
             }
         }
-        if (!this.gameover && !this.hasMoves(this.currplayer)) {
+        if (!this.gameover && this.variants.includes("cascading") &&
+                this.lastmove === "pass" && this.stack[this.stack.length - 1].lastmove === "pass") {
+            this.gameover = true;
+            const cascading = this.getCascadingWinner();
+            if (cascading === undefined) {
+                this.winner = [1, 2];
+            } else {
+                this.winner = [cascading.winner];
+                this.connPath = [...cascading.path];
+                this.cascadeWinSize = cascading.size;
+            }
+            this.results.push({ type: "eog", reason: "consecutive_passes" });
+        }
+        if (!this.gameover && !this.variants.includes("cascading") && !this.hasMoves(this.currplayer)) {
             this.gameover = true;
             this.winner = [otherPlayer];
             this.results.push({ type: "eog", reason: "stalemate" });
@@ -448,6 +561,7 @@ export class GonnectGame extends GameBase {
             lastmove: this.lastmove,
             board: new Map(this.board),
             connPath: [...this.connPath],
+            cascadeWinSize: this.cascadeWinSize,
         };
     }
 
@@ -501,13 +615,19 @@ export class GonnectGame extends GameBase {
                     }
                 }
             }
-            if (this.connPath.length > 0) {
+            if (this.connPath.length > 1) {
                 const targets: RowCol[] = [];
                 for (const cell of this.connPath) {
                     const [x,y] = this.algebraic2coords(cell);
                     targets.push({row: y, col: x})
                 }
                 rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
+            } else if (this.connPath.length === 1) {
+                // A cascading win decided by the sole stone on the 1x1 centre subboard has
+                // nothing to draw a line between. Highlight that single point instead, the
+                // same way "enter" already highlights a just-placed piece elsewhere.
+                const [x, y] = this.algebraic2coords(this.connPath[0]);
+                rep.annotations.push({ type: "enter", targets: [{ row: y, col: x }] });
             }
         }
         if (this.dots.length > 0) {
@@ -537,6 +657,22 @@ export class GonnectGame extends GameBase {
                     this.pushNeutralChatLine(lines, "apresults:EOG.repetition", { count: 1 });
                 } else if (r.reason === "stalemate") {
                     this.pushNeutralChatLine(lines, "apresults:EOG.stalemate");
+                } else if (r.reason === "gonnect_direct_connection") {
+                    this.pushSeatChatLine(lines, this.winner[0], "apresults:EOG.gonnect_direct_connection");
+                } else if (r.reason === "consecutive_passes") {
+                    if (this.winner.length === 1 && this.cascadeWinSize !== undefined) {
+                        if (this.cascadeWinSize === this.boardSize) {
+                            // Reachable only defensively: in real play a full-board connection
+                            // always ends the game immediately via the "gonnect_direct_connection"
+                            // branch above, before a pass-based cascade could ever see it. Kept
+                            // for correctness in case that ever changes.
+                            this.pushSeatChatLine(lines, this.winner[0], "apresults:EOG.gonnect_direct_connection");
+                        } else {
+                            this.pushSeatChatLine(lines, this.winner[0], "apresults:EOG.gonnect_cascading_subboard", { size: this.cascadeWinSize });
+                        }
+                    } else {
+                        this.pushNeutralChatLine(lines, "apresults:EOG.consecutive_passes");
+                    }
                 } else {
                     this.pushNeutralChatLine(lines, "apresults:EOG.default");
                 }

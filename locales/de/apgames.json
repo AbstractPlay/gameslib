@@ -132,7 +132,7 @@
     "intermedium": "Mancala-artiges Säen von Stapeln zum Einkreisen und Schlagen. Sie gewinnen, indem Sie die Stadt des Gegners erobern.",
     "invector": "Eliminieren Sie die gegnerische Armee, während Sie sich dem Zentrum des Spielbretts nähern.",
     "iqishiqi": "Iqishiqi (ausgesprochen EE-tschi-schi-tschi) ist ein abstraktes Strategiespiel, das auf einem sechseckigen Brett aus Sechseckfeldern gespielt wird. Die Spieler besitzen bestimmte Brettränder und schieben durch geschicktes Platzieren von Steinen einen neutralen Stein über das Brett. Ein Spieler gewinnt, wenn er/sie den neutralen Stein zu einem seiner/ihrer Ränder bewegt oder den Gegner zugunfähig macht.",
-    "irensei": "Irensei ist eine Mischung aus Go und Gomoku. Bilden Sie eine Siebenerreihe im mittleren 15x15-Bereich des Go-Bretts, um zu gewinnen. Um den Vorteil des Startspielers zu verringern, verliert dieser, wenn er eine Überlänge bildet (selbst wenn sie über den 15x15-Bereich hinausreicht), der zweite Spieler kann jedoch auch durch eine Überlänge gewinnen.",
+    "irensei": "Irensei (japanisch: 囲連星) ist eine Mischung aus Go und Gomoku. Bilde eine Siebenerreihe innerhalb des mittleren 15x15-Bereichs des Go-Bretts, um zu gewinnen. Um den Vorteil des ersten Spielers zu verringern, verliert dieser, wenn er eine Überlänge bildet (selbst wenn sie sich über den 15x15-Bereich hinaus erstreckt), aber der zweite Spieler kann auch durch eine Überlänge gewinnen.",
     "jacynth": "Ein Decktet-Kartenspiel, bei dem Gegner um die Kontrolle über die Stadt Jacynth wetteifern. Platzieren Sie Karten, üben Sie Einfluss aus und kontrollieren Sie das größte Gebiet, um zu gewinnen.",
     "kachit": "Ein schachähnliches Spiel auf einem 4x4-Brett, bei dem Sie versuchen, den gegnerischen König zu schlagen oder Ihren eigenen umzuwandeln. Figuren können ihre Ausrichtung nach dem Bewegen ändern.",
     "knightline": "Ein Vier-in-einer-Reihe-Verbindungsspiel, das gespielt wird, indem man auf einem unbegrenzten Gitter einen Springerstapel teilt.",
@@ -156,7 +156,7 @@
     "mimic": "Ein Spiel, bei dem gegnerische Figuren Ihre Züge nachahmen, während Sie darum wetten, als erster Spieler die hinterste Reihe zu erreichen.",
     "minefield": "Verbinden Sie gegenüberliegende Seiten des Bretts, aber bestimmte Figurenkonfigurationen sind verboten.",
     "minimize": "Der Spieler mit der größten kleinsten Gruppe gewinnt das Spiel.",
-    "mirador": "Mirador ist ein schnelles und aufregendes Verbindungsspiel auf einem 27 x 27 Quadratgitter, bei dem 2 x 2 Quadrate platziert werden, die Wachtürme darstellen. Es nutzt Sichtlinienverbindungen und gleichwertige Ziele (was es eher zu einem Rennen als zu einem reinen Verbindungsspiel macht).",
+    "mirador": "Mirador ist ein schnelles und aufregendes Verbindungsspiel, das auf einem quadratischen Raster (standardmäßig 28 x 28) gespielt wird, indem 2 x 2-Quadrate platziert werden, die Wachtürme darstellen. Es nutzt Sichtlinienverbindungen und gleichwertige Ziele (was es eher zu einem Rennen als zu einem reinen Verbindungsspiel macht).",
     "mixtour": "Zwei Spieler errichten Türme mit dem Ziel, einen Turm von mindestens fünf Höhe mit der eigenen Farbe an der Spitze zu schaffen. Der Clou ist zweifach: (1) Sie können gegnerische Steine bewegen und (2) die Reicheweite der Bewegung wird durch die Höhe des *Zielstapels* und nicht des gezogenen Stapels bestimmt.",
     "monkey": "Sie beginnen mit einer einzelnen Dame, die aus einem Stapel von Spielsteinen besteht. Bei Zügen ohne Schlagen lässt die Dame einen Einzelstein zurück. Damen und Einzelsteine ziehen und schlagen wie Schachdamen. Um zu gewinnen, schlagen Sie die gegnerische Dame oder lassen Sie dem Gegner keine legalen Züge.",
     "morphos": "Rein orthogonales Quadrat-Verbindungsspiel. In Ihrem Zug platzieren Sie einen eigenen Stein oder drehen einen gegnerischen Stein in einem von drei vorgegebenen Mustern um. Gewinnen Sie, indem Sie Ihre zwei gegenüberliegenden Seiten des Bretts mit einer Kette aus Steinen Ihrer Farbe verbinden.",
@@ -604,6 +604,7 @@
     "exxit": "Übersetzungen der Regeln neigen dazu, bestimmte Nuancen auszulassen. Diese Implementierung entspricht der französischen Originalausgabe der Regeln.\n\nDa das Spielbrett während des Spiels in unregelmäßigen Formen aufgebaut wird, sind die Felder nummeriert statt algebraisch beschriftet. Dies stellt sicher, dass sich die Beschriftungen mit wachsendem Spielfeld nicht verändern.",
     "forms": "Forms wurde 2007 von Steven Meyers entworfen. Nach jedem Zug werden alle Steine außerhalb der Gruppe geschlagen, die den zuletzt bewegten Stein enthält. Der letzte Spieler, der zieht, verliert (Forms ist also ein Misère-Spiel). Die erste Version erlaubte es einem Stein, jeden gegnerischen Stein zu schlagen. Später, im Jahr 2011, entwickelte Meyers eine zweite Version, **Advanced Forms**, bei der man nur orthogonal angrenzende Steine schlagen konnte, sich ein Stein aber auch auf ein leeres Feld bewegen konnte, wenn beide durch eine Sequenz orthogonaler Schritte über leere Felder verbunden waren. Der Aufbau änderte sich ebenfalls zu einem Schachbrettmuster. Diese zweite Version ist die Standardvariante hier bei AP. Weitere Informationen finden Sie bei [WAG](https://jpneto.github.io/world_abstract_games/forms.htm).",
     "frogger": "Wie bei anderen Decktet-Spielen auf Abstract Play wird das Deck am unteren Rand des Spielbretts angezeigt und enthält sowohl Karten im Deck als auch unbekannte Karten auf den Händen der anderen Spieler. Nach der ersten Hand werden alle Karten aus dem offenen Ziehpool gezogen, sodass die Hände nach und nach offen werden. Der Ablagestapel wird ebenfalls angezeigt.\n\nErzwungene Pässe werden nicht mehr verwendet, wenn ein Spieler mitten in seinem Zug den Ziehpool auffüllt (und bestätigt). Der zweite Teilzug dieses Spielers wird automatisch vom Server abgewickelt. Es gibt auf Wunsch auch eine Ziehpool-Variante, die den Doppelzug vermeidet.\n\nDie Krokodil-Variante stammt von Jorge Arroyo, dem Übersetzer der englischen Regeln. Die Fortgeschrittenen-Regeln und weitere kleinere Varianten stammen von P. D. Magnus; sie erscheinen in \"The Decktet Book\", wo das Spiel Xing heißt.",
+    "gonnect": "Im Grundspiel ist Passen nicht erlaubt. Die Variante **Cascading Connection Goals** erlaubt Passen und endet nach zwei aufeinanderfolgenden Passzügen. Eine direkte Verbindung gewinnt sofort; andernfalls wird das größte zentrierte Teilbrett ermittelt, auf dem genau ein Spieler gegenüberliegende Seiten verbindet: Dieser Spieler gewinnt.",
     "garden": "Um sehr deutlich zu machen, was im vorherigen Zug passiert ist, wird jeder Zug auf vier separaten Spielbrettern dargestellt. Das erste Spielbrett zeigt das Spiel nach dem ersten Platzieren des Steins. Das zweite Spielbrett zeigt den Zustand, nachdem angrenzende Steine umgedreht wurden. Das dritte Spielbrett zeigt etwaige Ernten. Das vierte Spielbrett zeigt den finalen Spielzustand und ist die Stelle, an der Sie Ihre Züge ausführen.\n\nIn unserer Implementierung ist Schwarz immer die \"Tome\"- oder Gleichstands-Farbe. Der letzte Spieler, der Schwarz erntet, erhält ein `0.1` hinter seiner Punktzahl.",
     "guerrilla": "Ein Spieler gewinnt, indem er alle Steine des Gegners entfernt. Der Sicherheitsspieler gewinnt auch, wenn er lange genug überlebt, bis den Aufständischen die Steine zum Setzen ausgehen.\n\nStandardmäßig besteht ein Match aus zwei Spielen mit vertauschten Rollen. Jeder Spieler spielt ein Spiel als Aufständische und eines als Sicherheitskräfte. Wenn beide Spieler als Aufständische gewinnen, geht das Match an denjenigen, der weniger Steine verbraucht hat (`66 − verbleibend` am Ende dieses Spiels; die niedrigere Punktzahl gewinnt). Gleiche Aufständischen-Punktzahlen sind in diesem Fall das einzige Unentschieden. Ein Sieg der Sicherheitskräfte in einem Spiel bringt 67 Punkte. Wenn ein Spieler beide Spiele gewinnt (eines als Aufständische und eines als Sicherheitskräfte), gewinnt er das Match direkt. Wenn beide Spieler nur als Sicherheitskräfte gewinnen, endet das Match unentschieden.",
     "scribe": "Die Glyphen-Referenztabelle wird am linken Rand angezeigt. Ein Punkt markiert die jeweils letzte Platzierung jedes Spielers. Wenn sich ein Minigitter füllt, werden die Glyphenpunkte zusammengezählt und die höhere Punktzahl gewinnt dieses Gitter (bei Gleichstand gewinnt der Spieler, der es fertiggestellt hat).",
@@ -617,6 +618,7 @@
     "konane": "Es gibt mehrere konkurrierende Eröffnungsprotokolle, aber das gebräuchlichste Regelwerk ist das Naihe-Regelwerk, das bei Turnieren im Bishop Museum auf Hawaii verwendet und in der BGG-Referenz beschrieben wird. Dieses ist hier implementiert.",
     "knightline": "Der Einfachheit halber wird dein Stapel beim ersten Klick ungefähr halbiert. Nachfolgende Klicks auf den Quell- oder Zielstapel bewegen jeweils einen Stein. Wenn du fertig bist, klicke auf ein leeres Feld oder verwende die Schaltfläche 'Zug abschließen'.\n\nDas Koordinatensystem ist an das Koordinatensystem des Entwicklers für Hive angepasst, ein Spiel auf einem unbegrenzten (aber dennoch überschaubaren) Sechseckbrett. Die y-Achse ist mit kartesischen Koordinaten (positive und negative ganze Zahlen) beschriftet. Die x-Achse ist mit Buchstaben in alphabetischer Reihenfolge beschriftet, mit dem Ursprung bei (m, 0). Wenn die Bewegung auf der x-Achse die Grenzen des Alphabets in einer der beiden Richtungen überschreitet, wird den Buchstaben ein weiterer Buchstabe vorangestellt (auf z folgt aa, ab, ac usw., und vor a steht zz, zy, zx usw.). Es wird nicht erwartet, dass das Spiel eine Breite erreicht, die mehr Doppelkoordinaten erfordert, aber der Vollständigkeit halber: Auf az folgt ba, vor za steht yz und so weiter. Das Spielbrett kann keine Größe erreichen, die zu Unklarheiten führen würde.",
     "lasca": "Manövrierfähigkeit ist ein Maß dafür, wie nah deine Steine an der Umwandlung sind. Deine maximale Manövrierfähigkeit entspricht der Brettgröße multipliziert mit der Anzahl der Stapel, die du kontrollierst.\n\nMaterial wird berechnet, indem du einen Punkt für jeden eigenen Stein in einem von dir kontrollierten Stapel erhältst, plus einen Extra-Punkt, wenn sich ein Offizier an der Spitze dieses Stapels befindet.",
+    "lielow": "\"Züge bis zum Selbstmord\" summiert für jeden Spieler auf, wie viele Züge jeder seiner Stapel noch machen könnte — wobei er mit jedem Zug um eins wächst und immer die Richtung wählt, die am längsten überlebt — bevor er gezwungen ist, abgetragen zu werden. Es ignoriert jeden anderen Stapel auf dem Brett, ob eigene oder gegnerische, daher ist es ein grobes Maß dafür, wie exponiert die Steine eines Spielers sind, und keine Zählung der tatsächlich verbleibenden legalen Züge.",
     "linage": "Linage ist ein Spiel aus dem Jahr 2016 von Luis Bolaños Mures. Das Spiel basiert auf folgenden Definitionen: Eine **Region** ist eine maximale Menge orthogonal zusammenhängender leerer Punkte. Eine **Linie** ist eine Menge von N orthogonal zusammenhängenden leeren Punkten in derselben Reihe oder Spalte (Standard ist N=3); eine Region gehört **Vertikal**, wenn sie keine horizontalen Linien enthält, und **Horizontal**, wenn sie keine vertikalen Linien enthält. Eine Region ist frei, wenn sie keinem der beiden Spieler gehört. Regionen müssen immer mindestens eine Linie enthalten.\n\nIn seinem Zug passt der Spieler oder platziert einen Stein in einer freien Region. Das Spiel endet, wenn beide Spieler nacheinander passen, und es gewinnt derjenige mit der höchsten Punktzahl (d. h. die Anzahl der Punkte in den Regionen, die dem Spieler gehören, plus Komi).",
     "loa": "In der Mitte des 9x9-Spielfelds befindet sich ein \"schwarzes Loch\". Die Landung auf dem schwarzen Loch bedeutet, dass der Stein aus dem Spiel entfernt wird. Gleichzeitige Verbindungen werden als Unentschieden gewertet.",
     "magnate": "Die Terminologie einiger Magnate-Aktionen wurde zur Klarheit und Kürze geändert. Das vollständige Bebauen eines neuen Grundstücks wird als Aktion \"Kaufen\" bezeichnet; der Kauf einer Urkunde für ein neues Grundstück wird als \"Urkunde\" bezeichnet, das Bebauen von Urkunden (also das Hinzufügen von Spielsteinen zu einem Grundstück mit Urkunde, unabhängig davon, ob die Urkunde dadurch vollständig bebaut ist oder nicht) wird als \"Hinzufügen\" bezeichnet. (Das Verkaufen einer Karte und das Tauschen von Farbsymbolen 3 gegen 1 sind unverändert.)\n\nUm den Prozess des Würfelns nach Ressourcen zu beschleunigen, gibt es zwei zusätzliche Aktionen:\n* \"Bevorzugen\" dient zum Festlegen deiner Prämisse, welches Farbsymbol du nehmen möchtest, wenn eine Urkunde beim Wurf deines Gegners auszahlt. Wenn du keine explizite Präferenz festlegst, wählt der Code das seltenere Symbol für dich aus, basierend auf deinen Nicht-Kronen-Farben und deinem aktuellen Symbolvorrat. Das derzeit bevorzugte Symbol ist in der Benutzeroberfläche eingekreist, aber deine persönliche Präferenz ist für den anderen Spieler nie sichtbar.\n* \"Wählen\" ist eine obligatorische erste Aktion zum Sammeln von Farbsymbolen, wenn eine Urkunde bei deinem eigenen Wurf auszahlt. (In allen Fällen, in denen du ein Farbsymbol wählen musst, das sich noch nicht unter deinen Symbolen befindet, klickst du weiterhin auf den entsprechenden Symbolstapel.)\n\nDa du während eines Halbzugs mehrere Aktionen in beliebiger Reihenfolge ausführen kannst, gibt es auch eine Aktion \"Rückgängig\", um deine letzte Aktion zurückzunehmen, unabhängig davon, ob sie abgeschlossen war oder nicht.\n\nBeachte, dass nur das Endergebnis des Ressourcenwürfels angezeigt wird, die Verteilung der erwarteten Ergebnisse jedoch weiterhin der des Würfelns von 2d10 und dem Nehmen des höheren Werts entspricht. Besteuern findet statt, wenn der niedrigere von 2d10 eine 1 ist; ein Farbwürfel wird gewürfelt (oder zwei in der Doppelbesteuerungs-Variante), und die Farben werden unter dem Ressourcenergebnis angezeigt. Der Wurf wird am Ende des Zugs eines Spielers protokolliert und dem nächsten Spieler zugeschrieben (der im physischen Spiel gewürfelt hätte). Außer einem \"Wählen\" ist keine Benutzeraktion erforderlich; Ressourcen werden vom Server zwischen den Zügen automatisch hinzugefügt oder entfernt.\n\nWenn ein Spieler in einem Distrikt führt, ist die Figur oder die Ausrede (Excuse) für diesen Distrikt in der Farbe dieses Spielers umrandet. Die erste Gleichstandspunktzahl (Gesamtwert der Grundstücke) wird in Klammern nach der Distriktpunktzahl angezeigt. Der zweite Gleichstandsentscheid ist die Gesamtzahl der verbleibenden Spielsteine.",
@@ -968,6 +970,9 @@
       "board-19": {
         "name": "19x19-Brett"
       },
+      "board-23": {
+        "name": "23x23-Brett"
+      },
       "board-27": {
         "name": "27x27-Brett"
       },
@@ -1272,6 +1277,7 @@
     },
     "calculus": {
       "#board": {
+        "name": "Standardbrett",
         "description": "Ungefähr 12 Steine breit"
       },
       "width-10": {
@@ -1675,9 +1681,28 @@
       }
     },
     "crosshairs": {
+      "#clouds": {
+        "name": "16 Wolken"
+      },
+      "clouds-22": {
+        "name": "22 Wolken",
+        "description": "Platziere 22 Wolken statt 16. Mit dem standardmäßigen Größenlimit für Wolkenbänke kann die vollständige Anzahl möglicherweise nicht immer erreicht werden."
+      },
+      "clouds-28": {
+        "name": "28 Wolken",
+        "description": "Platziere 28 Wolken statt 16. Mit dem standardmäßigen Größenlimit für Wolkenbänke kann die vollständige Anzahl möglicherweise nicht immer erreicht werden."
+      },
       "random-start": {
-        "name": "Zufällige Wolken",
-        "description": "Es gibt keine Wolken-Platzierungsphase. Sie werden vom System zufällig platziert."
+        "name": "Symmetrische zufällige Wolken",
+        "description": "Es gibt keine Wolkenplatzierungsphase. Das System platziert die Wolken zufällig mit 180-Grad-Rotationssymmetrie."
+      },
+      "asymmetric-random-start": {
+        "name": "Asymmetrische zufällige Wolken",
+        "description": "Es gibt keine Wolkenplatzierungsphase. Das System platziert die Wolken zufällig, ohne Symmetrie zu erfordern."
+      },
+      "unbounded-cloud-banks": {
+        "name": "Unbegrenzte Wolkenbänke",
+        "description": "Wolkenbänke können eine beliebige Anzahl von Wolken enthalten."
       }
     },
     "crossway": {
@@ -2095,6 +2120,10 @@
       },
       "size-19": {
         "name": "19x19-Brett"
+      },
+      "cascading": {
+        "name": "Kaskadierende Verbindungsziele",
+        "description": "Passen ist erlaubt. Das Spiel endet auch nach zwei aufeinanderfolgenden Passzügen. In diesem Fall wird der Sieger ermittelt, indem die Verbindungen über eine verschachtelte Reihe zentrierter Teilbretter verglichen werden."
       }
     },
     "guerrilla": {
@@ -2593,6 +2622,14 @@
       },
       "size-8": {
         "name": "Hexagonales Brett (Basis 8)"
+      }
+    },
+    "mirador": {
+      "#board": {
+        "name": "28x28-Brett"
+      },
+      "size-40": {
+        "name": "40x40-Brett"
       }
     },
     "mixtour": {
@@ -4843,6 +4880,9 @@
       "STEPS": "Beweglichkeit",
       "MATERIAL": "Material"
     },
+    "lielow": {
+      "MOVESUNTILSUICIDE": "Züge bis zum Selbstmord"
+    },
     "majorities": "Punktestände (─, ⟋, ⟍)",
     "meg": {
       "OFFENSE": "Angreifender Spieler",
@@ -5736,8 +5776,10 @@
     },
     "crosshairs": {
       "PLACE_CLOUD": "Klicke auf ein leeres Feld, um eine Wolke zu platzieren. Wolken dürfen nicht größer als 2 Hexfelder sein.",
+      "PLACE_CLOUD_UNBOUNDED": "Klicke auf ein leeres Feld, um eine Wolke zu platzieren.",
       "CLOUD_OCCUPIED": "Auf {{cell}} befindet sich bereits eine Wolke.",
       "CLOUD_TOO_BIG": "Du kannst auf {{cell}} keine Wolke platzieren. Es sind nur Wolken der Größe 2 erlaubt. Diese Wolke wäre zu groß.",
+      "MUST_PASS_BEFORE_ENTRY": "Du musst passen, damit Spieler 1 das erste Flugzeug ins Spiel bringt.",
       "INITIAL_INSTRUCTIONS_one": "Wähle ein Flugzeug zum Ziehen oder setze ein neues Flugzeug an deiner Startkante ein. Du musst in diesem Zug {{count}} Flugzeug ziehen/einsetzen.",
       "INITIAL_INSTRUCTIONS_other": "Wähle ein Flugzeug zum Ziehen oder setze ein neues Flugzeug an deiner Startkante ein. Du musst in diesem Zug {{count}} Flugzeuge ziehen/einsetzen.",
       "INITIAL_INSTRUCTIONS_NO_ENTRY_one": "Wähle ein Flugzeug zum Ziehen. Du musst in diesem Zug {{count}} Flugzeug ziehen. Klicke auf gegnerische Flugzeuge, wenn du glaubst, dass sie abgeschossen werden können.",
@@ -6160,6 +6202,7 @@
     },
     "gonnect": {
       "INITIAL_INSTRUCTIONS": "Wähle einen Schnittpunkt, um einen Stein zu platzieren.",
+      "INVALID_PASS": "Du kannst derzeit nicht passen.",
       "KO": "Ko-Regel: Du darfst einen einzelnen Stein deines Gegners nicht sofort wieder schlagen, wenn er ihn gerade benutzt hat, um einen deiner Steine zu schlagen.",
       "SELF_CAPTURE": "Du darfst deine Steine nicht in eine Selbstschlag-Stellung setzen."
     },

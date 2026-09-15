@@ -1,0 +1,56 @@
+{
+  "generated": "2026-09-13T19:42:00.079Z",
+  "fixtures": [
+    {
+      "variant": "board-hex5",
+      "file": "record-board-hex5.json",
+      "gameid": "3f9febb8-3c79-44b6-8034-1a6cc413c6d2",
+      "siteGameId": "3f9febb8-3c79-44b6-8034-1a6cc413c6d2#storisende:",
+      "stackFrames": 39,
+      "sourceStackFrames": 158,
+      "moveRounds": 79
+    },
+    {
+      "variant": "board-hex4",
+      "file": "record-board-hex4.json",
+      "gameid": "3590eb46-ef08-429e-999a-45e8b4ab45c1",
+      "siteGameId": "3590eb46-ef08-429e-999a-45e8b4ab45c1#storisende:board-hex4",
+      "stackFrames": 39,
+      "sourceStackFrames": 42,
+      "moveRounds": 21
+    },
+    {
+      "variant": "board-hex6",
+      "file": "record-board-hex6.json",
+      "gameid": "37514505-fbcd-4665-b403-5a06602023cf",
+      "siteGameId": "37514505-fbcd-4665-b403-5a06602023cf#storisende:board-hex6",
+      "stackFrames": 39,
+      "sourceStackFrames": 394,
+      "moveRounds": 197
+    },
+    {
+      "variant": "board-modular-13",
+      "file": "record-board-modular-13.json",
+      "gameid": "c7468643-8afd-4c38-a204-3a7f3eca1863",
+      "siteGameId": "c7468643-8afd-4c38-a204-3a7f3eca1863#storisende:board-modular-13",
+      "stackFrames": 39,
+      "sourceStackFrames": 128,
+      "moveRounds": 64
+    },
+    {
+      "variant": "board-modular-18",
+      "file": "record-board-modular-18.json",
+      "gameid": "c20146e0-15fd-4fd2-b7fe-45cb2a5bc6c7",
+      "siteGameId": "c20146e0-15fd-4fd2-b7fe-45cb2a5bc6c7#storisende:board-modular-18",
+      "stackFrames": 39,
+      "sourceStackFrames": 175,
+      "moveRounds": 87
+    }
+  ],
+  "skipped": [
+    {
+      "variant": "board-hex7",
+      "reason": "no published record in meta JSON"
+    }
+  ]
+}

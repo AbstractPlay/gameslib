@@ -1,6 +1,6 @@
 {
   "name": "@abstractplay/gameslib",
-  "version": "1.0.0-ci-33995846150.0",
+  "version": "1.0.0-ci-34719860086.0",
   "description": "TypeScript implementations of the core Abstract Play games, intended to be wrapped by the front- and backends",
   "type": "module",
   "main": "build/index.js",
@@ -68,8 +68,10 @@
     "fetch-chat-golden-fixtures": "tsx scripts/fetch-turnModel-fixtures.ts --chat-only",
     "fetch-extra-chat-fixtures": "tsx scripts/fetch-turnModel-fixtures.ts --extra-chat",
     "fetch-frogger-dev-fixtures": "tsx scripts/fetch-frogger-dev-fixtures.ts",
+    "fetch-storisende-storage-fixtures": "tsx scripts/fetch-storisende-storage-fixtures.ts",
     "refresh-turnModel-golden": "tsx scripts/refresh-turnModel-golden-state.ts",
     "refresh-turnModel-golden-moves": "tsx scripts/refresh-turnModel-golden-moves.ts",
+    "refresh-turnModel-published-scores": "tsx scripts/refresh-turnModel-published-scores.ts",
     "refresh-chat-golden": "tsx scripts/refresh-chat-golden.ts",
     "refresh-chat-golden-entries": "tsx scripts/refresh-chat-golden-entries.ts",
     "verify-phase3-chat-fixtures": "tsx scripts/verify-phase3-chat-fixtures.ts",
@@ -131,8 +133,8 @@
     "vite": "^6.3.5"
   },
   "dependencies": {
-    "@abstractplay/recranks": "1.0.0-ci-33687599936.0",
-    "@abstractplay/renderer": "1.0.0-ci-33995787246.0",
+    "@abstractplay/recranks": "1.0.0-ci-33686810882.0",
+    "@abstractplay/renderer": "1.0.0-ci-34719790939.0",
     "@turf/boolean-contains": "^6.5.0",
     "@turf/boolean-intersects": "^6.5.0",
     "@turf/boolean-point-in-polygon": "^6.5.0",

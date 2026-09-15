@@ -276,6 +276,8 @@
     "deckfish": "La partita è terminata perché l'ultimo giocatore non è stato in grado di muovere.",
     "default": "La partita è terminata.",
     "forms": "La partita è terminata perché il giocatore successivo non è in grado di muovere.",
+    "gonnect_cascading_subboard": "{{player}} ha vinto sul sotto-tabellone {{size}}x{{size}}.",
+    "gonnect_direct_connection": "{{player}} ha vinto per connessione diretta.",
     "material": "La partita è terminata perché entrambi i giocatori non hanno materiale sufficiente.",
     "repetition_one": "La partita è terminata perché la stessa posizione si è verificata da parte dello stesso giocatore.",
     "repetition_other": "La partita è terminata perché la stessa posizione si è verificata {{count}} volte da parte dello stesso giocatore.",

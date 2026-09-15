@@ -54,6 +54,7 @@
     },
     "BUTTON": "{{player}} took the button.",
     "CAPTURE": {
+        "asli_self": "{{player}} cleared their own stranded stones at {{where}}.",
         "ataxx_one": "1 piece is converted.",
         "ataxx_other": "{{count}} pieces are converted.",
         "bao_one": "{{player}} captured a total of {{count}} stone from the following pits (in order): {{pits}}",

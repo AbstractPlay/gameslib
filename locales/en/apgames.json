@@ -955,6 +955,14 @@
             "#rules": {
                 "description": "Incursions are legal."
             },
+            "#scoring": {
+                "name": "Stone scoring",
+                "description": "Win by immobilization."
+            },
+            "area": {
+                "name": "Area scoring",
+                "description": "Suicide is legal, passing is always legal and blocks the opponent's next minimal incursion, and the game ends on two consecutive passes. The winner is whoever holds the most area: their stones on the board, plus their territory, plus komi."
+            },
             "board-9": {
                 "name": "9x9 board"
             },
@@ -4795,6 +4803,7 @@
             "HARLOG": "Harlog"
         },
         "asli": {
+            "AREA": "Area",
             "TERRITORY": "Territory & Prisoners"
         },
         "baghchal": {
@@ -5190,12 +5199,14 @@
             "BAD_KOMI": "The first move of the game must be an integer representing the number of pieces to place in the starting prison. A positive number puts pieces belonging to the first player. A negative number, those of the second player. You may not place more pieces in the prison than number of cells on the board plus one.",
             "BAD_PASS": "You must remove an enemy piece from the prison to pass.",
             "BAD_PIE": "You may not accept pie at this point in the game.",
+            "INITIAL_INSTRUCTIONS_area": "Place a piece on a valid empty point, or pass. Passing also blocks your opponent's next minimal incursion.",
             "INITIAL_INSTRUCTIONS_komi": "Enter the number of first-player pieces you wish to place in the starting prison. The second player will then decide which seat to take.",
             "INITIAL_INSTRUCTIONS_pie": "Either click the 'Play second' button to stay where you are and continue playing second, or click 'Swap player seats' to change seats.",
             "INITIAL_INSTRUCTIONS_pie2": "Either pass to accept the komi offer and continue playing second, or place a piece to take over as first player.",
-            "INITIAL_INSTRUCTIONS_play": "Place a piece on a valid empty space or pass to take an enemy piece out of the prison instead (if one is available).",
+            "INITIAL_INSTRUCTIONS_play": "Place a piece on a valid empty point or pass to take an enemy piece out of the prison instead (if one is available).",
             "MUST_PIE": "At this point of the game, placing pieces is not allowed.",
             "NEGATIVE_KOMI": "Are you sure? Negative komi offers should only be needed in specific handicapping situations.",
+            "NO_CHANGE": "Under area scoring, your move must change the board. This placement would be removed again immediately, capturing nothing.",
             "SUICIDE": "You may not place a piece such that you have dead friendly groups at the end of your turn.",
             "WOVEN_INCURSION": "In the 'Woven' variant, incursions are not legal."
         },

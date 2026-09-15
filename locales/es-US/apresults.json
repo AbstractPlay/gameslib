@@ -276,6 +276,8 @@
     "deckfish": "La partida ha terminado porque el último jugador no pudo mover.",
     "default": "La partida ha terminado.",
     "forms": "La partida ha terminado porque el siguiente jugador no puede mover.",
+    "gonnect_cascading_subboard": "{{player}} ganó en el subtablero de {{size}}x{{size}}.",
+    "gonnect_direct_connection": "{{player}} ganó por conexión directa.",
     "material": "La partida ha terminado porque ambos jugadores tienen material insuficiente.",
     "repetition_one": "La partida ha terminado porque se ha repetido la misma posición por el mismo jugador.",
     "repetition_other": "La partida ha terminado porque la misma posición ocurrió {{count}} veces por el mismo jugador.",

@@ -9,7 +9,6 @@ import {
     GameBaseSkipTurn,
     resolveGameFlags,
 } from "./games/index.js";
-import { AIFactory, supportedGames as aiSupported, fastGames as aiFast, slowGames as aiSlow } from "./ais/index.js";
 import {
     filterGameinfoForProduction,
     allowedChallengeVariantUids,
@@ -21,10 +20,6 @@ import {
 export {
     GameFactory,
     resolveGameFlags,
-    AIFactory,
-    aiSupported,
-    aiFast,
-    aiSlow,
     GameBase,
     GameBaseSequenced,
     GameBaseSimultaneous,

@@ -943,6 +943,14 @@
     "src": "The game has ended because the next player is unable to move.",
     "out": "La partita è terminata perché il giocatore successivo non è in grado di muovere."
   },
+  "EOG.gonnect_cascading_subboard": {
+    "src": "{{player}} won on the {{size}}x{{size}} subboard.",
+    "out": "{{player}} ha vinto sul sotto-tabellone {{size}}x{{size}}."
+  },
+  "EOG.gonnect_direct_connection": {
+    "src": "{{player}} won by direct connection.",
+    "out": "{{player}} ha vinto per connessione diretta."
+  },
   "EOG.material": {
     "src": "The game has ended because both players have insufficient material.",
     "out": "La partita è terminata perché entrambi i giocatori non hanno materiale sufficiente."

@@ -490,7 +490,15 @@ export class GonnectGame extends GameBase {
                             this.gameover = true;
                             this.winner = [otherPlayer];
                             this.connPath = [...path];
-                            this.results.push({ type: "eog", reason: "gonnect_direct_connection" });
+                            // Scoped to the cascading variant for now, purely to avoid touching
+                            // established base-game chat log wording. "won by direct connection"
+                            // isn't semantically wrong for the base game too — it's the only way
+                            // that game ever ends — so if someone later decides the base game
+                            // should get the same wording, it's fine to drop this condition and
+                            // always push the "gonnect_direct_connection" reason.
+                            this.results.push(this.variants.includes("cascading") ?
+                                { type: "eog", reason: "gonnect_direct_connection" } :
+                                { type: "eog" });
                             break;
                         }
                     }

@@ -50,7 +50,10 @@ describe("Gonnect", () => {
         expect(log.some(l => l.includes("Alice won by direct connection"))).to.be.true;
     });
 
-    it("A full connection wins immediately in the base game too, with the same wording", () => {
+    it("A full connection wins immediately in the base game too, keeping the original generic wording", () => {
+        // The "won by direct connection" wording is scoped to the cascading variant for now,
+        // purely to avoid changing established base-game chat log text; see the comment at its
+        // call site in checkEOG(). The base game keeps its original generic message.
         const g = new GonnectGame(undefined, ["size-9"]);
         for (let row = 1; row <= 9; row++) {
             g.board.set(`a${row}`, 1);
@@ -60,7 +63,8 @@ describe("Gonnect", () => {
         expect(g.gameover).to.be.true;
         expect(g.winner).to.eql([1]);
         const log = g.chatLog(["Alice", "Bob"]).flat();
-        expect(log.some(l => l.includes("Alice won by direct connection"))).to.be.true;
+        expect(log.some(l => l.includes("Alice won by direct connection"))).to.be.false;
+        expect(log.some(l => l.includes("The game has ended"))).to.be.true;
     });
 
     it("An empty board ends in a draw after two passes (cascading)", () => {

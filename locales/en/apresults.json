@@ -276,6 +276,8 @@
         "deckfish": "The game has ended because the last player was unable to move.",
         "default": "The game has ended.",
         "forms": "The game has ended because the next player is unable to move.",
+        "gonnect_cascading_subboard": "{{player}} won on the {{size}}x{{size}} subboard.",
+        "gonnect_direct_connection": "{{player}} won by direct connection.",
         "material": "The game has ended because both players have insufficient material.",
         "repetition_one": "The game has ended because the same position has occurred by the same player.",
         "repetition_other": "The game has ended because the same position has occurred {{count}} times by the same player.",

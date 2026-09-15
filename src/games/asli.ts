@@ -609,6 +609,8 @@ export class AsliGame extends GameBase {
             // modify state
             this.board.set(m, this.currplayer);
             this.results.push({type: "place", where: m});
+            // clear the opponent's stranded strings; under area scoring, the
+            // mover's own stranded strings are cleared next (see below)
             const {dead, numGroups} = this.findDead(enemy);
             if (numGroups > 0) {
                 this.prison[enemy - 1] += dead.length;
@@ -667,7 +669,7 @@ export class AsliGame extends GameBase {
                 }
             }
         }
-        // game can't end before third ply
+        // in the default game, the game can't end before the third ply
         else if (this.stack.length > 3) {
             let stateCount = 0;
             if (this.stack[this.stack.length - 2].lastmove !== "pass") {

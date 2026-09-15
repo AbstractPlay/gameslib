@@ -3012,7 +3012,7 @@ export class CrosshairsGame extends GameBase {
     }
 
     public getCustomRotation(): number {
-        return 0;
+        return 60;
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
@@ -3095,8 +3095,8 @@ export class CrosshairsGame extends GameBase {
                 name: "cloud",
                 colour: "#ffffff",
                 opacity: 0.7,
-                rotate: 270,
                 scale: 1.5,
+                orientation: "vertical",
             };
         myLegend["cloud"] = cloudGlyph;
 

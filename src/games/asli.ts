@@ -66,7 +66,7 @@ export class AsliGame extends GameBase {
             {uid: "board-23", group: "board"},
             {uid: "board-27", group: "board"},
             {uid: "woven", group: "rules"},
-            {uid: "area", group: "scoring"},
+            {uid: "area", group: "scoring", experimental: true},
             {uid: "setkomi", group: "komi"},
         ],
         categories: ["goal>immobilize", "goal>area", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],

@@ -1,6 +1,7 @@
 service: abstractplay-gameslib-playground
+org: abstractplay
 
-frameworkVersion: '2 || 3'
+frameworkVersion: '4'
 
 provider:
   name: aws

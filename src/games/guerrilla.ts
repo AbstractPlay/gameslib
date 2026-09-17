@@ -859,8 +859,6 @@ export class GuerrillaGame extends GameBase {
             case "place":
                 this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", {where: r.where!});
                 return true;
-            case "move":
-                return true;
             case "capture":
                 this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.nowhat", {where: r.where!});
                 return true;

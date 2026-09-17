@@ -76,6 +76,20 @@ describe("Guerrilla", () => {
         expect(g.board.has("e3")).to.be.false;
     });
 
+    it("logs security moves in the event log", () => {
+        const g = guerrillaFrom({
+            board: [
+                ["f4", 2],
+                ["e3", 2],
+            ],
+            currplayer: 2,
+        });
+        g.move("e3f4", {trusted: true});
+        const lines = g.chatLogEntries(["Alice", "Bob"]);
+        expect(lines).to.have.length(1);
+        expect(lines[0]!.lines.some(l => l.textKey === "apresults:MOVE.nowhat")).to.be.true;
+    });
+
     it("requires continuing capture chains", () => {
         const g = guerrillaFrom({
             board: [

@@ -19,8 +19,8 @@
     },
     "armadas": {
       "freeform": {
-        "name": "Liberforma (nerangigita)",
-        "description": "Lasu la ludantojn determini siajn proprajn flotojn. Necesas bona komunikado antaŭ ol komenci. Tiuj ludoj ne povas esti taksitaj."
+        "name": "Liberforma (nepritaksita)",
+        "description": "Lasu la ludantojn determini siajn proprajn flotojn. Necesas bona komunikado antaŭ ol komenci. Tiuj ludoj ne povas esti pritaksitaj."
       },
       "#obstacles": {
         "name": "Unu obstaklo"
@@ -622,8 +622,8 @@
         "description": "Hazarde generita preparo kun reduktita armeo grandeco"
       },
       "free": {
-        "name": "Libera metado (ne taksita)",
-        "description": "Lasu la ludantojn meti tiom da pecoj kiom ili volas kie ili volas, inkluzive de kreado de kontraŭleĝaj aŭ alie rompitaj pozicioj. Ludantoj devas klare komunikiĝi antaŭ ol komenci. Tiuj ludoj ne povas esti taksitaj."
+        "name": "Libera metado (nepritaksita)",
+        "description": "Lasu la ludantojn meti tiom da pecoj kiom ili volas kie ili volas, inkluzive de kreado de kontraŭleĝaj aŭ alie rompitaj pozicioj. Ludantoj devas klare komunikiĝi antaŭ ol komenci. Tiuj ludoj ne povas esti pritaksitaj."
       }
     },
     "asli": {
@@ -2593,8 +2593,8 @@
         "name": "Norma aranĝo"
       },
       "custom": {
-        "name": "Persona preparado (ne taksita)",
-        "description": "La ludantoj povas krei arbitrajn aranĝojn. Oni devas fari tion nur kun bona komunikado. Tiuj ludoj ne povas esti taksitaj."
+        "name": "Persona preparado (nepritaksita)",
+        "description": "La ludantoj povas krei arbitrajn aranĝojn. Oni devas fari tion nur kun bona komunikado. Tiuj ludoj ne povas esti pritaksitaj."
       },
       "#board": {
         "name": "Tabulo 11×11"

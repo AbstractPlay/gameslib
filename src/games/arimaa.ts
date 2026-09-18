@@ -736,8 +736,8 @@ export class ArimaaGame extends GameBase {
                         result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
                         return result;
                     }
-                    // cell must be empty
-                    if (this.board.has(cell)) {
+                    // cell must be empty, including of anything placed earlier in this move
+                    if (cloned.board.has(cell)) {
                         result.valid = false;
                         result.message = i18next.t("apgames:validation._general.OCCUPIED");
                         return result;

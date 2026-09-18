@@ -146,12 +146,6 @@ describe("Arimaa", () => {
         filled.move(nonrabbits);
         expect(g.signature()).to.equal(filled.signature());
 
-        // and it stays out of the way when the placements don't add up
-        // (two pieces on one cell is caught elsewhere, but must not autofill)
-        g = new ArimaaGame();
-        result = g.validateMove("Ee2,Me2,Hb2,Hg2,Cf2,Cc2,Dd1,De1");
-        expect(result.complete).to.equal(-1);
-
         // the shortcut doesn't apply to the free variant
         g = new ArimaaGame(undefined, ["free"]);
         result = g.validateMove("Ec3");
@@ -182,6 +176,27 @@ describe("Arimaa", () => {
         result = g.handleClick("Ee2", 6, 3);
         expect(result.valid).to.be.true;
         expect(result.move).to.equal("Ee2,Md2");
+    });
+
+    it ("Can't place two pieces on one cell", () => {
+        // only reachable by typing; the click handler refuses to drop onto an
+        // occupied cell. Used to throw an unhandled TypeError in standard setup
+        // (the hand emptied while a home cell stayed empty) and to be accepted
+        // silently in free setup, overwriting the earlier piece.
+        let g = new ArimaaGame();
+        let result = g.validateMove("Ee2,Me2,Hb2,Hg2,Cf2,Cc2,Dd1,De1,Ra2,Rh2,Ra1,Rb1,Rc1,Rf1,Rg1,Rh1");
+        expect(result.valid).to.be.false;
+        expect(result.message).to.equal(i18next.t("apgames:validation._general.OCCUPIED"));
+        g = new ArimaaGame(undefined, ["free"]);
+        result = g.validateMove("Ec3,Mc3,Rd4");
+        expect(result.valid).to.be.false;
+        expect(result.message).to.equal(i18next.t("apgames:validation._general.OCCUPIED"));
+        // placing onto an opponent's piece is still caught the same way
+        g = new ArimaaGame(undefined, ["free"]);
+        g.move("Ec3,Rd4");
+        result = g.validateMove("ec3");
+        expect(result.valid).to.be.false;
+        expect(result.message).to.equal(i18next.t("apgames:validation._general.OCCUPIED"));
     });
 
     it ("classifications", () => {

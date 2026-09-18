@@ -92,6 +92,98 @@ describe("Arimaa", () => {
         expect(result.message).to.include(i18next.t("apgames:validation.arimaa.WARN_HIDE"));
     });
 
+    it ("Rabbit autofill in standard setup", () => {
+        const nonrabbits = "Ee2,Md2,Hb2,Hg2,Cf2,Cc2,Dd1,De1";
+        let g = new ArimaaGame();
+        // not until every non-rabbit is down
+        let result = g.validateMove("Ee2,Md2,Hb2,Hg2,Cf2,Cc2,Dd1");
+        expect(result.valid).to.be.true;
+        expect(result.complete).to.equal(-1);
+        // eight non-rabbits and no rabbits is submittable
+        result = g.validateMove(nonrabbits);
+        expect(result.valid).to.be.true;
+        expect(result.complete).to.equal(0);
+        expect(result.message).to.include(i18next.t("apgames:validation.arimaa.PARTIAL_RABBITS"));
+        // and so is anything between that and a full setup
+        result = g.validateMove(`${nonrabbits},Ra2,Ra1,Rb1`);
+        expect(result.valid).to.be.true;
+        expect(result.complete).to.equal(0);
+        // advice is given against the filled-in setup, not the partial one
+        result = g.validateMove("Ea2,Mb2,Hc2,Hd2,Ce2,Df2,Dg2,Ch2");
+        expect(result.message).to.include(i18next.t("apgames:validation.arimaa.WARN_BALANCE"));
+
+        // submitting fills the empty cells of the setup area with rabbits
+        g.move(nonrabbits);
+        for (const cell of ["a2", "h2", "a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1"]) {
+            const contents = g.board.get(cell);
+            expect(contents).to.not.be.undefined;
+            if (cell === "d1" || cell === "e1") {
+                expect(contents![0]).to.equal("D");
+            } else {
+                expect(contents![0]).to.equal("R");
+                expect(contents![1]).to.equal(1);
+            }
+        }
+        expect(g.hands![0]).to.be.empty;
+        // silver works the same way
+        g.move("ee7,md7,hb7,hg7,cf7,cc7,dd8,de8");
+        expect(g.board.get("a7")![0]).to.equal("R");
+        expect(g.board.get("a7")![1]).to.equal(2);
+        expect(g.hands).to.be.undefined;
+        expect([...g.board.values()].filter(([pc,]) => pc === "R")).to.have.lengthOf(16);
+
+        // partially placed rabbits are left where the player put them
+        g = new ArimaaGame();
+        g.move(`${nonrabbits},Ra2,Rh2`);
+        expect(g.board.get("a2")![0]).to.equal("R");
+        expect([...g.board.values()].filter(([pc,]) => pc === "R")).to.have.lengthOf(8);
+        expect(g.hands![0]).to.be.empty;
+
+        // a complete setup still produces the same result as before
+        g = new ArimaaGame();
+        g.move(`${nonrabbits},Ra2,Rh2,Ra1,Rb1,Rc1,Rf1,Rg1,Rh1`);
+        const filled = new ArimaaGame();
+        filled.move(nonrabbits);
+        expect(g.signature()).to.equal(filled.signature());
+
+        // and it stays out of the way when the placements don't add up
+        // (two pieces on one cell is caught elsewhere, but must not autofill)
+        g = new ArimaaGame();
+        result = g.validateMove("Ee2,Me2,Hb2,Hg2,Cf2,Cc2,Dd1,De1");
+        expect(result.complete).to.equal(-1);
+
+        // the shortcut doesn't apply to the free variant
+        g = new ArimaaGame(undefined, ["free"]);
+        result = g.validateMove("Ec3");
+        expect(result.message).to.not.include(i18next.t("apgames:validation.arimaa.PARTIAL_RABBITS"));
+    });
+
+    it ("Free setup defaults to placing a rabbit", () => {
+        // clicking an empty cell with nothing selected places a rabbit
+        let g = new ArimaaGame(undefined, ["free"]);
+        let result = g.handleClick("", 4, 3);
+        expect(result.valid).to.be.true;
+        expect(result.move).to.equal("Rd4");
+        // but an explicitly chosen piece still wins
+        result = g.handleClick("E", 4, 3);
+        expect(result.valid).to.be.true;
+        expect(result.move).to.equal("Ed4");
+        // silver too
+        g.move("Rd4");
+        result = g.handleClick("", 3, 3);
+        expect(result.valid).to.be.true;
+        expect(result.move).to.equal("rd5");
+
+        // standard setup still offers the strongest piece in hand
+        g = new ArimaaGame();
+        result = g.handleClick("", 6, 4);
+        expect(result.valid).to.be.true;
+        expect(result.move).to.equal("Ee2");
+        result = g.handleClick("Ee2", 6, 3);
+        expect(result.valid).to.be.true;
+        expect(result.move).to.equal("Ee2,Md2");
+    });
+
     it ("classifications", () => {
         expect(ArimaaGame.classify(1, "Ra1,Ed4".split(","))).to.deep.equal(["placement", "placement"]);
         expect(ArimaaGame.classify(2, "Ra1,Ed4".split(","))).to.deep.equal([undefined, undefined]);

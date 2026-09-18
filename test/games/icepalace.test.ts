@@ -279,8 +279,10 @@ describe("Ice Palace: board interaction", () => {
         g.move("1M@0,0");
         const rep = g.render() as { pieces: { x: number; y: number; id: string }[]; board: { width: number; height: number } };
         const drawn = rep.pieces.find(p => p.id === "y:0,0")!;
-        // One cell to the right of the only stack is inside the canvas and is a real cell.
-        const click = g.handleClick("1S", drawn.y, drawn.x + 1, "_field");
+        // One cell to the right of the only stack. Columns are pitched at the renderer's
+        // own cellsize, which is what freespace scales pieces to.
+        const CELL = 50;
+        const click = g.handleClick("1S", drawn.y, drawn.x + CELL, "_field");
         expect(click.valid, click.message).to.be.true;
         expect(click.move).to.equal("1S@1,0");
     });

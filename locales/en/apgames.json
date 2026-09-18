@@ -288,6 +288,11 @@
         "yonmoque": "Try to form four in a row in a game where not all spaces are equal and opposing pieces can be converted.",
         "zola": "A game where your movement is constrained by your distance from the centre of the board. Capturing moves must not increase that distance. Non-capturing moves must increase that distance. First person to capture all opposing pieces wins."
     },
+    "icepalace": {
+        "PALACE": "Ice Palace",
+        "YARD": "Yard",
+        "YARD_BUILDING": "Yard (being built)"
+    },
     "names": {
         "abande": "Abande",
         "accasta": "Accasta",

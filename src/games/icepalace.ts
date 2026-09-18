@@ -29,12 +29,17 @@ import { maximumBuild } from "./icepalace/solver.js";
 /** A hand is being played into the Yard, or its winner is building the Palace. */
 export type Phase = "hand" | "build";
 
-/** One cell of freespace canvas. */
-const UNIT = 1;
+/** One cell of freespace canvas, in renderer units; freespace scales pieces to `cellsize`. */
+const UNIT = 50;
 /** How far each pyramid in a stack rises above the one below it. */
-const RISER = 0.34;
-/** Blank columns between the two structures. */
-const GAP = 2;
+const RISER = UNIT * 0.34;
+/**
+ * Rows are pitched further apart than columns so that a full three-pyramid stack, which
+ * rises two risers above its cell, cannot collide with whatever sits in the row above.
+ */
+const ROW_PITCH = UNIT + 2 * RISER;
+/** Blank space between the two structures. */
+const GAP = UNIT * 2;
 /** Rings of empty cells kept around each structure, to click into when founding. */
 const PADDING = 1;
 
@@ -807,7 +812,7 @@ export class IcePalaceGame extends GameBaseSequenced {
             for (const [cell, stack] of struct.entries()) {
                 const [x, y] = coordsOf(cell);
                 const baseX = extent.originX + (x - extent.minX + 0.5) * UNIT;
-                const baseY = layout.height - (y - extent.minY + 0.5) * UNIT;
+                const baseY = layout.height - (y - extent.minY + 0.5) * ROW_PITCH;
                 for (let i = 0; i < stack.length; i++) {
                     const key = `p${stack[i]}`;
                     if (!(key in legend)) {
@@ -829,7 +834,7 @@ export class IcePalaceGame extends GameBaseSequenced {
         draw(this.palace, layout.palace, "p");
         draw(this.yard, layout.yard, "y");
 
-        const label = (text: string, extent: IStructureExtent): void => {
+        const label = (text: MarkerFreespaceLabel["label"], extent: IStructureExtent): void => {
             markers.push({
                 type: "label",
                 label: text,
@@ -839,8 +844,17 @@ export class IcePalaceGame extends GameBaseSequenced {
                 ],
             });
         };
-        label("Ice Palace", layout.palace);
-        label(this.phase === "build" ? "Yard (being built)" : "Yard", layout.yard);
+        // Structured labels, resolved by the front end, rather than English baked in here.
+        // i18next.t("apgames:icepalace.PALACE")
+        label(this.neutralAreaLabel("apgames:icepalace.PALACE"), layout.palace);
+        // i18next.t("apgames:icepalace.YARD")
+        // i18next.t("apgames:icepalace.YARD_BUILDING")
+        label(
+            this.neutralAreaLabel(
+                this.phase === "build" ? "apgames:icepalace.YARD_BUILDING" : "apgames:icepalace.YARD",
+            ),
+            layout.yard,
+        );
 
         const rep: APRenderRep = {
             renderer: "freespace",
@@ -863,7 +877,7 @@ export class IcePalaceGame extends GameBaseSequenced {
     private layout(): ILayout {
         const extentOf = (struct: Structure, originX: number): IStructureExtent => {
             if (struct.size === 0) {
-                return { originX, minX: 0, minY: 0, cols: 1, rows: 1, width: UNIT, height: UNIT };
+                return { originX, minX: 0, minY: 0, cols: 1, rows: 1, width: UNIT, height: ROW_PITCH };
             }
             const coords = [...struct.keys()].map(coordsOf);
             const minX = Math.min(...coords.map(c => c[0])) - PADDING;
@@ -872,7 +886,11 @@ export class IcePalaceGame extends GameBaseSequenced {
             const maxY = Math.max(...coords.map(c => c[1])) + PADDING;
             const cols = maxX - minX + 1;
             const rows = maxY - minY + 1;
-            return { originX, minX, minY, cols, rows, width: cols * UNIT, height: rows * UNIT };
+            return {
+                originX, minX, minY, cols, rows,
+                width: cols * UNIT,
+                height: rows * ROW_PITCH,
+            };
         };
 
         const palace = extentOf(this.palace, 0);
@@ -902,7 +920,7 @@ export class IcePalaceGame extends GameBaseSequenced {
         }
         return cellOf(
             extent.minX + Math.floor(localX / UNIT),
-            extent.minY + Math.floor(localY / UNIT),
+            extent.minY + Math.floor(localY / ROW_PITCH),
         );
     }
 

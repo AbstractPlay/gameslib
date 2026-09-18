@@ -256,6 +256,46 @@ describe("Ice Palace: scoring and ending", () => {
     });
 });
 
+describe("Ice Palace: board interaction", () => {
+    /**
+     * The freespace renderer reports clicks as continuous coordinates, so the layout maths
+     * has to invert cleanly. This checks the arithmetic only; the renderer JSON itself is
+     * not verified here.
+     */
+    it("maps a click at a cell's drawn position back to that cell", () => {
+        const g = rig(new IcePalaceGame(3), [["1M"], ["2L"], ["3S"]], fatPool());
+        g.move("1M@0,0");
+        const rep = g.render() as { pieces: { x: number; y: number; id: string }[] };
+        const drawn = rep.pieces.find(p => p.id === "y:0,0");
+        expect(drawn, "the placed pyramid should be drawn").to.not.be.undefined;
+        // A large covers a medium, and colour is irrelevant when stacking.
+        const click = g.handleClick("2L", drawn!.y, drawn!.x, "_field");
+        expect(click.valid, click.message).to.be.true;
+        expect(click.move).to.equal("2L@0,0");
+    });
+
+    it("offers frontier space to found new stacks into", () => {
+        const g = rig(new IcePalaceGame(3), [["1M", "1S"], ["1S"], ["3S"]], fatPool());
+        g.move("1M@0,0");
+        const rep = g.render() as { pieces: { x: number; y: number; id: string }[]; board: { width: number; height: number } };
+        const drawn = rep.pieces.find(p => p.id === "y:0,0")!;
+        // One cell to the right of the only stack is inside the canvas and is a real cell.
+        const click = g.handleClick("1S", drawn.y, drawn.x + 1, "_field");
+        expect(click.valid, click.message).to.be.true;
+        expect(click.move).to.equal("1S@1,0");
+    });
+
+    it("selects a cell when an existing pyramid is clicked", () => {
+        const g = rig(new IcePalaceGame(3), [["1S", "1L"], ["1S"], ["3S"]], fatPool());
+        g.move("1S@0,0");
+        g.move("pass");
+        g.move("pass");
+        const click = g.handleClick("1L", 0, 0, "y:0,0");
+        expect(click.valid, click.message).to.be.true;
+        expect(click.move).to.equal("1L@0,0");
+    });
+});
+
 describe("Ice Palace: serialization", () => {
     it("survives a round trip through its own state", () => {
         const g = rig(new IcePalaceGame(3), [["1M", "1L"], ["WS"], ["3S"]], fatPool());

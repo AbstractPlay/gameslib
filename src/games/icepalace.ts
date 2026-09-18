@@ -29,6 +29,32 @@ import { maximumBuild } from "./icepalace/solver.js";
 /** A hand is being played into the Yard, or its winner is building the Palace. */
 export type Phase = "hand" | "build";
 
+/** One cell of freespace canvas. */
+const UNIT = 1;
+/** How far each pyramid in a stack rises above the one below it. */
+const RISER = 0.34;
+/** Blank columns between the two structures. */
+const GAP = 2;
+/** Rings of empty cells kept around each structure, to click into when founding. */
+const PADDING = 1;
+
+interface IStructureExtent {
+    originX: number;
+    minX: number;
+    minY: number;
+    cols: number;
+    rows: number;
+    width: number;
+    height: number;
+}
+
+interface ILayout {
+    palace: IStructureExtent;
+    yard: IStructureExtent;
+    width: number;
+    height: number;
+}
+
 const SIZES: Size[] = [1, 2, 3];
 const SIZE_NAMES = ["small", "medium", "large"];
 /** Every Icehouse stash holds five pyramids of each size. */
@@ -702,13 +728,23 @@ export class IcePalaceGame extends GameBaseSequenced {
         const result: IClickResult = { move, valid: false, message: "" };
         try {
             const current = IcePalaceGame.normalise(move);
-            // Clicking a stash entry hands back the pyramid id; clicking the board hands
-            // back freespace coordinates, which map straight onto Yard/Palace cells.
             let newmove: string;
             if (piece !== undefined && /^[1-6BW][SML]$/.test(piece.toUpperCase())) {
+                // A stash entry hands back the pyramid it represents.
                 newmove = this.appendToken(current, piece.toUpperCase());
+            } else if (piece !== undefined && /^[yp]:-?\d+,-?\d+$/.test(piece)) {
+                // A pyramid already in play hands back the cell it stands on.
+                newmove = this.appendToken(current, `@${piece.substring(2)}`);
             } else {
-                newmove = this.appendToken(current, `@${cellOf(col, row)}`);
+                // Empty freespace hands back continuous coordinates, which have to be
+                // mapped back through the layout this game renders with.
+                const cell = this.cellAt(col, row);
+                if (cell === undefined) {
+                    result.move = current;
+                    result.message = i18next.t("apgames:validation.icepalace.OFF_STRUCTURE");
+                    return result;
+                }
+                newmove = this.appendToken(current, `@${cell}`);
             }
             const validated = this.validateMove(newmove);
             if (!validated.valid) {
@@ -762,82 +798,112 @@ export class IcePalaceGame extends GameBaseSequenced {
      */
     public render(opts?: IRenderOpts): APRenderRep {
         void opts;
-        const unit = 1;
-        const riser = 0.34;
-        const gap = 2;
-
+        const layout = this.layout();
         const legend: { [k: string]: Glyph } = {};
         const pieces: Freepiece[] = [];
         const markers: MarkerFreespaceLabel[] = [];
 
-        const extentOf = (struct: Structure): { width: number; height: number; minX: number; minY: number } => {
-            if (struct.size === 0) {
-                return { width: unit, height: unit, minX: 0, minY: 0 };
-            }
-            const coords = [...struct.keys()].map(coordsOf);
-            const minX = Math.min(...coords.map(c => c[0]));
-            const maxX = Math.max(...coords.map(c => c[0]));
-            const minY = Math.min(...coords.map(c => c[1]));
-            const maxY = Math.max(...coords.map(c => c[1]));
-            return {
-                width: (maxX - minX + 1) * unit,
-                height: (maxY - minY + 1) * unit,
-                minX,
-                minY,
-            };
-        };
-
-        const palaceExtent = extentOf(this.palace);
-        const yardExtent = extentOf(this.yard);
-        const height = Math.max(palaceExtent.height, yardExtent.height) + unit;
-
-        const draw = (struct: Structure, extent: ReturnType<typeof extentOf>, originX: number): void => {
+        const draw = (struct: Structure, extent: IStructureExtent, tag: string): void => {
             for (const [cell, stack] of struct.entries()) {
                 const [x, y] = coordsOf(cell);
-                const baseX = originX + (x - extent.minX) * unit + unit / 2;
-                const baseY = height - (y - extent.minY) * unit - unit / 2;
+                const baseX = extent.originX + (x - extent.minX + 0.5) * UNIT;
+                const baseY = layout.height - (y - extent.minY + 0.5) * UNIT;
                 for (let i = 0; i < stack.length; i++) {
                     const key = `p${stack[i]}`;
                     if (!(key in legend)) {
                         legend[key] = this.glyphFor(stack[i]);
                     }
-                    pieces.push({ glyph: key, x: baseX, y: baseY - i * riser, id: `${cell}` });
+                    // Each pyramid in a stack rises a little above the one below, so the
+                    // whole stack stays readable and its true order is visible. That matters
+                    // because the Yard and the Palace stack in opposite size orders.
+                    pieces.push({
+                        glyph: key,
+                        x: baseX,
+                        y: baseY - i * RISER,
+                        id: `${tag}:${cell}`,
+                    });
                 }
             }
         };
 
-        draw(this.palace, palaceExtent, 0);
-        const yardOrigin = palaceExtent.width + gap;
-        draw(this.yard, yardExtent, yardOrigin);
+        draw(this.palace, layout.palace, "p");
+        draw(this.yard, layout.yard, "y");
 
-        markers.push({
-            type: "label",
-            label: "Ice Palace",
-            points: [
-                { x: 0, y: height + unit / 2 },
-                { x: palaceExtent.width, y: height + unit / 2 },
-            ],
-        });
-        markers.push({
-            type: "label",
-            label: this.phase === "build" ? "Building" : "Yard",
-            points: [
-                { x: yardOrigin, y: height + unit / 2 },
-                { x: yardOrigin + yardExtent.width, y: height + unit / 2 },
-            ],
-        });
+        const label = (text: string, extent: IStructureExtent): void => {
+            markers.push({
+                type: "label",
+                label: text,
+                points: [
+                    { x: extent.originX, y: layout.height + UNIT / 2 },
+                    { x: extent.originX + extent.width, y: layout.height + UNIT / 2 },
+                ],
+            });
+        };
+        label("Ice Palace", layout.palace);
+        label(this.phase === "build" ? "Yard (being built)" : "Yard", layout.yard);
 
         const rep: APRenderRep = {
             renderer: "freespace",
             board: {
-                width: palaceExtent.width + gap + yardExtent.width,
-                height: height + unit,
+                width: layout.width,
+                height: layout.height + UNIT,
                 markers: markers.length > 0 ? markers : undefined,
             },
             legend,
             pieces,
         };
         return rep;
+    }
+
+    /**
+     * Where each structure sits on the freespace canvas. Both grids are unbounded, so each
+     * is padded by a ring of empty cells; without it there would be nowhere to click to
+     * found a stack on the frontier.
+     */
+    private layout(): ILayout {
+        const extentOf = (struct: Structure, originX: number): IStructureExtent => {
+            if (struct.size === 0) {
+                return { originX, minX: 0, minY: 0, cols: 1, rows: 1, width: UNIT, height: UNIT };
+            }
+            const coords = [...struct.keys()].map(coordsOf);
+            const minX = Math.min(...coords.map(c => c[0])) - PADDING;
+            const maxX = Math.max(...coords.map(c => c[0])) + PADDING;
+            const minY = Math.min(...coords.map(c => c[1])) - PADDING;
+            const maxY = Math.max(...coords.map(c => c[1])) + PADDING;
+            const cols = maxX - minX + 1;
+            const rows = maxY - minY + 1;
+            return { originX, minX, minY, cols, rows, width: cols * UNIT, height: rows * UNIT };
+        };
+
+        const palace = extentOf(this.palace, 0);
+        const yard = extentOf(this.yard, palace.width + GAP);
+        return {
+            palace,
+            yard,
+            width: palace.width + GAP + yard.width,
+            height: Math.max(palace.height, yard.height),
+        };
+    }
+
+    /**
+     * Turns a click on empty freespace back into a cell of whichever structure is in play
+     * this phase. Returns undefined when the click landed in the gutter or the wrong half.
+     */
+    private cellAt(x: number, y: number): Cell | undefined {
+        const layout = this.layout();
+        const extent = this.phase === "build" ? layout.palace : layout.yard;
+        const localX = x - extent.originX;
+        if (localX < 0 || localX >= extent.width) {
+            return undefined;
+        }
+        const localY = layout.height - y;
+        if (localY < 0 || localY >= extent.height) {
+            return undefined;
+        }
+        return cellOf(
+            extent.minX + Math.floor(localX / UNIT),
+            extent.minY + Math.floor(localY / UNIT),
+        );
     }
 
     public getPlayerColour(player: number): number {

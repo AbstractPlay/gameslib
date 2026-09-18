@@ -6346,7 +6346,8 @@
             "LEAD_CANNOT_PASS": "You are leading the hand and must place a pyramid to start the Yard.",
             "MUST_BUILD": "You cannot decline to build: {{count}} of the Yard's pyramids can be placed.",
             "NOT_IN_HAND": "You do not have a {{piece}} in hand.",
-            "NOT_IN_STOCK": "The {{piece}} is not among the pyramids you won."
+            "NOT_IN_STOCK": "The {{piece}} is not among the pyramids you won.",
+            "OFF_STRUCTURE": "That space is not part of the structure you are building in."
         },
         "intermedium": {
             "INSTRUCTIONS": "Select a friendly stack; click on it as many times as pieces to move, then click on a diagonal path that starts adjacent to this sowing stack (one pieces per square), making 90º turns.",

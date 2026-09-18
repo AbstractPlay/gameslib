@@ -129,6 +129,7 @@
         "hexy": "An adaptation of Y on a regular hexagon where players vye to control most of the perimeter of the board.",
         "homeworlds": "An Icehouse game for 2 to 4 players. Players are interstellar civilizations vying for dominance. Each of the four colours of pyramid gives access to different actions. Amass a fleet, explore the galaxy, and ultimately destroy your opponent.",
         "hula": "Two players aim to form a loop around the center of a regular hexagonal board, using their own stones and, possibly, some number of neutral stones.",
+        "icepalace": "Three to six players compete to win hands by playing pyramids into a shared Yard, where each pyramid must be bigger than the one it covers. The winner of each hand builds everything they won into the Ice Palace, where the size rule runs the other way and only smaller pyramids may stack. Each Palace stack scores its height for whoever owns the pyramid on top, so small pyramids are the key to scoring. Almost everything is open to negotiation.",
         "intermedium": "Sowing stacks to enclose and capture. Win by capturing the opponent's city.",
         "invector": "Eliminate the adversary army while getting near the board center.",
         "iqishiqi": "Iqishiqi (pronounced EE-chee-shee-chee) is an abstract strategy game that is played on a hexagonal board composed of hexagonal cells. Players own designated edges of the board, and by clever placement of stones they push a neutral stone around the board. A player wins if he/she moves the neutral stone to one of his/her edges, or leaves his/her opponent unable to move.",
@@ -417,6 +418,7 @@
         "hexy": "Hexagonal Y",
         "homeworlds": "Homeworlds",
         "hula": "Hula",
+        "icepalace": "Ice Palace",
         "intermedium": "Intermedium",
         "invector": "Invector",
         "iqishiqi": "Iqishiqi",
@@ -4870,6 +4872,10 @@
             "GAME2": "Game 2",
             "INSURGENTS": "Insurgents remaining"
         },
+        "icepalace": {
+            "MUST_USE": "Pyramids that must be used",
+            "POOL": "Pyramids left in the Pool"
+        },
         "scribe": {
             "MINI_GRIDS": "Mini grids won"
         },
@@ -6327,6 +6333,20 @@
                 "PARTIAL_TWOARGS": "Select the new colour."
             },
             "VALID_W_ACTIONS": "Looks like a valid move, but you still have actions to spend."
+        },
+        "icepalace": {
+            "BAD_PLACEMENT": "Could not read '{{move}}' as a pyramid and a space.",
+            "BUILD_COMPLETE": "The whole Yard has been built into the Ice Palace. Submit when you are happy with it.",
+            "BUILD_ENOUGH": "You have used the maximum possible number of pyramids. The remaining {{count}} cannot be placed and will be discarded. Submit when you are happy with the arrangement.",
+            "BUILD_MORE": "You must place at least {{count}} more, because more of the Yard than that can be built.",
+            "ILLEGAL_PALACE": "The {{piece}} cannot go at {{cell}}. In the Ice Palace a pyramid may only cover a bigger one, or start a new stack beside a stack of its own colour.",
+            "ILLEGAL_YARD": "The {{piece}} cannot go at {{cell}}. In the Yard a pyramid may only cover a smaller one, or start a new stack beside a stack whose top it matches.",
+            "INITIAL_BUILD": "You won the hand. Build the Yard into the Ice Palace, using at least {{count}} pyramids.",
+            "INITIAL_HAND": "Place a pyramid from your hand into the Yard, or pass.",
+            "LEAD_CANNOT_PASS": "You are leading the hand and must place a pyramid to start the Yard.",
+            "MUST_BUILD": "You cannot decline to build: {{count}} of the Yard's pyramids can be placed.",
+            "NOT_IN_HAND": "You do not have a {{piece}} in hand.",
+            "NOT_IN_STOCK": "The {{piece}} is not among the pyramids you won."
         },
         "intermedium": {
             "INSTRUCTIONS": "Select a friendly stack; click on it as many times as pieces to move, then click on a diagonal path that starts adjacent to this sowing stack (one pieces per square), making 90º turns.",

@@ -186,17 +186,17 @@ describe("Arimaa", () => {
         let g = new ArimaaGame();
         let result = g.validateMove("Ee2,Me2,Hb2,Hg2,Cf2,Cc2,Dd1,De1,Ra2,Rh2,Ra1,Rb1,Rc1,Rf1,Rg1,Rh1");
         expect(result.valid).to.be.false;
-        expect(result.message).to.equal(i18next.t("apgames:validation._general.OCCUPIED"));
+        expect(result.message).to.equal(i18next.t("apgames:validation._general.OCCUPIED", {where: "e2"}));
         g = new ArimaaGame(undefined, ["free"]);
         result = g.validateMove("Ec3,Mc3,Rd4");
         expect(result.valid).to.be.false;
-        expect(result.message).to.equal(i18next.t("apgames:validation._general.OCCUPIED"));
+        expect(result.message).to.equal(i18next.t("apgames:validation._general.OCCUPIED", {where: "c3"}));
         // placing onto an opponent's piece is still caught the same way
         g = new ArimaaGame(undefined, ["free"]);
         g.move("Ec3,Rd4");
         result = g.validateMove("ec3");
         expect(result.valid).to.be.false;
-        expect(result.message).to.equal(i18next.t("apgames:validation._general.OCCUPIED"));
+        expect(result.message).to.equal(i18next.t("apgames:validation._general.OCCUPIED", {where: "c3"}));
     });
 
     it ("classifications", () => {

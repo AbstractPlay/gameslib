@@ -10,6 +10,10 @@ on:
     types: [dep_update_prod]
   workflow_dispatch:
 
+concurrency:
+  group: deploy-prod
+  cancel-in-progress: true
+
 jobs:
     build-prod:
 

@@ -160,6 +160,53 @@ describe("Ice Palace: playing a hand", () => {
     });
 });
 
+describe("Ice Palace: move lists and auto-passing", () => {
+    it("offers a stuck player nothing but a pass, which is what triggers auto-pass", () => {
+        // A small Black cannot be played at all: nothing is smaller for it to cover, and
+        // Black matches no colour, so it can never found a stack either.
+        const g = rig(new IcePalaceGame(3), [["1M"], ["BS"], ["3S"]], fatPool());
+        g.move("1M@0,0");
+        expect(g.moves()).to.deep.equal(["pass"]);
+    });
+
+    it("keeps pass on offer for a player who could place instead", () => {
+        const g = rig(new IcePalaceGame(3), [["1M"], ["1S"], ["3S"]], fatPool());
+        g.move("1M@0,0");
+        const moves = g.moves();
+        expect(moves).to.include("pass");
+        expect(moves.length).to.be.greaterThan(1);
+    });
+
+    it("never offers the lead a pass", () => {
+        const g = rig(new IcePalaceGame(3), [["1M", "1S"], ["1S"], ["3S"]], fatPool());
+        expect(g.moves()).to.not.include("pass");
+    });
+
+    it("does not enumerate builds, but still supplies one on request", () => {
+        const g = rig(new IcePalaceGame(3), [["1L", "1M"], ["2L"], ["3L"]], fatPool());
+        g.move("1M@0,0");
+        g.move("pass");
+        g.move("pass");
+        g.move("1L@0,0");
+        while (g.phase === "hand") {
+            g.move("pass");
+        }
+        expect(g.buildMin).to.be.greaterThan(0);
+        // Offering a single worked build in the dropdown would imply it were the only one.
+        expect(g.moves()).to.be.empty;
+        const suggested = g.randomMove();
+        const check = g.validateMove(suggested);
+        expect(check.valid, check.message).to.be.true;
+        expect(check.complete).to.equal(0);
+    });
+
+    it("declares autopass and does not declare no-moves", () => {
+        const flags = IcePalaceGame.gameinfo.flags ?? [];
+        expect(flags).to.include("autopass");
+        expect(flags).to.not.include("no-moves");
+    });
+});
+
 describe("Ice Palace: building the Palace", () => {
     const toBuild = (hands: PieceId[][], lead: string, rest: string[] = []): IcePalaceGame => {
         const g = rig(new IcePalaceGame(3), hands, fatPool());

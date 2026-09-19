@@ -638,7 +638,7 @@ export class IcePalaceGame extends GameBaseSequenced {
             "components>pyramids",
             "other>2+players",
         ],
-        flags: ["experimental", "scores", "player-stashes", "no-moves"],
+        flags: ["experimental", "scores", "player-stashes", "autopass"],
     };
 
     public numplayers = 3;
@@ -839,39 +839,44 @@ export class IcePalaceGame extends GameBaseSequenced {
         return moves;
     }
 
-    /** Every placement the builder could make next, given what is already placed. */
-    public buildPlacements(palace: Structure, stock: PieceId[]): string[] {
-        const moves: string[] = [];
-        for (const piece of new Set(stock)) {
-            for (const cell of legalCellsFor(palace, piece, legalPalacePlacement)) {
-                moves.push(`${piece}@${cell}`);
-            }
-        }
-        return moves;
+    /** One legal way to build the whole Yard in, as a single compound move. */
+    private suggestedBuild(): string {
+        return maximumBuild(this.palace, this.stock)
+            .sequence.map(p => `${p.piece}@${p.cell}`)
+            .join(";");
     }
 
     /**
-     * The move list is not exhaustive for the build phase, where the number of legal
-     * orderings and positions is astronomical; that is what the `no-moves` flag declares.
-     * The hand phase is enumerated in full, and the build phase offers one worked example.
+     * Hands are enumerated in full. That is what lets the front auto-pass a player with no
+     * legal placement, and what puts a Pass button in front of everyone else, since both are
+     * driven off this list.
+     *
+     * Builds are deliberately not enumerated. The number of legal orderings and positions is
+     * astronomical, and putting a single worked build in the move dropdown would read as
+     * though it were the only legal arrangement, when choosing the arrangement is the entire
+     * point of the phase. So a build offers nothing to pick from unless nothing can be placed
+     * at all, and is entered by clicking instead. `randomMove` still returns a real build.
      */
     public moves(player?: number): string[] {
         if (this.gameover) {
             return [];
         }
-        const seat = player ?? this.currplayer;
         if (this.phase === "build") {
-            if (this.buildMin === 0) {
-                return ["pass"];
-            }
-            const plan = maximumBuild(this.palace, this.stock);
-            return [plan.sequence.map(p => `${p.piece}@${p.cell}`).join(";")];
+            return this.buildMin === 0 ? ["pass"] : [];
         }
-        const moves = this.yardPlacements(seat);
+        const moves = this.yardPlacements(player ?? this.currplayer);
         if (!this.isLead()) {
             moves.push("pass");
         }
         return moves;
+    }
+
+    /** Builds are not enumerated, so hand one over rather than sampling an empty list. */
+    public randomMove(): string {
+        if (!this.gameover && this.phase === "build") {
+            return this.buildMin === 0 ? "pass" : this.suggestedBuild();
+        }
+        return super.randomMove();
     }
 
     private static normalise(m: string): string {

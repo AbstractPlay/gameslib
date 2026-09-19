@@ -739,7 +739,7 @@ export class ArimaaGame extends GameBase {
                     // cell must be empty, including of anything placed earlier in this move
                     if (cloned.board.has(cell)) {
                         result.valid = false;
-                        result.message = i18next.t("apgames:validation._general.OCCUPIED");
+                        result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: cell});
                         return result;
                     }
                     // in normal play, must be on home ranks
@@ -989,7 +989,7 @@ export class ArimaaGame extends GameBase {
                 // to is empty
                 if (cloned.board.has(to)) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation._general.OCCUPIED");
+                    result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: to});
                     return result;
                 }
                 // to is orthogonally adjacent

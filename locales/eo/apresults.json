@@ -409,6 +409,7 @@
     },
     "PASS": {
         "asli": "{{player}} prenis kontraŭulan pecon el la malliberejo kaj preterpasis sian vicon.",
+        "asli_area": "{{player}} preterpasis sian vicon.",
         "assembly": "La produktolinio ne moviĝis.",
         "deckfish": "{{player}} ne povis movi.",
         "entropy": "{{player}} elektis movi neniun pecon dum ĉi tiu vico.",

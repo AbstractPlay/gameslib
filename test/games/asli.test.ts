@@ -3,6 +3,7 @@
 import "mocha";
 import { expect } from "chai";
 import { AsliGame, type playerid, type IMoveState, type IAsliState } from "../../src/games/asli.js";
+import { addResource } from "../../src";
 
 type Setup = {
     board?: [string, playerid][];
@@ -68,6 +69,10 @@ const minimalIncursionSetup = (extra?: Partial<Setup>): Setup => ({
 });
 
 describe("Asli", () => {
+    before(() => {
+        addResource("en");
+    });
+
     describe("area scoring variant", () => {
         it("allows suicide and clears the mover's own stranded strings", () => {
             const g = buildGame(suicideSetup());
@@ -198,28 +203,46 @@ describe("Asli", () => {
             expect(g.validateMove("3").valid).to.be.true;
         });
 
-        it("picks the prison colour correctly before and after the pie swap", () => {
+        it("leaves komi out of the capture tally", () => {
             const preset = new AsliGame(undefined, ["board-9", "area", "setkomi"]);
             expect(preset.komi).to.equal(7);
             expect(preset.prison).to.deep.equal([7, 0]);
-            // komi counts against player 1 from ply one
-            expect(preset.getPrisonColour(false)).to.equal(1);
+            // komi is scored directly, so it is not shown as captures
+            expect(preset.capturesTally()).to.deep.equal([0, 0]);
+            expect(preset.getPrisonColour(false)).to.equal("_context_background");
 
-            // pie declined: seats stay, komi still counts against player 1
+            // the base game still shows the whole prison, komi included
+            const stones = new AsliGame(undefined, ["board-9", "setkomi"]);
+            expect(stones.capturesTally()).to.deep.equal([7, 0]);
+            expect(stones.getPrisonColour(false)).to.equal(1);
+        });
+
+        it("nets captures against komi in the tally", () => {
+            const g = buildGame({
+                variants: ["board-9", "setkomi", "area"],
+                prison: [10, 0],
+                komi: 7,
+            });
+            expect(g.capturesTally()).to.deep.equal([3, 0]);
+            expect(g.getPrisonColour(false)).to.equal(1);
+        });
+
+        it("picks the capture colour correctly before and after the pie swap", () => {
+            // pie declined: seats stay put
             const kept = new AsliGame(undefined, ["board-9", "area"]);
             kept.move("7");
             kept.move("pass");
             expect(kept.komi).to.equal(7);
             expect(kept.prison).to.deep.equal([7, 0]);
-            expect(kept.getPrisonColour(false)).to.equal(1);
+            expect(kept.capturesTally()).to.deep.equal([0, 0]);
 
-            // pie taken: seats swap, so komi now counts against the other seat
+            // pie taken: seats swap, and komi swaps with them
             const swapped = new AsliGame(undefined, ["board-9", "area"]);
             swapped.move("7");
             swapped.move("e5");
             expect(swapped.komi).to.equal(-7);
             expect(swapped.prison).to.deep.equal([0, 7]);
-            expect(swapped.getPrisonColour(false)).to.equal(1);
+            expect(swapped.capturesTally()).to.deep.equal([0, 0]);
             expect(swapped.getPlayerColour(1)).to.equal(2);
 
             // captures by each side move the tally to the other colour
@@ -231,6 +254,67 @@ describe("Asli", () => {
             expect(captures([0, 3])).to.equal(2);
             expect(captures([3, 0])).to.equal(1);
             expect(captures([0, 0])).to.equal("_context_background");
+        });
+
+        it("does not swap the capture colour on ply 2 of a setkomi game", () => {
+            // setkomi games have no pie ply, so ply 2 never swaps seats
+            const colour = (variants: string[], prison: [number, number], ply2: string) => buildGame({
+                variants,
+                prison,
+                komi: 7,
+                lastmoves: ["e5", ply2, "e6", "e7"],
+            }).getPrisonColour(false);
+
+            for (const ply2 of ["d4", "pass"]) {
+                expect(colour(["board-9", "setkomi"], [7, 0], ply2)).to.equal(1);
+                expect(colour(["board-9", "setkomi"], [0, 7], ply2)).to.equal(2);
+                expect(colour(["board-9", "setkomi", "area"], [10, 0], ply2)).to.equal(1);
+            }
+        });
+
+        it("logs a plain pass, with no mention of the prison", () => {
+            const g = buildGame({board: [["e5", 1]], currplayer: 1});
+            g.move("pass");
+            const log = g.chatLog(["Alice", "Bob"]).flat();
+            expect(log.some(l => l.includes("Alice passed their turn."))).to.be.true;
+            expect(log.some(l => l.toLowerCase().includes("prison"))).to.be.false;
+        });
+
+        it("still mentions the prison when passing in the base game", () => {
+            const g = buildGame({
+                variants: ["board-9", "setkomi"],
+                board: [["e5", 1]],
+                currplayer: 1,
+                prison: [0, 3],
+            });
+            g.move("pass");
+            const log = g.chatLog(["Alice", "Bob"]).flat();
+            expect(log.some(l => l.includes("from the prison"))).to.be.true;
+        });
+
+        it("blames the pass, not a previous incursion, for a blocked incursion", () => {
+            const afterPass = buildGame(minimalIncursionSetup({currplayer: 2}));
+            afterPass.move("pass");
+            const blockedByPass = afterPass.validateMove("a8");
+            expect(blockedByPass.valid).to.be.false;
+            expect(blockedByPass.message).to.include("after your opponent passes");
+
+            // a block caused by the opponent's own incursion keeps the original wording
+            const blockedByIncursion = buildGame(minimalIncursionSetup({incursion: true})).validateMove("a8");
+            expect(blockedByIncursion.valid).to.be.false;
+            expect(blockedByIncursion.message).to.include("back-to-back");
+        });
+
+        it("describes komi in points rather than prisoners at the bid ply", () => {
+            const area = new AsliGame(undefined, ["board-9", "area"]);
+            expect(area.validateMove("").message).to.include("komi");
+            expect(area.validateMove("").message.toLowerCase()).to.not.include("prison");
+            expect(area.validateMove("3.5").message.toLowerCase()).to.not.include("prison");
+
+            // the base game keeps its prison wording
+            const stones = new AsliGame(undefined, ["board-9"]);
+            expect(stones.validateMove("").message.toLowerCase()).to.include("prison");
+            expect(stones.validateMove("3.5").message.toLowerCase()).to.include("prison");
         });
 
         it("combines with woven: no incursions are legal, and the game still ends", () => {

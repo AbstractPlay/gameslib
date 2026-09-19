@@ -19,8 +19,8 @@
     },
     "armadas": {
       "freeform": {
-        "name": "Liberforma (nerangigita)",
-        "description": "Lasu la ludantojn determini siajn proprajn flotojn. Necesas bona komunikado antaŭ ol komenci. Tiuj ludoj ne povas esti taksitaj."
+        "name": "Liberforma (nepritaksita)",
+        "description": "Lasu la ludantojn determini siajn proprajn flotojn. Necesas bona komunikado antaŭ ol komenci. Tiuj ludoj ne povas esti pritaksitaj."
       },
       "#obstacles": {
         "name": "Unu obstaklo"
@@ -622,8 +622,8 @@
         "description": "Hazarde generita preparo kun reduktita armeo grandeco"
       },
       "free": {
-        "name": "Libera metado (ne taksita)",
-        "description": "Lasu la ludantojn meti tiom da pecoj kiom ili volas kie ili volas, inkluzive de kreado de kontraŭleĝaj aŭ alie rompitaj pozicioj. Ludantoj devas klare komunikiĝi antaŭ ol komenci. Tiuj ludoj ne povas esti taksitaj."
+        "name": "Libera metado (nepritaksita)",
+        "description": "Lasu la ludantojn meti tiom da pecoj kiom ili volas kie ili volas, inkluzive de kreado de kontraŭleĝaj aŭ alie rompitaj pozicioj. Ludantoj devas klare komunikiĝi antaŭ ol komenci. Tiuj ludoj ne povas esti pritaksitaj."
       }
     },
     "asli": {
@@ -2593,8 +2593,8 @@
         "name": "Norma aranĝo"
       },
       "custom": {
-        "name": "Persona preparado (ne taksita)",
-        "description": "La ludantoj povas krei arbitrajn aranĝojn. Oni devas fari tion nur kun bona komunikado. Tiuj ludoj ne povas esti taksitaj."
+        "name": "Persona preparado (nepritaksita)",
+        "description": "La ludantoj povas krei arbitrajn aranĝojn. Oni devas fari tion nur kun bona komunikado. Tiuj ludoj ne povas esti pritaksitaj."
       },
       "#board": {
         "name": "Tabulo 11×11"
@@ -4521,7 +4521,7 @@
     "forms": "Forms estis projektita de Steven Meyers en 2007. Post ĉiu movo, ĉiuj pecoj ekster la grupo, kiu enhavas la laste movitan pecon, estas kaptitaj. La lasta movinto malgajnas (do Forms estas miserludo). La unua versio permesis al peco kapti ajnan kontraŭulan pecon. Poste, en 2011, Meyers kreis duan version, **Advanced Forms**, en kiu oni rajtis kapti nur ortangule apudajn pecojn, sed peco povis ankaŭ moviĝi al malplena ĉelo, se sekvo de ortaj paŝoj tra malplenaj ĉeloj konektis la du lokojn. Ankaŭ la komenca aranĝo ŝanĝiĝis al ŝaktabula ŝablono. Tiu dua versio estas la defaŭlta variaĵo ĉi tie ĉe AP. Pliaj informoj troveblas ĉe [WAG](https://jpneto.github.io/world_abstract_games/forms.htm).",
     "frogger": "Kiel en aliaj Decktet-ludoj ĉe Abstract Play, la kartaro aperas ĉe la malsupro de la tabulo kaj inkluzivas kaj la kartojn en la kartaro kaj nekonatajn kartojn en la manoj de aliaj ludantoj. Post la unua mano, ĉiuj kartoj estas tirataj el la malkaŝa tirprovizo, do la kartoj enmane iom post iom malkaŝiĝas. Ankaŭ la forĵetamaso aperas.\n\nOni ne plu uzas devigajn preterpasojn kiam ludanto replenigas la tirprovizon kaj sendas la movon meze de sia vico. La servilo aŭtomate traktas la duan partan vicon de tiu ludanto. Laŭvole, alia variaĵo de la tirprovizo evitas la duoblan duonmovon.\n\nLa variaĵon \"Krokodiloj\" kreis Jorge Arroyo, la tradukinto de la anglaj reguloj. La altnivelajn regulojn kaj aliajn etajn variaĵojn kreis P. D. Magnus; ili aperas en The Decktet Book, kie la ludo nomiĝas Xing.",
     "garden": "Por tute klare montri, kio okazis dum la antaŭa vico, ĉiu movo aperas sur kvar apartaj tabuloj. La unua montras la ludon tuj post la komenca meto de la peco. La dua montras la staton post renverso de la apudaj pecoj. La tria montras eventualajn rikoltojn. La kvara montras la finan ludstaton kaj estas tiu, sur kiu vi faras viajn movojn.\n\nEn nia realigo, nigro estas ĉiam la \"tome\"-koloro, kiu rompas egalecon. La lasta ludanto, kiu rikoltis nigron, havos `0.1` post sia poentaro.",
-    "gonnect": "En la baza ludo, preterpasi ne estas permesite, do la ludo daŭras ĝis iu konektas aŭ ludanto ne plu havas validan lokon por meti ŝtonon.\n\nLa variaĵo **Kaskadaj konektaj celoj** permesas preterpasi, kaj ankaŭ lasas la ludon finiĝi post du sinsekvaj preterpasoj. Se la ludo finiĝas per plena konekto, tiu ludanto venkas kiel kutime. Alie, la venkinto estas trovita komparante konektojn tra serio de ĉiam pli malgrandaj centritaj subtabuloj: komencante per la tuta tabulo kaj malgrandigante ĝin je du vicoj kaj du kolumnoj ĉiufoje (ĝis la sola centra punkto), oni serĉas la plej grandan subtabulon, sur kiu ekzakte unu ludanto havas nerompitan ortogonalan konekton inter du kontraŭaj flankoj de tiu subtabulo; tiu ludanto venkas. Se, ĉe donita grando, ambaŭ ludantoj havas tian konekton aŭ neniu havas ĝin, oni pasas al la sekva malpli granda subtabulo. Ĉar unuopa ŝtono sur la centra punkto ĉiam \"konektas\" sian propran 1×1-subtabulon, remizo postulas, ke la centra punkto restu malplena; sur tabulo kun nepara flanklongo, kiam ambaŭ ludantoj jam ne havas utilajn movojn, oni atendas, ke tio estu ege malofta, se entute eblas.",
+    "gonnect": "En la baza ludo, preterpasi ne estas permesite. La variaĵo **Kaskadaj konektaj celoj** permesas preterpasi kaj finiĝas post du sinsekvaj preterpasoj. Rekta konekto tuj donas venkon; alie oni trovu la plej grandan centritan subtabulon, sur kiu ekzakte unu ludanto konektas kontraŭajn flankojn: tiu ludanto venkas.",
     "guerrilla": "Ĉiu el la du ludantoj povas venki per forigo de ĉiuj pecoj de sia kontraŭulo. La ludanto de la sekurecaj fortoj ankaŭ venkas, se tiuj fortoj postvivas ĝis la ribeluloj ne plu havas ŝtonojn por meti.\n\nDefaŭlte matĉo konsistas el du ludoj kun interŝanĝitaj roloj. Ĉiu ludanto unufoje regas la ribelulojn kaj unufoje la sekurecajn fortojn. Kiam ambaŭ ludantoj venkas kiel ribeluloj, la matĉon venkas tiu, kiu uzis malpli da ŝtonoj (66 − nombro de restantaj ŝtonoj ĉe la fino de tiu ludo; la malpli alta poentaro venkas). Tiuokaze la matĉo estas remiza nur se iliaj poentaroj kiel ribeluloj egalas. Venko kiel sekurecaj fortoj donas poentaron de 67. Se unu ludanto venkas en ambaŭ ludoj (en unu kiel ribeluloj kaj en la alia kiel sekurecaj fortoj), tiu venkas la tutan matĉon. Se ambaŭ ludantoj venkas nur kiel sekurecaj fortoj, la matĉo estas remiza.",
     "scribe": "La referenctabelo de glifoj aperas en la maldekstra marĝeno. Punkto markas la plej lastan meton de ĉiu ludanto. Kiam minikrado pleniĝas, la glifpoentoj estas sumataj kaj la pli alta poentaro gajnas tiun kradon (okaze de egaleco gajnas la ludanto, kiu kompletigis ĝin).",
     "gyges": "La celkvadratoj estas apudaj al ĉiuj ĉeloj en la lasta vico. La bildigilo nuntempe ne povas prezenti \"flosantajn\" ĉelojn.",

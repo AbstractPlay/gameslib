@@ -372,7 +372,9 @@
         "tafl_king_captured": "La ludo finiĝis, ĉar la reĝo estis kaptita.",
         "tafl_king_escaped": "La ludo finiĝis, ĉar la reĝo eskapis.",
         "unlur_foul": "La ludo finiĝis, ĉar unu ludanto plenumis la venkokondiĉon de la kontraŭulo sen plenumi sian propran.",
-        "druid_hex": "La ludo finiĝis, ĉar {{player}} konektis la randojn {{edges}}."
+        "druid_hex": "La ludo finiĝis, ĉar {{player}} konektis la randojn {{edges}}.",
+        "gonnect_cascading_subboard": "{{player}} venkis sur la {{size}}x{{size}}-subtabulo.",
+        "gonnect_direct_connection": "{{player}} venkis per rekta konekto."
     },
     "DRUID_HEX_EDGE": {
         "N": "nordo (N)",

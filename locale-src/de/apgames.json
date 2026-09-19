@@ -3660,8 +3660,8 @@
     "out": "Harlog"
   },
   "status.asli.AREA": {
-    "src": "Area",
-    "out": "Fläche"
+    "src": "Area + komi",
+    "out": "Gebiet + Komi"
   },
   "status.asli.TERRITORY": {
     "src": "Territory & Prisoners",
@@ -4815,9 +4815,17 @@
     "src": "You may not make back-to-back minimal incursions.",
     "out": "Du darfst keine zwei minimalen Vorstöße direkt hintereinander machen."
   },
+  "validation.asli.BAD_INCURSION_pass": {
+    "src": "You may not make a minimal incursion immediately after your opponent passes.",
+    "out": "Du darfst nicht direkt nach dem Passen deines Gegners einen minimalen Einfall machen."
+  },
   "validation.asli.BAD_KOMI": {
     "src": "The first move of the game must be an integer representing the number of pieces to place in the starting prison. A positive number puts pieces belonging to the first player. A negative number, those of the second player. You may not place more pieces in the prison than number of cells on the board plus one.",
     "out": "Der erste Zug des Spiels muss eine ganze Zahl sein, die die Anzahl der Steine darstellt, die im Startgefängnis platziert werden sollen. Eine positive Zahl platziert Steine des ersten Spielers. Eine negative Zahl die des zweiten Spielers. Du darfst nicht mehr Steine im Gefängnis platzieren als die Anzahl der Felder auf dem Spielplan plus eins."
+  },
+  "validation.asli.BAD_KOMI_area": {
+    "src": "The first move of the game must be a whole number of points of komi. A positive number awards komi to the second player. A negative number, to the first player. You may not offer more komi than the number of points on the board plus one.",
+    "out": "Der erste Zug des Spiels muss eine ganze Zahl an Komi-Punkten sein. Eine positive Zahl gewährt dem zweiten Spieler Komi. Eine negative Zahl dem ersten Spieler. Du darfst nicht mehr Komi anbieten als die Anzahl der Punkte auf dem Spielbrett plus eins."
   },
   "validation.asli.BAD_PASS": {
     "src": "You must remove an enemy piece from the prison to pass.",
@@ -4834,6 +4842,10 @@
   "validation.asli.INITIAL_INSTRUCTIONS_komi": {
     "src": "Enter the number of first-player pieces you wish to place in the starting prison. The second player will then decide which seat to take.",
     "out": "Gib die Anzahl der Steine des ersten Spielers ein, die du im Startgefängnis platzieren möchtest. Der zweite Spieler entscheidet dann, welchen Platz er einnimmt."
+  },
+  "validation.asli.INITIAL_INSTRUCTIONS_komi_area": {
+    "src": "Enter the komi, in points, that you wish to offer. A positive number awards komi to the second player. A negative number, to the first player. The other player will then decide which seat to take.",
+    "out": "Gib das Komi in Punkten ein, das du anbieten möchtest. Eine positive Zahl gewährt dem zweiten Spieler Komi. Eine negative Zahl dem ersten Spieler. Der andere Spieler entscheidet dann, welchen Platz er wählt."
   },
   "validation.asli.INITIAL_INSTRUCTIONS_pie": {
     "src": "Either click the 'Play second' button to stay where you are and continue playing second, or click 'Swap player seats' to change seats.",

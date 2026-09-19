@@ -4803,7 +4803,7 @@
       "HARLOG": "Harlog"
     },
     "asli": {
-      "AREA": "Area",
+      "AREA": "Area + komi",
       "TERRITORY": "Territorio e prigionieri"
     },
     "baghchal": {
@@ -5197,11 +5197,14 @@
     },
     "asli": {
       "BAD_INCURSION": "Non puoi effettuare incursioni minime consecutive.",
+      "BAD_INCURSION_pass": "Non puoi effettuare un'incursione minima subito dopo che il tuo avversario ha passato.",
       "BAD_KOMI": "La prima mossa della partita deve essere un numero intero che rappresenta il numero di pezzi da posizionare nella prigione iniziale. Un numero positivo inserisce pezzi appartenenti al primo giocatore. Un numero negativo, quelli del secondo giocatore. Non puoi posizionare nella prigione più pezzi del numero di caselle sulla plancia più uno.",
+      "BAD_KOMI_area": "La prima mossa della partita deve essere un numero intero di punti di komi. Un numero positivo assegna il komi al secondo giocatore. Un numero negativo, al primo giocatore. Non puoi offrire più komi del numero di punti sul tabellone più uno.",
       "BAD_PASS": "Devi rimuovere un pezzo nemico dalla prigione per passare.",
       "BAD_PIE": "Non puoi accettare la regola della torta in questo momento della partita.",
       "INITIAL_INSTRUCTIONS_area": "Posiziona un pezzo su un punto vuoto valido, oppure passa. Passare blocca anche la successiva incursione minima del tuo avversario.",
       "INITIAL_INSTRUCTIONS_komi": "Inserisci il numero di pezzi del primo giocatore che desideri posizionare nella prigione iniziale. Il secondo giocatore deciderà poi quale posto occupare.",
+      "INITIAL_INSTRUCTIONS_komi_area": "Inserisci il komi, in punti, che desideri offrire. Un numero positivo assegna il komi al secondo giocatore. Un numero negativo, al primo giocatore. L'altro giocatore deciderà quindi quale posto occupare.",
       "INITIAL_INSTRUCTIONS_pie": "Clicca sul pulsante 'Gioca per secondo' per rimanere dove sei e continuare a giocare per secondo, oppure clicca su 'Scambia posti' per cambiare posto.",
       "INITIAL_INSTRUCTIONS_pie2": "Passa per accettare l'offerta di komi e continuare a giocare per secondo, oppure posiziona un pezzo per diventare il primo giocatore.",
       "INITIAL_INSTRUCTIONS_play": "Posiziona un pezzo su un punto vuoto valido oppure passa per togliere invece un pezzo nemico dalla prigione (se ce n'è uno disponibile).",

@@ -414,6 +414,7 @@
   },
   "PASS": {
     "asli": "{{player}} a pris une pièce adverse de la prison et a passé son tour.",
+    "asli_area": "{{player}} a passé son tour.",
     "assembly": "La chaîne de production ne bouge pas.",
     "deckfish": "{{player}} n'a pas pu se déplacer.",
     "entropy": "{{player}} a choisi de ne déplacer aucune pièce ce tour-ci.",

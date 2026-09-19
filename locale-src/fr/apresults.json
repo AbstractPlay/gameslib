@@ -1399,6 +1399,10 @@
     "src": "{{player}} took an opposing piece from the prison and passed their turn.",
     "out": "{{player}} a pris une pièce adverse de la prison et a passé son tour."
   },
+  "PASS.asli_area": {
+    "src": "{{player}} passed their turn.",
+    "out": "{{player}} a passé son tour."
+  },
   "PASS.assembly": {
     "src": "The production line doesn't move.",
     "out": "La chaîne de production ne bouge pas."

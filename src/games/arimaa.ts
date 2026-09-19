@@ -127,6 +127,16 @@ export class ArimaaGame extends GameBase {
         const str = "EMHDCR";
         return str.length - str.indexOf(piece);
     }
+    // the two ranks a player sets up on, in the order they get auto-filled
+    private static homeCells(player: playerid): string[] {
+        const cells: string[] = [];
+        for (const row of (player === 1 ? [6,7] : [0,1])) {
+            for (let col = 0; col < 8; col++) {
+                cells.push(ArimaaGame.coords2algebraic(col, row));
+            }
+        }
+        return cells;
+    }
     public static EEE(): {gold: [Piece, string][], silver: [Piece, string][]} {
         const getRanks = (ranks: number[]): string[] => {
             const cells: string[] = [];
@@ -324,6 +334,35 @@ export class ArimaaGame extends GameBase {
             ];
         }
         return [];
+    }
+
+    // In standard setup, a player only needs to place their eight non-rabbits.
+    // Once they have, the rest of their setup area gets filled with rabbits.
+    // Returns the move untouched in every other circumstance.
+    private fillRabbits(m: string): string {
+        if (this.variants.length > 0 || this.hands === undefined || this.hands[this.currplayer - 1].length === 0) {
+            return m;
+        }
+        const mvs = m.split(",").filter(Boolean);
+        const steps = mvs.map(mv => ArimaaGame.baseMove(mv));
+        const myhand = [...this.hands[this.currplayer - 1]];
+        for (const [pc, , cell] of steps) {
+            // a dangling piece selection or anything the validator will reject
+            if (cell === undefined || !myhand.includes(pc)) {
+                return m;
+            }
+            myhand.splice(myhand.indexOf(pc), 1);
+        }
+        // everything but the rabbits has to be placed already
+        if (myhand.length === 0 || myhand.some(pc => pc !== "R")) {
+            return m;
+        }
+        const placedCells = new Set<string>(steps.map(([,,cell,]) => cell!));
+        const empty = ArimaaGame.homeCells(this.currplayer).filter(cell => !this.board.has(cell) && !placedCells.has(cell));
+        if (empty.length !== myhand.length) {
+            return m;
+        }
+        return [...mvs, ...empty.map(cell => `${this.currplayer === 1 ? "R" : "r"}${cell}`)].join(",");
     }
 
     // this only calculates possible next moves from the current position,
@@ -600,10 +639,17 @@ export class ArimaaGame extends GameBase {
                             newmove = stub;
                         }
                     } else {
-                        // if just clicking directly on the board, select the strongest piece in hand
+                        // if just clicking directly on the board, choose a piece for them:
+                        // in free setup the hand never empties, so default to a rabbit;
+                        // otherwise take the strongest piece still in hand
                         if (lastmove === undefined || lastmove === "") {
-                            const sorted = [...cloned.hands![cloned.currplayer - 1]].sort((a,b) => ArimaaGame.strength(b) - ArimaaGame.strength(a));
-                            lastmove = cloned.currplayer === 1 ? sorted[0] : sorted[0].toLowerCase();
+                            let dflt: Piece;
+                            if (this.variants.includes("free")) {
+                                dflt = "R";
+                            } else {
+                                dflt = [...cloned.hands![cloned.currplayer - 1]].sort((a,b) => ArimaaGame.strength(b) - ArimaaGame.strength(a))[0];
+                            }
+                            lastmove = cloned.currplayer === 1 ? dflt : dflt.toLowerCase();
                         }
                         newmove = `${stub}${stub.length > 0 ? "," : ""}${lastmove}${cell}`;
                     }
@@ -690,8 +736,8 @@ export class ArimaaGame extends GameBase {
                         result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
                         return result;
                     }
-                    // cell must be empty
-                    if (this.board.has(cell)) {
+                    // cell must be empty, including of anything placed earlier in this move
+                    if (cloned.board.has(cell)) {
                         result.valid = false;
                         result.message = i18next.t("apgames:validation._general.OCCUPIED");
                         return result;
@@ -740,12 +786,21 @@ export class ArimaaGame extends GameBase {
                     message = i18next.t("apgames:validation.arimaa.PARTIAL_FREE")
                 }
             }
-            // otherwise, you have to place all your pieces
+            // otherwise, you have to place all your pieces,
+            // though the rabbits can be filled in for you
             else {
-                if (myhand.length > 0) {
+                const emptyHome = ArimaaGame.homeCells(cloned.currplayer).filter(c => !cloned.board.has(c));
+                const autoRabbits = myhand.length > 0 && myhand.every(pc => pc === "R") && emptyHome.length === myhand.length;
+                if (myhand.length > 0 && !autoRabbits) {
                     complete = -1;
                     message = i18next.t("apgames:validation.arimaa.PARTIAL_PLAY")
                 } else {
+                    // fake place the rabbits so the advice below sees the real setup
+                    if (autoRabbits) {
+                        for (const cell of emptyHome) {
+                            cloned.board.set(cell, ["R", cloned.currplayer]);
+                        }
+                    }
                     // warnings go here
                     const warnings: string[] = [];
                     // same file (only silver)
@@ -783,6 +838,9 @@ export class ArimaaGame extends GameBase {
                         // complete is never 1 for setup
                         complete = 0;
                         message = i18next.t("apgames:validation._general.VALID_MOVE")
+                    }
+                    if (autoRabbits) {
+                        message = [i18next.t("apgames:validation.arimaa.PARTIAL_RABBITS"), message].join(" ");
                     }
                 }
             }
@@ -1017,6 +1075,11 @@ export class ArimaaGame extends GameBase {
             if (! result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
             }
+        }
+        // top up a standard setup with the rabbits the player didn't place
+        // (a no-op on a setup that's already complete, so replays are unaffected)
+        if (!partial) {
+            m = this.fillRabbits(m);
         }
 
         const initial = this.clone(); // used to triple check that the board state changes

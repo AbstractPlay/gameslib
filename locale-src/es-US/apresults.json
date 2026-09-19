@@ -151,6 +151,10 @@
     "src": "{{player}} took the button.",
     "out": "{{player}} tomó el botón."
   },
+  "CAPTURE.asli_self": {
+    "src": "{{player}} cleared their own stranded stones at {{where}}.",
+    "out": "{{player}} retiró sus propias piedras aisladas en {{where}}."
+  },
   "CAPTURE.ataxx_one": {
     "src": "1 piece is converted.",
     "out": "1 pieza fue convertida."

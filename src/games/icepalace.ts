@@ -5,34 +5,543 @@ import { APRenderRep, Freepiece, Glyph, MarkerFreespaceLabel } from "@abstractpl
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
-import {
-    Cell,
-    NULL_COLOUR,
-    PieceId,
-    Size,
-    Structure,
-    WILD_COLOUR,
-    cellOf,
-    cloneStructure,
-    colourOf,
-    coordsOf,
-    legalCellsFor,
-    legalPalacePlacement,
-    legalYardPlacement,
-    makePiece,
-    placeInto,
-    sizeOf,
-    topOf,
-} from "./icepalace/rules.js";
-import { maximumBuild } from "./icepalace/solver.js";
+
+/* ------------------------------------------------- rules and legality */
+
+/**
+ * Shared vocabulary and legality checks for Ice Palace.
+ *
+ * Both structures (the Yard and the Ice Palace) are built on imaginary grids that
+ * stretch to infinity, so cells are stored as `"x,y"` keys rather than on a fixed
+ * board. `y` is positive upwards, matching `UnboundedSquareBoard.abs2notation`.
+ */
+
+/** 1 = small, 2 = medium, 3 = large. */
+export type Size = 1 | 2 | 3;
+
+/** Black is Null: it matches no colour, not even itself. */
+export const NULL_COLOUR = "B";
+/** White is Wild: it matches every colour except Black. */
+export const WILD_COLOUR = "W";
+
+/** A colour char followed by a size char, e.g. `"3L"`, `"BS"`, `"WM"`. */
+export type PieceId = string;
+
+export const SIZE_CHARS = ["S", "M", "L"] as const;
+export type SizeChar = (typeof SIZE_CHARS)[number];
+
+export type Cell = string;
+/** Cell key to the pyramids sitting there, ordered bottom to top. */
+export type Structure = Map<Cell, PieceId[]>;
+
+export const colourOf = (piece: PieceId): string => piece.substring(0, piece.length - 1);
+
+export const sizeOf = (piece: PieceId): Size => {
+    const idx = SIZE_CHARS.indexOf(piece[piece.length - 1] as SizeChar);
+    if (idx < 0) {
+        throw new Error(`Could not read a pyramid size from "${piece}".`);
+    }
+    return (idx + 1) as Size;
+};
+
+export const makePiece = (colour: string, size: Size): PieceId => `${colour}${SIZE_CHARS[size - 1]}`;
+
+export const cellOf = (x: number, y: number): Cell => `${x},${y}`;
+
+export const coordsOf = (cell: Cell): [number, number] => {
+    const parts = cell.split(",");
+    return [Number(parts[0]), Number(parts[1])];
+};
+
+/** Adjacency is side-by-side only; the four diagonals are not adjacent. */
+export const neighbours = (cell: Cell): Cell[] => {
+    const [x, y] = coordsOf(cell);
+    return [cellOf(x + 1, y), cellOf(x - 1, y), cellOf(x, y + 1), cellOf(x, y - 1)];
+};
+
+export const topOf = (struct: Structure, cell: Cell): PieceId | undefined => {
+    const stack = struct.get(cell);
+    if (stack === undefined || stack.length === 0) {
+        return undefined;
+    }
+    return stack[stack.length - 1];
+};
+
+/** Yard matching, where Black is Null and White is Wild. */
+export const coloursMatch = (a: string, b: string): boolean => {
+    if (a === NULL_COLOUR || b === NULL_COLOUR) {
+        return false;
+    }
+    if (a === WILD_COLOUR || b === WILD_COLOUR) {
+        return true;
+    }
+    return a === b;
+};
+
+/** Every empty cell touching the structure. */
+export const frontier = (struct: Structure): Cell[] => {
+    const cells = new Set<Cell>();
+    for (const cell of struct.keys()) {
+        for (const n of neighbours(cell)) {
+            if (!struct.has(n)) {
+                cells.add(n);
+            }
+        }
+    }
+    return [...cells];
+};
+
+/**
+ * The empty cells connected to the infinite outside, computed over the bounding box
+ * grown by one ring. Enclosed pockets are excluded: a stack that touches only a pocket
+ * cannot be grown away from indefinitely, which the build solver relies on.
+ */
+export const exteriorCells = (struct: Structure): Set<Cell> => {
+    const exterior = new Set<Cell>();
+    if (struct.size === 0) {
+        return exterior;
+    }
+    const coords = [...struct.keys()].map(coordsOf);
+    const minX = Math.min(...coords.map(c => c[0])) - 1;
+    const maxX = Math.max(...coords.map(c => c[0])) + 1;
+    const minY = Math.min(...coords.map(c => c[1])) - 1;
+    const maxY = Math.max(...coords.map(c => c[1])) + 1;
+
+    const queue: Cell[] = [cellOf(minX, minY)];
+    while (queue.length > 0) {
+        const cell = queue.pop()!;
+        if (exterior.has(cell) || struct.has(cell)) {
+            continue;
+        }
+        const [x, y] = coordsOf(cell);
+        if (x < minX || x > maxX || y < minY || y > maxY) {
+            continue;
+        }
+        exterior.add(cell);
+        queue.push(...neighbours(cell));
+    }
+    return exterior;
+};
+
+const canFound = (
+    struct: Structure,
+    piece: PieceId,
+    cell: Cell,
+    match: (a: string, b: string) => boolean,
+): boolean => {
+    for (const n of neighbours(cell)) {
+        const top = topOf(struct, n);
+        if (top !== undefined && match(colourOf(piece), colourOf(top))) {
+            return true;
+        }
+    }
+    return false;
+};
+
+/**
+ * Yard building code: any colour may be added to a stack if it is bigger than the
+ * current top pyramid, and a new stack may be started next to any existing stack whose
+ * top pyramid matches its colour. The lead may go anywhere.
+ */
+export const legalYardPlacement = (struct: Structure, piece: PieceId, cell: Cell): boolean => {
+    if (struct.size === 0) {
+        return true;
+    }
+    const top = topOf(struct, cell);
+    if (top !== undefined) {
+        return sizeOf(piece) > sizeOf(top);
+    }
+    return canFound(struct, piece, cell, coloursMatch);
+};
+
+/**
+ * Ice Palace building code: the size rule is reversed, and a new stack must exactly match
+ * the colour of an adjacent top pyramid. Black and White never reach the Palace, so Wild
+ * and Null have no role here. The rules never say how the first pyramid is placed into an
+ * empty Palace, so it goes anywhere.
+ */
+export const legalPalacePlacement = (struct: Structure, piece: PieceId, cell: Cell): boolean => {
+    if (struct.size === 0) {
+        return true;
+    }
+    const top = topOf(struct, cell);
+    if (top !== undefined) {
+        return sizeOf(piece) < sizeOf(top);
+    }
+    return canFound(struct, piece, cell, (a, b) => a === b);
+};
+
+export const placeInto = (struct: Structure, piece: PieceId, cell: Cell): void => {
+    const stack = struct.get(cell);
+    if (stack === undefined) {
+        struct.set(cell, [piece]);
+    } else {
+        stack.push(piece);
+    }
+};
+
+export const cloneStructure = (struct: Structure): Structure => {
+    const copy: Structure = new Map();
+    for (const [cell, stack] of struct.entries()) {
+        copy.set(cell, [...stack]);
+    }
+    return copy;
+};
+
+/** Every cell a piece could legally go, for either building code. */
+export const legalCellsFor = (
+    struct: Structure,
+    piece: PieceId,
+    legal: (struct: Structure, piece: PieceId, cell: Cell) => boolean,
+): Cell[] => {
+    if (struct.size === 0) {
+        return [cellOf(0, 0)];
+    }
+    const cells: Cell[] = [];
+    for (const cell of struct.keys()) {
+        if (legal(struct, piece, cell)) {
+            cells.push(cell);
+        }
+    }
+    for (const cell of frontier(struct)) {
+        if (legal(struct, piece, cell)) {
+            cells.push(cell);
+        }
+    }
+    return cells;
+};
+
+/* ------------------------------------------------------ build solver */
+
+/**
+ * Works out the maximum number of Yard pyramids that can be built into the Ice Palace.
+ *
+ * Over the board this number is agreed by the players, because nobody wants to search the
+ * possibilities by hand. It is cheap to compute exactly, because of one observation:
+ * founding is unbounded. A new stack founded next to a stack of colour `c` is itself
+ * topped by `c` and sits on the frontier, so it can be chained outwards forever. Once a
+ * colour tops any outward-facing stack, every pyramid of that colour can be placed.
+ *
+ * So the only question is which colours can be got onto an outward-facing top, and that
+ * reduces to a small resource count. A colour is enabled if it already tops such a stack,
+ * or if one of its pyramids can be stacked onto an open top strictly larger than it, which
+ * spends that top. Every pyramid of an enabled colour, once founded, yields a fresh open
+ * top of its own size, so enabled colours holding larges regenerate the scarce resource.
+ * Larges can never be stacked onto anything, so a colour whose only Yard pyramids are
+ * large is placeable only if it already tops an open stack.
+ *
+ * The search over (enabled colours, open large tops, open medium tops) is tiny. The plan
+ * it produces is then played out against the real building code, and the length of the
+ * sequence actually achieved is what gets reported. That direction matters: the number is
+ * always one the builder can reach, never an over-estimate that would wedge the build.
+ */
+
+
+export interface Placement {
+    piece: PieceId;
+    cell: Cell;
+}
+
+export interface BuildPlan {
+    /** How many Yard pyramids the builder must use. */
+    max: number;
+    /** One legal way to reach that number, in order. */
+    sequence: Placement[];
+}
+
+interface ColourCounts {
+    S: number;
+    M: number;
+    L: number;
+    total: number;
+}
+
+/** Stack a `size` pyramid of `colour` onto an open top of size `consume`, enabling it. */
+interface EnableStep {
+    colour: string;
+    size: Size;
+    consume: Size;
+}
+
+const tally = (pieces: PieceId[]): Map<string, ColourCounts> => {
+    const counts = new Map<string, ColourCounts>();
+    for (const piece of pieces) {
+        const colour = colourOf(piece);
+        let entry = counts.get(colour);
+        if (entry === undefined) {
+            entry = { S: 0, M: 0, L: 0, total: 0 };
+            counts.set(colour, entry);
+        }
+        const size = sizeOf(piece);
+        if (size === 1) {
+            entry.S++;
+        } else if (size === 2) {
+            entry.M++;
+        } else {
+            entry.L++;
+        }
+        entry.total++;
+    }
+    return counts;
+};
+
+/** Occupied cells that touch the infinite outside, with the colour and size on top. */
+const openTops = (struct: Structure): { cell: Cell; colour: string; size: Size }[] => {
+    const exterior = exteriorCells(struct);
+    const tops: { cell: Cell; colour: string; size: Size }[] = [];
+    for (const cell of struct.keys()) {
+        const top = topOf(struct, cell);
+        if (top === undefined) {
+            continue;
+        }
+        if (neighbours(cell).some(n => exterior.has(n))) {
+            tops.push({ cell, colour: colourOf(top), size: sizeOf(top) });
+        }
+    }
+    return tops;
+};
+
+const planEnablements = (
+    pending: string[],
+    counts: Map<string, ColourCounts>,
+    openL: number,
+    openM: number,
+): { gain: number; steps: EnableStep[] } => {
+    const memo = new Map<string, { gain: number; steps: EnableStep[] }>();
+
+    const search = (mask: number, nL: number, nM: number): { gain: number; steps: EnableStep[] } => {
+        const key = `${mask},${nL},${nM}`;
+        const cached = memo.get(key);
+        if (cached !== undefined) {
+            return cached;
+        }
+        let best: { gain: number; steps: EnableStep[] } = { gain: 0, steps: [] };
+        for (let i = 0; i < pending.length; i++) {
+            if ((mask & (1 << i)) !== 0) {
+                continue;
+            }
+            const colour = pending[i];
+            const cc = counts.get(colour)!;
+            const options: { size: Size; consume: Size; nL: number; nM: number }[] = [];
+            // A medium can only go under a large. The covered cell keeps its outward face,
+            // so it becomes an open medium top.
+            if (cc.M > 0 && nL >= 1) {
+                options.push({ size: 2, consume: 3, nL: nL - 1 + cc.L, nM: nM + cc.M });
+            }
+            // A small can go under either, and leaves a small top behind, which is spent.
+            if (cc.S > 0 && nM >= 1) {
+                options.push({ size: 1, consume: 2, nL: nL + cc.L, nM: nM - 1 + cc.M });
+            }
+            if (cc.S > 0 && nL >= 1) {
+                options.push({ size: 1, consume: 3, nL: nL - 1 + cc.L, nM: nM + cc.M });
+            }
+            for (const option of options) {
+                const sub = search(mask | (1 << i), option.nL, option.nM);
+                const gain = cc.total + sub.gain;
+                if (gain > best.gain) {
+                    best = {
+                        gain,
+                        steps: [{ colour, size: option.size, consume: option.consume }, ...sub.steps],
+                    };
+                }
+            }
+        }
+        memo.set(key, best);
+        return best;
+    };
+
+    return search(0, openL, openM);
+};
+
+/**
+ * An empty cell next to a stack of `colour` that will still touch the outside once filled,
+ * so the chain can keep growing from there.
+ */
+const pickFoundingCell = (struct: Structure, colour: string): Cell | undefined => {
+    const exterior = exteriorCells(struct);
+    let fallback: Cell | undefined;
+    for (const cell of struct.keys()) {
+        const top = topOf(struct, cell);
+        if (top === undefined || colourOf(top) !== colour) {
+            continue;
+        }
+        for (const n of neighbours(cell)) {
+            if (!exterior.has(n)) {
+                if (fallback === undefined && !struct.has(n)) {
+                    fallback = n;
+                }
+                continue;
+            }
+            if (neighbours(n).some(nn => exterior.has(nn))) {
+                return n;
+            }
+            if (fallback === undefined) {
+                fallback = n;
+            }
+        }
+    }
+    return fallback;
+};
+
+const foundAll = (
+    struct: Structure,
+    remaining: PieceId[],
+    sequence: Placement[],
+    colour: string,
+): void => {
+    for (;;) {
+        const idx = remaining.findIndex(p => colourOf(p) === colour);
+        if (idx < 0) {
+            return;
+        }
+        const cell = pickFoundingCell(struct, colour);
+        if (cell === undefined) {
+            return;
+        }
+        const [piece] = remaining.splice(idx, 1);
+        placeInto(struct, piece, cell);
+        sequence.push({ piece, cell });
+    }
+};
+
+const enableColour = (
+    struct: Structure,
+    remaining: PieceId[],
+    sequence: Placement[],
+    step: EnableStep,
+): boolean => {
+    const idx = remaining.findIndex(p => colourOf(p) === step.colour && sizeOf(p) === step.size);
+    if (idx < 0) {
+        return false;
+    }
+    const exterior = exteriorCells(struct);
+    let target: Cell | undefined;
+    for (const cell of struct.keys()) {
+        const top = topOf(struct, cell);
+        if (top === undefined || sizeOf(top) !== step.consume) {
+            continue;
+        }
+        if (neighbours(cell).some(n => exterior.has(n))) {
+            target = cell;
+            break;
+        }
+    }
+    if (target === undefined) {
+        return false;
+    }
+    const [piece] = remaining.splice(idx, 1);
+    placeInto(struct, piece, target);
+    sequence.push({ piece, cell: target });
+    return true;
+};
+
+/**
+ * Mops up anything the plan left behind, which is how pyramids of unreachable colours find
+ * their way onto enclosed stacks that the resource count deliberately ignores. This can only
+ * add placements.
+ */
+const sweep = (struct: Structure, remaining: PieceId[], sequence: Placement[]): void => {
+    let progressed = true;
+    while (progressed && remaining.length > 0) {
+        progressed = false;
+        const order = remaining
+            .map((piece, idx) => ({ piece, idx }))
+            .sort((a, b) => sizeOf(b.piece) - sizeOf(a.piece));
+        for (const { piece, idx } of order) {
+            const cells = legalCellsFor(struct, piece, legalPalacePlacement);
+            if (cells.length === 0) {
+                continue;
+            }
+            remaining.splice(idx, 1);
+            placeInto(struct, piece, cells[0]);
+            sequence.push({ piece, cell: cells[0] });
+            progressed = true;
+            break;
+        }
+    }
+};
+
+const buildOnto = (palace: Structure, pieces: PieceId[]): BuildPlan => {
+    const struct = cloneStructure(palace);
+    const remaining = [...pieces];
+    const sequence: Placement[] = [];
+
+    const counts = tally(pieces);
+    const tops = openTops(struct);
+    const enabled = new Set(tops.map(t => t.colour));
+
+    let openL = tops.filter(t => t.size === 3).length;
+    let openM = tops.filter(t => t.size === 2).length;
+    for (const [colour, cc] of counts.entries()) {
+        if (enabled.has(colour)) {
+            openL += cc.L;
+            openM += cc.M;
+        }
+    }
+
+    for (const colour of enabled) {
+        foundAll(struct, remaining, sequence, colour);
+    }
+
+    const pending = [...counts.keys()].filter(c => !enabled.has(c));
+    const plan = planEnablements(pending, counts, openL, openM);
+    for (const step of plan.steps) {
+        if (!enableColour(struct, remaining, sequence, step)) {
+            break;
+        }
+        foundAll(struct, remaining, sequence, step.colour);
+    }
+
+    sweep(struct, remaining, sequence);
+    return { max: sequence.length, sequence };
+};
+
+/**
+ * The most pyramids the builder can work into the Palace, with one sequence that gets there.
+ * `pieces` should already have had Black and White discarded.
+ */
+export const maximumBuild = (palace: Structure, pieces: PieceId[]): BuildPlan => {
+    if (pieces.length === 0) {
+        return { max: 0, sequence: [] };
+    }
+    if (palace.size > 0) {
+        return buildOnto(palace, pieces);
+    }
+
+    // An empty Palace takes its first pyramid anywhere, and which one it is matters a great
+    // deal, so try each distinct choice.
+    let best: BuildPlan = { max: 0, sequence: [] };
+    const origin = cellOf(0, 0);
+    for (const seed of new Set(pieces)) {
+        const struct: Structure = new Map([[origin, [seed]]]);
+        const rest = [...pieces];
+        rest.splice(rest.indexOf(seed), 1);
+        const sub = buildOnto(struct, rest);
+        if (sub.max + 1 > best.max) {
+            best = {
+                max: sub.max + 1,
+                sequence: [{ piece: seed, cell: origin }, ...sub.sequence],
+            };
+        }
+    }
+    return best;
+};
 
 /** A hand is being played into the Yard, or its winner is building the Palace. */
 export type Phase = "hand" | "build";
 
 /** One cell of freespace canvas, in renderer units; freespace scales pieces to `cellsize`. */
 const UNIT = 50;
-/** How far each pyramid in a stack rises above the one below it. */
-const RISER = UNIT * 0.34;
+/**
+ * True height ratios of the three pyramids, from the Icehouse glyph geometry
+ * (100 / 137.5 / 175), normalised against the large.
+ */
+const PYRAMID_SCALES = [100 / 175, 137.5 / 175, 1];
+/**
+ * How far each pyramid in a stack rises above the one below it. Small enough that the
+ * pyramids overlap and read as one stack, large enough that every apex stays visible.
+ */
+const RISER = UNIT * 0.38;
 /**
  * Rows are pitched further apart than columns so that a full three-pyramid stack, which
  * rises two risers above its cell, cannot collide with whatever sits in the row above.
@@ -717,16 +1226,26 @@ export class IcePalaceGame extends GameBaseSequenced {
 
     /* --------------------------------------------------------------- rendering */
 
+    /**
+     * Side-view pyramids, as Volcano draws them, rather than the top-down square. The
+     * `pyramid-flat-*` glyphs carry no full-cell sizing box, so the renderer normalises all
+     * three to the same footprint; scaling them back to their true height ratios is what
+     * keeps small, medium and large tellable apart.
+     */
     private glyphFor(piece: PieceId): Glyph {
-        const name = `pyramid-up-${SIZE_NAMES[sizeOf(piece) - 1]}`;
+        const size = sizeOf(piece);
+        const glyph: Glyph = {
+            name: `pyramid-flat-${SIZE_NAMES[size - 1]}`,
+            scale: PYRAMID_SCALES[size - 1],
+        };
         const colour = colourOf(piece);
         if (colour === NULL_COLOUR) {
-            return { name, colour: "#000000" };
+            return { ...glyph, colour: "#000000" };
         }
         if (colour === WILD_COLOUR) {
-            return { name, colour: "#ffffff" };
+            return { ...glyph, colour: "#ffffff" };
         }
-        return { name, colour: Number(colour) };
+        return { ...glyph, colour: Number(colour) };
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {

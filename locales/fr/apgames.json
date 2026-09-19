@@ -578,7 +578,7 @@
     "akimbo": "Akimbo, conçu par Luis Bolaños Mures en 2026, est un jeu de connexion sans égalité pour deux joueurs. Une _diagonale nue_ est une paire de pièces de même couleur, adjacentes en diagonale, sans aucune autre pièce de même couleur adjacente aux deux. Une _coupe croisée_ est une zone 2×2 avec deux diagonales nues imbriquées de couleurs opposées.\n\nÀ son tour, le joueur place une pièce amie sur une case vide. Si cela complète une coupe croisée, l'autre pièce de la coupe croisée est retirée. Il ne doit jamais y avoir plus d'une diagonale nue de chaque couleur sur le plateau — pas même momentanément avant de retirer une pièce. Un joueur gagne si, à la fin de son tour, il existe une chaîne de pièces de sa couleur connectées orthogonalement touchant les deux bords opposés du plateau du joueur.\n\nOkimba est une variante où une seule diagonale nue au maximum peut exister sur le plateau (ainsi, tant qu'un joueur possède la diagonale, l'adversaire ne peut pas en créer une autre).",
     "alta": "Il existe deux façons de placer des aiguillages sur l'interface graphique : (1) Sélectionnez l'orientation de l'aiguillage dans le panneau, puis cliquez sur la case désirée du plateau pour le placer, ou (2) cliquez sur deux sommets. Les sommets sont notés avec un astérisque, suivi de la notation algébrique de la case où le sommet se trouve dans le coin inférieur gauche. Pour basculer un aiguillage, cliquez simplement sur la case.",
     "anache": "Cette implémentation suit le règlement de David Ploog. Trois changements notables sont que (1) les barrières sont interdites, (2) au lieu d'un 16x16, nous avons une variante 15x15, où les pièces se promeuvent en cavaliers sur la ligne centrale, et le dragon ne peut pas sauter vers la case 7x7 depuis l'autre coin, et (3) contre les coins, les pièces sont capturées par écrasement au lieu d'une capture par encadrement, il doit donc y avoir au moins deux pièces adverses en ligne avant qu'une capture ne soit faite contre les coins.\n\nRemarque : la vérification du pat est gourmande en ressources. Si vous ne pouvez pas jouer de coup légal, vous devriez abandonner manuellement.",
-    "arimaa": "Mis à disposition sous la section 3 de la [licence publique Arimaa](https://arimaa.com/arimaa/license/).\n\nHarlog est une méthode reconnue pour déterminer l'avantage matériel. Les scores positifs favorisent l'Or, les négatifs l'Argent. La plage stricte est de ±112, mais en pratique ±20 constitue un très fort avantage.\n\nComme nous ne pouvons pas générer de listes exhaustives de coups, le système ne peut pas détecter les cas rares où vos seuls coups disponibles sont illégaux en raison d'une répétition de position. Le système ne vous laissera pas faire ces répétitions illégales, et vous devrez abandonner manuellement.",
+    "arimaa": "Mis à disposition selon la section 3 de la [licence publique Arimaa](https://arimaa.com/arimaa/license/).\n\nLors du placement initial standard, vous n'avez besoin de placer que vos huit pièces autres que des lapins. Une fois celles-ci posées, « Terminer le coup » remplit le reste de votre zone de placement avec des lapins. Vous pouvez toujours placer vous-même tout ou partie des lapins au préalable si vous les voulez à un endroit particulier.\n\nHarlog est une méthode reconnue pour déterminer l'avantage matériel. Les scores positifs favorisent l'Or, les négatifs l'Argent. La plage théorique est de ±112, mais en pratique, ±20 constitue un très fort avantage.\n\nComme nous ne pouvons pas générer de liste exhaustive de coups, le système ne peut pas détecter les rares cas où vos seuls coups disponibles sont illégaux en raison d'une répétition de position. Le système ne vous laissera pas effectuer ces répétitions illégales, et vous devrez abandonner manuellement.",
     "armadas": "Des problèmes connus existent avec ce jeu sur les appareils iOS.\n\nCe jeu propose deux scénarios :\n\n* Par défaut, chaque joueur dispose de deux trios de pièces. Dans la phase de placement, chaque joueur doit placer de 1 à 3 navires jusqu'à ce que tous les navires soient placés.\n* La variante \"Forme libre\" vous permet de placer tous les navires que vous souhaitez (maximum trois à la fois) jusqu'à ce que les deux joueurs \"passent\". Cela vous permet de créer des flottes déséquilibrées ou asymétriques.\n\nPar défaut, les parties comportent une île au centre du terrain. Les variantes \"sans îles\" et \"deux îles\" sont également disponibles. Vous ne pouvez pas vous déplacer ni tirer à travers les îles. Pour toucher un navire avec succès, au moins un coin du triangle de votre navire doit avoir une vue dégagée sur au moins un coin du navire cible.\n\nN'oubliez pas qu'il est possible de coincer votre navire contre une île ou le bord du plateau de manière à ne plus pouvoir le déplacer ! Soyez prudent !",
     "ataxx": "Lors d'une triple répétition, la partie prend fin et les scores sont calculés.",
     "bao": "Les coups au Bao peuvent être très complexes, impliquant plusieurs tours du plateau et des changements de direction. Les annotations sont donc succinctes. La case initiale et la direction sont mises en évidence, et les cases capturées sont également marquées. Cependant, une annotation détaillée du déplacement n'est pas possible. Si vous pensez avoir rencontré un bug, veuillez nous en informer sur Discord.",
@@ -954,6 +954,14 @@
       },
       "#rules": {
         "description": "Les incursions sont légales."
+      },
+      "#scoring": {
+        "name": "Décompte aux pierres",
+        "description": "Victoire par immobilisation."
+      },
+      "area": {
+        "name": "Décompte en surface",
+        "description": "Le suicide est autorisé, passer est toujours autorisé et bloque la prochaine incursion minimale de l'adversaire, et la partie se termine après deux passes consécutives. Le gagnant est celui qui contrôle la plus grande surface : ses pierres sur le plateau, plus son territoire, plus le komi."
       },
       "board-9": {
         "name": "Plateau 9x9"
@@ -4795,6 +4803,7 @@
       "HARLOG": "Harlog"
     },
     "asli": {
+      "AREA": "Surface",
       "TERRITORY": "Territoire & Prisonniers"
     },
     "baghchal": {
@@ -5140,6 +5149,7 @@
       "PARTIAL_PLACE": "Cliquez sur une case vide pour placer la pièce.",
       "PARTIAL_PLAY": "Poursuivez le placement de vos pièces.",
       "PARTIAL_PUSH": "Terminez la poussée en cliquant sur la pièce qui pousse.",
+      "PARTIAL_RABBITS": "Le reste de votre zone de placement sera rempli de lapins.",
       "PARTIAL_FREE": "Vous pouvez continuer à placer des pièces, ou cliquer sur Terminer le coup pour finir votre tour.",
       "PARTIAL_FREE_NO": "Vous pouvez continuer à placer des pièces, mais vous devez placer au moins un lapin, et vous ne pouvez pas placer de lapin sur la rangée d'arrivée.",
       "REPEAT": "Vous ne pouvez pas répéter une position donnée une troisième fois.",
@@ -5190,12 +5200,14 @@
       "BAD_KOMI": "Le premier coup de la partie doit être un entier représentant le nombre de pièces à placer dans la prison de départ. Un nombre positif place des pièces appartenant au premier joueur. Un nombre négatif, celles du second joueur. Vous ne pouvez pas placer plus de pièces dans la prison que le nombre de cases sur le plateau plus une.",
       "BAD_PASS": "Vous devez retirer une pièce ennemie de la prison pour passer.",
       "BAD_PIE": "Vous ne pouvez pas accepter la règle du gâteau à ce stade de la partie.",
+      "INITIAL_INSTRUCTIONS_area": "Placez une pièce sur un point vide valide, ou passez. Passer bloque également la prochaine incursion minimale de votre adversaire.",
       "INITIAL_INSTRUCTIONS_komi": "Saisissez le nombre de pièces du premier joueur que vous souhaitez placer dans la prison de départ. Le second joueur décidera ensuite de la place à prendre.",
       "INITIAL_INSTRUCTIONS_pie": "Cliquez soit sur le bouton « Jouer en second » pour rester là où vous êtes et continuer en second, soit sur « Échanger les places » pour changer de siège.",
       "INITIAL_INSTRUCTIONS_pie2": "Passez pour accepter l'offre de komi et continuer en second, ou placez une pièce pour devenir le premier joueur.",
-      "INITIAL_INSTRUCTIONS_play": "Placez une pièce sur une case vide valide ou passez pour retirer une pièce ennemie de la prison à la place (si disponible).",
+      "INITIAL_INSTRUCTIONS_play": "Placez une pièce sur un point vide valide ou passez pour sortir une pièce ennemie de la prison à la place (si disponible).",
       "MUST_PIE": "À ce stade de la partie, placer des pièces n'est pas autorisé.",
       "NEGATIVE_KOMI": "Êtes-vous sûr ? Les offres de komi négatives ne devraient être nécessaires que dans des situations de handicap spécifiques.",
+      "NO_CHANGE": "Avec le décompte en surface, votre coup doit modifier le plateau. Ce placement serait immédiatement retiré à nouveau, sans rien capturer.",
       "SUICIDE": "Vous ne pouvez pas placer une pièce de manière à avoir des groupes alliés morts à la fin de votre tour.",
       "WOVEN_INCURSION": "Dans la variante « Woven », les incursions ne sont pas légales."
     },

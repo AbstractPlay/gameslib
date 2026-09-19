@@ -3180,8 +3180,8 @@
     "out": "Questa implementazione segue il regolamento di David Ploog. Tre modifiche degne di nota sono che (1) le barriere sono proibite, (2) al posto di una variante 16x16 ne abbiamo una 15x15, in cui i pezzi si promuovono a cavalli sulla linea centrale e il drago non può saltare allo spazio 7x7 dall'altro angolo, e (3) contro gli angoli, i pezzi vengono catturati tramite cattura per schiacciamento anziché cattura in custodia, quindi devono esserci almeno due pezzi avversari in linea prima che venga effettuata una cattura contro gli angoli.\n\nNota: il controllo dello stallo è impegnativo dal punto di vista computazionale. Se non puoi effettuare alcuna mossa legale, dovresti abbandonare manualmente."
   },
   "notes.arimaa": {
-    "src": "Made available under section 3 of the [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nHarlog is an accepted method for determining material advantage. Positive scores favour Gold, negative Silver. The hard range is ±112, but in practice ±20 is a very strong advantage.\n\nBecause we can't generate comprehensive lists of moves, the system cannot detect the rare cases where your only available moves are illegal due to position repetition. The system won't let you make those illegal repetitions, and you'll have to resign manually.",
-    "out": "Reso disponibile ai sensi della sezione 3 della [licenza pubblica di Arimaa](https://arimaa.com/arimaa/license/).\n\nHarlog è un metodo riconosciuto per determinare il vantaggio di materiale. Punteggi positivi favoriscono l'Oro, negativi l'Argento. L'intervallo teorico è ±112, ma in pratica ±20 costituisce un vantaggio molto forte.\n\nPoiché non possiamo generare elenchi completi di mosse, il sistema non è in grado di rilevare i rari casi in cui le tue uniche mosse disponibili sono illegali a causa della ripetizione di posizione. Il sistema non ti permetterà di effettuare tali ripetizioni illegali e dovrai abbandonare manualmente."
+    "src": "Made available under section 3 of the [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nDuring standard setup, you only need to place your eight non-rabbits. Once they are down, Complete Move fills the rest of your setup area with rabbits. You can still place any or all of the rabbits yourself first if you want them somewhere in particular.\n\nHarlog is an accepted method for determining material advantage. Positive scores favour Gold, negative Silver. The hard range is ±112, but in practice ±20 is a very strong advantage.\n\nBecause we can't generate comprehensive lists of moves, the system cannot detect the rare cases where your only available moves are illegal due to position repetition. The system won't let you make those illegal repetitions, and you'll have to resign manually.",
+    "out": "Reso disponibile ai sensi della sezione 3 della [licenza pubblica Arimaa](https://arimaa.com/arimaa/license/).\n\nDurante il posizionamento standard, devi solo posizionare i tuoi otto pezzi non-coniglio. Una volta posizionati, Completa Mossa riempirà il resto della tua area di posizionamento con i conigli. Puoi comunque posizionare tu stesso alcuni o tutti i conigli, se li vuoi in un punto specifico.\n\nHarlog è un metodo riconosciuto per determinare il vantaggio materiale. I punteggi positivi favoriscono l'Oro, quelli negativi l'Argento. L'intervallo massimo è ±112, ma in pratica ±20 è un vantaggio molto forte.\n\nPoiché non possiamo generare elenchi completi di mosse, il sistema non è in grado di rilevare i rari casi in cui le tue uniche mosse disponibili sono illegali a causa della ripetizione della posizione. Il sistema non ti permetterà di effettuare tali ripetizioni illegali e dovrai abbandonare manualmente."
   },
   "notes.armadas": {
     "src": "There are known issues with this game on iOS devices.\n\nThis game offers two scenarios:\n\n* The default is each player having two trios of pieces. In the placement phase, each player must place 1 to 3 ships until all ships are placed.\n* The \"Freeform\" variant allows you to place whatever ships you want (maximum of three at a time) until both players \"pass.\" This lets you create unbalanced or otherwise asymmetrical fleets.\n\nGames default to having one island in the centre of the field. Both a \"no islands\" and a \"two islands\" variant are available. You cannot move or fire through islands. To successfully hit a ship, at least one corner of your ship's triangle must have a clear view of at least one corner of the target ship.\n\nRemember that it is possible to get your ship in a position against an island or the edge of the board such that you can no longer move that ship! Be careful!",
@@ -3658,6 +3658,10 @@
   "status.arimaa.HARLOG": {
     "src": "Harlog",
     "out": "Harlog"
+  },
+  "status.asli.AREA": {
+    "src": "Area",
+    "out": "Area"
   },
   "status.asli.TERRITORY": {
     "src": "Territory & Prisoners",
@@ -4643,6 +4647,10 @@
     "src": "Complete the push by clicking on the piece doing the pushing.",
     "out": "Completa la spinta cliccando sul pezzo che sta spingendo."
   },
+  "validation.arimaa.PARTIAL_RABBITS": {
+    "src": "The rest of your setup area will be filled with rabbits.",
+    "out": "Il resto della tua area di posizionamento verrà riempito con i conigli."
+  },
   "validation.arimaa.PARTIAL_one": {
     "src": "You may make {{count}} more move, or click Complete Move to end your turn.",
     "out": "Puoi effettuare ancora {{count}} mossa, oppure clicca su Completa mossa per terminare il tuo turno."
@@ -4819,6 +4827,10 @@
     "src": "You may not accept pie at this point in the game.",
     "out": "Non puoi accettare la regola della torta in questo momento della partita."
   },
+  "validation.asli.INITIAL_INSTRUCTIONS_area": {
+    "src": "Place a piece on a valid empty point, or pass. Passing also blocks your opponent's next minimal incursion.",
+    "out": "Posiziona un pezzo su un punto vuoto valido, oppure passa. Passare blocca anche la successiva incursione minima del tuo avversario."
+  },
   "validation.asli.INITIAL_INSTRUCTIONS_komi": {
     "src": "Enter the number of first-player pieces you wish to place in the starting prison. The second player will then decide which seat to take.",
     "out": "Inserisci il numero di pezzi del primo giocatore che desideri posizionare nella prigione iniziale. Il secondo giocatore deciderà poi quale posto occupare."
@@ -4832,8 +4844,8 @@
     "out": "Passa per accettare l'offerta di komi e continuare a giocare per secondo, oppure posiziona un pezzo per diventare il primo giocatore."
   },
   "validation.asli.INITIAL_INSTRUCTIONS_play": {
-    "src": "Place a piece on a valid empty space or pass to take an enemy piece out of the prison instead (if one is available).",
-    "out": "Posiziona un pezzo su uno spazio vuoto valido oppure passa per togliere un pezzo nemico dalla prigione (se disponibile)."
+    "src": "Place a piece on a valid empty point or pass to take an enemy piece out of the prison instead (if one is available).",
+    "out": "Posiziona un pezzo su un punto vuoto valido oppure passa per togliere invece un pezzo nemico dalla prigione (se ce n'è uno disponibile)."
   },
   "validation.asli.MUST_PIE": {
     "src": "At this point of the game, placing pieces is not allowed.",
@@ -4842,6 +4854,10 @@
   "validation.asli.NEGATIVE_KOMI": {
     "src": "Are you sure? Negative komi offers should only be needed in specific handicapping situations.",
     "out": "Sei sicuro? Le offerte di komi negativo dovrebbero essere necessarie solo in specifiche situazioni di handicap."
+  },
+  "validation.asli.NO_CHANGE": {
+    "src": "Under area scoring, your move must change the board. This placement would be removed again immediately, capturing nothing.",
+    "out": "Con il punteggio ad area, la tua mossa deve modificare la scacchiera. Questo posizionamento verrebbe rimosso di nuovo immediatamente, senza catturare nulla."
   },
   "validation.asli.SUICIDE": {
     "src": "You may not place a piece such that you have dead friendly groups at the end of your turn.",
@@ -14214,6 +14230,22 @@
   "variants.asli.#rules.description": {
     "src": "Incursions are legal.",
     "out": "Le incursioni sono legali."
+  },
+  "variants.asli.#scoring.description": {
+    "src": "Win by immobilization.",
+    "out": "Vittoria per immobilizzazione."
+  },
+  "variants.asli.#scoring.name": {
+    "src": "Stone scoring",
+    "out": "Punteggio a pietre"
+  },
+  "variants.asli.area.description": {
+    "src": "Suicide is legal, passing is always legal and blocks the opponent's next minimal incursion, and the game ends on two consecutive passes. The winner is whoever holds the most area: their stones on the board, plus their territory, plus komi.",
+    "out": "Il suicidio è legale, passare è sempre legale e blocca la successiva incursione minima dell'avversario, e la partita termina dopo due passi consecutivi. Il vincitore è chi controlla più area: le proprie pietre sulla scacchiera, più il proprio territorio, più il komi."
+  },
+  "variants.asli.area.name": {
+    "src": "Area scoring",
+    "out": "Punteggio ad area"
   },
   "variants.asli.board-11.name": {
     "src": "11x11 board",

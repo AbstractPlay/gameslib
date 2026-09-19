@@ -578,7 +578,7 @@
     "akimbo": "Akimbo, diseñado por Luis Bolaños Mures en 2026, es un juego de conexión sin empates para dos jugadores. Una _diagonal desnuda_ es un par de piezas del mismo color, adyacentes en diagonal, sin ninguna otra pieza del mismo color adyacente a ambas. Un _corte cruzado_ es un área de 2×2 con dos diagonales desnudas entrelazadas de colores opuestos.\n\nEn su turno, el jugador coloca una pieza propia en una casilla vacía. Si esto completa un corte cruzado, la otra pieza en el corte cruzado se elimina. Nunca debe haber más de una diagonal desnuda de cada color en el tablero, ni siquiera de forma momentánea antes de quitar una pieza. Un jugador gana si, al final de su turno, hay una cadena de piezas de su color conectadas ortogonalmente que toque los dos bordes opuestos del tablero pertenecientes a ese jugador.\n\nOkimba es una variante donde solo puede existir como máximo una diagonal desnuda en el tablero (por lo que mientras un jugador tenga la diagonal, el adversario no puede crear otra).",
     "alta": "Hay dos formas de colocar interruptores en la interfaz gráfica: (1) selecciona la orientación del interruptor en el panel y luego haz clic en el espacio deseado en el tablero para colocarlo, o (2) haz clic en dos vértices. Los vértices se anotan con un asterisco, seguido de la notación algebraica del espacio donde el vértice se encuentra en la esquina inferior izquierda. Para alternar un interruptor, simplemente haz clic en el espacio.",
     "anache": "Esta implementación sigue el reglamento de David Ploog. Tres cambios destacables son: (1) las barreras están prohibidas, (2) en lugar de un tablero de 16x16, tenemos una variante de 15x15 donde las piezas se promocionan a caballos en la línea central y el dragón no puede saltar al espacio de 7x7 desde la otra esquina, y (3) contra las esquinas, las piezas se capturan mediante captura por aplastamiento en lugar de captura por custodia, por lo que se necesitan al menos dos piezas del oponente en línea antes de realizar una captura contra las esquinas.\n\nNota: la verificación de ahogado es costosa. Si no puedes realizar un movimiento legal, debes rendirte manualmente.",
-    "arimaa": "Disponible bajo la sección 3 de la [licencia pública de Arimaa](https://arimaa.com/arimaa/license/).\n\nHarlog es un método aceptado para determinar la ventaja material. Las puntuaciones positivas favorecen al Oro y las negativas a la Plata. El rango estricto es de ±112, pero en la práctica ±20 representa una ventaja muy fuerte.\n\nDebido a que no podemos generar listas exhaustivas de movimientos, el sistema no puede detectar los raros casos en los que tus únicos movimientos disponibles son ilegales debido a la repetición de posición. El sistema no te permitirá realizar esas repeticiones ilegales y tendrás que rendirte manualmente.",
+    "arimaa": "Disponible bajo la sección 3 de la [licencia pública de Arimaa](https://arimaa.com/arimaa/license/).\n\nDurante la preparación estándar, solo necesitas colocar tus ocho piezas que no son conejos. Una vez colocadas, Completar movimiento llenará el resto de tu área de preparación con conejos. Aún puedes colocar cualquiera o todos los conejos tú mismo primero si los quieres en algún lugar en particular.\n\nHarlog es un método aceptado para determinar la ventaja material. Las puntuaciones positivas favorecen al Oro y las negativas a la Plata. El rango límite es ±112, pero en la práctica ±20 es una ventaja muy fuerte.\n\nDebido a que no podemos generar listas exhaustivas de movimientos, el sistema no puede detectar los raros casos en los que tus únicos movimientos disponibles sean ilegales por repetición de posición. El sistema no te permitirá hacer esas repeticiones ilegales y tendrás que rendirte manualmente.",
     "armadas": "Existen problemas conocidos con este juego en dispositivos iOS.\n\nEste juego ofrece dos escenarios:\n\n* El modo por defecto consiste en que cada jugador tiene dos tríos de piezas. En la fase de colocación, cada jugador debe colocar de 1 a 3 barcos hasta colocar todos los barcos.\n* La variante \"Forma libre\" te permite colocar los barcos que desees (máximo tres a la vez) hasta que ambos jugadores pasen (\"pass\"). Esto te permite crear flotas desequilibradas o asimétricas.\n\nPor defecto, las partidas tienen una isla en el centro del campo. También están disponibles las variantes \"sin islas\" y \"dos islas\". No puedes moverte ni disparar a través de las islas. Para impactar con éxito a un barco, al menos una esquina del triángulo de tu barco debe tener una vista despejada de al menos una esquina del barco objetivo.\n\n¡Recuerda que es posible ubicar tu barco en una posición contra una isla o el borde del tablero de modo que ya no puedas mover ese barco! ¡Ten cuidado!",
     "ataxx": "Al repetirse la posición tres veces, el juego termina y se calculan las puntuaciones.",
     "bao": "Los movimientos en Bao pueden ser muy complejos, e incluyen varias vueltas alrededor del tablero y cambios de dirección. Por lo tanto, las anotaciones son escasas. La casilla inicial y la dirección están resaltadas, y las casillas capturadas también están marcadas. Sin embargo, no es posible realizar una anotación detallada del movimiento. Si crees que has encontrado un error, por favor avísanos en Discord.",
@@ -954,6 +954,14 @@
       },
       "#rules": {
         "description": "Las incursiones son legales."
+      },
+      "#scoring": {
+        "name": "Puntuación por piedras",
+        "description": "Gana por inmovilización."
+      },
+      "area": {
+        "name": "Puntuación por área",
+        "description": "El suicidio es legal, pasar siempre es legal y bloquea la siguiente incursión mínima del oponente, y la partida termina con dos pases consecutivos. El ganador es quien posea la mayor cantidad de área: sus piedras en el tablero, más su territorio, más el komi."
       },
       "board-9": {
         "name": "Tablero de 9x9"
@@ -4795,6 +4803,7 @@
       "HARLOG": "Harlog"
     },
     "asli": {
+      "AREA": "Área",
       "TERRITORY": "Territorio y prisioneros"
     },
     "baghchal": {
@@ -5140,6 +5149,7 @@
       "PARTIAL_PLACE": "Haz clic en una casilla vacía para colocar la pieza.",
       "PARTIAL_PLAY": "Continúa colocando tus piezas.",
       "PARTIAL_PUSH": "Completa el empuje haciendo clic en la pieza que realiza el empuje.",
+      "PARTIAL_RABBITS": "El resto de tu área de preparación se llenará con conejos.",
       "PARTIAL_FREE": "Puedes continuar colocando piezas, o hacer clic en Completar movimiento para terminar tu turno.",
       "PARTIAL_FREE_NO": "Puedes continuar colocando piezas, pero debes colocar al menos un conejo y no puedes colocar ningún conejo en la fila de meta.",
       "REPEAT": "No puedes repetir una misma posición por tercera vez.",
@@ -5190,12 +5200,14 @@
       "BAD_KOMI": "El primer movimiento del juego debe ser un número entero que represente la cantidad de piezas a colocar en la prisión inicial. Un número positivo coloca piezas del primer jugador. Un número negativo, las del segundo jugador. No puedes colocar más piezas en la prisión que el número de casillas en el tablero más una.",
       "BAD_PASS": "Debes retirar una pieza enemiga de la prisión para pasar.",
       "BAD_PIE": "No puedes aceptar la regla del pastel en este punto del juego.",
+      "INITIAL_INSTRUCTIONS_area": "Coloca una pieza en un punto vacío válido o pasa. Pasar también bloquea la siguiente incursión mínima de tu oponente.",
       "INITIAL_INSTRUCTIONS_komi": "Ingresa la cantidad de piezas del primer jugador que deseas colocar en la prisión inicial. El segundo jugador decidirá qué lugar tomar.",
       "INITIAL_INSTRUCTIONS_pie": "Haz clic en el botón 'Jugar segundo' para quedarte donde estás y continuar jugando segundo, o haz clic en 'Intercambiar asientos' para cambiar de lugar.",
       "INITIAL_INSTRUCTIONS_pie2": "Pasa para aceptar la oferta de komi y continuar jugando segundo, o coloca una pieza para asumir el lugar del primer jugador.",
-      "INITIAL_INSTRUCTIONS_play": "Coloca una pieza en un espacio vacío válido o pasa para sacar una pieza enemiga de la prisión en su lugar (si hay alguna disponible).",
+      "INITIAL_INSTRUCTIONS_play": "Coloca una pieza en un punto vacío válido o pasa para sacar una pieza enemiga de la prisión en su lugar (si hay alguna disponible).",
       "MUST_PIE": "En este punto del juego, no se permite colocar piezas.",
       "NEGATIVE_KOMI": "¿Estás seguro? Las ofertas de komi negativo solo deberían ser necesarias en situaciones específicas de ventaja.",
+      "NO_CHANGE": "Bajo la puntuación por área, tu movimiento debe cambiar el tablero. Esta colocación se eliminaría de nuevo inmediatamente, sin capturar nada.",
       "SUICIDE": "No puedes colocar una pieza de manera que tengas grupos aliados muertos al final de tu turno.",
       "WOVEN_INCURSION": "En la variante 'Woven', las incursiones no son legales."
     },

@@ -3659,6 +3659,10 @@
     "src": "Harlog",
     "out": "Harlog"
   },
+  "status.asli.AREA": {
+    "src": "Area",
+    "out": "Área"
+  },
   "status.asli.TERRITORY": {
     "src": "Territory & Prisoners",
     "out": "Territorio y prisioneros"
@@ -4819,6 +4823,10 @@
     "src": "You may not accept pie at this point in the game.",
     "out": "No puedes aceptar la regla del pastel en este punto del juego."
   },
+  "validation.asli.INITIAL_INSTRUCTIONS_area": {
+    "src": "Place a piece on a valid empty point, or pass. Passing also blocks your opponent's next minimal incursion.",
+    "out": "Coloca una pieza en un punto vacío válido o pasa. Pasar también bloquea la siguiente incursión mínima de tu oponente."
+  },
   "validation.asli.INITIAL_INSTRUCTIONS_komi": {
     "src": "Enter the number of first-player pieces you wish to place in the starting prison. The second player will then decide which seat to take.",
     "out": "Ingresa la cantidad de piezas del primer jugador que deseas colocar en la prisión inicial. El segundo jugador decidirá qué lugar tomar."
@@ -4832,8 +4840,8 @@
     "out": "Pasa para aceptar la oferta de komi y continuar jugando segundo, o coloca una pieza para asumir el lugar del primer jugador."
   },
   "validation.asli.INITIAL_INSTRUCTIONS_play": {
-    "src": "Place a piece on a valid empty space or pass to take an enemy piece out of the prison instead (if one is available).",
-    "out": "Coloca una pieza en un espacio vacío válido o pasa para sacar una pieza enemiga de la prisión en su lugar (si hay alguna disponible)."
+    "src": "Place a piece on a valid empty point or pass to take an enemy piece out of the prison instead (if one is available).",
+    "out": "Coloca una pieza en un punto vacío válido o pasa para sacar una pieza enemiga de la prisión en su lugar (si hay alguna disponible)."
   },
   "validation.asli.MUST_PIE": {
     "src": "At this point of the game, placing pieces is not allowed.",
@@ -4842,6 +4850,10 @@
   "validation.asli.NEGATIVE_KOMI": {
     "src": "Are you sure? Negative komi offers should only be needed in specific handicapping situations.",
     "out": "¿Estás seguro? Las ofertas de komi negativo solo deberían ser necesarias en situaciones específicas de ventaja."
+  },
+  "validation.asli.NO_CHANGE": {
+    "src": "Under area scoring, your move must change the board. This placement would be removed again immediately, capturing nothing.",
+    "out": "Bajo la puntuación por área, tu movimiento debe cambiar el tablero. Esta colocación se eliminaría de nuevo inmediatamente, sin capturar nada."
   },
   "validation.asli.SUICIDE": {
     "src": "You may not place a piece such that you have dead friendly groups at the end of your turn.",
@@ -14214,6 +14226,22 @@
   "variants.asli.#rules.description": {
     "src": "Incursions are legal.",
     "out": "Las incursiones son legales."
+  },
+  "variants.asli.#scoring.description": {
+    "src": "Win by immobilization.",
+    "out": "Gana por inmovilización."
+  },
+  "variants.asli.#scoring.name": {
+    "src": "Stone scoring",
+    "out": "Puntuación por piedras"
+  },
+  "variants.asli.area.description": {
+    "src": "Suicide is legal, passing is always legal and blocks the opponent's next minimal incursion, and the game ends on two consecutive passes. The winner is whoever holds the most area: their stones on the board, plus their territory, plus komi.",
+    "out": "El suicidio es legal, pasar siempre es legal y bloquea la siguiente incursión mínima del oponente, y la partida termina con dos pases consecutivos. El ganador es quien posea la mayor cantidad de área: sus piedras en el tablero, más su territorio, más el komi."
+  },
+  "variants.asli.area.name": {
+    "src": "Area scoring",
+    "out": "Puntuación por área"
   },
   "variants.asli.board-11.name": {
     "src": "11x11 board",

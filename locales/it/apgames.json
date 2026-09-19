@@ -955,6 +955,14 @@
       "#rules": {
         "description": "Le incursioni sono legali."
       },
+      "#scoring": {
+        "name": "Punteggio a pietre",
+        "description": "Vittoria per immobilizzazione."
+      },
+      "area": {
+        "name": "Punteggio ad area",
+        "description": "Il suicidio è legale, passare è sempre legale e blocca la successiva incursione minima dell'avversario, e la partita termina dopo due passi consecutivi. Il vincitore è chi controlla più area: le proprie pietre sulla scacchiera, più il proprio territorio, più il komi."
+      },
       "board-9": {
         "name": "Tavoliere 9x9"
       },
@@ -4795,6 +4803,7 @@
       "HARLOG": "Harlog"
     },
     "asli": {
+      "AREA": "Area",
       "TERRITORY": "Territorio e prigionieri"
     },
     "baghchal": {
@@ -5190,12 +5199,14 @@
       "BAD_KOMI": "La prima mossa della partita deve essere un numero intero che rappresenta il numero di pezzi da posizionare nella prigione iniziale. Un numero positivo inserisce pezzi appartenenti al primo giocatore. Un numero negativo, quelli del secondo giocatore. Non puoi posizionare nella prigione più pezzi del numero di caselle sulla plancia più uno.",
       "BAD_PASS": "Devi rimuovere un pezzo nemico dalla prigione per passare.",
       "BAD_PIE": "Non puoi accettare la regola della torta in questo momento della partita.",
+      "INITIAL_INSTRUCTIONS_area": "Posiziona un pezzo su un punto vuoto valido, oppure passa. Passare blocca anche la successiva incursione minima del tuo avversario.",
       "INITIAL_INSTRUCTIONS_komi": "Inserisci il numero di pezzi del primo giocatore che desideri posizionare nella prigione iniziale. Il secondo giocatore deciderà poi quale posto occupare.",
       "INITIAL_INSTRUCTIONS_pie": "Clicca sul pulsante 'Gioca per secondo' per rimanere dove sei e continuare a giocare per secondo, oppure clicca su 'Scambia posti' per cambiare posto.",
       "INITIAL_INSTRUCTIONS_pie2": "Passa per accettare l'offerta di komi e continuare a giocare per secondo, oppure posiziona un pezzo per diventare il primo giocatore.",
-      "INITIAL_INSTRUCTIONS_play": "Posiziona un pezzo su uno spazio vuoto valido oppure passa per togliere un pezzo nemico dalla prigione (se disponibile).",
+      "INITIAL_INSTRUCTIONS_play": "Posiziona un pezzo su un punto vuoto valido oppure passa per togliere invece un pezzo nemico dalla prigione (se ce n'è uno disponibile).",
       "MUST_PIE": "In questo momento della partita, non è consentito posizionare pezzi.",
       "NEGATIVE_KOMI": "Sei sicuro? Le offerte di komi negativo dovrebbero essere necessarie solo in specifiche situazioni di handicap.",
+      "NO_CHANGE": "Con il punteggio ad area, la tua mossa deve modificare la scacchiera. Questo posizionamento verrebbe rimosso di nuovo immediatamente, senza catturare nulla.",
       "SUICIDE": "Non puoi posizionare un pezzo in modo da avere gruppi alleati morti alla fine del tuo turno.",
       "WOVEN_INCURSION": "Nella variante 'Woven', le incursioni non sono legali."
     },

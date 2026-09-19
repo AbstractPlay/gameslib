@@ -54,6 +54,7 @@
   },
   "BUTTON": "{{player}} ha preso il bottone.",
   "CAPTURE": {
+    "asli_self": "{{player}} ha rimosso le proprie pietre isolate in {{where}}.",
     "ataxx_one": "1 pezzo è stato convertito.",
     "ataxx_other": "{{count}} pezzi sono stati convertiti.",
     "bao_one": "{{player}} ha catturato un totale di {{count}} pietra dalle seguenti fosse (in ordine): {{pits}}",

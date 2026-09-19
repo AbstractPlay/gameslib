@@ -54,6 +54,7 @@
   },
   "BUTTON": "{{player}} tomó el botón.",
   "CAPTURE": {
+    "asli_self": "{{player}} retiró sus propias piedras aisladas en {{where}}.",
     "ataxx_one": "1 pieza fue convertida.",
     "ataxx_other": "{{count}} piezas fueron convertidas.",
     "bao_one": "{{player}} capturó un total de {{count}} piedra de las siguientes casillas (en orden): {{pits}}",

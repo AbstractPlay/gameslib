@@ -54,6 +54,7 @@
   },
   "BUTTON": "{{player}} hat den Button genommen.",
   "CAPTURE": {
+    "asli_self": "{{player}} entfernte die eigenen gestrandeten Steine auf {{where}}.",
     "ataxx_one": "1 Stein wurde umgewandelt.",
     "ataxx_other": "{{count}} Steine wurden umgewandelt.",
     "bao_one": "{{player}} hat insgesamt {{count}} Stein aus folgenden Mulden (in Reihenfolge) geschlagen: {{pits}}",

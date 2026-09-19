@@ -955,6 +955,14 @@
       "#rules": {
         "description": "Inkursionen sind legal."
       },
+      "#scoring": {
+        "name": "Steinwertung",
+        "description": "Sieg durch Bewegungsunfähigkeit."
+      },
+      "area": {
+        "name": "Flächenwertung",
+        "description": "Selbstmord ist erlaubt, Passen ist immer erlaubt und blockiert den nächsten minimalen Vorstoß des Gegners, und das Spiel endet nach zwei aufeinanderfolgenden Pässen. Sieger ist, wer die meiste Fläche hält: die eigenen Steine auf dem Brett, plus das eigene Territorium, plus Komi."
+      },
       "board-9": {
         "name": "9x9-Brett"
       },
@@ -4795,6 +4803,7 @@
       "HARLOG": "Harlog"
     },
     "asli": {
+      "AREA": "Fläche",
       "TERRITORY": "Territorium & Gefangene"
     },
     "baghchal": {
@@ -5190,12 +5199,14 @@
       "BAD_KOMI": "Der erste Zug des Spiels muss eine ganze Zahl sein, die die Anzahl der Steine darstellt, die im Startgefängnis platziert werden sollen. Eine positive Zahl platziert Steine des ersten Spielers. Eine negative Zahl die des zweiten Spielers. Du darfst nicht mehr Steine im Gefängnis platzieren als die Anzahl der Felder auf dem Spielplan plus eins.",
       "BAD_PASS": "Du musst einen gegnerischen Stein aus dem Gefängnis entfernen, um zu passen.",
       "BAD_PIE": "Du darfst die Pie-Regel an diesem Punkt des Spiels nicht anwenden.",
+      "INITIAL_INSTRUCTIONS_area": "Setze einen Stein auf einen gültigen leeren Punkt oder passe. Passen blockiert außerdem den nächsten minimalen Vorstoß deines Gegners.",
       "INITIAL_INSTRUCTIONS_komi": "Gib die Anzahl der Steine des ersten Spielers ein, die du im Startgefängnis platzieren möchtest. Der zweite Spieler entscheidet dann, welchen Platz er einnimmt.",
       "INITIAL_INSTRUCTIONS_pie": "Klicke entweder auf die Schaltfläche 'Als Zweiter spielen', um dort zu bleiben, wo du bist, und als zweiter Spieler weiterzuspielen, oder klicke auf 'Spielerplätze tauschen', um die Plätze zu wechseln.",
       "INITIAL_INSTRUCTIONS_pie2": "Passe entweder, um das Komi-Angebot anzunehmen und als zweiter Spieler weiterzuspielen, oder platziere einen Stein, um als erster Spieler zu übernehmen.",
-      "INITIAL_INSTRUCTIONS_play": "Platziere einen Stein auf einem gültigen leeren Feld oder passe, um stattdessen einen gegnerischen Stein aus dem Gefängnis zu nehmen (falls einer verfügbar ist).",
+      "INITIAL_INSTRUCTIONS_play": "Setze einen Stein auf einen gültigen leeren Punkt oder passe, um stattdessen einen gegnerischen Stein aus dem Gefängnis zu nehmen (falls einer vorhanden ist).",
       "MUST_PIE": "An diesem Punkt des Spiels ist das Platzieren von Steinen nicht erlaubt.",
       "NEGATIVE_KOMI": "Bist du sicher? Negative Komi-Angebote sollten nur in spezifischen Handicap-Situationen erforderlich sein.",
+      "NO_CHANGE": "Bei der Flächenwertung muss dein Zug das Brett verändern. Dieser Stein würde sofort wieder entfernt werden, ohne etwas zu schlagen.",
       "SUICIDE": "Du darfst keinen Stein so platzieren, dass du am Ende deines Zuges geschlagene eigene Gruppen hast.",
       "WOVEN_INCURSION": "In der Variante 'Gewoben' sind Vorstöße nicht legal."
     },

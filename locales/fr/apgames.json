@@ -955,6 +955,14 @@
       "#rules": {
         "description": "Les incursions sont légales."
       },
+      "#scoring": {
+        "name": "Décompte aux pierres",
+        "description": "Victoire par immobilisation."
+      },
+      "area": {
+        "name": "Décompte en surface",
+        "description": "Le suicide est autorisé, passer est toujours autorisé et bloque la prochaine incursion minimale de l'adversaire, et la partie se termine après deux passes consécutives. Le gagnant est celui qui contrôle la plus grande surface : ses pierres sur le plateau, plus son territoire, plus le komi."
+      },
       "board-9": {
         "name": "Plateau 9x9"
       },
@@ -4795,6 +4803,7 @@
       "HARLOG": "Harlog"
     },
     "asli": {
+      "AREA": "Surface",
       "TERRITORY": "Territoire & Prisonniers"
     },
     "baghchal": {
@@ -5190,12 +5199,14 @@
       "BAD_KOMI": "Le premier coup de la partie doit être un entier représentant le nombre de pièces à placer dans la prison de départ. Un nombre positif place des pièces appartenant au premier joueur. Un nombre négatif, celles du second joueur. Vous ne pouvez pas placer plus de pièces dans la prison que le nombre de cases sur le plateau plus une.",
       "BAD_PASS": "Vous devez retirer une pièce ennemie de la prison pour passer.",
       "BAD_PIE": "Vous ne pouvez pas accepter la règle du gâteau à ce stade de la partie.",
+      "INITIAL_INSTRUCTIONS_area": "Placez une pièce sur un point vide valide, ou passez. Passer bloque également la prochaine incursion minimale de votre adversaire.",
       "INITIAL_INSTRUCTIONS_komi": "Saisissez le nombre de pièces du premier joueur que vous souhaitez placer dans la prison de départ. Le second joueur décidera ensuite de la place à prendre.",
       "INITIAL_INSTRUCTIONS_pie": "Cliquez soit sur le bouton « Jouer en second » pour rester là où vous êtes et continuer en second, soit sur « Échanger les places » pour changer de siège.",
       "INITIAL_INSTRUCTIONS_pie2": "Passez pour accepter l'offre de komi et continuer en second, ou placez une pièce pour devenir le premier joueur.",
-      "INITIAL_INSTRUCTIONS_play": "Placez une pièce sur une case vide valide ou passez pour retirer une pièce ennemie de la prison à la place (si disponible).",
+      "INITIAL_INSTRUCTIONS_play": "Placez une pièce sur un point vide valide ou passez pour sortir une pièce ennemie de la prison à la place (si disponible).",
       "MUST_PIE": "À ce stade de la partie, placer des pièces n'est pas autorisé.",
       "NEGATIVE_KOMI": "Êtes-vous sûr ? Les offres de komi négatives ne devraient être nécessaires que dans des situations de handicap spécifiques.",
+      "NO_CHANGE": "Avec le décompte en surface, votre coup doit modifier le plateau. Ce placement serait immédiatement retiré à nouveau, sans rien capturer.",
       "SUICIDE": "Vous ne pouvez pas placer une pièce de manière à avoir des groupes alliés morts à la fin de votre tour.",
       "WOVEN_INCURSION": "Dans la variante « Woven », les incursions ne sont pas légales."
     },

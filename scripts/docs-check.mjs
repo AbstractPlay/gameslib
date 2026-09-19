@@ -24,7 +24,7 @@ const VENDOR_GAMESLIB = path.join(DOCS_ROOT, "vendor", "gameslib");
 
 const EXCLUDED_TOP_LEVEL = new Set(["node_modules", "build", "dist", ".git", "_ap_docs"]);
 
-const OTHER_VENDORS = ["renderer", "node-backend", "recranks", "backend-crons", "front"];
+const OTHER_VENDORS = ["renderer", "node-backend", "recranks", "front"];
 
 function shouldCopyEntry(name) {
   return !EXCLUDED_TOP_LEVEL.has(name);

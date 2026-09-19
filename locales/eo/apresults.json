@@ -16,6 +16,7 @@
         "dameo_soldier": "{{player}} kaptis soldaton ĉe {{where}}.",
         "boom": "{{player}} detruis pecon ĉe {{where}}.",
         "minimal": "Peco kaptiĝis.",
+        "asli_self": "{{player}} forigis siajn proprajn izolitajn pecojn ĉe {{where}}.",
         "ataxx_one": "1 peco konvertiĝis.",
         "ataxx_other": "{{count}} pecoj konvertiĝis.",
         "bao_one": "{{player}} kaptis entute {{count}} ŝtonon el la jenaj kavoj (laŭorde): {{pits}}",

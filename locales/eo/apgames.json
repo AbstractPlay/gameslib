@@ -3819,8 +3819,8 @@
     },
     "asli": {
       "swap-prison": {
-        "description": "Interŝanĝu la koloron de la kaptitaj pecoj montrataj apud la tabulo.",
-        "name": "Interŝanĝi la kolorojn de la kaptitaj pecoj"
+        "description": "Interŝanĝu la koloron de la pecoj en la malliberejo.",
+        "name": "Interŝanĝi la kolorojn en la malliberejo"
       }
     },
     "atoll": {

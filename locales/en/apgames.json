@@ -4291,8 +4291,8 @@
         },
         "asli": {
             "swap-prison": {
-                "description": "Swap the color of the captured pieces shown beside the board.",
-                "name": "Swap capture colors"
+                "description": "Swap the color of the pieces in the prison.",
+                "name": "Swap prison colors"
             }
         },
         "atoll": {

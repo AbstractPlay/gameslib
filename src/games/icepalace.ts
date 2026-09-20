@@ -1236,10 +1236,12 @@ export class IcePalaceGame extends GameBaseSequenced {
     public sidebarStatuses(): IStatus[] {
         const statuses: IStatus[] = [];
         for (let p = 1; p <= this.numplayers; p++) {
-            const value: StatusValue[] = this.hands[p - 1].map(piece => this.glyphFor(piece));
+            const value: StatusValue[] = this.hands[p - 1].map(piece => this.statusGlyph(piece));
             if (p === this.lead) {
-                // The button marks who leads the current hand; it moves on after each build.
-                value.unshift(IcePalaceGame.BUTTON);
+                // The button, as in poker, marks who leads the hand; it moves on after each
+                // build. There is no dedicated glyph, so it is a plain piece in the seventh
+                // colour, which no seat holds, so players can customise it on its own.
+                value.unshift(IcePalaceGame.statusGlyph("piece", 7));
             }
             statuses.push({ key: this.seatStatusValue(p), value });
         }
@@ -1267,11 +1269,20 @@ export class IcePalaceGame extends GameBaseSequenced {
     }
 
     /**
-     * The button, as in poker, is the token that says who leads the hand. There is no
-     * dedicated glyph for it, so it is a plain piece in the seventh colour, which no seat
-     * can hold, so that players can customise it separately from the six seat colours.
+     * A status-panel glyph. The front draws these through the renderer's single-glyph
+     * helper and reads the glyph's name from `glyph`, not `name`, as Catapult and Entropy
+     * do; so a status value is not quite a legend glyph.
      */
-    private static readonly BUTTON: Glyph = { name: "piece", colour: 7 };
+    private static statusGlyph(name: string, colour: number | string): StatusValue {
+        const value = { glyph: name, colour };
+        return value as StatusValue;
+    }
+
+    /** A pyramid as it appears in the status panel. */
+    private statusGlyph(piece: PieceId): StatusValue {
+        const glyph = this.glyphFor(piece);
+        return IcePalaceGame.statusGlyph(glyph.name!, glyph.colour as number | string);
+    }
 
     /**
      * Lays a stack out the way Volcano does: each pyramid sits one index above the last, and

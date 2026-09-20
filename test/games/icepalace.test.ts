@@ -433,12 +433,14 @@ describe("Ice Palace: board interaction", () => {
         expect(statuses.length).to.be.greaterThan(3);
         // Seat 1 leads the first hand, so its row starts with the button.
         expect(statuses[0].value.length).to.equal(3);
-        expect(statuses[0].value[0]).to.deep.equal({ name: "piece", colour: 7 });
+        expect(statuses[0].value[0]).to.deep.equal({ glyph: "piece", colour: 7 });
         expect(statuses[1].value.length).to.equal(1);
+        // The front reads a status glyph's name from `glyph`, as Catapult's dagger does.
+        expect(statuses[1].value[0]).to.deep.equal({ glyph: "pyramid-up-small-3D", colour: 2 });
         expect(statuses[2].value.length).to.equal(3);
         g.lead = 2;
         expect(g.sidebarStatuses()[0].value.length).to.equal(2);
-        expect(g.sidebarStatuses()[1].value[0]).to.deep.equal({ name: "piece", colour: 7 });
+        expect(g.sidebarStatuses()[1].value[0]).to.deep.equal({ glyph: "piece", colour: 7 });
     });
 
     it("dots the legal cells once a pyramid is picked, and only then", () => {

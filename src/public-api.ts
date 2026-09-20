@@ -16,6 +16,23 @@ import {
     assertChallengeVariantSelection,
     assertChallengeVariants,
 } from "./games/_gameinfo-filter.js";
+import {
+    archiveMetadataFor,
+    archiveVariantDefsForMetaUid,
+    getRetraction,
+    isCatalogVisible,
+    isRetractedMetaGame,
+    resolveRetractedMetaUidByName,
+    retractedMetaUids,
+    shouldOmitFromRecords,
+    shouldPublishStats,
+} from "./retractedGames.js";
+import type {
+    RetractionArchiveMetadata,
+    RetractionAvailability,
+    RetractionEntry,
+    RecordsGeneration,
+} from "./retractedGames.js";
 
 export {
     GameFactory,
@@ -29,6 +46,21 @@ export {
     assertAllowedChallengeVariants,
     assertChallengeVariantSelection,
     assertChallengeVariants,
+    archiveMetadataFor,
+    archiveVariantDefsForMetaUid,
+    getRetraction,
+    isCatalogVisible,
+    isRetractedMetaGame,
+    resolveRetractedMetaUidByName,
+    retractedMetaUids,
+    shouldOmitFromRecords,
+    shouldPublishStats,
+};
+export type {
+    RetractionArchiveMetadata,
+    RetractionAvailability,
+    RetractionEntry,
+    RecordsGeneration,
 };
 export type { IAPGameState, FlagContext, GameFlag } from "./games/index.js";
 export type { APMoveResult, APGamesInformation };

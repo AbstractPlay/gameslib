@@ -136,6 +136,10 @@ export interface Variant {
    */
   group?: string;
   /**
+   * The people and organizations involved in the variant's creation
+   */
+  people?: Person[];
+  /**
    * If present and `true`, this variant will appear as the preselected default when issuing new challenges, requesting tournaments, etc. See the `uid` field description for how to describe the "no variant" state.
    */
   default?: boolean;

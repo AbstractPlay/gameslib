@@ -1,0 +1,18 @@
+{
+  "binar": {
+    "availability": "hiddenAll",
+    "recordsGeneration": "omit",
+    "publishStats": false,
+    "reason": "broken",
+    "removedAt": "2024-04-19",
+    "archiveMetadata": {
+      "name": "Binar",
+      "playercounts": [2],
+      "variants": [
+        { "uid": "partisan" },
+        { "uid": "size-5", "group": "board" },
+        { "uid": "size-6", "group": "board" }
+      ]
+    }
+  }
+}

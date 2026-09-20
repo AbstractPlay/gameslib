@@ -5959,6 +5959,7 @@
       "MUST_CHOOSE_SIDE": "Debes elegir pares o impares antes de jugar.",
       "NOT_IN_HAND": "Ese dominó no está en tu mano.",
       "NEEDS_ANCHOR_PIP": "Esta colocación es ambigua. Marca el punto de anclaje con un asterisco (ej. 1*-2@-3,1N o 1-2*@-3,1N).",
+      "MUST_COVER_TWO_DOMINOES": "Al colocar una ficha de dominó sobre otras, debes cubrir dos fichas diferentes.",
       "PARTIAL": "Haz clic en una media casilla de anclaje, luego en el otro extremo del dominó."
     },
     "estate": {

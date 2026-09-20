@@ -55,7 +55,7 @@ export class TableroGame extends GameBase {
                 apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
             },
         ],
-        variants: [{uid: "5-10", group: "scoring"}, {uid: "abba"}],
+        variants: [{uid: "5-10", group: "scoring", fans: true}, {uid: "abba", fans: true}],
         categories: ["goal>score>eog", "mechanic>place",  "mechanic>move", "mechanic>coopt", "mechanic>random>play", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["perspective", "scores", "automove", "no-explore", "custom-rotation"]
     };

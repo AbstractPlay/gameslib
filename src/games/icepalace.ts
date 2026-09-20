@@ -535,20 +535,12 @@ const PADDING = 1;
 /** Empty columns separating the Palace from the Yard when both are on the board. */
 const GAP = 1;
 /**
- * The `-3D` pyramid glyphs are drawn for Volcano's nests, so all three sizes share an apex
- * and grow downward from it: a medium's base sits 15 units below a small's, a large's 30
- * below, in the sheet's 100-unit box. Here pyramids stand on one another rather than nest,
- * and the bottom of a stack should sit on the cell whatever its size, so each size is
- * nudged back up by its extra depth. The legend composes glyphs in a 500-unit box, hence ×5.
+ * How far each array index rises above the last, as a fraction of the cell. It must stay at
+ * the renderer's default, because `stackColumn` relies on one index being exactly one glyph
+ * step: the `-3D` pyramids are drawn with a small's base at the cell centre, a medium's one
+ * step lower and a large's two lower, with heights of one, two and three steps.
  */
-const PYRAMID_BASE_NUDGE = [0, -75, -150];
-/**
- * How far each pyramid rises above the one beneath, as a fraction of the cell. Volcano's
- * default of 0.15 exactly cancels the base depths above for a nest, which with base-aligned
- * glyphs would leave every apex coincident; 0.25 keeps each tip visible without pulling a
- * stack apart into separate pieces.
- */
-const STACK_OFFSET = 0.25;
+const STACK_OFFSET = 0.15;
 
 /** Where one structure sits on the shared board. */
 interface IRegion {
@@ -1254,20 +1246,37 @@ export class IcePalaceGame extends GameBaseSequenced {
         return `p${piece}`;
     }
 
-    private glyphFor(piece: PieceId): Glyph {
-        const size = sizeOf(piece);
-        const glyph: Glyph = { name: `pyramid-up-${SIZE_NAMES[size - 1]}-3D` };
-        if (PYRAMID_BASE_NUDGE[size - 1] !== 0) {
-            glyph.nudge = { dx: 0, dy: PYRAMID_BASE_NUDGE[size - 1] };
+    /**
+     * Lays a stack out so each pyramid stands exactly on the one below it, the way Volcano
+     * does. A piece whose base should sit `top` steps above the ground belongs at index
+     * `top + height - 1`, and "-" placeholders, which the renderer skips but still counts,
+     * fill the indices in between. A lone large is therefore `["-", "-", large]`.
+     */
+    private static stackColumn(stack: PieceId[]): string[] {
+        const column: string[] = [];
+        let top = 0;
+        for (const piece of stack) {
+            const height = sizeOf(piece);
+            const index = top + height - 1;
+            while (column.length < index) {
+                column.push("-");
+            }
+            column.push(IcePalaceGame.legendKey(piece));
+            top += height;
         }
+        return column;
+    }
+
+    private glyphFor(piece: PieceId): Glyph {
+        const name = `pyramid-up-${SIZE_NAMES[sizeOf(piece) - 1]}-3D`;
         const colour = colourOf(piece);
         if (colour === NULL_COLOUR) {
-            return { ...glyph, colour: "#000000" };
+            return { name, colour: "#000000" };
         }
         if (colour === WILD_COLOUR) {
-            return { ...glyph, colour: "#ffffff" };
+            return { name, colour: "#ffffff" };
         }
-        return { ...glyph, colour: Number(colour) };
+        return { name, colour: Number(colour) };
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -1364,8 +1373,8 @@ export class IcePalaceGame extends GameBaseSequenced {
                     if (!(key in legend)) {
                         legend[key] = this.glyphFor(piece);
                     }
-                    pieces[row][col].push(key);
                 }
+                pieces[row][col] = IcePalaceGame.stackColumn(stack);
             }
         }
 

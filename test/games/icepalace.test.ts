@@ -379,16 +379,26 @@ describe("Ice Palace: board interaction", () => {
         expect((g.render() as Rep).areas?.[0].pieces.sort()).to.deep.equal(["p1L", "p1M"]);
     });
 
-    it("stands every size on the cell and spaces stacked tips apart", () => {
-        // The -3D glyphs share an apex, so without a per-size nudge a large would sit 30
-        // units lower in its cell than a small; and with bases aligned, Volcano's default
-        // rise would leave every apex in a stack coincident.
-        const g = rig(new IcePalaceGame(3), [["1S", "1M", "1L"], ["2S"], ["3S"]], fatPool());
-        const rep = g.render() as { board: { stackOffset?: number }; legend: Record<string, { nudge?: { dy: number } }> };
-        expect(rep.board.stackOffset).to.equal(0.25);
-        expect(rep.legend.p1S.nudge).to.be.undefined;
-        expect(rep.legend.p1M.nudge?.dy).to.equal(-75);
-        expect(rep.legend.p1L.nudge?.dy).to.equal(-150);
+    it("stands every pyramid exactly on the one below it", () => {
+        // The -3D glyphs are drawn for nests: at index 0 a small's base is on the cell, a
+        // medium's one rise-step lower, a large's two lower, with heights of one, two and
+        // three steps. Volcano gets exact stacking by spending "-" placeholders to lift each
+        // piece to the previous one's apex, and so does this.
+        const g = rig(new IcePalaceGame(3), [["1M"], ["2S"], ["3S"]], fatPool());
+        g.palace = new Map([["0,0", ["1L", "2M", "3S"]], ["1,0", ["2L"]]]);
+        g.yard = new Map([["0,0", ["1S", "2M", "3L"]]]);
+        const rep = g.render() as Rep & { board: { stackOffset?: number }; legend: Record<string, { nudge?: unknown }> };
+        expect(rep.board.stackOffset).to.equal(0.15);
+        expect(rep.legend.p1L.nudge).to.be.undefined;
+        // A Palace tower: large on the ground, medium on its apex, small on the medium's.
+        const [tr, tc] = drawnAt(rep, "3S");
+        expect(rep.pieces[tr][tc]).to.deep.equal(["-", "-", "p1L", "-", "p2M", "p3S"]);
+        // A lone large has to be lifted two steps to stand on the ground.
+        const [lr, lc] = drawnAt(rep, "2L");
+        expect(rep.pieces[lr][lc]).to.deep.equal(["-", "-", "p2L"]);
+        // A Yard stack: small on the ground, then medium, then large, each on the last apex.
+        const [yr, yc] = drawnAt(rep, "3L");
+        expect(rep.pieces[yr][yc]).to.deep.equal(["p1S", "-", "p2M", "-", "-", "p3L"]);
     });
 
     it("lists every hand in the status panel", () => {

@@ -794,11 +794,11 @@
                 "name": "Triangle board (8 wide)"
             },
             "cobweb": {
-                "name": "Cobweb (4 rings, experimental)"
+                "name": "Cobweb (4 rings)"
             },
             "cobweb-small": {
                 "description": "A variant played on a round board where you try to connect two opposite sides.",
-                "name": "Cobweb (3 rings, designer preferred)"
+                "name": "Cobweb (3 rings)"
             },
             "limping": {
                 "name": "Limping 5-6 (75 spaces)"
@@ -924,7 +924,7 @@
                 "description": "Randomly generated setup with reduced army size"
             },
             "free": {
-                "name": "Free placement (unrated)",
+                "name": "Free placement",
                 "description": "Lets players place as many pieces as they want wherever they want, including creating illegal or otherwise broken positions. Players should communicate clearly before starting. These games cannot be rated."
             }
         },
@@ -934,7 +934,7 @@
             },
             "freeform": {
                 "description": "Lets the players determine their own fleet compositions. Requires good communication before starting. These games cannot be rated.",
-                "name": "Freeform (unrated)"
+                "name": "Freeform"
             },
             "noislands": {
                 "description": "No starting islands",
@@ -954,10 +954,6 @@
             },
             "#rules": {
                 "description": "Incursions are legal."
-            },
-            "#scoring": {
-                "name": "Stone scoring",
-                "description": "Win by immobilization."
             },
             "area": {
                 "name": "Area scoring",
@@ -3156,7 +3152,7 @@
                 "name": "Standard setup"
             },
             "custom": {
-                "name": "Custom setup (unrated)",
+                "name": "Custom setup",
                 "description": "The players can create arbitrary setups. Should only be done with good communication. These games cannot be rated."
             },
             "#board": {
@@ -4803,7 +4799,7 @@
             "HARLOG": "Harlog"
         },
         "asli": {
-            "AREA": "Area",
+            "AREA": "Area + komi",
             "TERRITORY": "Territory & Prisoners"
         },
         "baghchal": {
@@ -5197,11 +5193,14 @@
         },
         "asli": {
             "BAD_INCURSION": "You may not make back-to-back minimal incursions.",
+            "BAD_INCURSION_pass": "You may not make a minimal incursion immediately after your opponent passes.",
             "BAD_KOMI": "The first move of the game must be an integer representing the number of pieces to place in the starting prison. A positive number puts pieces belonging to the first player. A negative number, those of the second player. You may not place more pieces in the prison than number of cells on the board plus one.",
+            "BAD_KOMI_area": "The first move of the game must be a whole number of points of komi. A positive number awards komi to the second player. A negative number, to the first player. You may not offer more komi than the number of points on the board plus one.",
             "BAD_PASS": "You must remove an enemy piece from the prison to pass.",
             "BAD_PIE": "You may not accept pie at this point in the game.",
             "INITIAL_INSTRUCTIONS_area": "Place a piece on a valid empty point, or pass. Passing also blocks your opponent's next minimal incursion.",
             "INITIAL_INSTRUCTIONS_komi": "Enter the number of first-player pieces you wish to place in the starting prison. The second player will then decide which seat to take.",
+            "INITIAL_INSTRUCTIONS_komi_area": "Enter the komi, in points, that you wish to offer. A positive number awards komi to the second player. A negative number, to the first player. The other player will then decide which seat to take.",
             "INITIAL_INSTRUCTIONS_pie": "Either click the 'Play second' button to stay where you are and continue playing second, or click 'Swap player seats' to change seats.",
             "INITIAL_INSTRUCTIONS_pie2": "Either pass to accept the komi offer and continue playing second, or place a piece to take over as first player.",
             "INITIAL_INSTRUCTIONS_play": "Place a piece on a valid empty point or pass to take an enemy piece out of the prison instead (if one is available).",

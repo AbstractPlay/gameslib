@@ -56,7 +56,7 @@ export class AgereGame extends GameBase {
             },
         ],
         variants: [
-            {uid: "cobweb", group: "board"},
+            {uid: "cobweb", group: "board", fans: true},
             {uid: "cobweb-small", group: "board"},
             {uid: "#board"},
             {uid: "standard-11", group: "board"},

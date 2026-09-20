@@ -414,6 +414,7 @@
   },
   "PASS": {
     "asli": "{{player}} ha preso un pezzo avversario dalla prigione e ha passato il turno.",
+    "asli_area": "{{player}} ha passato il turno.",
     "assembly": "La linea di produzione non si muove.",
     "deckfish": "{{player}} non ha potuto muovere.",
     "entropy": "{{player}} ha scelto di non muovere alcun pezzo in questo turno.",

@@ -794,11 +794,11 @@
         "name": "Tablero triangular (8 de ancho)"
       },
       "cobweb": {
-        "name": "Telaraña (4 anillos, experimental)"
+        "name": "Telaraña (4 anillos)"
       },
       "cobweb-small": {
         "description": "Una variante jugada en un tablero redondo donde intentas conectar dos lados opuestos.",
-        "name": "Telaraña (3 anillos, preferido por el diseñador)"
+        "name": "Telaraña (3 anillos)"
       },
       "limping": {
         "name": "Rengueo 5-6 (75 casilleros)"
@@ -924,7 +924,7 @@
         "description": "Disposición generada aleatoriamente con tamaño de ejército reducido"
       },
       "free": {
-        "name": "Colocación libre (sin clasificación)",
+        "name": "Colocación libre",
         "description": "Permite a los jugadores colocar tantas piezas como quieran donde quieran, incluyendo la creación de posiciones ilegales o rotas. Los jugadores deben comunicarse claramente antes de empezar. Estas partidas no se pueden clasificar."
       }
     },
@@ -934,7 +934,7 @@
       },
       "freeform": {
         "description": "Permite a los jugadores determinar sus propias composiciones de flota. Requiere buena comunicación antes de comenzar. Estas partidas no se pueden clasificar.",
-        "name": "Forma libre (sin clasificación)"
+        "name": "Forma libre"
       },
       "noislands": {
         "description": "Sin islas iniciales",
@@ -954,10 +954,6 @@
       },
       "#rules": {
         "description": "Las incursiones son legales."
-      },
-      "#scoring": {
-        "name": "Puntuación por piedras",
-        "description": "Gana por inmovilización."
       },
       "area": {
         "name": "Puntuación por área",
@@ -3156,7 +3152,7 @@
         "name": "Disposición estándar"
       },
       "custom": {
-        "name": "Disposición personalizada (sin clasificación)",
+        "name": "Configuración personalizada",
         "description": "Los jugadores pueden crear disposiciones arbitrarias. Solo debe hacerse con buena comunicación. Estas partidas no se pueden clasificar."
       },
       "#board": {
@@ -4803,7 +4799,7 @@
       "HARLOG": "Harlog"
     },
     "asli": {
-      "AREA": "Área",
+      "AREA": "Área + komi",
       "TERRITORY": "Territorio y prisioneros"
     },
     "baghchal": {
@@ -5197,11 +5193,14 @@
     },
     "asli": {
       "BAD_INCURSION": "No puedes hacer incursiones mínimas consecutivas.",
+      "BAD_INCURSION_pass": "No puedes hacer una incursión mínima inmediatamente después de que tu oponente pase.",
       "BAD_KOMI": "El primer movimiento del juego debe ser un número entero que represente la cantidad de piezas a colocar en la prisión inicial. Un número positivo coloca piezas del primer jugador. Un número negativo, las del segundo jugador. No puedes colocar más piezas en la prisión que el número de casillas en el tablero más una.",
+      "BAD_KOMI_area": "El primer movimiento del juego debe ser un número entero de puntos de komi. Un número positivo le otorga komi al segundo jugador. Un número negativo, al primer jugador. No puedes ofrecer más komi que el número de puntos en el tablero más uno.",
       "BAD_PASS": "Debes retirar una pieza enemiga de la prisión para pasar.",
       "BAD_PIE": "No puedes aceptar la regla del pastel en este punto del juego.",
       "INITIAL_INSTRUCTIONS_area": "Coloca una pieza en un punto vacío válido o pasa. Pasar también bloquea la siguiente incursión mínima de tu oponente.",
       "INITIAL_INSTRUCTIONS_komi": "Ingresa la cantidad de piezas del primer jugador que deseas colocar en la prisión inicial. El segundo jugador decidirá qué lugar tomar.",
+      "INITIAL_INSTRUCTIONS_komi_area": "Ingresa el komi, en puntos, que deseas ofrecer. Un número positivo le otorga komi al segundo jugador. Un número negativo, al primer jugador. El otro jugador decidirá entonces qué asiento tomar.",
       "INITIAL_INSTRUCTIONS_pie": "Haz clic en el botón 'Jugar segundo' para quedarte donde estás y continuar jugando segundo, o haz clic en 'Intercambiar asientos' para cambiar de lugar.",
       "INITIAL_INSTRUCTIONS_pie2": "Pasa para aceptar la oferta de komi y continuar jugando segundo, o coloca una pieza para asumir el lugar del primer jugador.",
       "INITIAL_INSTRUCTIONS_play": "Coloca una pieza en un punto vacío válido o pasa para sacar una pieza enemiga de la prisión en su lugar (si hay alguna disponible).",

@@ -1,4 +1,3 @@
-/* eslint-env node */
 /**
  * Run AbstractPlay/docs link check against this repo's working tree.
  *

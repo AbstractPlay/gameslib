@@ -3660,8 +3660,8 @@
     "out": "Harlog"
   },
   "status.asli.AREA": {
-    "src": "Area",
-    "out": "Area"
+    "src": "Area + komi",
+    "out": "Area + komi"
   },
   "status.asli.TERRITORY": {
     "src": "Territory & Prisoners",
@@ -4815,9 +4815,17 @@
     "src": "You may not make back-to-back minimal incursions.",
     "out": "Non puoi effettuare incursioni minime consecutive."
   },
+  "validation.asli.BAD_INCURSION_pass": {
+    "src": "You may not make a minimal incursion immediately after your opponent passes.",
+    "out": "Non puoi effettuare un'incursione minima subito dopo che il tuo avversario ha passato."
+  },
   "validation.asli.BAD_KOMI": {
     "src": "The first move of the game must be an integer representing the number of pieces to place in the starting prison. A positive number puts pieces belonging to the first player. A negative number, those of the second player. You may not place more pieces in the prison than number of cells on the board plus one.",
     "out": "La prima mossa della partita deve essere un numero intero che rappresenta il numero di pezzi da posizionare nella prigione iniziale. Un numero positivo inserisce pezzi appartenenti al primo giocatore. Un numero negativo, quelli del secondo giocatore. Non puoi posizionare nella prigione più pezzi del numero di caselle sulla plancia più uno."
+  },
+  "validation.asli.BAD_KOMI_area": {
+    "src": "The first move of the game must be a whole number of points of komi. A positive number awards komi to the second player. A negative number, to the first player. You may not offer more komi than the number of points on the board plus one.",
+    "out": "La prima mossa della partita deve essere un numero intero di punti di komi. Un numero positivo assegna il komi al secondo giocatore. Un numero negativo, al primo giocatore. Non puoi offrire più komi del numero di punti sul tabellone più uno."
   },
   "validation.asli.BAD_PASS": {
     "src": "You must remove an enemy piece from the prison to pass.",
@@ -4834,6 +4842,10 @@
   "validation.asli.INITIAL_INSTRUCTIONS_komi": {
     "src": "Enter the number of first-player pieces you wish to place in the starting prison. The second player will then decide which seat to take.",
     "out": "Inserisci il numero di pezzi del primo giocatore che desideri posizionare nella prigione iniziale. Il secondo giocatore deciderà poi quale posto occupare."
+  },
+  "validation.asli.INITIAL_INSTRUCTIONS_komi_area": {
+    "src": "Enter the komi, in points, that you wish to offer. A positive number awards komi to the second player. A negative number, to the first player. The other player will then decide which seat to take.",
+    "out": "Inserisci il komi, in punti, che desideri offrire. Un numero positivo assegna il komi al secondo giocatore. Un numero negativo, al primo giocatore. L'altro giocatore deciderà quindi quale posto occupare."
   },
   "validation.asli.INITIAL_INSTRUCTIONS_pie": {
     "src": "Either click the 'Play second' button to stay where you are and continue playing second, or click 'Swap player seats' to change seats.",
@@ -13996,12 +14008,12 @@
     "out": "Una variante giocata su un tavoliere rotondo in cui cerchi di collegare due lati opposti."
   },
   "variants.agere.cobweb-small.name": {
-    "src": "Cobweb (3 rings, designer preferred)",
-    "out": "Ragnatela (3 anelli, preferita dall'autore)"
+    "src": "Cobweb (3 rings)",
+    "out": "Ragnatela (3 anelli)"
   },
   "variants.agere.cobweb.name": {
-    "src": "Cobweb (4 rings, experimental)",
-    "out": "Ragnatela (4 anelli, sperimentale)"
+    "src": "Cobweb (4 rings)",
+    "out": "Ragnatela (4 anelli)"
   },
   "variants.agere.limping.name": {
     "src": "Limping 5-6 (75 spaces)",
@@ -14188,8 +14200,8 @@
     "out": "Consente ai giocatori di posizionare tutti i pezzi che desiderano dove vogliono, inclusa la creazione di posizioni illegali o non valide. I giocatori dovrebbero comunicare chiaramente prima di iniziare. Queste partite non possono essere classificate."
   },
   "variants.arimaa.free.name": {
-    "src": "Free placement (unrated)",
-    "out": "Posizionamento libero (non classificata)"
+    "src": "Free placement",
+    "out": "Posizionamento libero"
   },
   "variants.armadas.#obstacles.name": {
     "src": "One obstacle",
@@ -14200,8 +14212,8 @@
     "out": "Consente ai giocatori di determinare la propria composizione della flotta. Richiede una buona comunicazione prima di iniziare. Queste partite non possono essere classificate."
   },
   "variants.armadas.freeform.name": {
-    "src": "Freeform (unrated)",
-    "out": "A forma libera (non classificata)"
+    "src": "Freeform",
+    "out": "Forma libera"
   },
   "variants.armadas.noislands.description": {
     "src": "No starting islands",
@@ -14230,14 +14242,6 @@
   "variants.asli.#rules.description": {
     "src": "Incursions are legal.",
     "out": "Le incursioni sono legali."
-  },
-  "variants.asli.#scoring.description": {
-    "src": "Win by immobilization.",
-    "out": "Vittoria per immobilizzazione."
-  },
-  "variants.asli.#scoring.name": {
-    "src": "Stone scoring",
-    "out": "Punteggio a pietre"
   },
   "variants.asli.area.description": {
     "src": "Suicide is legal, passing is always legal and blocks the opponent's next minimal incursion, and the game ends on two consecutive passes. The winner is whoever holds the most area: their stones on the board, plus their territory, plus komi.",
@@ -17356,8 +17360,8 @@
     "out": "I giocatori possono creare configurazioni arbitrarie. Dovrebbe essere fatto solo con una buona comunicazione. Queste partite non possono essere classificate."
   },
   "variants.rampart.custom.name": {
-    "src": "Custom setup (unrated)",
-    "out": "Configurazione personalizzata (non classificata)"
+    "src": "Custom setup",
+    "out": "Configurazione personalizzata"
   },
   "variants.rampart.hex7.name": {
     "src": "Hexagonal board (base-7)",

@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-/* eslint-env node */
 /**
  * Review origin/l10n/weblate before merging into develop:
  * - fetch remote branch

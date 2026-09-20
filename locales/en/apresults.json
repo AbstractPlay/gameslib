@@ -414,6 +414,7 @@
     },
     "PASS": {
         "asli": "{{player}} took an opposing piece from the prison and passed their turn.",
+        "asli_area": "{{player}} passed their turn.",
         "assembly": "The production line doesn't move.",
         "deckfish": "{{player}} was unable to move.",
         "entropy": "{{player}} chose not to move any pieces this turn.",

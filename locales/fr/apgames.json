@@ -794,11 +794,11 @@
         "name": "Plateau triangulaire (largeur 8)"
       },
       "cobweb": {
-        "name": "Toile d'araignée (4 anneaux, expérimental)"
+        "name": "Toile d'araignée (4 anneaux)"
       },
       "cobweb-small": {
         "description": "Une variante jouée sur un plateau rond où vous essayez de relier deux côtés opposés.",
-        "name": "Toile d'araignée (3 anneaux, préféré par l'auteur)"
+        "name": "Toile d'araignée (3 anneaux)"
       },
       "limping": {
         "name": "Boiteux 5-6 (75 espaces)"
@@ -924,7 +924,7 @@
         "description": "Disposition générée aléatoirement avec une taille d'armée réduite"
       },
       "free": {
-        "name": "Placement libre (non classé)",
+        "name": "Placement libre",
         "description": "Permet aux joueurs de placer autant de pièces qu'ils le souhaitent où ils le souhaitent, y compris en créant des positions illégales ou invalides. Les joueurs doivent communiquer clairement avant de commencer. Ces parties ne peuvent pas être classées."
       }
     },
@@ -934,7 +934,7 @@
       },
       "freeform": {
         "description": "Permet aux joueurs de déterminer leur propre composition de flotte. Nécessite une bonne communication avant de commencer. Ces parties ne peuvent pas être classées.",
-        "name": "Forme libre (non classée)"
+        "name": "Forme libre"
       },
       "noislands": {
         "description": "Pas d'îles au départ",
@@ -954,10 +954,6 @@
       },
       "#rules": {
         "description": "Les incursions sont légales."
-      },
-      "#scoring": {
-        "name": "Décompte aux pierres",
-        "description": "Victoire par immobilisation."
       },
       "area": {
         "name": "Décompte en surface",
@@ -3156,7 +3152,7 @@
         "name": "Mise en place standard"
       },
       "custom": {
-        "name": "Mise en place personnalisée (non classée)",
+        "name": "Mise en place personnalisée",
         "description": "Les joueurs peuvent créer des configurations personnalisées. À ne faire qu'avec une bonne communication. Ces parties ne peuvent pas être classées."
       },
       "#board": {
@@ -4803,7 +4799,7 @@
       "HARLOG": "Harlog"
     },
     "asli": {
-      "AREA": "Surface",
+      "AREA": "Aire + komi",
       "TERRITORY": "Territoire & Prisonniers"
     },
     "baghchal": {
@@ -5197,11 +5193,14 @@
     },
     "asli": {
       "BAD_INCURSION": "Vous ne pouvez pas effectuer d'incursions minimales consécutives.",
+      "BAD_INCURSION_pass": "Vous ne pouvez pas faire une incursion minimale immédiatement après que votre adversaire a passé.",
       "BAD_KOMI": "Le premier coup de la partie doit être un entier représentant le nombre de pièces à placer dans la prison de départ. Un nombre positif place des pièces appartenant au premier joueur. Un nombre négatif, celles du second joueur. Vous ne pouvez pas placer plus de pièces dans la prison que le nombre de cases sur le plateau plus une.",
+      "BAD_KOMI_area": "Le premier coup de la partie doit être un nombre entier de points de komi. Un nombre positif accorde du komi au second joueur. Un nombre négatif, au premier joueur. Vous ne pouvez pas proposer plus de komi que le nombre de points sur le plateau plus un.",
       "BAD_PASS": "Vous devez retirer une pièce ennemie de la prison pour passer.",
       "BAD_PIE": "Vous ne pouvez pas accepter la règle du gâteau à ce stade de la partie.",
       "INITIAL_INSTRUCTIONS_area": "Placez une pièce sur un point vide valide, ou passez. Passer bloque également la prochaine incursion minimale de votre adversaire.",
       "INITIAL_INSTRUCTIONS_komi": "Saisissez le nombre de pièces du premier joueur que vous souhaitez placer dans la prison de départ. Le second joueur décidera ensuite de la place à prendre.",
+      "INITIAL_INSTRUCTIONS_komi_area": "Entrez le komi, en points, que vous souhaitez proposer. Un nombre positif accorde du komi au second joueur. Un nombre négatif, au premier joueur. L'autre joueur décidera ensuite de la place à prendre.",
       "INITIAL_INSTRUCTIONS_pie": "Cliquez soit sur le bouton « Jouer en second » pour rester là où vous êtes et continuer en second, soit sur « Échanger les places » pour changer de siège.",
       "INITIAL_INSTRUCTIONS_pie2": "Passez pour accepter l'offre de komi et continuer en second, ou placez une pièce pour devenir le premier joueur.",
       "INITIAL_INSTRUCTIONS_play": "Placez une pièce sur un point vide valide ou passez pour sortir une pièce ennemie de la prison à la place (si disponible).",

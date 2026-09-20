@@ -794,11 +794,11 @@
         "name": "Dreiecksbrett (8 breit)"
       },
       "cobweb": {
-        "name": "Cobweb (4 Ringe, experimentell)"
+        "name": "Spinnennetz (4 Ringe)"
       },
       "cobweb-small": {
         "description": "Eine Variante auf einem runden Brett, bei der man versucht, zwei gegenüberliegende Seiten zu verbinden.",
-        "name": "Spinnennetz (3 Ringe, vom Autor bevorzugt)"
+        "name": "Spinnennetz (3 Ringe)"
       },
       "limping": {
         "name": "Humpelnd 5-6 (75 Felder)"
@@ -924,7 +924,7 @@
         "description": "Zufällig generierter Aufbau mit reduzierter Armeegröße"
       },
       "free": {
-        "name": "Freie Platzierung (ungewertet)",
+        "name": "Freie Aufstellung",
         "description": "Ermöglicht es den Spielern, beliebig viele Steine an beliebigen Stellen zu platzieren, einschließlich illegaler oder anderweitig fehlerhafter Stellungen. Die Spieler sollten vor dem Start klar miteinander kommunizieren. Diese Spiele können nicht gewertet werden."
       }
     },
@@ -934,7 +934,7 @@
       },
       "freeform": {
         "description": "Ermöglicht es den Spielern, ihre eigene Flottenzusammensetzung zu bestimmen. Erfordert vor dem Start eine gute Kommunikation. Diese Spiele können nicht gewertet werden.",
-        "name": "Freiform (ungewertet)"
+        "name": "Freiform"
       },
       "noislands": {
         "description": "Keine Startinseln",
@@ -954,10 +954,6 @@
       },
       "#rules": {
         "description": "Inkursionen sind legal."
-      },
-      "#scoring": {
-        "name": "Steinwertung",
-        "description": "Sieg durch Bewegungsunfähigkeit."
       },
       "area": {
         "name": "Flächenwertung",
@@ -3156,7 +3152,7 @@
         "name": "Standard-Aufbau"
       },
       "custom": {
-        "name": "Benutzerdefinierter Aufbau (ungewertet)",
+        "name": "Benutzerdefinierte Aufstellung",
         "description": "Die Spieler können beliebige Aufstellungen erstellen. Sollte nur bei guter Kommunikation genutzt werden. Diese Spiele können nicht gewertet werden."
       },
       "#board": {
@@ -4803,7 +4799,7 @@
       "HARLOG": "Harlog"
     },
     "asli": {
-      "AREA": "Fläche",
+      "AREA": "Gebiet + Komi",
       "TERRITORY": "Territorium & Gefangene"
     },
     "baghchal": {
@@ -5197,11 +5193,14 @@
     },
     "asli": {
       "BAD_INCURSION": "Du darfst keine zwei minimalen Vorstöße direkt hintereinander machen.",
+      "BAD_INCURSION_pass": "Du darfst nicht direkt nach dem Passen deines Gegners einen minimalen Einfall machen.",
       "BAD_KOMI": "Der erste Zug des Spiels muss eine ganze Zahl sein, die die Anzahl der Steine darstellt, die im Startgefängnis platziert werden sollen. Eine positive Zahl platziert Steine des ersten Spielers. Eine negative Zahl die des zweiten Spielers. Du darfst nicht mehr Steine im Gefängnis platzieren als die Anzahl der Felder auf dem Spielplan plus eins.",
+      "BAD_KOMI_area": "Der erste Zug des Spiels muss eine ganze Zahl an Komi-Punkten sein. Eine positive Zahl gewährt dem zweiten Spieler Komi. Eine negative Zahl dem ersten Spieler. Du darfst nicht mehr Komi anbieten als die Anzahl der Punkte auf dem Spielbrett plus eins.",
       "BAD_PASS": "Du musst einen gegnerischen Stein aus dem Gefängnis entfernen, um zu passen.",
       "BAD_PIE": "Du darfst die Pie-Regel an diesem Punkt des Spiels nicht anwenden.",
       "INITIAL_INSTRUCTIONS_area": "Setze einen Stein auf einen gültigen leeren Punkt oder passe. Passen blockiert außerdem den nächsten minimalen Vorstoß deines Gegners.",
       "INITIAL_INSTRUCTIONS_komi": "Gib die Anzahl der Steine des ersten Spielers ein, die du im Startgefängnis platzieren möchtest. Der zweite Spieler entscheidet dann, welchen Platz er einnimmt.",
+      "INITIAL_INSTRUCTIONS_komi_area": "Gib das Komi in Punkten ein, das du anbieten möchtest. Eine positive Zahl gewährt dem zweiten Spieler Komi. Eine negative Zahl dem ersten Spieler. Der andere Spieler entscheidet dann, welchen Platz er wählt.",
       "INITIAL_INSTRUCTIONS_pie": "Klicke entweder auf die Schaltfläche 'Als Zweiter spielen', um dort zu bleiben, wo du bist, und als zweiter Spieler weiterzuspielen, oder klicke auf 'Spielerplätze tauschen', um die Plätze zu wechseln.",
       "INITIAL_INSTRUCTIONS_pie2": "Passe entweder, um das Komi-Angebot anzunehmen und als zweiter Spieler weiterzuspielen, oder platziere einen Stein, um als erster Spieler zu übernehmen.",
       "INITIAL_INSTRUCTIONS_play": "Setze einen Stein auf einen gültigen leeren Punkt oder passe, um stattdessen einen gegnerischen Stein aus dem Gefängnis zu nehmen (falls einer vorhanden ist).",

@@ -288,6 +288,7 @@ export abstract class GameBase  {
             "description": i18next.exists(`apgames:variants.${ctor.gameinfo.uid}.${v.uid}.description`) ? i18next.t(`apgames:variants.${ctor.gameinfo.uid}.${v.uid}.description`) : undefined,
             "group": v.group,
             "experimental": v.experimental,
+            "fans": v.fans,
             "default": v.default,
             "unrated": v.unrated,
             "enabledWhen": v.enabledWhen,

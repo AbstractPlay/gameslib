@@ -66,7 +66,7 @@ export class AsliGame extends GameBase {
             {uid: "board-23", group: "board"},
             {uid: "board-27", group: "board"},
             {uid: "woven", group: "rules"},
-            {uid: "area", group: "scoring", experimental: true},
+            {uid: "area", fans: true },
             {uid: "setkomi", group: "komi"},
         ],
         categories: ["goal>immobilize", "goal>area", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
@@ -296,7 +296,7 @@ export class AsliGame extends GameBase {
         if (m.length === 0) {
             let context = "play";
             if (this.stack.length === 1 && !this.variants.includes("setkomi")) {
-                context = "komi";
+                context = this.variants.includes("area") ? "komi_area" : "komi";
             } else if (this.stack.length === 2 && !this.variants.includes("setkomi")) {
                 if (this.stack[0]._version === "20240610") {
                     context = "pie";
@@ -313,9 +313,14 @@ export class AsliGame extends GameBase {
         }
 
         if (this.stack.length === 1 && !this.variants.includes("setkomi")) {
+            // under area scoring komi is scored directly, so it is not described
+            // in terms of the prison
+            const badKomi = this.variants.includes("area")
+                ? "apgames:validation.asli.BAD_KOMI_area"
+                : "apgames:validation.asli.BAD_KOMI";
             if (! /^-?\d+$/.test(m)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.asli.BAD_KOMI", {cell: m});
+                result.message = i18next.t(badKomi, {cell: m});
                 return result
             }
             const max = (this.boardsize**2) + 1;
@@ -323,7 +328,7 @@ export class AsliGame extends GameBase {
             const n = parseInt(m, 10);
             if (isNaN(n) || n > max || n < min) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.asli.BAD_KOMI", {cell: m});
+                result.message = i18next.t(badKomi, {cell: m});
                 return result
             }
 
@@ -422,10 +427,13 @@ export class AsliGame extends GameBase {
                 return result
             }
 
-            // check for back-to-back minimal incursions
+            // check for blocked minimal incursions; under area scoring the block
+            // can also come from the opponent's pass
             if (incursion && numGroups === 1 && this.incursion) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.asli.BAD_INCURSION");
+                result.message = this.lastmove === "pass"
+                    ? i18next.t("apgames:validation.asli.BAD_INCURSION_pass")
+                    : i18next.t("apgames:validation.asli.BAD_INCURSION");
                 return result
             }
 
@@ -761,7 +769,8 @@ export class AsliGame extends GameBase {
             pstr += pieces.join("");
         }
 
-        const hasPrison = this.prison[0] > 0 || this.prison[1] > 0;
+        const tally = this.capturesTally();
+        const hasPrison = tally[0] > 0 || tally[1] > 0;
         const prisonPiece: Glyph[] = [];
         prisonPiece.push({
             name: hasPrison ? "piece" : "piece-borderless",
@@ -770,7 +779,7 @@ export class AsliGame extends GameBase {
         });
         if (hasPrison) {
             prisonPiece.push({
-                text: this.prison[0] > 0 ? this.prison[0].toString() : this.prison[1].toString(),
+                text: tally[0] > 0 ? tally[0].toString() : tally[1].toString(),
                 scale: 0.75,
                 rotate: null
             });
@@ -853,9 +862,17 @@ export class AsliGame extends GameBase {
             case "place":
                 this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", {where: r.where!});
                 return true;
-            case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, r.why === undefined ? "apresults:PASS.asli" : "apresults:PASS.pie", {});
+            case "pass": {
+                let key = "apresults:PASS.asli";
+                if (r.why !== undefined) {
+                    key = "apresults:PASS.pie";
+                } else if (this.variants.includes("area")) {
+                    // passing costs nothing under area scoring
+                    key = "apresults:PASS.asli_area";
+                }
+                this.pushSeatChatLine(lines, ctx.defaultSeat, key, {});
                 return true;
+            }
             case "capture":
                 // only self-captures (area scoring) carry `whose`
                 if (r.whose !== undefined) {
@@ -920,21 +937,34 @@ export class AsliGame extends GameBase {
         }
     }
 
+    // The off-board tally shown beside the board. `prison` is a net differential,
+    // so under area scoring, where komi is scored directly instead of as pieces,
+    // removing komi from that difference leaves the captures alone.
+    public capturesTally(): [number,number] {
+        if (!this.variants.includes("area")) {
+            return [...this.prison] as [number,number];
+        }
+        const diff = this.prison[0] - this.prison[1] - this.komi;
+        return [Math.max(diff, 0), Math.max(diff * -1, 0)];
+    }
+
     public getPrisonColour(swapPrison: boolean): number|string {
-        if (this.prison[0] === 0 && this.prison[1] === 0) {
+        const tally = this.capturesTally();
+        if (tally[0] === 0 && tally[1] === 0) {
             return "_context_background";
         }
         let swap = swapPrison;
-        if (this.stack.length > 2 && this.stack[2].lastmove !== "pass") {
+        // only the pie ply swaps seats, and `setkomi` games have no pie ply
+        if (!this.variants.includes("setkomi") && this.stack.length > 2 && this.stack[2].lastmove !== "pass") {
             swap = !swap;
         }
-        if (this.prison[1] > 0) {
+        if (tally[1] > 0) {
             swap = !swap;
         }
         return swap ? 2 : 1;
     }
 
-    
+
     public clone(): AsliGame {
         return new AsliGame(this.serialize());
     }

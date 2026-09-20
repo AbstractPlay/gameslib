@@ -1,4 +1,3 @@
-/* eslint-env node */
 /**
  * Filter locale JSON for production: remove experimental game keys.
  * Reads experimental UIDs from src/games/_registry-meta.generated.json

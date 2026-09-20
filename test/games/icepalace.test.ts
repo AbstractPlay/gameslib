@@ -319,7 +319,7 @@ describe("Ice Palace: board interaction", () => {
     const drawnAt = (rep: Rep, piece: string): [number, number] => {
         for (let row = 0; row < rep.pieces.length; row++) {
             for (let col = 0; col < rep.pieces[row].length; col++) {
-                if (rep.pieces[row][col].includes(piece)) {
+                if (rep.pieces[row][col].includes("p" + piece)) {
                     return [row, col];
                 }
             }
@@ -359,7 +359,8 @@ describe("Ice Palace: board interaction", () => {
     it("selects a pyramid when its entry in the pieces area is clicked", () => {
         const g = rig(new IcePalaceGame(3), [["1M"], ["2L", "2S"], ["3S"]], fatPool());
         g.move("1M@0,0");
-        const click = g.handleClick("", -1, -1, "2L");
+        // The pieces area passes the legend key, which carries a letter prefix.
+        const click = g.handleClick("", -1, -1, "p2L");
         expect(click.valid, click.message).to.be.true;
         expect(click.move).to.equal("2L");
     });
@@ -367,7 +368,7 @@ describe("Ice Palace: board interaction", () => {
     it("offers the current hand while a hand is played, and the stock while building", () => {
         const g = rig(new IcePalaceGame(3), [["1L", "1M"], ["2L", "2S"], ["3L"]], fatPool());
         g.move("1M@0,0");
-        expect((g.render() as Rep).areas?.[0].pieces).to.deep.equal(["2L", "2S"]);
+        expect((g.render() as Rep).areas?.[0].pieces).to.deep.equal(["p2L", "p2S"]);
         g.move("pass");
         g.move("pass");
         g.move("1L@0,0");
@@ -375,7 +376,7 @@ describe("Ice Palace: board interaction", () => {
             g.move("pass");
         }
         expect(g.phase).to.equal("build");
-        expect((g.render() as Rep).areas?.[0].pieces.sort()).to.deep.equal(["1L", "1M"]);
+        expect((g.render() as Rep).areas?.[0].pieces.sort()).to.deep.equal(["p1L", "p1M"]);
     });
 
     it("lists every hand in the status panel", () => {

@@ -1231,6 +1231,14 @@ export class IcePalaceGame extends GameBaseSequenced {
 
     /* --------------------------------------------------------------- rendering */
 
+    /**
+     * Legend keys double as SVG element ids, and an id that starts with a digit is not a
+     * valid selector in a real browser, so the pyramid id gets a letter in front.
+     */
+    private static legendKey(piece: PieceId): string {
+        return `p${piece}`;
+    }
+
     private glyphFor(piece: PieceId): Glyph {
         const name = `pyramid-up-${SIZE_NAMES[sizeOf(piece) - 1]}-3D`;
         const colour = colourOf(piece);
@@ -1248,9 +1256,10 @@ export class IcePalaceGame extends GameBaseSequenced {
         try {
             const current = IcePalaceGame.normalise(move);
             let newmove: string;
-            if (piece !== undefined && /^[1-6BW][SML]$/.test(piece.toUpperCase())) {
-                // The pieces area hands back the legend key, which is the pyramid itself.
-                newmove = this.appendToken(current, piece.toUpperCase());
+            const picked = piece === undefined ? undefined : /^P?([1-6BW][SML])$/.exec(piece.toUpperCase());
+            if (picked !== null && picked !== undefined) {
+                // The pieces area hands back the legend key, which names the pyramid.
+                newmove = this.appendToken(current, picked[1]);
             } else {
                 // Anything else is a board click: an empty cell, or a pyramid already in a
                 // stack there, which arrives with its stack index in `piece`.
@@ -1332,25 +1341,27 @@ export class IcePalaceGame extends GameBaseSequenced {
                 const col = region.col0 + (x - region.minX);
                 const row = layout.height - 1 - (y - region.minY);
                 for (const piece of stack) {
-                    if (!(piece in legend)) {
-                        legend[piece] = this.glyphFor(piece);
+                    const key = IcePalaceGame.legendKey(piece);
+                    if (!(key in legend)) {
+                        legend[key] = this.glyphFor(piece);
                     }
-                    pieces[row][col].push(piece);
+                    pieces[row][col].push(key);
                 }
             }
         }
 
         const offered = this.phase === "build" ? this.stock : this.handOf(this.currplayer);
         for (const piece of offered) {
-            if (!(piece in legend)) {
-                legend[piece] = this.glyphFor(piece);
+            const key = IcePalaceGame.legendKey(piece);
+            if (!(key in legend)) {
+                legend[key] = this.glyphFor(piece);
             }
         }
         const areas: AreaPieces[] = [];
         if (offered.length > 0) {
             areas.push({
                 type: "pieces",
-                pieces: [...offered] as [string, ...string[]],
+                pieces: offered.map(piece => IcePalaceGame.legendKey(piece)) as [string, ...string[]],
                 // i18next.t("apgames:icepalace.STOCK")
                 // i18next.t("apgames:icepalace.HAND")
                 label: this.phase === "build"

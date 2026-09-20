@@ -1423,17 +1423,18 @@ export class IcePalaceGame extends GameBaseSequenced {
     }
 
     /**
-     * The Yard is on the board while a hand is being played; the Palace whenever it holds
+     * The Yard (left) is on the board while a hand is being played; the Palace (right) whenever it holds
      * anything, and always during the build. Each region covers its structure and the
      * minimum box around the origin, padded by a ring of empty cells to click into.
      */
     private layout(): ILayout {
+        // Left to right: the Yard, then the Palace.
         const shown: ("palace" | "yard")[] = [];
-        if (this.phase === "build" || this.palace.size > 0) {
-            shown.push("palace");
-        }
         if (this.phase === "hand") {
             shown.push("yard");
+        }
+        if (this.phase === "build" || this.palace.size > 0) {
+            shown.push("palace");
         }
 
         const regions: IRegion[] = [];

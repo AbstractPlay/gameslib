@@ -418,6 +418,9 @@ describe("Ice Palace: board interaction", () => {
         rep = g.render() as Rep;
         expect(rep.pieces.length).to.equal(7);
         expect(rep.pieces[0].length).to.equal(7 + 2 + 7);
+        // The Yard sits on the left and the Palace on the right.
+        expect(drawnAt(rep, "1M")[1]).to.equal(3);
+        expect(drawnAt(rep, "2L")[1]).to.equal(7 + 2 + 3);
         // Growing past the minimum extends the board only in that direction.
         g.yard.set("4,0", ["1S"]);
         rep = g.render() as Rep;

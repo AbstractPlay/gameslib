@@ -5259,7 +5259,7 @@
             "INITIAL_INSTRUCTIONS": "Select a chevron to move.",
             "NEED_DESTINATION": "Select the destination (valid targets are highlighted).",
             "NO_CAPTURES": "You may not move onto a cell with another chevron.",
-            "REORIENT": "Click a neighbouring cell or edge zone to select the direction you want to face.",
+            "REORIENT": "Click a neighbouring cell or edge zone to select the direction you want to face, or click \"Complete move\" to keep pointing straight ahead.",
             "TOO_FAR": "You can't move further than your power of movement (currently {{pom}})."
         },
         "baghchal": {

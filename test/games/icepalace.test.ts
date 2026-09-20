@@ -379,6 +379,18 @@ describe("Ice Palace: board interaction", () => {
         expect((g.render() as Rep).areas?.[0].pieces.sort()).to.deep.equal(["p1L", "p1M"]);
     });
 
+    it("stands every size on the cell and spaces stacked tips apart", () => {
+        // The -3D glyphs share an apex, so without a per-size nudge a large would sit 30
+        // units lower in its cell than a small; and with bases aligned, Volcano's default
+        // rise would leave every apex in a stack coincident.
+        const g = rig(new IcePalaceGame(3), [["1S", "1M", "1L"], ["2S"], ["3S"]], fatPool());
+        const rep = g.render() as { board: { stackOffset?: number }; legend: Record<string, { nudge?: { dy: number } }> };
+        expect(rep.board.stackOffset).to.equal(0.25);
+        expect(rep.legend.p1S.nudge).to.be.undefined;
+        expect(rep.legend.p1M.nudge?.dy).to.equal(-75);
+        expect(rep.legend.p1L.nudge?.dy).to.equal(-150);
+    });
+
     it("lists every hand in the status panel", () => {
         const g = rig(new IcePalaceGame(3), [["1L", "1M"], ["2S"], ["3L", "3M", "3S"]], fatPool());
         const statuses = g.sidebarStatuses();

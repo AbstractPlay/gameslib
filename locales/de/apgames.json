@@ -955,10 +955,6 @@
       "#rules": {
         "description": "Inkursionen sind legal."
       },
-      "#scoring": {
-        "name": "Steinwertung",
-        "description": "Sieg durch Bewegungsunfähigkeit."
-      },
       "area": {
         "name": "Flächenwertung",
         "description": "Selbstmord ist erlaubt, Passen ist immer erlaubt und blockiert den nächsten minimalen Vorstoß des Gegners, und das Spiel endet nach zwei aufeinanderfolgenden Pässen. Sieger ist, wer die meiste Fläche hält: die eigenen Steine auf dem Brett, plus das eigene Territorium, plus Komi."

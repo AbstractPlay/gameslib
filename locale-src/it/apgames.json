@@ -14243,14 +14243,6 @@
     "src": "Incursions are legal.",
     "out": "Le incursioni sono legali."
   },
-  "variants.asli.#scoring.description": {
-    "src": "Win by immobilization.",
-    "out": "Vittoria per immobilizzazione."
-  },
-  "variants.asli.#scoring.name": {
-    "src": "Stone scoring",
-    "out": "Punteggio a pietre"
-  },
   "variants.asli.area.description": {
     "src": "Suicide is legal, passing is always legal and blocks the opponent's next minimal incursion, and the game ends on two consecutive passes. The winner is whoever holds the most area: their stones on the board, plus their territory, plus komi.",
     "out": "Il suicidio è legale, passare è sempre legale e blocca la successiva incursione minima dell'avversario, e la partita termina dopo due passi consecutivi. Il vincitore è chi controlla più area: le proprie pietre sulla scacchiera, più il proprio territorio, più il komi."

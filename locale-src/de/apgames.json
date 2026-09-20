@@ -14243,14 +14243,6 @@
     "src": "Incursions are legal.",
     "out": "Inkursionen sind legal."
   },
-  "variants.asli.#scoring.description": {
-    "src": "Win by immobilization.",
-    "out": "Sieg durch Bewegungsunfähigkeit."
-  },
-  "variants.asli.#scoring.name": {
-    "src": "Stone scoring",
-    "out": "Steinwertung"
-  },
   "variants.asli.area.description": {
     "src": "Suicide is legal, passing is always legal and blocks the opponent's next minimal incursion, and the game ends on two consecutive passes. The winner is whoever holds the most area: their stones on the board, plus their territory, plus komi.",
     "out": "Selbstmord ist erlaubt, Passen ist immer erlaubt und blockiert den nächsten minimalen Vorstoß des Gegners, und das Spiel endet nach zwei aufeinanderfolgenden Pässen. Sieger ist, wer die meiste Fläche hält: die eigenen Steine auf dem Brett, plus das eigene Territorium, plus Komi."

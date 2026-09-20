@@ -955,10 +955,6 @@
       "#rules": {
         "description": "Les incursions sont légales."
       },
-      "#scoring": {
-        "name": "Décompte aux pierres",
-        "description": "Victoire par immobilisation."
-      },
       "area": {
         "name": "Décompte en surface",
         "description": "Le suicide est autorisé, passer est toujours autorisé et bloque la prochaine incursion minimale de l'adversaire, et la partie se termine après deux passes consécutives. Le gagnant est celui qui contrôle la plus grande surface : ses pierres sur le plateau, plus son territoire, plus le komi."

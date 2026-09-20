@@ -955,10 +955,6 @@
       "#rules": {
         "description": "Las incursiones son legales."
       },
-      "#scoring": {
-        "name": "Puntuación por piedras",
-        "description": "Gana por inmovilización."
-      },
       "area": {
         "name": "Puntuación por área",
         "description": "El suicidio es legal, pasar siempre es legal y bloquea la siguiente incursión mínima del oponente, y la partida termina con dos pases consecutivos. El ganador es quien posea la mayor cantidad de área: sus piedras en el tablero, más su territorio, más el komi."

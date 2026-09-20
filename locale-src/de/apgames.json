@@ -5024,8 +5024,8 @@
     "out": "Du darfst nicht auf ein Feld mit einem anderen Chevron ziehen."
   },
   "validation.azacru.REORIENT": {
-    "src": "Click a neighbouring cell or edge zone to select the direction you want to face.",
-    "out": "Klicke auf ein benachbartes Feld oder eine Randzone, um die Richtung auszuwählen, in die du blicken möchtest."
+    "src": "Click a neighbouring cell or edge zone to select the direction you want to face, or click \"Complete move\" to keep pointing straight ahead.",
+    "out": "Klicke auf ein benachbartes Feld oder eine Randzone, um die Ausrichtung auszuwählen, oder klicke auf \"Zug beenden\", um weiterhin geradeaus zu blicken."
   },
   "validation.azacru.TOO_FAR": {
     "src": "You can't move further than your power of movement (currently {{pom}}).",

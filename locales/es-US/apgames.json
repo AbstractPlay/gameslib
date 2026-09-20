@@ -5259,7 +5259,7 @@
       "INITIAL_INSTRUCTIONS": "Selecciona un galón para mover.",
       "NEED_DESTINATION": "Selecciona el destino (los objetivos válidos están resaltados).",
       "NO_CAPTURES": "No puedes moverte a una casilla con otro galón.",
-      "REORIENT": "Haz clic en una casilla vecina o zona de borde para seleccionar la dirección hacia la que quieres apuntar.",
+      "REORIENT": "Haz clic en una casilla adyacente o en una zona de borde para seleccionar la dirección a la que quieres orientarte, o haz clic en \"Completar movimiento\" para seguir apuntando hacia adelante.",
       "TOO_FAR": "No puedes moverte más allá de tu poder de movimiento (actualmente {{pom}})."
     },
     "baghchal": {

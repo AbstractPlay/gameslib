@@ -955,10 +955,6 @@
       "#rules": {
         "description": "Le incursioni sono legali."
       },
-      "#scoring": {
-        "name": "Punteggio a pietre",
-        "description": "Vittoria per immobilizzazione."
-      },
       "area": {
         "name": "Punteggio ad area",
         "description": "Il suicidio è legale, passare è sempre legale e blocca la successiva incursione minima dell'avversario, e la partita termina dopo due passi consecutivi. Il vincitore è chi controlla più area: le proprie pietre sulla scacchiera, più il proprio territorio, più il komi."

@@ -14243,14 +14243,6 @@
     "src": "Incursions are legal.",
     "out": "Les incursions sont légales."
   },
-  "variants.asli.#scoring.description": {
-    "src": "Win by immobilization.",
-    "out": "Victoire par immobilisation."
-  },
-  "variants.asli.#scoring.name": {
-    "src": "Stone scoring",
-    "out": "Décompte aux pierres"
-  },
   "variants.asli.area.description": {
     "src": "Suicide is legal, passing is always legal and blocks the opponent's next minimal incursion, and the game ends on two consecutive passes. The winner is whoever holds the most area: their stones on the board, plus their territory, plus komi.",
     "out": "Le suicide est autorisé, passer est toujours autorisé et bloque la prochaine incursion minimale de l'adversaire, et la partie se termine après deux passes consécutives. Le gagnant est celui qui contrôle la plus grande surface : ses pierres sur le plateau, plus son territoire, plus le komi."

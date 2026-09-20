@@ -5024,8 +5024,8 @@
     "out": "No puedes moverte a una casilla con otro galón."
   },
   "validation.azacru.REORIENT": {
-    "src": "Click a neighbouring cell or edge zone to select the direction you want to face.",
-    "out": "Haz clic en una casilla vecina o zona de borde para seleccionar la dirección hacia la que quieres apuntar."
+    "src": "Click a neighbouring cell or edge zone to select the direction you want to face, or click \"Complete move\" to keep pointing straight ahead.",
+    "out": "Haz clic en una casilla adyacente o en una zona de borde para seleccionar la dirección hacia la que quieres orientarte, o haz clic en \"Completar movimiento\" para seguir apuntando hacia adelante."
   },
   "validation.azacru.TOO_FAR": {
     "src": "You can't move further than your power of movement (currently {{pom}}).",

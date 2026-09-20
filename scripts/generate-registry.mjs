@@ -1,4 +1,3 @@
-/* eslint-env node */
 /**
  * Generates src/games/_registry.generated.ts and src/games/_build-flags.generated.ts
  * from game classes discovered under src/games/

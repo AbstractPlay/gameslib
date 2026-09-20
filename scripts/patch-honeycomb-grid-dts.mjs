@@ -1,4 +1,3 @@
-/* eslint-env node */
 /**
  * Patch honeycomb-grid type re-exports for NodeNext resolution.
  */

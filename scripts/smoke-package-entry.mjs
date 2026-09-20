@@ -1,4 +1,3 @@
-/* eslint-env node */
 /**
  * Post-build smoke: verify published subpath modules and challenge seed export.
  * Full `build/index.js` import still needs a bundler (lodash CJS interop, etc.).

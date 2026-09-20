@@ -1,4 +1,3 @@
-/* eslint-env node */
 /**
  * Keep locales/en/apgames.json `names.{uid}` in sync with gameinfo.name in source.
  *

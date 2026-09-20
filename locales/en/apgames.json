@@ -955,10 +955,6 @@
             "#rules": {
                 "description": "Incursions are legal."
             },
-            "#scoring": {
-                "name": "Stone scoring",
-                "description": "Win by immobilization."
-            },
             "area": {
                 "name": "Area scoring",
                 "description": "Suicide is legal, passing is always legal and blocks the opponent's next minimal incursion, and the game ends on two consecutive passes. The winner is whoever holds the most area: their stones on the board, plus their territory, plus komi."

@@ -794,11 +794,11 @@
                 "name": "Triangle board (8 wide)"
             },
             "cobweb": {
-                "name": "Cobweb (4 rings, experimental)"
+                "name": "Cobweb (4 rings)"
             },
             "cobweb-small": {
                 "description": "A variant played on a round board where you try to connect two opposite sides.",
-                "name": "Cobweb (3 rings, designer preferred)"
+                "name": "Cobweb (3 rings)"
             },
             "limping": {
                 "name": "Limping 5-6 (75 spaces)"
@@ -924,7 +924,7 @@
                 "description": "Randomly generated setup with reduced army size"
             },
             "free": {
-                "name": "Free placement (unrated)",
+                "name": "Free placement",
                 "description": "Lets players place as many pieces as they want wherever they want, including creating illegal or otherwise broken positions. Players should communicate clearly before starting. These games cannot be rated."
             }
         },
@@ -934,7 +934,7 @@
             },
             "freeform": {
                 "description": "Lets the players determine their own fleet compositions. Requires good communication before starting. These games cannot be rated.",
-                "name": "Freeform (unrated)"
+                "name": "Freeform"
             },
             "noislands": {
                 "description": "No starting islands",
@@ -3152,7 +3152,7 @@
                 "name": "Standard setup"
             },
             "custom": {
-                "name": "Custom setup (unrated)",
+                "name": "Custom setup",
                 "description": "The players can create arbitrary setups. Should only be done with good communication. These games cannot be rated."
             },
             "#board": {

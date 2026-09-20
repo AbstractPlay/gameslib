@@ -148,6 +148,10 @@ export interface Variant {
    */
   experimental?: boolean;
   /**
+   * If true, this variant was added by the Abstract Play community or implementation team and is not part of the credited designer's published rules.
+   */
+  fans?: boolean;
+  /**
    * If present, this variant is only selectable when every listed radio group's current value is one of the allowed uids (include `#[group]` for the default choice).
    */
   enabledWhen?: {

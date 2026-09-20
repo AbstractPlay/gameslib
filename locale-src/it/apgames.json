@@ -14008,12 +14008,12 @@
     "out": "Una variante giocata su un tavoliere rotondo in cui cerchi di collegare due lati opposti."
   },
   "variants.agere.cobweb-small.name": {
-    "src": "Cobweb (3 rings, designer preferred)",
-    "out": "Ragnatela (3 anelli, preferita dall'autore)"
+    "src": "Cobweb (3 rings)",
+    "out": "Ragnatela (3 anelli)"
   },
   "variants.agere.cobweb.name": {
-    "src": "Cobweb (4 rings, experimental)",
-    "out": "Ragnatela (4 anelli, sperimentale)"
+    "src": "Cobweb (4 rings)",
+    "out": "Ragnatela (4 anelli)"
   },
   "variants.agere.limping.name": {
     "src": "Limping 5-6 (75 spaces)",
@@ -14200,8 +14200,8 @@
     "out": "Consente ai giocatori di posizionare tutti i pezzi che desiderano dove vogliono, inclusa la creazione di posizioni illegali o non valide. I giocatori dovrebbero comunicare chiaramente prima di iniziare. Queste partite non possono essere classificate."
   },
   "variants.arimaa.free.name": {
-    "src": "Free placement (unrated)",
-    "out": "Posizionamento libero (non classificata)"
+    "src": "Free placement",
+    "out": "Posizionamento libero"
   },
   "variants.armadas.#obstacles.name": {
     "src": "One obstacle",
@@ -14212,8 +14212,8 @@
     "out": "Consente ai giocatori di determinare la propria composizione della flotta. Richiede una buona comunicazione prima di iniziare. Queste partite non possono essere classificate."
   },
   "variants.armadas.freeform.name": {
-    "src": "Freeform (unrated)",
-    "out": "A forma libera (non classificata)"
+    "src": "Freeform",
+    "out": "Forma libera"
   },
   "variants.armadas.noislands.description": {
     "src": "No starting islands",
@@ -17360,8 +17360,8 @@
     "out": "I giocatori possono creare configurazioni arbitrarie. Dovrebbe essere fatto solo con una buona comunicazione. Queste partite non possono essere classificate."
   },
   "variants.rampart.custom.name": {
-    "src": "Custom setup (unrated)",
-    "out": "Configurazione personalizzata (non classificata)"
+    "src": "Custom setup",
+    "out": "Configurazione personalizzata"
   },
   "variants.rampart.hex7.name": {
     "src": "Hexagonal board (base-7)",

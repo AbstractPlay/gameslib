@@ -71,8 +71,8 @@ export class KnightLineGame extends GameBase {
             },
         ],
         variants: [
-            { uid: "blocker", group: "setup" },
-            { uid: "wildcard", group: "setup" },
+            { uid: "blocker", group: "setup", fans: true },
+            { uid: "wildcard", group: "setup", fans: true },
             { uid: "#size" },
             { uid: "size-24", group: "size" },
         ],

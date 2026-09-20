@@ -794,11 +794,11 @@
         "name": "Tablero triangular (8 de ancho)"
       },
       "cobweb": {
-        "name": "Telaraña (4 anillos, experimental)"
+        "name": "Telaraña (4 anillos)"
       },
       "cobweb-small": {
         "description": "Una variante jugada en un tablero redondo donde intentas conectar dos lados opuestos.",
-        "name": "Telaraña (3 anillos, preferido por el diseñador)"
+        "name": "Telaraña (3 anillos)"
       },
       "limping": {
         "name": "Rengueo 5-6 (75 casilleros)"
@@ -924,7 +924,7 @@
         "description": "Disposición generada aleatoriamente con tamaño de ejército reducido"
       },
       "free": {
-        "name": "Colocación libre (sin clasificación)",
+        "name": "Colocación libre",
         "description": "Permite a los jugadores colocar tantas piezas como quieran donde quieran, incluyendo la creación de posiciones ilegales o rotas. Los jugadores deben comunicarse claramente antes de empezar. Estas partidas no se pueden clasificar."
       }
     },
@@ -934,7 +934,7 @@
       },
       "freeform": {
         "description": "Permite a los jugadores determinar sus propias composiciones de flota. Requiere buena comunicación antes de comenzar. Estas partidas no se pueden clasificar.",
-        "name": "Forma libre (sin clasificación)"
+        "name": "Forma libre"
       },
       "noislands": {
         "description": "Sin islas iniciales",
@@ -3152,7 +3152,7 @@
         "name": "Disposición estándar"
       },
       "custom": {
-        "name": "Disposición personalizada (sin clasificación)",
+        "name": "Configuración personalizada",
         "description": "Los jugadores pueden crear disposiciones arbitrarias. Solo debe hacerse con buena comunicación. Estas partidas no se pueden clasificar."
       },
       "#board": {

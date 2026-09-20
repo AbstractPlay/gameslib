@@ -471,7 +471,7 @@ describe("Ice Palace: board interaction", () => {
         // A large of the wrong colour can only go on top of the medium at the origin, so
         // the dot rides on that stack rather than replacing it.
         g.move("2L", { partial: true });
-        let rep = g.render() as Rep;
+        const rep = g.render() as Rep;
         expect(dotted(rep)).to.deep.equal(["3,3"]);
         expect(rep.pieces[3][3]).to.deep.equal(["-", "p1M", "dot"]);
         // A matching small cannot climb onto the medium, so it founds a stack beside it.

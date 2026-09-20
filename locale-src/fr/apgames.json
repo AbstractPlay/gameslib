@@ -5024,8 +5024,8 @@
     "out": "Vous ne pouvez pas vous déplacer sur une case occupée par un autre chevron."
   },
   "validation.azacru.REORIENT": {
-    "src": "Click a neighbouring cell or edge zone to select the direction you want to face.",
-    "out": "Cliquez sur une case voisine ou une zone de bord pour sélectionner la direction vers laquelle vous orienter."
+    "src": "Click a neighbouring cell or edge zone to select the direction you want to face, or click \"Complete move\" to keep pointing straight ahead.",
+    "out": "Cliquez sur une case voisine ou une zone de bordure pour sélectionner la direction dans laquelle vous souhaitez vous orienter, ou cliquez sur \"Terminer le coup\" pour continuer à pointer droit devant."
   },
   "validation.azacru.TOO_FAR": {
     "src": "You can't move further than your power of movement (currently {{pom}}).",

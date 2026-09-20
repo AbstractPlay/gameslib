@@ -66,7 +66,7 @@ export class AsliGame extends GameBase {
             {uid: "board-23", group: "board"},
             {uid: "board-27", group: "board"},
             {uid: "woven", group: "rules"},
-            {uid: "area", group: "scoring", experimental: true},
+            {uid: "area" },
             {uid: "setkomi", group: "komi"},
         ],
         categories: ["goal>immobilize", "goal>area", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
@@ -934,7 +934,7 @@ export class AsliGame extends GameBase {
         return swap ? 2 : 1;
     }
 
-    
+
     public clone(): AsliGame {
         return new AsliGame(this.serialize());
     }

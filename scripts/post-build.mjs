@@ -1,4 +1,3 @@
-/* eslint-env node */
 import { filterLocalesForProd } from "./filter-locales-prod.mjs";
 import fs from "fs";
 import path from "path";

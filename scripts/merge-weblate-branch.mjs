@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-/* eslint-env node */
 /**
  * Interactive workflow: review, import locales from l10n/weblate, commit, push, reset branch.
  *

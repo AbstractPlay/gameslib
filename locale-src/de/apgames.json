@@ -14008,12 +14008,12 @@
     "out": "Eine Variante auf einem runden Brett, bei der man versucht, zwei gegenüberliegende Seiten zu verbinden."
   },
   "variants.agere.cobweb-small.name": {
-    "src": "Cobweb (3 rings, designer preferred)",
-    "out": "Spinnennetz (3 Ringe, vom Autor bevorzugt)"
+    "src": "Cobweb (3 rings)",
+    "out": "Spinnennetz (3 Ringe)"
   },
   "variants.agere.cobweb.name": {
-    "src": "Cobweb (4 rings, experimental)",
-    "out": "Cobweb (4 Ringe, experimentell)"
+    "src": "Cobweb (4 rings)",
+    "out": "Spinnennetz (4 Ringe)"
   },
   "variants.agere.limping.name": {
     "src": "Limping 5-6 (75 spaces)",
@@ -14200,8 +14200,8 @@
     "out": "Ermöglicht es den Spielern, beliebig viele Steine an beliebigen Stellen zu platzieren, einschließlich illegaler oder anderweitig fehlerhafter Stellungen. Die Spieler sollten vor dem Start klar miteinander kommunizieren. Diese Spiele können nicht gewertet werden."
   },
   "variants.arimaa.free.name": {
-    "src": "Free placement (unrated)",
-    "out": "Freie Platzierung (ungewertet)"
+    "src": "Free placement",
+    "out": "Freie Aufstellung"
   },
   "variants.armadas.#obstacles.name": {
     "src": "One obstacle",
@@ -14212,8 +14212,8 @@
     "out": "Ermöglicht es den Spielern, ihre eigene Flottenzusammensetzung zu bestimmen. Erfordert vor dem Start eine gute Kommunikation. Diese Spiele können nicht gewertet werden."
   },
   "variants.armadas.freeform.name": {
-    "src": "Freeform (unrated)",
-    "out": "Freiform (ungewertet)"
+    "src": "Freeform",
+    "out": "Freiform"
   },
   "variants.armadas.noislands.description": {
     "src": "No starting islands",
@@ -17360,8 +17360,8 @@
     "out": "Die Spieler können beliebige Aufstellungen erstellen. Sollte nur bei guter Kommunikation genutzt werden. Diese Spiele können nicht gewertet werden."
   },
   "variants.rampart.custom.name": {
-    "src": "Custom setup (unrated)",
-    "out": "Benutzerdefinierter Aufbau (ungewertet)"
+    "src": "Custom setup",
+    "out": "Benutzerdefinierte Aufstellung"
   },
   "variants.rampart.hex7.name": {
     "src": "Hexagonal board (base-7)",

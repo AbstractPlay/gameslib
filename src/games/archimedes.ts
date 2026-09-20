@@ -49,7 +49,7 @@ export class ArchimedesGame extends GameBase {
         ],
         flags: ["perspective", "pie", ],
         variants: [
-            {uid: "8x10"}
+            {uid: "8x10", fans: true}
         ],
         categories: ["goal>breakthrough", "mechanic>capture", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         displays: [{uid: "hide-threatened"}],

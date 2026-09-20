@@ -14008,12 +14008,12 @@
     "out": "Una variante jugada en un tablero redondo donde intentas conectar dos lados opuestos."
   },
   "variants.agere.cobweb-small.name": {
-    "src": "Cobweb (3 rings, designer preferred)",
-    "out": "Telaraña (3 anillos, preferido por el diseñador)"
+    "src": "Cobweb (3 rings)",
+    "out": "Telaraña (3 anillos)"
   },
   "variants.agere.cobweb.name": {
-    "src": "Cobweb (4 rings, experimental)",
-    "out": "Telaraña (4 anillos, experimental)"
+    "src": "Cobweb (4 rings)",
+    "out": "Telaraña (4 anillos)"
   },
   "variants.agere.limping.name": {
     "src": "Limping 5-6 (75 spaces)",
@@ -14200,8 +14200,8 @@
     "out": "Permite a los jugadores colocar tantas piezas como quieran donde quieran, incluyendo la creación de posiciones ilegales o rotas. Los jugadores deben comunicarse claramente antes de empezar. Estas partidas no se pueden clasificar."
   },
   "variants.arimaa.free.name": {
-    "src": "Free placement (unrated)",
-    "out": "Colocación libre (sin clasificación)"
+    "src": "Free placement",
+    "out": "Colocación libre"
   },
   "variants.armadas.#obstacles.name": {
     "src": "One obstacle",
@@ -14212,8 +14212,8 @@
     "out": "Permite a los jugadores determinar sus propias composiciones de flota. Requiere buena comunicación antes de comenzar. Estas partidas no se pueden clasificar."
   },
   "variants.armadas.freeform.name": {
-    "src": "Freeform (unrated)",
-    "out": "Forma libre (sin clasificación)"
+    "src": "Freeform",
+    "out": "Forma libre"
   },
   "variants.armadas.noislands.description": {
     "src": "No starting islands",
@@ -17360,8 +17360,8 @@
     "out": "Los jugadores pueden crear disposiciones arbitrarias. Solo debe hacerse con buena comunicación. Estas partidas no se pueden clasificar."
   },
   "variants.rampart.custom.name": {
-    "src": "Custom setup (unrated)",
-    "out": "Disposición personalizada (sin clasificación)"
+    "src": "Custom setup",
+    "out": "Configuración personalizada"
   },
   "variants.rampart.hex7.name": {
     "src": "Hexagonal board (base-7)",

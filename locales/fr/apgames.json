@@ -794,11 +794,11 @@
         "name": "Plateau triangulaire (largeur 8)"
       },
       "cobweb": {
-        "name": "Toile d'araignée (4 anneaux, expérimental)"
+        "name": "Toile d'araignée (4 anneaux)"
       },
       "cobweb-small": {
         "description": "Une variante jouée sur un plateau rond où vous essayez de relier deux côtés opposés.",
-        "name": "Toile d'araignée (3 anneaux, préféré par l'auteur)"
+        "name": "Toile d'araignée (3 anneaux)"
       },
       "limping": {
         "name": "Boiteux 5-6 (75 espaces)"
@@ -924,7 +924,7 @@
         "description": "Disposition générée aléatoirement avec une taille d'armée réduite"
       },
       "free": {
-        "name": "Placement libre (non classé)",
+        "name": "Placement libre",
         "description": "Permet aux joueurs de placer autant de pièces qu'ils le souhaitent où ils le souhaitent, y compris en créant des positions illégales ou invalides. Les joueurs doivent communiquer clairement avant de commencer. Ces parties ne peuvent pas être classées."
       }
     },
@@ -934,7 +934,7 @@
       },
       "freeform": {
         "description": "Permet aux joueurs de déterminer leur propre composition de flotte. Nécessite une bonne communication avant de commencer. Ces parties ne peuvent pas être classées.",
-        "name": "Forme libre (non classée)"
+        "name": "Forme libre"
       },
       "noislands": {
         "description": "Pas d'îles au départ",
@@ -3152,7 +3152,7 @@
         "name": "Mise en place standard"
       },
       "custom": {
-        "name": "Mise en place personnalisée (non classée)",
+        "name": "Mise en place personnalisée",
         "description": "Les joueurs peuvent créer des configurations personnalisées. À ne faire qu'avec une bonne communication. Ces parties ne peuvent pas être classées."
       },
       "#board": {

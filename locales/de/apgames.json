@@ -794,11 +794,11 @@
         "name": "Dreiecksbrett (8 breit)"
       },
       "cobweb": {
-        "name": "Cobweb (4 Ringe, experimentell)"
+        "name": "Spinnennetz (4 Ringe)"
       },
       "cobweb-small": {
         "description": "Eine Variante auf einem runden Brett, bei der man versucht, zwei gegenüberliegende Seiten zu verbinden.",
-        "name": "Spinnennetz (3 Ringe, vom Autor bevorzugt)"
+        "name": "Spinnennetz (3 Ringe)"
       },
       "limping": {
         "name": "Humpelnd 5-6 (75 Felder)"
@@ -924,7 +924,7 @@
         "description": "Zufällig generierter Aufbau mit reduzierter Armeegröße"
       },
       "free": {
-        "name": "Freie Platzierung (ungewertet)",
+        "name": "Freie Aufstellung",
         "description": "Ermöglicht es den Spielern, beliebig viele Steine an beliebigen Stellen zu platzieren, einschließlich illegaler oder anderweitig fehlerhafter Stellungen. Die Spieler sollten vor dem Start klar miteinander kommunizieren. Diese Spiele können nicht gewertet werden."
       }
     },
@@ -934,7 +934,7 @@
       },
       "freeform": {
         "description": "Ermöglicht es den Spielern, ihre eigene Flottenzusammensetzung zu bestimmen. Erfordert vor dem Start eine gute Kommunikation. Diese Spiele können nicht gewertet werden.",
-        "name": "Freiform (ungewertet)"
+        "name": "Freiform"
       },
       "noislands": {
         "description": "Keine Startinseln",
@@ -3152,7 +3152,7 @@
         "name": "Standard-Aufbau"
       },
       "custom": {
-        "name": "Benutzerdefinierter Aufbau (ungewertet)",
+        "name": "Benutzerdefinierte Aufstellung",
         "description": "Die Spieler können beliebige Aufstellungen erstellen. Sollte nur bei guter Kommunikation genutzt werden. Diese Spiele können nicht gewertet werden."
       },
       "#board": {

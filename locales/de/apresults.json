@@ -414,6 +414,7 @@
   },
   "PASS": {
     "asli": "{{player}} hat einen gegnerischen Stein aus dem Gefängnis genommen und gepasst.",
+    "asli_area": "{{player}} hat gepasst.",
     "assembly": "Die Fertigungsstraße bewegt sich nicht.",
     "deckfish": "{{player}} konnte keinen Zug machen.",
     "entropy": "{{player}} hat sich entschieden, in diesem Zug keine Steine zu bewegen.",

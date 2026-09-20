@@ -3591,7 +3591,7 @@
       "HARLOG": "Harlog"
     },
     "asli": {
-      "AREA": "Areo",
+      "AREA": "Areo + komio",
       "TERRITORY": "Teritorio kaj kaptitoj"
     },
     "baghchal": {
@@ -4908,11 +4908,14 @@
     },
     "asli": {
       "BAD_INCURSION": "Vi ne rajtas fari minimumajn enkursojn.",
+      "BAD_INCURSION_pass": "Vi ne rajtas fari minimuman enkurson tuj post kiam via kontraŭulo preterpasas.",
       "BAD_KOMI": "La unua movo de la ludo devas esti entjero reprezentanta la nombron da pecoj meti en la komencan malliberejon. Pozitiva nombro metas pecojn apartenantajn al la unua ludanto. Negativaj nombroj, tiuj de la dua ludanto. Vi ne rajtas meti pli da pecoj en la malliberejo ol la nombro da ĉeloj sur la tabulo plus unu.",
+      "BAD_KOMI_area": "La unua movo de la ludo devas esti entjera nombro da poentoj de komio. Pozitiva nombro donas la komion al la dua ludanto. Negativa nombro, al la unua ludanto. Vi ne rajtas proponi pli da komio ol la nombro da punktoj sur la tabulo plus unu.",
       "BAD_PASS": "Vi devas forigi malamikan pecon de la malliberejo por ke ĝi preterpasu.",
       "BAD_PIE": "Vi ne rajtas akcepti la tortregulon en ĉi tiu momento de la ludo.",
       "INITIAL_INSTRUCTIONS_area": "Metu pecon sur valida malplena spaco, aŭ preterpasu. Preterpaso ankaŭ malhelpas la sekvan minimuman enkurson de via kontraŭulo.",
       "INITIAL_INSTRUCTIONS_komi": "Enmetu la nombron da unuaj ludantaj pecoj, kiujn vi volas meti en la komencan malliberejon. La dua ludanto tiam decidos, kiun sidlokon li prenos.",
+      "INITIAL_INSTRUCTIONS_komi_area": "Enmetu, en poentoj, la komion kiun vi volas proponi. Pozitiva nombro donas la komion al la dua ludanto. Negativa nombro, al la unua ludanto. La alia ludanto tiam decidos, kiun sidlokon preni.",
       "INITIAL_INSTRUCTIONS_pie": "Aŭ premu la butonon \"Luzu sekunde\" por resti tie, kie vi estas kaj daŭrigi ludi sekunde, aŭ klaku \"Swap ludanto seats\" por ŝanĝi sidlokojn.",
       "INITIAL_INSTRUCTIONS_pie2": "Aŭ preterpasu por akcepti la komi- oferton kaj daŭri ludi duonon, aŭ metu pecon por transpreni kiel unua ludanto.",
       "INITIAL_INSTRUCTIONS_play": "Metu pecon sur valida malplena spaco aŭ preterpasu por preni malamikan pecon el la malliberejo anstataŭe (se unu estas havebla).",

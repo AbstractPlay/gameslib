@@ -5959,6 +5959,7 @@
       "MUST_CHOOSE_SIDE": "Du musst gerade oder ungerade wählen, bevor du spielst.",
       "NOT_IN_HAND": "Dieser Dominostein ist nicht in deiner Hand.",
       "NEEDS_ANCHOR_PIP": "Diese Platzierung ist mehrdeutig. Markiere die Anker-Augenzahl mit einem Sternchen (z. B. 1*-2@-3,1N oder 1-2*@-3,1N).",
+      "MUST_COVER_TWO_DOMINOES": "Beim Legen eines Dominosteins auf andere müssen zwei verschiedene Dominosteine überdeckt werden.",
       "PARTIAL": "Klicke auf eine Anker-Hälfte und dann auf das andere Ende des Dominosteins."
     },
     "estate": {

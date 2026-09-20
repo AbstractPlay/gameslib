@@ -7295,6 +7295,10 @@
     "src": "You must choose evens or odds before playing.",
     "out": "Du musst gerade oder ungerade wählen, bevor du spielst."
   },
+  "validation.evenatodds.MUST_COVER_TWO_DOMINOES": {
+    "src": "When placing a domino on top of others, you must cover two different dominoes.",
+    "out": "Beim Legen eines Dominosteins auf andere müssen zwei verschiedene Dominosteine überdeckt werden."
+  },
   "validation.evenatodds.NEEDS_ANCHOR_PIP": {
     "src": "This placement is ambiguous. Mark the anchor pip with an asterisk (e.g. 1*-2@-3,1N or 1-2*@-3,1N).",
     "out": "Diese Platzierung ist mehrdeutig. Markiere die Anker-Augenzahl mit einem Sternchen (z. B. 1*-2@-3,1N oder 1-2*@-3,1N)."

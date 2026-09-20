@@ -379,26 +379,28 @@ describe("Ice Palace: board interaction", () => {
         expect((g.render() as Rep).areas?.[0].pieces.sort()).to.deep.equal(["p1L", "p1M"]);
     });
 
-    it("stands every pyramid exactly on the one below it", () => {
-        // The -3D glyphs are drawn for nests: at index 0 a small's base is on the cell, a
-        // medium's one rise-step lower, a large's two lower, with heights of one, two and
-        // three steps. Volcano gets exact stacking by spending "-" placeholders to lift each
-        // piece to the previous one's apex, and so does this.
+    it("stacks pyramids the way Volcano does, one index above the last", () => {
+        // The -3D glyphs put a small's base on the cell at index 0, a medium's one rise-step
+        // lower and a large's two lower. Volcano sits each piece one index above the last
+        // and spends "-" placeholders only to keep a base from sinking below the ground.
         const g = rig(new IcePalaceGame(3), [["1M"], ["2S"], ["3S"]], fatPool());
-        g.palace = new Map([["0,0", ["1L", "2M", "3S"]], ["1,0", ["2L"]]]);
+        // The lone medium is a colour no other stack holds, so drawnAt finds only it.
+        g.palace = new Map([["0,0", ["1L", "2M", "3S"]], ["1,0", ["2L"]], ["2,0", ["3M"]]]);
         g.yard = new Map([["0,0", ["1S", "2M", "3L"]]]);
         const rep = g.render() as Rep & { board: { stackOffset?: number }; legend: Record<string, { nudge?: unknown }> };
         expect(rep.board.stackOffset).to.equal(0.15);
         expect(rep.legend.p1L.nudge).to.be.undefined;
-        // A Palace tower: large on the ground, medium on its apex, small on the medium's.
+        // A Palace tower: the large is lifted onto the ground, then each piece sits one up.
         const [tr, tc] = drawnAt(rep, "3S");
-        expect(rep.pieces[tr][tc]).to.deep.equal(["-", "-", "p1L", "-", "p2M", "p3S"]);
-        // A lone large has to be lifted two steps to stand on the ground.
+        expect(rep.pieces[tr][tc]).to.deep.equal(["-", "-", "p1L", "p2M", "p3S"]);
+        // Lone pieces need only enough lift to reach the ground.
         const [lr, lc] = drawnAt(rep, "2L");
         expect(rep.pieces[lr][lc]).to.deep.equal(["-", "-", "p2L"]);
-        // A Yard stack: small on the ground, then medium, then large, each on the last apex.
+        const [mr, mc] = drawnAt(rep, "3M");
+        expect(rep.pieces[mr][mc]).to.deep.equal(["-", "p3M"]);
+        // A Yard stack grows upward in size, so every base already clears the ground.
         const [yr, yc] = drawnAt(rep, "3L");
-        expect(rep.pieces[yr][yc]).to.deep.equal(["p1S", "-", "p2M", "-", "-", "p3L"]);
+        expect(rep.pieces[yr][yc]).to.deep.equal(["p1S", "p2M", "p3L"]);
     });
 
     it("lists every hand in the status panel", () => {

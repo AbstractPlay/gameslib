@@ -538,7 +538,7 @@ const GAP = 1;
  * How far each array index rises above the last, as a fraction of the cell. It must stay at
  * the renderer's default, because `stackColumn` relies on one index being exactly one glyph
  * step: the `-3D` pyramids are drawn with a small's base at the cell centre, a medium's one
- * step lower and a large's two lower, with heights of one, two and three steps.
+ * step lower and a large's two lower.
  */
 const STACK_OFFSET = 0.15;
 
@@ -1247,22 +1247,20 @@ export class IcePalaceGame extends GameBaseSequenced {
     }
 
     /**
-     * Lays a stack out so each pyramid stands exactly on the one below it, the way Volcano
-     * does. A piece whose base should sit `top` steps above the ground belongs at index
-     * `top + height - 1`, and "-" placeholders, which the renderer skips but still counts,
-     * fill the indices in between. A lone large is therefore `["-", "-", large]`.
+     * Lays a stack out the way Volcano does: each pyramid sits one index above the last, and
+     * "-" placeholders, which the renderer skips but still counts, are spent only to stop a
+     * piece's base sinking below the ground. A small's base is on the ground at index 0, a
+     * medium's at index 1 and a large's at index 2, so a lone large is `["-", "-", large]`
+     * and a tower of large, medium, small is `["-", "-", large, medium, small]`.
      */
     private static stackColumn(stack: PieceId[]): string[] {
         const column: string[] = [];
-        let top = 0;
         for (const piece of stack) {
-            const height = sizeOf(piece);
-            const index = top + height - 1;
-            while (column.length < index) {
+            const ground = sizeOf(piece) - 1;
+            while (column.length < ground) {
                 column.push("-");
             }
             column.push(IcePalaceGame.legendKey(piece));
-            top += height;
         }
         return column;
     }

@@ -1,7 +1,7 @@
-import { IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IStashEntry, IStatus, IValidationResult } from "./_base.js";
+import { IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IStatus, IValidationResult } from "./_base.js";
 import { GameBaseSequenced } from "./_turn-sequenced.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
-import { APRenderRep, Freepiece, Glyph, MarkerFreespaceLabel } from "@abstractplay/renderer/build/schemas/schema";
+import { APRenderRep, AreaPieces, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
@@ -530,41 +530,23 @@ export const maximumBuild = (palace: Structure, pieces: PieceId[]): BuildPlan =>
 /** A hand is being played into the Yard, or its winner is building the Palace. */
 export type Phase = "hand" | "build";
 
-/** One cell of freespace canvas, in renderer units; freespace scales pieces to `cellsize`. */
-const UNIT = 50;
-/**
- * True height ratios of the three pyramids, from the Icehouse glyph geometry
- * (100 / 137.5 / 175), normalised against the large.
- */
-const PYRAMID_SCALES = [100 / 175, 137.5 / 175, 1];
-/**
- * How far each pyramid in a stack rises above the one below it. Small enough that the
- * pyramids overlap and read as one stack, large enough that every apex stays visible.
- */
-const RISER = UNIT * 0.38;
-/**
- * Rows are pitched further apart than columns so that a full three-pyramid stack, which
- * rises two risers above its cell, cannot collide with whatever sits in the row above.
- */
-const ROW_PITCH = UNIT + 2 * RISER;
-/** Blank space between the two structures. */
-const GAP = UNIT * 2;
-/** Rings of empty cells kept around each structure, to click into when founding. */
+/** Empty cells kept around each structure, so there is somewhere to click when founding. */
 const PADDING = 1;
+/** Empty columns separating the Palace from the Yard when both are on the board. */
+const GAP = 1;
 
-interface IStructureExtent {
-    originX: number;
+/** Where one structure sits on the shared board. */
+interface IRegion {
+    which: "palace" | "yard";
+    col0: number;
     minX: number;
     minY: number;
     cols: number;
     rows: number;
-    width: number;
-    height: number;
 }
 
 interface ILayout {
-    palace: IStructureExtent;
-    yard: IStructureExtent;
+    regions: IRegion[];
     width: number;
     height: number;
 }
@@ -638,7 +620,7 @@ export class IcePalaceGame extends GameBaseSequenced {
             "components>pyramids",
             "other>2+players",
         ],
-        flags: ["experimental", "scores", "player-stashes", "autopass"],
+        flags: ["experimental", "scores", "autopass"],
     };
 
     public numplayers = 3;
@@ -933,6 +915,18 @@ export class IcePalaceGame extends GameBaseSequenced {
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;
         }
+        if (!move.includes("@")) {
+            // A bare pyramid: picked from the hand, not yet placed.
+            if (!this.handOf(this.currplayer).includes(move)) {
+                result.message = i18next.t("apgames:validation.icepalace.NOT_IN_HAND", { piece: move });
+                return result;
+            }
+            result.valid = true;
+            result.complete = -1;
+            result.canrender = true;
+            result.message = i18next.t("apgames:validation.icepalace.PARTIAL_PIECE", { piece: move });
+            return result;
+        }
         const parsed = IcePalaceGame.parsePlacement(move);
         if (parsed === undefined) {
             result.message = i18next.t("apgames:validation.icepalace.BAD_PLACEMENT", { move });
@@ -970,7 +964,10 @@ export class IcePalaceGame extends GameBaseSequenced {
 
         const palace = cloneStructure(this.palace);
         const stock = [...this.stock];
-        for (const token of move.split(";")) {
+        const tokens = move.split(";");
+        // A trailing bare pyramid is one picked from the stock but not yet placed.
+        const pending = tokens[tokens.length - 1].includes("@") ? undefined : tokens.pop();
+        for (const token of tokens) {
             const parsed = IcePalaceGame.parsePlacement(token);
             if (parsed === undefined) {
                 result.message = i18next.t("apgames:validation.icepalace.BAD_PLACEMENT", { move: token });
@@ -989,8 +986,19 @@ export class IcePalaceGame extends GameBaseSequenced {
             stock.splice(idx, 1);
             placeInto(palace, piece, cell);
         }
+        if (pending !== undefined) {
+            if (!stock.includes(pending)) {
+                result.message = i18next.t("apgames:validation.icepalace.NOT_IN_STOCK", { piece: pending });
+                return result;
+            }
+            result.valid = true;
+            result.complete = -1;
+            result.canrender = true;
+            result.message = i18next.t("apgames:validation.icepalace.PARTIAL_PIECE", { piece: pending });
+            return result;
+        }
 
-        const placed = move.split(";").length;
+        const placed = tokens.length;
         result.valid = true;
         result.canrender = true;
         if (placed < this.buildMin) {
@@ -1043,7 +1051,11 @@ export class IcePalaceGame extends GameBaseSequenced {
             this.passes++;
             this.results.push({ type: "pass" });
         } else {
-            const parsed = IcePalaceGame.parsePlacement(move)!;
+            const parsed = IcePalaceGame.parsePlacement(move);
+            if (parsed === undefined) {
+                // A bare pyramid, picked but not yet placed: nothing to apply.
+                return;
+            }
             const hand = this.handOf(this.currplayer);
             hand.splice(hand.indexOf(parsed.piece), 1);
             placeInto(this.yard, parsed.piece, parsed.cell);
@@ -1187,24 +1199,6 @@ export class IcePalaceGame extends GameBaseSequenced {
         return score;
     }
 
-    public getPlayerStash(player: number): IStashEntry[] | undefined {
-        const hand = this.hands[player - 1];
-        if (hand === undefined) {
-            return undefined;
-        }
-        const counts = new Map<PieceId, number>();
-        for (const piece of hand) {
-            counts.set(piece, (counts.get(piece) ?? 0) + 1);
-        }
-        return [...counts.entries()]
-            .sort((a, b) => pieceSort(a[0], b[0]))
-            .map(([piece, count]) => ({
-                count,
-                glyph: this.glyphFor(piece),
-                movePart: piece,
-            }));
-    }
-
     public sidebarScores(): IScores[] {
         const scores: number[] = [];
         for (let p = 1; p <= this.numplayers; p++) {
@@ -1213,13 +1207,19 @@ export class IcePalaceGame extends GameBaseSequenced {
         return [{ name: this.neutralAreaLabel("apgames:status.SCORES"), scores }];
     }
 
+    /** Every hand, drawn as pyramids, plus the Pool and what the builder still has to use. */
     public sidebarStatuses(): IStatus[] {
-        const statuses: IStatus[] = [
-            {
-                key: this.neutralAreaLabel("apgames:status.icepalace.POOL"),
-                value: [this.pool.length.toString()],
-            },
-        ];
+        const statuses: IStatus[] = [];
+        for (let p = 1; p <= this.numplayers; p++) {
+            statuses.push({
+                key: this.seatStatusValue(p),
+                value: this.hands[p - 1].map(piece => this.glyphFor(piece)),
+            });
+        }
+        statuses.push({
+            key: this.neutralAreaLabel("apgames:status.icepalace.POOL"),
+            value: [this.pool.length.toString()],
+        });
         if (this.phase === "build") {
             statuses.push({
                 key: this.neutralAreaLabel("apgames:status.icepalace.MUST_USE"),
@@ -1231,26 +1231,16 @@ export class IcePalaceGame extends GameBaseSequenced {
 
     /* --------------------------------------------------------------- rendering */
 
-    /**
-     * Side-view pyramids, as Volcano draws them, rather than the top-down square. The
-     * `pyramid-flat-*` glyphs carry no full-cell sizing box, so the renderer normalises all
-     * three to the same footprint; scaling them back to their true height ratios is what
-     * keeps small, medium and large tellable apart.
-     */
     private glyphFor(piece: PieceId): Glyph {
-        const size = sizeOf(piece);
-        const glyph: Glyph = {
-            name: `pyramid-flat-${SIZE_NAMES[size - 1]}`,
-            scale: PYRAMID_SCALES[size - 1],
-        };
+        const name = `pyramid-up-${SIZE_NAMES[sizeOf(piece) - 1]}-3D`;
         const colour = colourOf(piece);
         if (colour === NULL_COLOUR) {
-            return { ...glyph, colour: "#000000" };
+            return { name, colour: "#000000" };
         }
         if (colour === WILD_COLOUR) {
-            return { ...glyph, colour: "#ffffff" };
+            return { name, colour: "#ffffff" };
         }
-        return { ...glyph, colour: Number(colour) };
+        return { name, colour: Number(colour) };
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -1259,15 +1249,12 @@ export class IcePalaceGame extends GameBaseSequenced {
             const current = IcePalaceGame.normalise(move);
             let newmove: string;
             if (piece !== undefined && /^[1-6BW][SML]$/.test(piece.toUpperCase())) {
-                // A stash entry hands back the pyramid it represents.
+                // The pieces area hands back the legend key, which is the pyramid itself.
                 newmove = this.appendToken(current, piece.toUpperCase());
-            } else if (piece !== undefined && /^[yp]:-?\d+,-?\d+$/.test(piece)) {
-                // A pyramid already in play hands back the cell it stands on.
-                newmove = this.appendToken(current, `@${piece.substring(2)}`);
             } else {
-                // Empty freespace hands back continuous coordinates, which have to be
-                // mapped back through the layout this game renders with.
-                const cell = this.cellAt(col, row);
+                // Anything else is a board click: an empty cell, or a pyramid already in a
+                // stack there, which arrives with its stack index in `piece`.
+                const cell = this.cellAt(row, col);
                 if (cell === undefined) {
                     result.move = current;
                     result.message = i18next.t("apgames:validation.icepalace.OFF_STRUCTURE");
@@ -1277,7 +1264,7 @@ export class IcePalaceGame extends GameBaseSequenced {
             }
             const validated = this.validateMove(newmove);
             if (!validated.valid) {
-                result.move = current === "" ? "" : current;
+                result.move = current;
                 result.message = validated.message;
                 return result;
             }
@@ -1320,132 +1307,132 @@ export class IcePalaceGame extends GameBaseSequenced {
     }
 
     /**
-     * Both structures grow on unbounded grids and have to be shown at once, so this uses the
-     * freespace renderer and lays them out side by side rather than trying to fit two boards
-     * into one bounded board. Stacks are drawn bottom to top with a rising offset, which reads
-     * correctly for the Palace and the Yard even though their size rules run opposite ways.
+     * One perspective board holds both structures: the Palace on the left and, while a hand
+     * is being played, the Yard to its right. During the build the Yard has already been
+     * taken up into the stock, which is offered in the pieces area instead. The pieces area
+     * is where the current player picks a pyramid from; every hand is also listed in the
+     * status panel.
      */
     public render(opts?: IRenderOpts): APRenderRep {
         void opts;
         const layout = this.layout();
         const legend: { [k: string]: Glyph } = {};
-        const pieces: Freepiece[] = [];
-        const markers: MarkerFreespaceLabel[] = [];
-
-        const draw = (struct: Structure, extent: IStructureExtent, tag: string): void => {
+        const pieces: string[][][] = [];
+        for (let row = 0; row < layout.height; row++) {
+            const line: string[][] = [];
+            for (let col = 0; col < layout.width; col++) {
+                line.push([]);
+            }
+            pieces.push(line);
+        }
+        for (const region of layout.regions) {
+            const struct = region.which === "palace" ? this.palace : this.yard;
             for (const [cell, stack] of struct.entries()) {
                 const [x, y] = coordsOf(cell);
-                const baseX = extent.originX + (x - extent.minX + 0.5) * UNIT;
-                const baseY = layout.height - (y - extent.minY + 0.5) * ROW_PITCH;
-                for (let i = 0; i < stack.length; i++) {
-                    const key = `p${stack[i]}`;
-                    if (!(key in legend)) {
-                        legend[key] = this.glyphFor(stack[i]);
+                const col = region.col0 + (x - region.minX);
+                const row = layout.height - 1 - (y - region.minY);
+                for (const piece of stack) {
+                    if (!(piece in legend)) {
+                        legend[piece] = this.glyphFor(piece);
                     }
-                    // Each pyramid in a stack rises a little above the one below, so the
-                    // whole stack stays readable and its true order is visible. That matters
-                    // because the Yard and the Palace stack in opposite size orders.
-                    pieces.push({
-                        glyph: key,
-                        x: baseX,
-                        y: baseY - i * RISER,
-                        id: `${tag}:${cell}`,
-                    });
+                    pieces[row][col].push(piece);
                 }
             }
-        };
+        }
 
-        draw(this.palace, layout.palace, "p");
-        draw(this.yard, layout.yard, "y");
-
-        const label = (text: MarkerFreespaceLabel["label"], extent: IStructureExtent): void => {
-            markers.push({
-                type: "label",
-                label: text,
-                points: [
-                    { x: extent.originX, y: layout.height + UNIT / 2 },
-                    { x: extent.originX + extent.width, y: layout.height + UNIT / 2 },
-                ],
+        const offered = this.phase === "build" ? this.stock : this.handOf(this.currplayer);
+        for (const piece of offered) {
+            if (!(piece in legend)) {
+                legend[piece] = this.glyphFor(piece);
+            }
+        }
+        const areas: AreaPieces[] = [];
+        if (offered.length > 0) {
+            areas.push({
+                type: "pieces",
+                pieces: [...offered] as [string, ...string[]],
+                // i18next.t("apgames:icepalace.STOCK")
+                // i18next.t("apgames:icepalace.HAND")
+                label: this.phase === "build"
+                    ? this.neutralAreaLabel("apgames:icepalace.STOCK")
+                    : this.seatAreaLabel(this.currplayer, "apgames:icepalace.HAND"),
+                ownerMark: this.currplayer,
             });
-        };
-        // Structured labels, resolved by the front end, rather than English baked in here.
-        // i18next.t("apgames:icepalace.PALACE")
-        label(this.neutralAreaLabel("apgames:icepalace.PALACE"), layout.palace);
-        // i18next.t("apgames:icepalace.YARD")
-        // i18next.t("apgames:icepalace.YARD_BUILDING")
-        label(
-            this.neutralAreaLabel(
-                this.phase === "build" ? "apgames:icepalace.YARD_BUILDING" : "apgames:icepalace.YARD",
-            ),
-            layout.yard,
-        );
+        }
 
         const rep: APRenderRep = {
-            renderer: "freespace",
+            renderer: "stacking-3D",
+            options: ["hide-labels"],
             board: {
+                style: "squares",
                 width: layout.width,
-                height: layout.height + UNIT,
-                markers: markers.length > 0 ? markers : undefined,
+                height: layout.height,
             },
             legend,
-            pieces,
+            pieces: pieces as [string[][], ...string[][][]],
+            areas: areas.length > 0 ? areas : undefined,
         };
         return rep;
     }
 
     /**
-     * Where each structure sits on the freespace canvas. Both grids are unbounded, so each
-     * is padded by a ring of empty cells; without it there would be nowhere to click to
-     * found a stack on the frontier.
+     * The Yard is on the board while a hand is being played; the Palace whenever it holds
+     * anything, and always during the build. Each is padded by a ring of empty cells. An
+     * empty structure that must still take a placement collapses to a single cell, which
+     * is where the lead goes.
      */
     private layout(): ILayout {
-        const extentOf = (struct: Structure, originX: number): IStructureExtent => {
-            if (struct.size === 0) {
-                return { originX, minX: 0, minY: 0, cols: 1, rows: 1, width: UNIT, height: ROW_PITCH };
-            }
-            const coords = [...struct.keys()].map(coordsOf);
-            const minX = Math.min(...coords.map(c => c[0])) - PADDING;
-            const maxX = Math.max(...coords.map(c => c[0])) + PADDING;
-            const minY = Math.min(...coords.map(c => c[1])) - PADDING;
-            const maxY = Math.max(...coords.map(c => c[1])) + PADDING;
-            const cols = maxX - minX + 1;
-            const rows = maxY - minY + 1;
-            return {
-                originX, minX, minY, cols, rows,
-                width: cols * UNIT,
-                height: rows * ROW_PITCH,
-            };
-        };
+        const shown: ("palace" | "yard")[] = [];
+        if (this.phase === "build" || this.palace.size > 0) {
+            shown.push("palace");
+        }
+        if (this.phase === "hand") {
+            shown.push("yard");
+        }
 
-        const palace = extentOf(this.palace, 0);
-        const yard = extentOf(this.yard, palace.width + GAP);
-        return {
-            palace,
-            yard,
-            width: palace.width + GAP + yard.width,
-            height: Math.max(palace.height, yard.height),
-        };
+        const regions: IRegion[] = [];
+        let col0 = 0;
+        let height = 0;
+        for (const which of shown) {
+            const struct = which === "palace" ? this.palace : this.yard;
+            let region: IRegion;
+            if (struct.size === 0) {
+                region = { which, col0, minX: 0, minY: 0, cols: 1, rows: 1 };
+            } else {
+                const coords = [...struct.keys()].map(coordsOf);
+                const minX = Math.min(...coords.map(c => c[0])) - PADDING;
+                const maxX = Math.max(...coords.map(c => c[0])) + PADDING;
+                const minY = Math.min(...coords.map(c => c[1])) - PADDING;
+                const maxY = Math.max(...coords.map(c => c[1])) + PADDING;
+                region = { which, col0, minX, minY, cols: maxX - minX + 1, rows: maxY - minY + 1 };
+            }
+            regions.push(region);
+            col0 += region.cols + GAP;
+            height = Math.max(height, region.rows);
+        }
+        return { regions, width: col0 - GAP, height };
     }
 
     /**
-     * Turns a click on empty freespace back into a cell of whichever structure is in play
-     * this phase. Returns undefined when the click landed in the gutter or the wrong half.
+     * Which cell a board click landed on. Only the structure being built into this phase
+     * takes placements, so a click on the other one, or in the gap, is undefined.
      */
-    private cellAt(x: number, y: number): Cell | undefined {
+    private cellAt(row: number, col: number): Cell | undefined {
         const layout = this.layout();
-        const extent = this.phase === "build" ? layout.palace : layout.yard;
-        const localX = x - extent.originX;
-        if (localX < 0 || localX >= extent.width) {
-            return undefined;
+        const active = this.phase === "build" ? "palace" : "yard";
+        for (const region of layout.regions) {
+            if (col < region.col0 || col >= region.col0 + region.cols) {
+                continue;
+            }
+            if (region.which !== active) {
+                return undefined;
+            }
+            return cellOf(
+                region.minX + (col - region.col0),
+                region.minY + (layout.height - 1 - row),
+            );
         }
-        const localY = layout.height - y;
-        if (localY < 0 || localY >= extent.height) {
-            return undefined;
-        }
-        return cellOf(
-            extent.minX + Math.floor(localX / UNIT),
-            extent.minY + Math.floor(localY / ROW_PITCH),
-        );
+        return undefined;
     }
 
     public getPlayerColour(player: number): number {

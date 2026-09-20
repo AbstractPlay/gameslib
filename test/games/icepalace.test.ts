@@ -313,44 +313,78 @@ describe("Ice Palace: scoring and ending", () => {
 });
 
 describe("Ice Palace: board interaction", () => {
-    /**
-     * The freespace renderer reports clicks as continuous coordinates, so the layout maths
-     * has to invert cleanly. This checks the arithmetic only; the renderer JSON itself is
-     * not verified here.
-     */
-    it("maps a click at a cell's drawn position back to that cell", () => {
+    type Rep = { pieces: string[][][]; areas?: { pieces: string[] }[] };
+
+    /** Board row and column at which a cell's stack is drawn. */
+    const drawnAt = (rep: Rep, piece: string): [number, number] => {
+        for (let row = 0; row < rep.pieces.length; row++) {
+            for (let col = 0; col < rep.pieces[row].length; col++) {
+                if (rep.pieces[row][col].includes(piece)) {
+                    return [row, col];
+                }
+            }
+        }
+        throw new Error(`${piece} is not drawn anywhere`);
+    };
+
+    it("maps a click on a drawn stack back to its cell", () => {
         const g = rig(new IcePalaceGame(3), [["1M"], ["2L"], ["3S"]], fatPool());
         g.move("1M@0,0");
-        const rep = g.render() as { pieces: { x: number; y: number; id: string }[] };
-        const drawn = rep.pieces.find(p => p.id === "y:0,0");
-        expect(drawn, "the placed pyramid should be drawn").to.not.be.undefined;
-        // A large covers a medium, and colour is irrelevant when stacking.
-        const click = g.handleClick("2L", drawn!.y, drawn!.x, "_field");
+        const [row, col] = drawnAt(g.render() as Rep, "1M");
+        // stacking-3D reports a click on a stacked pyramid with its stack index.
+        const click = g.handleClick("2L", row, col, "0");
         expect(click.valid, click.message).to.be.true;
         expect(click.move).to.equal("2L@0,0");
     });
 
     it("offers frontier space to found new stacks into", () => {
-        const g = rig(new IcePalaceGame(3), [["1M", "1S"], ["1S"], ["3S"]], fatPool());
+        const g = rig(new IcePalaceGame(3), [["1M"], ["1S"], ["3S"]], fatPool());
         g.move("1M@0,0");
-        const rep = g.render() as { pieces: { x: number; y: number; id: string }[]; board: { width: number; height: number } };
-        const drawn = rep.pieces.find(p => p.id === "y:0,0")!;
-        // One cell to the right of the only stack. Columns are pitched at the renderer's
-        // own cellsize, which is what freespace scales pieces to.
-        const CELL = 50;
-        const click = g.handleClick("1S", drawn.y, drawn.x + CELL, "_field");
+        const [row, col] = drawnAt(g.render() as Rep, "1M");
+        // The cell to the right is empty padding, and an empty-cell click carries "".
+        const click = g.handleClick("1S", row, col + 1, "");
         expect(click.valid, click.message).to.be.true;
         expect(click.move).to.equal("1S@1,0");
     });
 
-    it("selects a cell when an existing pyramid is clicked", () => {
-        const g = rig(new IcePalaceGame(3), [["1S", "1L"], ["1S"], ["3S"]], fatPool());
-        g.move("1S@0,0");
-        g.move("pass");
-        g.move("pass");
-        const click = g.handleClick("1L", 0, 0, "y:0,0");
+    it("refuses clicks on the Palace while a hand is being played", () => {
+        const g = rig(new IcePalaceGame(3), [["1M"], ["1S"], ["3S"]], fatPool());
+        g.palace = new Map([["0,0", ["2L"]]]);
+        g.move("1M@0,0");
+        const [row, col] = drawnAt(g.render() as Rep, "2L");
+        const click = g.handleClick("1S", row, col, "0");
+        expect(click.valid).to.be.false;
+    });
+
+    it("selects a pyramid when its entry in the pieces area is clicked", () => {
+        const g = rig(new IcePalaceGame(3), [["1M"], ["2L", "2S"], ["3S"]], fatPool());
+        g.move("1M@0,0");
+        const click = g.handleClick("", -1, -1, "2L");
         expect(click.valid, click.message).to.be.true;
-        expect(click.move).to.equal("1L@0,0");
+        expect(click.move).to.equal("2L");
+    });
+
+    it("offers the current hand while a hand is played, and the stock while building", () => {
+        const g = rig(new IcePalaceGame(3), [["1L", "1M"], ["2L", "2S"], ["3L"]], fatPool());
+        g.move("1M@0,0");
+        expect((g.render() as Rep).areas?.[0].pieces).to.deep.equal(["2L", "2S"]);
+        g.move("pass");
+        g.move("pass");
+        g.move("1L@0,0");
+        while (g.phase === "hand") {
+            g.move("pass");
+        }
+        expect(g.phase).to.equal("build");
+        expect((g.render() as Rep).areas?.[0].pieces.sort()).to.deep.equal(["1L", "1M"]);
+    });
+
+    it("lists every hand in the status panel", () => {
+        const g = rig(new IcePalaceGame(3), [["1L", "1M"], ["2S"], ["3L", "3M", "3S"]], fatPool());
+        const statuses = g.sidebarStatuses();
+        expect(statuses.length).to.be.greaterThan(3);
+        expect(statuses[0].value.length).to.equal(2);
+        expect(statuses[1].value.length).to.equal(1);
+        expect(statuses[2].value.length).to.equal(3);
     });
 });
 

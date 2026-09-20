@@ -289,9 +289,8 @@
         "zola": "A game where your movement is constrained by your distance from the centre of the board. Capturing moves must not increase that distance. Non-capturing moves must increase that distance. First person to capture all opposing pieces wins."
     },
     "icepalace": {
-        "PALACE": "Ice Palace",
-        "YARD": "Yard",
-        "YARD_BUILDING": "Yard (being built)"
+        "HAND": "{{player}}'s hand",
+        "STOCK": "Pyramids from the Yard, to be built into the Palace"
     },
     "names": {
         "abande": "Abande",
@@ -6352,7 +6351,8 @@
             "MUST_BUILD": "You cannot decline to build: {{count}} of the Yard's pyramids can be placed.",
             "NOT_IN_HAND": "You do not have a {{piece}} in hand.",
             "NOT_IN_STOCK": "The {{piece}} is not among the pyramids you won.",
-            "OFF_STRUCTURE": "That space is not part of the structure you are building in."
+            "OFF_STRUCTURE": "That space is not part of the structure you are building in.",
+            "PARTIAL_PIECE": "Now choose where to place the {{piece}}."
         },
         "intermedium": {
             "INSTRUCTIONS": "Select a friendly stack; click on it as many times as pieces to move, then click on a diagonal path that starts adjacent to this sowing stack (one pieces per square), making 90º turns.",

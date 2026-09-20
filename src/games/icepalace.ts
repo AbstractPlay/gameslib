@@ -1,4 +1,4 @@
-import { IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IStatus, IValidationResult, StatusValue } from "./_base.js";
+import { IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IStatus, IValidationResult, StatusValue, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
 import { GameBaseSequenced } from "./_turn-sequenced.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaPieces, AreaStackingExpanded, AreaVolcanoStash, Glyph } from "@abstractplay/renderer/build/schemas/schema";
@@ -624,6 +624,8 @@ export class IcePalaceGame extends GameBaseSequenced {
         // i18next.t("apgames:descriptions.icepalace")
         description: "apgames:descriptions.icepalace",
         urls: ["https://icehousegames.org/wiki/index.php?title=Ice_Palace"],
+        // i18next.t("apgames:notes.icepalace")
+        notes: "apgames:notes.icepalace",
         people: [
             {
                 type: "designer",
@@ -1122,6 +1124,11 @@ export class IcePalaceGame extends GameBaseSequenced {
         this.phase = "build";
         this.currplayer = this.lastPlacer!;
         this.passes = 0;
+        // Tell the log who builds, how many pyramids that takes, and one way to do it.
+        this.results.push({
+            type: "announce",
+            payload: [this.currplayer, this.buildMin, this.buildMin > 0 ? this.suggestedBuild() : ""],
+        });
     }
 
     private applyBuild(move: string, partial: boolean): void {
@@ -1622,20 +1629,35 @@ export class IcePalaceGame extends GameBaseSequenced {
         return player;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                node.push(i18next.t("apresults:PLACE.icepalace", { player, what: r.what, where: r.where }));
-                resolved = true;
-                break;
+                // i18next.t("apresults:PLACE.icepalace")
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.icepalace", { what: r.what, where: r.where });
+                return true;
             case "remove":
-                node.push(i18next.t("apresults:REMOVE.icepalace", { player, what: r.what }));
-                resolved = true;
-                break;
+                // i18next.t("apresults:REMOVE.icepalace")
+                this.pushNeutralChatLine(lines, "apresults:REMOVE.icepalace", { what: r.what });
+                return true;
+            case "pass":
+                // i18next.t("apresults:PASS.icepalace")
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.icepalace", {});
+                return true;
+            case "announce": {
+                // The end of a hand: who builds, how many pyramids, and one legal way to do it.
+                const [seat, count, move] = r.payload as [number, number, string];
+                if (count > 0) {
+                    // i18next.t("apresults:ANNOUNCE.icepalace_build")
+                    this.pushSeatChatLine(lines, seat, "apresults:ANNOUNCE.icepalace_build", { count, move });
+                } else {
+                    // i18next.t("apresults:ANNOUNCE.icepalace_nobuild")
+                    this.pushSeatChatLine(lines, seat, "apresults:ANNOUNCE.icepalace_nobuild", {});
+                }
+                return true;
+            }
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        void results;
-        return resolved;
     }
 
     /** Exposed for tests: the pyramid currently on top of a cell. */

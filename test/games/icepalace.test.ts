@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import "mocha";
 import { expect } from "chai";
+import { addResource } from "../../src";
+import { assertChatLogParity } from "../fixtures/chat/helpers";
 import {
     IcePalaceGame,
     PieceId,
@@ -573,6 +575,53 @@ describe("Ice Palace: expanding display", () => {
         // An empty cell, and the gap between the structures, show nothing.
         expect((g.renderColumn(0, 0) as unknown as Rep).areas).to.deep.equal([{ type: "expandedColumn", stack: [] }]);
         expect((g.renderColumn(7, 3) as unknown as Rep).areas).to.deep.equal([{ type: "expandedColumn", stack: [] }]);
+    });
+});
+
+describe("Ice Palace: event log", () => {
+    before(() => {
+        addResource("en");
+    });
+    const names = ["Alice", "Bob", "Carol"];
+    const lastLines = (g: IcePalaceGame) => {
+        const entries = g.chatLogEntries(names);
+        return entries[entries.length - 1].lines;
+    };
+
+    it("announces the build with the count and one legal way to do it", () => {
+        const g = rig(new IcePalaceGame(3), [["1M"], ["2S"], ["3S"]], fatPool());
+        g.move("1M@0,0");
+        g.move("pass");
+        g.move("pass");
+        g.move("pass");
+        expect(g.phase).to.equal("build");
+        const lines = lastLines(g);
+        const announce = lines.find(l => l.textKey === "apresults:ANNOUNCE.icepalace_build")!;
+        expect(announce).to.not.be.undefined;
+        expect(announce.textParams).to.include({ count: 1, move: "1M@0,0" });
+        // The suggested move is a complete, legal build as it stands.
+        const check = g.validateMove(announce.textParams!.move as string);
+        expect(check.valid).to.be.true;
+        expect(check.complete).to.equal(0);
+        // It is quoted for copying, and the line is attributed to the builder.
+        const text = g.chatLog(names).flat().join("\n");
+        expect(text).to.include("Alice won the hand");
+        expect(text).to.include("`1M@0,0`");
+        assertChatLogParity(g, names);
+    });
+
+    it("says so when nothing from the Yard can be built", () => {
+        const g = rig(new IcePalaceGame(3), [["1M"], ["2S"], ["3S"]], fatPool());
+        g.palace = new Map([["0,0", ["2S"]]]);
+        g.move("1M@0,0");
+        g.move("pass");
+        g.move("pass");
+        g.move("pass");
+        expect(g.buildMin).to.equal(0);
+        expect(g.moves()).to.deep.equal(["pass"]);
+        const keys = lastLines(g).map(l => l.textKey);
+        expect(keys).to.include("apresults:ANNOUNCE.icepalace_nobuild");
+        expect(keys).to.include("apresults:PASS.icepalace");
     });
 });
 

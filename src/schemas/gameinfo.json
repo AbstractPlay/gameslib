@@ -57,6 +57,13 @@
                     "description": "If present, variants of the same `group` are considered mutually exclusive",
                     "type": "string"
                 },
+                "people": {
+                    "description": "The people and organizations involved in the variant's creation",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/person"
+                    }
+                },
                 "default": {
                     "description": "If present and `true`, this variant will appear as the preselected default when issuing new challenges, requesting tournaments, etc. See the `uid` field description for how to describe the \"no variant\" state.",
                     "type": "boolean",

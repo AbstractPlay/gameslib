@@ -5959,6 +5959,7 @@
       "MUST_CHOOSE_SIDE": "Vous devez choisir pair ou impair avant de jouer.",
       "NOT_IN_HAND": "Ce domino n'est pas dans votre main.",
       "NEEDS_ANCHOR_PIP": "Ce placement est ambigu. Marquez le point d'ancrage avec une astérisque (ex. 1*-2@-3,1N ou 1-2*@-3,1N).",
+      "MUST_COVER_TWO_DOMINOES": "Lorsque vous placez un domino sur d'autres, vous devez recouvrir deux dominos différents.",
       "PARTIAL": "Cliquez sur une demi-case d'ancrage, puis sur l'autre extrémité du domino."
     },
     "estate": {

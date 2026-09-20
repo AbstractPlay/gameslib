@@ -7295,6 +7295,10 @@
     "src": "You must choose evens or odds before playing.",
     "out": "Vous devez choisir pair ou impair avant de jouer."
   },
+  "validation.evenatodds.MUST_COVER_TWO_DOMINOES": {
+    "src": "When placing a domino on top of others, you must cover two different dominoes.",
+    "out": "Lorsque vous placez un domino sur d'autres, vous devez recouvrir deux dominos différents."
+  },
   "validation.evenatodds.NEEDS_ANCHOR_PIP": {
     "src": "This placement is ambiguous. Mark the anchor pip with an asterisk (e.g. 1*-2@-3,1N or 1-2*@-3,1N).",
     "out": "Ce placement est ambigu. Marquez le point d'ancrage avec une astérisque (ex. 1*-2@-3,1N ou 1-2*@-3,1N)."

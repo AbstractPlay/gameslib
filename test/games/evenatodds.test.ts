@@ -542,6 +542,44 @@ describe("Even at Odds", () => {
         }
     });
 
+    it("rejects stacking both ends on the same underlying domino", () => {
+        const g = gameFrom({
+            currplayer: 1,
+            hands: [[15], []],
+            boneyard: [],
+            removed: [],
+            tiles: [
+                { id: 7, a: [-2, 1], b: [-1, 1], pipA: 1, pipB: 1, level: 0 },
+                { id: 27, a: [0, 1], b: [1, 1], pipA: 6, pipB: 6, level: 0 },
+                { id: 13, a: [-2, 0], b: [-1, 0], pipA: 2, pipB: 2, level: 0 },
+                { id: 25, a: [0, 0], b: [1, 0], pipA: 5, pipB: 5, level: 0 },
+                { id: 18, a: [-2, -1], b: [-1, -1], pipA: 3, pipB: 3, level: 0 },
+                { id: 22, a: [0, -1], b: [1, -1], pipA: 4, pipB: 4, level: 0 },
+            ],
+        });
+
+        const invalid = g.validateMove("2-4@0,-1E");
+        expect(invalid.valid).to.be.false;
+        if (invalid.message !== undefined) {
+            expect(invalid.message).to.match(/two different dominoes/i);
+        }
+
+        const hand = g.handleClick("", -1, -1, "_domino_2-4_H15L_H15R_L");
+        expect(hand.valid).to.be.true;
+        const anchor = g.handleClick(hand.move!, 4, 4, "0");
+        expect(anchor.valid).to.be.true;
+        expect(anchor.move).to.equal("2-4@0,-1");
+        const deselect = g.handleClick(anchor.move!, 4, 4, "0");
+        expect(deselect.valid).to.be.true;
+        expect(deselect.move).to.equal("2-4");
+        expect(deselect.complete).to.equal(-1);
+        const rejected = g.handleClick(anchor.move!, 4, 5, "0");
+        expect(rejected.valid).to.be.false;
+        if (rejected.message !== undefined) {
+            expect(rejected.message).to.match(/two different dominoes/i);
+        }
+    });
+
     it("handleClick stacks via hand select then occupied board cells", () => {
         const g = gameFrom({
             currplayer: 1,

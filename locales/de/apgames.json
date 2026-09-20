@@ -5282,11 +5282,15 @@
       "INITIAL_INSTRUCTIONS_mtaji|mtaji": "Wähle eine deiner Mulden mit zwei oder mehr Steinen, um mit dem Säen zu beginnen. Ein Schlagzug ist verfügbar.",
       "INITIAL_INSTRUCTIONS_namua|kutakata": "Wähle eine deiner inneren Mulden, die Steine enthält. Du fügst ihr einen deiner Handsteine hinzu und beginnst dann zu säen. Es ist kein Schlagen verfügbar.",
       "INITIAL_INSTRUCTIONS_namua|mtaji": "Wähle eine deiner inneren Mulden, die Steine enthält. Du fügst ihr einen deiner Handsteine hinzu und schlägst dann die gegnerischen Steine. Ein Schlagzug ist verfügbar.",
+      "KUTAKATA_ONLY": "Es ist kein Schlagen möglich; du musst aus einer deiner Mulden mit zwei oder mehr Steinen säen (Kutakata). Zum Beispiel: {{examples}}.",
+      "MUST_CAPTURE": "Schlagen ist Pflicht. Gültige Schlagzüge sind: {{examples}}.",
       "NEVER_SINGLE": "In der Mtaji-Phase darfst du deinen Zug niemals von einer Mulde mit nur einem Stein beginnen.",
+      "NO_KUTAKATA_WHILE_CAPTURE": "Du darfst keinen Kutakata-Zug ausführen, solange ein Schlagen möglich ist. Gültige Schlagzüge sind: {{examples}}.",
       "NO_BACK_ROW_mtaji": "In der Mtaji-Phase darfst du nur dann von der hinteren Reihe beginnen, wenn dies zu einem Schlagen führt oder von der vorderen Reihe kein Kutakata möglich ist.",
       "NO_BACK_ROW_namua": "In der Kunamua-Phase darfst du nicht von deiner hinteren Reihe beginnen.",
       "PLAY_HOUSE": "Dein Säen hat in deiner Nyumba geendet. Du kannst anhalten oder \"auf Safari gehen\" (dadurch wird deine Nyumba zu einer normalen Mulde). Um das Säen fortzusetzen, klicke auf deine Nyumba oder gib ein \"+\"-Zeichen im Zug-Eingabefeld ein.",
-      "TWO_PLUS": "Du darfst einen Kutakata-Zug der Kunamua-Phase nur dann in einer Mulde mit einem Stein beginnen, wenn du ein aktives Haus hast oder sich in der vorderen Reihe nur Mulden mit einzelnen Steinen befinden."
+      "TWO_PLUS": "Du darfst einen Kutakata-Zug der Kunamua-Phase nur dann in einer Mulde mit einem Stein beginnen, wenn du ein aktives Haus hast oder sich in der vorderen Reihe nur Mulden mit einzelnen Steinen befinden.",
+      "WRONG_CAPTURE": "Dieser Schlagzug ist nicht regelkonform. Gültige Schlagzüge sind: {{examples}}."
     },
     "basalt": {
       "BAD_MOVE": "Stapel dürfen sich nicht weiter bewegen als ihre Höhe angibt und keine gegnerischen Stapel überspringen.",

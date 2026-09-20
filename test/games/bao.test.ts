@@ -2,9 +2,14 @@
 import "mocha";
 import { expect } from "chai";
 import { BaoGame } from '../../src/games';
+import { addResource } from "../../src";
 // import { BaoGraph } from "../../src/common";
 
 describe("Bao", () => {
+    before(() => {
+        addResource("en");
+    });
+
     it ("Cloning", () => {
         const g = new BaoGame();
         const cloned = BaoGame.clone(g);
@@ -300,6 +305,52 @@ describe("Bao", () => {
         expect(g.blocked).eql([null, "c3"]);
         g.move("f3>");
         expect(g.blocked).eql([null,undefined]);
+    });
+
+    it("validateMove explains mandatory capture", () => {
+        const g = new BaoGame();
+        g.currplayer = 2;
+        g.inhand = [14, 15];
+        g.houses = ["e2", "d3"];
+        g.board = [
+            [0, 1, 3, 2, 2, 1, 0, 0],
+            [1, 1, 0, 6, 0, 0, 0, 0],
+            [1, 0, 0, 0, 6, 1, 0, 0],
+            [1, 0, 3, 3, 0, 1, 0, 2],
+        ];
+        expect(g.moves()).to.eql(["a3>", "a3>+"]);
+
+        const wrongPit = g.validateMove("b3>");
+        expect(wrongPit.valid).to.be.false;
+        expect(wrongPit.message).to.include("capture is mandatory");
+        expect(wrongPit.message).to.include("a3");
+
+        const kutakata = g.validateMove("b3<*");
+        expect(kutakata.valid).to.be.false;
+        expect(kutakata.message).to.include("kutakata");
+
+        const wrongDir = g.validateMove("a3<");
+        expect(wrongDir.valid).to.be.false;
+        expect(wrongDir.message).to.include("not legal");
+        expect(wrongDir.message).to.include("a3");
+    });
+
+    it("validateMove explains kutakata when no capture", () => {
+        const g = new BaoGame();
+        g.currplayer = 1;
+        g.inhand = [16, 16];
+        g.houses = ["e2", "d3"];
+        g.board = [
+            [4, 0, 2, 1, 1, 0, 0, 0],
+            [0, 0, 2, 6, 0, 0, 0, 0],
+            [0, 0, 0, 0, 6, 1, 1, 0],
+            [0, 1, 2, 2, 2, 0, 1, 0],
+        ];
+        expect(g.moves().every(m => m.endsWith("*"))).to.be.true;
+
+        const captureStyle = g.validateMove("f2>");
+        expect(captureStyle.valid).to.be.false;
+        expect(captureStyle.message).to.include("kutakata");
     });
 
     it("Infinite loops", () => {

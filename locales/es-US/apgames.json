@@ -5282,11 +5282,15 @@
       "INITIAL_INSTRUCTIONS_mtaji|mtaji": "Selecciona uno de tus hoyos que contenga dos o más piedras para comenzar a sembrar. Hay una captura disponible.",
       "INITIAL_INSTRUCTIONS_namua|kutakata": "Selecciona uno de tus hoyos interiores que contenga piedras. Le agregarás una de las piedras de tu mano y luego comenzarás a sembrar. No hay capturas disponibles.",
       "INITIAL_INSTRUCTIONS_namua|mtaji": "Selecciona uno de tus hoyos interiores que contenga piedras. Le agregarás una de las piedras de tu mano y luego capturarás las piedras contrarias. Hay una captura disponible.",
+      "KUTAKATA_ONLY": "No hay capturas disponibles; debes sembrar (kutakata) desde uno de tus hoyos con dos o más piedras. Por ejemplo: {{examples}}.",
+      "MUST_CAPTURE": "La captura es obligatoria. Las capturas legales incluyen: {{examples}}.",
       "NEVER_SINGLE": "En la fase mtaji, nunca puedes comenzar tu movimiento desde un hoyo con solo una piedra.",
+      "NO_KUTAKATA_WHILE_CAPTURE": "No puedes realizar un movimiento kutakata mientras haya una captura disponible. Las capturas legales incluyen: {{examples}}.",
       "NO_BACK_ROW_mtaji": "En la fase mtaji, solo puedes comenzar desde la fila trasera si resulta en una captura o si no es posible hacer kutakata desde la fila delantera.",
       "NO_BACK_ROW_namua": "En la fase kunamua, no puedes comenzar desde tu fila trasera.",
       "PLAY_HOUSE": "Tu siembra ha terminado en tu nyumba. Puedes detenerte o \"ir de safari\" (esto convertirá tu nyumba en un hoyo estándar). Para continuar sembrando, haz clic en tu nyumba o escribe un signo \"+\" en el cuadro de entrada de movimientos.",
-      "TWO_PLUS": "Solo puedes comenzar un turno de kutakata en fase kunamua en un hoyo con una piedra si tienes una casa activa o si todo lo que tienes en la fila delantera son hoyos con piedras individuales."
+      "TWO_PLUS": "Solo puedes comenzar un turno de kutakata en fase kunamua en un hoyo con una piedra si tienes una casa activa o si todo lo que tienes en la fila delantera son hoyos con piedras individuales.",
+      "WRONG_CAPTURE": "Esa captura no es legal. Las capturas legales incluyen: {{examples}}."
     },
     "basalt": {
       "BAD_MOVE": "Las pilas no pueden moverse más allá de su altura y no pueden pasar sobre pilas controladas por tu oponente.",

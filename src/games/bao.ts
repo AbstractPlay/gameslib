@@ -831,6 +831,35 @@ export class BaoGame extends GameBase {
             return result;
         }
 
+        if (validMoves.length > 0) {
+            const examples = validMoves.join(", ");
+            const kutakataOnly = validMoves.every(mv => mv.endsWith("*"));
+            const captureAvailable = validMoves.some(mv => !mv.endsWith("*"));
+
+            if (captureAvailable && !kutakataOnly) {
+                if (m.endsWith("*")) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.bao.NO_KUTAKATA_WHILE_CAPTURE", {examples});
+                    return result;
+                }
+                const fromPit = validMoves.filter(mv => mv.startsWith(cell));
+                if (fromPit.length === 0) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.bao.MUST_CAPTURE", {examples});
+                    return result;
+                }
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.bao.WRONG_CAPTURE", {move: m, examples});
+                return result;
+            }
+
+            if (kutakataOnly && !m.endsWith("*")) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.bao.KUTAKATA_ONLY", {examples});
+                return result;
+            }
+        }
+
         // failsafe
         result.valid = false;
         result.message = i18next.t("apgames:validation._general.FAILSAFE", {move: m});

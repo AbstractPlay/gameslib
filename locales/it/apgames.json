@@ -5282,11 +5282,15 @@
       "INITIAL_INSTRUCTIONS_mtaji|mtaji": "Seleziona una delle tue buche che contiene due o più pietre per iniziare a seminare. È disponibile una cattura.",
       "INITIAL_INSTRUCTIONS_namua|kutakata": "Seleziona una delle tue buche interne che contiene pietre. Vi aggiungerai una delle tue pietre in mano e poi inizierai a seminare. Nessuna cattura è disponibile.",
       "INITIAL_INSTRUCTIONS_namua|mtaji": "Seleziona una delle tue buche interne che contiene pietre. Vi aggiungerai una delle tue pietre in mano e poi catturerai le pietre avversarie. È disponibile una cattura.",
+      "KUTAKATA_ONLY": "Nessuna cattura disponibile; devi seminare (kutakata) da una delle tue buche con due o più pietre. Per esempio: {{examples}}.",
+      "MUST_CAPTURE": "La cattura è obbligatoria. Le catture legali includono: {{examples}}.",
       "NEVER_SINGLE": "Nella fase mtaji, non puoi mai iniziare la tua mossa da una buca con una sola pietra.",
+      "NO_KUTAKATA_WHILE_CAPTURE": "Non puoi giocare una mossa kutakata quando è disponibile una cattura. Le catture legali includono: {{examples}}.",
       "NO_BACK_ROW_mtaji": "Nella fase mtaji, puoi iniziare dalla fila posteriore solo se ciò comporta una cattura o se nessun kutakata è possibile dalla fila anteriore.",
       "NO_BACK_ROW_namua": "Nella fase kunamua, non puoi iniziare dalla tua fila posteriore.",
       "PLAY_HOUSE": "La tua semina è terminata nella tua nyumba. Puoi fermarti o \"andare in safari\" (questo trasformerà la tua nyumba in una buca standard). Per continuare a seminare, fai clic sulla tua nyumba o digita un segno \"+\" nella casella d'inserimento mossa.",
-      "TWO_PLUS": "Puoi iniziare un turno di kutakata nella fase kunamua da una buca con una sola pietra solo se hai una casa attiva o se nella fila anteriore hai solo buche con pietre singole."
+      "TWO_PLUS": "Puoi iniziare un turno di kutakata nella fase kunamua da una buca con una sola pietra solo se hai una casa attiva o se nella fila anteriore hai solo buche con pietre singole.",
+      "WRONG_CAPTURE": "Quella cattura non è legale. Le catture legali includono: {{examples}}."
     },
     "basalt": {
       "BAD_MOVE": "Le pile non possono muoversi più lontano della loro altezza e non possono scavalcare pile controllate dal tuo avversario.",

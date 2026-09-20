@@ -5091,6 +5091,14 @@
     "src": "Select one of your inner pits that contains stones. You will add one of your in-hand stones to it and then capture the opposing stones. A capture is available.",
     "out": "Sélectionnez l'une de vos fosses intérieures qui contient des pierres. Vous y ajouterez une de vos pierres en main, puis vous capturerez les pierres adverses. Une capture est possible."
   },
+  "validation.bao.KUTAKATA_ONLY": {
+    "src": "No capture is available; you must sow (kutakata) from one of your pits with two or more stones. For example: {{examples}}.",
+    "out": "Aucune capture n'est possible ; vous devez égrener (kutakata) depuis l'un de vos trous contenant au moins deux pierres. Par exemple : {{examples}}."
+  },
+  "validation.bao.MUST_CAPTURE": {
+    "src": "A capture is mandatory. Legal captures include: {{examples}}.",
+    "out": "Une capture est obligatoire. Les captures autorisées incluent : {{examples}}."
+  },
   "validation.bao.NEVER_SINGLE": {
     "src": "In the mtaji phase, you may never start your move from a pit with only one stone.",
     "out": "Lors de la phase mtaji, vous ne pouvez jamais commencer votre coup depuis une fosse ne contenant qu'une seule pierre."
@@ -5103,6 +5111,10 @@
     "src": "In the kunamua phase, you may not start from your back row.",
     "out": "Lors de la phase kunamua, vous ne pouvez pas commencer depuis votre rangée arrière."
   },
+  "validation.bao.NO_KUTAKATA_WHILE_CAPTURE": {
+    "src": "You may not play a kutakata move while a capture is available. Legal captures include: {{examples}}.",
+    "out": "Vous ne pouvez pas jouer un coup kutakata lorsqu'une capture est possible. Les captures autorisées incluent : {{examples}}."
+  },
   "validation.bao.PLAY_HOUSE": {
     "src": "Your sowing has ended in your nyumba. You can stop or \"go on safari\" (this will turn your nyumba into a standard pit). To continue sowing, click your nyumba or type a \"+\" sign in the move entry box.",
     "out": "Votre semailles s'est terminée dans votre nyumba. Vous pouvez vous arrêter ou \"partir en safari\" (cela transformera votre nyumba en fosse ordinaire). Pour continuer à semer, cliquez sur votre nyumba ou tapez le signe \"+\" dans la zone de saisie du coup."
@@ -5110,6 +5122,10 @@
   "validation.bao.TWO_PLUS": {
     "src": "You may only begin a kunamua-phase kutakata turn in a pit with one stone if you have a working house or all you have in the front row are pits with single stones.",
     "out": "Vous ne pouvez commencer un tour de kutakata en phase kunamua dans une fosse d'une seule pierre que si vous avez une maison fonctionnelle ou si vous n'avez que des fosses à pierre unique sur la rangée avant."
+  },
+  "validation.bao.WRONG_CAPTURE": {
+    "src": "That capture is not legal. Legal captures include: {{examples}}.",
+    "out": "Cette capture n'est pas autorisée. Les captures autorisées incluent : {{examples}}."
   },
   "validation.basalt.BAD_MOVE": {
     "src": "Stacks may not move further than their height, and they may not pass over stacks controlled by your opponent.",

@@ -5259,7 +5259,7 @@
       "INITIAL_INSTRUCTIONS": "Wähle ein Chevron zum Bewegen aus.",
       "NEED_DESTINATION": "Wähle das Ziel aus (gültige Ziele sind hervorgehoben).",
       "NO_CAPTURES": "Du darfst nicht auf ein Feld mit einem anderen Chevron ziehen.",
-      "REORIENT": "Klicke auf ein benachbartes Feld oder eine Randzone, um die Richtung auszuwählen, in die du blicken möchtest.",
+      "REORIENT": "Klicke auf ein benachbartes Feld oder eine Randzone, um die gewünschte Ausrichtung zu wählen, oder klicke auf \"Zug beenden\", um weiterhin geradeaus zu blicken.",
       "TOO_FAR": "Du kannst dich nicht weiter bewegen als deine Bewegungsreichweite (derzeit {{pom}})."
     },
     "baghchal": {

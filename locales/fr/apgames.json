@@ -5259,7 +5259,7 @@
       "INITIAL_INSTRUCTIONS": "Sélectionnez un chevron à déplacer.",
       "NEED_DESTINATION": "Sélectionnez la destination (les cibles valides sont mises en surbrillance).",
       "NO_CAPTURES": "Vous ne pouvez pas vous déplacer sur une case occupée par un autre chevron.",
-      "REORIENT": "Cliquez sur une case voisine ou une zone de bordure pour sélectionner la direction vers laquelle vous souhaitez vous orienter, ou cliquez sur \"Terminer le coup\" pour continuer à pointer tout droit.",
+      "REORIENT": "Cliquez sur une case voisine ou une zone de bordure pour sélectionner la direction dans laquelle vous souhaitez vous orienter, ou cliquez sur \"Terminer le coup\" pour continuer à pointer droit devant.",
       "TOO_FAR": "Vous ne pouvez pas vous déplacer plus loin que votre puissance de mouvement (actuellement {{pom}})."
     },
     "baghchal": {

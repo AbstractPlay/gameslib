@@ -5259,7 +5259,7 @@
       "INITIAL_INSTRUCTIONS": "Seleziona uno chevron da muovere.",
       "NEED_DESTINATION": "Seleziona la destinazione (i bersagli validi sono evidenziati).",
       "NO_CAPTURES": "Non puoi muoverti su una casella contenente un altro chevron.",
-      "REORIENT": "Fai clic su una casella adiacente o su una zona di bordo per selezionare la direzione verso cui orientarti, oppure fai clic su \"Completa mossa\" per continuare a puntare dritto.",
+      "REORIENT": "Clicca su una casella adiacente o una zona perimetrale per scegliere la direzione in cui orientarti, oppure clicca su \"Completa mossa\" per continuare a puntare in avanti.",
       "TOO_FAR": "Non puoi muoverti più lontano del tuo potere di movimento (attualmente {{pom}})."
     },
     "baghchal": {

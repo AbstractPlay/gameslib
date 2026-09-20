@@ -62,5 +62,61 @@ describe("Owlman", () => {
         expect(allcaps).to.be.true;
         expect(allMoves).to.have.members(["h1xb3", "h1xc6"]);
     });
+
+    function scareStepPosition(): OwlmanGame {
+        const g = new OwlmanGame();
+        g.board.clear();
+        g.board.set("h1", "D");
+        g.board.set("a8", "H");
+        g.board.set("a6", "O");
+        g.board.set("c4", "H");
+        g.currplayer = 2;
+        return g;
+    }
+
+    it("incidental scare notation on step", () => {
+        const g = scareStepPosition();
+        expect(g.moves()).to.include("a6-b5");
+        expect(g.moves()).to.not.include("a6-b5(xc4)");
+
+        const v = g.validateMove("a6-b5");
+        expect(v.valid).to.be.true;
+        expect(v.complete).to.equal(1);
+
+        const [a6x, a6y] = OwlmanGame.algebraic2coords("a6");
+        const [b5x, b5y] = OwlmanGame.algebraic2coords("b5");
+        const clickFrom = g.handleClick("", a6y, a6x);
+        expect(clickFrom.valid).to.be.true;
+        const clickTo = g.handleClick(clickFrom.move!, b5y, b5x);
+        expect(clickTo.valid).to.be.true;
+        expect(clickTo.complete).to.equal(1);
+        expect(clickTo.move).to.equal("a6-b5(xc4)");
+
+        const bare = scareStepPosition();
+        bare.move("a6-b5");
+        expect(bare.lastmove).to.equal("a6-b5(xc4)");
+        expect(bare.board.has("c4")).to.be.false;
+
+        const annotated = scareStepPosition();
+        annotated.move("a6-b5(xc4)");
+        expect(annotated.lastmove).to.equal("a6-b5(xc4)");
+        expect(annotated.board.has("c4")).to.be.false;
+        expect([...annotated.board.entries()]).to.deep.equal([...bare.board.entries()]);
+        expect(annotated.currplayer).to.equal(bare.currplayer);
+    });
+
+    it("rejects wrong incidental capture suffix", () => {
+        const g = scareStepPosition();
+        const v = g.validateMove("a6-b5(xd4)");
+        expect(v.valid).to.be.false;
+    });
+
+    it("round-trips stack with annotated lastmove", () => {
+        const g = scareStepPosition();
+        g.move("a6-b5(xc4)");
+        const reloaded = new OwlmanGame(g.serialize());
+        expect(reloaded.stack[reloaded.stack.length - 1].lastmove).to.equal("a6-b5(xc4)");
+        expect(reloaded.board.has("c4")).to.be.false;
+    });
 });
 

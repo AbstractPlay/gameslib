@@ -319,6 +319,14 @@ export class AzacruGame extends GameBase {
             }
             let newmove: string;
 
+            // Complete move while optional reorientation is pending (same as "straight ahead")
+            if (row < 0 && col < 0 && move.endsWith("*")) {
+                newmove = move.substring(0, move.length - 1) + "^";
+                const result = this.validateMove(newmove) as IClickResult;
+                result.move = newmove;
+                return result;
+            }
+
             // empty move means selecting a chevron to move
             if (move === "" && cell !== undefined) {
                 const contents = this.board.get(cell);
@@ -525,7 +533,7 @@ export class AzacruGame extends GameBase {
             }
             // if it is, then proceed
             result.valid = true;
-            result.complete = -1;
+            result.complete = 0;
             result.canrender = true;
             result.message = i18next.t("apgames:validation.azacru.REORIENT")
             return result;
@@ -638,7 +646,7 @@ export class AzacruGame extends GameBase {
             else {
                 if (sideEffects.has("blChange") && orientation === undefined) {
                     result.valid = true;
-                    result.complete = -1;
+                    result.complete = 0;
                     result.canrender = true;
                     result.message = i18next.t("apgames:validation.azacru.REORIENT")
                     return result;
@@ -772,6 +780,10 @@ export class AzacruGame extends GameBase {
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
+        // Submitting with optional reorientation still pending means "straight ahead"
+        if (! partial && m.endsWith("*")) {
+            m = m.substring(0, m.length - 1) + "^";
+        }
         if (! trusted) {
             const result = this.validateMove(m);
             if (! result.valid) {

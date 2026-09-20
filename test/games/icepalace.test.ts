@@ -313,7 +313,14 @@ describe("Ice Palace: scoring and ending", () => {
 });
 
 describe("Ice Palace: board interaction", () => {
-    type Rep = { pieces: string[][][]; areas?: { pieces: string[] }[]; annotations?: { type: string; targets: { row: number; col: number }[] }[] };
+    type Rep = {
+        renderer?: string;
+        board?: { width: number; height: number; stackOffset?: number };
+        legend?: { [k: string]: { name?: string; opacity?: number } };
+        pieces: string[][][];
+        areas?: { type?: string; pieces?: string[]; stash?: string[][] }[];
+        annotations?: { type: string; targets: { row: number; col: number }[] }[];
+    };
 
     /** Board row and column at which a cell's stack is drawn. */
     const drawnAt = (rep: Rep, piece: string): [number, number] => {
@@ -471,6 +478,101 @@ describe("Ice Palace: board interaction", () => {
         // Completing the placement clears the dots.
         g.move("1S@1,0");
         expect(dotted(g.render() as Rep)).to.deep.equal([]);
+    });
+});
+
+describe("Ice Palace: expanding display", () => {
+    type Rep = {
+        renderer?: string;
+        board?: { width: number; height: number; stackOffset?: number } | null;
+        legend?: { [k: string]: { name?: string; opacity?: number } };
+        pieces: string[][][] | null;
+        areas?: { type?: string; pieces?: string[]; stash?: string[][]; stack?: string[] }[];
+    };
+    const expanding = (g: IcePalaceGame): Rep => g.render({ altDisplay: "expanding" }) as unknown as Rep;
+
+    it("is declared, and turns rotation off for both displays", () => {
+        expect(IcePalaceGame.gameinfo.displays).to.deep.equal([{ uid: "expanding" }]);
+        expect(IcePalaceGame.gameinfo.flags).to.include("stacking-expanding");
+        expect(IcePalaceGame.gameinfo.flags).to.include("custom-rotation");
+        expect(new IcePalaceGame(3).getCustomRotation()).to.equal(0);
+    });
+
+    it("looks straight down at the same footprint, with translucent stacks and no placeholders", () => {
+        const g = rig(new IcePalaceGame(3), [["1M", "1L"], ["1S"], ["3S"]], fatPool());
+        g.move("1M@0,0");
+        g.move("1S@1,0");
+        g.palace = new Map([["0,0", ["2L", "1M"]]]);
+        const flat = expanding(g);
+        const deep = g.render() as unknown as Rep;
+        expect(flat.renderer).to.equal("stacking-expanding");
+        expect(flat.board).to.deep.include({ width: deep.board!.width, height: deep.board!.height });
+        expect(flat.board!.stackOffset).to.be.undefined;
+        for (const line of flat.pieces!) {
+            for (const stack of line) {
+                expect(stack).to.not.include("-");
+            }
+        }
+        // The Palace stack is listed bottom first, drawn from above.
+        expect(flat.pieces![3][7 + 2 + 3]).to.deep.equal(["p2L", "p1M"]);
+        expect(flat.legend!.p2L).to.deep.equal({ name: "pyramid-up-large-upscaled", colour: 2, opacity: 0.75 });
+        expect(flat.legend!.p1M).to.deep.equal({ name: "pyramid-up-medium-upscaled", colour: 1, opacity: 0.75 });
+    });
+
+    it("offers the hand, then the stock, as nests of one colour each below the board", () => {
+        const g = rig(new IcePalaceGame(3), [["1M"], ["2S", "1L", "2L", "WS", "2S"], ["3S"]], fatPool());
+        g.move("1M@0,0");
+        let rep = expanding(g);
+        expect(rep.areas).to.have.length(1);
+        expect(rep.areas![0].type).to.equal("localStash");
+        // Player 2's hand: a nest per colour, largest at the bottom, in colour order.
+        expect(rep.areas![0].stash).to.deep.equal([["s1L"], ["s2L", "s2S", "s2S"], ["sWS"]]);
+        expect(rep.legend!.s2L).to.deep.equal({ name: "pyramid-flattened-large", colour: 2 });
+        expect(rep.legend!.sWS).to.deep.equal({ name: "pyramid-flattened-small", colour: "#ffffff" });
+        // A click on a nested pyramid picks it, like a click in the pieces area.
+        expect(g.handleClick("", -1, -1, "s2S").move).to.equal("2S");
+        // During the build the stock is offered the same way.
+        g.phase = "build";
+        g.currplayer = 1;
+        g.stock = ["3M", "1S", "3L"];
+        g.buildMin = 0;
+        rep = expanding(g);
+        expect(rep.areas![0].type).to.equal("localStash");
+        expect(rep.areas![0].stash).to.deep.equal([["s1S"], ["s3L", "s3M"]]);
+    });
+
+    it("still dots the legal cells once a pyramid is picked", () => {
+        const g = rig(new IcePalaceGame(3), [["1M"], ["1S"], ["3S"]], fatPool());
+        g.move("1M@0,0");
+        g.move("1S", { partial: true });
+        const rep = expanding(g);
+        const dotted: string[] = [];
+        rep.pieces!.forEach((line, row) => line.forEach((stack, col) => {
+            if (stack.includes("dot")) {
+                dotted.push(`${row},${col}`);
+            }
+        }));
+        expect(dotted.sort()).to.deep.equal(["2,3", "3,2", "3,4", "4,3"]);
+    });
+
+    it("lays out the hovered stack beside the board, bottom first, from the side", () => {
+        const g = rig(new IcePalaceGame(3), [["1M", "1L"], ["1S"], ["3S"]], fatPool());
+        g.move("1M@0,0");
+        g.move("1S@1,0");
+        g.palace = new Map([["0,0", ["2L", "1M"]]]);
+        // The Yard's origin sits at the centre of the left region.
+        let rep = g.renderColumn(3, 3) as unknown as Rep;
+        expect(rep.renderer).to.equal("stacking-expanding");
+        expect(rep.board).to.be.null;
+        expect(rep.areas).to.deep.equal([{ type: "expandedColumn", stack: ["c1M"] }]);
+        expect(rep.legend!.c1M).to.deep.equal({ name: "pyramid-flat-medium", colour: 1 });
+        // The Palace can be looked into during a hand too.
+        rep = g.renderColumn(7 + 2 + 3, 3) as unknown as Rep;
+        expect(rep.areas).to.deep.equal([{ type: "expandedColumn", stack: ["c2L", "c1M"] }]);
+        expect(Object.keys(rep.legend!).sort()).to.deep.equal(["c1M", "c2L"]);
+        // An empty cell, and the gap between the structures, show nothing.
+        expect((g.renderColumn(0, 0) as unknown as Rep).areas).to.deep.equal([{ type: "expandedColumn", stack: [] }]);
+        expect((g.renderColumn(7, 3) as unknown as Rep).areas).to.deep.equal([{ type: "expandedColumn", stack: [] }]);
     });
 });
 

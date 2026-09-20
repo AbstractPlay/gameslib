@@ -1,7 +1,7 @@
 import { IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IStatus, IValidationResult, StatusValue } from "./_base.js";
 import { GameBaseSequenced } from "./_turn-sequenced.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
-import { APRenderRep, AreaPieces, Glyph } from "@abstractplay/renderer/build/schemas/schema";
+import { APRenderRep, AreaPieces, AreaStackingExpanded, AreaVolcanoStash, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
@@ -552,6 +552,10 @@ const MIN_REACH = 2;
 const STACK_OFFSET = 0.15;
 /** Legend key of the marker drawn on every legal cell once a pyramid is picked. */
 const DOT_KEY = "dot";
+/** Seen from above, a stack's pyramids overlap; this lets the lower ones show through. */
+const TOP_OPACITY = 0.75;
+/** How a pyramid is drawn: in perspective, from above, from the side, or nested in a stash. */
+type PyramidView = "3D" | "top" | "side" | "nest";
 
 /** Where one structure sits on the shared board. */
 interface IRegion {
@@ -638,7 +642,8 @@ export class IcePalaceGame extends GameBaseSequenced {
             "components>pyramids",
             "other>2+players",
         ],
-        flags: ["experimental", "scores", "autopass"],
+        flags: ["experimental", "scores", "autopass", "stacking-expanding", "custom-rotation"],
+        displays: [{ uid: "expanding" }],
     };
 
     public numplayers = 3;
@@ -1262,10 +1267,12 @@ export class IcePalaceGame extends GameBaseSequenced {
 
     /**
      * Legend keys double as SVG element ids, and an id that starts with a digit is not a
-     * valid selector in a real browser, so the pyramid id gets a letter in front.
+     * valid selector in a real browser, so the pyramid id gets a letter in front. A piece
+     * drawn two ways on one board needs two keys, so the letter says where it is drawn:
+     * `p` on the board, `s` in the stash below it, `c` in the hovered column.
      */
-    private static legendKey(piece: PieceId): string {
-        return `p${piece}`;
+    private static legendKey(piece: PieceId, where: "board" | "stash" | "column" = "board"): string {
+        return `${where === "board" ? "p" : where === "stash" ? "s" : "c"}${piece}`;
     }
 
     /**
@@ -1303,16 +1310,36 @@ export class IcePalaceGame extends GameBaseSequenced {
         return column;
     }
 
-    private glyphFor(piece: PieceId): Glyph {
-        const name = `pyramid-up-${SIZE_NAMES[sizeOf(piece) - 1]}-3D`;
+    private glyphFor(piece: PieceId, view: PyramidView = "3D"): Glyph {
+        const size = SIZE_NAMES[sizeOf(piece) - 1];
+        const name =
+            view === "3D" ? `pyramid-up-${size}-3D`
+            : view === "top" ? `pyramid-up-${size}-upscaled`
+            : view === "side" ? `pyramid-flat-${size}`
+            : `pyramid-flattened-${size}`;
         const colour = colourOf(piece);
-        if (colour === NULL_COLOUR) {
-            return { name, colour: "#000000" };
+        const glyph: Glyph = {
+            name,
+            colour: colour === NULL_COLOUR ? "#000000" : colour === WILD_COLOUR ? "#ffffff" : Number(colour),
+        };
+        if (view === "top") {
+            glyph.opacity = TOP_OPACITY;
         }
-        if (colour === WILD_COLOUR) {
-            return { name, colour: "#ffffff" };
+        return glyph;
+    }
+
+    /** The offered pyramids gathered into nests, one per colour, largest at the bottom. */
+    private static nests(offered: PieceId[]): PieceId[][] {
+        const byColour = new Map<string, PieceId[]>();
+        for (const piece of [...offered].sort(pieceSort)) {
+            const nest = byColour.get(colourOf(piece));
+            if (nest === undefined) {
+                byColour.set(colourOf(piece), [piece]);
+            } else {
+                nest.push(piece);
+            }
         }
-        return { name, colour: Number(colour) };
+        return [...byColour.values()].map(nest => nest.sort((a, b) => sizeOf(b) - sizeOf(a)));
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -1320,9 +1347,9 @@ export class IcePalaceGame extends GameBaseSequenced {
         try {
             const current = IcePalaceGame.normalise(move);
             let newmove: string;
-            const picked = piece === undefined ? undefined : /^P?([1-6BW][SML])$/.exec(piece.toUpperCase());
+            const picked = piece === undefined ? undefined : /^[A-Z]?([1-6BW][SML])$/.exec(piece.toUpperCase());
             if (picked !== null && picked !== undefined) {
-                // The pieces area hands back the legend key, which names the pyramid.
+                // The pieces area, or the stash, hands back the legend key, which names the pyramid.
                 newmove = this.appendToken(current, picked[1]);
             } else {
                 // Anything else is a board click: an empty cell, or a pyramid already in a
@@ -1380,14 +1407,20 @@ export class IcePalaceGame extends GameBaseSequenced {
     }
 
     /**
-     * One perspective board holds both structures: the Palace on the left and, while a hand
-     * is being played, the Yard to its right. During the build the Yard has already been
-     * taken up into the stock, which is offered in the pieces area instead. The pieces area
-     * is where the current player picks a pyramid from; every hand is also listed in the
-     * status panel.
+     * One board holds both structures: the Yard on the left while a hand is being played,
+     * and the Palace on the right. During the build the Yard has already been taken up into
+     * the stock, which is offered below the board instead of the current player's hand.
+     * That area is where the current player picks a pyramid from; every hand is also listed
+     * in the status panel.
+     *
+     * The default display is the perspective one, with a pieces area below the board. The
+     * "expanding" display looks straight down instead, with each stack's pyramids drawn
+     * translucently over one another and hovering a cell laying its stack out beside the
+     * board (see `renderColumn`). That renderer draws no pieces area, so there the offered
+     * pyramids are a local stash of nests, one per colour.
      */
     public render(opts?: IRenderOpts): APRenderRep {
-        void opts;
+        const expanding = opts?.altDisplay === "expanding";
         const layout = this.layout();
         const legend: { [k: string]: Glyph } = {};
         const pieces: string[][][] = [];
@@ -1405,42 +1438,54 @@ export class IcePalaceGame extends GameBaseSequenced {
                 for (const piece of stack) {
                     const key = IcePalaceGame.legendKey(piece);
                     if (!(key in legend)) {
-                        legend[key] = this.glyphFor(piece);
+                        legend[key] = this.glyphFor(piece, expanding ? "top" : "3D");
                     }
                 }
-                pieces[row][col] = IcePalaceGame.stackColumn(stack);
+                pieces[row][col] = expanding
+                    ? stack.map(piece => IcePalaceGame.legendKey(piece))
+                    : IcePalaceGame.stackColumn(stack);
             }
         }
 
         const offered = this.phase === "build" ? this.stock : this.handOf(this.currplayer);
-        for (const piece of offered) {
-            const key = IcePalaceGame.legendKey(piece);
-            if (!(key in legend)) {
-                legend[key] = this.glyphFor(piece);
+        // i18next.t("apgames:icepalace.STOCK")
+        // i18next.t("apgames:icepalace.HAND")
+        const label = this.phase === "build"
+            ? this.neutralAreaLabel("apgames:icepalace.STOCK")
+            : this.seatAreaLabel(this.currplayer, "apgames:icepalace.HAND");
+        const areas: (AreaPieces | AreaVolcanoStash)[] = [];
+        if (offered.length > 0 && expanding) {
+            const stash = IcePalaceGame.nests(offered).map(nest => nest.map(piece => {
+                const key = IcePalaceGame.legendKey(piece, "stash");
+                if (!(key in legend)) {
+                    legend[key] = this.glyphFor(piece, "nest");
+                }
+                return key;
+            }));
+            areas.push({ type: "localStash", label, stash });
+        } else if (offered.length > 0) {
+            for (const piece of offered) {
+                const key = IcePalaceGame.legendKey(piece);
+                if (!(key in legend)) {
+                    legend[key] = this.glyphFor(piece);
+                }
             }
-        }
-        const areas: AreaPieces[] = [];
-        if (offered.length > 0) {
             areas.push({
                 type: "pieces",
                 pieces: offered.map(piece => IcePalaceGame.legendKey(piece)) as [string, ...string[]],
-                // i18next.t("apgames:icepalace.STOCK")
-                // i18next.t("apgames:icepalace.HAND")
-                label: this.phase === "build"
-                    ? this.neutralAreaLabel("apgames:icepalace.STOCK")
-                    : this.seatAreaLabel(this.currplayer, "apgames:icepalace.HAND"),
+                label,
                 ownerMark: this.currplayer,
             });
         }
 
         const rep: APRenderRep = {
-            renderer: "stacking-3D",
+            renderer: expanding ? "stacking-expanding" : "stacking-3D",
             options: ["hide-labels"],
             board: {
                 style: "squares",
                 width: layout.width,
                 height: layout.height,
-                stackOffset: STACK_OFFSET,
+                stackOffset: expanding ? undefined : STACK_OFFSET,
             },
             legend,
             pieces: pieces as [string[][], ...string[][][]],
@@ -1450,7 +1495,8 @@ export class IcePalaceGame extends GameBaseSequenced {
         // Once a pyramid is picked, dot every cell it could legally go. The renderer's own
         // "dots" annotation is drawn flat on the page instead of on the perspective board,
         // so each dot is a small glyph put where the pyramid would land: on the ground of
-        // an empty cell, or on top of the stack it could join.
+        // an empty cell, or on top of the stack it could join. The same glyph serves the
+        // top-down display, where it sits over the translucent stack.
         if (this.selected !== undefined) {
             const active = this.phase === "build" ? "palace" : "yard";
             const region = layout.regions.find(r => r.which === active);
@@ -1465,6 +1511,32 @@ export class IcePalaceGame extends GameBaseSequenced {
             }
         }
         return rep;
+    }
+
+    /**
+     * The stack under the hovered cell, for the expanding display: the front draws it beside
+     * the board, bottom of the stack first, as side-on pyramids. Either structure can be
+     * looked into, and the gap between them, or an empty cell, shows nothing.
+     */
+    public renderColumn(col: number, row: number): APRenderRep {
+        const found = this.locate(row, col);
+        const stack = found === undefined
+            ? []
+            : (found.which === "palace" ? this.palace : this.yard).get(found.cell) ?? [];
+        const legend: { [k: string]: Glyph } = {};
+        const keys = stack.map(piece => {
+            const key = IcePalaceGame.legendKey(piece, "column");
+            legend[key] = this.glyphFor(piece, "side");
+            return key;
+        });
+        const column: AreaStackingExpanded = { type: "expandedColumn", stack: keys };
+        return {
+            renderer: "stacking-expanding",
+            board: null,
+            legend,
+            pieces: null,
+            areas: [column],
+        };
     }
 
     /** Where a structure cell lands on the board, as `[row, col]`. */
@@ -1506,30 +1578,44 @@ export class IcePalaceGame extends GameBaseSequenced {
         return { regions, width: col0 - GAP, height };
     }
 
+    /** Which structure a board position lies in, and which of its cells; the gap is undefined. */
+    private locate(row: number, col: number): { which: "palace" | "yard"; cell: Cell } | undefined {
+        const layout = this.layout();
+        for (const region of layout.regions) {
+            if (col < region.col0 || col >= region.col0 + region.cols) {
+                continue;
+            }
+            return {
+                which: region.which,
+                cell: cellOf(region.minX + (col - region.col0), region.minY + (layout.height - 1 - row)),
+            };
+        }
+        return undefined;
+    }
+
     /**
      * Which cell a board click landed on. Only the structure being built into this phase
      * takes placements, so a click on the other one, or in the gap, is undefined.
      */
     private cellAt(row: number, col: number): Cell | undefined {
-        const layout = this.layout();
+        const found = this.locate(row, col);
         const active = this.phase === "build" ? "palace" : "yard";
-        for (const region of layout.regions) {
-            if (col < region.col0 || col >= region.col0 + region.cols) {
-                continue;
-            }
-            if (region.which !== active) {
-                return undefined;
-            }
-            // The lead goes in the middle: a click anywhere in an empty region is the origin.
-            if ((active === "palace" ? this.palace : this.yard).size === 0) {
-                return cellOf(0, 0);
-            }
-            return cellOf(
-                region.minX + (col - region.col0),
-                region.minY + (layout.height - 1 - row),
-            );
+        if (found === undefined || found.which !== active) {
+            return undefined;
         }
-        return undefined;
+        // The lead goes in the middle: a click anywhere in an empty region is the origin.
+        if ((active === "palace" ? this.palace : this.yard).size === 0) {
+            return cellOf(0, 0);
+        }
+        return found.cell;
+    }
+
+    /**
+     * Neither display can turn: the perspective renderer cannot rotate, and the top-down
+     * one ignores rotation, so without this the front would offer buttons that do nothing.
+     */
+    public getCustomRotation(): number | undefined {
+        return 0;
     }
 
     public getPlayerColour(player: number): number {

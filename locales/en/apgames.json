@@ -4469,6 +4469,12 @@
                 "description": "Display the board using vertices instead of hexes."
             }
         },
+        "icepalace": {
+            "expanding": {
+                "description": "Looks straight down on the Yard and the Palace, with each stack's pyramids drawn over one another. Hover over a cell to see its stack laid out beside the board.",
+                "name": "Expanding"
+            }
+        },
         "intermedium": {
             "hide-diagonals": {
                 "description": "Don't show diagonal lines.",

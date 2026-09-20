@@ -5282,11 +5282,15 @@
       "INITIAL_INSTRUCTIONS_mtaji|mtaji": "Sélectionnez l'une de vos fosses contenant au moins deux pierres pour commencer à semer. Une capture est possible.",
       "INITIAL_INSTRUCTIONS_namua|kutakata": "Sélectionnez l'une de vos fosses intérieures qui contient des pierres. Vous y ajouterez une de vos pierres en main, puis vous commencerez à semer. Aucune capture n'est possible.",
       "INITIAL_INSTRUCTIONS_namua|mtaji": "Sélectionnez l'une de vos fosses intérieures qui contient des pierres. Vous y ajouterez une de vos pierres en main, puis vous capturerez les pierres adverses. Une capture est possible.",
+      "KUTAKATA_ONLY": "Aucune capture n'est possible ; vous devez égrener (kutakata) depuis l'un de vos trous contenant au moins deux pierres. Par exemple : {{examples}}.",
+      "MUST_CAPTURE": "Une capture est obligatoire. Les captures autorisées incluent : {{examples}}.",
       "NEVER_SINGLE": "Lors de la phase mtaji, vous ne pouvez jamais commencer votre coup depuis une fosse ne contenant qu'une seule pierre.",
+      "NO_KUTAKATA_WHILE_CAPTURE": "Vous ne pouvez pas jouer un coup kutakata lorsqu'une capture est possible. Les captures autorisées incluent : {{examples}}.",
       "NO_BACK_ROW_mtaji": "Lors de la phase mtaji, vous ne pouvez commencer depuis la rangée arrière que si cela entraîne une capture ou si aucun kutakata n'est possible depuis la rangée avant.",
       "NO_BACK_ROW_namua": "Lors de la phase kunamua, vous ne pouvez pas commencer depuis votre rangée arrière.",
       "PLAY_HOUSE": "Votre semailles s'est terminée dans votre nyumba. Vous pouvez vous arrêter ou \"partir en safari\" (cela transformera votre nyumba en fosse ordinaire). Pour continuer à semer, cliquez sur votre nyumba ou tapez le signe \"+\" dans la zone de saisie du coup.",
-      "TWO_PLUS": "Vous ne pouvez commencer un tour de kutakata en phase kunamua dans une fosse d'une seule pierre que si vous avez une maison fonctionnelle ou si vous n'avez que des fosses à pierre unique sur la rangée avant."
+      "TWO_PLUS": "Vous ne pouvez commencer un tour de kutakata en phase kunamua dans une fosse d'une seule pierre que si vous avez une maison fonctionnelle ou si vous n'avez que des fosses à pierre unique sur la rangée avant.",
+      "WRONG_CAPTURE": "Cette capture n'est pas autorisée. Les captures autorisées incluent : {{examples}}."
     },
     "basalt": {
       "BAD_MOVE": "Les piles ne peuvent pas se déplacer plus loin que leur hauteur, et elles ne peuvent pas passer par-dessus les piles contrôlées par votre adversaire.",

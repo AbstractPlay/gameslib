@@ -5091,6 +5091,14 @@
     "src": "Select one of your inner pits that contains stones. You will add one of your in-hand stones to it and then capture the opposing stones. A capture is available.",
     "out": "Seleziona una delle tue buche interne che contiene pietre. Vi aggiungerai una delle tue pietre in mano e poi catturerai le pietre avversarie. È disponibile una cattura."
   },
+  "validation.bao.KUTAKATA_ONLY": {
+    "src": "No capture is available; you must sow (kutakata) from one of your pits with two or more stones. For example: {{examples}}.",
+    "out": "Nessuna cattura disponibile; devi seminare (kutakata) da una delle tue buche con due o più pietre. Per esempio: {{examples}}."
+  },
+  "validation.bao.MUST_CAPTURE": {
+    "src": "A capture is mandatory. Legal captures include: {{examples}}.",
+    "out": "La cattura è obbligatoria. Le catture legali includono: {{examples}}."
+  },
   "validation.bao.NEVER_SINGLE": {
     "src": "In the mtaji phase, you may never start your move from a pit with only one stone.",
     "out": "Nella fase mtaji, non puoi mai iniziare la tua mossa da una buca con una sola pietra."
@@ -5103,6 +5111,10 @@
     "src": "In the kunamua phase, you may not start from your back row.",
     "out": "Nella fase kunamua, non puoi iniziare dalla tua fila posteriore."
   },
+  "validation.bao.NO_KUTAKATA_WHILE_CAPTURE": {
+    "src": "You may not play a kutakata move while a capture is available. Legal captures include: {{examples}}.",
+    "out": "Non puoi giocare una mossa kutakata quando è disponibile una cattura. Le catture legali includono: {{examples}}."
+  },
   "validation.bao.PLAY_HOUSE": {
     "src": "Your sowing has ended in your nyumba. You can stop or \"go on safari\" (this will turn your nyumba into a standard pit). To continue sowing, click your nyumba or type a \"+\" sign in the move entry box.",
     "out": "La tua semina è terminata nella tua nyumba. Puoi fermarti o \"andare in safari\" (questo trasformerà la tua nyumba in una buca standard). Per continuare a seminare, fai clic sulla tua nyumba o digita un segno \"+\" nella casella d'inserimento mossa."
@@ -5110,6 +5122,10 @@
   "validation.bao.TWO_PLUS": {
     "src": "You may only begin a kunamua-phase kutakata turn in a pit with one stone if you have a working house or all you have in the front row are pits with single stones.",
     "out": "Puoi iniziare un turno di kutakata nella fase kunamua da una buca con una sola pietra solo se hai una casa attiva o se nella fila anteriore hai solo buche con pietre singole."
+  },
+  "validation.bao.WRONG_CAPTURE": {
+    "src": "That capture is not legal. Legal captures include: {{examples}}.",
+    "out": "Quella cattura non è legale. Le catture legali includono: {{examples}}."
   },
   "validation.basalt.BAD_MOVE": {
     "src": "Stacks may not move further than their height, and they may not pass over stacks controlled by your opponent.",

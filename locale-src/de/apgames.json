@@ -5091,6 +5091,14 @@
     "src": "Select one of your inner pits that contains stones. You will add one of your in-hand stones to it and then capture the opposing stones. A capture is available.",
     "out": "Wähle eine deiner inneren Mulden, die Steine enthält. Du fügst ihr einen deiner Handsteine hinzu und schlägst dann die gegnerischen Steine. Ein Schlagzug ist verfügbar."
   },
+  "validation.bao.KUTAKATA_ONLY": {
+    "src": "No capture is available; you must sow (kutakata) from one of your pits with two or more stones. For example: {{examples}}.",
+    "out": "Es ist kein Schlagen möglich; du musst aus einer deiner Mulden mit zwei oder mehr Steinen säen (Kutakata). Zum Beispiel: {{examples}}."
+  },
+  "validation.bao.MUST_CAPTURE": {
+    "src": "A capture is mandatory. Legal captures include: {{examples}}.",
+    "out": "Schlagen ist Pflicht. Gültige Schlagzüge sind: {{examples}}."
+  },
   "validation.bao.NEVER_SINGLE": {
     "src": "In the mtaji phase, you may never start your move from a pit with only one stone.",
     "out": "In der Mtaji-Phase darfst du deinen Zug niemals von einer Mulde mit nur einem Stein beginnen."
@@ -5103,6 +5111,10 @@
     "src": "In the kunamua phase, you may not start from your back row.",
     "out": "In der Kunamua-Phase darfst du nicht von deiner hinteren Reihe beginnen."
   },
+  "validation.bao.NO_KUTAKATA_WHILE_CAPTURE": {
+    "src": "You may not play a kutakata move while a capture is available. Legal captures include: {{examples}}.",
+    "out": "Du darfst keinen Kutakata-Zug ausführen, solange ein Schlagen möglich ist. Gültige Schlagzüge sind: {{examples}}."
+  },
   "validation.bao.PLAY_HOUSE": {
     "src": "Your sowing has ended in your nyumba. You can stop or \"go on safari\" (this will turn your nyumba into a standard pit). To continue sowing, click your nyumba or type a \"+\" sign in the move entry box.",
     "out": "Dein Säen hat in deiner Nyumba geendet. Du kannst anhalten oder \"auf Safari gehen\" (dadurch wird deine Nyumba zu einer normalen Mulde). Um das Säen fortzusetzen, klicke auf deine Nyumba oder gib ein \"+\"-Zeichen im Zug-Eingabefeld ein."
@@ -5110,6 +5122,10 @@
   "validation.bao.TWO_PLUS": {
     "src": "You may only begin a kunamua-phase kutakata turn in a pit with one stone if you have a working house or all you have in the front row are pits with single stones.",
     "out": "Du darfst einen Kutakata-Zug der Kunamua-Phase nur dann in einer Mulde mit einem Stein beginnen, wenn du ein aktives Haus hast oder sich in der vorderen Reihe nur Mulden mit einzelnen Steinen befinden."
+  },
+  "validation.bao.WRONG_CAPTURE": {
+    "src": "That capture is not legal. Legal captures include: {{examples}}.",
+    "out": "Dieser Schlagzug ist nicht regelkonform. Gültige Schlagzüge sind: {{examples}}."
   },
   "validation.basalt.BAD_MOVE": {
     "src": "Stacks may not move further than their height, and they may not pass over stacks controlled by your opponent.",

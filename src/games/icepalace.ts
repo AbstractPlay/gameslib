@@ -533,7 +533,16 @@ export type Phase = "hand" | "build";
 /** Empty cells kept around each structure, so there is somewhere to click when founding. */
 const PADDING = 1;
 /** Empty columns separating the Palace from the Yard when both are on the board. */
-const GAP = 1;
+const GAP = 2;
+/**
+ * Each structure's region always covers at least the cells within this reach of the origin,
+ * where the first pyramid goes. stacking-3D refits its perspective to the board size, so a
+ * board that changed shape after every placement would lurch each turn; this lets a structure
+ * grow in any direction for a while before the board has to change, and beyond that the
+ * board grows only in the direction the structure did. A reach of 2 is a 5-cell span, or
+ * 7 with padding. Set to 0 for a board that hugs the structures exactly.
+ */
+const MIN_REACH = 2;
 /**
  * How far each array index rises above the last, as a fraction of the cell. It must stay at
  * the renderer's default, because `stackColumn` relies on one index being exactly one glyph
@@ -1415,9 +1424,8 @@ export class IcePalaceGame extends GameBaseSequenced {
 
     /**
      * The Yard is on the board while a hand is being played; the Palace whenever it holds
-     * anything, and always during the build. Each is padded by a ring of empty cells. An
-     * empty structure that must still take a placement collapses to a single cell, which
-     * is where the lead goes.
+     * anything, and always during the build. Each region covers its structure and the
+     * minimum box around the origin, padded by a ring of empty cells to click into.
      */
     private layout(): ILayout {
         const shown: ("palace" | "yard")[] = [];
@@ -1433,17 +1441,12 @@ export class IcePalaceGame extends GameBaseSequenced {
         let height = 0;
         for (const which of shown) {
             const struct = which === "palace" ? this.palace : this.yard;
-            let region: IRegion;
-            if (struct.size === 0) {
-                region = { which, col0, minX: 0, minY: 0, cols: 1, rows: 1 };
-            } else {
-                const coords = [...struct.keys()].map(coordsOf);
-                const minX = Math.min(...coords.map(c => c[0])) - PADDING;
-                const maxX = Math.max(...coords.map(c => c[0])) + PADDING;
-                const minY = Math.min(...coords.map(c => c[1])) - PADDING;
-                const maxY = Math.max(...coords.map(c => c[1])) + PADDING;
-                region = { which, col0, minX, minY, cols: maxX - minX + 1, rows: maxY - minY + 1 };
-            }
+            const coords = [...struct.keys()].map(coordsOf);
+            const minX = Math.min(-MIN_REACH, ...coords.map(c => c[0])) - PADDING;
+            const maxX = Math.max(MIN_REACH, ...coords.map(c => c[0])) + PADDING;
+            const minY = Math.min(-MIN_REACH, ...coords.map(c => c[1])) - PADDING;
+            const maxY = Math.max(MIN_REACH, ...coords.map(c => c[1])) + PADDING;
+            const region: IRegion = { which, col0, minX, minY, cols: maxX - minX + 1, rows: maxY - minY + 1 };
             regions.push(region);
             col0 += region.cols + GAP;
             height = Math.max(height, region.rows);
@@ -1464,6 +1467,10 @@ export class IcePalaceGame extends GameBaseSequenced {
             }
             if (region.which !== active) {
                 return undefined;
+            }
+            // The lead goes in the middle: a click anywhere in an empty region is the origin.
+            if ((active === "palace" ? this.palace : this.yard).size === 0) {
+                return cellOf(0, 0);
             }
             return cellOf(
                 region.minX + (col - region.col0),

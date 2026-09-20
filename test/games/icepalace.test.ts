@@ -403,6 +403,27 @@ describe("Ice Palace: board interaction", () => {
         expect(rep.pieces[yr][yc]).to.deep.equal(["p1S", "p2M", "p3L"]);
     });
 
+    it("keeps a minimum footprint around the origin and two columns between structures", () => {
+        const g = rig(new IcePalaceGame(3), [["1M"], ["2S"], ["3S"]], fatPool());
+        // Before the lead only the empty Yard shows: a five-cell box plus padding each side.
+        let rep = g.render() as Rep;
+        expect(rep.pieces.length).to.equal(7);
+        expect(rep.pieces[0].length).to.equal(7);
+        // The lead goes in the middle, wherever in the empty region it is clicked.
+        const click = g.handleClick("1M", 0, 0, "");
+        expect(click.move).to.equal("1M@0,0");
+        g.move("1M@0,0");
+        // With a Palace as well, both regions show, two empty columns apart.
+        g.palace = new Map([["0,0", ["2L"]]]);
+        rep = g.render() as Rep;
+        expect(rep.pieces.length).to.equal(7);
+        expect(rep.pieces[0].length).to.equal(7 + 2 + 7);
+        // Growing past the minimum extends the board only in that direction.
+        g.yard.set("4,0", ["1S"]);
+        rep = g.render() as Rep;
+        expect(rep.pieces[0].length).to.equal(7 + 2 + 9);
+    });
+
     it("lists every hand in the status panel", () => {
         const g = rig(new IcePalaceGame(3), [["1L", "1M"], ["2S"], ["3L", "3M", "3S"]], fatPool());
         const statuses = g.sidebarStatuses();

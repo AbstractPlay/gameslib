@@ -1,4 +1,3 @@
-/* eslint-env node */
 /**
  * Verify registry completeness: every discovered game class is in the dev registry.
  */

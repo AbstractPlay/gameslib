@@ -20,6 +20,9 @@ export interface IMoveState extends IIndividualState {
     prison: [number,number];
     maxGroups: [number,number];
     incursion: boolean;
+    // Only meaningful in the `area` variant, where it carries the komi used for
+    // scoring. Optional so games saved before the variant existed still load.
+    komi?: number;
 };
 
 export interface IAsliState extends IAPGameState {
@@ -63,9 +66,10 @@ export class AsliGame extends GameBase {
             {uid: "board-23", group: "board"},
             {uid: "board-27", group: "board"},
             {uid: "woven", group: "rules"},
+            {uid: "area", fans: true },
             {uid: "setkomi", group: "komi"},
         ],
-        categories: ["goal>immobilize", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>immobilize", "goal>area", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["custom-buttons", "no-moves", "custom-randomization", "custom-colours"],
         displays: [{uid: "swap-prison"}]
     };
@@ -89,6 +93,7 @@ export class AsliGame extends GameBase {
     public prison: [number,number] = [0,0];
     public maxGroups: [number,number] = [0,0];
     public incursion = false;
+    public komi = 0;
 
     constructor(state?: IAsliState | string, variants?: string[]) {
         super();
@@ -106,6 +111,7 @@ export class AsliGame extends GameBase {
                 prison: this.variants.includes("setkomi") ? [7,0] : [0,0],
                 maxGroups: [0,0],
                 incursion: false,
+                komi: this.variants.includes("setkomi") ? 7 : 0,
             };
             this.stack = [fresh];
         } else {
@@ -152,6 +158,7 @@ export class AsliGame extends GameBase {
         this.prison = [...state.prison];
         this.maxGroups = [...state.maxGroups];
         this.incursion = state.incursion;
+        this.komi = state.komi ?? 0;
         return this;
     }
 
@@ -210,7 +217,8 @@ export class AsliGame extends GameBase {
                 return [{ label: "pass", move: "pass" }];
             } else {
                 const otherPlayer = this.currplayer === 1 ? 2 : 1;
-                let canpass = false;
+                // under area scoring, passing is always legal
+                let canpass = this.variants.includes("area");
                 if (this.prison[otherPlayer - 1] > 0) {
                     canpass = true;
                 }
@@ -233,7 +241,7 @@ export class AsliGame extends GameBase {
             }
         } else {
             const otherPlayer = this.currplayer === 1 ? 2 : 1;
-            let canpass = false;
+            let canpass = this.variants.includes("area");
             if (this.prison[otherPlayer - 1] > 0) {
                 canpass = true;
             }
@@ -288,13 +296,15 @@ export class AsliGame extends GameBase {
         if (m.length === 0) {
             let context = "play";
             if (this.stack.length === 1 && !this.variants.includes("setkomi")) {
-                context = "komi";
+                context = this.variants.includes("area") ? "komi_area" : "komi";
             } else if (this.stack.length === 2 && !this.variants.includes("setkomi")) {
                 if (this.stack[0]._version === "20240610") {
                     context = "pie";
                 } else {
                     context = "pie2";
                 }
+            } else if (this.variants.includes("area")) {
+                context = "area";
             }
             result.valid = true;
             result.complete = -1;
@@ -303,9 +313,14 @@ export class AsliGame extends GameBase {
         }
 
         if (this.stack.length === 1 && !this.variants.includes("setkomi")) {
+            // under area scoring komi is scored directly, so it is not described
+            // in terms of the prison
+            const badKomi = this.variants.includes("area")
+                ? "apgames:validation.asli.BAD_KOMI_area"
+                : "apgames:validation.asli.BAD_KOMI";
             if (! /^-?\d+$/.test(m)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.asli.BAD_KOMI", {cell: m});
+                result.message = i18next.t(badKomi, {cell: m});
                 return result
             }
             const max = (this.boardsize**2) + 1;
@@ -313,7 +328,7 @@ export class AsliGame extends GameBase {
             const n = parseInt(m, 10);
             if (isNaN(n) || n > max || n < min) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.asli.BAD_KOMI", {cell: m});
+                result.message = i18next.t(badKomi, {cell: m});
                 return result
             }
 
@@ -339,8 +354,9 @@ export class AsliGame extends GameBase {
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;
         } else if (m === "pass") {
+            // under area scoring, passing is always legal
             const enemy = this.currplayer === 1 ? 2 : 1;
-            if (this.prison[enemy - 1] === 0) {
+            if (!this.variants.includes("area") && this.prison[enemy - 1] === 0) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.asli.BAD_PASS");
                 return result;
@@ -387,7 +403,6 @@ export class AsliGame extends GameBase {
                 return result
             }
 
-            // no dead friendlies (after removing dead enemies)
             // place the piece
             const cloned = new Map(this.board);
             cloned.set(m, this.currplayer);
@@ -395,16 +410,30 @@ export class AsliGame extends GameBase {
             const {dead, numGroups} = this.findDead(this.currplayer === 1 ? 2 : 1, cloned);
             dead.forEach(cell => cloned.delete(cell));
             // now look for dead friendlies
-            if (this.findDead(this.currplayer, cloned).dead.length > 0) {
+            const ownDead = this.findDead(this.currplayer, cloned).dead;
+            if (this.variants.includes("area")) {
+                // suicide is legal, but the move must change the board
+                ownDead.forEach(cell => cloned.delete(cell));
+                if (cloned.size === this.board.size && [...cloned.entries()].every(([cell, owner]) => this.board.get(cell) === owner)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.asli.NO_CHANGE");
+                    return result
+                }
+            }
+            // no dead friendlies (after removing dead enemies)
+            else if (ownDead.length > 0) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.asli.SUICIDE");
                 return result
             }
 
-            // check for back-to-back minimal incursions
+            // check for blocked minimal incursions; under area scoring the block
+            // can also come from the opponent's pass
             if (incursion && numGroups === 1 && this.incursion) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.asli.BAD_INCURSION");
+                result.message = this.lastmove === "pass"
+                    ? i18next.t("apgames:validation.asli.BAD_INCURSION_pass")
+                    : i18next.t("apgames:validation.asli.BAD_INCURSION");
                 return result
             }
 
@@ -547,6 +576,7 @@ export class AsliGame extends GameBase {
         if (this.stack.length === 1 && !this.variants.includes("setkomi")) {
             const n = parseInt(m, 10);
             this.prison[0] = n;
+            this.komi = n;
             this.results.push({type: "komi", value: n});
         } else if (this.stack[0]._version === "20240610" && !this.variants.includes("setkomi") && (m === "pie" || (m === "pass" && this.stack.length === 2))) {
             m = "pie";
@@ -563,6 +593,10 @@ export class AsliGame extends GameBase {
                 if (this.stack.length === 2 && !this.variants.includes("setkomi")) {
                     this.results.push({type: "pass", why: "pie"});
                     this.incursion = false;
+                } else if (this.variants.includes("area")) {
+                    // passing is free, but blocks the opponent's next minimal incursion
+                    this.results.push({type: "pass"});
+                    this.incursion = true;
                 } else {
                     this.prison[enemy - 1] -= 1;
                     this.results.push({type: "pass"});
@@ -573,6 +607,7 @@ export class AsliGame extends GameBase {
             // in new version, a move on the second turn swaps colours
             if (this.stack[0]._version === "20250615" && this.stack.length === 2 && !this.variants.includes("setkomi")) {
                 this.prison = [...this.prison].reverse() as [number,number];
+                this.komi = this.komi * -1;
             }
             // need to check for incursion before modifying state
             let incursion = false;
@@ -583,11 +618,22 @@ export class AsliGame extends GameBase {
             // modify state
             this.board.set(m, this.currplayer);
             this.results.push({type: "place", where: m});
+            // clear the opponent's stranded strings; under area scoring, the
+            // mover's own stranded strings are cleared next (see below)
             const {dead, numGroups} = this.findDead(enemy);
             if (numGroups > 0) {
                 this.prison[enemy - 1] += dead.length;
                 dead.forEach(cell => this.board.delete(cell));
                 this.results.push({type: "capture", where: dead.join(",")});
+            }
+            // under area scoring, the mover's own stranded strings are cleared next
+            if (this.variants.includes("area")) {
+                const selfDead = this.findDead(this.currplayer).dead;
+                if (selfDead.length > 0) {
+                    this.prison[this.currplayer - 1] += selfDead.length;
+                    selfDead.forEach(cell => this.board.delete(cell));
+                    this.results.push({type: "capture", where: selfDead.join(","), whose: this.currplayer});
+                }
             }
             // set incursion flag
             if (incursion && numGroups === 1) {
@@ -615,8 +661,25 @@ export class AsliGame extends GameBase {
     }
 
     protected checkEOG(): AsliGame {
-        // game can't end before third ply
-        if (this.stack.length > 3) {
+        if (this.variants.includes("area")) {
+            // two consecutive passes end the game, but the ply-2 "pass" that
+            // declines the pie doesn't count
+            const pieIdx = this.variants.includes("setkomi") ? -1 : 2;
+            const prevIdx = this.stack.length - 1;
+            if (this.lastmove === "pass" && this.stack.length !== pieIdx && prevIdx !== pieIdx && prevIdx >= 0 && this.stack[prevIdx].lastmove === "pass") {
+                this.gameover = true;
+                const [score1, score2] = this.areaScores();
+                if (score1 > score2) {
+                    this.winner = [1];
+                } else if (score2 > score1) {
+                    this.winner = [2];
+                } else {
+                    this.winner = [1,2];
+                }
+            }
+        }
+        // in the default game, the game can't end before the third ply
+        else if (this.stack.length > 3) {
             let stateCount = 0;
             if (this.stack[this.stack.length - 2].lastmove !== "pass") {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -676,6 +739,7 @@ export class AsliGame extends GameBase {
             prison: [...this.prison],
             maxGroups: [...this.maxGroups],
             incursion: this.incursion,
+            komi: this.komi,
         };
     }
 
@@ -705,7 +769,8 @@ export class AsliGame extends GameBase {
             pstr += pieces.join("");
         }
 
-        const hasPrison = this.prison[0] > 0 || this.prison[1] > 0;
+        const tally = this.capturesTally();
+        const hasPrison = tally[0] > 0 || tally[1] > 0;
         const prisonPiece: Glyph[] = [];
         prisonPiece.push({
             name: hasPrison ? "piece" : "piece-borderless",
@@ -714,7 +779,7 @@ export class AsliGame extends GameBase {
         });
         if (hasPrison) {
             prisonPiece.push({
-                text: this.prison[0] > 0 ? this.prison[0].toString() : this.prison[1].toString(),
+                text: tally[0] > 0 ? tally[0].toString() : tally[1].toString(),
                 scale: 0.75,
                 rotate: null
             });
@@ -797,16 +862,49 @@ export class AsliGame extends GameBase {
             case "place":
                 this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", {where: r.where!});
                 return true;
-            case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, r.why === undefined ? "apresults:PASS.asli" : "apresults:PASS.pie", {});
+            case "pass": {
+                let key = "apresults:PASS.asli";
+                if (r.why !== undefined) {
+                    key = "apresults:PASS.pie";
+                } else if (this.variants.includes("area")) {
+                    // passing costs nothing under area scoring
+                    key = "apresults:PASS.asli_area";
+                }
+                this.pushSeatChatLine(lines, ctx.defaultSeat, key, {});
                 return true;
+            }
+            case "capture":
+                // only self-captures (area scoring) carry `whose`
+                if (r.whose !== undefined) {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.asli_self", {where: r.where!});
+                    return true;
+                }
+                return super.collectChatLogLine(lines, r, ctx);
             default:
                 return super.collectChatLogLine(lines, r, ctx);
         }
     }
 
 
+    // Area score: stones on the board, plus territory, plus komi.
+    // Komi uses the same sign convention as `prison[0]`: a positive value
+    // counts in favour of player 2.
+    public areaScores(): [number,number] {
+        const terr = this.getTerritories();
+        const scores = ([1,2] as const).map(p =>
+            [...this.board.values()].filter(v => v === p).length +
+            terr.filter(t => t.owner === p).reduce((prev, curr) => prev + curr.cells.length, 0)
+        );
+        return [
+            scores[0] + Math.max(this.komi * -1, 0),
+            scores[1] + Math.max(this.komi, 0),
+        ];
+    }
+
     public sidebarScores(): IScores[] {
+        if (this.variants.includes("area")) {
+            return [{ name: this.neutralAreaLabel("apgames:status.asli.AREA"), scores: this.areaScores(), spoiler: true}];
+        }
         let scores: number[] = [this.prison[1], this.prison[0]];
         if (this.maxGroups[0] > 0 && this.maxGroups[1] > 0) {
             const terr = this.getTerritories();
@@ -839,21 +937,34 @@ export class AsliGame extends GameBase {
         }
     }
 
+    // The off-board tally shown beside the board. `prison` is a net differential,
+    // so under area scoring, where komi is scored directly instead of as pieces,
+    // removing komi from that difference leaves the captures alone.
+    public capturesTally(): [number,number] {
+        if (!this.variants.includes("area")) {
+            return [...this.prison] as [number,number];
+        }
+        const diff = this.prison[0] - this.prison[1] - this.komi;
+        return [Math.max(diff, 0), Math.max(diff * -1, 0)];
+    }
+
     public getPrisonColour(swapPrison: boolean): number|string {
-        if (this.prison[0] === 0 && this.prison[1] === 0) {
+        const tally = this.capturesTally();
+        if (tally[0] === 0 && tally[1] === 0) {
             return "_context_background";
         }
         let swap = swapPrison;
-        if (this.stack.length > 2 && this.stack[2].lastmove !== "pass") {
+        // only the pie ply swaps seats, and `setkomi` games have no pie ply
+        if (!this.variants.includes("setkomi") && this.stack.length > 2 && this.stack[2].lastmove !== "pass") {
             swap = !swap;
         }
-        if (this.prison[1] > 0) {
+        if (tally[1] > 0) {
             swap = !swap;
         }
         return swap ? 2 : 1;
     }
 
-    
+
     public clone(): AsliGame {
         return new AsliGame(this.serialize());
     }

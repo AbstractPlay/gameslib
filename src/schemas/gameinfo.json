@@ -57,6 +57,13 @@
                     "description": "If present, variants of the same `group` are considered mutually exclusive",
                     "type": "string"
                 },
+                "people": {
+                    "description": "The people and organizations involved in the variant's creation",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/person"
+                    }
+                },
                 "default": {
                     "description": "If present and `true`, this variant will appear as the preselected default when issuing new challenges, requesting tournaments, etc. See the `uid` field description for how to describe the \"no variant\" state.",
                     "type": "boolean",
@@ -69,6 +76,11 @@
                 },
                 "experimental": {
                     "description": "If present and `true`, the variant will not appear in the production environment.",
+                    "type": "boolean",
+                    "default": false
+                },
+                "fans": {
+                    "description": "If true, this variant was added by the Abstract Play community or implementation team and is not part of the credited designer's published rules.",
                     "type": "boolean",
                     "default": false
                 },

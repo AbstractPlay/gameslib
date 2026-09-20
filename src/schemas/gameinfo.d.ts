@@ -136,6 +136,10 @@ export interface Variant {
    */
   group?: string;
   /**
+   * The people and organizations involved in the variant's creation
+   */
+  people?: Person[];
+  /**
    * If present and `true`, this variant will appear as the preselected default when issuing new challenges, requesting tournaments, etc. See the `uid` field description for how to describe the "no variant" state.
    */
   default?: boolean;
@@ -147,6 +151,10 @@ export interface Variant {
    * If present and `true`, the variant will not appear in the production environment.
    */
   experimental?: boolean;
+  /**
+   * If true, this variant was added by the Abstract Play community or implementation team and is not part of the credited designer's published rules.
+   */
+  fans?: boolean;
   /**
    * If present, this variant is only selectable when every listed radio group's current value is one of the allowed uids (include `#[group]` for the default choice).
    */

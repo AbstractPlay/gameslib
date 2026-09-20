@@ -54,8 +54,8 @@ export class LinesOfActionGame extends GameBase {
                 default: true,
             },
             { uid: "#board" },
-            { uid: "hex5", group: "board" },
-            { uid: "hex6", group: "board" },
+            { uid: "hex5", group: "board", fans: true },
+            { uid: "hex6", group: "board", fans: true },
             {
                 uid: "scrambled",
                 group: "setup",

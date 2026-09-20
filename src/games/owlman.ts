@@ -124,6 +124,61 @@ export class OwlmanGame extends GameBase {
         return this;
     }
 
+    /** Strip optional incidental helper scare suffix `(x<cell>)` from a wire move. */
+    private static stripIncidentalCaptureSuffix(m: string): { wire: string; noted?: string } {
+        const match = m.match(/^(.*)\(x([a-h][1-8])\)$/);
+        if (!match) {
+            return { wire: m };
+        }
+        return { wire: match[1], noted: match[2] };
+    }
+
+    private static splitWireMove(wire: string): [string, string] {
+        const match = wire.match(/^([a-h][1-8])([-x])([a-h][1-8])$/);
+        if (!match) {
+            throw new Error(`The Owlman engine cannot parse move '${wire}'.`);
+        }
+        return [match[1], match[3]];
+    }
+
+    /** First helper scared by an Owlman step along the step ray, if any. */
+    private approachCaptureForStep(from: string, to: string): string | undefined {
+        if (!this.board.has(from)) {
+            return undefined;
+        }
+        const fContents = this.board.get(from)!;
+        if (fContents !== "O" || from === "h1" || !this.graph.neighbours(from).includes(to)) {
+            return undefined;
+        }
+        const grid = new RectGrid(8, 8);
+        const [fx, fy] = this.graph.algebraic2coords(from);
+        const [tx, ty] = this.graph.algebraic2coords(to);
+        const bearing = RectGrid.bearing(fx, fy, tx, ty)!;
+        const ray = grid.ray(tx, ty, bearing).map(c => this.graph.coords2algebraic(...c));
+        const idx = ray.findIndex(c => this.board.has(c));
+        if (idx >= 0 && this.board.get(ray[idx]) === "H") {
+            return ray[idx];
+        }
+        return undefined;
+    }
+
+    private annotateIncidentalCapture(wire: string): string {
+        const [from, to] = OwlmanGame.splitWireMove(wire);
+        const capped = this.approachCaptureForStep(from, to);
+        if (capped !== undefined) {
+            return `${wire}(x${capped})`;
+        }
+        return wire;
+    }
+
+    private incidentalCaptureSuffixValid(wire: string, noted?: string): boolean {
+        const expected = this.approachCaptureForStep(...OwlmanGame.splitWireMove(wire));
+        if (noted !== undefined) {
+            return expected !== undefined && noted === expected;
+        }
+        return true;
+    }
+
     public moves(): string[] {
         if (this.gameover) { return []; }
 
@@ -218,7 +273,11 @@ export class OwlmanGame extends GameBase {
             if (! result.valid) {
                 result.move = "";
             } else {
-                result.move = newmove;
+                const { wire } = OwlmanGame.stripIncidentalCaptureSuffix(newmove);
+                result.move =
+                    result.complete === 1
+                        ? this.annotateIncidentalCapture(wire)
+                        : newmove;
             }
             return result;
         } catch (e) {
@@ -235,22 +294,28 @@ export class OwlmanGame extends GameBase {
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
+        const { wire, noted } = OwlmanGame.stripIncidentalCaptureSuffix(m);
         const allMoves = this.moves();
 
-        if (m.length === 0) {
+        if (wire.length === 0) {
             result.valid = true;
             result.complete = -1;
             result.message = i18next.t("apgames:validation.owlman.INITIAL_INSTRUCTIONS")
             return result;
         }
 
-        if (allMoves.includes(m)) {
+        if (allMoves.includes(wire)) {
+            if (!this.incidentalCaptureSuffixValid(wire, noted)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: m});
+                return result;
+            }
             result.valid = true;
             result.complete = 1;
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;
         } else {
-            if (allMoves.filter(mv => mv.startsWith(m)).length > 0) {
+            if (allMoves.filter(mv => mv.startsWith(wire)).length > 0) {
                 result.valid = true;
                 result.complete = -1;
                 result.canrender = true;
@@ -271,13 +336,14 @@ export class OwlmanGame extends GameBase {
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
+        const { wire } = OwlmanGame.stripIncidentalCaptureSuffix(m);
         const allMoves = this.moves();
         if (! trusted) {
             const result = this.validateMove(m);
             if (! result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
             }
-            if (!partial && !allMoves.includes(m)) {
+            if (!partial && !allMoves.includes(wire)) {
                 throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
         }
@@ -286,32 +352,19 @@ export class OwlmanGame extends GameBase {
         this.dots = [];
 
         if (partial) {
-            this.dots = [...new Set<string>(allMoves.filter(mv => mv.startsWith(m)).map(mv => mv.split(/[-x]/)).map(parts => parts[parts.length - 1])).values()];
+            this.dots = [...new Set<string>(allMoves.filter(mv => mv.startsWith(wire)).map(mv => OwlmanGame.splitWireMove(mv)[1])).values()];
             return this;
         }
 
-        const grid = new RectGrid(8, 8);
-        let capped: string|undefined;
-        const [from, to] = m.split(/[-x]/);
+        const [from, to] = OwlmanGame.splitWireMove(wire);
         if (!this.board.has(from)) {
             throw new Error("Trying to move a nonexistent piece.")
         }
         const fContents = this.board.get(from)!;
         const tContents = this.board.get(to);
-
-        // owlman steps might be a capture
-        // but moves from `h1` are never steps
-        if (fContents === "O" && from !== "h1" && this.graph.neighbours(from).includes(to)) {
-            const [fx, fy] = this.graph.algebraic2coords(from);
-            const [tx, ty] = this.graph.algebraic2coords(to);
-            const bearing = RectGrid.bearing(fx, fy, tx, ty)!;
-            const ray = grid.ray(tx, ty, bearing).map(c => this.graph.coords2algebraic(...c));
-            // find first occupied cell in that direction
-            const idx = ray.findIndex(c => this.board.has(c));
-            if (idx >= 0 && this.board.get(ray[idx]) === "H") {
-                capped = ray[idx];
-            }
-        }
+        const capped = this.approachCaptureForStep(from, to);
+        const canonicalLastmove =
+            capped !== undefined ? `${wire}(x${capped})` : wire;
 
         // move the piece
         this.board.set(to, fContents);
@@ -321,7 +374,6 @@ export class OwlmanGame extends GameBase {
         // check for helper scare
         if (capped !== undefined) {
             this.board.delete(capped);
-            m += `(x${capped})`;
             this.results.push({type: "capture", how: "approach", what: "H", where: capped});
         }
         // otherwise check for replacement capture (doc or superswoop)
@@ -330,7 +382,7 @@ export class OwlmanGame extends GameBase {
         }
 
         // update currplayer
-        this.lastmove = m;
+        this.lastmove = canonicalLastmove;
         let newplayer = (this.currplayer as number) + 1;
         if (newplayer > this.numplayers) {
             newplayer = 1;

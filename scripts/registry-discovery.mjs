@@ -1,4 +1,3 @@
-/* eslint-env node */
 /**
  * Shared game discovery for generate-registry.mjs and check-registry.mjs
  */

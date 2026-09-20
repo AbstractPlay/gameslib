@@ -10,6 +10,10 @@ on:
     types: [dep_update_dev]
   workflow_dispatch:
 
+concurrency:
+  group: deploy-dev
+  cancel-in-progress: true
+
 jobs:
     build-dev:
 
@@ -242,7 +246,7 @@ jobs:
                 --arg k "$RECRANKS_VERSION" \
                 --arg s "$SOURCE_RUN_ID" \
                 '{event_type:"dep_update_dev", client_payload:{gameslib_version:$g, renderer_version:$r, recranks_version:$k, source_run_id:$s}}')
-              for repo in front node-backend backend-crons; do
+              for repo in front node-backend; do
                 curl -L -X POST \
                   -H "Accept: application/vnd.github+json" \
                   -H "Authorization: Bearer ${{ secrets.PAT_WORKFLOWS }}" \

@@ -16,6 +16,7 @@
         "dameo_soldier": "{{player}} kaptis soldaton ĉe {{where}}.",
         "boom": "{{player}} detruis pecon ĉe {{where}}.",
         "minimal": "Peco kaptiĝis.",
+        "asli_self": "{{player}} forigis siajn proprajn izolitajn pecojn ĉe {{where}}.",
         "ataxx_one": "1 peco konvertiĝis.",
         "ataxx_other": "{{count}} pecoj konvertiĝis.",
         "bao_one": "{{player}} kaptis entute {{count}} ŝtonon el la jenaj kavoj (laŭorde): {{pits}}",
@@ -372,7 +373,9 @@
         "tafl_king_captured": "La ludo finiĝis, ĉar la reĝo estis kaptita.",
         "tafl_king_escaped": "La ludo finiĝis, ĉar la reĝo eskapis.",
         "unlur_foul": "La ludo finiĝis, ĉar unu ludanto plenumis la venkokondiĉon de la kontraŭulo sen plenumi sian propran.",
-        "druid_hex": "La ludo finiĝis, ĉar {{player}} konektis la randojn {{edges}}."
+        "druid_hex": "La ludo finiĝis, ĉar {{player}} konektis la randojn {{edges}}.",
+        "gonnect_cascading_subboard": "{{player}} venkis sur la {{size}}x{{size}}-subtabulo.",
+        "gonnect_direct_connection": "{{player}} venkis per rekta konekto."
     },
     "DRUID_HEX_EDGE": {
         "N": "nordo (N)",
@@ -406,6 +409,7 @@
     },
     "PASS": {
         "asli": "{{player}} prenis kontraŭulan pecon el la malliberejo kaj preterpasis sian vicon.",
+        "asli_area": "{{player}} preterpasis sian vicon.",
         "assembly": "La produktolinio ne moviĝis.",
         "deckfish": "{{player}} ne povis movi.",
         "entropy": "{{player}} elektis movi neniun pecon dum ĉi tiu vico.",

@@ -56,6 +56,7 @@
     },
     "BUTTON": "{{player}} took the button.",
     "CAPTURE": {
+        "asli_self": "{{player}} cleared their own stranded stones at {{where}}.",
         "ataxx_one": "1 piece is converted.",
         "ataxx_other": "{{count}} pieces are converted.",
         "bao_one": "{{player}} captured a total of {{count}} stone from the following pits (in order): {{pits}}",
@@ -415,6 +416,7 @@
     },
     "PASS": {
         "asli": "{{player}} took an opposing piece from the prison and passed their turn.",
+        "asli_area": "{{player}} passed their turn.",
         "assembly": "The production line doesn't move.",
         "deckfish": "{{player}} was unable to move.",
         "entropy": "{{player}} chose not to move any pieces this turn.",

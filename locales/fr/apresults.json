@@ -54,6 +54,7 @@
   },
   "BUTTON": "{{player}} a pris le bouton.",
   "CAPTURE": {
+    "asli_self": "{{player}} a retiré ses propres pierres isolées en {{where}}.",
     "ataxx_one": "1 pièce est convertie.",
     "ataxx_other": "{{count}} pièces sont converties.",
     "bao_one": "{{player}} a capturé un total de {{count}} pierre dans les fosses suivantes (dans l'ordre) : {{pits}}",
@@ -413,6 +414,7 @@
   },
   "PASS": {
     "asli": "{{player}} a pris une pièce adverse de la prison et a passé son tour.",
+    "asli_area": "{{player}} a passé son tour.",
     "assembly": "La chaîne de production ne bouge pas.",
     "deckfish": "{{player}} n'a pas pu se déplacer.",
     "entropy": "{{player}} a choisi de ne déplacer aucune pièce ce tour-ci.",

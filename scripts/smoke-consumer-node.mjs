@@ -1,4 +1,3 @@
-/* eslint-env node */
 /**
  * Consumer smoke: install the packed tarball in a temp project and import like
  * front test:engines / node-backend (package name resolution, not repo paths).

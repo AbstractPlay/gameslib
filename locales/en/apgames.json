@@ -584,7 +584,7 @@
         "akimbo": "Akimbo, designed by Luis Bolaños Mures in 2026, is a drawless connection game for two players. A _naked diagonal_ is a pair of like-colored, diagonally adjacent pieces with no other like-colored piece adjacent to both. A _crosscut_ is a 2×2 area with two interlocking naked diagonals of opposite colors.\n\nOn their turn, the player places a friendly piece on an empty cell. If this completes a crosscut, the other piece in the crosscut is removed. There must never be more than one naked diagonal of each color on the board — not even momentarily before removing a piece. A player wins if, at the end of their turn, there is a chain of orthogonally connected pieces of their color touching the player's two opposite board edges.\n\nOkimba is a variant where only up to one naked diagonal can exist on the board (so while one player has the diagonal, the adversary cannot create another).",
         "alta": "There are two ways to place switches on the graphical interface: (1) Select the switch’s orientation in the panel, then click on the desired space on the board to place it, or (2) click on two vertices. The vertices are notated with an asterisk, followed by the algebraic notation of the space where the vertex is at the bottom-left corner. To toggle a switch, simply click on the space.",
         "anache": "This implementation follows David Ploog's rulesheet. Three notable changes are that (1) barriers are forbidden, (2) instead of a 16x16, we have a 15x15 variant, where pieces promote to knights on the centreline, and the dragon may not jump to the 7x7 space from the other corner, and (3) against the corners, pieces are captured via crushing capture instead of custodian capture, so there needs to be at least two opponent pieces in a line before a capture is made against the corners.\n\nNote: the stalemate check is expensive. If you cannot make a legal move, you should resign manually.",
-        "arimaa": "Made available under section 3 of the [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nHarlog is an accepted method for determining material advantage. Positive scores favour Gold, negative Silver. The hard range is ±112, but in practice ±20 is a very strong advantage.\n\nBecause we can't generate comprehensive lists of moves, the system cannot detect the rare cases where your only available moves are illegal due to position repetition. The system won't let you make those illegal repetitions, and you'll have to resign manually.",
+        "arimaa": "Made available under section 3 of the [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nDuring standard setup, you only need to place your eight non-rabbits. Once they are down, Complete Move fills the rest of your setup area with rabbits. You can still place any or all of the rabbits yourself first if you want them somewhere in particular.\n\nHarlog is an accepted method for determining material advantage. Positive scores favour Gold, negative Silver. The hard range is ±112, but in practice ±20 is a very strong advantage.\n\nBecause we can't generate comprehensive lists of moves, the system cannot detect the rare cases where your only available moves are illegal due to position repetition. The system won't let you make those illegal repetitions, and you'll have to resign manually.",
         "armadas": "There are known issues with this game on iOS devices.\n\nThis game offers two scenarios:\n\n* The default is each player having two trios of pieces. In the placement phase, each player must place 1 to 3 ships until all ships are placed.\n* The \"Freeform\" variant allows you to place whatever ships you want (maximum of three at a time) until both players \"pass.\" This lets you create unbalanced or otherwise asymmetrical fleets.\n\nGames default to having one island in the centre of the field. Both a \"no islands\" and a \"two islands\" variant are available. You cannot move or fire through islands. To successfully hit a ship, at least one corner of your ship's triangle must have a clear view of at least one corner of the target ship.\n\nRemember that it is possible to get your ship in a position against an island or the edge of the board such that you can no longer move that ship! Be careful!",
         "ataxx": "On three-fold repetition, the game ends and the scores are calculated.",
         "bao": "Moves in Bao can be very complex, involving multiple laps around the board and changing directions. The annotations are, therefore, sparse. The initial cell and direction are highlighted, and captured cells are also marked. But detailed annotation of movement is not possible. If you believe you have encountered a bug, please let us know in Discord.",
@@ -801,11 +801,11 @@
                 "name": "Triangle board (8 wide)"
             },
             "cobweb": {
-                "name": "Cobweb (4 rings, experimental)"
+                "name": "Cobweb (4 rings)"
             },
             "cobweb-small": {
                 "description": "A variant played on a round board where you try to connect two opposite sides.",
-                "name": "Cobweb (3 rings, designer preferred)"
+                "name": "Cobweb (3 rings)"
             },
             "limping": {
                 "name": "Limping 5-6 (75 spaces)"
@@ -931,7 +931,7 @@
                 "description": "Randomly generated setup with reduced army size"
             },
             "free": {
-                "name": "Free placement (unrated)",
+                "name": "Free placement",
                 "description": "Lets players place as many pieces as they want wherever they want, including creating illegal or otherwise broken positions. Players should communicate clearly before starting. These games cannot be rated."
             }
         },
@@ -941,7 +941,7 @@
             },
             "freeform": {
                 "description": "Lets the players determine their own fleet compositions. Requires good communication before starting. These games cannot be rated.",
-                "name": "Freeform (unrated)"
+                "name": "Freeform"
             },
             "noislands": {
                 "description": "No starting islands",
@@ -961,6 +961,10 @@
             },
             "#rules": {
                 "description": "Incursions are legal."
+            },
+            "area": {
+                "name": "Area scoring",
+                "description": "Suicide is legal, passing is always legal and blocks the opponent's next minimal incursion, and the game ends on two consecutive passes. The winner is whoever holds the most area: their stones on the board, plus their territory, plus komi."
             },
             "board-9": {
                 "name": "9x9 board"
@@ -3155,7 +3159,7 @@
                 "name": "Standard setup"
             },
             "custom": {
-                "name": "Custom setup (unrated)",
+                "name": "Custom setup",
                 "description": "The players can create arbitrary setups. Should only be done with good communication. These games cannot be rated."
             },
             "#board": {
@@ -4808,6 +4812,7 @@
             "HARLOG": "Harlog"
         },
         "asli": {
+            "AREA": "Area + komi",
             "TERRITORY": "Territory & Prisoners"
         },
         "baghchal": {
@@ -5157,6 +5162,7 @@
             "PARTIAL_PLACE": "Click an empty cell to place the piece.",
             "PARTIAL_PLAY": "Continue placing your pieces.",
             "PARTIAL_PUSH": "Complete the push by clicking on the piece doing the pushing.",
+            "PARTIAL_RABBITS": "The rest of your setup area will be filled with rabbits.",
             "PARTIAL_FREE": "You may continue placing pieces, or click Complete Move to end your turn.",
             "PARTIAL_FREE_NO": "You may continue placing pieces, but you must place at least one rabbit, and you may not place any rabbits on the goal row.",
             "REPEAT": "You may not repeat a given position a third time.",
@@ -5204,15 +5210,20 @@
         },
         "asli": {
             "BAD_INCURSION": "You may not make back-to-back minimal incursions.",
+            "BAD_INCURSION_pass": "You may not make a minimal incursion immediately after your opponent passes.",
             "BAD_KOMI": "The first move of the game must be an integer representing the number of pieces to place in the starting prison. A positive number puts pieces belonging to the first player. A negative number, those of the second player. You may not place more pieces in the prison than number of cells on the board plus one.",
+            "BAD_KOMI_area": "The first move of the game must be a whole number of points of komi. A positive number awards komi to the second player. A negative number, to the first player. You may not offer more komi than the number of points on the board plus one.",
             "BAD_PASS": "You must remove an enemy piece from the prison to pass.",
             "BAD_PIE": "You may not accept pie at this point in the game.",
+            "INITIAL_INSTRUCTIONS_area": "Place a piece on a valid empty point, or pass. Passing also blocks your opponent's next minimal incursion.",
             "INITIAL_INSTRUCTIONS_komi": "Enter the number of first-player pieces you wish to place in the starting prison. The second player will then decide which seat to take.",
+            "INITIAL_INSTRUCTIONS_komi_area": "Enter the komi, in points, that you wish to offer. A positive number awards komi to the second player. A negative number, to the first player. The other player will then decide which seat to take.",
             "INITIAL_INSTRUCTIONS_pie": "Either click the 'Play second' button to stay where you are and continue playing second, or click 'Swap player seats' to change seats.",
             "INITIAL_INSTRUCTIONS_pie2": "Either pass to accept the komi offer and continue playing second, or place a piece to take over as first player.",
-            "INITIAL_INSTRUCTIONS_play": "Place a piece on a valid empty space or pass to take an enemy piece out of the prison instead (if one is available).",
+            "INITIAL_INSTRUCTIONS_play": "Place a piece on a valid empty point or pass to take an enemy piece out of the prison instead (if one is available).",
             "MUST_PIE": "At this point of the game, placing pieces is not allowed.",
             "NEGATIVE_KOMI": "Are you sure? Negative komi offers should only be needed in specific handicapping situations.",
+            "NO_CHANGE": "Under area scoring, your move must change the board. This placement would be removed again immediately, capturing nothing.",
             "SUICIDE": "You may not place a piece such that you have dead friendly groups at the end of your turn.",
             "WOVEN_INCURSION": "In the 'Woven' variant, incursions are not legal."
         },
@@ -5265,7 +5276,7 @@
             "INITIAL_INSTRUCTIONS": "Select a chevron to move.",
             "NEED_DESTINATION": "Select the destination (valid targets are highlighted).",
             "NO_CAPTURES": "You may not move onto a cell with another chevron.",
-            "REORIENT": "Click a neighbouring cell or edge zone to select the direction you want to face.",
+            "REORIENT": "Click a neighbouring cell or edge zone to select the direction you want to face, or click \"Complete move\" to keep pointing straight ahead.",
             "TOO_FAR": "You can't move further than your power of movement (currently {{pom}})."
         },
         "baghchal": {
@@ -5288,11 +5299,15 @@
             "INITIAL_INSTRUCTIONS_mtaji|mtaji": "Select one of your pits that contains two or more stones to begin sowing. A capture is available.",
             "INITIAL_INSTRUCTIONS_namua|kutakata": "Select one of your inner pits that contains stones. You will add one of your in-hand stones to it and then begin sowing. No capture is available.",
             "INITIAL_INSTRUCTIONS_namua|mtaji": "Select one of your inner pits that contains stones. You will add one of your in-hand stones to it and then capture the opposing stones. A capture is available.",
+            "KUTAKATA_ONLY": "No capture is available; you must sow (kutakata) from one of your pits with two or more stones. For example: {{examples}}.",
+            "MUST_CAPTURE": "A capture is mandatory. Legal captures include: {{examples}}.",
             "NEVER_SINGLE": "In the mtaji phase, you may never start your move from a pit with only one stone.",
+            "NO_KUTAKATA_WHILE_CAPTURE": "You may not play a kutakata move while a capture is available. Legal captures include: {{examples}}.",
             "NO_BACK_ROW_mtaji": "In the mtaji phase, you may only start from the back row if it results in a capture or no kutakata is possible from the front row.",
             "NO_BACK_ROW_namua": "In the kunamua phase, you may not start from your back row.",
             "PLAY_HOUSE": "Your sowing has ended in your nyumba. You can stop or \"go on safari\" (this will turn your nyumba into a standard pit). To continue sowing, click your nyumba or type a \"+\" sign in the move entry box.",
-            "TWO_PLUS": "You may only begin a kunamua-phase kutakata turn in a pit with one stone if you have a working house or all you have in the front row are pits with single stones."
+            "TWO_PLUS": "You may only begin a kunamua-phase kutakata turn in a pit with one stone if you have a working house or all you have in the front row are pits with single stones.",
+            "WRONG_CAPTURE": "That capture is not legal. Legal captures include: {{examples}}."
         },
         "basalt": {
             "BAD_MOVE": "Stacks may not move further than their height, and they may not pass over stacks controlled by your opponent.",
@@ -5965,6 +5980,7 @@
             "MUST_CHOOSE_SIDE": "You must choose evens or odds before playing.",
             "NOT_IN_HAND": "That domino is not in your hand.",
             "NEEDS_ANCHOR_PIP": "This placement is ambiguous. Mark the anchor pip with an asterisk (e.g. 1*-2@-3,1N or 1-2*@-3,1N).",
+            "MUST_COVER_TWO_DOMINOES": "When placing a domino on top of others, you must cover two different dominoes.",
             "PARTIAL": "Click an anchor half-cell, then the other end of the domino."
         },
         "estate": {

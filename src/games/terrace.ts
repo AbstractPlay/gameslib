@@ -82,6 +82,7 @@ export class TerraceGame extends GameBase {
             {
                 uid: "assassination",
                 group: "capture",
+                fans: true,
             }
         ],
     };

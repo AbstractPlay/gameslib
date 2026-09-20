@@ -628,6 +628,15 @@ export class EvenAtOddsGame extends GameBase {
         return undefined;
     }
 
+    private stackCoversSameDomino(anchor: Half, other: Half): boolean {
+        if (!this.orthoAdjacent(anchor, other)) { return false; }
+        const level = this.placementLevel(anchor, other);
+        if (level === undefined || level === 0) { return false; }
+        const topA = this.topTileAt(anchor);
+        const topO = this.topTileAt(other);
+        return topA !== undefined && topO !== undefined && topA.id === topO.id;
+    }
+
     private isLegalPlacement(tileId: number, anchor: Half, other: Half, requiredAnchorPip?: Pip): boolean {
         const anchorPips = this.anchorPipsForPlacement(tileId, anchor, other);
         if (anchorPips.length === 0) { return false; }
@@ -902,6 +911,12 @@ export class EvenAtOddsGame extends GameBase {
                     result.complete = 1;
                 }
             }
+            return result;
+        }
+
+        if (parsed.tileId !== undefined && parsed.anchor !== undefined && parsed.other !== undefined
+            && this.stackCoversSameDomino(parsed.anchor, parsed.other)) {
+            result.message = i18next.t("apgames:validation.evenatodds.MUST_COVER_TWO_DOMINOES");
             return result;
         }
 
@@ -1183,7 +1198,17 @@ export class EvenAtOddsGame extends GameBase {
                         newmove = this.formatMove(tileId, half);
                     }
                 } else if (parsed.tileId !== undefined && parsed.anchor !== undefined) {
-                    newmove = this.formatMove(parsed.tileId, parsed.anchor, half, pip);
+                    if (half[0] === parsed.anchor[0] && half[1] === parsed.anchor[1]) {
+                        const tileId = parsed.tileId;
+                        const ap = parsed.anchorPip ?? pip;
+                        if (ap !== undefined && this.tileHasAmbiguousMoves(tileId)) {
+                            newmove = this.tileKeyWithAnchorPip(tileId, ap);
+                        } else {
+                            newmove = this.tileKey(tileId);
+                        }
+                    } else {
+                        newmove = this.formatMove(parsed.tileId, parsed.anchor, half, pip);
+                    }
                 }
             }
 

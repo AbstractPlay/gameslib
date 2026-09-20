@@ -151,6 +151,10 @@
     "src": "{{player}} took the button.",
     "out": "{{player}} tomó el botón."
   },
+  "CAPTURE.asli_self": {
+    "src": "{{player}} cleared their own stranded stones at {{where}}.",
+    "out": "{{player}} retiró sus propias piedras aisladas en {{where}}."
+  },
   "CAPTURE.ataxx_one": {
     "src": "1 piece is converted.",
     "out": "1 pieza fue convertida."
@@ -1394,6 +1398,10 @@
   "PASS.asli": {
     "src": "{{player}} took an opposing piece from the prison and passed their turn.",
     "out": "{{player}} tomó una pieza del oponente de la prisión y pasó su turno."
+  },
+  "PASS.asli_area": {
+    "src": "{{player}} passed their turn.",
+    "out": "{{player}} pasó su turno."
   },
   "PASS.assembly": {
     "src": "The production line doesn't move.",

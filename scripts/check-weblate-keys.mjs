@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-/* eslint-env node */
 /**
  * Fail if English locale files contain i18next keys that Weblate treats as
  * duplicate identifiers (bare key sharing a stem with _one/_other/_2/etc. siblings).

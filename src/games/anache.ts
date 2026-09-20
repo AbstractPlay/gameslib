@@ -67,7 +67,7 @@ export class AnacheGame extends GameBase {
         variants: [
             { uid: "size-10", group: "board" },
             { uid: "#board", },
-            { uid: "size-15", group: "board" },
+            { uid: "size-15", group: "board", fans: true },
         ],
         categories: ["goal>breakthrough", "goal>immobilize", "mechanic>move>group", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["perspective", "no-moves"],

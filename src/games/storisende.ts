@@ -77,8 +77,8 @@ export class StorisendeGame extends GameBase {
             { uid: "#board", },
             {uid: "board-hex6", group: "board"},
             {uid: "board-hex7", group: "board"},
-            {uid: "board-modular-13", group: "board"},
-            {uid: "board-modular-18", group: "board"},
+            {uid: "board-modular-13", group: "board", fans: true},
+            {uid: "board-modular-18", group: "board", fans: true},
         ],
         customizations: [
             {

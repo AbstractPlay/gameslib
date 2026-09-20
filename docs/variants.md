@@ -16,6 +16,7 @@ Each entry in `gameinfo.variants` is a `Variant` object (see [`gameinfo.json`](/
 | `#group` sentinel | `{ uid: "#board" }` marks the implicit default for group `board` when no member uid is in the submitted array |
 | `experimental` | Omitted from production `gameinfo` and `challengeVariants()` (see [Flags](/gameslib/flags/)) |
 | `unrated` | Challenge is not rated when this variant is active |
+| `fans` | Optional rules added by the Abstract Play community or implementation team, not part of the credited designer’s published rules; the front end may show a “Community” chip |
 
 **Radio vs checkbox:** a `group` field → one active uid per group (radio). No `group` → optional checkbox.
 
@@ -202,7 +203,15 @@ Exported from `@abstractplay/gameslib` (detail in [API](/gameslib/api/)):
 
 `applyVariantConstraints(incoming?, options?)` is a **protected** method on `GameBase` — not part of the package export surface.
 
-On a game instance, `allvariants()` and `challengeVariants()` pass constraint metadata (`enabledWhen`, `conflictsWith`, `requires`, `implies`, `impliesLock`, `unrated`) to the front end.
+On a game instance, `allvariants()` and `challengeVariants()` pass constraint metadata (`enabledWhen`, `conflictsWith`, `requires`, `implies`, `impliesLock`, `unrated`, `fans`) to the front end.
+
+## Community (`fans`) and unrated variants
+
+Set `fans: true` only when the variant is not part of the credited designer’s published rules and was added by the AP community or implementation team. Confirm designer sign-off or documented community origin before marking.
+
+Set `unrated: true` when the variant must not be rated (free setup, broken positions, etc.).
+
+**Variant names** in English locale should stay neutral: do not embed “(unrated)”, “experimental”, or “designer preferred” in the `name` when `unrated` or `fans` flags and the front-end chips carry that meaning. Use `description` for longer explanation (e.g. that a game cannot be rated).
 
 ## i18n
 

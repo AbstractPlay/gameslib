@@ -313,7 +313,7 @@ describe("Ice Palace: scoring and ending", () => {
 });
 
 describe("Ice Palace: board interaction", () => {
-    type Rep = { pieces: string[][][]; areas?: { pieces: string[] }[] };
+    type Rep = { pieces: string[][][]; areas?: { pieces: string[] }[]; annotations?: { type: string; targets: { row: number; col: number }[] }[] };
 
     /** Board row and column at which a cell's stack is drawn. */
     const drawnAt = (rep: Rep, piece: string): [number, number] => {
@@ -427,13 +427,48 @@ describe("Ice Palace: board interaction", () => {
         expect(rep.pieces[0].length).to.equal(7 + 2 + 9);
     });
 
-    it("lists every hand in the status panel", () => {
+    it("lists every hand in the status panel, with the button beside the lead's", () => {
         const g = rig(new IcePalaceGame(3), [["1L", "1M"], ["2S"], ["3L", "3M", "3S"]], fatPool());
         const statuses = g.sidebarStatuses();
         expect(statuses.length).to.be.greaterThan(3);
-        expect(statuses[0].value.length).to.equal(2);
+        // Seat 1 leads the first hand, so its row starts with the button.
+        expect(statuses[0].value.length).to.equal(3);
+        expect(statuses[0].value[0]).to.deep.equal({ name: "piece", colour: 7 });
         expect(statuses[1].value.length).to.equal(1);
         expect(statuses[2].value.length).to.equal(3);
+        g.lead = 2;
+        expect(g.sidebarStatuses()[0].value.length).to.equal(2);
+        expect(g.sidebarStatuses()[1].value[0]).to.deep.equal({ name: "piece", colour: 7 });
+    });
+
+    it("dots the legal cells once a pyramid is picked, and only then", () => {
+        const dotted = (rep: Rep): string[] => {
+            const cells: string[] = [];
+            rep.pieces.forEach((line, row) => line.forEach((stack, col) => {
+                if (stack.includes("dot")) {
+                    cells.push(`${row},${col}`);
+                }
+            }));
+            return cells.sort();
+        };
+        const g = rig(new IcePalaceGame(3), [["1M"], ["2L", "1S"], ["3S"]], fatPool());
+        // Nothing picked, nothing dotted; the empty Yard offers only the origin.
+        expect(dotted(g.render() as Rep)).to.deep.equal([]);
+        g.move("1M", { partial: true });
+        expect(dotted(g.render() as Rep)).to.deep.equal(["3,3"]);
+        g.move("1M@0,0");
+        // A large of the wrong colour can only go on top of the medium at the origin, so
+        // the dot rides on that stack rather than replacing it.
+        g.move("2L", { partial: true });
+        let rep = g.render() as Rep;
+        expect(dotted(rep)).to.deep.equal(["3,3"]);
+        expect(rep.pieces[3][3]).to.deep.equal(["-", "p1M", "dot"]);
+        // A matching small cannot climb onto the medium, so it founds a stack beside it.
+        g.move("1S", { partial: true });
+        expect(dotted(g.render() as Rep)).to.deep.equal(["2,3", "3,2", "3,4", "4,3"]);
+        // Completing the placement clears the dots.
+        g.move("1S@1,0");
+        expect(dotted(g.render() as Rep)).to.deep.equal([]);
     });
 });
 

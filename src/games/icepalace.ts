@@ -1,4 +1,4 @@
-import { IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IStatus, IValidationResult } from "./_base.js";
+import { IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IStatus, IValidationResult, StatusValue } from "./_base.js";
 import { GameBaseSequenced } from "./_turn-sequenced.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaPieces, Glyph } from "@abstractplay/renderer/build/schemas/schema";
@@ -550,6 +550,8 @@ const MIN_REACH = 2;
  * step lower and a large's two lower.
  */
 const STACK_OFFSET = 0.15;
+/** Legend key of the marker drawn on every legal cell once a pyramid is picked. */
+const DOT_KEY = "dot";
 
 /** Where one structure sits on the shared board. */
 interface IRegion {
@@ -657,6 +659,8 @@ export class IcePalaceGame extends GameBaseSequenced {
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
+    /** The pyramid picked but not yet placed in a partial move; never part of the state. */
+    private selected?: PieceId;
 
     constructor(state: number | IIcePalaceState | string, variants?: string[]) {
         super();
@@ -1047,12 +1051,17 @@ export class IcePalaceGame extends GameBaseSequenced {
         }
 
         this.results = [];
+        this.selected = undefined;
         if (this.phase === "build") {
             this.applyBuild(move, partial);
         } else {
             this.applyHand(move, partial);
         }
         if (partial) {
+            const last = move.split(";").pop()!;
+            if (last !== "" && last !== "pass" && !last.includes("@")) {
+                this.selected = last;
+            }
             return this;
         }
 
@@ -1227,10 +1236,12 @@ export class IcePalaceGame extends GameBaseSequenced {
     public sidebarStatuses(): IStatus[] {
         const statuses: IStatus[] = [];
         for (let p = 1; p <= this.numplayers; p++) {
-            statuses.push({
-                key: this.seatStatusValue(p),
-                value: this.hands[p - 1].map(piece => this.glyphFor(piece)),
-            });
+            const value: StatusValue[] = this.hands[p - 1].map(piece => this.glyphFor(piece));
+            if (p === this.lead) {
+                // The button marks who leads the current hand; it moves on after each build.
+                value.unshift(IcePalaceGame.BUTTON);
+            }
+            statuses.push({ key: this.seatStatusValue(p), value });
         }
         statuses.push({
             key: this.neutralAreaLabel("apgames:status.icepalace.POOL"),
@@ -1254,6 +1265,13 @@ export class IcePalaceGame extends GameBaseSequenced {
     private static legendKey(piece: PieceId): string {
         return `p${piece}`;
     }
+
+    /**
+     * The button, as in poker, is the token that says who leads the hand. There is no
+     * dedicated glyph for it, so it is a plain piece in the seventh colour, which no seat
+     * can hold, so that players can customise it separately from the six seat colours.
+     */
+    private static readonly BUTTON: Glyph = { name: "piece", colour: 7 };
 
     /**
      * Lays a stack out the way Volcano does: each pyramid sits one index above the last, and
@@ -1372,9 +1390,7 @@ export class IcePalaceGame extends GameBaseSequenced {
         for (const region of layout.regions) {
             const struct = region.which === "palace" ? this.palace : this.yard;
             for (const [cell, stack] of struct.entries()) {
-                const [x, y] = coordsOf(cell);
-                const col = region.col0 + (x - region.minX);
-                const row = layout.height - 1 - (y - region.minY);
+                const [row, col] = IcePalaceGame.drawnAt(layout, region, cell);
                 for (const piece of stack) {
                     const key = IcePalaceGame.legendKey(piece);
                     if (!(key in legend)) {
@@ -1419,7 +1435,31 @@ export class IcePalaceGame extends GameBaseSequenced {
             pieces: pieces as [string[][], ...string[][][]],
             areas: areas.length > 0 ? areas : undefined,
         };
+
+        // Once a pyramid is picked, dot every cell it could legally go. The renderer's own
+        // "dots" annotation is drawn flat on the page instead of on the perspective board,
+        // so each dot is a small glyph put where the pyramid would land: on the ground of
+        // an empty cell, or on top of the stack it could join.
+        if (this.selected !== undefined) {
+            const active = this.phase === "build" ? "palace" : "yard";
+            const region = layout.regions.find(r => r.which === active);
+            const struct = active === "palace" ? this.palace : this.yard;
+            const legal = active === "palace" ? legalPalacePlacement : legalYardPlacement;
+            if (region !== undefined) {
+                legend[DOT_KEY] = { name: "piece", colour: "_context_annotations", scale: 0.4 };
+                for (const cell of legalCellsFor(struct, this.selected, legal)) {
+                    const [row, col] = IcePalaceGame.drawnAt(layout, region, cell);
+                    pieces[row][col].push(DOT_KEY);
+                }
+            }
+        }
         return rep;
+    }
+
+    /** Where a structure cell lands on the board, as `[row, col]`. */
+    private static drawnAt(layout: ILayout, region: IRegion, cell: Cell): [number, number] {
+        const [x, y] = coordsOf(cell);
+        return [layout.height - 1 - (y - region.minY), region.col0 + (x - region.minX)];
     }
 
     /**

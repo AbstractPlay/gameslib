@@ -154,6 +154,7 @@ describe("Kill-All Go", () => {
             expect(g.phase).to.equal("play");
             expect(g.currplayer).to.equal(2);
             expect(g.board.size).to.equal(1);
+            expect(g.setup).to.deep.equal({ handicap: 3 });
             expect(g.getPlies().map((p) => p.actor)).to.deep.equal([1, 2, 1]);
         });
     });
@@ -249,6 +250,18 @@ describe("Kill-All Go", () => {
             expect(g.phase).to.equal("play");
             expect(g.currplayer).to.equal(1);
             expect(g.getPlies().map((p) => p.actor)).to.deep.equal([1, 2, 1, 2]);
+        });
+
+        it("accepts one-stone batches and keeps the batch sizes on the sidebar", () => {
+            const g = play(new KillAllGoGame(undefined, ["size-9", "hoctaph"]), ["1,2", "youplace"]);
+            expect(g.moves()).to.include("a1");
+            g.move("a1");
+            expect(g.phase).to.equal("hoc-choose");
+            g.move("attacker:b1,c1");
+            expect(g.phase).to.equal("play");
+            expect(g.setup).to.deep.equal({ a: 1, b: 2 });
+            const statuses = g.sidebarStatuses();
+            expect(statuses.some((st) => (st.key as { textKey: string }).textKey === "apgames:status.killallgo.BATCHES")).to.be.true;
         });
 
         it("builds batches by clicking", () => {

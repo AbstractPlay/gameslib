@@ -329,7 +329,11 @@ export class KillAllGoGame extends GameBase {
         return list.length === 0 ? [] : list.split(",");
     }
 
+    /** Whether `moves()` lists every legal move of this shape in the current phase (used by the failsafe). */
     private isEnumerable(m: string): boolean {
+        if (this.phase === "hoc-slice" || this.phase === "hoc-batch-a" || this.phase === "hoc-batch-b") {
+            return false;
+        }
         return /^([a-z]+\d+|\d+|pass|attacker|defender|youplace|concede|defender:[a-z]+\d+)$/.test(m);
     }
 
@@ -371,6 +375,16 @@ export class KillAllGoGame extends GameBase {
                 break;
             case "hoc-option":
                 moves.push("youplace");
+                break;
+            case "hoc-batch-a":
+            case "hoc-batch-b":
+                if (this.setup?.batchSize === 1) {
+                    for (const cell of this.geo.cells) {
+                        if (!this.board.has(cell)) {
+                            moves.push(cell);
+                        }
+                    }
+                }
                 break;
             case "hoc-choose":
                 moves.push("defender");
@@ -910,7 +924,7 @@ export class KillAllGoGame extends GameBase {
                     this.placeStone(cell, BLUE, seen);
                     if (partial) { return this; }
                     this.phase = "play";
-                    this.setup = undefined;
+                    this.setup = this.keptSetup();
                     this.checkBlueLife();
                     this.currplayer = this.redSeat;
                 }
@@ -1072,8 +1086,20 @@ export class KillAllGoGame extends GameBase {
     /** The opening protocol is over: normal play starts with the Defender to move. */
     private startPlay(): void {
         this.phase = "play";
-        this.setup = undefined;
+        this.setup = this.keptSetup();
         this.currplayer = this.blueSeat()!;
+    }
+
+    /** The parts of the opening bookkeeping that stay visible in the sidebar during play. */
+    private keptSetup(): ISetup | undefined {
+        if (this.setup === undefined) {
+            return undefined;
+        }
+        const kept: ISetup = {};
+        if (this.setup.handicap !== undefined) { kept.handicap = this.setup.handicap; }
+        if (this.setup.a !== undefined) { kept.a = this.setup.a; }
+        if (this.setup.b !== undefined) { kept.b = this.setup.b; }
+        return Object.keys(kept).length === 0 ? undefined : kept;
     }
 
     /** Ends the game for the Defender if any Blue string is pass-alive. */

@@ -459,3 +459,21 @@ Commands: `npm run generate-registry`, `npm run typecheck`, `npx mocha --require
 
 Still to fill in during implementation: your display name / AP id in `people`, and a check that the OGS forum URL for
 Hoctaph's post resolves (topic 27365, post 70).
+
+---
+
+## 11. Implementation status (2026-09-21)
+
+Implemented on this branch: `src/games/killallgo.ts`, `src/games/killallgo/board.ts`, `src/games/killallgo/benson.ts`,
+`test/games/killallgo.test.ts`, `test/games/killallgo-benson.test.ts`, English and Esperanto strings in `locales/{en,eo}/apgames.json`
+and `apresults.json`. Everything in §3–§7 is implemented as written, with these notes:
+
+* Red can never make a Blue string pass-alive (its moves only remove Blue chains and merge regions, which never adds a vital,
+  X-enclosed region), so the mid-refutation check in D6 is a harmless safeguard rather than a reachable rule.
+* `currplayer` always advances after a ply, including game-ending plies, so the default chat collector attributes lines to the
+  mover exactly as `go.ts` does.
+* The sidebar phase line is a seat-actor label ("{{player}} chooses a side"), so the front substitutes the display name.
+* Validation of typed input (`n`, `a,b`) returns `complete: 0`, like Go's komi entry, so the player can keep typing.
+* Rendered JSON for every phase was validated against the renderer schema; the button bar uses structured labels resolved by
+  the front (`resolveRenderLabels`), so no `front` change is needed.
+* The Esperanto title `Ĉiomortiga Goo` is a proposal awaiting acceptance (see the conventions repository's game-name policy).

@@ -623,7 +623,11 @@ export class IcePalaceGame extends GameBaseSequenced {
         dateAdded: "2026-09-18",
         // i18next.t("apgames:descriptions.icepalace")
         description: "apgames:descriptions.icepalace",
-        urls: ["https://icehousegames.org/wiki/index.php?title=Ice_Palace"],
+        urls: [
+            "https://icehousegames.org/wiki/index.php?title=Ice_Palace",
+            "https://boardgamegeek.com/boardgame/61898/ice-palace",
+            "https://web.archive.org/web/20150314202652/http://icehousegames.com/contest/icedes-2/ice-palace/IcePalace.htm",
+        ],
         bggid: "61898",
         // i18next.t("apgames:notes.icepalace")
         notes: "apgames:notes.icepalace",
@@ -631,6 +635,12 @@ export class IcePalaceGame extends GameBaseSequenced {
             {
                 type: "designer",
                 name: "Geoff Hanna",
+            },
+            {
+                type: "coder",
+                name: "Samraku",
+                urls: [],
+                apid: "6ea91933-1262-41a5-b5f3-a6af70692296",
             },
         ],
         categories: [

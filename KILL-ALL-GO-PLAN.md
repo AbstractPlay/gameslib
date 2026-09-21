@@ -1,6 +1,6 @@
 # Kill-All Go — implementation plan
 
-Status: **planning document, no engine code yet.** Branch `claude/kill-all-go-planning-o4ysfq`, based on
+Status: **planning document, no engine code yet; design decisions confirmed by the author on 2026-09-21 (§10).** Branch `claude/kill-all-go-planning-o4ysfq`, based on
 upstream `AbstractPlay/gameslib` `develop` (commit `9ecf63c`). This file is a working artefact for the
 implementation sessions that follow; drop it from the tree (or squash it away) before the upstream PR is opened.
 
@@ -35,16 +35,16 @@ mapping returned by `getPlayerColour()`.
 | D1 | uid / name | `killallgo` / "Kill-All Go" | Description: "Go variant where the Defender must make one unconditionally alive string and the Attacker must kill everything." |
 | D2 | Boards | 9×9, 13×13, 19×19; **19×19 default** (`#board` sentinel) | Same `size-N` scheme as `go.ts`; more sizes can be appended later without a version bump. |
 | D3 | Ko | **Positional superko (PSK)** over every grid colouring reached so far, including setup positions and the intermediate positions inside multi-stone plies. | Passes never create a position; a single-stone suicide is therefore always illegal (it would repeat the position). |
-| D4 | Suicide | **Tromp-Taylor: multi-stone suicide is legal** (own stones without liberties are removed after opponent captures). | Your instruction was "if in doubt, Tromp-Taylor". This is the one place the choice has a knock-on effect: Benson's vital-region test must be strengthened (§4.4). AP's `go.ts` forbids suicide, so if you would rather match it, flip one flag and use classic Benson. **Please confirm.** |
-| D5 | Passing | Either side may pass during normal play. **Two consecutive passes end the game with a Red win** (Blue had every chance to claim life and did not). | Alternatives considered: forbid Blue passes (rejected: un-Go-like), draw (rejected: rewards stalling). Blue's pass gets a warning message. **Please confirm.** |
+| D4 | Suicide | **Tromp-Taylor: multi-stone suicide is legal** (own stones without liberties are removed after opponent captures). | Your instruction was "if in doubt, Tromp-Taylor". This is the one place the choice has a knock-on effect: Benson's vital-region test must be strengthened (§4.4). AP's `go.ts` forbids suicide; we deliberately differ. **Confirmed.** |
+| D5 | Passing | Either side may pass during normal play. **Two consecutive passes end the game with a Red win** (Blue had every chance to claim life and did not). | Alternatives considered: forbid Blue passes (rejected: un-Go-like), draw (rejected: rewards stalling). Blue's pass gets a warning message. **Confirmed.** |
 | D6 | Immediate Blue win | After any board change, if any Blue string is pass-alive (Benson, exact), the game ends, Blue wins, all pass-alive Blue stones get `enter` annotations. | Checked after every stone, including each stone inside a Red refutation ply (§4.5.6). |
 | D7 | Seki | **Manual claim protocol** exactly as you described (§4.5), no automatic verdicts. goscorer-style detection is not sound enough to end games (§6); it can be a later display-only hint. | |
 | D8 | Ko-alive | Ignored by the engine: Blue must keep playing. No engine draw offer. | AP already has a per-move "include draw offer" checkbox, so players can agree a draw themselves. Reliable "alive in ko" detection needs search; deferred. |
-| D9 | Openings | Radio group `opening`: `#opening` = alternating placement (default), `classic` (19×19 only), `pie`, `hoctaph`. Handicap is a second radio group `handicap` (`#handicap` = none, `handicap-1` … `handicap-12`), enabled only with the default opening. | Handicap needs a designated giver: **Player 1 is the handicap giver (Uwate)**; the challenger uses the challenge form's seating option ("I play first" / "I play second") to seat the stronger player first. There is no other way for the engine to know who gives the handicap, so this convention goes into the variant description and the notes. **Please confirm the 1–12 range and the seat convention.** |
+| D9 | Openings | One radio group `opening`: `#opening` = alternating placement (default), `handicap` = alternating placement with a handicap, `classic` (19×19 only), `pie`, `hoctaph`. | Handicap: **Player 1 is Uwate (the giver)** and chooses `n`; the challenger seats the stronger player first with the challenge form's seating option ("I play first" / "I play second"). `n` is typed on the first ply, any integer with `1 ≤ n ≤ floor(p/2)` where `p` is the number of points (180 on 19×19, 84 on 13×13, 40 on 9×9); no variant list. Player 2 (Shitate) then makes the first placement of the alternating protocol, or claims the Attacker stones straight away. **Confirmed.** |
 | D10 | Turn model | Plain `GameBase`, strict alternation everywhere. Every "choose a side" action that would otherwise give the same seat two plies in a row is bundled into one ply (§5.6). | No `GameBaseSequenced`, no pass padding. |
 | D11 | Buttons | Role / claim buttons are rendered by the game as an `areas: [{type: "buttonBar"}]` with structured labels from `apgames.json`; clicks arrive as `piece === "_btn_<value>"`. `custom-buttons` is used only for `pass` (front already has that label). | Avoids a `front` PR for new button labels. |
 | D12 | Colour before roles exist | `getPlayerColour(seat)` returns a neutral grey (`"#999999"`) until Red has been claimed/chosen, then `1` / `2`. | Front renders the seat chip with `renderglyph("piece", colour)` and only uses numeric returns for palette-slot logic, so a hex string is safe. Verify in the playground during M3. |
-| D13 | Community credit | The four non-classic protocols get `fans: true` and a `people` entry on the variant (schema now supports both). | Fill in the names you want credited (you for the alternating/handicap/simple-pie designs, "Hoctaph" for the generalized pie?). |
+| D13 | Community credit | Non-traditional protocols carry `fans: true`; credits go into the variant *descriptions* (§7.8). Alternating placement and its handicap form: OGS-forum community protocols of unknown origin (they predate the similar openings of other AP games). Classic 17-stone setup: traditional, origin unknown. Simple pie: the standard balancing device, nobody to credit. Generalized Hoctaph's pie: Hoctaph (basic structure and insight, OGS forums) and the author of this plan (generalisation to every board size by letting the slicer pick `a` and `b` under incentives instead of splitting a fixed total). `people` on the `hoctaph` variant lists both. | **Confirmed.** Fill in your display name / AP id where the plan says `<you>`. |
 | D14 | Flags | `["experimental", "custom-colours", "custom-buttons"]`. **No `pie` flag** (AP's built-in seat swap would fight the protocols). | |
 
 ---
@@ -169,14 +169,19 @@ Common facts: state carries `redSeat?: 1 | 2` (undefined until decided) and `pha
 the board is a Red stone rendered in slot 1. When the game reaches `play`, **Blue always has the first move**.
 
 ### 5.1 `#opening` — alternating placement (default)
-1. `phase = "alt-place"`, `currplayer = 1`, empty board.
+1. `phase = "alt-place"`, `currplayer = 1`, empty board (in the `handicap` opening Player 2 makes the first placement instead, see 5.2).
 2. Ply: place one Red stone (`d4`) **or** take the Red stones (`attacker`).
 3. When a seat takes Red: `redSeat = that seat`, `phase = "play"`, the other seat moves next as Blue.
 Taking Red on the very first ply is legal (and silly).
 
-### 5.2 Handicap (`handicap-n`, only with 5.1)
-Player 1 is Uwate (gives). If Player 1 takes Red: `attacker`, game starts. If Player 2 takes Red: the claim ply is
-`attacker:c1,…,cn` with **exactly n** extra Red stones (built by clicks; `complete` becomes 1 at n). Then Blue (Player 1) moves.
+### 5.2 `handicap` — alternating placement with a handicap
+1. `phase = "hand-n"`, `currplayer = 1`. Player 1 is Uwate (the giver); the challenger seats the stronger player first with the
+   challenge form's seating option. Player 1 types `n` in the move box (a bare integer, like Go's komi entry) with
+   `1 ≤ n ≤ floor(p/2)`, `p = size²`. Stored as `setup.handicap`.
+2. `phase = "alt-place"` with **Player 2 (Shitate) to move**: place one Red stone, or claim.
+3. Claims: Player 1 claims with `attacker` and the game starts at once (Blue = Player 2 moves). Player 2 claims with
+   `attacker:c1,…,cn`, **exactly n** extra Red stones bundled into the claim ply (built by clicks; `complete` becomes 1 at n),
+   then Blue = Player 1 moves.
 
 ### 5.3 `classic` — the 17-stone setup (19×19 only, `enabledWhen: { board: ["#board"] }`)
 Fixed initial board, no choosing. Blue = **Player 1** moves first, `redSeat = 2` from the start (so Player 1 moves first as
@@ -207,9 +212,17 @@ Let `p = size²`.
    moves as Blue.
 Batches must contain exactly `a` / `b` stones, all legal setup placements.
 
+For reference, Hoctaph's original (OGS forums, topic 27365 post 70) fixes the total at five stones and only splits it:
+"(0) One player chooses a number n from {0,1,2,3,4,5}. (1) The other player chooses who chooses the intersections for (2).
+(2) The player determined by (1) chooses up to n intersections. (3) The other player chooses colors. (4) Black places stones at
+the intersections chosen for (2), and up to 5−n more stones, after which it is White's turn." The generalisation lets the
+slicer choose both batch sizes for any board, with the ratio bound and the `p − 2` cap keeping the numbers reasonable, and
+requires `a, b ≥ 1` so the ratio is always defined.
+
 ### 5.6 Ply tables (strict alternation holds in every branch)
 ```
-alt-place : P1 place, P2 place, …, Pk attacker[:handicap]  → other seat (Blue) moves
+alt-place : P1 place, P2 place, …, Pk attacker            → other seat (Blue) moves
+handicap  : P1 n, P2 place, P1 place, …, Pk attacker[:n stones when Pk = P2] → other seat (Blue) moves
 classic   : P1 (Blue) moves first
 pie       : P1 slice | P2 attacker → P1 Blue move          | P2 defender:x → P1 Red move
 hoctaph   : P1 slice:a,b
@@ -248,7 +261,7 @@ generator only picks up game classes, so helper modules there are safe.
 
 ### 7.2 State
 ```ts
-type Phase = "alt-place" | "pie-slice" | "pie-choose" | "hoc-slice" | "hoc-option" | "hoc-batch-a"
+type Phase = "hand-n" | "alt-place" | "pie-slice" | "pie-choose" | "hoc-slice" | "hoc-option" | "hoc-batch-a"
            | "hoc-choose" | "hoc-batch-b" | "play" | "refute";
 
 interface IMoveState extends IIndividualState {
@@ -261,7 +274,7 @@ interface IMoveState extends IIndividualState {
         a?: number; b?: number;        // hoctaph
         batchBy?: playerid;            // who owes the pending batch and how big
         batchSize?: number;
-        handicapOwed?: number;         // alt-place with handicap: n (only used when Player 2 takes Red)
+        handicap?: number;             // n typed by Player 1 in the handicap opening (Player 2 owes n stones when claiming)
     };
     claim?: { stone: string; stones: string[]; marks: string[] };   // pending life claim
     interim: string[];                 // board signatures of intermediate positions inside this ply (PSK)
@@ -275,9 +288,10 @@ make states heavy, switch to 64-bit Zobrist hashes without changing any rule.)
 ```
 cell      := [a-z]+[0-9]+
 cells     := cell ("," cell)*
+handicap  := int                                  hand-n (Player 1 types n, 1 ≤ n ≤ floor(p/2))
 placement := cell                                 alt-place (Red), play (mover's colour)
 batch     := cells | "pass"                       pie-slice (pass = zero stones); hoc-batch-a/b (exact size, no pass)
-attacker  := "attacker" [":" cells]               take/choose Red; cells = handicap stones or Hoctaph's b-batch
+attacker  := "attacker" [":" cells]               take/choose Red; cells = the n handicap stones (Player 2 only) or Hoctaph's b-batch
 defender  := "defender" [":" cell]                choose Blue; the cell (simple pie only) is Blue's first stone
 slice     := "slice:" int "," int                 hoctaph a,b
 option    := "iplace" [":" cells] | "youplace"    hoctaph chooser
@@ -290,7 +304,7 @@ Everything is lower-cased and whitespace-stripped in `move()` as in the template
 
 ### 7.4 Behaviour of the standard hooks
 * **`moves()`** — enumerates what is enumerable: single placements (+ `pass`, + `attacker`, + `defender:<cell>` per empty
-  cell in `pie-choose`, + `concede` and each legal protected point in `refute`). Claims, batches and `slice` are combinatorial
+  cell in `pie-choose`, + every integer `1…floor(p/2)` in `hand-n`, + `concede` and each legal protected point in `refute`). Claims, batches and `slice` are combinatorial
   and are *not* enumerated; `move()` skips the failsafe for those shapes (Go does the same for its komi turn). No `no-moves` flag.
 * **`validateMove()`** — the authority for every shape above; returns `complete: -1 / 0 / 1` per §7.5 and `canrender: true`
   for anything that changes the board (partial batches, partial refutations, partial claims).
@@ -315,6 +329,7 @@ Everything is lower-cased and whitespace-stripped in `move()` as in the template
 ### 7.5 Completeness rules (`validateMove.complete`)
 | Shape | −1 | 0 | 1 |
 |---|---|---|---|
+| handicap `n` | — | — | any integer in range |
 | batch (pie-slice) | — | ≥ 1 stone | `pass` |
 | batch (hoctaph, size k) | < k stones | — | exactly k |
 | `attacker:` with owed stones | fewer than owed | — | exactly owed |
@@ -335,7 +350,8 @@ Everything is lower-cased and whitespace-stripped in `move()` as in the template
 * `{type: "place", where, what: "setup"}` for opening stones; `{type: "place", where}` in play.
 * `{type: "capture", where: "a1,b2", count}` per captured string (as `go.ts`).
 * `{type: "claim", how: "attacker" | "defender"}` for side choices; `{type: "claim", how: "life", where: stone, what: marks}`;
-  `{type: "claim", how: "concede"}`; `{type: "announce", payload: [a, b]}` for the slice; `{type: "select", what: "iplace" | "youplace"}`.
+  `{type: "claim", how: "concede"}`; `{type: "declare", count: n}` for the handicap; `{type: "announce", payload: [a, b]}` for the
+  slice; `{type: "select", what: "iplace" | "youplace"}`.
 * `{type: "eog", reason: "pass-alive" | "claim-upheld" | "claim-refuted" | "double-pass"}` + `winners`.
 All of these exist in `src/schemas/moveresults.json`; no schema change needed.
 
@@ -353,11 +369,13 @@ variants: [
     { uid: "size-13", group: "board" },
     { uid: "#board" },                                                     // 19×19
     { uid: "#opening" },                                                   // alternating placement (default)
-    { uid: "classic", group: "opening", enabledWhen: { board: ["#board"] } },
-    { uid: "pie",     group: "opening", fans: true, people: [ … ] },
-    { uid: "hoctaph", group: "opening", fans: true, people: [ … ] },
-    { uid: "#handicap" },                                                  // no handicap
-    { uid: "handicap-1", group: "handicap", enabledWhen: { opening: ["#opening"] }, fans: true }, … "handicap-12",
+    { uid: "handicap", group: "opening", fans: true },
+    { uid: "classic",  group: "opening", enabledWhen: { board: ["#board"] } },
+    { uid: "pie",      group: "opening", fans: true },
+    { uid: "hoctaph",  group: "opening", fans: true, people: [
+        { type: "designer", name: "Hoctaph", urls: ["https://forums.online-go.com/t/27365/70"] },   // verify the URL resolves
+        { type: "designer", name: "<you>", apid: "<your AP id>" },
+    ] },
 ],
 categories: ["goal>annihilate", "mechanic>place", "mechanic>capture", "mechanic>enclose", "mechanic>asymmetry",
              "board>shape>rect", "board>connect>rect", "components>simple>1per"],
@@ -367,20 +385,30 @@ customizations: [
     { num: 2, default: 2, explanation: "Colour of the Defender's stones" },
 ],   // no `player` tags: the seat→slot mapping is dynamic, exactly like Go's swapped colours
 ```
-The default opening is also a fan design, but a `#group` sentinel cannot carry `fans`/`people`; credit it in `notes` instead
-(or make it an explicit uid with `default: true` if the chip matters to you).
+The default opening is also a community design, but a `#group` sentinel cannot carry `fans`/`people`; its credit lives in its
+locale description (sentinels do get `name` and `description`, as Go's `#ruleset` shows). Suggested English descriptions:
+* `#opening`: "Players alternate placing Attacker stones until one of them claims the Attacker side; the other player then
+  moves first as the Defender. A community protocol from the OGS forums, origin unknown."
+* `handicap`: "Alternating placement with a handicap. Player 1 (the stronger player, seated first by the challenge) chooses the
+  number of extra Attacker stones; Player 2 then starts placing. If Player 2 claims the Attacker side they place that many extra
+  stones first. A community protocol from the OGS forums, origin unknown."
+* `classic`: "The traditional 17-stone starting position; the Defender moves first. 19×19 only."
+* `pie`: "Player 1 places any number of Attacker stones, then Player 2 chooses a side. The usual pie rule."
+* `hoctaph`: "Player 1 chooses two batch sizes, Player 2 chooses who places the first batch, the other player chooses a side, and
+  the Attacker places the second batch. Hoctaph's pie (OGS forums), generalised to every board size by <you>."
+
 
 ### 7.9 Localization (English; Esperanto through `$ap-eo` during implementation)
 * `names.killallgo`, `descriptions.killallgo`, `notes.killallgo` (rules summary: roles, life claims, double pass, openings,
   handicap seat convention, suicide/PSK statement).
-* `variants.killallgo.{size-9,size-13,#board,#opening,classic,pie,hoctaph,#handicap,handicap-1…12}` — `name` (+ `description`
-  for the openings and for the handicap group's seat convention). Keep names neutral (the front shows the community chip).
+* `variants.killallgo.{size-9,size-13,#board,#opening,handicap,classic,pie,hoctaph}` — `name` + `description` (texts in §7.8).
+  Keep names neutral (the front shows the community chip).
 * `validation.killallgo.*` — instructions per phase, `BTN_*` button labels, errors: OCCUPIED (general), SELF_CAPTURE_SETUP,
-  KO_PSK, PROTECTED_POINT, BATCH_SIZE, HANDICAP_COUNT, SLICE_FORMAT / SLICE_RANGE / SLICE_RATIO, CLAIM_NOT_OWN_STONE,
+  KO_PSK, PROTECTED_POINT, BATCH_SIZE, HANDICAP_RANGE, HANDICAP_COUNT, SLICE_FORMAT / SLICE_RANGE / SLICE_RATIO, CLAIM_NOT_OWN_STONE,
   CLAIM_MARK_NOT_EMPTY, CLAIM_EMPTY_MARKS (warning), REFUTE_INCOMPLETE, PASS_WARNING (Defender), INVALID_PASS, NOT_YOUR_PHASE.
 * `status.killallgo.{ATTACKER, DEFENDER, UNDECIDED, PHASE, HANDICAP, SLICE, CLAIM}`.
 * `apresults`: `PLACE.killallgo_setup`, `CLAIM.killallgo_attacker`, `CLAIM.killallgo_defender`, `CLAIM.killallgo_life`,
-  `CLAIM.killallgo_concede`, `ANNOUNCE.killallgo_slice` (or reuse a generic key), `SELECT.killallgo_option`,
+  `CLAIM.killallgo_concede`, `DECLARE.killallgo_handicap`, `ANNOUNCE.killallgo_slice` (or reuse a generic key), `SELECT.killallgo_option`,
   `EOG.killallgo_pass_alive`, `EOG.killallgo_claim_upheld`, `EOG.killallgo_claim_refuted`, `EOG.killallgo_double_pass`.
 Do not touch any locale other than `en` (and `eo` via the skill); `check-game-names-locale` will report the managed locales as
 missing until upstream CI seeds them — expected.
@@ -393,8 +421,9 @@ missing until upstream CI seeds them — expected.
 * **board helpers**: capture of one/many strings, multi-stone suicide removal, single-stone suicide rejected by PSK, PSK across
   plies and across `interim` positions inside one ply.
 * **classic**: initial 17 stones at the listed cells; Player 1 (Blue) to move; `getPlayerColour(1) === 2`.
-* **alt-place**: alternation; `attacker` on either seat sets `redSeat` and hands Blue the move; handicap: Player 1 takes → no
-  stones; Player 2 takes → exactly n stones required; sidebar strings.
+* **alt-place**: alternation; `attacker` on either seat sets `redSeat` and hands Blue the move; sidebar strings.
+* **handicap**: `n` range enforced (`0`, `floor(p/2) + 1` and non-integers rejected on every board size); Player 2 moves first
+  after the number; Player 1 claims → no stones; Player 2 claims → exactly n stones required, fewer is incomplete, more is invalid.
 * **pie / hoctaph**: every branch of the ply tables in §5.6, batch size enforcement, `slice` validation (range, ratio, a+b ≤ p−2),
   `getRounds()` has no duplicate actors, `getPlayerColour` neutral until decided.
 * **play**: pass-alive win with highlight; Blue win triggered by a Red move; double pass → Red wins; Blue pass warning text.
@@ -419,12 +448,14 @@ Commands: `npm run generate-registry`, `npm run typecheck`, `npx mocha --require
 
 ---
 
-## 10. Open questions for you (answers change small, well-contained parts)
-1. D4 suicide: Tromp-Taylor (legal, strict Benson) as planned, or forbid it like AP's Go?
-2. D5 double pass = Attacker wins?
-3. D9 handicap: 1–12 as the offered range, and "Player 1 gives; use challenge seating" as the convention?
-4. Hoctaph: `a, b ≥ 1` (I excluded 0 so the ratio is defined), exact batch sizes, and are "I place the first batch" /
-   "Opponent places the first batch" acceptable wordings for the two options?
-5. Names/AP ids to credit in `people` for the fan protocols (and for "Hoctaph").
-6. Anything you want shown differently while a claim is pending (marker style, sidebar wording)?
-7. `classic` seats the Defender as Player 1 (so Player 1 keeps the first move, as in every other AP game) and the Attacker as Player 2, i.e. the Attacker is *not* the seat whose default colour is red there. Fine, or would you rather have the Attacker as Player 1 with Player 2 moving first?
+## 10. Decisions confirmed by the author (2026-09-21)
+1. Suicide stays legal (Tromp-Taylor); strict Benson.
+2. Double pass ends the game as an Attacker win.
+3. Handicap: `n` in `[1, floor(p/2)]`, typed by Player 1 (Uwate, seated first via the challenge's seating option); Player 2
+   (Shitate) makes the first placement or claims at once. No `handicap-N` variant list.
+4. Hoctaph: `a, b ≥ 1`, `a + b ≤ p − 2`, `b/2 ≤ a ≤ 2b`.
+5. Credits as in D13 / §7.8 (descriptions), `people` on `hoctaph` only.
+6. Classic opening seats the Defender as Player 1; claim-pending rendering as specified in §4.5.6.
+
+Still to fill in during implementation: your display name / AP id in `people`, and a check that the OGS forum URL for
+Hoctaph's post resolves (topic 27365, post 70).

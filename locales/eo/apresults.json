@@ -98,6 +98,8 @@
         "forms_other": "La movo de {{player}} forigis {{count}} pecojn.",
         "elOso_one": "{{player}} neniigis unu pecon ĉe {{where}}.",
         "elOso_other": "{{player}} neniigis {{count}} pecojn ĉe {{where}}.",
+        "killallgo_suicide_one": "{{player}} forigis sian propran ŝtonon per memmortigo.",
+        "killallgo_suicide_other": "{{player}} forigis {{count}} el siaj propraj ŝtonoj per memmortigo.",
         "spora_one": "{{player}} ĉirkaŭis kaj kaptis unu pecon: {{group}}.",
         "spora_other": "{{player}} ĉirkaŭis kaj kaptis {{count}} pecojn: {{group}}."
     },
@@ -222,7 +224,8 @@
         "elOso": {
             "playerSetup": "Komenca aranĝo de la ludanto",
             "bearSetup": "Komenca aranĝo de la Urso"
-        }
+        },
+        "killallgo_slice": "{{player}} fiksis la grandojn de la aroj al {{a}} kaj {{b}} ŝtonoj."
     },
     "BEAROFF": {
         "canoe": "{{player}} eligis kubon de la tabulo.",
@@ -250,6 +253,11 @@
         "fnap_row": "{{player}} alproprigis la vicon {{where}}.",
         "frogger": "{{player}} estis blokita kaj tiris {{card}} el la tirprovizo.",
         "jacynth": "{{player}} influis ĉe {{where}}.",
+        "killallgo_attacker": "{{player}} elektis ludi kiel la atakanto.",
+        "killallgo_concede": "{{player}} koncedis la pretendon: la ĉeno vivas.",
+        "killallgo_defender": "{{player}} elektis ludi kiel la defendanto.",
+        "killallgo_life": "{{player}} pretendis, ke la ĉeno ĉe {{where}} vivas, krom se la atakanto ludos ĉe {{marks}}.",
+        "killallgo_life_nomarks": "{{player}} pretendis, ke la ĉeno ĉe {{where}} ne povas esti kaptita.",
         "logger": "{{player}} akiris protestanton de la arbo faligita ĉe {{where}}.",
         "magnate": "{{who}} akiris {{what}}.",
         "magnate_initial": "La ludantoj kolektis siajn Kronajn rimedojn.",
@@ -300,6 +308,8 @@
         "biscuit": "{{player}} finis sian manon!",
         "emu": "La jaro {{year}} finiĝis.",
         "frogger": "La krokodiloj antaŭeniris.",
+        "killallgo_handicap_one": "{{player}} fiksis la handikapon al unu ŝtono.",
+        "killallgo_handicap_other": "{{player}} fiksis la handikapon al {{count}} ŝtonoj.",
         "mchess": "{{player}} \"vokis la horloĝon\". Se neniu kapto okazos dum la sekvaj sep vicoj, la ludo finiĝos kaj estos poentita.",
         "renju": "{{player}} deklaris {{count}} provizorajn kvinopojn."
     },
@@ -375,7 +385,11 @@
         "unlur_foul": "La ludo finiĝis, ĉar unu ludanto plenumis la venkokondiĉon de la kontraŭulo sen plenumi sian propran.",
         "druid_hex": "La ludo finiĝis, ĉar {{player}} konektis la randojn {{edges}}.",
         "gonnect_cascading_subboard": "{{player}} venkis sur la {{size}}x{{size}}-subtabulo.",
-        "gonnect_direct_connection": "{{player}} venkis per rekta konekto."
+        "gonnect_direct_connection": "{{player}} venkis per rekta konekto.",
+        "killallgo_claim_refuted": "La ludo finiĝis, ĉar la pretendita ĉeno estis kaptita.",
+        "killallgo_claim_upheld": "La ludo finiĝis, ĉar la atakanto koncedis, ke la pretendita ĉeno vivas.",
+        "killallgo_double_pass": "La ludo finiĝis, ĉar ambaŭ ludantoj preterpasis kaj la defendanto ne establis vivon.",
+        "killallgo_pass_alive": "La ludo finiĝis, ĉar la defendanto faris senkondiĉe vivantan ĉenon."
     },
     "DRUID_HEX_EDGE": {
         "N": "nordo (N)",
@@ -556,6 +570,7 @@
         "streetcar_place_default": "Konstruaĵo estis metita ĉe {{where}}.",
         "elOso_one": "{{player}} metis unu pecon ĉe {{where}}.",
         "elOso_other": "{{player}} metis {{count}} pecojn ĉe {{where}}.",
+        "killallgo_setup": "{{player}} metis atakantan ŝtonon ĉe {{where}}.",
         "spora_one": "{{player}} aldonis unu pecon al la stako ĉe {{where}}.",
         "spora_other": "{{player}} aldonis {{size}} pecojn al la stako ĉe {{where}}."
     },
@@ -625,6 +640,8 @@
     "SCORE_REPORT": "La poentaro de {{player}} nun estas {{score}}.",
     "SELECT": {
         "fnap": "{{player}} elektis la kahelon {{tile}}.",
+        "killallgo_iplace": "{{player}} elektis mem meti la unuan aron.",
+        "killallgo_youplace": "{{player}} elektis lasi la kontraŭulon meti la unuan aron.",
         "resolve": "{{player}} elektis la pecon en kructranĉo ĉe {{where}}.",
         "slyde_fixed_opponent": "{{player}} ŝanĝis la staton de la kontraŭula peco ĉe {{where}} de movebla al fiksa.",
         "slyde_fixed_self": "{{player}} ŝanĝis la staton de sia propra peco ĉe {{where}} de movebla al fiksa.",

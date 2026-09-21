@@ -624,6 +624,7 @@ export class IcePalaceGame extends GameBaseSequenced {
         // i18next.t("apgames:descriptions.icepalace")
         description: "apgames:descriptions.icepalace",
         urls: ["https://icehousegames.org/wiki/index.php?title=Ice_Palace"],
+        bggid: "61898",
         // i18next.t("apgames:notes.icepalace")
         notes: "apgames:notes.icepalace",
         people: [
@@ -1054,6 +1055,9 @@ export class IcePalaceGame extends GameBaseSequenced {
             const result = this.validateMove(move);
             if (!result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message);
+            }
+            if (result.complete === -1 && !partial) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", { move: m }));
             }
         }
 
@@ -1658,6 +1662,11 @@ export class IcePalaceGame extends GameBaseSequenced {
             default:
                 return super.collectChatLogLine(lines, r, ctx);
         }
+    }
+
+    /** The build announcement is for the chat log only; published records need not carry it. */
+    protected recordExportExclude(): string[] {
+        return ["announce", "eog", "winners"];
     }
 
     /** Exposed for tests: the pyramid currently on top of a cell. */

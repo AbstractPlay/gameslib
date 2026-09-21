@@ -638,6 +638,93 @@ describe("Ice Palace: serialization", () => {
         expect([...clone.yard.entries()]).to.deep.equal([...g.yard.entries()]);
         expect(clone.pool.length).to.equal(g.pool.length);
     });
+
+    it("revives the whole stack, Maps included, from serialized JSON mid-build", () => {
+        const g = rig(new IcePalaceGame(3), [["1M"], ["1S"], ["3S"]], fatPool());
+        g.palace = new Map([["0,0", ["2L"]]]);
+        g.lead = 2;
+        g.currplayer = 2;
+        g.move("1S@0,0");
+        g.move("pass");
+        g.move("pass");
+        g.move("pass");
+        expect(g.phase).to.equal("build");
+        const stockBefore = [...g.stock];
+        const palaceBefore = [...g.palace.entries()].map(([cell, stack]) => [cell, [...stack]]);
+        g.move("1S@0,0", { partial: true });
+        const json = g.serialize();
+        expect(json).to.be.a("string");
+        const revived = new IcePalaceGame(json);
+        expect(revived.phase).to.equal("build");
+        expect(revived.buildMin).to.equal(g.buildMin);
+        expect(revived.lead).to.equal(2);
+        expect(revived.currplayer).to.equal(2);
+        expect(revived.stock).to.deep.equal(stockBefore);
+        expect(revived.palace).to.be.instanceOf(Map);
+        expect([...revived.palace.entries()]).to.deep.equal(palaceBefore);
+        expect(revived.yard).to.be.instanceOf(Map);
+        expect(revived.stack.length).to.equal(g.stack.length);
+        expect(revived.stack[revived.stack.length - 1]._results).to.deep.equal(g.stack[g.stack.length - 1]._results);
+        // The partial placement was never committed, so it is not in the saved state.
+        expect(revived.palace.get("0,0")).to.deep.equal(["2L"]);
+    });
+});
+
+describe("Ice Palace: sequenced turn model and record export", () => {
+    const played = (): IcePalaceGame => {
+        const g = rig(new IcePalaceGame(3), [["1M"], ["2S"], ["3S"]], fatPool());
+        g.move("1M@0,0");
+        g.move("pass");
+        g.move("pass");
+        g.move("pass");
+        g.move("1M@0,0");
+        return g;
+    };
+
+    it("refuses to commit an incomplete move", () => {
+        const g = rig(new IcePalaceGame(3), [["1M", "1S"], ["2S"], ["3S"]], fatPool());
+        expect(() => g.move("1M")).to.throw("FAILSAFE");
+        g.move("1M@0,0");
+        g.move("pass");
+        g.move("pass");
+        g.move("1S@1,0");
+        g.move("pass");
+        g.move("pass");
+        g.move("pass");
+        expect(g.phase).to.equal("build");
+        expect(g.buildMin).to.equal(2);
+        expect(() => g.move("1M@0,0;1S")).to.throw("FAILSAFE");
+        expect(() => g.move("1M@0,0")).to.throw("FAILSAFE");
+        g.move("1M@0,0;1S@0,0");
+        expect(g.phase).to.equal("hand");
+    });
+
+    it("exports one sparse row per ply, with the hand winner acting twice in a row", () => {
+        const g = played();
+        expect(g.turnModel()).to.equal("sequenced");
+        const plies = g.getPlies();
+        expect(plies.map(p => p.actor)).to.deep.equal([1, 2, 3, 1, 1]);
+        const rounds = g.getRounds();
+        expect(rounds).to.have.length(5);
+        for (const row of rounds) {
+            expect(row).to.have.length(3);
+            expect(row.filter(slot => slot !== null)).to.have.length(1);
+        }
+        expect(rounds[3][0]).to.not.be.null;
+        expect(rounds[4][0]).to.not.be.null;
+        expect(rounds[4][1]).to.be.null;
+    });
+
+    it("keeps the build announcement out of the published record", () => {
+        const g = played();
+        const record = (g as unknown as { getMoveList(): (string | { result?: { type: string }[] } | null)[][] }).getMoveList();
+        const types = record.flat().flatMap(slot => slot !== null && typeof slot === "object" ? (slot.result ?? []).map(r => r.type) : []);
+        expect(types).to.include("place");
+        expect(types).to.not.include("announce");
+        // The chat log still carries it.
+        const keys = g.chatLogEntries(["A", "B", "C"]).flatMap(e => e.lines.map(l => l.textKey));
+        expect(keys).to.include("apresults:ANNOUNCE.icepalace_build");
+    });
 });
 
 const palaceOf = (stacks: Record<string, PieceId[]>): Structure => {

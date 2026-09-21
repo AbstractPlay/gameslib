@@ -890,7 +890,7 @@ export class LielowGame extends GameBase {
         const suicideMoves = this.movesUntilSuicide();
         return [
             { name: this.neutralAreaLabel("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] },
-            { name: this.neutralAreaLabel("apgames:status.lielow.MOVESUNTILSUICIDE"), scores: [suicideMoves[0], suicideMoves[1]] }
+            { name: this.neutralAreaLabel("apgames:status.lielow.MOVESUNTILSUICIDE"), scores: [suicideMoves[0], suicideMoves[1]], spoiler: true }
         ]
     }
 

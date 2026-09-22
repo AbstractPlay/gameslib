@@ -308,8 +308,7 @@ type Phase =
     | "hoc-batch-a"   // Hoctaph: Player 1 places the first batch (Player 2 chose "youplace")
     | "hoc-choose"    // Hoctaph: the other player chooses a side
     | "hoc-batch-b"   // Hoctaph: Red places the second batch (the chooser took Blue)
-    | "play"          // normal alternation, Blue always moved first
-    | "refute";       // Red must answer a pending life claim
+    | "play";         // normal alternation, Blue always moved first
 
 interface ISetup {
     a?: number;
@@ -334,12 +333,6 @@ interface ISliceLayout {
     labels: [string, string];
 }
 
-interface IClaim {
-    stone: string;
-    stones: string[];
-    marks: string[];
-}
-
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Board;
@@ -347,7 +340,6 @@ export interface IMoveState extends IIndividualState {
     phase: Phase;
     redSeat?: playerid;
     setup?: ISetup;
-    claim?: IClaim;
     /** Board signatures of the intermediate positions inside this ply (positional superko). */
     interim: string[];
     /** Stones of the strings judged alive when the Defender won. */
@@ -396,7 +388,7 @@ export class KillAllGoGame extends GameBase {
             { uid: "size-13", group: "board" },
             { uid: "#board" },
             { uid: "#opening" },
-            { uid: "handicap", group: "opening", fans: true },
+            { uid: "handicap", group: "opening", fans: true, unrated: true },
             { uid: "classic", group: "opening", enabledWhen: { board: ["#board"] } },
             { uid: "pie", group: "opening", fans: true },
             {
@@ -440,7 +432,6 @@ export class KillAllGoGame extends GameBase {
     public phase!: Phase;
     public redSeat?: playerid;
     public setup?: ISetup;
-    public claim?: IClaim;
     public interim: string[] = [];
     public alive?: string[];
     public gameover = false;
@@ -519,7 +510,6 @@ export class KillAllGoGame extends GameBase {
         this.phase = state.phase;
         this.redSeat = state.redSeat;
         this.setup = state.setup === undefined ? undefined : { ...state.setup };
-        this.claim = state.claim === undefined ? undefined : { stone: state.claim.stone, stones: [...state.claim.stones], marks: [...state.claim.marks] };
         this.interim = [...state.interim];
         this.alive = state.alive === undefined ? undefined : [...state.alive];
         this.boardSize = KillAllGoGame.sizeFromVariants(this.variants);
@@ -612,8 +602,8 @@ export class KillAllGoGame extends GameBase {
         return { board: copy, sig };
     }
 
-    private bluePassAlive(board: Board = this.board): string[][] {
-        return passAliveStrings(board, this.geo, BLUE, { suicideAllowed: true });
+    private bluePassAlive(): string[][] {
+        return passAliveStrings(this.board, this.geo, BLUE, { suicideAllowed: true });
     }
 
     /**
@@ -663,7 +653,7 @@ export class KillAllGoGame extends GameBase {
 
     /** Whether `moves()` lists every legal move of this shape in the current phase (used by the failsafe). */
     private isEnumerable(m: string): boolean {
-        if (this.phase === "hoc-slice" || this.phase === "hoc-batch-a" || this.phase === "hoc-batch-b" || this.phase === "refute") {
+        if (this.phase === "hoc-slice" || this.phase === "hoc-batch-a" || this.phase === "hoc-batch-b") {
             return false;
         }
         return /^([a-z]+\d+|\d+|pass|attacker|defender|youplace|defender:[a-z]+\d+)$/.test(m);
@@ -728,16 +718,6 @@ export class KillAllGoGame extends GameBase {
                     if (!this.board.has(cell) && this.simulate(this.board, cell, colour, seen) !== undefined) {
                         moves.push(cell);
                     }
-                }
-                break;
-            }
-            case "refute": {
-                // Every legal placement is a complete ply on its own: it either captures the
-                // claimed string, lands on a protected point, or gives the claim up.
-                for (const cell of this.geo.cells) {
-                    if (this.board.has(cell)) { continue; }
-                    if (this.simulate(this.board, cell, RED, seen) === undefined) { continue; }
-                    moves.push(cell);
                 }
                 break;
             }
@@ -854,30 +834,9 @@ export class KillAllGoGame extends GameBase {
                     return move;
                 }
                 return `attacker:${toggle(move.startsWith("attacker:") ? move.substring("attacker:".length) : "")}`;
-            case "play": {
-                if (move.startsWith("claim:")) {
-                    const [stone, marks] = this.parseClaim(move);
-                    if (cell === stone) {
-                        return "";
-                    }
-                    const next = marks.includes(cell) ? marks.filter((c) => c !== cell) : [...marks, cell];
-                    return next.length === 0 ? `claim:${stone}` : `claim:${stone}:${next.join(",")}`;
-                }
-                if (this.board.get(cell) === BLUE && this.colourOfSeat(this.currplayer) === BLUE) {
-                    return `claim:${cell}`;
-                }
+            case "play":
                 return cell;
-            }
-            case "refute":
-                return move.length === 0 ? cell : `${move},${cell}`;
         }
-    }
-
-    private parseClaim(m: string): [string, string[]] {
-        const parts = m.split(":");
-        const stone = parts[1] ?? "";
-        const marks = parts.length > 2 ? this.parseCells(parts[2]) : [];
-        return [stone, marks];
     }
 
     public validateMove(m: string): IValidationResult {
@@ -908,8 +867,6 @@ export class KillAllGoGame extends GameBase {
                 return this.validateHocChoose(m, result);
             case "play":
                 return this.validatePlay(m, result);
-            case "refute":
-                return this.validateRefute(m, result);
         }
     }
 
@@ -1129,76 +1086,7 @@ export class KillAllGoGame extends GameBase {
             }
             return this.ok(result, 1, i18next.t("apgames:validation._general.VALID_MOVE"));
         }
-        if (m === "claim" || m.startsWith("claim:")) {
-            if (colour !== BLUE) {
-                return this.fail(result, i18next.t("apgames:validation.killallgo.CLAIM_ATTACKER"));
-            }
-            const [stone, marks] = this.parseClaim(m);
-            if (!this.isValidCell(stone)) {
-                return this.fail(result, i18next.t("apgames:validation._general.INVALIDCELL", { cell: stone }));
-            }
-            if (this.board.get(stone) !== BLUE) {
-                return this.fail(result, i18next.t("apgames:validation.killallgo.CLAIM_NOT_OWN_STONE", { where: stone }));
-            }
-            const seen = new Set<string>();
-            for (const mark of marks) {
-                if (!this.isValidCell(mark)) {
-                    return this.fail(result, i18next.t("apgames:validation._general.INVALIDCELL", { cell: mark }));
-                }
-                if (this.board.has(mark)) {
-                    return this.fail(result, i18next.t("apgames:validation.killallgo.CLAIM_MARK_OCCUPIED", { where: mark }));
-                }
-                if (seen.has(mark)) {
-                    return this.fail(result, i18next.t("apgames:validation.killallgo.DUPLICATE_CELL", { where: mark }));
-                }
-                seen.add(mark);
-            }
-            const key = marks.length === 0 ? "INSTRUCTIONS_CLAIM_NO_MARKS" : "INSTRUCTIONS_CLAIM";
-            return this.ok(result, 0, i18next.t(`apgames:validation.killallgo.${key}`), true);
-        }
         return this.validatePlacement(m, colour, result);
-    }
-
-    private validateRefute(m: string, result: IValidationResult): IValidationResult {
-        if (m.length === 0) {
-            return this.ok(result, -1, i18next.t("apgames:validation.killallgo.INSTRUCTIONS_REFUTE"));
-        }
-        const claim = this.claim!;
-        const tokens = m.split(",");
-        const seen = this.positions();
-        let board = new Map(this.board);
-        for (let i = 0; i < tokens.length; i++) {
-            const token = tokens[i];
-            const last = i === tokens.length - 1;
-            if (token === "pass") {
-                return this.fail(result, i18next.t("apgames:validation.killallgo.INVALID_PASS"));
-            }
-            if (!this.isValidCell(token)) {
-                return this.fail(result, i18next.t("apgames:validation._general.INVALIDCELL", { cell: token }));
-            }
-            if (board.has(token)) {
-                return this.fail(result, i18next.t("apgames:validation._general.OCCUPIED", { where: token }));
-            }
-            const protectedPoint = claim.marks.includes(token);
-            if (protectedPoint && !last) {
-                return this.fail(result, i18next.t("apgames:validation.killallgo.PROTECTED_POINT", { where: token }));
-            }
-            const sim = this.simulate(board, token, RED, seen);
-            if (sim === undefined) {
-                return this.fail(result, i18next.t("apgames:validation.killallgo.KO_PSK"));
-            }
-            board = sim.board;
-            seen.add(sim.sig);
-            const terminal = protectedPoint || !board.has(claim.stone) || this.bluePassAlive(board).length > 0;
-            if (terminal) {
-                if (!last) {
-                    return this.fail(result, i18next.t("apgames:validation.killallgo.REFUTE_AFTER_END"));
-                }
-                return this.ok(result, 1, i18next.t("apgames:validation._general.VALID_MOVE"), true);
-            }
-        }
-        // Neither a capture nor a protected point: submitting this gives the claim up.
-        return this.ok(result, 0, i18next.t("apgames:validation.killallgo.REFUTE_GIVE_UP"), true);
     }
 
     public move(m: string, { partial = false, trusted = false } = {}): KillAllGoGame {
@@ -1345,14 +1233,6 @@ export class KillAllGoGame extends GameBase {
                         this.endGame(this.redSeat!, "double-pass");
                     }
                     this.currplayer = this.otherSeat(this.currplayer);
-                } else if (m.startsWith("claim:")) {
-                    const [stone, marks] = this.parseClaim(m);
-                    const info = stringAt(this.board, this.geo, stone);
-                    this.claim = { stone, stones: info.stones, marks };
-                    this.results.push({ type: "claim", how: "life", where: stone, what: marks.join(",") });
-                    if (partial) { return this; }
-                    this.phase = "refute";
-                    this.currplayer = this.otherSeat(this.currplayer);
                 } else {
                     const colour = this.colourOfSeat(this.currplayer)!;
                     this.placeStone(m, colour, seen);
@@ -1360,40 +1240,6 @@ export class KillAllGoGame extends GameBase {
                     this.checkBlueLife();
                     this.currplayer = this.otherSeat(this.currplayer);
                 }
-                break;
-            }
-            case "refute": {
-                const claim = this.claim!;
-                let outcome: "captured" | "protected" | "passalive" | undefined;
-                for (const token of m.split(",")) {
-                    this.placeStone(token, RED, seen);
-                    if (!this.board.has(claim.stone)) {
-                        outcome = "captured";
-                        break;
-                    }
-                    if (this.bluePassAlive().length > 0) {
-                        outcome = "passalive";
-                        break;
-                    }
-                    if (claim.marks.includes(token)) {
-                        outcome = "protected";
-                        break;
-                    }
-                }
-                if (partial) { return this; }
-                if (outcome === "captured") {
-                    this.endGame(this.currplayer, "claim-refuted");
-                } else if (outcome === "passalive") {
-                    this.checkBlueLife();
-                } else if (outcome === "protected") {
-                    this.claim = undefined;
-                    this.phase = "play";
-                } else {
-                    // The Attacker stopped without capturing the string and without playing a
-                    // protected point, so they have given the claim up.
-                    this.endGame(this.otherSeat(this.currplayer), "claim-upheld", [...claim.stones]);
-                }
-                this.currplayer = this.otherSeat(this.currplayer);
                 break;
             }
         }
@@ -1464,7 +1310,6 @@ export class KillAllGoGame extends GameBase {
         this.gameover = true;
         this.winner = [winner];
         this.alive = alive;
-        this.claim = undefined;
         this.results.push(
             { type: "eog", reason },
             { type: "winners", players: [winner] },
@@ -1495,7 +1340,6 @@ export class KillAllGoGame extends GameBase {
         };
         if (this.redSeat !== undefined) { state.redSeat = this.redSeat; }
         if (this.setup !== undefined) { state.setup = { ...this.setup }; }
-        if (this.claim !== undefined) { state.claim = { stone: this.claim.stone, stones: [...this.claim.stones], marks: [...this.claim.marks] }; }
         if (this.alive !== undefined) { state.alive = [...this.alive]; }
         return state;
     }
@@ -1612,12 +1456,6 @@ export class KillAllGoGame extends GameBase {
                 annotations.push({ type: "exit", targets: targets as [RowCol, ...RowCol[]] });
             }
         }
-        if (this.claim !== undefined) {
-            annotations.push({ type: "enter", targets: this.claim.stones.map(toRowCol) as [RowCol, ...RowCol[]], colour: 2, style: "solid" });
-            if (this.claim.marks.length > 0) {
-                annotations.push({ type: "dots", targets: this.claim.marks.map(toRowCol) as [RowCol, ...RowCol[]], colour: 1 });
-            }
-        }
         if (this.gameover && this.alive !== undefined && this.alive.length > 0) {
             annotations.push({ type: "enter", targets: this.alive.map(toRowCol) as [RowCol, ...RowCol[]] });
         }
@@ -1658,13 +1496,6 @@ export class KillAllGoGame extends GameBase {
                 value: [this.seatAreaLabel(this.currplayer, `apgames:status.killallgo.PHASE_${phaseKey}`)],
             });
         }
-        if (this.claim !== undefined) {
-            const key = this.claim.marks.length === 0 ? "CLAIM_VALUE_NO_MARKS" : "CLAIM_VALUE";
-            statuses.push({
-                key: this.neutralAreaLabel("apgames:status.killallgo.CLAIM"),
-                value: [this.neutralAreaLabel(`apgames:status.killallgo.${key}`, { where: this.claim.stone, marks: this.claim.marks.join(", ") })],
-            });
-        }
         return statuses;
     }
 
@@ -1689,12 +1520,6 @@ export class KillAllGoGame extends GameBase {
                     this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.killallgo_attacker");
                 } else if (r.how === "defender") {
                     this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.killallgo_defender");
-                } else if (r.how === "life") {
-                    if (r.what === undefined || r.what.length === 0) {
-                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.killallgo_life_nomarks", { where: r.where! });
-                    } else {
-                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.killallgo_life", { where: r.where!, marks: r.what.split(",").join(", ") });
-                    }
                 } else {
                     return super.collectChatLogLine(lines, r, ctx);
                 }
@@ -1713,10 +1538,6 @@ export class KillAllGoGame extends GameBase {
             case "eog":
                 if (r.reason === "pass-alive") {
                     this.pushNeutralChatLine(lines, "apresults:EOG.killallgo_pass_alive");
-                } else if (r.reason === "claim-upheld") {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.killallgo_claim_upheld");
-                } else if (r.reason === "claim-refuted") {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.killallgo_claim_refuted");
                 } else if (r.reason === "double-pass") {
                     this.pushNeutralChatLine(lines, "apresults:EOG.killallgo_double_pass");
                 } else {

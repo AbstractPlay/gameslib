@@ -173,8 +173,6 @@
         "jacynth": "{{player}} exerted influence at {{where}}.",
         "killallgo_attacker": "{{player}} chose to play as the Attacker.",
         "killallgo_defender": "{{player}} chose to play as the Defender.",
-        "killallgo_life": "{{player}} claimed that the string at {{where}} is alive unless the Attacker plays at {{marks}}.",
-        "killallgo_life_nomarks": "{{player}} claimed that the string at {{where}} cannot be captured.",
         "logger": "{{player}} claimed a protestor from the tree felled at {{where}}.",
         "magnate": "{{who}} gained {{what}}.",
         "magnate_initial": "Players collected their Crown resources.",
@@ -303,8 +301,6 @@
         "tafl_king_escaped": "The game has ended because the king escaped.",
         "unlur_foul": "The game has ended because one player has achieved the opponent's win condition without achieving their own.",
         "druid_hex": "The game has ended because {{player}} connected the {{edges}} edges.",
-        "killallgo_claim_refuted": "The game has ended because the claimed string was captured.",
-        "killallgo_claim_upheld": "The game has ended because the Attacker gave up trying to capture the claimed string.",
         "killallgo_double_pass": "The game has ended because both players passed without the Defender establishing life.",
         "killallgo_pass_alive": "The game has ended because the Defender formed an unconditionally alive string."
     },

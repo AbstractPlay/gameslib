@@ -2,7 +2,6 @@
 
 import "mocha";
 import { expect } from "chai";
-import { GameFactory } from "../../src/games";
 import { addResource } from "../../src";
 import i18next from "i18next";
 import { applyPlacement, BLUE, KillAllGoGame, makeGeometry, passAliveStrings, RED, signature, stringAt, type Board } from "../../src/games/killallgo";
@@ -267,6 +266,20 @@ describe("Kill-All Go", () => {
         i18next.removeResourceBundle("en", "apresults");
     });
 
+    describe("metadata", () => {
+        it("is experimental and cannot be rated with a handicap", () => {
+            const flags = KillAllGoGame.gameinfo.flags ?? [];
+            expect(flags).to.include("experimental");
+            const variants = KillAllGoGame.gameinfo.variants ?? [];
+            const handicap = variants.find((v) => v.uid === "handicap");
+            expect(handicap).to.not.be.undefined;
+            expect(handicap!.unrated).to.be.true;
+            for (const v of variants.filter((x) => x.uid !== "handicap")) {
+                expect(v.unrated, v.uid).to.not.equal(true);
+            }
+        });
+    });
+
     describe("classic opening", () => {
         it("sets up the 17 traditional stones with the Defender (Player 1) to move", () => {
             const g = new KillAllGoGame(undefined, ["classic"]);
@@ -331,7 +344,7 @@ describe("Kill-All Go", () => {
             expect(g.phase).to.equal("play");
         });
 
-        it("does not allow passing or stones with the claim", () => {
+        it("does not allow passing or stones alongside taking the Attacker side", () => {
             const g = new KillAllGoGame(undefined, ["size-9"]);
             expect(g.validateMove("pass").valid).to.be.false;
             expect(g.validateMove("attacker:a1").valid).to.be.false;
@@ -671,6 +684,16 @@ describe("Kill-All Go", () => {
             expect(enters.some((a) => (a as { targets: unknown[] }).targets.length === 6)).to.be.true;
         });
 
+        it("gives the Defender no way to win but a pass-alive string", () => {
+            const g = attackerIsPlayerOne();
+            play(g, ["e5", "a9", "e6", "b9"]);
+            // Seki and ko are not recognised, so there is nothing to claim and no claim notation.
+            expect(g.validateMove("claim:e5").valid).to.be.false;
+            expect(g.validateMove("claim").valid).to.be.false;
+            expect(g.handleClick("", 4, 4).move).to.equal("");
+            expect(g.moves().filter((m) => m !== "pass").every((m) => /^[a-z]+\d+$/.test(m))).to.be.true;
+        });
+
         it("ends with an Attacker win after two consecutive passes", () => {
             const g = attackerIsPlayerOne();
             play(g, ["e5", "a9", "pass"]);
@@ -745,118 +768,19 @@ describe("Kill-All Go", () => {
         });
     });
 
-    describe("life claims", () => {
-        const withClaim = (marks: string): KillAllGoGame => {
-            const g = attackerIsPlayerOne();
-            play(g, ["e5", "a9", "e6", "b9"]);
-            g.move(marks.length === 0 ? "claim:e5" : `claim:e5:${marks}`);
-            return g;
-        };
-
-        it("lets only the Defender claim one of their own strings", () => {
-            const g = attackerIsPlayerOne();
-            play(g, ["e5", "a9"]);
-            expect(g.validateMove("claim:e5").valid).to.be.true;
-            expect(g.validateMove("claim:a9").valid).to.be.false;
-            expect(g.validateMove("claim:e5:a9").valid).to.be.false;
-            expect(g.validateMove("claim:e5:e4,e4").valid).to.be.false;
-            expect(g.validateMove("claim:e5:e4").complete).to.equal(0);
-            g.move("e6");
-            expect(g.validateMove("claim:e5").valid).to.be.false;
-        });
-
-        it("is built by clicking a stone and then the protected points", () => {
-            const g = attackerIsPlayerOne();
-            play(g, ["e5", "a9"]);
-            const start = g.handleClick("", 4, 4);
-            expect(start.move).to.equal("claim:e5");
-            const mark = g.handleClick(start.move, 5, 4);
-            expect(mark.move).to.equal("claim:e5:e4");
-            const unmark = g.handleClick(mark.move, 5, 4);
-            expect(unmark.move).to.equal("claim:e5");
-            const cancel = g.handleClick(mark.move, 4, 4);
-            expect(cancel.move).to.equal("");
-        });
-
-        it("records the claim and hands the refutation to the Attacker", () => {
-            const g = withClaim("e4,f5");
-            expect(g.phase).to.equal("refute");
-            expect(g.currplayer).to.equal(1);
-            expect(g.claim).to.deep.equal({ stone: "e5", stones: ["e5", "e6"], marks: ["e4", "f5"] });
-            expect(g.stack[g.stack.length - 1]._results[0]).to.deep.include({ type: "claim", how: "life", where: "e5", what: "e4,f5" });
-            expect(g.getButtons()).to.deep.equal([]);
-            const rep = g.render();
-            expect(rep.areas).to.be.undefined;
-            expect(rep.annotations!.some((a) => a.type === "dots")).to.be.true;
-            const resumed = GameFactory("killallgo", g.serialize()) as KillAllGoGame;
-            expect(resumed.phase).to.equal("refute");
-            expect(resumed.claim).to.deep.equal(g.claim);
-        });
-
-        it("is refuted when the claimed string is captured", () => {
-            const g = withClaim("");
-            expect(g.validateMove("e4,d5,f5,d6,f6").complete).to.equal(0);
-            expect(g.validateMove("e4,d5,f5,d6,f6,e7").complete).to.equal(1);
-            expect(g.validateMove("e4,d5,f5,d6,f6,e7,a1").valid).to.be.false;
-            g.move("e4,d5,f5,d6,f6,e7");
-            expect(g.gameover).to.be.true;
-            expect(g.winner).to.deep.equal([1]);
-            expect(g.board.has("e5")).to.be.false;
-            expect(g.stack[g.stack.length - 1]._results).to.deep.include({ type: "eog", reason: "claim-refuted" });
-            expect(g.stack[g.stack.length - 1].interim).to.have.length(5);
-        });
-
-        it("is upheld when the Attacker submits an attempt that fails", () => {
-            const g = withClaim("e4");
-            expect(g.getButtons()).to.deep.equal([]);
-            expect(g.moves()).to.include("e4");
-            expect(g.moves()).to.include("d5");
-            expect(g.validateMove("d5").complete).to.equal(0);
-            g.move("d5,f5");
-            expect(g.gameover).to.be.true;
-            expect(g.winner).to.deep.equal([2]);
-            expect(g.alive!.sort()).to.deep.equal(["e5", "e6"]);
-            expect(g.board.get("d5")).to.equal(RED);
-            expect(g.board.get("f5")).to.equal(RED);
-            expect(g.stack[g.stack.length - 1]._results).to.deep.include({ type: "eog", reason: "claim-upheld" });
-        });
-
-        it("continues normal play after the Attacker ends on a protected point", () => {
-            const g = withClaim("e4");
-            expect(g.validateMove("e4,d5").valid).to.be.false;
-            expect(g.validateMove("d5").complete).to.equal(0);
-            g.move("d5,f5,e4");
-            expect(g.gameover).to.be.false;
-            expect(g.phase).to.equal("play");
-            expect(g.claim).to.be.undefined;
-            expect(g.currplayer).to.equal(2);
-            expect(g.board.get("d5")).to.equal(RED);
-            expect(g.board.get("f5")).to.equal(RED);
-            expect(g.board.get("e4")).to.equal(RED);
-            expect(g.stack[g.stack.length - 1].interim).to.have.length(2);
-            expect(g.validateMove("claim:e5:d6").valid).to.be.true;
-        });
-
-        it("cannot be claimed by the Attacker and cannot include passes in a refutation", () => {
-            const g = withClaim("e4");
-            expect(g.validateMove("pass").valid).to.be.false;
-            expect(g.validateMove("d5,pass").valid).to.be.false;
-        });
-    });
-
     describe("records and chat", () => {
         it("writes structured chat lines for the protocol actions", () => {
-            const g = play(new KillAllGoGame(undefined, ["size-9", "hoctaph"]), ["2,3", "iplace:a1,b1", "attacker:c1,d1,e1", "e5", "a9", "claim:e5:e4", "d5,e4"]);
+            const g = play(new KillAllGoGame(undefined, ["size-9", "hoctaph"]), ["2,3", "iplace:a1,b1", "attacker:c1,d1,e1", "e5", "a9", "pass", "pass"]);
             const entries = g.chatLogEntries(["Alice", "Bob"]);
             const keys = entries.flatMap((e) => e.lines.map((l) => l.textKey));
             expect(keys).to.include("apresults:ANNOUNCE.killallgo_slice");
             expect(keys).to.include("apresults:SELECT.killallgo_iplace");
             expect(keys).to.include("apresults:CLAIM.killallgo_attacker");
             expect(keys).to.include("apresults:PLACE.killallgo_setup");
-            expect(keys).to.include("apresults:CLAIM.killallgo_life");
+            expect(keys).to.include("apresults:EOG.killallgo_double_pass");
             const text = g.chatLog(["Alice", "Bob"]).flat().join("\n");
             expect(text).to.include("Alice chose to play as the Attacker.");
-            expect(text).to.include("Bob claimed that the string at e5 is alive unless the Attacker plays at e4.");
+            expect(text).to.include("Alice placed an Attacker stone at c1.");
         });
 
         it("round-trips through serialization in every phase", () => {
@@ -865,7 +789,7 @@ describe("Kill-All Go", () => {
                 play(new KillAllGoGame(undefined, ["size-9", "handicap"]), ["2"]),
                 play(new KillAllGoGame(undefined, ["size-9", "pie"]), ["c3"]),
                 play(new KillAllGoGame(undefined, ["size-9", "hoctaph"]), ["2,3", "youplace"]),
-                play(attackerIsPlayerOne(), ["e5", "a9", "claim:e5:e4"]),
+                play(attackerIsPlayerOne(), ["e5", "a9"]),
             ];
             for (const g of games) {
                 const copy = new KillAllGoGame(g.serialize());
@@ -873,7 +797,6 @@ describe("Kill-All Go", () => {
                 expect(copy.currplayer).to.equal(g.currplayer);
                 expect(copy.redSeat).to.equal(g.redSeat);
                 expect(copy.setup).to.deep.equal(g.setup);
-                expect(copy.claim).to.deep.equal(g.claim);
                 expect([...copy.board.entries()]).to.deep.equal([...g.board.entries()]);
                 expect(copy.moves()).to.deep.equal(g.moves());
             }

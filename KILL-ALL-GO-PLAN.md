@@ -249,15 +249,12 @@ advisory. The manual protocol needs no algorithm at all, only the string/liberty
 
 ### 7.1 Files
 ```
-src/games/killallgo.ts                 engine (class KillAllGoGame extends GameBase)
-src/games/killallgo/benson.ts          pass-alive (pure)
-src/games/killallgo/board.ts           strings, liberties, capture/suicide application, board signature (pure helpers)
-test/games/killallgo-benson.test.ts    fixtures from §4.4
-test/games/killallgo.test.ts           engine behaviour (§9)
+src/games/killallgo.ts                 board helpers, Benson pass-alive (exported pure functions), then the engine class
+test/games/killallgo.test.ts           Benson fixtures from §4.4, board mechanics, engine behaviour (§9)
 locales/en/apgames.json, locales/en/apresults.json   strings (§7.9); eo via the $ap-eo skill in the implementation session
 ```
-Subfolders under `src/games/` are established practice (`armadas/`, `cifra/`, `homeworlds/`, …) and the registry
-generator only picks up game classes, so helper modules there are safe.
+One engine file and one test file, matching the usual layout of a game in this repository; the pure helpers are named exports
+of the engine module so the tests can exercise them directly.
 
 ### 7.2 State
 ```ts
@@ -464,9 +461,8 @@ Hoctaph's post resolves (topic 27365, post 70).
 
 ## 11. Implementation status (2026-09-21)
 
-Implemented on this branch: `src/games/killallgo.ts`, `src/games/killallgo/board.ts`, `src/games/killallgo/benson.ts`,
-`test/games/killallgo.test.ts`, `test/games/killallgo-benson.test.ts`, English and Esperanto strings in `locales/{en,eo}/apgames.json`
-and `apresults.json`. Everything in §3–§7 is implemented as written, with these notes:
+Implemented on this branch: `src/games/killallgo.ts`, `test/games/killallgo.test.ts`, English and Esperanto strings in
+`locales/{en,eo}/apgames.json` and `apresults.json`. Everything in §3–§7 is implemented as written, with these notes:
 
 * Red can never make a Blue string pass-alive (its moves only remove Blue chains and merge regions, which never adds a vital,
   X-enclosed region), so the mid-refutation check in D6 is a harmless safeguard rather than a reachable rule.
@@ -476,4 +472,4 @@ and `apresults.json`. Everything in §3–§7 is implemented as written, with th
 * Validation of typed input (`n`, `a,b`) returns `complete: 0`, like Go's komi entry, so the player can keep typing.
 * Rendered JSON for every phase was validated against the renderer schema; the button bar uses structured labels resolved by
   the front (`resolveRenderLabels`), so no `front` change is needed.
-* The Esperanto title `Ĉiomortiga Goo` is a proposal awaiting acceptance (see the conventions repository's game-name policy).
+* The Esperanto title `Ĉiomortiga Goo` was accepted on 2026-09-21 and recorded in the conventions repository.

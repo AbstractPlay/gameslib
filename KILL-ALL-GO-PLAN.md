@@ -42,7 +42,7 @@ mapping returned by `getPlayerColour()`.
 | D8 | Ko-alive | Ignored by the engine: Blue must keep playing. No engine draw offer. | AP already has a per-move "include draw offer" checkbox, so players can agree a draw themselves. Reliable "alive in ko" detection needs search; deferred. |
 | D9 | Openings | One radio group `opening`: `#opening` = alternating placement (default), `handicap` = alternating placement with a handicap, `classic` (19×19 only), `pie`, `hoctaph`. | Handicap: **Player 1 is Uwate (the giver)** and chooses `n`; the challenger seats the stronger player first with the challenge form's seating option ("I play first" / "I play second"). `n` is typed on the first ply, any integer with `1 ≤ n ≤ floor(p/2)` where `p` is the number of points (180 on 19×19, 84 on 13×13, 40 on 9×9); no variant list. Player 2 (Shitate) then makes the first placement of the alternating protocol, or claims the Attacker stones straight away. **Confirmed.** |
 | D10 | Turn model | Plain `GameBase`, strict alternation everywhere. Every "choose a side" action that would otherwise give the same seat two plies in a row is bundled into one ply (§5.6). | No `GameBaseSequenced`, no pass padding. |
-| D11 | Buttons | Role / claim buttons are rendered by the game as an `areas: [{type: "buttonBar"}]` with structured labels from `apgames.json`; clicks arrive as `piece === "_btn_<value>"`. `custom-buttons` is used only for `pass` (front already has that label). | Avoids a `front` PR for new button labels. |
+| D11 | Buttons | Every fixed choice is a **custom button** (`getButtons()`); nothing is drawn on the board. The front stages a button's move string instead of submitting it, so a button may hand back an incomplete move that board clicks then finish (taking the Attacker side while handicap or batch stones are owed). Choices that involve placing stones have no button at all: the board clicks themselves say which side you took. | Needs three new `buttons.killallgo.*` labels in `front`'s `apfront.json` (en + eo). |
 | D12 | Colour before roles exist | `getPlayerColour(seat)` returns a neutral grey (`"#999999"`) until Red has been claimed/chosen, then `1` / `2`. | Front renders the seat chip with `renderglyph("piece", colour)` and only uses numeric returns for palette-slot logic, so a hex string is safe. Verify in the playground during M3. |
 | D13 | Community credit | Non-traditional protocols carry `fans: true`; credits go into the variant *descriptions* (§7.8). Alternating placement and its handicap form: OGS-forum community protocols of unknown origin (they predate the similar openings of other AP games). Classic 17-stone setup: traditional, origin unknown. Simple pie: the standard balancing device, nobody to credit. Generalized Hoctaph's pie: Hoctaph (basic structure and insight, OGS forums) and the author of this plan (generalisation to every board size by letting the slicer pick `a` and `b` under incentives instead of splitting a fixed total). `people` on the `hoctaph` variant lists both. | **Confirmed.** Fill in your display name / AP id where the plan says `<you>`. |
 | D14 | Flags | `["experimental", "custom-colours", "custom-buttons"]`. **No `pie` flag** (AP's built-in seat swap would fight the protocols). | |
@@ -71,7 +71,8 @@ columns `a…s` left→right (letters are consecutive, `i` is *not* skipped), ro
 
 ### 3.4 Blue wins
 * Any Blue string pass-alive (§4.4) → immediate win, `eog.reason = "pass-alive"`, highlight every stone of every pass-alive Blue string.
-* Red concedes a life claim → win, `eog.reason = "claim-upheld"`, highlight the claimed string.
+* Red submits a refutation that neither captures the claimed string nor ends on a protected point → Blue wins,
+  `eog.reason = "claim-upheld"`, highlight the claimed string. (Resigning has the same effect, so no separate concede action exists.)
 
 ### 3.5 Red wins
 * Red captures the claimed string during a refutation ply → `eog.reason = "claim-refuted"`.
@@ -132,10 +133,12 @@ a point of M, and if they do I get to answer." Move text: `claim:<stone>[:<m1>,<
 §3.2, but never on a point of M), then finishes the ply in exactly one of three ways:
 1. **S captured** (by any stone of the sequence, protected or not): the ply ends there, game over, Red wins (`claim-refuted`).
 2. **Final stone on a protected point**: the ply ends, all Red stones placed stay, phase returns to `play` with **Blue to move**.
-3. **`concede`**: game over, Blue wins (`claim-upheld`), highlight S.
-Move text: `[<c1>,<c2>,…,]<protected point>` or `[<c1>,…,]concede`. A ply that has free placements but no terminator is
-*incomplete* (`complete: -1`), so the front will not offer Submit until Red either plays a protected point, concedes, or
-captures S — no accidental concessions.
+3. **Anything else**: Red stopped without capturing S and without a protected point, so the attempt failed: game over, Blue
+   wins (`claim-upheld`), highlight S. This is the original protocol's "if they fail without playing on one of the marked
+   points they lose"; there is no separate concede action, because giving the claim up is exactly losing the game, which
+   Red can also do by resigning.
+Move text: `[<c1>,<c2>,…,]<cell>`. A failing sequence is submittable (`complete: 0`) and its message says plainly that
+submitting it gives the claim up and loses, so Red is warned at every intermediate step.
 
 **4.5.3 Other consequences during a refutation ply.** Captures of other Blue strings are ordinary captures. PSK applies to
 every stone. If a Red stone makes some Blue string pass-alive (possible when capturing a Blue stone merges regions),
@@ -294,20 +297,20 @@ slice     := "slice:" int "," int                 hoctaph a,b
 option    := "iplace" [":" cells] | "youplace"    hoctaph chooser
 pass      := "pass"                               play only
 claim     := "claim:" cell [":" cells]            Blue, play phase
-refute    := [cells ","] (cell | "concede")       Red, refute phase; last cell must be a protected point
+refute    := cells                                Red, refute phase; only the last cell may be a protected point
 ```
 Everything is lower-cased and whitespace-stripped in `move()` as in the template. `:` separates an action from its cells,
 `,` separates cells — no other separators.
 
 ### 7.4 Behaviour of the standard hooks
 * **`moves()`** — enumerates what is enumerable: single placements (+ `pass`, + `attacker`, + `defender:<cell>` per empty
-  cell in `pie-choose`, + every integer `1…floor(p/2)` in `hand-n`, + `concede` and each legal protected point in `refute`). Claims, batches and `slice` are combinatorial
+  cell in `pie-choose`, + every integer `1…floor(p/2)` in `hand-n`, + every legal placement in `refute`, each of which is a
+  complete ply on its own). Claims, multi-stone refutations, batches and `slice` are combinatorial
   and are *not* enumerated; `move()` skips the failsafe for those shapes (Go does the same for its komi turn). No `no-moves` flag.
 * **`validateMove()`** — the authority for every shape above; returns `complete: -1 / 0 / 1` per §7.5 and `canrender: true`
   for anything that changes the board (partial batches, partial refutations, partial claims).
 * **`handleClick(move, row, col, piece)`** —
-  `piece === "_btn_attacker" | "_btn_defender" | "_btn_iplace" | "_btn_youplace" | "_btn_concede"` from the button bar;
-  otherwise a board click: in `play` an empty point = placement, a Blue stone (when Blue is on move) = start `claim:<stone>`,
+  board clicks only (custom buttons bypass `handleClick`): in `play` an empty point = placement, a Blue stone (when Blue is on move) = start `claim:<stone>`,
   while a claim is being built an empty point toggles a mark (re-click removes, Pippinzip style); in `refute` an empty point
   appends to the sequence; in batch phases an empty point toggles membership.
 * **`move(m, {partial})`** — applies the whole string from the ply's base state on every call (so partial re-renders are
@@ -321,7 +324,7 @@ Everything is lower-cased and whitespace-stripped in `move()` as in the template
   `claim` lines, `eog` reasons; everything else to `super`.
 * **`render()`** — `vertex` board; legend `A` = `{name: "piece", colour: 1}`, `B` = colour 2 (fixed); `enter` for stones placed
   this ply, `exit` for captures; while a claim is pending/being built: `dots` on marks + `flood`/`outline` on the claimed
-  string; at EOG with a Blue win: `enter` on every stone in `alive`; `areas: [buttonBar]` with the context buttons of §7.6.
+  string; at EOG with a Blue win: `enter` on every stone in `alive`. No `areas`.
 
 ### 7.5 Completeness rules (`validateMove.complete`)
 | Shape | −1 | 0 | 1 |
@@ -332,22 +335,27 @@ Everything is lower-cased and whitespace-stripped in `move()` as in the template
 | `attacker:` with owed stones | fewer than owed | — | exactly owed |
 | `defender` in pie-choose | no cell yet | — | cell given |
 | `claim:` | — | stone chosen, any number of marks | — (submit when ready) |
-| refute | free stones only | — | ends with protected point, `concede`, or S captured |
+| refute | nothing placed yet | an attempt that fails (submitting gives the claim up) | ends on a protected point, or S captured |
 
-### 7.6 Button bar (rendered by the game, labels via `neutralAreaLabel("apgames:validation.killallgo.BTN_…")`)
-| Phase | Buttons (`value`) |
-|---|---|
-| alt-place | Take the Attacker stones (`attacker`) |
-| pie-choose / hoc-choose | Play as Attacker (`attacker`), Play as Defender (`defender`) |
-| hoc-option | I place the first batch (`iplace`), Opponent places the first batch (`youplace`) |
-| refute | Concede the claim (`concede`) |
-| play | none (pass is a `custom-buttons` button; claims start by clicking a Defender stone) |
+### 7.6 Custom buttons (`getButtons()`; labels are `buttons.<label>` keys in `front`'s `apfront.json`)
+| Phase | Button | The other choice, by clicking |
+|---|---|---|
+| alt-place | Play as the Attacker (`killallgo.attacker`) | place one Attacker stone; after the button, the n handicap stones |
+| pie-slice | Pass (`pass`, existing label) | place any number of Attacker stones |
+| pie-choose | Play as the Attacker (`killallgo.attacker`) | your first Defender stone (`defender:<cell>`) |
+| hoc-option | Let the opponent place the first batch (`killallgo.youplace`) | place the a-batch yourself (`iplace:…`) |
+| hoc-choose | Play as the Defender (`killallgo.defender`) | take the Attacker side by placing the b-batch (`attacker:…`) |
+| play | Pass (`pass`) | place a stone, or click your own stone to start a claim |
+| refute | none | place stones; the sequence itself decides the outcome |
+
+Each phase offers at most one button because the alternative always involves placing stones, and the clicks are unambiguous
+in that phase. `killallgo.attacker` in `alt-place` is deliberately incomplete while handicap stones are owed.
 
 ### 7.7 Results and EOG reasons
 * `{type: "place", where, what: "setup"}` for opening stones; `{type: "place", where}` in play.
 * `{type: "capture", where: "a1,b2", count}` per captured string (as `go.ts`).
 * `{type: "claim", how: "attacker" | "defender"}` for side choices; `{type: "claim", how: "life", where: stone, what: marks}`;
-  `{type: "claim", how: "concede"}`; `{type: "declare", count: n}` for the handicap; `{type: "announce", payload: [a, b]}` for the
+  `{type: "declare", count: n}` for the handicap; `{type: "announce", payload: [a, b]}` for the
   slice; `{type: "select", what: "iplace" | "youplace"}`.
 * `{type: "eog", reason: "pass-alive" | "claim-upheld" | "claim-refuted" | "double-pass"}` + `winners`.
 All of these exist in `src/schemas/moveresults.json`; no schema change needed.
@@ -400,12 +408,12 @@ locale description (sentinels do get `name` and `description`, as Go's `#ruleset
   handicap seat convention, suicide/PSK statement).
 * `variants.killallgo.{size-9,size-13,#board,#opening,handicap,classic,pie,hoctaph}` — `name` + `description` (texts in §7.8).
   Keep names neutral (the front shows the community chip).
-* `validation.killallgo.*` — instructions per phase, `BTN_*` button labels, errors: OCCUPIED (general), SELF_CAPTURE_SETUP,
+* `validation.killallgo.*` — instructions per phase (button labels live in `front`), errors: OCCUPIED (general), SELF_CAPTURE_SETUP,
   KO_PSK, PROTECTED_POINT, BATCH_SIZE, HANDICAP_RANGE, HANDICAP_COUNT, SLICE_FORMAT / SLICE_RANGE / SLICE_RATIO, CLAIM_NOT_OWN_STONE,
   CLAIM_MARK_NOT_EMPTY, CLAIM_EMPTY_MARKS (warning), REFUTE_INCOMPLETE, PASS_WARNING (Defender), INVALID_PASS, NOT_YOUR_PHASE.
 * `status.killallgo.{ATTACKER, DEFENDER, UNDECIDED, PHASE, HANDICAP, SLICE, CLAIM}`.
 * `apresults`: `PLACE.killallgo_setup`, `CLAIM.killallgo_attacker`, `CLAIM.killallgo_defender`, `CLAIM.killallgo_life`,
-  `CLAIM.killallgo_concede`, `DECLARE.killallgo_handicap`, `ANNOUNCE.killallgo_slice` (or reuse a generic key), `SELECT.killallgo_option`,
+  `DECLARE.killallgo_handicap`, `ANNOUNCE.killallgo_slice` (or reuse a generic key), `SELECT.killallgo_option`,
   `EOG.killallgo_pass_alive`, `EOG.killallgo_claim_upheld`, `EOG.killallgo_claim_refuted`, `EOG.killallgo_double_pass`.
 Do not touch any locale other than `en` (and `eo` via the skill); `check-game-names-locale` will report the managed locales as
 missing until upstream CI seeds them — expected.
@@ -424,7 +432,7 @@ missing until upstream CI seeds them — expected.
 * **pie / hoctaph**: every branch of the ply tables in §5.6, batch size enforcement, `slice` validation (range, ratio, a+b ≤ p−2),
   `getRounds()` has no duplicate actors, `getPlayerColour` neutral until decided.
 * **play**: pass-alive win with highlight; Blue win triggered by a Red move; double pass → Red wins; Blue pass warning text.
-* **claims**: refuted (S captured mid-sequence, and captured by the final protected stone); upheld by concede; continued after a
+* **claims**: refuted (S captured mid-sequence, and captured by the final protected stone); upheld by a failing attempt; continued after a
   protected point with all Red stones kept and Blue to move; free stones cannot touch marks; incomplete without terminator;
   re-claim after continuation; pass-alive arising during a refutation.
 * **serialization**: `serialize()` → `GameFactory` round trip in every phase; `clone()` mid-partial.
@@ -435,7 +443,7 @@ missing until upstream CI seeds them — expected.
 ## 9. Milestones and validation
 1. **M1** `benson.ts` + `board.ts` + their tests (pure, fast; no engine yet).
 2. **M2** Engine with the `classic` opening only: play phase, PSK, TT captures, pass-alive win, double pass, render, chat,
-   English strings, `npm run generate-registry`, playground smoke test (verify the grey colour chip and the button bar there).
+   English strings, `npm run generate-registry`, playground smoke test (verify the grey colour chip there).
 3. **M3** Life-claim protocol + tests.
 4. **M4** Alternating placement + handicap; simple pie; Hoctaph; tests for §5.6.
 5. **M5** Polish: notes/help text, Esperanto (`$ap-eo`), chat-log parity, `npm run lint`, `npm test`, final read-through of
@@ -470,6 +478,9 @@ Implemented on this branch: `src/games/killallgo.ts`, `test/games/killallgo.test
   mover exactly as `go.ts` does.
 * The sidebar phase line is a seat-actor label ("{{player}} chooses a side"), so the front substitutes the display name.
 * Validation of typed input (`n`, `a,b`) returns `complete: 0`, like Go's komi entry, so the player can keep typing.
-* Rendered JSON for every phase was validated against the renderer schema; the button bar uses structured labels resolved by
-  the front (`resolveRenderLabels`), so no `front` change is needed.
+* Rendered JSON for every phase was validated against the renderer schema.
+* Fixed choices are custom buttons, so `front` needs the three `buttons.killallgo.*` labels
+  (branch `kill-all-go-buttons-2026-09-22` in `samtcifihi/ap-front`); until that merges the buttons show their raw keys.
+* There is no concede action: a refutation that neither captures the string nor ends on a protected point loses, which is
+  what the original protocol specified, and resigning remains available.
 * The Esperanto title `Ĉiomortiga Goo` was accepted on 2026-09-21 and recorded in the conventions repository.

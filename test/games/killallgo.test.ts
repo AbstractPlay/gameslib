@@ -338,14 +338,10 @@ describe("Kill-All Go", () => {
             expect(() => g.move("pass")).to.throw();
         });
 
-        it("offers the take-the-Attacker button and translates board clicks", () => {
+        it("offers the Attacker side as a button and places stones by clicking", () => {
             const g = new KillAllGoGame(undefined, ["size-9"]);
-            const rep = g.render();
-            expect(rep.areas).to.have.length(1);
-            expect(rep.areas![0].type).to.equal("buttonBar");
-            const click = g.handleClick("", 0, 0, "_btn_attacker");
-            expect(click.valid).to.be.true;
-            expect(click.move).to.equal("attacker");
+            expect(g.render().areas).to.be.undefined;
+            expect(g.getButtons()).to.deep.equal([{ label: "killallgo.attacker", move: "attacker" }]);
             const cell = g.handleClick("", 8, 0);
             expect(cell.valid).to.be.true;
             expect(cell.move).to.equal("a1");
@@ -512,6 +508,57 @@ describe("Kill-All Go", () => {
         });
     });
 
+    describe("opening buttons", () => {
+        it("offers one fixed choice per opening phase and none once play starts", () => {
+            const cases: Array<[string[], string[], Array<{ label: string; move: string }>]> = [
+                [["size-9"], [], [{ label: "killallgo.attacker", move: "attacker" }]],
+                [["size-9", "handicap"], [], []],
+                [["size-9", "handicap"], ["2"], [{ label: "killallgo.attacker", move: "attacker" }]],
+                [["size-9", "pie"], [], [{ label: "pass", move: "pass" }]],
+                [["size-9", "pie"], ["c3"], [{ label: "killallgo.attacker", move: "attacker" }]],
+                [["size-9", "hoctaph"], ["2,3"], [{ label: "killallgo.youplace", move: "youplace" }]],
+                [["size-9", "hoctaph"], ["2,3", "youplace"], []],
+                [["size-9", "hoctaph"], ["2,3", "youplace", "a1,b1"], [{ label: "killallgo.defender", move: "defender" }]],
+                [["classic"], [], [{ label: "pass", move: "pass" }]],
+            ];
+            for (const [variants, moves, buttons] of cases) {
+                const g = play(new KillAllGoGame(undefined, variants), moves);
+                expect(g.getButtons(), `${variants.join("+")} after ${moves.join(" ")}`).to.deep.equal(buttons);
+                expect(g.render().areas, `${variants.join("+")} areas`).to.be.undefined;
+            }
+        });
+
+        it("finishes an incomplete Attacker button press with board clicks", () => {
+            const g = play(new KillAllGoGame(undefined, ["size-9", "handicap"]), ["3"]);
+            const staged = g.validateMove("attacker");
+            expect(staged.valid).to.be.true;
+            expect(staged.complete).to.equal(-1);
+            let move = "attacker";
+            for (const [row, col] of [[8, 0], [8, 1], [8, 2]] as Array<[number, number]>) {
+                const click = g.handleClick(move, row, col);
+                expect(click.valid).to.be.true;
+                move = click.move;
+            }
+            expect(move).to.equal("attacker:a1,b1,c1");
+            expect(g.validateMove(move).complete).to.equal(1);
+            g.move(move);
+            expect(g.redSeat).to.equal(2);
+            expect(g.phase).to.equal("play");
+        });
+
+        it("takes the Attacker side in Hoctaph by clicking the second batch", () => {
+            const g = play(new KillAllGoGame(undefined, ["size-9", "hoctaph"]), ["2,3", "iplace:a1,b1"]);
+            let move = "";
+            for (const [row, col] of [[8, 2], [8, 3], [8, 4]] as Array<[number, number]>) {
+                move = g.handleClick(move, row, col).move;
+            }
+            expect(move).to.equal("attacker:c1,d1,e1");
+            g.move(move);
+            expect(g.redSeat).to.equal(1);
+            expect(g.phase).to.equal("play");
+        });
+    });
+
     describe("play", () => {
         it("ends at once when a Defender string becomes pass-alive", () => {
             const g = attackerIsPlayerOne();
@@ -582,6 +629,14 @@ describe("Kill-All Go", () => {
             expect(g.moves()).to.include("c1");
         });
 
+        it("offers the pass button only while the board is in play", () => {
+            const g = attackerIsPlayerOne();
+            expect(g.getButtons()).to.deep.equal([{ label: "pass", move: "pass" }]);
+            play(g, ["e5", "a9", "pass", "pass"]);
+            expect(g.gameover).to.be.true;
+            expect(g.getButtons()).to.deep.equal([]);
+        });
+
         it("reports its statuses with structured labels", () => {
             const g = new KillAllGoGame(undefined, ["size-9"]);
             const statuses = g.sidebarStatuses();
@@ -635,7 +690,7 @@ describe("Kill-All Go", () => {
             expect(g.stack[g.stack.length - 1]._results[0]).to.deep.include({ type: "claim", how: "life", where: "e5", what: "e4,f5" });
             expect(g.getButtons()).to.deep.equal([]);
             const rep = g.render();
-            expect(rep.areas![0].type).to.equal("buttonBar");
+            expect(rep.areas).to.be.undefined;
             expect(rep.annotations!.some((a) => a.type === "dots")).to.be.true;
             const resumed = GameFactory("killallgo", g.serialize()) as KillAllGoGame;
             expect(resumed.phase).to.equal("refute");
@@ -644,7 +699,7 @@ describe("Kill-All Go", () => {
 
         it("is refuted when the claimed string is captured", () => {
             const g = withClaim("");
-            expect(g.validateMove("e4,d5,f5,d6,f6").complete).to.equal(-1);
+            expect(g.validateMove("e4,d5,f5,d6,f6").complete).to.equal(0);
             expect(g.validateMove("e4,d5,f5,d6,f6,e7").complete).to.equal(1);
             expect(g.validateMove("e4,d5,f5,d6,f6,e7,a1").valid).to.be.false;
             g.move("e4,d5,f5,d6,f6,e7");
@@ -655,24 +710,25 @@ describe("Kill-All Go", () => {
             expect(g.stack[g.stack.length - 1].interim).to.have.length(5);
         });
 
-        it("is upheld when the Attacker concedes", () => {
+        it("is upheld when the Attacker submits an attempt that fails", () => {
             const g = withClaim("e4");
-            expect(g.moves()).to.include("concede");
+            expect(g.getButtons()).to.deep.equal([]);
             expect(g.moves()).to.include("e4");
-            expect(g.moves()).to.not.include("d5");
-            const click = g.handleClick("d5", 0, 0, "_btn_concede");
-            expect(click.move).to.equal("d5,concede");
-            g.move("d5,concede");
+            expect(g.moves()).to.include("d5");
+            expect(g.validateMove("d5").complete).to.equal(0);
+            g.move("d5,f5");
             expect(g.gameover).to.be.true;
             expect(g.winner).to.deep.equal([2]);
             expect(g.alive!.sort()).to.deep.equal(["e5", "e6"]);
             expect(g.board.get("d5")).to.equal(RED);
+            expect(g.board.get("f5")).to.equal(RED);
+            expect(g.stack[g.stack.length - 1]._results).to.deep.include({ type: "eog", reason: "claim-upheld" });
         });
 
         it("continues normal play after the Attacker ends on a protected point", () => {
             const g = withClaim("e4");
             expect(g.validateMove("e4,d5").valid).to.be.false;
-            expect(g.validateMove("d5").complete).to.equal(-1);
+            expect(g.validateMove("d5").complete).to.equal(0);
             g.move("d5,f5,e4");
             expect(g.gameover).to.be.false;
             expect(g.phase).to.equal("play");

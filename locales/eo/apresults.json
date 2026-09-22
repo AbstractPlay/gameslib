@@ -254,7 +254,6 @@
         "frogger": "{{player}} estis blokita kaj tiris {{card}} el la tirprovizo.",
         "jacynth": "{{player}} influis ĉe {{where}}.",
         "killallgo_attacker": "{{player}} elektis ludi kiel la atakanto.",
-        "killallgo_concede": "{{player}} koncedis la pretendon: la ĉeno vivas.",
         "killallgo_defender": "{{player}} elektis ludi kiel la defendanto.",
         "killallgo_life": "{{player}} pretendis, ke la ĉeno ĉe {{where}} vivas, krom se la atakanto ludos ĉe {{marks}}.",
         "killallgo_life_nomarks": "{{player}} pretendis, ke la ĉeno ĉe {{where}} ne povas esti kaptita.",
@@ -387,7 +386,7 @@
         "gonnect_cascading_subboard": "{{player}} venkis sur la {{size}}x{{size}}-subtabulo.",
         "gonnect_direct_connection": "{{player}} venkis per rekta konekto.",
         "killallgo_claim_refuted": "La ludo finiĝis, ĉar la pretendita ĉeno estis kaptita.",
-        "killallgo_claim_upheld": "La ludo finiĝis, ĉar la atakanto koncedis, ke la pretendita ĉeno vivas.",
+        "killallgo_claim_upheld": "La ludo finiĝis, ĉar la atakanto rezignis pri la provo kapti la pretenditan ĉenon.",
         "killallgo_double_pass": "La ludo finiĝis, ĉar ambaŭ ludantoj preterpasis kaj la defendanto ne establis vivon.",
         "killallgo_pass_alive": "La ludo finiĝis, ĉar la defendanto faris senkondiĉe vivantan ĉenon."
     },

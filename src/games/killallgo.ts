@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
-import type { APRenderRep, AreaButtonBar, RowCol } from "@abstractplay/renderer/build/schemas/schema";
+import type { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { algebraic2coords, coords2algebraic, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
@@ -601,20 +601,16 @@ export class KillAllGoGame extends GameBase {
         return passAliveStrings(board, this.geo, BLUE, { suicideAllowed: true });
     }
 
-    private claimCaptured(board: Board): boolean {
-        return this.claim !== undefined && !board.has(this.claim.stone);
-    }
-
     private parseCells(list: string): string[] {
         return list.length === 0 ? [] : list.split(",");
     }
 
     /** Whether `moves()` lists every legal move of this shape in the current phase (used by the failsafe). */
     private isEnumerable(m: string): boolean {
-        if (this.phase === "hoc-slice" || this.phase === "hoc-batch-a" || this.phase === "hoc-batch-b") {
+        if (this.phase === "hoc-slice" || this.phase === "hoc-batch-a" || this.phase === "hoc-batch-b" || this.phase === "refute") {
             return false;
         }
-        return /^([a-z]+\d+|\d+|pass|attacker|defender|youplace|concede|defender:[a-z]+\d+)$/.test(m);
+        return /^([a-z]+\d+|\d+|pass|attacker|defender|youplace|defender:[a-z]+\d+)$/.test(m);
     }
 
     public moves(): string[] {
@@ -680,14 +676,12 @@ export class KillAllGoGame extends GameBase {
                 break;
             }
             case "refute": {
-                moves.push("concede");
+                // Every legal placement is a complete ply on its own: it either captures the
+                // claimed string, lands on a protected point, or gives the claim up.
                 for (const cell of this.geo.cells) {
                     if (this.board.has(cell)) { continue; }
-                    const sim = this.simulate(this.board, cell, RED, seen);
-                    if (sim === undefined) { continue; }
-                    if (this.claim!.marks.includes(cell) || this.claimCaptured(sim.board)) {
-                        moves.push(cell);
-                    }
+                    if (this.simulate(this.board, cell, RED, seen) === undefined) { continue; }
+                    moves.push(cell);
                 }
                 break;
             }
@@ -709,34 +703,41 @@ export class KillAllGoGame extends GameBase {
         return 0;
     }
 
+    /**
+     * Fixed choices are offered as buttons; everything else is built by clicking the board.
+     * Taking the Attacker side while handicap or batch stones are owed leaves an incomplete
+     * move in the box, which the following board clicks finish.
+     */
     public getButtons(): ICustomButton[] {
-        if (!this.gameover && this.phase === "play") {
-            return [{ label: "pass", move: "pass" }];
+        if (this.gameover) {
+            return [];
         }
-        return [];
+        switch (this.phase) {
+            case "alt-place":
+            case "pie-choose":
+                return [{ label: "killallgo.attacker", move: "attacker" }];
+            case "hoc-option":
+                return [{ label: "killallgo.youplace", move: "youplace" }];
+            case "hoc-choose":
+                return [{ label: "killallgo.defender", move: "defender" }];
+            case "pie-slice":
+            case "play":
+                return [{ label: "pass", move: "pass" }];
+            default:
+                return [];
+        }
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            let newmove = "";
-            if (piece !== undefined && piece.startsWith("_btn_")) {
-                const value = piece.substring(5);
-                if (value === "concede") {
-                    newmove = move.length === 0 ? "concede" : `${move},concede`;
-                } else {
-                    newmove = value;
-                }
-            } else {
-                const cell = this.coords2algebraic(col, row);
-                const clicked = this.clickCell(move, cell);
-                if (clicked === undefined) {
-                    return {
-                        move,
-                        valid: false,
-                        message: i18next.t("apgames:validation.killallgo.NO_CLICKS_NOW"),
-                    };
-                }
-                newmove = clicked;
+            const cell = this.coords2algebraic(col, row);
+            const newmove = this.clickCell(move, cell);
+            if (newmove === undefined) {
+                return {
+                    move,
+                    valid: false,
+                    message: i18next.t("apgames:validation.killallgo.NO_CLICKS_NOW"),
+                };
             }
             const result = this.validateMove(newmove) as IClickResult;
             result.move = result.valid ? newmove : move;
@@ -1094,12 +1095,6 @@ export class KillAllGoGame extends GameBase {
         for (let i = 0; i < tokens.length; i++) {
             const token = tokens[i];
             const last = i === tokens.length - 1;
-            if (token === "concede") {
-                if (!last) {
-                    return this.fail(result, i18next.t("apgames:validation.killallgo.REFUTE_AFTER_END"));
-                }
-                return this.ok(result, 1, i18next.t("apgames:validation._general.VALID_MOVE"), true);
-            }
             if (token === "pass") {
                 return this.fail(result, i18next.t("apgames:validation.killallgo.INVALID_PASS"));
             }
@@ -1127,7 +1122,8 @@ export class KillAllGoGame extends GameBase {
                 return this.ok(result, 1, i18next.t("apgames:validation._general.VALID_MOVE"), true);
             }
         }
-        return this.ok(result, -1, i18next.t("apgames:validation.killallgo.INSTRUCTIONS_REFUTE_CONTINUE"), true);
+        // Neither a capture nor a protected point: submitting this gives the claim up.
+        return this.ok(result, 0, i18next.t("apgames:validation.killallgo.REFUTE_GIVE_UP"), true);
     }
 
     public move(m: string, { partial = false, trusted = false } = {}): KillAllGoGame {
@@ -1293,13 +1289,8 @@ export class KillAllGoGame extends GameBase {
             }
             case "refute": {
                 const claim = this.claim!;
-                let outcome: "captured" | "protected" | "concede" | "passalive" | undefined;
+                let outcome: "captured" | "protected" | "passalive" | undefined;
                 for (const token of m.split(",")) {
-                    if (token === "concede") {
-                        this.results.push({ type: "claim", how: "concede" });
-                        outcome = "concede";
-                        break;
-                    }
                     this.placeStone(token, RED, seen);
                     if (!this.board.has(claim.stone)) {
                         outcome = "captured";
@@ -1315,15 +1306,17 @@ export class KillAllGoGame extends GameBase {
                     }
                 }
                 if (partial) { return this; }
-                if (outcome === "concede") {
-                    this.endGame(this.otherSeat(this.currplayer), "claim-upheld", [...claim.stones]);
-                } else if (outcome === "captured") {
+                if (outcome === "captured") {
                     this.endGame(this.currplayer, "claim-refuted");
                 } else if (outcome === "passalive") {
                     this.checkBlueLife();
-                } else {
+                } else if (outcome === "protected") {
                     this.claim = undefined;
                     this.phase = "play";
+                } else {
+                    // The Attacker stopped without capturing the string and without playing a
+                    // protected point, so they have given the claim up.
+                    this.endGame(this.otherSeat(this.currplayer), "claim-upheld", [...claim.stones]);
                 }
                 this.currplayer = this.otherSeat(this.currplayer);
                 break;
@@ -1439,39 +1432,6 @@ export class KillAllGoGame extends GameBase {
         return p === this.redSeat ? 1 : 2;
     }
 
-    private buttonBar(): AreaButtonBar | undefined {
-        if (this.gameover) {
-            return undefined;
-        }
-        const button = (key: string, value: string) => ({
-            label: this.neutralAreaLabel(`apgames:validation.killallgo.${key}`),
-            value,
-        });
-        let buttons: ReturnType<typeof button>[] = [];
-        switch (this.phase) {
-            case "alt-place":
-                buttons = [button("BTN_ATTACKER_TAKE", "attacker")];
-                break;
-            case "pie-choose":
-            case "hoc-choose":
-                buttons = [button("BTN_ATTACKER", "attacker"), button("BTN_DEFENDER", "defender")];
-                break;
-            case "hoc-option":
-                buttons = [button("BTN_IPLACE", "iplace"), button("BTN_YOUPLACE", "youplace")];
-                break;
-            case "refute":
-                buttons = [button("BTN_CONCEDE", "concede")];
-                break;
-            default:
-                return undefined;
-        }
-        return {
-            type: "buttonBar",
-            position: "left",
-            buttons: buttons as AreaButtonBar["buttons"],
-        };
-    }
-
     public render(): APRenderRep {
         let pstr = "";
         for (let row = 0; row < this.boardSize; row++) {
@@ -1531,10 +1491,6 @@ export class KillAllGoGame extends GameBase {
             rep.annotations = annotations;
         }
 
-        const bar = this.buttonBar();
-        if (bar !== undefined) {
-            rep.areas = [bar];
-        }
         return rep;
     }
 
@@ -1605,8 +1561,6 @@ export class KillAllGoGame extends GameBase {
                     } else {
                         this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.killallgo_life", { where: r.where!, marks: r.what.split(",").join(", ") });
                     }
-                } else if (r.how === "concede") {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.killallgo_concede");
                 } else {
                     return super.collectChatLogLine(lines, r, ctx);
                 }

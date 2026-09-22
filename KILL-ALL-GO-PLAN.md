@@ -206,7 +206,8 @@ dp→d4   jp→j4   pp→p4   cq→c3   qq→q3   jr→j2
 
 ### 5.5 `hoctaph` — generalized Hoctaph's pie
 Let `p = size²`.
-1. Player 1: `slice:a,b` typed in the move box (like Go's komi entry), with `a ≥ 1, b ≥ 1, a + b ≤ p − 2, b ≤ 2a, a ≤ 2b`.
+1. Player 1: the two batch sizes, with `a ≥ 1, b ≥ 1, a + b ≤ p − 2, b ≤ 2a, a ≤ 2b`. Either typed as `a,b` in the move box
+   (like Go's komi entry), or picked from the **on-board picker** of §7.10, which covers the small sizes worth a single click.
 2. Player 2 chooses an option:
    * `iplace:c1,…,ca` — option 1: Chooser places the `a` stones (bundled). Then Player 1 chooses the colour.
    * `youplace` — option 2: Slicer places the `a` stones on the next ply (`c1,…,ca`). Then Player 2 chooses the colour.
@@ -310,7 +311,8 @@ Everything is lower-cased and whitespace-stripped in `move()` as in the template
 * **`validateMove()`** — the authority for every shape above; returns `complete: -1 / 0 / 1` per §7.5 and `canrender: true`
   for anything that changes the board (partial batches, partial refutations, partial claims).
 * **`handleClick(move, row, col, piece)`** —
-  board clicks only (custom buttons bypass `handleClick`): in `play` an empty point = placement, a Blue stone (when Blue is on move) = start `claim:<stone>`,
+  board clicks only (custom buttons bypass `handleClick`): in `hoc-slice` a click on a picker stone sets that batch size
+  (§7.10); in `play` an empty point = placement, a Blue stone (when Blue is on move) = start `claim:<stone>`,
   while a claim is being built an empty point toggles a mark (re-click removes, Pippinzip style); in `refute` an empty point
   appends to the sequence; in batch phases an empty point toggles membership.
 * **`move(m, {partial})`** — applies the whole string from the ply's base state on every call (so partial re-renders are
@@ -350,6 +352,25 @@ Everything is lower-cased and whitespace-stripped in `move()` as in the template
 
 Each phase offers at most one button because the alternative always involves placing stones, and the clicks are unambiguous
 in that phase. `killallgo.attacker` in `alt-place` is deliberately incomplete while handicap stones are owed.
+
+### 7.10 On-board picker for the Hoctaph batch sizes
+
+The slice ply is the one place where a player types a number into an empty board, so the sizes worth a single click are
+offered as dummy stones. It is presentation only: the move string is the same `a,b` either way, and any legal pair may
+still be typed.
+
+* **Values** `1 … floor(p/12)`: 6 on 9×9, 14 on 13×13, 30 on 19×19. Larger legal pairs are typed.
+* **Layout** two three-wide blocks, values in reading order. The first batch is on the left, starting one intersection in
+  from the upper-left corner (`b8` on 9×9); the second is on the right, its last column one intersection in from the
+  upper-right corner (`f8…h8` on 9×9). A row and a column of empty points separate each block from the edges and from the
+  other block. A Red stone lettered `a` or `b` sits in the top row above the middle of each block.
+* **Stones** are all Red: `[{name: "piece", colour: 1}, {text: "<value>", scale: 0.75, rotate: null}]`, the multi-character
+  legend keys requiring the comma-delimited `pieces` form.
+* **Shading** a value the size already chosen on the *other* side would forbid is drawn at `opacity: 0.5`. It stays
+  clickable, and picking it drops that other choice, so the shading is recomputed against the new pick. Nothing is shaded
+  before a first pick.
+* **Partial moves** `"2"` means the first batch alone and `",3"` the second alone; both validate as `complete: -1` with
+  `canrender`, so the front re-renders the shading as the player chooses. Only `a,b` is ever submitted or stored.
 
 ### 7.7 Results and EOG reasons
 * `{type: "place", where, what: "setup"}` for opening stones; `{type: "place", where}` in play.
@@ -483,4 +504,6 @@ Implemented on this branch: `src/games/killallgo.ts`, `test/games/killallgo.test
   (branch `kill-all-go-buttons-2026-09-22` in `samtcifihi/ap-front`); until that merges the buttons show their raw keys.
 * There is no concede action: a refutation that neither captures the string nor ends on a protected point loses, which is
   what the original protocol specified, and resigning remains available.
+* The Hoctaph slice offers the on-board picker of §7.10; its rendered JSON was validated against the renderer schema on
+  every board size and in the shaded states.
 * The Esperanto title `Ĉiomortiga Goo` was accepted on 2026-09-21 and recorded in the conventions repository.

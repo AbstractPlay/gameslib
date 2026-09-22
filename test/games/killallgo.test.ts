@@ -496,6 +496,102 @@ describe("Kill-All Go", () => {
             expect(statuses.some((st) => (st.key as { textKey: string }).textKey === "apgames:status.killallgo.BATCHES")).to.be.true;
         });
 
+        describe("the on-board batch-size picker", () => {
+            // Which legend key the rendered board puts on a cell.
+            const keyAt = (g: KillAllGoGame, cell: string): string => {
+                const rows = (g.render().pieces as string).split("\n");
+                const [x, y] = g.algebraic2coords(cell);
+                return rows[y] === "_" ? "-" : rows[y].split(",")[x];
+            };
+            const slicing = (variants: string[], partial?: string): KillAllGoGame => {
+                const g = new KillAllGoGame(undefined, variants);
+                if (partial !== undefined) { g.move(partial, { partial: true }); }
+                return g;
+            };
+
+            it("lays the values out in two three-wide blocks with labels above them", () => {
+                const g = slicing(["size-9", "hoctaph"]);
+                // 9x9 offers 1 to floor(81/12) = 6, reading order, one line in from each corner.
+                const first = ["b8", "c8", "d8", "b7", "c7", "d7"];
+                const second = ["f8", "g8", "h8", "f7", "g7", "h7"];
+                first.forEach((cell, i) => expect(keyAt(g, cell), cell).to.equal(`n${i + 1}`));
+                second.forEach((cell, i) => expect(keyAt(g, cell), cell).to.equal(`n${i + 1}`));
+                expect(keyAt(g, "c9")).to.equal("la");
+                expect(keyAt(g, "g9")).to.equal("lb");
+                // A gap of empty points around each block, and nothing below them.
+                for (const cell of ["a8", "e8", "i8", "b9", "b6", "e5"]) {
+                    expect(keyAt(g, cell), cell).to.equal("-");
+                }
+                const legend = g.render().legend!;
+                expect(legend.n6).to.deep.equal([{ name: "piece", colour: 1 }, { text: "6", scale: 0.75, rotate: null }]);
+                expect(legend.la).to.deep.equal([{ name: "piece", colour: 1 }, { text: "a", scale: 0.75, rotate: null }]);
+            });
+
+            it("stops at floor(p/12) on every board size but still accepts larger typed sizes", () => {
+                for (const [variants, max] of [[["size-9"], 6], [["size-13"], 14], [[], 30]] as Array<[string[], number]>) {
+                    const g = slicing([...variants, "hoctaph"]);
+                    const rendered = (g.render().pieces as string);
+                    expect(rendered.includes(`n${max}`), `max ${max}`).to.be.true;
+                    expect(rendered.includes(`n${max + 1}`), `beyond ${max}`).to.be.false;
+                }
+                const big = slicing(["hoctaph"]);
+                expect(big.validateMove("40,35").valid).to.be.true;
+            });
+
+            it("picks the first batch on the left and the second on the right", () => {
+                const g = slicing(["size-9", "hoctaph"]);
+                const first = g.handleClick("", 1, 1);          // b8 = first batch, 1
+                expect(first.valid).to.be.true;
+                expect(first.move).to.equal("1");
+                expect(first.complete).to.equal(-1);
+                const second = g.handleClick(first.move, 1, 6); // g8 = second batch, 2
+                expect(second.move).to.equal("1,2");
+                expect(second.complete).to.equal(0);
+                g.move("1,2");
+                expect(g.setup).to.deep.equal({ a: 1, b: 2 });
+                expect(g.phase).to.equal("hoc-option");
+            });
+
+            it("shades the values the other batch size forbids", () => {
+                const g = slicing(["size-9", "hoctaph"], "1");
+                expect(g.setup).to.deep.equal({ a: 1, b: undefined });
+                // With a first batch of 1, a second batch may only be 1 or 2.
+                expect(keyAt(g, "f8")).to.equal("n1");
+                expect(keyAt(g, "g8")).to.equal("n2");
+                expect(keyAt(g, "h8")).to.equal("d3");
+                expect(keyAt(g, "d7")).to.equal("n6");
+                const legend = g.render().legend!;
+                expect(legend.d3).to.deep.equal([
+                    { name: "piece", colour: 1, opacity: 0.5 },
+                    { text: "3", scale: 0.75, rotate: null, opacity: 0.5 },
+                ]);
+            });
+
+            it("lets a shaded value be picked, dropping the choice that forbade it", () => {
+                const g = slicing(["size-9", "hoctaph"], "1");
+                const click = g.handleClick("1", 1, 7);   // h8 = second batch, 3, shaded while the first is 1
+                expect(click.valid).to.be.true;
+                expect(click.move).to.equal(",3");
+                const after = slicing(["size-9", "hoctaph"], ",3");
+                expect(after.setup).to.deep.equal({ a: undefined, b: 3 });
+                // A second batch of 3 now forbids a first batch of 1.
+                expect(keyAt(after, "b8")).to.equal("d1");
+                expect(keyAt(after, "c8")).to.equal("n2");
+                expect(after.handleClick(",3", 1, 2).move).to.equal("2,3");
+            });
+
+            it("ignores clicks away from the blocks and shows the picker only while slicing", () => {
+                const g = slicing(["size-9", "hoctaph"]);
+                const stray = g.handleClick("", 4, 4);
+                expect(stray.valid).to.be.false;
+                expect(stray.move).to.equal("");
+                const later = play(new KillAllGoGame(undefined, ["size-9", "hoctaph"]), ["2,3"]);
+                expect(later.phase).to.equal("hoc-option");
+                expect((later.render().pieces as string).includes("n1")).to.be.false;
+                expect(Object.keys(later.render().legend!)).to.deep.equal(["A", "B"]);
+            });
+        });
+
         it("builds batches by clicking", () => {
             const g = play(new KillAllGoGame(undefined, ["size-9", "hoctaph"]), ["2,3"]);
             const first = g.handleClick("", 8, 0);

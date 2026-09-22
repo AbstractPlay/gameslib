@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
-import type { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema";
+import type { APRenderRep, Glyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { algebraic2coords, coords2algebraic, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
@@ -319,6 +319,22 @@ interface ISetup {
     handicap?: number;
 }
 
+interface ILegend {
+    [key: string]: Glyph | [Glyph, ...Glyph[]];
+}
+
+/** One numbered stone of the on-board batch-size picker. */
+interface ISliceButton {
+    cell: string;
+    value: number;
+}
+
+interface ISliceLayout {
+    a: ISliceButton[];
+    b: ISliceButton[];
+    labels: [string, string];
+}
+
 interface IClaim {
     stone: string;
     stones: string[];
@@ -601,6 +617,47 @@ export class KillAllGoGame extends GameBase {
         return passAliveStrings(board, this.geo, BLUE, { suicideAllowed: true });
     }
 
+    /**
+     * The on-board picker offered during the Hoctaph slice: the values 1 to floor(p/12) laid out
+     * in two three-wide blocks, the first batch on the left and the second on the right, each one
+     * intersection in from its corner with a label stone above it. Larger sizes are still typed.
+     */
+    private sliceLayout(): ISliceLayout | undefined {
+        const width = 3;
+        const max = Math.floor(this.points / 12);
+        const rows = Math.ceil(max / width);
+        if (max < 1 || rows + 1 > this.boardSize || this.boardSize < 2 * width + 3) {
+            return undefined;
+        }
+        const aCols = [1, 2, 3];
+        const bCols = [this.boardSize - 4, this.boardSize - 3, this.boardSize - 2];
+        const block = (cols: number[]): ISliceButton[] => {
+            const out: ISliceButton[] = [];
+            for (let value = 1; value <= max; value++) {
+                const idx = value - 1;
+                out.push({ cell: this.coords2algebraic(cols[idx % width], 1 + Math.floor(idx / width)), value });
+            }
+            return out;
+        };
+        return {
+            a: block(aCols),
+            b: block(bCols),
+            labels: [this.coords2algebraic(aCols[1], 0), this.coords2algebraic(bCols[1], 0)],
+        };
+    }
+
+    /** The two batch sizes named by a complete or partial slice move. */
+    private parseSlice(m: string): [number | undefined, number | undefined] {
+        const parts = m.split(",");
+        const num = (raw: string | undefined): number | undefined => (raw !== undefined && /^\d+$/.test(raw) ? parseInt(raw, 10) : undefined);
+        return [num(parts[0]), num(parts[1])];
+    }
+
+    /** Whether two batch sizes may be chosen together. */
+    private sliceAllowed(a: number, b: number): boolean {
+        return a >= 1 && b >= 1 && a + b <= this.points - 2 && a <= 2 * b && b <= 2 * a;
+    }
+
     private parseCells(list: string): string[] {
         return list.length === 0 ? [] : list.split(",");
     }
@@ -733,10 +790,11 @@ export class KillAllGoGame extends GameBase {
             const cell = this.coords2algebraic(col, row);
             const newmove = this.clickCell(move, cell);
             if (newmove === undefined) {
+                const key = this.phase === "hoc-slice" ? "SLICE_NOT_A_BUTTON" : "NO_CLICKS_NOW";
                 return {
                     move,
                     valid: false,
-                    message: i18next.t("apgames:validation.killallgo.NO_CLICKS_NOW"),
+                    message: i18next.t(`apgames:validation.killallgo.${key}`),
                 };
             }
             const result = this.validateMove(newmove) as IClickResult;
@@ -760,8 +818,22 @@ export class KillAllGoGame extends GameBase {
         };
         switch (this.phase) {
             case "hand-n":
-            case "hoc-slice":
                 return undefined;
+            case "hoc-slice": {
+                const layout = this.sliceLayout();
+                if (layout === undefined) { return undefined; }
+                const hit = layout.a.find((btn) => btn.cell === cell) ?? layout.b.find((btn) => btn.cell === cell);
+                if (hit === undefined) { return undefined; }
+                const first = layout.a.some((btn) => btn.cell === cell);
+                const [curA, curB] = this.parseSlice(move);
+                // Picking a value the other batch size forbids drops that other choice.
+                if (first) {
+                    const keep = curB !== undefined && this.sliceAllowed(hit.value, curB) ? curB : undefined;
+                    return keep === undefined ? `${hit.value}` : `${hit.value},${keep}`;
+                }
+                const keep = curA !== undefined && this.sliceAllowed(curA, hit.value) ? curA : undefined;
+                return keep === undefined ? `,${hit.value}` : `${keep},${hit.value}`;
+            }
             case "alt-place":
                 if (move.startsWith("attacker")) {
                     return `attacker:${toggle(move.substring("attacker:".length))}`;
@@ -963,17 +1035,21 @@ export class KillAllGoGame extends GameBase {
     private validateSlice(m: string, result: IValidationResult): IValidationResult {
         const max = this.points - 2;
         if (m.length === 0) {
-            return this.ok(result, -1, i18next.t("apgames:validation.killallgo.INSTRUCTIONS_HOC_SLICE", { max }));
+            return this.ok(result, -1, i18next.t("apgames:validation.killallgo.INSTRUCTIONS_HOC_SLICE", { max }), true);
         }
-        if (/^\d+,?$/.test(m)) {
-            return this.ok(result, -1, i18next.t("apgames:validation.killallgo.INSTRUCTIONS_HOC_SLICE", { max }));
-        }
-        const match = m.match(/^(\d+),(\d+)$/);
-        if (match === null) {
+        if (!/^\d*,?\d*$/.test(m)) {
             return this.fail(result, i18next.t("apgames:validation.killallgo.SLICE_FORMAT"));
         }
-        const a = parseInt(match[1], 10);
-        const b = parseInt(match[2], 10);
+        const [a, b] = this.parseSlice(m);
+        if (a === undefined && b === undefined) {
+            return this.ok(result, -1, i18next.t("apgames:validation.killallgo.INSTRUCTIONS_HOC_SLICE", { max }), true);
+        }
+        if (b === undefined) {
+            return this.ok(result, -1, i18next.t("apgames:validation.killallgo.SLICE_A_ONLY", { count: a }), true);
+        }
+        if (a === undefined) {
+            return this.ok(result, -1, i18next.t("apgames:validation.killallgo.SLICE_B_ONLY", { count: b }), true);
+        }
         if (a < 1 || b < 1) {
             return this.fail(result, i18next.t("apgames:validation.killallgo.SLICE_MIN"));
         }
@@ -983,7 +1059,7 @@ export class KillAllGoGame extends GameBase {
         if (a > 2 * b || b > 2 * a) {
             return this.fail(result, i18next.t("apgames:validation.killallgo.SLICE_RATIO"));
         }
-        return this.ok(result, 0, i18next.t("apgames:validation.killallgo.SLICE_OK", { a, b }));
+        return this.ok(result, 0, i18next.t("apgames:validation.killallgo.SLICE_OK", { a, b }), true);
     }
 
     private validateHocOption(m: string, result: IValidationResult): IValidationResult {
@@ -1207,10 +1283,10 @@ export class KillAllGoGame extends GameBase {
                 break;
             }
             case "hoc-slice": {
-                const [a, b] = m.split(",").map((s) => parseInt(s, 10));
+                const [a, b] = this.parseSlice(m);
                 this.setup = { a, b };
-                this.results.push({ type: "announce", payload: [a, b] });
                 if (partial) { return this; }
+                this.results.push({ type: "announce", payload: [a!, b!] });
                 this.phase = "hoc-option";
                 this.currplayer = 2;
                 break;
@@ -1432,25 +1508,87 @@ export class KillAllGoGame extends GameBase {
         return p === this.redSeat ? 1 : 2;
     }
 
-    public render(): APRenderRep {
-        let pstr = "";
-        for (let row = 0; row < this.boardSize; row++) {
-            if (pstr.length > 0) {
-                pstr += "\n";
+    /**
+     * Numbered picker stones for the Hoctaph slice, added to `legend` and returned as a cell map.
+     * A value the batch size already chosen on the other side would forbid is drawn at half
+     * opacity; it stays clickable, and picking it drops that other choice.
+     */
+    private sliceOverlay(legend: ILegend): Map<string, string> {
+        const overlay = new Map<string, string>();
+        if (this.gameover || this.phase !== "hoc-slice") {
+            return overlay;
+        }
+        const layout = this.sliceLayout();
+        if (layout === undefined) {
+            return overlay;
+        }
+        const stone = (text: string, dimmed: boolean): [Glyph, ...Glyph[]] => {
+            const piece: Glyph = { name: "piece", colour: 1 };
+            const label: Glyph = { text, scale: 0.75, rotate: null };
+            if (dimmed) {
+                piece.opacity = 0.5;
+                label.opacity = 0.5;
             }
-            for (let col = 0; col < this.boardSize; col++) {
-                const cell = this.coords2algebraic(col, row);
-                const contents = this.board.get(cell);
-                if (contents === RED) {
-                    pstr += "A";
-                } else if (contents === BLUE) {
-                    pstr += "B";
-                } else {
-                    pstr += "-";
-                }
+            return [piece, label];
+        };
+        const chosen = { a: this.setup?.a, b: this.setup?.b };
+        for (const [side, buttons] of [["a", layout.a], ["b", layout.b]] as Array<["a" | "b", ISliceButton[]]>) {
+            const other = side === "a" ? chosen.b : chosen.a;
+            for (const btn of buttons) {
+                const allowed = other === undefined
+                    || (side === "a" ? this.sliceAllowed(btn.value, other) : this.sliceAllowed(other, btn.value));
+                const key = `${allowed ? "n" : "d"}${btn.value}`;
+                legend[key] = stone(btn.value.toString(), !allowed);
+                overlay.set(btn.cell, key);
             }
         }
-        pstr = pstr.replace(new RegExp(`-{${this.boardSize}}`, "g"), "_");
+        legend.la = stone("a", false);
+        legend.lb = stone("b", false);
+        overlay.set(layout.labels[0], "la");
+        overlay.set(layout.labels[1], "lb");
+        return overlay;
+    }
+
+    public render(): APRenderRep {
+        const legend: ILegend = {
+            A: [{ name: "piece", colour: 1 }],
+            B: [{ name: "piece", colour: 2 }],
+        };
+        const overlay = this.sliceOverlay(legend);
+
+        let pstr = "";
+        if (overlay.size > 0) {
+            // Multi-character keys need the comma-delimited form.
+            const rows: string[] = [];
+            for (let row = 0; row < this.boardSize; row++) {
+                const cells: string[] = [];
+                for (let col = 0; col < this.boardSize; col++) {
+                    const cell = this.coords2algebraic(col, row);
+                    const contents = this.board.get(cell);
+                    cells.push(overlay.get(cell) ?? (contents === RED ? "A" : contents === BLUE ? "B" : "-"));
+                }
+                rows.push(cells.every((c) => c === "-") ? "_" : cells.join(","));
+            }
+            pstr = rows.join("\n");
+        } else {
+            for (let row = 0; row < this.boardSize; row++) {
+                if (pstr.length > 0) {
+                    pstr += "\n";
+                }
+                for (let col = 0; col < this.boardSize; col++) {
+                    const cell = this.coords2algebraic(col, row);
+                    const contents = this.board.get(cell);
+                    if (contents === RED) {
+                        pstr += "A";
+                    } else if (contents === BLUE) {
+                        pstr += "B";
+                    } else {
+                        pstr += "-";
+                    }
+                }
+            }
+            pstr = pstr.replace(new RegExp(`-{${this.boardSize}}`, "g"), "_");
+        }
 
         const rep: APRenderRep = {
             board: {
@@ -1458,10 +1596,7 @@ export class KillAllGoGame extends GameBase {
                 width: this.boardSize,
                 height: this.boardSize,
             },
-            legend: {
-                A: [{ name: "piece", colour: 1 }],
-                B: [{ name: "piece", colour: 2 }],
-            },
+            legend,
             pieces: pstr,
         };
 

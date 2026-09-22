@@ -154,21 +154,8 @@ export const signature = (board: Board, geo: Geometry): string => {
 // Benson's algorithm for unconditional life ("pass-alive" strings)
 // ---------------------------------------------------------------------------
 
-/**
- * Benson's algorithm for unconditional life ("pass-alive" strings).
- *
- * A chain of the given colour is pass-alive when it belongs to a set X of chains such that every
- * chain in X has at least two vital regions enclosed by X. A region is a maximal connected set
- * of points not holding the colour; it is vital to a chain when every point of the region that
- * could ever become empty is adjacent to the chain.
- *
- * With classic (no-suicide) rules only the empty points of a region need to touch the chain.
- * When multi-stone suicide is legal (Tromp-Taylor), the opponent can clear its own stones out of a
- * region and refill it leaving a hole that is not a liberty of the chain, so every point of the
- * region, occupied or not, must touch the chain. `suicideAllowed` selects the strict test.
- */
-
 export interface PassAliveOptions {
+    /** Tromp-Taylor rules; selects the strict vital-region test. Defaults to true. */
     suicideAllowed?: boolean;
 }
 
@@ -178,7 +165,19 @@ interface Region {
     vitalTo: Set<number>;
 }
 
-/** Returns every pass-alive chain of `colour`, each as its list of stones. */
+/**
+ * Every pass-alive chain of `colour`, each as its list of stones.
+ *
+ * A chain is pass-alive when it belongs to a set X of chains such that every chain in X has at
+ * least two vital regions enclosed by X. A region is a maximal connected set of points not
+ * holding the colour; it is vital to a chain when every point of the region that could ever
+ * become empty is adjacent to the chain.
+ *
+ * Under classic (no-suicide) rules only the empty points of a region need to touch the chain.
+ * When multi-stone suicide is legal, the opponent can clear its own stones out of a region and
+ * refill it leaving a hole that is not a liberty of the chain, so every point of the region,
+ * occupied or not, must touch it.
+ */
 export const passAliveStrings = (board: Board, geo: Geometry, colour: Stone, opts: PassAliveOptions = {}): string[][] => {
     const suicideAllowed = opts.suicideAllowed ?? true;
 
@@ -304,7 +303,7 @@ type Phase =
     | "alt-place"     // alternating placement of Red stones until someone takes Red
     | "pie-slice"     // simple pie: Player 1 places any number of Red stones
     | "pie-choose"    // simple pie: Player 2 chooses a side
-    | "hoc-slice"     // Hoctaph: Player 1 types the two batch sizes
+    | "hoc-slice"     // Hoctaph: Player 1 chooses the two batch sizes
     | "hoc-option"    // Hoctaph: Player 2 chooses who places the first batch
     | "hoc-batch-a"   // Hoctaph: Player 1 places the first batch (Player 2 chose "youplace")
     | "hoc-choose"    // Hoctaph: the other player chooses a side

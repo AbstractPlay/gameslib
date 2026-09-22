@@ -4340,18 +4340,27 @@
       }
     },
     "carnac": {
+      "#projection": {
+        "name": "Vista isometrica"
+      },
       "flat": {
         "description": "Mostra la plancia vista dall'alto.",
         "name": "Vista dall'alto"
       }
     },
     "druid": {
+      "#projection": {
+        "name": "Vista isometrica"
+      },
       "flat": {
         "description": "Vista dall'alto con l'altezza delle pile indicata su ciascuna casella.",
         "name": "Vista dall'alto"
       }
     },
     "evenatodds": {
+      "#projection": {
+        "name": "Vista isometrica"
+      },
       "flat": {
         "description": "Vista a volo d'uccello delle pile di tessere del domino.",
         "name": "Vista dall'alto"
@@ -4683,6 +4692,9 @@
       }
     },
     "terrace": {
+      "#projection": {
+        "name": "Vista isometrica"
+      },
       "flat": {
         "description": "Una vista bidimensionale che usa ombreggiature per indicare l'altezza.",
         "name": "Vista dall'alto"

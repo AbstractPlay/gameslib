@@ -100,7 +100,7 @@ export class DruidGame extends GameBase {
                 enabledWhen: { board: ["#board", "size-8", "size-12"] },
             },
         ],
-        displays: [{ uid: "flat" }],
+        displays: [{ uid: "flat", group: "projection" }],
         categories: ["goal>connect", "mechanic>place", "mechanic>move", "board>3d", "board>shape>rect", "board>connect>rect", "components>special"],
         flags: ["pie", "automove"],
     };

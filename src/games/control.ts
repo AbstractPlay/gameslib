@@ -390,19 +390,8 @@ export class ControlGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let showControl = true;
-        let vertexStyle = false;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "hide-control") {
-                showControl = false;
-            } else if (altDisplay === "vertex-style") {
-                vertexStyle = true;
-            }
-        }
+        const showControl = !this.hasDisplay(opts, "hide-control");
+        const vertexStyle = this.hasDisplay(opts, "vertex-style");
 
         let pstr = "";
         for (const row of this.listCells(true)) {

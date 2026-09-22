@@ -64,7 +64,11 @@ export class TumbleweedGame extends GameBase {
             { uid: "capture-delay" },
             { uid: "free-neutral" },
         ],
-        displays: [{uid: "hide-threatened"}, {uid: "hide-influence"}, {uid: "hide-both"}],
+        displays: [
+            { uid: "hide-threatened" },
+            { uid: "hide-influence" },
+            { uid: "hide-both", implies: ["hide-threatened", "hide-influence"], impliesLock: true },
+        ],
     };
 
     public numplayers = 2;
@@ -684,22 +688,8 @@ export class TumbleweedGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let showThreatened = true;
-        let showInfluence = true;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "hide-threatened") {
-                showThreatened = false;
-            } else if (altDisplay === "hide-influence") {
-                showInfluence = false;
-            } else if (altDisplay === "hide-both") {
-                showThreatened = false;
-                showInfluence = false;
-            }
-        }
+        const showThreatened = !this.hasDisplay(opts, "hide-threatened");
+        const showInfluence = !this.hasDisplay(opts, "hide-influence");
 
         // Build piece string
         const legendNames: Set<string> = new Set();

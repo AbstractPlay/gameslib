@@ -49,7 +49,7 @@ export class BideGame extends GameBase {
             },
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>displace", "board>shape>hex", "board>connect>hex", "components>simple>1per", "other>2+players"],
-        displays: [{uid: "isometric"}],
+        displays: [{ uid: "isometric", group: "projection" }],
         flags: ["scores", "no-moves"]
     };
     public numplayers = 2;
@@ -399,10 +399,7 @@ export class BideGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
+        const useIsometric = this.hasDisplay(opts, "isometric");
 
         // Build piece string
         const pcLabels = ["A","B","C","D","E","F"]
@@ -422,7 +419,7 @@ export class BideGame extends GameBase {
                 }
             }
             let joined: string;
-            if (altDisplay === "isometric") {
+            if (useIsometric) {
                 joined = pieces.join(",");
             } else {
                 joined = pieces.join("");
@@ -435,7 +432,7 @@ export class BideGame extends GameBase {
 
         // Build rep
         let rep: APRenderRep;
-        if (altDisplay === "isometric") {
+        if (useIsometric) {
             const grid = new HexTriGraph(5, 9);
             const heightmap: number[][] = (grid.listCells(true) as string[][]).map(row => row.map(cell => {
                 const dist = grid.distFromEdge(cell);

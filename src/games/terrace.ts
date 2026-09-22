@@ -653,20 +653,16 @@ export class TerraceGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let isIso = true;
+        const isFlat = this.hasDisplay(opts, "flat");
+        let isIso = !isFlat;
         let pcHeight = 15;
-        if (altDisplay !== undefined && altDisplay.startsWith("isometric")) {
+        const legacyAlt = opts?.altDisplay;
+        if (!isFlat && legacyAlt !== undefined && legacyAlt.startsWith("isometric")) {
             isIso = true;
-            const [,heightStr] = altDisplay.split("-");
+            const [, heightStr] = legacyAlt.split("-");
             if (heightStr !== undefined) {
                 pcHeight = parseInt(heightStr, 10);
             }
-        } else if (altDisplay !== undefined && altDisplay === "flat") {
-            isIso = false;
         }
         // Build piece string
         const pstr: string[][][] = [];

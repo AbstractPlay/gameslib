@@ -4304,6 +4304,9 @@
             }
         },
         "bide": {
+            "#projection": {
+                "name": "Top-down view"
+            },
             "isometric": {
                 "description": "Quasi-3D, isometric view",
                 "name": "Isometric"

@@ -92,8 +92,12 @@ describe("display-constraints", () => {
 });
 
 describe("display-cycle", () => {
-    it("is false when ungrouped checkbox displays exist", () => {
+    it("is false when multiple ungrouped checkbox displays exist", () => {
         expect(isSimpleDisplayCycleGame(overlayDisplays)).to.be.false;
+    });
+
+    it("is true for a single ungrouped toggle", () => {
+        expect(isSimpleDisplayCycleGame([{ uid: "swap-prison" }])).to.be.true;
     });
 
     it("is true for a single projection radio group", () => {
@@ -105,5 +109,12 @@ describe("display-cycle", () => {
         expect(steps).to.deep.equal([[], ["flat"]]);
         expect(nextDisplayCycleStep(projectionDisplays, [])).to.deep.equal(["flat"]);
         expect(nextDisplayCycleStep(projectionDisplays, ["flat"])).to.deep.equal([]);
+    });
+
+    it("cycles default and a single checkbox uid", () => {
+        const defs = [{ uid: "swap-prison" }];
+        expect(displayCycleSteps(defs)).to.deep.equal([[], ["swap-prison"]]);
+        expect(nextDisplayCycleStep(defs, [])).to.deep.equal(["swap-prison"]);
+        expect(nextDisplayCycleStep(defs, ["swap-prison"])).to.deep.equal([]);
     });
 });

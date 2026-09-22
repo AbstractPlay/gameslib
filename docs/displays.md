@@ -67,9 +67,14 @@ Before combinable toggles, some games used shortcut uids such as `hide-both`. **
 
 Prefer independent checkbox uids in new games instead of encoding every combination.
 
-## FAB cycle (simple projection games)
+## FAB cycle (simple display games)
 
-[`isSimpleDisplayCycleGame()`](/gameslib/src/common/display-cycle.ts) is `true` when every display belongs to a **single** radio group (e.g. default vs `flat`). The board FAB cycles between `displayCycleSteps()`; games with ungrouped checkbox displays hide the FAB (settings modal only).
+[`isSimpleDisplayCycleGame()`](/gameslib/src/common/display-cycle.ts) is `true` when the FAB can cycle without combining independent toggles:
+
+- **One ungrouped display** (e.g. Asli `swap-prison`): cycles off → on → off.
+- **One radio group** with default + at least one member (e.g. default isometric vs `flat`).
+
+The board FAB uses `displayCycleSteps()`. Games with **two or more** ungrouped checkbox displays (or a mix of checkboxes and groups) hide the FAB (settings modal only).
 
 Add `group: "projection"` on `flat` (and rely on `#projection` sentinel) so Druid/Carnac qualify once metadata is updated (Phase 5b).
 

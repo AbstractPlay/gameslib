@@ -1482,8 +1482,7 @@ export class EvenAtOddsGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        const altDisplay = opts?.altDisplay;
-        const isIso = altDisplay !== "flat";
+        const isIso = !this.hasDisplay(opts, "flat");
         const maxH = isIso ? 0 : this.maxActiveLevel();
 
         const bounds = this.occupiedBounds();

@@ -1175,6 +1175,14 @@
     "src": "Hide panel",
     "out": "Masquer le panneau"
   },
+  "displays.amazons.#block.description": {
+    "src": "Show blocked squares as a square brick.",
+    "out": "Afficher les cases bloquées sous forme de brique carrée."
+  },
+  "displays.amazons.#block.name": {
+    "src": "Brick",
+    "out": "Brique"
+  },
   "displays.amazons.blackbloc.description": {
     "src": "Show blocked squares as a black square.",
     "out": "Afficher les cases bloquées sous forme de carré noir."
@@ -1182,14 +1190,6 @@
   "displays.amazons.blackbloc.name": {
     "src": "Black block",
     "out": "Bloc noir"
-  },
-  "displays.amazons.brick.description": {
-    "src": "Show blocked squares as a square brick.",
-    "out": "Afficher les cases bloquées sous forme de brique carrée."
-  },
-  "displays.amazons.brick.name": {
-    "src": "Brick",
-    "out": "Brique"
   },
   "displays.amazons.bricks.description": {
     "src": "Show blocked squares as a wall of bricks.",
@@ -1238,6 +1238,10 @@
   "displays.bao.pips.name": {
     "src": "Pips",
     "out": "Points"
+  },
+  "displays.bide.#projection.name": {
+    "src": "Top-down view",
+    "out": "Vue de dessus"
   },
   "displays.bide.isometric.description": {
     "src": "Quasi-3D, isometric view",
@@ -1415,6 +1419,10 @@
     "src": "Overhead view",
     "out": "Vue du dessus"
   },
+  "displays.elOso.#stack.name": {
+    "src": "Stack pieces",
+    "out": "Empiler les pièces"
+  },
   "displays.elOso.nums.description": {
     "src": "Stacks shown as numbers",
     "out": "Piles affichées sous forme de nombres"
@@ -1450,6 +1458,10 @@
   "displays.fourinarow.hide-moves.name": {
     "src": "Hide moves",
     "out": "Masquer les coups"
+  },
+  "displays.frogger.#piece.name": {
+    "src": "Standard pieces",
+    "out": "Pièces standard"
   },
   "displays.frogger.frog-pieces.description": {
     "src": "Use frog-shaped pieces.",
@@ -1578,6 +1590,10 @@
   "displays.meridians.hide-threatened.name": {
     "src": "Hide threatened",
     "out": "Masquer les pierres menacées"
+  },
+  "displays.mvolcano.#stack.name": {
+    "src": "3D stacks",
+    "out": "Piles 3D"
   },
   "displays.mvolcano.expanding.description": {
     "src": "Two dimensional board, with stacks expanding when hovered over.",
@@ -1867,6 +1883,10 @@
     "src": "3D orbs",
     "out": "Sphères 3D"
   },
+  "displays.volcano.#stack.name": {
+    "src": "3D stacks",
+    "out": "Piles 3D"
+  },
   "displays.volcano.expanding.description": {
     "src": "Two dimensional board, with stacks expanding when hovered over.",
     "out": "Plateau en deux dimensions, avec des piles qui s'agrandissent au survol."
@@ -1874,6 +1894,10 @@
   "displays.volcano.expanding.name": {
     "src": "Expanding",
     "out": "Agrandissement au survol"
+  },
+  "displays.zola.#projection.name": {
+    "src": "Top-down view",
+    "out": "Vue de dessus"
   },
   "displays.zola.isometric-20.description": {
     "src": "Pronounced elevation: A quasi-3d view of the field where the spaces get higher as you move away from the centre.",

@@ -4254,13 +4254,13 @@
       }
     },
     "amazons": {
+      "#block": {
+        "description": "Mostra le caselle bloccate come un mattone quadrato.",
+        "name": "Mattone"
+      },
       "blackbloc": {
         "description": "Mostra le caselle bloccate come un quadrato nero.",
         "name": "Blocco nero"
-      },
-      "brick": {
-        "description": "Mostra le caselle bloccate come un mattone quadrato.",
-        "name": "Mattone"
       },
       "bricks": {
         "description": "Mostra le caselle bloccate come un muro di mattoni.",
@@ -4304,6 +4304,9 @@
       }
     },
     "bide": {
+      "#projection": {
+        "name": "Vista dall'alto"
+      },
       "isometric": {
         "description": "Vista isometrica, quasi 3D",
         "name": "Isometrica"
@@ -4367,6 +4370,9 @@
       }
     },
     "elOso": {
+      "#stack": {
+        "name": "Pezzi impilati"
+      },
       "nums": {
         "description": "Pile mostrate come numeri",
         "name": "Numeri"
@@ -4453,6 +4459,9 @@
       }
     },
     "frogger": {
+      "#piece": {
+        "name": "Pezzi standard"
+      },
       "frog-pieces": {
         "description": "Usa pezzi a forma di rana.",
         "name": "Pezzi rana"
@@ -4541,6 +4550,9 @@
       }
     },
     "mvolcano": {
+      "#stack": {
+        "name": "Pile 3D"
+      },
       "expanding": {
         "description": "Plancia bidimensionale, con pile che si espandono al passaggio del mouse.",
         "name": "Espansione"
@@ -4745,12 +4757,18 @@
       }
     },
     "volcano": {
+      "#stack": {
+        "name": "Pile 3D"
+      },
       "expanding": {
         "description": "Plancia bidimensionale, con pile che si espandono al passaggio del mouse.",
         "name": "Espansione"
       }
     },
     "zola": {
+      "#projection": {
+        "name": "Vista dall'alto"
+      },
       "isometric-20": {
         "description": "Elevazione pronunciata: una vista quasi-3D del campo in cui gli spazi diventano più alti man mano che ti allontani dal centro.",
         "name": "Isometrica: Elevazione pronunciata"

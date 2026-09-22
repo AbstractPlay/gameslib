@@ -530,7 +530,7 @@ export class PodsGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        const displayHighlights = (opts === undefined || opts.altDisplay === undefined || opts.altDisplay !== "hide-influence");
+        const showInfluence = !this.hasDisplay(opts, "hide-influence");
         const pstr: string[][] = [];
         const cells = this.listCells(true);
         for (const row of cells) {
@@ -542,7 +542,7 @@ export class PodsGame extends GameBase {
                     } else {
                         pieces.push("B");
                     }
-                } else if (displayHighlights && this.influenceBoard.has(cell)) {
+                } else if (showInfluence && this.influenceBoard.has(cell)) {
                     if (this.influenceBoard.get(cell) === 1) {
                         pieces.push("C");
                     } else {

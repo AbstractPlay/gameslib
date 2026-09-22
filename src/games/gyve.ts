@@ -462,16 +462,7 @@ export class GyveGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let vertexStyle = false;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "vertex-style") {
-                vertexStyle = true;
-            }
-        }
+        const vertexStyle = this.hasDisplay(opts, "vertex-style");
         const g = this.graph;
         // Build piece string
         let pstr = "";

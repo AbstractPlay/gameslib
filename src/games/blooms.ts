@@ -532,16 +532,7 @@ export class BloomsGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let showThreatened = true;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "hide-threatened") {
-                showThreatened = false;
-            }
-        }
+        const showThreatened = !this.hasDisplay(opts, "hide-threatened");
         // Build piece string
         const captured: Set<string> = showThreatened ? this.captured.reduce((a, b) => new Set([...a, ...b]), new Set()) : new Set();
         const pstr: string[][] = [];

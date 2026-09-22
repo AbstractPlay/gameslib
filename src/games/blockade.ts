@@ -1014,16 +1014,7 @@ export class BlockadeGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let differentiatedWalls = false;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "differentiated-walls") {
-                differentiatedWalls = true;
-            }
-        }
+        const differentiatedWalls = this.hasDisplay(opts, "differentiated-walls");
         // Build piece string
         let pstr = "";
         for (let row = 0; row < this.height; row++) {

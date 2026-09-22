@@ -352,10 +352,7 @@ export class BlastRadiusGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string|undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
+        const useNums = this.hasDisplay(opts, "nums");
 
         // Build piece string
         let pstr = "";
@@ -368,7 +365,7 @@ export class BlastRadiusGame extends GameBase {
             for (const cell of row) {
                 if (this.board.has(cell)) {
                     let str = this.board.get(cell)!.join("");
-                    if (altDisplay === "nums") {
+                    if (useNums) {
                         str = (str[0] === "1" ? "pA" : "pB") + str.length;
                     } else {
                         str = str.replace(/1/g, "A");
@@ -409,7 +406,7 @@ export class BlastRadiusGame extends GameBase {
         }
 
         const legend: ILegendObj = {};
-        if (altDisplay === "nums") {
+        if (useNums) {
             const pcs = new Set<string>(pstr.split(/[,\n]/));
             for (const pc of pcs) {
                 if (pc !== "-") {
@@ -442,7 +439,7 @@ export class BlastRadiusGame extends GameBase {
             markers,
         }
         const rep: APRenderRep =  {
-            renderer: altDisplay === "nums" ? "default" : "stacking-offset",
+            renderer: useNums ? "default" : "stacking-offset",
             board,
             legend,
             pieces: pstr

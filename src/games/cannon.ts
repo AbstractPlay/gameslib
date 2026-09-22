@@ -875,16 +875,7 @@ export class CannonGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let showThreatened = true;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "hide-threatened") {
-                showThreatened = false;
-            }
-        }
+        const showThreatened = !this.hasDisplay(opts, "hide-threatened");
         const threatenedPieces: Set<string> = showThreatened ? this.threatenedPieces() : new Set();
         // Build piece string
         // A - player 1 soldier

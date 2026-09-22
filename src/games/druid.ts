@@ -1595,11 +1595,7 @@ export class DruidGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        const isIso = altDisplay !== "flat";
+        const isIso = !this.hasDisplay(opts, "flat");
         const mode = this.boardMode();
         const isHexBoard = mode === "y" || mode === "hex";
         const markers = isHexBoard ? [] : this.edgeMarkers();

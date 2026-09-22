@@ -767,16 +767,7 @@ export class AltaGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let hidePanel = false;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "hide-panel") {
-                hidePanel = true;
-            }
-        }
+        const hidePanel = this.hasDisplay(opts, "hide-panel");
         // Build piece string
         const pieces = ["_"];
         for (let row = -1; row < 2 * this.boardSize; row++) {

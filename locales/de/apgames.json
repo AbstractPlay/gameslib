@@ -4254,13 +4254,13 @@
       }
     },
     "amazons": {
+      "#block": {
+        "description": "Blockierte Felder als quadratischen Ziegel anzeigen.",
+        "name": "Ziegel"
+      },
       "blackbloc": {
         "description": "Blockierte Felder als schwarzes Quadrat anzeigen.",
         "name": "Schwarzer Block"
-      },
-      "brick": {
-        "description": "Blockierte Felder als quadratischen Ziegel anzeigen.",
-        "name": "Ziegel"
       },
       "bricks": {
         "description": "Blockierte Felder als Ziegelwand anzeigen.",
@@ -4304,6 +4304,9 @@
       }
     },
     "bide": {
+      "#projection": {
+        "name": "Draufsicht"
+      },
       "isometric": {
         "description": "Quasi-3D, isometrische Ansicht",
         "name": "Isometrisch"
@@ -4367,6 +4370,9 @@
       }
     },
     "elOso": {
+      "#stack": {
+        "name": "Steine stapeln"
+      },
       "nums": {
         "description": "Stapel als Zahlen dargestellt",
         "name": "Zahlen"
@@ -4453,6 +4459,9 @@
       }
     },
     "frogger": {
+      "#piece": {
+        "name": "Standard-Spielsteine"
+      },
       "frog-pieces": {
         "description": "Froschförmige Figuren verwenden.",
         "name": "Frosch-Figuren"
@@ -4541,6 +4550,9 @@
       }
     },
     "mvolcano": {
+      "#stack": {
+        "name": "3D-Stapel"
+      },
       "expanding": {
         "description": "Zweidimensionales Spielfeld, bei dem sich Stapel beim Drüberfahren ausdehnen.",
         "name": "Ausdehnend"
@@ -4745,12 +4757,18 @@
       }
     },
     "volcano": {
+      "#stack": {
+        "name": "3D-Stapel"
+      },
       "expanding": {
         "description": "Zweidimensionales Spielfeld, bei dem sich Stapel beim Drüberfahren ausdehnen.",
         "name": "Ausdehnend"
       }
     },
     "zola": {
+      "#projection": {
+        "name": "Draufsicht"
+      },
       "isometric-20": {
         "description": "Ausgeprägte Erhöhung: Eine Quasi-3D-Ansicht des Feldes, bei der die Felder höher werden, je weiter sie vom Zentrum entfernt sind.",
         "name": "Isometrisch: Ausgeprägte Erhöhung"

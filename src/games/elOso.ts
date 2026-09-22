@@ -88,7 +88,7 @@ export class ElOsoGame extends GameBase {
             "components>dice",
         ],
         flags: ["scores", "random-start", "automove", "no-explore"],
-        displays: [{ uid: "nums" }],
+        displays: [{ uid: "nums", group: "stack" }],
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -1058,11 +1058,7 @@ export class ElOsoGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep[] {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        const useNums = altDisplay === "nums";
+        const useNums = this.hasDisplay(opts, "nums");
 
         const renders: APRenderRep[] = [];
         for (let i = 0; i < this.frames.length + 1; i++) {

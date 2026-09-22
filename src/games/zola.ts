@@ -59,7 +59,10 @@ export class ZolaGame extends GameBase {
                 group: "board"
             }
         ],
-        displays: [{ uid: "isometric-20" }, { uid: "isometric-5" }],
+        displays: [
+            { uid: "isometric-20", group: "projection" },
+            { uid: "isometric-5", group: "projection" },
+        ],
         categories: ["goal>annihilate", "mechanic>capture",  "mechanic>move", "board>3d", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["automove", "pie", "aiai"],
     };
@@ -480,17 +483,22 @@ export class ZolaGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
         let isIso = false;
         let pcHeight = 10;
-        if (altDisplay !== undefined && altDisplay.startsWith("isometric")) {
+        if (this.hasDisplay(opts, "isometric-20")) {
             isIso = true;
-            const [,heightStr] = altDisplay.split("-");
-            if (heightStr !== undefined) {
-                pcHeight = parseInt(heightStr, 10);
+            pcHeight = 20;
+        } else if (this.hasDisplay(opts, "isometric-5")) {
+            isIso = true;
+            pcHeight = 5;
+        } else {
+            const legacyAlt = opts?.altDisplay;
+            if (legacyAlt !== undefined && legacyAlt.startsWith("isometric")) {
+                isIso = true;
+                const [, heightStr] = legacyAlt.split("-");
+                if (heightStr !== undefined) {
+                    pcHeight = parseInt(heightStr, 10);
+                }
             }
         }
         // Build piece string

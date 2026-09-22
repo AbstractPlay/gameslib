@@ -1173,16 +1173,7 @@ export class AnacheGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let showFrozen = true;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "hide-frozen") {
-                showFrozen = false;
-            }
-        }
+        const showFrozen = !this.hasDisplay(opts, "hide-frozen");
         // Build piece string
         let pstr = "";
         for (let row = 0; row < this.boardSize; row++) {

@@ -4254,13 +4254,13 @@
       }
     },
     "amazons": {
+      "#block": {
+        "description": "Afficher les cases bloquées sous forme de brique carrée.",
+        "name": "Brique"
+      },
       "blackbloc": {
         "description": "Afficher les cases bloquées sous forme de carré noir.",
         "name": "Bloc noir"
-      },
-      "brick": {
-        "description": "Afficher les cases bloquées sous forme de brique carrée.",
-        "name": "Brique"
       },
       "bricks": {
         "description": "Afficher les cases bloquées sous forme de mur de briques.",
@@ -4304,6 +4304,9 @@
       }
     },
     "bide": {
+      "#projection": {
+        "name": "Vue de dessus"
+      },
       "isometric": {
         "description": "Vue isométrique quasi-3D",
         "name": "Isométrique"
@@ -4367,6 +4370,9 @@
       }
     },
     "elOso": {
+      "#stack": {
+        "name": "Empiler les pièces"
+      },
       "nums": {
         "description": "Piles affichées sous forme de nombres",
         "name": "Nombres"
@@ -4453,6 +4459,9 @@
       }
     },
     "frogger": {
+      "#piece": {
+        "name": "Pièces standard"
+      },
       "frog-pieces": {
         "description": "Utiliser des pièces en forme de grenouilles.",
         "name": "Pièces grenouilles"
@@ -4541,6 +4550,9 @@
       }
     },
     "mvolcano": {
+      "#stack": {
+        "name": "Piles 3D"
+      },
       "expanding": {
         "description": "Plateau en deux dimensions, avec des piles qui s'agrandissent au survol.",
         "name": "Agrandissement au survol"
@@ -4745,12 +4757,18 @@
       }
     },
     "volcano": {
+      "#stack": {
+        "name": "Piles 3D"
+      },
       "expanding": {
         "description": "Plateau en deux dimensions, avec des piles qui s'agrandissent au survol.",
         "name": "Agrandissement au survol"
       }
     },
     "zola": {
+      "#projection": {
+        "name": "Vue de dessus"
+      },
       "isometric-20": {
         "description": "Élévation prononcée : une vue quasi-3D du terrain où les cases s'élèvent en s'éloignant du centre.",
         "name": "Isométrique : Élévation prononcée"

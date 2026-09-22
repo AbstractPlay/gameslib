@@ -847,7 +847,7 @@ export class RootBoundGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        const displayHighlights = (opts === undefined || opts.altDisplay === undefined || opts.altDisplay !== "hide-highlights");
+        const displayHighlights = !this.hasDisplay(opts, "hide-highlights");
 
         // Build piece string
         const pstr: string[][] = [];

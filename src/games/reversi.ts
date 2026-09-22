@@ -581,16 +581,7 @@ export class ReversiGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let showMoves = true;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "hide-moves") {
-                showMoves = false;
-            }
-        }
+        const showMoves = !this.hasDisplay(opts, "hide-moves");
         const rep = this.variants.some(x => x.includes("hex")) ? this.renderHexTri() : this.renderSquare();
         // Add annotations
         rep.annotations = [];

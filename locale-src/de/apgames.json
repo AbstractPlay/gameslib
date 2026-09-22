@@ -1175,6 +1175,14 @@
     "src": "Hide panel",
     "out": "Bedienfeld ausblenden"
   },
+  "displays.amazons.#block.description": {
+    "src": "Show blocked squares as a square brick.",
+    "out": "Blockierte Felder als quadratischen Ziegel anzeigen."
+  },
+  "displays.amazons.#block.name": {
+    "src": "Brick",
+    "out": "Ziegel"
+  },
   "displays.amazons.blackbloc.description": {
     "src": "Show blocked squares as a black square.",
     "out": "Blockierte Felder als schwarzes Quadrat anzeigen."
@@ -1182,14 +1190,6 @@
   "displays.amazons.blackbloc.name": {
     "src": "Black block",
     "out": "Schwarzer Block"
-  },
-  "displays.amazons.brick.description": {
-    "src": "Show blocked squares as a square brick.",
-    "out": "Blockierte Felder als quadratischen Ziegel anzeigen."
-  },
-  "displays.amazons.brick.name": {
-    "src": "Brick",
-    "out": "Ziegel"
   },
   "displays.amazons.bricks.description": {
     "src": "Show blocked squares as a wall of bricks.",
@@ -1238,6 +1238,10 @@
   "displays.bao.pips.name": {
     "src": "Pips",
     "out": "Augen"
+  },
+  "displays.bide.#projection.name": {
+    "src": "Top-down view",
+    "out": "Draufsicht"
   },
   "displays.bide.isometric.description": {
     "src": "Quasi-3D, isometric view",
@@ -1415,6 +1419,10 @@
     "src": "Overhead view",
     "out": "Draufsicht"
   },
+  "displays.elOso.#stack.name": {
+    "src": "Stack pieces",
+    "out": "Steine stapeln"
+  },
   "displays.elOso.nums.description": {
     "src": "Stacks shown as numbers",
     "out": "Stapel als Zahlen dargestellt"
@@ -1450,6 +1458,10 @@
   "displays.fourinarow.hide-moves.name": {
     "src": "Hide moves",
     "out": "Züge ausblenden"
+  },
+  "displays.frogger.#piece.name": {
+    "src": "Standard pieces",
+    "out": "Standard-Spielsteine"
   },
   "displays.frogger.frog-pieces.description": {
     "src": "Use frog-shaped pieces.",
@@ -1578,6 +1590,10 @@
   "displays.meridians.hide-threatened.name": {
     "src": "Hide threatened",
     "out": "Bedrohte ausblenden"
+  },
+  "displays.mvolcano.#stack.name": {
+    "src": "3D stacks",
+    "out": "3D-Stapel"
   },
   "displays.mvolcano.expanding.description": {
     "src": "Two dimensional board, with stacks expanding when hovered over.",
@@ -1867,6 +1883,10 @@
     "src": "3D orbs",
     "out": "3D-Kugeln"
   },
+  "displays.volcano.#stack.name": {
+    "src": "3D stacks",
+    "out": "3D-Stapel"
+  },
   "displays.volcano.expanding.description": {
     "src": "Two dimensional board, with stacks expanding when hovered over.",
     "out": "Zweidimensionales Spielfeld, bei dem sich Stapel beim Drüberfahren ausdehnen."
@@ -1874,6 +1894,10 @@
   "displays.volcano.expanding.name": {
     "src": "Expanding",
     "out": "Ausdehnend"
+  },
+  "displays.zola.#projection.name": {
+    "src": "Top-down view",
+    "out": "Draufsicht"
   },
   "displays.zola.isometric-20.description": {
     "src": "Pronounced elevation: A quasi-3d view of the field where the spaces get higher as you move away from the centre.",

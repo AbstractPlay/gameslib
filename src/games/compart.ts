@@ -329,16 +329,7 @@ export class CompartGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let highlightAreas = false;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "show-viable-areas") {
-                highlightAreas = true;
-            }
-        }
+        const highlightAreas = this.hasDisplay(opts, "show-viable-areas");
 
         // Build piece string
         let pstr = "";

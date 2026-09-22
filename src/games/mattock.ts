@@ -693,16 +693,7 @@ export class MattockGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let showBlocked = true;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "hide-blocked") {
-                showBlocked = false;
-            }
-        }
+        const showBlocked = !this.hasDisplay(opts, "hide-blocked");
         // Build piece string
         const captured = this.getCaptured(this.currplayer % 2 + 1 as playerid);
         const pstr: string[][] = [];

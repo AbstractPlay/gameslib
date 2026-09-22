@@ -1175,6 +1175,14 @@
     "src": "Hide panel",
     "out": "Nascondi pannello"
   },
+  "displays.amazons.#block.description": {
+    "src": "Show blocked squares as a square brick.",
+    "out": "Mostra le caselle bloccate come un mattone quadrato."
+  },
+  "displays.amazons.#block.name": {
+    "src": "Brick",
+    "out": "Mattone"
+  },
   "displays.amazons.blackbloc.description": {
     "src": "Show blocked squares as a black square.",
     "out": "Mostra le caselle bloccate come un quadrato nero."
@@ -1182,14 +1190,6 @@
   "displays.amazons.blackbloc.name": {
     "src": "Black block",
     "out": "Blocco nero"
-  },
-  "displays.amazons.brick.description": {
-    "src": "Show blocked squares as a square brick.",
-    "out": "Mostra le caselle bloccate come un mattone quadrato."
-  },
-  "displays.amazons.brick.name": {
-    "src": "Brick",
-    "out": "Mattone"
   },
   "displays.amazons.bricks.description": {
     "src": "Show blocked squares as a wall of bricks.",
@@ -1238,6 +1238,10 @@
   "displays.bao.pips.name": {
     "src": "Pips",
     "out": "Pallini"
+  },
+  "displays.bide.#projection.name": {
+    "src": "Top-down view",
+    "out": "Vista dall'alto"
   },
   "displays.bide.isometric.description": {
     "src": "Quasi-3D, isometric view",
@@ -1415,6 +1419,10 @@
     "src": "Overhead view",
     "out": "Vista dall'alto"
   },
+  "displays.elOso.#stack.name": {
+    "src": "Stack pieces",
+    "out": "Pezzi impilati"
+  },
   "displays.elOso.nums.description": {
     "src": "Stacks shown as numbers",
     "out": "Pile mostrate come numeri"
@@ -1450,6 +1458,10 @@
   "displays.fourinarow.hide-moves.name": {
     "src": "Hide moves",
     "out": "Nascondi mosse"
+  },
+  "displays.frogger.#piece.name": {
+    "src": "Standard pieces",
+    "out": "Pezzi standard"
   },
   "displays.frogger.frog-pieces.description": {
     "src": "Use frog-shaped pieces.",
@@ -1578,6 +1590,10 @@
   "displays.meridians.hide-threatened.name": {
     "src": "Hide threatened",
     "out": "Nascondi minacciate"
+  },
+  "displays.mvolcano.#stack.name": {
+    "src": "3D stacks",
+    "out": "Pile 3D"
   },
   "displays.mvolcano.expanding.description": {
     "src": "Two dimensional board, with stacks expanding when hovered over.",
@@ -1867,6 +1883,10 @@
     "src": "3D orbs",
     "out": "Sfere 3D"
   },
+  "displays.volcano.#stack.name": {
+    "src": "3D stacks",
+    "out": "Pile 3D"
+  },
   "displays.volcano.expanding.description": {
     "src": "Two dimensional board, with stacks expanding when hovered over.",
     "out": "Plancia bidimensionale, con pile che si espandono al passaggio del mouse."
@@ -1874,6 +1894,10 @@
   "displays.volcano.expanding.name": {
     "src": "Expanding",
     "out": "Espansione"
+  },
+  "displays.zola.#projection.name": {
+    "src": "Top-down view",
+    "out": "Vista dall'alto"
   },
   "displays.zola.isometric-20.description": {
     "src": "Pronounced elevation: A quasi-3d view of the field where the spaces get higher as you move away from the centre.",

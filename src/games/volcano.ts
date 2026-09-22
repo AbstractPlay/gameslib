@@ -97,7 +97,7 @@ export class VolcanoGame extends GameBase {
         ],
         categories: ["goal>set", "mechanic>place",  "mechanic>move", "mechanic>displace", "mechanic>set", "mechanic>share", "mechanic>stack", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>pyramids"],
         flags: ["shared-pieces", "stacking-expanding", "no-moves", "random-start"],
-        displays: [{uid: "expanding"}]
+        displays: [{ uid: "expanding", group: "stack" }]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -750,8 +750,8 @@ export class VolcanoGame extends GameBase {
         };
     }
 
-    private renderStashHelper(s: CellContents[], altDisplay: string | undefined): string[] {
-        if (altDisplay !== 'expanding') {
+    private renderStashHelper(s: CellContents[], expanding: boolean): string[] {
+        if (!expanding) {
             const ret: string[] = [];
             for (let i = 0; i < s.length; i++) {
                 for (let j = i; j < s[s.length - i - 1][1] - i - 1; j++)
@@ -764,8 +764,8 @@ export class VolcanoGame extends GameBase {
         }
     }
 
-    private renderPiecesHelper(s: CellContents[], altDisplay: string | undefined): string[] {
-        if (altDisplay !== 'expanding') {
+    private renderPiecesHelper(s: CellContents[], expanding: boolean): string[] {
+        if (!expanding) {
             const ret: string[] = [];
             for (const piece of s) {
                 const maxj = piece[1] - ret.length - 1;
@@ -780,10 +780,7 @@ export class VolcanoGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string|undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
+        const expanding = this.hasDisplay(opts, "expanding");
         // Build piece object
         const pieces: string[][][] = [];
         for (let row = 0; row < 5; row++) {
@@ -791,7 +788,7 @@ export class VolcanoGame extends GameBase {
             for (let col = 0; col < 5; col++) {
                 let cellnode: string[] = [];
                 if (this.board[row][col] !== undefined) {
-                    cellnode = [...this.renderPiecesHelper(this.board[row][col], altDisplay)];
+                    cellnode = [...this.renderPiecesHelper(this.board[row][col], expanding)];
                     const cell = VolcanoGame.coords2algebraic(col, row);
                     if (this.caps.has(cell)) {
                         cellnode.push("X");
@@ -803,7 +800,7 @@ export class VolcanoGame extends GameBase {
         }
 
         // build legend based on number of players
-        const myLegend: ILegendObj = altDisplay === 'expanding' ?
+        const myLegend: ILegendObj = expanding ?
             {
                 "X": {
                     "name": "pyramid-up-small",
@@ -822,24 +819,24 @@ export class VolcanoGame extends GameBase {
                 }
             };
 
-        const opacity = altDisplay === 'expanding' ? 0.75: 1;
+        const opacity = expanding ? 0.75: 1;
         for (let n = 0; n < allColours.length; n++) {
             myLegend[allColours[n] + "1"] = {
-                name: altDisplay === 'expanding' ? "pyramid-up-small-upscaled" : "pyramid-up-small-3D",
+                name: expanding ? "pyramid-up-small-upscaled" : "pyramid-up-small-3D",
                 colour: n+1,
                 opacity
             };
             myLegend[allColours[n] + "2"] = {
-                name: altDisplay === 'expanding' ? "pyramid-up-medium-upscaled" : "pyramid-up-medium-3D",
+                name: expanding ? "pyramid-up-medium-upscaled" : "pyramid-up-medium-3D",
                 colour: n+1,
                 opacity
             };
             myLegend[allColours[n] + "3"] = {
-                name: altDisplay === 'expanding' ? "pyramid-up-large-upscaled" : "pyramid-up-large-3D",
+                name: expanding ? "pyramid-up-large-upscaled" : "pyramid-up-large-3D",
                 colour: n+1,
                 opacity
             };
-            if (altDisplay === 'expanding') {
+            if (expanding) {
                 myLegend[allColours[n] + "1N"] = {
                     name: "pyramid-flat-small",
                     colour: n+1
@@ -869,7 +866,7 @@ export class VolcanoGame extends GameBase {
 
         // Build rep
         const rep: APRenderRep =  {
-            renderer: altDisplay === 'expanding' ? "stacking-expanding" : "stacking-3D",
+            renderer: expanding ? "stacking-expanding" : "stacking-3D",
             board: {
                 style: "squares",
                 width: 5,
@@ -891,11 +888,11 @@ export class VolcanoGame extends GameBase {
                     stash: []
                 };
                 const org = this.organizeCaps((player + 1) as playerid);
-                node.stash.push(...org.triosMono.map((s) => this.renderStashHelper(s, altDisplay)));
-                node.stash.push(...org.triosMixed.map((s) => this.renderStashHelper(s, altDisplay)));
-                node.stash.push(...org.partialsMono.map((s) => this.renderStashHelper(s, altDisplay)));
-                node.stash.push(...org.partialsMixed.map((s) => this.renderStashHelper(s, altDisplay)));
-                node.stash.push(...org.miscellaneous.map((s) => this.renderStashHelper([s], altDisplay)));
+                node.stash.push(...org.triosMono.map((s) => this.renderStashHelper(s, expanding)));
+                node.stash.push(...org.triosMixed.map((s) => this.renderStashHelper(s, expanding)));
+                node.stash.push(...org.partialsMono.map((s) => this.renderStashHelper(s, expanding)));
+                node.stash.push(...org.partialsMixed.map((s) => this.renderStashHelper(s, expanding)));
+                node.stash.push(...org.miscellaneous.map((s) => this.renderStashHelper([s], expanding)));
                 areas.push(node);
             }
         }

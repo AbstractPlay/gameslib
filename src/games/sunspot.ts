@@ -772,16 +772,7 @@ export class SunspotGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let showInterior = true;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "hide-interior") {
-                showInterior = false;
-            }
-        }
+        const showInterior = !this.hasDisplay(opts, "hide-interior");
 
         const pstr: string[][][] = [];
         const cells = this.graph.listCells(true);

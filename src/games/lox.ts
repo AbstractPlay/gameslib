@@ -425,22 +425,9 @@ export class LoxGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let showControl = true;
-        let showFocusThreatened = true;
-        let dotFocusThreatened = false;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "hide-controlled") {
-                showControl = false;
-            } else if (altDisplay === "hide-focus-threatened") {
-                showFocusThreatened = false;
-            } else if (altDisplay === "dot-focus-threatened") {
-                dotFocusThreatened = true;
-            }
-        }
+        const showControl = !this.hasDisplay(opts, "hide-controlled");
+        const showFocusThreatened = !this.hasDisplay(opts, "hide-focus-threatened");
+        const dotFocusThreatened = this.hasDisplay(opts, "dot-focus-threatened");
         // Build piece string
         const pstr: string[][] = [];
         for (const row of this.graph.listCells(true) as string[][]) {

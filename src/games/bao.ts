@@ -1093,10 +1093,6 @@ export class BaoGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string|undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
 
         // Build piece string
         let pstr = "";
@@ -1113,7 +1109,7 @@ export class BaoGame extends GameBase {
 
         // Build rep
         const rep: APRenderRep =  {
-            renderer: altDisplay === "pips" ? "sowing-pips" : "sowing-numerals",
+            renderer: this.hasDisplay(opts, "pips") ? "sowing-pips" : "sowing-numerals",
             board: {
                 style: "sowing",
                 width: 8,

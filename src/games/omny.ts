@@ -699,16 +699,7 @@ export class OmnyGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let vertexStyle = false;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "vertex-style") {
-                vertexStyle = true;
-            }
-        }
+        const vertexStyle = this.hasDisplay(opts, "vertex-style");
         const g = this.graph;
         const graph = g.graph;
         const stars = this.stars;

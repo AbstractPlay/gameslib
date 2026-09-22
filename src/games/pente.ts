@@ -827,16 +827,7 @@ export class PenteGame extends InARowBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let showThreatened = true;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "hide-threatened") {
-                showThreatened = false;
-            }
-        }
+        const showThreatened = !this.hasDisplay(opts, "hide-threatened");
         const [threatened1, threatened2]: [Set<string>, Set<string>] = showThreatened ? this.getThreatened() : [new Set(), new Set()];
         // Build piece string
         let pstr = "";

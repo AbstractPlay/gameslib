@@ -616,16 +616,7 @@ export class ConectGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let displayHex = false;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "display-hex") {
-                displayHex = true;
-            }
-        }
+        const displayHex = this.hasDisplay(opts, "display-hex");
         // Build piece string for hex board
         const pstr: string[][] = [];
         if (displayHex) {

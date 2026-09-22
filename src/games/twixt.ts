@@ -867,16 +867,7 @@ export class TwixtGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let showDiagonals = true;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "hide-diagonals") {
-                showDiagonals = false;
-            }
-        }
+        const showDiagonals = !this.hasDisplay(opts, "hide-diagonals");
         // Build piece string
         let pstr = "";
         for (let row = 0; row < this.boardSize; row++) {

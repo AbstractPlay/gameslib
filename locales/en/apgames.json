@@ -4254,13 +4254,13 @@
             }
         },
         "amazons": {
+            "#block": {
+                "description": "Show blocked squares as a square brick.",
+                "name": "Brick"
+            },
             "blackbloc": {
                 "description": "Show blocked squares as a black square.",
                 "name": "Black block"
-            },
-            "brick": {
-                "description": "Show blocked squares as a square brick.",
-                "name": "Brick"
             },
             "bricks": {
                 "description": "Show blocked squares as a wall of bricks.",
@@ -4304,6 +4304,9 @@
             }
         },
         "bide": {
+            "#projection": {
+                "name": "Top-down view"
+            },
             "isometric": {
                 "description": "Quasi-3D, isometric view",
                 "name": "Isometric"
@@ -4340,24 +4343,36 @@
             }
         },
         "carnac": {
+            "#projection": {
+                "name": "Isometric view"
+            },
             "flat": {
                 "description": "Display the board as seen from above.",
                 "name": "Flat view"
             }
         },
         "druid": {
+            "#projection": {
+                "name": "Isometric view"
+            },
             "flat": {
                 "description": "Overhead view with stack heights labelled on each cell.",
                 "name": "Overhead view"
             }
         },
         "evenatodds": {
+            "#projection": {
+                "name": "Isometric view"
+            },
             "flat": {
                 "description": "Bird's-eye view of the domino stacks.",
                 "name": "Overhead view"
             }
         },
         "elOso": {
+            "#stack": {
+                "name": "Stack pieces"
+            },
             "nums": {
                 "description": "Stacks shown as numbers",
                 "name": "Numbers"
@@ -4444,6 +4459,9 @@
             }
         },
         "frogger": {
+            "#piece": {
+                "name": "Standard pieces"
+            },
             "frog-pieces": {
                 "description": "Use frog-shaped pieces.",
                 "name": "Frog pieces"
@@ -4532,6 +4550,9 @@
             }
         },
         "mvolcano": {
+            "#stack": {
+                "name": "3D stacks"
+            },
             "expanding": {
                 "description": "Two dimensional board, with stacks expanding when hovered over.",
                 "name": "Expanding"
@@ -4683,6 +4704,9 @@
             }
         },
         "terrace": {
+            "#projection": {
+                "name": "Isometric view"
+            },
             "flat": {
                 "description": "A flat view that uses shading to indicate height.",
                 "name": "Flat view"
@@ -4733,12 +4757,18 @@
             }
         },
         "volcano": {
+            "#stack": {
+                "name": "3D stacks"
+            },
             "expanding": {
                 "description": "Two dimensional board, with stacks expanding when hovered over.",
                 "name": "Expanding"
             }
         },
         "zola": {
+            "#projection": {
+                "name": "Top-down view"
+            },
             "isometric-20": {
                 "description": "Pronounced elevation: A quasi-3d view of the field where the spaces get higher as you move away from the centre.",
                 "name": "Isometric: Pronounced Elevation"

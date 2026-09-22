@@ -598,16 +598,7 @@ export class OustGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let showMoves = true;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "hide-moves") {
-                showMoves = false;
-            }
-        }
+        const showMoves = !this.hasDisplay(opts, "hide-moves");
         const rep = this.geometry === "hex" ? this.renderHexTri() : this.renderSquare();
         // Add annotations
         rep.annotations = [];

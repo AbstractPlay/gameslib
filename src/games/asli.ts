@@ -744,7 +744,7 @@ export class AsliGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        const swapPrison = (opts !== undefined && opts.altDisplay !== undefined && opts.altDisplay === "swap-prison");
+        const swapPrison = this.hasDisplay(opts, "swap-prison");
 
         // Build piece string
         let pstr = "";

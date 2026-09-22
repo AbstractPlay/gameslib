@@ -659,16 +659,7 @@ export class IrenseiGame extends InARowBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let showRestrictions = true;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "hide-restrictions") {
-                showRestrictions = false;
-            }
-        }
+        const showRestrictions = !this.hasDisplay(opts, "hide-restrictions");
         // Build piece string
         let pstr = "";
         const renderBoardSize = this.toroidal ? this.boardSize + 2 * this.toroidalPadding : this.boardSize;

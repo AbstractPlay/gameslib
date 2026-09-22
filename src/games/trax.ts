@@ -905,16 +905,7 @@ export class TraxGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let showOrigin = false;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "show-origin") {
-                showOrigin = true;
-            }
-        }
+        const showOrigin = this.hasDisplay(opts, "show-origin");
         // Build piece string
         const pieces: string[] = [];
         let blocked: RowCol[] | undefined = [];

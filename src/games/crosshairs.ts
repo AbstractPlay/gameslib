@@ -162,7 +162,15 @@ export class CrosshairsGame extends GameBase {
             { uid: "clouds-22", group: "clouds" },
             { uid: "clouds-28", group: "clouds" },
         ],
-        displays: [{uid: "abstract"}, {uid: "numeric"}, {uid: "numeric-abstract"}],
+        displays: [
+            { uid: "abstract" },
+            { uid: "numeric" },
+            {
+                uid: "numeric-abstract",
+                implies: ["abstract", "numeric"],
+                impliesLock: true,
+            },
+        ],
     };
 
     public numplayers = 2;
@@ -3021,9 +3029,10 @@ export class CrosshairsGame extends GameBase {
         //   abstract:         arrowhead glyphs + wedges
         //   numeric:          plane glyphs + two small numbers at ±120° from heading
         //   numeric-abstract: arrowhead glyphs + bold number (black, offset toward tail)
-        const alt = opts?.altDisplay;
-        const abstractMode = alt === "abstract" || alt === "numeric-abstract";
-        const numericMode = alt === "numeric" || alt === "numeric-abstract";
+        const abstractMode =
+            this.hasDisplay(opts, "abstract") || this.hasDisplay(opts, "numeric-abstract");
+        const numericMode =
+            this.hasDisplay(opts, "numeric") || this.hasDisplay(opts, "numeric-abstract");
 
         // Build legend for planes with altitude indicators
         const myLegend: { [key: string]: Glyph | [Glyph, ...Glyph[]] } = {};

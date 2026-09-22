@@ -1175,6 +1175,14 @@
     "src": "Hide panel",
     "out": "Masquer le panneau"
   },
+  "displays.amazons.#block.description": {
+    "src": "Show blocked squares as a square brick.",
+    "out": "Afficher les cases bloquées sous forme de brique carrée."
+  },
+  "displays.amazons.#block.name": {
+    "src": "Brick",
+    "out": "Brique"
+  },
   "displays.amazons.blackbloc.description": {
     "src": "Show blocked squares as a black square.",
     "out": "Afficher les cases bloquées sous forme de carré noir."
@@ -1182,14 +1190,6 @@
   "displays.amazons.blackbloc.name": {
     "src": "Black block",
     "out": "Bloc noir"
-  },
-  "displays.amazons.brick.description": {
-    "src": "Show blocked squares as a square brick.",
-    "out": "Afficher les cases bloquées sous forme de brique carrée."
-  },
-  "displays.amazons.brick.name": {
-    "src": "Brick",
-    "out": "Brique"
   },
   "displays.amazons.bricks.description": {
     "src": "Show blocked squares as a wall of bricks.",
@@ -1239,6 +1239,10 @@
     "src": "Pips",
     "out": "Points"
   },
+  "displays.bide.#projection.name": {
+    "src": "Top-down view",
+    "out": "Vue de dessus"
+  },
   "displays.bide.isometric.description": {
     "src": "Quasi-3D, isometric view",
     "out": "Vue isométrique quasi-3D"
@@ -1286,6 +1290,10 @@
   "displays.cannon.hide-threatened.name": {
     "src": "Hide threatened by cannon",
     "out": "Masquer les pièces menacées par le canon"
+  },
+  "displays.carnac.#projection.name": {
+    "src": "Isometric view",
+    "out": "Vue isométrique"
   },
   "displays.carnac.flat.description": {
     "src": "Display the board as seen from above.",
@@ -1399,6 +1407,10 @@
     "src": "Pips",
     "out": "Points"
   },
+  "displays.druid.#projection.name": {
+    "src": "Isometric view",
+    "out": "Vue isométrique"
+  },
   "displays.druid.flat.description": {
     "src": "Overhead view with stack heights labelled on each cell.",
     "out": "Vue du dessus avec la hauteur des piles indiquée sur chaque case."
@@ -1406,6 +1418,10 @@
   "displays.druid.flat.name": {
     "src": "Overhead view",
     "out": "Vue du dessus"
+  },
+  "displays.elOso.#stack.name": {
+    "src": "Stack pieces",
+    "out": "Empiler les pièces"
   },
   "displays.elOso.nums.description": {
     "src": "Stacks shown as numbers",
@@ -1423,6 +1439,10 @@
     "src": "Piece numbers",
     "out": "Numéros de pièces"
   },
+  "displays.evenatodds.#projection.name": {
+    "src": "Isometric view",
+    "out": "Vue isométrique"
+  },
   "displays.evenatodds.flat.description": {
     "src": "Bird's-eye view of the domino stacks.",
     "out": "Vue à vol d'oiseau des piles de dominos."
@@ -1438,6 +1458,10 @@
   "displays.fourinarow.hide-moves.name": {
     "src": "Hide moves",
     "out": "Masquer les coups"
+  },
+  "displays.frogger.#piece.name": {
+    "src": "Standard pieces",
+    "out": "Pièces standard"
   },
   "displays.frogger.frog-pieces.description": {
     "src": "Use frog-shaped pieces.",
@@ -1566,6 +1590,10 @@
   "displays.meridians.hide-threatened.name": {
     "src": "Hide threatened",
     "out": "Masquer les pierres menacées"
+  },
+  "displays.mvolcano.#stack.name": {
+    "src": "3D stacks",
+    "out": "Piles 3D"
   },
   "displays.mvolcano.expanding.description": {
     "src": "Two dimensional board, with stacks expanding when hovered over.",
@@ -1779,6 +1807,10 @@
     "src": "Hide interior stones",
     "out": "Masquer les pierres intérieures"
   },
+  "displays.terrace.#projection.name": {
+    "src": "Isometric view",
+    "out": "Vue isométrique"
+  },
   "displays.terrace.flat.description": {
     "src": "A flat view that uses shading to indicate height.",
     "out": "Une vue plate qui utilise de l'ombrage pour indiquer la hauteur."
@@ -1851,6 +1883,10 @@
     "src": "3D orbs",
     "out": "Sphères 3D"
   },
+  "displays.volcano.#stack.name": {
+    "src": "3D stacks",
+    "out": "Piles 3D"
+  },
   "displays.volcano.expanding.description": {
     "src": "Two dimensional board, with stacks expanding when hovered over.",
     "out": "Plateau en deux dimensions, avec des piles qui s'agrandissent au survol."
@@ -1858,6 +1894,10 @@
   "displays.volcano.expanding.name": {
     "src": "Expanding",
     "out": "Agrandissement au survol"
+  },
+  "displays.zola.#projection.name": {
+    "src": "Top-down view",
+    "out": "Vue de dessus"
   },
   "displays.zola.isometric-20.description": {
     "src": "Pronounced elevation: A quasi-3d view of the field where the spaces get higher as you move away from the centre.",

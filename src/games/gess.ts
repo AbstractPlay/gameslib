@@ -548,16 +548,7 @@ export class GessGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let showPieceHighlight = true;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "hide-piece-highlight") {
-                showPieceHighlight = false;
-            }
-        }
+        const showPieceHighlight = !this.hasDisplay(opts, "hide-piece-highlight");
         // Build piece string
         let pstr = "";
         for (let row = 0; row < this.boardSize; row++) {

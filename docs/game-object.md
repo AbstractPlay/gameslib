@@ -157,7 +157,7 @@ Frozen stride shim for old code paths. New games should not call it. Migrating g
 
 ## `IRenderOpts`
 
-Optional `render()` arguments: `perspective`, `altDisplay`, `hideLayer`. Games with `stacking-expanding` pass click coordinates through render options.
+Optional `render()` arguments: `perspective`, `altDisplay` (legacy single uid), `altDisplays` (active toggle uids), `hideLayer`. Use `hasDisplay(opts, uid)` inside `render()` instead of branching on `altDisplay` alone. See **[Alternative displays](/gameslib/displays/)**. Games with `stacking-expanding` pass click coordinates through render options.
 
 ### Render labels
 

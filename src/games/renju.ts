@@ -1463,16 +1463,7 @@ export class RenjuGame extends InARowBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let showRestrictions = true;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "hide-restrictions") {
-                showRestrictions = false;
-            }
-        }
+        const showRestrictions = !this.hasDisplay(opts, "hide-restrictions");
         // Build piece string
         let pstr = "";
         const restrictions = showRestrictions && !this.gameover ? this.getRestrictions(this.player1()) : new Map();

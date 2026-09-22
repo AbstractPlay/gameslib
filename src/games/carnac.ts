@@ -83,7 +83,7 @@ export class CarnacGame extends GameBase {
             { uid: "#board" },
             { uid: "14x9", group: "board" },
         ],
-        displays: [{ uid: "flat" }],
+        displays: [{ uid: "flat", group: "projection" }],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>displace", "board>3d", "board>shape>rect", "board>connect>rect", "components>special"],
         flags: ["scores", "automove", "custom-buttons"],
     };

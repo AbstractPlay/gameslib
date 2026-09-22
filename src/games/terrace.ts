@@ -67,7 +67,7 @@ export class TerraceGame extends GameBase {
                 apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
             },
         ],
-        displays: [{ uid: "flat" }],
+        displays: [{ uid: "flat", group: "projection" }],
         categories: ["goal>royal-escape", "goal>royal-capture", "mechanic>move", "mechanic>capture", "board>3d", "board>shape>rect", "board>connect>rect", "components>special"],
         flags: ["perspective"],
         variants: [

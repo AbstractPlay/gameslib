@@ -4340,18 +4340,27 @@
       }
     },
     "carnac": {
+      "#projection": {
+        "name": "Isometrische Ansicht"
+      },
       "flat": {
         "description": "Spielfeld in der Draufsicht anzeigen.",
         "name": "Flache Ansicht"
       }
     },
     "druid": {
+      "#projection": {
+        "name": "Isometrische Ansicht"
+      },
       "flat": {
         "description": "Draufsicht mit Beschriftung der Stapelhöhen auf jedem Feld.",
         "name": "Draufsicht"
       }
     },
     "evenatodds": {
+      "#projection": {
+        "name": "Isometrische Ansicht"
+      },
       "flat": {
         "description": "Vogelperspektive der Dominostapel.",
         "name": "Draufsicht"
@@ -4683,6 +4692,9 @@
       }
     },
     "terrace": {
+      "#projection": {
+        "name": "Isometrische Ansicht"
+      },
       "flat": {
         "description": "Flache Ansicht, die Schattierungen nutzt, um die Höhe anzuzeigen.",
         "name": "Flache Ansicht"

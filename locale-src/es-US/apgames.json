@@ -1287,6 +1287,10 @@
     "src": "Hide threatened by cannon",
     "out": "Ocultar amenazadas por cañón"
   },
+  "displays.carnac.#projection.name": {
+    "src": "Isometric view",
+    "out": "Vista isométrica"
+  },
   "displays.carnac.flat.description": {
     "src": "Display the board as seen from above.",
     "out": "Mostrar el tablero visto desde arriba."
@@ -1399,6 +1403,10 @@
     "src": "Pips",
     "out": "Puntos"
   },
+  "displays.druid.#projection.name": {
+    "src": "Isometric view",
+    "out": "Vista isométrica"
+  },
   "displays.druid.flat.description": {
     "src": "Overhead view with stack heights labelled on each cell.",
     "out": "Vista superior con alturas de pila etiquetadas en cada celda."
@@ -1422,6 +1430,10 @@
   "displays.entropy.piece-numbers.name": {
     "src": "Piece numbers",
     "out": "Números de piezas"
+  },
+  "displays.evenatodds.#projection.name": {
+    "src": "Isometric view",
+    "out": "Vista isométrica"
   },
   "displays.evenatodds.flat.description": {
     "src": "Bird's-eye view of the domino stacks.",
@@ -1778,6 +1790,10 @@
   "displays.sunspot.hide-interior.name": {
     "src": "Hide interior stones",
     "out": "Ocultar piedras interiores"
+  },
+  "displays.terrace.#projection.name": {
+    "src": "Isometric view",
+    "out": "Vista isométrica"
   },
   "displays.terrace.flat.description": {
     "src": "A flat view that uses shading to indicate height.",

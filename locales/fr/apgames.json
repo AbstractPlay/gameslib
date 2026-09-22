@@ -4340,18 +4340,27 @@
       }
     },
     "carnac": {
+      "#projection": {
+        "name": "Vue isométrique"
+      },
       "flat": {
         "description": "Afficher le plateau vu du dessus.",
         "name": "Vue plate"
       }
     },
     "druid": {
+      "#projection": {
+        "name": "Vue isométrique"
+      },
       "flat": {
         "description": "Vue du dessus avec la hauteur des piles indiquée sur chaque case.",
         "name": "Vue du dessus"
       }
     },
     "evenatodds": {
+      "#projection": {
+        "name": "Vue isométrique"
+      },
       "flat": {
         "description": "Vue à vol d'oiseau des piles de dominos.",
         "name": "Vue du dessus"
@@ -4683,6 +4692,9 @@
       }
     },
     "terrace": {
+      "#projection": {
+        "name": "Vue isométrique"
+      },
       "flat": {
         "description": "Une vue plate qui utilise de l'ombrage pour indiquer la hauteur.",
         "name": "Vue plate"

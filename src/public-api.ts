@@ -64,7 +64,7 @@ export type {
 };
 export type { IAPGameState, FlagContext, GameFlag } from "./games/index.js";
 export type { APMoveResult, APGamesInformation };
-export type { Variant } from "./schemas/gameinfo.js";
+export type { Variant, AlternativeDisplay } from "./schemas/gameinfo.js";
 export type { TurnModel, IGamePly, IGameRound, IGameRoundSlot } from "./games/_turn-model.js";
 export type {
     SoloOutcomeType,
@@ -100,6 +100,32 @@ export type {
     VariantSelectionState,
     ValidateVariantSelectionResult,
 } from "./common/variant-constraints.js";
+export type { SelectableUidDef } from "./common/selectable-uid-constraints.js";
+export {
+    resolveDisplayGroups,
+    resolveDisplaySelection,
+    isDisplaySelectable,
+    evaluateDisplayAvailability,
+    validateDisplaySelection,
+    sanitizeDisplaySelection,
+    assertValidDisplaySelection,
+    resolveIncomingDisplays,
+    expandLegacyDisplayIncoming,
+    LEGACY_DISPLAY_EXPAND,
+} from "./common/display-constraints.js";
+export type {
+    ResolveIncomingDisplaysMode,
+    DisplayConstraintReason,
+    DisplayConstraintError,
+    DisplayAvailability,
+    DisplaySelectionState,
+    ValidateDisplaySelectionResult,
+} from "./common/display-constraints.js";
+export {
+    isSimpleDisplayCycleGame,
+    displayCycleSteps,
+    nextDisplayCycleStep,
+} from "./common/display-cycle.js";
 export {
     GameRng,
     generateChallengeSeed,

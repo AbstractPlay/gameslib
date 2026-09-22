@@ -10,6 +10,7 @@
   { "slug": "sequenced-turn-model", "title": "Sequenced turn model" },
   { "slug": "flags" },
   { "slug": "variants", "title": "Variants" },
+  { "slug": "displays", "title": "Alternative displays" },
   { "slug": "helpers" },
   { "slug": "helpers/rect-grid", "title": "RectGrid" },
   { "slug": "helpers/graphs", "title": "Graph classes" },

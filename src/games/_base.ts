@@ -7,6 +7,11 @@ import type { APMoveResult } from '../schemas/moveresults.js';
 import { APGameRecord } from "@abstractplay/recranks";
 import { algebraic2coords, coords2algebraic, replacer, sortingReplacer, UserFacingError } from '../common/index.js';
 import { resolveIncomingVariants, type ResolveIncomingVariantsMode } from '../common/variant-constraints.js';
+import {
+    resolveDisplaySelection,
+    resolveIncomingDisplays,
+    type ResolveIncomingDisplaysMode,
+} from '../common/display-constraints.js';
 import _ from "lodash";
 import i18next from "i18next";
 import JSDstringify from 'json-stringify-deterministic';
@@ -143,7 +148,9 @@ export interface IAPGameState {
  */
 export interface IRenderOpts {
     perspective?: number;
+    /** @deprecated Prefer {@link IRenderOpts.altDisplays} when multiple toggles are active. */
     altDisplay?: string;
+    altDisplays?: string[];
     hideLayer?: number;
 }
 
@@ -342,11 +349,83 @@ export abstract class GameBase  {
 
     public alternativeDisplays(): AlternativeDisplay[] | undefined {
         const ctor = this.constructor as typeof GameBase;
-        return ctor.gameinfo.displays?.map(v => {return {
+        const displays: AlternativeDisplay[]|undefined = ctor.gameinfo.displays?.map(v => {return {
             "uid": v.uid,
             "name": i18next.t(`apgames:displays.${ctor.gameinfo.uid}.${v.uid}.name`),
-            "description": i18next.t(`apgames:displays.${ctor.gameinfo.uid}.${v.uid}.description`)
+            "description": i18next.t(`apgames:displays.${ctor.gameinfo.uid}.${v.uid}.description`),
+            "group": v.group,
+            "experimental": v.experimental,
+            "enabledWhen": v.enabledWhen,
+            "conflictsWith": v.conflictsWith,
+            "requires": v.requires,
+            "implies": v.implies,
+            "impliesLock": v.impliesLock,
         }});
+        if (displays !== undefined) {
+            const groups = new Set<string>();
+            displays.forEach(v => {
+                if (v.group !== undefined) {
+                    groups.add(v.group);
+                }
+            });
+            [...groups].forEach(g => {
+                if (displays.find(v => v.uid === `#${g}`) === undefined) {
+                    displays.unshift({
+                        "uid": `#${g}`,
+                        "name": i18next.exists(`apgames:displays.${ctor.gameinfo.uid}.${`#${g}`}.name`) ? i18next.t(`apgames:displays.${ctor.gameinfo.uid}.${`#${g}`}.name`) : undefined,
+                        "description": i18next.exists(`apgames:displays.${ctor.gameinfo.uid}.${`#${g}`}.description`) ? i18next.t(`apgames:displays.${ctor.gameinfo.uid}.${`#${g}`}.description`) : undefined,
+                        "group": g,
+                    });
+                } else {
+                    const idx = displays.findIndex(v => v.uid === `#${g}`);
+                    displays[idx].name = i18next.exists(`apgames:displays.${ctor.gameinfo.uid}.${`#${g}`}.name`) ? i18next.t(`apgames:displays.${ctor.gameinfo.uid}.${`#${g}`}.name`) : undefined;
+                    displays[idx].description = i18next.exists(`apgames:displays.${ctor.gameinfo.uid}.${`#${g}`}.description`) ? i18next.t(`apgames:displays.${ctor.gameinfo.uid}.${`#${g}`}.description`) : undefined;
+                    displays[idx].group = g;
+                }
+            });
+        }
+        return displays;
+    }
+
+    /**
+     * Raw display uids from render options (legacy single string or altDisplays array).
+     */
+    protected coalesceDisplayIncoming(opts?: IRenderOpts): string[] | undefined {
+        if (opts?.altDisplays !== undefined) {
+            const list = opts.altDisplays.filter((u) => u !== "default");
+            return list.length > 0 ? list : undefined;
+        }
+        if (opts?.altDisplay !== undefined && opts.altDisplay !== "default") {
+            return [opts.altDisplay];
+        }
+        return undefined;
+    }
+
+    /**
+     * Sanitized active display uids for this game (uses gameinfo.displays constraints).
+     */
+    public resolveActiveDisplays(opts?: IRenderOpts): string[] {
+        const ctor = this.constructor as typeof GameBase;
+        return resolveIncomingDisplays(ctor.gameinfo.displays, this.coalesceDisplayIncoming(opts));
+    }
+
+    /** Whether a display uid is active after constraint resolution. */
+    public hasDisplay(opts: IRenderOpts | undefined, uid: string): boolean {
+        return this.resolveActiveDisplays(opts).includes(uid);
+    }
+
+    /** Per-group radio choices derived from active displays. */
+    public displaySelectionState(opts?: IRenderOpts) {
+        const ctor = this.constructor as typeof GameBase;
+        return resolveDisplaySelection(ctor.gameinfo.displays, this.resolveActiveDisplays(opts));
+    }
+
+    protected applyDisplayConstraints(
+        incoming?: string[],
+        options?: { mode?: ResolveIncomingDisplaysMode },
+    ): string[] {
+        const ctor = this.constructor as typeof GameBase;
+        return resolveIncomingDisplays(ctor.gameinfo.displays, incoming, options);
     }
     public static info(): string {
         return JSON.stringify(this.gameinfo);

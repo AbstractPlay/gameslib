@@ -103,6 +103,10 @@
     "src": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining moves.",
     "out": "{{player}} eligió reponer la reserva de robo. Obtiene otro turno para realizar sus {{count}} movimientos restantes."
   },
+  "ANNOUNCE.killallgo_slice": {
+    "src": "{{player}} set the batch sizes to {{a}} and {{b}} stones.",
+    "out": "{{player}} estableció los tamaños de los lotes en {{a}} y {{b}} piedras."
+  },
   "ANNOUNCE.quincunx": {
     "src": "Player {{playerNum}} had the following cards left in their hand: {{cards}}.",
     "out": "Al jugador {{playerNum}} le quedaron las siguientes cartas en la mano: {{cards}}."
@@ -294,6 +298,14 @@
   "CAPTURE.hexentafl_king": {
     "src": "The king was captured at {{where}}.",
     "out": "El rey fue capturado en {{where}}."
+  },
+  "CAPTURE.killallgo_suicide_one": {
+    "src": "{{player}} removed their own stone by suicide.",
+    "out": "{{player}} eliminó su propia piedra por suicidio."
+  },
+  "CAPTURE.killallgo_suicide_other": {
+    "src": "{{player}} removed {{count}} of their own stones by suicide.",
+    "out": "{{player}} eliminó {{count}} de sus propias piedras por suicidio."
   },
   "CAPTURE.lasca_officer": {
     "src": "{{player}} captured an officer at {{where}}.",
@@ -583,6 +595,14 @@
     "src": "{{player}} exerted influence at {{where}}.",
     "out": "{{player}} ejerció influencia en {{where}}."
   },
+  "CLAIM.killallgo_attacker": {
+    "src": "{{player}} chose to play as the Attacker.",
+    "out": "{{player}} eligió jugar como el Atacante."
+  },
+  "CLAIM.killallgo_defender": {
+    "src": "{{player}} chose to play as the Defender.",
+    "out": "{{player}} eligió jugar como el Defensor."
+  },
   "CLAIM.logger": {
     "src": "{{player}} claimed a protestor from the tree felled at {{where}}.",
     "out": "{{player}} reclamó a un manifestante del árbol talado en {{where}}."
@@ -742,6 +762,14 @@
   "DECLARE.frogger": {
     "src": "The crocodiles advanced.",
     "out": "Los cocodrilos avanzaron."
+  },
+  "DECLARE.killallgo_handicap_one": {
+    "src": "{{player}} set the handicap to one stone.",
+    "out": "{{player}} estableció el hándicap en una piedra."
+  },
+  "DECLARE.killallgo_handicap_other": {
+    "src": "{{player}} set the handicap to {{count}} stones.",
+    "out": "{{player}} estableció el hándicap en {{count}} piedras."
   },
   "DECLARE.mchess": {
     "src": "{{player}} has \"called the clock.\" If no capture is made in the next seven turns, the game will end and be scored.",
@@ -954,6 +982,18 @@
   "EOG.gonnect_direct_connection": {
     "src": "{{player}} won by direct connection.",
     "out": "{{player}} ganó por conexión directa."
+  },
+  "EOG.killallgo_double_pass": {
+    "src": "The game has ended because both players passed without the Defender establishing life.",
+    "out": "La partida ha terminado porque ambos jugadores pasaron sin que el Defensor estableciera vida."
+  },
+  "EOG.killallgo_no_room": {
+    "src": "The game has ended because the Attacker's unconditionally alive stones leave the Defender no room to make a living string.",
+    "out": "La partida ha terminado porque las piedras incondicionalmente vivas del Atacante no le dejan espacio al Defensor para formar una cadena viva."
+  },
+  "EOG.killallgo_pass_alive": {
+    "src": "The game has ended because the Defender formed an unconditionally alive string.",
+    "out": "La partida ha terminado porque el Defensor formó una cadena incondicionalmente viva."
   },
   "EOG.material": {
     "src": "The game has ended because both players have insufficient material.",
@@ -1683,6 +1723,10 @@
     "src": "{{player}} placed a shared stone at {{where}}.",
     "out": "{{player}} colocó una piedra compartida en {{where}}."
   },
+  "PLACE.killallgo_setup": {
+    "src": "{{player}} placed an Attacker stone at {{where}}.",
+    "out": "{{player}} colocó una piedra de Atacante en {{where}}."
+  },
   "PLACE.knightline": {
     "src": "{{player}} placed their initial stack at {{where}}.",
     "out": "{{player}} colocó su pila inicial en {{where}}."
@@ -2290,6 +2334,14 @@
   "SELECT.fnap": {
     "src": "{{player}} selected the tile {{tile}}.",
     "out": "{{player}} seleccionó la loseta {{tile}}."
+  },
+  "SELECT.killallgo_iplace": {
+    "src": "{{player}} chose to place the first batch.",
+    "out": "{{player}} eligió colocar el primer lote."
+  },
+  "SELECT.killallgo_youplace": {
+    "src": "{{player}} chose to let their opponent place the first batch.",
+    "out": "{{player}} eligió dejar que su oponente coloque el primer lote."
   },
   "SELECT.resolve": {
     "src": "{{player}} selects the piece in a crosscut at {{where}}.",

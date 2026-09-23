@@ -135,6 +135,7 @@
     "irensei": "Irensei (en japonés: 囲連星) es una mezcla de Go y Gomoku. Consigue siete en línea dentro de la región central de 15x15 del tablero de Go para ganar. Para reducir la ventaja del primer jugador, este pierde si realiza un overline (incluso si se extiende más allá de la región de 15x15), pero el segundo jugador puede ganar con un overline.",
     "jacynth": "Un juego de cartas Decktet donde los oponentes compiten por el control de la ciudad de Jacynth. Coloca cartas, ejerce influencia y controla la mayor parte del área para ganar.",
     "kachit": "Un juego similar al ajedrez en un tablero de 4x4 donde intentas eliminar al rey opuesto o coronar al tuyo. Las piezas pueden cambiar su orientación después de moverse.",
+    "killallgo": "Una variante de Go con objetivos asimétricos: el Atacante empieza con piedras en el tablero y debe capturarlo todo, mientras que el Defensor gana al crear una cadena que nunca pueda ser capturada.",
     "knightline": "Un juego de conexión de cuatro en fila que se juega dividiendo una pila de caballos en una cuadrícula sin límites.",
     "konane": "Un juego tradicional hawaiano que estuvo a punto de perderse en el tiempo, salvo por la memoria de una sola mujer, Kaʻahaʻaina Naihe de Kailua-Kona. Se juega en un tablero rectangular y cada jugador captura saltando sobre las piezas del oponente. El último en mover gana.",
     "krypte": "Un juego de 4 en fila donde las piezas entran desde lados activos que rotan tras cada turno, y al colocar una pieza se voltean todas las piezas adyacentes.",
@@ -423,6 +424,7 @@
     "irensei": "Irensei",
     "jacynth": "Jacynth",
     "kachit": "Kachit Knights",
+    "killallgo": "Kill-All Go",
     "knightline": "Knight Line",
     "konane": "Konane",
     "krypte": "Krypte",
@@ -615,6 +617,7 @@
     "intermedium": "Intermedium (también conocido como Stepping Stones) es un juego de 1974 diseñado por Matt Crispis. Este es un juego de siembra y apilamiento, donde los jugadores intentan rodear la base inicial opuesta. Las pilas solo se mueven en diagonal y cada ejército comienza en un color de diagonal diferente, por lo que nunca pueden cruzarse (como dos alfiles en casillas de distinto color). Las piezas se capturan por encierro, rodeando todas las adyacencias ortogonales de una pila enemiga.\n\nUnas palabras del autor: \"[Intermedium] es fácil de aprender, pero puede llevar a situaciones complicadas que requieren un análisis profundo y previsión. Las piezas individuales no se mueven, pero son útiles como peldaños para tus capturas. Y pueden cobrar vida al colocar otra pieza sobre ellas. Antes de dominar el juego, evita los ataques tempranos contra la Ciudad que pueden resultar costosos. Desarrolla tu fuerza de manera gradual y uniforme dominando, si es posible, el centro. También debes evitar construir pilas 'formidables' de seis o más piezas; si te las capturan, podrías perder la partida de un solo golpe. Deja algunas fuerzas atrás para defender tu Ciudad en caso de emergencia\".",
     "invector": "Invector, diseñado por Mark Steere en 2026, es un juego de eliminación inspirado en el antiguo juego hawaiano Kōnane. Invector comienza con un patrón de piedras en tablero de ajedrez, tiene capturas de corto alcance y es extremadamente simple. Invector combina simplemente dos ingredientes básicos estándar: movimientos de captura adyacentes y ortogonales, y movimientos adyacentes y ortogonales más cerca del centro.",
     "jacynth": "Puedes encontrar más información sobre el sistema Decktet en el [sitio web oficial de Decktet](https://www.decktet.com). Las cartas en las manos de los jugadores están ocultas para los observadores y oponentes.",
+    "killallgo": "El Atacante, cuyas piedras ya están en el tablero cuando comienza el juego normal, gana al evitar que el Defensor cree alguna vez una cadena viva. El Defensor gana al crear una cadena que no pueda ser capturada. No hay puntuación.\n\nLas piedras se colocan y capturan como en el Go con la eliminación de Tromp-Taylor: después de una colocación, se eliminan las cadenas del oponente sin libertades, y luego tu propia cadena si no tiene ninguna, por lo que el suicidio de múltiples piedras es legal. Se aplica el superko posicional: ninguna colocación puede recrear una posición anterior del tablero. Cualquier jugador puede pasar; si ambos pasan de forma consecutiva, el Atacante gana.\n\nEl Defensor gana tan pronto como una de sus cadenas esté incondicionalmente viva: viva por pase mediante el algoritmo de Benson, lo que significa que el Atacante nunca podría capturarla incluso con ilimitados movimientos consecutivos. Esa es la única manera de ganar como Defensor. Una cadena que solo esté viva en seki o en ko no cuenta, por lo que el Defensor debe seguir jugando y convertirla en una cadena que no pueda ser capturada en absoluto.\n\nEl Atacante gana tan pronto como eso se haya vuelto imposible. Las piedras del Atacante que estén incondicionalmente vivas nunca se pueden eliminar, y ningún punto junto a una de ellas podrá estar jamás en un ojo de una cadena viva del Defensor. Cuando ningún área que quede libre por esas piedras contenga dos puntos que no estén ni juntos ni al lado de esas piedras, ya no hay espacio en ninguna parte para los dos ojos que necesita una cadena viva, y el juego termina. La comprobación no reconoce todas las posiciones perdidas; cuando no se activa, el juego simplemente continúa.\n\nAperturas: con Pieboxing, los jugadores se turnan para colocar piedras del Atacante hasta que uno de ellos toma el lado del Atacante; el otro jugador mueve primero como Defensor. La apertura con hándicap funciona de la misma manera, excepto que el Jugador 1 (el jugador más fuerte, así que sienta primero al que da el hándicap al crear el desafío) establece primero el número de piedras de hándicap y el Jugador 2 comienza a colocar; si el Jugador 2 toma el lado del Atacante, coloca esa cantidad de piedras extra de una sola vez. La apertura clásica usa la posición tradicional de 17 piedras en el tablero de 19x19, con el Defensor (Jugador 1) para mover. En el pastel simple, el Jugador 1 coloca cualquier número de piedras del Atacante y el Jugador 2 elige un lado. En el pastel generalizado de Hoctaph, el Jugador 1 elige dos tamaños de lote (cada uno de al menos 1, juntos como máximo el número de puntos menos 2, ni uno más del doble que el otro), el Jugador 2 decide quién coloca el primer lote, el otro jugador elige un lado y el Atacante coloca el segundo lote. En cada apertura, el Defensor realiza el primer movimiento normal.",
     "konane": "Existen varios protocolos de apertura en competencia, pero el reglamento más común es el Reglamento Naihe, utilizado en torneos en el Museo Bishop en Hawái y descrito en la referencia de BGG. Esto es lo que se implementa aquí.",
     "knightline": "Para mayor comodidad, tu pila se divide aproximadamente a la mitad en tu primer clic. Los clics posteriores en la pila de origen o destino mueven una pieza a la vez. Cuando termines, haz clic en una casilla vacía o usa el botón Completar movimiento.\n\nEl sistema de coordenadas está adaptado del sistema de coordenadas del programador para Hive, un juego en un tablero hexagonal sin límites (pero de tamaño razonable). El eje y está etiquetado con coordenadas cartesianas (enteros positivos y negativos). El eje x está etiquetado con letras en orden alfabético, con el origen en (m, 0). Si el movimiento en el eje x excede los confines del alfabeto en cualquier dirección, las letras se anteponen con otra letra (a la z le sigue aa, ab, ac, etc., y a la a le antecede zz, zy, zx, etc.). No se espera que el juego alcance un ancho que requiera más coordenadas dobles, pero para que conste, a az le sigue ba, a za le antecede yz, y así sucesivamente. El tablero no puede alcanzar un tamaño que provoque ambigüedad.",
     "lasca": "La maniobrabilidad es una medida de qué tan cerca están tus piezas de coronarse. Tu maniobrabilidad máxima es el tamaño del tablero multiplicado por el número de pilas que controlas.\n\nEl material se calcula dándote un punto por cada pieza propia en una pila que controlas, más un punto extra si tienes un oficial en la parte superior de esa pila.",
@@ -2340,6 +2343,37 @@
       "oldcity": {
         "name": "La ciudad vieja",
         "description": "El tablero comienza con seis cartas en un patrón circular."
+      }
+    },
+    "killallgo": {
+      "size-9": {
+        "name": "Tablero de 9x9"
+      },
+      "size-13": {
+        "name": "Tablero de 13x13"
+      },
+      "#board": {
+        "name": "Tablero de 19x19"
+      },
+      "#opening": {
+        "name": "Pieboxing",
+        "description": "Los jugadores se turnan para colocar piedras del Atacante hasta que uno de ellos toma el lado del Atacante; el otro jugador mueve primero como Defensor. Pieboxing, ideado por MXHero."
+      },
+      "handicap": {
+        "name": "Hándicap",
+        "description": "Pieboxing con hándicap. El Jugador 1 (sienta al jugador más fuerte primero) establece el número de piedras extra del Atacante, luego el Jugador 2 comienza a colocar. Si el Jugador 2 toma el lado del Atacante, coloca las piedras extra de una sola vez. Ideado por MXHero."
+      },
+      "classic": {
+        "name": "Configuración clásica de 17 piedras",
+        "description": "La posición inicial tradicional de 17 piedras; el Defensor (Jugador 1) mueve primero. Solo 19x19."
+      },
+      "pie": {
+        "name": "Pastel simple",
+        "description": "El Jugador 1 coloca cualquier número de piedras del Atacante, luego el Jugador 2 elige un lado. La regla habitual del pastel."
+      },
+      "hoctaph": {
+        "name": "Pastel generalizado de Hoctaph",
+        "description": "El Jugador 1 elige dos tamaños de lote, el Jugador 2 elige quién coloca el primer lote, el otro jugador elige un lado y el Atacante coloca el segundo lote. El pastel de Hoctaph (foros de OGS), generalizado a todos los tamaños de tablero por Samraku."
       }
     },
     "knightline": {
@@ -4946,6 +4980,23 @@
     "STACKSIZES": "Alturas de pilas",
     "tumbleweed": "Puntuación (piezas + influencia)",
     "ESTIMATEDSCORES": "Puntuaciones estimadas",
+    "killallgo": {
+      "ATTACKER": "Atacante",
+      "DEFENDER": "Defensor",
+      "UNDECIDED": "Aún no elegido",
+      "HANDICAP": "Piedras de hándicap",
+      "BATCHES": "Tamaños de lote",
+      "BATCHES_VALUE": "{{a}} luego {{b}}",
+      "PHASE_HAND_N": "{{player}} establece el número de piedras de hándicap",
+      "PHASE_ALT_PLACE": "{{player}} coloca una piedra del Atacante o toma el lado del Atacante",
+      "PHASE_PIE_SLICE": "{{player}} coloca las piedras de apertura del Atacante",
+      "PHASE_PIE_CHOOSE": "{{player}} elige un lado",
+      "PHASE_HOC_SLICE": "{{player}} establece los dos tamaños de lote",
+      "PHASE_HOC_OPTION": "{{player}} decide quién coloca el primer lote",
+      "PHASE_HOC_BATCH_A": "{{player}} coloca el primer lote de piedras del Atacante",
+      "PHASE_HOC_CHOOSE": "{{player}} elige un lado",
+      "PHASE_HOC_BATCH_B": "{{player}} coloca el segundo lote de piedras del Atacante"
+    },
     "TOPLACE": "Pieza por colocar",
     "valley": "Fichas de luna",
     "waldmeister": {
@@ -6429,6 +6480,52 @@
       "INITIAL_INSTRUCTIONS_placed": "Selecciona una pieza para mover.",
       "PARTIAL_destination": "Selecciona un destino.",
       "PARTIAL_orientation": "Selecciona una casilla vecina para orientar la pieza."
+    },
+    "killallgo": {
+      "INSTRUCTIONS_HANDICAP": "Estás dando el hándicap. Escribe la cantidad de piedras extra del Atacante (de 1 a {{max}}) que tu oponente colocará si toma el lado del Atacante.",
+      "HANDICAP_INVALID": "El hándicap debe ser un número entero.",
+      "HANDICAP_RANGE": "El hándicap debe ser de entre 1 y {{max}} piedras.",
+      "HANDICAP_OK_one": "Hándicap de una piedra. Envía o sigue escribiendo.",
+      "HANDICAP_OK_other": "Hándicap de {{count}} piedras. Envía o sigue escribiendo.",
+      "INSTRUCTIONS_ALT": "Coloca una piedra del Atacante o toma el lado del Atacante; tu oponente moverá primero como Defensor.",
+      "INSTRUCTIONS_ALT_HANDICAP_one": "Coloca una piedra del Atacante, o toma el lado del Atacante y luego coloca una piedra más; tu oponente moverá primero como Defensor.",
+      "INSTRUCTIONS_ALT_HANDICAP_other": "Coloca una piedra del Atacante, o toma el lado del Atacante y luego coloca {{count}} piedras más; tu oponente moverá primero como Defensor.",
+      "SETUP_FULL": "El tablero ya contiene la cantidad máxima de piedras de preparación que permite esta fase ({{max}}); toma el lado del Atacante en lugar de colocar otra.",
+      "ATTACKER_NO_STONES": "Tomar el lado del Atacante no implica colocar piedras ahora.",
+      "DEFENDER_NO_STONES": "Elegir el lado del Defensor no implica colocar piedras ahora.",
+      "STONES_LEFT_one": "Coloca una piedra más del Atacante.",
+      "STONES_LEFT_other": "Coloca {{count}} piedras más del Atacante.",
+      "BATCH_TOO_MANY_one": "Este lote contiene exactamente una piedra.",
+      "BATCH_TOO_MANY_other": "Este lote contiene exactamente {{count}} piedras.",
+      "BATCH_MORE_OR_SUBMIT": "Agrega más piedras del Atacante o envía.",
+      "DUPLICATE_CELL": "La casilla {{where}} está duplicada.",
+      "INVALID_PASS": "No puedes pasar ahora.",
+      "NO_CLICKS_NOW": "Escribe tu respuesta en la casilla de jugada; aún no se puede hacer clic en el tablero.",
+      "INSTRUCTIONS_PIE_SLICE": "Coloca cualquier número de piedras del Atacante hasta {{max}} (o pasa para no colocar ninguna); tu oponente luego elegirá un lado.",
+      "PIE_SLICE_MAX": "Puedes colocar como máximo {{max}} piedras del Atacante de esta manera.",
+      "INSTRUCTIONS_PIE_CHOOSE": "Elige un lado: toma las piedras del Atacante o coloca tu primera piedra como Defensor.",
+      "INSTRUCTIONS_PIE_DEFENDER_STONE": "Coloca tu primera piedra del Defensor.",
+      "INSTRUCTIONS_HOC_SLICE": "Haz clic en una piedra numerada a la izquierda para definir el tamaño del primer lote y en una a la derecha para el segundo, o escribe ambos tamaños como a,b: cada uno de al menos 1, juntos como máximo {{max}}, y ninguno más del doble que el otro.",
+      "SLICE_FORMAT": "Escribe los dos tamaños de lote como dos números enteros separados por una coma, por ejemplo 20,15.",
+      "SLICE_MIN": "Cada lote debe contener al menos una piedra.",
+      "SLICE_SUM": "Juntos, los dos lotes pueden contener como máximo {{max}} piedras.",
+      "SLICE_RATIO": "Ningún lote puede ser más del doble del tamaño del otro.",
+      "SLICE_A_ONLY_one": "Primer lote de una piedra. Ahora elige el tamaño del segundo lote.",
+      "SLICE_A_ONLY_other": "Primer lote de {{count}} piedras. Ahora elige el tamaño del segundo lote.",
+      "SLICE_B_ONLY_one": "Segundo lote de una piedra. Ahora elige el tamaño del primer lote.",
+      "SLICE_B_ONLY_other": "Segundo lote de {{count}} piedras. Ahora elige el tamaño del primer lote.",
+      "SLICE_NOT_A_BUTTON": "Haz clic en una de las piedras numeradas: el bloque de la izquierda define el tamaño del primer lote, y el de la derecha, el del segundo. Los tamaños mayores se pueden escribir manualmente.",
+      "SLICE_OK": "Lotes de {{a}} y {{b}} piedras. Envía o sigue escribiendo.",
+      "INSTRUCTIONS_HOC_OPTION_one": "Decide quién coloca el primer lote de una piedra del Atacante: colócala tú mismo (tu oponente luego elige un lado) o deja que tu oponente la coloque (tú luego eliges un lado).",
+      "INSTRUCTIONS_HOC_OPTION_other": "Decide quién coloca el primer lote de {{count}} piedras del Atacante: colócalas tú mismo (tu oponente luego elige un lado) o deja que tu oponente las coloque (tú luego eliges un lado).",
+      "INSTRUCTIONS_HOC_BATCH_one": "Coloca una piedra del Atacante.",
+      "INSTRUCTIONS_HOC_BATCH_other": "Coloca {{count}} piedras del Atacante.",
+      "INSTRUCTIONS_HOC_CHOOSE_one": "Elige un lado. Tomar el lado del Atacante significa colocar el segundo lote de una piedra ahora; elegir el lado del Defensor significa que tu oponente la coloca y tú luego mueves primero.",
+      "INSTRUCTIONS_HOC_CHOOSE_other": "Elige un lado. Tomar el lado del Atacante significa colocar el segundo lote de {{count}} piedras ahora; elegir el lado del Defensor significa que tu oponente las coloca y tú luego mueves primero.",
+      "INSTRUCTIONS_PLAY_ATTACKER": "Coloca una piedra o pasa. Ganas si no le dejas espacio al Defensor para hacer una cadena que nunca pueda ser capturada.",
+      "INSTRUCTIONS_PLAY_DEFENDER": "Coloca una piedra o pasa. Ganas al hacer una cadena que nunca pueda ser capturada.",
+      "KO_PSK": "Esa colocación recrearía una posición anterior del tablero (superko posicional).",
+      "PASS_WARNING": "Pasar no garantiza estar vivo. Si el Atacante también pasa, el Atacante gana."
     },
     "knightline": {
       "BAD_PASS": "No puedes pasar si hay movimientos legales disponibles.",

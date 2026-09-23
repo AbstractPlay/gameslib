@@ -37,6 +37,7 @@
       "playerSetup": "Preparación del jugador",
       "bearSetup": "Preparación del Oso"
     },
+    "killallgo_slice": "{{player}} estableció los tamaños de los lotes en {{a}} y {{b}} piedras.",
     "scribe_super": "Superformación de {{player}}: {{formation}}.",
     "stawvs": "{{player}} no pudo mover y debe pasar de ahora en adelante. Sus piezas permanecen en las siguientes pirámides: {{pyramids}}."
   },
@@ -90,6 +91,8 @@
     "elOso_one": "{{player}} aniquiló una pieza en {{where}}.",
     "elOso_other": "{{player}} aniquiló {{count}} piezas en {{where}}.",
     "hexentafl_king": "El rey fue capturado en {{where}}.",
+    "killallgo_suicide_one": "{{player}} eliminó su propia piedra por suicidio.",
+    "killallgo_suicide_other": "{{player}} eliminó {{count}} de sus propias piedras por suicidio.",
     "lasca_officer": "{{player}} capturó un oficial en {{where}}.",
     "lasca_soldier": "{{player}} capturó un soldado en {{where}}.",
     "lifeline": "Las piezas muertas fueron retiradas en {{where}}.",
@@ -168,6 +171,8 @@
     "fnap_row": "{{player}} reclamó la fila {{where}}.",
     "frogger": "{{player}} fue bloqueado y robó {{card}} del pozo de robo.",
     "jacynth": "{{player}} ejerció influencia en {{where}}.",
+    "killallgo_attacker": "{{player}} eligió jugar como el Atacante.",
+    "killallgo_defender": "{{player}} eligió jugar como el Defensor.",
     "logger": "{{player}} reclamó a un manifestante del árbol talado en {{where}}.",
     "magnate": "{{who}} obtuvo {{what}}.",
     "magnate_initial": "Los jugadores recolectaron sus recursos Corona.",
@@ -218,6 +223,8 @@
     "biscuit": "¡{{player}} ha terminado sus cartas!",
     "emu": "El año {{year}} ha terminado.",
     "frogger": "Los cocodrilos avanzaron.",
+    "killallgo_handicap_one": "{{player}} estableció el hándicap en una piedra.",
+    "killallgo_handicap_other": "{{player}} estableció el hándicap en {{count}} piedras.",
     "mchess": "{{player}} ha pedido el reloj. Si no se realiza ninguna captura en los próximos siete turnos, la partida terminará y se anotarán los puntos.",
     "renju": "{{player}} ha declarado {{count}} quintas tentativas."
   },
@@ -293,7 +300,10 @@
     "tafl_king_captured": "La partida ha terminado porque el rey fue capturado.",
     "tafl_king_escaped": "La partida ha terminado porque el rey escapó.",
     "unlur_foul": "La partida ha terminado porque un jugador alcanzó la condición de victoria del oponente sin haber alcanzado la suya.",
-    "druid_hex": "La partida ha terminado porque {{player}} conectó los bordes {{edges}}."
+    "druid_hex": "La partida ha terminado porque {{player}} conectó los bordes {{edges}}.",
+    "killallgo_double_pass": "La partida ha terminado porque ambos jugadores pasaron sin que el Defensor estableciera vida.",
+    "killallgo_no_room": "La partida ha terminado porque las piedras incondicionalmente vivas del Atacante no le dejan espacio al Defensor para formar una cadena viva.",
+    "killallgo_pass_alive": "La partida ha terminado porque el Defensor formó una cadena incondicionalmente viva."
   },
   "DRUID_HEX_EDGE": {
     "N": "norte (N)",
@@ -486,6 +496,7 @@
     "gorogo_henge": "{{player}} colocó una pieza de henge en {{where}}.",
     "gorogo_piece": "{{player}} colocó una pieza en {{where}}.",
     "iqishiqi": "{{player}} colocó una piedra compartida en {{where}}.",
+    "killallgo_setup": "{{player}} colocó una piedra de Atacante en {{where}}.",
     "knightline": "{{player}} colocó su pila inicial en {{where}}.",
     "logger_logger": "{{player}} colocó su leñador en {{where}}.",
     "logger_plant": "{{player}} plantó un retoño en {{where}}.",
@@ -630,6 +641,8 @@
   "SCORE_REPORT": "La puntuación de {{player}} ahora es {{score}}.",
   "SELECT": {
     "fnap": "{{player}} seleccionó la loseta {{tile}}.",
+    "killallgo_iplace": "{{player}} eligió colocar el primer lote.",
+    "killallgo_youplace": "{{player}} eligió dejar que su oponente coloque el primer lote.",
     "resolve": "{{player}} selecciona la pieza en un corte cruzado en {{where}}.",
     "slyde_fixed_opponent": "{{player}} cambió el estado de la pieza de su oponente en {{where}} de móvil a fija.",
     "slyde_fixed_self": "{{player}} cambió el estado de su propia pieza en {{where}} de móvil a fija.",

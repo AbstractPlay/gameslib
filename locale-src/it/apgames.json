@@ -555,6 +555,10 @@
     "src": "A chess-like game played on a 4x4 board where you try to eliminate the opposing king or promote your own. Pieces can change their orientation after moving.",
     "out": "Un gioco simile agli scacchi giocato su una plancia 4x4 in cui cerchi di eliminare il re avversario o di promuovere il tuo. I pezzi possono cambiare orientamento dopo essersi mossi."
   },
+  "descriptions.killallgo": {
+    "src": "A Go variant with asymmetric goals: the Attacker starts with stones on the board and must capture everything, while the Defender wins by making one string that can never be captured.",
+    "out": "Una variante del Go con obiettivi asimmetrici: l'Attaccante inizia con pietre sulla scacchiera e deve catturare tutto, mentre il Difensore vince creando una catena che non possa mai essere catturata."
+  },
   "descriptions.knightline": {
     "src": "A four-in-a-row connection game played by splitting a stack of knights on an unbounded grid.",
     "out": "Un gioco di connessione quattro-in-fila giocato dividendo una pila di cavalli su una griglia illimitata."
@@ -2607,6 +2611,10 @@
     "src": "Kachit Knights",
     "out": "Kachit Knights"
   },
+  "names.killallgo": {
+    "src": "Kill-All Go",
+    "out": "Kill-All Go"
+  },
   "names.knightline": {
     "src": "Knight Line",
     "out": "Knight Line"
@@ -3363,6 +3371,10 @@
     "src": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers and opponents.",
     "out": "Maggiori informazioni sul sistema Decktet sono disponibili sul [sito ufficiale del Decktet](https://www.decktet.com). Le carte nella mano dei giocatori sono nascoste agli osservatori e agli avversari."
   },
+  "notes.killallgo": {
+    "src": "The Attacker, whose stones are already on the board when normal play begins, wins by preventing the Defender from ever making a living string. The Defender wins by making one string that cannot be captured. There is no scoring.\n\nStones are placed and captured as in Go with Tromp-Taylor clearing: after a placement, opponent strings without liberties are removed, then your own string if it has none, so multi-stone suicide is legal. Positional superko applies: no placement may recreate any earlier position of the board. Either player may pass; if both pass in a row, the Attacker wins.\n\nThe Defender wins as soon as one of their strings is unconditionally alive: pass-alive by Benson's algorithm, meaning the Attacker could never capture it even with unlimited consecutive moves. That is the only way to win as the Defender. A string that is merely alive in seki or in ko does not count, so the Defender must keep playing and turn it into a string that cannot be captured at all.\n\nThe Attacker wins as soon as that has become impossible. Stones of the Attacker that are unconditionally alive can never be removed, and no point next to one of them can ever lie in an eye of a living Defender string. When no area left over by those stones holds two points that are neither next to each other nor next to those stones, there is no room anywhere for the two eyes a living string needs, and the game ends. The check does not recognise every lost position; when it does not trigger, play simply continues.\n\nOpenings: with Pieboxing, the players take turns placing Attacker stones until one of them takes the Attacker side; the other player then moves first as the Defender. The handicap opening works the same way, except that Player 1 (the stronger player, so seat the handicap giver first when creating the challenge) first sets the number of handicap stones and Player 2 starts placing; if Player 2 takes the Attacker side, they place that many extra stones at once. The classic opening uses the traditional 17-stone position on the 19x19 board, with the Defender (Player 1) to move. In the simple pie, Player 1 places any number of Attacker stones and Player 2 chooses a side. In the generalized Hoctaph's pie, Player 1 chooses two batch sizes (each at least 1, together at most the number of points minus 2, neither more than twice the other), Player 2 decides who places the first batch, the other player then chooses a side, and the Attacker places the second batch. In every opening the Defender makes the first normal move.",
+    "out": "L'Attaccante, le cui pietre sono già sulla scacchiera all'inizio del gioco normale, vince impedendo al Difensore di creare una catena viva. Il Difensore vince creando una catena che non può essere catturata. Non c'è conteggio dei punti.\n\nLe pietre vengono piazzate e catturate come nel Go con la rimozione Tromp-Taylor: dopo un posizionamento, le catene avversarie senza libertà vengono rimosse, poi la propria catena se non ne ha, quindi il suicidio di più pietre è legale. Si applica il superko posizionale: nessun posizionamento può ricreare una posizione precedente della scacchiera. Ciascun giocatore può passare; se entrambi passano di seguito, l'Attaccante vince.\n\nIl Difensore vince non appena una delle sue catene è incondizionatamente viva: pass-alive tramite l'algoritmo di Benson, il che significa che l'Attaccante non potrebbe mai catturarla nemmeno con mosse consecutive illimitate. Questo è l'unico modo per vincere come Difensore. Una catena semplicemente viva in seki o in ko non conta, quindi il Difensore deve continuare a giocare e trasformarla in una catena che non può essere catturata affatto.\n\nL'Attaccante vince non appena ciò diventa impossibile. Le pietre dell'Attaccante incondizionatamente vive non possono mai essere rimosse, e nessun punto adiacente a una di esse può mai trovarsi nell'occhio di una catena viva del Difensore. Quando nessuna area lasciata da tali pietre contiene due punti che non siano né adiacenti tra loro né adiacenti a tali pietre, non c'è spazio da nessuna parte per i due occhi di cui ha bisogno una catena viva, e la partita termina. La verifica non riconosce ogni posizione persa; quando non si attiva, il gioco semplicemente prosegue.\n\nAperture: con il Pieboxing, i giocatori si alternano a piazzare pietre dell'Attaccante finché uno di essi non sceglie la parte dell'Attaccante; l'altro giocatore muove poi per primo come Difensore. L'apertura ad handicap funziona allo stesso modo, tranne per il fatto che il Giocatore 1 (il giocatore più forte, quindi fai sedere prima chi dà l'handicap quando crei la sfida) stabilisce prima il numero di pietre di handicap e il Giocatore 2 inizia a piazzare; se il Giocatore 2 sceglie la parte dell'Attaccante, piazza subito quel numero di pietre extra. L'apertura classica utilizza la posizione tradizionale da 17 pietre sulla scacchiera 19x19, con il Difensore (Giocatore 1) che muove per primo. Nella torta semplice, il Giocatore 1 piazza un numero qualsiasi di pietre dell'Attaccante e il Giocatore 2 sceglie una parte. Nella torta di Hoctaph generalizzata, il Giocatore 1 sceglie la dimensione di due lotti (ciascuno di almeno 1, insieme al massimo il numero di punti meno 2, nessuno dei due più del doppio dell'altro), il Giocatore 2 decide chi piazza il primo lotto, l'altro giocatore sceglie quindi una parte e l'Attaccante piazza il secondo lotto. In ogni apertura il Difensore effettua la prima mossa normale."
+  },
   "notes.knightline": {
     "src": "For convenience, your stack is split approximately in half on your first click.  Subsequent clicks on the source or target stack move one piece at a time.  When done, click on an empty cell or use the Complete Move button.\n\nThe coordinate system is adapted from the coder's coordinate system for Hive, a game on an unbounded (but still reasonably sized) hex board.  The y axis is labeled with Cartesian coordinates (positive and negative integers).  The x axis is labeled with letters in alphabetical order, with the origin at (m, 0).  If motion on the x-axis exceeds the confines of the alphabet in either direction, the letters are prefixed with another letter (z is followed by aa, ab, ac, etc., and a is preceded by zz, zy, zx, etc.).  The game is not expected to reach a width that requires more double coordinates, but for the record, az is followed by ba, za is preceded by yz, and so forth.  The board cannot reach a size that would result in ambiguity.",
     "out": "Per comodità, la tua pila viene divisa approssimativamente a metà al tuo primo clic. I clic successivi sulla pila di origine o di destinazione muovono un pezzo alla volta. Al termine, fai clic su una casella vuota o usa il pulsante Completa Mossa.\n\nIl sistema di coordinate è adattato dal sistema di coordinate dello sviluppatore per Hive, un gioco su un tabellone esagonale illimitato (ma comunque di dimensioni ragionevoli). L'asse y è etichettato con coordinate cartesiane (interi positivi e negativi). L'asse x è etichettato con lettere in ordine alfabetico, con l'origine in (m, 0). Se il movimento sull'asse x supera i confini dell'alfabeto in una delle due direzioni, le lettere vengono precedute da un'altra lettera (z è seguita da aa, ab, ac, ecc., e a è preceduta da zz, zy, zx, ecc.). Non si prevede che il gioco raggiunga una larghezza tale da richiedere ulteriori doppie coordinate, ma per la cronaca, az è seguita da ba, za è preceduta da yz e così via. Il tabellone non può raggiungere dimensioni tali da generare ambiguità."
@@ -3854,6 +3866,66 @@
   "status.jacynth": {
     "src": "Influence tokens",
     "out": "Segnalini influenza"
+  },
+  "status.killallgo.ATTACKER": {
+    "src": "Attacker",
+    "out": "Attaccante"
+  },
+  "status.killallgo.BATCHES": {
+    "src": "Batch sizes",
+    "out": "Dimensioni dei lotti"
+  },
+  "status.killallgo.BATCHES_VALUE": {
+    "src": "{{a}} then {{b}}",
+    "out": "{{a}} poi {{b}}"
+  },
+  "status.killallgo.DEFENDER": {
+    "src": "Defender",
+    "out": "Difensore"
+  },
+  "status.killallgo.HANDICAP": {
+    "src": "Handicap stones",
+    "out": "Pietre di handicap"
+  },
+  "status.killallgo.PHASE_ALT_PLACE": {
+    "src": "{{player}} places an Attacker stone or takes the Attacker side",
+    "out": "{{player}} piazza una pietra dell'Attaccante o sceglie il lato dell'Attaccante"
+  },
+  "status.killallgo.PHASE_HAND_N": {
+    "src": "{{player}} sets the number of handicap stones",
+    "out": "{{player}} imposta il numero di pietre di handicap"
+  },
+  "status.killallgo.PHASE_HOC_BATCH_A": {
+    "src": "{{player}} places the first batch of Attacker stones",
+    "out": "{{player}} piazza il primo lotto di pietre dell'Attaccante"
+  },
+  "status.killallgo.PHASE_HOC_BATCH_B": {
+    "src": "{{player}} places the second batch of Attacker stones",
+    "out": "{{player}} piazza il secondo lotto di pietre dell'Attaccante"
+  },
+  "status.killallgo.PHASE_HOC_CHOOSE": {
+    "src": "{{player}} chooses a side",
+    "out": "{{player}} sceglie una parte"
+  },
+  "status.killallgo.PHASE_HOC_OPTION": {
+    "src": "{{player}} decides who places the first batch",
+    "out": "{{player}} decide chi piazza il primo lotto"
+  },
+  "status.killallgo.PHASE_HOC_SLICE": {
+    "src": "{{player}} sets the two batch sizes",
+    "out": "{{player}} imposta la dimensione dei due lotti"
+  },
+  "status.killallgo.PHASE_PIE_CHOOSE": {
+    "src": "{{player}} chooses a side",
+    "out": "{{player}} sceglie una parte"
+  },
+  "status.killallgo.PHASE_PIE_SLICE": {
+    "src": "{{player}} places the opening Attacker stones",
+    "out": "{{player}} piazza le pietre iniziali dell'Attaccante"
+  },
+  "status.killallgo.UNDECIDED": {
+    "src": "Not yet chosen",
+    "out": "Non ancora scelto"
   },
   "status.lasca.MATERIAL": {
     "src": "Material",
@@ -8670,6 +8742,182 @@
   "validation.kachit.PARTIAL_orientation": {
     "src": "Select a neighbouring cell to orient the piece.",
     "out": "Seleziona una casella vicina per orientare il pezzo."
+  },
+  "validation.killallgo.ATTACKER_NO_STONES": {
+    "src": "Taking the Attacker side does not involve placing stones now.",
+    "out": "Scegliere il lato dell'Attaccante non comporta il posizionamento di pietre ora."
+  },
+  "validation.killallgo.BATCH_MORE_OR_SUBMIT": {
+    "src": "Add more Attacker stones, or submit.",
+    "out": "Aggiungi altre pietre dell'Attaccante o invia."
+  },
+  "validation.killallgo.BATCH_TOO_MANY_one": {
+    "src": "This batch holds exactly one stone.",
+    "out": "Questo lotto contiene esattamente una pietra."
+  },
+  "validation.killallgo.BATCH_TOO_MANY_other": {
+    "src": "This batch holds exactly {{count}} stones.",
+    "out": "Questo lotto contiene esattamente {{count}} pietre."
+  },
+  "validation.killallgo.DEFENDER_NO_STONES": {
+    "src": "Choosing the Defender side does not involve placing stones now.",
+    "out": "Scegliere il lato del Difensore non comporta il posizionamento di pietre ora."
+  },
+  "validation.killallgo.DUPLICATE_CELL": {
+    "src": "The cell {{where}} is listed twice.",
+    "out": "La casella {{where}} è elencata due volte."
+  },
+  "validation.killallgo.HANDICAP_INVALID": {
+    "src": "The handicap must be a whole number.",
+    "out": "L'handicap deve essere un numero intero."
+  },
+  "validation.killallgo.HANDICAP_OK_one": {
+    "src": "Handicap of one stone. Submit, or keep typing.",
+    "out": "Handicap di una pietra. Invia o continua a digitare."
+  },
+  "validation.killallgo.HANDICAP_OK_other": {
+    "src": "Handicap of {{count}} stones. Submit, or keep typing.",
+    "out": "Handicap di {{count}} pietre. Invia o continua a digitare."
+  },
+  "validation.killallgo.HANDICAP_RANGE": {
+    "src": "The handicap must be between 1 and {{max}} stones.",
+    "out": "L'handicap deve essere compreso tra 1 e {{max}} pietre."
+  },
+  "validation.killallgo.INSTRUCTIONS_ALT": {
+    "src": "Place an Attacker stone, or take the Attacker side; your opponent then moves first as the Defender.",
+    "out": "Piazza una pietra dell'Attaccante, oppure scegli il lato dell'Attaccante; il tuo avversario muoverà poi per primo come Difensore."
+  },
+  "validation.killallgo.INSTRUCTIONS_ALT_HANDICAP_one": {
+    "src": "Place an Attacker stone, or take the Attacker side and then place one more stone; your opponent then moves first as the Defender.",
+    "out": "Piazza una pietra dell'Attaccante, oppure scegli il lato dell'Attaccante e piazza ancora una pietra; il tuo avversario muoverà poi per primo come Difensore."
+  },
+  "validation.killallgo.INSTRUCTIONS_ALT_HANDICAP_other": {
+    "src": "Place an Attacker stone, or take the Attacker side and then place {{count}} more stones; your opponent then moves first as the Defender.",
+    "out": "Piazza una pietra dell'Attaccante, oppure scegli il lato dell'Attaccante e piazza altre {{count}} pietre; il tuo avversario muoverà poi per primo come Difensore."
+  },
+  "validation.killallgo.INSTRUCTIONS_HANDICAP": {
+    "src": "You are giving the handicap. Type the number of extra Attacker stones (1 to {{max}}) your opponent will place if they take the Attacker side.",
+    "out": "Stai dando l'handicap. Digita il numero di pietre extra dell'Attaccante (da 1 a {{max}}) che il tuo avversario piazzerà se sceglie il lato dell'Attaccante."
+  },
+  "validation.killallgo.INSTRUCTIONS_HOC_BATCH_one": {
+    "src": "Place one Attacker stone.",
+    "out": "Piazza una pietra dell'Attaccante."
+  },
+  "validation.killallgo.INSTRUCTIONS_HOC_BATCH_other": {
+    "src": "Place {{count}} Attacker stones.",
+    "out": "Piazza {{count}} pietre dell'Attaccante."
+  },
+  "validation.killallgo.INSTRUCTIONS_HOC_CHOOSE_one": {
+    "src": "Choose a side. Taking the Attacker side means placing the second batch of one stone now; choosing the Defender side means your opponent places it and you then move first.",
+    "out": "Scegli una parte. Scegliere il lato dell'Attaccante significa piazzare il secondo lotto di una pietra ora; scegliere il lato del Difensore significa che il tuo avversario lo piazzerà e poi tu muoverai per primo."
+  },
+  "validation.killallgo.INSTRUCTIONS_HOC_CHOOSE_other": {
+    "src": "Choose a side. Taking the Attacker side means placing the second batch of {{count}} stones now; choosing the Defender side means your opponent places them and you then move first.",
+    "out": "Scegli una parte. Scegliere il lato dell'Attaccante significa piazzare il secondo lotto di {{count}} pietre ora; scegliere il lato del Difensore significa che il tuo avversario le piazzerà e poi tu muoverai per primo."
+  },
+  "validation.killallgo.INSTRUCTIONS_HOC_OPTION_one": {
+    "src": "Decide who places the first batch of one Attacker stone: place it yourself (your opponent then chooses a side), or let your opponent place it (you then choose a side).",
+    "out": "Decidi chi piazza il primo lotto di una pietra dell'Attaccante: piazzalo tu stesso (il tuo avversario sceglierà poi una parte), oppure lascialo piazzare al tuo avversario (sarai poi tu a scegliere una parte)."
+  },
+  "validation.killallgo.INSTRUCTIONS_HOC_OPTION_other": {
+    "src": "Decide who places the first batch of {{count}} Attacker stones: place them yourself (your opponent then chooses a side), or let your opponent place them (you then choose a side).",
+    "out": "Decidi chi piazza il primo lotto di {{count}} pietre dell'Attaccante: piazzale tu stesso (il tuo avversario sceglierà poi una parte), oppure lasciale piazzare al tuo avversario (sarai poi tu a scegliere una parte)."
+  },
+  "validation.killallgo.INSTRUCTIONS_HOC_SLICE": {
+    "src": "Click a numbered stone on the left to size the first batch and one on the right to size the second, or type both sizes as a,b: each at least 1, together at most {{max}}, and neither more than twice the other.",
+    "out": "Fai clic su una pietra numerata a sinistra per impostare la dimensione del primo lotto e su una a destra per il secondo, oppure digita entrambe le dimensioni come a,b: ciascuna di almeno 1, insieme al massimo {{max}}, e nessuna più del doppio dell'altra."
+  },
+  "validation.killallgo.INSTRUCTIONS_PIE_CHOOSE": {
+    "src": "Choose a side: take the Attacker stones, or place your first stone as the Defender.",
+    "out": "Scegli una parte: prendi le pietre dell'Attaccante o piazza la tua prima pietra come Difensore."
+  },
+  "validation.killallgo.INSTRUCTIONS_PIE_DEFENDER_STONE": {
+    "src": "Place your first Defender stone.",
+    "out": "Piazza la tua prima pietra del Difensore."
+  },
+  "validation.killallgo.INSTRUCTIONS_PIE_SLICE": {
+    "src": "Place any number of Attacker stones up to {{max}} (or pass to place none); your opponent will then choose a side.",
+    "out": "Piazza un numero qualsiasi di pietre dell'Attaccante fino a {{max}} (o passa per non piazzarne alcuna); il tuo avversario sceglierà poi una parte."
+  },
+  "validation.killallgo.INSTRUCTIONS_PLAY_ATTACKER": {
+    "src": "Place a stone or pass. You win by leaving the Defender no room to make a string that can never be captured.",
+    "out": "Piazza una pietra o passa. Vinci non lasciando al Difensore lo spazio per creare una catena che non possa mai essere catturata."
+  },
+  "validation.killallgo.INSTRUCTIONS_PLAY_DEFENDER": {
+    "src": "Place a stone or pass. You win by making a string that can never be captured.",
+    "out": "Piazza una pietra o passa. Vinci creando una catena che non possa mai essere catturata."
+  },
+  "validation.killallgo.INVALID_PASS": {
+    "src": "You cannot pass now.",
+    "out": "Non puoi passare ora."
+  },
+  "validation.killallgo.KO_PSK": {
+    "src": "That placement would recreate an earlier position of the board (positional superko).",
+    "out": "Quel posizionamento ricreerebbe una posizione precedente della scacchiera (superko posizionale)."
+  },
+  "validation.killallgo.NO_CLICKS_NOW": {
+    "src": "Type your answer in the move box; the board is not clickable yet.",
+    "out": "Digita la tua risposta nella casella della mossa; la scacchiera non è ancora cliccabile."
+  },
+  "validation.killallgo.PASS_WARNING": {
+    "src": "Passing does not establish life. If the Attacker also passes, the Attacker wins.",
+    "out": "Passare non garantisce la vita. Se anche l'Attaccante passa, l'Attaccante vince."
+  },
+  "validation.killallgo.PIE_SLICE_MAX": {
+    "src": "You may place at most {{max}} Attacker stones this way.",
+    "out": "Puoi piazzare al massimo {{max}} pietre dell'Attaccante in questo modo."
+  },
+  "validation.killallgo.SETUP_FULL": {
+    "src": "The board already holds the maximum number of setup stones this phase allows ({{max}}); take the Attacker side instead of placing another.",
+    "out": "La scacchiera contiene già il numero massimo di pietre di configurazione consentito in questa fase ({{max}}); scegli il lato dell'Attaccante invece di piazzarne un'altra."
+  },
+  "validation.killallgo.SLICE_A_ONLY_one": {
+    "src": "First batch of one stone. Now choose the size of the second batch.",
+    "out": "Primo lotto di una pietra. Ora scegli la dimensione del secondo lotto."
+  },
+  "validation.killallgo.SLICE_A_ONLY_other": {
+    "src": "First batch of {{count}} stones. Now choose the size of the second batch.",
+    "out": "Primo lotto di {{count}} pietre. Ora scegli la dimensione del secondo lotto."
+  },
+  "validation.killallgo.SLICE_B_ONLY_one": {
+    "src": "Second batch of one stone. Now choose the size of the first batch.",
+    "out": "Secondo lotto di una pietra. Ora scegli la dimensione del primo lotto."
+  },
+  "validation.killallgo.SLICE_B_ONLY_other": {
+    "src": "Second batch of {{count}} stones. Now choose the size of the first batch.",
+    "out": "Secondo lotto di {{count}} pietre. Ora scegli la dimensione del primo lotto."
+  },
+  "validation.killallgo.SLICE_FORMAT": {
+    "src": "Type the two batch sizes as two whole numbers separated by a comma, for example 20,15.",
+    "out": "Digita le dimensioni dei due lotti come due numeri interi separati da una virgola, ad esempio 20,15."
+  },
+  "validation.killallgo.SLICE_MIN": {
+    "src": "Each batch must hold at least one stone.",
+    "out": "Ciascun lotto deve contenere almeno una pietra."
+  },
+  "validation.killallgo.SLICE_NOT_A_BUTTON": {
+    "src": "Click one of the numbered stones: the block on the left sizes the first batch, the block on the right the second. Larger sizes can still be typed.",
+    "out": "Fai clic su una delle pietre numerate: il blocco a sinistra definisce la dimensione del primo lotto, quello a destra del secondo. Le dimensioni superiori possono comunque essere digitate."
+  },
+  "validation.killallgo.SLICE_OK": {
+    "src": "Batches of {{a}} and {{b}} stones. Submit, or keep typing.",
+    "out": "Lotti di {{a}} e {{b}} pietre. Invia o continua a digitare."
+  },
+  "validation.killallgo.SLICE_RATIO": {
+    "src": "Neither batch may be more than twice the size of the other.",
+    "out": "Nessun lotto può essere più del doppio della dimensione dell'altro."
+  },
+  "validation.killallgo.SLICE_SUM": {
+    "src": "Together the two batches may hold at most {{max}} stones.",
+    "out": "Insieme i due lotti possono contenere al massimo {{max}} pietre."
+  },
+  "validation.killallgo.STONES_LEFT_one": {
+    "src": "Place one more Attacker stone.",
+    "out": "Piazza un'altra pietra dell'Attaccante."
+  },
+  "validation.killallgo.STONES_LEFT_other": {
+    "src": "Place {{count}} more Attacker stones.",
+    "out": "Piazza altre {{count}} pietre dell'Attaccante."
   },
   "validation.knightline.BAD_OPENING_MOVE": {
     "src": "The opening move in this variant must be a legal cell for initial stack placement.",
@@ -16290,6 +16538,58 @@
   "variants.jacynth.towers.name": {
     "src": "Towers",
     "out": "Torri"
+  },
+  "variants.killallgo.#board.name": {
+    "src": "19x19 board",
+    "out": "Scacchiera 19x19"
+  },
+  "variants.killallgo.#opening.description": {
+    "src": "Players take turns placing Attacker stones until one of them takes the Attacker side; the other player then moves first as the Defender. Pieboxing, devised by MXHero.",
+    "out": "I giocatori si alternano a piazzare pietre dell'Attaccante finché uno di essi non sceglie il lato dell'Attaccante; l'altro giocatore muove poi per primo come Difensore. Pieboxing, ideato da MXHero."
+  },
+  "variants.killallgo.#opening.name": {
+    "src": "Pieboxing",
+    "out": "Pieboxing"
+  },
+  "variants.killallgo.classic.description": {
+    "src": "The traditional 17-stone starting position; the Defender (Player 1) moves first. 19x19 only.",
+    "out": "La posizione iniziale tradizionale a 17 pietre; il Difensore (Giocatore 1) muove per primo. Solo 19x19."
+  },
+  "variants.killallgo.classic.name": {
+    "src": "Classic 17-stone setup",
+    "out": "Configurazione classica a 17 pietre"
+  },
+  "variants.killallgo.handicap.description": {
+    "src": "Pieboxing with a handicap. Player 1 (seat the stronger player first) sets the number of extra Attacker stones, then Player 2 starts placing. If Player 2 takes the Attacker side, they place the extra stones at once. Devised by MXHero.",
+    "out": "Pieboxing con handicap. Il Giocatore 1 (fai sedere prima il giocatore più forte) imposta il numero di pietre extra dell'Attaccante, poi il Giocatore 2 inizia a piazzare. Se il Giocatore 2 sceglie il lato dell'Attaccante, piazza subito le pietre extra. Ideato da MXHero."
+  },
+  "variants.killallgo.handicap.name": {
+    "src": "Handicap",
+    "out": "Handicap"
+  },
+  "variants.killallgo.hoctaph.description": {
+    "src": "Player 1 chooses two batch sizes, Player 2 chooses who places the first batch, the other player chooses a side, and the Attacker places the second batch. Hoctaph's pie (OGS forums), generalized to every board size by Samraku.",
+    "out": "Il Giocatore 1 sceglie la dimensione di due lotti, il Giocatore 2 sceglie chi piazza il primo lotto, l'altro giocatore sceglie una parte e l'Attaccante piazza il secondo lotto. Torta di Hoctaph (forum OGS), generalizzata per ogni dimensione di scacchiera da Samraku."
+  },
+  "variants.killallgo.hoctaph.name": {
+    "src": "Generalized Hoctaph's pie",
+    "out": "Torta di Hoctaph generalizzata"
+  },
+  "variants.killallgo.pie.description": {
+    "src": "Player 1 places any number of Attacker stones, then Player 2 chooses a side. The usual pie rule.",
+    "out": "Il Giocatore 1 piazza un numero qualsiasi di pietre dell'Attaccante, poi il Giocatore 2 sceglie una parte. La consueta regola della torta."
+  },
+  "variants.killallgo.pie.name": {
+    "src": "Simple pie",
+    "out": "Torta semplice"
+  },
+  "variants.killallgo.size-13.name": {
+    "src": "13x13 board",
+    "out": "Scacchiera 13x13"
+  },
+  "variants.killallgo.size-9.name": {
+    "src": "9x9 board",
+    "out": "Scacchiera 9x9"
   },
   "variants.knightline.#setup.description": {
     "src": "No special pieces, and stacks begin in a set configuration.",

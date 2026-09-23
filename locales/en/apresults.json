@@ -37,6 +37,7 @@
             "playerSetup": "Player setup",
             "bearSetup": "Bear setup"
         },
+        "killallgo_slice": "{{player}} set the batch sizes to {{a}} and {{b}} stones.",
         "scribe_super": "{{player}}'s super formation: {{formation}}.",
         "stawvs": "{{player}} was unable to move and must pass from now on.  Their pieces remain on the following pyramids: {{pyramids}}."
     },
@@ -90,6 +91,8 @@
         "elOso_one": "{{player}} annihilated one piece at {{where}}.",
         "elOso_other": "{{player}} annihilated {{count}} pieces at {{where}}.",
         "hexentafl_king": "The king was captured at {{where}}.",
+        "killallgo_suicide_one": "{{player}} removed their own stone by suicide.",
+        "killallgo_suicide_other": "{{player}} removed {{count}} of their own stones by suicide.",
         "lasca_officer": "{{player}} captured an officer at {{where}}.",
         "lasca_soldier": "{{player}} captured a soldier at {{where}}.",
         "lifeline": "Dead pieces were removed at {{where}}.",
@@ -168,6 +171,8 @@
         "fnap_row": "{{player}} claimed row {{where}}.",
         "frogger": "{{player}} was blocked and drew {{card}} from the draw pool.",
         "jacynth": "{{player}} exerted influence at {{where}}.",
+        "killallgo_attacker": "{{player}} chose to play as the Attacker.",
+        "killallgo_defender": "{{player}} chose to play as the Defender.",
         "logger": "{{player}} claimed a protestor from the tree felled at {{where}}.",
         "magnate": "{{who}} gained {{what}}.",
         "magnate_initial": "Players collected their Crown resources.",
@@ -218,6 +223,8 @@
         "biscuit": "{{player}} has gone out!",
         "emu": "Year {{year}} has ended.",
         "frogger": "The crocodiles advanced.",
+        "killallgo_handicap_one": "{{player}} set the handicap to one stone.",
+        "killallgo_handicap_other": "{{player}} set the handicap to {{count}} stones.",
         "mchess": "{{player}} has \"called the clock.\" If no capture is made in the next seven turns, the game will end and be scored.",
         "renju": "{{player}} has declared {{count}} tentative fifths."
     },
@@ -293,7 +300,10 @@
         "tafl_king_captured": "The game has ended because the king was captured.",
         "tafl_king_escaped": "The game has ended because the king escaped.",
         "unlur_foul": "The game has ended because one player has achieved the opponent's win condition without achieving their own.",
-        "druid_hex": "The game has ended because {{player}} connected the {{edges}} edges."
+        "druid_hex": "The game has ended because {{player}} connected the {{edges}} edges.",
+        "killallgo_double_pass": "The game has ended because both players passed without the Defender establishing life.",
+        "killallgo_no_room": "The game has ended because the Attacker's unconditionally alive stones leave the Defender no room to make a living string.",
+        "killallgo_pass_alive": "The game has ended because the Defender formed an unconditionally alive string."
     },
     "DRUID_HEX_EDGE": {
         "N": "north (N)",
@@ -486,6 +496,7 @@
         "gorogo_henge": "{{player}} placed a henge piece at {{where}}.",
         "gorogo_piece": "{{player}} placed a piece at {{where}}.",
         "iqishiqi": "{{player}} placed a shared stone at {{where}}.",
+        "killallgo_setup": "{{player}} placed an Attacker stone at {{where}}.",
         "knightline": "{{player}} placed their initial stack at {{where}}.",
         "logger_logger": "{{player}} placed their logger at {{where}}.",
         "logger_plant": "{{player}} planted a sapling at {{where}}.",
@@ -630,6 +641,8 @@
     "SCORE_REPORT": "{{player}}'s score is now {{score}}.",
     "SELECT": {
         "fnap": "{{player}} selected the tile {{tile}}.",
+        "killallgo_iplace": "{{player}} chose to place the first batch.",
+        "killallgo_youplace": "{{player}} chose to let their opponent place the first batch.",
         "resolve": "{{player}} selects the piece in a crosscut at {{where}}.",
         "slyde_fixed_opponent": "{{player}} changed the state of their opponent's piece at {{where}} from mobile to fixed.",
         "slyde_fixed_self": "{{player}} changed the state of their own piece at {{where}} from mobile to fixed.",

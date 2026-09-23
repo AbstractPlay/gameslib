@@ -307,6 +307,17 @@ describe("Kill-All Go", () => {
     });
 
     describe("metadata", () => {
+        it("links to Pieboxing and Kill-All Game on Sensei's Library, and credits MXHero for both openings that use Pieboxing", () => {
+            const info = KillAllGoGame.gameinfo;
+            expect(info.urls ?? []).to.include("https://senseis.xmp.net/?Pieboxing");
+            expect(info.urls ?? []).to.include("https://senseis.xmp.net/?KillAllGame");
+            const variants = info.variants ?? [];
+            const opening = variants.find((v) => v.uid === "#opening");
+            const handicap = variants.find((v) => v.uid === "handicap");
+            expect(opening?.people?.some((p) => p.name === "MXHero")).to.be.true;
+            expect(handicap?.people?.some((p) => p.name === "MXHero")).to.be.true;
+        });
+
         it("is experimental and cannot be rated with a handicap", () => {
             const flags = KillAllGoGame.gameinfo.flags ?? [];
             expect(flags).to.include("experimental");
@@ -400,7 +411,7 @@ describe("Kill-All Go", () => {
         });
     });
 
-    describe("alternating placement (default opening)", () => {
+    describe("Pieboxing (default opening)", () => {
         it("keeps the colours undecided until someone takes the Attacker side", () => {
             const g = new KillAllGoGame(undefined, ["size-9"]);
             expect(g.phase).to.equal("alt-place");

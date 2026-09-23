@@ -348,7 +348,7 @@ type Opening = "alt" | "handicap" | "classic" | "pie" | "hoctaph";
 
 type Phase =
     | "hand-n"        // handicap opening: Player 1 types the number of handicap stones
-    | "alt-place"     // alternating placement of Red stones until someone takes Red
+    | "alt-place"     // Pieboxing: alternating placement of Red stones until someone takes Red
     | "pie-slice"     // simple pie: Player 1 places any number of Red stones
     | "pie-choose"    // simple pie: Player 2 chooses a side
     | "hoc-slice"     // Hoctaph: Player 1 chooses the two batch sizes
@@ -417,6 +417,7 @@ export class KillAllGoGame extends GameBase {
         notes: "apgames:notes.killallgo",
         urls: [
             "https://senseis.xmp.net/?KillAllGame",
+            "https://senseis.xmp.net/?Pieboxing",
             "https://senseis.xmp.net/?ShapeGame",
         ],
         people: [
@@ -436,8 +437,29 @@ export class KillAllGoGame extends GameBase {
             { uid: "size-9", group: "board" },
             { uid: "size-13", group: "board" },
             { uid: "#board" },
-            { uid: "#opening" },
-            { uid: "handicap", group: "opening", fans: true, unrated: true },
+            {
+                uid: "#opening",
+                people: [
+                    {
+                        type: "designer",
+                        name: "MXHero",
+                        urls: ["https://senseis.xmp.net/?Pieboxing"],
+                    },
+                ],
+            },
+            {
+                uid: "handicap",
+                group: "opening",
+                fans: true,
+                unrated: true,
+                people: [
+                    {
+                        type: "designer",
+                        name: "MXHero",
+                        urls: ["https://senseis.xmp.net/?Pieboxing"],
+                    },
+                ],
+            },
             { uid: "classic", group: "opening", enabledWhen: { board: ["#board"] } },
             { uid: "pie", group: "opening", fans: true },
             {

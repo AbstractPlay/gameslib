@@ -98,7 +98,7 @@ export class FroggerGame extends GameBase {
         ],
         categories: ["goal>evacuate", "mechanic>move", "mechanic>bearoff", "mechanic>block", "mechanic>random>setup", "mechanic>random>play", "board>shape>rect", "board>connect>rect", "components>decktet", "other>2+players"],
         flags: ["autopass", "custom-randomization", "random-start"],
-        displays: [{uid: "frog-pieces"}]
+        displays: [{ uid: "frog-pieces", group: "piece" }]
     };
     public coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, this.rows);
@@ -1940,7 +1940,8 @@ export class FroggerGame extends GameBase {
 
         //Set up constants applicable to all frames.
 
-        const plainPieces = (opts === undefined || opts.altDisplay === undefined || opts.altDisplay !== "frog-pieces");
+        const useFrogPieces = this.hasDisplay(opts, "frog-pieces");
+        const plainPieces = !useFrogPieces;
 
         //Colors taken from the decktet sheet.
         const suitColors = ["#c7c8ca","#e08426","#6a9fcc","#bc8a5d","#6fc055","#d6dd40"];

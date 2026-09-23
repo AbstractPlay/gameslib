@@ -1024,16 +1024,7 @@ export class SpookGame extends GameBase {
         if (opts?.hideLayer !== undefined) {
             hideLayer = opts.hideLayer;
         }
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let orb3d = false;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "orb-3d") {
-                orb3d = true;
-            }
-        }
+        const orb3d = this.hasDisplay(opts, "orb-3d");
         // calculate maximum layer (0 indexed)
         const maxLayer = Math.max(0, ...[...this.board.keys()].map(cell => this.algebraic2coords2(cell)).map(([,,l]) => l));
         // Build piece string

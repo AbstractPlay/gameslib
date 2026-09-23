@@ -716,16 +716,7 @@ export class PonteDDGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let showVertex = false;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "vertex-board") {
-                showVertex = true;
-            }
-        }
+        const showVertex = this.hasDisplay(opts, "vertex-board");
 
         // Build piece string
         let pstr = "";

@@ -496,16 +496,7 @@ export class MeridiansGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let showThreatened = true;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "hide-threatened") {
-                showThreatened = false;
-            }
-        }
+        const showThreatened = !this.hasDisplay(opts, "hide-threatened");
         const pstr: string[][] = [];
         const threatenedGroups1 = this.stack.length > 4 && showThreatened ? this.threatenedGroups(1) : [];
         const threatenedGroups2 = this.stack.length > 4 && showThreatened ? this.threatenedGroups(2) : [];

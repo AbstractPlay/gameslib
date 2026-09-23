@@ -551,16 +551,7 @@ export class CairoCorridorGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let showMarkers = true;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "hide-markers") {
-                showMarkers = false;
-            }
-        }
+        const showMarkers = !this.hasDisplay(opts, "hide-markers");
         // Build piece string
         let pstr = "";
         const nonDead: Set<string> | undefined = showMarkers ? this.nonDeadRegion() : undefined;

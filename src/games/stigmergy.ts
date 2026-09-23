@@ -86,7 +86,12 @@ export class StigmergyGame extends GameBase {
                 group: "komi"
             }
         ],
-        displays: [{uid: "hide-threatened"}, {uid: "hide-influence"}, {uid: "hide-both"}, {uid: "vertex-style"}],
+        displays: [
+            { uid: "hide-threatened" },
+            { uid: "hide-influence" },
+            { uid: "vertex-style" },
+            { uid: "hide-both", implies: ["hide-threatened", "hide-influence"], impliesLock: true },
+        ],
     };
 
     public static resolveFlags(context: FlagContext = {}): readonly GameFlag[] {
@@ -608,25 +613,9 @@ export class StigmergyGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let showThreatened = true;
-        let showInfluence = true;
-        let vertexStyle = false;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "hide-threatened") {
-                showThreatened = false;
-            } else if (altDisplay === "hide-influence") {
-                showInfluence = false;
-            } else if (altDisplay === "hide-both") {
-                showThreatened = false;
-                showInfluence = false;
-            } else if (altDisplay === "vertex-style") {
-                vertexStyle = true;
-            }
-        }
+        const showThreatened = !this.hasDisplay(opts, "hide-threatened");
+        const showInfluence = !this.hasDisplay(opts, "hide-influence");
+        const vertexStyle = this.hasDisplay(opts, "vertex-style");
 
         let pstr = "";
         const legendNames: Set<string> = new Set();

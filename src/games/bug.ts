@@ -678,16 +678,7 @@ export class BugGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let showMoves = true;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "hide-moves") {
-                showMoves = false;
-            }
-        }
+        const showMoves = !this.hasDisplay(opts, "hide-moves");
         // Build piece string
         const pstr: string[][] = [];
         const cells = this.graph.listCells(true);

@@ -185,13 +185,43 @@ export interface AlternativeDisplay {
    */
   name?: string;
   /**
-   * A short, unique string representing this alternative display
+   * A short, unique string representing this alternative display. For displays in a group, a uid `#[group]` is presumed unless declared explicitly.
    */
   uid: string;
   /**
    * A description of the alternative display. These are looked up from apgames.json by the alternativeDisplays() function
    */
   description?: string;
+  /**
+   * If present, displays in the same group are mutually exclusive (radio UI). Omit for independent toggles.
+   */
+  group?: string;
+  /**
+   * If present and true, the display may be hidden in production (not filtered in v1).
+   */
+  experimental?: boolean;
+  /**
+   * If present, this display is only selectable when every listed radio group's current value is one of the allowed uids (include `#[group]` for the default choice).
+   */
+  enabledWhen?: {
+    [k: string]: string[];
+  };
+  /**
+   * If present, this display cannot be selected while any listed display uid is active. Evaluators treat conflicts as symmetric.
+   */
+  conflictsWith?: string[];
+  /**
+   * If present, this display is only selectable when all listed display uids are also active.
+   */
+  requires?: string[];
+  /**
+   * If present, selecting this display causes the listed uids to be added during sanitize (UI auto-select).
+   */
+  implies?: string[];
+  /**
+   * If true with `implies`, implied displays cannot be deselected while this display is active; sanitize re-adds them.
+   */
+  impliesLock?: boolean;
   [k: string]: unknown;
 }
 export interface CustomizationPalette {

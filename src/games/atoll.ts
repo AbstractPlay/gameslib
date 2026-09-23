@@ -435,16 +435,7 @@ export class AtollGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let showLabels = false;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "show-labels") {
-                showLabels = true;
-            }
-        }
+        const showLabels = this.hasDisplay(opts, "show-labels");
         // Build piece string
         let pstr = "";
         for (let row = 0; row < this.boardSize; row++) {

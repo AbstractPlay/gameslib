@@ -602,11 +602,9 @@ export class EntropyGame extends GameBaseSimultaneous {
         }
     }
 
-    public render({perspective, altDisplay}: IRenderOpts): APRenderRep {
-        let display: string|undefined;
-        if (altDisplay !== undefined) {
-            display = altDisplay;
-        }
+    public render(opts?: IRenderOpts): APRenderRep {
+        const perspective = opts?.perspective;
+        const pieceNumbers = this.hasDisplay(opts, "piece-numbers");
         // Build piece string
         let pstr = "";
         for (let row = 0; row < this.boardsize; row++) {
@@ -665,7 +663,7 @@ export class EntropyGame extends GameBaseSimultaneous {
         const legend : { [k: string]: [Glyph, ...Glyph[]]|Glyph } = {};
         allColours.slice(0, this.boardsize).forEach((c, i) => {
             let glyph: [Glyph, ...Glyph[]]|Glyph = { name: "piece", colour: i + 1 } as Glyph;
-            if (display === "piece-numbers") {
+            if (pieceNumbers) {
                 glyph = [
                     {
                         name: "piece",

@@ -590,16 +590,7 @@ export class QueenslandGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let showScored = true;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "hide-scored") {
-                showScored = false;
-            }
-        }
+        const showScored = !this.hasDisplay(opts, "hide-scored");
 
         const labels = ["A","B"];
         // Build piece string

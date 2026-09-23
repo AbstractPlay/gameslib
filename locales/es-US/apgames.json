@@ -4254,13 +4254,13 @@
       }
     },
     "amazons": {
+      "#block": {
+        "description": "Muestra las casillas bloqueadas como un ladrillo cuadrado.",
+        "name": "Ladrillo"
+      },
       "blackbloc": {
         "description": "Mostrar casillas bloqueadas como un cuadrado negro.",
         "name": "Bloque negro"
-      },
-      "brick": {
-        "description": "Mostrar casillas bloqueadas como un ladrillo cuadrado.",
-        "name": "Ladrillo"
       },
       "bricks": {
         "description": "Mostrar casillas bloqueadas como un muro de ladrillos.",
@@ -4304,6 +4304,9 @@
       }
     },
     "bide": {
+      "#projection": {
+        "name": "Vista superior"
+      },
       "isometric": {
         "description": "Vista isométrica, casi 3D",
         "name": "Isométrica"
@@ -4340,24 +4343,36 @@
       }
     },
     "carnac": {
+      "#projection": {
+        "name": "Vista isométrica"
+      },
       "flat": {
         "description": "Mostrar el tablero visto desde arriba.",
         "name": "Vista plana"
       }
     },
     "druid": {
+      "#projection": {
+        "name": "Vista isométrica"
+      },
       "flat": {
         "description": "Vista superior con alturas de pila etiquetadas en cada celda.",
         "name": "Vista superior"
       }
     },
     "evenatodds": {
+      "#projection": {
+        "name": "Vista isométrica"
+      },
       "flat": {
         "description": "Vista a vista de pájaro de las pilas de dominó.",
         "name": "Vista superior"
       }
     },
     "elOso": {
+      "#stack": {
+        "name": "Apilar piezas"
+      },
       "nums": {
         "description": "Pilas mostradas como números",
         "name": "Números"
@@ -4444,6 +4459,9 @@
       }
     },
     "frogger": {
+      "#piece": {
+        "name": "Piezas estándar"
+      },
       "frog-pieces": {
         "description": "Usar piezas con forma de rana.",
         "name": "Piezas de rana"
@@ -4532,6 +4550,9 @@
       }
     },
     "mvolcano": {
+      "#stack": {
+        "name": "Pilas en 3D"
+      },
       "expanding": {
         "description": "Tablero bidimensional, con pilas que se expanden al pasar el cursor sobre ellas.",
         "name": "Expansivo"
@@ -4683,6 +4704,9 @@
       }
     },
     "terrace": {
+      "#projection": {
+        "name": "Vista isométrica"
+      },
       "flat": {
         "description": "Una vista plana que usa sombreado para indicar la altura.",
         "name": "Vista plana"
@@ -4733,12 +4757,18 @@
       }
     },
     "volcano": {
+      "#stack": {
+        "name": "Pilas en 3D"
+      },
       "expanding": {
         "description": "Tablero bidimensional, con pilas que se expanden al pasar el cursor sobre ellas.",
         "name": "Expansivo"
       }
     },
     "zola": {
+      "#projection": {
+        "name": "Vista superior"
+      },
       "isometric-20": {
         "description": "Elevación pronunciada: Una vista casi 3D del campo donde los espacios se elevan a medida que te alejas del centro.",
         "name": "Isométrica: Elevación pronunciada"

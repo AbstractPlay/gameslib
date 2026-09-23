@@ -74,7 +74,11 @@ export class PletoreGame extends GameBase {
                 group: "komi"
             }
         ],
-        displays: [{uid: "hide-threatened"}, {uid: "hide-influence"}, {uid: "hide-both"}],
+        displays: [
+            { uid: "hide-threatened" },
+            { uid: "hide-influence" },
+            { uid: "hide-both", implies: ["hide-threatened", "hide-influence"], impliesLock: true },
+        ],
     };
 
     public static resolveFlags(context: FlagContext = {}): readonly GameFlag[] {
@@ -571,22 +575,8 @@ export class PletoreGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let showThreatened = true;
-        let showInfluence = true;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "hide-threatened") {
-                showThreatened = false;
-            } else if (altDisplay === "hide-influence") {
-                showInfluence = false;
-            } else if (altDisplay === "hide-both") {
-                showThreatened = false;
-                showInfluence = false;
-            }
-        }
+        const showThreatened = !this.hasDisplay(opts, "hide-threatened");
+        const showInfluence = !this.hasDisplay(opts, "hide-influence");
 
         let pstr = "";
         const legendNames: Set<string> = new Set();

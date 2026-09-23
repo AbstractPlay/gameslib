@@ -100,7 +100,7 @@ export class DruidGame extends GameBase {
                 enabledWhen: { board: ["#board", "size-8", "size-12"] },
             },
         ],
-        displays: [{ uid: "flat" }],
+        displays: [{ uid: "flat", group: "projection" }],
         categories: ["goal>connect", "mechanic>place", "mechanic>move", "board>3d", "board>shape>rect", "board>connect>rect", "components>special"],
         flags: ["pie", "automove"],
     };
@@ -1595,11 +1595,7 @@ export class DruidGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        const isIso = altDisplay !== "flat";
+        const isIso = !this.hasDisplay(opts, "flat");
         const mode = this.boardMode();
         const isHexBoard = mode === "y" || mode === "hex";
         const markers = isHexBoard ? [] : this.edgeMarkers();

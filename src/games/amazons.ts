@@ -63,7 +63,10 @@ export class AmazonsGame extends GameBase {
         ],
         categories: ["goal>immobilize", "mechanic>block", "mechanic>move", "mechanic>enclose", "board>shape>rect", "board>connect>rect", "components>simple>3c"],
         flags: ["perspective", "pie", "aiai"],
-        displays: [{ uid: "bricks" }, { uid: "blackbloc" }],
+        displays: [
+            { uid: "bricks", group: "block" },
+            { uid: "blackbloc", group: "block" },
+        ],
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 10);
@@ -661,10 +664,6 @@ export class AmazonsGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
         // Build piece string
         let pstr = "";
         for (let row = 0; row < 10; row++) {
@@ -714,12 +713,12 @@ export class AmazonsGame extends GameBase {
                     colour: 2,
                     orientation: "vertical",
                 },
-                X: altDisplay === "bricks"
+                X: this.hasDisplay(opts, "bricks")
                     ? {
                         name: "bricks",
                         colour: "_context_fill"
                     }
-                    : altDisplay === "blackbloc"
+                    : this.hasDisplay(opts, "blackbloc")
                     ? {
                         name: "piece-square",
                         colour: "_context_fill"

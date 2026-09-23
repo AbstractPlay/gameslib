@@ -67,7 +67,7 @@ export class TerraceGame extends GameBase {
                 apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
             },
         ],
-        displays: [{ uid: "flat" }],
+        displays: [{ uid: "flat", group: "projection" }],
         categories: ["goal>royal-escape", "goal>royal-capture", "mechanic>move", "mechanic>capture", "board>3d", "board>shape>rect", "board>connect>rect", "components>special"],
         flags: ["perspective"],
         variants: [
@@ -653,20 +653,16 @@ export class TerraceGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let isIso = true;
+        const isFlat = this.hasDisplay(opts, "flat");
+        let isIso = !isFlat;
         let pcHeight = 15;
-        if (altDisplay !== undefined && altDisplay.startsWith("isometric")) {
+        const legacyAlt = opts?.altDisplay;
+        if (!isFlat && legacyAlt !== undefined && legacyAlt.startsWith("isometric")) {
             isIso = true;
-            const [,heightStr] = altDisplay.split("-");
+            const [, heightStr] = legacyAlt.split("-");
             if (heightStr !== undefined) {
                 pcHeight = parseInt(heightStr, 10);
             }
-        } else if (altDisplay !== undefined && altDisplay === "flat") {
-            isIso = false;
         }
         // Build piece string
         const pstr: string[][][] = [];

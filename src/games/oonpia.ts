@@ -934,14 +934,7 @@ export class OonpiaGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let highlightBlocked = true;
-        if (altDisplay !== undefined && altDisplay === "blocked_no") {
-            highlightBlocked = false;
-        }
+        const highlightBlocked = !this.hasDisplay(opts, "blocked_no");
 
         const p1 = this.getPlayerColour(1);
         const p2 = this.getPlayerColour(2);

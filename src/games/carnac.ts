@@ -83,7 +83,7 @@ export class CarnacGame extends GameBase {
             { uid: "#board" },
             { uid: "14x9", group: "board" },
         ],
-        displays: [{ uid: "flat" }],
+        displays: [{ uid: "flat", group: "projection" }],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>displace", "board>3d", "board>shape>rect", "board>connect>rect", "components>special"],
         flags: ["scores", "automove", "custom-buttons"],
     };
@@ -980,18 +980,7 @@ export class CarnacGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        // let perspective: number | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-            // perspective = opts.perspective;
-        }
-        let isIso = true;
-        if (altDisplay === "flat") {
-            isIso = false;
-        } else if (altDisplay !== undefined && altDisplay.startsWith("isometric")) {
-            isIso = true;
-        }
+        const isIso = !this.hasDisplay(opts, "flat");
 
         const cubeFlat = (colour: playerid, scale = 1): Glyph => ({
             name: "piece-square",

@@ -664,16 +664,7 @@ export class StrandsGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let numberAnnotations = false;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "always-show-numbers") {
-                numberAnnotations = true;
-            }
-        }
+        const numberAnnotations = this.hasDisplay(opts, "always-show-numbers");
         // Build piece string
         const pstr: string[][] = [];
         const cells = this.graph.listCells(true);

@@ -431,16 +431,7 @@ export class TrikeGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let showMoves = true;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "hide-moves") {
-                showMoves = false;
-            }
-        }
+        const showMoves = !this.hasDisplay(opts, "hide-moves");
         // Build piece string
         const pieces: string[][] = [];
         const lastPosition = this.getLastPosition();

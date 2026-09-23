@@ -422,7 +422,8 @@ export class KillAllGoGame extends GameBase {
         people: [
             {
                 type: "designer",
-                name: "Traditional",
+                name: "Alexandre Dinerchtein",
+                urls: ["https://senseis.xmp.net/?KillAllGame"],
             },
             {
                 type: "coder",

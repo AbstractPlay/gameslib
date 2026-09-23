@@ -534,7 +534,7 @@ describe("Ice Palace: expanding display", () => {
     const expanding = (g: IcePalaceGame): Rep => g.render({ altDisplay: "expanding" }) as unknown as Rep;
 
     it("is declared, and turns rotation off for both displays", () => {
-        expect(IcePalaceGame.gameinfo.displays).to.deep.equal([{ uid: "expanding", group: "stack" }]);
+        expect(IcePalaceGame.gameinfo.displays).to.deep.equal([{ uid: "expanding" }]);
         expect(IcePalaceGame.gameinfo.flags).to.include("stacking-expanding");
         expect(IcePalaceGame.gameinfo.flags).to.include("custom-rotation");
         expect(new IcePalaceGame(3).getCustomRotation()).to.equal(0);

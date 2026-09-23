@@ -656,7 +656,7 @@ export class IcePalaceGame extends GameBaseSequenced {
             "other>2+players",
         ],
         flags: ["experimental", "scores", "autopass", "stacking-expanding", "custom-rotation"],
-        displays: [{ uid: "expanding", group: "stack" }],
+        displays: [{ uid: "expanding" }],
     };
 
     public numplayers = 3;

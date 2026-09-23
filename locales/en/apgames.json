@@ -290,6 +290,7 @@
     },
     "icepalace": {
         "HAND": "{{player}}'s hand",
+        "POOL": "Pyramids in the Pool",
         "STOCK": "Pyramids from the Yard, to be built into the Palace"
     },
     "names": {
@@ -4919,7 +4920,7 @@
             "INSURGENTS": "Insurgents remaining"
         },
         "icepalace": {
-            "MUST_USE": "Pyramids to build",
+            "PLACED": "Pyramids placed",
             "POOL": "Pyramids left in the Pool"
         },
         "scribe": {
@@ -6405,7 +6406,8 @@
             "NOT_IN_HAND": "You do not have a {{piece}} in hand.",
             "NOT_IN_STOCK": "The {{piece}} is not among the pyramids you won.",
             "OFF_STRUCTURE": "That space is not part of the structure you are building in.",
-            "PARTIAL_PIECE": "Now choose where to place the {{piece}}."
+            "PARTIAL_PIECE": "Now choose where to place the {{piece}}.",
+            "POOL_CLICK": "The Pool is shown for reference. Its pyramids cannot be played."
         },
         "intermedium": {
             "INSTRUCTIONS": "Select a friendly stack; click on it as many times as pieces to move, then click on a diagonal path that starts adjacent to this sowing stack (one pieces per square), making 90º turns.",

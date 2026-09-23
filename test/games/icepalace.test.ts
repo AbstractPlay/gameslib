@@ -437,6 +437,45 @@ describe("Ice Palace: board interaction", () => {
         expect(rep.pieces[0].length).to.equal(7 + 2 + 9);
     });
 
+    it("shows the Pool below the hand for reference, and ignores clicks on it", () => {
+        const g = rig(new IcePalaceGame(3), [["1M"], ["2S"], ["3S"]], ["2S", "1L", "WM", "1S"]);
+        const rep = g.render() as Rep & { areas: { type?: string; pieces?: string[]; label?: { textKey?: string } }[] };
+        expect(rep.areas).to.have.length(2);
+        expect(rep.areas[1].type).to.equal("pieces");
+        expect(rep.areas[1].label?.textKey).to.equal("apgames:icepalace.POOL");
+        expect(rep.areas[1].pieces).to.deep.equal(["b1S", "b1L", "b2S", "bWM"]);
+        // A click on the Pool changes nothing, whether or not a pyramid is picked.
+        let click = g.handleClick("", -1, -1, "b1S");
+        expect(click.valid).to.be.false;
+        expect(click.move).to.equal("");
+        click = g.handleClick("1M", -1, -1, "bWM");
+        expect(click.valid).to.be.false;
+        expect(click.move).to.equal("1M");
+        // An empty Pool shows no area at all.
+        g.pool = [];
+        expect((g.render() as Rep).areas).to.have.length(1);
+    });
+
+    it("counts the pyramids placed so far against the number to build", () => {
+        const g = rig(new IcePalaceGame(3), [["1M", "1S"], ["2S"], ["3S"]], fatPool());
+        g.move("1M@0,0");
+        g.move("pass");
+        g.move("pass");
+        g.move("1S@1,0");
+        g.move("pass");
+        g.move("pass");
+        g.move("pass");
+        expect(g.phase).to.equal("build");
+        const placed = () => g.sidebarStatuses().find(st =>
+            typeof st.key === "object" && st.key !== null && "textKey" in st.key && st.key.textKey === "apgames:status.icepalace.PLACED")!.value;
+        expect(placed()).to.deep.equal(["0 / 2"]);
+        const tmp = g.clone();
+        tmp.move("1M@0,0", { partial: true });
+        expect(tmp.sidebarStatuses().find(st =>
+            typeof st.key === "object" && st.key !== null && "textKey" in st.key && st.key.textKey === "apgames:status.icepalace.PLACED")!.value)
+            .to.deep.equal(["1 / 2"]);
+    });
+
     it("lists every hand in the status panel, with the button beside the lead's", () => {
         const g = rig(new IcePalaceGame(3), [["1L", "1M"], ["2S"], ["3L", "3M", "3S"]], fatPool());
         const statuses = g.sidebarStatuses();
@@ -495,7 +534,7 @@ describe("Ice Palace: expanding display", () => {
     const expanding = (g: IcePalaceGame): Rep => g.render({ altDisplay: "expanding" }) as unknown as Rep;
 
     it("is declared, and turns rotation off for both displays", () => {
-        expect(IcePalaceGame.gameinfo.displays).to.deep.equal([{ uid: "expanding" }]);
+        expect(IcePalaceGame.gameinfo.displays).to.deep.equal([{ uid: "expanding", group: "stack" }]);
         expect(IcePalaceGame.gameinfo.flags).to.include("stacking-expanding");
         expect(IcePalaceGame.gameinfo.flags).to.include("custom-rotation");
         expect(new IcePalaceGame(3).getCustomRotation()).to.equal(0);
@@ -526,7 +565,8 @@ describe("Ice Palace: expanding display", () => {
         const g = rig(new IcePalaceGame(3), [["1M"], ["2S", "1L", "2L", "WS", "2S"], ["3S"]], fatPool());
         g.move("1M@0,0");
         let rep = expanding(g);
-        expect(rep.areas).to.have.length(1);
+        // The hand, then the Pool.
+        expect(rep.areas).to.have.length(2);
         expect(rep.areas![0].type).to.equal("localStash");
         // Player 2's hand: a nest per colour, largest at the bottom, in colour order.
         expect(rep.areas![0].stash).to.deep.equal([["s1L"], ["s2L", "s2S", "s2S"], ["sWS"]]);
@@ -542,6 +582,21 @@ describe("Ice Palace: expanding display", () => {
         rep = expanding(g);
         expect(rep.areas![0].type).to.equal("localStash");
         expect(rep.areas![0].stash).to.deep.equal([["s1S"], ["s3L", "s3M"]]);
+    });
+
+    it("accepts the display as a list of active uids, as the front now sends it", () => {
+        const g = new IcePalaceGame(3);
+        expect((g.render({ altDisplays: ["expanding"] }) as unknown as Rep).renderer).to.equal("stacking-expanding");
+        expect((g.render({ altDisplays: [] }) as unknown as Rep).renderer).to.equal("stacking-3D");
+    });
+
+    it("shows the Pool below the hand as one stack per colour", () => {
+        const g = rig(new IcePalaceGame(3), [["1M"], ["2S"], ["3S"]], ["2S", "1L", "WM", "1S", "1L"]);
+        const rep = expanding(g);
+        const pool = rep.areas![1];
+        expect(pool.type).to.equal("localStash");
+        expect(pool.stash).to.deep.equal([["b1L", "b1L", "b1S"], ["b2S"], ["bWM"]]);
+        expect(rep.legend!.b1L).to.deep.equal({ name: "pyramid-flattened-large", colour: 1 });
     });
 
     it("still dots the legal cells once a pyramid is picked", () => {

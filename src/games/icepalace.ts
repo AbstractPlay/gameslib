@@ -656,7 +656,7 @@ export class IcePalaceGame extends GameBaseSequenced {
             "other>2+players",
         ],
         flags: ["experimental", "scores", "autopass", "stacking-expanding", "custom-rotation"],
-        displays: [{ uid: "expanding" }],
+        displays: [{ uid: "expanding", group: "stack" }],
     };
 
     public numplayers = 3;
@@ -679,6 +679,8 @@ export class IcePalaceGame extends GameBaseSequenced {
     public results: Array<APMoveResult> = [];
     /** The pyramid picked but not yet placed in a partial move; never part of the state. */
     private selected?: PieceId;
+    /** How many pyramids a partial build has placed so far; never part of the state. */
+    private pendingPlaced = 0;
 
     constructor(state: number | IIcePalaceState | string, variants?: string[]) {
         super();
@@ -1075,6 +1077,7 @@ export class IcePalaceGame extends GameBaseSequenced {
 
         this.results = [];
         this.selected = undefined;
+        this.pendingPlaced = 0;
         if (this.phase === "build") {
             this.applyBuild(move, partial);
         } else {
@@ -1148,6 +1151,7 @@ export class IcePalaceGame extends GameBaseSequenced {
     }
 
     private applyBuild(move: string, partial: boolean): void {
+        let placed = 0;
         if (move !== "pass") {
             for (const token of move.split(";")) {
                 const parsed = IcePalaceGame.parsePlacement(token);
@@ -1159,11 +1163,13 @@ export class IcePalaceGame extends GameBaseSequenced {
                     continue;
                 }
                 this.stock.splice(idx, 1);
+                placed++;
                 placeInto(this.palace, parsed.piece, parsed.cell);
                 this.results.push({ type: "place", what: parsed.piece, where: parsed.cell });
             }
         }
         if (partial) {
+            this.pendingPlaced = placed;
             return;
         }
         for (const piece of this.stock) {
@@ -1279,8 +1285,8 @@ export class IcePalaceGame extends GameBaseSequenced {
         });
         if (this.phase === "build") {
             statuses.push({
-                key: this.neutralAreaLabel("apgames:status.icepalace.MUST_USE"),
-                value: [`${this.buildMin} / ${this.stock.length}`],
+                key: this.neutralAreaLabel("apgames:status.icepalace.PLACED"),
+                value: [`${this.pendingPlaced} / ${this.buildMin}`],
             });
         }
         return statuses;
@@ -1292,10 +1298,12 @@ export class IcePalaceGame extends GameBaseSequenced {
      * Legend keys double as SVG element ids, and an id that starts with a digit is not a
      * valid selector in a real browser, so the pyramid id gets a letter in front. A piece
      * drawn two ways on one board needs two keys, so the letter says where it is drawn:
-     * `p` on the board, `s` in the stash below it, `c` in the hovered column.
+     * `p` on the board, `s` in the stash below it, `c` in the hovered column, and `b` for
+     * the Pool shown below the hand.
      */
-    private static legendKey(piece: PieceId, where: "board" | "stash" | "column" = "board"): string {
-        return `${where === "board" ? "p" : where === "stash" ? "s" : "c"}${piece}`;
+    private static legendKey(piece: PieceId, where: "board" | "stash" | "column" | "pool" = "board"): string {
+        const prefix = { board: "p", stash: "s", column: "c", pool: "b" }[where];
+        return `${prefix}${piece}`;
     }
 
     /**
@@ -1370,10 +1378,16 @@ export class IcePalaceGame extends GameBaseSequenced {
         try {
             const current = IcePalaceGame.normalise(move);
             let newmove: string;
-            const picked = piece === undefined ? undefined : /^[A-Z]?([1-6BW][SML])$/.exec(piece.toUpperCase());
+            const picked = piece === undefined ? undefined : /^([a-z])?([1-6BW][SML])$/i.exec(piece);
+            if (picked?.[1]?.toLowerCase() === "b") {
+                // The Pool is shown for reference; nothing in it can be played.
+                result.move = current;
+                result.message = i18next.t("apgames:validation.icepalace.POOL_CLICK");
+                return result;
+            }
             if (picked !== null && picked !== undefined) {
                 // The pieces area, or the stash, hands back the legend key, which names the pyramid.
-                newmove = this.appendToken(current, picked[1]);
+                newmove = this.appendToken(current, picked[2].toUpperCase());
             } else {
                 // Anything else is a board click: an empty cell, or a pyramid already in a
                 // stack there, which arrives with its stack index in `piece`.
@@ -1440,10 +1454,11 @@ export class IcePalaceGame extends GameBaseSequenced {
      * "expanding" display looks straight down instead, with each stack's pyramids drawn
      * translucently over one another and hovering a cell laying its stack out beside the
      * board (see `renderColumn`). That renderer draws no pieces area, so there the offered
-     * pyramids are a local stash of nests, one per colour.
+     * pyramids are a local stash of nests, one per colour. Either way, whatever is still in
+     * the Pool is shown below that, for reference only.
      */
     public render(opts?: IRenderOpts): APRenderRep {
-        const expanding = opts?.altDisplay === "expanding";
+        const expanding = this.hasDisplay(opts, "expanding");
         const layout = this.layout();
         const legend: { [k: string]: Glyph } = {};
         const pieces: string[][][] = [];
@@ -1499,6 +1514,31 @@ export class IcePalaceGame extends GameBaseSequenced {
                 label,
                 ownerMark: this.currplayer,
             });
+        }
+
+        // Below that, everything still in the Pool, for reference. Draws are made at random
+        // when hands are refilled, so showing the contents gives nothing away.
+        if (this.pool.length > 0) {
+            // i18next.t("apgames:icepalace.POOL")
+            const poolLabel = this.neutralAreaLabel("apgames:icepalace.POOL");
+            const sorted = [...this.pool].sort(pieceSort);
+            for (const piece of sorted) {
+                const key = IcePalaceGame.legendKey(piece, "pool");
+                if (!(key in legend)) {
+                    legend[key] = this.glyphFor(piece, expanding ? "nest" : "3D");
+                }
+            }
+            if (expanding) {
+                // One stack per colour, largest at the bottom, so the stash stays narrow.
+                const stash = IcePalaceGame.nests(sorted).map(nest => nest.map(piece => IcePalaceGame.legendKey(piece, "pool")));
+                areas.push({ type: "localStash", label: poolLabel, stash });
+            } else {
+                areas.push({
+                    type: "pieces",
+                    pieces: sorted.map(piece => IcePalaceGame.legendKey(piece, "pool")) as [string, ...string[]],
+                    label: poolLabel,
+                });
+            }
         }
 
         const rep: APRenderRep = {

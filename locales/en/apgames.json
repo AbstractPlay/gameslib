@@ -4494,6 +4494,10 @@
             }
         },
         "icepalace": {
+            "#stack": {
+                "name": "Perspective",
+                "description": "The default view: the Yard and the Palace drawn in perspective, each stack rising toward the viewer."
+            },
             "expanding": {
                 "description": "Looks straight down on the Yard and the Palace, with each stack's pyramids drawn over one another. Hover over a cell to see its stack laid out beside the board.",
                 "name": "Expanding"

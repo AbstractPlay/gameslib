@@ -135,6 +135,7 @@
     "irensei": "L'Irensei (japonais : 囲連星) est un mélange de Go et de Gomoku. Alignez sept pierres d'affilée dans la zone centrale de 15x15 du goban pour gagner. Pour réduire l'avantage du premier joueur, celui-ci perd s'il réalise un suralignement (même si celui-ci s'étend au-delà de la zone de 15x15), mais le second joueur peut gagner par suralignement.",
     "jacynth": "Un jeu de cartes Decktet où les adversaires luttent pour le contrôle de la cité de Jacynth. Placez des cartes, exercez votre influence et contrôlez la plus grande zone pour gagner.",
     "kachit": "Un jeu proche des échecs joué sur un plateau 4x4 où vous essayez d'éliminer le roi adverse ou de promouvoir le vôtre. Les pièces peuvent changer d'orientation après s'être déplacées.",
+    "killallgo": "Une variante du Go aux objectifs incertains et asymétriques : l'Attaquant commence avec des pierres sur le plateau et doit tout capturer, tandis que le Défenseur gagne en formant une seule chaîne qui ne pourra jamais être capturée.",
     "knightline": "Un jeu de connexion à quatre alignés joué en divisant une pile de cavaliers sur une grille illimitée.",
     "konane": "Un jeu traditionnel hawaïen qui a failli disparaître sans la mémoire d'une seule femme, Kaʻahaʻaina Naihe de Kailua-Kona. Joué sur un plateau rectangulaire, chaque joueur capture en sautant par-dessus les pièces adverses. Le dernier à pouvoir jouer gagne.",
     "krypte": "Un jeu d'alignement de 4 pièces où les pièces entrent par des côtés actifs qui tournent après chaque tour, et placer une pièce retourne toutes les pièces adjacentes.",
@@ -423,6 +424,7 @@
     "irensei": "Irensei",
     "jacynth": "Jacynth",
     "kachit": "Kachit Knights",
+    "killallgo": "Kill-All Go",
     "knightline": "Knight Line",
     "konane": "Konane",
     "krypte": "Krypte",
@@ -615,6 +617,7 @@
     "intermedium": "Intermedium (aussi connu sous le nom de Stepping Stones) est un jeu de 1974 conçu par Matt Crispis. C'est un jeu d'égrenage de piles, où les joueurs tentent d'encercler la base de départ adverse. Les piles ne se déplacent qu'en diagonale, et chaque armée commence sur une couleur de diagonale différente, elles ne peuvent donc jamais se croiser (comme deux fous de couleurs opposées au jeu d'échecs). Les pièces sont capturées par encerclement, en occupant toutes les cases orthogonales adjacentes à une pile adverse.\n\nQuelques mots de l'auteur : « [Intermedium] est simple à apprendre, mais peut mener à des situations complexes nécessitant une analyse approfondie et une anticipation accrue. Les pièces isolées ne se déplacent pas, mais servent de pierres de gué pour vos captures. Et elles peuvent être réactivées en plaçant une autre pièce par-dessus. Avant de maîtriser le jeu, évitez les attaques précoces contre la Cité, qui pourraient s'avérer coûteuses. Renforcez progressivement et de manière équilibrée votre position en dominant, si possible, le centre. Vous devriez également éviter de construire de \"formidables\" piles de six pièces ou plus : si elles sont prises, vous risquez de perdre la partie d'un seul coup. Conservez des forces en réserve pour défendre votre Cité en cas d'urgence. »",
     "invector": "Invector, conçu par Mark Steere en 2026, est un jeu d'élimination inspiré de l'ancien jeu hawaïen Kōnane. Invector commence par une disposition des pierres en damier, comporte des captures à courte portée et est extrêmement simple. Invector combine tout simplement deux éléments de base : des coups de capture orthogonaux adjacents et des déplacements orthogonaux adjacents se rapprochant du centre.",
     "jacynth": "Plus d'informations sur le système Decktet sont disponibles sur le [site officiel de Decktet](https://www.decktet.com). Les cartes dans la main des joueurs sont cachées aux spectateurs et aux adversaires.",
+    "killallgo": "L'Attaquant, dont les pierres sont déjà sur le plateau lorsque la partie normale commence, gagne en empêchant le Défenseur de former la moindre chaîne vivante. Le Défenseur gagne en formant une chaîne qui ne peut pas être capturée. Il n'y a pas de décompte de points.\n\nLes pierres sont posées et capturées comme au Go avec le nettoyage de Tromp-Taylor : après avoir posé une pierre, les chaînes adverses sans libertés sont retirées, puis votre propre chaîne si elle n'en a pas, le suicide de plusieurs pierres est donc légal. Le superko positionnel s'applique : aucun coup ne peut récréer une position antérieure du plateau. Chaque joueur peut passer ; si les deux passent consécutivement, l'Attaquant gagne.\n\nLe Défenseur gagne dès que l'une de ses chaînes est inconditionnellement vivante : vivante par passe selon l'algorithme de Benson, ce qui signifie que l'Attaquant ne pourrait jamais la capturer même avec un nombre illimité de coups consécutifs. C'est la seule façon de gagner pour le Défenseur. Une chaîne simplement vivante en seki ou en ko ne compte pas, le Défenseur doit donc continuer à jouer pour la transformer en une chaîne totalement incapturable.\n\nL'Attaquant gagne dès que cela devient impossible. Les pierres de l'Attaquant qui sont inconditionnellement vivantes ne peuvent jamais être retirées, et aucun point adjacent à l'une d'elles ne peut se trouver dans l'œil d'une chaîne vivante du Défenseur. Lorsqu'aucune zone restante en dehors de ces pierres ne contient deux points qui ne sont ni adjacents entre eux ni adjacents à ces pierres, il n'y a plus de place pour les deux yeux dont une chaîne vivante a besoin, et la partie prend fin. La vérification ne reconnaît pas toutes les positions perdues ; lorsqu'elle ne s'active pas, la partie continue simplement.\n\nOuvertures : avec le Pieboxing, les joueurs posent à tour de rôle des pierres d'Attaquant jusqu'à ce que l'un d'eux choisisse le camp de l'Attaquant ; l'autre joueur joue alors le premier coup en tant que Défenseur. L'ouverture à handicap fonctionne de la même manière, sauf que le Joueur 1 (le joueur le plus fort, placez donc le donneur de handicap en premier lors de la création du défi) définit d'abord le nombre de pierres de handicap et le Joueur 2 commence à poser ; si le Joueur 2 choisit le camp de l'Attaquant, il pose toutes ces pierres supplémentaires d'un coup. L'ouverture classique utilise la position traditionnelle à 17 pierres sur le plateau 19x19, avec le Défenseur (Joueur 1) qui commence. Dans le gâteau simple (pie rule), le Joueur 1 pose un nombre quelconque de pierres d'Attaquant et le Joueur 2 choisit son camp. Dans le gâteau généralisé de Hoctaph, le Joueur 1 choisit les tailles de deux lots (chacun d'au moins 1, totalisant au maximum le nombre de points moins 2, aucun ne dépassant le double de l'autre), le Joueur 2 décide qui pose le premier lot, l'autre joueur choisit ensuite son camp, et l'Attaquant pose le second lot. Dans chaque ouverture, le Défenseur joue le premier coup normal.",
     "konane": "Plusieurs protocoles d'ouverture existent, mais le jeu de règles le plus courant est le Naihe Ruleset, utilisé lors des tournois au Bishop Museum d'Hawaï et décrit dans la référence BGG. C'est ce qui est implémenté ici.",
     "knightline": "Pour votre commodité, votre pile est séparée environ en deux lors de votre premier clic. Les clics ultérieurs sur la pile source ou cible déplacent une pièce à la fois. Lorsque vous avez terminé, cliquez sur une case vide ou utilisez le bouton Valider le coup.\n\nLe système de coordonnées est adapté du système de coordonnées du développeur pour Hive, un jeu sur un plateau hexagonal non borné (mais de taille raisonnable). L'axe y est étiqueté avec des coordonnées cartésiennes (entiers positifs et négatifs). L'axe x est étiqueté avec des lettres par ordre alphabétique, avec l'origine en (m, 0). Si le déplacement sur l'axe x dépasse les limites de l'alphabet dans un sens ou dans l'autre, les lettres sont précédées d'une autre lettre (z est suivi de aa, ab, ac, etc., et a est précédé de zz, zy, zx, etc.). Il n'est pas prévu que le jeu atteigne une largeur nécessitant plus de doubles coordonnées, mais pour mémoire, az est suivi de ba, za est précédé de yz, et ainsi de suite. Le plateau ne peut pas atteindre une taille qui entraînerait une ambiguïté.",
     "lasca": "La manœuvrabilité mesure à quel point vos pièces sont proches de la promotion. Votre manœuvrabilité maximale est égale à la taille du plateau multipliée par le nombre de piles que vous contrôlez.\n\nLe matériel est calculé en vous accordant un point pour chaque pièce alliée dans une pile que vous contrôlez, plus un point supplémentaire si vous avez un officier au sommet de cette pile.",
@@ -2340,6 +2343,37 @@
       "oldcity": {
         "name": "La vieille ville",
         "description": "Le plateau commence avec six cartes disposées en cercle."
+      }
+    },
+    "killallgo": {
+      "size-9": {
+        "name": "Plateau 9x9"
+      },
+      "size-13": {
+        "name": "Plateau 13x13"
+      },
+      "#board": {
+        "name": "Plateau 19x19"
+      },
+      "#opening": {
+        "name": "Pieboxing",
+        "description": "Les joueurs posent à tour de rôle des pierres d'Attaquant jusqu'à ce que l'un d'eux choisisse le camp de l'Attaquant ; l'autre joueur joue alors le premier coup en tant que Défenseur. Pieboxing, conçu par MXHero."
+      },
+      "handicap": {
+        "name": "Handicap",
+        "description": "Pieboxing avec un handicap. Le Joueur 1 (placez le joueur le plus fort en premier) définit le nombre de pierres d'Attaquant supplémentaires, puis le Joueur 2 commence à poser. Si le Joueur 2 choisit le camp de l'Attaquant, il pose les pierres supplémentaires immédiatement. Conçu par MXHero."
+      },
+      "classic": {
+        "name": "Disposition classique à 17 pierres",
+        "description": "La position de départ traditionnelle à 17 pierres ; le Défenseur (Joueur 1) commence. 19x19 uniquement."
+      },
+      "pie": {
+        "name": "Gâteau simple",
+        "description": "Le Joueur 1 pose un nombre quelconque de pierres d'Attaquant, puis le Joueur 2 choisit son camp. La règle classique du gâteau."
+      },
+      "hoctaph": {
+        "name": "Gâteau généralisé de Hoctaph",
+        "description": "Le Joueur 1 choisit deux tailles de lots, le Joueur 2 choisit qui pose le premier lot, l'autre joueur choisit son camp, et l'Attaquant pose le second lot. Gâteau de Hoctaph (forums OGS), généralisé à toutes les tailles de plateau par Samraku."
       }
     },
     "knightline": {
@@ -4946,6 +4980,23 @@
     "STACKSIZES": "Hauteurs des piles",
     "tumbleweed": "Score (pièces + influence)",
     "ESTIMATEDSCORES": "Scores estimés",
+    "killallgo": {
+      "ATTACKER": "Attaquant",
+      "DEFENDER": "Défenseur",
+      "UNDECIDED": "Pas encore choisi",
+      "HANDICAP": "Pierres de handicap",
+      "BATCHES": "Tailles des lots",
+      "BATCHES_VALUE": "{{a}} puis {{b}}",
+      "PHASE_HAND_N": "{{player}} définit le nombre de pierres de handicap",
+      "PHASE_ALT_PLACE": "{{player}} pose une pierre d'Attaquant ou choisit le camp de l'Attaquant",
+      "PHASE_PIE_SLICE": "{{player}} pose les pierres d'Attaquant d'ouverture",
+      "PHASE_PIE_CHOOSE": "{{player}} choisit son camp",
+      "PHASE_HOC_SLICE": "{{player}} définit les tailles des deux lots",
+      "PHASE_HOC_OPTION": "{{player}} décide qui pose le premier lot",
+      "PHASE_HOC_BATCH_A": "{{player}} pose le premier lot de pierres d'Attaquant",
+      "PHASE_HOC_CHOOSE": "{{player}} choisit son camp",
+      "PHASE_HOC_BATCH_B": "{{player}} pose le second lot de pierres d'Attaquant"
+    },
     "TOPLACE": "Pièce à placer",
     "valley": "Jetons Lune",
     "waldmeister": {
@@ -6429,6 +6480,52 @@
       "INITIAL_INSTRUCTIONS_placed": "Sélectionnez une pièce à déplacer.",
       "PARTIAL_destination": "Sélectionnez une destination.",
       "PARTIAL_orientation": "Sélectionnez une case voisine pour orienter la pièce."
+    },
+    "killallgo": {
+      "INSTRUCTIONS_HANDICAP": "Vous donnez le handicap. Saisissez le nombre de pierres d'Attaquant supplémentaires (1 à {{max}}) que votre adversaire posera s'il choisit le camp de l'Attaquant.",
+      "HANDICAP_INVALID": "Le handicap doit être un nombre entier.",
+      "HANDICAP_RANGE": "Le handicap doit être compris entre 1 et {{max}} pierres.",
+      "HANDICAP_OK_one": "Handicap d'une pierre. Validez ou continuez à saisir.",
+      "HANDICAP_OK_other": "Handicap de {{count}} pierres. Validez ou continuez à saisir.",
+      "INSTRUCTIONS_ALT": "Posez une pierre d'Attaquant, ou choisissez le camp de l'Attaquant ; votre adversaire jouera alors le premier coup en tant que Défenseur.",
+      "INSTRUCTIONS_ALT_HANDICAP_one": "Posez une pierre d'Attaquant, ou choisissez le camp de l'Attaquant puis posez une pierre supplémentaire ; votre adversaire jouera alors le premier coup en tant que Défenseur.",
+      "INSTRUCTIONS_ALT_HANDICAP_other": "Posez une pierre d'Attaquant, ou choisissez le camp de l'Attaquant puis posez {{count}} pierres supplémentaires ; votre adversaire jouera alors le premier coup en tant que Défenseur.",
+      "SETUP_FULL": "Le plateau contient déjà le nombre maximum de pierres de placement autorisé pour cette phase ({{max}}) ; choisissez le camp de l'Attaquant au lieu d'en poser une autre.",
+      "ATTACKER_NO_STONES": "Choisir le camp de l'Attaquant n'implique pas de poser des pierres pour le moment.",
+      "DEFENDER_NO_STONES": "Choisir le camp du Défenseur n'implique pas de poser des pierres pour le moment.",
+      "STONES_LEFT_one": "Posez encore une pierre d'Attaquant.",
+      "STONES_LEFT_other": "Posez encore {{count}} pierres d'Attaquant.",
+      "BATCH_TOO_MANY_one": "Ce lot contient exactement une pierre.",
+      "BATCH_TOO_MANY_other": "Ce lot contient exactement {{count}} pierres.",
+      "BATCH_MORE_OR_SUBMIT": "Ajoutez d'autres pierres d'Attaquant, ou validez.",
+      "DUPLICATE_CELL": "La case {{where}} est répertoriée deux fois.",
+      "INVALID_PASS": "Vous ne pouvez pas passer pour le moment.",
+      "NO_CLICKS_NOW": "Saisissez votre réponse dans la zone de coup ; le plateau n'est pas encore cliquable.",
+      "INSTRUCTIONS_PIE_SLICE": "Posez n'importe quel nombre de pierres d'Attaquant jusqu'à {{max}} (ou passez pour n'en poser aucune) ; votre adversaire choisira ensuite son camp.",
+      "PIE_SLICE_MAX": "Vous pouvez poser au maximum {{max}} pierres d'Attaquant de cette manière.",
+      "INSTRUCTIONS_PIE_CHOOSE": "Choisissez un camp : prenez les pierres d'Attaquant, ou posez votre première pierre en tant que Défenseur.",
+      "INSTRUCTIONS_PIE_DEFENDER_STONE": "Posez votre première pierre de Défenseur.",
+      "INSTRUCTIONS_HOC_SLICE": "Cliquez sur une pierre numérotée à gauche pour dimensionner le premier lot et sur une à droite pour le second, ou saisissez les deux tailles au format a,b : chacune d'au moins 1, ensemble au maximum {{max}}, et aucune ne dépassant le double de l'autre.",
+      "SLICE_FORMAT": "Saisissez les deux tailles de lot sous forme de deux nombres entiers séparés par une virgule, par exemple 20,15.",
+      "SLICE_MIN": "Chaque lot doit contenir au moins une pierre.",
+      "SLICE_SUM": "Ensemble, les deux lots peuvent contenir au maximum {{max}} pierres.",
+      "SLICE_RATIO": "Aucun lot ne peut faire plus du double de la taille de l'autre.",
+      "SLICE_A_ONLY_one": "Premier lot d'une pierre. Choisissez maintenant la taille du second lot.",
+      "SLICE_A_ONLY_other": "Premier lot de {{count}} pierres. Choisissez maintenant la taille du second lot.",
+      "SLICE_B_ONLY_one": "Second lot d'une pierre. Choisissez maintenant la taille du premier lot.",
+      "SLICE_B_ONLY_other": "Second lot de {{count}} pierres. Choisissez maintenant la taille du premier lot.",
+      "SLICE_NOT_A_BUTTON": "Cliquez sur l'une des pierres numérotées : le bloc de gauche définit la taille du premier lot, le bloc de droite le second. Les tailles plus grandes peuvent toujours être saisies.",
+      "SLICE_OK": "Lots de {{a}} et {{b}} pierres. Validez ou continuez à saisir.",
+      "INSTRUCTIONS_HOC_OPTION_one": "Décidez qui pose le premier lot d'une pierre d'Attaquant : posez-la vous-même (votre adversaire choisit ensuite son camp), ou laissez votre adversaire la poser (vous choisissez ensuite votre camp).",
+      "INSTRUCTIONS_HOC_OPTION_other": "Décidez qui pose le premier lot de {{count}} pierres d'Attaquant : posez-les vous-même (votre adversaire choisit ensuite son camp), ou laissez votre adversaire les poser (vous choisissez ensuite votre camp).",
+      "INSTRUCTIONS_HOC_BATCH_one": "Posez une pierre d'Attaquant.",
+      "INSTRUCTIONS_HOC_BATCH_other": "Posez {{count}} pierres d'Attaquant.",
+      "INSTRUCTIONS_HOC_CHOOSE_one": "Choisissez un camp. Choisir l'Attaquant signifie poser le second lot d'une pierre maintenant ; choisir le Défenseur signifie que votre adversaire la pose et que vous jouez le premier coup.",
+      "INSTRUCTIONS_HOC_CHOOSE_other": "Choisissez un camp. Choisir l'Attaquant signifie poser le second lot de {{count}} pierres maintenant ; choisir le Défenseur signifie que votre adversaire les pose et que vous jouez le premier coup.",
+      "INSTRUCTIONS_PLAY_ATTACKER": "Posez une pierre ou passez. Vous gagnez en ne laissant aucun espace au Défenseur pour former une chaîne incapturable.",
+      "INSTRUCTIONS_PLAY_DEFENDER": "Posez une pierre ou passez. Vous gagnez en formant une chaîne qui ne pourra jamais être capturée.",
+      "KO_PSK": "Ce placement récréerait une position antérieure du plateau (superko positionnel).",
+      "PASS_WARNING": "Passer n'assure pas la vie. Si l'Attaquant passe également, l'Attaquant gagne."
     },
     "knightline": {
       "BAD_PASS": "Vous ne pouvez pas passer si des coups légaux sont disponibles.",

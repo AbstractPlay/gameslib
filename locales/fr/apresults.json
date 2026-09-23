@@ -37,6 +37,7 @@
       "playerSetup": "Mise en place du joueur",
       "bearSetup": "Mise en place de l'Ours"
     },
+    "killallgo_slice": "{{player}} a défini la taille des lots à {{a}} et {{b}} pierres.",
     "scribe_super": "Super formation de {{player}} : {{formation}}.",
     "stawvs": "{{player}} ne pouvait pas déplacer et doit passer à partir de maintenant. Ses pièces restent sur les pyramides suivantes : {{pyramids}}."
   },
@@ -90,6 +91,8 @@
     "elOso_one": "{{player}} a anéanti une pièce en {{where}}.",
     "elOso_other": "{{player}} a anéanti {{count}} pièces en {{where}}.",
     "hexentafl_king": "Le roi a été capturé en {{where}}.",
+    "killallgo_suicide_one": "{{player}} a retiré sa propre pierre par suicide.",
+    "killallgo_suicide_other": "{{player}} a retiré {{count}} de ses propres pierres par suicide.",
     "lasca_officer": "{{player}} a capturé un officier en {{where}}.",
     "lasca_soldier": "{{player}} a capturé un soldat en {{where}}.",
     "lifeline": "Les pièces mortes ont été retirées en {{where}}.",
@@ -168,6 +171,8 @@
     "fnap_row": "{{player}} a réclamé la rangée {{where}}.",
     "frogger": "{{player}} a été bloqué et a tiré {{card}} de la pioche.",
     "jacynth": "{{player}} a exercé une influence en {{where}}.",
+    "killallgo_attacker": "{{player}} a choisi de jouer en tant qu'Attaquant.",
+    "killallgo_defender": "{{player}} a choisi de jouer en tant que Défenseur.",
     "logger": "{{player}} a réclamé un protestataire de l'arbre abattu en {{where}}.",
     "magnate": "{{who}} a obtenu {{what}}.",
     "magnate_initial": "Les joueurs ont collecté leurs ressources Couronne.",
@@ -218,6 +223,8 @@
     "biscuit": "{{player}} s'est débarrassé de toutes ses cartes !",
     "emu": "L'année {{year}} s'est terminée.",
     "frogger": "Les crocodiles ont avancé.",
+    "killallgo_handicap_one": "{{player}} a fixé le handicap à une pierre.",
+    "killallgo_handicap_other": "{{player}} a fixé le handicap à {{count}} pierres.",
     "mchess": "{{player}} a \"réclamé le décompte\". Si aucune capture n'est effectuée au cours des sept prochains tours, la partie prendra fin et les points seront comptés.",
     "renju": "{{player}} a déclaré {{count}} cinquièmes provisoires."
   },
@@ -293,7 +300,10 @@
     "tafl_king_captured": "La partie est terminée car le roi a été capturé.",
     "tafl_king_escaped": "La partie est terminée car le roi s'est échappé.",
     "unlur_foul": "La partie est terminée car un joueur a atteint la condition de victoire de l'adversaire sans réaliser la sienne.",
-    "druid_hex": "La partie est terminée car {{player}} a relié les bords {{edges}}."
+    "druid_hex": "La partie est terminée car {{player}} a relié les bords {{edges}}.",
+    "killallgo_double_pass": "La partie est terminée car les deux joueurs ont passé sans que le Défenseur n'ait établi la vie.",
+    "killallgo_no_room": "La partie est terminée car les pierres inconditionnellement vivantes de l'Attaquant ne laissent aucun espace au Défenseur pour former une chaîne vivante.",
+    "killallgo_pass_alive": "La partie est terminée car le Défenseur a formé une chaîne inconditionnellement vivante."
   },
   "DRUID_HEX_EDGE": {
     "N": "nord (N)",
@@ -486,6 +496,7 @@
     "gorogo_henge": "{{player}} a placé une pièce henge en {{where}}.",
     "gorogo_piece": "{{player}} a placé une pièce en {{where}}.",
     "iqishiqi": "{{player}} a placé une pierre partagée en {{where}}.",
+    "killallgo_setup": "{{player}} a placé une pierre d'Attaquant en {{where}}.",
     "knightline": "{{player}} a placé sa pile initiale en {{where}}.",
     "logger_logger": "{{player}} a placé son bûcheron en {{where}}.",
     "logger_plant": "{{player}} a planté un jeune arbre en {{where}}.",
@@ -630,6 +641,8 @@
   "SCORE_REPORT": "Le score de {{player}} est désormais de {{score}}.",
   "SELECT": {
     "fnap": "{{player}} a sélectionné la tuile {{tile}}.",
+    "killallgo_iplace": "{{player}} a choisi de placer le premier lot.",
+    "killallgo_youplace": "{{player}} a choisi de laisser son adversaire placer le premier lot.",
     "resolve": "{{player}} sélectionne la pièce dans la coupe croisée en {{where}}.",
     "slyde_fixed_opponent": "{{player}} a changé l'état de la pièce adverse en {{where}} de mobile à fixe.",
     "slyde_fixed_self": "{{player}} a changé l'état de sa propre pièce en {{where}} de mobile à fixe.",

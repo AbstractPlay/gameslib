@@ -37,6 +37,7 @@
       "playerSetup": "Preparazione del giocatore",
       "bearSetup": "Preparazione dell'Orso"
     },
+    "killallgo_slice": "{{player}} ha impostato le dimensioni dei lotti a {{a}} e {{b}} pietre.",
     "scribe_super": "Super formazione di {{player}}: {{formation}}.",
     "stawvs": "{{player}} non è stato in grado di muovere e deve passare d'ora in poi. I suoi pezzi rimangono sulle seguenti piramidi: {{pyramids}}."
   },
@@ -90,6 +91,8 @@
     "elOso_one": "{{player}} ha annientato un pezzo in {{where}}.",
     "elOso_other": "{{player}} ha annientato {{count}} pezzi in {{where}}.",
     "hexentafl_king": "Il re è stato catturato in {{where}}.",
+    "killallgo_suicide_one": "{{player}} ha rimosso una propria pietra per suicidio.",
+    "killallgo_suicide_other": "{{player}} ha rimosso {{count}} delle proprie pietre per suicidio.",
     "lasca_officer": "{{player}} ha catturato un ufficiale in {{where}}.",
     "lasca_soldier": "{{player}} ha catturato un soldato in {{where}}.",
     "lifeline": "I pezzi morti sono stati rimossi in {{where}}.",
@@ -168,6 +171,8 @@
     "fnap_row": "{{player}} ha reclamato la riga {{where}}.",
     "frogger": "{{player}} è stato bloccato e ha pescato {{card}} dalla riserva di pesca.",
     "jacynth": "{{player}} ha esercitato influenza in {{where}}.",
+    "killallgo_attacker": "{{player}} ha scelto di giocare come Attaccante.",
+    "killallgo_defender": "{{player}} ha scelto di giocare come Difensore.",
     "logger": "{{player}} ha reclamato un manifestante dall'albero abbattuto in {{where}}.",
     "magnate": "{{who}} ha ottenuto {{what}}.",
     "magnate_initial": "I giocatori hanno raccolto le proprie risorse Corona.",
@@ -218,6 +223,8 @@
     "biscuit": "{{player}} ha chiuso!",
     "emu": "L'anno {{year}} è terminato.",
     "frogger": "I coccodrilli sono avanzati.",
+    "killallgo_handicap_one": "{{player}} ha impostato l'handicap a una pietra.",
+    "killallgo_handicap_other": "{{player}} ha impostato l'handicap a {{count}} pietre.",
     "mchess": "{{player}} ha chiamato l'orologio. Se non viene effettuata alcuna cattura nei prossimi sette turni, la partita terminerà e verrà calcolato il punteggio.",
     "renju": "{{player}} ha dichiarato {{count}} quinte provvisorie."
   },
@@ -293,7 +300,10 @@
     "tafl_king_captured": "La partita è terminata perché il re è stato catturato.",
     "tafl_king_escaped": "La partita è terminata perché il re è fuggito.",
     "unlur_foul": "La partita è terminata perché un giocatore ha raggiunto la condizione di vittoria dell'avversario senza raggiungere la propria.",
-    "druid_hex": "La partita è terminata perché {{player}} ha collegato i bordi {{edges}}."
+    "druid_hex": "La partita è terminata perché {{player}} ha collegato i bordi {{edges}}.",
+    "killallgo_double_pass": "La partita è terminata perché entrambi i giocatori hanno passato senza che il Difensore abbia stabilito la vita.",
+    "killallgo_no_room": "La partita è terminata perché le pietre incondizionatamente vive dell'Attaccante non lasciano spazio al Difensore per formare una catena viva.",
+    "killallgo_pass_alive": "La partita è terminata perché il Difensore ha formato una catena incondizionatamente viva."
   },
   "DRUID_HEX_EDGE": {
     "N": "nord (N)",
@@ -486,6 +496,7 @@
     "gorogo_henge": "{{player}} ha posizionato un pezzo henge in {{where}}.",
     "gorogo_piece": "{{player}} ha posizionato un pezzo in {{where}}.",
     "iqishiqi": "{{player}} ha posizionato una pietra condivisa in {{where}}.",
+    "killallgo_setup": "{{player}} ha posizionato una pietra dell'Attaccante in {{where}}.",
     "knightline": "{{player}} ha posizionato la propria pila iniziale in {{where}}.",
     "logger_logger": "{{player}} ha posizionato il proprio boscaiolo in {{where}}.",
     "logger_plant": "{{player}} ha piantato un germoglio in {{where}}.",
@@ -630,6 +641,8 @@
   "SCORE_REPORT": "Il punteggio di {{player}} è ora {{score}}.",
   "SELECT": {
     "fnap": "{{player}} ha selezionato la tessera {{tile}}.",
+    "killallgo_iplace": "{{player}} ha scelto di posizionare il primo lotto.",
+    "killallgo_youplace": "{{player}} ha scelto di far posizionare il primo lotto all'avversario.",
     "resolve": "{{player}} seleziona il pezzo in un taglio incrociato in {{where}}.",
     "slyde_fixed_opponent": "{{player}} ha cambiato lo stato del pezzo dell'avversario in {{where}} da mobile a fisso.",
     "slyde_fixed_self": "{{player}} ha cambiato lo stato del proprio pezzo in {{where}} da mobile a fisso.",

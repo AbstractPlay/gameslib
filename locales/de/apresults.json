@@ -37,6 +37,7 @@
       "playerSetup": "Spieleraufbau",
       "bearSetup": "Bärenaufbau"
     },
+    "killallgo_slice": "{{player}} hat die Satzgrößen auf {{a}} und {{b}} Steine festgelegt.",
     "scribe_super": "{{player}}s Superformation: {{formation}}.",
     "stawvs": "{{player}} konnte nicht ziehen und muss ab jetzt passen. Seine Steine verbleiben auf folgenden Pyramiden: {{pyramids}}."
   },
@@ -90,6 +91,8 @@
     "elOso_one": "{{player}} hat einen Stein bei {{where}} vernichtet.",
     "elOso_other": "{{player}} hat {{count}} Steine bei {{where}} vernichtet.",
     "hexentafl_king": "Der König wurde auf {{where}} geschlagen.",
+    "killallgo_suicide_one": "{{player}} hat einen eigenen Stein durch Selbstmord entfernt.",
+    "killallgo_suicide_other": "{{player}} hat {{count}} eigene Steine durch Selbstmord entfernt.",
     "lasca_officer": "{{player}} hat einen Offizier auf {{where}} geschlagen.",
     "lasca_soldier": "{{player}} hat einen Soldaten auf {{where}} geschlagen.",
     "lifeline": "Tote Steine wurden auf {{where}} entfernt.",
@@ -168,6 +171,8 @@
     "fnap_row": "{{player}} hat Reihe {{where}} beansprucht.",
     "frogger": "{{player}} wurde blockiert und hat {{card}} aus dem Nachziehstapel gezogen.",
     "jacynth": "{{player}} hat Einfluss auf {{where}} ausgeübt.",
+    "killallgo_attacker": "{{player}} hat sich entschieden, als Angreifer zu spielen.",
+    "killallgo_defender": "{{player}} hat sich entschieden, als Verteidiger zu spielen.",
     "logger": "{{player}} hat einen Protestierenden des gefällten Baums auf {{where}} beansprucht.",
     "magnate": "{{who}} hat {{what}} erhalten.",
     "magnate_initial": "Die Spieler haben ihre Kronen-Ressourcen eingesammelt.",
@@ -218,6 +223,8 @@
     "biscuit": "{{player}} hat fertig gespielt!",
     "emu": "Das Jahr {{year}} ist zu Ende.",
     "frogger": "Die Krokodile sind vorgerückt.",
+    "killallgo_handicap_one": "{{player}} hat die Vorgabe auf einen Stein festgelegt.",
+    "killallgo_handicap_other": "{{player}} hat die Vorgabe auf {{count}} Steine festgelegt.",
     "mchess": "{{player}} hat die Uhr reklamiert. Wenn in den nächsten sieben Zügen kein Stein geschlagen wird, endet das Spiel und wird gewertet.",
     "renju": "{{player}} hat {{count}} vorläufige Fünferreihen deklariert."
   },
@@ -293,7 +300,10 @@
     "tafl_king_captured": "Das Spiel ist zu Ende, da der König geschlagen wurde.",
     "tafl_king_escaped": "Das Spiel ist zu Ende, da der König entkommen ist.",
     "unlur_foul": "Das Spiel ist zu Ende, da ein Spieler die Siegbedingung des Gegners erfüllt hat, ohne seine eigene zu erreichen.",
-    "druid_hex": "Das Spiel ist zu Ende, da {{player}} die {{edges}} Ränder verbunden hat."
+    "druid_hex": "Das Spiel ist zu Ende, da {{player}} die {{edges}} Ränder verbunden hat.",
+    "killallgo_double_pass": "Das Spiel ist beendet, da beide Spieler gepasst haben, ohne dass der Verteidiger Leben herstellen konnte.",
+    "killallgo_no_room": "Das Spiel ist beendet, da die bedingungslos lebenden Steine des Angreifers dem Verteidiger keinen Platz lassen, eine lebende Kette zu bilden.",
+    "killallgo_pass_alive": "Das Spiel ist beendet, da der Verteidiger eine bedingungslos lebende Kette gebildet hat."
   },
   "DRUID_HEX_EDGE": {
     "N": "Nördlichen (N)",
@@ -486,6 +496,7 @@
     "gorogo_henge": "{{player}} hat ein Henge-Teil bei {{where}} platziert.",
     "gorogo_piece": "{{player}} hat einen Stein bei {{where}} platziert.",
     "iqishiqi": "{{player}} hat einen gemeinsamen Stein bei {{where}} platziert.",
+    "killallgo_setup": "{{player}} hat einen Angreifer-Stein auf {{where}} platziert.",
     "knightline": "{{player}} hat seinen Startstapel bei {{where}} platziert.",
     "logger_logger": "{{player}} hat seinen Holzfäller bei {{where}} platziert.",
     "logger_plant": "{{player}} hat einen Setzling bei {{where}} gepflanzt.",
@@ -630,6 +641,8 @@
   "SCORE_REPORT": "Der Punktestand von {{player}} beträgt nun {{score}}.",
   "SELECT": {
     "fnap": "{{player}} hat das Plättchen {{tile}} ausgewählt.",
+    "killallgo_iplace": "{{player}} hat sich entschieden, den ersten Satz zu platzieren.",
+    "killallgo_youplace": "{{player}} hat sich entschieden, den Gegner den ersten Satz platzieren zu lassen.",
     "resolve": "{{player}} wählt den Stein im Kreuzschnitt bei {{where}} aus.",
     "slyde_fixed_opponent": "{{player}} hat den Zustand des gegnerischen Steins bei {{where}} von beweglich zu fixiert geändert.",
     "slyde_fixed_self": "{{player}} hat den Zustand des eigenen Steins bei {{where}} von beweglich zu fixiert geändert.",

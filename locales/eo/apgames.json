@@ -3575,11 +3575,11 @@
       },
       "#opening": {
         "name": "Alterna metado",
-        "description": "La ludantoj laŭvice metas atakantajn ŝtonojn, ĝis unu el ili prenas la flankon de la atakanto; la alia ludanto tiam movas unue kiel la defendanto. Komunuma protokolo kun nekonata origino."
+        "description": "La ludantoj laŭvice metas atakantajn ŝtonojn, ĝis unu el ili prenas la flankon de la atakanto; la alia ludanto tiam movas unue kiel la defendanto. Komunuma protokolo kun nekonata origino, eble el la forumoj de OGS."
       },
       "handicap": {
         "name": "Handikapo",
-        "description": "Alterna metado kun handikapo. Ludanto 1 (sidigu la pli fortan ludanton unua) fiksas la nombron de pliaj atakantaj ŝtonoj, poste Ludanto 2 komencas la metadon. Se Ludanto 2 prenas la flankon de la atakanto, tiu tuj metas la pliajn ŝtonojn. Komunuma protokolo kun nekonata origino."
+        "description": "Alterna metado kun handikapo. Ludanto 1 (sidigu la pli fortan ludanton unua) fiksas la nombron de pliaj atakantaj ŝtonoj, poste Ludanto 2 komencas la metadon. Se Ludanto 2 prenas la flankon de la atakanto, tiu tuj metas la pliajn ŝtonojn. Komunuma protokolo kun nekonata origino, eble el la forumoj de OGS."
       },
       "classic": {
         "name": "Klasika aranĝo de 17 ŝtonoj",

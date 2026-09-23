@@ -2357,11 +2357,11 @@
             },
             "#opening": {
                 "name": "Alternating placement",
-                "description": "Players take turns placing Attacker stones until one of them takes the Attacker side; the other player then moves first as the Defender. A community protocol of unknown origin."
+                "description": "Players take turns placing Attacker stones until one of them takes the Attacker side; the other player then moves first as the Defender. A community protocol of unknown origin, possibly from the OGS forums."
             },
             "handicap": {
                 "name": "Handicap",
-                "description": "Alternating placement with a handicap. Player 1 (seat the stronger player first) sets the number of extra Attacker stones, then Player 2 starts placing. If Player 2 takes the Attacker side, they place the extra stones at once. A community protocol of unknown origin."
+                "description": "Alternating placement with a handicap. Player 1 (seat the stronger player first) sets the number of extra Attacker stones, then Player 2 starts placing. If Player 2 takes the Attacker side, they place the extra stones at once. A community protocol of unknown origin, possibly from the OGS forums."
             },
             "classic": {
                 "name": "Classic 17-stone setup",

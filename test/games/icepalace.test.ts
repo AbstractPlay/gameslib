@@ -70,9 +70,10 @@ describe("Ice Palace: setup", () => {
         }
     });
 
-    it("refuses player counts the game does not support", () => {
-        expect(() => new IcePalaceGame(2)).to.throw();
-        expect(() => new IcePalaceGame(7)).to.throw();
+    it("falls back to three players for a count it does not offer", () => {
+        // The front previews every multi-count game with two players.
+        expect(new IcePalaceGame(2).numplayers).to.equal(3);
+        expect(new IcePalaceGame(7).numplayers).to.equal(3);
     });
 });
 

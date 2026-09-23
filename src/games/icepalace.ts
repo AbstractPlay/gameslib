@@ -683,10 +683,12 @@ export class IcePalaceGame extends GameBaseSequenced {
     constructor(state: number | IIcePalaceState | string, variants?: string[]) {
         super();
         if (typeof state === "number") {
-            if (!IcePalaceGame.gameinfo.playercounts.includes(state)) {
-                throw new Error(`Ice Palace does not support ${state} players.`);
-            }
-            this.numplayers = state;
+            // The front builds preview engines with two players for any game that offers
+            // more than one count, so an unsupported count becomes the smallest one offered
+            // rather than an error. Real games only ever arrive with a listed count.
+            this.numplayers = IcePalaceGame.gameinfo.playercounts.includes(state)
+                ? state
+                : IcePalaceGame.gameinfo.playercounts[0];
             if (variants !== undefined && variants.length > 0) {
                 this.variants = this.applyVariantConstraints(variants);
             }

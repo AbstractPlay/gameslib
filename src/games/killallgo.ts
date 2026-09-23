@@ -292,6 +292,54 @@ export const passAliveStrings = (board: Board, geo: Geometry, colour: Stone, opt
     return chains.filter((_, i) => X.has(i));
 };
 
+/**
+ * Whether any part of the board still has room for the two eyes a pass-alive Defender string
+ * needs, given the Attacker's pass-alive stones `permanent`.
+ *
+ * Those stones can never be captured, and a point next to one of them can never lie in a vital
+ * region of a pass-alive Defender string (such a region would have to contain the stone, and a
+ * pass-alive Attacker chain cannot sit inside one). So the two vital regions of any future living
+ * Defender string lie among the points touching no permanent stone, in one component of the board
+ * minus those stones, and are not adjacent to each other. When no component offers two such
+ * points, the Defender can never live. The test is sound but not complete: it never gives up on
+ * a Defender who could still live, but it does not recognise every hopeless position.
+ */
+export const roomForTwoEyes = (geo: Geometry, permanent: Set<string>): boolean => {
+    if (permanent.size === 0) {
+        return true;
+    }
+    const seen = new Set<string>();
+    for (const start of geo.cells) {
+        if (permanent.has(start) || seen.has(start)) {
+            continue;
+        }
+        const eyePoints: string[] = [];
+        const todo = [start];
+        seen.add(start);
+        while (todo.length > 0) {
+            const cur = todo.pop()!;
+            const adj = geo.neighbours.get(cur)!;
+            if (!adj.some((n) => permanent.has(n))) {
+                eyePoints.push(cur);
+            }
+            for (const n of adj) {
+                if (!permanent.has(n) && !seen.has(n)) {
+                    seen.add(n);
+                    todo.push(n);
+                }
+            }
+        }
+        // The grid has no triangles, so any three points include two that are not adjacent.
+        if (eyePoints.length >= 3) {
+            return true;
+        }
+        if (eyePoints.length === 2 && !geo.neighbours.get(eyePoints[0])!.includes(eyePoints[1])) {
+            return true;
+        }
+    }
+    return false;
+};
+
 // ---------------------------------------------------------------------------
 // The game
 // ---------------------------------------------------------------------------
@@ -342,7 +390,7 @@ export interface IMoveState extends IIndividualState {
     setup?: ISetup;
     /** Board signatures of the intermediate positions inside this ply (positional superko). */
     interim: string[];
-    /** Stones of the strings judged alive when the Defender won. */
+    /** The stones that decided the game: the Defender's living strings, or the Attacker's that leave them no room. */
     alive?: string[];
 }
 
@@ -1164,7 +1212,6 @@ export class KillAllGoGame extends GameBase {
                     if (partial) { return this; }
                     this.phase = "play";
                     this.setup = this.keptSetup();
-                    this.checkBlueLife();
                     this.currplayer = this.redSeat;
                 }
                 break;
@@ -1237,12 +1284,14 @@ export class KillAllGoGame extends GameBase {
                     const colour = this.colourOfSeat(this.currplayer)!;
                     this.placeStone(m, colour, seen);
                     if (partial) { return this; }
-                    this.checkBlueLife();
                     this.currplayer = this.otherSeat(this.currplayer);
                 }
                 break;
             }
         }
+
+        // Every ply that leaves the board in play may have settled the game.
+        this.checkLifeAndDeath();
 
         // The final position of the ply is the saved board; keep only the intermediate ones.
         this.interim.pop();
@@ -1296,14 +1345,25 @@ export class KillAllGoGame extends GameBase {
         return Object.keys(kept).length === 0 ? undefined : kept;
     }
 
-    /** Ends the game for the Defender if any Blue string is pass-alive. */
-    private checkBlueLife(): boolean {
-        const alive = this.bluePassAlive();
-        if (alive.length === 0) {
-            return false;
+    /**
+     * The Defender wins once a Blue string is pass-alive. The Attacker wins once that can never
+     * happen: the Attacker's pass-alive stones are permanent (the Defender cannot remove them,
+     * and the Attacker can keep them by passing), and they leave no room for two eyes. The two
+     * outcomes cannot coincide, because a pass-alive Blue string always has that room.
+     */
+    private checkLifeAndDeath(): void {
+        if (this.gameover || this.phase !== "play") {
+            return;
         }
-        this.endGame(this.blueSeat()!, "pass-alive", alive.flat());
-        return true;
+        const alive = this.bluePassAlive();
+        if (alive.length > 0) {
+            this.endGame(this.blueSeat()!, "pass-alive", alive.flat());
+            return;
+        }
+        const permanent = passAliveStrings(this.board, this.geo, RED, { suicideAllowed: true }).flat();
+        if (!roomForTwoEyes(this.geo, new Set(permanent))) {
+            this.endGame(this.redSeat!, "no-room", permanent);
+        }
     }
 
     private endGame(winner: playerid, reason: string, alive?: string[]): void {
@@ -1538,6 +1598,8 @@ export class KillAllGoGame extends GameBase {
             case "eog":
                 if (r.reason === "pass-alive") {
                     this.pushNeutralChatLine(lines, "apresults:EOG.killallgo_pass_alive");
+                } else if (r.reason === "no-room") {
+                    this.pushNeutralChatLine(lines, "apresults:EOG.killallgo_no_room");
                 } else if (r.reason === "double-pass") {
                     this.pushNeutralChatLine(lines, "apresults:EOG.killallgo_double_pass");
                 } else {

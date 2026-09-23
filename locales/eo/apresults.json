@@ -384,6 +384,7 @@
         "gonnect_cascading_subboard": "{{player}} venkis sur la {{size}}x{{size}}-subtabulo.",
         "gonnect_direct_connection": "{{player}} venkis per rekta konekto.",
         "killallgo_double_pass": "La ludo finiĝis, ĉar ambaŭ ludantoj preterpasis kaj la defendanto ne establis vivon.",
+        "killallgo_no_room": "La ludo finiĝis, ĉar la senkondiĉe vivaj ŝtonoj de la atakanto lasas al la defendanto neniun spacon por fari vivantan ĉenon.",
         "killallgo_pass_alive": "La ludo finiĝis, ĉar la defendanto faris senkondiĉe vivantan ĉenon."
     },
     "DRUID_HEX_EDGE": {

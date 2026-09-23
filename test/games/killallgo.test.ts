@@ -4,7 +4,7 @@ import "mocha";
 import { expect } from "chai";
 import { addResource } from "../../src";
 import i18next from "i18next";
-import { applyPlacement, BLUE, KillAllGoGame, makeGeometry, passAliveStrings, RED, signature, stringAt, type Board } from "../../src/games/killallgo";
+import { applyPlacement, BLUE, KillAllGoGame, makeGeometry, passAliveStrings, RED, roomForTwoEyes, signature, stringAt, type Board } from "../../src/games/killallgo";
 
 const play = (g: KillAllGoGame, moves: string[]): KillAllGoGame => {
     for (const m of moves) {
@@ -207,6 +207,46 @@ describe("Kill-All Go: Benson pass-alive detection", () => {
         const board = boardFrom(fixtures[0].rows);
         const geo = makeGeometry(7);
         expect(passAliveStrings(board, geo, RED)).to.deep.equal([]);
+    });
+});
+
+describe("Kill-All Go: room for two eyes", () => {
+    const geo = makeGeometry(5);
+    // Everything outside `pocket` is a permanent Attacker stone.
+    const walledOff = (pocket: string[]): Set<string> => new Set(geo.cells.filter((c) => !pocket.includes(c)));
+
+    it("always finds room while the Attacker has no permanent stones", () => {
+        expect(roomForTwoEyes(geo, new Set())).to.be.true;
+    });
+
+    it("finds no room when every free point touches a permanent stone", () => {
+        expect(roomForTwoEyes(geo, walledOff(["a5", "b5", "c5", "d5", "e5"]))).to.be.false;
+    });
+
+    it("finds no room when the only two eye points are next to each other", () => {
+        // In a 3x2 corner pocket only a5 and b5 touch no permanent stone, and they are adjacent.
+        expect(roomForTwoEyes(geo, walledOff(["a5", "b5", "c5", "a4", "b4", "c4"]))).to.be.false;
+    });
+
+    it("finds room when two eye points are apart, even if they are the only two", () => {
+        // a5 and e5 are the only eye points, joined through the rest of the top row.
+        expect(roomForTwoEyes(geo, walledOff(["a5", "b5", "c5", "d5", "e5", "a4", "e4"]))).to.be.true;
+    });
+
+    it("needs both eye points in one area", () => {
+        // Two 2x2 corner pockets each offer a single eye point, but they are not connected.
+        expect(roomForTwoEyes(geo, walledOff(["a5", "b5", "a4", "b4", "d1", "e1", "d2", "e2"]))).to.be.false;
+    });
+
+    it("never gives up on a Defender who is already pass-alive", () => {
+        for (const f of fixtures.filter((x) => x.strict)) {
+            const board = boardFrom(f.rows);
+            const size = f.rows.length;
+            const g = makeGeometry(size);
+            expect(passAliveStrings(board, g, BLUE).length, f.name).to.be.greaterThan(0);
+            const permanent = new Set(passAliveStrings(board, g, RED).flat());
+            expect(roomForTwoEyes(g, permanent), f.name).to.be.true;
+        }
     });
 });
 
@@ -669,6 +709,56 @@ describe("Kill-All Go", () => {
     });
 
     describe("play", () => {
+        // Attacker stones on whole rows of the 9x9 board, optionally leaving some points out.
+        const rowsOf = (rows: number[], except: string[] = []): string =>
+            rows.flatMap((r) => "abcdefghi".split("").map((c) => `${c}${r}`)).filter((c) => !except.includes(c)).join(",");
+
+        it("ends for the Attacker once their living stones leave the Defender no room", () => {
+            // Full rows 8, 6, 4 and 2 live unconditionally, and every other point touches them.
+            const g = play(new KillAllGoGame(undefined, ["size-9", "pie"]), [rowsOf([8, 6, 4, 2]), "attacker"]);
+            expect(g.gameover).to.be.true;
+            expect(g.winner).to.deep.equal([2]);
+            expect(g.stack[g.stack.length - 1]._results).to.deep.include({ type: "eog", reason: "no-room" });
+            expect(g.alive!.length).to.equal(36);
+            const enters = g.render().annotations!.filter((a) => a.type === "enter");
+            expect(enters.some((a) => (a as { targets: unknown[] }).targets.length === 36)).to.be.true;
+            const keys = g.chatLogEntries(["Alice", "Bob"]).flatMap((e) => e.lines.map((l) => l.textKey));
+            expect(keys).to.include("apresults:EOG.killallgo_no_room");
+        });
+
+        it("notices the Attacker's win on the move that completes it", () => {
+            // With e2 missing, row 2 is two chains and nothing lives yet.
+            const g = play(new KillAllGoGame(undefined, ["size-9", "pie"]), [rowsOf([8, 6, 4, 2], ["e2"]), "attacker"]);
+            expect(g.gameover).to.be.false;
+            expect(g.currplayer).to.equal(1);
+            g.move("a1");
+            expect(g.gameover).to.be.false;
+            g.move("e2");
+            expect(g.gameover).to.be.true;
+            expect(g.winner).to.deep.equal([2]);
+            expect(g.stack[g.stack.length - 1]._results).to.deep.include({ type: "eog", reason: "no-room" });
+        });
+
+        // A corner string with two one-point eyes, a9 and c9: unconditionally alive.
+        const livingCorner = "b9,d9,a8,b8,c8,d8";
+
+        it("keeps playing while the Attacker's living stones still leave room", () => {
+            const g = play(new KillAllGoGame(undefined, ["size-9", "pie"]), [livingCorner, "attacker"]);
+            expect(passAliveStrings(g.board, makeGeometry(9), RED).flat().sort()).to.deep.equal(livingCorner.split(",").sort());
+            expect(g.gameover).to.be.false;
+            expect(g.phase).to.equal("play");
+        });
+
+        it("treats only unconditionally alive Attacker stones as obstacles", () => {
+            // A solid 5x5 Attacker block clear of the corner has no eyes, so it could still be
+            // captured, and the free points it covers still count as room for the Defender.
+            const block = "cdefg".split("").flatMap((c) => [1, 2, 3, 4, 5].map((r) => `${c}${r}`)).join(",");
+            const g = play(new KillAllGoGame(undefined, ["size-9", "pie"]), [`${livingCorner},${block}`, "attacker"]);
+            const permanent = passAliveStrings(g.board, makeGeometry(9), RED).flat();
+            expect(permanent.sort()).to.deep.equal(livingCorner.split(",").sort());
+            expect(g.gameover).to.be.false;
+        });
+
         it("ends at once when a Defender string becomes pass-alive", () => {
             const g = attackerIsPlayerOne();
             play(g, ["a2", "pass", "b2", "pass", "c2", "pass", "d2", "pass", "d1", "pass"]);

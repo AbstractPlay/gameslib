@@ -302,6 +302,7 @@
         "unlur_foul": "The game has ended because one player has achieved the opponent's win condition without achieving their own.",
         "druid_hex": "The game has ended because {{player}} connected the {{edges}} edges.",
         "killallgo_double_pass": "The game has ended because both players passed without the Defender establishing life.",
+        "killallgo_no_room": "The game has ended because the Attacker's unconditionally alive stones leave the Defender no room to make a living string.",
         "killallgo_pass_alive": "The game has ended because the Defender formed an unconditionally alive string."
     },
     "DRUID_HEX_EDGE": {

@@ -4495,7 +4495,7 @@
         },
         "icepalace": {
             "expanding": {
-                "description": "Looks straight down on the Yard and the Palace, with each stack's pyramids drawn over one another. Hover over a cell to see its stack laid out beside the board.",
+                "description": "Two dimensional board, with stacks expanding when hovered over.",
                 "name": "Expanding"
             }
         },

@@ -103,6 +103,14 @@
     "src": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining moves.",
     "out": "{{player}} ha scelto di ripristinare la riserva di pesca. Ottiene un altro turno per effettuare le sue {{count}} mosse rimanenti."
   },
+  "ANNOUNCE.icepalace_build": {
+    "src": "{{player}} won the hand and builds the Yard into the Ice Palace, using {{count}} pyramids. One legal way to build it is `{{move}}`.",
+    "out": "{{player}} ha vinto la mano e costruisce la Yard nel Palazzo di Ghiaccio, usando {{count}} piramidi. Un modo valido per costruirlo è `{{move}}`."
+  },
+  "ANNOUNCE.icepalace_nobuild": {
+    "src": "{{player}} won the hand, but none of the Yard can be built into the Ice Palace.",
+    "out": "{{player}} ha vinto la mano, ma nessun elemento della Yard può essere costruito nel Palazzo di Ghiaccio."
+  },
   "ANNOUNCE.killallgo_slice": {
     "src": "{{player}} set the batch sizes to {{a}} and {{b}} stones.",
     "out": "{{player}} ha impostato le dimensioni dei lotti a {{a}} e {{b}} pietre."
@@ -1479,6 +1487,10 @@
     "src": "{{player}} passed {{why}}.",
     "out": "{{player}} ha passato {{why}}."
   },
+  "PASS.icepalace": {
+    "src": "{{player}} passed.",
+    "out": "{{player}} ha passato."
+  },
   "PASS.linage": {
     "src": "{{player}} passes.",
     "out": "{{player}} passa."
@@ -1718,6 +1730,10 @@
   "PLACE.gorogo_piece": {
     "src": "{{player}} placed a piece at {{where}}.",
     "out": "{{player}} ha posizionato un pezzo in {{where}}."
+  },
+  "PLACE.icepalace": {
+    "src": "{{player}} placed a {{what}} at {{where}}.",
+    "out": "{{player}} ha piazzato {{what}} in {{where}}."
   },
   "PLACE.iqishiqi": {
     "src": "{{player}} placed a shared stone at {{where}}.",
@@ -2114,6 +2130,10 @@
   "REMOVE.gliss": {
     "src": "{{player}} moved their glider at {{where}} off the edge of the board.",
     "out": "{{player}} ha mosso il proprio aliante in {{where}} fuori dal bordo della plancia."
+  },
+  "REMOVE.icepalace": {
+    "src": "{{what}} was discarded and removed from play.",
+    "out": "{{what}} è stato scartato e rimosso dal gioco."
   },
   "REMOVE.nonum": {
     "src": "{{player}} removed a piece from {{where}}.",

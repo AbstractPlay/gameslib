@@ -531,6 +531,10 @@
     "src": "Two players aim to form a loop around the center of a regular hexagonal board, using their own stones and, possibly, some number of neutral stones.",
     "out": "Zwei Spieler versuchen, eine Schleife um die Mitte eines regelmäßigen sechseckigen Spielbretts zu bilden, unter Verwendung eigener und möglicherweise einiger neutraler Steine."
   },
+  "descriptions.icepalace": {
+    "src": "Three to six players compete to win hands by playing pyramids into a shared Yard, building nests. The winner of each hand builds everything they won into the Ice Palace, where pyramids form trees instead. Each Palace tree scores its height for whoever owns the pyramid on top, so small pyramids are the key to scoring. Almost everything is open to negotiation.",
+    "out": "Drei bis sechs Spieler treten gegeneinander an, um Hände zu gewinnen, indem sie Pyramiden in einen gemeinsamen Yard ausspielen und Nester bauen. Der Gewinner jeder Hand baut alles Gewonnene in den Eispalast ein, wo Pyramiden stattdessen Bäume bilden. Jeder Palastbaum bringt so viele Punkte wie seine Höhe demjenigen, dem die oberste Pyramide gehört – kleine Pyramiden sind also der Schlüssel zum Punkten. Fast alles ist Verhandlungssache."
+  },
   "descriptions.intermedium": {
     "src": "Sowing stacks to enclose and capture. Win by capturing the opponent's city.",
     "out": "Mancala-artiges Säen von Stapeln zum Einkreisen und Schlagen. Sie gewinnen, indem Sie die Stadt des Gegners erobern."
@@ -1499,6 +1503,14 @@
     "src": "Vertex style",
     "out": "Knotenpunkt-Stil"
   },
+  "displays.icepalace.expanding.description": {
+    "src": "Two dimensional board, with stacks expanding when hovered over.",
+    "out": "Zweidimensionales Spielbrett, bei dem sich Stapel vergrößern, wenn man mit der Maus darüberfährt."
+  },
+  "displays.icepalace.expanding.name": {
+    "src": "Expanding",
+    "out": "Aufklappend"
+  },
   "displays.intermedium.hide-diagonals.description": {
     "src": "Don't show diagonal lines.",
     "out": "Diagonale Linien ausblenden."
@@ -2071,6 +2083,18 @@
     "src": "Could not find the ship {{ship}} in the {{system}} system.",
     "out": "Das Schiff {{ship}} konnte im System {{system}} nicht gefunden werden."
   },
+  "icepalace.HAND": {
+    "src": "{{player}}'s hand",
+    "out": "Hand von {{player}}"
+  },
+  "icepalace.POOL": {
+    "src": "Pyramids in the Pool",
+    "out": "Pyramiden im Pool"
+  },
+  "icepalace.STOCK": {
+    "src": "Pyramids from the Yard, to be built into the Palace",
+    "out": "Pyramiden aus dem Yard, die in den Palast eingebaut werden sollen"
+  },
   "names.abande": {
     "src": "Abande",
     "out": "Abande"
@@ -2586,6 +2610,10 @@
   "names.hula": {
     "src": "Hula",
     "out": "Hula"
+  },
+  "names.icepalace": {
+    "src": "Ice Palace",
+    "out": "Ice Palace"
   },
   "names.intermedium": {
     "src": "Intermedium",
@@ -3363,6 +3391,10 @@
     "src": "The win condition is what's called \"Sinister Homeworlds.\" You only win by defeating the opponent to your left. If someone else does that, the game continues, but your left-hand opponent now shifts clockwise. For example, in a four-player game, if I'm South, then I win if I eliminate West. But if the North player ends up eliminating West, the game continues, but now my left-hand opponent is North.",
     "out": "Die Siegbedingung nennt sich \"Sinister Homeworlds\". Du gewinnst nur, indem du den Gegner zu deiner Linken besiegst. Wenn jemand anderes dies tut, geht das Spiel weiter, aber der Gegner zu deiner Linken wechselt im Uhrzeigersinn. Wenn ich beispielsweise in einem Spiel mit vier Spielern Süden bin, gewinne ich, wenn ich Westen eliminiere. Wenn aber der Spieler im Norden am Ende Westen eliminiert, geht das Spiel weiter, aber mein Gegner zur Linken ist nun Norden."
   },
+  "notes.icepalace": {
+    "src": "Ice Palace's rules say a pyramid placed on the ground must be next to a pyramid of the same colour, but not whether every neighbour has to match. This implementation requires at least one matching orthogonal neighbour; the others may be any colour. White matches any colour except Black, and Black matches nothing.",
+    "out": "Die Regeln von Ice Palace besagen, dass eine auf dem Boden platzierte Pyramide neben einer Pyramide derselben Farbe liegen muss, aber nicht, ob jeder Nachbar übereinstimmen muss. Diese Implementierung erfordert mindestens einen passenden orthogonalen Nachbarn; die anderen können eine beliebige Farbe haben. Weiß passt zu jeder Farbe außer Schwarz, und Schwarz passt zu gar nichts."
+  },
   "notes.intermedium": {
     "src": "Intermedium (aka, Stepping Stones) is a 1974 game designed by Matt Crispis. This is a stack sowing game, where players try to surround the opposing home-base. Stacks only move diagonally, and each army starts in a different diagonal color, so they can never cross over (like two bishops at different square colors). Pieces are captured by enclosure, surrounding all orthogonal adjacencies of an opponent stack.\n\nSome words from the author: \"[Intermedium] is simple to learn, but may lead to complicated situations that require deep analysis and forward thinking. Single pieces do no move, but they are useful a stepping stones for your captures. And they may become alive by putting another piece over them. Before you master the game, avoid early attacks against the City that  may prove costly. Build up your strength gradually and evenly by dominating, if possible, the center. You should also avoid building 'formidable' stacks of six or more pieces - if taken you may lose the game at one stroke. Leave some forces behind to defend your City in case of emergency.\"",
     "out": "Intermedium (auch bekannt als Stepping Stones) ist ein Spiel aus dem Jahr 1974, das von Matt Crispis entworfen wurde. Es ist ein Stapel-Sähspiel, bei dem die Spieler versuchen, die gegnerische Heimatbasis zu umzingeln. Stapel bewegen sich nur diagonal, und jede Armee beginnt auf einer anderen Diagonalenfarbe, sodass sie sich niemals kreuzen können (wie zwei Läufer auf unterschiedlichen Feldfarben). Steine werden durch Einschließen geschlagen, indem alle orthogonal angrenzenden Felder eines gegnerischen Stapels umgeben werden.\n\nEinige Worte des Autors: \"[Intermedium] ist leicht zu erlernen, kann aber zu komplizierten Situationen führen, die eine tiefe Analyse und vorausschauendes Denken erfordern. Einzelne Steine bewegen sich nicht, dienen aber als Sprungsteine für deine Schläge. Und sie können wieder lebendig werden, indem man einen anderen Stein auf sie setzt. Bevor du das Spiel meisterst, vermeide frühe Angriffe auf die Stadt, die sich als kostspielig erweisen könnten. Baue deine Stärke allmählich und gleichmäßig auf, indem du nach Möglichkeit das Zentrum dominierst. Du solltest es auch vermeiden, 'beeindruckende' Stapel von sechs oder mehr Steinen aufzubauen - wenn sie geschlagen werden, kannst du das Spiel auf einen Schlag verlieren. Behalte einige Kräfte zurück, um deine Stadt im Notfall zu verteidigen.\""
@@ -3866,6 +3898,14 @@
   "status.guerrilla.INSURGENTS": {
     "src": "Insurgents remaining",
     "out": "Verbleibende Aufständische"
+  },
+  "status.icepalace.PLACED": {
+    "src": "Pyramids placed",
+    "out": "Platzierte Pyramiden"
+  },
+  "status.icepalace.POOL": {
+    "src": "Pyramids left in the Pool",
+    "out": "Verbleibende Pyramiden im Pool"
   },
   "status.jacynth": {
     "src": "Influence tokens",
@@ -8614,6 +8654,66 @@
   "validation.homeworlds.trade.PARTIAL_TWOARGS": {
     "src": "Select the new colour.",
     "out": "Wähle die neue Farbe."
+  },
+  "validation.icepalace.BAD_PLACEMENT": {
+    "src": "Could not read '{{move}}' as a pyramid and a space.",
+    "out": "'{{move}}' konnte nicht als Pyramide und Feld gelesen werden."
+  },
+  "validation.icepalace.BUILD_COMPLETE": {
+    "src": "The whole Yard has been built into the Ice Palace. Submit when you are happy with it.",
+    "out": "Der gesamte Yard wurde in den Eispalast eingebaut. Bestätige, wenn du damit zufrieden bist."
+  },
+  "validation.icepalace.BUILD_ENOUGH": {
+    "src": "The remaining {{count}} pyramids will be discarded. Submit when you are happy with the arrangement.",
+    "out": "Die verbleibenden {{count}} Pyramiden werden abgelegt. Bestätige, wenn du mit der Anordnung zufrieden bist."
+  },
+  "validation.icepalace.BUILD_MORE": {
+    "src": "Place {{count}} more pyramids.",
+    "out": "Platziere {{count}} weitere Pyramiden."
+  },
+  "validation.icepalace.ILLEGAL_PALACE": {
+    "src": "The {{piece}} cannot go at {{cell}}. In the Ice Palace a pyramid may only cover a bigger one, or start a new stack beside a stack of its own colour.",
+    "out": "Die {{piece}} kann nicht auf {{cell}} platziert werden. Im Eispalast darf eine Pyramide nur eine größere bedecken oder einen neuen Stapel neben einem Stapel ihrer eigenen Farbe beginnen."
+  },
+  "validation.icepalace.ILLEGAL_YARD": {
+    "src": "The {{piece}} cannot go at {{cell}}. In the Yard a pyramid may only cover a smaller one, or start a new stack beside a stack whose top it matches.",
+    "out": "Die {{piece}} kann nicht auf {{cell}} platziert werden. Im Yard darf eine Pyramide nur eine kleinere bedecken oder einen neuen Stapel neben einem Stapel beginnen, mit dessen oberster Pyramide sie übereinstimmt."
+  },
+  "validation.icepalace.INITIAL_BUILD": {
+    "src": "You won the hand. Build the Yard into the Ice Palace, using {{count}} pyramids.",
+    "out": "Du hast die Hand gewonnen. Baue den Yard unter Verwendung von {{count}} Pyramiden in den Eispalast ein."
+  },
+  "validation.icepalace.INITIAL_HAND": {
+    "src": "Place a pyramid from your hand into the Yard, or pass.",
+    "out": "Platziere eine Pyramide aus deiner Hand im Yard oder passe."
+  },
+  "validation.icepalace.LEAD_CANNOT_PASS": {
+    "src": "You are leading the hand and must place a pyramid to start the Yard.",
+    "out": "Du führst die Hand an und musst eine Pyramide platzieren, um den Yard zu beginnen."
+  },
+  "validation.icepalace.MUST_BUILD": {
+    "src": "You cannot decline to build: {{count}} of the Yard's pyramids can be placed.",
+    "out": "Du kannst das Bauen nicht ablehnen: {{count}} Pyramiden aus dem Yard können platziert werden."
+  },
+  "validation.icepalace.NOT_IN_HAND": {
+    "src": "You do not have a {{piece}} in hand.",
+    "out": "Du hast keine {{piece}} auf der Hand."
+  },
+  "validation.icepalace.NOT_IN_STOCK": {
+    "src": "The {{piece}} is not among the pyramids you won.",
+    "out": "Die {{piece}} gehört nicht zu den Pyramiden, die du gewonnen hast."
+  },
+  "validation.icepalace.OFF_STRUCTURE": {
+    "src": "That space is not part of the structure you are building in.",
+    "out": "Dieses Feld ist nicht Teil der Struktur, in die du baust."
+  },
+  "validation.icepalace.PARTIAL_PIECE": {
+    "src": "Now choose where to place the {{piece}}.",
+    "out": "Wähle nun, wo die {{piece}} platziert werden soll."
+  },
+  "validation.icepalace.POOL_CLICK": {
+    "src": "The Pool is shown for reference. Its pyramids cannot be played.",
+    "out": "Der Pool wird zur Übersicht angezeigt. Seine Pyramiden können nicht gespielt werden."
   },
   "validation.intermedium.INSTRUCTIONS": {
     "src": "Select a friendly stack; click on it as many times as pieces to move, then click on a diagonal path that starts adjacent to this sowing stack (one pieces per square), making 90º turns.",

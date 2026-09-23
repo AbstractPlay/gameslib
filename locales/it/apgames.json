@@ -129,6 +129,7 @@
     "hexy": "Un adattamento di Y su un esagono regolare in cui i giocatori gareggiano per controllare la maggior parte del perimetro del tabellone.",
     "homeworlds": "Un gioco Icehouse per 2-4 giocatori. I giocatori impersonano civiltà interstellari che lottano per il dominio. Ciascuno dei quattro colori di piramidi dà accesso ad azioni diverse. Accumula una flotta, esplora la galassia e infine distruggi il tuo avversario.",
     "hula": "Due giocatori cercano di formare un anello attorno al centro di un tabellone esagonale regolare, usando le proprie pietre e, eventualmente, un certo numero di pietre neutrali.",
+    "icepalace": "Da tre a sei giocatori competono per vincere le mani giocando piramidi in un Yard condiviso, costruendo nidi. Il vincitore di ogni mano costruisce tutto ciò che ha vinto nel Palazzo di Ghiaccio, dove le piramidi formano invece alberi. Ogni albero del Palazzo assegna punti pari alla sua altezza a chi possiede la piramide in cima, quindi le piramidi piccole sono la chiave per fare punti. Quasi tutto è aperto alla negoziazione.",
     "intermedium": "Semina cataste per racchiudere e catturare. Vinci catturando la città dell'avversario.",
     "invector": "Elimina l'esercito avversario avvicinandoti al centro del tabellone.",
     "iqishiqi": "Iqishiqi (pronunciato EE-chee-shee-chee) è un gioco di strategia astratto giocato su una plancia esagonale composta da caselle esagonali. I giocatori possiedono bordi designati della plancia e, attraverso un posizionamento astuto delle pietre, spingono una pietra neutrale sul tabellone. Un giocatore vince se sposta la pietra neutrale su uno dei suoi bordi o se lascia l'avversario senza mosse disponibili.",
@@ -288,6 +289,11 @@
     "yonmoque": "Cerca di formare un quattro in linea in un gioco in cui non tutti gli spazi sono uguali e i pezzi avversari possono essere convertiti.",
     "zola": "Un gioco in cui il tuo movimento è vincolato dalla tua distanza dal centro del tabellone. Le mosse di cattura non devono aumentare tale distanza. Le mosse non di cattura devono aumentare tale distanza. La prima persona che cattura tutti i pezzi avversari vince."
   },
+  "icepalace": {
+    "HAND": "Mano di {{player}}",
+    "POOL": "Piramidi nella Riserva",
+    "STOCK": "Piramidi dal Yard, da costruire nel Palazzo"
+  },
   "names": {
     "abande": "Abande",
     "accasta": "Accasta",
@@ -418,6 +424,7 @@
     "hexy": "Hexagonal Y",
     "homeworlds": "Homeworlds",
     "hula": "Hula",
+    "icepalace": "Ice Palace",
     "intermedium": "Intermedium",
     "invector": "Invector",
     "iqishiqi": "Iqishiqi",
@@ -610,6 +617,7 @@
     "gonnect": "Nel gioco base non è consentito passare. La variante **Cascading Connection Goals** consente di passare e termina dopo due passi consecutivi. Una connessione diretta vince immediatamente; altrimenti, si individua il sottotabellone centrato più grande in cui esattamente un giocatore collega i lati opposti: quel giocatore vince.",
     "garden": "Per rendere molto chiaro quanto accaduto nel turno precedente, ogni mossa viene mostrata su quattro tabelloni separati. Il primo tabellone mostra il gioco subito dopo il posizionamento del pezzo. Il secondo tabellone mostra lo stato dopo il ribaltamento dei pezzi adiacenti. Il terzo tabellone mostra eventuali raccolti. Il quarto tabellone è lo stato finale del gioco ed è quello su cui esegui le tue mosse.\n\nNella nostra implementazione, il nero è sempre il colore \"tome\" o di spareggio. L'ultimo giocatore a raccogliere il nero avrà un `0.1` dopo il proprio punteggio.",
     "guerrilla": "Ciascun giocatore vince rimuovendo tutte le pedine dell'avversario. Il giocatore della sicurezza vince anche se sopravvive abbastanza a lungo da far esaurire le pietre da piazzare agli insorti.\n\nPer impostazione predefinita, un incontro consiste in due partite a ruoli invertiti. Ciascun giocatore gioca una partita come insorti e una come sicurezza. Quando entrambi i giocatori vincono come insorti, l'incontro va a chi ha usato meno pietre (`66 − rimanenti` alla fine di quella partita; vince il punteggio più basso). Punteggi uguali degli insorti sono l'unica patta in tal caso. Una vittoria della sicurezza in una partita assegna 67 punti. Se un giocatore vince entrambe le partite (come insorti in una e come sicurezza nell'altra), vince direttamente l'incontro. Se entrambi i giocatori vincono solo come sicurezza, l'incontro finisce in patta.",
+    "icepalace": "Le regole di Ice Palace dicono che una piramide posizionata a terra debba essere adiacente a una piramide dello stesso colore, ma non se ogni vicino debba corrispondere. Questa implementazione richiede almeno un vicino ortogonale dello stesso colore; gli altri possono essere di qualsiasi colore. Il Bianco corrisponde a qualsiasi colore tranne il Nero, e il Nero non corrisponde a nulla.",
     "scribe": "La tabella di riferimento dei glifi è mostrata nel margine sinistro. Un punto indica il posizionamento più recente di ciascun giocatore. Quando una mini-griglia si riempie, vengono calcolati i punti glifo e il punteggio più alto si aggiudica la griglia (in caso di parità, la griglia va al giocatore che l'ha completata).",
     "gyges": "Le caselle di arrivo sono adiacenti a tutte le caselle dell'ultima traversa. Il motore grafico attualmente non può gestire caselle \"fluttuanti\".",
     "halma": "Per prevenire la [tendenza alla patta](https://boardgamegeek.com/thread/3706389/unspoiling-halma-redux) del gioco, si applicano le seguenti regole: (a) un giocatore vince se la base di partenza opposta è completa con almeno una pedina amica (criterio di David Parlett); (b) qualsiasi pezzo nella base di partenza del giocatore deve avanzare verso il campo nemico ogni volta che ciò è possibile saltando sopra un pezzo nemico (regola di Zillions, per rimuovere le strategie di patta); (c) nessuna pedina può ritornare nella propria base di partenza.\n\n[Halma](https://en.wikipedia.org/wiki/Halma) è stato uno dei primi successi commerciali per un gioco astratto. Il gioco è stato progettato da [George Howard Monks](https://en.wikipedia.org/wiki/George_Howard_Monks) nel 1883/4. Si dice che Halma sia stato ispirato da un più antico gioco britannico chiamato *Hoppity*. Tuttavia, non esistono documenti né tabelloni superstiti di questo gioco, trasformando questa affermazione in un mistero storico. Halma è stato poi adattato (c.1892/3) in un successo ancora maggiore: la [Dama Cinese](https://boardgamegeek.com/boardgame/2386/chinese-checkers) (che poteva essere facilmente giocata da tre o sei giocatori).\n\nSuper Halma è una variante più dinamica, non accreditata, presentata nel libro del 1992 **New Rules for Classic Games** di Wayne Schmittberger. Questa variante propone salti lunghi, in cui il numero di caselle vuote prima e dopo la pedina saltata deve essere uguale. Le restrizioni di movimento nella base si applicano anche in questa implementazione di Super Halma.",
@@ -4528,6 +4536,12 @@
         "description": "Mostra la plancia usando i vertici invece degli esagoni."
       }
     },
+    "icepalace": {
+      "expanding": {
+        "description": "Tavoliere bidimensionale, con pile che si espandono al passaggio del mouse.",
+        "name": "Espandibile"
+      }
+    },
     "intermedium": {
       "hide-diagonals": {
         "description": "Non mostrare le linee diagonali.",
@@ -4947,6 +4961,10 @@
       "GAME1": "Partita 1",
       "GAME2": "Partita 2",
       "INSURGENTS": "Insorti rimasti"
+    },
+    "icepalace": {
+      "PLACED": "Piramidi posizionate",
+      "POOL": "Piramidi rimaste nella Riserva"
     },
     "scribe": {
       "MINI_GRIDS": "Mini-griglie vinte"
@@ -6444,6 +6462,23 @@
         "PARTIAL_TWOARGS": "Seleziona il nuovo colore."
       },
       "VALID_W_ACTIONS": "Sembra una mossa valida, ma hai ancora azioni da spendere."
+    },
+    "icepalace": {
+      "BAD_PLACEMENT": "Impossibile interpretare '{{move}}' come una piramide e uno spazio.",
+      "BUILD_COMPLETE": "L'intero Yard è stato costruito nel Palazzo di Ghiaccio. Invia quando la disposizione ti soddisfa.",
+      "BUILD_ENOUGH": "Le {{count}} piramidi rimanenti verranno scartate. Invia quando la disposizione ti soddisfa.",
+      "BUILD_MORE": "Posiziona altre {{count}} piramidi.",
+      "ILLEGAL_PALACE": "Il pezzo {{piece}} non può andare in {{cell}}. Nel Palazzo di Ghiaccio una piramide può coprire solo una più grande, oppure iniziare una nuova pila accanto a una pila del suo stesso colore.",
+      "ILLEGAL_YARD": "Il pezzo {{piece}} non può andare in {{cell}}. Nel Yard una piramide può coprire solo una più piccola, oppure iniziare una nuova pila accanto a una pila con cui la cima corrisponde.",
+      "INITIAL_BUILD": "Hai vinto la mano. Costruisci il Yard nel Palazzo di Ghiaccio, usando {{count}} piramidi.",
+      "INITIAL_HAND": "Posiziona una piramide dalla tua mano nel Yard, oppure passa.",
+      "LEAD_CANNOT_PASS": "Sei di mano e devi posizionare una piramide per iniziare il Yard.",
+      "MUST_BUILD": "Non puoi rifiutarti di costruire: {{count}} delle piramidi del Yard possono essere posizionate.",
+      "NOT_IN_HAND": "Non hai un pezzo {{piece}} in mano.",
+      "NOT_IN_STOCK": "Il pezzo {{piece}} non è tra le piramidi che hai vinto.",
+      "OFF_STRUCTURE": "Quello spazio non fa parte della struttura in cui stai costruendo.",
+      "PARTIAL_PIECE": "Ora scegli dove posizionare il pezzo {{piece}}.",
+      "POOL_CLICK": "La Riserva viene mostrata a scopo di riferimento. Le sue piramidi non possono essere giocate."
     },
     "intermedium": {
       "INSTRUCTIONS": "Seleziona una pila alleata; cliccaci sopra tante volte quanti sono i pezzi da muovere, poi clicca su un percorso diagonale che inizia adiacente a questa pila di semina (un pezzo per casella), effettuando svolte a 90º.",

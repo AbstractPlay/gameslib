@@ -129,6 +129,7 @@
     "hexy": "Una adaptación del Y en un hexágono regular donde los jugadores compiten por controlar la mayor parte del perímetro del tablero.",
     "homeworlds": "Un juego con pirámides Icehouse para 2 a 4 jugadores. Los jugadores son civilizaciones interestelares que luchan por el dominio. Cada uno de los cuatro colores de pirámide otorga acceso a diferentes acciones. Acumula una flota, explora la galaxia y, en última instancia, destruye a tu oponente.",
     "hula": "Dos jugadores buscan formar un bucle alrededor del centro de un tablero hexagonal regular, usando sus propias fichas y, posiblemente, cierta cantidad de fichas neutrales.",
+    "icepalace": "De tres a seis jugadores compiten para ganar manos jugando pirámides en un Patio compartido, construyendo nidos. El ganador de cada mano construye todo lo que ganó en el Palacio de Hielo, donde las pirámides forman árboles en su lugar. Cada árbol del Palacio otorga puntos equivalentes a su altura a quien posea la pirámide superior, por lo que las pirámides pequeñas son la clave para puntuar. Casi todo está abierto a negociación.",
     "intermedium": "Siembra pilas para encerrar y capturar. Gana capturando la ciudad del oponente.",
     "invector": "Elimina el ejército adversario mientras te acercas al centro del tablero.",
     "iqishiqi": "Iqishiqi (pronunciado I-chi-shi-chi) es un juego de estrategia abstracta que se juega en un tablero hexagonal compuesto de casillas hexagonales. Los jugadores son dueños de bordes designados del tablero y, mediante una astuta colocación de fichas, empujan una ficha neutral por el tablero. Un jugador gana si mueve la ficha neutral a uno de sus bordes o deja a su oponente sin movimientos posibles.",
@@ -288,6 +289,11 @@
     "yonmoque": "Intenta formar cuatro en línea en un juego donde no todos los espacios son iguales y las piezas enemigas se pueden convertir.",
     "zola": "Un juego donde tu movimiento está limitado por tu distancia desde el centro del tablero. Los movimientos de captura no deben aumentar esa distancia. Los movimientos que no son de captura deben aumentar esa distancia. La primera persona que capture todas las piezas enemigas gana."
   },
+  "icepalace": {
+    "HAND": "Mano de {{player}}",
+    "POOL": "Pirámides en la Reserva",
+    "STOCK": "Pirámides del Patio, para construir en el Palacio"
+  },
   "names": {
     "abande": "Abande",
     "accasta": "Accasta",
@@ -418,6 +424,7 @@
     "hexy": "Hexagonal Y",
     "homeworlds": "Homeworlds",
     "hula": "Hula",
+    "icepalace": "Ice Palace",
     "intermedium": "Intermedium",
     "invector": "Invector",
     "iqishiqi": "Iqishiqi",
@@ -610,6 +617,7 @@
     "gonnect": "En el juego base, no se permite pasar. La variante **Objetivos de conexión en cascada** permite pasar y termina después de dos pases consecutivos. Una conexión directa gana de inmediato; de lo contrario, encuentra el subtablero centrado más grande donde exactamente un jugador conecte lados opuestos: ese jugador gana.",
     "garden": "Para dejar muy claro qué sucedió en un turno anterior, cada movimiento se muestra a lo largo de cuatro tableros separados. El primer tablero muestra la partida justo después de colocar la pieza. El segundo tablero muestra el estado después de voltear las piezas adyacentes. El tercer tablero muestra cualquier cosecha. El cuarto tablero es el estado final del juego y es donde haces tus movimientos.\n\nEn nuestra implementación, el negro es siempre el color del \"tomo\" o desempate. El último jugador en cosechar negro tendrá un `0.1` después de su puntuación.",
     "guerrilla": "Cualquier jugador gana al eliminar todas las piezas del oponente. El jugador de seguridad también gana si sobrevive lo suficiente como para que a los insurgentes se les acaben las piedras para colocar.\n\nPor defecto, una partida consta de dos juegos con los roles invertidos. Cada jugador juega un juego como insurgentes y uno como seguridad. Cuando ambos jugadores ganan como insurgentes, la partida es para quien haya usado menos piedras (`66 − remaining` al final de ese juego; gana la puntuación más baja). Puntuaciones iguales de los insurgentes son el único empate en ese caso. Una victoria de seguridad en un juego otorga 67 puntos. Si un jugador gana ambos juegos (gana como insurgentes en uno y como seguridad en el otro), gana la partida rotundamente. Si ambos jugadores solo ganan como seguridad, la partida termina en empate.",
+    "icepalace": "Las reglas del Palacio de Hielo dicen que una pirámide colocada en el suelo debe estar al lado de una pirámide del mismo color, pero no aclara si todos los vecinos deben coincidir. Esta implementación requiere al menos un vecino ortogonal del mismo color; los demás pueden ser de cualquier color. El blanco coincide con cualquier color excepto el negro, y el negro no coincide con ninguno.",
     "scribe": "La tabla de referencia de glifos se muestra en el margen izquierdo. Un punto marca la colocación más reciente de cada jugador. Cuando una minicuadrícula se llena, se cuentan los puntos de los glifos y la puntuación más alta gana esa cuadrícula (los empates son para el jugador que la completó).",
     "gyges": "Las casillas de meta son adyacentes a todas las casillas de la fila trasera. El renderizador actualmente no puede manejar casillas \"flotantes\".",
     "halma": "Para evitar la [tendencia al empate](https://boardgamegeek.com/thread/3706389/unspoiling-halma-redux) del juego, se aplican las siguientes reglas: (a) un jugador gana si la base inicial opuesta está completa con al menos una piedra propia (criterio de David Parlett); (b) Cualquier pieza en la base inicial del jugador debe avanzar hacia el campo enemigo siempre que sea posible saltando sobre una pieza enemiga (regla de Zillions, para eliminar estrategias tendientes al empate); (c) Ninguna piedra puede regresar a su base inicial.\n\n[Halma](https://en.wikipedia.org/wiki/Halma) fue uno de los primeros éxitos comerciales de un juego abstracto. El juego fue diseñado por [George Howard Monks](https://en.wikipedia.org/wiki/George_Howard_Monks) en 1883/4. Se dice que Halma se inspiró en un juego británico más antiguo llamado *Hoppity*. Sin embargo, este juego no cuenta con documentación ni tableros supervivientes, lo que convierte esta afirmación en un misterio histórico. Halma se adaptó más tarde (c. 1892/3) en un éxito aún mayor: las [Damas chinas](https://boardgamegeek.com/boardgame/2386/chinese-checkers) (que podían ser jugadas fácilmente por tres o seis jugadores).\n\nSuper Halma es una variante más dinámica, sin acreditación, presentada en el libro de 1992 **New Rules for Classic Games** de Wayne Schmittberger. Esta variante propone saltos largos, donde el número de casillas vacías antes y después de la piedra saltada debe ser igual. Las restricciones de movimiento de la base aún se aplican en esta implementación de Super Halma.",
@@ -4528,6 +4536,12 @@
         "description": "Mostrar el tablero usando vértices en lugar de hexágonos."
       }
     },
+    "icepalace": {
+      "expanding": {
+        "description": "Tablero bidimensional, con pilas que se expanden al pasar el cursor sobre ellas.",
+        "name": "Expandible"
+      }
+    },
     "intermedium": {
       "hide-diagonals": {
         "description": "No mostrar líneas diagonales.",
@@ -4947,6 +4961,10 @@
       "GAME1": "Juego 1",
       "GAME2": "Juego 2",
       "INSURGENTS": "Insurgentes restantes"
+    },
+    "icepalace": {
+      "PLACED": "Pirámides colocadas",
+      "POOL": "Pirámides restantes en la Reserva"
     },
     "scribe": {
       "MINI_GRIDS": "Minicuadrículas ganadas"
@@ -6444,6 +6462,23 @@
         "PARTIAL_TWOARGS": "Selecciona el nuevo color."
       },
       "VALID_W_ACTIONS": "Parece un movimiento válido, pero aún tienes acciones por gastar."
+    },
+    "icepalace": {
+      "BAD_PLACEMENT": "No se pudo interpretar '{{move}}' como una pirámide y una casilla.",
+      "BUILD_COMPLETE": "Se ha construido todo el Patio en el Palacio de Hielo. Envía cuando estés conforme.",
+      "BUILD_ENOUGH": "Las {{count}} pirámides restantes serán descartadas. Envía cuando estés conforme con la distribución.",
+      "BUILD_MORE": "Coloca {{count}} pirámides más.",
+      "ILLEGAL_PALACE": "La {{piece}} no puede ir en {{cell}}. En el Palacio de Hielo, una pirámide solo puede cubrir a una más grande o comenzar una nueva pila al lado de una pila de su propio color.",
+      "ILLEGAL_YARD": "La {{piece}} no puede ir en {{cell}}. En el Patio, una pirámide solo puede cubrir a una más pequeña o comenzar una nueva pila al lado de una pila con cuya cima coincida.",
+      "INITIAL_BUILD": "Ganaste la mano. Construye el Patio en el Palacio de Hielo usando {{count}} pirámides.",
+      "INITIAL_HAND": "Coloca una pirámide de tu mano en el Patio o pasa.",
+      "LEAD_CANNOT_PASS": "Lideras la mano y debes colocar una pirámide para iniciar el Patio.",
+      "MUST_BUILD": "No puedes negarte a construir: se pueden colocar {{count}} de las pirámides del Patio.",
+      "NOT_IN_HAND": "No tienes una {{piece}} en la mano.",
+      "NOT_IN_STOCK": "La {{piece}} no está entre las pirámides que ganaste.",
+      "OFF_STRUCTURE": "Esa casilla no forma parte de la estructura en la que estás construyendo.",
+      "PARTIAL_PIECE": "Ahora elige dónde colocar la {{piece}}.",
+      "POOL_CLICK": "La Reserva se muestra como referencia. Sus pirámides no se pueden jugar."
     },
     "intermedium": {
       "INSTRUCTIONS": "Selecciona una pila aliada; haz clic en ella tantas veces como piezas vayas a mover, luego haz clic en una trayectoria diagonal que empiece adyacente a esta pila de sembrado (una pieza por casilla), haciendo giros de 90º.",

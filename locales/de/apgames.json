@@ -129,6 +129,7 @@
     "hexy": "Eine Anpassung von Y auf einem regelmäßigen Sechseck, bei der die Spieler darum wetteifern, den größten Teil des Spielfeldrands zu kontrollieren.",
     "homeworlds": "Ein Icehouse-Spiel für 2 bis 4 Spieler. Die Spieler sind interstellare Zivilisationen, die um die Vorherrschaft kämpfen. Jede der vier Pyramidenfarben gewährt Zugang zu unterschiedlichen Aktionen. Bauen Sie eine Flotte auf, erkunden Sie die Galaxie und vernichten Sie letztendlich Ihren Gegner.",
     "hula": "Zwei Spieler versuchen, eine Schleife um die Mitte eines regelmäßigen sechseckigen Spielbretts zu bilden, unter Verwendung eigener und möglicherweise einiger neutraler Steine.",
+    "icepalace": "Drei bis sechs Spieler treten gegeneinander an, um Hände zu gewinnen, indem sie Pyramiden in einen gemeinsamen Yard ausspielen und Nester bauen. Der Gewinner jeder Hand baut alles Gewonnene in den Eispalast ein, wo Pyramiden stattdessen Bäume bilden. Jeder Palastbaum bringt so viele Punkte wie seine Höhe demjenigen, dem die oberste Pyramide gehört – kleine Pyramiden sind also der Schlüssel zum Punkten. Fast alles ist Verhandlungssache.",
     "intermedium": "Mancala-artiges Säen von Stapeln zum Einkreisen und Schlagen. Sie gewinnen, indem Sie die Stadt des Gegners erobern.",
     "invector": "Eliminieren Sie die gegnerische Armee, während Sie sich dem Zentrum des Spielbretts nähern.",
     "iqishiqi": "Iqishiqi (ausgesprochen EE-tschi-schi-tschi) ist ein abstraktes Strategiespiel, das auf einem sechseckigen Brett aus Sechseckfeldern gespielt wird. Die Spieler besitzen bestimmte Brettränder und schieben durch geschicktes Platzieren von Steinen einen neutralen Stein über das Brett. Ein Spieler gewinnt, wenn er/sie den neutralen Stein zu einem seiner/ihrer Ränder bewegt oder den Gegner zugunfähig macht.",
@@ -288,6 +289,11 @@
     "yonmoque": "Versuchen Sie, eine Viererreihe zu bilden, in einem Spiel, in dem nicht alle Felder gleich sind und gegnerische Steine umgewandelt werden können.",
     "zola": "Ein Spiel, bei dem Ihre Bewegung durch den Abstand zum Mittelpunkt des Bretts eingeschränkt ist. Schlagzüge dürfen diesen Abstand nicht vergrößern. Nicht-Schlagzüge müssen diesen Abstand vergrößern. Gewinner ist, wer als Erster alle gegnerischen Steine schlägt."
   },
+  "icepalace": {
+    "HAND": "Hand von {{player}}",
+    "POOL": "Pyramiden im Pool",
+    "STOCK": "Pyramiden aus dem Yard, die in den Palast eingebaut werden sollen"
+  },
   "names": {
     "abande": "Abande",
     "accasta": "Accasta",
@@ -418,6 +424,7 @@
     "hexy": "Hexagonal Y",
     "homeworlds": "Homeworlds",
     "hula": "Hula",
+    "icepalace": "Ice Palace",
     "intermedium": "Intermedium",
     "invector": "Invector",
     "iqishiqi": "Iqishiqi",
@@ -610,6 +617,7 @@
     "gonnect": "Im Grundspiel ist Passen nicht erlaubt. Die Variante **Cascading Connection Goals** erlaubt Passen und endet nach zwei aufeinanderfolgenden Passzügen. Eine direkte Verbindung gewinnt sofort; andernfalls wird das größte zentrierte Teilbrett ermittelt, auf dem genau ein Spieler gegenüberliegende Seiten verbindet: Dieser Spieler gewinnt.",
     "garden": "Um sehr deutlich zu machen, was im vorherigen Zug passiert ist, wird jeder Zug auf vier separaten Spielbrettern dargestellt. Das erste Spielbrett zeigt das Spiel nach dem ersten Platzieren des Steins. Das zweite Spielbrett zeigt den Zustand, nachdem angrenzende Steine umgedreht wurden. Das dritte Spielbrett zeigt etwaige Ernten. Das vierte Spielbrett zeigt den finalen Spielzustand und ist die Stelle, an der Sie Ihre Züge ausführen.\n\nIn unserer Implementierung ist Schwarz immer die \"Tome\"- oder Gleichstands-Farbe. Der letzte Spieler, der Schwarz erntet, erhält ein `0.1` hinter seiner Punktzahl.",
     "guerrilla": "Ein Spieler gewinnt, indem er alle Steine des Gegners entfernt. Der Sicherheitsspieler gewinnt auch, wenn er lange genug überlebt, bis den Aufständischen die Steine zum Setzen ausgehen.\n\nStandardmäßig besteht ein Match aus zwei Spielen mit vertauschten Rollen. Jeder Spieler spielt ein Spiel als Aufständische und eines als Sicherheitskräfte. Wenn beide Spieler als Aufständische gewinnen, geht das Match an denjenigen, der weniger Steine verbraucht hat (`66 − verbleibend` am Ende dieses Spiels; die niedrigere Punktzahl gewinnt). Gleiche Aufständischen-Punktzahlen sind in diesem Fall das einzige Unentschieden. Ein Sieg der Sicherheitskräfte in einem Spiel bringt 67 Punkte. Wenn ein Spieler beide Spiele gewinnt (eines als Aufständische und eines als Sicherheitskräfte), gewinnt er das Match direkt. Wenn beide Spieler nur als Sicherheitskräfte gewinnen, endet das Match unentschieden.",
+    "icepalace": "Die Regeln von Ice Palace besagen, dass eine auf dem Boden platzierte Pyramide neben einer Pyramide derselben Farbe liegen muss, aber nicht, ob jeder Nachbar übereinstimmen muss. Diese Implementierung erfordert mindestens einen passenden orthogonalen Nachbarn; die anderen können eine beliebige Farbe haben. Weiß passt zu jeder Farbe außer Schwarz, und Schwarz passt zu gar nichts.",
     "scribe": "Die Glyphen-Referenztabelle wird am linken Rand angezeigt. Ein Punkt markiert die jeweils letzte Platzierung jedes Spielers. Wenn sich ein Minigitter füllt, werden die Glyphenpunkte zusammengezählt und die höhere Punktzahl gewinnt dieses Gitter (bei Gleichstand gewinnt der Spieler, der es fertiggestellt hat).",
     "gyges": "Die Zielfelder grenzen an alle Felder in der hintersten Reihe an. Der Renderer kann derzeit keine \"schwebenden\" Felder darstellen.",
     "halma": "Um der [Remis-Tendenz](https://boardgamegeek.com/thread/3706389/unspoiling-halma-redux) des Spiels entgegenzuwirken, gelten folgende Regeln: (a) Ein Spieler gewinnt, wenn das gegenüberliegende Heimatlager mit mindestens einem eigenen Stein vollständig besetzt ist (David Parletts Kriterium); (b) Jeder Stein im Heimatlager des Spielers muss Fortschritte in Richtung des feindlichen Lagers machen, wann immer dies durch Überspringen eines gegnerischen Steins möglich ist (Zillions-Regel, um Remis-Strategien zu eliminieren); (c) Kein Stein darf in sein Heimatlager zurückkehren.\n\n[Halma](https://de.wikipedia.org/wiki/Halma) war einer der ersten kommerziellen Erfolge für ein abstraktes Spiel. Das Spiel wurde 1883/4 von [George Howard Monks](https://en.wikipedia.org/wiki/George_Howard_Monks) entworfen. Es heißt, Halma sei von einem älteren britischen Spiel namens *Hoppity* inspiriert worden. Für dieses Spiel gibt es jedoch keine Dokumentation oder überlebende Spielbretter, was diese Aussage zu einem historischen Rätsel macht. Halma wurde später (ca. 1892/3) zu einem noch größeren Erfolg adaptiert: [Halma (Sternhalma)](https://boardgamegeek.com/boardgame/2386/chinese-checkers) (das leicht von drei oder sechs Spielern gespielt werden konnte).\n\nSuper Halma ist eine dynamischere, ungenannte Variante, die 1992 im Buch **New Rules for Classic Games** von Wayne Schmittberger vorgestellt wurde. Diese Variante schlägt Weitsprünge vor, bei denen die Anzahl der leeren Felder vor und nach dem übersprungenen Stein gleich sein muss. Die Zugbeschränkungen im Heimatlager gelten auch in dieser Implementierung von Super Halma.",
@@ -4528,6 +4536,12 @@
         "description": "Spielfeld mit Knotenpunkten statt Hexfeldern anzeigen."
       }
     },
+    "icepalace": {
+      "expanding": {
+        "description": "Zweidimensionales Spielbrett, bei dem sich Stapel vergrößern, wenn man mit der Maus darüberfährt.",
+        "name": "Aufklappend"
+      }
+    },
     "intermedium": {
       "hide-diagonals": {
         "description": "Diagonale Linien ausblenden.",
@@ -4947,6 +4961,10 @@
       "GAME1": "Spiel 1",
       "GAME2": "Spiel 2",
       "INSURGENTS": "Verbleibende Aufständische"
+    },
+    "icepalace": {
+      "PLACED": "Platzierte Pyramiden",
+      "POOL": "Verbleibende Pyramiden im Pool"
     },
     "scribe": {
       "MINI_GRIDS": "Gewonnene Minigitter"
@@ -6444,6 +6462,23 @@
         "PARTIAL_TWOARGS": "Wähle die neue Farbe."
       },
       "VALID_W_ACTIONS": "Das sieht nach einem gültigen Zug aus, aber du hast noch Aktionen übrig."
+    },
+    "icepalace": {
+      "BAD_PLACEMENT": "'{{move}}' konnte nicht als Pyramide und Feld gelesen werden.",
+      "BUILD_COMPLETE": "Der gesamte Yard wurde in den Eispalast eingebaut. Bestätige, wenn du damit zufrieden bist.",
+      "BUILD_ENOUGH": "Die verbleibenden {{count}} Pyramiden werden abgelegt. Bestätige, wenn du mit der Anordnung zufrieden bist.",
+      "BUILD_MORE": "Platziere {{count}} weitere Pyramiden.",
+      "ILLEGAL_PALACE": "Die {{piece}} kann nicht auf {{cell}} platziert werden. Im Eispalast darf eine Pyramide nur eine größere bedecken oder einen neuen Stapel neben einem Stapel ihrer eigenen Farbe beginnen.",
+      "ILLEGAL_YARD": "Die {{piece}} kann nicht auf {{cell}} platziert werden. Im Yard darf eine Pyramide nur eine kleinere bedecken oder einen neuen Stapel neben einem Stapel beginnen, mit dessen oberster Pyramide sie übereinstimmt.",
+      "INITIAL_BUILD": "Du hast die Hand gewonnen. Baue den Yard unter Verwendung von {{count}} Pyramiden in den Eispalast ein.",
+      "INITIAL_HAND": "Platziere eine Pyramide aus deiner Hand im Yard oder passe.",
+      "LEAD_CANNOT_PASS": "Du führst die Hand an und musst eine Pyramide platzieren, um den Yard zu beginnen.",
+      "MUST_BUILD": "Du kannst das Bauen nicht ablehnen: {{count}} Pyramiden aus dem Yard können platziert werden.",
+      "NOT_IN_HAND": "Du hast keine {{piece}} auf der Hand.",
+      "NOT_IN_STOCK": "Die {{piece}} gehört nicht zu den Pyramiden, die du gewonnen hast.",
+      "OFF_STRUCTURE": "Dieses Feld ist nicht Teil der Struktur, in die du baust.",
+      "PARTIAL_PIECE": "Wähle nun, wo die {{piece}} platziert werden soll.",
+      "POOL_CLICK": "Der Pool wird zur Übersicht angezeigt. Seine Pyramiden können nicht gespielt werden."
     },
     "intermedium": {
       "INSTRUCTIONS": "Wähle einen eigenen Stapel; klicke so oft darauf, wie viele Figuren du bewegen möchtest, und klicke dann auf einen diagonalen Pfad, der angrenzend an diesen Säh-Stapel beginnt (eine Figur pro Feld), mit 90º-Wendungen.",

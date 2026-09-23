@@ -129,6 +129,7 @@
     "hexy": "Une adaptation du jeu Y sur un hexagone régulier où les joueurs rivalisent pour contrôler la majeure partie du périmètre du plateau.",
     "homeworlds": "Un jeu Icehouse pour 2 à 4 joueurs. Les joueurs sont des civilisations interstellaires se disputant la dominance. Chacune des quatre couleurs de pyramides donne accès à différentes actions. Amassez une flotte, explorez la galaxie et détruisez votre adversaire.",
     "hula": "Deux joueurs cherchent à former une boucle autour du centre d'un plateau hexagonal régulier, en utilisant leurs propres pierres et, éventuellement, des pierres neutres.",
+    "icepalace": "De trois à six joueurs s'affrontent pour gagner des manches en jouant des pyramides dans une Cour commune, formant des nids. Le gagnant de chaque manche place tout ce qu'il a gagné dans le Palais de Glace, où les pyramides forment des arbres à la place. Chaque arbre du Palais rapporte sa hauteur en points au propriétaire de la pyramide située au sommet, les petites pyramides sont donc la clé pour marquer. Presque tout fait l'objet de négociations.",
     "intermedium": "Semez des piles pour encercler et capturer. Gagnez en capturant la cité adverse.",
     "invector": "Éliminez l'armée adverse tout en vous rapprochant du centre du plateau.",
     "iqishiqi": "Iqishiqi (prononcé EE-chee-shee-chee) est un jeu de stratégie abstrait qui se joue sur un plateau hexagonal composé de cases hexagonales. Les joueurs possèdent des bords désignés du plateau et, en plaçant habilement des pierres, ils poussent une pierre neutre sur le plateau. Un joueur gagne s'il déplace la pierre neutre vers l'un de ses bords, ou s'il laisse son adversaire sans coup possible.",
@@ -288,6 +289,11 @@
     "yonmoque": "Essayez de former un alignement de quatre pièces dans un jeu où toutes les cases ne se valent pas et où les pièces adverses peuvent être converties.",
     "zola": "Un jeu où vos déplacements sont contraints par votre distance par rapport au centre du plateau. Les coups de capture ne doivent pas augmenter cette distance. Les coups sans capture doivent augmenter cette distance. La première personne à capturer toutes les pièces adverses gagne."
   },
+  "icepalace": {
+    "HAND": "Main de {{player}}",
+    "POOL": "Pyramides dans le Pool",
+    "STOCK": "Pyramides de la Cour, à intégrer au Palais"
+  },
   "names": {
     "abande": "Abande",
     "accasta": "Accasta",
@@ -418,6 +424,7 @@
     "hexy": "Hexagonal Y",
     "homeworlds": "Homeworlds",
     "hula": "Hula",
+    "icepalace": "Ice Palace",
     "intermedium": "Intermedium",
     "invector": "Invector",
     "iqishiqi": "Iqishiqi",
@@ -610,6 +617,7 @@
     "gonnect": "Dans le jeu de base, passer son tour n'est pas autorisé. La variante **Cascading Connection Goals** autorise à passer et se termine après deux passes consécutives. Une connexion directe donne la victoire immédiatement ; sinon, cherchez le plus grand sous-plateau centré dans lequel exactement un joueur relie des côtés opposés : ce joueur gagne.",
     "garden": "Pour rendre très clair ce qui s'est passé lors du tour précédent, chaque coup est affiché sur quatre plateaux distincts. Le premier plateau montre le jeu après la pose initiale de la pièce. Le deuxième plateau montre l'état après le retournement des pièces adjacentes. Le troisième plateau montre les récoltes éventuelles. Le quatrième plateau est l'état final du jeu et c'est là que vous jouez vos coups.\n\nDans notre implémentation, le noir est toujours la couleur « tome » ou de départage. Le dernier joueur à avoir récolté du noir aura un `0.1` ajouté à son score.",
     "guerrilla": "Un joueur gagne en retirant toutes les pièces de son adversaire. Le joueur de la sécurité gagne également s'il survit jusqu'à ce que les insurgés n'aient plus de pierres à poser.\n\nPar défaut, un match se compose de deux parties avec inversion des rôles. Chaque joueur joue une partie en tant qu'insurgés et une en tant que sécurité. Lorsque les deux joueurs gagnent en tant qu'insurgés, le match est remporté par celui qui a utilisé le moins de pierres (`66 − restantes` à la fin de cette partie ; le score le plus bas l'emporte). Des scores d'insurgés égaux constituent la seule égalité possible dans ce cas. Une victoire de la sécurité dans une partie rapporte 67 points. Si un joueur remporte les deux parties (gagne en tant qu'insurgés dans l'une et en sécurité dans l'autre), il remporte directement le match. Si les deux joueurs ne gagnent qu'en tant que sécurité, le match est nul.",
+    "icepalace": "Les règles du Palais de Glace stipulent qu'une pyramide posée sur le sol doit être à côté d'une pyramide de la même couleur, sans préciser si tous les voisins doivent correspondre. Cette implémentation exige au moins un voisin orthogonal correspondant ; les autres peuvent être de n'importe quelle couleur. Le Blanc correspond à toutes les couleurs sauf le Noir, et le Noir ne correspond à rien.",
     "scribe": "Le tableau de référence des glyphes est affiché dans la marge de gauche. Un point indique le dernier coup de chaque joueur. Lorsqu'une mini-grille est remplie, les points de glyphe sont comptabilisés et le score le plus élevé remporte cette grille (en cas d'égalité, la victoire revient au joueur qui l'a complétée).",
     "gyges": "Les cases de but sont adjacentes à toutes les cases de la rangée arrière. Le moteur d'affichage ne peut pas gérer les cases « flottantes » pour le moment.",
     "halma": "Afin d'éviter la [tendance aux parties nulles](https://boardgamegeek.com/thread/3706389/unspoiling-halma-redux) du jeu, les règles suivantes s'appliquent : (a) un joueur gagne si la base de départ adverse est complètement remplie avec au moins une de ses propres pièces (critère de David Parlett) ; (b) Toute pièce située dans la base de départ du joueur doit avancer vers le camp ennemi dès que cela est possible en sautant par-dessus une pièce ennemie (règle Zillions, pour éliminer les stratégies de partie nulle) ; (c) Aucune pièce ne peut retourner dans sa base de départ.\n\n[Halma](https://en.wikipedia.org/wiki/Halma) a été l'un des premiers succès commerciaux pour un jeu abstrait. Le jeu a été conçu par [George Howard Monks](https://en.wikipedia.org/wiki/George_Howard_Monks) en 1883/4. Il est dit que Halma s'inspirait d'un plus ancien jeu britannique appelé *Hoppity*. Cependant, ce jeu n'a aucune documentation ni plateau survivant, faisant de cette filiation un mystère historique. Halma a ensuite été adapté (v.1892/3) en un succès encore plus grand : les [Dames chinoises](https://boardgamegeek.com/boardgame/2386/chinese-checkers) (qui se jouaient facilement à trois ou six joueurs).\n\nSuper Halma est une variante plus dynamique et non créditée, présentée dans le livre de 1992 **New Rules for Classic Games** par Wayne Schmittberger. Cette variante propose des sauts longs, où le nombre de cases vides avant et après la pièce sautée doit être égal. Les restrictions de déplacement dans la base s'appliquent toujours dans cette implémentation de Super Halma.",
@@ -4528,6 +4536,12 @@
         "description": "Afficher le plateau en utilisant les sommets au lieu des hexagones."
       }
     },
+    "icepalace": {
+      "expanding": {
+        "description": "Plateau en deux dimensions, avec des piles qui s'agrandissent au survol.",
+        "name": "Extensible"
+      }
+    },
     "intermedium": {
       "hide-diagonals": {
         "description": "Ne pas afficher les lignes diagonales.",
@@ -4947,6 +4961,10 @@
       "GAME1": "Partie 1",
       "GAME2": "Partie 2",
       "INSURGENTS": "Insurgés restants"
+    },
+    "icepalace": {
+      "PLACED": "Pyramides placées",
+      "POOL": "Pyramides restantes dans le Pool"
     },
     "scribe": {
       "MINI_GRIDS": "Mini-grilles remportées"
@@ -6444,6 +6462,23 @@
         "PARTIAL_TWOARGS": "Sélectionnez la nouvelle couleur."
       },
       "VALID_W_ACTIONS": "Le coup semble valide, mais il vous reste encore des actions à dépenser."
+    },
+    "icepalace": {
+      "BAD_PLACEMENT": "Impossible de lire '{{move}}' comme une pyramide et une case.",
+      "BUILD_COMPLETE": "Toute la Cour a été intégrée au Palais de Glace. Validez quand la disposition vous convient.",
+      "BUILD_ENOUGH": "Les {{count}} pyramides restantes seront défaussées. Validez quand l'agencement vous convient.",
+      "BUILD_MORE": "Placez {{count}} pyramides de plus.",
+      "ILLEGAL_PALACE": "La pièce {{piece}} ne peut pas aller en {{cell}}. Dans le Palais de Glace, une pyramide ne peut recouvrir qu'une pyramide plus grande, ou commencer une nouvelle pile à côté d'une pile de sa propre couleur.",
+      "ILLEGAL_YARD": "La pièce {{piece}} ne peut pas aller en {{cell}}. Dans la Cour, une pyramide ne peut recouvrir qu'une pyramide plus petite, ou commencer une nouvelle pile à côté d'une pile dont le sommet correspond.",
+      "INITIAL_BUILD": "Vous avez gagné la manche. Intégrez la Cour au Palais de Glace en utilisant {{count}} pyramides.",
+      "INITIAL_HAND": "Placez une pyramide de votre main dans la Cour, ou passez.",
+      "LEAD_CANNOT_PASS": "Vous avez la main et devez placer une pyramide pour commencer la Cour.",
+      "MUST_BUILD": "Vous ne pouvez pas refuser de construire : {{count}} pyramides de la Cour peuvent être placées.",
+      "NOT_IN_HAND": "Vous n'avez pas de {{piece}} en main.",
+      "NOT_IN_STOCK": "La pièce {{piece}} ne fait pas partie des pyramides que vous avez gagnées.",
+      "OFF_STRUCTURE": "Cette case ne fait pas partie de la structure dans laquelle vous construisez.",
+      "PARTIAL_PIECE": "Choisissez maintenant où placer la pièce {{piece}}.",
+      "POOL_CLICK": "Le Pool est affiché à titre indicatif. Ses pyramides ne peuvent pas être jouées."
     },
     "intermedium": {
       "INSTRUCTIONS": "Sélectionnez une pile alliée ; cliquez dessus autant de fois qu'il y a de pièces à déplacer, puis cliquez sur un chemin diagonal qui commence de manière adjacente à cette pile d'égrenage (une pièce par case), en effectuant des virages à 90º.",

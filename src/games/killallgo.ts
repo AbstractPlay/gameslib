@@ -611,7 +611,16 @@ export class KillAllGoGame extends GameBase {
         return this.boardSize * this.boardSize;
     }
 
-    private maxHandicap(): number {
+    /**
+     * The largest number of Attacker stones any one setup phase may contribute: half the board,
+     * rounded down. Every supported board has an odd number of points, so two phases each staying
+     * at or under this bound can never together reach the whole board, and a Red-only string can
+     * only lose its last liberty by covering literally every point. This is what keeps setup
+     * placements safe from positional superko without simulating them: the whole-board suicide
+     * that would otherwise repeat an earlier position (the empty board, in the simplest case)
+     * becomes impossible. Also the range offered for the handicap declared in `hand-n`.
+     */
+    private maxSetupStones(): number {
         return Math.floor(this.points / 2);
     }
 
@@ -713,14 +722,16 @@ export class KillAllGoGame extends GameBase {
         const seen = this.positions();
         switch (this.phase) {
             case "hand-n":
-                for (let n = 1; n <= this.maxHandicap(); n++) {
+                for (let n = 1; n <= this.maxSetupStones(); n++) {
                     moves.push(n.toString());
                 }
                 break;
             case "alt-place":
-                for (const cell of this.geo.cells) {
-                    if (!this.board.has(cell)) {
-                        moves.push(cell);
+                if (this.board.size < this.maxSetupStones()) {
+                    for (const cell of this.geo.cells) {
+                        if (!this.board.has(cell)) {
+                            moves.push(cell);
+                        }
                     }
                 }
                 if (this.handicapOwed() === 0) {
@@ -932,9 +943,18 @@ export class KillAllGoGame extends GameBase {
         return result;
     }
 
-    /** Checks a list of setup placements: known cells, empty, no duplicates. Returns an error result or undefined. */
+    /**
+     * Checks a sequence of setup placements (always Red, one seat placing several stones in one
+     * ply): known cells, empty, no duplicates. No superko check is needed for the sequence itself
+     * (unlike an ordinary multi-stone ply): every setup phase separately caps its own contribution
+     * at `maxSetupStones()`, and every supported board has an odd number of points, so two
+     * independently capped contributions can never together cover the whole board. A Red-only
+     * string can only lose its last liberty by covering literally every point, so a whole-board
+     * self-capture during setup (which would otherwise repeat an earlier position, the empty
+     * board in the simplest case) is impossible as long as every caller enforces its own cap.
+     */
     private checkCells(cells: string[], result: IValidationResult): IValidationResult | undefined {
-        const seen = new Set<string>();
+        const named = new Set<string>();
         for (const cell of cells) {
             if (!this.isValidCell(cell)) {
                 return this.fail(result, i18next.t("apgames:validation._general.INVALIDCELL", { cell }));
@@ -942,15 +962,14 @@ export class KillAllGoGame extends GameBase {
             if (this.board.has(cell)) {
                 return this.fail(result, i18next.t("apgames:validation._general.OCCUPIED", { where: cell }));
             }
-            if (seen.has(cell)) {
+            if (named.has(cell)) {
                 return this.fail(result, i18next.t("apgames:validation.killallgo.DUPLICATE_CELL", { where: cell }));
             }
-            seen.add(cell);
+            named.add(cell);
         }
         return undefined;
     }
 
-    /** Validation for "exactly `needed` stones" batches. */
     private checkBatch(cells: string[], needed: number, result: IValidationResult): IValidationResult {
         const err = this.checkCells(cells, result);
         if (err !== undefined) { return err; }
@@ -964,7 +983,7 @@ export class KillAllGoGame extends GameBase {
     }
 
     private validateHandicap(m: string, result: IValidationResult): IValidationResult {
-        const max = this.maxHandicap();
+        const max = this.maxSetupStones();
         if (m.length === 0) {
             return this.ok(result, -1, i18next.t("apgames:validation.killallgo.INSTRUCTIONS_HANDICAP", { max }));
         }
@@ -999,19 +1018,27 @@ export class KillAllGoGame extends GameBase {
         if (m === "pass") {
             return this.fail(result, i18next.t("apgames:validation.killallgo.INVALID_PASS"));
         }
+        if (this.board.size >= this.maxSetupStones()) {
+            return this.fail(result, i18next.t("apgames:validation.killallgo.SETUP_FULL", { max: this.maxSetupStones() }));
+        }
         const err = this.checkCells([m], result);
         if (err !== undefined) { return err; }
         return this.ok(result, 1, i18next.t("apgames:validation._general.VALID_MOVE"), true);
     }
 
     private validatePieSlice(m: string, result: IValidationResult): IValidationResult {
+        const max = this.maxSetupStones();
         if (m.length === 0) {
-            return this.ok(result, -1, i18next.t("apgames:validation.killallgo.INSTRUCTIONS_PIE_SLICE"));
+            return this.ok(result, -1, i18next.t("apgames:validation.killallgo.INSTRUCTIONS_PIE_SLICE", { max }));
         }
         if (m === "pass") {
             return this.ok(result, 1, i18next.t("apgames:validation._general.VALID_MOVE"));
         }
-        const err = this.checkCells(this.parseCells(m), result);
+        const cells = this.parseCells(m);
+        if (cells.length > max) {
+            return this.fail(result, i18next.t("apgames:validation.killallgo.PIE_SLICE_MAX", { max }));
+        }
+        const err = this.checkCells(cells, result);
         if (err !== undefined) { return err; }
         return this.ok(result, 0, i18next.t("apgames:validation.killallgo.BATCH_MORE_OR_SUBMIT"), true);
     }

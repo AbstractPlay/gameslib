@@ -320,6 +320,60 @@ describe("Kill-All Go", () => {
         });
     });
 
+    describe("the setup stone cap", () => {
+        // 9x9 has 81 points; floor(81/2) = 40, matching the handicap range tested above.
+        const allCells = (): string[] => {
+            const cells: string[] = [];
+            for (const col of "abcdefghi") { for (let row = 1; row <= 9; row++) { cells.push(`${col}${row}`); } }
+            return cells;
+        };
+
+        it("stops a simple-pie slice from naming more than floor(p/2) stones", () => {
+            const g = new KillAllGoGame(undefined, ["size-9", "pie"]);
+            const atCap = allCells().slice(0, 40).join(",");
+            const overCap = allCells().slice(0, 41).join(",");
+            expect(g.validateMove(atCap).valid).to.be.true;
+            expect(g.validateMove(atCap).complete).to.equal(0);
+            expect(g.validateMove(overCap).valid).to.be.false;
+            g.move(atCap);
+            expect(g.board.size).to.equal(40);
+        });
+
+        it("rejects a simple-pie slice that names every point on the board", () => {
+            // Before the cap existed, this suicided the whole board back to the empty starting
+            // position, an illegal repeat that PSK is supposed to forbid.
+            const g = new KillAllGoGame(undefined, ["size-9", "pie"]);
+            const everyCell = allCells().join(",");
+            expect(g.validateMove(everyCell).valid).to.be.false;
+            expect(() => g.move(everyCell)).to.throw();
+        });
+
+        it("stops alt-place's ordinary single-stone placements once the running total hits floor(p/2)", () => {
+            const g = play(new KillAllGoGame(undefined, ["size-9"]), allCells().slice(0, 40));
+            expect(g.board.size).to.equal(40);
+            expect(g.moves().some((m) => /^[a-z]+\d+$/.test(m))).to.be.false;
+            expect(g.moves()).to.deep.equal(["attacker"]);
+            expect(g.validateMove(allCells()[40]).valid).to.be.false;
+            expect(() => g.move(allCells()[40])).to.throw();
+            // The cap only blocks placing another stone; claiming the Attacker side still works.
+            g.move("attacker");
+            expect(g.redSeat).to.equal(1);
+            expect(g.phase).to.equal("play");
+        });
+
+        it("lets the handicap opening's claiming batch reach its own independent cap even after ordinary turns", () => {
+            // 20 ordinary turns (well under the 40-stone cap) followed by Player 2 claiming with
+            // the full 40-stone handicap: 20 + 40 = 60 stones, comfortably under all 81 points.
+            const g = play(new KillAllGoGame(undefined, ["size-9", "handicap"]), ["40", ...allCells().slice(0, 20)]);
+            expect(g.board.size).to.equal(20);
+            const batch = allCells().slice(20, 60).join(",");
+            expect(g.validateMove(`attacker:${batch}`).valid).to.be.true;
+            g.move(`attacker:${batch}`);
+            expect(g.board.size).to.equal(60);
+            expect(g.redSeat).to.equal(2);
+        });
+    });
+
     describe("classic opening", () => {
         it("sets up the 17 traditional stones with the Defender (Player 1) to move", () => {
             const g = new KillAllGoGame(undefined, ["classic"]);

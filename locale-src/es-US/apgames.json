@@ -3291,6 +3291,10 @@
     "src": "In the base game, pieces may move through sanctuaries as part of a multistep jump. They're not frozen until they end their move in a sanctuary. In the strict variant, pieces are frozen as soon as they enter a sanctuary.\n\nIn four-player games, players 1 and 2 are partnered, as are players 3 and 4.",
     "out": "En el juego base, las piezas pueden moverse a través de santuarios como parte de un salto de varios pasos. No se congelan hasta que terminan su movimiento en un santuario. En la variante estricta, las piezas se congelan tan pronto como entran en un santuario.\n\nEn partidas de cuatro jugadores, los jugadores 1 y 2 son compañeros, al igual que los jugadores 3 y 4."
   },
+  "notes.crosshairs": {
+    "src": "The published Turbulence rule is ambiguous about two points: it does not specify whether a maneuver's normal height change occurs before or after the Turbulence loss, nor what happens if the plane is already at height 0. This implementation interprets the rule by applying each maneuver's normal height change first, then applying one Turbulence loss for each cloud cell entered, in travel order. A plane at height 0 when a Turbulence loss would apply crashes immediately.\n\nTo prevent clouds on a starting edge from trapping every entering plane, Turbulence does not affect a plane until it has entered a non-cloud cell. Once it has done so, it remains subject to Turbulence. Every cell traversed during movement counts as entered, including the intermediate cell of a two-space level flight; a clear intermediate cell therefore removes the exemption before the plane reaches a later cloudy cell in the same maneuver. Each maneuver in a dive is resolved completely before the next, so a swoop that enters a non-cloud cell removes the exemption before the following swoop.",
+    "out": "La regla publicada de Turbulencia es ambigua respecto a dos puntos: no especifica si el cambio normal de altura de una maniobra ocurre antes o después de la pérdida por Turbulencia, ni qué sucede si el avión ya está en la altura 0. Esta implementación interpreta la regla aplicando primero el cambio normal de altura de cada maniobra y luego aplicando una pérdida por Turbulencia por cada casilla con nubes en la que se ingrese, en el orden del recorrido. Un avión en altura 0 cuando se fuera a aplicar una pérdida por Turbulencia se estrella de inmediato.\n\nPara evitar que las nubes en un borde de inicio atrapen a todos los aviones que entran, la Turbulencia no afecta a un avión hasta que haya entrado en una casilla sin nubes. Una vez que lo haya hecho, permanece sujeto a la Turbulencia. Cada casilla atravesada durante el movimiento cuenta como ingresada, incluida la casilla intermedia de un vuelo nivelado de dos espacios; por lo tanto, una casilla intermedia despejada elimina la exención antes de que el avión alcance una casilla con nubes posterior en la misma maniobra. Cada maniobra en un picado se resuelve por completo antes de la siguiente, por lo que un swoop que entra en una casilla sin nubes elimina la exención antes del siguiente swoop."
+  },
   "notes.deckfish": {
     "src": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com).\n\nThe suit powers (token movement abilities) are:\n* Moons: Jump orthogonally over gaps. \n* Suns: Move one or two cards diagonally. \n* Waves: Move orthogonally until the last unobstructed card. \n* Leaves: Move orthogonally onto any card with no neighboring obstacles.\n* Wyrms: Move orthogonally onto the first occupied card, bumping that piece to the next card.\n* Knots: Make three orthogonal one-card moves, without backtracking.\n\nIn the rules, the \"first\" player is the player who places second in the placement phase but moves first in the movement phase, but here the first player is the one who places first but moves second. This is implemented using an automatic pass for the appropriate player.\n\nThe rule is enforced that, even when the last player is already winning, he must continue playing until he is out of moves.",
     "out": "Puedes encontrar más información sobre el sistema Decktet en el [sitio web oficial de Decktet](https://www.decktet.com).\n\nLos poderes de los palos (habilidades de movimiento de fichas) son:\n* Lunas: Saltar ortogonalmente sobre huecos.\n* Soles: Mover una o dos cartas en diagonal.\n* Olas: Moverse ortogonalmente hasta la última carta sin obstrucciones.\n* Hojas: Moverse ortogonalmente a cualquier carta que no tenga obstáculos vecinos.\n* Sierpes: Moverse ortogonalmente a la primera carta ocupada, empujando esa pieza a la siguiente carta.\n* Nudos: Realizar tres movimientos ortogonales de una carta, sin retroceder.\n\nEn las reglas, el \"primer\" jugador es el jugador que coloca en segundo lugar en la fase de colocación pero se mueve primero en la fase de movimiento, pero aquí el primer jugador es quien coloca primero pero se mueve en segundo lugar. Esto se implementa mediante un pase automático para el jugador correspondiente.\n\nSe aplica la regla de que, incluso cuando el último jugador ya esté ganando, debe continuar jugando hasta que se quede sin movimientos."
@@ -15571,6 +15575,14 @@
     "src": "28 clouds",
     "out": "28 nubes"
   },
+  "variants.crosshairs.concealed-fire.description": {
+    "src": "Planes may shoot out of clouds, but still cannot shoot into or through them.",
+    "out": "Los aviones pueden disparar desde las nubes, pero aun así no pueden disparar hacia ellas ni a través de ellas."
+  },
+  "variants.crosshairs.concealed-fire.name": {
+    "src": "Concealed fire",
+    "out": "Fuego oculto"
+  },
   "variants.crosshairs.random-start.description": {
     "src": "There is no cloud placing phase. The system places the clouds randomly with 180-degree rotational symmetry.",
     "out": "No hay fase de colocación de nubes. El sistema coloca las nubes al azar con simetría rotacional de 180 grados."
@@ -15578,6 +15590,14 @@
   "variants.crosshairs.random-start.name": {
     "src": "Symmetric random clouds",
     "out": "Nubes aleatorias simétricas"
+  },
+  "variants.crosshairs.turbulence.description": {
+    "src": "Each time a plane enters a cloud, it loses 1 height.",
+    "out": "Cada vez que un avión entra en una nube, pierde 1 de altura."
+  },
+  "variants.crosshairs.turbulence.name": {
+    "src": "Turbulence",
+    "out": "Turbulencia"
   },
   "variants.crosshairs.unbounded-cloud-banks.description": {
     "src": "Cloud banks may contain any number of clouds.",

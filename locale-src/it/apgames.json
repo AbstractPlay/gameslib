@@ -3291,6 +3291,10 @@
     "src": "In the base game, pieces may move through sanctuaries as part of a multistep jump. They're not frozen until they end their move in a sanctuary. In the strict variant, pieces are frozen as soon as they enter a sanctuary.\n\nIn four-player games, players 1 and 2 are partnered, as are players 3 and 4.",
     "out": "Nel gioco base, i pezzi possono attraversare i santuari come parte di un salto a più passaggi. Non vengono congelati finché non terminano la mossa in un santuario. Nella variante rigida, i pezzi vengono congelati non appena entrano in un santuario.\n\nNelle partite a quattro giocatori, i giocatori 1 e 2 giocano in squadra, così come i giocatori 3 e 4."
   },
+  "notes.crosshairs": {
+    "src": "The published Turbulence rule is ambiguous about two points: it does not specify whether a maneuver's normal height change occurs before or after the Turbulence loss, nor what happens if the plane is already at height 0. This implementation interprets the rule by applying each maneuver's normal height change first, then applying one Turbulence loss for each cloud cell entered, in travel order. A plane at height 0 when a Turbulence loss would apply crashes immediately.\n\nTo prevent clouds on a starting edge from trapping every entering plane, Turbulence does not affect a plane until it has entered a non-cloud cell. Once it has done so, it remains subject to Turbulence. Every cell traversed during movement counts as entered, including the intermediate cell of a two-space level flight; a clear intermediate cell therefore removes the exemption before the plane reaches a later cloudy cell in the same maneuver. Each maneuver in a dive is resolved completely before the next, so a swoop that enters a non-cloud cell removes the exemption before the following swoop.",
+    "out": "La regola pubblicata sulla Turbolenza è ambigua su due punti: non specifica se il normale cambio di quota di una manovra avvenga prima o dopo la perdita di quota per Turbolenza, né cosa accada se l'aereo si trova già a quota 0. Questa implementazione interpreta la regola applicando prima il normale cambio di quota di ciascuna manovra, e poi applicando una perdita di quota per Turbolenza per ogni casella nuvolosa in cui si entra, nell'ordine di percorrenza. Un aereo a quota 0 quando si applica una perdita di quota per Turbolenza precipita immediatamente.\n\nPer evitare che le nubi sul bordo di partenza intrappolino ogni aereo che entra, la Turbolenza non ha effetto su un aereo finché questo non è entrato in una casella non nuvolosa. Una volta fatto ciò, l'aereo rimane soggetto alla Turbolenza. Ogni casella attraversata durante il movimento viene considerata come entrata, inclusa la casella intermedia di un volo orizzontale da due spazi; una casella intermedia libera rimuove quindi l'esenzione prima che l'aereo raggiunga una casella nuvolosa successiva nella stessa manovra. Ciascuna manovra in una picchiata viene risolta completamente prima della successiva, quindi un'affondata che entra in una casella non nuvolosa rimuove l'esenzione prima dell'affondata seguente."
+  },
   "notes.deckfish": {
     "src": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com).\n\nThe suit powers (token movement abilities) are:\n* Moons: Jump orthogonally over gaps. \n* Suns: Move one or two cards diagonally. \n* Waves: Move orthogonally until the last unobstructed card. \n* Leaves: Move orthogonally onto any card with no neighboring obstacles.\n* Wyrms: Move orthogonally onto the first occupied card, bumping that piece to the next card.\n* Knots: Make three orthogonal one-card moves, without backtracking.\n\nIn the rules, the \"first\" player is the player who places second in the placement phase but moves first in the movement phase, but here the first player is the one who places first but moves second. This is implemented using an automatic pass for the appropriate player.\n\nThe rule is enforced that, even when the last player is already winning, he must continue playing until he is out of moves.",
     "out": "Maggiori informazioni sul sistema Decktet si possono trovare sul [sito ufficiale di Decktet](https://www.decktet.com).\n\nI poteri dei semi (abilità di movimento dei segnalini) sono:\n* Lune: Salta ortogonalmente sopra gli spazi vuoti.\n* Soli: Sposta una o due carte in diagonale.\n* Onde: Muovi ortogonalmente fino all'ultima carta non ostruita.\n* Foglie: Muovi ortogonalmente su qualsiasi carta senza ostacoli adiacenti.\n* Wyrm: Muovi ortogonalmente sulla prima carta occupata, spingendo quel pezzo sulla carta successiva.\n* Nodi: Esegui tre mosse ortogonali di una carta, senza tornare indietro.\n\nNel regolamento, il \"primo\" giocatore è colui che piazza per secondo nella fase di piazzamento ma muove per primo nella fase di movimento, ma qui il primo giocatore è colui che piazza per primo ma muove per secondo. Questo è implementato mediante un passo automatico per il giocatore appropriato.\n\nViene applicata la regola secondo cui, anche quando l'ultimo giocatore sta già vincendo, deve continuare a giocare finché non esaurisce le mosse."
@@ -15571,6 +15575,14 @@
     "src": "28 clouds",
     "out": "28 nuvole"
   },
+  "variants.crosshairs.concealed-fire.description": {
+    "src": "Planes may shoot out of clouds, but still cannot shoot into or through them.",
+    "out": "Gli aerei possono sparare da dentro le nubi, ma continuano a non poter sparare verso l'interno o attraverso di esse."
+  },
+  "variants.crosshairs.concealed-fire.name": {
+    "src": "Concealed fire",
+    "out": "Fuoco nascosto"
+  },
   "variants.crosshairs.random-start.description": {
     "src": "There is no cloud placing phase. The system places the clouds randomly with 180-degree rotational symmetry.",
     "out": "Non c'è alcuna fase di posizionamento delle nuvole. Il sistema posiziona le nuvole in modo casuale con una simmetria rotazionale di 180 gradi."
@@ -15578,6 +15590,14 @@
   "variants.crosshairs.random-start.name": {
     "src": "Symmetric random clouds",
     "out": "Nuvole casuali simmetriche"
+  },
+  "variants.crosshairs.turbulence.description": {
+    "src": "Each time a plane enters a cloud, it loses 1 height.",
+    "out": "Ogni volta che un aereo entra in una nube, perde 1 di quota."
+  },
+  "variants.crosshairs.turbulence.name": {
+    "src": "Turbulence",
+    "out": "Turbolenza"
   },
   "variants.crosshairs.unbounded-cloud-banks.description": {
     "src": "Cloud banks may contain any number of clouds.",

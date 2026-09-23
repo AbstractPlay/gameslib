@@ -3220,8 +3220,8 @@
     "out": "Cette implémentation suit le règlement de David Ploog. Trois changements notables sont que (1) les barrières sont interdites, (2) au lieu d'un 16x16, nous avons une variante 15x15, où les pièces se promeuvent en cavaliers sur la ligne centrale, et le dragon ne peut pas sauter vers la case 7x7 depuis l'autre coin, et (3) contre les coins, les pièces sont capturées par écrasement au lieu d'une capture par encadrement, il doit donc y avoir au moins deux pièces adverses en ligne avant qu'une capture ne soit faite contre les coins.\n\nRemarque : la vérification du pat est gourmande en ressources. Si vous ne pouvez pas jouer de coup légal, vous devriez abandonner manuellement."
   },
   "notes.arimaa": {
-    "src": "Made available under section 3 of the [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nDuring standard setup, you only need to place your eight non-rabbits. Once they are down, Complete Move fills the rest of your setup area with rabbits. You can still place any or all of the rabbits yourself first if you want them somewhere in particular.\n\nHarlog is an accepted method for determining material advantage. Positive scores favour Gold, negative Silver. The hard range is ±112, but in practice ±20 is a very strong advantage.\n\nBecause we can't generate comprehensive lists of moves, the system cannot detect the rare cases where your only available moves are illegal due to position repetition. The system won't let you make those illegal repetitions, and you'll have to resign manually.",
-    "out": "Mis à disposition selon la section 3 de la [licence publique Arimaa](https://arimaa.com/arimaa/license/).\n\nLors du placement initial standard, vous n'avez besoin de placer que vos huit pièces autres que des lapins. Une fois celles-ci posées, « Terminer le coup » remplit le reste de votre zone de placement avec des lapins. Vous pouvez toujours placer vous-même tout ou partie des lapins au préalable si vous les voulez à un endroit particulier.\n\nHarlog est une méthode reconnue pour déterminer l'avantage matériel. Les scores positifs favorisent l'Or, les négatifs l'Argent. La plage théorique est de ±112, mais en pratique, ±20 constitue un très fort avantage.\n\nComme nous ne pouvons pas générer de liste exhaustive de coups, le système ne peut pas détecter les rares cas où vos seuls coups disponibles sont illégaux en raison d'une répétition de position. Le système ne vous laissera pas effectuer ces répétitions illégales, et vous devrez abandonner manuellement."
+    "src": "Made available under section 3 of the [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nDuring standard setup, you only need to place your eight non-rabbits. Once they are down, Complete Move fills the rest of your setup area with rabbits. You can still place any or all of the rabbits yourself first if you want them somewhere in particular.\n\nTo enter a move, click a piece and then the square it should end your turn on. The engine finds the shortest legal way to get it there, pushes and pulls included, and draws one arrow per piece from where it started to where it ends up. You can point at enemy pieces too. Click an arrow's head to extend it, or its tail to remove it. Clicking a selected piece a second time keeps it where it stands, which is how you stop the engine moving it aside. A few rarer turns need one more click; the wiki page for this game lists them all.\n\nMoves are recorded in Lightvector notation, which names each piece and where it ends up rather than listing every step. You can type it into the move box, and the older step-by-step notation is still accepted. The wiki page explains the notation in full.\n\nHarlog is an accepted method for determining material advantage. Positive scores favour Gold, negative Silver. The hard range is ±112, but in practice ±20 is a very strong advantage.\n\nBecause we can't generate comprehensive lists of moves, the system cannot detect the rare cases where your only available moves are illegal due to position repetition. The system won't let you make those illegal repetitions, and you'll have to resign manually.",
+    "out": "Rendu disponible sous la section 3 de la [licence publique Arimaa](https://arimaa.com/arimaa/license/).\n\nLors d'une disposition initiale standard, vous n'avez qu'à placer vos huit pièces autres que les lapins. Une fois posées, Terminer le coup remplit le reste de votre zone de départ avec des lapins. Vous pouvez toujours placer vous-même tout ou partie des lapins si vous souhaitez les mettre à un endroit particulier.\n\nPour entrer un coup, cliquez sur une pièce puis sur la case où elle doit terminer son tour. Le moteur trouve le chemin légal le plus court pour l'y amener, poussées et tirages inclus, et trace une flèche par pièce depuis son point de départ jusqu'à son arrivée. Vous pouvez également cibler des pièces ennemies. Cliquez sur la pointe d'une flèche pour l'étendre, ou sur sa queue pour la supprimer. Cliquer une seconde fois sur une pièce sélectionnée la maintient là où elle se trouve, ce qui empêche le moteur de la déplacer. Quelques tours plus rares nécessitent un clic supplémentaire ; la page wiki de ce jeu les répertorie tous.\n\nLes coups sont enregistrés selon la notation Lightvector, qui nomme chaque pièce et sa case d'arrivée plutôt que de lister chaque étape. Vous pouvez la saisir dans la zone de saisie du coup, et l'ancienne notation étape par étape reste acceptée. La page wiki explique cette notation en détail.\n\nHarlog est une méthode reconnue pour déterminer l'avantage matériel. Les scores positifs favorisent les Ors, les négatifs les Argents. La plage théorique est de ±112, mais en pratique, ±20 constitue un avantage très net.\n\nComme nous ne pouvons pas générer une liste exhaustive de coups, le système ne peut pas détecter les rares cas où vos seuls coups disponibles sont illégaux en raison d'une répétition de position. Le système ne vous laissera pas effectuer ces répétitions illégales, et vous devrez abandonner manuellement."
   },
   "notes.armadas": {
     "src": "There are known issues with this game on iOS devices.\n\nThis game offers two scenarios:\n\n* The default is each player having two trios of pieces. In the placement phase, each player must place 1 to 3 ships until all ships are placed.\n* The \"Freeform\" variant allows you to place whatever ships you want (maximum of three at a time) until both players \"pass.\" This lets you create unbalanced or otherwise asymmetrical fleets.\n\nGames default to having one island in the centre of the field. Both a \"no islands\" and a \"two islands\" variant are available. You cannot move or fire through islands. To successfully hit a ship, at least one corner of your ship's triangle must have a clear view of at least one corner of the target ship.\n\nRemember that it is possible to get your ship in a position against an island or the edge of the board such that you can no longer move that ship! Be careful!",
@@ -4619,6 +4619,10 @@
     "src": "You may not leave your own pieces on your home port.",
     "out": "Vous ne pouvez pas laisser vos propres pièces dans votre port d'attache."
   },
+  "validation.arimaa.AMBIGUOUS": {
+    "src": "That fits {{count}} different moves. Say where another piece ends up to settle it.",
+    "out": "Cela correspond à {{count}} coups différents. Indiquez la destination d'une autre pièce pour trancher."
+  },
   "validation.arimaa.BACKWARDS": {
     "src": "You may not move your own rabbits backwards.",
     "out": "Vous ne pouvez pas faire reculer vos propres lapins."
@@ -4631,13 +4635,21 @@
     "src": "You may only place pieces on the two ranks closest to you.",
     "out": "Vous ne pouvez placer des pièces que sur les deux rangées les plus proches de vous."
   },
+  "validation.arimaa.INCOMPLETE": {
+    "src": "A piece is selected. Click a square to send it there, or click it again to keep it where it is.",
+    "out": "Une pièce est sélectionnée. Cliquez sur une case pour l'y envoyer, ou cliquez à nouveau dessus pour la maintenir là où elle est."
+  },
+  "validation.arimaa.INFERRED": {
+    "src": "Also moving: {{pieces}}.",
+    "out": "Déplacement également de : {{pieces}}."
+  },
   "validation.arimaa.INITIAL_INSTRUCTIONS_place": {
     "src": "Select a piece from your hand to place on the board.",
     "out": "Sélectionnez une pièce de votre main à placer sur le plateau."
   },
   "validation.arimaa.INITIAL_INSTRUCTIONS_play": {
-    "src": "Select a piece to move.",
-    "out": "Sélectionnez une pièce à déplacer."
+    "src": "Click a piece, then the square it should end the turn on. You can point at enemy pieces too; pushes and pulls are worked out for you.",
+    "out": "Cliquez sur une pièce, puis sur la case où elle doit terminer le tour. Vous pouvez aussi cibler des pièces ennemies ; les poussées et tirages sont calculés automatiquement."
   },
   "validation.arimaa.INVALID_PUSH": {
     "src": "Pushes must be immediately completed by moving the pushing piece into the space vacated by the pushed enemy piece.",
@@ -4662,6 +4674,34 @@
   "validation.arimaa.NOT_ADJ": {
     "src": "Pieces may only move one space orthogonally.",
     "out": "Les pièces ne peuvent se déplacer que d'une case orthogonalement."
+  },
+  "validation.arimaa.NO_MOVE": {
+    "src": "No legal move matches what you have drawn.",
+    "out": "Aucun coup légal ne correspond à ce que vous avez tracé."
+  },
+  "validation.arimaa.NO_MOVE_CHAIN": {
+    "src": "One arrow per piece, from where it starts to where it ends: {{first}} and {{second}} together are {{combined}}.",
+    "out": "Une flèche par pièce, de son départ à son arrivée : {{first}} et {{second}} ensemble donnent {{combined}}."
+  },
+  "validation.arimaa.NO_MOVE_ENEMY": {
+    "src": "The piece on {{from}} is your opponent's, and none of your pieces can push or pull it as drawn within {{num}} steps.",
+    "out": "La pièce en {{from}} appartient à votre adversaire, et aucune de vos pièces ne peut la pousser ou la tirer comme tracé en {{num}} étapes ou moins."
+  },
+  "validation.arimaa.NO_MOVE_FROZEN": {
+    "src": "The piece on {{from}} is frozen, and nothing can free it in time.",
+    "out": "La pièce en {{from}} est gelée, et rien ne peut la libérer à temps."
+  },
+  "validation.arimaa.NO_MOVE_REACH": {
+    "src": "The piece on {{from}} cannot get to {{to}} within {{num}} steps.",
+    "out": "La pièce en {{from}} ne peut pas atteindre {{to}} en {{num}} étapes ou moins."
+  },
+  "validation.arimaa.NO_MOVE_TOGETHER": {
+    "src": "Each of those works on its own, but not all of them within {{num}} steps.",
+    "out": "Chacun de ces déplacements fonctionne isolément, mais pas l'ensemble en {{num}} étapes ou moins."
+  },
+  "validation.arimaa.PARSE": {
+    "src": "Could not read \"{{token}}\".",
+    "out": "Impossible de lire \"{{token}}\"."
   },
   "validation.arimaa.PARTIAL_FREE": {
     "src": "You may continue placing pieces, or click Complete Move to end your turn.",
@@ -4702,6 +4742,10 @@
   "validation.arimaa.REPEAT": {
     "src": "You may not repeat a given position a third time.",
     "out": "Vous ne pouvez pas répéter une position donnée une troisième fois."
+  },
+  "validation.arimaa.TOO_LONG": {
+    "src": "What you have drawn needs more than {{num}} steps.",
+    "out": "Ce que vous avez tracé nécessite plus de {{num}} étapes."
   },
   "validation.arimaa.TOO_MANY": {
     "src": "You may only take up to {{num}} actions this turn.",

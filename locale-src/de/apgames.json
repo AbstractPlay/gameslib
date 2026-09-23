@@ -3220,8 +3220,8 @@
     "out": "Diese Implementierung folgt David Ploogs Regelblatt. Drei bemerkenswerte Änderungen sind: (1) Barrieren sind verboten, (2) anstelle eines 16x16-Bretts gibt es eine 15x15-Variante, bei der Figuren auf der Mittellinie zu Springern umgewandelt werden und der Drache nicht aus der anderen Ecke auf das 7x7-Feld springen darf, und (3) an den Ecken werden Figuren durch Zerstauchungs-Schlagen (crushing capture) statt durch Einkesselungs-Schlagen (custodian capture) geschlagen, sodass sich mindestens zwei gegnerische Figuren in einer Reihe befinden müssen, bevor ein Schlagen an den Ecken erfolgt.\n\nHinweis: Die Patt-Prüfung ist rechenintensiv. Wenn Sie keinen regelkonformen Zug machen können, sollten Sie manuell aufgeben."
   },
   "notes.arimaa": {
-    "src": "Made available under section 3 of the [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nDuring standard setup, you only need to place your eight non-rabbits. Once they are down, Complete Move fills the rest of your setup area with rabbits. You can still place any or all of the rabbits yourself first if you want them somewhere in particular.\n\nHarlog is an accepted method for determining material advantage. Positive scores favour Gold, negative Silver. The hard range is ±112, but in practice ±20 is a very strong advantage.\n\nBecause we can't generate comprehensive lists of moves, the system cannot detect the rare cases where your only available moves are illegal due to position repetition. The system won't let you make those illegal repetitions, and you'll have to resign manually.",
-    "out": "Bereitgestellt unter Abschnitt 3 der [öffentlichen Arimaa-Lizenz](https://arimaa.com/arimaa/license/).\n\nWährend der Standardaufstellung musst du nur deine acht Nicht-Hasen platzieren. Sobald sie aufgestellt sind, füllt „Zug abschließen“ den Rest deines Aufstellungsbereichs mit Hasen auf. Du kannst vorher auch einige oder alle Hasen selbst platzieren, wenn du sie an bestimmten Positionen haben möchtest.\n\nHarlog ist eine anerkannte Methode zur Bestimmung des Materialvorteils. Positive Werte begünstigen Gold, negative Silber. Der theoretische Bereich liegt bei ±112, aber in der Praxis ist ±20 bereits ein sehr starker Vorteil.\n\nDa wir keine vollständigen Zuglisten generieren können, kann das System die seltenen Fälle nicht erkennen, in denen deine einzigen verfügbaren Züge aufgrund von Stellungswiederholung regelwidrig sind. Das System wird dich diese regelwidrigen Wiederholungen nicht ausführen lassen, sodass du manuell aufgeben musst."
+    "src": "Made available under section 3 of the [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nDuring standard setup, you only need to place your eight non-rabbits. Once they are down, Complete Move fills the rest of your setup area with rabbits. You can still place any or all of the rabbits yourself first if you want them somewhere in particular.\n\nTo enter a move, click a piece and then the square it should end your turn on. The engine finds the shortest legal way to get it there, pushes and pulls included, and draws one arrow per piece from where it started to where it ends up. You can point at enemy pieces too. Click an arrow's head to extend it, or its tail to remove it. Clicking a selected piece a second time keeps it where it stands, which is how you stop the engine moving it aside. A few rarer turns need one more click; the wiki page for this game lists them all.\n\nMoves are recorded in Lightvector notation, which names each piece and where it ends up rather than listing every step. You can type it into the move box, and the older step-by-step notation is still accepted. The wiki page explains the notation in full.\n\nHarlog is an accepted method for determining material advantage. Positive scores favour Gold, negative Silver. The hard range is ±112, but in practice ±20 is a very strong advantage.\n\nBecause we can't generate comprehensive lists of moves, the system cannot detect the rare cases where your only available moves are illegal due to position repetition. The system won't let you make those illegal repetitions, and you'll have to resign manually.",
+    "out": "Verfügbar gemacht unter Abschnitt 3 der [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nBei der Standard-Aufstellung müssen Sie nur Ihre acht Nicht-Kaninchen platzieren. Sobald diese aufgestellt sind, füllt \"Zug beenden\" den Rest Ihres Aufstellungsbereichs mit Kaninchen auf. Sie können dennoch einige oder alle Kaninchen zuerst selbst platzieren, wenn Sie sie an einer bestimmten Stelle haben möchten.\n\nUm einen Zug einzugeben, klicken Sie auf eine Figur und dann auf das Feld, auf dem sie Ihren Zug beenden soll. Die Engine findet den kürzesten legalen Weg dorthin, einschließlich Schieben und Ziehen, und zeichnet einen Pfeil pro Figur von ihrem Startfeld zu ihrem Zielfeld. Sie können auch auf gegnerische Figuren zeigen. Klicken Sie auf die Pfeilspitze, um ihn zu verlängern, oder auf das Ende, um ihn zu entfernen. Wenn Sie eine ausgewählte Figur ein zweites Mal anklicken, bleibt sie dort stehen, wo sie ist – so verhindern Sie, dass die Engine sie zur Seite schiebt. Ein paar seltenere Züge erfordern einen weiteren Klick; die Wiki-Seite für dieses Spiel listet sie alle auf.\n\nZüge werden in der Lightvector-Notation aufgezeichnet, die jede Figur und ihr Zielfeld nennt, anstatt jeden einzelnen Schritt aufzulisten. Sie können sie in das Zugfeld eingeben, und die ältere Schritt-für-Schritt-Notation wird weiterhin akzeptiert. Die Wiki-Seite erklärt die Notation ausführlich.\n\nHarlog ist eine anerkannte Methode zur Bestimmung des Materialvorteils. Positive Werte begünstigen Gold, negative Silber. Der theoretische Bereich liegt bei ±112, aber in der Praxis ist ±20 bereits ein sehr starker Vorteil.\n\nDa wir keine vollständigen Zuglisten generieren können, kann das System die seltenen Fälle nicht erkennen, in denen Ihre einzigen verfügbaren Züge aufgrund von Stellungswiederholung illegal sind. Das System lässt Sie diese illegalen Wiederholungen nicht ausführen, und Sie müssen manuell aufgeben."
   },
   "notes.armadas": {
     "src": "There are known issues with this game on iOS devices.\n\nThis game offers two scenarios:\n\n* The default is each player having two trios of pieces. In the placement phase, each player must place 1 to 3 ships until all ships are placed.\n* The \"Freeform\" variant allows you to place whatever ships you want (maximum of three at a time) until both players \"pass.\" This lets you create unbalanced or otherwise asymmetrical fleets.\n\nGames default to having one island in the centre of the field. Both a \"no islands\" and a \"two islands\" variant are available. You cannot move or fire through islands. To successfully hit a ship, at least one corner of your ship's triangle must have a clear view of at least one corner of the target ship.\n\nRemember that it is possible to get your ship in a position against an island or the edge of the board such that you can no longer move that ship! Be careful!",
@@ -4619,6 +4619,10 @@
     "src": "You may not leave your own pieces on your home port.",
     "out": "Du darfst keine eigenen Steine auf deinem Heimathafen stehen lassen."
   },
+  "validation.arimaa.AMBIGUOUS": {
+    "src": "That fits {{count}} different moves. Say where another piece ends up to settle it.",
+    "out": "Das passt zu {{count}} verschiedenen Zügen. Geben Sie an, wo eine weitere Figur landet, um es eindeutig zu machen."
+  },
   "validation.arimaa.BACKWARDS": {
     "src": "You may not move your own rabbits backwards.",
     "out": "Du darfst deine eigenen Kaninchen nicht rückwärts bewegen."
@@ -4631,13 +4635,21 @@
     "src": "You may only place pieces on the two ranks closest to you.",
     "out": "Du darfst Steine nur auf den zwei Reihen platzieren, die dir am nächsten sind."
   },
+  "validation.arimaa.INCOMPLETE": {
+    "src": "A piece is selected. Click a square to send it there, or click it again to keep it where it is.",
+    "out": "Eine Figur ist ausgewählt. Klicken Sie auf ein Feld, um sie dorthin zu bewegen, oder klicken Sie erneut darauf, um sie an Ort und Stelle zu belassen."
+  },
+  "validation.arimaa.INFERRED": {
+    "src": "Also moving: {{pieces}}.",
+    "out": "Bewegt sich ebenfalls: {{pieces}}."
+  },
   "validation.arimaa.INITIAL_INSTRUCTIONS_place": {
     "src": "Select a piece from your hand to place on the board.",
     "out": "Wähle einen Stein aus deiner Hand, um ihn auf dem Spielplan zu platzieren."
   },
   "validation.arimaa.INITIAL_INSTRUCTIONS_play": {
-    "src": "Select a piece to move.",
-    "out": "Wähle einen Stein zum Bewegen aus."
+    "src": "Click a piece, then the square it should end the turn on. You can point at enemy pieces too; pushes and pulls are worked out for you.",
+    "out": "Klicken Sie auf eine Figur und dann auf das Feld, auf dem sie den Zug beenden soll. Sie können auch auf gegnerische Figuren zeigen; Schieben und Ziehen werden automatisch berechnet."
   },
   "validation.arimaa.INVALID_PUSH": {
     "src": "Pushes must be immediately completed by moving the pushing piece into the space vacated by the pushed enemy piece.",
@@ -4662,6 +4674,34 @@
   "validation.arimaa.NOT_ADJ": {
     "src": "Pieces may only move one space orthogonally.",
     "out": "Steine dürfen sich nur um ein Feld orthogonal bewegen."
+  },
+  "validation.arimaa.NO_MOVE": {
+    "src": "No legal move matches what you have drawn.",
+    "out": "Kein legaler Zug entspricht dem, was Sie gezeichnet haben."
+  },
+  "validation.arimaa.NO_MOVE_CHAIN": {
+    "src": "One arrow per piece, from where it starts to where it ends: {{first}} and {{second}} together are {{combined}}.",
+    "out": "Ein Pfeil pro Figur, vom Start- zum Zielfeld: {{first}} und {{second}} zusammen ergeben {{combined}}."
+  },
+  "validation.arimaa.NO_MOVE_ENEMY": {
+    "src": "The piece on {{from}} is your opponent's, and none of your pieces can push or pull it as drawn within {{num}} steps.",
+    "out": "Die Figur auf {{from}} gehört Ihrem Gegner, und keine Ihrer Figuren kann sie innerhalb von {{num}} Schritten wie gezeichnet schieben oder ziehen."
+  },
+  "validation.arimaa.NO_MOVE_FROZEN": {
+    "src": "The piece on {{from}} is frozen, and nothing can free it in time.",
+    "out": "Die Figur auf {{from}} ist eingefroren, und nichts kann sie rechtzeitig befreien."
+  },
+  "validation.arimaa.NO_MOVE_REACH": {
+    "src": "The piece on {{from}} cannot get to {{to}} within {{num}} steps.",
+    "out": "Die Figur auf {{from}} kann {{to}} nicht innerhalb von {{num}} Schritten erreichen."
+  },
+  "validation.arimaa.NO_MOVE_TOGETHER": {
+    "src": "Each of those works on its own, but not all of them within {{num}} steps.",
+    "out": "Jede dieser Aktionen funktioniert für sich alleine, aber nicht alle zusammen innerhalb von {{num}} Schritten."
+  },
+  "validation.arimaa.PARSE": {
+    "src": "Could not read \"{{token}}\".",
+    "out": "Konnte \"{{token}}\" nicht lesen."
   },
   "validation.arimaa.PARTIAL_FREE": {
     "src": "You may continue placing pieces, or click Complete Move to end your turn.",
@@ -4702,6 +4742,10 @@
   "validation.arimaa.REPEAT": {
     "src": "You may not repeat a given position a third time.",
     "out": "Du darfst eine bestimmte Stellung nicht ein drittes Mal wiederholen."
+  },
+  "validation.arimaa.TOO_LONG": {
+    "src": "What you have drawn needs more than {{num}} steps.",
+    "out": "Was Sie gezeichnet haben, erfordert mehr als {{num}} Schritte."
   },
   "validation.arimaa.TOO_MANY": {
     "src": "You may only take up to {{num}} actions this turn.",

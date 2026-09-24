@@ -140,6 +140,10 @@ bin/
 scratch.*
 debug.json
 
+# Generated docs catalog (rebuilt by npm run gen-docs-catalog / docs:check)
+docs/meta-games.md
+docs/categories.md
+
 # Generated registry (rebuilt by npm run generate-registry / pretest)
 src/games/_registry.generated.ts
 src/games/_build-flags.generated.ts

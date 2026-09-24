@@ -4537,9 +4537,21 @@
             }
         },
         "icepalace": {
-            "expanding": {
+            "#areas": {
+                "description": "Hand and Pool seen from above, in two dimensions.",
+                "name": "Top-down hand and Pool"
+            },
+            "#board": {
                 "description": "Two dimensional board, with stacks expanding when hovered over.",
                 "name": "Expanding"
+            },
+            "perspective": {
+                "description": "Three dimensional board, with pyramids stacked in perspective.",
+                "name": "3D stacks"
+            },
+            "perspective-areas": {
+                "description": "Hand and Pool in three dimensions, with the pyramids drawn in perspective.",
+                "name": "3D hand and Pool"
             }
         },
         "intermedium": {

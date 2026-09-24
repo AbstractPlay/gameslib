@@ -1503,13 +1503,37 @@
     "src": "Vertex style",
     "out": "Knotenpunkt-Stil"
   },
-  "displays.icepalace.expanding.description": {
-    "src": "Two dimensional board, with stacks expanding when hovered over.",
-    "out": "Zweidimensionales Spielbrett, bei dem sich Stapel vergrößern, wenn man mit der Maus darüberfährt."
+  "displays.icepalace.#areas.description": {
+    "src": "Hand and Pool seen from above, in two dimensions.",
+    "out": "Hand und Pool von oben gesehen, zweidimensional."
   },
-  "displays.icepalace.expanding.name": {
+  "displays.icepalace.#areas.name": {
+    "src": "Top-down hand and Pool",
+    "out": "Hand und Pool von oben"
+  },
+  "displays.icepalace.#board.description": {
+    "src": "Two dimensional board, with stacks expanding when hovered over.",
+    "out": "Zweidimensionales Spielbrett, bei dem sich Stapel beim Darüberfahren erweitern."
+  },
+  "displays.icepalace.#board.name": {
     "src": "Expanding",
-    "out": "Aufklappend"
+    "out": "Erweiternd"
+  },
+  "displays.icepalace.perspective-areas.description": {
+    "src": "Hand and Pool in three dimensions, with the pyramids drawn in perspective.",
+    "out": "Hand und Pool in drei Dimensionen, wobei die Pyramiden perspektivisch gezeichnet sind."
+  },
+  "displays.icepalace.perspective-areas.name": {
+    "src": "3D hand and Pool",
+    "out": "3D-Hand und Pool"
+  },
+  "displays.icepalace.perspective.description": {
+    "src": "Three dimensional board, with pyramids stacked in perspective.",
+    "out": "Dreidimensionales Spielbrett mit perspektivisch gestapelten Pyramiden."
+  },
+  "displays.icepalace.perspective.name": {
+    "src": "3D stacks",
+    "out": "3D-Stapel"
   },
   "displays.intermedium.hide-diagonals.description": {
     "src": "Don't show diagonal lines.",

@@ -4537,9 +4537,21 @@
       }
     },
     "icepalace": {
-      "expanding": {
-        "description": "Tablero bidimensional, con pilas que se expanden al pasar el cursor sobre ellas.",
+      "#areas": {
+        "description": "Mano y reserva vistas desde arriba, en dos dimensiones.",
+        "name": "Mano y reserva desde arriba"
+      },
+      "#board": {
+        "description": "Tablero bidimensional, con pilas que se expanden al pasar el cursor por encima.",
         "name": "Expandible"
+      },
+      "perspective": {
+        "description": "Tablero tridimensional, con pirámides apiladas en perspectiva.",
+        "name": "Pilas en 3D"
+      },
+      "perspective-areas": {
+        "description": "Mano y reserva en tres dimensiones, con las pirámides dibujadas en perspectiva.",
+        "name": "Mano y reserva en 3D"
       }
     },
     "intermedium": {

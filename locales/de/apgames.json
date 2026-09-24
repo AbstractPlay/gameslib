@@ -4537,9 +4537,21 @@
       }
     },
     "icepalace": {
-      "expanding": {
-        "description": "Zweidimensionales Spielbrett, bei dem sich Stapel vergrößern, wenn man mit der Maus darüberfährt.",
-        "name": "Aufklappend"
+      "#areas": {
+        "description": "Hand und Pool von oben gesehen, zweidimensional.",
+        "name": "Hand und Pool von oben"
+      },
+      "#board": {
+        "description": "Zweidimensionales Spielbrett, bei dem sich Stapel beim Darüberfahren erweitern.",
+        "name": "Erweiternd"
+      },
+      "perspective": {
+        "description": "Dreidimensionales Spielbrett mit perspektivisch gestapelten Pyramiden.",
+        "name": "3D-Stapel"
+      },
+      "perspective-areas": {
+        "description": "Hand und Pool in drei Dimensionen, wobei die Pyramiden perspektivisch gezeichnet sind.",
+        "name": "3D-Hand und Pool"
       }
     },
     "intermedium": {

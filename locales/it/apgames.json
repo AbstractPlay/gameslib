@@ -4537,9 +4537,21 @@
       }
     },
     "icepalace": {
-      "expanding": {
-        "description": "Tavoliere bidimensionale, con pile che si espandono al passaggio del mouse.",
+      "#areas": {
+        "description": "Mano e Riserva viste dall'alto, in due dimensioni.",
+        "name": "Mano e Riserva dall'alto"
+      },
+      "#board": {
+        "description": "Plancia bidimensionale, con le pile che si espandono al passaggio del cursore.",
         "name": "Espandibile"
+      },
+      "perspective": {
+        "description": "Plancia tridimensionale, con le piramidi impilate in prospettiva.",
+        "name": "Pile 3D"
+      },
+      "perspective-areas": {
+        "description": "Mano e Riserva in tre dimensioni, con le piramidi disegnate in prospettiva.",
+        "name": "Mano e Riserva 3D"
       }
     },
     "intermedium": {

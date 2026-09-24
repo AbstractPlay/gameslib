@@ -4996,6 +4996,10 @@
       "OFFENSE": "Angreifender Spieler",
       "COUNTDOWN": "Verbleibende Halbzüge"
     },
+    "mvolcano": {
+      "PYRAMIDSCAPTURED": "Eroberte Pyramiden",
+      "UNCAPTUREDCOLOURS": "Noch nicht eroberte Farben"
+    },
     "pacru": {
       "TARGET": "Plättchen zum Sieg",
       "TILES": "Plättchen auf dem Spielplan"
@@ -5017,6 +5021,10 @@
     "RESERVE": "Reserve",
     "SCORES": "Punktestände",
     "STACKSIZES": "Stapelhöhen",
+    "tintas": {
+      "MAJORITIES": "Gewonnene Mehrheiten",
+      "MONOCHROME": "Monochromes Potenzial"
+    },
     "tumbleweed": "Punktestand (Steine + Einfluss)",
     "ESTIMATEDSCORES": "Geschätzte Punktestände",
     "killallgo": {

@@ -4019,6 +4019,14 @@
     "src": "Offensive player",
     "out": "Giocatore in attacco"
   },
+  "status.mvolcano.PYRAMIDSCAPTURED": {
+    "src": "Pyramids captured",
+    "out": "Piramidi catturate"
+  },
+  "status.mvolcano.UNCAPTUREDCOLOURS": {
+    "src": "Colours not yet captured",
+    "out": "Colori non ancora catturati"
+  },
   "status.pacru.TARGET": {
     "src": "Tiles to win",
     "out": "Tessere per vincere"
@@ -4046,6 +4054,14 @@
   "status.scribe.MINI_GRIDS": {
     "src": "Mini grids won",
     "out": "Mini-griglie vinte"
+  },
+  "status.tintas.MAJORITIES": {
+    "src": "Majorities won",
+    "out": "Maggioranze vinte"
+  },
+  "status.tintas.MONOCHROME": {
+    "src": "Monochrome potential",
+    "out": "Potenziale monocromatico"
   },
   "status.tumbleweed": {
     "src": "Score (pieces + influence)",

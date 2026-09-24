@@ -1503,13 +1503,37 @@
     "src": "Vertex style",
     "out": "Style aux sommets"
   },
-  "displays.icepalace.expanding.description": {
-    "src": "Two dimensional board, with stacks expanding when hovered over.",
-    "out": "Plateau en deux dimensions, avec des piles qui s'agrandissent au survol."
+  "displays.icepalace.#areas.description": {
+    "src": "Hand and Pool seen from above, in two dimensions.",
+    "out": "Main et réserve vues du dessus, en deux dimensions."
   },
-  "displays.icepalace.expanding.name": {
+  "displays.icepalace.#areas.name": {
+    "src": "Top-down hand and Pool",
+    "out": "Main et réserve en vue du dessus"
+  },
+  "displays.icepalace.#board.description": {
+    "src": "Two dimensional board, with stacks expanding when hovered over.",
+    "out": "Plateau en deux dimensions, avec des piles qui se déploient au survol."
+  },
+  "displays.icepalace.#board.name": {
     "src": "Expanding",
-    "out": "Extensible"
+    "out": "Déploiement"
+  },
+  "displays.icepalace.perspective-areas.description": {
+    "src": "Hand and Pool in three dimensions, with the pyramids drawn in perspective.",
+    "out": "Main et réserve en trois dimensions, avec les pyramides dessinées en perspective."
+  },
+  "displays.icepalace.perspective-areas.name": {
+    "src": "3D hand and Pool",
+    "out": "Main et réserve 3D"
+  },
+  "displays.icepalace.perspective.description": {
+    "src": "Three dimensional board, with pyramids stacked in perspective.",
+    "out": "Plateau en trois dimensions, avec les pyramides empilées en perspective."
+  },
+  "displays.icepalace.perspective.name": {
+    "src": "3D stacks",
+    "out": "Piles 3D"
   },
   "displays.intermedium.hide-diagonals.description": {
     "src": "Don't show diagonal lines.",

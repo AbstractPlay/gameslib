@@ -1503,13 +1503,37 @@
     "src": "Vertex style",
     "out": "Estilo de vértices"
   },
-  "displays.icepalace.expanding.description": {
-    "src": "Two dimensional board, with stacks expanding when hovered over.",
-    "out": "Tablero bidimensional, con pilas que se expanden al pasar el cursor sobre ellas."
+  "displays.icepalace.#areas.description": {
+    "src": "Hand and Pool seen from above, in two dimensions.",
+    "out": "Mano y reserva vistas desde arriba, en dos dimensiones."
   },
-  "displays.icepalace.expanding.name": {
+  "displays.icepalace.#areas.name": {
+    "src": "Top-down hand and Pool",
+    "out": "Mano y reserva desde arriba"
+  },
+  "displays.icepalace.#board.description": {
+    "src": "Two dimensional board, with stacks expanding when hovered over.",
+    "out": "Tablero bidimensional, con pilas que se expanden al pasar el cursor por encima."
+  },
+  "displays.icepalace.#board.name": {
     "src": "Expanding",
     "out": "Expandible"
+  },
+  "displays.icepalace.perspective-areas.description": {
+    "src": "Hand and Pool in three dimensions, with the pyramids drawn in perspective.",
+    "out": "Mano y reserva en tres dimensiones, con las pirámides dibujadas en perspectiva."
+  },
+  "displays.icepalace.perspective-areas.name": {
+    "src": "3D hand and Pool",
+    "out": "Mano y reserva en 3D"
+  },
+  "displays.icepalace.perspective.description": {
+    "src": "Three dimensional board, with pyramids stacked in perspective.",
+    "out": "Tablero tridimensional, con pirámides apiladas en perspectiva."
+  },
+  "displays.icepalace.perspective.name": {
+    "src": "3D stacks",
+    "out": "Pilas en 3D"
   },
   "displays.intermedium.hide-diagonals.description": {
     "src": "Don't show diagonal lines.",

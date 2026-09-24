@@ -4537,9 +4537,21 @@
       }
     },
     "icepalace": {
-      "expanding": {
-        "description": "Plateau en deux dimensions, avec des piles qui s'agrandissent au survol.",
-        "name": "Extensible"
+      "#areas": {
+        "description": "Main et réserve vues du dessus, en deux dimensions.",
+        "name": "Main et réserve en vue du dessus"
+      },
+      "#board": {
+        "description": "Plateau en deux dimensions, avec des piles qui se déploient au survol.",
+        "name": "Déploiement"
+      },
+      "perspective": {
+        "description": "Plateau en trois dimensions, avec les pyramides empilées en perspective.",
+        "name": "Piles 3D"
+      },
+      "perspective-areas": {
+        "description": "Main et réserve en trois dimensions, avec les pyramides dessinées en perspective.",
+        "name": "Main et réserve 3D"
       }
     },
     "intermedium": {

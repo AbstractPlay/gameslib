@@ -4996,6 +4996,10 @@
       "OFFENSE": "Jugador atacante",
       "COUNTDOWN": "Plies restantes"
     },
+    "mvolcano": {
+      "PYRAMIDSCAPTURED": "Pirámides capturadas",
+      "UNCAPTUREDCOLOURS": "Colores aún no capturados"
+    },
     "pacru": {
       "TARGET": "Fichas para ganar",
       "TILES": "Fichas en el tablero"
@@ -5017,6 +5021,10 @@
     "RESERVE": "Reserva",
     "SCORES": "Puntuaciones",
     "STACKSIZES": "Alturas de pilas",
+    "tintas": {
+      "MAJORITIES": "Mayorías ganadas",
+      "MONOCHROME": "Potencial monocromático"
+    },
     "tumbleweed": "Puntuación (piezas + influencia)",
     "ESTIMATEDSCORES": "Puntuaciones estimadas",
     "killallgo": {

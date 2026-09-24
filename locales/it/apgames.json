@@ -4996,6 +4996,10 @@
       "OFFENSE": "Giocatore in attacco",
       "COUNTDOWN": "Mosse rimanenti"
     },
+    "mvolcano": {
+      "PYRAMIDSCAPTURED": "Piramidi catturate",
+      "UNCAPTUREDCOLOURS": "Colori non ancora catturati"
+    },
     "pacru": {
       "TARGET": "Tessere per vincere",
       "TILES": "Tessere sulla plancia"
@@ -5017,6 +5021,10 @@
     "RESERVE": "Riserva",
     "SCORES": "Punteggi",
     "STACKSIZES": "Altezze delle pile",
+    "tintas": {
+      "MAJORITIES": "Maggioranze vinte",
+      "MONOCHROME": "Potenziale monocromatico"
+    },
     "tumbleweed": "Punteggio (pezzi + influenza)",
     "ESTIMATEDSCORES": "Punteggi stimati",
     "killallgo": {

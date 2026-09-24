@@ -4996,6 +4996,10 @@
       "OFFENSE": "Joueur offensif",
       "COUNTDOWN": "Demis-coups restants"
     },
+    "mvolcano": {
+      "PYRAMIDSCAPTURED": "Pyramides capturées",
+      "UNCAPTUREDCOLOURS": "Couleurs non encore capturées"
+    },
     "pacru": {
       "TARGET": "Tuiles pour gagner",
       "TILES": "Tuiles sur le plateau"
@@ -5017,6 +5021,10 @@
     "RESERVE": "Réserve",
     "SCORES": "Scores",
     "STACKSIZES": "Hauteurs des piles",
+    "tintas": {
+      "MAJORITIES": "Majorités remportées",
+      "MONOCHROME": "Potentiel monochrome"
+    },
     "tumbleweed": "Score (pièces + influence)",
     "ESTIMATEDSCORES": "Scores estimés",
     "killallgo": {

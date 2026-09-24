@@ -1,8 +1,9 @@
 /**
- * Regenerates docs/meta-games.md and the generated section of docs/categories.md
- * from gameinfo discovered under src/games/.
+ * Writes docs/meta-games.md and docs/categories.md from gameinfo under src/games/.
+ * Outputs are gitignored; CI and docs:check regenerate them ephemerally.
+ * Narrative category copy lives in docs/categories.prose.md.
  *
- * Usage: node scripts/gen-docs-catalog.mjs [--check]
+ * Usage: node scripts/gen-docs-catalog.mjs
  */
 import fs from "fs";
 import path from "path";
@@ -20,6 +21,7 @@ const GAMES_DIR = path.join(ROOT, "src", "games");
 const DOCS_DIR = path.join(ROOT, "docs");
 const META_GAMES_PATH = path.join(DOCS_DIR, "meta-games.md");
 const CATEGORIES_PATH = path.join(DOCS_DIR, "categories.md");
+const CATEGORIES_PROSE_PATH = path.join(DOCS_DIR, "categories.prose.md");
 const FRONT_CATEGORIES_JSON = path.join(
     ROOT,
     "..",
@@ -33,8 +35,6 @@ const FRONT_CATEGORIES_JSON = path.join(
 const PLAY_GAME = "https://play.abstractplay.com/games";
 const GEN_START = "<!-- gen-docs-catalog:start -->";
 const GEN_END = "<!-- gen-docs-catalog:end -->";
-
-const checkOnly = process.argv.includes("--check");
 
 function loadCategoryLabels() {
     if (!fs.existsSync(FRONT_CATEGORIES_JSON)) {
@@ -81,7 +81,7 @@ function buildMetaGamesMarkdown(games) {
         "npm run gen-docs-catalog",
         "```",
         "",
-        `*Generated ${new Date().toISOString().slice(0, 10)} — ${sorted.length} games in source tree.*`,
+        `*${sorted.length} games in source tree (from registry discovery).*`,
         "",
         "## Production catalog",
         "",
@@ -200,27 +200,13 @@ function buildCategoriesGenerated(games, i18n) {
     return lines.join("\n");
 }
 
-function spliceGeneratedCategories(existing, generatedBlock) {
-    const start = existing.indexOf(GEN_START);
-    const end = existing.indexOf(GEN_END);
-    if (start === -1 || end === -1 || end < start) {
-        return `${existing.trimEnd()}\n\n${generatedBlock}`;
-    }
-    return `${existing.slice(0, start).trimEnd()}\n\n${generatedBlock}`;
+function buildCategoriesMarkdown(prose, generatedBlock) {
+    return `${prose.trimEnd()}\n\n${generatedBlock}`;
 }
 
-function writeOrCheck(filePath, content) {
-    if (checkOnly) {
-        const current = fs.existsSync(filePath) ? fs.readFileSync(filePath, "utf8") : "";
-        if (current !== content) {
-            console.error(`gen-docs-catalog: ${path.relative(ROOT, filePath)} is out of date (run npm run gen-docs-catalog)`);
-            return false;
-        }
-        return true;
-    }
+function writeGenerated(filePath, content) {
     fs.writeFileSync(filePath, content, "utf8");
     console.log(`Wrote ${path.relative(ROOT, filePath)}`);
-    return true;
 }
 
 const games = discoverCatalogGames();
@@ -228,15 +214,16 @@ const i18n = loadCategoryLabels();
 const metaMd = buildMetaGamesMarkdown(games);
 const genBlock = buildCategoriesGenerated(games, i18n);
 
-let ok = writeOrCheck(META_GAMES_PATH, metaMd);
+writeGenerated(META_GAMES_PATH, metaMd);
 
-if (!fs.existsSync(CATEGORIES_PATH)) {
-    console.error("gen-docs-catalog: docs/categories.md missing (create prose file first)");
+if (!fs.existsSync(CATEGORIES_PROSE_PATH)) {
+    console.error(
+        "gen-docs-catalog: docs/categories.prose.md missing (committed narrative source)",
+    );
     process.exit(1);
 }
-const categoriesProse = fs.readFileSync(CATEGORIES_PATH, "utf8");
-const categoriesFull = spliceGeneratedCategories(categoriesProse, genBlock);
-ok = writeOrCheck(CATEGORIES_PATH, categoriesFull) && ok;
+const categoriesProse = fs.readFileSync(CATEGORIES_PROSE_PATH, "utf8");
+const categoriesFull = buildCategoriesMarkdown(categoriesProse, genBlock);
+writeGenerated(CATEGORIES_PATH, categoriesFull);
 
-if (!ok) process.exit(1);
 console.log(`Catalog: ${games.length} games, ${new Set(games.flatMap((g) => g.categories ?? [])).size} distinct tags`);

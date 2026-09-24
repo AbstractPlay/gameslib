@@ -4,7 +4,8 @@
  * Local: requires a sibling checkout ../docs (same parent as gameslib/).
  * CI: set AP_DOCS_ROOT to the checked-out docs repo (e.g. _ap_docs).
  *
- * Copies the current gameslib tree into docs/vendor/gameslib (excluding
+ * Runs gen-docs-catalog first so gitignored catalog pages exist in the tree,
+ * then copies the current gameslib tree into docs/vendor/gameslib (excluding
  * node_modules, build, dist) so docs:check validates your branch, not a
  * stale submodule pin.
  */
@@ -66,6 +67,12 @@ if (!fs.existsSync(DOCS_CHECK)) {
 if (process.env.AP_DOCS_ROOT) {
   prepareDocsCheckout();
 }
+
+const genCatalog = path.join(GAMESLIB_ROOT, "scripts", "gen-docs-catalog.mjs");
+execFileSync(process.execPath, [genCatalog], {
+  cwd: GAMESLIB_ROOT,
+  stdio: "inherit",
+});
 
 syncGameslibToVendor();
 

@@ -4,8 +4,8 @@
 
 ## Documentation
 
-- [Meta-game catalog](/gameslib/meta-games/) — alphabetical display names and `metaGame` uids (generated)
-- [Categories & tags](/gameslib/categories/) — tag vocabulary and games per tag (generated lists)
+- [Meta-game catalog](/gameslib/meta-games/) — alphabetical display names and `metaGame` uids (generated at docs build)
+- [Categories & tags](/gameslib/categories/) — tag vocabulary and games per tag (`categories.prose.md` + generated lists)
 - [Creating games](/gameslib/creating-games/) — workflow, **choosing a base class**, helpers, renderer, PR
 - [API](/gameslib/api/) — `GameFactory`, `gameinfo`, `resolveGameFlags`
 - [gameinfo metadata](/gameslib/gameinfo/) — schema (`gameinfo.json`), `customizations`, `player` palette tags

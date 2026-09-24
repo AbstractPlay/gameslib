@@ -1,6 +1,8 @@
 [
   { "slug": "index", "title": "Overview" },
   { "slug": "creating-games", "title": "Creating games" },
+  { "slug": "meta-games", "title": "Meta-game catalog" },
+  { "slug": "categories", "title": "Categories & tags" },
   { "slug": "testing" },
   { "slug": "api", "title": "API" },
   { "slug": "gameinfo", "title": "gameinfo metadata" },

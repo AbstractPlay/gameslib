@@ -49,6 +49,22 @@ export function getLiteralProperty(obj, name) {
     return undefined;
 }
 
+/** String literals from a `gameinfo` array property (e.g. `categories`, `flags`). */
+export function getStringArrayProperty(obj, name) {
+    const prop = obj.getProperty(name);
+    if (!prop || !prop.isKind(SyntaxKind.PropertyAssignment)) {
+        return [];
+    }
+    const init = prop.getInitializer();
+    if (!init || !init.isKind(SyntaxKind.ArrayLiteralExpression)) {
+        return [];
+    }
+    return init
+        .getElements()
+        .filter((el) => el.isKind(SyntaxKind.StringLiteral))
+        .map((el) => el.getLiteralValue());
+}
+
 export function flagsIncludeExperimental(flagsInit) {
     if (!flagsInit || !flagsInit.isKind(SyntaxKind.ArrayLiteralExpression)) {
         return false;
@@ -161,6 +177,9 @@ export function discoverGames(project, gamesDir, skipFiles = DEFAULT_SKIP_FILES)
                 continue;
             }
 
+            const displayName = getLiteralProperty(init, "name") ?? uid;
+            const categories = getStringArrayProperty(init, "categories");
+
             const flagsInit = init.getProperty("flags")?.getInitializer();
             const experimental = flagsIncludeExperimental(flagsInit);
             const experimentalVariantUids = getExperimentalVariantUids(init);
@@ -170,6 +189,8 @@ export function discoverGames(project, gamesDir, skipFiles = DEFAULT_SKIP_FILES)
             entries.push({
                 className: name,
                 uid,
+                name: displayName,
+                categories,
                 experimental,
                 experimentalVariantUids,
                 importPath,

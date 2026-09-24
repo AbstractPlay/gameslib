@@ -129,12 +129,14 @@
     "hexy": "Un adattamento di Y su un esagono regolare in cui i giocatori gareggiano per controllare la maggior parte del perimetro del tabellone.",
     "homeworlds": "Un gioco Icehouse per 2-4 giocatori. I giocatori impersonano civiltà interstellari che lottano per il dominio. Ciascuno dei quattro colori di piramidi dà accesso ad azioni diverse. Accumula una flotta, esplora la galassia e infine distruggi il tuo avversario.",
     "hula": "Due giocatori cercano di formare un anello attorno al centro di un tabellone esagonale regolare, usando le proprie pietre e, eventualmente, un certo numero di pietre neutrali.",
+    "icepalace": "Da tre a sei giocatori competono per vincere le mani giocando piramidi in un Yard condiviso, costruendo nidi. Il vincitore di ogni mano costruisce tutto ciò che ha vinto nel Palazzo di Ghiaccio, dove le piramidi formano invece alberi. Ogni albero del Palazzo assegna punti pari alla sua altezza a chi possiede la piramide in cima, quindi le piramidi piccole sono la chiave per fare punti. Quasi tutto è aperto alla negoziazione.",
     "intermedium": "Semina cataste per racchiudere e catturare. Vinci catturando la città dell'avversario.",
     "invector": "Elimina l'esercito avversario avvicinandoti al centro del tabellone.",
     "iqishiqi": "Iqishiqi (pronunciato EE-chee-shee-chee) è un gioco di strategia astratto giocato su una plancia esagonale composta da caselle esagonali. I giocatori possiedono bordi designati della plancia e, attraverso un posizionamento astuto delle pietre, spingono una pietra neutrale sul tabellone. Un giocatore vince se sposta la pietra neutrale su uno dei suoi bordi o se lascia l'avversario senza mosse disponibili.",
     "irensei": "L'Irensei (in giapponese: 囲連星) è un incrocio tra Go e Gomoku. Allinea sette pedine di fila all'interno della regione centrale 15x15 della scacchiera da Go per vincere. Per ridurre il vantaggio del primo giocatore, quest'ultimo perde se crea una sovrallinea (anche se si estende oltre la regione 15x15), mentre il secondo giocatore può vincere tramite sovrallinea.",
     "jacynth": "Un gioco di carte Decktet in cui gli avversari lottano per il controllo della città di Jacynth. Posiziona le carte, esercita la tua influenza e controlla la maggior parte dell'area per vincere.",
     "kachit": "Un gioco simile agli scacchi giocato su una plancia 4x4 in cui cerchi di eliminare il re avversario o di promuovere il tuo. I pezzi possono cambiare orientamento dopo essersi mossi.",
+    "killallgo": "Una variante del Go con obiettivi asimmetrici: l'Attaccante inizia con pietre sulla scacchiera e deve catturare tutto, mentre il Difensore vince creando una catena che non possa mai essere catturata.",
     "knightline": "Un gioco di connessione quattro-in-fila giocato dividendo una pila di cavalli su una griglia illimitata.",
     "konane": "Un gioco tradizionale hawaiano che è stato quasi completamente dimenticato, tranne che per la memoria di una singola donna, Kaʻahaʻaina Naihe di Kailua-Kona. Giocato su un tabellone rettangolare, ogni giocatore cattura saltando sopra i pezzi dell'avversario. L'ultimo a muovere vince.",
     "krypte": "Un gioco 4-in-fila in cui i pezzi entrano da lati attivi che ruotano dopo ogni turno, e il posizionamento di un pezzo ribalta tutti i pezzi adiacenti.",
@@ -287,6 +289,11 @@
     "yonmoque": "Cerca di formare un quattro in linea in un gioco in cui non tutti gli spazi sono uguali e i pezzi avversari possono essere convertiti.",
     "zola": "Un gioco in cui il tuo movimento è vincolato dalla tua distanza dal centro del tabellone. Le mosse di cattura non devono aumentare tale distanza. Le mosse non di cattura devono aumentare tale distanza. La prima persona che cattura tutti i pezzi avversari vince."
   },
+  "icepalace": {
+    "HAND": "Mano di {{player}}",
+    "POOL": "Piramidi nella Riserva",
+    "STOCK": "Piramidi dal Yard, da costruire nel Palazzo"
+  },
   "names": {
     "abande": "Abande",
     "accasta": "Accasta",
@@ -417,12 +424,14 @@
     "hexy": "Hexagonal Y",
     "homeworlds": "Homeworlds",
     "hula": "Hula",
+    "icepalace": "Ice Palace",
     "intermedium": "Intermedium",
     "invector": "Invector",
     "iqishiqi": "Iqishiqi",
     "irensei": "Irensei",
     "jacynth": "Jacynth",
     "kachit": "Kachit Knights",
+    "killallgo": "Kill-All Go",
     "knightline": "Knight Line",
     "konane": "Konane",
     "krypte": "Krypte",
@@ -578,7 +587,7 @@
     "akimbo": "Akimbo, progettato da Luis Bolaños Mures nel 2026, è un gioco di connessione senza pareggi per due giocatori. Una _diagonale nuda_ è una coppia di pezzi adiacenti in diagonale dello stesso colore privi di altri pezzi dello stesso colore adiacenti a entrambi. Un _crosscut_ è un'area 2×2 con due diagonali nude incrociate di colori opposti.\n\nNel proprio turno, il giocatore piazza un pezzo amico su una casella vuota. Se ciò completa un crosscut, l'altro pezzo nel crosscut viene rimosso. Non deve mai esserci più di una diagonale nuda per colore sul tabellone — nemmeno momentaneamente prima di rimuovere un pezzo. Un giocatore vince se, alla fine del proprio turno, c'è una catena di pezzi del proprio colore connessi ortogonalmente che tocca i due bordi opposti del tabellone del giocatore.\n\nOkimba è una variante in cui può esistere al massimo una diagonale nuda sul tabellone (quindi mentre un giocatore ha la diagonale, l'avversario non può crearne un'altra).",
     "alta": "Ci sono due modi per posizionare gli scambi sull'interfaccia grafica: (1) Selezionare l'orientamento dello scambio nel pannello, quindi fare clic sullo spazio desiderato sul tabellone per posizionarlo, oppure (2) fare clic su due vertici. I vertici sono annotati con un asterisco, seguito dalla notazione algebrica dello spazio in cui il vertice si trova nell'angolo in basso a sinistra. Per azionare uno scambio, basta fare clic sullo spazio.",
     "anache": "Questa implementazione segue il regolamento di David Ploog. Tre modifiche degne di nota sono che (1) le barriere sono proibite, (2) al posto di una variante 16x16 ne abbiamo una 15x15, in cui i pezzi si promuovono a cavalli sulla linea centrale e il drago non può saltare allo spazio 7x7 dall'altro angolo, e (3) contro gli angoli, i pezzi vengono catturati tramite cattura per schiacciamento anziché cattura in custodia, quindi devono esserci almeno due pezzi avversari in linea prima che venga effettuata una cattura contro gli angoli.\n\nNota: il controllo dello stallo è impegnativo dal punto di vista computazionale. Se non puoi effettuare alcuna mossa legale, dovresti abbandonare manualmente.",
-    "arimaa": "Reso disponibile ai sensi della sezione 3 della [licenza pubblica Arimaa](https://arimaa.com/arimaa/license/).\n\nDurante il posizionamento standard, devi solo posizionare i tuoi otto pezzi non-coniglio. Una volta posizionati, Completa Mossa riempirà il resto della tua area di posizionamento con i conigli. Puoi comunque posizionare tu stesso alcuni o tutti i conigli, se li vuoi in un punto specifico.\n\nHarlog è un metodo riconosciuto per determinare il vantaggio materiale. I punteggi positivi favoriscono l'Oro, quelli negativi l'Argento. L'intervallo massimo è ±112, ma in pratica ±20 è un vantaggio molto forte.\n\nPoiché non possiamo generare elenchi completi di mosse, il sistema non è in grado di rilevare i rari casi in cui le tue uniche mosse disponibili sono illegali a causa della ripetizione della posizione. Il sistema non ti permetterà di effettuare tali ripetizioni illegali e dovrai abbandonare manualmente.",
+    "arimaa": "Reso disponibile ai sensi della sezione 3 della [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nDurante il posizionamento iniziale standard, devi solo posizionare i tuoi otto pezzi non-coniglio. Una volta posizionati, Completa mossa riempie il resto della tua area di posizionamento con i conigli. Puoi comunque posizionare tu stesso alcuni o tutti i conigli per primi, se li vuoi in un punto particolare.\n\nPer inserire una mossa, fai clic su un pezzo e poi sulla casella su cui dovrebbe finire il tuo turno. Il motore trova il modo legale più breve per portarlo lì, comprese spinte e trazioni, e disegna una freccia per pezzo da dove ha iniziato a dove finisce. Puoi anche selezionare pezzi nemici. Fai clic sulla punta di una freccia per estenderla, o sulla coda per rimuoverla. Fare clic su un pezzo selezionato una seconda volta lo mantiene dove si trova, impedendo al motore di spostarlo. Alcuni turni più rari richiedono un clic in più; la pagina wiki di questo gioco li elenca tutti.\n\nLe mosse sono registrate nella notazione Lightvector, che indica ciascun pezzo e dove finisce anziché elencare ogni singolo passo. Puoi digitarla nella casella della mossa; è comunque accettata anche la vecchia notazione passo-passo. La pagina wiki spiega la notazione per intero.\n\nHarlog è un metodo riconosciuto per determinare il vantaggio di materiale. I punteggi positivi favoriscono l'Oro, quelli negativi l'Argento. L'intervallo teorico è ±112, ma in pratica ±20 rappresenta già un vantaggio molto netto.\n\nPoiché non possiamo generare elenchi completi di mosse, il sistema non può rilevare i rari casi in cui le tue uniche mosse disponibili sono illegali a causa della ripetizione di posizione. Il sistema non ti permetterà di effettuare tali ripetizioni illegali e dovrai abbandonare manualmente.",
     "armadas": "Sono noti problemi con questo gioco sui dispositivi iOS.\n\nQuesto gioco offre due scenari:\n\n* L'impostazione predefinita vede ogni giocatore con due trii di pezzi. Nella fase di piazzamento, ciascun giocatore deve piazzare da 1 a 3 navi finché tutte le navi non sono state piazzate.\n* La variante \"Forma libera\" ti consente di piazzare le navi che desideri (massimo tre alla volta) finché entrambi i giocatori non dicono \"passo\". Questo ti permette di creare flotte sbilanciate o altrimenti asimmetriche.\n\nLe partite vedono di default un'isola al centro del campo. Sono disponibili sia la variante \"senza isole\" che quella a \"due isole\". Non puoi muoverti o sparare attraverso le isole. Per colpire con successo una nave, almeno un angolo del triangolo della tua nave deve avere una visuale libera su almeno un angolo della nave bersaglio.\n\nRicorda che è possibile incastrare la tua nave contro un'isola o il bordo del tabellone in modo tale da non poterla più muovere! Fai attenzione!",
     "ataxx": "Alla terza ripetizione della posizione, la partita termina e si calcola il punteggio.",
     "bao": "Le mosse in Bao possono essere molto complesse, comportando più giri attorno al tabellone e cambi di direzione. Le annotazioni sono, pertanto, essenziali. La casella iniziale e la direzione vengono evidenziate, e vengono contrassegnate anche le caselle catturate. Ma un'annotazione dettagliata del movimento non è possibile. Se ritieni di aver riscontrato un errore, faccelo sapere su Discord.",
@@ -595,6 +604,7 @@
     "circleOfLife": "Le specie sono numerate da 0 a 11 in senso antiorario sull'anello, a partire dalla specie a singolo esagono in alto. La specie 0 mangia la 11; ogni altra specie mangia quella con il numero immediatamente inferiore. La predazione avviene solo quando posizioni una pietra che forma una specie adiacente alla preda. I gruppi non possono superare le quattro pietre. Vince il primo giocatore che cattura 20 pietre avversarie, oppure vince il giocatore che non può posizionare nel proprio turno (avendo riempito l'ecosistema).",
     "clearpath": "Clear Path è stato progettato da Mark Steere nel settembre 2026, in collaborazione con Claude Fable 5.1, un modello di IA creato da Anthropic.\n\nI punti vitali sono contrassegnati sul tavoliere. Un pallino rosso indica un punto attraverso cui passa ogni possibile connessione del Rosso, un pallino blu indica un punto attraverso cui passa ogni possibile connessione del Blu, e un pallino blu all'interno di un pallino rosso indica un punto vitale per entrambi i giocatori. Un punto vitale solo per il tuo avversario è illegale per te a meno che il tuo posizionamento non completi la tua connessione.\n\nPassare non è consentito, ma il turno di un giocatore senza posizionamenti legali viene saltato. Il passo viene inviato automaticamente.\n\nQuesta implementazione accorcia la partita riconoscendo che un giocatore che non ha più alcuna connessione possibile ha perso per forza di cose.",
     "conspirateurs": "Nel gioco base, i pezzi possono attraversare i santuari come parte di un salto a più passaggi. Non vengono congelati finché non terminano la mossa in un santuario. Nella variante rigida, i pezzi vengono congelati non appena entrano in un santuario.\n\nNelle partite a quattro giocatori, i giocatori 1 e 2 giocano in squadra, così come i giocatori 3 e 4.",
+    "crosshairs": "La regola pubblicata sulla Turbolenza è ambigua su due punti: non specifica se il normale cambio di quota di una manovra avvenga prima o dopo la perdita di quota per Turbolenza, né cosa accada se l'aereo si trova già a quota 0. Questa implementazione interpreta la regola applicando prima il normale cambio di quota di ciascuna manovra, e poi applicando una perdita di quota per Turbolenza per ogni casella nuvolosa in cui si entra, nell'ordine di percorrenza. Un aereo a quota 0 quando si applica una perdita di quota per Turbolenza precipita immediatamente.\n\nPer evitare che le nubi sul bordo di partenza intrappolino ogni aereo che entra, la Turbolenza non ha effetto su un aereo finché questo non è entrato in una casella non nuvolosa. Una volta fatto ciò, l'aereo rimane soggetto alla Turbolenza. Ogni casella attraversata durante il movimento viene considerata come entrata, inclusa la casella intermedia di un volo orizzontale da due spazi; una casella intermedia libera rimuove quindi l'esenzione prima che l'aereo raggiunga una casella nuvolosa successiva nella stessa manovra. Ciascuna manovra in una picchiata viene risolta completamente prima della successiva, quindi un'affondata che entra in una casella non nuvolosa rimuove l'esenzione prima dell'affondata seguente.",
     "deckfish": "Maggiori informazioni sul sistema Decktet si possono trovare sul [sito ufficiale di Decktet](https://www.decktet.com).\n\nI poteri dei semi (abilità di movimento dei segnalini) sono:\n* Lune: Salta ortogonalmente sopra gli spazi vuoti.\n* Soli: Sposta una o due carte in diagonale.\n* Onde: Muovi ortogonalmente fino all'ultima carta non ostruita.\n* Foglie: Muovi ortogonalmente su qualsiasi carta senza ostacoli adiacenti.\n* Wyrm: Muovi ortogonalmente sulla prima carta occupata, spingendo quel pezzo sulla carta successiva.\n* Nodi: Esegui tre mosse ortogonali di una carta, senza tornare indietro.\n\nNel regolamento, il \"primo\" giocatore è colui che piazza per secondo nella fase di piazzamento ma muove per primo nella fase di movimento, ma qui il primo giocatore è colui che piazza per primo ma muove per secondo. Questo è implementato mediante un passo automatico per il giocatore appropriato.\n\nViene applicata la regola secondo cui, anche quando l'ultimo giocatore sta già vincendo, deve continuare a giocare finché non esaurisce le mosse.",
     "elOso": "La preparazione viene eseguita automaticamente all'avvio del gioco. I conteggi di Cielo, Caverna, Terra e Fossa appaiono nella barra laterale. Dopo ogni mossa, usa i controlli del fotogramma per scorrere la risposta dell'Orso. Portare dieci o più pezzi nel Cielo equivale a una vittoria.",
     "domineering": "Domineering, noto anche come Stop-Gate, è un gioco combinatorio di tipo partisan. Il gioco è stato progettato da Göran Andersson intorno al 1973 ed è stato presentato nel fondamentale libro di CGT *Winning Ways for Your Mathematical Plays*. Esiste una versione imparziale, chiamata Cram, in cui i giocatori possono piazzare entrambi tessere del domino orizzontali o verticali. La variante \"Quelhas\" è stata proposta da Carlos P. Santos e Alfie Davies nel 2025: si tratta di una versione misère (il giocatore senza opzioni vince la partita) e utilizza poliamini simili a domino più lunghi.",
@@ -607,6 +617,7 @@
     "gonnect": "Nel gioco base non è consentito passare. La variante **Cascading Connection Goals** consente di passare e termina dopo due passi consecutivi. Una connessione diretta vince immediatamente; altrimenti, si individua il sottotabellone centrato più grande in cui esattamente un giocatore collega i lati opposti: quel giocatore vince.",
     "garden": "Per rendere molto chiaro quanto accaduto nel turno precedente, ogni mossa viene mostrata su quattro tabelloni separati. Il primo tabellone mostra il gioco subito dopo il posizionamento del pezzo. Il secondo tabellone mostra lo stato dopo il ribaltamento dei pezzi adiacenti. Il terzo tabellone mostra eventuali raccolti. Il quarto tabellone è lo stato finale del gioco ed è quello su cui esegui le tue mosse.\n\nNella nostra implementazione, il nero è sempre il colore \"tome\" o di spareggio. L'ultimo giocatore a raccogliere il nero avrà un `0.1` dopo il proprio punteggio.",
     "guerrilla": "Ciascun giocatore vince rimuovendo tutte le pedine dell'avversario. Il giocatore della sicurezza vince anche se sopravvive abbastanza a lungo da far esaurire le pietre da piazzare agli insorti.\n\nPer impostazione predefinita, un incontro consiste in due partite a ruoli invertiti. Ciascun giocatore gioca una partita come insorti e una come sicurezza. Quando entrambi i giocatori vincono come insorti, l'incontro va a chi ha usato meno pietre (`66 − rimanenti` alla fine di quella partita; vince il punteggio più basso). Punteggi uguali degli insorti sono l'unica patta in tal caso. Una vittoria della sicurezza in una partita assegna 67 punti. Se un giocatore vince entrambe le partite (come insorti in una e come sicurezza nell'altra), vince direttamente l'incontro. Se entrambi i giocatori vincono solo come sicurezza, l'incontro finisce in patta.",
+    "icepalace": "Le regole di Ice Palace dicono che una piramide posizionata a terra debba essere adiacente a una piramide dello stesso colore, ma non se ogni vicino debba corrispondere. Questa implementazione richiede almeno un vicino ortogonale dello stesso colore; gli altri possono essere di qualsiasi colore. Il Bianco corrisponde a qualsiasi colore tranne il Nero, e il Nero non corrisponde a nulla.",
     "scribe": "La tabella di riferimento dei glifi è mostrata nel margine sinistro. Un punto indica il posizionamento più recente di ciascun giocatore. Quando una mini-griglia si riempie, vengono calcolati i punti glifo e il punteggio più alto si aggiudica la griglia (in caso di parità, la griglia va al giocatore che l'ha completata).",
     "gyges": "Le caselle di arrivo sono adiacenti a tutte le caselle dell'ultima traversa. Il motore grafico attualmente non può gestire caselle \"fluttuanti\".",
     "halma": "Per prevenire la [tendenza alla patta](https://boardgamegeek.com/thread/3706389/unspoiling-halma-redux) del gioco, si applicano le seguenti regole: (a) un giocatore vince se la base di partenza opposta è completa con almeno una pedina amica (criterio di David Parlett); (b) qualsiasi pezzo nella base di partenza del giocatore deve avanzare verso il campo nemico ogni volta che ciò è possibile saltando sopra un pezzo nemico (regola di Zillions, per rimuovere le strategie di patta); (c) nessuna pedina può ritornare nella propria base di partenza.\n\n[Halma](https://en.wikipedia.org/wiki/Halma) è stato uno dei primi successi commerciali per un gioco astratto. Il gioco è stato progettato da [George Howard Monks](https://en.wikipedia.org/wiki/George_Howard_Monks) nel 1883/4. Si dice che Halma sia stato ispirato da un più antico gioco britannico chiamato *Hoppity*. Tuttavia, non esistono documenti né tabelloni superstiti di questo gioco, trasformando questa affermazione in un mistero storico. Halma è stato poi adattato (c.1892/3) in un successo ancora maggiore: la [Dama Cinese](https://boardgamegeek.com/boardgame/2386/chinese-checkers) (che poteva essere facilmente giocata da tre o sei giocatori).\n\nSuper Halma è una variante più dinamica, non accreditata, presentata nel libro del 1992 **New Rules for Classic Games** di Wayne Schmittberger. Questa variante propone salti lunghi, in cui il numero di caselle vuote prima e dopo la pedina saltata deve essere uguale. Le restrizioni di movimento nella base si applicano anche in questa implementazione di Super Halma.",
@@ -615,6 +626,7 @@
     "intermedium": "Intermedium (noto anche come Stepping Stones) è un gioco del 1974 progettato da Matt Crispis. Si tratta di un gioco di semina di pile (stack sowing), in cui i giocatori cercano di circondare la base di partenza avversaria. Le pile si muovono solo in diagonale e ogni esercito inizia su un colore diagonale diverso, quindi non possono mai incrociarsi (come due alfieri su caselle di colore diverso). I pezzi vengono catturati per accerchiamento, circondando tutte le adiacenze ortogonali di una pila avversaria.\n\nAlcune parole dell'autore: \"[Intermedium] è semplice da imparare, ma può portare a situazioni complicate che richiedono un'analisi approfondita e lungimiranza. I pezzi singoli non si muovono, ma sono utili come pietre di guado per le tue catture. E possono riprendere vita piazzandovi sopra un altro pezzo. Prima di padroneggiare il gioco, evita attacchi precoci contro la Città che potrebbero rivelarsi costosi. Costruisci la tua forza in modo graduale e uniforme dominando, se possibile, il centro. Dovresti anche evitare di costruire pile 'formidabili' di sei o più pezzi: se catturate, potresti perdere la partita in un colpo solo. Lascia qualche forza indietro per difendere la tua Città in caso di emergenza.\"",
     "invector": "Invector, progettato da Mark Steere nel 2026, è un gioco ad eliminazione ispirato all'antico gioco hawaiiano Kōnane. Invector inizia con uno schema di pedine a scacchiera, presenta catture a corto raggio ed è estremamente semplice. Invector combina semplicemente due ingredienti base: mosse di cattura ortogonali e adiacenti, e mosse ortogonali e adiacenti per avvicinarsi al centro.",
     "jacynth": "Maggiori informazioni sul sistema Decktet sono disponibili sul [sito ufficiale del Decktet](https://www.decktet.com). Le carte nella mano dei giocatori sono nascoste agli osservatori e agli avversari.",
+    "killallgo": "L'Attaccante, le cui pietre sono già sulla scacchiera all'inizio del gioco normale, vince impedendo al Difensore di creare una catena viva. Il Difensore vince creando una catena che non può essere catturata. Non c'è conteggio dei punti.\n\nLe pietre vengono piazzate e catturate come nel Go con la rimozione Tromp-Taylor: dopo un posizionamento, le catene avversarie senza libertà vengono rimosse, poi la propria catena se non ne ha, quindi il suicidio di più pietre è legale. Si applica il superko posizionale: nessun posizionamento può ricreare una posizione precedente della scacchiera. Ciascun giocatore può passare; se entrambi passano di seguito, l'Attaccante vince.\n\nIl Difensore vince non appena una delle sue catene è incondizionatamente viva: pass-alive tramite l'algoritmo di Benson, il che significa che l'Attaccante non potrebbe mai catturarla nemmeno con mosse consecutive illimitate. Questo è l'unico modo per vincere come Difensore. Una catena semplicemente viva in seki o in ko non conta, quindi il Difensore deve continuare a giocare e trasformarla in una catena che non può essere catturata affatto.\n\nL'Attaccante vince non appena ciò diventa impossibile. Le pietre dell'Attaccante incondizionatamente vive non possono mai essere rimosse, e nessun punto adiacente a una di esse può mai trovarsi nell'occhio di una catena viva del Difensore. Quando nessuna area lasciata da tali pietre contiene due punti che non siano né adiacenti tra loro né adiacenti a tali pietre, non c'è spazio da nessuna parte per i due occhi di cui ha bisogno una catena viva, e la partita termina. La verifica non riconosce ogni posizione persa; quando non si attiva, il gioco semplicemente prosegue.\n\nAperture: con il Pieboxing, i giocatori si alternano a piazzare pietre dell'Attaccante finché uno di essi non sceglie la parte dell'Attaccante; l'altro giocatore muove poi per primo come Difensore. L'apertura ad handicap funziona allo stesso modo, tranne per il fatto che il Giocatore 1 (il giocatore più forte, quindi fai sedere prima chi dà l'handicap quando crei la sfida) stabilisce prima il numero di pietre di handicap e il Giocatore 2 inizia a piazzare; se il Giocatore 2 sceglie la parte dell'Attaccante, piazza subito quel numero di pietre extra. L'apertura classica utilizza la posizione tradizionale da 17 pietre sulla scacchiera 19x19, con il Difensore (Giocatore 1) che muove per primo. Nella torta semplice, il Giocatore 1 piazza un numero qualsiasi di pietre dell'Attaccante e il Giocatore 2 sceglie una parte. Nella torta di Hoctaph generalizzata, il Giocatore 1 sceglie la dimensione di due lotti (ciascuno di almeno 1, insieme al massimo il numero di punti meno 2, nessuno dei due più del doppio dell'altro), il Giocatore 2 decide chi piazza il primo lotto, l'altro giocatore sceglie quindi una parte e l'Attaccante piazza il secondo lotto. In ogni apertura il Difensore effettua la prima mossa normale.",
     "konane": "Esistono diversi protocolli di apertura in concorrenza tra loro, ma il regolamento più comune è il regolamento Naihe, utilizzato nei tornei presso il Bishop Museum alle Hawaii e descritto nel riferimento su BGG. Questo è ciò che è implementato qui.",
     "knightline": "Per comodità, la tua pila viene divisa approssimativamente a metà al tuo primo clic. I clic successivi sulla pila di origine o di destinazione muovono un pezzo alla volta. Al termine, fai clic su una casella vuota o usa il pulsante Completa Mossa.\n\nIl sistema di coordinate è adattato dal sistema di coordinate dello sviluppatore per Hive, un gioco su un tabellone esagonale illimitato (ma comunque di dimensioni ragionevoli). L'asse y è etichettato con coordinate cartesiane (interi positivi e negativi). L'asse x è etichettato con lettere in ordine alfabetico, con l'origine in (m, 0). Se il movimento sull'asse x supera i confini dell'alfabeto in una delle due direzioni, le lettere vengono precedute da un'altra lettera (z è seguita da aa, ab, ac, ecc., e a è preceduta da zz, zy, zx, ecc.). Non si prevede che il gioco raggiunga una larghezza tale da richiedere ulteriori doppie coordinate, ma per la cronaca, az è seguita da ba, za è preceduta da yz e così via. Il tabellone non può raggiungere dimensioni tali da generare ambiguità.",
     "lasca": "La manovrabilità è una misura di quanto i tuoi pezzi siano vicini alla promozione. La tua manovrabilità massima è pari alla dimensione del tabellone moltiplicata per il numero di pile che controlli.\n\nIl materiale viene calcolato assegnandoti un punto per ogni pezzo amico in una pila che controlli, più un punto extra se hai un ufficiale in cima a quella pila.",
@@ -1707,6 +1719,14 @@
       "unbounded-cloud-banks": {
         "name": "Banchi di nuvole illimitati",
         "description": "I banchi di nuvole possono contenere qualsiasi numero di nuvole."
+      },
+      "turbulence": {
+        "name": "Turbolenza",
+        "description": "Ogni volta che un aereo entra in una nube, perde 1 di quota."
+      },
+      "concealed-fire": {
+        "name": "Fuoco nascosto",
+        "description": "Gli aerei possono sparare da dentro le nubi, ma continuano a non poter sparare verso l'interno o attraverso di esse."
       }
     },
     "crossway": {
@@ -2340,6 +2360,37 @@
       "oldcity": {
         "name": "La Città Vecchia",
         "description": "Il tabellone inizia con sei carte disposte in cerchio."
+      }
+    },
+    "killallgo": {
+      "size-9": {
+        "name": "Scacchiera 9x9"
+      },
+      "size-13": {
+        "name": "Scacchiera 13x13"
+      },
+      "#board": {
+        "name": "Scacchiera 19x19"
+      },
+      "#opening": {
+        "name": "Pieboxing",
+        "description": "I giocatori si alternano a piazzare pietre dell'Attaccante finché uno di essi non sceglie il lato dell'Attaccante; l'altro giocatore muove poi per primo come Difensore. Pieboxing, ideato da MXHero."
+      },
+      "handicap": {
+        "name": "Handicap",
+        "description": "Pieboxing con handicap. Il Giocatore 1 (fai sedere prima il giocatore più forte) imposta il numero di pietre extra dell'Attaccante, poi il Giocatore 2 inizia a piazzare. Se il Giocatore 2 sceglie il lato dell'Attaccante, piazza subito le pietre extra. Ideato da MXHero."
+      },
+      "classic": {
+        "name": "Configurazione classica a 17 pietre",
+        "description": "La posizione iniziale tradizionale a 17 pietre; il Difensore (Giocatore 1) muove per primo. Solo 19x19."
+      },
+      "pie": {
+        "name": "Torta semplice",
+        "description": "Il Giocatore 1 piazza un numero qualsiasi di pietre dell'Attaccante, poi il Giocatore 2 sceglie una parte. La consueta regola della torta."
+      },
+      "hoctaph": {
+        "name": "Torta di Hoctaph generalizzata",
+        "description": "Il Giocatore 1 sceglie la dimensione di due lotti, il Giocatore 2 sceglie chi piazza il primo lotto, l'altro giocatore sceglie una parte e l'Attaccante piazza il secondo lotto. Torta di Hoctaph (forum OGS), generalizzata per ogni dimensione di scacchiera da Samraku."
       }
     },
     "knightline": {
@@ -4485,6 +4536,12 @@
         "description": "Mostra la plancia usando i vertici invece degli esagoni."
       }
     },
+    "icepalace": {
+      "expanding": {
+        "description": "Tavoliere bidimensionale, con pile che si espandono al passaggio del mouse.",
+        "name": "Espandibile"
+      }
+    },
     "intermedium": {
       "hide-diagonals": {
         "description": "Non mostrare le linee diagonali.",
@@ -4905,6 +4962,10 @@
       "GAME2": "Partita 2",
       "INSURGENTS": "Insorti rimasti"
     },
+    "icepalace": {
+      "PLACED": "Piramidi posizionate",
+      "POOL": "Piramidi rimaste nella Riserva"
+    },
     "scribe": {
       "MINI_GRIDS": "Mini-griglie vinte"
     },
@@ -4946,6 +5007,23 @@
     "STACKSIZES": "Altezze delle pile",
     "tumbleweed": "Punteggio (pezzi + influenza)",
     "ESTIMATEDSCORES": "Punteggi stimati",
+    "killallgo": {
+      "ATTACKER": "Attaccante",
+      "DEFENDER": "Difensore",
+      "UNDECIDED": "Non ancora scelto",
+      "HANDICAP": "Pietre di handicap",
+      "BATCHES": "Dimensioni dei lotti",
+      "BATCHES_VALUE": "{{a}} poi {{b}}",
+      "PHASE_HAND_N": "{{player}} imposta il numero di pietre di handicap",
+      "PHASE_ALT_PLACE": "{{player}} piazza una pietra dell'Attaccante o sceglie il lato dell'Attaccante",
+      "PHASE_PIE_SLICE": "{{player}} piazza le pietre iniziali dell'Attaccante",
+      "PHASE_PIE_CHOOSE": "{{player}} sceglie una parte",
+      "PHASE_HOC_SLICE": "{{player}} imposta la dimensione dei due lotti",
+      "PHASE_HOC_OPTION": "{{player}} decide chi piazza il primo lotto",
+      "PHASE_HOC_BATCH_A": "{{player}} piazza il primo lotto di pietre dell'Attaccante",
+      "PHASE_HOC_CHOOSE": "{{player}} sceglie una parte",
+      "PHASE_HOC_BATCH_B": "{{player}} piazza il secondo lotto di pietre dell'Attaccante"
+    },
     "TOPLACE": "Pezzo da posizionare",
     "valley": "Segnalini Luna",
     "waldmeister": {
@@ -5162,7 +5240,7 @@
       "FROZEN": "Il pezzo in {{where}} è congelato. Non può muoversi da solo.",
       "HOME_ROW": "Puoi posizionare pezzi solo sulle due traverse più vicine a te.",
       "INITIAL_INSTRUCTIONS_place": "Seleziona un pezzo dalla tua mano da posizionare sulla plancia.",
-      "INITIAL_INSTRUCTIONS_play": "Seleziona un pezzo da muovere.",
+      "INITIAL_INSTRUCTIONS_play": "Fai clic su un pezzo, poi sulla casella su cui dovrebbe finire il turno. Puoi selezionare anche i pezzi nemici; spinte e trazioni verranno calcolate automaticamente.",
       "INVALID_PUSH": "Le spinte devono essere completate immediatamente muovendo il pezzo che spinge nello spazio liberato dal pezzo nemico spinto.",
       "INVALID_PUSHPULL": "Puoi muovere i pezzi nemici solo quando completi una trazione o inizi una spinta. Nessuna delle due sembra applicarsi in questo caso.",
       "LABEL_STASH": "Riserva di {{player}}",
@@ -5183,7 +5261,18 @@
       "WARN_BALANCE": "Bilancia i tuoi quattro pezzi più forti da est a ovest.",
       "WARN_FILE": "Non mettere il tuo elefante nella stessa colonna dell'elefante avversario.",
       "WARN_HIDE": "Non nascondere pezzi più forti dietro pezzi più deboli (eccetto i gatti dietro i conigli).",
-      "WARNINGS": "La tua configurazione è completa, ma ci sono alcune cose da considerare per i nuovi giocatori. Puoi cliccare su Completa mossa per ignorare, oppure puoi leggere i seguenti consigli:"
+      "WARNINGS": "La tua configurazione è completa, ma ci sono alcune cose da considerare per i nuovi giocatori. Puoi cliccare su Completa mossa per ignorare, oppure puoi leggere i seguenti consigli:",
+      "PARSE": "Impossibile leggere \"{{token}}\".",
+      "NO_MOVE": "Nessuna mossa legale corrisponde a ciò che hai disegnato.",
+      "NO_MOVE_CHAIN": "Una freccia per pezzo, da dove inizia a dove finisce: {{first}} e {{second}} insieme formano {{combined}}.",
+      "NO_MOVE_ENEMY": "Il pezzo su {{from}} è del tuo avversario e nessuno dei tuoi pezzi può spingerlo o tirarlo come disegnato entro {{num}} passi.",
+      "NO_MOVE_FROZEN": "Il pezzo su {{from}} è congelato e niente può liberarlo in tempo.",
+      "NO_MOVE_REACH": "Il pezzo su {{from}} non può raggiungere {{to}} entro {{num}} passi.",
+      "NO_MOVE_TOGETHER": "Ciascuna di queste mosse funziona da sola, ma non tutte insieme entro {{num}} passi.",
+      "AMBIGUOUS": "Corrisponde a {{count}} mosse diverse. Indica dove finisce un altro pezzo per risolvere l'ambiguità.",
+      "INFERRED": "In movimento anche: {{pieces}}.",
+      "INCOMPLETE": "È selezionato un pezzo. Fai clic su una casella per mandarlo lì, o fai clic di nuovo per mantenerlo dove si trova.",
+      "TOO_LONG": "Ciò che hai disegnato richiede più di {{num}} passi."
     },
     "armadas": {
       "BAD_PASS": "Quando passi, quello deve essere l'unico comando fornito.",
@@ -6374,6 +6463,23 @@
       },
       "VALID_W_ACTIONS": "Sembra una mossa valida, ma hai ancora azioni da spendere."
     },
+    "icepalace": {
+      "BAD_PLACEMENT": "Impossibile interpretare '{{move}}' come una piramide e uno spazio.",
+      "BUILD_COMPLETE": "L'intero Yard è stato costruito nel Palazzo di Ghiaccio. Invia quando la disposizione ti soddisfa.",
+      "BUILD_ENOUGH": "Le {{count}} piramidi rimanenti verranno scartate. Invia quando la disposizione ti soddisfa.",
+      "BUILD_MORE": "Posiziona altre {{count}} piramidi.",
+      "ILLEGAL_PALACE": "Il pezzo {{piece}} non può andare in {{cell}}. Nel Palazzo di Ghiaccio una piramide può coprire solo una più grande, oppure iniziare una nuova pila accanto a una pila del suo stesso colore.",
+      "ILLEGAL_YARD": "Il pezzo {{piece}} non può andare in {{cell}}. Nel Yard una piramide può coprire solo una più piccola, oppure iniziare una nuova pila accanto a una pila con cui la cima corrisponde.",
+      "INITIAL_BUILD": "Hai vinto la mano. Costruisci il Yard nel Palazzo di Ghiaccio, usando {{count}} piramidi.",
+      "INITIAL_HAND": "Posiziona una piramide dalla tua mano nel Yard, oppure passa.",
+      "LEAD_CANNOT_PASS": "Sei di mano e devi posizionare una piramide per iniziare il Yard.",
+      "MUST_BUILD": "Non puoi rifiutarti di costruire: {{count}} delle piramidi del Yard possono essere posizionate.",
+      "NOT_IN_HAND": "Non hai un pezzo {{piece}} in mano.",
+      "NOT_IN_STOCK": "Il pezzo {{piece}} non è tra le piramidi che hai vinto.",
+      "OFF_STRUCTURE": "Quello spazio non fa parte della struttura in cui stai costruendo.",
+      "PARTIAL_PIECE": "Ora scegli dove posizionare il pezzo {{piece}}.",
+      "POOL_CLICK": "La Riserva viene mostrata a scopo di riferimento. Le sue piramidi non possono essere giocate."
+    },
     "intermedium": {
       "INSTRUCTIONS": "Seleziona una pila alleata; cliccaci sopra tante volte quanti sono i pezzi da muovere, poi clicca su un percorso diagonale che inizia adiacente a questa pila di semina (un pezzo per casella), effettuando svolte a 90º.",
       "NOT_FRIENDLY_STACK": "Seleziona una pila alleata con due o più pezzi da seminare.",
@@ -6418,6 +6524,52 @@
       "INITIAL_INSTRUCTIONS_placed": "Seleziona un pezzo da muovere.",
       "PARTIAL_destination": "Seleziona una destinazione.",
       "PARTIAL_orientation": "Seleziona una casella vicina per orientare il pezzo."
+    },
+    "killallgo": {
+      "INSTRUCTIONS_HANDICAP": "Stai dando l'handicap. Digita il numero di pietre extra dell'Attaccante (da 1 a {{max}}) che il tuo avversario piazzerà se sceglie il lato dell'Attaccante.",
+      "HANDICAP_INVALID": "L'handicap deve essere un numero intero.",
+      "HANDICAP_RANGE": "L'handicap deve essere compreso tra 1 e {{max}} pietre.",
+      "HANDICAP_OK_one": "Handicap di una pietra. Invia o continua a digitare.",
+      "HANDICAP_OK_other": "Handicap di {{count}} pietre. Invia o continua a digitare.",
+      "INSTRUCTIONS_ALT": "Piazza una pietra dell'Attaccante, oppure scegli il lato dell'Attaccante; il tuo avversario muoverà poi per primo come Difensore.",
+      "INSTRUCTIONS_ALT_HANDICAP_one": "Piazza una pietra dell'Attaccante, oppure scegli il lato dell'Attaccante e piazza ancora una pietra; il tuo avversario muoverà poi per primo come Difensore.",
+      "INSTRUCTIONS_ALT_HANDICAP_other": "Piazza una pietra dell'Attaccante, oppure scegli il lato dell'Attaccante e piazza altre {{count}} pietre; il tuo avversario muoverà poi per primo come Difensore.",
+      "SETUP_FULL": "La scacchiera contiene già il numero massimo di pietre di configurazione consentito in questa fase ({{max}}); scegli il lato dell'Attaccante invece di piazzarne un'altra.",
+      "ATTACKER_NO_STONES": "Scegliere il lato dell'Attaccante non comporta il posizionamento di pietre ora.",
+      "DEFENDER_NO_STONES": "Scegliere il lato del Difensore non comporta il posizionamento di pietre ora.",
+      "STONES_LEFT_one": "Piazza un'altra pietra dell'Attaccante.",
+      "STONES_LEFT_other": "Piazza altre {{count}} pietre dell'Attaccante.",
+      "BATCH_TOO_MANY_one": "Questo lotto contiene esattamente una pietra.",
+      "BATCH_TOO_MANY_other": "Questo lotto contiene esattamente {{count}} pietre.",
+      "BATCH_MORE_OR_SUBMIT": "Aggiungi altre pietre dell'Attaccante o invia.",
+      "DUPLICATE_CELL": "La casella {{where}} è elencata due volte.",
+      "INVALID_PASS": "Non puoi passare ora.",
+      "NO_CLICKS_NOW": "Digita la tua risposta nella casella della mossa; la scacchiera non è ancora cliccabile.",
+      "INSTRUCTIONS_PIE_SLICE": "Piazza un numero qualsiasi di pietre dell'Attaccante fino a {{max}} (o passa per non piazzarne alcuna); il tuo avversario sceglierà poi una parte.",
+      "PIE_SLICE_MAX": "Puoi piazzare al massimo {{max}} pietre dell'Attaccante in questo modo.",
+      "INSTRUCTIONS_PIE_CHOOSE": "Scegli una parte: prendi le pietre dell'Attaccante o piazza la tua prima pietra come Difensore.",
+      "INSTRUCTIONS_PIE_DEFENDER_STONE": "Piazza la tua prima pietra del Difensore.",
+      "INSTRUCTIONS_HOC_SLICE": "Fai clic su una pietra numerata a sinistra per impostare la dimensione del primo lotto e su una a destra per il secondo, oppure digita entrambe le dimensioni come a,b: ciascuna di almeno 1, insieme al massimo {{max}}, e nessuna più del doppio dell'altra.",
+      "SLICE_FORMAT": "Digita le dimensioni dei due lotti come due numeri interi separati da una virgola, ad esempio 20,15.",
+      "SLICE_MIN": "Ciascun lotto deve contenere almeno una pietra.",
+      "SLICE_SUM": "Insieme i due lotti possono contenere al massimo {{max}} pietre.",
+      "SLICE_RATIO": "Nessun lotto può essere più del doppio della dimensione dell'altro.",
+      "SLICE_A_ONLY_one": "Primo lotto di una pietra. Ora scegli la dimensione del secondo lotto.",
+      "SLICE_A_ONLY_other": "Primo lotto di {{count}} pietre. Ora scegli la dimensione del secondo lotto.",
+      "SLICE_B_ONLY_one": "Secondo lotto di una pietra. Ora scegli la dimensione del primo lotto.",
+      "SLICE_B_ONLY_other": "Secondo lotto di {{count}} pietre. Ora scegli la dimensione del primo lotto.",
+      "SLICE_NOT_A_BUTTON": "Fai clic su una delle pietre numerate: il blocco a sinistra definisce la dimensione del primo lotto, quello a destra del secondo. Le dimensioni superiori possono comunque essere digitate.",
+      "SLICE_OK": "Lotti di {{a}} e {{b}} pietre. Invia o continua a digitare.",
+      "INSTRUCTIONS_HOC_OPTION_one": "Decidi chi piazza il primo lotto di una pietra dell'Attaccante: piazzalo tu stesso (il tuo avversario sceglierà poi una parte), oppure lascialo piazzare al tuo avversario (sarai poi tu a scegliere una parte).",
+      "INSTRUCTIONS_HOC_OPTION_other": "Decidi chi piazza il primo lotto di {{count}} pietre dell'Attaccante: piazzale tu stesso (il tuo avversario sceglierà poi una parte), oppure lasciale piazzare al tuo avversario (sarai poi tu a scegliere una parte).",
+      "INSTRUCTIONS_HOC_BATCH_one": "Piazza una pietra dell'Attaccante.",
+      "INSTRUCTIONS_HOC_BATCH_other": "Piazza {{count}} pietre dell'Attaccante.",
+      "INSTRUCTIONS_HOC_CHOOSE_one": "Scegli una parte. Scegliere il lato dell'Attaccante significa piazzare il secondo lotto di una pietra ora; scegliere il lato del Difensore significa che il tuo avversario lo piazzerà e poi tu muoverai per primo.",
+      "INSTRUCTIONS_HOC_CHOOSE_other": "Scegli una parte. Scegliere il lato dell'Attaccante significa piazzare il secondo lotto di {{count}} pietre ora; scegliere il lato del Difensore significa che il tuo avversario le piazzerà e poi tu muoverai per primo.",
+      "INSTRUCTIONS_PLAY_ATTACKER": "Piazza una pietra o passa. Vinci non lasciando al Difensore lo spazio per creare una catena che non possa mai essere catturata.",
+      "INSTRUCTIONS_PLAY_DEFENDER": "Piazza una pietra o passa. Vinci creando una catena che non possa mai essere catturata.",
+      "KO_PSK": "Quel posizionamento ricreerebbe una posizione precedente della scacchiera (superko posizionale).",
+      "PASS_WARNING": "Passare non garantisce la vita. Se anche l'Attaccante passa, l'Attaccante vince."
     },
     "knightline": {
       "BAD_PASS": "Non puoi passare se sono disponibili mosse legali.",

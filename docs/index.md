@@ -4,6 +4,8 @@
 
 ## Documentation
 
+- [Meta-game catalog](/gameslib/meta-games/) — alphabetical display names and `metaGame` uids (generated)
+- [Categories & tags](/gameslib/categories/) — tag vocabulary and games per tag (generated lists)
 - [Creating games](/gameslib/creating-games/) — workflow, **choosing a base class**, helpers, renderer, PR
 - [API](/gameslib/api/) — `GameFactory`, `gameinfo`, `resolveGameFlags`
 - [gameinfo metadata](/gameslib/gameinfo/) — schema (`gameinfo.json`), `customizations`, `player` palette tags
@@ -19,7 +21,7 @@
 - [Renderer docs](/renderer/) — board JSON schema
 - [Renderer playground](https://renderer.dev.abstractplay.com) — experiment with `render()` output
 - [Gameslib playground](https://gameslib.dev.abstractplay.com) — run games in the browser
-- [Wiki (legacy)](https://abstractplay.com/wiki/doku.php?id=coding_docs)
+- [Developer docs](https://docs.abstractplay.com/) — platform overview and repository index
 - [Discord #dev-curious](https://discord.abstractplay.com)
 
 *Last verified against `develop` branch.*

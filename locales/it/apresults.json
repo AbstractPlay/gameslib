@@ -32,11 +32,14 @@
     "deckfish": "{{player}} non è stato in grado di muovere e deve passare d'ora in poi.",
     "frogger_one": "{{player}} ha scelto di ripristinare la riserva di pesca. Ottiene un altro turno per effettuare la sua {{count}} mossa rimanente.",
     "frogger_other": "{{player}} ha scelto di ripristinare la riserva di pesca. Ottiene un altro turno per effettuare le sue {{count}} mosse rimanenti.",
+    "icepalace_build": "{{player}} ha vinto la mano e costruisce la Yard nel Palazzo di Ghiaccio, usando {{count}} piramidi. Un modo valido per costruirlo è `{{move}}`.",
+    "icepalace_nobuild": "{{player}} ha vinto la mano, ma nessun elemento della Yard può essere costruito nel Palazzo di Ghiaccio.",
     "quincunx": "Il giocatore {{playerNum}} aveva le seguenti carte rimanenti in mano: {{cards}}.",
     "elOso": {
       "playerSetup": "Preparazione del giocatore",
       "bearSetup": "Preparazione dell'Orso"
     },
+    "killallgo_slice": "{{player}} ha impostato le dimensioni dei lotti a {{a}} e {{b}} pietre.",
     "scribe_super": "Super formazione di {{player}}: {{formation}}.",
     "stawvs": "{{player}} non è stato in grado di muovere e deve passare d'ora in poi. I suoi pezzi rimangono sulle seguenti piramidi: {{pyramids}}."
   },
@@ -90,6 +93,8 @@
     "elOso_one": "{{player}} ha annientato un pezzo in {{where}}.",
     "elOso_other": "{{player}} ha annientato {{count}} pezzi in {{where}}.",
     "hexentafl_king": "Il re è stato catturato in {{where}}.",
+    "killallgo_suicide_one": "{{player}} ha rimosso una propria pietra per suicidio.",
+    "killallgo_suicide_other": "{{player}} ha rimosso {{count}} delle proprie pietre per suicidio.",
     "lasca_officer": "{{player}} ha catturato un ufficiale in {{where}}.",
     "lasca_soldier": "{{player}} ha catturato un soldato in {{where}}.",
     "lifeline": "I pezzi morti sono stati rimossi in {{where}}.",
@@ -168,6 +173,8 @@
     "fnap_row": "{{player}} ha reclamato la riga {{where}}.",
     "frogger": "{{player}} è stato bloccato e ha pescato {{card}} dalla riserva di pesca.",
     "jacynth": "{{player}} ha esercitato influenza in {{where}}.",
+    "killallgo_attacker": "{{player}} ha scelto di giocare come Attaccante.",
+    "killallgo_defender": "{{player}} ha scelto di giocare come Difensore.",
     "logger": "{{player}} ha reclamato un manifestante dall'albero abbattuto in {{where}}.",
     "magnate": "{{who}} ha ottenuto {{what}}.",
     "magnate_initial": "I giocatori hanno raccolto le proprie risorse Corona.",
@@ -218,6 +225,8 @@
     "biscuit": "{{player}} ha chiuso!",
     "emu": "L'anno {{year}} è terminato.",
     "frogger": "I coccodrilli sono avanzati.",
+    "killallgo_handicap_one": "{{player}} ha impostato l'handicap a una pietra.",
+    "killallgo_handicap_other": "{{player}} ha impostato l'handicap a {{count}} pietre.",
     "mchess": "{{player}} ha chiamato l'orologio. Se non viene effettuata alcuna cattura nei prossimi sette turni, la partita terminerà e verrà calcolato il punteggio.",
     "renju": "{{player}} ha dichiarato {{count}} quinte provvisorie."
   },
@@ -293,7 +302,10 @@
     "tafl_king_captured": "La partita è terminata perché il re è stato catturato.",
     "tafl_king_escaped": "La partita è terminata perché il re è fuggito.",
     "unlur_foul": "La partita è terminata perché un giocatore ha raggiunto la condizione di vittoria dell'avversario senza raggiungere la propria.",
-    "druid_hex": "La partita è terminata perché {{player}} ha collegato i bordi {{edges}}."
+    "druid_hex": "La partita è terminata perché {{player}} ha collegato i bordi {{edges}}.",
+    "killallgo_double_pass": "La partita è terminata perché entrambi i giocatori hanno passato senza che il Difensore abbia stabilito la vita.",
+    "killallgo_no_room": "La partita è terminata perché le pietre incondizionatamente vive dell'Attaccante non lasciano spazio al Difensore per formare una catena viva.",
+    "killallgo_pass_alive": "La partita è terminata perché il Difensore ha formato una catena incondizionatamente viva."
   },
   "DRUID_HEX_EDGE": {
     "N": "nord (N)",
@@ -424,6 +436,7 @@
     "druid": "{{player}} ha passato.",
     "elOso": "{{player}} ha passato.",
     "frogger": "{{player}} ha passato {{why}}.",
+    "icepalace": "{{player}} ha passato.",
     "linage": "{{player}} passa.",
     "pie": "{{player}} ha accettato l'offerta del komi e continuerà a giocare per secondo.",
     "pigs": "{{player}} passa.",
@@ -485,7 +498,9 @@
     "epam": "{{player}} ha posizionato una pietra in {{where}}.",
     "gorogo_henge": "{{player}} ha posizionato un pezzo henge in {{where}}.",
     "gorogo_piece": "{{player}} ha posizionato un pezzo in {{where}}.",
+    "icepalace": "{{player}} ha piazzato {{what}} in {{where}}.",
     "iqishiqi": "{{player}} ha posizionato una pietra condivisa in {{where}}.",
+    "killallgo_setup": "{{player}} ha posizionato una pietra dell'Attaccante in {{where}}.",
     "knightline": "{{player}} ha posizionato la propria pila iniziale in {{where}}.",
     "logger_logger": "{{player}} ha posizionato il proprio boscaiolo in {{where}}.",
     "logger_plant": "{{player}} ha piantato un germoglio in {{where}}.",
@@ -594,6 +609,7 @@
     "fourinarow_sw": "{{player}} ha liberato due linee, spostando i pezzi sulla plancia verso il basso e verso sinistra.",
     "fourinarow_w": "{{player}} ha liberato una linea, spostando i pezzi sulla plancia verso sinistra.",
     "gliss": "{{player}} ha mosso il proprio aliante in {{where}} fuori dal bordo della plancia.",
+    "icepalace": "{{what}} è stato scartato e rimosso dal gioco.",
     "nonum": "{{player}} ha rimosso un pezzo da {{where}}.",
     "phutball_one": "{{count}} giocatore è stato rimosso.",
     "phutball_other": "{{count}} giocatori sono stati rimossi.",
@@ -630,6 +646,8 @@
   "SCORE_REPORT": "Il punteggio di {{player}} è ora {{score}}.",
   "SELECT": {
     "fnap": "{{player}} ha selezionato la tessera {{tile}}.",
+    "killallgo_iplace": "{{player}} ha scelto di posizionare il primo lotto.",
+    "killallgo_youplace": "{{player}} ha scelto di far posizionare il primo lotto all'avversario.",
     "resolve": "{{player}} seleziona il pezzo in un taglio incrociato in {{where}}.",
     "slyde_fixed_opponent": "{{player}} ha cambiato lo stato del pezzo dell'avversario in {{where}} da mobile a fisso.",
     "slyde_fixed_self": "{{player}} ha cambiato lo stato del proprio pezzo in {{where}} da mobile a fisso.",

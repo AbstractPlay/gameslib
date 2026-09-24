@@ -531,6 +531,10 @@
     "src": "Two players aim to form a loop around the center of a regular hexagonal board, using their own stones and, possibly, some number of neutral stones.",
     "out": "Dos jugadores buscan formar un bucle alrededor del centro de un tablero hexagonal regular, usando sus propias fichas y, posiblemente, cierta cantidad de fichas neutrales."
   },
+  "descriptions.icepalace": {
+    "src": "Three to six players compete to win hands by playing pyramids into a shared Yard, building nests. The winner of each hand builds everything they won into the Ice Palace, where pyramids form trees instead. Each Palace tree scores its height for whoever owns the pyramid on top, so small pyramids are the key to scoring. Almost everything is open to negotiation.",
+    "out": "De tres a seis jugadores compiten para ganar manos jugando pirámides en un Patio compartido, construyendo nidos. El ganador de cada mano construye todo lo que ganó en el Palacio de Hielo, donde las pirámides forman árboles en su lugar. Cada árbol del Palacio otorga puntos equivalentes a su altura a quien posea la pirámide superior, por lo que las pirámides pequeñas son la clave para puntuar. Casi todo está abierto a negociación."
+  },
   "descriptions.intermedium": {
     "src": "Sowing stacks to enclose and capture. Win by capturing the opponent's city.",
     "out": "Siembra pilas para encerrar y capturar. Gana capturando la ciudad del oponente."
@@ -554,6 +558,10 @@
   "descriptions.kachit": {
     "src": "A chess-like game played on a 4x4 board where you try to eliminate the opposing king or promote your own. Pieces can change their orientation after moving.",
     "out": "Un juego similar al ajedrez en un tablero de 4x4 donde intentas eliminar al rey opuesto o coronar al tuyo. Las piezas pueden cambiar su orientación después de moverse."
+  },
+  "descriptions.killallgo": {
+    "src": "A Go variant with asymmetric goals: the Attacker starts with stones on the board and must capture everything, while the Defender wins by making one string that can never be captured.",
+    "out": "Una variante de Go con objetivos asimétricos: el Atacante empieza con piedras en el tablero y debe capturarlo todo, mientras que el Defensor gana al crear una cadena que nunca pueda ser capturada."
   },
   "descriptions.knightline": {
     "src": "A four-in-a-row connection game played by splitting a stack of knights on an unbounded grid.",
@@ -1495,6 +1503,14 @@
     "src": "Vertex style",
     "out": "Estilo de vértices"
   },
+  "displays.icepalace.expanding.description": {
+    "src": "Two dimensional board, with stacks expanding when hovered over.",
+    "out": "Tablero bidimensional, con pilas que se expanden al pasar el cursor sobre ellas."
+  },
+  "displays.icepalace.expanding.name": {
+    "src": "Expanding",
+    "out": "Expandible"
+  },
   "displays.intermedium.hide-diagonals.description": {
     "src": "Don't show diagonal lines.",
     "out": "No mostrar líneas diagonales."
@@ -2067,6 +2083,18 @@
     "src": "Could not find the ship {{ship}} in the {{system}} system.",
     "out": "No se pudo encontrar la nave {{ship}} en el sistema {{system}}."
   },
+  "icepalace.HAND": {
+    "src": "{{player}}'s hand",
+    "out": "Mano de {{player}}"
+  },
+  "icepalace.POOL": {
+    "src": "Pyramids in the Pool",
+    "out": "Pirámides en la Reserva"
+  },
+  "icepalace.STOCK": {
+    "src": "Pyramids from the Yard, to be built into the Palace",
+    "out": "Pirámides del Patio, para construir en el Palacio"
+  },
   "names.abande": {
     "src": "Abande",
     "out": "Abande"
@@ -2583,6 +2611,10 @@
     "src": "Hula",
     "out": "Hula"
   },
+  "names.icepalace": {
+    "src": "Ice Palace",
+    "out": "Ice Palace"
+  },
   "names.intermedium": {
     "src": "Intermedium",
     "out": "Intermedium"
@@ -2606,6 +2638,10 @@
   "names.kachit": {
     "src": "Kachit Knights",
     "out": "Kachit Knights"
+  },
+  "names.killallgo": {
+    "src": "Kill-All Go",
+    "out": "Kill-All Go"
   },
   "names.knightline": {
     "src": "Knight Line",
@@ -3220,8 +3256,8 @@
     "out": "Esta implementación sigue el reglamento de David Ploog. Tres cambios destacables son: (1) las barreras están prohibidas, (2) en lugar de un tablero de 16x16, tenemos una variante de 15x15 donde las piezas se promocionan a caballos en la línea central y el dragón no puede saltar al espacio de 7x7 desde la otra esquina, y (3) contra las esquinas, las piezas se capturan mediante captura por aplastamiento en lugar de captura por custodia, por lo que se necesitan al menos dos piezas del oponente en línea antes de realizar una captura contra las esquinas.\n\nNota: la verificación de ahogado es costosa. Si no puedes realizar un movimiento legal, debes rendirte manualmente."
   },
   "notes.arimaa": {
-    "src": "Made available under section 3 of the [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nDuring standard setup, you only need to place your eight non-rabbits. Once they are down, Complete Move fills the rest of your setup area with rabbits. You can still place any or all of the rabbits yourself first if you want them somewhere in particular.\n\nHarlog is an accepted method for determining material advantage. Positive scores favour Gold, negative Silver. The hard range is ±112, but in practice ±20 is a very strong advantage.\n\nBecause we can't generate comprehensive lists of moves, the system cannot detect the rare cases where your only available moves are illegal due to position repetition. The system won't let you make those illegal repetitions, and you'll have to resign manually.",
-    "out": "Disponible bajo la sección 3 de la [licencia pública de Arimaa](https://arimaa.com/arimaa/license/).\n\nDurante la preparación estándar, solo necesitas colocar tus ocho piezas que no son conejos. Una vez colocadas, Completar movimiento llenará el resto de tu área de preparación con conejos. Aún puedes colocar cualquiera o todos los conejos tú mismo primero si los quieres en algún lugar en particular.\n\nHarlog es un método aceptado para determinar la ventaja material. Las puntuaciones positivas favorecen al Oro y las negativas a la Plata. El rango límite es ±112, pero en la práctica ±20 es una ventaja muy fuerte.\n\nDebido a que no podemos generar listas exhaustivas de movimientos, el sistema no puede detectar los raros casos en los que tus únicos movimientos disponibles sean ilegales por repetición de posición. El sistema no te permitirá hacer esas repeticiones ilegales y tendrás que rendirte manualmente."
+    "src": "Made available under section 3 of the [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nDuring standard setup, you only need to place your eight non-rabbits. Once they are down, Complete Move fills the rest of your setup area with rabbits. You can still place any or all of the rabbits yourself first if you want them somewhere in particular.\n\nTo enter a move, click a piece and then the square it should end your turn on. The engine finds the shortest legal way to get it there, pushes and pulls included, and draws one arrow per piece from where it started to where it ends up. You can point at enemy pieces too. Click an arrow's head to extend it, or its tail to remove it. Clicking a selected piece a second time keeps it where it stands, which is how you stop the engine moving it aside. A few rarer turns need one more click; the wiki page for this game lists them all.\n\nMoves are recorded in Lightvector notation, which names each piece and where it ends up rather than listing every step. You can type it into the move box, and the older step-by-step notation is still accepted. The wiki page explains the notation in full.\n\nHarlog is an accepted method for determining material advantage. Positive scores favour Gold, negative Silver. The hard range is ±112, but in practice ±20 is a very strong advantage.\n\nBecause we can't generate comprehensive lists of moves, the system cannot detect the rare cases where your only available moves are illegal due to position repetition. The system won't let you make those illegal repetitions, and you'll have to resign manually.",
+    "out": "Disponible bajo la sección 3 de la [licencia pública de Arimaa](https://arimaa.com/arimaa/license/).\n\nDurante la preparación estándar, solo necesitas colocar tus ocho piezas que no son conejos. Una vez colocadas, Completar movimiento llena el resto de tu área de preparación con conejos. Aún puedes colocar cualquiera de los conejos o todos tú mismo primero si los quieres en un lugar en particular.\n\nPara ingresar un movimiento, haz clic en una pieza y luego en la casilla en la que deba terminar tu turno. El motor encuentra la forma legal más corta de llevarla allí, incluyendo empujes y jalones, y dibuja una flecha por pieza desde donde comenzó hasta donde termina. También puedes señalar piezas enemigas. Haz clic en la cabeza de una flecha para extenderla, o en su cola para eliminarla. Hacer clic por segunda vez en una pieza seleccionada la mantiene donde está, que es como evitas que el motor la mueva a un lado. Algunos turnos más raros necesitan un clic más; la página de la wiki de este juego los enumera todos.\n\nLos movimientos se registran en notación Lightvector, la cual nombra cada pieza y dónde termina en lugar de listar cada paso. Puedes escribirla en el cuadro de movimiento, y la notación antigua paso a paso sigue siendo aceptada. La página de la wiki explica la notación en detalle.\n\nHarlog es un método aceptado para determinar la ventaja material. Las puntuaciones positivas favorecen al Dorado y las negativas al Plateado. El rango estricto es ±112, pero en la práctica ±20 es una ventaja muy fuerte.\n\nDebido a que no podemos generar listas exhaustivas de movimientos, el sistema no puede detectar los raros casos en que tus únicos movimientos disponibles sean ilegales por repetición de posición. El sistema no te dejará realizar esas repeticiones ilegales y tendrás que rendirte manualmente."
   },
   "notes.armadas": {
     "src": "There are known issues with this game on iOS devices.\n\nThis game offers two scenarios:\n\n* The default is each player having two trios of pieces. In the placement phase, each player must place 1 to 3 ships until all ships are placed.\n* The \"Freeform\" variant allows you to place whatever ships you want (maximum of three at a time) until both players \"pass.\" This lets you create unbalanced or otherwise asymmetrical fleets.\n\nGames default to having one island in the centre of the field. Both a \"no islands\" and a \"two islands\" variant are available. You cannot move or fire through islands. To successfully hit a ship, at least one corner of your ship's triangle must have a clear view of at least one corner of the target ship.\n\nRemember that it is possible to get your ship in a position against an island or the edge of the board such that you can no longer move that ship! Be careful!",
@@ -3282,6 +3318,10 @@
   "notes.conspirateurs": {
     "src": "In the base game, pieces may move through sanctuaries as part of a multistep jump. They're not frozen until they end their move in a sanctuary. In the strict variant, pieces are frozen as soon as they enter a sanctuary.\n\nIn four-player games, players 1 and 2 are partnered, as are players 3 and 4.",
     "out": "En el juego base, las piezas pueden moverse a través de santuarios como parte de un salto de varios pasos. No se congelan hasta que terminan su movimiento en un santuario. En la variante estricta, las piezas se congelan tan pronto como entran en un santuario.\n\nEn partidas de cuatro jugadores, los jugadores 1 y 2 son compañeros, al igual que los jugadores 3 y 4."
+  },
+  "notes.crosshairs": {
+    "src": "The published Turbulence rule is ambiguous about two points: it does not specify whether a maneuver's normal height change occurs before or after the Turbulence loss, nor what happens if the plane is already at height 0. This implementation interprets the rule by applying each maneuver's normal height change first, then applying one Turbulence loss for each cloud cell entered, in travel order. A plane at height 0 when a Turbulence loss would apply crashes immediately.\n\nTo prevent clouds on a starting edge from trapping every entering plane, Turbulence does not affect a plane until it has entered a non-cloud cell. Once it has done so, it remains subject to Turbulence. Every cell traversed during movement counts as entered, including the intermediate cell of a two-space level flight; a clear intermediate cell therefore removes the exemption before the plane reaches a later cloudy cell in the same maneuver. Each maneuver in a dive is resolved completely before the next, so a swoop that enters a non-cloud cell removes the exemption before the following swoop.",
+    "out": "La regla publicada de Turbulencia es ambigua respecto a dos puntos: no especifica si el cambio normal de altura de una maniobra ocurre antes o después de la pérdida por Turbulencia, ni qué sucede si el avión ya está en la altura 0. Esta implementación interpreta la regla aplicando primero el cambio normal de altura de cada maniobra y luego aplicando una pérdida por Turbulencia por cada casilla con nubes en la que se ingrese, en el orden del recorrido. Un avión en altura 0 cuando se fuera a aplicar una pérdida por Turbulencia se estrella de inmediato.\n\nPara evitar que las nubes en un borde de inicio atrapen a todos los aviones que entran, la Turbulencia no afecta a un avión hasta que haya entrado en una casilla sin nubes. Una vez que lo haya hecho, permanece sujeto a la Turbulencia. Cada casilla atravesada durante el movimiento cuenta como ingresada, incluida la casilla intermedia de un vuelo nivelado de dos espacios; por lo tanto, una casilla intermedia despejada elimina la exención antes de que el avión alcance una casilla con nubes posterior en la misma maniobra. Cada maniobra en un picado se resuelve por completo antes de la siguiente, por lo que un swoop que entra en una casilla sin nubes elimina la exención antes del siguiente swoop."
   },
   "notes.deckfish": {
     "src": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com).\n\nThe suit powers (token movement abilities) are:\n* Moons: Jump orthogonally over gaps. \n* Suns: Move one or two cards diagonally. \n* Waves: Move orthogonally until the last unobstructed card. \n* Leaves: Move orthogonally onto any card with no neighboring obstacles.\n* Wyrms: Move orthogonally onto the first occupied card, bumping that piece to the next card.\n* Knots: Make three orthogonal one-card moves, without backtracking.\n\nIn the rules, the \"first\" player is the player who places second in the placement phase but moves first in the movement phase, but here the first player is the one who places first but moves second. This is implemented using an automatic pass for the appropriate player.\n\nThe rule is enforced that, even when the last player is already winning, he must continue playing until he is out of moves.",
@@ -3351,6 +3391,10 @@
     "src": "The win condition is what's called \"Sinister Homeworlds.\" You only win by defeating the opponent to your left. If someone else does that, the game continues, but your left-hand opponent now shifts clockwise. For example, in a four-player game, if I'm South, then I win if I eliminate West. But if the North player ends up eliminating West, the game continues, but now my left-hand opponent is North.",
     "out": "La condición de victoria es lo que se llama \"Sinister Homeworlds\". Solo ganas al derrotar al oponente a tu izquierda. Si alguien más lo hace, la partida continúa, pero tu oponente de la izquierda se desplaza en el sentido de las agujas del reloj. Por ejemplo, en una partida de cuatro jugadores, si soy Sur, entonces gano si elimino a Oeste. Pero si el jugador Norte termina eliminando a Oeste, la partida continúa, pero ahora mi oponente a la izquierda es Norte."
   },
+  "notes.icepalace": {
+    "src": "Ice Palace's rules say a pyramid placed on the ground must be next to a pyramid of the same colour, but not whether every neighbour has to match. This implementation requires at least one matching orthogonal neighbour; the others may be any colour. White matches any colour except Black, and Black matches nothing.",
+    "out": "Las reglas del Palacio de Hielo dicen que una pirámide colocada en el suelo debe estar al lado de una pirámide del mismo color, pero no aclara si todos los vecinos deben coincidir. Esta implementación requiere al menos un vecino ortogonal del mismo color; los demás pueden ser de cualquier color. El blanco coincide con cualquier color excepto el negro, y el negro no coincide con ninguno."
+  },
   "notes.intermedium": {
     "src": "Intermedium (aka, Stepping Stones) is a 1974 game designed by Matt Crispis. This is a stack sowing game, where players try to surround the opposing home-base. Stacks only move diagonally, and each army starts in a different diagonal color, so they can never cross over (like two bishops at different square colors). Pieces are captured by enclosure, surrounding all orthogonal adjacencies of an opponent stack.\n\nSome words from the author: \"[Intermedium] is simple to learn, but may lead to complicated situations that require deep analysis and forward thinking. Single pieces do no move, but they are useful a stepping stones for your captures. And they may become alive by putting another piece over them. Before you master the game, avoid early attacks against the City that  may prove costly. Build up your strength gradually and evenly by dominating, if possible, the center. You should also avoid building 'formidable' stacks of six or more pieces - if taken you may lose the game at one stroke. Leave some forces behind to defend your City in case of emergency.\"",
     "out": "Intermedium (también conocido como Stepping Stones) es un juego de 1974 diseñado por Matt Crispis. Este es un juego de siembra y apilamiento, donde los jugadores intentan rodear la base inicial opuesta. Las pilas solo se mueven en diagonal y cada ejército comienza en un color de diagonal diferente, por lo que nunca pueden cruzarse (como dos alfiles en casillas de distinto color). Las piezas se capturan por encierro, rodeando todas las adyacencias ortogonales de una pila enemiga.\n\nUnas palabras del autor: \"[Intermedium] es fácil de aprender, pero puede llevar a situaciones complicadas que requieren un análisis profundo y previsión. Las piezas individuales no se mueven, pero son útiles como peldaños para tus capturas. Y pueden cobrar vida al colocar otra pieza sobre ellas. Antes de dominar el juego, evita los ataques tempranos contra la Ciudad que pueden resultar costosos. Desarrolla tu fuerza de manera gradual y uniforme dominando, si es posible, el centro. También debes evitar construir pilas 'formidables' de seis o más piezas; si te las capturan, podrías perder la partida de un solo golpe. Deja algunas fuerzas atrás para defender tu Ciudad en caso de emergencia\"."
@@ -3362,6 +3406,10 @@
   "notes.jacynth": {
     "src": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers and opponents.",
     "out": "Puedes encontrar más información sobre el sistema Decktet en el [sitio web oficial de Decktet](https://www.decktet.com). Las cartas en las manos de los jugadores están ocultas para los observadores y oponentes."
+  },
+  "notes.killallgo": {
+    "src": "The Attacker, whose stones are already on the board when normal play begins, wins by preventing the Defender from ever making a living string. The Defender wins by making one string that cannot be captured. There is no scoring.\n\nStones are placed and captured as in Go with Tromp-Taylor clearing: after a placement, opponent strings without liberties are removed, then your own string if it has none, so multi-stone suicide is legal. Positional superko applies: no placement may recreate any earlier position of the board. Either player may pass; if both pass in a row, the Attacker wins.\n\nThe Defender wins as soon as one of their strings is unconditionally alive: pass-alive by Benson's algorithm, meaning the Attacker could never capture it even with unlimited consecutive moves. That is the only way to win as the Defender. A string that is merely alive in seki or in ko does not count, so the Defender must keep playing and turn it into a string that cannot be captured at all.\n\nThe Attacker wins as soon as that has become impossible. Stones of the Attacker that are unconditionally alive can never be removed, and no point next to one of them can ever lie in an eye of a living Defender string. When no area left over by those stones holds two points that are neither next to each other nor next to those stones, there is no room anywhere for the two eyes a living string needs, and the game ends. The check does not recognise every lost position; when it does not trigger, play simply continues.\n\nOpenings: with Pieboxing, the players take turns placing Attacker stones until one of them takes the Attacker side; the other player then moves first as the Defender. The handicap opening works the same way, except that Player 1 (the stronger player, so seat the handicap giver first when creating the challenge) first sets the number of handicap stones and Player 2 starts placing; if Player 2 takes the Attacker side, they place that many extra stones at once. The classic opening uses the traditional 17-stone position on the 19x19 board, with the Defender (Player 1) to move. In the simple pie, Player 1 places any number of Attacker stones and Player 2 chooses a side. In the generalized Hoctaph's pie, Player 1 chooses two batch sizes (each at least 1, together at most the number of points minus 2, neither more than twice the other), Player 2 decides who places the first batch, the other player then chooses a side, and the Attacker places the second batch. In every opening the Defender makes the first normal move.",
+    "out": "El Atacante, cuyas piedras ya están en el tablero cuando comienza el juego normal, gana al evitar que el Defensor cree alguna vez una cadena viva. El Defensor gana al crear una cadena que no pueda ser capturada. No hay puntuación.\n\nLas piedras se colocan y capturan como en el Go con la eliminación de Tromp-Taylor: después de una colocación, se eliminan las cadenas del oponente sin libertades, y luego tu propia cadena si no tiene ninguna, por lo que el suicidio de múltiples piedras es legal. Se aplica el superko posicional: ninguna colocación puede recrear una posición anterior del tablero. Cualquier jugador puede pasar; si ambos pasan de forma consecutiva, el Atacante gana.\n\nEl Defensor gana tan pronto como una de sus cadenas esté incondicionalmente viva: viva por pase mediante el algoritmo de Benson, lo que significa que el Atacante nunca podría capturarla incluso con ilimitados movimientos consecutivos. Esa es la única manera de ganar como Defensor. Una cadena que solo esté viva en seki o en ko no cuenta, por lo que el Defensor debe seguir jugando y convertirla en una cadena que no pueda ser capturada en absoluto.\n\nEl Atacante gana tan pronto como eso se haya vuelto imposible. Las piedras del Atacante que estén incondicionalmente vivas nunca se pueden eliminar, y ningún punto junto a una de ellas podrá estar jamás en un ojo de una cadena viva del Defensor. Cuando ningún área que quede libre por esas piedras contenga dos puntos que no estén ni juntos ni al lado de esas piedras, ya no hay espacio en ninguna parte para los dos ojos que necesita una cadena viva, y el juego termina. La comprobación no reconoce todas las posiciones perdidas; cuando no se activa, el juego simplemente continúa.\n\nAperturas: con Pieboxing, los jugadores se turnan para colocar piedras del Atacante hasta que uno de ellos toma el lado del Atacante; el otro jugador mueve primero como Defensor. La apertura con hándicap funciona de la misma manera, excepto que el Jugador 1 (el jugador más fuerte, así que sienta primero al que da el hándicap al crear el desafío) establece primero el número de piedras de hándicap y el Jugador 2 comienza a colocar; si el Jugador 2 toma el lado del Atacante, coloca esa cantidad de piedras extra de una sola vez. La apertura clásica usa la posición tradicional de 17 piedras en el tablero de 19x19, con el Defensor (Jugador 1) para mover. En el pastel simple, el Jugador 1 coloca cualquier número de piedras del Atacante y el Jugador 2 elige un lado. En el pastel generalizado de Hoctaph, el Jugador 1 elige dos tamaños de lote (cada uno de al menos 1, juntos como máximo el número de puntos menos 2, ni uno más del doble que el otro), el Jugador 2 decide quién coloca el primer lote, el otro jugador elige un lado y el Atacante coloca el segundo lote. En cada apertura, el Defensor realiza el primer movimiento normal."
   },
   "notes.knightline": {
     "src": "For convenience, your stack is split approximately in half on your first click.  Subsequent clicks on the source or target stack move one piece at a time.  When done, click on an empty cell or use the Complete Move button.\n\nThe coordinate system is adapted from the coder's coordinate system for Hive, a game on an unbounded (but still reasonably sized) hex board.  The y axis is labeled with Cartesian coordinates (positive and negative integers).  The x axis is labeled with letters in alphabetical order, with the origin at (m, 0).  If motion on the x-axis exceeds the confines of the alphabet in either direction, the letters are prefixed with another letter (z is followed by aa, ab, ac, etc., and a is preceded by zz, zy, zx, etc.).  The game is not expected to reach a width that requires more double coordinates, but for the record, az is followed by ba, za is preceded by yz, and so forth.  The board cannot reach a size that would result in ambiguity.",
@@ -3851,9 +3899,77 @@
     "src": "Insurgents remaining",
     "out": "Insurgentes restantes"
   },
+  "status.icepalace.PLACED": {
+    "src": "Pyramids placed",
+    "out": "Pirámides colocadas"
+  },
+  "status.icepalace.POOL": {
+    "src": "Pyramids left in the Pool",
+    "out": "Pirámides restantes en la Reserva"
+  },
   "status.jacynth": {
     "src": "Influence tokens",
     "out": "Fichas de influencia"
+  },
+  "status.killallgo.ATTACKER": {
+    "src": "Attacker",
+    "out": "Atacante"
+  },
+  "status.killallgo.BATCHES": {
+    "src": "Batch sizes",
+    "out": "Tamaños de lote"
+  },
+  "status.killallgo.BATCHES_VALUE": {
+    "src": "{{a}} then {{b}}",
+    "out": "{{a}} luego {{b}}"
+  },
+  "status.killallgo.DEFENDER": {
+    "src": "Defender",
+    "out": "Defensor"
+  },
+  "status.killallgo.HANDICAP": {
+    "src": "Handicap stones",
+    "out": "Piedras de hándicap"
+  },
+  "status.killallgo.PHASE_ALT_PLACE": {
+    "src": "{{player}} places an Attacker stone or takes the Attacker side",
+    "out": "{{player}} coloca una piedra del Atacante o toma el lado del Atacante"
+  },
+  "status.killallgo.PHASE_HAND_N": {
+    "src": "{{player}} sets the number of handicap stones",
+    "out": "{{player}} establece el número de piedras de hándicap"
+  },
+  "status.killallgo.PHASE_HOC_BATCH_A": {
+    "src": "{{player}} places the first batch of Attacker stones",
+    "out": "{{player}} coloca el primer lote de piedras del Atacante"
+  },
+  "status.killallgo.PHASE_HOC_BATCH_B": {
+    "src": "{{player}} places the second batch of Attacker stones",
+    "out": "{{player}} coloca el segundo lote de piedras del Atacante"
+  },
+  "status.killallgo.PHASE_HOC_CHOOSE": {
+    "src": "{{player}} chooses a side",
+    "out": "{{player}} elige un lado"
+  },
+  "status.killallgo.PHASE_HOC_OPTION": {
+    "src": "{{player}} decides who places the first batch",
+    "out": "{{player}} decide quién coloca el primer lote"
+  },
+  "status.killallgo.PHASE_HOC_SLICE": {
+    "src": "{{player}} sets the two batch sizes",
+    "out": "{{player}} establece los dos tamaños de lote"
+  },
+  "status.killallgo.PHASE_PIE_CHOOSE": {
+    "src": "{{player}} chooses a side",
+    "out": "{{player}} elige un lado"
+  },
+  "status.killallgo.PHASE_PIE_SLICE": {
+    "src": "{{player}} places the opening Attacker stones",
+    "out": "{{player}} coloca las piedras de apertura del Atacante"
+  },
+  "status.killallgo.UNDECIDED": {
+    "src": "Not yet chosen",
+    "out": "Aún no elegido"
   },
   "status.lasca.MATERIAL": {
     "src": "Material",
@@ -4619,6 +4735,10 @@
     "src": "You may not leave your own pieces on your home port.",
     "out": "No puedes dejar tus propias piezas en tu puerto natal."
   },
+  "validation.arimaa.AMBIGUOUS": {
+    "src": "That fits {{count}} different moves. Say where another piece ends up to settle it.",
+    "out": "Eso coincide con {{count}} movimientos diferentes. Indica dónde termina otra pieza para definirlo."
+  },
   "validation.arimaa.BACKWARDS": {
     "src": "You may not move your own rabbits backwards.",
     "out": "No puedes mover a tus propios conejos hacia atrás."
@@ -4631,13 +4751,21 @@
     "src": "You may only place pieces on the two ranks closest to you.",
     "out": "Solo puedes colocar piezas en las dos filas más cercanas a ti."
   },
+  "validation.arimaa.INCOMPLETE": {
+    "src": "A piece is selected. Click a square to send it there, or click it again to keep it where it is.",
+    "out": "Hay una pieza seleccionada. Haz clic en una casilla para enviarla allí o haz clic en ella de nuevo para mantenerla donde está."
+  },
+  "validation.arimaa.INFERRED": {
+    "src": "Also moving: {{pieces}}.",
+    "out": "También se mueven: {{pieces}}."
+  },
   "validation.arimaa.INITIAL_INSTRUCTIONS_place": {
     "src": "Select a piece from your hand to place on the board.",
     "out": "Selecciona una pieza de tu mano para colocarla en el tablero."
   },
   "validation.arimaa.INITIAL_INSTRUCTIONS_play": {
-    "src": "Select a piece to move.",
-    "out": "Selecciona una pieza para mover."
+    "src": "Click a piece, then the square it should end the turn on. You can point at enemy pieces too; pushes and pulls are worked out for you.",
+    "out": "Haz clic en una pieza y luego en la casilla donde debe terminar el turno. También puedes señalar piezas enemigas; los empujes y jalones se calculan automáticamente."
   },
   "validation.arimaa.INVALID_PUSH": {
     "src": "Pushes must be immediately completed by moving the pushing piece into the space vacated by the pushed enemy piece.",
@@ -4662,6 +4790,34 @@
   "validation.arimaa.NOT_ADJ": {
     "src": "Pieces may only move one space orthogonally.",
     "out": "Las piezas solo se pueden mover un espacio ortogonalmente."
+  },
+  "validation.arimaa.NO_MOVE": {
+    "src": "No legal move matches what you have drawn.",
+    "out": "Ningún movimiento legal coincide con lo que has dibujado."
+  },
+  "validation.arimaa.NO_MOVE_CHAIN": {
+    "src": "One arrow per piece, from where it starts to where it ends: {{first}} and {{second}} together are {{combined}}.",
+    "out": "Una flecha por pieza, desde donde empieza hasta donde termina: {{first}} y {{second}} juntos son {{combined}}."
+  },
+  "validation.arimaa.NO_MOVE_ENEMY": {
+    "src": "The piece on {{from}} is your opponent's, and none of your pieces can push or pull it as drawn within {{num}} steps.",
+    "out": "La pieza en {{from}} es de tu oponente, y ninguna de tus piezas puede empujarla o jalarla como se dibujó dentro de {{num}} pasos."
+  },
+  "validation.arimaa.NO_MOVE_FROZEN": {
+    "src": "The piece on {{from}} is frozen, and nothing can free it in time.",
+    "out": "La pieza en {{from}} está congelada y nada puede liberarla a tiempo."
+  },
+  "validation.arimaa.NO_MOVE_REACH": {
+    "src": "The piece on {{from}} cannot get to {{to}} within {{num}} steps.",
+    "out": "La pieza en {{from}} no puede llegar a {{to}} dentro de {{num}} pasos."
+  },
+  "validation.arimaa.NO_MOVE_TOGETHER": {
+    "src": "Each of those works on its own, but not all of them within {{num}} steps.",
+    "out": "Cada uno de ellos funciona por separado, pero no todos dentro de {{num}} pasos."
+  },
+  "validation.arimaa.PARSE": {
+    "src": "Could not read \"{{token}}\".",
+    "out": "No se pudo leer \"{{token}}\"."
   },
   "validation.arimaa.PARTIAL_FREE": {
     "src": "You may continue placing pieces, or click Complete Move to end your turn.",
@@ -4702,6 +4858,10 @@
   "validation.arimaa.REPEAT": {
     "src": "You may not repeat a given position a third time.",
     "out": "No puedes repetir una misma posición por tercera vez."
+  },
+  "validation.arimaa.TOO_LONG": {
+    "src": "What you have drawn needs more than {{num}} steps.",
+    "out": "Lo que has dibujado necesita más de {{num}} pasos."
   },
   "validation.arimaa.TOO_MANY": {
     "src": "You may only take up to {{num}} actions this turn.",
@@ -8495,6 +8655,66 @@
     "src": "Select the new colour.",
     "out": "Selecciona el nuevo color."
   },
+  "validation.icepalace.BAD_PLACEMENT": {
+    "src": "Could not read '{{move}}' as a pyramid and a space.",
+    "out": "No se pudo interpretar '{{move}}' como una pirámide y una casilla."
+  },
+  "validation.icepalace.BUILD_COMPLETE": {
+    "src": "The whole Yard has been built into the Ice Palace. Submit when you are happy with it.",
+    "out": "Se ha construido todo el Patio en el Palacio de Hielo. Envía cuando estés conforme."
+  },
+  "validation.icepalace.BUILD_ENOUGH": {
+    "src": "The remaining {{count}} pyramids will be discarded. Submit when you are happy with the arrangement.",
+    "out": "Las {{count}} pirámides restantes serán descartadas. Envía cuando estés conforme con la distribución."
+  },
+  "validation.icepalace.BUILD_MORE": {
+    "src": "Place {{count}} more pyramids.",
+    "out": "Coloca {{count}} pirámides más."
+  },
+  "validation.icepalace.ILLEGAL_PALACE": {
+    "src": "The {{piece}} cannot go at {{cell}}. In the Ice Palace a pyramid may only cover a bigger one, or start a new stack beside a stack of its own colour.",
+    "out": "La {{piece}} no puede ir en {{cell}}. En el Palacio de Hielo, una pirámide solo puede cubrir a una más grande o comenzar una nueva pila al lado de una pila de su propio color."
+  },
+  "validation.icepalace.ILLEGAL_YARD": {
+    "src": "The {{piece}} cannot go at {{cell}}. In the Yard a pyramid may only cover a smaller one, or start a new stack beside a stack whose top it matches.",
+    "out": "La {{piece}} no puede ir en {{cell}}. En el Patio, una pirámide solo puede cubrir a una más pequeña o comenzar una nueva pila al lado de una pila con cuya cima coincida."
+  },
+  "validation.icepalace.INITIAL_BUILD": {
+    "src": "You won the hand. Build the Yard into the Ice Palace, using {{count}} pyramids.",
+    "out": "Ganaste la mano. Construye el Patio en el Palacio de Hielo usando {{count}} pirámides."
+  },
+  "validation.icepalace.INITIAL_HAND": {
+    "src": "Place a pyramid from your hand into the Yard, or pass.",
+    "out": "Coloca una pirámide de tu mano en el Patio o pasa."
+  },
+  "validation.icepalace.LEAD_CANNOT_PASS": {
+    "src": "You are leading the hand and must place a pyramid to start the Yard.",
+    "out": "Lideras la mano y debes colocar una pirámide para iniciar el Patio."
+  },
+  "validation.icepalace.MUST_BUILD": {
+    "src": "You cannot decline to build: {{count}} of the Yard's pyramids can be placed.",
+    "out": "No puedes negarte a construir: se pueden colocar {{count}} de las pirámides del Patio."
+  },
+  "validation.icepalace.NOT_IN_HAND": {
+    "src": "You do not have a {{piece}} in hand.",
+    "out": "No tienes una {{piece}} en la mano."
+  },
+  "validation.icepalace.NOT_IN_STOCK": {
+    "src": "The {{piece}} is not among the pyramids you won.",
+    "out": "La {{piece}} no está entre las pirámides que ganaste."
+  },
+  "validation.icepalace.OFF_STRUCTURE": {
+    "src": "That space is not part of the structure you are building in.",
+    "out": "Esa casilla no forma parte de la estructura en la que estás construyendo."
+  },
+  "validation.icepalace.PARTIAL_PIECE": {
+    "src": "Now choose where to place the {{piece}}.",
+    "out": "Ahora elige dónde colocar la {{piece}}."
+  },
+  "validation.icepalace.POOL_CLICK": {
+    "src": "The Pool is shown for reference. Its pyramids cannot be played.",
+    "out": "La Reserva se muestra como referencia. Sus pirámides no se pueden jugar."
+  },
   "validation.intermedium.INSTRUCTIONS": {
     "src": "Select a friendly stack; click on it as many times as pieces to move, then click on a diagonal path that starts adjacent to this sowing stack (one pieces per square), making 90º turns.",
     "out": "Selecciona una pila aliada; haz clic en ella tantas veces como piezas vayas a mover, luego haz clic en una trayectoria diagonal que empiece adyacente a esta pila de sembrado (una pieza por casilla), haciendo giros de 90º."
@@ -8626,6 +8846,182 @@
   "validation.kachit.PARTIAL_orientation": {
     "src": "Select a neighbouring cell to orient the piece.",
     "out": "Selecciona una casilla vecina para orientar la pieza."
+  },
+  "validation.killallgo.ATTACKER_NO_STONES": {
+    "src": "Taking the Attacker side does not involve placing stones now.",
+    "out": "Tomar el lado del Atacante no implica colocar piedras ahora."
+  },
+  "validation.killallgo.BATCH_MORE_OR_SUBMIT": {
+    "src": "Add more Attacker stones, or submit.",
+    "out": "Agrega más piedras del Atacante o envía."
+  },
+  "validation.killallgo.BATCH_TOO_MANY_one": {
+    "src": "This batch holds exactly one stone.",
+    "out": "Este lote contiene exactamente una piedra."
+  },
+  "validation.killallgo.BATCH_TOO_MANY_other": {
+    "src": "This batch holds exactly {{count}} stones.",
+    "out": "Este lote contiene exactamente {{count}} piedras."
+  },
+  "validation.killallgo.DEFENDER_NO_STONES": {
+    "src": "Choosing the Defender side does not involve placing stones now.",
+    "out": "Elegir el lado del Defensor no implica colocar piedras ahora."
+  },
+  "validation.killallgo.DUPLICATE_CELL": {
+    "src": "The cell {{where}} is listed twice.",
+    "out": "La casilla {{where}} está duplicada."
+  },
+  "validation.killallgo.HANDICAP_INVALID": {
+    "src": "The handicap must be a whole number.",
+    "out": "El hándicap debe ser un número entero."
+  },
+  "validation.killallgo.HANDICAP_OK_one": {
+    "src": "Handicap of one stone. Submit, or keep typing.",
+    "out": "Hándicap de una piedra. Envía o sigue escribiendo."
+  },
+  "validation.killallgo.HANDICAP_OK_other": {
+    "src": "Handicap of {{count}} stones. Submit, or keep typing.",
+    "out": "Hándicap de {{count}} piedras. Envía o sigue escribiendo."
+  },
+  "validation.killallgo.HANDICAP_RANGE": {
+    "src": "The handicap must be between 1 and {{max}} stones.",
+    "out": "El hándicap debe ser de entre 1 y {{max}} piedras."
+  },
+  "validation.killallgo.INSTRUCTIONS_ALT": {
+    "src": "Place an Attacker stone, or take the Attacker side; your opponent then moves first as the Defender.",
+    "out": "Coloca una piedra del Atacante o toma el lado del Atacante; tu oponente moverá primero como Defensor."
+  },
+  "validation.killallgo.INSTRUCTIONS_ALT_HANDICAP_one": {
+    "src": "Place an Attacker stone, or take the Attacker side and then place one more stone; your opponent then moves first as the Defender.",
+    "out": "Coloca una piedra del Atacante, o toma el lado del Atacante y luego coloca una piedra más; tu oponente moverá primero como Defensor."
+  },
+  "validation.killallgo.INSTRUCTIONS_ALT_HANDICAP_other": {
+    "src": "Place an Attacker stone, or take the Attacker side and then place {{count}} more stones; your opponent then moves first as the Defender.",
+    "out": "Coloca una piedra del Atacante, o toma el lado del Atacante y luego coloca {{count}} piedras más; tu oponente moverá primero como Defensor."
+  },
+  "validation.killallgo.INSTRUCTIONS_HANDICAP": {
+    "src": "You are giving the handicap. Type the number of extra Attacker stones (1 to {{max}}) your opponent will place if they take the Attacker side.",
+    "out": "Estás dando el hándicap. Escribe la cantidad de piedras extra del Atacante (de 1 a {{max}}) que tu oponente colocará si toma el lado del Atacante."
+  },
+  "validation.killallgo.INSTRUCTIONS_HOC_BATCH_one": {
+    "src": "Place one Attacker stone.",
+    "out": "Coloca una piedra del Atacante."
+  },
+  "validation.killallgo.INSTRUCTIONS_HOC_BATCH_other": {
+    "src": "Place {{count}} Attacker stones.",
+    "out": "Coloca {{count}} piedras del Atacante."
+  },
+  "validation.killallgo.INSTRUCTIONS_HOC_CHOOSE_one": {
+    "src": "Choose a side. Taking the Attacker side means placing the second batch of one stone now; choosing the Defender side means your opponent places it and you then move first.",
+    "out": "Elige un lado. Tomar el lado del Atacante significa colocar el segundo lote de una piedra ahora; elegir el lado del Defensor significa que tu oponente la coloca y tú luego mueves primero."
+  },
+  "validation.killallgo.INSTRUCTIONS_HOC_CHOOSE_other": {
+    "src": "Choose a side. Taking the Attacker side means placing the second batch of {{count}} stones now; choosing the Defender side means your opponent places them and you then move first.",
+    "out": "Elige un lado. Tomar el lado del Atacante significa colocar el segundo lote de {{count}} piedras ahora; elegir el lado del Defensor significa que tu oponente las coloca y tú luego mueves primero."
+  },
+  "validation.killallgo.INSTRUCTIONS_HOC_OPTION_one": {
+    "src": "Decide who places the first batch of one Attacker stone: place it yourself (your opponent then chooses a side), or let your opponent place it (you then choose a side).",
+    "out": "Decide quién coloca el primer lote de una piedra del Atacante: colócala tú mismo (tu oponente luego elige un lado) o deja que tu oponente la coloque (tú luego eliges un lado)."
+  },
+  "validation.killallgo.INSTRUCTIONS_HOC_OPTION_other": {
+    "src": "Decide who places the first batch of {{count}} Attacker stones: place them yourself (your opponent then chooses a side), or let your opponent place them (you then choose a side).",
+    "out": "Decide quién coloca el primer lote de {{count}} piedras del Atacante: colócalas tú mismo (tu oponente luego elige un lado) o deja que tu oponente las coloque (tú luego eliges un lado)."
+  },
+  "validation.killallgo.INSTRUCTIONS_HOC_SLICE": {
+    "src": "Click a numbered stone on the left to size the first batch and one on the right to size the second, or type both sizes as a,b: each at least 1, together at most {{max}}, and neither more than twice the other.",
+    "out": "Haz clic en una piedra numerada a la izquierda para definir el tamaño del primer lote y en una a la derecha para el segundo, o escribe ambos tamaños como a,b: cada uno de al menos 1, juntos como máximo {{max}}, y ninguno más del doble que el otro."
+  },
+  "validation.killallgo.INSTRUCTIONS_PIE_CHOOSE": {
+    "src": "Choose a side: take the Attacker stones, or place your first stone as the Defender.",
+    "out": "Elige un lado: toma las piedras del Atacante o coloca tu primera piedra como Defensor."
+  },
+  "validation.killallgo.INSTRUCTIONS_PIE_DEFENDER_STONE": {
+    "src": "Place your first Defender stone.",
+    "out": "Coloca tu primera piedra del Defensor."
+  },
+  "validation.killallgo.INSTRUCTIONS_PIE_SLICE": {
+    "src": "Place any number of Attacker stones up to {{max}} (or pass to place none); your opponent will then choose a side.",
+    "out": "Coloca cualquier número de piedras del Atacante hasta {{max}} (o pasa para no colocar ninguna); tu oponente luego elegirá un lado."
+  },
+  "validation.killallgo.INSTRUCTIONS_PLAY_ATTACKER": {
+    "src": "Place a stone or pass. You win by leaving the Defender no room to make a string that can never be captured.",
+    "out": "Coloca una piedra o pasa. Ganas si no le dejas espacio al Defensor para hacer una cadena que nunca pueda ser capturada."
+  },
+  "validation.killallgo.INSTRUCTIONS_PLAY_DEFENDER": {
+    "src": "Place a stone or pass. You win by making a string that can never be captured.",
+    "out": "Coloca una piedra o pasa. Ganas al hacer una cadena que nunca pueda ser capturada."
+  },
+  "validation.killallgo.INVALID_PASS": {
+    "src": "You cannot pass now.",
+    "out": "No puedes pasar ahora."
+  },
+  "validation.killallgo.KO_PSK": {
+    "src": "That placement would recreate an earlier position of the board (positional superko).",
+    "out": "Esa colocación recrearía una posición anterior del tablero (superko posicional)."
+  },
+  "validation.killallgo.NO_CLICKS_NOW": {
+    "src": "Type your answer in the move box; the board is not clickable yet.",
+    "out": "Escribe tu respuesta en la casilla de jugada; aún no se puede hacer clic en el tablero."
+  },
+  "validation.killallgo.PASS_WARNING": {
+    "src": "Passing does not establish life. If the Attacker also passes, the Attacker wins.",
+    "out": "Pasar no garantiza estar vivo. Si el Atacante también pasa, el Atacante gana."
+  },
+  "validation.killallgo.PIE_SLICE_MAX": {
+    "src": "You may place at most {{max}} Attacker stones this way.",
+    "out": "Puedes colocar como máximo {{max}} piedras del Atacante de esta manera."
+  },
+  "validation.killallgo.SETUP_FULL": {
+    "src": "The board already holds the maximum number of setup stones this phase allows ({{max}}); take the Attacker side instead of placing another.",
+    "out": "El tablero ya contiene la cantidad máxima de piedras de preparación que permite esta fase ({{max}}); toma el lado del Atacante en lugar de colocar otra."
+  },
+  "validation.killallgo.SLICE_A_ONLY_one": {
+    "src": "First batch of one stone. Now choose the size of the second batch.",
+    "out": "Primer lote de una piedra. Ahora elige el tamaño del segundo lote."
+  },
+  "validation.killallgo.SLICE_A_ONLY_other": {
+    "src": "First batch of {{count}} stones. Now choose the size of the second batch.",
+    "out": "Primer lote de {{count}} piedras. Ahora elige el tamaño del segundo lote."
+  },
+  "validation.killallgo.SLICE_B_ONLY_one": {
+    "src": "Second batch of one stone. Now choose the size of the first batch.",
+    "out": "Segundo lote de una piedra. Ahora elige el tamaño del primer lote."
+  },
+  "validation.killallgo.SLICE_B_ONLY_other": {
+    "src": "Second batch of {{count}} stones. Now choose the size of the first batch.",
+    "out": "Segundo lote de {{count}} piedras. Ahora elige el tamaño del primer lote."
+  },
+  "validation.killallgo.SLICE_FORMAT": {
+    "src": "Type the two batch sizes as two whole numbers separated by a comma, for example 20,15.",
+    "out": "Escribe los dos tamaños de lote como dos números enteros separados por una coma, por ejemplo 20,15."
+  },
+  "validation.killallgo.SLICE_MIN": {
+    "src": "Each batch must hold at least one stone.",
+    "out": "Cada lote debe contener al menos una piedra."
+  },
+  "validation.killallgo.SLICE_NOT_A_BUTTON": {
+    "src": "Click one of the numbered stones: the block on the left sizes the first batch, the block on the right the second. Larger sizes can still be typed.",
+    "out": "Haz clic en una de las piedras numeradas: el bloque de la izquierda define el tamaño del primer lote, y el de la derecha, el del segundo. Los tamaños mayores se pueden escribir manualmente."
+  },
+  "validation.killallgo.SLICE_OK": {
+    "src": "Batches of {{a}} and {{b}} stones. Submit, or keep typing.",
+    "out": "Lotes de {{a}} y {{b}} piedras. Envía o sigue escribiendo."
+  },
+  "validation.killallgo.SLICE_RATIO": {
+    "src": "Neither batch may be more than twice the size of the other.",
+    "out": "Ningún lote puede ser más del doble del tamaño del otro."
+  },
+  "validation.killallgo.SLICE_SUM": {
+    "src": "Together the two batches may hold at most {{max}} stones.",
+    "out": "Juntos, los dos lotes pueden contener como máximo {{max}} piedras."
+  },
+  "validation.killallgo.STONES_LEFT_one": {
+    "src": "Place one more Attacker stone.",
+    "out": "Coloca una piedra más del Atacante."
+  },
+  "validation.killallgo.STONES_LEFT_other": {
+    "src": "Place {{count}} more Attacker stones.",
+    "out": "Coloca {{count}} piedras más del Atacante."
   },
   "validation.knightline.BAD_OPENING_MOVE": {
     "src": "The opening move in this variant must be a legal cell for initial stack placement.",
@@ -15279,6 +15675,14 @@
     "src": "28 clouds",
     "out": "28 nubes"
   },
+  "variants.crosshairs.concealed-fire.description": {
+    "src": "Planes may shoot out of clouds, but still cannot shoot into or through them.",
+    "out": "Los aviones pueden disparar desde las nubes, pero aun así no pueden disparar hacia ellas ni a través de ellas."
+  },
+  "variants.crosshairs.concealed-fire.name": {
+    "src": "Concealed fire",
+    "out": "Fuego oculto"
+  },
   "variants.crosshairs.random-start.description": {
     "src": "There is no cloud placing phase. The system places the clouds randomly with 180-degree rotational symmetry.",
     "out": "No hay fase de colocación de nubes. El sistema coloca las nubes al azar con simetría rotacional de 180 grados."
@@ -15286,6 +15690,14 @@
   "variants.crosshairs.random-start.name": {
     "src": "Symmetric random clouds",
     "out": "Nubes aleatorias simétricas"
+  },
+  "variants.crosshairs.turbulence.description": {
+    "src": "Each time a plane enters a cloud, it loses 1 height.",
+    "out": "Cada vez que un avión entra en una nube, pierde 1 de altura."
+  },
+  "variants.crosshairs.turbulence.name": {
+    "src": "Turbulence",
+    "out": "Turbulencia"
   },
   "variants.crosshairs.unbounded-cloud-banks.description": {
     "src": "Cloud banks may contain any number of clouds.",
@@ -16246,6 +16658,58 @@
   "variants.jacynth.towers.name": {
     "src": "Towers",
     "out": "Torres"
+  },
+  "variants.killallgo.#board.name": {
+    "src": "19x19 board",
+    "out": "Tablero de 19x19"
+  },
+  "variants.killallgo.#opening.description": {
+    "src": "Players take turns placing Attacker stones until one of them takes the Attacker side; the other player then moves first as the Defender. Pieboxing, devised by MXHero.",
+    "out": "Los jugadores se turnan para colocar piedras del Atacante hasta que uno de ellos toma el lado del Atacante; el otro jugador mueve primero como Defensor. Pieboxing, ideado por MXHero."
+  },
+  "variants.killallgo.#opening.name": {
+    "src": "Pieboxing",
+    "out": "Pieboxing"
+  },
+  "variants.killallgo.classic.description": {
+    "src": "The traditional 17-stone starting position; the Defender (Player 1) moves first. 19x19 only.",
+    "out": "La posición inicial tradicional de 17 piedras; el Defensor (Jugador 1) mueve primero. Solo 19x19."
+  },
+  "variants.killallgo.classic.name": {
+    "src": "Classic 17-stone setup",
+    "out": "Configuración clásica de 17 piedras"
+  },
+  "variants.killallgo.handicap.description": {
+    "src": "Pieboxing with a handicap. Player 1 (seat the stronger player first) sets the number of extra Attacker stones, then Player 2 starts placing. If Player 2 takes the Attacker side, they place the extra stones at once. Devised by MXHero.",
+    "out": "Pieboxing con hándicap. El Jugador 1 (sienta al jugador más fuerte primero) establece el número de piedras extra del Atacante, luego el Jugador 2 comienza a colocar. Si el Jugador 2 toma el lado del Atacante, coloca las piedras extra de una sola vez. Ideado por MXHero."
+  },
+  "variants.killallgo.handicap.name": {
+    "src": "Handicap",
+    "out": "Hándicap"
+  },
+  "variants.killallgo.hoctaph.description": {
+    "src": "Player 1 chooses two batch sizes, Player 2 chooses who places the first batch, the other player chooses a side, and the Attacker places the second batch. Hoctaph's pie (OGS forums), generalized to every board size by Samraku.",
+    "out": "El Jugador 1 elige dos tamaños de lote, el Jugador 2 elige quién coloca el primer lote, el otro jugador elige un lado y el Atacante coloca el segundo lote. El pastel de Hoctaph (foros de OGS), generalizado a todos los tamaños de tablero por Samraku."
+  },
+  "variants.killallgo.hoctaph.name": {
+    "src": "Generalized Hoctaph's pie",
+    "out": "Pastel generalizado de Hoctaph"
+  },
+  "variants.killallgo.pie.description": {
+    "src": "Player 1 places any number of Attacker stones, then Player 2 chooses a side. The usual pie rule.",
+    "out": "El Jugador 1 coloca cualquier número de piedras del Atacante, luego el Jugador 2 elige un lado. La regla habitual del pastel."
+  },
+  "variants.killallgo.pie.name": {
+    "src": "Simple pie",
+    "out": "Pastel simple"
+  },
+  "variants.killallgo.size-13.name": {
+    "src": "13x13 board",
+    "out": "Tablero de 13x13"
+  },
+  "variants.killallgo.size-9.name": {
+    "src": "9x9 board",
+    "out": "Tablero de 9x9"
   },
   "variants.knightline.#setup.description": {
     "src": "No special pieces, and stacks begin in a set configuration.",

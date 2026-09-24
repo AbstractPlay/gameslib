@@ -1305,6 +1305,14 @@
       "unbounded-cloud-banks": {
         "name": "Senlimaj nubaroj",
         "description": "Nubaroj povas enhavi ajnan nombron da nuboj."
+      },
+      "turbulence": {
+        "name": "Turbulento",
+        "description": "Ĉiufoje kiam aviadilo eniras nubon, ĝia alto malpliiĝas je 1."
+      },
+      "concealed-fire": {
+        "name": "Kaŝita pafado",
+        "description": "Aviadiloj povas pafi el nuboj, sed ankoraŭ ne povas pafi en aŭ tra ili."
       }
     },
     "cubeo": {
@@ -3563,6 +3571,37 @@
         "name": "Duluda matĉo"
       }
     },
+    "killallgo": {
+      "size-9": {
+        "name": "Tabulo 9×9"
+      },
+      "size-13": {
+        "name": "Tabulo 13×13"
+      },
+      "#board": {
+        "name": "Tabulo 19×19"
+      },
+      "#opening": {
+        "name": "Pieboxing",
+        "description": "La ludantoj laŭvice metas atakantajn ŝtonojn, ĝis unu el ili prenas la flankon de la atakanto; la alia ludanto tiam movas unue kiel la defendanto. Pieboxing, elpensita de MXHero."
+      },
+      "handicap": {
+        "name": "Handikapo",
+        "description": "Pieboxing kun handikapo. Ludanto 1 (sidigu la pli fortan ludanton unua) fiksas la nombron de pliaj atakantaj ŝtonoj, poste Ludanto 2 komencas la metadon. Se Ludanto 2 prenas la flankon de la atakanto, tiu tuj metas la pliajn ŝtonojn. Elpensita de MXHero."
+      },
+      "classic": {
+        "name": "Klasika aranĝo de 17 ŝtonoj",
+        "description": "La tradicia komenca pozicio de 17 ŝtonoj; la defendanto (Ludanto 1) movas unue. Nur 19×19."
+      },
+      "pie": {
+        "name": "Simpla torto",
+        "description": "Ludanto 1 metas iun ajn nombron da atakantaj ŝtonoj, poste Ludanto 2 elektas flankon. La kutima tortoregulo."
+      },
+      "hoctaph": {
+        "name": "Ĝeneraligita torto de Hoctaph",
+        "description": "Ludanto 1 elektas du grandojn de aroj, Ludanto 2 elektas, kiu metas la unuan aron, la alia ludanto elektas flankon, kaj la atakanto metas la duan aron. La torto de Hoctaph (forumoj de OGS), ĝeneraligita al ĉiu tabulgrando de Samraku."
+      }
+    },
     "mirador": {
       "#board": {
         "name": "Tabulo 28×28"
@@ -3703,6 +3742,23 @@
       "GRADE_WIN": "Venko (10)",
       "GRADE_SUPERIOR": "Supera (11)",
       "GRADE_EXCELLENT": "Bonega (12)"
+    },
+    "killallgo": {
+      "ATTACKER": "Atakanto",
+      "DEFENDER": "Defendanto",
+      "UNDECIDED": "Ankoraŭ ne elektita",
+      "HANDICAP": "Handikapaj ŝtonoj",
+      "BATCHES": "Grandoj de la aroj",
+      "BATCHES_VALUE": "{{a}}, poste {{b}}",
+      "PHASE_HAND_N": "{{player}} fiksas la nombron de handikapaj ŝtonoj",
+      "PHASE_ALT_PLACE": "{{player}} metas atakantan ŝtonon aŭ prenas la flankon de la atakanto",
+      "PHASE_PIE_SLICE": "{{player}} metas la malfermajn atakantajn ŝtonojn",
+      "PHASE_PIE_CHOOSE": "{{player}} elektas flankon",
+      "PHASE_HOC_SLICE": "{{player}} fiksas la du grandojn de aroj",
+      "PHASE_HOC_OPTION": "{{player}} decidas, kiu metas la unuan aron",
+      "PHASE_HOC_BATCH_A": "{{player}} metas la unuan aron da atakantaj ŝtonoj",
+      "PHASE_HOC_CHOOSE": "{{player}} elektas flankon",
+      "PHASE_HOC_BATCH_B": "{{player}} metas la duan aron da atakantaj ŝtonoj"
     },
     "lielow": {
       "MOVESUNTILSUICIDE": "Movoj ĝis memmortigo"
@@ -4497,13 +4553,14 @@
     "yonmoque": "Provu formi kvaropan vicon en ludo, en kiu ne ĉiuj spacoj estas egalaj kaj oni povas konverti kontraŭulajn pecojn.",
     "zola": "Ludo, en kiu la distanco de peco disde la centro de la tabulo limigas ĝian movadon. Kapta movo ne rajtas pliigi tiun distancon; senkapta movo devas ĝin pliigi. Gajnas la unua, kiu kaptas ĉiujn kontraŭulajn pecojn.",
     "bridges": "Pontoj (angle Bridges) estas ludo por du ludantoj sur sesangula tabulo, elpensita de Marc Rebillet. La ludantoj metas bazojn kaj kunligas ilin per pontoj. Venkas la ludanto, kiu havas plej multajn pontpecojn sur la tabulo je la ludofino. Okaze de egaleco venkas tiu kun la pli longa ponto.",
-    "elOso": "Solludo el la mondo de Carrisor. Movu viajn stakojn trans la supran randon de la tabulo en la Ĉielon, dum la Urso ĵetas ĵetkubojn kaj antaŭeniras de supre. Por venki, alportu almenaŭ dek pecojn en la Ĉielon."
+    "elOso": "Solludo el la mondo de Carrisor. Movu viajn stakojn trans la supran randon de la tabulo en la Ĉielon, dum la Urso ĵetas ĵetkubojn kaj antaŭeniras de supre. Por venki, alportu almenaŭ dek pecojn en la Ĉielon.",
+    "killallgo": "Ĉiomortiga Goo (angle Kill-All Go): variaĵo de Goo kun nesimetriaj celoj. La atakanto komencas kun ŝtonoj sur la tabulo kaj devas kapti ĉion, dum la defendanto venkas farante unu ĉenon, kiu neniam povas esti kaptita."
   },
   "notes": {
     "akimbo": "Akimbo, projektita de Luis Bolaños Mures en 2026, estas konektludo sen remizoj por du ludantoj. _Nuda diagonalo_ estas paro de samkoloraj, diagonale apudaj pecoj, sen alia samkolora peco apuda al ambaŭ. _Kructranĉo_ estas areo 2×2 kun du interplektitaj nudaj diagonaloj de kontraŭaj koloroj.\n\nDum sia vico, la ludanto metas amikan pecon sur malplenan ĉelon. Se tio kompletigas kructranĉon, la alia peco en la kructranĉo estas forigita. Neniam rajtas esti pli ol unu nuda diagonalo de ĉiu koloro sur la tabulo — eĉ ne momente antaŭ la forigo de peco. Ludanto venkas se, je la fino de sia vico, ĉeno de ortangule konektitaj samkoloraj pecoj tuŝas la du kontraŭajn randojn de la tabulo apartenantajn al tiu ludanto.\n\nOkimba estas variaĵo, en kiu maksimume unu nuda diagonalo rajtas ekzisti sur la tabulo (do dum unu ludanto havas la diagonalon, la kontraŭulo ne povas krei alian).",
     "alta": "Estas du manieroj meti ŝaltilojn en la grafika interfaco: (1) elektu la orientiĝon de la ŝaltilo en la panelo, poste klaku la deziratan spacon sur la tabulo por meti ĝin; aŭ (2) klaku du verticojn. Vertico estas notata per steleto, sekvata de la algebra notacio de la spaco, kies malsupra-maldekstra angulo estas tiu vertico. Por baskuligi ŝaltilon, simple klaku la spacon.",
     "anache": "Ĉi tiu realigo sekvas la regularon de David Ploog. Tri rimarkindaj ŝanĝoj estas: (1) bariloj estas malpermesitaj; (2) anstataŭ tabulo 16×16 ekzistas variaĵo 15×15, en kiu pecoj promociiĝas al ĉevaloj sur la centra linio kaj la drako ne rajtas salti al la spaco 7×7 el la alia angulo; kaj (3) ĉe la anguloj pecoj estas kaptataj per dispremkapto anstataŭ gardista kapto, do devas esti almenaŭ du kontraŭulaj pecoj en linio antaŭ ol eblas kapti ĉe angulo.\n\nRimarko: la kontrolo pri pato estas komputile multekosta. Se vi ne povas fari validan movon, rezignu permane.",
-    "arimaa": "Disponigita laŭ sekcio 3 de la [publika permesilo de Arimaa](https://arimaa.com/arimaa/license/).\n\nHarlog estas akceptita metodo por determini materialan avantaĝon. Pozitivaj valoroj favoras Oron, negativaj Arĝenton. La teoria intervalo estas ±112, sed praktike ±20 jam estas tre forta avantaĝo.\n\nĈar ni ne povas generi kompletajn listojn de movoj, la sistemo ne povas detekti la maloftajn okazojn, kiam viaj solaj disponeblaj movoj estas malvalidaj pro ripeto de pozicio. La sistemo malpermesos tiujn ripetojn, kaj vi devos rezigni permane.",
+    "arimaa": "Disponigita laŭ sekcio 3 de la [publika permesilo de Arimaa](https://arimaa.com/arimaa/license/).\n\nDum la norma aranĝo vi devas meti nur viajn ok pecojn, kiuj ne estas kunikloj. Kiam ili estas metitaj, Fini la movon plenigas la reston de via aranĝa zono per kunikloj. Vi tamen povas unue mem meti iujn aŭ ĉiujn kuniklojn, se vi volas ilin en apartaj lokoj.\n\nPor enigi movon, klaku pecon kaj poste la ĉelon, sur kiu ĝi finu vian vicon. La sistemo trovas la plej mallongan validan vojon tien, inkluzive de puŝoj kaj tiroj, kaj desegnas po unu sagon por ĉiu peco, de ĝia komenca ĉelo ĝis ĝia fina ĉelo. Vi povas indiki ankaŭ malamikajn pecojn. Klaku la pinton de sago por plilongigi ĝin, aŭ ĝian komencon por forigi ĝin. Klaki elektitan pecon duan fojon lasas ĝin tie, kie ĝi staras; tiel vi malhelpas, ke la sistemo formovu ĝin el la vojo. Kelkaj pli maloftaj vicoj bezonas ankoraŭ unu klakon; la vikia paĝo pri ĉi tiu ludo listigas ĉiujn.\n\nMovoj estas registrataj en la notacio de Lightvector, kiu nomas ĉiun pecon kaj ĝian finan ĉelon anstataŭ listigi ĉiun paŝon. Vi povas tajpi ĝin en la movan enigkampon; la pli malnova paŝo-post-paŝa notacio plu estas akceptata. La vikia paĝo klarigas la notacion plene.\n\nHarlog estas akceptita metodo por determini materialan avantaĝon. Pozitivaj valoroj favoras Oron, negativaj Arĝenton. La teoria intervalo estas ±112, sed praktike ±20 jam estas tre forta avantaĝo.\n\nĈar ni ne povas generi kompletajn listojn de movoj, la sistemo ne povas detekti la maloftajn okazojn, kiam viaj solaj disponeblaj movoj estas malvalidaj pro ripeto de pozicio. La sistemo malpermesos tiujn ripetojn, kaj vi devos rezigni permane.",
     "armadas": "Estas konataj problemoj pri ĉi tiu ludo en iOS-aparatoj.\n\nLa ludo proponas du scenarojn:\n\n* Defaŭlte ĉiu ludanto havas du triopojn da pecoj. Dum la metfazo, ĉiu devas meti 1 ĝis 3 ŝipojn, ĝis ĉiuj estas metitaj.\n* La variaĵo \"Freeform\" permesas meti ajnajn deziratajn ŝipojn (maksimume tri samtempe), ĝis ambaŭ ludantoj preterpasas. Tiel eblas krei malekvilibrajn aŭ alimaniere malsimetriajn ŝiparojn.\n\nDefaŭlte estas unu insulo en la centro de la ludkampo. Disponeblas variaĵoj kaj \"sen insuloj\" kaj \"du insuloj\". Oni ne povas moviĝi aŭ pafi tra insuloj. Por sukcese trafi ŝipon, almenaŭ unu angulo de la triangulo de via ŝipo devas havi liberan vidlinion al almenaŭ unu angulo de la celata ŝipo.\n\nMemoru, ke eblas meti ŝipon kontraŭ insulon aŭ la randon de la tabulo tiel, ke ĝi ne plu povos moviĝi! Estu singarda!",
     "ataxx": "Post tria ripeto de pozicio, la ludo finiĝas kaj la poentaroj estas kalkulataj.",
     "bao": "Movoj en Bao povas esti tre kompleksaj, kun pluraj rondiroj ĉirkaŭ la tabulo kaj ŝanĝoj de direkto. Tial la indikoj estas malmultaj. La komenca ĉelo kaj direkto estas emfazitaj, kaj kaptitaj ĉeloj ankaŭ estas markitaj, sed detala indiko de la movado ne eblas. Se vi kredas, ke vi trovis programeraron, bonvolu sciigi nin en Discord.",
@@ -4518,6 +4575,7 @@
     "catsdogs": "La origina ludo, *SNORT*, estis projektita de Simon Norton en 1970. Ĝia sola regulo estis malebligi, ke diverskoloraj ŝtonoj estu ortangule apudaj. Patigita ludanto malgajnas. Norton proponis ankaŭ la miserludan version (pato estas venko). Tamen spegula strategio solvas la originan ludon. Chris Huntoon proponis pli grandan tabulon 11×11, sur kiu la unua ludanto ne rajtas komenci en la centro (por malhelpi speguladon); li nomis ĝin *Cats and Dogs*, kaj ĝi estas la ĉefa ludo ĉi tie. Disponeblas ankaŭ la portugala turnira regularo sur la malpli granda tabulo 8×8: la unua ludanto devas komenci en la centra areo 2×2, kaj la dua devas respondi ekster tiu areo. Tio rompas la spegulan strategion kaj tamen permesas ludi sur la origina malpli granda tabulo. Vidu ankaŭ la artikolon pri Snort en [AGM#15](https://www.abstractgames.org/uploads/1/1/6/4/116462923/abstract_games_issue_15.pdf).",
     "chase": "Nuntempe la plimulto de interŝanĝaj movoj devas esti mane redaktitaj. Ni laboras por korekti tion.",
     "conspirateurs": "En la baza ludo, pecoj povas trairi rifuĝejojn kadre de plurpaŝa salto. Ili fiksiĝas nur kiam ili finas sian movon en rifuĝejo. En la strikta variaĵo, pecoj fiksiĝas tuj kiam ili eniras rifuĝejon.\n\nEn kvar-ludantaj partioj, ludantoj 1 kaj 2 estas partneroj, same kiel ludantoj 3 kaj 4.",
+    "crosshairs": "La publikigita regulo pri Turbulento estas ambigua pri du punktoj: ĝi ne specifas, ĉu la normala altoŝanĝo de manovro okazas antaŭ aŭ post la perdo pro Turbulento, nek kio okazas se la aviadilo jam estas je alto 0. Ĉi tiu realigo interpretas la regulon jene: unue aplikiĝas la normala altoŝanĝo de ĉiu manovro, kaj poste aplikiĝas unu perdo pro Turbulento por ĉiu nubĉelo, kiun la aviadilo eniras, laŭ la ordo de trairo. Aviadilo je alto 0, kiam perdo pro Turbulento aplikiĝus, tuj kraŝas.\n\nPor eviti, ke nuboj ĉe komenca rando kaptu ĉiun enirantan aviadilon, Turbulento ne efikas sur aviadilon antaŭ ol ĝi eniris sennuban ĉelon. Post tio ĝi restas submetita al Turbulento. Ĉiu ĉelo trairata dum movo kalkuliĝas kiel enirita, ankaŭ la meza ĉelo de duĉela samalta flugo; sennuba meza ĉelo do nuligas la sendevigon antaŭ ol la aviadilo atingas postan nuban ĉelon dum la sama manovro. Ĉiu manovro de plonĝo estas plene traktata antaŭ la sekva, do plonĝpaŝo eniranta sennuban ĉelon nuligas la sendevigon antaŭ la posta plonĝpaŝo.",
     "deckfish": "Pliaj informoj pri la sistemo Decktet troveblas ĉe la [oficiala retejo de Decktet](https://www.decktet.com).\n\nLa povoj de la emblemoj (kapabloj movi ludmarkon) estas:\n* Lunoj: saltu ortangule trans breĉojn.\n* Sunoj: movu unu aŭ du kartojn diagonale.\n* Ondoj: movu ortangule ĝis la lasta nebarita karto.\n* Folioj: movu ortangule sur ajnan karton sen najbaraj baroj.\n* Lindvormoj: movu ortangule sur la unuan okupatan karton, puŝante ties ludmarkon al la sekva karto.\n* Nodoj: faru tri ortajn movojn de po unu karto, sen retropaŝi.\n\nLaŭ la reguloj, la \"unua\" ludanto estas tiu, kiu metas due en la metfazo sed movas unue en la movfazo. Ĉi tie la unua ludanto estas tiu, kiu metas unue sed movas due. Tion realigas aŭtomata preterpaso por la koncerna ludanto.\n\nEstas plenumata ankaŭ la regulo, ke eĉ se la lasta ludanto jam venkas, li devas plu ludi ĝis mankas al li movoj.",
     "domineering": "Domineering, ankaŭ nomata Stop-Gate, estas partia kombineca ludo. Göran Andersson projektis ĝin ĉirkaŭ 1973, kaj ĝi aperis en la pionira libro pri kombineca ludteorio *Winning Ways for Your Mathematical Plays*. Ekzistas senpartia versio nomata Cram, en kiu ambaŭ ludantoj povas meti horizontalajn aŭ vertikalajn domenojn. La variaĵon \"Quelhas\" proponis Carlos P. Santos kaj Alfie Davies en 2025; ĝi estas miserluda versio (la ludanto sen ebla movo venkas) kaj uzas pli longajn, domenecajn poliominojn.",
     "emu": "Pliaj informoj pri la sistemo Decktet troveblas ĉe la [oficiala retejo de Decktet](https://www.decktet.com). La kartoj en la manoj de la ludantoj estas kaŝitaj de observantoj, kaj de kontraŭuloj ĝis la kartaro malpleniĝas. Tiam la ludantoj havas kompletan informon, do la manoj estas malkaŝitaj. Kartoj prenitaj el la forĵetamaso ankaŭ estas ĉiam videblaj al kontraŭuloj.",
@@ -4599,6 +4657,7 @@
     "xana": "Dum sia vico, ludanto metas aŭ movas stakon (la nombro de stakigeblaj pecoj estas limigita) kaj laŭvole metas du murojn sur malplenajn seslaterojn. Stakoj sen liberecoj estas kaptitaj. Stako havas liberecon, se almenaŭ unu el la ses apudaj seslateroj estas malplena (ne ekzistas koncepto de stakgrupo). Seslatero estas atingebla, se ĝi estas malplena kaj vojo de malplenaj seslateroj konektas ĝin al amika stako. La celo estas akiri la plej altan sumon de teritoria kaj kapta poentaroj. Xana estis projektita en 2005.",
     "y": "Charles Titus kaj Craige Schensted (Ea Ea) projektis la ludon en 1953. Kiel rekta posteulo de Hex, ĝi origine estis ludata sur triangula tabulo, kaj la celo estis konekti ĉiujn tri flankojn per ĉeno de amikaj ŝtonoj. Y estas konsiderata pli fundamenta ludo ol Hex pro siaj pli simplaj reguloj kaj ĉar eblas aranĝi partion de Hex sur sufiĉe granda Y-tabulo. En sia libro de 1975 **Mudcrack Y & Poly-Y**, la projektintoj prezentis la _principon de ŝlimfendo_, laŭ kiu konektludoj povas okazi sur vasta gamo de iom post iom pli kompleksaj tabuloj. Unu el tiuj projektoj (\"la fleksita Y\", kun tri kvinangulaj ĉeloj) fariĝis la komerca Y-tabulo anstataŭ la norma triangula tabulo.",
     "elOso": "La komenca aranĝo estas aŭtomate farata kiam vi lanĉas la ludon. La flankpanelo montras la nombrojn de pecoj por la Ĉielo, la Kaverno, la Grundo kaj la Kavo. Post ĉiu movo, uzu la regilojn de filmeroj por trairi la respondon de la Urso paŝon post paŝo. Dek aŭ pli da pecoj en la Ĉielo signifas venkon.",
+    "killallgo": "La atakanto, kies ŝtonoj jam estas sur la tabulo, kiam la normala ludado komenciĝas, venkas malhelpante, ke la defendanto iam faru vivantan ĉenon. La defendanto venkas farante unu ĉenon, kiu ne povas esti kaptita. Poentado ne ekzistas.\n\nŜtonoj estas metataj kaj kaptataj kiel en Goo, kun la forigo laŭ Tromp-Taylor: post meto, la ĉenoj de la kontraŭulo sen liberecoj estas forigataj, poste via propra ĉeno, se ĝi havas neniun, do plurŝtona memmortigo estas permesita. Validas pozicia superko: neniu meto rajtas rekrei iun ajn pli fruan pozicion de la tabulo. Ambaŭ ludantoj rajtas preterpasi; se ambaŭ preterpasas sinsekve, la atakanto venkas.\n\nLa defendanto venkas tuj, kiam unu el la ĉenoj de la defendanto estas senkondiĉe viva: viva laŭ la algoritmo de Benson, tio estas, ke la atakanto neniam povus kapti ĝin, eĉ per senlime multaj sinsekvaj movoj. Tio estas la sola maniero venki kiel la defendanto. Ĉeno, kiu nur vivas en seki aŭ en koo, ne validas, do la defendanto devas daŭrigi la ludadon kaj fari el ĝi ĉenon, kiu tute ne povas esti kaptita.\n\nLa atakanto venkas tuj, kiam tio fariĝis neebla. Senkondiĉe vivaj ŝtonoj de la atakanto neniam povas esti forigitaj, kaj neniu punkto apud unu el ili iam povas kuŝi en okulo de vivanta ĉeno de la defendanto. Kiam neniu areo restanta ekster tiuj ŝtonoj enhavas du punktojn, kiuj estas nek apud unu la alia nek apud tiuj ŝtonoj, nenie plu estas spaco por la du okuloj, kiujn vivanta ĉeno bezonas, kaj la ludo finiĝas. La kontrolo ne rekonas ĉiun perditan pozicion; kiam ĝi ne ekagas, la ludado simple daŭras.\n\nMalfermoj: ĉe Pieboxing, la ludantoj laŭvice metas atakantajn ŝtonojn, ĝis unu el ili prenas la flankon de la atakanto; la alia ludanto tiam movas unue kiel la defendanto. La handikapa malfermo funkcias same, krom ke Ludanto 1 (la pli forta ludanto; do sidigu la donanton de la handikapo unua, kiam vi kreas la defion) unue fiksas la nombron de handikapaj ŝtonoj kaj Ludanto 2 komencas la metadon; se Ludanto 2 prenas la flankon de la atakanto, tiu tuj metas tiom da pliaj ŝtonoj. La klasika malfermo uzas la tradician pozicion de 17 ŝtonoj sur la tabulo 19×19, kaj la defendanto (Ludanto 1) movas unue. Ĉe la simpla torto, Ludanto 1 metas iun ajn nombron da atakantaj ŝtonoj kaj Ludanto 2 elektas flankon. Ĉe la ĝeneraligita torto de Hoctaph, Ludanto 1 elektas du grandojn de aroj (ĉiu almenaŭ 1, kune maksimume la nombro de punktoj minus 2, neniu pli ol duoble la alia), Ludanto 2 decidas, kiu metas la unuan aron, la alia ludanto tiam elektas flankon, kaj la atakanto metas la duan aron. En ĉiu malfermo la defendanto faras la unuan normalan movon.",
     "lielow": "La valoro \"Movoj ĝis memmortigo\" sumas por ĉiu ludanto, kiom da movoj ĉiu el ties stakoj ankoraŭ povus fari — kreskante je unu kun ĉiu movo kaj ĉiam elektante la direkton, laŭ kiu ĝi plej longe restas sur la tabulo — antaŭ ol ĝi devus elportiĝi. La kalkulo ignoras ĉiujn aliajn stakojn sur la tabulo, ĉu amikajn, ĉu malamikajn. Ĝi do estas nur proksimuma mezuro de la senŝirmeco de la ludpecoj, ne la efektiva nombro da restantaj validaj movoj."
   },
   "homeworlds": {
@@ -4848,7 +4907,7 @@
       "FROZEN": "La peco ĉe {{where}} estas frosta. Ĝi ne povas moviĝi sola.",
       "HOME_ROW": "Vi povas meti pecojn nur sur la du rangoj plej proksimaj al vi.",
       "INITIAL_INSTRUCTIONS_place": "Elektu pecon el via mano por meti sur la tabulon.",
-      "INITIAL_INSTRUCTIONS_play": "Elektu pecon por movi.",
+      "INITIAL_INSTRUCTIONS_play": "Klaku pecon, poste la ĉelon, sur kiu ĝi finu la vicon. Vi povas indiki ankaŭ malamikajn pecojn; la puŝojn kaj tirojn la sistemo kalkulas mem.",
       "INVALID_PUSH": "Puŝoj devas tuj esti kompletigitaj movante la puŝan pecon en la spacon liberigita per la puŝita malamika peco.",
       "INVALID_PUSHPULL": "Vi rajtas movi malamikajn pecojn nur kiam vi kompletigas tiron aŭ komencas puŝon. Neniu el ili ŝajnas aplikiĝi en ĉi tiu kazo.",
       "LABEL_STASH": "Provizo de {{player}}",
@@ -4868,7 +4927,18 @@
       "WARN_BALANCE": "Ekvilibru viajn kvar plej fortajn pecojn de oriento al okcidento.",
       "WARN_FILE": "Ne metu vian elefanton en la saman kolumnon kiel la kontraŭulan elefanton.",
       "WARN_HIDE": "Ne kaŝu pli fortajn pecojn malantaŭ pli malfortaj pecoj (krom katoj malantaŭ kunikloj).",
-      "WARNINGS": "Via aranĝo estas kompleta, sed novaj ludantoj konsideru kelkajn aferojn. Vi povas premi la butonon Fini la movon por ignori ilin, aŭ legi la jenajn konsilojn:"
+      "WARNINGS": "Via aranĝo estas kompleta, sed novaj ludantoj konsideru kelkajn aferojn. Vi povas premi la butonon Fini la movon por ignori ilin, aŭ legi la jenajn konsilojn:",
+      "PARSE": "Ne eblis legi \"{{token}}\".",
+      "NO_MOVE": "Neniu valida movo kongruas kun tio, kion vi desegnis.",
+      "NO_MOVE_CHAIN": "Unu sago por ĉiu peco, de ĝia komenca ĉelo ĝis ĝia fina ĉelo: {{first}} kaj {{second}} kune estas {{combined}}.",
+      "NO_MOVE_ENEMY": "La peco ĉe {{from}} apartenas al via kontraŭulo, kaj neniu el viaj pecoj povas puŝi aŭ tiri ĝin tiel, kiel vi desegnis, ene de {{num}} paŝoj.",
+      "NO_MOVE_FROZEN": "La peco ĉe {{from}} estas frosta, kaj nenio povas liberigi ĝin ĝustatempe.",
+      "NO_MOVE_REACH": "La peco ĉe {{from}} ne povas atingi {{to}} ene de {{num}} paŝoj.",
+      "NO_MOVE_TOGETHER": "Ĉiu el tiuj eblas aparte, sed ne ĉiuj kune ene de {{num}} paŝoj.",
+      "AMBIGUOUS": "Tio kongruas kun {{count}} malsamaj movoj. Indiku, kie finiĝas alia peco, por precizigi ĝin.",
+      "INFERRED": "Ankaŭ moviĝas: {{pieces}}.",
+      "INCOMPLETE": "Peco estas elektita. Klaku ĉelon por sendi ĝin tien, aŭ klaku la pecon denove por lasi ĝin tie, kie ĝi staras.",
+      "TOO_LONG": "Tio, kion vi desegnis, bezonas pli ol {{num}} paŝojn."
     },
     "armadas": {
       "BAD_PASS": "Kiam vi preterpasas, tio devas esti la sola ordono, kiun vi donas.",
@@ -7722,6 +7792,52 @@
       "INVALID_DIRECTION": "Stakoj povas moviĝi diagonale aŭ flanken, sed ne rekte antaŭen aŭ malantaŭen.",
       "TOO_FAR": "Ĉi tiu stako povas moviĝi je maksimume {{dist}} spacoj.",
       "SKY_FROM_TOP": "Nur stakoj sur la supra vico povas moviĝi en la Ĉielon."
+    },
+    "killallgo": {
+      "INSTRUCTIONS_HANDICAP": "Vi donas la handikapon. Tajpu la nombron de pliaj atakantaj ŝtonoj (de 1 ĝis {{max}}), kiujn via kontraŭulo metos, se tiu prenos la flankon de la atakanto.",
+      "HANDICAP_INVALID": "La handikapo devas esti entjero.",
+      "HANDICAP_RANGE": "La handikapo devas esti inter 1 kaj {{max}} ŝtonoj.",
+      "HANDICAP_OK_one": "Handikapo de unu ŝtono. Sendu, aŭ daŭrigu la tajpadon.",
+      "HANDICAP_OK_other": "Handikapo de {{count}} ŝtonoj. Sendu, aŭ daŭrigu la tajpadon.",
+      "INSTRUCTIONS_ALT": "Metu atakantan ŝtonon, aŭ prenu la flankon de la atakanto; via kontraŭulo tiam movos unue kiel la defendanto.",
+      "INSTRUCTIONS_ALT_HANDICAP_one": "Metu atakantan ŝtonon, aŭ prenu la flankon de la atakanto kaj poste metu unu plian ŝtonon; via kontraŭulo tiam movos unue kiel la defendanto.",
+      "INSTRUCTIONS_ALT_HANDICAP_other": "Metu atakantan ŝtonon, aŭ prenu la flankon de la atakanto kaj poste metu {{count}} pliajn ŝtonojn; via kontraŭulo tiam movos unue kiel la defendanto.",
+      "SETUP_FULL": "La tabulo jam havas la maksimuman nombron da preparaj ŝtonoj, kiun ĉi tiu fazo permesas ({{max}}); prenu la flankon de la atakanto anstataŭ meti plian.",
+      "ATTACKER_NO_STONES": "Preni la flankon de la atakanto ne implicas meti ŝtonojn nun.",
+      "DEFENDER_NO_STONES": "Elekti la flankon de la defendanto ne implicas meti ŝtonojn nun.",
+      "STONES_LEFT_one": "Metu ankoraŭ unu atakantan ŝtonon.",
+      "STONES_LEFT_other": "Metu ankoraŭ {{count}} atakantajn ŝtonojn.",
+      "BATCH_TOO_MANY_one": "Ĉi tiu aro enhavas ekzakte unu ŝtonon.",
+      "BATCH_TOO_MANY_other": "Ĉi tiu aro enhavas ekzakte {{count}} ŝtonojn.",
+      "BATCH_MORE_OR_SUBMIT": "Aldonu pliajn atakantajn ŝtonojn, aŭ sendu.",
+      "DUPLICATE_CELL": "La ĉelo {{where}} estas listigita dufoje.",
+      "INVALID_PASS": "Vi ne povas preterpasi nun.",
+      "NO_CLICKS_NOW": "Tajpu vian respondon en la movokampon; la tabulo ankoraŭ ne estas alklakebla.",
+      "INSTRUCTIONS_PIE_SLICE": "Metu iun ajn nombron da atakantaj ŝtonoj ĝis {{max}} (aŭ preterpasu por meti neniun); via kontraŭulo tiam elektos flankon.",
+      "PIE_SLICE_MAX": "Vi rajtas meti maksimume {{max}} atakantajn ŝtonojn tiel.",
+      "INSTRUCTIONS_PIE_CHOOSE": "Elektu flankon: prenu la atakantajn ŝtonojn, aŭ metu vian unuan ŝtonon kiel la defendanto.",
+      "INSTRUCTIONS_PIE_DEFENDER_STONE": "Metu vian unuan defendantan ŝtonon.",
+      "INSTRUCTIONS_HOC_SLICE": "Alklaku numeritan ŝtonon maldekstre por difini la grandon de la unua aro kaj unu dekstre por la dua, aŭ tajpu ambaŭ grandojn kiel a,b: ĉiu almenaŭ 1, kune maksimume {{max}}, kaj neniu pli ol duoble la alia.",
+      "SLICE_FORMAT": "Tajpu la du grandojn de aroj kiel du entjerojn apartigitajn per komo, ekzemple 20,15.",
+      "SLICE_MIN": "Ĉiu aro devas enhavi almenaŭ unu ŝtonon.",
+      "SLICE_SUM": "Kune la du aroj rajtas enhavi maksimume {{max}} ŝtonojn.",
+      "SLICE_RATIO": "Neniu aro rajtas esti pli ol duoble tiel granda kiel la alia.",
+      "SLICE_A_ONLY_one": "Unua aro de unu ŝtono. Nun elektu la grandon de la dua aro.",
+      "SLICE_A_ONLY_other": "Unua aro de {{count}} ŝtonoj. Nun elektu la grandon de la dua aro.",
+      "SLICE_B_ONLY_one": "Dua aro de unu ŝtono. Nun elektu la grandon de la unua aro.",
+      "SLICE_B_ONLY_other": "Dua aro de {{count}} ŝtonoj. Nun elektu la grandon de la unua aro.",
+      "SLICE_NOT_A_BUTTON": "Alklaku unu el la numeritaj ŝtonoj: la bloko maldekstre difinas la grandon de la unua aro, la bloko dekstre tiun de la dua. Pli grandajn valorojn oni ankoraŭ povas tajpi.",
+      "SLICE_OK": "Aroj de {{a}} kaj {{b}} ŝtonoj. Sendu, aŭ daŭrigu la tajpadon.",
+      "INSTRUCTIONS_HOC_OPTION_one": "Decidu, kiu metas la unuan aron de unu atakanta ŝtono: metu ĝin mem (via kontraŭulo tiam elektos flankon), aŭ lasu vian kontraŭulon meti ĝin (vi tiam elektos flankon).",
+      "INSTRUCTIONS_HOC_OPTION_other": "Decidu, kiu metas la unuan aron de {{count}} atakantaj ŝtonoj: metu ilin mem (via kontraŭulo tiam elektos flankon), aŭ lasu vian kontraŭulon meti ilin (vi tiam elektos flankon).",
+      "INSTRUCTIONS_HOC_BATCH_one": "Metu unu atakantan ŝtonon.",
+      "INSTRUCTIONS_HOC_BATCH_other": "Metu {{count}} atakantajn ŝtonojn.",
+      "INSTRUCTIONS_HOC_CHOOSE_one": "Elektu flankon. Preni la flankon de la atakanto signifas meti nun la duan aron de unu ŝtono; elekti la flankon de la defendanto signifas, ke via kontraŭulo metas ĝin kaj vi tiam movas unue.",
+      "INSTRUCTIONS_HOC_CHOOSE_other": "Elektu flankon. Preni la flankon de la atakanto signifas meti nun la duan aron de {{count}} ŝtonoj; elekti la flankon de la defendanto signifas, ke via kontraŭulo metas ilin kaj vi tiam movas unue.",
+      "INSTRUCTIONS_PLAY_ATTACKER": "Metu ŝtonon aŭ preterpasu. Vi venkas, lasante al la defendanto neniun spacon por fari ĉenon, kiu neniam povas esti kaptita.",
+      "INSTRUCTIONS_PLAY_DEFENDER": "Metu ŝtonon aŭ preterpasu. Vi venkas farante ĉenon, kiu neniam povas esti kaptita.",
+      "KO_PSK": "Tiu meto rekreus pli fruan pozicion de la tabulo (pozicia superko).",
+      "PASS_WARNING": "Preterpaso ne establas vivon. Se ankaŭ la atakanto preterpasos, la atakanto venkos."
     }
   },
   "INITIAL_UNDO": "Vi ne povas malfari la komencan pozicion de la ludo.",
@@ -7864,6 +7980,7 @@
     "irensei": "Irensei",
     "jacynth": "Jacynth",
     "kachit": "Kachit Knights",
+    "killallgo": "Ĉiomortiga Goo",
     "knightline": "Ĉevalira Linio",
     "konane": "Konane",
     "krypte": "Krypte",

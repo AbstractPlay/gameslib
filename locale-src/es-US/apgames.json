@@ -691,6 +691,10 @@
     "src": "An orthogonal-only square connection game where you try to connect your sides of the board. Crosscut formations are illegal, and every free space must always have a path to an edge.",
     "out": "Un juego de conexión en cuadrícula únicamente ortogonal en el que intentas conectar tus lados del tablero. Las formaciones de corte cruzado (crosscut) son ilegales y cada espacio libre siempre debe tener un camino hacia un borde."
   },
+  "descriptions.neutron": {
+    "src": "Slide the neutral neutron and one of your pawns each turn. Pieces move in straight lines as far as they can. Win by bringing the neutron to the correct back row, or by leaving your opponent unable to complete a turn.",
+    "out": "Desliza el neutrón neutral y uno de tus peones en cada turno. Las piezas se mueven en línea recta lo más lejos posible. Ganas llevando el neutrón a la fila trasera correcta o si tu oponente no puede completar un turno."
+  },
   "descriptions.nex": {
     "src": "Nex (or Neutral Hex) is a variant of the Hex connection game where there are neutral pieces. On your turn, you may either (1) place a piece of your colour and a neutral colour on an empty space, or (2) swap two neutral pieces to your colour and one of your piece to the neutral colour.",
     "out": "Nex (o Hex Neutral) es una variante del juego de conexión Hex donde hay piezas neutrales. En tu turno, puedes (1) colocar una pieza de tu color y una neutral en un espacio vacío, o (2) cambiar dos piezas neutrales a tu color y una de tus piezas al color neutral."
@@ -2799,6 +2803,10 @@
     "src": "Necklace",
     "out": "Necklace"
   },
+  "names.neutron": {
+    "src": "Neutron",
+    "out": "Neutron"
+  },
   "names.nex": {
     "src": "Nex",
     "out": "Nex"
@@ -3490,6 +3498,10 @@
   "notes.narrows": {
     "src": "Narrows, designed by Mark Steere in 2026, is an unification game inspired by the ancient Hawiian game of Kōnane. True to the spirit of Kōnane, Ūnane begins with a checkerboard pattern of stones and is extremely simple. In this case, the unification goal includes the use of orthogonal paths of empty cells to connect different groups of friendly pieces.",
     "out": "Narrows, diseñado por Mark Steere en 2026, es un juego de unificación inspirado en el antiguo juego hawaiano Kōnane. Fiel al espíritu de Kōnane, Ūnane comienza con un patrón de piedras en tablero de ajedrez y es extremadamente simple. En este caso, el objetivo de unificación incluye el uso de caminos ortogonales de casillas vacías para conectar diferentes grupos de piezas propias."
+  },
+  "notes.neutron": {
+    "src": "Each turn (except White's first turn in standard Neutron) consists of sliding the neutron, then sliding one of your pawns. All pieces slide in straight lines as far as possible without jumping. **CoNeutron** swaps the winning row to your opponent's back rank and removes White's pawn-only opening.\n\n**Mobility** restrictions apply to pawn moves only. With **restricted** mobility, pawns may not land on the opponent's home row. With **double restricted** mobility, pawns also may not re-enter their own home row after leaving it; pawns still on the home row may slide along that row.\n\nMoves are notated `neutronDest,pawnFrom-pawnTo`, or `pawnFrom-pawnTo` on White's first turn in standard Neutron. A winning neutron slide alone is notated as just the destination cell.",
+    "out": "Cada turno (excepto el primer turno de las blancas en Neutron estándar) consiste en deslizar el neutrón y luego deslizar uno de tus peones. Todas las piezas se deslizan en línea recta lo más lejos posible sin saltar. **CoNeutron** cambia la fila ganadora a la fila trasera de tu oponente y elimina la apertura solo de peón de las blancas.\n\nLas restricciones de **movilidad** se aplican solo a los movimientos de peones. Con movilidad **restringida**, los peones no pueden caer en la fila inicial del oponente. Con movilidad **doblemente restringida**, los peones tampoco pueden volver a entrar a su propia fila inicial después de salir de ella; los peones que aún estén en la fila inicial pueden deslizarse a lo largo de esa fila.\n\nLos movimientos se anotan `neutronDest,pawnFrom-pawnTo`, o `pawnFrom-pawnTo` en el primer turno de las blancas en Neutron estándar. Un deslizamiento del neutrón que dé la victoria solo se anota como la casilla de destino."
   },
   "notes.oonpia": {
     "src": "Either use the legend to select a piece, or click the same location multiple times to cycle through all possible pieces. Blocked cells are highlighted: a translucent dot means only a dotted stone can be placed there (i.e. blocked for plain pieces), a translucent piece means only a plain piece can be placed there (i.e. blocked for dotted pieces). If both highlights are present, then the cell is blocked for all pieces.",
@@ -10214,6 +10226,34 @@
   "validation.necklace.NO_CROSSINGS": {
     "src": "Placement at {{where}} will create a crosscut.",
     "out": "La colocación en {{where}} creará un corte cruzado."
+  },
+  "validation.neutron.INCOMPLETE": {
+    "src": "You must complete both parts of the turn (or end the game with a winning neutron move).",
+    "out": "Debes completar ambas partes del turno (o terminar el juego con un movimiento ganador del neutrón)."
+  },
+  "validation.neutron.INITIAL_INSTRUCTIONS": {
+    "src": "Select where to slide the neutron, or on White's first turn in standard Neutron, select a pawn to move.",
+    "out": "Selecciona a dónde deslizar el neutrón o, en el primer turno de las blancas en Neutron estándar, selecciona un peón para mover."
+  },
+  "validation.neutron.INVALID_NEUTRON": {
+    "src": "The neutron cannot slide to that cell.",
+    "out": "El neutrón no se puede deslizar a esa casilla."
+  },
+  "validation.neutron.NEUTRON_FIRST": {
+    "src": "Slide the neutron first, then select one of your pawns.",
+    "out": "Desliza el neutrón primero, luego selecciona uno de tus peones."
+  },
+  "validation.neutron.PAWN_DEST": {
+    "src": "Select where to slide that pawn.",
+    "out": "Selecciona a dónde deslizar ese peón."
+  },
+  "validation.neutron.PAWN_SELECT": {
+    "src": "Select one of your pawns to move.",
+    "out": "Selecciona uno de tus peones para mover."
+  },
+  "validation.neutron.SELECT_OWN_PAWN": {
+    "src": "You may only move your own pawns.",
+    "out": "Solo puedes mover tus propios peones."
   },
   "validation.nex.EDGE_CASE_ONE_EMPTY_NEUTRAL": {
     "src": "There is only one empty cell so you may not make a placement. You should make swap moves instead.",
@@ -17350,6 +17390,50 @@
   "variants.narrows.size-8.name": {
     "src": "7x8 board",
     "out": "Tablero de 7x8"
+  },
+  "variants.neutron.#board.name": {
+    "src": "5×5 board",
+    "out": "Tablero de 5×5"
+  },
+  "variants.neutron.#mobility.name": {
+    "src": "No restrictions",
+    "out": "Sin restricciones"
+  },
+  "variants.neutron.5x7.name": {
+    "src": "5×7 board",
+    "out": "Tablero de 5×7"
+  },
+  "variants.neutron.7x5.name": {
+    "src": "7×5 board",
+    "out": "Tablero de 7×5"
+  },
+  "variants.neutron.7x7.name": {
+    "src": "7×7 board",
+    "out": "Tablero de 7×7"
+  },
+  "variants.neutron.coneutron.description": {
+    "src": "Win by moving the neutron to your opponent's back row. White moves the neutron on the first turn.",
+    "out": "Gana moviendo el neutrón a la fila trasera de tu oponente. Las blancas mueven el neutrón en el primer turno."
+  },
+  "variants.neutron.coneutron.name": {
+    "src": "CoNeutron",
+    "out": "CoNeutron"
+  },
+  "variants.neutron.doubleRestricted.description": {
+    "src": "Pawns may not land on either home row, except that pawns still on their own home row may slide along it.",
+    "out": "Los peones no pueden caer en ninguna de las filas iniciales, excepto que los peones que aún estén en su propia fila inicial pueden deslizarse a lo largo de ella."
+  },
+  "variants.neutron.doubleRestricted.name": {
+    "src": "Double restricted mobility",
+    "out": "Movilidad doblemente restringida"
+  },
+  "variants.neutron.restricted.description": {
+    "src": "Pawns may not land on the opponent's home row.",
+    "out": "Los peones no pueden caer en la fila inicial del oponente."
+  },
+  "variants.neutron.restricted.name": {
+    "src": "Restricted mobility",
+    "out": "Movilidad restringida"
   },
   "variants.nex.#board.name": {
     "src": "11x11 board",

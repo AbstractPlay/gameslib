@@ -691,6 +691,10 @@
     "src": "An orthogonal-only square connection game where you try to connect your sides of the board. Crosscut formations are illegal, and every free space must always have a path to an edge.",
     "out": "Un gioco di connessione su griglia quadrata solo ortogonale in cui cerchi di collegare i tuoi lati del tabellone. Le formazioni crosscut sono illegali e ogni spazio libero deve avere sempre un percorso verso un bordo."
   },
+  "descriptions.neutron": {
+    "src": "Slide the neutral neutron and one of your pawns each turn. Pieces move in straight lines as far as they can. Win by bringing the neutron to the correct back row, or by leaving your opponent unable to complete a turn.",
+    "out": "Fai scivolare il neutrone neutrale e una delle tue pedine a ogni turno. I pezzi si muovono in linea retta il più lontano possibile. Vinci portando il neutrone sulla traversa di base corretta, oppure lasciando l'avversario nell'impossibilità di completare un turno."
+  },
   "descriptions.nex": {
     "src": "Nex (or Neutral Hex) is a variant of the Hex connection game where there are neutral pieces. On your turn, you may either (1) place a piece of your colour and a neutral colour on an empty space, or (2) swap two neutral pieces to your colour and one of your piece to the neutral colour.",
     "out": "Nex (o Neutral Hex) è una variante del gioco di connessione Hex in cui sono presenti pezzi neutrali. Nel tuo turno, puoi (1) posizionare un pezzo del tuo colore e uno di colore neutrale su uno spazio vuoto, oppure (2) scambiare due pezzi neutrali con il tuo colore e uno dei tuoi pezzi con il colore neutrale."
@@ -1518,22 +1522,6 @@
   "displays.icepalace.#board.name": {
     "src": "Expanding",
     "out": "Espandibile"
-  },
-  "displays.icepalace.perspective-areas.description": {
-    "src": "Hand and Pool in three dimensions, with the pyramids drawn in perspective.",
-    "out": "Mano e Riserva in tre dimensioni, con le piramidi disegnate in prospettiva."
-  },
-  "displays.icepalace.perspective-areas.name": {
-    "src": "3D hand and Pool",
-    "out": "Mano e Riserva 3D"
-  },
-  "displays.icepalace.perspective.description": {
-    "src": "Three dimensional board, with pyramids stacked in perspective.",
-    "out": "Tavoliere tridimensionale, con piramidi impilate in prospettiva."
-  },
-  "displays.icepalace.perspective.name": {
-    "src": "3D stacks",
-    "out": "Pile 3D"
   },
   "displays.icepalace.perspective-areas.description": {
     "src": "Hand and Pool in three dimensions, with the pyramids drawn in perspective.",
@@ -2815,6 +2803,10 @@
     "src": "Necklace",
     "out": "Necklace"
   },
+  "names.neutron": {
+    "src": "Neutron",
+    "out": "Neutron"
+  },
   "names.nex": {
     "src": "Nex",
     "out": "Nex"
@@ -3506,6 +3498,10 @@
   "notes.narrows": {
     "src": "Narrows, designed by Mark Steere in 2026, is an unification game inspired by the ancient Hawiian game of Kōnane. True to the spirit of Kōnane, Ūnane begins with a checkerboard pattern of stones and is extremely simple. In this case, the unification goal includes the use of orthogonal paths of empty cells to connect different groups of friendly pieces.",
     "out": "Narrows, progettato da Mark Steere nel 2026, è un gioco di unificazione ispirato all'antico gioco hawaiiano Kōnane. Fedele allo spirito di Kōnane, Ūnane inizia con uno schema di pedine a scacchiera ed è estremamente semplice. In questo caso, l'obiettivo di unificazione include l'uso di percorsi ortogonali di caselle vuote per collegare diversi gruppi di pezzi amici."
+  },
+  "notes.neutron": {
+    "src": "Each turn (except White's first turn in standard Neutron) consists of sliding the neutron, then sliding one of your pawns. All pieces slide in straight lines as far as possible without jumping. **CoNeutron** swaps the winning row to your opponent's back rank and removes White's pawn-only opening.\n\n**Mobility** restrictions apply to pawn moves only. With **restricted** mobility, pawns may not land on the opponent's home row. With **double restricted** mobility, pawns also may not re-enter their own home row after leaving it; pawns still on the home row may slide along that row.\n\nMoves are notated `neutronDest,pawnFrom-pawnTo`, or `pawnFrom-pawnTo` on White's first turn in standard Neutron. A winning neutron slide alone is notated as just the destination cell.",
+    "out": "Ogni turno (eccetto il primo turno del Bianco nel Neutron standard) consiste nel far scivolare il neutrone, per poi far scivolare una delle proprie pedine. Tutti i pezzi scivolano in linea retta il più lontano possibile senza saltare. **CoNeutron** scambia la traversa vincente con la traversa di base dell'avversario e rimuove l'apertura con sola pedina del Bianco.\n\nLe restrizioni di **mobilità** si applicano solo ai movimenti delle pedine. Con mobilità **limitata**, le pedine non possono finire sulla traversa di base dell'avversario. Con mobilità **doppiamente limitata**, le pedine non possono nemmeno rientrare nella propria traversa di base dopo averla lasciata; le pedine ancora sulla traversa di base possono scivolare lungo di essa.\n\nLe mosse sono annotate come `neutronDest,pawnFrom-pawnTo`, o `pawnFrom-pawnTo` al primo turno del Bianco nel Neutron standard. Una mossa vincente del solo neutrone è annotata semplicemente con la casella di destinazione."
   },
   "notes.oonpia": {
     "src": "Either use the legend to select a piece, or click the same location multiple times to cycle through all possible pieces. Blocked cells are highlighted: a translucent dot means only a dotted stone can be placed there (i.e. blocked for plain pieces), a translucent piece means only a plain piece can be placed there (i.e. blocked for dotted pieces). If both highlights are present, then the cell is blocked for all pieces.",
@@ -10230,6 +10226,34 @@
   "validation.necklace.NO_CROSSINGS": {
     "src": "Placement at {{where}} will create a crosscut.",
     "out": "Il piazzamento in {{where}} creerà un taglio incrociato."
+  },
+  "validation.neutron.INCOMPLETE": {
+    "src": "You must complete both parts of the turn (or end the game with a winning neutron move).",
+    "out": "Devi completare entrambe le parti del turno (o terminare la partita con una mossa vincente del neutrone)."
+  },
+  "validation.neutron.INITIAL_INSTRUCTIONS": {
+    "src": "Select where to slide the neutron, or on White's first turn in standard Neutron, select a pawn to move.",
+    "out": "Seleziona dove far scivolare il neutrone oppure, al primo turno del Bianco nel Neutron standard, seleziona una pedina da muovere."
+  },
+  "validation.neutron.INVALID_NEUTRON": {
+    "src": "The neutron cannot slide to that cell.",
+    "out": "Il neutrone non può scivolare in quella casella."
+  },
+  "validation.neutron.NEUTRON_FIRST": {
+    "src": "Slide the neutron first, then select one of your pawns.",
+    "out": "Fai scorrere prima il neutrone, poi seleziona una delle tue pedine."
+  },
+  "validation.neutron.PAWN_DEST": {
+    "src": "Select where to slide that pawn.",
+    "out": "Seleziona dove far scivolare quella pedina."
+  },
+  "validation.neutron.PAWN_SELECT": {
+    "src": "Select one of your pawns to move.",
+    "out": "Seleziona una delle tue pedine da muovere."
+  },
+  "validation.neutron.SELECT_OWN_PAWN": {
+    "src": "You may only move your own pawns.",
+    "out": "Puoi muovere solo le tue pedine."
   },
   "validation.nex.EDGE_CASE_ONE_EMPTY_NEUTRAL": {
     "src": "There is only one empty cell so you may not make a placement. You should make swap moves instead.",
@@ -17366,6 +17390,50 @@
   "variants.narrows.size-8.name": {
     "src": "7x8 board",
     "out": "Tabellone 7x8"
+  },
+  "variants.neutron.#board.name": {
+    "src": "5×5 board",
+    "out": "Tavoliere 5×5"
+  },
+  "variants.neutron.#mobility.name": {
+    "src": "No restrictions",
+    "out": "Nessuna restrizione"
+  },
+  "variants.neutron.5x7.name": {
+    "src": "5×7 board",
+    "out": "Tavoliere 5×7"
+  },
+  "variants.neutron.7x5.name": {
+    "src": "7×5 board",
+    "out": "Tavoliere 7×5"
+  },
+  "variants.neutron.7x7.name": {
+    "src": "7×7 board",
+    "out": "Tavoliere 7×7"
+  },
+  "variants.neutron.coneutron.description": {
+    "src": "Win by moving the neutron to your opponent's back row. White moves the neutron on the first turn.",
+    "out": "Vinci muovendo il neutrone sulla traversa di base dell'avversario. Il Bianco muove il neutrone al primo turno."
+  },
+  "variants.neutron.coneutron.name": {
+    "src": "CoNeutron",
+    "out": "CoNeutron"
+  },
+  "variants.neutron.doubleRestricted.description": {
+    "src": "Pawns may not land on either home row, except that pawns still on their own home row may slide along it.",
+    "out": "Le pedine non possono finire su alcuna traversa di base, tranne per le pedine ancora sulla propria traversa di base che possono scivolare lungo di essa."
+  },
+  "variants.neutron.doubleRestricted.name": {
+    "src": "Double restricted mobility",
+    "out": "Mobilità doppiamente limitata"
+  },
+  "variants.neutron.restricted.description": {
+    "src": "Pawns may not land on the opponent's home row.",
+    "out": "Le pedine non possono finire sulla traversa di base dell'avversario."
+  },
+  "variants.neutron.restricted.name": {
+    "src": "Restricted mobility",
+    "out": "Mobilità limitata"
   },
   "variants.nex.#board.name": {
     "src": "11x11 board",

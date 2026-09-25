@@ -691,6 +691,10 @@
     "src": "An orthogonal-only square connection game where you try to connect your sides of the board. Crosscut formations are illegal, and every free space must always have a path to an edge.",
     "out": "Ein rein orthogonales Quadrat-Verbindungsspiel, bei dem Sie versuchen, Ihre Brettseiten zu verbinden. Kreuzschnitt-Formationen sind unzulässig, und jedes freie Feld muss immer einen Pfad zu einem Rand haben."
   },
+  "descriptions.neutron": {
+    "src": "Slide the neutral neutron and one of your pawns each turn. Pieces move in straight lines as far as they can. Win by bringing the neutron to the correct back row, or by leaving your opponent unable to complete a turn.",
+    "out": "Schiebe in jedem Zug das neutrale Neutron und einen deiner Bauern. Spielfiguren bewegen sich geradlinig so weit wie möglich. Gewinne, indem du das Neutron auf die richtige Grundreihe bringst, oder indem der Gegner keinen vollständigen Zug mehr ausführen kann."
+  },
   "descriptions.nex": {
     "src": "Nex (or Neutral Hex) is a variant of the Hex connection game where there are neutral pieces. On your turn, you may either (1) place a piece of your colour and a neutral colour on an empty space, or (2) swap two neutral pieces to your colour and one of your piece to the neutral colour.",
     "out": "Nex (oder Neutral Hex) ist eine Variante des Verbindungsspiels Hex, bei der es neutrale Steine gibt. In Ihrem Zug können Sie entweder (1) einen Stein Ihrer Farbe und einen neutralen Stein auf ein freies Feld legen oder (2) zwei neutrale Steine in Ihre Farbe und einen Ihrer Steine in die neutrale Farbe umtauschen."
@@ -2799,6 +2803,10 @@
     "src": "Necklace",
     "out": "Necklace"
   },
+  "names.neutron": {
+    "src": "Neutron",
+    "out": "Neutron"
+  },
   "names.nex": {
     "src": "Nex",
     "out": "Nex"
@@ -3490,6 +3498,10 @@
   "notes.narrows": {
     "src": "Narrows, designed by Mark Steere in 2026, is an unification game inspired by the ancient Hawiian game of Kōnane. True to the spirit of Kōnane, Ūnane begins with a checkerboard pattern of stones and is extremely simple. In this case, the unification goal includes the use of orthogonal paths of empty cells to connect different groups of friendly pieces.",
     "out": "Narrows, entworfen von Mark Steere im Jahr 2026, ist ein Vereinigungsspiel, das vom alten hawaiianischen Spiel Kōnane inspiriert wurde. Ganz im Geiste von Kōnane beginnt Ūnane mit einem Schachbrettmuster aus Steinen und ist extrem einfach. In diesem Fall beinhaltet das Vereinigungsziel die Nutzung orthogonaler Pfade aus leeren Feldern, um verschiedene Gruppen eigener Steine zu verbinden."
+  },
+  "notes.neutron": {
+    "src": "Each turn (except White's first turn in standard Neutron) consists of sliding the neutron, then sliding one of your pawns. All pieces slide in straight lines as far as possible without jumping. **CoNeutron** swaps the winning row to your opponent's back rank and removes White's pawn-only opening.\n\n**Mobility** restrictions apply to pawn moves only. With **restricted** mobility, pawns may not land on the opponent's home row. With **double restricted** mobility, pawns also may not re-enter their own home row after leaving it; pawns still on the home row may slide along that row.\n\nMoves are notated `neutronDest,pawnFrom-pawnTo`, or `pawnFrom-pawnTo` on White's first turn in standard Neutron. A winning neutron slide alone is notated as just the destination cell.",
+    "out": "Jeder Zug (außer dem ersten Zug von Weiß beim Standard-Neutron) besteht darin, zuerst das Neutron und danach einen eigenen Bauern zu schieben. Alle Figuren gleiten ohne Überspringen geradlinig so weit wie möglich. **CoNeutron** verlegt die Siegreihe auf die Grundreihe des Gegners und entfernt die reine Bauern-Eröffnung für Weiß.\n\nEinschränkungen der **Beweglichkeit** gelten nur für Bauernzüge. Bei **eingeschränkter** Beweglichkeit dürfen Bauern nicht auf der gegnerischen Grundreihe landen. Bei **doppelt eingeschränkter** Beweglichkeit dürfen Bauern nach dem Verlassen ihrer eigenen Grundreihe diese auch nicht mehr betreten; Bauern, die sich noch auf ihrer eigenen Grundreihe befinden, dürfen entlang dieser Reihe gleiten.\n\nZüge werden als `neutronDest,pawnFrom-pawnTo` notiert, oder im ersten Zug von Weiß bei Standard-Neutron als `pawnFrom-pawnTo`. Ein einzelner gewinnender Neutronenzug wird nur als Zielfeld notiert."
   },
   "notes.oonpia": {
     "src": "Either use the legend to select a piece, or click the same location multiple times to cycle through all possible pieces. Blocked cells are highlighted: a translucent dot means only a dotted stone can be placed there (i.e. blocked for plain pieces), a translucent piece means only a plain piece can be placed there (i.e. blocked for dotted pieces). If both highlights are present, then the cell is blocked for all pieces.",
@@ -10214,6 +10226,34 @@
   "validation.necklace.NO_CROSSINGS": {
     "src": "Placement at {{where}} will create a crosscut.",
     "out": "Die Platzierung bei {{where}} erzeugt einen Kreuzschnitt."
+  },
+  "validation.neutron.INCOMPLETE": {
+    "src": "You must complete both parts of the turn (or end the game with a winning neutron move).",
+    "out": "Du musst beide Teile des Zugs ausführen (oder das Spiel mit einem gewinnenden Neutronenzug beenden)."
+  },
+  "validation.neutron.INITIAL_INSTRUCTIONS": {
+    "src": "Select where to slide the neutron, or on White's first turn in standard Neutron, select a pawn to move.",
+    "out": "Wähle aus, wohin das Neutron geschoben werden soll, oder wähle im ersten Zug von Weiß bei Standard-Neutron einen Bauern aus."
+  },
+  "validation.neutron.INVALID_NEUTRON": {
+    "src": "The neutron cannot slide to that cell.",
+    "out": "Das Neutron kann nicht auf dieses Feld geschoben werden."
+  },
+  "validation.neutron.NEUTRON_FIRST": {
+    "src": "Slide the neutron first, then select one of your pawns.",
+    "out": "Ziehe zuerst das Neutron und wähle dann einen deiner Spielsteine."
+  },
+  "validation.neutron.PAWN_DEST": {
+    "src": "Select where to slide that pawn.",
+    "out": "Wähle aus, wohin dieser Bauer geschoben werden soll."
+  },
+  "validation.neutron.PAWN_SELECT": {
+    "src": "Select one of your pawns to move.",
+    "out": "Wähle einen deiner Bauern aus."
+  },
+  "validation.neutron.SELECT_OWN_PAWN": {
+    "src": "You may only move your own pawns.",
+    "out": "Du kannst nur deine eigenen Bauern ziehen."
   },
   "validation.nex.EDGE_CASE_ONE_EMPTY_NEUTRAL": {
     "src": "There is only one empty cell so you may not make a placement. You should make swap moves instead.",
@@ -17350,6 +17390,50 @@
   "variants.narrows.size-8.name": {
     "src": "7x8 board",
     "out": "7x8-Brett"
+  },
+  "variants.neutron.#board.name": {
+    "src": "5×5 board",
+    "out": "5×5-Brett"
+  },
+  "variants.neutron.#mobility.name": {
+    "src": "No restrictions",
+    "out": "Keine Einschränkungen"
+  },
+  "variants.neutron.5x7.name": {
+    "src": "5×7 board",
+    "out": "5×7-Brett"
+  },
+  "variants.neutron.7x5.name": {
+    "src": "7×5 board",
+    "out": "7×5-Brett"
+  },
+  "variants.neutron.7x7.name": {
+    "src": "7×7 board",
+    "out": "7×7-Brett"
+  },
+  "variants.neutron.coneutron.description": {
+    "src": "Win by moving the neutron to your opponent's back row. White moves the neutron on the first turn.",
+    "out": "Gewinne, indem du das Neutron auf die Grundreihe des Gegners ziehst. Weiß zieht im ersten Zug das Neutron."
+  },
+  "variants.neutron.coneutron.name": {
+    "src": "CoNeutron",
+    "out": "CoNeutron"
+  },
+  "variants.neutron.doubleRestricted.description": {
+    "src": "Pawns may not land on either home row, except that pawns still on their own home row may slide along it.",
+    "out": "Bauern dürfen auf keiner der beiden Grundreihen landen, außer Bauern, die sich noch auf ihrer eigenen Grundreihe befinden und an dieser entlanggleiten."
+  },
+  "variants.neutron.doubleRestricted.name": {
+    "src": "Double restricted mobility",
+    "out": "Doppelt eingeschränkte Beweglichkeit"
+  },
+  "variants.neutron.restricted.description": {
+    "src": "Pawns may not land on the opponent's home row.",
+    "out": "Bauern dürfen nicht auf der gegnerischen Grundreihe landen."
+  },
+  "variants.neutron.restricted.name": {
+    "src": "Restricted mobility",
+    "out": "Eingeschränkte Beweglichkeit"
   },
   "variants.nex.#board.name": {
     "src": "11x11 board",

@@ -98,7 +98,7 @@ export class BashniGame extends GameBase {
                 for (let col = 0; col < BOARD_SIZE; col++) {
                     const rowEven = row % 2 === 0;
                     const colEven = col % 2 === 0;
-                    if ( (rowEven && colEven) || (!rowEven && !colEven) ) {
+                    if ( (rowEven && !colEven) || (!rowEven && colEven) ) {
                         const cell = g.coords2algebraic(col, row);
                         board.set(cell, [[2, 1]]);
                     }
@@ -108,7 +108,7 @@ export class BashniGame extends GameBase {
                 for (let col = 0; col < BOARD_SIZE; col++) {
                     const rowEven = row % 2 === 0;
                     const colEven = col % 2 === 0;
-                    if ( (rowEven && colEven) || (!rowEven && !colEven) ) {
+                    if ( (rowEven && !colEven) || (!rowEven && colEven) ) {
                         const cell = g.coords2algebraic(col, row);
                         board.set(cell, [[1, 1]]);
                     }

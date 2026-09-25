@@ -169,6 +169,7 @@
     "nakatta": "Ein Quadrat-Verbindungsspiel, bei dem zwei bestimmte Figurenkonfigurationen verboten sind.",
     "narrows": "Verbinden Sie all Ihre Steine durch leere Bereiche.",
     "necklace": "Ein rein orthogonales Quadrat-Verbindungsspiel, bei dem Sie versuchen, Ihre Brettseiten zu verbinden. Kreuzschnitt-Formationen sind unzulässig, und jedes freie Feld muss immer einen Pfad zu einem Rand haben.",
+    "neutron": "Schiebe in jedem Zug das neutrale Neutron und einen deiner Bauern. Spielfiguren bewegen sich geradlinig so weit wie möglich. Gewinne, indem du das Neutron auf die richtige Grundreihe bringst, oder indem der Gegner keinen vollständigen Zug mehr ausführen kann.",
     "nex": "Nex (oder Neutral Hex) ist eine Variante des Verbindungsspiels Hex, bei der es neutrale Steine gibt. In Ihrem Zug können Sie entweder (1) einen Stein Ihrer Farbe und einen neutralen Stein auf ein freies Feld legen oder (2) zwei neutrale Steine in Ihre Farbe und einen Ihrer Steine in die neutrale Farbe umtauschen.",
     "omny": "Verallgemeinertes Verbindungsspiel, bei dem die Spieler versuchen, Sternfelder in verschiedene Regionen aufzuteilen, sodass keine einzelne Region eine Mehrheit an Sternfeldern enthält.",
     "onager": "In Onager versucht jeder Spieler, die gegnerische Grundlinie zu erreichen. Onager ist nach einer römischen Belagerungsmaschine benannt, einer Art Katapult, da die Bewegung der Steine dem Schleudern von Geschossen mit diesem Gerät ähnelt.",
@@ -465,6 +466,7 @@
     "nakatta": "Nakatta",
     "narrows": "Narrows",
     "necklace": "Necklace",
+    "neutron": "Neutron",
     "nex": "Nex",
     "omny": "Omny",
     "onager": "Onager",
@@ -640,6 +642,7 @@
     "mirador": "Das Deklarieren verbraucht deinen gesamten Zug. Stelle zuerst deine unangreifbare Verbindung fertig und deklariere erst in deinem nächsten Zug; du kannst nicht im selben Zug einen Mirador setzen und deklarieren.",
     "murus": "Das Standard-Regelwerk ist \"Advanced Murus Gallicus\" (mit Katapulten). Standardmäßig besteht dein erster Zug darin, einen deiner Starttürme als Mauern in deiner zweiten Reihe neu zu verteilen. Zusätzlich ist auch die Standard-Tortenregel (Pie-Rule) verfügbar. Es gibt drei Varianten, die du kombinieren kannst:\n\n* \"Basic\" setzt das Spiel in den Zustand \"ohne Katapult\" zurück.\n* \"Static\" deaktiviert die anfängliche Turmverteilung.\n* \"Escape\" eliminiert die Durchbruchs-Siegbedingung.",
     "mutternland": "Mutternland wurde 1997 von Hartmut Witt entworfen. Diese Implementierung handhabt die anfängliche Steinplatzierung anders. Während im Originalspiel die Spieler beim Aufbau einen _gegnerischen_ Stein pro Zug platzierten, platzieren die Spieler hier einen eigenen Stein und dann einen gegnerischen Stein (einschließlich einiger Einschränkungen, um unbewältigte Starts durch die zufällige Generierung des Spielfelds zu verhindern). Dies macht den Aufbau schneller und bietet etwas Kontrolle über die eigenen Steine. Auch heruntergeschubste Steine, die in die Reserve des Spielers zurückkehren, werden vom Besitzer erneut platziert.",
+    "neutron": "Jeder Zug (außer dem ersten Zug von Weiß beim Standard-Neutron) besteht darin, zuerst das Neutron und danach einen eigenen Bauern zu schieben. Alle Figuren gleiten ohne Überspringen geradlinig so weit wie möglich. **CoNeutron** verlegt die Siegreihe auf die Grundreihe des Gegners und entfernt die reine Bauern-Eröffnung für Weiß.\n\nEinschränkungen der **Beweglichkeit** gelten nur für Bauernzüge. Bei **eingeschränkter** Beweglichkeit dürfen Bauern nicht auf der gegnerischen Grundreihe landen. Bei **doppelt eingeschränkter** Beweglichkeit dürfen Bauern nach dem Verlassen ihrer eigenen Grundreihe diese auch nicht mehr betreten; Bauern, die sich noch auf ihrer eigenen Grundreihe befinden, dürfen entlang dieser Reihe gleiten.\n\nZüge werden als `neutronDest,pawnFrom-pawnTo` notiert, oder im ersten Zug von Weiß bei Standard-Neutron als `pawnFrom-pawnTo`. Ein einzelner gewinnender Neutronenzug wird nur als Zielfeld notiert.",
     "narrows": "Narrows, entworfen von Mark Steere im Jahr 2026, ist ein Vereinigungsspiel, das vom alten hawaiianischen Spiel Kōnane inspiriert wurde. Ganz im Geiste von Kōnane beginnt Ūnane mit einem Schachbrettmuster aus Steinen und ist extrem einfach. In diesem Fall beinhaltet das Vereinigungsziel die Nutzung orthogonaler Pfade aus leeren Feldern, um verschiedene Gruppen eigener Steine zu verbinden.",
     "oonpia": "Verwende entweder die Legende, um einen Stein auszuwählen, oder klicke mehrmals auf dieselbe Stelle, um alle möglichen Steine durchzugehen. Blockierte Felder sind hervorgehoben: Ein halbtransparenter Punkt bedeutet, dass dort nur ein punktierter Stein platziert werden kann (d. h. für einfache Steine blockiert), ein halbtransparenter Stein bedeutet, dass dort nur ein einfacher Stein platziert werden kann (d. h. für punktierte Steine blockiert). Wenn beide Hervorhebungen vorhanden sind, ist das Feld für alle Steine blockiert.",
     "oware": "Diese Implementierung folgt der üblichen Turnierregel, dass Grand-Slam-Züge erlaubt sind, aber keine Steine geschlagen werden. Die Darstellung von Zustandsänderungen in Sähspielen ist eine Herausforderung. Die ursprünglich gewählte Mulde wird ebenso markiert wie jeder Schlagzug. Kleine Zahlen zeigen die Änderung der Anzahl der Steine in jeder Mulde an. Wenn du glaubst, auf einen Fehler gestoßen zu sein, teile uns dies bitte auf Discord mit.",
@@ -2788,6 +2791,35 @@
       },
       "size-16": {
         "name": "15x16-Brett"
+      }
+    },
+    "neutron": {
+      "#board": {
+        "name": "5×5-Brett"
+      },
+      "5x7": {
+        "name": "5×7-Brett"
+      },
+      "7x5": {
+        "name": "7×5-Brett"
+      },
+      "7x7": {
+        "name": "7×7-Brett"
+      },
+      "coneutron": {
+        "name": "CoNeutron",
+        "description": "Gewinne, indem du das Neutron auf die Grundreihe des Gegners ziehst. Weiß zieht im ersten Zug das Neutron."
+      },
+      "#mobility": {
+        "name": "Keine Einschränkungen"
+      },
+      "restricted": {
+        "name": "Eingeschränkte Beweglichkeit",
+        "description": "Bauern dürfen nicht auf der gegnerischen Grundreihe landen."
+      },
+      "doubleRestricted": {
+        "name": "Doppelt eingeschränkte Beweglichkeit",
+        "description": "Bauern dürfen auf keiner der beiden Grundreihen landen, außer Bauern, die sich noch auf ihrer eigenen Grundreihe befinden und an dieser entlanggleiten."
       }
     },
     "nex": {
@@ -6946,6 +6978,15 @@
       "BLOCKS_PATH": "Die Platzierung bei {{where}} blockiert den einzigen Pfad einiger freier Felder zum Rand.",
       "INITIAL_INSTRUCTIONS": "Wähle einen Punkt aus, um einen Stein zu platzieren.",
       "NO_CROSSINGS": "Die Platzierung bei {{where}} erzeugt einen Kreuzschnitt."
+    },
+    "neutron": {
+      "INCOMPLETE": "Du musst beide Teile des Zugs ausführen (oder das Spiel mit einem gewinnenden Neutronenzug beenden).",
+      "INITIAL_INSTRUCTIONS": "Wähle aus, wohin das Neutron geschoben werden soll, oder wähle im ersten Zug von Weiß bei Standard-Neutron einen Bauern aus.",
+      "INVALID_NEUTRON": "Das Neutron kann nicht auf dieses Feld geschoben werden.",
+      "NEUTRON_FIRST": "Ziehe zuerst das Neutron und wähle dann einen deiner Spielsteine.",
+      "PAWN_DEST": "Wähle aus, wohin dieser Bauer geschoben werden soll.",
+      "PAWN_SELECT": "Wähle einen deiner Bauern aus.",
+      "SELECT_OWN_PAWN": "Du kannst nur deine eigenen Bauern ziehen."
     },
     "nex": {
       "EDGE_CASE_ONE_EMPTY_NEUTRAL": "Es gibt nur ein leeres Feld, daher darfst du keinen Stein platzieren. Du solltest stattdessen Tauschzüge machen.",

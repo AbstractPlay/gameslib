@@ -169,6 +169,7 @@
     "nakatta": "Un gioco di connessione su griglia quadrata in cui due specifiche configurazioni di pezzi sono proibite.",
     "narrows": "Collega tutti i tuoi pezzi mediante regioni vuote.",
     "necklace": "Un gioco di connessione su griglia quadrata solo ortogonale in cui cerchi di collegare i tuoi lati del tabellone. Le formazioni crosscut sono illegali e ogni spazio libero deve avere sempre un percorso verso un bordo.",
+    "neutron": "Fai scivolare il neutrone neutrale e una delle tue pedine a ogni turno. I pezzi si muovono in linea retta il più lontano possibile. Vinci portando il neutrone sulla traversa di base corretta, oppure lasciando l'avversario nell'impossibilità di completare un turno.",
     "nex": "Nex (o Neutral Hex) è una variante del gioco di connessione Hex in cui sono presenti pezzi neutrali. Nel tuo turno, puoi (1) posizionare un pezzo del tuo colore e uno di colore neutrale su uno spazio vuoto, oppure (2) scambiare due pezzi neutrali con il tuo colore e uno dei tuoi pezzi con il colore neutrale.",
     "omny": "Gioco di connessione generalizzato in cui i giocatori cercano di dividere le caselle stella in regioni diverse in modo che nessuna singola regione contenga la maggioranza delle caselle stella.",
     "onager": "In Onager ogni giocatore cerca di raggiungere l'ultima traversa dell'avversario. Onager prende il nome da una macchina d'assedio romana che è un tipo di catapulta, poiché il modo in cui i pezzi si muovono assomiglia a come i proiettili vengono scagliati in avanti con questo dispositivo.",
@@ -465,6 +466,7 @@
     "nakatta": "Nakatta",
     "narrows": "Narrows",
     "necklace": "Necklace",
+    "neutron": "Neutron",
     "nex": "Nex",
     "omny": "Omny",
     "onager": "Onager",
@@ -640,6 +642,7 @@
     "mirador": "Dichiarare occupa l'intero turno. Completa prima la tua connessione inattaccabile, poi dichiara nel tuo turno successivo; non puoi posizionare un mirador e dichiarare nello stesso turno.",
     "murus": "Il regolamento predefinito è \"Advanced Murus Gallicus\" (con catapulte). Per impostazione predefinita, la tua prima mossa consiste nel ridistribuire una delle tue torri iniziali come mura sulla tua seconda riga. Inoltre, è disponibile anche la regola della torta (pie rule) standard. Ci sono tre varianti che puoi combinare tra loro:\n\n* \"Base\" riporta il gioco allo stato \"senza catapulte\".\n* \"Estatico\" disabilita la ridistribuzione iniziale delle torri.\n* \"Fuga\" elimina la condizione di vittoria per sfondamento.",
     "mutternland": "Mutternland è stato progettato da Hartmut Witt nel 1997. Questa implementazione gestisce il posizionamento iniziale dei pezzi in modo diverso. Mentre nel gioco originale i giocatori, durante la preparazione, piazzavano un pezzo _nemico_ per turno, qui i giocatori piazzano un pezzo amico e poi un pezzo avversario (con alcune restrizioni per evitare avvii sbilanciati dovuti alla generazione casuale del campo di gioco). Ciò rende la preparazione più veloce e offre un certo controllo sui propri pezzi. Inoltre, i pezzi spinti fuori dal tabellone, che tornano nella riserva del giocatore, vengono piazzati di nuovo dal proprietario.",
+    "neutron": "Ogni turno (eccetto il primo turno del Bianco nel Neutron standard) consiste nel far scivolare il neutrone, per poi far scivolare una delle proprie pedine. Tutti i pezzi scivolano in linea retta il più lontano possibile senza saltare. **CoNeutron** scambia la traversa vincente con la traversa di base dell'avversario e rimuove l'apertura con sola pedina del Bianco.\n\nLe restrizioni di **mobilità** si applicano solo ai movimenti delle pedine. Con mobilità **limitata**, le pedine non possono finire sulla traversa di base dell'avversario. Con mobilità **doppiamente limitata**, le pedine non possono nemmeno rientrare nella propria traversa di base dopo averla lasciata; le pedine ancora sulla traversa di base possono scivolare lungo di essa.\n\nLe mosse sono annotate come `neutronDest,pawnFrom-pawnTo`, o `pawnFrom-pawnTo` al primo turno del Bianco nel Neutron standard. Una mossa vincente del solo neutrone è annotata semplicemente con la casella di destinazione.",
     "narrows": "Narrows, progettato da Mark Steere nel 2026, è un gioco di unificazione ispirato all'antico gioco hawaiiano Kōnane. Fedele allo spirito di Kōnane, Ūnane inizia con uno schema di pedine a scacchiera ed è estremamente semplice. In questo caso, l'obiettivo di unificazione include l'uso di percorsi ortogonali di caselle vuote per collegare diversi gruppi di pezzi amici.",
     "oonpia": "Usa la legenda per selezionare un pezzo, oppure fai clic sullo stesso punto più volte per scorrere tutti i pezzi possibili. Le caselle bloccate sono evidenziate: un punto traslucido significa che vi si può piazzare solo una pedina con punto (cioè bloccata per le pedine semplici), un pezzo traslucido significa che vi si può piazzare solo una pedina semplice (cioè bloccata per le pedine con punto). Se sono presenti entrambe le evidenziazioni, la casella è bloccata per tutti i pezzi.",
     "oware": "Questa implementazione segue la comune regola da torneo secondo cui le mosse grand slam sono consentite, ma non viene catturato alcun pezzo. Rappresentare i cambiamenti di stato nei giochi di semina è complesso. La fossetta iniziale scelta viene contrassegnata, così come qualsiasi cattura. Piccoli numeri mostrano la variazione del numero di pedine in ciascuna fossetta. Se ritieni di aver riscontrato un bug, faccelo sapere su Discord.",
@@ -2788,6 +2791,35 @@
       },
       "size-16": {
         "name": "Tabellone 15x16"
+      }
+    },
+    "neutron": {
+      "#board": {
+        "name": "Tavoliere 5×5"
+      },
+      "5x7": {
+        "name": "Tavoliere 5×7"
+      },
+      "7x5": {
+        "name": "Tavoliere 7×5"
+      },
+      "7x7": {
+        "name": "Tavoliere 7×7"
+      },
+      "coneutron": {
+        "name": "CoNeutron",
+        "description": "Vinci muovendo il neutrone sulla traversa di base dell'avversario. Il Bianco muove il neutrone al primo turno."
+      },
+      "#mobility": {
+        "name": "Nessuna restrizione"
+      },
+      "restricted": {
+        "name": "Mobilità limitata",
+        "description": "Le pedine non possono finire sulla traversa di base dell'avversario."
+      },
+      "doubleRestricted": {
+        "name": "Mobilità doppiamente limitata",
+        "description": "Le pedine non possono finire su alcuna traversa di base, tranne per le pedine ancora sulla propria traversa di base che possono scivolare lungo di essa."
       }
     },
     "nex": {
@@ -6946,6 +6978,15 @@
       "BLOCKS_PATH": "Il piazzamento in {{where}} blocca l'unico percorso di alcuni spazi liberi verso il bordo.",
       "INITIAL_INSTRUCTIONS": "Seleziona un punto per piazzare un pezzo.",
       "NO_CROSSINGS": "Il piazzamento in {{where}} creerà un taglio incrociato."
+    },
+    "neutron": {
+      "INCOMPLETE": "Devi completare entrambe le parti del turno (o terminare la partita con una mossa vincente del neutrone).",
+      "INITIAL_INSTRUCTIONS": "Seleziona dove far scivolare il neutrone oppure, al primo turno del Bianco nel Neutron standard, seleziona una pedina da muovere.",
+      "INVALID_NEUTRON": "Il neutrone non può scivolare in quella casella.",
+      "NEUTRON_FIRST": "Fai scorrere prima il neutrone, poi seleziona una delle tue pedine.",
+      "PAWN_DEST": "Seleziona dove far scivolare quella pedina.",
+      "PAWN_SELECT": "Seleziona una delle tue pedine da muovere.",
+      "SELECT_OWN_PAWN": "Puoi muovere solo le tue pedine."
     },
     "nex": {
       "EDGE_CASE_ONE_EMPTY_NEUTRAL": "C'è solo una casella vuota, quindi non puoi effettuare un piazzamento. Dovresti invece fare mosse di scambio.",

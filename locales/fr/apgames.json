@@ -22,9 +22,9 @@
     "attangle": "Attangle est le dernier volet de la trilogie d'empilement de Dieter Stein. Placez et déplacez des pièces pour construire des piles. Le premier à construire trois triples piles gagne. La variante « Grand Attangle » est également disponible.",
     "ayu": "Jeu d'unification dans lequel des groupes serpentants de pièces se déplacent vers leurs alliés pour finalement se regrouper. Si vous ne pouvez effectuer aucun coup à votre tour, vous gagnez. Cela se produit lorsque vous n'avez plus qu'un seul groupe ou qu'il n'existe aucun chemin libre entre vos groupes.",
     "azacru": "Un jeu de contrôle de territoire où des pièces directionnelles arpentent un plateau subdivisé pour revendiquer des cases.",
-    "baghchal": "Un jeu traditionnel asymétrique à deux joueurs originaire du Népal. Le joueur jouant les tigres tente de capturer 5 chèvres en sautant par-dessus, tandis que le joueur jouant les chèvres cherche à immobiliser tous les tigres.",
     "bamboo": "Placez des pierres de manière à ce qu'aucun groupe n'ait plus de pièces que le nombre de vos groupes sur le plateau. Ensuite, soyez le dernier joueur en mesure de jouer.",
     "bao": "Un jeu de semailles traditionnel de style mancala d'Afrique de l'Est où vous tentez d'éliminer toutes les pièces de la rangée avant adverse ou de ne lui laisser aucun coup légal.",
+    "bashni": "Un jeu traditionnel de dames russes à colonnes sur un plateau de 8×8. Les pièces capturées sont placées sous la pièce capturante au lieu de quitter le plateau.",
     "basalt": "Un jeu de connexion triangulaire joué sur le flanc d'un volcan, où la lave et le basalte rivalisent pour relier les trois côtés en premier.",
     "bide": "Jusqu'à six joueurs placent à tour de rôle des pièces sur le plateau, repoussant les pièces adjacentes vers l'extérieur. On peut aussi passer son tour pour accumuler des pièces pouvant être placées d'un coup plus tard. Les pièces plus proches du centre ont plus de valeur. Le groupe qui marque le plus de points l'emporte !",
     "biscuit": "Un jeu de Decktet de style domino où vous jouez des cartes pour marquer immédiatement des points et tenter d'être le premier à jouer toutes les cartes de votre main. Une partie se joue en plusieurs manches jusqu'à atteindre un score cible.",
@@ -320,6 +320,7 @@
     "baghchal": "Bagh Chal",
     "bamboo": "Bamboo",
     "bao": "Bao",
+    "bashni": "Bashni",
     "basalt": "Basalt",
     "bide": "Bide",
     "biscuit": "Biscuit",
@@ -591,6 +592,7 @@
     "armadas": "Des problèmes connus existent avec ce jeu sur les appareils iOS.\n\nCe jeu propose deux scénarios :\n\n* Par défaut, chaque joueur dispose de deux trios de pièces. Dans la phase de placement, chaque joueur doit placer de 1 à 3 navires jusqu'à ce que tous les navires soient placés.\n* La variante \"Forme libre\" vous permet de placer tous les navires que vous souhaitez (maximum trois à la fois) jusqu'à ce que les deux joueurs \"passent\". Cela vous permet de créer des flottes déséquilibrées ou asymétriques.\n\nPar défaut, les parties comportent une île au centre du terrain. Les variantes \"sans îles\" et \"deux îles\" sont également disponibles. Vous ne pouvez pas vous déplacer ni tirer à travers les îles. Pour toucher un navire avec succès, au moins un coin du triangle de votre navire doit avoir une vue dégagée sur au moins un coin du navire cible.\n\nN'oubliez pas qu'il est possible de coincer votre navire contre une île ou le bord du plateau de manière à ne plus pouvoir le déplacer ! Soyez prudent !",
     "ataxx": "Lors d'une triple répétition, la partie prend fin et les scores sont calculés.",
     "bao": "Les coups au Bao peuvent être très complexes, impliquant plusieurs tours du plateau et des changements de direction. Les annotations sont donc succinctes. La case initiale et la direction sont mises en évidence, et les cases capturées sont également marquées. Cependant, une annotation détaillée du déplacement n'est pas possible. Si vous pensez avoir rencontré un bug, veuillez nous en informer sur Discord.",
+    "bashni": "La manoeuvrabilité mesure la proximité de vos piles avec la promotion. Votre manoeuvrabilité maximale est égale à la taille du plateau multipliée par le nombre de piles que vous contrôlez.\n\nLe matériel est calculé en vous accordant un point pour chaque pièce alliée dans une pile que vous contrôlez, plus un point supplémentaire si vous avez une dame au sommet de cette pile.",
     "biscuit": "La partie se termine lorsque, à la fin d'un tour, quelqu'un a atteint ou dépassé le score cible. Le score le plus élevé gagne. Les égalités sont possibles.\n\nLors du calcul des biscuits, une même carte ne peut pas être comptée plus d'une fois. Par exemple, si la carte racine est un 6, et que la fin de la ligne principale est aussi un 6 (une carte transversale), et que vous jouez un 6 au-dessus de cette carte transversale, vous marquez le \"hot cross biscuit\" (le haut et le bas de la ligne transversale correspondent) mais vous n'obtenez pas *en plus* un \"biscuit\" ordinaire pour avoir fait correspondre la fin de la ligne principale (c'est la même carte). De plus, les lignes transversales ne sont pas du tout comptabilisées s'il n'y a pas au moins deux cartes dans la ligne. Ainsi, jouer une nouvelle carte transversale (dans notre exemple, un 6) ne vous donne pas automatiquement un \"biscuit\" (jouer une carte sur la ligne principale qui correspond à une ligne transversale).\n\nPlus d'informations sur le système Decktet sont disponibles sur le [site officiel de Decktet](https://www.decktet.com). Les cartes dans les mains des joueurs sont cachées aux observateurs et aux adversaires.",
     "blooms": "La valeur de seuil est X(n) = 5n, où n est la base du plateau hexhex (par exemple, le plateau par défaut a une base de 6, donc le seuil est de 30).",
     "btt": "Des nombres de joueurs inhabituels (3, 5 ou 6) sont pris en charge, mais sur un plateau rectangulaire normal de taille appropriée plutôt que sur un échiquier martien.",
@@ -4984,6 +4986,10 @@
     "GROUPCOUNT": "Nombre de groupes",
     "GROUPSIZES": "Tailles des groupes",
     "jacynth": "Jetons d'influence",
+    "bashni": {
+      "STEPS": "Manoeuvrabilité",
+      "MATERIAL": "Matériel"
+    },
     "lasca": {
       "STEPS": "Maniabilité",
       "MATERIAL": "Matériel"
@@ -6622,6 +6628,11 @@
       "AMBIGUOUS": "Les coups ambigus (les coups qui pourraient être entrés simultanément depuis les deux côtés actifs) sont interdits.",
       "SIMULTANEOUS": "Les coups qui créeraient des lignes gagnantes pour les deux joueurs simultanément ne sont pas autorisés.",
       "ACTIVE": "Les pièces doivent être entrées depuis l'un des côtés actifs du plateau, en glissant sur les pièces existantes jusqu'à la première case vide."
+    },
+    "bashni": {
+      "INITIAL_INSTRUCTIONS": "Sélectionnez une pile avec votre pièce au sommet à déplacer.",
+      "INVALID_MOVE": "Ce coup ne semble pas légal. La capture est obligatoire, et vous devez la poursuivre tant que d'autres captures sont possibles.",
+      "VALID_PARTIAL": "Sélectionnez une destination. La capture est obligatoire, et vous devez la poursuivre tant que d'autres captures sont possibles."
     },
     "lasca": {
       "INITIAL_INSTRUCTIONS": "Sélectionnez une pile au sommet de laquelle se trouve votre pièce pour la déplacer.",

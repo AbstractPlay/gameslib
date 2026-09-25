@@ -279,6 +279,7 @@
   },
   "ELIMINATED": "{{player}} fue eliminado.",
   "EOG": {
+    "bashni_stagnation": "La partida ha terminado en empate porque la cantidad y composición de las piezas permanecieron sin cambios durante {{count}} movimientos consecutivos.",
     "buku_singletons": "La partida ha terminado porque todas las casillas contienen solo piezas individuales.",
     "camelot_claim_draw_repetition": "La partida ha terminado porque {{player}} ha reclamado un empate por repetición.",
     "camelot_claim_draw_progression": "La partida ha terminado porque {{player}} ha reclamado un empate por la regla de los 50 movimientos.",

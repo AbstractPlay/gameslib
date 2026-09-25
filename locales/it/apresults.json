@@ -279,6 +279,7 @@
   },
   "ELIMINATED": "{{player}} è stato eliminato.",
   "EOG": {
+    "bashni_stagnation": "La partita è terminata con un pareggio perché il numero e la composizione dei pezzi sono rimasti invariati per {{count}} mosse consecutive.",
     "buku_singletons": "La partita è terminata perché tutte le caselle contengono solo pezzi singoli.",
     "camelot_claim_draw_repetition": "La partita è terminata perché {{player}} ha chiesto la patta per ripetizione.",
     "camelot_claim_draw_progression": "La partita è terminata perché {{player}} ha chiesto la patta per la regola delle 50 mosse.",

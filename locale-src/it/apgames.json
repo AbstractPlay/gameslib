@@ -103,10 +103,6 @@
     "src": "A territory-control game where directional pieces navigate a subdivided board to claim cells.",
     "out": "Un gioco di controllo territorio in cui pezzi direzionali navigano un tavoliere suddiviso per conquistare celle."
   },
-  "descriptions.baghchal": {
-    "src": "A traditional asymmetric two-player game from Nepal. The tiger player tries to capture 5 goats by jumping across them, the goat player tries to immobilize all tigers.",
-    "out": "Un tradizionale gioco asimmetrico per due giocatori del Nepal. Il giocatore che controlla le tigri cerca di catturare 5 capre saltandole, mentre il giocatore che controlla le capre cerca di immobilizzare tutte le tigri."
-  },
   "descriptions.bamboo": {
     "src": "Place stones such that no group has more pieces than the number of your groups on the board. Then, be the last player able to move.",
     "out": "Posiziona le pietre in modo che nessun gruppo abbia più pezzi del numero totale dei tuoi gruppi sul tavoliere. Poi, sii l'ultimo giocatore in grado di muovere."
@@ -118,6 +114,10 @@
   "descriptions.basalt": {
     "src": "A triangular connection game played on the side of a volcano, where lava and basalt vye to connect the three sides first.",
     "out": "Un gioco di connessione triangolare giocato sul fianco di un vulcano, dove lava e basalto gareggiano per connettere per primi i tre lati."
+  },
+  "descriptions.bashni": {
+    "src": "A traditional Russian column draughts game on an 8×8 board. Captured pieces are placed under the jumper instead of leaving the board.",
+    "out": "Un gioco tradizionale russo di dama a colonne su una scacchiera 8×8. Le pedine catturate vengono posizionate sotto il pezzo saltatore invece di uscire dalla scacchiera."
   },
   "descriptions.bide": {
     "src": "Up to six players take turns placing pieces on the board, pushing adjacent pieces outward. One can also pass to build up a number of pieces that can be placed at once later. Pieces closer to the centre are more valuable. Highest-scoring group wins!",
@@ -1529,6 +1529,22 @@
   },
   "displays.icepalace.perspective.description": {
     "src": "Three dimensional board, with pyramids stacked in perspective.",
+    "out": "Tavoliere tridimensionale, con piramidi impilate in prospettiva."
+  },
+  "displays.icepalace.perspective.name": {
+    "src": "3D stacks",
+    "out": "Pile 3D"
+  },
+  "displays.icepalace.perspective-areas.description": {
+    "src": "Hand and Pool in three dimensions, with the pyramids drawn in perspective.",
+    "out": "Mano e Riserva in tre dimensioni, con le piramidi disegnate in prospettiva."
+  },
+  "displays.icepalace.perspective-areas.name": {
+    "src": "3D hand and Pool",
+    "out": "Mano e Riserva 3D"
+  },
+  "displays.icepalace.perspective.description": {
+    "src": "Three dimensional board, with pyramids stacked in perspective.",
     "out": "Plancia tridimensionale, con le piramidi impilate in prospettiva."
   },
   "displays.icepalace.perspective.name": {
@@ -2222,6 +2238,10 @@
   "names.basalt": {
     "src": "Basalt",
     "out": "Basalt"
+  },
+  "names.bashni": {
+    "src": "Bashni",
+    "out": "Bashni"
   },
   "names.bide": {
     "src": "Bide",
@@ -3295,6 +3315,10 @@
     "src": "Moves in Bao can be very complex, involving multiple laps around the board and changing directions. The annotations are, therefore, sparse. The initial cell and direction are highlighted, and captured cells are also marked. But detailed annotation of movement is not possible. If you believe you have encountered a bug, please let us know in Discord.",
     "out": "Le mosse in Bao possono essere molto complesse, comportando più giri attorno al tabellone e cambi di direzione. Le annotazioni sono, pertanto, essenziali. La casella iniziale e la direzione vengono evidenziate, e vengono contrassegnate anche le caselle catturate. Ma un'annotazione dettagliata del movimento non è possibile. Se ritieni di aver riscontrato un errore, faccelo sapere su Discord."
   },
+  "notes.bashni": {
+    "src": "Maneuverability is a measure of how close your stacks are to crowning. Your maximum maneuverability is the board size times the number of stacks you control.\n\nMaterial is calculated by giving you a point for every friendly piece in a stack you control, plus an extra point if you have a king on top of that stack.",
+    "out": "La manovrabilità è una misura di quanto le tue colonne siano vicine alla promozione a dama. La tua manovrabilità massima è pari alla dimensione della scacchiera moltiplicata per il numero di colonne che controlli.\n\nIl materiale viene calcolato assegnandoti un punto per ogni pezzo alleato in una colonna che controlli, più un punto extra se in cima a quella colonna c'è una dama."
+  },
   "notes.biscuit": {
     "src": "Game ends when, at the end of a round, someone has reached or surpassed the target score. Highest score wins. Draws are possible.\n\nWhen calculating biscuits, a single card cannot be counted more than once. For example, if the root card is a 6, and the end of the main line is also a 6 (a cross card), and you play a 6 above that cross card, you score the \"hot cross biscuit\" (top and bottom of the cross line match) but you don't *also* get a regular \"biscuit\" for matching the end of the main line (they're both the same card). Furthermore, cross lines don't get counted at all unless there are at least two cards in the line. So playing a new cross card (in our example, a 6) does not automatically score you a \"biscuit\" (playing a card on the main line that matches a cross line).\n\nMore information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers and opponents.",
     "out": "La partita termina quando, alla fine di un round, qualcuno ha raggiunto o superato il punteggio obiettivo. Vince il punteggio più alto. I pareggi sono possibili.\n\nQuando si calcolano i biscuit, una singola carta non può essere contata più di una volta. Ad esempio, se la carta radice è un 6 e la fine della linea principale è anch'essa un 6 (una carta croce), e giochi un 6 sopra quella carta croce, ottieni il \"hot cross biscuit\" (la parte superiore e inferiore della linea trasversale coincidono) ma non ottieni *anche* un normale \"biscuit\" per aver abbinato la fine della linea principale (sono la stessa carta). Inoltre, le linee trasversali non vengono affatto conteggiate a meno che non ci siano almeno due carte nella linea. Quindi giocare una nuova carta croce (nel nostro esempio, un 6) non ti fa automaticamente guadagnare un \"biscuit\" (giocare una carta sulla linea principale che corrisponde a una linea trasversale).\n\nMaggiori informazioni sul sistema Decktet si possono trovare sul [sito ufficiale di Decktet](https://www.decktet.com). Le carte in mano ai giocatori sono nascoste agli osservatori e agli avversari."
@@ -3790,6 +3814,14 @@
   "status.bao.BALANCE": {
     "src": "Material balance",
     "out": "Bilancio del materiale"
+  },
+  "status.bashni.MATERIAL": {
+    "src": "Material",
+    "out": "Materiale"
+  },
+  "status.bashni.STEPS": {
+    "src": "Maneuverability",
+    "out": "Manovrabilità"
   },
   "status.blam.NUMPIECES_one": {
     "src": "{{count}} piece",
@@ -5418,6 +5450,18 @@
   "validation.basalt.PIE_TWO_FOUR": {
     "src": "You may not place more than four pieces when offering pie.",
     "out": "Non puoi posizionare più di quattro pezzi quando proponi l'offerta iniziale."
+  },
+  "validation.bashni.INITIAL_INSTRUCTIONS": {
+    "src": "Select a stack with your piece on top to move.",
+    "out": "Seleziona una colonna con il tuo pezzo in cima da muovere."
+  },
+  "validation.bashni.INVALID_MOVE": {
+    "src": "The move does not appear to be legal. Capturing is compulsory, and you must continue as long as further captures are possible.",
+    "out": "La mossa non sembra valida. La presa è obbligatoria e devi continuare finché sono possibili altre prese."
+  },
+  "validation.bashni.VALID_PARTIAL": {
+    "src": "Select a destination. Capturing is compulsory, and you must continue as long as further captures are possible.",
+    "out": "Seleziona una destinazione. La presa è obbligatoria e devi continuare finché sono possibili altre prese."
   },
   "validation.bide.EMPTY_HAND": {
     "src": "You have no more pieces to place.",

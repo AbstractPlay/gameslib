@@ -22,9 +22,9 @@
     "attangle": "Attangle ist der letzte Teil von Dieter Steins Stapel-Trilogie. Platziere und bewege Steine, um Stapel zu bauen. Die erste Person, die drei Dreierstapel baut, gewinnt. Die Variante \"Grand Attangle\" ist ebenfalls enthalten.",
     "ayu": "Ein Vereinigungsspiel, bei dem sich schlangenartige Gruppen von Steinen auf ihre Freunde zubewegen und schließlich verschmelzen. Wenn du in deinem Zug keinen Zug machen kannst, gewinnst du. Dies tritt ein, wenn du nur noch eine Gruppe hast oder kein freier Pfad zwischen deinen Gruppen existiert.",
     "azacru": "Ein Gebietskontrollspiel, bei dem richtungsgebundene Steine über ein unterteiltes Brett navigieren, um Felder zu beanspruchen.",
-    "baghchal": "Ein traditionelles asymmetrisches Zwei-Spieler-Spiel aus Nepal. Die Tiger versuchen, 5 Ziegen durch Überspringen zu schlagen; die Ziegen versuchen, alle Tiger bewegungsunfähig zu machen.",
     "bamboo": "Platziere Steine so, dass keine Gruppe mehr Steine hat als die Anzahl deiner Gruppen auf dem Brett. Sei dann der letzte Spieler, der noch ziehen kann.",
     "bao": "Ein traditionelles Mancala-Säspiel aus Ostafrika, bei dem du versuchst, alle Steine aus der vorderen Reihe des Gegners zu eliminieren oder ihm keine legalen Züge zu lassen.",
+    "bashni": "Ein traditionelles russisches Säulendamespiel auf einem 8×8-Brett. Geschlagene Steine werden unter den schlagenden Stein gelegt, anstatt das Brett zu verlassen.",
     "basalt": "Ein dreieckiges Verbindungsspiel an der Flanke eines Vulkans, bei dem Lava und Basalt darum wetteifern, die drei Seiten zuerst zu verbinden.",
     "bide": "Bis zu sechs Spieler setzen abwechselnd Steine auf das Brett und drücken benachbarte Steine nach außen. Man kann auch passen, um eine Anzahl von Steinen anzusammeln, die später auf einmal platziert werden können. Steine näher am Zentrum sind wertvoller. Die Gruppe mit den meisten Punkten gewinnt!",
     "biscuit": "Ein Decktet-Spiel im Domino-Stil, bei dem du Karten ausspielst, um sofort Punkte zu erzielen, und versuchst, als Erster alle Karten deiner Hand auszuspielen. Ein Spiel wird über mehrere Runden bis zu einem festgelegten Zielwert gespielt.",
@@ -320,6 +320,7 @@
     "baghchal": "Bagh Chal",
     "bamboo": "Bamboo",
     "bao": "Bao",
+    "bashni": "Bashni",
     "basalt": "Basalt",
     "bide": "Bide",
     "biscuit": "Biscuit",
@@ -591,6 +592,7 @@
     "armadas": "Bei diesem Spiel gibt es bekannte Probleme auf iOS-Geräten.\n\nDieses Spiel bietet zwei Szenarien:\n\n* Standardmäßig hat jeder Spieler zwei Trios von Spielsteinen. In der Platzierungsphase muss jeder Spieler 1 bis 3 Schiffe platzieren, bis alle Schiffe platziert sind.\n* Die \"Freiform\"-Variante ermöglicht es Ihnen, beliebig gewünschte Schiffe zu platzieren (maximal drei gleichzeitig), bis beide Spieler \"passen\". Dadurch können Sie unausgewogene oder anderweitig asymmetrische Flotten erstellen.\n\nSpiele enthalten standardmäßig eine Insel in der Mitte des Feldes. Es stehen sowohl eine Variante \"keine Inseln\" als auch \"zwei Inseln\" zur Verfügung. Sie können sich nicht durch Inseln hindurchbewegen oder hindurchschießen. Um ein Schiff erfolgreich zu treffen, muss mindestens eine Ecke des Dreiecks Ihres Schiffes freie Sicht auf mindestens eine Ecke des Zielschiffs haben.\n\nBedenken Sie, dass Ihr Schiff an einer Insel oder am Brettrand in eine Position geraten kann, in der Sie es nicht mehr bewegen können! Seien Sie vorsichtig!",
     "ataxx": "Bei dreifacher Stellungswiederholung endet das Spiel und die Punkte werden berechnet.",
     "bao": "Züge in Bao können sehr komplex sein, mit mehreren Runden um das Brett und Richtungswechseln. Die Notation ist daher spärlich. Das Startfeld und die Richtung werden hervorgehoben, ebenso wie geschlagene Felder. Eine detaillierte Notation der Bewegungen ist jedoch nicht möglich. Wenn Sie glauben, auf einen Fehler gestoßen zu sein, teilen Sie uns dies bitte auf Discord mit.",
+    "bashni": "Die Manövrierfähigkeit ist ein Maß dafür, wie nah Ihre Stapel an der Beförderung sind. Ihre maximale Manövrierfähigkeit ist die Brettgröße multipliziert mit der Anzahl der von Ihnen kontrollierten Stapel.\n\nDas Material wird berechnet, indem Sie für jeden eigenen Stein in einem von Ihnen kontrollierten Stapel einen Punkt erhalten, plus einen zusätzlichen Punkt, wenn sich eine Dame oben auf diesem Stapel befindet.",
     "biscuit": "Das Spiel endet, wenn am Ende einer Runde jemand die Zielpunktzahl erreicht oder überschritten hat. Die höchste Punktzahl gewinnt. Unentschieden sind möglich.\n\nBei der Berechnung von Biscuits kann eine einzelne Karte nicht mehr als einmal gezählt werden. Wenn beispielsweise die Wurzelkarte eine 6 ist und das Ende der Hauptlinie ebenfalls eine 6 ist (eine Kreuzkarte) und Sie eine 6 über dieser Kreuzkarte spielen, erzielen Sie das \"Hot Cross Biscuit\" (Ober- und Unterseite der Kreuzlinie stimmen überein), aber Sie erhalten nicht *zusätzlich* ein reguläres \"Biscuit\" für das Übereinstimmen mit dem Ende der Hauptlinie (da es sich um dieselbe Karte handelt). Darüber hinaus werden Kreuzlinien überhaupt nicht gezählt, es sei denn, die Linie besteht aus mindestens zwei Karten. Das Ausspielen einer neuen Kreuzkarte (in unserem Beispiel einer 6) bringt Ihnen also nicht automatisch ein \"Biscuit\" ein (das Ausspielen einer Karte auf der Hauptlinie, die mit einer Kreuzlinie übereinstimmt).\n\nWeitere Informationen zum Decktet-System finden Sie auf der [offiziellen Decktet-Website](https://www.decktet.com). Karten auf den Händen der Spieler sind vor Zuschauern und Gegnern verborgen.",
     "blooms": "Der Schwellenwert ist X(n) = 5n, wobei n die Basis des Hexhex-Bretts ist (z. B. hat das Standardbrett die Basis 6, sodass der Schwellenwert 30 beträgt).",
     "btt": "Ungewöhnliche Spielerzahlen (3, 5 oder 6) werden unterstützt, jedoch auf einem normalen rechteckigen Brett entsprechender Größe anstelle eines Martian-Chess-Bretts.",
@@ -4984,6 +4986,10 @@
     "GROUPCOUNT": "Gruppenanzahl",
     "GROUPSIZES": "Gruppengrößen",
     "jacynth": "Einflussmarker",
+    "bashni": {
+      "STEPS": "Manövrierfähigkeit",
+      "MATERIAL": "Material"
+    },
     "lasca": {
       "STEPS": "Beweglichkeit",
       "MATERIAL": "Material"
@@ -6622,6 +6628,11 @@
       "AMBIGUOUS": "Mehrdeutige Züge (Züge, die von beiden aktiven Seiten gleichzeitig eingesetzt werden könnten) sind verboten.",
       "SIMULTANEOUS": "Züge, die gleichzeitig Gewinnlinien für beide Spieler erzeugen würden, sind nicht erlaubt.",
       "ACTIVE": "Figuren müssen von einer der aktiven Seiten des Brettes eingesetzt werden und über bestehende Figuren bis zum ersten leeren Feld gleiten."
+    },
+    "bashni": {
+      "INITIAL_INSTRUCTIONS": "Wählen Sie einen Stapel mit Ihrem Stein obenauf, um zu ziehen.",
+      "INVALID_MOVE": "Der Zug scheint nicht legal zu sein. Schlagen ist Pflicht, und Sie müssen fortfahren, solange weitere Schlagzüge möglich sind.",
+      "VALID_PARTIAL": "Wählen Sie ein Ziel. Schlagen ist Pflicht, und Sie müssen fortfahren, solange weitere Schlagzüge möglich sind."
     },
     "lasca": {
       "INITIAL_INSTRUCTIONS": "Wähle einen Stapel mit deiner Figur obenauf, um ihn zu bewegen.",

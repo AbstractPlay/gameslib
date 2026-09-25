@@ -103,10 +103,6 @@
     "src": "A territory-control game where directional pieces navigate a subdivided board to claim cells.",
     "out": "Un juego de control territorial donde piezas direccionales navegan por un tablero subdividido para reclamar casillas."
   },
-  "descriptions.baghchal": {
-    "src": "A traditional asymmetric two-player game from Nepal. The tiger player tries to capture 5 goats by jumping across them, the goat player tries to immobilize all tigers.",
-    "out": "Un juego tradicional asimétrico para dos jugadores originario de Nepal. El jugador tigre intenta capturar 5 cabras saltando sobre ellas; el jugador cabra intenta inmovilizar a todos los tigres."
-  },
   "descriptions.bamboo": {
     "src": "Place stones such that no group has more pieces than the number of your groups on the board. Then, be the last player able to move.",
     "out": "Coloca piedras de tal manera que ningún grupo tenga más piezas que el número total de tus grupos en el tablero. Luego, sé el último jugador capaz de mover."
@@ -118,6 +114,10 @@
   "descriptions.basalt": {
     "src": "A triangular connection game played on the side of a volcano, where lava and basalt vye to connect the three sides first.",
     "out": "Un juego de conexión triangular en la ladera de un volcán, donde la lava y el basalto compiten por conectar primero los tres lados."
+  },
+  "descriptions.bashni": {
+    "src": "A traditional Russian column draughts game on an 8×8 board. Captured pieces are placed under the jumper instead of leaving the board.",
+    "out": "Un juego tradicional ruso de damas en columna en un tablero de 8×8. Las piezas capturadas se colocan debajo de la pieza que salta en lugar de salir del tablero."
   },
   "descriptions.bide": {
     "src": "Up to six players take turns placing pieces on the board, pushing adjacent pieces outward. One can also pass to build up a number of pieces that can be placed at once later. Pieces closer to the centre are more valuable. Highest-scoring group wins!",
@@ -2223,6 +2223,10 @@
     "src": "Basalt",
     "out": "Basalt"
   },
+  "names.bashni": {
+    "src": "Bashni",
+    "out": "Bashni"
+  },
   "names.bide": {
     "src": "Bide",
     "out": "Bide"
@@ -3295,6 +3299,10 @@
     "src": "Moves in Bao can be very complex, involving multiple laps around the board and changing directions. The annotations are, therefore, sparse. The initial cell and direction are highlighted, and captured cells are also marked. But detailed annotation of movement is not possible. If you believe you have encountered a bug, please let us know in Discord.",
     "out": "Los movimientos en Bao pueden ser muy complejos, e incluyen varias vueltas alrededor del tablero y cambios de dirección. Por lo tanto, las anotaciones son escasas. La casilla inicial y la dirección están resaltadas, y las casillas capturadas también están marcadas. Sin embargo, no es posible realizar una anotación detallada del movimiento. Si crees que has encontrado un error, por favor avísanos en Discord."
   },
+  "notes.bashni": {
+    "src": "Maneuverability is a measure of how close your stacks are to crowning. Your maximum maneuverability is the board size times the number of stacks you control.\n\nMaterial is calculated by giving you a point for every friendly piece in a stack you control, plus an extra point if you have a king on top of that stack.",
+    "out": "La maniobrabilidad es una medida de qué tan cerca están tus pilas de coronarse. Tu maniobrabilidad máxima es el tamaño del tablero multiplicado por la cantidad de pilas que controlas.\n\nEl material se calcula otorgándote un punto por cada pieza aliada en una pila que controles, más un punto adicional si tienes una dama en la parte superior de esa pila."
+  },
   "notes.biscuit": {
     "src": "Game ends when, at the end of a round, someone has reached or surpassed the target score. Highest score wins. Draws are possible.\n\nWhen calculating biscuits, a single card cannot be counted more than once. For example, if the root card is a 6, and the end of the main line is also a 6 (a cross card), and you play a 6 above that cross card, you score the \"hot cross biscuit\" (top and bottom of the cross line match) but you don't *also* get a regular \"biscuit\" for matching the end of the main line (they're both the same card). Furthermore, cross lines don't get counted at all unless there are at least two cards in the line. So playing a new cross card (in our example, a 6) does not automatically score you a \"biscuit\" (playing a card on the main line that matches a cross line).\n\nMore information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers and opponents.",
     "out": "El juego termina cuando, al final de una ronda, alguien alcanza o supera la puntuación objetivo. Gana la puntuación más alta. Los empates son posibles.\n\nAl calcular los biscuits, una sola carta no se puede contar más de una vez. Por ejemplo, si la carta raíz es un 6 y el final de la línea principal también es un 6 (una carta de cruz), y juegas un 6 sobre esa carta de cruz, obtienes la puntuación de \"hot cross biscuit\" (coinciden la parte superior e inferior de la línea de la cruz), pero no obtienes *además* un \"biscuit\" regular por coincidir con el final de la línea principal (es la misma carta). Además, las líneas cruzadas no se cuentan en absoluto a menos que haya al menos dos cartas en la línea. Por lo tanto, jugar una nueva carta de cruz (en nuestro ejemplo, un 6) no te otorga automáticamente un \"biscuit\" (jugar una carta en la línea principal que coincida con una línea cruzada).\n\nPuedes encontrar más información sobre el sistema Decktet en el [sitio web oficial de Decktet](https://www.decktet.com). Las cartas en las manos de los jugadores están ocultas para los observadores y oponentes."
@@ -3790,6 +3798,14 @@
   "status.bao.BALANCE": {
     "src": "Material balance",
     "out": "Balance de material"
+  },
+  "status.bashni.MATERIAL": {
+    "src": "Material",
+    "out": "Material"
+  },
+  "status.bashni.STEPS": {
+    "src": "Maneuverability",
+    "out": "Maniobrabilidad"
   },
   "status.blam.NUMPIECES_one": {
     "src": "{{count}} piece",
@@ -5418,6 +5434,18 @@
   "validation.basalt.PIE_TWO_FOUR": {
     "src": "You may not place more than four pieces when offering pie.",
     "out": "No puedes colocar más de cuatro piezas al ofrecer la regla del pastel."
+  },
+  "validation.bashni.INITIAL_INSTRUCTIONS": {
+    "src": "Select a stack with your piece on top to move.",
+    "out": "Selecciona una pila con tu pieza en la parte superior para mover."
+  },
+  "validation.bashni.INVALID_MOVE": {
+    "src": "The move does not appear to be legal. Capturing is compulsory, and you must continue as long as further captures are possible.",
+    "out": "El movimiento no parece ser legal. Capturar es obligatorio, y debes continuar mientras sea posible realizar más capturas."
+  },
+  "validation.bashni.VALID_PARTIAL": {
+    "src": "Select a destination. Capturing is compulsory, and you must continue as long as further captures are possible.",
+    "out": "Selecciona un destino. Capturar es obligatorio, y debes continuar mientras sea posible realizar más capturas."
   },
   "validation.bide.EMPTY_HAND": {
     "src": "You have no more pieces to place.",

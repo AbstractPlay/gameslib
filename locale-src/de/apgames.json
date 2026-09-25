@@ -103,10 +103,6 @@
     "src": "A territory-control game where directional pieces navigate a subdivided board to claim cells.",
     "out": "Ein Gebietskontrollspiel, bei dem richtungsgebundene Steine über ein unterteiltes Brett navigieren, um Felder zu beanspruchen."
   },
-  "descriptions.baghchal": {
-    "src": "A traditional asymmetric two-player game from Nepal. The tiger player tries to capture 5 goats by jumping across them, the goat player tries to immobilize all tigers.",
-    "out": "Ein traditionelles asymmetrisches Zwei-Spieler-Spiel aus Nepal. Die Tiger versuchen, 5 Ziegen durch Überspringen zu schlagen; die Ziegen versuchen, alle Tiger bewegungsunfähig zu machen."
-  },
   "descriptions.bamboo": {
     "src": "Place stones such that no group has more pieces than the number of your groups on the board. Then, be the last player able to move.",
     "out": "Platziere Steine so, dass keine Gruppe mehr Steine hat als die Anzahl deiner Gruppen auf dem Brett. Sei dann der letzte Spieler, der noch ziehen kann."
@@ -118,6 +114,10 @@
   "descriptions.basalt": {
     "src": "A triangular connection game played on the side of a volcano, where lava and basalt vye to connect the three sides first.",
     "out": "Ein dreieckiges Verbindungsspiel an der Flanke eines Vulkans, bei dem Lava und Basalt darum wetteifern, die drei Seiten zuerst zu verbinden."
+  },
+  "descriptions.bashni": {
+    "src": "A traditional Russian column draughts game on an 8×8 board. Captured pieces are placed under the jumper instead of leaving the board.",
+    "out": "Ein traditionelles russisches Säulendamespiel auf einem 8×8-Brett. Geschlagene Steine werden unter den schlagenden Stein gelegt, anstatt das Brett zu verlassen."
   },
   "descriptions.bide": {
     "src": "Up to six players take turns placing pieces on the board, pushing adjacent pieces outward. One can also pass to build up a number of pieces that can be placed at once later. Pieces closer to the centre are more valuable. Highest-scoring group wins!",
@@ -2223,6 +2223,10 @@
     "src": "Basalt",
     "out": "Basalt"
   },
+  "names.bashni": {
+    "src": "Bashni",
+    "out": "Bashni"
+  },
   "names.bide": {
     "src": "Bide",
     "out": "Bide"
@@ -3295,6 +3299,10 @@
     "src": "Moves in Bao can be very complex, involving multiple laps around the board and changing directions. The annotations are, therefore, sparse. The initial cell and direction are highlighted, and captured cells are also marked. But detailed annotation of movement is not possible. If you believe you have encountered a bug, please let us know in Discord.",
     "out": "Züge in Bao können sehr komplex sein, mit mehreren Runden um das Brett und Richtungswechseln. Die Notation ist daher spärlich. Das Startfeld und die Richtung werden hervorgehoben, ebenso wie geschlagene Felder. Eine detaillierte Notation der Bewegungen ist jedoch nicht möglich. Wenn Sie glauben, auf einen Fehler gestoßen zu sein, teilen Sie uns dies bitte auf Discord mit."
   },
+  "notes.bashni": {
+    "src": "Maneuverability is a measure of how close your stacks are to crowning. Your maximum maneuverability is the board size times the number of stacks you control.\n\nMaterial is calculated by giving you a point for every friendly piece in a stack you control, plus an extra point if you have a king on top of that stack.",
+    "out": "Die Manövrierfähigkeit ist ein Maß dafür, wie nah Ihre Stapel an der Beförderung sind. Ihre maximale Manövrierfähigkeit ist die Brettgröße multipliziert mit der Anzahl der von Ihnen kontrollierten Stapel.\n\nDas Material wird berechnet, indem Sie für jeden eigenen Stein in einem von Ihnen kontrollierten Stapel einen Punkt erhalten, plus einen zusätzlichen Punkt, wenn sich eine Dame oben auf diesem Stapel befindet."
+  },
   "notes.biscuit": {
     "src": "Game ends when, at the end of a round, someone has reached or surpassed the target score. Highest score wins. Draws are possible.\n\nWhen calculating biscuits, a single card cannot be counted more than once. For example, if the root card is a 6, and the end of the main line is also a 6 (a cross card), and you play a 6 above that cross card, you score the \"hot cross biscuit\" (top and bottom of the cross line match) but you don't *also* get a regular \"biscuit\" for matching the end of the main line (they're both the same card). Furthermore, cross lines don't get counted at all unless there are at least two cards in the line. So playing a new cross card (in our example, a 6) does not automatically score you a \"biscuit\" (playing a card on the main line that matches a cross line).\n\nMore information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers and opponents.",
     "out": "Das Spiel endet, wenn am Ende einer Runde jemand die Zielpunktzahl erreicht oder überschritten hat. Die höchste Punktzahl gewinnt. Unentschieden sind möglich.\n\nBei der Berechnung von Biscuits kann eine einzelne Karte nicht mehr als einmal gezählt werden. Wenn beispielsweise die Wurzelkarte eine 6 ist und das Ende der Hauptlinie ebenfalls eine 6 ist (eine Kreuzkarte) und Sie eine 6 über dieser Kreuzkarte spielen, erzielen Sie das \"Hot Cross Biscuit\" (Ober- und Unterseite der Kreuzlinie stimmen überein), aber Sie erhalten nicht *zusätzlich* ein reguläres \"Biscuit\" für das Übereinstimmen mit dem Ende der Hauptlinie (da es sich um dieselbe Karte handelt). Darüber hinaus werden Kreuzlinien überhaupt nicht gezählt, es sei denn, die Linie besteht aus mindestens zwei Karten. Das Ausspielen einer neuen Kreuzkarte (in unserem Beispiel einer 6) bringt Ihnen also nicht automatisch ein \"Biscuit\" ein (das Ausspielen einer Karte auf der Hauptlinie, die mit einer Kreuzlinie übereinstimmt).\n\nWeitere Informationen zum Decktet-System finden Sie auf der [offiziellen Decktet-Website](https://www.decktet.com). Karten auf den Händen der Spieler sind vor Zuschauern und Gegnern verborgen."
@@ -3790,6 +3798,14 @@
   "status.bao.BALANCE": {
     "src": "Material balance",
     "out": "Materialbilanz"
+  },
+  "status.bashni.MATERIAL": {
+    "src": "Material",
+    "out": "Material"
+  },
+  "status.bashni.STEPS": {
+    "src": "Maneuverability",
+    "out": "Manövrierfähigkeit"
   },
   "status.blam.NUMPIECES_one": {
     "src": "{{count}} piece",
@@ -5418,6 +5434,18 @@
   "validation.basalt.PIE_TWO_FOUR": {
     "src": "You may not place more than four pieces when offering pie.",
     "out": "Du darfst beim Erstellen des Pie-Angebots nicht mehr als vier Steine platzieren."
+  },
+  "validation.bashni.INITIAL_INSTRUCTIONS": {
+    "src": "Select a stack with your piece on top to move.",
+    "out": "Wählen Sie einen Stapel mit Ihrem Stein obenauf, um zu ziehen."
+  },
+  "validation.bashni.INVALID_MOVE": {
+    "src": "The move does not appear to be legal. Capturing is compulsory, and you must continue as long as further captures are possible.",
+    "out": "Der Zug scheint nicht legal zu sein. Schlagen ist Pflicht, und Sie müssen fortfahren, solange weitere Schlagzüge möglich sind."
+  },
+  "validation.bashni.VALID_PARTIAL": {
+    "src": "Select a destination. Capturing is compulsory, and you must continue as long as further captures are possible.",
+    "out": "Wählen Sie ein Ziel. Schlagen ist Pflicht, und Sie müssen fortfahren, solange weitere Schlagzüge möglich sind."
   },
   "validation.bide.EMPTY_HAND": {
     "src": "You have no more pieces to place.",

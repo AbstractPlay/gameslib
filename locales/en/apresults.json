@@ -279,6 +279,7 @@
     },
     "ELIMINATED": "{{player}} was eliminated.",
     "EOG": {
+        "bashni_stagnation": "The game has ended in a draw because the piece count and composition were unchanged for {{count}} consecutive moves.",
         "buku_singletons": "The game has ended because all cells contain only singletons.",
         "camelot_claim_draw_repetition": "The game has ended because {{player}} has claimed a draw by repetition.",
         "camelot_claim_draw_progression": "The game has ended because {{player}} has claimed a draw by the 50 move rule.",

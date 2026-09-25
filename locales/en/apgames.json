@@ -22,9 +22,9 @@
         "attangle": "Attangle is the final entry in Dieter Stein's stacking trilogy. Place and move pieces to build stacks. First person to build three triple stacks wins. The \"Grand Attangle\" variant is also implemented.",
         "ayu": "Unification game where snaky groups of pieces crawl toward their friends and eventually coalesce. If you cannot make a move on your turn, you win. This occurs when you have only one group or there is no free path between any of your groups.",
         "azacru": "A territory-control game where directional pieces navigate a subdivided board to claim cells.",
-        "baghchal": "A traditional asymmetric two-player game from Nepal. The tiger player tries to capture 5 goats by jumping across them, the goat player tries to immobilize all tigers.",
         "bamboo": "Place stones such that no group has more pieces than the number of your groups on the board. Then, be the last player able to move.",
         "bao": "A traditional mancala-style sowing game from East Africa where you attempt to eliminate all pieces from the opposing front row or leave them with no legal moves.",
+        "bashni": "A traditional Russian column draughts game on an 8×8 board. Captured pieces are placed under the jumper instead of leaving the board.",
         "basalt": "A triangular connection game played on the side of a volcano, where lava and basalt vye to connect the three sides first.",
         "bide": "Up to six players take turns placing pieces on the board, pushing adjacent pieces outward. One can also pass to build up a number of pieces that can be placed at once later. Pieces closer to the centre are more valuable. Highest-scoring group wins!",
         "biscuit": "A domino-style Decktet game where you play cards to immediately score points and try to be the first to play all the cards in your hand. A game is played over multiple rounds to a specified target.",
@@ -169,6 +169,7 @@
         "nakatta": "A square connection game where two specific piece configurations are forbidden.",
         "narrows": "Link all your pieces by empty regions.",
         "necklace": "An orthogonal-only square connection game where you try to connect your sides of the board. Crosscut formations are illegal, and every free space must always have a path to an edge.",
+        "neutron": "Slide the neutral neutron and one of your pawns each turn. Pieces move in straight lines as far as they can. Win by bringing the neutron to the correct back row, or by leaving your opponent unable to complete a turn.",
         "nex": "Nex (or Neutral Hex) is a variant of the Hex connection game where there are neutral pieces. On your turn, you may either (1) place a piece of your colour and a neutral colour on an empty space, or (2) swap two neutral pieces to your colour and one of your piece to the neutral colour.",
         "omny": "Generalized connection game where players try to split star cells into different regions so that no single region contains a majority of star cells.",
         "onager": "In Onager each player tries to reach the opponent's back rank. Onager is named after a Roman siege engine that is a type of catapult, as the way the pieces move resembles how projectiles are hurled forward with this device.",
@@ -320,6 +321,7 @@
         "baghchal": "Bagh Chal",
         "bamboo": "Bamboo",
         "bao": "Bao",
+        "bashni": "Bashni",
         "basalt": "Basalt",
         "bide": "Bide",
         "biscuit": "Biscuit",
@@ -464,6 +466,7 @@
         "nakatta": "Nakatta",
         "narrows": "Narrows",
         "necklace": "Necklace",
+        "neutron": "Neutron",
         "nex": "Nex",
         "omny": "Omny",
         "onager": "Onager",
@@ -591,6 +594,7 @@
         "armadas": "There are known issues with this game on iOS devices.\n\nThis game offers two scenarios:\n\n* The default is each player having two trios of pieces. In the placement phase, each player must place 1 to 3 ships until all ships are placed.\n* The \"Freeform\" variant allows you to place whatever ships you want (maximum of three at a time) until both players \"pass.\" This lets you create unbalanced or otherwise asymmetrical fleets.\n\nGames default to having one island in the centre of the field. Both a \"no islands\" and a \"two islands\" variant are available. You cannot move or fire through islands. To successfully hit a ship, at least one corner of your ship's triangle must have a clear view of at least one corner of the target ship.\n\nRemember that it is possible to get your ship in a position against an island or the edge of the board such that you can no longer move that ship! Be careful!",
         "ataxx": "On three-fold repetition, the game ends and the scores are calculated.",
         "bao": "Moves in Bao can be very complex, involving multiple laps around the board and changing directions. The annotations are, therefore, sparse. The initial cell and direction are highlighted, and captured cells are also marked. But detailed annotation of movement is not possible. If you believe you have encountered a bug, please let us know in Discord.",
+        "bashni": "Maneuverability is a measure of how close your stacks are to crowning. Your maximum maneuverability is the board size times the number of stacks you control.\n\nMaterial is calculated by giving you a point for every friendly piece in a stack you control, plus an extra point if you have a king on top of that stack.",
         "biscuit": "Game ends when, at the end of a round, someone has reached or surpassed the target score. Highest score wins. Draws are possible.\n\nWhen calculating biscuits, a single card cannot be counted more than once. For example, if the root card is a 6, and the end of the main line is also a 6 (a cross card), and you play a 6 above that cross card, you score the \"hot cross biscuit\" (top and bottom of the cross line match) but you don't *also* get a regular \"biscuit\" for matching the end of the main line (they're both the same card). Furthermore, cross lines don't get counted at all unless there are at least two cards in the line. So playing a new cross card (in our example, a 6) does not automatically score you a \"biscuit\" (playing a card on the main line that matches a cross line).\n\nMore information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers and opponents.",
         "blooms": "The threshold value is X(n) = 5n, where n is the base of the hexhex board (e.g., the default board is base 6, so the threshold is 30).",
         "btt": "Unusual numbers of players (3, 5, or 6) are supported, but on a normal rectangular board of an appropriate size rather than a Martian Chessboard.",
@@ -638,6 +642,7 @@
         "mirador": "Declaring takes your entire turn. Complete your unassailable connection first, then declare on your next turn; you cannot place a mirador and declare on the same turn.",
         "murus": "The default ruleset is \"Advanced Murus Gallicus\" (with catapults). By default, your first move is to redistribute one of your starting towers as walls on your second row. Additionally, the standard pie rule is also available. There are three variants you can mix and match:\n\n* \"Basic\" reverts the game to the \"no catapult\" state.\n* \"Static\" disables the initial tower redistribution.\n* \"Escape\" eliminates the breakthrough win condition.",
         "mutternland": "Mutternland was designed by Hartmut Witt in 1997. This implementation deals differently with the initial piece placements. While the original game had players, in the setup, place one _enemy_ piece per turn, here players place one friendly piece and then one opponent piece (including some restrictions to prevent unbalanced starts due to the random generation of the playing field). This makes the setup faster and provides some control of the player's own pieces. Also, pushed-off pieces, which go back to the player's reserve, are placed again by the owner.",
+        "neutron": "Each turn (except White's first turn in standard Neutron) consists of sliding the neutron, then sliding one of your pawns. All pieces slide in straight lines as far as possible without jumping. **CoNeutron** swaps the winning row to your opponent's back rank and removes White's pawn-only opening.\n\n**Mobility** restrictions apply to pawn moves only. With **restricted** mobility, pawns may not land on the opponent's home row. With **double restricted** mobility, pawns also may not re-enter their own home row after leaving it; pawns still on the home row may slide along that row.\n\nMoves are notated `neutronDest,pawnFrom-pawnTo`, or `pawnFrom-pawnTo` on White's first turn in standard Neutron. A winning neutron slide alone is notated as just the destination cell.",
         "narrows": "Narrows, designed by Mark Steere in 2026, is an unification game inspired by the ancient Hawiian game of Kōnane. True to the spirit of Kōnane, Ūnane begins with a checkerboard pattern of stones and is extremely simple. In this case, the unification goal includes the use of orthogonal paths of empty cells to connect different groups of friendly pieces.",
         "oonpia": "Either use the legend to select a piece, or click the same location multiple times to cycle through all possible pieces. Blocked cells are highlighted: a translucent dot means only a dotted stone can be placed there (i.e. blocked for plain pieces), a translucent piece means only a plain piece can be placed there (i.e. blocked for dotted pieces). If both highlights are present, then the cell is blocked for all pieces.",
         "oware": "This implementation follows the common tournament rule that grand slam moves are allowed, but no pieces are captured. Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
@@ -832,6 +837,10 @@
             "standard-14": {
                 "description": "A larger version of the standard board.",
                 "name": "Triangle (14 wide)"
+            },
+            "star-11": {
+                "name": "Star (11 wide)",
+                "description": "Pentagonal star board. Connect any three outer sides that form a legal Y, or four or more sides."
             }
         },
         "akimbo": {
@@ -2788,6 +2797,35 @@
                 "name": "15x16 board"
             }
         },
+        "neutron": {
+            "#board": {
+                "name": "5×5 board"
+            },
+            "5x7": {
+                "name": "5×7 board"
+            },
+            "7x5": {
+                "name": "7×5 board"
+            },
+            "7x7": {
+                "name": "7×7 board"
+            },
+            "coneutron": {
+                "name": "CoNeutron",
+                "description": "Win by moving the neutron to your opponent's back row. White moves the neutron on the first turn."
+            },
+            "#mobility": {
+                "name": "No restrictions"
+            },
+            "restricted": {
+                "name": "Restricted mobility",
+                "description": "Pawns may not land on the opponent's home row."
+            },
+            "doubleRestricted": {
+                "name": "Double restricted mobility",
+                "description": "Pawns may not land on either home row, except that pawns still on their own home row may slide along it."
+            }
+        },
         "nex": {
             "#board": {
                 "name": "11x11 board"
@@ -4275,6 +4313,10 @@
             "bent": {
                 "name": "Bent board"
             },
+            "star": {
+                "name": "Star board",
+                "description": "Pentagonal star board. The usual commercial size is 11 (use the board size variant to change segment count). Connect any three outer sides that form a legal Y, or four or more sides."
+            },
             "#ruleset": {
                 "name": "Y standard rules"
             },
@@ -4537,9 +4579,21 @@
             }
         },
         "icepalace": {
-            "expanding": {
+            "#areas": {
+                "description": "Hand and Pool seen from above, in two dimensions.",
+                "name": "Top-down hand and Pool"
+            },
+            "#board": {
                 "description": "Two dimensional board, with stacks expanding when hovered over.",
                 "name": "Expanding"
+            },
+            "perspective": {
+                "description": "Three dimensional board, with pyramids stacked in perspective.",
+                "name": "3D stacks"
+            },
+            "perspective-areas": {
+                "description": "Hand and Pool in three dimensions, with the pyramids drawn in perspective.",
+                "name": "3D hand and Pool"
             }
         },
         "intermedium": {
@@ -4972,6 +5026,10 @@
         "GROUPCOUNT": "Group count",
         "GROUPSIZES": "Group sizes",
         "jacynth": "Influence tokens",
+        "bashni": {
+            "STEPS": "Maneuverability",
+            "MATERIAL": "Material"
+        },
         "lasca": {
             "STEPS": "Maneuverability",
             "MATERIAL": "Material"
@@ -4983,6 +5041,10 @@
         "meg": {
             "OFFENSE": "Offensive player",
             "COUNTDOWN": "Plies remaining"
+        },
+        "mvolcano": {
+            "PYRAMIDSCAPTURED": "Pyramids captured",
+            "UNCAPTUREDCOLOURS": "Colours not yet captured"
         },
         "pacru": {
             "TARGET": "Tiles to win",
@@ -5005,6 +5067,10 @@
         "RESERVE": "Reserve",
         "SCORES": "Scores",
         "STACKSIZES": "Stack heights",
+        "tintas": {
+            "MAJORITIES": "Majorities won",
+            "MONOCHROME": "Monochrome potential"
+        },
         "tumbleweed": "Score (pieces + influence)",
         "ESTIMATEDSCORES": "Estimated scores",
         "killallgo": {
@@ -6603,6 +6669,11 @@
             "SIMULTANEOUS": "Moves that would create winning lines for both players simultaneously are not allowed.",
             "ACTIVE": "Pieces must be entered from one of the active sides of the board, sliding over existing pieces to the first empty square."
         },
+        "bashni": {
+            "INITIAL_INSTRUCTIONS": "Select a stack with your piece on top to move.",
+            "INVALID_MOVE": "The move does not appear to be legal. Capturing is compulsory, and you must continue as long as further captures are possible.",
+            "VALID_PARTIAL": "Select a destination. Capturing is compulsory, and you must continue as long as further captures are possible."
+        },
         "lasca": {
             "INITIAL_INSTRUCTIONS": "Select a stack with your piece on top to move.",
             "INVALID_MOVE": "The move does not appear to be legal. Capturing is compulsory, and you must continue as long as further captures are possible.",
@@ -6915,6 +6986,15 @@
             "BLOCKS_PATH": "Placement at {{where}} blocks the only path of some free spaces to the edge.",
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece.",
             "NO_CROSSINGS": "Placement at {{where}} will create a crosscut."
+        },
+        "neutron": {
+            "INCOMPLETE": "You must complete both parts of the turn (or end the game with a winning neutron move).",
+            "INITIAL_INSTRUCTIONS": "Select where to slide the neutron, or on White's first turn in standard Neutron, select a pawn to move.",
+            "INVALID_NEUTRON": "The neutron cannot slide to that cell.",
+            "NEUTRON_FIRST": "Slide the neutron first, then select one of your pawns.",
+            "PAWN_DEST": "Select where to slide that pawn.",
+            "PAWN_SELECT": "Select one of your pawns to move.",
+            "SELECT_OWN_PAWN": "You may only move your own pawns."
         },
         "nex": {
             "EDGE_CASE_ONE_EMPTY_NEUTRAL": "There is only one empty cell so you may not make a placement. You should make swap moves instead.",

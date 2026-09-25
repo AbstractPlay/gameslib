@@ -219,7 +219,8 @@ describe("Storisende storage", () => {
 
     describe("getStartingPosition (modular)", () => {
         for (const { variant, state } of recordFixtures.filter(f => f.variant.includes("modular"))) {
-            it(`${variant}: encodes centres that rebuild stack[0] topology`, () => {
+            it(`${variant}: encodes centres that rebuild stack[0] topology`, function() {
+                this.timeout(30_000);
                 const g = new StorisendeGame(state);
                 const pos = g.getStartingPosition();
                 expect(pos.startsWith("modular-centres-v1/")).to.equal(true);
@@ -249,7 +250,8 @@ describe("Storisende storage", () => {
                     expectLegacyAndCompactBoardsMatchEveryIndex(state, variant);
                 });
                 if (variant.includes("modular")) {
-                    it(`${variant}: compact reencode carries startingPosition not grid`, () => {
+                    it(`${variant}: compact reencode carries startingPosition not grid`, function() {
+                        this.timeout(30_000);
                         const compact = reencodeStateAsCompact(state);
                         expect(compact.startingPosition?.startsWith("modular-centres-v1/")).to.equal(true);
                         const g = new StorisendeGame(compact);

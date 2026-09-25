@@ -10,3 +10,15 @@ export const STAR_DEFAULT_FREQUENCY = 10;
 export const starFrequencyFromWidth = (width: number): number => width - 1;
 
 export const starBoard = (frequency: number): Graph => new Graph(frequency);
+
+export {
+    starOuterSides,
+    starSidesForCell,
+    starSidesAdjacent,
+    isStarYTripleValid,
+    starHasYWin,
+    starTouchedSides,
+    starPickWitnessTriple,
+    starBuildConnPath,
+    starBuildConnPathForWin,
+} from "./yWin.js";

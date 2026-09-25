@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogEntry, type ChatLogLine, type RenderLabel } from "./_base.js";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogEntry, type ChatLogLine, type RenderLabel, type StatusValue } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaStackingExpanded, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -1008,7 +1008,17 @@ export class MvolcanoGame extends GameBase {
     }
 
     public sidebarScores(): IScores[] {
-        return [{ name: this.neutralAreaLabel("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }]
+        // The non-white colours each player has yet to capture (capturing all seven ends
+        // the game), drawn in their customisable colours in palette order.
+        const missing = ([1, 2] as playerid[]).map(player => {
+            const capped = new Set<string>(this.captured[player - 1].map(p => p[0]));
+            return allColours.filter(c => !capped.has(c)).map(c => ({ glyph: "piece", colour: allColours.indexOf(c) + 1 }) as StatusValue);
+        });
+        return [
+            { name: this.neutralAreaLabel("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
+            { name: this.neutralAreaLabel("apgames:status.mvolcano.UNCAPTUREDCOLOURS"), scores: missing, spoiler: true },
+            { name: this.neutralAreaLabel("apgames:status.mvolcano.PYRAMIDSCAPTURED"), scores: [this.captured[0].length, this.captured[1].length], spoiler: true },
+        ]
     }
 
     protected recordExportExclude(): string[] {

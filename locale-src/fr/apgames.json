@@ -103,10 +103,6 @@
     "src": "A territory-control game where directional pieces navigate a subdivided board to claim cells.",
     "out": "Un jeu de contrôle de territoire où des pièces directionnelles arpentent un plateau subdivisé pour revendiquer des cases."
   },
-  "descriptions.baghchal": {
-    "src": "A traditional asymmetric two-player game from Nepal. The tiger player tries to capture 5 goats by jumping across them, the goat player tries to immobilize all tigers.",
-    "out": "Un jeu traditionnel asymétrique à deux joueurs originaire du Népal. Le joueur jouant les tigres tente de capturer 5 chèvres en sautant par-dessus, tandis que le joueur jouant les chèvres cherche à immobiliser tous les tigres."
-  },
   "descriptions.bamboo": {
     "src": "Place stones such that no group has more pieces than the number of your groups on the board. Then, be the last player able to move.",
     "out": "Placez des pierres de manière à ce qu'aucun groupe n'ait plus de pièces que le nombre de vos groupes sur le plateau. Ensuite, soyez le dernier joueur en mesure de jouer."
@@ -118,6 +114,10 @@
   "descriptions.basalt": {
     "src": "A triangular connection game played on the side of a volcano, where lava and basalt vye to connect the three sides first.",
     "out": "Un jeu de connexion triangulaire joué sur le flanc d'un volcan, où la lave et le basalte rivalisent pour relier les trois côtés en premier."
+  },
+  "descriptions.bashni": {
+    "src": "A traditional Russian column draughts game on an 8×8 board. Captured pieces are placed under the jumper instead of leaving the board.",
+    "out": "Un jeu traditionnel de dames russes à colonnes sur un plateau de 8×8. Les pièces capturées sont placées sous la pièce capturante au lieu de quitter le plateau."
   },
   "descriptions.bide": {
     "src": "Up to six players take turns placing pieces on the board, pushing adjacent pieces outward. One can also pass to build up a number of pieces that can be placed at once later. Pieces closer to the centre are more valuable. Highest-scoring group wins!",
@@ -690,6 +690,10 @@
   "descriptions.necklace": {
     "src": "An orthogonal-only square connection game where you try to connect your sides of the board. Crosscut formations are illegal, and every free space must always have a path to an edge.",
     "out": "Un jeu de connexion sur grille carrée exclusivement orthogonal où vous tentez de relier vos côtés du plateau. Les configurations en coupe croisée sont interdites, et chaque espace libre doit toujours avoir un chemin vers un bord."
+  },
+  "descriptions.neutron": {
+    "src": "Slide the neutral neutron and one of your pawns each turn. Pieces move in straight lines as far as they can. Win by bringing the neutron to the correct back row, or by leaving your opponent unable to complete a turn.",
+    "out": "Faites glisser le neutron neutre et l'un de vos pions à chaque tour. Les pièces se déplacent en ligne droite aussi loin que possible. Gagnez en amenant le neutron sur la bonne ligne arrière, ou en laissant votre adversaire dans l'impossibilité de compléter son tour."
   },
   "descriptions.nex": {
     "src": "Nex (or Neutral Hex) is a variant of the Hex connection game where there are neutral pieces. On your turn, you may either (1) place a piece of your colour and a neutral colour on an empty space, or (2) swap two neutral pieces to your colour and one of your piece to the neutral colour.",
@@ -1503,13 +1507,37 @@
     "src": "Vertex style",
     "out": "Style aux sommets"
   },
-  "displays.icepalace.expanding.description": {
-    "src": "Two dimensional board, with stacks expanding when hovered over.",
-    "out": "Plateau en deux dimensions, avec des piles qui s'agrandissent au survol."
+  "displays.icepalace.#areas.description": {
+    "src": "Hand and Pool seen from above, in two dimensions.",
+    "out": "Main et réserve vues du dessus, en deux dimensions."
   },
-  "displays.icepalace.expanding.name": {
+  "displays.icepalace.#areas.name": {
+    "src": "Top-down hand and Pool",
+    "out": "Main et réserve en vue du dessus"
+  },
+  "displays.icepalace.#board.description": {
+    "src": "Two dimensional board, with stacks expanding when hovered over.",
+    "out": "Plateau en deux dimensions, avec des piles qui se déploient au survol."
+  },
+  "displays.icepalace.#board.name": {
     "src": "Expanding",
-    "out": "Extensible"
+    "out": "Déploiement"
+  },
+  "displays.icepalace.perspective-areas.description": {
+    "src": "Hand and Pool in three dimensions, with the pyramids drawn in perspective.",
+    "out": "Main et réserve en trois dimensions, avec les pyramides dessinées en perspective."
+  },
+  "displays.icepalace.perspective-areas.name": {
+    "src": "3D hand and Pool",
+    "out": "Main et réserve 3D"
+  },
+  "displays.icepalace.perspective.description": {
+    "src": "Three dimensional board, with pyramids stacked in perspective.",
+    "out": "Plateau en trois dimensions, avec les pyramides empilées en perspective."
+  },
+  "displays.icepalace.perspective.name": {
+    "src": "3D stacks",
+    "out": "Piles 3D"
   },
   "displays.intermedium.hide-diagonals.description": {
     "src": "Don't show diagonal lines.",
@@ -2199,6 +2227,10 @@
     "src": "Basalt",
     "out": "Basalt"
   },
+  "names.bashni": {
+    "src": "Bashni",
+    "out": "Bashni"
+  },
   "names.bide": {
     "src": "Bide",
     "out": "Bide"
@@ -2771,6 +2803,10 @@
     "src": "Necklace",
     "out": "Necklace"
   },
+  "names.neutron": {
+    "src": "Neutron",
+    "out": "Neutron"
+  },
   "names.nex": {
     "src": "Nex",
     "out": "Nex"
@@ -3271,6 +3307,10 @@
     "src": "Moves in Bao can be very complex, involving multiple laps around the board and changing directions. The annotations are, therefore, sparse. The initial cell and direction are highlighted, and captured cells are also marked. But detailed annotation of movement is not possible. If you believe you have encountered a bug, please let us know in Discord.",
     "out": "Les coups au Bao peuvent être très complexes, impliquant plusieurs tours du plateau et des changements de direction. Les annotations sont donc succinctes. La case initiale et la direction sont mises en évidence, et les cases capturées sont également marquées. Cependant, une annotation détaillée du déplacement n'est pas possible. Si vous pensez avoir rencontré un bug, veuillez nous en informer sur Discord."
   },
+  "notes.bashni": {
+    "src": "Maneuverability is a measure of how close your stacks are to crowning. Your maximum maneuverability is the board size times the number of stacks you control.\n\nMaterial is calculated by giving you a point for every friendly piece in a stack you control, plus an extra point if you have a king on top of that stack.",
+    "out": "La manoeuvrabilité mesure la proximité de vos piles avec la promotion. Votre manoeuvrabilité maximale est égale à la taille du plateau multipliée par le nombre de piles que vous contrôlez.\n\nLe matériel est calculé en vous accordant un point pour chaque pièce alliée dans une pile que vous contrôlez, plus un point supplémentaire si vous avez une dame au sommet de cette pile."
+  },
   "notes.biscuit": {
     "src": "Game ends when, at the end of a round, someone has reached or surpassed the target score. Highest score wins. Draws are possible.\n\nWhen calculating biscuits, a single card cannot be counted more than once. For example, if the root card is a 6, and the end of the main line is also a 6 (a cross card), and you play a 6 above that cross card, you score the \"hot cross biscuit\" (top and bottom of the cross line match) but you don't *also* get a regular \"biscuit\" for matching the end of the main line (they're both the same card). Furthermore, cross lines don't get counted at all unless there are at least two cards in the line. So playing a new cross card (in our example, a 6) does not automatically score you a \"biscuit\" (playing a card on the main line that matches a cross line).\n\nMore information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers and opponents.",
     "out": "La partie se termine lorsque, à la fin d'un tour, quelqu'un a atteint ou dépassé le score cible. Le score le plus élevé gagne. Les égalités sont possibles.\n\nLors du calcul des biscuits, une même carte ne peut pas être comptée plus d'une fois. Par exemple, si la carte racine est un 6, et que la fin de la ligne principale est aussi un 6 (une carte transversale), et que vous jouez un 6 au-dessus de cette carte transversale, vous marquez le \"hot cross biscuit\" (le haut et le bas de la ligne transversale correspondent) mais vous n'obtenez pas *en plus* un \"biscuit\" ordinaire pour avoir fait correspondre la fin de la ligne principale (c'est la même carte). De plus, les lignes transversales ne sont pas du tout comptabilisées s'il n'y a pas au moins deux cartes dans la ligne. Ainsi, jouer une nouvelle carte transversale (dans notre exemple, un 6) ne vous donne pas automatiquement un \"biscuit\" (jouer une carte sur la ligne principale qui correspond à une ligne transversale).\n\nPlus d'informations sur le système Decktet sont disponibles sur le [site officiel de Decktet](https://www.decktet.com). Les cartes dans les mains des joueurs sont cachées aux observateurs et aux adversaires."
@@ -3458,6 +3498,10 @@
   "notes.narrows": {
     "src": "Narrows, designed by Mark Steere in 2026, is an unification game inspired by the ancient Hawiian game of Kōnane. True to the spirit of Kōnane, Ūnane begins with a checkerboard pattern of stones and is extremely simple. In this case, the unification goal includes the use of orthogonal paths of empty cells to connect different groups of friendly pieces.",
     "out": "Narrows, conçu par Mark Steere en 2026, est un jeu d'unification inspiré de l'ancien jeu hawaïen Kōnane. Fidèle à l'esprit de Kōnane, Ūnane commence avec une disposition de pierres en damier et reste extrêmement simple. Dans ce cas, l'objectif d'unification inclut l'utilisation de chemins orthogonaux de cases vides pour connecter différents groupes de pièces alliées."
+  },
+  "notes.neutron": {
+    "src": "Each turn (except White's first turn in standard Neutron) consists of sliding the neutron, then sliding one of your pawns. All pieces slide in straight lines as far as possible without jumping. **CoNeutron** swaps the winning row to your opponent's back rank and removes White's pawn-only opening.\n\n**Mobility** restrictions apply to pawn moves only. With **restricted** mobility, pawns may not land on the opponent's home row. With **double restricted** mobility, pawns also may not re-enter their own home row after leaving it; pawns still on the home row may slide along that row.\n\nMoves are notated `neutronDest,pawnFrom-pawnTo`, or `pawnFrom-pawnTo` on White's first turn in standard Neutron. A winning neutron slide alone is notated as just the destination cell.",
+    "out": "Chaque tour (sauf le premier tour des Blancs dans le Neutron standard) consiste à faire glisser le neutron, puis à faire glisser l'un de vos pions. Toutes les pièces glissent en ligne droite aussi loin que possible sans sauter. **CoNeutron** inverse la ligne gagnante vers la ligne arrière de votre adversaire et supprime l'ouverture à pion seul des Blancs.\n\nLes restrictions de **mobilité** s'appliquent uniquement aux déplacements de pions. Avec une mobilité **restreinte**, les pions ne peuvent pas s'arrêter sur la ligne arrière de l'adversaire. Avec une mobilité **doublement restreinte**, les pions ne peuvent pas non plus revenir sur leur propre ligne arrière après l'avoir quittée ; les pions se trouvant toujours sur leur ligne arrière peuvent glisser le long de celle-ci.\n\nLes coups sont notés `neutronDest,pawnFrom-pawnTo`, ou `pawnFrom-pawnTo` au premier tour des Blancs dans le Neutron standard. Un déplacement gagnant du neutron seul est noté uniquement par sa case de destination."
   },
   "notes.oonpia": {
     "src": "Either use the legend to select a piece, or click the same location multiple times to cycle through all possible pieces. Blocked cells are highlighted: a translucent dot means only a dotted stone can be placed there (i.e. blocked for plain pieces), a translucent piece means only a plain piece can be placed there (i.e. blocked for dotted pieces). If both highlights are present, then the cell is blocked for all pieces.",
@@ -3767,6 +3811,14 @@
     "src": "Material balance",
     "out": "Équilibre matériel"
   },
+  "status.bashni.MATERIAL": {
+    "src": "Material",
+    "out": "Matériel"
+  },
+  "status.bashni.STEPS": {
+    "src": "Maneuverability",
+    "out": "Manoeuvrabilité"
+  },
   "status.blam.NUMPIECES_one": {
     "src": "{{count}} piece",
     "out": "{{count}} pièce"
@@ -3995,6 +4047,14 @@
     "src": "Offensive player",
     "out": "Joueur offensif"
   },
+  "status.mvolcano.PYRAMIDSCAPTURED": {
+    "src": "Pyramids captured",
+    "out": "Pyramides capturées"
+  },
+  "status.mvolcano.UNCAPTUREDCOLOURS": {
+    "src": "Colours not yet captured",
+    "out": "Couleurs non encore capturées"
+  },
   "status.pacru.TARGET": {
     "src": "Tiles to win",
     "out": "Tuiles pour gagner"
@@ -4022,6 +4082,14 @@
   "status.scribe.MINI_GRIDS": {
     "src": "Mini grids won",
     "out": "Mini-grilles remportées"
+  },
+  "status.tintas.MAJORITIES": {
+    "src": "Majorities won",
+    "out": "Majorités remportées"
+  },
+  "status.tintas.MONOCHROME": {
+    "src": "Monochrome potential",
+    "out": "Potentiel monochrome"
   },
   "status.tumbleweed": {
     "src": "Score (pieces + influence)",
@@ -5378,6 +5446,18 @@
   "validation.basalt.PIE_TWO_FOUR": {
     "src": "You may not place more than four pieces when offering pie.",
     "out": "Vous ne pouvez pas placer plus de quatre pièces lors de l'offre du gâteau."
+  },
+  "validation.bashni.INITIAL_INSTRUCTIONS": {
+    "src": "Select a stack with your piece on top to move.",
+    "out": "Sélectionnez une pile avec votre pièce au sommet à déplacer."
+  },
+  "validation.bashni.INVALID_MOVE": {
+    "src": "The move does not appear to be legal. Capturing is compulsory, and you must continue as long as further captures are possible.",
+    "out": "Ce coup ne semble pas légal. La capture est obligatoire, et vous devez la poursuivre tant que d'autres captures sont possibles."
+  },
+  "validation.bashni.VALID_PARTIAL": {
+    "src": "Select a destination. Capturing is compulsory, and you must continue as long as further captures are possible.",
+    "out": "Sélectionnez une destination. La capture est obligatoire, et vous devez la poursuivre tant que d'autres captures sont possibles."
   },
   "validation.bide.EMPTY_HAND": {
     "src": "You have no more pieces to place.",
@@ -10147,6 +10227,34 @@
     "src": "Placement at {{where}} will create a crosscut.",
     "out": "Le placement en {{where}} créera une coupe croisée."
   },
+  "validation.neutron.INCOMPLETE": {
+    "src": "You must complete both parts of the turn (or end the game with a winning neutron move).",
+    "out": "Vous devez effectuer les deux parties du tour (ou terminer la partie avec un coup gagnant du neutron)."
+  },
+  "validation.neutron.INITIAL_INSTRUCTIONS": {
+    "src": "Select where to slide the neutron, or on White's first turn in standard Neutron, select a pawn to move.",
+    "out": "Sélectionnez où faire glisser le neutron, ou au premier tour des Blancs dans le Neutron standard, sélectionnez un pion à déplacer."
+  },
+  "validation.neutron.INVALID_NEUTRON": {
+    "src": "The neutron cannot slide to that cell.",
+    "out": "Le neutron ne peut pas glisser vers cette case."
+  },
+  "validation.neutron.NEUTRON_FIRST": {
+    "src": "Slide the neutron first, then select one of your pawns.",
+    "out": "Faites d'abord glisser le neutron, puis sélectionnez l'un de vos pions."
+  },
+  "validation.neutron.PAWN_DEST": {
+    "src": "Select where to slide that pawn.",
+    "out": "Sélectionnez où faire glisser ce pion."
+  },
+  "validation.neutron.PAWN_SELECT": {
+    "src": "Select one of your pawns to move.",
+    "out": "Sélectionnez l'un de vos pions à déplacer."
+  },
+  "validation.neutron.SELECT_OWN_PAWN": {
+    "src": "You may only move your own pawns.",
+    "out": "Vous ne pouvez déplacer que vos propres pions."
+  },
   "validation.nex.EDGE_CASE_ONE_EMPTY_NEUTRAL": {
     "src": "There is only one empty cell so you may not make a placement. You should make swap moves instead.",
     "out": "Il n'y a qu'une seule case vide, vous ne pouvez donc pas effectuer de placement. Vous devriez plutôt effectuer des coups d'échange."
@@ -14507,6 +14615,14 @@
     "src": "Triangle (14 wide)",
     "out": "Triangle (largeur 14)"
   },
+  "variants.agere.star-11.description": {
+    "src": "Pentagonal star board. Connect any three outer sides that form a legal Y, or four or more sides.",
+    "out": "Plateau en étoile pentagonale. Reliez trois côtés extérieurs formant un Y valide, ou quatre côtés ou plus."
+  },
+  "variants.agere.star-11.name": {
+    "src": "Star (11 wide)",
+    "out": "Étoile (11 de large)"
+  },
   "variants.akimbo.#board.name": {
     "src": "13x13 board",
     "out": "Plateau 13x13"
@@ -17283,6 +17399,50 @@
     "src": "7x8 board",
     "out": "Plateau 7x8"
   },
+  "variants.neutron.#board.name": {
+    "src": "5×5 board",
+    "out": "Plateau 5×5"
+  },
+  "variants.neutron.#mobility.name": {
+    "src": "No restrictions",
+    "out": "Aucune restriction"
+  },
+  "variants.neutron.5x7.name": {
+    "src": "5×7 board",
+    "out": "Plateau 5×7"
+  },
+  "variants.neutron.7x5.name": {
+    "src": "7×5 board",
+    "out": "Plateau 7×5"
+  },
+  "variants.neutron.7x7.name": {
+    "src": "7×7 board",
+    "out": "Plateau 7×7"
+  },
+  "variants.neutron.coneutron.description": {
+    "src": "Win by moving the neutron to your opponent's back row. White moves the neutron on the first turn.",
+    "out": "Gagnez en déplaçant le neutron sur la ligne arrière de votre adversaire. Les Blancs déplacent le neutron au premier tour."
+  },
+  "variants.neutron.coneutron.name": {
+    "src": "CoNeutron",
+    "out": "CoNeutron"
+  },
+  "variants.neutron.doubleRestricted.description": {
+    "src": "Pawns may not land on either home row, except that pawns still on their own home row may slide along it.",
+    "out": "Les pions ne peuvent s'arrêter sur aucune des deux lignes arrières, sauf que les pions toujours sur leur propre ligne arrière peuvent glisser le long de celle-ci."
+  },
+  "variants.neutron.doubleRestricted.name": {
+    "src": "Double restricted mobility",
+    "out": "Mobilité doublement restreinte"
+  },
+  "variants.neutron.restricted.description": {
+    "src": "Pawns may not land on the opponent's home row.",
+    "out": "Les pions ne peuvent pas s'arrêter sur la ligne arrière de l'adversaire."
+  },
+  "variants.neutron.restricted.name": {
+    "src": "Restricted mobility",
+    "out": "Mobilité restreinte"
+  },
   "variants.nex.#board.name": {
     "src": "11x11 board",
     "out": "Plateau 11x11"
@@ -19426,6 +19586,14 @@
   "variants.y.size-9.name": {
     "src": "Size-9 board",
     "out": "Plateau de taille 9"
+  },
+  "variants.y.star.description": {
+    "src": "Pentagonal star board. The usual commercial size is 11 (use the board size variant to change segment count). Connect any three outer sides that form a legal Y, or four or more sides.",
+    "out": "Plateau en étoile pentagonale. La taille commerciale habituelle est de 11 (utilisez la variante de taille de plateau pour modifier le nombre de segments). Reliez trois côtés extérieurs formant un Y valide, ou quatre côtés ou plus."
+  },
+  "variants.y.star.name": {
+    "src": "Star board",
+    "out": "Plateau en étoile"
   },
   "variants.zola.#board.name": {
     "src": "6x6 board",

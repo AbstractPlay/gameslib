@@ -1,7 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import "mocha";
 import { expect } from "chai";
-import { StarGraph, starFrequencyFromWidth } from "../../../src/common";
+import {
+    StarGraph,
+    starFrequencyFromWidth,
+    starOuterSides,
+    starSidesForCell,
+    isStarYTripleValid,
+    starHasYWin,
+} from "../../../src/common";
 
 describe("StarGraph", () => {
     it("maps space-style width 11 to frequency 10", () => {
@@ -123,5 +130,50 @@ describe("StarGraph", () => {
         expect(path).to.not.be.null;
         expect(path![0]).to.equal("a1");
         expect(path![path!.length - 1]).to.equal("k1");
+    });
+
+    describe("Y win on outer sides", () => {
+        it("splits the outer ring into five sides with quarks on two sides each", () => {
+            const graph = new StarGraph(10);
+            const sides = starOuterSides(graph);
+            expect(sides).to.have.length(5);
+            const outer = graph.listCells(true)![0]!;
+            const union = new Set<string>();
+            let listEntries = 0;
+            for (const side of sides) {
+                expect(side.length).to.be.greaterThan(0);
+                for (const cell of side) {
+                    union.add(cell);
+                    listEntries++;
+                }
+            }
+            expect(union.size).to.equal(outer.length);
+            expect(listEntries).to.equal(outer.length + 5);
+            expect(starSidesForCell(graph, "a1", sides)).to.have.members([0, 4]);
+            expect(starSidesForCell(graph, "a6", sides)).to.deep.equal([0]);
+        });
+
+        it("validates Y triples on the pentagon", () => {
+            expect(isStarYTripleValid(0, 2, 4)).to.equal(true);
+            expect(isStarYTripleValid(0, 1, 3)).to.equal(true);
+            expect(isStarYTripleValid(1, 3, 4)).to.equal(true);
+            expect(isStarYTripleValid(0, 1, 2)).to.equal(false);
+            expect(isStarYTripleValid(4, 0, 1)).to.equal(false);
+        });
+
+        it("starHasYWin accepts four sides and rejects consecutive triples", () => {
+            expect(starHasYWin([0, 1, 2, 3])).to.equal(true);
+            expect(starHasYWin([0, 1, 2])).to.equal(false);
+            expect(starHasYWin([0, 2, 4])).to.equal(true);
+        });
+
+        it("works at frequency 3", () => {
+            const graph = new StarGraph(3);
+            const sides = starOuterSides(graph);
+            expect(sides).to.have.length(5);
+            for (const side of sides) {
+                expect(side.length).to.be.greaterThan(0);
+            }
+        });
     });
 });

@@ -951,6 +951,10 @@
     "src": "{{player}} was eliminated.",
     "out": "{{player}} wurde eliminiert."
   },
+  "EOG.bashni_stagnation": {
+    "src": "The game has ended in a draw because the piece count and composition were unchanged for {{count}} consecutive moves.",
+    "out": "Das Spiel hat mit einem Unentschieden geendet, da die Anzahl und Zusammensetzung der Steine für {{count}} aufeinanderfolgende Züge unverändert blieb."
+  },
   "EOG.buku_singletons": {
     "src": "The game has ended because all cells contain only singletons.",
     "out": "Das Spiel ist zu Ende, da alle Felder nur noch einzelne Steine enthalten."

@@ -9,7 +9,18 @@ import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted.js";
 import { connectedComponents } from 'graphology-components';
 import i18next from "i18next";
-import { HexMoonGraph, HexSlantedGraph, HexTriGraph } from "../common/graphs/index.js";
+import {
+    HexMoonGraph,
+    HexSlantedGraph,
+    HexTriGraph,
+    StarGraph,
+    starFrequencyFromWidth,
+    starOuterSides,
+    starHasYWin,
+    starTouchedSides,
+    starBuildConnPathForWin,
+} from "../common/graphs/index.js";
+import type { RowCol } from "@abstractplay/renderer/build/schemas/schema";
 
 type playerid = 1|2;
 
@@ -65,6 +76,7 @@ export class AgereGame extends GameBase {
             {uid: "limping", group: "board"},
             {uid: "slanted-8", group: "board"},
             {uid: "slanted-10", group: "board"},
+            {uid: "star-11", group: "board"},
         ],
         categories: ["goal>connect", "mechanic>place", "mechanic>stack", "mechanic>move", "mechanic>coopt", "board>shape>circle", "board>connect>rect", "board>shape>tri", "board>connect>hex", "components>simple>1per"],
         flags: ["pie", "check", "custom-rotation"]
@@ -100,7 +112,7 @@ export class AgereGame extends GameBase {
         [2, [[["a3", "b3"], ["e3", "f3"]],[["c3", "d3"], ["g3", "h3"]]]],
     ]);
 
-    public static buildGraph(style: "hex8"|"hex11"|"hex14"|"cobweb"|"cobwebSmall"|"moon"|"limping"|"slanted-8"|"slanted-10"): UndirectedGraph {
+    public static buildGraph(style: "hex8"|"hex11"|"hex14"|"cobweb"|"cobwebSmall"|"moon"|"limping"|"slanted-8"|"slanted-10"|"star11"): UndirectedGraph {
         const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
         if (style.startsWith("hex")) {
             let width = 8;
@@ -242,6 +254,8 @@ export class AgereGame extends GameBase {
                 throw new Error(`Unable to parse slanted board size.`);
             }
             return (new HexSlantedGraph(int, int)).graph;
+        } else if (style === "star11") {
+            return new StarGraph(starFrequencyFromWidth(AgereGame.STAR_BOARD_WIDTH)).graph;
         }
         throw new Error("Unrecognized graph style.");
     }
@@ -255,6 +269,13 @@ export class AgereGame extends GameBase {
     public results: Array<APMoveResult> = [];
     public variants: string[] = [];
     public startpos!: string;
+    public connPath: string[] = [];
+
+    private static readonly STAR_BOARD_WIDTH = 11;
+
+    private getStarGraph(): StarGraph {
+        return new StarGraph(starFrequencyFromWidth(AgereGame.STAR_BOARD_WIDTH));
+    }
 
     constructor(state?: IAgereState | string, variants?: string[]) {
         super();
@@ -325,6 +346,8 @@ export class AgereGame extends GameBase {
             return (new HexSlantedGraph(8, 8)).coords2algebraic(x, y);
         } else if (this.variants.includes("slanted-10")) {
             return (new HexSlantedGraph(10, 10)).coords2algebraic(x, y);
+        } else if (this.variants.includes("star-11")) {
+            return this.getStarGraph().coords2algebraic(x, y);
         } else {
             let width = 8;
             if (this.variants.includes("standard-11")) {
@@ -356,6 +379,8 @@ export class AgereGame extends GameBase {
             return (new HexSlantedGraph(8, 8)).algebraic2coords(cell);
         } else if (this.variants.includes("slanted-10")) {
             return (new HexSlantedGraph(10, 10)).algebraic2coords(cell);
+        } else if (this.variants.includes("star-11")) {
+            return this.getStarGraph().algebraic2coords(cell);
         } else {
             let width = 8;
             if (this.variants.includes("standard-11")) {
@@ -394,6 +419,8 @@ export class AgereGame extends GameBase {
             return AgereGame.buildGraph("hex11");
         } else if (this.variants.includes("standard-14")) {
             return AgereGame.buildGraph("hex14");
+        } else if (this.variants.includes("star-11")) {
+            return AgereGame.buildGraph("star11");
         } else {
             return AgereGame.buildGraph("hex8");
         }
@@ -436,7 +463,9 @@ export class AgereGame extends GameBase {
         move = move.toLowerCase();
         move = move.replace(/\s+/g, "");
         try {
-            const cell = this.coords2algebraic(col, row);
+            const cell = this.variants.includes("star-11")
+                ? this.coords2algebraic(row, col)
+                : this.coords2algebraic(col, row);
             let newmove = "";
 
             // starting fresh
@@ -832,6 +861,37 @@ export class AgereGame extends GameBase {
         return false;
     }
 
+    public checkEOGStar(player?: playerid, recordPath = false): boolean {
+        if (player === undefined) {
+            player = this.currplayer;
+        }
+        const starGraph = this.getStarGraph();
+        const sides = starOuterSides(starGraph);
+        const graph = this.getGraph();
+        for (const node of [...graph.nodes()]) {
+            if (! this.board.has(node)) {
+                graph.dropNode(node);
+            } else {
+                const stack = this.board.get(node)!;
+                if (stack[stack.length - 1] !== player) {
+                    graph.dropNode(node);
+                }
+            }
+        }
+
+        for (const grp of connectedComponents(graph)) {
+            const touched = starTouchedSides(grp, sides);
+            if (starHasYWin(touched)) {
+                if (recordPath) {
+                    const path = starBuildConnPathForWin(graph, grp, sides, touched);
+                    this.connPath = path ?? [];
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
     protected checkEOG(): AgereGame {
         // We are now at the START of `this.currplayer`'s turn
         if ( (this.variants.includes("cobweb")) || (this.variants.includes("cobweb-small")) ) {
@@ -851,6 +911,11 @@ export class AgereGame extends GameBase {
             }
         } else if (this.variants.includes("slanted-8") || this.variants.includes("slanted-10")) {
             if (this.checkEOGSlanted()) {
+                this.gameover = true;
+                this.winner = [this.currplayer];
+            }
+        } else if (this.variants.includes("star-11")) {
+            if (this.checkEOGStar(undefined, true)) {
                 this.gameover = true;
                 this.winner = [this.currplayer];
             }
@@ -1345,6 +1410,78 @@ export class AgereGame extends GameBase {
         return rep;
     }
 
+    protected renderStar(): APRenderRep {
+        const graph = this.getGraph();
+        const starGraph = this.getStarGraph();
+        const pieces: string[][] = [];
+        for (const row of starGraph.listCells(true) as string[][]) {
+            const node: string[] = [];
+            for (const cell of row) {
+                if ( (! graph.hasNode(cell)) || (! this.board.has(cell)) ) {
+                    node.push("-");
+                } else {
+                    const contents = this.board.get(cell)!;
+                    node.push(contents.join("").replace(/1/g, "A").replace(/2/g, "B"));
+                }
+            }
+            pieces.push(node);
+        }
+        const pstr: string = pieces.map(r => r.join(",")).join("\n");
+
+        const rep: APRenderRep =  {
+            renderer: "stacking-offset",
+            board: {
+                style: "star",
+                width: AgereGame.STAR_BOARD_WIDTH,
+            },
+            legend: {
+                A: {
+                    name: "piece",
+                    colour: 1,
+                },
+                B: {
+                    name: "piece",
+                    colour: 2,
+                },
+            },
+            pieces: pstr,
+        };
+
+        rep.annotations = [];
+        const starRowCol = (cell: string): RowCol => {
+            const [ring, pos] = starGraph.algebraic2coords(cell);
+            // Star listCells rows are rings (not hex col/row); do not use { row: pos, col: ring }.
+            return { row: ring, col: pos };
+        };
+        if (this.results.length > 0) {
+            for (const move of this.results) {
+                if (move.type === "place") {
+                    rep.annotations.push({
+                        type: "enter",
+                        targets: [starRowCol(move.where!)],
+                    });
+                } else if (move.type === "move") {
+                    rep.annotations.push({
+                        type: "move",
+                        targets: [starRowCol(move.from), starRowCol(move.to)],
+                    });
+                }
+            }
+        }
+        if (this.connPath.length === 0 && this.gameover && this.winner.length > 0) {
+            this.checkEOGStar(this.winner[0], true);
+        }
+        if (this.connPath.length > 0) {
+            const targets: RowCol[] = [];
+            for (const cell of this.connPath) {
+                targets.push(starRowCol(cell));
+            }
+            rep.annotations.push({ type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
+        }
+
+        return rep;
+    }
+
     public render(): APRenderRep {
         if ( (this.variants.includes("cobweb")) || (this.variants.includes("cobweb-small")) ) {
             return this.renderCobweb();
@@ -1354,6 +1491,8 @@ export class AgereGame extends GameBase {
             return this.renderLimping();
         } else if (this.variants.includes("slanted-8") || this.variants.includes("slanted-10")) {
             return this.renderSlanted();
+        } else if (this.variants.includes("star-11")) {
+            return this.renderStar();
         }
         return this.renderHexTri();
     }
@@ -1384,6 +1523,8 @@ export class AgereGame extends GameBase {
             connected = this.checkEOGLimping(otherPlayer);
         } else if (this.variants.includes("slanted-8") || this.variants.includes("slanted-10")) {
             connected = this.checkEOGSlanted(otherPlayer);
+        } else if (this.variants.includes("star-11")) {
+            connected = this.checkEOGStar(otherPlayer);
         } else {
             connected = this.checkEOGHexTri(otherPlayer);
         }

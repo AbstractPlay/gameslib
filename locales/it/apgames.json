@@ -22,9 +22,9 @@
     "attangle": "Attangle è l'ultimo capitolo della trilogia d'impilamento di Dieter Stein. Posiziona e muovi i pezzi per costruire pile. La prima persona che costruisce tre pile triple vince. È implementata anche la variante \"Grand Attangle\".",
     "ayu": "Gioco di unificazione in cui sinuosi gruppi di pezzi strisciano verso i loro compagni finché non si fondono. Se non puoi muovere nel tuo turno, vinci. Questo accade quando hai un solo gruppo o quando non c'è alcun percorso libero tra i tuoi gruppi.",
     "azacru": "Un gioco di controllo territorio in cui pezzi direzionali navigano un tavoliere suddiviso per conquistare celle.",
-    "baghchal": "Un tradizionale gioco asimmetrico per due giocatori del Nepal. Il giocatore che controlla le tigri cerca di catturare 5 capre saltandole, mentre il giocatore che controlla le capre cerca di immobilizzare tutte le tigri.",
     "bamboo": "Posiziona le pietre in modo che nessun gruppo abbia più pezzi del numero totale dei tuoi gruppi sul tavoliere. Poi, sii l'ultimo giocatore in grado di muovere.",
     "bao": "Un tradizionale gioco di semina in stile mancala dell'Africa orientale in cui si tenta di eliminare tutti i pezzi dalla prima fila avversaria o lasciarlo senza mosse legali.",
+    "bashni": "Un gioco tradizionale russo di dama a colonne su una scacchiera 8×8. Le pedine catturate vengono posizionate sotto il pezzo saltatore invece di uscire dalla scacchiera.",
     "basalt": "Un gioco di connessione triangolare giocato sul fianco di un vulcano, dove lava e basalto gareggiano per connettere per primi i tre lati.",
     "bide": "Fino a sei giocatori si alternano a posizionare pezzi sul tavoliere, spingendo all'esterno i pezzi adiacenti. È anche possibile passare per accumulare pezzi da piazzare tutti insieme più tardi. I pezzi più vicini al centro valgono di più. Vince il gruppo con il punteggio più alto!",
     "biscuit": "Un gioco con il Decktet in stile domino in cui giochi carte per ottenere immediatamente punti e cerchi di essere il primo a giocare tutte le carte dalla tua mano. La partita si gioca su più round fino a un obiettivo specificato.",
@@ -169,6 +169,7 @@
     "nakatta": "Un gioco di connessione su griglia quadrata in cui due specifiche configurazioni di pezzi sono proibite.",
     "narrows": "Collega tutti i tuoi pezzi mediante regioni vuote.",
     "necklace": "Un gioco di connessione su griglia quadrata solo ortogonale in cui cerchi di collegare i tuoi lati del tabellone. Le formazioni crosscut sono illegali e ogni spazio libero deve avere sempre un percorso verso un bordo.",
+    "neutron": "Fai scivolare il neutrone neutrale e una delle tue pedine a ogni turno. I pezzi si muovono in linea retta il più lontano possibile. Vinci portando il neutrone sulla traversa di base corretta, oppure lasciando l'avversario nell'impossibilità di completare un turno.",
     "nex": "Nex (o Neutral Hex) è una variante del gioco di connessione Hex in cui sono presenti pezzi neutrali. Nel tuo turno, puoi (1) posizionare un pezzo del tuo colore e uno di colore neutrale su uno spazio vuoto, oppure (2) scambiare due pezzi neutrali con il tuo colore e uno dei tuoi pezzi con il colore neutrale.",
     "omny": "Gioco di connessione generalizzato in cui i giocatori cercano di dividere le caselle stella in regioni diverse in modo che nessuna singola regione contenga la maggioranza delle caselle stella.",
     "onager": "In Onager ogni giocatore cerca di raggiungere l'ultima traversa dell'avversario. Onager prende il nome da una macchina d'assedio romana che è un tipo di catapulta, poiché il modo in cui i pezzi si muovono assomiglia a come i proiettili vengono scagliati in avanti con questo dispositivo.",
@@ -320,6 +321,7 @@
     "baghchal": "Bagh Chal",
     "bamboo": "Bamboo",
     "bao": "Bao",
+    "bashni": "Bashni",
     "basalt": "Basalt",
     "bide": "Bide",
     "biscuit": "Biscuit",
@@ -464,6 +466,7 @@
     "nakatta": "Nakatta",
     "narrows": "Narrows",
     "necklace": "Necklace",
+    "neutron": "Neutron",
     "nex": "Nex",
     "omny": "Omny",
     "onager": "Onager",
@@ -591,6 +594,7 @@
     "armadas": "Sono noti problemi con questo gioco sui dispositivi iOS.\n\nQuesto gioco offre due scenari:\n\n* L'impostazione predefinita vede ogni giocatore con due trii di pezzi. Nella fase di piazzamento, ciascun giocatore deve piazzare da 1 a 3 navi finché tutte le navi non sono state piazzate.\n* La variante \"Forma libera\" ti consente di piazzare le navi che desideri (massimo tre alla volta) finché entrambi i giocatori non dicono \"passo\". Questo ti permette di creare flotte sbilanciate o altrimenti asimmetriche.\n\nLe partite vedono di default un'isola al centro del campo. Sono disponibili sia la variante \"senza isole\" che quella a \"due isole\". Non puoi muoverti o sparare attraverso le isole. Per colpire con successo una nave, almeno un angolo del triangolo della tua nave deve avere una visuale libera su almeno un angolo della nave bersaglio.\n\nRicorda che è possibile incastrare la tua nave contro un'isola o il bordo del tabellone in modo tale da non poterla più muovere! Fai attenzione!",
     "ataxx": "Alla terza ripetizione della posizione, la partita termina e si calcola il punteggio.",
     "bao": "Le mosse in Bao possono essere molto complesse, comportando più giri attorno al tabellone e cambi di direzione. Le annotazioni sono, pertanto, essenziali. La casella iniziale e la direzione vengono evidenziate, e vengono contrassegnate anche le caselle catturate. Ma un'annotazione dettagliata del movimento non è possibile. Se ritieni di aver riscontrato un errore, faccelo sapere su Discord.",
+    "bashni": "La manovrabilità è una misura di quanto le tue colonne siano vicine alla promozione a dama. La tua manovrabilità massima è pari alla dimensione della scacchiera moltiplicata per il numero di colonne che controlli.\n\nIl materiale viene calcolato assegnandoti un punto per ogni pezzo alleato in una colonna che controlli, più un punto extra se in cima a quella colonna c'è una dama.",
     "biscuit": "La partita termina quando, alla fine di un round, qualcuno ha raggiunto o superato il punteggio obiettivo. Vince il punteggio più alto. I pareggi sono possibili.\n\nQuando si calcolano i biscuit, una singola carta non può essere contata più di una volta. Ad esempio, se la carta radice è un 6 e la fine della linea principale è anch'essa un 6 (una carta croce), e giochi un 6 sopra quella carta croce, ottieni il \"hot cross biscuit\" (la parte superiore e inferiore della linea trasversale coincidono) ma non ottieni *anche* un normale \"biscuit\" per aver abbinato la fine della linea principale (sono la stessa carta). Inoltre, le linee trasversali non vengono affatto conteggiate a meno che non ci siano almeno due carte nella linea. Quindi giocare una nuova carta croce (nel nostro esempio, un 6) non ti fa automaticamente guadagnare un \"biscuit\" (giocare una carta sulla linea principale che corrisponde a una linea trasversale).\n\nMaggiori informazioni sul sistema Decktet si possono trovare sul [sito ufficiale di Decktet](https://www.decktet.com). Le carte in mano ai giocatori sono nascoste agli osservatori e agli avversari.",
     "blooms": "Il valore soglia è X(n) = 5n, dove n è la base del tabellone hexhex (ad es. il tabellone predefinito ha base 6, quindi la soglia è 30).",
     "btt": "Sono supportati numeri insoliti di giocatori (3, 5 o 6), ma su un normale tabellone rettangolare di dimensioni adeguate anziché su una scacchiera marziana.",
@@ -638,6 +642,7 @@
     "mirador": "Dichiarare occupa l'intero turno. Completa prima la tua connessione inattaccabile, poi dichiara nel tuo turno successivo; non puoi posizionare un mirador e dichiarare nello stesso turno.",
     "murus": "Il regolamento predefinito è \"Advanced Murus Gallicus\" (con catapulte). Per impostazione predefinita, la tua prima mossa consiste nel ridistribuire una delle tue torri iniziali come mura sulla tua seconda riga. Inoltre, è disponibile anche la regola della torta (pie rule) standard. Ci sono tre varianti che puoi combinare tra loro:\n\n* \"Base\" riporta il gioco allo stato \"senza catapulte\".\n* \"Estatico\" disabilita la ridistribuzione iniziale delle torri.\n* \"Fuga\" elimina la condizione di vittoria per sfondamento.",
     "mutternland": "Mutternland è stato progettato da Hartmut Witt nel 1997. Questa implementazione gestisce il posizionamento iniziale dei pezzi in modo diverso. Mentre nel gioco originale i giocatori, durante la preparazione, piazzavano un pezzo _nemico_ per turno, qui i giocatori piazzano un pezzo amico e poi un pezzo avversario (con alcune restrizioni per evitare avvii sbilanciati dovuti alla generazione casuale del campo di gioco). Ciò rende la preparazione più veloce e offre un certo controllo sui propri pezzi. Inoltre, i pezzi spinti fuori dal tabellone, che tornano nella riserva del giocatore, vengono piazzati di nuovo dal proprietario.",
+    "neutron": "Ogni turno (eccetto il primo turno del Bianco nel Neutron standard) consiste nel far scivolare il neutrone, per poi far scivolare una delle proprie pedine. Tutti i pezzi scivolano in linea retta il più lontano possibile senza saltare. **CoNeutron** scambia la traversa vincente con la traversa di base dell'avversario e rimuove l'apertura con sola pedina del Bianco.\n\nLe restrizioni di **mobilità** si applicano solo ai movimenti delle pedine. Con mobilità **limitata**, le pedine non possono finire sulla traversa di base dell'avversario. Con mobilità **doppiamente limitata**, le pedine non possono nemmeno rientrare nella propria traversa di base dopo averla lasciata; le pedine ancora sulla traversa di base possono scivolare lungo di essa.\n\nLe mosse sono annotate come `neutronDest,pawnFrom-pawnTo`, o `pawnFrom-pawnTo` al primo turno del Bianco nel Neutron standard. Una mossa vincente del solo neutrone è annotata semplicemente con la casella di destinazione.",
     "narrows": "Narrows, progettato da Mark Steere nel 2026, è un gioco di unificazione ispirato all'antico gioco hawaiiano Kōnane. Fedele allo spirito di Kōnane, Ūnane inizia con uno schema di pedine a scacchiera ed è estremamente semplice. In questo caso, l'obiettivo di unificazione include l'uso di percorsi ortogonali di caselle vuote per collegare diversi gruppi di pezzi amici.",
     "oonpia": "Usa la legenda per selezionare un pezzo, oppure fai clic sullo stesso punto più volte per scorrere tutti i pezzi possibili. Le caselle bloccate sono evidenziate: un punto traslucido significa che vi si può piazzare solo una pedina con punto (cioè bloccata per le pedine semplici), un pezzo traslucido significa che vi si può piazzare solo una pedina semplice (cioè bloccata per le pedine con punto). Se sono presenti entrambe le evidenziazioni, la casella è bloccata per tutti i pezzi.",
     "oware": "Questa implementazione segue la comune regola da torneo secondo cui le mosse grand slam sono consentite, ma non viene catturato alcun pezzo. Rappresentare i cambiamenti di stato nei giochi di semina è complesso. La fossetta iniziale scelta viene contrassegnata, così come qualsiasi cattura. Piccoli numeri mostrano la variazione del numero di pedine in ciascuna fossetta. Se ritieni di aver riscontrato un bug, faccelo sapere su Discord.",
@@ -832,6 +837,10 @@
       "standard-14": {
         "description": "Una versione più grande del tavoliere standard.",
         "name": "Triangolo (larghezza 14)"
+      },
+      "star-11": {
+        "name": "Stella (larghezza 11)",
+        "description": "Plancia a stella pentagonale. Collega tre lati esterni qualsiasi che formino una Y valida, oppure quattro o più lati."
       }
     },
     "akimbo": {
@@ -2788,6 +2797,35 @@
         "name": "Tabellone 15x16"
       }
     },
+    "neutron": {
+      "#board": {
+        "name": "Tavoliere 5×5"
+      },
+      "5x7": {
+        "name": "Tavoliere 5×7"
+      },
+      "7x5": {
+        "name": "Tavoliere 7×5"
+      },
+      "7x7": {
+        "name": "Tavoliere 7×7"
+      },
+      "coneutron": {
+        "name": "CoNeutron",
+        "description": "Vinci muovendo il neutrone sulla traversa di base dell'avversario. Il Bianco muove il neutrone al primo turno."
+      },
+      "#mobility": {
+        "name": "Nessuna restrizione"
+      },
+      "restricted": {
+        "name": "Mobilità limitata",
+        "description": "Le pedine non possono finire sulla traversa di base dell'avversario."
+      },
+      "doubleRestricted": {
+        "name": "Mobilità doppiamente limitata",
+        "description": "Le pedine non possono finire su alcuna traversa di base, tranne per le pedine ancora sulla propria traversa di base che possono scivolare lungo di essa."
+      }
+    },
     "nex": {
       "#board": {
         "name": "Tabellone 11x11"
@@ -4275,6 +4313,10 @@
       "bent": {
         "name": "Plancia curvata"
       },
+      "star": {
+        "name": "Plancia a stella",
+        "description": "Plancia a stella pentagonale. La dimensione commerciale classica è 11 (usa la variante della dimensione della plancia per modificare il numero di segmenti). Collega tre lati esterni qualsiasi che formino una Y valida, oppure quattro o più lati."
+      },
       "#ruleset": {
         "name": "Regole standard di Y"
       },
@@ -4537,9 +4579,21 @@
       }
     },
     "icepalace": {
-      "expanding": {
-        "description": "Tavoliere bidimensionale, con pile che si espandono al passaggio del mouse.",
+      "#areas": {
+        "description": "Mano e Riserva viste dall'alto, in due dimensioni.",
+        "name": "Mano e Riserva dall'alto"
+      },
+      "#board": {
+        "description": "Plancia bidimensionale, con le pile che si espandono al passaggio del cursore.",
         "name": "Espandibile"
+      },
+      "perspective": {
+        "description": "Plancia tridimensionale, con le piramidi impilate in prospettiva.",
+        "name": "Pile 3D"
+      },
+      "perspective-areas": {
+        "description": "Mano e Riserva in tre dimensioni, con le piramidi disegnate in prospettiva.",
+        "name": "Mano e Riserva 3D"
       }
     },
     "intermedium": {
@@ -4972,6 +5026,10 @@
     "GROUPCOUNT": "Conteggio gruppi",
     "GROUPSIZES": "Dimensioni dei gruppi",
     "jacynth": "Segnalini influenza",
+    "bashni": {
+      "STEPS": "Manovrabilità",
+      "MATERIAL": "Materiale"
+    },
     "lasca": {
       "STEPS": "Manovrabilità",
       "MATERIAL": "Materiale"
@@ -4983,6 +5041,10 @@
     "meg": {
       "OFFENSE": "Giocatore in attacco",
       "COUNTDOWN": "Mosse rimanenti"
+    },
+    "mvolcano": {
+      "PYRAMIDSCAPTURED": "Piramidi catturate",
+      "UNCAPTUREDCOLOURS": "Colori non ancora catturati"
     },
     "pacru": {
       "TARGET": "Tessere per vincere",
@@ -5005,6 +5067,10 @@
     "RESERVE": "Riserva",
     "SCORES": "Punteggi",
     "STACKSIZES": "Altezze delle pile",
+    "tintas": {
+      "MAJORITIES": "Maggioranze vinte",
+      "MONOCHROME": "Potenziale monocromatico"
+    },
     "tumbleweed": "Punteggio (pezzi + influenza)",
     "ESTIMATEDSCORES": "Punteggi stimati",
     "killallgo": {
@@ -6603,6 +6669,11 @@
       "SIMULTANEOUS": "Le mosse che creerebbero linee vincenti per entrambi i giocatori contemporaneamente non sono consentite.",
       "ACTIVE": "I pezzi devono essere inseriti da uno dei lati attivi della scacchiera, facendo scorrere i pezzi esistenti fino alla prima casella vuota."
     },
+    "bashni": {
+      "INITIAL_INSTRUCTIONS": "Seleziona una colonna con il tuo pezzo in cima da muovere.",
+      "INVALID_MOVE": "La mossa non sembra valida. La presa è obbligatoria e devi continuare finché sono possibili altre prese.",
+      "VALID_PARTIAL": "Seleziona una destinazione. La presa è obbligatoria e devi continuare finché sono possibili altre prese."
+    },
     "lasca": {
       "INITIAL_INSTRUCTIONS": "Seleziona una pila con un tuo pezzo in cima da muovere.",
       "INVALID_MOVE": "La mossa non sembra essere legale. La cattura è obbligatoria e devi continuare finché sono possibili ulteriori catture.",
@@ -6915,6 +6986,15 @@
       "BLOCKS_PATH": "Il piazzamento in {{where}} blocca l'unico percorso di alcuni spazi liberi verso il bordo.",
       "INITIAL_INSTRUCTIONS": "Seleziona un punto per piazzare un pezzo.",
       "NO_CROSSINGS": "Il piazzamento in {{where}} creerà un taglio incrociato."
+    },
+    "neutron": {
+      "INCOMPLETE": "Devi completare entrambe le parti del turno (o terminare la partita con una mossa vincente del neutrone).",
+      "INITIAL_INSTRUCTIONS": "Seleziona dove far scivolare il neutrone oppure, al primo turno del Bianco nel Neutron standard, seleziona una pedina da muovere.",
+      "INVALID_NEUTRON": "Il neutrone non può scivolare in quella casella.",
+      "NEUTRON_FIRST": "Fai scorrere prima il neutrone, poi seleziona una delle tue pedine.",
+      "PAWN_DEST": "Seleziona dove far scivolare quella pedina.",
+      "PAWN_SELECT": "Seleziona una delle tue pedine da muovere.",
+      "SELECT_OWN_PAWN": "Puoi muovere solo le tue pedine."
     },
     "nex": {
       "EDGE_CASE_ONE_EMPTY_NEUTRAL": "C'è solo una casella vuota, quindi non puoi effettuare un piazzamento. Dovresti invece fare mosse di scambio.",

@@ -22,9 +22,9 @@
     "attangle": "Attangle ist der letzte Teil von Dieter Steins Stapel-Trilogie. Platziere und bewege Steine, um Stapel zu bauen. Die erste Person, die drei Dreierstapel baut, gewinnt. Die Variante \"Grand Attangle\" ist ebenfalls enthalten.",
     "ayu": "Ein Vereinigungsspiel, bei dem sich schlangenartige Gruppen von Steinen auf ihre Freunde zubewegen und schließlich verschmelzen. Wenn du in deinem Zug keinen Zug machen kannst, gewinnst du. Dies tritt ein, wenn du nur noch eine Gruppe hast oder kein freier Pfad zwischen deinen Gruppen existiert.",
     "azacru": "Ein Gebietskontrollspiel, bei dem richtungsgebundene Steine über ein unterteiltes Brett navigieren, um Felder zu beanspruchen.",
-    "baghchal": "Ein traditionelles asymmetrisches Zwei-Spieler-Spiel aus Nepal. Die Tiger versuchen, 5 Ziegen durch Überspringen zu schlagen; die Ziegen versuchen, alle Tiger bewegungsunfähig zu machen.",
     "bamboo": "Platziere Steine so, dass keine Gruppe mehr Steine hat als die Anzahl deiner Gruppen auf dem Brett. Sei dann der letzte Spieler, der noch ziehen kann.",
     "bao": "Ein traditionelles Mancala-Säspiel aus Ostafrika, bei dem du versuchst, alle Steine aus der vorderen Reihe des Gegners zu eliminieren oder ihm keine legalen Züge zu lassen.",
+    "bashni": "Ein traditionelles russisches Säulendamespiel auf einem 8×8-Brett. Geschlagene Steine werden unter den schlagenden Stein gelegt, anstatt das Brett zu verlassen.",
     "basalt": "Ein dreieckiges Verbindungsspiel an der Flanke eines Vulkans, bei dem Lava und Basalt darum wetteifern, die drei Seiten zuerst zu verbinden.",
     "bide": "Bis zu sechs Spieler setzen abwechselnd Steine auf das Brett und drücken benachbarte Steine nach außen. Man kann auch passen, um eine Anzahl von Steinen anzusammeln, die später auf einmal platziert werden können. Steine näher am Zentrum sind wertvoller. Die Gruppe mit den meisten Punkten gewinnt!",
     "biscuit": "Ein Decktet-Spiel im Domino-Stil, bei dem du Karten ausspielst, um sofort Punkte zu erzielen, und versuchst, als Erster alle Karten deiner Hand auszuspielen. Ein Spiel wird über mehrere Runden bis zu einem festgelegten Zielwert gespielt.",
@@ -169,6 +169,7 @@
     "nakatta": "Ein Quadrat-Verbindungsspiel, bei dem zwei bestimmte Figurenkonfigurationen verboten sind.",
     "narrows": "Verbinden Sie all Ihre Steine durch leere Bereiche.",
     "necklace": "Ein rein orthogonales Quadrat-Verbindungsspiel, bei dem Sie versuchen, Ihre Brettseiten zu verbinden. Kreuzschnitt-Formationen sind unzulässig, und jedes freie Feld muss immer einen Pfad zu einem Rand haben.",
+    "neutron": "Schiebe in jedem Zug das neutrale Neutron und einen deiner Bauern. Spielfiguren bewegen sich geradlinig so weit wie möglich. Gewinne, indem du das Neutron auf die richtige Grundreihe bringst, oder indem der Gegner keinen vollständigen Zug mehr ausführen kann.",
     "nex": "Nex (oder Neutral Hex) ist eine Variante des Verbindungsspiels Hex, bei der es neutrale Steine gibt. In Ihrem Zug können Sie entweder (1) einen Stein Ihrer Farbe und einen neutralen Stein auf ein freies Feld legen oder (2) zwei neutrale Steine in Ihre Farbe und einen Ihrer Steine in die neutrale Farbe umtauschen.",
     "omny": "Verallgemeinertes Verbindungsspiel, bei dem die Spieler versuchen, Sternfelder in verschiedene Regionen aufzuteilen, sodass keine einzelne Region eine Mehrheit an Sternfeldern enthält.",
     "onager": "In Onager versucht jeder Spieler, die gegnerische Grundlinie zu erreichen. Onager ist nach einer römischen Belagerungsmaschine benannt, einer Art Katapult, da die Bewegung der Steine dem Schleudern von Geschossen mit diesem Gerät ähnelt.",
@@ -320,6 +321,7 @@
     "baghchal": "Bagh Chal",
     "bamboo": "Bamboo",
     "bao": "Bao",
+    "bashni": "Bashni",
     "basalt": "Basalt",
     "bide": "Bide",
     "biscuit": "Biscuit",
@@ -464,6 +466,7 @@
     "nakatta": "Nakatta",
     "narrows": "Narrows",
     "necklace": "Necklace",
+    "neutron": "Neutron",
     "nex": "Nex",
     "omny": "Omny",
     "onager": "Onager",
@@ -591,6 +594,7 @@
     "armadas": "Bei diesem Spiel gibt es bekannte Probleme auf iOS-Geräten.\n\nDieses Spiel bietet zwei Szenarien:\n\n* Standardmäßig hat jeder Spieler zwei Trios von Spielsteinen. In der Platzierungsphase muss jeder Spieler 1 bis 3 Schiffe platzieren, bis alle Schiffe platziert sind.\n* Die \"Freiform\"-Variante ermöglicht es Ihnen, beliebig gewünschte Schiffe zu platzieren (maximal drei gleichzeitig), bis beide Spieler \"passen\". Dadurch können Sie unausgewogene oder anderweitig asymmetrische Flotten erstellen.\n\nSpiele enthalten standardmäßig eine Insel in der Mitte des Feldes. Es stehen sowohl eine Variante \"keine Inseln\" als auch \"zwei Inseln\" zur Verfügung. Sie können sich nicht durch Inseln hindurchbewegen oder hindurchschießen. Um ein Schiff erfolgreich zu treffen, muss mindestens eine Ecke des Dreiecks Ihres Schiffes freie Sicht auf mindestens eine Ecke des Zielschiffs haben.\n\nBedenken Sie, dass Ihr Schiff an einer Insel oder am Brettrand in eine Position geraten kann, in der Sie es nicht mehr bewegen können! Seien Sie vorsichtig!",
     "ataxx": "Bei dreifacher Stellungswiederholung endet das Spiel und die Punkte werden berechnet.",
     "bao": "Züge in Bao können sehr komplex sein, mit mehreren Runden um das Brett und Richtungswechseln. Die Notation ist daher spärlich. Das Startfeld und die Richtung werden hervorgehoben, ebenso wie geschlagene Felder. Eine detaillierte Notation der Bewegungen ist jedoch nicht möglich. Wenn Sie glauben, auf einen Fehler gestoßen zu sein, teilen Sie uns dies bitte auf Discord mit.",
+    "bashni": "Die Manövrierfähigkeit ist ein Maß dafür, wie nah Ihre Stapel an der Beförderung sind. Ihre maximale Manövrierfähigkeit ist die Brettgröße multipliziert mit der Anzahl der von Ihnen kontrollierten Stapel.\n\nDas Material wird berechnet, indem Sie für jeden eigenen Stein in einem von Ihnen kontrollierten Stapel einen Punkt erhalten, plus einen zusätzlichen Punkt, wenn sich eine Dame oben auf diesem Stapel befindet.",
     "biscuit": "Das Spiel endet, wenn am Ende einer Runde jemand die Zielpunktzahl erreicht oder überschritten hat. Die höchste Punktzahl gewinnt. Unentschieden sind möglich.\n\nBei der Berechnung von Biscuits kann eine einzelne Karte nicht mehr als einmal gezählt werden. Wenn beispielsweise die Wurzelkarte eine 6 ist und das Ende der Hauptlinie ebenfalls eine 6 ist (eine Kreuzkarte) und Sie eine 6 über dieser Kreuzkarte spielen, erzielen Sie das \"Hot Cross Biscuit\" (Ober- und Unterseite der Kreuzlinie stimmen überein), aber Sie erhalten nicht *zusätzlich* ein reguläres \"Biscuit\" für das Übereinstimmen mit dem Ende der Hauptlinie (da es sich um dieselbe Karte handelt). Darüber hinaus werden Kreuzlinien überhaupt nicht gezählt, es sei denn, die Linie besteht aus mindestens zwei Karten. Das Ausspielen einer neuen Kreuzkarte (in unserem Beispiel einer 6) bringt Ihnen also nicht automatisch ein \"Biscuit\" ein (das Ausspielen einer Karte auf der Hauptlinie, die mit einer Kreuzlinie übereinstimmt).\n\nWeitere Informationen zum Decktet-System finden Sie auf der [offiziellen Decktet-Website](https://www.decktet.com). Karten auf den Händen der Spieler sind vor Zuschauern und Gegnern verborgen.",
     "blooms": "Der Schwellenwert ist X(n) = 5n, wobei n die Basis des Hexhex-Bretts ist (z. B. hat das Standardbrett die Basis 6, sodass der Schwellenwert 30 beträgt).",
     "btt": "Ungewöhnliche Spielerzahlen (3, 5 oder 6) werden unterstützt, jedoch auf einem normalen rechteckigen Brett entsprechender Größe anstelle eines Martian-Chess-Bretts.",
@@ -638,6 +642,7 @@
     "mirador": "Das Deklarieren verbraucht deinen gesamten Zug. Stelle zuerst deine unangreifbare Verbindung fertig und deklariere erst in deinem nächsten Zug; du kannst nicht im selben Zug einen Mirador setzen und deklarieren.",
     "murus": "Das Standard-Regelwerk ist \"Advanced Murus Gallicus\" (mit Katapulten). Standardmäßig besteht dein erster Zug darin, einen deiner Starttürme als Mauern in deiner zweiten Reihe neu zu verteilen. Zusätzlich ist auch die Standard-Tortenregel (Pie-Rule) verfügbar. Es gibt drei Varianten, die du kombinieren kannst:\n\n* \"Basic\" setzt das Spiel in den Zustand \"ohne Katapult\" zurück.\n* \"Static\" deaktiviert die anfängliche Turmverteilung.\n* \"Escape\" eliminiert die Durchbruchs-Siegbedingung.",
     "mutternland": "Mutternland wurde 1997 von Hartmut Witt entworfen. Diese Implementierung handhabt die anfängliche Steinplatzierung anders. Während im Originalspiel die Spieler beim Aufbau einen _gegnerischen_ Stein pro Zug platzierten, platzieren die Spieler hier einen eigenen Stein und dann einen gegnerischen Stein (einschließlich einiger Einschränkungen, um unbewältigte Starts durch die zufällige Generierung des Spielfelds zu verhindern). Dies macht den Aufbau schneller und bietet etwas Kontrolle über die eigenen Steine. Auch heruntergeschubste Steine, die in die Reserve des Spielers zurückkehren, werden vom Besitzer erneut platziert.",
+    "neutron": "Jeder Zug (außer dem ersten Zug von Weiß beim Standard-Neutron) besteht darin, zuerst das Neutron und danach einen eigenen Bauern zu schieben. Alle Figuren gleiten ohne Überspringen geradlinig so weit wie möglich. **CoNeutron** verlegt die Siegreihe auf die Grundreihe des Gegners und entfernt die reine Bauern-Eröffnung für Weiß.\n\nEinschränkungen der **Beweglichkeit** gelten nur für Bauernzüge. Bei **eingeschränkter** Beweglichkeit dürfen Bauern nicht auf der gegnerischen Grundreihe landen. Bei **doppelt eingeschränkter** Beweglichkeit dürfen Bauern nach dem Verlassen ihrer eigenen Grundreihe diese auch nicht mehr betreten; Bauern, die sich noch auf ihrer eigenen Grundreihe befinden, dürfen entlang dieser Reihe gleiten.\n\nZüge werden als `neutronDest,pawnFrom-pawnTo` notiert, oder im ersten Zug von Weiß bei Standard-Neutron als `pawnFrom-pawnTo`. Ein einzelner gewinnender Neutronenzug wird nur als Zielfeld notiert.",
     "narrows": "Narrows, entworfen von Mark Steere im Jahr 2026, ist ein Vereinigungsspiel, das vom alten hawaiianischen Spiel Kōnane inspiriert wurde. Ganz im Geiste von Kōnane beginnt Ūnane mit einem Schachbrettmuster aus Steinen und ist extrem einfach. In diesem Fall beinhaltet das Vereinigungsziel die Nutzung orthogonaler Pfade aus leeren Feldern, um verschiedene Gruppen eigener Steine zu verbinden.",
     "oonpia": "Verwende entweder die Legende, um einen Stein auszuwählen, oder klicke mehrmals auf dieselbe Stelle, um alle möglichen Steine durchzugehen. Blockierte Felder sind hervorgehoben: Ein halbtransparenter Punkt bedeutet, dass dort nur ein punktierter Stein platziert werden kann (d. h. für einfache Steine blockiert), ein halbtransparenter Stein bedeutet, dass dort nur ein einfacher Stein platziert werden kann (d. h. für punktierte Steine blockiert). Wenn beide Hervorhebungen vorhanden sind, ist das Feld für alle Steine blockiert.",
     "oware": "Diese Implementierung folgt der üblichen Turnierregel, dass Grand-Slam-Züge erlaubt sind, aber keine Steine geschlagen werden. Die Darstellung von Zustandsänderungen in Sähspielen ist eine Herausforderung. Die ursprünglich gewählte Mulde wird ebenso markiert wie jeder Schlagzug. Kleine Zahlen zeigen die Änderung der Anzahl der Steine in jeder Mulde an. Wenn du glaubst, auf einen Fehler gestoßen zu sein, teile uns dies bitte auf Discord mit.",
@@ -832,6 +837,10 @@
       "standard-14": {
         "description": "Eine größere Version des Standardbretts.",
         "name": "Dreieck (14 breit)"
+      },
+      "star-11": {
+        "name": "Stern (11 breit)",
+        "description": "Fünfeckiges Sternbrett. Verbinde drei beliebige Außenseiten, die ein gültiges Y bilden, oder vier oder mehr Seiten."
       }
     },
     "akimbo": {
@@ -2788,6 +2797,35 @@
         "name": "15x16-Brett"
       }
     },
+    "neutron": {
+      "#board": {
+        "name": "5×5-Brett"
+      },
+      "5x7": {
+        "name": "5×7-Brett"
+      },
+      "7x5": {
+        "name": "7×5-Brett"
+      },
+      "7x7": {
+        "name": "7×7-Brett"
+      },
+      "coneutron": {
+        "name": "CoNeutron",
+        "description": "Gewinne, indem du das Neutron auf die Grundreihe des Gegners ziehst. Weiß zieht im ersten Zug das Neutron."
+      },
+      "#mobility": {
+        "name": "Keine Einschränkungen"
+      },
+      "restricted": {
+        "name": "Eingeschränkte Beweglichkeit",
+        "description": "Bauern dürfen nicht auf der gegnerischen Grundreihe landen."
+      },
+      "doubleRestricted": {
+        "name": "Doppelt eingeschränkte Beweglichkeit",
+        "description": "Bauern dürfen auf keiner der beiden Grundreihen landen, außer Bauern, die sich noch auf ihrer eigenen Grundreihe befinden und an dieser entlanggleiten."
+      }
+    },
     "nex": {
       "#board": {
         "name": "11x11-Brett"
@@ -4275,6 +4313,10 @@
       "bent": {
         "name": "Gebogenes Spielfeld"
       },
+      "star": {
+        "name": "Sternbrett",
+        "description": "Fünfeckiges Sternbrett. Die übliche kommerzielle Größe ist 11 (nutze die Brettgrößen-Variante, um die Segmentanzahl zu ändern). Verbinde drei beliebige Außenseiten, die ein gültiges Y bilden, oder vier oder mehr Seiten."
+      },
       "#ruleset": {
         "name": "Y-Standardregeln"
       },
@@ -4537,9 +4579,21 @@
       }
     },
     "icepalace": {
-      "expanding": {
-        "description": "Zweidimensionales Spielbrett, bei dem sich Stapel vergrößern, wenn man mit der Maus darüberfährt.",
-        "name": "Aufklappend"
+      "#areas": {
+        "description": "Hand und Pool von oben gesehen, zweidimensional.",
+        "name": "Hand und Pool von oben"
+      },
+      "#board": {
+        "description": "Zweidimensionales Spielbrett, bei dem sich Stapel beim Darüberfahren erweitern.",
+        "name": "Erweiternd"
+      },
+      "perspective": {
+        "description": "Dreidimensionales Spielbrett mit perspektivisch gestapelten Pyramiden.",
+        "name": "3D-Stapel"
+      },
+      "perspective-areas": {
+        "description": "Hand und Pool in drei Dimensionen, wobei die Pyramiden perspektivisch gezeichnet sind.",
+        "name": "3D-Hand und Pool"
       }
     },
     "intermedium": {
@@ -4972,6 +5026,10 @@
     "GROUPCOUNT": "Gruppenanzahl",
     "GROUPSIZES": "Gruppengrößen",
     "jacynth": "Einflussmarker",
+    "bashni": {
+      "STEPS": "Manövrierfähigkeit",
+      "MATERIAL": "Material"
+    },
     "lasca": {
       "STEPS": "Beweglichkeit",
       "MATERIAL": "Material"
@@ -4983,6 +5041,10 @@
     "meg": {
       "OFFENSE": "Angreifender Spieler",
       "COUNTDOWN": "Verbleibende Halbzüge"
+    },
+    "mvolcano": {
+      "PYRAMIDSCAPTURED": "Eroberte Pyramiden",
+      "UNCAPTUREDCOLOURS": "Noch nicht eroberte Farben"
     },
     "pacru": {
       "TARGET": "Plättchen zum Sieg",
@@ -5005,6 +5067,10 @@
     "RESERVE": "Reserve",
     "SCORES": "Punktestände",
     "STACKSIZES": "Stapelhöhen",
+    "tintas": {
+      "MAJORITIES": "Gewonnene Mehrheiten",
+      "MONOCHROME": "Monochromes Potenzial"
+    },
     "tumbleweed": "Punktestand (Steine + Einfluss)",
     "ESTIMATEDSCORES": "Geschätzte Punktestände",
     "killallgo": {
@@ -6603,6 +6669,11 @@
       "SIMULTANEOUS": "Züge, die gleichzeitig Gewinnlinien für beide Spieler erzeugen würden, sind nicht erlaubt.",
       "ACTIVE": "Figuren müssen von einer der aktiven Seiten des Brettes eingesetzt werden und über bestehende Figuren bis zum ersten leeren Feld gleiten."
     },
+    "bashni": {
+      "INITIAL_INSTRUCTIONS": "Wählen Sie einen Stapel mit Ihrem Stein obenauf, um zu ziehen.",
+      "INVALID_MOVE": "Der Zug scheint nicht legal zu sein. Schlagen ist Pflicht, und Sie müssen fortfahren, solange weitere Schlagzüge möglich sind.",
+      "VALID_PARTIAL": "Wählen Sie ein Ziel. Schlagen ist Pflicht, und Sie müssen fortfahren, solange weitere Schlagzüge möglich sind."
+    },
     "lasca": {
       "INITIAL_INSTRUCTIONS": "Wähle einen Stapel mit deiner Figur obenauf, um ihn zu bewegen.",
       "INVALID_MOVE": "Der Zug scheint nicht legal zu sein. Schlagen ist Pflicht, und du musst fortfahren, solange weitere Schlagzüge möglich sind.",
@@ -6915,6 +6986,15 @@
       "BLOCKS_PATH": "Die Platzierung bei {{where}} blockiert den einzigen Pfad einiger freier Felder zum Rand.",
       "INITIAL_INSTRUCTIONS": "Wähle einen Punkt aus, um einen Stein zu platzieren.",
       "NO_CROSSINGS": "Die Platzierung bei {{where}} erzeugt einen Kreuzschnitt."
+    },
+    "neutron": {
+      "INCOMPLETE": "Du musst beide Teile des Zugs ausführen (oder das Spiel mit einem gewinnenden Neutronenzug beenden).",
+      "INITIAL_INSTRUCTIONS": "Wähle aus, wohin das Neutron geschoben werden soll, oder wähle im ersten Zug von Weiß bei Standard-Neutron einen Bauern aus.",
+      "INVALID_NEUTRON": "Das Neutron kann nicht auf dieses Feld geschoben werden.",
+      "NEUTRON_FIRST": "Ziehe zuerst das Neutron und wähle dann einen deiner Spielsteine.",
+      "PAWN_DEST": "Wähle aus, wohin dieser Bauer geschoben werden soll.",
+      "PAWN_SELECT": "Wähle einen deiner Bauern aus.",
+      "SELECT_OWN_PAWN": "Du kannst nur deine eigenen Bauern ziehen."
     },
     "nex": {
       "EDGE_CASE_ONE_EMPTY_NEUTRAL": "Es gibt nur ein leeres Feld, daher darfst du keinen Stein platzieren. Du solltest stattdessen Tauschzüge machen.",

@@ -3,9 +3,16 @@ import { QuincunxCard } from "./card.js";
 
 export class QuincunxBoard {
     private _cards: QuincunxCard[];
+    /** Max relative grid extent (Jacynth/Quincunx: 5; Thricewise: 6). */
+    public readonly viewportSize: number;
 
-    constructor() {
+    constructor(viewportSize = 5) {
         this._cards = [];
+        this.viewportSize = viewportSize;
+    }
+
+    private graphDimension(boardSpan: number): number {
+        return boardSpan < this.viewportSize ? boardSpan + 2 : this.viewportSize;
     }
 
     public add(card: QuincunxCard): void {
@@ -62,13 +69,19 @@ export class QuincunxBoard {
 
     public get graph(): SquareDirectedGraph {
         const { height, width } = this.dimensions;
-        const g = new SquareDirectedGraph(width < 5 ? width + 2 : 5, height < 5 ? height + 2 : 5);
+        const g = new SquareDirectedGraph(
+            this.graphDimension(width),
+            this.graphDimension(height),
+        );
         return g;
     }
 
     public get graphOcc(): SquareDirectedGraph {
         const { height, width } = this.dimensions;
-        const g = new SquareDirectedGraph(width < 5 ? width + 2 : 5, height < 5 ? height + 2 : 5);
+        const g = new SquareDirectedGraph(
+            this.graphDimension(width),
+            this.graphDimension(height),
+        );
         for (const node of [...g.graph.nodes()]) {
             const [relx, rely] = g.algebraic2coords(node);
             const [absx, absy] = this.rel2abs(relx, rely);
@@ -81,7 +94,10 @@ export class QuincunxBoard {
 
     public get graphOrth(): SquareOrthGraph {
         const { height, width } = this.dimensions;
-        const g = new SquareOrthGraph(width < 5 ? width + 2 : 5, height < 5 ? height + 2 : 5);
+        const g = new SquareOrthGraph(
+            this.graphDimension(width),
+            this.graphDimension(height),
+        );
         return g;
     }
 
@@ -90,7 +106,11 @@ export class QuincunxBoard {
         const g = this.graphOrth;
         const nodes = new Set<string>();
         for (const card of this._cards) {
-            const node = g.coords2algebraic(...this.abs2rel(card.x, card.y)!);
+            const rel = this.abs2rel(card.x, card.y);
+            if (rel === undefined) {
+                continue;
+            }
+            const node = g.coords2algebraic(...rel);
             for (const n of g.neighbours(node)) {
                 const [absx, absy] = this.rel2abs(...g.algebraic2coords(n));
                 if (this.getCardAt(absx, absy) === undefined) {
@@ -115,7 +135,7 @@ export class QuincunxBoard {
         } else if (absx > this.maxX) {
             relx = this.width + Math.abs(this.maxX - absx)
         } else {
-            if (width < 5) {
+            if (width < this.viewportSize) {
                 relx = 1 + Math.abs(this.minX - absx);
             } else {
                 relx = Math.abs(this.minX - absx);
@@ -126,14 +146,15 @@ export class QuincunxBoard {
         } else if (absy > this.maxY) {
             rely = 1 - Math.abs(this.maxY - absy);
         } else {
-            if (height < 5) {
+            if (height < this.viewportSize) {
                 rely = 1 + Math.abs(this.maxY - absy);
             } else {
                 rely = Math.abs(this.maxY - absy);
             }
         }
 
-        if (relx < 0 || relx >= 5 || rely < 0 || rely >= 5) {
+        const vp = this.viewportSize;
+        if (relx < 0 || relx >= vp || rely < 0 || rely >= vp) {
             return undefined;
         }
         return [relx, rely];
@@ -142,19 +163,20 @@ export class QuincunxBoard {
     // Takes a relative coordinate from the (potentially) expanded board and returns the absolute equivalent
     public rel2abs(relx: number, rely: number): [number,number] {
         const { width, height } = this.dimensions;
-        const absx = this.minX + (width < 5 ? relx-1 : relx);
-        const absy = this.maxY - (height < 5 ? rely-1 : rely);
+        const absx = this.minX + (width < this.viewportSize ? relx - 1 : relx);
+        const absy = this.maxY - (height < this.viewportSize ? rely - 1 : rely);
         return [absx, absy];
     }
 
     public clone(): QuincunxBoard {
-        const cloned = new QuincunxBoard();
+        const cloned = new QuincunxBoard(this.viewportSize);
         this._cards.forEach(d => cloned.add(d));
         return cloned;
     }
 
-    public static deserialize(board: QuincunxBoard): QuincunxBoard {
-        const cloned = new QuincunxBoard();
+    public static deserialize(board: QuincunxBoard, viewportSize?: number): QuincunxBoard {
+        const vp = viewportSize ?? board.viewportSize ?? 5;
+        const cloned = new QuincunxBoard(vp);
         board._cards.forEach(d => cloned.add(QuincunxCard.deserialize(d)));
         return cloned;
     }

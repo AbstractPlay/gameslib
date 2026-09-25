@@ -837,6 +837,10 @@
       "standard-14": {
         "description": "Eine größere Version des Standardbretts.",
         "name": "Dreieck (14 breit)"
+      },
+      "star-11": {
+        "name": "Stern (11 breit)",
+        "description": "Fünfeckiges Sternbrett. Verbinde drei beliebige Außenseiten, die ein gültiges Y bilden, oder vier oder mehr Seiten."
       }
     },
     "akimbo": {
@@ -4308,6 +4312,10 @@
       },
       "bent": {
         "name": "Gebogenes Spielfeld"
+      },
+      "star": {
+        "name": "Sternbrett",
+        "description": "Fünfeckiges Sternbrett. Die übliche kommerzielle Größe ist 11 (nutze die Brettgrößen-Variante, um die Segmentanzahl zu ändern). Verbinde drei beliebige Außenseiten, die ein gültiges Y bilden, oder vier oder mehr Seiten."
       },
       "#ruleset": {
         "name": "Y-Standardregeln"

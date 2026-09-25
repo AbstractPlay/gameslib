@@ -22,7 +22,21 @@ import { SquareDiamondsDirectedGraph } from "./square-diamonds-directed.js";
 import { PentaHexGraph } from "./penta-hex.js";
 export { RectTriGraph } from "./rect-tri.js";
 export { BentTriGraph, type BentTriNodeData } from "./bent-tri.js";
-export { StarGraph, type StarNodeData, starFrequencyFromWidth, STAR_DEFAULT_FREQUENCY } from "./star.js";
+export {
+    StarGraph,
+    type StarNodeData,
+    starFrequencyFromWidth,
+    STAR_DEFAULT_FREQUENCY,
+    starOuterSides,
+    starSidesForCell,
+    starSidesAdjacent,
+    isStarYTripleValid,
+    starHasYWin,
+    starTouchedSides,
+    starPickWitnessTriple,
+    starBuildConnPath,
+    starBuildConnPathForWin,
+} from "./star.js";
 export { FracturedFlatGraph, type FracturedFlatNodeData } from "./fractured-flat.js";
 
 export type { IGraph, IGraph3D };

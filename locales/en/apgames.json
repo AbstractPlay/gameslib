@@ -837,6 +837,10 @@
             "standard-14": {
                 "description": "A larger version of the standard board.",
                 "name": "Triangle (14 wide)"
+            },
+            "star-11": {
+                "name": "Star (11 wide)",
+                "description": "Pentagonal star board. Connect any three outer sides that form a legal Y, or four or more sides."
             }
         },
         "akimbo": {
@@ -4308,6 +4312,10 @@
             },
             "bent": {
                 "name": "Bent board"
+            },
+            "star": {
+                "name": "Star board",
+                "description": "Pentagonal star board. The usual commercial size is 11 (use the board size variant to change segment count). Connect any three outer sides that form a legal Y, or four or more sides."
             },
             "#ruleset": {
                 "name": "Y standard rules"

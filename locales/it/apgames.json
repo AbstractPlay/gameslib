@@ -837,6 +837,10 @@
       "standard-14": {
         "description": "Una versione più grande del tavoliere standard.",
         "name": "Triangolo (larghezza 14)"
+      },
+      "star-11": {
+        "name": "Stella (larghezza 11)",
+        "description": "Plancia a stella pentagonale. Collega tre lati esterni qualsiasi che formino una Y valida, oppure quattro o più lati."
       }
     },
     "akimbo": {
@@ -4308,6 +4312,10 @@
       },
       "bent": {
         "name": "Plancia curvata"
+      },
+      "star": {
+        "name": "Plancia a stella",
+        "description": "Plancia a stella pentagonale. La dimensione commerciale classica è 11 (usa la variante della dimensione della plancia per modificare il numero di segmenti). Collega tre lati esterni qualsiasi che formino una Y valida, oppure quattro o più lati."
       },
       "#ruleset": {
         "name": "Regole standard di Y"

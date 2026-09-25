@@ -14615,6 +14615,14 @@
     "src": "Triangle (14 wide)",
     "out": "Triangolo (larghezza 14)"
   },
+  "variants.agere.star-11.description": {
+    "src": "Pentagonal star board. Connect any three outer sides that form a legal Y, or four or more sides.",
+    "out": "Plancia a stella pentagonale. Collega tre lati esterni qualsiasi che formino una Y valida, oppure quattro o più lati."
+  },
+  "variants.agere.star-11.name": {
+    "src": "Star (11 wide)",
+    "out": "Stella (larghezza 11)"
+  },
   "variants.akimbo.#board.name": {
     "src": "13x13 board",
     "out": "Tavoliere 13x13"
@@ -19578,6 +19586,14 @@
   "variants.y.size-9.name": {
     "src": "Size-9 board",
     "out": "Plancia di dimensione 9"
+  },
+  "variants.y.star.description": {
+    "src": "Pentagonal star board. The usual commercial size is 11 (use the board size variant to change segment count). Connect any three outer sides that form a legal Y, or four or more sides.",
+    "out": "Plancia a stella pentagonale. La dimensione commerciale classica è 11 (usa la variante della dimensione della plancia per modificare il numero di segmenti). Collega tre lati esterni qualsiasi che formino una Y valida, oppure quattro o più lati."
+  },
+  "variants.y.star.name": {
+    "src": "Star board",
+    "out": "Plancia a stella"
   },
   "variants.zola.#board.name": {
     "src": "6x6 board",

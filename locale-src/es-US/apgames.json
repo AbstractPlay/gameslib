@@ -14615,6 +14615,14 @@
     "src": "Triangle (14 wide)",
     "out": "Triángulo (14 de ancho)"
   },
+  "variants.agere.star-11.description": {
+    "src": "Pentagonal star board. Connect any three outer sides that form a legal Y, or four or more sides.",
+    "out": "Tablero de estrella pentagonal. Conecta tres lados exteriores cualesquiera que formen una Y válida, o cuatro o más lados."
+  },
+  "variants.agere.star-11.name": {
+    "src": "Star (11 wide)",
+    "out": "Estrella (11 de ancho)"
+  },
   "variants.akimbo.#board.name": {
     "src": "13x13 board",
     "out": "Tablero de 13x13"
@@ -19578,6 +19586,14 @@
   "variants.y.size-9.name": {
     "src": "Size-9 board",
     "out": "Tablero de tamaño 9"
+  },
+  "variants.y.star.description": {
+    "src": "Pentagonal star board. The usual commercial size is 11 (use the board size variant to change segment count). Connect any three outer sides that form a legal Y, or four or more sides.",
+    "out": "Tablero de estrella pentagonal. El tamaño comercial habitual es 11 (usa la variante de tamaño del tablero para cambiar la cantidad de segmentos). Conecta tres lados exteriores cualesquiera que formen una Y válida, o cuatro o más lados."
+  },
+  "variants.y.star.name": {
+    "src": "Star board",
+    "out": "Tablero de estrella"
   },
   "variants.zola.#board.name": {
     "src": "6x6 board",

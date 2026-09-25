@@ -169,6 +169,7 @@
     "nakatta": "Un juego de conexión en cuadrícula cuadrada donde dos configuraciones específicas de piezas están prohibidas.",
     "narrows": "Enlaza todas tus piezas mediante regiones vacías.",
     "necklace": "Un juego de conexión en cuadrícula únicamente ortogonal en el que intentas conectar tus lados del tablero. Las formaciones de corte cruzado (crosscut) son ilegales y cada espacio libre siempre debe tener un camino hacia un borde.",
+    "neutron": "Desliza el neutrón neutral y uno de tus peones en cada turno. Las piezas se mueven en línea recta lo más lejos posible. Ganas llevando el neutrón a la fila trasera correcta o si tu oponente no puede completar un turno.",
     "nex": "Nex (o Hex Neutral) es una variante del juego de conexión Hex donde hay piezas neutrales. En tu turno, puedes (1) colocar una pieza de tu color y una neutral en un espacio vacío, o (2) cambiar dos piezas neutrales a tu color y una de tus piezas al color neutral.",
     "omny": "Juego de conexión generalizado en el que los jugadores intentan dividir las casillas estrella en diferentes regiones para que ninguna región contenga la mayoría de las casillas estrella.",
     "onager": "En Onager, cada jugador intenta llegar a la última fila del oponente. Onager debe su nombre a una máquina de asedio romana que es un tipo de catapulta, ya que la forma en que se mueven las piezas se asemeja a cómo se lanzan los proyectiles con este dispositivo.",
@@ -465,6 +466,7 @@
     "nakatta": "Nakatta",
     "narrows": "Narrows",
     "necklace": "Necklace",
+    "neutron": "Neutron",
     "nex": "Nex",
     "omny": "Omny",
     "onager": "Onager",
@@ -640,6 +642,7 @@
     "mirador": "Declarar consume todo tu turno. Completa primero tu conexión inexpugnable y luego declara en tu siguiente turno; no puedes colocar un mirador y declarar en el mismo turno.",
     "murus": "El reglamento predeterminado es \"Advanced Murus Gallicus\" (con catapultas). Por defecto, tu primer movimiento es redistribuir una de tus torres iniciales como muros en tu segunda fila. Además, la regla estándar del pastel (pie rule) también está disponible. Hay tres variantes que puedes combinar:\n\n* \"Basic\" revierte el juego al estado \"sin catapultas\".\n* \"Static\" deshabilita la redistribución inicial de la torre.\n* \"Escape\" elimina la condición de victoria por avance decisivo.",
     "mutternland": "Mutternland fue diseñado por Hartmut Witt en 1997. Esta implementación maneja las colocaciones iniciales de piezas de manera diferente. Mientras que en el juego original los jugadores colocaban, en la preparación inicial, una pieza _enemiga_ por turno, aquí los jugadores colocan una pieza propia y luego una pieza del oponente (incluidas algunas restricciones para evitar inicios desequilibrados debido a la generación aleatoria del campo de juego). Esto hace que la preparación inicial sea más rápida y proporciona cierto control sobre las piezas propias. Además, las piezas expulsadas, que vuelven a la reserva del jugador, son colocadas nuevamente por su propietario.",
+    "neutron": "Cada turno (excepto el primer turno de las blancas en Neutron estándar) consiste en deslizar el neutrón y luego deslizar uno de tus peones. Todas las piezas se deslizan en línea recta lo más lejos posible sin saltar. **CoNeutron** cambia la fila ganadora a la fila trasera de tu oponente y elimina la apertura solo de peón de las blancas.\n\nLas restricciones de **movilidad** se aplican solo a los movimientos de peones. Con movilidad **restringida**, los peones no pueden caer en la fila inicial del oponente. Con movilidad **doblemente restringida**, los peones tampoco pueden volver a entrar a su propia fila inicial después de salir de ella; los peones que aún estén en la fila inicial pueden deslizarse a lo largo de esa fila.\n\nLos movimientos se anotan `neutronDest,pawnFrom-pawnTo`, o `pawnFrom-pawnTo` en el primer turno de las blancas en Neutron estándar. Un deslizamiento del neutrón que dé la victoria solo se anota como la casilla de destino.",
     "narrows": "Narrows, diseñado por Mark Steere en 2026, es un juego de unificación inspirado en el antiguo juego hawaiano Kōnane. Fiel al espíritu de Kōnane, Ūnane comienza con un patrón de piedras en tablero de ajedrez y es extremadamente simple. En este caso, el objetivo de unificación incluye el uso de caminos ortogonales de casillas vacías para conectar diferentes grupos de piezas propias.",
     "oonpia": "Utiliza la leyenda para seleccionar una pieza o haz clic en la misma ubicación varias veces para desplazarte por todas las piezas posibles. Las casillas bloqueadas están resaltadas: un punto traslúcido significa que solo se puede colocar allí una piedra con punto (es decir, bloqueada para piezas lisas), una pieza traslúcida significa que solo se puede colocar allí una pieza lisa (es decir, bloqueada para piezas con punto). Si ambos resaltados están presentes, entonces la casilla está bloqueada para todas las piezas.",
     "oware": "Esta implementación sigue la regla común de torneo de que se permiten los movimientos de gran slam, pero no se capturan piezas. Representar los cambios de estado en los juegos de siembra es un desafío. El pozo inicial elegido está marcado, al igual que cualquier captura. Aparecen números pequeños para mostrar el cambio en la cantidad de piedras en cada pozo. Si crees que has encontrado un error, por favor avísanos en Discord.",
@@ -2788,6 +2791,35 @@
       },
       "size-16": {
         "name": "Tablero de 15x16"
+      }
+    },
+    "neutron": {
+      "#board": {
+        "name": "Tablero de 5×5"
+      },
+      "5x7": {
+        "name": "Tablero de 5×7"
+      },
+      "7x5": {
+        "name": "Tablero de 7×5"
+      },
+      "7x7": {
+        "name": "Tablero de 7×7"
+      },
+      "coneutron": {
+        "name": "CoNeutron",
+        "description": "Gana moviendo el neutrón a la fila trasera de tu oponente. Las blancas mueven el neutrón en el primer turno."
+      },
+      "#mobility": {
+        "name": "Sin restricciones"
+      },
+      "restricted": {
+        "name": "Movilidad restringida",
+        "description": "Los peones no pueden caer en la fila inicial del oponente."
+      },
+      "doubleRestricted": {
+        "name": "Movilidad doblemente restringida",
+        "description": "Los peones no pueden caer en ninguna de las filas iniciales, excepto que los peones que aún estén en su propia fila inicial pueden deslizarse a lo largo de ella."
       }
     },
     "nex": {
@@ -6946,6 +6978,15 @@
       "BLOCKS_PATH": "La colocación en {{where}} bloquea el único camino de algunos espacios libres hacia el borde.",
       "INITIAL_INSTRUCTIONS": "Selecciona un punto para colocar una pieza.",
       "NO_CROSSINGS": "La colocación en {{where}} creará un corte cruzado."
+    },
+    "neutron": {
+      "INCOMPLETE": "Debes completar ambas partes del turno (o terminar el juego con un movimiento ganador del neutrón).",
+      "INITIAL_INSTRUCTIONS": "Selecciona a dónde deslizar el neutrón o, en el primer turno de las blancas en Neutron estándar, selecciona un peón para mover.",
+      "INVALID_NEUTRON": "El neutrón no se puede deslizar a esa casilla.",
+      "NEUTRON_FIRST": "Desliza el neutrón primero, luego selecciona uno de tus peones.",
+      "PAWN_DEST": "Selecciona a dónde deslizar ese peón.",
+      "PAWN_SELECT": "Selecciona uno de tus peones para mover.",
+      "SELECT_OWN_PAWN": "Solo puedes mover tus propios peones."
     },
     "nex": {
       "EDGE_CASE_ONE_EMPTY_NEUTRAL": "Solo hay una casilla vacía, por lo que no puedes realizar una colocación. En su lugar, debes realizar movimientos de intercambio.",

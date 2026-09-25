@@ -169,6 +169,7 @@
         "nakatta": "A square connection game where two specific piece configurations are forbidden.",
         "narrows": "Link all your pieces by empty regions.",
         "necklace": "An orthogonal-only square connection game where you try to connect your sides of the board. Crosscut formations are illegal, and every free space must always have a path to an edge.",
+        "neutron": "Slide the neutral neutron and one of your pawns each turn. Pieces move in straight lines as far as they can. Win by bringing the neutron to the correct back row, or by leaving your opponent unable to complete a turn.",
         "nex": "Nex (or Neutral Hex) is a variant of the Hex connection game where there are neutral pieces. On your turn, you may either (1) place a piece of your colour and a neutral colour on an empty space, or (2) swap two neutral pieces to your colour and one of your piece to the neutral colour.",
         "omny": "Generalized connection game where players try to split star cells into different regions so that no single region contains a majority of star cells.",
         "onager": "In Onager each player tries to reach the opponent's back rank. Onager is named after a Roman siege engine that is a type of catapult, as the way the pieces move resembles how projectiles are hurled forward with this device.",
@@ -465,6 +466,7 @@
         "nakatta": "Nakatta",
         "narrows": "Narrows",
         "necklace": "Necklace",
+        "neutron": "Neutron",
         "nex": "Nex",
         "omny": "Omny",
         "onager": "Onager",
@@ -640,6 +642,7 @@
         "mirador": "Declaring takes your entire turn. Complete your unassailable connection first, then declare on your next turn; you cannot place a mirador and declare on the same turn.",
         "murus": "The default ruleset is \"Advanced Murus Gallicus\" (with catapults). By default, your first move is to redistribute one of your starting towers as walls on your second row. Additionally, the standard pie rule is also available. There are three variants you can mix and match:\n\n* \"Basic\" reverts the game to the \"no catapult\" state.\n* \"Static\" disables the initial tower redistribution.\n* \"Escape\" eliminates the breakthrough win condition.",
         "mutternland": "Mutternland was designed by Hartmut Witt in 1997. This implementation deals differently with the initial piece placements. While the original game had players, in the setup, place one _enemy_ piece per turn, here players place one friendly piece and then one opponent piece (including some restrictions to prevent unbalanced starts due to the random generation of the playing field). This makes the setup faster and provides some control of the player's own pieces. Also, pushed-off pieces, which go back to the player's reserve, are placed again by the owner.",
+        "neutron": "Each turn (except White's first turn in standard Neutron) consists of sliding the neutron, then sliding one of your pawns. All pieces slide in straight lines as far as possible without jumping. **CoNeutron** swaps the winning row to your opponent's back rank and removes White's pawn-only opening.\n\n**Mobility** restrictions apply to pawn moves only. With **restricted** mobility, pawns may not land on the opponent's home row. With **double restricted** mobility, pawns also may not re-enter their own home row after leaving it; pawns still on the home row may slide along that row.\n\nMoves are notated `neutronDest,pawnFrom-pawnTo`, or `pawnFrom-pawnTo` on White's first turn in standard Neutron. A winning neutron slide alone is notated as just the destination cell.",
         "narrows": "Narrows, designed by Mark Steere in 2026, is an unification game inspired by the ancient Hawiian game of Kōnane. True to the spirit of Kōnane, Ūnane begins with a checkerboard pattern of stones and is extremely simple. In this case, the unification goal includes the use of orthogonal paths of empty cells to connect different groups of friendly pieces.",
         "oonpia": "Either use the legend to select a piece, or click the same location multiple times to cycle through all possible pieces. Blocked cells are highlighted: a translucent dot means only a dotted stone can be placed there (i.e. blocked for plain pieces), a translucent piece means only a plain piece can be placed there (i.e. blocked for dotted pieces). If both highlights are present, then the cell is blocked for all pieces.",
         "oware": "This implementation follows the common tournament rule that grand slam moves are allowed, but no pieces are captured. Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
@@ -2788,6 +2791,35 @@
             },
             "size-16": {
                 "name": "15x16 board"
+            }
+        },
+        "neutron": {
+            "#board": {
+                "name": "5×5 board"
+            },
+            "5x7": {
+                "name": "5×7 board"
+            },
+            "7x5": {
+                "name": "7×5 board"
+            },
+            "7x7": {
+                "name": "7×7 board"
+            },
+            "coneutron": {
+                "name": "CoNeutron",
+                "description": "Win by moving the neutron to your opponent's back row. White moves the neutron on the first turn."
+            },
+            "#mobility": {
+                "name": "No restrictions"
+            },
+            "restricted": {
+                "name": "Restricted mobility",
+                "description": "Pawns may not land on the opponent's home row."
+            },
+            "doubleRestricted": {
+                "name": "Double restricted mobility",
+                "description": "Pawns may not land on either home row, except that pawns still on their own home row may slide along it."
             }
         },
         "nex": {
@@ -6946,6 +6978,15 @@
             "BLOCKS_PATH": "Placement at {{where}} blocks the only path of some free spaces to the edge.",
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece.",
             "NO_CROSSINGS": "Placement at {{where}} will create a crosscut."
+        },
+        "neutron": {
+            "INCOMPLETE": "You must complete both parts of the turn (or end the game with a winning neutron move).",
+            "INITIAL_INSTRUCTIONS": "Select where to slide the neutron, or on White's first turn in standard Neutron, select a pawn to move.",
+            "INVALID_NEUTRON": "The neutron cannot slide to that cell.",
+            "NEUTRON_FIRST": "Slide the neutron first, then select one of your pawns.",
+            "PAWN_DEST": "Select where to slide that pawn.",
+            "PAWN_SELECT": "Select one of your pawns to move.",
+            "SELECT_OWN_PAWN": "You may only move your own pawns."
         },
         "nex": {
             "EDGE_CASE_ONE_EMPTY_NEUTRAL": "There is only one empty cell so you may not make a placement. You should make swap moves instead.",

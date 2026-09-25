@@ -279,6 +279,7 @@
   },
   "ELIMINATED": "{{player}} a été éliminé.",
   "EOG": {
+    "bashni_stagnation": "La partie s'est terminée par un match nul car le nombre et la composition des pièces sont restés inchangés pendant {{count}} coups consécutifs.",
     "buku_singletons": "La partie est terminée car toutes les cases ne contiennent que des pièces isolées.",
     "camelot_claim_draw_repetition": "La partie est terminée car {{player}} a réclamé une nulle par répétition.",
     "camelot_claim_draw_progression": "La partie est terminée car {{player}} a réclamé une nulle selon la règle des 50 coups.",

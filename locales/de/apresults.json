@@ -279,6 +279,7 @@
   },
   "ELIMINATED": "{{player}} wurde eliminiert.",
   "EOG": {
+    "bashni_stagnation": "Das Spiel hat mit einem Unentschieden geendet, da die Anzahl und Zusammensetzung der Steine für {{count}} aufeinanderfolgende Züge unverändert blieb.",
     "buku_singletons": "Das Spiel ist zu Ende, da alle Felder nur noch einzelne Steine enthalten.",
     "camelot_claim_draw_repetition": "Das Spiel ist zu Ende, da {{player}} ein Unentschieden durch Stellungswiederholung beansprucht hat.",
     "camelot_claim_draw_progression": "Das Spiel ist zu Ende, da {{player}} ein Unentschieden nach der 50-Züge-Regel beansprucht hat.",

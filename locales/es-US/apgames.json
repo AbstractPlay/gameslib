@@ -22,9 +22,9 @@
     "attangle": "Attangle es la entrega final de la trilogía de apilamiento de Dieter Stein. Coloca y mueve piezas para construir pilas. La primera persona que construya tres pilas triples gana. También está implementada la variante \"Grand Attangle\".",
     "ayu": "Un juego de unificación donde grupos de piezas serpenteantes reptan hacia sus aliadas para terminar uniéndose. Si no puedes hacer un movimiento en tu turno, ganas. Esto ocurre cuando solo tienes un grupo o cuando no hay un camino libre entre ninguno de tus grupos.",
     "azacru": "Un juego de control territorial donde piezas direccionales navegan por un tablero subdividido para reclamar casillas.",
-    "baghchal": "Un juego tradicional asimétrico para dos jugadores originario de Nepal. El jugador tigre intenta capturar 5 cabras saltando sobre ellas; el jugador cabra intenta inmovilizar a todos los tigres.",
     "bamboo": "Coloca piedras de tal manera que ningún grupo tenga más piezas que el número total de tus grupos en el tablero. Luego, sé el último jugador capaz de mover.",
     "bao": "Un juego tradicional de siembra al estilo mancala del África oriental, donde intentas eliminar todas las piezas de la fila frontal del oponente o dejarlo sin movimientos legales.",
+    "bashni": "Un juego tradicional ruso de damas en columna en un tablero de 8×8. Las piezas capturadas se colocan debajo de la pieza que salta en lugar de salir del tablero.",
     "basalt": "Un juego de conexión triangular en la ladera de un volcán, donde la lava y el basalto compiten por conectar primero los tres lados.",
     "bide": "Hasta seis jugadores se turnan para colocar piezas en el tablero, empujando las piezas adyacentes hacia afuera. También se puede pasar para acumular piezas que se podrán colocar todas juntas más adelante. Las piezas más cercanas al centro valen más puntos. ¡Gana el grupo con la puntuación más alta!",
     "biscuit": "Un juego de Decktet al estilo dominó en el que juegas cartas para sumar puntos de inmediato e intentas ser el primero en jugar todas las cartas de tu mano. Las partidas se juegan a lo largo de varias rondas hasta alcanzar un objetivo determinado.",
@@ -320,6 +320,7 @@
     "baghchal": "Bagh Chal",
     "bamboo": "Bamboo",
     "bao": "Bao",
+    "bashni": "Bashni",
     "basalt": "Basalt",
     "bide": "Bide",
     "biscuit": "Biscuit",
@@ -591,6 +592,7 @@
     "armadas": "Existen problemas conocidos con este juego en dispositivos iOS.\n\nEste juego ofrece dos escenarios:\n\n* El modo por defecto consiste en que cada jugador tiene dos tríos de piezas. En la fase de colocación, cada jugador debe colocar de 1 a 3 barcos hasta colocar todos los barcos.\n* La variante \"Forma libre\" te permite colocar los barcos que desees (máximo tres a la vez) hasta que ambos jugadores pasen (\"pass\"). Esto te permite crear flotas desequilibradas o asimétricas.\n\nPor defecto, las partidas tienen una isla en el centro del campo. También están disponibles las variantes \"sin islas\" y \"dos islas\". No puedes moverte ni disparar a través de las islas. Para impactar con éxito a un barco, al menos una esquina del triángulo de tu barco debe tener una vista despejada de al menos una esquina del barco objetivo.\n\n¡Recuerda que es posible ubicar tu barco en una posición contra una isla o el borde del tablero de modo que ya no puedas mover ese barco! ¡Ten cuidado!",
     "ataxx": "Al repetirse la posición tres veces, el juego termina y se calculan las puntuaciones.",
     "bao": "Los movimientos en Bao pueden ser muy complejos, e incluyen varias vueltas alrededor del tablero y cambios de dirección. Por lo tanto, las anotaciones son escasas. La casilla inicial y la dirección están resaltadas, y las casillas capturadas también están marcadas. Sin embargo, no es posible realizar una anotación detallada del movimiento. Si crees que has encontrado un error, por favor avísanos en Discord.",
+    "bashni": "La maniobrabilidad es una medida de qué tan cerca están tus pilas de coronarse. Tu maniobrabilidad máxima es el tamaño del tablero multiplicado por la cantidad de pilas que controlas.\n\nEl material se calcula otorgándote un punto por cada pieza aliada en una pila que controles, más un punto adicional si tienes una dama en la parte superior de esa pila.",
     "biscuit": "El juego termina cuando, al final de una ronda, alguien alcanza o supera la puntuación objetivo. Gana la puntuación más alta. Los empates son posibles.\n\nAl calcular los biscuits, una sola carta no se puede contar más de una vez. Por ejemplo, si la carta raíz es un 6 y el final de la línea principal también es un 6 (una carta de cruz), y juegas un 6 sobre esa carta de cruz, obtienes la puntuación de \"hot cross biscuit\" (coinciden la parte superior e inferior de la línea de la cruz), pero no obtienes *además* un \"biscuit\" regular por coincidir con el final de la línea principal (es la misma carta). Además, las líneas cruzadas no se cuentan en absoluto a menos que haya al menos dos cartas en la línea. Por lo tanto, jugar una nueva carta de cruz (en nuestro ejemplo, un 6) no te otorga automáticamente un \"biscuit\" (jugar una carta en la línea principal que coincida con una línea cruzada).\n\nPuedes encontrar más información sobre el sistema Decktet en el [sitio web oficial de Decktet](https://www.decktet.com). Las cartas en las manos de los jugadores están ocultas para los observadores y oponentes.",
     "blooms": "El valor umbral es X(n) = 5n, donde n es la base del tablero hexhex (p. ej., el tablero por defecto es de base 6, por lo que el umbral es 30).",
     "btt": "Se admiten cantidades inusuales de jugadores (3, 5 o 6), pero en un tablero rectangular normal de tamaño adecuado en lugar de un tablero de Ajedrez Marciano.",
@@ -4537,9 +4539,21 @@
       }
     },
     "icepalace": {
-      "expanding": {
-        "description": "Tablero bidimensional, con pilas que se expanden al pasar el cursor sobre ellas.",
+      "#areas": {
+        "description": "Mano y reserva vistas desde arriba, en dos dimensiones.",
+        "name": "Mano y reserva desde arriba"
+      },
+      "#board": {
+        "description": "Tablero en dos dimensiones, con pilas que se expanden al pasar el cursor sobre ellas.",
         "name": "Expandible"
+      },
+      "perspective": {
+        "description": "Tablero en tres dimensiones, con pirámides apiladas en perspectiva.",
+        "name": "Pilas en 3D"
+      },
+      "perspective-areas": {
+        "description": "Mano y reserva en tres dimensiones, con las pirámides dibujadas en perspectiva.",
+        "name": "Mano y reserva en 3D"
       }
     },
     "intermedium": {
@@ -4972,6 +4986,10 @@
     "GROUPCOUNT": "Cantidad de grupos",
     "GROUPSIZES": "Tamaños de grupo",
     "jacynth": "Fichas de influencia",
+    "bashni": {
+      "STEPS": "Maniobrabilidad",
+      "MATERIAL": "Material"
+    },
     "lasca": {
       "STEPS": "Maniobrabilidad",
       "MATERIAL": "Material"
@@ -6602,6 +6620,11 @@
       "AMBIGUOUS": "Los movimientos ambiguos (movimientos que podrían introducirse desde ambos lados activos simultáneamente) están prohibidos.",
       "SIMULTANEOUS": "No se permiten movimientos que creen líneas ganadoras para ambos jugadores de manera simultánea.",
       "ACTIVE": "Las piezas deben introducirse desde uno de los lados activos del tablero, deslizándose sobre las piezas existentes hasta la primera casilla vacía."
+    },
+    "bashni": {
+      "INITIAL_INSTRUCTIONS": "Selecciona una pila con tu pieza en la parte superior para mover.",
+      "INVALID_MOVE": "El movimiento no parece ser legal. Capturar es obligatorio, y debes continuar mientras sea posible realizar más capturas.",
+      "VALID_PARTIAL": "Selecciona un destino. Capturar es obligatorio, y debes continuar mientras sea posible realizar más capturas."
     },
     "lasca": {
       "INITIAL_INSTRUCTIONS": "Selecciona una pila con tu pieza arriba para mover.",

@@ -951,6 +951,10 @@
     "src": "{{player}} was eliminated.",
     "out": "{{player}} fue eliminado."
   },
+  "EOG.bashni_stagnation": {
+    "src": "The game has ended in a draw because the piece count and composition were unchanged for {{count}} consecutive moves.",
+    "out": "La partida ha terminado en empate porque la cantidad y composición de las piezas permanecieron sin cambios durante {{count}} movimientos consecutivos."
+  },
   "EOG.buku_singletons": {
     "src": "The game has ended because all cells contain only singletons.",
     "out": "La partida ha terminado porque todas las casillas contienen solo piezas individuales."

@@ -4,7 +4,16 @@ import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, intersects } from "../common/index.js";
 import { UndirectedGraph } from "graphology";
-import { HexTriGraph, BentTriGraph } from "../common/graphs/index.js";
+import {
+    HexTriGraph,
+    BentTriGraph,
+    StarGraph,
+    starFrequencyFromWidth,
+    starOuterSides,
+    starHasYWin,
+    starTouchedSides,
+    starBuildConnPathForWin,
+} from "../common/graphs/index.js";
 import { connectedComponents } from "graphology-components";
 import { bidirectional } from "graphology-shortest-path";
 import i18next from "i18next";
@@ -81,6 +90,7 @@ export class YGame extends GameBase {
             { uid: "progressive", group: "ruleset" }, // progressive variant with group restriction
             { uid: "#boardtype", }, // triangular board
             { uid: "bent", group: "boardtype" },
+            { uid: "star", group: "boardtype" },
         ],
         categories: ["goal>connect", "mechanic>place",  "board>shape>tri", "board>connect>hex", "components>simple>1per"],
         flags: ["pie"],
@@ -95,7 +105,7 @@ export class YGame extends GameBase {
     public variants: string[] = [];
     private boardSize = 9;
     public connPath: string[] = [];
-    private graph: BentTriGraph | HexTriGraph = this.getGraph();
+    private graph: BentTriGraph | HexTriGraph | StarGraph = this.getGraph();
     private ruleset: "ruleset" | "12-free" | "134-group" | "progressive";
 
     constructor(state?: IYState | string, variants?: string[]) {
@@ -172,7 +182,14 @@ export class YGame extends GameBase {
         return "ruleset";
     }
 
-    public getGraph(): BentTriGraph | HexTriGraph {
+    private isStarBoard(): boolean {
+        return this.variants.includes("star");
+    }
+
+    public getGraph(): BentTriGraph | HexTriGraph | StarGraph {
+        if (this.isStarBoard()) {
+            return new StarGraph(starFrequencyFromWidth(this.boardSize));
+        }
         if (this.variants.includes("bent")) {
             return new BentTriGraph(this.boardSize);
         } else {
@@ -291,7 +308,9 @@ export class YGame extends GameBase {
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             let newmove: string;
-            const cell = this.coords2algebraic(col, row);
+            const cell = this.isStarBoard()
+                ? this.coords2algebraic(row, col)
+                : this.coords2algebraic(col, row);
 
             if (this.ruleset === "12-free") {
                 if ( move === "" ) {
@@ -534,6 +553,15 @@ export class YGame extends GameBase {
         return this;
     }
 
+    private buildPathStar(g: UndirectedGraph, grp: string[], sides: string[][]): void {
+        const touched = starTouchedSides(grp, sides);
+        const path = starBuildConnPathForWin(g, grp, sides, touched);
+        if (path === null) {
+            throw new Error("Could not build a star winning path");
+        }
+        this.connPath = path;
+    }
+
     private buildPath(g: UndirectedGraph): void {
         const [left, right, bottom] = this.edges;
         const lr: string[][] = [];
@@ -579,6 +607,19 @@ export class YGame extends GameBase {
         throw new Error("Could not build a path");
     }
 
+    private isConnectedStar(g: UndirectedGraph): boolean {
+        const starGraph = this.graph as StarGraph;
+        const sides = starOuterSides(starGraph);
+        for (const grp of connectedComponents(g)) {
+            const touched = starTouchedSides(grp, sides);
+            if (starHasYWin(touched)) {
+                this.buildPathStar(g, grp, sides);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public isConnected(player?: playerid): boolean {
         if (player === undefined) {
             player = this.currplayer;
@@ -588,6 +629,9 @@ export class YGame extends GameBase {
             if ( !this.board.has(cell) || this.board.get!(cell) !== player ) {
                 g.dropNode(cell);
             }
+        }
+        if (this.isStarBoard()) {
+            return this.isConnectedStar(g);
         }
         const edges = this.edges;
         for (const grp of connectedComponents(g)) {
@@ -643,11 +687,13 @@ export class YGame extends GameBase {
             pstr.push(pieces);
         }
         const isBent: boolean = this.variants.includes("bent");
+        const isStar: boolean = this.isStarBoard();
 
         // Build rep
         const rep: APRenderRep =  {
-            options: isBent ? undefined : ["reverse-letters"],
-            board: isBent ? { style: "bent-tri",   width: this.boardSize } :
+            options: (isBent || isStar) ? undefined : ["reverse-letters"],
+            board: isStar ? { style: "star", width: this.boardSize } :
+                   isBent ? { style: "bent-tri",   width: this.boardSize } :
                             { style: "hex-of-hex", minWidth: 1, maxWidth: this.boardSize, half: "top" },
             legend: {
                 A: { name: "piece", colour: 1 },
@@ -658,19 +704,25 @@ export class YGame extends GameBase {
 
         // Add annotations
         rep.annotations = [];
+        const annotationRowCol = (cell: string): RowCol => {
+            if (isStar) {
+                const [ring, pos] = this.algebraic2coords(cell);
+                return { row: ring, col: pos };
+            }
+            const [x, y] = this.algebraic2coords(cell);
+            return { row: y, col: x };
+        };
         if (this.results.length > 0) {
             for (const move of this.results) {
                 if (move.type === "place") {
-                    const [x, y] = this.algebraic2coords(move.where!);
-                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
+                    rep.annotations.push({type: "enter", targets: [annotationRowCol(move.where!)]});
                 }
             }
         }
         if ( this.isConnected(this.currplayer === 1 ? 2 : 1) ) {
             const targets: RowCol[] = [];
             for (const cell of this.connPath) {
-                const [x, y] = this.algebraic2coords(cell);
-                targets.push({ row: y, col: x })
+                targets.push(annotationRowCol(cell));
             }
             rep.annotations.push({ type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
         }

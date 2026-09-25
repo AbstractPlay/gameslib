@@ -14615,6 +14615,14 @@
     "src": "Triangle (14 wide)",
     "out": "Triangle (largeur 14)"
   },
+  "variants.agere.star-11.description": {
+    "src": "Pentagonal star board. Connect any three outer sides that form a legal Y, or four or more sides.",
+    "out": "Plateau en étoile pentagonale. Reliez trois côtés extérieurs formant un Y valide, ou quatre côtés ou plus."
+  },
+  "variants.agere.star-11.name": {
+    "src": "Star (11 wide)",
+    "out": "Étoile (11 de large)"
+  },
   "variants.akimbo.#board.name": {
     "src": "13x13 board",
     "out": "Plateau 13x13"
@@ -19578,6 +19586,14 @@
   "variants.y.size-9.name": {
     "src": "Size-9 board",
     "out": "Plateau de taille 9"
+  },
+  "variants.y.star.description": {
+    "src": "Pentagonal star board. The usual commercial size is 11 (use the board size variant to change segment count). Connect any three outer sides that form a legal Y, or four or more sides.",
+    "out": "Plateau en étoile pentagonale. La taille commerciale habituelle est de 11 (utilisez la variante de taille de plateau pour modifier le nombre de segments). Reliez trois côtés extérieurs formant un Y valide, ou quatre côtés ou plus."
+  },
+  "variants.y.star.name": {
+    "src": "Star board",
+    "out": "Plateau en étoile"
   },
   "variants.zola.#board.name": {
     "src": "6x6 board",

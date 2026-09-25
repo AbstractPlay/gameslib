@@ -14615,6 +14615,14 @@
     "src": "Triangle (14 wide)",
     "out": "Dreieck (14 breit)"
   },
+  "variants.agere.star-11.description": {
+    "src": "Pentagonal star board. Connect any three outer sides that form a legal Y, or four or more sides.",
+    "out": "Fünfeckiges Sternbrett. Verbinde drei beliebige Außenseiten, die ein gültiges Y bilden, oder vier oder mehr Seiten."
+  },
+  "variants.agere.star-11.name": {
+    "src": "Star (11 wide)",
+    "out": "Stern (11 breit)"
+  },
   "variants.akimbo.#board.name": {
     "src": "13x13 board",
     "out": "13x13-Brett"
@@ -19578,6 +19586,14 @@
   "variants.y.size-9.name": {
     "src": "Size-9 board",
     "out": "Spielfeld der Größe 9"
+  },
+  "variants.y.star.description": {
+    "src": "Pentagonal star board. The usual commercial size is 11 (use the board size variant to change segment count). Connect any three outer sides that form a legal Y, or four or more sides.",
+    "out": "Fünfeckiges Sternbrett. Die übliche kommerzielle Größe ist 11 (nutze die Brettgrößen-Variante, um die Segmentanzahl zu ändern). Verbinde drei beliebige Außenseiten, die ein gültiges Y bilden, oder vier oder mehr Seiten."
+  },
+  "variants.y.star.name": {
+    "src": "Star board",
+    "out": "Sternbrett"
   },
   "variants.zola.#board.name": {
     "src": "6x6 board",

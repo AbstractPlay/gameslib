@@ -837,6 +837,10 @@
       "standard-14": {
         "description": "Una versión más grande del tablero estándar.",
         "name": "Triángulo (14 de ancho)"
+      },
+      "star-11": {
+        "name": "Estrella (11 de ancho)",
+        "description": "Tablero de estrella pentagonal. Conecta tres lados exteriores cualesquiera que formen una Y válida, o cuatro o más lados."
       }
     },
     "akimbo": {
@@ -4308,6 +4312,10 @@
       },
       "bent": {
         "name": "Tablero curvo"
+      },
+      "star": {
+        "name": "Tablero de estrella",
+        "description": "Tablero de estrella pentagonal. El tamaño comercial habitual es 11 (usa la variante de tamaño del tablero para cambiar la cantidad de segmentos). Conecta tres lados exteriores cualesquiera que formen una Y válida, o cuatro o más lados."
       },
       "#ruleset": {
         "name": "Reglas estándar de Y"

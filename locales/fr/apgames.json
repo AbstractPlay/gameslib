@@ -837,6 +837,10 @@
       "standard-14": {
         "description": "Une version plus grande du plateau standard.",
         "name": "Triangle (largeur 14)"
+      },
+      "star-11": {
+        "name": "Étoile (11 de large)",
+        "description": "Plateau en étoile pentagonale. Reliez trois côtés extérieurs formant un Y valide, ou quatre côtés ou plus."
       }
     },
     "akimbo": {
@@ -4308,6 +4312,10 @@
       },
       "bent": {
         "name": "Plateau coudé"
+      },
+      "star": {
+        "name": "Plateau en étoile",
+        "description": "Plateau en étoile pentagonale. La taille commerciale habituelle est de 11 (utilisez la variante de taille de plateau pour modifier le nombre de segments). Reliez trois côtés extérieurs formant un Y valide, ou quatre côtés ou plus."
       },
       "#ruleset": {
         "name": "Règles standard du Y"

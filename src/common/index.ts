@@ -4,7 +4,7 @@ import { StackSet} from "./stackset.js";
 import { reviver, replacer, sortingReplacer } from "./serialization.js";
 import { shuffle } from "./shuffle.js";
 import { UserFacingError } from "./errors.js";
-import { HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareDiagGraph, SquareGraph, Square3DGraph, SquareDirectedGraph, SquareFanoronaGraph, BaoGraph, SowingNoEndsGraph, RectTriGraph, BentTriGraph, StarGraph, starFrequencyFromWidth, HexMoonGraph, FracturedFlatGraph } from "./graphs/index.js";
+import { HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareDiagGraph, SquareGraph, Square3DGraph, SquareDirectedGraph, SquareFanoronaGraph, BaoGraph, SowingNoEndsGraph, RectTriGraph, BentTriGraph, StarGraph, starFrequencyFromWidth, starOuterSides, starSidesForCell, starSidesAdjacent, isStarYTripleValid, starHasYWin, starTouchedSides, starPickWitnessTriple, starBuildConnPath, starBuildConnPathForWin, HexMoonGraph, FracturedFlatGraph } from "./graphs/index.js";
 import { wng } from "./namegenerator.js";
 import { projectPoint, ptDistance, smallestDegreeDiff, normDeg, deg2rad, rad2deg, toggleFacing, calcBearing, matrixRectRot90, matrixRectRotN90, transposeRect, circle2poly, midpoint, distFromCircle, deg2dir, dir2deg, rotateFacing } from "./plotting.js";
 import { hexhexAi2Ap, hexhexAp2Ai, triAi2Ap, triAp2Ai } from "./aiai.js";
@@ -78,7 +78,7 @@ export {
     nextDisplayCycleStep,
 } from "./display-cycle.js";
 
-export { RectGrid, StackSet, reviver, replacer, sortingReplacer, shuffle, UserFacingError, HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareDiagGraph, SquareGraph, Square3DGraph, SquareDirectedGraph, SquareFanoronaGraph, BaoGraph, SowingNoEndsGraph, RectTriGraph, BentTriGraph, StarGraph, HexMoonGraph, FracturedFlatGraph, starFrequencyFromWidth, wng, projectPoint, ptDistance, smallestDegreeDiff, normDeg, deg2rad, rad2deg, toggleFacing, calcBearing, matrixRectRot90, matrixRectRotN90, transposeRect, hexhexAi2Ap, hexhexAp2Ai, triAi2Ap, triAp2Ai, circle2poly, midpoint, distFromCircle, dir2deg, deg2dir, rotateFacing };
+export { RectGrid, StackSet, reviver, replacer, sortingReplacer, shuffle, UserFacingError, HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareDiagGraph, SquareGraph, Square3DGraph, SquareDirectedGraph, SquareFanoronaGraph, BaoGraph, SowingNoEndsGraph, RectTriGraph, BentTriGraph, StarGraph, HexMoonGraph, FracturedFlatGraph, starFrequencyFromWidth, starOuterSides, starSidesForCell, starSidesAdjacent, isStarYTripleValid, starHasYWin, starTouchedSides, starPickWitnessTriple, starBuildConnPath, starBuildConnPathForWin, wng, projectPoint, ptDistance, smallestDegreeDiff, normDeg, deg2rad, rad2deg, toggleFacing, calcBearing, matrixRectRot90, matrixRectRotN90, transposeRect, hexhexAi2Ap, hexhexAp2Ai, triAi2Ap, triAp2Ai, circle2poly, midpoint, distFromCircle, dir2deg, deg2dir, rotateFacing };
 
 export type DirectionCardinal = "N" | "E" | "S" | "W";
 export type DirectionDiagonal = "NE" | "SE" | "SW" | "NW";

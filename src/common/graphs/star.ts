@@ -28,6 +28,17 @@ export type StarNodeData = {
 };
 
 export { starFrequencyFromWidth, STAR_DEFAULT_FREQUENCY };
+export {
+    starOuterSides,
+    starSidesForCell,
+    starSidesAdjacent,
+    isStarYTripleValid,
+    starHasYWin,
+    starTouchedSides,
+    starPickWitnessTriple,
+    starBuildConnPath,
+    starBuildConnPathForWin,
+} from "../star/yWin.js";
 
 export class StarGraph implements IGraph {
     public readonly frequency: number;

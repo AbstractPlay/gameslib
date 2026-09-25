@@ -1055,6 +1055,10 @@
     "src": "Pieces capture in pairs using a \"shooting\" mechanic. Be the first to capture four of your opponent's pieces.",
     "out": "Las piezas capturan en parejas utilizando una mecánica de \"disparo\". Sé el primero en capturar cuatro de las piezas de tu oponente."
   },
+  "descriptions.thricewise": {
+    "src": "A fast-paced Decktet tableau game: each turn everyone secretly chooses a card, then non-deferred plays go onto the grid in rank order. Score whenever your play completes a line of three (flush, set, or straight). Highest score when the grid fills or hands are empty wins.",
+    "out": "Un juego dinámico de despliegue con Decktet: en cada turno todos eligen en secreto una carta, y luego las jugadas no diferidas van a la cuadrícula en orden de rango. Anotas puntos cada vez que tu jugada complete una línea de tres (color, grupo o escalera). Gana quien tenga la puntuación más alta cuando la cuadrícula se llene o las manos queden vacías."
+  },
   "descriptions.tintas": {
     "src": "Players race to either collect all seven of one colour or to collect four of four different colours.",
     "out": "Los jugadores compiten por recolectar las siete piezas de un solo color o cuatro piezas de cuatro colores diferentes."
@@ -3163,6 +3167,10 @@
     "src": "Tessella",
     "out": "Tessella"
   },
+  "names.thricewise": {
+    "src": "Thricewise",
+    "out": "Thricewise"
+  },
   "names.tintas": {
     "src": "Tintas",
     "out": "Tintas"
@@ -3654,6 +3662,10 @@
   "notes.terrace": {
     "src": "The Assassination variant is described in [this BGG thread](https://boardgamegeek.com/thread/551125/variant-for-more-aggressive-less-drawish-play), summarized below:\n\n- Up straight, you must be larger or a smallest-size piece can assassinate a largest-size piece.\n\n- Same level (orthogonally adjacent only), you must be at least the same size.\n\n- Down diagonal, you may be one rank smaller.",
     "out": "La variante Asesinato se describe en [este hilo de BGG](https://boardgamegeek.com/thread/551125/variant-for-more-aggressive-less-drawish-play), resumida a continuación:\n\n- Hacia arriba en línea recta, debes ser de mayor tamaño o la pieza de menor tamaño puede asesinar a la pieza de mayor tamaño.\n\n- En el mismo nivel (solo ortogonalmente adyacente), debes ser al menos del mismo tamaño.\n\n- Hacia abajo en diagonal, puedes ser un rango más pequeño."
+  },
+  "notes.thricewise": {
+    "src": "With 2 or 4 players the opening grid is 2×2; with 3 or 5 players it is 2×3. The tableau may grow in any direction until it is 6×6. Duplicate ranks in the simultaneous selection are deferred face-up beside your seat and played on a later turn (you may place deferred cards and your new card in any order in one submission). More information on the Decktet is on the [Decktet wiki](https://decktet.wikidot.com/).",
+    "out": "Con 2 o 4 jugadores la cuadrícula inicial es de 2×2; con 3 o 5 jugadores es de 2×3. El despliegue puede crecer en cualquier dirección hasta llegar a 6×6. Los rangos duplicados en la selección simultánea se difieren boca arriba al lado de tu asiento y se juegan en un turno posterior (puedes colocar las cartas diferidas y tu carta nueva en cualquier orden en una sola confirmación). Hay más información sobre el Decktet en la [wiki de Decktet](https://decktet.wikidot.com/)."
   },
   "notes.toguz": {
     "src": "Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
@@ -13390,6 +13402,66 @@
   "validation.tessella.PARTIAL_move": {
     "src": "Select a destination. This piece may only move.",
     "out": "Selecciona un destino. Esta pieza solo puede moverse."
+  },
+  "validation.thricewise.BAD_CARD": {
+    "src": "That card ({{card}}) is not available to play.",
+    "out": "Esa carta ({{card}}) no está disponible para jugar."
+  },
+  "validation.thricewise.BAD_PASS": {
+    "src": "Only inactive seats may submit a pass token during placement.",
+    "out": "Solo los asientos inactivos pueden enviar una ficha de paso durante la colocación."
+  },
+  "validation.thricewise.DUPLICATE_CARD": {
+    "src": "Each card may only be placed once in this turn.",
+    "out": "Cada carta solo se puede colocar una vez en este turno."
+  },
+  "validation.thricewise.GRID_CAP": {
+    "src": "The grid cannot grow wider or taller than six cards.",
+    "out": "La cuadrícula no puede crecer a más de seis cartas de ancho o de alto."
+  },
+  "validation.thricewise.INITIAL_INSTRUCTIONS_place": {
+    "src": "Place your card(s) on the grid. Deferred cards and this turn's card must all be placed.",
+    "out": "Coloca tu(s) carta(s) en la cuadrícula. Se deben colocar tanto las cartas diferidas como la carta de este turno."
+  },
+  "validation.thricewise.INITIAL_INSTRUCTIONS_select": {
+    "src": "Choose a card from your hand.",
+    "out": "Elige una carta de tu mano."
+  },
+  "validation.thricewise.LABEL_DECK": {
+    "src": "Cards in deck",
+    "out": "Cartas en el mazo"
+  },
+  "validation.thricewise.LABEL_HAND": {
+    "src": "{{player}}'s hand & deferred",
+    "out": "Mano de {{player}} y cartas diferidas"
+  },
+  "validation.thricewise.NOT_ADJACENT": {
+    "src": "Cards must be placed next to an existing card.",
+    "out": "Las cartas se deben colocar junto a una carta existente."
+  },
+  "validation.thricewise.NOT_YOUR_TURN": {
+    "src": "Wait for your turn in the placement order.",
+    "out": "Espera tu turno en el orden de colocación."
+  },
+  "validation.thricewise.SELECT_HAND": {
+    "src": "Select a card from your hand area.",
+    "out": "Selecciona una carta del área de tu mano."
+  },
+  "validation.thricewise.STATUS_place": {
+    "src": "Trick {{round}} — placement",
+    "out": "Baza {{round}} — colocación"
+  },
+  "validation.thricewise.STATUS_select": {
+    "src": "Trick {{round}} — choose a card",
+    "out": "Baza {{round}} — elige una carta"
+  },
+  "validation.thricewise.VALID_PARTIAL_CELL": {
+    "src": "Choose a cell for this card.",
+    "out": "Elige una casilla para esta carta."
+  },
+  "validation.thricewise.VALID_PARTIAL_MORE": {
+    "src": "Place your remaining card(s).",
+    "out": "Coloca tu(s) carta(s) restante(s)."
   },
   "validation.tintas.CAPTURED_LABEL": {
     "src": "{{player}}'s captured pieces",

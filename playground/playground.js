@@ -1677,6 +1677,9 @@ function renderGame(...args) {
         }
 
         var game = APGames.GameFactory(gamename, state);
+        options.boardClick = gameIsSimultaneous(game, gamename)
+            ? boardClickSimultaneous
+            : boardClick;
         currentPlaygroundGame = game;
         currentPlaygroundGamename = gamename;
         const isDark = window.localStorage.getItem("darkMode") === "true";

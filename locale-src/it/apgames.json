@@ -1513,11 +1513,11 @@
   },
   "displays.icepalace.#board.description": {
     "src": "Two dimensional board, with stacks expanding when hovered over.",
-    "out": "Tavoliere bidimensionale, con pile che si espandono al passaggio del cursore."
+    "out": "Plancia bidimensionale, con le pile che si espandono al passaggio del cursore."
   },
   "displays.icepalace.#board.name": {
     "src": "Expanding",
-    "out": "In espansione"
+    "out": "Espandibile"
   },
   "displays.icepalace.perspective-areas.description": {
     "src": "Hand and Pool in three dimensions, with the pyramids drawn in perspective.",
@@ -1530,6 +1530,22 @@
   "displays.icepalace.perspective.description": {
     "src": "Three dimensional board, with pyramids stacked in perspective.",
     "out": "Tavoliere tridimensionale, con piramidi impilate in prospettiva."
+  },
+  "displays.icepalace.perspective.name": {
+    "src": "3D stacks",
+    "out": "Pile 3D"
+  },
+  "displays.icepalace.perspective-areas.description": {
+    "src": "Hand and Pool in three dimensions, with the pyramids drawn in perspective.",
+    "out": "Mano e Riserva in tre dimensioni, con le piramidi disegnate in prospettiva."
+  },
+  "displays.icepalace.perspective-areas.name": {
+    "src": "3D hand and Pool",
+    "out": "Mano e Riserva 3D"
+  },
+  "displays.icepalace.perspective.description": {
+    "src": "Three dimensional board, with pyramids stacked in perspective.",
+    "out": "Plancia tridimensionale, con le piramidi impilate in prospettiva."
   },
   "displays.icepalace.perspective.name": {
     "src": "3D stacks",
@@ -4035,6 +4051,14 @@
     "src": "Offensive player",
     "out": "Giocatore in attacco"
   },
+  "status.mvolcano.PYRAMIDSCAPTURED": {
+    "src": "Pyramids captured",
+    "out": "Piramidi catturate"
+  },
+  "status.mvolcano.UNCAPTUREDCOLOURS": {
+    "src": "Colours not yet captured",
+    "out": "Colori non ancora catturati"
+  },
   "status.pacru.TARGET": {
     "src": "Tiles to win",
     "out": "Tessere per vincere"
@@ -4062,6 +4086,14 @@
   "status.scribe.MINI_GRIDS": {
     "src": "Mini grids won",
     "out": "Mini-griglie vinte"
+  },
+  "status.tintas.MAJORITIES": {
+    "src": "Majorities won",
+    "out": "Maggioranze vinte"
+  },
+  "status.tintas.MONOCHROME": {
+    "src": "Monochrome potential",
+    "out": "Potenziale monocromatico"
   },
   "status.tumbleweed": {
     "src": "Score (pieces + influence)",

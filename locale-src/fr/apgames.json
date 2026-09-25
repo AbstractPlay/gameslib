@@ -1505,11 +1505,11 @@
   },
   "displays.icepalace.#areas.description": {
     "src": "Hand and Pool seen from above, in two dimensions.",
-    "out": "Main et Réserve vues du dessus, en deux dimensions."
+    "out": "Main et réserve vues du dessus, en deux dimensions."
   },
   "displays.icepalace.#areas.name": {
     "src": "Top-down hand and Pool",
-    "out": "Main et Réserve vues du dessus"
+    "out": "Main et réserve en vue du dessus"
   },
   "displays.icepalace.#board.description": {
     "src": "Two dimensional board, with stacks expanding when hovered over.",
@@ -1521,15 +1521,15 @@
   },
   "displays.icepalace.perspective-areas.description": {
     "src": "Hand and Pool in three dimensions, with the pyramids drawn in perspective.",
-    "out": "Main et Réserve en trois dimensions, avec les pyramides dessinées en perspective."
+    "out": "Main et réserve en trois dimensions, avec les pyramides dessinées en perspective."
   },
   "displays.icepalace.perspective-areas.name": {
     "src": "3D hand and Pool",
-    "out": "Main et Réserve 3D"
+    "out": "Main et réserve 3D"
   },
   "displays.icepalace.perspective.description": {
     "src": "Three dimensional board, with pyramids stacked in perspective.",
-    "out": "Plateau en trois dimensions, avec des pyramides empilées en perspective."
+    "out": "Plateau en trois dimensions, avec les pyramides empilées en perspective."
   },
   "displays.icepalace.perspective.name": {
     "src": "3D stacks",
@@ -4035,6 +4035,14 @@
     "src": "Offensive player",
     "out": "Joueur offensif"
   },
+  "status.mvolcano.PYRAMIDSCAPTURED": {
+    "src": "Pyramids captured",
+    "out": "Pyramides capturées"
+  },
+  "status.mvolcano.UNCAPTUREDCOLOURS": {
+    "src": "Colours not yet captured",
+    "out": "Couleurs non encore capturées"
+  },
   "status.pacru.TARGET": {
     "src": "Tiles to win",
     "out": "Tuiles pour gagner"
@@ -4062,6 +4070,14 @@
   "status.scribe.MINI_GRIDS": {
     "src": "Mini grids won",
     "out": "Mini-grilles remportées"
+  },
+  "status.tintas.MAJORITIES": {
+    "src": "Majorities won",
+    "out": "Majorités remportées"
+  },
+  "status.tintas.MONOCHROME": {
+    "src": "Monochrome potential",
+    "out": "Potentiel monochrome"
   },
   "status.tumbleweed": {
     "src": "Score (pieces + influence)",

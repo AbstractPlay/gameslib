@@ -1505,11 +1505,11 @@
   },
   "displays.icepalace.#areas.description": {
     "src": "Hand and Pool seen from above, in two dimensions.",
-    "out": "Hand und Vorrat von oben gesehen, zweidimensional."
+    "out": "Hand und Pool von oben gesehen, zweidimensional."
   },
   "displays.icepalace.#areas.name": {
     "src": "Top-down hand and Pool",
-    "out": "Hand und Vorrat von oben"
+    "out": "Hand und Pool von oben"
   },
   "displays.icepalace.#board.description": {
     "src": "Two dimensional board, with stacks expanding when hovered over.",
@@ -1521,11 +1521,11 @@
   },
   "displays.icepalace.perspective-areas.description": {
     "src": "Hand and Pool in three dimensions, with the pyramids drawn in perspective.",
-    "out": "Hand und Vorrat in drei Dimensionen, wobei die Pyramiden perspektivisch dargestellt werden."
+    "out": "Hand und Pool in drei Dimensionen, wobei die Pyramiden perspektivisch gezeichnet sind."
   },
   "displays.icepalace.perspective-areas.name": {
     "src": "3D hand and Pool",
-    "out": "3D-Hand und -Vorrat"
+    "out": "3D-Hand und Pool"
   },
   "displays.icepalace.perspective.description": {
     "src": "Three dimensional board, with pyramids stacked in perspective.",
@@ -4035,6 +4035,14 @@
     "src": "Offensive player",
     "out": "Angreifender Spieler"
   },
+  "status.mvolcano.PYRAMIDSCAPTURED": {
+    "src": "Pyramids captured",
+    "out": "Eroberte Pyramiden"
+  },
+  "status.mvolcano.UNCAPTUREDCOLOURS": {
+    "src": "Colours not yet captured",
+    "out": "Noch nicht eroberte Farben"
+  },
   "status.pacru.TARGET": {
     "src": "Tiles to win",
     "out": "Plättchen zum Sieg"
@@ -4062,6 +4070,14 @@
   "status.scribe.MINI_GRIDS": {
     "src": "Mini grids won",
     "out": "Gewonnene Minigitter"
+  },
+  "status.tintas.MAJORITIES": {
+    "src": "Majorities won",
+    "out": "Gewonnene Mehrheiten"
+  },
+  "status.tintas.MONOCHROME": {
+    "src": "Monochrome potential",
+    "out": "Monochromes Potenzial"
   },
   "status.tumbleweed": {
     "src": "Score (pieces + influence)",

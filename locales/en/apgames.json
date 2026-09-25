@@ -5002,6 +5002,10 @@
             "OFFENSE": "Offensive player",
             "COUNTDOWN": "Plies remaining"
         },
+        "mvolcano": {
+            "PYRAMIDSCAPTURED": "Pyramids captured",
+            "UNCAPTUREDCOLOURS": "Colours not yet captured"
+        },
         "pacru": {
             "TARGET": "Tiles to win",
             "TILES": "Tiles on board"
@@ -5023,6 +5027,10 @@
         "RESERVE": "Reserve",
         "SCORES": "Scores",
         "STACKSIZES": "Stack heights",
+        "tintas": {
+            "MAJORITIES": "Majorities won",
+            "MONOCHROME": "Monochrome potential"
+        },
         "tumbleweed": "Score (pieces + influence)",
         "ESTIMATEDSCORES": "Estimated scores",
         "killallgo": {

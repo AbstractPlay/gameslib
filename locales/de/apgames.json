@@ -4540,8 +4540,8 @@
     },
     "icepalace": {
       "#areas": {
-        "description": "Hand und Vorrat von oben gesehen, zweidimensional.",
-        "name": "Hand und Vorrat von oben"
+        "description": "Hand und Pool von oben gesehen, zweidimensional.",
+        "name": "Hand und Pool von oben"
       },
       "#board": {
         "description": "Zweidimensionales Spielbrett, bei dem sich Stapel beim Darüberfahren erweitern.",
@@ -4552,8 +4552,8 @@
         "name": "3D-Stapel"
       },
       "perspective-areas": {
-        "description": "Hand und Vorrat in drei Dimensionen, wobei die Pyramiden perspektivisch dargestellt werden.",
-        "name": "3D-Hand und -Vorrat"
+        "description": "Hand und Pool in drei Dimensionen, wobei die Pyramiden perspektivisch gezeichnet sind.",
+        "name": "3D-Hand und Pool"
       }
     },
     "intermedium": {
@@ -5002,6 +5002,10 @@
       "OFFENSE": "Angreifender Spieler",
       "COUNTDOWN": "Verbleibende Halbzüge"
     },
+    "mvolcano": {
+      "PYRAMIDSCAPTURED": "Eroberte Pyramiden",
+      "UNCAPTUREDCOLOURS": "Noch nicht eroberte Farben"
+    },
     "pacru": {
       "TARGET": "Plättchen zum Sieg",
       "TILES": "Plättchen auf dem Spielplan"
@@ -5023,6 +5027,10 @@
     "RESERVE": "Reserve",
     "SCORES": "Punktestände",
     "STACKSIZES": "Stapelhöhen",
+    "tintas": {
+      "MAJORITIES": "Gewonnene Mehrheiten",
+      "MONOCHROME": "Monochromes Potenzial"
+    },
     "tumbleweed": "Punktestand (Steine + Einfluss)",
     "ESTIMATEDSCORES": "Geschätzte Punktestände",
     "killallgo": {

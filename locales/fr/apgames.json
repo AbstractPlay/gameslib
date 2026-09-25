@@ -4540,20 +4540,20 @@
     },
     "icepalace": {
       "#areas": {
-        "description": "Main et Réserve vues du dessus, en deux dimensions.",
-        "name": "Main et Réserve vues du dessus"
+        "description": "Main et réserve vues du dessus, en deux dimensions.",
+        "name": "Main et réserve en vue du dessus"
       },
       "#board": {
         "description": "Plateau en deux dimensions, avec des piles qui se déploient au survol.",
         "name": "Déploiement"
       },
       "perspective": {
-        "description": "Plateau en trois dimensions, avec des pyramides empilées en perspective.",
+        "description": "Plateau en trois dimensions, avec les pyramides empilées en perspective.",
         "name": "Piles 3D"
       },
       "perspective-areas": {
-        "description": "Main et Réserve en trois dimensions, avec les pyramides dessinées en perspective.",
-        "name": "Main et Réserve 3D"
+        "description": "Main et réserve en trois dimensions, avec les pyramides dessinées en perspective.",
+        "name": "Main et réserve 3D"
       }
     },
     "intermedium": {
@@ -5002,6 +5002,10 @@
       "OFFENSE": "Joueur offensif",
       "COUNTDOWN": "Demis-coups restants"
     },
+    "mvolcano": {
+      "PYRAMIDSCAPTURED": "Pyramides capturées",
+      "UNCAPTUREDCOLOURS": "Couleurs non encore capturées"
+    },
     "pacru": {
       "TARGET": "Tuiles pour gagner",
       "TILES": "Tuiles sur le plateau"
@@ -5023,6 +5027,10 @@
     "RESERVE": "Réserve",
     "SCORES": "Scores",
     "STACKSIZES": "Hauteurs des piles",
+    "tintas": {
+      "MAJORITIES": "Majorités remportées",
+      "MONOCHROME": "Potentiel monochrome"
+    },
     "tumbleweed": "Score (pièces + influence)",
     "ESTIMATEDSCORES": "Scores estimés",
     "killallgo": {

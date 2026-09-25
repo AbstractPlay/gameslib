@@ -4544,11 +4544,11 @@
         "name": "Mano y reserva desde arriba"
       },
       "#board": {
-        "description": "Tablero en dos dimensiones, con pilas que se expanden al pasar el cursor sobre ellas.",
+        "description": "Tablero bidimensional, con pilas que se expanden al pasar el cursor por encima.",
         "name": "Expandible"
       },
       "perspective": {
-        "description": "Tablero en tres dimensiones, con pirámides apiladas en perspectiva.",
+        "description": "Tablero tridimensional, con pirámides apiladas en perspectiva.",
         "name": "Pilas en 3D"
       },
       "perspective-areas": {
@@ -5002,6 +5002,10 @@
       "OFFENSE": "Jugador atacante",
       "COUNTDOWN": "Plies restantes"
     },
+    "mvolcano": {
+      "PYRAMIDSCAPTURED": "Pirámides capturadas",
+      "UNCAPTUREDCOLOURS": "Colores aún no capturados"
+    },
     "pacru": {
       "TARGET": "Fichas para ganar",
       "TILES": "Fichas en el tablero"
@@ -5023,6 +5027,10 @@
     "RESERVE": "Reserva",
     "SCORES": "Puntuaciones",
     "STACKSIZES": "Alturas de pilas",
+    "tintas": {
+      "MAJORITIES": "Mayorías ganadas",
+      "MONOCHROME": "Potencial monocromático"
+    },
     "tumbleweed": "Puntuación (piezas + influencia)",
     "ESTIMATEDSCORES": "Puntuaciones estimadas",
     "killallgo": {

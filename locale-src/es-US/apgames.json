@@ -1513,7 +1513,7 @@
   },
   "displays.icepalace.#board.description": {
     "src": "Two dimensional board, with stacks expanding when hovered over.",
-    "out": "Tablero en dos dimensiones, con pilas que se expanden al pasar el cursor sobre ellas."
+    "out": "Tablero bidimensional, con pilas que se expanden al pasar el cursor por encima."
   },
   "displays.icepalace.#board.name": {
     "src": "Expanding",
@@ -1529,7 +1529,7 @@
   },
   "displays.icepalace.perspective.description": {
     "src": "Three dimensional board, with pyramids stacked in perspective.",
-    "out": "Tablero en tres dimensiones, con pirámides apiladas en perspectiva."
+    "out": "Tablero tridimensional, con pirámides apiladas en perspectiva."
   },
   "displays.icepalace.perspective.name": {
     "src": "3D stacks",
@@ -4035,6 +4035,14 @@
     "src": "Offensive player",
     "out": "Jugador atacante"
   },
+  "status.mvolcano.PYRAMIDSCAPTURED": {
+    "src": "Pyramids captured",
+    "out": "Pirámides capturadas"
+  },
+  "status.mvolcano.UNCAPTUREDCOLOURS": {
+    "src": "Colours not yet captured",
+    "out": "Colores aún no capturados"
+  },
   "status.pacru.TARGET": {
     "src": "Tiles to win",
     "out": "Fichas para ganar"
@@ -4062,6 +4070,14 @@
   "status.scribe.MINI_GRIDS": {
     "src": "Mini grids won",
     "out": "Minicuadrículas ganadas"
+  },
+  "status.tintas.MAJORITIES": {
+    "src": "Majorities won",
+    "out": "Mayorías ganadas"
+  },
+  "status.tintas.MONOCHROME": {
+    "src": "Monochrome potential",
+    "out": "Potencial monocromático"
   },
   "status.tumbleweed": {
     "src": "Score (pieces + influence)",

@@ -4544,11 +4544,11 @@
         "name": "Mano e Riserva dall'alto"
       },
       "#board": {
-        "description": "Tavoliere bidimensionale, con pile che si espandono al passaggio del cursore.",
-        "name": "In espansione"
+        "description": "Plancia bidimensionale, con le pile che si espandono al passaggio del cursore.",
+        "name": "Espandibile"
       },
       "perspective": {
-        "description": "Tavoliere tridimensionale, con piramidi impilate in prospettiva.",
+        "description": "Plancia tridimensionale, con le piramidi impilate in prospettiva.",
         "name": "Pile 3D"
       },
       "perspective-areas": {
@@ -5002,6 +5002,10 @@
       "OFFENSE": "Giocatore in attacco",
       "COUNTDOWN": "Mosse rimanenti"
     },
+    "mvolcano": {
+      "PYRAMIDSCAPTURED": "Piramidi catturate",
+      "UNCAPTUREDCOLOURS": "Colori non ancora catturati"
+    },
     "pacru": {
       "TARGET": "Tessere per vincere",
       "TILES": "Tessere sulla plancia"
@@ -5023,6 +5027,10 @@
     "RESERVE": "Riserva",
     "SCORES": "Punteggi",
     "STACKSIZES": "Altezze delle pile",
+    "tintas": {
+      "MAJORITIES": "Maggioranze vinte",
+      "MONOCHROME": "Potenziale monocromatico"
+    },
     "tumbleweed": "Punteggio (pezzi + influenza)",
     "ESTIMATEDSCORES": "Punteggi stimati",
     "killallgo": {

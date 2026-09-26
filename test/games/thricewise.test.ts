@@ -85,7 +85,7 @@ describe("Thricewise", () => {
         const g = new ThricewiseGame(2);
         expect(() => g.render({ perspective: 0 })).to.not.throw();
         const rep = g.render({ perspective: 0 });
-        expect(rep.board).to.exist;
+        expect(rep.board).to.not.equal(undefined);
     });
 
     it("opens 2x2 for two players and 2x3 for three", () => {

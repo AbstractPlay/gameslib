@@ -195,6 +195,8 @@ export class ThricewiseGame extends GameBaseSequenced {
     public round = 1;
     private deck!: Deck;
     private selected: string | undefined;
+    /** In-progress simultaneous select (partial moves only; not persisted). */
+    private pendingSelect: (string | undefined)[] = [];
     /** Cards placed during an in-progress compound placement (input only). */
     private placedThisActivation: string[] = [];
 
@@ -221,6 +223,7 @@ export class ThricewiseGame extends GameBaseSequenced {
                 scores.push(0);
                 trickCard.push(undefined);
             }
+            this.pendingSelect = new Array(this.numplayers).fill(undefined);
             const fresh: IMoveState = {
                 _version: ThricewiseGame.gameinfo.version,
                 _results: [],
@@ -272,6 +275,7 @@ export class ThricewiseGame extends GameBaseSequenced {
         this.trickCard = state.trickCard.map(t => (t == null ? undefined : t));
         this.lastmove = state.lastmove;
         this.selected = undefined;
+        this.pendingSelect = new Array(this.numplayers).fill(undefined);
         this.placedThisActivation = [];
 
         const deck = new Deck([...cardsBasic]);
@@ -315,13 +319,16 @@ export class ThricewiseGame extends GameBaseSequenced {
 
     /** Whether a hand card is shown face-up (and thus not in the deck area) for this observer. */
     protected handUidVisibleToObserver(seat: number, uid: string, perspective?: number): boolean {
+        if (perspective !== undefined && seat === perspective) {
+            return true;
+        }
         if (this.phase === "place") {
             return this.obligationFor(seat).includes(uid);
         }
         if (perspective === undefined) {
             return true;
         }
-        return seat === perspective;
+        return false;
     }
 
     /** Card uids the observer can see (board, public deferred, and face-up hand cards). */
@@ -355,17 +362,6 @@ export class ThricewiseGame extends GameBaseSequenced {
         return visible;
     }
 
-    protected splitSimultaneous(m: string): string[] {
-        const parts = m.replace(/\s+/g, "").split(",");
-        if (parts.length !== this.numplayers) {
-            throw new UserFacingError(
-                "MOVES_SIMULTANEOUS_PARTIAL",
-                i18next.t("apgames:MOVES_SIMULTANEOUS_PARTIAL"),
-            );
-        }
-        return parts;
-    }
-
     public moves(p?: number): string[] {
         if (this.gameover) {
             return [];
@@ -376,7 +372,9 @@ export class ThricewiseGame extends GameBaseSequenced {
             if (hand.length === 0) {
                 return [SIMULTANEOUS_ELIM_TOKEN];
             }
-            return hand.map(uid => uid.toUpperCase());
+            return hand
+                .filter(uid => uid != null && uid !== "")
+                .map(uid => uid.toUpperCase());
         }
         if (this.phase === "place") {
             if (player !== this.currplayer) {
@@ -723,6 +721,10 @@ export class ThricewiseGame extends GameBaseSequenced {
                 result.move = "";
             } else {
                 result.move = newmove;
+                if (this.phase === "select") {
+                    result.complete = 0;
+                    result.canrender = true;
+                }
             }
             return result;
         } catch (e) {
@@ -814,7 +816,7 @@ export class ThricewiseGame extends GameBaseSequenced {
         const selections: string[] = [];
         for (let p = 0; p < this.numplayers; p++) {
             const raw = parts[p];
-            if (raw === SIMULTANEOUS_ELIM_TOKEN || raw === "") {
+            if (raw === undefined || raw === SIMULTANEOUS_ELIM_TOKEN || raw === "") {
                 selections.push("");
                 continue;
             }
@@ -940,32 +942,42 @@ export class ThricewiseGame extends GameBaseSequenced {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
-        m = m.replace(/\s+/g, "");
-        const parts = this.splitSimultaneous(m);
-
-        for (let i = 0; i < parts.length; i++) {
-            const seat = (i + 1) as playerid;
-            let part = parts[i];
-            if (part === undefined || part === "") {
-                if (partial) {
-                    continue;
-                }
-                part = SIMULTANEOUS_ELIM_TOKEN;
+        const moves: string[] = m.split(/\s*,\s*/);
+        if (moves.length !== this.numplayers) {
+            throw new UserFacingError(
+                "MOVES_SIMULTANEOUS_PARTIAL",
+                i18next.t("apgames:MOVES_SIMULTANEOUS_PARTIAL"),
+            );
+        }
+        for (let i = 0; i < moves.length; i++) {
+            if (partial && (moves[i] === undefined || moves[i] === "")) {
+                continue;
             }
+            moves[i] = moves[i].replace(/\s+/g, "");
+            if (moves[i] === "") {
+                moves[i] = SIMULTANEOUS_ELIM_TOKEN;
+            }
+            const seat = (i + 1) as playerid;
             if (!trusted) {
-                const v = this.validateMove(part, seat);
+                const v = this.validateMove(moves[i], seat);
                 if (!v.valid) {
                     throw new UserFacingError("VALIDATION_GENERAL", v.message);
                 }
                 if (!partial) {
-                    if (this.phase === "select" && v.complete !== 1) {
-                        throw new UserFacingError(
-                            "VALIDATION_FAILSAFE",
-                            i18next.t("apgames:validation._general.FAILSAFE", { move: m }),
-                        );
+                    if (this.phase === "select") {
+                        const card = moves[i].toUpperCase();
+                        if (
+                            moves[i] !== SIMULTANEOUS_ELIM_TOKEN &&
+                            !this.moves(seat).includes(card)
+                        ) {
+                            throw new UserFacingError(
+                                "VALIDATION_FAILSAFE",
+                                i18next.t("apgames:validation._general.FAILSAFE", { move: m }),
+                            );
+                        }
                     }
                     if (this.phase === "place") {
-                        if (seat !== this.currplayer && part !== SIMULTANEOUS_ELIM_TOKEN) {
+                        if (seat !== this.currplayer && moves[i] !== SIMULTANEOUS_ELIM_TOKEN) {
                             throw new UserFacingError("VALIDATION_GENERAL", v.message);
                         }
                         if (seat === this.currplayer && v.complete !== 1) {
@@ -984,24 +996,39 @@ export class ThricewiseGame extends GameBaseSequenced {
         this.results = [];
 
         if (this.phase === "select") {
-            this.resolveSelect(parts.map(p => p.toUpperCase()));
-            this.lastmove = parts.join(",");
+            this.pendingSelect = new Array(this.numplayers).fill(undefined);
+            for (let i = 0; i < moves.length; i++) {
+                const part = moves[i];
+                if (
+                    part !== undefined &&
+                    part !== "" &&
+                    part !== SIMULTANEOUS_ELIM_TOKEN
+                ) {
+                    const card = part.toUpperCase();
+                    this.pendingSelect[i] = card;
+                    this.results.push({ type: "select", who: i + 1, what: card });
+                }
+            }
             if (partial) {
                 return this;
             }
+            this.resolveSelect(moves);
+            this.pendingSelect = new Array(this.numplayers).fill(undefined);
+            this.selected = undefined;
+            this.lastmove = moves.join(",");
             this.saveState();
             return this;
         }
 
         const active = this.currplayer;
-        const activePart = parts[active - 1]!;
+        const activePart = moves[active - 1]!;
         this.applyCompoundToken(activePart, active, partial);
         if (partial) {
             return this;
         }
 
         this.finishPlacement(active);
-        const simParts = parts.map((p, idx) =>
+        const simParts = moves.map((p, idx) =>
             idx + 1 === active ? activePart : SIMULTANEOUS_ELIM_TOKEN,
         );
         this.lastmove = simParts.join(",");
@@ -1114,8 +1141,36 @@ export class ThricewiseGame extends GameBaseSequenced {
 
         const legend: ILegendObj = {};
         for (const card of cardsBasic) {
-            const glyph = card.toGlyph();
-            if (this.selected === card.uid) {
+            let glyph = card.toGlyph();
+            if (perspective !== undefined) {
+                const seat = perspective;
+                const inHand = this.hands[seat - 1].includes(card.uid);
+                if (inHand && !this.gameover) {
+                    let dim = false;
+                    if (this.phase === "select") {
+                        const picked = this.pendingSelect[seat - 1];
+                        if (picked !== undefined && picked !== card.uid) {
+                            dim = true;
+                        }
+                    } else if (this.phase === "place") {
+                        const obligation = new Set(this.obligationFor(seat));
+                        if (!obligation.has(card.uid)) {
+                            dim = true;
+                        }
+                    }
+                    if (dim) {
+                        glyph = glyph.map(g => ({
+                            ...g,
+                            opacity: g.opacity === undefined ? 0.25 : g.opacity * 0.25,
+                        })) as [Glyph, ...Glyph[]];
+                    }
+                }
+            }
+            const highlightUid =
+                perspective !== undefined
+                    ? (this.pendingSelect[perspective - 1] ?? this.selected)
+                    : this.selected;
+            if (highlightUid === card.uid) {
                 glyph.unshift({
                     name: "piece-square",
                     colour: {

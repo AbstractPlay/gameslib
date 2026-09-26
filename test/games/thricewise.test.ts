@@ -23,6 +23,26 @@ describe("Thricewise", () => {
         const result = g.handleClick("", -1, -1, `c${uid}`);
         expect(result.valid).to.equal(true);
         expect(result.move).to.equal(uid);
+        expect(result.complete).to.equal(0);
+    });
+
+    it("partial select keeps phase and full hand for render", () => {
+        const g = new ThricewiseGame(5);
+        const uid = g.hands[0][0]!;
+        const handBefore = [...g.hands[0]];
+        const pad = new Array(g.numplayers - 1).fill("").join(",");
+        g.move(`${uid},${pad}`, { partial: true });
+        expect(g.phase).to.equal("select");
+        expect(g.hands[0]).to.deep.equal(handBefore);
+        const rep = g.render({ perspective: 1 });
+        const handArea = rep.areas?.find(
+            a =>
+                typeof a.label === "object" &&
+                a.label.textKey === "apgames:validation.thricewise.LABEL_HAND" &&
+                a.label.actor?.kind === "seat" &&
+                a.label.actor.seat === 1,
+        );
+        expect(handArea?.pieces?.every(p => p !== "cUNKNOWN")).to.equal(true);
     });
 
     it("renders after a JSON state round-trip (trickCard undefined → null)", () => {

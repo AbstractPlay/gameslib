@@ -2391,6 +2391,10 @@
     "src": "{{player}} handed a ball of colour {{who}} to the opponent.",
     "out": "{{player}} hat dem Gegner eine Kugel der Farbe {{who}} übergeben."
   },
+  "SELECT.thricewise": {
+    "src": "{{player}} selected {{card}}.",
+    "out": "{{player}} hat {{card}} ausgewählt."
+  },
   "SET.biscuit_biscuit_one": {
     "src": "{{player}} scored a biscuit.",
     "out": "{{player}} hat einen Keks erzielt."

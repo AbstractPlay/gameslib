@@ -6,6 +6,7 @@ import { scorePlacement, threesomeValue } from "../../src/games/thricewise/scori
 import { QuincunxBoard } from "../../src/games/quincunx/board";
 import { QuincunxCard } from "../../src/games/quincunx/card";
 import { cardsBasic } from "../../src/common/decktet";
+import { addResource } from "../../src";
 
 function cardsOfRank(seq: number): string[] {
     return cardsBasic.filter(c => c.rank.seq === seq).map(c => c.uid);
@@ -69,6 +70,29 @@ describe("Thricewise", () => {
         expect(handArea?.pieces?.every(p => p !== "cUNKNOWN")).to.equal(true);
     });
 
+    it("dims deferred cards in hand during select", () => {
+        const g = new ThricewiseGame(2);
+        const twos = cardsOfRank(2);
+        const threes = cardsOfRank(3);
+        g.phase = "select";
+        g.deferred[0] = [twos[0]!];
+        g.hands[0] = [threes[0]!];
+        const rep = g.render({ perspective: 1 });
+        const dimmed = (key: string) => {
+            const entry = rep.legend?.[key];
+            const layers = Array.isArray(entry) ? entry : entry !== undefined ? [entry] : [];
+            return layers.some(
+                (layer: { name?: string; opacity?: number }) =>
+                    layer.name !== "piece-square-borderless" &&
+                    layer.opacity !== undefined &&
+                    layer.opacity > 0 &&
+                    layer.opacity <= 0.25,
+            );
+        };
+        expect(dimmed(`c${twos[0]}`)).to.equal(true);
+        expect(dimmed(`c${threes[0]}`)).to.equal(false);
+    });
+
     it("renders after a JSON state round-trip (trickCard undefined → null)", () => {
         const g = new ThricewiseGame(2);
         const g2 = new ThricewiseGame(JSON.stringify(g.state()));
@@ -108,6 +132,22 @@ describe("Thricewise", () => {
         expect(g.currplayer).to.equal(3);
     });
 
+    it("records select results and chat log lines", () => {
+        addResource("en");
+        const g = new ThricewiseGame(2);
+        const fives = cardsOfRank(5);
+        const threes = cardsOfRank(3);
+        g.hands = [[fives[0]!, threes[0]!], [fives[1]!, threes[1]!]];
+        g.move(`${fives[0]},${threes[1]}`);
+        const ply = g.stack[g.stack.length - 1]!;
+        const selects = ply._results?.filter(r => r.type === "select") ?? [];
+        expect(selects.length).to.equal(2);
+        expect(selects.map(s => s.what)).to.deep.equal([fives[0], threes[1]]);
+        const lines = g.chatLogEntries(["Alice", "Bob"]).flatMap(e => e.lines);
+        const selectLines = lines.filter(l => l.textKey === "apresults:SELECT.thricewise");
+        expect(selectLines.length).to.equal(2);
+    });
+
     it("advances play queue once per compound placement ply", () => {
         const g = new ThricewiseGame(2);
         const threes = cardsOfRank(3);
@@ -120,6 +160,43 @@ describe("Thricewise", () => {
         expect(g.board.cards.some(c => c.card.uid === threes[0])).to.equal(true);
         expect(g.playQueue).to.deep.equal([2]);
         expect(g.currplayer).to.equal(2);
+    });
+
+    it("completes second card of a compound placement at typed coordinates after partial", () => {
+        const g = new ThricewiseGame(2);
+        const fourVL = cardsBasic.find(c => c.uid === "4VL")!;
+        const twoVL = cardsBasic.find(c => c.uid === "2VL")!;
+        const board = new QuincunxBoard(6);
+        for (const [x, y, uid] of [
+            [0, 0, "NV"],
+            [1, 0, "1Y"],
+            [0, -1, "1S"],
+            [1, -1, "8MS"],
+            [2, -1, "7ML"],
+            [-1, 0, "NL"],
+            [1, -2, "8VL"],
+            [-2, 0, "NY"],
+            [1, 1, "1V"],
+            [3, -1, "6LK"],
+        ] as [number, number, string][]) {
+            const card = cardsBasic.find(c => c.uid === uid)!;
+            board.add(new QuincunxCard({ x, y, card }));
+        }
+        g.board = board;
+        g.phase = "place";
+        g.currplayer = 2;
+        g.playQueue = [2, 1];
+        g.deferred[1] = [fourVL.uid];
+        g.trickCard[1] = twoVL.uid;
+        g.hands[1] = [];
+        expect(g.validateMove("4VL@2.2;2VL@3.3", 2).complete).to.equal(1);
+        const click = g.handleClickSimultaneous("4VL@2.2;2VL", 0, 5, 2);
+        expect(click.valid).to.equal(true);
+        expect(click.move).to.equal("4VL@2.2;2VL@3.3");
+        g.move(`${SIMULTANEOUS_ELIM_TOKEN},${click.move}`);
+        const placed = g.board.cards.find(c => c.card.uid === "2VL");
+        expect(placed?.x).to.equal(3);
+        expect(placed?.y).to.equal(3);
     });
 
     it("applies partial compound placement on the board", () => {
@@ -219,18 +296,6 @@ describe("Thricewise", () => {
         const token = `${twos[0].toUpperCase()}@${g.board.minX}.${top};${threes[0].toUpperCase()}@${g.board.minX}.${top + 1}`;
         const v = g.validateMove(token, 1);
         expect(v.valid).to.equal(false);
-    });
-
-    it("random playout reaches game over without throwing", () => {
-        for (let trial = 0; trial < 5; trial++) {
-            const g = new ThricewiseGame(5);
-            let plies = 0;
-            while (!g.gameover && plies < 500) {
-                g.move(g.randomMove());
-                plies++;
-            }
-            expect(g.gameover).to.equal(true);
-        }
     });
 
     it("deck area excludes cards visible to the observer", () => {

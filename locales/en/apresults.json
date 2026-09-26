@@ -654,7 +654,8 @@
         "slyde_fixed_self": "{{player}} changed the state of their own piece at {{where}} from mobile to fixed.",
         "slyde_mobile_opponent": "{{player}} changed the state of their opponent's piece at {{where}} from fixed to mobile.",
         "slyde_mobile_self": "{{player}} changed the state of their own piece at {{where}} from fixed to mobile.",
-        "spree": "{{player}} handed a ball of colour {{who}} to the opponent."
+        "spree": "{{player}} handed a ball of colour {{who}} to the opponent.",
+        "thricewise": "{{player}} selected {{card}}."
     },
     "SET": {
         "biscuit_biscuit_one": "{{player}} scored a biscuit.",

@@ -654,7 +654,8 @@
     "slyde_fixed_self": "{{player}} ha cambiato lo stato del proprio pezzo in {{where}} da mobile a fisso.",
     "slyde_mobile_opponent": "{{player}} ha cambiato lo stato del pezzo dell'avversario in {{where}} da fisso a mobile.",
     "slyde_mobile_self": "{{player}} ha cambiato lo stato del proprio pezzo in {{where}} da fisso a mobile.",
-    "spree": "{{player}} ha consegnato all'avversario una sferetta di colore {{who}}."
+    "spree": "{{player}} ha consegnato all'avversario una sferetta di colore {{who}}.",
+    "thricewise": "{{player}} ha selezionato {{card}}."
   },
   "SET": {
     "biscuit_biscuit_one": "{{player}} ha segnato un biscotto.",

@@ -186,6 +186,8 @@ describe("Crosshairs", () => {
                 "#setup",
                 "random-start",
                 "asymmetric-random-start",
+                "spread-start",
+                "asymmetric-spread-start",
             ]);
             expect(setupVariants.find(variant => variant.uid === "random-start")!.name)
                 .to.equal("Symmetric random clouds");
@@ -255,6 +257,35 @@ describe("Crosshairs", () => {
                 });
             }
         }
+
+        for (const setup of ["spread-start", "asymmetric-spread-start"] as const) {
+            for (const [variant, target] of [[undefined, 16], ["clouds-22", 22], ["clouds-28", 28]] as const) {
+                it(`should place ${target} legal clouds with ${setup}${variant ? ` and ${variant}` : ""}`, () => {
+                    const variants = variant ? [setup, variant] : [setup];
+                    const g = new CrosshairsGame(undefined, variants);
+
+                    expect(g.turnNumber).to.equal(1);
+                    expect(largestCloudBank(g)).to.be.at.most(2);
+                    if (setup === "spread-start") {
+                        // A centre cloud is its own mirror, leaving the board one short.
+                        const hasCentre = [...g.clouds].some(cloud => g.graph.rot180(cloud) === cloud);
+                        expect(g.clouds.size).to.equal(hasCentre ? target - 1 : target);
+                        for (const cloud of g.clouds) {
+                            expect(g.clouds.has(g.graph.rot180(cloud))).to.be.true;
+                        }
+                    } else {
+                        expect(g.clouds.size).to.equal(target);
+                    }
+                });
+            }
+        }
+
+        it("should let spread placement form larger banks under unbounded cloud banks", () => {
+            const g = new CrosshairsGame(undefined, ["asymmetric-spread-start", "clouds-28", "unbounded-cloud-banks"]);
+
+            expect(g.clouds.size).to.equal(28);
+            expect(g.turnNumber).to.equal(1);
+        });
 
         for (const [setup, partialCount] of [
             ["random-start", 4],
@@ -1262,23 +1293,31 @@ describe("Crosshairs", () => {
     });
 
     describe("Optional Rules Variants", () => {
-        const makeFlightGame = (
-            height: number,
-            clouds: string[],
-            hasEnteredClearCell = true,
-            variants = ["turbulence"],
-        ): CrosshairsGame => {
+        const makeFlightGame = (height: number, clouds: string[], variants = ["turbulence"]): CrosshairsGame => {
             const g = new CrosshairsGame(undefined, variants);
             g.clouds.clear();
             for (const cloud of clouds) g.clouds.add(cloud);
             g.turnNumber = 10;
             g.currplayer = 1;
             g.board.clear();
-            g.board.set("f5", [1, "S", height, hasEnteredClearCell]);
-            g.board.set("k5", [2, "N", 3, true]);
+            g.board.set("f5", [1, "S", height]);
+            g.board.set("k5", [2, "N", 3]);
             g.planesRemaining = [0, 0];
             (g as unknown as { saveState: () => void }).saveState();
             return g;
+        };
+
+        const makeEntryGame = (clouds: string[]): { g: CrosshairsGame; entryCell: string } => {
+            const g = new CrosshairsGame(undefined, ["turbulence"]);
+            const entryCell = g.graph.getEdges().get("S")![0];
+            g.clouds.clear();
+            for (const cloud of clouds) g.clouds.add(cloud);
+            g.turnNumber = 1;
+            g.currplayer = 1;
+            g.board.clear();
+            g.planesRemaining = [1, 1];
+            (g as unknown as { saveState: () => void }).saveState();
+            return { g, entryCell };
         };
 
         const shootablePlanes = (g: CrosshairsGame): string[] =>
@@ -1308,79 +1347,102 @@ describe("Crosshairs", () => {
 
             g.move("f5+f6");
 
-            expect(g.board.get("f6")).to.deep.equal([1, "S", 0, true]);
+            expect(g.board.get("f6")).to.deep.equal([1, "S", 0]);
         });
 
-        it("should exempt a plane entered directly into a cloud from turbulence", () => {
-            const g = new CrosshairsGame(undefined, ["turbulence"]);
-            const entryCell = g.graph.getEdges().get("S")![0];
-            g.clouds.clear();
+        it("should never apply turbulence to placing a plane into a cloud", () => {
+            const { g, entryCell } = makeEntryGame([]);
             g.clouds.add(entryCell);
-            g.turnNumber = 1;
-            g.currplayer = 1;
-            g.board.clear();
-            g.planesRemaining = [1, 1];
-            (g as unknown as { saveState: () => void }).saveState();
 
             g.move(`enter:${entryCell}/N`);
 
-            expect(g.board.get(entryCell)).to.deep.equal([1, "N", 0, false]);
+            expect(g.board.get(entryCell)).to.deep.equal([1, "N", 0]);
             expect(g.results).not.to.deep.include({ type: "destroy", what: "plane", where: entryCell });
         });
 
-        it("should keep a plane exempt while successive dive manoeuvres end in clouds", () => {
-            const g = makeFlightGame(3, ["f5", "f6", "f7"], false);
+        it("should store no extra plane state after entering", () => {
+            const { g, entryCell } = makeEntryGame([]);
 
-            g.move("f5vf6>f7");
+            g.move(`enter:${entryCell}/N`);
 
-            // Only the two normal swoop losses apply; neither cloud activates turbulence.
-            expect(g.board.get("f7")).to.deep.equal([1, "S", 1, false]);
+            expect(new CrosshairsGame(g.serialize()).board.get(entryCell)).to.have.lengthOf(3);
         });
 
-        it("should activate turbulence mid-dive after a swoop ends in a clear cell", () => {
-            const g = makeFlightGame(5, ["f5", "f7"], false);
+        it("should only apply turbulence when moving from a non-cloud cell into a cloud", () => {
+            // Level flight within one cloud bank costs nothing.
+            const inside = makeFlightGame(0, ["f5", "f6"]);
+            inside.move("f5-f6");
+            expect(inside.board.get("f6")).to.deep.equal([1, "S", 0]);
 
-            g.move("f5vf6>f7");
-
-            // The first swoop ends on clear f6 and expires the exemption. The
-            // second swoop therefore loses one height normally and one at f7.
-            expect(g.board.get("f7")).to.deep.equal([1, "S", 2, true]);
-            expect(new CrosshairsGame(g.serialize()).board.get("f7")![3]).to.be.true;
+            // The same flight from a clear cell into the cloud at height 0 crashes.
+            const entering = makeFlightGame(0, ["f6"]);
+            entering.move("f5-f6");
+            expect(entering.board.has("f6")).to.be.false;
+            expect(entering.results).to.deep.include({ type: "destroy", what: "plane", where: "f6" });
         });
 
-        it("should end the exemption at an intermediate clear cell during level flight", () => {
-            const g = makeFlightGame(3, ["f5", "f7"], false);
+        it("should keep a plane in a cloud bank at the same height through a two-space level flight", () => {
+            const g = makeFlightGame(3, ["f5", "f6", "f7"]);
 
             g.move("f5-f7");
 
-            // Crossing clear f6 ends the exemption before the plane enters
-            // cloudy f7 later in the same manoeuvre.
-            expect(g.board.get("f7")).to.deep.equal([1, "S", 2, true]);
+            expect(g.board.get("f7")).to.deep.equal([1, "S", 3]);
         });
 
-        it("should apply turbulence for both clouds crossed in a two-space level flight", () => {
+        it("should apply turbulence once for entering a cloud bank and staying in it", () => {
             const g = makeFlightGame(3, ["f6", "f7"]);
 
             g.move("f5-f7");
 
-            expect(g.board.get("f7")).to.deep.equal([1, "S", 1, true]);
+            expect(g.board.get("f7")).to.deep.equal([1, "S", 2]);
         });
 
-        it("should crash at the second turbulent cloud when the first loss leaves height 0", () => {
-            const g = makeFlightGame(1, ["f6", "f7"]);
+        it("should apply turbulence once for passing through a cloud back into clear air", () => {
+            const g = makeFlightGame(3, ["f6"]);
+
+            g.move("f5-f7");
+
+            expect(g.board.get("f7")).to.deep.equal([1, "S", 2]);
+        });
+
+        it("should crash a height-0 plane on a two-space level flight through a cloud", () => {
+            const g = makeFlightGame(0, ["f6"]);
 
             g.move("f5-f7");
 
             expect(g.board.has("f7")).to.be.false;
-            expect(g.results).to.deep.include({ type: "destroy", what: "plane", where: "f7" });
+            expect(g.board.has("f6")).to.be.false;
+            expect(g.results).to.deep.include({ type: "destroy", what: "plane", where: "f6" });
         });
 
-        it("should apply turbulence at every cloud entered during a dive", () => {
+        it("should not apply turbulence to swoops that stay within a cloud bank", () => {
+            const g = makeFlightGame(3, ["f5", "f6", "f7"]);
+
+            g.move("f5vf6>f7");
+
+            expect(g.board.get("f7")).to.deep.equal([1, "S", 1]);
+        });
+
+        it("should apply turbulence once per swoop that enters a cloud bank", () => {
+            // Clear -> cloud (-1 swoop, -1 turbulence) -> cloud (-1 swoop only).
             const g = makeFlightGame(5, ["f6", "f7"]);
 
             g.move("f5vf6>f7");
 
-            expect(g.board.get("f7")).to.deep.equal([1, "S", 1, true]);
+            expect(g.board.get("f7")).to.deep.equal([1, "S", 2]);
+        });
+
+        it("should resolve each swoop before allowing the next", () => {
+            // Clear -> cloud f6 -> clear f7 -> cloud f8 from height 3: after two
+            // swoops the plane is at 0, so it cannot swoop into f8 at all.
+            const g = makeFlightGame(3, ["f6", "f8"]);
+
+            expect(g.actions()).to.include("f5vf6>f7");
+            expect(g.actions().some(action => action.startsWith("f5vf6>f7>"))).to.be.false;
+            expect(g.validateMove("f5vf6>f7>f8").valid).to.be.false;
+            g.move("f5vf6>f7");
+
+            expect(g.board.get("f7")).to.deep.equal([1, "S", 0]);
         });
 
         it("should crash immediately during a dive and reject later manoeuvres", () => {
@@ -1400,7 +1462,7 @@ describe("Crosshairs", () => {
 
             g.move("f5vP");
 
-            expect(g.board.get("f5")).to.deep.equal([1, "S", 2, true]);
+            expect(g.board.get("f5")).to.deep.equal([1, "S", 2]);
         });
 
         it("should let planes shoot out of clouds with concealed fire", () => {

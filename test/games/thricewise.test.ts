@@ -81,6 +81,13 @@ describe("Thricewise", () => {
         }
     });
 
+    it("render ignores invalid perspective 0 (front used me+1 when me === -1)", () => {
+        const g = new ThricewiseGame(2);
+        expect(() => g.render({ perspective: 0 })).to.not.throw();
+        const rep = g.render({ perspective: 0 });
+        expect(rep.board).to.exist;
+    });
+
     it("opens 2x2 for two players and 2x3 for three", () => {
         const g2 = new ThricewiseGame(2);
         expect(g2.board.cards.length).to.equal(4);

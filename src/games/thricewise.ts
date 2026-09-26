@@ -1118,6 +1118,12 @@ export class ThricewiseGame extends GameBaseSequenced {
     }
 
     public render({ perspective }: IRenderOpts = { perspective: undefined }): APRenderRep {
+        const viewSeat =
+            typeof perspective === "number" &&
+            perspective >= 1 &&
+            perspective <= this.numplayers
+                ? perspective
+                : undefined;
         const { height, width, minX, maxX, minY, maxY } = this.board.dimensions;
         const vp = this.board.viewportSize;
         const rowLabels: string[] = [];
@@ -1169,8 +1175,8 @@ export class ThricewiseGame extends GameBaseSequenced {
         const legend: ILegendObj = {};
         for (const card of cardsBasic) {
             let glyph = card.toGlyph();
-            if (perspective !== undefined) {
-                const seat = perspective;
+            if (viewSeat !== undefined) {
+                const seat = viewSeat;
                 const inHand = this.hands[seat - 1].includes(card.uid);
                 if (inHand && !this.gameover) {
                     let dim = false;
@@ -1194,8 +1200,8 @@ export class ThricewiseGame extends GameBaseSequenced {
                 }
             }
             const highlightUid =
-                perspective !== undefined
-                    ? (this.pendingSelect[perspective - 1] ?? this.selected)
+                viewSeat !== undefined
+                    ? (this.pendingSelect[viewSeat - 1] ?? this.selected)
                     : this.selected;
             if (highlightUid === card.uid) {
                 glyph.unshift({
@@ -1234,7 +1240,7 @@ export class ThricewiseGame extends GameBaseSequenced {
                 if (uid == null || uid === "") {
                     continue;
                 }
-                if (this.handUidVisibleToObserver(p, uid, perspective)) {
+                if (this.handUidVisibleToObserver(p, uid, viewSeat)) {
                     handPieces.push("c" + uid);
                 } else {
                     handPieces.push("cUNKNOWN");
@@ -1251,7 +1257,7 @@ export class ThricewiseGame extends GameBaseSequenced {
             }
         }
 
-        const visible = this.visibleCardUids(perspective);
+        const visible = this.visibleCardUids(viewSeat);
         const remaining = [...cardsBasic]
             .sort(cardSortAsc)
             .filter(c => !visible.has(c.uid))

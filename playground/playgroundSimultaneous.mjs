@@ -59,6 +59,19 @@ export function buildMaskedPartialMove(seat, fragment, numPlayers) {
     ).join(",");
 }
 
+/** Seat index for comma-vector partial moves (select: active seat; sequenced place: currplayer). */
+export function getPartialMoveSeat(engine, activeSeat) {
+    if (
+        engine &&
+        engine.phase === "place" &&
+        typeof engine.turnModel === "function" &&
+        engine.turnModel() === "sequenced"
+    ) {
+        return engine.currplayer;
+    }
+    return activeSeat;
+}
+
 /** Mask other seats' fragments for Seat-mode display (own seat only). */
 export function maskPartialMoveForSeat(partialMove, seat, numPlayers) {
     const moves = splitPartialRow(partialMove, numPlayers);

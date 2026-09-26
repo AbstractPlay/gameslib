@@ -654,7 +654,8 @@
     "slyde_fixed_self": "{{player}} hat den Zustand des eigenen Steins bei {{where}} von beweglich zu fixiert geändert.",
     "slyde_mobile_opponent": "{{player}} hat den Zustand des gegnerischen Steins bei {{where}} von fixiert zu beweglich geändert.",
     "slyde_mobile_self": "{{player}} hat den Zustand des eigenen Steins bei {{where}} von fixiert zu beweglich geändert.",
-    "spree": "{{player}} hat dem Gegner eine Kugel der Farbe {{who}} übergeben."
+    "spree": "{{player}} hat dem Gegner eine Kugel der Farbe {{who}} übergeben.",
+    "thricewise": "{{player}} hat {{card}} ausgewählt."
   },
   "SET": {
     "biscuit_biscuit_one": "{{player}} hat einen Keks erzielt.",

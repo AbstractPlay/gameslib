@@ -11,6 +11,7 @@ import {
     clearRoundBuffer,
     ensureRoundBuffer,
     formatRoundStatus,
+    getPartialMoveSeat,
     getStoredSeat,
     isGodMode,
     isSeatMode,
@@ -59,7 +60,7 @@ function getRenderPerspective(game, gamename) {
 
 function validateMoveForPlayground(game, gamename, moveStr) {
     if (gameIsSimultaneous(game, gamename)) {
-        const seat = getActiveSeat(game);
+        const seat = getPartialMoveSeat(game, getActiveSeat(game));
         if (isSeatMode() || moveStr === "" || !moveStr.includes(",")) {
             try {
                 return game.validateMove(moveStr, seat);
@@ -123,13 +124,9 @@ function applyInterimPartialRender(gamename, maskedPartial, renderOpts) {
         return;
     }
     preview.move(maskedPartial, { partial: true });
-    const viewEngine = shouldStripEngineForView(gamename, preview)
-        ? APGames.GameFactory(
-            gamename,
-            preview.serialize({ strip: true, player: renderOpts.perspective }),
-        )
-        : preview;
-    let render = viewEngine.render(renderOpts);
+    // Partial moves mutate live board/hands but do not push stack; re-loading from
+    // serialize() would drop in-progress placement (e.g. Thricewise compound @coords).
+    let render = preview.render(renderOpts);
     if (Array.isArray(render)) {
         render = render[render.length - 1];
     }
@@ -504,12 +501,13 @@ function boardClickSimultaneous(row, col, piece) {
     if (isSeatMode() && isSeatEliminated(game, activeSeat)) {
         return;
     }
+    const partialSeat = getPartialMoveSeat(game, activeSeat);
     var movebox = document.getElementById("moveEntry");
     var result = game.handleClickSimultaneous(
         movebox.value,
         row,
         col,
-        activeSeat,
+        partialSeat,
         piece,
     );
     movebox.value = result.move;
@@ -545,7 +543,7 @@ function boardClickSimultaneous(row, col, piece) {
             renderOpts.altDisplay = selectedDisplay;
         }
         const masked = buildMaskedPartialMove(
-            activeSeat,
+            partialSeat,
             result.move,
             game.numplayers,
         );

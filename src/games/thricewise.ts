@@ -596,26 +596,28 @@ export class ThricewiseGame extends GameBaseSequenced {
         }
 
         const segments = parseSegments(token);
-        const placedUids = segments.map(s => s.uid);
+        const placedUids: string[] = [];
         const pending: [number, number][] = [];
         for (const seg of segments) {
+            const existing = this.board.getCardAt(seg.x, seg.y);
+            if (
+                existing !== undefined &&
+                this.placedThisActivation.includes(seg.uid) &&
+                existing.card.uid === seg.uid
+            ) {
+                continue;
+            }
             if (!obligation.includes(seg.uid)) {
                 result.message = i18next.t("apgames:validation.thricewise.BAD_CARD", { card: seg.uid });
                 return result;
             }
-            const existing = this.board.getCardAt(seg.x, seg.y);
             if (existing !== undefined) {
-                if (
-                    this.placedThisActivation.includes(seg.uid) &&
-                    existing.card.uid === seg.uid
-                ) {
-                    continue;
-                }
                 result.message = i18next.t("apgames:validation._general.OCCUPIED", {
                     where: `${seg.x},${seg.y}`,
                 });
                 return result;
             }
+            placedUids.push(seg.uid);
             if (!withinGridCapCoords(this.board, pending.concat([[seg.x, seg.y]]))) {
                 result.message = i18next.t("apgames:validation.thricewise.GRID_CAP");
                 return result;
@@ -643,9 +645,8 @@ export class ThricewiseGame extends GameBaseSequenced {
             return result;
         }
 
-        const allPlaced = [...this.placedThisActivation, ...placedUids];
-        const allSet = new Set(allPlaced);
-        if (allSet.size === obligation.length && obligation.every(uid => allSet.has(uid))) {
+        const covered = new Set([...this.placedThisActivation, ...placedUids]);
+        if (obligation.every(uid => covered.has(uid))) {
             result.valid = true;
             result.complete = 1;
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
@@ -700,6 +701,15 @@ export class ThricewiseGame extends GameBaseSequenced {
         piece?: string,
     ): IClickResult {
         try {
+            // In-progress compound tokens are not on the stack until commit; sync the
+            // live board so rel2abs matches the expanded viewport the renderer shows.
+            if (
+                this.phase === "place" &&
+                player === this.currplayer &&
+                move.includes("@")
+            ) {
+                this.applyCompoundToken(move, player, true);
+            }
             let newmove: string;
             if (row === -1 || col === -1) {
                 if (piece === undefined) {
@@ -803,6 +813,12 @@ export class ThricewiseGame extends GameBaseSequenced {
             const remaining = this.obligationFor(this.currplayer).filter(
                 uid => !this.placedThisActivation.includes(uid),
             );
+            if (remaining.length > 0 && this.placedThisActivation.length > 0) {
+                const canPlaceMore = remaining.some(() =>
+                    this.legalEmpties().some(([x, y]) => adjacentToPlaced(this.board, x, y, [])),
+                );
+                return !canPlaceMore;
+            }
             if (remaining.length > 0 && this.enumerateCompletePlacements(this.currplayer).length === 0) {
                 return true;
             }
@@ -849,7 +865,6 @@ export class ThricewiseGame extends GameBaseSequenced {
             }
             const card = raw.toUpperCase();
             selections.push(card);
-            this.results.push({ type: "select", who: p + 1, what: card });
             this.hands[p] = this.hands[p].filter(uid => uid !== card);
         }
         const byRank = new Map<string, number[]>();
@@ -1175,28 +1190,34 @@ export class ThricewiseGame extends GameBaseSequenced {
         const legend: ILegendObj = {};
         for (const card of cardsBasic) {
             let glyph = card.toGlyph();
-            if (viewSeat !== undefined) {
-                const seat = viewSeat;
-                const inHand = this.hands[seat - 1].includes(card.uid);
-                if (inHand && !this.gameover) {
-                    let dim = false;
-                    if (this.phase === "select") {
-                        const picked = this.pendingSelect[seat - 1];
+            if (!this.gameover) {
+                let dim = false;
+                if (this.phase === "select") {
+                    if (this.deferred.some(pile => pile.includes(card.uid))) {
+                        dim = true;
+                    } else if (
+                        viewSeat !== undefined &&
+                        this.hands[viewSeat - 1].includes(card.uid)
+                    ) {
+                        const picked = this.pendingSelect[viewSeat - 1];
                         if (picked !== undefined && picked !== card.uid) {
                             dim = true;
                         }
-                    } else if (this.phase === "place") {
-                        const obligation = new Set(this.obligationFor(seat));
-                        if (!obligation.has(card.uid)) {
-                            dim = true;
-                        }
                     }
-                    if (dim) {
-                        glyph = glyph.map(g => ({
-                            ...g,
-                            opacity: g.opacity === undefined ? 0.25 : g.opacity * 0.25,
-                        })) as [Glyph, ...Glyph[]];
+                } else if (
+                    viewSeat !== undefined &&
+                    this.hands[viewSeat - 1].includes(card.uid)
+                ) {
+                    const obligation = new Set(this.obligationFor(viewSeat));
+                    if (!obligation.has(card.uid)) {
+                        dim = true;
                     }
+                }
+                if (dim) {
+                    glyph = glyph.map(g => ({
+                        ...g,
+                        opacity: g.opacity === undefined ? 0.25 : g.opacity * 0.25,
+                    })) as [Glyph, ...Glyph[]];
                 }
             }
             const highlightUid =
@@ -1355,15 +1376,29 @@ export class ThricewiseGame extends GameBaseSequenced {
     }
 
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
-        if (r.type === "deltaScore" && r.delta !== undefined) {
-            const seat = r.who !== undefined ? r.who - 1 : ctx.defaultSeat;
-            this.pushSeatChatLine(lines, seat, "apresults:DELTA_SCORE_GAIN", {
-                count: r.delta,
-                delta: r.delta,
-            });
-            return true;
+        switch (r.type) {
+            case "select":
+                if (r.who !== undefined && r.what !== undefined) {
+                    const card = Card.deserialize(String(r.what));
+                    this.pushSeatChatLine(lines, r.who, "apresults:SELECT.thricewise", {
+                        card: card?.plain ?? r.what,
+                    });
+                    return true;
+                }
+                return false;
+            case "deltaScore":
+                if (r.delta !== undefined) {
+                    const seat = r.who !== undefined ? r.who : ctx.defaultSeat;
+                    this.pushSeatChatLine(lines, seat, "apresults:DELTA_SCORE_GAIN", {
+                        count: r.delta,
+                        delta: r.delta,
+                    });
+                    return true;
+                }
+                return false;
+            default:
+                return super.collectChatLogLine(lines, r, ctx);
         }
-        return super.collectChatLogLine(lines, r, ctx);
     }
 
     public clone(): ThricewiseGame {

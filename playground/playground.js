@@ -3,6 +3,28 @@ import {
     getRoundsForLayout,
     resolveMoveTableDensity,
 } from "./move-table-display.mjs";
+import {
+    STORAGE as simStorage,
+    applySeatSubmit,
+    buildMaskedPartialMove,
+    clearActiveSeatSlot,
+    clearRoundBuffer,
+    ensureRoundBuffer,
+    formatRoundStatus,
+    getStoredSeat,
+    isGodMode,
+    isSeatMode,
+    loadPartialMove,
+    loadToMove,
+    maskPartialMoveForSeat,
+    resetRoundBufferForNewPosition,
+    savePartialMove,
+    saveToMove,
+    serializeAfterCommit,
+    setStoredSeat,
+    shouldStripHiddenOnSave,
+    splitPartialRow,
+} from "./playgroundSimultaneous.mjs";
 
 function assertAPGamesLoaded() {
     return true;
@@ -22,6 +44,210 @@ let currentRenderFrameIndex = 0;
 let skipFrameRefresh = false;
 let currentPlaygroundGame = null;
 let currentPlaygroundGamename = null;
+
+function getActiveSeat(game) {
+    return getStoredSeat(game?.numplayers ?? 2);
+}
+
+function getRenderPerspective(game, gamename) {
+    if (gameIsSimultaneous(game, gamename)) {
+        return getActiveSeat(game);
+    }
+    return game.currplayer;
+}
+
+function validateMoveForPlayground(game, gamename, moveStr) {
+    if (gameIsSimultaneous(game, gamename)) {
+        const seat = getActiveSeat(game);
+        if (isSeatMode() || moveStr === "" || !moveStr.includes(",")) {
+            try {
+                return game.validateMove(moveStr, seat);
+            } catch {
+                return game.validateMove(moveStr);
+            }
+        }
+    }
+    return game.validateMove(moveStr);
+}
+
+function getCommittedStateString() {
+    const full = window.localStorage.getItem(simStorage.stateFull);
+    if (full) {
+        return full;
+    }
+    return window.localStorage.getItem("state");
+}
+
+function createEngineFromCommitted(gamename) {
+    const state = getCommittedStateString();
+    if (!state || !gamename) {
+        return undefined;
+    }
+    return APGames.GameFactory(gamename, state);
+}
+
+function shouldStripEngineForView(gamename, engine) {
+    if (!engine || !gameIsSimultaneous(engine, gamename) || engine.numplayers < 2) {
+        return false;
+    }
+    try {
+        const s1 = engine.serialize({ strip: true, player: 1 });
+        const s2 = engine.serialize({ strip: true, player: 2 });
+        return s1 !== s2;
+    } catch {
+        return false;
+    }
+}
+
+function createEngineForView(gamename, perspectiveSeat) {
+    const engine = createEngineFromCommitted(gamename);
+    if (!engine) {
+        return undefined;
+    }
+    const seat = perspectiveSeat ?? getRenderPerspective(engine, gamename);
+    if (!shouldStripEngineForView(gamename, engine)) {
+        return engine;
+    }
+    return APGames.GameFactory(gamename, engine.serialize({ strip: true, player: seat }));
+}
+
+function clearInterimRenderCache() {
+    window.localStorage.removeItem("interim");
+    window.localStorage.removeItem(simStorage.interimPerspective);
+}
+
+function applyInterimPartialRender(gamename, maskedPartial, renderOpts) {
+    const preview = createEngineFromCommitted(gamename);
+    if (!preview) {
+        return;
+    }
+    preview.move(maskedPartial, { partial: true });
+    const viewEngine = shouldStripEngineForView(gamename, preview)
+        ? APGames.GameFactory(
+            gamename,
+            preview.serialize({ strip: true, player: renderOpts.perspective }),
+        )
+        : preview;
+    let render = viewEngine.render(renderOpts);
+    if (Array.isArray(render)) {
+        render = render[render.length - 1];
+    }
+    window.localStorage.setItem("interim", JSON.stringify(render));
+    window.localStorage.setItem(
+        simStorage.interimPerspective,
+        String(renderOpts.perspective ?? ""),
+    );
+}
+
+function persistCommittedState(game, gamename, engineAfterCommit) {
+    const seat = getActiveSeat(game);
+    const stripOnSave = isSeatMode() && shouldStripHiddenOnSave();
+    const fullSerialized = engineAfterCommit.serialize();
+    if (stripOnSave) {
+        window.localStorage.setItem(simStorage.stateFull, fullSerialized);
+        window.localStorage.setItem(
+            "state",
+            serializeAfterCommit(engineAfterCommit, seat, true),
+        );
+    } else {
+        window.localStorage.removeItem(simStorage.stateFull);
+        window.localStorage.setItem("state", fullSerialized);
+    }
+}
+
+function randomMoveForActiveSeat(game, gamename) {
+    const seat = getActiveSeat(game);
+    if (typeof game.moves === "function") {
+        let legal;
+        try {
+            legal = game.moves(seat);
+        } catch {
+            legal = game.moves();
+        }
+        if (Array.isArray(legal) && legal.length > 0) {
+            return legal[Math.floor(Math.random() * legal.length)];
+        }
+    }
+    if (typeof game.randomMove === "function") {
+        const full = game.randomMove();
+        if (typeof full === "string" && full.includes(",")) {
+            const parts = splitPartialRow(full, game.numplayers);
+            return parts[seat - 1] || full;
+        }
+        return full;
+    }
+    return undefined;
+}
+
+function updateSimultaneousControls(game, gamename) {
+    const container = document.getElementById("simultaneousControls");
+    const seatPanel = document.getElementById("seatModePanel");
+    const seatPicker = document.getElementById("seatPicker");
+    const roundStatus = document.getElementById("roundStatus");
+    const roundBuffer = document.getElementById("roundBufferDisplay");
+    if (!container) {
+        return;
+    }
+    const simultaneous = game && gamename && gameIsSimultaneous(game, gamename);
+    container.style.display = simultaneous ? "block" : "none";
+    if (!simultaneous || !game) {
+        return;
+    }
+
+    ensureRoundBuffer(game);
+
+    const godRadio = document.querySelector('input[name="playgroundSimMode"][value="god"]');
+    const seatRadio = document.querySelector('input[name="playgroundSimMode"][value="seat"]');
+    if (godRadio && seatRadio) {
+        godRadio.checked = isGodMode();
+        seatRadio.checked = isSeatMode();
+    }
+    if (seatPanel) {
+        seatPanel.style.display = isSeatMode() ? "block" : "none";
+    }
+
+    if (seatPicker) {
+        seatPicker.innerHTML = "";
+        const active = getActiveSeat(game);
+        for (let p = 1; p <= game.numplayers; p++) {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.textContent = `P${p}`;
+            btn.className = "seat-picker-btn" + (p === active ? " seat-picker-active" : "");
+            if (isSeatMode()) {
+                const toMove = loadToMove(game);
+                if (!toMove[p - 1]) {
+                    btn.classList.add("seat-picker-submitted");
+                }
+            }
+            btn.addEventListener("click", () => {
+                setStoredSeat(p);
+                clearInterimRenderCache();
+                renderGame();
+            });
+            seatPicker.appendChild(btn);
+        }
+    }
+
+    if (roundStatus) {
+        roundStatus.textContent = formatRoundStatus(game, gamename, getPlayerNamesForStatus);
+    }
+
+    if (roundBuffer && isSeatMode()) {
+        const partial = loadPartialMove();
+        const seat = getActiveSeat(game);
+        if (partial === undefined) {
+            roundBuffer.textContent = "(empty)";
+        } else {
+            roundBuffer.textContent = maskPartialMoveForSeat(partial, seat, game.numplayers);
+        }
+    }
+
+    const stripCheckbox = document.getElementById("stripHiddenOnSave");
+    if (stripCheckbox) {
+        stripCheckbox.checked = shouldStripHiddenOnSave();
+    }
+}
 
 function isSoloGame(info) {
     return Boolean(
@@ -182,7 +408,7 @@ function shiftRenderFrame(delta) {
 
 function boardClick(row, col, piece) {
     console.log("Row: " + row + ", Col: " + col + ", Piece: " + piece);
-    var state = window.localStorage.getItem("state");
+    var state = getCommittedStateString();
     var gamename = window.localStorage.getItem("gamename");
     var game = APGames.GameFactory(gamename, state);
     if (game.gameover) {
@@ -211,7 +437,9 @@ function boardClick(row, col, piece) {
         movebox.classList.add("move-ready");
     }
     if ( ( (result.hasOwnProperty("canrender")) && (result.canrender === true) ) || (result.complete >= 0) ) {
-        let renderOpts = getRenderOptions({ perspective: game.currplayer });
+        let renderOpts = getRenderOptions({
+            perspective: getRenderPerspective(game, gamename),
+        });
         let selectedDisplay = window.localStorage.getItem("selectedDisplay") || "default";
         const checkedDisplayRadio = document.querySelector('input[name="displayOption"]:checked');
         if (checkedDisplayRadio) {
@@ -236,11 +464,18 @@ function boardClick(row, col, piece) {
 
 function boardClickSimultaneous(row, col, piece) {
     console.log("Row: " + row + ", Col: " + col + ", Piece: " + piece);
-    var state = window.localStorage.getItem("state");
+    var state = getCommittedStateString();
     var gamename = window.localStorage.getItem("gamename");
     var game = APGames.GameFactory(gamename, state);
+    const activeSeat = getActiveSeat(game);
     var movebox = document.getElementById("moveEntry");
-    var result = game.handleClickSimultaneous(movebox.value, row, col, 1, piece);
+    var result = game.handleClickSimultaneous(
+        movebox.value,
+        row,
+        col,
+        activeSeat,
+        piece,
+    );
     movebox.value = result.move;
     var colour = "#f00";
     if (result.valid) {
@@ -262,7 +497,9 @@ function boardClickSimultaneous(row, col, piece) {
         movebox.classList.add("move-ready");
     }
     if ( ( (result.hasOwnProperty("canrender")) && (result.canrender === true) ) || (result.complete >= 0) ) {
-        let renderOpts = getRenderOptions({ perspective: 1 });
+        let renderOpts = getRenderOptions({
+            perspective: getRenderPerspective(game, gamename),
+        });
         let selectedDisplay = window.localStorage.getItem("selectedDisplay") || "default";
         const checkedDisplayRadio = document.querySelector('input[name="displayOption"]:checked');
         if (checkedDisplayRadio) {
@@ -271,13 +508,12 @@ function boardClickSimultaneous(row, col, piece) {
         if (selectedDisplay !== "default") {
             renderOpts.altDisplay = selectedDisplay;
         }
-        game.move(result.move + ",", {partial: true});
-        let render = game.render(renderOpts);
-        if (Array.isArray(render)) {
-            render = render[render.length - 1];
-        }
-        var interim = JSON.stringify(render);
-        window.localStorage.setItem("interim", interim);
+        const masked = buildMaskedPartialMove(
+            activeSeat,
+            result.move,
+            game.numplayers,
+        );
+        applyInterimPartialRender(gamename, masked, renderOpts);
     } else {
         window.localStorage.removeItem("interim");
     }
@@ -387,15 +623,17 @@ function renderCustomizePreview() {
     if (!previewDiv) return;
     previewDiv.innerHTML = "";
 
-    var state = window.localStorage.getItem("state");
+    var state = getCommittedStateString();
     if (!state) {
         previewDiv.innerHTML = "<p>No game loaded to preview.</p>";
         return;
     }
     var gamename = window.localStorage.getItem("gamename");
-    var game = APGames.GameFactory(gamename, state);
+    var game = createEngineForView(gamename) ?? APGames.GameFactory(gamename, state);
 
-    const renderOpts = getRenderOptions({ perspective: game.currplayer });
+    const renderOpts = getRenderOptions({
+        perspective: getRenderPerspective(game, gamename),
+    });
     const uniqueid = "customizePreviewSvg_" + Date.now();
     const options = { ...renderOpts,
         svgid: uniqueid,
@@ -1643,7 +1881,7 @@ function renderGame(...args) {
     options.height = "100%";
     options.width = "100%";
     options.preserveAspectRatio = "xMidYMid meet";
-    var state = window.localStorage.getItem("state");
+    var state = getCommittedStateString();
     const displayOptionsContainer = document.getElementById("displayOptionsContainer");
     const clickStatusBox = document.getElementById("clickstatus");
     const playerInfoDisplay = document.getElementById("playerInfoDisplay");
@@ -1676,7 +1914,7 @@ function renderGame(...args) {
             }
         }
 
-        var game = APGames.GameFactory(gamename, state);
+        var game = createEngineForView(gamename) ?? APGames.GameFactory(gamename, state);
         options.boardClick = gameIsSimultaneous(game, gamename)
             ? boardClickSimultaneous
             : boardClick;
@@ -1785,15 +2023,29 @@ function renderGame(...args) {
         }
 
         updateGameStatusPanel(game, gamename);
+        updateSimultaneousControls(game, gamename);
         updateCustomButtons(game, gamename);
 
         if (displayOptionsContainer && displayOptionsContainer.children.length > 0) {
             displayOptionsContainer.style.display = 'block';
         }
 
-        var data = JSON.parse(window.localStorage.getItem("interim"));
+        let data = null;
+        try {
+            data = JSON.parse(window.localStorage.getItem("interim"));
+        } catch {
+            data = null;
+        }
+        const currentPerspective = String(getRenderPerspective(game, gamename));
+        const interimPerspective = window.localStorage.getItem(simStorage.interimPerspective);
+        if (data !== null && interimPerspective !== currentPerspective) {
+            clearInterimRenderCache();
+            data = null;
+        }
 
-        let renderOpts = getRenderOptions({ perspective: game.currplayer });
+        let renderOpts = getRenderOptions({
+            perspective: getRenderPerspective(game, gamename),
+        });
         if (selectedDisplay !== "default") {
             renderOpts.altDisplay = selectedDisplay;
         }
@@ -1899,6 +2151,7 @@ function renderGame(...args) {
             playerInfoDisplay.innerHTML = '<p style="font-style: italic; color: #888;">No game loaded.</p>';
         }
         updateGameStatusPanel(null, null);
+        updateSimultaneousControls(null, null);
         updateCustomButtons(null, null);
     }
 
@@ -2065,9 +2318,12 @@ function refreshClickStatusMessage() {
     if (!gamename || !movebox || !statusbox) {
         return;
     }
-    const state = window.localStorage.getItem("state");
-    const game = APGames.GameFactory(gamename, state);
-    const result = game.validateMove(movebox.value || "");
+    const state = getCommittedStateString();
+    const game = createEngineFromCommitted(gamename);
+    if (!game) {
+        return;
+    }
+    const result = validateMoveForPlayground(game, gamename, movebox.value || "");
     statusbox.innerHTML = '<p style="color: #888">' + formatValidationMessage(result.message) + '</p>';
 }
 
@@ -2593,9 +2849,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
             return;
         }
 
+        window.localStorage.removeItem(simStorage.stateFull);
         window.localStorage.setItem("state", game.serialize());
         window.localStorage.setItem("gamename", gameUid);
-        window.localStorage.removeItem("interim");
+        clearInterimRenderCache();
+        resetRoundBufferForNewPosition(game);
+        setStoredSeat(1);
         clearRedoStack();
         window.localStorage.setItem("selectedDisplay", "default");
 
@@ -2604,7 +2863,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         var movebox = document.getElementById("moveEntry");
         movebox.value = "";
         movebox.classList.remove("move-incomplete", "move-ready");
-        var result = game.validateMove("");
+        var result = validateMoveForPlayground(game, gameUid, "");
         var resultStr = '<p style="color: #888">' + formatValidationMessage(result.message) + '</p>';
         var statusbox = document.getElementById("clickstatus");
         statusbox.innerHTML = resultStr;
@@ -2615,6 +2874,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             renderGame();
         }
         updateGameStatusPanel(game, gameUid);
+        updateSimultaneousControls(game, gameUid);
     }, false);
 
     loadCustomizations();
@@ -2649,9 +2909,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     const game = APGames.GameFactory(meta, state);
                     if (game !== undefined) {
                         field.value = "";
+                        window.localStorage.removeItem(simStorage.stateFull);
                         window.localStorage.setItem("state", game.serialize());
                         window.localStorage.setItem("gamename", meta);
-                        window.localStorage.removeItem("interim");
+                        clearInterimRenderCache();
+                        resetRoundBufferForNewPosition(game);
                         clearRedoStack();
                         window.localStorage.setItem("selectedDisplay", "default");
 
@@ -2666,12 +2928,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
                         var movebox = document.getElementById("moveEntry");
                         movebox.value = "";
                         movebox.classList.remove("move-incomplete", "move-ready");
-                        var result = game.validateMove("");
+                        var result = validateMoveForPlayground(game, meta, "");
                         var resultStr = '<p style="color: #888">' + formatValidationMessage(result.message) + '</p>';
                         var statusbox = document.getElementById("clickstatus");
                         statusbox.innerHTML = resultStr;
                         renderGame();
                         updateGameStatusPanel(game, meta);
+                        updateSimultaneousControls(game, meta);
                     } else {
                         alert("Failed to hydrate injected state.")
                     }
@@ -2686,11 +2949,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     document.getElementById("moveBtn").addEventListener("click", () => {
         var movebox = document.getElementById("moveEntry");
-        var state = window.localStorage.getItem("state");
+        var state = getCommittedStateString();
         if (state !== null) {
             var gamename = window.localStorage.getItem("gamename");
-            var game = APGames.GameFactory(gamename, state);
+            var game = createEngineFromCommitted(gamename);
             var waserror = false;
+            const simultaneous = gameIsSimultaneous(game, gamename);
+            const seatModeSubmit = simultaneous && isSeatMode();
 
             let redoStack = getRedoStack();
             let submittedMove = movebox.value;
@@ -2703,7 +2968,43 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
 
             try {
-                game.move(submittedMove);
+                if (seatModeSubmit) {
+                    const seatIndex = getActiveSeat(game) - 1;
+                    const fragment = submittedMove.trim();
+                    const submitResult = applySeatSubmit({
+                        engine: game,
+                        numPlayers: game.numplayers,
+                        seatIndex,
+                        move: fragment,
+                        partialMove: loadPartialMove(),
+                        toMove: loadToMove(game),
+                    });
+                    savePartialMove(submitResult.partialMove);
+                    saveToMove(submitResult.toMove);
+                    if (submitResult.committed) {
+                        persistCommittedState(game, gamename, game);
+                        resetRoundBufferForNewPosition(
+                            createEngineFromCommitted(gamename),
+                        );
+                        clearInterimRenderCache();
+                    } else {
+                        const renderOpts = getRenderOptions({
+                            perspective: getRenderPerspective(game, gamename),
+                        });
+                        applyInterimPartialRender(
+                            gamename,
+                            submitResult.partialMove,
+                            renderOpts,
+                        );
+                    }
+                } else {
+                    game.move(submittedMove);
+                    if (simultaneous) {
+                        clearRoundBuffer();
+                    }
+                    persistCommittedState(game, gamename, game);
+                    clearInterimRenderCache();
+                }
             } catch (err) {
                 waserror = true;
                 if (err.name === "UserFacingError") {
@@ -2719,18 +3020,20 @@ document.addEventListener("DOMContentLoaded", function(event) {
             if (! waserror) {
                 movebox.value = "";
                 var statusbox = document.getElementById("clickstatus");
-                if (game.gameover) {
-                    statusbox.innerHTML = formatGameOverMessage(game);
+                const gameForStatus = createEngineFromCommitted(gamename);
+                if (gameForStatus.gameover) {
+                    statusbox.innerHTML = formatGameOverMessage(gameForStatus);
                 } else {
-                    var result = game.validateMove("");
+                    var result = validateMoveForPlayground(gameForStatus, gamename, "");
                     var resultStr = '<p style="color: #888">' + formatValidationMessage(result.message) + '</p>';
                     statusbox.innerHTML = resultStr;
                 }
             }
-            window.localStorage.setItem("state", game.serialize());
-            window.localStorage.removeItem("interim");
             renderGame();
-            updateGameStatusPanel(game, gamename);
+            updateGameStatusPanel(
+                createEngineForView(gamename),
+                gamename,
+            );
         }
     });
 
@@ -2741,6 +3044,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
             var game = APGames.GameFactory(gamename, state);
             if (typeof game.moves !== 'function' && !gameFlagsInclude(game, gamename, "custom-randomization")) {
                 alert("This game doesn't support random moves.")
+                return;
+            }
+
+            const simultaneous = gameIsSimultaneous(game, gamename);
+            if (simultaneous && isSeatMode()) {
+                const fragment = randomMoveForActiveSeat(game, gamename);
+                if (fragment === undefined || fragment === null || fragment === "") {
+                    alert("No random move available for this seat.");
+                    return;
+                }
+                document.getElementById("moveEntry").value = fragment;
+                document.getElementById("moveBtn").click();
                 return;
             }
 
@@ -2765,6 +3080,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 }
 
                 game.move(generatedMove);
+                if (simultaneous) {
+                    clearRoundBuffer();
+                }
                 console.log(JSON.stringify(game.board));
                 var movebox = document.getElementById("moveEntry");
                 movebox.value = "";
@@ -2773,7 +3091,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 if (game.gameover) {
                     statusbox.innerHTML = formatGameOverMessage(game);
                 } else {
-                    var result = game.validateMove("");
+                    var result = validateMoveForPlayground(game, gamename, "");
                     var resultStr = '<p style="color: #888">' + formatValidationMessage(result.message) + '</p>';
                     statusbox.innerHTML = resultStr;
                 }
@@ -2787,18 +3105,69 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     alert("An error occurred: " + err.message);
                 }
                 console.log("Game state: "+state);
+                return;
             }
-            window.localStorage.setItem("state", game.serialize());
+            persistCommittedState(game, gamename, game);
             window.localStorage.removeItem("interim");
             renderGame();
             updateGameStatusPanel(game, gamename);
         }
     });
 
+    const randomAllSeatsBtn = document.getElementById("randomAllSeats");
+    if (randomAllSeatsBtn) {
+        randomAllSeatsBtn.addEventListener("click", () => {
+            const state = window.localStorage.getItem("state");
+            const gamename = window.localStorage.getItem("gamename");
+            if (!state || !gamename) {
+                return;
+            }
+            const game = APGames.GameFactory(gamename, state);
+            if (!gameIsSimultaneous(game, gamename)) {
+                return;
+            }
+            let fullMove;
+            if (typeof game.randomMove === "function") {
+                fullMove = game.randomMove();
+            } else {
+                const parts = [];
+                for (let p = 1; p <= game.numplayers; p++) {
+                    setStoredSeat(p);
+                    const frag = randomMoveForActiveSeat(
+                        APGames.GameFactory(gamename, state),
+                        gamename,
+                    );
+                    parts.push(frag ?? "");
+                }
+                setStoredSeat(1);
+                fullMove = parts.join(",");
+            }
+            try {
+                game.move(fullMove);
+                clearRoundBuffer();
+                persistCommittedState(game, gamename, game);
+                window.localStorage.removeItem("interim");
+                document.getElementById("moveEntry").value = "";
+                renderGame();
+                updateGameStatusPanel(game, gamename);
+            } catch (err) {
+                alert(err.message || String(err));
+            }
+        });
+    }
+
     document.getElementById("moveClear").addEventListener("click", () => {
         window.localStorage.removeItem("interim");
         var movebox = document.getElementById("moveEntry");
         movebox.value = "";
+        const state = window.localStorage.getItem("state");
+        const gamename = window.localStorage.getItem("gamename");
+        if (state && gamename) {
+            const game = APGames.GameFactory(gamename, state);
+            if (gameIsSimultaneous(game, gamename) && isSeatMode()) {
+                clearActiveSeatSlot(game);
+            }
+        }
         renderGame();
     });
 
@@ -2816,6 +3185,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     game.winner = [];
                     window.localStorage.setItem("state", game.serialize());
                     window.localStorage.removeItem("interim");
+                    resetRoundBufferForNewPosition(game);
 
                     if (typeof moveToUndo === 'string' && moveToUndo.length > 0) {
                         let redoStack = getRedoStack();
@@ -3007,8 +3377,22 @@ document.addEventListener("DOMContentLoaded", function(event) {
             var game = APGames.GameFactory(gamename, state);
             if (typeof game.moves === 'function') {
                 try {
-                    const moves = game.moves();
-                    const prettyMoves = JSON.stringify({ currentPlayer: game.currplayer, availableMoves: moves }, null, 2);
+                    let moves;
+                    const seat = getActiveSeat(game);
+                    if (gameIsSimultaneous(game, gamename)) {
+                        try {
+                            moves = game.moves(seat);
+                        } catch {
+                            moves = game.moves();
+                        }
+                    } else {
+                        moves = game.moves();
+                    }
+                    const prettyMoves = JSON.stringify({
+                        perspectiveSeat: gameIsSimultaneous(game, gamename) ? seat : undefined,
+                        currentPlayer: game.currplayer,
+                        availableMoves: moves,
+                    }, null, 2);
                     showModal("Available Moves", prettyMoves, `${gamename}-moves`);
                 } catch (e) {
                     console.error("Error getting or stringifying moves:", e);
@@ -3128,6 +3512,35 @@ document.addEventListener("DOMContentLoaded", function(event) {
         const isDark = window.localStorage.getItem("darkMode") === "true";
         setDarkMode(!isDark);
     });
+
+    document.querySelectorAll('input[name="playgroundSimMode"]').forEach((radio) => {
+        radio.addEventListener("change", () => {
+            if (radio.checked) {
+                window.localStorage.setItem(simStorage.mode, radio.value);
+                const state = window.localStorage.getItem("state");
+                const gamename = window.localStorage.getItem("gamename");
+                if (state && gamename) {
+                    const game = APGames.GameFactory(gamename, state);
+                    if (radio.value === "seat") {
+                        resetRoundBufferForNewPosition(game);
+                    } else {
+                        clearRoundBuffer();
+                    }
+                }
+                renderGame();
+            }
+        });
+    });
+
+    const stripHiddenCheckbox = document.getElementById("stripHiddenOnSave");
+    if (stripHiddenCheckbox) {
+        stripHiddenCheckbox.addEventListener("change", () => {
+            window.localStorage.setItem(
+                simStorage.stripHidden,
+                stripHiddenCheckbox.checked ? "true" : "false",
+            );
+        });
+    }
 
     document.getElementById("passBtn").addEventListener("click", () => {
         const moveEntry = document.getElementById("moveEntry");

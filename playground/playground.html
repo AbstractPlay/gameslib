@@ -52,6 +52,33 @@
 
                 <details class="collapsible" id="details-game-status">
                     <summary>Game Panel</summary>
+                    <div id="simultaneousControls" class="status-panel-common simultaneous-controls" style="display: none;">
+                        <fieldset class="sim-mode-fieldset">
+                            <legend>Simultaneous play</legend>
+                            <label class="instant-label">
+                                <input type="radio" name="playgroundSimMode" value="god" checked>
+                                God mode
+                            </label>
+                            <label class="instant-label">
+                                <input type="radio" name="playgroundSimMode" value="seat">
+                                Seat mode
+                            </label>
+                        </fieldset>
+                        <p class="sim-controls-label">Perspective / acting seat</p>
+                        <div id="seatPicker" class="seat-picker"></div>
+                        <div id="seatModePanel" class="seat-mode-panel" style="display: none;">
+                            <p id="roundStatus" class="round-status"></p>
+                            <details class="round-buffer-details">
+                                <summary>Round buffer</summary>
+                                <pre id="roundBufferDisplay" class="round-buffer-display"></pre>
+                            </details>
+                            <label class="instant-label" for="stripHiddenOnSave">
+                                <input type="checkbox" id="stripHiddenOnSave" name="stripHiddenOnSave">
+                                Strip hidden info when saving state
+                            </label>
+                            <button type="button" id="randomAllSeats" class="secondary-btn">Random all seats (commit)</button>
+                        </div>
+                    </div>
                     <div id="playerInfoDisplay" class="status-panel-common">
                         <!-- Player names and colors will be populated here by JavaScript -->
                     </div>

@@ -1,3 +1,57 @@
+.simultaneous-controls .sim-mode-fieldset {
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    margin-bottom: 0.5em;
+    padding: 0.35em 0.5em 0.5em;
+}
+
+body[data-theme='dark'] .simultaneous-controls .sim-mode-fieldset {
+    border-color: var(--border-dark);
+}
+
+.sim-controls-label {
+    margin: 0.35em 0 0.25em;
+    font-size: 0.9em;
+}
+
+.seat-picker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35em;
+    margin-bottom: 0.5em;
+}
+
+.seat-picker-btn {
+    min-width: 2.2em;
+    padding: 0.2em 0.45em;
+}
+
+.seat-picker-active {
+    font-weight: bold;
+    outline: 2px solid #2196f3;
+}
+
+.seat-picker-submitted {
+    opacity: 0.65;
+}
+
+.round-status {
+    font-size: 0.9em;
+    margin: 0.25em 0 0.5em;
+}
+
+.round-buffer-display {
+    font-size: 0.8em;
+    max-height: 6em;
+    overflow: auto;
+    margin: 0.25em 0;
+}
+
+.seat-mode-panel .secondary-btn {
+    margin-top: 0.35em;
+    width: 100%;
+}
+
 /* Theme variables */
 :root {
     --background-light: #fff;

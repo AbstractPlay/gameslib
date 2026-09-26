@@ -1276,6 +1276,20 @@ export class ThricewiseGame extends GameBaseSequenced {
         return rep;
     }
 
+    /**
+     * Seats with no select choice this trick (empty hand) are inactive for simultaneous submit.
+     * @see GameBaseSimultaneous.isEliminated
+     */
+    public isEliminated(player: number): boolean {
+        if (player < 1 || player > this.numplayers) {
+            return false;
+        }
+        if (this.phase === "select" && this.hands[player - 1].length === 0) {
+            return true;
+        }
+        return false;
+    }
+
     public getPlayerScore(player: number): number {
         return this.scores[player - 1];
     }

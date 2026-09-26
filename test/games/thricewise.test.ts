@@ -23,8 +23,22 @@ describe("Thricewise", () => {
         g.hands[0] = [];
         expect(g.isEliminated(1)).to.equal(true);
         expect(g.isEliminated(2)).to.equal(false);
-        g.phase = "place";
-        expect(g.isEliminated(1)).to.equal(false);
+    });
+
+    it("isEliminated in place phase except currplayer", () => {
+        const g = new ThricewiseGame(3);
+        const twos = cardsOfRank(2);
+        const aces = cardsOfRank(1);
+        const fours = cardsOfRank(4);
+        const fives = cardsOfRank(5);
+        g.hands = [[fives[0], twos[0]], [aces[0], twos[1]], [fours[0], fives[1]]];
+        g.move(`${fives[0]},${aces[0]},${fours[0]}`);
+        expect(g.phase).to.equal("place");
+        expect(g.playQueue).to.deep.equal([2, 3, 1]);
+        expect(g.currplayer).to.equal(2);
+        expect(g.isEliminated(1)).to.equal(true);
+        expect(g.isEliminated(2)).to.equal(false);
+        expect(g.isEliminated(3)).to.equal(true);
     });
 
     it("handleClick selects a card from the correct hand", () => {
@@ -33,7 +47,7 @@ describe("Thricewise", () => {
         const result = g.handleClick("", -1, -1, `c${uid}`);
         expect(result.valid).to.equal(true);
         expect(result.move).to.equal(uid);
-        expect(result.complete).to.equal(0);
+        expect(result.complete).to.equal(1);
     });
 
     it("partial select keeps phase and full hand for render", () => {
@@ -116,6 +130,31 @@ describe("Thricewise", () => {
         const before = g.board.cards.length;
         g.move(`${token},${SIMULTANEOUS_ELIM_TOKEN}`, { partial: true });
         expect(g.board.cards.length).to.equal(before + 1);
+    });
+
+    it("allows diagonal placement next to an existing card", () => {
+        const g = new ThricewiseGame(2);
+        const board = new QuincunxBoard(6);
+        board.add(
+            new QuincunxCard({
+                x: 2,
+                y: 1,
+                card: cardsBasic.find(c => c.uid === "4VL")!,
+            }),
+        );
+        g.board = board;
+        g.phase = "place";
+        g.currplayer = 1;
+        g.playQueue = [1];
+        g.trickCard[0] = "1K";
+        g.deferred[0] = [];
+        g.hands[0] = [];
+        const x = 3;
+        const y = 2;
+        expect(g.board.getCardAt(x, y)).to.equal(undefined);
+        const v = g.validateMove(`1K@${x}.${y}`, 1);
+        expect(v.valid).to.equal(true);
+        expect(g.legalEmpties().some(([ex, ey]) => ex === x && ey === y)).to.equal(true);
     });
 
     it("legal empties respect the 6x6 cap", () => {

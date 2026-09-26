@@ -76,13 +76,24 @@ function withinGridCapCoords(board: QuincunxBoard, coords: [number, number][]): 
     return maxX - minX + 1 <= MAX_GRID && maxY - minY + 1 <= MAX_GRID;
 }
 
-function orthAdjacentToPlaced(
+const PLACEMENT_ADJACENCY: [number, number][] = [
+    [0, 1],
+    [0, -1],
+    [1, 0],
+    [-1, 0],
+    [1, 1],
+    [1, -1],
+    [-1, 1],
+    [-1, -1],
+];
+
+function adjacentToPlaced(
     board: QuincunxBoard,
     x: number,
     y: number,
     pending: [number, number][],
 ): boolean {
-    for (const [dx, dy] of [[0, 1], [0, -1], [1, 0], [-1, 0]] as [number, number][]) {
+    for (const [dx, dy] of PLACEMENT_ADJACENCY) {
         const nx = x + dx;
         const ny = y + dy;
         if (board.getCardAt(nx, ny) !== undefined) {
@@ -93,6 +104,24 @@ function orthAdjacentToPlaced(
         }
     }
     return false;
+}
+
+function adjacentEmptyCells(board: QuincunxBoard): [number, number][] {
+    const seen = new Set<string>();
+    const out: [number, number][] = [];
+    for (const card of board.cards) {
+        for (const [dx, dy] of PLACEMENT_ADJACENCY) {
+            const x = card.x + dx;
+            const y = card.y + dy;
+            const key = `${x},${y}`;
+            if (seen.has(key) || board.getCardAt(x, y) !== undefined) {
+                continue;
+            }
+            seen.add(key);
+            out.push([x, y]);
+        }
+    }
+    return out;
 }
 
 function parseSegments(token: string): ParsedSegment[] {
@@ -314,7 +343,9 @@ export class ThricewiseGame extends GameBaseSequenced {
     }
 
     protected legalEmpties(): [number, number][] {
-        return this.board.empties.filter(([x, y]) => withinGridCap(this.board, x, y));
+        return adjacentEmptyCells(this.board).filter(([x, y]) =>
+            withinGridCap(this.board, x, y),
+        );
     }
 
     /** Whether a hand card is shown face-up (and thus not in the deck area) for this observer. */
@@ -390,7 +421,7 @@ export class ThricewiseGame extends GameBaseSequenced {
             const empties = this.legalEmpties();
             if (obligation.length === 1) {
                 for (const [x, y] of empties) {
-                    if (orthAdjacentToPlaced(this.board, x, y, [])) {
+                    if (adjacentToPlaced(this.board, x, y, [])) {
                         moves.push(`${obligation[0].toUpperCase()}@${x}.${y}`);
                     }
                 }
@@ -437,7 +468,7 @@ export class ThricewiseGame extends GameBaseSequenced {
                 if (!withinGridCapCoords(this.board, nextPending)) {
                     continue;
                 }
-                if (!orthAdjacentToPlaced(this.board, x, y, pending)) {
+                if (!adjacentToPlaced(this.board, x, y, pending)) {
                     continue;
                 }
                 used.add(key);
@@ -589,7 +620,7 @@ export class ThricewiseGame extends GameBaseSequenced {
                 result.message = i18next.t("apgames:validation.thricewise.GRID_CAP");
                 return result;
             }
-            if (!orthAdjacentToPlaced(this.board, seg.x, seg.y, pending)) {
+            if (!adjacentToPlaced(this.board, seg.x, seg.y, pending)) {
                 result.message = i18next.t("apgames:validation.thricewise.NOT_ADJACENT");
                 return result;
             }
@@ -721,10 +752,6 @@ export class ThricewiseGame extends GameBaseSequenced {
                 result.move = "";
             } else {
                 result.move = newmove;
-                if (this.phase === "select") {
-                    result.complete = 0;
-                    result.canrender = true;
-                }
             }
             return result;
         } catch (e) {
@@ -1119,7 +1146,7 @@ export class ThricewiseGame extends GameBaseSequenced {
             pieces.push(pcs);
         }
         const pstr = pieces.map(p => p.join(",")).join("\n");
-        const g = this.board.graphOrth;
+        const g = this.board.graph;
         for (const card of this.board.cards) {
             const [absx, absy] = [card.x, card.y];
             const rel = this.board.abs2rel(absx, absy);
@@ -1277,15 +1304,18 @@ export class ThricewiseGame extends GameBaseSequenced {
     }
 
     /**
-     * Seats with no select choice this trick (empty hand) are inactive for simultaneous submit.
+     * Inactive seats for simultaneous submit: empty hand in select, or not the active placer in place.
      * @see GameBaseSimultaneous.isEliminated
      */
     public isEliminated(player: number): boolean {
         if (player < 1 || player > this.numplayers) {
             return false;
         }
-        if (this.phase === "select" && this.hands[player - 1].length === 0) {
-            return true;
+        if (this.phase === "select") {
+            return this.hands[player - 1].length === 0;
+        }
+        if (this.phase === "place") {
+            return player !== this.currplayer;
         }
         return false;
     }

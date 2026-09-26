@@ -3368,8 +3368,8 @@
     "out": "En el juego base, las piezas pueden moverse a través de santuarios como parte de un salto de varios pasos. No se congelan hasta que terminan su movimiento en un santuario. En la variante estricta, las piezas se congelan tan pronto como entran en un santuario.\n\nEn partidas de cuatro jugadores, los jugadores 1 y 2 son compañeros, al igual que los jugadores 3 y 4."
   },
   "notes.crosshairs": {
-    "src": "The published Turbulence rule is ambiguous about two points: it does not specify whether a maneuver's normal height change occurs before or after the Turbulence loss, nor what happens if the plane is already at height 0. This implementation interprets the rule by applying each maneuver's normal height change first, then applying one Turbulence loss for each cloud cell entered, in travel order. A plane at height 0 when a Turbulence loss would apply crashes immediately.\n\nTo prevent clouds on a starting edge from trapping every entering plane, Turbulence does not affect a plane until it has entered a non-cloud cell. Once it has done so, it remains subject to Turbulence. Every cell traversed during movement counts as entered, including the intermediate cell of a two-space level flight; a clear intermediate cell therefore removes the exemption before the plane reaches a later cloudy cell in the same maneuver. Each maneuver in a dive is resolved completely before the next, so a swoop that enters a non-cloud cell removes the exemption before the following swoop.",
-    "out": "La regla publicada de Turbulencia es ambigua respecto a dos puntos: no especifica si el cambio normal de altura de una maniobra ocurre antes o después de la pérdida por Turbulencia, ni qué sucede si el avión ya está en la altura 0. Esta implementación interpreta la regla aplicando primero el cambio normal de altura de cada maniobra y luego aplicando una pérdida por Turbulencia por cada casilla con nubes en la que se ingrese, en el orden del recorrido. Un avión en altura 0 cuando se fuera a aplicar una pérdida por Turbulencia se estrella de inmediato.\n\nPara evitar que las nubes en un borde de inicio atrapen a todos los aviones que entran, la Turbulencia no afecta a un avión hasta que haya entrado en una casilla sin nubes. Una vez que lo haya hecho, permanece sujeto a la Turbulencia. Cada casilla atravesada durante el movimiento cuenta como ingresada, incluida la casilla intermedia de un vuelo nivelado de dos espacios; por lo tanto, una casilla intermedia despejada elimina la exención antes de que el avión alcance una casilla con nubes posterior en la misma maniobra. Cada maniobra en un picado se resuelve por completo antes de la siguiente, por lo que un swoop que entra en una casilla sin nubes elimina la exención antes del siguiente swoop."
+    "src": "Turbulence follows the designer's clarified rule: resolve the maneuver first (movement, turning, and its normal height change), then lose one height if the plane moved from a non-cloud hex into a cloud hex at any point during that maneuver. A plane already at height 0 when that loss applies crashes. Flying from cloud to cloud within the same bank costs nothing, and placing a new plane on a cloudy starting hex costs nothing. Every hex traversed counts, including the middle hex of a two-space level flight. Each swoop in a dive is a separate maneuver resolved before the next, so a dive can pay Turbulence more than once.",
+    "out": "La turbulencia sigue la regla aclarada por el diseñador: resuelve primero la maniobra (movimiento, giro y su cambio de altura normal), luego pierde una unidad de altura si el avión se movió de un hexágono sin nubes a un hexágono con nubes en cualquier momento durante esa maniobra. Un avión que ya esté en altura 0 cuando se aplique esa pérdida se estrella. Volar de nube a nube dentro del mismo banco de nubes no cuesta nada, y colocar un avión nuevo en un hexágono de inicio con nubes no cuesta nada. Cada hexágono atravesado cuenta, incluyendo el hexágono medio de un vuelo nivelado de dos casillas. Cada picada dentro de un picado es una maniobra independiente que se resuelve antes de la siguiente, por lo que un picado puede pagar Turbulencia más de una vez."
   },
   "notes.deckfish": {
     "src": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com).\n\nThe suit powers (token movement abilities) are:\n* Moons: Jump orthogonally over gaps. \n* Suns: Move one or two cards diagonally. \n* Waves: Move orthogonally until the last unobstructed card. \n* Leaves: Move orthogonally onto any card with no neighboring obstacles.\n* Wyrms: Move orthogonally onto the first occupied card, bumping that piece to the next card.\n* Knots: Make three orthogonal one-card moves, without backtracking.\n\nIn the rules, the \"first\" player is the player who places second in the placement phase but moves first in the movement phase, but here the first player is the one who places first but moves second. This is implemented using an automatic pass for the appropriate player.\n\nThe rule is enforced that, even when the last player is already winning, he must continue playing until he is out of moves.",
@@ -15847,6 +15847,14 @@
     "src": "Asymmetric random clouds",
     "out": "Nubes aleatorias asimétricas"
   },
+  "variants.crosshairs.asymmetric-spread-start.description": {
+    "src": "There is no cloud placing phase. The system places the clouds without requiring symmetry using the designer's algorithm, which blocks open lines of fire first and then fills in the gaps.",
+    "out": "No hay fase de colocación de nubes. El sistema coloca las nubes sin requerir simetría utilizando el algoritmo del diseñador, el cual bloquea primero las líneas de fuego abiertas y luego llena los espacios vacíos."
+  },
+  "variants.crosshairs.asymmetric-spread-start.name": {
+    "src": "Asymmetric spread clouds",
+    "out": "Nubes dispersas asimétricas"
+  },
   "variants.crosshairs.clouds-22.description": {
     "src": "Place 22 clouds instead of 16. With the default cloud bank size limit, the full count may not always be achievable.",
     "out": "Coloca 22 nubes en lugar de 16. Con el límite predeterminado para el tamaño del banco de nubes, puede que no siempre se logre la cantidad total."
@@ -15878,6 +15886,14 @@
   "variants.crosshairs.random-start.name": {
     "src": "Symmetric random clouds",
     "out": "Nubes aleatorias simétricas"
+  },
+  "variants.crosshairs.spread-start.description": {
+    "src": "There is no cloud placing phase. The system places the clouds with 180-degree rotational symmetry using the designer's algorithm, which blocks open lines of fire first and then fills in the gaps.",
+    "out": "No hay fase de colocación de nubes. El sistema coloca las nubes con una simetría rotacional de 180 grados utilizando el algoritmo del diseñador, el cual bloquea primero las líneas de fuego abiertas y luego llena los espacios vacíos."
+  },
+  "variants.crosshairs.spread-start.name": {
+    "src": "Symmetric spread clouds",
+    "out": "Nubes dispersas simétricas"
   },
   "variants.crosshairs.turbulence.description": {
     "src": "Each time a plane enters a cloud, it loses 1 height.",

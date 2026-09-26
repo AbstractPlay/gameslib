@@ -100,16 +100,37 @@ export function saveToMove(toMove) {
     window.localStorage.setItem(STORAGE.toMove, JSON.stringify(toMove));
 }
 
+export function isSeatEliminated(engine, seat) {
+    return (
+        typeof engine?.isEliminated === "function" && engine.isEliminated(seat)
+    );
+}
+
 export function initialToMove(engine, numPlayers) {
     const arr = [];
     for (let i = 1; i <= numPlayers; i++) {
-        if (typeof engine.isEliminated === "function" && engine.isEliminated(i)) {
+        if (isSeatEliminated(engine, i)) {
             arr.push(false);
         } else {
             arr.push(true);
         }
     }
     return arr;
+}
+
+/** Keep `toMove` false for eliminated seats (e.g. after elimination mid-session). */
+export function syncToMoveElimination(engine) {
+    const toMove = loadToMove(engine);
+    let changed = false;
+    for (let i = 0; i < engine.numplayers; i++) {
+        if (isSeatEliminated(engine, i + 1) && toMove[i]) {
+            toMove[i] = false;
+            changed = true;
+        }
+    }
+    if (changed) {
+        saveToMove(toMove);
+    }
 }
 
 export function clearRoundBuffer() {
@@ -124,6 +145,7 @@ export function ensureRoundBuffer(game) {
     if (window.localStorage.getItem(STORAGE.toMove) === null) {
         saveToMove(initialToMove(game, game.numplayers));
     }
+    syncToMoveElimination(game);
 }
 
 export function resetRoundBufferForNewPosition(game) {
@@ -153,6 +175,11 @@ export function applySeatSubmit({
 }) {
     const moves = splitPartialRow(partialMove, numPlayers);
     const toMoveArr = [...toMove];
+    const seat = seatIndex + 1;
+
+    if (isSeatEliminated(engine, seat)) {
+        throw new Error("This seat is eliminated and cannot submit a move.");
+    }
 
     if (!toMoveArr[seatIndex]) {
         throw new Error("You have already submitted your move for this turn!");
@@ -162,7 +189,7 @@ export function applySeatSubmit({
     toMoveArr[seatIndex] = false;
 
     for (let i = 0; i < numPlayers; i++) {
-        if (typeof engine.isEliminated === "function" && engine.isEliminated(i + 1)) {
+        if (isSeatEliminated(engine, i + 1)) {
             moves[i] = ELIM_TOKEN;
         }
     }
@@ -197,6 +224,10 @@ export function applySeatSubmit({
 export function clearActiveSeatSlot(game) {
     const numPlayers = game.numplayers;
     const seatIndex = getStoredSeat(numPlayers) - 1;
+    const seat = seatIndex + 1;
+    if (isSeatEliminated(game, seat)) {
+        return;
+    }
     const moves = splitPartialRow(loadPartialMove(), numPlayers);
     const toMove = loadToMove(game);
     moves[seatIndex] = "";
@@ -223,6 +254,9 @@ export function formatRoundStatus(game, gamename, getPlayerNamesForStatus) {
     const seat = getStoredSeat(game.numplayers);
     const toMove = loadToMove(game);
     const names = getPlayerNamesForStatus(game, gamename);
+    if (isSeatEliminated(game, seat)) {
+        return `Seat ${seat} (${names[seat - 1] || `Player ${seat}`}) is eliminated.`;
+    }
     const waiting = [];
     for (let i = 0; i < game.numplayers; i++) {
         if (toMove[i]) {

@@ -24,6 +24,7 @@ import {
     setStoredSeat,
     shouldStripHiddenOnSave,
     splitPartialRow,
+    isSeatEliminated,
 } from "./playgroundSimultaneous.mjs";
 
 function assertAPGamesLoaded() {
@@ -155,6 +156,30 @@ function persistCommittedState(game, gamename, engineAfterCommit) {
     }
 }
 
+function isActiveSeatEliminated(gamename) {
+    const engine = createEngineFromCommitted(gamename);
+    if (!engine) {
+        return false;
+    }
+    return isSeatEliminated(engine, getActiveSeat(engine));
+}
+
+function isSeatModeSubmitBlocked(gamename) {
+    if (!isSeatMode()) {
+        return false;
+    }
+    const engine = createEngineFromCommitted(gamename);
+    if (!engine || !gameIsSimultaneous(engine, gamename)) {
+        return false;
+    }
+    const seat = getActiveSeat(engine);
+    if (isSeatEliminated(engine, seat)) {
+        return true;
+    }
+    const toMove = loadToMove(engine);
+    return !toMove[seat - 1];
+}
+
 function randomMoveForActiveSeat(game, gamename) {
     const seat = getActiveSeat(game);
     if (typeof game.moves === "function") {
@@ -209,15 +234,23 @@ function updateSimultaneousControls(game, gamename) {
     if (seatPicker) {
         seatPicker.innerHTML = "";
         const active = getActiveSeat(game);
+        const committed = createEngineFromCommitted(gamename);
         for (let p = 1; p <= game.numplayers; p++) {
             const btn = document.createElement("button");
             btn.type = "button";
             btn.textContent = `P${p}`;
             btn.className = "seat-picker-btn" + (p === active ? " seat-picker-active" : "");
-            if (isSeatMode()) {
-                const toMove = loadToMove(game);
+            const eliminated =
+                committed && isSeatEliminated(committed, p);
+            if (eliminated) {
+                btn.classList.add("seat-picker-eliminated");
+                btn.title = "Eliminated (perspective only)";
+            }
+            if (isSeatMode() && !eliminated) {
+                const toMove = loadToMove(committed ?? game);
                 if (!toMove[p - 1]) {
                     btn.classList.add("seat-picker-submitted");
+                    btn.title = "Submitted this round";
                 }
             }
             btn.addEventListener("click", () => {
@@ -468,6 +501,9 @@ function boardClickSimultaneous(row, col, piece) {
     var gamename = window.localStorage.getItem("gamename");
     var game = APGames.GameFactory(gamename, state);
     const activeSeat = getActiveSeat(game);
+    if (isSeatMode() && isSeatEliminated(game, activeSeat)) {
+        return;
+    }
     var movebox = document.getElementById("moveEntry");
     var result = game.handleClickSimultaneous(
         movebox.value,
@@ -2969,6 +3005,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
             try {
                 if (seatModeSubmit) {
+                    if (isSeatModeSubmitBlocked(gamename)) {
+                        const seat = getActiveSeat(game);
+                        const msg = isSeatEliminated(game, seat)
+                            ? "This seat is eliminated and cannot submit a move."
+                            : "You have already submitted your move for this round.";
+                        throw new Error(msg);
+                    }
                     const seatIndex = getActiveSeat(game) - 1;
                     const fragment = submittedMove.trim();
                     const submitResult = applySeatSubmit({
@@ -3049,6 +3092,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
             const simultaneous = gameIsSimultaneous(game, gamename);
             if (simultaneous && isSeatMode()) {
+                if (isSeatModeSubmitBlocked(gamename)) {
+                    alert(
+                        isActiveSeatEliminated(gamename)
+                            ? "This seat is eliminated and cannot submit a move."
+                            : "You have already submitted your move for this round.",
+                    );
+                    return;
+                }
                 const fragment = randomMoveForActiveSeat(game, gamename);
                 if (fragment === undefined || fragment === null || fragment === "") {
                     alert("No random move available for this seat.");

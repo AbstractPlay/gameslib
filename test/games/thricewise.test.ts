@@ -17,6 +17,16 @@ describe("Thricewise", () => {
         expect(g.turnModel()).to.equal("sequenced");
     });
 
+    it("isEliminated when select phase and hand is empty", () => {
+        const g = new ThricewiseGame(2);
+        expect(g.isEliminated(1)).to.equal(false);
+        g.hands[0] = [];
+        expect(g.isEliminated(1)).to.equal(true);
+        expect(g.isEliminated(2)).to.equal(false);
+        g.phase = "place";
+        expect(g.isEliminated(1)).to.equal(false);
+    });
+
     it("handleClick selects a card from the correct hand", () => {
         const g = new ThricewiseGame(2);
         const uid = g.hands[1][0]!;

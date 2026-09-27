@@ -78,6 +78,7 @@
     "crosshairs": "Ein Luftkampfspiel aus dem 1. Weltkrieg. Flugzeuge haben Höhe und Richtung. Die Bewegung umfasst Steigflug, Horizontalflug und Sturzflug. Der Kampf ist einfach: Wenn sich ein Flugzeug in der Schusslinie von zwei gegnerischen Flugzeugen befindet, wird es abgeschossen. Reduziere deinen Gegner auf ein Flugzeug, um zu gewinnen.",
     "cubeo": "Ein brettlloses Würfelspiel mit perfekter Information, bei dem du versuchst, deine Würfel schneller als dein Gegner zu befördern oder deinen Gegner in eine Position zu manövrieren, in der er nicht mehr ziehen kann.",
     "dagnacht": "Ein n-in-einer-Reihe-Spiel auf einem schachbrettartigen Feld. Du kannst Steine nur auf den dunklen Feldern platzieren, kannst Steine dann aber auf die hellen Felder bewegen. Gewinne, indem du 5 in einer Reihe orthogonal bildest (einschließlich 3 hellen Feldern, wenn du Spieler 1 bist) oder 4 in einer Reihe auf einer hellen Diagonalen. Gewinner des Spieldesign-Wettbewerbs \"Unequal Board Spaces Game Design Competition\" 2021 des Magazins Abstract Games.",
+    "dama": "Türkische Dame auf einem 8×8-Brett: Einfache Steine ziehen und schlagen orthogonal nach vorne oder seitwärts; Damen ziehen beliebig weit und schlagen entlang von Reihen und Linien. Es gilt maximaler Schlagzwang.",
     "dameo": "Ein modernes Dame-Spiel mit linearer Bewegung und orthogonalen Schlagzügen.",
     "deckfish": "Ein Zwei-Spieler-Spiel der Kartenreduzierung und Farbsammlung, bei dem der Spieler mit den meisten Karten seiner am wenigsten gesammelten Decktet-Farbe gewinnt.",
     "diffusion": "Diffusion ist ein modernes Spiel im Mancala-Stil, bei dem das Ziel darin besteht, die eigenen Mulden zu leeren.",
@@ -6034,6 +6035,11 @@
       "OCCUPIED": "Du musst einen Stein auf ein leeres Feld setzen. Auf {{where}} befindet sich bereits ein Stein.",
       "PARTIAL_MOVE": "Sieht so aus, als möchtest du den Stein auf {{cell}} ziehen. Gib das Ziel an.",
       "TOO_MANY": "Du kannst nur einen Stein um ein Feld bewegen"
+    },
+    "dama": {
+      "INITIAL_INSTRUCTIONS": "Wähle einen Stein zum Ziehen aus.",
+      "INVALID_MOVE": "Schlagen ist Pflicht, einschließlich der längsten Schlagsequenz. Einfache Steine ziehen ein Feld orthogonal nach vorne oder seitwärts; Damen gleiten beliebig weit entlang einer Reihe oder Linie.",
+      "VALID_PARTIAL": "Sieht bisher gut aus. Wähle das nächste leere Feld aus."
     },
     "dameo": {
       "INITIAL_INSTRUCTIONS": "Wähle einen Stein zum Ziehen.",

@@ -78,6 +78,7 @@
     "crosshairs": "Un jeu de combat aérien durant la Première Guerre mondiale. Les avions possèdent une altitude et une direction. Les déplacements incluent la montée, le vol en palier et le piqué. Le combat est simple : si un avion se trouve dans la ligne de mire de deux avions ennemis, il est abattu. Réduisez votre adversaire à un seul avion pour l'emporter.",
     "cubeo": "Un jeu de dés sans plateau à information parfaite dans lequel vous tentez de promouvoir vos dés plus vite que votre adversaire ou de le manœuvrer dans une position où il ne peut plus jouer.",
     "dagnacht": "Un jeu d'alignement sur damier. Vous ne pouvez placer des pièces que sur les cases foncées, mais vous pouvez ensuite déplacer des pièces sur les cases claires. Gagnez en alignant 5 pièces orthogonalement (dont 3 cases claires si vous êtes le joueur 1) ou 4 pièces sur une diagonale claire. Gagnant du concours 2021 « Unequal Board Spaces Game Design Competition » du magazine Abstract Games.",
+    "dama": "Dames turques sur un plateau 8×8 : les pions se déplacent et capturent orthogonalement vers l'avant ou latéralement ; les dames glissent et capturent le long des rangées et des colonnes. La prise maximale est obligatoire.",
     "dameo": "Un jeu de dames moderne avec déplacements linéaires et captures orthogonales.",
     "deckfish": "Un jeu pour deux joueurs de réduction de carte et de collection d'enseignes où le joueur possédant le plus de sa couleur Decktet la moins collectée l'emporte.",
     "diffusion": "Diffusion est un jeu moderne de style mancala dans lequel le but est de vider vos propres fosses.",
@@ -6034,6 +6035,11 @@
       "OCCUPIED": "Vous devez placer une pièce sur une case vide. Il y a déjà une pièce en {{where}}.",
       "PARTIAL_MOVE": "Il semble que vous souhaitez déplacer la pièce en {{cell}}. Indiquez la destination.",
       "TOO_MANY": "Vous ne pouvez déplacer qu'une seule pièce d'une seule case"
+    },
+    "dama": {
+      "INITIAL_INSTRUCTIONS": "Sélectionnez une pièce à déplacer.",
+      "INVALID_MOVE": "La capture est obligatoire, y compris la séquence de capture la plus longue. Les pions se déplacent d'une case orthogonalement vers l'avant ou latéralement ; les dames glissent de n'importe quelle distance le long d'une rangée ou d'une colonne.",
+      "VALID_PARTIAL": "Semble correct pour l'instant. Sélectionnez la prochaine case vide vers laquelle vous déplacer."
     },
     "dameo": {
       "INITIAL_INSTRUCTIONS": "Sélectionnez une pièce à déplacer.",

@@ -331,6 +331,10 @@
     "src": "An n-in-a-row game on a checkered board. You can only place pieces on the dark squares, but you can then move pieces onto the light squares. Win by getting 5 in a row orthogonally (including 3 light squares if you are player 1) or 4 in a row on a light diagonal. Winner of the Abstract Games magazine's 2021 \"Unequal Board Spaces Game Design Competition\".",
     "out": "Un gioco di n-in-fila su una scacchiera a scacchi. Puoi posizionare pezzi solo sulle caselle scure, ma puoi poi muovere pezzi sulle caselle chiare. Vinci ottenendo 5 in fila ortogonalmente (incluse 3 caselle chiare se sei il Giocatore 1) o 4 in fila su una diagonale chiara. Vincitore del concorso \"Unequal Board Spaces Game Design Competition\" 2021 della rivista Abstract Games."
   },
+  "descriptions.dama": {
+    "src": "Turkish draughts on an 8×8 board: men move and capture orthogonally forward or sideways; kings fly and capture along ranks and files. Maximal capture is compulsory.",
+    "out": "Dama turca su una scacchiera 8×8: le pedine si muovono e catturano ortogonalmente in avanti o lateralmente; le dame scorrono e catturano lungo traverse e colonne. La cattura massima è obbligatoria."
+  },
   "descriptions.dameo": {
     "src": "A modern draughts game with linear movement and orthogonal captures.",
     "out": "Un gioco di dama moderno con movimento lineare e catture ortogonali."
@@ -7106,6 +7110,18 @@
   "validation.dagnacht.TOO_MANY": {
     "src": "You can only move one piece one space",
     "out": "Puoi muovere solo un pezzo di una casella"
+  },
+  "validation.dama.INITIAL_INSTRUCTIONS": {
+    "src": "Select a piece to move.",
+    "out": "Seleziona un pezzo da muovere."
+  },
+  "validation.dama.INVALID_MOVE": {
+    "src": "Capturing is compulsory, including the longest capture sequence. Men move one square orthogonally forward or sideways; kings slide any distance along a rank or file.",
+    "out": "Catturare è obbligatorio, inclusa la sequenza di cattura più lunga. Le pedine si muovono di una casella ortogonalmente in avanti o lateralmente; le dame scorrono di qualsiasi distanza lungo una traversa o colonna."
+  },
+  "validation.dama.VALID_PARTIAL": {
+    "src": "Looks good so far. Select the next empty cell to move to.",
+    "out": "Sembra corretto finora. Seleziona la casella vuota successiva in cui muoverti."
   },
   "validation.dameo.INITIAL_INSTRUCTIONS": {
     "src": "Select a piece to move.",

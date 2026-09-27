@@ -78,6 +78,7 @@
     "crosshairs": "Un juego de combates aéreos de la Primera Guerra Mundial. Los aviones tienen altura y dirección. El movimiento incluye ascender, vuelo nivelado y picar. El combate es simple: si un avión está en la línea de fuego de dos aviones enemigos, es derribado. Reduce a tu oponente a un solo avión para ganar.",
     "cubeo": "Un juego de dados sin tablero y de información perfecta donde intentas promocionar tus dados más rápido que tu oponente o maniobrar a tu oponente hasta una posición en la que no pueda mover.",
     "dagnacht": "Un juego de n-en-línea en un tablero ajedrezado. Solo puedes colocar piezas en las casillas oscuras, pero luego puedes mover piezas a las casillas claras. Gana al conseguir 5 en línea ortogonalmente (incluidas 3 casillas claras si eres el jugador 1) o 4 en línea en una diagonal clara. Ganador del concurso \"Unequal Board Spaces Game Design Competition\" de 2021 de la revista Abstract Games.",
+    "dama": "Damas turcas en un tablero de 8×8: los peones se mueven y capturan ortogonalmente hacia adelante o hacia los lados; las damas vuelan y capturan a lo largo de filas y columnas. La captura máxima es obligatoria.",
     "dameo": "Un juego moderno de damas con movimiento lineal y capturas ortogonales.",
     "deckfish": "Un juego para dos jugadores de reducción de mapa y colección de palos donde gana el jugador que tenga la mayor cantidad de su palo de Decktet menos recolectado.",
     "diffusion": "Diffusion es un juego moderno al estilo mancala cuyo objetivo es vaciar tus propios hoyos.",
@@ -6034,6 +6035,11 @@
       "OCCUPIED": "Debes colocar una pieza en una casilla vacía. Ya hay una pieza en {{where}}.",
       "PARTIAL_MOVE": "Parece que quieres mover la pieza en {{cell}}. Indica el destino.",
       "TOO_MANY": "Solo puedes mover una pieza un espacio"
+    },
+    "dama": {
+      "INITIAL_INSTRUCTIONS": "Selecciona una pieza para mover.",
+      "INVALID_MOVE": "La captura es obligatoria, incluida la secuencia de captura más larga. Los peones se mueven una casilla ortogonalmente hacia adelante o hacia los lados; las damas se deslizan cualquier distancia a lo largo de una fila o columna.",
+      "VALID_PARTIAL": "Va bien hasta ahora. Selecciona la siguiente casilla vacía a la que moverte."
     },
     "dameo": {
       "INITIAL_INSTRUCTIONS": "Selecciona una pieza para moverla.",

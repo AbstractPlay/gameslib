@@ -291,11 +291,6 @@
     "yonmoque": "Cerca di formare un quattro in linea in un gioco in cui non tutti gli spazi sono uguali e i pezzi avversari possono essere convertiti.",
     "zola": "Un gioco in cui il tuo movimento è vincolato dalla tua distanza dal centro del tabellone. Le mosse di cattura non devono aumentare tale distanza. Le mosse non di cattura devono aumentare tale distanza. La prima persona che cattura tutti i pezzi avversari vince."
   },
-  "icepalace": {
-    "HAND": "Mano di {{player}}",
-    "POOL": "Piramidi nella Riserva",
-    "STOCK": "Piramidi dal Yard, da costruire nel Palazzo"
-  },
   "names": {
     "abande": "Abande",
     "accasta": "Accasta",
@@ -322,8 +317,8 @@
     "baghchal": "Bagh Chal",
     "bamboo": "Bamboo",
     "bao": "Bao",
-    "bashni": "Bashni",
     "basalt": "Basalt",
+    "bashni": "Bashni",
     "bide": "Bide",
     "biscuit": "Biscuit",
     "bitesize": "BITESIZE",
@@ -377,6 +372,7 @@
     "crossway": "Crossway",
     "cubeo": "Cubeo",
     "dagnacht": "Dag en Nacht",
+    "dama": "Dama",
     "dameo": "Dameo",
     "deckfish": "Deckfish",
     "diffusion": "Diffusion",
@@ -557,11 +553,11 @@
     "tbt": "Take-Back-Toe",
     "terrace": "Terrace",
     "tessella": "Tessella",
+    "thricewise": "Thricewise",
     "tintas": "Tintas",
     "toguz": "Toguz Kumalak",
     "trax": "Trax",
     "tricouleur": "Tricouleur",
-    "thricewise": "Thricewise",
     "trike": "Trike",
     "tritium": "Tritium",
     "tumbleweed": "Tumbleweed",
@@ -587,6 +583,11 @@
     "yavalath": "Yavalath",
     "yonmoque": "Yonmoque",
     "zola": "Zola"
+  },
+  "icepalace": {
+    "HAND": "Mano di {{player}}",
+    "POOL": "Piramidi nella Riserva",
+    "STOCK": "Piramidi dal Yard, da costruire nel Palazzo"
   },
   "notes": {
     "akimbo": "Akimbo, progettato da Luis Bolaños Mures nel 2026, è un gioco di connessione senza pareggi per due giocatori. Una _diagonale nuda_ è una coppia di pezzi adiacenti in diagonale dello stesso colore privi di altri pezzi dello stesso colore adiacenti a entrambi. Un _crosscut_ è un'area 2×2 con due diagonali nude incrociate di colori opposti.\n\nNel proprio turno, il giocatore piazza un pezzo amico su una casella vuota. Se ciò completa un crosscut, l'altro pezzo nel crosscut viene rimosso. Non deve mai esserci più di una diagonale nuda per colore sul tabellone — nemmeno momentaneamente prima di rimuovere un pezzo. Un giocatore vince se, alla fine del proprio turno, c'è una catena di pezzi del proprio colore connessi ortogonalmente che tocca i due bordi opposti del tabellone del giocatore.\n\nOkimba è una variante in cui può esistere al massimo una diagonale nuda sul tabellone (quindi mentre un giocatore ha la diagonale, l'avversario non può crearne un'altra).",

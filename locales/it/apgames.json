@@ -78,6 +78,7 @@
     "crosshairs": "Un gioco di combattimento aereo della Prima Guerra Mondiale. Gli aerei hanno altezza e direzione. Il movimento include salita, volo orizzontale e picchiata. Il combattimento è semplice: se un aereo si trova nella linea di tiro di due aerei nemici, viene abbattuto. Riduci il tuo avversario a un solo aereo per vincere.",
     "cubeo": "Un gioco di dadi a informazione perfetta e senza tavoliere in cui tenti di promuovere i tuoi dadi più velocemente del tuo avversario o manovrare l'avversario in una posizione in cui non possa muovere.",
     "dagnacht": "Un gioco di n-in-fila su una scacchiera a scacchi. Puoi posizionare pezzi solo sulle caselle scure, ma puoi poi muovere pezzi sulle caselle chiare. Vinci ottenendo 5 in fila ortogonalmente (incluse 3 caselle chiare se sei il Giocatore 1) o 4 in fila su una diagonale chiara. Vincitore del concorso \"Unequal Board Spaces Game Design Competition\" 2021 della rivista Abstract Games.",
+    "dama": "Dama turca su una scacchiera 8×8: le pedine si muovono e catturano ortogonalmente in avanti o lateralmente; le dame scorrono e catturano lungo traverse e colonne. La cattura massima è obbligatoria.",
     "dameo": "Un gioco di dama moderno con movimento lineare e catture ortogonali.",
     "deckfish": "Un gioco per due giocatori di riduzione della mappa e collezione di semi dove il giocatore con la maggior quantità del proprio seme Decktet meno raccolto vince.",
     "diffusion": "Diffusion è un moderno gioco in stile mancala in cui l'obiettivo è svuotare le proprie buche.",
@@ -6034,6 +6035,11 @@
       "OCCUPIED": "Devi posizionare un pezzo su una casella vuota. C'è già un pezzo su {{where}}.",
       "PARTIAL_MOVE": "Sembra che tu voglia muovere il pezzo su {{cell}}. Fornisci la destinazione.",
       "TOO_MANY": "Puoi muovere solo un pezzo di una casella"
+    },
+    "dama": {
+      "INITIAL_INSTRUCTIONS": "Seleziona un pezzo da muovere.",
+      "INVALID_MOVE": "Catturare è obbligatorio, inclusa la sequenza di cattura più lunga. Le pedine si muovono di una casella ortogonalmente in avanti o lateralmente; le dame scorrono di qualsiasi distanza lungo una traversa o colonna.",
+      "VALID_PARTIAL": "Sembra corretto finora. Seleziona la casella vuota successiva in cui muoverti."
     },
     "dameo": {
       "INITIAL_INSTRUCTIONS": "Seleziona un pezzo da muovere.",

@@ -331,6 +331,10 @@
     "src": "An n-in-a-row game on a checkered board. You can only place pieces on the dark squares, but you can then move pieces onto the light squares. Win by getting 5 in a row orthogonally (including 3 light squares if you are player 1) or 4 in a row on a light diagonal. Winner of the Abstract Games magazine's 2021 \"Unequal Board Spaces Game Design Competition\".",
     "out": "Un juego de n-en-línea en un tablero ajedrezado. Solo puedes colocar piezas en las casillas oscuras, pero luego puedes mover piezas a las casillas claras. Gana al conseguir 5 en línea ortogonalmente (incluidas 3 casillas claras si eres el jugador 1) o 4 en línea en una diagonal clara. Ganador del concurso \"Unequal Board Spaces Game Design Competition\" de 2021 de la revista Abstract Games."
   },
+  "descriptions.dama": {
+    "src": "Turkish draughts on an 8×8 board: men move and capture orthogonally forward or sideways; kings fly and capture along ranks and files. Maximal capture is compulsory.",
+    "out": "Damas turcas en un tablero de 8×8: los peones se mueven y capturan ortogonalmente hacia adelante o hacia los lados; las damas vuelan y capturan a lo largo de filas y columnas. La captura máxima es obligatoria."
+  },
   "descriptions.dameo": {
     "src": "A modern draughts game with linear movement and orthogonal captures.",
     "out": "Un juego moderno de damas con movimiento lineal y capturas ortogonales."
@@ -7106,6 +7110,18 @@
   "validation.dagnacht.TOO_MANY": {
     "src": "You can only move one piece one space",
     "out": "Solo puedes mover una pieza un espacio"
+  },
+  "validation.dama.INITIAL_INSTRUCTIONS": {
+    "src": "Select a piece to move.",
+    "out": "Selecciona una pieza para mover."
+  },
+  "validation.dama.INVALID_MOVE": {
+    "src": "Capturing is compulsory, including the longest capture sequence. Men move one square orthogonally forward or sideways; kings slide any distance along a rank or file.",
+    "out": "La captura es obligatoria, incluida la secuencia de captura más larga. Los peones se mueven una casilla ortogonalmente hacia adelante o hacia los lados; las damas se deslizan cualquier distancia a lo largo de una fila o columna."
+  },
+  "validation.dama.VALID_PARTIAL": {
+    "src": "Looks good so far. Select the next empty cell to move to.",
+    "out": "Va bien hasta ahora. Selecciona la siguiente casilla vacía a la que moverte."
   },
   "validation.dameo.INITIAL_INSTRUCTIONS": {
     "src": "Select a piece to move.",

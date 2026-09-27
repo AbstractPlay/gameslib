@@ -331,6 +331,10 @@
     "src": "An n-in-a-row game on a checkered board. You can only place pieces on the dark squares, but you can then move pieces onto the light squares. Win by getting 5 in a row orthogonally (including 3 light squares if you are player 1) or 4 in a row on a light diagonal. Winner of the Abstract Games magazine's 2021 \"Unequal Board Spaces Game Design Competition\".",
     "out": "Un jeu d'alignement sur damier. Vous ne pouvez placer des pièces que sur les cases foncées, mais vous pouvez ensuite déplacer des pièces sur les cases claires. Gagnez en alignant 5 pièces orthogonalement (dont 3 cases claires si vous êtes le joueur 1) ou 4 pièces sur une diagonale claire. Gagnant du concours 2021 « Unequal Board Spaces Game Design Competition » du magazine Abstract Games."
   },
+  "descriptions.dama": {
+    "src": "Turkish draughts on an 8×8 board: men move and capture orthogonally forward or sideways; kings fly and capture along ranks and files. Maximal capture is compulsory.",
+    "out": "Dames turques sur un plateau 8×8 : les pions se déplacent et capturent orthogonalement vers l'avant ou latéralement ; les dames glissent et capturent le long des rangées et des colonnes. La prise maximale est obligatoire."
+  },
   "descriptions.dameo": {
     "src": "A modern draughts game with linear movement and orthogonal captures.",
     "out": "Un jeu de dames moderne avec déplacements linéaires et captures orthogonales."
@@ -7106,6 +7110,18 @@
   "validation.dagnacht.TOO_MANY": {
     "src": "You can only move one piece one space",
     "out": "Vous ne pouvez déplacer qu'une seule pièce d'une seule case"
+  },
+  "validation.dama.INITIAL_INSTRUCTIONS": {
+    "src": "Select a piece to move.",
+    "out": "Sélectionnez une pièce à déplacer."
+  },
+  "validation.dama.INVALID_MOVE": {
+    "src": "Capturing is compulsory, including the longest capture sequence. Men move one square orthogonally forward or sideways; kings slide any distance along a rank or file.",
+    "out": "La capture est obligatoire, y compris la séquence de capture la plus longue. Les pions se déplacent d'une case orthogonalement vers l'avant ou latéralement ; les dames glissent de n'importe quelle distance le long d'une rangée ou d'une colonne."
+  },
+  "validation.dama.VALID_PARTIAL": {
+    "src": "Looks good so far. Select the next empty cell to move to.",
+    "out": "Semble correct pour l'instant. Sélectionnez la prochaine case vide vers laquelle vous déplacer."
   },
   "validation.dameo.INITIAL_INSTRUCTIONS": {
     "src": "Select a piece to move.",

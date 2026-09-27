@@ -331,6 +331,10 @@
     "src": "An n-in-a-row game on a checkered board. You can only place pieces on the dark squares, but you can then move pieces onto the light squares. Win by getting 5 in a row orthogonally (including 3 light squares if you are player 1) or 4 in a row on a light diagonal. Winner of the Abstract Games magazine's 2021 \"Unequal Board Spaces Game Design Competition\".",
     "out": "Ein n-in-einer-Reihe-Spiel auf einem schachbrettartigen Feld. Du kannst Steine nur auf den dunklen Feldern platzieren, kannst Steine dann aber auf die hellen Felder bewegen. Gewinne, indem du 5 in einer Reihe orthogonal bildest (einschließlich 3 hellen Feldern, wenn du Spieler 1 bist) oder 4 in einer Reihe auf einer hellen Diagonalen. Gewinner des Spieldesign-Wettbewerbs \"Unequal Board Spaces Game Design Competition\" 2021 des Magazins Abstract Games."
   },
+  "descriptions.dama": {
+    "src": "Turkish draughts on an 8×8 board: men move and capture orthogonally forward or sideways; kings fly and capture along ranks and files. Maximal capture is compulsory.",
+    "out": "Türkische Dame auf einem 8×8-Brett: Einfache Steine ziehen und schlagen orthogonal nach vorne oder seitwärts; Damen ziehen beliebig weit und schlagen entlang von Reihen und Linien. Es gilt maximaler Schlagzwang."
+  },
   "descriptions.dameo": {
     "src": "A modern draughts game with linear movement and orthogonal captures.",
     "out": "Ein modernes Dame-Spiel mit linearer Bewegung und orthogonalen Schlagzügen."
@@ -7106,6 +7110,18 @@
   "validation.dagnacht.TOO_MANY": {
     "src": "You can only move one piece one space",
     "out": "Du kannst nur einen Stein um ein Feld bewegen"
+  },
+  "validation.dama.INITIAL_INSTRUCTIONS": {
+    "src": "Select a piece to move.",
+    "out": "Wähle einen Stein zum Ziehen aus."
+  },
+  "validation.dama.INVALID_MOVE": {
+    "src": "Capturing is compulsory, including the longest capture sequence. Men move one square orthogonally forward or sideways; kings slide any distance along a rank or file.",
+    "out": "Schlagen ist Pflicht, einschließlich der längsten Schlagsequenz. Einfache Steine ziehen ein Feld orthogonal nach vorne oder seitwärts; Damen gleiten beliebig weit entlang einer Reihe oder Linie."
+  },
+  "validation.dama.VALID_PARTIAL": {
+    "src": "Looks good so far. Select the next empty cell to move to.",
+    "out": "Sieht bisher gut aus. Wähle das nächste leere Feld aus."
   },
   "validation.dameo.INITIAL_INSTRUCTIONS": {
     "src": "Select a piece to move.",

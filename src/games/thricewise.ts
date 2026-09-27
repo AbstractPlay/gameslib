@@ -10,8 +10,12 @@ import {
     IRenderOpts,
 } from "./_base.js";
 import { GameBaseSequenced, sequencedShouldCloseRound } from "./_turn-sequenced.js";
-import { SIMULTANEOUS_ELIM_TOKEN } from "./_turn-simultaneous.js";
-import type { IGamePly } from "./_turn-model.js";
+import {
+    buildSimultaneousPlies,
+    buildSimultaneousRounds,
+    SIMULTANEOUS_ELIM_TOKEN,
+} from "./_turn-simultaneous.js";
+import type { IGamePly, IGameRound } from "./_turn-model.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaPieces, Glyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -1091,6 +1095,18 @@ export class ThricewiseGame extends GameBaseSequenced {
             return true;
         }
         return sequencedShouldCloseRound(this, roundPlies, stackIndex);
+    }
+
+    /**
+     * Committed moves use simultaneous N-part wire on the stack; expand for export
+     * (per-seat plies and round rows) instead of default sequenced plyFromStack.
+     */
+    public override getPlies(): IGamePly[] {
+        return buildSimultaneousPlies(this);
+    }
+
+    public override getRounds(): IGameRound[] {
+        return buildSimultaneousRounds(this);
     }
 
     public moveState(): IMoveState {

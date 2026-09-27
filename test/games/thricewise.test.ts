@@ -18,6 +18,60 @@ describe("Thricewise", () => {
         expect(g.turnModel()).to.equal("sequenced");
     });
 
+    it("export plies and rounds split N-part wire lastmove per seat", () => {
+        const g = new ThricewiseGame(3);
+        const twos = cardsOfRank(2);
+        const aces = cardsOfRank(1);
+        const fours = cardsOfRank(4);
+        const fives = cardsOfRank(5);
+        g.hands = [[fives[0], twos[0]], [aces[0], twos[1]], [fours[0], fives[1]]];
+        g.move(`${fives[0]},${aces[0]},${fours[0]}`);
+        expect(g.stack.length).to.equal(2);
+
+        const plies = g.getPlies();
+        expect(plies).to.have.length(3);
+        expect(plies.map(p => p.actor)).to.deep.equal([1, 2, 3]);
+        expect(plies.map(p => p.move)).to.deep.equal([fives[0], aces[0], fours[0]]);
+        expect(plies.every(p => p.stackIndex === 1)).to.equal(true);
+
+        const rounds = g.getRounds();
+        expect(rounds).to.have.length(1);
+        const slotMove = (slot: unknown): string => {
+            if (slot == null) {
+                return "";
+            }
+            if (typeof slot === "string") {
+                return slot;
+            }
+            if (typeof slot === "object" && slot !== null && "move" in slot) {
+                return String((slot as { move: unknown }).move);
+            }
+            return String(slot);
+        };
+        expect(slotMove(rounds[0]![0])).to.equal(fives[0]);
+        expect(slotMove(rounds[0]![1])).to.equal(aces[0]);
+        expect(slotMove(rounds[0]![2])).to.equal(fours[0]);
+        expect(
+            rounds[0]!.every(
+                slot => slot == null || !slotMove(slot).includes(","),
+            ),
+        ).to.equal(true);
+
+        const empty = g.legalEmpties()[0]!;
+        const player = g.currplayer;
+        const uid = g.trickCard[player - 1]!;
+        const token = `${uid}@${empty[0]}.${empty[1]}`;
+        const wire = Array.from({ length: g.numplayers }, (_, i) =>
+            i + 1 === player ? token : SIMULTANEOUS_ELIM_TOKEN,
+        ).join(",");
+        g.move(wire);
+        const placePlies = g.getPlies().filter(p => p.stackIndex === 2);
+        expect(placePlies).to.have.length(1);
+        expect(placePlies[0]!.actor).to.equal(player);
+        expect(placePlies[0]!.move).to.equal(token);
+        expect(slotMove(g.getRounds()[1]![placePlies[0]!.actor - 1])).to.equal(token);
+    });
+
     it("isEliminated when select phase and hand is empty", () => {
         const g = new ThricewiseGame(2);
         expect(g.isEliminated(1)).to.equal(false);

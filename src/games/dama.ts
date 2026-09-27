@@ -47,7 +47,7 @@ export class DamaGame extends GameBase {
         ],
         variants: [],
         categories: ["goal>immobilize", "mechanic>capture", "mechanic>differentiate", "mechanic>move", "other>traditional", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["perspective", "automove"],
+        flags: ["perspective", "automove", "experimental"],
     };
 
     public static clone(obj: DamaGame): DamaGame {

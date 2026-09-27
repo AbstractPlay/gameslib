@@ -3368,8 +3368,8 @@
     "out": "Im Grundspiel dürfen sich Steine als Teil eines Mehrfachsprungs durch Zufluchtsorte bewegen. Sie sind erst eingefroren, wenn sie ihren Zug in einem Zufluchtsort beenden. In der strikten Variante werden Steine eingefroren, sobald sie einen Zufluchtsort betreten.\n\nIn Spielen mit vier Spielern bilden Spieler 1 und 2 ein Team, ebenso wie Spieler 3 und 4."
   },
   "notes.crosshairs": {
-    "src": "The published Turbulence rule is ambiguous about two points: it does not specify whether a maneuver's normal height change occurs before or after the Turbulence loss, nor what happens if the plane is already at height 0. This implementation interprets the rule by applying each maneuver's normal height change first, then applying one Turbulence loss for each cloud cell entered, in travel order. A plane at height 0 when a Turbulence loss would apply crashes immediately.\n\nTo prevent clouds on a starting edge from trapping every entering plane, Turbulence does not affect a plane until it has entered a non-cloud cell. Once it has done so, it remains subject to Turbulence. Every cell traversed during movement counts as entered, including the intermediate cell of a two-space level flight; a clear intermediate cell therefore removes the exemption before the plane reaches a later cloudy cell in the same maneuver. Each maneuver in a dive is resolved completely before the next, so a swoop that enters a non-cloud cell removes the exemption before the following swoop.",
-    "out": "Die veröffentlichte Turbulenzregel ist in zwei Punkten unklar: Sie gibt weder an, ob die normale Höhenänderung eines Manövers vor oder nach dem Turbulenzverlust erfolgt, noch was passiert, wenn sich das Flugzeug bereits auf Höhe 0 befindet. Diese Implementierung legt die Regel so aus, dass zuerst die normale Höhenänderung jedes Manövers angewendet wird und anschließend ein Turbulenzverlust für jedes betretene Wolkenfeld in Bewegungsreihenfolge erfolgt. Ein Flugzeug auf Höhe 0 stürzt sofort ab, wenn ein Turbulenzverlust angewendet werden müsste.\n\nUm zu verhindern, dass Wolken an einer Startkante jedes eintretende Flugzeug festsetzen, betrifft Turbulenz ein Flugzeug erst, nachdem es ein wolkenfreies Feld betreten hat. Sobald dies geschehen ist, unterliegt es der Turbulenz. Jedes während der Bewegung durchquerte Feld gilt als betreten, einschließlich des Zwischenfelds eines Horizontalflugs über zwei Felder; ein freies Zwischenfeld hebt die Befreiung daher auf, bevor das Flugzeug im selben Manöver ein späteres Wolkenfeld erreicht. Jedes Manöver in einem Sturzflug wird vor dem nächsten vollständig abgehandelt, sodass ein Teilmanöver, das ein wolkenfreies Feld betritt, die Befreiung vor dem folgenden Teilmanöver aufhebt."
+    "src": "Turbulence follows the designer's clarified rule: resolve the maneuver first (movement, turning, and its normal height change), then lose one height if the plane moved from a non-cloud hex into a cloud hex at any point during that maneuver. A plane already at height 0 when that loss applies crashes. Flying from cloud to cloud within the same bank costs nothing, and placing a new plane on a cloudy starting hex costs nothing. Every hex traversed counts, including the middle hex of a two-space level flight. Each swoop in a dive is a separate maneuver resolved before the next, so a dive can pay Turbulence more than once.",
+    "out": "Turbulenz folgt der klargestellten Regel des Autors: Zuerst wird das Manöver abgehandelt (Bewegung, Drehung und die normale Höhenänderung). Danach verliert das Flugzeug eine Höhe, wenn es sich zu irgendeinem Zeitpunkt während dieses Manövers von einem wolkenfreien Feld auf ein Wolkenfeld bewegt hat. Ein Flugzeug, das sich bei diesem Verlust bereits auf Höhe 0 befindet, stürzt ab. Das Fliegen von Wolke zu Wolke innerhalb derselben Wolkenbank kostet nichts, und das Platzieren eines neuen Flugzeugs auf einem Startfeld mit Wolke kostet ebenfalls nichts. Jedes überquerte Feld zählt, einschließlich des mittleren Feldes eines Horizontalflugs über zwei Felder. Jeder Teilabschnitt eines Sturzflugs ist ein separates Manöver, das vor dem nächsten abgehandelt wird, sodass ein Sturzflug mehr als einmal Turbulenz kosten kann."
   },
   "notes.deckfish": {
     "src": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com).\n\nThe suit powers (token movement abilities) are:\n* Moons: Jump orthogonally over gaps. \n* Suns: Move one or two cards diagonally. \n* Waves: Move orthogonally until the last unobstructed card. \n* Leaves: Move orthogonally onto any card with no neighboring obstacles.\n* Wyrms: Move orthogonally onto the first occupied card, bumping that piece to the next card.\n* Knots: Make three orthogonal one-card moves, without backtracking.\n\nIn the rules, the \"first\" player is the player who places second in the placement phase but moves first in the movement phase, but here the first player is the one who places first but moves second. This is implemented using an automatic pass for the appropriate player.\n\nThe rule is enforced that, even when the last player is already winning, he must continue playing until he is out of moves.",
@@ -15847,6 +15847,14 @@
     "src": "Asymmetric random clouds",
     "out": "Asymmetrische zufällige Wolken"
   },
+  "variants.crosshairs.asymmetric-spread-start.description": {
+    "src": "There is no cloud placing phase. The system places the clouds without requiring symmetry using the designer's algorithm, which blocks open lines of fire first and then fills in the gaps.",
+    "out": "Es gibt keine Wolkenplatzierungsphase. Das System platziert die Wolken ohne Symmetrie nach dem Algorithmus des Autors, der zuerst offene Schusslinien blockiert und danach die Lücken füllt."
+  },
+  "variants.crosshairs.asymmetric-spread-start.name": {
+    "src": "Asymmetric spread clouds",
+    "out": "Asymmetrisch verteilte Wolken"
+  },
   "variants.crosshairs.clouds-22.description": {
     "src": "Place 22 clouds instead of 16. With the default cloud bank size limit, the full count may not always be achievable.",
     "out": "Platziere 22 Wolken statt 16. Mit dem standardmäßigen Größenlimit für Wolkenbänke kann die vollständige Anzahl möglicherweise nicht immer erreicht werden."
@@ -15878,6 +15886,14 @@
   "variants.crosshairs.random-start.name": {
     "src": "Symmetric random clouds",
     "out": "Symmetrische zufällige Wolken"
+  },
+  "variants.crosshairs.spread-start.description": {
+    "src": "There is no cloud placing phase. The system places the clouds with 180-degree rotational symmetry using the designer's algorithm, which blocks open lines of fire first and then fills in the gaps.",
+    "out": "Es gibt keine Wolkenplatzierungsphase. Das System platziert die Wolken mit 180-Grad-Rotationssymmetrie nach dem Algorithmus des Autors, der zuerst offene Schusslinien blockiert und danach die Lücken füllt."
+  },
+  "variants.crosshairs.spread-start.name": {
+    "src": "Symmetric spread clouds",
+    "out": "Symmetrisch verteilte Wolken"
   },
   "variants.crosshairs.turbulence.description": {
     "src": "Each time a plane enters a cloud, it loses 1 height.",

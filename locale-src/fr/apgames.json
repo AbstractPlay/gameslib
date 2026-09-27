@@ -311,6 +311,10 @@
     "src": "Get your king to the other side of the board while safely \"hiding\" it among your other pieces.",
     "out": "Amenez votre roi de l'autre côté du plateau tout en le « cachant » en toute sécurité parmi vos autres pièces."
   },
+  "descriptions.croda": {
+    "src": "Croda on an 8×8 board: men step one square forward orthogonally or diagonally; they capture orthogonally in any direction. Kings slide and capture along ranks and files. Maximal capture is compulsory; you win by immobilizing the opponent.",
+    "out": "Croda sur un plateau 8×8 : les pions avancent d'une case vers l'avant, orthogonalement ou en diagonale ; ils capturent orthogonalement dans n'importe quelle direction. Les rois glissent et capturent le long des rangées et des colonnes. La capture maximale est obligatoire ; vous gagnez en immobilisant l'adversaire."
+  },
   "descriptions.crosscontrol": {
     "src": "Territorial line-of-sight game. Cells are controlled and pieces on them are flipped based on how many pieces of a color can see them. The winner is the player who occupies more of the board at the end.",
     "out": "Jeu de territoire basé sur la ligne de vue. Les cases sont contrôlées et les pièces qui s'y trouvent sont retournées en fonction du nombre de pièces d'une couleur qui les voient. Le gagnant est le joueur qui occupe la plus grande partie du plateau à la fin."
@@ -6890,6 +6894,18 @@
   "validation.courtesan.INVALID_EXCHANGE": {
     "src": "Only kings may exchange, and they must transfer to a courtesan.",
     "out": "Seuls les rois peuvent échanger, et ils doivent échanger leur place avec une courtisane."
+  },
+  "validation.croda.INITIAL_INSTRUCTIONS": {
+    "src": "Select a piece to move.",
+    "out": "Sélectionnez une pièce à déplacer."
+  },
+  "validation.croda.INVALID_MOVE": {
+    "src": "Capturing is compulsory, including the longest capture sequence. Men step one square forward orthogonally or diagonally; captures are orthogonal in any direction; kings slide any distance along a rank or file.",
+    "out": "La capture est obligatoire, y compris la séquence de capture la plus longue. Les pions avancent d'une case vers l'avant, orthogonalement ou en diagonale ; les captures sont orthogonales dans n'importe quelle direction ; les rois glissent sur n'importe quelle distance le long d'une rangée ou d'une colonne."
+  },
+  "validation.croda.VALID_PARTIAL": {
+    "src": "Looks good so far. Select the next empty cell to move to.",
+    "out": "Semble correct pour l'instant. Sélectionnez la case vide suivante sur laquelle vous déplacer."
   },
   "validation.crosscontrol.INITIAL_INSTRUCTIONS": {
     "src": "Either place a piece onto an empty space not controlled by the opponent, replace an enemy piece on a space you control, or 'pass' if all spaces are occupied or controlled. The game ends when both players pass in sequence.",

@@ -76,6 +76,7 @@
     "crosscontrol": "Gioco di linea di vista territoriale. Le celle vengono controllate e i pezzi su di esse vengono ribaltati in base a quanti pezzi di un colore possono vederli. Il vincitore è il giocatore che occupa più tavoliere alla fine.",
     "crossway": "Un gioco in cui si collegano lati opposti del tavoliere, ma le linee di pezzi non possono incrociarsi.",
     "crosshairs": "Un gioco di combattimento aereo della Prima Guerra Mondiale. Gli aerei hanno altezza e direzione. Il movimento include salita, volo orizzontale e picchiata. Il combattimento è semplice: se un aereo si trova nella linea di tiro di due aerei nemici, viene abbattuto. Riduci il tuo avversario a un solo aereo per vincere.",
+    "croda": "Croda su una scacchiera 8×8: le pedine avanzano di una casella in avanti in senso ortogonale o diagonale; catturano in senso ortogonale in qualsiasi direzione. I Re scivolano e catturano lungo traverse e colonne. La cattura massima è obbligatoria; si vince immobilizzando l'avversario.",
     "cubeo": "Un gioco di dadi a informazione perfetta e senza tavoliere in cui tenti di promuovere i tuoi dadi più velocemente del tuo avversario o manovrare l'avversario in una posizione in cui non possa muovere.",
     "dagnacht": "Un gioco di n-in-fila su una scacchiera a scacchi. Puoi posizionare pezzi solo sulle caselle scure, ma puoi poi muovere pezzi sulle caselle chiare. Vinci ottenendo 5 in fila ortogonalmente (incluse 3 caselle chiare se sei il Giocatore 1) o 4 in fila su una diagonale chiara. Vincitore del concorso \"Unequal Board Spaces Game Design Competition\" 2021 della rivista Abstract Games.",
     "dama": "Dama turca su una scacchiera 8×8: le pedine si muovono e catturano ortogonalmente in avanti o lateralmente; le dame scorrono e catturano lungo traverse e colonne. La cattura massima è obbligatoria.",
@@ -368,10 +369,10 @@
     "control": "Control",
     "court": "Court",
     "courtesan": "King & Courtesan",
-    "croda": "Croda",
     "crosscontrol": "Crosscontrol",
     "crosshairs": "Crosshairs",
     "crossway": "Crossway",
+    "croda": "Croda",
     "cubeo": "Cubeo",
     "dagnacht": "Dag en Nacht",
     "dama": "Dama",
@@ -6026,6 +6027,11 @@
       "INITIAL_INSTRUCTIONS": "Fai clic su una cella vuota per posizionare un nuovo dado, o su uno dei tuoi dadi per iniziare un movimento o un'unione.",
       "MAX_DICE": "Puoi avere solo {{dice}} dadi sul tabellone.",
       "PINNED": "I dadi bloccati non possono agire."
+    },
+    "croda": {
+      "INITIAL_INSTRUCTIONS": "Seleziona un pezzo da muovere.",
+      "INVALID_MOVE": "La cattura è obbligatoria, inclusa la sequenza di cattura più lunga. Le pedine avanzano di una casella in avanti in senso ortogonale o diagonale; le catture sono ortogonali in qualsiasi direzione; i Re scivolano a qualsiasi distanza lungo una traversa o una colonna.",
+      "VALID_PARTIAL": "Finora sembra tutto corretto. Seleziona la casella vuota successiva in cui muoverti."
     },
     "dagnacht": {
       "INITIAL_INSTRUCTIONS": "Posiziona un pezzo su una casella scura o muovi un pezzo di una casella in senso ortogonale.",

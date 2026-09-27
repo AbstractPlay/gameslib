@@ -76,6 +76,7 @@
     "crosscontrol": "Jeu de territoire basé sur la ligne de vue. Les cases sont contrôlées et les pièces qui s'y trouvent sont retournées en fonction du nombre de pièces d'une couleur qui les voient. Le gagnant est le joueur qui occupe la plus grande partie du plateau à la fin.",
     "crossway": "Un jeu consistant à relier les côtés opposés du plateau, sans que les lignes de pièces ne puissent se croiser.",
     "crosshairs": "Un jeu de combat aérien durant la Première Guerre mondiale. Les avions possèdent une altitude et une direction. Les déplacements incluent la montée, le vol en palier et le piqué. Le combat est simple : si un avion se trouve dans la ligne de mire de deux avions ennemis, il est abattu. Réduisez votre adversaire à un seul avion pour l'emporter.",
+    "croda": "Croda sur un plateau 8×8 : les pions avancent d'une case vers l'avant, orthogonalement ou en diagonale ; ils capturent orthogonalement dans n'importe quelle direction. Les rois glissent et capturent le long des rangées et des colonnes. La capture maximale est obligatoire ; vous gagnez en immobilisant l'adversaire.",
     "cubeo": "Un jeu de dés sans plateau à information parfaite dans lequel vous tentez de promouvoir vos dés plus vite que votre adversaire ou de le manœuvrer dans une position où il ne peut plus jouer.",
     "dagnacht": "Un jeu d'alignement sur damier. Vous ne pouvez placer des pièces que sur les cases foncées, mais vous pouvez ensuite déplacer des pièces sur les cases claires. Gagnez en alignant 5 pièces orthogonalement (dont 3 cases claires si vous êtes le joueur 1) ou 4 pièces sur une diagonale claire. Gagnant du concours 2021 « Unequal Board Spaces Game Design Competition » du magazine Abstract Games.",
     "dama": "Dames turques sur un plateau 8×8 : les pions se déplacent et capturent orthogonalement vers l'avant ou latéralement ; les dames glissent et capturent le long des rangées et des colonnes. La prise maximale est obligatoire.",
@@ -368,10 +369,10 @@
     "control": "Control",
     "court": "Court",
     "courtesan": "King & Courtesan",
-    "croda": "Croda",
     "crosscontrol": "Crosscontrol",
     "crosshairs": "Crosshairs",
     "crossway": "Crossway",
+    "croda": "Croda",
     "cubeo": "Cubeo",
     "dagnacht": "Dag en Nacht",
     "dama": "Dama",
@@ -6026,6 +6027,11 @@
       "INITIAL_INSTRUCTIONS": "Cliquez sur une case vide pour placer un nouveau dé, ou sur l'un de vos propres dés pour commencer un déplacement ou une fusion.",
       "MAX_DICE": "Vous ne pouvez avoir que {{dice}} dés sur le plateau.",
       "PINNED": "Les dés bloqués ne peuvent pas agir."
+    },
+    "croda": {
+      "INITIAL_INSTRUCTIONS": "Sélectionnez une pièce à déplacer.",
+      "INVALID_MOVE": "La capture est obligatoire, y compris la séquence de capture la plus longue. Les pions avancent d'une case vers l'avant, orthogonalement ou en diagonale ; les captures sont orthogonales dans n'importe quelle direction ; les rois glissent sur n'importe quelle distance le long d'une rangée ou d'une colonne.",
+      "VALID_PARTIAL": "Semble correct pour l'instant. Sélectionnez la case vide suivante sur laquelle vous déplacer."
     },
     "dagnacht": {
       "INITIAL_INSTRUCTIONS": "Placez une pièce sur une case sombre ou déplacez une pièce d'une case orthogonalement.",

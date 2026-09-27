@@ -76,6 +76,7 @@
     "crosscontrol": "Territoriales Sichtlinienspiel. Felder werden kontrolliert und Steine darauf umgedreht, je nachdem, wie viele Steine einer Farbe sie sehen können. Gewinner ist der Spieler, der am Ende mehr vom Brett besetzt.",
     "crossway": "Ein Spiel, bei dem gegenüberliegende Seiten des Bretts verbunden werden, aber Linien von Steinen dürfen sich nicht kreuzen.",
     "crosshairs": "Ein Luftkampfspiel aus dem 1. Weltkrieg. Flugzeuge haben Höhe und Richtung. Die Bewegung umfasst Steigflug, Horizontalflug und Sturzflug. Der Kampf ist einfach: Wenn sich ein Flugzeug in der Schusslinie von zwei gegnerischen Flugzeugen befindet, wird es abgeschossen. Reduziere deinen Gegner auf ein Flugzeug, um zu gewinnen.",
+    "croda": "Croda auf einem 8×8-Brett: Einfache Steine ziehen ein Feld nach vorne (orthogonal oder diagonal); sie schlagen orthogonal in jede Richtung. Könige gleiten und schlagen entlang von Reihen und Linien. Es gilt der maximale Schlagzwang; du gewinnst, indem du den Gegner bewegungsunfähig machst.",
     "cubeo": "Ein brettlloses Würfelspiel mit perfekter Information, bei dem du versuchst, deine Würfel schneller als dein Gegner zu befördern oder deinen Gegner in eine Position zu manövrieren, in der er nicht mehr ziehen kann.",
     "dagnacht": "Ein n-in-einer-Reihe-Spiel auf einem schachbrettartigen Feld. Du kannst Steine nur auf den dunklen Feldern platzieren, kannst Steine dann aber auf die hellen Felder bewegen. Gewinne, indem du 5 in einer Reihe orthogonal bildest (einschließlich 3 hellen Feldern, wenn du Spieler 1 bist) oder 4 in einer Reihe auf einer hellen Diagonalen. Gewinner des Spieldesign-Wettbewerbs \"Unequal Board Spaces Game Design Competition\" 2021 des Magazins Abstract Games.",
     "dama": "Türkische Dame auf einem 8×8-Brett: Einfache Steine ziehen und schlagen orthogonal nach vorne oder seitwärts; Damen ziehen beliebig weit und schlagen entlang von Reihen und Linien. Es gilt maximaler Schlagzwang.",
@@ -368,10 +369,10 @@
     "control": "Control",
     "court": "Court",
     "courtesan": "King & Courtesan",
-    "croda": "Croda",
     "crosscontrol": "Crosscontrol",
     "crosshairs": "Crosshairs",
     "crossway": "Crossway",
+    "croda": "Croda",
     "cubeo": "Cubeo",
     "dagnacht": "Dag en Nacht",
     "dama": "Dama",
@@ -6026,6 +6027,11 @@
       "INITIAL_INSTRUCTIONS": "Klicke auf ein leeres Feld, um einen neuen Würfel zu platzieren, oder auf einen deiner eigenen Würfel, um einen Zug oder ein Verschmelzen zu beginnen.",
       "MAX_DICE": "Du darfst nur {{dice}} Würfel auf dem Brett haben.",
       "PINNED": "Fixierte Würfel können nicht agieren."
+    },
+    "croda": {
+      "INITIAL_INSTRUCTIONS": "Wähle eine Figur zum Ziehen aus.",
+      "INVALID_MOVE": "Schlagen ist Pflicht, einschließlich der längsten Schlagsequenz. Einfache Steine ziehen ein Feld nach vorne (orthogonal oder diagonal); Schlagen erfolgt orthogonal in jede Richtung; Könige gleiten beliebig weit entlang einer Reihe oder Linie.",
+      "VALID_PARTIAL": "Sieht soweit gut aus. Wähle das nächste leere Feld, auf das gezogen werden soll."
     },
     "dagnacht": {
       "INITIAL_INSTRUCTIONS": "Setze einen Stein auf ein dunkles Feld oder bewege einen Stein um ein Feld orthogonal.",

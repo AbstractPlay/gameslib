@@ -311,6 +311,10 @@
     "src": "Get your king to the other side of the board while safely \"hiding\" it among your other pieces.",
     "out": "Porta il tuo re dall'altra parte del tavoliere \"nascondendolo\" al sicuro tra i tuoi altri pezzi."
   },
+  "descriptions.croda": {
+    "src": "Croda on an 8×8 board: men step one square forward orthogonally or diagonally; they capture orthogonally in any direction. Kings slide and capture along ranks and files. Maximal capture is compulsory; you win by immobilizing the opponent.",
+    "out": "Croda su una scacchiera 8×8: le pedine avanzano di una casella in avanti in senso ortogonale o diagonale; catturano in senso ortogonale in qualsiasi direzione. I Re scivolano e catturano lungo traverse e colonne. La cattura massima è obbligatoria; si vince immobilizzando l'avversario."
+  },
   "descriptions.crosscontrol": {
     "src": "Territorial line-of-sight game. Cells are controlled and pieces on them are flipped based on how many pieces of a color can see them. The winner is the player who occupies more of the board at the end.",
     "out": "Gioco di linea di vista territoriale. Le celle vengono controllate e i pezzi su di esse vengono ribaltati in base a quanti pezzi di un colore possono vederli. Il vincitore è il giocatore che occupa più tavoliere alla fine."
@@ -6890,6 +6894,18 @@
   "validation.courtesan.INVALID_EXCHANGE": {
     "src": "Only kings may exchange, and they must transfer to a courtesan.",
     "out": "Solo i re possono scambiare, e devono trasferirsi a una cortigiana."
+  },
+  "validation.croda.INITIAL_INSTRUCTIONS": {
+    "src": "Select a piece to move.",
+    "out": "Seleziona un pezzo da muovere."
+  },
+  "validation.croda.INVALID_MOVE": {
+    "src": "Capturing is compulsory, including the longest capture sequence. Men step one square forward orthogonally or diagonally; captures are orthogonal in any direction; kings slide any distance along a rank or file.",
+    "out": "La cattura è obbligatoria, inclusa la sequenza di cattura più lunga. Le pedine avanzano di una casella in avanti in senso ortogonale o diagonale; le catture sono ortogonali in qualsiasi direzione; i Re scivolano a qualsiasi distanza lungo una traversa o una colonna."
+  },
+  "validation.croda.VALID_PARTIAL": {
+    "src": "Looks good so far. Select the next empty cell to move to.",
+    "out": "Finora sembra tutto corretto. Seleziona la casella vuota successiva in cui muoverti."
   },
   "validation.crosscontrol.INITIAL_INSTRUCTIONS": {
     "src": "Either place a piece onto an empty space not controlled by the opponent, replace an enemy piece on a space you control, or 'pass' if all spaces are occupied or controlled. The game ends when both players pass in sequence.",

@@ -76,6 +76,7 @@
     "crosscontrol": "Juego territorial de línea de visión. Las casillas se controlan y las piezas en ellas se voltean según cuántas piezas de un color puedan verlas. El ganador es el jugador que ocupe más parte del tablero al final.",
     "crossway": "Un juego de conectar lados opuestos del tablero, pero las líneas de piezas no pueden cruzarse entre sí.",
     "crosshairs": "Un juego de combates aéreos de la Primera Guerra Mundial. Los aviones tienen altura y dirección. El movimiento incluye ascender, vuelo nivelado y picar. El combate es simple: si un avión está en la línea de fuego de dos aviones enemigos, es derribado. Reduce a tu oponente a un solo avión para ganar.",
+    "croda": "Croda en un tablero de 8×8: las fichas avanzan una casilla hacia adelante de forma ortogonal o diagonal; capturan de forma ortogonal en cualquier dirección. Los reyes se deslizan y capturan a lo largo de filas y columnas. La captura máxima es obligatoria; ganas inmovilizando al oponente.",
     "cubeo": "Un juego de dados sin tablero y de información perfecta donde intentas promocionar tus dados más rápido que tu oponente o maniobrar a tu oponente hasta una posición en la que no pueda mover.",
     "dagnacht": "Un juego de n-en-línea en un tablero ajedrezado. Solo puedes colocar piezas en las casillas oscuras, pero luego puedes mover piezas a las casillas claras. Gana al conseguir 5 en línea ortogonalmente (incluidas 3 casillas claras si eres el jugador 1) o 4 en línea en una diagonal clara. Ganador del concurso \"Unequal Board Spaces Game Design Competition\" de 2021 de la revista Abstract Games.",
     "dama": "Damas turcas en un tablero de 8×8: los peones se mueven y capturan ortogonalmente hacia adelante o hacia los lados; las damas vuelan y capturan a lo largo de filas y columnas. La captura máxima es obligatoria.",
@@ -368,10 +369,10 @@
     "control": "Control",
     "court": "Court",
     "courtesan": "King & Courtesan",
-    "croda": "Croda",
     "crosscontrol": "Crosscontrol",
     "crosshairs": "Crosshairs",
     "crossway": "Crossway",
+    "croda": "Croda",
     "cubeo": "Cubeo",
     "dagnacht": "Dag en Nacht",
     "dama": "Dama",
@@ -6026,6 +6027,11 @@
       "INITIAL_INSTRUCTIONS": "Haz clic en una casilla vacía para colocar un nuevo dado, o en uno de tus propios dados para iniciar un movimiento o fusión.",
       "MAX_DICE": "Solo puedes tener {{dice}} dados en el tablero.",
       "PINNED": "Los dados inmovilizados no pueden actuar."
+    },
+    "croda": {
+      "INITIAL_INSTRUCTIONS": "Selecciona una pieza para mover.",
+      "INVALID_MOVE": "Capturar es obligatorio, incluida la secuencia de captura más larga. Las fichas avanzan una casilla hacia adelante de forma ortogonal o diagonal; las capturas son ortogonales en cualquier dirección; los reyes se deslizan cualquier distancia a lo largo de una fila o columna.",
+      "VALID_PARTIAL": "Se ve bien hasta ahora. Selecciona la siguiente casilla vacía a la que moverte."
     },
     "dagnacht": {
       "INITIAL_INSTRUCTIONS": "Coloca una pieza en una casilla oscura o mueve una pieza una casilla ortogonalmente.",

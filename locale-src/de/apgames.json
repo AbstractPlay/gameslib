@@ -311,6 +311,10 @@
     "src": "Get your king to the other side of the board while safely \"hiding\" it among your other pieces.",
     "out": "Bringe deinen König auf die andere Seite des Bretts, während du ihn sicher unter deinen anderen Steinen \"versteckst\"."
   },
+  "descriptions.croda": {
+    "src": "Croda on an 8×8 board: men step one square forward orthogonally or diagonally; they capture orthogonally in any direction. Kings slide and capture along ranks and files. Maximal capture is compulsory; you win by immobilizing the opponent.",
+    "out": "Croda auf einem 8×8-Brett: Einfache Steine ziehen ein Feld nach vorne (orthogonal oder diagonal); sie schlagen orthogonal in jede Richtung. Könige gleiten und schlagen entlang von Reihen und Linien. Es gilt der maximale Schlagzwang; du gewinnst, indem du den Gegner bewegungsunfähig machst."
+  },
   "descriptions.crosscontrol": {
     "src": "Territorial line-of-sight game. Cells are controlled and pieces on them are flipped based on how many pieces of a color can see them. The winner is the player who occupies more of the board at the end.",
     "out": "Territoriales Sichtlinienspiel. Felder werden kontrolliert und Steine darauf umgedreht, je nachdem, wie viele Steine einer Farbe sie sehen können. Gewinner ist der Spieler, der am Ende mehr vom Brett besetzt."
@@ -6890,6 +6894,18 @@
   "validation.courtesan.INVALID_EXCHANGE": {
     "src": "Only kings may exchange, and they must transfer to a courtesan.",
     "out": "Nur Könige dürfen tauschen, und sie müssen zu einer Kurtisane wechseln."
+  },
+  "validation.croda.INITIAL_INSTRUCTIONS": {
+    "src": "Select a piece to move.",
+    "out": "Wähle eine Figur zum Ziehen aus."
+  },
+  "validation.croda.INVALID_MOVE": {
+    "src": "Capturing is compulsory, including the longest capture sequence. Men step one square forward orthogonally or diagonally; captures are orthogonal in any direction; kings slide any distance along a rank or file.",
+    "out": "Schlagen ist Pflicht, einschließlich der längsten Schlagsequenz. Einfache Steine ziehen ein Feld nach vorne (orthogonal oder diagonal); Schlagen erfolgt orthogonal in jede Richtung; Könige gleiten beliebig weit entlang einer Reihe oder Linie."
+  },
+  "validation.croda.VALID_PARTIAL": {
+    "src": "Looks good so far. Select the next empty cell to move to.",
+    "out": "Sieht soweit gut aus. Wähle das nächste leere Feld, auf das gezogen werden soll."
   },
   "validation.crosscontrol.INITIAL_INSTRUCTIONS": {
     "src": "Either place a piece onto an empty space not controlled by the opponent, replace an enemy piece on a space you control, or 'pass' if all spaces are occupied or controlled. The game ends when both players pass in sequence.",

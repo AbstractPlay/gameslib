@@ -478,12 +478,9 @@ function boardClick(row, col, piece) {
         if (selectedDisplay !== "default") {
             renderOpts.altDisplay = selectedDisplay;
         }
-        game.move(result.move, {partial: true});
-        let render = game.render(renderOpts);
-        cacheRenderFrames(render);
-        render = activeRenderFrame(render);
-        var interim = JSON.stringify(render);
-        window.localStorage.setItem("interim", interim);
+        applyInterimPartialRender(gamename, result.move, renderOpts);
+    } else {
+        clearInterimRenderCache();
     }
     renderGame();
     updateGameStatusPanel(game, gamename);

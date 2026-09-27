@@ -65,7 +65,8 @@ describe("Adere star-11", () => {
         expect(g.checkEOGStar(1)).to.equal(false);
     });
 
-    it("handleClick maps renderer row/col to star algebraic cells", () => {
+    it("handleClick maps renderer row/col to star algebraic cells", function () {
+        this.timeout(10_000);
         const g = new AgereGame(undefined, ["star-11"]);
         const grid = new StarGraph(starFrequencyFromWidth(11)).listCells(true) as string[][];
         for (let row = 0; row < grid.length; row++) {

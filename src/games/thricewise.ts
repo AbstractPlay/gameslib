@@ -831,6 +831,9 @@ export class ThricewiseGame extends GameBaseSequenced {
         if (this.deferred.some(d => d.length > 0)) {
             return false;
         }
+        if (this.phase === "place" && this.playQueue.length > 0) {
+            return false;
+        }
         if (this.hands.every(h => h.length === 0)) {
             return true;
         }

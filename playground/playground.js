@@ -2345,6 +2345,31 @@ function whenPlaygroundLocalesReady(inst, callback) {
     inst.on("loaded", run);
 }
 
+function applyInterimPreviewForMoveFragment(gamename, game, fragment) {
+    const trimmed = (fragment ?? "").trim();
+    if (!trimmed || !gameIsSimultaneous(game, gamename)) {
+        return false;
+    }
+    const result = validateMoveForPlayground(game, gamename, trimmed);
+    if (!((result.hasOwnProperty("canrender") && result.canrender === true) || result.complete >= 0)) {
+        return false;
+    }
+    if (!result.valid) {
+        return false;
+    }
+    let renderOpts = getRenderOptions({
+        perspective: getRenderPerspective(game, gamename),
+    });
+    const checkedDisplayRadio = document.querySelector('input[name="displayOption"]:checked');
+    if (checkedDisplayRadio && checkedDisplayRadio.value !== "default") {
+        renderOpts.altDisplay = checkedDisplayRadio.value;
+    }
+    const seat = getPartialMoveSeat(game, getActiveSeat(game));
+    const masked = buildMaskedPartialMove(seat, trimmed, game.numplayers);
+    applyInterimPartialRender(gamename, masked, renderOpts);
+    return true;
+}
+
 function refreshClickStatusMessage() {
     const gamename = window.localStorage.getItem("gamename");
     const movebox = document.getElementById("moveEntry");
@@ -2357,8 +2382,34 @@ function refreshClickStatusMessage() {
     if (!game) {
         return;
     }
-    const result = validateMoveForPlayground(game, gamename, movebox.value || "");
-    statusbox.innerHTML = '<p style="color: #888">' + formatValidationMessage(result.message) + '</p>';
+    const moveStr = movebox.value || "";
+    const result = validateMoveForPlayground(game, gamename, moveStr);
+    let colour = "#f00";
+    if (result.valid) {
+        if (result.complete === -1) {
+            colour = "#ff9900";
+        } else if (result.complete === 0) {
+            colour = "#4caf50";
+        } else {
+            colour = "#2196f3";
+        }
+    }
+    statusbox.innerHTML =
+        '<p style="color: ' + colour + '">' + formatValidationMessage(result.message) + "</p>";
+    movebox.classList.remove("move-incomplete", "move-ready");
+    if (result.complete === -1) {
+        movebox.classList.add("move-incomplete");
+    } else if (result.complete === 0) {
+        movebox.classList.add("move-ready");
+    }
+    if (moveStr.trim() === "") {
+        clearInterimRenderCache();
+        renderGame();
+        return;
+    }
+    if (applyInterimPreviewForMoveFragment(gamename, game, moveStr)) {
+        renderGame();
+    }
 }
 
 const PLAYGROUND_LOCALE_PROBE_KEY = "apgames:variants.archimedes.8x10.name";
@@ -3478,6 +3529,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
     const moveEntry = document.getElementById('moveEntry');
     const moveUndo = document.getElementById('moveUndo');
     const moveRedo = document.getElementById('moveRedo');
+
+    moveEntry?.addEventListener("input", () => {
+        refreshClickStatusMessage();
+    });
 
     document.addEventListener('keypress', function(event) {
         // Disable shortcuts if any modal is open

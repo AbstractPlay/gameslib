@@ -199,6 +199,23 @@ describe("Thricewise", () => {
         expect(placed?.y).to.equal(3);
     });
 
+    it("allows placement preview moves when hands are empty but the trick is still placing", () => {
+        const g = new ThricewiseGame(2);
+        g.phase = "place";
+        g.currplayer = 1;
+        g.playQueue = [1, 2];
+        g.trickCard = ["1K", "NK"];
+        g.hands = [[], []];
+        g.deferred = [[], []];
+        const before = g.board.cards.length;
+        g.move("1K@-1.1,", { partial: true });
+        expect(g.gameover).to.equal(false);
+        expect(g.board.cards.length).to.equal(before + 1);
+        expect(g.board.cards.some(c => c.card.uid === "1K" && c.x === -1 && c.y === 1)).to.equal(
+            true,
+        );
+    });
+
     it("applies partial compound placement on the board", () => {
         const g = new ThricewiseGame(2);
         const twos = cardsOfRank(2);

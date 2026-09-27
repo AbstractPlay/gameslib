@@ -311,6 +311,10 @@
     "src": "Get your king to the other side of the board while safely \"hiding\" it among your other pieces.",
     "out": "Lleva a tu rey al otro lado del tablero mientras lo \"ocultas\" de forma segura entre tus otras piezas."
   },
+  "descriptions.croda": {
+    "src": "Croda on an 8×8 board: men step one square forward orthogonally or diagonally; they capture orthogonally in any direction. Kings slide and capture along ranks and files. Maximal capture is compulsory; you win by immobilizing the opponent.",
+    "out": "Croda en un tablero de 8×8: las fichas avanzan una casilla hacia adelante de forma ortogonal o diagonal; capturan de forma ortogonal en cualquier dirección. Los reyes se deslizan y capturan a lo largo de filas y columnas. La captura máxima es obligatoria; ganas inmovilizando al oponente."
+  },
   "descriptions.crosscontrol": {
     "src": "Territorial line-of-sight game. Cells are controlled and pieces on them are flipped based on how many pieces of a color can see them. The winner is the player who occupies more of the board at the end.",
     "out": "Juego territorial de línea de visión. Las casillas se controlan y las piezas en ellas se voltean según cuántas piezas de un color puedan verlas. El ganador es el jugador que ocupe más parte del tablero al final."
@@ -6890,6 +6894,18 @@
   "validation.courtesan.INVALID_EXCHANGE": {
     "src": "Only kings may exchange, and they must transfer to a courtesan.",
     "out": "Solo los reyes pueden intercambiar, y deben transferirse a una cortesana."
+  },
+  "validation.croda.INITIAL_INSTRUCTIONS": {
+    "src": "Select a piece to move.",
+    "out": "Selecciona una pieza para mover."
+  },
+  "validation.croda.INVALID_MOVE": {
+    "src": "Capturing is compulsory, including the longest capture sequence. Men step one square forward orthogonally or diagonally; captures are orthogonal in any direction; kings slide any distance along a rank or file.",
+    "out": "Capturar es obligatorio, incluida la secuencia de captura más larga. Las fichas avanzan una casilla hacia adelante de forma ortogonal o diagonal; las capturas son ortogonales en cualquier dirección; los reyes se deslizan cualquier distancia a lo largo de una fila o columna."
+  },
+  "validation.croda.VALID_PARTIAL": {
+    "src": "Looks good so far. Select the next empty cell to move to.",
+    "out": "Se ve bien hasta ahora. Selecciona la siguiente casilla vacía a la que moverte."
   },
   "validation.crosscontrol.INITIAL_INSTRUCTIONS": {
     "src": "Either place a piece onto an empty space not controlled by the opponent, replace an enemy piece on a space you control, or 'pass' if all spaces are occupied or controlled. The game ends when both players pass in sequence.",

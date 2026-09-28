@@ -219,7 +219,8 @@
     "magnate": "Der Ablagestapel wurde gemischt. Es verbleiben keine weiteren Mischvorgänge.",
     "quincunx_one": "{{player}} hat {{count}} Karte gezogen.",
     "quincunx_other": "{{player}} hat {{count}} Karten gezogen.",
-    "evenatodds": "{{player}} hat einen Stein aus dem Vorrat gezogen."
+    "evenatodds": "{{player}} hat einen Stein aus dem Vorrat gezogen.",
+    "agofmars": "{{player}} zog eine {{colour}}{{count}} Pyramide aus dem Beutel."
   },
   "DECLARE": {
     "biscuit": "{{player}} hat fertig gespielt!",
@@ -418,9 +419,16 @@
     "veletas": "{{player}} hat den Schützen von {{from}} nach {{to}} bewegt.",
     "volo_one": "{{player}} hat einen Schwarm von 1 Vogel von {{from}} in Richtung {{how}} bewegt.",
     "volo_other": "{{player}} hat einen Schwarm von {{count}} Vögeln von {{from}} in Richtung {{how}} bewegt.",
-    "complete_what": "{{player}} hat einen {{what}} von {{from}} nach {{to}} gezogen."
+    "complete_what": "{{player}} hat einen {{what}} von {{from}} nach {{to}} gezogen.",
+    "agofmars": "{{player}} bewegte eine Pyramide von {{from}} nach {{to}}."
   },
   "NULLIFY_CLAIM": "Türme dürfen im letzten Zug des Spiels nicht beansprucht werden. Der Anspruch bei {{where}} wurde annulliert.",
+  "OBJECTIVES": {
+    "agofmars": "{{player}} wählte die eigenen Ziele."
+  },
+  "OBJECTIVE_SWAP": {
+    "agofmars": "{{player}} tauschte die Zielspalten {{columnA}} und {{columnB}}."
+  },
   "ORIENT": {
     "crosshairs": "{{player}} hat ein Flugzeug bei {{where}} in Richtung {{facing}} gedreht.",
     "nowhat": "{{player}} hat einen Stein bei {{where}} nach {{facing}} gedreht."
@@ -444,7 +452,8 @@
     "pippinzip": "{{player}} entscheidet sich zu passen und wird Zip",
     "simple": "{{player}} hat gepasst.",
     "tablero": "{{player}} hat ausgesetzt!",
-    "tiebreaker": "{{player}} hat gepasst und den Gleichstand entschieden."
+    "tiebreaker": "{{player}} hat gepasst und den Gleichstand entschieden.",
+    "agofmars_noObjSwap": "{{player}} tauschte keine Ziele."
   },
   "PIE": {
     "deckfish": "{{player}} zieht als Zweites.",
@@ -452,6 +461,7 @@
     "unlur": "{{player}} hat gepasst, um Y-Spieler zu sein."
   },
   "PLACE": {
+    "agofmars": "{{player}} platzierte eine {{colour}}{{count}} Pyramide auf {{where}}.",
     "armadas_1": "{{player}} hat ein kleines Schiff platziert und es {{name}} genannt.",
     "armadas_2": "{{player}} hat ein mittleres Schiff platziert und es {{name}} genannt.",
     "armadas_3": "{{player}} hat ein großes Schiff platziert und es {{name}} genannt.",
@@ -693,7 +703,9 @@
     "nex": "{{player}} hat einen Stein eigener Farbe bei {{where}} gegen einen neutralen Stein getauscht.",
     "nex_neutral": "{{player}} hat einen neutralen Stein bei {{where}} gegen einen Stein eigener Farbe getauscht.",
     "resolve": "Der Stein wurde nach {{where}} getauscht.",
-    "wunchunk": "{{player}} hat die Plätze getauscht und gewählt, als Erster zu spielen."
+    "wunchunk": "{{player}} hat die Plätze getauscht und gewählt, als Erster zu spielen.",
+    "agofmars_board": "{{player}} tauschte die {{colour1}}{{size1}} auf {{cell1}} und die {{colour2}}{{size2}} auf {{cell2}}.",
+    "agofmars_board_cells": "{{player}} tauschte die Pyramiden auf {{cell1}} und {{cell2}}."
   },
   "TAKE": {
     "blastradius_one": "{{player}} hat einen eigenen Stein von {{where}} entfernt.",

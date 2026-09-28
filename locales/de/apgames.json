@@ -1,9 +1,20 @@
 {
+  "customButtons": {
+    "pass": "Passen",
+    "agofmars": {
+      "draw": "Ziehen",
+      "move": "Bewegen",
+      "noObjSwap": "Ziele nicht tauschen",
+      "objSwap": "Ziele tauschen",
+      "swap": "Auf dem Brett tauschen"
+    }
+  },
   "descriptions": {
     "abande": "Abande ist das zweite Spiel in Dieter Steins Stapel-Trilogie. Platziere oder bewege Steine und Stapel, um die höchstmögliche Punktzahl zu erzielen, während das Spielbrett immer zusammenhängend bleiben muss. Das quadratische, das Snub-Square- und das Sechseck-Brett stehen zur Verfügung.",
     "accasta": "Accasta ist das erste Spiel in Dieter Steins Stapel-Trilogie. Das Ziel ist es, drei deiner eigenen Stapel in den gegnerischen Burgbereich zu bringen. In der Grundversion gibt es drei verschiedene Arten von Steinen. In der \"Pari\"-Variante wird die Bewegung dadurch bestimmt, wie viele eigene Steine sich im Stapel befinden.",
     "acity": "Alien City ist eine Kombination aus Piecepack und Icehouse über den Bau einer Stadt auf einer neu kolonisierten Welt. Vier Gilden konkurrieren um Kunden, und die Spieler müssen vorhersagen, welche Wetten sich auszahlen werden. In jedem Zug platziert der Spieler entweder einen Turm oder eine Kuppel und kann optional einen Turm beanspruchen, von dem er glaubt, dass er am Ende des Spiels viele Punkte einbringt. Das Spiel geht weiter, bis keine Bauten mehr möglich sind. Die Punkte basieren auf der relativen Position der Gebäude zu den beanspruchten Türmen.",
     "agere": "Ein Verbindungsspiel, bei dem auch Steine gestapelt werden können. Wird entweder auf einem Dreiecksbrett gespielt, auf dem man versucht, alle drei Seiten zu verbinden, oder auf einem kreisförmigen \"Spinnennetz\"-Brett, auf dem gegenüberliegende Seiten verbunden werden.",
+    "agofmars": "Weise Wertungssäulen geheime Farbziele zu, ziehe dann Pyramiden aus einem gemeinsamen Vorrat und platziere sie auf dem Spielbrett. Orthogonal verbundene Gruppen punkten entsprechend ihrer Pip-Werte multipliziert mit deinem Ziel für diese Farbe. Es gewinnt, wer die höchste Gesamtsumme hat, wenn das Spielbrett voll ist.",
     "akimbo": "Ein minimalistisches Verbindungsspiel, bei dem jeder Spieler nur eine ungeschützte Diagonale haben darf.",
     "akron": "Akron ist eine Erweiterung klassischer Verbindungsspiele in die dritte Dimension. In ihrem Zug können Spieler neue Kugeln ihrer Farbe auf der untersten Ebene des Bretts platzieren oder eine Kugel bewegen, die nicht fixiert ist (auf der Steine in zwei oder mehr Richtungen ruhen), auf ein Feld, das sowohl vor als auch nach der Bewegung mit derselben Gruppe verbunden ist. Wenn sich Kugeln bewegen, fallen darauf ruhende Kugeln herunter, was die Verbindungen auf dem Brett verändert.",
     "almatafl": "AlmaTafl ist ein asymmetrisches Spiel, bei dem eine Seite die Verteidiger spielt, die versuchen, den König in Sicherheit zu bringen, während die andere Seite versucht, den König zu schlagen oder ihn wehrlos zu machen.",
@@ -370,10 +381,10 @@
     "control": "Control",
     "court": "Court",
     "courtesan": "King & Courtesan",
-    "croda": "Croda",
     "crosscontrol": "Crosscontrol",
     "crosshairs": "Crosshairs",
     "crossway": "Crossway",
+    "croda": "Croda",
     "cubeo": "Cubeo",
     "dagnacht": "Dag en Nacht",
     "dama": "Dama",
@@ -594,6 +605,7 @@
     "STOCK": "Pyramiden aus dem Yard, die in den Palast eingebaut werden sollen"
   },
   "notes": {
+    "agofmars": "Jeder Spielzug wird in zwei oder drei Schritten übermittelt, nicht als eine einzelne kombinierte Aktion.\n\nWähle zuerst, ob du Zielspalten tauschen möchtest (**Ziele nicht tauschen**) oder führe einen Zieltausch durch, wenn dieser legal ist. Du musst diesen Schritt auch dann übermitteln, wenn du auf einen Tausch verzichtest.\n\nFühre zweitens deine Hauptaktion aus: **Ziehen** aus dem Beutel, Bewegen einer Pyramide auf dem Spielbrett oder **tauschen** von zwei Pyramiden auf dem Spielbrett. Wenn du ziehst, sehen alle den gezogenen Spielstein, nachdem du diesen Schritt übermittelt hast; dein Zug ist noch nicht beendet.\n\nDrittens (nur beim Ziehen): Platziere die gezogene Pyramide auf einem leeren Feld, danach endet dein Zug.\n\nKlicke während des manuellen Aufbaus auf eine deiner Zielpyramiden und dann auf eine Multiplikatorspalte. Züge werden als Farbe/Multiplikator-Paare aufgezeichnet (zum Beispiel `RD1,BU2,GN-1,YE0`). Das Ereignisprotokoll vermerkt nur, dass ein Spieler seine Ziele gewählt hat; die Zuordnungen bleiben bis zu Tauschaktionen oder dem Spielende verborgen.",
     "akimbo": "Akimbo, entworfen von Luis Bolaños Mures im Jahr 2026, ist ein unentschieden-freies Verbindungsspiel für zwei Spieler. Eine _nackte Diagonale_ (naked diagonal) ist ein Paar gleichfarbiger, diagonal benachbarter Steine, ohne dass ein weiterer gleichfarbiger Stein an beide angrenzt. Ein _Kreuzschnitt_ (crosscut) ist ein 2×2-Bereich mit zwei ineinandergreifenden nackten Diagonalen entgegengesetzter Farben.\n\nIn seinem Zug platziert der Spieler einen eigenen Stein auf einem leeren Feld. Wenn dies einen Kreuzschnitt vervollständigt, wird der andere Stein im Kreuzschnitt entfernt. Es darf sich zu keinem Zeitpunkt mehr als eine nackte Diagonale jeder Farbe auf dem Brett befinden – nicht einmal vorübergehend vor dem Entfernen eines Steins. Ein Spieler gewinnt, wenn sich am Ende seines Zugs eine Kette von orthogonal verbundenen Steinen seiner Farbe befindet, die die beiden gegenüberliegenden Brettränder des Spielers berührt.\n\nOkimba ist eine Variante, bei der insgesamt nur maximal eine nackte Diagonale auf dem Brett existieren darf (wenn also ein Spieler die Diagonale besitzt, kann der Gegner keine weitere erstellen).",
     "alta": "Es gibt zwei Möglichkeiten, Schalter auf der grafischen Benutzeroberfläche zu platzieren: (1) Wählen Sie die Ausrichtung des Schalters im Bedienfeld aus und klicken Sie dann auf das gewünschte Feld auf dem Brett, um ihn zu platzieren, oder (2) klicken Sie auf zwei Eckpunkte. Die Eckpunkte sind mit einem Sternchen notiert, gefolgt von der algebraischen Notation des Feldes, an dessen unterer linker Ecke sich der Eckpunkt befindet. Um einen Schalter umzuschalten, klicken Sie einfach auf das Feld.",
     "anache": "Diese Implementierung folgt David Ploogs Regelblatt. Drei bemerkenswerte Änderungen sind: (1) Barrieren sind verboten, (2) anstelle eines 16x16-Bretts gibt es eine 15x15-Variante, bei der Figuren auf der Mittellinie zu Springern umgewandelt werden und der Drache nicht aus der anderen Ecke auf das 7x7-Feld springen darf, und (3) an den Ecken werden Figuren durch Zerstauchungs-Schlagen (crushing capture) statt durch Einkesselungs-Schlagen (custodian capture) geschlagen, sodass sich mindestens zwei gegnerische Figuren in einer Reihe befinden müssen, bevor ein Schlagen an den Ecken erfolgt.\n\nHinweis: Die Patt-Prüfung ist rechenintensiv. Wenn Sie keinen regelkonformen Zug machen können, sollten Sie manuell aufgeben.",
@@ -812,6 +824,44 @@
       "pari": {
         "description": "Anstatt einzelner Steinarten bewegen sich die Steine danach, wie viele eigene Steine im Stapel sind. Der oberste Stein eines Stapels mit drei eigenen Steinen bewegt sich wie ein Streitwagen, bei zwei Steinen wie ein Pferd und bei einem Stein wie ein Schild.",
         "name": "Accasta Pari"
+      }
+    },
+    "agofmars": {
+      "#rules": {
+        "description": "Standard-7×8-Spielbrett mit vier Farben und den Multiplikatoren 2, 1, 0 und −1.",
+        "name": "Standardregeln"
+      },
+      "five-colour-plus3": {
+        "description": "8×8-Spielbrett mit fünf Farben; die fünfte Spalte multipliziert Wertungen mit +3.",
+        "name": "Fünf Farben (+3)"
+      },
+      "five-colour-minus2": {
+        "description": "8×8-Spielbrett mit fünf Farben; die fünfte Spalte multipliziert Wertungen mit −2.",
+        "name": "Fünf Farben (−2)"
+      },
+      "objective-initiative": {
+        "description": "Manuelle Einrichtung überspringen: Jeder Spieler erhält eine zufällige, eindeutige Zuordnung von Farben zu Spalten (inspiriert von der Erweiterung „Objective Initiative“).",
+        "name": "Objective Initiative"
+      },
+      "blind-agents": {
+        "description": "Du kannst deine eigenen Zielfarben nicht sehen und sie nicht selbst tauschen; dein Gegner darf deine Ziele tauschen.",
+        "name": "Blinde Agenten"
+      },
+      "step-move": {
+        "description": "Pyramiden bewegen und tauschen sich nur auf benachbarte Felder.",
+        "name": "Schrittweise Bewegung"
+      },
+      "black-trio-swap": {
+        "description": "Zieltauschaktionen bleiben legal, bis eine kleine, mittlere und große schwarze Pyramide gezogen wurden.",
+        "name": "Schwarzer Trio-Tausch"
+      },
+      "biggest-group": {
+        "description": "Nur die größte Gruppe jeder Farbe wird gewertet; Unentschieden werden durch die höhere Pip-Summe entschieden.",
+        "name": "Nur größte Gruppe"
+      },
+      "group-size-scoring": {
+        "description": "Addiere die Gruppengröße zur Pip-Summe, bevor du mit deinem Ziel multiplizierst.",
+        "name": "Gruppengrößen-Wertung"
       }
     },
     "agere": {
@@ -4948,6 +4998,10 @@
   },
   "status": {
     "_player": "{{player}}",
+    "agofmars": {
+      "bagCount": "Pyramiden im Beutel",
+      "setupPool": "Zielpyramiden"
+    },
     "amazons": {
       "ISOLATEDQUEENS": "Die Damen sind jetzt isoliert",
       "TERRITORY": "Territorium"
@@ -5216,6 +5270,37 @@
       "PARTIAL_MOVE": "Wähle das Baugrundstück aus, auf dem du bauen möchtest.",
       "VALID_W_CLAIMS": "Das sieht nach einem gültigen Zug aus. Du kannst auch einen Turm beanspruchen.",
       "LABEL_STASH": "{{player}}s Vorrat"
+    },
+    "agofmars": {
+      "EMPTY_BAG": "Es sind keine Pyramiden mehr zum Ziehen übrig.",
+      "INITIAL_INSTRUCTIONS": "Nutze die Aktions-Schaltflächen und klicke dann auf das Spielbrett, um Pyramiden zu bewegen oder zu tauschen.",
+      "INITIAL_INSTRUCTIONS_setup1": "Aufbau Spieler 1: Klicke auf eine deiner Zielpyramiden und dann auf eine Multiplikatorspalte, um sie zuzuweisen. Bestätige, wenn jede Farbe platziert ist (Notation wie RD1,BU2,GN-1,YE0).",
+      "INITIAL_INSTRUCTIONS_setup2": "Aufbau Spieler 2: Klicke auf jede Zielpyramide und dann auf die Multiplikatorspalte für diese Farbe. Bestätige, wenn jede Farbe platziert ist.",
+      "INITIAL_INSTRUCTIONS_play": "Bestätige deine Zielentscheidung mit den Schaltflächen, ziehe dann, bewege oder tausche. Klicke nach dem Ziehen auf ein leeres Feld, um die Pyramide zu platzieren.",
+      "SETUP_INCOMPLETE": "Weise jede Farbe einem anderen Multiplikator zu, bevor du bestätigst.",
+      "SETUP_PARTIAL": "Klicke auf eine weitere Pyramide und dann auf eine Multiplikatorspalte, oder bestätige, wenn jede Farbe zugewiesen ist.",
+      "SETUP_PERM": "Verwende durch Kommas getrennte Farbe-und-Multiplikator-Paare (zum Beispiel RD1,BU2,GN-1,YE0). Jede Farbe und jeder Multiplikator darf nur einmal verwendet werden.",
+      "KO": "Du darfst den letzten Zug oder Tausch deines Gegners nicht sofort rückgängig machen.",
+      "MAIN_ACTION_CHOICE": "Wähle Ziehen, Bewegen oder Tauschen oder klicke auf eine dieser Schaltflächen.",
+      "MAIN_ACTION_MODE_move": "Klicke auf eine Pyramide auf dem Spielbrett und dann dorthin, wo sie hinbewegt werden soll.",
+      "MAIN_ACTION_MODE_swap": "Klicke auf eine Pyramide auf dem Spielbrett und dann auf eine andere Pyramide, um sie zu tauschen.",
+      "MOVE": "Diese Pyramide kann dieses Feld nicht erreichen.",
+      "MOVE_BLACK": "Schwarze Pyramiden können nicht bewegt werden.",
+      "MOVE_DEST_OCCUPIED": "Dieses Feld ist besetzt. Klicke auf ein leeres Zielfeld oder klicke auf eine andere Pyramide, um diese stattdessen zu bewegen.",
+      "MOVE_SELECT_DEST": "Klicke auf ein leeres Feld, auf das sich diese Pyramide bewegen kann.",
+      "MOVE_SELECT_PIECE": "Klicke auf eine deiner Pyramiden auf dem Spielbrett, um sie zu bewegen.",
+      "NO_PIECES_TO_MOVE": "Es befinden sich keine Pyramiden zum Bewegen auf dem Spielbrett. Ziehe zuerst eine aus dem Beutel und platziere sie.",
+      "NO_PIECES_TO_SWAP": "Es gibt keine zwei verschiedenen Pyramiden auf dem Spielbrett zum Tauschen. Ziehe und platziere zuerst Spielsteine.",
+      "SWAP_BLACK": "Schwarze Pyramiden können nicht getauscht werden.",
+      "SWAP_SELECT_PIECE": "Klicke auf eine Pyramide auf dem Spielbrett, um sie zu tauschen.",
+      "SWAP_SELECT_SECOND": "Klicke auf eine andere Pyramide auf dem Spielbrett, um mit ihr zu tauschen.",
+      "OBJ_SWAP": "Du kannst Ziele im Moment nicht tauschen.",
+      "OBJ_SWAP_SELECT": "Wähle die zwei Zielspalten aus, die du tauschen möchtest.",
+      "OBJ_SWAP_SELECT_SECOND": "Wähle die zweite Zielspalte zum Tauschen aus.",
+      "PLACE": "Klicke auf ein leeres Feld, um die gezogene Pyramide zu platzieren.",
+      "PLACE_DRAWN": "Diese Platzierung stimmt nicht mit der gezogenen Pyramide überein.",
+      "SWAP": "Diese Pyramiden können nicht getauscht werden.",
+      "TURN_START": "Wähle vor deiner Hauptaktion, ob du Ziele tauschen möchtest."
     },
     "agere": {
       "ADJACENCY": "Du kannst nur angrenzende Stapel schlagen.",

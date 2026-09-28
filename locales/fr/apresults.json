@@ -219,7 +219,8 @@
     "magnate": "La défausse a été mélangée. Il ne reste aucun mélange.",
     "quincunx_one": "{{player}} a pioché {{count}} carte.",
     "quincunx_other": "{{player}} a pioché {{count}} cartes.",
-    "evenatodds": "{{player}} a tiré une tuile du cimetière."
+    "evenatodds": "{{player}} a tiré une tuile du cimetière.",
+    "agofmars": "{{player}} a pioché une pyramide {{colour}}{{count}} dans le sac."
   },
   "DECLARE": {
     "biscuit": "{{player}} s'est débarrassé de toutes ses cartes !",
@@ -418,9 +419,16 @@
     "veletas": "{{player}} a déplacé le tireur de {{from}} vers {{to}}.",
     "volo_one": "{{player}} a déplacé une nuée de 1 oiseau depuis {{from}} dans la direction {{how}}.",
     "volo_other": "{{player}} a déplacé une nuée de {{count}} oiseaux depuis {{from}} dans la direction {{how}}.",
-    "complete_what": "{{player}} a déplacé un {{what}} de {{from}} vers {{to}}."
+    "complete_what": "{{player}} a déplacé un {{what}} de {{from}} vers {{to}}.",
+    "agofmars": "{{player}} a déplacé une pyramide de {{from}} vers {{to}}."
   },
   "NULLIFY_CLAIM": "Les tours ne peuvent pas être réclamées lors du dernier tour de jeu. La réclamation en {{where}} a été annulée.",
+  "OBJECTIVES": {
+    "agofmars": "{{player}} a choisi ses objectifs."
+  },
+  "OBJECTIVE_SWAP": {
+    "agofmars": "{{player}} a échangé les colonnes d'objectifs {{columnA}} et {{columnB}}."
+  },
   "ORIENT": {
     "crosshairs": "{{player}} a orienté un avion en {{where}} vers {{facing}}.",
     "nowhat": "{{player}} a orienté une pièce en {{where}} vers {{facing}}."
@@ -444,7 +452,8 @@
     "pippinzip": "{{player}} décide de passer et devient Zip",
     "simple": "{{player}} a passé.",
     "tablero": "{{player}} a passé !",
-    "tiebreaker": "{{player}} a passé, remportant le départage."
+    "tiebreaker": "{{player}} a passé, remportant le départage.",
+    "agofmars_noObjSwap": "{{player}} n'a pas échangé d'objectifs."
   },
   "PIE": {
     "deckfish": "{{player}} joue en second.",
@@ -452,6 +461,7 @@
     "unlur": "{{player}} a passé pour devenir le joueur Y."
   },
   "PLACE": {
+    "agofmars": "{{player}} a placé une pyramide {{colour}}{{count}} en {{where}}.",
     "armadas_1": "{{player}} a placé un petit navire et l'a nommé {{name}}.",
     "armadas_2": "{{player}} a placé un navire moyen et l'a nommé {{name}}.",
     "armadas_3": "{{player}} a placé un grand navire et l'a nommé {{name}}.",
@@ -693,7 +703,9 @@
     "nex": "{{player}} a remplacé une pièce de sa couleur en {{where}} par une pièce neutre.",
     "nex_neutral": "{{player}} a remplacé une pièce neutre en {{where}} par une pièce de sa couleur.",
     "resolve": "La pièce est échangée en {{where}}.",
-    "wunchunk": "{{player}} a changé de place, choisissant de jouer en premier."
+    "wunchunk": "{{player}} a changé de place, choisissant de jouer en premier.",
+    "agofmars_board": "{{player}} a échangé la pyramide {{colour1}}{{size1}} en {{cell1}} et la pyramide {{colour2}}{{size2}} en {{cell2}}.",
+    "agofmars_board_cells": "{{player}} a échangé les pyramides en {{cell1}} et {{cell2}}."
   },
   "TAKE": {
     "blastradius_one": "{{player}} a retiré l'une de ses propres pièces de {{where}}.",

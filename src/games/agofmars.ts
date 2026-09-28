@@ -1085,30 +1085,6 @@ export class AgofmarsGame extends GameBaseSequenced {
         return entries as [PiecesAreaLabeledPiece, ...PiecesAreaLabeledPiece[]];
     }
 
-    /** Setup bidding row: multiplier captions under each column (empty slots show black covers). */
-    private setupBiddingAreaPieces(seat: number): [PiecesAreaLabeledPiece, ...PiecesAreaLabeledPiece[]] {
-        const mults = this.multiplierLabels();
-        const entries: PiecesAreaLabeledPiece[] = [];
-        for (let col = 0; col < this.colourCount(); col++) {
-            const colour = this.objectives[seat]![col];
-            let disp: Colour;
-            let sz: Size;
-            if (colour === undefined) {
-                disp = "BK";
-                sz = this.setupBlackSize(seat);
-            } else {
-                disp = this.displayColour(colour, seat, col);
-                sz = disp === "BK" ? this.setupBlackSize(seat) : this.setupColourSize(seat);
-            }
-            entries.push({
-                piece: legendKey(disp, sz),
-                text: mults[col],
-                textPosition: "below",
-            });
-        }
-        return entries as [PiecesAreaLabeledPiece, ...PiecesAreaLabeledPiece[]];
-    }
-
     private objectiveColumnLabelFromMultToken(token: string): string {
         const col = this.columnForMultiplierToken(token);
         if (col !== undefined) {
@@ -2431,31 +2407,28 @@ export class AgofmarsGame extends GameBaseSequenced {
                     row.push("");
                 }
             }
-            const areas: AreaPieces[] = [
-                {
-                    type: "pieces",
-                    label: this.seatAreaLabel(seat + 1, "apgames:status._player"),
-                    pieces: this.setupBiddingAreaPieces(seat),
-                },
-            ];
             const colours = activeColours(this.variants);
             const size = this.setupColourSize(seat);
             const unplaced = colours
                 .filter(c => !this.objectives[seat]!.includes(c))
                 .map(c => legendKey(c, size));
-            if (unplaced.length > 0) {
-                areas.push({
-                    type: "pieces",
-                    label: i18next.t("apgames:status.agofmars.setupPool"),
-                    pieces: unplaced as [string, ...string[]],
-                });
-            }
+            const areas: AreaPieces[] =
+                unplaced.length > 0
+                    ? [
+                          {
+                              type: "pieces",
+                              label: i18next.t("apgames:status.agofmars.setupPool"),
+                              pieces: unplaced as [string, ...string[]],
+                          },
+                      ]
+                    : [];
             return {
                 board: {
                     style: "squares",
                     width: w,
                     height: 1,
                     rowLabels: [],
+                    columnLabels: this.multiplierLabels(),
                 },
                 legend,
                 pieces: row.join(","),

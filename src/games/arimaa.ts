@@ -319,7 +319,7 @@ export class ArimaaGame extends GameBase {
         if (this.variants.length === 0 && this.stack.length === 1) {
             return [
                 {
-                    label: "arimaa.gold99",
+                    label: "apgames:buttons.arimaa.gold99",
                     move: "Ee2,Md2,Hb2,Hg2,Ra2,Ra1,Rb1,Rc1,Rf1,Rg1,Rh1,Rh2"
                 }
             ];
@@ -328,11 +328,11 @@ export class ArimaaGame extends GameBase {
         else if (this.variants.length === 0 && this.stack.length === 2) {
             return [
                 {
-                    label: "arimaa.silver99e7",
+                    label: "apgames:buttons.arimaa.silver99e7",
                     move: "ee7,md7,hb7,hg7,ra7,ra8,rb8,rc8,rf8,rg8,rh8,rh7"
                 },
                 {
-                    label: "arimaa.silver99d7",
+                    label: "apgames:buttons.arimaa.silver99d7",
                     move: "ed7,me7,hb7,hg7,ra7,ra8,rb8,rc8,rf8,rg8,rh8,rh7"
                 },
             ];

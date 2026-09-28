@@ -833,14 +833,14 @@ export class KillAllGoGame extends GameBase {
         switch (this.phase) {
             case "alt-place":
             case "pie-choose":
-                return [{ label: "killallgo.attacker", move: "attacker" }];
+                return [{ label: "apgames:buttons.killallgo.attacker", move: "attacker" }];
             case "hoc-option":
-                return [{ label: "killallgo.youplace", move: "youplace" }];
+                return [{ label: "apgames:buttons.killallgo.youplace", move: "youplace" }];
             case "hoc-choose":
-                return [{ label: "killallgo.defender", move: "defender" }];
+                return [{ label: "apgames:buttons.killallgo.defender", move: "defender" }];
             case "pie-slice":
             case "play":
-                return [{ label: "pass", move: "pass" }];
+                return [{ label: "apgames:buttons.pass", move: "pass" }];
             default:
                 return [];
         }

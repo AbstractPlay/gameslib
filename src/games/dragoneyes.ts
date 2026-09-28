@@ -155,7 +155,7 @@ export class DragonEyesGame extends GameBase {
 
     public getButtons(): ICustomButton[] {
         if (this.canDraw() && this.isClaimDraw()) {
-            return [{ label: "draw", move: "draw" }];
+            return [{ label: "apgames:buttons.draw", move: "draw" }];
         }
         return [];
     }

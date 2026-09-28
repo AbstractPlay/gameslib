@@ -1021,7 +1021,7 @@ export class SporaGame extends GameBase {
 
     public getButtons(): ICustomButton[] {
         if ( this.isPieTurn() ) {
-            return [{ label: "playsecond", move: "play-second" }];
+            return [{ label: "apgames:buttons.playsecond", move: "play-second" }];
         }
         return [];
     }

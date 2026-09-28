@@ -224,14 +224,14 @@ export class CifraGame extends GameBase {
     public getButtons(): ICustomButton[] {
         if (this.firstChoice === undefined) {
             return [
-                { label: "cifra.lt", move: "light,top" },
-                { label: "cifra.lb", move: "light,bottom" },
-                { label: "cifra.dt", move: "dark,top" },
-                { label: "cifra.db", move: "dark,bottom" },
-                { label: "cifra.ll", move: "light,left" },
-                { label: "cifra.lr", move: "light,right" },
-                { label: "cifra.dl", move: "dark,left" },
-                { label: "cifra.dr", move: "dark,right" },
+                { label: "apgames:buttons.cifra.lt", move: "light,top" },
+                { label: "apgames:buttons.cifra.lb", move: "light,bottom" },
+                { label: "apgames:buttons.cifra.dt", move: "dark,top" },
+                { label: "apgames:buttons.cifra.db", move: "dark,bottom" },
+                { label: "apgames:buttons.cifra.ll", move: "light,left" },
+                { label: "apgames:buttons.cifra.lr", move: "light,right" },
+                { label: "apgames:buttons.cifra.dl", move: "dark,left" },
+                { label: "apgames:buttons.cifra.dr", move: "dark,right" },
             ];
         }
         return [];

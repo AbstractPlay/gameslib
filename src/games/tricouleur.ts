@@ -737,7 +737,7 @@ export class TricouleurGame extends GameBase {
 
 
     public getButtons(): ICustomButton[] {
-        return [ { label: "pass", move: "pass" } ];
+        return [ { label: "apgames:buttons.pass", move: "pass" } ];
     }
 
     public getPlayerScore(player: playerid): number {

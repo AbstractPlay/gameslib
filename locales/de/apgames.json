@@ -1,14 +1,4 @@
 {
-  "customButtons": {
-    "pass": "Passen",
-    "agofmars": {
-      "draw": "Ziehen",
-      "move": "Bewegen",
-      "noObjSwap": "Ziele nicht tauschen",
-      "objSwap": "Ziele tauschen",
-      "swap": "Auf dem Brett tauschen"
-    }
-  },
   "descriptions": {
     "abande": "Abande ist das zweite Spiel in Dieter Steins Stapel-Trilogie. Platziere oder bewege Steine und Stapel, um die höchstmögliche Punktzahl zu erzielen, während das Spielbrett immer zusammenhängend bleiben muss. Das quadratische, das Snub-Square- und das Sechseck-Brett stehen zur Verfügung.",
     "accasta": "Accasta ist das erste Spiel in Dieter Steins Stapel-Trilogie. Das Ziel ist es, drei deiner eigenen Stapel in den gegnerischen Burgbereich zu bringen. In der Grundversion gibt es drei verschiedene Arten von Steinen. In der \"Pari\"-Variante wird die Bewegung dadurch bestimmt, wie viele eigene Steine sich im Stapel befinden.",
@@ -8407,5 +8397,69 @@
   "INITIAL_UNDO": "Du kannst die anfängliche Startposition des Spiels nicht rückgängig machen.",
   "MOVES_GAMEOVER": "Du kannst in beendeten Spielen keine Züge machen.",
   "MOVES_INVALID": "Der Zug '{{move}}' ist ungültig. Bitte überprüfe die Regeln und versuche es erneut.",
-  "MOVES_SIMULTANEOUS_PARTIAL": "In simultanen Spielen müssen die Züge beider Spieler gleichzeitig übermittelt werden."
+  "MOVES_SIMULTANEOUS_PARTIAL": "In simultanen Spielen müssen die Züge beider Spieler gleichzeitig übermittelt werden.",
+  "buttons": {
+    "pass": "Passen",
+    "declare": "Ansagen",
+    "takebutton": "Aufnehmen-Taste",
+    "acceptpie": "Als zweiter spielen",
+    "playsecond": "Als zweiter spielen",
+    "draw": "Unentschieden fordern",
+    "playfirst": "Als erster spielen",
+    "swap": "Farben wechseln",
+    "roll1": "Einen Würfel werfen",
+    "roll2": "Zwei Würfel werfen",
+    "numbers": {
+      "one": "Eins (1)",
+      "two": "Zwei (2)",
+      "three": "Drei (3)"
+    },
+    "pigs": {
+      "back": "Zurück bewegen",
+      "forward": "Vorwärts bewegen",
+      "left": "Vorwärts, links bewegen",
+      "right": "Vorwärts, rechts bewegen",
+      "cw": "Im Uhrzeigersinn drehen",
+      "ccw": "Gegen den Uhrzeigersinn drehen",
+      "fire": "Laser abfeuern",
+      "hit": "Die Nase schwingen"
+    },
+    "carnac": {
+      "tip_n": "Nach Norden kippen",
+      "tip_e": "Nach Osten kippen",
+      "tip_s": "Nach Süden kippen",
+      "tip_w": "Nach Westen kippen"
+    },
+    "cifra": {
+      "lt": "Hell, oben",
+      "lb": "Hell, unten",
+      "dt": "Dunkel, oben",
+      "db": "Dunkel, unten",
+      "ll": "Hell, links",
+      "lr": "Hell, rechts",
+      "dl": "Dunkel, links",
+      "dr": "Dunkel, rechts"
+    },
+    "evenatodds": {
+      "evens": "Gerade",
+      "odds": "Ungerade"
+    },
+    "arimaa": {
+      "gold99": "Schnelle Einrichtung",
+      "silver99e7": "Schnelle Einrichtung, Elefant E7",
+      "silver99d7": "Schnelle Einrichtung, Elefant D7"
+    },
+    "killallgo": {
+      "attacker": "Als Angreifer spielen",
+      "defender": "Als Verteidiger spielen",
+      "youplace": "Den Gegner die erste Gruppe setzen lassen"
+    },
+    "agofmars": {
+      "draw": "Ziehen",
+      "move": "Bewegen",
+      "noObjSwap": "Ziele nicht tauschen",
+      "objSwap": "Ziele tauschen",
+      "swap": "Auf dem Brett tauschen"
+    }
+  }
 }

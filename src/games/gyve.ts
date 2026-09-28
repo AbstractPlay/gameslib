@@ -195,7 +195,7 @@ export class GyveGame extends GameBase {
 
     public getButtons(): ICustomButton[] {
         if (this.randomMove() === "pass") {
-            return [{ label: "pass", move: "pass" }];
+            return [{ label: "apgames:buttons.pass", move: "pass" }];
         }
         return [];
     }

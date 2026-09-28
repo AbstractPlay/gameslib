@@ -246,11 +246,11 @@ export class WunchunkGame extends GameBase {
     public getButtons(): ICustomButton[] {
         if (this.variants.includes("open") && this.stack.length === 2) {
             return [
-                {label: "playfirst", move: "swap"},
-                {label: "playsecond", move: "pass"},
+                {label: "apgames:buttons.playfirst", move: "swap"},
+                {label: "apgames:buttons.playsecond", move: "pass"},
             ];
         }
-        return [{label: "pass", move: "pass"}];
+        return [{label: "apgames:buttons.pass", move: "pass"}];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {

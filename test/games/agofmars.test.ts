@@ -59,17 +59,14 @@ describe("Agents of M.A.R.S.", () => {
             expect(p1.pieces[3]!.text).to.match(/−1|-1/);
         });
 
-        it("shows multiplier captions on the setup bidding row", () => {
+        it("shows multiplier labels on setup board columns", () => {
             const g = new AgofmarsGame();
-            const board = g.render().board!;
-            expect(board.columnLabels).to.be.undefined;
-            const bidding = g.render().areas![0] as {
-                type: string;
-                pieces: { piece: string; text?: string; textPosition?: string }[];
-            };
-            expect(bidding.type).to.equal("pieces");
-            expect(bidding.pieces.map(p => p.text)).to.deep.equal(["2", "1", "0", "−1"]);
-            expect(bidding.pieces.every(p => p.textPosition === "below")).to.be.true;
+            const { board, areas } = g.render();
+            expect(board!.columnLabels).to.deep.equal(["2", "1", "0", "−1"]);
+            expect(areas).to.have.length(1);
+            const pool = areas![0] as { type: string; pieces: string[] };
+            expect(pool.type).to.equal("pieces");
+            expect(pool.pieces).to.have.length(4);
         });
 
         it("shows dots on legal swap partners after the first pyramid is selected", () => {

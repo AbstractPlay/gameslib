@@ -1085,30 +1085,6 @@ export class AgofmarsGame extends GameBaseSequenced {
         return entries as [PiecesAreaLabeledPiece, ...PiecesAreaLabeledPiece[]];
     }
 
-    /** Setup bidding row: multiplier captions under each column (empty slots show black covers). */
-    private setupBiddingAreaPieces(seat: number): [PiecesAreaLabeledPiece, ...PiecesAreaLabeledPiece[]] {
-        const mults = this.multiplierLabels();
-        const entries: PiecesAreaLabeledPiece[] = [];
-        for (let col = 0; col < this.colourCount(); col++) {
-            const colour = this.objectives[seat]![col];
-            let disp: Colour;
-            let sz: Size;
-            if (colour === undefined) {
-                disp = "BK";
-                sz = this.setupBlackSize(seat);
-            } else {
-                disp = this.displayColour(colour, seat, col);
-                sz = disp === "BK" ? this.setupBlackSize(seat) : this.setupColourSize(seat);
-            }
-            entries.push({
-                piece: legendKey(disp, sz),
-                text: mults[col],
-                textPosition: "below",
-            });
-        }
-        return entries as [PiecesAreaLabeledPiece, ...PiecesAreaLabeledPiece[]];
-    }
-
     private objectiveColumnLabelFromMultToken(token: string): string {
         const col = this.columnForMultiplierToken(token);
         if (col !== undefined) {
@@ -1784,20 +1760,20 @@ export class AgofmarsGame extends GameBaseSequenced {
         }
         if (!this.awaitingMainAction) {
             buttons.push({
-                label: "apgames:customButtons.agofmars.noObjSwap",
+                label: "apgames:buttons.agofmars.noObjSwap",
                 move: "noObjSwap",
             });
             if (this.canObjectiveSwap(this.currplayer)) {
                 buttons.push({
-                    label: "apgames:customButtons.agofmars.objSwap",
+                    label: "apgames:buttons.agofmars.objSwap",
                     move: "objSwap",
                 });
             }
             return buttons;
         }
-        buttons.push({ label: "apgames:customButtons.agofmars.draw", move: "draw" });
-        buttons.push({ label: "apgames:customButtons.agofmars.move", move: "move" });
-        buttons.push({ label: "apgames:customButtons.agofmars.swap", move: "swap" });
+        buttons.push({ label: "apgames:buttons.agofmars.draw", move: "draw" });
+        buttons.push({ label: "apgames:buttons.agofmars.move", move: "move" });
+        buttons.push({ label: "apgames:buttons.agofmars.swap", move: "swap" });
         return buttons;
     }
 
@@ -2431,31 +2407,28 @@ export class AgofmarsGame extends GameBaseSequenced {
                     row.push("");
                 }
             }
-            const areas: AreaPieces[] = [
-                {
-                    type: "pieces",
-                    label: this.seatAreaLabel(seat + 1, "apgames:status._player"),
-                    pieces: this.setupBiddingAreaPieces(seat),
-                },
-            ];
             const colours = activeColours(this.variants);
             const size = this.setupColourSize(seat);
             const unplaced = colours
                 .filter(c => !this.objectives[seat]!.includes(c))
                 .map(c => legendKey(c, size));
-            if (unplaced.length > 0) {
-                areas.push({
-                    type: "pieces",
-                    label: i18next.t("apgames:status.agofmars.setupPool"),
-                    pieces: unplaced as [string, ...string[]],
-                });
-            }
+            const areas: AreaPieces[] =
+                unplaced.length > 0
+                    ? [
+                          {
+                              type: "pieces",
+                              label: i18next.t("apgames:status.agofmars.setupPool"),
+                              pieces: unplaced as [string, ...string[]],
+                          },
+                      ]
+                    : [];
             return {
                 board: {
                     style: "squares",
                     width: w,
                     height: 1,
                     rowLabels: [],
+                    columnLabels: this.multiplierLabels(),
                 },
                 legend,
                 pieces: row.join(","),

@@ -770,8 +770,8 @@ export class EvenAtOddsGame extends GameBase {
     public getButtons(): ICustomButton[] {
         if (this.inSideChoicePhase()) {
             return [
-                { label: "evenatodds.evens", move: "evens" },
-                { label: "evenatodds.odds", move: "odds" },
+                { label: "apgames:buttons.evenatodds.evens", move: "evens" },
+                { label: "apgames:buttons.evenatodds.odds", move: "odds" },
             ];
         }
         return [];

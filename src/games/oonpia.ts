@@ -194,7 +194,7 @@ export class OonpiaGame extends GameBase {
     public getButtons(): ICustomButton[] {
         /* Only show pass button if there's enemy stones in the prison */
         if (this.prison[this.otherPlayer() - 1] > 0) {
-            return [{ label: "pass", move: "pass" }];
+            return [{ label: "apgames:buttons.pass", move: "pass" }];
         }
         return [];
     }

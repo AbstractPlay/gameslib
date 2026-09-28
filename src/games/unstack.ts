@@ -660,7 +660,7 @@ export class UnstackGame extends GameBase {
     }
 
     public getButtons(): ICustomButton[] {
-        return this.canSow() ? [] : [ { label: "pass", move: "pass" } ];
+        return this.canSow() ? [] : [ { label: "apgames:buttons.pass", move: "pass" } ];
     }
 
     public sidebarScores(): IScores[] {

@@ -102,7 +102,7 @@ describe("Crosshairs", () => {
             expect(g.turnNumber).to.equal(1);
             expect(g.currplayer).to.equal(2);
             expect(g.moves()).to.deep.equal(["pass"]);
-            expect(g.getButtons()).to.deep.equal([{ label: "pass", move: "pass" }]);
+            expect(g.getButtons()).to.deep.equal([{ label: "apgames:buttons.pass", move: "pass" }]);
             expect(g.randomMove()).to.equal("pass");
             expect(g.validateMove("pass")).to.include({ valid: true, complete: 1 });
             const playerTwoEntry = g.graph.getEdges().get("N")![0];

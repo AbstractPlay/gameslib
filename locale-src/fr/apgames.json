@@ -15,29 +15,189 @@
     "src": "In simultaneous games, both players' moves must be submitted at the same time.",
     "out": "Dans les parties simultanées, les coups des deux joueurs doivent être soumis en même temps."
   },
-  "customButtons.agofmars.draw": {
+  "buttons.acceptpie": {
+    "src": "Play second",
+    "out": "Jouer en second"
+  },
+  "buttons.agofmars.draw": {
     "src": "Draw",
     "out": "Piocher"
   },
-  "customButtons.agofmars.move": {
+  "buttons.agofmars.move": {
     "src": "Move",
     "out": "Déplacer"
   },
-  "customButtons.agofmars.noObjSwap": {
+  "buttons.agofmars.noObjSwap": {
     "src": "No objective swap",
     "out": "Pas d'échange d'objectifs"
   },
-  "customButtons.agofmars.objSwap": {
+  "buttons.agofmars.objSwap": {
     "src": "Swap objectives",
     "out": "Échanger les objectifs"
   },
-  "customButtons.agofmars.swap": {
+  "buttons.agofmars.swap": {
     "src": "Swap on board",
     "out": "Échanger sur le plateau"
   },
-  "customButtons.pass": {
+  "buttons.arimaa.gold99": {
+    "src": "Quick setup",
+    "out": "Configuration rapide"
+  },
+  "buttons.arimaa.silver99d7": {
+    "src": "Quick setup, elephant d7",
+    "out": "Configuration rapide, éléphant d7"
+  },
+  "buttons.arimaa.silver99e7": {
+    "src": "Quick setup, elephant e7",
+    "out": "Configuration rapide, éléphant e7"
+  },
+  "buttons.carnac.tip_e": {
+    "src": "Tip east",
+    "out": "Faire basculer à l'est"
+  },
+  "buttons.carnac.tip_n": {
+    "src": "Tip north",
+    "out": "Faire basculer au nord"
+  },
+  "buttons.carnac.tip_s": {
+    "src": "Tip south",
+    "out": "Faire basculer au sud"
+  },
+  "buttons.carnac.tip_w": {
+    "src": "Tip west",
+    "out": "Faire basculer à l'ouest"
+  },
+  "buttons.cifra.db": {
+    "src": "Dark, Bottom",
+    "out": "Foncé, Bas"
+  },
+  "buttons.cifra.dl": {
+    "src": "Dark, Left",
+    "out": "Foncé, Gauche"
+  },
+  "buttons.cifra.dr": {
+    "src": "Dark, Right",
+    "out": "Foncé, Droite"
+  },
+  "buttons.cifra.dt": {
+    "src": "Dark, Top",
+    "out": "Foncé, Haut"
+  },
+  "buttons.cifra.lb": {
+    "src": "Light, Bottom",
+    "out": "Clair, Bas"
+  },
+  "buttons.cifra.ll": {
+    "src": "Light, Left",
+    "out": "Clair, Gauche"
+  },
+  "buttons.cifra.lr": {
+    "src": "Light, Right",
+    "out": "Clair, Droite"
+  },
+  "buttons.cifra.lt": {
+    "src": "Light, Top",
+    "out": "Clair, Haut"
+  },
+  "buttons.declare": {
+    "src": "Declare",
+    "out": "Déclarer"
+  },
+  "buttons.draw": {
+    "src": "Claim draw",
+    "out": "Réclamer un nul"
+  },
+  "buttons.evenatodds.evens": {
+    "src": "Evens",
+    "out": "Pair"
+  },
+  "buttons.evenatodds.odds": {
+    "src": "Odds",
+    "out": "Impair"
+  },
+  "buttons.killallgo.attacker": {
+    "src": "Play as the Attacker",
+    "out": "Jouer l'attaquant"
+  },
+  "buttons.killallgo.defender": {
+    "src": "Play as the Defender",
+    "out": "Jouer le défenseur"
+  },
+  "buttons.killallgo.youplace": {
+    "src": "Let the opponent place the first batch",
+    "out": "Laisser l'adversaire poser le premier lot"
+  },
+  "buttons.numbers.one": {
+    "src": "One (1)",
+    "out": "Un (1)"
+  },
+  "buttons.numbers.three": {
+    "src": "Three (3)",
+    "out": "Trois (3)"
+  },
+  "buttons.numbers.two": {
+    "src": "Two (2)",
+    "out": "Deux (2)"
+  },
+  "buttons.pass": {
     "src": "Pass",
     "out": "Passer"
+  },
+  "buttons.pigs.back": {
+    "src": "Move backward",
+    "out": "Reculer"
+  },
+  "buttons.pigs.ccw": {
+    "src": "Rotate counterclockwise",
+    "out": "Rotation dans le sens anti-horaire"
+  },
+  "buttons.pigs.cw": {
+    "src": "Rotate clockwise",
+    "out": "Rotation dans le sens horaire"
+  },
+  "buttons.pigs.fire": {
+    "src": "Fire laser",
+    "out": "Tirer au laser"
+  },
+  "buttons.pigs.forward": {
+    "src": "Move forward",
+    "out": "Avancer"
+  },
+  "buttons.pigs.hit": {
+    "src": "Swing snout",
+    "out": "Bouger le museau"
+  },
+  "buttons.pigs.left": {
+    "src": "Move forward left",
+    "out": "Avancer à gauche"
+  },
+  "buttons.pigs.right": {
+    "src": "Move forward right",
+    "out": "Avancer à droite"
+  },
+  "buttons.playfirst": {
+    "src": "Play first",
+    "out": "Jouer en premier"
+  },
+  "buttons.playsecond": {
+    "src": "Play second",
+    "out": "Jouer en second"
+  },
+  "buttons.roll1": {
+    "src": "Roll one die",
+    "out": "Lancer un dé"
+  },
+  "buttons.roll2": {
+    "src": "Roll two dice",
+    "out": "Lancer deux dés"
+  },
+  "buttons.swap": {
+    "src": "Swap colours",
+    "out": "Échanger les couleurs"
+  },
+  "buttons.takebutton": {
+    "src": "Take button",
+    "out": "Bouton de prise"
   },
   "descriptions.abande": {
     "src": "Abande is the second game in Dieter Stein's stacking trilogy. Place or move pieces and stacks to generate the highest score you can whilst always keeping the board connected. The square, snubsquare, and hex boards are available.",

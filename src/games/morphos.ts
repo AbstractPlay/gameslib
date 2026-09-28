@@ -407,7 +407,7 @@ export class MorphosGame extends GameBase {
     }
 
     public getButtons(): ICustomButton[] {
-        if (this.randomCap() === null && this.empties.length === 0) return [{ label: "pass", move: "pass" }];
+        if (this.randomCap() === null && this.empties.length === 0) return [{ label: "apgames:buttons.pass", move: "pass" }];
         return [];
     }
 

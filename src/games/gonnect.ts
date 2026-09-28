@@ -215,7 +215,7 @@ export class GonnectGame extends GameBase {
 
     public getButtons(): ICustomButton[] {
         if (this.variants.includes("cascading") && this.moves().includes("pass")) {
-            return [{ label: "pass", move: "pass" }];
+            return [{ label: "apgames:buttons.pass", move: "pass" }];
         }
         return [];
     }

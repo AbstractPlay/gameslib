@@ -173,9 +173,9 @@ export class AssemblyGame extends GameBaseSimultaneous {
 
     public getButtons(): ICustomButton[] {
         return [
-            {label: "numbers.one", move: "1"},
-            {label: "numbers.two", move: "2"},
-            {label: "numbers.three", move: "3"},
+            {label: "apgames:buttons.numbers.one", move: "1"},
+            {label: "apgames:buttons.numbers.two", move: "2"},
+            {label: "apgames:buttons.numbers.three", move: "3"},
         ];
     }
 

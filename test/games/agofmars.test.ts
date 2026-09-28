@@ -22,9 +22,94 @@ function finishSetup(g: AgofmarsGame, p1 = SETUP_MOVE_P1, p2 = SETUP_MOVE_P2): A
     return g.move(p1).move(p2);
 }
 
+/** Play phase with optional variants and objective rows (skips manual setup). */
+function playWithObjectives(
+    variants: string[] = [],
+    objectives = defaultObjectives(),
+): AgofmarsGame {
+    const n = objectives[0]!.length;
+    const base = freshPlayState();
+    return gameFrom({
+        ...base,
+        variants,
+        stack: [
+            {
+                ...base.stack[0]!,
+                objectives,
+                objectivesRevealed: [Array(n).fill(false), Array(n).fill(false)],
+            },
+        ],
+    });
+}
+
 describe("Agents of M.A.R.S.", () => {
     before(() => {
         addResource("en");
+    });
+
+    describe("render", () => {
+        it("shows multiplier captions under each objective pyramid in play", () => {
+            const g = finishSetup(new AgofmarsGame());
+            const areas = g.render().areas!;
+            expect(areas.length).to.be.at.least(2);
+            const p1 = areas[0] as { type: string; pieces: { piece: string; text?: string; textPosition?: string }[] };
+            expect(p1.type).to.equal("pieces");
+            expect(p1.pieces[0]!.text).to.equal("2");
+            expect(p1.pieces[0]!.textPosition).to.equal("below");
+            expect(p1.pieces[3]!.text).to.match(/−1|-1/);
+        });
+
+        it("shows multiplier captions on the setup bidding row", () => {
+            const g = new AgofmarsGame();
+            const board = g.render().board!;
+            expect(board.columnLabels).to.be.undefined;
+            const bidding = g.render().areas![0] as {
+                type: string;
+                pieces: { piece: string; text?: string; textPosition?: string }[];
+            };
+            expect(bidding.type).to.equal("pieces");
+            expect(bidding.pieces.map(p => p.text)).to.deep.equal(["2", "1", "0", "−1"]);
+            expect(bidding.pieces.every(p => p.textPosition === "below")).to.be.true;
+        });
+
+        it("shows dots on legal swap partners after the first pyramid is selected", () => {
+            let g = gameFrom(freshPlayState());
+            g.board.set("a3", ["GN", 3]);
+            g.board.set("d3", ["RD", 1]);
+            g = g.move("noObjSwap").move("swap;a3", { partial: true });
+            const rep = g.render();
+            const dots = rep.annotations?.filter(a => a.type === "dots") ?? [];
+            expect(dots.length).to.equal(1);
+            const targets = (dots[0] as { targets: { row: number; col: number }[] }).targets;
+            expect(targets.some(t => t.row === 5 && t.col === 3)).to.be.true;
+            const flood = rep.board.markers?.find(m => m.type === "flood");
+            expect(flood).to.not.equal(undefined);
+            expect((flood as { points: { row: number; col: number }[] }).points).to.deep.equal([
+                { row: 5, col: 0 },
+            ]);
+        });
+
+        it("annotates a newly placed pyramid with enter", () => {
+            const g = finishSetup(new AgofmarsGame()).move("noObjSwap").move("draw").move("a1");
+            const enter = g.render().annotations?.find(a => a.type === "enter");
+            expect(enter).to.not.equal(undefined);
+            expect((enter as { targets: { row: number; col: number }[] }).targets).to.deep.equal([
+                { row: 7, col: 0 },
+            ]);
+        });
+
+        it("highlights the selected pyramid while choosing a move destination", () => {
+            let g = gameFrom(freshPlayState());
+            g.board.set("a1", ["RD", 2]);
+            g = g.move("noObjSwap").move("move;a1", { partial: true });
+            const flood = g.render().board.markers?.find(m => m.type === "flood");
+            expect(flood).to.not.equal(undefined);
+            expect((flood as { colour: string; opacity: number }).colour).to.equal("_context_fill");
+            expect((flood as { opacity: number }).opacity).to.equal(0.25);
+            expect((flood as { points: { row: number; col: number }[] }).points).to.deep.equal([
+                { row: 7, col: 0 },
+            ]);
+        });
     });
 
     describe("setup", () => {
@@ -149,6 +234,19 @@ describe("Agents of M.A.R.S.", () => {
             expect(bag.length).to.equal(6);
         });
 
+        it("mirrors five-colour-plus3 bag counts for five-colour-minus2", () => {
+            const objectives = defaultObjectives(5);
+            const variants = ["five-colour-minus2"];
+            expect(startingMultiset(variants).length).to.equal(90);
+            const after = buildDrawPoolFromBoard(variants, new Map(), objectives);
+            const count = (c: string, s: number) =>
+                after.filter(([col, sz]) => col === c && sz === s).length;
+            expect(count("BK", 3)).to.equal(0);
+            expect(count("BK", 2)).to.equal(0);
+            expect(count("BK", 1)).to.equal(5);
+            expect(after.length).to.equal(70);
+        });
+
         it("subtracts objectives, board pieces, and pending draw", () => {
             const objectives = defaultObjectives();
             const board = new Map([["a1", ["RD", 1] as const]]);
@@ -177,18 +275,38 @@ describe("Agents of M.A.R.S.", () => {
             expect(JSON.stringify(swapLine!.textParams)).to.not.match(/RD|YE|BU|GN/);
         });
 
+        it("reports a bag draw with pyramid colour and size", () => {
+            const g = finishSetup(new AgofmarsGame()).move("noObjSwap").move("draw");
+            const [colour, size] = g.pendingDraw!;
+            const drawLine = g
+                .chatLogEntries(["Alice", "Bob"])
+                .flatMap(e => e.lines)
+                .find(l => l.textKey === "apresults:DECKDRAW.agofmars");
+            expect(drawLine).to.not.equal(undefined);
+            expect(drawLine!.textParams?.colour).to.equal(colour);
+            expect(drawLine!.textParams?.count).to.equal(size);
+        });
+
         it("reports board moves and swaps with cell coordinates", () => {
             let g = finishSetup(new AgofmarsGame());
             g.board.set("a1", ["RD", 2]);
             g = g.move("noObjSwap").move("a1-a3");
-            expect(g.lastmove).to.equal("RD@a1-a3");
+            expect(g.lastmove).to.equal("RD2@a1-a3");
             const moveLines = g.chatLogEntries(["Alice", "Bob"]).flatMap(e => e.lines);
             expect(moveLines.some(l => l.textKey === "apresults:MOVE.agofmars")).to.be.true;
-            g.board.set("b1", ["BU", 2]);
-            g = g.move("noObjSwap").move("b1|a3");
-            expect(g.lastmove).to.equal("BU@b1|RD@a3");
+            g.board.set("a3", ["GN", 3]);
+            g.board.set("d3", ["RD", 1]);
+            g = g.move("noObjSwap").move("a3|d3");
+            expect(g.lastmove).to.equal("GN3@a3|RD1@d3");
             const swapLines = g.chatLogEntries(["Alice", "Bob"]).flatMap(e => e.lines);
-            expect(swapLines.some(l => l.textKey === "apresults:SWAP.agofmars_board")).to.be.true;
+            const swapLine = swapLines.find(l => l.textKey === "apresults:SWAP.agofmars_board");
+            expect(swapLine).to.not.equal(undefined);
+            expect(swapLine!.textParams?.colour1).to.equal("GN");
+            expect(swapLine!.textParams?.size1).to.equal(3);
+            expect(swapLine!.textParams?.cell1).to.equal("a3");
+            expect(swapLine!.textParams?.colour2).to.equal("RD");
+            expect(swapLine!.textParams?.size2).to.equal(1);
+            expect(swapLine!.textParams?.cell2).to.equal("d3");
         });
     });
 
@@ -202,11 +320,11 @@ describe("Agents of M.A.R.S.", () => {
             g = g.move("draw");
             expect(g.pendingDraw).to.not.equal(undefined);
             expect(g.awaitingMainAction).to.be.false;
-            const [drawnColour] = g.pendingDraw!;
+            const [drawnColour, drawnSize] = g.pendingDraw!;
             const place = g.move("a1");
-            expect(place.lastmove).to.equal(AgofmarsGame.formatPlaceWire(drawnColour, "a1"));
+            expect(place.lastmove).to.equal(AgofmarsGame.formatPlaceWire(drawnColour, drawnSize, "a1"));
             expect(place.getPlies().at(-1)?.move).to.equal(
-                AgofmarsGame.formatPlaceWire(drawnColour, "a1"),
+                AgofmarsGame.formatPlaceWire(drawnColour, drawnSize, "a1"),
             );
             const logLines = place.chatLogEntries(["Alice", "Bob"]).flatMap(e => e.lines);
             expect(logLines.some(l => l.textKey === "apresults:PLACE.agofmars")).to.be.true;
@@ -299,7 +417,7 @@ describe("Agents of M.A.R.S.", () => {
             expect(armed.complete).to.equal(0);
             const committed = new AgofmarsGame(g.serialize()).handleClick(armed.move, 5, 0);
             expect(committed.complete).to.equal(1);
-            expect(committed.move).to.equal("RD@a1-a3");
+            expect(committed.move).to.equal("RD2@a1-a3");
         });
 
         it("rejects moving a black pyramid with a clear message", () => {
@@ -338,6 +456,18 @@ describe("Agents of M.A.R.S.", () => {
             g.board.set("a2", ["RD", 2]);
             g = g.move("noObjSwap");
             expect(g.validateMove("a1|a2").valid).to.be.false;
+        });
+
+        it("allows swap when either pyramid can slide into the other", () => {
+            let g = gameFrom(freshPlayState());
+            g.board.set("a3", ["GN", 3]);
+            g.board.set("d3", ["RD", 1]);
+            g.board.set("g3", ["RD", 2]);
+            g = g.move("noObjSwap");
+            expect(g.validateMove("a3|d3").valid).to.be.true;
+            expect(g.validateMove("d3|a3").valid).to.be.true;
+            expect(g.validateMove("d3|g3").valid).to.be.false;
+            expect(g.validateMove("g3|d3").valid).to.be.false;
         });
 
         it("limits reach under step-move", () => {
@@ -382,10 +512,50 @@ describe("Agents of M.A.R.S.", () => {
             }
             expect(g.canObjectiveSwap(1)).to.be.false;
         });
+
+        it("black-trio-swap allows objective swap until small, medium, and large blacks appear", () => {
+            const g = playWithObjectives(["black-trio-swap"]);
+            expect(g.canObjectiveSwap(1)).to.be.true;
+            g.board.set("a1", ["BK", 1]);
+            g.board.set("a2", ["BK", 2]);
+            expect(g.canObjectiveSwap(1)).to.be.true;
+            g.board.set("a3", ["BK", 3]);
+            expect(g.canObjectiveSwap(1)).to.be.false;
+        });
+
+    });
+
+    describe("blind-agents", () => {
+        it("hides the viewer's own objective colours in stripped state", () => {
+            const normal = finishSetup(new AgofmarsGame()).state({ strip: true, player: 1 });
+            const normalTop = normal.stack[normal.stack.length - 1] as { objectives: string[][] };
+            expect(normalTop.objectives[0]!.some(c => c !== "BK")).to.be.true;
+
+            const blind = finishSetup(new AgofmarsGame(undefined, ["blind-agents"])).state({
+                strip: true,
+                player: 1,
+            });
+            const blindTop = blind.stack[blind.stack.length - 1] as { objectives: string[][] };
+            expect(blindTop.objectives[0]!.every(c => c === "BK")).to.be.true;
+        });
+
+        it("allows the active player to objective-swap while blind", () => {
+            const g = playWithObjectives(["blind-agents"]);
+            expect(g.canObjectiveSwap(1)).to.be.true;
+        });
+
+        it("objective swap only permutes the opponent's row", () => {
+            let g = finishSetup(new AgofmarsGame(undefined, ["blind-agents"]));
+            const selfBefore = [...g.objectives[0]!];
+            const oppBefore = [...g.objectives[1]!];
+            g = g.move("objSwap;2|-1");
+            expect(g.objectives[0]).to.deep.equal(selfBefore);
+            expect(g.objectives[1]).to.not.deep.equal(oppBefore);
+        });
     });
 
     describe("scoring", () => {
-        it("ignores groups smaller than four by default", () => {
+        it("scores groups of any size by default", () => {
             const board = new Map([
                 ["a1", ["GN", 1] as const],
                 ["a2", ["GN", 1] as const],
@@ -397,8 +567,50 @@ describe("Agents of M.A.R.S.", () => {
                 objectives,
                 multipliers: [2, 1, 0, -1],
             });
-            expect(scores[0]).to.equal(0);
-            expect(scores[1]).to.equal(0);
+            expect(scores[0]).to.equal(3 * 2);
+            expect(scores[1]).to.equal(3 * 1);
+        });
+
+        it("scores a full random game without zeroing every group", () => {
+            let g = finishSetup(new AgofmarsGame());
+            let guard = 0;
+            while (!g.gameover && guard < 500) {
+                g.move(g.randomMove());
+                guard++;
+            }
+            expect(g.gameover).to.be.true;
+            const scores = g.sidebarScores()[0]!.scores as number[];
+            expect(scores[0]! + scores[1]!).to.be.greaterThan(0);
+            const pool = buildDrawPoolFromBoard(g.variants, g.board, g.objectives, g.pendingDraw);
+            expect(g.board.size + pool.length).to.equal(59);
+            const tally = (pieces: readonly (readonly [string, number])[]) => {
+                const m = new Map<string, number>();
+                for (const [c, s] of pieces) {
+                    const k = `${c}${s}`;
+                    m.set(k, (m.get(k) ?? 0) + 1);
+                }
+                return m;
+            };
+            const setupPyramids = (objectives: typeof g.objectives): (readonly [string, number])[] => {
+                const out: (readonly [string, number])[] = [];
+                for (let seat = 0; seat < 2; seat++) {
+                    const colourSize = seat === 0 ? 2 : 1;
+                    const blackSize = seat === 0 ? 3 : 2;
+                    for (const colour of objectives[seat]!) {
+                        out.push([colour, colourSize], ["BK", blackSize]);
+                    }
+                }
+                return out;
+            };
+            const start = tally(startingMultiset(g.variants));
+            const seen = tally([
+                ...g.board.values(),
+                ...pool,
+                ...setupPyramids(g.objectives),
+            ]);
+            for (const [key, n] of start) {
+                expect(seen.get(key) ?? 0).to.equal(n);
+            }
         });
 
         it("scores a qualifying group with multipliers", () => {
@@ -417,6 +629,143 @@ describe("Agents of M.A.R.S.", () => {
             const pip = 1 + 2 + 1 + 3;
             expect(scores[0]).to.equal(pip * 2);
             expect(scores[1]).to.equal(pip * 1);
+        });
+
+        it("biggest-group scores only the largest group per colour", () => {
+            const board = new Map([
+                ["a1", ["GN", 1] as const],
+                ["a2", ["GN", 1] as const],
+                ["c1", ["GN", 1] as const],
+                ["d1", ["GN", 1] as const],
+                ["e1", ["GN", 1] as const],
+                ["f1", ["GN", 1] as const],
+            ]);
+            const objectives = defaultObjectives();
+            const mults = [2, 1, 0, -1];
+            const allGroups = scoreGame(board, 7, 8, {
+                variants: [],
+                objectives,
+                multipliers: mults,
+            });
+            const biggestOnly = scoreGame(board, 7, 8, {
+                variants: ["biggest-group"],
+                objectives,
+                multipliers: mults,
+            });
+            expect(allGroups[0]).to.equal((2 + 4) * 2);
+            expect(biggestOnly[0]).to.equal(4 * 2);
+            expect(biggestOnly[0]).to.be.lessThan(allGroups[0]!);
+        });
+
+        it("group-size-scoring adds group size to the pip sum before multiplying", () => {
+            const board = new Map([["a1", ["GN", 2] as const]]);
+            const objectives = defaultObjectives();
+            const mults = [2, 1, 0, -1];
+            const plain = scoreGame(board, 7, 8, { variants: [], objectives, multipliers: mults });
+            const withSize = scoreGame(board, 7, 8, {
+                variants: ["group-size-scoring"],
+                objectives,
+                multipliers: mults,
+            });
+            expect(plain[0]).to.equal(2 * 2);
+            expect(withSize[0]).to.equal((2 + 1) * 2);
+        });
+
+        it("combines group-size-scoring with step-move without changing score inputs", () => {
+            const board = new Map([
+                ["a1", ["GN", 2] as const],
+                ["a3", ["GN", 2] as const],
+            ]);
+            const objectives = defaultObjectives();
+            const scores = scoreGame(board, 7, 8, {
+                variants: ["step-move", "group-size-scoring"],
+                objectives,
+                multipliers: [2, 1, 0, -1],
+            });
+            expect(scores[0]).to.equal((3 + 3) * 2);
+            let g = playWithObjectives(["step-move", "group-size-scoring"]);
+            g.board.set("a1", ["GN", 2]);
+            g = g.move("noObjSwap");
+            expect(g.validateMove("a1-a2").valid).to.be.true;
+            expect(g.validateMove("a1-a3").valid).to.be.false;
+        });
+
+        it("scores violet groups with five-colour-plus3 multipliers", () => {
+            const board = new Map([
+                ["a1", ["VT", 1] as const],
+                ["b1", ["VT", 2] as const],
+            ]);
+            const objectives = defaultObjectives(5);
+            const scores = scoreGame(board, 8, 8, {
+                variants: ["five-colour-plus3"],
+                objectives,
+                multipliers: [2, 1, 0, -1, 3],
+            });
+            const pip = 3;
+            const col = objectives[0]!.indexOf("VT");
+            expect(col).to.equal(4);
+            expect(scores[0]).to.equal(pip * 3);
+            expect(scores[1]).to.equal(pip * 3);
+        });
+
+        it("scores violet groups with five-colour-minus2 multipliers", () => {
+            const board = new Map([
+                ["a1", ["VT", 3] as const],
+                ["a2", ["VT", 3] as const],
+            ]);
+            const objectives = defaultObjectives(5);
+            const scores = scoreGame(board, 8, 8, {
+                variants: ["five-colour-minus2"],
+                objectives,
+                multipliers: [2, 1, 0, -1, -2],
+            });
+            const pip = 6;
+            expect(scores[0]).to.equal(pip * -2);
+        });
+    });
+
+    describe("randomMove", () => {
+        it("always declines objective swap", () => {
+            const g = finishSetup(new AgofmarsGame());
+            expect(g.randomMove()).to.equal("noObjSwap");
+        });
+
+        it("prefers drawing from the bag over board move or swap", () => {
+            let g = finishSetup(new AgofmarsGame());
+            g.board.set("a1", ["RD", 2]);
+            g.board.set("a3", ["GN", 3]);
+            g.board.set("d3", ["RD", 1]);
+            g = g.move("noObjSwap");
+            let draws = 0;
+            let boardActions = 0;
+            const boardKinds = new Set<string>();
+            const trials = 400;
+            for (let i = 0; i < trials; i++) {
+                const m = gameFrom(g.serialize()).randomMove();
+                const v = g.validateMove(m);
+                expect(v.valid).to.be.true;
+                expect(v.complete).to.equal(1);
+                if (m === "draw") {
+                    draws++;
+                } else {
+                    boardActions++;
+                    boardKinds.add(m.includes("|") ? "swap" : "move");
+                }
+            }
+            expect(draws / trials).to.be.greaterThan(0.6);
+            expect(draws / trials).to.be.lessThan(0.9);
+            expect(boardActions).to.be.greaterThan(0);
+            expect(boardKinds.has("move")).to.be.true;
+            expect(boardKinds.has("swap")).to.be.true;
+        });
+
+        it("randomizes placement among empty cells", () => {
+            let g = finishSetup(new AgofmarsGame()).move("noObjSwap").move("draw");
+            const seen = new Set<string>();
+            for (let i = 0; i < 50; i++) {
+                seen.add(gameFrom(g.serialize()).randomMove());
+            }
+            expect(seen.size).to.be.greaterThan(1);
         });
     });
 

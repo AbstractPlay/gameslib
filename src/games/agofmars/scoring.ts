@@ -74,7 +74,7 @@ export function scoreGame(
     const colours = activeColours(opts.variants);
     const biggestOnly = opts.variants.includes("biggest-group");
     const groupSizeBonus = opts.variants.includes("group-size-scoring");
-    const minSize = biggestOnly ? 1 : 4;
+    const minSize = 1;
     const totals = [0, 0];
 
     for (let seat = 0; seat < 2; seat++) {

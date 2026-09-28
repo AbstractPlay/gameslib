@@ -4999,7 +4999,8 @@
   "status": {
     "_player": "{{player}}",
     "agofmars": {
-      "bagCount": "Pyramids in bag"
+      "bagCount": "Pyramids in bag",
+      "setupPool": "Objective pyramids"
     },
     "amazons": {
       "ISOLATEDQUEENS": "The queens are now isolated",

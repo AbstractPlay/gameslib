@@ -1311,24 +1311,6 @@ function resolveMoveTableLayout({ game, engine, gameRec, gamename }) {
     return { model, numcolumns, useRoundGrid, legacySimulHeader, density };
 }
 
-function formatAgofmarsPlaceMove(slot) {
-    if (typeof slot !== "object" || slot === null) {
-        return undefined;
-    }
-    const results = slot.result;
-    if (!Array.isArray(results)) {
-        return undefined;
-    }
-    const place = results.find((r) => r && r.type === "place");
-    if (!place || typeof place.where !== "string" || typeof place.what !== "string") {
-        return undefined;
-    }
-    if (!/^[A-Z]{2}$/.test(place.what)) {
-        return undefined;
-    }
-    return `${place.what}@${place.where}`;
-}
-
 function formatMoveHistoryCell(slot) {
     if (slot === null || slot === undefined) {
         return "";
@@ -1336,14 +1318,8 @@ function formatMoveHistoryCell(slot) {
     if (typeof slot === "string") {
         return slot;
     }
-    if (typeof slot === "object" && slot !== null) {
-        const fromPlace = formatAgofmarsPlaceMove(slot);
-        if (fromPlace !== undefined) {
-            return fromPlace;
-        }
-        if (typeof slot.move === "string") {
-            return slot.move;
-        }
+    if (typeof slot === "object" && slot !== null && typeof slot.move === "string") {
+        return slot.move;
     }
     return "";
 }

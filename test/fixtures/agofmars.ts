@@ -5,7 +5,7 @@ const V = AgofmarsGame.gameinfo.version;
 const COLOURS: Colour[] = ["RD", "BU", "GN", "YE"];
 const COLOURS5: Colour[] = ["RD", "BU", "GN", "YE", "VT"];
 
-/** Wire setup matching defaultObjectives() permutations [2,1,0,3] and [3,0,1,2]. */
+/** Colour→multiplier setup wire for defaultObjectives() perms [2,1,0,3] and [3,0,1,2]. */
 export const SETUP_MOVE_P1 = "RD0,BU1,GN2,YE-1";
 export const SETUP_MOVE_P2 = "RD-1,BU2,GN1,YE0";
 
@@ -83,7 +83,7 @@ export function koUndoBlockedState(): IAgofmarsState {
             _results: [{ type: "move", from: "a1", to: "a2" }],
             _timestamp: new Date(),
             currplayer: 1,
-            lastmove: "RD@a1-a2",
+            lastmove: "RD2@a1-a2",
             phase: "play",
             objectives,
             objectivesRevealed: [Array(4).fill(false), Array(4).fill(false)],

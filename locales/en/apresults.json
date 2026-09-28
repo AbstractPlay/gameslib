@@ -219,7 +219,8 @@
         "magnate": "The discards were shuffled.  There are no shuffles remaining.",
         "quincunx_one": "{{player}} drew {{count}} card.",
         "quincunx_other": "{{player}} drew {{count}} cards.",
-        "evenatodds": "{{player}} drew a tile from the boneyard."
+        "evenatodds": "{{player}} drew a tile from the boneyard.",
+        "agofmars": "{{player}} drew a {{colour}}{{count}} pyramid from the bag."
     },
     "DECLARE": {
         "biscuit": "{{player}} has gone out!",
@@ -703,7 +704,8 @@
         "nex_neutral": "{{player}} swapped a neutral piece at {{where}} to a piece of their colour.",
         "resolve": "The piece is swapped to {{where}}.",
         "wunchunk": "{{player}} swapped seats, choosing to play first.",
-        "agofmars_board": "{{player}} swapped the pyramids at {{from}} and {{to}}."
+        "agofmars_board": "{{player}} swapped the {{colour1}}{{size1}} at {{cell1}} and the {{colour2}}{{size2}} at {{cell2}}.",
+        "agofmars_board_cells": "{{player}} swapped the pyramids at {{cell1}} and {{cell2}}."
     },
     "TAKE": {
         "blastradius_one": "{{player}} removed one of their own pieces from {{where}}.",

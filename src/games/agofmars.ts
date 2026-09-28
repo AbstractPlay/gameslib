@@ -13,7 +13,14 @@ import {
 } from "./_base.js";
 import { GameBaseSequenced, sequencedShouldCloseRound } from "./_turn-sequenced.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
-import { APRenderRep, AreaKey, AreaPieces, Glyph } from "@abstractplay/renderer/build/schemas/schema";
+import {
+    APRenderRep,
+    AreaKey,
+    AreaPieces,
+    BoardBasic,
+    Glyph,
+    type PiecesAreaLabeledPiece,
+} from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import {
     reviver,
@@ -147,42 +154,63 @@ export class AgofmarsGame extends GameBaseSequenced {
         return this.phase === "play" ? this.boardHeight() : this.colourCount();
     }
 
-    public static formatPlaceWire(colour: Colour, cell: string): string {
-        return `${colour}@${cell}`;
+    private static readonly WIRE_PIECE = "(RD|BU|GN|YE|VT|BK)([123])";
+
+    public static formatPieceWire(colour: Colour, size: Size): string {
+        return `${colour}${size}`;
     }
 
-    public static parsePlaceWire(m: string): { colour: Colour; cell: string } | undefined {
-        const match = /^(RD|BU|GN|YE|VT|BK)@([a-z]+\d+)$/.exec(m);
+    public static parsePieceWire(token: string): { colour: Colour; size: Size } | undefined {
+        const match = new RegExp(`^${AgofmarsGame.WIRE_PIECE}$`).exec(token);
         if (match === null) {
             return undefined;
         }
-        return { colour: match[1] as Colour, cell: match[2]! };
+        return { colour: match[1] as Colour, size: parseInt(match[2]!, 10) as Size };
     }
 
-    private static readonly WIRE_COLOUR = "(RD|BU|GN|YE|VT|BK)";
+    public static formatPlaceWire(colour: Colour, size: Size, cell: string): string {
+        return `${AgofmarsGame.formatPieceWire(colour, size)}@${cell}`;
+    }
 
-    public static formatBoardMoveWire(colour: Colour, from: string, to: string): string {
-        return `${colour}@${from}-${to}`;
+    public static parsePlaceWire(m: string): { colour: Colour; size: Size; cell: string } | undefined {
+        const match = new RegExp(`^${AgofmarsGame.WIRE_PIECE}@([a-z]+\\d+)$`).exec(m);
+        if (match === null) {
+            return undefined;
+        }
+        return {
+            colour: match[1] as Colour,
+            size: parseInt(match[2]!, 10) as Size,
+            cell: match[3]!,
+        };
+    }
+
+    public static formatBoardMoveWire(colour: Colour, size: Size, from: string, to: string): string {
+        return `${AgofmarsGame.formatPieceWire(colour, size)}@${from}-${to}`;
     }
 
     public static formatBoardSwapWire(
         colourA: Colour,
+        sizeA: Size,
         cellA: string,
         colourB: Colour,
+        sizeB: Size,
         cellB: string,
     ): string {
-        return `${colourA}@${cellA}|${colourB}@${cellB}`;
+        return `${AgofmarsGame.formatPieceWire(colourA, sizeA)}@${cellA}|${AgofmarsGame.formatPieceWire(colourB, sizeB)}@${cellB}`;
     }
 
     public static parseBoardMoveWire(
         m: string,
-    ): { colour?: Colour; from: string; to: string } | undefined {
-        const coloured = new RegExp(`^${AgofmarsGame.WIRE_COLOUR}@([a-z]+\\d+)-([a-z]+\\d+)$`).exec(m);
+    ): { colour?: Colour; size?: Size; from: string; to: string } | undefined {
+        const coloured = new RegExp(
+            `^${AgofmarsGame.WIRE_PIECE}@([a-z]+\\d+)-([a-z]+\\d+)$`,
+        ).exec(m);
         if (coloured !== null) {
             return {
                 colour: coloured[1] as Colour,
-                from: coloured[2]!,
-                to: coloured[3]!,
+                size: parseInt(coloured[2]!, 10) as Size,
+                from: coloured[3]!,
+                to: coloured[4]!,
             };
         }
         const plain = /^([a-z]+\d+)-([a-z]+\d+)$/.exec(m);
@@ -194,16 +222,25 @@ export class AgofmarsGame extends GameBaseSequenced {
 
     public static parseBoardSwapWire(
         m: string,
-    ): { colourA?: Colour; cellA: string; colourB?: Colour; cellB: string } | undefined {
+    ): {
+        colourA?: Colour;
+        sizeA?: Size;
+        cellA: string;
+        colourB?: Colour;
+        sizeB?: Size;
+        cellB: string;
+    } | undefined {
         const coloured = new RegExp(
-            `^${AgofmarsGame.WIRE_COLOUR}@([a-z]+\\d+)\\|${AgofmarsGame.WIRE_COLOUR}@([a-z]+\\d+)$`,
+            `^${AgofmarsGame.WIRE_PIECE}@([a-z]+\\d+)\\|${AgofmarsGame.WIRE_PIECE}@([a-z]+\\d+)$`,
         ).exec(m);
         if (coloured !== null) {
             return {
                 colourA: coloured[1] as Colour,
-                cellA: coloured[2]!,
-                colourB: coloured[3] as Colour,
-                cellB: coloured[4]!,
+                sizeA: parseInt(coloured[2]!, 10) as Size,
+                cellA: coloured[3]!,
+                colourB: coloured[4] as Colour,
+                sizeB: parseInt(coloured[5]!, 10) as Size,
+                cellB: coloured[6]!,
             };
         }
         if (!m.includes("|")) {
@@ -216,12 +253,33 @@ export class AgofmarsGame extends GameBaseSequenced {
         const endA = AgofmarsGame.parsePlaceWire(parts[0]!);
         const endB = AgofmarsGame.parsePlaceWire(parts[1]!);
         if (endA !== undefined && endB !== undefined) {
-            return { colourA: endA.colour, cellA: endA.cell, colourB: endB.colour, cellB: endB.cell };
+            return {
+                colourA: endA.colour,
+                sizeA: endA.size,
+                cellA: endA.cell,
+                colourB: endB.colour,
+                sizeB: endB.size,
+                cellB: endB.cell,
+            };
         }
         if (/^[a-z]+\d+$/.test(parts[0]!) && /^[a-z]+\d+$/.test(parts[1]!)) {
             return { cellA: parts[0]!, cellB: parts[1]! };
         }
         return undefined;
+    }
+
+    private boardPieceMatches(cell: string, colour?: Colour, size?: Size): boolean {
+        const piece = this.board.get(cell);
+        if (piece === undefined) {
+            return false;
+        }
+        if (colour !== undefined && piece[0] !== colour) {
+            return false;
+        }
+        if (size !== undefined && piece[1] !== size) {
+            return false;
+        }
+        return true;
     }
 
     public colourCount(): number {
@@ -353,16 +411,79 @@ export class AgofmarsGame extends GameBaseSequenced {
         return false;
     }
 
+    private pyramidsDissimilar(a: CellContents, b: CellContents): boolean {
+        return a[0] !== b[0] || a[1] !== b[1];
+    }
+
+    /**
+     * Swap reach: full pip-count slide in one cardinal direction, intermediates empty,
+     * destination may be occupied (unlike ordinary moves).
+     */
+    private swapReachable(from: string, to: string): boolean {
+        if (from === to) {
+            return false;
+        }
+        const piece = this.board.get(from);
+        if (piece === undefined || piece[0] === "BK") {
+            return false;
+        }
+        const steps = this.moveStepCount(piece);
+        if (steps <= 0) {
+            return false;
+        }
+        const g = this.graph!;
+        const [fx, fy] = g.algebraic2coords(from);
+        const [tx, ty] = g.algebraic2coords(to);
+        const dx = tx - fx;
+        const dy = ty - fy;
+        if (dx !== 0 && dy !== 0) {
+            return false;
+        }
+        const dist = Math.abs(dx) + Math.abs(dy);
+        if (dist !== steps) {
+            return false;
+        }
+        const stepX = dx === 0 ? 0 : dx / Math.abs(dx);
+        const stepY = dy === 0 ? 0 : dy / Math.abs(dy);
+        let cx = fx;
+        let cy = fy;
+        for (let s = 1; s <= steps; s++) {
+            cx += stepX;
+            cy += stepY;
+            const cell = g.coords2algebraic(cx, cy);
+            if (s < steps && this.board.has(cell)) {
+                return false;
+            }
+            if (s === steps) {
+                return cell === to;
+            }
+        }
+        return false;
+    }
+
+    private canSwapCells(a: string, b: string): boolean {
+        if (!this.board.has(a) || !this.board.has(b)) {
+            return false;
+        }
+        const pa = this.board.get(a)!;
+        const pb = this.board.get(b)!;
+        if (pa[0] === "BK" || pb[0] === "BK") {
+            return false;
+        }
+        if (!this.pyramidsDissimilar(pa, pb)) {
+            return false;
+        }
+        return this.swapReachable(a, b) || this.swapReachable(b, a);
+    }
+
     private hasSwappablePair(): boolean {
-        const cells = [...this.board.entries()].filter(([, p]) => p[0] !== "BK");
+        const cells = [...this.board.keys()].filter(c => this.board.get(c)![0] !== "BK");
         if (cells.length < 2) {
             return false;
         }
         for (let i = 0; i < cells.length; i++) {
             for (let j = i + 1; j < cells.length; j++) {
-                const pa = cells[i]![1];
-                const pb = cells[j]![1];
-                if (pa[0] !== pb[0] || pa[1] !== pb[1]) {
+                if (this.canSwapCells(cells[i]!, cells[j]!)) {
                     return true;
                 }
             }
@@ -581,9 +702,6 @@ export class AgofmarsGame extends GameBaseSequenced {
 
     public canObjectiveSwap(seat: playerid): boolean {
         if (this.phase !== "play" || this.pendingDraw !== undefined || this.awaitingMainAction) {
-            return false;
-        }
-        if (this.variants.includes("blind-agents") && seat === this.currplayer) {
             return false;
         }
         if (this.variants.includes("black-trio-swap")) {
@@ -949,6 +1067,46 @@ export class AgofmarsGame extends GameBaseSequenced {
         return this.multiplierLabels()[col] ?? String(col + 1);
     }
 
+    /** Objective row for a seat's `pieces` area (pyramid + multiplier caption below). */
+    private objectiveAreaPieces(seat: number): [PiecesAreaLabeledPiece, ...PiecesAreaLabeledPiece[]] {
+        const mults = this.multiplierLabels();
+        const entries: PiecesAreaLabeledPiece[] = [];
+        for (let col = 0; col < this.colourCount(); col++) {
+            const colour = this.objectives[seat]![col]!;
+            const disp = this.displayColour(colour, seat, col);
+            entries.push({
+                piece: legendKey(disp, this.objectiveDisplaySize(seat)),
+                text: mults[col],
+                textPosition: "below",
+            });
+        }
+        return entries as [PiecesAreaLabeledPiece, ...PiecesAreaLabeledPiece[]];
+    }
+
+    /** Setup bidding row: multiplier captions under each column (empty slots show black covers). */
+    private setupBiddingAreaPieces(seat: number): [PiecesAreaLabeledPiece, ...PiecesAreaLabeledPiece[]] {
+        const mults = this.multiplierLabels();
+        const entries: PiecesAreaLabeledPiece[] = [];
+        for (let col = 0; col < this.colourCount(); col++) {
+            const colour = this.objectives[seat]![col];
+            let disp: Colour;
+            let sz: Size;
+            if (colour === undefined) {
+                disp = "BK";
+                sz = this.setupBlackSize(seat);
+            } else {
+                disp = this.displayColour(colour, seat, col);
+                sz = disp === "BK" ? this.setupBlackSize(seat) : this.setupColourSize(seat);
+            }
+            entries.push({
+                piece: legendKey(disp, sz),
+                text: mults[col],
+                textPosition: "below",
+            });
+        }
+        return entries as [PiecesAreaLabeledPiece, ...PiecesAreaLabeledPiece[]];
+    }
+
     private objectiveColumnLabelFromMultToken(token: string): string {
         const col = this.columnForMultiplierToken(token);
         if (col !== undefined) {
@@ -977,6 +1135,9 @@ export class AgofmarsGame extends GameBaseSequenced {
                     type: "move",
                     targets: [{ row: fy, col: fx }, { row: ty, col: tx }],
                 });
+            } else if (r.type === "place" && r.where !== undefined) {
+                const [x, y] = g.algebraic2coords(r.where);
+                annotations.push({ type: "enter", targets: [{ row: y, col: x }] });
             }
         }
     }
@@ -1037,6 +1198,20 @@ export class AgofmarsGame extends GameBaseSequenced {
             return new Set();
         }
         return this.cardinalDestinations(from, this.moveStepCount(piece));
+    }
+
+    /** Occupied cells that can complete a legal board swap with `from`. */
+    private swapPartners(from: string): Set<string> {
+        const out = new Set<string>();
+        if (!this.board.has(from)) {
+            return out;
+        }
+        for (const cell of this.board.keys()) {
+            if (cell !== from && this.canSwapCells(from, cell)) {
+                out.add(cell);
+            }
+        }
+        return out;
     }
 
     private koReferenceBoard(): Map<string, CellContents> | undefined {
@@ -1101,8 +1276,11 @@ export class AgofmarsGame extends GameBaseSequenced {
         if (pa[0] === "BK" || pb[0] === "BK") {
             throw new UserFacingError("VALIDATION_GENERAL", "Cannot swap black pyramids.");
         }
-        if (pa[0] === pb[0] && pa[1] === pb[1]) {
+        if (!this.pyramidsDissimilar(pa, pb)) {
             throw new UserFacingError("VALIDATION_GENERAL", "Swap requires dissimilar pyramids.");
+        }
+        if (!this.swapReachable(a, b) && !this.swapReachable(b, a)) {
+            throw new UserFacingError("VALIDATION_GENERAL", i18next.t("apgames:validation.agofmars.SWAP"));
         }
         const after = new Map(this.board);
         after.set(a, pb);
@@ -1111,7 +1289,13 @@ export class AgofmarsGame extends GameBaseSequenced {
             throw new UserFacingError("VALIDATION_GENERAL", i18next.t("apgames:validation.agofmars.KO"));
         }
         this.board = after;
-        this.results.push({ type: "swap", where: a, with: b });
+        this.results.push({
+            type: "swap",
+            where: a,
+            with: b,
+            what: `${AgofmarsGame.formatPieceWire(pa[0], pa[1])}|${AgofmarsGame.formatPieceWire(pb[0], pb[1])}`,
+            who: this.currplayer,
+        });
     }
 
     private boardFull(): boolean {
@@ -1158,17 +1342,11 @@ export class AgofmarsGame extends GameBaseSequenced {
     }
 
     private validateBoardSwapCells(a: string, b: string): IValidationResult {
-        if (!this.board.has(a) || !this.board.has(b)) {
+        if (!this.canSwapCells(a, b)) {
             return this.validationFail(i18next.t("apgames:validation.agofmars.SWAP"));
         }
         const pa = this.board.get(a)!;
         const pb = this.board.get(b)!;
-        if (pa[0] === "BK" || pb[0] === "BK") {
-            return this.validationFail(i18next.t("apgames:validation.agofmars.SWAP"));
-        }
-        if (pa[0] === pb[0] && pa[1] === pb[1]) {
-            return this.validationFail(i18next.t("apgames:validation.agofmars.SWAP"));
-        }
         const after = new Map(this.board);
         after.set(a, pb);
         after.set(b, pa);
@@ -1208,7 +1386,11 @@ export class AgofmarsGame extends GameBaseSequenced {
         }
         const wired = AgofmarsGame.parsePlaceWire(m);
         if (wired !== undefined) {
-            if (wired.colour !== this.pendingDraw[0] || this.board.has(wired.cell)) {
+            if (
+                wired.colour !== this.pendingDraw[0] ||
+                wired.size !== this.pendingDraw[1] ||
+                this.board.has(wired.cell)
+            ) {
                 return undefined;
             }
             return wired.cell;
@@ -1233,7 +1415,11 @@ export class AgofmarsGame extends GameBaseSequenced {
     private validatePlaceMove(m: string): IValidationResult {
         if (this.resolvePlaceCell(m) === undefined) {
             const wired = AgofmarsGame.parsePlaceWire(m);
-            if (wired !== undefined && this.pendingDraw !== undefined && wired.colour !== this.pendingDraw[0]) {
+            if (
+                wired !== undefined &&
+                this.pendingDraw !== undefined &&
+                (wired.colour !== this.pendingDraw[0] || wired.size !== this.pendingDraw[1])
+            ) {
                 return this.validationFail(i18next.t("apgames:validation.agofmars.PLACE_DRAWN"));
             }
             return this.validationFail(i18next.t("apgames:validation.agofmars.PLACE"));
@@ -1330,13 +1516,13 @@ export class AgofmarsGame extends GameBaseSequenced {
         if (swapWire !== undefined) {
             if (
                 swapWire.colourA !== undefined &&
-                this.board.get(swapWire.cellA)?.[0] !== swapWire.colourA
+                !this.boardPieceMatches(swapWire.cellA, swapWire.colourA, swapWire.sizeA)
             ) {
                 return this.validationFail(i18next.t("apgames:validation.agofmars.SWAP"));
             }
             if (
                 swapWire.colourB !== undefined &&
-                this.board.get(swapWire.cellB)?.[0] !== swapWire.colourB
+                !this.boardPieceMatches(swapWire.cellB, swapWire.colourB, swapWire.sizeB)
             ) {
                 return this.validationFail(i18next.t("apgames:validation.agofmars.SWAP"));
             }
@@ -1347,7 +1533,7 @@ export class AgofmarsGame extends GameBaseSequenced {
         if (slideWire !== undefined) {
             if (
                 slideWire.colour !== undefined &&
-                this.board.get(slideWire.from)?.[0] !== slideWire.colour
+                !this.boardPieceMatches(slideWire.from, slideWire.colour, slideWire.size)
             ) {
                 return this.validationFail(i18next.t("apgames:validation.agofmars.MOVE"));
             }
@@ -1416,7 +1602,7 @@ export class AgofmarsGame extends GameBaseSequenced {
         if (this.pendingDraw !== undefined) {
             const cell = this.resolvePlaceCell(move)!;
             const piece = this.pendingDraw;
-            const committed = AgofmarsGame.formatPlaceWire(piece[0], cell);
+            const committed = AgofmarsGame.formatPlaceWire(piece[0], piece[1], cell);
             this.board.set(cell, piece);
             this.pendingDraw = undefined;
             this.clearBoardActionMode();
@@ -1485,7 +1671,7 @@ export class AgofmarsGame extends GameBaseSequenced {
             this.awaitingMainAction = false;
             this.clearBoardActionMode();
             this.lastmove = move;
-            this.results.push({ type: "deckDraw" });
+            this.results.push({ type: "deckDraw", what: drawn[0], count: drawn[1] });
             this.saveState();
             return this;
         }
@@ -1499,8 +1685,10 @@ export class AgofmarsGame extends GameBaseSequenced {
             this.clearBoardActionMode();
             this.lastmove = AgofmarsGame.formatBoardSwapWire(
                 pa[0],
+                pa[1],
                 swapWire.cellA,
                 pb[0],
+                pb[1],
                 swapWire.cellB,
             );
             this.endGameIfFull();
@@ -1517,7 +1705,12 @@ export class AgofmarsGame extends GameBaseSequenced {
             this.applyBoardMove(slideWire.from, slideWire.to);
             this.awaitingMainAction = false;
             this.clearBoardActionMode();
-            this.lastmove = AgofmarsGame.formatBoardMoveWire(piece[0], slideWire.from, slideWire.to);
+            this.lastmove = AgofmarsGame.formatBoardMoveWire(
+                piece[0],
+                piece[1],
+                slideWire.from,
+                slideWire.to,
+            );
             this.endGameIfFull();
             if (!this.gameover) {
                 this.advancePlayer();
@@ -1792,7 +1985,8 @@ export class AgofmarsGame extends GameBaseSequenced {
                 return ply;
             }
             if (/^[a-z]+\d+$/.test(ply.move) && ply.move === r.where) {
-                return { ...ply, move: AgofmarsGame.formatPlaceWire(colour, r.where) };
+                const size = (r.count ?? 1) as Size;
+                return { ...ply, move: AgofmarsGame.formatPlaceWire(colour, size, r.where) };
             }
         }
         return ply;
@@ -1824,9 +2018,24 @@ export class AgofmarsGame extends GameBaseSequenced {
             return true;
         }
         if (r.type === "swap" && r.where !== undefined && r.with !== undefined) {
-            this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SWAP.agofmars_board", {
-                from: r.where,
-                to: r.with,
+            const seat = r.who ?? ctx.defaultSeat;
+            const pieces = r.what?.split("|") ?? [];
+            const p1 = AgofmarsGame.parsePieceWire(pieces[0] ?? "");
+            const p2 = AgofmarsGame.parsePieceWire(pieces[1] ?? "");
+            if (p1 !== undefined && p2 !== undefined) {
+                this.pushSeatChatLine(lines, seat, "apresults:SWAP.agofmars_board", {
+                    colour1: p1.colour,
+                    size1: p1.size,
+                    cell1: r.where,
+                    colour2: p2.colour,
+                    size2: p2.size,
+                    cell2: r.with,
+                });
+                return true;
+            }
+            this.pushSeatChatLine(lines, seat, "apresults:SWAP.agofmars_board_cells", {
+                cell1: r.where,
+                cell2: r.with,
             });
             return true;
         }
@@ -1835,6 +2044,13 @@ export class AgofmarsGame extends GameBaseSequenced {
                 colour: r.what,
                 count: r.count ?? "",
                 where: r.where,
+            });
+            return true;
+        }
+        if (r.type === "deckDraw" && r.what !== undefined && r.count !== undefined) {
+            this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DECKDRAW.agofmars", {
+                colour: r.what,
+                count: r.count,
             });
             return true;
         }
@@ -1870,11 +2086,13 @@ export class AgofmarsGame extends GameBaseSequenced {
 
         if (this.pendingDraw !== undefined) {
             if (!this.board.has(cell)) {
-                const v = this.validatePlaceMove(cell);
+                const [c, s] = this.pendingDraw;
+                const wire = AgofmarsGame.formatPlaceWire(c, s, cell);
+                const v = this.validatePlaceMove(wire);
                 if (!v.valid) {
-                    return { ...v, move: cell };
+                    return { ...v, move: wire };
                 }
-                return { valid: true, complete: 1, move: cell, message: "" };
+                return { valid: true, complete: 1, move: wire, message: "" };
             }
             return invalid(i18next.t("apgames:validation.agofmars.PLACE"));
         }
@@ -1929,11 +2147,11 @@ export class AgofmarsGame extends GameBaseSequenced {
                 }
                 const v = this.validateBoardSlideMove(fromCell, cell);
                 if (v.valid) {
-                    const [colour] = this.board.get(fromCell)!;
+                    const [colour, size] = this.board.get(fromCell)!;
                     return {
                         valid: true,
                         complete: 1,
-                        move: AgofmarsGame.formatBoardMoveWire(colour, fromCell, cell),
+                        move: AgofmarsGame.formatBoardMoveWire(colour, size, fromCell, cell),
                         message: "",
                     };
                 }
@@ -1967,7 +2185,14 @@ export class AgofmarsGame extends GameBaseSequenced {
                     return {
                         valid: true,
                         complete: 1,
-                        move: AgofmarsGame.formatBoardSwapWire(pa[0], fromCell, pb[0], cell),
+                        move: AgofmarsGame.formatBoardSwapWire(
+                            pa[0],
+                            pa[1],
+                            fromCell,
+                            pb[0],
+                            pb[1],
+                            cell,
+                        ),
                         message: "",
                     };
                 }
@@ -1993,6 +2218,84 @@ export class AgofmarsGame extends GameBaseSequenced {
         };
     }
 
+    private legalPlacementCells(): string[] {
+        const out: string[] = [];
+        for (let r = 0; r < this.boardHeight(); r++) {
+            for (let c = 0; c < this.boardWidth(); c++) {
+                const cell = AgofmarsGame.coords2algebraic(c, r, this.boardHeight());
+                const v = this.validateMove(cell);
+                if (v.valid && v.complete === 1) {
+                    out.push(cell);
+                }
+            }
+        }
+        return out;
+    }
+
+    private legalMainActions(): string[] {
+        const out: string[] = [];
+        const drawV = this.validateMove("draw");
+        if (drawV.valid && drawV.complete === 1) {
+            out.push("draw");
+        }
+        const cells = [...this.board.keys()];
+        for (const from of cells) {
+            const piece = this.board.get(from)!;
+            if (piece[0] === "BK") {
+                continue;
+            }
+            for (const to of this.moveDestinations(from)) {
+                if (this.board.has(to)) {
+                    continue;
+                }
+                const wire = `${from}-${to}`;
+                const v = this.validateMove(wire);
+                if (v.valid && v.complete === 1) {
+                    out.push(wire);
+                }
+            }
+        }
+        const swapSeen = new Set<string>();
+        for (let i = 0; i < cells.length; i++) {
+            for (let j = i + 1; j < cells.length; j++) {
+                const a = cells[i]!;
+                const b = cells[j]!;
+                if (!this.canSwapCells(a, b)) {
+                    continue;
+                }
+                const key = a < b ? `${a}|${b}` : `${b}|${a}`;
+                if (swapSeen.has(key)) {
+                    continue;
+                }
+                swapSeen.add(key);
+                const v = this.validateMove(key);
+                if (v.valid && v.complete === 1) {
+                    out.push(key);
+                }
+            }
+        }
+        return out;
+    }
+
+    private randomMainAction(): string {
+        const actions = this.legalMainActions();
+        if (actions.length === 0) {
+            return "";
+        }
+        const board = actions.filter(a => a !== "draw");
+        const canDraw = actions.includes("draw");
+        if (!canDraw) {
+            return shuffle(board)[0]!;
+        }
+        if (board.length === 0) {
+            return "draw";
+        }
+        if (Math.random() < 0.75) {
+            return "draw";
+        }
+        return shuffle(board)[0]!;
+    }
+
     public randomMove(): string {
         if (this.phase.startsWith("setup")) {
             const colours = activeColours(this.variants);
@@ -2004,26 +2307,16 @@ export class AgofmarsGame extends GameBaseSequenced {
             return AgofmarsGame.formatSetupWire(map, colours);
         }
         if (this.pendingDraw !== undefined) {
-            for (let r = 0; r < this.boardHeight(); r++) {
-                for (let c = 0; c < this.boardWidth(); c++) {
-                    const cell = AgofmarsGame.coords2algebraic(c, r, this.boardHeight());
-                    if (!this.board.has(cell)) {
-                        return cell;
-                    }
-                }
+            const cells = this.legalPlacementCells();
+            if (cells.length === 0) {
+                return "";
             }
-            return "";
+            return shuffle(cells)[0]!;
         }
         if (!this.awaitingMainAction) {
-            if (this.canObjectiveSwap(this.currplayer)) {
-                return "noObjSwap";
-            }
             return "noObjSwap";
         }
-        if (this.buildDrawPool().length > 0) {
-            return "draw";
-        }
-        return "noObjSwap";
+        return this.randomMainAction();
     }
 
     public sidebarStatuses(): IStatus[] {
@@ -2136,7 +2429,13 @@ export class AgofmarsGame extends GameBaseSequenced {
                     row.push("");
                 }
             }
-            const areas: AreaPieces[] = [];
+            const areas: AreaPieces[] = [
+                {
+                    type: "pieces",
+                    label: this.seatAreaLabel(seat + 1, "apgames:status._player"),
+                    pieces: this.setupBiddingAreaPieces(seat),
+                },
+            ];
             const colours = activeColours(this.variants);
             const size = this.setupColourSize(seat);
             const unplaced = colours
@@ -2145,7 +2444,7 @@ export class AgofmarsGame extends GameBaseSequenced {
             if (unplaced.length > 0) {
                 areas.push({
                     type: "pieces",
-                    label: this.seatAreaLabel(seat + 1, "apgames:status._player"),
+                    label: i18next.t("apgames:status.agofmars.setupPool"),
                     pieces: unplaced as [string, ...string[]],
                 });
             }
@@ -2154,12 +2453,11 @@ export class AgofmarsGame extends GameBaseSequenced {
                     style: "squares",
                     width: w,
                     height: 1,
-                    columnLabels: this.multiplierLabels(),
                     rowLabels: [],
                 },
                 legend,
                 pieces: row.join(","),
-                areas: areas.length > 0 ? areas : undefined,
+                areas,
             };
         }
 
@@ -2176,16 +2474,10 @@ export class AgofmarsGame extends GameBaseSequenced {
 
         const areas: (AreaPieces | AreaKey)[] = [];
         for (let seat = 0; seat < 2; seat++) {
-            const parts: string[] = [];
-            for (let col = 0; col < this.colourCount(); col++) {
-                const colour = this.objectives[seat]![col]!;
-                const disp = this.displayColour(colour, seat, col);
-                parts.push(legendKey(disp, this.objectiveDisplaySize(seat)));
-            }
             areas.push({
                 type: "pieces",
                 label: this.seatAreaLabel(seat + 1, "apgames:status._player"),
-                pieces: parts as [string, ...string[]],
+                pieces: this.objectiveAreaPieces(seat),
             });
         }
 
@@ -2205,17 +2497,22 @@ export class AgofmarsGame extends GameBaseSequenced {
         this.appendBoardActionAnnotations(annotations, this.results);
         if (
             this.awaitingMainAction &&
-            this.boardActionMode === "move" &&
-            this.boardActionFrom !== undefined
+            this.boardActionFrom !== undefined &&
+            (this.boardActionMode === "move" || this.boardActionMode === "swap")
         ) {
             const targets: { row: number; col: number }[] = [];
             const graph = this.graph!;
-            for (const dest of this.moveDestinations(this.boardActionFrom)) {
-                if (!this.board.has(dest)) {
-                    const [x, y] = graph.algebraic2coords(dest);
-                    if (x >= 0 && x < this.boardWidth() && y >= 0 && y < this.boardHeight()) {
-                        targets.push({ row: y, col: x });
-                    }
+            const dests =
+                this.boardActionMode === "move"
+                    ? this.moveDestinations(this.boardActionFrom)
+                    : this.swapPartners(this.boardActionFrom);
+            for (const dest of dests) {
+                if (this.boardActionMode === "move" && this.board.has(dest)) {
+                    continue;
+                }
+                const [x, y] = graph.algebraic2coords(dest);
+                if (x >= 0 && x < this.boardWidth() && y >= 0 && y < this.boardHeight()) {
+                    targets.push({ row: y, col: x });
                 }
             }
             if (targets.length > 0) {
@@ -2228,7 +2525,7 @@ export class AgofmarsGame extends GameBaseSequenced {
             }
         }
 
-        return {
+        const rep: APRenderRep = {
             board: {
                 style: "squares",
                 width: this.boardWidth(),
@@ -2239,5 +2536,23 @@ export class AgofmarsGame extends GameBaseSequenced {
             areas,
             annotations: annotations.length > 0 ? annotations : undefined,
         };
+
+        if (
+            this.awaitingMainAction &&
+            this.boardActionFrom !== undefined &&
+            (this.boardActionMode === "move" || this.boardActionMode === "swap")
+        ) {
+            const [x, y] = this.graph!.algebraic2coords(this.boardActionFrom);
+            (rep.board as BoardBasic).markers = [
+                {
+                    type: "flood",
+                    colour: "_context_fill",
+                    opacity: 0.25,
+                    points: [{ row: y, col: x }],
+                },
+            ];
+        }
+
+        return rep;
     }
 }

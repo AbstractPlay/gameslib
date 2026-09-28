@@ -1,9 +1,20 @@
 {
+  "customButtons": {
+    "pass": "Passa",
+    "agofmars": {
+      "draw": "Pesca",
+      "move": "Muovi",
+      "noObjSwap": "Nessun cambio obiettivo",
+      "objSwap": "Scambia obiettivi",
+      "swap": "Scambia sulla plancia"
+    }
+  },
   "descriptions": {
     "abande": "Abande è il secondo gioco della trilogia d'impilamento di Dieter Stein. Posiziona o muovi pezzi e pile per ottenere il punteggio più alto possibile mantenendo il tavoliere sempre connesso. Sono disponibili i tavolieri quadrato, quadrato smussato ed esagonale.",
     "accasta": "Accasta è il primo gioco della trilogia d'impilamento di Dieter Stein. L'obiettivo è portare tre delle proprie pile nell'area del castello nemico. Ci sono tre diversi tipi di pezzi nella versione base. Nella variante \"Pari\", il movimento è determinato da quanti pezzi alleati ci sono nella pila.",
     "acity": "Alien City è un gioco combinato Piecepack/Icehouse sul costruire una città su un mondo appena colonizzato. Quattro gilde competono per i clienti e il giocatore deve prevedere quali scommesse pagheranno. Ogni turno, il giocatore posiziona una torre o una cupola e può facoltativamente rivendicare una torre che ritiene otterrà un punteggio elevato a fine partita. Il gioco continua finché non è più possibile costruire. I punteggi si basano sulle posizioni relative degli edifici rispetto alle torri rivendicate.",
     "agere": "Un gioco di connessione in cui è anche possibile impilare i pezzi. Si gioca su un tavoliere triangolare in cui si cerca di connettere tutti e tre i lati, oppure su un tavoliere circolare a \"ragnatela\" in cui si connettono i lati opposti.",
+    "agofmars": "Assegna obiettivi di colore segreti alle colonne del punteggio, poi pesca piramidi da una riserva comune e posizionale sulla plancia. I gruppi connessi ortogonalmente ottengono punti pari al valore dei loro pip moltiplicato per il tuo obiettivo per quel colore. Vince chi ottiene il totale più alto quando la plancia è piena.",
     "akimbo": "Un gioco di connessione minimalista in cui ogni giocatore può avere solo una diagonale scoperta.",
     "akron": "Akron è un'estensione dei classici giochi di connessione alle tre dimensioni. Nel proprio turno, i giocatori possono introdurre nuove sfere del proprio colore sul livello più basso del tavoliere, oppure muovere una sfera non bloccata (ovvero senza sfere appoggiate su di essa in due o più direzioni) in uno spazio che sia connesso allo stesso gruppo sia prima che dopo il movimento. Quando le sfere si muovono, le sfere appoggiate su di esse cadranno, modificando le connessioni sul tavoliere.",
     "almatafl": "AlmaTafl è un gioco asimmetrico in cui una parte interpreta i difensori che cercano di portare il re al sicuro, mentre l'altra parte cerca di catturare il re o renderlo indifeso.",
@@ -298,6 +309,7 @@
     "accasta": "Accasta",
     "acity": "Alien City",
     "agere": "Adere",
+    "agofmars": "Agents of M.A.R.S.",
     "akimbo": "Akimbo",
     "akron": "Akron",
     "almatafl": "AlmaTafl",
@@ -593,6 +605,7 @@
     "STOCK": "Piramidi dal Yard, da costruire nel Palazzo"
   },
   "notes": {
+    "agofmars": "Ogni turno di gioco viene inviato in due o tre passaggi, non come un'unica azione combinata.\n\nPrimo: scegli se scambiare le colonne degli obiettivi (**Nessun cambio obiettivo**) o completare uno scambio di obiettivi quando è legale. Devi inviare questo passaggio anche se stai solo passando sullo scambio.\n\nSecondo: esegui la tua azione principale: **Pesca** dal sacchetto, muovi una piramide sulla plancia o **scambia** due piramidi sulla plancia. Se peschi, tutti vedranno il pezzo pescato dopo che avrai inviato questo passaggio; il tuo turno non è ancora finito.\n\nTerzo (solo se peschi): posiziona la piramide pescata su una casella vuota, dopodiché il tuo turno termina.\n\nDurante la preparazione manuale, fai clic su una delle tue piramidi obiettivo, quindi fai clic su una colonna moltiplicatore. Le mosse vengono registrate come coppie colore/moltiplicatore (ad esempio `RD1,BU2,GN-1,YE0`). Il registro eventi segnala solo che un giocatore ha scelto i propri obiettivi; le assegnazioni rimangono nascoste fino agli scambi o alla fine della partita.",
     "akimbo": "Akimbo, progettato da Luis Bolaños Mures nel 2026, è un gioco di connessione senza pareggi per due giocatori. Una _diagonale nuda_ è una coppia di pezzi adiacenti in diagonale dello stesso colore privi di altri pezzi dello stesso colore adiacenti a entrambi. Un _crosscut_ è un'area 2×2 con due diagonali nude incrociate di colori opposti.\n\nNel proprio turno, il giocatore piazza un pezzo amico su una casella vuota. Se ciò completa un crosscut, l'altro pezzo nel crosscut viene rimosso. Non deve mai esserci più di una diagonale nuda per colore sul tabellone — nemmeno momentaneamente prima di rimuovere un pezzo. Un giocatore vince se, alla fine del proprio turno, c'è una catena di pezzi del proprio colore connessi ortogonalmente che tocca i due bordi opposti del tabellone del giocatore.\n\nOkimba è una variante in cui può esistere al massimo una diagonale nuda sul tabellone (quindi mentre un giocatore ha la diagonale, l'avversario non può crearne un'altra).",
     "alta": "Ci sono due modi per posizionare gli scambi sull'interfaccia grafica: (1) Selezionare l'orientamento dello scambio nel pannello, quindi fare clic sullo spazio desiderato sul tabellone per posizionarlo, oppure (2) fare clic su due vertici. I vertici sono annotati con un asterisco, seguito dalla notazione algebrica dello spazio in cui il vertice si trova nell'angolo in basso a sinistra. Per azionare uno scambio, basta fare clic sullo spazio.",
     "anache": "Questa implementazione segue il regolamento di David Ploog. Tre modifiche degne di nota sono che (1) le barriere sono proibite, (2) al posto di una variante 16x16 ne abbiamo una 15x15, in cui i pezzi si promuovono a cavalli sulla linea centrale e il drago non può saltare allo spazio 7x7 dall'altro angolo, e (3) contro gli angoli, i pezzi vengono catturati tramite cattura per schiacciamento anziché cattura in custodia, quindi devono esserci almeno due pezzi avversari in linea prima che venga effettuata una cattura contro gli angoli.\n\nNota: il controllo dello stallo è impegnativo dal punto di vista computazionale. Se non puoi effettuare alcuna mossa legale, dovresti abbandonare manualmente.",
@@ -811,6 +824,44 @@
       "pari": {
         "description": "Invece di avere tipi di pezzi individuali, i pezzi si muovono a seconda di quante pedine amiche ci sono nella pila. Il pezzo in cima a una pila con tre delle tue pedine si muoverà come una biga, due pezzi come un cavallo e un pezzo come uno scudo.",
         "name": "Accasta Pari"
+      }
+    },
+    "agofmars": {
+      "#rules": {
+        "description": "Plancia standard 7×8 con quattro colori e moltiplicatori 2, 1, 0 e −1.",
+        "name": "Regole standard"
+      },
+      "five-colour-plus3": {
+        "description": "Plancia 8×8 con cinque colori; la quinta colonna moltiplica i punteggi per +3.",
+        "name": "Cinque colori (+3)"
+      },
+      "five-colour-minus2": {
+        "description": "Plancia 8×8 con cinque colori; la quinta colonna moltiplica i punteggi per −2.",
+        "name": "Cinque colori (−2)"
+      },
+      "objective-initiative": {
+        "description": "Salta la preparazione manuale: ogni giocatore riceve un'assegnazione casuale e distinta dei colori alle colonne (ispirato all'espansione Objective Initiative).",
+        "name": "Iniziativa degli obiettivi"
+      },
+      "blind-agents": {
+        "description": "Non puoi vedere i tuoi colori obiettivo e non puoi scambiarli tu stesso; il tuo avversario può scambiare i tuoi.",
+        "name": "Agenti ciechi"
+      },
+      "step-move": {
+        "description": "Le piramidi si muovono e si scambiano solo in caselle adiacenti.",
+        "name": "Mossa a passo"
+      },
+      "black-trio-swap": {
+        "description": "Gli scambi di obiettivi rimangono legali finché non sono state pescate una piramide nera piccola, una media e una grande.",
+        "name": "Scambio del trio nero"
+      },
+      "biggest-group": {
+        "description": "Viene calcolato il punteggio solo del gruppo più grande di ciascun colore; in caso di parità, vince la somma di pip più alta.",
+        "name": "Solo gruppo più grande"
+      },
+      "group-size-scoring": {
+        "description": "Aggiunge la dimensione del gruppo alla somma dei pip prima di moltiplicare per il tuo obiettivo.",
+        "name": "Punteggio basato sulla dimensione del gruppo"
       }
     },
     "agere": {
@@ -4947,6 +4998,10 @@
   },
   "status": {
     "_player": "{{player}}",
+    "agofmars": {
+      "bagCount": "Piramidi nel sacchetto",
+      "setupPool": "Piramidi obiettivo"
+    },
     "amazons": {
       "ISOLATEDQUEENS": "Le regine sono ora isolate",
       "TERRITORY": "Territorio"
@@ -5215,6 +5270,37 @@
       "PARTIAL_MOVE": "Seleziona il lotto in cui vuoi costruire.",
       "VALID_W_CLAIMS": "Sembra una mossa valida. Puoi anche scegliere di rivendicare una torre.",
       "LABEL_STASH": "Riserva di {{player}}"
+    },
+    "agofmars": {
+      "EMPTY_BAG": "Non ci sono più piramidi da pescare.",
+      "INITIAL_INSTRUCTIONS": "Usa i pulsanti azione, quindi fai clic sulla plancia per muovere o scambiare le piramidi.",
+      "INITIAL_INSTRUCTIONS_setup1": "Preparazione Giocatore 1: fai clic su una delle tue piramidi obiettivo, quindi fai clic su una colonna moltiplicatore per assegnarla. Invia quando tutti i colori sono posizionati (notazione come RD1,BU2,GN-1,YE0).",
+      "INITIAL_INSTRUCTIONS_setup2": "Preparazione Giocatore 2: fai clic su ciascuna piramide obiettivo, quindi fai clic sulla colonna moltiplicatore per quel colore. Invia quando tutti i colori sono posizionati.",
+      "INITIAL_INSTRUCTIONS_play": "Invia la tua decisione sull'obiettivo usando i pulsanti, quindi pesca, muovi o scambia. Dopo aver pescato, fai clic su una casella vuota per posizionare.",
+      "SETUP_INCOMPLETE": "Assegna ogni colore a un moltiplicatore diverso prima di inviare.",
+      "SETUP_PARTIAL": "Fai clic su un'altra piramide, quindi su una colonna moltiplicatore, oppure invia quando ogni colore è assegnato.",
+      "SETUP_PERM": "Usa coppie colore-moltiplicatore separate da virgole (ad esempio RD1,BU2,GN-1,YE0). Ogni colore e ogni moltiplicatore possono essere usati una sola volta.",
+      "KO": "Non puoi annullare immediatamente l'ultima mossa o scambio del tuo avversario.",
+      "MAIN_ACTION_CHOICE": "Scegli Pesca, Muovi o Scambia, oppure fai clic su uno di quei pulsanti.",
+      "MAIN_ACTION_MODE_move": "Fai clic su una piramide sulla plancia, quindi fai clic dove desideri spostarla.",
+      "MAIN_ACTION_MODE_swap": "Fai clic su una piramide sulla plancia, quindi fai clic su una piramide diversa con cui scambiarla.",
+      "MOVE": "Quella piramide non può raggiungere quella casella.",
+      "MOVE_BLACK": "Le piramidi nere non possono essere mosse.",
+      "MOVE_DEST_OCCUPIED": "Quella casella è occupata. Fai clic su una destinazione vuota, oppure fai clic su un'altra piramide da muovere.",
+      "MOVE_SELECT_DEST": "Fai clic su una casella vuota in cui questa piramide possa muoversi.",
+      "MOVE_SELECT_PIECE": "Fai clic su una delle tue piramidi sulla plancia da muovere.",
+      "NO_PIECES_TO_MOVE": "Non ci sono piramidi da muovere sulla plancia. Pesca prima dal sacchetto e posizionane una.",
+      "NO_PIECES_TO_SWAP": "Non ci sono due piramidi diverse sulla plancia da scambiare. Pesca e posiziona prima i pezzi.",
+      "SWAP_BLACK": "Le piramidi nere non possono essere scambiate.",
+      "SWAP_SELECT_PIECE": "Fai clic su una piramide sulla plancia da scambiare.",
+      "SWAP_SELECT_SECOND": "Fai clic su una piramide diversa sulla plancia con cui effettuare lo scambio.",
+      "OBJ_SWAP": "Non puoi scambiare gli obiettivi in questo momento.",
+      "OBJ_SWAP_SELECT": "Seleziona le due colonne obiettivo che desideri scambiare.",
+      "OBJ_SWAP_SELECT_SECOND": "Seleziona la seconda colonna obiettivo da scambiare.",
+      "PLACE": "Fai clic su una casella vuota per posizionare la piramide pescata.",
+      "PLACE_DRAWN": "Quel posizionamento non corrisponde alla piramide che hai pescato.",
+      "SWAP": "Quelle piramidi non possono essere scambiate.",
+      "TURN_START": "Scegli se scambiare gli obiettivi prima della tua azione principale."
     },
     "agere": {
       "ADJACENCY": "Puoi catturare solo pile adiacenti.",

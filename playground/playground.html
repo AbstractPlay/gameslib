@@ -7,10 +7,8 @@
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>AP Game Tester</title>
-        <script src="https://renderer.dev.abstractplay.com/APRender.min.js"></script>
         <script type="module" src="./playground.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/vanilla-colorful@0.7.2/hex-color-picker.js"></script>
-        <script src=" https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css">
         <link rel="stylesheet" href="playground.css">
@@ -52,6 +50,20 @@
 
                 <details class="collapsible" id="details-game-status">
                     <summary>Game Panel</summary>
+                    <div id="hiddenViewControls" class="status-panel-common hidden-view-controls" style="display: none;">
+                        <fieldset class="sim-mode-fieldset">
+                            <legend>Hidden information (view)</legend>
+                            <label class="instant-label">
+                                <input type="radio" name="playgroundViewMode" value="god" checked>
+                                God mode
+                            </label>
+                            <label class="instant-label">
+                                <input type="radio" name="playgroundViewMode" value="live">
+                                Live mode
+                            </label>
+                        </fieldset>
+                        <p id="hiddenViewHint" class="hidden-view-hint"></p>
+                    </div>
                     <div id="simultaneousControls" class="status-panel-common simultaneous-controls" style="display: none;">
                         <fieldset class="sim-mode-fieldset">
                             <legend>Simultaneous play</legend>

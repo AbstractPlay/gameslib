@@ -219,7 +219,8 @@
     "magnate": "Gli scarti sono stati mescolati. Non rimangono più mescolamenti.",
     "quincunx_one": "{{player}} ha pescato {{count}} carta.",
     "quincunx_other": "{{player}} ha pescato {{count}} carte.",
-    "evenatodds": "{{player}} ha pescato una tessera dal cimitero delle tessere."
+    "evenatodds": "{{player}} ha pescato una tessera dal cimitero delle tessere.",
+    "agofmars": "{{player}} ha estratto una piramide {{colour}}{{count}} dal sacchetto."
   },
   "DECLARE": {
     "biscuit": "{{player}} ha chiuso!",
@@ -418,9 +419,16 @@
     "veletas": "{{player}} ha mosso il tiratore da {{from}} a {{to}}.",
     "volo_one": "{{player}} ha mosso uno stormo di 1 uccello da {{from}} in direzione {{how}}.",
     "volo_other": "{{player}} ha mosso uno stormo di {{count}} uccelli da {{from}} in direzione {{how}}.",
-    "complete_what": "{{player}} ha mosso un {{what}} da {{from}} a {{to}}."
+    "complete_what": "{{player}} ha mosso un {{what}} da {{from}} a {{to}}.",
+    "agofmars": "{{player}} ha spostato una piramide da {{from}} a {{to}}."
   },
   "NULLIFY_CLAIM": "Le torri non possono essere rivendicate nell'ultimo turno di gioco. La rivendicazione a {{where}} è stata annullata.",
+  "OBJECTIVES": {
+    "agofmars": "{{player}} ha scelto i propri obiettivi."
+  },
+  "OBJECTIVE_SWAP": {
+    "agofmars": "{{player}} ha scambiato le colonne degli obiettivi {{columnA}} e {{columnB}}."
+  },
   "ORIENT": {
     "crosshairs": "{{player}} ha ruotato un aereo in {{where}} verso {{facing}}.",
     "nowhat": "{{player}} ha ruotato un pezzo in {{where}} verso {{facing}}."
@@ -444,7 +452,8 @@
     "pippinzip": "{{player}} decide di passare e diventa Zip",
     "simple": "{{player}} ha passato.",
     "tablero": "{{player}} ha passato!",
-    "tiebreaker": "{{player}} ha passato, vincendo lo spareggio."
+    "tiebreaker": "{{player}} ha passato, vincendo lo spareggio.",
+    "agofmars_noObjSwap": "{{player}} non ha scambiato gli obiettivi."
   },
   "PIE": {
     "deckfish": "{{player}} muove per secondo.",
@@ -452,6 +461,7 @@
     "unlur": "{{player}} ha passato per essere il giocatore Y."
   },
   "PLACE": {
+    "agofmars": "{{player}} ha piazzato una piramide {{colour}}{{count}} in {{where}}.",
     "armadas_1": "{{player}} ha posizionato una nave piccola e l'ha chiamata {{name}}.",
     "armadas_2": "{{player}} ha posizionato una nave media e l'ha chiamata {{name}}.",
     "armadas_3": "{{player}} ha posizionato una nave grande e l'ha chiamata {{name}}.",
@@ -693,7 +703,9 @@
     "nex": "{{player}} ha scambiato un pezzo del proprio colore in {{where}} con un pezzo neutrale.",
     "nex_neutral": "{{player}} ha scambiato un pezzo neutrale in {{where}} con un pezzo del proprio colore.",
     "resolve": "Il pezzo è scambiato con {{where}}.",
-    "wunchunk": "{{player}} ha cambiato posto, scegliendo di giocare per primo."
+    "wunchunk": "{{player}} ha cambiato posto, scegliendo di giocare per primo.",
+    "agofmars_board": "{{player}} ha scambiato la {{colour1}}{{size1}} in {{cell1}} e la {{colour2}}{{size2}} in {{cell2}}.",
+    "agofmars_board_cells": "{{player}} ha scambiato le piramidi in {{cell1}} e {{cell2}}."
   },
   "TAKE": {
     "blastradius_one": "{{player}} ha rimosso uno dei propri pezzi da {{where}}.",

@@ -1,4 +1,6 @@
 import * as APGames from "@abstractplay/gameslib";
+import APRender from "@abstractplay/renderer";
+import showdown from "showdown";
 import {
     getRoundsForLayout,
     resolveMoveTableDensity,
@@ -22,8 +24,15 @@ import {
     savePartialMove,
     saveToMove,
     serializeAfterCommit,
+    serializeForLiveView,
     setStoredSeat,
+    setViewMode,
     shouldStripHiddenOnSave,
+    shouldStripForLiveView,
+    engineSupportsPlayerStrip,
+    liveStripPlayer,
+    isGodViewMode,
+    isLiveViewMode,
     splitPartialRow,
     isSeatEliminated,
 } from "./playgroundSimultaneous.mjs";
@@ -88,29 +97,18 @@ function createEngineFromCommitted(gamename) {
     return APGames.GameFactory(gamename, state);
 }
 
-function shouldStripEngineForView(gamename, engine) {
-    if (!engine || !gameIsSimultaneous(engine, gamename) || engine.numplayers < 2) {
-        return false;
-    }
-    try {
-        const s1 = engine.serialize({ strip: true, player: 1 });
-        const s2 = engine.serialize({ strip: true, player: 2 });
-        return s1 !== s2;
-    } catch {
-        return false;
-    }
-}
-
 function createEngineForView(gamename, perspectiveSeat) {
     const engine = createEngineFromCommitted(gamename);
     if (!engine) {
         return undefined;
     }
     const seat = perspectiveSeat ?? getRenderPerspective(engine, gamename);
-    if (!shouldStripEngineForView(gamename, engine)) {
+    if (!shouldStripForLiveView(engine)) {
         return engine;
     }
-    return APGames.GameFactory(gamename, engine.serialize({ strip: true, player: seat }));
+    const simultaneous = gameIsSimultaneous(engine, gamename);
+    const player = liveStripPlayer(engine, simultaneous, seat);
+    return APGames.GameFactory(gamename, serializeForLiveView(engine, player));
 }
 
 function clearInterimRenderCache() {
@@ -276,6 +274,50 @@ function updateSimultaneousControls(game, gamename) {
     const stripCheckbox = document.getElementById("stripHiddenOnSave");
     if (stripCheckbox) {
         stripCheckbox.checked = shouldStripHiddenOnSave();
+    }
+}
+
+function updateHiddenViewControls(game, gamename) {
+    const container = document.getElementById("hiddenViewControls");
+    const hint = document.getElementById("hiddenViewHint");
+    if (!container) {
+        return;
+    }
+    const probe =
+        (gamename && createEngineFromCommitted(gamename)) ?? game;
+    const supportsStrip = probe && engineSupportsPlayerStrip(probe);
+    container.style.display = supportsStrip ? "block" : "none";
+    if (!supportsStrip || !probe) {
+        if (hint) {
+            hint.textContent = "";
+        }
+        return;
+    }
+
+    const godRadio = document.querySelector(
+        'input[name="playgroundViewMode"][value="god"]',
+    );
+    const liveRadio = document.querySelector(
+        'input[name="playgroundViewMode"][value="live"]',
+    );
+    if (godRadio && liveRadio) {
+        godRadio.checked = isGodViewMode();
+        liveRadio.checked = isLiveViewMode();
+    }
+
+    if (hint) {
+        if (isLiveViewMode() && !probe.gameover) {
+            const seat = getRenderPerspective(probe, gamename);
+            const simultaneous = gameIsSimultaneous(probe, gamename);
+            const player = liveStripPlayer(probe, simultaneous, seat);
+            hint.textContent = `Showing player ${player} view (${
+                simultaneous ? "active seat" : "current player"
+            }).`;
+        } else if (isLiveViewMode() && probe.gameover) {
+            hint.textContent = "Game over — full state shown.";
+        } else {
+            hint.textContent = "Full state (nothing stripped).";
+        }
     }
 }
 
@@ -1793,7 +1835,7 @@ function updateCustomButtons(game, gamename) {
         el.textContent = formatCustomButtonLabel(btn.label);
         el.addEventListener("click", () => {
             document.getElementById("moveEntry").value = btn.move;
-            document.getElementById("moveBtn").click();
+            refreshClickStatusMessage();
         });
         container.appendChild(el);
     }
@@ -2055,6 +2097,7 @@ function renderGame(...args) {
 
         updateGameStatusPanel(game, gamename);
         updateSimultaneousControls(game, gamename);
+        updateHiddenViewControls(game, gamename);
         updateCustomButtons(game, gamename);
 
         if (displayOptionsContainer && displayOptionsContainer.children.length > 0) {
@@ -2130,6 +2173,7 @@ function renderGame(...args) {
                 `;
             }
             myNode.innerHTML = errorMsg;
+            return;
         }
 
         const moveHistoryDiv = document.getElementById("moveHistory");
@@ -2183,6 +2227,7 @@ function renderGame(...args) {
         }
         updateGameStatusPanel(null, null);
         updateSimultaneousControls(null, null);
+        updateHiddenViewControls(null, null);
         updateCustomButtons(null, null);
     }
 
@@ -3451,7 +3496,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     });
 
     document.getElementById("dumpState").addEventListener("click", () => {
-        var state = window.localStorage.getItem("state");
+        var state = getCommittedStateString();
         if (state !== null) {
             try {
                 const parsedState = JSON.parse(state);
@@ -3642,6 +3687,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
             );
         });
     }
+
+    document.querySelectorAll('input[name="playgroundViewMode"]').forEach((radio) => {
+        radio.addEventListener("change", () => {
+            if (radio.checked) {
+                setViewMode(radio.value);
+                clearInterimRenderCache();
+                renderGame();
+            }
+        });
+    });
 
     document.getElementById("passBtn").addEventListener("click", () => {
         const moveEntry = document.getElementById("moveEntry");

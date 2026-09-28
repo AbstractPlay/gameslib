@@ -11,6 +11,8 @@ export const STORAGE = {
     /** Omniscient snapshot when `state` is stored stripped for one seat. */
     stateFull: "playgroundStateFull",
     interimPerspective: "playgroundInterimPerspective",
+    /** God (full state) vs Live (per-player strip for view). */
+    viewMode: "playgroundViewMode",
 };
 
 export function isSeatMode() {
@@ -36,6 +38,60 @@ export function setStoredSeat(seat) {
 
 export function shouldStripHiddenOnSave() {
     return window.localStorage.getItem(STORAGE.stripHidden) === "true";
+}
+
+export function isGodViewMode() {
+    return window.localStorage.getItem(STORAGE.viewMode) !== "live";
+}
+
+export function isLiveViewMode() {
+    return window.localStorage.getItem(STORAGE.viewMode) === "live";
+}
+
+export function setViewMode(mode) {
+    window.localStorage.setItem(STORAGE.viewMode, mode === "live" ? "live" : "god");
+}
+
+/** True when `serialize({ strip, player })` can differ by viewer. */
+export function engineSupportsPlayerStrip(engine) {
+    if (!engine || typeof engine.serialize !== "function") {
+        return false;
+    }
+    try {
+        if (engine.numplayers >= 2) {
+            const s1 = engine.serialize({ strip: true, player: 1 });
+            const s2 = engine.serialize({ strip: true, player: 2 });
+            return s1 !== s2;
+        }
+        const full = engine.serialize();
+        const stripped = engine.serialize({ strip: true, player: 1 });
+        return full !== stripped;
+    } catch {
+        return false;
+    }
+}
+
+/**
+ * @param {boolean} isSimultaneous from playground `gameIsSimultaneous`
+ * @param {number} activeSeat 1-based perspective / acting seat
+ */
+export function liveStripPlayer(engine, isSimultaneous, activeSeat) {
+    if (isSimultaneous) {
+        return activeSeat;
+    }
+    return engine.currplayer;
+}
+
+export function shouldStripForLiveView(engine) {
+    return (
+        isLiveViewMode() &&
+        !engine.gameover &&
+        engineSupportsPlayerStrip(engine)
+    );
+}
+
+export function serializeForLiveView(engine, player) {
+    return serializeAfterCommit(engine, player, true);
 }
 
 export function splitPartialRow(partialMove, numPlayers) {

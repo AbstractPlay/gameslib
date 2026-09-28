@@ -15,6 +15,30 @@
     "src": "In simultaneous games, both players' moves must be submitted at the same time.",
     "out": "Dans les parties simultanées, les coups des deux joueurs doivent être soumis en même temps."
   },
+  "customButtons.agofmars.draw": {
+    "src": "Draw",
+    "out": "Piocher"
+  },
+  "customButtons.agofmars.move": {
+    "src": "Move",
+    "out": "Déplacer"
+  },
+  "customButtons.agofmars.noObjSwap": {
+    "src": "No objective swap",
+    "out": "Pas d'échange d'objectifs"
+  },
+  "customButtons.agofmars.objSwap": {
+    "src": "Swap objectives",
+    "out": "Échanger les objectifs"
+  },
+  "customButtons.agofmars.swap": {
+    "src": "Swap on board",
+    "out": "Échanger sur le plateau"
+  },
+  "customButtons.pass": {
+    "src": "Pass",
+    "out": "Passer"
+  },
   "descriptions.abande": {
     "src": "Abande is the second game in Dieter Stein's stacking trilogy. Place or move pieces and stacks to generate the highest score you can whilst always keeping the board connected. The square, snubsquare, and hex boards are available.",
     "out": "Abande est le deuxième jeu de la trilogie d'empilement de Dieter Stein. Placez ou déplacez des pièces et des piles pour obtenir le meilleur score possible tout en maintenant toujours le plateau connecté. Les plateaux carré, adouci (snubsquare) et hexagonal sont disponibles."
@@ -30,6 +54,10 @@
   "descriptions.agere": {
     "src": "A connection game where you can also stack pieces. Played either on a triangle board where you try to connect all three sides, or a circular \"cobweb\" board where you connect opposite sides.",
     "out": "Un jeu de connexion dans lequel vous pouvez également empiler des pièces. Se joue soit sur un plateau triangulaire où vous tentez de relier les trois côtés, soit sur un plateau circulaire en « toile d'araignée » où vous reliez les côtés opposés."
+  },
+  "descriptions.agofmars": {
+    "src": "Assign secret colour objectives to scoring columns, then draw pyramids from a shared pool and place them on the board. Orthogonally connected groups score pip values multiplied by your objective for that colour. Highest total when the board is full wins.",
+    "out": "Assignez des objectifs de couleur secrets aux colonnes de score, puis piochez des pyramides dans une réserve commune et placez-les sur le plateau. Les groupes connectés orthogonalement marquent leur valeur en pips multipliée par votre objectif pour cette couleur. Le total le plus élevé lorsque le plateau est plein l'emporte."
   },
   "descriptions.akimbo": {
     "src": "A minimalist connection game where each player can only have one naked diagonal.",
@@ -2151,6 +2179,10 @@
     "src": "Adere",
     "out": "Adere"
   },
+  "names.agofmars": {
+    "src": "Agents of M.A.R.S.",
+    "out": "Agents of M.A.R.S."
+  },
   "names.akimbo": {
     "src": "Akimbo",
     "out": "Akimbo"
@@ -3303,6 +3335,10 @@
     "src": "Zola",
     "out": "Zola"
   },
+  "notes.agofmars": {
+    "src": "Each play turn is submitted in two or three steps, not as one combined action.\n\nFirst, choose whether to swap objective columns (**No objective swap**) or complete an objective swap when it is legal. You must submit this step even when you are only passing on a swap.\n\nSecond, take your main action: **Draw** from the bag, move a pyramid on the board, or **swap** two pyramids on the board. If you draw, everyone sees the drawn piece after you submit this step; your turn is not finished yet.\n\nThird (draw only): place the drawn pyramid on an empty cell, then your turn ends.\n\nDuring manual setup, click one of your objective pyramids, then click a multiplier column. Moves are recorded as colour/multiplier pairs (for example `RD1,BU2,GN-1,YE0`). The event log only notes that a player chose their objectives; assignments stay hidden until swaps or the end of the game.",
+    "out": "Chaque tour de jeu est validé en deux ou trois étapes, et non comme une seule action combinée.\n\nPremièrement, choisissez d'échanger des colonnes d'objectifs ou non (**Pas d'échange d'objectifs**) lorsqu'un échange est légal. Vous devez valider cette étape même si vous renoncez simplement à un échange.\n\nDeuxièmement, effectuez votre action principale : **Piocher** dans le sac, déplacer une pyramide sur le plateau, ou **échanger** deux pyramides sur le plateau. Si vous piochez, tout le monde voit la pièce piochée après la validation de cette étape ; votre tour n'est pas encore terminé.\n\nTroisièmement (pioche uniquement) : placez la pyramide piochée sur une case vide, puis votre tour prend fin.\n\nLors de la mise en place manuelle, cliquez sur l'une de vos pyramides d'objectif, puis cliquez sur une colonne multiplicatrice. Les coups sont enregistrés sous forme de paires couleur/multiplicateur (par exemple `RD1,BU2,GN-1,YE0`). Le journal des événements indique seulement qu'un joueur a choisi ses objectifs ; les attributions restent cachées jusqu'aux échanges ou jusqu'à la fin de la partie."
+  },
   "notes.akimbo": {
     "src": "Akimbo, designed by Luis Bolaños Mures in 2026, is a drawless connection game for two players. A _naked diagonal_ is a pair of like-colored, diagonally adjacent pieces with no other like-colored piece adjacent to both. A _crosscut_ is a 2×2 area with two interlocking naked diagonals of opposite colors.\n\nOn their turn, the player places a friendly piece on an empty cell. If this completes a crosscut, the other piece in the crosscut is removed. There must never be more than one naked diagonal of each color on the board — not even momentarily before removing a piece. A player wins if, at the end of their turn, there is a chain of orthogonally connected pieces of their color touching the player's two opposite board edges.\n\nOkimba is a variant where only up to one naked diagonal can exist on the board (so while one player has the diagonal, the adversary cannot create another).",
     "out": "Akimbo, conçu par Luis Bolaños Mures en 2026, est un jeu de connexion sans égalité pour deux joueurs. Une _diagonale nue_ est une paire de pièces de même couleur, adjacentes en diagonale, sans aucune autre pièce de même couleur adjacente aux deux. Une _coupe croisée_ est une zone 2×2 avec deux diagonales nues imbriquées de couleurs opposées.\n\nÀ son tour, le joueur place une pièce amie sur une case vide. Si cela complète une coupe croisée, l'autre pièce de la coupe croisée est retirée. Il ne doit jamais y avoir plus d'une diagonale nue de chaque couleur sur le plateau — pas même momentanément avant de retirer une pièce. Un joueur gagne si, à la fin de son tour, il existe une chaîne de pièces de sa couleur connectées orthogonalement touchant les deux bords opposés du plateau du joueur.\n\nOkimba est une variante où une seule diagonale nue au maximum peut exister sur le plateau (ainsi, tant qu'un joueur possède la diagonale, l'adversaire ne peut pas en créer une autre)."
@@ -3806,6 +3842,14 @@
   "status._player": {
     "src": "{{player}}",
     "out": "{{player}}"
+  },
+  "status.agofmars.bagCount": {
+    "src": "Pyramids in bag",
+    "out": "Pyramides dans le sac"
+  },
+  "status.agofmars.setupPool": {
+    "src": "Objective pyramids",
+    "out": "Pyramides d'objectif"
   },
   "status.amazons.ISOLATEDQUEENS": {
     "src": "The queens are now isolated",
@@ -4526,6 +4570,122 @@
   "validation.agere.SAME_HEIGHT": {
     "src": "Pieces may only move between stacks of the same height.",
     "out": "Les pièces ne peuvent se déplacer qu'entre des piles de même hauteur."
+  },
+  "validation.agofmars.EMPTY_BAG": {
+    "src": "There are no pyramids left to draw.",
+    "out": "Il ne reste plus de pyramides à piocher."
+  },
+  "validation.agofmars.INITIAL_INSTRUCTIONS": {
+    "src": "Use the action buttons, then click the board to move or swap pyramids.",
+    "out": "Utilisez les boutons d'action, puis cliquez sur le plateau pour déplacer ou échanger des pyramides."
+  },
+  "validation.agofmars.INITIAL_INSTRUCTIONS_play": {
+    "src": "Submit your objective decision with the buttons, then draw, move, or swap. After a draw, click an empty cell to place.",
+    "out": "Validez votre décision d'objectif avec les boutons, puis piochez, déplacez ou échangez. Après une pioche, cliquez sur une case vide pour placer la pièce."
+  },
+  "validation.agofmars.INITIAL_INSTRUCTIONS_setup1": {
+    "src": "Player 1 setup: click one of your objective pyramids, then click a multiplier column to assign it. Submit when every colour is placed (notation like RD1,BU2,GN-1,YE0).",
+    "out": "Mise en place du Joueur 1 : cliquez sur l'une de vos pyramides d'objectif, puis cliquez sur une colonne multiplicatrice pour l'attribuer. Validez lorsque chaque couleur est placée (notation comme RD1,BU2,GN-1,YE0)."
+  },
+  "validation.agofmars.INITIAL_INSTRUCTIONS_setup2": {
+    "src": "Player 2 setup: click each objective pyramid, then click the multiplier column for that colour. Submit when every colour is placed.",
+    "out": "Mise en place du Joueur 2 : cliquez sur chaque pyramide d'objectif, puis cliquez sur la colonne multiplicatrice pour cette couleur. Validez lorsque chaque couleur est placée."
+  },
+  "validation.agofmars.KO": {
+    "src": "You may not immediately undo your opponent's last move or swap.",
+    "out": "Vous ne pouvez pas annuler immédiatement le dernier déplacement ou échange de votre adversaire."
+  },
+  "validation.agofmars.MAIN_ACTION_CHOICE": {
+    "src": "Choose Draw, Move, or Swap, or click one of those buttons.",
+    "out": "Choisissez Piocher, Déplacer ou Échanger, ou cliquez sur l'un de ces boutons."
+  },
+  "validation.agofmars.MAIN_ACTION_MODE_move": {
+    "src": "Click a pyramid on the board, then click where it should go.",
+    "out": "Cliquez sur une pyramide du plateau, puis cliquez sur sa destination."
+  },
+  "validation.agofmars.MAIN_ACTION_MODE_swap": {
+    "src": "Click a pyramid on the board, then click a different pyramid to swap with.",
+    "out": "Cliquez sur une pyramide du plateau, puis cliquez sur une pyramide différente avec laquelle l'échanger."
+  },
+  "validation.agofmars.MOVE": {
+    "src": "That pyramid cannot reach that cell.",
+    "out": "Cette pyramide ne peut pas atteindre cette case."
+  },
+  "validation.agofmars.MOVE_BLACK": {
+    "src": "Black pyramids cannot be moved.",
+    "out": "Les pyramides noires ne peuvent pas être déplacées."
+  },
+  "validation.agofmars.MOVE_DEST_OCCUPIED": {
+    "src": "That cell is occupied. Click an empty destination, or click another pyramid to move instead.",
+    "out": "Cette case est occupée. Cliquez sur une destination vide, ou cliquez sur une autre pyramide à déplacer."
+  },
+  "validation.agofmars.MOVE_SELECT_DEST": {
+    "src": "Click an empty cell where this pyramid can move.",
+    "out": "Cliquez sur une case vide où cette pyramide peut se déplacer."
+  },
+  "validation.agofmars.MOVE_SELECT_PIECE": {
+    "src": "Click one of your pyramids on the board to move.",
+    "out": "Cliquez sur l'une de vos pyramides sur le plateau pour la déplacer."
+  },
+  "validation.agofmars.NO_PIECES_TO_MOVE": {
+    "src": "There are no pyramids on the board to move. Draw from the bag and place one first.",
+    "out": "Il n'y a pas de pyramides sur le plateau à déplacer. Piochez-en une dans le sac et placez-la d'abord."
+  },
+  "validation.agofmars.NO_PIECES_TO_SWAP": {
+    "src": "There are not two different pyramids on the board to swap. Draw and place pieces first.",
+    "out": "Il n'y a pas deux pyramides différentes sur le plateau à échanger. Piochez et placez d'abord des pièces."
+  },
+  "validation.agofmars.OBJ_SWAP": {
+    "src": "You cannot swap objectives right now.",
+    "out": "Vous ne pouvez pas échanger d'objectifs pour le moment."
+  },
+  "validation.agofmars.OBJ_SWAP_SELECT": {
+    "src": "Select the two objective columns you wish to swap.",
+    "out": "Sélectionnez les deux colonnes d'objectifs que vous souhaitez échanger."
+  },
+  "validation.agofmars.OBJ_SWAP_SELECT_SECOND": {
+    "src": "Select the second objective column to swap.",
+    "out": "Sélectionnez la deuxième colonne d'objectif à échanger."
+  },
+  "validation.agofmars.PLACE": {
+    "src": "Click an empty cell to place the drawn pyramid.",
+    "out": "Cliquez sur une case vide pour placer la pyramide piochée."
+  },
+  "validation.agofmars.PLACE_DRAWN": {
+    "src": "That placement does not match the pyramid you drew.",
+    "out": "Ce placement ne correspond pas à la pyramide que vous avez piochée."
+  },
+  "validation.agofmars.SETUP_INCOMPLETE": {
+    "src": "Assign every colour to a different multiplier before submitting.",
+    "out": "Attribuez chaque couleur à un multiplicateur différent avant de valider."
+  },
+  "validation.agofmars.SETUP_PARTIAL": {
+    "src": "Click another pyramid, then a multiplier column, or submit when every colour is assigned.",
+    "out": "Cliquez sur une autre pyramide, puis sur une colonne multiplicatrice, ou validez lorsque chaque couleur est attribuée."
+  },
+  "validation.agofmars.SETUP_PERM": {
+    "src": "Use colour-and-multiplier pairs separated by commas (for example RD1,BU2,GN-1,YE0). Each colour and each multiplier may be used only once.",
+    "out": "Utilisez des paires couleur-multiplicateur séparées par des virgules (par exemple RD1,BU2,GN-1,YE0). Chaque couleur et chaque multiplicateur ne peuvent être utilisés qu'une seule fois."
+  },
+  "validation.agofmars.SWAP": {
+    "src": "Those pyramids cannot be swapped.",
+    "out": "Ces pyramides ne peuvent pas être échangées."
+  },
+  "validation.agofmars.SWAP_BLACK": {
+    "src": "Black pyramids cannot be swapped.",
+    "out": "Les pyramides noires ne peuvent pas être échangées."
+  },
+  "validation.agofmars.SWAP_SELECT_PIECE": {
+    "src": "Click a pyramid on the board to swap.",
+    "out": "Cliquez sur une pyramide du plateau pour l'échanger."
+  },
+  "validation.agofmars.SWAP_SELECT_SECOND": {
+    "src": "Click a different pyramid on the board to swap with.",
+    "out": "Cliquez sur une pyramide différente du plateau pour l'échanger."
+  },
+  "validation.agofmars.TURN_START": {
+    "src": "Choose whether to swap objectives before your main action.",
+    "out": "Choisissez si vous voulez échanger des objectifs avant votre action principale."
   },
   "validation.akimbo.EXCESS_NAKED_DIAGONALS": {
     "src": "More than one naked diagonal would be created.",
@@ -14734,6 +14894,78 @@
   "variants.agere.star-11.name": {
     "src": "Star (11 wide)",
     "out": "Étoile (11 de large)"
+  },
+  "variants.agofmars.#rules.description": {
+    "src": "Standard 7×8 board with four colours and multipliers 2, 1, 0, and −1.",
+    "out": "Plateau standard 7×8 avec quatre couleurs et les multiplicateurs 2, 1, 0 et −1."
+  },
+  "variants.agofmars.#rules.name": {
+    "src": "Standard rules",
+    "out": "Règles standard"
+  },
+  "variants.agofmars.biggest-group.description": {
+    "src": "Only each colour's largest group scores; ties break by higher pip sum.",
+    "out": "Seul le plus grand groupe de chaque couleur marque des points ; les égalités sont départagées par la somme de pips la plus élevée."
+  },
+  "variants.agofmars.biggest-group.name": {
+    "src": "Biggest group only",
+    "out": "Plus grand groupe uniquement"
+  },
+  "variants.agofmars.black-trio-swap.description": {
+    "src": "Objective swaps remain legal until a small, medium, and large black pyramid have been drawn.",
+    "out": "Les échanges d'objectifs restent autorisés jusqu'à ce qu'une petite, une moyenne et une grande pyramide noire aient été piochées."
+  },
+  "variants.agofmars.black-trio-swap.name": {
+    "src": "Black trio swap",
+    "out": "Échange du trio noir"
+  },
+  "variants.agofmars.blind-agents.description": {
+    "src": "You cannot see your own objective colours and cannot swap them yourself; your opponent may swap yours.",
+    "out": "Vous ne pouvez pas voir vos propres couleurs d'objectif et ne pouvez pas les échanger vous-même ; votre adversaire peut échanger les vôtres."
+  },
+  "variants.agofmars.blind-agents.name": {
+    "src": "Blind agents",
+    "out": "Agents aveugles"
+  },
+  "variants.agofmars.five-colour-minus2.description": {
+    "src": "8×8 board with five colours; the fifth column multiplies scores by −2.",
+    "out": "Plateau 8×8 avec cinq couleurs ; la cinquième colonne multiplie les scores par −2."
+  },
+  "variants.agofmars.five-colour-minus2.name": {
+    "src": "Five colours (−2)",
+    "out": "Cinq couleurs (−2)"
+  },
+  "variants.agofmars.five-colour-plus3.description": {
+    "src": "8×8 board with five colours; the fifth column multiplies scores by +3.",
+    "out": "Plateau 8×8 avec cinq couleurs ; la cinquième colonne multiplie les scores par +3."
+  },
+  "variants.agofmars.five-colour-plus3.name": {
+    "src": "Five colours (+3)",
+    "out": "Cinq couleurs (+3)"
+  },
+  "variants.agofmars.group-size-scoring.description": {
+    "src": "Add group size to the pip sum before multiplying by your objective.",
+    "out": "Ajoutez la taille du groupe à la somme de pips avant de multiplier par votre objectif."
+  },
+  "variants.agofmars.group-size-scoring.name": {
+    "src": "Group size scoring",
+    "out": "Score basé sur la taille du groupe"
+  },
+  "variants.agofmars.objective-initiative.description": {
+    "src": "Skip manual setup: each player receives a random distinct assignment of colours to columns (inspired by the Objective Initiative expansion).",
+    "out": "Passez la mise en place manuelle : chaque joueur reçoit une attribution aléatoire et distincte de couleurs aux colonnes (inspiré de l'extension Objective Initiative)."
+  },
+  "variants.agofmars.objective-initiative.name": {
+    "src": "Objective Initiative",
+    "out": "Initiative d'Objectif"
+  },
+  "variants.agofmars.step-move.description": {
+    "src": "Pyramids move and swap only to adjacent cells.",
+    "out": "Les pyramides ne se déplacent et ne s'échangent que vers des cases adjacentes."
+  },
+  "variants.agofmars.step-move.name": {
+    "src": "Step move",
+    "out": "Déplacement pas-à-pas"
   },
   "variants.akimbo.#board.name": {
     "src": "13x13 board",

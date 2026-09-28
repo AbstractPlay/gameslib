@@ -1687,7 +1687,7 @@ export class CrosshairsGame extends GameBase {
     }
 
     public getButtons(): ICustomButton[] {
-        if (this.mustPassBeforeEntry()) return [{ label: "pass", move: "pass" }];
+        if (this.mustPassBeforeEntry()) return [{ label: "apgames:buttons.pass", move: "pass" }];
         return [];
     }
 

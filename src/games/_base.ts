@@ -115,7 +115,7 @@ export interface IStashEntry {
  * @interface ICustomButton
  */
 export interface ICustomButton {
-    // key to translatable string (translation lives in front end)
+    /** i18n key in the `apgames` namespace, e.g. `apgames:buttons.pass`. */
     label: string;
     // the string to pass to the game engine as a move
     move: string;

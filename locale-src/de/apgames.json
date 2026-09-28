@@ -15,27 +15,27 @@
     "src": "In simultaneous games, both players' moves must be submitted at the same time.",
     "out": "In simultanen Spielen müssen die Züge beider Spieler gleichzeitig übermittelt werden."
   },
-  "customButtons.agofmars.draw": {
+  "buttons.agofmars.draw": {
     "src": "Draw",
     "out": "Ziehen"
   },
-  "customButtons.agofmars.move": {
+  "buttons.agofmars.move": {
     "src": "Move",
     "out": "Bewegen"
   },
-  "customButtons.agofmars.noObjSwap": {
+  "buttons.agofmars.noObjSwap": {
     "src": "No objective swap",
     "out": "Ziele nicht tauschen"
   },
-  "customButtons.agofmars.objSwap": {
+  "buttons.agofmars.objSwap": {
     "src": "Swap objectives",
     "out": "Ziele tauschen"
   },
-  "customButtons.agofmars.swap": {
+  "buttons.agofmars.swap": {
     "src": "Swap on board",
     "out": "Auf dem Brett tauschen"
   },
-  "customButtons.pass": {
+  "buttons.pass": {
     "src": "Pass",
     "out": "Passen"
   },

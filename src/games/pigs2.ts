@@ -198,35 +198,35 @@ export class Pigs2Game extends GameBaseSimultaneous {
         if (this.stack.length > 1) {
             return [
                 {
-                    label: "pigs.back",
+                    label: "apgames:buttons.pigs.back",
                     move: "v"
                 },
                 {
-                    label: "pigs.forward",
+                    label: "apgames:buttons.pigs.forward",
                     move: "^"
                 },
                 {
-                    label: "pigs.left",
+                    label: "apgames:buttons.pigs.left",
                     move: "\\"
                 },
                 {
-                    label: "pigs.right",
+                    label: "apgames:buttons.pigs.right",
                     move: "/"
                 },
                 {
-                    label: "pigs.cw",
+                    label: "apgames:buttons.pigs.cw",
                     move: ">"
                 },
                 {
-                    label: "pigs.ccw",
+                    label: "apgames:buttons.pigs.ccw",
                     move: "<"
                 },
                 {
-                    label: "pigs.fire",
+                    label: "apgames:buttons.pigs.fire",
                     move: "f"
                 },
                 {
-                    label: "pigs.hit",
+                    label: "apgames:buttons.pigs.hit",
                     move: "h"
                 },
             ];

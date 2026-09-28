@@ -459,7 +459,9 @@ describe("Kill-All Go", () => {
         it("offers the Attacker side as a button and places stones by clicking", () => {
             const g = new KillAllGoGame(undefined, ["size-9"]);
             expect(g.render().areas).to.be.undefined;
-            expect(g.getButtons()).to.deep.equal([{ label: "killallgo.attacker", move: "attacker" }]);
+            expect(g.getButtons()).to.deep.equal([
+                { label: "apgames:buttons.killallgo.attacker", move: "attacker" },
+            ]);
             const cell = g.handleClick("", 8, 0);
             expect(cell.valid).to.be.true;
             expect(cell.move).to.equal("a1");
@@ -725,15 +727,27 @@ describe("Kill-All Go", () => {
     describe("opening buttons", () => {
         it("offers one fixed choice per opening phase and none once play starts", () => {
             const cases: Array<[string[], string[], Array<{ label: string; move: string }>]> = [
-                [["size-9"], [], [{ label: "killallgo.attacker", move: "attacker" }]],
+                [["size-9"], [], [{ label: "apgames:buttons.killallgo.attacker", move: "attacker" }]],
                 [["size-9", "handicap"], [], []],
-                [["size-9", "handicap"], ["2"], [{ label: "killallgo.attacker", move: "attacker" }]],
-                [["size-9", "pie"], [], [{ label: "pass", move: "pass" }]],
-                [["size-9", "pie"], ["c3"], [{ label: "killallgo.attacker", move: "attacker" }]],
-                [["size-9", "hoctaph"], ["2,3"], [{ label: "killallgo.youplace", move: "youplace" }]],
+                [
+                    ["size-9", "handicap"],
+                    ["2"],
+                    [{ label: "apgames:buttons.killallgo.attacker", move: "attacker" }],
+                ],
+                [["size-9", "pie"], [], [{ label: "apgames:buttons.pass", move: "pass" }]],
+                [
+                    ["size-9", "pie"],
+                    ["c3"],
+                    [{ label: "apgames:buttons.killallgo.attacker", move: "attacker" }],
+                ],
+                [["size-9", "hoctaph"], ["2,3"], [{ label: "apgames:buttons.killallgo.youplace", move: "youplace" }]],
                 [["size-9", "hoctaph"], ["2,3", "youplace"], []],
-                [["size-9", "hoctaph"], ["2,3", "youplace", "a1,b1"], [{ label: "killallgo.defender", move: "defender" }]],
-                [["classic"], [], [{ label: "pass", move: "pass" }]],
+                [
+                    ["size-9", "hoctaph"],
+                    ["2,3", "youplace", "a1,b1"],
+                    [{ label: "apgames:buttons.killallgo.defender", move: "defender" }],
+                ],
+                [["classic"], [], [{ label: "apgames:buttons.pass", move: "pass" }]],
             ];
             for (const [variants, moves, buttons] of cases) {
                 const g = play(new KillAllGoGame(undefined, variants), moves);
@@ -905,7 +919,7 @@ describe("Kill-All Go", () => {
 
         it("offers the pass button only while the board is in play", () => {
             const g = attackerIsPlayerOne();
-            expect(g.getButtons()).to.deep.equal([{ label: "pass", move: "pass" }]);
+            expect(g.getButtons()).to.deep.equal([{ label: "apgames:buttons.pass", move: "pass" }]);
             play(g, ["e5", "a9", "pass", "pass"]);
             expect(g.gameover).to.be.true;
             expect(g.getButtons()).to.deep.equal([]);

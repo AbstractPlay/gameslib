@@ -580,7 +580,7 @@ export class AkimboGame extends GameBase {
 
     public getButtons(): ICustomButton[] {
         if ( this.ruleset === "okimba" ) {
-            return [{ label: "pass", move: "pass" }];
+            return [{ label: "apgames:buttons.pass", move: "pass" }];
         }
         return [];
     }

@@ -1760,20 +1760,20 @@ export class AgofmarsGame extends GameBaseSequenced {
         }
         if (!this.awaitingMainAction) {
             buttons.push({
-                label: "apgames:customButtons.agofmars.noObjSwap",
+                label: "apgames:buttons.agofmars.noObjSwap",
                 move: "noObjSwap",
             });
             if (this.canObjectiveSwap(this.currplayer)) {
                 buttons.push({
-                    label: "apgames:customButtons.agofmars.objSwap",
+                    label: "apgames:buttons.agofmars.objSwap",
                     move: "objSwap",
                 });
             }
             return buttons;
         }
-        buttons.push({ label: "apgames:customButtons.agofmars.draw", move: "draw" });
-        buttons.push({ label: "apgames:customButtons.agofmars.move", move: "move" });
-        buttons.push({ label: "apgames:customButtons.agofmars.swap", move: "swap" });
+        buttons.push({ label: "apgames:buttons.agofmars.draw", move: "draw" });
+        buttons.push({ label: "apgames:buttons.agofmars.move", move: "move" });
+        buttons.push({ label: "apgames:buttons.agofmars.swap", move: "swap" });
         return buttons;
     }
 

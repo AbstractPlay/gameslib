@@ -1785,25 +1785,12 @@ function _renderSharedStashSection(game, glyphRenderOptions) {
     return sharedStashHTML;
 }
 
-const CUSTOM_BUTTON_LABEL_FALLBACKS = {
-    roll1: "Roll 1 die",
-    roll2: "Roll 2 dice",
-    pass: "Pass",
-};
-
 function formatCustomButtonLabel(label) {
-    const keys = [
-        `apgames:buttons.${label}`,
-        `apgames:${label}`,
-        label,
-    ];
-    for (const key of keys) {
-        const translated = playgroundT(key);
-        if (translated !== key && !isI18nKey(translated)) {
-            return translated;
-        }
+    const translated = playgroundT(label);
+    if (translated !== label && !isI18nKey(translated)) {
+        return translated;
     }
-    return CUSTOM_BUTTON_LABEL_FALLBACKS[label] ?? label;
+    return label;
 }
 
 function updateCustomButtons(game, gamename) {

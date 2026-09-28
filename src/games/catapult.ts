@@ -237,7 +237,7 @@ export class CatapultGame extends GameBase {
 
     // In this game only one button is active at a time.
     public getButtons(): ICustomButton[] {
-        if (this.moves().includes("pass")) return [{ label: "pass", move: "pass" }];
+        if (this.moves().includes("pass")) return [{ label: "apgames:buttons.pass", move: "pass" }];
         return [];
     }
 

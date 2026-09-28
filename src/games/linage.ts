@@ -577,12 +577,12 @@ export class LinageGame extends GameBase {
             return []; // no buttons should appear when typing Komi at start
         }
         if (this.isPieTurn()) {
-            return [{ label: "playsecond", move: "play-second" }];
+            return [{ label: "apgames:buttons.playsecond", move: "play-second" }];
         }
         if (this.isButtonActive()) {
-            return [{ label: "takebutton", move: "take-button" }];
+            return [{ label: "apgames:buttons.takebutton", move: "take-button" }];
         }
-        return [{ label: "pass", move: "pass" }];
+        return [{ label: "apgames:buttons.pass", move: "pass" }];
     }
 
     public sidebarScores(): IScores[] {

@@ -738,7 +738,7 @@ export class HalmaClimbersGame extends GameBase {
     }
 
     public getButtons(): ICustomButton[] {
-        return [{ label: "pass", move: "pass" }];
+        return [{ label: "apgames:buttons.pass", move: "pass" }];
     }
 
     public sidebarScores(): IScores[] {

@@ -1,6 +1,45 @@
 {
-  "descriptions": {
-    "abande": "abande es el segundo juego en la trología de Dieter Stein's stacking. Coloca o mueve piezas y encímalas para general el puntaje más alto mientras mantienes el tablero conectado. El cuadrado, el mosaico chato y tableros hexagonales están disponibles.",
-    "accasta": "La accasta es el primero de la trilogía de apilamiento de Dieter Stein. El objetivo es obtener tres de tus propias pilas en el área del castillo enemigo. ay tres tipos de piezas en la versión original. En la variante \"Pari\", el movimiento es determinado por cuantas piezas amistosas están apiladas."
-  }
+    "descriptions": {
+        "abande": "abande es el segundo juego en la trología de Dieter Stein's stacking. Coloca o mueve piezas y encímalas para general el puntaje más alto mientras mantienes el tablero conectado. El cuadrado, el mosaico chato y tableros hexagonales están disponibles.",
+        "accasta": "La accasta es el primero de la trilogía de apilamiento de Dieter Stein. El objetivo es obtener tres de tus propias pilas en el área del castillo enemigo. ay tres tipos de piezas en la versión original. En la variante \"Pari\", el movimiento es determinado por cuantas piezas amistosas están apiladas."
+    },
+    "buttons": {
+        "pass": "Aprobar",
+        "takebutton": "Botón de tomar",
+        "acceptpie": "Jugar segundo",
+        "draw": "Reclamar sorteo",
+        "playfirst": "Juega primero",
+        "numbers": {
+            "one": "Uno (1)",
+            "two": "Dos (2)",
+            "three": "Tres (3)"
+        },
+        "pigs": {
+            "back": "Retrocede",
+            "forward": "Avanzar",
+            "left": "Avanza a la izquierda",
+            "right": "Avanza a la derecha",
+            "cw": "Rotar según las agujas del reloj",
+            "ccw": "Rotar en sentido contrario a las agujas del reloj",
+            "fire": "Fuego láser",
+            "hit": "Hocico oscilante"
+        },
+        "cifra": {
+            "lt": "Claro, Cima",
+            "lb": "Claro, Suelo",
+            "dt": "Oscuro, Cima",
+            "db": "Oscuro, Botón",
+            "ll": "Claro, Izquierdo",
+            "lr": "Claro, Derecho",
+            "dl": "Oscuro, Izquierdo",
+            "dr": "Oscuro, Derecho"
+        },
+        "playsecond": "Reproducir segundo",
+        "arimaa": {
+            "gold99": "Configuración rápida",
+            "silver99e7": "Configuración rápida, elefante e7",
+            "silver99d7": "Configuración rápida, elefante d7"
+        },
+        "swap": "Intercambiar colores"
+    }
 }

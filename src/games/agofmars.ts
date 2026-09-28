@@ -4,7 +4,6 @@ import {
     IClickResult,
     ICustomButton,
     IMoveOptions,
-    IRenderOpts,
     IScores,
     IStatus,
     IValidationResult,
@@ -591,7 +590,7 @@ export class AgofmarsGame extends GameBaseSequenced {
     private applyObjectiveInitiative(fresh: IMoveState): void {
         const colours = activeColours(this.variants);
         const n = colours.length;
-        let permA = shuffle([...Array(n).keys()]) as number[];
+        const permA = shuffle([...Array(n).keys()]) as number[];
         let permB = shuffle([...Array(n).keys()]) as number[];
         while (AgofmarsGame.objectiveSignature(permA) === AgofmarsGame.objectiveSignature(permB)) {
             permB = shuffle([...Array(n).keys()]) as number[];
@@ -701,6 +700,9 @@ export class AgofmarsGame extends GameBaseSequenced {
     }
 
     public canObjectiveSwap(seat: playerid): boolean {
+        if (seat !== this.currplayer) {
+            return false;
+        }
         if (this.phase !== "play" || this.pendingDraw !== undefined || this.awaitingMainAction) {
             return false;
         }
@@ -902,7 +904,7 @@ export class AgofmarsGame extends GameBaseSequenced {
     private handleSetupClick(move: string, row: number, col: number, piece?: string): IClickResult {
         const mults = this.multiplierValues();
         const parsed = this.parseSetupMoveField(move) ?? { map: new Map<Colour, number>() };
-        let map = parsed.map;
+        const map = parsed.map;
         let pending = parsed.pending;
 
         if (piece !== undefined) {
@@ -2407,7 +2409,7 @@ export class AgofmarsGame extends GameBaseSequenced {
         };
     }
 
-    public render(_opts: IRenderOpts = {}): APRenderRep {
+    public render(): APRenderRep {
         const legend: ILegendObj = {};
         for (const c of [...activeColours(this.variants), "BK" as Colour]) {
             for (let s = 1 as Size; s <= 3; s++) {

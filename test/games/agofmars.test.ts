@@ -506,7 +506,7 @@ describe("Agents of M.A.R.S.", () => {
 
     describe("objective swap gating", () => {
         it("disallows swap once four black pyramids are on the board", () => {
-            let g = finishSetup(new AgofmarsGame());
+            const g = finishSetup(new AgofmarsGame());
             for (const cell of ["a1", "a2", "a3", "a4"]) {
                 g.board.set(cell, ["BK", 1]);
             }
@@ -572,7 +572,7 @@ describe("Agents of M.A.R.S.", () => {
         });
 
         it("scores a full random game without zeroing every group", () => {
-            let g = finishSetup(new AgofmarsGame());
+            const g = finishSetup(new AgofmarsGame());
             let guard = 0;
             while (!g.gameover && guard < 500) {
                 g.move(g.randomMove());
@@ -760,7 +760,7 @@ describe("Agents of M.A.R.S.", () => {
         });
 
         it("randomizes placement among empty cells", () => {
-            let g = finishSetup(new AgofmarsGame()).move("noObjSwap").move("draw");
+            const g = finishSetup(new AgofmarsGame()).move("noObjSwap").move("draw");
             const seen = new Set<string>();
             for (let i = 0; i < 50; i++) {
                 seen.add(gameFrom(g.serialize()).randomMove());

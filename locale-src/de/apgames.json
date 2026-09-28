@@ -15,6 +15,10 @@
     "src": "In simultaneous games, both players' moves must be submitted at the same time.",
     "out": "In simultanen Spielen müssen die Züge beider Spieler gleichzeitig übermittelt werden."
   },
+  "buttons.acceptpie": {
+    "src": "Play second",
+    "out": "Als zweiter spielen"
+  },
   "buttons.agofmars.draw": {
     "src": "Draw",
     "out": "Ziehen"
@@ -35,9 +39,165 @@
     "src": "Swap on board",
     "out": "Auf dem Brett tauschen"
   },
+  "buttons.arimaa.gold99": {
+    "src": "Quick setup",
+    "out": "Schnelle Einrichtung"
+  },
+  "buttons.arimaa.silver99d7": {
+    "src": "Quick setup, elephant d7",
+    "out": "Schnelle Einrichtung, Elefant D7"
+  },
+  "buttons.arimaa.silver99e7": {
+    "src": "Quick setup, elephant e7",
+    "out": "Schnelle Einrichtung, Elefant E7"
+  },
+  "buttons.carnac.tip_e": {
+    "src": "Tip east",
+    "out": "Nach Osten kippen"
+  },
+  "buttons.carnac.tip_n": {
+    "src": "Tip north",
+    "out": "Nach Norden kippen"
+  },
+  "buttons.carnac.tip_s": {
+    "src": "Tip south",
+    "out": "Nach Süden kippen"
+  },
+  "buttons.carnac.tip_w": {
+    "src": "Tip west",
+    "out": "Nach Westen kippen"
+  },
+  "buttons.cifra.db": {
+    "src": "Dark, Bottom",
+    "out": "Dunkel, unten"
+  },
+  "buttons.cifra.dl": {
+    "src": "Dark, Left",
+    "out": "Dunkel, links"
+  },
+  "buttons.cifra.dr": {
+    "src": "Dark, Right",
+    "out": "Dunkel, rechts"
+  },
+  "buttons.cifra.dt": {
+    "src": "Dark, Top",
+    "out": "Dunkel, oben"
+  },
+  "buttons.cifra.lb": {
+    "src": "Light, Bottom",
+    "out": "Hell, unten"
+  },
+  "buttons.cifra.ll": {
+    "src": "Light, Left",
+    "out": "Hell, links"
+  },
+  "buttons.cifra.lr": {
+    "src": "Light, Right",
+    "out": "Hell, rechts"
+  },
+  "buttons.cifra.lt": {
+    "src": "Light, Top",
+    "out": "Hell, oben"
+  },
+  "buttons.declare": {
+    "src": "Declare",
+    "out": "Ansagen"
+  },
+  "buttons.draw": {
+    "src": "Claim draw",
+    "out": "Unentschieden fordern"
+  },
+  "buttons.evenatodds.evens": {
+    "src": "Evens",
+    "out": "Gerade"
+  },
+  "buttons.evenatodds.odds": {
+    "src": "Odds",
+    "out": "Ungerade"
+  },
+  "buttons.killallgo.attacker": {
+    "src": "Play as the Attacker",
+    "out": "Als Angreifer spielen"
+  },
+  "buttons.killallgo.defender": {
+    "src": "Play as the Defender",
+    "out": "Als Verteidiger spielen"
+  },
+  "buttons.killallgo.youplace": {
+    "src": "Let the opponent place the first batch",
+    "out": "Den Gegner die erste Gruppe setzen lassen"
+  },
+  "buttons.numbers.one": {
+    "src": "One (1)",
+    "out": "Eins (1)"
+  },
+  "buttons.numbers.three": {
+    "src": "Three (3)",
+    "out": "Drei (3)"
+  },
+  "buttons.numbers.two": {
+    "src": "Two (2)",
+    "out": "Zwei (2)"
+  },
   "buttons.pass": {
     "src": "Pass",
     "out": "Passen"
+  },
+  "buttons.pigs.back": {
+    "src": "Move backward",
+    "out": "Zurück bewegen"
+  },
+  "buttons.pigs.ccw": {
+    "src": "Rotate counterclockwise",
+    "out": "Gegen den Uhrzeigersinn drehen"
+  },
+  "buttons.pigs.cw": {
+    "src": "Rotate clockwise",
+    "out": "Im Uhrzeigersinn drehen"
+  },
+  "buttons.pigs.fire": {
+    "src": "Fire laser",
+    "out": "Laser abfeuern"
+  },
+  "buttons.pigs.forward": {
+    "src": "Move forward",
+    "out": "Vorwärts bewegen"
+  },
+  "buttons.pigs.hit": {
+    "src": "Swing snout",
+    "out": "Die Nase schwingen"
+  },
+  "buttons.pigs.left": {
+    "src": "Move forward left",
+    "out": "Vorwärts, links bewegen"
+  },
+  "buttons.pigs.right": {
+    "src": "Move forward right",
+    "out": "Vorwärts, rechts bewegen"
+  },
+  "buttons.playfirst": {
+    "src": "Play first",
+    "out": "Als erster spielen"
+  },
+  "buttons.playsecond": {
+    "src": "Play second",
+    "out": "Als zweiter spielen"
+  },
+  "buttons.roll1": {
+    "src": "Roll one die",
+    "out": "Einen Würfel werfen"
+  },
+  "buttons.roll2": {
+    "src": "Roll two dice",
+    "out": "Zwei Würfel werfen"
+  },
+  "buttons.swap": {
+    "src": "Swap colours",
+    "out": "Farben wechseln"
+  },
+  "buttons.takebutton": {
+    "src": "Take button",
+    "out": "Aufnehmen-Taste"
   },
   "descriptions.abande": {
     "src": "Abande is the second game in Dieter Stein's stacking trilogy. Place or move pieces and stacks to generate the highest score you can whilst always keeping the board connected. The square, snubsquare, and hex boards are available.",

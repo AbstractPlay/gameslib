@@ -219,7 +219,8 @@
     "magnate": "Se barajó el descarte. Ya no quedan más barajadas.",
     "quincunx_one": "{{player}} robó {{count}} carta.",
     "quincunx_other": "{{player}} robó {{count}} cartas.",
-    "evenatodds": "{{player}} robó una ficha del pozo."
+    "evenatodds": "{{player}} robó una ficha del pozo.",
+    "agofmars": "{{player}} sacó una pirámide {{colour}}{{count}} de la bolsa."
   },
   "DECLARE": {
     "biscuit": "¡{{player}} ha terminado sus cartas!",
@@ -418,9 +419,16 @@
     "veletas": "{{player}} movió el tirador de {{from}} a {{to}}.",
     "volo_one": "{{player}} movió una bandada de 1 ave de {{from}} en dirección {{how}}.",
     "volo_other": "{{player}} movió una bandada de {{count}} aves de {{from}} en dirección {{how}}.",
-    "complete_what": "{{player}} movió un {{what}} de {{from}} a {{to}}."
+    "complete_what": "{{player}} movió un {{what}} de {{from}} a {{to}}.",
+    "agofmars": "{{player}} movió una pirámide de {{from}} a {{to}}."
   },
   "NULLIFY_CLAIM": "No se pueden reclamar torres en el último turno del juego. Se anuló el reclamo en {{where}}.",
+  "OBJECTIVES": {
+    "agofmars": "{{player}} eligió sus objetivos."
+  },
+  "OBJECTIVE_SWAP": {
+    "agofmars": "{{player}} intercambió los multiplicadores de objetivo {{columnA}} y {{columnB}}."
+  },
   "ORIENT": {
     "crosshairs": "{{player}} giró un avión en {{where}} hacia {{facing}}.",
     "nowhat": "{{player}} giró una pieza en {{where}} hacia {{facing}}."
@@ -444,7 +452,8 @@
     "pippinzip": "{{player}} decide pasar y se convierte en Zip.",
     "simple": "{{player}} pasó.",
     "tablero": "¡{{player}} chocó!",
-    "tiebreaker": "{{player}} pasó, ganando el desempate."
+    "tiebreaker": "{{player}} pasó, ganando el desempate.",
+    "agofmars_noObjSwap": "{{player}} no intercambió objetivos."
   },
   "PIE": {
     "deckfish": "{{player}} juega segundo.",
@@ -452,6 +461,7 @@
     "unlur": "{{player}} ha pasado para ser el jugador Y."
   },
   "PLACE": {
+    "agofmars": "{{player}} colocó una pirámide {{colour}}{{count}} en {{where}}.",
     "armadas_1": "{{player}} colocó un barco pequeño y lo nombró {{name}}.",
     "armadas_2": "{{player}} colocó un barco mediano y lo nombró {{name}}.",
     "armadas_3": "{{player}} colocó un barco grande y lo nombró {{name}}.",
@@ -654,7 +664,8 @@
     "slyde_fixed_self": "{{player}} cambió el estado de su propia pieza en {{where}} de móvil a fija.",
     "slyde_mobile_opponent": "{{player}} cambió el estado de la pieza de su oponente en {{where}} de fija a móvil.",
     "slyde_mobile_self": "{{player}} cambió el estado de su propia pieza en {{where}} de fija a móvil.",
-    "spree": "{{player}} le entregó una bola de color {{who}} al oponente."
+    "spree": "{{player}} le entregó una bola de color {{who}} al oponente.",
+    "thricewise": "{{player}} seleccionó {{card}}."
   },
   "SET": {
     "biscuit_biscuit_one": "{{player}} anotó un biscuit.",
@@ -692,7 +703,9 @@
     "nex": "{{player}} cambió una pieza de su color en {{where}} por una pieza neutral.",
     "nex_neutral": "{{player}} cambió una pieza neutral en {{where}} por una pieza de su color.",
     "resolve": "La pieza se intercambió a {{where}}.",
-    "wunchunk": "{{player}} cambió de asiento, eligiendo jugar primero."
+    "wunchunk": "{{player}} cambió de asiento, eligiendo jugar primero.",
+    "agofmars_board": "{{player}} intercambió la {{colour1}}{{size1}} en {{cell1}} y la {{colour2}}{{size2}} en {{cell2}}.",
+    "agofmars_board_cells": "{{player}} intercambió las pirámides en {{cell1}} y {{cell2}}."
   },
   "TAKE": {
     "blastradius_one": "{{player}} retiró una de sus propias piezas de {{where}}.",

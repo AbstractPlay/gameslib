@@ -580,7 +580,7 @@ export class PippinzipGame extends GameBase {
 
     public getButtons(): ICustomButton[] {
         if ( this.inAuctionPhase() ) {
-            return [{ label: "pass", move: "pass" }];
+            return [{ label: "apgames:buttons.pass", move: "pass" }];
         }
         return [];
     }

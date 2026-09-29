@@ -146,9 +146,9 @@ export class BasaltGame extends GameBase {
     // In this game only one button is active at a time.
     public getButtons(): ICustomButton[] {
         if (this.moves().includes("pass")) {
-            return [{ label: "pass", move: "pass" }];
+            return [{ label: "apgames:buttons.pass", move: "pass" }];
         } else if (this.variants.includes("pie") && this.stack.length === 2) {
-            return [{ label: "acceptpie", move: "pass" }];
+            return [{ label: "apgames:buttons.acceptpie", move: "pass" }];
         }
         return [];
     }

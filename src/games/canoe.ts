@@ -1787,10 +1787,10 @@ export class CanoeGame extends GameBase {
     public getButtons(): ICustomButton[] {
         const buttons: ICustomButton[] = [];
         if (this.phase === "play" && this.roll === undefined && this.isStymieEligible()) {
-            buttons.push({label: "roll1", move: "roll:1"}, {label: "roll2", move: "roll:2"});
+            buttons.push({label: "apgames:buttons.roll1", move: "roll:1"}, {label: "apgames:buttons.roll2", move: "roll:2"});
         }
         if (this.phase === "play" && this.moves().includes("pass")) {
-            buttons.push({label: "pass", move: "pass"});
+            buttons.push({label: "apgames:buttons.pass", move: "pass"});
         }
         return buttons;
     }

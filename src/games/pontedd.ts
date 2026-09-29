@@ -199,7 +199,7 @@ export class PonteDDGame extends GameBase {
     }
 
     public getButtons(): ICustomButton[] {
-        if (this.randomPlace() === null) return [{ label: "pass", move: "pass" }];
+        if (this.randomPlace() === null) return [{ label: "apgames:buttons.pass", move: "pass" }];
         return [];
     }
 

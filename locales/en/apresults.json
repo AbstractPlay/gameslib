@@ -219,7 +219,8 @@
         "magnate": "The discards were shuffled.  There are no shuffles remaining.",
         "quincunx_one": "{{player}} drew {{count}} card.",
         "quincunx_other": "{{player}} drew {{count}} cards.",
-        "evenatodds": "{{player}} drew a tile from the boneyard."
+        "evenatodds": "{{player}} drew a tile from the boneyard.",
+        "agofmars": "{{player}} drew a {{colour}}{{count}} pyramid from the bag."
     },
     "DECLARE": {
         "biscuit": "{{player}} has gone out!",
@@ -418,9 +419,16 @@
         "veletas": "{{player}} moved shooter from {{from}} to {{to}}.",
         "volo_one": "{{player}} moved a flock of 1 bird from {{from}} in the direction {{how}}.",
         "volo_other": "{{player}} moved a flock of {{count}} birds from {{from}} in the direction {{how}}.",
-        "complete_what": "{{player}} moved a {{what}} from {{from}} to {{to}}."
+        "complete_what": "{{player}} moved a {{what}} from {{from}} to {{to}}.",
+        "agofmars": "{{player}} moved a pyramid from {{from}} to {{to}}."
     },
     "NULLIFY_CLAIM": "Towers may not be claimed on the last turn of the game. The claim at {{where}} was nullified.",
+    "OBJECTIVES": {
+        "agofmars": "{{player}} chose their objectives."
+    },
+    "OBJECTIVE_SWAP": {
+        "agofmars": "{{player}} swapped objective multipliers {{columnA}} and {{columnB}}."
+    },
     "ORIENT": {
         "crosshairs": "{{player}} turned a plane at {{where}} to face {{facing}}.",
         "nowhat": "{{player}} turned a piece at {{where}} to face {{facing}}."
@@ -444,7 +452,8 @@
         "pippinzip": "{{player}} decides to pass and becomes Zip",
         "simple": "{{player}} passed.",
         "tablero": "{{player}} bumped!",
-        "tiebreaker": "{{player}} passed, winning the tiebreaker."
+        "tiebreaker": "{{player}} passed, winning the tiebreaker.",
+        "agofmars_noObjSwap": "{{player}} did not swap objectives."
     },
     "PIE": {
         "deckfish": "{{player}} moves second.",
@@ -452,6 +461,7 @@
         "unlur": "{{player}} has passed to be the Y player."
     },
     "PLACE": {
+        "agofmars": "{{player}} placed a {{colour}}{{count}} pyramid at {{where}}.",
         "armadas_1": "{{player}} placed a small ship and named it {{name}}.",
         "armadas_2": "{{player}} placed a medium ship and named it {{name}}.",
         "armadas_3": "{{player}} placed a large ship and named it {{name}}.",
@@ -654,7 +664,8 @@
         "slyde_fixed_self": "{{player}} changed the state of their own piece at {{where}} from mobile to fixed.",
         "slyde_mobile_opponent": "{{player}} changed the state of their opponent's piece at {{where}} from fixed to mobile.",
         "slyde_mobile_self": "{{player}} changed the state of their own piece at {{where}} from fixed to mobile.",
-        "spree": "{{player}} handed a ball of colour {{who}} to the opponent."
+        "spree": "{{player}} handed a ball of colour {{who}} to the opponent.",
+        "thricewise": "{{player}} selected {{card}}."
     },
     "SET": {
         "biscuit_biscuit_one": "{{player}} scored a biscuit.",
@@ -692,7 +703,9 @@
         "nex": "{{player}} swapped a piece of their colour at {{where}} to a neutral piece.",
         "nex_neutral": "{{player}} swapped a neutral piece at {{where}} to a piece of their colour.",
         "resolve": "The piece is swapped to {{where}}.",
-        "wunchunk": "{{player}} swapped seats, choosing to play first."
+        "wunchunk": "{{player}} swapped seats, choosing to play first.",
+        "agofmars_board": "{{player}} swapped the {{colour1}}{{size1}} at {{cell1}} and the {{colour2}}{{size2}} at {{cell2}}.",
+        "agofmars_board_cells": "{{player}} swapped the pyramids at {{cell1}} and {{cell2}}."
     },
     "TAKE": {
         "blastradius_one": "{{player}} removed one of their own pieces from {{where}}.",

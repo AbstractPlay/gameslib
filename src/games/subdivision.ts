@@ -311,7 +311,7 @@ export class SubdivisionGame extends GameBase {
     }
 
     public getButtons(): ICustomButton[] {
-        if (this.moves().includes("pass")) return [{ label: "pass", move: "pass" }];
+        if (this.moves().includes("pass")) return [{ label: "apgames:buttons.pass", move: "pass" }];
         return [];
     }
 

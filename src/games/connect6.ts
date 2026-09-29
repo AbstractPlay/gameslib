@@ -164,7 +164,7 @@ export class Connect6Game extends InARowBase {
     public getButtons(): ICustomButton[] {
         if (this.pastOpening() || this.canSwap()) {
             return [{
-                label: "pass",
+                label: "apgames:buttons.pass",
                 move: "pass"
             }];
         }

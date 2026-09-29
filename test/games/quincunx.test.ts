@@ -4,7 +4,7 @@ import { expect } from "chai";
 import { QuincunxGame } from '../../src/games';
 import { QuincunxBoard } from "../../src/games/quincunx/board";
 import { QuincunxCard } from "../../src/games/quincunx/card";
-import { Card } from "../../src/common/decktet";
+import { Card, cardsBasic } from "../../src/common/decktet";
 
 type Scores = {
     basics: [string,number][];
@@ -577,6 +577,62 @@ describe("Quincunx", () => {
         scores = g.scorePlacement(card);
         expect(scores.powerplay).to.be.false;
         expect(scores.powerplayScore).equal(0);
+    });
+});
+
+describe("QuincunxBoard viewport (Jacynth / Quincunx regression)", () => {
+    function fillSolidRect(board: QuincunxBoard, x0: number, y0: number, size: number): void {
+        let i = 0;
+        for (let y = y0; y < y0 + size; y++) {
+            for (let x = x0; x < x0 + size; x++) {
+                board.add(new QuincunxCard({ x, y, card: cardsBasic[i++]! }));
+            }
+        }
+    }
+
+    it("defaults viewportSize to 5", () => {
+        expect(new QuincunxBoard().viewportSize).to.equal(5);
+    });
+
+    it("still caps growth at a full 5×5 tableau with no empty neighbors", () => {
+        const board = new QuincunxBoard();
+        board.add(new QuincunxCard({ x: 0, y: 0, card: cardsBasic[0]! }));
+        const used = new Set(board.cards.map(c => c.card.uid));
+        let idx = 1;
+        while (board.empties.length > 0) {
+            const [x, y] = board.empties[0]!;
+            while (idx < cardsBasic.length && used.has(cardsBasic[idx]!.uid)) {
+                idx++;
+            }
+            const card = cardsBasic[idx++]!;
+            used.add(card.uid);
+            board.add(new QuincunxCard({ x, y, card }));
+        }
+        expect(board.width).to.equal(5);
+        expect(board.height).to.equal(5);
+        expect(board.cards.length).to.equal(25);
+        expect(board.empties.length).to.equal(0);
+    });
+
+    it("round-trips coordinates on a max-size Jacynth board", () => {
+        const board = new QuincunxBoard();
+        fillSolidRect(board, 0, 0, 5);
+        for (let relx = 0; relx < 5; relx++) {
+            for (let rely = 0; rely < 5; rely++) {
+                const [absx, absy] = board.rel2abs(relx, rely);
+                const back = board.abs2rel(absx, absy);
+                expect(back).to.deep.equal([relx, rely]);
+            }
+        }
+    });
+
+    it("deserialize without viewportSize on wire data still uses 5", () => {
+        const board = new QuincunxBoard();
+        board.add(new QuincunxCard({ x: 0, y: 0, card: Card.deserialize("1M")! }));
+        const wire = JSON.parse(JSON.stringify(board)) as QuincunxBoard;
+        const loaded = QuincunxBoard.deserialize(wire);
+        expect(loaded.viewportSize).to.equal(5);
+        expect(loaded.getCardAt(0, 0)?.card.uid).to.equal("1M");
     });
 });
 

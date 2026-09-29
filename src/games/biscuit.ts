@@ -1,4 +1,4 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IStatus, IValidationResult, ICustomButton, IRenderOpts, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IStatus, IValidationResult, ICustomButton, IRenderOpts, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaPieces, Glyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -350,7 +350,7 @@ export class BiscuitGame extends GameBase {
 
     public getButtons(): ICustomButton[] {
         if (this.moves().includes("pass")) {
-            return [{ label: "pass", move: "pass" }];
+            return [{ label: "apgames:buttons.pass", move: "pass" }];
         }
         return [];
     }

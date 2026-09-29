@@ -177,7 +177,7 @@ export class MiradorGame extends GameBase {
 
     public getButtons(): ICustomButton[] {
         if (this.stage === "play") {
-            return [{ label: "declare", move: "declare" }];
+            return [{ label: "apgames:buttons.declare", move: "declare" }];
         }
         return [];
     }

@@ -4,6 +4,7 @@
         "accasta": "Accasta is the first of Dieter Stein's stacking trilogy. The goal is to get three of your own stacks into the enemy's castle area. There are three different types of pieces in the base version. In the \"Pari\" variant, movement is determined by how many friendly pieces are in the stack.",
         "acity": "Alien City is a combination Piecepack/Icehouse game about building a city on a newly colonized world. Four guilds compete for customers, and the player has to predict which bets are going to pay off. Each turn, the player places either a tower or dome and may optionally claim a tower they think is going to score big when the game ends. Play continues until no more construction is possible. Scores are based on the relative positions of buildings to claimed towers.",
         "agere": "A connection game where you can also stack pieces. Played either on a triangle board where you try to connect all three sides, or a circular \"cobweb\" board where you connect opposite sides.",
+        "agofmars": "Assign secret colour objectives to scoring columns, then draw pyramids from a shared pool and place them on the board. Orthogonally connected groups score pip values multiplied by your objective for that colour. Highest total when the board is full wins.",
         "akimbo": "A minimalist connection game where each player can only have one naked diagonal.",
         "akron": "Akron is an extension of standard connection games to three dimensions. On their turn, players may introduce new balls of their colour on the lowest layer of the board, or move a ball that is not pinned (having balls resting on it in two or more directions) to a space that is connected to the same group both before and after movement. When balls move, balls resting on it will drop, changing the connections on the board.",
         "almatafl": "AlmaTafl is an asymmetrical game where one side plays the defenders trying to get the king to safety, while the other side tries to capture the king or render him defenseless.",
@@ -76,8 +77,10 @@
         "crosscontrol": "Territorial line-of-sight game. Cells are controlled and pieces on them are flipped based on how many pieces of a color can see them. The winner is the player who occupies more of the board at the end.",
         "crossway": "A game of connecting opposite sides of the board, but lines of pieces may not cross each other.",
         "crosshairs": "A WW1 aerial dogfight game. Planes have height and direction. Movement includes climbing, level flight, and diving. Combat is simple: if a plane is in the line of fire of two enemy planes, it is shot down. Reduce your opponent to one plane to win.",
+        "croda": "Croda on an 8×8 board: men step one square forward orthogonally or diagonally; they capture orthogonally in any direction. Kings slide and capture along ranks and files. Maximal capture is compulsory; you win by immobilizing the opponent.",
         "cubeo": "A boardless, perfect-information dice game where you attempt to promote your dice faster than your opponent or manoeuvre your opponent into a position where they cannot move.",
         "dagnacht": "An n-in-a-row game on a checkered board. You can only place pieces on the dark squares, but you can then move pieces onto the light squares. Win by getting 5 in a row orthogonally (including 3 light squares if you are player 1) or 4 in a row on a light diagonal. Winner of the Abstract Games magazine's 2021 \"Unequal Board Spaces Game Design Competition\".",
+        "dama": "Turkish draughts on an 8×8 board: men move and capture orthogonally forward or sideways; kings fly and capture along ranks and files. Maximal capture is compulsory.",
         "dameo": "A modern draughts game with linear movement and orthogonal captures.",
         "deckfish": "A two-player game of map reduction and suit collection where the player with the most of their least collected Decktet suit wins.",
         "diffusion": "Diffusion is a modern mancala-style game where the goal is to empty out your own pits.",
@@ -264,6 +267,7 @@
         "toguz": "A traditional mancala-style sowing game from central Asia where you attempt to capture the majority of the pieces.",
         "trax": "A game of loops and lines. Place tiles adjacent to those already in play such that the colours of the tracks match. The objective is to get a loop or line of your colour while attempting to stop your opponent in their colour. What gives Trax its strategic depth is the forced play rule which allows (or even requires) multiple tiles to be played in a turn.",
         "tricouleur": "A game where Ataxx meets Rock-Paper-Scissors.",
+        "thricewise": "A fast-paced Decktet tableau game: each turn everyone secretly chooses a card, then non-deferred plays go onto the grid in rank order. Score whenever your play completes a line of three (flush, set, or straight). Highest score when the grid fills or hands are empty wins.",
         "trike": "Trike is a game on a triangular board. Players take turn moving a neutral pawn around the board (passing is not allowed). When a player moves the pawn, they place a checker of their own color, onto the destination point. When the pawn is trapped, the game is over. At the end of the game, each player gets a point for each checker of their own color adjacent to, or underneath, the pawn. The person with the highest score wins.",
         "tritium": "Two players take turns creating and growing regions and claiming them. Once the board is full, the player who controls most tiles wins.",
         "tumbleweed": "Tumbleweed is a game of line of sight. Towers are built, and cells are controlled by the player with the most towers that can see that cell. Compete to control the majority of the hexagonal board.",
@@ -290,16 +294,12 @@
         "yonmoque": "Try to form four in a row in a game where not all spaces are equal and opposing pieces can be converted.",
         "zola": "A game where your movement is constrained by your distance from the centre of the board. Capturing moves must not increase that distance. Non-capturing moves must increase that distance. First person to capture all opposing pieces wins."
     },
-    "icepalace": {
-        "HAND": "{{player}}'s hand",
-        "POOL": "Pyramids in the Pool",
-        "STOCK": "Pyramids from the Yard, to be built into the Palace"
-    },
     "names": {
         "abande": "Abande",
         "accasta": "Accasta",
         "acity": "Alien City",
         "agere": "Adere",
+        "agofmars": "Agents of M.A.R.S.",
         "akimbo": "Akimbo",
         "akron": "Akron",
         "almatafl": "AlmaTafl",
@@ -321,8 +321,8 @@
         "baghchal": "Bagh Chal",
         "bamboo": "Bamboo",
         "bao": "Bao",
-        "bashni": "Bashni",
         "basalt": "Basalt",
+        "bashni": "Bashni",
         "bide": "Bide",
         "biscuit": "Biscuit",
         "bitesize": "BITESIZE",
@@ -374,8 +374,10 @@
         "crosscontrol": "Crosscontrol",
         "crosshairs": "Crosshairs",
         "crossway": "Crossway",
+        "croda": "Croda",
         "cubeo": "Cubeo",
         "dagnacht": "Dag en Nacht",
+        "dama": "Dama",
         "dameo": "Dameo",
         "deckfish": "Deckfish",
         "diffusion": "Diffusion",
@@ -556,6 +558,7 @@
         "tbt": "Take-Back-Toe",
         "terrace": "Terrace",
         "tessella": "Tessella",
+        "thricewise": "Thricewise",
         "tintas": "Tintas",
         "toguz": "Toguz Kumalak",
         "trax": "Trax",
@@ -586,7 +589,13 @@
         "yonmoque": "Yonmoque",
         "zola": "Zola"
     },
+    "icepalace": {
+        "HAND": "{{player}}'s hand",
+        "POOL": "Pyramids in the Pool",
+        "STOCK": "Pyramids from the Yard, to be built into the Palace"
+    },
     "notes": {
+        "agofmars": "Each play turn is submitted in two or three steps, not as one combined action.\n\nFirst, choose whether to swap objective columns (**No objective swap**) or complete an objective swap when it is legal. You must submit this step even when you are only passing on a swap.\n\nSecond, take your main action: **Draw** from the bag, move a pyramid on the board, or **swap** two pyramids on the board. If you draw, everyone sees the drawn piece after you submit this step; your turn is not finished yet.\n\nThird (draw only): place the drawn pyramid on an empty cell, then your turn ends.\n\nDuring manual setup, click one of your objective pyramids, then click a multiplier column. Moves are recorded as colour/multiplier pairs (for example `RD1,BU2,GN-1,YE0`). The event log only notes that a player chose their objectives; assignments stay hidden until swaps or the end of the game.",
         "akimbo": "Akimbo, designed by Luis Bolaños Mures in 2026, is a drawless connection game for two players. A _naked diagonal_ is a pair of like-colored, diagonally adjacent pieces with no other like-colored piece adjacent to both. A _crosscut_ is a 2×2 area with two interlocking naked diagonals of opposite colors.\n\nOn their turn, the player places a friendly piece on an empty cell. If this completes a crosscut, the other piece in the crosscut is removed. There must never be more than one naked diagonal of each color on the board — not even momentarily before removing a piece. A player wins if, at the end of their turn, there is a chain of orthogonally connected pieces of their color touching the player's two opposite board edges.\n\nOkimba is a variant where only up to one naked diagonal can exist on the board (so while one player has the diagonal, the adversary cannot create another).",
         "alta": "There are two ways to place switches on the graphical interface: (1) Select the switch’s orientation in the panel, then click on the desired space on the board to place it, or (2) click on two vertices. The vertices are notated with an asterisk, followed by the algebraic notation of the space where the vertex is at the bottom-left corner. To toggle a switch, simply click on the space.",
         "anache": "This implementation follows David Ploog's rulesheet. Three notable changes are that (1) barriers are forbidden, (2) instead of a 16x16, we have a 15x15 variant, where pieces promote to knights on the centreline, and the dragon may not jump to the 7x7 space from the other corner, and (3) against the corners, pieces are captured via crushing capture instead of custodian capture, so there needs to be at least two opponent pieces in a line before a capture is made against the corners.\n\nNote: the stalemate check is expensive. If you cannot make a legal move, you should resign manually.",
@@ -608,7 +617,7 @@
         "circleOfLife": "Species are numbered 0–11 counterclockwise on the ring, starting with the single-hex species at the top. Species 0 eats 11; each other species eats the one numbered directly below it. Predation only occurs when you place a stone that forms a species adjacent to prey. Groups may not exceed four stones. The first player to capture 20 opponent stones wins, or the player who cannot place on their turn wins (having filled the ecosystem).",
         "clearpath": "Clear Path was designed by Mark Steere in September 2026, in collaboration with Claude Fable 5.1, an AI model made by Anthropic.\n\nThe vital points are marked on the board. A red dot marks a point that every possible Red connection passes through, a blue dot marks a point that every possible Blue connection passes through, and a blue dot inside a red dot marks a point vital to both players. A point vital only to your opponent is illegal for you unless your placement completes your connection.\n\nPassing is not allowed, but a player with no legal placement has their turn skipped. The pass is submitted automatically.\n\nThis implementation shortens the game by acknowledging that a player who no longer has any possible connection has lost by force.",
         "conspirateurs": "In the base game, pieces may move through sanctuaries as part of a multistep jump. They're not frozen until they end their move in a sanctuary. In the strict variant, pieces are frozen as soon as they enter a sanctuary.\n\nIn four-player games, players 1 and 2 are partnered, as are players 3 and 4.",
-        "crosshairs": "The published Turbulence rule is ambiguous about two points: it does not specify whether a maneuver's normal height change occurs before or after the Turbulence loss, nor what happens if the plane is already at height 0. This implementation interprets the rule by applying each maneuver's normal height change first, then applying one Turbulence loss for each cloud cell entered, in travel order. A plane at height 0 when a Turbulence loss would apply crashes immediately.\n\nTo prevent clouds on a starting edge from trapping every entering plane, Turbulence does not affect a plane until it has entered a non-cloud cell. Once it has done so, it remains subject to Turbulence. Every cell traversed during movement counts as entered, including the intermediate cell of a two-space level flight; a clear intermediate cell therefore removes the exemption before the plane reaches a later cloudy cell in the same maneuver. Each maneuver in a dive is resolved completely before the next, so a swoop that enters a non-cloud cell removes the exemption before the following swoop.",
+        "crosshairs": "Turbulence follows the designer's clarified rule: resolve the maneuver first (movement, turning, and its normal height change), then lose one height if the plane moved from a non-cloud hex into a cloud hex at any point during that maneuver. A plane already at height 0 when that loss applies crashes. Flying from cloud to cloud within the same bank costs nothing, and placing a new plane on a cloudy starting hex costs nothing. Every hex traversed counts, including the middle hex of a two-space level flight. Each swoop in a dive is a separate maneuver resolved before the next, so a dive can pay Turbulence more than once.",
         "deckfish": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com).\n\nThe suit powers (token movement abilities) are:\n* Moons: Jump orthogonally over gaps. \n* Suns: Move one or two cards diagonally. \n* Waves: Move orthogonally until the last unobstructed card. \n* Leaves: Move orthogonally onto any card with no neighboring obstacles.\n* Wyrms: Move orthogonally onto the first occupied card, bumping that piece to the next card.\n* Knots: Make three orthogonal one-card moves, without backtracking.\n\nIn the rules, the \"first\" player is the player who places second in the placement phase but moves first in the movement phase, but here the first player is the one who places first but moves second. This is implemented using an automatic pass for the appropriate player.\n\nThe rule is enforced that, even when the last player is already winning, he must continue playing until he is out of moves.",
         "elOso": "Setup is performed automatically when you launch the game. Sky, Cave, Ground, and Pit counts appear in the sidebar. After each move, use the frame controls to step through the Bear's response. Ten or more pieces in the Sky is a win.",
         "domineering": "Domineering, aka, Stop-Gate, is a partisan combinatorial game. The game was designed by Göran Andersson, c.1973, and was presented in the seminal CGT book *Winning Ways for Your Mathematical Plays*. There is an impartial version, called Cram, where players can both place horizontal or vertical dominoes. The variant \"Quelhas\" was proposed by Carlos P. Santos and Alfie Davies in 2025, being a misère version (the player without options wins the game) and using longer domino-like polyominoes.",
@@ -682,6 +691,7 @@
         "tbt": "When it's your turn, you will see the die you have to work with, but once your move is complete, the die will reroll. Exploration is not helpful because the die roll is not finalized until after the move is submitted. As you scroll back through the game history, the die you see is for the *next* turn. The die used to make the move you're seeing is displayed below the board.",
         "terrace": "The Assassination variant is described in [this BGG thread](https://boardgamegeek.com/thread/551125/variant-for-more-aggressive-less-drawish-play), summarized below:\n\n- Up straight, you must be larger or a smallest-size piece can assassinate a largest-size piece.\n\n- Same level (orthogonally adjacent only), you must be at least the same size.\n\n- Down diagonal, you may be one rank smaller.",
         "toguz": "Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
+        "thricewise": "With 2 or 4 players the opening grid is 2×2; with 3 or 5 players it is 2×3. The tableau may grow in any direction until it is 6×6. Duplicate ranks in the simultaneous selection are deferred face-up beside your seat and played on a later turn (you may place deferred cards and your new card in any order in one submission). More information on the Decktet is on the [Decktet wiki](https://decktet.wikidot.com/).",
         "tricouleur": "Tricouleur is a 2005 game designed by Bill Taylor. Each player has a army of three types of pieces that are able to capture the next type, in a cyclic way: think Rock-Paper-Scissors (Circle-Square-Ex). The move sequence is 12* where a player must use different pieces (it is also possible to pass the entire turn). A piece may move to an empty neighboring cell (in which case it leaves an unmoved duplicate behind) or to an empty cell among the twelve 2nd-neighbours, regardless of what is in between. Any weaker opposing pieces that the moved piece becomes adjacent to are recolored as the moving piece. Any same-strength opposing pieces that the moved piece becomes adjacent to, are removed from the board.\n\nThe game ends when either (a) both players pass consecutively, (b) the board is full, (c) one army is destroyed, (d) a position is repeated three times.  Whoever has the most pieces of their own colours in total, wins.",
         "tumbleweed": "A space is claimed by a player if they have a piece on it, or if they have the majority of the line of sights to it. The score is the number of territory own by each player. The game ends when both players pass in succession. If there is no change in score for 20 plies, the game also ends.",
         "twinflames": "Twin Flames is a 2026 redesign of the 2013's Product, an original concept by Nick Bentley. The first player must initially place a friendly stone, preventing overly strong opening countermoves and thereby eliminating the need for a pie rule. The remaining moves use a 12* sequence, in which players may place stones of either colour. At the end of the game, a player who has formed a single connected group scores points equal to the size of that group. Another ludeme introduced was the use of walls, or blockers, which reduce overall connectivity and make groups more robust to enemy attacks. The blocker configuration is randomized, increasing game variability and making opening theory more difficult to develop.",
@@ -804,6 +814,44 @@
             "pari": {
                 "description": "Instead of having individual piece types, pieces move depending on how many friendly pieces are in the stack. The top piece of a stack with three of your pieces will move like a chariot, two pieces like a horse, and one piece like a shield.",
                 "name": "Accasta Pari"
+            }
+        },
+        "agofmars": {
+            "#rules": {
+                "description": "Standard 7×8 board with four colours and multipliers 2, 1, 0, and −1.",
+                "name": "Standard rules"
+            },
+            "five-colour-plus3": {
+                "description": "8×8 board with five colours; the fifth column multiplies scores by +3.",
+                "name": "Five colours (+3)"
+            },
+            "five-colour-minus2": {
+                "description": "8×8 board with five colours; the fifth column multiplies scores by −2.",
+                "name": "Five colours (−2)"
+            },
+            "objective-initiative": {
+                "description": "Skip manual setup: each player receives a random distinct assignment of colours to columns (inspired by the Objective Initiative expansion).",
+                "name": "Objective Initiative"
+            },
+            "blind-agents": {
+                "description": "You cannot see your own objective colours and cannot swap them yourself; your opponent may swap yours.",
+                "name": "Blind agents"
+            },
+            "step-move": {
+                "description": "Pyramids move and swap only to adjacent cells.",
+                "name": "Step move"
+            },
+            "black-trio-swap": {
+                "description": "Objective swaps remain legal until a small, medium, and large black pyramid have been drawn.",
+                "name": "Black trio swap"
+            },
+            "biggest-group": {
+                "description": "Only each colour's largest group scores; ties break by higher pip sum.",
+                "name": "Biggest group only"
+            },
+            "group-size-scoring": {
+                "description": "Add group size to the pip sum before multiplying by your objective.",
+                "name": "Group size scoring"
             }
         },
         "agere": {
@@ -1724,6 +1772,14 @@
             "asymmetric-random-start": {
                 "name": "Asymmetric random clouds",
                 "description": "There is no cloud placing phase. The system places the clouds randomly without requiring symmetry."
+            },
+            "spread-start": {
+                "name": "Symmetric spread clouds",
+                "description": "There is no cloud placing phase. The system places the clouds with 180-degree rotational symmetry using the designer's algorithm, which blocks open lines of fire first and then fills in the gaps."
+            },
+            "asymmetric-spread-start": {
+                "name": "Asymmetric spread clouds",
+                "description": "There is no cloud placing phase. The system places the clouds without requiring symmetry using the designer's algorithm, which blocks open lines of fire first and then fills in the gaps."
             },
             "unbounded-cloud-banks": {
                 "name": "Unbounded cloud banks",
@@ -4932,6 +4988,10 @@
     },
     "status": {
         "_player": "{{player}}",
+        "agofmars": {
+            "bagCount": "Pyramids in bag",
+            "setupPool": "Objective pyramids"
+        },
         "amazons": {
             "ISOLATEDQUEENS": "The queens are now isolated",
             "TERRITORY": "Territory"
@@ -5200,6 +5260,37 @@
             "PARTIAL_MOVE": "Select the lot where you want to build.",
             "VALID_W_CLAIMS": "Looks like a valid move. You may also choose to claim a tower.",
             "LABEL_STASH": "{{player}}'s stash"
+        },
+        "agofmars": {
+            "EMPTY_BAG": "There are no pyramids left to draw.",
+            "INITIAL_INSTRUCTIONS": "Use the action buttons, then click the board to move or swap pyramids.",
+            "INITIAL_INSTRUCTIONS_setup1": "Player 1 setup: click one of your objective pyramids, then click a multiplier column to assign it. Submit when every colour is placed (notation like RD1,BU2,GN-1,YE0).",
+            "INITIAL_INSTRUCTIONS_setup2": "Player 2 setup: click each objective pyramid, then click the multiplier column for that colour. Submit when every colour is placed.",
+            "INITIAL_INSTRUCTIONS_play": "Submit your objective decision with the buttons, then draw, move, or swap. After a draw, click an empty cell to place.",
+            "SETUP_INCOMPLETE": "Assign every colour to a different multiplier before submitting.",
+            "SETUP_PARTIAL": "Click another pyramid, then a multiplier column, or submit when every colour is assigned.",
+            "SETUP_PERM": "Use colour-and-multiplier pairs separated by commas (for example RD1,BU2,GN-1,YE0). Each colour and each multiplier may be used only once.",
+            "KO": "You may not immediately undo your opponent's last move or swap.",
+            "MAIN_ACTION_CHOICE": "Choose Draw, Move, or Swap, or click one of those buttons.",
+            "MAIN_ACTION_MODE_move": "Click a pyramid on the board, then click where it should go.",
+            "MAIN_ACTION_MODE_swap": "Click a pyramid on the board, then click a different pyramid to swap with.",
+            "MOVE": "That pyramid cannot reach that cell.",
+            "MOVE_BLACK": "Black pyramids cannot be moved.",
+            "MOVE_DEST_OCCUPIED": "That cell is occupied. Click an empty destination, or click another pyramid to move instead.",
+            "MOVE_SELECT_DEST": "Click an empty cell where this pyramid can move.",
+            "MOVE_SELECT_PIECE": "Click one of your pyramids on the board to move.",
+            "NO_PIECES_TO_MOVE": "There are no pyramids on the board to move. Draw from the bag and place one first.",
+            "NO_PIECES_TO_SWAP": "There are not two different pyramids on the board to swap. Draw and place pieces first.",
+            "SWAP_BLACK": "Black pyramids cannot be swapped.",
+            "SWAP_SELECT_PIECE": "Click a pyramid on the board to swap.",
+            "SWAP_SELECT_SECOND": "Click a different pyramid on the board to swap with.",
+            "OBJ_SWAP": "You cannot swap objectives right now.",
+            "OBJ_SWAP_SELECT": "Select the two objective columns you wish to swap.",
+            "OBJ_SWAP_SELECT_SECOND": "Select the second objective column to swap.",
+            "PLACE": "Click an empty cell to place the drawn pyramid.",
+            "PLACE_DRAWN": "That placement does not match the pyramid you drew.",
+            "SWAP": "Those pyramids cannot be swapped.",
+            "TURN_START": "Choose whether to swap objectives before your main action."
         },
         "agere": {
             "ADJACENCY": "You can only capture adjacent stacks.",
@@ -6013,6 +6104,11 @@
             "MAX_DICE": "You may only have {{dice}} dice on the board.",
             "PINNED": "Pinned dice can't act."
         },
+        "croda": {
+            "INITIAL_INSTRUCTIONS": "Select a piece to move.",
+            "INVALID_MOVE": "Capturing is compulsory, including the longest capture sequence. Men step one square forward orthogonally or diagonally; captures are orthogonal in any direction; kings slide any distance along a rank or file.",
+            "VALID_PARTIAL": "Looks good so far. Select the next empty cell to move to."
+        },
         "dagnacht": {
             "INITIAL_INSTRUCTIONS": "Place a piece on a dark square or move a piece one square orthogonally.",
             "MOVE_EMPTY": "There is no piece at {{where}} to move.",
@@ -6022,6 +6118,11 @@
             "OCCUPIED": "You must place a piece on an empty square. There is already a piece at {{where}}.",
             "PARTIAL_MOVE": "Looks like you would like to move the piece at {{cell}}. Provide the destination.",
             "TOO_MANY": "You can only move one piece one space"
+        },
+        "dama": {
+            "INITIAL_INSTRUCTIONS": "Select a piece to move.",
+            "INVALID_MOVE": "Capturing is compulsory, including the longest capture sequence. Men move one square orthogonally forward or sideways; kings slide any distance along a rank or file.",
+            "VALID_PARTIAL": "Looks good so far. Select the next empty cell to move to."
         },
         "dameo": {
             "INITIAL_INSTRUCTIONS": "Select a piece to move.",
@@ -7955,6 +8056,23 @@
             "MOVE_UP": "You may only move one level at a time to an adjacent cell.",
             "NO_MOVES": "The piece at {{cell}} does not have any valid moves."
         },
+        "thricewise": {
+            "BAD_CARD": "That card ({{card}}) is not available to play.",
+            "BAD_PASS": "Only inactive seats may submit a pass token during placement.",
+            "DUPLICATE_CARD": "Each card may only be placed once in this turn.",
+            "GRID_CAP": "The grid cannot grow wider or taller than six cards.",
+            "INITIAL_INSTRUCTIONS_place": "Place your card(s) on the grid. Deferred cards and this turn's card must all be placed.",
+            "INITIAL_INSTRUCTIONS_select": "Choose a card from your hand.",
+            "LABEL_HAND": "{{player}}'s hand & deferred",
+            "LABEL_DECK": "Cards in deck",
+            "NOT_ADJACENT": "Cards must be placed next to an existing card.",
+            "NOT_YOUR_TURN": "Wait for your turn in the placement order.",
+            "SELECT_HAND": "Select a card from your hand area.",
+            "STATUS_place": "Trick {{round}} — placement",
+            "STATUS_select": "Trick {{round}} — choose a card",
+            "VALID_PARTIAL_CELL": "Choose a cell for this card.",
+            "VALID_PARTIAL_MORE": "Place your remaining card(s)."
+        },
         "tessella": {
             "INITIAL_INSTRUCTIONS": "Select a piece to move.",
             "PARTIAL_cancap": "Select a destination. This piece can capture.",
@@ -8279,5 +8397,69 @@
     "INITIAL_UNDO": "You can't undo the initial starting position of the game.",
     "MOVES_GAMEOVER": "You cannot make moves in concluded games.",
     "MOVES_INVALID": "The move '{{move}}' is invalid. Please check the rules and try again.",
-    "MOVES_SIMULTANEOUS_PARTIAL": "In simultaneous games, both players' moves must be submitted at the same time."
+    "MOVES_SIMULTANEOUS_PARTIAL": "In simultaneous games, both players' moves must be submitted at the same time.",
+    "buttons": {
+        "pass": "Pass",
+        "declare": "Declare",
+        "takebutton": "Take button",
+        "acceptpie": "Play second",
+        "playsecond": "Play second",
+        "draw": "Claim draw",
+        "playfirst": "Play first",
+        "swap": "Swap colours",
+        "roll1": "Roll one die",
+        "roll2": "Roll two dice",
+        "numbers": {
+            "one": "One (1)",
+            "two": "Two (2)",
+            "three": "Three (3)"
+        },
+        "pigs": {
+            "back": "Move backward",
+            "forward": "Move forward",
+            "left": "Move forward left",
+            "right": "Move forward right",
+            "cw": "Rotate clockwise",
+            "ccw": "Rotate counterclockwise",
+            "fire": "Fire laser",
+            "hit": "Swing snout"
+        },
+        "carnac": {
+            "tip_n": "Tip north",
+            "tip_e": "Tip east",
+            "tip_s": "Tip south",
+            "tip_w": "Tip west"
+        },
+        "cifra": {
+            "lt": "Light, Top",
+            "lb": "Light, Bottom",
+            "dt": "Dark, Top",
+            "db": "Dark, Bottom",
+            "ll": "Light, Left",
+            "lr": "Light, Right",
+            "dl": "Dark, Left",
+            "dr": "Dark, Right"
+        },
+        "evenatodds": {
+            "evens": "Evens",
+            "odds": "Odds"
+        },
+        "arimaa": {
+            "gold99": "Quick setup",
+            "silver99e7": "Quick setup, elephant e7",
+            "silver99d7": "Quick setup, elephant d7"
+        },
+        "killallgo": {
+            "attacker": "Play as the Attacker",
+            "defender": "Play as the Defender",
+            "youplace": "Let the opponent place the first batch"
+        },
+        "agofmars": {
+            "draw": "Draw",
+            "move": "Move",
+            "noObjSwap": "No objective swap",
+            "objSwap": "Swap objectives",
+            "swap": "Swap on board"
+        }
+    }
 }

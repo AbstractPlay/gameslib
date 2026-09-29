@@ -808,9 +808,9 @@ export class XanaGame extends GameBase {
 
     public getButtons(): ICustomButton[] {
         if ( this.isPieTurn() ) {
-            return [{ label: "swap", move: "swap" }];
+            return [{ label: "apgames:buttons.swap", move: "swap" }];
         }
-        return [{ label: "pass", move: "pass" }];
+        return [{ label: "apgames:buttons.pass", move: "pass" }];
     }
 
     public getPlayerColour(p: playerid): Colourfuncs {

@@ -4,6 +4,7 @@
     "accasta": "Accasta ist das erste Spiel in Dieter Steins Stapel-Trilogie. Das Ziel ist es, drei deiner eigenen Stapel in den gegnerischen Burgbereich zu bringen. In der Grundversion gibt es drei verschiedene Arten von Steinen. In der \"Pari\"-Variante wird die Bewegung dadurch bestimmt, wie viele eigene Steine sich im Stapel befinden.",
     "acity": "Alien City ist eine Kombination aus Piecepack und Icehouse über den Bau einer Stadt auf einer neu kolonisierten Welt. Vier Gilden konkurrieren um Kunden, und die Spieler müssen vorhersagen, welche Wetten sich auszahlen werden. In jedem Zug platziert der Spieler entweder einen Turm oder eine Kuppel und kann optional einen Turm beanspruchen, von dem er glaubt, dass er am Ende des Spiels viele Punkte einbringt. Das Spiel geht weiter, bis keine Bauten mehr möglich sind. Die Punkte basieren auf der relativen Position der Gebäude zu den beanspruchten Türmen.",
     "agere": "Ein Verbindungsspiel, bei dem auch Steine gestapelt werden können. Wird entweder auf einem Dreiecksbrett gespielt, auf dem man versucht, alle drei Seiten zu verbinden, oder auf einem kreisförmigen \"Spinnennetz\"-Brett, auf dem gegenüberliegende Seiten verbunden werden.",
+    "agofmars": "Weise Wertungssäulen geheime Farbziele zu, ziehe dann Pyramiden aus einem gemeinsamen Vorrat und platziere sie auf dem Spielbrett. Orthogonal verbundene Gruppen punkten entsprechend ihrer Pip-Werte multipliziert mit deinem Ziel für diese Farbe. Es gewinnt, wer die höchste Gesamtsumme hat, wenn das Spielbrett voll ist.",
     "akimbo": "Ein minimalistisches Verbindungsspiel, bei dem jeder Spieler nur eine ungeschützte Diagonale haben darf.",
     "akron": "Akron ist eine Erweiterung klassischer Verbindungsspiele in die dritte Dimension. In ihrem Zug können Spieler neue Kugeln ihrer Farbe auf der untersten Ebene des Bretts platzieren oder eine Kugel bewegen, die nicht fixiert ist (auf der Steine in zwei oder mehr Richtungen ruhen), auf ein Feld, das sowohl vor als auch nach der Bewegung mit derselben Gruppe verbunden ist. Wenn sich Kugeln bewegen, fallen darauf ruhende Kugeln herunter, was die Verbindungen auf dem Brett verändert.",
     "almatafl": "AlmaTafl ist ein asymmetrisches Spiel, bei dem eine Seite die Verteidiger spielt, die versuchen, den König in Sicherheit zu bringen, während die andere Seite versucht, den König zu schlagen oder ihn wehrlos zu machen.",
@@ -76,8 +77,10 @@
     "crosscontrol": "Territoriales Sichtlinienspiel. Felder werden kontrolliert und Steine darauf umgedreht, je nachdem, wie viele Steine einer Farbe sie sehen können. Gewinner ist der Spieler, der am Ende mehr vom Brett besetzt.",
     "crossway": "Ein Spiel, bei dem gegenüberliegende Seiten des Bretts verbunden werden, aber Linien von Steinen dürfen sich nicht kreuzen.",
     "crosshairs": "Ein Luftkampfspiel aus dem 1. Weltkrieg. Flugzeuge haben Höhe und Richtung. Die Bewegung umfasst Steigflug, Horizontalflug und Sturzflug. Der Kampf ist einfach: Wenn sich ein Flugzeug in der Schusslinie von zwei gegnerischen Flugzeugen befindet, wird es abgeschossen. Reduziere deinen Gegner auf ein Flugzeug, um zu gewinnen.",
+    "croda": "Croda auf einem 8×8-Brett: Einfache Steine ziehen ein Feld nach vorne (orthogonal oder diagonal); sie schlagen orthogonal in jede Richtung. Könige gleiten und schlagen entlang von Reihen und Linien. Es gilt der maximale Schlagzwang; du gewinnst, indem du den Gegner bewegungsunfähig machst.",
     "cubeo": "Ein brettlloses Würfelspiel mit perfekter Information, bei dem du versuchst, deine Würfel schneller als dein Gegner zu befördern oder deinen Gegner in eine Position zu manövrieren, in der er nicht mehr ziehen kann.",
     "dagnacht": "Ein n-in-einer-Reihe-Spiel auf einem schachbrettartigen Feld. Du kannst Steine nur auf den dunklen Feldern platzieren, kannst Steine dann aber auf die hellen Felder bewegen. Gewinne, indem du 5 in einer Reihe orthogonal bildest (einschließlich 3 hellen Feldern, wenn du Spieler 1 bist) oder 4 in einer Reihe auf einer hellen Diagonalen. Gewinner des Spieldesign-Wettbewerbs \"Unequal Board Spaces Game Design Competition\" 2021 des Magazins Abstract Games.",
+    "dama": "Türkische Dame auf einem 8×8-Brett: Einfache Steine ziehen und schlagen orthogonal nach vorne oder seitwärts; Damen ziehen beliebig weit und schlagen entlang von Reihen und Linien. Es gilt maximaler Schlagzwang.",
     "dameo": "Ein modernes Dame-Spiel mit linearer Bewegung und orthogonalen Schlagzügen.",
     "deckfish": "Ein Zwei-Spieler-Spiel der Kartenreduzierung und Farbsammlung, bei dem der Spieler mit den meisten Karten seiner am wenigsten gesammelten Decktet-Farbe gewinnt.",
     "diffusion": "Diffusion ist ein modernes Spiel im Mancala-Stil, bei dem das Ziel darin besteht, die eigenen Mulden zu leeren.",
@@ -264,6 +267,7 @@
     "toguz": "Ein traditionelles Mancala-Säspiel aus Zentralasien, bei dem Sie versuchen, die Mehrheit der Steine zu schlagen.",
     "trax": "Ein Spiel aus Schleifen und Linien. Platzieren Sie Plättchen an bereits ausliegenden, sodass die Farben der Spuren übereinstimmen. Das Ziel ist es, eine Schleife oder Linie Ihrer Farbe zu bilden, während Sie versuchen, Ihren Gegner bei seiner Farbe zu stoppen. Was Trax seine strategische Tiefe verleiht, ist die Regel des erzwungenen Zugs, die das Ausspielen mehrerer Plättchen in einem Zug erlaubt (oder sogar erfordert).",
     "tricouleur": "Ein Spiel, bei dem Ataxx auf Schere-Stein-Papier trifft.",
+    "thricewise": "Ein schnelles Decktet-Auslagespiel: In jeder Runde wählen alle heimlich eine Karte aus; anschließend werden nicht aufgeschobene Karten in Rangfolge auf das Raster gelegt. Punkte gibt es immer dann, wenn deine Karte eine Dreierreihe vervollständigt (Farbe, Drilling oder Straße). Es gewinnt die höchste Punktzahl, wenn das Raster voll ist oder die Hände leer sind.",
     "trike": "Trike ist ein Spiel auf einem dreieckigen Brett. Die Spieler bewegen abwechselnd einen neutralen Spielstein über das Brett (Passen ist nicht erlaubt). Wenn ein Spieler den Stein bewegt, platziert er einen Spielstein seiner eigenen Farbe auf dem Zielfeld. Wenn der neutrale Stein gefangen ist, endet das Spiel. Am Ende des Spiels erhält jeder Spieler einen Punkt für jeden Stein seiner eigenen Farbe, der an den neutralen Stein grenzt oder darunter liegt. Wer die höchste Punktzahl hat, gewinnt.",
     "tritium": "Zwei Spieler erstellen und vergrößern abwechselnd Regionen und beanspruchen sie. Sobald das Brett voll ist, gewinnt der Spieler, der die meisten Felder kontrolliert.",
     "tumbleweed": "Tumbleweed ist ein Spiel der Sichtlinien. Türme werden gebaut, und Felder werden von dem Spieler kontrolliert, der die meisten Türme hat, die dieses Feld sehen können. Kämpfen Sie darum, die Mehrheit des Sechseckbretts zu kontrollieren.",
@@ -290,16 +294,12 @@
     "yonmoque": "Versuchen Sie, eine Viererreihe zu bilden, in einem Spiel, in dem nicht alle Felder gleich sind und gegnerische Steine umgewandelt werden können.",
     "zola": "Ein Spiel, bei dem Ihre Bewegung durch den Abstand zum Mittelpunkt des Bretts eingeschränkt ist. Schlagzüge dürfen diesen Abstand nicht vergrößern. Nicht-Schlagzüge müssen diesen Abstand vergrößern. Gewinner ist, wer als Erster alle gegnerischen Steine schlägt."
   },
-  "icepalace": {
-    "HAND": "Hand von {{player}}",
-    "POOL": "Pyramiden im Pool",
-    "STOCK": "Pyramiden aus dem Yard, die in den Palast eingebaut werden sollen"
-  },
   "names": {
     "abande": "Abande",
     "accasta": "Accasta",
     "acity": "Alien City",
     "agere": "Adere",
+    "agofmars": "Agents of M.A.R.S.",
     "akimbo": "Akimbo",
     "akron": "Akron",
     "almatafl": "AlmaTafl",
@@ -321,8 +321,8 @@
     "baghchal": "Bagh Chal",
     "bamboo": "Bamboo",
     "bao": "Bao",
-    "bashni": "Bashni",
     "basalt": "Basalt",
+    "bashni": "Bashni",
     "bide": "Bide",
     "biscuit": "Biscuit",
     "bitesize": "BITESIZE",
@@ -374,8 +374,10 @@
     "crosscontrol": "Crosscontrol",
     "crosshairs": "Crosshairs",
     "crossway": "Crossway",
+    "croda": "Croda",
     "cubeo": "Cubeo",
     "dagnacht": "Dag en Nacht",
+    "dama": "Dama",
     "dameo": "Dameo",
     "deckfish": "Deckfish",
     "diffusion": "Diffusion",
@@ -556,6 +558,7 @@
     "tbt": "Take-Back-Toe",
     "terrace": "Terrace",
     "tessella": "Tessella",
+    "thricewise": "Thricewise",
     "tintas": "Tintas",
     "toguz": "Toguz Kumalak",
     "trax": "Trax",
@@ -586,7 +589,13 @@
     "yonmoque": "Yonmoque",
     "zola": "Zola"
   },
+  "icepalace": {
+    "HAND": "Hand von {{player}}",
+    "POOL": "Pyramiden im Pool",
+    "STOCK": "Pyramiden aus dem Yard, die in den Palast eingebaut werden sollen"
+  },
   "notes": {
+    "agofmars": "Jeder Spielzug wird in zwei oder drei Schritten übermittelt, nicht als eine einzelne kombinierte Aktion.\n\nWähle zuerst, ob du Zielspalten tauschen möchtest (**Ziele nicht tauschen**) oder führe einen Zieltausch durch, wenn dieser legal ist. Du musst diesen Schritt auch dann übermitteln, wenn du auf einen Tausch verzichtest.\n\nFühre zweitens deine Hauptaktion aus: **Ziehen** aus dem Beutel, Bewegen einer Pyramide auf dem Spielbrett oder **tauschen** von zwei Pyramiden auf dem Spielbrett. Wenn du ziehst, sehen alle den gezogenen Spielstein, nachdem du diesen Schritt übermittelt hast; dein Zug ist noch nicht beendet.\n\nDrittens (nur beim Ziehen): Platziere die gezogene Pyramide auf einem leeren Feld, danach endet dein Zug.\n\nKlicke während des manuellen Aufbaus auf eine deiner Zielpyramiden und dann auf eine Multiplikatorspalte. Züge werden als Farbe/Multiplikator-Paare aufgezeichnet (zum Beispiel `RD1,BU2,GN-1,YE0`). Das Ereignisprotokoll vermerkt nur, dass ein Spieler seine Ziele gewählt hat; die Zuordnungen bleiben bis zu Tauschaktionen oder dem Spielende verborgen.",
     "akimbo": "Akimbo, entworfen von Luis Bolaños Mures im Jahr 2026, ist ein unentschieden-freies Verbindungsspiel für zwei Spieler. Eine _nackte Diagonale_ (naked diagonal) ist ein Paar gleichfarbiger, diagonal benachbarter Steine, ohne dass ein weiterer gleichfarbiger Stein an beide angrenzt. Ein _Kreuzschnitt_ (crosscut) ist ein 2×2-Bereich mit zwei ineinandergreifenden nackten Diagonalen entgegengesetzter Farben.\n\nIn seinem Zug platziert der Spieler einen eigenen Stein auf einem leeren Feld. Wenn dies einen Kreuzschnitt vervollständigt, wird der andere Stein im Kreuzschnitt entfernt. Es darf sich zu keinem Zeitpunkt mehr als eine nackte Diagonale jeder Farbe auf dem Brett befinden – nicht einmal vorübergehend vor dem Entfernen eines Steins. Ein Spieler gewinnt, wenn sich am Ende seines Zugs eine Kette von orthogonal verbundenen Steinen seiner Farbe befindet, die die beiden gegenüberliegenden Brettränder des Spielers berührt.\n\nOkimba ist eine Variante, bei der insgesamt nur maximal eine nackte Diagonale auf dem Brett existieren darf (wenn also ein Spieler die Diagonale besitzt, kann der Gegner keine weitere erstellen).",
     "alta": "Es gibt zwei Möglichkeiten, Schalter auf der grafischen Benutzeroberfläche zu platzieren: (1) Wählen Sie die Ausrichtung des Schalters im Bedienfeld aus und klicken Sie dann auf das gewünschte Feld auf dem Brett, um ihn zu platzieren, oder (2) klicken Sie auf zwei Eckpunkte. Die Eckpunkte sind mit einem Sternchen notiert, gefolgt von der algebraischen Notation des Feldes, an dessen unterer linker Ecke sich der Eckpunkt befindet. Um einen Schalter umzuschalten, klicken Sie einfach auf das Feld.",
     "anache": "Diese Implementierung folgt David Ploogs Regelblatt. Drei bemerkenswerte Änderungen sind: (1) Barrieren sind verboten, (2) anstelle eines 16x16-Bretts gibt es eine 15x15-Variante, bei der Figuren auf der Mittellinie zu Springern umgewandelt werden und der Drache nicht aus der anderen Ecke auf das 7x7-Feld springen darf, und (3) an den Ecken werden Figuren durch Zerstauchungs-Schlagen (crushing capture) statt durch Einkesselungs-Schlagen (custodian capture) geschlagen, sodass sich mindestens zwei gegnerische Figuren in einer Reihe befinden müssen, bevor ein Schlagen an den Ecken erfolgt.\n\nHinweis: Die Patt-Prüfung ist rechenintensiv. Wenn Sie keinen regelkonformen Zug machen können, sollten Sie manuell aufgeben.",
@@ -608,7 +617,7 @@
     "circleOfLife": "Die Arten sind auf dem Ring gegen den Uhrzeigersinn von 0–11 nummeriert, beginnend mit der Einzel-Hex-Art ganz oben. Art 0 frisst 11; jede andere Art frisst die direkt darunter nummerierte Art. Räuberisches Fressen findet nur statt, wenn du einen Stein platzierst, der eine Art angrenzend an Beute bildet. Gruppen dürfen nicht mehr als vier Steine umfassen. Wer zuerst 20 gegnerische Steine schlägt, gewinnt, oder der Spieler gewinnt, der in seinem Zug nicht mehr platzieren kann (nachdem das Ökosystem gefüllt wurde).",
     "clearpath": "Clear Path wurde im September 2026 von Mark Steere in Zusammenarbeit mit Claude Fable 5.1 entwickelt, einem KI-Modell von Anthropic.\n\nDie vitalen Punkte sind auf dem Spielbrett markiert. Ein roter Punkt markiert einen Punkt, durch den jede mögliche Verbindung von Rot verläuft, ein blauer Punkt markiert einen Punkt, durch den jede mögliche Verbindung von Blau verläuft, und ein blauer Punkt innerhalb eines roten Punktes markiert einen Punkt, der für beide Spieler vital ist. Ein Punkt, der nur für deinen Gegner vital ist, ist für dich regelwidrig, es sei denn, dein Zug vollendet deine Verbindung.\n\nPassen ist nicht erlaubt, aber wenn ein Spieler keinen legalen Zug hat, wird sein Zug übersprungen. Das Passen erfolgt automatisch.\n\nDiese Implementierung verkürzt das Spiel, indem sie berücksichtigt, dass ein Spieler, der keine mögliche Verbindung mehr hat, zwangsläufig verloren hat.",
     "conspirateurs": "Im Grundspiel dürfen sich Steine als Teil eines Mehrfachsprungs durch Zufluchtsorte bewegen. Sie sind erst eingefroren, wenn sie ihren Zug in einem Zufluchtsort beenden. In der strikten Variante werden Steine eingefroren, sobald sie einen Zufluchtsort betreten.\n\nIn Spielen mit vier Spielern bilden Spieler 1 und 2 ein Team, ebenso wie Spieler 3 und 4.",
-    "crosshairs": "Die veröffentlichte Turbulenzregel ist in zwei Punkten unklar: Sie gibt weder an, ob die normale Höhenänderung eines Manövers vor oder nach dem Turbulenzverlust erfolgt, noch was passiert, wenn sich das Flugzeug bereits auf Höhe 0 befindet. Diese Implementierung legt die Regel so aus, dass zuerst die normale Höhenänderung jedes Manövers angewendet wird und anschließend ein Turbulenzverlust für jedes betretene Wolkenfeld in Bewegungsreihenfolge erfolgt. Ein Flugzeug auf Höhe 0 stürzt sofort ab, wenn ein Turbulenzverlust angewendet werden müsste.\n\nUm zu verhindern, dass Wolken an einer Startkante jedes eintretende Flugzeug festsetzen, betrifft Turbulenz ein Flugzeug erst, nachdem es ein wolkenfreies Feld betreten hat. Sobald dies geschehen ist, unterliegt es der Turbulenz. Jedes während der Bewegung durchquerte Feld gilt als betreten, einschließlich des Zwischenfelds eines Horizontalflugs über zwei Felder; ein freies Zwischenfeld hebt die Befreiung daher auf, bevor das Flugzeug im selben Manöver ein späteres Wolkenfeld erreicht. Jedes Manöver in einem Sturzflug wird vor dem nächsten vollständig abgehandelt, sodass ein Teilmanöver, das ein wolkenfreies Feld betritt, die Befreiung vor dem folgenden Teilmanöver aufhebt.",
+    "crosshairs": "Turbulenz folgt der klargestellten Regel des Autors: Zuerst wird das Manöver abgehandelt (Bewegung, Drehung und die normale Höhenänderung). Danach verliert das Flugzeug eine Höhe, wenn es sich zu irgendeinem Zeitpunkt während dieses Manövers von einem wolkenfreien Feld auf ein Wolkenfeld bewegt hat. Ein Flugzeug, das sich bei diesem Verlust bereits auf Höhe 0 befindet, stürzt ab. Das Fliegen von Wolke zu Wolke innerhalb derselben Wolkenbank kostet nichts, und das Platzieren eines neuen Flugzeugs auf einem Startfeld mit Wolke kostet ebenfalls nichts. Jedes überquerte Feld zählt, einschließlich des mittleren Feldes eines Horizontalflugs über zwei Felder. Jeder Teilabschnitt eines Sturzflugs ist ein separates Manöver, das vor dem nächsten abgehandelt wird, sodass ein Sturzflug mehr als einmal Turbulenz kosten kann.",
     "deckfish": "Weitere Informationen zum Decktet-System finden Sie auf der [offiziellen Decktet-Website](https://www.decktet.com).\n\nDie Farben-Kräfte (Bewegungsfähigkeiten der Marker) sind:\n* Mond (Moons): Springe orthogonal über Lücken.\n* Sonne (Suns): Bewege ein oder zwei Karten diagonal.\n* Welle (Waves): Bewege dich orthogonal bis zur letzten unversperrten Karte.\n* Blatt (Leaves): Bewege dich orthogonal auf eine beliebige Karte ohne benachbarte Hindernisse.\n* Wurm (Wyrms): Bewege dich orthogonal auf die erste besetzte Karte und schiebe diesen Stein auf die nächste Karte.\n* Knoten (Knots): Mache drei orthogonale Ein-Karten-Züge ohne Zurückgehen.\n\nIn den Regeln ist der \"erste\" Spieler derjenige, der in der Platzierungsphase als Zweiter platziert, sich aber in der Bewegungsphase als Erster bewegt. Hier ist der erste Spieler jedoch derjenige, der als Erster platziert, sich aber als Zweiter bewegt. Dies wird durch ein automatisches Passen für den entsprechenden Spieler umgesetzt.\n\nEs gilt die Regel, dass der letzte Spieler, selbst wenn er bereits gewinnt, weiterspielen muss, bis ihm die Züge ausgehen.",
     "elOso": "Der Aufbau erfolgt automatisch beim Starten des Spiels. Die Anzahl für Himmel, Höhle, Boden und Grube wird in der Seitenleiste angezeigt. Verwende nach jedem Zug die Einzelbild-Steuerung, um die Reaktion des Bären Schritt für Schritt zu verfolgen. Zehn oder mehr Steine im Himmel bedeuten einen Sieg.",
     "domineering": "Domineering, auch bekannt als Stop-Gate, ist ein parteiisches kombinatorisches Spiel. Das Spiel wurde um 1973 von Göran Andersson entworfen und im einflussreichen CGT-Buch *Winning Ways for Your Mathematical Plays* vorgestellt. Es gibt eine unparteiische Version namens Cram, bei der beide Spieler sowohl horizontale als auch vertikale Dominosteine platzieren können. Die Variante \"Quelhas\" wurde 2025 von Carlos P. Santos und Alfie Davies vorgeschlagen; sie ist eine Misère-Version (der Spieler ohne Zugmöglichkeiten gewinnt das Spiel) und verwendet längere dominoartige Polyominos.",
@@ -682,6 +691,7 @@
     "tbt": "Wenn Sie an der Reihe sind, sehen Sie den Würfel, mit dem Sie arbeiten müssen. Sobald Ihr Zug jedoch abgeschlossen ist, wird der Würfel neu gewürfelt. Ausprobieren von Zügen hilft nicht, da das Würfelergebnis erst nach dem Absenden des Zuges feststeht. Wenn Sie in der Spielhistorie zurückscrollen, ist der angezeigte Würfel für den *nächsten* Zug. Der Würfel, der für den aktuell angezeigten Zug verwendet wurde, wird unter dem Brett angezeigt.",
     "terrace": "Die Attentat-Variante wird in [diesem BGG-Thread](https://boardgamegeek.com/thread/551125/variant-for-more-aggressive-less-drawish-play) beschrieben und unten zusammengefasst:\n\n- Gerade nach oben müssen Sie größer sein, oder ein Stein kleinster Größe kann einen Stein größter Größe meucheln.\n\n- Auf derselben Ebene (nur orthogonal angrenzend) müssen Sie mindestens dieselbe Größe haben.\n\n- Diagonal nach unten dürfen Sie einen Rang kleiner sein.",
     "toguz": "Die Darstellung von Zustandsänderungen in Säspielen ist anspruchsvoll. Die ursprünglich gewählte Mulde wird ebenso markiert wie jeder Schlag. Kleine Zahlen erscheinen, um die Änderung der Anzahl der Steine in jeder Mulde anzugeben. Wenn Sie glauben, auf einen Fehler gestoßen zu sein, teilen Sie uns dies bitte auf Discord mit.",
+    "thricewise": "Bei 2 oder 4 Spielenden ist das Startraster 2×2; bei 3 oder 5 Spielenden 2×3. Die Auslage kann in jede Richtung bis auf 6×6 anwachsen. Doppelte Ränge bei der gleichzeitigen Auswahl werden offen neben deinem Platz aufgeschoben und in einer späteren Runde gespielt (du kannst aufgeschobene Karten und deine neue Karte in beliebiger Reihenfolge in einem Zug platzieren). Weitere Informationen zum Decktet findest du im [Decktet-Wiki](https://decktet.wikidot.com/).",
     "tricouleur": "Tricouleur ist ein Spiel aus dem Jahr 2005, das von Bill Taylor entworfen wurde. Jeder Spieler hat eine Armee aus drei Arten von Steinen, die die jeweils nächste Art zyklisch schlagen können: denken Sie an Schere-Stein-Papier (Kreis-Quadrat-X). Die Zugfolge ist 12*, wobei ein Spieler verschiedene Steine verwenden muss (es ist auch möglich, den gesamten Zug zu passen). Ein Stein kann auf ein leeres Nachbarfeld ziehen (wobei er ein unbewegtes Duplikat zurücklässt) oder auf ein leeres Feld unter den zwölf Nachbarn 2. Ordnung, unabhängig davon, was dazwischen liegt. Alle schwächeren gegnerischen Steine, an die der gezogene Stein angrenzt, werden in der Farbe des gezogenen Steins umgefärbt. Alle gleich starken gegnerischen Steine, an die der gezogene Stein angrenzt, werden vom Brett entfernt.\n\nDas Spiel endet, wenn entweder (a) beide Spieler hintereinander passen, (b) das Brett voll ist, (c) eine Armee zerstört ist oder (d) sich eine Stellung dreimal wiederholt. Wer insgesamt die meisten Steine der eigenen Farben hat, gewinnt.",
     "tumbleweed": "Ein Feld wird von einem Spieler beansprucht, wenn er einen Stein darauf hat oder wenn er die Mehrheit der Sichtlinien dorthin besitzt. Die Punktzahl entspricht der Anzahl der von jedem Spieler besessenen Territorien. Das Spiel endet, wenn beide Spieler nacheinander passen. Wenn sich die Punktzahl 20 Halbzüge lang nicht ändert, endet das Spiel ebenfalls.",
     "twinflames": "Twin Flames ist eine Neugestaltung des Spiels Product aus dem Jahr 2013, einem ursprünglichen Konzept von Nick Bentley, aus dem Jahr 2026. Der erste Spieler muss zu Beginn einen eigenen Stein platzieren, was zu starke Eröffnungskonter verhindert und somit eine Pie-Regel überflüssig macht. Die verbleibenden Züge nutzen eine 12*-Sequenz, bei der die Spieler Steine beider Farben platzieren können. Am Ende des Spiels erhält ein Spieler, der eine einzelne zusammenhängende Gruppe gebildet hat, Punkte in Höhe der Größe dieser Gruppe. Ein weiteres eingeführtes Ludem war die Verwendung von Wänden oder Blockern, welche die allgemeine Konnektivität verringern und Gruppen robuster gegen feindliche Angriffe machen. Die Blocker-Konfiguration wird zufällig bestimmt, was die Spielvariabilität erhöht und die Entwicklung einer Eröffnungstheorie erschwert.",
@@ -804,6 +814,44 @@
       "pari": {
         "description": "Anstatt einzelner Steinarten bewegen sich die Steine danach, wie viele eigene Steine im Stapel sind. Der oberste Stein eines Stapels mit drei eigenen Steinen bewegt sich wie ein Streitwagen, bei zwei Steinen wie ein Pferd und bei einem Stein wie ein Schild.",
         "name": "Accasta Pari"
+      }
+    },
+    "agofmars": {
+      "#rules": {
+        "description": "Standard-7×8-Spielbrett mit vier Farben und den Multiplikatoren 2, 1, 0 und −1.",
+        "name": "Standardregeln"
+      },
+      "five-colour-plus3": {
+        "description": "8×8-Spielbrett mit fünf Farben; die fünfte Spalte multipliziert Wertungen mit +3.",
+        "name": "Fünf Farben (+3)"
+      },
+      "five-colour-minus2": {
+        "description": "8×8-Spielbrett mit fünf Farben; die fünfte Spalte multipliziert Wertungen mit −2.",
+        "name": "Fünf Farben (−2)"
+      },
+      "objective-initiative": {
+        "description": "Manuelle Einrichtung überspringen: Jeder Spieler erhält eine zufällige, eindeutige Zuordnung von Farben zu Spalten (inspiriert von der Erweiterung „Objective Initiative“).",
+        "name": "Objective Initiative"
+      },
+      "blind-agents": {
+        "description": "Du kannst deine eigenen Zielfarben nicht sehen und sie nicht selbst tauschen; dein Gegner darf deine Ziele tauschen.",
+        "name": "Blinde Agenten"
+      },
+      "step-move": {
+        "description": "Pyramiden bewegen und tauschen sich nur auf benachbarte Felder.",
+        "name": "Schrittweise Bewegung"
+      },
+      "black-trio-swap": {
+        "description": "Zieltauschaktionen bleiben legal, bis eine kleine, mittlere und große schwarze Pyramide gezogen wurden.",
+        "name": "Schwarzer Trio-Tausch"
+      },
+      "biggest-group": {
+        "description": "Nur die größte Gruppe jeder Farbe wird gewertet; Unentschieden werden durch die höhere Pip-Summe entschieden.",
+        "name": "Nur größte Gruppe"
+      },
+      "group-size-scoring": {
+        "description": "Addiere die Gruppengröße zur Pip-Summe, bevor du mit deinem Ziel multiplizierst.",
+        "name": "Gruppengrößen-Wertung"
       }
     },
     "agere": {
@@ -1724,6 +1772,14 @@
       "asymmetric-random-start": {
         "name": "Asymmetrische zufällige Wolken",
         "description": "Es gibt keine Wolkenplatzierungsphase. Das System platziert die Wolken zufällig, ohne Symmetrie zu erfordern."
+      },
+      "spread-start": {
+        "name": "Symmetrisch verteilte Wolken",
+        "description": "Es gibt keine Wolkenplatzierungsphase. Das System platziert die Wolken mit 180-Grad-Rotationssymmetrie nach dem Algorithmus des Autors, der zuerst offene Schusslinien blockiert und danach die Lücken füllt."
+      },
+      "asymmetric-spread-start": {
+        "name": "Asymmetrisch verteilte Wolken",
+        "description": "Es gibt keine Wolkenplatzierungsphase. Das System platziert die Wolken ohne Symmetrie nach dem Algorithmus des Autors, der zuerst offene Schusslinien blockiert und danach die Lücken füllt."
       },
       "unbounded-cloud-banks": {
         "name": "Unbegrenzte Wolkenbänke",
@@ -4932,6 +4988,10 @@
   },
   "status": {
     "_player": "{{player}}",
+    "agofmars": {
+      "bagCount": "Pyramiden im Beutel",
+      "setupPool": "Zielpyramiden"
+    },
     "amazons": {
       "ISOLATEDQUEENS": "Die Damen sind jetzt isoliert",
       "TERRITORY": "Territorium"
@@ -5200,6 +5260,37 @@
       "PARTIAL_MOVE": "Wähle das Baugrundstück aus, auf dem du bauen möchtest.",
       "VALID_W_CLAIMS": "Das sieht nach einem gültigen Zug aus. Du kannst auch einen Turm beanspruchen.",
       "LABEL_STASH": "{{player}}s Vorrat"
+    },
+    "agofmars": {
+      "EMPTY_BAG": "Es sind keine Pyramiden mehr zum Ziehen übrig.",
+      "INITIAL_INSTRUCTIONS": "Nutze die Aktions-Schaltflächen und klicke dann auf das Spielbrett, um Pyramiden zu bewegen oder zu tauschen.",
+      "INITIAL_INSTRUCTIONS_setup1": "Aufbau Spieler 1: Klicke auf eine deiner Zielpyramiden und dann auf eine Multiplikatorspalte, um sie zuzuweisen. Bestätige, wenn jede Farbe platziert ist (Notation wie RD1,BU2,GN-1,YE0).",
+      "INITIAL_INSTRUCTIONS_setup2": "Aufbau Spieler 2: Klicke auf jede Zielpyramide und dann auf die Multiplikatorspalte für diese Farbe. Bestätige, wenn jede Farbe platziert ist.",
+      "INITIAL_INSTRUCTIONS_play": "Bestätige deine Zielentscheidung mit den Schaltflächen, ziehe dann, bewege oder tausche. Klicke nach dem Ziehen auf ein leeres Feld, um die Pyramide zu platzieren.",
+      "SETUP_INCOMPLETE": "Weise jede Farbe einem anderen Multiplikator zu, bevor du bestätigst.",
+      "SETUP_PARTIAL": "Klicke auf eine weitere Pyramide und dann auf eine Multiplikatorspalte, oder bestätige, wenn jede Farbe zugewiesen ist.",
+      "SETUP_PERM": "Verwende durch Kommas getrennte Farbe-und-Multiplikator-Paare (zum Beispiel RD1,BU2,GN-1,YE0). Jede Farbe und jeder Multiplikator darf nur einmal verwendet werden.",
+      "KO": "Du darfst den letzten Zug oder Tausch deines Gegners nicht sofort rückgängig machen.",
+      "MAIN_ACTION_CHOICE": "Wähle Ziehen, Bewegen oder Tauschen oder klicke auf eine dieser Schaltflächen.",
+      "MAIN_ACTION_MODE_move": "Klicke auf eine Pyramide auf dem Spielbrett und dann dorthin, wo sie hinbewegt werden soll.",
+      "MAIN_ACTION_MODE_swap": "Klicke auf eine Pyramide auf dem Spielbrett und dann auf eine andere Pyramide, um sie zu tauschen.",
+      "MOVE": "Diese Pyramide kann dieses Feld nicht erreichen.",
+      "MOVE_BLACK": "Schwarze Pyramiden können nicht bewegt werden.",
+      "MOVE_DEST_OCCUPIED": "Dieses Feld ist besetzt. Klicke auf ein leeres Zielfeld oder klicke auf eine andere Pyramide, um diese stattdessen zu bewegen.",
+      "MOVE_SELECT_DEST": "Klicke auf ein leeres Feld, auf das sich diese Pyramide bewegen kann.",
+      "MOVE_SELECT_PIECE": "Klicke auf eine deiner Pyramiden auf dem Spielbrett, um sie zu bewegen.",
+      "NO_PIECES_TO_MOVE": "Es befinden sich keine Pyramiden zum Bewegen auf dem Spielbrett. Ziehe zuerst eine aus dem Beutel und platziere sie.",
+      "NO_PIECES_TO_SWAP": "Es gibt keine zwei verschiedenen Pyramiden auf dem Spielbrett zum Tauschen. Ziehe und platziere zuerst Spielsteine.",
+      "SWAP_BLACK": "Schwarze Pyramiden können nicht getauscht werden.",
+      "SWAP_SELECT_PIECE": "Klicke auf eine Pyramide auf dem Spielbrett, um sie zu tauschen.",
+      "SWAP_SELECT_SECOND": "Klicke auf eine andere Pyramide auf dem Spielbrett, um mit ihr zu tauschen.",
+      "OBJ_SWAP": "Du kannst Ziele im Moment nicht tauschen.",
+      "OBJ_SWAP_SELECT": "Wähle die zwei Zielspalten aus, die du tauschen möchtest.",
+      "OBJ_SWAP_SELECT_SECOND": "Wähle die zweite Zielspalte zum Tauschen aus.",
+      "PLACE": "Klicke auf ein leeres Feld, um die gezogene Pyramide zu platzieren.",
+      "PLACE_DRAWN": "Diese Platzierung stimmt nicht mit der gezogenen Pyramide überein.",
+      "SWAP": "Diese Pyramiden können nicht getauscht werden.",
+      "TURN_START": "Wähle vor deiner Hauptaktion, ob du Ziele tauschen möchtest."
     },
     "agere": {
       "ADJACENCY": "Du kannst nur angrenzende Stapel schlagen.",
@@ -6013,6 +6104,11 @@
       "MAX_DICE": "Du darfst nur {{dice}} Würfel auf dem Brett haben.",
       "PINNED": "Fixierte Würfel können nicht agieren."
     },
+    "croda": {
+      "INITIAL_INSTRUCTIONS": "Wähle eine Figur zum Ziehen aus.",
+      "INVALID_MOVE": "Schlagen ist Pflicht, einschließlich der längsten Schlagsequenz. Einfache Steine ziehen ein Feld nach vorne (orthogonal oder diagonal); Schlagen erfolgt orthogonal in jede Richtung; Könige gleiten beliebig weit entlang einer Reihe oder Linie.",
+      "VALID_PARTIAL": "Sieht soweit gut aus. Wähle das nächste leere Feld, auf das gezogen werden soll."
+    },
     "dagnacht": {
       "INITIAL_INSTRUCTIONS": "Setze einen Stein auf ein dunkles Feld oder bewege einen Stein um ein Feld orthogonal.",
       "MOVE_EMPTY": "Auf {{where}} befindet sich kein Stein zum Ziehen.",
@@ -6022,6 +6118,11 @@
       "OCCUPIED": "Du musst einen Stein auf ein leeres Feld setzen. Auf {{where}} befindet sich bereits ein Stein.",
       "PARTIAL_MOVE": "Sieht so aus, als möchtest du den Stein auf {{cell}} ziehen. Gib das Ziel an.",
       "TOO_MANY": "Du kannst nur einen Stein um ein Feld bewegen"
+    },
+    "dama": {
+      "INITIAL_INSTRUCTIONS": "Wähle einen Stein zum Ziehen aus.",
+      "INVALID_MOVE": "Schlagen ist Pflicht, einschließlich der längsten Schlagsequenz. Einfache Steine ziehen ein Feld orthogonal nach vorne oder seitwärts; Damen gleiten beliebig weit entlang einer Reihe oder Linie.",
+      "VALID_PARTIAL": "Sieht bisher gut aus. Wähle das nächste leere Feld aus."
     },
     "dameo": {
       "INITIAL_INSTRUCTIONS": "Wähle einen Stein zum Ziehen.",
@@ -7955,6 +8056,23 @@
       "MOVE_UP": "Sie dürfen sich nur eine Ebene auf einmal auf ein angrenzendes Feld bewegen.",
       "NO_MOVES": "Der Stein bei {{cell}} hat keine gültigen Züge."
     },
+    "thricewise": {
+      "BAD_CARD": "Diese Karte ({{card}}) ist nicht zum Spielen verfügbar.",
+      "BAD_PASS": "Nur inaktive Plätze dürfen während der Platzierung einen Passen-Marker abgeben.",
+      "DUPLICATE_CARD": "Jede Karte darf in diesem Zug nur einmal platziert werden.",
+      "GRID_CAP": "Das Raster darf nicht breiter oder höher als sechs Karten werden.",
+      "INITIAL_INSTRUCTIONS_place": "Platziere deine Karte(n) auf dem Raster. Aufgeschobene Karten und die Karte dieses Zugs müssen alle platziert werden.",
+      "INITIAL_INSTRUCTIONS_select": "Wähle eine Karte aus deiner Hand.",
+      "LABEL_HAND": "{{player}}s Hand & Aufgeschoben",
+      "LABEL_DECK": "Karten im Deck",
+      "NOT_ADJACENT": "Karten müssen an eine bereits liegende Karte angrenzend platziert werden.",
+      "NOT_YOUR_TURN": "Warte, bis du in der Platzierungsreihenfolge an der Reihe bist.",
+      "SELECT_HAND": "Wähle eine Karte aus deinem Handbereich.",
+      "STATUS_place": "Stich {{round}} — Platzierung",
+      "STATUS_select": "Stich {{round}} — Karte wählen",
+      "VALID_PARTIAL_CELL": "Wähle ein Feld für diese Karte.",
+      "VALID_PARTIAL_MORE": "Platziere deine restliche(n) Karte(n)."
+    },
     "tessella": {
       "INITIAL_INSTRUCTIONS": "Wählen Sie einen Stein zum Bewegen aus.",
       "PARTIAL_cancap": "Wählen Sie ein Ziel. Dieser Stein kann schlagen.",
@@ -8279,5 +8397,69 @@
   "INITIAL_UNDO": "Du kannst die anfängliche Startposition des Spiels nicht rückgängig machen.",
   "MOVES_GAMEOVER": "Du kannst in beendeten Spielen keine Züge machen.",
   "MOVES_INVALID": "Der Zug '{{move}}' ist ungültig. Bitte überprüfe die Regeln und versuche es erneut.",
-  "MOVES_SIMULTANEOUS_PARTIAL": "In simultanen Spielen müssen die Züge beider Spieler gleichzeitig übermittelt werden."
+  "MOVES_SIMULTANEOUS_PARTIAL": "In simultanen Spielen müssen die Züge beider Spieler gleichzeitig übermittelt werden.",
+  "buttons": {
+    "pass": "Passen",
+    "declare": "Ansagen",
+    "takebutton": "Aufnehmen-Taste",
+    "acceptpie": "Als zweiter spielen",
+    "playsecond": "Als zweiter spielen",
+    "draw": "Unentschieden fordern",
+    "playfirst": "Als erster spielen",
+    "swap": "Farben wechseln",
+    "roll1": "Einen Würfel werfen",
+    "roll2": "Zwei Würfel werfen",
+    "numbers": {
+      "one": "Eins (1)",
+      "two": "Zwei (2)",
+      "three": "Drei (3)"
+    },
+    "pigs": {
+      "back": "Zurück bewegen",
+      "forward": "Vorwärts bewegen",
+      "left": "Vorwärts, links bewegen",
+      "right": "Vorwärts, rechts bewegen",
+      "cw": "Im Uhrzeigersinn drehen",
+      "ccw": "Gegen den Uhrzeigersinn drehen",
+      "fire": "Laser abfeuern",
+      "hit": "Die Nase schwingen"
+    },
+    "carnac": {
+      "tip_n": "Nach Norden kippen",
+      "tip_e": "Nach Osten kippen",
+      "tip_s": "Nach Süden kippen",
+      "tip_w": "Nach Westen kippen"
+    },
+    "cifra": {
+      "lt": "Hell, oben",
+      "lb": "Hell, unten",
+      "dt": "Dunkel, oben",
+      "db": "Dunkel, unten",
+      "ll": "Hell, links",
+      "lr": "Hell, rechts",
+      "dl": "Dunkel, links",
+      "dr": "Dunkel, rechts"
+    },
+    "evenatodds": {
+      "evens": "Gerade",
+      "odds": "Ungerade"
+    },
+    "arimaa": {
+      "gold99": "Schnelle Einrichtung",
+      "silver99e7": "Schnelle Einrichtung, Elefant E7",
+      "silver99d7": "Schnelle Einrichtung, Elefant D7"
+    },
+    "killallgo": {
+      "attacker": "Als Angreifer spielen",
+      "defender": "Als Verteidiger spielen",
+      "youplace": "Den Gegner die erste Gruppe setzen lassen"
+    },
+    "agofmars": {
+      "draw": "Ziehen",
+      "move": "Bewegen",
+      "noObjSwap": "Ziele nicht tauschen",
+      "objSwap": "Ziele tauschen",
+      "swap": "Auf dem Brett tauschen"
+    }
+  }
 }

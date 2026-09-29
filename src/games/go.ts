@@ -258,9 +258,9 @@ export class GoGame extends GameBase {
 
     public getButtons(): ICustomButton[] {
         if (this.moves().includes("pass"))
-            return [{ label: "pass", move: "pass" }];
+            return [{ label: "apgames:buttons.pass", move: "pass" }];
         if (this.moves().includes("play-second"))
-            return [{ label: "playsecond", move: "play-second" }];
+            return [{ label: "apgames:buttons.playsecond", move: "play-second" }];
         return []; // no buttons should appear when typing Komi at start
     }
 

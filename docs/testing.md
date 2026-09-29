@@ -60,6 +60,26 @@ The browser console will warn if locale bundles failed to load.
 
 If you serve from a subdirectory (e.g. `http://localhost/myproject/playground.html`), locale files must still sit beside `playground.html` in that folder (`myproject/locales/...`). The relative load path resolves from the page URL, not the server document root — so copying the full `dist/` contents into your vhost subfolder is the simplest approach.
 
+### Hidden information (God view vs Live view)
+
+When the loaded game’s `serialize({ strip: true, player })` can differ by viewer (e.g. Thricewise, agofmars), the **Game Panel** shows **Hidden information (view)**:
+
+- **God mode** (default): board, move history, and status use the full committed state (nothing stripped).
+- **Live mode**: the display clone uses `serialize({ strip: true, player })` for the active viewer. Stripping is skipped when the game is over (full reveal). Turn-based games use `currplayer`; simultaneous games use **Perspective / acting seat**. Moves still apply to the full state in storage (`playgroundStateFull` when seat-mode strip-on-save is enabled).
+
+**Dump State** always shows the full committed snapshot (`getCommittedStateString()`), not the Live view clone.
+
+### Simultaneous games (God mode vs Seat mode)
+
+For games with the `simultaneous` flag, the playground **Game Panel** also shows **Simultaneous play** controls (separate from view mode above):
+
+- **God mode** (default): enter a full comma-separated round (e.g. `a3,b5`) and submit once, as before. Use **Perspective / acting seat** to set render perspective and seat-scoped validation for board clicks.
+- **Seat mode**: mimics live play — submit one seat’s move at a time; the round buffer merges fragments until every seat has submitted, then the committed state advances. **Clear** removes only the active seat’s fragment from the in-progress round. **Random** picks a legal move for the active seat only; **Random all seats (commit)** applies a full round in one step (soak testing).
+
+Optional **Strip hidden info when saving state** uses `serialize({ strip: true, player })` after each committed round (useful for Entropy-style hidden information). The playground keeps a full copy in `playgroundStateFull` when that option is on so you can still change perspective. In Seat mode, seats with `isEliminated()` are dimmed in the picker; move/pass/random/board input cannot submit for that seat (God mode full-row entry is unchanged).
+
+The playground does **not** simulate clocks, WebSocket updates, email, or per-player API responses that hide opponents’ in-progress choices. For engine contracts and partial moves in unit tests, use inline fixtures and `move(..., { partial: true })` under `test/` — not `bin/state.json`.
+
 ## Renderer output
 
 Prototype board JSON at [renderer.dev.abstractplay.com](https://renderer.dev.abstractplay.com) before wiring `render()` in your game.

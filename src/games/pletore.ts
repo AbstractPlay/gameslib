@@ -246,9 +246,9 @@ export class PletoreGame extends GameBase {
 
     // In this game only one button is active at a time.
     public getButtons(): ICustomButton[] {
-        if (this.moves().includes("pass")) return [{ label: "pass", move: "pass" }];
-        if (this.isButtonActive()) return [{ label: "takebutton", move: "button" }];
-        if (this.isKomiRuleActive() && this.stack.length === 2) return [{ label: "acceptpie", move: "pie" }];
+        if (this.moves().includes("pass")) return [{ label: "apgames:buttons.pass", move: "pass" }];
+        if (this.isButtonActive()) return [{ label: "apgames:buttons.takebutton", move: "button" }];
+        if (this.isKomiRuleActive() && this.stack.length === 2) return [{ label: "apgames:buttons.acceptpie", move: "pie" }];
         return [];
     }
 

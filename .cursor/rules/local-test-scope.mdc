@@ -1,0 +1,30 @@
+---
+description: During local game work, run targeted tests; run the full suite for shared code
+alwaysApply: true
+---
+
+# Local test scope
+
+The repo has thousands of Mocha tests (`npm test`). Running the full suite after every small edit is slow and usually unnecessary during focused work.
+
+## Single-game or narrow changes
+
+When developing or fixing **one game** (or a small, obvious test surface), it is fine — and preferred — to run only the tests affected by your changes before handoff.
+
+- Use `npm run test0`, which runs a **fast, editable** Mocha invocation (see the `test0` script in `package.json`). Point it at the relevant file(s), e.g. `test/games/agofmars.test.ts`, or add `--grep` for a subset.
+- Feel free to **change `test0` temporarily** while you iterate; restore or leave it aimed at your current game if that helps the next session.
+- Also run related checks when your change touches them (e.g. `npm run typecheck` is already part of `pretest` when you use `npm test` / `test0` with the default pretest hook).
+
+## Shared or cross-cutting changes
+
+Run the **full** test suite (`npm test`) when you change code that many games depend on, for example:
+
+- `src/common/**` (graphs, flags, combinations, dominoes, etc.)
+- Core game infrastructure (`src/games/_turn-model.ts`, registry generation, shared schemas)
+- Build/registry/locale scripts that affect multiple games
+
+When in doubt after touching shared helpers, run the full suite before handoff.
+
+## CI and handoff
+
+CI always runs the complete suite. Targeted local runs are a **development convenience**, not a substitute for full coverage before merge when shared code changed.

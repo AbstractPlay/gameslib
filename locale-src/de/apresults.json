@@ -727,6 +727,10 @@
     "src": "{{player}} struck {{opponent}} at {{where}}.",
     "out": "{{player}} hat {{opponent}} auf {{where}} getroffen."
   },
+  "DECKDRAW.agofmars": {
+    "src": "{{player}} drew a {{colour}}{{count}} pyramid from the bag.",
+    "out": "{{player}} zog eine {{colour}}{{count}} Pyramide aus dem Beutel."
+  },
   "DECKDRAW.biscuit": {
     "src": "The next player was unable to play any cards in their hand, so they drew a card.",
     "out": "Der nächste Spieler konnte keine Karten von seiner Hand spielen und hat daher eine Karte gezogen."
@@ -1103,6 +1107,10 @@
     "src": "{{player}} took the lead.",
     "out": "{{player}} hat die Führung übernommen."
   },
+  "MOVE.agofmars": {
+    "src": "{{player}} moved a pyramid from {{from}} to {{to}}.",
+    "out": "{{player}} bewegte eine Pyramide von {{from}} nach {{to}}."
+  },
   "MOVE.amazons": {
     "src": "{{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
     "out": "{{player}} ist von {{from}} nach {{to}} gezogen und hat danach das Feld {{block}} gesperrt."
@@ -1439,6 +1447,14 @@
     "src": "Towers may not be claimed on the last turn of the game. The claim at {{where}} was nullified.",
     "out": "Türme dürfen im letzten Zug des Spiels nicht beansprucht werden. Der Anspruch bei {{where}} wurde annulliert."
   },
+  "OBJECTIVES.agofmars": {
+    "src": "{{player}} chose their objectives.",
+    "out": "{{player}} wählte die eigenen Ziele."
+  },
+  "OBJECTIVE_SWAP.agofmars": {
+    "src": "{{player}} swapped objective multipliers {{columnA}} and {{columnB}}.",
+    "out": "{{player}} hat die Ziel-Multiplikatoren {{columnA}} und {{columnB}} getauscht."
+  },
   "ORIENT.crosshairs": {
     "src": "{{player}} turned a plane at {{where}} to face {{facing}}.",
     "out": "{{player}} hat ein Flugzeug bei {{where}} in Richtung {{facing}} gedreht."
@@ -1446,6 +1462,10 @@
   "ORIENT.nowhat": {
     "src": "{{player}} turned a piece at {{where}} to face {{facing}}.",
     "out": "{{player}} hat einen Stein bei {{where}} nach {{facing}} gedreht."
+  },
+  "PASS.agofmars_noObjSwap": {
+    "src": "{{player}} did not swap objectives.",
+    "out": "{{player}} tauschte keine Ziele."
   },
   "PASS.asli": {
     "src": "{{player}} took an opposing piece from the prison and passed their turn.",
@@ -1546,6 +1566,10 @@
   "PLACE.PYRAMID_3": {
     "src": "{{player}} placed a large piece at {{where}}.",
     "out": "{{player}} hat einen großen Stein bei {{where}} platziert."
+  },
+  "PLACE.agofmars": {
+    "src": "{{player}} placed a {{colour}}{{count}} pyramid at {{where}}.",
+    "out": "{{player}} platzierte eine {{colour}}{{count}} Pyramide auf {{where}}."
   },
   "PLACE.armadas_1": {
     "src": "{{player}} placed a small ship and named it {{name}}.",
@@ -2391,6 +2415,10 @@
     "src": "{{player}} handed a ball of colour {{who}} to the opponent.",
     "out": "{{player}} hat dem Gegner eine Kugel der Farbe {{who}} übergeben."
   },
+  "SELECT.thricewise": {
+    "src": "{{player}} selected {{card}}.",
+    "out": "{{player}} hat {{card}} ausgewählt."
+  },
   "SET.biscuit_biscuit_one": {
     "src": "{{player}} scored a biscuit.",
     "out": "{{player}} hat einen Keks erzielt."
@@ -2490,6 +2518,14 @@
   "STALEMATE.biscuit": {
     "src": "The hand has gone stale.",
     "out": "Die Hand ist festgefahren."
+  },
+  "SWAP.agofmars_board": {
+    "src": "{{player}} swapped the {{colour1}}{{size1}} at {{cell1}} and the {{colour2}}{{size2}} at {{cell2}}.",
+    "out": "{{player}} tauschte die {{colour1}}{{size1}} auf {{cell1}} und die {{colour2}}{{size2}} auf {{cell2}}."
+  },
+  "SWAP.agofmars_board_cells": {
+    "src": "{{player}} swapped the pyramids at {{cell1}} and {{cell2}}.",
+    "out": "{{player}} tauschte die Pyramiden auf {{cell1}} und {{cell2}}."
   },
   "SWAP.deckfish": {
     "src": "{{player}} swapped {{what}} from the market with {{with}} at {{where}}.",

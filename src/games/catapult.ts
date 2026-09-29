@@ -237,7 +237,7 @@ export class CatapultGame extends GameBase {
 
     // In this game only one button is active at a time.
     public getButtons(): ICustomButton[] {
-        if (this.moves().includes("pass")) return [{ label: "pass", move: "pass" }];
+        if (this.moves().includes("pass")) return [{ label: "apgames:buttons.pass", move: "pass" }];
         return [];
     }
 
@@ -665,7 +665,7 @@ export class CatapultGame extends GameBase {
     public sidebarStatuses(): IStatus[] {
         if (this.dagger !== undefined) {
             const key = this.neutralAreaLabel("apgames:status.DAGGER");
-            const value = { glyph: "piece", colour: this.dagger };
+            const value = this.statusSheetGlyph("piece", this.dagger);
             return [{ key, value: [value] }];
         } else {
             return [];

@@ -201,7 +201,7 @@ export class AsliGame extends GameBase {
     // In this game only one button is active at a time.
     public getButtons(): ICustomButton[] {
         if (this.stack[0]._version === "20240610") {
-            if (this.stack.length === 2 && !this.variants.includes("setkomi")) return [{ label: "acceptpie", move: "pie" }];
+            if (this.stack.length === 2 && !this.variants.includes("setkomi")) return [{ label: "apgames:buttons.acceptpie", move: "pie" }];
             if (this.stack.length > 2 || this.variants.includes("setkomi")) {
                 const otherPlayer = this.currplayer === 1 ? 2 : 1;
                 let canpass = false;
@@ -209,12 +209,12 @@ export class AsliGame extends GameBase {
                     canpass = true;
                 }
                 if (canpass) {
-                    return [{ label: "pass", move: "pass" }];
+                    return [{ label: "apgames:buttons.pass", move: "pass" }];
                 }
             }
         } else {
             if (!this.variants.includes("setkomi") && this.stack.length === 2) {
-                return [{ label: "pass", move: "pass" }];
+                return [{ label: "apgames:buttons.pass", move: "pass" }];
             } else {
                 const otherPlayer = this.currplayer === 1 ? 2 : 1;
                 // under area scoring, passing is always legal
@@ -223,7 +223,7 @@ export class AsliGame extends GameBase {
                     canpass = true;
                 }
                 if (canpass) {
-                    return [{ label: "pass", move: "pass" }];
+                    return [{ label: "apgames:buttons.pass", move: "pass" }];
                 }
             }
         }

@@ -502,7 +502,7 @@ export class CamelotGame extends GameBase {
     public getButtons(): ICustomButton[] {
         if (this.countdown >= 50 || this.stateCount(new Map<string, any>([["board", this.board], ["currplayer", this.currplayer]])) > 3) {
             return [{
-                label: "draw",
+                label: "apgames:buttons.draw",
                 move: "draw"
             }];
         }

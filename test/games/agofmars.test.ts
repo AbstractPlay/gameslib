@@ -418,6 +418,24 @@ describe("Agents of M.A.R.S.", () => {
             expect(v.message).to.include("no pyramids");
         });
 
+        it("defers bag draw and key area for emulation draw", () => {
+            const g = finishSetup(new AgofmarsGame()).move("noObjSwap");
+            const poolBefore = g.buildDrawPool().length;
+            const preview = new AgofmarsGame(g.serialize());
+            preview.move("draw", { emulation: true, trusted: true });
+            expect(preview.pendingDraw).to.equal(undefined);
+            expect(preview.buildDrawPool().length).to.equal(poolBefore);
+            expect(preview.validateMove("a1").valid).to.be.false;
+            expect(preview.handleClick("draw", 7, 0).valid).to.be.false;
+            const areas = preview.render().areas ?? [];
+            expect(areas.some(a => (a as { type?: string }).type === "key")).to.equal(false);
+
+            const committed = g.move("draw");
+            expect(committed.pendingDraw).to.not.equal(undefined);
+            const committedAreas = committed.render().areas ?? [];
+            expect(committedAreas.some(a => (a as { type?: string }).type === "key")).to.equal(true);
+        });
+
         it("does not commit move/swap tokens via move()", () => {
             let g = gameFrom(freshPlayState());
             g.board.set("a1", ["RD", 2]);

@@ -9,6 +9,7 @@ import {
     startingMultiset,
 } from "../../src/games/agofmars/bag.js";
 import { scoreGame } from "../../src/games/agofmars/scoring.js";
+import type { Colour } from "../../src/games/agofmars/types.js";
 import {
     freshPlayState,
     gameFrom,
@@ -229,6 +230,15 @@ describe("Agents of M.A.R.S.", () => {
             expect(bag.length).to.equal(59);
         });
 
+        it("leaves 59 in the bag when opponent objectives are hidden (BK placeholders)", () => {
+            const objectives: Colour[][] = [
+                ["RD", "BU", "GN", "YE"],
+                ["BK", "BK", "BK", "BK"],
+            ];
+            const bag = buildDrawPoolFromBoard([], new Map(), objectives);
+            expect(bag.length).to.equal(59);
+        });
+
         it("removes coloured and black setup pyramids per seat", () => {
             const objectives = defaultObjectives();
             const pool = startingMultiset([]);
@@ -316,6 +326,24 @@ describe("Agents of M.A.R.S.", () => {
             expect(drawLine).to.not.equal(undefined);
             expect(drawLine!.textParams?.colour).to.equal(colour);
             expect(drawLine!.textParams?.count).to.equal(size);
+            expect(drawLine!.actor).to.deep.equal({ kind: "seat", seat: 1 });
+        });
+
+        it("attributes every ply of a draw-and-place turn to the acting player", () => {
+            const g = finishSetup(new AgofmarsGame()).move("noObjSwap").move("draw").move("a1");
+            const keys = new Set([
+                "apresults:PASS.agofmars_noObjSwap",
+                "apresults:DECKDRAW.agofmars",
+                "apresults:PLACE.agofmars",
+            ]);
+            const turnLines = g
+                .chatLogEntries(["Alice", "Bob"])
+                .flatMap(e => e.lines)
+                .filter(l => keys.has(l.textKey));
+            expect(turnLines).to.have.length(3);
+            for (const line of turnLines) {
+                expect(line.actor).to.deep.equal({ kind: "seat", seat: 1 });
+            }
         });
 
         it("reports board moves and swaps with cell coordinates", () => {

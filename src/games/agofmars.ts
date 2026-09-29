@@ -139,6 +139,7 @@ export class AgofmarsGame extends GameBaseSequenced {
 
     private graph?: SquareOrthGraph;
     private objSwapColumn?: number;
+    private emulated = false;
 
     public static coords2algebraic(x: number, y: number, height = 8): string {
         return GameBase.coords2algebraic(x, y, height);
@@ -398,6 +399,7 @@ export class AgofmarsGame extends GameBaseSequenced {
         this.boardActionMode = s.boardActionMode;
         this.boardActionFrom = s.boardActionFrom;
         this.lastmove = s.lastmove;
+        this.emulated = false;
         this.graph = new SquareOrthGraph(this.boardWidth(), this.boardHeight());
     }
 
@@ -1558,7 +1560,11 @@ export class AgofmarsGame extends GameBaseSequenced {
         }
     }
 
-    public move(m: string, { partial = false, trusted = false } = {} as IMoveOptions): AgofmarsGame {
+    public move(
+        m: string,
+        { partial = false, trusted = false, emulation = false } = {} as IMoveOptions,
+    ): AgofmarsGame {
+        this.emulated = emulation;
         this.results = [];
         const move = m.trim();
         if (!trusted) {
@@ -1583,17 +1589,21 @@ export class AgofmarsGame extends GameBaseSequenced {
             return this;
         }
 
-        if (this.pendingDraw !== undefined) {
-            const cell = this.resolvePlaceCell(move)!;
-            const piece = this.pendingDraw;
-            const committed = AgofmarsGame.formatPlaceWire(piece[0], piece[1], cell);
-            this.board.set(cell, piece);
+        const placeCell = this.resolvePlaceCell(move);
+        if (placeCell !== undefined) {
+            const piece = this.pendingDraw!;
+            if (emulation) {
+                this.lastmove = AgofmarsGame.formatPlaceWire(piece[0], piece[1], placeCell);
+                return this;
+            }
+            const committed = AgofmarsGame.formatPlaceWire(piece[0], piece[1], placeCell);
+            this.board.set(placeCell, piece);
             this.pendingDraw = undefined;
             this.clearBoardActionMode();
             this.lastmove = committed;
             this.results.push({
                 type: "place",
-                where: cell,
+                where: placeCell,
                 what: piece[0],
                 count: piece[1],
             });
@@ -1649,12 +1659,15 @@ export class AgofmarsGame extends GameBaseSequenced {
         }
 
         if (move === "draw") {
-            const pool = this.buildDrawPool();
-            const drawn = shuffle([...pool])[0]! as PoolPiece;
-            this.pendingDraw = [drawn[0], drawn[1]];
+            if (emulation) {
+                return this;
+            }
             this.awaitingMainAction = false;
             this.clearBoardActionMode();
             this.lastmove = move;
+            const pool = this.buildDrawPool();
+            const drawn = shuffle([...pool])[0]! as PoolPiece;
+            this.pendingDraw = [drawn[0], drawn[1]];
             this.results.push({ type: "deckDraw", what: drawn[0], count: drawn[1] });
             this.saveState();
             return this;
@@ -2462,7 +2475,7 @@ export class AgofmarsGame extends GameBaseSequenced {
             });
         }
 
-        if (this.pendingDraw !== undefined) {
+        if (this.pendingDraw !== undefined && !this.emulated) {
             const [c, s] = this.pendingDraw;
             const key: AreaKey = {
                 type: "key",

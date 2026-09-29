@@ -95,6 +95,26 @@ describe("Agents of M.A.R.S.", () => {
             ]);
         });
 
+        it("previews placement before submit", () => {
+            let g = finishSetup(new AgofmarsGame()).move("noObjSwap").move("draw");
+            const [colour, size] = g.pendingDraw!;
+            const wire = AgofmarsGame.formatPlaceWire(colour, size, "d3");
+            const v = g.validateMove(wire);
+            expect(v.valid).to.be.true;
+            expect(v.complete).to.equal(1);
+            const [col, row] = AgofmarsGame.algebraic2coords("d3", g.boardHeight());
+            const click = g.handleClick("", row, col);
+            expect(click.valid).to.be.true;
+            expect(click.complete).to.equal(1);
+            expect(click.move).to.equal(wire);
+            g = g.move(wire, { partial: true });
+            expect(g.board.has("d3")).to.be.true;
+            expect(g.pendingDraw).to.not.equal(undefined);
+            const rep = g.render();
+            const rows = rep.pieces.split("\n");
+            expect(rows[row]?.split(",")[col]).to.include(colour);
+        });
+
         it("highlights the selected pyramid while choosing a move destination", () => {
             let g = gameFrom(freshPlayState());
             g.board.set("a1", ["RD", 2]);

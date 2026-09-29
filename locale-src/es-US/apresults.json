@@ -1452,8 +1452,8 @@
     "out": "{{player}} eligió sus objetivos."
   },
   "OBJECTIVE_SWAP.agofmars": {
-    "src": "{{player}} swapped objective columns {{columnA}} and {{columnB}}.",
-    "out": "{{player}} intercambió las columnas de objetivos {{columnA}} y {{columnB}}."
+    "src": "{{player}} swapped objective multipliers {{columnA}} and {{columnB}}.",
+    "out": "{{player}} intercambió los multiplicadores de objetivo {{columnA}} y {{columnB}}."
   },
   "ORIENT.crosshairs": {
     "src": "{{player}} turned a plane at {{where}} to face {{facing}}.",

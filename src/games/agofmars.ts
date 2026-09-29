@@ -1592,11 +1592,18 @@ export class AgofmarsGame extends GameBaseSequenced {
         const placeCell = this.resolvePlaceCell(move);
         if (placeCell !== undefined) {
             const piece = this.pendingDraw!;
-            if (emulation) {
-                this.lastmove = AgofmarsGame.formatPlaceWire(piece[0], piece[1], placeCell);
+            const committed = AgofmarsGame.formatPlaceWire(piece[0], piece[1], placeCell);
+            if (partial || emulation) {
+                this.board.set(placeCell, piece);
+                this.results.push({
+                    type: "place",
+                    where: placeCell,
+                    what: piece[0],
+                    count: piece[1],
+                });
+                this.lastmove = committed;
                 return this;
             }
-            const committed = AgofmarsGame.formatPlaceWire(piece[0], piece[1], placeCell);
             this.board.set(placeCell, piece);
             this.pendingDraw = undefined;
             this.clearBoardActionMode();
@@ -1738,6 +1745,7 @@ export class AgofmarsGame extends GameBaseSequenced {
             return {
                 valid: true,
                 complete: -1,
+                canrender: true,
                 message: i18next.t("apgames:validation.agofmars.PLACE"),
             };
         }

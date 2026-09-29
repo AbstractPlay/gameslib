@@ -427,7 +427,7 @@
         "agofmars": "{{player}} chose their objectives."
     },
     "OBJECTIVE_SWAP": {
-        "agofmars": "{{player}} swapped objective columns {{columnA}} and {{columnB}}."
+        "agofmars": "{{player}} swapped objective multipliers {{columnA}} and {{columnB}}."
     },
     "ORIENT": {
         "crosshairs": "{{player}} turned a plane at {{where}} to face {{facing}}.",

@@ -427,7 +427,7 @@
     "agofmars": "{{player}} eligió sus objetivos."
   },
   "OBJECTIVE_SWAP": {
-    "agofmars": "{{player}} intercambió las columnas de objetivos {{columnA}} y {{columnB}}."
+    "agofmars": "{{player}} intercambió los multiplicadores de objetivo {{columnA}} y {{columnB}}."
   },
   "ORIENT": {
     "crosshairs": "{{player}} giró un avión en {{where}} hacia {{facing}}.",

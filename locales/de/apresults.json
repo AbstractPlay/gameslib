@@ -427,7 +427,7 @@
     "agofmars": "{{player}} wählte die eigenen Ziele."
   },
   "OBJECTIVE_SWAP": {
-    "agofmars": "{{player}} tauschte die Zielspalten {{columnA}} und {{columnB}}."
+    "agofmars": "{{player}} hat die Ziel-Multiplikatoren {{columnA}} und {{columnB}} getauscht."
   },
   "ORIENT": {
     "crosshairs": "{{player}} hat ein Flugzeug bei {{where}} in Richtung {{facing}} gedreht.",

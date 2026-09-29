@@ -1309,7 +1309,7 @@ export class IcePalaceGame extends GameBaseSequenced {
             if (p === this.lead) {
                 // The button, as in poker, marks who leads the hand; it moves on after each
                 // build. It is a meeple in the leading player's own colour.
-                value.unshift(IcePalaceGame.statusGlyph("meeple", p));
+                value.unshift(this.statusSheetGlyph("meeple", p));
             }
             statuses.push({ key: this.seatStatusValue(p), value });
         }
@@ -1341,20 +1341,10 @@ export class IcePalaceGame extends GameBaseSequenced {
         return `${prefix}${piece}`;
     }
 
-    /**
-     * A status-panel glyph. The front draws these through the renderer's single-glyph
-     * helper and reads the glyph's name from `glyph`, not `name`, as Catapult and Entropy
-     * do; so a status value is not quite a legend glyph.
-     */
-    private static statusGlyph(name: string, colour: number | string | Colourfuncs): StatusValue {
-        const value = { glyph: name, colour };
-        return value as StatusValue;
-    }
-
     /** A pyramid as it appears in the status panel. */
     private statusGlyph(piece: PieceId): StatusValue {
         const glyph = this.glyphFor(piece, "nest");
-        return IcePalaceGame.statusGlyph(glyph.name!, glyph.colour as number | string | Colourfuncs);
+        return this.statusSheetGlyph(glyph.name!, glyph.colour as number | string | Colourfuncs);
     }
 
     /**

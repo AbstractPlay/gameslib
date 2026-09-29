@@ -665,7 +665,7 @@ export class CatapultGame extends GameBase {
     public sidebarStatuses(): IStatus[] {
         if (this.dagger !== undefined) {
             const key = this.neutralAreaLabel("apgames:status.DAGGER");
-            const value = { glyph: "piece", colour: this.dagger };
+            const value = this.statusSheetGlyph("piece", this.dagger);
             return [{ key, value: [value] }];
         } else {
             return [];

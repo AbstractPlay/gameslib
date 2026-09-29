@@ -1572,6 +1572,45 @@ function _renderInCheckSection(game, playerNames) {
     return inCheckBlockHTML;
 }
 
+function isPlaygroundSidebarGlyphValue(value) {
+    if (typeof value !== "object" || value === null) {
+        return false;
+    }
+    if (APGames?.isStructuredRenderLabel?.(value)) {
+        return false;
+    }
+    if (value.kind === "sheet" || value.kind === "legend") {
+        return true;
+    }
+    if (Object.prototype.hasOwnProperty.call(value, "glyph") && Object.prototype.hasOwnProperty.call(value, "colour")) {
+        return true;
+    }
+    if (Object.prototype.hasOwnProperty.call(value, "piece")) {
+        return true;
+    }
+    if (Array.isArray(value)) {
+        return value.length > 0;
+    }
+    return typeof value.name === "string";
+}
+
+function renderPlaygroundSidebarStatusGlyph(value, glyphRenderOptions) {
+    const localGlyphOpts = {
+        ...glyphRenderOptions,
+        prefix: generateUniqueSvgId(),
+    };
+    if (value.kind === "sheet") {
+        return APRender.renderSheetGlyph(value.name, value.colour, localGlyphOpts);
+    }
+    if (value.kind === "legend") {
+        return APRender.renderLegendGlyph(value.entry, localGlyphOpts);
+    }
+    if (typeof value.glyph === "string" && Object.prototype.hasOwnProperty.call(value, "colour")) {
+        return APRender.renderSheetGlyph(value.glyph, value.colour ?? 1, localGlyphOpts);
+    }
+    return APRender.renderLegendGlyph(value, localGlyphOpts);
+}
+
 // Helper to render a single IStatus value entry (string, glyph object, or i18n key)
 function _formatStatusValue(value, glyphRenderOptions) {
     if (typeof value === "string") {
@@ -1580,14 +1619,10 @@ function _formatStatusValue(value, glyphRenderOptions) {
         }
         return value;
     }
-    if (typeof value === "object" && value !== null && value.glyph) {
+    if (isPlaygroundSidebarGlyphValue(value)) {
         try {
-            const colour = value.colour ?? 1;
-            const glyphSVG = APRender.renderSheetGlyph(value.glyph, colour, {
-                ...glyphRenderOptions,
-                prefix: generateUniqueSvgId(),
-            });
-            return `<span class="status-glyph" style="display:inline-flex;vertical-align:middle;width:1.25em;height:1.25em;">${glyphSVG}</span>`;
+            const glyphSVG = renderPlaygroundSidebarStatusGlyph(value, glyphRenderOptions);
+            return `<span class="status-glyph" style="display:inline-flex;vertical-align:middle;max-height:1.25em;width:auto;">${glyphSVG}</span>`;
         } catch (e) {
             console.error("Error rendering status glyph:", e);
             return "";

@@ -243,7 +243,7 @@ describe("Arimaa", () => {
         [status] = g.sidebarStatuses();
         expect(g.harlog()).to.be.greaterThan(0);
         expect(status.value).to.deep.equal([
-            { glyph: "piece", colour: g.getPlayerColour(1) },
+            { kind: "sheet", name: "piece", colour: g.getPlayerColour(1) },
             g.harlog().toFixed(2),
         ]);
 
@@ -254,15 +254,21 @@ describe("Arimaa", () => {
         [status] = g.sidebarStatuses();
         expect(g.harlog()).to.be.lessThan(0);
         expect(status.value).to.deep.equal([
-            { glyph: "piece", colour: g.getPlayerColour(2) },
+            { kind: "sheet", name: "piece", colour: g.getPlayerColour(2) },
             Math.abs(g.harlog()).toFixed(2),
         ]);
 
         // infinite values keep the leader's glyph; NaN has no leader
         g.harlog = () => Infinity;
-        expect(g.sidebarStatuses()[0].value).to.deep.equal([{ glyph: "piece", colour: g.getPlayerColour(1) }, "Infinity"]);
+        expect(g.sidebarStatuses()[0].value).to.deep.equal([
+            { kind: "sheet", name: "piece", colour: g.getPlayerColour(1) },
+            "Infinity",
+        ]);
         g.harlog = () => -Infinity;
-        expect(g.sidebarStatuses()[0].value).to.deep.equal([{ glyph: "piece", colour: g.getPlayerColour(2) }, "Infinity"]);
+        expect(g.sidebarStatuses()[0].value).to.deep.equal([
+            { kind: "sheet", name: "piece", colour: g.getPlayerColour(2) },
+            "Infinity",
+        ]);
         g.harlog = () => NaN;
         expect(g.sidebarStatuses()[0].value).to.deep.equal(["NaN"]);
     });

@@ -1807,7 +1807,7 @@ export class ArimaaGame extends GameBase {
         if (Number.isNaN(harlog) || Number(magnitude) === 0) {
             return [{ key, value: [magnitude] }];
         }
-        const glyph = { glyph: "piece", colour: this.getPlayerColour(harlog > 0 ? 1 : 2) };
+        const glyph = this.statusSheetGlyph("piece", this.getPlayerColour(harlog > 0 ? 1 : 2));
         return [{ key, value: [glyph, magnitude] }];
     }
 

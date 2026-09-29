@@ -567,14 +567,18 @@ describe("Ice Palace: board interaction", () => {
         // Seat 1 leads the first hand, so its row starts with the button.
         expect(statuses[0].value.length).to.equal(3);
         // The button is a meeple in the leader's colour.
-        expect(statuses[0].value[0]).to.deep.equal({ glyph: "meeple", colour: 1 });
+        expect(statuses[0].value[0]).to.deep.equal({ kind: "sheet", name: "meeple", colour: 1 });
         expect(statuses[1].value.length).to.equal(1);
-        // The front reads a status glyph's name from `glyph`, as Catapult's dagger does.
-        expect(statuses[1].value[0]).to.deep.equal({ glyph: "pyramid-flattened-small", colour: 2 });
+        // Sheet glyphs use tagged `kind: "sheet"` (legacy `{ glyph, colour }` still works on the front).
+        expect(statuses[1].value[0]).to.deep.equal({
+            kind: "sheet",
+            name: "pyramid-flattened-small",
+            colour: 2,
+        });
         expect(statuses[2].value.length).to.equal(3);
         g.lead = 2;
         expect(g.sidebarStatuses()[0].value.length).to.equal(2);
-        expect(g.sidebarStatuses()[1].value[0]).to.deep.equal({ glyph: "meeple", colour: 2 });
+        expect(g.sidebarStatuses()[1].value[0]).to.deep.equal({ kind: "sheet", name: "meeple", colour: 2 });
     });
 
     it("dots the legal cells once a pyramid is picked, and only then", () => {

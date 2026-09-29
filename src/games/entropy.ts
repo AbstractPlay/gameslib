@@ -738,7 +738,10 @@ export class EntropyGame extends GameBaseSimultaneous {
         const returned = [{ key: this.neutralAreaLabel("apgames:status.PHASE"), value: [this.neutralAreaLabel(`apgames:status.entropy.${this.phase.toUpperCase()}`)] } as IStatus];
         if (this.phase === "chaos" && !isPartial) {
             const key = this.neutralAreaLabel("apgames:status.TOPLACE");
-            const value = { glyph: "piece", colour: allColours.findIndex(c => c === this.nextPiece()) + 1 };
+            const value = this.statusSheetGlyph(
+                "piece",
+                allColours.findIndex(c => c === this.nextPiece()) + 1,
+            );
             returned.push({ key, value: [value] });
         }
         return returned;

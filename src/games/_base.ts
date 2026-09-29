@@ -2,7 +2,13 @@
 /* eslint-disable no-prototype-builtins */
 
 import { APGamesInformation, AlternativeDisplay, Variant } from '../schemas/gameinfo.js';
-import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema";
+import { APRenderRep, Glyph, Colourfuncs } from "@abstractplay/renderer/build/schemas/schema";
+
+/** Player index, hex/pattern token, or colour function — same as a glyph `colour` field. */
+export type ColourResolvable = number | string | Colourfuncs;
+
+/** A single value from `APRenderRep.legend` (sheet glyph, composite, polymatrix, iso piece, …). */
+export type LegendEntry = NonNullable<APRenderRep["legend"]>[string];
 import type { APMoveResult } from '../schemas/moveresults.js';
 import { APGameRecord } from "@abstractplay/recranks";
 import { algebraic2coords, coords2algebraic, replacer, sortingReplacer, UserFacingError } from '../common/index.js';
@@ -73,8 +79,41 @@ export interface IStatus {
     value: StatusValue[];
 }
 
-/** Sidebar status value: plain text, piece glyph, or structured label. */
-export type StatusValue = string | Glyph | RenderLabel;
+/** Sheet glyph for sidebar status/score cells (`renderSheetGlyph` on the front). */
+export type SidebarSheetGlyph = {
+    kind: "sheet";
+    name: string;
+    colour: ColourResolvable;
+};
+
+/** Full legend entry for sidebar cells (`renderLegendGlyph` on the front). */
+export type SidebarLegendGlyph = {
+    kind: "legend";
+    entry: LegendEntry;
+};
+
+export type SidebarGlyph = SidebarSheetGlyph | SidebarLegendGlyph;
+
+/**
+ * Legacy sidebar shorthand (`glyph` + `colour`). Prefer {@link SidebarSheetGlyph} via
+ * {@link GameBase.statusSheetGlyph}.
+ */
+export type LegacyStatusGlyphShorthand = {
+    glyph: string;
+    colour: ColourResolvable;
+};
+
+/**
+ * Sidebar status/score cell value: plain text, structured label, tagged glyphs, or raw
+ * {@link LegendEntry} shapes (single glyph, decktet composite, polymatrix, iso piece).
+ */
+export type StatusValue =
+    | string
+    | RenderLabel
+    | Glyph
+    | SidebarGlyph
+    | LegacyStatusGlyphShorthand
+    | LegendEntry;
 
 /**
  * Represents an entry in a player (or shared) stash of player pieces.
@@ -1010,6 +1049,16 @@ export abstract class GameBase  {
     /** Structured sidebar status value for a seat (display name only). */
     protected seatStatusValue(seat: number): StructuredRenderLabel {
         return this.seatAreaLabel(seat, "apgames:status._player");
+    }
+
+    /** Sidebar cell: one glyph from the sheet (`renderSheetGlyph`). */
+    protected statusSheetGlyph(name: string, colour: ColourResolvable): SidebarSheetGlyph {
+        return { kind: "sheet", name, colour };
+    }
+
+    /** Sidebar cell: full legend entry (`renderLegendGlyph`), e.g. decktet `Card.toGlyph()`. */
+    protected statusLegendGlyph(entry: LegendEntry): SidebarLegendGlyph {
+        return { kind: "legend", entry };
     }
 
     protected pushSeatChatLine(

@@ -107,7 +107,7 @@ export class AgofmarsGame extends GameBaseSequenced {
             "board>connect>rect",
             "components>pyramids",
         ],
-        flags: ["scores", "shared-pieces", "custom-buttons", "no-moves", "custom-randomization", "no-explore"],
+        flags: ["scores", "shared-pieces", "custom-buttons", "no-moves", "custom-randomization", "no-explore", "experimental"],
         variants: [
             { uid: "five-colour-plus3", group: "rules" },
             { uid: "five-colour-minus2", group: "rules" },

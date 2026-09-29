@@ -2301,7 +2301,7 @@ export class AgofmarsGame extends GameBaseSequenced {
         if (this.phase === "play") {
             return [
                 {
-                    key: "apgames:status.agofmars.bagCount",
+                    key: this.neutralAreaLabel("apgames:status.agofmars.bagCount"),
                     value: [String(this.buildDrawPool().length)],
                 },
             ];

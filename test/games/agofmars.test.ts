@@ -180,6 +180,20 @@ describe("Agents of M.A.R.S.", () => {
         });
     });
 
+    describe("sidebar status", () => {
+        it("emits structured bag-count label during play", () => {
+            const g = new AgofmarsGame(undefined, ["objective-initiative"]);
+            expect(g.phase).to.equal("play");
+            const statuses = g.sidebarStatuses();
+            expect(statuses).to.have.length(1);
+            expect(statuses[0]!.key).to.deep.equal({
+                textKey: "apgames:status.agofmars.bagCount",
+                actor: { kind: "none" },
+            });
+            expect(statuses[0]!.value[0]).to.match(/^\d+$/);
+        });
+    });
+
     describe("draw pool", () => {
         it("starts with 75 pyramids in the default four-colour set", () => {
             expect(startingMultiset([]).length).to.equal(75);

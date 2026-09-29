@@ -51,24 +51,54 @@ export function removeFromMultiset(pool: PoolPiece[], piece: PoolPiece): PoolPie
     return out;
 }
 
+/** `BK` in an objectives row is a hidden-info placeholder, not a black objective pyramid. */
+function isHiddenObjectivePlaceholder(colour: Colour | undefined): boolean {
+    return colour === "BK";
+}
+
+function isAssignedObjectiveColour(colour: Colour | undefined, variants: string[]): boolean {
+    return colour !== undefined && colour !== "BK" && activeColours(variants).includes(colour);
+}
+
 /**
  * Pyramids removed at setup: per seat, one coloured pyramid of the seat's size per column
  * plus one black cover pyramid per column (large for P1, medium for P2).
+ *
+ * Viewer-redacted state uses `BK` per hidden column; those slots still consumed one chromatic
+ * pyramid each at setup (a permutation of active colours), which we infer when building the bag.
  */
-export function subtractSetupPyramids(pool: PoolPiece[], objectives: Colour[][]): PoolPiece[] {
+export function subtractSetupPyramids(
+    pool: PoolPiece[],
+    objectives: Colour[][],
+    variants: string[] = [],
+): PoolPiece[] {
+    const chromatic = activeColours(variants);
     let out = pool;
     for (let seat = 0; seat < objectives.length; seat++) {
         const row = objectives[seat];
-        if (row === undefined) {
+        if (row === undefined || row.length === 0) {
             continue;
         }
         const colourSize = objectiveColourSizeForSeat(seat);
         const blackSize = setupBlackSizeForSeat(seat);
+        const explicit: Colour[] = [];
+        let hiddenColumns = 0;
         for (const colour of row) {
-            if (colour !== undefined && colour !== "BK") {
-                out = removeFromMultiset(out, [colour, colourSize]);
-            }
             out = removeFromMultiset(out, ["BK", blackSize]);
+            if (isAssignedObjectiveColour(colour, variants)) {
+                explicit.push(colour);
+                out = removeFromMultiset(out, [colour, colourSize]);
+            } else if (isHiddenObjectivePlaceholder(colour)) {
+                hiddenColumns++;
+            }
+        }
+        if (hiddenColumns > 0) {
+            const inferredHidden = chromatic.filter(c => !explicit.includes(c));
+            if (inferredHidden.length === hiddenColumns) {
+                for (const c of inferredHidden) {
+                    out = removeFromMultiset(out, [c, colourSize]);
+                }
+            }
         }
     }
     return out;
@@ -80,7 +110,7 @@ export function buildDrawPoolFromBoard(
     objectives: Colour[][],
     pendingDraw?: PoolPiece,
 ): PoolPiece[] {
-    let pool = subtractSetupPyramids(startingMultiset(variants), objectives);
+    let pool = subtractSetupPyramids(startingMultiset(variants), objectives, variants);
     for (const [, piece] of board) {
         pool = removeFromMultiset(pool, piece);
     }

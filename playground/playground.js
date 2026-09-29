@@ -1479,23 +1479,25 @@ function metricNameIdSuffix(label, playerNames) {
 function formatSingleStashItemContent(item, glyphRenderOptions) {
     let content = "";
     try {
-        const glyphName = (typeof item.glyph === 'object' && item.glyph !== null) ? item.glyph.name : String(item.glyph);
-        const glyphColour = (typeof item.glyph === 'object' && item.glyph !== null && item.glyph.hasOwnProperty('colour')) ? item.glyph.colour : 1;
-        const glyphSvgId = generateUniqueSvgId(); // This is for the outer <svg> id if APRender uses it, or for our uniqueness.
+        const glyphSvgId = generateUniqueSvgId();
 
         const localGlyphOpts = {
             ...glyphRenderOptions,
-            svgid: glyphSvgId, // Pass unique ID for the SVG element itself
-            prefix: generateUniqueSvgId(),
+            svgid: glyphSvgId,
         };
-        let glyphSvg = APRender.renderSheetGlyph(glyphName, glyphColour, localGlyphOpts);
-        content += `${item.count} &times; <span class="stash-glyph-wrapper">${glyphSvg}</span>`;
+        const glyphSvg = renderPlaygroundStashGlyph(item.glyph, localGlyphOpts);
+        content += `${item.count} &times; <span class="stash-glyph-wrapper" style="display:inline-flex;vertical-align:middle;max-height:1.25em;width:auto;">${glyphSvg}</span>`;
         if (item.movePart) {
             content += ` <span class="stash-movepart">(${item.movePart})</span>`;
         }
     } catch (e) {
         console.error("Error rendering stash glyph item:", e, item);
-        const glyphIdentifier = (typeof item.glyph === 'object' && item.glyph !== null) ? item.glyph.name : String(item.glyph);
+        const glyphIdentifier =
+            typeof item.glyph === "object" && item.glyph !== null && item.glyph.kind === "legend"
+                ? "legend entry"
+                : typeof item.glyph === "object" && item.glyph !== null && item.glyph.name
+                  ? item.glyph.name
+                  : String(item.glyph);
         content += `<span>${item.count} &times; [Error rendering ${glyphIdentifier}]</span>`;
         if (item.movePart) {
             content += ` (${item.movePart})`;
@@ -1594,6 +1596,25 @@ function isPlaygroundSidebarGlyphValue(value) {
     return typeof value.name === "string";
 }
 
+function normalizePlaygroundStashGlyph(glyph) {
+    if (glyph === null || typeof glyph !== "object") {
+        return glyph;
+    }
+    if (glyph.kind === "sheet" || glyph.kind === "legend") {
+        return glyph;
+    }
+    if (Array.isArray(glyph) || Object.prototype.hasOwnProperty.call(glyph, "piece")) {
+        return glyph;
+    }
+    if (typeof glyph.glyph === "string" && Object.prototype.hasOwnProperty.call(glyph, "colour")) {
+        return glyph;
+    }
+    if (typeof glyph.name === "string" && glyph.colour !== undefined) {
+        return { kind: "sheet", name: glyph.name, colour: glyph.colour };
+    }
+    return glyph;
+}
+
 function renderPlaygroundSidebarStatusGlyph(value, glyphRenderOptions) {
     const localGlyphOpts = {
         ...glyphRenderOptions,
@@ -1609,6 +1630,13 @@ function renderPlaygroundSidebarStatusGlyph(value, glyphRenderOptions) {
         return APRender.renderSheetGlyph(value.glyph, value.colour ?? 1, localGlyphOpts);
     }
     return APRender.renderLegendGlyph(value, localGlyphOpts);
+}
+
+function renderPlaygroundStashGlyph(glyph, glyphRenderOptions) {
+    return renderPlaygroundSidebarStatusGlyph(
+        normalizePlaygroundStashGlyph(glyph),
+        glyphRenderOptions,
+    );
 }
 
 // Helper to render a single IStatus value entry (string, glyph object, or i18n key)

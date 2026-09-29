@@ -115,6 +115,9 @@ export type StatusValue =
     | LegacyStatusGlyphShorthand
     | LegendEntry;
 
+/** Visual on a stash row: same render shapes as sidebar glyphs (no text / RenderLabel). */
+export type StashGlyph = SidebarGlyph | LegendEntry;
+
 /**
  * Represents an entry in a player (or shared) stash of player pieces.
  *
@@ -123,7 +126,7 @@ export type StatusValue =
  */
 export interface IStashEntry {
     count: number,
-    glyph: Glyph,
+    glyph: StashGlyph,
     movePart: string
 }
 
@@ -1059,6 +1062,16 @@ export abstract class GameBase  {
     /** Sidebar cell: full legend entry (`renderLegendGlyph`), e.g. decktet `Card.toGlyph()`. */
     protected statusLegendGlyph(entry: LegendEntry): SidebarLegendGlyph {
         return { kind: "legend", entry };
+    }
+
+    /** Stash row: sheet glyph (alias of {@link statusSheetGlyph}). */
+    protected stashSheetGlyph(name: string, colour: ColourResolvable): SidebarSheetGlyph {
+        return this.statusSheetGlyph(name, colour);
+    }
+
+    /** Stash row: legend entry (alias of {@link statusLegendGlyph}). */
+    protected stashLegendGlyph(entry: LegendEntry): SidebarLegendGlyph {
+        return this.statusLegendGlyph(entry);
     }
 
     protected pushSeatChatLine(

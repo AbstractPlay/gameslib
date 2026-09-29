@@ -29,7 +29,21 @@ this.statusLegendGlyph(card.toGlyph());
 
 Emit row keys with `neutralAreaLabel("apgames:status.…")` or `seatStatusValue(seat)`; add English under `locales/en/apgames.json` → `status`.
 
-Replace legacy `{ glyph: "…", colour }` in `sidebarStatuses()` / `sidebarScores()` with `statusSheetGlyph`. Stash entries (`IStashEntry.glyph` as a `Glyph` with `name`/`colour`) are unchanged.
+Replace legacy `{ glyph: "…", colour }` in `sidebarStatuses()` / `sidebarScores()` with `statusSheetGlyph`.
+
+## Stash (`IStashEntry`)
+
+`glyph` is typed as `StashGlyph` — tagged `SidebarGlyph` or any `LegendEntry` (single `Glyph`, decktet composite, polymatrix, iso piece). Plain `{ name, colour }` glyphs remain valid.
+
+```typescript
+// Sheet piece (walls, pyramids, …)
+{ count: 3, glyph: this.stashSheetGlyph("hline", 3), movePart: "" }
+
+// Composite (e.g. decktet)
+{ count: 1, glyph: this.stashLegendGlyph(card.toGlyph()), movePart: card.uid }
+```
+
+`stashSheetGlyph` / `stashLegendGlyph` delegate to the status helpers; use whichever name reads best in `getPlayerStash()` / `getSharedStash()`.
 
 Games migrated to tagged sheet glyphs: Ice Palace, Arimaa, Catapult, Entropy, Tintas, Mega-Volcano.
 

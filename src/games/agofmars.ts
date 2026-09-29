@@ -583,6 +583,7 @@ export class AgofmarsGame extends GameBaseSequenced {
         return {
             valid: true,
             complete: -1,
+            canrender: true,
             message: i18next.t("apgames:validation.agofmars.MAIN_ACTION_MODE", { context: mode }),
         };
     }
@@ -1472,10 +1473,15 @@ export class AgofmarsGame extends GameBaseSequenced {
                     ),
                 );
             }
+            const selectMessage =
+                mode === "move"
+                    ? i18next.t("apgames:validation.agofmars.MOVE_SELECT_DEST")
+                    : i18next.t("apgames:validation.agofmars.SWAP_SELECT_SECOND");
             return {
                 valid: true,
-                complete: 0,
-                message: i18next.t("apgames:validation.agofmars.MAIN_ACTION_MODE", { context: mode }),
+                complete: -1,
+                canrender: true,
+                message: selectMessage,
             };
         }
 
@@ -2051,7 +2057,7 @@ export class AgofmarsGame extends GameBaseSequenced {
             message: string,
         ): IClickResult => ({
             valid: true,
-            complete: 0,
+            complete: -1,
             message,
             move: keepField(from),
             canrender: true,

@@ -425,7 +425,13 @@ describe("Agents of M.A.R.S.", () => {
             expect(() => g.move("move")).to.throw();
             const armed = g.handleClick("move", 7, 0);
             expect(armed.move).to.equal("move;a1");
-            expect(armed.complete).to.equal(0);
+            expect(armed.complete).to.equal(-1);
+            expect(armed.canrender).to.equal(true);
+            const validated = g.validateMove("move;a1");
+            expect(validated.valid).to.be.true;
+            expect(validated.complete).to.equal(-1);
+            expect(validated.canrender).to.equal(true);
+            expect(() => g.move("move;a1", { partial: true, emulation: true })).to.not.throw();
             const committed = new AgofmarsGame(g.serialize()).handleClick(armed.move, 5, 0);
             expect(committed.complete).to.equal(1);
             expect(committed.move).to.equal("RD2@a1-a3");

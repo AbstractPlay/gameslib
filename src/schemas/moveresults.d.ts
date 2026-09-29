@@ -36,6 +36,7 @@ export type APMoveResult =
       what?: string;
       how?: string;
       count?: number;
+      who?: number;
     }
   | {
       type: "capture";
@@ -110,6 +111,7 @@ export type APMoveResult =
       count?: number;
       what?: string;
       from?: string;
+      who?: number;
     }
   | {
       type: "resigned";

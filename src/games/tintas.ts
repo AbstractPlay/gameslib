@@ -70,6 +70,13 @@ export class TintasGame extends GameBase {
                 group: "board",
             }
         ],
+        customizations: [
+            {
+                num: 8,
+                default: "#ccc",
+                explanation: "Colour of the pawn"
+            },
+        ],
         categories: ["goal>set", "mechanic>set",  "mechanic>move", "mechanic>share", "mechanic>random>setup", "board>shape>other", "board>connect>hex", "components>simple>7c"],
         flags: ["check", "pie", "automove", "shared-pieces", "random-start", "custom-rotation"]
     };
@@ -803,7 +810,16 @@ export class TintasGame extends GameBase {
                 },
                 X: {
                     name: "chess-queen-outline-montreal",
-                    colour: "_context_strokes"
+                    colour: {
+                        func: "custom",
+                        palette: 8,
+                        default: {
+                            func: "flatten",
+                            fg: "_context_strokes",
+                            bg: "_context_background",
+                            opacity: 0.5,
+                        }
+                    }
                 },
             },
             pieces: pstr

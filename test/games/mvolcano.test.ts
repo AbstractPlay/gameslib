@@ -13,8 +13,8 @@ function findScores(scores: IScores[], key: string): IScores {
 
 function colours(entry: unknown): number[] {
     expect(entry).to.be.an("array");
-    return (entry as { glyph: string, colour: number }[]).map((v) => {
-        expect(v.glyph).to.equal("piece");
+    return (entry as { kind: "sheet"; name: string; colour: number }[]).map((v) => {
+        expect(v).to.deep.equal({ kind: "sheet", name: "piece", colour: v.colour });
         return v.colour;
     });
 }

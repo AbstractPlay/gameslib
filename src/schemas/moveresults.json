@@ -75,6 +75,9 @@
                 },
                 "count": {
                     "type": "number"
+                },
+                "who": {
+                    "type": "number"
                 }
             },
             "required": ["type", "from", "to"],
@@ -292,6 +295,9 @@
                 },
                 "from": {
                     "type": "string"
+                },
+                "who": {
+                    "type": "number"
                 }
             },
             "required": ["type"],

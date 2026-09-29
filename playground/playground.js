@@ -1488,7 +1488,7 @@ function formatSingleStashItemContent(item, glyphRenderOptions) {
             svgid: glyphSvgId, // Pass unique ID for the SVG element itself
             prefix: generateUniqueSvgId(),
         };
-        let glyphSvg = APRender.renderglyph(glyphName, glyphColour, localGlyphOpts);
+        let glyphSvg = APRender.renderSheetGlyph(glyphName, glyphColour, localGlyphOpts);
         content += `${item.count} &times; <span class="stash-glyph-wrapper">${glyphSvg}</span>`;
         if (item.movePart) {
             content += ` <span class="stash-movepart">(${item.movePart})</span>`;
@@ -1583,7 +1583,7 @@ function _formatStatusValue(value, glyphRenderOptions) {
     if (typeof value === "object" && value !== null && value.glyph) {
         try {
             const colour = value.colour ?? 1;
-            const glyphSVG = APRender.renderglyph(value.glyph, colour, {
+            const glyphSVG = APRender.renderSheetGlyph(value.glyph, colour, {
                 ...glyphRenderOptions,
                 prefix: generateUniqueSvgId(),
             });
@@ -1702,7 +1702,7 @@ function _renderScoresSection(game, gamename, playerNames, gameFlags, glyphRende
                         };
 
                         try {
-                            let glyphSVG = APRender.renderglyph("piece", gc === null ? playerNum : gc, localGlyphOpts);
+                            let glyphSVG = APRender.renderSheetGlyph("piece", gc === null ? playerNum : gc, localGlyphOpts);
                             swatch.innerHTML = glyphSVG;
                             const svgElement = swatch.querySelector('svg');
                             if (svgElement) {
@@ -2045,7 +2045,7 @@ function renderGame(...args) {
                     }
 
                     const glyphOpts = getRenderOptions({svgid: `playerSwatchGlyph_${p}`, prefix: generateUniqueSvgId()});
-                    // The following properties are not used by renderglyph and should be removed to avoid confusion
+                    // The following properties are not used by renderSheetGlyph and should be removed to avoid confusion
                     delete glyphOpts.divid;
                     delete glyphOpts.divelem;
                     delete glyphOpts.target;
@@ -2055,7 +2055,7 @@ function renderGame(...args) {
                     delete glyphOpts.boardHover;
 
                     try {
-                        let glyphSVG = APRender.renderglyph("piece", gc === null ? p : gc, glyphOpts);
+                        let glyphSVG = APRender.renderSheetGlyph("piece", gc === null ? p : gc, glyphOpts);
                         swatch.innerHTML = glyphSVG;
                         // Ensure the SVG inside the swatch scales correctly
                         const svgElement = swatch.querySelector('svg');

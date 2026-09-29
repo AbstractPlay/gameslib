@@ -1,5 +1,5 @@
 import { Direction, Grid, rectangle, defineHex, Orientation } from "honeycomb-grid";
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type StatusValue } from "./_base.js";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, BoardBasic, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -871,7 +871,7 @@ export class TintasGame extends GameBase {
     public sidebarScores(): IScores[] {
         // Colours are listed in palette order and drawn as they are on the board.
         const colours = [1, 2, 3, 4, 5, 6, 7] as CellContents[];
-        const glyphs = (list: CellContents[]) => list.map(c => ({ glyph: "piece", colour: c }) as StatusValue);
+        const glyphs = (list: CellContents[]) => list.map(c => this.statusSheetGlyph("piece", c));
         // A player can still take all seven of a colour only while their opponent has none of it.
         const monochrome = ([1, 2] as playerid[]).map(player => glyphs(colours.filter(c => !this.captured[player % 2].includes(c))));
         // Four of a colour's seven discs are a majority of it.

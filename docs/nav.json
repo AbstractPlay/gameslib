@@ -9,6 +9,7 @@
   { "slug": "game-object", "title": "Game object" },
   { "slug": "structured-chat-log", "title": "Structured move log" },
   { "slug": "structured-render-labels", "title": "Structured render labels" },
+  { "slug": "sidebar-status-glyphs", "title": "Sidebar status glyphs" },
   { "slug": "sequenced-turn-model", "title": "Sequenced turn model" },
   { "slug": "flags" },
   { "slug": "variants", "title": "Variants" },

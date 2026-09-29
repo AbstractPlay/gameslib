@@ -63,6 +63,18 @@ export type {
     RecordsGeneration,
 };
 export type { IAPGameState, FlagContext, GameFlag } from "./games/index.js";
+export type {
+    IStatus,
+    IScores,
+    IStashEntry,
+    StatusValue,
+    StashGlyph,
+    SidebarGlyph,
+    SidebarSheetGlyph,
+    SidebarLegendGlyph,
+    LegacyStatusGlyphShorthand,
+    LegendEntry,
+} from "./games/_base.js";
 export type { APMoveResult, APGamesInformation };
 export type { Variant, AlternativeDisplay } from "./schemas/gameinfo.js";
 export type { TurnModel, IGamePly, IGameRound, IGameRoundSlot } from "./games/_turn-model.js";

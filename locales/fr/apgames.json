@@ -291,6 +291,7 @@
     "xana": "Un jeu d'empilement où les joueurs disposent d'un nombre limité de pièces et d'un nombre illimité de murs pour conquérir du territoire.",
     "y": "Le jeu de connexion classique. Connectez les trois côtés pour gagner.",
     "yavalath": "Formez une ligne de quatre pièces ou plus de votre couleur *sans* former une ligne de trois pièces au préalable.",
+    "yodd": "Passez ou placez une ou deux pierres de n'importe quelle couleur. Après votre tour, il doit y avoir un nombre impair de groupes sur le plateau. Lorsque les deux joueurs passent consécutivement, le joueur ayant le moins de groupes de sa couleur gagne.",
     "yonmoque": "Essayez de former un alignement de quatre pièces dans un jeu où toutes les cases ne se valent pas et où les pièces adverses peuvent être converties.",
     "zola": "Un jeu où vos déplacements sont contraints par votre distance par rapport au centre du plateau. Les coups de capture ne doivent pas augmenter cette distance. Les coups sans capture doivent augmenter cette distance. La première personne à capturer toutes les pièces adverses gagne."
   },
@@ -586,6 +587,7 @@
     "xana": "Xana",
     "y": "Y",
     "yavalath": "Yavalath",
+    "yodd": "Yodd",
     "yonmoque": "Yonmoque",
     "zola": "Zola"
   },
@@ -701,7 +703,8 @@
     "waldmeister": "Les joueurs jouent deux parties consécutives. Au premier tour, le Joueur 1 joue pour les couleurs et le Joueur 2 joue pour les hauteurs. À la fin du premier tour, les scores sont calculés et les groupes rapportant des points sont mis en évidence. Puis, au second tour, le Joueur 2 joue en premier et joue pour les couleurs, et le Joueur 1 joue pour les hauteurs.",
     "witch": "Le premier joueur ne commence en possédant aucune pièce et peut retirer n'importe quelle pièce (autre qu'une couronne) lors de son premier tour. Le second joueur choisit sa couleur lors de son premier tour, après quoi il n'est plus possible de retirer les pièces de votre adversaire.",
     "xana": "Les joueurs, à leur tour, posent/déplacent une pile (il y a une quantité limitée de pièces empilables) et posent optionnellement deux murs sur des cases hexagonales vides. Les piles sans libertés sont capturées. Une pile a une liberté si au moins une des cases hexagonales adjacentes est vide (il n'y a pas de concept de groupe de piles). Une case hexagonale est accessible si elle est vide et reliée à une pile amie par un chemin de cases hexagonales vides. Le but est d'obtenir le plus haut score de territoire plus captures. Xana a été conçu en 2005.",
-    "y": "Le jeu a été conçu par Charles Titus et Craige Schensted (Ea Ea) en 1953. Descendant direct de Hex, le jeu se jouait à l'origine sur un plateau triangulaire, où le but est de relier les trois côtés par une chaîne de pierres amies. Y est considéré comme un jeu plus fondamental que Hex, compte tenu de ses règles plus simples et du fait qu'une partie de Hex peut être configurée sur un plateau de Y suffisamment grand. Dans leur livre de 1975 **Mudcrack Y & Poly-Y**, les concepteurs ont introduit le _principe du mudcrack_ affirmant que les jeux de connexion peuvent être joués sur une large gamme de plateaux progressivement élaborés. L'un de ces designs (« le Y courbé », avec trois cellules pentagonales) est devenu le plateau commercial de Y, au lieu du plateau triangulaire standard."
+    "y": "Le jeu a été conçu par Charles Titus et Craige Schensted (Ea Ea) en 1953. Descendant direct de Hex, le jeu se jouait à l'origine sur un plateau triangulaire, où le but est de relier les trois côtés par une chaîne de pierres amies. Y est considéré comme un jeu plus fondamental que Hex, compte tenu de ses règles plus simples et du fait qu'une partie de Hex peut être configurée sur un plateau de Y suffisamment grand. Dans leur livre de 1975 **Mudcrack Y & Poly-Y**, les concepteurs ont introduit le _principe du mudcrack_ affirmant que les jeux de connexion peuvent être joués sur une large gamme de plateaux progressivement élaborés. L'un de ces designs (« le Y courbé », avec trois cellules pentagonales) est devenu le plateau commercial de Y, au lieu du plateau triangulaire standard.",
+    "yodd": "Yodd se joue sur une grille hexagonale. Les mêmes règles appliquées à une grille carrée sont publiées sous le nom de **Xodd** ; choisissez une variante de taille de plateau carré pour jouer à Xodd sur Abstract Play. Lors de votre premier tour uniquement, vous ne pouvez placer qu'une seule pierre. Les tours suivants permettent de passer ou de placer une ou deux pierres de n'importe quelle couleur, et le nombre total de groupes sur le plateau doit être impair après chaque tour."
   },
   "variants": {
     "_default": {
@@ -4384,6 +4387,38 @@
       },
       "progressive": {
         "name": "Progressif avec restriction de groupe"
+      }
+    },
+    "yodd": {
+      "hex-6": {
+        "name": "Hexagone taille 6"
+      },
+      "hex-7": {
+        "name": "Hexagone taille 7"
+      },
+      "#board": {
+        "name": "Hexagone taille 8"
+      },
+      "hex-9": {
+        "name": "Hexagone taille 9"
+      },
+      "hex-10": {
+        "name": "Hexagone taille 10"
+      },
+      "square-9": {
+        "name": "Carré taille 9 (Xodd)"
+      },
+      "square-10": {
+        "name": "Carré taille 10 (Xodd)"
+      },
+      "square-13": {
+        "name": "Carré taille 13 (Xodd)"
+      },
+      "square-14": {
+        "name": "Carré taille 14 (Xodd)"
+      },
+      "square-15": {
+        "name": "Carré taille 15 (Xodd)"
       }
     },
     "zola": {
@@ -8387,6 +8422,17 @@
       "BAD_PASS": "Vous ne pouvez passer que si vous avez été éliminé.",
       "INITIAL_INSTRUCTIONS": "Cliquez sur une case vide pour placer une pièce.",
       "MUST_BLOCK": "Dans une partie à trois joueurs, vous devez bloquer une victoire du joueur suivant si possible."
+    },
+    "yodd": {
+      "INITIAL_INSTRUCTIONS": "Cliquez sur une case vide pour placer une pierre de votre couleur. Cliquez à nouveau dessus pour passer à l'autre couleur, et encore une fois pour retirer la pierre. Utilisez Terminer le coup quand vous êtes prêt (une seule pierre au premier tour).",
+      "INSTRUCTIONS": "Passez, ou placez une ou deux pierres sur des cases vides (votre couleur par défaut). Cliquez à nouveau sur une pierre pour changer de couleur, ou une troisième fois pour la retirer. Le nombre total de groupes doit être impair lorsque vous terminez votre tour.",
+      "INSTRUCTIONS_ODD": "Ajustez les placements ou ajoutez une autre pierre pour que le nombre total de groupes soit impair, puis utilisez Terminer le coup.",
+      "INVALID_PLACEMENT": "Impossible d'interpréter la notation du coup : {{move}}.",
+      "NORMALISED": "Le coup doit être normalisé. Essayez {{normalised}}.",
+      "ODD_GROUPS_REQUIRED": "Le nombre total de groupes sur le plateau doit être impair après votre tour.",
+      "TOO_MANY_MOVES": "Seuls un ou deux placements sont autorisés.",
+      "TOO_MANY_MOVES_START": "Au premier tour, un seul placement est autorisé.",
+      "VALID_MOVE": "Utilisez Terminer le coup pour finir votre tour, ou continuez à cliquer pour modifier ou retirer des pierres."
     },
     "yonmoque": {
       "INITIAL_INSTRUCTIONS": "Sélectionnez une case vide pour placer une pièce ou une pièce existante pour commencer un déplacement.",

@@ -291,6 +291,7 @@
     "xana": "Ein Stapelspiel, bei dem die Spieler eine begrenzte Anzahl von Steinen und eine unbegrenzte Anzahl von Wänden haben, um Gebiet zu erobern.",
     "y": "Das klassische Verbindungsspiel. Verbinden Sie alle drei Seiten, um zu gewinnen.",
     "yavalath": "Bilden Sie eine Reihe von vier oder mehr Steinen Ihrer Farbe, *ohne* zuerst eine Reihe von drei Steinen zu bilden.",
+    "yodd": "Passe oder platziere einen oder zwei Steine einer beliebigen Farbe. Nach deinem Zug muss sich eine ungerade Anzahl von Gruppen auf dem Brett befinden. Wenn beide Spieler nacheinander passen, gewinnt der Spieler mit weniger Gruppen seiner Farbe.",
     "yonmoque": "Versuchen Sie, eine Viererreihe zu bilden, in einem Spiel, in dem nicht alle Felder gleich sind und gegnerische Steine umgewandelt werden können.",
     "zola": "Ein Spiel, bei dem Ihre Bewegung durch den Abstand zum Mittelpunkt des Bretts eingeschränkt ist. Schlagzüge dürfen diesen Abstand nicht vergrößern. Nicht-Schlagzüge müssen diesen Abstand vergrößern. Gewinner ist, wer als Erster alle gegnerischen Steine schlägt."
   },
@@ -586,6 +587,7 @@
     "xana": "Xana",
     "y": "Y",
     "yavalath": "Yavalath",
+    "yodd": "Yodd",
     "yonmoque": "Yonmoque",
     "zola": "Zola"
   },
@@ -701,7 +703,8 @@
     "waldmeister": "Die Spieler spielen zwei Spiele nacheinander. In der ersten Runde spielt Spieler 1 auf Farben und Spieler 2 auf Höhen. Am Ende der ersten Runde werden die Punkte zusammengezählt und die wertenden Gruppen hervorgehoben. In der zweiten Runde spielt dann Spieler 2 zuerst und spielt auf Farben, während Spieler 1 auf Höhen spielt.",
     "witch": "Der erste Spieler besitzt zu Beginn keine Steine und darf in seinem ersten Zug jeden beliebigen Stein (außer einer Krone) entfernen. Der zweite Spieler wählt in seinem ersten Zug seine Farbe, wonach das Entfernen gegnerischer Steine nicht mehr möglich ist.",
     "xana": "Spieler setzen/bewegen in ihrem Zug einen Stapel (es gibt eine begrenzte Menge stapelbarer Steine) und setzen optional zwei Wände in leere Hex-Felder. Stapel ohne Freiheiten werden geschlagen. Ein Stapel hat eine Freiheit, wenn mindestens eines der angrenzenden Hex-Felder leer ist (es gibt kein Konzept einer Gruppe von Stapeln). Ein Hex-Feld ist zugänglich, wenn es leer ist und über einen Pfad aus leeren Hex-Feldern mit einem eigenen Stapel verbunden ist. Das Ziel ist es, die höchste Punktzahl aus Territorium plus Schlägen zu erzielen. Xana wurde 2005 entworfen.",
-    "y": "Das Spiel wurde 1953 von Charles Titus und Craige Schensted (Ea Ea) entworfen. Als direkter Nachfahre von Hex wurde das Spiel ursprünglich auf einem dreieckigen Brett gespielt, auf dem das Ziel darin besteht, alle drei Seiten durch eine Kette eigener Steine zu verbinden. Y gilt aufgrund seiner einfacheren Regeln und der Tatsache, dass eine Hex-Partie auf einem ausreichend großen Y-Brett aufgebaut werden kann, als grundlegenderes Spiel als Hex. In ihrem 1975 erschienenen Buch **Mudcrack Y & Poly-Y** führten die Entwickler das _Mudcrack-Prinzip_ ein, das besagt, dass Verbindungsspiele auf einer Vielzahl von zunehmend komplexen Brettern gespielt werden können. Eines dieser Designs ('das gebogene Y' mit drei fünfeckigen Feldern) wurde zum kommerziellen Y-Brett anstelle des standardmäßigen dreieckigen."
+    "y": "Das Spiel wurde 1953 von Charles Titus und Craige Schensted (Ea Ea) entworfen. Als direkter Nachfahre von Hex wurde das Spiel ursprünglich auf einem dreieckigen Brett gespielt, auf dem das Ziel darin besteht, alle drei Seiten durch eine Kette eigener Steine zu verbinden. Y gilt aufgrund seiner einfacheren Regeln und der Tatsache, dass eine Hex-Partie auf einem ausreichend großen Y-Brett aufgebaut werden kann, als grundlegenderes Spiel als Hex. In ihrem 1975 erschienenen Buch **Mudcrack Y & Poly-Y** führten die Entwickler das _Mudcrack-Prinzip_ ein, das besagt, dass Verbindungsspiele auf einer Vielzahl von zunehmend komplexen Brettern gespielt werden können. Eines dieser Designs ('das gebogene Y' mit drei fünfeckigen Feldern) wurde zum kommerziellen Y-Brett anstelle des standardmäßigen dreieckigen.",
+    "yodd": "Yodd wird auf einem Hex-Gitter gespielt. Die gleichen Regeln auf einem Quadratgitter sind als **Xodd** veröffentlicht; wähle eine quadratische Spielfeldvariante, um Xodd auf Abstract Play zu spielen. Nur in deinem ersten Zug darfst du einen einzelnen Stein platzieren. Spätere Züge erlauben das Passen oder ein oder zwei Steine beliebiger Farbe, und die Gesamtzahl der Gruppen auf dem Brett muss nach jedem Zug ungerade sein."
   },
   "variants": {
     "_default": {
@@ -4384,6 +4387,38 @@
       },
       "progressive": {
         "name": "Progressiv mit Gruppeneinschränkung"
+      }
+    },
+    "yodd": {
+      "hex-6": {
+        "name": "Hex-Größe 6"
+      },
+      "hex-7": {
+        "name": "Hex-Größe 7"
+      },
+      "#board": {
+        "name": "Hex-Größe 8"
+      },
+      "hex-9": {
+        "name": "Hex-Größe 9"
+      },
+      "hex-10": {
+        "name": "Hex-Größe 10"
+      },
+      "square-9": {
+        "name": "Quadrat-Größe 9 (Xodd)"
+      },
+      "square-10": {
+        "name": "Quadrat-Größe 10 (Xodd)"
+      },
+      "square-13": {
+        "name": "Quadrat-Größe 13 (Xodd)"
+      },
+      "square-14": {
+        "name": "Quadrat-Größe 14 (Xodd)"
+      },
+      "square-15": {
+        "name": "Quadrat-Größe 15 (Xodd)"
       }
     },
     "zola": {
@@ -8387,6 +8422,17 @@
       "BAD_PASS": "Du darfst nur passen, wenn du eliminiert wurdest.",
       "INITIAL_INSTRUCTIONS": "Klicke auf ein leeres Feld, um einen Stein zu platzieren.",
       "MUST_BLOCK": "In einem Spiel mit drei Spielern musst du den Sieg des nächsten Gegners wenn möglich blockieren."
+    },
+    "yodd": {
+      "INITIAL_INSTRUCTIONS": "Klicke auf einen leeren Punkt, um einen Stein deiner Farbe zu platzieren. Klicke erneut darauf, um zur anderen Farbe zu wechseln, und ein weiteres Mal, um den Stein zu entfernen. Nutze \"Zug beenden\", wenn du bereit bist (im ersten Zug nur ein Stein).",
+      "INSTRUCTIONS": "Passe oder platziere einen oder zwei Steine auf leeren Punkten (standardmäßig in deiner Farbe). Klicke erneut auf einen Stein, um die Farbe zu wechseln, oder ein drittes Mal, um ihn zu entfernen. Die Gesamtzahl der Gruppen muss ungerade sein, wenn du deinen Zug beendest.",
+      "INSTRUCTIONS_ODD": "Passe die Platzierungen an oder füge einen weiteren Stein hinzu, sodass die Gesamtzahl der Gruppen ungerade ist, und nutze dann \"Zug beenden\".",
+      "INVALID_PLACEMENT": "Die Zugnotation konnte nicht interpretiert werden: {{move}}.",
+      "NORMALISED": "Der Zug muss normalisiert werden. Versuche {{normalised}}.",
+      "ODD_GROUPS_REQUIRED": "Die Gesamtzahl der Gruppen auf dem Brett muss nach deinem Zug ungerade sein.",
+      "TOO_MANY_MOVES": "Es sind nur ein oder zwei Platzierungen erlaubt.",
+      "TOO_MANY_MOVES_START": "Im ersten Zug ist nur eine Platzierung erlaubt.",
+      "VALID_MOVE": "Nutze \"Zug beenden\", um deinen Zug beenden, oder klicke weiter, um Steine zu ändern oder zu entfernen."
     },
     "yonmoque": {
       "INITIAL_INSTRUCTIONS": "Wähle ein leeres Feld, um einen Stein zu platzieren, oder einen vorhandenen Stein, um einen Zug zu beginnen.",

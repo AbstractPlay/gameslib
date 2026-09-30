@@ -109,3 +109,19 @@ displays: [{ uid: "flat", group: "projection" }],
 ```
 
 Default renderer when `resolveActiveDisplays(opts)` is empty; flat when `hasDisplay(opts, "flat")`.
+
+## Example — hide a render region (Agents of M.A.R.S.)
+
+Ungrouped checkbox: hide the grouped draw-bag `localStash` while leaving objective `pieces` areas visible.
+
+```typescript
+displays: [{ uid: "hide-bag-pool" }],
+```
+
+```typescript
+if (!this.hasDisplay(opts, "hide-bag-pool")) {
+    areas.push(this.bagPoolArea(pool));
+}
+```
+
+Locale: `apgames:displays.agofmars.hide-bag-pool` (label in the render-options picker).

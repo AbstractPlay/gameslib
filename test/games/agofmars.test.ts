@@ -13,6 +13,7 @@ import { scoreGame } from "../../src/games/agofmars/scoring.js";
 import type { Colour } from "../../src/games/agofmars/types.js";
 import {
     freshPlayState,
+    fiveColourScratchFinalState,
     gameFrom,
     koUndoBlockedState,
     defaultObjectives,
@@ -50,21 +51,52 @@ describe("Agents of M.A.R.S.", () => {
     });
 
     describe("render", () => {
-        it("shows the draw bag as a grouped local stash during play", () => {
+        it("shows the draw bag as a localStash area during play", () => {
             const g = finishSetup(new AgofmarsGame());
-            const bagArea = g.render().areas!.find(a => (a as { type?: string }).type === "localStash") as {
-                type: string;
-                stash: string[][];
-            };
+            const bagArea = g.render().areas!.find(
+                a =>
+                    (a as { type?: string }).type === "localStash" &&
+                    (a as { label?: { textKey?: string } }).label?.textKey ===
+                        "apgames:status.agofmars.bagPool",
+            ) as { type: string; stash: string[][] };
             expect(bagArea).to.not.equal(undefined);
-            const pyramidKeys = bagArea.stash.flat().filter(k => k !== "-");
-            expect(pyramidKeys.length).to.equal(59);
+            const pyramidCount = bagArea.stash.reduce(
+                (n, stack) => n + stack.filter(k => k !== "-").length,
+                0,
+            );
+            expect(pyramidCount).to.equal(59);
+            const hasBagLegendKey = bagArea.stash.some(stack => stack.some(k => k.endsWith("d")));
+            expect(hasBagLegendKey).to.be.true;
+        });
+
+        it("uses upscaled board glyphs and 3D glyphs only in the bag legend", () => {
+            const g = finishSetup(new AgofmarsGame());
+            const rep = g.render();
+            const boardGlyph = rep.legend!.RD1 as { name: string };
+            const bagGlyph = rep.legend!.RD1d as { name: string };
+            expect(boardGlyph.name).to.include("upscaled");
+            expect(bagGlyph.name).to.include("3D");
+            expect(rep.pieces).to.not.include("RD1d");
+            const objectiveAreas = (rep.areas ?? []).filter(
+                a => (a as { type?: string }).type === "pieces",
+            ) as { pieces: { piece: string }[] }[];
+            for (const area of objectiveAreas) {
+                for (const entry of area.pieces) {
+                    expect(entry.piece.endsWith("d")).to.be.false;
+                }
+            }
         });
 
         it("hides the draw bag when hide-bag-pool display is active", () => {
             const g = finishSetup(new AgofmarsGame());
             const hidden = g.render({ altDisplays: ["hide-bag-pool"] }).areas ?? [];
-            expect(hidden.some(a => (a as { type?: string }).type === "localStash")).to.be.false;
+            expect(
+                hidden.some(
+                    a =>
+                        (a as { label?: { textKey?: string } }).label?.textKey ===
+                        "apgames:status.agofmars.bagPool",
+                ),
+            ).to.be.false;
         });
 
         it("shows multiplier captions under each objective pyramid in play", () => {
@@ -248,6 +280,20 @@ describe("Agents of M.A.R.S.", () => {
             const objectives = defaultObjectives();
             const bag = buildDrawPoolFromBoard([], new Map(), objectives);
             expect(bag.length).to.equal(59);
+        });
+
+        it("five-colour scratch final: 68 in bag with two on board (70 after setup)", () => {
+            const g = gameFrom(fiveColourScratchFinalState());
+            expect(g.buildDrawPool().length).to.equal(68);
+            expect(g.board.size).to.equal(2);
+            expect(g.buildDrawPool().length + g.board.size).to.equal(70);
+        });
+
+        it("four-colour bag is 57 with the same two board cells but without five-colour variant", () => {
+            const snap = fiveColourScratchFinalState();
+            snap.variants = [];
+            const g = gameFrom(snap);
+            expect(g.buildDrawPool().length).to.equal(57);
         });
 
         it("leaves 59 in the bag when opponent objectives are hidden (BK placeholders)", () => {

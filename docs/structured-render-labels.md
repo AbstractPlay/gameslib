@@ -82,13 +82,28 @@ Entropy-style dual boards:
 board.boardOne!.label = this.seatAreaLabel(seat, "apgames:validation.entropy.BOARD_ORDER");
 ```
 
-### `localStash` (captured pieces)
+### `localStash` (pyramid stacks)
+
+Each element of `stash` is one **column** of pyramids (bottom → top). The renderer places columns left to right and **wraps at board width** (same idea as `pieces` areas), unless you set optional `width` (max columns per row) or `spacing` (gap as a fraction of cell size).
+
+Supported on the **default** renderer and on `stacking-3D` / `stacking-expanding` (Volcano captured piles, Ice Palace hands/pool, Agents of M.A.R.S. draw bag, etc.).
 
 ```typescript
 areas.push({
     type: "localStash",
     label: this.seatAreaLabel(player + 1, "apgames:validation.volcano.CAPTURED_LABEL"),
-    stash: [...],
+    stash: [["RD3c"], ["BU1c", "BU2c"]],
+    spacing: 0.2,
+});
+```
+
+Neutral pool (no seat actor):
+
+```typescript
+areas.push({
+    type: "localStash",
+    label: this.neutralAreaLabel("apgames:status.agofmars.bagPool"),
+    stash: organizedStacks,
 });
 ```
 
@@ -104,7 +119,7 @@ areas.push({
 | Location | Renderer area / field | Player-specific? |
 |----------|----------------------|------------------|
 | Pieces stash bar | `areas[]` with `type: "pieces"` | Usually |
-| Captured pyramids | `type: "localStash"` | Usually |
+| Captured / pooled pyramids (stacked columns) | `type: "localStash"` | Often (`seatAreaLabel` or `neutralAreaLabel`) |
 | Polyomino picker | `type: "polyomino"` | Sometimes |
 | Board marker | `board.markers[]` with `type: "label"` | Sometimes |
 | Entropy boards | `board.boardOne.label` / `boardTwo.label` | Yes |
@@ -150,6 +165,7 @@ Abstract Play front walks the full rep via `resolveRenderLabels()` — game auth
 |---------|---------------|--------|
 | Seat-owned `pieces` area | [Streetcar](https://play.abstractplay.com/games/streetcar) | [`streetcar.ts`](/gameslib/src/games/streetcar.ts) — `TAKEN_LABEL` |
 | `localStash` captured pieces | [Volcano](https://play.abstractplay.com/games/volcano) | [`volcano.ts`](/gameslib/src/games/volcano.ts) — `CAPTURED_LABEL` |
+| `localStash` neutral draw bag | [Agents of M.A.R.S.](https://play.abstractplay.com/games/agofmars) | [`agofmars.ts`](/gameslib/src/games/agofmars.ts) — `bagPool` + `organizePoolPieces` |
 | Dual board titles | [Entropy](https://play.abstractplay.com/games/entropy) | [`entropy.ts`](/gameslib/src/games/entropy.ts) — `BOARD_ORDER` / `BOARD_CHAOS` |
 | Multi-area Decktet (hand + deck) | [Magnate](https://play.abstractplay.com/games/magnate) | [`magnate.ts`](/gameslib/src/games/magnate.ts) — `LABEL_BOTH`, `LABEL_DECK` |
 | Seat collection + neutral market | [Deckfish](https://play.abstractplay.com/games/deckfish) | [`deckfish.ts`](/gameslib/src/games/deckfish.ts) — `LABEL_COLLECTION`, `LABEL_MARKET` |

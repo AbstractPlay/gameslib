@@ -64,6 +64,20 @@ function glyphFor(colour: Colour, size: Size): Glyph {
     return { name: names[size - 1]!, colour: paletteColour };
 }
 
+/**
+ * Draw-bag `localStash` only — board, objectives, and pending-draw key stay on {@link legendKey} / upscaled glyphs.
+ */
+function bagLegendKey(colour: Colour, size: Size): string {
+    return `${colour}${size}d`;
+}
+
+function bagGlyphFor(colour: Colour, size: Size): Glyph {
+    const names = ["pyramid-up-small-3D", "pyramid-up-medium-3D", "pyramid-up-large-3D"];
+    const i = RENDER_PALETTE_COLOURS.indexOf(colour);
+    const paletteColour = colour === "BK" ? "#000" : i >= 0 ? i + 1 : 1;
+    return { name: names[size - 1]!, colour: paletteColour, opacity: 1 };
+}
+
 function legendKey(colour: Colour, size: Size): string {
     return `${colour}${size}`;
 }
@@ -2422,16 +2436,28 @@ export class AgofmarsGame extends GameBaseSequenced {
         };
     }
 
-    private poolStackToStashRow(stack: PoolPiece[]): string[] {
+    /** Volcano-style 3D stack column (`-` spacers + `bagLegendKey` entries, bottom to top). */
+    private renderBagStashHelper(stack: PoolPiece[]): string[] {
         const ret: string[] = [];
         for (let i = 0; i < stack.length; i++) {
             const piece = stack[stack.length - i - 1]!;
             for (let j = i; j < piece[1] - i - 1; j++) {
                 ret.push("-");
             }
-            ret.push(legendKey(piece[0], piece[1]));
+            ret.push(bagLegendKey(piece[0], piece[1]));
         }
         return ret;
+    }
+
+    private addBagPoolLegend(legend: ILegendObj, pool: PoolPiece[]): void {
+        const seen = new Set<string>();
+        for (const [c, s] of pool) {
+            const key = bagLegendKey(c, s);
+            if (!seen.has(key)) {
+                seen.add(key);
+                legend[key] = bagGlyphFor(c, s);
+            }
+        }
     }
 
     private bagPoolArea(pool: PoolPiece[]): AreaVolcanoStash {
@@ -2443,16 +2469,19 @@ export class AgofmarsGame extends GameBaseSequenced {
             ...org.partialsMono,
             ...org.partialsMixed,
         ]) {
-            stash.push(this.poolStackToStashRow(stack));
+            stash.push(this.renderBagStashHelper(stack));
         }
         for (const piece of org.miscellaneous) {
-            stash.push(this.poolStackToStashRow([piece]));
+            stash.push(this.renderBagStashHelper([piece]));
         }
+        const w = this.boardWidth();
         return {
             type: "localStash",
             label: this.neutralAreaLabel("apgames:status.agofmars.bagPool"),
+            spacing: 0.2,
+            ...(w < 6 ? { width: 6 } : {}),
             stash,
-        };
+        } as AreaVolcanoStash;
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
@@ -2517,7 +2546,7 @@ export class AgofmarsGame extends GameBaseSequenced {
             pieceRows.push(row.join(","));
         }
 
-        const areas: (AreaPieces | AreaKey | AreaVolcanoStash)[] = [];
+        const areas: (AreaPieces | AreaVolcanoStash | AreaKey)[] = [];
         for (let seat = 0; seat < 2; seat++) {
             areas.push({
                 type: "pieces",
@@ -2541,6 +2570,7 @@ export class AgofmarsGame extends GameBaseSequenced {
         if (!this.hasDisplay(opts, "hide-bag-pool")) {
             const pool = this.buildDrawPool();
             if (pool.length > 0) {
+                this.addBagPoolLegend(legend, pool);
                 areas.push(this.bagPoolArea(pool));
             }
         }

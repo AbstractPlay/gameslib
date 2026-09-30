@@ -1091,12 +1091,15 @@ export class AgofmarsGame extends GameBaseSequenced {
     }
 
     /** Objective row for a seat's `pieces` area (pyramid + multiplier caption below). */
-    private objectiveAreaPieces(seat: number): [PiecesAreaLabeledPiece, ...PiecesAreaLabeledPiece[]] {
+    private objectiveAreaPieces(
+        seat: number,
+        viewer?: number,
+    ): [PiecesAreaLabeledPiece, ...PiecesAreaLabeledPiece[]] {
         const mults = this.multiplierLabels();
         const entries: PiecesAreaLabeledPiece[] = [];
         for (let col = 0; col < this.colourCount(); col++) {
             const colour = this.objectives[seat]![col]!;
-            const disp = this.displayColour(colour, seat, col);
+            const disp = this.displayColour(colour, seat, col, viewer);
             entries.push({
                 piece: legendKey(disp, this.objectiveDisplaySize(seat)),
                 text: mults[col],
@@ -2402,10 +2405,13 @@ export class AgofmarsGame extends GameBaseSequenced {
             return colour;
         }
         const v = viewer - 1;
-        if (v !== seat) {
-            return "BK";
-        }
         if (this.variants.includes("blind-agents")) {
+            if (v === seat) {
+                return "BK";
+            }
+            return colour;
+        }
+        if (v !== seat) {
             return "BK";
         }
         return colour;
@@ -2485,6 +2491,7 @@ export class AgofmarsGame extends GameBaseSequenced {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
+        const viewer = opts?.perspective;
         const legend: ILegendObj = {};
         for (const c of [...activeColours(this.variants), "BK" as Colour]) {
             for (let s = 1 as Size; s <= 3; s++) {
@@ -2499,7 +2506,7 @@ export class AgofmarsGame extends GameBaseSequenced {
             for (let col = 0; col < w; col++) {
                 const colour = this.objectives[seat]![col];
                 if (colour !== undefined) {
-                    const disp = this.displayColour(colour, seat, col);
+                    const disp = this.displayColour(colour, seat, col, viewer);
                     const sz = disp === "BK" ? this.setupBlackSize(seat) : this.setupColourSize(seat);
                     row.push(legendKey(disp, sz));
                 } else {
@@ -2551,7 +2558,7 @@ export class AgofmarsGame extends GameBaseSequenced {
             areas.push({
                 type: "pieces",
                 label: this.seatAreaLabel(seat + 1, "apgames:status._player"),
-                pieces: this.objectiveAreaPieces(seat),
+                pieces: this.objectiveAreaPieces(seat, viewer),
             });
         }
 

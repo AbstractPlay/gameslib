@@ -699,6 +699,21 @@ describe("Agents of M.A.R.S.", () => {
             });
             const blindTop = blind.stack[blind.stack.length - 1] as { objectives: string[][] };
             expect(blindTop.objectives[0]!.every(c => c === "BK")).to.be.true;
+            expect(blindTop.objectives[1]!.some(c => c !== "BK")).to.be.true;
+        });
+
+        it("shows the opponent's objectives in render for the viewer", () => {
+            const g = finishSetup(new AgofmarsGame(undefined, ["blind-agents"]));
+            const areas = g.render({ perspective: 1 }).areas as {
+                type: string;
+                pieces: { piece: string }[];
+            }[];
+            const objectiveAreas = areas.filter(a => a.type === "pieces");
+            expect(objectiveAreas).to.have.length(2);
+            const ownPieces = objectiveAreas[0]!.pieces.map(p => p.piece);
+            const oppPieces = objectiveAreas[1]!.pieces.map(p => p.piece);
+            expect(ownPieces.every(k => k.startsWith("BK"))).to.be.true;
+            expect(oppPieces.some(k => !k.startsWith("BK"))).to.be.true;
         });
 
         it("allows the active player to objective-swap while blind", () => {
@@ -938,6 +953,14 @@ describe("Agents of M.A.R.S.", () => {
             const top = view.stack[view.stack.length - 1] as { objectives: string[][] };
             const opp = top.objectives[1]!;
             expect(opp.every(c => c === "BK")).to.be.true;
+        });
+
+        it("keeps opponent objectives visible when blind-agents is stripped for a player", () => {
+            const g = finishSetup(new AgofmarsGame(undefined, ["blind-agents"]));
+            const view = g.state({ strip: true, player: 1 });
+            const top = view.stack[view.stack.length - 1] as { objectives: string[][] };
+            expect(top.objectives[0]!.every(c => c === "BK")).to.be.true;
+            expect(top.objectives[1]!.some(c => c !== "BK")).to.be.true;
         });
 
         it("keeps pendingDraw visible in stripped state", () => {

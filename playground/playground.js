@@ -1615,19 +1615,31 @@ function normalizePlaygroundStashGlyph(glyph) {
     return glyph;
 }
 
+/** Sheet glyph; older renderer builds may only expose `renderLegendGlyph`. */
+function renderPlaygroundSheetGlyph(glyphName, colour, glyphRenderOptions) {
+    const localGlyphOpts = {
+        ...glyphRenderOptions,
+        prefix: glyphRenderOptions?.prefix ?? generateUniqueSvgId(),
+    };
+    if (typeof APRender.renderSheetGlyph === "function") {
+        return APRender.renderSheetGlyph(glyphName, colour, localGlyphOpts);
+    }
+    return APRender.renderLegendGlyph({ name: glyphName, colour }, localGlyphOpts);
+}
+
 function renderPlaygroundSidebarStatusGlyph(value, glyphRenderOptions) {
     const localGlyphOpts = {
         ...glyphRenderOptions,
         prefix: generateUniqueSvgId(),
     };
     if (value.kind === "sheet") {
-        return APRender.renderSheetGlyph(value.name, value.colour, localGlyphOpts);
+        return renderPlaygroundSheetGlyph(value.name, value.colour, localGlyphOpts);
     }
     if (value.kind === "legend") {
         return APRender.renderLegendGlyph(value.entry, localGlyphOpts);
     }
     if (typeof value.glyph === "string" && Object.prototype.hasOwnProperty.call(value, "colour")) {
-        return APRender.renderSheetGlyph(value.glyph, value.colour ?? 1, localGlyphOpts);
+        return renderPlaygroundSheetGlyph(value.glyph, value.colour ?? 1, localGlyphOpts);
     }
     return APRender.renderLegendGlyph(value, localGlyphOpts);
 }
@@ -1765,7 +1777,7 @@ function _renderScoresSection(game, gamename, playerNames, gameFlags, glyphRende
                         };
 
                         try {
-                            let glyphSVG = APRender.renderSheetGlyph("piece", gc === null ? playerNum : gc, localGlyphOpts);
+                            let glyphSVG = renderPlaygroundSheetGlyph("piece", gc === null ? playerNum : gc, localGlyphOpts);
                             swatch.innerHTML = glyphSVG;
                             const svgElement = swatch.querySelector('svg');
                             if (svgElement) {
@@ -2118,7 +2130,7 @@ function renderGame(...args) {
                     delete glyphOpts.boardHover;
 
                     try {
-                        let glyphSVG = APRender.renderSheetGlyph("piece", gc === null ? p : gc, glyphOpts);
+                        let glyphSVG = renderPlaygroundSheetGlyph("piece", gc === null ? p : gc, glyphOpts);
                         swatch.innerHTML = glyphSVG;
                         // Ensure the SVG inside the swatch scales correctly
                         const svgElement = swatch.querySelector('svg');

@@ -305,8 +305,8 @@
     "tafl_king_escaped": "La partie est terminée car le roi s'est échappé.",
     "unlur_foul": "La partie est terminée car un joueur a atteint la condition de victoire de l'adversaire sans réaliser la sienne.",
     "druid_hex": "La partie est terminée car {{player}} a relié les bords {{edges}}.",
-    "killallgo_double_pass": "La partie est terminée car les deux joueurs ont passé sans que le Défenseur n'ait établi la vie.",
-    "killallgo_no_room": "La partie est terminée car les pierres inconditionnellement vivantes de l'Attaquant ne laissent aucun espace au Défenseur pour former une chaîne vivante.",
+    "killallgo_double_pass": "La partie est terminée car les deux joueurs ont passé consécutivement sans que le Défenseur n'établisse de vie inconditionnelle.",
+    "killallgo_no_room": "La partie est terminée car les pierres inconditionnellement vivantes de l'Attaquant ne laissent aucun espace au Défenseur pour former une chaîne inconditionnellement vivante.",
     "killallgo_pass_alive": "La partie est terminée car le Défenseur a formé une chaîne inconditionnellement vivante."
   },
   "DRUID_HEX_EDGE": {

@@ -8468,5 +8468,467 @@
       "objSwap": "Ziele tauschen",
       "swap": "Auf dem Brett tauschen"
     }
+  },
+  "categories": {
+    "board": {
+      "description": "Beschreibt die Eigenschaften der Spielfläche",
+      "full": "Spielbrett",
+      "tag": "Spielbrett"
+    },
+    "board>3d": {
+      "description": "Das Spielbrett ist dreidimensional",
+      "full": "Spielbrett > 3D",
+      "tag": "Spielbrett: 3D"
+    },
+    "board>connect": {
+      "description": "Beschreibt, wie sich die Zellen des Spielbrettes miteinander verbinden",
+      "full": "Spielbrett > Verbindungen",
+      "tag": "Verbindungen des Brettes"
+    },
+    "board>connect>hex": {
+      "description": "Die Zellen verbinden sich hexagonal",
+      "full": "Spielbrett > Verbindungen > Hexagonal",
+      "tag": "Verbindung: Hex"
+    },
+    "board>connect>linear": {
+      "description": "Die Zellen verbinden sich linear",
+      "full": "Spielbrett > Verbindungen > Linear",
+      "tag": "Verbindung: Linear"
+    },
+    "board>connect>other": {
+      "description": "Die Zellen verbinden sich auf eine einzigartige Weise",
+      "full": "Spielbrett > Verbindungen > Andere",
+      "tag": "Verbindung: Andere"
+    },
+    "board>connect>pent": {
+      "description": "Die Zellen verbinden sich pentagonal",
+      "full": "Spielbrett > Verbindungen > Pentagonal",
+      "tag": "Verbindung: Pent"
+    },
+    "board>connect>rect": {
+      "description": "Die Zellen verbinden sich orthogonal und diagonal",
+      "full": "Spielbrett > Verbindungen > Rechteckig",
+      "tag": "Verbindung: Rect"
+    },
+    "board>connect>snub": {
+      "description": "Die Zellen verbinden sich zu einer schiefrechteckige Matrix",
+      "full": "Spielbrett > Verbindungen > Schiefrechteckig",
+      "tag": "Verbindung: SchReEck"
+    },
+    "board>dynamic": {
+      "description": "Das Spielbrett wird dynamisch aufgebaut",
+      "full": "Spielbrett > Dynamisch",
+      "tag": "Spielbrett: Dynamisch"
+    },
+    "board>mancala": {
+      "description": "Auf einem traditionellen Mancala-ähnlichen Brett gespielt",
+      "full": "Spielbrett > Mancala",
+      "tag": "Spielbrett: Mancala"
+    },
+    "board>none": {
+      "description": "Auf einer ebenen Fläche gespielt",
+      "full": "Spielbrett > Keins",
+      "tag": "Spielbrett: Keins"
+    },
+    "board>other": {
+      "description": "Das Spielbrett ist einzigartig",
+      "full": "Spielbrett > Andere",
+      "tag": "Spielbrett: Andere"
+    },
+    "board>shape": {
+      "description": "Beschreibt die Form des Brettes",
+      "full": "Spielbrett > Form",
+      "tag": "Spielbrettform"
+    },
+    "board>shape>circle": {
+      "description": "Das Spielbrett ist kreisförmig",
+      "full": "Spielbrett > Form > Kreis",
+      "tag": "Form: Kreis"
+    },
+    "board>shape>hex": {
+      "description": "Das Spielbrett ist hexagonal",
+      "full": "Spielbrett > Form > Hexagon",
+      "tag": "Form: Hex"
+    },
+    "board>shape>pent": {
+      "description": "Das Spielbrett ist pentagonal",
+      "full": "Spielbrett > Form > Pentagon",
+      "tag": "Form: Pent"
+    },
+    "board>shape>oct": {
+      "description": "Das Spielbrett ist octagonal",
+      "full": "Spielbrett > Form > Octagon",
+      "tag": "Form: Oct"
+    },
+    "board>shape>other": {
+      "description": "Das Spielbrett ist einzigartig geformt",
+      "full": "Spielbrett > Form > Andere",
+      "tag": "Form: Andere"
+    },
+    "board>shape>rect": {
+      "description": "Das Spielbrett ist rechteckig",
+      "full": "Spielbrett > Form > Rechteckig",
+      "tag": "Form: Recht"
+    },
+    "board>shape>tri": {
+      "description": "Das Spielbrett ist dreieckig",
+      "full": "Spielbrett > Form > Dreieckig",
+      "tag": "Form: Drei"
+    },
+    "components>chess": {
+      "description": "Gespielt mit Schachfiguren",
+      "full": "Teile > Schach",
+      "tag": "C: Schach"
+    },
+    "components>dice": {
+      "description": "Gespielt mit Würfeln",
+      "full": "Teile > Würfel",
+      "tag": "C: Würfel"
+    },
+    "components>decktet": {
+      "description": "Gespielt mit Decktet-karten",
+      "full": "Teile > Decktet",
+      "tag": "M: Decktet"
+    },
+    "components>dominoes": {
+      "description": "Wird mit Dominosteinen gespielt",
+      "full": "Material > Domino",
+      "tag": "M: Domino"
+    },
+    "components>piecepack": {
+      "description": "Gespielt mit Piecepack",
+      "full": "Teile > Piecepack",
+      "tag": "M: Piecepack"
+    },
+    "components>poly": {
+      "description": "Gespielt mit Polyominoes",
+      "full": "Teile > Polyominoes",
+      "tag": "M: Polyominos"
+    },
+    "components>pyramids": {
+      "description": "Gespielt mit Looney Pyramiden",
+      "full": "Teile > Looney Pyramiden",
+      "tag": "C: Looney Pyramiden"
+    },
+    "components>shibumi": {
+      "description": "Gespielt mit Shibumi-Set",
+      "full": "Teile > Shibumi",
+      "tag": "M: Shibumi"
+    },
+    "components>simple": {
+      "description": "Gespielt mit einfachen, gleichgroßen Spielsteinen, die oft stapelbar sind und manchmal viele Farben haben",
+      "full": "Teile > Einfach",
+      "tag": "C: Einfach"
+    },
+    "components>simple>1per": {
+      "description": "Eine Farbe pro Spieler",
+      "full": "Teile > Einfach > 1 pro",
+      "tag": "C: Einfach, 1 pro"
+    },
+    "components>simple>2per": {
+      "description": "Zwei Farben pro Spieler",
+      "full": "Teile > Einfach > 2 pro",
+      "tag": "C: Einfach, 2 pro"
+    },
+    "components>simple>1c": {
+      "description": "Einfarbige Spielsteine",
+      "full": "Teile > Einfach > 1 Farbe",
+      "tag": "C: Einfach, 1 Farbe"
+    },
+    "components>simple>2c": {
+      "description": "Zwei Farben von Spielsteinen",
+      "full": "Teile > Einfach > 2 Farben",
+      "tag": "C: Einfach, 2 Farben"
+    },
+    "components>simple>3c": {
+      "description": "Drei Farben von Spielsteinen",
+      "full": "Teile > Einfach > 3 Farben",
+      "tag": "C: Einfach, 3 Farben"
+    },
+    "components>simple>4c": {
+      "description": "Vier Farben von Spielsteinen",
+      "full": "Teile > Einfach > 4 Farben",
+      "tag": "C: Einfach, 4 Farben"
+    },
+    "components>simple>5c": {
+      "description": "Fünf Farben von Spielsteinen",
+      "full": "Teile > Einfach > 5 Farben",
+      "tag": "C: Einfach, 5 Farben"
+    },
+    "components>simple>7c": {
+      "description": "Sieben Farben von Spielsteinen",
+      "full": "Teile > Einfach > 7 Farben",
+      "tag": "C: Einfach, 7 Farben"
+    },
+    "components>simple>pnp": {
+      "description": "Mit Papier und Stift spielbar",
+      "full": "Teile > Einfach > Papier & Stift",
+      "tag": "C: Einfach, P&S"
+    },
+    "components>special": {
+      "description": "Wird mit spezialisierten Spielsteinen gespielt, meist unterschiedlich",
+      "full": "Material > Spezialisiert",
+      "tag": "M: Spezial"
+    },
+    "family": {
+      "description": "Historische oder Regel-Familie (Abstammung), getrennt von Zielen und Spielmechaniken",
+      "full": "Familie",
+      "tag": "Familie"
+    },
+    "family>draughts": {
+      "description": "Dame-Abstammung: Sprungschlag, Umwandlung und verwandte Varianten",
+      "full": "Familie > Dame",
+      "tag": "F: Dame"
+    },
+    "family>gomoku": {
+      "description": "Linienbildende Setzspiele der Gomoku- / Renju- / Connect6-Abstammung und verwandte Reihenspiele",
+      "full": "Familie > Gomoku",
+      "tag": "F: Gomoku"
+    },
+    "family>mancala": {
+      "description": "Traditionelle Mulden- und Säspiele sowie nahe moderne Nachfahren",
+      "full": "Familie > Mancala",
+      "tag": "F: Mancala"
+    },
+    "family>tafl": {
+      "description": "Wikinger-Tafl-Familie: König gegen Angreifer, Flucht gegen Schlagen, Klemmschlag auf speziellen Spielbrettern",
+      "full": "Familie > Tafl",
+      "tag": "F: Tafl"
+    },
+    "goal>annihilate": {
+      "description": "Zerstöre alle gegnerischen Spielsteine",
+      "full": "Ziel > Zerstörung",
+      "tag": "G: Zerstörung"
+    },
+    "goal>area": {
+      "description": "Kontrolliere mehr Fläche (oder bestimmte Abschnitte mit bestimmten Stärken) als dein Gegner",
+      "full": "Ziel > Flächenkontrolle",
+      "tag": "G: Flächenkontrolle"
+    },
+    "goal>arrange": {
+      "description": "Ordne Spielsteine in bestimmten Formen oder Längen an (z.B. n in einer Reihe)",
+      "full": "Ziel > Anordnung",
+      "tag": "G: Anordnung"
+    },
+    "goal>breakthrough": {
+      "description": "Erreiche gegnerische Heimreihe oder -fläche mit ausreichender Stärke",
+      "full": "Ziel > Durchbruch",
+      "tag": "G: Durchbruch"
+    },
+    "goal>connect": {
+      "description": "Verbinde die bestimmten Kanten des Spielbretts oder von Flächen",
+      "full": "Ziel > Verbindung",
+      "tag": "G: Verbindung"
+    },
+    "goal>cripple": {
+      "description": "Eliminiere kritische Mehrheit oder bestimmte Untereinheit von gegnerischen Spielsteinen",
+      "full": "Ziel > Schwächen",
+      "tag": "G: Schwächen"
+    },
+    "goal>evacuate": {
+      "description": "Evakuiere deine Spielsteine von Spielbrett",
+      "full": "Ziel > Evakuierung",
+      "tag": "G: Evakuierung"
+    },
+    "goal>immobilize": {
+      "description": "Mache deinen Gegner bewegungsunfähig",
+      "full": "Ziel > Immobilisierung",
+      "tag": "G: Immobilisierung"
+    },
+    "goal>isolate": {
+      "description": "Isoliere einen oder eine Untereinheit an Spielsteinen auf bestimmte Weise",
+      "full": "Ziel > Isolierung",
+      "tag": "G: Isolierung"
+    },
+    "goal>majority": {
+      "description": "Habe mehr Spielsteine als dein Gegner",
+      "full": "Ziel > Mehrheit",
+      "tag": "G: Mehrheit"
+    },
+    "goal>royal-capture": {
+      "description": "Schlage einen bestimmten gegnerischen Spielstein",
+      "full": "Ziel > Königsfigur schlagen",
+      "tag": "Z: Königsfigur schlagen"
+    },
+    "goal>royal-escape": {
+      "description": "Bringe einen bestimmten Spielstein vom Spielbrett",
+      "full": "Ziel > Königsfigur evakuieren",
+      "tag": "Z: Königsfigur evakuieren"
+    },
+    "goal>score": {
+      "description": "Das Ergebnis wird auf irgendeine Weise durch die Punktzahl bestimmt",
+      "full": "Ziel > Punktzahl",
+      "tag": "Z: Punktzahl"
+    },
+    "goal>score>eog": {
+      "description": "Habe am Ende des Spiels die höchste Punktzahl",
+      "full": "Ziel > Punktzahl > Spielende",
+      "tag": "Z: Punktzahl (Ende)"
+    },
+    "goal>score>race": {
+      "description": "Erreiche als Erster eine bestimmte Punktzahl",
+      "full": "Ziel > Punktzahl > Wettrennen",
+      "tag": "Z: Punktzahl (Rennen)"
+    },
+    "goal>set": {
+      "description": "Sammle Sets von Spielsteinen",
+      "full": "Ziel > Set-Sammlung",
+      "tag": "Z: Set-Sammlung"
+    },
+    "goal>unify": {
+      "description": "Führe alle deine Spielsteine zusammen",
+      "full": "Ziel > Vereinen",
+      "tag": "Z: Vereinen"
+    },
+    "goal>vigil": {
+      "description": "Alle (oder eine bestimmte Teilmenge von) Spielsteinen müssen Sichtlinie zu einem Brettelement haben",
+      "full": "Ziel > Sichtlinie",
+      "tag": "Z: Sichtlinie"
+    },
+    "mechanic": {
+      "description": "Beschreibt die allgemeinen Spielmechaniken",
+      "full": "Mechaniken",
+      "tag": "Mechaniken"
+    },
+    "mechanic>asymmetry": {
+      "description": "Das Spiel ist asymmetrisch",
+      "full": "Mechaniken > Asymmetrie",
+      "tag": "M: Asymmetrie"
+    },
+    "mechanic>bearoff": {
+      "description": "Spieler tragen Spielsteine vom Brett ab",
+      "full": "Mechaniken > Abtragen",
+      "tag": "M: Abtragen"
+    },
+    "mechanic>block": {
+      "description": "Spieler blockieren sich gegenseitig",
+      "full": "Mechaniken > Blockieren",
+      "tag": "M: Blockieren"
+    },
+    "mechanic>capture": {
+      "description": "Spielsteine werden geschlagen",
+      "full": "Mechaniken > Schlagen",
+      "tag": "M: Schlagen"
+    },
+    "mechanic>convert": {
+      "description": "Spieler können gegnerische Spielsteine in eigene umwandeln",
+      "full": "Mechaniken > Umwandeln",
+      "tag": "M: Umwandeln"
+    },
+    "mechanic>coopt": {
+      "description": "Spieler können mit gegnerischen Spielsteinen interagieren",
+      "full": "Mechaniken > Fremdnutzung",
+      "tag": "M: Fremdnutzung"
+    },
+    "mechanic>differentiate": {
+      "description": "Spielsteine unterscheiden sich in wesentlicher Weise",
+      "full": "Mechaniken > Differenzieren",
+      "tag": "M: Differenzieren"
+    },
+    "mechanic>displace": {
+      "description": "Züge können dazu führen, dass sich weitere Spielsteine bewegen",
+      "full": "Mechaniken > Verschieben",
+      "tag": "M: Verschieben"
+    },
+    "mechanic>economy": {
+      "description": "Spieler müssen eine zentrale Wirtschaft verwalten",
+      "full": "Mechaniken > Wirtschaft verwalten",
+      "tag": "M: Wirtschaft verwalten"
+    },
+    "mechanic>enclose": {
+      "description": "Spieler umschließen aktiv Bereiche oder Spielsteine",
+      "full": "Mechaniken > Umschließen",
+      "tag": "M: Umschließen"
+    },
+    "mechanic>hidden": {
+      "description": "Das Spiel enthält verborgene Informationen",
+      "full": "Mechaniken > Verborgene Information",
+      "tag": "M: Verborgene Info"
+    },
+    "mechanic>merge": {
+      "description": "Spielsteine verschmelzen oder teilen sich",
+      "full": "Mechaniken > Verschmelzen/Teilen",
+      "tag": "M: Verschmelzen/Teilen"
+    },
+    "mechanic>move": {
+      "description": "Spielsteine können bewegt werden",
+      "full": "Mechaniken > Bewegen",
+      "tag": "M: Bewegen"
+    },
+    "mechanic>move>group": {
+      "description": "Spielsteine können als Gruppe bewegt werden",
+      "full": "Mechaniken > Bewegen > Gruppe",
+      "tag": "M: Bewegen (Gruppe)"
+    },
+    "mechanic>move>sow": {
+      "description": "Spielsteine werden durch Säen bewegt",
+      "full": "Mechaniken > Bewegen > Säen",
+      "tag": "M: Bewegen (Säen)"
+    },
+    "mechanic>network": {
+      "description": "Spieler bauen Netzwerke auf",
+      "full": "Mechaniken > Netzwerk",
+      "tag": "M: Netzwerk"
+    },
+    "mechanic>place": {
+      "description": "Spielsteine werden platziert",
+      "full": "Mechaniken > Platzieren",
+      "tag": "M: Platzieren"
+    },
+    "mechanic>program": {
+      "description": "Zugfolgen werden programmiert",
+      "full": "Mechaniken > Programmieren",
+      "tag": "M: Programmieren"
+    },
+    "mechanic>random": {
+      "description": "Das Spiel enthält Zufallselemente",
+      "full": "Mechaniken > Zufallselemente",
+      "tag": "M: Zufallselemente"
+    },
+    "mechanic>random>play": {
+      "description": "Einzelne Züge des Spiels enthalten Zufallselemente",
+      "full": "Mechaniken > Zufall > Spielverlauf",
+      "tag": "M: Zufall (Spielverlauf)"
+    },
+    "mechanic>random>setup": {
+      "description": "Der Aufbau wird auf irgendeine Weise zufällig bestimmt",
+      "full": "Mechaniken > Zufall > Aufbau",
+      "tag": "M: Zufall (Aufbau)"
+    },
+    "mechanic>set": {
+      "description": "Spieler sammeln Sets",
+      "full": "Mechaniken > Set-Sammlung",
+      "tag": "M: Set-Sammlung"
+    },
+    "mechanic>share": {
+      "description": "Mindestens einige Spielsteine im Spiel werden von beiden Spielern genutzt",
+      "full": "Mechaniken > Teilen",
+      "tag": "M: Teilen"
+    },
+    "mechanic>simultaneous": {
+      "description": "Das Spiel beinhaltet gleichzeitige Aktionsauswahl",
+      "full": "Mechaniken > Gleichzeitig",
+      "tag": "M: Gleichzeitig"
+    },
+    "mechanic>stack": {
+      "description": "Spieler manipulieren Stapel von Spielsteinen",
+      "full": "Mechaniken > Stapeln",
+      "tag": "M: Stapeln"
+    },
+    "mechanic>vigil": {
+      "description": "Mindestens ein Spielstein muss Sichtlinie zu einem Brettelement haben",
+      "full": "Mechaniken > Sichtlinie",
+      "tag": "M: Sichtlinie"
+    },
+    "other>traditional": {
+      "description": "Das Spiel ist traditionell",
+      "full": "Sonstiges > Traditionell",
+      "tag": "S: Traditionell"
+    },
+    "other>2+players": {
+      "description": "Unterstützt mehr als 2 Spieler",
+      "full": "Sonstiges > 2+ Spieler",
+      "tag": "S: 2+Spieler"
+    }
   }
 }

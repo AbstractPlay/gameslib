@@ -57,7 +57,7 @@ export class StilettoGame extends InARowBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
-        categories: ["goal>arrange", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>2c"],
+        categories: ["goal>arrange", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>2c", "family>gomoku"],
         variants: [
             { uid: "open4", group: "ruleset" },
         ],

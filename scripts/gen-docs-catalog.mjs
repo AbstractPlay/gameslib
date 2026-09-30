@@ -22,25 +22,17 @@ const DOCS_DIR = path.join(ROOT, "docs");
 const META_GAMES_PATH = path.join(DOCS_DIR, "meta-games.md");
 const CATEGORIES_PATH = path.join(DOCS_DIR, "categories.md");
 const CATEGORIES_PROSE_PATH = path.join(DOCS_DIR, "categories.prose.md");
-const FRONT_CATEGORIES_JSON = path.join(
-    ROOT,
-    "..",
-    "front",
-    "public",
-    "locales",
-    "en",
-    "apfront.json",
-);
+const EN_APGAMES_JSON = path.join(ROOT, "locales", "en", "apgames.json");
 
 const PLAY_GAME = "https://play.abstractplay.com/games";
 const GEN_START = "<!-- gen-docs-catalog:start -->";
 const GEN_END = "<!-- gen-docs-catalog:end -->";
 
 function loadCategoryLabels() {
-    if (!fs.existsSync(FRONT_CATEGORIES_JSON)) {
+    if (!fs.existsSync(EN_APGAMES_JSON)) {
         return { keys: null, labels: {} };
     }
-    const data = JSON.parse(fs.readFileSync(FRONT_CATEGORIES_JSON, "utf8"));
+    const data = JSON.parse(fs.readFileSync(EN_APGAMES_JSON, "utf8"));
     const catRoot = data.categories ?? {};
     const labels = {};
     for (const [key, val] of Object.entries(catRoot)) {
@@ -107,9 +99,11 @@ function escapeCell(s) {
 
 function tagPrefix(tag) {
     if (tag.startsWith("goal>")) return "goal";
+    if (tag.startsWith("mechanic>")) return "mechanic";
     if (tag.startsWith("mechanics>")) return "mechanics";
     if (tag.startsWith("board>")) return "board";
     if (tag.startsWith("components>")) return "components";
+    if (tag.startsWith("family>")) return "family";
     return "other";
 }
 
@@ -135,7 +129,7 @@ function buildCategoriesGenerated(games, i18n) {
             ? []
             : [...allTags].filter((t) => !i18n.keys.has(t)).sort();
 
-    const prefixes = ["goal", "mechanics", "board", "components", "other"];
+    const prefixes = ["goal", "mechanic", "mechanics", "board", "components", "family", "other"];
     const tagsByPrefix = {};
     for (const p of prefixes) tagsByPrefix[p] = [];
     for (const tag of [...allTags].sort()) {
@@ -147,7 +141,7 @@ function buildCategoriesGenerated(games, i18n) {
         "",
         "## Generated tag index",
         "",
-        "Tags below are taken from `gameinfo.categories` on each game class. Explore labels come from front `categories.*` i18n.",
+        "Tags below are taken from `gameinfo.categories` on each game class. Explore labels come from `apgames` `categories.*` i18n.",
         "",
     ];
 
@@ -168,7 +162,7 @@ function buildCategoriesGenerated(games, i18n) {
         lines.push(
             "### Tags missing Explore i18n",
             "",
-            "Add `categories.<tag>.*` to `public/locales/en/apfront.json` in the front repo:",
+            "Add `categories.<tag>.*` to `locales/en/apgames.json` in gameslib:",
             "",
         );
         for (const tag of missingI18n) {

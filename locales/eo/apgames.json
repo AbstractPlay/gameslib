@@ -8196,5 +8196,442 @@
             "defender": "Ludi kiel la defendanto",
             "youplace": "Lasi la kontraŭulon meti la unuan aron"
         }
+    },
+    "categories": {
+        "board>3d": {
+            "tag": "Tabulo: tridimensia",
+            "full": "Tabulo > tridimensia",
+            "description": "La tabulo estas tridimensia"
+        },
+        "board": {
+            "full": "Tabulo",
+            "tag": "Tabulo",
+            "description": "Priskribas la ecojn de la ludsurfaco"
+        },
+        "mechanic": {
+            "tag": "Meĥanikoj",
+            "full": "Meĥanikoj",
+            "description": "Priskribas la ĝeneralajn ludmekanikojn"
+        },
+        "board>connect": {
+            "description": "Priskribas kiel la ĉeloj de la tabulo estas interkonektitaj",
+            "full": "Tabulo > Konektiteco",
+            "tag": "Konektiteco de tabulo"
+        },
+        "board>connect>hex": {
+            "description": "Ĉeloj estas sesangule interkonektitaj",
+            "full": "Tabulo > Konektiteco > Sesangula",
+            "tag": "Konekto: sesangula"
+        },
+        "board>connect>linear": {
+            "description": "Ĉeloj estas linie interkonektitaj",
+            "full": "Tabulo > Konektiteco > Linia",
+            "tag": "Konekto: linia"
+        },
+        "board>connect>other": {
+            "description": "Ĉeloj estas interkonektitaj laŭ unika maniero",
+            "full": "Tabulo > Konektiteco > Alia",
+            "tag": "Konekto: alia"
+        },
+        "board>connect>pent": {
+            "description": "Ĉeloj estas kvinangule interkonektitaj",
+            "full": "Tabulo > Konektiteco > Kvinangula",
+            "tag": "Konekto: kvinangula"
+        },
+        "board>connect>rect": {
+            "description": "Ĉeloj estas ortangule kaj diagonale interkonektitaj",
+            "full": "Tabulo > Konektiteco > Rektangula",
+            "tag": "Konekto: rektangula"
+        },
+        "board>connect>snub": {
+            "description": "Ĉeloj estas interkonektitaj laŭ stumpkvadrata krado",
+            "full": "Tabulo > Konektiteco > Stumpkvadrata",
+            "tag": "Konekto: stumpkvadrata"
+        },
+        "board>dynamic": {
+            "description": "La tabulo konstruiĝas dinamike",
+            "full": "Tabulo > Dinamika",
+            "tag": "Tabulo: dinamika"
+        },
+        "board>mancala": {
+            "description": "Ludata sur tradicia mankaleca tabulo",
+            "full": "Tabulo > Mankalo",
+            "tag": "Tabulo: mankalo"
+        },
+        "board>none": {
+            "description": "Ludata sur ajna ebena surfaco",
+            "full": "Tabulo > Neniu",
+            "tag": "Tabulo: neniu"
+        },
+        "board>other": {
+            "description": "La tabulo estas unika",
+            "full": "Tabulo > Alia",
+            "tag": "Tabulo: alia"
+        },
+        "board>shape": {
+            "description": "Priskribas la formon de la tabulo",
+            "full": "Tabulo > Formo",
+            "tag": "Formo de tabulo"
+        },
+        "board>shape>circle": {
+            "description": "La tabulo estas cirkloforma",
+            "full": "Tabulo > Formo > Cirklo",
+            "tag": "Formo: cirklo"
+        },
+        "board>shape>hex": {
+            "description": "La tabulo estas sesangula",
+            "full": "Tabulo > Formo > Sesangulo",
+            "tag": "Formo: sesangulo"
+        },
+        "board>shape>pent": {
+            "description": "La tabulo estas kvinangula",
+            "full": "Tabulo > Formo > Kvinangulo",
+            "tag": "Formo: kvinangulo"
+        },
+        "board>shape>oct": {
+            "description": "La tabulo estas okangula",
+            "full": "Tabulo > Formo > Okangulo",
+            "tag": "Formo: okangulo"
+        },
+        "board>shape>other": {
+            "description": "La tabulo havas unikan formon",
+            "full": "Tabulo > Formo > Alia",
+            "tag": "Formo: alia"
+        },
+        "board>shape>rect": {
+            "description": "La tabulo estas rektangula",
+            "full": "Tabulo > Formo > Rektangulo",
+            "tag": "Formo: rektangulo"
+        },
+        "board>shape>tri": {
+            "description": "La tabulo estas triangula",
+            "full": "Tabulo > Formo > Triangulo",
+            "tag": "Formo: triangulo"
+        },
+        "components>chess": {
+            "description": "Ludata per ŝakaro",
+            "full": "Komponantoj > Ŝako",
+            "tag": "K: Ŝako"
+        },
+        "components>dice": {
+            "description": "Ludata per ĵetkuboj",
+            "full": "Komponantoj > Ĵetkuboj",
+            "tag": "K: Ĵetkuboj"
+        },
+        "components>decktet": {
+            "description": "Ludata per Decktet-kartaro",
+            "full": "Komponantoj > Decktet",
+            "tag": "K: Decktet"
+        },
+        "components>dominoes": {
+            "description": "Ludata per domenoj",
+            "full": "Komponantoj > Dominoj",
+            "tag": "K: Dominoj"
+        },
+        "components>piecepack": {
+            "description": "Ludata per Piecepack",
+            "full": "Komponantoj > Piecepack",
+            "tag": "K: Piecepack"
+        },
+        "components>poly": {
+            "description": "Ludata per poliominoj",
+            "full": "Komponantoj > Poliominoj",
+            "tag": "K: Poliominoj"
+        },
+        "components>pyramids": {
+            "description": "Ludata per Looney-piramidoj",
+            "full": "Komponantoj > Looney-piramidoj",
+            "tag": "K: Looney-piramidoj"
+        },
+        "components>shibumi": {
+            "description": "Ludata per Shibumi-aro",
+            "full": "Komponantoj > Shibumi",
+            "tag": "K: Shibumi"
+        },
+        "components>simple": {
+            "description": "Ludata per simplaj samgrandaj pecoj, ofte stakeblaj kaj kelkfoje multkoloraj",
+            "full": "Komponantoj > Simplaj",
+            "tag": "K: simplaj"
+        },
+        "components>simple>1per": {
+            "description": "Po unu koloro por ĉiu ludanto",
+            "full": "Komponantoj > Simplaj > po 1",
+            "tag": "K: simplaj, po 1"
+        },
+        "components>simple>2per": {
+            "description": "Po du koloroj por ĉiu ludanto",
+            "full": "Komponantoj > Simplaj > po 2",
+            "tag": "K: simplaj, po 2"
+        },
+        "components>simple>1c": {
+            "description": "Unu koloro de pecoj",
+            "full": "Komponantoj > Simplaj > 1 koloro",
+            "tag": "K: simplaj, 1 koloro"
+        },
+        "components>simple>2c": {
+            "description": "Du koloroj de pecoj",
+            "full": "Komponantoj > Simplaj > 2 koloroj",
+            "tag": "K: simplaj, 2 koloroj"
+        },
+        "components>simple>3c": {
+            "description": "Tri koloroj de pecoj",
+            "full": "Komponantoj > Simplaj > 3 koloroj",
+            "tag": "K: simplaj, 3 koloroj"
+        },
+        "components>simple>4c": {
+            "description": "Kvar koloroj de pecoj",
+            "full": "Komponantoj > Simplaj > 4 koloroj",
+            "tag": "K: simplaj, 4 koloroj"
+        },
+        "components>simple>5c": {
+            "description": "Kvin koloroj de pecoj",
+            "full": "Komponantoj > Simplaj > 5 koloroj",
+            "tag": "K: simplaj, 5 koloroj"
+        },
+        "components>simple>7c": {
+            "description": "Sep koloroj de pecoj",
+            "full": "Komponantoj > Simplaj > 7 koloroj",
+            "tag": "K: simplaj, 7 koloroj"
+        },
+        "components>simple>pnp": {
+            "description": "Ludebla per papero kaj krajono",
+            "full": "Komponantoj > Simplaj > Papero kaj krajono",
+            "tag": "K: simplaj, P&K"
+        },
+        "components>special": {
+            "description": "Ludata per specialaj pecoj, kiuj kutime havas malsamajn ecojn",
+            "full": "Komponantoj > Specialaj",
+            "tag": "K: specialaj"
+        },
+        "goal>annihilate": {
+            "description": "Neniigi ĉiujn pecojn de la kontraŭulo",
+            "full": "Celo > Neniigo",
+            "tag": "C: neniigo"
+        },
+        "goal>area": {
+            "description": "Regi pli da areo ol la kontraŭulo (aŭ regi specifajn areojn per specifaj fortoj)",
+            "full": "Celo > Areoregado",
+            "tag": "C: areoregado"
+        },
+        "goal>arrange": {
+            "description": "Aranĝi pecojn laŭ specifaj formoj aŭ longoj (ekzemple n en linio)",
+            "full": "Celo > Aranĝo",
+            "tag": "C: aranĝo"
+        },
+        "goal>breakthrough": {
+            "description": "Atingi la hejman linion aŭ hejman areon de la kontraŭulo kun sufiĉa forto",
+            "full": "Celo > Trarompo",
+            "tag": "C: trarompo"
+        },
+        "goal>connect": {
+            "description": "Konekti difinitajn randojn aŭ areojn de la tabulo",
+            "full": "Celo > Konekto",
+            "tag": "C: konekto"
+        },
+        "goal>cripple": {
+            "description": "Neniigi kritikan plimulton aŭ specifan subaron de la pecoj de la kontraŭulo",
+            "full": "Celo > Malfortigo",
+            "tag": "C: malfortigo"
+        },
+        "goal>evacuate": {
+            "description": "Eligi viajn pecojn de la tabulo",
+            "full": "Celo > Eligo",
+            "tag": "C: eligo"
+        },
+        "goal>immobilize": {
+            "description": "Malebligi al la kontraŭulo movi",
+            "full": "Celo > Senmovigo",
+            "tag": "C: senmovigo"
+        },
+        "goal>isolate": {
+            "description": "Izoli pecon aŭ subaron de pecoj laŭ specifa maniero",
+            "full": "Celo > Izolado",
+            "tag": "C: izolado"
+        },
+        "goal>majority": {
+            "description": "Havi pli da pecoj ol la kontraŭulo",
+            "full": "Celo > Plimulto",
+            "tag": "C: plimulto"
+        },
+        "goal>royal-capture": {
+            "description": "Kapti specifan pecon de la kontraŭulo",
+            "full": "Celo > Reĝa kapto",
+            "tag": "C: reĝa kapto"
+        },
+        "goal>royal-escape": {
+            "description": "Eligi specifan pecon de la tabulo",
+            "full": "Celo > Reĝa fuĝo",
+            "tag": "C: reĝa fuĝo"
+        },
+        "goal>score": {
+            "description": "La rezulto estas iel determinata per poentaro",
+            "full": "Celo > Poentaro",
+            "tag": "C: poentaro"
+        },
+        "goal>score>eog": {
+            "description": "Havi la plej altan poentaron je la fino de la ludo",
+            "full": "Celo > Poentaro > Fino de ludo",
+            "tag": "C: poentaro (ludofino)"
+        },
+        "goal>score>race": {
+            "description": "Unue atingi specifan poentaron",
+            "full": "Celo > Poentaro > Vetkuro",
+            "tag": "C: poentara vetkuro"
+        },
+        "goal>set": {
+            "description": "Kolekti arojn de pecoj",
+            "full": "Celo > Arkolektado",
+            "tag": "C: arkolektado"
+        },
+        "goal>unify": {
+            "description": "Kunigi ĉiujn viajn pecojn",
+            "full": "Celo > Kunigo",
+            "tag": "C: kunigo"
+        },
+        "goal>vigil": {
+            "description": "Ĉiuj pecoj (aŭ difinita subaro) devas havi vidlinion al iu tabulelemento",
+            "full": "Celo > Gvatado",
+            "tag": "C: gvatado"
+        },
+        "mechanic>asymmetry": {
+            "description": "La ludo estas malsimetria",
+            "full": "Mekaniko > Malsimetrio",
+            "tag": "M: malsimetrio"
+        },
+        "mechanic>bearoff": {
+            "description": "La ludantoj eligas pecojn de la tabulo",
+            "full": "Mekaniko > Eligo",
+            "tag": "M: eligo"
+        },
+        "mechanic>block": {
+            "description": "La ludantoj blokas unu la alian",
+            "full": "Mekaniko > Blokado",
+            "tag": "M: blokado"
+        },
+        "mechanic>capture": {
+            "description": "Pecoj estas kaptataj",
+            "full": "Mekaniko > Kaptado",
+            "tag": "M: kaptado"
+        },
+        "mechanic>convert": {
+            "description": "La ludantoj povas konverti malamikajn pecojn en siajn proprajn",
+            "full": "Mekaniko > Konvertado",
+            "tag": "M: konvertado"
+        },
+        "mechanic>coopt": {
+            "description": "La ludantoj povas interagi kun pecoj de la kontraŭulo",
+            "full": "Mekaniko > Kunuzado",
+            "tag": "M: kunuzado"
+        },
+        "mechanic>differentiate": {
+            "description": "La pecoj havas esence malsamajn ecojn",
+            "full": "Mekaniko > Diferencigo",
+            "tag": "M: diferencigo"
+        },
+        "mechanic>displace": {
+            "description": "Movo povas kaŭzi la moviĝon de pliaj pecoj",
+            "full": "Mekaniko > Delokado",
+            "tag": "M: delokado"
+        },
+        "mechanic>economy": {
+            "description": "La ludantoj devas mastrumi centran ekonomion",
+            "full": "Mekaniko > Administrado de ekonomio",
+            "tag": "M: mastrumado de ekonomio"
+        },
+        "mechanic>enclose": {
+            "description": "La ludantoj aktive ĉirkaŭbaras areojn aŭ pecojn",
+            "full": "Mekaniko > Ĉirkaŭbarado",
+            "tag": "M: ĉirkaŭbarado"
+        },
+        "mechanic>hidden": {
+            "description": "La ludo enhavas kaŝitajn informojn",
+            "full": "Mekaniko > Kaŝitaj informoj",
+            "tag": "M: kaŝitaj informoj"
+        },
+        "mechanic>merge": {
+            "description": "Pecoj kunfandiĝas aŭ disiĝas",
+            "full": "Mekaniko > Kunfando/disigo",
+            "tag": "M: kunfando/disigo"
+        },
+        "mechanic>move": {
+            "description": "Pecoj estas moveblaj",
+            "full": "Mekaniko > Movado",
+            "tag": "M: movado"
+        },
+        "mechanic>move>group": {
+            "description": "Pecoj estas moveblaj grupe",
+            "full": "Mekaniko > Movado > Grupo",
+            "tag": "M: grupa movado"
+        },
+        "mechanic>move>sow": {
+            "description": "Pecoj moviĝas per semado",
+            "full": "Mekaniko > Movado > Semado",
+            "tag": "M: semado"
+        },
+        "mechanic>network": {
+            "description": "La ludantoj konstruas retojn",
+            "full": "Mekaniko > Reto",
+            "tag": "M: reto"
+        },
+        "mechanic>place": {
+            "description": "Pecoj estas metataj",
+            "full": "Mekaniko > Metado",
+            "tag": "M: metado"
+        },
+        "mechanic>program": {
+            "description": "Sinsekvoj de movoj estas programataj",
+            "full": "Mekaniko > Programado",
+            "tag": "M: programado"
+        },
+        "mechanic>random": {
+            "description": "La ludo enhavas iun hazardan elementon",
+            "full": "Mekaniko > Hazardaj elementoj",
+            "tag": "M: hazardaj elementoj"
+        },
+        "mechanic>random>play": {
+            "description": "La unuopaj movoj de la ludo enhavas iun hazardan elementon",
+            "full": "Mekaniko > Hazardo > Ludado",
+            "tag": "M: hazardo (ludado)"
+        },
+        "mechanic>random>setup": {
+            "description": "La komenca aranĝo estas iel hazardigita",
+            "full": "Mekaniko > Hazardo > Aranĝo",
+            "tag": "M: hazardo (aranĝo)"
+        },
+        "mechanic>set": {
+            "description": "La ludantoj kolektas arojn",
+            "full": "Mekaniko > Arkolektado",
+            "tag": "M: arkolektado"
+        },
+        "mechanic>share": {
+            "description": "Almenaŭ kelkaj pecoj en la ludo estas komunaj al ambaŭ ludantoj",
+            "full": "Mekaniko > Komunaj pecoj",
+            "tag": "M: komunaj pecoj"
+        },
+        "mechanic>simultaneous": {
+            "description": "La ludo enhavas samtempan elekton de agoj",
+            "full": "Mekaniko > Samtempa",
+            "tag": "M: samtempa"
+        },
+        "mechanic>stack": {
+            "description": "La ludantoj manipulas stakojn de pecoj",
+            "full": "Mekaniko > Stakado",
+            "tag": "M: stakado"
+        },
+        "mechanic>vigil": {
+            "description": "Almenaŭ unu peco devas havi vidlinion al iu tabulelemento",
+            "full": "Mekaniko > Gvatado",
+            "tag": "M: gvatado"
+        },
+        "other>traditional": {
+            "description": "La ludo estas tradicia",
+            "full": "Alia > Tradicia",
+            "tag": "A: tradicia"
+        },
+        "other>2+players": {
+            "description": "Subtenas pli ol 2 ludantojn",
+            "full": "Alia > 2+ ludantoj",
+            "tag": "A: 2+ ludantoj"
+        }
     }
 }

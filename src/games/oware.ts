@@ -46,7 +46,7 @@ export class OwareGame extends GameBase {
                 apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
             },
         ],
-        categories: ["goal>score>race", "mechanic>capture",  "mechanic>move>sow", "other>traditional", "board>mancala", "components>simple>1c"],
+        categories: ["goal>score>race", "mechanic>capture",  "mechanic>move>sow", "other>traditional", "board>mancala", "components>simple>1c", "family>mancala"],
         flags: ["perspective", "scores", "automove"],
         displays: [{uid: "pips"}]
     };

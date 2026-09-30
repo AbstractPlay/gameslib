@@ -599,7 +599,7 @@ export class BaoGame extends GameBase {
             // if there's only one seed in the pit, then our turn is over
             if (this.board[currRow][currCol] === 1) {
                 if (this.malawiRules() && phase === "mtaji" && isKutakata && loneEndKichwaStart && outerRowVisited) {
-                    const towardCenter = this.mtajiKutakataDirMarkers(player, cell, myFront, myBack);
+                    const towardCenter = this.mtajiKutakataDirMarkers(player, cell, myFront);
                     const moveMarker = marker as "<"|">";
                     if (towardCenter.length === 1 && moveMarker !== towardCenter[0]) {
                         malawiLoneEndLoss = true;
@@ -694,7 +694,7 @@ export class BaoGame extends GameBase {
     }
 
     /** Mtaji kutakata: allowed direction markers when starting from an inner-row pit. */
-    private mtajiKutakataDirMarkers(player: playerid, cell: string, myFront: number, myBack: number): ("<"|">")[] {
+    private mtajiKutakataDirMarkers(player: playerid, cell: string, myFront: number): ("<"|">")[] {
         const occupied: string[] = [];
         for (let i = 0; i < 8; i++) {
             if (this.board[myFront][i] > 0) {
@@ -900,7 +900,7 @@ export class BaoGame extends GameBase {
                         if ( (blocked !== undefined) && (blocked === cell) ) {
                             continue;
                         }
-                        for (const dirMarker of this.mtajiKutakataDirMarkers(player, cell, myFront, myBack)) {
+                        for (const dirMarker of this.mtajiKutakataDirMarkers(player, cell, myFront)) {
                             noncaps.push(`${cell}${dirMarker}*`);
                         }
                     }

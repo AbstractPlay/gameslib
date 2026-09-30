@@ -4402,6 +4402,12 @@
                 "name": "3D orbs"
             }
         },
+        "agofmars": {
+            "hide-bag-pool": {
+                "description": "Don't show the pyramids still in the draw bag.",
+                "name": "Hide bag"
+            }
+        },
         "amazons": {
             "#block": {
                 "description": "Show blocked squares as a square brick.",
@@ -4990,6 +4996,7 @@
         "_player": "{{player}}",
         "agofmars": {
             "bagCount": "Pyramids in bag",
+            "bagPool": "Pyramids in bag",
             "setupPool": "Objective pyramids"
         },
         "amazons": {

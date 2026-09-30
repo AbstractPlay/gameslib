@@ -5,6 +5,7 @@ import { addResource } from "../../src";
 import { AgofmarsGame } from "../../src/games/agofmars.js";
 import {
     buildDrawPoolFromBoard,
+    organizePoolPieces,
     removeFromMultiset,
     startingMultiset,
 } from "../../src/games/agofmars/bag.js";
@@ -49,12 +50,31 @@ describe("Agents of M.A.R.S.", () => {
     });
 
     describe("render", () => {
+        it("shows the draw bag as a grouped local stash during play", () => {
+            const g = finishSetup(new AgofmarsGame());
+            const bagArea = g.render().areas!.find(a => (a as { type?: string }).type === "localStash") as {
+                type: string;
+                stash: string[][];
+            };
+            expect(bagArea).to.not.equal(undefined);
+            const pyramidKeys = bagArea.stash.flat().filter(k => k !== "-");
+            expect(pyramidKeys.length).to.equal(59);
+        });
+
+        it("hides the draw bag when hide-bag-pool display is active", () => {
+            const g = finishSetup(new AgofmarsGame());
+            const hidden = g.render({ altDisplays: ["hide-bag-pool"] }).areas ?? [];
+            expect(hidden.some(a => (a as { type?: string }).type === "localStash")).to.be.false;
+        });
+
         it("shows multiplier captions under each objective pyramid in play", () => {
             const g = finishSetup(new AgofmarsGame());
-            const areas = g.render().areas!;
+            const areas = g.render().areas!.filter(a => (a as { type?: string }).type === "pieces") as {
+                type: string;
+                pieces: { piece: string; text?: string; textPosition?: string }[];
+            }[];
             expect(areas.length).to.be.at.least(2);
-            const p1 = areas[0] as { type: string; pieces: { piece: string; text?: string; textPosition?: string }[] };
-            expect(p1.type).to.equal("pieces");
+            const p1 = areas[0]!;
             expect(p1.pieces[0]!.text).to.equal("2");
             expect(p1.pieces[0]!.textPosition).to.equal("below");
             expect(p1.pieces[3]!.text).to.match(/−1|-1/);
@@ -237,6 +257,19 @@ describe("Agents of M.A.R.S.", () => {
             ];
             const bag = buildDrawPoolFromBoard([], new Map(), objectives);
             expect(bag.length).to.equal(59);
+        });
+
+        it("organizes pool pieces into stacks without losing pyramids", () => {
+            const pool = buildDrawPoolFromBoard([], new Map(), defaultObjectives());
+            const org = organizePoolPieces(pool);
+            const stacked = [
+                ...org.triosMono.flat(),
+                ...org.triosMixed.flat(),
+                ...org.partialsMono.flat(),
+                ...org.partialsMixed.flat(),
+                ...org.miscellaneous,
+            ];
+            expect(stacked.length).to.equal(pool.length);
         });
 
         it("removes coloured and black setup pyramids per seat", () => {

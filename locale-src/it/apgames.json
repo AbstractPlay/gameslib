@@ -1371,6 +1371,14 @@
     "src": "A game where your movement is constrained by your distance from the centre of the board. Capturing moves must not increase that distance. Non-capturing moves must increase that distance. First person to capture all opposing pieces wins.",
     "out": "Un gioco in cui il tuo movimento è vincolato dalla tua distanza dal centro del tabellone. Le mosse di cattura non devono aumentare tale distanza. Le mosse non di cattura devono aumentare tale distanza. La prima persona che cattura tutti i pezzi avversari vince."
   },
+  "displays.agofmars.hide-bag-pool.description": {
+    "src": "Don't show the pyramids still in the draw bag.",
+    "out": "Non mostrare le piramidi ancora nel sacchetto di pesca."
+  },
+  "displays.agofmars.hide-bag-pool.name": {
+    "src": "Hide bag",
+    "out": "Nascondi sacchetto"
+  },
   "displays.akron.orb-3d.description": {
     "src": "Use plain 3D orb textures.",
     "out": "Usa texture di sfere 3D semplici."
@@ -4004,6 +4012,10 @@
     "out": "{{player}}"
   },
   "status.agofmars.bagCount": {
+    "src": "Pyramids in bag",
+    "out": "Piramidi nel sacchetto"
+  },
+  "status.agofmars.bagPool": {
     "src": "Pyramids in bag",
     "out": "Piramidi nel sacchetto"
   },

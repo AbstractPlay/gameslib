@@ -1371,6 +1371,14 @@
     "src": "A game where your movement is constrained by your distance from the centre of the board. Capturing moves must not increase that distance. Non-capturing moves must increase that distance. First person to capture all opposing pieces wins.",
     "out": "Un juego donde tu movimiento está limitado por tu distancia desde el centro del tablero. Los movimientos de captura no deben aumentar esa distancia. Los movimientos que no son de captura deben aumentar esa distancia. La primera persona que capture todas las piezas enemigas gana."
   },
+  "displays.agofmars.hide-bag-pool.description": {
+    "src": "Don't show the pyramids still in the draw bag.",
+    "out": "No mostrar las pirámides que aún están en la bolsa."
+  },
+  "displays.agofmars.hide-bag-pool.name": {
+    "src": "Hide bag",
+    "out": "Ocultar bolsa"
+  },
   "displays.akron.orb-3d.description": {
     "src": "Use plain 3D orb textures.",
     "out": "Usar texturas simples de orbes en 3D."
@@ -4004,6 +4012,10 @@
     "out": "{{player}}"
   },
   "status.agofmars.bagCount": {
+    "src": "Pyramids in bag",
+    "out": "Pirámides en la bolsa"
+  },
+  "status.agofmars.bagPool": {
     "src": "Pyramids in bag",
     "out": "Pirámides en la bolsa"
   },

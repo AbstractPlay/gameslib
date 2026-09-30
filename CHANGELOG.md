@@ -15,10 +15,6 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Clearpath, Croda, Dama, Ice Palace, Kill-All Go, Neutron, Thricewise, Yodd.
 
-### Changed
-
-- Agents of MARS: bag area, setup layout, and emulation/render polish (still `experimental`).
-
 ## [1.0.0-ci] - 2026-09-30
 
 ### Added
@@ -36,6 +32,10 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 - Production export strips **`experimental`** games, variants, and flags (`filterGameinfoForProduction`). Dev server continues to ship in-progress implementations.
 - **Lielow:** “moves until suicide” score marked as a spoiler in status output.
 - Button labels for shared UI moved into `apgames.json` (from the front end).
+
+### Fixed
+
+- **CIFRA:** numbered King/Sum pieces and stash labels stay upright when the board is rotated (`orientation: vertical` on piece labels).
 
 ### Removed
 

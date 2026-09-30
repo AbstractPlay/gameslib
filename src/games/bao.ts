@@ -34,6 +34,8 @@ type SowingResults = {
     sown: string[];
     infinite: boolean;
     taxed: boolean;
+    /** Mtaji kutakata: relay pickup from back row while inner row is empty on the board. */
+    illegalEmptyFront: boolean;
 };
 
 export class BaoGame extends GameBase {
@@ -202,6 +204,51 @@ export class BaoGame extends GameBase {
         return false;
     }
 
+    /** Namu kutakata start pits per Zanzibar placement rules (non-capture). */
+    private namuTakataLegalStartCells(player: playerid): string[] {
+        const myFront = player === 1 ? 2 : 1;
+        const house = this.houses[player - 1];
+        if (this.hasWorkingHouse(player)) {
+            const cells: string[] = [];
+            for (let col = 0; col < 8; col++) {
+                const cell = this.graph.coords2algebraic(col, myFront);
+                if (this.board[myFront][col] > 0 && this.graph.getType(cell) !== "nyumba") {
+                    cells.push(cell);
+                }
+            }
+            return cells;
+        }
+        const occupied: string[] = [];
+        for (let col = 0; col < 8; col++) {
+            if (this.board[myFront][col] > 0) {
+                occupied.push(this.graph.coords2algebraic(col, myFront));
+            }
+        }
+        const twoPlus = occupied.filter((cell) => {
+            const [c, r] = this.graph.algebraic2coords(cell);
+            return this.board[r][c] >= 2;
+        });
+        if (twoPlus.length > 0) {
+            return twoPlus;
+        }
+        const allSingletons =
+            occupied.length > 0 &&
+            occupied.every((cell) => {
+                const [c, r] = this.graph.algebraic2coords(cell);
+                return this.board[r][c] === 1;
+            });
+        if (allSingletons) {
+            return occupied;
+        }
+        if (occupied.length === 0 && house !== undefined && house !== null) {
+            const [col, row] = this.graph.algebraic2coords(house);
+            if (this.board[row][col] > 0) {
+                return [house];
+            }
+        }
+        return occupied;
+    }
+
     /**
      * Checks to see if a given player is in kutakatia.
      * The algorithm involves generating a list of moves for the *opposing* player,
@@ -277,6 +324,8 @@ export class BaoGame extends GameBase {
         let complete = true;
         let infinite = false;
         let taxed = false;
+        let illegalEmptyFront = false;
+        let lapFromNyumba = false;
 
         // init what we need to know about the game state
         const cell = move.substring(0, 2);
@@ -290,6 +339,8 @@ export class BaoGame extends GameBase {
         }
         const phase: "namua"|"mtaji" = this.inhand[player - 1] > 0 ? "namua" : "mtaji";
         const isKutakata = move.endsWith("*") || ( (this.board[startRow][startCol] >= 16) && (phase === "mtaji") ) ;
+        const myFront = player === 1 ? 2 : 1;
+        const myBack = player === 1 ? 3 : 0;
         // console.log(`Player: ${player}, Inhand: ${JSON.stringify(this.inhand)}`);
         let dir: "CW"|"CCW";
         switch (startRow) {
@@ -374,6 +425,7 @@ export class BaoGame extends GameBase {
                         // so move curr *back* one space
                         curr = this.graph.sow(enterPit, enterDir, -1)[0];
                         dir = enterDir;
+                        lapFromNyumba = false;
                         // restart loop
                         continue;
                     }
@@ -394,7 +446,7 @@ export class BaoGame extends GameBase {
                     break;
                 }
                 // otherwise, in kutakata and relay sowing, just stop
-                else if ( (isKutakata) && (distance > 0) ) {
+                else if ( (phase === "namua") && (isKutakata) && (distance > 0) ) {
                     break;
                 }
             }
@@ -405,7 +457,7 @@ export class BaoGame extends GameBase {
                 // the state of the blocked cell after the fact
                 // const blocked = this.getBlocked(player);
                 const blocked = this.blocked[player - 1];
-                if ( (blocked !== undefined) && (blocked === curr) ) {
+                if ( (blocked !== undefined) && (blocked === curr) && (! lapFromNyumba) ) {
                     break;
                 }
             }
@@ -419,11 +471,25 @@ export class BaoGame extends GameBase {
                 inhand = 2;
                 this.board[currRow][currCol] -= 2;
                 taxed = true;
+                lapFromNyumba = true;
             }
             // otherwise pick them all up
             else {
-                inhand = this.board[currRow][currCol];
+                const stonesToLift = this.board[currRow][currCol];
+                if (phase === "mtaji" && isKutakata && stonesToLift > 0) {
+                    let frontSum = 0;
+                    for (let i = 0; i < 8; i++) {
+                        frontSum += this.board[myFront][i];
+                    }
+                    if (frontSum === 0 && currRow === myBack) {
+                        illegalEmptyFront = true;
+                        complete = false;
+                        break;
+                    }
+                }
+                inhand = stonesToLift;
                 this.board[currRow][currCol] = 0;
+                lapFromNyumba = this.graph.getType(curr) === "nyumba";
             }
 
             // FAILSAFE
@@ -443,8 +509,53 @@ export class BaoGame extends GameBase {
             },
             sown: sownCells,
             infinite,
-            taxed
+            taxed,
+            illegalEmptyFront,
         }
+    }
+
+    /** Mtaji kutakata: allowed direction markers when starting from an inner-row pit. */
+    private mtajiKutakataDirMarkers(player: playerid, cell: string, myFront: number, myBack: number): ("<"|">")[] {
+        const occupied: string[] = [];
+        for (let i = 0; i < 8; i++) {
+            if (this.board[myFront][i] > 0) {
+                occupied.push(this.graph.coords2algebraic(i, myFront));
+            }
+        }
+        if (occupied.length !== 1 || occupied[0] !== cell) {
+            return ["<", ">"];
+        }
+        const type = this.graph.getType(cell);
+        if (type === undefined || !type.startsWith("kichwa")) {
+            return ["<", ">"];
+        }
+        const [col, row] = this.graph.algebraic2coords(cell);
+        if (this.board[row][col] < 2) {
+            return ["<", ">"];
+        }
+        const allowed: ("<"|">")[] = [];
+        for (const dir of ["CW", "CCW"] as const) {
+            const dirMarker: "<"|">" = dir === "CW" ? ">" : "<";
+            const first = this.graph.sow(cell, dir, 1)[0];
+            const [, firstRow] = this.graph.algebraic2coords(first);
+            if (firstRow === myFront) {
+                allowed.push(dirMarker);
+            }
+        }
+        return allowed;
+    }
+
+    private filterMtajiKutakataIllegalEmptyFront(player: playerid, moves: string[]): string[] {
+        if (this.inhand[player - 1] > 0) {
+            return moves;
+        }
+        return moves.filter((mv) => {
+            if (!mv.endsWith("*")) {
+                return true;
+            }
+            const r = BaoGame.clone(this).processMove(mv);
+            return !r.illegalEmptyFront;
+        });
     }
 
     public moves(player?: playerid, ignoreBlocked = false): string[] {
@@ -515,44 +626,9 @@ export class BaoGame extends GameBase {
             }
             // only look for non-capturing moves if no captures were found
             if (caps.length === 0) {
-                // with working house, can play any pit that's not the house
-                if (this.hasWorkingHouse(player)) {
-                    for (const col of cols) {
-                        const cell = this.graph.coords2algebraic(col, myFront);
-                        const type = this.graph.getType(cell)!;
-                        if (type !== "nyumba") {
-                            noncaps.push(`${cell}<*`);
-                            noncaps.push(`${cell}>*`);
-                        }
-                    }
-                }
-                // without a working house, any cell with 2+ stones that is not an owned house
-                else {
-                    for (const col of cols) {
-                        const cell = this.graph.coords2algebraic(col, myFront);
-                        if ( (this.board[myFront][col] >= 2) && (cell !== this.houses[player-1]) ) {
-                            noncaps.push(`${cell}<*`);
-                            noncaps.push(`${cell}>*`);
-                        }
-                    }
-                }
-                // at this point, any unowned house cell can be sown
-                if (noncaps.length === 0) {
-                    for (const col of cols) {
-                        const cell = this.graph.coords2algebraic(col, myFront);
-                        if ( (this.board[myFront][col] >= 1) && (cell !== this.houses[player-1]) ) {
-                            noncaps.push(`${cell}<*`);
-                            noncaps.push(`${cell}>*`);
-                        }
-                    }
-                }
-                // and if still nothing, then either only the house remains, or the game is over
-                if ( (noncaps.length === 0) && (cols.length > 0) ) {
-                    for (const col of cols) {
-                        const cell = this.graph.coords2algebraic(col, myFront);
-                        noncaps.push(`${cell}<*`);
-                        noncaps.push(`${cell}>*`);
-                    }
+                for (const cell of this.namuTakataLegalStartCells(player)) {
+                    noncaps.push(`${cell}<*`);
+                    noncaps.push(`${cell}>*`);
                 }
             }
         }
@@ -571,7 +647,7 @@ export class BaoGame extends GameBase {
                             } else {
                                 dirMarker = dir === "CW" ? "<" : ">";
                             }
-                            let isMarker = false;
+                            let staticCapture = false;
                             const sown = this.graph.sow(cell, dir, num);
                             const final = sown[sown.length - 1];
                             const opp = BaoGame.opposites.get(final);
@@ -579,12 +655,18 @@ export class BaoGame extends GameBase {
                                 const [myX, myY] = this.graph.algebraic2coords(final);
                                 const [theirX, theirY] = this.graph.algebraic2coords(opp);
                                 if ( (this.board[myY][myX] > 0) && (this.board[theirY][theirX] > 0) ) {
-                                    isMarker = true;
+                                    staticCapture = true;
                                 }
                             }
-                            // to be a valid capture, must start with <16 pieces and end in a marker
-                            if ( (num < 16) && (isMarker) ) {
-                                caps.push(`${cell}${dirMarker}`);
+                            if (num < 16) {
+                                const mv = `${cell}${dirMarker}`;
+                                if (staticCapture) {
+                                    const cloned = BaoGame.clone(this);
+                                    const result = cloned.processMove(mv);
+                                    if (result.captured.cells.length > 0) {
+                                        caps.push(mv);
+                                    }
+                                }
                             }
                         }
                     }
@@ -612,9 +694,9 @@ export class BaoGame extends GameBase {
                         if ( (blocked !== undefined) && (blocked === cell) ) {
                             continue;
                         }
-                        // otherwise save the move
-                        noncaps.push(`${cell}<*`);
-                        noncaps.push(`${cell}>*`);
+                        for (const dirMarker of this.mtajiKutakataDirMarkers(player, cell, myFront, myBack)) {
+                            noncaps.push(`${cell}${dirMarker}*`);
+                        }
                     }
                 }
                 // if still no moves, check outer row
@@ -622,7 +704,6 @@ export class BaoGame extends GameBase {
                     for (let i = 0; i < 8; i++) {
                         if (this.board[myBack][i] >= 2) {
                             const cell = this.graph.coords2algebraic(i, myBack);
-                            // otherwise save the move
                             noncaps.push(`${cell}<*`);
                             noncaps.push(`${cell}>*`);
                         }
@@ -647,7 +728,7 @@ export class BaoGame extends GameBase {
             }
             return caps;
         } else {
-            return noncaps;
+            return this.filterMtajiKutakataIllegalEmptyFront(player, noncaps);
         }
     }
 
@@ -807,7 +888,11 @@ export class BaoGame extends GameBase {
             return result;
         }
 
-        if ( (! this.hasWorkingHouse()) && (this.board[y][x] === 1) && (this.inhand[this.currplayer - 1] > 0) ) {
+        if (
+            (this.inhand[this.currplayer - 1] > 0) &&
+            (m.endsWith("*")) &&
+            (! this.namuTakataLegalStartCells(this.currplayer).includes(cell))
+        ) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.bao.TWO_PLUS", {move: m});
             return result;

@@ -59,7 +59,7 @@ export class FourInARowGame extends InARowBase {
             { uid: "interior-gravity-4", group: "placement" },
             { uid: "clear", group: "clear" },
         ],
-        categories: ["goal>arrange", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>arrange", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per", "family>gomoku"],
         flags: ["custom-colours"],
         displays: [{uid: "hide-moves"}],
     };

@@ -46,7 +46,7 @@ export class DamaGame extends GameBase {
             },
         ],
         variants: [],
-        categories: ["goal>immobilize", "mechanic>capture", "mechanic>differentiate", "mechanic>move", "other>traditional", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>immobilize", "mechanic>capture", "mechanic>differentiate", "mechanic>move", "other>traditional", "board>shape>rect", "board>connect>rect", "components>simple>1per", "family>draughts"],
         flags: ["perspective", "automove", "experimental"],
     };
 

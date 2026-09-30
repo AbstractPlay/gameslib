@@ -54,7 +54,7 @@ export class LascaGame extends GameBase {
         variants: [
             {uid: "size-9", group: "board"},
         ],
-        categories: ["goal>immobilize", "mechanic>capture", "mechanic>move", "mechanic>differentiate", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>immobilize", "mechanic>capture", "mechanic>move", "mechanic>differentiate", "board>shape>rect", "board>connect>rect", "components>simple>1per", "family>draughts"],
         flags: ["perspective", "automove", "pie", ]
     };
 

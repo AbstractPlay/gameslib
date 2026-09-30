@@ -52,7 +52,7 @@ export class BashniGame extends GameBase {
         ],
         variants: [
         ],
-        categories: ["goal>immobilize", "mechanic>capture", "mechanic>move", "mechanic>stack", "other>traditional", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>immobilize", "mechanic>capture", "mechanic>move", "mechanic>stack", "other>traditional", "board>shape>rect", "board>connect>rect", "components>simple>1per", "family>draughts"],
         flags: ["experimental", "perspective", "automove", ]
     };
 

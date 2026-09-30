@@ -47,7 +47,7 @@ export class DiffusionGame extends GameBase {
                 apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
             },
         ],
-        categories: ["goal>evacuate", "mechanic>bearoff", "mechanic>move>sow", "mechanic>coopt", "board>mancala", "components>simple>1c"],
+        categories: ["goal>evacuate", "mechanic>bearoff", "mechanic>move>sow", "mechanic>coopt", "board>mancala", "components>simple>1c", "family>mancala"],
         flags: ["pie", "automove", "perspective"],
         variants: [
             {uid: "topBottom"}

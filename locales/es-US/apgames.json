@@ -8468,5 +8468,467 @@
       "objSwap": "Intercambiar objetivos",
       "swap": "Intercambiar en tablero"
     }
+  },
+  "categories": {
+    "board": {
+      "description": "Describe los atributos de la superficie de juego",
+      "full": "Tablero",
+      "tag": "Tablero"
+    },
+    "board>3d": {
+      "description": "El tablero es tridimensional",
+      "full": "Tablero > 3D",
+      "tag": "Tablero: 3D"
+    },
+    "board>connect": {
+      "description": "Describe cómo se conectan las casillas del tablero entre sí",
+      "full": "Tablero > Conectividad",
+      "tag": "Conectividad del tablero"
+    },
+    "board>connect>hex": {
+      "description": "Las casillas se conectan entre sí de forma hexagonal",
+      "full": "Tablero > Conectividad > Hexagonal",
+      "tag": "Conexión: Hexagonal"
+    },
+    "board>connect>linear": {
+      "description": "Las casillas se conectan entre sí de forma lineal",
+      "full": "Tablero > Conectividad > Lineal",
+      "tag": "Conexión: Lineal"
+    },
+    "board>connect>other": {
+      "description": "Las casillas se conectan entre sí de una forma única",
+      "full": "Tablero > Conectividad > Otra",
+      "tag": "Conexión: Otra"
+    },
+    "board>connect>pent": {
+      "description": "Las casillas se conectan entre sí de forma pentagonal",
+      "full": "Tablero > Conectividad > Pentagonal",
+      "tag": "Conexión: Pentagonal"
+    },
+    "board>connect>rect": {
+      "description": "Las casillas se conectan entre sí de forma ortogonal y diagonal",
+      "full": "Tablero > Conectividad > Rectangular",
+      "tag": "Conexión: Rectangular"
+    },
+    "board>connect>snub": {
+      "description": "Las casillas se conectan entre sí en una matriz de cuadrícula roma (snubsquare)",
+      "full": "Tablero > Conectividad > Snubsquare",
+      "tag": "Conexión: Snub"
+    },
+    "board>dynamic": {
+      "description": "El tablero se construye dinámicamente",
+      "full": "Tablero > Dinámico",
+      "tag": "Tablero: Dinámico"
+    },
+    "board>mancala": {
+      "description": "Se juega en un tablero tradicional estilo Mancala",
+      "full": "Tablero > Mancala",
+      "tag": "Tablero: Mancala"
+    },
+    "board>none": {
+      "description": "Se juega en cualquier superficie plana",
+      "full": "Tablero > Ninguno",
+      "tag": "Tablero: Ninguno"
+    },
+    "board>other": {
+      "description": "El tablero es único",
+      "full": "Tablero > Otro",
+      "tag": "Tablero: Otro"
+    },
+    "board>shape": {
+      "description": "Describe la forma del tablero",
+      "full": "Tablero > Forma",
+      "tag": "Forma del tablero"
+    },
+    "board>shape>circle": {
+      "description": "El tablero tiene forma de círculo",
+      "full": "Tablero > Forma > Círculo",
+      "tag": "Forma: Círculo"
+    },
+    "board>shape>hex": {
+      "description": "El tablero tiene forma de hexágono",
+      "full": "Tablero > Forma > Hexágono",
+      "tag": "Forma: Hexagonal"
+    },
+    "board>shape>pent": {
+      "description": "El tablero tiene forma de pentágono",
+      "full": "Tablero > Forma > Pentágono",
+      "tag": "Forma: Pentagonal"
+    },
+    "board>shape>oct": {
+      "description": "El tablero tiene forma de octágono",
+      "full": "Tablero > Forma > Octágono",
+      "tag": "Forma: Octagonal"
+    },
+    "board>shape>other": {
+      "description": "El tablero tiene una forma única",
+      "full": "Tablero > Forma > Otra",
+      "tag": "Forma: Otra"
+    },
+    "board>shape>rect": {
+      "description": "El tablero tiene forma de rectángulo",
+      "full": "Tablero > Forma > Rectángulo",
+      "tag": "Forma: Rectangular"
+    },
+    "board>shape>tri": {
+      "description": "El tablero tiene forma de triángulo",
+      "full": "Tablero > Forma > Triángulo",
+      "tag": "Forma: Triangular"
+    },
+    "components>chess": {
+      "description": "Se juega con un juego de ajedrez",
+      "full": "Componentes > Ajedrez",
+      "tag": "C: Ajedrez"
+    },
+    "components>dice": {
+      "description": "Se juega con dados",
+      "full": "Componentes > Dados",
+      "tag": "C: Dados"
+    },
+    "components>decktet": {
+      "description": "Se juega con una baraja Decktet",
+      "full": "Componentes > Decktet",
+      "tag": "C: Decktet"
+    },
+    "components>dominoes": {
+      "description": "Se juega con dominós",
+      "full": "Componentes > Dominó",
+      "tag": "C: Dominó"
+    },
+    "components>piecepack": {
+      "description": "Se juega con Piecepack",
+      "full": "Componentes > Piecepack",
+      "tag": "C: Piecepack"
+    },
+    "components>poly": {
+      "description": "Se juega con poliominós",
+      "full": "Componentes > Poliominós",
+      "tag": "C: Poliominós"
+    },
+    "components>pyramids": {
+      "description": "Se juega con pirámides Looney",
+      "full": "Componentes > Pirámides Looney",
+      "tag": "C: Pirámides Looney"
+    },
+    "components>shibumi": {
+      "description": "Se juega con un juego Shibumi",
+      "full": "Componentes > Shibumi",
+      "tag": "C: Shibumi"
+    },
+    "components>simple": {
+      "description": "Se juega con piezas simples de tamaño uniforme, a menudo apilables, a veces de muchos colores",
+      "full": "Componentes > Simples",
+      "tag": "C: Simples"
+    },
+    "components>simple>1per": {
+      "description": "Un color por jugador",
+      "full": "Componentes > Simples > 1 por jugador",
+      "tag": "C: Simples, 1 por jug."
+    },
+    "components>simple>2per": {
+      "description": "Dos colores por jugador",
+      "full": "Componentes > Simples > 2 por jugador",
+      "tag": "C: Simples, 2 por jug."
+    },
+    "components>simple>1c": {
+      "description": "Un color de piezas",
+      "full": "Componentes > Simples > 1 color",
+      "tag": "C: Simples, 1 color"
+    },
+    "components>simple>2c": {
+      "description": "Dos colores de piezas",
+      "full": "Componentes > Simples > 2 colores",
+      "tag": "C: Simples, 2 colores"
+    },
+    "components>simple>3c": {
+      "description": "Tres colores de piezas",
+      "full": "Componentes > Simples > 3 colores",
+      "tag": "C: Simples, 3 colores"
+    },
+    "components>simple>4c": {
+      "description": "Cuatro colores de piezas",
+      "full": "Componentes > Simples > 4 colores",
+      "tag": "C: Simples, 4 colores"
+    },
+    "components>simple>5c": {
+      "description": "Cinco colores de piezas",
+      "full": "Componentes > Simples > 5 colores",
+      "tag": "C: Simples, 5 colores"
+    },
+    "components>simple>7c": {
+      "description": "Siete colores de piezas",
+      "full": "Componentes > Simples > 7 colores",
+      "tag": "C: Simples, 7 colores"
+    },
+    "components>simple>pnp": {
+      "description": "Se puede jugar con papel y lápiz",
+      "full": "Componentes > Simples > Papel y lápiz",
+      "tag": "C: Simples, P y L"
+    },
+    "components>special": {
+      "description": "Se juega con piezas especializadas, generalmente diferenciadas",
+      "full": "Componentes > Especializados",
+      "tag": "C: Especiales"
+    },
+    "family": {
+      "description": "Familia histórica o de reglas (linaje), independiente de los objetivos y las mecánicas",
+      "full": "Familia",
+      "tag": "Familia"
+    },
+    "family>draughts": {
+      "description": "Linaje de las damas: captura por salto, coronación y variantes relacionadas",
+      "full": "Familia > Damas",
+      "tag": "F: Damas"
+    },
+    "family>gomoku": {
+      "description": "Juegos de colocación para formar líneas en el linaje de Gomoku / Renju / Connect6 y parientes cercanos de alineación",
+      "full": "Familia > Gomoku",
+      "tag": "F: Gomoku"
+    },
+    "family>mancala": {
+      "description": "Juegos tradicionales de hoyos y siembra y sus descendientes modernos cercanos",
+      "full": "Familia > Mancala",
+      "tag": "F: Mancala"
+    },
+    "family>tafl": {
+      "description": "Familia del tafl vikingo: rey contra atacantes, escape contra captura y captura en sándwich en tableros especiales",
+      "full": "Familia > Tafl",
+      "tag": "F: Tafl"
+    },
+    "goal>annihilate": {
+      "description": "Aniquilar todas las piezas del oponente",
+      "full": "Objetivo > Aniquilar",
+      "tag": "O: Aniquilar"
+    },
+    "goal>area": {
+      "description": "Controlar más área (o ciertas áreas con cierta fuerza) que tu oponente",
+      "full": "Objetivo > Control de área",
+      "tag": "O: Control de área"
+    },
+    "goal>arrange": {
+      "description": "Organizar piezas en formas o longitudes específicas (p. ej., n en línea)",
+      "full": "Objetivo > Alinear",
+      "tag": "O: Alinear"
+    },
+    "goal>breakthrough": {
+      "description": "Alcanzar la fila o área inicial del oponente con suficiente fuerza",
+      "full": "Objetivo > Incursión",
+      "tag": "O: Incursión"
+    },
+    "goal>connect": {
+      "description": "Conectar bordes o áreas designadas del tablero",
+      "full": "Objetivo > Conectar",
+      "tag": "O: Conectar"
+    },
+    "goal>cripple": {
+      "description": "Eliminar una mayoría crítica o un subconjunto específico de piezas del oponente",
+      "full": "Objetivo > Debilitar",
+      "tag": "O: Debilitar"
+    },
+    "goal>evacuate": {
+      "description": "Evacuar tus piezas del tablero",
+      "full": "Objetivo > Evacuar",
+      "tag": "O: Evacuar"
+    },
+    "goal>immobilize": {
+      "description": "Hacer que tu oponente no pueda mover",
+      "full": "Objetivo > Inmovilizar",
+      "tag": "O: Inmovilizar"
+    },
+    "goal>isolate": {
+      "description": "Aislar una pieza o subconjunto de piezas de una forma específica",
+      "full": "Objetivo > Aislar",
+      "tag": "O: Aislar"
+    },
+    "goal>majority": {
+      "description": "Tener más piezas que tu oponente",
+      "full": "Objetivo > Mayoría",
+      "tag": "O: Mayoría"
+    },
+    "goal>royal-capture": {
+      "description": "Capturar una pieza específica del oponente",
+      "full": "Objetivo > Captura real",
+      "tag": "O: Captura real"
+    },
+    "goal>royal-escape": {
+      "description": "Sacar una pieza específica del tablero",
+      "full": "Objetivo > Escape real",
+      "tag": "O: Escape real"
+    },
+    "goal>score": {
+      "description": "El resultado se determina por la puntuación de alguna manera",
+      "full": "Objetivo > Puntuación",
+      "tag": "O: Puntuación"
+    },
+    "goal>score>eog": {
+      "description": "Tener la puntuación más alta al final del juego",
+      "full": "Objetivo > Puntuación > Final del juego",
+      "tag": "O: Puntuación (Final)"
+    },
+    "goal>score>race": {
+      "description": "Ser el primero en alcanzar una puntuación determinada",
+      "full": "Objetivo > Puntuación > Carrera",
+      "tag": "O: Puntuación (Carrera)"
+    },
+    "goal>set": {
+      "description": "Reunir conjuntos de piezas",
+      "full": "Objetivo > Colección de conjuntos",
+      "tag": "O: Colección de conjuntos"
+    },
+    "goal>unify": {
+      "description": "Reunir todas tus piezas",
+      "full": "Objetivo > Unificar",
+      "tag": "O: Unificar"
+    },
+    "goal>vigil": {
+      "description": "Todas las piezas (o un subconjunto definido) deben tener línea de visión hacia algún elemento del tablero",
+      "full": "Objetivo > Vigilancia",
+      "tag": "O: Vigilancia"
+    },
+    "mechanic": {
+      "description": "Describe las mecánicas generales del juego",
+      "full": "Mecánicas",
+      "tag": "Mecánicas"
+    },
+    "mechanic>asymmetry": {
+      "description": "El juego es asimétrico",
+      "full": "Mecánicas > Asimetría",
+      "tag": "M: Asimetría"
+    },
+    "mechanic>bearoff": {
+      "description": "Los jugadores retiran piezas del tablero",
+      "full": "Mecánicas > Retirar piezas",
+      "tag": "M: Retirar piezas"
+    },
+    "mechanic>block": {
+      "description": "Los jugadores se bloquean entre sí",
+      "full": "Mecánicas > Bloqueo",
+      "tag": "M: Bloqueo"
+    },
+    "mechanic>capture": {
+      "description": "Las piezas son capturadas",
+      "full": "Mecánicas > Captura",
+      "tag": "M: Captura"
+    },
+    "mechanic>convert": {
+      "description": "Los jugadores pueden convertir piezas enemigas en propias",
+      "full": "Mecánicas > Conversión",
+      "tag": "M: Conversión"
+    },
+    "mechanic>coopt": {
+      "description": "Los jugadores pueden interactuar con las piezas del oponente",
+      "full": "Mecánicas > Cooptación",
+      "tag": "M: Cooptación"
+    },
+    "mechanic>differentiate": {
+      "description": "Las piezas se diferencian de alguna manera esencial",
+      "full": "Mecánicas > Diferenciación",
+      "tag": "M: Diferenciación"
+    },
+    "mechanic>displace": {
+      "description": "Los movimientos pueden hacer que piezas adicionales se muevan como resultado",
+      "full": "Mecánicas > Desplazamiento",
+      "tag": "M: Desplazamiento"
+    },
+    "mechanic>economy": {
+      "description": "Los jugadores deben gestionar alguna economía central",
+      "full": "Mecánicas > Gestión de economía",
+      "tag": "M: Gestión de economía"
+    },
+    "mechanic>enclose": {
+      "description": "Los jugadores encierran activamente áreas o piezas",
+      "full": "Mecánicas > Encierro",
+      "tag": "M: Encierro"
+    },
+    "mechanic>hidden": {
+      "description": "El juego incluye información oculta",
+      "full": "Mecánicas > Información oculta",
+      "tag": "M: Información oculta"
+    },
+    "mechanic>merge": {
+      "description": "Las piezas se fusionan o se dividen",
+      "full": "Mecánicas > Fusión/División",
+      "tag": "M: Fusión/División"
+    },
+    "mechanic>move": {
+      "description": "Las piezas se pueden mover",
+      "full": "Mecánicas > Movimiento",
+      "tag": "M: Movimiento"
+    },
+    "mechanic>move>group": {
+      "description": "Las piezas se pueden mover en grupo",
+      "full": "Mecánicas > Movimiento > En grupo",
+      "tag": "M: Movimiento (Grupo)"
+    },
+    "mechanic>move>sow": {
+      "description": "Las piezas se mueven sembrando",
+      "full": "Mecánicas > Movimiento > Siembra",
+      "tag": "M: Movimiento (Siembra)"
+    },
+    "mechanic>network": {
+      "description": "Los jugadores construyen redes",
+      "full": "Mecánicas > Redes",
+      "tag": "M: Redes"
+    },
+    "mechanic>place": {
+      "description": "Las piezas se colocan",
+      "full": "Mecánicas > Colocación",
+      "tag": "M: Colocación"
+    },
+    "mechanic>program": {
+      "description": "Se programan secuencias de movimientos",
+      "full": "Mecánicas > Programación",
+      "tag": "M: Programación"
+    },
+    "mechanic>random": {
+      "description": "El juego contiene algún elemento aleatorio",
+      "full": "Mecánicas > Elementos aleatorios",
+      "tag": "M: Elementos aleatorios"
+    },
+    "mechanic>random>play": {
+      "description": "Los movimientos individuales del juego incluyen algún elemento de aleatoriedad",
+      "full": "Mecánicas > Aleatorio > Juego",
+      "tag": "M: Aleatorio (Juego)"
+    },
+    "mechanic>random>setup": {
+      "description": "La preparación es aleatoria de alguna manera",
+      "full": "Mecánicas > Aleatorio > Preparación",
+      "tag": "M: Aleatorio (Preparación)"
+    },
+    "mechanic>set": {
+      "description": "Los jugadores reúnen conjuntos",
+      "full": "Mecánicas > Colección de conjuntos",
+      "tag": "M: Colección de conjuntos"
+    },
+    "mechanic>share": {
+      "description": "Al menos algunas piezas del juego son compartidas por ambos jugadores",
+      "full": "Mecánicas > Compartir",
+      "tag": "M: Compartir"
+    },
+    "mechanic>simultaneous": {
+      "description": "El juego incluye selección simultánea de acciones",
+      "full": "Mecánicas > Simultáneo",
+      "tag": "M: Simultáneo"
+    },
+    "mechanic>stack": {
+      "description": "Los jugadores manipulan pilas de piezas",
+      "full": "Mecánicas > Apilar",
+      "tag": "M: Apilar"
+    },
+    "mechanic>vigil": {
+      "description": "Al menos una pieza debe tener línea de visión hacia algún elemento del tablero",
+      "full": "Mecánicas > Vigilancia",
+      "tag": "M: Vigilancia"
+    },
+    "other>traditional": {
+      "description": "El juego es tradicional",
+      "full": "Otro > Tradicional",
+      "tag": "O: Tradicional"
+    },
+    "other>2+players": {
+      "description": "Admite más de 2 jugadores",
+      "full": "Otro > 2+ jugadores",
+      "tag": "O: 2+ jugadores"
+    }
   }
 }

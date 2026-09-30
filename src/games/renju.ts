@@ -73,7 +73,7 @@ export class RenjuGame extends InARowBase {
             { uid: "swap-5", group: "opening" },
             { uid: "pass", group: "tiebreaker" },
         ],
-        categories: ["goal>arrange", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per", "mechanic>asymmetry"],
+        categories: ["goal>arrange", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per", "mechanic>asymmetry", "family>gomoku"],
         flags: ["custom-colours"],
         displays: [{uid: "hide-restrictions"}],
     };

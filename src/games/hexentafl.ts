@@ -57,7 +57,7 @@ export class HexentaflGame extends GameBase {
         variants: [
             { uid: "size-5", group: "board" },
         ],
-        categories: ["goal>royal-escape", "goal>royal-capture", "mechanic>asymmetry", "mechanic>capture", "board>shape>hex", "board>connect>hex", "components>simple"],
+        categories: ["goal>royal-escape", "goal>royal-capture", "mechanic>asymmetry", "mechanic>capture", "board>shape>hex", "board>connect>hex", "components>simple", "family>tafl"],
         flags: ["check", ],
     };
 

@@ -53,7 +53,7 @@ export class Connect6Game extends InARowBase {
             { uid: "swap-3rd", group: "opening" },
             { uid: "pass", group: "tiebreaker" },
         ],
-        categories: ["goal>arrange", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>arrange", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per", "family>gomoku"],
         flags: ["custom-colours", "no-moves", "custom-buttons"],
     };
 

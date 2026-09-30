@@ -57,7 +57,7 @@ export class StapeldammenGame extends GameBase {
         ],
         variants: [
         ],
-        categories: ["goal>score>eog", "mechanic>capture", "mechanic>move", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>score>eog", "mechanic>capture", "mechanic>move", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per", "family>draughts"],
         flags: ["perspective", "automove"]
     };
 

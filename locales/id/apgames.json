@@ -18,5 +18,14 @@
             "dl": "Gelap, Kiri",
             "dr": "Gelap, Kanan"
         }
+    },
+    "categories": {
+        "board": {
+            "full": "Papan",
+            "tag": "Papan"
+        },
+        "mechanic": {
+            "full": "Mekanik"
+        }
     }
 }

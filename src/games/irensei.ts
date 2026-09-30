@@ -54,7 +54,7 @@ export class IrenseiGame extends InARowBase {
             { uid: "sym-no-overline", group: "overline" },
             { uid: "pass", group: "tiebreaker" },
         ],
-        categories: ["goal>arrange", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>arrange", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per", "family>gomoku"],
         flags: ["custom-colours"],
         displays: [{uid: "hide-restrictions"}],
     };

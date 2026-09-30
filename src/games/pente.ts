@@ -59,7 +59,7 @@ export class PenteGame extends InARowBase {
             { uid: "self-capture", group: "self-capture" },
             { uid: "overtime-capture", group: "overtime-capture" },
         ],
-        categories: ["goal>arrange", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>arrange", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per", "family>gomoku"],
         flags: ["custom-colours", "check"],
         displays: [{uid: "hide-threatened"}],
     };

@@ -199,6 +199,1110 @@
     "src": "Take button",
     "out": "Aufnehmen-Taste"
   },
+  "categories.board.description": {
+    "src": "Describes the attributes of the playing surface",
+    "out": "Beschreibt die Eigenschaften der Spielfläche"
+  },
+  "categories.board.full": {
+    "src": "Board",
+    "out": "Spielbrett"
+  },
+  "categories.board.tag": {
+    "src": "Board",
+    "out": "Spielbrett"
+  },
+  "categories.board>3d.description": {
+    "src": "The board is three dimensional",
+    "out": "Das Spielbrett ist dreidimensional"
+  },
+  "categories.board>3d.full": {
+    "src": "Board > 3D",
+    "out": "Spielbrett > 3D"
+  },
+  "categories.board>3d.tag": {
+    "src": "Board: 3D",
+    "out": "Spielbrett: 3D"
+  },
+  "categories.board>connect.description": {
+    "src": "Describes how the cells of the board connect to each other",
+    "out": "Beschreibt, wie sich die Zellen des Spielbrettes miteinander verbinden"
+  },
+  "categories.board>connect.full": {
+    "src": "Board > Connectivity",
+    "out": "Spielbrett > Verbindungen"
+  },
+  "categories.board>connect.tag": {
+    "src": "Board Connectivity",
+    "out": "Verbindungen des Brettes"
+  },
+  "categories.board>connect>hex.description": {
+    "src": "Cells connect to each other hexagonally",
+    "out": "Die Zellen verbinden sich hexagonal"
+  },
+  "categories.board>connect>hex.full": {
+    "src": "Board > Connectivity > Hexagonal",
+    "out": "Spielbrett > Verbindungen > Hexagonal"
+  },
+  "categories.board>connect>hex.tag": {
+    "src": "Connect: Hex",
+    "out": "Verbindung: Hex"
+  },
+  "categories.board>connect>linear.description": {
+    "src": "Cells connect to each other linearly",
+    "out": "Die Zellen verbinden sich linear"
+  },
+  "categories.board>connect>linear.full": {
+    "src": "Board > Connectivity > Linear",
+    "out": "Spielbrett > Verbindungen > Linear"
+  },
+  "categories.board>connect>linear.tag": {
+    "src": "Connect: Linear",
+    "out": "Verbindung: Linear"
+  },
+  "categories.board>connect>other.description": {
+    "src": "Cells connect to each other in a unique way",
+    "out": "Die Zellen verbinden sich auf eine einzigartige Weise"
+  },
+  "categories.board>connect>other.full": {
+    "src": "Board > Connectivity > Other",
+    "out": "Spielbrett > Verbindungen > Andere"
+  },
+  "categories.board>connect>other.tag": {
+    "src": "Connect: Other",
+    "out": "Verbindung: Andere"
+  },
+  "categories.board>connect>pent.description": {
+    "src": "Cells connect to each other pentagonally",
+    "out": "Die Zellen verbinden sich pentagonal"
+  },
+  "categories.board>connect>pent.full": {
+    "src": "Board > Connectivity > Pentagonal",
+    "out": "Spielbrett > Verbindungen > Pentagonal"
+  },
+  "categories.board>connect>pent.tag": {
+    "src": "Connect: Pent",
+    "out": "Verbindung: Pent"
+  },
+  "categories.board>connect>rect.description": {
+    "src": "Cells connect to each other orthogonally and diagonally",
+    "out": "Die Zellen verbinden sich orthogonal und diagonal"
+  },
+  "categories.board>connect>rect.full": {
+    "src": "Board > Connectivity > Rectangular",
+    "out": "Spielbrett > Verbindungen > Rechteckig"
+  },
+  "categories.board>connect>rect.tag": {
+    "src": "Connect: Rect",
+    "out": "Verbindung: Rect"
+  },
+  "categories.board>connect>snub.description": {
+    "src": "Cells connect to each other in a snubsquare matrix",
+    "out": "Die Zellen verbinden sich zu einer schiefrechteckige Matrix"
+  },
+  "categories.board>connect>snub.full": {
+    "src": "Board > Connectivity > Snubsquare",
+    "out": "Spielbrett > Verbindungen > Schiefrechteckig"
+  },
+  "categories.board>connect>snub.tag": {
+    "src": "Connect: Snub",
+    "out": "Verbindung: SchReEck"
+  },
+  "categories.board>dynamic.description": {
+    "src": "The board builds out dynamically",
+    "out": "Das Spielbrett wird dynamisch aufgebaut"
+  },
+  "categories.board>dynamic.full": {
+    "src": "Board > Dynamic",
+    "out": "Spielbrett > Dynamisch"
+  },
+  "categories.board>dynamic.tag": {
+    "src": "Board: Dynamic",
+    "out": "Spielbrett: Dynamisch"
+  },
+  "categories.board>mancala.description": {
+    "src": "Played on a traditional Mancala-style board",
+    "out": "Auf einem traditionellen Mancala-ähnlichen Brett gespielt"
+  },
+  "categories.board>mancala.full": {
+    "src": "Board > Mancala",
+    "out": "Spielbrett > Mancala"
+  },
+  "categories.board>mancala.tag": {
+    "src": "Board: Mancala",
+    "out": "Spielbrett: Mancala"
+  },
+  "categories.board>none.description": {
+    "src": "Played on any flat surface",
+    "out": "Auf einer ebenen Fläche gespielt"
+  },
+  "categories.board>none.full": {
+    "src": "Board > None",
+    "out": "Spielbrett > Keins"
+  },
+  "categories.board>none.tag": {
+    "src": "Board: None",
+    "out": "Spielbrett: Keins"
+  },
+  "categories.board>other.description": {
+    "src": "The board is unique",
+    "out": "Das Spielbrett ist einzigartig"
+  },
+  "categories.board>other.full": {
+    "src": "Board > Other",
+    "out": "Spielbrett > Andere"
+  },
+  "categories.board>other.tag": {
+    "src": "Board: Other",
+    "out": "Spielbrett: Andere"
+  },
+  "categories.board>shape.description": {
+    "src": "Describes the shape of the board",
+    "out": "Beschreibt die Form des Brettes"
+  },
+  "categories.board>shape.full": {
+    "src": "Board > Shape",
+    "out": "Spielbrett > Form"
+  },
+  "categories.board>shape.tag": {
+    "src": "Board Shape",
+    "out": "Spielbrettform"
+  },
+  "categories.board>shape>circle.description": {
+    "src": "The board is shaped like a circle",
+    "out": "Das Spielbrett ist kreisförmig"
+  },
+  "categories.board>shape>circle.full": {
+    "src": "Board > Shape > Circle",
+    "out": "Spielbrett > Form > Kreis"
+  },
+  "categories.board>shape>circle.tag": {
+    "src": "Shape: Circle",
+    "out": "Form: Kreis"
+  },
+  "categories.board>shape>hex.description": {
+    "src": "The board is shaped like a hexagon",
+    "out": "Das Spielbrett ist hexagonal"
+  },
+  "categories.board>shape>hex.full": {
+    "src": "Board > Shape > Hexagon",
+    "out": "Spielbrett > Form > Hexagon"
+  },
+  "categories.board>shape>hex.tag": {
+    "src": "Shape: Hex",
+    "out": "Form: Hex"
+  },
+  "categories.board>shape>oct.description": {
+    "src": "The board is shaped like an octagon",
+    "out": "Das Spielbrett ist octagonal"
+  },
+  "categories.board>shape>oct.full": {
+    "src": "Board > Shape > Octagon",
+    "out": "Spielbrett > Form > Octagon"
+  },
+  "categories.board>shape>oct.tag": {
+    "src": "Shape: Oct",
+    "out": "Form: Oct"
+  },
+  "categories.board>shape>other.description": {
+    "src": "The board has a unique shape",
+    "out": "Das Spielbrett ist einzigartig geformt"
+  },
+  "categories.board>shape>other.full": {
+    "src": "Board > Shape > Other",
+    "out": "Spielbrett > Form > Andere"
+  },
+  "categories.board>shape>other.tag": {
+    "src": "Shape: Other",
+    "out": "Form: Andere"
+  },
+  "categories.board>shape>pent.description": {
+    "src": "The board is shaped like a pentagon",
+    "out": "Das Spielbrett ist pentagonal"
+  },
+  "categories.board>shape>pent.full": {
+    "src": "Board > Shape > Pentagon",
+    "out": "Spielbrett > Form > Pentagon"
+  },
+  "categories.board>shape>pent.tag": {
+    "src": "Shape: Pent",
+    "out": "Form: Pent"
+  },
+  "categories.board>shape>rect.description": {
+    "src": "The board is shaped like a rectangle",
+    "out": "Das Spielbrett ist rechteckig"
+  },
+  "categories.board>shape>rect.full": {
+    "src": "Board > Shape > Rectangle",
+    "out": "Spielbrett > Form > Rechteckig"
+  },
+  "categories.board>shape>rect.tag": {
+    "src": "Shape: Rect",
+    "out": "Form: Recht"
+  },
+  "categories.board>shape>tri.description": {
+    "src": "The board is shaped like a triangle",
+    "out": "Das Spielbrett ist dreieckig"
+  },
+  "categories.board>shape>tri.full": {
+    "src": "Board > Shape > Triangle",
+    "out": "Spielbrett > Form > Dreieckig"
+  },
+  "categories.board>shape>tri.tag": {
+    "src": "Shape: Tri",
+    "out": "Form: Drei"
+  },
+  "categories.components>chess.description": {
+    "src": "Played with a Chess set",
+    "out": "Gespielt mit Schachfiguren"
+  },
+  "categories.components>chess.full": {
+    "src": "Components > Chess",
+    "out": "Teile > Schach"
+  },
+  "categories.components>chess.tag": {
+    "src": "C: Chess",
+    "out": "C: Schach"
+  },
+  "categories.components>decktet.description": {
+    "src": "Played with a Decktet deck",
+    "out": "Gespielt mit Decktet-karten"
+  },
+  "categories.components>decktet.full": {
+    "src": "Components > Decktet",
+    "out": "Teile > Decktet"
+  },
+  "categories.components>decktet.tag": {
+    "src": "C: Decktet",
+    "out": "M: Decktet"
+  },
+  "categories.components>dice.description": {
+    "src": "Played with dice",
+    "out": "Gespielt mit Würfeln"
+  },
+  "categories.components>dice.full": {
+    "src": "Components > Dice",
+    "out": "Teile > Würfel"
+  },
+  "categories.components>dice.tag": {
+    "src": "C: Dice",
+    "out": "C: Würfel"
+  },
+  "categories.components>dominoes.description": {
+    "src": "Played with dominoes",
+    "out": "Wird mit Dominosteinen gespielt"
+  },
+  "categories.components>dominoes.full": {
+    "src": "Components > Dominoes",
+    "out": "Material > Domino"
+  },
+  "categories.components>dominoes.tag": {
+    "src": "C: Dominoes",
+    "out": "M: Domino"
+  },
+  "categories.components>piecepack.description": {
+    "src": "Played with Piecepack",
+    "out": "Gespielt mit Piecepack"
+  },
+  "categories.components>piecepack.full": {
+    "src": "Components > Piecepack",
+    "out": "Teile > Piecepack"
+  },
+  "categories.components>piecepack.tag": {
+    "src": "C: Piecepack",
+    "out": "M: Piecepack"
+  },
+  "categories.components>poly.description": {
+    "src": "Played with polyominoes",
+    "out": "Gespielt mit Polyominoes"
+  },
+  "categories.components>poly.full": {
+    "src": "Components > Polyominoes",
+    "out": "Teile > Polyominoes"
+  },
+  "categories.components>poly.tag": {
+    "src": "C: Polyominoes",
+    "out": "M: Polyominos"
+  },
+  "categories.components>pyramids.description": {
+    "src": "Played with Looney pyramids",
+    "out": "Gespielt mit Looney Pyramiden"
+  },
+  "categories.components>pyramids.full": {
+    "src": "Components > Looney Pyramids",
+    "out": "Teile > Looney Pyramiden"
+  },
+  "categories.components>pyramids.tag": {
+    "src": "C: Looney Pyramids",
+    "out": "C: Looney Pyramiden"
+  },
+  "categories.components>shibumi.description": {
+    "src": "Played with a Shibumi set",
+    "out": "Gespielt mit Shibumi-Set"
+  },
+  "categories.components>shibumi.full": {
+    "src": "Components > Shibumi",
+    "out": "Teile > Shibumi"
+  },
+  "categories.components>shibumi.tag": {
+    "src": "C: Shibumi",
+    "out": "M: Shibumi"
+  },
+  "categories.components>simple.description": {
+    "src": "Played with simple pieces of uniform size, often stackable, sometimes with lots of colours",
+    "out": "Gespielt mit einfachen, gleichgroßen Spielsteinen, die oft stapelbar sind und manchmal viele Farben haben"
+  },
+  "categories.components>simple.full": {
+    "src": "Components > Simple",
+    "out": "Teile > Einfach"
+  },
+  "categories.components>simple.tag": {
+    "src": "C: Simple",
+    "out": "C: Einfach"
+  },
+  "categories.components>simple>1c.description": {
+    "src": "One colour of pieces",
+    "out": "Einfarbige Spielsteine"
+  },
+  "categories.components>simple>1c.full": {
+    "src": "Components > Simple > 1 colour",
+    "out": "Teile > Einfach > 1 Farbe"
+  },
+  "categories.components>simple>1c.tag": {
+    "src": "C: Simple, 1 colour",
+    "out": "C: Einfach, 1 Farbe"
+  },
+  "categories.components>simple>1per.description": {
+    "src": "One colour per player",
+    "out": "Eine Farbe pro Spieler"
+  },
+  "categories.components>simple>1per.full": {
+    "src": "Components > Simple > 1 per",
+    "out": "Teile > Einfach > 1 pro"
+  },
+  "categories.components>simple>1per.tag": {
+    "src": "C: Simple, 1 per",
+    "out": "C: Einfach, 1 pro"
+  },
+  "categories.components>simple>2c.description": {
+    "src": "Two colours of pieces",
+    "out": "Zwei Farben von Spielsteinen"
+  },
+  "categories.components>simple>2c.full": {
+    "src": "Components > Simple > 2 colours",
+    "out": "Teile > Einfach > 2 Farben"
+  },
+  "categories.components>simple>2c.tag": {
+    "src": "C: Simple, 2 colours",
+    "out": "C: Einfach, 2 Farben"
+  },
+  "categories.components>simple>2per.description": {
+    "src": "Two colours per player",
+    "out": "Zwei Farben pro Spieler"
+  },
+  "categories.components>simple>2per.full": {
+    "src": "Components > Simple > 2 per",
+    "out": "Teile > Einfach > 2 pro"
+  },
+  "categories.components>simple>2per.tag": {
+    "src": "C: Simple, 2 per",
+    "out": "C: Einfach, 2 pro"
+  },
+  "categories.components>simple>3c.description": {
+    "src": "Three colours of pieces",
+    "out": "Drei Farben von Spielsteinen"
+  },
+  "categories.components>simple>3c.full": {
+    "src": "Components > Simple > 3 colours",
+    "out": "Teile > Einfach > 3 Farben"
+  },
+  "categories.components>simple>3c.tag": {
+    "src": "C: Simple, 3 colours",
+    "out": "C: Einfach, 3 Farben"
+  },
+  "categories.components>simple>4c.description": {
+    "src": "Four colours of pieces",
+    "out": "Vier Farben von Spielsteinen"
+  },
+  "categories.components>simple>4c.full": {
+    "src": "Components > Simple > 4 colours",
+    "out": "Teile > Einfach > 4 Farben"
+  },
+  "categories.components>simple>4c.tag": {
+    "src": "C: Simple, 4 colours",
+    "out": "C: Einfach, 4 Farben"
+  },
+  "categories.components>simple>5c.description": {
+    "src": "Five colours of pieces",
+    "out": "Fünf Farben von Spielsteinen"
+  },
+  "categories.components>simple>5c.full": {
+    "src": "Components > Simple > 5 colours",
+    "out": "Teile > Einfach > 5 Farben"
+  },
+  "categories.components>simple>5c.tag": {
+    "src": "C: Simple, 5 colours",
+    "out": "C: Einfach, 5 Farben"
+  },
+  "categories.components>simple>7c.description": {
+    "src": "Seven colours of pieces",
+    "out": "Sieben Farben von Spielsteinen"
+  },
+  "categories.components>simple>7c.full": {
+    "src": "Components > Simple > 7 colours",
+    "out": "Teile > Einfach > 7 Farben"
+  },
+  "categories.components>simple>7c.tag": {
+    "src": "C: Simple, 7 colours",
+    "out": "C: Einfach, 7 Farben"
+  },
+  "categories.components>simple>pnp.description": {
+    "src": "Playable with paper and pencil",
+    "out": "Mit Papier und Stift spielbar"
+  },
+  "categories.components>simple>pnp.full": {
+    "src": "Components > Simple > Paper & Pencil",
+    "out": "Teile > Einfach > Papier & Stift"
+  },
+  "categories.components>simple>pnp.tag": {
+    "src": "C: Simple, P&P",
+    "out": "C: Einfach, P&S"
+  },
+  "categories.components>special.description": {
+    "src": "Played with specialized pieces, usually differentiated",
+    "out": "Wird mit spezialisierten Spielsteinen gespielt, meist unterschiedlich"
+  },
+  "categories.components>special.full": {
+    "src": "Components > Specialized",
+    "out": "Material > Spezialisiert"
+  },
+  "categories.components>special.tag": {
+    "src": "C: Special",
+    "out": "M: Spezial"
+  },
+  "categories.family.description": {
+    "src": "Historical or rules family (lineage), separate from goals and mechanics",
+    "out": "Historische oder Regel-Familie (Abstammung), getrennt von Zielen und Spielmechaniken"
+  },
+  "categories.family.full": {
+    "src": "Family",
+    "out": "Familie"
+  },
+  "categories.family.tag": {
+    "src": "Family",
+    "out": "Familie"
+  },
+  "categories.family>draughts.description": {
+    "src": "Draughts / checkers lineage: leap capture, promotion, and related variants",
+    "out": "Dame-Abstammung: Sprungschlag, Umwandlung und verwandte Varianten"
+  },
+  "categories.family>draughts.full": {
+    "src": "Family > Draughts",
+    "out": "Familie > Dame"
+  },
+  "categories.family>draughts.tag": {
+    "src": "F: Draughts",
+    "out": "F: Dame"
+  },
+  "categories.family>gomoku.description": {
+    "src": "Line-forming placement games in the Gomoku / Renju / Connect6 lineage and close in-a-row relatives",
+    "out": "Linienbildende Setzspiele der Gomoku- / Renju- / Connect6-Abstammung und verwandte Reihenspiele"
+  },
+  "categories.family>gomoku.full": {
+    "src": "Family > Gomoku",
+    "out": "Familie > Gomoku"
+  },
+  "categories.family>gomoku.tag": {
+    "src": "F: Gomoku",
+    "out": "F: Gomoku"
+  },
+  "categories.family>mancala.description": {
+    "src": "Traditional pit-and-sow games and close modern descendants",
+    "out": "Traditionelle Mulden- und Säspiele sowie nahe moderne Nachfahren"
+  },
+  "categories.family>mancala.full": {
+    "src": "Family > Mancala",
+    "out": "Familie > Mancala"
+  },
+  "categories.family>mancala.tag": {
+    "src": "F: Mancala",
+    "out": "F: Mancala"
+  },
+  "categories.family>tafl.description": {
+    "src": "Viking tafl family: king vs attackers, escape vs capture, sandwich capture on special boards",
+    "out": "Wikinger-Tafl-Familie: König gegen Angreifer, Flucht gegen Schlagen, Klemmschlag auf speziellen Spielbrettern"
+  },
+  "categories.family>tafl.full": {
+    "src": "Family > Tafl",
+    "out": "Familie > Tafl"
+  },
+  "categories.family>tafl.tag": {
+    "src": "F: Tafl",
+    "out": "F: Tafl"
+  },
+  "categories.goal>annihilate.description": {
+    "src": "Annihilate all opposing pieces",
+    "out": "Zerstöre alle gegnerischen Spielsteine"
+  },
+  "categories.goal>annihilate.full": {
+    "src": "Goal > Annihilate",
+    "out": "Ziel > Zerstörung"
+  },
+  "categories.goal>annihilate.tag": {
+    "src": "G: Annihilate",
+    "out": "G: Zerstörung"
+  },
+  "categories.goal>area.description": {
+    "src": "Control more area (or certain areas with certain strengths) than your opponent",
+    "out": "Kontrolliere mehr Fläche (oder bestimmte Abschnitte mit bestimmten Stärken) als dein Gegner"
+  },
+  "categories.goal>area.full": {
+    "src": "Goal > Area Control",
+    "out": "Ziel > Flächenkontrolle"
+  },
+  "categories.goal>area.tag": {
+    "src": "G: Area Control",
+    "out": "G: Flächenkontrolle"
+  },
+  "categories.goal>arrange.description": {
+    "src": "Arrange pieces into specific shapes or lengths (e.g., n in a row)",
+    "out": "Ordne Spielsteine in bestimmten Formen oder Längen an (z.B. n in einer Reihe)"
+  },
+  "categories.goal>arrange.full": {
+    "src": "Goal > Arrange",
+    "out": "Ziel > Anordnung"
+  },
+  "categories.goal>arrange.tag": {
+    "src": "G: Arrange",
+    "out": "G: Anordnung"
+  },
+  "categories.goal>breakthrough.description": {
+    "src": "Reach opposing home row or home area with sufficient strength",
+    "out": "Erreiche gegnerische Heimreihe oder -fläche mit ausreichender Stärke"
+  },
+  "categories.goal>breakthrough.full": {
+    "src": "Goal > Breakthrough",
+    "out": "Ziel > Durchbruch"
+  },
+  "categories.goal>breakthrough.tag": {
+    "src": "G: Breakthrough",
+    "out": "G: Durchbruch"
+  },
+  "categories.goal>connect.description": {
+    "src": "Connect designated edges of the board or areas",
+    "out": "Verbinde die bestimmten Kanten des Spielbretts oder von Flächen"
+  },
+  "categories.goal>connect.full": {
+    "src": "Goal > Connect",
+    "out": "Ziel > Verbindung"
+  },
+  "categories.goal>connect.tag": {
+    "src": "G: Connect",
+    "out": "G: Verbindung"
+  },
+  "categories.goal>cripple.description": {
+    "src": "Eliminate some critical majority or specific subset of opposing pieces",
+    "out": "Eliminiere kritische Mehrheit oder bestimmte Untereinheit von gegnerischen Spielsteinen"
+  },
+  "categories.goal>cripple.full": {
+    "src": "Goal > Cripple",
+    "out": "Ziel > Schwächen"
+  },
+  "categories.goal>cripple.tag": {
+    "src": "G: Cripple",
+    "out": "G: Schwächen"
+  },
+  "categories.goal>evacuate.description": {
+    "src": "Evacuate your pieces from the board",
+    "out": "Evakuiere deine Spielsteine von Spielbrett"
+  },
+  "categories.goal>evacuate.full": {
+    "src": "Goal > Evacuate",
+    "out": "Ziel > Evakuierung"
+  },
+  "categories.goal>evacuate.tag": {
+    "src": "G: Evacuate",
+    "out": "G: Evakuierung"
+  },
+  "categories.goal>immobilize.description": {
+    "src": "Make it so your opponent cannot move",
+    "out": "Mache deinen Gegner bewegungsunfähig"
+  },
+  "categories.goal>immobilize.full": {
+    "src": "Goal > Immobilize",
+    "out": "Ziel > Immobilisierung"
+  },
+  "categories.goal>immobilize.tag": {
+    "src": "G: Immobilize",
+    "out": "G: Immobilisierung"
+  },
+  "categories.goal>isolate.description": {
+    "src": "Isolate a piece or subset of pieces in a specific way",
+    "out": "Isoliere einen oder eine Untereinheit an Spielsteinen auf bestimmte Weise"
+  },
+  "categories.goal>isolate.full": {
+    "src": "Goal > Isolate",
+    "out": "Ziel > Isolierung"
+  },
+  "categories.goal>isolate.tag": {
+    "src": "G: Isolate",
+    "out": "G: Isolierung"
+  },
+  "categories.goal>majority.description": {
+    "src": "Have more pieces than your opponent",
+    "out": "Habe mehr Spielsteine als dein Gegner"
+  },
+  "categories.goal>majority.full": {
+    "src": "Goal > Majority",
+    "out": "Ziel > Mehrheit"
+  },
+  "categories.goal>majority.tag": {
+    "src": "G: Majority",
+    "out": "G: Mehrheit"
+  },
+  "categories.goal>royal-capture.description": {
+    "src": "Capture a specific opposing piece",
+    "out": "Schlage einen bestimmten gegnerischen Spielstein"
+  },
+  "categories.goal>royal-capture.full": {
+    "src": "Goal > Royal Capture",
+    "out": "Ziel > Königsfigur schlagen"
+  },
+  "categories.goal>royal-capture.tag": {
+    "src": "G: Royal Capture",
+    "out": "Z: Königsfigur schlagen"
+  },
+  "categories.goal>royal-escape.description": {
+    "src": "Get a specific piece off the board",
+    "out": "Bringe einen bestimmten Spielstein vom Spielbrett"
+  },
+  "categories.goal>royal-escape.full": {
+    "src": "Goal > Royal Escape",
+    "out": "Ziel > Königsfigur evakuieren"
+  },
+  "categories.goal>royal-escape.tag": {
+    "src": "G: Royal Escape",
+    "out": "Z: Königsfigur evakuieren"
+  },
+  "categories.goal>score.description": {
+    "src": "Outcome is determined by score in some way",
+    "out": "Das Ergebnis wird auf irgendeine Weise durch die Punktzahl bestimmt"
+  },
+  "categories.goal>score.full": {
+    "src": "Goal > Score",
+    "out": "Ziel > Punktzahl"
+  },
+  "categories.goal>score.tag": {
+    "src": "G: Score",
+    "out": "Z: Punktzahl"
+  },
+  "categories.goal>score>eog.description": {
+    "src": "Have the highest score at the end of the game",
+    "out": "Habe am Ende des Spiels die höchste Punktzahl"
+  },
+  "categories.goal>score>eog.full": {
+    "src": "Goal > Score > End of game",
+    "out": "Ziel > Punktzahl > Spielende"
+  },
+  "categories.goal>score>eog.tag": {
+    "src": "G: Score (EOG)",
+    "out": "Z: Punktzahl (Ende)"
+  },
+  "categories.goal>score>race.description": {
+    "src": "Be the first to reach a particular score",
+    "out": "Erreiche als Erster eine bestimmte Punktzahl"
+  },
+  "categories.goal>score>race.full": {
+    "src": "Goal > Score > Race",
+    "out": "Ziel > Punktzahl > Wettrennen"
+  },
+  "categories.goal>score>race.tag": {
+    "src": "G: Score (Race)",
+    "out": "Z: Punktzahl (Rennen)"
+  },
+  "categories.goal>set.description": {
+    "src": "Collect sets of pieces",
+    "out": "Sammle Sets von Spielsteinen"
+  },
+  "categories.goal>set.full": {
+    "src": "Goal > Set Collection",
+    "out": "Ziel > Set-Sammlung"
+  },
+  "categories.goal>set.tag": {
+    "src": "G: Set Collection",
+    "out": "Z: Set-Sammlung"
+  },
+  "categories.goal>unify.description": {
+    "src": "Bring all your pieces together",
+    "out": "Führe alle deine Spielsteine zusammen"
+  },
+  "categories.goal>unify.full": {
+    "src": "Goal > Unify",
+    "out": "Ziel > Vereinen"
+  },
+  "categories.goal>unify.tag": {
+    "src": "G: Unify",
+    "out": "Z: Vereinen"
+  },
+  "categories.goal>vigil.description": {
+    "src": "All (or some defined subset of) pieces must have line of sight to some board element",
+    "out": "Alle (oder eine bestimmte Teilmenge von) Spielsteinen müssen Sichtlinie zu einem Brettelement haben"
+  },
+  "categories.goal>vigil.full": {
+    "src": "Goal > Vigil",
+    "out": "Ziel > Sichtlinie"
+  },
+  "categories.goal>vigil.tag": {
+    "src": "G: Vigil",
+    "out": "Z: Sichtlinie"
+  },
+  "categories.mechanic.description": {
+    "src": "Describes the general game mechanics",
+    "out": "Beschreibt die allgemeinen Spielmechaniken"
+  },
+  "categories.mechanic.full": {
+    "src": "Mechanics",
+    "out": "Mechaniken"
+  },
+  "categories.mechanic.tag": {
+    "src": "Mechanics",
+    "out": "Mechaniken"
+  },
+  "categories.mechanic>asymmetry.description": {
+    "src": "Game is asymmetrical",
+    "out": "Das Spiel ist asymmetrisch"
+  },
+  "categories.mechanic>asymmetry.full": {
+    "src": "Mechanics > Asymmetry",
+    "out": "Mechaniken > Asymmetrie"
+  },
+  "categories.mechanic>asymmetry.tag": {
+    "src": "M: Asymmetry",
+    "out": "M: Asymmetrie"
+  },
+  "categories.mechanic>bearoff.description": {
+    "src": "Players bear pieces off the board",
+    "out": "Spieler tragen Spielsteine vom Brett ab"
+  },
+  "categories.mechanic>bearoff.full": {
+    "src": "Mechanics > Bear off",
+    "out": "Mechaniken > Abtragen"
+  },
+  "categories.mechanic>bearoff.tag": {
+    "src": "M: Bear off",
+    "out": "M: Abtragen"
+  },
+  "categories.mechanic>block.description": {
+    "src": "Players block each other",
+    "out": "Spieler blockieren sich gegenseitig"
+  },
+  "categories.mechanic>block.full": {
+    "src": "Mechanics > Block",
+    "out": "Mechaniken > Blockieren"
+  },
+  "categories.mechanic>block.tag": {
+    "src": "M: Block",
+    "out": "M: Blockieren"
+  },
+  "categories.mechanic>capture.description": {
+    "src": "Pieces are captured",
+    "out": "Spielsteine werden geschlagen"
+  },
+  "categories.mechanic>capture.full": {
+    "src": "Mechanics > Capture",
+    "out": "Mechaniken > Schlagen"
+  },
+  "categories.mechanic>capture.tag": {
+    "src": "M: Capture",
+    "out": "M: Schlagen"
+  },
+  "categories.mechanic>convert.description": {
+    "src": "Players can convert enemy pieces into their own",
+    "out": "Spieler können gegnerische Spielsteine in eigene umwandeln"
+  },
+  "categories.mechanic>convert.full": {
+    "src": "Mechanics > Convert",
+    "out": "Mechaniken > Umwandeln"
+  },
+  "categories.mechanic>convert.tag": {
+    "src": "M: Convert",
+    "out": "M: Umwandeln"
+  },
+  "categories.mechanic>coopt.description": {
+    "src": "Players can interact with opposing pieces",
+    "out": "Spieler können mit gegnerischen Spielsteinen interagieren"
+  },
+  "categories.mechanic>coopt.full": {
+    "src": "Mechanics > Co-Opt",
+    "out": "Mechaniken > Fremdnutzung"
+  },
+  "categories.mechanic>coopt.tag": {
+    "src": "M: Co-Opt",
+    "out": "M: Fremdnutzung"
+  },
+  "categories.mechanic>differentiate.description": {
+    "src": "Pieces are differentiated in some essential way",
+    "out": "Spielsteine unterscheiden sich in wesentlicher Weise"
+  },
+  "categories.mechanic>differentiate.full": {
+    "src": "Mechanics > Differentiate",
+    "out": "Mechaniken > Differenzieren"
+  },
+  "categories.mechanic>differentiate.tag": {
+    "src": "M: Differentiate",
+    "out": "M: Differenzieren"
+  },
+  "categories.mechanic>displace.description": {
+    "src": "Moves can cause additional pieces to move as a result",
+    "out": "Züge können dazu führen, dass sich weitere Spielsteine bewegen"
+  },
+  "categories.mechanic>displace.full": {
+    "src": "Mechanics > Displace",
+    "out": "Mechaniken > Verschieben"
+  },
+  "categories.mechanic>displace.tag": {
+    "src": "M: Displace",
+    "out": "M: Verschieben"
+  },
+  "categories.mechanic>economy.description": {
+    "src": "Players must manage some central economy",
+    "out": "Spieler müssen eine zentrale Wirtschaft verwalten"
+  },
+  "categories.mechanic>economy.full": {
+    "src": "Mechanics > Manage Economy",
+    "out": "Mechaniken > Wirtschaft verwalten"
+  },
+  "categories.mechanic>economy.tag": {
+    "src": "M: Manage Economy",
+    "out": "M: Wirtschaft verwalten"
+  },
+  "categories.mechanic>enclose.description": {
+    "src": "Players actively enclose areas or pieces",
+    "out": "Spieler umschließen aktiv Bereiche oder Spielsteine"
+  },
+  "categories.mechanic>enclose.full": {
+    "src": "Mechanics > Enclose",
+    "out": "Mechaniken > Umschließen"
+  },
+  "categories.mechanic>enclose.tag": {
+    "src": "M: Enclose",
+    "out": "M: Umschließen"
+  },
+  "categories.mechanic>hidden.description": {
+    "src": "Game includes hidden information",
+    "out": "Das Spiel enthält verborgene Informationen"
+  },
+  "categories.mechanic>hidden.full": {
+    "src": "Mechanics > Hidden Information",
+    "out": "Mechaniken > Verborgene Information"
+  },
+  "categories.mechanic>hidden.tag": {
+    "src": "M: Hidden",
+    "out": "M: Verborgene Info"
+  },
+  "categories.mechanic>merge.description": {
+    "src": "Pieces merge or split apart",
+    "out": "Spielsteine verschmelzen oder teilen sich"
+  },
+  "categories.mechanic>merge.full": {
+    "src": "Mechanics > Merge/Split",
+    "out": "Mechaniken > Verschmelzen/Teilen"
+  },
+  "categories.mechanic>merge.tag": {
+    "src": "M: Merge/Split",
+    "out": "M: Verschmelzen/Teilen"
+  },
+  "categories.mechanic>move.description": {
+    "src": "Pieces can be moved",
+    "out": "Spielsteine können bewegt werden"
+  },
+  "categories.mechanic>move.full": {
+    "src": "Mechanics > Move",
+    "out": "Mechaniken > Bewegen"
+  },
+  "categories.mechanic>move.tag": {
+    "src": "M: Move",
+    "out": "M: Bewegen"
+  },
+  "categories.mechanic>move>group.description": {
+    "src": "Pieces can be moved as a group",
+    "out": "Spielsteine können als Gruppe bewegt werden"
+  },
+  "categories.mechanic>move>group.full": {
+    "src": "Mechanics > Move > Group",
+    "out": "Mechaniken > Bewegen > Gruppe"
+  },
+  "categories.mechanic>move>group.tag": {
+    "src": "M: Move (Group)",
+    "out": "M: Bewegen (Gruppe)"
+  },
+  "categories.mechanic>move>sow.description": {
+    "src": "Pieces move by sowing",
+    "out": "Spielsteine werden durch Säen bewegt"
+  },
+  "categories.mechanic>move>sow.full": {
+    "src": "Mechanics > Move > Sow",
+    "out": "Mechaniken > Bewegen > Säen"
+  },
+  "categories.mechanic>move>sow.tag": {
+    "src": "M: Move (Sow)",
+    "out": "M: Bewegen (Säen)"
+  },
+  "categories.mechanic>network.description": {
+    "src": "Players build networks",
+    "out": "Spieler bauen Netzwerke auf"
+  },
+  "categories.mechanic>network.full": {
+    "src": "Mechanics > Network",
+    "out": "Mechaniken > Netzwerk"
+  },
+  "categories.mechanic>network.tag": {
+    "src": "M: Network",
+    "out": "M: Netzwerk"
+  },
+  "categories.mechanic>place.description": {
+    "src": "Pieces are placed",
+    "out": "Spielsteine werden platziert"
+  },
+  "categories.mechanic>place.full": {
+    "src": "Mechanics > Place",
+    "out": "Mechaniken > Platzieren"
+  },
+  "categories.mechanic>place.tag": {
+    "src": "M: Place",
+    "out": "M: Platzieren"
+  },
+  "categories.mechanic>program.description": {
+    "src": "Sequences of moves are programmed",
+    "out": "Zugfolgen werden programmiert"
+  },
+  "categories.mechanic>program.full": {
+    "src": "Mechanics > Program",
+    "out": "Mechaniken > Programmieren"
+  },
+  "categories.mechanic>program.tag": {
+    "src": "M: Program",
+    "out": "M: Programmieren"
+  },
+  "categories.mechanic>random.description": {
+    "src": "Game contains some random element",
+    "out": "Das Spiel enthält Zufallselemente"
+  },
+  "categories.mechanic>random.full": {
+    "src": "Mechanics > Random Elements",
+    "out": "Mechaniken > Zufallselemente"
+  },
+  "categories.mechanic>random.tag": {
+    "src": "M: Random Elements",
+    "out": "M: Zufallselemente"
+  },
+  "categories.mechanic>random>play.description": {
+    "src": "Individual moves of the game include some element of randomness",
+    "out": "Einzelne Züge des Spiels enthalten Zufallselemente"
+  },
+  "categories.mechanic>random>play.full": {
+    "src": "Mechanics > Random > Play",
+    "out": "Mechaniken > Zufall > Spielverlauf"
+  },
+  "categories.mechanic>random>play.tag": {
+    "src": "M: Random (Play)",
+    "out": "M: Zufall (Spielverlauf)"
+  },
+  "categories.mechanic>random>setup.description": {
+    "src": "Setup is randomized in some way",
+    "out": "Der Aufbau wird auf irgendeine Weise zufällig bestimmt"
+  },
+  "categories.mechanic>random>setup.full": {
+    "src": "Mechanics > Random > Setup",
+    "out": "Mechaniken > Zufall > Aufbau"
+  },
+  "categories.mechanic>random>setup.tag": {
+    "src": "M: Random (Setup)",
+    "out": "M: Zufall (Aufbau)"
+  },
+  "categories.mechanic>set.description": {
+    "src": "Players collect sets",
+    "out": "Spieler sammeln Sets"
+  },
+  "categories.mechanic>set.full": {
+    "src": "Mechanics > Set Collection",
+    "out": "Mechaniken > Set-Sammlung"
+  },
+  "categories.mechanic>set.tag": {
+    "src": "M: Set Collection",
+    "out": "M: Set-Sammlung"
+  },
+  "categories.mechanic>share.description": {
+    "src": "At least some pieces in the game are shared by both players",
+    "out": "Mindestens einige Spielsteine im Spiel werden von beiden Spielern genutzt"
+  },
+  "categories.mechanic>share.full": {
+    "src": "Mechanics > Share",
+    "out": "Mechaniken > Teilen"
+  },
+  "categories.mechanic>share.tag": {
+    "src": "M: Share",
+    "out": "M: Teilen"
+  },
+  "categories.mechanic>simultaneous.description": {
+    "src": "The game includes simultaneous action selection",
+    "out": "Das Spiel beinhaltet gleichzeitige Aktionsauswahl"
+  },
+  "categories.mechanic>simultaneous.full": {
+    "src": "Mechanics > Simultaneous",
+    "out": "Mechaniken > Gleichzeitig"
+  },
+  "categories.mechanic>simultaneous.tag": {
+    "src": "M: Simultaneous",
+    "out": "M: Gleichzeitig"
+  },
+  "categories.mechanic>stack.description": {
+    "src": "Players manipulate stacks of pieces",
+    "out": "Spieler manipulieren Stapel von Spielsteinen"
+  },
+  "categories.mechanic>stack.full": {
+    "src": "Mechanics > Stack",
+    "out": "Mechaniken > Stapeln"
+  },
+  "categories.mechanic>stack.tag": {
+    "src": "M: Stack",
+    "out": "M: Stapeln"
+  },
+  "categories.mechanic>vigil.description": {
+    "src": "At least one piece must have line of sight to some board element",
+    "out": "Mindestens ein Spielstein muss Sichtlinie zu einem Brettelement haben"
+  },
+  "categories.mechanic>vigil.full": {
+    "src": "Mechanics > Vigil",
+    "out": "Mechaniken > Sichtlinie"
+  },
+  "categories.mechanic>vigil.tag": {
+    "src": "M: Vigil",
+    "out": "M: Sichtlinie"
+  },
+  "categories.other>2+players.description": {
+    "src": "Supports more than 2 players",
+    "out": "Unterstützt mehr als 2 Spieler"
+  },
+  "categories.other>2+players.full": {
+    "src": "Other > 2+ Players",
+    "out": "Sonstiges > 2+ Spieler"
+  },
+  "categories.other>2+players.tag": {
+    "src": "O: 2+Players",
+    "out": "S: 2+Spieler"
+  },
+  "categories.other>traditional.description": {
+    "src": "Game is traditional",
+    "out": "Das Spiel ist traditionell"
+  },
+  "categories.other>traditional.full": {
+    "src": "Other > Traditional",
+    "out": "Sonstiges > Traditionell"
+  },
+  "categories.other>traditional.tag": {
+    "src": "O: Traditional",
+    "out": "S: Traditionell"
+  },
   "descriptions.abande": {
     "src": "Abande is the second game in Dieter Stein's stacking trilogy. Place or move pieces and stacks to generate the highest score you can whilst always keeping the board connected. The square, snubsquare, and hex boards are available.",
     "out": "Abande ist das zweite Spiel in Dieter Steins Stapel-Trilogie. Platziere oder bewege Steine und Stapel, um die höchstmögliche Punktzahl zu erzielen, während das Spielbrett immer zusammenhängend bleiben muss. Das quadratische, das Snub-Square- und das Sechseck-Brett stehen zur Verfügung."

@@ -51,7 +51,7 @@ export class UnstackGame extends GameBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
-        categories: ["goal>score>eog", "mechanic>move>sow", "mechanic>capture", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>score>eog", "mechanic>move>sow", "mechanic>capture", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per", "family>mancala"],
         flags: ["pie", "scores", "no-moves", "custom-buttons"],
     };
 

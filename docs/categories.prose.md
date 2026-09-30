@@ -2,7 +2,23 @@
 
 Explore and recommendations use **`gameinfo.categories`** on each game: hierarchical tag ids such as `goal>align`, `mechanics>capture`, `board>connect>hex`, and `components>pyramids`. Set them on the static `gameinfo` object in each `src/games/<uid>.ts` file. See [gameinfo metadata](/gameslib/gameinfo/) and [Explore](/front/subsystems/explore/) on the front client.
 
-Player-facing tag labels live in front English i18n (`categories.*` in `apfront.json`). When you add a new tag id, add matching i18n keys there in the same PR.
+## Player-facing labels (i18n)
+
+Tag **labels in the UI** (short tags, full breadcrumb names, tooltips) live in gameslib, not in front `apfront.json`:
+
+| Key | Purpose |
+| --- | --- |
+| `categories.<tagId>.tag` | Compact label in tables and chips |
+| `categories.<tagId>.full` | Full hierarchical name (filters, pickers) |
+| `categories.<tagId>.description` | Tooltip / `title` text |
+
+English source: **`locales/en/apgames.json`** → object **`categories`**, keyed by the same tag id strings used in `gameinfo.categories` (including `>` segments, e.g. `board>connect>hex`).
+
+When you **add a new tag id**, add all three strings under `categories.<id>` in English in the same PR. Managed locales (`de`, `fr`, `it`, `es-US`) get machine translation via `locale-src/` sidecars on develop CI; other community folders under `locales/` (for example `pt`, `ms`, `zh-Hans`) may contain **only** the `categories` subtree until more of `apgames.json` is translated.
+
+Front loads these keys from the **`apgames`** i18next namespace (`useTranslation("apgames")`, keys like `` categories.${tagId}.tag ``). See [Internationalization](/gameslib/i18n/) for the broader locale pipeline.
+
+Do not run automated i18n pruning on dynamic `categories.*` paths — keys are resolved at runtime from catalog tag ids.
 
 The **games listed under each tag** are generated at docs build time from the registry (`npm run gen-docs-catalog`). Edit this file (`categories.prose.md`) for narrative sections; do not hand-edit `docs/categories.md`.
 
@@ -96,5 +112,20 @@ Physical or logical piece sets the game expects.
 | **Simple** | Uniform coloured pieces (most abstract games) |
 | **Simple: paper & pencil** | Paper-and-pencil style |
 | **Other specialized** | Custom or multi-type components |
+
+---
+
+## Families (`family>…`)
+
+Historical or rules **lineage** — orthogonal to `goal>`, `mechanic>`, and `board>`. A game keeps its existing tags; family tags group titles for Explore and recommendations when users care about “what game is this like?” rather than “how does it play?”
+
+| Family | Meaning |
+| --- | --- |
+| **Draughts** | Draughts / checkers lineage (leap capture, promotion, related variants). Not every game that mentions “checkers” in copy. |
+| **Mancala** | Traditional pit-and-sow games and close modern descendants. Not the same as `mechanic>move>sow` or `board>mancala` alone — e.g. stack-sowing on a rect grid without mancala lineage stays untagged. |
+| **Gomoku** | Gomoku / Renju / Connect6 lineage and close in-a-row placement relatives (including shared `InARowBase` implementations where lineage applies). Not every `goal>arrange` game. |
+| **Tafl** | Viking tafl / Hnefatafl family: king vs attackers, escape vs capture. Not every asymmetric royal-escape game. |
+
+Each catalog game should have at most one `family>` tag.
 
 ---

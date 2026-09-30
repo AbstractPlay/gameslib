@@ -1148,13 +1148,21 @@
       }
     },
     "bao": {
+      "#rules": {
+        "description": "Bao la Kiswahili (Zanzibar): 6 semi nella nyumba, 22 in riserva, regole standard in stile Townshend.",
+        "name": "Zanzibar (standard)"
+      },
       "kujifunza": {
-        "description": "La versione \"per principianti\" senza fase di preparazione \"kunamua\". La partita inizia con due pedine in ciascuna buca.",
+        "description": "Regole di Zanzibar per principianti: due pietre in ogni buca.",
         "name": "Bao la kujifunza"
       },
       "malawi": {
-        "description": "La casa inizia con 8 pedine invece di 6.",
-        "name": "Malawi"
+        "description": "Setup del Malawi (8 semi nella kuu, 20 nemo in riserva) con regole in stile Zanzibar (obsoleto; deprecato).",
+        "name": "Malawi (solo setup)"
+      },
+      "malawi-full": {
+        "description": "Regole complete del Malawi (Bawo) per il gioco intermedio (8 kuu, 20 in riserva). La distribuzione di apertura avanzata non è inclusa. Consulta i link sul Malawi nella pagina del gioco per le fonti.",
+        "name": "Malawi (regole Bawo)"
       }
     },
     "basalt": {

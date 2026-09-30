@@ -1148,13 +1148,21 @@
       }
     },
     "bao": {
+      "#rules": {
+        "description": "Bao la Kiswahili (Zanzíbar): 6 semillas en la nyumba, 22 en reserva, reglas estándar estilo Townshend.",
+        "name": "Zanzíbar (estándar)"
+      },
       "kujifunza": {
-        "description": "La versión para \"principiantes\" sin fase de disposición \"kunamua\". La partida empieza con dos fichas en cada hoyo.",
+        "description": "Reglas para principiantes de Zanzíbar: dos piedras en cada hoyo.",
         "name": "Bao la kujifunza"
       },
       "malawi": {
-        "description": "La casa empieza con 8 fichas en lugar de 6.",
-        "name": "Malawi"
+        "description": "Configuración de Malawi (8 semillas en la kuu, 20 nemo en reserva) con reglas estilo Zanzíbar (heredado; en desuso).",
+        "name": "Malawi (solo configuración)"
+      },
+      "malawi-full": {
+        "description": "Reglas completas de Malawi (Bawo) del juego intermedio (8 kuu, 20 en reserva). No se incluye la distribución de apertura avanzada. Consulta los enlaces de Malawi en la página del juego para ver las fuentes.",
+        "name": "Malawi (reglas Bawo)"
       }
     },
     "basalt": {

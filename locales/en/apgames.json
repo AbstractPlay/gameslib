@@ -1148,13 +1148,21 @@
             }
         },
         "bao": {
+            "#rules": {
+                "description": "Bao la Kiswahili (Zanzibar): 6 seeds in the nyumba, 22 in reserve, standard Townshend-style rules.",
+                "name": "Zanzibar (standard)"
+            },
             "kujifunza": {
-                "description": "The \"beginner\" version with no \"kunamua\" setup phase. The game starts with two stones in each pit.",
+                "description": "Zanzibar Beginner rules: two stones in each pit.",
                 "name": "Bao la kujifunza"
             },
             "malawi": {
-                "description": "The house starts with 8 stones instead of 6.",
-                "name": "Malawi"
+                "description": "Malawi setup (8 seeds in the kuu, 20 nemo in reserve) with Zanzibar-style rules (legacy; deprecated).",
+                "name": "Malawi (setup only)"
+            },
+            "malawi-full": {
+                "description": "Full Malawi (Bawo) rules from the intermediate game (8 kuu, 20 reserve). Advanced opening distribution is not included. See the Malawi links on the game page for sources.",
+                "name": "Malawi (Bawo rules)"
             }
         },
         "basalt": {

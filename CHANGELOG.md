@@ -14,6 +14,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 ### Added
 
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Clearpath, Croda, Dama, Ice Palace, Kill-All Go, Neutron, Thricewise, Yodd.
+- **Bao:** `malawi-full` variant (Figure 2 Bawo rules); `malawi` renamed to setup-only (8 kuu / 20 reserve, Zanzibar rules); Zanzibar / kujifunza / Malawi variants share one `rules` radio group.
 
 ## [1.0.0-ci] - 2026-09-30
 
@@ -35,6 +36,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Fixed
 
+- **Bao:** Zanzibar rule alignment — mtaji mandatory nyumba relay after kutakata laps, takasia first-lap-from-nyumba exception, and namu kutakata placement (2+ unless all front pits are singletons); mtaji captures confirmed with `processMove` when the marker heuristic applies; mtaji kutakata forbids relay through an empty inner row and sole front kichwa kutakata must sow toward the center.
 - **CIFRA:** numbered King/Sum pieces and stash labels stay upright when the board is rotated (`orientation: vertical` on piece labels).
 
 ### Removed

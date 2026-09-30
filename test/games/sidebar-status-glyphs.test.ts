@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import "mocha";
 import { expect } from "chai";
 import { cardsBasic } from "../../src/common/decktet/index.js";

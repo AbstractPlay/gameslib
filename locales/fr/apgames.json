@@ -1148,13 +1148,21 @@
       }
     },
     "bao": {
+      "#rules": {
+        "description": "Bao la Kiswahili (Zanzibar) : 6 graines dans la nyumba, 22 en réserve, règles standard de style Townshend.",
+        "name": "Zanzibar (standard)"
+      },
       "kujifunza": {
-        "description": "La version « débutant » sans phase d'installation « kunamua ». La partie commence avec deux pierres dans chaque fosse.",
+        "description": "Règles pour débutants de Zanzibar : deux pierres dans chaque fosse.",
         "name": "Bao la kujifunza"
       },
       "malawi": {
-        "description": "La maison commence avec 8 pierres au lieu de 6.",
-        "name": "Malawi"
+        "description": "Configuration du Malawi (8 graines dans le kuu, 20 nemo en réserve) avec des règles de style Zanzibar (ancien ; déprécié).",
+        "name": "Malawi (configuration uniquement)"
+      },
+      "malawi-full": {
+        "description": "Règles complètes du Malawi (Bawo) pour le jeu intermédiaire (8 kuu, 20 en réserve). La distribution d'ouverture avancée n'est pas incluse. Consultez les liens sur le Malawi sur la page du jeu pour les sources.",
+        "name": "Malawi (règles Bawo)"
       }
     },
     "basalt": {

@@ -1148,13 +1148,21 @@
       }
     },
     "bao": {
+      "#rules": {
+        "description": "Bao la Kiswahili (Zanzibar): 6 Samen in der Nyumba, 22 in der Reserve, Standard-Regeln im Townshend-Stil.",
+        "name": "Zanzibar (Standard)"
+      },
       "kujifunza": {
-        "description": "Die \"Anfänger\"-Version ohne \"Kunamua\"-Aufbauphase. Das Spiel beginnt mit zwei Steinen in jeder Mulde.",
+        "description": "Zanzibar-Anfängerregeln: zwei Steine in jeder Mulde.",
         "name": "Bao la kujifunza"
       },
       "malawi": {
-        "description": "Das Haus beginnt mit 8 Steinen statt 6.",
-        "name": "Malawi"
+        "description": "Malawi-Aufbau (8 Samen in der Kuu, 20 Nemo in der Reserve) mit Regeln im Zanzibar-Stil (Legacy; veraltet).",
+        "name": "Malawi (nur Aufbau)"
+      },
+      "malawi-full": {
+        "description": "Vollständige Malawi-Regeln (Bawo) des Zwischenspiels (8 Kuu, 20 Reserve). Fortgeschrittene Eröffnungsverteilung ist nicht enthalten. Siehe die Malawi-Links auf der Spielseite für Quellen.",
+        "name": "Malawi (Bawo-Regeln)"
       }
     },
     "basalt": {

@@ -16639,21 +16639,37 @@
     "src": "Hexhex 6 (91 spaces)",
     "out": "Hexhex 6 (91 casilleros)"
   },
+  "variants.bao.#rules.description": {
+    "src": "Bao la Kiswahili (Zanzibar): 6 seeds in the nyumba, 22 in reserve, standard Townshend-style rules.",
+    "out": "Bao la Kiswahili (Zanzíbar): 6 semillas en la nyumba, 22 en reserva, reglas estándar estilo Townshend."
+  },
+  "variants.bao.#rules.name": {
+    "src": "Zanzibar (standard)",
+    "out": "Zanzíbar (estándar)"
+  },
   "variants.bao.kujifunza.description": {
-    "src": "The \"beginner\" version with no \"kunamua\" setup phase. The game starts with two stones in each pit.",
-    "out": "La versión para \"principiantes\" sin fase de disposición \"kunamua\". La partida empieza con dos fichas en cada hoyo."
+    "src": "Zanzibar Beginner rules: two stones in each pit.",
+    "out": "Reglas para principiantes de Zanzíbar: dos piedras en cada hoyo."
   },
   "variants.bao.kujifunza.name": {
     "src": "Bao la kujifunza",
     "out": "Bao la kujifunza"
   },
+  "variants.bao.malawi-full.description": {
+    "src": "Full Malawi (Bawo) rules from the intermediate game (8 kuu, 20 reserve). Advanced opening distribution is not included. See the Malawi links on the game page for sources.",
+    "out": "Reglas completas de Malawi (Bawo) del juego intermedio (8 kuu, 20 en reserva). No se incluye la distribución de apertura avanzada. Consulta los enlaces de Malawi en la página del juego para ver las fuentes."
+  },
+  "variants.bao.malawi-full.name": {
+    "src": "Malawi (Bawo rules)",
+    "out": "Malawi (reglas Bawo)"
+  },
   "variants.bao.malawi.description": {
-    "src": "The house starts with 8 stones instead of 6.",
-    "out": "La casa empieza con 8 fichas en lugar de 6."
+    "src": "Malawi setup (8 seeds in the kuu, 20 nemo in reserve) with Zanzibar-style rules (legacy; deprecated).",
+    "out": "Configuración de Malawi (8 semillas en la kuu, 20 nemo en reserva) con reglas estilo Zanzíbar (heredado; en desuso)."
   },
   "variants.bao.malawi.name": {
-    "src": "Malawi",
-    "out": "Malawi"
+    "src": "Malawi (setup only)",
+    "out": "Malawi (solo configuración)"
   },
   "variants.basalt.pie.description": {
     "src": "First player places 2–4 pieces and then second player chooses what side to play.",

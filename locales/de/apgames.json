@@ -4402,6 +4402,12 @@
         "name": "3D-Kugeln"
       }
     },
+    "agofmars": {
+      "hide-bag-pool": {
+        "description": "Die Pyramiden, die sich noch im Beutel befinden, nicht anzeigen.",
+        "name": "Beutel ausblenden"
+      }
+    },
     "amazons": {
       "#block": {
         "description": "Blockierte Felder als quadratischen Ziegel anzeigen.",
@@ -4990,6 +4996,7 @@
     "_player": "{{player}}",
     "agofmars": {
       "bagCount": "Pyramiden im Beutel",
+      "bagPool": "Pyramiden im Beutel",
       "setupPool": "Zielpyramiden"
     },
     "amazons": {

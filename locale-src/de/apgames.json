@@ -1371,6 +1371,14 @@
     "src": "A game where your movement is constrained by your distance from the centre of the board. Capturing moves must not increase that distance. Non-capturing moves must increase that distance. First person to capture all opposing pieces wins.",
     "out": "Ein Spiel, bei dem Ihre Bewegung durch den Abstand zum Mittelpunkt des Bretts eingeschränkt ist. Schlagzüge dürfen diesen Abstand nicht vergrößern. Nicht-Schlagzüge müssen diesen Abstand vergrößern. Gewinner ist, wer als Erster alle gegnerischen Steine schlägt."
   },
+  "displays.agofmars.hide-bag-pool.description": {
+    "src": "Don't show the pyramids still in the draw bag.",
+    "out": "Die Pyramiden, die sich noch im Beutel befinden, nicht anzeigen."
+  },
+  "displays.agofmars.hide-bag-pool.name": {
+    "src": "Hide bag",
+    "out": "Beutel ausblenden"
+  },
   "displays.akron.orb-3d.description": {
     "src": "Use plain 3D orb textures.",
     "out": "Schlichte 3D-Kugeltexturen verwenden."
@@ -4004,6 +4012,10 @@
     "out": "{{player}}"
   },
   "status.agofmars.bagCount": {
+    "src": "Pyramids in bag",
+    "out": "Pyramiden im Beutel"
+  },
+  "status.agofmars.bagPool": {
     "src": "Pyramids in bag",
     "out": "Pyramiden im Beutel"
   },

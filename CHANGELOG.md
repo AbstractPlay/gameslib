@@ -5,83 +5,139 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0.0-beta`. CI publishes tarballs as `1.0.0-ci-<GitHub Actions run id>.0` (see `.github/workflows/node-dev.js.yml` and `node-prod.js.yml`). Entries below are grouped by theme and approximate **production** ship window (when changes landed on `main` and, for games, when they left the experimental catalogue). The exact CI build is whichever workflow run produced the artifact you installed.
+
+**Going forward:** keep work-in-progress notes under `[Unreleased]`. When a change is merged to `main` and actually visible on the production site (non-`experimental` games and variants, or shared API/schema behaviour), move the bullets into a dated `[1.0.0-ci]` section. Do not log every commit.
+
 ## [Unreleased]
 
 ### Added
 
-* New game: Realm
-* New game: Alien City
-* New game: Fanorona
-* New game: Focus
-* New game: Pulling Strings
-* New game: Witch Stones
-* New game: Complica
-* New game: Robo Battle Pigs
-* New game: Wizard's Garden
-* New game: Generatorb
-* New game: Mixtour
-* New game: Crossway
-* New game: Tintas
-* New game: Streetcar Suburb
-* New game: Phutball
-* New game: Armadas
-* New game: Flume
-* New game: Boom & Zoom
-* New game: Mirador
-* New game: Clearcut
-* New game: Agere
-* New game: Bide
-* New game: Dag en Nacht
-* New game: Hexagonal Y
-* Added `experimental` flag so games can be excluded in production, even if updated game code gets deployed to production.
-* Added `check` flag so the front end can signal to players when they're in a game-ending situation.
-* Added functionality to support multiple displays per game. Volcano and Mega-Volcano now supports a "3D" display, besides the original stack expanding one.
-* Added a `notes` property to the `gameinfo` schema to allow a discussion of implementation-specific details.
-
-### Fixed
-
-* Pikemen: Fixed bug where unnecessary reorientation was throwing an error instead of just being ignored.
-* Volcano: Fixed bug causing Volcano `sameMove` errors in some situations.
-* Blam!: Changed the click handler so it autoselects your smallest piece unless you manually select from your stash.
-* Fendo: Fixed a bug where an error was raised when a partial move is legal, but there are no available fence placements. We want to allow this in order to show the move so that you can get reasons for each fence placement being impossible.
-* Fixed the default `sameMove` implementation.
-* The default `sameMove` was still not working for ambiguous ordo moves in Ordo. Implemented sortedReplacer.
-* Chase: Fix (and improve) `sameMove`.
-* Fendo: Embarrassingly, I missed an important rule. Moving is optional. I also started players with one too many pieces. Corrected.
-* Homeworlds: Added `no-moves` descriptor to disable move generation on the front end.
-* Fix sameMove when move1 is a game ending move.
-* Martian Chess: Fixed a bug that occurred when someone resigned.
-* Fendo: Fixed edge case where a trapped piece couldn't build a wall.
-* Fix/improve the Chase move validation and click handler.
-* Cannon: Fixed bug where move list shows, correctly, that a cannon could capture the further of two adjacent pieces but the system ultimately wouldn't allow it.
-* Martian Chess: allow "undo"ing captures.
-* Cannon: Add a check for "checkmate" in the EOG check.
-* Homeworlds: Fixed a miscommunication between the click handler and the front end that stopped some sacrifice moves from completing.
-* Martian Chess: validation wasn't catching mirror moves. Nor was findPoints excluding them.
-* Cannon: Some weird moves incorrectly validated. Including retreats to non-empty cells.
-* Zola: Game ends when a player has no pieces left. Must pass if no available moves.
-* LoA: Fixed over-validation issue that stopped games when selecting pieces with no valid moves.
-* Homeworlds: Made it possible to trigger catastrophes in the middle of your turn.
-* Chase: Fixed it so you can't bump pieces into the chamber.
-* Alien City: Fixed bug that prevented domes from being placed on different colour tiles when legal.
-* Tintas: Fixed it so the game terminates correctly when one person has "4 of 4" and the other cannot get "7 of 1" (Thank you, @dxdydz!!)
-* Lines of Action: Original 8x8 back in as a variant.
-* Taiji: Added sum of squares and products scoring variants.
-* Homeworlds:
-  * No more "white screen of death" when abandoning your home system temporarily.
-  * Kamikaze draws are now supported.
-  * Catastrophes can now be more easily issued in the middle of a sacrifice chain.
-  * The new click handler now registers a move when you click on a friendly ship followed by *any* ship or star in a different system. It used to only get triggered by clicking on the background.
+- **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Clearpath, Croda, Dama, Ice Palace, Kill-All Go, Neutron, Thricewise, Yodd.
 
 ### Changed
 
-* Homeworlds: Sorted the move list a little more logically.
-* Added piece counts to Cannon and Ordo.
-* Homeworlds: Click handler adjusted to allow easier building and more intuitive use of sacrifice commands.
-* Homeworlds: Renderer completely redone. New click handler deployed.
-* Streetcar: Made lines just claimed dashed for easy identification.
-* Streetcar: At designer's request, made the drawing of two lines mandatory if a legal second line can be drawn from the first.
-* Alfred's Wyke: Added fill colour to button bar. The lighter colour is the move that will become available next turn.
+- Agents of MARS: bag area, setup layout, and emulation/render polish (still `experimental`).
+
+## [1.0.0-ci] - 2026-09-30
+
+### Added
+
+- **New games:** Bridges, El Oso.
+- **`gameinfo` metadata:** category and family tags; variant `people` for crediting designers; fan-made variant labelling; **retracted games** registry for removed catalogue entries.
+- **Alternative displays:** combinable display groups (`implies`, `impliesLock`, back-pressure constraints, default checkbox behaviour). See [displays](/gameslib/displays/).
+- **Crosshairs:** turbulence and concealed-fire variants (designer rules).
+- **Arimaa:** lightvector notation and click-based move entry; Harlog leader shown as a coloured piece.
+- **Sidebar status aids** for Mega-Volcano and Tintas (spoiler-friendly).
+- **Asli:** area-scoring variant; Gonnect cascading variant follow-ups (including outright-win messaging and render fixes).
+
+### Changed
+
+- Production export strips **`experimental`** games, variants, and flags (`filterGameinfoForProduction`). Dev server continues to ship in-progress implementations.
+- **Lielow:** “moves until suicide” score marked as a spoiler in status output.
+- Button labels for shared UI moved into `apgames.json` (from the front end).
+
+### Removed
+
+- Legacy embedded **AI** implementations (explore/automove paths retained where applicable).
+
+## [1.0.0-ci] - 2026-08-30
+
+### Added
+
+- **Full ESM** package (`"type": "module"`, NodeNext emit); dual **browser/node** entry points; hardened CJS/ESM tests.
+- **Structured chat** API refinements on top of the March sidebar/chat parameter work.
+- **Structured sidebar / render labels** (i18n-ready status and score areas).
+- **`ci-deps` prod/dev manifests** and relay pinning for `@abstractplay/renderer` / `@abstractplay/recranks`.
+- **Game turn models** (`GameBaseSequenced` and related registry/docs); **dynamic build flags** for optional game subsets.
+- **Variant constraints** and display back-pressure (phase 1).
+- **Translatable game names**; Esperanto and **es-US** in the managed locale set; Weblate + automated translation pipeline updates.
+- **New games:** BITESIZE (renamed from Eat Your Neighbor), Canoe, Carnac, Circle of Life, Druid, Estate, Even at Odds, Fractured, Guerrilla, Intermedium, Knight Line, Mutternland, Scribe, Stapeldammen, Swarm, Unstack.
+- **Guerrilla:** match variant.
+
+### Changed
+
+- **`bggid`** on game metadata where BoardGameGeek ids exist.
+- Homeworlds critical fix after renderer/Vite migration; Entropy annotation fix; Carnac EOG fix.
+
+## [1.0.0-ci] - 2026-06-30
+
+### Added
+
+- **New games:** Abande Libre, Akimbo, Arimaa, Atarigo, Bamboo, BTT, Compart, Court, Crosscontrol, Enso, Forms, Frogger, Go, Halma, Halma Climbers, Invector, Krypte, Linage, Magnate, Minefield, Minimize, Narrows, Oonpia, Plurality, Pollux, Posit, Product, Rampart, Rincala, Sentinel, Shape Chess, Soccolot, Spora, Squirm, Stiletto, Synapse, Tanbo, Tricouleur, Twin Flames, Unane, Virus War, Waldmeister, Wunchunk, Xana.
+- **`unrated` variant property**; expanded **custom colours** and Alien City customization docs.
+- Modular **Tintas** layout variant.
+- Sidebar API rename: `statuses()` → `sidebarStatuses()`, `getPlayersScores()` → `sidebarScores()`; **`scores` flag** now governs EOG email score lookup only (sidebars no longer need a flag).
+- Centralized default **`randomMove()`**; removed per-game copies.
+- **`players` parameter on `chat()`** (structured chat groundwork).
+
+### Changed
+
+- **`experimental` variant** property documented and enforced in production filtering.
+- Playground support for **multi-render** games.
+
+### Removed
+
+- **Storm Clouds** (withdrawn from the catalogue).
+
+## [1.0.0-ci] - 2025-12-31
+
+### Added
+
+- **New games:** Amoeba, Assembly, Azacru, Basalt, Biscuit, Bloqueo, C1, Catapult, Chameleon, Churn, Cifra, Conspirateurs, Cubeo, Deckfish, Emu, Emergo, Gliss, Gorogo, Gyges, Gyve, Kachit, Lasca, Meg, Morphos, Nakatta, Omny, Owlman, Pacru, Paintbucket, Pahtum, Penguin Soccer, Pilastri, Pontedd, Quincunx, Siege of Jacynth, Squaredance, Stairs, Stibro, Storisende, Sunspot, Surmount, Terrace, Tessella, Yavalath, Yonmoque.
+- **`coder` / people metadata** on games; links to Abstract Play profiles; **implementation notes** filled in across many catalogue entries.
+- Alternate **Amazons** displays.
+
+### Changed
+
+- **Biscuit** in-hand scoring variants; **Quincunx** hand/status display polish.
+- **Homeworlds** variant display tweaks; **Decktet** display fixes for double-deck games.
+
+## [1.0.0-ci] - 2024-12-31
+
+### Added
+
+- **New games:** Connections, Control, Dots and Boxes, Dragon Eyes, Gonnect, Hula, Jacynth, Konane, Lifeline, Logger, Lox, Majorities, Moon Squad, Pods, Pigs 2, Pylon, Query, Shifty, Strands, Subdivision, Tritium.
+- **Adere** star board variant (with Connections/Boxes release batch).
+
+### Changed
+
+- **Pigs 2** special-move handling revamp (with Moon Squad release).
+
+## [1.0.0-ci] - 2024-06-30
+
+### Added
+
+- **New games:** Anache, Asli, Atoll, Ayu, Binar, Blockade, Cairo Corridor, Catchup, Clusterfuss, Conect, Conhex, Connecticut, Dameo, Fightopia, Fnap, Four in a Row, Havannah, Hex, Mattock, Meridians, Nex, Onager, Oust, Oware, Pletore, Quax, Queensland, Reversi, Saltire, Spire, Spook, Spline, Sploof, Spree, Stigmergy, Susan, Symple, Tafl, Tablero, TBT, Tumbleweed, Twixt, Valley.
+- **`categories` and `dateAdded`** on gameinfo; **`custom-randomization`** flag; **`custom-buttons`** / `getButtons()` (replacing ad-hoc pass buttons); **`custom-rotation`** scaffold.
+- **`experimental` on variants** for production filtering.
+
+### Changed
+
+- Removed **`multistep`** flag; **`custom-pass`** retired in favour of custom buttons.
+- **Entropy** simultaneous annotation/chat fixes.
+
+## [1.0.0-ci] - 2023-12-31
+
+### Added
+
+- **New games:** Agere, Alien City, Almatafl, Armadas, Bao, Bide, Blooms, Boom & Zoom, Bounce, Clearcut, Complica, Crossway, Dag en Nacht, Diffusion, Fanorona, Flume, Focus, Furl, Generatorb, Hexagonal Y, Iqishiqi, Lielow, Mixtour, Mirador, Murus, Phutball, Pulling Strings, Quagmire, Realm, Robo Battle Pigs, Scaffold, Slither, Streetcar Suburb, Tintas, Toguz, Trike, Witch Stones, Wizard's Garden.
+- **`experimental` game flag** so in-progress games can deploy to dev while staying off the production catalogue.
+- **`check` flag** for front-end game-ending hints.
+- **`notes` property** on `gameinfo` for implementation commentary.
+- **Alternative displays** on Volcano and Mega-Volcano (flat vs 3D stack view).
+- GitHub Actions **dev/prod CI** publishing `1.0.0-ci-*` tarballs.
+
+### Changed
+
+- **Homeworlds:** renderer and click-handler refresh; catastrophes mid-sacrifice; kamikaze draws; sorted move list.
+- **Streetcar Suburb:** dashed newly claimed lines; mandatory second line when legal.
+- **Taiji:** sum-of-squares and product scoring variants; **Lines of Action** classic 8×8 variant restored.
+
+### Fixed
+
+- Cross-game **`sameMove`** improvements (default implementation, Ordo, Chase, game-ending moves).
+- Notable rule/validation fixes across **Cannon**, **Chase**, **Fendo**, **Homeworlds**, **LoA**, **Martian Chess**, **Pikemen**, **Tintas**, **Volcano**, **Zola**, and others shipped in this window.
 
 ## [1.0.0-beta] - 2023-04-30
 

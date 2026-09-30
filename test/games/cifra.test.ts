@@ -45,4 +45,13 @@ describe("Cifra", () => {
         expect(result.valid).to.be.true;
         expect(result.move).to.equal(`3${home[0]}`);
     });
+
+    it("keeps numbered piece labels upright when the board is rotated", () => {
+        const g = setupKingGame();
+        const rep = g.render();
+        const label = rep.legend!["p5"] as [{ name: string }, { orientation?: string }];
+        expect(label[1].orientation).to.equal("vertical");
+        const onBoard = rep.legend![`A${g.boardSize}`] as [{ name: string }, { orientation?: string }];
+        expect(onBoard[1].orientation).to.equal("vertical");
+    });
 });

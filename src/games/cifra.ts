@@ -969,26 +969,25 @@ export class CifraGame extends GameBase {
                 colour: c2,
             },
         };
+        const numberedLabel = (n: number): Glyph => ({
+            text: n.toString(),
+            scale: 0.75,
+            orientation: "vertical",
+        });
         for (let i = 1; i <= this.boardSize; i++) {
             legend[`A${i}`] = [
                 {
                     name: "piece",
                     colour: c1,
                 },
-                {
-                    text: i.toString(),
-                    scale: 0.75,
-                }
+                numberedLabel(i),
             ];
             legend[`B${i}`] = [
                 {
                     name: "piece",
                     colour: c2,
                 },
-                {
-                    text: i.toString(),
-                    scale: 0.75,
-                }
+                numberedLabel(i),
             ];
         }
 
@@ -1009,11 +1008,7 @@ export class CifraGame extends GameBase {
                                 name: "piece",
                                 colour: this.getPlayerColour(this.currplayer),
                             },
-                            {
-                                text: n.toString(),
-                                scale: 0.75,
-                                rotate: null
-                            }
+                            numberedLabel(n),
                         ];
                     });
                     areas = [{

@@ -113,6 +113,36 @@ export function koUndoBlockedState(): IAgofmarsState {
     };
 }
 
+/** Terminal stack frame from scratch `final.json` (five-colour-plus3, two pyramids on board). */
+export function fiveColourScratchFinalState(): IAgofmarsState {
+    const objectives: Colour[][] = [
+        ["VT", "BU", "YE", "GN", "RD"],
+        ["BU", "VT", "GN", "RD", "YE"],
+    ];
+    const board = new Map([
+        ["f2", ["VT", 1] as const],
+        ["e4", ["VT", 2] as const],
+    ]);
+    const base: IMoveState = {
+        _version: V,
+        _results: [],
+        _timestamp: new Date(),
+        currplayer: 2,
+        phase: "play",
+        objectives,
+        objectivesRevealed: [Array(5).fill(false), Array(5).fill(false)],
+        board,
+    };
+    return {
+        game: "agofmars",
+        numplayers: 2,
+        variants: ["five-colour-plus3"],
+        gameover: false,
+        winner: [],
+        stack: [base],
+    };
+}
+
 export function gameFrom(state: IAgofmarsState): AgofmarsGame {
     return new AgofmarsGame(state);
 }

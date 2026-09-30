@@ -2467,6 +2467,10 @@
     "src": "Form a line of four or more pieces of your colour *without* forming a line of three pieces first.",
     "out": "Forma una línea de cuatro o más piezas de tu color *sin* formar primero una línea de tres piezas."
   },
+  "descriptions.yodd": {
+    "src": "Pass or place one or two stones of either colour. After your turn there must be an odd number of groups on the board. When both players pass in succession, the player with fewer groups of their colour wins.",
+    "out": "Pasa o coloca una o dos piedras de cualquier color. Después de tu turno debe haber un número impar de grupos en el tablero. Cuando ambos jugadores pasen de forma consecutiva, gana el jugador que tenga menos grupos de su color."
+  },
   "descriptions.yonmoque": {
     "src": "Try to form four in a row in a game where not all spaces are equal and opposing pieces can be converted.",
     "out": "Intenta formar cuatro en línea en un juego donde no todos los espacios son iguales y las piezas enemigas se pueden convertir."
@@ -4599,6 +4603,10 @@
     "src": "Yavalath",
     "out": "Yavalath"
   },
+  "names.yodd": {
+    "src": "Yodd",
+    "out": "Yodd"
+  },
   "names.yonmoque": {
     "src": "Yonmoque",
     "out": "Yonmoque"
@@ -5034,6 +5042,10 @@
   "notes.y": {
     "src": "The game was designed by Charles Titus and Craige Schensted (Ea Ea) in 1953. A direct descended of Hex, the game was originally played on a triangular board, where the goal is to connect all three sides by a chain of friendly stones. Y is considered a more fundamental game than Hex, given its simpler rules and given that a Hex match can be setup on a sufficient large Y board. In their 1975 book **Mudcrack Y & Poly-Y**, the designers introduced the _mudcrack principle_ stating that connection games can be played on a wide range of progressively elaborate boards. One of those designs ('the bent Y', with three pentagonal cells) became the commercial Y board, instead of the standard triangular one.",
     "out": "El juego fue diseñado por Charles Titus y Craige Schensted (Ea Ea) en 1953. Un descendiente directo del Hex, el juego se jugaba originalmente en un tablero triangular, donde el objetivo es conectar los tres lados mediante una cadena de fichas aliadas. Y se considera un juego más fundamental que Hex, dadas sus reglas más simples y dado que una partida de Hex se puede preparar en un tablero de Y suficientemente grande. En su libro de 1975 **Mudcrack Y & Poly-Y**, los diseñadores introdujeron el _principio del patrón de grietas_ (mudcrack principle), afirmando que los juegos de conexión se pueden jugar en una amplia variedad de tableros progresivamente más elaborados. Uno de esos diseños ('el Y doblado', con tres celdas pentagonales) se convirtió en el tablero comercial de Y, en lugar del triangular estándar."
+  },
+  "notes.yodd": {
+    "src": "Yodd is played on a hex grid. The same rules on a square grid are published as **Xodd**; choose a square board size variant to play Xodd on Abstract Play. On your first turn only, you may place a single stone. Later turns allow pass or one or two stones of either colour, and the total number of groups on the board must be odd after each turn.",
+    "out": "Yodd se juega en una cuadrícula hexagonal. Las mismas reglas en una cuadrícula cuadrada se publican como **Xodd**; elige una variante de tamaño de tablero cuadrado para jugar a Xodd en Abstract Play. Solo en tu primer turno, puedes colocar una sola piedra. Los turnos posteriores permiten pasar o colocar una o dos piedras de cualquier color, y el número total de grupos en el tablero debe ser impar después de cada turno."
   },
   "status.CARDSINHAND": {
     "src": "Cards in hand",
@@ -15927,6 +15939,42 @@
     "src": "In a three-player game, you must block a next-opponent win if possible.",
     "out": "En una partida de tres jugadores, debes bloquear la victoria del siguiente oponente si es posible."
   },
+  "validation.yodd.INITIAL_INSTRUCTIONS": {
+    "src": "Click an empty point to place a stone in your colour. Click it again to switch to the other colour, and again to remove the stone. Use Complete Move when you are ready (one stone only on the first turn).",
+    "out": "Haz clic en un punto vacío para colocar una piedra de tu color. Haz clic de nuevo para cambiar al otro color, y otra vez para quitar la piedra. Usa Completar movimiento cuando estés listo (solo una piedra en el primer turno)."
+  },
+  "validation.yodd.INSTRUCTIONS": {
+    "src": "Pass, or place one or two stones on empty points (your colour by default). Click a stone again to switch colour, or a third time to remove it. The total number of groups must be odd when you complete your turn.",
+    "out": "Pasa o coloca una o dos piedras en puntos vacíos (tu color por defecto). Haz clic en una piedra de nuevo para cambiar de color, o una tercera vez para quitarla. El número total de grupos debe ser impar cuando completes tu turno."
+  },
+  "validation.yodd.INSTRUCTIONS_ODD": {
+    "src": "Adjust placements or add another stone so the total number of groups is odd, then use Complete Move.",
+    "out": "Ajusta las colocaciones o agrega otra piedra para que el número total de grupos sea impar, luego usa Completar movimiento."
+  },
+  "validation.yodd.INVALID_PLACEMENT": {
+    "src": "Unable to interpret the move notation: {{move}}.",
+    "out": "No se pudo interpretar la notación del movimiento: {{move}}."
+  },
+  "validation.yodd.NORMALISED": {
+    "src": "The move needs to be normalised. Try {{normalised}}.",
+    "out": "El movimiento debe normalizarse. Intenta {{normalised}}."
+  },
+  "validation.yodd.ODD_GROUPS_REQUIRED": {
+    "src": "The total number of groups on the board must be odd after your turn.",
+    "out": "El número total de grupos en el tablero debe ser impar después de tu turno."
+  },
+  "validation.yodd.TOO_MANY_MOVES": {
+    "src": "Only one or two placements are allowed.",
+    "out": "Solo se permiten una o dos colocaciones."
+  },
+  "validation.yodd.TOO_MANY_MOVES_START": {
+    "src": "On the first turn, only one placement is allowed.",
+    "out": "En el primer turno, solo se permite una colocación."
+  },
+  "validation.yodd.VALID_MOVE": {
+    "src": "Use Complete Move to end your turn, or keep clicking to change or remove stones.",
+    "out": "Usa Completar movimiento para terminar tu turno, o sigue haciendo clic para cambiar o quitar piedras."
+  },
   "validation.yonmoque.INITIAL_INSTRUCTIONS": {
     "src": "Select an empty cell to place a piece or an existing piece to start a move.",
     "out": "Selecciona una casilla vacía para colocar una pieza o una pieza existente para iniciar un movimiento."
@@ -21230,6 +21278,46 @@
   "variants.y.star.name": {
     "src": "Star board",
     "out": "Tablero de estrella"
+  },
+  "variants.yodd.#board.name": {
+    "src": "Size-8 hex",
+    "out": "Hexagonal de tamaño 8"
+  },
+  "variants.yodd.hex-10.name": {
+    "src": "Size-10 hex",
+    "out": "Hexagonal de tamaño 10"
+  },
+  "variants.yodd.hex-6.name": {
+    "src": "Size-6 hex",
+    "out": "Hexagonal de tamaño 6"
+  },
+  "variants.yodd.hex-7.name": {
+    "src": "Size-7 hex",
+    "out": "Hexagonal de tamaño 7"
+  },
+  "variants.yodd.hex-9.name": {
+    "src": "Size-9 hex",
+    "out": "Hexagonal de tamaño 9"
+  },
+  "variants.yodd.square-10.name": {
+    "src": "Size-10 square (Xodd)",
+    "out": "Cuadrado de tamaño 10 (Xodd)"
+  },
+  "variants.yodd.square-13.name": {
+    "src": "Size-13 square (Xodd)",
+    "out": "Cuadrado de tamaño 13 (Xodd)"
+  },
+  "variants.yodd.square-14.name": {
+    "src": "Size-14 square (Xodd)",
+    "out": "Cuadrado de tamaño 14 (Xodd)"
+  },
+  "variants.yodd.square-15.name": {
+    "src": "Size-15 square (Xodd)",
+    "out": "Cuadrado de tamaño 15 (Xodd)"
+  },
+  "variants.yodd.square-9.name": {
+    "src": "Size-9 square (Xodd)",
+    "out": "Cuadrado de tamaño 9 (Xodd)"
   },
   "variants.zola.#board.name": {
     "src": "6x6 board",

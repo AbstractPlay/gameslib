@@ -291,6 +291,7 @@
     "xana": "Un juego de apilamiento donde los jugadores tienen un número limitado de piezas y un número ilimitado de muros para conquistar territorio.",
     "y": "El clásico juego de conexión. Conecta los tres lados para ganar.",
     "yavalath": "Forma una línea de cuatro o más piezas de tu color *sin* formar primero una línea de tres piezas.",
+    "yodd": "Pasa o coloca una o dos piedras de cualquier color. Después de tu turno debe haber un número impar de grupos en el tablero. Cuando ambos jugadores pasen de forma consecutiva, gana el jugador que tenga menos grupos de su color.",
     "yonmoque": "Intenta formar cuatro en línea en un juego donde no todos los espacios son iguales y las piezas enemigas se pueden convertir.",
     "zola": "Un juego donde tu movimiento está limitado por tu distancia desde el centro del tablero. Los movimientos de captura no deben aumentar esa distancia. Los movimientos que no son de captura deben aumentar esa distancia. La primera persona que capture todas las piezas enemigas gana."
   },
@@ -586,6 +587,7 @@
     "xana": "Xana",
     "y": "Y",
     "yavalath": "Yavalath",
+    "yodd": "Yodd",
     "yonmoque": "Yonmoque",
     "zola": "Zola"
   },
@@ -701,7 +703,8 @@
     "waldmeister": "Los jugadores juegan dos partidas consecutivas. En la primera ronda, el Jugador 1 juega por colores y el Jugador 2 juega por alturas. Al final de la primera ronda, se tabulan las puntuaciones y se destacan los grupos anotadores. Luego, en la segunda ronda, el Jugador 2 juega primero y juega por colores, y el Jugador 1 juega por alturas.",
     "witch": "El primer jugador no comienza siendo dueño de ninguna pieza y puede eliminar cualquier pieza (que no sea una corona) en su primer turno. El segundo jugador elige su color en su primer turno, después de lo cual ya no es posible eliminar las piezas de tu oponente.",
     "xana": "En sus turnos, los jugadores colocan o mueven una pila (hay una cantidad limitada de piezas apilables) y, opcionalmente, colocan dos muros en hexágonos vacíos. Las pilas sin libertades son capturadas. Una pila tiene libertad si al menos uno de los hexágonos adyacentes está vacío (no existe el concepto de grupo de pilas). Un hexágono es accesible si está vacío y conectado a una pila aliada por un camino de hexágonos vacíos. El objetivo es conseguir la puntuación más alta sumando territorio más capturas. Xana fue diseñado en 2005.",
-    "y": "El juego fue diseñado por Charles Titus y Craige Schensted (Ea Ea) en 1953. Un descendiente directo del Hex, el juego se jugaba originalmente en un tablero triangular, donde el objetivo es conectar los tres lados mediante una cadena de fichas aliadas. Y se considera un juego más fundamental que Hex, dadas sus reglas más simples y dado que una partida de Hex se puede preparar en un tablero de Y suficientemente grande. En su libro de 1975 **Mudcrack Y & Poly-Y**, los diseñadores introdujeron el _principio del patrón de grietas_ (mudcrack principle), afirmando que los juegos de conexión se pueden jugar en una amplia variedad de tableros progresivamente más elaborados. Uno de esos diseños ('el Y doblado', con tres celdas pentagonales) se convirtió en el tablero comercial de Y, en lugar del triangular estándar."
+    "y": "El juego fue diseñado por Charles Titus y Craige Schensted (Ea Ea) en 1953. Un descendiente directo del Hex, el juego se jugaba originalmente en un tablero triangular, donde el objetivo es conectar los tres lados mediante una cadena de fichas aliadas. Y se considera un juego más fundamental que Hex, dadas sus reglas más simples y dado que una partida de Hex se puede preparar en un tablero de Y suficientemente grande. En su libro de 1975 **Mudcrack Y & Poly-Y**, los diseñadores introdujeron el _principio del patrón de grietas_ (mudcrack principle), afirmando que los juegos de conexión se pueden jugar en una amplia variedad de tableros progresivamente más elaborados. Uno de esos diseños ('el Y doblado', con tres celdas pentagonales) se convirtió en el tablero comercial de Y, en lugar del triangular estándar.",
+    "yodd": "Yodd se juega en una cuadrícula hexagonal. Las mismas reglas en una cuadrícula cuadrada se publican como **Xodd**; elige una variante de tamaño de tablero cuadrado para jugar a Xodd en Abstract Play. Solo en tu primer turno, puedes colocar una sola piedra. Los turnos posteriores permiten pasar o colocar una o dos piedras de cualquier color, y el número total de grupos en el tablero debe ser impar después de cada turno."
   },
   "variants": {
     "_default": {
@@ -4384,6 +4387,38 @@
       },
       "progressive": {
         "name": "Progresivo con restricción de grupo"
+      }
+    },
+    "yodd": {
+      "hex-6": {
+        "name": "Hexagonal de tamaño 6"
+      },
+      "hex-7": {
+        "name": "Hexagonal de tamaño 7"
+      },
+      "#board": {
+        "name": "Hexagonal de tamaño 8"
+      },
+      "hex-9": {
+        "name": "Hexagonal de tamaño 9"
+      },
+      "hex-10": {
+        "name": "Hexagonal de tamaño 10"
+      },
+      "square-9": {
+        "name": "Cuadrado de tamaño 9 (Xodd)"
+      },
+      "square-10": {
+        "name": "Cuadrado de tamaño 10 (Xodd)"
+      },
+      "square-13": {
+        "name": "Cuadrado de tamaño 13 (Xodd)"
+      },
+      "square-14": {
+        "name": "Cuadrado de tamaño 14 (Xodd)"
+      },
+      "square-15": {
+        "name": "Cuadrado de tamaño 15 (Xodd)"
       }
     },
     "zola": {
@@ -8387,6 +8422,17 @@
       "BAD_PASS": "Solo puedes pasar si has sido eliminado.",
       "INITIAL_INSTRUCTIONS": "Haz clic en una casilla vacía para colocar una pieza.",
       "MUST_BLOCK": "En una partida de tres jugadores, debes bloquear la victoria del siguiente oponente si es posible."
+    },
+    "yodd": {
+      "INITIAL_INSTRUCTIONS": "Haz clic en un punto vacío para colocar una piedra de tu color. Haz clic de nuevo para cambiar al otro color, y otra vez para quitar la piedra. Usa Completar movimiento cuando estés listo (solo una piedra en el primer turno).",
+      "INSTRUCTIONS": "Pasa o coloca una o dos piedras en puntos vacíos (tu color por defecto). Haz clic en una piedra de nuevo para cambiar de color, o una tercera vez para quitarla. El número total de grupos debe ser impar cuando completes tu turno.",
+      "INSTRUCTIONS_ODD": "Ajusta las colocaciones o agrega otra piedra para que el número total de grupos sea impar, luego usa Completar movimiento.",
+      "INVALID_PLACEMENT": "No se pudo interpretar la notación del movimiento: {{move}}.",
+      "NORMALISED": "El movimiento debe normalizarse. Intenta {{normalised}}.",
+      "ODD_GROUPS_REQUIRED": "El número total de grupos en el tablero debe ser impar después de tu turno.",
+      "TOO_MANY_MOVES": "Solo se permiten una o dos colocaciones.",
+      "TOO_MANY_MOVES_START": "En el primer turno, solo se permite una colocación.",
+      "VALID_MOVE": "Usa Completar movimiento para terminar tu turno, o sigue haciendo clic para cambiar o quitar piedras."
     },
     "yonmoque": {
       "INITIAL_INSTRUCTIONS": "Selecciona una casilla vacía para colocar una pieza o una pieza existente para iniciar un movimiento.",

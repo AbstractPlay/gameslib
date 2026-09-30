@@ -18,6 +18,8 @@ export interface IMoveState extends IIndividualState {
     inhand: [number,number];
     blocked: [string|undefined, string|undefined];
     deltas: number[][];
+    /** Malawi (Bawo) stage 2: functional kuu has been lifted at least once. */
+    kuuMoved?: [boolean, boolean];
 };
 
 export interface IBaoState extends IAPGameState {
@@ -36,6 +38,8 @@ type SowingResults = {
     taxed: boolean;
     /** Mtaji kutakata: relay pickup from back row while inner row is empty on the board. */
     illegalEmptyFront: boolean;
+    /** Malawi basic: sole end-kichwa takata that slept after crossing the outer row. */
+    malawiLoneEndLoss?: boolean;
 };
 
 export class BaoGame extends GameBase {
@@ -52,6 +56,8 @@ export class BaoGame extends GameBase {
         urls: [
             "https://mancala.fandom.com/wiki/Bao_la_Kiswahili",
             "https://boardgamegeek.com/boardgame/14186/bao",
+            "http://www.gamecabinet.com/rules/Bao2.html",
+            "https://mancala.fandom.com/wiki/Bawo",
         ],
         bggid: "14186",
         people: [
@@ -66,11 +72,15 @@ export class BaoGame extends GameBase {
         variants: [
             {
                 uid: "malawi",
-                group: "setup",
+                group: "rules",
+            },
+            {
+                uid: "malawi-full",
+                group: "rules",
             },
             {
                 uid: "kujifunza",
-                group: "setup",
+                group: "rules",
             }
         ],
         categories: ["goal>cripple", "mechanic>convert", "mechanic>move>sow", "other>traditional", "board>mancala", "components>simple>1c", "family>mancala"],
@@ -108,6 +118,32 @@ export class BaoGame extends GameBase {
     public results: Array<APMoveResult> = [];
     private graph!: BaoGraph;
     private instalose = false;
+    public kuuMoved?: [boolean, boolean];
+
+    private static readonly RULESET_VARIANTS = ["malawi", "malawi-full", "kujifunza"] as const;
+
+    private static assertCompatibleVariants(variants: string[]): void {
+        const ruleset = BaoGame.RULESET_VARIANTS.filter((uid) => variants.includes(uid));
+        if (ruleset.length > 1) {
+            throw new Error(`Only one Bao rules variant may be selected (${ruleset.join(", ")}).`);
+        }
+    }
+
+    private malawiSetup(): boolean {
+        return this.variants.includes("malawi") || this.variants.includes("malawi-full");
+    }
+
+    private malawiRules(): boolean {
+        return this.variants.includes("malawi-full");
+    }
+
+    private houseMinSeeds(): number {
+        return this.malawiSetup() ? 8 : 6;
+    }
+
+    private autoKutakataThreshold(): number {
+        return this.malawiRules() ? 15 : 16;
+    }
 
     constructor(state?: IBaoState | string, variants?: string[]) {
         super();
@@ -121,7 +157,8 @@ export class BaoGame extends GameBase {
             let inhand = [22, 22] as [number,number];
             let houses: [string|undefined,string|undefined] = ["e2", "d3"];
             if (variants !== undefined) {
-                if (variants.includes("malawi")) {
+                BaoGame.assertCompatibleVariants(variants);
+                if (variants.includes("malawi") || variants.includes("malawi-full")) {
                     board = [
                         [0,0,0,0,0,0,0,0],
                         [0,2,2,8,0,0,0,0],
@@ -163,6 +200,7 @@ export class BaoGame extends GameBase {
             this.gameover = state.gameover;
             this.winner = [...state.winner];
             this.variants = [...state.variants];
+            BaoGame.assertCompatibleVariants(this.variants);
             this.stack = [...state.stack];
         }
         this.load();
@@ -186,8 +224,67 @@ export class BaoGame extends GameBase {
         if ( (state.deltas !== undefined) && (state.deltas !== null) ) {
             this.deltas = [...state.deltas.map(l => [...l])];
         }
+        if (this.malawiRules()) {
+            this.kuuMoved = state.kuuMoved ? [...state.kuuMoved] : [false, false];
+        } else {
+            this.kuuMoved = undefined;
+        }
         this.graph = new BaoGraph(this.houses);
         return this;
+    }
+
+    private ownKuuThreatened(player: playerid): boolean {
+        const house = this.houses[player - 1];
+        if (house === undefined || house === null || !this.hasWorkingHouse(player)) {
+            return false;
+        }
+        const [col] = this.graph.algebraic2coords(house);
+        const theirFront = player === 1 ? 1 : 2;
+        const [hcol, hrow] = this.graph.algebraic2coords(house);
+        if (this.board[hrow][hcol] === 0) {
+            return false;
+        }
+        return this.board[theirFront][col] > 0;
+    }
+
+    private captureOfOpponentKuuForbidden(player: playerid, opposite: string): boolean {
+        if (!this.malawiRules() || !this.ownKuuThreatened(player)) {
+            return false;
+        }
+        const opponent: playerid = player === 1 ? 2 : 1;
+        return this.houses[opponent - 1] === opposite;
+    }
+
+    private malawiOnlyKuuOccupiedOnFront(player: playerid): boolean {
+        const myFront = player === 1 ? 2 : 1;
+        const house = this.houses[player - 1];
+        if (house === undefined || house === null) {
+            return false;
+        }
+        for (let col = 0; col < 8; col++) {
+            if (this.board[myFront][col] > 0) {
+                const cell = this.graph.coords2algebraic(col, myFront);
+                if (cell !== house) {
+                    return false;
+                }
+            }
+        }
+        const [col, row] = this.graph.algebraic2coords(house);
+        return this.board[row][col] > 0;
+    }
+
+    private namuaCaptureAvailable(player: playerid): boolean {
+        const myFront = player === 1 ? 2 : 1;
+        const theirFront = player === 1 ? 1 : 2;
+        for (let col = 0; col < 8; col++) {
+            if (this.board[myFront][col] > 0 && this.board[theirFront][col] > 0) {
+                const cell = this.graph.coords2algebraic(col, myFront);
+                if (!this.captureOfOpponentKuuForbidden(player, BaoGame.opposites.get(cell)!)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public hasWorkingHouse (player?: playerid): boolean {
@@ -198,14 +295,55 @@ export class BaoGame extends GameBase {
             return false;
         }
         const [col, row] = this.graph.algebraic2coords(this.houses[player - 1]!);
-        if (this.board[row][col] >= 6) {
+        if (this.board[row][col] >= this.houseMinSeeds()) {
             return true;
         }
         return false;
     }
 
-    /** Namu kutakata start pits per Zanzibar placement rules (non-capture). */
+    /** Namu kutakata start pits per Zanzibar / Malawi placement rules (non-capture). */
+    private malawiNamuTakataLegalStartCells(player: playerid): string[] {
+        const myFront = player === 1 ? 2 : 1;
+        const house = this.houses[player - 1];
+        const nonKuu: string[] = [];
+        for (let col = 0; col < 8; col++) {
+            const cell = this.graph.coords2algebraic(col, myFront);
+            if (house !== undefined && house !== null && cell === house) {
+                continue;
+            }
+            if (this.board[myFront][col] > 0) {
+                nonKuu.push(cell);
+            }
+        }
+        const twoPlus = nonKuu.filter((cell) => {
+            const [c, r] = this.graph.algebraic2coords(cell);
+            return this.board[r][c] >= 2;
+        });
+        if (twoPlus.length > 0) {
+            return twoPlus;
+        }
+        const allSingletons =
+            nonKuu.length > 0 &&
+            nonKuu.every((cell) => {
+                const [c, r] = this.graph.algebraic2coords(cell);
+                return this.board[r][c] === 1;
+            });
+        if (allSingletons) {
+            return nonKuu;
+        }
+        if (house !== undefined && house !== null && nonKuu.length === 0) {
+            const [col, row] = this.graph.algebraic2coords(house);
+            if (this.board[row][col] === this.houseMinSeeds() && !this.namuaCaptureAvailable(player)) {
+                return [house];
+            }
+        }
+        return [];
+    }
+
     private namuTakataLegalStartCells(player: playerid): string[] {
+        if (this.malawiRules()) {
+            return this.malawiNamuTakataLegalStartCells(player);
+        }
         const myFront = player === 1 ? 2 : 1;
         const house = this.houses[player - 1];
         if (this.hasWorkingHouse(player)) {
@@ -284,7 +422,7 @@ export class BaoGame extends GameBase {
                         const blocked = [...firsts.values()][0];
                         const [col, row] = this.graph.algebraic2coords(blocked);
                         // but you can't block a functional nyumba
-                        if ( (this.graph.getType(blocked) === "nyumba") && (this.board[row][col] >= 6) ) {
+                        if ( (this.graph.getType(blocked) === "nyumba") && (this.board[row][col] >= this.houseMinSeeds()) ) {
                             return undefined;
                         }
                         const myFront = player === 1 ? 2 : 1;
@@ -325,7 +463,9 @@ export class BaoGame extends GameBase {
         let infinite = false;
         let taxed = false;
         let illegalEmptyFront = false;
+        let malawiLoneEndLoss = false;
         let lapFromNyumba = false;
+        let outerRowVisited = false;
 
         // init what we need to know about the game state
         const cell = move.substring(0, 2);
@@ -338,9 +478,27 @@ export class BaoGame extends GameBase {
             player = 1;
         }
         const phase: "namua"|"mtaji" = this.inhand[player - 1] > 0 ? "namua" : "mtaji";
-        const isKutakata = move.endsWith("*") || ( (this.board[startRow][startCol] >= 16) && (phase === "mtaji") ) ;
+        const kutakataAutoMin = this.autoKutakataThreshold();
+        const isKutakata = move.endsWith("*") || ( (this.board[startRow][startCol] >= kutakataAutoMin) && (phase === "mtaji") ) ;
         const myFront = player === 1 ? 2 : 1;
         const myBack = player === 1 ? 3 : 0;
+        const houseMin = this.houseMinSeeds();
+        let loneEndKichwaStart = false;
+        if (this.malawiRules() && phase === "mtaji" && isKutakata) {
+            const startType = this.graph.getType(cell);
+            if (startType !== undefined && startType.startsWith("kichwa")) {
+                loneEndKichwaStart = true;
+                for (let i = 0; i < 8; i++) {
+                    if (this.board[myFront][i] > 0) {
+                        const c = this.graph.coords2algebraic(i, myFront);
+                        if (c !== cell) {
+                            loneEndKichwaStart = false;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
         // console.log(`Player: ${player}, Inhand: ${JSON.stringify(this.inhand)}`);
         let dir: "CW"|"CCW";
         switch (startRow) {
@@ -383,6 +541,9 @@ export class BaoGame extends GameBase {
             }
             // `curr` is the last pit you placed a stone in
             const [currCol, currRow] = this.graph.algebraic2coords(curr);
+            if (currRow === myBack) {
+                outerRowVisited = true;
+            }
             // console.log(`Curr: ${curr}`)
 
             // check for capture
@@ -391,7 +552,8 @@ export class BaoGame extends GameBase {
                 const opposite = BaoGame.opposites.get(curr);
                 if (opposite !== undefined) {
                     const [oppCol, oppRow] = this.graph.algebraic2coords(opposite);
-                    if ( (! isKutakata) && (this.board[currRow][currCol] > 1) && (this.board[oppRow][oppCol] > 0)) {
+                    if ( (! isKutakata) && (this.board[currRow][currCol] > 1) && (this.board[oppRow][oppCol] > 0) &&
+                         (! this.captureOfOpponentKuuForbidden(player, opposite)) ) {
                         inhand = this.board[oppRow][oppCol];
                         this.board[oppRow][oppCol] = 0;
                         capturedCells.push(opposite);
@@ -436,10 +598,17 @@ export class BaoGame extends GameBase {
 
             // if there's only one seed in the pit, then our turn is over
             if (this.board[currRow][currCol] === 1) {
+                if (this.malawiRules() && phase === "mtaji" && isKutakata && loneEndKichwaStart && outerRowVisited) {
+                    const towardCenter = this.mtajiKutakataDirMarkers(player, cell, myFront, myBack);
+                    const moveMarker = marker as "<"|">";
+                    if (towardCenter.length === 1 && moveMarker !== towardCenter[0]) {
+                        malawiLoneEndLoss = true;
+                    }
+                }
                 break;
             }
             // if functional nyumba in kunamua phase (no safari or stopping in mtaji phase)
-            if ( (this.graph.getType(curr) === "nyumba") && (this.board[currRow][currCol] >= 6) && (phase === "namua") ) {
+            if ( (this.graph.getType(curr) === "nyumba") && (this.board[currRow][currCol] >= houseMin) && (phase === "namua") ) {
                 // if we're in a mtaji move, check for "+" and stop here but mark move incomplete
                 if ( (! isKutakata) && (! move.endsWith("+")) ) {
                     complete = false;
@@ -464,17 +633,26 @@ export class BaoGame extends GameBase {
 
             // at this point, we must continue sowing
             sownCells.push(curr);
-            // in namua phase, kutakata, very first turn, only tax nyumba
-            // Used to be >= 6, but that allowed the placed stone to reactivate the nyumba,
-            // and apparently that is not correct. So it's now >6.
-            if ( (phase === "namua") && (isKutakata) && (distance === 0) && (this.graph.getType(curr) === "nyumba") && (this.board[currRow][currCol] > 6) ) {
-                inhand = 2;
-                this.board[currRow][currCol] -= 2;
-                taxed = true;
-                lapFromNyumba = true;
+            let relayFromKuuTax = false;
+            // in namua phase, kutakata, very first turn, tax kuu or lift all nine (Malawi)
+            if ( (phase === "namua") && (isKutakata) && (distance === 0) && (this.graph.getType(curr) === "nyumba") ) {
+                const kuuCount = this.board[currRow][currCol];
+                if (this.malawiRules() && kuuCount === houseMin + 1 && this.malawiOnlyKuuOccupiedOnFront(player)) {
+                    inhand = kuuCount;
+                    this.board[currRow][currCol] = 0;
+                    lapFromNyumba = true;
+                    relayFromKuuTax = true;
+                }
+                else if (kuuCount > houseMin) {
+                    inhand = 2;
+                    this.board[currRow][currCol] -= 2;
+                    taxed = true;
+                    lapFromNyumba = true;
+                    relayFromKuuTax = true;
+                }
             }
             // otherwise pick them all up
-            else {
+            if (! relayFromKuuTax) {
                 const stonesToLift = this.board[currRow][currCol];
                 if (phase === "mtaji" && isKutakata && stonesToLift > 0) {
                     let frontSum = 0;
@@ -511,6 +689,7 @@ export class BaoGame extends GameBase {
             infinite,
             taxed,
             illegalEmptyFront,
+            malawiLoneEndLoss,
         }
     }
 
@@ -545,6 +724,17 @@ export class BaoGame extends GameBase {
         return allowed;
     }
 
+    private malawiMustPlayUnmovedKuu(player: playerid): string|undefined {
+        if (!this.malawiRules() || this.inhand[player - 1] > 0) {
+            return undefined;
+        }
+        const moved = this.kuuMoved ?? [false, false];
+        if (moved[player - 1] || !this.hasWorkingHouse(player)) {
+            return undefined;
+        }
+        return this.houses[player - 1];
+    }
+
     private filterMtajiKutakataIllegalEmptyFront(player: playerid, moves: string[]): string[] {
         if (this.inhand[player - 1] > 0) {
             return moves;
@@ -554,7 +744,7 @@ export class BaoGame extends GameBase {
                 return true;
             }
             const r = BaoGame.clone(this).processMove(mv);
-            return !r.illegalEmptyFront;
+            return !r.illegalEmptyFront && !r.malawiLoneEndLoss;
         });
     }
 
@@ -616,6 +806,14 @@ export class BaoGame extends GameBase {
                     }
                 }
             }
+            caps = caps.filter((mv) => {
+                const start = mv.substring(0, 2);
+                const opposite = BaoGame.opposites.get(start);
+                if (opposite === undefined) {
+                    return true;
+                }
+                return !this.captureOfOpponentKuuForbidden(player, opposite);
+            });
             // for each capture move, check to see if it includes "playing the house"
             for (const m of [...caps]) {
                 const cloned = BaoGame.clone(this);
@@ -658,9 +856,13 @@ export class BaoGame extends GameBase {
                                     staticCapture = true;
                                 }
                             }
-                            if (num < 16) {
+                            if (num < this.autoKutakataThreshold()) {
                                 const mv = `${cell}${dirMarker}`;
                                 if (staticCapture) {
+                                    const opposite = BaoGame.opposites.get(final);
+                                    if (opposite !== undefined && this.captureOfOpponentKuuForbidden(player, opposite)) {
+                                        continue;
+                                    }
                                     const cloned = BaoGame.clone(this);
                                     const result = cloned.processMove(mv);
                                     if (result.captured.cells.length > 0) {
@@ -686,11 +888,15 @@ export class BaoGame extends GameBase {
                 if (! ignoreBlocked) {
                     blocked = this.getBlocked(player);
                 }
+                const forcedKuu = this.malawiMustPlayUnmovedKuu(player);
                 // check every inner cell with 2+ seeds
                 for (let i = 0; i < 8; i++) {
                     if (this.board[myFront][i] >= 2) {
                         // make sure it's not blocked
                         const cell = this.graph.coords2algebraic(i, myFront);
+                        if (forcedKuu !== undefined && cell !== forcedKuu) {
+                            continue;
+                        }
                         if ( (blocked !== undefined) && (blocked === cell) ) {
                             continue;
                         }
@@ -969,6 +1175,7 @@ export class BaoGame extends GameBase {
         }
 
         this.results = [];
+        const mover = this.currplayer;
 
         // annotate initial move
         const cell = m.substring(0, 2);
@@ -1051,6 +1258,10 @@ export class BaoGame extends GameBase {
             this.instalose = true;
             this.winner = [this.currplayer === 1 ? 2 : 1];
         }
+        else if (results.malawiLoneEndLoss) {
+            this.instalose = true;
+            this.winner = [mover === 1 ? 2 : 1];
+        }
         // otherwise, check other possible results
         else {
             // captures and sowings
@@ -1089,6 +1300,16 @@ export class BaoGame extends GameBase {
                 if (! m.endsWith("**")) {
                     m += "*";
                 }
+            }
+        }
+
+        if (this.malawiRules() && !results.infinite && !results.malawiLoneEndLoss) {
+            const house = this.houses[mover - 1];
+            if (house === cell) {
+                if (this.kuuMoved === undefined) {
+                    this.kuuMoved = [false, false];
+                }
+                this.kuuMoved[mover - 1] = true;
             }
         }
 
@@ -1174,6 +1395,9 @@ export class BaoGame extends GameBase {
             inhand: [...this.inhand],
             blocked: [...this.blocked],
             deltas: [...this.deltas.map(l => [...l])],
+            ...(this.malawiRules() && this.kuuMoved !== undefined
+                ? { kuuMoved: [...this.kuuMoved] as [boolean, boolean] }
+                : {}),
         };
     }
 

@@ -6,6 +6,7 @@ import {
     IMoveOptions,
     IScores,
     IStatus,
+    IRenderOpts,
     IValidationResult,
     type ChatLogCollectContext,
     type ChatLogLine,
@@ -16,6 +17,7 @@ import {
     APRenderRep,
     AreaKey,
     AreaPieces,
+    AreaVolcanoStash,
     BoardBasic,
     Glyph,
     type PiecesAreaLabeledPiece,
@@ -34,6 +36,7 @@ import {
     activeColours,
     buildDrawPoolFromBoard,
     objectiveColourSizeForSeat,
+    organizePoolPieces,
     setupBlackSizeForSeat,
     type PoolPiece,
 } from "./agofmars/bag.js";
@@ -59,6 +62,20 @@ function glyphFor(colour: Colour, size: Size): Glyph {
     const i = RENDER_PALETTE_COLOURS.indexOf(colour);
     const paletteColour = colour === "BK" ? "#000" : i >= 0 ? i + 1 : 1;
     return { name: names[size - 1]!, colour: paletteColour };
+}
+
+/**
+ * Draw-bag `localStash` only — board, objectives, and pending-draw key stay on {@link legendKey} / upscaled glyphs.
+ */
+function bagLegendKey(colour: Colour, size: Size): string {
+    return `${colour}${size}d`;
+}
+
+function bagGlyphFor(colour: Colour, size: Size): Glyph {
+    const names = ["pyramid-up-small-3D", "pyramid-up-medium-3D", "pyramid-up-large-3D"];
+    const i = RENDER_PALETTE_COLOURS.indexOf(colour);
+    const paletteColour = colour === "BK" ? "#000" : i >= 0 ? i + 1 : 1;
+    return { name: names[size - 1]!, colour: paletteColour, opacity: 1 };
 }
 
 function legendKey(colour: Colour, size: Size): string {
@@ -108,6 +125,7 @@ export class AgofmarsGame extends GameBaseSequenced {
             "components>pyramids",
         ],
         flags: ["scores", "shared-pieces", "custom-buttons", "no-moves", "custom-randomization", "no-explore", "experimental"],
+        displays: [{ uid: "hide-bag-pool" }],
         variants: [
             { uid: "five-colour-plus3", group: "rules" },
             { uid: "five-colour-minus2", group: "rules" },
@@ -1073,12 +1091,15 @@ export class AgofmarsGame extends GameBaseSequenced {
     }
 
     /** Objective row for a seat's `pieces` area (pyramid + multiplier caption below). */
-    private objectiveAreaPieces(seat: number): [PiecesAreaLabeledPiece, ...PiecesAreaLabeledPiece[]] {
+    private objectiveAreaPieces(
+        seat: number,
+        viewer?: number,
+    ): [PiecesAreaLabeledPiece, ...PiecesAreaLabeledPiece[]] {
         const mults = this.multiplierLabels();
         const entries: PiecesAreaLabeledPiece[] = [];
         for (let col = 0; col < this.colourCount(); col++) {
             const colour = this.objectives[seat]![col]!;
-            const disp = this.displayColour(colour, seat, col);
+            const disp = this.displayColour(colour, seat, col, viewer);
             entries.push({
                 piece: legendKey(disp, this.objectiveDisplaySize(seat)),
                 text: mults[col],
@@ -1248,7 +1269,7 @@ export class AgofmarsGame extends GameBaseSequenced {
             throw new UserFacingError("VALIDATION_GENERAL", i18next.t("apgames:validation.agofmars.KO"));
         }
         this.board = after;
-        this.results.push({ type: "move", from, to });
+        this.results.push({ type: "move", from, to, who: this.currplayer });
     }
 
     private applyBoardSwap(a: string, b: string): void {
@@ -1613,6 +1634,7 @@ export class AgofmarsGame extends GameBaseSequenced {
                 where: placeCell,
                 what: piece[0],
                 count: piece[1],
+                who: this.currplayer,
             });
             this.endGameIfFull();
             if (!this.gameover) {
@@ -1675,7 +1697,12 @@ export class AgofmarsGame extends GameBaseSequenced {
             const pool = this.buildDrawPool();
             const drawn = shuffle([...pool])[0]! as PoolPiece;
             this.pendingDraw = [drawn[0], drawn[1]];
-            this.results.push({ type: "deckDraw", what: drawn[0], count: drawn[1] });
+            this.results.push({
+                type: "deckDraw",
+                what: drawn[0],
+                count: drawn[1],
+                who: this.currplayer,
+            });
             this.saveState();
             return this;
         }
@@ -2016,7 +2043,7 @@ export class AgofmarsGame extends GameBaseSequenced {
             return true;
         }
         if (r.type === "move" && r.from !== undefined && r.to !== undefined) {
-            this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.agofmars", {
+            this.pushSeatChatLine(lines, r.who ?? ctx.defaultSeat, "apresults:MOVE.agofmars", {
                 from: r.from,
                 to: r.to,
             });
@@ -2045,7 +2072,7 @@ export class AgofmarsGame extends GameBaseSequenced {
             return true;
         }
         if (r.type === "place" && r.where !== undefined && r.what !== undefined) {
-            this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.agofmars", {
+            this.pushSeatChatLine(lines, r.who ?? ctx.defaultSeat, "apresults:PLACE.agofmars", {
                 colour: r.what,
                 count: r.count ?? "",
                 where: r.where,
@@ -2053,7 +2080,7 @@ export class AgofmarsGame extends GameBaseSequenced {
             return true;
         }
         if (r.type === "deckDraw" && r.what !== undefined && r.count !== undefined) {
-            this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DECKDRAW.agofmars", {
+            this.pushSeatChatLine(lines, r.who ?? ctx.defaultSeat, "apresults:DECKDRAW.agofmars", {
                 colour: r.what,
                 count: r.count,
             });
@@ -2378,10 +2405,13 @@ export class AgofmarsGame extends GameBaseSequenced {
             return colour;
         }
         const v = viewer - 1;
-        if (v !== seat) {
-            return "BK";
-        }
         if (this.variants.includes("blind-agents")) {
+            if (v === seat) {
+                return "BK";
+            }
+            return colour;
+        }
+        if (v !== seat) {
             return "BK";
         }
         return colour;
@@ -2412,7 +2442,56 @@ export class AgofmarsGame extends GameBaseSequenced {
         };
     }
 
-    public render(): APRenderRep {
+    /** Volcano-style 3D stack column (`-` spacers + `bagLegendKey` entries, bottom to top). */
+    private renderBagStashHelper(stack: PoolPiece[]): string[] {
+        const ret: string[] = [];
+        for (let i = 0; i < stack.length; i++) {
+            const piece = stack[stack.length - i - 1]!;
+            for (let j = i; j < piece[1] - i - 1; j++) {
+                ret.push("-");
+            }
+            ret.push(bagLegendKey(piece[0], piece[1]));
+        }
+        return ret;
+    }
+
+    private addBagPoolLegend(legend: ILegendObj, pool: PoolPiece[]): void {
+        const seen = new Set<string>();
+        for (const [c, s] of pool) {
+            const key = bagLegendKey(c, s);
+            if (!seen.has(key)) {
+                seen.add(key);
+                legend[key] = bagGlyphFor(c, s);
+            }
+        }
+    }
+
+    private bagPoolArea(pool: PoolPiece[]): AreaVolcanoStash {
+        const org = organizePoolPieces(pool);
+        const stash: string[][] = [];
+        for (const stack of [
+            ...org.triosMono,
+            ...org.triosMixed,
+            ...org.partialsMono,
+            ...org.partialsMixed,
+        ]) {
+            stash.push(this.renderBagStashHelper(stack));
+        }
+        for (const piece of org.miscellaneous) {
+            stash.push(this.renderBagStashHelper([piece]));
+        }
+        const w = this.boardWidth();
+        return {
+            type: "localStash",
+            label: this.neutralAreaLabel("apgames:status.agofmars.bagPool"),
+            spacing: 0.2,
+            ...(w < 6 ? { width: 6 } : {}),
+            stash,
+        } as AreaVolcanoStash;
+    }
+
+    public render(opts?: IRenderOpts): APRenderRep {
+        const viewer = opts?.perspective;
         const legend: ILegendObj = {};
         for (const c of [...activeColours(this.variants), "BK" as Colour]) {
             for (let s = 1 as Size; s <= 3; s++) {
@@ -2427,7 +2506,7 @@ export class AgofmarsGame extends GameBaseSequenced {
             for (let col = 0; col < w; col++) {
                 const colour = this.objectives[seat]![col];
                 if (colour !== undefined) {
-                    const disp = this.displayColour(colour, seat, col);
+                    const disp = this.displayColour(colour, seat, col, viewer);
                     const sz = disp === "BK" ? this.setupBlackSize(seat) : this.setupColourSize(seat);
                     row.push(legendKey(disp, sz));
                 } else {
@@ -2474,12 +2553,12 @@ export class AgofmarsGame extends GameBaseSequenced {
             pieceRows.push(row.join(","));
         }
 
-        const areas: (AreaPieces | AreaKey)[] = [];
+        const areas: (AreaPieces | AreaVolcanoStash | AreaKey)[] = [];
         for (let seat = 0; seat < 2; seat++) {
             areas.push({
                 type: "pieces",
                 label: this.seatAreaLabel(seat + 1, "apgames:status._player"),
-                pieces: this.objectiveAreaPieces(seat),
+                pieces: this.objectiveAreaPieces(seat, viewer),
             });
         }
 
@@ -2493,6 +2572,14 @@ export class AgofmarsGame extends GameBaseSequenced {
                 clickable: false,
             };
             areas.unshift(key);
+        }
+
+        if (!this.hasDisplay(opts, "hide-bag-pool")) {
+            const pool = this.buildDrawPool();
+            if (pool.length > 0) {
+                this.addBagPoolLegend(legend, pool);
+                areas.push(this.bagPoolArea(pool));
+            }
         }
 
         const annotations: NonNullable<APRenderRep["annotations"]> = [];

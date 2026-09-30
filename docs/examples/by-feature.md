@@ -68,3 +68,5 @@ Cross-index of helpers and modules to games that import them. Auto-generated fro
 | `unbounded-square-board` | [Trax](https://play.abstractplay.com/games/trax) |
 | `x2uid` | [Four](https://play.abstractplay.com/games/four), [Storisende](https://play.abstractplay.com/games/storisende) |
 | Player-named pieces areas | [Streetcar Suburb](https://play.abstractplay.com/games/streetcar), [Volcano](https://play.abstractplay.com/games/volcano), [Deckfish](https://play.abstractplay.com/games/deckfish), [Magnate](https://play.abstractplay.com/games/magnate), [Even at Odds](https://play.abstractplay.com/games/evenatodds) |
+| Grouped pyramid `localStash` (bag / captures) | [Volcano](https://play.abstractplay.com/games/volcano), [Agents of M.A.R.S.](https://play.abstractplay.com/games/agofmars), [Ice Palace](https://play.abstractplay.com/games/icepalace) |
+| Alternative display hides board region | [Agents of M.A.R.S.](https://play.abstractplay.com/games/agofmars) (`hide-bag-pool`) |

@@ -6,6 +6,7 @@ import {
     IMoveOptions,
     IScores,
     IStatus,
+    IRenderOpts,
     IValidationResult,
     type ChatLogCollectContext,
     type ChatLogLine,
@@ -16,6 +17,7 @@ import {
     APRenderRep,
     AreaKey,
     AreaPieces,
+    AreaVolcanoStash,
     BoardBasic,
     Glyph,
     type PiecesAreaLabeledPiece,
@@ -34,6 +36,7 @@ import {
     activeColours,
     buildDrawPoolFromBoard,
     objectiveColourSizeForSeat,
+    organizePoolPieces,
     setupBlackSizeForSeat,
     type PoolPiece,
 } from "./agofmars/bag.js";
@@ -108,6 +111,7 @@ export class AgofmarsGame extends GameBaseSequenced {
             "components>pyramids",
         ],
         flags: ["scores", "shared-pieces", "custom-buttons", "no-moves", "custom-randomization", "no-explore", "experimental"],
+        displays: [{ uid: "hide-bag-pool" }],
         variants: [
             { uid: "five-colour-plus3", group: "rules" },
             { uid: "five-colour-minus2", group: "rules" },
@@ -2418,7 +2422,40 @@ export class AgofmarsGame extends GameBaseSequenced {
         };
     }
 
-    public render(): APRenderRep {
+    private poolStackToStashRow(stack: PoolPiece[]): string[] {
+        const ret: string[] = [];
+        for (let i = 0; i < stack.length; i++) {
+            const piece = stack[stack.length - i - 1]!;
+            for (let j = i; j < piece[1] - i - 1; j++) {
+                ret.push("-");
+            }
+            ret.push(legendKey(piece[0], piece[1]));
+        }
+        return ret;
+    }
+
+    private bagPoolArea(pool: PoolPiece[]): AreaVolcanoStash {
+        const org = organizePoolPieces(pool);
+        const stash: string[][] = [];
+        for (const stack of [
+            ...org.triosMono,
+            ...org.triosMixed,
+            ...org.partialsMono,
+            ...org.partialsMixed,
+        ]) {
+            stash.push(this.poolStackToStashRow(stack));
+        }
+        for (const piece of org.miscellaneous) {
+            stash.push(this.poolStackToStashRow([piece]));
+        }
+        return {
+            type: "localStash",
+            label: this.neutralAreaLabel("apgames:status.agofmars.bagPool"),
+            stash,
+        };
+    }
+
+    public render(opts?: IRenderOpts): APRenderRep {
         const legend: ILegendObj = {};
         for (const c of [...activeColours(this.variants), "BK" as Colour]) {
             for (let s = 1 as Size; s <= 3; s++) {
@@ -2480,7 +2517,7 @@ export class AgofmarsGame extends GameBaseSequenced {
             pieceRows.push(row.join(","));
         }
 
-        const areas: (AreaPieces | AreaKey)[] = [];
+        const areas: (AreaPieces | AreaKey | AreaVolcanoStash)[] = [];
         for (let seat = 0; seat < 2; seat++) {
             areas.push({
                 type: "pieces",
@@ -2499,6 +2536,13 @@ export class AgofmarsGame extends GameBaseSequenced {
                 clickable: false,
             };
             areas.unshift(key);
+        }
+
+        if (!this.hasDisplay(opts, "hide-bag-pool")) {
+            const pool = this.buildDrawPool();
+            if (pool.length > 0) {
+                areas.push(this.bagPoolArea(pool));
+            }
         }
 
         const annotations: NonNullable<APRenderRep["annotations"]> = [];

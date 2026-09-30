@@ -122,3 +122,110 @@ export function buildDrawPoolFromBoard(
 
 /** @deprecated Use {@link subtractSetupPyramids}. */
 export const subtractObjectivePyramids = subtractSetupPyramids;
+
+export interface OrganizedPoolPieces {
+    triosMono: PoolPiece[][];
+    partialsMono: PoolPiece[][];
+    triosMixed: PoolPiece[][];
+    partialsMixed: PoolPiece[][];
+    miscellaneous: PoolPiece[];
+}
+
+/** Group loose pool pyramids into stacks (mono trios first), like Volcano captured-piece areas. */
+export function organizePoolPieces(pool: PoolPiece[]): OrganizedPoolPieces {
+    const org: OrganizedPoolPieces = {
+        triosMono: [],
+        partialsMono: [],
+        triosMixed: [],
+        partialsMixed: [],
+        miscellaneous: [],
+    };
+
+    const pile = [...pool];
+    const stacks: PoolPiece[][] = [];
+
+    const lgs = pile.filter(x => x[1] === 3);
+    const mds = pile.filter(x => x[1] === 2);
+    const sms = pile.filter(x => x[1] === 1);
+
+    while (lgs.length > 0) {
+        const stack: PoolPiece[] = [];
+        const next = lgs.pop()!;
+        stack.push(next);
+        const mdIdx = mds.findIndex(x => x[0] === next[0]);
+        if (mdIdx >= 0) {
+            stack.push(mds[mdIdx]!);
+            mds.splice(mdIdx, 1);
+            const smIdx = sms.findIndex(x => x[0] === next[0]);
+            if (smIdx >= 0) {
+                stack.push(sms[smIdx]!);
+                sms.splice(smIdx, 1);
+            }
+        }
+        stacks.push(stack);
+    }
+    for (const stack of stacks) {
+        if (stack.length === 1) {
+            const mdIdx = mds.findIndex(x => x[1] === 2);
+            if (mdIdx >= 0) {
+                stack.push(mds[mdIdx]!);
+                mds.splice(mdIdx, 1);
+            }
+        }
+    }
+    for (const stack of stacks) {
+        if (stack.length === 2) {
+            const smIdx = sms.findIndex(x => x[1] === 1);
+            if (smIdx >= 0) {
+                stack.push(sms[smIdx]!);
+                sms.splice(smIdx, 1);
+            }
+        }
+    }
+    while (mds.length > 0) {
+        const stack: PoolPiece[] = [];
+        const next = mds.pop()!;
+        stack.push(next);
+        const smIdx = sms.findIndex(x => x[0] === next[0]);
+        if (smIdx >= 0) {
+            stack.push(sms[smIdx]!);
+            sms.splice(smIdx, 1);
+        }
+        stacks.push(stack);
+    }
+    for (const stack of stacks) {
+        if (stack.length === 1 && stack[0]![1] === 2) {
+            const smIdx = sms.findIndex(x => x[1] === 1);
+            if (smIdx >= 0) {
+                stack.push(sms[smIdx]!);
+                sms.splice(smIdx, 1);
+            }
+        }
+    }
+    stacks.push(...sms.map(x => [x]));
+
+    const pieces = stacks.reduce<PoolPiece[]>((acc, stack) => acc.concat(stack), []);
+    if (pieces.length !== pool.length) {
+        throw new Error("Pool stack lengths don't match.");
+    }
+
+    for (const stack of stacks) {
+        if (stack.length === 3) {
+            if (new Set(stack.map(c => c[0])).size === 1) {
+                org.triosMono.push(stack);
+            } else {
+                org.triosMixed.push(stack);
+            }
+        } else if (stack.length === 2) {
+            if (new Set(stack.map(c => c[0])).size === 1) {
+                org.partialsMono.push(stack);
+            } else {
+                org.partialsMixed.push(stack);
+            }
+        } else {
+            org.miscellaneous.push(...stack);
+        }
+    }
+
+    return org;
+}

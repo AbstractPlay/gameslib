@@ -306,6 +306,7 @@
     "unlur_foul": "La partida ha terminado porque un jugador alcanzó la condición de victoria del oponente sin haber alcanzado la suya.",
     "druid_hex": "La partida ha terminado porque {{player}} conectó los bordes {{edges}}.",
     "killallgo_double_pass": "La partida ha terminado porque ambos jugadores pasaron consecutivamente sin que el Defensor estableciera vida incondicional.",
+    "killallgo_no_moves": "La partida ha terminado porque el jugador en turno no tiene ninguna colocación legal.",
     "killallgo_no_room": "La partida ha terminado porque las piedras vivas incondicionalmente del Atacante no le dejan espacio al Defensor para formar una cadena viva incondicionalmente.",
     "killallgo_pass_alive": "La partida ha terminado porque el Defensor formó una cadena incondicionalmente viva."
   },

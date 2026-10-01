@@ -1003,6 +1003,33 @@ describe("Kill-All Go", () => {
             }
         });
 
+        it("makes a player with no legal placement lose", () => {
+            // No sequence of moves is known to leave a player without a legal placement before the
+            // life-and-death check ends the game, so the superko history is written directly: every
+            // position the Defender could create after the Attacker's b9 has already occurred.
+            const g = play(attackerIsPlayerOne(), ["e5", "a9", "e6"]);
+            const geo = makeGeometry(9);
+            const state = g.state();
+            const last = state.stack[state.stack.length - 1];
+            const after = new Map(last.board);
+            after.set("b9", RED);
+            const visited = geo.cells
+                .filter((cell) => !after.has(cell))
+                .map((cell) => ({ ...last, board: new Map(after).set(cell, BLUE), _results: [] }));
+            state.stack.splice(state.stack.length - 1, 0, ...visited);
+            const restored = new KillAllGoGame(state);
+            expect(restored.currplayer).to.equal(1);
+            expect(restored.moves()).to.include("b9");
+            restored.move("b9");
+            expect(restored.gameover).to.be.true;
+            expect(restored.winner).to.deep.equal([1]);
+            expect(restored.stack[restored.stack.length - 1]._results).to.deep.include({ type: "eog", reason: "no-moves" });
+            expect(restored.moves()).to.deep.equal([]);
+            const keys = restored.chatLogEntries(["Alice", "Bob"]).flatMap((e) => e.lines.map((l) => l.textKey));
+            expect(keys).to.include("apresults:EOG.killallgo_no_moves");
+            expect(restored.chatLog(["Alice", "Bob"]).flat().join("\n")).to.include("no legal placement");
+        });
+
         it("forbids recreating an earlier position (positional superko)", () => {
             const g = attackerIsPlayerOne();
             // Blue: c5, b4, c3 around c4; Red: d5, e4, d3 around d4; Red throws in at c4, Blue captures with d4.

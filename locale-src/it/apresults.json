@@ -1000,12 +1000,16 @@
     "out": "{{player}} ha vinto per connessione diretta."
   },
   "EOG.killallgo_double_pass": {
-    "src": "The game has ended because both players passed without the Defender establishing life.",
-    "out": "La partita è terminata perché entrambi i giocatori hanno passato senza che il Difensore abbia stabilito la vita."
+    "src": "The game has ended because both players passed consecutively without the Defender establishing unconditional life.",
+    "out": "La partita è terminata perché entrambi i giocatori hanno passato consecutivamente senza che il Difensore abbia stabilito una vita incondizionata."
+  },
+  "EOG.killallgo_no_moves": {
+    "src": "The game has ended because the player to move has no legal placement.",
+    "out": "La partita è terminata perché il giocatore di turno non ha alcun piazzamento legale."
   },
   "EOG.killallgo_no_room": {
-    "src": "The game has ended because the Attacker's unconditionally alive stones leave the Defender no room to make a living string.",
-    "out": "La partita è terminata perché le pietre incondizionatamente vive dell'Attaccante non lasciano spazio al Difensore per formare una catena viva."
+    "src": "The game has ended because the Attacker's unconditionally alive stones leave the Defender no room to form an unconditionally alive string.",
+    "out": "La partita è terminata perché le pietre incondizionatamente vive dell'Attaccante non lasciano spazio al Difensore per formare una catena incondizionatamente viva."
   },
   "EOG.killallgo_pass_alive": {
     "src": "The game has ended because the Defender formed an unconditionally alive string.",

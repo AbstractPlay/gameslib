@@ -20,6 +20,20 @@ const attackerIsPlayerOne = (variants: string[] = ["size-9"]): KillAllGoGame => 
     return g;
 };
 
+/** Which legend key the rendered board puts on a cell. */
+const keyAt = (g: KillAllGoGame, cell: string): string => {
+    const rows = (g.render().pieces as string).split("\n");
+    const [x, y] = g.algebraic2coords(cell);
+    return rows[y] === "_" ? "-" : rows[y].split(",")[x];
+};
+
+/** The cells the rendered board marks with an `enter` annotation. */
+const entered = (g: KillAllGoGame): string[] =>
+    (g.render().annotations ?? [])
+        .filter((a) => a.type === "enter")
+        .flatMap((a) => (a as { targets: Array<{ row: number; col: number }> }).targets)
+        .map(({ row, col }) => g.coords2algebraic(col, row));
+
 // `X` = Blue (the colour under test), `O` = Red, `.` = empty; the first row is the top of the board.
 const boardFrom = (rows: string[]): Board => {
     const size = rows.length;
@@ -318,6 +332,13 @@ describe("Kill-All Go", () => {
             expect(handicap?.people?.some((p) => p.name === "MXHero")).to.be.true;
         });
 
+        it("preselects the 13x13 board", () => {
+            const boards = (KillAllGoGame.gameinfo.variants ?? []).filter((v) => v.group === "board");
+            expect(boards.filter((v) => v.default === true).map((v) => v.uid)).to.deep.equal(["size-13"]);
+            // Games created without a board variant are still 19x19.
+            expect(new KillAllGoGame(undefined, []).render().board).to.deep.include({ width: 19, height: 19 });
+        });
+
         it("is experimental and cannot be rated with a handicap", () => {
             const flags = KillAllGoGame.gameinfo.flags ?? [];
             expect(flags).to.include("experimental");
@@ -328,6 +349,16 @@ describe("Kill-All Go", () => {
             for (const v of variants.filter((x) => x.uid !== "handicap")) {
                 expect(v.unrated, v.uid).to.not.equal(true);
             }
+        });
+
+        it("marks every opening, Pieboxing included, as a community variant", () => {
+            const openings = (KillAllGoGame.gameinfo.variants ?? []).filter((v) => v.group === "opening" || v.uid === "#opening");
+            expect(openings.map((v) => v.uid)).to.have.members(["#opening", "handicap", "classic", "pie", "hoctaph"]);
+            for (const v of openings) {
+                expect(v.fans, v.uid).to.be.true;
+            }
+            const pieboxing = new KillAllGoGame(undefined, []).allvariants()?.find((v) => v.uid === "#opening");
+            expect(pieboxing?.fans).to.be.true;
         });
     });
 
@@ -399,8 +430,8 @@ describe("Kill-All Go", () => {
             expect(g.getPlayerColour(1)).to.equal(2);
             expect(g.getPlayerColour(2)).to.equal(1);
             const moves = g.moves();
-            expect(moves).to.include("pass");
-            expect(moves.filter((m) => m !== "pass")).to.have.length(361 - 17);
+            expect(moves).to.not.include("pass");
+            expect(moves).to.have.length(361 - 17);
         });
 
         it("is only available on the 19x19 board", () => {
@@ -509,6 +540,63 @@ describe("Kill-All Go", () => {
             expect(g.setup).to.deep.equal({ handicap: 3 });
             expect(g.getPlies().map((p) => p.actor)).to.deep.equal([1, 2, 1]);
         });
+
+        describe("the on-board handicap picker", () => {
+            it("lays 1 to 18 out in two centred rows, odd values above the centre point and even ones below", () => {
+                const g = new KillAllGoGame(undefined, ["size-9", "handicap"]);
+                // Nine columns span the whole 9x9 board; each column holds a consecutive pair.
+                "abcdefghi".split("").forEach((col, i) => {
+                    expect(keyAt(g, `${col}6`), `${col}6`).to.equal(`n${2 * i + 1}`);
+                    expect(keyAt(g, `${col}4`), `${col}4`).to.equal(`n${2 * i + 2}`);
+                });
+                // The centre row between them stays empty, and there is no label stone.
+                for (const cell of ["a5", "e5", "i5", "e7", "e3"]) {
+                    expect(keyAt(g, cell), cell).to.equal("-");
+                }
+                expect(Object.keys(g.render().legend!).filter((k) => k.startsWith("l"))).to.deep.equal([]);
+                expect(entered(g)).to.deep.equal([]);
+            });
+
+            it("centres the same 1 to 18 on every board and still accepts larger typed handicaps", () => {
+                // [variants, cells of 1 and 2, cells of 17 and 18, floor(p/2)]
+                const cases: Array<[string[], string[], string[], number]> = [
+                    [["size-9"], ["a6", "a4"], ["i6", "i4"], 40],
+                    [["size-13"], ["c8", "c6"], ["k8", "k6"], 84],
+                    [[], ["f11", "f9"], ["n11", "n9"], 180],
+                ];
+                for (const [variants, first, last, max] of cases) {
+                    const g = new KillAllGoGame(undefined, [...variants, "handicap"]);
+                    expect([...first, ...last].map((cell) => keyAt(g, cell)), `${max}`).to.deep.equal(["n1", "n2", "n17", "n18"]);
+                    const numbered = (g.render().pieces as string).split(/[,\n]/).filter((k) => /^n\d+$/.test(k));
+                    expect(numbered, `${max}`).to.have.length(18);
+                    expect(g.validateMove(`${max}`).valid, `accepts ${max}`).to.be.true;
+                }
+            });
+
+            it("sets the handicap by clicking and marks the choice", () => {
+                const g = new KillAllGoGame(undefined, ["size-9", "handicap"]);
+                const click = g.handleClick("", 3, 3);   // d6 = 7
+                expect(click.valid).to.be.true;
+                expect(click.move).to.equal("7");
+                expect(click.complete).to.equal(0);
+                expect(click.canrender).to.be.true;
+                // Another click replaces the choice.
+                expect(g.handleClick("7", 5, 2).move).to.equal("6");   // c4 = 6
+                g.move("7", { partial: true });
+                expect(entered(g)).to.deep.equal(["d6"]);
+            });
+
+            it("ignores clicks away from the numbered stones and goes away once the handicap is set", () => {
+                const g = new KillAllGoGame(undefined, ["size-9", "handicap"]);
+                const stray = g.handleClick("", 4, 4);   // e5, the centre point between the two rows
+                expect(stray.valid).to.be.false;
+                expect(stray.move).to.equal("");
+                expect(stray.message).to.equal(i18next.t("apgames:validation.killallgo.NOT_A_NUMBERED_STONE", { where: "e5" }));
+                g.move("7");
+                expect(g.phase).to.equal("alt-place");
+                expect(Object.keys(g.render().legend!)).to.deep.equal(["A", "B"]);
+            });
+        });
     });
 
     describe("simple pie", () => {
@@ -529,7 +617,11 @@ describe("Kill-All Go", () => {
         });
 
         it("lets Player 2 choose the Defender side by placing the first stone", () => {
-            const g = play(new KillAllGoGame(undefined, ["size-9", "pie"]), ["pass"]);
+            const g = new KillAllGoGame(undefined, ["size-9", "pie"]);
+            expect(g.validateMove("pass").valid).to.be.true;
+            expect(g.moves()).to.include("pass");
+            expect(g.getButtons()).to.deep.equal([{ label: "apgames:buttons.pass", move: "pass" }]);
+            g.move("pass");
             expect(g.board.size).to.equal(0);
             expect(g.phase).to.equal("pie-choose");
             expect(g.validateMove("defender").complete).to.equal(-1);
@@ -540,6 +632,9 @@ describe("Kill-All Go", () => {
             expect(g.board.get("e5")).to.equal(BLUE);
             expect(g.phase).to.equal("play");
             expect(g.currplayer).to.equal(1);
+            expect(g.validateMove("pass").valid).to.be.false;
+            expect(g.moves()).to.not.include("pass");
+            expect(g.getButtons()).to.deep.equal([]);
             expect(g.getPlies().map((p) => p.actor)).to.deep.equal([1, 2]);
         });
     });
@@ -555,6 +650,13 @@ describe("Kill-All Go", () => {
             expect(g.validateMove("2,3").valid).to.be.true;
             expect(g.validateMove("2,").valid).to.be.true;
             expect(g.validateMove("2,").complete).to.equal(-1);
+            // Each limit is explained only by its own error; the prompt itself leaves them out.
+            expect(g.validateMove("pass").message).to.equal(i18next.t("apgames:validation.killallgo.SLICE_FORMAT"));
+            expect(g.validateMove("0,1").message).to.equal(i18next.t("apgames:validation.killallgo.SLICE_MIN"));
+            expect(g.validateMove("40,40").message).to.equal(i18next.t("apgames:validation.killallgo.SLICE_SUM", { max: 79 }));
+            expect(g.validateMove("1,3").message).to.equal(i18next.t("apgames:validation.killallgo.SLICE_RATIO"));
+            expect(g.validateMove("").message).to.equal(i18next.t("apgames:validation.killallgo.INSTRUCTIONS_HOC_SLICE"));
+            expect(g.validateMove("").message).to.not.match(/\d/);
             g.move("2,3");
             expect(g.setup).to.deep.equal({ a: 2, b: 3 });
             expect(g.phase).to.equal("hoc-option");
@@ -617,54 +719,70 @@ describe("Kill-All Go", () => {
         });
 
         describe("the on-board batch-size picker", () => {
-            // Which legend key the rendered board puts on a cell.
-            const keyAt = (g: KillAllGoGame, cell: string): string => {
-                const rows = (g.render().pieces as string).split("\n");
-                const [x, y] = g.algebraic2coords(cell);
-                return rows[y] === "_" ? "-" : rows[y].split(",")[x];
-            };
             const slicing = (variants: string[], partial?: string): KillAllGoGame => {
                 const g = new KillAllGoGame(undefined, variants);
                 if (partial !== undefined) { g.move(partial, { partial: true }); }
                 return g;
             };
 
-            it("lays the values out in two three-wide blocks with labels above them", () => {
+            it("lays each batch out in a centred row of seven, the first above the centre point and the second below it", () => {
                 const g = slicing(["size-9", "hoctaph"]);
-                // 9x9 offers 1 to floor(81/12) = 6, reading order, one line in from each corner.
-                const first = ["b8", "c8", "d8", "b7", "c7", "d7"];
-                const second = ["f8", "g8", "h8", "f7", "g7", "h7"];
-                first.forEach((cell, i) => expect(keyAt(g, cell), cell).to.equal(`n${i + 1}`));
-                second.forEach((cell, i) => expect(keyAt(g, cell), cell).to.equal(`n${i + 1}`));
-                expect(keyAt(g, "c9")).to.equal("la");
-                expect(keyAt(g, "g9")).to.equal("lb");
-                // A gap of empty points around each block, and nothing below them.
-                for (const cell of ["a8", "e8", "i8", "b9", "b6", "e5"]) {
+                // 9x9 offers 1 to ceil(2 * 81 / 25) = 7 for each batch, leaving the edge columns empty.
+                "bcdefgh".split("").forEach((col, i) => {
+                    expect(keyAt(g, `${col}7`), `${col}7`).to.equal(`n${i + 1}`);
+                    expect(keyAt(g, `${col}3`), `${col}3`).to.equal(`n${i + 1}`);
+                });
+                // Nothing else is drawn: no label stones, three empty rows between the blocks, and empty edges.
+                for (const cell of ["e9", "e8", "a7", "i7", "e6", "e5", "e4", "a3", "i3", "e2", "e1"]) {
                     expect(keyAt(g, cell), cell).to.equal("-");
                 }
                 const legend = g.render().legend!;
-                expect(legend.n6).to.deep.equal([{ name: "piece", colour: 1 }, { text: "6", scale: 0.75, rotate: null }]);
-                expect(legend.la).to.deep.equal([{ name: "piece", colour: 1 }, { text: "a", scale: 0.75, rotate: null }]);
+                expect(Object.keys(legend).filter((k) => !/^(A|B|[nd]\d+)$/.test(k))).to.deep.equal([]);
+                expect(legend.n7).to.deep.equal([{ name: "piece", colour: 1 }, { text: "7", scale: 0.75, rotate: null }]);
             });
 
-            it("stops at floor(p/12) on every board size but still accepts larger typed sizes", () => {
-                for (const [variants, max] of [[["size-9"], 6], [["size-13"], 14], [[], 30]] as Array<[string[], number]>) {
-                    const g = slicing([...variants, "hoctaph"]);
-                    const rendered = (g.render().pieces as string);
-                    expect(rendered.includes(`n${max}`), `max ${max}`).to.be.true;
-                    expect(rendered.includes(`n${max + 1}`), `beyond ${max}`).to.be.false;
+            it("marks each chosen size", () => {
+                expect(entered(slicing(["size-9", "hoctaph"]))).to.deep.equal([]);
+                expect(entered(slicing(["size-9", "hoctaph"], "2"))).to.deep.equal(["c7"]);
+                expect(entered(slicing(["size-9", "hoctaph"], "2,3"))).to.deep.equal(["c7", "d3"]);
+                // A size entered beyond the picker has no stone to mark.
+                expect(entered(slicing(["size-9", "hoctaph"], "10,"))).to.deep.equal([]);
+            });
+
+            it("shows ceil(2p/25) values per batch but still accepts larger typed sizes", () => {
+                for (const [variants, max] of [[["size-9"], 7], [["size-13"], 14], [[], 29]] as Array<[string[], number]>) {
+                    const keys = (slicing([...variants, "hoctaph"]).render().pieces as string).split(/[,\n]/);
+                    expect(keys.filter((k) => k === `n${max}`), `max ${max}`).to.have.length(2);
+                    expect(keys.includes(`n${max + 1}`), `beyond ${max}`).to.be.false;
                 }
-                const big = slicing(["hoctaph"]);
-                expect(big.validateMove("40,35").valid).to.be.true;
+                expect(slicing(["hoctaph"]).validateMove("40,35").valid).to.be.true;
             });
 
-            it("picks the first batch on the left and the second on the right", () => {
+            it("snakes the values after a first row of nine back and forth away from the centre", () => {
+                // 13x13: 1 to 9 run c9 to k9; 10 and 11 go out along the right-hand column, then 12 to 14 run back leftward.
+                const mid = slicing(["size-13", "hoctaph"]);
+                const lap = ["n1", "n9", "n10", "n11", "n12", "n14", "-"];
+                expect(["c9", "k9", "k10", "k11", "j11", "h11", "g11"].map((cell) => keyAt(mid, cell))).to.deep.equal(lap);
+                expect(["c5", "k5", "k4", "k3", "j3", "h3", "g3"].map((cell) => keyAt(mid, cell))).to.deep.equal(lap);
+                // Three empty rows between the blocks, around the centre point, and empty edge rows.
+                expect(["c8", "g8", "k8", "c7", "g7", "k7", "c6", "g6", "k6", "k12", "k13", "k2", "k1"].every((cell) => keyAt(mid, cell) === "-")).to.be.true;
+                // 19x19: each snake turns on the right for 10 and 11, then on the left for 20 and 21, ending at 29.
+                const big = slicing(["hoctaph"]);
+                const laps = ["n1", "n9", "n10", "n11", "n19", "n20", "n21", "n29", "-", "-"];
+                expect(["f12", "n12", "n13", "n14", "f14", "f15", "f16", "n16", "e16", "o16"].map((cell) => keyAt(big, cell))).to.deep.equal(laps);
+                expect(["f8", "n8", "n7", "n6", "f6", "f5", "f4", "n4", "e4", "o4"].map((cell) => keyAt(big, cell))).to.deep.equal(laps);
+                // Three empty rows between the blocks, around the centre point, and nothing beyond them.
+                expect(["f11", "j11", "n11", "f10", "j10", "n10", "f9", "j9", "n9"].every((cell) => keyAt(big, cell) === "-")).to.be.true;
+                expect(["j17", "j18", "j19", "j3", "j2", "j1"].every((cell) => keyAt(big, cell) === "-")).to.be.true;
+            });
+
+            it("picks the first batch above the centre point and the second below it", () => {
                 const g = slicing(["size-9", "hoctaph"]);
-                const first = g.handleClick("", 1, 1);          // b8 = first batch, 1
+                const first = g.handleClick("", 2, 1);          // b7 = first batch, 1
                 expect(first.valid).to.be.true;
                 expect(first.move).to.equal("1");
                 expect(first.complete).to.equal(-1);
-                const second = g.handleClick(first.move, 1, 6); // g8 = second batch, 2
+                const second = g.handleClick(first.move, 6, 2); // c3 = second batch, 2
                 expect(second.move).to.equal("1,2");
                 expect(second.complete).to.equal(0);
                 g.move("1,2");
@@ -676,10 +794,10 @@ describe("Kill-All Go", () => {
                 const g = slicing(["size-9", "hoctaph"], "1");
                 expect(g.setup).to.deep.equal({ a: 1, b: undefined });
                 // With a first batch of 1, a second batch may only be 1 or 2.
-                expect(keyAt(g, "f8")).to.equal("n1");
-                expect(keyAt(g, "g8")).to.equal("n2");
-                expect(keyAt(g, "h8")).to.equal("d3");
-                expect(keyAt(g, "d7")).to.equal("n6");
+                expect(keyAt(g, "b3")).to.equal("n1");
+                expect(keyAt(g, "c3")).to.equal("n2");
+                expect(keyAt(g, "d3")).to.equal("d3");
+                expect(keyAt(g, "h7")).to.equal("n7");
                 const legend = g.render().legend!;
                 expect(legend.d3).to.deep.equal([
                     { name: "piece", colour: 1, opacity: 0.5 },
@@ -689,22 +807,28 @@ describe("Kill-All Go", () => {
 
             it("lets a shaded value be picked, dropping the choice that forbade it", () => {
                 const g = slicing(["size-9", "hoctaph"], "1");
-                const click = g.handleClick("1", 1, 7);   // h8 = second batch, 3, shaded while the first is 1
+                const click = g.handleClick("1", 6, 3);   // d3 = second batch, 3, shaded while the first is 1
                 expect(click.valid).to.be.true;
                 expect(click.move).to.equal(",3");
                 const after = slicing(["size-9", "hoctaph"], ",3");
                 expect(after.setup).to.deep.equal({ a: undefined, b: 3 });
                 // A second batch of 3 now forbids a first batch of 1.
-                expect(keyAt(after, "b8")).to.equal("d1");
-                expect(keyAt(after, "c8")).to.equal("n2");
-                expect(after.handleClick(",3", 1, 2).move).to.equal("2,3");
+                expect(keyAt(after, "b7")).to.equal("d1");
+                expect(keyAt(after, "c7")).to.equal("n2");
+                expect(after.handleClick(",3", 2, 2).move).to.equal("2,3");
             });
 
             it("ignores clicks away from the blocks and shows the picker only while slicing", () => {
                 const g = slicing(["size-9", "hoctaph"]);
-                const stray = g.handleClick("", 4, 4);
+                const stray = g.handleClick("", 4, 4);   // e5, the centre point between the two blocks
                 expect(stray.valid).to.be.false;
                 expect(stray.move).to.equal("");
+                // Like other games' invalid clicks, the warning just names the point, without repeating the prompt.
+                expect(stray.message).to.equal(i18next.t("apgames:validation.killallgo.NOT_A_NUMBERED_STONE", { where: "e5" }));
+                const beyond = g.handleClick("2", 1, 4);   // e8, an empty point beyond the first batch
+                expect(beyond.valid).to.be.false;
+                expect(beyond.move).to.equal("2");
+                expect(beyond.message).to.equal(i18next.t("apgames:validation.killallgo.NOT_A_NUMBERED_STONE", { where: "e8" }));
                 const later = play(new KillAllGoGame(undefined, ["size-9", "hoctaph"]), ["2,3"]);
                 expect(later.phase).to.equal("hoc-option");
                 expect((later.render().pieces as string).includes("n1")).to.be.false;
@@ -747,7 +871,7 @@ describe("Kill-All Go", () => {
                     ["2,3", "youplace", "a1,b1"],
                     [{ label: "apgames:buttons.killallgo.defender", move: "defender" }],
                 ],
-                [["classic"], [], [{ label: "apgames:buttons.pass", move: "pass" }]],
+                [["classic"], [], []],
             ];
             for (const [variants, moves, buttons] of cases) {
                 const g = play(new KillAllGoGame(undefined, variants), moves);
@@ -840,7 +964,7 @@ describe("Kill-All Go", () => {
 
         it("ends at once when a Defender string becomes pass-alive", () => {
             const g = attackerIsPlayerOne();
-            play(g, ["a2", "pass", "b2", "pass", "c2", "pass", "d2", "pass", "d1", "pass"]);
+            play(g, ["a2", "i9", "b2", "h9", "c2", "g9", "d2", "f9", "d1", "e9"]);
             expect(g.gameover).to.be.false;
             g.move("b1");
             expect(g.gameover).to.be.true;
@@ -860,25 +984,50 @@ describe("Kill-All Go", () => {
             expect(g.validateMove("claim:e5").valid).to.be.false;
             expect(g.validateMove("claim").valid).to.be.false;
             expect(g.handleClick("", 4, 4).move).to.equal("");
-            expect(g.moves().filter((m) => m !== "pass").every((m) => /^[a-z]+\d+$/.test(m))).to.be.true;
+            expect(g.moves().every((m) => /^[a-z]+\d+$/.test(m))).to.be.true;
         });
 
-        it("ends with an Attacker win after two consecutive passes", () => {
+        it("rejects normal-play passes for both sides without changing the game", () => {
             const g = attackerIsPlayerOne();
-            play(g, ["e5", "a9", "pass"]);
-            expect(g.gameover).to.be.false;
-            expect(g.validateMove("pass").message).to.not.equal("");
-            g.move("pass");
-            expect(g.gameover).to.be.true;
-            expect(g.winner).to.deep.equal([1]);
-            expect(g.stack[g.stack.length - 1]._results).to.deep.include({ type: "eog", reason: "double-pass" });
+            for (const placement of ["e5", "a9"]) {
+                const before = g.serialize();
+                expect(g.validateMove("pass").valid).to.be.false;
+                expect(g.validateMove("pass").message).to.equal(i18next.t("apgames:validation.killallgo.INVALID_PASS"));
+                expect(g.moves()).to.not.include("pass");
+                expect(g.getButtons()).to.deep.equal([]);
+                expect(() => g.move("pass")).to.throw();
+                expect(() => g.move("pass", { partial: true })).to.throw();
+                expect(g.serialize()).to.equal(before);
+                g.move(placement);
+                expect(g.gameover).to.be.false;
+            }
         });
 
-        it("does not treat a pass followed by a stone as consecutive passes", () => {
-            const g = attackerIsPlayerOne();
-            play(g, ["e5", "pass", "e6", "pass"]);
-            expect(g.gameover).to.be.false;
-            expect(g.currplayer).to.equal(2);
+        it("makes a player with no legal placement lose", () => {
+            // No sequence of moves is known to leave a player without a legal placement before the
+            // life-and-death check ends the game, so the superko history is written directly: every
+            // position the Defender could create after the Attacker's b9 has already occurred.
+            const g = play(attackerIsPlayerOne(), ["e5", "a9", "e6"]);
+            const geo = makeGeometry(9);
+            const state = g.state();
+            const last = state.stack[state.stack.length - 1];
+            const after = new Map(last.board);
+            after.set("b9", RED);
+            const visited = geo.cells
+                .filter((cell) => !after.has(cell))
+                .map((cell) => ({ ...last, board: new Map(after).set(cell, BLUE), _results: [] }));
+            state.stack.splice(state.stack.length - 1, 0, ...visited);
+            const restored = new KillAllGoGame(state);
+            expect(restored.currplayer).to.equal(1);
+            expect(restored.moves()).to.include("b9");
+            restored.move("b9");
+            expect(restored.gameover).to.be.true;
+            expect(restored.winner).to.deep.equal([1]);
+            expect(restored.stack[restored.stack.length - 1]._results).to.deep.include({ type: "eog", reason: "no-moves" });
+            expect(restored.moves()).to.deep.equal([]);
+            const keys = restored.chatLogEntries(["Alice", "Bob"]).flatMap((e) => e.lines.map((l) => l.textKey));
+            expect(keys).to.include("apresults:EOG.killallgo_no_moves");
+            expect(restored.chatLog(["Alice", "Bob"]).flat().join("\n")).to.include("no legal placement");
         });
 
         it("forbids recreating an earlier position (positional superko)", () => {
@@ -917,10 +1066,8 @@ describe("Kill-All Go", () => {
             expect(g.moves()).to.include("c1");
         });
 
-        it("offers the pass button only while the board is in play", () => {
-            const g = attackerIsPlayerOne();
-            expect(g.getButtons()).to.deep.equal([{ label: "apgames:buttons.pass", move: "pass" }]);
-            play(g, ["e5", "a9", "pass", "pass"]);
+        it("offers no buttons once the game ends", () => {
+            const g = play(new KillAllGoGame(undefined, ["size-9", "pie"]), [rowsOf([8, 6, 4, 2]), "attacker"]);
             expect(g.gameover).to.be.true;
             expect(g.getButtons()).to.deep.equal([]);
         });
@@ -939,17 +1086,37 @@ describe("Kill-All Go", () => {
 
     describe("records and chat", () => {
         it("writes structured chat lines for the protocol actions", () => {
-            const g = play(new KillAllGoGame(undefined, ["size-9", "hoctaph"]), ["2,3", "iplace:a1,b1", "attacker:c1,d1,e1", "e5", "a9", "pass", "pass"]);
+            const g = play(new KillAllGoGame(undefined, ["size-9", "hoctaph"]), ["2,3", "iplace:a1,b1", "attacker:c1,d1,e1", "e5", "a9"]);
             const entries = g.chatLogEntries(["Alice", "Bob"]);
             const keys = entries.flatMap((e) => e.lines.map((l) => l.textKey));
             expect(keys).to.include("apresults:ANNOUNCE.killallgo_slice");
             expect(keys).to.include("apresults:SELECT.killallgo_iplace");
             expect(keys).to.include("apresults:CLAIM.killallgo_attacker");
             expect(keys).to.include("apresults:PLACE.killallgo_setup");
-            expect(keys).to.include("apresults:EOG.killallgo_double_pass");
             const text = g.chatLog(["Alice", "Bob"]).flat().join("\n");
             expect(text).to.include("Alice chose to play as the Attacker.");
             expect(text).to.include("Alice placed an Attacker stone at c1.");
+        });
+
+        it("still displays the result of an older game ended by consecutive passes", () => {
+            const g = play(attackerIsPlayerOne(), ["e5", "a9"]);
+            const state = g.state();
+            state.gameover = true;
+            state.winner = [1];
+            const last = g.moveState();
+            state.stack.push({ ...last, _version: "20260921", lastmove: "pass", currplayer: 1, _results: [{ type: "pass" }] });
+            state.stack.push({
+                ...last,
+                _version: "20260921",
+                lastmove: "pass",
+                _results: [{ type: "pass" }, { type: "eog", reason: "double-pass" }, { type: "winners", players: [1] }],
+            });
+            const restored = new KillAllGoGame(state);
+            expect(restored.gameover).to.be.true;
+            expect(restored.winner).to.deep.equal([1]);
+            const keys = restored.chatLogEntries(["Alice", "Bob"]).flatMap((e) => e.lines.map((l) => l.textKey));
+            expect(keys).to.include("apresults:EOG.killallgo_double_pass");
+            expect(restored.chatLog(["Alice", "Bob"]).flat().join("\n")).to.include("both players passed consecutively");
         });
 
         it("round-trips through serialization in every phase", () => {

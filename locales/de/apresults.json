@@ -305,8 +305,9 @@
     "tafl_king_escaped": "Das Spiel ist zu Ende, da der König entkommen ist.",
     "unlur_foul": "Das Spiel ist zu Ende, da ein Spieler die Siegbedingung des Gegners erfüllt hat, ohne seine eigene zu erreichen.",
     "druid_hex": "Das Spiel ist zu Ende, da {{player}} die {{edges}} Ränder verbunden hat.",
-    "killallgo_double_pass": "Das Spiel ist beendet, da beide Spieler gepasst haben, ohne dass der Verteidiger Leben herstellen konnte.",
-    "killallgo_no_room": "Das Spiel ist beendet, da die bedingungslos lebenden Steine des Angreifers dem Verteidiger keinen Platz lassen, eine lebende Kette zu bilden.",
+    "killallgo_double_pass": "Das Spiel ist beendet, da beide Spieler nacheinander gepasst haben, ohne dass der Verteidiger bedingungsloses Leben aufgebaut hat.",
+    "killallgo_no_moves": "Das Spiel ist beendet, da der Spieler am Zug keine gültige Platzierung mehr vornehmen kann.",
+    "killallgo_no_room": "Das Spiel ist beendet, da die bedingungslos lebenden Steine des Angreifers dem Verteidiger keinen Raum lassen, eine bedingungslos lebende Kette zu bilden.",
     "killallgo_pass_alive": "Das Spiel ist beendet, da der Verteidiger eine bedingungslos lebende Kette gebildet hat."
   },
   "DRUID_HEX_EDGE": {

@@ -369,16 +369,19 @@ interface ILegend {
     [key: string]: Glyph | [Glyph, ...Glyph[]];
 }
 
-/** One numbered stone of the on-board batch-size picker. */
-interface ISliceButton {
+/** One numbered stone of an on-board picker. */
+interface IPickerButton {
     cell: string;
     value: number;
 }
 
-interface ISliceLayout {
-    a: ISliceButton[];
-    b: ISliceButton[];
-    labels: [string, string];
+/** A picker as the current phase shows it. */
+interface IPicker {
+    buttons: IPickerButton[];
+    /** The value currently chosen in this picker, if any. */
+    chosen?: number;
+    /** Whether a value fits with what is chosen elsewhere. */
+    allowed: (value: number) => boolean;
 }
 
 export interface IMoveState extends IIndividualState {
@@ -435,10 +438,11 @@ export class KillAllGoGame extends GameBase {
         ],
         variants: [
             { uid: "size-9", group: "board" },
-            { uid: "size-13", group: "board" },
+            { uid: "size-13", group: "board", default: true },
             { uid: "#board" },
             {
                 uid: "#opening",
+                fans: true,
                 people: [
                     {
                         type: "designer",
@@ -460,7 +464,7 @@ export class KillAllGoGame extends GameBase {
                     },
                 ],
             },
-            { uid: "classic", group: "opening", enabledWhen: { board: ["#board"] } },
+            { uid: "classic", group: "opening", fans: true, enabledWhen: { board: ["#board"] } },
             { uid: "pie", group: "opening", fans: true },
             {
                 uid: "hoctaph",
@@ -481,7 +485,7 @@ export class KillAllGoGame extends GameBase {
                 ],
             },
         ],
-        categories: ["goal>annihilate", "mechanic>place", "mechanic>capture", "mechanic>enclose", "mechanic>asymmetry", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>cripple", "goal>arrange", "mechanic>place", "mechanic>capture", "mechanic>enclose", "mechanic>asymmetry", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["experimental", "custom-colours", "custom-buttons"],
         customizations: [
             {
@@ -687,32 +691,79 @@ export class KillAllGoGame extends GameBase {
     }
 
     /**
-     * The on-board picker offered during the Hoctaph slice: the values 1 to floor(p/12) laid out
-     * in two three-wide blocks, the first batch on the left and the second on the right, each one
-     * intersection in from its corner with a label stone above it. Larger sizes are still typed.
+     * The picker offered during the Hoctaph slice: the values 1 to ceil(2p/25) for each batch, the
+     * first batch above the centre point and the second mirrored below it, in a centred block nine
+     * wide (or as wide as the values, when there are fewer). 1 to 9 run left to right along the
+     * second row out from the centre point, leaving three empty rows between the blocks; from there
+     * the values snake away from the centre, two stones out along the end column and then back
+     * across the row, so 10 and 11 sit beyond 9, 12 to 19 run right to left from 11, 20 and 21 sit
+     * beyond 19, and so on. Larger sizes are still entered manually.
      */
-    private sliceLayout(): ISliceLayout | undefined {
-        const width = 3;
-        const max = Math.floor(this.points / 12);
-        const rows = Math.ceil(max / width);
-        if (max < 1 || rows + 1 > this.boardSize || this.boardSize < 2 * width + 3) {
-            return undefined;
-        }
-        const aCols = [1, 2, 3];
-        const bCols = [this.boardSize - 4, this.boardSize - 3, this.boardSize - 2];
-        const block = (cols: number[]): ISliceButton[] => {
-            const out: ISliceButton[] = [];
-            for (let value = 1; value <= max; value++) {
-                const idx = value - 1;
-                out.push({ cell: this.coords2algebraic(cols[idx % width], 1 + Math.floor(idx / width)), value });
+    private sliceLayout(): { a: IPickerButton[]; b: IPickerButton[] } {
+        const max = Math.ceil((2 * this.points) / 25);
+        const width = Math.min(9, max);
+        const centre = Math.floor(this.boardSize / 2);
+        const left = centre - Math.floor(width / 2);
+        /** Where a value goes, as [rows out from the centre, column across the block]. */
+        const place = (value: number): [number, number] => {
+            if (value <= width) {
+                return [2, value - 1];
             }
-            return out;
+            // Each lap after the first row is a stone on the end column plus a row running back.
+            const lap = Math.floor((value - width - 1) / (width + 1));
+            const step = (value - width - 1) % (width + 1);
+            const fromLeft = lap % 2 === 1;
+            if (step === 0) {
+                return [3 + 2 * lap, fromLeft ? 0 : width - 1];
+            }
+            return [4 + 2 * lap, fromLeft ? step - 1 : width - step];
         };
-        return {
-            a: block(aCols),
-            b: block(bCols),
-            labels: [this.coords2algebraic(aCols[1], 0), this.coords2algebraic(bCols[1], 0)],
+        const block = (direction: -1 | 1): IPickerButton[] => {
+            const buttons: IPickerButton[] = [];
+            for (let value = 1; value <= max; value++) {
+                const [out, col] = place(value);
+                buttons.push({ cell: this.coords2algebraic(left + col, centre + direction * out), value });
+            }
+            return buttons;
         };
+        return { a: block(-1), b: block(1) };
+    }
+
+    /**
+     * The picker offered while the handicap is set: the handicaps 1 to 18 in two centred rows of
+     * nine, the odd values on the row just above the centre point and the even values on the row
+     * just below it, so each column holds a consecutive pair. Larger handicaps are still entered
+     * manually.
+     */
+    private handicapLayout(): IPickerButton[] {
+        const centre = Math.floor(this.boardSize / 2);
+        const left = centre - 4;
+        const buttons: IPickerButton[] = [];
+        for (let value = 1; value <= Math.min(18, this.maxSetupStones()); value++) {
+            const row = value % 2 === 1 ? centre - 1 : centre + 1;
+            buttons.push({ cell: this.coords2algebraic(left + Math.floor((value - 1) / 2), row), value });
+        }
+        return buttons;
+    }
+
+    /** The on-board pickers of the current phase: the handicap, or the two Hoctaph batch sizes. */
+    private pickers(): IPicker[] {
+        if (this.gameover) {
+            return [];
+        }
+        if (this.phase === "hand-n") {
+            return [{ buttons: this.handicapLayout(), chosen: this.setup?.handicap, allowed: () => true }];
+        }
+        if (this.phase === "hoc-slice") {
+            const layout = this.sliceLayout();
+            const a = this.setup?.a;
+            const b = this.setup?.b;
+            return [
+                { buttons: layout.a, chosen: a, allowed: (v) => b === undefined || this.sliceAllowed(v, b) },
+                { buttons: layout.b, chosen: b, allowed: (v) => a === undefined || this.sliceAllowed(a, v) },
+            ];
+        }
+        return [];
     }
 
     /** The two batch sizes named by a complete or partial slice move. */
@@ -794,7 +845,6 @@ export class KillAllGoGame extends GameBase {
                 moves.push("defender");
                 break;
             case "play": {
-                moves.push("pass");
                 const colour = this.colourOfSeat(this.currplayer)!;
                 for (const cell of this.geo.cells) {
                     if (!this.board.has(cell) && this.simulate(this.board, cell, colour, seen) !== undefined) {
@@ -839,7 +889,6 @@ export class KillAllGoGame extends GameBase {
             case "hoc-choose":
                 return [{ label: "apgames:buttons.killallgo.defender", move: "defender" }];
             case "pie-slice":
-            case "play":
                 return [{ label: "apgames:buttons.pass", move: "pass" }];
             default:
                 return [];
@@ -851,11 +900,11 @@ export class KillAllGoGame extends GameBase {
             const cell = this.coords2algebraic(col, row);
             const newmove = this.clickCell(move, cell);
             if (newmove === undefined) {
-                const key = this.phase === "hoc-slice" ? "SLICE_NOT_A_BUTTON" : "NO_CLICKS_NOW";
+                // Only the two pickers ignore clicks, away from their numbered stones.
                 return {
                     move,
                     valid: false,
-                    message: i18next.t(`apgames:validation.killallgo.${key}`),
+                    message: i18next.t("apgames:validation.killallgo.NOT_A_NUMBERED_STONE", { where: cell }),
                 };
             }
             const result = this.validateMove(newmove) as IClickResult;
@@ -879,10 +928,9 @@ export class KillAllGoGame extends GameBase {
         };
         switch (this.phase) {
             case "hand-n":
-                return undefined;
+                return this.handicapLayout().find((btn) => btn.cell === cell)?.value.toString();
             case "hoc-slice": {
                 const layout = this.sliceLayout();
-                if (layout === undefined) { return undefined; }
                 const hit = layout.a.find((btn) => btn.cell === cell) ?? layout.b.find((btn) => btn.cell === cell);
                 if (hit === undefined) { return undefined; }
                 const first = layout.a.some((btn) => btn.cell === cell);
@@ -1017,7 +1065,7 @@ export class KillAllGoGame extends GameBase {
         if (n < 1 || n > max) {
             return this.fail(result, i18next.t("apgames:validation.killallgo.HANDICAP_RANGE", { max }));
         }
-        return this.ok(result, 0, i18next.t("apgames:validation.killallgo.HANDICAP_OK", { count: n }));
+        return this.ok(result, 0, i18next.t("apgames:validation.killallgo.HANDICAP_OK", { count: n }), true);
     }
 
     private validateAltPlace(m: string, result: IValidationResult): IValidationResult {
@@ -1089,14 +1137,14 @@ export class KillAllGoGame extends GameBase {
     private validateSlice(m: string, result: IValidationResult): IValidationResult {
         const max = this.points - 2;
         if (m.length === 0) {
-            return this.ok(result, -1, i18next.t("apgames:validation.killallgo.INSTRUCTIONS_HOC_SLICE", { max }), true);
+            return this.ok(result, -1, i18next.t("apgames:validation.killallgo.INSTRUCTIONS_HOC_SLICE"), true);
         }
         if (!/^\d*,?\d*$/.test(m)) {
             return this.fail(result, i18next.t("apgames:validation.killallgo.SLICE_FORMAT"));
         }
         const [a, b] = this.parseSlice(m);
         if (a === undefined && b === undefined) {
-            return this.ok(result, -1, i18next.t("apgames:validation.killallgo.INSTRUCTIONS_HOC_SLICE", { max }), true);
+            return this.ok(result, -1, i18next.t("apgames:validation.killallgo.INSTRUCTIONS_HOC_SLICE"), true);
         }
         if (b === undefined) {
             return this.ok(result, -1, i18next.t("apgames:validation.killallgo.SLICE_A_ONLY", { count: a }), true);
@@ -1179,10 +1227,7 @@ export class KillAllGoGame extends GameBase {
             return this.ok(result, -1, i18next.t(`apgames:validation.killallgo.${key}`));
         }
         if (m === "pass") {
-            if (colour === BLUE) {
-                return this.ok(result, 1, i18next.t("apgames:validation.killallgo.PASS_WARNING"));
-            }
-            return this.ok(result, 1, i18next.t("apgames:validation._general.VALID_MOVE"));
+            return this.fail(result, i18next.t("apgames:validation.killallgo.INVALID_PASS"));
         }
         return this.validatePlacement(m, colour, result);
     }
@@ -1322,26 +1367,18 @@ export class KillAllGoGame extends GameBase {
                 break;
             }
             case "play": {
-                if (m === "pass") {
-                    this.results.push({ type: "pass" });
-                    if (partial) { return this; }
-                    const previous = this.stack[this.stack.length - 1].lastmove;
-                    if (previous === "pass") {
-                        this.endGame(this.redSeat!, "double-pass");
-                    }
-                    this.currplayer = this.otherSeat(this.currplayer);
-                } else {
-                    const colour = this.colourOfSeat(this.currplayer)!;
-                    this.placeStone(m, colour, seen);
-                    if (partial) { return this; }
-                    this.currplayer = this.otherSeat(this.currplayer);
-                }
+                const colour = this.colourOfSeat(this.currplayer)!;
+                this.placeStone(m, colour, seen);
+                if (partial) { return this; }
+                this.currplayer = this.otherSeat(this.currplayer);
                 break;
             }
         }
 
-        // Every ply that leaves the board in play may have settled the game.
+        // Every ply that leaves the board in play may have settled the game, or left the next
+        // player without a legal placement.
         this.checkLifeAndDeath();
+        this.checkStalemate(seen);
 
         // The final position of the ply is the saved board; keep only the intermediate ones.
         this.interim.pop();
@@ -1397,9 +1434,9 @@ export class KillAllGoGame extends GameBase {
 
     /**
      * The Defender wins once a Blue string is pass-alive. The Attacker wins once that can never
-     * happen: the Attacker's pass-alive stones are permanent (the Defender cannot remove them,
-     * and the Attacker can keep them by passing), and they leave no room for two eyes. The two
-     * outcomes cannot coincide, because a pass-alive Blue string always has that room.
+     * happen: the Attacker's pass-alive stones cannot be captured by the Defender, and they leave
+     * no room for two eyes. The two outcomes cannot coincide, because a pass-alive Blue string
+     * always has that room.
      */
     private checkLifeAndDeath(): void {
         if (this.gameover || this.phase !== "play") {
@@ -1414,6 +1451,21 @@ export class KillAllGoGame extends GameBase {
         if (!roomForTwoEyes(this.geo, new Set(permanent))) {
             this.endGame(this.redSeat!, "no-room", permanent);
         }
+    }
+
+    /**
+     * Passing is not allowed during play, so a player with no legal placement loses. Short of a
+     * superko repetition, that cannot happen before the life-and-death check has ended the game.
+     */
+    private checkStalemate(seen: Set<string>): void {
+        if (this.gameover || this.phase !== "play") {
+            return;
+        }
+        const colour = this.colourOfSeat(this.currplayer)!;
+        if (this.geo.cells.some((cell) => !this.board.has(cell) && this.simulate(this.board, cell, colour, seen) !== undefined)) {
+            return;
+        }
+        this.endGame(this.otherSeat(this.currplayer), "no-moves");
     }
 
     private endGame(winner: playerid, reason: string, alive?: string[]): void {
@@ -1462,19 +1514,14 @@ export class KillAllGoGame extends GameBase {
     }
 
     /**
-     * Numbered picker stones for the Hoctaph slice, added to `legend` and returned as a cell map.
-     * A value the batch size already chosen on the other side would forbid is drawn at half
-     * opacity; it stays clickable, and picking it drops that other choice.
+     * The numbered stones of the current pickers, added to `legend` and returned as a cell map,
+     * along with the cells of the values chosen so far. In the Hoctaph slice, a value the batch
+     * size already chosen on the other side would forbid is drawn at half opacity; it stays
+     * clickable, and picking it drops that other choice.
      */
-    private sliceOverlay(legend: ILegend): Map<string, string> {
+    private pickerOverlay(legend: ILegend): { overlay: Map<string, string>; chosen: string[] } {
         const overlay = new Map<string, string>();
-        if (this.gameover || this.phase !== "hoc-slice") {
-            return overlay;
-        }
-        const layout = this.sliceLayout();
-        if (layout === undefined) {
-            return overlay;
-        }
+        const chosen: string[] = [];
         const stone = (text: string, dimmed: boolean): [Glyph, ...Glyph[]] => {
             const piece: Glyph = { name: "piece", colour: 1 };
             const label: Glyph = { text, scale: 0.75, rotate: null };
@@ -1484,22 +1531,18 @@ export class KillAllGoGame extends GameBase {
             }
             return [piece, label];
         };
-        const chosen = { a: this.setup?.a, b: this.setup?.b };
-        for (const [side, buttons] of [["a", layout.a], ["b", layout.b]] as Array<["a" | "b", ISliceButton[]]>) {
-            const other = side === "a" ? chosen.b : chosen.a;
-            for (const btn of buttons) {
-                const allowed = other === undefined
-                    || (side === "a" ? this.sliceAllowed(btn.value, other) : this.sliceAllowed(other, btn.value));
+        for (const picker of this.pickers()) {
+            for (const btn of picker.buttons) {
+                const allowed = picker.allowed(btn.value);
                 const key = `${allowed ? "n" : "d"}${btn.value}`;
                 legend[key] = stone(btn.value.toString(), !allowed);
                 overlay.set(btn.cell, key);
+                if (btn.value === picker.chosen) {
+                    chosen.push(btn.cell);
+                }
             }
         }
-        legend.la = stone("a", false);
-        legend.lb = stone("b", false);
-        overlay.set(layout.labels[0], "la");
-        overlay.set(layout.labels[1], "lb");
-        return overlay;
+        return { overlay, chosen };
     }
 
     public render(): APRenderRep {
@@ -1507,7 +1550,7 @@ export class KillAllGoGame extends GameBase {
             A: [{ name: "piece", colour: 1 }],
             B: [{ name: "piece", colour: 2 }],
         };
-        const overlay = this.sliceOverlay(legend);
+        const { overlay, chosen } = this.pickerOverlay(legend);
 
         let pstr = "";
         if (overlay.size > 0) {
@@ -1568,6 +1611,9 @@ export class KillAllGoGame extends GameBase {
         }
         if (this.gameover && this.alive !== undefined && this.alive.length > 0) {
             annotations.push({ type: "enter", targets: this.alive.map(toRowCol) as [RowCol, ...RowCol[]] });
+        }
+        for (const cell of chosen) {
+            annotations.push({ type: "enter", targets: [toRowCol(cell)] });
         }
         if (annotations.length > 0) {
             rep.annotations = annotations;
@@ -1650,7 +1696,10 @@ export class KillAllGoGame extends GameBase {
                     this.pushNeutralChatLine(lines, "apresults:EOG.killallgo_pass_alive");
                 } else if (r.reason === "no-room") {
                     this.pushNeutralChatLine(lines, "apresults:EOG.killallgo_no_room");
+                } else if (r.reason === "no-moves") {
+                    this.pushNeutralChatLine(lines, "apresults:EOG.killallgo_no_moves");
                 } else if (r.reason === "double-pass") {
+                    // Preserve the move log for games completed before normal-play passes were removed.
                     this.pushNeutralChatLine(lines, "apresults:EOG.killallgo_double_pass");
                 } else {
                     this.pushNeutralChatLine(lines, "apresults:EOG.default");

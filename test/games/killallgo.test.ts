@@ -350,6 +350,16 @@ describe("Kill-All Go", () => {
                 expect(v.unrated, v.uid).to.not.equal(true);
             }
         });
+
+        it("marks every opening, Pieboxing included, as a community variant", () => {
+            const openings = (KillAllGoGame.gameinfo.variants ?? []).filter((v) => v.group === "opening" || v.uid === "#opening");
+            expect(openings.map((v) => v.uid)).to.have.members(["#opening", "handicap", "classic", "pie", "hoctaph"]);
+            for (const v of openings) {
+                expect(v.fans, v.uid).to.be.true;
+            }
+            const pieboxing = new KillAllGoGame(undefined, []).allvariants()?.find((v) => v.uid === "#opening");
+            expect(pieboxing?.fans).to.be.true;
+        });
     });
 
     describe("the setup stone cap", () => {

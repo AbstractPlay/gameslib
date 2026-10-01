@@ -485,7 +485,7 @@ export class KillAllGoGame extends GameBase {
                 ],
             },
         ],
-        categories: ["goal>annihilate", "mechanic>place", "mechanic>capture", "mechanic>enclose", "mechanic>asymmetry", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>cripple", "goal>arrange", "mechanic>place", "mechanic>capture", "mechanic>enclose", "mechanic>asymmetry", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["experimental", "custom-colours", "custom-buttons"],
         customizations: [
             {

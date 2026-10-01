@@ -442,6 +442,7 @@ export class KillAllGoGame extends GameBase {
             { uid: "#board" },
             {
                 uid: "#opening",
+                fans: true,
                 people: [
                     {
                         type: "designer",
@@ -463,7 +464,7 @@ export class KillAllGoGame extends GameBase {
                     },
                 ],
             },
-            { uid: "classic", group: "opening", enabledWhen: { board: ["#board"] } },
+            { uid: "classic", group: "opening", fans: true, enabledWhen: { board: ["#board"] } },
             { uid: "pie", group: "opening", fans: true },
             {
                 uid: "hoctaph",

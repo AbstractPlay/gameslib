@@ -35,6 +35,9 @@ export interface ITumbleweedState extends IAPGameState {
 };
 
 export class TumbleweedGame extends GameBase {
+    /** Shown in stripped state / move tree for hidden plies until game over. */
+    public static readonly REDACTED_FOG_LASTMOVE = "\u2014";
+
     public static readonly gameinfo: APGamesInformation = {
         name: "Tumbleweed",
         uid: "tumbleweed",
@@ -507,11 +510,39 @@ export class TumbleweedGame extends GameBase {
         return out;
     }
 
-    private stackEntryForExport(entry: IMoveState, strip: boolean, player?: number): IMoveState {
+    /** Seat who committed the ply recorded at `stackIndex` (from prior frame `currplayer`). */
+    private moverAtStackIndex(stackIndex: number): playerid | undefined {
+        if (stackIndex < 1) {
+            return undefined;
+        }
+        return this.stack[stackIndex - 1].currplayer;
+    }
+
+    /** P1 dual-placement opening (or free-neutral setup) — visible in the move tree for all viewers. */
+    private isPublicOpeningStackIndex(stackIndex: number): boolean {
+        return stackIndex === 1;
+    }
+
+    private redactFogLastmove(stackIndex: number, lastmove: string, viewer?: number): string {
+        if (this.isPublicOpeningStackIndex(stackIndex)) {
+            return lastmove;
+        }
+        if (lastmove.toLowerCase().replace(/\s+/g, "") === "pass") {
+            return lastmove;
+        }
+        const mover = this.moverAtStackIndex(stackIndex);
+        if (viewer === mover) {
+            return lastmove;
+        }
+        return TumbleweedGame.REDACTED_FOG_LASTMOVE;
+    }
+
+    private stackEntryForExport(entry: IMoveState, strip: boolean, player?: number, stackIndex?: number): IMoveState {
         const exported: IMoveState = {
             ...entry,
             board: new Map(entry.board),
             scores: [...entry.scores],
+            _results: [...entry._results],
         };
         if (!this.fogEnabled() || !strip || this.gameover) {
             if (entry.fogMemory !== undefined) {
@@ -521,6 +552,13 @@ export class TumbleweedGame extends GameBase {
         }
         exported.board = this.projectedBoardForExport(entry.board, entry.fogMemory, player);
         delete exported.fogMemory;
+        if (stackIndex !== undefined && entry.lastmove !== undefined) {
+            const redacted = this.redactFogLastmove(stackIndex, entry.lastmove, player);
+            exported.lastmove = redacted;
+            if (redacted !== entry.lastmove) {
+                exported._results = exported._results.filter(r => r.type === "pass");
+            }
+        }
         return exported;
     }
 
@@ -856,8 +894,8 @@ export class TumbleweedGame extends GameBase {
     public state(opts?: { strip?: boolean; player?: number }): ITumbleweedState {
         const strip = opts?.strip === true && this.fogEnabled() && !this.gameover;
         const stack = strip
-            ? this.stack.map(entry => this.stackEntryForExport(entry, true, opts?.player))
-            : this.stack.map(entry => this.stackEntryForExport(entry, false));
+            ? this.stack.map((entry, idx) => this.stackEntryForExport(entry, true, opts?.player, idx))
+            : this.stack.map((entry, idx) => this.stackEntryForExport(entry, false, undefined, idx));
         return {
             game: TumbleweedGame.gameinfo.uid,
             numplayers: this.numplayers,

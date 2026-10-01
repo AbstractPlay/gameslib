@@ -360,6 +360,32 @@ describe("Tumbleweed", () => {
             expect(top.board.has("p1")).to.be.false;
         });
 
+        it("redacts opponent lastmoves in stripped state but keeps the opening ply public", () => {
+            const g0 = new TumbleweedGame(undefined, ["fog", "size-6"]);
+            const opening = g0.moves()[0]!;
+            let g = g0.move(opening, { trusted: true });
+            g = g.move("pass", { trusted: true });
+            const placement = g.moves().find(m => m !== "pass")!;
+            g = g.move(placement, { trusted: true });
+
+            const openingLast = g.stack[1]!.lastmove!;
+            const hiddenLast = g.stack[3]!.lastmove!;
+            expect(openingLast).to.not.equal(TumbleweedGame.REDACTED_FOG_LASTMOVE);
+            expect(hiddenLast).to.not.equal("pass");
+
+            const p1 = g.state({ strip: true, player: 1 });
+            expect(p1.stack[1]!.lastmove).to.equal(openingLast);
+            expect(p1.stack[3]!.lastmove).to.equal(hiddenLast);
+
+            const p2 = g.state({ strip: true, player: 2 });
+            expect(p2.stack[1]!.lastmove).to.equal(openingLast);
+            expect(p2.stack[3]!.lastmove).to.equal(TumbleweedGame.REDACTED_FOG_LASTMOVE);
+
+            const observer = g.state({ strip: true });
+            expect(observer.stack[1]!.lastmove).to.equal(openingLast);
+            expect(observer.stack[3]!.lastmove).to.equal(TumbleweedGame.REDACTED_FOG_LASTMOVE);
+        });
+
         it("render uses x-prefixed legend keys for stale cells", () => {
             const p1Memory = new Map<string, [playerid, number] | null>([["o1", [2, 2]]]);
             const g = tumbleweedFrom({

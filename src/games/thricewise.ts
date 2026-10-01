@@ -751,7 +751,20 @@ export class ThricewiseGame extends GameBaseSequenced {
                     };
                 }
                 if (move === "" || !move.includes("@")) {
-                    newmove = `${move}@${absx}.${absy}`;
+                    let cardPrefix = move;
+                    if (
+                        cardPrefix === "" &&
+                        player === this.currplayer &&
+                        this.phase === "place"
+                    ) {
+                        const remaining = this.obligationFor(player).filter(
+                            uid => !this.placedThisActivation.includes(uid),
+                        );
+                        if (remaining.length === 1) {
+                            cardPrefix = remaining[0]!;
+                        }
+                    }
+                    newmove = `${cardPrefix}@${absx}.${absy}`;
                 } else {
                     const segs = move.split(";");
                     const last = segs[segs.length - 1]!;

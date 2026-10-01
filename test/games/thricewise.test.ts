@@ -202,6 +202,19 @@ describe("Thricewise", () => {
         expect(selectLines.length).to.equal(2);
     });
 
+    it("places the only remaining card when clicking an empty cell in place phase", () => {
+        const g = new ThricewiseGame(2);
+        const threes = cardsOfRank(3);
+        const fives = cardsOfRank(5);
+        g.hands = [[threes[0], threes[1]], [fives[0], fives[1]]];
+        g.move(`${threes[0]},${fives[0]}`);
+        const empty = g.legalEmpties()[0]!;
+        const rel = g.board.abs2rel(empty[0], empty[1])!;
+        const click = g.handleClick("", rel[1], rel[0]);
+        expect(click.valid).to.equal(true);
+        expect(click.move).to.equal(`${threes[0]}@${empty[0]}.${empty[1]}`);
+    });
+
     it("advances play queue once per compound placement ply", () => {
         const g = new ThricewiseGame(2);
         const threes = cardsOfRank(3);

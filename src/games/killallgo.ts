@@ -485,7 +485,7 @@ export class KillAllGoGame extends GameBase {
                 ],
             },
         ],
-        categories: ["goal>annihilate", "mechanic>place", "mechanic>capture", "mechanic>enclose", "mechanic>asymmetry", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>cripple", "goal>arrange", "mechanic>place", "mechanic>capture", "mechanic>enclose", "mechanic>asymmetry", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["experimental", "custom-colours", "custom-buttons"],
         customizations: [
             {
@@ -1375,8 +1375,10 @@ export class KillAllGoGame extends GameBase {
             }
         }
 
-        // Every ply that leaves the board in play may have settled the game.
+        // Every ply that leaves the board in play may have settled the game, or left the next
+        // player without a legal placement.
         this.checkLifeAndDeath();
+        this.checkStalemate(seen);
 
         // The final position of the ply is the saved board; keep only the intermediate ones.
         this.interim.pop();
@@ -1449,6 +1451,21 @@ export class KillAllGoGame extends GameBase {
         if (!roomForTwoEyes(this.geo, new Set(permanent))) {
             this.endGame(this.redSeat!, "no-room", permanent);
         }
+    }
+
+    /**
+     * Passing is not allowed during play, so a player with no legal placement loses. Short of a
+     * superko repetition, that cannot happen before the life-and-death check has ended the game.
+     */
+    private checkStalemate(seen: Set<string>): void {
+        if (this.gameover || this.phase !== "play") {
+            return;
+        }
+        const colour = this.colourOfSeat(this.currplayer)!;
+        if (this.geo.cells.some((cell) => !this.board.has(cell) && this.simulate(this.board, cell, colour, seen) !== undefined)) {
+            return;
+        }
+        this.endGame(this.otherSeat(this.currplayer), "no-moves");
     }
 
     private endGame(winner: playerid, reason: string, alive?: string[]): void {
@@ -1679,6 +1696,8 @@ export class KillAllGoGame extends GameBase {
                     this.pushNeutralChatLine(lines, "apresults:EOG.killallgo_pass_alive");
                 } else if (r.reason === "no-room") {
                     this.pushNeutralChatLine(lines, "apresults:EOG.killallgo_no_room");
+                } else if (r.reason === "no-moves") {
+                    this.pushNeutralChatLine(lines, "apresults:EOG.killallgo_no_moves");
                 } else if (r.reason === "double-pass") {
                     // Preserve the move log for games completed before normal-play passes were removed.
                     this.pushNeutralChatLine(lines, "apresults:EOG.killallgo_double_pass");

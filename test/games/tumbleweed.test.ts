@@ -360,6 +360,29 @@ describe("Tumbleweed", () => {
             expect(top.board.has("p1")).to.be.false;
         });
 
+        it("shows both opening stones while placing; stale opponent stone after commit when off line of sight", () => {
+            const g0 = new TumbleweedGame(undefined, ["fog", "size-6"]);
+            const gPartial = new TumbleweedGame(g0.serialize());
+            gPartial.move("k1,j3", { partial: true });
+            const partialRep = gPartial.render({ perspective: 1 });
+            expect(partialRep.pieces).to.include("A1");
+            expect(partialRep.pieces).to.include("B1");
+            expect(partialRep.pieces).to.not.include("xB1");
+
+            const g = g0.move("k1,j3", { trusted: true });
+            const rep = g.render({ perspective: 1 });
+            const tokens = rep.pieces.split(/[\n,]+/);
+            expect(tokens).to.include("A1");
+            expect(tokens).to.include("xB1");
+            expect(tokens).to.not.include("B1");
+
+            const stripped = g.state({ strip: true, player: 1 });
+            const top = stripped.stack[stripped.stack.length - 1]!;
+            expect(top.board.has("k1")).to.be.true;
+            expect(top.board.has("j3")).to.be.true;
+            expect(top.board.get("j3")).to.deep.equal([2, 1]);
+        });
+
         it("redacts opponent lastmoves in stripped state but keeps the opening ply public", () => {
             const g0 = new TumbleweedGame(undefined, ["fog", "size-6"]);
             const opening = g0.moves()[0]!;

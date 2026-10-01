@@ -468,6 +468,44 @@ export class TumbleweedGame extends GameBase {
                 }
             }
         }
+        this.seedOpeningPlacementMemory();
+    }
+
+    private cellsFromOpeningWire(wire: string): Set<string> {
+        const cells = new Set<string>();
+        const norm = wire.toLowerCase().replace(/\s+/g, "");
+        if (norm === "pass") {
+            return cells;
+        }
+        for (const part of norm.split(",")) {
+            const cell = part.replace(/[+x]$/i, "");
+            if (cell.length > 0) {
+                cells.add(cell);
+            }
+        }
+        return cells;
+    }
+
+    /** After the opening ply, both seats remember both setup stones (stale when off line of sight). */
+    private seedOpeningPlacementMemory(): void {
+        const cells = new Set<string>(this.openingPlacementCells());
+        if (this.stack.length === 1 && this.lastmove !== undefined) {
+            for (const cell of this.cellsFromOpeningWire(this.lastmove)) {
+                cells.add(cell);
+            }
+        }
+        if (cells.size === 0) {
+            return;
+        }
+        for (const cell of cells) {
+            if (!this.board.has(cell)) {
+                continue;
+            }
+            const snap: FogCellSnapshot = this.board.get(cell)!;
+            for (const p of [0, 1] as const) {
+                this.fogMemory[p].set(cell, snap);
+            }
+        }
     }
 
     private projectedBoardForExport(
@@ -508,6 +546,18 @@ export class TumbleweedGame extends GameBase {
             }
         }
         return out;
+    }
+
+    /** Cells from the committed opening ply (`stack[1].lastmove`). */
+    private openingPlacementCells(): Set<string> {
+        if (this.stack.length < 2) {
+            return new Set<string>();
+        }
+        const lm = this.stack[1]?.lastmove;
+        if (lm === undefined) {
+            return new Set<string>();
+        }
+        return this.cellsFromOpeningWire(lm);
     }
 
     /** Seat who committed the ply recorded at `stackIndex` (from prior frame `currplayer`). */
@@ -794,8 +844,11 @@ export class TumbleweedGame extends GameBase {
                 this.board.set(withoutSuffix, [this.currplayer, losCount]);
             }
         }
-        // update currplayer
         this.lastmove = m;
+        if (partial) {
+            return this;
+        }
+
         let newplayer = (this.currplayer as number) + 1;
         if (newplayer > this.numplayers) {
             newplayer = 1;
@@ -996,6 +1049,9 @@ export class TumbleweedGame extends GameBase {
             if (cell === centre && this.board.has(cell)) {
                 return { kind: "live", stack: this.board.get(cell)! };
             }
+        }
+        if (this.stack.length === 1 && this.board.has(cell)) {
+            return { kind: "live", stack: this.board.get(cell)! };
         }
         const live1 = this.liveVisible(1);
         const live2 = this.liveVisible(2);

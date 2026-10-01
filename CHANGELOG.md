@@ -13,6 +13,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Changed
 
+- **Tumbleweed (fog):** opening dual-placement stays live only while the opening is in progress; after commit, opponent setup stones use normal line-of-sight (stale when remembered but off sight).
 - **Thricewise:** in the place phase, clicking an empty cell places your card when you only have one left to play; choose the card from your hand first when you still have more than one.
 
 ### Added

@@ -17,6 +17,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Added
 
+- **Tumbleweed:** experimental `fog` variant (line-of-sight visibility, stale dimmed cells, hidden scores; explore disabled).
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Clearpath, Croda, Dama, Ice Palace, Kill-All Go, Neutron, Thricewise, Yodd.
 - **Bao:** `malawi-full` variant (Figure 2 Bawo rules); `malawi` renamed to setup-only (8 kuu / 20 reserve, Zanzibar rules); Zanzibar / kujifunza / Malawi variants share one `rules` radio group.
 

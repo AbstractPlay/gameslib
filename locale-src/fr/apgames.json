@@ -5008,8 +5008,8 @@
     "out": "Tricouleur est un jeu de 2005 conçu par Bill Taylor. Chaque joueur possède une armée de trois types de pièces capables de capturer le type suivant de manière cyclique : pensez à Pierre-Papier-Ciseaux (Cercle-Carré-Croix). La séquence de coups est 12* où un joueur doit utiliser des pièces différentes (il est également possible de passer tout son tour). Une pièce peut se déplacer vers une case voisine vide (auquel cas elle laisse un double immobile derrière elle) ou vers une case vide parmi les douze voisins du 2e ordre, peu importe ce qu'il y a entre eux. Toute pièce adverse plus faible à laquelle la pièce déplacée devient adjacente prend la couleur de la pièce déplacée. Toute pièce adverse de même force à laquelle la pièce déplacée devient adjacente est retirée du plateau.\n\nLa partie se termine si soit (a) les deux joueurs passent consécutivement, (b) le plateau est plein, (c) une armée est détruite, (d) une position est répétée trois fois. Le joueur ayant le plus de pièces de ses propres couleurs au total gagne."
   },
   "notes.tumbleweed": {
-    "src": "A space is claimed by a player if they have a piece on it, or if they have the majority of the line of sights to it. The score is the number of territory own by each player. The game ends when both players pass in succession. If there is no change in score for 20 plies, the game also ends.",
-    "out": "Un espace est revendiqué par un joueur s'il y possède une pièce, ou s'il y a la majorité des lignes de vue vers celui-ci. Le score est le nombre de territoires possédés par chaque joueur. La partie se termine lorsque les deux joueurs passent successivement. S'il n'y a aucun changement de score pendant 20 demi-coups, la partie se termine également."
+    "src": "A space is claimed by a player if they have a piece on it, or if they have the majority of the lines of sight to it. The score is the amount of territory own by each player. The game ends when both players pass in succession. If there is no change in score for 20 plies, the game also ends.\n\nThe experimental **Fog of war** variant hides off-sight cells; last-seen cells stay on the board dimmed until line of sight returns. The score sidebar and influence/threatened overlays are disabled in that variant.",
+    "out": "Une case est contrôlée par un joueur s'il y possède une pièce, ou s'il détient la majorité des lignes de vue sur celle-ci. Le score correspond à la quantité de territoire possédée par chaque joueur. La partie se termine lorsque les deux joueurs passent consécutivement. S'il n'y a aucun changement de score pendant 20 demi-coups, la partie se termine également.\n\nLa variante expérimentale **Brouillard de guerre** masque les cases hors de vue ; les dernières cases vues restent visibles sur le plateau en grisé jusqu'à ce que la ligne de vue soit rétablie. La barre latérale du score et les calques d'influence/menace sont désactivés dans cette variante."
   },
   "notes.twinflames": {
     "src": "Twin Flames is a 2026 redesign of the 2013's Product, an original concept by Nick Bentley. The first player must initially place a friendly stone, preventing overly strong opening countermoves and thereby eliminating the need for a pie rule. The remaining moves use a 12* sequence, in which players may place stones of either colour. At the end of the game, a player who has formed a single connected group scores points equal to the size of that group. Another ludeme introduced was the use of walls, or blockers, which reduce overall connectivity and make groups more robust to enemy attacks. The blocker configuration is randomized, increasing game variability and making opening theory more difficult to develop.",
@@ -20954,6 +20954,14 @@
   "variants.tumbleweed.capture-delay.name": {
     "src": "Capture delay",
     "out": "Délai de capture"
+  },
+  "variants.tumbleweed.fog.description": {
+    "src": "You only see cells in line of sight of your towers; cells you lose sight of stay visible but dimmed until sight returns. Scores and board overlays are hidden. Experimental.",
+    "out": "Vous ne voyez que les cases dans la ligne de vue de vos tours ; les cases que vous perdez de vue restent visibles mais assombries jusqu'à ce que la vue soit rétablie. Les scores et les calques du plateau sont masqués. Expérimental."
+  },
+  "variants.tumbleweed.fog.name": {
+    "src": "Fog of war",
+    "out": "Brouillard de guerre"
   },
   "variants.tumbleweed.free-neutral.description": {
     "src": "On the first turn, place a 2-stack neutral piece, and a 1-stack piece of each player's colour.",

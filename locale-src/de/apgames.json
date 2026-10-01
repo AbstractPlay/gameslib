@@ -5008,8 +5008,8 @@
     "out": "Tricouleur ist ein Spiel aus dem Jahr 2005, das von Bill Taylor entworfen wurde. Jeder Spieler hat eine Armee aus drei Arten von Steinen, die die jeweils nächste Art zyklisch schlagen können: denken Sie an Schere-Stein-Papier (Kreis-Quadrat-X). Die Zugfolge ist 12*, wobei ein Spieler verschiedene Steine verwenden muss (es ist auch möglich, den gesamten Zug zu passen). Ein Stein kann auf ein leeres Nachbarfeld ziehen (wobei er ein unbewegtes Duplikat zurücklässt) oder auf ein leeres Feld unter den zwölf Nachbarn 2. Ordnung, unabhängig davon, was dazwischen liegt. Alle schwächeren gegnerischen Steine, an die der gezogene Stein angrenzt, werden in der Farbe des gezogenen Steins umgefärbt. Alle gleich starken gegnerischen Steine, an die der gezogene Stein angrenzt, werden vom Brett entfernt.\n\nDas Spiel endet, wenn entweder (a) beide Spieler hintereinander passen, (b) das Brett voll ist, (c) eine Armee zerstört ist oder (d) sich eine Stellung dreimal wiederholt. Wer insgesamt die meisten Steine der eigenen Farben hat, gewinnt."
   },
   "notes.tumbleweed": {
-    "src": "A space is claimed by a player if they have a piece on it, or if they have the majority of the line of sights to it. The score is the number of territory own by each player. The game ends when both players pass in succession. If there is no change in score for 20 plies, the game also ends.",
-    "out": "Ein Feld wird von einem Spieler beansprucht, wenn er einen Stein darauf hat oder wenn er die Mehrheit der Sichtlinien dorthin besitzt. Die Punktzahl entspricht der Anzahl der von jedem Spieler besessenen Territorien. Das Spiel endet, wenn beide Spieler nacheinander passen. Wenn sich die Punktzahl 20 Halbzüge lang nicht ändert, endet das Spiel ebenfalls."
+    "src": "A space is claimed by a player if they have a piece on it, or if they have the majority of the lines of sight to it. The score is the amount of territory own by each player. The game ends when both players pass in succession. If there is no change in score for 20 plies, the game also ends.\n\nThe experimental **Fog of war** variant hides off-sight cells; last-seen cells stay on the board dimmed until line of sight returns. The score sidebar and influence/threatened overlays are disabled in that variant.",
+    "out": "Ein Feld wird von einem Spieler kontrolliert, wenn er einen Stein darauf hat oder die Mehrheit der Sichtlinien darauf besitzt. Der Punktestand entspricht der Menge an Territorium, die jeder Spieler besitzt. Das Spiel endet, wenn beide Spieler nacheinander passen. Wenn sich der Punktestand für 20 Halbzüge nicht ändert, endet das Spiel ebenfalls.\n\nDie experimentelle Variante **Nebel des Krieges** blendet Felder außerhalb der Sichtweite aus; zuletzt gesehene Felder bleiben abgedunkelt auf dem Brett, bis die Sichtlinie zurückkehrt. Die Punkte-Seitenleiste und die Overlays für Einfluss/Bedrohung sind in dieser Variante deaktiviert."
   },
   "notes.twinflames": {
     "src": "Twin Flames is a 2026 redesign of the 2013's Product, an original concept by Nick Bentley. The first player must initially place a friendly stone, preventing overly strong opening countermoves and thereby eliminating the need for a pie rule. The remaining moves use a 12* sequence, in which players may place stones of either colour. At the end of the game, a player who has formed a single connected group scores points equal to the size of that group. Another ludeme introduced was the use of walls, or blockers, which reduce overall connectivity and make groups more robust to enemy attacks. The blocker configuration is randomized, increasing game variability and making opening theory more difficult to develop.",
@@ -20954,6 +20954,14 @@
   "variants.tumbleweed.capture-delay.name": {
     "src": "Capture delay",
     "out": "Besetzungsverzögerung"
+  },
+  "variants.tumbleweed.fog.description": {
+    "src": "You only see cells in line of sight of your towers; cells you lose sight of stay visible but dimmed until sight returns. Scores and board overlays are hidden. Experimental.",
+    "out": "Du siehst nur Felder in der Sichtlinie deiner Türme; Felder, die du aus der Sicht verlierst, bleiben sichtbar, aber abgedunkelt, bis die Sicht zurückkehrt. Punktestände und Spielfeld-Overlays sind ausgeblendet. Experimentell."
+  },
+  "variants.tumbleweed.fog.name": {
+    "src": "Fog of war",
+    "out": "Nebel des Krieges"
   },
   "variants.tumbleweed.free-neutral.description": {
     "src": "On the first turn, place a 2-stack neutral piece, and a 1-stack piece of each player's colour.",

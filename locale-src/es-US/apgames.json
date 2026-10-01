@@ -5008,8 +5008,8 @@
     "out": "Tricouleur es un juego de 2005 diseñado por Bill Taylor. Cada jugador tiene un ejército de tres tipos de piezas capaces de capturar al siguiente tipo de forma cíclica: piensa en Piedra-Papel-Tijera (Círculo-Cuadrado-X). La secuencia de movimientos es 12*, donde un jugador debe usar piezas diferentes (también es posible pasar el turno completo). Una pieza puede moverse a una casilla vecina vacía (en cuyo caso deja una copia sin mover atrás) o a una casilla vacía entre las doce vecinas de 2.º grado, independientemente de lo que haya en medio. Cualquier pieza rival más débil a la que la pieza movida quede adyacente cambia al color de la pieza que se movió. Cualquier pieza rival de la misma fuerza a la que la pieza movida quede adyacente se elimina del tablero.\n\nEl juego termina cuando (a) ambos jugadores pasan consecutivamente, (b) el tablero está lleno, (c) se destruye un ejército, o (d) se repite una posición tres veces. Gana quien tenga más piezas de sus propios colores en total."
   },
   "notes.tumbleweed": {
-    "src": "A space is claimed by a player if they have a piece on it, or if they have the majority of the line of sights to it. The score is the number of territory own by each player. The game ends when both players pass in succession. If there is no change in score for 20 plies, the game also ends.",
-    "out": "Un jugador reclama un casillero si tiene una pieza en él o si tiene la mayoría de las líneas de visión hacia él. La puntuación es la cantidad de territorio que posee cada jugador. El juego termina cuando ambos jugadores pasan de forma consecutiva. Si no hay cambios en la puntuación durante 20 semijugadas (plies), el juego también termina."
+    "src": "A space is claimed by a player if they have a piece on it, or if they have the majority of the lines of sight to it. The score is the amount of territory own by each player. The game ends when both players pass in succession. If there is no change in score for 20 plies, the game also ends.\n\nThe experimental **Fog of war** variant hides off-sight cells; last-seen cells stay on the board dimmed until line of sight returns. The score sidebar and influence/threatened overlays are disabled in that variant.",
+    "out": "Un jugador controla una casilla si tiene una pieza en ella, o si tiene la mayoría de las líneas de visión hacia ella. La puntuación es la cantidad de territorio que posee cada jugador. El juego termina cuando ambos jugadores pasan de forma consecutiva. Si no hay cambios en la puntuación durante 20 jugadas, el juego también termina.\n\nLa variante experimental **Niebla de guerra** oculta las casillas fuera de la línea de visión; las últimas casillas vistas permanecen en el tablero atenuadas hasta que se recupera la línea de visión. La barra lateral de puntuación y las superposiciones de influencia/amenaza están deshabilitadas en esa variante."
   },
   "notes.twinflames": {
     "src": "Twin Flames is a 2026 redesign of the 2013's Product, an original concept by Nick Bentley. The first player must initially place a friendly stone, preventing overly strong opening countermoves and thereby eliminating the need for a pie rule. The remaining moves use a 12* sequence, in which players may place stones of either colour. At the end of the game, a player who has formed a single connected group scores points equal to the size of that group. Another ludeme introduced was the use of walls, or blockers, which reduce overall connectivity and make groups more robust to enemy attacks. The blocker configuration is randomized, increasing game variability and making opening theory more difficult to develop.",
@@ -20954,6 +20954,14 @@
   "variants.tumbleweed.capture-delay.name": {
     "src": "Capture delay",
     "out": "Demora de captura"
+  },
+  "variants.tumbleweed.fog.description": {
+    "src": "You only see cells in line of sight of your towers; cells you lose sight of stay visible but dimmed until sight returns. Scores and board overlays are hidden. Experimental.",
+    "out": "Solo ves las casillas en la línea de visión de tus torres; las casillas que dejas de ver permanecen visibles pero atenuadas hasta que recuperes la visión. Las puntuaciones y las superposiciones del tablero están ocultas. Experimental."
+  },
+  "variants.tumbleweed.fog.name": {
+    "src": "Fog of war",
+    "out": "Niebla de guerra"
   },
   "variants.tumbleweed.free-neutral.description": {
     "src": "On the first turn, place a 2-stack neutral piece, and a 1-stack piece of each player's colour.",

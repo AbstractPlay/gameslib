@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine, type FlagContext, type GameFlag } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, Glyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -11,6 +11,12 @@ export type playerid = 1|2|3;  // 3 is used for neutral player.
 type directions = "NE"|"E"|"SE"|"SW"|"W"|"NW";
 const allDirections: directions[] = ["NE","E","SE","SW","W","NW"];
 
+/** Last-seen cell snapshot for fog; `null` means seen empty. */
+export type FogCellSnapshot = [playerid, number] | null;
+export type FogMemoryPair = [Map<string, FogCellSnapshot>, Map<string, FogCellSnapshot>];
+
+const FOG_STALE_OPACITY = 0.35;
+
 interface ILegendObj {
     [key: string]: Glyph|[Glyph, ...Glyph[]];
 }
@@ -20,6 +26,7 @@ export interface IMoveState extends IIndividualState {
     board: Map<string, [playerid, number]>;
     lastmove?: string;
     scores: [number, number];
+    fogMemory?: FogMemoryPair;
 };
 
 export interface ITumbleweedState extends IAPGameState {
@@ -63,6 +70,7 @@ export class TumbleweedGame extends GameBase {
             { uid: "size-10", group: "board" },
             { uid: "capture-delay" },
             { uid: "free-neutral" },
+            { uid: "fog", experimental: true },
         ],
         displays: [
             { uid: "hide-threatened" },
@@ -82,6 +90,76 @@ export class TumbleweedGame extends GameBase {
     public results: Array<APMoveResult> = [];
     public scores: [number, number] = [0, 0];
     private boardSize = 0;
+    private fogMemory: FogMemoryPair = [new Map(), new Map()];
+
+    public static resolveFlags(context: FlagContext = {}): readonly GameFlag[] {
+        const flags: GameFlag[] = [...(this.gameinfo.flags ?? [])];
+        if (context.variants?.includes("fog")) {
+            flags.push("no-explore");
+        }
+        return flags;
+    }
+
+    private static emptyFogMemory(): FogMemoryPair {
+        return [new Map(), new Map()];
+    }
+
+    private static cloneFogPair(pair?: FogMemoryPair): FogMemoryPair {
+        if (pair === undefined) {
+            return TumbleweedGame.emptyFogMemory();
+        }
+        return [new Map(pair[0]), new Map(pair[1])];
+    }
+
+    /** HTML5-safe SVG ids; stale cells use `x` + live key. */
+    private static staleLegendKey(liveKey: string): string {
+        return `x${liveKey}`;
+    }
+
+    private fogEnabled(): boolean {
+        return this.variants.includes("fog");
+    }
+
+    /** Standard setup only: centre cell when it holds the initial neutral stack. */
+    private standardOpeningCentreCell(board: Map<string, [playerid, number]> = this.board): string | undefined {
+        if (this.variants.includes("free-neutral")) {
+            return undefined;
+        }
+        const centre = this.getCentre();
+        const stack = board.get(centre);
+        if (stack !== undefined && stack[0] === 3) {
+            return centre;
+        }
+        return undefined;
+    }
+
+    /** Board still has only neutral piece(s) — before the committed opening placement. */
+    private boardIsPrePlacementOpening(board: Map<string, [playerid, number]>): boolean {
+        const centre = this.standardOpeningCentreCell(board);
+        if (centre === undefined) {
+            return false;
+        }
+        for (const [, [owner]] of board) {
+            if (owner !== 3) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private ensureOpeningCentreFogMemory(board: Map<string, [playerid, number]> = this.board): void {
+        if (!this.fogEnabled()) {
+            return;
+        }
+        const centre = this.standardOpeningCentreCell(board);
+        if (centre === undefined) {
+            return;
+        }
+        const snap: FogCellSnapshot = board.get(centre)!;
+        for (const p of [0, 1] as const) {
+            this.fogMemory[p].set(centre, snap);
+        }
+    }
 
     constructor(state?: ITumbleweedState | string, variants?: string[]) {
         super();
@@ -96,13 +174,26 @@ export class TumbleweedGame extends GameBase {
             if (!this.variants.includes("free-neutral")) {
                 board.set(this.getCentre(boardSize), [3 as playerid, 2]);
             }
+            let fogMemory: FogMemoryPair | undefined;
+            if (this.fogEnabled()) {
+                fogMemory = TumbleweedGame.emptyFogMemory();
+                if (!this.variants.includes("free-neutral")) {
+                    const centre = this.getCentre(boardSize);
+                    if (board.has(centre)) {
+                        const snap: FogCellSnapshot = board.get(centre)!;
+                        fogMemory[0].set(centre, snap);
+                        fogMemory[1].set(centre, snap);
+                    }
+                }
+            }
             const fresh: IMoveState = {
                 _version: TumbleweedGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
                 board,
-                scores: [0, 0]
+                scores: [0, 0],
+                ...(fogMemory !== undefined ? { fogMemory } : {}),
             };
             this.stack = [fresh];
         } else {
@@ -136,6 +227,12 @@ export class TumbleweedGame extends GameBase {
         this.lastmove = state.lastmove;
         this.results = [...state._results];
         this.scores = [...state.scores];
+        if (this.fogEnabled()) {
+            this.fogMemory = TumbleweedGame.cloneFogPair(state.fogMemory);
+            this.ensureOpeningCentreFogMemory(this.board);
+        } else {
+            this.fogMemory = TumbleweedGame.emptyFogMemory();
+        }
         return this;
     }
 
@@ -300,15 +397,15 @@ export class TumbleweedGame extends GameBase {
         }
     }
 
-    private getLosCount(cell: string, player: playerid): number {
+    private getLosCount(cell: string, player: playerid, board: Map<string, [playerid, number]> = this.board): number {
         let losCount = 0;
         const graph = this.getGraph();
         const [x, y] = graph.algebraic2coords(cell);
         for (const dir of allDirections) {
             for (const [cx, cy] of graph.ray(x, y, dir)) {
                 const c = graph.coords2algebraic(cx, cy);
-                if (this.board.has(c)) {
-                    if (this.board.get(c)![0] === player) {
+                if (board.has(c)) {
+                    if (board.get(c)![0] === player) {
                         losCount++;
                     }
                     break;
@@ -318,10 +415,10 @@ export class TumbleweedGame extends GameBase {
         return losCount;
     }
 
-    private computeLosForPlayer(player: playerid): Map<string, number> {
+    private computeLosForPlayer(player: playerid, board: Map<string, [playerid, number]> = this.board): Map<string, number> {
         const los = new Map<string, number>();
         const graph = this.getGraph();
-        for (const [cell, [owner]] of this.board) {
+        for (const [cell, [owner]] of board) {
             if (owner !== player) {
                 continue;
             }
@@ -330,13 +427,101 @@ export class TumbleweedGame extends GameBase {
                 for (const [cx, cy] of graph.ray(x, y, dir)) {
                     const target = graph.coords2algebraic(cx, cy);
                     los.set(target, (los.get(target) ?? 0) + 1);
-                    if (this.board.has(target)) {
+                    if (board.has(target)) {
                         break;
                     }
                 }
             }
         }
         return los;
+    }
+
+    private liveVisibleOnBoard(board: Map<string, [playerid, number]>, player: playerid): Set<string> {
+        const live = new Set(this.computeLosForPlayer(player, board).keys());
+        for (const [cell, [owner]] of board) {
+            if (owner === player) {
+                live.add(cell);
+            }
+        }
+        return live;
+    }
+
+    private liveVisible(player: playerid): Set<string> {
+        return this.liveVisibleOnBoard(this.board, player);
+    }
+
+    private refreshFogMemory(): void {
+        if (!this.fogEnabled()) {
+            return;
+        }
+        for (const p of [1 as playerid, 2 as playerid]) {
+            const memory = this.fogMemory[p - 1];
+            for (const cell of this.liveVisible(p)) {
+                if (this.board.has(cell)) {
+                    const [owner, size] = this.board.get(cell)!;
+                    memory.set(cell, [owner, size]);
+                } else {
+                    memory.set(cell, null);
+                }
+            }
+        }
+    }
+
+    private projectedBoardForExport(
+        board: Map<string, [playerid, number]>,
+        fogMemory: FogMemoryPair | undefined,
+        viewer?: number,
+    ): Map<string, [playerid, number]> {
+        const out = new Map<string, [playerid, number]>();
+        if (this.boardIsPrePlacementOpening(board)) {
+            const centre = this.standardOpeningCentreCell(board)!;
+            out.set(centre, board.get(centre)!);
+            return out;
+        }
+        const live1 = this.liveVisibleOnBoard(board, 1);
+        const live2 = this.liveVisibleOnBoard(board, 2);
+        if (viewer === undefined) {
+            for (const cell of live1) {
+                if (live2.has(cell) && board.has(cell)) {
+                    out.set(cell, board.get(cell)!);
+                }
+            }
+            return out;
+        }
+        const seat = viewer as playerid;
+        const live = seat === 1 ? live1 : live2;
+        const memory = fogMemory?.[seat - 1];
+        const cells = new Set<string>([...live, ...(memory !== undefined ? memory.keys() : [])]);
+        for (const cell of cells) {
+            if (live.has(cell)) {
+                if (board.has(cell)) {
+                    out.set(cell, board.get(cell)!);
+                }
+            } else if (memory !== undefined && memory.has(cell)) {
+                const snap = memory.get(cell)!;
+                if (snap !== null) {
+                    out.set(cell, snap);
+                }
+            }
+        }
+        return out;
+    }
+
+    private stackEntryForExport(entry: IMoveState, strip: boolean, player?: number): IMoveState {
+        const exported: IMoveState = {
+            ...entry,
+            board: new Map(entry.board),
+            scores: [...entry.scores],
+        };
+        if (!this.fogEnabled() || !strip || this.gameover) {
+            if (entry.fogMemory !== undefined) {
+                exported.fogMemory = TumbleweedGame.cloneFogPair(entry.fogMemory);
+            }
+            return exported;
+        }
+        exported.board = this.projectedBoardForExport(entry.board, entry.fogMemory, player);
+        delete exported.fogMemory;
+        return exported;
     }
 
     public validateMove(m: string): IValidationResult {
@@ -580,6 +765,7 @@ export class TumbleweedGame extends GameBase {
         this.currplayer = newplayer as playerid;
 
         this.updateScores();
+        this.refreshFogMemory();
         this.checkEOG();
         this.saveState();
         return this;
@@ -653,6 +839,9 @@ export class TumbleweedGame extends GameBase {
     }
 
     public sidebarScores(): IScores[] {
+        if (this.fogEnabled()) {
+            return [];
+        }
         const score1 = this.getPlayerScore(1 as playerid);
         const pieces1 = this.pieceCount(1 as playerid);
         const influence1 = score1 - pieces1;
@@ -664,19 +853,23 @@ export class TumbleweedGame extends GameBase {
         ]
     }
 
-    public state(): ITumbleweedState {
+    public state(opts?: { strip?: boolean; player?: number }): ITumbleweedState {
+        const strip = opts?.strip === true && this.fogEnabled() && !this.gameover;
+        const stack = strip
+            ? this.stack.map(entry => this.stackEntryForExport(entry, true, opts?.player))
+            : this.stack.map(entry => this.stackEntryForExport(entry, false));
         return {
             game: TumbleweedGame.gameinfo.uid,
             numplayers: this.numplayers,
             variants: this.variants,
             gameover: this.gameover,
             winner: [...this.winner],
-            stack: [...this.stack]
+            stack,
         };
     }
 
     public moveState(): IMoveState {
-        return {
+        const state: IMoveState = {
             _version: TumbleweedGame.gameinfo.version,
             _results: [...this.results],
             _timestamp: new Date(),
@@ -685,11 +878,132 @@ export class TumbleweedGame extends GameBase {
             board: new Map(this.board),
             scores: [...this.scores],
         };
+        if (this.fogEnabled()) {
+            state.fogMemory = TumbleweedGame.cloneFogPair(this.fogMemory);
+        }
+        return state;
+    }
+
+    private threatenedPiecesOnBoard(board: Map<string, [playerid, number]>): Set<string> {
+        const threatenedPieces = new Set<string>();
+        for (const cell of this.listCells() as string[]) {
+            if (board.has(cell)) {
+                const [player, size] = board.get(cell)!;
+                const otherPlayer = player === 1 ? 2 : 1;
+                const losCount = this.getLosCount(cell, player as playerid, board);
+                const otherPlayerLosCount = this.getLosCount(cell, otherPlayer as playerid, board);
+                if (otherPlayerLosCount >= losCount && otherPlayerLosCount > size) {
+                    threatenedPieces.add(cell);
+                }
+            }
+        }
+        return threatenedPieces;
+    }
+
+    private livePieceLegendKey(
+        player: playerid,
+        size: number,
+        cell: string,
+        threatenedPieces: Set<string>,
+        showThreatened: boolean,
+        board: Map<string, [playerid, number]>,
+    ): string {
+        if (player === 1) {
+            if (showThreatened && threatenedPieces.has(cell)) {
+                return `C${size.toString()}`;
+            }
+            return `A${size.toString()}`;
+        }
+        if (player === 2) {
+            if (showThreatened && threatenedPieces.has(cell)) {
+                return `D${size.toString()}`;
+            }
+            return `B${size.toString()}`;
+        }
+        if (showThreatened) {
+            const player1Los = this.getLosCount(cell, 1, board);
+            const player2Los = this.getLosCount(cell, 2, board);
+            if (player1Los > player2Los && player1Los > size) {
+                return `F${size.toString()}`;
+            }
+            if (player2Los > player1Los && player2Los > size) {
+                return `G${size.toString()}`;
+            }
+            if (player1Los === player2Los && player1Los > size) {
+                return `H${size.toString()}`;
+            }
+        }
+        return `E${size.toString()}`;
+    }
+
+    private dimGlyphStack(glyph: Glyph | [Glyph, ...Glyph[]]): Glyph | [Glyph, ...Glyph[]] {
+        if (!Array.isArray(glyph)) {
+            return {
+                ...glyph,
+                opacity: glyph.opacity === undefined ? FOG_STALE_OPACITY : glyph.opacity * FOG_STALE_OPACITY,
+            };
+        }
+        return glyph.map(g => ({
+            ...g,
+            opacity: g.opacity === undefined ? FOG_STALE_OPACITY : g.opacity * FOG_STALE_OPACITY,
+        })) as [Glyph, ...Glyph[]];
+    }
+
+    private fogCellView(
+        cell: string,
+        viewSeat: playerid | undefined,
+    ): { kind: "hidden" | "live" | "stale"; stack?: [playerid, number] } {
+        if (this.boardIsPrePlacementOpening(this.board)) {
+            const centre = this.standardOpeningCentreCell(this.board);
+            if (cell === centre && this.board.has(cell)) {
+                return { kind: "live", stack: this.board.get(cell)! };
+            }
+        }
+        const live1 = this.liveVisible(1);
+        const live2 = this.liveVisible(2);
+        if (viewSeat === undefined) {
+            if (!live1.has(cell) || !live2.has(cell)) {
+                return { kind: "hidden" };
+            }
+            if (this.board.has(cell)) {
+                return { kind: "live", stack: this.board.get(cell)! };
+            }
+            return { kind: "live" };
+        }
+        const live = viewSeat === 1 ? live1 : live2;
+        const memory = this.fogMemory[viewSeat - 1];
+        if (live.has(cell)) {
+            if (this.board.has(cell)) {
+                return { kind: "live", stack: this.board.get(cell)! };
+            }
+            return { kind: "live" };
+        }
+        if (memory.has(cell)) {
+            const snap = memory.get(cell)!;
+            if (snap === null) {
+                return { kind: "stale" };
+            }
+            return { kind: "stale", stack: snap };
+        }
+        return { kind: "hidden" };
+    }
+
+    private viewSeatFromPerspective(perspective?: number): playerid | undefined {
+        if (perspective === 1 || perspective === 2) {
+            return perspective as playerid;
+        }
+        return undefined;
+    }
+
+    private cellVisibleToViewer(cell: string, viewSeat: playerid | undefined): boolean {
+        return this.fogCellView(cell, viewSeat).kind !== "hidden";
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        const showThreatened = !this.hasDisplay(opts, "hide-threatened");
-        const showInfluence = !this.hasDisplay(opts, "hide-influence");
+        const fog = this.fogEnabled() && !this.gameover;
+        const viewSeat = fog ? this.viewSeatFromPerspective(opts?.perspective) : undefined;
+        const showThreatened = !fog && !this.hasDisplay(opts, "hide-threatened");
+        const showInfluence = !fog && !this.hasDisplay(opts, "hide-influence");
 
         // Build piece string
         const legendNames: Set<string> = new Set();
@@ -702,45 +1016,29 @@ export class TumbleweedGame extends GameBase {
         // G - neutral threatened by player2
         // H - neutral threatened by both
         let pstr = "";
-        const threatenedPieces: Set<string> = showThreatened ? this.threatenedPieces() : new Set();
+        const threatenedPieces: Set<string> = showThreatened ? this.threatenedPiecesOnBoard(this.board) : new Set();
         for (const row of this.listCells(true)) {
             if (pstr.length > 0) {
                 pstr += "\n";
             }
             let pieces: string[] = [];
             for (const cell of row) {
+                if (fog) {
+                    const view = this.fogCellView(cell, viewSeat);
+                    if (view.kind === "hidden" || view.stack === undefined) {
+                        pieces.push("-");
+                        continue;
+                    }
+                    const [player, size] = view.stack;
+                    const liveKey = this.livePieceLegendKey(player, size, cell, threatenedPieces, false, this.board);
+                    const key = view.kind === "stale" ? TumbleweedGame.staleLegendKey(liveKey) : liveKey;
+                    legendNames.add(key);
+                    pieces.push(key);
+                    continue;
+                }
                 if (this.board.has(cell)) {
                     const [player, size] = this.board.get(cell)!;
-                    let key;
-                    if (player === 1) {
-                        if (threatenedPieces.has(cell)) {
-                            key = `C${size.toString()}`;
-                        } else {
-                            key = `A${size.toString()}`;
-                        }
-                    } else if (player === 2) {
-                        if (threatenedPieces.has(cell)) {
-                            key = `D${size.toString()}`;
-                        } else {
-                            key = `B${size.toString()}`;
-                        }
-                    } else {
-                        if (showThreatened) {
-                            const player1Los = this.getLosCount(cell, 1);
-                            const player2Los = this.getLosCount(cell, 2);
-                            if (player1Los > player2Los && player1Los > size) {
-                                key = `F${size.toString()}`;
-                            } else if (player2Los > player1Los && player2Los > size) {
-                                key = `G${size.toString()}`;
-                            } else if (player1Los === player2Los && player1Los > size) {
-                                key = `H${size.toString()}`;
-                            } else {
-                                key = `E${size.toString()}`;
-                            }
-                        } else {
-                            key = `E${size.toString()}`;
-                        }
-                    }
+                    const key = this.livePieceLegendKey(player, size, cell, threatenedPieces, showThreatened, this.board);
                     legendNames.add(key);
                     pieces.push(key);
                 } else {
@@ -758,40 +1056,44 @@ export class TumbleweedGame extends GameBase {
         // build legend based on stack sizes
         const legend: ILegendObj = {};
         for (const name of legendNames) {
-            const [piece, ...size] = name;
+            const stale = name.startsWith("x");
+            const liveName = stale ? name.slice(1) : name;
+            const [piece, ...size] = liveName;
             const player = piece === "A" || piece === "C" ? 1 : piece === "B" || piece === "D" ? 2 : 3;
             const sizeStr = size.join("");
+            let glyph: Glyph | [Glyph, ...Glyph[]];
             if (piece === "A" || piece === "B" || piece === "E") {
-                legend[name] = [
+                glyph = [
                     { name: "piece", colour: player },
                     { text: sizeStr, scale: 0.75 },
-                ]
+                ];
             } else if (piece === "C" || piece === "D") {
-                legend[name] = [
+                glyph = [
                     { name: "piece-borderless", scale: 1.1, colour: player % 2 + 1 },
                     { name: "piece", colour: player },
                     { text: sizeStr, scale: 0.75 },
-                ]
+                ];
             } else if (piece === "F") {
-                legend[name] = [
+                glyph = [
                     { name: "piece-borderless", scale: 1.1, colour: 1 },
                     { name: "piece", colour: player },
                     { text: sizeStr, scale: 0.75 },
-                ]
+                ];
             } else if (piece === "G") {
-                legend[name] = [
+                glyph = [
                     { name: "piece-borderless", scale: 1.1, colour: 2 },
                     { name: "piece", colour: player },
                     { text: sizeStr, scale: 0.75 },
-                ]
-            } else /* if (piece === "H") */ {
-                legend[name] = [
+                ];
+            } else {
+                glyph = [
                     { name: "piece-borderless", scale: 1.1, colour: 1 },
                     { name: "piece-borderless", scale: 1.1, colour: 2 },
                     { name: "piece", colour: player },
                     { text: sizeStr, scale: 0.75 },
-                ]
+                ];
             }
+            legend[name] = stale ? this.dimGlyphStack(glyph) : glyph;
         }
 
         let points1: {row: number, col: number}[] = [];
@@ -830,7 +1132,11 @@ export class TumbleweedGame extends GameBase {
             rep.annotations = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "place") {
-                    const [x, y] = this.getGraph().algebraic2coords(move.where!);
+                    const where = move.where!;
+                    if (fog && !this.cellVisibleToViewer(where, viewSeat)) {
+                        continue;
+                    }
+                    const [x, y] = this.getGraph().algebraic2coords(where);
                     rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 }
             }
@@ -868,26 +1174,6 @@ export class TumbleweedGame extends GameBase {
         }
         return markers;
     }
-
-    private threatenedPieces(): Set<string> {
-        // A piece is threatened if it can be captured by the other player,
-        // and it cannot be captured back.
-        const threatenedPieces = new Set<string>();
-        for (const cell of this.listCells() as string[]) {
-            if (this.board.has(cell)) {
-                const [player, size] = this.board.get(cell)!;
-                const otherPlayer = player === 1 ? 2 : 1;
-                const losCount = this.getLosCount(cell, player);
-                const otherPlayerLosCount = this.getLosCount(cell, otherPlayer);
-                if (otherPlayerLosCount >= losCount && otherPlayerLosCount > size) {
-                    threatenedPieces.add(cell);
-                }
-            }
-        }
-        return threatenedPieces
-    }
-
-
 
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {

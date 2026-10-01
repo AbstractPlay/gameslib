@@ -25,12 +25,13 @@ export function tumbleweedFrom(opts: {
     version?: string;
     scores?: [number, number];
     gameover?: boolean;
+    fogMemory?: [Map<string, [playerid, number] | null>, Map<string, [playerid, number] | null>];
 }): TumbleweedGame {
     const version = opts.version ?? TumbleweedGame.gameinfo.version;
     const stack: IMoveState[] = [];
     for (let i = 0; i < opts.stackDepth; i++) {
         const isLast = i === opts.stackDepth - 1;
-        stack.push({
+        const entry: IMoveState = {
             _version: version,
             _results: [],
             _timestamp: new Date(),
@@ -38,7 +39,11 @@ export function tumbleweedFrom(opts: {
             board: new Map(opts.board),
             lastmove: isLast ? opts.lastmove : (i > 0 ? "pass" : undefined),
             scores: opts.scores ?? [0, 0],
-        });
+        };
+        if (opts.fogMemory !== undefined && isLast) {
+            entry.fogMemory = [new Map(opts.fogMemory[0]), new Map(opts.fogMemory[1])];
+        }
+        stack.push(entry);
     }
     const state: ITumbleweedState = {
         game: "tumbleweed",
@@ -276,6 +281,99 @@ describe("Tumbleweed", () => {
             const occupiedMoves = g.moves().filter(m => m !== "pass" && g.board.has(m));
             expect(occupiedMoves.length).to.be.greaterThan(0);
             expect(occupiedMoves.every(m => !m.endsWith("+") && !m.endsWith("x"))).to.be.true;
+        });
+    });
+
+    describe("fog variant", () => {
+        it("resolveFlags adds no-explore when fog is selected", () => {
+            expect(TumbleweedGame.resolveFlags({ variants: ["fog"] })).to.include("no-explore");
+            expect(TumbleweedGame.resolveFlags({ variants: [] })).to.not.include("no-explore");
+        });
+
+        it("sidebarScores is empty when fog is on", () => {
+            const g = tumbleweedFrom({
+                board: [["h8", [3, 2]]],
+                stackDepth: 3,
+                variants: ["fog"],
+            });
+            expect(g.sidebarScores()).to.deep.equal([]);
+        });
+
+        it("records fogMemory on stack entries after the opening", () => {
+            const g0 = new TumbleweedGame(undefined, ["fog", "size-6"]);
+            const g = g0.move(g0.moves()[0]!, { trusted: true });
+            const mem = g.stack[g.stack.length - 1].fogMemory;
+            expect(mem).to.not.be.undefined;
+            expect(mem![0].size).to.be.greaterThan(0);
+            expect(mem![1].size).to.be.greaterThan(0);
+        });
+
+        it("shows the opening centre neutral live before placement", () => {
+            const g = new TumbleweedGame(undefined, ["fog"]);
+            const rep = g.render({ perspective: 1 });
+            expect(rep.pieces).to.include("E2");
+            expect(rep.pieces).to.not.include("xE2");
+        });
+
+        it("dims the centre when opening placement leaves it out of line of sight", () => {
+            const g = new TumbleweedGame(undefined, ["fog", "size-6"]).move("k1,j2", { trusted: true });
+            const rep = g.render({ perspective: 1 });
+            expect(rep.pieces).to.include("xE2");
+        });
+
+        it("strip for a seat projects stale memory and omits fogMemory", () => {
+            const p1Memory = new Map<string, [playerid, number] | null>([["o1", [2, 2]]]);
+            const p2Memory = new Map<string, [playerid, number] | null>([["p1", [1, 1]]]);
+            const g = tumbleweedFrom({
+                board: [
+                    ["h8", [3, 2]],
+                    ["o1", [2, 3]],
+                ],
+                currplayer: 1,
+                stackDepth: 4,
+                variants: ["fog"],
+                fogMemory: [p1Memory, p2Memory],
+            });
+            const stripped = g.state({ strip: true, player: 1 });
+            const top = stripped.stack[stripped.stack.length - 1];
+            expect(top.fogMemory).to.be.undefined;
+            expect(top.board.has("o1")).to.be.true;
+            expect(top.board.get("o1")).to.deep.equal([2, 2]);
+            expect(top.board.has("p1")).to.be.false;
+        });
+
+        it("observer strip omits fogMemory and cells only one player remembers", () => {
+            const p2Memory = new Map<string, [playerid, number] | null>([["p1", [1, 1]]]);
+            const g = tumbleweedFrom({
+                board: [
+                    ["h8", [3, 2]],
+                    ["g7", [1, 1]],
+                ],
+                currplayer: 1,
+                stackDepth: 4,
+                variants: ["fog"],
+                fogMemory: [new Map(), p2Memory],
+            });
+            const stripped = g.state({ strip: true });
+            const top = stripped.stack[stripped.stack.length - 1];
+            expect(top.fogMemory).to.be.undefined;
+            expect(top.board.has("p1")).to.be.false;
+        });
+
+        it("render uses x-prefixed legend keys for stale cells", () => {
+            const p1Memory = new Map<string, [playerid, number] | null>([["o1", [2, 2]]]);
+            const g = tumbleweedFrom({
+                board: [
+                    ["h8", [3, 2]],
+                    ["g7", [1, 1]],
+                ],
+                currplayer: 1,
+                stackDepth: 4,
+                variants: ["fog"],
+                fogMemory: [p1Memory, new Map()],
+            });
+            const rep = g.render({ perspective: 1 });
+            expect(rep.pieces).to.match(/xB2/);
         });
     });
 

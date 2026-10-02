@@ -838,9 +838,12 @@ export function resolve(board: Map<string, CellContents>, player: playerid, maxS
     return { status: "unsatisfiable" };
 }
 
-/** Whether the player to move has any legal step, push or pull. */
-export function hasAnyMove(board: Map<string, CellContents>, player: playerid): boolean {
-    return new Search(board, player).atoms(2).length > 0;
+/**
+ * Whether the player to move has any legal step, or, with at least two steps
+ * to spend, any push or pull. Only Dicey Moves allows fewer than two.
+ */
+export function hasAnyMove(board: Map<string, CellContents>, player: playerid, maxSteps = 4): boolean {
+    return new Search(board, player).atoms(Math.min(2, maxSteps)).length > 0;
 }
 
 /** Replay an explicit step list (no legality checks) and describe the turn. */

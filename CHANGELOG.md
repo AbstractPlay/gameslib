@@ -13,14 +13,20 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Changed
 
-- **Tumbleweed (fog):** opening dual-placement stays live only while the opening is in progress; after commit, opponent setup stones use normal line-of-sight (stale when remembered but off sight).
 - **Thricewise:** in the place phase, clicking an empty cell places your card when you only have one left to play; choose the card from your hand first when you still have more than one.
+
+### Fixed
 
 ### Added
 
 - **Tumbleweed:** experimental `fog` variant (line-of-sight visibility, stale dimmed cells, hidden scores, redacted move tree after the opening ply; explore disabled).
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Clearpath, Croda, Dama, Ice Palace, Kill-All Go, Neutron, Thricewise, Yodd.
-- **Bao:** `malawi-full` variant (Figure 2 Bawo rules); `malawi` renamed to setup-only (8 kuu / 20 reserve, Zanzibar rules); Zanzibar / kujifunza / Malawi variants share one `rules` radio group.
+
+## [1.0.0-ci] - 2026-10-01
+
+### Fixed
+
+- **Tumbleweed:** standard opening ply `lastmove` is stored as the full `p1,p2` wire; `moveHistory` / load repair legacy stacks that only saved P1's cell; chat log uses one combined setup line.
 
 ## [1.0.0-ci] - 2026-09-30
 
@@ -33,6 +39,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 - **Arimaa:** lightvector notation and click-based move entry; Harlog leader shown as a coloured piece.
 - **Sidebar status aids** for Mega-Volcano and Tintas (spoiler-friendly).
 - **Asli:** area-scoring variant; Gonnect cascading variant follow-ups (including outright-win messaging and render fixes).
+- **Bao:** `malawi-full` variant (Figure 2 Bawo rules); `malawi` renamed to setup-only (8 kuu / 20 reserve, Zanzibar rules); Zanzibar / kujifunza / Malawi variants share one `rules` radio group.
 
 ### Changed
 

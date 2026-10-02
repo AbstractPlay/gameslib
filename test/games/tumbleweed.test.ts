@@ -383,6 +383,81 @@ describe("Tumbleweed", () => {
             expect(top.board.get("j3")).to.deep.equal([2, 1]);
         });
 
+        it("stripped reload shows opponent stones on projected board as stale", () => {
+            const g0 = new TumbleweedGame(undefined, ["fog", "size-6"]);
+            const g = g0.move("k1,j3", { trusted: true });
+            const stripped = g.state({ strip: true, player: 1 });
+            const loaded = new TumbleweedGame(stripped);
+            const rep = loaded.render({ perspective: 1 });
+            const tokens = rep.pieces.split(/[\n,]+/);
+            expect(tokens).to.include("A1");
+            expect(tokens).to.include("xB1");
+            expect(tokens).to.not.include("B1");
+        });
+
+        it("partial pass keeps committed fog until the pass is saved", () => {
+            const g0 = new TumbleweedGame(undefined, ["fog", "size-6"]);
+            const opening = g0.moves()[0]!;
+            const g = g0.move(opening, { trusted: true });
+            const before = g.render({ perspective: 2 });
+            const gPartial = new TumbleweedGame(g.serialize());
+            gPartial.move("pass", { partial: true });
+            const during = gPartial.render({ perspective: 2 });
+            expect(before.pieces).to.include("A1");
+            expect(before.pieces).to.not.include("xA1");
+            expect(during.pieces).to.equal(before.pieces);
+        });
+
+        it("opening ply move string is the full wire for move history", () => {
+            const g0 = new TumbleweedGame(undefined, ["fog", "size-6"]);
+            const opening = g0.moves()[0]!;
+            const g = g0.move(opening, { trusted: true });
+            const ply = g.getPlies().find(p => p.stackIndex === 1)!;
+            expect(ply.move).to.equal(opening);
+            expect(g.stack[1]!.lastmove).to.equal(opening);
+            expect(ply.move).to.match(/,.+/);
+        });
+
+        it("moveHistory shows full opening wire from place results when lastmove is incomplete", () => {
+            const g0 = new TumbleweedGame(undefined, ["fog", "size-6"]);
+            const opening = g0.moves()[0]!;
+            const g = g0.move(opening, { trusted: true });
+            g.stack[1]!.lastmove = opening.split(",")[0]!;
+            const round = g.moveHistory()[0]!;
+            expect(round[0]).to.equal(opening);
+        });
+
+        it("load repairs legacy opening lastmove on stack[1] from place results", () => {
+            const g0 = new TumbleweedGame(undefined, ["fog", "size-6"]);
+            const opening = g0.moves()[0]!;
+            const g = g0.move(opening, { trusted: true });
+            g.stack[1]!.lastmove = opening.split(",")[0]!;
+            const reloaded = new TumbleweedGame(g.serialize());
+            expect(reloaded.stack[1]!.lastmove).to.equal(opening);
+        });
+
+        it("free-neutral opening with fog seeds player-placed neutral into fog memory", () => {
+            const g0 = new TumbleweedGame(undefined, ["fog", "free-neutral", "size-6"]);
+            const opening = "k1,j2,k3";
+            const neutralCell = "k1";
+            const g = g0.move(opening, { trusted: true });
+            expect(g.stack[1]!.lastmove).to.equal(opening);
+            const mem = g.stack[g.stack.length - 1].fogMemory!;
+            expect(mem[0].has(neutralCell)).to.be.true;
+            expect(mem[1].has(neutralCell)).to.be.true;
+            expect(mem[0].get(neutralCell)).to.deep.equal([3, 2]);
+        });
+
+        it("strip leaves opening stack entry board and lastmove untouched", () => {
+            const g0 = new TumbleweedGame(undefined, ["fog", "size-6"]);
+            const g = g0.move("k1,j3", { trusted: true });
+            const fullBoard = new Map(g.stack[1]!.board);
+            const stripped = g.state({ strip: true, player: 1 });
+            expect(stripped.stack[1]!.lastmove).to.equal("k1,j3");
+            expect(stripped.stack[1]!.board).to.deep.equal(fullBoard);
+            expect(stripped.stack[1]!.fogMemory).to.be.undefined;
+        });
+
         it("redacts opponent lastmoves in stripped state but keeps the opening ply public", () => {
             const g0 = new TumbleweedGame(undefined, ["fog", "size-6"]);
             const opening = g0.moves()[0]!;

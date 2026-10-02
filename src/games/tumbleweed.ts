@@ -236,6 +236,7 @@ export class TumbleweedGame extends GameBase {
         } else {
             this.fogMemory = TumbleweedGame.emptyFogMemory();
         }
+        this.repairHistoricalOpeningLastmoves();
         return this;
     }
 
@@ -453,6 +454,17 @@ export class TumbleweedGame extends GameBase {
         return this.liveVisibleOnBoard(this.board, player);
     }
 
+    /**
+     * Stripped seat state omits `fogMemory` on the stack entry; `board` is already the viewer projection.
+     * Render only classifies live vs stale from that board (no memory replay).
+     */
+    private fogViewUsesBoardOnly(): boolean {
+        if (!this.fogEnabled() || this.gameover || this.stack.length === 0) {
+            return false;
+        }
+        return this.stack[this.stack.length - 1].fogMemory === undefined;
+    }
+
     private refreshFogMemory(): void {
         if (!this.fogEnabled()) {
             return;
@@ -548,16 +560,77 @@ export class TumbleweedGame extends GameBase {
         return out;
     }
 
-    /** Cells from the committed opening ply (`stack[1].lastmove`). */
+    /** Cells from the committed opening ply (`stack[1]`, wire or place results). */
     private openingPlacementCells(): Set<string> {
         if (this.stack.length < 2) {
             return new Set<string>();
         }
-        const lm = this.stack[1]?.lastmove;
-        if (lm === undefined) {
+        const state = this.stack[1];
+        if (state === undefined) {
             return new Set<string>();
         }
-        return this.cellsFromOpeningWire(lm);
+        return this.cellsFromOpeningWire(this.openingWireForStackState(state));
+    }
+
+    private isOpeningSetupResults(results: APMoveResult[]): boolean {
+        const places = results.filter((r) => r.type === "place");
+        if (this.variants.includes("free-neutral")) {
+            return places.length === 3
+                && places.every((p) => (p as { who?: number }).who !== undefined);
+        }
+        return places.length === 2
+            && places.every((p) => {
+                const who = (p as { who?: number }).who;
+                return who === 1 || who === 2;
+            });
+    }
+
+    /** Canonical setup wire: `p1,p2` or free-neutral `n,p1,p2` from place results. */
+    private openingSetupWireFromResults(results: APMoveResult[]): string | undefined {
+        const places = results.filter(
+            (r): r is APMoveResult & { type: "place"; where: string; who?: number } =>
+                r.type === "place" && r.where !== undefined && (r as { who?: number }).who !== undefined,
+        );
+        if (places.length === 0) {
+            return undefined;
+        }
+        const order: playerid[] = this.variants.includes("free-neutral") ? [3, 1, 2] : [1, 2];
+        const cells: string[] = [];
+        for (const who of order) {
+            const hit = places.find((p) => p.who === who);
+            if (hit !== undefined) {
+                cells.push(hit.where);
+            }
+        }
+        return cells.length > 0 ? cells.join(",") : undefined;
+    }
+
+    private openingWireForStackState(state: IMoveState): string {
+        const results = state._results ?? [];
+        if (this.isOpeningSetupResults(results)) {
+            const wire = this.openingSetupWireFromResults(results);
+            if (wire !== undefined) {
+                return wire;
+            }
+        }
+        return state.lastmove as string;
+    }
+
+    /** Fix legacy games whose `stack[1].lastmove` only recorded P1's cell. */
+    private repairHistoricalOpeningLastmoves(): void {
+        if (this.stack.length < 2) {
+            return;
+        }
+        const state = this.stack[1];
+        const results = state._results ?? [];
+        if (!this.isOpeningSetupResults(results)) {
+            return;
+        }
+        const wire = this.openingSetupWireFromResults(results);
+        if (wire === undefined || state.lastmove === wire) {
+            return;
+        }
+        state.lastmove = wire;
     }
 
     /** Seat who committed the ply recorded at `stackIndex` (from prior frame `currplayer`). */
@@ -598,6 +671,10 @@ export class TumbleweedGame extends GameBase {
             if (entry.fogMemory !== undefined) {
                 exported.fogMemory = TumbleweedGame.cloneFogPair(entry.fogMemory);
             }
+            return exported;
+        }
+        if (stackIndex !== undefined && this.isPublicOpeningStackIndex(stackIndex)) {
+            delete exported.fogMemory;
             return exported;
         }
         exported.board = this.projectedBoardForExport(entry.board, entry.fogMemory, player);
@@ -651,6 +728,7 @@ export class TumbleweedGame extends GameBase {
             }
             result.valid = true;
             result.complete = 1;
+            result.canrender = true;
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;
         }
@@ -844,7 +922,16 @@ export class TumbleweedGame extends GameBase {
                 this.board.set(withoutSuffix, [this.currplayer, losCount]);
             }
         }
-        this.lastmove = m;
+        if (this.stack.length === 1) {
+            if (!partial && this.isOpeningSetupResults(this.results)) {
+                const wire = this.openingSetupWireFromResults(this.results);
+                this.lastmove = wire ?? m;
+            } else {
+                this.lastmove = m;
+            }
+        } else {
+            this.lastmove = m;
+        }
         if (partial) {
             return this;
         }
@@ -1065,6 +1152,13 @@ export class TumbleweedGame extends GameBase {
             return { kind: "live" };
         }
         const live = viewSeat === 1 ? live1 : live2;
+        if (this.fogViewUsesBoardOnly()) {
+            if (!this.board.has(cell)) {
+                return { kind: "hidden" };
+            }
+            const stack = this.board.get(cell)!;
+            return live.has(cell) ? { kind: "live", stack } : { kind: "stale", stack };
+        }
         const memory = this.fogMemory[viewSeat - 1];
         if (live.has(cell)) {
             if (this.board.has(cell)) {
@@ -1080,6 +1174,34 @@ export class TumbleweedGame extends GameBase {
             return { kind: "stale", stack: snap };
         }
         return { kind: "hidden" };
+    }
+
+    protected plyFromStack(stackIndex: number) {
+        const ply = super.plyFromStack(stackIndex);
+        if (this.isPublicOpeningStackIndex(stackIndex)) {
+            return {
+                ...ply,
+                move: this.openingWireForStackState(this.stack[stackIndex]),
+            };
+        }
+        return ply;
+    }
+
+    public moveHistory(): string[][] {
+        const moves = super.moveHistory();
+        if (this.stack.length > 1 && moves.length > 0 && moves[0].length > 0 && this.isPublicOpeningStackIndex(1)) {
+            moves[0][0] = this.openingWireForStackState(this.stack[1]);
+        }
+        return moves;
+    }
+
+    public moveHistoryWithSequence(): [number, string][][] {
+        const moves = super.moveHistoryWithSequence();
+        if (this.stack.length > 1 && moves.length > 0 && moves[0].length > 0 && this.isPublicOpeningStackIndex(1)) {
+            const [seat, ] = moves[0][0];
+            moves[0][0] = [seat, this.openingWireForStackState(this.stack[1])];
+        }
+        return moves;
     }
 
     private viewSeatFromPerspective(perspective?: number): playerid | undefined {
@@ -1271,11 +1393,25 @@ export class TumbleweedGame extends GameBase {
 
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
-            case "place":
+            case "place": {
+                const placeResults = ctx.results.filter((res) => res.type === "place");
+                if (this.isOpeningSetupResults(ctx.results)) {
+                    const firstPlace = placeResults[0];
+                    if (r !== firstPlace) {
+                        return true;
+                    }
+                    const wire = this.openingSetupWireFromResults(ctx.results)!;
+                    this.pushSeatChatLine(lines, 1, "apresults:PLACE.tumbleweed", {
+                        where: wire,
+                        count: (firstPlace as { count?: number }).count!,
+                    });
+                    return true;
+                }
                 this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.tumbleweed", {
                     where: r.where!, count: r.count!,
                 });
                 return true;
+            }
             case "capture": {
                 const selfCapture = (r as { whose?: number }).whose === ctx.defaultSeat;
                 this.pushSeatChatLine(

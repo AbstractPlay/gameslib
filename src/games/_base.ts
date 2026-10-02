@@ -197,6 +197,11 @@ export interface IAPGameState {
  */
 export interface IRenderOpts {
     perspective?: number;
+    /**
+     * Show hidden information on the board (fog, unrevealed objectives, …) as if the game were over
+     * or had no hidden-information rules. Used for omniscient / debugger views; does not change state.
+     */
+    omniscient?: boolean;
     /** @deprecated Prefer {@link IRenderOpts.altDisplays} when multiple toggles are active. */
     altDisplay?: string;
     altDisplays?: string[];

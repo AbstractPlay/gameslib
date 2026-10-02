@@ -166,6 +166,24 @@ describe("Thricewise", () => {
         expect(rep.board).to.not.equal(undefined);
     });
 
+    it("omniscient shows all hand cards even when perspective is set", () => {
+        const g = new ThricewiseGame(3);
+        const twos = cardsOfRank(2);
+        const aces = cardsOfRank(1);
+        const fours = cardsOfRank(4);
+        g.hands = [
+            [twos[0]!, twos[1]!],
+            [aces[0]!, aces[1]!],
+            [fours[0]!, fours[1]!],
+        ];
+        const unknownCount = (rep: { areas?: { pieces?: string[] }[] }) =>
+            (rep.areas ?? [])
+                .flatMap(a => a.pieces ?? [])
+                .filter(p => p === "cUNKNOWN").length;
+        expect(unknownCount(g.render({ perspective: 1 }))).to.be.greaterThan(0);
+        expect(unknownCount(g.render({ perspective: 1, omniscient: true }))).to.equal(0);
+    });
+
     it("opens 2x2 for two players and 2x3 for three", () => {
         const g2 = new ThricewiseGame(2);
         expect(g2.board.cards.length).to.equal(4);

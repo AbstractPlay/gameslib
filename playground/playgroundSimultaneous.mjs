@@ -52,6 +52,20 @@ export function setViewMode(mode) {
     window.localStorage.setItem(STORAGE.viewMode, mode === "live" ? "live" : "god");
 }
 
+/**
+ * God view shows unstripped state; engines that support {@link IRenderOpts.omniscient}
+ * should lift fog / hidden board information while the game is in progress.
+ *
+ * @param {object | undefined} engine
+ * @param {Record<string, unknown>} [opts]
+ */
+export function mergeOmniscientRenderOpts(engine, opts = {}) {
+    if (isGodViewMode() && engine && !engine.gameover) {
+        return { ...opts, omniscient: true };
+    }
+    return opts;
+}
+
 /** True when `serialize({ strip, player })` can differ by viewer. */
 export function engineSupportsPlayerStrip(engine) {
     if (!engine || typeof engine.serialize !== "function") {

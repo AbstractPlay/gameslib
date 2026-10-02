@@ -1293,7 +1293,7 @@ export class TumbleweedGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        const fog = this.fogEnabled() && !this.gameover;
+        const fog = this.fogEnabled() && !this.gameover && opts?.omniscient !== true;
         const viewSeat = fog ? this.viewSeatFromPerspective(opts?.perspective) : undefined;
         const showThreatened = !fog && !this.hasDisplay(opts, "hide-threatened");
         const showInfluence = !fog && !this.hasDisplay(opts, "hide-influence");

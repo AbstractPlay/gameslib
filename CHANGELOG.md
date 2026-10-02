@@ -17,6 +17,8 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Fixed
 
+- **Thricewise:** `IRenderOpts.omniscient` shows all players’ hand cards even when `perspective` is set (matches Tumbleweed/AoM debugger contract).
+
 ### Added
 
 - **Tumbleweed:** experimental `fog` variant (line-of-sight visibility, stale dimmed cells, hidden scores, redacted move tree after the opening ply; explore disabled).

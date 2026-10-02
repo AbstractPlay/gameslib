@@ -543,6 +543,27 @@ describe("Tumbleweed", () => {
             const rep = g.render({ perspective: 1 });
             expect(rep.pieces).to.match(/xB2/);
         });
+
+        it("omniscient render shows full board under fog", () => {
+            const g = tumbleweedFrom({
+                board: [
+                    ["h8", [3, 2]],
+                    ["b5", [1, 1]],
+                    ["n5", [2, 1]],
+                ],
+                currplayer: 1,
+                stackDepth: 4,
+                variants: ["fog"],
+                fogMemory: [new Map(), new Map()],
+            });
+            const limited = g.render({ perspective: 1 });
+            const god = g.render({ omniscient: true });
+            const pieceGlyphs = (p: string) => (p.match(/[ABE][0-9]+/g) ?? []).length;
+            expect(pieceGlyphs(god.pieces)).to.be.greaterThan(pieceGlyphs(limited.pieces));
+            expect(god.pieces).to.include("A1");
+            expect(god.pieces).to.include("B1");
+            expect(god.pieces).to.include("E2");
+        });
     });
 
     describe("computeLosForPlayer parity", () => {

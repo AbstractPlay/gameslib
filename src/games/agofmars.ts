@@ -2491,7 +2491,7 @@ export class AgofmarsGame extends GameBaseSequenced {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        const viewer = opts?.perspective;
+        const viewer = opts?.omniscient === true ? undefined : opts?.perspective;
         const legend: ILegendObj = {};
         for (const c of [...activeColours(this.variants), "BK" as Colour]) {
             for (let s = 1 as Size; s <= 3; s++) {

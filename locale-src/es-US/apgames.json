@@ -15951,6 +15951,10 @@
     "src": "Click an empty point to place a stone in your colour. Click it again to switch to the other colour, and again to remove the stone. Use Complete Move when you are ready (one stone only on the first turn).",
     "out": "Haz clic en un punto vacío para colocar una piedra de tu color. Haz clic de nuevo para cambiar al otro color, y otra vez para quitar la piedra. Usa Completar movimiento cuando estés listo (solo una piedra en el primer turno)."
   },
+  "validation.yodd.INITIAL_INSTRUCTIONS_yopp": {
+    "src": "Click an empty point to place your stone. Click it again to remove the stone. Use Complete Move when you are ready (one stone only on the first turn).",
+    "out": "Haz clic en un punto vacío para colocar tu piedra. Haz clic de nuevo para quitarla. Usa Completar movimiento cuando estés listo (solo una piedra en el primer turno)."
+  },
   "validation.yodd.INSTRUCTIONS": {
     "src": "Pass, or place one or two stones on empty points (your colour by default). Click a stone again to switch colour, or a third time to remove it. The total number of groups must be odd when you complete your turn.",
     "out": "Pasa o coloca una o dos piedras en puntos vacíos (tu color por defecto). Haz clic en una piedra de nuevo para cambiar de color, o una tercera vez para quitarla. El número total de grupos debe ser impar cuando completes tu turno."
@@ -15958,6 +15962,18 @@
   "validation.yodd.INSTRUCTIONS_ODD": {
     "src": "Adjust placements or add another stone so the total number of groups is odd, then use Complete Move.",
     "out": "Ajusta las colocaciones o agrega otra piedra para que el número total de grupos sea impar, luego usa Completar movimiento."
+  },
+  "validation.yodd.INSTRUCTIONS_yopp": {
+    "src": "Pass only if you have no valid placement, or place one or two of your own stones on empty points. Click a stone again to remove it. The total number of groups must be odd when you complete your turn.",
+    "out": "Pasa solo si no tienes ninguna colocación válida, o coloca una o dos de tus propias piedras en puntos vacíos. Haz clic en una piedra de nuevo para quitarla. El número total de grupos debe ser impar al completar tu turno."
+  },
+  "validation.yodd.INVALID_PASS": {
+    "src": "You may only pass if you have no valid placements.",
+    "out": "Solo puedes pasar si no tienes ninguna colocación válida."
+  },
+  "validation.yodd.INVALID_PASS_PARTIAL": {
+    "src": "Complete or clear your placement before passing.",
+    "out": "Completa o borra tu colocación antes de pasar."
   },
   "validation.yodd.INVALID_PLACEMENT": {
     "src": "Unable to interpret the move notation: {{move}}.",
@@ -15967,9 +15983,17 @@
     "src": "The move needs to be normalised. Try {{normalised}}.",
     "out": "El movimiento debe normalizarse. Intenta {{normalised}}."
   },
+  "validation.yodd.NO_PASS_OPENING": {
+    "src": "You may not pass on the opening turn.",
+    "out": "No puedes pasar en el turno de apertura."
+  },
   "validation.yodd.ODD_GROUPS_REQUIRED": {
     "src": "The total number of groups on the board must be odd after your turn.",
     "out": "El número total de grupos en el tablero debe ser impar después de tu turno."
+  },
+  "validation.yodd.OWN_COLOUR_ONLY": {
+    "src": "You may only place stones of your own colour.",
+    "out": "Solo puedes colocar piedras de tu propio color."
   },
   "validation.yodd.TOO_MANY_MOVES": {
     "src": "Only one or two placements are allowed.",
@@ -21358,6 +21382,14 @@
   "variants.yodd.square-9.name": {
     "src": "Size-9 square (Xodd)",
     "out": "Cuadrado de tamaño 9 (Xodd)"
+  },
+  "variants.yodd.yopp.description": {
+    "src": "Place only your own colour; pass only when you have no valid placement.",
+    "out": "Coloca solo tu propio color; pasa solo cuando no tengas ninguna colocación válida."
+  },
+  "variants.yodd.yopp.name": {
+    "src": "Yopp/Xopp",
+    "out": "Yopp/Xopp"
   },
   "variants.zola.#board.name": {
     "src": "6x6 board",

@@ -4435,6 +4435,10 @@
       },
       "square-15": {
         "name": "Quadrat-Größe 15 (Xodd)"
+      },
+      "yopp": {
+        "description": "Platziere nur Steine deiner eigenen Farbe; passe nur, wenn du keine gültige Platzierung hast.",
+        "name": "Yopp/Xopp"
       }
     },
     "zola": {
@@ -8445,11 +8449,17 @@
     },
     "yodd": {
       "INITIAL_INSTRUCTIONS": "Klicke auf einen leeren Punkt, um einen Stein deiner Farbe zu platzieren. Klicke erneut darauf, um zur anderen Farbe zu wechseln, und ein weiteres Mal, um den Stein zu entfernen. Nutze \"Zug beenden\", wenn du bereit bist (im ersten Zug nur ein Stein).",
+      "INITIAL_INSTRUCTIONS_yopp": "Klicke auf einen leeren Punkt, um deinen Stein zu platzieren. Klicke erneut darauf, um den Stein zu entfernen. Verwende 'Zug beenden', wenn du fertig bist (nur ein Stein im ersten Zug).",
       "INSTRUCTIONS": "Passe oder platziere einen oder zwei Steine auf leeren Punkten (standardmäßig in deiner Farbe). Klicke erneut auf einen Stein, um die Farbe zu wechseln, oder ein drittes Mal, um ihn zu entfernen. Die Gesamtzahl der Gruppen muss ungerade sein, wenn du deinen Zug beendest.",
+      "INSTRUCTIONS_yopp": "Passe nur, wenn du keine gültige Platzierung hast, oder platziere einen oder zwei Steine deiner eigenen Farbe auf leeren Punkten. Klicke erneut auf einen Stein, um ihn zu entfernen. Die Gesamtzahl der Gruppen muss ungerade sein, wenn du deinen Zug beendest.",
       "INSTRUCTIONS_ODD": "Passe die Platzierungen an oder füge einen weiteren Stein hinzu, sodass die Gesamtzahl der Gruppen ungerade ist, und nutze dann \"Zug beenden\".",
+      "INVALID_PASS": "Du darfst nur passen, wenn du keine gültigen Platzierungen hast.",
       "INVALID_PLACEMENT": "Die Zugnotation konnte nicht interpretiert werden: {{move}}.",
       "NORMALISED": "Der Zug muss normalisiert werden. Versuche {{normalised}}.",
+      "NO_PASS_OPENING": "Im Eröffnungszug darfst du nicht passen.",
       "ODD_GROUPS_REQUIRED": "Die Gesamtzahl der Gruppen auf dem Brett muss nach deinem Zug ungerade sein.",
+      "OWN_COLOUR_ONLY": "Du darfst nur Steine deiner eigenen Farbe platzieren.",
+      "INVALID_PASS_PARTIAL": "Schließe deine Platzierung ab oder setze sie zurück, bevor du passt.",
       "TOO_MANY_MOVES": "Es sind nur ein oder zwei Platzierungen erlaubt.",
       "TOO_MANY_MOVES_START": "Im ersten Zug ist nur eine Platzierung erlaubt.",
       "VALID_MOVE": "Nutze \"Zug beenden\", um deinen Zug beenden, oder klicke weiter, um Steine zu ändern oder zu entfernen."

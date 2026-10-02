@@ -489,25 +489,17 @@ function shiftRenderFrame(delta) {
     skipFrameRefresh = false;
 }
 
-function boardClick(row, col, piece) {
-    console.log("Row: " + row + ", Col: " + col + ", Piece: " + piece);
-    var state = getCommittedStateString();
-    var gamename = window.localStorage.getItem("gamename");
-    var game = APGames.GameFactory(gamename, state);
-    if (game.gameover) {
-        return;
-    }
+function applyPlaygroundClickResult(game, gamename, result) {
     var movebox = document.getElementById("moveEntry");
-    var result = game.handleClick(movebox.value, row, col, piece);
     movebox.value = result.move;
     var colour = "#f00";
     if (result.valid) {
         if (result.complete === -1) {
-            colour = "#ff9900";  // Orange for incomplete
+            colour = "#ff9900";
         } else if (result.complete === 0) {
-            colour = "#4caf50";  // Softer green for ready
+            colour = "#4caf50";
         } else {
-            colour = "#2196f3"; // Soft blue for auto-submit
+            colour = "#2196f3";
         }
     }
     var resultStr = '<p style="color: '+ colour +'">' + formatValidationMessage(result.message) + '</p>';
@@ -538,6 +530,19 @@ function boardClick(row, col, piece) {
     if (result.complete === 1 && document.getElementById("autoSubmit").checked) {
         document.getElementById("moveBtn").click();
     }
+}
+
+function boardClick(row, col, piece) {
+    console.log("Row: " + row + ", Col: " + col + ", Piece: " + piece);
+    var state = getCommittedStateString();
+    var gamename = window.localStorage.getItem("gamename");
+    var game = APGames.GameFactory(gamename, state);
+    if (game.gameover) {
+        return;
+    }
+    var movebox = document.getElementById("moveEntry");
+    var result = game.handleClick(movebox.value, row, col, piece);
+    applyPlaygroundClickResult(game, gamename, result);
 }
 
 function boardClickSimultaneous(row, col, piece) {
@@ -1901,7 +1906,16 @@ function updateCustomButtons(game, gamename) {
         el.type = "button";
         el.textContent = formatCustomButtonLabel(btn.label);
         el.addEventListener("click", () => {
-            document.getElementById("moveEntry").value = btn.move;
+            const gamename = window.localStorage.getItem("gamename");
+            const state = getCommittedStateString();
+            const movebox = document.getElementById("moveEntry");
+            if (gamename && state && movebox && btn.move === "pass" && typeof game.handleClick === "function") {
+                const engine = APGames.GameFactory(gamename, state);
+                const result = engine.handleClick(movebox.value, -1, -1, "_btn_pass");
+                applyPlaygroundClickResult(engine, gamename, result);
+                return;
+            }
+            movebox.value = btn.move;
             refreshClickStatusMessage();
         });
         container.appendChild(el);
@@ -3193,12 +3207,22 @@ document.addEventListener("DOMContentLoaded", function(event) {
                         );
                     }
                 } else {
-                    game.move(submittedMove);
-                    if (simultaneous) {
-                        clearRoundBuffer();
+                    const trimmed = submittedMove.trim();
+                    const validation = validateMoveForPlayground(game, gamename, trimmed);
+                    if (!validation.valid) {
+                        waserror = true;
+                        var statusbox = document.getElementById("clickstatus");
+                        statusbox.innerHTML =
+                            '<p style="color: #f00">' + formatValidationMessage(validation.message) + "</p>";
+                        movebox.classList.remove("move-incomplete", "move-ready");
+                    } else {
+                        game.move(trimmed);
+                        if (simultaneous) {
+                            clearRoundBuffer();
+                        }
+                        persistCommittedState(game, gamename, game);
+                        clearInterimRenderCache();
                     }
-                    persistCommittedState(game, gamename, game);
-                    clearInterimRenderCache();
                 }
             } catch (err) {
                 waserror = true;
@@ -3765,10 +3789,20 @@ document.addEventListener("DOMContentLoaded", function(event) {
         const partial = moveEntry.value.trim();
         if (gamename === "elOso" && partial.length === 2 && partial.indexOf("-") === -1) {
             moveEntry.value = `${partial}-pass`;
-        } else {
-            moveEntry.value = "pass";
+            refreshClickStatusMessage();
+            return;
         }
-        document.getElementById("moveBtn").click();
+        const state = getCommittedStateString();
+        if (gamename && state && typeof APGames.GameFactory === "function") {
+            const game = APGames.GameFactory(gamename, state);
+            if (game && typeof game.handleClick === "function") {
+                const result = game.handleClick(moveEntry.value, -1, -1, "_btn_pass");
+                applyPlaygroundClickResult(game, gamename, result);
+                return;
+            }
+        }
+        moveEntry.value = "pass";
+        refreshClickStatusMessage();
     });
 
     const framePrev = document.getElementById("framePrev");

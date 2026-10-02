@@ -166,6 +166,24 @@ describe("Thricewise", () => {
         expect(rep.board).to.not.equal(undefined);
     });
 
+    it("omniscient shows all hand cards even when perspective is set", () => {
+        const g = new ThricewiseGame(3);
+        const twos = cardsOfRank(2);
+        const aces = cardsOfRank(1);
+        const fours = cardsOfRank(4);
+        g.hands = [
+            [twos[0]!, twos[1]!],
+            [aces[0]!, aces[1]!],
+            [fours[0]!, fours[1]!],
+        ];
+        const unknownCount = (rep: { areas?: { pieces?: string[] }[] }) =>
+            (rep.areas ?? [])
+                .flatMap(a => a.pieces ?? [])
+                .filter(p => p === "cUNKNOWN").length;
+        expect(unknownCount(g.render({ perspective: 1 }))).to.be.greaterThan(0);
+        expect(unknownCount(g.render({ perspective: 1, omniscient: true }))).to.equal(0);
+    });
+
     it("opens 2x2 for two players and 2x3 for three", () => {
         const g2 = new ThricewiseGame(2);
         expect(g2.board.cards.length).to.equal(4);
@@ -200,6 +218,19 @@ describe("Thricewise", () => {
         const lines = g.chatLogEntries(["Alice", "Bob"]).flatMap(e => e.lines);
         const selectLines = lines.filter(l => l.textKey === "apresults:SELECT.thricewise");
         expect(selectLines.length).to.equal(2);
+    });
+
+    it("places the only remaining card when clicking an empty cell in place phase", () => {
+        const g = new ThricewiseGame(2);
+        const threes = cardsOfRank(3);
+        const fives = cardsOfRank(5);
+        g.hands = [[threes[0], threes[1]], [fives[0], fives[1]]];
+        g.move(`${threes[0]},${fives[0]}`);
+        const empty = g.legalEmpties()[0]!;
+        const rel = g.board.abs2rel(empty[0], empty[1])!;
+        const click = g.handleClick("", rel[1], rel[0]);
+        expect(click.valid).to.equal(true);
+        expect(click.move).to.equal(`${threes[0]}@${empty[0]}.${empty[1]}`);
     });
 
     it("advances play queue once per compound placement ply", () => {

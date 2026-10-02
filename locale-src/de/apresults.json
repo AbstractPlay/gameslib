@@ -1000,12 +1000,16 @@
     "out": "{{player}} hat durch direkte Verbindung gewonnen."
   },
   "EOG.killallgo_double_pass": {
-    "src": "The game has ended because both players passed without the Defender establishing life.",
-    "out": "Das Spiel ist beendet, da beide Spieler gepasst haben, ohne dass der Verteidiger Leben herstellen konnte."
+    "src": "The game has ended because both players passed consecutively without the Defender establishing unconditional life.",
+    "out": "Das Spiel ist beendet, da beide Spieler nacheinander gepasst haben, ohne dass der Verteidiger bedingungsloses Leben aufgebaut hat."
+  },
+  "EOG.killallgo_no_moves": {
+    "src": "The game has ended because the player to move has no legal placement.",
+    "out": "Das Spiel ist beendet, da der Spieler am Zug keine gültige Platzierung mehr vornehmen kann."
   },
   "EOG.killallgo_no_room": {
-    "src": "The game has ended because the Attacker's unconditionally alive stones leave the Defender no room to make a living string.",
-    "out": "Das Spiel ist beendet, da die bedingungslos lebenden Steine des Angreifers dem Verteidiger keinen Platz lassen, eine lebende Kette zu bilden."
+    "src": "The game has ended because the Attacker's unconditionally alive stones leave the Defender no room to form an unconditionally alive string.",
+    "out": "Das Spiel ist beendet, da die bedingungslos lebenden Steine des Angreifers dem Verteidiger keinen Raum lassen, eine bedingungslos lebende Kette zu bilden."
   },
   "EOG.killallgo_pass_alive": {
     "src": "The game has ended because the Defender formed an unconditionally alive string.",
@@ -2222,6 +2226,14 @@
   "RESIGN": {
     "src": "{{player}} has resigned.",
     "out": "{{player}} hat aufgegeben."
+  },
+  "ROLL.arimaa_one": {
+    "src": "{{player}}'s die shows 1: a single step this turn.",
+    "out": "Der Würfel von {{player}} zeigt 1: ein einzelner Schritt in diesem Zug."
+  },
+  "ROLL.arimaa_other": {
+    "src": "{{player}}'s die shows {{count}}: up to {{count}} steps this turn.",
+    "out": "Der Würfel von {{player}} zeigt {{count}}: bis zu {{count}} Schritte in diesem Zug."
   },
   "ROLL.canoe": {
     "src": "{{player}} rolled: {{values}}.",

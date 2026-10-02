@@ -33,6 +33,7 @@ import {
     liveStripPlayer,
     isGodViewMode,
     isLiveViewMode,
+    mergeOmniscientRenderOpts,
     splitPartialRow,
     isSeatEliminated,
 } from "./playgroundSimultaneous.mjs";
@@ -65,6 +66,16 @@ function getRenderPerspective(game, gamename) {
         return getActiveSeat(game);
     }
     return game.currplayer;
+}
+
+function playgroundRenderOpts(game, gamename, base = {}) {
+    return mergeOmniscientRenderOpts(
+        game,
+        getRenderOptions({
+            ...base,
+            perspective: getRenderPerspective(game, gamename),
+        }),
+    );
 }
 
 function validateMoveForPlayground(game, gamename, moveStr) {
@@ -509,9 +520,7 @@ function boardClick(row, col, piece) {
         movebox.classList.add("move-ready");
     }
     if ( ( (result.hasOwnProperty("canrender")) && (result.canrender === true) ) || (result.complete >= 0) ) {
-        let renderOpts = getRenderOptions({
-            perspective: getRenderPerspective(game, gamename),
-        });
+        let renderOpts = playgroundRenderOpts(game, gamename);
         let selectedDisplay = window.localStorage.getItem("selectedDisplay") || "default";
         const checkedDisplayRadio = document.querySelector('input[name="displayOption"]:checked');
         if (checkedDisplayRadio) {
@@ -570,9 +579,7 @@ function boardClickSimultaneous(row, col, piece) {
         movebox.classList.add("move-ready");
     }
     if ( ( (result.hasOwnProperty("canrender")) && (result.canrender === true) ) || (result.complete >= 0) ) {
-        let renderOpts = getRenderOptions({
-            perspective: getRenderPerspective(game, gamename),
-        });
+        let renderOpts = playgroundRenderOpts(game, gamename);
         let selectedDisplay = window.localStorage.getItem("selectedDisplay") || "default";
         const checkedDisplayRadio = document.querySelector('input[name="displayOption"]:checked');
         if (checkedDisplayRadio) {
@@ -704,9 +711,7 @@ function renderCustomizePreview() {
     var gamename = window.localStorage.getItem("gamename");
     var game = createEngineForView(gamename) ?? APGames.GameFactory(gamename, state);
 
-    const renderOpts = getRenderOptions({
-        perspective: getRenderPerspective(game, gamename),
-    });
+    const renderOpts = playgroundRenderOpts(game, gamename);
     const uniqueid = "customizePreviewSvg_" + Date.now();
     const options = { ...renderOpts,
         svgid: uniqueid,
@@ -2179,9 +2184,7 @@ function renderGame(...args) {
             data = null;
         }
 
-        let renderOpts = getRenderOptions({
-            perspective: getRenderPerspective(game, gamename),
-        });
+        let renderOpts = playgroundRenderOpts(game, gamename);
         if (selectedDisplay !== "default") {
             renderOpts.altDisplay = selectedDisplay;
         }
@@ -2461,9 +2464,7 @@ function applyInterimPreviewForMoveFragment(gamename, game, fragment) {
     if (!result.valid) {
         return false;
     }
-    let renderOpts = getRenderOptions({
-        perspective: getRenderPerspective(game, gamename),
-    });
+    let renderOpts = playgroundRenderOpts(game, gamename);
     const checkedDisplayRadio = document.querySelector('input[name="displayOption"]:checked');
     if (checkedDisplayRadio && checkedDisplayRadio.value !== "default") {
         renderOpts.altDisplay = checkedDisplayRadio.value;
@@ -3184,9 +3185,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                         );
                         clearInterimRenderCache();
                     } else {
-                        const renderOpts = getRenderOptions({
-                            perspective: getRenderPerspective(game, gamename),
-                        });
+                        const renderOpts = playgroundRenderOpts(game, gamename);
                         applyInterimPartialRender(
                             gamename,
                             submitResult.partialMove,

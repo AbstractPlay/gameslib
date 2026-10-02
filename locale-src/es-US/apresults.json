@@ -1000,12 +1000,16 @@
     "out": "{{player}} ganó por conexión directa."
   },
   "EOG.killallgo_double_pass": {
-    "src": "The game has ended because both players passed without the Defender establishing life.",
-    "out": "La partida ha terminado porque ambos jugadores pasaron sin que el Defensor estableciera vida."
+    "src": "The game has ended because both players passed consecutively without the Defender establishing unconditional life.",
+    "out": "La partida ha terminado porque ambos jugadores pasaron consecutivamente sin que el Defensor estableciera vida incondicional."
+  },
+  "EOG.killallgo_no_moves": {
+    "src": "The game has ended because the player to move has no legal placement.",
+    "out": "La partida ha terminado porque el jugador en turno no tiene ninguna colocación legal."
   },
   "EOG.killallgo_no_room": {
-    "src": "The game has ended because the Attacker's unconditionally alive stones leave the Defender no room to make a living string.",
-    "out": "La partida ha terminado porque las piedras incondicionalmente vivas del Atacante no le dejan espacio al Defensor para formar una cadena viva."
+    "src": "The game has ended because the Attacker's unconditionally alive stones leave the Defender no room to form an unconditionally alive string.",
+    "out": "La partida ha terminado porque las piedras vivas incondicionalmente del Atacante no le dejan espacio al Defensor para formar una cadena viva incondicionalmente."
   },
   "EOG.killallgo_pass_alive": {
     "src": "The game has ended because the Defender formed an unconditionally alive string.",
@@ -2222,6 +2226,14 @@
   "RESIGN": {
     "src": "{{player}} has resigned.",
     "out": "{{player}} se ha rendido."
+  },
+  "ROLL.arimaa_one": {
+    "src": "{{player}}'s die shows 1: a single step this turn.",
+    "out": "El dado de {{player}} muestra 1: un solo paso este turno."
+  },
+  "ROLL.arimaa_other": {
+    "src": "{{player}}'s die shows {{count}}: up to {{count}} steps this turn.",
+    "out": "El dado de {{player}} muestra {{count}}: hasta {{count}} pasos este turno."
   },
   "ROLL.canoe": {
     "src": "{{player}} rolled: {{values}}.",

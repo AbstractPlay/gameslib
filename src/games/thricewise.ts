@@ -751,7 +751,20 @@ export class ThricewiseGame extends GameBaseSequenced {
                     };
                 }
                 if (move === "" || !move.includes("@")) {
-                    newmove = `${move}@${absx}.${absy}`;
+                    let cardPrefix = move;
+                    if (
+                        cardPrefix === "" &&
+                        player === this.currplayer &&
+                        this.phase === "place"
+                    ) {
+                        const remaining = this.obligationFor(player).filter(
+                            uid => !this.placedThisActivation.includes(uid),
+                        );
+                        if (remaining.length === 1) {
+                            cardPrefix = remaining[0]!;
+                        }
+                    }
+                    newmove = `${cardPrefix}@${absx}.${absy}`;
                 } else {
                     const segs = move.split(";");
                     const last = segs[segs.length - 1]!;
@@ -1151,13 +1164,15 @@ export class ThricewiseGame extends GameBaseSequenced {
         return state;
     }
 
-    public render({ perspective }: IRenderOpts = { perspective: undefined }): APRenderRep {
+    public render(opts: IRenderOpts = {}): APRenderRep {
         const viewSeat =
-            typeof perspective === "number" &&
-            perspective >= 1 &&
-            perspective <= this.numplayers
-                ? perspective
-                : undefined;
+            opts.omniscient === true
+                ? undefined
+                : typeof opts.perspective === "number" &&
+                    opts.perspective >= 1 &&
+                    opts.perspective <= this.numplayers
+                  ? opts.perspective
+                  : undefined;
         const { height, width, minX, maxX, minY, maxY } = this.board.dimensions;
         const vp = this.board.viewportSize;
         const rowLabels: string[] = [];

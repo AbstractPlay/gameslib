@@ -305,8 +305,9 @@
     "tafl_king_escaped": "La partita è terminata perché il re è fuggito.",
     "unlur_foul": "La partita è terminata perché un giocatore ha raggiunto la condizione di vittoria dell'avversario senza raggiungere la propria.",
     "druid_hex": "La partita è terminata perché {{player}} ha collegato i bordi {{edges}}.",
-    "killallgo_double_pass": "La partita è terminata perché entrambi i giocatori hanno passato senza che il Difensore abbia stabilito la vita.",
-    "killallgo_no_room": "La partita è terminata perché le pietre incondizionatamente vive dell'Attaccante non lasciano spazio al Difensore per formare una catena viva.",
+    "killallgo_double_pass": "La partita è terminata perché entrambi i giocatori hanno passato consecutivamente senza che il Difensore abbia stabilito una vita incondizionata.",
+    "killallgo_no_moves": "La partita è terminata perché il giocatore di turno non ha alcun piazzamento legale.",
+    "killallgo_no_room": "La partita è terminata perché le pietre incondizionatamente vive dell'Attaccante non lasciano spazio al Difensore per formare una catena incondizionatamente viva.",
     "killallgo_pass_alive": "La partita è terminata perché il Difensore ha formato una catena incondizionatamente viva."
   },
   "DRUID_HEX_EDGE": {
@@ -642,6 +643,8 @@
   },
   "RESIGN": "{{player}} si è arreso.",
   "ROLL": {
+    "arimaa_one": "Il dado di {{player}} mostra 1: un solo passo in questo turno.",
+    "arimaa_other": "Il dado di {{player}} mostra {{count}}: fino a {{count}} passi in questo turno.",
     "magnate": "{{who}} ha tirato un {{values}}.",
     "magnate_eight": "{{who}} ha tirato un {{values}}.",
     "canoe": "{{player}} ha tirato: {{values}}.",

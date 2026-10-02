@@ -139,7 +139,7 @@
         "irensei": "Irensei (Japanese: 囲連星) is a mixture of Go and Gomoku. Get a seven in a row inside the middle 15x15 region of the Go board to win. To reduce the first player's advantage, the first player loses if they make an overline (even if it extends beyond the 15x15 region), but the second player may win by overline.",
         "jacynth": "A Decktet card game where opponents vye for control of the city of Jacynth. Place cards, exert influence, and control the most area to win.",
         "kachit": "A chess-like game played on a 4x4 board where you try to eliminate the opposing king or promote your own. Pieces can change their orientation after moving.",
-        "killallgo": "A Go variant with asymmetric goals: the Attacker starts with stones on the board and must capture everything, while the Defender wins by making one string that can never be captured.",
+        "killallgo": "A Go variant with asymmetric goals: the Attacker starts with stones on the board and must prevent the Defender from establishing unconditional life. The Defender wins by forming just one unconditionally alive string.",
         "knightline": "A four-in-a-row connection game played by splitting a stack of knights on an unbounded grid.",
         "konane": "A traditional Hawaiian game that was almost completely lost to time but for the memory of a single woman, Kaʻahaʻaina Naihe of Kailua-Kona. Played on a rectangular board, each player captures by jumping over their opponent's pieces. Last to move wins.",
         "krypte": "A 4-in-a-row game where pieces enter from active sides that rotate after each turn, and placing a piece flips all adjacent pieces.",
@@ -601,7 +601,7 @@
         "akimbo": "Akimbo, designed by Luis Bolaños Mures in 2026, is a drawless connection game for two players. A _naked diagonal_ is a pair of like-colored, diagonally adjacent pieces with no other like-colored piece adjacent to both. A _crosscut_ is a 2×2 area with two interlocking naked diagonals of opposite colors.\n\nOn their turn, the player places a friendly piece on an empty cell. If this completes a crosscut, the other piece in the crosscut is removed. There must never be more than one naked diagonal of each color on the board — not even momentarily before removing a piece. A player wins if, at the end of their turn, there is a chain of orthogonally connected pieces of their color touching the player's two opposite board edges.\n\nOkimba is a variant where only up to one naked diagonal can exist on the board (so while one player has the diagonal, the adversary cannot create another).",
         "alta": "There are two ways to place switches on the graphical interface: (1) Select the switch’s orientation in the panel, then click on the desired space on the board to place it, or (2) click on two vertices. The vertices are notated with an asterisk, followed by the algebraic notation of the space where the vertex is at the bottom-left corner. To toggle a switch, simply click on the space.",
         "anache": "This implementation follows David Ploog's rulesheet. Three notable changes are that (1) barriers are forbidden, (2) instead of a 16x16, we have a 15x15 variant, where pieces promote to knights on the centreline, and the dragon may not jump to the 7x7 space from the other corner, and (3) against the corners, pieces are captured via crushing capture instead of custodian capture, so there needs to be at least two opponent pieces in a line before a capture is made against the corners.\n\nNote: the stalemate check is expensive. If you cannot make a legal move, you should resign manually.",
-        "arimaa": "Made available under section 3 of the [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nDuring standard setup, you only need to place your eight non-rabbits. Once they are down, Complete Move fills the rest of your setup area with rabbits. You can still place any or all of the rabbits yourself first if you want them somewhere in particular.\n\nTo enter a move, click a piece and then the square it should end your turn on. The engine finds the shortest legal way to get it there, pushes and pulls included, and draws one arrow per piece from where it started to where it ends up. You can point at enemy pieces too. Click an arrow's head to extend it, or its tail to remove it. Clicking a selected piece a second time keeps it where it stands, which is how you stop the engine moving it aside. A few rarer turns need one more click; the wiki page for this game lists them all.\n\nMoves are recorded in Lightvector notation, which names each piece and where it ends up rather than listing every step. You can type it into the move box, and the older step-by-step notation is still accepted. The wiki page explains the notation in full.\n\nHarlog is an accepted method for determining material advantage. Positive scores favour Gold, negative Silver. The hard range is ±112, but in practice ±20 is a very strong advantage.\n\nBecause we can't generate comprehensive lists of moves, the system cannot detect the rare cases where your only available moves are illegal due to position repetition. The system won't let you make those illegal repetitions, and you'll have to resign manually.",
+        "arimaa": "Made available under section 3 of the [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nDuring standard setup, you only need to place your eight non-rabbits. Once they are down, Complete Move fills the rest of your setup area with rabbits. You can still place any or all of the rabbits yourself first if you want them somewhere in particular.\n\nTo enter a move, click a piece and then the square it should end your turn on. The engine finds the shortest legal way to get it there, pushes and pulls included, and draws one arrow per piece from where it started to where it ends up. You can point at enemy pieces too. Click an arrow's head to extend it, or its tail to remove it. Clicking a selected piece a second time keeps it where it stands, which is how you stop the engine moving it aside. A few rarer turns need one more click; the wiki page for this game lists them all.\n\nMoves are recorded in Lightvector notation, which names each piece and where it ends up rather than listing every step. You can type it into the move box, and the older step-by-step notation is still accepted. The wiki page explains the notation in full.\n\nHarlog is an accepted method for determining material advantage. Positive scores favour Gold, negative Silver. The hard range is ±112, but in practice ±20 is a very strong advantage.\n\nIn Dicey Moves, a player whose die allows a single step has no move, and loses, when only pushes and pulls remain.\n\nBecause we can't generate comprehensive lists of moves, the system cannot detect the rare cases where your only available moves are illegal due to position repetition. The system won't let you make those illegal repetitions, and you'll have to resign manually.",
         "armadas": "There are known issues with this game on iOS devices.\n\nThis game offers two scenarios:\n\n* The default is each player having two trios of pieces. In the placement phase, each player must place 1 to 3 ships until all ships are placed.\n* The \"Freeform\" variant allows you to place whatever ships you want (maximum of three at a time) until both players \"pass.\" This lets you create unbalanced or otherwise asymmetrical fleets.\n\nGames default to having one island in the centre of the field. Both a \"no islands\" and a \"two islands\" variant are available. You cannot move or fire through islands. To successfully hit a ship, at least one corner of your ship's triangle must have a clear view of at least one corner of the target ship.\n\nRemember that it is possible to get your ship in a position against an island or the edge of the board such that you can no longer move that ship! Be careful!",
         "ataxx": "On three-fold repetition, the game ends and the scores are calculated.",
         "bao": "Moves in Bao can be very complex, involving multiple laps around the board and changing directions. The annotations are, therefore, sparse. The initial cell and direction are highlighted, and captured cells are also marked. But detailed annotation of movement is not possible. If you believe you have encountered a bug, please let us know in Discord.",
@@ -641,7 +641,7 @@
         "intermedium": "Intermedium (aka, Stepping Stones) is a 1974 game designed by Matt Crispis. This is a stack sowing game, where players try to surround the opposing home-base. Stacks only move diagonally, and each army starts in a different diagonal color, so they can never cross over (like two bishops at different square colors). Pieces are captured by enclosure, surrounding all orthogonal adjacencies of an opponent stack.\n\nSome words from the author: \"[Intermedium] is simple to learn, but may lead to complicated situations that require deep analysis and forward thinking. Single pieces do no move, but they are useful a stepping stones for your captures. And they may become alive by putting another piece over them. Before you master the game, avoid early attacks against the City that  may prove costly. Build up your strength gradually and evenly by dominating, if possible, the center. You should also avoid building 'formidable' stacks of six or more pieces - if taken you may lose the game at one stroke. Leave some forces behind to defend your City in case of emergency.\"",
         "invector": "Invector, designed by Mark Steere in 2026, is an elimination game inspired by the ancient Hawiian game of Kōnane. Invector begins with a checkerboard pattern of stones, has short range captures, and is extremely simple. Invector simply combines two basic, off-the-shelf ingredients: orthogonal, adjacent capturing moves, and orthogonal, adjacent moves closer to center.",
         "jacynth": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers and opponents.",
-        "killallgo": "The Attacker, whose stones are already on the board when normal play begins, wins by preventing the Defender from ever making a living string. The Defender wins by making one string that cannot be captured. There is no scoring.\n\nStones are placed and captured as in Go with Tromp-Taylor clearing: after a placement, opponent strings without liberties are removed, then your own string if it has none, so multi-stone suicide is legal. Positional superko applies: no placement may recreate any earlier position of the board. Either player may pass; if both pass in a row, the Attacker wins.\n\nThe Defender wins as soon as one of their strings is unconditionally alive: pass-alive by Benson's algorithm, meaning the Attacker could never capture it even with unlimited consecutive moves. That is the only way to win as the Defender. A string that is merely alive in seki or in ko does not count, so the Defender must keep playing and turn it into a string that cannot be captured at all.\n\nThe Attacker wins as soon as that has become impossible. Stones of the Attacker that are unconditionally alive can never be removed, and no point next to one of them can ever lie in an eye of a living Defender string. When no area left over by those stones holds two points that are neither next to each other nor next to those stones, there is no room anywhere for the two eyes a living string needs, and the game ends. The check does not recognise every lost position; when it does not trigger, play simply continues.\n\nOpenings: with Pieboxing, the players take turns placing Attacker stones until one of them takes the Attacker side; the other player then moves first as the Defender. The handicap opening works the same way, except that Player 1 (the stronger player, so seat the handicap giver first when creating the challenge) first sets the number of handicap stones and Player 2 starts placing; if Player 2 takes the Attacker side, they place that many extra stones at once. The classic opening uses the traditional 17-stone position on the 19x19 board, with the Defender (Player 1) to move. In the simple pie, Player 1 places any number of Attacker stones and Player 2 chooses a side. In the generalized Hoctaph's pie, Player 1 chooses two batch sizes (each at least 1, together at most the number of points minus 2, neither more than twice the other), Player 2 decides who places the first batch, the other player then chooses a side, and the Attacker places the second batch. In every opening the Defender makes the first normal move.",
+        "killallgo": "The Defender must form an unconditionally alive string (pass-alive according to Benson's algorithm): one that can survive any sequence of opposing moves without responding. Life dependent on seki or ko does not count. The Attacker wins when their unconditionally alive stones leave no room for such a string. Passing is not allowed after the opening, and a player with no legal placement loses.\n\nStones are placed and captured as in Go with Tromp-Taylor clearing: after a placement, opponent strings without liberties are removed, then your own string if it has none. Multi-stone suicide is therefore legal. Positional superko applies: no placement may recreate an earlier board position.",
         "konane": "Several competing opening protocols exist, but the most common ruleset is the Naihe Ruleset, used by tournaments at the Bishop Museum in Hawaii and described in the BGG reference. This is what is implemented here.",
         "knightline": "For convenience, your stack is split approximately in half on your first click.  Subsequent clicks on the source or target stack move one piece at a time.  When done, click on an empty cell or use the Complete Move button.\n\nThe coordinate system is adapted from the coder's coordinate system for Hive, a game on an unbounded (but still reasonably sized) hex board.  The y axis is labeled with Cartesian coordinates (positive and negative integers).  The x axis is labeled with letters in alphabetical order, with the origin at (m, 0).  If motion on the x-axis exceeds the confines of the alphabet in either direction, the letters are prefixed with another letter (z is followed by aa, ab, ac, etc., and a is preceded by zz, zy, zx, etc.).  The game is not expected to reach a width that requires more double coordinates, but for the record, az is followed by ba, za is preceded by yz, and so forth.  The board cannot reach a size that would result in ambiguity.",
         "lasca": "Maneuverability is a measure of how close your pieces are to promoting. Your maximum maneuverability is the board size times the number of stacks you control.\n\nMaterial is calculated by giving you a point for every friendly piece in a stack you control, plus an extra point if you have an officer on top of that stack.",
@@ -695,7 +695,7 @@
         "toguz": "Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
         "thricewise": "With 2 or 4 players the opening grid is 2×2; with 3 or 5 players it is 2×3. The tableau may grow in any direction until it is 6×6. Duplicate ranks in the simultaneous selection are deferred face-up beside your seat and played on a later turn (you may place deferred cards and your new card in any order in one submission). More information on the Decktet is on the [Decktet wiki](https://decktet.wikidot.com/).",
         "tricouleur": "Tricouleur is a 2005 game designed by Bill Taylor. Each player has a army of three types of pieces that are able to capture the next type, in a cyclic way: think Rock-Paper-Scissors (Circle-Square-Ex). The move sequence is 12* where a player must use different pieces (it is also possible to pass the entire turn). A piece may move to an empty neighboring cell (in which case it leaves an unmoved duplicate behind) or to an empty cell among the twelve 2nd-neighbours, regardless of what is in between. Any weaker opposing pieces that the moved piece becomes adjacent to are recolored as the moving piece. Any same-strength opposing pieces that the moved piece becomes adjacent to, are removed from the board.\n\nThe game ends when either (a) both players pass consecutively, (b) the board is full, (c) one army is destroyed, (d) a position is repeated three times.  Whoever has the most pieces of their own colours in total, wins.",
-        "tumbleweed": "A space is claimed by a player if they have a piece on it, or if they have the majority of the line of sights to it. The score is the number of territory own by each player. The game ends when both players pass in succession. If there is no change in score for 20 plies, the game also ends.",
+        "tumbleweed": "A space is claimed by a player if they have a piece on it, or if they have the majority of the lines of sight to it. The score is the amount of territory own by each player. The game ends when both players pass in succession. If there is no change in score for 20 plies, the game also ends.\n\nThe experimental **Fog of war** variant hides off-sight cells; last-seen cells stay on the board dimmed until line of sight returns. The score sidebar and influence/threatened overlays are disabled in that variant.",
         "twinflames": "Twin Flames is a 2026 redesign of the 2013's Product, an original concept by Nick Bentley. The first player must initially place a friendly stone, preventing overly strong opening countermoves and thereby eliminating the need for a pie rule. The remaining moves use a 12* sequence, in which players may place stones of either colour. At the end of the game, a player who has formed a single connected group scores points equal to the size of that group. Another ludeme introduced was the use of walls, or blockers, which reduce overall connectivity and make groups more robust to enemy attacks. The blocker configuration is randomized, increasing game variability and making opening theory more difficult to develop.",
         "twixt": "The notation is based on Hansel notation at <http://www.ibiblio.org/twixtpuzzles/>. Some modifications are that link removal specifically specifies the link direction, and commas separate the moves. To add/remove links, click on the pegs between them. You can also remove a link by clicking on the line itself.",
         "unane": "Ūnane, designed by Mark Steere in 2026, is an unification game inspired by the ancient Hawiian game of Kōnane. True to the spirit of Kōnane, Ūnane begins with a checkerboard pattern of stones, has short-range captures, and is extremely simple. \"Ūnane\" is a fusion of Una (Spanish for \"one\") and Kōnane. This is intended as a tribute to Kōnane, not cultural appropriation.\n\nŪnane has common ground with Kōnane, especially in both players are mainly trying to isolate and remove their own stones.",
@@ -993,11 +993,15 @@
             },
             "eee": {
                 "name": "Endless endgame",
-                "description": "Randomly generated setup with reduced army size"
+                "description": "Randomly generated setup with reduced army size. Devised by clyring."
             },
             "free": {
                 "name": "Free placement",
                 "description": "Lets players place as many pieces as they want wherever they want, including creating illegal or otherwise broken positions. Players should communicate clearly before starting. These games cannot be rated."
+            },
+            "dicey": {
+                "name": "Dicey Moves",
+                "description": "A die determines how many steps you can take each turn."
             }
         },
         "armadas": {
@@ -2454,7 +2458,7 @@
             },
             "handicap": {
                 "name": "Handicap",
-                "description": "Pieboxing with a handicap. Player 1 (seat the stronger player first) sets the number of extra Attacker stones, then Player 2 starts placing. If Player 2 takes the Attacker side, they place the extra stones at once. Devised by MXHero."
+                "description": "Pieboxing with a handicap. Player 1, the stronger player, sets the number of extra Attacker stones, then Player 2 starts placing. If Player 2 chooses to play as the Attacker, they place the extra stones immediately. Devised by MXHero."
             },
             "classic": {
                 "name": "Classic 17-stone setup",
@@ -2466,7 +2470,7 @@
             },
             "hoctaph": {
                 "name": "Generalized Hoctaph's pie",
-                "description": "Player 1 chooses two batch sizes, Player 2 chooses who places the first batch, the other player chooses a side, and the Attacker places the second batch. Hoctaph's pie (OGS forums), generalized to every board size by Samraku."
+                "description": "Player 1 chooses two batch sizes, and Player 2 decides who places the first batch. The player who did not place that batch then chooses a side, and the Attacker places the second batch. Hoctaph's pie (OGS forums), generalized to every board size by Samraku."
             }
         },
         "knightline": {
@@ -4154,6 +4158,10 @@
             "free-neutral": {
                 "description": "On the first turn, place a 2-stack neutral piece, and a 1-stack piece of each player's colour.",
                 "name": "Free neutral"
+            },
+            "fog": {
+                "description": "You only see cells in line of sight of your towers; cells you lose sight of stay visible but dimmed until sight returns. Scores and board overlays are hidden. Experimental.",
+                "name": "Fog of war"
             }
         },
         "twinflames": {
@@ -4947,6 +4955,10 @@
             }
         },
         "tumbleweed": {
+            "fog-unseen-clouds": {
+                "description": "In the Fog of war variant, show cloud icons on cells you have never seen. Has no effect in other variants.",
+                "name": "Unseen clouds"
+            },
             "hide-both": {
                 "description": "Don't show line of sight or non-suicidal captures.",
                 "name": "Hide Both"
@@ -5479,7 +5491,9 @@
             "AMBIGUOUS": "That fits {{count}} different moves. Say where another piece ends up to settle it.",
             "INFERRED": "Also moving: {{pieces}}.",
             "INCOMPLETE": "A piece is selected. Click a square to send it there, or click it again to keep it where it is.",
-            "TOO_LONG": "What you have drawn needs more than {{num}} steps."
+            "TOO_LONG": "What you have drawn needs more than {{num}} steps.",
+            "DIE_one": "The die allows a single step this turn.",
+            "DIE_other": "The die allows up to {{count}} steps this turn."
         },
         "armadas": {
             "BAD_PASS": "When passing, that must be the only command you provide.",
@@ -6743,31 +6757,31 @@
             "PARTIAL_orientation": "Select a neighbouring cell to orient the piece."
         },
         "killallgo": {
-            "INSTRUCTIONS_HANDICAP": "You are giving the handicap. Type the number of extra Attacker stones (1 to {{max}}) your opponent will place if they take the Attacker side.",
+            "INSTRUCTIONS_HANDICAP": "You are giving the handicap. Click a numbered stone, or enter a number from 1 to {{max}} manually, to set how many extra Attacker stones your opponent will place if they take the Attacker side.",
             "HANDICAP_INVALID": "The handicap must be a whole number.",
             "HANDICAP_RANGE": "The handicap must be between 1 and {{max}} stones.",
-            "HANDICAP_OK_one": "Handicap of one stone. Submit, or keep typing.",
-            "HANDICAP_OK_other": "Handicap of {{count}} stones. Submit, or keep typing.",
-            "INSTRUCTIONS_ALT": "Place an Attacker stone, or take the Attacker side; your opponent then moves first as the Defender.",
-            "INSTRUCTIONS_ALT_HANDICAP_one": "Place an Attacker stone, or take the Attacker side and then place one more stone; your opponent then moves first as the Defender.",
-            "INSTRUCTIONS_ALT_HANDICAP_other": "Place an Attacker stone, or take the Attacker side and then place {{count}} more stones; your opponent then moves first as the Defender.",
+            "HANDICAP_OK_one": "Handicap of one stone. Submit, or choose a different handicap.",
+            "HANDICAP_OK_other": "Handicap of {{count}} stones. Submit, or choose a different handicap.",
+            "NOT_A_NUMBERED_STONE": "{{where}} is not one of the numbered stones.",
+            "INSTRUCTIONS_ALT": "Place an Attacker stone to continue the opening, or choose to play as the Attacker. If you choose the Attacker, your opponent moves first as the Defender.",
+            "INSTRUCTIONS_ALT_HANDICAP_one": "Place an Attacker stone to continue the opening, or choose to play as the Attacker. If you choose the Attacker, place one extra stone; your opponent then moves first as the Defender.",
+            "INSTRUCTIONS_ALT_HANDICAP_other": "Place an Attacker stone to continue the opening, or choose to play as the Attacker. If you choose the Attacker, place {{count}} extra stones; your opponent then moves first as the Defender.",
             "SETUP_FULL": "The board already holds the maximum number of setup stones this phase allows ({{max}}); take the Attacker side instead of placing another.",
             "ATTACKER_NO_STONES": "Taking the Attacker side does not involve placing stones now.",
             "DEFENDER_NO_STONES": "Choosing the Defender side does not involve placing stones now.",
             "STONES_LEFT_one": "Place one more Attacker stone.",
             "STONES_LEFT_other": "Place {{count}} more Attacker stones.",
-            "BATCH_TOO_MANY_one": "This batch holds exactly one stone.",
-            "BATCH_TOO_MANY_other": "This batch holds exactly {{count}} stones.",
+            "BATCH_TOO_MANY_one": "This batch must contain exactly one stone.",
+            "BATCH_TOO_MANY_other": "This batch must contain exactly {{count}} stones.",
             "BATCH_MORE_OR_SUBMIT": "Add more Attacker stones, or submit.",
             "DUPLICATE_CELL": "The cell {{where}} is listed twice.",
             "INVALID_PASS": "You cannot pass now.",
-            "NO_CLICKS_NOW": "Type your answer in the move box; the board is not clickable yet.",
             "INSTRUCTIONS_PIE_SLICE": "Place any number of Attacker stones up to {{max}} (or pass to place none); your opponent will then choose a side.",
             "PIE_SLICE_MAX": "You may place at most {{max}} Attacker stones this way.",
             "INSTRUCTIONS_PIE_CHOOSE": "Choose a side: take the Attacker stones, or place your first stone as the Defender.",
             "INSTRUCTIONS_PIE_DEFENDER_STONE": "Place your first Defender stone.",
-            "INSTRUCTIONS_HOC_SLICE": "Click a numbered stone on the left to size the first batch and one on the right to size the second, or type both sizes as a,b: each at least 1, together at most {{max}}, and neither more than twice the other.",
-            "SLICE_FORMAT": "Type the two batch sizes as two whole numbers separated by a comma, for example 20,15.",
+            "INSTRUCTIONS_HOC_SLICE": "Choose the sizes of two batches of Attacker stones: the first batch will be placed before sides are chosen, and the Attacker will then place the second. Click a numbered stone in the upper block for the first batch and one in the lower block for the second, or enter both sizes manually in that order, separated by a comma.",
+            "SLICE_FORMAT": "Manually entered batch sizes must be two whole numbers separated by a comma, for example 20,15.",
             "SLICE_MIN": "Each batch must hold at least one stone.",
             "SLICE_SUM": "Together the two batches may hold at most {{max}} stones.",
             "SLICE_RATIO": "Neither batch may be more than twice the size of the other.",
@@ -6775,18 +6789,16 @@
             "SLICE_A_ONLY_other": "First batch of {{count}} stones. Now choose the size of the second batch.",
             "SLICE_B_ONLY_one": "Second batch of one stone. Now choose the size of the first batch.",
             "SLICE_B_ONLY_other": "Second batch of {{count}} stones. Now choose the size of the first batch.",
-            "SLICE_NOT_A_BUTTON": "Click one of the numbered stones: the block on the left sizes the first batch, the block on the right the second. Larger sizes can still be typed.",
-            "SLICE_OK": "Batches of {{a}} and {{b}} stones. Submit, or keep typing.",
+            "SLICE_OK": "Batches of {{a}} and {{b}} stones. Submit, or choose different sizes.",
             "INSTRUCTIONS_HOC_OPTION_one": "Decide who places the first batch of one Attacker stone: place it yourself (your opponent then chooses a side), or let your opponent place it (you then choose a side).",
             "INSTRUCTIONS_HOC_OPTION_other": "Decide who places the first batch of {{count}} Attacker stones: place them yourself (your opponent then chooses a side), or let your opponent place them (you then choose a side).",
             "INSTRUCTIONS_HOC_BATCH_one": "Place one Attacker stone.",
             "INSTRUCTIONS_HOC_BATCH_other": "Place {{count}} Attacker stones.",
             "INSTRUCTIONS_HOC_CHOOSE_one": "Choose a side. Taking the Attacker side means placing the second batch of one stone now; choosing the Defender side means your opponent places it and you then move first.",
             "INSTRUCTIONS_HOC_CHOOSE_other": "Choose a side. Taking the Attacker side means placing the second batch of {{count}} stones now; choosing the Defender side means your opponent places them and you then move first.",
-            "INSTRUCTIONS_PLAY_ATTACKER": "Place a stone or pass. You win by leaving the Defender no room to make a string that can never be captured.",
-            "INSTRUCTIONS_PLAY_DEFENDER": "Place a stone or pass. You win by making a string that can never be captured.",
-            "KO_PSK": "That placement would recreate an earlier position of the board (positional superko).",
-            "PASS_WARNING": "Passing does not establish life. If the Attacker also passes, the Attacker wins."
+            "INSTRUCTIONS_PLAY_ATTACKER": "Place a stone. You win by preventing the Defender from forming an unconditionally alive string.",
+            "INSTRUCTIONS_PLAY_DEFENDER": "Place a stone. You win by forming one unconditionally alive string.",
+            "KO_PSK": "That placement would recreate an earlier position of the board (positional superko)."
         },
         "knightline": {
             "BAD_PASS": "You may not pass if legal moves are available.",

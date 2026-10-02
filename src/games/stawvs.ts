@@ -993,7 +993,6 @@ export class StawvsGame extends GameBase {
 
         // Build rep
         const rep: APRenderRep =  {
-            renderer: "stacking-expanding",
             board: {
                 style: "squares",
                 width: boardDim,

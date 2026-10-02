@@ -102,6 +102,7 @@ jobs:
           uses: stefanzweifel/git-auto-commit-action@v5
           with:
             commit_message: "deps: sync AP pins [skip ci]"
+            # Single space-separated line (git-auto-commit `read -a` uses first line only).
             file_pattern: ci-deps.prod.json package-lock.json package.json
             disable_globbing: true
         - run: APGAMES_PRODUCTION=1 npm run build

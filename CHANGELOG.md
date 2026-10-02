@@ -11,20 +11,16 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ## [Unreleased]
 
-### Changed
-
-- **Thricewise:** in the place phase, clicking an empty cell places your card when you only have one left to play; choose the card from your hand first when you still have more than one.
-
-### Fixed
-
-- **Thricewise:** `IRenderOpts.omniscient` shows all players’ hand cards even when `perspective` is set (matches Tumbleweed/AoM debugger contract).
-
 ### Added
 
 - **Tumbleweed:** experimental `fog` variant (line-of-sight visibility, stale dimmed cells, hidden scores, redacted move tree after the opening ply; explore disabled).
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Clearpath, Croda, Dama, Ice Palace, Kill-All Go, Neutron, Thricewise, Yodd.
 
 ## [1.0.0-ci] - 2026-10-01
+
+### Changed
+
+- **Thricewise:** in the place phase, clicking an empty cell places your card when you only have one left to play; choose the card from your hand first when you still have more than one.
 
 ### Fixed
 

@@ -643,6 +643,8 @@
     },
     "RESIGN": "{{player}} has resigned.",
     "ROLL": {
+        "arimaa_one": "{{player}}'s die shows 1: a single step this turn.",
+        "arimaa_other": "{{player}}'s die shows {{count}}: up to {{count}} steps this turn.",
         "magnate": "{{who}} rolled a {{values}}.",
         "magnate_eight": "{{who}} rolled an {{values}}.",
         "canoe": "{{player}} rolled: {{values}}.",

@@ -63,6 +63,8 @@ describe("resolveFlags / getFlags", () => {
             { uid: "crosscontrol", variants: ["nokomi"] },
             { uid: "connections" },
             { uid: "lifeline" },
+            { uid: "arimaa" },
+            { uid: "arimaa", variants: ["eee", "dicey"] },
         ];
 
         for (const { uid, variants, numplayers } of cases) {

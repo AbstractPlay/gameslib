@@ -23,10 +23,12 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Changed
 
+- **Bao:** Now uses frames, letting you visualize multi-lap sowing much more clearly.
 - **Thricewise:** in the place phase, clicking an empty cell places your card when you only have one left to play; choose the card from your hand first when you still have more than one.
 
 ### Fixed
 
+- **Bao:** Fixed a regression introduced a few days ago that blocked taxing the nyumba.
 - **Tumbleweed:** standard opening ply `lastmove` is stored as the full `p1,p2` wire; legacy games with only P1 in `lastmove`/`_results` are repaired from the stack-1 board delta for move history, export, and load; chat log uses one combined setup line.
 
 ## [1.0.0-ci] - 2026-09-30

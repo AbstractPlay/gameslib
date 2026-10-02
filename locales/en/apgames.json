@@ -2822,7 +2822,7 @@
         },
         "murus": {
             "basic": {
-                "description": "Only walls and towers can be built (maximum stack size is 2).",
+                "description": "Only walls and towers can be built (maximum stack size is 2). Breakthrough is an immediate win.",
                 "name": "Basic MG"
             },
             "escape": {

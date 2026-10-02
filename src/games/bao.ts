@@ -10,6 +10,25 @@ import type { PitType } from "../common/graphs/bao.js";
 
 export type playerid = 1|2;
 
+export type BaoRenderStepKind = "place" | "drops" | "capture" | "relay_end" | "sleep";
+
+export interface BaoRenderStep {
+    kind: BaoRenderStepKind;
+    board: number[][];
+    inhand: [number, number];
+    houses: [string|undefined, string|undefined];
+    blocked: [string|undefined, string|undefined];
+    /** Annotations for this step only (capture and/or relay sow pits). */
+    lapResults: APMoveResult[];
+    /** Pits that received stones in a drop batch (`graph.sow` path). */
+    pitsDropped?: string[];
+    stonesDropped?: number;
+    /** First pit receiving a stone after a capture relay. */
+    relayEnterCell?: string;
+    /** Sowing direction for this drop batch (pit before first drop → first pit sown). */
+    sowArrow?: { from: string; to: string };
+}
+
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
     lastmove?: string;
@@ -20,6 +39,7 @@ export interface IMoveState extends IIndividualState {
     deltas: number[][];
     /** Malawi (Bawo) stage 2: functional kuu has been lifted at least once. */
     kuuMoved?: [boolean, boolean];
+    steps?: BaoRenderStep[];
 };
 
 export interface IBaoState extends IAPGameState {
@@ -116,6 +136,7 @@ export class BaoGame extends GameBase {
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
+    public steps: BaoRenderStep[] = [];
     private graph!: BaoGraph;
     private instalose = false;
     public kuuMoved?: [boolean, boolean];
@@ -230,6 +251,10 @@ export class BaoGame extends GameBase {
             this.kuuMoved = undefined;
         }
         this.graph = new BaoGraph(this.houses);
+        this.results = [...state._results];
+        this.steps = state.steps !== undefined
+            ? cloneState(state.steps) as BaoRenderStep[]
+            : [];
         return this;
     }
 
@@ -354,6 +379,18 @@ export class BaoGame extends GameBase {
                     cells.push(cell);
                 }
             }
+            // Namu kutakata may "tax" the nyumba when it is the only occupied front pit
+            // (wiki: cannot place in nyumba while other front pits hold seeds).
+            if (
+                cells.length === 0
+                && house !== undefined
+                && house !== null
+            ) {
+                const [col, row] = this.graph.algebraic2coords(house);
+                if (this.board[row][col] > 0) {
+                    return [house];
+                }
+            }
             return cells;
         }
         const occupied: string[] = [];
@@ -453,7 +490,7 @@ export class BaoGame extends GameBase {
      *
      * It really needs to be efficient and fast!
      */
-    public processMove(move: string): SowingResults {
+    public processMove(move: string, opts?: { onStepComplete?: (step: BaoRenderStep) => void }): SowingResults {
         // init return variables
         const capturedCells: string[] = [];
         let capturedStones = 0;
@@ -499,7 +536,6 @@ export class BaoGame extends GameBase {
                 }
             }
         }
-        // console.log(`Player: ${player}, Inhand: ${JSON.stringify(this.inhand)}`);
         let dir: "CW"|"CCW";
         switch (startRow) {
             // outer rows
@@ -520,8 +556,6 @@ export class BaoGame extends GameBase {
         if ( (phase === "namua") && (! isKutakata) ) {
             dir = dir === "CW" ? "CCW" : "CW";
         }
-        // console.log(`Cell: ${cell}, marker: ${marker}, isKutakata? ${isKutakata}, phase: ${phase}, dir: ${dir}`);
-
         // now let's try to execute the move
         // if in namua phase, add the stone
         if (phase === "namua") {
@@ -529,23 +563,61 @@ export class BaoGame extends GameBase {
         }
         let curr = cell;
         let inhand = 0;
+        let awaitFirstDropAfterCapture = false;
+        const pushStep = (
+            kind: BaoRenderStepKind,
+            lapResults: APMoveResult[],
+            relayEnterCell?: string,
+            pitsDropped?: string[],
+            stonesDropped?: number,
+            sowArrow?: { from: string; to: string },
+        ) => {
+            if (opts?.onStepComplete === undefined) {
+                return;
+            }
+            opts.onStepComplete({
+                kind,
+                board: this.cloneBoard(),
+                inhand: [...this.inhand],
+                houses: [...this.houses],
+                blocked: [...this.blocked],
+                lapResults: [...lapResults],
+                ...(relayEnterCell !== undefined ? { relayEnterCell } : {}),
+                ...(pitsDropped !== undefined ? { pitsDropped: [...pitsDropped] } : {}),
+                ...(stonesDropped !== undefined ? { stonesDropped } : {}),
+                ...(sowArrow !== undefined ? { sowArrow: { ...sowArrow } } : {}),
+            });
+        };
         // NOTE: Possible infinite loop
         while (true) {
+            let relayEnterThisLap: string | undefined;
             // distribute any seeds in hand
             distance += inhand;
+            const stonesThisDrop = inhand;
+            const sowOrigin = curr;
             const toSow = this.graph.sow(curr, dir, inhand);
             for (const pit of toSow) {
                 const [x, y] = this.graph.algebraic2coords(pit);
                 this.board[y][x]++;
+                if (awaitFirstDropAfterCapture) {
+                    relayEnterThisLap = pit;
+                    awaitFirstDropAfterCapture = false;
+                }
                 curr = pit;
+            }
+            if (stonesThisDrop > 0 && toSow.length > 0) {
+                const firstPit = toSow[0]!;
+                const sowArrow =
+                    firstPit !== sowOrigin
+                        ? { from: sowOrigin, to: firstPit }
+                        : undefined;
+                pushStep("drops", [], relayEnterThisLap, toSow, stonesThisDrop, sowArrow);
             }
             // `curr` is the last pit you placed a stone in
             const [currCol, currRow] = this.graph.algebraic2coords(curr);
             if (currRow === myBack) {
                 outerRowVisited = true;
             }
-            // console.log(`Curr: ${curr}`)
-
             // check for capture
             // but only if we're namua phase or mtaji phase after the first turn
             if ( (phase === "namua") || (distance > 0) ) {
@@ -588,6 +660,8 @@ export class BaoGame extends GameBase {
                         curr = this.graph.sow(enterPit, enterDir, -1)[0];
                         dir = enterDir;
                         lapFromNyumba = false;
+                        awaitFirstDropAfterCapture = true;
+                        pushStep("capture", [{type: "capture", where: opposite, count: inhand}]);
                         // restart loop
                         continue;
                     }
@@ -605,6 +679,7 @@ export class BaoGame extends GameBase {
                         malawiLoneEndLoss = true;
                     }
                 }
+                pushStep("sleep", [], relayEnterThisLap);
                 break;
             }
             // if functional nyumba in kunamua phase (no safari or stopping in mtaji phase)
@@ -612,10 +687,12 @@ export class BaoGame extends GameBase {
                 // if we're in a mtaji move, check for "+" and stop here but mark move incomplete
                 if ( (! isKutakata) && (! move.endsWith("+")) ) {
                     complete = false;
+                    pushStep("sleep", [], relayEnterThisLap);
                     break;
                 }
                 // otherwise, in kutakata and relay sowing, just stop
                 else if ( (phase === "namua") && (isKutakata) && (distance > 0) ) {
+                    pushStep("sleep", [], relayEnterThisLap);
                     break;
                 }
             }
@@ -627,12 +704,14 @@ export class BaoGame extends GameBase {
                 // const blocked = this.getBlocked(player);
                 const blocked = this.blocked[player - 1];
                 if ( (blocked !== undefined) && (blocked === curr) && (! lapFromNyumba) ) {
+                    pushStep("sleep", [], relayEnterThisLap);
                     break;
                 }
             }
 
             // at this point, we must continue sowing
             sownCells.push(curr);
+            const relayLap: APMoveResult = {type: "sow", pits: [curr]};
             let relayFromKuuTax = false;
             // in namua phase, kutakata, very first turn, tax kuu or lift all nine (Malawi)
             if ( (phase === "namua") && (isKutakata) && (distance === 0) && (this.graph.getType(curr) === "nyumba") ) {
@@ -662,6 +741,7 @@ export class BaoGame extends GameBase {
                     if (frontSum === 0 && currRow === myBack) {
                         illegalEmptyFront = true;
                         complete = false;
+                        pushStep("relay_end", [relayLap], relayEnterThisLap);
                         break;
                     }
                 }
@@ -675,8 +755,10 @@ export class BaoGame extends GameBase {
             // if a move travels the distance of more than 12 times around the board, abort
             if (distance > 16 * 12) {
                 infinite = true;
+                pushStep("relay_end", [relayLap], relayEnterThisLap);
                 break;
             }
+            pushStep("relay_end", [relayLap], relayEnterThisLap);
         }
 
         return {
@@ -1223,8 +1305,37 @@ export class BaoGame extends GameBase {
 
         // store board in advance for comparison
         const before = this.cloneBoard();
-        // console.log("This is the real processMove log:");
-        const results = this.processMove(m);
+        const renderBaseline = {
+            inhand: [...this.inhand] as [number, number],
+            houses: [...this.houses] as [string|undefined, string|undefined],
+            blocked: [...this.blocked] as [string|undefined, string|undefined],
+        };
+        this.steps = [];
+        const stepSnapshots: BaoRenderStep[] = [];
+        const results = this.processMove(m, {
+            onStepComplete: (step) => {
+                stepSnapshots.push({
+                    kind: step.kind,
+                    board: step.board.map((r) => [...r]),
+                    inhand: [...step.inhand],
+                    houses: [...step.houses],
+                    blocked: [...step.blocked],
+                    lapResults: [...step.lapResults],
+                    ...(step.pitsDropped !== undefined
+                        ? { pitsDropped: [...step.pitsDropped] }
+                        : {}),
+                    ...(step.stonesDropped !== undefined
+                        ? { stonesDropped: step.stonesDropped }
+                        : {}),
+                    ...(step.relayEnterCell !== undefined
+                        ? { relayEnterCell: step.relayEnterCell }
+                        : {}),
+                    ...(step.sowArrow !== undefined
+                        ? { sowArrow: { ...step.sowArrow } }
+                        : {}),
+                });
+            },
+        });
         const after = this.cloneBoard();
         // now calculate deltas
         this.deltas = [];
@@ -1317,6 +1428,29 @@ export class BaoGame extends GameBase {
             return this;
         }
 
+        const lapEndCount = stepSnapshots.filter(
+            (s) => s.kind !== "drops",
+        ).length;
+        if (lapEndCount > 1) {
+            const hadNamuaPlace = renderBaseline.inhand[mover - 1] > 0;
+            const openingBoard = hadNamuaPlace
+                ? this.boardAfterNamuaPlace(before, cell)
+                : before;
+            const steps: BaoRenderStep[] = [];
+            if (hadNamuaPlace) {
+                steps.push({
+                    kind: "place",
+                    board: openingBoard,
+                    inhand: [...renderBaseline.inhand],
+                    houses: [...renderBaseline.houses],
+                    blocked: [...renderBaseline.blocked],
+                    lapResults: [],
+                });
+            }
+            steps.push(...stepSnapshots);
+            this.steps = steps;
+        }
+
         // update currplayer
         this.lastmove = m;
         let newplayer = (this.currplayer as number) + 1;
@@ -1398,10 +1532,334 @@ export class BaoGame extends GameBase {
             ...(this.malawiRules() && this.kuuMoved !== undefined
                 ? { kuuMoved: [...this.kuuMoved] as [boolean, boolean] }
                 : {}),
+            ...(this.steps.length > 0
+                ? { steps: cloneState(this.steps) as BaoRenderStep[] }
+                : {}),
         };
     }
 
-    public render(opts?: IRenderOpts): APRenderRep {
+    public render(opts?: IRenderOpts): APRenderRep | APRenderRep[] {
+        if (this.steps.length === 0) {
+            return this.buildRenderRep(
+                {
+                    board: this.board,
+                    houses: this.houses,
+                    blocked: this.blocked,
+                    deltas: this.deltas,
+                },
+                this.results,
+                opts,
+            );
+        }
+        return this.renderFromSteps(opts);
+    }
+
+    private boardDeltas(from: number[][], to: number[][]): number[][] {
+        const deltas: number[][] = [];
+        for (let y = 0; y < 4; y++) {
+            const row: number[] = [];
+            for (let x = 0; x < 8; x++) {
+                row.push(to[y]![x]! - from[y]![x]!);
+            }
+            deltas.push(row);
+        }
+        return deltas;
+    }
+
+    /** Board after the namua hand stone is placed on `cell` (before sowing). */
+    private boardAfterNamuaPlace(before: number[][], cell: string): number[][] {
+        const board = before.map((row) => [...row]);
+        const [x, y] = this.graph.algebraic2coords(cell);
+        board[y]![x]!++;
+        return board;
+    }
+
+    private boardBeforeDrops(step: BaoRenderStep): number[][] {
+        const board = step.board.map((row) => [...row]);
+        for (const pit of step.pitsDropped ?? []) {
+            const [x, y] = this.graph.algebraic2coords(pit);
+            board[y]![x]!--;
+        }
+        return board;
+    }
+
+    private boardBeforeFirstStep(): number[][] {
+        const first = this.steps[0]!;
+        if (first.kind === "place") {
+            const place = this.results.find((r) => r.type === "place");
+            if (place === undefined || place.type !== "place" || place.where === undefined) {
+                return first.board.map((row) => [...row]);
+            }
+            const board = first.board.map((row) => [...row]);
+            const [x, y] = this.graph.algebraic2coords(place.where);
+            board[y]![x]!--;
+            return board;
+        }
+        if (first.kind === "drops") {
+            return this.boardBeforeDrops(first);
+        }
+        return first.board.map((row) => [...row]);
+    }
+
+    private boardBeforeGroup(group: BaoRenderStep[]): number[][] {
+        const idx = this.steps.indexOf(group[0]!);
+        if (idx <= 0) {
+            return this.boardBeforeFirstStep();
+        }
+        return this.steps[idx - 1]!.board.map((row) => [...row]);
+    }
+
+    /** Append a lap-ending capture to the sow frame when it immediately follows drops. */
+    private withSowEndCapture(steps: BaoRenderStep[], group: BaoRenderStep[], nextIdx: number): number {
+        if (steps[nextIdx]?.kind === "capture") {
+            group.push(steps[nextIdx]!);
+            return nextIdx + 1;
+        }
+        return nextIdx;
+    }
+
+    /** One animation group per pit pickup (`relay_end`) and its sow (`drops`), plus opening/capture steps. */
+    private collapsePickupSowGroups(steps: BaoRenderStep[]): BaoRenderStep[][] {
+        const groups: BaoRenderStep[][] = [];
+        let i = 0;
+        if (steps[0]?.kind === "place") {
+            if (steps[1]?.kind === "capture") {
+                groups.push([steps[0]!, steps[1]!]);
+                i = 2;
+            } else {
+                groups.push([steps[0]!]);
+                i = 1;
+            }
+        }
+        while (i < steps.length) {
+            const step = steps[i]!;
+            if (step.kind === "sleep") {
+                i++;
+                continue;
+            }
+            if (step.kind === "capture") {
+                groups.push([step]);
+                i++;
+                continue;
+            }
+            if (step.kind === "relay_end") {
+                const next = steps[i + 1];
+                if (next?.kind === "drops") {
+                    const group = [step, next];
+                    i = this.withSowEndCapture(steps, group, i + 2);
+                    groups.push(group);
+                    continue;
+                }
+                groups.push([step]);
+                i++;
+                continue;
+            }
+            if (step.kind === "drops") {
+                const group = [step];
+                i = this.withSowEndCapture(steps, group, i + 1);
+                groups.push(group);
+                continue;
+            }
+            i++;
+        }
+        return groups;
+    }
+
+    private isOneSowStep(from: string, to: string): boolean {
+        if (from === to) {
+            return false;
+        }
+        for (const dir of ["CW", "CCW"] as const) {
+            const next = this.graph.sow(from, dir, 1)[0];
+            if (next === to) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private sowArrowForStep(step: BaoRenderStep, stepIdx: number): { from: string; to: string } | undefined {
+        if (step.sowArrow !== undefined) {
+            return step.sowArrow;
+        }
+        const firstDrop = step.pitsDropped?.[0];
+        if (step.kind !== "drops" || firstDrop === undefined) {
+            return undefined;
+        }
+        let inferred: { from: string; to: string } | undefined;
+        if (stepIdx > 0) {
+            const prev = this.steps[stepIdx - 1]!;
+            const pickup = prev.lapResults.find((r) => r.type === "sow")?.pits?.[0];
+            if (pickup !== undefined && pickup !== firstDrop) {
+                inferred = { from: pickup, to: firstDrop };
+            } else if (prev.kind === "capture" && step.relayEnterCell !== undefined) {
+                const enter = step.relayEnterCell;
+                if (enter !== firstDrop) {
+                    inferred = { from: enter, to: firstDrop };
+                }
+            }
+        } else if (stepIdx === 1 && this.steps[0]?.kind === "place") {
+            const place = this.results.find((r) => r.type === "place");
+            if (
+                place !== undefined
+                && place.type === "place"
+                && place.where !== undefined
+                && place.where !== firstDrop
+            ) {
+                inferred = { from: place.where, to: firstDrop };
+            }
+        }
+        if (
+            inferred !== undefined
+            && this.isOneSowStep(inferred.from, inferred.to)
+        ) {
+            return inferred;
+        }
+        return undefined;
+    }
+
+    private moveAnnotationForGroup(group: BaoRenderStep[]): APMoveResult | undefined {
+        const openingMove = this.results.find((r) => r.type === "move");
+        for (const step of group) {
+            if (
+                step.kind === "drops"
+                && step.relayEnterCell !== undefined
+                && step.pitsDropped?.[0] === step.relayEnterCell
+            ) {
+                return openingMove;
+            }
+        }
+        for (const step of group) {
+            const stepIdx = this.steps.indexOf(step);
+            const arrow = stepIdx >= 0 ? this.sowArrowForStep(step, stepIdx) : undefined;
+            if (arrow !== undefined) {
+                return {
+                    type: "move",
+                    from: arrow.from,
+                    to: arrow.to,
+                };
+            }
+        }
+        return openingMove;
+    }
+
+    private groupAnnotations(
+        group: BaoRenderStep[],
+        groupIndex: number,
+    ): APMoveResult[] {
+        const place = this.results.find((r) => r.type === "place");
+        const dropsStep = group.find((s) => s.kind === "drops");
+        if (
+            dropsStep !== undefined
+            && group.length === 1
+            && dropsStep.relayEnterCell !== undefined
+            && groupIndex > 0
+        ) {
+            const relayAnn: APMoveResult[] = [
+                { type: "place", where: dropsStep.relayEnterCell },
+            ];
+            const moveAnn = this.moveAnnotationForGroup(group);
+            if (moveAnn !== undefined) {
+                relayAnn.push(moveAnn);
+            }
+            return relayAnn;
+        }
+
+        const out: APMoveResult[] = [];
+        for (const step of group) {
+            out.push(...step.lapResults);
+        }
+
+        const openingWithCapture =
+            groupIndex === 0
+            && place !== undefined
+            && group.some((s) => s.kind === "capture");
+        if (openingWithCapture) {
+            if (!out.some((r) => r.type === "place")) {
+                out.unshift(place);
+            }
+        } else if (groupIndex === 0 && place !== undefined && group[0]?.kind === "place") {
+            if (!out.some((r) => r.type === "place")) {
+                out.unshift(place);
+            }
+        }
+
+        const includeMove =
+            this.moveAnnotationForGroup(group) !== undefined
+            && groupIndex > 0
+            && !openingWithCapture;
+        if (includeMove) {
+            const moveAnn = this.moveAnnotationForGroup(group);
+            if (moveAnn !== undefined) {
+                out.push(moveAnn);
+            }
+        }
+
+        return out;
+    }
+
+    private boardBeforeGroupRep(group: BaoRenderStep[]): number[][] {
+        const relayEnd = group.find((s) => s.kind === "relay_end");
+        const drops = group.find((s) => s.kind === "drops");
+        if (relayEnd !== undefined && drops !== undefined) {
+            return relayEnd.board.map((row) => [...row]);
+        }
+        if (drops !== undefined) {
+            return this.boardBeforeDrops(drops);
+        }
+        return this.boardBeforeGroup(group);
+    }
+
+    private buildStepGroupRep(
+        group: BaoRenderStep[],
+        groupIndex: number,
+        opts?: IRenderOpts,
+    ): APRenderRep {
+        const last = group[group.length - 1]!;
+        const board = last.board.map((row) => [...row]);
+        const houses = last.houses;
+        const blocked = last.blocked;
+        const before = this.boardBeforeGroupRep(group);
+        const deltas = this.boardDeltas(before, last.board);
+
+        const annotations = this.groupAnnotations(group, groupIndex);
+        return this.buildRenderRep(
+            { board, houses, blocked, deltas },
+            annotations,
+            opts,
+        );
+    }
+
+    private renderFromSteps(opts?: IRenderOpts): APRenderRep[] {
+        const groups = this.collapsePickupSowGroups(this.steps);
+        const reps = groups.map((group, i) =>
+            this.buildStepGroupRep(group, i, opts),
+        );
+        reps.push(
+            this.buildRenderRep(
+                {
+                    board: this.board,
+                    houses: this.houses,
+                    blocked: this.blocked,
+                    deltas: this.deltas,
+                },
+                this.results,
+                opts,
+            ),
+        );
+        return reps;
+    }
+
+    private buildRenderRep(
+        view: {
+            board: number[][];
+            houses: [string|undefined, string|undefined];
+            blocked: [string|undefined, string|undefined];
+            deltas: number[][];
+        },
+        annotationResults: APMoveResult[],
+        opts?: IRenderOpts,
+    ): APRenderRep {
 
         // Build piece string
         let pstr = "";
@@ -1411,7 +1869,7 @@ export class BaoGame extends GameBase {
             }
             const pieces: number[] = [];
             for (let col = 0; col < 8; col++) {
-                pieces.push(this.board[row][col]);
+                pieces.push(view.board[row]![col]!);
             }
             pstr += pieces.join(",");
         }
@@ -1440,7 +1898,7 @@ export class BaoGame extends GameBase {
             pieces: pstr
         };
         // Mark blocked pits
-        for (const blocked of this.blocked) {
+        for (const blocked of view.blocked) {
             if ( (blocked !== undefined) && (blocked !== null) ) {
                 const [col, row] = this.graph.algebraic2coords(blocked);
                 (rep.board as BoardBasic).markers!.push({
@@ -1452,7 +1910,7 @@ export class BaoGame extends GameBase {
         }
         // Mark houses
         const houses: {row: number; col: number;}[] = [];
-        for (const h of this.houses) {
+        for (const h of view.houses) {
             if ( ( h !== undefined) && (h !== null) ) {
                 const [col, row] = this.graph.algebraic2coords(h);
                 houses.push({row, col});
@@ -1467,16 +1925,18 @@ export class BaoGame extends GameBase {
         const deltas: {row: number; col: number; delta: number}[] = [];
         for (let y = 0; y < 4; y++) {
             for (let x = 0; x < 8; x++) {
-                if (this.deltas[y][x] !== 0) {
-                    deltas.push({row: y, col: x, delta: this.deltas[y][x]});
+                if (view.deltas[y]![x]! !== 0) {
+                    deltas.push({row: y, col: x, delta: view.deltas[y]![x]!});
                 }
             }
         }
-        rep.annotations.push({type: "deltas", deltas});
+        if (deltas.length > 0) {
+            rep.annotations.push({type: "deltas", deltas});
+        }
 
         // Add annotations
-        if (this.stack[this.stack.length - 1]._results.length > 0) {
-            for (const move of this.stack[this.stack.length - 1]._results) {
+        if (annotationResults.length > 0) {
+            for (const move of annotationResults) {
                 if (move.type === "move") {
                     const [fromX, fromY] = this.graph.algebraic2coords(move.from);
                     const [toX, toY] = this.graph.algebraic2coords(move.to);
@@ -1493,8 +1953,14 @@ export class BaoGame extends GameBase {
                         targets.push({row: y, col: x});
                     }
                     rep.annotations.push({type: "exit", targets: targets as [{row: number; col: number;}, ...{row: number; col: number;}[]]});
+                } else if (move.type === "sow") {
+                    // sow pits are shown via deltas; no extra annotation type in scalar render
                 }
             }
+        }
+
+        if (rep.annotations.length === 0) {
+            delete rep.annotations;
         }
 
         return rep;

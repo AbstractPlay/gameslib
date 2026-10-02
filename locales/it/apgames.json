@@ -2822,7 +2822,7 @@
     },
     "murus": {
       "basic": {
-        "description": "Si possono costruire solo mura e torri (la dimensione massima della pila è 2).",
+        "description": "Si possono costruire solo mura e torri (la dimensione massima della pila è 2). Lo sfondamento è una vittoria immediata.",
         "name": "MG base"
       },
       "escape": {

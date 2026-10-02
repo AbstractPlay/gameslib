@@ -390,6 +390,24 @@ function updateFrameControls() {
             }
         }
         label.textContent = labelText;
+        const atStart = currentRenderFrameIndex === 0;
+        const atEnd = currentRenderFrameIndex === currentRenderFrames.length - 1;
+        const frameFirst = document.getElementById("frameFirst");
+        const framePrev = document.getElementById("framePrev");
+        const frameNext = document.getElementById("frameNext");
+        const frameLast = document.getElementById("frameLast");
+        if (frameFirst) {
+            frameFirst.disabled = atStart;
+        }
+        if (framePrev) {
+            framePrev.disabled = atStart;
+        }
+        if (frameNext) {
+            frameNext.disabled = atEnd;
+        }
+        if (frameLast) {
+            frameLast.disabled = atEnd;
+        }
     } else {
         controls.hidden = true;
         label.textContent = "1 / 1";
@@ -475,18 +493,26 @@ function renderChallengeSeedStatus(game, playerInfoDisplay) {
     playerInfoDisplay.appendChild(line);
 }
 
-function shiftRenderFrame(delta) {
+function goToRenderFrame(index) {
     if (!currentRenderFrames || currentRenderFrames.length <= 1) {
         return;
     }
-    currentRenderFrameIndex = Math.max(
+    const next = Math.max(
         0,
-        Math.min(currentRenderFrames.length - 1, currentRenderFrameIndex + delta),
+        Math.min(currentRenderFrames.length - 1, index),
     );
+    if (next === currentRenderFrameIndex) {
+        return;
+    }
+    currentRenderFrameIndex = next;
     updateFrameControls();
     skipFrameRefresh = true;
     renderGame();
     skipFrameRefresh = false;
+}
+
+function shiftRenderFrame(delta) {
+    goToRenderFrame(currentRenderFrameIndex + delta);
 }
 
 function applyPlaygroundClickResult(game, gamename, result) {
@@ -3805,13 +3831,25 @@ document.addEventListener("DOMContentLoaded", function(event) {
         refreshClickStatusMessage();
     });
 
+    const frameFirst = document.getElementById("frameFirst");
     const framePrev = document.getElementById("framePrev");
     const frameNext = document.getElementById("frameNext");
+    const frameLast = document.getElementById("frameLast");
+    if (frameFirst) {
+        frameFirst.addEventListener("click", () => goToRenderFrame(0));
+    }
     if (framePrev) {
         framePrev.addEventListener("click", () => shiftRenderFrame(-1));
     }
     if (frameNext) {
         frameNext.addEventListener("click", () => shiftRenderFrame(1));
+    }
+    if (frameLast) {
+        frameLast.addEventListener("click", () => {
+            if (currentRenderFrames) {
+                goToRenderFrame(currentRenderFrames.length - 1);
+            }
+        });
     }
 
     document.addEventListener("keydown", function(event) {

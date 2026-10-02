@@ -3,6 +3,8 @@ import "mocha";
 import { expect } from "chai";
 import { BaoGame } from '../../src/games';
 import { addResource } from "../../src";
+import { baoFromBoard } from "../fixtures/bao";
+import type { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 // import { BaoGraph } from "../../src/common";
 
 describe("Bao", () => {
@@ -374,6 +376,166 @@ describe("Bao", () => {
         ];
         results = g.processMove("a2>*");
         expect(results.infinite).to.be.true;
+    });
+
+    describe("render frames", () => {
+        it("single-lap move returns one render rep", () => {
+            const g = new BaoGame();
+            g.move("e2>", { trusted: true, skipEconomy: true, skipeog: true });
+            expect(Array.isArray(g.render())).to.be.false;
+            expect(g.steps.length).eq(0);
+        });
+
+        it("multi-lap chain capture returns step-through render frames", () => {
+            const base = new BaoGame();
+            const g = BaoGame.clone(base);
+            g.board = [
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 2, 2, 6, 0, 7, 0, 0],
+                [0, 1, 0, 0, 7, 1, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+            ];
+            g.move("f2>", { trusted: true, skipEconomy: true, skipeog: true });
+            expect(g.steps.length).to.be.greaterThan(1);
+            const rendered = g.render();
+            expect(Array.isArray(rendered)).to.be.true;
+            const reps = rendered as APRenderRep[];
+            expect(reps.length).to.be.greaterThan(1);
+            expect(reps[0]!.pieces).not.eq(reps[reps.length - 1]!.pieces);
+        });
+
+        it("multi-lap kutakata returns step-through render frames", () => {
+            const g = baoFromBoard(
+                [
+                    [0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 1, 2, 2, 0, 1, 0, 0],
+                    [0, 0, 1, 3, 1, 0, 2, 0],
+                    [0, 0, 0, 0, 3, 0, 0, 2],
+                ],
+                { inhand: [0, 0], currplayer: 1 },
+            );
+            g.move("d2>*", { trusted: true, skipEconomy: true, skipeog: true });
+            expect(g.steps.length).to.be.greaterThan(1);
+            expect(Array.isArray(g.render())).to.be.true;
+        });
+
+        it("load() restores results from the requested stack entry", () => {
+            const g = new BaoGame();
+            g.move("f2>*", { trusted: true, skipEconomy: true, skipeog: true });
+            g.move("b3<*", { trusted: true, skipEconomy: true, skipeog: true });
+            g.load(0);
+            expect(g.results).to.deep.equal(g.stack[0]!._results);
+            g.load(-1);
+            expect(g.results).to.deep.equal(g.stack[g.stack.length - 1]!._results);
+        });
+
+        it("load() restores render steps from the requested stack entry", () => {
+            const g = new BaoGame();
+            g.currplayer = 1;
+            g.inhand = [20, 20];
+            g.board = [
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 2, 2, 8, 0, 1, 1, 0],
+                [0, 1, 1, 0, 8, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+            ];
+            g.move("c2<+", { trusted: true, skipEconomy: true, skipeog: true });
+            const stepsAfterMove = g.steps.map((s) => s.kind);
+            g.move("e2>", { trusted: true, skipEconomy: true, skipeog: true });
+            g.load(-2);
+            expect(g.steps.map((s) => s.kind)).to.deep.equal(stepsAfterMove);
+        });
+
+        it("namua kutakata shows place, pickup sow, then final", () => {
+            const g = new BaoGame();
+            g.currplayer = 2;
+            g.move("g2<*", { trusted: true, skipEconomy: true, skipeog: true });
+            const rendered = g.render();
+            expect(Array.isArray(rendered)).to.be.true;
+            const reps = rendered as APRenderRep[];
+            expect(reps.length).eq(3);
+            expect(g.steps.length).to.be.greaterThan(1);
+            expect(reps[0]!.pieces).to.include("3");
+            const ann = reps[0]!.annotations ?? [];
+            expect(ann.some((a) => a.type === "enter")).to.be.true;
+            expect(ann.some((a) => a.type === "deltas" && a.deltas.some((d) => d.delta === 1))).to.be.true;
+        });
+
+        it("namua multi-capture chain uses one frame per pickup sow", () => {
+            const g = new BaoGame();
+            g.currplayer = 1;
+            g.inhand = [20, 20];
+            g.board = [
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 2, 2, 8, 0, 1, 1, 0],
+                [0, 1, 1, 0, 8, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+            ];
+            g.move("c2<+", { trusted: true, skipEconomy: true, skipeog: true });
+            const reps = g.render() as APRenderRep[];
+            expect(reps.length).eq(6);
+            const f0 = reps[0]!.annotations ?? [];
+            expect(f0.some((a) => a.type === "enter")).to.be.true;
+            expect(f0.some((a) => a.type === "exit")).to.be.true;
+            expect(f0.some((a) => a.type === "move")).to.be.false;
+            const f1 = reps[1]!.annotations ?? [];
+            expect(f1.some((a) => a.type === "move")).to.be.true;
+            expect(f1.some((a) => a.type === "exit")).to.be.true;
+            const f1Deltas = f1.find((a) => a.type === "deltas")!.deltas;
+            expect(f1Deltas.some((d) => d.col === 0 && d.row === 2 && d.delta === 1)).to.be.true;
+            expect(f1Deltas.some((d) => d.col === 1 && d.row === 2 && d.delta === 1)).to.be.true;
+            const f3Deltas = (reps[3]!.annotations ?? []).find((a) => a.type === "deltas")!.deltas;
+            expect(f3Deltas.some((d) => d.col === 2 && d.row === 2 && d.delta === 1)).to.be.true;
+            expect(f3Deltas.some((d) => d.col === 3 && d.row === 2 && d.delta === 1)).to.be.true;
+            expect(f3Deltas.some((d) => d.col === 4 && d.row === 2 && d.delta === 1)).to.be.true;
+            const f4Deltas = (reps[4]!.annotations ?? []).find((a) => a.type === "deltas")!.deltas;
+            expect(f4Deltas.filter((d) => d.row === 3 && d.delta === 1).length).to.eq(6);
+            const f5 = reps[5]!.annotations ?? [];
+            expect(f5.some((a) => a.type === "move")).to.be.true;
+            expect(f5.some((a) => a.type === "enter")).to.be.true;
+        });
+
+        it("namua single capture shows enter, exit, relay place, then final", () => {
+            const g = new BaoGame();
+            g.currplayer = 2;
+            g.inhand = [22, 22];
+            g.board = [
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 2, 2, 7, 0, 0, 0, 0],
+                [0, 0, 0, 6, 7, 3, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+            ];
+            g.move("d3<", { trusted: true, skipEconomy: true, skipeog: true });
+            const reps = g.render() as APRenderRep[];
+            const relayStep = g.steps.find((s) => s.relayEnterCell === "h3");
+            expect(relayStep).to.exist;
+            expect(reps.length).eq(4);
+            const ann = reps[0]!.annotations ?? [];
+            expect(ann.some((a) => a.type === "enter")).to.be.true;
+            expect(ann.some((a) => a.type === "exit")).to.be.true;
+            const deltaAnn = ann.find((a) => a.type === "deltas");
+            expect(deltaAnn).to.exist;
+            const deltas = deltaAnn!.deltas;
+            expect(deltas.some((d) => d.delta === 1)).to.be.true;
+            expect(deltas.some((d) => d.delta < 0)).to.be.true;
+            expect(reps[0]!.pieces).to.include("0");
+            expect(reps[0]!.pieces).to.include("7");
+            const relayAnn = reps[1]!.annotations ?? [];
+            const [h3x, h3y] = g.graph.algebraic2coords("h3");
+            expect(
+                relayAnn.some(
+                    (a) =>
+                        a.type === "enter"
+                        && a.targets?.[0]?.row === h3y
+                        && a.targets?.[0]?.col === h3x,
+                ),
+            ).to.be.true;
+            expect(relayAnn.some((a) => a.type === "move")).to.be.true;
+            const relayDeltas = relayAnn.find((a) => a.type === "deltas")!.deltas;
+            expect(relayDeltas.some((d) => d.row === h3y && d.col === h3x && d.delta === 1)).to.be.true;
+            const pickupAnn = reps[2]!.annotations ?? [];
+            expect(pickupAnn.some((a) => a.type === "move")).to.be.true;
+        });
     });
 });
 

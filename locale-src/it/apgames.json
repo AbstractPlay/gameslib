@@ -19076,8 +19076,8 @@
     "out": "Tabellone 9x9"
   },
   "variants.murus.basic.description": {
-    "src": "Only walls and towers can be built (maximum stack size is 2).",
-    "out": "Si possono costruire solo mura e torri (la dimensione massima della pila è 2)."
+    "src": "Only walls and towers can be built (maximum stack size is 2). Breakthrough is an immediate win.",
+    "out": "Si possono costruire solo mura e torri (la dimensione massima della pila è 2). Lo sfondamento è una vittoria immediata."
   },
   "variants.murus.basic.name": {
     "src": "Basic MG",

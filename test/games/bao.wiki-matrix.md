@@ -16,7 +16,7 @@ Automated contracts live in `bao.rules.test.ts` (and legacy cases in `bao.test.t
 | Namu NC | Place only in non-empty front pit | `namu takata — placement` |
 | Namu NC | Cannot place in nyumba if other front pits occupied | `namu takata — nyumba placement` |
 | Namu NC | Without nyumba: 2+ unless all front pits are singletons | `namu takata — two-plus rule` |
-| Namu NC | Place in nyumba ⇒ sow only two seeds | `namu takata — nyumba two-seed sow` |
+| Namu NC | Place in nyumba ⇒ sow only two seeds | `namu takata — nyumba two-seed sow (tax)` |
 | Namu NC | Relay until empty; lap in nyumba ends turn (takata) | `namu takata — nyumba lap ends` |
 | Namu CAP | Chain only if last seed in **occupied** inner pit | `namu — capturing laps` |
 | Namu CAP | Optional safari (`+`) on capture lap in nyumba | `namu — nyumba safari` |

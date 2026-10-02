@@ -78,6 +78,15 @@ describe("Ice Palace: setup", () => {
 });
 
 describe("Ice Palace: playing a hand", () => {
+    it("accepts typed moves, but founds an empty structure only at the origin", () => {
+        const g = rig(new IcePalaceGame(3), [["1M"], ["2S"], ["3S"]], fatPool());
+        // Case and spaces do not matter.
+        expect(g.validateMove(" 1m @ 0,0 ").valid).to.be.true;
+        // The lead cannot found the Yard anywhere else.
+        expect(g.validateMove("1M@5,7").valid).to.be.false;
+        expect(g.validateMove("1M@1,0").valid).to.be.false;
+    });
+
     it("will not let the lead pass", () => {
         const g = rig(new IcePalaceGame(3), [["1L"], ["2L"], ["3L"]]);
         expect(g.validateMove("pass").valid).to.be.false;
@@ -264,6 +273,68 @@ describe("Ice Palace: building the Palace", () => {
         expect(g.lead).to.equal(2);
         expect(g.currplayer).to.equal(2);
         expect(g.palace.get("0,0")).to.deep.equal(["1L", "1M"]);
+    });
+
+    it("renders a build as frames, one per placement, on the final layout", () => {
+        const g = toBuild([["1L", "1M"], ["2L"], ["3L"]], "1M@0,0", ["pass", "pass", "1L@0,0"]);
+        type Rep = { pieces: string[][][]; areas?: { stash?: string[][]; label?: { textKey?: string } }[] };
+        // Before the build there is nothing to step through.
+        expect(Array.isArray(g.render())).to.be.false;
+        g.move("1L@0,0;1M@0,0");
+        const reps = g.render() as unknown as Rep[];
+        expect(reps).to.have.length(3);
+        // Before, after the first placement, and the game as it stands, all the same size.
+        const stacks = reps.map(rep => rep.pieces.flat().filter(s => s.length > 0).map(s => s.join(",")));
+        expect(stacks[0]).to.deep.equal([]);
+        expect(stacks[1]).to.deep.equal(["a1L"]);
+        expect(stacks[2]).to.deep.equal(["a1L,a1M"]);
+        expect(new Set(reps.map(rep => `${rep.pieces.length}x${rep.pieces[0].length}`)).size).to.equal(1);
+        // The stock dwindles through the frames, then the next hand is offered.
+        expect(reps[0].areas![0].label?.textKey).to.equal("apgames:icepalace.STOCK");
+        expect(reps[0].areas![0].stash!.flat()).to.deep.equal(["s1M", "s1L"]);
+        expect(reps[1].areas![0].stash!.flat()).to.deep.equal(["s1M"]);
+        expect(reps[2].areas![0].label?.textKey).to.equal("apgames:icepalace.HAND");
+        // Rendering leaves the game as it was, and the frames survive a round trip.
+        expect(g.phase).to.equal("hand");
+        expect(g.palace.get("0,0")).to.deep.equal(["1L", "1M"]);
+        expect((g.clone().render() as unknown as Rep[]).length).to.equal(3);
+        // Frames belong to the build alone: the next move renders singly again.
+        g.move(g.moves()[0]);
+        expect(Array.isArray(g.render())).to.be.false;
+    });
+
+    it("outlines the cells the last move placed into", () => {
+        type Rep = { pieces: string[][][]; annotations?: { type: string; targets: { row: number; col: number }[] }[] };
+        const g = toBuild([["1L", "1M"], ["2L"], ["3L"]], "1M@0,0", ["pass", "pass", "1L@0,0"]);
+        // The pass that ended the hand placed nothing.
+        expect((g.render() as unknown as Rep).annotations).to.be.undefined;
+        // A build in progress outlines its pending placements in the Palace.
+        const pending = g.clone().move("1L@0,0", { partial: true }).render() as unknown as Rep;
+        expect(pending.annotations).to.have.length(1);
+        expect(pending.annotations![0].targets.map(t => pending.pieces[t.row][t.col].join(","))).to.deep.equal(["a1L"]);
+        // A finished build: each frame outlines its own placement, the last frame all of them.
+        g.move("1L@0,0;1M@0,0");
+        const reps = g.render() as unknown as Rep[];
+        // (Once the next hand opens the Yard shows too, so the Palace sits further right.)
+        const outlined = (rep: Rep) => rep.annotations![0].targets.map(t => rep.pieces[t.row][t.col].join(","));
+        expect(reps[0].annotations).to.be.undefined;
+        expect(reps[1].annotations![0].type).to.equal("enter");
+        expect(outlined(reps[1])).to.deep.equal(["a1L"]);
+        expect(outlined(reps[2])).to.deep.equal(["a1L,a1M"]);
+        // A Yard placement outlines its cell, in the perspective display too.
+        g.move(g.moves()[0]);
+        const yard = g.render({ altDisplays: ["perspective"] }) as unknown as Rep;
+        const [{ row: yr, col: yc }] = yard.annotations![0].targets;
+        expect(yard.pieces[yr][yc].filter(k => k !== "-")).to.have.length(1);
+    });
+
+    it("keeps no frames for a partial build or a build of nothing", () => {
+        const g = toBuild([["1L", "1M"], ["2L"], ["3L"]], "1M@0,0", ["pass", "pass", "1L@0,0"]);
+        g.move("1L@0,0", { partial: true });
+        expect(Array.isArray(g.render())).to.be.false;
+        const empty = toBuild([["BL"], ["2L"], ["3L"]], "BL@0,0");
+        empty.move("pass");
+        expect(Array.isArray(empty.render())).to.be.false;
     });
 
     it("refuses a build that breaks the Palace code", () => {
@@ -905,6 +976,31 @@ describe("Ice Palace: serialization", () => {
 });
 
 describe("Ice Palace: sequenced turn model and record export", () => {
+    it("closes a round at the end of a hand, so the build is a row of its own", () => {
+        const g = rig(new IcePalaceGame(3), [["1L", "1M"], ["2L"], ["3L"]], fatPool());
+        // Alice opens and Charlie is the last to place; then everyone passes, and Charlie
+        // builds; then Bob leads the next hand.
+        for (const m of ["1M@0,0", "pass", "3L@0,0", "pass", "pass", "pass"]) {
+            g.move(m);
+        }
+        expect(g.phase).to.equal("build");
+        expect(g.currplayer).to.equal(3);
+        expect(g.stock).to.deep.equal(["1M", "3L"]);
+        g.move("3L@0,0;1M@0,0");
+        expect(g.phase).to.equal("hand");
+        g.move(g.moves()[0]);
+        const plies = g.getPlies().map(p => [p.actor, p.round]);
+        expect(plies).to.deep.equal([
+            [1, 0], [2, 0], [3, 0],
+            // The cycle of passes ends the hand, which closes the round before Charlie
+            // acts again; the build is then a round of its own.
+            [1, 1], [2, 1], [3, 1],
+            [3, 2],
+            [2, 3],
+        ]);
+    });
+
+
     const played = (): IcePalaceGame => {
         const g = rig(new IcePalaceGame(3), [["1M"], ["2S"], ["3S"]], fatPool());
         g.move("1M@0,0");

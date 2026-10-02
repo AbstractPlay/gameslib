@@ -1189,8 +1189,12 @@ describe("Arimaa Dicey Moves", () => {
             seen.add(g.die!.steps);
         }
         expect(seen.size).to.equal(2);
-        // without the die, the opening move is still two steps
-        expect(new ArimaaGame(undefined, ["eee"]).validateMove("Ed4").valid).to.be.false;
+        // without the die, the opening move is still capped at two steps (EEE randomizes layout)
+        const g = new ArimaaGame(undefined, ["eee"]);
+        const e = [...g.board.entries()].find(([, [pc, owner]]) => pc === "E" && owner === 1)![0];
+        const [x, y] = ArimaaGame.algebraic2coords(e);
+        const far = ArimaaGame.coords2algebraic(x, y < 4 ? y + 3 : y - 3);
+        expect(g.validateMove(`E${e}${far}`).valid).to.be.false;
     });
 
     it("limits the turn to the die in both notations", () => {

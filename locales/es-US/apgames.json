@@ -2822,7 +2822,7 @@
     },
     "murus": {
       "basic": {
-        "description": "Solo se pueden construir muros y torres (el tamaño máximo de pila es 2).",
+        "description": "Solo se pueden construir muros y torres (el tamaño máximo de la pila es 2). Un avance es una victoria inmediata.",
         "name": "MG básico"
       },
       "escape": {

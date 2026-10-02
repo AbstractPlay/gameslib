@@ -379,6 +379,18 @@ export class BaoGame extends GameBase {
                     cells.push(cell);
                 }
             }
+            // Namu kutakata may "tax" the nyumba when it is the only occupied front pit
+            // (wiki: cannot place in nyumba while other front pits hold seeds).
+            if (
+                cells.length === 0
+                && house !== undefined
+                && house !== null
+            ) {
+                const [col, row] = this.graph.algebraic2coords(house);
+                if (this.board[row][col] > 0) {
+                    return [house];
+                }
+            }
             return cells;
         }
         const occupied: string[] = [];

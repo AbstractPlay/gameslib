@@ -19076,8 +19076,8 @@
     "out": "Tablero de 9x9"
   },
   "variants.murus.basic.description": {
-    "src": "Only walls and towers can be built (maximum stack size is 2).",
-    "out": "Solo se pueden construir muros y torres (el tamaño máximo de pila es 2)."
+    "src": "Only walls and towers can be built (maximum stack size is 2). Breakthrough is an immediate win.",
+    "out": "Solo se pueden construir muros y torres (el tamaño máximo de la pila es 2). Un avance es una victoria inmediata."
   },
   "variants.murus.basic.name": {
     "src": "Basic MG",

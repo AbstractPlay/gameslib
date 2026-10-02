@@ -342,20 +342,61 @@ describe("Bao rules (wiki contracts)", () => {
         });
     });
 
-    describe("namu takata — nyumba two-seed sow", () => {
+    describe("namu takata — nyumba two-seed sow (tax)", () => {
+        const houseOnlyFrontP1: BaoBoard = [
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 6, 0, 0, 0, 0],
+            [0, 0, 0, 0, 8, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+        ];
+
+        /** After namu capture clears every other front pit; functional kuu remains (playground regression). */
+        const houseOnlyFrontP2: BaoBoard = [
+            [2, 0, 1, 1, 0, 0, 0, 0],
+            [0, 0, 0, 9, 0, 0, 0, 0],
+            [1, 0, 0, 0, 8, 0, 0, 0],
+            [0, 1, 1, 0, 2, 0, 2, 3],
+        ];
+
+        it("lists kutakata from the nyumba when it is the only occupied front pit (functional house)", () => {
+            const g = baoFromBoard(houseOnlyFrontP1, { currplayer: 1, inhand: [10, 10] });
+            expect(g.hasWorkingHouse(1)).to.be.true;
+            expect(g.moves()).to.include.members(["e2<*", "e2>*"]);
+        });
+
+        it("lists kutakata for player 2 when only their nyumba holds front-row seeds", () => {
+            const g = baoFromBoard(houseOnlyFrontP2, { currplayer: 2, inhand: [17, 17] });
+            expect(g.hasWorkingHouse(2)).to.be.true;
+            expect(g.moves()).to.include.members(["d3<*", "d3>*"]);
+        });
+
+        it("does not declare immobilization when the player to move can tax the nyumba", () => {
+            const g = baoFromBoard(houseOnlyFrontP2, { currplayer: 2, inhand: [17, 17] });
+            expect(g.moves().length).to.be.greaterThan(0);
+            g.checkEOG();
+            expect(g.gameover).to.be.false;
+        });
+
         it("taxes two seeds when kutakata begins from the only occupied front pit (nyumba)", () => {
-            const board: BaoBoard = [
-                [0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 6, 0, 0, 0, 0],
-                [0, 0, 0, 0, 8, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0],
-            ];
-            const g = baoFromBoard(board, { currplayer: 1, inhand: [10, 10] });
+            const g = baoFromBoard(houseOnlyFrontP1, { currplayer: 1, inhand: [10, 10] });
             const c = BaoGame.clone(g);
             const r = c.processMove("e2>*");
             expect(r.taxed).to.be.true;
             expect(r.captured.cells).eql([]);
             expect(c.board[2][4]).eq(7);
+        });
+
+        it("still forbids kutakata from the nyumba while other front pits are occupied", () => {
+            const board: BaoBoard = [
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 6, 0, 0, 0, 0],
+                [0, 0, 0, 0, 8, 1, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+            ];
+            const g = baoFromBoard(board, { currplayer: 1, inhand: [10, 10] });
+            expect(g.hasWorkingHouse(1)).to.be.true;
+            expect(g.moves().every((m) => !m.startsWith("e2"))).to.be.true;
+            expect(g.moves().some((m) => m.startsWith("f2"))).to.be.true;
         });
     });
 

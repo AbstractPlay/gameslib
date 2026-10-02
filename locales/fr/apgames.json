@@ -2822,7 +2822,7 @@
     },
     "murus": {
       "basic": {
-        "description": "Seuls des murs et des tours peuvent être construits (taille maximale de pile : 2).",
+        "description": "Seuls les murs et les tours peuvent être construits (taille maximale de la pile : 2). Une percée est une victoire immédiate.",
         "name": "MG de base"
       },
       "escape": {

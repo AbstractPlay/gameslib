@@ -2822,7 +2822,7 @@
     },
     "murus": {
       "basic": {
-        "description": "Es können nur Mauern und Türme gebaut werden (maximale Stapelgröße ist 2).",
+        "description": "Es können nur Mauern und Türme gebaut werden (maximale Stapelhöhe ist 2). Ein Durchbruch führt sofort zum Sieg.",
         "name": "Basis-MG"
       },
       "escape": {

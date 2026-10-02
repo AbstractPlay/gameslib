@@ -4435,6 +4435,10 @@
       },
       "square-15": {
         "name": "Carré taille 15 (Xodd)"
+      },
+      "yopp": {
+        "description": "Placez uniquement des pierres de votre couleur ; ne passez que si vous n'avez aucun placement valide.",
+        "name": "Yopp/Xopp"
       }
     },
     "zola": {
@@ -8445,11 +8449,17 @@
     },
     "yodd": {
       "INITIAL_INSTRUCTIONS": "Cliquez sur une case vide pour placer une pierre de votre couleur. Cliquez à nouveau dessus pour passer à l'autre couleur, et encore une fois pour retirer la pierre. Utilisez Terminer le coup quand vous êtes prêt (une seule pierre au premier tour).",
+      "INITIAL_INSTRUCTIONS_yopp": "Cliquez sur un point vide pour placer votre pierre. Cliquez dessus à nouveau pour la retirer. Utilisez Terminer le coup lorsque vous êtes prêt (une seule pierre au premier tour).",
       "INSTRUCTIONS": "Passez, ou placez une ou deux pierres sur des cases vides (votre couleur par défaut). Cliquez à nouveau sur une pierre pour changer de couleur, ou une troisième fois pour la retirer. Le nombre total de groupes doit être impair lorsque vous terminez votre tour.",
+      "INSTRUCTIONS_yopp": "Ne passez que si vous n'avez aucun placement valide, ou placez une ou deux pierres de votre couleur sur des points vides. Cliquez à nouveau sur une pierre pour la retirer. Le nombre total de groupes doit être impair lorsque vous terminez votre tour.",
       "INSTRUCTIONS_ODD": "Ajustez les placements ou ajoutez une autre pierre pour que le nombre total de groupes soit impair, puis utilisez Terminer le coup.",
+      "INVALID_PASS": "Vous ne pouvez passer que si vous n'avez aucun placement valide.",
       "INVALID_PLACEMENT": "Impossible d'interpréter la notation du coup : {{move}}.",
       "NORMALISED": "Le coup doit être normalisé. Essayez {{normalised}}.",
+      "NO_PASS_OPENING": "Vous ne pouvez pas passer au tour d'ouverture.",
       "ODD_GROUPS_REQUIRED": "Le nombre total de groupes sur le plateau doit être impair après votre tour.",
+      "OWN_COLOUR_ONLY": "Vous ne pouvez placer que des pierres de votre couleur.",
+      "INVALID_PASS_PARTIAL": "Terminez ou effacez votre placement avant de passer.",
       "TOO_MANY_MOVES": "Seuls un ou deux placements sont autorisés.",
       "TOO_MANY_MOVES_START": "Au premier tour, un seul placement est autorisé.",
       "VALID_MOVE": "Utilisez Terminer le coup pour finir votre tour, ou continuez à cliquer pour modifier ou retirer des pierres."

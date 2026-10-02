@@ -15951,6 +15951,10 @@
     "src": "Click an empty point to place a stone in your colour. Click it again to switch to the other colour, and again to remove the stone. Use Complete Move when you are ready (one stone only on the first turn).",
     "out": "Cliquez sur une case vide pour placer une pierre de votre couleur. Cliquez à nouveau dessus pour passer à l'autre couleur, et encore une fois pour retirer la pierre. Utilisez Terminer le coup quand vous êtes prêt (une seule pierre au premier tour)."
   },
+  "validation.yodd.INITIAL_INSTRUCTIONS_yopp": {
+    "src": "Click an empty point to place your stone. Click it again to remove the stone. Use Complete Move when you are ready (one stone only on the first turn).",
+    "out": "Cliquez sur un point vide pour placer votre pierre. Cliquez dessus à nouveau pour la retirer. Utilisez Terminer le coup lorsque vous êtes prêt (une seule pierre au premier tour)."
+  },
   "validation.yodd.INSTRUCTIONS": {
     "src": "Pass, or place one or two stones on empty points (your colour by default). Click a stone again to switch colour, or a third time to remove it. The total number of groups must be odd when you complete your turn.",
     "out": "Passez, ou placez une ou deux pierres sur des cases vides (votre couleur par défaut). Cliquez à nouveau sur une pierre pour changer de couleur, ou une troisième fois pour la retirer. Le nombre total de groupes doit être impair lorsque vous terminez votre tour."
@@ -15958,6 +15962,18 @@
   "validation.yodd.INSTRUCTIONS_ODD": {
     "src": "Adjust placements or add another stone so the total number of groups is odd, then use Complete Move.",
     "out": "Ajustez les placements ou ajoutez une autre pierre pour que le nombre total de groupes soit impair, puis utilisez Terminer le coup."
+  },
+  "validation.yodd.INSTRUCTIONS_yopp": {
+    "src": "Pass only if you have no valid placement, or place one or two of your own stones on empty points. Click a stone again to remove it. The total number of groups must be odd when you complete your turn.",
+    "out": "Ne passez que si vous n'avez aucun placement valide, ou placez une ou deux pierres de votre couleur sur des points vides. Cliquez à nouveau sur une pierre pour la retirer. Le nombre total de groupes doit être impair lorsque vous terminez votre tour."
+  },
+  "validation.yodd.INVALID_PASS": {
+    "src": "You may only pass if you have no valid placements.",
+    "out": "Vous ne pouvez passer que si vous n'avez aucun placement valide."
+  },
+  "validation.yodd.INVALID_PASS_PARTIAL": {
+    "src": "Complete or clear your placement before passing.",
+    "out": "Terminez ou effacez votre placement avant de passer."
   },
   "validation.yodd.INVALID_PLACEMENT": {
     "src": "Unable to interpret the move notation: {{move}}.",
@@ -15967,9 +15983,17 @@
     "src": "The move needs to be normalised. Try {{normalised}}.",
     "out": "Le coup doit être normalisé. Essayez {{normalised}}."
   },
+  "validation.yodd.NO_PASS_OPENING": {
+    "src": "You may not pass on the opening turn.",
+    "out": "Vous ne pouvez pas passer au tour d'ouverture."
+  },
   "validation.yodd.ODD_GROUPS_REQUIRED": {
     "src": "The total number of groups on the board must be odd after your turn.",
     "out": "Le nombre total de groupes sur le plateau doit être impair après votre tour."
+  },
+  "validation.yodd.OWN_COLOUR_ONLY": {
+    "src": "You may only place stones of your own colour.",
+    "out": "Vous ne pouvez placer que des pierres de votre couleur."
   },
   "validation.yodd.TOO_MANY_MOVES": {
     "src": "Only one or two placements are allowed.",
@@ -21358,6 +21382,14 @@
   "variants.yodd.square-9.name": {
     "src": "Size-9 square (Xodd)",
     "out": "Carré taille 9 (Xodd)"
+  },
+  "variants.yodd.yopp.description": {
+    "src": "Place only your own colour; pass only when you have no valid placement.",
+    "out": "Placez uniquement des pierres de votre couleur ; ne passez que si vous n'avez aucun placement valide."
+  },
+  "variants.yodd.yopp.name": {
+    "src": "Yopp/Xopp",
+    "out": "Yopp/Xopp"
   },
   "variants.zola.#board.name": {
     "src": "6x6 board",

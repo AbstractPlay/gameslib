@@ -4435,6 +4435,10 @@
       },
       "square-15": {
         "name": "Cuadrado de tamaño 15 (Xodd)"
+      },
+      "yopp": {
+        "description": "Coloca solo tu propio color; pasa solo cuando no tengas ninguna colocación válida.",
+        "name": "Yopp/Xopp"
       }
     },
     "zola": {
@@ -8445,11 +8449,17 @@
     },
     "yodd": {
       "INITIAL_INSTRUCTIONS": "Haz clic en un punto vacío para colocar una piedra de tu color. Haz clic de nuevo para cambiar al otro color, y otra vez para quitar la piedra. Usa Completar movimiento cuando estés listo (solo una piedra en el primer turno).",
+      "INITIAL_INSTRUCTIONS_yopp": "Haz clic en un punto vacío para colocar tu piedra. Haz clic de nuevo para quitarla. Usa Completar movimiento cuando estés listo (solo una piedra en el primer turno).",
       "INSTRUCTIONS": "Pasa o coloca una o dos piedras en puntos vacíos (tu color por defecto). Haz clic en una piedra de nuevo para cambiar de color, o una tercera vez para quitarla. El número total de grupos debe ser impar cuando completes tu turno.",
+      "INSTRUCTIONS_yopp": "Pasa solo si no tienes ninguna colocación válida, o coloca una o dos de tus propias piedras en puntos vacíos. Haz clic en una piedra de nuevo para quitarla. El número total de grupos debe ser impar al completar tu turno.",
       "INSTRUCTIONS_ODD": "Ajusta las colocaciones o agrega otra piedra para que el número total de grupos sea impar, luego usa Completar movimiento.",
+      "INVALID_PASS": "Solo puedes pasar si no tienes ninguna colocación válida.",
       "INVALID_PLACEMENT": "No se pudo interpretar la notación del movimiento: {{move}}.",
       "NORMALISED": "El movimiento debe normalizarse. Intenta {{normalised}}.",
+      "NO_PASS_OPENING": "No puedes pasar en el turno de apertura.",
       "ODD_GROUPS_REQUIRED": "El número total de grupos en el tablero debe ser impar después de tu turno.",
+      "OWN_COLOUR_ONLY": "Solo puedes colocar piedras de tu propio color.",
+      "INVALID_PASS_PARTIAL": "Completa o borra tu colocación antes de pasar.",
       "TOO_MANY_MOVES": "Solo se permiten una o dos colocaciones.",
       "TOO_MANY_MOVES_START": "En el primer turno, solo se permite una colocación.",
       "VALID_MOVE": "Usa Completar movimiento para terminar tu turno, o sigue haciendo clic para cambiar o quitar piedras."

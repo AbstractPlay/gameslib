@@ -73,7 +73,7 @@ export class TumbleweedGame extends GameBase {
             { uid: "size-10", group: "board" },
             { uid: "capture-delay" },
             { uid: "free-neutral" },
-            { uid: "fog", experimental: true },
+            { uid: "fog" },
         ],
         displays: [
             { uid: "hide-threatened" },

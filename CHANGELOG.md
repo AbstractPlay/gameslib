@@ -13,10 +13,13 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Added
 
-- **Tumbleweed:** experimental `fog` variant (line-of-sight visibility, stale dimmed cells, hidden scores, redacted move tree after the opening ply; explore disabled).
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Clearpath, Croda, Dama, Ice Palace, Kill-All Go, Neutron, Thricewise, Yodd.
 
-## [1.0.0-ci] - 2026-10-01
+## [1.0.0-ci] - 2026-10-02
+
+### Added
+
+- **Tumbleweed:** "Fog of war" variant (line-of-sight visibility, stale dimmed cells, hidden scores, redacted move tree after the opening ply; explore disabled).
 
 ### Changed
 

@@ -4435,6 +4435,10 @@
       },
       "square-15": {
         "name": "Quadrata dimensione 15 (Xodd)"
+      },
+      "yopp": {
+        "description": "Posiziona solo pietre del tuo colore; passa solo quando non hai posizionamenti validi.",
+        "name": "Yopp/Xopp"
       }
     },
     "zola": {
@@ -8445,11 +8449,17 @@
     },
     "yodd": {
       "INITIAL_INSTRUCTIONS": "Fai clic su un punto vuoto per posizionare una pietra del tuo colore. Fai di nuovo clic per passare all'altro colore, e ancora per rimuovere la pietra. Usa Completa mossa quando sei pronto (solo una pietra al primo turno).",
+      "INITIAL_INSTRUCTIONS_yopp": "Fai clic su un punto vuoto per posizionare la tua pietra. Fai di nuovo clic su di esso per rimuoverla. Usa Completa mossa quando sei pronto (una sola pietra al primo turno).",
       "INSTRUCTIONS": "Passa o posiziona una o due pietre su punti vuoti (del tuo colore per impostazione predefinita). Fai di nuovo clic su una pietra per cambiare colore, o una terza volta per rimuoverla. Il numero totale di gruppi deve essere dispari quando completi il tuo turno.",
+      "INSTRUCTIONS_yopp": "Passa solo se non hai posizionamenti validi, oppure posiziona una o due pietre del tuo colore su punti vuoti. Fai di nuovo clic su una pietra per rimuoverla. Il numero totale di gruppi deve essere dispari quando completi il turno.",
       "INSTRUCTIONS_ODD": "Modifica i posizionamenti o aggiungi un'altra pietra in modo che il numero totale di gruppi sia dispari, quindi usa Completa mossa.",
+      "INVALID_PASS": "Puoi passare solo se non hai posizionamenti validi.",
       "INVALID_PLACEMENT": "Impossibile interpretare la notazione della mossa: {{move}}.",
       "NORMALISED": "La mossa deve essere normalizzata. Prova {{normalised}}.",
+      "NO_PASS_OPENING": "Non puoi passare al turno di apertura.",
       "ODD_GROUPS_REQUIRED": "Il numero totale di gruppi sul tabellone deve essere dispari dopo il tuo turno.",
+      "OWN_COLOUR_ONLY": "Puoi posizionare solo pietre del tuo colore.",
+      "INVALID_PASS_PARTIAL": "Completa o annulla il tuo posizionamento prima di passare.",
       "TOO_MANY_MOVES": "Sono consentiti solo uno o due posizionamenti.",
       "TOO_MANY_MOVES_START": "Al primo turno è consentito un solo posizionamento.",
       "VALID_MOVE": "Usa Completa mossa per terminare il tuo turno, oppure continua a fare clic per cambiare o rimuovere le pietre."

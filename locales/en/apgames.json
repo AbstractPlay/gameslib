@@ -4435,6 +4435,10 @@
             },
             "square-15": {
                 "name": "Size-15 square (Xodd)"
+            },
+            "yopp": {
+                "description": "Place only your own colour; pass only when you have no valid placement.",
+                "name": "Yopp/Xopp"
             }
         },
         "zola": {
@@ -8445,11 +8449,17 @@
         },
         "yodd": {
             "INITIAL_INSTRUCTIONS": "Click an empty point to place a stone in your colour. Click it again to switch to the other colour, and again to remove the stone. Use Complete Move when you are ready (one stone only on the first turn).",
+            "INITIAL_INSTRUCTIONS_yopp": "Click an empty point to place your stone. Click it again to remove the stone. Use Complete Move when you are ready (one stone only on the first turn).",
             "INSTRUCTIONS": "Pass, or place one or two stones on empty points (your colour by default). Click a stone again to switch colour, or a third time to remove it. The total number of groups must be odd when you complete your turn.",
+            "INSTRUCTIONS_yopp": "Pass only if you have no valid placement, or place one or two of your own stones on empty points. Click a stone again to remove it. The total number of groups must be odd when you complete your turn.",
             "INSTRUCTIONS_ODD": "Adjust placements or add another stone so the total number of groups is odd, then use Complete Move.",
+            "INVALID_PASS": "You may only pass if you have no valid placements.",
             "INVALID_PLACEMENT": "Unable to interpret the move notation: {{move}}.",
             "NORMALISED": "The move needs to be normalised. Try {{normalised}}.",
+            "NO_PASS_OPENING": "You may not pass on the opening turn.",
             "ODD_GROUPS_REQUIRED": "The total number of groups on the board must be odd after your turn.",
+            "OWN_COLOUR_ONLY": "You may only place stones of your own colour.",
+            "INVALID_PASS_PARTIAL": "Complete or clear your placement before passing.",
             "TOO_MANY_MOVES": "Only one or two placements are allowed.",
             "TOO_MANY_MOVES_START": "On the first turn, only one placement is allowed.",
             "VALID_MOVE": "Use Complete Move to end your turn, or keep clicking to change or remove stones."

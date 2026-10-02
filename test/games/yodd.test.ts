@@ -136,4 +136,121 @@ describe("Yodd", () => {
         const square = new YoddGame(undefined, ["square-9"]);
         expect(square.render().board.style).to.equal("vertex");
     });
+
+    it("keeps canrender for the retained partial after a rejected extension click", () => {
+        const graph = new HexTriGraph(6, 11);
+        const cells = graph.listCells(false) as string[];
+        const g = new YoddGame(undefined, ["hex-6"]);
+        g.move(`1${cells[0]!}`);
+        const first = cells[1]!;
+        const second = cells[2]!;
+        const [x1, y1] = graph.algebraic2coords(first);
+        const [x2, y2] = graph.algebraic2coords(second);
+        let click = g.handleClick("", y1, x1);
+        expect(click.valid).to.be.true;
+        expect(click.canrender).to.be.true;
+        click = g.handleClick(click.move, y2, x2);
+        expect(click.valid).to.be.false;
+        expect(click.move).to.equal(`2${first}`);
+        expect(click.canrender).to.be.true;
+    });
+
+    it("does not offer pass while an opening placement is in progress", () => {
+        const cell = emptyHexCell();
+        const g = new YoddGame(undefined, ["hex-6"]);
+        expect(g.getButtons()).to.deep.equal([]);
+        g.move(`1${cell}`, { partial: true });
+        expect(g.getButtons()).to.deep.equal([]);
+        expect(g.validateMove("pass").valid).to.be.false;
+    });
+
+    it("offers pass after the opening when the group count is odd", () => {
+        const cell = emptyHexCell();
+        const g = new YoddGame(undefined, ["hex-6"]);
+        g.move(`1${cell}`);
+        expect(g.getButtons()).to.deep.equal([{ label: "apgames:buttons.pass", move: "pass" }]);
+    });
+
+    describe("Yopp/Xopp variant", () => {
+        it("rejects opponent-colour placements", () => {
+            const cells = (() => {
+                const g = new HexTriGraph(6, 11);
+                return g.listCells(false) as string[];
+            })();
+            const g = new YoddGame(undefined, ["hex-6", "yopp"]);
+            g.move(`1${cells[0]!}`);
+            expect(g.currplayer).to.equal(2);
+            const bad = g.validateMove(`1${cells[1]!}`);
+            expect(bad.valid).to.be.false;
+        });
+
+        it("does not allow pass while valid own-colour placements exist", () => {
+            const cell = emptyHexCell();
+            const g = new YoddGame(undefined, ["hex-6", "yopp"]);
+            g.move(`1${cell}`);
+            expect(g.validateMove("pass").valid).to.be.false;
+            expect(g.moves()).to.not.include("pass");
+        });
+
+        it("cycles own colour then remove without switching to the other colour", () => {
+            const cell = emptyHexCell();
+            const g = new YoddGame(undefined, ["hex-6", "yopp"]);
+            const [x, y] = new HexTriGraph(6, 11).algebraic2coords(cell);
+            let click = g.handleClick("", y, x);
+            expect(click.move).to.equal(`1${cell}`);
+
+            click = g.handleClick(click.move, y, x);
+            expect(click.valid).to.be.true;
+            expect(click.move).to.not.equal(`2${cell}`);
+            expect(click.move).to.equal("");
+        });
+
+        it("randomMove returns a legal complete turn", () => {
+            const g = new YoddGame(undefined, ["hex-6", "yopp"]);
+            const m = g.randomMove();
+            expect(g.validateMove(m).valid).to.be.true;
+        });
+
+        it("rejects pass via handleClick without throwing", () => {
+            const g = new YoddGame({
+                game: "yodd",
+                numplayers: 2,
+                variants: ["yopp"],
+                gameover: false,
+                winner: [],
+                stack: [
+                    {
+                        _version: "20260930",
+                        _results: [],
+                        _timestamp: new Date(),
+                        currplayer: 1,
+                        board: new Map(),
+                    },
+                    {
+                        _version: "20260930",
+                        _results: [{ type: "place", where: "j8" }],
+                        _timestamp: new Date(),
+                        currplayer: 2,
+                        lastmove: "1j8",
+                        board: new Map([["j8", 1]]),
+                    },
+                    {
+                        _version: "20260930",
+                        _results: [
+                            { type: "place", where: "i6" },
+                            { type: "place", where: "i9" },
+                        ],
+                        _timestamp: new Date(),
+                        currplayer: 1,
+                        lastmove: "2i6,2i9",
+                        board: new Map([["j8", 1], ["i6", 2], ["i9", 2]]),
+                    },
+                ],
+            });
+            expect(g.validateMove("pass").valid).to.be.false;
+            const click = g.handleClick("", -1, -1, "_btn_pass");
+            expect(click.valid).to.be.false;
+            expect(click.move).to.equal("");
+        });
+    });
 });

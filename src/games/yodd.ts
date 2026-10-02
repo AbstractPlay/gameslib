@@ -51,6 +51,7 @@ export class YoddGame extends GameBase {
         categories: [
             "goal>score>eog",
             "mechanic>place",
+            "mechanic>coopt",
             "board>shape>hex",
             "board>shape>rect",
             "board>connect>hex",
@@ -68,6 +69,7 @@ export class YoddGame extends GameBase {
             { uid: "square-13", group: "board" },
             { uid: "square-14", group: "board" },
             { uid: "square-15", group: "board" },
+            { uid: "yopp" },
         ],
         flags: ["experimental", "no-moves", "custom-buttons", "custom-randomization", "scores"],
     };
@@ -203,6 +205,80 @@ export class YoddGame extends GameBase {
         return this.totalGroups(board) % 2 === 1;
     }
 
+    private isYopp(): boolean {
+        return this.variants.includes("yopp");
+    }
+
+    private hasValidCompletePlacement(): boolean {
+        const empty = (this.graph.listCells(false) as string[]).filter(c => !this.board.has(c));
+        const p = this.currplayer;
+        const stoneColours = (): playerid[] => (this.isYopp() ? [p] : [1, 2]);
+
+        if (this.stack.length === 1) {
+            for (const cell of empty) {
+                for (const colour of stoneColours()) {
+                    if (this.tryCompleteMove(`${colour}${cell}`) !== undefined) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        for (const cell of empty) {
+            for (const colour of stoneColours()) {
+                if (this.tryCompleteMove(`${colour}${cell}`) !== undefined) {
+                    return true;
+                }
+            }
+        }
+        for (let i = 0; i < empty.length; i++) {
+            for (let j = i + 1; j < empty.length; j++) {
+                for (const c1 of stoneColours()) {
+                    for (const c2 of stoneColours()) {
+                        if (this.tryCompleteMove(`${c1}${empty[i]!},${c2}${empty[j]!}`) !== undefined) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private canPass(): boolean {
+        if (this.stack.length === 1) {
+            return false;
+        }
+        if (this.hasUncommittedPlacements()) {
+            return false;
+        }
+        if (!this.isOddPosition()) {
+            return false;
+        }
+        if (this.isYopp() && this.hasValidCompletePlacement()) {
+            return false;
+        }
+        return true;
+    }
+
+    private committedBoard(): Map<string, playerid> {
+        return this.stack[this.stack.length - 1]!.board;
+    }
+
+    private hasUncommittedPlacements(): boolean {
+        const committed = this.committedBoard();
+        if (this.board.size !== committed.size) {
+            return true;
+        }
+        for (const [cell, owner] of this.board) {
+            if (committed.get(cell) !== owner) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private boardFull(): boolean {
         const cells = this.graph.listCells(false) as string[];
         return this.board.size >= cells.length;
@@ -242,6 +318,14 @@ export class YoddGame extends GameBase {
     }
 
     private processMoves(coordinates: string[], newCoord: string, currentPlayer: playerid): string[] {
+        if (this.isYopp()) {
+            const existingEntry = coordinates.find(c => c.slice(1) === newCoord);
+            if (existingEntry === undefined) {
+                return [...coordinates, `${currentPlayer}${newCoord}`];
+            }
+            return coordinates.filter(c => c.slice(1) !== newCoord);
+        }
+
         const enemyPlayer: playerid = currentPlayer === 1 ? 2 : 1;
         const existingEntry = coordinates.find(c => c.endsWith(newCoord));
 
@@ -284,16 +368,24 @@ export class YoddGame extends GameBase {
         const empty = (this.graph.listCells(false) as string[]).filter(c => !this.board.has(c));
         const shuffled = shuffle(empty);
 
+        const p = this.currplayer;
         const tryOneStone = (): string | undefined => {
             for (const cell of shuffled) {
-                const colour = this.randomStoneColour();
-                let found = this.tryCompleteMove(`${colour}${cell}`);
-                if (found === undefined) {
-                    const other: playerid = colour === 1 ? 2 : 1;
-                    found = this.tryCompleteMove(`${other}${cell}`);
-                }
-                if (found !== undefined) {
-                    return found;
+                if (this.isYopp()) {
+                    const found = this.tryCompleteMove(`${p}${cell}`);
+                    if (found !== undefined) {
+                        return found;
+                    }
+                } else {
+                    const colour = this.randomStoneColour();
+                    let found = this.tryCompleteMove(`${colour}${cell}`);
+                    if (found === undefined) {
+                        const other: playerid = colour === 1 ? 2 : 1;
+                        found = this.tryCompleteMove(`${other}${cell}`);
+                    }
+                    if (found !== undefined) {
+                        return found;
+                    }
                 }
             }
             return undefined;
@@ -302,9 +394,14 @@ export class YoddGame extends GameBase {
         const tryTwoStones = (): string | undefined => {
             for (let i = 0; i < shuffled.length; i++) {
                 for (let j = i + 1; j < shuffled.length; j++) {
-                    const c1 = this.randomStoneColour();
-                    const c2 = this.randomStoneColour();
-                    const found = this.tryCompleteMove(`${c1}${shuffled[i]!},${c2}${shuffled[j]!}`);
+                    let found: string | undefined;
+                    if (this.isYopp()) {
+                        found = this.tryCompleteMove(`${p}${shuffled[i]!},${p}${shuffled[j]!}`);
+                    } else {
+                        const c1 = this.randomStoneColour();
+                        const c2 = this.randomStoneColour();
+                        found = this.tryCompleteMove(`${c1}${shuffled[i]!},${c2}${shuffled[j]!}`);
+                    }
                     if (found !== undefined) {
                         return found;
                     }
@@ -332,7 +429,7 @@ export class YoddGame extends GameBase {
             }
         }
 
-        if (this.isOddPosition()) {
+        if (this.canPass()) {
             return "pass";
         }
         return "pass";
@@ -341,14 +438,15 @@ export class YoddGame extends GameBase {
     public moves(): string[] {
         if (this.gameover) { return []; }
         const moves: string[] = [];
-        if (this.isOddPosition()) {
+        if (this.canPass()) {
             moves.push("pass");
         }
         return moves;
     }
 
     public getButtons(): ICustomButton[] {
-        if (this.moves().includes("pass")) {
+        const pass = this.validateMove("pass");
+        if (pass.valid && pass.complete === 1) {
             return [{ label: "apgames:buttons.pass", move: "pass" }];
         }
         return [];
@@ -356,6 +454,11 @@ export class YoddGame extends GameBase {
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
+            if (piece === "_btn_pass") {
+                const result = this.validateMove("pass") as IClickResult;
+                result.move = result.valid ? "pass" : move;
+                return result;
+            }
             const cell = this.graph.coords2algebraic(col, row);
             let newmove: string;
             if (move === "") {
@@ -369,6 +472,15 @@ export class YoddGame extends GameBase {
             const result = this.validateMove(newmove) as IClickResult;
             if (!result.valid) {
                 result.move = move;
+                if (move.length > 0) {
+                    const kept = this.validateMove(move);
+                    if (kept.valid) {
+                        result.complete = kept.complete;
+                    }
+                    if (kept.canrender === true) {
+                        result.canrender = true;
+                    }
+                }
             } else {
                 result.move = newmove;
             }
@@ -394,9 +506,13 @@ export class YoddGame extends GameBase {
             result.complete = -1;
             result.canrender = true;
             if (this.stack.length === 1) {
-                result.message = i18next.t("apgames:validation.yodd.INITIAL_INSTRUCTIONS");
+                result.message = i18next.t("apgames:validation.yodd.INITIAL_INSTRUCTIONS", {
+                    context: this.isYopp() ? "yopp" : "",
+                });
             } else {
-                result.message = i18next.t("apgames:validation.yodd.INSTRUCTIONS");
+                result.message = i18next.t("apgames:validation.yodd.INSTRUCTIONS", {
+                    context: this.isYopp() ? "yopp" : "",
+                });
             }
             return result;
         }
@@ -405,8 +521,20 @@ export class YoddGame extends GameBase {
         m = m.replace(/\s+/g, "");
 
         if (m === "pass") {
+            if (this.stack.length === 1) {
+                result.message = i18next.t("apgames:validation.yodd.NO_PASS_OPENING");
+                return result;
+            }
+            if (this.hasUncommittedPlacements()) {
+                result.message = i18next.t("apgames:validation.yodd.INVALID_PASS_PARTIAL");
+                return result;
+            }
             if (!this.isOddPosition()) {
                 result.message = i18next.t("apgames:validation.yodd.ODD_GROUPS_REQUIRED");
+                return result;
+            }
+            if (this.isYopp() && this.hasValidCompletePlacement()) {
+                result.message = i18next.t("apgames:validation.yodd.INVALID_PASS");
                 return result;
             }
             result.valid = true;
@@ -460,6 +588,16 @@ export class YoddGame extends GameBase {
         if (!regex.test(m)) {
             result.message = i18next.t("apgames:validation.yodd.INVALID_PLACEMENT", { move: m });
             return result;
+        }
+
+        if (this.isYopp()) {
+            for (const move of moves) {
+                const owner = move[0] === "1" ? 1 : 2;
+                if (owner !== this.currplayer) {
+                    result.message = i18next.t("apgames:validation.yodd.OWN_COLOUR_ONLY");
+                    return result;
+                }
+            }
         }
 
         const normalised = this.normaliseMove(m);

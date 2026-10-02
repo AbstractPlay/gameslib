@@ -3203,6 +3203,14 @@
     "src": "Hide moves",
     "out": "Masquer les coups"
   },
+  "displays.tumbleweed.fog-unseen-clouds.description": {
+    "src": "In the Fog of war variant, show cloud icons on cells you have never seen. Has no effect in other variants.",
+    "out": "Dans la variante Brouillard de guerre, affiche des icônes de nuage sur les cases que vous n'avez jamais vues. N'a aucun effet dans les autres variantes."
+  },
+  "displays.tumbleweed.fog-unseen-clouds.name": {
+    "src": "Unseen clouds",
+    "out": "Nuages jamais vus"
+  },
   "displays.tumbleweed.hide-both.description": {
     "src": "Don't show line of sight or non-suicidal captures.",
     "out": "Ne pas afficher la ligne de vue ni les captures non suicidaires."

@@ -3203,6 +3203,14 @@
     "src": "Hide moves",
     "out": "Ocultar movimientos"
   },
+  "displays.tumbleweed.fog-unseen-clouds.description": {
+    "src": "In the Fog of war variant, show cloud icons on cells you have never seen. Has no effect in other variants.",
+    "out": "En la variante Niebla de guerra, muestra íconos de nubes en las casillas que nunca has visto. No tiene efecto en otras variantes."
+  },
+  "displays.tumbleweed.fog-unseen-clouds.name": {
+    "src": "Unseen clouds",
+    "out": "Nubes no vistas"
+  },
   "displays.tumbleweed.hide-both.description": {
     "src": "Don't show line of sight or non-suicidal captures.",
     "out": "No mostrar la línea de visión ni las capturas no suicidas."

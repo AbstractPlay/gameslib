@@ -3203,6 +3203,14 @@
     "src": "Hide moves",
     "out": "Züge ausblenden"
   },
+  "displays.tumbleweed.fog-unseen-clouds.description": {
+    "src": "In the Fog of war variant, show cloud icons on cells you have never seen. Has no effect in other variants.",
+    "out": "In der Variante \"Nebel des Krieges\" Wolkensymbole auf Feldern anzeigen, die du noch nie gesehen hast. Hat in anderen Varianten keine Auswirkung."
+  },
+  "displays.tumbleweed.fog-unseen-clouds.name": {
+    "src": "Unseen clouds",
+    "out": "Ungesehene Wolken"
+  },
   "displays.tumbleweed.hide-both.description": {
     "src": "Don't show line of sight or non-suicidal captures.",
     "out": "Weder Sichtlinie noch nicht-suizidale Schläge anzeigen."

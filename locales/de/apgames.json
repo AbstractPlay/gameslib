@@ -4951,6 +4951,10 @@
       }
     },
     "tumbleweed": {
+      "fog-unseen-clouds": {
+        "description": "In der Variante \"Nebel des Krieges\" Wolkensymbole auf Feldern anzeigen, die du noch nie gesehen hast. Hat in anderen Varianten keine Auswirkung.",
+        "name": "Ungesehene Wolken"
+      },
       "hide-both": {
         "description": "Weder Sichtlinie noch nicht-suizidale Schläge anzeigen.",
         "name": "Beides ausblenden"

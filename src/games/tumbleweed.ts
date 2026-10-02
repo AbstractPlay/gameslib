@@ -79,6 +79,7 @@ export class TumbleweedGame extends GameBase {
             { uid: "hide-threatened" },
             { uid: "hide-influence" },
             { uid: "hide-both", implies: ["hide-threatened", "hide-influence"], impliesLock: true },
+            { uid: "fog-unseen-clouds" },
         ],
     };
 
@@ -118,6 +119,9 @@ export class TumbleweedGame extends GameBase {
     private static staleLegendKey(liveKey: string): string {
         return `x${liveKey}`;
     }
+
+    /** Legend key for never-explored fog cells (same `cloud` renderer glyph as Crosshairs). */
+    private static readonly FOG_UNSEEN_LEGEND = "fogCloud";
 
     private fogEnabled(): boolean {
         return this.variants.includes("fog");
@@ -1221,11 +1225,16 @@ export class TumbleweedGame extends GameBase {
         }
         const live = viewSeat === 1 ? live1 : live2;
         if (this.fogViewUsesBoardOnly()) {
-            if (!this.board.has(cell)) {
-                return { kind: "hidden" };
+            if (live.has(cell)) {
+                if (this.board.has(cell)) {
+                    return { kind: "live", stack: this.board.get(cell)! };
+                }
+                return { kind: "live" };
             }
-            const stack = this.board.get(cell)!;
-            return live.has(cell) ? { kind: "live", stack } : { kind: "stale", stack };
+            if (this.board.has(cell)) {
+                return { kind: "stale", stack: this.board.get(cell)! };
+            }
+            return { kind: "hidden" };
         }
         const memory = this.fogMemory[viewSeat - 1];
         if (live.has(cell)) {
@@ -1288,6 +1297,7 @@ export class TumbleweedGame extends GameBase {
         const viewSeat = fog ? this.viewSeatFromPerspective(opts?.perspective) : undefined;
         const showThreatened = !fog && !this.hasDisplay(opts, "hide-threatened");
         const showInfluence = !fog && !this.hasDisplay(opts, "hide-influence");
+        const showUnseenClouds = fog && this.hasDisplay(opts, "fog-unseen-clouds");
 
         // Build piece string
         const legendNames: Set<string> = new Set();
@@ -1309,7 +1319,16 @@ export class TumbleweedGame extends GameBase {
             for (const cell of row) {
                 if (fog) {
                     const view = this.fogCellView(cell, viewSeat);
-                    if (view.kind === "hidden" || view.stack === undefined) {
+                    if (view.kind === "hidden") {
+                        if (showUnseenClouds) {
+                            legendNames.add(TumbleweedGame.FOG_UNSEEN_LEGEND);
+                            pieces.push(TumbleweedGame.FOG_UNSEEN_LEGEND);
+                        } else {
+                            pieces.push("-");
+                        }
+                        continue;
+                    }
+                    if (view.stack === undefined) {
                         pieces.push("-");
                         continue;
                     }
@@ -1339,7 +1358,19 @@ export class TumbleweedGame extends GameBase {
 
         // build legend based on stack sizes
         const legend: ILegendObj = {};
+        if (legendNames.has(TumbleweedGame.FOG_UNSEEN_LEGEND)) {
+            legend[TumbleweedGame.FOG_UNSEEN_LEGEND] = {
+                name: "cloud",
+                colour: "#e8e8e8",
+                opacity: 0.65,
+                scale: 1.4,
+                orientation: "vertical",
+            };
+        }
         for (const name of legendNames) {
+            if (name === TumbleweedGame.FOG_UNSEEN_LEGEND) {
+                continue;
+            }
             const stale = name.startsWith("x");
             const liveName = stale ? name.slice(1) : name;
             const [piece, ...size] = liveName;

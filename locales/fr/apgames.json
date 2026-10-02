@@ -4951,6 +4951,10 @@
       }
     },
     "tumbleweed": {
+      "fog-unseen-clouds": {
+        "description": "Dans la variante Brouillard de guerre, affiche des icônes de nuage sur les cases que vous n'avez jamais vues. N'a aucun effet dans les autres variantes.",
+        "name": "Nuages jamais vus"
+      },
       "hide-both": {
         "description": "Ne pas afficher la ligne de vue ni les captures non suicidaires.",
         "name": "Masquer les deux"

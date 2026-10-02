@@ -4951,6 +4951,10 @@
             }
         },
         "tumbleweed": {
+            "fog-unseen-clouds": {
+                "description": "In the Fog of war variant, show cloud icons on cells you have never seen. Has no effect in other variants.",
+                "name": "Unseen clouds"
+            },
             "hide-both": {
                 "description": "Don't show line of sight or non-suicidal captures.",
                 "name": "Hide Both"

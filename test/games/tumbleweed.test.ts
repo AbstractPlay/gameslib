@@ -497,6 +497,37 @@ describe("Tumbleweed", () => {
             expect(observer.stack[3]!.lastmove).to.equal(TumbleweedGame.REDACTED_FOG_LASTMOVE);
         });
 
+        it("fog-unseen-clouds display marks never-seen cells with cloud glyphs", () => {
+            const g0 = new TumbleweedGame(undefined, ["fog", "size-6"]);
+            const g = g0.move("k1,j3", { trusted: true });
+            const stripped = g.state({ strip: true, player: 1 });
+            const g2 = new TumbleweedGame(stripped);
+            const plain = g2.render({ perspective: 1 });
+            const cloudy = g2.render({ perspective: 1, altDisplays: ["fog-unseen-clouds"] });
+            expect(plain.pieces).to.not.include("fogCloud");
+            expect(cloudy.pieces).to.include("fogCloud");
+            expect(cloudy.legend).to.have.property("fogCloud");
+            expect(cloudy.pieces).to.include("A1");
+            expect(cloudy.pieces).to.not.match(/fogCloud.*A1|A1.*fogCloud/);
+        });
+
+        it("fog-unseen-clouds does not replace live line-of-sight stones", () => {
+            const g0 = new TumbleweedGame(undefined, ["fog", "size-6"]);
+            const g = g0.move(g0.moves()[0]!, { trusted: true });
+            const rep = g.render({ perspective: 1, altDisplays: ["fog-unseen-clouds"] });
+            expect(rep.pieces).to.include("A1");
+            expect(rep.pieces).to.include("B1");
+            expect(rep.pieces).to.not.include("xA1");
+            expect(rep.pieces).to.not.include("xB1");
+        });
+
+        it("fog-unseen-clouds has no effect without the fog variant", () => {
+            const g0 = new TumbleweedGame(undefined, ["size-6"]);
+            const g = g0.move(g0.moves()[0]!, { trusted: true });
+            const rep = g.render({ altDisplays: ["fog-unseen-clouds"] });
+            expect(rep.pieces).to.not.include("fogCloud");
+        });
+
         it("render uses x-prefixed legend keys for stale cells", () => {
             const p1Memory = new Map<string, [playerid, number] | null>([["o1", [2, 2]]]);
             const g = tumbleweedFrom({

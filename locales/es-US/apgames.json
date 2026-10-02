@@ -4951,6 +4951,10 @@
       }
     },
     "tumbleweed": {
+      "fog-unseen-clouds": {
+        "description": "En la variante Niebla de guerra, muestra íconos de nubes en las casillas que nunca has visto. No tiene efecto en otras variantes.",
+        "name": "Nubes no vistas"
+      },
       "hide-both": {
         "description": "No mostrar la línea de visión ni las capturas no suicidas.",
         "name": "Ocultar ambos"

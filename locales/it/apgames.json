@@ -4951,6 +4951,10 @@
       }
     },
     "tumbleweed": {
+      "fog-unseen-clouds": {
+        "description": "Nella variante Nebbia di guerra, mostra le icone delle nuvole sulle caselle che non hai mai visto. Non ha alcun effetto nelle altre varianti.",
+        "name": "Nuvole mai viste"
+      },
       "hide-both": {
         "description": "Non mostrare la linea di vista né le catture non suicide.",
         "name": "Nascondi entrambi"

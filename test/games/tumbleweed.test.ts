@@ -427,6 +427,19 @@ describe("Tumbleweed", () => {
             expect(round[0]).to.equal(opening);
         });
 
+        it("reconstructs opening wire from board delta when lastmove and results are incomplete", () => {
+            const g0 = new TumbleweedGame(undefined, ["fog", "size-6"]);
+            const opening = g0.moves()[0]!;
+            const g = g0.move(opening, { trusted: true });
+            const p1 = opening.split(",")[0]!;
+            g.stack[1]!.lastmove = p1;
+            g.stack[1]!._results = [{ type: "place", who: 1, where: p1, count: 1 }];
+            expect(g.moveHistory()[0]![0]).to.equal(opening);
+            expect(g.getPlies().find(p => p.stackIndex === 1)!.move).to.equal(opening);
+            const stripped = g.state({ strip: true, player: 1 });
+            expect(stripped.stack[1]!.lastmove).to.equal(opening);
+        });
+
         it("load repairs legacy opening lastmove on stack[1] from place results", () => {
             const g0 = new TumbleweedGame(undefined, ["fog", "size-6"]);
             const opening = g0.moves()[0]!;

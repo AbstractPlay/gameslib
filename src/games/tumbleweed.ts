@@ -569,48 +569,116 @@ export class TumbleweedGame extends GameBase {
         if (state === undefined) {
             return new Set<string>();
         }
-        return this.cellsFromOpeningWire(this.openingWireForStackState(state));
+        return this.cellsFromOpeningWire(this.openingWireForStackIndex(1));
     }
 
     private isOpeningSetupResults(results: APMoveResult[]): boolean {
         const places = results.filter((r) => r.type === "place");
         if (this.variants.includes("free-neutral")) {
-            return places.length === 3
-                && places.every((p) => (p as { who?: number }).who !== undefined);
+            return places.length >= 1;
         }
-        return places.length === 2
-            && places.every((p) => {
-                const who = (p as { who?: number }).who;
-                return who === 1 || who === 2;
-            });
+        return places.length >= 1;
+    }
+
+    private openingWireLooksComplete(wire: string): boolean {
+        const parts = wire.split(",").filter((p) => p.length > 0);
+        if (this.variants.includes("free-neutral")) {
+            return parts.length >= 3;
+        }
+        return parts.length >= 2;
     }
 
     /** Canonical setup wire: `p1,p2` or free-neutral `n,p1,p2` from place results. */
     private openingSetupWireFromResults(results: APMoveResult[]): string | undefined {
         const places = results.filter(
             (r): r is APMoveResult & { type: "place"; where: string; who?: number } =>
-                r.type === "place" && r.where !== undefined && (r as { who?: number }).who !== undefined,
+                r.type === "place" && r.where !== undefined,
         );
         if (places.length === 0) {
             return undefined;
         }
+        const withWho = places.every((p) => p.who !== undefined);
+        if (withWho) {
+            const order: playerid[] = this.variants.includes("free-neutral") ? [3, 1, 2] : [1, 2];
+            const cells: string[] = [];
+            for (const who of order) {
+                const hit = places.find((p) => p.who === who);
+                if (hit !== undefined) {
+                    cells.push(hit.where);
+                }
+            }
+            return cells.length > 0 ? cells.join(",") : undefined;
+        }
+        if (!this.variants.includes("free-neutral") && places.length >= 2) {
+            return places.map((p) => p.where).join(",");
+        }
+        if (this.variants.includes("free-neutral") && places.length >= 3) {
+            return places.map((p) => p.where).join(",");
+        }
+        return undefined;
+    }
+
+    private openingWireFromBoardDelta(
+        prevBoard: Map<string, [playerid, number]>,
+        nextBoard: Map<string, [playerid, number]>,
+    ): string | undefined {
+        const byWho = new Map<playerid, string>();
+        for (const [cell, snap] of nextBoard) {
+            const prev = prevBoard.get(cell);
+            if (prev !== undefined && prev[0] === snap[0] && prev[1] === snap[1]) {
+                continue;
+            }
+            const who = snap[0];
+            if (who === 1 || who === 2) {
+                byWho.set(who, cell);
+            } else if (who === 3 && this.variants.includes("free-neutral")) {
+                byWho.set(3, cell);
+            }
+        }
         const order: playerid[] = this.variants.includes("free-neutral") ? [3, 1, 2] : [1, 2];
         const cells: string[] = [];
         for (const who of order) {
-            const hit = places.find((p) => p.who === who);
+            const hit = byWho.get(who);
             if (hit !== undefined) {
-                cells.push(hit.where);
+                cells.push(hit);
             }
         }
-        return cells.length > 0 ? cells.join(",") : undefined;
+        if (cells.length === 0) {
+            return undefined;
+        }
+        return cells.join(",");
     }
 
-    private openingWireForStackState(state: IMoveState): string {
+    private openingWireForStackIndex(stackIndex: number): string {
+        const state = this.stack[stackIndex];
+        if (state === undefined) {
+            return "";
+        }
+        return this.openingWireForStackEntry(stackIndex, state);
+    }
+
+    private openingWireForStackEntry(stackIndex: number, state: IMoveState): string {
         const results = state._results ?? [];
         if (this.isOpeningSetupResults(results)) {
-            const wire = this.openingSetupWireFromResults(results);
-            if (wire !== undefined) {
-                return wire;
+            const fromResults = this.openingSetupWireFromResults(results);
+            if (fromResults !== undefined && this.openingWireLooksComplete(fromResults)) {
+                return fromResults;
+            }
+        }
+        const prev = this.stack[stackIndex - 1];
+        if (prev !== undefined) {
+            const fromBoard = this.openingWireFromBoardDelta(prev.board, state.board);
+            if (fromBoard !== undefined && this.openingWireLooksComplete(fromBoard)) {
+                return fromBoard;
+            }
+            if (fromBoard !== undefined) {
+                return fromBoard;
+            }
+        }
+        if (this.isOpeningSetupResults(results)) {
+            const fromResults = this.openingSetupWireFromResults(results);
+            if (fromResults !== undefined) {
+                return fromResults;
             }
         }
         return state.lastmove as string;
@@ -622,15 +690,10 @@ export class TumbleweedGame extends GameBase {
             return;
         }
         const state = this.stack[1];
-        const results = state._results ?? [];
-        if (!this.isOpeningSetupResults(results)) {
-            return;
+        const wire = this.openingWireForStackEntry(1, state);
+        if (wire.length > 0 && state.lastmove !== wire) {
+            state.lastmove = wire;
         }
-        const wire = this.openingSetupWireFromResults(results);
-        if (wire === undefined || state.lastmove === wire) {
-            return;
-        }
-        state.lastmove = wire;
     }
 
     /** Seat who committed the ply recorded at `stackIndex` (from prior frame `currplayer`). */
@@ -674,6 +737,7 @@ export class TumbleweedGame extends GameBase {
             return exported;
         }
         if (stackIndex !== undefined && this.isPublicOpeningStackIndex(stackIndex)) {
+            exported.lastmove = this.openingWireForStackEntry(stackIndex, entry);
             delete exported.fogMemory;
             return exported;
         }
@@ -925,7 +989,11 @@ export class TumbleweedGame extends GameBase {
         if (this.stack.length === 1) {
             if (!partial && this.isOpeningSetupResults(this.results)) {
                 const wire = this.openingSetupWireFromResults(this.results);
-                this.lastmove = wire ?? m;
+                if (wire !== undefined && this.openingWireLooksComplete(wire)) {
+                    this.lastmove = wire;
+                } else {
+                    this.lastmove = m;
+                }
             } else {
                 this.lastmove = m;
             }
@@ -1181,7 +1249,7 @@ export class TumbleweedGame extends GameBase {
         if (this.isPublicOpeningStackIndex(stackIndex)) {
             return {
                 ...ply,
-                move: this.openingWireForStackState(this.stack[stackIndex]),
+                move: this.openingWireForStackIndex(stackIndex),
             };
         }
         return ply;
@@ -1190,7 +1258,7 @@ export class TumbleweedGame extends GameBase {
     public moveHistory(): string[][] {
         const moves = super.moveHistory();
         if (this.stack.length > 1 && moves.length > 0 && moves[0].length > 0 && this.isPublicOpeningStackIndex(1)) {
-            moves[0][0] = this.openingWireForStackState(this.stack[1]);
+            moves[0][0] = this.openingWireForStackIndex(1);
         }
         return moves;
     }
@@ -1199,7 +1267,7 @@ export class TumbleweedGame extends GameBase {
         const moves = super.moveHistoryWithSequence();
         if (this.stack.length > 1 && moves.length > 0 && moves[0].length > 0 && this.isPublicOpeningStackIndex(1)) {
             const [seat, ] = moves[0][0];
-            moves[0][0] = [seat, this.openingWireForStackState(this.stack[1])];
+            moves[0][0] = [seat, this.openingWireForStackIndex(1)];
         }
         return moves;
     }

@@ -643,6 +643,8 @@
   },
   "RESIGN": "{{player}} se ha rendido.",
   "ROLL": {
+    "arimaa_one": "El dado de {{player}} muestra 1: un solo paso este turno.",
+    "arimaa_other": "El dado de {{player}} muestra {{count}}: hasta {{count}} pasos este turno.",
     "magnate": "{{who}} tiró un {{values}}.",
     "magnate_eight": "{{who}} tiró un {{values}}.",
     "canoe": "{{player}} tiró: {{values}}.",

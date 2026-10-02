@@ -2227,6 +2227,14 @@
     "src": "{{player}} has resigned.",
     "out": "{{player}} hat aufgegeben."
   },
+  "ROLL.arimaa_one": {
+    "src": "{{player}}'s die shows 1: a single step this turn.",
+    "out": "Der Würfel von {{player}} zeigt 1: ein einzelner Schritt in diesem Zug."
+  },
+  "ROLL.arimaa_other": {
+    "src": "{{player}}'s die shows {{count}}: up to {{count}} steps this turn.",
+    "out": "Der Würfel von {{player}} zeigt {{count}}: bis zu {{count}} Schritte in diesem Zug."
+  },
   "ROLL.canoe": {
     "src": "{{player}} rolled: {{values}}.",
     "out": "{{player}} hat gewürfelt: {{values}}."

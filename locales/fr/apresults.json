@@ -643,6 +643,8 @@
   },
   "RESIGN": "{{player}} a abandonné.",
   "ROLL": {
+    "arimaa_one": "Le dé de {{player}} indique 1 : un seul pas ce tour.",
+    "arimaa_other": "Le dé de {{player}} indique {{count}} : jusqu'à {{count}} pas ce tour.",
     "magnate": "{{who}} a obtenu un {{values}}.",
     "magnate_eight": "{{who}} a obtenu un {{values}}.",
     "canoe": "{{player}} a obtenu : {{values}}.",

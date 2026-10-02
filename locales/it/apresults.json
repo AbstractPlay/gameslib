@@ -643,6 +643,8 @@
   },
   "RESIGN": "{{player}} si è arreso.",
   "ROLL": {
+    "arimaa_one": "Il dado di {{player}} mostra 1: un solo passo in questo turno.",
+    "arimaa_other": "Il dado di {{player}} mostra {{count}}: fino a {{count}} passi in questo turno.",
     "magnate": "{{who}} ha tirato un {{values}}.",
     "magnate_eight": "{{who}} ha tirato un {{values}}.",
     "canoe": "{{player}} ha tirato: {{values}}.",

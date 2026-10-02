@@ -643,6 +643,8 @@
   },
   "RESIGN": "{{player}} hat aufgegeben.",
   "ROLL": {
+    "arimaa_one": "Der Würfel von {{player}} zeigt 1: ein einzelner Schritt in diesem Zug.",
+    "arimaa_other": "Der Würfel von {{player}} zeigt {{count}}: bis zu {{count}} Schritte in diesem Zug.",
     "magnate": "{{who}} hat {{values}} gewürfelt.",
     "magnate_eight": "{{who}} hat {{values}} gewürfelt.",
     "canoe": "{{player}} hat gewürfelt: {{values}}.",

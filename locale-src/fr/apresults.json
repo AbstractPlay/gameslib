@@ -2227,6 +2227,14 @@
     "src": "{{player}} has resigned.",
     "out": "{{player}} a abandonné."
   },
+  "ROLL.arimaa_one": {
+    "src": "{{player}}'s die shows 1: a single step this turn.",
+    "out": "Le dé de {{player}} indique 1 : un seul pas ce tour."
+  },
+  "ROLL.arimaa_other": {
+    "src": "{{player}}'s die shows {{count}}: up to {{count}} steps this turn.",
+    "out": "Le dé de {{player}} indique {{count}} : jusqu'à {{count}} pas ce tour."
+  },
   "ROLL.canoe": {
     "src": "{{player}} rolled: {{values}}.",
     "out": "{{player}} a obtenu : {{values}}."

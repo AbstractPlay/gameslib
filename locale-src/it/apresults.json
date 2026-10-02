@@ -2227,6 +2227,14 @@
     "src": "{{player}} has resigned.",
     "out": "{{player}} si è arreso."
   },
+  "ROLL.arimaa_one": {
+    "src": "{{player}}'s die shows 1: a single step this turn.",
+    "out": "Il dado di {{player}} mostra 1: un solo passo in questo turno."
+  },
+  "ROLL.arimaa_other": {
+    "src": "{{player}}'s die shows {{count}}: up to {{count}} steps this turn.",
+    "out": "Il dado di {{player}} mostra {{count}}: fino a {{count}} passi in questo turno."
+  },
   "ROLL.canoe": {
     "src": "{{player}} rolled: {{values}}.",
     "out": "{{player}} ha tirato: {{values}}."

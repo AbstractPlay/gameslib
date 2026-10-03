@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 import { GameFactory } from "../../../src";
 import { GameBase, IAPGameState } from "../../../src/games/_base";
 import type { IGameRound, IGameRoundSlot } from "../../../src/games/_turn-model";
@@ -9,7 +10,8 @@ import type { IRecordDetails } from "../../../src/games/_base";
 import type { ChatLogEntry } from "../../../src/common/chat-log";
 
 /** Gitignored root — see test/fixtures/turnModel/README.md */
-export const TURN_MODEL_FIXTURES_DIR = path.join(__dirname, "../../fixtures-local/turnModel");
+const turnModelFixturesRoot = path.dirname(fileURLToPath(import.meta.url));
+export const TURN_MODEL_FIXTURES_DIR = path.join(turnModelFixturesRoot, "../../fixtures-local/turnModel");
 
 export type TurnModelFixtureCategory = "tier1" | "pattern" | "solo" | "chat";
 

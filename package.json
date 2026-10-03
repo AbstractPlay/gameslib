@@ -135,8 +135,8 @@
     "vite": "^6.3.5"
   },
   "dependencies": {
-    "@abstractplay/recranks": "1.0.0-ci-35278464897.0",
-    "@abstractplay/renderer": "1.0.0-ci-36750293534.0",
+    "@abstractplay/recranks": "1.0.0-ci-35280155165.0",
+    "@abstractplay/renderer": "1.0.0-ci-37124424841.0",
     "@turf/boolean-contains": "^6.5.0",
     "@turf/boolean-intersects": "^6.5.0",
     "@turf/boolean-point-in-polygon": "^6.5.0",

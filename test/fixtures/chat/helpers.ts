@@ -1,4 +1,6 @@
-import { expect } from "chai";
+import chai from "chai";
+
+const { expect } = chai;
 import i18next from "i18next";
 import { GameBase } from "../../../src/games/_base";
 import {

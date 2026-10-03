@@ -3,6 +3,7 @@ import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaStackingExpanded, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, shuffle, RectGrid, UserFacingError, cloneState } from "../common/index.js";
+import { volcanoStashColumn } from "../common/localStashColumn.js";
 import { CartesianProduct } from "js-combinatorics";
 import i18next from "i18next";
 
@@ -738,17 +739,7 @@ export class MvolcanoGame extends GameBase {
     }
 
     private renderStashHelper(s: CellContents[], expanding: boolean): string[] {
-        if (!expanding) {
-            const ret: string[] = [];
-            for (let i = 0; i < s.length; i++) {
-                for (let j = i; j < s[s.length - i - 1][1] - i - 1; j++)
-                    ret.push("-");
-                ret.push(s[s.length - i - 1].join(""));
-            }
-            return ret;
-        } else {
-            return s.map((t) => t.join("") + "c");
-        }
+        return volcanoStashColumn(s, expanding);
     }
 
     private renderPiecesHelper(s: CellContents[], expanding: boolean): string[] {

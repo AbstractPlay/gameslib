@@ -575,8 +575,6 @@ const GAP_KEY = "gap";
 const BLANK: Glyph = { name: "piece-square-borderless", colour: "_context_background", opacity: 0 };
 /** Seen from above, a stack's pyramids overlap; this lets the lower ones show through. */
 const TOP_OPACITY = 0.75;
-/** The side of the square a legend glyph is composed in, which is the unit of a `nudge`. */
-const GLYPH_UNITS = 500;
 /** How a pyramid is drawn: in perspective, from above, from the side, or nested in a stash. */
 type PyramidView = "3D" | "top" | "side" | "nest";
 type Legend = { [k: string]: Glyph | [Glyph, ...Glyph[]] };
@@ -1439,14 +1437,16 @@ export class IcePalaceGame extends GameBaseSequenced {
         return [...offered].sort(pieceSort).map(piece => {
             const key = IcePalaceGame.legendKey(piece, areas3D ? "hand" : "stash");
             if (areas3D) {
-                legend[key] = [BLANK, expanding ? IcePalaceGame.baseAligned(piece, this.glyphFor(piece)) : this.glyphFor(piece)];
-            } else if (!(key in legend)) {
+                legend[key] = [BLANK, this.glyphFor(piece, "3D")];
+                return [key];
+            }
+            if (!(key in legend)) {
                 legend[key] = this.glyphFor(piece, "nest");
             }
             if (expanding) {
                 return [key];
             }
-            const lift = areas3D ? sizeOf(piece) - 1 : NEST_CLEARANCE;
+            const lift = NEST_CLEARANCE;
             return IcePalaceGame.withHeadroom([...Array<string>(lift).fill("-"), key]);
         });
     }
@@ -1466,7 +1466,7 @@ export class IcePalaceGame extends GameBaseSequenced {
                 continue;
             }
             if (areas3D) {
-                legend[key] = expanding ? IcePalaceGame.baseAligned(piece, this.glyphFor(piece)) : this.glyphFor(piece);
+                legend[key] = this.glyphFor(piece, "3D");
             } else {
                 const glyph = this.glyphFor(piece, "top");
                 delete glyph.opacity;
@@ -1475,20 +1475,14 @@ export class IcePalaceGame extends GameBaseSequenced {
             }
         }
         legend[GAP_KEY] = BLANK;
-        const columns = expanding ? IcePalaceGame.poolColumns(sorted) : IcePalaceGame.perspectivePool(sorted, areas3D);
+        const columns = expanding
+            ? IcePalaceGame.poolColumns(sorted)
+            : areas3D
+                ? IcePalaceGame.densePerspectivePool(sorted)
+                : IcePalaceGame.perspectivePool(sorted, areas3D);
         // The renderer sets stash columns a fixed slot apart, so an empty one is the only
         // way to widen the gap.
         return areas3D ? columns : columns.flatMap((column, i) => i === 0 ? [column] : [[GAP_KEY], column]);
-    }
-
-    /**
-     * A 3D glyph nudged down so that its base rests where a large's does. The pyramids
-     * share an apex, with a large's base at 0.80 of the cell, a medium's at 0.65 and a
-     * small's at 0.50; a large is returned as it is.
-     */
-    private static baseAligned(piece: PieceId, glyph: Glyph): Glyph {
-        const steps = SIZE_NAMES.length - sizeOf(piece);
-        return steps === 0 ? glyph : { ...glyph, nudge: { dy: steps * STACK_OFFSET * GLYPH_UNITS } };
     }
 
     /**
@@ -1509,6 +1503,16 @@ export class IcePalaceGame extends GameBaseSequenced {
             }
             return column;
         });
+    }
+
+    /**
+     * The Pool for the perspective renderer (dense columns): one column per colour,
+     * legend keys bottom → top; silhouette spacing comes from glyph names in the renderer.
+     */
+    private static densePerspectivePool(sorted: PieceId[]): string[][] {
+        return IcePalaceGame.nests(sorted).map((nest) =>
+            nest.map((piece) => IcePalaceGame.legendKey(piece, "pool")),
+        );
     }
 
     /**

@@ -25,6 +25,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 - **Bao:** Now uses frames, letting you visualize multi-lap sowing much more clearly.
 - **Thricewise:** in the place phase, clicking an empty cell places your card when you only have one left to play; choose the card from your hand first when you still have more than one.
+- Normalized `localStash` emitters to dense bottom→top columns (no `"-"` spacers in Volcano, Mega-Volcano, Agents of MARS bag, and Ice Palace 3D hand/pool stashes).
 
 ### Fixed
 

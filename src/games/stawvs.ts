@@ -3,6 +3,7 @@ import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, shuffle, UserFacingError, cloneState } from "../common/index.js";
+import { stawvsStashColumn } from "../common/localStashColumn.js";
 import i18next from "i18next";
 
 export type playerid = 1|2|3|4;
@@ -895,7 +896,7 @@ export class StawvsGame extends GameBase {
     }
 
     private renderStashHelper(s: Pyramid[]): string[] {
-        return s.map((t) => t.join("") + "c");
+        return stawvsStashColumn(s);
     }
 
     public render(): APRenderRep {

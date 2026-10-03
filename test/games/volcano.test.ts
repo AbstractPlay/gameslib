@@ -48,5 +48,16 @@ describe("Volcano", () => {
             actor: { kind: "seat", seat: 1 },
         });
     });
+
+    it("emits dense localStash columns without spacers (3D capture)", () => {
+        const g = new VolcanoGame();
+        g.captured[0] = [["RD", 3], ["OG", 2], ["RD", 1]];
+        const rep = g.render();
+        const stash = rep.areas![0]!.stash;
+        expect(stash).to.deep.include.members([["RD3", "OG2", "RD1"]]);
+        for (const column of stash) {
+            expect(column).to.not.include("-");
+        }
+    });
 });
 

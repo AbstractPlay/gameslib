@@ -30,6 +30,7 @@ import {
     shuffle,
     SquareOrthGraph,
 } from "../common/index.js";
+import { bagStashColumn } from "../common/localStashColumn.js";
 import i18next from "i18next";
 import type { IGamePly } from "./_turn-model.js";
 import {
@@ -2442,17 +2443,9 @@ export class AgofmarsGame extends GameBaseSequenced {
         };
     }
 
-    /** Volcano-style 3D stack column (`-` spacers + `bagLegendKey` entries, bottom to top). */
+    /** Dense 3D stack column (`bagLegendKey` entries, bottom → top). */
     private renderBagStashHelper(stack: PoolPiece[]): string[] {
-        const ret: string[] = [];
-        for (let i = 0; i < stack.length; i++) {
-            const piece = stack[stack.length - i - 1]!;
-            for (let j = i; j < piece[1] - i - 1; j++) {
-                ret.push("-");
-            }
-            ret.push(bagLegendKey(piece[0], piece[1]));
-        }
-        return ret;
+        return bagStashColumn(stack, (piece) => bagLegendKey(piece[0], piece[1]));
     }
 
     private addBagPoolLegend(legend: ILegendObj, pool: PoolPiece[]): void {

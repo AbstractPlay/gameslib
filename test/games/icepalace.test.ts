@@ -517,9 +517,8 @@ describe("Ice Palace: board interaction", () => {
         // The hand is a stash of one-pyramid stacks, labelled with the player's name.
         const hand = (persp(g) as Rep).areas![0].stash!;
         expect(hand.flat().filter(k => k !== "-")).to.deep.equal(["h2S", "h2L"]);
-        // Bases rest on one line: a large is raised two steps, a small not at all, and
-        // every column has two empty steps of headroom under the label.
-        expect(hand).to.deep.equal([["h2S", "-", "-"], ["-", "-", "h2L", "-", "-"]]);
+        // With perspective-areas, each column is dense; 3D silhouette spacing is in the glyphs.
+        expect(hand).to.deep.equal([["h2S"], ["h2L"]]);
         g.move("pass");
         g.move("pass");
         g.move("1L@0,0");
@@ -585,13 +584,11 @@ describe("Ice Palace: board interaction", () => {
         expect(rep.areas[0].type).to.equal("localStash");
         expect(rep.areas[1].type).to.equal("localStash");
         expect(rep.areas[1].label?.textKey).to.equal("apgames:icepalace.POOL");
-        // One stash column per colour, largest at the bottom, every column resting on the
-        // same ground line. Placeholders raise each pyramid a fixed distance above the
-        // last, with an extra step between sizes, and add two steps of headroom on top.
+        // One dense column per colour, largest at the bottom; the renderer stacks 3D silhouettes.
         expect(rep.areas[1].stash).to.deep.equal([
-            ["-", "-", "b1L", "-", "b1S", "-", "-"],
-            ["b2S", "-", "-"],
-            ["-", "bWM", "-", "-"],
+            ["b1L", "b1S"],
+            ["b2S"],
+            ["bWM"],
         ]);
         // A hand pyramid sits on an invisible square that widens its click target.
         const legend = (persp(g) as unknown as { legend: Record<string, unknown> }).legend;
@@ -869,16 +866,17 @@ describe("Ice Palace: mixing the board and stash displays", () => {
     it("draws the hand and Pool in 3D under the expanding board on request", () => {
         const rep = rigged().render({ altDisplays: ["perspective-areas"] }) as unknown as Rep;
         expect(rep.renderer).to.equal("stacking-expanding");
-        // This renderer takes no placeholders, so bases are aligned by nudging the smaller
-        // pyramids down instead: 0.15 of a 500-unit cell per size.
+        // Dense stash columns; 3D pyramid silhouettes carry vertical spacing, not nudges or "-".
         expect(rep.areas![0].stash).to.deep.equal([["h1M"]]);
         const hand = rep.legend.h1M as Part[];
         expect(hand).to.have.length(2);
-        expect(hand[1]).to.deep.include({ name: "pyramid-up-medium-3D", nudge: { dy: 75 } });
+        expect(hand[1]).to.deep.include({ name: "pyramid-up-medium-3D" });
+        expect(hand[1]).to.not.have.any.keys("nudge");
         // The Pool on the renderer's fixed steps: a spacer between sizes, no spacer columns.
         expect(rep.areas![1].stash).to.deep.equal([["b1L", "gap", "b1S"], ["b2S"], ["bWM"]]);
         expect(rep.legend.b1L).to.not.have.any.keys("nudge");
-        expect(rep.legend.b1S).to.deep.include({ nudge: { dy: 150 } });
+        expect(rep.legend.b1S).to.deep.include({ name: "pyramid-up-small-3D" });
+        expect(rep.legend.b1S).to.not.have.any.keys("nudge");
         expect(rep.areas!.flatMap(a => a.stash!.flat())).to.not.include("-");
     });
 });

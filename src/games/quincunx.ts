@@ -726,11 +726,15 @@ export class QuincunxGame extends GameBase {
         };
         if (opts !== undefined && opts.strip) {
             state.stack = state.stack.map(mstate => {
+                const entry = {
+                    ...mstate,
+                    hands: mstate.hands.map((h) => [...h]),
+                };
                 for (let p = 1; p <= this.numplayers; p++) {
                     if (p === opts.player) { continue; }
-                    mstate.hands[p-1] = mstate.hands[p-1].map(() => "");
+                    entry.hands[p - 1] = entry.hands[p - 1].map(() => "");
                 }
-                return mstate;
+                return entry;
             });
         }
         return state;

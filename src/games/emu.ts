@@ -1056,11 +1056,17 @@ export class EmuGame extends GameBase {
         if (opts !== undefined && opts.strip) {
             if (this.deck.size > 0) {
                 state.stack = state.stack.map(mstate => {
+                    const entry = {
+                        ...mstate,
+                        hands: mstate.hands.map((h) => [...h]),
+                    };
                     for (let p = 1; p <= this.numplayers; p++) {
                         if (p === opts.player) { continue; }
-                        mstate.hands[p-1] = mstate.hands[p-1].map(c => this.drawn.includes(c) ? c : "");
+                        entry.hands[p - 1] = entry.hands[p - 1].map((c) =>
+                            this.drawn.includes(c) ? c : ""
+                        );
                     }
-                    return mstate;
+                    return entry;
                 });
             }
         }

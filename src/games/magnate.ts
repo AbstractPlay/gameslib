@@ -2084,18 +2084,33 @@ export class MagnateGame extends GameBase {
         if (opts !== undefined && opts.strip) {
             const handCount = (this.variants.includes("mega") ? 6 : 3);
             state.stack = state.stack.map(mstate => {
+                const entry = {
+                    ...mstate,
+                    hands: mstate.hands.map((h) => [...h]),
+                    deeds: mstate.deeds.map(
+                        (row) =>
+                            new Map(
+                                [...row.entries()].map(([key, value]) => [
+                                    key,
+                                    { ...value },
+                                ])
+                            )
+                    ),
+                };
                 for (let p = 1; p <= this.numplayers; p++) {
                     if (p === opts.player) { continue; }
 
-                    if (mstate.hands[p - 1].length === handCount) {
+                    if (entry.hands[p - 1].length === handCount) {
                         //Hide hands until the last round of the game.
-                        mstate.hands[p - 1] = mstate.hands[p - 1].map(() => "");
+                        entry.hands[p - 1] = entry.hands[p - 1].map(() => "");
                     }
                     //Hide prefs.
-                    mstate.deeds[p - 1].forEach( value => value.preferred = undefined );
+                    entry.deeds[p - 1].forEach((value) => {
+                        value.preferred = undefined;
+                    });
                     //Tokens are public information.
                 }
-                return mstate;
+                return entry;
             });
         }
         return state;

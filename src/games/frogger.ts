@@ -1906,12 +1906,15 @@ export class FroggerGame extends GameBase {
         };
         if (opts !== undefined && opts.strip) {
             state.stack = state.stack.map(mstate => {
+                const entry = {
+                    ...mstate,
+                    closedhands: mstate.closedhands.map((h) => [...h]),
+                };
                 for (let p = 1; p <= this.numplayers; p++) {
                     if (p === opts.player) { continue; }
-                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                    mstate.closedhands[p-1] = mstate.closedhands[p-1].map(c => "");
+                    entry.closedhands[p - 1] = entry.closedhands[p - 1].map(() => "");
                 }
-                return mstate;
+                return entry;
             });
         }
         return state;

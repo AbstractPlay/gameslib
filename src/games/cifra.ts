@@ -803,9 +803,17 @@ export class CifraGame extends GameBase {
         if (opts !== undefined && opts.strip) {
             // only strip if we're still in the setup window
             if ( (this.variants.includes("sum") || this.variants.includes("king")) && (state.stack.length === 3 && opts.player !== 2) ) {
-                state.stack[2]._results = [];
-                state.stack[2].lastmove = "?";
-                state.stack[2].board.clear();
+                state.stack = state.stack.map((mstate, idx) => {
+                    if (idx !== 2) {
+                        return mstate;
+                    }
+                    return {
+                        ...mstate,
+                        _results: [],
+                        lastmove: "?",
+                        board: new Map(),
+                    };
+                });
             }
         }
         return state;

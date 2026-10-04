@@ -617,11 +617,15 @@ export class Pigs2Game extends GameBaseSimultaneous {
         };
         if (opts !== undefined && opts.strip) {
             state.stack = state.stack.map(mstate => {
+                const entry = {
+                    ...mstate,
+                    orders: mstate.orders.map((o) => [...o]),
+                };
                 for (let p = 1; p <= this.numplayers; p++) {
                     if (p === opts.player) { continue; }
-                    mstate.orders[p-1] = [];
+                    entry.orders[p - 1] = [];
                 }
-                return mstate;
+                return entry;
             });
         }
         return state;

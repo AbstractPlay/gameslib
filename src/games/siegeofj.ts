@@ -758,11 +758,15 @@ export class SiegeOfJGame extends GameBase {
         if (opts !== undefined && opts.strip) {
             if (!this.variants.includes("open") && this.deck.size > 0) {
                 state.stack = state.stack.map(mstate => {
+                    const entry = {
+                        ...mstate,
+                        hands: mstate.hands.map((h) => [...h]),
+                    };
                     for (let p = 1; p <= this.numplayers; p++) {
                         if (p === opts.player) { continue; }
-                        mstate.hands[p-1] = [];
+                        entry.hands[p - 1] = [];
                     }
-                    return mstate;
+                    return entry;
                 });
             }
         }

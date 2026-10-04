@@ -32,6 +32,11 @@ import {
     buildSimultaneousRounds,
 } from "./_turn-simultaneous.js";
 import { skipTurnShouldCloseRound } from "./_turn-skip.js";
+import type { IGetMoveTableRoundsOptions, IPathIndexForMoveTableCellOptions } from "./_turn-move-table.js";
+import {
+    getMoveTableRoundsForEngine,
+    pathIndexForMoveTableCell as pathIndexForMoveTableCellImpl,
+} from "./_turn-move-table.js";
 import { APGAMES_PRODUCTION } from "./_build-flags.generated.js";
 import { allowedChallengeVariantUids } from "./_gameinfo-filter.js";
 import { GameRng } from "../common/rng.js";
@@ -768,6 +773,22 @@ export abstract class GameBase  {
             rounds.push(this.buildRoundRow(roundPlies));
         }
         return rounds;
+    }
+
+    /**
+     * Move-table presentation rows (UI). Gamerecord export uses {@link getRounds}.
+     */
+    public getMoveTableRounds(opts: IGetMoveTableRoundsOptions = {}): IGameRound[] {
+        return getMoveTableRoundsForEngine(
+            this,
+            opts,
+            (roundPlies) => this.buildRoundRow(roundPlies),
+        );
+    }
+
+    /** Map move-table cell to stack path index (0-based), or null for empty seat. */
+    public pathIndexForMoveTableCell(opts: IPathIndexForMoveTableCellOptions): number | null {
+        return pathIndexForMoveTableCellImpl(this, opts);
     }
 
     /**

@@ -41,6 +41,25 @@ All bases inherit overridable hooks from `GameBase` (implemented in `_turn-plies
 
 Do **not** override `moveHistory()` for export fixes — bots and legacy tests depend on the frozen stride shape.
 
+### Move table presentation (`getMoveTableRounds`)
+
+**Gamerecord export** stays on **`getRounds()`** / **`getMoveList()`** — do not change those shapes for UI convenience.
+
+For round-grid move trees (sequenced, simultaneous, skip-turn), clients call:
+
+| API | Role |
+|-----|------|
+| `getMoveTableRounds({ density?, pathLength? })` | Rows for the UI; `density` is `compact` (default) or `sparse` |
+| `pathIndexForMoveTableCell({ density, model, useRoundGrid, … })` | Map a grid cell to exploration path index |
+
+**Defaults on `GameBase`:**
+
+- **Sequential** — same as `getRounds()` (front uses stride layout; this API is unused).
+- **Simultaneous** or **more than one ply per `stackIndex`** (wire-expanded export, e.g. Thricewise) — always `getRounds()`; compact packing is not applied.
+- **Sequenced** — `sparse` → sparse `getRounds()`; `compact` → `packPliesForMoveTable(getPlies(), …)` (seat cycles merge; duplicate `actor` in one round stays one row per ply).
+
+Helpers (`packPliesForMoveTable`, `moveTableRoundsFromExplorationPath`, `resolveMoveTableRounds`) live in [`_turn-move-table.ts`](/gameslib/src/games/_turn-move-table.ts). Override `getMoveTableRounds` only when QA shows the generic branch is wrong for a specific game.
+
 ## State shape (`IAPGameState`)
 
 ```ts
@@ -96,6 +115,16 @@ flowchart LR
 - **`getRounds()`** — seating-indexed rows (`IGameRound`), one entry per player seat per round. A slot is a move string, `{ move, result? }`, `{ move, sequence, result? }`, or `null` when that seat did not act (eliminated / inactive).
 
 Simultaneous and skip-turn games keep **full row width** (including `null` columns); sequential games may trim trailing `null` seats in export only.
+
+### Move table presentation (`getMoveTableRounds`)
+
+**Gamerecord export** uses `getRounds()` (for `GameBaseSequenced`, sparse one row per ply). The **live / playground move tree** may use **compact** rows (one seating-indexed row per logical `round` when each seat acts at most once per round).
+
+- **`getMoveTableRounds({ density?: "compact" | "sparse", pathLength?: number })`** — UI rows; does not change `getMoveList()` / `genRecord()`.
+- **`pathIndexForMoveTableCell(...)`** — maps a table cell to a 0-based stack path index.
+- Helpers in `_turn-move-table.ts` (`packPliesForMoveTable`, `moveTableRoundsFromExplorationPath`, …) are exported from the package for clients that build exploration trees.
+
+When a stack frame expands to **multiple plies** (simultaneous wire, Thricewise select, …), compact density still uses **`getRounds()`** (stack-indexed rows).
 
 ### `recordExportExclude()`
 

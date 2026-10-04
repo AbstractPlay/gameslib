@@ -28,6 +28,8 @@ The elegant pattern:
 4. **One logical round** — override `shouldCloseRound` so the round does not close while a supplemental obligation is still open.
 5. **Sparse `getRounds()`** — one seating-indexed row per ply (`GameBaseSequenced` does this by default).
 
+**Move table UI (not export):** clients may request **compact** rows via `getMoveTableRounds({ density: "compact" })`, which merges plies that share a `round` when each seat appears at most once in that round. Export and `getRounds()` remain sparse. See [Game object — Move table presentation](/gameslib/game-object/#move-table-presentation-getmovetablerounds).
+
 Other seats can be **blocked from acting** in `moves()` / `validateMove()` during the refill without emitting `pass` stack entries for them. The record only needs the plies that actually happened.
 
 ## Base class
@@ -237,3 +239,4 @@ Compatibility helpers live in [`_turn-sequenced-skipto.ts`](/gameslib/src/games/
 | [`_turn-sequenced-skipto.ts`](/gameslib/src/games/_turn-sequenced-skipto.ts) | **Legacy** — current Frogger `skipto` only; scheduled for removal after refactor |
 | [`_turn-plies.ts`](/gameslib/src/games/_turn-plies.ts) | `walkStackPlies`, `defaultPlyActor` |
 | [`_turn-skip.ts`](/gameslib/src/games/_turn-skip.ts) | Seat-cycle wrap helper used by sequenced close |
+| [`_turn-move-table.ts`](/gameslib/src/games/_turn-move-table.ts) | Compact/sparse move-table rows, path index, exploration wire split |

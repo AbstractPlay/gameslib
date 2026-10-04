@@ -1,31 +1,7941 @@
 {
-    "buttons": {
-        "pass": "Lewati",
-        "declare": "Menyatakan",
-        "takebutton": "Tombol ambil",
-        "acceptpie": "Bermain di urutan kedua",
-        "playsecond": "Bermain di urutan kedua",
-        "draw": "Terima tawaran seri",
-        "playfirst": "Bermain di urutan pertama",
-        "swap": "Tukar warna",
-        "cifra": {
-            "lt": "Terang, Atas",
-            "lb": "Terang, Bawah",
-            "dt": "Gelap, Atas",
-            "db": "Gelap, Bawah",
-            "ll": "Terang, Kiri",
-            "lr": "Terang, Kanan",
-            "dl": "Gelap, Kiri",
-            "dr": "Gelap, Kanan"
-        }
+  "descriptions": {
+    "abande": "",
+    "accasta": "",
+    "acity": "",
+    "agere": "",
+    "akimbo": "",
+    "akron": "",
+    "almatafl": "",
+    "alta": "",
+    "amazons": "",
+    "amoeba": "",
+    "anache": "",
+    "archimedes": "",
+    "arimaa": "",
+    "armadas": "",
+    "asli": "",
+    "assembly": "",
+    "atarigo": "",
+    "ataxx": "",
+    "atoll": "",
+    "attangle": "",
+    "ayu": "",
+    "azacru": "",
+    "bamboo": "",
+    "bao": "",
+    "basalt": "",
+    "bide": "",
+    "biscuit": "",
+    "bitesize": "",
+    "blam": "",
+    "blastradius": "",
+    "blockade": "",
+    "blooms": "",
+    "bloqueo": "",
+    "bluestone": "",
+    "boom": "",
+    "bounce": "",
+    "boxes": "",
+    "breakthrough": "",
+    "bridges": "",
+    "btt": "",
+    "bug": "",
+    "buku": "",
+    "byte": "",
+    "c1": "",
+    "calculus": "",
+    "camelot": "",
+    "canoe": "",
+    "carnac": "",
+    "cannon": "",
+    "catapult": "",
+    "catchup": "",
+    "catsdogs": "",
+    "ccorridor": "",
+    "ceph": "",
+    "chameleon": "",
+    "chase": "",
+    "churn": "",
+    "cifra": "",
+    "clearcut": "",
+    "clusterfuss": "",
+    "compart": "",
+    "complica": "",
+    "conect": "",
+    "conhex": "",
+    "connect6": "",
+    "connecticut": "",
+    "connections": "",
+    "conspirateurs": "",
+    "control": "",
+    "court": "",
+    "courtesan": "",
+    "crosscontrol": "",
+    "crossway": "",
+    "crosshairs": "",
+    "cubeo": "",
+    "dagnacht": "",
+    "dameo": "",
+    "deckfish": "",
+    "diffusion": "",
+    "dipole": "",
+    "dragoneyes": "",
+    "druid": "",
+    "domineering": "",
+    "emergo": "",
+    "elOso": "",
+    "emu": "",
+    "enso": "",
+    "entrapment": "",
+    "entropy": "",
+    "evenatodds": "",
+    "estate": "",
+    "circleOfLife": "",
+    "epam": "",
+    "exxit": "",
+    "fabrik": "",
+    "fanorona": "",
+    "fendo": "",
+    "fightopia": "",
+    "flume": "",
+    "fnap": "",
+    "focus": "",
+    "four": "",
+    "fourinarow": "",
+    "forms": "",
+    "frames": "",
+    "fractured": "",
+    "frogger": "",
+    "furl": "",
+    "garden": "",
+    "gess": "",
+    "gliss": "",
+    "gomoku": "",
+    "go": "",
+    "gonnect": "",
+    "gorogo": "",
+    "gyges": "",
+    "guerrilla": "",
+    "gyve": "",
+    "halma": "",
+    "halmaclimbers": "",
+    "havannah": "",
+    "hens": "",
+    "hex": "",
+    "hexentafl": "",
+    "hexy": "",
+    "homeworlds": "",
+    "hula": "",
+    "intermedium": "",
+    "invector": "",
+    "iqishiqi": "",
+    "irensei": "",
+    "jacynth": "",
+    "kachit": "",
+    "knightline": "",
+    "konane": "",
+    "krypte": "",
+    "lasca": "",
+    "lielow": "",
+    "lifeline": "",
+    "linage": "",
+    "loa": "",
+    "logger": "",
+    "lox": "",
+    "magnate": "",
+    "majorities": "",
+    "manalath": "",
+    "margo": "",
+    "mattock": "",
+    "mchess": "",
+    "meg": "",
+    "meridians": "",
+    "mimic": "",
+    "minefield": "",
+    "minimize": "",
+    "mirador": "",
+    "mixtour": "",
+    "monkey": "",
+    "morphos": "",
+    "murus": "",
+    "moonsquad": "",
+    "mutternland": "",
+    "mvolcano": "",
+    "nakatta": "",
+    "narrows": "",
+    "necklace": "",
+    "nex": "",
+    "omny": "",
+    "onager": "",
+    "onyx": "",
+    "oonpia": "",
+    "orb": "",
+    "ordo": "",
+    "oust": "",
+    "oware": "",
+    "owlman": "",
+    "pacru": "",
+    "pahtum": "",
+    "paintbucket": "",
+    "penguin": "",
+    "pente": "",
+    "phutball": "",
+    "pigs": "",
+    "pigs2": "",
+    "pikemen": "",
+    "pilastri": "",
+    "pinch": "",
+    "pippinzip": "",
+    "pletore": "",
+    "plurality": "",
+    "pods": "",
+    "pollux": "",
+    "pontedd": "",
+    "posit": "",
+    "product": "",
+    "prudh": "",
+    "pylon": "",
+    "quagmire": "",
+    "quax": "",
+    "queensland": "",
+    "query": "",
+    "quincunx": "",
+    "rampart": "",
+    "razzle": "",
+    "realm": "",
+    "renju": "",
+    "resolve": "",
+    "reversi": "",
+    "rincala": "",
+    "rootbound": "",
+    "saltire": "",
+    "scaffold": "",
+    "shapechess": "",
+    "sentinel": "",
+    "shifty": "",
+    "siegeofj": "",
+    "slither": "",
+    "slimetrail": "",
+    "slyde": "",
+    "soccolot": "",
+    "spire": "",
+    "spline": "",
+    "sploof": "",
+    "sponnect": "",
+    "spook": "",
+    "spora": "",
+    "spree": "",
+    "squaredance": "",
+    "squirm": "",
+    "stairs": "",
+    "stapeldammen": "",
+    "stawvs": "",
+    "stibro": "",
+    "stiletto": "",
+    "stigmergy": "",
+    "storisende": "",
+    "stormc": "",
+    "strands": "",
+    "streetcar": "",
+    "strings": "",
+    "scribe": "",
+    "swarm": "",
+    "subdivision": "",
+    "sunspot": "",
+    "surmount": "",
+    "susan": "",
+    "symple": "",
+    "synapse": "",
+    "tablero": "",
+    "tafl": "",
+    "taiji": "",
+    "take": "",
+    "tanbo": "",
+    "tbt": "",
+    "tessella": "",
+    "tintas": "",
+    "terrace": "",
+    "toguz": "",
+    "trax": "",
+    "tricouleur": "",
+    "trike": "",
+    "tritium": "",
+    "tumbleweed": "",
+    "twinflames": "",
+    "twixt": "",
+    "unane": "",
+    "unlur": "",
+    "upperhand": "",
+    "urbino": "",
+    "unstack": "",
+    "valley": "",
+    "veletas": "",
+    "verge": "",
+    "viruswar": "",
+    "volcano": "",
+    "volo": "",
+    "waldmeister": "",
+    "witch": "",
+    "wunchunk": "",
+    "wyke": "",
+    "xana": "",
+    "y": "",
+    "yavalath": "",
+    "yonmoque": "",
+    "zola": ""
+  },
+  "names": {
+    "abande": "",
+    "accasta": "",
+    "acity": "",
+    "agere": "",
+    "akimbo": "",
+    "akron": "",
+    "almatafl": "",
+    "alta": "",
+    "amazons": "",
+    "amoeba": "",
+    "anache": "",
+    "archimedes": "",
+    "arimaa": "",
+    "armadas": "",
+    "asli": "",
+    "assembly": "",
+    "atarigo": "",
+    "ataxx": "",
+    "atoll": "",
+    "attangle": "",
+    "ayu": "",
+    "azacru": "",
+    "baghchal": "",
+    "bamboo": "",
+    "bao": "",
+    "basalt": "",
+    "bide": "",
+    "biscuit": "",
+    "bitesize": "",
+    "blam": "",
+    "blastradius": "",
+    "blockade": "",
+    "blooms": "",
+    "bloqueo": "",
+    "bluestone": "",
+    "boom": "",
+    "bounce": "",
+    "boxes": "",
+    "breakthrough": "",
+    "bridges": "",
+    "btt": "",
+    "bug": "",
+    "buku": "",
+    "byte": "",
+    "c1": "",
+    "calculus": "",
+    "camelot": "",
+    "cannon": "",
+    "canoe": "",
+    "carnac": "",
+    "catapult": "",
+    "catchup": "",
+    "catsdogs": "",
+    "ccorridor": "",
+    "ceph": "",
+    "chameleon": "",
+    "chase": "",
+    "churn": "",
+    "cifra": "",
+    "circleOfLife": "",
+    "clearcut": "",
+    "clusterfuss": "",
+    "compart": "",
+    "complica": "",
+    "conect": "",
+    "conhex": "",
+    "connect6": "",
+    "connecticut": "",
+    "connections": "",
+    "conspirateurs": "",
+    "control": "",
+    "court": "",
+    "courtesan": "",
+    "crosscontrol": "",
+    "crosshairs": "",
+    "crossway": "",
+    "cubeo": "",
+    "dagnacht": "",
+    "dameo": "",
+    "deckfish": "",
+    "diffusion": "",
+    "dipole": "",
+    "domineering": "",
+    "dragoneyes": "",
+    "druid": "",
+    "elOso": "",
+    "emergo": "",
+    "emu": "",
+    "enso": "",
+    "entrapment": "",
+    "entropy": "",
+    "epam": "",
+    "estate": "",
+    "evenatodds": "",
+    "exxit": "",
+    "fabrik": "",
+    "fanorona": "",
+    "fendo": "",
+    "fightopia": "",
+    "flume": "",
+    "fnap": "",
+    "focus": "",
+    "forms": "",
+    "four": "",
+    "fourinarow": "",
+    "fractured": "",
+    "frames": "",
+    "frogger": "",
+    "furl": "",
+    "garden": "",
+    "gess": "",
+    "gliss": "",
+    "go": "",
+    "gomoku": "",
+    "gonnect": "",
+    "gorogo": "",
+    "guerrilla": "",
+    "gyges": "",
+    "gyve": "",
+    "halma": "",
+    "halmaclimbers": "",
+    "havannah": "",
+    "hens": "",
+    "hex": "",
+    "hexentafl": "",
+    "hexy": "",
+    "homeworlds": "",
+    "hula": "",
+    "intermedium": "",
+    "invector": "",
+    "iqishiqi": "",
+    "irensei": "",
+    "jacynth": "",
+    "kachit": "",
+    "knightline": "",
+    "konane": "",
+    "krypte": "",
+    "lasca": "",
+    "lielow": "",
+    "lifeline": "",
+    "linage": "",
+    "loa": "",
+    "logger": "",
+    "lox": "",
+    "magnate": "",
+    "majorities": "",
+    "manalath": "",
+    "margo": "",
+    "mattock": "",
+    "mchess": "",
+    "meg": "",
+    "meridians": "",
+    "mimic": "",
+    "minefield": "",
+    "minimize": "",
+    "mirador": "",
+    "mixtour": "",
+    "monkey": "",
+    "moonsquad": "",
+    "morphos": "",
+    "murus": "",
+    "mutternland": "",
+    "mvolcano": "",
+    "nakatta": "",
+    "narrows": "",
+    "necklace": "",
+    "nex": "",
+    "omny": "",
+    "onager": "",
+    "onyx": "",
+    "oonpia": "",
+    "orb": "",
+    "ordo": "",
+    "oust": "",
+    "oware": "",
+    "owlman": "",
+    "pacru": "",
+    "pahtum": "",
+    "paintbucket": "",
+    "penguin": "",
+    "pente": "",
+    "phutball": "",
+    "pigs": "",
+    "pigs2": "",
+    "pikemen": "",
+    "pilastri": "",
+    "pinch": "",
+    "pippinzip": "",
+    "pletore": "",
+    "plurality": "",
+    "pods": "",
+    "pollux": "",
+    "pontedd": "",
+    "posit": "",
+    "product": "",
+    "prudh": "",
+    "pylon": "",
+    "quagmire": "",
+    "quax": "",
+    "queensland": "",
+    "query": "",
+    "quincunx": "",
+    "rampart": "",
+    "razzle": "",
+    "realm": "",
+    "renju": "",
+    "resolve": "",
+    "reversi": "",
+    "rincala": "",
+    "rootbound": "",
+    "saltire": "",
+    "scaffold": "",
+    "scribe": "",
+    "sentinel": "",
+    "shapechess": "",
+    "shifty": "",
+    "siegeofj": "",
+    "slimetrail": "",
+    "slither": "",
+    "slyde": "",
+    "soccolot": "",
+    "spire": "",
+    "spline": "",
+    "sploof": "",
+    "sponnect": "",
+    "spook": "",
+    "spora": "",
+    "spree": "",
+    "squaredance": "",
+    "squirm": "",
+    "stairs": "",
+    "stapeldammen": "",
+    "stawvs": "",
+    "stibro": "",
+    "stigmergy": "",
+    "stiletto": "",
+    "storisende": "",
+    "strands": "",
+    "streetcar": "",
+    "strings": "",
+    "subdivision": "",
+    "sunspot": "",
+    "surmount": "",
+    "susan": "",
+    "swarm": "",
+    "symple": "",
+    "synapse": "",
+    "tablero": "",
+    "tafl": "",
+    "taiji": "",
+    "take": "",
+    "tanbo": "",
+    "tbt": "",
+    "terrace": "",
+    "tessella": "",
+    "tintas": "",
+    "toguz": "",
+    "trax": "",
+    "tricouleur": "",
+    "trike": "",
+    "tritium": "",
+    "tumbleweed": "",
+    "twinflames": "",
+    "twixt": "",
+    "unane": "",
+    "unlur": "",
+    "unstack": "",
+    "upperhand": "",
+    "urbino": "",
+    "valley": "",
+    "veletas": "",
+    "verge": "",
+    "viruswar": "",
+    "volcano": "",
+    "volo": "",
+    "waldmeister": "",
+    "witch": "",
+    "wunchunk": "",
+    "wyke": "",
+    "xana": "",
+    "y": "",
+    "yavalath": "",
+    "yonmoque": "",
+    "zola": ""
+  },
+  "notes": {
+    "akimbo": "",
+    "alta": "",
+    "anache": "",
+    "arimaa": "",
+    "armadas": "",
+    "ataxx": "",
+    "bao": "",
+    "biscuit": "",
+    "blooms": "",
+    "btt": "",
+    "bug": "",
+    "calculus": "",
+    "canoe": "",
+    "carnac": "",
+    "druid": "",
+    "catsdogs": "",
+    "chase": "",
+    "circleOfLife": "",
+    "conspirateurs": "",
+    "deckfish": "",
+    "elOso": "",
+    "domineering": "",
+    "emu": "",
+    "entropy": "",
+    "evenatodds": "",
+    "exxit": "",
+    "forms": "",
+    "frogger": "",
+    "garden": "",
+    "guerrilla": "",
+    "scribe": "",
+    "gyges": "",
+    "halma": "",
+    "halmaclimbers": "",
+    "homeworlds": "",
+    "intermedium": "",
+    "invector": "",
+    "jacynth": "",
+    "konane": "",
+    "knightline": "",
+    "lasca": "",
+    "linage": "",
+    "loa": "",
+    "magnate": "",
+    "mchess": "",
+    "murus": "",
+    "mutternland": "",
+    "narrows": "",
+    "oonpia": "",
+    "oware": "",
+    "pacru": "",
+    "pigs": "",
+    "pigs2": "",
+    "pinch": "",
+    "pippinzip": "",
+    "pletore": "",
+    "posit": "",
+    "plurality": "",
+    "queensland": "",
+    "quincunx": "",
+    "razzle": "",
+    "rincala": "",
+    "rootbound": "",
+    "siegeofj": "",
+    "shapechess": "",
+    "sentinel": "",
+    "slimetrail": "",
+    "soccolot": "",
+    "spire": "",
+    "spook": "",
+    "spora": "",
+    "spree": "",
+    "squirm": "",
+    "stapeldammen": "",
+    "stawvs": "",
+    "stigmergy": "",
+    "stiletto": "",
+    "swarm": "",
+    "synapse": "",
+    "tablero": "",
+    "tafl": "",
+    "taiji": "",
+    "tanbo": "",
+    "tbt": "",
+    "terrace": "",
+    "toguz": "",
+    "tricouleur": "",
+    "tumbleweed": "",
+    "twinflames": "",
+    "twixt": "",
+    "unane": "",
+    "viruswar": "",
+    "waldmeister": "",
+    "witch": "",
+    "xana": "",
+    "y": ""
+  },
+  "variants": {
+    "_default": {
+      "bases": {
+        "name": ""
+      },
+      "blockers": {
+        "name": ""
+      },
+      "board": {
+        "name": ""
+      },
+      "boardtype": {
+        "name": ""
+      },
+      "capture": {
+        "name": ""
+      },
+      "dice": {
+        "name": ""
+      },
+      "enforcers": {
+        "name": ""
+      },
+      "eog": {
+        "name": ""
+      },
+      "fleet": {
+        "name": ""
+      },
+      "form": {
+        "name": ""
+      },
+      "groups": {
+        "name": ""
+      },
+      "komi": {
+        "name": ""
+      },
+      "length": {
+        "name": ""
+      },
+      "movement": {
+        "name": ""
+      },
+      "moves": {
+        "name": ""
+      },
+      "objective": {
+        "name": ""
+      },
+      "obstacles": {
+        "name": ""
+      },
+      "opening": {
+        "name": ""
+      },
+      "parks": {
+        "name": ""
+      },
+      "penalty": {
+        "name": ""
+      },
+      "powers": {
+        "name": ""
+      },
+      "rules": {
+        "name": ""
+      },
+      "ruleset": {
+        "name": ""
+      },
+      "scoring": {
+        "name": ""
+      },
+      "setup": {
+        "name": ""
+      },
+      "size": {
+        "name": ""
+      },
+      "tiebreaker": {
+        "name": ""
+      },
+      "ties": {
+        "name": ""
+      },
+      "variant": {
+        "name": ""
+      }
     },
-    "categories": {
-        "board": {
-            "full": "Papan",
-            "tag": "Papan"
-        },
-        "mechanic": {
-            "full": "Mekanik"
-        }
+    "abande": {
+      "#board": {
+        "description": ""
+      },
+      "hex": {
+        "description": "",
+        "name": ""
+      },
+      "snub": {
+        "description": "",
+        "name": ""
+      },
+      "libre": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "accasta": {
+      "pari": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "agere": {
+      "#board": {
+        "name": ""
+      },
+      "cobweb": {
+        "name": ""
+      },
+      "cobweb-small": {
+        "description": "",
+        "name": ""
+      },
+      "limping": {
+        "name": ""
+      },
+      "moon": {
+        "description": "",
+        "name": ""
+      },
+      "slanted-8": {
+        "name": ""
+      },
+      "slanted-10": {
+        "name": ""
+      },
+      "standard-11": {
+        "description": "",
+        "name": ""
+      },
+      "standard-14": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "akimbo": {
+      "size-9": {
+        "name": ""
+      },
+      "size-11": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      },
+      "size-17": {
+        "name": ""
+      },
+      "size-19": {
+        "name": ""
+      },
+      "#ruleset": {
+        "name": ""
+      },
+      "okimba": {
+        "name": ""
+      }
+    },
+    "akron": {
+      "#board": {
+        "name": ""
+      },
+      "size-7": {
+        "name": ""
+      },
+      "size-11": {
+        "name": ""
+      }
+    },
+    "almatafl": {
+      "advanced": {
+        "description": "",
+        "name": ""
+      },
+      "plus": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "alta": {
+      "#board": {
+        "name": ""
+      },
+      "size-13": {
+        "name": ""
+      }
+    },
+    "amazons": {
+      "#setup": {
+        "description": ""
+      },
+      "cross": {
+        "description": "",
+        "name": ""
+      },
+      "scrambled": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "anache": {
+      "#board": {
+        "name": "",
+        "description": ""
+      },
+      "size-10": {
+        "description": "",
+        "name": ""
+      },
+      "size-15": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "archimedes": {
+      "8x10": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "arimaa": {
+      "#setup": {
+        "name": "",
+        "description": ""
+      },
+      "eee": {
+        "name": "",
+        "description": ""
+      },
+      "free": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "armadas": {
+      "#obstacles": {
+        "name": ""
+      },
+      "freeform": {
+        "description": "",
+        "name": ""
+      },
+      "noislands": {
+        "description": "",
+        "name": ""
+      },
+      "twoislands": {
+        "name": ""
+      }
+    },
+    "asli": {
+      "#board": {
+        "name": ""
+      },
+      "#komi": {
+        "name": "",
+        "description": ""
+      },
+      "#rules": {
+        "description": ""
+      },
+      "board-9": {
+        "name": ""
+      },
+      "board-11": {
+        "name": ""
+      },
+      "board-15": {
+        "name": ""
+      },
+      "board-17": {
+        "name": ""
+      },
+      "board-19": {
+        "name": ""
+      },
+      "board-27": {
+        "name": ""
+      },
+      "setkomi": {
+        "name": "",
+        "description": ""
+      },
+      "woven": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "assembly": {
+      "defective": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "atarigo": {
+      "size-9": {
+        "name": ""
+      },
+      "size-11": {
+        "name": ""
+      },
+      "size-13": {
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      }
+    },
+    "ataxx": {
+      "#board": {
+        "name": ""
+      },
+      "hex-5": {
+        "name": ""
+      },
+      "square-5": {
+        "name": ""
+      },
+      "square-7-cross": {
+        "name": ""
+      },
+      "straight-jumps-only": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "atoll": {
+      "#board": {
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      },
+      "size-19": {
+        "name": ""
+      }
+    },
+    "attangle": {
+      "grand": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "ayu": {
+      "#board": {
+        "name": ""
+      },
+      "size-9": {
+        "name": ""
+      },
+      "size-11": {
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      },
+      "size-17": {
+        "name": ""
+      },
+      "size-19": {
+        "name": ""
+      }
+    },
+    "bamboo": {
+      "hex6": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      }
+    },
+    "bao": {
+      "kujifunza": {
+        "description": "",
+        "name": ""
+      },
+      "malawi": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "basalt": {
+      "pie": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "biscuit": {
+      "excuse": {
+        "name": "",
+        "description": ""
+      },
+      "#extended": {
+        "name": ""
+      },
+      "pawns-only": {
+        "name": "",
+        "description": ""
+      },
+      "pawns+courts": {
+        "name": "",
+        "description": ""
+      },
+      "#eog": {
+        "name": "",
+        "description": ""
+      },
+      "goal-40": {
+        "name": "",
+        "description": ""
+      },
+      "goal-80": {
+        "name": "",
+        "description": ""
+      },
+      "goal-120": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "bitesize": {
+      "#board": {
+        "name": ""
+      },
+      "size-5": {
+        "name": ""
+      }
+    },
+    "blastradius": {
+      "#board": {
+        "name": ""
+      },
+      "board-5": {
+        "name": ""
+      },
+      "board-7": {
+        "name": ""
+      }
+    },
+    "blockade": {
+      "#goal": {
+        "name": ""
+      },
+      "#step-count": {
+        "description": "",
+        "name": ""
+      },
+      "#wall-placement": {
+        "description": "",
+        "name": ""
+      },
+      "back-rank": {
+        "description": "",
+        "name": ""
+      },
+      "exclusive-wall": {
+        "description": "",
+        "name": ""
+      },
+      "optional-wall": {
+        "description": "",
+        "name": ""
+      },
+      "single-step": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "blooms": {
+      "#board": {
+        "name": ""
+      },
+      "size-4": {
+        "name": ""
+      },
+      "size-5": {
+        "name": ""
+      },
+      "size-8": {
+        "name": ""
+      },
+      "size-10": {
+        "name": ""
+      }
+    },
+    "bluestone": {
+      "#board": {
+        "name": ""
+      },
+      "size-8": {
+        "name": ""
+      }
+    },
+    "boom": {
+      "#setup": {
+        "name": ""
+      },
+      "pieces-6": {
+        "name": ""
+      },
+      "pieces-8": {
+        "name": ""
+      }
+    },
+    "bounce": {
+      "10": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      }
+    },
+    "boxes": {
+      "#board": {
+        "name": ""
+      },
+      "size-4x4": {
+        "name": ""
+      },
+      "size-5x7": {
+        "name": ""
+      },
+      "size-7x7": {
+        "name": ""
+      }
+    },
+    "breakthrough": {
+      "bombardment": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "btt": {
+      "arcade": {
+        "description": "",
+        "name": ""
+      },
+      "martian-go": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "bug": {
+      "#board": {
+        "name": ""
+      },
+      "size-3": {
+        "name": ""
+      },
+      "size-5": {
+        "name": ""
+      }
+    },
+    "buku": {
+      "#board": {
+        "name": ""
+      },
+      "size-6": {
+        "name": ""
+      },
+      "size-10": {
+        "name": ""
+      }
+    },
+    "byte": {
+      "10x10": {
+        "name": ""
+      }
+    },
+    "c1": {
+      "two-move": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "calculus": {
+      "#board": {
+        "description": ""
+      },
+      "width-10": {
+        "description": "",
+        "name": ""
+      },
+      "width-15": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "camelot": {
+      "camette": {
+        "description": "",
+        "name": ""
+      },
+      "cam": {
+        "description": "",
+        "name": ""
+      },
+      "chivalry": {
+        "description": "",
+        "name": ""
+      },
+      "river": {
+        "description": "",
+        "name": ""
+      },
+      "anti": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "canoe": {
+      "#scoring": {
+        "description": "",
+        "name": ""
+      },
+      "no-canoe": {
+        "description": "",
+        "name": ""
+      },
+      "leaky-canoe": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "carnac": {
+      "8x5": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "14x9": {
+        "name": ""
+      }
+    },
+    "druid": {
+      "size-8": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-12": {
+        "name": ""
+      },
+      "y-7": {
+        "name": ""
+      },
+      "y-8": {
+        "name": ""
+      },
+      "y-9": {
+        "name": ""
+      },
+      "hex-4": {
+        "name": ""
+      },
+      "hex-5": {
+        "name": ""
+      },
+      "hex-6": {
+        "name": ""
+      },
+      "walk": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "catapult": {
+      "#board": {
+        "name": ""
+      },
+      "#goal": {
+        "description": ""
+      },
+      "dagger": {
+        "description": "",
+        "name": ""
+      },
+      "royal": {
+        "description": "",
+        "name": ""
+      },
+      "size-9": {
+        "name": ""
+      }
+    },
+    "catchup": {
+      "#board": {
+        "name": ""
+      },
+      "size-6": {
+        "name": ""
+      }
+    },
+    "catsdogs": {
+      "#ruleset": {
+        "name": ""
+      },
+      "original": {
+        "name": ""
+      },
+      "tournament": {
+        "name": ""
+      },
+      "misere": {
+        "name": ""
+      }
+    },
+    "ccorridor": {
+      "#board": {
+        "name": ""
+      },
+      "size-8": {
+        "name": ""
+      }
+    },
+    "ceph": {
+      "#board": {
+        "name": ""
+      },
+      "snub": {
+        "description": "",
+        "name": ""
+      },
+      "#dice": {
+        "name": ""
+      },
+      "dodeca": {
+        "name": ""
+      },
+      "#size": {
+        "name": ""
+      },
+      "size-3": {
+        "name": ""
+      }
+    },
+    "churn": {
+      "#board": {
+        "name": ""
+      },
+      "limping-34": {
+        "name": ""
+      },
+      "limping-335": {
+        "name": ""
+      },
+      "hex4": {
+        "name": ""
+      },
+      "limping-446": {
+        "name": ""
+      },
+      "hex5": {
+        "name": ""
+      }
+    },
+    "cifra": {
+      "#board": {
+        "name": ""
+      },
+      "size-9": {
+        "name": ""
+      },
+      "#mode": {
+        "name": "",
+        "description": ""
+      },
+      "king": {
+        "name": "",
+        "description": ""
+      },
+      "sum": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "clearcut": {
+      "#board": {
+        "name": ""
+      },
+      "#ruleset": {
+        "description": "",
+        "name": ""
+      },
+      "clearcut": {
+        "description": "",
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      }
+    },
+    "clusterfuss": {
+      "10": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      }
+    },
+    "compart": {
+      "size-7": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-11": {
+        "name": ""
+      },
+      "size-13": {
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      }
+    },
+    "conect": {
+      "#board": {
+        "name": ""
+      },
+      "#cone": {
+        "name": ""
+      },
+      "narrow": {
+        "name": ""
+      },
+      "size-13": {
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      }
+    },
+    "conhex": {
+      "#board": {
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      }
+    },
+    "connect6": {
+      "#board": {
+        "name": ""
+      },
+      "#opening": {
+        "description": "",
+        "name": ""
+      },
+      "#ruleset": {
+        "description": "",
+        "name": ""
+      },
+      "#tiebreaker": {
+        "name": ""
+      },
+      "collinear6": {
+        "description": "",
+        "name": ""
+      },
+      "noncollinear5": {
+        "description": "",
+        "name": ""
+      },
+      "pass": {
+        "description": "",
+        "name": ""
+      },
+      "swap-3rd": {
+        "description": "",
+        "name": ""
+      },
+      "toroidal-15": {
+        "name": ""
+      }
+    },
+    "connecticut": {
+      "#board": {
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      }
+    },
+    "connections": {
+      "#board": {
+        "name": ""
+      },
+      "size-5": {
+        "name": ""
+      }
+    },
+    "conspirateurs": {
+      "#movement": {
+        "description": ""
+      },
+      "#setup": {
+        "description": ""
+      },
+      "quick": {
+        "name": "",
+        "description": ""
+      },
+      "strict": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "control": {
+      "#board": {
+        "name": "",
+        "description": ""
+      },
+      "size-5": {
+        "name": "",
+        "description": ""
+      },
+      "size-9": {
+        "name": ""
+      }
+    },
+    "court": {
+      "#board": {
+        "name": ""
+      }
+    },
+    "courtesan": {
+      "#board": {
+        "name": ""
+      },
+      "size-6": {
+        "name": ""
+      }
+    },
+    "crosscontrol": {
+      "size-9": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      },
+      "size-19": {
+        "name": ""
+      },
+      "size-25": {
+        "name": ""
+      },
+      "#komi": {
+        "description": "",
+        "name": ""
+      },
+      "nokomi": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "crosshairs": {
+      "random-start": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "crossway": {
+      "#board": {
+        "name": ""
+      },
+      "size-25": {
+        "name": ""
+      }
+    },
+    "cubeo": {
+      "#moves": {
+        "name": "",
+        "description": ""
+      },
+      "strict": {
+        "name": "",
+        "description": ""
+      },
+      "#dice": {
+        "name": "",
+        "description": ""
+      },
+      "d8": {
+        "name": "",
+        "description": ""
+      },
+      "d10": {
+        "name": "",
+        "description": ""
+      },
+      "d12": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "dagnacht": {
+      "#board": {
+        "name": ""
+      },
+      "11x11": {
+        "name": ""
+      },
+      "13x13": {
+        "name": ""
+      },
+      "17x17": {
+        "name": ""
+      },
+      "19x19": {
+        "name": ""
+      }
+    },
+    "dameo": {
+      "#board": {
+        "name": ""
+      },
+      "anti": {
+        "description": "",
+        "name": ""
+      },
+      "size-10": {
+        "name": ""
+      },
+      "size-10b": {
+        "name": ""
+      }
+    },
+    "deckfish": {
+      "double": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "diffusion": {
+      "topBottom": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "dipole": {
+      "international": {
+        "name": ""
+      }
+    },
+    "domineering": {
+      "size-6": {
+        "name": ""
+      },
+      "size-7": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-9": {
+        "name": ""
+      },
+      "size-10": {
+        "name": ""
+      },
+      "size-11": {
+        "name": ""
+      },
+      "size-12": {
+        "name": ""
+      },
+      "quelhas": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "dragoneyes": {
+      "#rules": {
+        "description": ""
+      },
+      "claimdraw": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "emu": {
+      "#length": {
+        "name": ""
+      },
+      "years-2": {
+        "name": ""
+      },
+      "years-6": {
+        "name": ""
+      },
+      "#deck": {
+        "name": ""
+      },
+      "courts": {
+        "name": "",
+        "description": ""
+      },
+      "both": {
+        "name": "",
+        "description": ""
+      },
+      "none": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "entrapment": {
+      "#board": {
+        "name": ""
+      },
+      "size-7x7": {
+        "name": ""
+      }
+    },
+    "entropy": {
+      "#board": {
+        "name": ""
+      },
+      "6x6": {
+        "name": ""
+      },
+      "5x5": {
+        "name": ""
+      }
+    },
+    "epam": {
+      "stones": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "exxit": {
+      "#length": {
+        "name": ""
+      },
+      "#setup": {
+        "description": ""
+      },
+      "19tiles": {
+        "description": "",
+        "name": ""
+      },
+      "29tiles": {
+        "description": "",
+        "name": ""
+      },
+      "exNihilo": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "fabrik": {
+      "arbeiter": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "fendo": {
+      "#board": {
+        "name": ""
+      },
+      "size-9": {
+        "name": ""
+      },
+      "size-11": {
+        "name": ""
+      }
+    },
+    "flume": {
+      "7x7": {
+        "name": ""
+      },
+      "11x11": {
+        "name": ""
+      }
+    },
+    "forms": {
+      "#board": {
+        "name": ""
+      },
+      "size-10": {
+        "name": ""
+      },
+      "size-12": {
+        "name": ""
+      },
+      "size-14": {
+        "name": ""
+      },
+      "size-16": {
+        "name": ""
+      },
+      "size-18": {
+        "name": ""
+      },
+      "#ruleset": {
+        "description": "",
+        "name": ""
+      },
+      "original": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "four": {
+      "simplified": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "fourinarow": {
+      "#board": {
+        "name": ""
+      },
+      "#clear": {
+        "name": ""
+      },
+      "#placement": {
+        "description": "",
+        "name": ""
+      },
+      "clear": {
+        "description": "",
+        "name": ""
+      },
+      "edge-drop-4": {
+        "description": "",
+        "name": ""
+      },
+      "edge-grow-4": {
+        "description": "",
+        "name": ""
+      },
+      "interior-gravity-4": {
+        "description": "",
+        "name": ""
+      },
+      "standard-10": {
+        "name": ""
+      },
+      "swap-1st": {
+        "description": "",
+        "name": ""
+      },
+      "swap-2": {
+        "description": "",
+        "name": ""
+      },
+      "swap-5": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "frogger": {
+      "#market": {
+        "description": "",
+        "name": ""
+      },
+      "advanced": {
+        "description": "",
+        "name": ""
+      },
+      "continuous": {
+        "description": "",
+        "name": ""
+      },
+      "courtpawns": {
+        "description": "",
+        "name": ""
+      },
+      "courts": {
+        "description": "",
+        "name": ""
+      },
+      "crocodiles": {
+        "description": "",
+        "name": ""
+      },
+      "freeswim": {
+        "description": "",
+        "name": ""
+      },
+      "refills": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "gliss": {
+      "#board": {
+        "name": ""
+      },
+      "size-12": {
+        "name": ""
+      },
+      "size-19": {
+        "name": ""
+      }
+    },
+    "gomoku": {
+      "#board": {
+        "name": ""
+      },
+      "#opening": {
+        "description": "",
+        "name": ""
+      },
+      "#tiebreaker": {
+        "name": ""
+      },
+      "long-pro": {
+        "description": "",
+        "name": ""
+      },
+      "pass": {
+        "description": "",
+        "name": ""
+      },
+      "standard-19": {
+        "name": ""
+      },
+      "swap-1st": {
+        "description": "",
+        "name": ""
+      },
+      "swap-2": {
+        "description": "",
+        "name": ""
+      },
+      "swap-5": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "go": {
+      "size-5": {
+        "name": ""
+      },
+      "size-9": {
+        "name": ""
+      },
+      "size-13": {
+        "name": ""
+      },
+      "size-17": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-21": {
+        "name": ""
+      },
+      "size-25": {
+        "name": ""
+      },
+      "size-37": {
+        "name": ""
+      },
+      "#ruleset": {
+        "description": "",
+        "name": ""
+      },
+      "positional": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "gonnect": {
+      "#board": {
+        "name": ""
+      },
+      "size-9": {
+        "name": ""
+      },
+      "size-19": {
+        "name": ""
+      }
+    },
+    "guerrilla": {
+      "#length": {
+        "description": "",
+        "name": ""
+      },
+      "match": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "gyve": {
+      "#board": {
+        "name": ""
+      },
+      "size-6": {
+        "name": ""
+      },
+      "size-7": {
+        "name": ""
+      },
+      "size-10": {
+        "name": ""
+      },
+      "size-12": {
+        "name": ""
+      }
+    },
+    "halma": {
+      "#board": {
+        "name": ""
+      },
+      "superhalma": {
+        "name": ""
+      }
+    },
+    "halmaclimbers": {
+      "#board": {
+        "name": ""
+      },
+      "size-8": {
+        "name": ""
+      },
+      "size-11": {
+        "name": ""
+      },
+      "size-13": {
+        "name": ""
+      }
+    },
+    "havannah": {
+      "#board": {
+        "name": ""
+      },
+      "size-4": {
+        "name": ""
+      },
+      "size-6": {
+        "name": ""
+      },
+      "size-10": {
+        "name": ""
+      }
+    },
+    "hens": {
+      "size-10": {
+        "name": ""
+      }
+    },
+    "hex": {
+      "#board": {
+        "name": ""
+      },
+      "size-11": {
+        "name": ""
+      },
+      "size-14": {
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      },
+      "size-17": {
+        "name": ""
+      },
+      "size-19": {
+        "name": ""
+      }
+    },
+    "hexentafl": {
+      "#board": {
+        "name": "",
+        "description": ""
+      },
+      "size-5": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "hexy": {
+      "11": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "08": {
+        "name": ""
+      },
+      "09": {
+        "name": ""
+      }
+    },
+    "homeworlds": {
+      "#rules": {
+        "name": "",
+        "description": ""
+      },
+      "passFree": {
+        "name": ""
+      }
+    },
+    "hula": {
+      "#board": {
+        "name": ""
+      },
+      "size-5": {
+        "name": ""
+      },
+      "size-7": {
+        "name": ""
+      }
+    },
+    "irensei": {
+      "#board": {
+        "name": ""
+      },
+      "#overline": {
+        "description": "",
+        "name": ""
+      },
+      "#tiebreaker": {
+        "name": ""
+      },
+      "pass": {
+        "description": "",
+        "name": ""
+      },
+      "sym-no-overline": {
+        "description": "",
+        "name": ""
+      },
+      "sym-overline": {
+        "description": "",
+        "name": ""
+      },
+      "swap-1st": {
+        "description": "",
+        "name": ""
+      },
+      "swap-2": {
+        "description": "",
+        "name": ""
+      },
+      "swap-5": {
+        "description": "",
+        "name": ""
+      },
+      "toroidal-15": {
+        "name": ""
+      }
+    },
+    "invector": {
+      "size-6": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-10": {
+        "name": ""
+      },
+      "size-12": {
+        "name": ""
+      },
+      "size-14": {
+        "name": ""
+      },
+      "size-16": {
+        "name": ""
+      }
+    },
+    "jacynth": {
+      "#deck": {
+        "description": ""
+      },
+      "#setup": {
+        "name": "",
+        "description": ""
+      },
+      "extended": {
+        "name": "",
+        "description": ""
+      },
+      "towers": {
+        "name": "",
+        "description": ""
+      },
+      "oldcity": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "knightline": {
+      "#setup": {
+        "name": "",
+        "description": ""
+      },
+      "blocker": {
+        "name": "",
+        "description": ""
+      },
+      "wildcard": {
+        "name": "",
+        "description": ""
+      },
+      "#size": {
+        "name": "",
+        "description": ""
+      },
+      "size-24": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "konane": {
+      "#board": {
+        "name": "",
+        "description": ""
+      },
+      "size-7": {
+        "name": "",
+        "description": ""
+      },
+      "size-8": {
+        "name": "",
+        "description": ""
+      },
+      "size-9": {
+        "name": "",
+        "description": ""
+      },
+      "size-11": {
+        "name": "",
+        "description": ""
+      },
+      "size-15": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "lasca": {
+      "#board": {
+        "name": ""
+      },
+      "size-9": {
+        "name": ""
+      }
+    },
+    "lielow": {
+      "#board": {
+        "name": ""
+      },
+      "size-9": {
+        "name": ""
+      }
+    },
+    "lifeline": {
+      "#board": {
+        "name": ""
+      },
+      "size-6": {
+        "name": ""
+      },
+      "size-7": {
+        "name": ""
+      },
+      "size-10": {
+        "name": ""
+      },
+      "size-12": {
+        "name": ""
+      }
+    },
+    "linage": {
+      "size-11": {
+        "name": ""
+      },
+      "size-13": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-17": {
+        "name": ""
+      },
+      "size-19": {
+        "name": ""
+      },
+      "line-2": {
+        "name": ""
+      },
+      "#line": {
+        "name": ""
+      },
+      "line-4": {
+        "name": ""
+      },
+      "line-5": {
+        "name": ""
+      }
+    },
+    "loa": {
+      "#board": {
+        "description": "",
+        "name": ""
+      },
+      "classic": {
+        "name": ""
+      },
+      "hex5": {
+        "name": "",
+        "description": ""
+      },
+      "hex6": {
+        "name": "",
+        "description": ""
+      },
+      "#setup": {
+        "name": ""
+      },
+      "scrambled": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "lox": {
+      "#board": {
+        "name": ""
+      },
+      "size-13": {
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      }
+    },
+    "magnate": {
+      "courtpawns": {
+        "description": "",
+        "name": ""
+      },
+      "courts": {
+        "description": "",
+        "name": ""
+      },
+      "deucey": {
+        "description": "",
+        "name": ""
+      },
+      "mega": {
+        "description": "",
+        "name": ""
+      },
+      "stacked": {
+        "description": "",
+        "name": ""
+      },
+      "taxtax": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "majorities": {
+      "#board": {
+        "name": ""
+      },
+      "size-3": {
+        "name": ""
+      },
+      "size-7": {
+        "name": ""
+      },
+      "no-blocked": {
+        "name": "",
+        "description": ""
+      },
+      "capture": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "margo": {
+      "#board": {
+        "name": ""
+      },
+      "size-4": {
+        "name": ""
+      },
+      "size-6": {
+        "name": ""
+      },
+      "size-9": {
+        "name": ""
+      }
+    },
+    "mattock": {
+      "#board": {
+        "name": ""
+      },
+      "freestyle": {
+        "description": "",
+        "name": ""
+      },
+      "random": {
+        "description": "",
+        "name": ""
+      },
+      "size-5": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "mchess": {
+      "ofkk": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "meridians": {
+      "#board": {
+        "name": ""
+      },
+      "size-6": {
+        "name": ""
+      },
+      "size-8": {
+        "name": ""
+      }
+    },
+    "minefield": {
+      "size-8": {
+        "name": ""
+      },
+      "size-9": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-13": {
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      },
+      "size-17": {
+        "name": ""
+      },
+      "size-19": {
+        "name": ""
+      },
+      "cartwheel": {
+        "name": "",
+        "description": ""
+      },
+      "pinwheel": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "minimize": {
+      "size-4": {
+        "name": ""
+      },
+      "size-5": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-7": {
+        "name": ""
+      },
+      "size-8": {
+        "name": ""
+      }
+    },
+    "mixtour": {
+      "five": {
+        "description": "",
+        "name": ""
+      },
+      "three": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "moonsquad": {
+      "#board": {
+        "name": "",
+        "description": ""
+      },
+      "hex5": {
+        "name": "",
+        "description": ""
+      },
+      "limping": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "morphos": {
+      "#board": {
+        "name": ""
+      },
+      "size-9": {
+        "name": ""
+      },
+      "size-11": {
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      },
+      "size-17": {
+        "name": ""
+      },
+      "simplified": {
+        "name": "",
+        "description": ""
+      },
+      "double": {
+        "name": "",
+        "description": ""
+      },
+      "replace": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "murus": {
+      "basic": {
+        "description": "",
+        "name": ""
+      },
+      "escape": {
+        "description": "",
+        "name": ""
+      },
+      "static": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "nakatta": {
+      "#board": {
+        "name": ""
+      },
+      "size-19": {
+        "name": ""
+      },
+      "size-25": {
+        "name": ""
+      },
+      "size-29": {
+        "name": ""
+      }
+    },
+    "narrows": {
+      "size-6": {
+        "name": ""
+      },
+      "size-8": {
+        "name": ""
+      },
+      "size-10": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-14": {
+        "name": ""
+      },
+      "size-16": {
+        "name": ""
+      }
+    },
+    "nex": {
+      "#board": {
+        "name": ""
+      },
+      "size-9": {
+        "name": ""
+      }
+    },
+    "omny": {
+      "#board": {
+        "name": ""
+      },
+      "#stars": {
+        "name": "",
+        "description": ""
+      },
+      "size-4": {
+        "name": ""
+      },
+      "size-5": {
+        "name": ""
+      },
+      "size-6": {
+        "name": ""
+      },
+      "size-7": {
+        "name": ""
+      },
+      "size-9": {
+        "name": ""
+      },
+      "size-10": {
+        "name": ""
+      },
+      "constellation": {
+        "name": "",
+        "description": ""
+      },
+      "gyre": {
+        "name": "",
+        "description": ""
+      },
+      "yex": {
+        "name": "",
+        "description": ""
+      },
+      "random-3": {
+        "name": ""
+      },
+      "random-5": {
+        "name": ""
+      },
+      "random-7": {
+        "name": ""
+      },
+      "random-9": {
+        "name": ""
+      },
+      "free": {
+        "name": "",
+        "description": ""
+      },
+      "captures": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "onyx": {
+      "#board": {
+        "name": ""
+      },
+      "#setup": {
+        "name": ""
+      },
+      "size-16": {
+        "name": ""
+      },
+      "size-20": {
+        "name": ""
+      },
+      "head-start": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "oonpia": {
+      "size-5": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-7": {
+        "name": ""
+      },
+      "size-8": {
+        "name": ""
+      },
+      "size-9": {
+        "name": ""
+      },
+      "size-10": {
+        "name": ""
+      },
+      "size-11": {
+        "name": ""
+      },
+      "size-12": {
+        "name": ""
+      }
+    },
+    "orb": {
+      "noglobes": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "oust": {
+      "#board": {
+        "name": ""
+      },
+      "hex-6": {
+        "name": ""
+      },
+      "hex-8": {
+        "name": ""
+      },
+      "square-11": {
+        "name": ""
+      }
+    },
+    "pahtum": {
+      "quick": {
+        "name": "",
+        "description": ""
+      },
+      "captures": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "paintbucket": {
+      "#board": {
+        "name": ""
+      },
+      "size-16": {
+        "name": ""
+      }
+    },
+    "pente": {
+      "#board": {
+        "name": ""
+      },
+      "#capture": {
+        "description": "",
+        "name": ""
+      },
+      "#opening": {
+        "description": "",
+        "name": ""
+      },
+      "#overline": {
+        "description": "",
+        "name": ""
+      },
+      "#overtime-capture": {
+        "description": "",
+        "name": ""
+      },
+      "#self-capture": {
+        "description": "",
+        "name": ""
+      },
+      "capture-2-3": {
+        "description": "",
+        "name": ""
+      },
+      "long-pro": {
+        "description": "",
+        "name": ""
+      },
+      "overline-forbidden": {
+        "description": "",
+        "name": ""
+      },
+      "overline-ignored": {
+        "description": "",
+        "name": ""
+      },
+      "overtime-capture": {
+        "description": "",
+        "name": ""
+      },
+      "self-capture": {
+        "description": "",
+        "name": ""
+      },
+      "self-capture-forbidden": {
+        "description": "",
+        "name": ""
+      },
+      "standard-19": {
+        "name": ""
+      },
+      "swap-1st": {
+        "description": "",
+        "name": ""
+      },
+      "swap-2": {
+        "description": "",
+        "name": ""
+      },
+      "swap-5": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "pikemen": {
+      "15pts": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "pilastri": {
+      "#board": {
+        "name": ""
+      },
+      "size-8": {
+        "name": ""
+      },
+      "#rules": {
+        "name": "",
+        "description": ""
+      },
+      "jumpers": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "pinch": {
+      "size-9": {
+        "name": ""
+      },
+      "size-13": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-19": {
+        "name": ""
+      },
+      "size-21": {
+        "name": ""
+      },
+      "original": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "pippinzip": {
+      "size-9": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-13": {
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      },
+      "size-19": {
+        "name": ""
+      }
+    },
+    "pletore": {
+      "#board": {
+        "name": ""
+      },
+      "#komi": {
+        "description": "",
+        "name": ""
+      },
+      "nokomi": {
+        "description": "",
+        "name": ""
+      },
+      "size-11": {
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      },
+      "size-17": {
+        "name": ""
+      }
+    },
+    "plurality": {
+      "size-13": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-19": {
+        "name": ""
+      }
+    },
+    "pollux": {
+      "#board": {
+        "name": ""
+      },
+      "size-12": {
+        "name": ""
+      },
+      "size-14": {
+        "name": ""
+      },
+      "size-16": {
+        "name": ""
+      },
+      "size-18": {
+        "name": ""
+      }
+    },
+    "pontedd": {
+      "size-8": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-12": {
+        "name": ""
+      }
+    },
+    "product": {
+      "size-4": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-6": {
+        "name": ""
+      },
+      "size-7": {
+        "name": ""
+      },
+      "#ruleset": {
+        "description": "",
+        "name": ""
+      },
+      "1-group": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "pylon": {
+      "#setup": {
+        "description": ""
+      },
+      "quickStart": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "quagmire": {
+      "#board": {
+        "name": ""
+      },
+      "#setup": {
+        "description": ""
+      },
+      "large": {
+        "name": ""
+      },
+      "random": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "quax": {
+      "#board": {
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      }
+    },
+    "query": {
+      "#board": {
+        "name": ""
+      },
+      "size-9": {
+        "name": ""
+      }
+    },
+    "quincunx": {
+      "excuse": {
+        "name": "",
+        "description": ""
+      },
+      "flush": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "rampart": {
+      "#setup": {
+        "name": ""
+      },
+      "custom": {
+        "name": "",
+        "description": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "13x13": {
+        "name": ""
+      },
+      "hex7": {
+        "name": ""
+      }
+    },
+    "realm": {
+      "capturedBases": {
+        "description": "",
+        "name": ""
+      },
+      "checkpoint": {
+        "description": "",
+        "name": ""
+      },
+      "control": {
+        "description": "",
+        "name": ""
+      },
+      "lastFirst": {
+        "description": "",
+        "name": ""
+      },
+      "lessBase": {
+        "name": ""
+      },
+      "lessEnforcer": {
+        "name": ""
+      },
+      "moreBase": {
+        "name": ""
+      },
+      "moreEnforcer": {
+        "name": ""
+      },
+      "morePower": {
+        "name": ""
+      },
+      "relaxed": {
+        "description": "",
+        "name": ""
+      },
+      "replacement": {
+        "description": "",
+        "name": ""
+      },
+      "TEST": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "renju": {
+      "#opening": {
+        "description": "",
+        "name": ""
+      },
+      "#tiebreaker": {
+        "name": ""
+      },
+      "pass": {
+        "description": "",
+        "name": ""
+      },
+      "rif": {
+        "description": "",
+        "name": ""
+      },
+      "soosyrv-8": {
+        "description": "",
+        "name": ""
+      },
+      "swap-2": {
+        "description": "",
+        "name": ""
+      },
+      "swap-5": {
+        "description": "",
+        "name": ""
+      },
+      "taraguchi-10": {
+        "description": "",
+        "name": ""
+      },
+      "yamaguchi": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "resolve": {
+      "#board": {
+        "name": ""
+      },
+      "size-13": {
+        "name": ""
+      }
+    },
+    "reversi": {
+      "#board": {
+        "name": ""
+      },
+      "anti": {
+        "description": "",
+        "name": ""
+      },
+      "hexagon-5": {
+        "description": "",
+        "name": ""
+      },
+      "hexagon-6": {
+        "description": "",
+        "name": ""
+      },
+      "octagon-8": {
+        "description": "",
+        "name": ""
+      },
+      "octagon-10": {
+        "description": "",
+        "name": ""
+      },
+      "standard-6": {
+        "name": ""
+      },
+      "standard-10": {
+        "name": ""
+      }
+    },
+    "saltire": {
+      "#board": {
+        "name": ""
+      },
+      "#rules": {
+        "description": ""
+      },
+      "basic": {
+        "description": "",
+        "name": ""
+      },
+      "size-9": {
+        "name": ""
+      },
+      "size-11": {
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      },
+      "size-17": {
+        "name": ""
+      }
+    },
+    "scaffold": {
+      "#board": {
+        "name": ""
+      },
+      "size-25": {
+        "name": ""
+      }
+    },
+    "sentinel": {
+      "#board": {
+        "name": ""
+      }
+    },
+    "shapechess": {
+      "size-10": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-14": {
+        "name": ""
+      },
+      "size-16": {
+        "name": ""
+      },
+      "size-18": {
+        "name": ""
+      },
+      "#ruleset": {
+        "description": "",
+        "name": ""
+      },
+      "5-pts": {
+        "description": "",
+        "name": ""
+      },
+      "6-pts": {
+        "description": "",
+        "name": ""
+      },
+      "7-pts": {
+        "description": "",
+        "name": ""
+      },
+      "8-pts": {
+        "description": "",
+        "name": ""
+      },
+      "9-pts": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "shifty": {
+      "#board": {
+        "name": ""
+      },
+      "size-13": {
+        "name": ""
+      }
+    },
+    "siegeofj": {
+      "#rules": {
+        "name": "",
+        "description": ""
+      },
+      "open": {
+        "name": "",
+        "description": ""
+      },
+      "full": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "slimetrail": {
+      "#board": {
+        "description": "",
+        "name": ""
+      },
+      "rhombus11": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "slither": {
+      "#board": {
+        "name": ""
+      },
+      "#movement": {
+        "name": ""
+      },
+      "11x11": {
+        "name": ""
+      },
+      "13x13": {
+        "name": ""
+      },
+      "classic": {
+        "name": ""
+      }
+    },
+    "slyde": {
+      "#board": {
+        "name": ""
+      },
+      "size-8": {
+        "name": ""
+      },
+      "size-10": {
+        "name": ""
+      },
+      "size-16": {
+        "name": ""
+      }
+    },
+    "soccolot": {
+      "#board": {
+        "name": ""
+      },
+      "original": {
+        "name": ""
+      },
+      "swap": {
+        "name": ""
+      }
+    },
+    "spire": {
+      "#board": {
+        "name": ""
+      },
+      "size-5": {
+        "name": ""
+      }
+    },
+    "spline": {
+      "#board": {
+        "name": ""
+      },
+      "plus": {
+        "description": "",
+        "name": ""
+      },
+      "size-5": {
+        "name": ""
+      }
+    },
+    "sploof": {
+      "#board": {
+        "description": "",
+        "name": ""
+      },
+      "size-5": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "sponnect": {
+      "#board": {
+        "name": ""
+      },
+      "size-5": {
+        "name": ""
+      }
+    },
+    "spook": {
+      "#board": {
+        "name": ""
+      },
+      "#setup": {
+        "description": "",
+        "name": ""
+      },
+      "random": {
+        "description": "",
+        "name": ""
+      },
+      "size-5": {
+        "name": ""
+      }
+    },
+    "spora": {
+      "size-9": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      },
+      "size-19": {
+        "name": ""
+      },
+      "size-25": {
+        "name": ""
+      }
+    },
+    "spree": {
+      "#board": {
+        "name": ""
+      },
+      "size-5": {
+        "name": ""
+      }
+    },
+    "squirm": {
+      "#board": {
+        "name": ""
+      },
+      "size-4": {
+        "name": ""
+      },
+      "size-5": {
+        "name": ""
+      },
+      "size-6": {
+        "name": ""
+      },
+      "#ruleset": {
+        "description": "",
+        "name": ""
+      },
+      "tromp": {
+        "description": "",
+        "name": ""
+      },
+      "neto": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "stawvs": {
+      "#setup": {
+        "description": "",
+        "name": ""
+      },
+      "hole": {
+        "description": "",
+        "name": ""
+      },
+      "random": {
+        "description": "",
+        "name": ""
+      },
+      "hey": {
+        "name": "",
+        "description": ""
+      },
+      "finalfree": {
+        "name": "",
+        "description": ""
+      },
+      "pieces-2": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "scribe": {
+      "advanced": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "stibro": {
+      "size-5": {
+        "name": ""
+      },
+      "size-6": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-8": {
+        "name": ""
+      }
+    },
+    "stiletto": {
+      "#board": {
+        "name": ""
+      },
+      "open4": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "stigmergy": {
+      "#board": {
+        "name": ""
+      },
+      "#komi": {
+        "description": "",
+        "name": ""
+      },
+      "#rules": {
+        "description": ""
+      },
+      "nokomi": {
+        "description": "",
+        "name": ""
+      },
+      "size-7": {
+        "name": ""
+      },
+      "size-9": {
+        "name": ""
+      },
+      "size-10": {
+        "name": ""
+      },
+      "tumpletore": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "storisende": {
+      "#board": {
+        "name": ""
+      },
+      "board-hex4": {
+        "name": ""
+      },
+      "board-hex6": {
+        "name": ""
+      },
+      "board-hex7": {
+        "name": ""
+      },
+      "board-modular-13": {
+        "name": "",
+        "description": ""
+      },
+      "board-modular-18": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "strands": {
+      "#board": {
+        "name": ""
+      },
+      "size-5-fixed": {
+        "name": ""
+      },
+      "size-6-fixed": {
+        "name": ""
+      },
+      "size-6-fixed-lownumbers": {
+        "name": ""
+      },
+      "size-6-random": {
+        "name": ""
+      },
+      "size-7-fixed": {
+        "name": ""
+      }
+    },
+    "streetcar": {
+      "#penalty": {
+        "name": ""
+      },
+      "5point": {
+        "description": "",
+        "name": ""
+      },
+      "15point": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "swarm": {
+      "#board": {
+        "name": ""
+      },
+      "size-4": {
+        "name": ""
+      },
+      "size-5": {
+        "name": ""
+      }
+    },
+    "subdivision": {
+      "#parks": {
+        "name": "",
+        "description": ""
+      },
+      "#scoring": {
+        "description": ""
+      },
+      "manualParks": {
+        "name": "",
+        "description": ""
+      },
+      "randomParks": {
+        "name": ""
+      },
+      "parkControl": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "sunspot": {
+      "size-4": {
+        "name": ""
+      },
+      "size-5": {
+        "name": ""
+      },
+      "size-6": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-8": {
+        "name": ""
+      }
+    },
+    "surmount": {
+      "#board": {
+        "name": ""
+      },
+      "hex-4": {
+        "name": ""
+      },
+      "hex-6": {
+        "name": ""
+      },
+      "hex-7": {
+        "name": ""
+      }
+    },
+    "symple": {
+      "#penalty": {
+        "description": "",
+        "name": ""
+      },
+      "p-4": {
+        "name": ""
+      },
+      "p-6": {
+        "name": ""
+      },
+      "p-10": {
+        "name": ""
+      },
+      "p-12": {
+        "name": ""
+      }
+    },
+    "synapse": {
+      "#board": {
+        "name": ""
+      }
+    },
+    "tablero": {
+      "#scoring": {
+        "description": ""
+      },
+      "5-10": {
+        "name": "",
+        "description": ""
+      },
+      "abba": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "tafl": {
+      "#variant": {
+        "description": "",
+        "name": ""
+      },
+      "berserk-11x11-tdiamondberserk": {
+        "description": "",
+        "name": ""
+      },
+      "copenhagen-11x11-tdiamond": {
+        "description": "",
+        "name": ""
+      },
+      "linnaean-11x11-belldiamond-w": {
+        "description": "",
+        "name": ""
+      },
+      "linnaean-11x11-lewiscross-w": {
+        "description": "",
+        "name": ""
+      },
+      "magpie-7x7-cross": {
+        "description": "",
+        "name": ""
+      },
+      "seabattle-9x9-starsquare-w": {
+        "description": "",
+        "name": ""
+      },
+      "seabattle-11x11-tcross-w": {
+        "description": "",
+        "name": ""
+      },
+      "total-11x11-tdiamond": {
+        "description": "",
+        "name": ""
+      },
+      "tyr-11x11-tyr": {
+        "description": "",
+        "name": ""
+      },
+      "tyr-15x15-tyr": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "taiji": {
+      "#board": {
+        "name": ""
+      },
+      "#groups": {
+        "name": ""
+      },
+      "#scoring": {
+        "name": ""
+      },
+      "7x7": {
+        "name": ""
+      },
+      "11x11": {
+        "name": ""
+      },
+      "onegroup": {
+        "name": ""
+      },
+      "products": {
+        "description": "",
+        "name": ""
+      },
+      "squares": {
+        "description": "",
+        "name": ""
+      },
+      "threegroups": {
+        "name": ""
+      },
+      "tonga": {
+        "name": ""
+      }
+    },
+    "take": {
+      "#rules": {
+        "description": ""
+      },
+      "high-churn": {
+        "description": "",
+        "name": ""
+      },
+      "quick-churn": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "tanbo": {
+      "#board": {
+        "name": ""
+      },
+      "size-11": {
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      },
+      "size-19": {
+        "name": ""
+      }
+    },
+    "terrace": {
+      "#board": {
+        "name": ""
+      },
+      "#setup": {
+        "description": "",
+        "name": ""
+      },
+      "#capture": {
+        "description": "",
+        "name": ""
+      },
+      "board-8": {
+        "name": ""
+      },
+      "long": {
+        "name": "",
+        "description": ""
+      },
+      "assassination": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "tintas": {
+      "#board": {
+        "description": ""
+      },
+      "modular": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "trax": {
+      "loop": {
+        "name": "",
+        "description": ""
+      },
+      "size-8": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "tricouleur": {
+      "hex-7": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "hex-9": {
+        "name": ""
+      },
+      "hex-10": {
+        "name": ""
+      }
+    },
+    "trike": {
+      "#board": {
+        "name": "",
+        "description": ""
+      },
+      "standard-7": {
+        "description": "",
+        "name": ""
+      },
+      "standard-13": {
+        "description": "",
+        "name": ""
+      },
+      "standard-15": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "tritium": {
+      "#board": {
+        "name": ""
+      },
+      "#form": {
+        "description": "",
+        "name": ""
+      },
+      "short-form": {
+        "description": "",
+        "name": ""
+      },
+      "hex-6": {
+        "name": ""
+      },
+      "hex-7": {
+        "name": ""
+      }
+    },
+    "tumbleweed": {
+      "#board": {
+        "name": ""
+      },
+      "size-6": {
+        "name": ""
+      },
+      "size-10": {
+        "name": ""
+      },
+      "capture-delay": {
+        "description": "",
+        "name": ""
+      },
+      "free-neutral": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "twinflames": {
+      "#board": {
+        "name": ""
+      },
+      "size-7": {
+        "name": ""
+      },
+      "size-8": {
+        "name": ""
+      },
+      "#blockers": {
+        "name": ""
+      },
+      "blocker-0": {
+        "name": ""
+      },
+      "blocker-2": {
+        "name": ""
+      },
+      "blocker-4": {
+        "name": ""
+      },
+      "blocker-6": {
+        "name": ""
+      },
+      "blocker-8": {
+        "name": ""
+      }
+    },
+    "twixt": {
+      "#board": {
+        "name": ""
+      },
+      "#ruleset": {
+        "description": ""
+      },
+      "pp": {
+        "description": "",
+        "name": ""
+      },
+      "size-30": {
+        "name": ""
+      }
+    },
+    "unane": {
+      "size-6": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-10": {
+        "name": ""
+      },
+      "size-12": {
+        "name": ""
+      },
+      "size-14": {
+        "name": ""
+      },
+      "size-16": {
+        "name": ""
+      }
+    },
+    "unlur": {
+      "#board": {
+        "name": ""
+      },
+      "size-6": {
+        "name": ""
+      },
+      "size-10": {
+        "name": ""
+      }
+    },
+    "upperhand": {
+      "#board": {
+        "name": ""
+      },
+      "size-7": {
+        "name": ""
+      },
+      "size-9": {
+        "name": ""
+      }
+    },
+    "urbino": {
+      "monuments": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "valley": {
+      "king-swap": {
+        "description": "",
+        "name": ""
+      },
+      "labyrinth": {
+        "description": "",
+        "name": ""
+      },
+      "moon": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "veletas": {
+      "#board": {
+        "name": "",
+        "description": ""
+      },
+      "#setup": {
+        "description": ""
+      },
+      "random": {
+        "description": "",
+        "name": ""
+      },
+      "size-7": {
+        "description": "",
+        "name": ""
+      },
+      "size-9": {
+        "description": "",
+        "name": ""
+      },
+      "no-corners": {
+        "name": ""
+      }
+    },
+    "verge": {
+      "#board": {
+        "name": ""
+      },
+      "size-7": {
+        "name": ""
+      }
+    },
+    "viruswar": {
+      "size-10": {
+        "name": ""
+      },
+      "size-20": {
+        "name": ""
+      },
+      "size-25": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      }
+    },
+    "volo": {
+      "#board": {
+        "name": ""
+      },
+      "size-6": {
+        "name": ""
+      },
+      "size-8": {
+        "name": ""
+      }
+    },
+    "wunchunk": {
+      "#board": {
+        "name": ""
+      },
+      "hex5": {
+        "name": ""
+      },
+      "hex7": {
+        "name": "",
+        "description": ""
+      },
+      "hex8": {
+        "name": "",
+        "description": ""
+      },
+      "open": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "wyke": {
+      "#size": {
+        "name": ""
+      },
+      "6x6": {
+        "name": ""
+      }
+    },
+    "xana": {
+      "#board": {
+        "name": ""
+      }
+    },
+    "y": {
+      "size-9": {
+        "name": ""
+      },
+      "size-11": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "size-15": {
+        "name": ""
+      },
+      "size-19": {
+        "name": ""
+      },
+      "size-21": {
+        "name": ""
+      },
+      "size-25": {
+        "name": ""
+      },
+      "#boardtype": {
+        "name": ""
+      },
+      "bent": {
+        "name": ""
+      },
+      "#ruleset": {
+        "name": ""
+      },
+      "12-free": {
+        "name": ""
+      },
+      "134-group": {
+        "name": ""
+      },
+      "progressive": {
+        "name": ""
+      }
+    },
+    "zola": {
+      "#board": {
+        "name": ""
+      },
+      "8x8": {
+        "name": ""
+      }
     }
+  },
+  "displays": {
+    "akron": {
+      "orb-3d": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "amazons": {
+      "blackbloc": {
+        "description": "",
+        "name": ""
+      },
+      "bricks": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "alta": {
+      "hide-panel": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "anache": {
+      "hide-frozen": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "archimedes": {
+      "hide-threatened": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "asli": {
+      "swap-prison": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "atoll": {
+      "show-labels": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "bao": {
+      "pips": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "bide": {
+      "isometric": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "blastradius": {
+      "nums": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "blockade": {
+      "differentiated-walls": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "blooms": {
+      "hide-threatened": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "bug": {
+      "hide-moves": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "cannon": {
+      "hide-threatened": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "carnac": {
+      "flat": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "druid": {
+      "flat": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "evenatodds": {
+      "flat": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "elOso": {
+      "nums": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "ccorridor": {
+      "hide-markers": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "compart": {
+      "show-viable-areas": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "conect": {
+      "display-hex": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "connecticut": {
+      "hide-triominoes": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "control": {
+      "hide-control": {
+        "name": "",
+        "description": ""
+      },
+      "vertex-style": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "crosscontrol": {
+      "hide-both": {
+        "description": "",
+        "name": ""
+      },
+      "hide-influence": {
+        "description": "",
+        "name": ""
+      },
+      "hide-threatened": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "crosshairs": {
+      "abstract": {
+        "description": "",
+        "name": ""
+      },
+      "numeric": {
+        "description": "",
+        "name": ""
+      },
+      "numeric-abstract": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "diffusion": {
+      "pips": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "entropy": {
+      "piece-numbers": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "fourinarow": {
+      "hide-moves": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "frogger": {
+      "frog-pieces": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "gess": {
+      "hide-piece-highlight": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "go": {
+      "show-controlled-areas": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "gyve": {
+      "vertex-style": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "intermedium": {
+      "hide-diagonals": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "irensei": {
+      "hide-restrictions": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "knightline": {
+      "show-origin": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "krypte": {
+      "moves_no_sides_yes": {
+        "description": "",
+        "name": ""
+      },
+      "moves_yes_sides_no": {
+        "description": "",
+        "name": ""
+      },
+      "moves_no_sides_no": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "lox": {
+      "hide-focus-threatened": {
+        "description": "",
+        "name": ""
+      },
+      "dot-focus-threatened": {
+        "description": "",
+        "name": ""
+      },
+      "hide-controlled": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "margo": {
+      "orb-3d": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "mattock": {
+      "hide-blocked": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "meridians": {
+      "hide-threatened": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "mvolcano": {
+      "expanding": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "onyx": {
+      "hide-threatened": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "oonpia": {
+      "blocked_no": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "oust": {
+      "hide-moves": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "oware": {
+      "pips": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "pente": {
+      "hide-threatened": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "pletore": {
+      "hide-both": {
+        "description": "",
+        "name": ""
+      },
+      "hide-influence": {
+        "description": "",
+        "name": ""
+      },
+      "hide-threatened": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "pods": {
+      "hide-influence": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "pontedd": {
+      "vertex-board": {
+        "name": ""
+      }
+    },
+    "queensland": {
+      "hide-scored": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "renju": {
+      "hide-restrictions": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "reversi": {
+      "hide-moves": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "rootbound": {
+      "hide-highlights": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "spire": {
+      "orb-3d": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "spline": {
+      "orb-3d": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "sploof": {
+      "orb-3d": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "sponnect": {
+      "orb-3d": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "spook": {
+      "orb-3d": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "spree": {
+      "orb-3d": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "stigmergy": {
+      "hide-both": {
+        "description": "",
+        "name": ""
+      },
+      "hide-influence": {
+        "description": "",
+        "name": ""
+      },
+      "hide-threatened": {
+        "description": "",
+        "name": ""
+      },
+      "vertex-style": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "strands": {
+      "always-show-numbers": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "sunspot": {
+      "hide-interior": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "terrace": {
+      "flat": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "toguz": {
+      "pips": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "trax": {
+      "show-origin": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "trike": {
+      "hide-moves": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "tumbleweed": {
+      "hide-both": {
+        "description": "",
+        "name": ""
+      },
+      "hide-influence": {
+        "description": "",
+        "name": ""
+      },
+      "hide-threatened": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "twixt": {
+      "hide-diagonals": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "upperhand": {
+      "orb-3d": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "volcano": {
+      "expanding": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "zola": {
+      "isometric-20": {
+        "description": "",
+        "name": ""
+      },
+      "isometric-5": {
+        "description": "",
+        "name": ""
+      }
+    }
+  },
+  "homeworlds": {
+    "CMD_ATK_OWNER": "",
+    "CMD_ATK_SELF": "",
+    "CMD_ATK_SIZE": "",
+    "CMD_BUILD_TEMPLATE": "",
+    "CMD_CATA_ACTIONS": "",
+    "CMD_CATA_INVALID": "",
+    "CMD_DISC_DOUBLE": "",
+    "CMD_HOME_COLOURS": "",
+    "CMD_HOME_DOUBLE": "",
+    "CMD_HOME_RHO_DIRECT": "",
+    "CMD_HOME_RHO_SMALL": "",
+    "CMD_HOME_SINGLE": "",
+    "CMD_HOME_SMALLSHIP": "",
+    "CMD_HOME_TECHS": "",
+    "CMD_MOVE_CONNECTION": "",
+    "CMD_NOACTIONS": "",
+    "CMD_NOACTIONS_B": "",
+    "CMD_NOACTIONS_G": "",
+    "CMD_NOACTIONS_R": "",
+    "CMD_NOACTIONS_Y": "",
+    "CMD_NOSYSTEM": "",
+    "CMD_NOTECH_B": "",
+    "CMD_NOTECH_G": "",
+    "CMD_NOTECH_R": "",
+    "CMD_NOTECH_Y": "",
+    "CMD_PARAMETERS": "",
+    "CMD_PASS_FREE": "",
+    "CMD_PASS_TOOMANY": "",
+    "CMD_STARSHIP_NAME": "",
+    "CMD_TRADE_DOUBLE": "",
+    "CMD_TRADE_NOSIZE": "",
+    "MOVE_MOREACTIONS": "",
+    "MOVE_SELFELIMINATE": "",
+    "MOVE_UNRECOGNIZED": "",
+    "STASH_EMPTY": "",
+    "SYSTEM_BADNAME": "",
+    "SYSTEM_FULL": "",
+    "SYSTEM_NOSHIP": ""
+  },
+  "status": {
+    "_player": "",
+    "amazons": {
+      "ISOLATEDQUEENS": "",
+      "TERRITORY": ""
+    },
+    "arimaa": {
+      "HARLOG": ""
+    },
+    "asli": {
+      "TERRITORY": ""
+    },
+    "baghchal": {
+      "GOATS_IN_HAND": "",
+      "GOATS_CAPTURED": ""
+    },
+    "bao": {
+      "BALANCE": ""
+    },
+    "blam": {
+      "NUMPIECES_one": "",
+      "NUMPIECES_other": "",
+      "SCORE_one": "",
+      "SCORE_other": ""
+    },
+    "bug": {
+      "PLACEABLE_COUNT": ""
+    },
+    "buku": {
+      "SCORES_ONBOARD": ""
+    },
+    "camelot": {
+      "CASTLE_MOVE_COUNTS": ""
+    },
+    "carnac": {
+      "DOLMENS": ""
+    },
+    "CARDSINHAND": "",
+    "chase": {
+      "BALANCE": "",
+      "IMBALANCE": ""
+    },
+    "conspirateurs": {
+      "IN_DANGER": "",
+      "TO_PLACE": ""
+    },
+    "control": {
+      "CONTROLLED_SPACES": ""
+    },
+    "CLAIMS_REMAINING": "",
+    "DAMAGE": "",
+    "DAGGER": "",
+    "DISTANCES": "",
+    "entrapment": {
+      "BARRIERS_REMAINING": ""
+    },
+    "entropy": {
+      "CHAOS": "",
+      "ORDER": ""
+    },
+    "evenatodds": {
+      "BONEYARD": ""
+    },
+    "elOso": {
+      "SKY": "",
+      "CAVE": "",
+      "GROUND": "",
+      "PIT": "",
+      "GRADE_LOSS": "",
+      "GRADE_WIN": "",
+      "GRADE_SUPERIOR": "",
+      "GRADE_EXCELLENT": ""
+    },
+    "fnap": "",
+    "focus": "",
+    "guerrilla": {
+      "G1_SCORE": "",
+      "GAME1": "",
+      "GAME2": "",
+      "INSURGENTS": ""
+    },
+    "scribe": {
+      "MINI_GRIDS": ""
+    },
+    "GROUPCOUNT": "",
+    "GROUPSIZES": "",
+    "jacynth": "",
+    "lasca": {
+      "STEPS": "",
+      "MATERIAL": ""
+    },
+    "majorities": "",
+    "meg": {
+      "OFFENSE": "",
+      "COUNTDOWN": ""
+    },
+    "pacru": {
+      "TARGET": "",
+      "TILES": ""
+    },
+    "PHASE": "",
+    "PIECESINHAND": "",
+    "PIECESINHANDSTASH": "",
+    "PIECESONBOARD": "",
+    "PIECESREMAINING": "",
+    "pontedd": {
+      "TILES": "",
+      "BRIDGES": ""
+    },
+    "queensland": {
+      "GAME1": "",
+      "GAME2": ""
+    },
+    "ROUND": "",
+    "RESERVE": "",
+    "SCORES": "",
+    "STACKSIZES": "",
+    "tumbleweed": "",
+    "ESTIMATEDSCORES": "",
+    "TOPLACE": "",
+    "valley": "",
+    "waldmeister": {
+      "COLOUR": "",
+      "GOALS": "",
+      "HEIGHT": ""
+    },
+    "YEAR": ""
+  },
+  "validation": {
+    "_general": {
+      "CAPTURE4MOVE": "",
+      "DEFAULT_HANDLER": "",
+      "FAILSAFE": "",
+      "GENERIC": "",
+      "INCOMPLETE_MOVE": "",
+      "INVALID_MOVE": "",
+      "INVALID_NUMBER": "",
+      "INVALIDCELL": "",
+      "MOVE4CAPTURE": "",
+      "NEED_DESTINATION": "",
+      "NO_MOVES": "",
+      "NOLOS": "",
+      "NONEXISTENT": "",
+      "NOPIECES": "",
+      "NOT_ORTH": "",
+      "NOT_ORTH_OR_DIAG": "",
+      "OBSTRUCTED": "",
+      "OCCUPIED": "",
+      "SAME_FROM_TO": "",
+      "SELECT_OWN": "",
+      "SELFCAPTURE": "",
+      "UNCONTROLLED": "",
+      "UNKNOWN_CLICK": "",
+      "VALID_MOVE": ""
+    },
+    "_inarow": {
+      "CANNOT_PASS": "",
+      "CANNOT_SWAP": "",
+      "CENTRE_OFFCENTRE": "",
+      "DUPLICATE": "",
+      "EXCESS": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_CENTRE1": "",
+      "INITIAL_INSTRUCTIONS_LONGPRO1": "",
+      "INITIAL_INSTRUCTIONS_LONGPRO3": "",
+      "INITIAL_INSTRUCTIONS_PRO1": "",
+      "INITIAL_INSTRUCTIONS_PRO3": "",
+      "INITIAL_INSTRUCTIONS_SWAP1ST1": "",
+      "INITIAL_INSTRUCTIONS_SWAP1ST2": "",
+      "INITIAL_INSTRUCTIONS_SWAP5": "",
+      "INITIAL_INSTRUCTIONS_SWAP21": "",
+      "INITIAL_INSTRUCTIONS_SWAP22": "",
+      "INITIAL_INSTRUCTIONS_SWAP23": "",
+      "INVALID_PLACEMENT": "",
+      "LONGPRO_RESTRICTION_FIRST": "",
+      "LONGPRO_RESTRICTION_THIRD": "",
+      "NO_MOVELIST": "",
+      "NORMALISE": "",
+      "PRO_RESTRICTION_FIRST": "",
+      "PRO_RESTRICTION_THIRD": "",
+      "SWAP2_CAPTURE": "",
+      "SWAP21_EXCESS": "",
+      "SWAP21_one": "",
+      "SWAP21_other": "",
+      "SWAP22_EXCESS": "",
+      "SWAP22_PARTIAL": ""
+    },
+    "abande": {
+      "DISCONNECTEDMOVE": "",
+      "DISCONNECTEDPLACE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALIDPASS": "",
+      "MOVE2CONTROLLED": "",
+      "MOVE2EMPTY": "",
+      "PARTIAL": "",
+      "TOOEARLY": "",
+      "TOOEARLY_libre": "",
+      "TOOFAR": "",
+      "TOOHIGH": "",
+      "TRIPLESTACK": ""
+    },
+    "accasta": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_SIZE": "",
+      "MORE_THAN_THREE": "",
+      "PARTIAL_FULLSTACK": "",
+      "PARTIAL_SUBSTACK_one": "",
+      "PARTIAL_SUBSTACK_other": "",
+      "SOURCE_EMPTY": "",
+      "TOOFAR": "",
+      "TOOHIGH": "",
+      "USEMINUS": "",
+      "USEPLUS": ""
+    },
+    "acity": {
+      "BAD_DOME": "",
+      "BAD_TOWER": "",
+      "BROKEN_ROAD": "",
+      "CLAIM_TOWERS": "",
+      "DOUBLE_CLAIM": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_PASS": "",
+      "INVALID_PIECE": "",
+      "ISOLATED": "",
+      "MARKER": "",
+      "NO_MORE_CLAIMS": "",
+      "PARTIAL_MOVE": "",
+      "VALID_W_CLAIMS": "",
+      "LABEL_STASH": ""
+    },
+    "agere": {
+      "ADJACENCY": "",
+      "EMPTY_MOVE": "",
+      "FRIENDLY_CAPTURE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "PARTIAL": "",
+      "SAME_HEIGHT": ""
+    },
+    "akimbo": {
+      "INSTRUCTIONS": "",
+      "INSTRUCTIONS_OKIMBA": "",
+      "OCCUPIED": "",
+      "EXCESS_NAKED_DIAGONALS": "",
+      "NO_CROSSINGS": ""
+    },
+    "akron": {
+      "CANNOT_MOVE": "",
+      "CANNOT_PLACE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_TO": "",
+      "LEVEL1": "",
+      "MOVE_TO": "",
+      "NO_TOS": ""
+    },
+    "almatafl": {
+      "BAD_DISTANCE": "",
+      "BOUNCE_INVADER": "",
+      "BOUNCE_KING": "",
+      "FRIENDLY_FIRE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "KING_ONLY": "",
+      "PARTIAL": "",
+      "PLUS_TOO_HIGH": "",
+      "TOO_HIGH": ""
+    },
+    "alta": {
+      "INITIAL_INSTRUCTIONS": "",
+      "SELECT_SPACE": "",
+      "INVALID_VERTEX": "",
+      "NO_DOTS": "",
+      "SELECT_TO": "",
+      "USE_PLACE": "",
+      "INVALID_TO": "",
+      "INVALID_SPACE": "",
+      "OPPONENT_SPACE": "",
+      "ALREADY_OCCUPIED": "",
+      "NO_ORIENT_SUFFIX": "",
+      "ORIENT_SUFFIX": ""
+    },
+    "amazons": {
+      "INITIAL_INSTRUCTIONS": "",
+      "POTENTIAL_BLOCK": "",
+      "POTENTIAL_MOVE": "",
+      "STRAIGHTLINE": ""
+    },
+    "amoeba": {
+      "BAD_DISTANCE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "PARTIAL": ""
+    },
+    "anache": {
+      "BARRIER": "",
+      "CORNER_NO_MOVE": "",
+      "DIR_MISSING": "",
+      "DRAGON_MUST_INCLUDE": "",
+      "DRAGON_NO_CONTINUE": "",
+      "DRAGON_SELECT_DESTINATION": "",
+      "DRAGON_SELECT_MORE": "",
+      "DRAGON_SELECT_MORE_FIRST": "",
+      "DRAGON_TOO_MANY": "",
+      "DUPLICATE": "",
+      "FIRST_MOVE_NO_DOUBLE": "",
+      "IMMOBILISED": "",
+      "INCLUDE_UNMOVED": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_DIR": "",
+      "INVALID_DRAGON_TO": "",
+      "NORMALISE": "",
+      "NOT_CONNECTED": "",
+      "NOT_DRAGON_JUMPABLE": "",
+      "NOT_DRAGON_JUMPABLE_CORNER": "",
+      "SELECT_DIR": "",
+      "SELECT_MORE_BARRIER": "",
+      "SELECT_MORE_many": "",
+      "SELECT_MORE_one": "",
+      "SELECT_MORE_PIECES_one": "",
+      "SELECT_MORE_PIECES_other": "",
+      "SELECT_MORE_SUPERKO": "",
+      "SUPERKO": "",
+      "TOO_MANY": "",
+      "TOO_MANY_MOVES": ""
+    },
+    "archimedes": {
+      "FLEET_FULL": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "MUST_MOVE": "",
+      "PARTIAL": "",
+      "SELF_OCCUPATION": ""
+    },
+    "arimaa": {
+      "BACKWARDS": "",
+      "FROZEN": "",
+      "HOME_ROW": "",
+      "INITIAL_INSTRUCTIONS_place": "",
+      "INITIAL_INSTRUCTIONS_play": "",
+      "INVALID_PUSH": "",
+      "INVALID_PUSHPULL": "",
+      "LABEL_STASH": "",
+      "NOPASS": "",
+      "NOPIECE": "",
+      "NOT_ADJ": "",
+      "PARTIAL_one": "",
+      "PARTIAL_other": "",
+      "PARTIAL_MOVE": "",
+      "PARTIAL_PLACE": "",
+      "PARTIAL_PLAY": "",
+      "PARTIAL_PUSH": "",
+      "PARTIAL_FREE": "",
+      "PARTIAL_FREE_NO": "",
+      "REPEAT": "",
+      "TOO_MANY": "",
+      "WARN_BALANCE": "",
+      "WARN_FILE": "",
+      "WARN_HIDE": "",
+      "WARNINGS": ""
+    },
+    "armadas": {
+      "BAD_PASS": "",
+      "CHOOSE_TARGET": "",
+      "CMD_PARAMETERS_TOOFEW": "",
+      "COLLISION": "",
+      "DOUBLE_MOVE": "",
+      "DUPLICATE_NAME": "",
+      "INITIAL_INSTRUCTIONS_place": "",
+      "INITIAL_INSTRUCTIONS_placefree": "",
+      "INITIAL_INSTRUCTIONS_play": "",
+      "INVALID_NAME": "",
+      "INVALID_SIZE": "",
+      "JUST_SHIP_NAME": "",
+      "MOVE_UNRECOGNIZED": "",
+      "NO_LOS": "",
+      "NO_SHIP": "",
+      "OUT_OF_BOUNDS": "",
+      "OUT_OF_RANGE": "",
+      "PASS_IN_PLACE": "",
+      "place": {
+        "OUT_OF_BOUNDS": "",
+        "PARTIAL_FOUR_ARGS": "",
+        "PARTIAL_NOARGS": "",
+        "PARTIAL_ONETWO_ARGS": "",
+        "PARTIAL_THREE_ARGS": "",
+        "TOO_MANY": ""
+      },
+      "PLACE_IN_PLAY": "",
+      "PLAY_IN_PLACE": "",
+      "SELF_ATK": "",
+      "TOO_FAR": "",
+      "TOO_MANY_ACTIONS": "",
+      "TOO_MANY_ATKS": "",
+      "TOO_SHARP": "",
+      "VALID_PARTIAL_MOVE": ""
+    },
+    "asli": {
+      "BAD_INCURSION": "",
+      "BAD_KOMI": "",
+      "BAD_PASS": "",
+      "BAD_PIE": "",
+      "INITIAL_INSTRUCTIONS_komi": "",
+      "INITIAL_INSTRUCTIONS_pie": "",
+      "INITIAL_INSTRUCTIONS_pie2": "",
+      "INITIAL_INSTRUCTIONS_play": "",
+      "MUST_PIE": "",
+      "NEGATIVE_KOMI": "",
+      "SUICIDE": "",
+      "WOVEN_INCURSION": ""
+    },
+    "assembly": {
+      "BAD_MOVE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "LABEL_BAG": ""
+    },
+    "atarigo": {
+      "INSTRUCTIONS": "",
+      "INVALID_PASS": "",
+      "SELF_CAPTURE": ""
+    },
+    "ataxx": {
+      "HOLE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_PASS": "",
+      "INVALID_TO": "",
+      "MUST_PASS": "",
+      "ILLEGAL_PASS": "",
+      "NO_TOS": "",
+      "SELECT_TO": "",
+      "SPLIT4JUMP": "",
+      "JUMP4SPLIT": ""
+    },
+    "atoll": {
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "attangle": {
+      "EMPTYCAPTURE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "MOVE2EMPTY": "",
+      "ONVOID": "",
+      "POTENTIAL_ONE": "",
+      "POTENTIAL_TWO": "",
+      "SAMESOURCE": "",
+      "TOOHIGH": "",
+      "TRIPLESTACK": ""
+    },
+    "ayu": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_TO": "",
+      "NO_MOVES": ""
+    },
+    "azacru": {
+      "BAD_MOVE": "",
+      "BAD_ORIENTATION": "",
+      "BAD_PASS": "",
+      "ENEMY_TILE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "NEED_DESTINATION": "",
+      "NO_CAPTURES": "",
+      "REORIENT": "",
+      "TOO_FAR": ""
+    },
+    "baghchal": {
+      "INITIAL_INSTRUCTIONS_TIGER_MOVEMENT": "",
+      "INITIAL_INSTRUCTIONS_GOAT_MOVEMENT": "",
+      "INITIAL_INSTRUCTIONS_GOAT_PLACEMENT": "",
+      "VALID_PARTIAL": ""
+    },
+    "bamboo": {
+      "BAD_PLACE": "",
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "bao": {
+      "BAD_TAX": "",
+      "BLOCKED": "",
+      "CHOOSE_DIR_mtaji": "",
+      "CHOOSE_DIR_namua": "",
+      "EMPTY": "",
+      "INITIAL_INSTRUCTIONS_mtaji|kutakata": "",
+      "INITIAL_INSTRUCTIONS_mtaji|mtaji": "",
+      "INITIAL_INSTRUCTIONS_namua|kutakata": "",
+      "INITIAL_INSTRUCTIONS_namua|mtaji": "",
+      "NEVER_SINGLE": "",
+      "NO_BACK_ROW_mtaji": "",
+      "NO_BACK_ROW_namua": "",
+      "PLAY_HOUSE": "",
+      "TWO_PLUS": ""
+    },
+    "basalt": {
+      "BAD_MOVE": "",
+      "BAD_PASS": "",
+      "INITIAL_INSTRUCTIONS_play": "",
+      "INITIAL_INSTRUCTIONS_offer": "",
+      "INITIAL_INSTRUCTIONS_response": "",
+      "PARTIAL": "",
+      "PIE_BAD_CELL": "",
+      "PIE_BOTH_PCS": "",
+      "PIE_PARTIAL": "",
+      "PIE_PARTIAL_PLACE": "",
+      "PIE_PC_FIRST": "",
+      "PIE_TWO_EACH": "",
+      "PIE_TWO_FOUR": ""
+    },
+    "bide": {
+      "EMPTY_HAND": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "MAY_RELEASE": "",
+      "MUST_RELEASE": ""
+    },
+    "biscuit": {
+      "BAD_PASS": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_MOVE": "",
+      "PARTIAL": ""
+    },
+    "bitesize": {
+      "INSTRUCTIONS": "",
+      "CANNOT_PASS": "",
+      "GROUP_TOO_LARGE": ""
+    },
+    "blam": {
+      "BADSYNTAX": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "MOVES_NOPASS": "",
+      "NOPIECE": "",
+      "PARTIAL": "",
+      "SIZEFIRST": ""
+    },
+    "blastradius": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID": ""
+    },
+    "blockade": {
+      "BLOCKS_GOAL_one": "",
+      "BLOCKS_GOAL_other": "",
+      "EXCLUSIVE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_EXCLUSIVE": "",
+      "INITIAL_INSTRUCTIONS_OPTIONAL": "",
+      "INSUFFICIENT_HWALL": "",
+      "INSUFFICIENT_VWALL": "",
+      "INVALID_CELL": "",
+      "INVALID_TO": "",
+      "INVALID_WALL": "",
+      "MISSING_DASH": "",
+      "NO_COMPLETEABLE_WALL": "",
+      "NO_VALID_MOVES": "",
+      "NO_WALL": "",
+      "NO_WALL_OPTIONAL": "",
+      "OCCUPIED_WALL": "",
+      "SELECT_SECOND_WALL": "",
+      "SELECT_TO": ""
+    },
+    "blooms": {
+      "DESTINATION": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_FIRST": "",
+      "INVALID_PIECE": "",
+      "INVALIDTILE": "",
+      "PLACE_NEXT": "",
+      "SAME_CELL": "",
+      "SAME_TILE": "",
+      "TOO_MANY_MOVES": "",
+      "TOO_MANY_MOVES_FIRST": ""
+    },
+    "bloqueo": {
+      "INITIAL_INSTRUCTIONS_play": "",
+      "INITIAL_INSTRUCTIONS_setup": "",
+      "PARTIAL_dest": "",
+      "PARTIAL_place": ""
+    },
+    "bluestone": {
+      "INITIAL_INSTRUCTIONS_FIRST_TURN": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "FULL_INSTRUCTIONS": ""
+    },
+    "boom": {
+      "INITIAL_INSTRUCTIONS": "",
+      "OUT_OF_RANGE": "",
+      "PARTIAL": "",
+      "TOOFAR": ""
+    },
+    "bounce": {
+      "INITIAL_INSTRUCTIONS": "",
+      "LARGER_GROUP": "",
+      "MUST_MOVE": "",
+      "PARTIAL": ""
+    },
+    "boxes": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_WALL": "",
+      "DUPLICATE": "",
+      "OCCUPIED": "",
+      "CONTINUE": "",
+      "INVALID_CONTINUE": ""
+    },
+    "breakthrough": {
+      "BADVARIANT": "",
+      "DIAGONAL_CAPTURES": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "NOCAPTURES": "",
+      "ONLY_FORWARD": "",
+      "PARTIAL": "",
+      "TOOFAR": ""
+    },
+    "bridges": {
+      "INITIAL_INSTRUCTIONS_FIRST_TURN": "",
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "btt": {
+      "BAD_NULL": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "NULL_INSTRUCTIONS": "",
+      "ROOT_INSTRUCTIONS": "",
+      "MALFORMED_MOVE": "",
+      "NO_DIAGONALS": "",
+      "NO_STASH": "",
+      "NO_TARGET": "",
+      "NULL_TARGET": "",
+      "OCCUPIED": "",
+      "OUT_OF_BOUNDS": "",
+      "PARTIAL_MOVE": ""
+    },
+    "bug": {
+      "BAD_GROW": "",
+      "GROW": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "MERGE": "",
+      "TOO_BIG": ""
+    },
+    "buku": {
+      "INITIAL_INSTRUCTIONS_ROW": "",
+      "INITIAL_INSTRUCTIONS_COL": "",
+      "INVALID_COLLECT": "",
+      "INVALID_COLLECT_ROW": "",
+      "WRONG_COLLECT_COUNT_ROW_FIRST": "",
+      "WRONG_COLLECT_COUNT_ROW": "",
+      "INVALID_COLLECT_COL": "",
+      "WRONG_COLLECT_COUNT_COL": "",
+      "TOO_MANY_SOWS_one": "",
+      "TOO_MANY_SOWS_other": "",
+      "DUPLICATE_SOW": "",
+      "NOT_NEIGHBOURS": "",
+      "INVALID_MOVE": "",
+      "START_SOWING_one": "",
+      "START_SOWING_other": "",
+      "GO_BACK_one": "",
+      "GO_BACK_other": "",
+      "CONTINUE_one": "",
+      "CONTINUE_other": "",
+      "NORMALISE": ""
+    },
+    "byte": {
+      "ADJ_ONLY": "",
+      "DIAG_ONLY": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_INDEX": "",
+      "INVALID_MERGE": "",
+      "INVALID_MVMT": "",
+      "INVALID_PASS": "",
+      "MUST_APPROACH": "",
+      "MUST_CLIMB": "",
+      "TOO_HIGH_one": "",
+      "TOO_HIGH_other": "",
+      "UNOWNED_INDEX": ""
+    },
+    "c1": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_TWO_MOVE": "",
+      "INITIAL_INSTRUCTIONS_TWO_MOVE_NO_TILE": "",
+      "NOT_SLIDABLE": "",
+      "MISSING_PREFIX": "",
+      "WRONG_PREFIX": "",
+      "INVALID_TO": "",
+      "USE_ELIMINATE_NOTATION": "",
+      "USE_MOVE_NOTATION": "",
+      "MOVE_TILE_FIRST": "",
+      "MOVE_PIECE_SECOND": "",
+      "NEED_SECOND_MOVE": ""
+    },
+    "calculus": {
+      "BAD_MOVE": "",
+      "BAD_PERIMETER": "",
+      "COLLIDES": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_POINT": "",
+      "NO_PATH": "",
+      "NOT_CONTAINED": "",
+      "VALID_PARTIAL": ""
+    },
+    "camelot": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_JUMP": "",
+      "INITIAL_INSTRUCTIONS_OWN_CASTLE": "",
+      "INITIAL_INSTRUCTIONS_TREE": "",
+      "TREE_LIMIT": "",
+      "NOT_TREE_PLACEABLE": "",
+      "DUPLICATE_TREE": "",
+      "TREE_CONTINUE_one": "",
+      "TREE_CONTINUE_other": "",
+      "NORMALISED": "",
+      "CANNOT_CLAIM_DRAW": "",
+      "IN_OWN_CASTLE": "",
+      "MUST_JUMP": "",
+      "MUST_EVENTUALLY_JUMP": "",
+      "MUST_CONTINUE_CANTER": "",
+      "CASTLE_LIMIT": "",
+      "IN_CASTLE": "",
+      "MUST_JUMP_SELECTED": "",
+      "JUMP_NOTATION": "",
+      "PLAIN_NOTATION": "",
+      "CANTER_NOTATION": "",
+      "INVALID_TO": "",
+      "NEED_TO_JUMP": "",
+      "CAN_CANTER": ""
+    },
+    "carnac": {
+      "INVALID_ORIENTATION": "",
+      "INVALID_HOLE_ORIENTATION": "",
+      "INVALID_PASS": "",
+      "INVALID_TIP": "",
+      "NO_RESERVE": "",
+      "NOT_PLACE_PHASE": "",
+      "NOT_TIP_PHASE": "",
+      "SELECT_CELL": "",
+      "SELECT_ORIENTATION": "",
+      "TIP_OR_PASS": "",
+      "TIP_THEN_PLACE": ""
+    },
+    "druid": {
+      "INVALID_LINTEL": "",
+      "INVALID_SARSEN": "",
+      "SARSEN_OR_LINTEL": "",
+      "SELECT_DRUID_DEST": "",
+      "SELECT_LINTEL_END": "",
+      "SELECT_MOVE": ""
+    },
+    "elOso": {
+      "INITIAL_INSTRUCTIONS": "",
+      "VALID_PARTIAL": "",
+      "VALID_PARTIAL_TOP": "",
+      "SELECT_STACK_FOR_PASS": "",
+      "INVALID_DIRECTION": "",
+      "TOO_FAR": "",
+      "SKY_FROM_TOP": ""
+    },
+    "cannon": {
+      "BAD_RETREAT": "",
+      "FIXED_TOWNS": "",
+      "FORWARD_ONLY": "",
+      "HOMECELL": "",
+      "INITIAL_INSTRUCTIONS_placed": "",
+      "INITIAL_INSTRUCTIONS_towns": "",
+      "LATERAL_MOVEMENT": "",
+      "NOCANNON_CAPTURE": "",
+      "NOCANNON_MOVE": "",
+      "PARTIAL": "",
+      "RETREAT_DISTANCE": "",
+      "RETREAT_EMPTY": "",
+      "TOOFAR": "",
+      "UNCONTROLLED": ""
+    },
+    "catapult": {
+      "BAD_CAPTURE": "",
+      "BAD_MOVE": "",
+      "BAD_PASS": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "NO_DAGGER": "",
+      "PARTIAL_DAGGER": ""
+    },
+    "catchup": {
+      "DUPLICATE": "",
+      "INITIAL_INSTRUCTIONS_one": "",
+      "INITIAL_INSTRUCTIONS_other": "",
+      "MAKE_MORE_MOVES_one": "",
+      "MAKE_MORE_MOVES_other": "",
+      "TOO_MANY_MOVES_one": "",
+      "TOO_MANY_MOVES_other": ""
+    },
+    "catsdogs": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_MOVE": "",
+      "INIT_NO_CENTER": "",
+      "INIT_CENTER": "",
+      "PLY_2_NO_CENTER": ""
+    },
+    "ccorridor": {
+      "DEAD_ZONE": "",
+      "ILLEGAL_PLACEMENT": "",
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "ceph": {
+      "DUPLICATECAP": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "NOTADJACENT": "",
+      "PARTIAL_ONECAP": "",
+      "PARTIAL_PRECAP": "",
+      "TOOHIGH_six": "",
+      "TOOHIGH_twelve": ""
+    },
+    "chameleon": {
+      "INITIAL_INSTRUCTIONS": "",
+      "PARTIAL": ""
+    },
+    "chase": {
+      "BALANCE_LOWEST": "",
+      "CHAMBER_BUMP": "",
+      "DISTANT_EXCHANGE": "",
+      "INITIAL_INSTRUCTIONS_balanced": "",
+      "INITIAL_INSTRUCTIONS_imbalanced": "",
+      "INVALID_SPEED": "",
+      "MULTIPLE_PATHS": "",
+      "MUST_BALANCE": "",
+      "NO_BALANCE": "",
+      "NO_BALANCE_LEFT": "",
+      "NOCHANGE_EXCHANGE": "",
+      "NOPATH": "",
+      "PARTIAL_BALANCE": "",
+      "PARTIAL_BALANCE_PARENTHESIS": "",
+      "PARTIAL_EXCHANGE": "",
+      "PARTIAL_MOVE": "",
+      "UNEQUAL_EXCHANGE": ""
+    },
+    "churn": {
+      "BAD_PLACE": "",
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "cifra": {
+      "INITIAL_INSTRUCTIONS_choose": "",
+      "INITIAL_INSTRUCTIONS_play": "",
+      "INITIAL_INSTRUCTIONS_setup": "",
+      "INVALID_MOVE": "",
+      "NO_DUPES_cell": "",
+      "NO_DUPES_pc": "",
+      "ONLY_HOME": "",
+      "PARTIAL": "",
+      "PARTIAL_PLACE": "",
+      "PARTIAL_SETUP_one": "",
+      "PARTIAL_SETUP_other": "",
+      "LABEL_STASH": ""
+    },
+    "circleOfLife": {
+      "INSTRUCTIONS": "",
+      "GROUP_TOO_LARGE": ""
+    },
+    "clearcut": {
+      "BAD_CROSSING": "",
+      "BAD_CROSSING_CLEARCUT": "",
+      "BAD_PASS": "",
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "clusterfuss": {
+      "ADJ_ONLY": "",
+      "BAD_PASS": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "MUST_CAPTURE": "",
+      "PARTIAL": "",
+      "SINGLE_GROUP": ""
+    },
+    "canoe": {
+      "SETUP_INSTRUCTIONS": "",
+      "STYMIE_ROLL": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "NO_PASS": "",
+      "BAD_ROLL": "",
+      "BAD_SETUP": "",
+      "BAD_FACE": "",
+      "BAD_SETUP_CELL": "",
+      "DUP_CELL": "",
+      "BAD_FACE_COUNT": "",
+      "SETUP_PARTIAL": "",
+      "SETUP_COMPLETE": "",
+      "TOO_MANY_SETUP": "",
+      "SETUP_INCOMPLETE": "",
+      "VALID_PARTIAL": "",
+      "INVALID_MOVE": "",
+      "MUST_USE_BOTH_DICE": "",
+      "NO_COMBINED_MOVES": "",
+      "SETUP_HAND": ""
+    },
+    "compart": {
+      "INSTRUCTIONS_one": "",
+      "INSTRUCTIONS_other": "",
+      "OCCUPIED": "",
+      "VIABLE_AREA_REPEATED": "",
+      "INSTRUCTIONS_ANY": ""
+    },
+    "complica": {
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "conect": {
+      "INITIAL_INSTRUCTIONS": "",
+      "NO_CENTRE": "",
+      "WRONG_CELL": ""
+    },
+    "conhex": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_VERTEX": "",
+      "OCCUPIED": ""
+    },
+    "connect6": {
+      "COLLINEAR_FIRST": "",
+      "COLLINEAR_SECOND": "",
+      "EXCESS": "",
+      "EXCESS_FIRST": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_SWAP3RD2": "",
+      "INITIAL_INSTRUCTIONS_SWAP3RD4": "",
+      "NO_MOVELIST": "",
+      "NONCOLLINEAR_SECOND": "",
+      "ONE_MORE": "",
+      "SWAP3RD2_INVALID": "",
+      "SWAP3RD2_ONE_MORE": ""
+    },
+    "connecticut": {
+      "FIRST_TRIOMINO": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_FIRST": "",
+      "INVALID_TO": "",
+      "NORMALISE": "",
+      "PARTIAL": ""
+    },
+    "connections": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_LINE": "",
+      "OCCUPIED": "",
+      "WRONG_ORIENT_H": "",
+      "WRONG_ORIENT_V": ""
+    },
+    "conspirateurs": {
+      "BAD_MOVE": "",
+      "BAD_PASS": "",
+      "BAD_PLACE": "",
+      "INITIAL_INSTRUCTIONS_drop": "",
+      "INITIAL_INSTRUCTIONS_move": "",
+      "SAFE": ""
+    },
+    "control": {
+      "FIRST_TURN_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INSUFFICIENT_CONTROL": "",
+      "OPPONENT_CONTROL": ""
+    },
+    "court": {
+      "INITIAL_INSTRUCTIONS": "",
+      "NOT_FRIENDLY_PIECE": "",
+      "PIECE_INSTRUCTIONS": ""
+    },
+    "courtesan": {
+      "DISTANCE_ONE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_DIR": "",
+      "INVALID_EXCHANGE": ""
+    },
+    "crosscontrol": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_BUTTON": "",
+      "INITIAL_SETUP": "",
+      "INSUFFICIENT_LOS": "",
+      "INVALIDBUTTON": "",
+      "INVALIDKOMI": "",
+      "INVALIDPASS": "",
+      "INVALIDPLAYSECOND": "",
+      "KOMI_CHOICE": "",
+      "OPPONENT_CONTROL": ""
+    },
+    "crossway": {
+      "BAD_PASS": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "NO_CROSSINGS": ""
+    },
+    "crosshairs": {
+      "PLACE_CLOUD": "",
+      "CLOUD_OCCUPIED": "",
+      "CLOUD_TOO_BIG": "",
+      "INITIAL_INSTRUCTIONS_one": "",
+      "INITIAL_INSTRUCTIONS_other": "",
+      "INITIAL_INSTRUCTIONS_NO_ENTRY_one": "",
+      "INITIAL_INSTRUCTIONS_NO_ENTRY_other": "",
+      "INITIAL_INSTRUCTIONS_MOVE_ONLY_one": "",
+      "INITIAL_INSTRUCTIONS_MOVE_ONLY_other": "",
+      "INITIAL_INSTRUCTIONS_ENTRY_ONLY_one": "",
+      "INITIAL_INSTRUCTIONS_ENTRY_ONLY_other": "",
+      "PARTIAL_MOVE": "",
+      "PARTIAL_PLANE_MOVE": "",
+      "PARTIAL_PLANE_MOVE_NO_DIVE": "",
+      "PARTIAL_ENTRY": "",
+      "PARTIAL_MOVEMENT": "",
+      "PARTIAL_DIVE": "",
+      "PARTIAL_DIVE_DIR": "",
+      "DIVE_CONTINUE_OR_END": "",
+      "NEED_MORE_PLANES_one": "",
+      "NEED_MORE_PLANES_other": "",
+      "NEED_MORE_PLANES_NO_ENTRY_one": "",
+      "NEED_MORE_PLANES_NO_ENTRY_other": "",
+      "INVALID_ENTRY_POSITION": "",
+      "CAN_SHOOT": "",
+      "MOVE_COMPLETE_CAN_SHOOT": ""
+    },
+    "cubeo": {
+      "BAD_MERGE": "",
+      "BAD_MOVE_standard": "",
+      "BAD_MOVE_strict": "",
+      "BAD_PLACE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "MAX_DICE": "",
+      "PINNED": ""
+    },
+    "dagnacht": {
+      "INITIAL_INSTRUCTIONS": "",
+      "MOVE_EMPTY": "",
+      "MOVE_OCCUPIED": "",
+      "NOT_BLACK": "",
+      "NOT_ORTH_ADJ": "",
+      "OCCUPIED": "",
+      "PARTIAL_MOVE": "",
+      "TOO_MANY": ""
+    },
+    "dameo": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_MOVE": "",
+      "VALID_PARTIAL": ""
+    },
+    "deckfish": {
+      "BAD_PASS": "",
+      "EARLY_TO_MARKET": "",
+      "INITIAL_PLACEMENT_INSTRUCTIONS": "",
+      "INITIAL_MOVE_INSTRUCTIONS": "",
+      "INITIAL_SWAP_INSTRUCTIONS": "",
+      "INVALID_FROM": "",
+      "INVALID_PLACEMENT": "",
+      "INVALID_PLACEMENT_DOUBLE": "",
+      "INVALID_TO": "",
+      "LABEL_MARKET": "",
+      "LABEL_COLLECTION": "",
+      "LATE_TO_MARKET": "",
+      "MUST_PASS": "",
+      "NO_SWAP": "",
+      "OCCUPIED_SWAP": "",
+      "PARTIAL_MOVE": "",
+      "PARTIAL_SWAP": "",
+      "REVERSED_MARKET": "",
+      "VALID_PLACEMENT": ""
+    },
+    "diffusion": {
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "dipole": {
+      "FORWARD": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_PASS": "",
+      "MERGE4CAPTURE": "",
+      "MERGE4MOVE": "",
+      "MOVE4MERGE": "",
+      "NOTDARKSQUARE": "",
+      "PARTIAL": "",
+      "STACK_SIZE": "",
+      "TOOFAR": "",
+      "TOOFAR_edge": ""
+    },
+    "domineering": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_QUELHAS": "",
+      "PLACE_NEXT_STONE_VERT": "",
+      "PLACE_NEXT_STONE_HORZ": "",
+      "PLACE_NEXT_STONE_LINE_VERT": "",
+      "PLACE_NEXT_STONE_LINE_HORZ": "",
+      "OCCUPIED_CELL": "",
+      "NO_SPACE_LEFT": "",
+      "MUST_BE_DOMINO_VERT": "",
+      "MUST_BE_DOMINO_HORZ": "",
+      "MUST_BE_LINE_VERT": "",
+      "MUST_BE_LINE_HORZ": ""
+    },
+    "dragoneyes": {
+      "INITIAL_INSTRUCTIONS_CAPTURE": "",
+      "INITIAL_INSTRUCTIONS_ONE": "",
+      "INITIAL_INSTRUCTIONS_TWO": ""
+    },
+    "emergo": {
+      "INITIAL_INSTRUCTIONS_enter": "",
+      "INITIAL_INSTRUCTIONS_play": "",
+      "INVALID_MOVE_enter": "",
+      "INVALID_MOVE_play": "",
+      "FIRST_MOVE": "",
+      "VALID_PARTIAL": "",
+      "WHITE_SQUARE": ""
+    },
+    "emu": {
+      "INITIAL_INSTRUCTIONS": "",
+      "LABEL_DISCARD": "",
+      "SELECT_DEST": "",
+      "SELECT_SRC": ""
+    },
+    "enso": {
+      "INITIAL_INSTRUCTIONS": "",
+      "NO_MOVES": "",
+      "PARTIAL": ""
+    },
+    "entrapment": {
+      "BARRIER_EXISTS": "",
+      "CHOOSE_SPARE": "",
+      "ENDED": "",
+      "FORCED_FREE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_FIRST": "",
+      "INITIAL_INSTRUCTIONS_FORCED": "",
+      "INITIAL_INSTRUCTIONS_SETUP": "",
+      "INVALID_BARRIER": "",
+      "INVALID_SPARE": "",
+      "INVALID_TO": "",
+      "MISSING_DASH": "",
+      "MOVE_FIRST": "",
+      "NO_SPARE": "",
+      "NONEXISTENT_BARRIER": "",
+      "OCCUPIED": "",
+      "SECOND_ACTION": "",
+      "SECOND_ACTION_MOVE_WALL": "",
+      "SELECT_TO_BARRIER": "",
+      "SELECT_TO_PIECE": "",
+      "STILL_HAVE_BARRIERS": "",
+      "TOO_MANY_ACTIONS": "",
+      "TOO_MANY_ACTIONS_FIRST": "",
+      "UNCONTROLLED_BARRIER": ""
+    },
+    "entropy": {
+      "INITIAL_INSTRUCTIONS_chaos": "",
+      "INITIAL_INSTRUCTIONS_order": "",
+      "INVALID_MOVEMENT": "",
+      "PARTIAL": "",
+      "STRAIGHT_LINES": "",
+      "BOARD_ORDER": "",
+      "BOARD_CHAOS": ""
+    },
+    "evenatodds": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_choose": "",
+      "LABEL_HAND": "",
+      "LABEL_HAND_NO_SIDE": "",
+      "LABEL_REMAINING": "",
+      "MUST_CHOOSE_SIDE": "",
+      "NOT_IN_HAND": "",
+      "NEEDS_ANCHOR_PIP": "",
+      "PARTIAL": ""
+    },
+    "estate": {
+      "EXCEEDS": "",
+      "INITIAL_INSTRUCTIONS_one": "",
+      "INITIAL_INSTRUCTIONS_other": "",
+      "INITIAL_INSTRUCTIONS_zero": ""
+    },
+    "epam": {
+      "INITIAL_INSTRUCTIONS_move": "",
+      "INITIAL_INSTRUCTIONS_stones": "",
+      "INSUFFICIENT_FORCES": "",
+      "NOPLACEMENT": "",
+      "PARTIAL": "",
+      "STONES": "",
+      "STRAIGHTLINE": "",
+      "TOOFAR": ""
+    },
+    "exxit": {
+      "INITIAL_INSTRUCTIONS_build": "",
+      "INITIAL_INSTRUCTIONS_destroy": "",
+      "INITIAL_INSTRUCTIONS_setup": "",
+      "INVALID_MOVE": "",
+      "VALID_PARTIAL_dod": "",
+      "VALID_PARTIAL_enlargement": ""
+    },
+    "fabrik": {
+      "INITIAL_INSTRUCTIONS_first": "",
+      "INITIAL_INSTRUCTIONS_fresh": "",
+      "INITIAL_INSTRUCTIONS_inprogress": "",
+      "INVALID_PASS": "",
+      "INVALID_PLACEMENT": "",
+      "MUST_PASS_PLAY": "",
+      "NOPLACEMENTS": "",
+      "PARTIAL_MOVE": "",
+      "PARTIAL_PLACE": ""
+    },
+    "fanorona": {
+      "ADJACENT": "",
+      "BAD_PAIKA": "",
+      "DISAMBIGUATE": "",
+      "EXPLICIT_CAPTURE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_CAPTURE": "",
+      "MUST_CAPTURE": "",
+      "PAIKA_STOP": "",
+      "PARTIAL": "",
+      "REVISIT": "",
+      "SAME_DIR": ""
+    },
+    "fendo": {
+      "DUPLICATE_FENCE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_DESTINATION": "",
+      "INVALID_DIRECTION": "",
+      "INVALID_FENCE": "",
+      "INVALID_PASS": "",
+      "NO_EDGE_FENCES": "",
+      "ONLY_MOVE_OPEN": "",
+      "PARTIAL_FENCE": "",
+      "PARTIAL_MOVE": "",
+      "PLACE_IN_OPEN": "",
+      "PLACE_IN_RANGE": ""
+    },
+    "fightopia": {
+      "BAD_CAPTURE_pawn": "",
+      "BAD_CAPTURE_tank": "",
+      "FRIENDLY_FIRE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_PARTIAL": "",
+      "INVULNERABLE": "",
+      "PARTIAL": ""
+    },
+    "flume": {
+      "CENTRE_START": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_CONTINUATION": "",
+      "KEEP_GOING": ""
+    },
+    "fnap": {
+      "BAD_PASS": "",
+      "BAD_SELECTED": "",
+      "BAD_TILE": "",
+      "DUPLICATE_CELL": "",
+      "DUPLICATE_TILE": "",
+      "INITIAL_INSTRUCTIONS_passing": "",
+      "INITIAL_INSTRUCTIONS_place": "",
+      "INITIAL_INSTRUCTIONS_playOrPass": "",
+      "INITIAL_INSTRUCTIONS_select": "",
+      "LABEL_SELECTED": "",
+      "LABEL_STASH": "",
+      "MUST_PASS": "",
+      "VALID_PARTIAL_cell": "",
+      "VALID_PARTIAL_tile": ""
+    },
+    "focus": {
+      "CAN_PLACE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "NONE_INHAND": "",
+      "ORTHOGONAL": "",
+      "TOOFAR": "",
+      "UNCONTROLLED": ""
+    },
+    "four": {
+      "DIFFERENT_MOVE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "LABEL_SELECTED": "",
+      "LABEL_STASH": "",
+      "MUST_CONNECT": "",
+      "NO_OVERLAP": "",
+      "NO_PIECE": "",
+      "NOT_ADJACENT": "",
+      "PARTIAL": "",
+      "TOO_BIG": ""
+    },
+    "fourinarow": {
+      "EXCESS": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_SWAP1ST1": "",
+      "INITIAL_INSTRUCTIONS_SWAP1ST2": "",
+      "INITIAL_INSTRUCTIONS_SWAP5": "",
+      "INITIAL_INSTRUCTIONS_SWAP21": "",
+      "INITIAL_INSTRUCTIONS_SWAP22": "",
+      "INITIAL_INSTRUCTIONS_SWAP23": "",
+      "NOT_PLACEABLE": "",
+      "SWAP21_EXCESS": "",
+      "SWAP21_one": "",
+      "SWAP21_other": "",
+      "SWAP22_EXCESS": "",
+      "SWAP22_PARTIAL": ""
+    },
+    "frames": {
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "fractured": {
+      "BAD_MOVE": "",
+      "BAD_PLACE": "",
+      "CLOSED": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "NO_RESERVE": "",
+      "PARTIAL_MOVE": ""
+    },
+    "forms": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INSTRUCTIONS": "",
+      "INSTRUCTIONS_ORIGINAL": "",
+      "INVALID_SELECTION": "",
+      "NO_MOVES": "",
+      "INVALID_MOVE": "",
+      "INVALID_MOVE_ORIGINAL": "",
+      "INVALID_NUM_GROUPS": ""
+    },
+    "frogger": {
+      "ADDITIONAL_INSTRUCTIONS": "",
+      "CARD_FIRST": "",
+      "CARD_NEXT": "",
+      "CARD_NEXT_OR": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "LATER_INSTRUCTIONS": "",
+      "INVALID_MARKET_CARD": "",
+      "INVALID_FROG": "",
+      "INVALID_HOP_FORWARD": "",
+      "INVALID_HOP_FORWARD_ADVANCED": "",
+      "INVALID_HOP_BACKWARD": "",
+      "INVALID_HOP_BACKWARD_EXCUSE": "",
+      "INVALID_MOVE": "",
+      "INVALID_NON-MOVE": "",
+      "LABEL_MARKET": "",
+      "LABEL_REMAINING": "",
+      "LABEL_DISCARDS": "",
+      "LABEL_STASH": "",
+      "MISPLACED_REFILL": "",
+      "MUST_HOP_FORWARD": "",
+      "MUST_MOVE": "",
+      "MUST_PASS": "",
+      "NO_CARDS_FOR_REFILL": "",
+      "NO_CARDS_BLOCKED": "",
+      "NO_CHOICE_BLOCKED": "",
+      "NO_MOVE_BLOCKED": "",
+      "NO_PASSING": "",
+      "NO_REFILLS": "",
+      "NO_RETURN": "",
+      "NO_SUCH_HAND_CARD": "",
+      "NO_SUCH_MARKET_CARD": "",
+      "NOT_BLOCKED": "",
+      "OCCUPIED": "",
+      "OFF_BOARD": "",
+      "OFFSIDES": "",
+      "PIECE_NEXT": "",
+      "PLACE_NEXT": "",
+      "TOO_HOPPY": "",
+      "TOO_EARLY_FOR_REFILL": "",
+      "TOO_LATE_FOR_BLOCKED": "",
+      "TOO_LATE_FOR_REFILL": "",
+      "VALID_REFILL_one": "",
+      "VALID_REFILL_other": ""
+    },
+    "furl": {
+      "CAPTURE4UNFURL": "",
+      "FURL4UNFURL": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_FURL": "",
+      "INVALID_UNFURL": "",
+      "NO_FURLS": "",
+      "NO_UNFURLS": "",
+      "PARTIAL_FURL": "",
+      "PARTIAL_UNFURL": "",
+      "UNFURL4CAPTURE": "",
+      "UNFURL4FURL": ""
+    },
+    "garden": {
+      "BAD_PLACE_normal": "",
+      "BAD_PLACE_start": "",
+      "INITIAL_INSTRUCTIONS_normal": "",
+      "INITIAL_INSTRUCTIONS_start": "",
+      "INVALID_COLOUR": "",
+      "SELECT_CELL_normal": "",
+      "SELECT_CELL_start": "",
+      "SELECT_COLOUR": "",
+      "WRONG_BOARD": ""
+    },
+    "gess": {
+      "CAPTURE4MOVE": "",
+      "FROM_CENTRE_ONLY": "",
+      "FROM_EMPTY": "",
+      "FROM_ENEMY": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_MOVE": "",
+      "MOVE4CAPTURE": "",
+      "POTENTIAL_MOVE": "",
+      "TOO_MANY_MOVES": ""
+    },
+    "gliss": {
+      "BAD_BASE": "",
+      "BAD_DEST": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "NO_GLIDER": "",
+      "NO_MOVES": "",
+      "PARTIAL": ""
+    },
+    "go": {
+      "INITIAL_SETUP": "",
+      "CYCLE": "",
+      "INSTRUCTIONS": "",
+      "INVALID_KOMI": "",
+      "INVALID_PIE": "",
+      "INVALID_PLAYSECOND": "",
+      "INVALID_PASS": "",
+      "KOMI_CHOICE": "",
+      "KO": "",
+      "SELF_CAPTURE": ""
+    },
+    "gonnect": {
+      "INITIAL_INSTRUCTIONS": "",
+      "KO": "",
+      "SELF_CAPTURE": ""
+    },
+    "gorogo": {
+      "INITIAL_INSTRUCTIONS_play": "",
+      "INITIAL_INSTRUCTIONS_setup": "",
+      "INVALID_MOVE": "",
+      "NO_PIECES_neutral": "",
+      "NO_PIECES_normal": "",
+      "PARTIAL": "",
+      "LABEL_NEUTRAL": ""
+    },
+    "guerrilla": {
+      "INITIAL_INSTRUCTIONS_p1": "",
+      "INITIAL_INSTRUCTIONS_p2": "",
+      "PARTIAL_p1second": "",
+      "PARTIAL_p2move": "",
+      "PARTIAL_p2cap": ""
+    },
+    "gyges": {
+      "BAD_DISPLACE": "",
+      "HOMEROW": "",
+      "INITIAL_INSTRUCTIONS_setup": "",
+      "INITIAL_INSTRUCTIONS_play": "",
+      "INVALID_PATH": "",
+      "NO_DUPES": "",
+      "NO_MOVES": "",
+      "NOT_INHAND": "",
+      "PARTIAL_displace": "",
+      "PARTIAL_move": "",
+      "PARTIAL_setup": "",
+      "PARTIAL_setup2": "",
+      "LABEL_STASH": ""
+    },
+    "gyve": {
+      "BAD_FIRST": "",
+      "BAD_N": "",
+      "BAD_PASS": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "NO_DUPES": "",
+      "PARTIAL": ""
+    },
+    "halma": {
+      "INITIAL_INSTRUCTIONS": "",
+      "NONEXISTENT": "",
+      "ILLEGAL_MOVE": "",
+      "FORCED_MOVES": "",
+      "BAD_MOVE": ""
+    },
+    "halmaclimbers": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INSTRUCTIONS": "",
+      "NEXT_ACTION": "",
+      "INCOMPLETE_ACTION": "",
+      "NONEXISTENT": "",
+      "ILLEGAL_JUMP": "",
+      "TOO_MANY_ACTIONS": "",
+      "BAD_MOVE": ""
+    },
+    "havannah": {
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "hens": {
+      "INITIAL_INSTRUCTIONS": "",
+      "ONLY_DIAG": "",
+      "ONLY_FORWARD": "",
+      "ONLY_HENS": "",
+      "ONLY_TWO": "",
+      "STRAIGHT_LINES": "",
+      "VALID_PARTIAL": ""
+    },
+    "hex": {
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "hexentafl": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_TO": "",
+      "KING_PREFIX": ""
+    },
+    "hexy": {
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "homeworlds": {
+      "attack": {
+        "PARTIAL_NOARGS": "",
+        "PARTIAL_ONEARG": ""
+      },
+      "build": {
+        "PARTIAL_NOARGS": "",
+        "PARTIAL_ONEARG": ""
+      },
+      "catastrophe": {
+        "PARTIAL_NOARGS": ""
+      },
+      "discover": {
+        "PARTIAL_NOARGS": "",
+        "PARTIAL_ONEARG": "",
+        "PARTIAL_THREEARGS": "",
+        "PARTIAL_TWOARGS": ""
+      },
+      "homeworld": {
+        "PARTIAL_NOARGS": "",
+        "PARTIAL_ONEARG": "",
+        "PARTIAL_TWOARGS": ""
+      },
+      "INITIAL_INSTRUCTIONS_fresh": "",
+      "INITIAL_INSTRUCTIONS_inprogress": "",
+      "move": {
+        "PARTIAL_NOARGS": "",
+        "PARTIAL_ONEARG": "",
+        "PARTIAL_TWOARGS": ""
+      },
+      "NEW_FRIENDLY_PARTIAL": "",
+      "NEW_MOVE_PARTIAL": "",
+      "sacrifice": {
+        "PARTIAL_NOARGS": "",
+        "PARTIAL_ONEARG": ""
+      },
+      "trade": {
+        "PARTIAL_NOARGS": "",
+        "PARTIAL_ONEARG": "",
+        "PARTIAL_TWOARGS": ""
+      },
+      "VALID_W_ACTIONS": ""
+    },
+    "intermedium": {
+      "INSTRUCTIONS": "",
+      "NOT_FRIENDLY_STACK": "",
+      "INVALID_SOW_PATH": "",
+      "SOW_INSTRUCTIONS": "",
+      "SOW_TOO_LARGE": ""
+    },
+    "invector": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INSTRUCTIONS": "",
+      "INVALID_SELECTION": "",
+      "ONLY_PASS": "",
+      "INVALID_PASS": "",
+      "CANNOT_MOVE": "",
+      "INVALID_MOVE": ""
+    },
+    "iqishiqi": {
+      "BLOCKED": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_DESTINATION": "",
+      "NEED_DESTINATION": "",
+      "NOLOS": ""
+    },
+    "irensei": {
+      "KO": "",
+      "SELF_CAPTURE": ""
+    },
+    "jacynth": {
+      "ALREADY_CLAIMED": "",
+      "ALREADY_OWNED": "",
+      "BAD_INFLUENCE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "LABEL_REMAINING": "",
+      "LABEL_STASH": "",
+      "NO_CARD": "",
+      "NO_INFLUENCE": "",
+      "NOT_ADJ": "",
+      "PARTIAL_PLACEMENT": ""
+    },
+    "kachit": {
+      "INITIAL_INSTRUCTIONS_inhand": "",
+      "INITIAL_INSTRUCTIONS_placed": "",
+      "PARTIAL_destination": "",
+      "PARTIAL_orientation": ""
+    },
+    "knightline": {
+      "BAD_PASS": "",
+      "BAD_OPENING_MOVE": "",
+      "BAD_START_PLACE": "",
+      "BAD_VALUE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_VARIANTS": "",
+      "INVALID_FIRST_MOVE": "",
+      "INVALID_MOVE": "",
+      "INVALID_NOTATION": "",
+      "INVALID_STACK": "",
+      "INVALID_TARGET": "",
+      "MUST_PASS": "",
+      "NO_KNIGHT": "",
+      "NO_NEIGHBORS": "",
+      "NO_STACK": "",
+      "SELECT_CELL": "",
+      "SHORT_STACK": "",
+      "SPLIT_STACK": ""
+    },
+    "konane": {
+      "FIRST_MOVE": "",
+      "SECOND_MOVE": "",
+      "NORMAL_MOVE": "",
+      "INVALID_MOVE": ""
+    },
+    "krypte": {
+      "INITIAL_INSTRUCTIONS": "",
+      "AMBIGUOUS": "",
+      "SIMULTANEOUS": "",
+      "ACTIVE": ""
+    },
+    "lasca": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_MOVE": "",
+      "VALID_PARTIAL": ""
+    },
+    "lielow": {
+      "INCORRECT_DISTANCE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "PARTIAL": "",
+      "TOOFAR": ""
+    },
+    "lifeline": {
+      "INITIAL_INSTRUCTIONS": "",
+      "SECOND_PIECE": "",
+      "ADJACENT": "",
+      "TOO_MANY_PIECES": "",
+      "INCURSION": ""
+    },
+    "linage": {
+      "INITIAL_SETUP": "",
+      "INSTRUCTIONS": "",
+      "TABOO": "",
+      "INVALID_KOMI": "",
+      "INVALID_PASS": "",
+      "OCCUPIED": "",
+      "INVALID_PLAYSECOND": "",
+      "KOMI_CHOICE": ""
+    },
+    "loa": {
+      "BAD_PASS": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "NOT_IN_RANGE": "",
+      "PARTIAL": ""
+    },
+    "logger": {
+      "ACT": "",
+      "DUPE_SPAWN": "",
+      "DUPE_TREE": "",
+      "INITIAL_INSTRUCTIONS_place": "",
+      "INITIAL_INSTRUCTIONS_move": "",
+      "INVALID_CHOP": "",
+      "INVALID_PLANT": "",
+      "INVALID_PROTEST": "",
+      "INVALID_SPAWN_plot": "",
+      "INVALID_SPAWN_tree": "",
+      "INVALID_TO": "",
+      "PARTIAL_PROTEST": "",
+      "PARTIAL_SPAWN_complete": "",
+      "PARTIAL_SPAWN_incomplete": "",
+      "PLACE_CORNER": "",
+      "PROTESTOR_LABEL": "",
+      "TOO_MANY_PROTESTS": "",
+      "TOO_MANY_SPAWNS": ""
+    },
+    "lox": {
+      "INITIAL_INSTRUCTIONS": "",
+      "PLACE4CAPTURE": "",
+      "INSUFFICIENT_LOS": "",
+      "CAPTURE4PLACE": "",
+      "OPPONENT_CONTROLLED": ""
+    },
+    "magnate": {
+      "BUTTON_INSTRUCTIONS": "",
+      "CARD_NOT_DONE_INSTRUCTIONS": "",
+      "CHOOSE_SUIT_INSTRUCTIONS": "",
+      "CHOICE_BUTTON_INSTRUCTIONS": "",
+      "DEEDED_CARD_INSTRUCTIONS": "",
+      "DISTRICT_INSTRUCTIONS": "",
+      "HAND_CARD_INSTRUCTIONS": "",
+      "INCOMPLETE_ACTION": "",
+      "INITIAL_BUTTON_INSTRUCTIONS": "",
+      "INITIAL_PLACEMENT_INSTRUCTIONS": "",
+      "INVALID_ACTION": "",
+      "INVALID_BUY": "",
+      "INVALID_DEED_PAYMENT": "",
+      "INVALID_DEED_TWO": "",
+      "INVALID_MOVE": "",
+      "INVALID_OTHER_PAYMENT": "",
+      "INVALID_PAYMENT": "",
+      "INVALID_PLACEMENT": "",
+      "INVALID_SUIT": "",
+      "INVALID_TRADE": "",
+      "LABEL_BOTH": "",
+      "LABEL_COLLECTION": "",
+      "LABEL_DECK": "",
+      "LABEL_DISCARDS_NONE": "",
+      "LABEL_DISCARDS_ONE": "",
+      "LABEL_HAND": "",
+      "LABEL_STACKED_DECK": "",
+      "LABEL_WARNING": "",
+      "MALFORMED_TRADE": "",
+      "MUST_CHOOSE": "",
+      "NOT_DEEDED": "",
+      "NOT_IN_HAND": "",
+      "PREFER_SUIT_INSTRUCTIONS": "",
+      "SPEND_INSTRUCTIONS": "",
+      "TOKEN_ADD_INSTRUCTIONS": "",
+      "TOKEN_TRADE_INSTRUCTIONS": "",
+      "VALID_PLACEMENT": ""
+    },
+    "majorities": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_FIRST": "",
+      "TOO_MANY_MOVES": "",
+      "TOO_MANY_MOVES_FIRST": "",
+      "DUPLICATE": "",
+      "HOLE": "",
+      "ANOTHER": "",
+      "NORMALISE": ""
+    },
+    "manalath": {
+      "BAD_PASS": "",
+      "DESTINATION": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_COLOUR": "",
+      "OVERSIZED_GROUP": ""
+    },
+    "margo": {
+      "CANNOT_PLACE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "KO": "",
+      "SELF_CAPTURE": "",
+      "SUPERKO": ""
+    },
+    "mattock": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_PASS": "",
+      "INITIAL_INSTRUCTIONS_PLACEMENT": "",
+      "INVALID_FROM": "",
+      "INVALID_MINE": "",
+      "INVALID_PLACE": "",
+      "INVALID_TO": "",
+      "MINED": "",
+      "MOVE_INSTRUCTIONS": "",
+      "MULTIPLE_PLACEMENT": "",
+      "MUST_PASS": "",
+      "NO_MOVES": "",
+      "TO_INSTRUCTIONS": "",
+      "UNREACHABLE_MINE": ""
+    },
+    "mchess": {
+      "BAD_CALL": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_MOVE": "",
+      "INVALID_PROMOTION": "",
+      "NO_MIRROR_MOVE": "",
+      "PARTIAL": "",
+      "VALID_MOVE_counter": "",
+      "VALID_MOVE_nocounter": ""
+    },
+    "meg": {
+      "INITIAL_INSTRUCTIONS_defense": "",
+      "INITIAL_INSTRUCTIONS_offense": "",
+      "INITIAL_INSTRUCTIONS_setup": "",
+      "PARTIAL": "",
+      "SHOT_START": ""
+    },
+    "meridians": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_PASS": "",
+      "INITIAL_INSTRUCTIONS_SETUP": "",
+      "NOLOS": "",
+      "ONE_MORE": "",
+      "SAME_CELL": "",
+      "SECOND_PLAYER_PASS": "",
+      "SECOND_STONE_NEIGHBOUR": "",
+      "TOO_MANY_MOVES": ""
+    },
+    "mimic": {
+      "FROZEN_PIECE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "MOVE_TO_EMPTY": "",
+      "NO_LEGAL_MOVES": "",
+      "NO_REVERSES": ""
+    },
+    "minefield": {
+      "BAD_PASS": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "FORBIDDEN": ""
+    },
+    "minimize": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INSTRUCTIONS": "",
+      "INVALID_PLACEMENT": "",
+      "NORMALISE": "",
+      "TOO_MANY_MOVES": "",
+      "TOO_MANY_MOVES_START": ""
+    },
+    "mirador": {
+      "ALREADY_DECLARED": "",
+      "BAD_PLACEMENT": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_CHALLENGE": "",
+      "NO_EDGE_PLAY": "",
+      "SINGLE_PLACEMENT": "",
+      "VALID_PARTIAL_MOVE": ""
+    },
+    "mixtour": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_DISTANCE": "",
+      "INVALID_PASS": "",
+      "INVALID_TILE_NUM": "",
+      "MOVE_MUST_STACK": "",
+      "PARTIAL_FULLSTACK": "",
+      "PARTIAL_SUBSTACK_one": "",
+      "PARTIAL_SUBSTACK_other": ""
+    },
+    "monkey": {
+      "INITIAL_INSTRUCTIONS": "",
+      "MOVE_CLOSER": "",
+      "PARTIAL": "",
+      "QUEEN_DEPLETED": ""
+    },
+    "moonsquad": {
+      "BAD_CAPTURE": "",
+      "BAD_MOVE_double": "",
+      "BAD_MOVE_group": "",
+      "BAD_MOVE_stationary": "",
+      "BAD_PLACEMENT": "",
+      "INITIAL_INSTRUCTIONS_hexoffer": "",
+      "INITIAL_INSTRUCTIONS_offer": "",
+      "INITIAL_INSTRUCTIONS_pie": "",
+      "INITIAL_INSTRUCTIONS_normal": "",
+      "INVALID_ORE": "",
+      "MISSING_ORE": "",
+      "MISSING_SQUAD": "",
+      "NO_CAPTURES": "",
+      "NO_MOVES": "",
+      "PARTIAL_CAPTURE": "",
+      "PARTIAL_MOVE_first": "",
+      "PARTIAL_MOVE_second": "",
+      "PARTIAL_PLACE1": "",
+      "PARTIAL_PLACE2": "",
+      "LABEL_ORE": ""
+    },
+    "morphos": {
+      "BAD_PASS": "",
+      "CAP_OR_PLACE": "",
+      "INITIAL_INSTRUCTIONS_normal": "",
+      "INITIAL_INSTRUCTIONS_replace": "",
+      "MUST_REPLACE": "",
+      "NOT_ORTHOGONAL": "",
+      "NOT_WEAK": "",
+      "ONE_CAP": "",
+      "PARTIAL_DOUBLE_orig": "",
+      "PARTIAL_DOUBLE_new": "",
+      "TOO_MANY": ""
+    },
+    "murus": {
+      "BAD_CAP": "",
+      "BAD_CATA_DIR": "",
+      "BAD_CATA_DIST": "",
+      "BAD_CATA_MOVE": "",
+      "BAD_DBL_CAP": "",
+      "BAD_TOWER_CAP": "",
+      "DIFF_REDIST": "",
+      "INELIGIBLE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_redist": "",
+      "NOROOM": "",
+      "PARTIAL": "",
+      "PARTIAL_REDIST": "",
+      "REDIST_ROW": "",
+      "SACRIFICE_POSSIBLE": "",
+      "STRAIGHTLINE": "",
+      "TOOFAR": "",
+      "WALLS_IMMOBILE": ""
+    },
+    "mvolcano": {
+      "INITIAL_INSTRUCTIONS": "",
+      "CAPTURED_LABEL": ""
+    },
+    "mutternland": {
+      "INITIAL_PLACE": "",
+      "INITIAL_PLACE_STEP2": "",
+      "INSTRUCTIONS": "",
+      "INSTRUCTIONS_STEP2": "",
+      "MOVE_MARBLE": "",
+      "MOVE_NUT": "",
+      "MOVE_NUT_OR_PLACE": "",
+      "NOT_AT_EDGE": "",
+      "CELL_VOID": "",
+      "OCCUPIED": "",
+      "PLACE_TOO_HIGH": "",
+      "ENEMY_MARBLE": "",
+      "RESERVE_EMPTY": "",
+      "NUT_IN_TOWER": "",
+      "NUT_NOT_ADJACENT_FRIEND": "",
+      "MARBLE_CANNOT_MOVE": "",
+      "NUT_CANNOT_MOVE": "",
+      "MARBLE_ILLEGAL_MOVE": "",
+      "MARBLE_ILLEGAL_PUSH": "",
+      "NUT_ILLEGAL_MOVE": "",
+      "NOT_A_NUT": ""
+    },
+    "nakatta": {
+      "BAD_PASS": "",
+      "BAD_PLACE": "",
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "narrows": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INSTRUCTIONS": "",
+      "INVALID_SELECTION": "",
+      "CANNOT_MOVE": "",
+      "INVALID_MOVE": ""
+    },
+    "necklace": {
+      "BAD_PASS": "",
+      "BLOCKS_PATH": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "NO_CROSSINGS": ""
+    },
+    "nex": {
+      "EDGE_CASE_ONE_EMPTY_NEUTRAL": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "NORMALISE": "",
+      "PARTIAL_PLACE": "",
+      "PARTIAL_SWAP_ONE_EACH": "",
+      "PARTIAL_SWAP_ONE_NEUTRAL": "",
+      "PARTIAL_SWAP_ONE_PLAYER": "",
+      "PARTIAL_SWAP_TWO_NEUTRAL": "",
+      "PLACE_DUPLICATE": "",
+      "PLACE_TOO_MANY": "",
+      "SWAP_DUPLICATE": "",
+      "SWAP_EDGE_CASE_NOT_NEUTRAL": "",
+      "SWAP_EDGE_CASE_TOO_MANY": "",
+      "SWAP_INSUFFICIENT_NEUTRAL": "",
+      "SWAP_TOO_MANY_NEUTRAL": "",
+      "SWAP_TOO_MANY_PLAYER": "",
+      "SWAP_UNCONTROLLED": ""
+    },
+    "omny": {
+      "ADJACENCY": "",
+      "BAD_MOVE": "",
+      "EMPTY_MOVE": "",
+      "FRIENDLY_CAPTURE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "NO_DUPES": "",
+      "PARTIAL_MOVE": "",
+      "PARTIAL_SETUP_p1": "",
+      "PARTIAL_SETUP_p2": "",
+      "SAME_HEIGHT": ""
+    },
+    "onager": {
+      "CENTRE_PLACEMENT": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_PLACE": "",
+      "INVALID_MOVES": "",
+      "OPTIONAL_CONTINUE": "",
+      "SELECT_MORE_SUPERKO": "",
+      "SELECT_TO": "",
+      "SUPERKO": ""
+    },
+    "onyx": {
+      "INITIAL_INSTRUCTIONS": "",
+      "BLOCKED_CENTRE": "",
+      "NO_CAPTURE": "",
+      "SINGLE_CAPTURE": "",
+      "DOUBLE_CAPTURE": ""
+    },
+    "oonpia": {
+      "DESTINATION": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_komi": "",
+      "ARC": "",
+      "INVALID_CAPTURE": "",
+      "INVALID_PLACE": "",
+      "INVALID_BOTH": "",
+      "BAD_KOMI": ""
+    },
+    "orb": {
+      "INITIAL_INSTRUCTIONS": "",
+      "SEED_PARTIAL": "",
+      "SEED_PARTIAL_SPHERE": "",
+      "SPHERES_SPLIT": ""
+    },
+    "ordo": {
+      "DISCONNECTED": "",
+      "DISORGANIZED": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_ORDO": "",
+      "INVALID_ORDO_MOVE": "",
+      "NO_ORDO_CAPTURE": "",
+      "PARTIAL": "",
+      "WRONG_DIRECTION": ""
+    },
+    "oust": {
+      "ALREADY_WON": "",
+      "ILLEGAL_PASS": "",
+      "ILLEGAL_PLACEMENT": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_MOVE_STRING": "",
+      "MORE": "",
+      "PLACEMENT_AFTER_NONCAPTURE": ""
+    },
+    "oware": {
+      "INITIAL_INSTRUCTIONS": "",
+      "NO_PIECES": ""
+    },
+    "owlman": {
+      "INITIAL_INSTRUCTIONS": "",
+      "PARTIAL": ""
+    },
+    "pacru": {
+      "BAD_CAPTURE": "",
+      "BAD_CONNECTION": "",
+      "ENEMY_TILE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "NEED_DESTINATION": "",
+      "NOT_ENOUGH_any": "",
+      "NOT_ENOUGH_45": "",
+      "NOT_ENOUGH_90": "",
+      "ONLY_NEUTRAL": "",
+      "ONLY_OPPOSING": "",
+      "ONLY_UNOCCUPIED": "",
+      "OVER_ORIENT": "",
+      "RELINQUISH_EMPTY": "",
+      "RELINQUISH_OWN": "",
+      "REORIENT": "",
+      "SELECT_CELL_blChange": "",
+      "SELECT_CELL_blTransform": "",
+      "SELECT_CELL_both": "",
+      "SELECT_CELL_meeting": "",
+      "SELECT_CELL_orientation_one": "",
+      "SELECT_CELL_orientation_other": "",
+      "TOO_MANY_CELLS": "",
+      "WITHIN_BL": ""
+    },
+    "pahtum": {
+      "INITIAL_INSTRUCTIONS_offer": "",
+      "INITIAL_INSTRUCTIONS_response": "",
+      "INITIAL_INSTRUCTIONS_rest": "",
+      "PARTIAL_setup": "",
+      "PARTIAL_rest": ""
+    },
+    "paintbucket": {
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "penguin": {
+      "INITIAL_INSTRUCTIONS": "",
+      "PARTIAL_DIRECTION_kick": "",
+      "PARTIAL_DIRECTION_penguin": "",
+      "PARTIAL_ORIENTATION": "",
+      "LABEL_STASH": ""
+    },
+    "pente": {
+      "OVERLINE_FORBIDDEN": "",
+      "SELF_CAPTURE_FORBIDDEN": "",
+      "SWAP2_CAPTURE": ""
+    },
+    "phutball": {
+      "BAD_DIRECTION": "",
+      "CAN_JUMP": "",
+      "CAN_JUMP_MORE": "",
+      "CANT_JUMP": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "LABEL_GOAL": "",
+      "MUST_JUMP_PLAYER": "",
+      "NO_BALL_HERE": "",
+      "NO_MOVE": "",
+      "NOT_EMPTY_JUMP": ""
+    },
+    "pigs": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_CMD": "",
+      "REPAIR_SINGLE": "",
+      "TOOLONG": "",
+      "UNDAMAGED": "",
+      "X_TOOFEW": "",
+      "X_TOOMANY": ""
+    },
+    "pigs2": {
+      "INITIAL_INSTRUCTIONS_first": "",
+      "INITIAL_INSTRUCTIONS_rest": "",
+      "INVALID_CMD": "",
+      "LABEL_ORDERS": "",
+      "TOOLONG_first": "",
+      "TOOLONG_rest": ""
+    },
+    "pikemen": {
+      "BAD_FACING": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "PARTIAL_FINAL": "",
+      "PARTIAL_ORIENT": "",
+      "PARTIAL_PREMOVE": "",
+      "TOOSMALL": "",
+      "UPRIGHT_MOVEMENT": "",
+      "USELESS_ORIENTATION": ""
+    },
+    "pilastri": {
+      "NORMAL_MOVE": "",
+      "INVALID_MOVE": ""
+    },
+    "pinch": {
+      "INITIAL_INSTRUCTIONS": "",
+      "OCCUPIED_CELL": "",
+      "REUSED_CELL": "",
+      "SELF_STONES_TO_PLACE_one": "",
+      "SELF_STONES_TO_PLACE_other": "",
+      "OPP_STONES_TO_PLACE_one": "",
+      "OPP_STONES_TO_PLACE_other": "",
+      "SELF_OPP_STONES_TO_PLACE_own_one_opp_one": "",
+      "SELF_OPP_STONES_TO_PLACE_own_one_opp_other": "",
+      "SELF_OPP_STONES_TO_PLACE_own_other_opp_one": "",
+      "SELF_OPP_STONES_TO_PLACE_own_other_opp_other": "",
+      "OPP_SELF_STONES_TO_PLACE_own_one_opp_one": "",
+      "OPP_SELF_STONES_TO_PLACE_own_one_opp_other": "",
+      "OPP_SELF_STONES_TO_PLACE_own_other_opp_one": "",
+      "OPP_SELF_STONES_TO_PLACE_own_other_opp_other": "",
+      "INITIAL_INSTRUCTIONS_ORIGINAL": ""
+    },
+    "pippinzip": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INSTRUCTIONS_PIP": "",
+      "INSTRUCTIONS_ZIP": "",
+      "TOO_MANY_PLACEMENTS_AUCTION": "",
+      "ERROR_PLACEMENT_PIP": "",
+      "ADJACENT_PLACEMENT_PIP": "",
+      "ERROR_PLACEMENT_ZIP": "",
+      "INSTRUCTIONS_PIP_SECOND": ""
+    },
+    "pletore": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_BUTTON": "",
+      "INITIAL_SETUP": "",
+      "INSUFFICIENT_CONTROL": "",
+      "INVALIDBUTTON": "",
+      "INVALIDKOMI": "",
+      "INVALIDPASS": "",
+      "INVALIDPIE": "",
+      "KOMI_CHOICE": "",
+      "OPPONENT_CONTROL": ""
+    },
+    "plurality": {
+      "INITIAL_SETUP": "",
+      "INSTRUCTIONS": "",
+      "TABOO": "",
+      "INCOMPLETE_TURN": "",
+      "INVALID_KOMI": "",
+      "INVALID_PASS": "",
+      "INVALID_PIE": "",
+      "INVALID_PLAYSECOND": "",
+      "KOMI_CHOICE": ""
+    },
+    "pods": {
+      "INITIAL_INSTRUCTIONS": "",
+      "FIRST_MOVE_INSTRUCTIONS": "",
+      "INVALID_PLACEMENT": "",
+      "INVALID_MOVEMENT": "",
+      "INVALID_MOVER": ""
+    },
+    "pollux": {
+      "INITIAL_INSTRUCTIONS_1": "",
+      "INITIAL_INSTRUCTIONS_2": "",
+      "INITIAL_INSTRUCTIONS_3": "",
+      "INSTRUCTION_SLIDE": "",
+      "INSTRUCTION_SHOOT": "",
+      "BAD_PASS": "",
+      "NEED_FRIENDLY_TOWER": "",
+      "TOWER_ADJACENT": "",
+      "TOWER_OCCUPIED_CELL": "",
+      "PIECE_OCCUPIED_CELL": "",
+      "TOWER_STRAIGHT_LINE": "",
+      "PIECE_STRAIGHT_LINE": ""
+    },
+    "pontedd": {
+      "BAD_BRIDGE_BLOCKED": "",
+      "BAD_BRIDGE_COLOUR": "",
+      "BAD_BRIDGE_CROSED": "",
+      "BAD_BRIDGE_DISTANCE": "",
+      "BAD_BRIDGE_DOUBLE": "",
+      "BAD_BRIDGE_NONE": "",
+      "BAD_BRIDGE_OWNER": "",
+      "BAD_PASS": "",
+      "BLOCKED": "",
+      "DOUBLE_PLACEMENT": "",
+      "INITIAL_INSTRUCTIONS_play": "",
+      "INITIAL_INSTRUCTIONS_setup": "",
+      "NO_BRIDGES": "",
+      "NO_TILES": "",
+      "PARTIAL_BRIDGE": "",
+      "PARTIAL_PLACE": "",
+      "TOO_BIG": "",
+      "TOO_CLOSE": "",
+      "TOO_MANY": ""
+    },
+    "posit": {
+      "INSTRUCTIONS": "",
+      "SELECT_MOVE": "",
+      "SELECT_PLACEMENT": "",
+      "NOT_ADJACENT": "",
+      "SELECT_ERROR": "",
+      "CANNOT_GO_DOWN": "",
+      "CANNOT_GO_UPUP": "",
+      "CANNOT_CLIMB": "",
+      "OPPONENT_MOVE": "",
+      "PLACE_ON_PIECE": "",
+      "STACK_TOO_BIG": ""
+    },
+    "product": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INSTRUCTIONS": "",
+      "INCOMPLETE_TURN": "",
+      "INVALID_PLACEMENT": "",
+      "NORMALISE": "",
+      "TOO_MANY_MOVES": "",
+      "TOO_MANY_MOVES_START": ""
+    },
+    "prudh": {
+      "INITIAL_INSTRUCTIONS": "",
+      "PARTIAL": "",
+      "RUN_MUST_CAP": "",
+      "TOOCLOSE": "",
+      "TOOFAR_run": "",
+      "TOOFAR_slide": "",
+      "TOOSMALL_run": "",
+      "TOOSMALL_slide": "",
+      "WRONGDIR_run": "",
+      "WRONGDIR_slide": ""
+    },
+    "pylon": {
+      "ADJ_ONLY": "",
+      "BAD_PASS": "",
+      "BAD_STACK": "",
+      "INITIAL_INSTRUCTIONS_place": "",
+      "INITIAL_INSTRUCTIONS_stack": "",
+      "INVALID_SIZE": "",
+      "MUST_MOVE": "",
+      "MUST_STACK": "",
+      "NO_PIECE": "",
+      "ORTH_ONLY": "",
+      "PARTIAL_MOVEMENT": "",
+      "PARTIAL_PLACEMENT": ""
+    },
+    "quagmire": {
+      "LEGAL_MOVES": "",
+      "MAY_RUN": "",
+      "MUST_FINISH_SETUP": "",
+      "PLACE_MEEPLE": "",
+      "SELECT_DESTINATION": "",
+      "SELECT_MEEPLE": ""
+    },
+    "quax": {
+      "EMPTY_FROM": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_DIAG": "",
+      "NO_DIAGS": "",
+      "NORMALISE": "",
+      "OPPONENT_FROM": "",
+      "SELECT_TO": ""
+    },
+    "queensland": {
+      "BAD_PASS": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "MUST_PLACE": "",
+      "NO_PIECES": "",
+      "NOW_PLACE": "",
+      "PARTIAL_MOVE": "",
+      "STRAIGHT_LINES": ""
+    },
+    "query": {
+      "INITIAL_INSTRUCTIONS": "",
+      "CONTINUE": "",
+      "PARTIAL": "",
+      "SAMECELL": "",
+      "NOTC4": "",
+      "TOOMANY1": "",
+      "TOOMANY2": ""
+    },
+    "quincunx": {
+      "INITIAL_INSTRUCTIONS": "",
+      "PARTIAL": ""
+    },
+    "rampart": {
+      "BAD_PLACEMENT": "",
+      "INITIAL_INSTRUCTIONS_play": "",
+      "INITIAL_INSTRUCTIONS_setup": "",
+      "PARTIAL_PLACE": "",
+      "PLACE_ONE": ""
+    },
+    "razzle": {
+      "BAD_DIRECTION": "",
+      "INCOMPLETE_BALL_MOVE": "",
+      "INELIGBLE_RECEIVER": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "MOVE_ONE_PIECE": "",
+      "MUST_MOVE_BALL": "",
+      "NO_RECEIVER": "",
+      "NOT_EMPTY": "",
+      "NOT_KNIGHT_MOVE": "",
+      "OBSTRUCTED": "",
+      "OWN_RECEIVER": "",
+      "PARTIAL_BALL_MOVE": "",
+      "PARTIAL_PIECE_MOVE": "",
+      "REPEAT_RECEIVER": "",
+      "REPEATED_POSITION": "",
+      "START_BALL_MOVE": "",
+      "NO_AVAILABLE_RECEIVERS": ""
+    },
+    "realm": {
+      "ALIGNED_BASE": "",
+      "BAD_MULTIMOVE": "",
+      "CHECKPOINT_CHARLEY": "",
+      "DOUBLE_POWER": "",
+      "EMPTY_REARRANGE": "",
+      "ENFORCER_180": "",
+      "INHAND": "",
+      "INHAND_LABEL": "",
+      "INITIAL_INSTRUCTIONS_bases": "",
+      "INITIAL_INSTRUCTIONS_play": "",
+      "INITIAL_INSTRUCTIONS_powers": "",
+      "INVALID_REARRANGE": "",
+      "MISSING_SPECIALS": "",
+      "MUST_LEAVE_REALM": "",
+      "NO_SPECIALS": "",
+      "NOT_CENTRE": "",
+      "NOT_IN_HAND": "",
+      "ONLY_BORDERS": "",
+      "ONLY_ENFORCERS": "",
+      "ORIENT_ENFORCER": "",
+      "PIECE_MISMATCH": "",
+      "PLACE_IN_REALM": "",
+      "SPECIAL_CAP_BASE": "",
+      "SPECIAL_CREATE_BASE": "",
+      "SPECIAL_CREATE_ENFORCER": "",
+      "SPECIAL_IMMOB_ENFORCER": "",
+      "SPECIAL_IMMOB_SELF": "",
+      "UNCONTROLLED": "",
+      "WRONG_REALM_capBase": "",
+      "WRONG_REALM_createBase": "",
+      "WRONG_REALM_createEnforcer": "",
+      "WRONG_REALM_rearrange": ""
+    },
+    "renju": {
+      "INITIAL_INSTRUCTIONS_RIF1": "",
+      "INITIAL_INSTRUCTIONS_RIF2": "",
+      "INITIAL_INSTRUCTIONS_RIF2_PASSED": "",
+      "INITIAL_INSTRUCTIONS_RIF3": "",
+      "INITIAL_INSTRUCTIONS_RIF4": "",
+      "INITIAL_INSTRUCTIONS_SOOSYRV1": "",
+      "INITIAL_INSTRUCTIONS_SOOSYRV2": "",
+      "INITIAL_INSTRUCTIONS_SOOSYRV2_PASSED": "",
+      "INITIAL_INSTRUCTIONS_SOOSYRV3": "",
+      "INITIAL_INSTRUCTIONS_SOOSYRV3_PASSED": "",
+      "INITIAL_INSTRUCTIONS_SOOSYRV4_one": "",
+      "INITIAL_INSTRUCTIONS_SOOSYRV4_other": "",
+      "INITIAL_INSTRUCTIONS_TARAGUCHI1": "",
+      "INITIAL_INSTRUCTIONS_TARAGUCHI2": "",
+      "INITIAL_INSTRUCTIONS_TARAGUCHI2_PASSED": "",
+      "INITIAL_INSTRUCTIONS_TARAGUCHI3": "",
+      "INITIAL_INSTRUCTIONS_TARAGUCHI3_PASSED": "",
+      "INITIAL_INSTRUCTIONS_TARAGUCHI4": "",
+      "INITIAL_INSTRUCTIONS_TARAGUCHI4_PASSED": "",
+      "INITIAL_INSTRUCTIONS_TARAGUCHI5": "",
+      "INITIAL_INSTRUCTIONS_TARAGUCHI5_PASSED": "",
+      "INITIAL_INSTRUCTIONS_TARAGUCHI6": "",
+      "INITIAL_INSTRUCTIONS_TARAGUCHI6_CHOOSE": "",
+      "INITIAL_INSTRUCTIONS_YAMAGUCHI1": "",
+      "INITIAL_INSTRUCTIONS_YAMAGUCHI2": "",
+      "INITIAL_INSTRUCTIONS_YAMAGUCHI2_PASSED": "",
+      "INITIAL_INSTRUCTIONS_YAMAGUCHI3_one": "",
+      "INITIAL_INSTRUCTIONS_YAMAGUCHI3_other": "",
+      "INITIAL_INSTRUCTIONS_YAMAGUCHI4_one": "",
+      "INITIAL_INSTRUCTIONS_YAMAGUCHI4_other": "",
+      "RENJU_OPENING_EXCESS": "",
+      "RENJU_OPENING1_INCORRECT": "",
+      "RENJU_OPENING2": "",
+      "RENJU_OPENING2_INCORRECT": "",
+      "RENJU_OPENING3": "",
+      "RENJU_OPENING3_INCORRECT": "",
+      "RIF3_EXCESS": "",
+      "RIF4_CHOOSE": "",
+      "RIF4_EXCESS": "",
+      "RIF32": "",
+      "RIF42": "",
+      "SOOSYRV2_STONES_BEFORE_TENTATIVE": "",
+      "SOOSYRV2_TENTATIVE": "",
+      "SOOSYRV2_TENTATIVE_COUNT_EXCEED": "",
+      "SOOSYRV3_EXCESS_one": "",
+      "SOOSYRV3_EXCESS_other": "",
+      "SOOSYRV3_MORE_one": "",
+      "SOOSYRV3_MORE_other": "",
+      "SOOSYRV4_CHOOSE_one": "",
+      "SOOSYRV4_CHOOSE_other": "",
+      "SOOSYRV4_EXCESS": "",
+      "SOOSYRV42": "",
+      "SYMMETRY": "",
+      "TARAGUCHI_RESTRICTION1": "",
+      "TARAGUCHI_RESTRICTION2": "",
+      "TARAGUCHI_RESTRICTION3": "",
+      "TARAGUCHI_RESTRICTION4": "",
+      "TARAGUCHI_RESTRICTION5": "",
+      "TARAGUCHI_RESTRICTION5_EXCESS": "",
+      "TARAGUCHI_RESTRICTION5_INSIDE": "",
+      "TARAGUCHI_RESTRICTION5_MORE_one": "",
+      "TARAGUCHI_RESTRICTION5_MORE_other": "",
+      "TARAGUCHI6_CHOOSE": "",
+      "TARAGUCHI6_EXCESS": "",
+      "TARAGUCHI62": "",
+      "YAMAGUCHI1_EXCESS": "",
+      "YAMAGUCHI1_STONES_BEFORE_TENTATIVE": "",
+      "YAMAGUCHI1_TENTATIVE": "",
+      "YAMAGUCHI1_TENTATIVE_COUNT_EXCEED": "",
+      "YAMAGUCHI3_EXCESS_one": "",
+      "YAMAGUCHI3_EXCESS_other": "",
+      "YAMAGUCHI3_MORE_one": "",
+      "YAMAGUCHI3_MORE_other": "",
+      "YAMAGUCHI4_CHOOSE_one": "",
+      "YAMAGUCHI4_CHOOSE_other": "",
+      "YAMAGUCHI4_EXCESS": "",
+      "YAMAGUCHI42": ""
+    },
+    "resolve": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_SWAP": "",
+      "CHOOSE_OWN": "",
+      "CANNOT_SWAP": "",
+      "SWAP": "",
+      "INVALID_SWAP": ""
+    },
+    "reversi": {
+      "CENTRE_CELL": "",
+      "CORNER_CELL": "",
+      "ILLEGAL_PASS": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_MOVE": ""
+    },
+    "rincala": {
+      "BAD_DIR": "",
+      "CONTINUE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "LABEL_STASH": "",
+      "NO_MOVES": "",
+      "PARTIAL": ""
+    },
+    "rootbound": {
+      "FIRST_MOVE_INSTRUCTIONS": "",
+      "SECOND_MOVE_INSTRUCTIONS": "",
+      "THIRD_MOVE_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "BAD_SECOND_MOVE": "",
+      "CLAIMED_CELL": "",
+      "RAPID_GROWTH": "",
+      "TOO_MANY_NEIGHBORS": ""
+    },
+    "saltire": {
+      "EMPTY_FROM": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_SWAP": "",
+      "NO_SWAPPABLE": "",
+      "NORMALISE": "",
+      "SELECT_TO": ""
+    },
+    "scaffold": {
+      "INCOMPLETE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_MOVES": ""
+    },
+    "shapechess": {
+      "INITIAL_INSTRUCTIONS": "",
+      "JUMP_INSTRUCTIONS": "",
+      "PUSH_INSTRUCTIONS": "",
+      "JUMP_OCCUPIED": "",
+      "PUSH_NO_FREEDOM": "",
+      "PUSH_NEIGHBOR": ""
+    },
+    "sentinel": {
+      "INITIAL_INSTRUCTIONS": "",
+      "EDGE_INSTRUCTIONS": "",
+      "PIECE_INSTRUCTIONS": "",
+      "STACK_INSTRUCTIONS": "",
+      "INVALID_CENTER": "",
+      "NO_STACK_TURN_3": "",
+      "MOVE_INSTRUCTIONS": ""
+    },
+    "shifty": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_OPENING": "",
+      "INITIAL_INSTRUCTIONS_PASS": "",
+      "INVALID_PASS": "",
+      "CANNOT_PLACE": "",
+      "CROSSCUT": "",
+      "CROSSCUT_MOVE": "",
+      "MOVE_NOT_ADJACENT": "",
+      "NEXT_TO_FRIENDLY": "",
+      "INVALID_DESTINATION": ""
+    },
+    "siegeofj": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_MOVE": "",
+      "PARTIAL": "",
+      "LABEL_STASH": "",
+      "VALID_BUT": ""
+    },
+    "slimetrail": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_MOVE": ""
+    },
+    "slither": {
+      "CANNOT_MOVE": "",
+      "DIAGONAL": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_PASS": "",
+      "NEED_PLACEMENT": "",
+      "NEED_PLACEMENT_DIAGONAL": "",
+      "NO_VALID_FOLLOWUP": "",
+      "NOT_ADJACENT": "",
+      "PLACEMENT_MADE": ""
+    },
+    "slyde": {
+      "FIXED_PIECE_FROM": "",
+      "FIXED_PIECE_TO": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_SYMMETRIC": "",
+      "NO_CHANGE_FIRST_MOVE": "",
+      "NO_MOVES_FROM": "",
+      "NON_SYMMETRIC": "",
+      "NOT_ADJACENT": "",
+      "ONLY_CHANGE": "",
+      "SAME_PLAYER": "",
+      "SELECT_CHANGE": "",
+      "SELECT_DESTINATION": "",
+      "SELECT_DESTINATION_OR_CHANGE": ""
+    },
+    "soccolot": {
+      "INITIAL_INSTRUCTIONS": "",
+      "ERROR_SELECT": "",
+      "MAN_INSTRUCTIONS": "",
+      "BALL_INSTRUCTIONS": "",
+      "ERROR_KICK_DRIBBLE": "",
+      "DRIBBLE_INSTRUCTIONS": "",
+      "DRIBBLE_SWAP_INSTRUCTIONS": "",
+      "KICK_INSTRUCTIONS": ""
+    },
+    "spire": {
+      "CANNOT_PLACE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "PLACE_PLAYER": "",
+      "PLACE_PLAYER_MANDATORY": "",
+      "SAME_CELL": "",
+      "TOO_MANY_MOVES": "",
+      "VIOLATES_BOTH": "",
+      "VIOLATES_NEUTRAL_L": "",
+      "VIOLATES_NEUTRAL_PLATFORM": "",
+      "VIOLATES_PLAYER_L": "",
+      "VIOLATES_PLAYER_PLATFORM": ""
+    },
+    "spline": {
+      "CANNOT_MOVE": "",
+      "CANNOT_PLACE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_TO": "",
+      "MOVE_TO": "",
+      "NO_TOS": ""
+    },
+    "sploof": {
+      "CANNOT_PLACE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "NO_BALLS_HAND": "",
+      "NO_BALLS_STASH": "",
+      "NOT_NEUTRAL": "",
+      "PINNED": "",
+      "UNOCCUPIED": ""
+    },
+    "sponnect": {
+      "CANNOT_PLACE": "",
+      "CONSECUTIVE_PASS": "",
+      "FIRST_PASS": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_PASS": ""
+    },
+    "spook": {
+      "CANNOT_PLACE": "",
+      "CHAIN_WRONG_PLAYER": "",
+      "CONTINUE": "",
+      "INITIAL_INSTRUCTIONS_CAPTURE": "",
+      "INITIAL_INSTRUCTIONS_ISOLATED": "",
+      "INITIAL_INSTRUCTIONS_PARITY_PASS": "",
+      "INITIAL_INSTRUCTIONS_PASS": "",
+      "INITIAL_INSTRUCTIONS_PLACEMENT": "",
+      "INITIAL_INSTRUCTIONS_REMOVE": "",
+      "INVALID_PASS": "",
+      "NO_ADJACENT": "",
+      "NO_BALL": "",
+      "NOT_ADJACENT": "",
+      "NOT_CAPTURABLE": "",
+      "NOT_FREE": "",
+      "PINNED": "",
+      "REMOVE_WRONG_PLAYER": "",
+      "SINGLE_MOVE_DROP": "",
+      "SINGLE_MOVE_MOVE": "",
+      "SINGLE_MOVE_PLACE": "",
+      "SINGLE_MOVE_REMOVE": "",
+      "WRONG_PREFIX_CAPTURE": "",
+      "WRONG_PREFIX_MOVE": "",
+      "WRONG_PREFIX_PLACE": "",
+      "WRONG_PREFIX_REMOVE": ""
+    },
+    "spora": {
+      "INITIAL_SETUP": "",
+      "INSTRUCTIONS": "",
+      "END_PHASE_INSTRUCTIONS": "",
+      "END_PHASE_LAST": "",
+      "ENEMY_PIECE": "",
+      "INVALID_KOMI": "",
+      "INVALID_PLAYSECOND": "",
+      "INVALID_SOW_PATH": "",
+      "KOMI_CHOICE": "",
+      "MAXIMUM_STACK": "",
+      "NOT_ENOUGH_PIECES": "",
+      "SAME_PLACE_SOW_STACK": "",
+      "SELF_CAPTURE": "",
+      "SOW_FRIENDLY": "",
+      "SOW_INSTRUCTIONS": "",
+      "SOW_SIZE_SELECTION": "",
+      "SOW_TOO_LARGE": ""
+    },
+    "spree": {
+      "ALREADY_WON": "",
+      "CANNOT_PLACE": "",
+      "CHOOSE_NEXT": "",
+      "FIRST_MOVE_CHOICE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_FIRST": "",
+      "INVALID_CHOICE": "",
+      "PLACE_FIRST": "",
+      "SAME_CHOICE": ""
+    },
+    "squaredance": {
+      "INITIAL_INSTRUCTIONS": "",
+      "PARTIAL_DESTINATION": "",
+      "PARTIAL_ENDSTONE": ""
+    },
+    "squirm": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_3ROW": "",
+      "INVALID_NEIGH": ""
+    },
+    "stairs": {
+      "NORMAL_MOVE": "",
+      "INVALID_MOVE": "",
+      "MUST_PASS": ""
+    },
+    "stapeldammen": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_MOVE": "",
+      "VALID_PARTIAL": "",
+      "WHITE_SQUARE": ""
+    },
+    "stawvs": {
+      "BAD_CLAIM": "",
+      "BAD_CLAIM_HEY": "",
+      "BAD_MOVE": "",
+      "BAD_START": "",
+      "BAD_PLACEMENT": "",
+      "EXTRA_CLAIMS": "",
+      "INITIAL_PLACEMENT_INSTRUCTIONS": "",
+      "INITIAL_MOVE_INSTRUCTIONS": "",
+      "LABEL_COLLECTION": "",
+      "MUST_PASS": "",
+      "NOPASS": "",
+      "PARTIAL_CLAIM": "",
+      "PARTIAL_MOVE": "",
+      "VALID_PLACEMENT": "",
+      "VALID_PLAY": ""
+    },
+    "stibro": {
+      "FIRST_PLACEMENT": "",
+      "FREE_GROUPS_AFTER": ""
+    },
+    "stiletto": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INSTRUCTIONS": "",
+      "INSTRUCTIONS_DAGGER": "",
+      "INSTRUCTIONS_INACTIVE_DAGGER": "",
+      "EXCESS": "",
+      "EXCESS_FIRST": "",
+      "EXTENSION": "",
+      "ILLEGAL_OPEN4": ""
+    },
+    "stigmergy": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_BUTTON": "",
+      "INITIAL_SETUP": "",
+      "INSUFFICIENT_LOS": "",
+      "INVALIDBUTTON": "",
+      "INVALIDKOMI": "",
+      "INVALIDPASS": "",
+      "INVALIDPLAYSECOND": "",
+      "KOMI_CHOICE": "",
+      "OPPONENT_CONTROL": ""
+    },
+    "storisende": {
+      "BAD_DISTANCE": "",
+      "BAD_PLACEMENT": "",
+      "INITIAL_INSTRUCTIONS_first": "",
+      "INITIAL_INSTRUCTIONS_second": "",
+      "INITIAL_INSTRUCTIONS_rest": "",
+      "INVALID_SUBSTACK": "",
+      "PARTIAL_PLACE_FIRST_one": "",
+      "PARTIAL_PLACE_FIRST_other": "",
+      "PARTIAL_PLACE_FIRST_MORE": "",
+      "PARTIAL_PLACE_SECOND_one": "",
+      "PARTIAL_PLACE_SECOND_other": "",
+      "STRAIGHT_ONLY": "",
+      "TOO_MANY": "",
+      "WALL_CLIMB": "",
+      "WALL_JUMP": ""
+    },
+    "stormc": {
+      "INITIAL_INSTRUCTIONS": "",
+      "PARTIAL": ""
+    },
+    "strands": {
+      "DIFFERENT_NUMS": "",
+      "DUPLICATE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_FIRST": "",
+      "INITIAL_SINGLE": "",
+      "INITIAL_TWO": "",
+      "INVALID_PLACEMENT": "",
+      "NORMALISE": "",
+      "PLACE_MORE_one": "",
+      "PLACE_MORE_other": "",
+      "TOO_MANY_one": "",
+      "TOO_MANY_other": ""
+    },
+    "streetcar": {
+      "ADJ_TO_BLDG": "",
+      "ALREADY_CLAIMED": "",
+      "FIRST_HOUSE": "",
+      "INITIAL_INSTRUCTIONS_initial": "",
+      "INITIAL_INSTRUCTIONS_normal": "",
+      "INVALID_EDGE": "",
+      "MAY_NOT_TOUCH": "",
+      "MUST_TOUCH": "",
+      "NO_REMOVE_BLDGS": "",
+      "ONLY_TWO": "",
+      "TAKEN_LABEL": "",
+      "TWO_LINES": "",
+      "VALID_PARTIAL_haveedge": "",
+      "VALID_PARTIAL_havehouse": ""
+    },
+    "strings": {
+      "INITIAL_INSTRUCTIONS": "",
+      "NOSTRING": ""
+    },
+    "scribe": {
+      "INITIAL_INSTRUCTIONS": "",
+      "OCCUPIED": "",
+      "WRONG_MINI": ""
+    },
+    "swarm": {
+      "INSTRUCTIONS": "",
+      "CANNOT_CAPTURE": "",
+      "CANNOT_PASS": "",
+      "NOT_MAX_CAPTURE": "",
+      "CAPTURES_MANDATORY": "",
+      "FRIENDLY_PIECE": ""
+    },
+    "subdivision": {
+      "BAD_ONE": "",
+      "BAD_PARK": "",
+      "BAD_PASS": "",
+      "BAD_THREE": "",
+      "INITIAL_INSTRUCTIONS_parks": "",
+      "INITIAL_INSTRUCTIONS_place": "",
+      "INVALID_SIZE": "",
+      "LABEL_STASH": "",
+      "MALFORMED": "",
+      "NEED_PARKS": "",
+      "NO_PIECE": "",
+      "PARTIAL_PLACEMENT": ""
+    },
+    "sunspot": {
+      "OPTIONAL_FLIP": "",
+      "MANDATORY_COUNTERFLIP": ""
+    },
+    "surmount": {
+      "BAD_CAP": "",
+      "BAD_CONTINUE": "",
+      "BAD_INIT_CAP": "",
+      "BAD_PASS": "",
+      "CANT_CONTINUE": "",
+      "DEAD_END": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "PARTIAL_BOTH": "",
+      "PARTIAL_CAP": "",
+      "PARTIAL_CONTINUE": ""
+    },
+    "susan": {
+      "EMPTY_FROM": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "NOT_ADJACENT": "",
+      "SELECT_TO": "",
+      "WRONG_PLAYER": ""
+    },
+    "symple": {
+      "BAD_PLACEMENT": "",
+      "CAN_BALANCE": "",
+      "CANT_BALANCE": "",
+      "DOUBLE_GROW": "",
+      "DUPLICATES": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "NOT_LIBERTY": "",
+      "PARTIAL": "",
+      "TOO_LONG": ""
+    },
+    "synapse": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INSTRUCTIONS": "",
+      "INVALID_MOVE": "",
+      "PLACE_INSTRUCTIONS": ""
+    },
+    "tablero": {
+      "BACKTRACKING": "",
+      "BAD_BUMP": "",
+      "BAD_TAKE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_MOVE": "",
+      "LABEL_PREVIOUS": "",
+      "NO_MATCHING_DIE": "",
+      "NOT_HOME": "",
+      "PARTIAL_MOVE_one": "",
+      "PARTIAL_MOVE_other": "",
+      "PARTIAL_PLACE": "",
+      "PARTIAL_TAKE": "",
+      "VALID_PARTIAL": ""
+    },
+    "tafl": {
+      "BERSERK": "",
+      "BERSERK_CONTINUE": "",
+      "CONTIGUOUS": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_DESTINATION": "",
+      "NO_MOVES": "",
+      "NORMALISE": "",
+      "PREFIX": ""
+    },
+    "taiji": {
+      "ADJACENT": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "NO_NEIGHBOUR": "",
+      "PARTIAL": ""
+    },
+    "take": {
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "tanbo": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_MOVE": ""
+    },
+    "tbt": {
+      "BAD_PASS": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "LABEL_PREVIOUS": "",
+      "NO_REVERSE": "",
+      "NOT_ORTH": "",
+      "PARTIAL": "",
+      "TOO_SHORT": ""
+    },
+    "terrace": {
+      "BAD_CAPTURE_ranked": "",
+      "BAD_CAPTURE_standard": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "MOVE_DOWN": "",
+      "MOVE_SAME_LEVEL": "",
+      "MOVE_UP": "",
+      "NO_MOVES": ""
+    },
+    "tessella": {
+      "INITIAL_INSTRUCTIONS": "",
+      "PARTIAL_cancap": "",
+      "PARTIAL_move": ""
+    },
+    "tintas": {
+      "CAPTURED_LABEL": "",
+      "INITIAL_INSTRUCTIONS_movepawn": "",
+      "INITIAL_INSTRUCTIONS_needpawn": "",
+      "OCCUPIED_MOVE": "",
+      "SAME_COLOUR": "",
+      "STRAIGHT_LINE": ""
+    },
+    "toguz": {
+      "INITIAL_INSTRUCTIONS": "",
+      "NO_TUZ": ""
+    },
+    "trax": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_FIRST": "",
+      "INVALID_NOTATION": "",
+      "FIRST_PIECE_POSITION": "",
+      "SELECT_CELL": "",
+      "NO_NEIGHBOURS": "",
+      "CANNOT_PLACE_PIECE": "",
+      "INVALID_FOLLOWUP": "",
+      "NO_EXPAND_X": "",
+      "NO_EXPAND_Y": ""
+    },
+    "tricouleur": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_PASS": "",
+      "SECOND_MOVE": "",
+      "INVALID_TO": "",
+      "MUST_PASS": "",
+      "ILLEGAL_PASS": "",
+      "SAME_PIECE": "",
+      "NO_TOS": "",
+      "SELECT_TO": "",
+      "SPLIT4JUMP": "",
+      "JUMP4SPLIT": ""
+    },
+    "trike": {
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "tritium": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS2": "",
+      "NON_EMPTY": "",
+      "EMPTY": "",
+      "NON_FREE_REGION": "",
+      "NO_PREPARED_FLAG": ""
+    },
+    "tumbleweed": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_PASS": "",
+      "INITIAL_INSTRUCTIONS_SETUP": "",
+      "INITIAL_INSTRUCTIONS_SETUP_FREENEUTRAL": "",
+      "PASS_1ST": "",
+      "PASS_2ND": "",
+      "PASS_3RD": "",
+      "INSUFFICIENT_LOS": "",
+      "DUPLICATE": "",
+      "FREENEUTRAL1": "",
+      "FREENEUTRAL2": "",
+      "ONE_MORE": "",
+      "SAME_CELL": "",
+      "TOO_MANY": "",
+      "TOO_MANY_OPENING": "",
+      "TOO_MANY_OPENING_FREENEUTRAL": "",
+      "NO_REPLACE": "",
+      "REINFORCE_NOTATION": "",
+      "CAPTURE_NOTATION": "",
+      "NO_MOVELIST": ""
+    },
+    "twinflames": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INSTRUCTIONS": "",
+      "INCOMPLETE_TURN": "",
+      "INVALID_PLACEMENT": "",
+      "NORMALISE": "",
+      "TOO_MANY_MOVES": "",
+      "TOO_MANY_MOVES_START": ""
+    },
+    "twixt": {
+      "CORNER": "",
+      "CROSSING": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_PP": "",
+      "INVALID_LINK": "",
+      "INVALID_MOVE_SEGMENT": "",
+      "INVALID_PARTIAL": "",
+      "LINK_ABSENT": "",
+      "LINK_ON_WRONG_PLAYER": "",
+      "LINK_PRESENT": "",
+      "NO_PEG": "",
+      "NORMALISED": "",
+      "OCCUPIED": "",
+      "OPPONENTS_AREA": "",
+      "PARTIAL_EMPTY": "",
+      "PARTIAL_LINK": "",
+      "PARTIAL_OPPONENT": "",
+      "TOO_MANY_PEGS": ""
+    },
+    "unane": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INSTRUCTIONS": "",
+      "INVALID_SELECTION": "",
+      "INVALID_MOVE": ""
+    },
+    "unlur": {
+      "BAD_PASS": "",
+      "CONTRACT_EDGE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_PASSED": ""
+    },
+    "upperhand": {
+      "CANNOT_PLACE": "",
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "urbino": {
+      "INITIAL_INSTRUCTIONS_first": "",
+      "INITIAL_INSTRUCTIONS_fresh": "",
+      "INITIAL_INSTRUCTIONS_inprogress": "",
+      "INVALID_PASS": "",
+      "INVALID_PIECE": "",
+      "INVALID_PLACE_CELL": "",
+      "INVALID_PLACE_PIECE": {
+        "house": "",
+        "palace": "",
+        "tower": ""
+      },
+      "MUST_PASS_PLAY": "",
+      "NOPLACEMENTS": "",
+      "PARTIAL_MOVE": "",
+      "PARTIAL_PLACE": "",
+      "PARTIAL_PLACE_SIZE": "",
+      "VALID_MOVE": ""
+    },
+    "unstack": {
+      "INSTRUCTIONS": "",
+      "NOT_FRIENDLY_STACK": "",
+      "CAN_SOW": "",
+      "PASS_ONLY": "",
+      "CAPTURES_MANDATORY": "",
+      "MULTIPLE_CAPTURES": "",
+      "INVALID_SOW_PATH": "",
+      "SOW_INSTRUCTIONS": "",
+      "SOW_TOO_LARGE": ""
+    },
+    "valley": {
+      "BAD_VARIANT": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "KING_ONLY": "",
+      "NO_STOPPING": "",
+      "NO_TOKENS": "",
+      "PARTIAL": "",
+      "PAWN_FIRST": "",
+      "TOWER_NO_TAKEBACKS": "",
+      "TOWER_ORTH": "",
+      "TOWER_SINGLE_STEP": ""
+    },
+    "veletas": {
+      "ALREADY_SHOT": "",
+      "DUPLICATE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_PLACE_one": "",
+      "INITIAL_INSTRUCTIONS_PLACE_other": "",
+      "INVALID_PLACEMENT": "",
+      "MOVE_NON_SHOOTER": "",
+      "NO_MOVELIST": "",
+      "PLACE_PIECE": "",
+      "PLACE_SHOOTER_one": "",
+      "PLACE_SHOOTER_other": "",
+      "POTENTIAL_BLOCK": "",
+      "POTENTIAL_MOVE": "",
+      "SHOOTER_PERIMETER": "",
+      "SORTED": "",
+      "STATIONARY_LOS": "",
+      "STRAIGHTLINE": "",
+      "TOO_MANY_SHOOTERS_one": "",
+      "TOO_MANY_SHOOTERS_other": ""
+    },
+    "verge": {
+      "FROZEN_NEIGHBOUR": "",
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "viruswar": {
+      "INITIAL_INSTRUCTIONS_one": "",
+      "INITIAL_INSTRUCTIONS_other": "",
+      "CANNOT_GROW": ""
+    },
+    "volcano": {
+      "BAD_FROM": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "MOVES_AFTER_ERUPTION": "",
+      "MOVES_CAPS_ONLY": "",
+      "MOVES_DOUBLE_CAP": "",
+      "MOVES_MUST_ERUPT": "",
+      "MOVES_NOPIECE": "",
+      "MOVES_ONE_POWERPLAY": "",
+      "MOVES_ONE_SPACE": "",
+      "PARTIAL_ERUPTION": "",
+      "PARTIAL_MOVE": "",
+      "CAPTURED_LABEL": ""
+    },
+    "volo": {
+      "BEARING": "",
+      "CHOOSE_REGION": "",
+      "CONTROLLED_REGION": "",
+      "END_OR_MOVE_DIRECTION": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_PASS": "",
+      "INITIAL_INSTRUCTIONS_PASS_ONLY": "",
+      "INVALID_DIRDIST": "",
+      "INVALID_PASS": "",
+      "INVALID_REGION": "",
+      "INVALID_REGION_NORMALISE": "",
+      "MOVE_DIRECTION": "",
+      "NO_REGIONS_TO_SELECT": "",
+      "NORMALISE": "",
+      "PLACE_FRIENDLY_NEIGHBOUR": "",
+      "SAME_START_END": "",
+      "SINGLE_LINE": ""
+    },
+    "waldmeister": {
+      "INITIAL_INSTRUCTIONS_move": "",
+      "INITIAL_INSTRUCTIONS_place": "",
+      "LABEL_STASH": "",
+      "PARTIAL_MOVE": "",
+      "PARTIAL_MOVE_PLACE": "",
+      "PARTIAL_PLACE": ""
+    },
+    "witch": {
+      "2P_PRIVILEGE": "",
+      "AFFILIATE": "",
+      "ALREADY_AFFLIATED": "",
+      "BOTH_EMPTY": "",
+      "EMPTY_CAPTURE": "",
+      "INCOMPLETE_AFFILIATION": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "NO_CROWNS": "",
+      "NO_ENEMY": "",
+      "ORTHOGONAL": "",
+      "PARTIAL": "",
+      "UNBROKEN": ""
+    },
+    "wunchunk": {
+      "BALANCE": "",
+      "BOARD_FULL": "",
+      "INITIAL_INSTRUCTIONS_choose": "",
+      "INITIAL_INSTRUCTIONS_play_one": "",
+      "INITIAL_INSTRUCTIONS_play_other": "",
+      "INITIAL_INSTRUCTIONS_setup_one": "",
+      "INITIAL_INSTRUCTIONS_setup_other": "",
+      "INVALID_COLOUR": "",
+      "MUST_CHOOSE": "",
+      "PARTIAL": "",
+      "SETUP_CHUNKS": "",
+      "SETUP_TOOMANY": "",
+      "TOO_MANY_one": "",
+      "TOO_MANY_other": "",
+      "VALID_BUT_one": "",
+      "VALID_BUT_other": ""
+    },
+    "wyke": {
+      "CELL_CLAIMED": "",
+      "DUPLICATE_CELLS": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_FORMAT": "",
+      "INVALID_MOVETYPE": "",
+      "MOVETYPE_UNAVAILABLE": "",
+      "PARTIAL": "",
+      "TOO_FEW_PIECES": "",
+      "TOO_MANY_CELLS": "",
+      "TOO_MANY_PIECES": ""
+    },
+    "xana": {
+      "INITIAL_INSTRUCTIONS": "",
+      "DROP_MOVE_INSTRUCTIONS": "",
+      "ENEMY_PIECE": "",
+      "INVALID_PLAYSECOND": "",
+      "MOVE_NOT_INSIDE_CIRCLE": "",
+      "MOVE_TO_OCCUPIED_CELL": "",
+      "NOT_ENOUGH_PIECES_TO_MOVE": "",
+      "NOT_PLACED_ON_FRIEND": "",
+      "OCCUPIED_WALL": "",
+      "PIE_CHOICE": "",
+      "RESERVE_EMPTY": "",
+      "SAME_WALL": "",
+      "UNACCESSIBLE_PIECE": "",
+      "UNACCESSIBLE_WALL": ""
+    },
+    "y": {
+      "INSTRUCTIONS": "",
+      "INITIAL_INSTRUCTIONS_12*": "",
+      "INSTRUCTIONS_12*": "",
+      "INITIAL_INSTRUCTIONS_134*": "",
+      "INSTRUCTIONS_134*": "",
+      "INSTRUCTIONS_PROGRESSIVE": "",
+      "VALID_MOVE_PROGRESSIVE": "",
+      "GROUP_INFRACTION": ""
+    },
+    "yavalath": {
+      "BAD_PASS": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "MUST_BLOCK": ""
+    },
+    "yonmoque": {
+      "INITIAL_INSTRUCTIONS": "",
+      "PARTIAL": ""
+    },
+    "zola": {
+      "DISTANCE_CAPTURES": "",
+      "DISTANCE_NONCAPTURES": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "MUST_MOVE": "",
+      "NONCAPTURES_KINGS": "",
+      "PARTIAL": ""
+    }
+  },
+  "INITIAL_UNDO": "",
+  "MOVES_GAMEOVER": "",
+  "MOVES_INVALID": "",
+  "MOVES_SIMULTANEOUS_PARTIAL": "",
+  "buttons": {
+    "pass": "Lewati",
+    "declare": "Menyatakan",
+    "takebutton": "Tombol ambil",
+    "acceptpie": "Bermain di urutan kedua",
+    "playsecond": "Bermain di urutan kedua",
+    "draw": "Terima tawaran seri",
+    "playfirst": "Bermain di urutan pertama",
+    "swap": "Tukar warna",
+    "cifra": {
+      "lt": "Terang, Atas",
+      "lb": "Terang, Bawah",
+      "dt": "Gelap, Atas",
+      "db": "Gelap, Bawah",
+      "ll": "Terang, Kiri",
+      "lr": "Terang, Kanan",
+      "dl": "Gelap, Kiri",
+      "dr": "Gelap, Kanan"
+    }
+  },
+  "categories": {
+    "board": {
+      "full": "Papan",
+      "tag": "Papan"
+    },
+    "mechanic": {
+      "full": "Mekanik"
+    }
+  }
 }

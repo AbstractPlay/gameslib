@@ -1281,6 +1281,69 @@ describe("Arimaa Dicey Moves", () => {
         expect(resumed.variants).to.deep.equal(["free", "dicey"]);
     });
 
+    it("reports how the die has been rolling, whatever steps were left unused", () => {
+        const means = (g: ArimaaGame) => g.sidebarScores()[0].scores;
+        const totals = (g: ArimaaGame) => g.sidebarScores()[1].scores;
+        expect(new ArimaaGame().sidebarScores()).to.deep.equal([]);
+        expect(new ArimaaGame(undefined, ["eee"]).sidebarScores()).to.deep.equal([]);
+        // nothing to report before the first die
+        expect(freeStart().sidebarScores()).to.deep.equal([]);
+        // the die for the turn in progress counts as soon as it is cast
+        const g = withRandom(0.34, () => freeStart().move("ee7, ra7"));
+        expect(g.die!.steps).to.equal(3);
+        const scores = g.sidebarScores();
+        expect(scores.map(s => (s.name as {textKey: string}).textKey)).to.deep.equal([
+            "apgames:status.arimaa.ROLL_MEAN",
+            "apgames:status.arimaa.ROLL_TOTAL",
+        ]);
+        expect(scores.every(s => s.spoiler === true)).to.be.true;
+        expect(means(g)).to.deep.equal(["3.00", "-"]);
+        expect(totals(g)).to.deep.equal([3, 0]);
+        // one step of the three rolled, then one of the one
+        withRandom(0, () => g.move("Ed3"));
+        withRandom(0.99, () => g.move("ee6"));
+        expect(means(g)).to.deep.equal(["3.50", "1.00"]);
+        expect(totals(g)).to.deep.equal([7, 1]);
+        // a resignation keeps the die it ended on, which counts only once
+        g.resign(2);
+        g.load();
+        expect(means(g)).to.deep.equal(["3.50", "1.00"]);
+        expect(totals(g)).to.deep.equal([7, 1]);
+    });
+
+    it("counts the opening roll of Endless endgame double towards the mean only", () => {
+        // any step onto an empty square for the player to move (the setup is
+        // random, and an arrow onto an occupied square can fit several moves)
+        const oneStep = (g: ArimaaGame): string => {
+            for (const [cell, [pc, owner]] of g.board) {
+                if (owner !== g.currplayer) {
+                    continue;
+                }
+                const [x, y] = ArimaaGame.algebraic2coords(cell);
+                for (const [dx, dy] of [[0, -1], [0, 1], [-1, 0], [1, 0]]) {
+                    if (x + dx < 0 || x + dx > 7 || y + dy < 0 || y + dy > 7) {
+                        continue;
+                    }
+                    const to = ArimaaGame.coords2algebraic(x + dx, y + dy);
+                    const mv = `${owner === 1 ? pc : pc.toLowerCase()}${cell}${to}`;
+                    const result = g.validateMove(mv);
+                    if (!g.board.has(to) && result.valid && result.complete !== -1) {
+                        return mv;
+                    }
+                }
+            }
+            throw new Error("No one-step move found");
+        };
+        const g = new ArimaaGame(undefined, ["eee", "dicey"]);
+        const opening = g.die!.steps;
+        expect(g.sidebarScores()[0].scores).to.deep.equal([(opening * 2).toFixed(2), "-"]);
+        expect(g.sidebarScores()[1].scores).to.deep.equal([opening, 0]);
+        withRandom(0.99, () => g.move(oneStep(g)));
+        withRandom(0, () => g.move(oneStep(g)));
+        expect(g.sidebarScores()[0].scores).to.deep.equal([((opening * 2 + 1) / 2).toFixed(2), "4.00"]);
+        expect(g.sidebarScores()[1].scores).to.deep.equal([opening + 1, 4]);
+    });
+
     it("turns exploration off only with the die", () => {
         expect(new ArimaaGame().getFlags()).to.not.include("no-explore");
         expect(new ArimaaGame(undefined, ["eee"]).getFlags()).to.not.include("no-explore");

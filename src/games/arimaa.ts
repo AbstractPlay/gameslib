@@ -1,4 +1,4 @@
-import {  GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogLine, type FlagContext, type GameFlag } from "./_base.js";
+import {  GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogLine, type FlagContext, type GameFlag } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaPieces, BoardBasic, Colourfuncs, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -1892,6 +1892,50 @@ export class ArimaaGame extends GameBase {
         }
         const glyph = this.statusSheetGlyph("piece", this.getPlayerColour(harlog > 0 ? 1 : 2));
         return [{ key, value: [glyph, magnitude] }];
+    }
+
+    // Dicey Moves: how the die has been rolling for each player, from the
+    // rolls heading the turns played and the die waiting for the turn in
+    // progress. Steps a player left unused do not enter into it. The opening
+    // move of Endless endgame is half a turn, so its roll counts double
+    // towards the mean, which keeps it comparable, but as rolled towards the
+    // total.
+    public sidebarScores(): IScores[] {
+        if (!this.variants.includes("dicey")) {
+            return [];
+        }
+        const totals: [number, number] = [0, 0];
+        const weighted: [number, number] = [0, 0];
+        const turns: [number, number] = [0, 0];
+        const tally = (player: playerid, steps: number, opening: boolean): void => {
+            totals[player - 1] += steps;
+            weighted[player - 1] += opening ? steps * 2 : steps;
+            turns[player - 1]++;
+        };
+        const eee = this.variants.includes("eee");
+        // a roll heads the results of the turn played from the state before
+        for (let i = 1; i < this.stack.length; i++) {
+            for (const r of this.stack[i]._results) {
+                if (r.type === "roll") {
+                    tally(this.stack[i - 1].currplayer, r.values[0], eee && i === 1);
+                }
+            }
+        }
+        // the die waiting for the turn in progress, read from the top of the
+        // stack alone: a resignation, timeout or agreed draw carries it onto
+        // one more state, but no turn was played to record its roll
+        const top = this.stack[this.stack.length - 1];
+        if (top.die !== undefined) {
+            tally(top.currplayer, top.die.steps, eee && this.stack.length === 1);
+        }
+        if (turns[0] + turns[1] === 0) {
+            return [];
+        }
+        const means = weighted.map((sum, i) => turns[i] === 0 ? "-" : (sum / turns[i]).toFixed(2));
+        return [
+            { name: this.neutralAreaLabel("apgames:status.arimaa.ROLL_MEAN"), scores: means, spoiler: true },
+            { name: this.neutralAreaLabel("apgames:status.arimaa.ROLL_TOTAL"), scores: totals, spoiler: true },
+        ];
     }
 
 

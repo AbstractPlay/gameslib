@@ -59,6 +59,19 @@ interface ParsedSegment {
 
 const MAX_GRID = 6;
 
+/** Disabled hand card: diagonal cross over the decktet stack. */
+function disabledCardOverlay(): Glyph {
+    return { name: "cross-diag", colour: "#000000", opacity: 0.5 };
+}
+
+/** Borderless square overlay using theme fill slot paint (dims / masks card art). */
+function contextFillOverlay(opacity: number, bordered = false): Glyph {
+    return {
+        name: bordered ? "piece-square" : "piece-square-borderless",
+        paint: { fill: { colour: "_context_fill", opacity } },
+    };
+}
+
 function withinGridCap(board: QuincunxBoard, x: number, y: number): boolean {
     return withinGridCapCoords(board, [[x, y]]);
 }
@@ -1223,7 +1236,7 @@ export class ThricewiseGame extends GameBaseSequenced {
 
         const legend: ILegendObj = {};
         for (const card of cardsBasic) {
-            let glyph = card.toGlyph();
+            const glyph = card.toGlyph();
             if (!this.gameover) {
                 let dim = false;
                 if (this.phase === "select") {
@@ -1248,10 +1261,7 @@ export class ThricewiseGame extends GameBaseSequenced {
                     }
                 }
                 if (dim) {
-                    glyph = glyph.map(g => ({
-                        ...g,
-                        opacity: g.opacity === undefined ? 0.25 : g.opacity * 0.25,
-                    })) as [Glyph, ...Glyph[]];
+                    glyph.push(disabledCardOverlay());
                 }
             }
             const highlightUid =
@@ -1259,27 +1269,11 @@ export class ThricewiseGame extends GameBaseSequenced {
                     ? (this.pendingSelect[viewSeat - 1] ?? this.selected)
                     : this.selected;
             if (highlightUid === card.uid) {
-                glyph.unshift({
-                    name: "piece-square",
-                    colour: {
-                        func: "flatten",
-                        fg: "_context_fill",
-                        bg: "_context_background",
-                        opacity: 0.2,
-                    },
-                });
+                glyph.unshift(contextFillOverlay(0.2, true));
             }
             legend["c" + card.uid] = glyph;
         }
-        legend["cUNKNOWN"] = {
-            name: "piece-square-borderless",
-            colour: {
-                func: "flatten",
-                fg: "_context_fill",
-                bg: "_context_background",
-                opacity: 0.5,
-            },
-        };
+        legend["cUNKNOWN"] = contextFillOverlay(0.5);
 
         const areas: AreaPieces[] = [];
         for (let p = 1; p <= this.numplayers; p++) {

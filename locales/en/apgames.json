@@ -5064,8 +5064,8 @@
         },
         "arimaa": {
             "HARLOG": "Harlog",
-            "ROLL_MEAN": "Mean steps rolled per turn",
-            "ROLL_TOTAL": "Total steps rolled"
+            "ROLL_MEAN": "Average roll",
+            "ROLL_TOTAL": "Rolls total"
         },
         "asli": {
             "AREA": "Area + komi",

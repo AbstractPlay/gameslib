@@ -30,8 +30,8 @@
     "arimaa": "Questa posizione si è già verificata. Ulteriori ripetizioni di questa posizione sono vietate.",
     "biscuit": "Le seguenti carte erano nelle mani avversarie: {{cards}}.",
     "deckfish": "{{player}} non è stato in grado di muovere e deve passare d'ora in poi.",
-    "frogger_one": "{{player}} ha scelto di riempire la riserva di pesca. Ottiene un altro turno per effettuare la sua {{count}} mossa rimanente.",
-    "frogger_other": "{{player}} ha scelto di riempire la riserva di pesca. Ottiene un altro turno per effettuare le sue {{count}} mosse rimanenti.",
+    "frogger_one": "{{player}} ha scelto di ripristinare la riserva di pesca. Ottiene un altro turno per effettuare la sua {{count}} mossa rimanente.",
+    "frogger_other": "{{player}} ha scelto di ripristinare la riserva di pesca. Ottiene un altro turno per effettuare le sue {{count}} mosse rimanenti.",
     "icepalace_build": "{{player}} ha vinto la mano e costruisce la Yard nel Palazzo di Ghiaccio, usando {{count}} piramidi. Un modo valido per costruirlo è `{{move}}`.",
     "icepalace_nobuild": "{{player}} ha vinto la mano, ma nessun elemento della Yard può essere costruito nel Palazzo di Ghiaccio.",
     "quincunx": "Il giocatore {{playerNum}} aveva le seguenti carte rimanenti in mano: {{cards}}.",
@@ -305,9 +305,9 @@
     "tafl_king_escaped": "La partita è terminata perché il re è fuggito.",
     "unlur_foul": "La partita è terminata perché un giocatore ha raggiunto la condizione di vittoria dell'avversario senza raggiungere la propria.",
     "druid_hex": "La partita è terminata perché {{player}} ha collegato i bordi {{edges}}.",
-    "killallgo_double_pass": "La partita è terminata perché entrambi i giocatori hanno passato consecutivamente senza che il Difensore abbia stabilito una vita incondizionata.",
+    "killallgo_double_pass": "La partita è terminata perché entrambi i giocatori hanno passato senza che il Difensore abbia stabilito la vita.",
     "killallgo_no_moves": "La partita è terminata perché il giocatore di turno non ha alcun piazzamento legale.",
-    "killallgo_no_room": "La partita è terminata perché le pietre incondizionatamente vive dell'Attaccante non lasciano spazio al Difensore per formare una catena incondizionatamente viva.",
+    "killallgo_no_room": "La partita è terminata perché le pietre incondizionatamente vive dell'Attaccante non lasciano spazio al Difensore per formare una catena viva.",
     "killallgo_pass_alive": "La partita è terminata perché il Difensore ha formato una catena incondizionatamente viva."
   },
   "DRUID_HEX_EDGE": {

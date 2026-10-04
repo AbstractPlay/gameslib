@@ -136,10 +136,10 @@
     "intermedium": "Semez des piles pour encercler et capturer. Gagnez en capturant la cité adverse.",
     "invector": "Éliminez l'armée adverse tout en vous rapprochant du centre du plateau.",
     "iqishiqi": "Iqishiqi (prononcé EE-chee-shee-chee) est un jeu de stratégie abstrait qui se joue sur un plateau hexagonal composé de cases hexagonales. Les joueurs possèdent des bords désignés du plateau et, en plaçant habilement des pierres, ils poussent une pierre neutre sur le plateau. Un joueur gagne s'il déplace la pierre neutre vers l'un de ses bords, ou s'il laisse son adversaire sans coup possible.",
-    "irensei": "Irensei est un mélange de Go et de Gomoku. Alignez sept pierres à la suite dans la région centrale de 15x15 du plateau de Go pour gagner. Pour réduire l'avantage du premier joueur, celui-ci perd s'il réalise un suralignement (même s'il dépasse de la zone 15x15), mais le second joueur peut gagner par suralignement.",
+    "irensei": "L'Irensei (japonais : 囲連星) est un mélange de Go et de Gomoku. Alignez sept pierres d'affilée dans la zone centrale de 15x15 du goban pour gagner. Pour réduire l'avantage du premier joueur, celui-ci perd s'il réalise un suralignement (même si celui-ci s'étend au-delà de la zone de 15x15), mais le second joueur peut gagner par suralignement.",
     "jacynth": "Un jeu de cartes Decktet où les adversaires luttent pour le contrôle de la cité de Jacynth. Placez des cartes, exercez votre influence et contrôlez la plus grande zone pour gagner.",
     "kachit": "Un jeu proche des échecs joué sur un plateau 4x4 où vous essayez d'éliminer le roi adverse ou de promouvoir le vôtre. Les pièces peuvent changer d'orientation après s'être déplacées.",
-    "killallgo": "Une variante du Go aux objectifs asymétriques : l'Attaquant commence avec des pierres sur le plateau et doit empêcher le Défenseur d'établir une vie inconditionnelle. Le Défenseur gagne en formant une seule chaîne inconditionnellement vivante.",
+    "killallgo": "Une variante du Go aux objectifs incertains et asymétriques : l'Attaquant commence avec des pierres sur le plateau et doit tout capturer, tandis que le Défenseur gagne en formant une seule chaîne qui ne pourra jamais être capturée.",
     "knightline": "Un jeu de connexion à quatre alignés joué en divisant une pile de cavaliers sur une grille illimitée.",
     "konane": "Un jeu traditionnel hawaïen qui a failli disparaître sans la mémoire d'une seule femme, Kaʻahaʻaina Naihe de Kailua-Kona. Joué sur un plateau rectangulaire, chaque joueur capture en sautant par-dessus les pièces adverses. Le dernier à pouvoir jouer gagne.",
     "krypte": "Un jeu d'alignement de 4 pièces où les pièces entrent par des côtés actifs qui tournent après chaque tour, et placer une pièce retourne toutes les pièces adjacentes.",
@@ -161,7 +161,7 @@
     "mimic": "Un jeu où les pièces ennemies imitent vos déplacements pendant que vous faites la course pour être le premier joueur à atteindre la dernière rangée.",
     "minefield": "Reliez les côtés opposés du plateau, mais certaines configurations de pièces sont interdites.",
     "minimize": "Le joueur ayant le plus grand groupe le plus petit gagne la partie.",
-    "mirador": "Mirador est un jeu de connexion rapide et palpitant joué sur une grille carrée de 27 x 27 en plaçant des carrés de 2 x 2 pour représenter des tours de guet. Il utilise des connexions par ligne de vue et des objectifs équivalents (ce qui en fait plus une course qu'un pur jeu de connexion).",
+    "mirador": "Mirador est un jeu de connexion rapide et captivant qui se joue sur une grille carrée (28 x 28 par défaut) en plaçant des carrés de 2 x 2 représentant des tours de guet. Il utilise des connexions en ligne de mire et des objectifs équivalents (ce qui en fait davantage une course qu'un pur jeu de connexion).",
     "mixtour": "Deux joueurs créent des tours dans le but de former une tour d'au moins cinq étages avec leur couleur au sommet. Le rebondissement est double : (1) vous pouvez déplacer les pièces adverses et (2) la portée de déplacement est déterminée par la hauteur de la pile *cible* et non par celle de la pile qui se déplace.",
     "monkey": "Vous commencez avec une seule reine, composée d'une pile de dames. Lorsque vous effectuez des déplacements sans capture, la reine laisse un pion isolé derrière elle. Les reines et les pions isolés se déplacent et capturent comme des dames d'échecs. Pour gagner, capturez la reine adverse ou laissez votre adversaire sans coup légal.",
     "morphos": "Jeu de connexion sur grille carrée uniquement orthogonale. À votre tour, placez une pierre amie ou retournez une pierre ennemie selon l'un des trois motifs prédéterminés. Gagnez en reliant vos deux côtés opposés du plateau avec une chaîne de pierres de votre couleur.",
@@ -601,7 +601,7 @@
     "akimbo": "Akimbo, conçu par Luis Bolaños Mures en 2026, est un jeu de connexion sans égalité pour deux joueurs. Une _diagonale nue_ est une paire de pièces de même couleur, adjacentes en diagonale, sans aucune autre pièce de même couleur adjacente aux deux. Une _coupe croisée_ est une zone 2×2 avec deux diagonales nues imbriquées de couleurs opposées.\n\nÀ son tour, le joueur place une pièce amie sur une case vide. Si cela complète une coupe croisée, l'autre pièce de la coupe croisée est retirée. Il ne doit jamais y avoir plus d'une diagonale nue de chaque couleur sur le plateau — pas même momentanément avant de retirer une pièce. Un joueur gagne si, à la fin de son tour, il existe une chaîne de pièces de sa couleur connectées orthogonalement touchant les deux bords opposés du plateau du joueur.\n\nOkimba est une variante où une seule diagonale nue au maximum peut exister sur le plateau (ainsi, tant qu'un joueur possède la diagonale, l'adversaire ne peut pas en créer une autre).",
     "alta": "Il existe deux façons de placer des aiguillages sur l'interface graphique : (1) Sélectionnez l'orientation de l'aiguillage dans le panneau, puis cliquez sur la case désirée du plateau pour le placer, ou (2) cliquez sur deux sommets. Les sommets sont notés avec un astérisque, suivi de la notation algébrique de la case où le sommet se trouve dans le coin inférieur gauche. Pour basculer un aiguillage, cliquez simplement sur la case.",
     "anache": "Cette implémentation suit le règlement de David Ploog. Trois changements notables sont que (1) les barrières sont interdites, (2) au lieu d'un 16x16, nous avons une variante 15x15, où les pièces se promeuvent en cavaliers sur la ligne centrale, et le dragon ne peut pas sauter vers la case 7x7 depuis l'autre coin, et (3) contre les coins, les pièces sont capturées par écrasement au lieu d'une capture par encadrement, il doit donc y avoir au moins deux pièces adverses en ligne avant qu'une capture ne soit faite contre les coins.\n\nRemarque : la vérification du pat est gourmande en ressources. Si vous ne pouvez pas jouer de coup légal, vous devriez abandonner manuellement.",
-    "arimaa": "Mis à disposition sous la section 3 de la [licence publique Arimaa](https://arimaa.com/arimaa/license/).\n\nHarlog est une méthode reconnue pour déterminer l'avantage matériel. Les scores positifs favorisent l'Or, les négatifs l'Argent. La plage stricte est de ±112, mais en pratique ±20 constitue un très fort avantage.\n\nComme nous ne pouvons pas générer de listes exhaustives de coups, le système ne peut pas détecter les cas rares où vos seuls coups disponibles sont illégaux en raison d'une répétition de position. Le système ne vous laissera pas faire ces répétitions illégales, et vous devrez abandonner manuellement.",
+    "arimaa": "Rendu disponible sous la section 3 de la [licence publique Arimaa](https://arimaa.com/arimaa/license/).\n\nLors d'une disposition initiale standard, vous n'avez qu'à placer vos huit pièces autres que les lapins. Une fois posées, Terminer le coup remplit le reste de votre zone de départ avec des lapins. Vous pouvez toujours placer vous-même tout ou partie des lapins si vous souhaitez les mettre à un endroit particulier.\n\nPour entrer un coup, cliquez sur une pièce puis sur la case où elle doit terminer son tour. Le moteur trouve le chemin légal le plus court pour l'y amener, poussées et tirages inclus, et trace une flèche par pièce depuis son point de départ jusqu'à son arrivée. Vous pouvez également cibler des pièces ennemies. Cliquez sur la pointe d'une flèche pour l'étendre, ou sur sa queue pour la supprimer. Cliquer une seconde fois sur une pièce sélectionnée la maintient là où elle se trouve, ce qui empêche le moteur de la déplacer. Quelques tours plus rares nécessitent un clic supplémentaire ; la page wiki de ce jeu les répertorie tous.\n\nLes coups sont enregistrés selon la notation Lightvector, qui nomme chaque pièce et sa case d'arrivée plutôt que de lister chaque étape. Vous pouvez la saisir dans la zone de saisie du coup, et l'ancienne notation étape par étape reste acceptée. La page wiki explique cette notation en détail.\n\nHarlog est une méthode reconnue pour déterminer l'avantage matériel. Les scores positifs favorisent les Ors, les négatifs les Argents. La plage théorique est de ±112, mais en pratique, ±20 constitue un avantage très net.\n\nComme nous ne pouvons pas générer une liste exhaustive de coups, le système ne peut pas détecter les rares cas où vos seuls coups disponibles sont illégaux en raison d'une répétition de position. Le système ne vous laissera pas effectuer ces répétitions illégales, et vous devrez abandonner manuellement.",
     "armadas": "Des problèmes connus existent avec ce jeu sur les appareils iOS.\n\nCe jeu propose deux scénarios :\n\n* Par défaut, chaque joueur dispose de deux trios de pièces. Dans la phase de placement, chaque joueur doit placer de 1 à 3 navires jusqu'à ce que tous les navires soient placés.\n* La variante \"Forme libre\" vous permet de placer tous les navires que vous souhaitez (maximum trois à la fois) jusqu'à ce que les deux joueurs \"passent\". Cela vous permet de créer des flottes déséquilibrées ou asymétriques.\n\nPar défaut, les parties comportent une île au centre du terrain. Les variantes \"sans îles\" et \"deux îles\" sont également disponibles. Vous ne pouvez pas vous déplacer ni tirer à travers les îles. Pour toucher un navire avec succès, au moins un coin du triangle de votre navire doit avoir une vue dégagée sur au moins un coin du navire cible.\n\nN'oubliez pas qu'il est possible de coincer votre navire contre une île ou le bord du plateau de manière à ne plus pouvoir le déplacer ! Soyez prudent !",
     "ataxx": "Lors d'une triple répétition, la partie prend fin et les scores sont calculés.",
     "bao": "Les coups au Bao peuvent être très complexes, impliquant plusieurs tours du plateau et des changements de direction. Les annotations sont donc succinctes. La case initiale et la direction sont mises en évidence, et les cases capturées sont également marquées. Cependant, une annotation détaillée du déplacement n'est pas possible. Si vous pensez avoir rencontré un bug, veuillez nous en informer sur Discord.",
@@ -641,7 +641,7 @@
     "intermedium": "Intermedium (aussi connu sous le nom de Stepping Stones) est un jeu de 1974 conçu par Matt Crispis. C'est un jeu d'égrenage de piles, où les joueurs tentent d'encercler la base de départ adverse. Les piles ne se déplacent qu'en diagonale, et chaque armée commence sur une couleur de diagonale différente, elles ne peuvent donc jamais se croiser (comme deux fous de couleurs opposées au jeu d'échecs). Les pièces sont capturées par encerclement, en occupant toutes les cases orthogonales adjacentes à une pile adverse.\n\nQuelques mots de l'auteur : « [Intermedium] est simple à apprendre, mais peut mener à des situations complexes nécessitant une analyse approfondie et une anticipation accrue. Les pièces isolées ne se déplacent pas, mais servent de pierres de gué pour vos captures. Et elles peuvent être réactivées en plaçant une autre pièce par-dessus. Avant de maîtriser le jeu, évitez les attaques précoces contre la Cité, qui pourraient s'avérer coûteuses. Renforcez progressivement et de manière équilibrée votre position en dominant, si possible, le centre. Vous devriez également éviter de construire de \"formidables\" piles de six pièces ou plus : si elles sont prises, vous risquez de perdre la partie d'un seul coup. Conservez des forces en réserve pour défendre votre Cité en cas d'urgence. »",
     "invector": "Invector, conçu par Mark Steere en 2026, est un jeu d'élimination inspiré de l'ancien jeu hawaïen Kōnane. Invector commence par une disposition des pierres en damier, comporte des captures à courte portée et est extrêmement simple. Invector combine tout simplement deux éléments de base : des coups de capture orthogonaux adjacents et des déplacements orthogonaux adjacents se rapprochant du centre.",
     "jacynth": "Plus d'informations sur le système Decktet sont disponibles sur le [site officiel de Decktet](https://www.decktet.com). Les cartes dans la main des joueurs sont cachées aux spectateurs et aux adversaires.",
-    "killallgo": "Le Défenseur doit former une chaîne inconditionnellement vivante (vivante par passe selon l'algorithme de Benson) : une chaîne capable de survivre à n'importe quelle séquence de coups adverses sans avoir à répondre. La vie dépendant d'un seki ou d'un ko ne compte pas. L'Attaquant gagne lorsque ses pierres inconditionnellement vivantes ne laissent aucune place pour une telle chaîne. Passer n'est pas autorisé après l'ouverture, et un joueur n'ayant aucun coup légal perd.\n\nLes pierres sont posées et capturées comme au Go selon la méthode de retrait de Tromp-Taylor : après la pose d'une pierre, les chaînes adverses sans liberté sont retirées, puis votre propre chaîne si elle n'en possède aucune. Le suicide de plusieurs pierres est donc légal. Le superko positionnel s'applique : aucun coup ne peut recréer une position antérieure du plateau.",
+    "killallgo": "L'Attaquant, dont les pierres sont déjà sur le plateau lorsque la partie normale commence, gagne en empêchant le Défenseur de former la moindre chaîne vivante. Le Défenseur gagne en formant une chaîne qui ne peut pas être capturée. Il n'y a pas de décompte de points.\n\nLes pierres sont posées et capturées comme au Go avec le nettoyage de Tromp-Taylor : après avoir posé une pierre, les chaînes adverses sans libertés sont retirées, puis votre propre chaîne si elle n'en a pas, le suicide de plusieurs pierres est donc légal. Le superko positionnel s'applique : aucun coup ne peut récréer une position antérieure du plateau. Chaque joueur peut passer ; si les deux passent consécutivement, l'Attaquant gagne.\n\nLe Défenseur gagne dès que l'une de ses chaînes est inconditionnellement vivante : vivante par passe selon l'algorithme de Benson, ce qui signifie que l'Attaquant ne pourrait jamais la capturer même avec un nombre illimité de coups consécutifs. C'est la seule façon de gagner pour le Défenseur. Une chaîne simplement vivante en seki ou en ko ne compte pas, le Défenseur doit donc continuer à jouer pour la transformer en une chaîne totalement incapturable.\n\nL'Attaquant gagne dès que cela devient impossible. Les pierres de l'Attaquant qui sont inconditionnellement vivantes ne peuvent jamais être retirées, et aucun point adjacent à l'une d'elles ne peut se trouver dans l'œil d'une chaîne vivante du Défenseur. Lorsqu'aucune zone restante en dehors de ces pierres ne contient deux points qui ne sont ni adjacents entre eux ni adjacents à ces pierres, il n'y a plus de place pour les deux yeux dont une chaîne vivante a besoin, et la partie prend fin. La vérification ne reconnaît pas toutes les positions perdues ; lorsqu'elle ne s'active pas, la partie continue simplement.\n\nOuvertures : avec le Pieboxing, les joueurs posent à tour de rôle des pierres d'Attaquant jusqu'à ce que l'un d'eux choisisse le camp de l'Attaquant ; l'autre joueur joue alors le premier coup en tant que Défenseur. L'ouverture à handicap fonctionne de la même manière, sauf que le Joueur 1 (le joueur le plus fort, placez donc le donneur de handicap en premier lors de la création du défi) définit d'abord le nombre de pierres de handicap et le Joueur 2 commence à poser ; si le Joueur 2 choisit le camp de l'Attaquant, il pose toutes ces pierres supplémentaires d'un coup. L'ouverture classique utilise la position traditionnelle à 17 pierres sur le plateau 19x19, avec le Défenseur (Joueur 1) qui commence. Dans le gâteau simple (pie rule), le Joueur 1 pose un nombre quelconque de pierres d'Attaquant et le Joueur 2 choisit son camp. Dans le gâteau généralisé de Hoctaph, le Joueur 1 choisit les tailles de deux lots (chacun d'au moins 1, totalisant au maximum le nombre de points moins 2, aucun ne dépassant le double de l'autre), le Joueur 2 décide qui pose le premier lot, l'autre joueur choisit ensuite son camp, et l'Attaquant pose le second lot. Dans chaque ouverture, le Défenseur joue le premier coup normal.",
     "konane": "Plusieurs protocoles d'ouverture existent, mais le jeu de règles le plus courant est le Naihe Ruleset, utilisé lors des tournois au Bishop Museum d'Hawaï et décrit dans la référence BGG. C'est ce qui est implémenté ici.",
     "knightline": "Pour votre commodité, votre pile est séparée environ en deux lors de votre premier clic. Les clics ultérieurs sur la pile source ou cible déplacent une pièce à la fois. Lorsque vous avez terminé, cliquez sur une case vide ou utilisez le bouton Valider le coup.\n\nLe système de coordonnées est adapté du système de coordonnées du développeur pour Hive, un jeu sur un plateau hexagonal non borné (mais de taille raisonnable). L'axe y est étiqueté avec des coordonnées cartésiennes (entiers positifs et négatifs). L'axe x est étiqueté avec des lettres par ordre alphabétique, avec l'origine en (m, 0). Si le déplacement sur l'axe x dépasse les limites de l'alphabet dans un sens ou dans l'autre, les lettres sont précédées d'une autre lettre (z est suivi de aa, ab, ac, etc., et a est précédé de zz, zy, zx, etc.). Il n'est pas prévu que le jeu atteigne une largeur nécessitant plus de doubles coordonnées, mais pour mémoire, az est suivi de ba, za est précédé de yz, et ainsi de suite. Le plateau ne peut pas atteindre une taille qui entraînerait une ambiguïté.",
     "lasca": "La manœuvrabilité mesure à quel point vos pièces sont proches de la promotion. Votre manœuvrabilité maximale est égale à la taille du plateau multipliée par le nombre de piles que vous contrôlez.\n\nLe matériel est calculé en vous accordant un point pour chaque pièce alliée dans une pile que vous contrôlez, plus un point supplémentaire si vous avez un officier au sommet de cette pile.",
@@ -996,7 +996,7 @@
         "description": "Disposition générée aléatoirement avec une taille d'armée réduite"
       },
       "free": {
-        "name": "Placement libre (non classé)",
+        "name": "Placement libre",
         "description": "Permet aux joueurs de placer autant de pièces qu'ils le souhaitent où ils le souhaitent, y compris en créant des positions illégales ou invalides. Les joueurs doivent communiquer clairement avant de commencer. Ces parties ne peuvent pas être classées."
       },
       "dicey": {
@@ -1010,7 +1010,7 @@
       },
       "freeform": {
         "description": "Permet aux joueurs de déterminer leur propre composition de flotte. Nécessite une bonne communication avant de commencer. Ces parties ne peuvent pas être classées.",
-        "name": "Forme libre (non classée)"
+        "name": "Forme libre"
       },
       "noislands": {
         "description": "Pas d'îles au départ",
@@ -1157,12 +1157,12 @@
         "name": "Zanzibar (standard)"
       },
       "kujifunza": {
-        "description": "La version « débutant » sans phase d'installation « kunamua ». La partie commence avec deux pierres dans chaque fosse.",
+        "description": "Règles pour débutants de Zanzibar : deux pierres dans chaque fosse.",
         "name": "Bao la kujifunza"
       },
       "malawi": {
-        "description": "La maison commence avec 8 pierres au lieu de 6.",
-        "name": "Malawi"
+        "description": "Configuration du Malawi (8 graines dans le kuu, 20 nemo en réserve) avec des règles de style Zanzibar (ancien ; déprécié).",
+        "name": "Malawi (configuration uniquement)"
       },
       "malawi-full": {
         "description": "Règles complètes du Malawi (Bawo) pour le jeu intermédiaire (8 kuu, 20 en réserve). La distribution d'ouverture avancée n'est pas incluse. Consultez les liens sur le Malawi sur la page du jeu pour les sources.",
@@ -1781,8 +1781,8 @@
         "description": "Placez 28 nuages au lieu de 16. Avec la limite de taille par défaut de la réserve de nuages, le nombre total ne pourra pas toujours être atteint."
       },
       "random-start": {
-        "name": "Nuages aléatoires",
-        "description": "Il n'y a pas de phase de placement des nuages. Ils sont placés aléatoirement par le système."
+        "name": "Nuages aléatoires symétriques",
+        "description": "Il n'y a pas de phase de placement des nuages. Le système place les nuages aléatoirement avec une symétrie de rotation de 180 degrés."
       },
       "asymmetric-random-start": {
         "name": "Nuages aléatoires asymétriques",
@@ -2458,7 +2458,7 @@
       },
       "handicap": {
         "name": "Handicap",
-        "description": "Pieboxing avec un handicap. Le Joueur 1, le joueur le plus fort, fixe le nombre de pierres supplémentaires de l'Attaquant, puis le Joueur 2 commence à poser. Si le Joueur 2 choisit de jouer l'Attaquant, il pose immédiatement les pierres supplémentaires. Conçu par MXHero."
+        "description": "Pieboxing avec un handicap. Le Joueur 1 (placez le joueur le plus fort en premier) définit le nombre de pierres d'Attaquant supplémentaires, puis le Joueur 2 commence à poser. Si le Joueur 2 choisit le camp de l'Attaquant, il pose les pierres supplémentaires immédiatement. Conçu par MXHero."
       },
       "classic": {
         "name": "Disposition classique à 17 pierres",
@@ -2470,7 +2470,7 @@
       },
       "hoctaph": {
         "name": "Gâteau généralisé de Hoctaph",
-        "description": "Le Joueur 1 choisit les tailles de deux lots, et le Joueur 2 décide qui pose le premier lot. Le joueur qui n'a pas posé ce lot choisit ensuite son camp, puis l'Attaquant pose le second lot. La règle du gâteau de Hoctaph (forums OGS), généralisée à toutes les tailles de plateau par Samraku."
+        "description": "Le Joueur 1 choisit deux tailles de lots, le Joueur 2 choisit qui pose le premier lot, l'autre joueur choisit son camp, et l'Attaquant pose le second lot. Gâteau de Hoctaph (forums OGS), généralisé à toutes les tailles de plateau par Samraku."
       }
     },
     "knightline": {
@@ -3312,7 +3312,7 @@
         "name": "Mise en place standard"
       },
       "custom": {
-        "name": "Mise en place personnalisée (non classée)",
+        "name": "Mise en place personnalisée",
         "description": "Les joueurs peuvent créer des configurations personnalisées. À ne faire qu'avec une bonne communication. Ces parties ne peuvent pas être classées."
       },
       "#board": {
@@ -5465,7 +5465,7 @@
       "FROZEN": "La pièce en {{where}} est gelée. Elle ne peut pas se déplacer d'elle-même.",
       "HOME_ROW": "Vous ne pouvez placer des pièces que sur les deux rangées les plus proches de vous.",
       "INITIAL_INSTRUCTIONS_place": "Sélectionnez une pièce de votre main à placer sur le plateau.",
-      "INITIAL_INSTRUCTIONS_play": "Sélectionnez une pièce à déplacer.",
+      "INITIAL_INSTRUCTIONS_play": "Cliquez sur une pièce, puis sur la case où elle doit terminer le tour. Vous pouvez aussi cibler des pièces ennemies ; les poussées et tirages sont calculés automatiquement.",
       "INVALID_PUSH": "Les poussées doivent être immédiatement complétées en déplaçant la pièce pousseuse sur la case libérée par la pièce ennemie poussée.",
       "INVALID_PUSHPULL": "Vous ne pouvez déplacer des pièces ennemies que pour terminer un tirage ou commencer une poussée. Aucun des deux ne semble s'appliquer dans ce cas.",
       "LABEL_STASH": "Réserve de {{player}}",
@@ -5549,7 +5549,7 @@
       "INITIAL_INSTRUCTIONS_komi_area": "Entrez le komi, en points, que vous souhaitez proposer. Un nombre positif accorde du komi au second joueur. Un nombre négatif, au premier joueur. L'autre joueur décidera ensuite de la place à prendre.",
       "INITIAL_INSTRUCTIONS_pie": "Cliquez soit sur le bouton « Jouer en second » pour rester là où vous êtes et continuer en second, soit sur « Échanger les places » pour changer de siège.",
       "INITIAL_INSTRUCTIONS_pie2": "Passez pour accepter l'offre de komi et continuer en second, ou placez une pièce pour devenir le premier joueur.",
-      "INITIAL_INSTRUCTIONS_play": "Placez une pièce sur une case vide valide ou passez pour retirer une pièce ennemie de la prison à la place (si disponible).",
+      "INITIAL_INSTRUCTIONS_play": "Placez une pièce sur un point vide valide ou passez pour sortir une pièce ennemie de la prison à la place (si disponible).",
       "MUST_PIE": "À ce stade de la partie, placer des pièces n'est pas autorisé.",
       "NEGATIVE_KOMI": "Êtes-vous sûr ? Les offres de komi négatives ne devraient être nécessaires que dans des situations de handicap spécifiques.",
       "NO_CHANGE": "Avec le décompte en surface, votre coup doit modifier le plateau. Ce placement serait immédiatement retiré à nouveau, sans rien capturer.",
@@ -5605,7 +5605,7 @@
       "INITIAL_INSTRUCTIONS": "Sélectionnez un chevron à déplacer.",
       "NEED_DESTINATION": "Sélectionnez la destination (les cibles valides sont mises en surbrillance).",
       "NO_CAPTURES": "Vous ne pouvez pas vous déplacer sur une case occupée par un autre chevron.",
-      "REORIENT": "Cliquez sur une case voisine ou une zone de bord pour sélectionner la direction vers laquelle vous orienter.",
+      "REORIENT": "Cliquez sur une case voisine ou une zone de bordure pour sélectionner la direction dans laquelle vous souhaitez vous orienter, ou cliquez sur \"Terminer le coup\" pour continuer à pointer droit devant.",
       "TOO_FAR": "Vous ne pouvez pas vous déplacer plus loin que votre puissance de mouvement (actuellement {{pom}})."
     },
     "baghchal": {
@@ -5756,8 +5756,8 @@
       "TOOFAR": "Les pièces ne peuvent se déplacer que d'une seule case à la fois."
     },
     "bridges": {
-      "INITIAL_INSTRUCTIONS_FIRST_TURN": "Placez une nouvelle base sur n'importe quelle case vide, sauf au centre.",
-      "INITIAL_INSTRUCTIONS": "Effectuez deux coups : placez une nouvelle base sur une case vide qui n'est ni adjacente à une base existante ni au centre, ou reliez deux de vos bases par un pont.",
+      "INITIAL_INSTRUCTIONS_FIRST_TURN": "Sélectionnez une case vide (sauf au centre) pour placer une nouvelle base, ou vous pouvez passer.",
+      "INITIAL_INSTRUCTIONS": "Jouez deux coups : sélectionnez une case vide non adjacente à une base existante (sauf au centre) pour placer une nouvelle base, ou sélectionnez l'une de vos bases existantes pour commencer à construire un pont. Ou vous pouvez passer tout votre tour.",
       "BASE_HAS_BRIDGE_one": "Les bases ne peuvent pas supporter plus d'un pont. Vous devez encore jouer 1 coup.",
       "BASE_HAS_BRIDGE_other": "Les bases ne peuvent pas supporter plus d'un pont. Vous devez encore jouer {{count}} coups.",
       "NO_LINE_OF_SIGHT_one": "Cette base n'a pas de ligne de vue vers une autre base alliée. Vous devez encore jouer 1 coup.",
@@ -6514,8 +6514,8 @@
       "TOO_EARLY_FOR_REFILL": "Veuillez soumettre votre demande de remplissage avant d'effectuer vos coups restants.",
       "TOO_LATE_FOR_BLOCKED": "Vous n'êtes pas considéré comme bloqué si vous vous êtes déjà déplacé au cours de ce tour.",
       "TOO_LATE_FOR_REFILL": "Il n'est pas nécessaire de forcer un remplissage de la réserve après votre troisième coup. Elle se remplira automatiquement après validation.",
-      "VALID_REFILL_one": "Veuillez valider votre coup pour déclencher le réapprovisionnement. Vous obtiendrez automatiquement un autre tour, et il vous restera un coup dans votre tour partiel (ainsi que la possibilité de passer).",
-      "VALID_REFILL_other": "Veuillez valider votre coup pour déclencher le réapprovisionnement. Vous obtiendrez automatiquement un autre tour, et il vous restera {{count}} coups dans votre tour partiel (ainsi que la possibilité de passer)."
+      "VALID_REFILL_one": "Veuillez valider votre coup pour déclencher le réapprovisionnement. Vous obtiendrez automatiquement un autre tour et il vous restera un coup à jouer dans votre tour partiel (ainsi que la possibilité de passer).",
+      "VALID_REFILL_other": "Veuillez valider votre coup pour déclencher le réapprovisionnement. Vous obtiendrez automatiquement un autre tour et il vous restera {{count}} coups à jouer dans votre tour partiel (ainsi que la possibilité de passer)."
     },
     "furl": {
       "CAPTURE4UNFURL": "Vous avez indiqué un coup de déploiement avec capture, mais {{to}} n'est pas occupé par l'adversaire. Utilisez « > » pour indiquer un déploiement sans capture.",
@@ -6763,22 +6763,22 @@
       "PARTIAL_orientation": "Sélectionnez une case voisine pour orienter la pièce."
     },
     "killallgo": {
-      "INSTRUCTIONS_HANDICAP": "Vous donnez le handicap. Cliquez sur une pierre numérotée, ou entrez manuellement un nombre de 1 à {{max}}, pour déterminer combien de pierres d'Attaquant supplémentaires votre adversaire posera s'il choisit le camp de l'Attaquant.",
+      "INSTRUCTIONS_HANDICAP": "Vous donnez le handicap. Saisissez le nombre de pierres d'Attaquant supplémentaires (1 à {{max}}) que votre adversaire posera s'il choisit le camp de l'Attaquant.",
       "HANDICAP_INVALID": "Le handicap doit être un nombre entier.",
       "HANDICAP_RANGE": "Le handicap doit être compris entre 1 et {{max}} pierres.",
-      "HANDICAP_OK_one": "Handicap d'une pierre. Validez ou choisissez un handicap différent.",
-      "HANDICAP_OK_other": "Handicap de {{count}} pierres. Validez ou choisissez un handicap différent.",
+      "HANDICAP_OK_one": "Handicap d'une pierre. Validez ou continuez à saisir.",
+      "HANDICAP_OK_other": "Handicap de {{count}} pierres. Validez ou continuez à saisir.",
       "NOT_A_NUMBERED_STONE": "{{where}} n'est pas l'une des pierres numérotées.",
-      "INSTRUCTIONS_ALT": "Posez une pierre d'Attaquant pour continuer l'ouverture, ou choisissez de jouer l'Attaquant. Si vous choisissez l'Attaquant, votre adversaire joue en premier en tant que Défenseur.",
-      "INSTRUCTIONS_ALT_HANDICAP_one": "Posez une pierre d'Attaquant pour continuer l'ouverture, ou choisissez de jouer l'Attaquant. Si vous choisissez l'Attaquant, posez une pierre supplémentaire ; votre adversaire jouera ensuite en premier en tant que Défenseur.",
-      "INSTRUCTIONS_ALT_HANDICAP_other": "Posez une pierre d'Attaquant pour continuer l'ouverture, ou choisissez de jouer l'Attaquant. Si vous choisissez l'Attaquant, posez {{count}} pierres supplémentaires ; votre adversaire jouera ensuite en premier en tant que Défenseur.",
+      "INSTRUCTIONS_ALT": "Posez une pierre d'Attaquant, ou choisissez le camp de l'Attaquant ; votre adversaire jouera alors le premier coup en tant que Défenseur.",
+      "INSTRUCTIONS_ALT_HANDICAP_one": "Posez une pierre d'Attaquant, ou choisissez le camp de l'Attaquant puis posez une pierre supplémentaire ; votre adversaire jouera alors le premier coup en tant que Défenseur.",
+      "INSTRUCTIONS_ALT_HANDICAP_other": "Posez une pierre d'Attaquant, ou choisissez le camp de l'Attaquant puis posez {{count}} pierres supplémentaires ; votre adversaire jouera alors le premier coup en tant que Défenseur.",
       "SETUP_FULL": "Le plateau contient déjà le nombre maximum de pierres de placement autorisé pour cette phase ({{max}}) ; choisissez le camp de l'Attaquant au lieu d'en poser une autre.",
       "ATTACKER_NO_STONES": "Choisir le camp de l'Attaquant n'implique pas de poser des pierres pour le moment.",
       "DEFENDER_NO_STONES": "Choisir le camp du Défenseur n'implique pas de poser des pierres pour le moment.",
       "STONES_LEFT_one": "Posez encore une pierre d'Attaquant.",
       "STONES_LEFT_other": "Posez encore {{count}} pierres d'Attaquant.",
-      "BATCH_TOO_MANY_one": "Ce lot doit contenir exactement une pierre.",
-      "BATCH_TOO_MANY_other": "Ce lot doit contenir exactement {{count}} pierres.",
+      "BATCH_TOO_MANY_one": "Ce lot contient exactement une pierre.",
+      "BATCH_TOO_MANY_other": "Ce lot contient exactement {{count}} pierres.",
       "BATCH_MORE_OR_SUBMIT": "Ajoutez d'autres pierres d'Attaquant, ou validez.",
       "DUPLICATE_CELL": "La case {{where}} est répertoriée deux fois.",
       "INVALID_PASS": "Vous ne pouvez pas passer pour le moment.",
@@ -6786,8 +6786,8 @@
       "PIE_SLICE_MAX": "Vous pouvez poser au maximum {{max}} pierres d'Attaquant de cette manière.",
       "INSTRUCTIONS_PIE_CHOOSE": "Choisissez un camp : prenez les pierres d'Attaquant, ou posez votre première pierre en tant que Défenseur.",
       "INSTRUCTIONS_PIE_DEFENDER_STONE": "Posez votre première pierre de Défenseur.",
-      "INSTRUCTIONS_HOC_SLICE": "Choisissez la taille de deux lots de pierres d'Attaquant : le premier lot sera posé avant le choix des camps, puis l'Attaquant posera le second. Cliquez sur une pierre numérotée dans le bloc supérieur pour le premier lot et sur une dans le bloc inférieur pour le second, ou entrez manuellement les deux tailles dans cet ordre, séparées par une virgule.",
-      "SLICE_FORMAT": "Les tailles de lot entrées manuellement doivent être deux nombres entiers séparés par une virgule, par exemple 20,15.",
+      "INSTRUCTIONS_HOC_SLICE": "Cliquez sur une pierre numérotée à gauche pour dimensionner le premier lot et sur une à droite pour le second, ou saisissez les deux tailles au format a,b : chacune d'au moins 1, ensemble au maximum {{max}}, et aucune ne dépassant le double de l'autre.",
+      "SLICE_FORMAT": "Saisissez les deux tailles de lot sous forme de deux nombres entiers séparés par une virgule, par exemple 20,15.",
       "SLICE_MIN": "Chaque lot doit contenir au moins une pierre.",
       "SLICE_SUM": "Ensemble, les deux lots peuvent contenir au maximum {{max}} pierres.",
       "SLICE_RATIO": "Aucun lot ne peut faire plus du double de la taille de l'autre.",
@@ -6795,15 +6795,15 @@
       "SLICE_A_ONLY_other": "Premier lot de {{count}} pierres. Choisissez maintenant la taille du second lot.",
       "SLICE_B_ONLY_one": "Second lot d'une pierre. Choisissez maintenant la taille du premier lot.",
       "SLICE_B_ONLY_other": "Second lot de {{count}} pierres. Choisissez maintenant la taille du premier lot.",
-      "SLICE_OK": "Lots de {{a}} et {{b}} pierres. Validez ou choisissez des tailles différentes.",
+      "SLICE_OK": "Lots de {{a}} et {{b}} pierres. Validez ou continuez à saisir.",
       "INSTRUCTIONS_HOC_OPTION_one": "Décidez qui pose le premier lot d'une pierre d'Attaquant : posez-la vous-même (votre adversaire choisit ensuite son camp), ou laissez votre adversaire la poser (vous choisissez ensuite votre camp).",
       "INSTRUCTIONS_HOC_OPTION_other": "Décidez qui pose le premier lot de {{count}} pierres d'Attaquant : posez-les vous-même (votre adversaire choisit ensuite son camp), ou laissez votre adversaire les poser (vous choisissez ensuite votre camp).",
       "INSTRUCTIONS_HOC_BATCH_one": "Posez une pierre d'Attaquant.",
       "INSTRUCTIONS_HOC_BATCH_other": "Posez {{count}} pierres d'Attaquant.",
       "INSTRUCTIONS_HOC_CHOOSE_one": "Choisissez un camp. Choisir l'Attaquant signifie poser le second lot d'une pierre maintenant ; choisir le Défenseur signifie que votre adversaire la pose et que vous jouez le premier coup.",
       "INSTRUCTIONS_HOC_CHOOSE_other": "Choisissez un camp. Choisir l'Attaquant signifie poser le second lot de {{count}} pierres maintenant ; choisir le Défenseur signifie que votre adversaire les pose et que vous jouez le premier coup.",
-      "INSTRUCTIONS_PLAY_ATTACKER": "Posez une pierre. Vous gagnez en empêchant le Défenseur de former une chaîne inconditionnellement vivante.",
-      "INSTRUCTIONS_PLAY_DEFENDER": "Posez une pierre. Vous gagnez en formant une chaîne inconditionnellement vivante.",
+      "INSTRUCTIONS_PLAY_ATTACKER": "Posez une pierre ou passez. Vous gagnez en ne laissant aucun espace au Défenseur pour former une chaîne incapturable.",
+      "INSTRUCTIONS_PLAY_DEFENDER": "Posez une pierre ou passez. Vous gagnez en formant une chaîne qui ne pourra jamais être capturée.",
       "KO_PSK": "Ce placement récréerait une position antérieure du plateau (superko positionnel)."
     },
     "knightline": {

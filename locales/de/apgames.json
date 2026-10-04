@@ -136,10 +136,10 @@
     "intermedium": "Mancala-artiges Säen von Stapeln zum Einkreisen und Schlagen. Sie gewinnen, indem Sie die Stadt des Gegners erobern.",
     "invector": "Eliminieren Sie die gegnerische Armee, während Sie sich dem Zentrum des Spielbretts nähern.",
     "iqishiqi": "Iqishiqi (ausgesprochen EE-tschi-schi-tschi) ist ein abstraktes Strategiespiel, das auf einem sechseckigen Brett aus Sechseckfeldern gespielt wird. Die Spieler besitzen bestimmte Brettränder und schieben durch geschicktes Platzieren von Steinen einen neutralen Stein über das Brett. Ein Spieler gewinnt, wenn er/sie den neutralen Stein zu einem seiner/ihrer Ränder bewegt oder den Gegner zugunfähig macht.",
-    "irensei": "Irensei ist eine Mischung aus Go und Gomoku. Bilden Sie eine Siebenerreihe im mittleren 15x15-Bereich des Go-Bretts, um zu gewinnen. Um den Vorteil des Startspielers zu verringern, verliert dieser, wenn er eine Überlänge bildet (selbst wenn sie über den 15x15-Bereich hinausreicht), der zweite Spieler kann jedoch auch durch eine Überlänge gewinnen.",
+    "irensei": "Irensei (japanisch: 囲連星) ist eine Mischung aus Go und Gomoku. Bilde eine Siebenerreihe innerhalb des mittleren 15x15-Bereichs des Go-Bretts, um zu gewinnen. Um den Vorteil des ersten Spielers zu verringern, verliert dieser, wenn er eine Überlänge bildet (selbst wenn sie sich über den 15x15-Bereich hinaus erstreckt), aber der zweite Spieler kann auch durch eine Überlänge gewinnen.",
     "jacynth": "Ein Decktet-Kartenspiel, bei dem Gegner um die Kontrolle über die Stadt Jacynth wetteifern. Platzieren Sie Karten, üben Sie Einfluss aus und kontrollieren Sie das größte Gebiet, um zu gewinnen.",
     "kachit": "Ein schachähnliches Spiel auf einem 4x4-Brett, bei dem Sie versuchen, den gegnerischen König zu schlagen oder Ihren eigenen umzuwandeln. Figuren können ihre Ausrichtung nach dem Bewegen ändern.",
-    "killallgo": "Eine Go-Variante mit asymmetrischen Zielen: Der Angreifer beginnt mit Steinen auf dem Brett und muss verhindern, dass der Verteidiger bedingungsloses Leben herstellt. Der Verteidiger gewinnt, indem er genau eine bedingungslos lebende Kette bildet.",
+    "killallgo": "Eine Go-Variante mit asymmetrischen Zielen: Der Angreifer beginnt mit Steinen auf dem Brett und muss alles schlagen, während der Verteidiger gewinnt, indem er eine Kette bildet, die niemals geschlagen werden kann.",
     "knightline": "Ein Vier-in-einer-Reihe-Verbindungsspiel, das gespielt wird, indem man auf einem unbegrenzten Gitter einen Springerstapel teilt.",
     "konane": "Ein traditionelles hawaiianisches Spiel, das fast der Zeit verloren gegangen wäre, wäre da nicht die Erinnerung einer einzelnen Frau, Kaʻahaʻaina Naihe aus Kailua-Kona. Auf einem rechteckigen Brett geschieht das Schlagen durch Überspringen gegnerischer Steine. Wer den letzten Zug macht, gewinnt.",
     "krypte": "Ein 4-in-einer-Reihe-Spiel, bei dem Steine von aktiven Seiten eingebracht werden, die sich nach jedem Zug drehen, und das Platzieren eines Steins alle benachbarten Steine umdreht.",
@@ -161,7 +161,7 @@
     "mimic": "Ein Spiel, bei dem gegnerische Figuren Ihre Züge nachahmen, während Sie darum wetten, als erster Spieler die hinterste Reihe zu erreichen.",
     "minefield": "Verbinden Sie gegenüberliegende Seiten des Bretts, aber bestimmte Figurenkonfigurationen sind verboten.",
     "minimize": "Der Spieler mit der größten kleinsten Gruppe gewinnt das Spiel.",
-    "mirador": "Mirador ist ein schnelles und aufregendes Verbindungsspiel auf einem 27 x 27 Quadratgitter, bei dem 2 x 2 Quadrate platziert werden, die Wachtürme darstellen. Es nutzt Sichtlinienverbindungen und gleichwertige Ziele (was es eher zu einem Rennen als zu einem reinen Verbindungsspiel macht).",
+    "mirador": "Mirador ist ein schnelles und aufregendes Verbindungsspiel, das auf einem quadratischen Raster (standardmäßig 28 x 28) gespielt wird, indem 2 x 2-Quadrate platziert werden, die Wachtürme darstellen. Es nutzt Sichtlinienverbindungen und gleichwertige Ziele (was es eher zu einem Rennen als zu einem reinen Verbindungsspiel macht).",
     "mixtour": "Zwei Spieler errichten Türme mit dem Ziel, einen Turm von mindestens fünf Höhe mit der eigenen Farbe an der Spitze zu schaffen. Der Clou ist zweifach: (1) Sie können gegnerische Steine bewegen und (2) die Reicheweite der Bewegung wird durch die Höhe des *Zielstapels* und nicht des gezogenen Stapels bestimmt.",
     "monkey": "Sie beginnen mit einer einzelnen Dame, die aus einem Stapel von Spielsteinen besteht. Bei Zügen ohne Schlagen lässt die Dame einen Einzelstein zurück. Damen und Einzelsteine ziehen und schlagen wie Schachdamen. Um zu gewinnen, schlagen Sie die gegnerische Dame oder lassen Sie dem Gegner keine legalen Züge.",
     "morphos": "Rein orthogonales Quadrat-Verbindungsspiel. In Ihrem Zug platzieren Sie einen eigenen Stein oder drehen einen gegnerischen Stein in einem von drei vorgegebenen Mustern um. Gewinnen Sie, indem Sie Ihre zwei gegenüberliegenden Seiten des Bretts mit einer Kette aus Steinen Ihrer Farbe verbinden.",
@@ -601,7 +601,7 @@
     "akimbo": "Akimbo, entworfen von Luis Bolaños Mures im Jahr 2026, ist ein unentschieden-freies Verbindungsspiel für zwei Spieler. Eine _nackte Diagonale_ (naked diagonal) ist ein Paar gleichfarbiger, diagonal benachbarter Steine, ohne dass ein weiterer gleichfarbiger Stein an beide angrenzt. Ein _Kreuzschnitt_ (crosscut) ist ein 2×2-Bereich mit zwei ineinandergreifenden nackten Diagonalen entgegengesetzter Farben.\n\nIn seinem Zug platziert der Spieler einen eigenen Stein auf einem leeren Feld. Wenn dies einen Kreuzschnitt vervollständigt, wird der andere Stein im Kreuzschnitt entfernt. Es darf sich zu keinem Zeitpunkt mehr als eine nackte Diagonale jeder Farbe auf dem Brett befinden – nicht einmal vorübergehend vor dem Entfernen eines Steins. Ein Spieler gewinnt, wenn sich am Ende seines Zugs eine Kette von orthogonal verbundenen Steinen seiner Farbe befindet, die die beiden gegenüberliegenden Brettränder des Spielers berührt.\n\nOkimba ist eine Variante, bei der insgesamt nur maximal eine nackte Diagonale auf dem Brett existieren darf (wenn also ein Spieler die Diagonale besitzt, kann der Gegner keine weitere erstellen).",
     "alta": "Es gibt zwei Möglichkeiten, Schalter auf der grafischen Benutzeroberfläche zu platzieren: (1) Wählen Sie die Ausrichtung des Schalters im Bedienfeld aus und klicken Sie dann auf das gewünschte Feld auf dem Brett, um ihn zu platzieren, oder (2) klicken Sie auf zwei Eckpunkte. Die Eckpunkte sind mit einem Sternchen notiert, gefolgt von der algebraischen Notation des Feldes, an dessen unterer linker Ecke sich der Eckpunkt befindet. Um einen Schalter umzuschalten, klicken Sie einfach auf das Feld.",
     "anache": "Diese Implementierung folgt David Ploogs Regelblatt. Drei bemerkenswerte Änderungen sind: (1) Barrieren sind verboten, (2) anstelle eines 16x16-Bretts gibt es eine 15x15-Variante, bei der Figuren auf der Mittellinie zu Springern umgewandelt werden und der Drache nicht aus der anderen Ecke auf das 7x7-Feld springen darf, und (3) an den Ecken werden Figuren durch Zerstauchungs-Schlagen (crushing capture) statt durch Einkesselungs-Schlagen (custodian capture) geschlagen, sodass sich mindestens zwei gegnerische Figuren in einer Reihe befinden müssen, bevor ein Schlagen an den Ecken erfolgt.\n\nHinweis: Die Patt-Prüfung ist rechenintensiv. Wenn Sie keinen regelkonformen Zug machen können, sollten Sie manuell aufgeben.",
-    "arimaa": "Bereitgestellt unter Abschnitt 3 der [Arimaa Public License](https://arimaa.com/arimaa/license/).\n\nHarlog ist eine anerkannte Methode zur Bestimmung des Materialvorteils. Positive Werte begünstigen Gold, negative Silber. Der theoretische Bereich liegt bei ±112, aber in der Praxis ist ±20 bereits ein sehr starker Vorteil.\n\nDa wir keine vollständigen Zuglisten generieren können, kann das System die seltenen Fälle nicht erkennen, in denen Ihre einzigen verfügbaren Züge aufgrund von Stellungsverlaufswiederholungen ungültig sind. Das System wird Sie diese ungültigen Wiederholungen nicht ausführen lassen, und Sie müssen manuell aufgeben.",
+    "arimaa": "Verfügbar gemacht unter Abschnitt 3 der [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nBei der Standard-Aufstellung müssen Sie nur Ihre acht Nicht-Kaninchen platzieren. Sobald diese aufgestellt sind, füllt \"Zug beenden\" den Rest Ihres Aufstellungsbereichs mit Kaninchen auf. Sie können dennoch einige oder alle Kaninchen zuerst selbst platzieren, wenn Sie sie an einer bestimmten Stelle haben möchten.\n\nUm einen Zug einzugeben, klicken Sie auf eine Figur und dann auf das Feld, auf dem sie Ihren Zug beenden soll. Die Engine findet den kürzesten legalen Weg dorthin, einschließlich Schieben und Ziehen, und zeichnet einen Pfeil pro Figur von ihrem Startfeld zu ihrem Zielfeld. Sie können auch auf gegnerische Figuren zeigen. Klicken Sie auf die Pfeilspitze, um ihn zu verlängern, oder auf das Ende, um ihn zu entfernen. Wenn Sie eine ausgewählte Figur ein zweites Mal anklicken, bleibt sie dort stehen, wo sie ist – so verhindern Sie, dass die Engine sie zur Seite schiebt. Ein paar seltenere Züge erfordern einen weiteren Klick; die Wiki-Seite für dieses Spiel listet sie alle auf.\n\nZüge werden in der Lightvector-Notation aufgezeichnet, die jede Figur und ihr Zielfeld nennt, anstatt jeden einzelnen Schritt aufzulisten. Sie können sie in das Zugfeld eingeben, und die ältere Schritt-für-Schritt-Notation wird weiterhin akzeptiert. Die Wiki-Seite erklärt die Notation ausführlich.\n\nHarlog ist eine anerkannte Methode zur Bestimmung des Materialvorteils. Positive Werte begünstigen Gold, negative Silber. Der theoretische Bereich liegt bei ±112, aber in der Praxis ist ±20 bereits ein sehr starker Vorteil.\n\nDa wir keine vollständigen Zuglisten generieren können, kann das System die seltenen Fälle nicht erkennen, in denen Ihre einzigen verfügbaren Züge aufgrund von Stellungswiederholung illegal sind. Das System lässt Sie diese illegalen Wiederholungen nicht ausführen, und Sie müssen manuell aufgeben.",
     "armadas": "Bei diesem Spiel gibt es bekannte Probleme auf iOS-Geräten.\n\nDieses Spiel bietet zwei Szenarien:\n\n* Standardmäßig hat jeder Spieler zwei Trios von Spielsteinen. In der Platzierungsphase muss jeder Spieler 1 bis 3 Schiffe platzieren, bis alle Schiffe platziert sind.\n* Die \"Freiform\"-Variante ermöglicht es Ihnen, beliebig gewünschte Schiffe zu platzieren (maximal drei gleichzeitig), bis beide Spieler \"passen\". Dadurch können Sie unausgewogene oder anderweitig asymmetrische Flotten erstellen.\n\nSpiele enthalten standardmäßig eine Insel in der Mitte des Feldes. Es stehen sowohl eine Variante \"keine Inseln\" als auch \"zwei Inseln\" zur Verfügung. Sie können sich nicht durch Inseln hindurchbewegen oder hindurchschießen. Um ein Schiff erfolgreich zu treffen, muss mindestens eine Ecke des Dreiecks Ihres Schiffes freie Sicht auf mindestens eine Ecke des Zielschiffs haben.\n\nBedenken Sie, dass Ihr Schiff an einer Insel oder am Brettrand in eine Position geraten kann, in der Sie es nicht mehr bewegen können! Seien Sie vorsichtig!",
     "ataxx": "Bei dreifacher Stellungswiederholung endet das Spiel und die Punkte werden berechnet.",
     "bao": "Züge in Bao können sehr komplex sein, mit mehreren Runden um das Brett und Richtungswechseln. Die Notation ist daher spärlich. Das Startfeld und die Richtung werden hervorgehoben, ebenso wie geschlagene Felder. Eine detaillierte Notation der Bewegungen ist jedoch nicht möglich. Wenn Sie glauben, auf einen Fehler gestoßen zu sein, teilen Sie uns dies bitte auf Discord mit.",
@@ -641,7 +641,7 @@
     "intermedium": "Intermedium (auch bekannt als Stepping Stones) ist ein Spiel aus dem Jahr 1974, das von Matt Crispis entworfen wurde. Es ist ein Stapel-Sähspiel, bei dem die Spieler versuchen, die gegnerische Heimatbasis zu umzingeln. Stapel bewegen sich nur diagonal, und jede Armee beginnt auf einer anderen Diagonalenfarbe, sodass sie sich niemals kreuzen können (wie zwei Läufer auf unterschiedlichen Feldfarben). Steine werden durch Einschließen geschlagen, indem alle orthogonal angrenzenden Felder eines gegnerischen Stapels umgeben werden.\n\nEinige Worte des Autors: \"[Intermedium] ist leicht zu erlernen, kann aber zu komplizierten Situationen führen, die eine tiefe Analyse und vorausschauendes Denken erfordern. Einzelne Steine bewegen sich nicht, dienen aber als Sprungsteine für deine Schläge. Und sie können wieder lebendig werden, indem man einen anderen Stein auf sie setzt. Bevor du das Spiel meisterst, vermeide frühe Angriffe auf die Stadt, die sich als kostspielig erweisen könnten. Baue deine Stärke allmählich und gleichmäßig auf, indem du nach Möglichkeit das Zentrum dominierst. Du solltest es auch vermeiden, 'beeindruckende' Stapel von sechs oder mehr Steinen aufzubauen - wenn sie geschlagen werden, kannst du das Spiel auf einen Schlag verlieren. Behalte einige Kräfte zurück, um deine Stadt im Notfall zu verteidigen.\"",
     "invector": "Invector, entworfen von Mark Steere im Jahr 2026, ist ein Eliminierungsspiel, das vom alten hawaiianischen Spiel Kōnane inspiriert wurde. Invector beginnt mit einem Schachbrettmuster aus Steinen, bietet Schläge auf kurze Distanz und ist extrem einfach. Invector kombiniert schlicht zwei grundlegende Standard-Zutaten: orthogonale, angrenzende Schlagzüge und orthogonale, angrenzende Züge näher zum Zentrum.",
     "jacynth": "Weitere Informationen zum Decktet-System finden Sie auf der [offiziellen Decktet-Website](https://www.decktet.com). Karten auf den Händen der Spieler sind vor Beobachtern und Gegnern verborgen.",
-    "killallgo": "Der Verteidiger muss eine bedingungslos lebendige Kette bilden (pass-lebendig gemäß Bensons Algorithmus): eine, die jede Folge gegnerischer Züge überstehen kann, ohne antworten zu müssen. Leben, das von Seki oder Ko abhängt, zählt nicht. Der Angreifer gewinnt, wenn seine bedingungslos lebendigen Steine keinen Platz für eine solche Kette lassen. Passen ist nach der Eröffnung nicht erlaubt, und wer keinen legalen Setzzug ausführen kann, verliert.\n\nSteine werden wie im Go gesetzt und geschlagen, mit Tromp-Taylor-Bereinigung: Nach dem Setzen werden gegnerische Ketten ohne Freiheiten entfernt, danach die eigene Kette, falls sie keine mehr hat. Mehrsteiniger Selbstmord ist daher legal. Es gilt das positionelle Superko: Kein Setzzug darf eine frühere Brettposition wiederherstellen.",
+    "killallgo": "Der Angreifer, dessen Steine sich zu Beginn des normalen Spiels bereits auf dem Brett befinden, gewinnt, indem er verhindert, dass der Verteidiger jemals eine lebende Kette bildet. Der Verteidiger gewinnt, indem er eine Kette bildet, die nicht geschlagen werden kann. Es gibt keine Punktewertung.\n\nSteine werden wie im Go platziert und geschlagen, mit Tromp-Taylor-Bereinigung: Nach dem Setzen eines Steins werden gegnerische Ketten ohne Freiheiten entfernt, danach die eigene Kette, falls sie keine Freiheiten hat – Mehrstein-Suizid ist somit erlaubt. Es gilt positionelles Superko: Kein Zug darf eine frühere Brettposition wiederherstellen. Beide Spieler können passen; wenn beide nacheinander passen, gewinnt der Angreifer.\n\nDer Verteidiger gewinnt, sobald eine seiner Ketten bedingungslos lebendig ist: pass-lebendig nach Bensons Algorithmus, was bedeutet, dass der Angreifer sie selbst mit unbegrenzt vielen aufeinanderfolgenden Zügen niemals schlagen könnte. Dies ist die einzige Möglichkeit für den Verteidiger zu gewinnen. Eine Kette, die lediglich im Seki oder im Ko lebt, zählt nicht; der Verteidiger muss also weiterspielen und sie in eine Kette verwandeln, die überhaupt nicht geschlagen werden kann.\n\nDer Angreifer gewinnt, sobald dies unmöglich geworden ist. Bedingungslos lebende Steine des Angreifers können niemals entfernt werden, und kein Punkt neben einem dieser Steine kann jemals in einem Auge einer lebenden Verteidigerkette liegen. Wenn kein verbleibender Bereich dieser Steine mehr zwei Punkte enthält, die weder nebeneinander noch neben diesen Steinen liegen, gibt es nirgendwo mehr Platz für die zwei Augen, die eine lebende Kette benötigt, und das Spiel endet. Die Überprüfung erkennt nicht jede verlorene Stellung; löst sie nicht aus, wird das Spiel einfach fortgesetzt.\n\nEröffnungen: Beim Pieboxing setzen die Spieler abwechselnd Angreifer-Steine, bis einer von ihnen die Angreifer-Seite übernimmt; der andere Spieler zieht dann zuerst als Verteidiger. Die Handicap-Eröffnung funktioniert genauso, außer dass Spieler 1 (der stärkere Spieler; setzen Sie beim Erstellen der Herausforderung also den Handicap-Geber zuerst) zuerst die Anzahl der Handicap-Steine festlegt und Spieler 2 mit dem Setzen beginnt; übernimmt Spieler 2 die Angreifer-Seite, setzt er diese Anzahl zusätzlicher Steine auf einmal. Die klassische Eröffnung nutzt die traditionelle 17-Stein-Stellung auf dem 19x19-Brett, wobei der Verteidiger (Spieler 1) am Zug ist. Beim einfachen Pie setzt Spieler 1 eine beliebige Anzahl von Angreifer-Steinen und Spieler 2 wählt eine Seite. Beim verallgemeinerten Hoctaph-Pie wählt Spieler 1 zwei Batch-Größen (jede mindestens 1, zusammen höchstens die Anzahl der Punkte minus 2, keine mehr als doppelt so groß wie die andere), Spieler 2 entscheidet, wer den ersten Batch setzt, der andere Spieler wählt dann eine Seite, und der Angreifer setzt den zweiten Batch. In jeder Eröffnung macht der Verteidiger den ersten normalen Zug.",
     "konane": "Es gibt mehrere konkurrierende Eröffnungsprotokolle, aber das gebräuchlichste Regelwerk ist das Naihe-Regelwerk, das bei Turnieren im Bishop Museum auf Hawaii verwendet und in der BGG-Referenz beschrieben wird. Dieses ist hier implementiert.",
     "knightline": "Der Einfachheit halber wird dein Stapel beim ersten Klick ungefähr halbiert. Nachfolgende Klicks auf den Quell- oder Zielstapel bewegen jeweils einen Stein. Wenn du fertig bist, klicke auf ein leeres Feld oder verwende die Schaltfläche 'Zug abschließen'.\n\nDas Koordinatensystem ist an das Koordinatensystem des Entwicklers für Hive angepasst, ein Spiel auf einem unbegrenzten (aber dennoch überschaubaren) Sechseckbrett. Die y-Achse ist mit kartesischen Koordinaten (positive und negative ganze Zahlen) beschriftet. Die x-Achse ist mit Buchstaben in alphabetischer Reihenfolge beschriftet, mit dem Ursprung bei (m, 0). Wenn die Bewegung auf der x-Achse die Grenzen des Alphabets in einer der beiden Richtungen überschreitet, wird den Buchstaben ein weiterer Buchstabe vorangestellt (auf z folgt aa, ab, ac usw., und vor a steht zz, zy, zx usw.). Es wird nicht erwartet, dass das Spiel eine Breite erreicht, die mehr Doppelkoordinaten erfordert, aber der Vollständigkeit halber: Auf az folgt ba, vor za steht yz und so weiter. Das Spielbrett kann keine Größe erreichen, die zu Unklarheiten führen würde.",
     "lasca": "Manövrierfähigkeit ist ein Maß dafür, wie nah deine Steine an der Umwandlung sind. Deine maximale Manövrierfähigkeit entspricht der Brettgröße multipliziert mit der Anzahl der Stapel, die du kontrollierst.\n\nMaterial wird berechnet, indem du einen Punkt für jeden eigenen Stein in einem von dir kontrollierten Stapel erhältst, plus einen Extra-Punkt, wenn sich ein Offizier an der Spitze dieses Stapels befindet.",
@@ -996,7 +996,7 @@
         "description": "Zufällig generierter Aufbau mit reduzierter Armeegröße"
       },
       "free": {
-        "name": "Freie Platzierung (ungewertet)",
+        "name": "Freie Aufstellung",
         "description": "Ermöglicht es den Spielern, beliebig viele Steine an beliebigen Stellen zu platzieren, einschließlich illegaler oder anderweitig fehlerhafter Stellungen. Die Spieler sollten vor dem Start klar miteinander kommunizieren. Diese Spiele können nicht gewertet werden."
       },
       "dicey": {
@@ -1010,7 +1010,7 @@
       },
       "freeform": {
         "description": "Ermöglicht es den Spielern, ihre eigene Flottenzusammensetzung zu bestimmen. Erfordert vor dem Start eine gute Kommunikation. Diese Spiele können nicht gewertet werden.",
-        "name": "Freiform (ungewertet)"
+        "name": "Freiform"
       },
       "noislands": {
         "description": "Keine Startinseln",
@@ -1157,12 +1157,12 @@
         "name": "Zanzibar (Standard)"
       },
       "kujifunza": {
-        "description": "Die \"Anfänger\"-Version ohne \"Kunamua\"-Aufbauphase. Das Spiel beginnt mit zwei Steinen in jeder Mulde.",
+        "description": "Zanzibar-Anfängerregeln: zwei Steine in jeder Mulde.",
         "name": "Bao la kujifunza"
       },
       "malawi": {
-        "description": "Das Haus beginnt mit 8 Steinen statt 6.",
-        "name": "Malawi"
+        "description": "Malawi-Aufbau (8 Samen in der Kuu, 20 Nemo in der Reserve) mit Regeln im Zanzibar-Stil (Legacy; veraltet).",
+        "name": "Malawi (nur Aufbau)"
       },
       "malawi-full": {
         "description": "Vollständige Malawi-Regeln (Bawo) des Zwischenspiels (8 Kuu, 20 Reserve). Fortgeschrittene Eröffnungsverteilung ist nicht enthalten. Siehe die Malawi-Links auf der Spielseite für Quellen.",
@@ -1781,8 +1781,8 @@
         "description": "Platziere 28 Wolken statt 16. Mit dem standardmäßigen Größenlimit für Wolkenbänke kann die vollständige Anzahl möglicherweise nicht immer erreicht werden."
       },
       "random-start": {
-        "name": "Zufällige Wolken",
-        "description": "Es gibt keine Wolken-Platzierungsphase. Sie werden vom System zufällig platziert."
+        "name": "Symmetrische zufällige Wolken",
+        "description": "Es gibt keine Wolkenplatzierungsphase. Das System platziert die Wolken zufällig mit 180-Grad-Rotationssymmetrie."
       },
       "asymmetric-random-start": {
         "name": "Asymmetrische zufällige Wolken",
@@ -2458,7 +2458,7 @@
       },
       "handicap": {
         "name": "Handicap",
-        "description": "Pieboxing mit Vorgabe. Spieler 1, der stärkere Spieler, legt die Anzahl der zusätzlichen Angreifersteine fest, danach beginnt Spieler 2 mit dem Setzen. Wenn Spieler 2 sich entscheidet, als Angreifer zu spielen, setzt er die zusätzlichen Steine sofort. Entwickelt von MXHero."
+        "description": "Pieboxing mit Handicap. Spieler 1 (den stärksten Spieler zuerst hinsetzen) legt die Anzahl der zusätzlichen Angreifer-Steine fest, dann beginnt Spieler 2 mit dem Setzen. Übernimmt Spieler 2 die Angreifer-Seite, setzt er die zusätzlichen Steine auf einmal. Entwickelt von MXHero."
       },
       "classic": {
         "name": "Klassischer 17-Steine-Aufbau",
@@ -2470,7 +2470,7 @@
       },
       "hoctaph": {
         "name": "Verallgemeinertes Hoctaph-Pie",
-        "description": "Spieler 1 wählt zwei Satzgrößen und Spieler 2 entscheidet, wer den ersten Satz setzt. Der Spieler, der diesen Satz nicht gesetzt hat, wählt dann eine Seite, und der Angreifer setzt den zweiten Satz. Hoctaphs Pie-Regel (OGS-Foren), verallgemeinert für jede Brettgröße von Samraku."
+        "description": "Spieler 1 wählt zwei Batch-Größen, Spieler 2 entscheidet, wer den ersten Batch setzt, der andere Spieler wählt eine Seite, und der Angreifer setzt den zweiten Batch. Hoctaph-Pie (OGS-Foren), von Samraku auf jede Brettgröße verallgemeinert."
       }
     },
     "knightline": {
@@ -3312,7 +3312,7 @@
         "name": "Standard-Aufbau"
       },
       "custom": {
-        "name": "Benutzerdefinierter Aufbau (ungewertet)",
+        "name": "Benutzerdefinierte Aufstellung",
         "description": "Die Spieler können beliebige Aufstellungen erstellen. Sollte nur bei guter Kommunikation genutzt werden. Diese Spiele können nicht gewertet werden."
       },
       "#board": {
@@ -5465,7 +5465,7 @@
       "FROZEN": "Der Stein bei {{where}} ist eingefroren. Er kann sich nicht von alleine bewegen.",
       "HOME_ROW": "Du darfst Steine nur auf den zwei Reihen platzieren, die dir am nächsten sind.",
       "INITIAL_INSTRUCTIONS_place": "Wähle einen Stein aus deiner Hand, um ihn auf dem Spielplan zu platzieren.",
-      "INITIAL_INSTRUCTIONS_play": "Wähle einen Stein zum Bewegen aus.",
+      "INITIAL_INSTRUCTIONS_play": "Klicken Sie auf eine Figur und dann auf das Feld, auf dem sie den Zug beenden soll. Sie können auch auf gegnerische Figuren zeigen; Schieben und Ziehen werden automatisch berechnet.",
       "INVALID_PUSH": "Schiebezüge müssen sofort abgeschlossen werden, indem der schiebende Stein auf das Feld gezogen wird, das der geschobene gegnerische Stein verlassen hat.",
       "INVALID_PUSHPULL": "Du darfst gegnerische Steine nur bewegen, wenn du ein Ziehen beendest oder ein Schieben beginnst. Beides scheint hier nicht der Fall zu sein.",
       "LABEL_STASH": "{{player}}s Vorrat",
@@ -5549,7 +5549,7 @@
       "INITIAL_INSTRUCTIONS_komi_area": "Gib das Komi in Punkten ein, das du anbieten möchtest. Eine positive Zahl gewährt dem zweiten Spieler Komi. Eine negative Zahl dem ersten Spieler. Der andere Spieler entscheidet dann, welchen Platz er wählt.",
       "INITIAL_INSTRUCTIONS_pie": "Klicke entweder auf die Schaltfläche 'Als Zweiter spielen', um dort zu bleiben, wo du bist, und als zweiter Spieler weiterzuspielen, oder klicke auf 'Spielerplätze tauschen', um die Plätze zu wechseln.",
       "INITIAL_INSTRUCTIONS_pie2": "Passe entweder, um das Komi-Angebot anzunehmen und als zweiter Spieler weiterzuspielen, oder platziere einen Stein, um als erster Spieler zu übernehmen.",
-      "INITIAL_INSTRUCTIONS_play": "Platziere einen Stein auf einem gültigen leeren Feld oder passe, um stattdessen einen gegnerischen Stein aus dem Gefängnis zu nehmen (falls einer verfügbar ist).",
+      "INITIAL_INSTRUCTIONS_play": "Setze einen Stein auf einen gültigen leeren Punkt oder passe, um stattdessen einen gegnerischen Stein aus dem Gefängnis zu nehmen (falls einer vorhanden ist).",
       "MUST_PIE": "An diesem Punkt des Spiels ist das Platzieren von Steinen nicht erlaubt.",
       "NEGATIVE_KOMI": "Bist du sicher? Negative Komi-Angebote sollten nur in spezifischen Handicap-Situationen erforderlich sein.",
       "NO_CHANGE": "Bei der Flächenwertung muss dein Zug das Brett verändern. Dieser Stein würde sofort wieder entfernt werden, ohne etwas zu schlagen.",
@@ -5605,7 +5605,7 @@
       "INITIAL_INSTRUCTIONS": "Wähle ein Chevron zum Bewegen aus.",
       "NEED_DESTINATION": "Wähle das Ziel aus (gültige Ziele sind hervorgehoben).",
       "NO_CAPTURES": "Du darfst nicht auf ein Feld mit einem anderen Chevron ziehen.",
-      "REORIENT": "Klicke auf ein benachbartes Feld oder eine Randzone, um die Richtung auszuwählen, in die du blicken möchtest.",
+      "REORIENT": "Klicke auf ein benachbartes Feld oder eine Randzone, um die gewünschte Ausrichtung zu wählen, oder klicke auf \"Zug beenden\", um weiterhin geradeaus zu blicken.",
       "TOO_FAR": "Du kannst dich nicht weiter bewegen als deine Bewegungsreichweite (derzeit {{pom}})."
     },
     "baghchal": {
@@ -5756,8 +5756,8 @@
       "TOOFAR": "Steine können sich jeweils nur ein Feld weit bewegen."
     },
     "bridges": {
-      "INITIAL_INSTRUCTIONS_FIRST_TURN": "Platziere eine neue Basis auf einem beliebigen freien Feld, außer in der Mitte.",
-      "INITIAL_INSTRUCTIONS": "Führe zwei Züge aus: Platziere eine neue Basis auf einem freien Feld, das nicht an eine bestehende Basis angrenzt und nicht in der Mitte liegt, oder verbinde zwei deiner Basen mit einer Brücke.",
+      "INITIAL_INSTRUCTIONS_FIRST_TURN": "Wähle ein leeres Feld (außer der Mitte), um eine neue Basis zu platzieren, oder passe.",
+      "INITIAL_INSTRUCTIONS": "Führe zwei Züge aus: Wähle ein leeres Feld, das nicht an eine bestehende Basis angrenzt (außer der Mitte), um eine neue Basis zu platzieren, oder wähle eine deiner bestehenden Basen, um mit dem Bau einer Brücke zu beginnen. Oder du kannst deinen gesamten Zug passen.",
       "BASE_HAS_BRIDGE_one": "Basen können nicht mehr als eine Brücke tragen. Du musst noch 1 weiteren Zug ausführen.",
       "BASE_HAS_BRIDGE_other": "Basen können nicht mehr als eine Brücke tragen. Du musst noch {{count}} weitere Züge ausführen.",
       "NO_LINE_OF_SIGHT_one": "Diese Basis hat keine Sichtlinie zu einer anderen eigenen Basis. Du musst noch 1 weiteren Zug ausführen.",
@@ -6514,8 +6514,8 @@
       "TOO_EARLY_FOR_REFILL": "Bitte sende deine Auffüllanforderung ab, bevor du deine verbleibenden Züge machst.",
       "TOO_LATE_FOR_BLOCKED": "Du gilst nicht als blockiert, wenn du dich in diesem Zug bereits bewegt hast.",
       "TOO_LATE_FOR_REFILL": "Nach deinem dritten Zug musst du kein manuelles Auffüllen des Auslagen-Pools erzwingen. Er wird nach dem Absenden automatisch aufgefüllt.",
-      "VALID_REFILL_one": "Bitte sende deinen Zug ab, um das Nachfüllen auszulösen. Du bist automatisch erneut am Zug und hast noch einen verbleibenden Zug in deinem Teilzug (sowie die Option zu passen).",
-      "VALID_REFILL_other": "Bitte sende deinen Zug ab, um das Nachfüllen auszulösen. Du bist automatisch erneut am Zug und hast noch {{count}} verbleibende Züge in deinem Teilzug (sowie die Option zu passen)."
+      "VALID_REFILL_one": "Bitte reiche deinen Zug ein, um das Auffüllen auszulösen. Du bist automatisch erneut an der Reihe und hast noch einen verbleibenden Zug in deinem Teilzug (sowie die Option zu passen).",
+      "VALID_REFILL_other": "Bitte reiche deinen Zug ein, um das Auffüllen auszulösen. Du bist automatisch erneut an der Reihe und hast noch {{count}} verbleibende Züge in deinem Teilzug (sowie die Option zu passen)."
     },
     "furl": {
       "CAPTURE4UNFURL": "Du hast einen schlagenden Entfaltungszug angegeben, aber {{to}} ist nicht vom Gegner besetzt. Verwende \">\", um ein nicht-schlagendes Entfalten anzuzeigen.",
@@ -6763,22 +6763,22 @@
       "PARTIAL_orientation": "Wähle ein Nachbarfeld, um die Figur auszurichten."
     },
     "killallgo": {
-      "INSTRUCTIONS_HANDICAP": "Du gibst die Vorgabe. Klicke auf einen nummerierten Stein oder gib eine Zahl von 1 bis {{max}} manuell ein, um festzulegen, wie viele zusätzliche Angreifersteine dein Gegner setzt, wenn er die Angreifer-Seite übernimmt.",
+      "INSTRUCTIONS_HANDICAP": "Sie geben das Handicap. Geben Sie die Anzahl der zusätzlichen Angreifer-Steine (1 bis {{max}}) ein, die Ihr Gegner setzt, wenn er die Angreifer-Seite übernimmt.",
       "HANDICAP_INVALID": "Das Handicap muss eine ganze Zahl sein.",
       "HANDICAP_RANGE": "Das Handicap muss zwischen 1 und {{max}} Steinen liegen.",
-      "HANDICAP_OK_one": "Vorgabe von einem Stein. Bestätigen oder eine andere Vorgabe wählen.",
-      "HANDICAP_OK_other": "Vorgabe von {{count}} Steinen. Bestätigen oder eine andere Vorgabe wählen.",
+      "HANDICAP_OK_one": "Handicap von einem Stein. Bestätigen oder weitertippen.",
+      "HANDICAP_OK_other": "Handicap von {{count}} Steinen. Bestätigen oder weitertippen.",
       "NOT_A_NUMBERED_STONE": "{{where}} ist keiner der nummerierten Steine.",
-      "INSTRUCTIONS_ALT": "Setze einen Angreiferstein, um die Eröffnung fortzusetzen, oder wähle, als Angreifer zu spielen. Wenn du den Angreifer wählst, zieht dein Gegner zuerst als Verteidiger.",
-      "INSTRUCTIONS_ALT_HANDICAP_one": "Setze einen Angreiferstein, um die Eröffnung fortzusetzen, oder wähle, als Angreifer zu spielen. Wenn du den Angreifer wählst, setze einen zusätzlichen Stein; dein Gegner zieht dann zuerst als Verteidiger.",
-      "INSTRUCTIONS_ALT_HANDICAP_other": "Setze einen Angreiferstein, um die Eröffnung fortzusetzen, oder wähle, als Angreifer zu spielen. Wenn du den Angreifer wählst, setze {{count}} zusätzliche Steine; dein Gegner zieht dann zuerst als Verteidiger.",
+      "INSTRUCTIONS_ALT": "Setzen Sie einen Angreifer-Stein oder übernehmen Sie die Angreifer-Seite; Ihr Gegner zieht dann zuerst als Verteidiger.",
+      "INSTRUCTIONS_ALT_HANDICAP_one": "Setzen Sie einen Angreifer-Stein oder übernehmen Sie die Angreifer-Seite und setzen Sie dann einen weiteren Stein; Ihr Gegner zieht dann zuerst als Verteidiger.",
+      "INSTRUCTIONS_ALT_HANDICAP_other": "Setzen Sie einen Angreifer-Stein oder übernehmen Sie die Angreifer-Seite und setzen Sie dann {{count}} weitere Steine; Ihr Gegner zieht dann zuerst als Verteidiger.",
       "SETUP_FULL": "Das Brett enthält bereits die maximale Anzahl an Aufstellungssteinen, die in dieser Phase erlaubt ist ({{max}}); übernehmen Sie die Angreifer-Seite, anstatt einen weiteren zu setzen.",
       "ATTACKER_NO_STONES": "Die Übernahme der Angreifer-Seite erfordert jetzt kein Setzen von Steinen.",
       "DEFENDER_NO_STONES": "Die Wahl der Verteidiger-Seite erfordert jetzt kein Setzen von Steinen.",
       "STONES_LEFT_one": "Setzen Sie einen weiteren Angreifer-Stein.",
       "STONES_LEFT_other": "Setzen Sie {{count}} weitere Angreifer-Steine.",
-      "BATCH_TOO_MANY_one": "Dieser Satz muss genau einen Stein enthalten.",
-      "BATCH_TOO_MANY_other": "Dieser Satz muss genau {{count}} Steine enthalten.",
+      "BATCH_TOO_MANY_one": "Dieser Batch enthält genau einen Stein.",
+      "BATCH_TOO_MANY_other": "Dieser Batch enthält genau {{count}} Steine.",
       "BATCH_MORE_OR_SUBMIT": "Fügen Sie weitere Angreifer-Steine hinzu oder bestätigen Sie.",
       "DUPLICATE_CELL": "Das Feld {{where}} ist doppelt aufgeführt.",
       "INVALID_PASS": "Sie können jetzt nicht passen.",
@@ -6786,8 +6786,8 @@
       "PIE_SLICE_MAX": "Sie dürfen auf diese Weise höchstens {{max}} Angreifer-Steine setzen.",
       "INSTRUCTIONS_PIE_CHOOSE": "Wählen Sie eine Seite: Übernehmen Sie die Angreifer-Steine oder setzen Sie Ihren ersten Stein als Verteidiger.",
       "INSTRUCTIONS_PIE_DEFENDER_STONE": "Setzen Sie Ihren ersten Verteidiger-Stein.",
-      "INSTRUCTIONS_HOC_SLICE": "Wähle die Größen zweier Sätze von Angreifersteinen: Der erste Satz wird gesetzt, bevor die Seiten gewählt werden, und der Angreifer setzt danach den zweiten. Klicke auf einen nummerierten Stein im oberen Block für den ersten Satz und auf einen im unteren Block für den zweiten, oder gib beide Größen in dieser Reihenfolge manuell ein, getrennt durch ein Komma.",
-      "SLICE_FORMAT": "Manuell eingegebene Satzgrößen müssen zwei ganze Zahlen sein, die durch ein Komma getrennt sind, zum Beispiel 20,15.",
+      "INSTRUCTIONS_HOC_SLICE": "Klicken Sie links auf einen nummerierten Stein, um die Größe des ersten Batches festzulegen, und rechts auf einen, um die des zweiten festzulegen, oder geben Sie beide Größen als a,b ein: jeweils mindestens 1, zusammen höchstens {{max}} und keine mehr als doppelt so groß wie die andere.",
+      "SLICE_FORMAT": "Geben Sie die zwei Batch-Größen als zwei ganze Zahlen durch ein Komma getrennt ein, zum Beispiel 20,15.",
       "SLICE_MIN": "Jeder Batch muss mindestens einen Stein enthalten.",
       "SLICE_SUM": "Zusammen dürfen die zwei Batches höchstens {{max}} Steine enthalten.",
       "SLICE_RATIO": "Kein Batch darf mehr als doppelt so groß sein wie der andere.",
@@ -6795,15 +6795,15 @@
       "SLICE_A_ONLY_other": "Erster Batch von {{count}} Steinen. Wählen Sie nun die Größe des zweiten Batches.",
       "SLICE_B_ONLY_one": "Zweiter Batch von einem Stein. Wählen Sie nun die Größe des ersten Batches.",
       "SLICE_B_ONLY_other": "Zweiter Batch von {{count}} Steinen. Wählen Sie nun die Größe des ersten Batches.",
-      "SLICE_OK": "Sätze von {{a}} und {{b}} Steinen. Bestätigen oder andere Größen wählen.",
+      "SLICE_OK": "Batches von {{a}} und {{b}} Steinen. Bestätigen oder weitertippen.",
       "INSTRUCTIONS_HOC_OPTION_one": "Entscheiden Sie, wer den ersten Batch von einem Angreifer-Stein setzt: Setzen Sie ihn selbst (Ihr Gegner wählt dann eine Seite) oder lassen Sie Ihren Gegner ihn setzen (Sie wählen dann eine Seite).",
       "INSTRUCTIONS_HOC_OPTION_other": "Entscheiden Sie, wer den ersten Batch von {{count}} Angreifer-Steinen setzt: Setzen Sie sie selbst (Ihr Gegner wählt dann eine Seite) oder lassen Sie Ihren Gegner sie setzen (Sie wählen dann eine Seite).",
       "INSTRUCTIONS_HOC_BATCH_one": "Setzen Sie einen Angreifer-Stein.",
       "INSTRUCTIONS_HOC_BATCH_other": "Setzen Sie {{count}} Angreifer-Steine.",
       "INSTRUCTIONS_HOC_CHOOSE_one": "Wählen Sie eine Seite. Die Übernahme der Angreifer-Seite bedeutet, dass Sie jetzt den zweiten Batch von einem Stein setzen; die Wahl der Verteidiger-Seite bedeutet, dass Ihr Gegner ihn setzt und Sie danach zuerst ziehen.",
       "INSTRUCTIONS_HOC_CHOOSE_other": "Wählen Sie eine Seite. Die Übernahme der Angreifer-Seite bedeutet, dass Sie jetzt den zweiten Batch von {{count}} Steinen setzen; die Wahl der Verteidiger-Seite bedeutet, dass Ihr Gegner sie setzt und Sie danach zuerst ziehen.",
-      "INSTRUCTIONS_PLAY_ATTACKER": "Setze einen Stein. Du gewinnst, indem du verhinderst, dass der Verteidiger eine bedingungslos lebende Kette bildet.",
-      "INSTRUCTIONS_PLAY_DEFENDER": "Setze einen Stein. Du gewinnst, indem du eine bedingungslos lebende Kette bildest.",
+      "INSTRUCTIONS_PLAY_ATTACKER": "Setzen Sie einen Stein oder passen Sie. Sie gewinnen, indem Sie dem Verteidiger keinen Platz lassen, eine Kette zu bilden, die niemals geschlagen werden kann.",
+      "INSTRUCTIONS_PLAY_DEFENDER": "Setzen Sie einen Stein oder passen Sie. Sie gewinnen, indem Sie eine Kette bilden, die niemals geschlagen werden kann.",
       "KO_PSK": "Dieses Setzen würde eine frühere Brettposition wiederherstellen (positionelles Superko)."
     },
     "knightline": {

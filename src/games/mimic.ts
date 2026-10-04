@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base.js";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -174,6 +174,16 @@ export class MimicGame extends GameBase {
             }
         }
         return mimicCount;
+    }
+
+    public countUnfrozenPieces(player: pieceType): number {
+        let count = 0;
+        for (const cell of this.board.keys()) {
+            if (this.getTopPiece(cell) === player && this.getMimicCount(cell) <= 1) {
+                count++;
+            }
+        }
+        return count;
     }
 
     // Get at least one mimic of the cell. Probably shouldn't use if you don't know that mimic count is 1.
@@ -798,6 +808,15 @@ export class MimicGame extends GameBase {
         }
 
         return rep;
+    }
+
+    public sidebarScores(): IScores[] {
+        return [
+            {
+                name: this.neutralAreaLabel("apgames:status.mimic.UNFROZEN_PIECES"),
+                scores: [this.countUnfrozenPieces(MimicGame.PLAYER_ONE), this.countUnfrozenPieces(MimicGame.PLAYER_TWO)],
+            },
+        ];
     }
 
     public clone(): MimicGame {

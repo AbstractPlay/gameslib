@@ -137,10 +137,7 @@ describe("Thricewise", () => {
             const layers = Array.isArray(entry) ? entry : entry !== undefined ? [entry] : [];
             return layers.some(
                 (layer: { name?: string; opacity?: number }) =>
-                    layer.name !== "piece-square-borderless" &&
-                    layer.opacity !== undefined &&
-                    layer.opacity > 0 &&
-                    layer.opacity <= 0.25,
+                    layer.name === "cross-diag" && layer.opacity === 0.5,
             );
         };
         expect(dimmed(`c${twos[0]}`)).to.equal(true);

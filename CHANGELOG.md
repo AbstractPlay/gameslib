@@ -15,6 +15,12 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Clearpath, Croda, Dama, Ice Palace, Kill-All Go, Neutron, Thricewise, Yodd.
 
+## [1.0.0-ci] - 2026-10-04
+
+### Added
+
+- **Move table presentation API:** `getMoveTableRounds({ density, pathLength })`, `pathIndexForMoveTableCell`, `packPliesForMoveTable`, and exploration wire helpers (`moveTableRoundsFromExplorationPath`, …) on `GameBase` — export `getRounds()` unchanged; compact sequenced UI merges seat cycles.
+
 ## [1.0.0-ci] - 2026-10-02
 
 ### Added

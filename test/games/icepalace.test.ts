@@ -1253,3 +1253,19 @@ describe("Ice Palace: maximum build matches exhaustive search", () => {
         }
     }
 });
+
+describe("Ice Palace: move table presentation", () => {
+    it("compact rows merge a full seat cycle; export stays sparse", () => {
+        const g = rig(new IcePalaceGame(3), [["1M"], ["1S", "2S"], ["3S"]], fatPool());
+        g.move("1M@0,0");
+        g.move("1S@1,0");
+        g.move("pass");
+        const pathLength = g.stack.length - 1;
+        expect(pathLength).to.equal(3);
+        expect(g.getRounds()).to.have.length(pathLength);
+        const compact = g.getMoveTableRounds({ density: "compact", pathLength });
+        const sparse = g.getMoveTableRounds({ density: "sparse", pathLength });
+        expect(sparse).to.have.length(pathLength);
+        expect(compact).to.have.length(1);
+    });
+});

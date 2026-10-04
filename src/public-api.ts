@@ -79,6 +79,27 @@ export type { APMoveResult, APGamesInformation };
 export type { Variant, AlternativeDisplay } from "./schemas/gameinfo.js";
 export type { TurnModel, IGamePly, IGameRound, IGameRoundSlot } from "./games/_turn-model.js";
 export type {
+    MoveTableDensity,
+    IGetMoveTableRoundsOptions,
+    IPathIndexForMoveTableCellOptions,
+} from "./games/_turn-move-table.js";
+export {
+    packPliesForMoveTable,
+    normalizeMoveTableDensity,
+    getMoveTableRoundsForEngine,
+    resolveMoveTableRounds,
+    pathIndexForMoveTableCell,
+    moveTableRowCountForEngine,
+    stackMoveCount as moveTableStackMoveCount,
+    isStackAlignedRounds,
+    hasMultiplePliesPerStackIndex,
+    roundSlotToMoveText,
+    wireMoveTokenForSeat,
+    moveTextForMoveTableSlot,
+    explorationPathHasNPartWireRows,
+    moveTableRoundsFromExplorationPath,
+} from "./games/_turn-move-table.js";
+export type {
     SoloOutcomeType,
     ScoreDirection,
     IGradeTier,

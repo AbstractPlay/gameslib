@@ -5159,6 +5159,14 @@
     "src": "Harlog",
     "out": "Harlog"
   },
+  "status.arimaa.ROLL_MEAN": {
+    "src": "Average roll",
+    "out": "Durchschnittlicher Wurf"
+  },
+  "status.arimaa.ROLL_TOTAL": {
+    "src": "Rolls total",
+    "out": "Würfe insgesamt"
+  },
   "status.asli.AREA": {
     "src": "Area + komi",
     "out": "Gebiet + Komi"

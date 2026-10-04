@@ -5159,6 +5159,14 @@
     "src": "Harlog",
     "out": "Harlog"
   },
+  "status.arimaa.ROLL_MEAN": {
+    "src": "Average roll",
+    "out": "Moyenne des lancers"
+  },
+  "status.arimaa.ROLL_TOTAL": {
+    "src": "Rolls total",
+    "out": "Total des lancers"
+  },
   "status.asli.AREA": {
     "src": "Area + komi",
     "out": "Aire + komi"

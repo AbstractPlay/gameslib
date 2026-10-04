@@ -5063,7 +5063,9 @@
       "TERRITORY": "Territorium"
     },
     "arimaa": {
-      "HARLOG": "Harlog"
+      "HARLOG": "Harlog",
+      "ROLL_MEAN": "Durchschnittlicher Wurf",
+      "ROLL_TOTAL": "Würfe insgesamt"
     },
     "asli": {
       "AREA": "Gebiet + Komi",

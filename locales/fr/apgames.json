@@ -5063,7 +5063,9 @@
       "TERRITORY": "Territoire"
     },
     "arimaa": {
-      "HARLOG": "Harlog"
+      "HARLOG": "Harlog",
+      "ROLL_MEAN": "Moyenne des lancers",
+      "ROLL_TOTAL": "Total des lancers"
     },
     "asli": {
       "AREA": "Aire + komi",

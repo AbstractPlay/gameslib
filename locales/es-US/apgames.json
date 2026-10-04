@@ -5063,7 +5063,9 @@
       "TERRITORY": "Territorio"
     },
     "arimaa": {
-      "HARLOG": "Harlog"
+      "HARLOG": "Harlog",
+      "ROLL_MEAN": "Tirada promedio",
+      "ROLL_TOTAL": "Total de tiradas"
     },
     "asli": {
       "AREA": "Área + komi",

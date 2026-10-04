@@ -24,6 +24,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Changed
 
+- **Mimic:** Sidebar lists each player’s count of unfrozen (movable) pieces.
 - **Bao:** Now uses frames, letting you visualize multi-lap sowing much more clearly.
 - Normalized `localStash` emitters to dense bottom→top columns (no `"-"` spacers in Volcano, Mega-Volcano, Agents of MARS bag, and Ice Palace 3D hand/pool stashes).
 

@@ -5170,6 +5170,9 @@
       "OFFENSE": "Joueur offensif",
       "COUNTDOWN": "Demis-coups restants"
     },
+    "mimic": {
+      "UNFROZEN_PIECES": "Pièces dégelées"
+    },
     "mvolcano": {
       "PYRAMIDSCAPTURED": "Pyramides capturées",
       "UNCAPTUREDCOLOURS": "Couleurs non encore capturées"

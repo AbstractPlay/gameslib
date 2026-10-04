@@ -5170,6 +5170,9 @@
             "OFFENSE": "Offensive player",
             "COUNTDOWN": "Plies remaining"
         },
+        "mimic": {
+            "UNFROZEN_PIECES": "Unfrozen pieces"
+        },
         "mvolcano": {
             "PYRAMIDSCAPTURED": "Pyramids captured",
             "UNCAPTUREDCOLOURS": "Colours not yet captured"

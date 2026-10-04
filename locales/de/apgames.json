@@ -5170,6 +5170,9 @@
       "OFFENSE": "Angreifender Spieler",
       "COUNTDOWN": "Verbleibende Halbzüge"
     },
+    "mimic": {
+      "UNFROZEN_PIECES": "Nicht eingefrorene Spielsteine"
+    },
     "mvolcano": {
       "PYRAMIDSCAPTURED": "Eroberte Pyramiden",
       "UNCAPTUREDCOLOURS": "Noch nicht eroberte Farben"

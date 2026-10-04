@@ -4,6 +4,7 @@
     "accasta": "Accasta est le premier jeu de la trilogie d'empilement de Dieter Stein. Le but est d'amener trois de vos propres piles dans la zone du château ennemi. La version de base comporte trois types de pièces différents. Dans la variante « Pari », le déplacement est déterminé par le nombre de pièces alliées dans la pile.",
     "acity": "Alien City est un jeu combinant Piecepack et Icehouse qui consiste à construire une ville sur un monde nouvellement colonisé. Quatre guildes se disputent les clients, et le joueur doit prédire quels paris seront payants. À chaque tour, le joueur place soit une tour, soit un dôme, et peut optionnellement revendiquer une tour qui, selon lui, rapportera gros en fin de partie. Le jeu se poursuit jusqu'à ce qu'aucune construction ne soit plus possible. Les scores sont basés sur la position relative des bâtiments par rapport aux tours revendiquées.",
     "agere": "Un jeu de connexion dans lequel vous pouvez également empiler des pièces. Se joue soit sur un plateau triangulaire où vous tentez de relier les trois côtés, soit sur un plateau circulaire en « toile d'araignée » où vous reliez les côtés opposés.",
+    "agofmars": "Assignez des objectifs de couleur secrets aux colonnes de score, puis piochez des pyramides dans une réserve commune et placez-les sur le plateau. Les groupes connectés orthogonalement marquent leur valeur en pips multipliée par votre objectif pour cette couleur. Le total le plus élevé lorsque le plateau est plein l'emporte.",
     "akimbo": "Un jeu de connexion minimaliste où chaque joueur ne peut avoir qu'une seule diagonale nue.",
     "akron": "Akron est une extension des jeux de connexion classiques à trois dimensions. À leur tour, les joueurs peuvent introduire de nouvelles billes de leur couleur sur le niveau le plus bas du plateau, ou déplacer une bille non bloquée (sur laquelle reposent des billes dans au moins deux directions) vers un emplacement connecté au même groupe avant et après le déplacement. Lorsque des billes se déplacent, les billes qui reposaient dessus tombent, modifiant les connexions sur le plateau.",
     "almatafl": "AlmaTafl est un jeu dissymétrique où un camp joue les défenseurs essayant de mettre le roi en sécurité, tandis que l'autre camp tente de capturer le roi ou de le rendre sans défense.",
@@ -22,9 +23,9 @@
     "attangle": "Attangle est le dernier volet de la trilogie d'empilement de Dieter Stein. Placez et déplacez des pièces pour construire des piles. Le premier à construire trois triples piles gagne. La variante « Grand Attangle » est également disponible.",
     "ayu": "Jeu d'unification dans lequel des groupes serpentants de pièces se déplacent vers leurs alliés pour finalement se regrouper. Si vous ne pouvez effectuer aucun coup à votre tour, vous gagnez. Cela se produit lorsque vous n'avez plus qu'un seul groupe ou qu'il n'existe aucun chemin libre entre vos groupes.",
     "azacru": "Un jeu de contrôle de territoire où des pièces directionnelles arpentent un plateau subdivisé pour revendiquer des cases.",
-    "baghchal": "Un jeu traditionnel asymétrique à deux joueurs originaire du Népal. Le joueur jouant les tigres tente de capturer 5 chèvres en sautant par-dessus, tandis que le joueur jouant les chèvres cherche à immobiliser tous les tigres.",
     "bamboo": "Placez des pierres de manière à ce qu'aucun groupe n'ait plus de pièces que le nombre de vos groupes sur le plateau. Ensuite, soyez le dernier joueur en mesure de jouer.",
     "bao": "Un jeu de semailles traditionnel de style mancala d'Afrique de l'Est où vous tentez d'éliminer toutes les pièces de la rangée avant adverse ou de ne lui laisser aucun coup légal.",
+    "bashni": "Un jeu traditionnel de dames russes à colonnes sur un plateau de 8×8. Les pièces capturées sont placées sous la pièce capturante au lieu de quitter le plateau.",
     "basalt": "Un jeu de connexion triangulaire joué sur le flanc d'un volcan, où la lave et le basalte rivalisent pour relier les trois côtés en premier.",
     "bide": "Jusqu'à six joueurs placent à tour de rôle des pièces sur le plateau, repoussant les pièces adjacentes vers l'extérieur. On peut aussi passer son tour pour accumuler des pièces pouvant être placées d'un coup plus tard. Les pièces plus proches du centre ont plus de valeur. Le groupe qui marque le plus de points l'emporte !",
     "biscuit": "Un jeu de Decktet de style domino où vous jouez des cartes pour marquer immédiatement des points et tenter d'être le premier à jouer toutes les cartes de votre main. Une partie se joue en plusieurs manches jusqu'à atteindre un score cible.",
@@ -60,6 +61,7 @@
     "churn": "Un jeu sanglant de contrôle de territoire sur un petit plateau.",
     "cifra": "Un jeu de style traversée (breakthrough) où la configuration du plateau change d'une partie à l'autre.",
     "clearcut": "Reliez les côtés opposés du plateau. Les lignes de pièces peuvent se croiser dans certaines circonstances, ce qui entraîne le retrait de certaines pièces adverses.",
+    "clearpath": "Un jeu de connexion orthogonale sur les intersections d'une grille carrée. Rouge relie les bords supérieur et inférieur, Bleu les bords gauche et droit, par une chaîne de pierres orthogonalement adjacentes. À chaque tour, vous placez une pierre. Un point est vital pour un joueur si chacune de ses connexions possibles passe par celui-ci. Vous ne pouvez pas jouer sur un point vital pour votre adversaire, sauf s'il est également vital pour vous ou si votre coup complète votre connexion. Les croisements sont autorisés.",
     "clusterfuss": "Capturez continuellement des pièces dans le but de détacher (et ainsi éliminer) des groupes de pièces adverses. Soyez le dernier survivant !",
     "compart": "Jouez sur chaque zone viable, mais soyez celui qui a le moins de pièces à la fin.",
     "complica": "Un jeu simple de Puissance 4 joué sur un terrain étroit où les colonnes ne se remplissent jamais.",
@@ -75,8 +77,10 @@
     "crosscontrol": "Jeu de territoire basé sur la ligne de vue. Les cases sont contrôlées et les pièces qui s'y trouvent sont retournées en fonction du nombre de pièces d'une couleur qui les voient. Le gagnant est le joueur qui occupe la plus grande partie du plateau à la fin.",
     "crossway": "Un jeu consistant à relier les côtés opposés du plateau, sans que les lignes de pièces ne puissent se croiser.",
     "crosshairs": "Un jeu de combat aérien durant la Première Guerre mondiale. Les avions possèdent une altitude et une direction. Les déplacements incluent la montée, le vol en palier et le piqué. Le combat est simple : si un avion se trouve dans la ligne de mire de deux avions ennemis, il est abattu. Réduisez votre adversaire à un seul avion pour l'emporter.",
+    "croda": "Croda sur un plateau 8×8 : les pions avancent d'une case vers l'avant, orthogonalement ou en diagonale ; ils capturent orthogonalement dans n'importe quelle direction. Les rois glissent et capturent le long des rangées et des colonnes. La capture maximale est obligatoire ; vous gagnez en immobilisant l'adversaire.",
     "cubeo": "Un jeu de dés sans plateau à information parfaite dans lequel vous tentez de promouvoir vos dés plus vite que votre adversaire ou de le manœuvrer dans une position où il ne peut plus jouer.",
     "dagnacht": "Un jeu d'alignement sur damier. Vous ne pouvez placer des pièces que sur les cases foncées, mais vous pouvez ensuite déplacer des pièces sur les cases claires. Gagnez en alignant 5 pièces orthogonalement (dont 3 cases claires si vous êtes le joueur 1) ou 4 pièces sur une diagonale claire. Gagnant du concours 2021 « Unequal Board Spaces Game Design Competition » du magazine Abstract Games.",
+    "dama": "Dames turques sur un plateau 8×8 : les pions se déplacent et capturent orthogonalement vers l'avant ou latéralement ; les dames glissent et capturent le long des rangées et des colonnes. La prise maximale est obligatoire.",
     "dameo": "Un jeu de dames moderne avec déplacements linéaires et captures orthogonales.",
     "deckfish": "Un jeu pour deux joueurs de réduction de carte et de collection d'enseignes où le joueur possédant le plus de sa couleur Decktet la moins collectée l'emporte.",
     "diffusion": "Diffusion est un jeu moderne de style mancala dans lequel le but est de vider vos propres fosses.",
@@ -128,12 +132,14 @@
     "hexy": "Une adaptation du jeu Y sur un hexagone régulier où les joueurs rivalisent pour contrôler la majeure partie du périmètre du plateau.",
     "homeworlds": "Un jeu Icehouse pour 2 à 4 joueurs. Les joueurs sont des civilisations interstellaires se disputant la dominance. Chacune des quatre couleurs de pyramides donne accès à différentes actions. Amassez une flotte, explorez la galaxie et détruisez votre adversaire.",
     "hula": "Deux joueurs cherchent à former une boucle autour du centre d'un plateau hexagonal régulier, en utilisant leurs propres pierres et, éventuellement, des pierres neutres.",
+    "icepalace": "De trois à six joueurs s'affrontent pour gagner des manches en jouant des pyramides dans une Cour commune, formant des nids. Le gagnant de chaque manche place tout ce qu'il a gagné dans le Palais de Glace, où les pyramides forment des arbres à la place. Chaque arbre du Palais rapporte sa hauteur en points au propriétaire de la pyramide située au sommet, les petites pyramides sont donc la clé pour marquer. Presque tout fait l'objet de négociations.",
     "intermedium": "Semez des piles pour encercler et capturer. Gagnez en capturant la cité adverse.",
     "invector": "Éliminez l'armée adverse tout en vous rapprochant du centre du plateau.",
     "iqishiqi": "Iqishiqi (prononcé EE-chee-shee-chee) est un jeu de stratégie abstrait qui se joue sur un plateau hexagonal composé de cases hexagonales. Les joueurs possèdent des bords désignés du plateau et, en plaçant habilement des pierres, ils poussent une pierre neutre sur le plateau. Un joueur gagne s'il déplace la pierre neutre vers l'un de ses bords, ou s'il laisse son adversaire sans coup possible.",
     "irensei": "Irensei est un mélange de Go et de Gomoku. Alignez sept pierres à la suite dans la région centrale de 15x15 du plateau de Go pour gagner. Pour réduire l'avantage du premier joueur, celui-ci perd s'il réalise un suralignement (même s'il dépasse de la zone 15x15), mais le second joueur peut gagner par suralignement.",
     "jacynth": "Un jeu de cartes Decktet où les adversaires luttent pour le contrôle de la cité de Jacynth. Placez des cartes, exercez votre influence et contrôlez la plus grande zone pour gagner.",
     "kachit": "Un jeu proche des échecs joué sur un plateau 4x4 où vous essayez d'éliminer le roi adverse ou de promouvoir le vôtre. Les pièces peuvent changer d'orientation après s'être déplacées.",
+    "killallgo": "Une variante du Go aux objectifs asymétriques : l'Attaquant commence avec des pierres sur le plateau et doit empêcher le Défenseur d'établir une vie inconditionnelle. Le Défenseur gagne en formant une seule chaîne inconditionnellement vivante.",
     "knightline": "Un jeu de connexion à quatre alignés joué en divisant une pile de cavaliers sur une grille illimitée.",
     "konane": "Un jeu traditionnel hawaïen qui a failli disparaître sans la mémoire d'une seule femme, Kaʻahaʻaina Naihe de Kailua-Kona. Joué sur un plateau rectangulaire, chaque joueur capture en sautant par-dessus les pièces adverses. Le dernier à pouvoir jouer gagne.",
     "krypte": "Un jeu d'alignement de 4 pièces où les pièces entrent par des côtés actifs qui tournent après chaque tour, et placer une pièce retourne toutes les pièces adjacentes.",
@@ -166,6 +172,7 @@
     "nakatta": "Un jeu de connexion carré où deux configurations spécifiques de pièces sont interdites.",
     "narrows": "Reliez toutes vos pièces par des régions vides.",
     "necklace": "Un jeu de connexion sur grille carrée exclusivement orthogonal où vous tentez de relier vos côtés du plateau. Les configurations en coupe croisée sont interdites, et chaque espace libre doit toujours avoir un chemin vers un bord.",
+    "neutron": "Faites glisser le neutron neutre et l'un de vos pions à chaque tour. Les pièces se déplacent en ligne droite aussi loin que possible. Gagnez en amenant le neutron sur la bonne ligne arrière, ou en laissant votre adversaire dans l'impossibilité de compléter son tour.",
     "nex": "Nex (ou Neutral Hex) est une variante du jeu de connexion Hex comportant des pièces neutres. À votre tour, vous pouvez soit (1) placer une pièce de votre couleur et une de couleur neutre sur une case vide, soit (2) échanger deux pièces neutres contre votre couleur et une de vos pièces contre la couleur neutre.",
     "omny": "Jeu de connexion généralisé où les joueurs tentent de diviser les cases étoiles en différentes régions afin qu'aucune région ne contienne une majorité de cases étoiles.",
     "onager": "Dans Onager, chaque joueur tente d'atteindre la première rangée adverse. Onager tire son nom d'un engin de siège romain s'apparentant à une catapulte, car le déplacement des pièces ressemble à la façon dont des projectiles sont projetés vers l'avant avec cet appareil.",
@@ -260,6 +267,7 @@
     "toguz": "Un jeu d'égrainage traditionnel de style mancala provenant d'Asie centrale, où vous tentez de capturer la majorité des pièces.",
     "trax": "Un jeu de boucles et de lignes. Placez des tuiles adjacentes à celles déjà en jeu de façon à faire correspondre les couleurs des pistes. L'objectif est d'obtenir une boucle ou une ligne de votre couleur tout en essayant d'arrêter votre adversaire dans la sienne. Ce qui donne à Trax sa profondeur stratégique est la règle du coup forcé qui permet (ou même exige) de jouer plusieurs tuiles en un tour.",
     "tricouleur": "Un jeu où Ataxx rencontre Pierre-Papier-Ciseaux.",
+    "thricewise": "Un jeu de tableau dynamique avec le Decktet : à chaque tour, tout le monde choisit secrètement une carte, puis les cartes non différées sont placées sur la grille par ordre de valeur. Marquez des points chaque fois que votre carte complète une ligne de trois (couleur, brelan ou suite). Le joueur ayant le score le plus élevé lorsque la grille est remplie ou que les mains sont vides l'emporte.",
     "trike": "Trike est un jeu sur un plateau triangulaire. Les joueurs déplacent à tour de rôle un pion neutre sur le plateau (passer son tour n'est pas autorisé). Lorsqu'un joueur déplace le pion, il place un jeton de sa propre couleur sur le point de destination. Lorsque le pion est bloqué, la partie est terminée. À la fin de la partie, chaque joueur reçoit un point pour chaque jeton de sa couleur adjacent au pion ou situé sous celui-ci. La personne ayant le score le plus élevé gagne.",
     "tritium": "Deux joueurs créent, agrandissent et revendiquent tour à tour des régions. Une fois le plateau rempli, le joueur qui contrôle le plus de cases gagne.",
     "tumbleweed": "Tumbleweed est un jeu de ligne de vue. Des tours sont construites, et les cases sont contrôlées par le joueur possédant le plus de tours pouvant voir cette case. S'affronter pour contrôler la majorité du plateau hexagonal.",
@@ -283,6 +291,7 @@
     "xana": "Un jeu d'empilement où les joueurs disposent d'un nombre limité de pièces et d'un nombre illimité de murs pour conquérir du territoire.",
     "y": "Le jeu de connexion classique. Connectez les trois côtés pour gagner.",
     "yavalath": "Formez une ligne de quatre pièces ou plus de votre couleur *sans* former une ligne de trois pièces au préalable.",
+    "yodd": "Passez ou placez une ou deux pierres de n'importe quelle couleur. Après votre tour, il doit y avoir un nombre impair de groupes sur le plateau. Lorsque les deux joueurs passent consécutivement, le joueur ayant le moins de groupes de sa couleur gagne.",
     "yonmoque": "Essayez de former un alignement de quatre pièces dans un jeu où toutes les cases ne se valent pas et où les pièces adverses peuvent être converties.",
     "zola": "Un jeu où vos déplacements sont contraints par votre distance par rapport au centre du plateau. Les coups de capture ne doivent pas augmenter cette distance. Les coups sans capture doivent augmenter cette distance. La première personne à capturer toutes les pièces adverses gagne."
   },
@@ -363,10 +372,10 @@
     "control": "Control",
     "court": "Court",
     "courtesan": "King & Courtesan",
-    "croda": "Croda",
     "crosscontrol": "Crosscontrol",
     "crosshairs": "Crosshairs",
     "crossway": "Crossway",
+    "croda": "Croda",
     "cubeo": "Cubeo",
     "dagnacht": "Dag en Nacht",
     "dama": "Dama",
@@ -582,7 +591,13 @@
     "yonmoque": "Yonmoque",
     "zola": "Zola"
   },
+  "icepalace": {
+    "HAND": "Main de {{player}}",
+    "POOL": "Pyramides dans le Pool",
+    "STOCK": "Pyramides de la Cour, à intégrer au Palais"
+  },
   "notes": {
+    "agofmars": "Chaque tour de jeu est validé en deux ou trois étapes, et non comme une seule action combinée.\n\nPremièrement, choisissez d'échanger des colonnes d'objectifs ou non (**Pas d'échange d'objectifs**) lorsqu'un échange est légal. Vous devez valider cette étape même si vous renoncez simplement à un échange.\n\nDeuxièmement, effectuez votre action principale : **Piocher** dans le sac, déplacer une pyramide sur le plateau, ou **échanger** deux pyramides sur le plateau. Si vous piochez, tout le monde voit la pièce piochée après la validation de cette étape ; votre tour n'est pas encore terminé.\n\nTroisièmement (pioche uniquement) : placez la pyramide piochée sur une case vide, puis votre tour prend fin.\n\nLors de la mise en place manuelle, cliquez sur l'une de vos pyramides d'objectif, puis cliquez sur une colonne multiplicatrice. Les coups sont enregistrés sous forme de paires couleur/multiplicateur (par exemple `RD1,BU2,GN-1,YE0`). Le journal des événements indique seulement qu'un joueur a choisi ses objectifs ; les attributions restent cachées jusqu'aux échanges ou jusqu'à la fin de la partie.",
     "akimbo": "Akimbo, conçu par Luis Bolaños Mures en 2026, est un jeu de connexion sans égalité pour deux joueurs. Une _diagonale nue_ est une paire de pièces de même couleur, adjacentes en diagonale, sans aucune autre pièce de même couleur adjacente aux deux. Une _coupe croisée_ est une zone 2×2 avec deux diagonales nues imbriquées de couleurs opposées.\n\nÀ son tour, le joueur place une pièce amie sur une case vide. Si cela complète une coupe croisée, l'autre pièce de la coupe croisée est retirée. Il ne doit jamais y avoir plus d'une diagonale nue de chaque couleur sur le plateau — pas même momentanément avant de retirer une pièce. Un joueur gagne si, à la fin de son tour, il existe une chaîne de pièces de sa couleur connectées orthogonalement touchant les deux bords opposés du plateau du joueur.\n\nOkimba est une variante où une seule diagonale nue au maximum peut exister sur le plateau (ainsi, tant qu'un joueur possède la diagonale, l'adversaire ne peut pas en créer une autre).",
     "alta": "Il existe deux façons de placer des aiguillages sur l'interface graphique : (1) Sélectionnez l'orientation de l'aiguillage dans le panneau, puis cliquez sur la case désirée du plateau pour le placer, ou (2) cliquez sur deux sommets. Les sommets sont notés avec un astérisque, suivi de la notation algébrique de la case où le sommet se trouve dans le coin inférieur gauche. Pour basculer un aiguillage, cliquez simplement sur la case.",
     "anache": "Cette implémentation suit le règlement de David Ploog. Trois changements notables sont que (1) les barrières sont interdites, (2) au lieu d'un 16x16, nous avons une variante 15x15, où les pièces se promeuvent en cavaliers sur la ligne centrale, et le dragon ne peut pas sauter vers la case 7x7 depuis l'autre coin, et (3) contre les coins, les pièces sont capturées par écrasement au lieu d'une capture par encadrement, il doit donc y avoir au moins deux pièces adverses en ligne avant qu'une capture ne soit faite contre les coins.\n\nRemarque : la vérification du pat est gourmande en ressources. Si vous ne pouvez pas jouer de coup légal, vous devriez abandonner manuellement.",
@@ -590,6 +605,7 @@
     "armadas": "Des problèmes connus existent avec ce jeu sur les appareils iOS.\n\nCe jeu propose deux scénarios :\n\n* Par défaut, chaque joueur dispose de deux trios de pièces. Dans la phase de placement, chaque joueur doit placer de 1 à 3 navires jusqu'à ce que tous les navires soient placés.\n* La variante \"Forme libre\" vous permet de placer tous les navires que vous souhaitez (maximum trois à la fois) jusqu'à ce que les deux joueurs \"passent\". Cela vous permet de créer des flottes déséquilibrées ou asymétriques.\n\nPar défaut, les parties comportent une île au centre du terrain. Les variantes \"sans îles\" et \"deux îles\" sont également disponibles. Vous ne pouvez pas vous déplacer ni tirer à travers les îles. Pour toucher un navire avec succès, au moins un coin du triangle de votre navire doit avoir une vue dégagée sur au moins un coin du navire cible.\n\nN'oubliez pas qu'il est possible de coincer votre navire contre une île ou le bord du plateau de manière à ne plus pouvoir le déplacer ! Soyez prudent !",
     "ataxx": "Lors d'une triple répétition, la partie prend fin et les scores sont calculés.",
     "bao": "Les coups au Bao peuvent être très complexes, impliquant plusieurs tours du plateau et des changements de direction. Les annotations sont donc succinctes. La case initiale et la direction sont mises en évidence, et les cases capturées sont également marquées. Cependant, une annotation détaillée du déplacement n'est pas possible. Si vous pensez avoir rencontré un bug, veuillez nous en informer sur Discord.",
+    "bashni": "La manoeuvrabilité mesure la proximité de vos piles avec la promotion. Votre manoeuvrabilité maximale est égale à la taille du plateau multipliée par le nombre de piles que vous contrôlez.\n\nLe matériel est calculé en vous accordant un point pour chaque pièce alliée dans une pile que vous contrôlez, plus un point supplémentaire si vous avez une dame au sommet de cette pile.",
     "biscuit": "La partie se termine lorsque, à la fin d'un tour, quelqu'un a atteint ou dépassé le score cible. Le score le plus élevé gagne. Les égalités sont possibles.\n\nLors du calcul des biscuits, une même carte ne peut pas être comptée plus d'une fois. Par exemple, si la carte racine est un 6, et que la fin de la ligne principale est aussi un 6 (une carte transversale), et que vous jouez un 6 au-dessus de cette carte transversale, vous marquez le \"hot cross biscuit\" (le haut et le bas de la ligne transversale correspondent) mais vous n'obtenez pas *en plus* un \"biscuit\" ordinaire pour avoir fait correspondre la fin de la ligne principale (c'est la même carte). De plus, les lignes transversales ne sont pas du tout comptabilisées s'il n'y a pas au moins deux cartes dans la ligne. Ainsi, jouer une nouvelle carte transversale (dans notre exemple, un 6) ne vous donne pas automatiquement un \"biscuit\" (jouer une carte sur la ligne principale qui correspond à une ligne transversale).\n\nPlus d'informations sur le système Decktet sont disponibles sur le [site officiel de Decktet](https://www.decktet.com). Les cartes dans les mains des joueurs sont cachées aux observateurs et aux adversaires.",
     "blooms": "La valeur de seuil est X(n) = 5n, où n est la base du plateau hexhex (par exemple, le plateau par défaut a une base de 6, donc le seuil est de 30).",
     "btt": "Des nombres de joueurs inhabituels (3, 5 ou 6) sont pris en charge, mais sur un plateau rectangulaire normal de taille appropriée plutôt que sur un échiquier martien.",
@@ -600,19 +616,23 @@
     "druid": "Un linteau doit être soutenu à ses deux extrémités (pas sur le sol nu) et reposer sur exactement deux de vos pierres (qui n'ont pas besoin d'être toutes deux aux extrémités). Les linteaux doivent être posés à plat : les deux extrémités doivent reposer sur des piles de hauteur égale. Les linteaux peuvent se croiser, mais vous ne pouvez pas enfiler un nouveau linteau dans l'espace sous le centre d'un linteau existant. Seule la pierre supérieure de chaque case compte pour les connexions.\n\nAvec la variante La Marche du Druide sur le plateau rectangulaire, votre Druide apparaît la première fois que vous placez une pierre sur l'un de vos bords (ouest ou est pour le joueur 1, nord ou sud pour le joueur 2). Pour gagner, le druide doit être sorti du plateau par le bord opposé. À chaque tour, vous placez une pierre ou déplacez votre Druide — mais pas les deux. Les Druides se déplacent sur des pierres adjacentes orthogonalement de leur couleur et se tiennent toujours sur la pierre la plus haute ; ils ne peuvent pas marcher dans des espaces nus sous des linteaux. Les pierres ne peuvent pas être placées sur un Druide. Le premier joueur à faire sortir son Druide gagne. La Marche du Druide ne s'applique pas aux plateaux Druid's Y ni Druid's Hex.",
     "catsdogs": "Le jeu original, *SNORT*, a été conçu par Simon Norton en 1970. La seule règle était d'empêcher les pierres de couleurs différentes d'être adjacentes orthogonalement. Un joueur bloqué perd la partie. Norton a également proposé la version misère (le blocage est une victoire). Le jeu original est cependant cassé par une stratégie en miroir. Chris Huntoon a proposé un plateau 11x11 plus grand où le joueur ne peut pas commencer au centre (afin d'empêcher le miroir), qu'il a appelé *Cats and Dogs*, et c'est le jeu principal ici. La variante du règlement du tournoi portugais est également disponible, jouée sur le plateau plus petit 8x8, mais où le premier joueur doit commencer dans la zone centrale 2x2, et le second joueur doit répondre en dehors de cette zone. Cela permet au jeu de briser la stratégie du miroir tout en jouant sur le plateau d'origine plus petit. Consultez également l'article sur Snort dans [AGM#15](https://www.abstractgames.org/uploads/1/1/6/4/116462923/abstract_games_issue_15.pdf).",
     "chase": "Actuellement, la plupart des coups d'échange devront être édités à la main. Nous travaillons à résoudre cela.",
+    "circleOfLife": "Les espèces sont numérotées de 0 à 11 dans le sens antihoraire sur l'anneau, en commençant par l'espèce à un seul hexagone en haut. L'espèce 0 mange la 11 ; chaque autre espèce mange celle dont le numéro est directement en dessous du sien. La prédation ne se produit que lorsque vous placez une pierre qui forme une espèce adjacente à une proie. Les groupes ne peuvent pas dépasser quatre pierres. Le premier joueur à capturer 20 pierres adverses gagne, ou le joueur qui ne peut pas poser de pierre à son tour gagne (ayant rempli l'écosystème).",
+    "clearpath": "Clear Path a été conçu par Mark Steere en septembre 2026, en collaboration avec Claude Fable 5.1, un modèle d'IA développé par Anthropic.\n\nLes points vitaux sont marqués sur le plateau. Un point rouge indique un point par lequel passent toutes les connexions possibles de Rouge, un point bleu indique un point par lequel passent toutes les connexions possibles de Bleu, et un point bleu à l'intérieur d'un point rouge indique un point vital pour les deux joueurs. Un point vital uniquement pour votre adversaire est illégal pour vous, sauf si votre coup complète votre connexion.\n\nPasser n'est pas autorisé, mais le tour d'un joueur n'ayant aucun coup légal est passé. La passe est effectuée automatiquement.\n\nCette implémentation raccourcit la partie en reconnaissant qu'un joueur qui n'a plus aucune connexion possible a perdu d'office.",
     "conspirateurs": "Dans le jeu de base, les pièces peuvent traverser les sanctuaires dans le cadre d'un saut en plusieurs étapes. Elles ne sont pas gelées tant qu'elles ne terminent pas leur déplacement dans un sanctuaire. Dans la variante stricte, les pièces sont gelées dès qu'elles entrent dans un sanctuaire.\n\nDans les parties à quatre joueurs, les joueurs 1 et 2 sont partenaires, tout comme les joueurs 3 et 4.",
+    "crosshairs": "La Turbulence suit la règle clarifiée de l'auteur : résolvez d'abord la manoeuvre (déplacement, virage et son changement d'altitude normal), puis perdez un niveau d'altitude si l'avion est passé d'un hexagone sans nuage à un hexagone de nuage à un moment quelconque de cette manoeuvre. Un avion déjà à l'altitude 0 lorsque cette perte s'applique s'écrase. Voler de nuage en nuage au sein d'un même banc ne coûte rien, et placer un nouvel avion sur un hexagone de départ nuageux ne coûte rien. Chaque hexagone traversé compte, y compris l'hexagone central d'un vol en palier de deux cases. Chaque étape d'un piqué est une manoeuvre distincte résolue avant la suivante, de sorte qu'un piqué peut subir la Turbulence plus d'une fois.",
     "deckfish": "Plus d'informations sur le système Decktet sont disponibles sur le [site officiel de Decktet](https://www.decktet.com).\n\nLes pouvoirs des enseignes (capacités de déplacement des jetons) sont :\n* Lunes : Sautez orthogonalement par-dessus les espaces.\n* Soleils : Déplacez une ou deux cartes en diagonale.\n* Vagues : Déplacez-vous orthogonalement jusqu'à la dernière carte sans obstacle.\n* Feuilles : Déplacez-vous orthogonalement sur n'importe quelle carte sans obstacle voisin.\n* Wyrms : Déplacez-vous orthogonalement sur la première carte occupée, poussant cette pièce vers la carte suivante.\n* Nœuds : Effectuez trois déplacements d'une carte orthogonalement, sans revenir sur vos pas.\n\nDans les règles, le \"premier\" joueur est celui qui place en second dans la phase de placement mais se déplace en premier dans la phase de déplacement, mais ici le premier joueur est celui qui place en premier mais se déplace en second. Cela est implémenté via une passe automatique pour le joueur approprié.\n\nLa règle selon laquelle, même lorsque le dernier joueur est déjà gagnant, il doit continuer à jouer jusqu'à ce qu'il n'ait plus de coups, est appliquée.",
     "elOso": "La mise en place est effectuée automatiquement lorsque vous lancez la partie. Les décomptes du Ciel, de la Grotte, du Sol et de la Fosse apparaissent dans la barre latérale. Après chaque coup, utilisez les commandes d'images pour parcourir la réponse de l'Ours. Placer dix pièces ou plus dans le Ciel constitue une victoire.",
     "domineering": "Domineering, aussi connu sous le nom de Stop-Gate, est un jeu combinatoire partisan. Le jeu a été conçu par Göran Andersson vers 1973 et a été présenté dans le livre de référence CGT *Winning Ways for Your Mathematical Plays*. Il existe une version impartiale appelée Cram, où les joueurs peuvent tous deux placer des dominos horizontaux ou verticaux. La variante \"Quelhas\" a été proposée par Carlos P. Santos et Alfie Davies en 2025, étant une version misère (le joueur sans options gagne la partie) et utilisant des polyominos plus longs semblables à des dominos.",
     "emu": "Plus d'informations sur le système Decktet sont disponibles sur le [site officiel de Decktet](https://www.decktet.com). Les cartes dans les mains des joueurs sont cachées aux observateurs, et elles sont cachées aux adversaires jusqu'à ce que la pioche soit vide, moment auquel les joueurs disposent d'une information parfaite, donc les mains sont révélées. Les cartes tirées de la défausse sont également toujours visibles par les adversaires.",
     "entropy": "Dans cette implémentation, les joueurs jouent deux parties simultanément mais avec un seul tirage partagé de pièces aléatoires. Chaque joueur place une pièce sur le plateau Ordre de son *adversaire* puis effectue un coup sur son *propre* plateau Ordre ; les joueurs agissent ainsi à la fois en tant qu'Ordre et Chaos en même temps. Le joueur avec le score le plus élevé gagne ! Comme les deux joueurs disposaient exactement des mêmes choix de placement, cela offre la mesure la plus pure de compétence relative.",
-    "circleOfLife": "Les espèces sont numérotées de 0 à 11 dans le sens antihoraire sur l'anneau, en commençant par l'espèce à un seul hexagone en haut. L'espèce 0 mange la 11 ; chaque autre espèce mange celle dont le numéro est directement en dessous du sien. La prédation ne se produit que lorsque vous placez une pierre qui forme une espèce adjacente à une proie. Les groupes ne peuvent pas dépasser quatre pierres. Le premier joueur à capturer 20 pierres adverses gagne, ou le joueur qui ne peut pas poser de pierre à son tour gagne (ayant rempli l'écosystème).",
     "evenatodds": "Pour poser sur la table, placez une extrémité sur un emplacement vide adjacent à une face active correspondante ; l'autre extrémité peut aller sur n'importe quel emplacement vide adjacent. Pour empiler, une extrémité doit correspondre à la face du dessous ; l'autre extrémité peut recouvrir n'importe quelle face active *sur une tuile différente* à la même hauteur. Dans la notation, la première coordonnée est l'extrémité qui correspond à l'une de ces règles. Les espaces vierges sont des bloqueurs n'appartenant à personne.\n\nLes tuiles de votre main sont cachées à votre adversaire. L'identité des tuiles du talonnier (boneyard) et les deux tuiles de prolongation retirées restent cachées jusqu'à la fin de la partie. Le nombre de tuiles dans le talonnier est affiché dans la barre latérale.",
     "exxit": "Les traductions des règles ont tendance à omettre certaines nuances. Cette implémentation est conforme à l'édition originale française des règles.\n\nComme le plateau s'agrandit au fur et à mesure que vous jouez en formant des figures irrégulières, les hexagones sont numérotés au lieu d'utiliser des coordonnées algébriques. Cela garantit que les repères ne changent pas à mesure que la carte s'étend.",
     "forms": "Forms a été conçu par Steven Meyers en 2007. Après chaque coup, toutes les pièces situées en dehors du groupe contenant la dernière pièce déplacée sont capturées. Le dernier joueur à jouer perd (Forms est donc un jeu misère). La première version permettait à une pièce de capturer n'importe quelle pièce adverse. Plus tard, en 2011, Meyers a développé une seconde version, **Advanced Forms**, dans laquelle vous ne pouviez capturer que des pièces orthogonalement adjacentes, mais une pièce pouvait aussi se déplacer vers une case vide si les deux étaient reliées par une séquence de déplacements orthogonaux sur des cases vides. La disposition initiale a également changé pour un motif en damier. Cette seconde version est la variante par défaut ici sur AP. Plus d'informations sont disponibles sur [WAG](https://jpneto.github.io/world_abstract_games/forms.htm).",
     "frogger": "Comme dans les autres jeux du Decktet sur Abstract Play, le paquet est affiché en bas du plateau et comprend à la fois les cartes de la pioche et les cartes inconnues dans la main des autres joueurs. Après la première main, toutes les cartes sont tirées de la réserve ouverte, de sorte que les mains deviennent progressivement visibles. La pile de défausse est également affichée.\n\nLes passes forcées ne sont plus utilisées lorsqu'un joueur remplit la réserve de pioche (et valide) au milieu de son tour. Le second tour partiel de ce joueur est géré automatiquement par le serveur. Il existe également une variante de la réserve qui évite le double demi-coup, si désiré.\n\nLa variante Crocodiles est de Jorge Arroyo, le traducteur des règles en anglais. Les règles avancées et d'autres variantes mineures sont de P. D. Magnus ; elles apparaissent dans The Decktet Book, où le jeu est appelé Xing.",
+    "gonnect": "Dans le jeu de base, passer son tour n'est pas autorisé. La variante **Cascading Connection Goals** autorise à passer et se termine après deux passes consécutives. Une connexion directe donne la victoire immédiatement ; sinon, cherchez le plus grand sous-plateau centré dans lequel exactement un joueur relie des côtés opposés : ce joueur gagne.",
     "garden": "Pour rendre très clair ce qui s'est passé lors du tour précédent, chaque coup est affiché sur quatre plateaux distincts. Le premier plateau montre le jeu après la pose initiale de la pièce. Le deuxième plateau montre l'état après le retournement des pièces adjacentes. Le troisième plateau montre les récoltes éventuelles. Le quatrième plateau est l'état final du jeu et c'est là que vous jouez vos coups.\n\nDans notre implémentation, le noir est toujours la couleur « tome » ou de départage. Le dernier joueur à avoir récolté du noir aura un `0.1` ajouté à son score.",
     "guerrilla": "Un joueur gagne en retirant toutes les pièces de son adversaire. Le joueur de la sécurité gagne également s'il survit jusqu'à ce que les insurgés n'aient plus de pierres à poser.\n\nPar défaut, un match se compose de deux parties avec inversion des rôles. Chaque joueur joue une partie en tant qu'insurgés et une en tant que sécurité. Lorsque les deux joueurs gagnent en tant qu'insurgés, le match est remporté par celui qui a utilisé le moins de pierres (`66 − restantes` à la fin de cette partie ; le score le plus bas l'emporte). Des scores d'insurgés égaux constituent la seule égalité possible dans ce cas. Une victoire de la sécurité dans une partie rapporte 67 points. Si un joueur remporte les deux parties (gagne en tant qu'insurgés dans l'une et en sécurité dans l'autre), il remporte directement le match. Si les deux joueurs ne gagnent qu'en tant que sécurité, le match est nul.",
+    "icepalace": "Les règles du Palais de Glace stipulent qu'une pyramide posée sur le sol doit être à côté d'une pyramide de la même couleur, sans préciser si tous les voisins doivent correspondre. Cette implémentation exige au moins un voisin orthogonal correspondant ; les autres peuvent être de n'importe quelle couleur. Le Blanc correspond à toutes les couleurs sauf le Noir, et le Noir ne correspond à rien.",
     "scribe": "Le tableau de référence des glyphes est affiché dans la marge de gauche. Un point indique le dernier coup de chaque joueur. Lorsqu'une mini-grille est remplie, les points de glyphe sont comptabilisés et le score le plus élevé remporte cette grille (en cas d'égalité, la victoire revient au joueur qui l'a complétée).",
     "gyges": "Les cases de but sont adjacentes à toutes les cases de la rangée arrière. Le moteur d'affichage ne peut pas gérer les cases « flottantes » pour le moment.",
     "halma": "Afin d'éviter la [tendance aux parties nulles](https://boardgamegeek.com/thread/3706389/unspoiling-halma-redux) du jeu, les règles suivantes s'appliquent : (a) un joueur gagne si la base de départ adverse est complètement remplie avec au moins une de ses propres pièces (critère de David Parlett) ; (b) Toute pièce située dans la base de départ du joueur doit avancer vers le camp ennemi dès que cela est possible en sautant par-dessus une pièce ennemie (règle Zillions, pour éliminer les stratégies de partie nulle) ; (c) Aucune pièce ne peut retourner dans sa base de départ.\n\n[Halma](https://en.wikipedia.org/wiki/Halma) a été l'un des premiers succès commerciaux pour un jeu abstrait. Le jeu a été conçu par [George Howard Monks](https://en.wikipedia.org/wiki/George_Howard_Monks) en 1883/4. Il est dit que Halma s'inspirait d'un plus ancien jeu britannique appelé *Hoppity*. Cependant, ce jeu n'a aucune documentation ni plateau survivant, faisant de cette filiation un mystère historique. Halma a ensuite été adapté (v.1892/3) en un succès encore plus grand : les [Dames chinoises](https://boardgamegeek.com/boardgame/2386/chinese-checkers) (qui se jouaient facilement à trois ou six joueurs).\n\nSuper Halma est une variante plus dynamique et non créditée, présentée dans le livre de 1992 **New Rules for Classic Games** par Wayne Schmittberger. Cette variante propose des sauts longs, où le nombre de cases vides avant et après la pièce sautée doit être égal. Les restrictions de déplacement dans la base s'appliquent toujours dans cette implémentation de Super Halma.",
@@ -621,15 +641,19 @@
     "intermedium": "Intermedium (aussi connu sous le nom de Stepping Stones) est un jeu de 1974 conçu par Matt Crispis. C'est un jeu d'égrenage de piles, où les joueurs tentent d'encercler la base de départ adverse. Les piles ne se déplacent qu'en diagonale, et chaque armée commence sur une couleur de diagonale différente, elles ne peuvent donc jamais se croiser (comme deux fous de couleurs opposées au jeu d'échecs). Les pièces sont capturées par encerclement, en occupant toutes les cases orthogonales adjacentes à une pile adverse.\n\nQuelques mots de l'auteur : « [Intermedium] est simple à apprendre, mais peut mener à des situations complexes nécessitant une analyse approfondie et une anticipation accrue. Les pièces isolées ne se déplacent pas, mais servent de pierres de gué pour vos captures. Et elles peuvent être réactivées en plaçant une autre pièce par-dessus. Avant de maîtriser le jeu, évitez les attaques précoces contre la Cité, qui pourraient s'avérer coûteuses. Renforcez progressivement et de manière équilibrée votre position en dominant, si possible, le centre. Vous devriez également éviter de construire de \"formidables\" piles de six pièces ou plus : si elles sont prises, vous risquez de perdre la partie d'un seul coup. Conservez des forces en réserve pour défendre votre Cité en cas d'urgence. »",
     "invector": "Invector, conçu par Mark Steere en 2026, est un jeu d'élimination inspiré de l'ancien jeu hawaïen Kōnane. Invector commence par une disposition des pierres en damier, comporte des captures à courte portée et est extrêmement simple. Invector combine tout simplement deux éléments de base : des coups de capture orthogonaux adjacents et des déplacements orthogonaux adjacents se rapprochant du centre.",
     "jacynth": "Plus d'informations sur le système Decktet sont disponibles sur le [site officiel de Decktet](https://www.decktet.com). Les cartes dans la main des joueurs sont cachées aux spectateurs et aux adversaires.",
+    "killallgo": "Le Défenseur doit former une chaîne inconditionnellement vivante (vivante par passe selon l'algorithme de Benson) : une chaîne capable de survivre à n'importe quelle séquence de coups adverses sans avoir à répondre. La vie dépendant d'un seki ou d'un ko ne compte pas. L'Attaquant gagne lorsque ses pierres inconditionnellement vivantes ne laissent aucune place pour une telle chaîne. Passer n'est pas autorisé après l'ouverture, et un joueur n'ayant aucun coup légal perd.\n\nLes pierres sont posées et capturées comme au Go selon la méthode de retrait de Tromp-Taylor : après la pose d'une pierre, les chaînes adverses sans liberté sont retirées, puis votre propre chaîne si elle n'en possède aucune. Le suicide de plusieurs pierres est donc légal. Le superko positionnel s'applique : aucun coup ne peut recréer une position antérieure du plateau.",
     "konane": "Plusieurs protocoles d'ouverture existent, mais le jeu de règles le plus courant est le Naihe Ruleset, utilisé lors des tournois au Bishop Museum d'Hawaï et décrit dans la référence BGG. C'est ce qui est implémenté ici.",
     "knightline": "Pour votre commodité, votre pile est séparée environ en deux lors de votre premier clic. Les clics ultérieurs sur la pile source ou cible déplacent une pièce à la fois. Lorsque vous avez terminé, cliquez sur une case vide ou utilisez le bouton Valider le coup.\n\nLe système de coordonnées est adapté du système de coordonnées du développeur pour Hive, un jeu sur un plateau hexagonal non borné (mais de taille raisonnable). L'axe y est étiqueté avec des coordonnées cartésiennes (entiers positifs et négatifs). L'axe x est étiqueté avec des lettres par ordre alphabétique, avec l'origine en (m, 0). Si le déplacement sur l'axe x dépasse les limites de l'alphabet dans un sens ou dans l'autre, les lettres sont précédées d'une autre lettre (z est suivi de aa, ab, ac, etc., et a est précédé de zz, zy, zx, etc.). Il n'est pas prévu que le jeu atteigne une largeur nécessitant plus de doubles coordonnées, mais pour mémoire, az est suivi de ba, za est précédé de yz, et ainsi de suite. Le plateau ne peut pas atteindre une taille qui entraînerait une ambiguïté.",
     "lasca": "La manœuvrabilité mesure à quel point vos pièces sont proches de la promotion. Votre manœuvrabilité maximale est égale à la taille du plateau multipliée par le nombre de piles que vous contrôlez.\n\nLe matériel est calculé en vous accordant un point pour chaque pièce alliée dans une pile que vous contrôlez, plus un point supplémentaire si vous avez un officier au sommet de cette pile.",
+    "lielow": "\"Coups avant suicide\" totalise pour chaque joueur le nombre de coups que chacune de ses piles pourrait encore effectuer — augmentant d'un à chaque coup et choisissant toujours la direction qui survit le plus longtemps — avant d'être contrainte de sortir du plateau. Cet indicateur ignore toutes les autres piles sur le plateau, alliées comme ennemies ; c'est donc une mesure approximative de l'exposition des pièces d'un joueur, et non un décompte des coups légaux réellement restants.",
     "linage": "Linage est un jeu de 2016 conçu par Luis Bolaños Mures. Le jeu repose sur les définitions suivantes : Une **région** est un ensemble maximal de points vides contigus de manière orthogonale. Une **ligne** est un ensemble de N points vides contigus de manière orthogonale sur la même rangée ou colonne (par défaut N=3) ; et une région est **possédée** par Vertical si elle ne contient aucune ligne horizontale, et par Horizontal si elle ne contient aucune ligne verticale. Une région est libre si elle n'appartient à aucun des deux joueurs. Les régions doivent toujours contenir au moins une ligne.\n\nÀ son tour, le joueur passe ou place une pierre dans une région libre. La partie se termine lorsque les deux joueurs passent consécutivement, et le joueur avec le score le plus élevé l'emporte (c'est-à-dire le nombre de points dans les régions que le joueur possède, plus le komi).",
     "loa": "Au centre du plateau 9x9 se trouve un « trou noir ». S'arrêter sur le trou noir entraîne le retrait de la pièce du jeu. Des connexions simultanées se soldent par une partie nulle.",
     "magnate": "La terminologie de certaines actions de Magnate a été modifiée par souci de clarté et de concision. Développer complètement une nouvelle propriété est appelé l'action « Buy » ; acheter un titre de propriété pour une nouvelle propriété est appelé « Deed », développer des titres de propriété (c'est-à-dire ajouter des jetons à une propriété sous titre, que cela entraîne un développement complet ou non) est appelé « Add ». (Vendre une carte et échanger des jetons de couleur à 3 contre 1 restent inchangés.)\n\nAfin d'accélérer le processus de lancer pour les ressources, il existe deux actions supplémentaires :\n* « Prefer » sert à définir votre préférence sur le jeton de couleur à prendre lorsqu'un titre rapporte sur le lancer de votre adversaire. Si vous ne définissez pas de préférence explicite, le code choisira pour vous le jeton le plus rare en fonction de vos couleurs non-couronne et de votre réserve actuelle de jetons. Le jeton actuellement préféré est entouré dans l'interface, mais votre préférence personnelle n'est jamais visible par l'autre joueur.\n* « Choose » est une première action obligatoire pour collecter des jetons de couleur lorsqu'un titre rapporte sur votre propre lancer. (Dans tous les cas où vous devez choisir un jeton de couleur qui ne figure pas encore parmi vos jetons, vous cliquez toujours sur la pile de jetons appropriée.)\n\nComme vous pouvez effectuer plusieurs actions au cours d'un tour dans n'importe quel ordre, il existe également une action « Undo » pour annuler votre action la plus récente, qu'elle ait été terminée ou non.\n\nNotez que seul le résultat final du dé de ressources est affiché, mais la distribution des résultats attendus reste celle d'un lancer de 2d10 en retenant la valeur la plus élevée. La taxation a lieu lorsque le plus faible des 2d10 donne 1 ; un dé de couleur est lancé (ou deux, dans la variante de double taxation), et les couleurs seront affichées sous le résultat de la ressource. Le lancer est enregistré à la fin du tour d'un joueur, et est attribué au joueur suivant (qui aurait lancé dans le jeu physique). À l'exception d'un « Choose », aucune action de l'utilisateur n'est requise ; les ressources sont ajoutées ou retirées automatiquement par le serveur entre les tours.\n\nLorsqu'un joueur est en tête dans un quartier, le Pion ou l'Excuse de ce quartier est entouré de la couleur de ce joueur. Le premier score de départage (valeur totale de la propriété) est affiché entre parenthèses après le score du quartier. Le deuxième critère de départage est le nombre total de jetons restants.",
     "mchess": "S'il y a eu sept tours consécutifs sans capture, un joueur peut « réclamer l'horloge » en ajoutant un astérisque (*) à la fin de son coup. Cela ne peut se faire qu'en sélectionnant le coup dans la liste déroulante. Après sept autres tours sans capture, la partie se terminera et le score sera calculé.",
+    "mirador": "Déclarer prend l'intégralité de votre tour. Complétez d'abord votre connexion inattaquable, puis déclarez lors de votre tour suivant ; vous ne pouvez pas placer un mirador et déclarer lors du même tour.",
     "murus": "Le jeu de règles par défaut est « Advanced Murus Gallicus » (avec catapultes). Par défaut, votre premier coup consiste à redistribuer l'une de vos tours de départ sous forme de murs sur votre deuxième rangée. De plus, la règle du gâteau standard est également disponible. Il y a trois variantes que vous pouvez combiner :\n\n* « Basic » ramène le jeu à l'état « sans catapulte ».\n* « Static » désactive la redistribution initiale des tours.\n* « Escape » élimine la condition de victoire par percée.",
     "mutternland": "Mutternland a été conçu par Hartmut Witt en 1997. Cette implémentation traite les placements initiaux de pièces différemment. Alors que le jeu original demandait aux joueurs, lors de la mise en place, de placer une pièce _ennemie_ par tour, ici les joueurs placent une pièce alliée puis une pièce adverse (avec certaines restrictions pour éviter des départs déséquilibrés dus à la génération aléatoire du plateau). Cela rend la mise en place plus rapide et offre un certain contrôle sur ses propres pièces. De plus, les pièces expulsées qui retournent dans la réserve d'un joueur sont replacées par leur propriétaire.",
+    "neutron": "Chaque tour (sauf le premier tour des Blancs dans le Neutron standard) consiste à faire glisser le neutron, puis à faire glisser l'un de vos pions. Toutes les pièces glissent en ligne droite aussi loin que possible sans sauter. **CoNeutron** inverse la ligne gagnante vers la ligne arrière de votre adversaire et supprime l'ouverture à pion seul des Blancs.\n\nLes restrictions de **mobilité** s'appliquent uniquement aux déplacements de pions. Avec une mobilité **restreinte**, les pions ne peuvent pas s'arrêter sur la ligne arrière de l'adversaire. Avec une mobilité **doublement restreinte**, les pions ne peuvent pas non plus revenir sur leur propre ligne arrière après l'avoir quittée ; les pions se trouvant toujours sur leur ligne arrière peuvent glisser le long de celle-ci.\n\nLes coups sont notés `neutronDest,pawnFrom-pawnTo`, ou `pawnFrom-pawnTo` au premier tour des Blancs dans le Neutron standard. Un déplacement gagnant du neutron seul est noté uniquement par sa case de destination.",
     "narrows": "Narrows, conçu par Mark Steere en 2026, est un jeu d'unification inspiré de l'ancien jeu hawaïen Kōnane. Fidèle à l'esprit de Kōnane, Ūnane commence avec une disposition de pierres en damier et reste extrêmement simple. Dans ce cas, l'objectif d'unification inclut l'utilisation de chemins orthogonaux de cases vides pour connecter différents groupes de pièces alliées.",
     "oonpia": "Utilisez la légende pour sélectionner une pièce, ou cliquez plusieurs fois sur le même emplacement pour faire défiler toutes les pièces possibles. Les cases bloquées sont mises en surbrillance : un point translucide signifie que seule une pierre à point peut y être placée (c.-à-d. bloquée pour les pièces simples), une pièce translucide signifie que seule une pièce simple peut y être placée (c.-à-d. bloquée pour les pièces à point). Si les deux surbrillances sont présentes, la case est bloquée pour toutes les pièces.",
     "oware": "Cette implémentation suit la règle de tournoi courante selon laquelle les coups « grand chelem » sont autorisés, mais aucune pièce n'est capturée. Représenter les changements d'état dans les jeux d'égrenage est un défi. Le trou initialement choisi est marqué, de même que toute capture. De petits chiffres apparaissent pour indiquer l'évolution du nombre de graines dans chaque trou. Si vous pensez avoir rencontré un bug, veuillez nous en informer sur Discord.",
@@ -669,6 +693,7 @@
     "tbt": "Lorsque c'est votre tour, vous verrez le dé avec lequel vous devez jouer, mais une fois votre coup terminé, le dé sera relancé. L'exploration n'est pas utile car le tirage du dé n'est finalisé qu'après la validation du coup. Lorsque vous remontez l'historique de la partie, le dé que vous voyez est celui du tour *suivant*. Le dé utilisé pour faire le coup que vous observez est affiché sous le plateau.",
     "terrace": "La variante Assassinat est décrite dans [ce fil BGG](https://boardgamegeek.com/thread/551125/variant-for-more-aggressive-less-drawish-play), résumée ci-dessous :\n\n- En montée droite, vous devez être plus grand, ou une pièce de la plus petite taille peut assassiner une pièce de la plus grande taille.\n\n- Même niveau (orthogonalement adjacent uniquement), vous devez être au moins de la même taille.\n\n- En descente diagonale, vous pouvez être d'un rang plus petit.",
     "toguz": "Représenter les changements d'état dans les jeux de semailles est un défi. La fosse initiale choisie est marquée, tout comme toute capture. De petits chiffres apparaissent pour montrer la variation du nombre de pierres dans chaque fosse. Si vous pensez avoir rencontré un bug, veuillez nous en informer sur Discord.",
+    "thricewise": "À 2 ou 4 joueurs, la grille de départ est de 2×2 ; à 3 ou 5 joueurs, elle est de 2×3. Le tableau peut s'agrandir dans n'importe quelle direction jusqu'à atteindre 6×6. Les valeurs en double lors de la sélection simultanée sont différées face visible à côté de votre place et jouées lors d'un tour ultérieur (vous pouvez placer les cartes différées et votre nouvelle carte dans n'importe quel ordre en une seule validation). Plus d'informations sur le Decktet sont disponibles sur le [wiki du Decktet](https://decktet.wikidot.com/).",
     "tricouleur": "Tricouleur est un jeu de 2005 conçu par Bill Taylor. Chaque joueur possède une armée de trois types de pièces capables de capturer le type suivant de manière cyclique : pensez à Pierre-Papier-Ciseaux (Cercle-Carré-Croix). La séquence de coups est 12* où un joueur doit utiliser des pièces différentes (il est également possible de passer tout son tour). Une pièce peut se déplacer vers une case voisine vide (auquel cas elle laisse un double immobile derrière elle) ou vers une case vide parmi les douze voisins du 2e ordre, peu importe ce qu'il y a entre eux. Toute pièce adverse plus faible à laquelle la pièce déplacée devient adjacente prend la couleur de la pièce déplacée. Toute pièce adverse de même force à laquelle la pièce déplacée devient adjacente est retirée du plateau.\n\nLa partie se termine si soit (a) les deux joueurs passent consécutivement, (b) le plateau est plein, (c) une armée est détruite, (d) une position est répétée trois fois. Le joueur ayant le plus de pièces de ses propres couleurs au total gagne.",
     "tumbleweed": "Un espace est revendiqué par un joueur s'il y possède une pièce, ou s'il y a la majorité des lignes de vue vers celui-ci. Le score est le nombre de territoires possédés par chaque joueur. La partie se termine lorsque les deux joueurs passent successivement. S'il n'y a aucun changement de score pendant 20 demi-coups, la partie se termine également.",
     "twinflames": "Twin Flames est une révision de 2026 du jeu Product de 2013, un concept original de Nick Bentley. Le premier joueur doit initialement placer une pierre amie, empêchant des répliques d'ouverture trop fortes et éliminant ainsi le besoin d'une règle du gâteau. Les coups suivants utilisent une séquence 12*, dans laquelle les joueurs peuvent placer des pierres de n'importe quelle couleur. À la fin de la partie, un joueur qui a formé un seul groupe connecté marque un nombre de points égal à la taille de ce groupe. Un autre ludème introduit était l'utilisation de murs, ou bloqueurs, qui réduisent la connectivité globale et rendent les groupes plus robustes face aux attaques ennemies. La configuration des bloqueurs est aléatoire, augmentant la variabilité du jeu et rendant la théorie des ouvertures plus difficile à développer.",
@@ -678,7 +703,8 @@
     "waldmeister": "Les joueurs jouent deux parties consécutives. Au premier tour, le Joueur 1 joue pour les couleurs et le Joueur 2 joue pour les hauteurs. À la fin du premier tour, les scores sont calculés et les groupes rapportant des points sont mis en évidence. Puis, au second tour, le Joueur 2 joue en premier et joue pour les couleurs, et le Joueur 1 joue pour les hauteurs.",
     "witch": "Le premier joueur ne commence en possédant aucune pièce et peut retirer n'importe quelle pièce (autre qu'une couronne) lors de son premier tour. Le second joueur choisit sa couleur lors de son premier tour, après quoi il n'est plus possible de retirer les pièces de votre adversaire.",
     "xana": "Les joueurs, à leur tour, posent/déplacent une pile (il y a une quantité limitée de pièces empilables) et posent optionnellement deux murs sur des cases hexagonales vides. Les piles sans libertés sont capturées. Une pile a une liberté si au moins une des cases hexagonales adjacentes est vide (il n'y a pas de concept de groupe de piles). Une case hexagonale est accessible si elle est vide et reliée à une pile amie par un chemin de cases hexagonales vides. Le but est d'obtenir le plus haut score de territoire plus captures. Xana a été conçu en 2005.",
-    "y": "Le jeu a été conçu par Charles Titus et Craige Schensted (Ea Ea) en 1953. Descendant direct de Hex, le jeu se jouait à l'origine sur un plateau triangulaire, où le but est de relier les trois côtés par une chaîne de pierres amies. Y est considéré comme un jeu plus fondamental que Hex, compte tenu de ses règles plus simples et du fait qu'une partie de Hex peut être configurée sur un plateau de Y suffisamment grand. Dans leur livre de 1975 **Mudcrack Y & Poly-Y**, les concepteurs ont introduit le _principe du mudcrack_ affirmant que les jeux de connexion peuvent être joués sur une large gamme de plateaux progressivement élaborés. L'un de ces designs (« le Y courbé », avec trois cellules pentagonales) est devenu le plateau commercial de Y, au lieu du plateau triangulaire standard."
+    "y": "Le jeu a été conçu par Charles Titus et Craige Schensted (Ea Ea) en 1953. Descendant direct de Hex, le jeu se jouait à l'origine sur un plateau triangulaire, où le but est de relier les trois côtés par une chaîne de pierres amies. Y est considéré comme un jeu plus fondamental que Hex, compte tenu de ses règles plus simples et du fait qu'une partie de Hex peut être configurée sur un plateau de Y suffisamment grand. Dans leur livre de 1975 **Mudcrack Y & Poly-Y**, les concepteurs ont introduit le _principe du mudcrack_ affirmant que les jeux de connexion peuvent être joués sur une large gamme de plateaux progressivement élaborés. L'un de ces designs (« le Y courbé », avec trois cellules pentagonales) est devenu le plateau commercial de Y, au lieu du plateau triangulaire standard.",
+    "yodd": "Yodd se joue sur une grille hexagonale. Les mêmes règles appliquées à une grille carrée sont publiées sous le nom de **Xodd** ; choisissez une variante de taille de plateau carré pour jouer à Xodd sur Abstract Play. Lors de votre premier tour uniquement, vous ne pouvez placer qu'une seule pierre. Les tours suivants permettent de passer ou de placer une ou deux pierres de n'importe quelle couleur, et le nombre total de groupes sur le plateau doit être impair après chaque tour."
   },
   "variants": {
     "_default": {
@@ -793,6 +819,44 @@
         "name": "Accasta Pari"
       }
     },
+    "agofmars": {
+      "#rules": {
+        "description": "Plateau standard 7×8 avec quatre couleurs et les multiplicateurs 2, 1, 0 et −1.",
+        "name": "Règles standard"
+      },
+      "five-colour-plus3": {
+        "description": "Plateau 8×8 avec cinq couleurs ; la cinquième colonne multiplie les scores par +3.",
+        "name": "Cinq couleurs (+3)"
+      },
+      "five-colour-minus2": {
+        "description": "Plateau 8×8 avec cinq couleurs ; la cinquième colonne multiplie les scores par −2.",
+        "name": "Cinq couleurs (−2)"
+      },
+      "objective-initiative": {
+        "description": "Passez la mise en place manuelle : chaque joueur reçoit une attribution aléatoire et distincte de couleurs aux colonnes (inspiré de l'extension Objective Initiative).",
+        "name": "Initiative d'Objectif"
+      },
+      "blind-agents": {
+        "description": "Vous ne pouvez pas voir vos propres couleurs d'objectif et ne pouvez pas les échanger vous-même ; votre adversaire peut échanger les vôtres.",
+        "name": "Agents aveugles"
+      },
+      "step-move": {
+        "description": "Les pyramides ne se déplacent et ne s'échangent que vers des cases adjacentes.",
+        "name": "Déplacement pas-à-pas"
+      },
+      "black-trio-swap": {
+        "description": "Les échanges d'objectifs restent autorisés jusqu'à ce qu'une petite, une moyenne et une grande pyramide noire aient été piochées.",
+        "name": "Échange du trio noir"
+      },
+      "biggest-group": {
+        "description": "Seul le plus grand groupe de chaque couleur marque des points ; les égalités sont départagées par la somme de pips la plus élevée.",
+        "name": "Plus grand groupe uniquement"
+      },
+      "group-size-scoring": {
+        "description": "Ajoutez la taille du groupe à la somme de pips avant de multiplier par votre objectif.",
+        "name": "Score basé sur la taille du groupe"
+      }
+    },
     "agere": {
       "#board": {
         "name": "Plateau triangulaire (largeur 8)"
@@ -824,6 +888,10 @@
       "standard-14": {
         "description": "Une version plus grande du plateau standard.",
         "name": "Triangle (largeur 14)"
+      },
+      "star-11": {
+        "name": "Étoile (11 de large)",
+        "description": "Plateau en étoile pentagonale. Reliez trois côtés extérieurs formant un Y valide, ou quatre côtés ou plus."
       }
     },
     "akimbo": {
@@ -930,6 +998,10 @@
       "free": {
         "name": "Placement libre (non classé)",
         "description": "Permet aux joueurs de placer autant de pièces qu'ils le souhaitent où ils le souhaitent, y compris en créant des positions illégales ou invalides. Les joueurs doivent communiquer clairement avant de commencer. Ces parties ne peuvent pas être classées."
+      },
+      "dicey": {
+        "name": "Dicey Moves",
+        "description": "Un dé détermine le nombre de pas que vous pouvez effectuer à chaque tour."
       }
     },
     "armadas": {
@@ -959,6 +1031,10 @@
       "#rules": {
         "description": "Les incursions sont légales."
       },
+      "area": {
+        "name": "Décompte en surface",
+        "description": "Le suicide est autorisé, passer est toujours autorisé et bloque la prochaine incursion minimale de l'adversaire, et la partie se termine après deux passes consécutives. Le gagnant est celui qui contrôle la plus grande surface : ses pierres sur le plateau, plus son territoire, plus le komi."
+      },
       "board-9": {
         "name": "Plateau 9x9"
       },
@@ -973,6 +1049,9 @@
       },
       "board-19": {
         "name": "Plateau 19x19"
+      },
+      "board-23": {
+        "name": "Plateau 23x23"
       },
       "board-27": {
         "name": "Plateau 27x27"
@@ -1073,6 +1152,10 @@
       }
     },
     "bao": {
+      "#rules": {
+        "description": "Bao la Kiswahili (Zanzibar) : 6 graines dans la nyumba, 22 en réserve, règles standard de style Townshend.",
+        "name": "Zanzibar (standard)"
+      },
       "kujifunza": {
         "description": "La version « débutant » sans phase d'installation « kunamua ». La partie commence avec deux pierres dans chaque fosse.",
         "name": "Bao la kujifunza"
@@ -1080,6 +1163,10 @@
       "malawi": {
         "description": "La maison commence avec 8 pierres au lieu de 6.",
         "name": "Malawi"
+      },
+      "malawi-full": {
+        "description": "Règles complètes du Malawi (Bawo) pour le jeu intermédiaire (8 kuu, 20 en réserve). La distribution d'ouverture avancée n'est pas incluse. Consultez les liens sur le Malawi sur la page du jeu pour les sources.",
+        "name": "Malawi (règles Bawo)"
       }
     },
     "basalt": {
@@ -1278,6 +1365,7 @@
     },
     "calculus": {
       "#board": {
+        "name": "Plateau par défaut",
         "description": "Environ 12 pièces de largeur"
       },
       "width-10": {
@@ -1495,6 +1583,23 @@
         "name": "Plateau 15x15"
       }
     },
+    "clearpath": {
+      "size-7": {
+        "name": "Plateau 7x7"
+      },
+      "#board": {
+        "name": "Plateau 8x8"
+      },
+      "size-9": {
+        "name": "Plateau 9x9"
+      },
+      "size-10": {
+        "name": "Plateau 10x10"
+      },
+      "size-11": {
+        "name": "Plateau 11x11"
+      }
+    },
     "clusterfuss": {
       "10": {
         "name": "Grand plateau (10x10)"
@@ -1664,9 +1769,44 @@
       }
     },
     "crosshairs": {
+      "#clouds": {
+        "name": "16 nuages"
+      },
+      "clouds-22": {
+        "name": "22 nuages",
+        "description": "Placez 22 nuages au lieu de 16. Avec la limite de taille par défaut de la réserve de nuages, le nombre total ne pourra pas toujours être atteint."
+      },
+      "clouds-28": {
+        "name": "28 nuages",
+        "description": "Placez 28 nuages au lieu de 16. Avec la limite de taille par défaut de la réserve de nuages, le nombre total ne pourra pas toujours être atteint."
+      },
       "random-start": {
         "name": "Nuages aléatoires",
         "description": "Il n'y a pas de phase de placement des nuages. Ils sont placés aléatoirement par le système."
+      },
+      "asymmetric-random-start": {
+        "name": "Nuages aléatoires asymétriques",
+        "description": "Il n'y a pas de phase de placement des nuages. Le système place les nuages aléatoirement sans exiger de symétrie."
+      },
+      "spread-start": {
+        "name": "Répartition symétrique des nuages",
+        "description": "Il n'y a pas de phase de placement des nuages. Le système place les nuages avec une symétrie de rotation de 180 degrés en utilisant l'algorithme de l'auteur, qui bloque d'abord les lignes de tir ouvertes puis comble les espaces."
+      },
+      "asymmetric-spread-start": {
+        "name": "Répartition asymétrique des nuages",
+        "description": "Il n'y a pas de phase de placement des nuages. Le système place les nuages sans exiger de symétrie en utilisant l'algorithme de l'auteur, qui bloque d'abord les lignes de tir ouvertes puis comble les espaces."
+      },
+      "unbounded-cloud-banks": {
+        "name": "Réserves de nuages illimitées",
+        "description": "Les réserves de nuages peuvent contenir n'importe quel nombre de nuages."
+      },
+      "turbulence": {
+        "name": "Turbulence",
+        "description": "Chaque fois qu'un avion entre dans un nuage, il perd 1 point d'altitude."
+      },
+      "concealed-fire": {
+        "name": "Tir dissimulé",
+        "description": "Les avions peuvent tirer depuis l'intérieur des nuages, mais ne peuvent toujours pas tirer vers ou à travers ceux-ci."
       }
     },
     "crossway": {
@@ -2084,6 +2224,10 @@
       },
       "size-19": {
         "name": "Plateau 19x19"
+      },
+      "cascading": {
+        "name": "Objectifs de connexion en cascade",
+        "description": "Il est autorisé de passer. La partie se termine également après deux passes consécutives, auquel cas le gagnant est déterminé en comparant les connexions à travers une série imbriquée de sous-plateaux centrés."
       }
     },
     "guerrilla": {
@@ -2296,6 +2440,37 @@
       "oldcity": {
         "name": "La vieille ville",
         "description": "Le plateau commence avec six cartes disposées en cercle."
+      }
+    },
+    "killallgo": {
+      "size-9": {
+        "name": "Plateau 9x9"
+      },
+      "size-13": {
+        "name": "Plateau 13x13"
+      },
+      "#board": {
+        "name": "Plateau 19x19"
+      },
+      "#opening": {
+        "name": "Pieboxing",
+        "description": "Les joueurs posent à tour de rôle des pierres d'Attaquant jusqu'à ce que l'un d'eux choisisse le camp de l'Attaquant ; l'autre joueur joue alors le premier coup en tant que Défenseur. Pieboxing, conçu par MXHero."
+      },
+      "handicap": {
+        "name": "Handicap",
+        "description": "Pieboxing avec un handicap. Le Joueur 1, le joueur le plus fort, fixe le nombre de pierres supplémentaires de l'Attaquant, puis le Joueur 2 commence à poser. Si le Joueur 2 choisit de jouer l'Attaquant, il pose immédiatement les pierres supplémentaires. Conçu par MXHero."
+      },
+      "classic": {
+        "name": "Disposition classique à 17 pierres",
+        "description": "La position de départ traditionnelle à 17 pierres ; le Défenseur (Joueur 1) commence. 19x19 uniquement."
+      },
+      "pie": {
+        "name": "Gâteau simple",
+        "description": "Le Joueur 1 pose un nombre quelconque de pierres d'Attaquant, puis le Joueur 2 choisit son camp. La règle classique du gâteau."
+      },
+      "hoctaph": {
+        "name": "Gâteau généralisé de Hoctaph",
+        "description": "Le Joueur 1 choisit les tailles de deux lots, et le Joueur 2 décide qui pose le premier lot. Le joueur qui n'a pas posé ce lot choisit ensuite son camp, puis l'Attaquant pose le second lot. La règle du gâteau de Hoctaph (forums OGS), généralisée à toutes les tailles de plateau par Samraku."
       }
     },
     "knightline": {
@@ -2584,6 +2759,14 @@
         "name": "Plateau hexagonal (base 8)"
       }
     },
+    "mirador": {
+      "#board": {
+        "name": "Plateau 28x28"
+      },
+      "size-40": {
+        "name": "Plateau 40x40"
+      }
+    },
     "mixtour": {
       "five": {
         "description": "Le gagnant est le premier à marquer trois points.",
@@ -2683,6 +2866,35 @@
       },
       "size-16": {
         "name": "Plateau 15x16"
+      }
+    },
+    "neutron": {
+      "#board": {
+        "name": "Plateau 5×5"
+      },
+      "5x7": {
+        "name": "Plateau 5×7"
+      },
+      "7x5": {
+        "name": "Plateau 7×5"
+      },
+      "7x7": {
+        "name": "Plateau 7×7"
+      },
+      "coneutron": {
+        "name": "CoNeutron",
+        "description": "Gagnez en déplaçant le neutron sur la ligne arrière de votre adversaire. Les Blancs déplacent le neutron au premier tour."
+      },
+      "#mobility": {
+        "name": "Aucune restriction"
+      },
+      "restricted": {
+        "name": "Mobilité restreinte",
+        "description": "Les pions ne peuvent pas s'arrêter sur la ligne arrière de l'adversaire."
+      },
+      "doubleRestricted": {
+        "name": "Mobilité doublement restreinte",
+        "description": "Les pions ne peuvent s'arrêter sur aucune des deux lignes arrières, sauf que les pions toujours sur leur propre ligne arrière peuvent glisser le long de celle-ci."
       }
     },
     "nex": {
@@ -3946,6 +4158,10 @@
       "free-neutral": {
         "description": "Au premier tour, placez une pile neutre de hauteur 2, et une pile de hauteur 1 de la couleur de chaque joueur.",
         "name": "Neutre libre"
+      },
+      "fog": {
+        "description": "Vous ne voyez que les cases dans la ligne de vue de vos tours ; les cases que vous perdez de vue restent visibles mais assombries jusqu'à ce que la vue soit rétablie. Les scores et les calques du plateau sont masqués. Expérimental.",
+        "name": "Brouillard de guerre"
       }
     },
     "twinflames": {
@@ -4172,6 +4388,10 @@
       "bent": {
         "name": "Plateau coudé"
       },
+      "star": {
+        "name": "Plateau en étoile",
+        "description": "Plateau en étoile pentagonale. La taille commerciale habituelle est de 11 (utilisez la variante de taille de plateau pour modifier le nombre de segments). Reliez trois côtés extérieurs formant un Y valide, ou quatre côtés ou plus."
+      },
       "#ruleset": {
         "name": "Règles standard du Y"
       },
@@ -4183,6 +4403,42 @@
       },
       "progressive": {
         "name": "Progressif avec restriction de groupe"
+      }
+    },
+    "yodd": {
+      "hex-6": {
+        "name": "Hexagone taille 6"
+      },
+      "hex-7": {
+        "name": "Hexagone taille 7"
+      },
+      "#board": {
+        "name": "Hexagone taille 8"
+      },
+      "hex-9": {
+        "name": "Hexagone taille 9"
+      },
+      "hex-10": {
+        "name": "Hexagone taille 10"
+      },
+      "square-9": {
+        "name": "Carré taille 9 (Xodd)"
+      },
+      "square-10": {
+        "name": "Carré taille 10 (Xodd)"
+      },
+      "square-13": {
+        "name": "Carré taille 13 (Xodd)"
+      },
+      "square-14": {
+        "name": "Carré taille 14 (Xodd)"
+      },
+      "square-15": {
+        "name": "Carré taille 15 (Xodd)"
+      },
+      "yopp": {
+        "description": "Placez uniquement des pierres de votre couleur ; ne passez que si vous n'avez aucun placement valide.",
+        "name": "Yopp/Xopp"
       }
     },
     "zola": {
@@ -4201,14 +4457,20 @@
         "name": "Sphères 3D"
       }
     },
+    "agofmars": {
+      "hide-bag-pool": {
+        "description": "Ne pas afficher les pyramides encore dans le sac de pioche.",
+        "name": "Masquer le sac"
+      }
+    },
     "amazons": {
+      "#block": {
+        "description": "Afficher les cases bloquées sous forme de brique carrée.",
+        "name": "Brique"
+      },
       "blackbloc": {
         "description": "Afficher les cases bloquées sous forme de carré noir.",
         "name": "Bloc noir"
-      },
-      "brick": {
-        "description": "Afficher les cases bloquées sous forme de brique carrée.",
-        "name": "Brique"
       },
       "bricks": {
         "description": "Afficher les cases bloquées sous forme de mur de briques.",
@@ -4252,6 +4514,9 @@
       }
     },
     "bide": {
+      "#projection": {
+        "name": "Vue de dessus"
+      },
       "isometric": {
         "description": "Vue isométrique quasi-3D",
         "name": "Isométrique"
@@ -4288,24 +4553,36 @@
       }
     },
     "carnac": {
+      "#projection": {
+        "name": "Vue isométrique"
+      },
       "flat": {
         "description": "Afficher le plateau vu du dessus.",
         "name": "Vue plate"
       }
     },
     "druid": {
+      "#projection": {
+        "name": "Vue isométrique"
+      },
       "flat": {
         "description": "Vue du dessus avec la hauteur des piles indiquée sur chaque case.",
         "name": "Vue du dessus"
       }
     },
     "evenatodds": {
+      "#projection": {
+        "name": "Vue isométrique"
+      },
       "flat": {
         "description": "Vue à vol d'oiseau des piles de dominos.",
         "name": "Vue du dessus"
       }
     },
     "elOso": {
+      "#stack": {
+        "name": "Empiler les pièces"
+      },
       "nums": {
         "description": "Piles affichées sous forme de nombres",
         "name": "Nombres"
@@ -4392,6 +4669,9 @@
       }
     },
     "frogger": {
+      "#piece": {
+        "name": "Pièces standard"
+      },
       "frog-pieces": {
         "description": "Utiliser des pièces en forme de grenouilles.",
         "name": "Pièces grenouilles"
@@ -4413,6 +4693,24 @@
       "vertex-style": {
         "name": "Style aux sommets",
         "description": "Afficher le plateau en utilisant les sommets au lieu des hexagones."
+      }
+    },
+    "icepalace": {
+      "#areas": {
+        "description": "Main et réserve vues du dessus, en deux dimensions.",
+        "name": "Main et réserve en vue du dessus"
+      },
+      "#board": {
+        "description": "Plateau en deux dimensions, avec des piles qui se déploient au survol.",
+        "name": "Déploiement"
+      },
+      "perspective": {
+        "description": "Plateau en trois dimensions, avec les pyramides empilées en perspective.",
+        "name": "Piles 3D"
+      },
+      "perspective-areas": {
+        "description": "Main et réserve en trois dimensions, avec les pyramides dessinées en perspective.",
+        "name": "Main et réserve 3D"
       }
     },
     "intermedium": {
@@ -4480,6 +4778,9 @@
       }
     },
     "mvolcano": {
+      "#stack": {
+        "name": "Piles 3D"
+      },
       "expanding": {
         "description": "Plateau en deux dimensions, avec des piles qui s'agrandissent au survol.",
         "name": "Agrandissement au survol"
@@ -4631,6 +4932,9 @@
       }
     },
     "terrace": {
+      "#projection": {
+        "name": "Vue isométrique"
+      },
       "flat": {
         "description": "Une vue plate qui utilise de l'ombrage pour indiquer la hauteur.",
         "name": "Vue plate"
@@ -4655,6 +4959,10 @@
       }
     },
     "tumbleweed": {
+      "fog-unseen-clouds": {
+        "description": "Dans la variante Brouillard de guerre, affiche des icônes de nuage sur les cases que vous n'avez jamais vues. N'a aucun effet dans les autres variantes.",
+        "name": "Nuages jamais vus"
+      },
       "hide-both": {
         "description": "Ne pas afficher la ligne de vue ni les captures non suicidaires.",
         "name": "Masquer les deux"
@@ -4681,12 +4989,18 @@
       }
     },
     "volcano": {
+      "#stack": {
+        "name": "Piles 3D"
+      },
       "expanding": {
         "description": "Plateau en deux dimensions, avec des piles qui s'agrandissent au survol.",
         "name": "Agrandissement au survol"
       }
     },
     "zola": {
+      "#projection": {
+        "name": "Vue de dessus"
+      },
       "isometric-20": {
         "description": "Élévation prononcée : une vue quasi-3D du terrain où les cases s'élèvent en s'éloignant du centre.",
         "name": "Isométrique : Élévation prononcée"
@@ -4739,14 +5053,22 @@
   },
   "status": {
     "_player": "{{player}}",
+    "agofmars": {
+      "bagCount": "Pyramides dans le sac",
+      "bagPool": "Pyramides dans le sac",
+      "setupPool": "Pyramides d'objectif"
+    },
     "amazons": {
       "ISOLATEDQUEENS": "Les reines sont maintenant isolées",
       "TERRITORY": "Territoire"
     },
     "arimaa": {
-      "HARLOG": "Harlog"
+      "HARLOG": "Harlog",
+      "ROLL_MEAN": "Moyenne des lancers",
+      "ROLL_TOTAL": "Total des lancers"
     },
     "asli": {
+      "AREA": "Aire + komi",
       "TERRITORY": "Territoire & Prisonniers"
     },
     "baghchal": {
@@ -4786,6 +5108,10 @@
     "control": {
       "CONTROLLED_SPACES": "Espaces vides contrôlés"
     },
+    "crosshairs": {
+      "PLANES": "Avions",
+      "TOTAL_ALTITUDE": "Altitude totale"
+    },
     "CLAIMS_REMAINING": "Revendications restantes",
     "DAMAGE": "Dégâts subis",
     "DAGGER": "Dague",
@@ -4818,20 +5144,35 @@
       "GAME2": "Partie 2",
       "INSURGENTS": "Insurgés restants"
     },
+    "icepalace": {
+      "PLACED": "Pyramides placées",
+      "POOL": "Pyramides restantes dans le Pool"
+    },
     "scribe": {
       "MINI_GRIDS": "Mini-grilles remportées"
     },
     "GROUPCOUNT": "Nombre de groupes",
     "GROUPSIZES": "Tailles des groupes",
     "jacynth": "Jetons d'influence",
+    "bashni": {
+      "STEPS": "Manoeuvrabilité",
+      "MATERIAL": "Matériel"
+    },
     "lasca": {
       "STEPS": "Maniabilité",
       "MATERIAL": "Matériel"
+    },
+    "lielow": {
+      "MOVESUNTILSUICIDE": "Coups avant suicide"
     },
     "majorities": "Scores (─, ⟋, ⟍)",
     "meg": {
       "OFFENSE": "Joueur offensif",
       "COUNTDOWN": "Demis-coups restants"
+    },
+    "mvolcano": {
+      "PYRAMIDSCAPTURED": "Pyramides capturées",
+      "UNCAPTUREDCOLOURS": "Couleurs non encore capturées"
     },
     "pacru": {
       "TARGET": "Tuiles pour gagner",
@@ -4854,8 +5195,29 @@
     "RESERVE": "Réserve",
     "SCORES": "Scores",
     "STACKSIZES": "Hauteurs des piles",
+    "tintas": {
+      "MAJORITIES": "Majorités remportées",
+      "MONOCHROME": "Potentiel monochrome"
+    },
     "tumbleweed": "Score (pièces + influence)",
     "ESTIMATEDSCORES": "Scores estimés",
+    "killallgo": {
+      "ATTACKER": "Attaquant",
+      "DEFENDER": "Défenseur",
+      "UNDECIDED": "Pas encore choisi",
+      "HANDICAP": "Pierres de handicap",
+      "BATCHES": "Tailles des lots",
+      "BATCHES_VALUE": "{{a}} puis {{b}}",
+      "PHASE_HAND_N": "{{player}} définit le nombre de pierres de handicap",
+      "PHASE_ALT_PLACE": "{{player}} pose une pierre d'Attaquant ou choisit le camp de l'Attaquant",
+      "PHASE_PIE_SLICE": "{{player}} pose les pierres d'Attaquant d'ouverture",
+      "PHASE_PIE_CHOOSE": "{{player}} choisit son camp",
+      "PHASE_HOC_SLICE": "{{player}} définit les tailles des deux lots",
+      "PHASE_HOC_OPTION": "{{player}} décide qui pose le premier lot",
+      "PHASE_HOC_BATCH_A": "{{player}} pose le premier lot de pierres d'Attaquant",
+      "PHASE_HOC_CHOOSE": "{{player}} choisit son camp",
+      "PHASE_HOC_BATCH_B": "{{player}} pose le second lot de pierres d'Attaquant"
+    },
     "TOPLACE": "Pièce à placer",
     "valley": "Jetons Lune",
     "waldmeister": {
@@ -4966,6 +5328,37 @@
       "PARTIAL_MOVE": "Sélectionnez le terrain où vous souhaitez construire.",
       "VALID_W_CLAIMS": "Ceci semble être un coup valide. Vous pouvez également choisir de revendiquer une tour.",
       "LABEL_STASH": "Réserve de {{player}}"
+    },
+    "agofmars": {
+      "EMPTY_BAG": "Il ne reste plus de pyramides à piocher.",
+      "INITIAL_INSTRUCTIONS": "Utilisez les boutons d'action, puis cliquez sur le plateau pour déplacer ou échanger des pyramides.",
+      "INITIAL_INSTRUCTIONS_setup1": "Mise en place du Joueur 1 : cliquez sur l'une de vos pyramides d'objectif, puis cliquez sur une colonne multiplicatrice pour l'attribuer. Validez lorsque chaque couleur est placée (notation comme RD1,BU2,GN-1,YE0).",
+      "INITIAL_INSTRUCTIONS_setup2": "Mise en place du Joueur 2 : cliquez sur chaque pyramide d'objectif, puis cliquez sur la colonne multiplicatrice pour cette couleur. Validez lorsque chaque couleur est placée.",
+      "INITIAL_INSTRUCTIONS_play": "Validez votre décision d'objectif avec les boutons, puis piochez, déplacez ou échangez. Après une pioche, cliquez sur une case vide pour placer la pièce.",
+      "SETUP_INCOMPLETE": "Attribuez chaque couleur à un multiplicateur différent avant de valider.",
+      "SETUP_PARTIAL": "Cliquez sur une autre pyramide, puis sur une colonne multiplicatrice, ou validez lorsque chaque couleur est attribuée.",
+      "SETUP_PERM": "Utilisez des paires couleur-multiplicateur séparées par des virgules (par exemple RD1,BU2,GN-1,YE0). Chaque couleur et chaque multiplicateur ne peuvent être utilisés qu'une seule fois.",
+      "KO": "Vous ne pouvez pas annuler immédiatement le dernier déplacement ou échange de votre adversaire.",
+      "MAIN_ACTION_CHOICE": "Choisissez Piocher, Déplacer ou Échanger, ou cliquez sur l'un de ces boutons.",
+      "MAIN_ACTION_MODE_move": "Cliquez sur une pyramide du plateau, puis cliquez sur sa destination.",
+      "MAIN_ACTION_MODE_swap": "Cliquez sur une pyramide du plateau, puis cliquez sur une pyramide différente avec laquelle l'échanger.",
+      "MOVE": "Cette pyramide ne peut pas atteindre cette case.",
+      "MOVE_BLACK": "Les pyramides noires ne peuvent pas être déplacées.",
+      "MOVE_DEST_OCCUPIED": "Cette case est occupée. Cliquez sur une destination vide, ou cliquez sur une autre pyramide à déplacer.",
+      "MOVE_SELECT_DEST": "Cliquez sur une case vide où cette pyramide peut se déplacer.",
+      "MOVE_SELECT_PIECE": "Cliquez sur l'une de vos pyramides sur le plateau pour la déplacer.",
+      "NO_PIECES_TO_MOVE": "Il n'y a pas de pyramides sur le plateau à déplacer. Piochez-en une dans le sac et placez-la d'abord.",
+      "NO_PIECES_TO_SWAP": "Il n'y a pas deux pyramides différentes sur le plateau à échanger. Piochez et placez d'abord des pièces.",
+      "SWAP_BLACK": "Les pyramides noires ne peuvent pas être échangées.",
+      "SWAP_SELECT_PIECE": "Cliquez sur une pyramide du plateau pour l'échanger.",
+      "SWAP_SELECT_SECOND": "Cliquez sur une pyramide différente du plateau pour l'échanger.",
+      "OBJ_SWAP": "Vous ne pouvez pas échanger d'objectifs pour le moment.",
+      "OBJ_SWAP_SELECT": "Sélectionnez les deux colonnes d'objectifs que vous souhaitez échanger.",
+      "OBJ_SWAP_SELECT_SECOND": "Sélectionnez la deuxième colonne d'objectif à échanger.",
+      "PLACE": "Cliquez sur une case vide pour placer la pyramide piochée.",
+      "PLACE_DRAWN": "Ce placement ne correspond pas à la pyramide que vous avez piochée.",
+      "SWAP": "Ces pyramides ne peuvent pas être échangées.",
+      "TURN_START": "Choisissez si vous voulez échanger des objectifs avant votre action principale."
     },
     "agere": {
       "ADJACENCY": "Vous ne pouvez capturer que des piles adjacentes.",
@@ -5085,6 +5478,7 @@
       "PARTIAL_PLACE": "Cliquez sur une case vide pour placer la pièce.",
       "PARTIAL_PLAY": "Poursuivez le placement de vos pièces.",
       "PARTIAL_PUSH": "Terminez la poussée en cliquant sur la pièce qui pousse.",
+      "PARTIAL_RABBITS": "Le reste de votre zone de placement sera rempli de lapins.",
       "PARTIAL_FREE": "Vous pouvez continuer à placer des pièces, ou cliquer sur Terminer le coup pour finir votre tour.",
       "PARTIAL_FREE_NO": "Vous pouvez continuer à placer des pièces, mais vous devez placer au moins un lapin, et vous ne pouvez pas placer de lapin sur la rangée d'arrivée.",
       "REPEAT": "Vous ne pouvez pas répéter une position donnée une troisième fois.",
@@ -5092,7 +5486,20 @@
       "WARN_BALANCE": "Équilibrez vos quatre pièces les plus fortes d'est en ouest.",
       "WARN_FILE": "Ne placez pas votre éléphant sur la même colonne que l'éléphant adverse.",
       "WARN_HIDE": "Ne cachez pas de pièces plus fortes derrière des pièces plus faibles (sauf les chats derrière les lapins).",
-      "WARNINGS": "Votre mise en place est terminée, mais certains éléments méritent réflexion pour les nouveaux joueurs. Vous pouvez cliquer sur Terminer le coup pour ignorer, ou lire les conseils suivants :"
+      "WARNINGS": "Votre mise en place est terminée, mais certains éléments méritent réflexion pour les nouveaux joueurs. Vous pouvez cliquer sur Terminer le coup pour ignorer, ou lire les conseils suivants :",
+      "PARSE": "Impossible de lire \"{{token}}\".",
+      "NO_MOVE": "Aucun coup légal ne correspond à ce que vous avez tracé.",
+      "NO_MOVE_CHAIN": "Une flèche par pièce, de son départ à son arrivée : {{first}} et {{second}} ensemble donnent {{combined}}.",
+      "NO_MOVE_ENEMY": "La pièce en {{from}} appartient à votre adversaire, et aucune de vos pièces ne peut la pousser ou la tirer comme tracé en {{num}} étapes ou moins.",
+      "NO_MOVE_FROZEN": "La pièce en {{from}} est gelée, et rien ne peut la libérer à temps.",
+      "NO_MOVE_REACH": "La pièce en {{from}} ne peut pas atteindre {{to}} en {{num}} étapes ou moins.",
+      "NO_MOVE_TOGETHER": "Chacun de ces déplacements fonctionne isolément, mais pas l'ensemble en {{num}} étapes ou moins.",
+      "AMBIGUOUS": "Cela correspond à {{count}} coups différents. Indiquez la destination d'une autre pièce pour trancher.",
+      "INFERRED": "Déplacement également de : {{pieces}}.",
+      "INCOMPLETE": "Une pièce est sélectionnée. Cliquez sur une case pour l'y envoyer, ou cliquez à nouveau dessus pour la maintenir là où elle est.",
+      "TOO_LONG": "Ce que vous avez tracé nécessite plus de {{num}} étapes.",
+      "DIE_one": "Le dé permet un seul pas ce tour-ci.",
+      "DIE_other": "Le dé permet jusqu'à {{count}} pas ce tour-ci."
     },
     "armadas": {
       "BAD_PASS": "En cas de passe, cela doit être la seule commande fournie.",
@@ -5132,15 +5539,20 @@
     },
     "asli": {
       "BAD_INCURSION": "Vous ne pouvez pas effectuer d'incursions minimales consécutives.",
+      "BAD_INCURSION_pass": "Vous ne pouvez pas faire une incursion minimale immédiatement après que votre adversaire a passé.",
       "BAD_KOMI": "Le premier coup de la partie doit être un entier représentant le nombre de pièces à placer dans la prison de départ. Un nombre positif place des pièces appartenant au premier joueur. Un nombre négatif, celles du second joueur. Vous ne pouvez pas placer plus de pièces dans la prison que le nombre de cases sur le plateau plus une.",
+      "BAD_KOMI_area": "Le premier coup de la partie doit être un nombre entier de points de komi. Un nombre positif accorde du komi au second joueur. Un nombre négatif, au premier joueur. Vous ne pouvez pas proposer plus de komi que le nombre de points sur le plateau plus un.",
       "BAD_PASS": "Vous devez retirer une pièce ennemie de la prison pour passer.",
       "BAD_PIE": "Vous ne pouvez pas accepter la règle du gâteau à ce stade de la partie.",
+      "INITIAL_INSTRUCTIONS_area": "Placez une pièce sur un point vide valide, ou passez. Passer bloque également la prochaine incursion minimale de votre adversaire.",
       "INITIAL_INSTRUCTIONS_komi": "Saisissez le nombre de pièces du premier joueur que vous souhaitez placer dans la prison de départ. Le second joueur décidera ensuite de la place à prendre.",
+      "INITIAL_INSTRUCTIONS_komi_area": "Entrez le komi, en points, que vous souhaitez proposer. Un nombre positif accorde du komi au second joueur. Un nombre négatif, au premier joueur. L'autre joueur décidera ensuite de la place à prendre.",
       "INITIAL_INSTRUCTIONS_pie": "Cliquez soit sur le bouton « Jouer en second » pour rester là où vous êtes et continuer en second, soit sur « Échanger les places » pour changer de siège.",
       "INITIAL_INSTRUCTIONS_pie2": "Passez pour accepter l'offre de komi et continuer en second, ou placez une pièce pour devenir le premier joueur.",
       "INITIAL_INSTRUCTIONS_play": "Placez une pièce sur une case vide valide ou passez pour retirer une pièce ennemie de la prison à la place (si disponible).",
       "MUST_PIE": "À ce stade de la partie, placer des pièces n'est pas autorisé.",
       "NEGATIVE_KOMI": "Êtes-vous sûr ? Les offres de komi négatives ne devraient être nécessaires que dans des situations de handicap spécifiques.",
+      "NO_CHANGE": "Avec le décompte en surface, votre coup doit modifier le plateau. Ce placement serait immédiatement retiré à nouveau, sans rien capturer.",
       "SUICIDE": "Vous ne pouvez pas placer une pièce de manière à avoir des groupes alliés morts à la fin de votre tour.",
       "WOVEN_INCURSION": "Dans la variante « Woven », les incursions ne sont pas légales."
     },
@@ -5216,11 +5628,15 @@
       "INITIAL_INSTRUCTIONS_mtaji|mtaji": "Sélectionnez l'une de vos fosses contenant au moins deux pierres pour commencer à semer. Une capture est possible.",
       "INITIAL_INSTRUCTIONS_namua|kutakata": "Sélectionnez l'une de vos fosses intérieures qui contient des pierres. Vous y ajouterez une de vos pierres en main, puis vous commencerez à semer. Aucune capture n'est possible.",
       "INITIAL_INSTRUCTIONS_namua|mtaji": "Sélectionnez l'une de vos fosses intérieures qui contient des pierres. Vous y ajouterez une de vos pierres en main, puis vous capturerez les pierres adverses. Une capture est possible.",
+      "KUTAKATA_ONLY": "Aucune capture n'est possible ; vous devez égrener (kutakata) depuis l'un de vos trous contenant au moins deux pierres. Par exemple : {{examples}}.",
+      "MUST_CAPTURE": "Une capture est obligatoire. Les captures autorisées incluent : {{examples}}.",
       "NEVER_SINGLE": "Lors de la phase mtaji, vous ne pouvez jamais commencer votre coup depuis une fosse ne contenant qu'une seule pierre.",
+      "NO_KUTAKATA_WHILE_CAPTURE": "Vous ne pouvez pas jouer un coup kutakata lorsqu'une capture est possible. Les captures autorisées incluent : {{examples}}.",
       "NO_BACK_ROW_mtaji": "Lors de la phase mtaji, vous ne pouvez commencer depuis la rangée arrière que si cela entraîne une capture ou si aucun kutakata n'est possible depuis la rangée avant.",
       "NO_BACK_ROW_namua": "Lors de la phase kunamua, vous ne pouvez pas commencer depuis votre rangée arrière.",
       "PLAY_HOUSE": "Votre semailles s'est terminée dans votre nyumba. Vous pouvez vous arrêter ou \"partir en safari\" (cela transformera votre nyumba en fosse ordinaire). Pour continuer à semer, cliquez sur votre nyumba ou tapez le signe \"+\" dans la zone de saisie du coup.",
-      "TWO_PLUS": "Vous ne pouvez commencer un tour de kutakata en phase kunamua dans une fosse d'une seule pierre que si vous avez une maison fonctionnelle ou si vous n'avez que des fosses à pierre unique sur la rangée avant."
+      "TWO_PLUS": "Vous ne pouvez commencer un tour de kutakata en phase kunamua dans une fosse d'une seule pierre que si vous avez une maison fonctionnelle ou si vous n'avez que des fosses à pierre unique sur la rangée avant.",
+      "WRONG_CAPTURE": "Cette capture n'est pas autorisée. Les captures autorisées incluent : {{examples}}."
     },
     "basalt": {
       "BAD_MOVE": "Les piles ne peuvent pas se déplacer plus loin que leur hauteur, et elles ne peuvent pas passer par-dessus les piles contrôlées par votre adversaire.",
@@ -5341,7 +5757,13 @@
     },
     "bridges": {
       "INITIAL_INSTRUCTIONS_FIRST_TURN": "Placez une nouvelle base sur n'importe quelle case vide, sauf au centre.",
-      "INITIAL_INSTRUCTIONS": "Effectuez deux coups : placez une nouvelle base sur une case vide qui n'est ni adjacente à une base existante ni au centre, ou reliez deux de vos bases par un pont."
+      "INITIAL_INSTRUCTIONS": "Effectuez deux coups : placez une nouvelle base sur une case vide qui n'est ni adjacente à une base existante ni au centre, ou reliez deux de vos bases par un pont.",
+      "BASE_HAS_BRIDGE_one": "Les bases ne peuvent pas supporter plus d'un pont. Vous devez encore jouer 1 coup.",
+      "BASE_HAS_BRIDGE_other": "Les bases ne peuvent pas supporter plus d'un pont. Vous devez encore jouer {{count}} coups.",
+      "NO_LINE_OF_SIGHT_one": "Cette base n'a pas de ligne de vue vers une autre base alliée. Vous devez encore jouer 1 coup.",
+      "NO_LINE_OF_SIGHT_other": "Cette base n'a pas de ligne de vue vers une autre base alliée. Vous devez encore jouer {{count}} coups.",
+      "ONE_MORE": "Vous devez encore jouer un coup. Sélectionnez une case vide non adjacente à une base existante (sauf au centre) pour placer une nouvelle base, ou sélectionnez l'une de vos bases existantes pour commencer à construire un pont. Ou vous pouvez passer tout votre tour.",
+      "SELECT_BRIDGE_END": "Sélectionnez une autre base alliée dans la ligne de vue pour construire le pont."
     },
     "btt": {
       "BAD_NULL": "Une case nulle ne peut pas isoler une partie du plateau.",
@@ -5585,6 +6007,14 @@
       "BAD_PASS": "Vous ne pouvez pas passer si des coups légaux sont disponibles.",
       "INITIAL_INSTRUCTIONS": "Sélectionnez un point pour placer une pièce."
     },
+    "clearpath": {
+      "INITIAL_INSTRUCTIONS": "Placez une pierre sur un point vide. Un point vital pour votre adversaire n'est autorisé que s'il est également vital pour vous ou si votre coup complète votre connexion.",
+      "INVALIDCELL": "Le point {{cell}} n'existe pas.",
+      "OCCUPIED": "Le point {{where}} est déjà occupé.",
+      "VITAL": "Vous ne pouvez pas placer de pierre sur {{where}}. Ce point est vital pour votre adversaire mais pas pour vous, et y placer une pierre ne complèterait pas votre connexion.",
+      "NO_PASS": "Vous ne pouvez pas passer tant que vous avez un coup légal.",
+      "MUST_PASS": "Vous n'avez aucun coup légal. Votre tour est passé."
+    },
     "clusterfuss": {
       "ADJ_ONLY": "Les pièces ne peuvent se déplacer que vers des emplacements adjacents orthogonalement.",
       "BAD_PASS": "Vous ne pouvez pas passer si des coups légaux sont disponibles.",
@@ -5707,8 +6137,10 @@
     },
     "crosshairs": {
       "PLACE_CLOUD": "Cliquez sur une case vide pour placer un nuage. Les nuages ne peuvent pas dépasser 2 hexagones.",
+      "PLACE_CLOUD_UNBOUNDED": "Cliquez sur une case vide pour placer un nuage.",
       "CLOUD_OCCUPIED": "Il y a déjà un nuage en {{cell}}.",
       "CLOUD_TOO_BIG": "Vous ne pouvez pas placer de nuage en {{cell}}. Seuls les nuages de taille 2 sont autorisés. Ce nuage serait trop grand.",
+      "MUST_PASS_BEFORE_ENTRY": "Vous devez passer pour que le joueur 1 fasse entrer le premier avion.",
       "INITIAL_INSTRUCTIONS_one": "Sélectionnez un avion à déplacer, ou faites entrer un nouvel avion sur votre bord de départ. Vous devez déplacer/faire entrer {{count}} avion ce tour-ci.",
       "INITIAL_INSTRUCTIONS_other": "Sélectionnez un avion à déplacer, ou faites entrer un nouvel avion sur votre bord de départ. Vous devez déplacer/faire entrer {{count}} avions ce tour-ci.",
       "INITIAL_INSTRUCTIONS_NO_ENTRY_one": "Sélectionnez un avion à déplacer. Vous devez déplacer {{count}} avion ce tour-ci. Cliquez sur les avions ennemis si vous pensez qu'ils peuvent être abattus.",
@@ -5742,6 +6174,11 @@
       "MAX_DICE": "Vous ne pouvez avoir que {{dice}} dés sur le plateau.",
       "PINNED": "Les dés bloqués ne peuvent pas agir."
     },
+    "croda": {
+      "INITIAL_INSTRUCTIONS": "Sélectionnez une pièce à déplacer.",
+      "INVALID_MOVE": "La capture est obligatoire, y compris la séquence de capture la plus longue. Les pions avancent d'une case vers l'avant, orthogonalement ou en diagonale ; les captures sont orthogonales dans n'importe quelle direction ; les rois glissent sur n'importe quelle distance le long d'une rangée ou d'une colonne.",
+      "VALID_PARTIAL": "Semble correct pour l'instant. Sélectionnez la case vide suivante sur laquelle vous déplacer."
+    },
     "dagnacht": {
       "INITIAL_INSTRUCTIONS": "Placez une pièce sur une case sombre ou déplacez une pièce d'une case orthogonalement.",
       "MOVE_EMPTY": "Il n'y a pas de pièce à déplacer en {{where}}.",
@@ -5751,6 +6188,11 @@
       "OCCUPIED": "Vous devez placer une pièce sur une case vide. Il y a déjà une pièce en {{where}}.",
       "PARTIAL_MOVE": "Il semble que vous souhaitez déplacer la pièce en {{cell}}. Indiquez la destination.",
       "TOO_MANY": "Vous ne pouvez déplacer qu'une seule pièce d'une seule case"
+    },
+    "dama": {
+      "INITIAL_INSTRUCTIONS": "Sélectionnez une pièce à déplacer.",
+      "INVALID_MOVE": "La capture est obligatoire, y compris la séquence de capture la plus longue. Les pions se déplacent d'une case orthogonalement vers l'avant ou latéralement ; les dames glissent de n'importe quelle distance le long d'une rangée ou d'une colonne.",
+      "VALID_PARTIAL": "Semble correct pour l'instant. Sélectionnez la prochaine case vide vers laquelle vous déplacer."
     },
     "dameo": {
       "INITIAL_INSTRUCTIONS": "Sélectionnez une pièce à déplacer.",
@@ -5877,6 +6319,7 @@
       "MUST_CHOOSE_SIDE": "Vous devez choisir pair ou impair avant de jouer.",
       "NOT_IN_HAND": "Ce domino n'est pas dans votre main.",
       "NEEDS_ANCHOR_PIP": "Ce placement est ambigu. Marquez le point d'ancrage avec une astérisque (ex. 1*-2@-3,1N ou 1-2*@-3,1N).",
+      "MUST_COVER_TWO_DOMINOES": "Lorsque vous placez un domino sur d'autres, vous devez recouvrir deux dominos différents.",
       "PARTIAL": "Cliquez sur une demi-case d'ancrage, puis sur l'autre extrémité du domino."
     },
     "estate": {
@@ -6071,8 +6514,8 @@
       "TOO_EARLY_FOR_REFILL": "Veuillez soumettre votre demande de remplissage avant d'effectuer vos coups restants.",
       "TOO_LATE_FOR_BLOCKED": "Vous n'êtes pas considéré comme bloqué si vous vous êtes déjà déplacé au cours de ce tour.",
       "TOO_LATE_FOR_REFILL": "Il n'est pas nécessaire de forcer un remplissage de la réserve après votre troisième coup. Elle se remplira automatiquement après validation.",
-      "VALID_REFILL_one": "Veuillez valider votre coup pour déclencher le remplissage. Les adversaires passeront automatiquement, et il vous restera un coup dans votre tour partiel (ainsi que la possibilité de passer).",
-      "VALID_REFILL_other": "Veuillez valider votre coup pour déclencher le remplissage. Les adversaires passeront automatiquement, et il vous restera {{count}} coups dans votre tour partiel (ainsi que la possibilité de passer)."
+      "VALID_REFILL_one": "Veuillez valider votre coup pour déclencher le réapprovisionnement. Vous obtiendrez automatiquement un autre tour, et il vous restera un coup dans votre tour partiel (ainsi que la possibilité de passer).",
+      "VALID_REFILL_other": "Veuillez valider votre coup pour déclencher le réapprovisionnement. Vous obtiendrez automatiquement un autre tour, et il vous restera {{count}} coups dans votre tour partiel (ainsi que la possibilité de passer)."
     },
     "furl": {
       "CAPTURE4UNFURL": "Vous avez indiqué un coup de déploiement avec capture, mais {{to}} n'est pas occupé par l'adversaire. Utilisez « > » pour indiquer un déploiement sans capture.",
@@ -6131,6 +6574,7 @@
     },
     "gonnect": {
       "INITIAL_INSTRUCTIONS": "Sélectionnez une intersection pour placer une pierre.",
+      "INVALID_PASS": "Vous ne pouvez pas passer pour le moment.",
       "KO": "Règle du Ko : vous ne pouvez pas recapturer immédiatement la pierre unique de votre adversaire s'il vient de l'utiliser pour capturer la vôtre.",
       "SELF_CAPTURE": "Vous ne pouvez pas placer vos pierres en auto-capture."
     },
@@ -6256,6 +6700,23 @@
       },
       "VALID_W_ACTIONS": "Le coup semble valide, mais il vous reste encore des actions à dépenser."
     },
+    "icepalace": {
+      "BAD_PLACEMENT": "Impossible de lire '{{move}}' comme une pyramide et une case.",
+      "BUILD_COMPLETE": "Toute la Cour a été intégrée au Palais de Glace. Validez quand la disposition vous convient.",
+      "BUILD_ENOUGH": "Les {{count}} pyramides restantes seront défaussées. Validez quand l'agencement vous convient.",
+      "BUILD_MORE": "Placez {{count}} pyramides de plus.",
+      "ILLEGAL_PALACE": "La pièce {{piece}} ne peut pas aller en {{cell}}. Dans le Palais de Glace, une pyramide ne peut recouvrir qu'une pyramide plus grande, ou commencer une nouvelle pile à côté d'une pile de sa propre couleur.",
+      "ILLEGAL_YARD": "La pièce {{piece}} ne peut pas aller en {{cell}}. Dans la Cour, une pyramide ne peut recouvrir qu'une pyramide plus petite, ou commencer une nouvelle pile à côté d'une pile dont le sommet correspond.",
+      "INITIAL_BUILD": "Vous avez gagné la manche. Intégrez la Cour au Palais de Glace en utilisant {{count}} pyramides.",
+      "INITIAL_HAND": "Placez une pyramide de votre main dans la Cour, ou passez.",
+      "LEAD_CANNOT_PASS": "Vous avez la main et devez placer une pyramide pour commencer la Cour.",
+      "MUST_BUILD": "Vous ne pouvez pas refuser de construire : {{count}} pyramides de la Cour peuvent être placées.",
+      "NOT_IN_HAND": "Vous n'avez pas de {{piece}} en main.",
+      "NOT_IN_STOCK": "La pièce {{piece}} ne fait pas partie des pyramides que vous avez gagnées.",
+      "OFF_STRUCTURE": "Cette case ne fait pas partie de la structure dans laquelle vous construisez.",
+      "PARTIAL_PIECE": "Choisissez maintenant où placer la pièce {{piece}}.",
+      "POOL_CLICK": "Le Pool est affiché à titre indicatif. Ses pyramides ne peuvent pas être jouées."
+    },
     "intermedium": {
       "INSTRUCTIONS": "Sélectionnez une pile alliée ; cliquez dessus autant de fois qu'il y a de pièces à déplacer, puis cliquez sur un chemin diagonal qui commence de manière adjacente à cette pile d'égrenage (une pièce par case), en effectuant des virages à 90º.",
       "NOT_FRIENDLY_STACK": "Sélectionnez une pile alliée contenant au moins deux pièces à égrener.",
@@ -6301,6 +6762,50 @@
       "PARTIAL_destination": "Sélectionnez une destination.",
       "PARTIAL_orientation": "Sélectionnez une case voisine pour orienter la pièce."
     },
+    "killallgo": {
+      "INSTRUCTIONS_HANDICAP": "Vous donnez le handicap. Cliquez sur une pierre numérotée, ou entrez manuellement un nombre de 1 à {{max}}, pour déterminer combien de pierres d'Attaquant supplémentaires votre adversaire posera s'il choisit le camp de l'Attaquant.",
+      "HANDICAP_INVALID": "Le handicap doit être un nombre entier.",
+      "HANDICAP_RANGE": "Le handicap doit être compris entre 1 et {{max}} pierres.",
+      "HANDICAP_OK_one": "Handicap d'une pierre. Validez ou choisissez un handicap différent.",
+      "HANDICAP_OK_other": "Handicap de {{count}} pierres. Validez ou choisissez un handicap différent.",
+      "NOT_A_NUMBERED_STONE": "{{where}} n'est pas l'une des pierres numérotées.",
+      "INSTRUCTIONS_ALT": "Posez une pierre d'Attaquant pour continuer l'ouverture, ou choisissez de jouer l'Attaquant. Si vous choisissez l'Attaquant, votre adversaire joue en premier en tant que Défenseur.",
+      "INSTRUCTIONS_ALT_HANDICAP_one": "Posez une pierre d'Attaquant pour continuer l'ouverture, ou choisissez de jouer l'Attaquant. Si vous choisissez l'Attaquant, posez une pierre supplémentaire ; votre adversaire jouera ensuite en premier en tant que Défenseur.",
+      "INSTRUCTIONS_ALT_HANDICAP_other": "Posez une pierre d'Attaquant pour continuer l'ouverture, ou choisissez de jouer l'Attaquant. Si vous choisissez l'Attaquant, posez {{count}} pierres supplémentaires ; votre adversaire jouera ensuite en premier en tant que Défenseur.",
+      "SETUP_FULL": "Le plateau contient déjà le nombre maximum de pierres de placement autorisé pour cette phase ({{max}}) ; choisissez le camp de l'Attaquant au lieu d'en poser une autre.",
+      "ATTACKER_NO_STONES": "Choisir le camp de l'Attaquant n'implique pas de poser des pierres pour le moment.",
+      "DEFENDER_NO_STONES": "Choisir le camp du Défenseur n'implique pas de poser des pierres pour le moment.",
+      "STONES_LEFT_one": "Posez encore une pierre d'Attaquant.",
+      "STONES_LEFT_other": "Posez encore {{count}} pierres d'Attaquant.",
+      "BATCH_TOO_MANY_one": "Ce lot doit contenir exactement une pierre.",
+      "BATCH_TOO_MANY_other": "Ce lot doit contenir exactement {{count}} pierres.",
+      "BATCH_MORE_OR_SUBMIT": "Ajoutez d'autres pierres d'Attaquant, ou validez.",
+      "DUPLICATE_CELL": "La case {{where}} est répertoriée deux fois.",
+      "INVALID_PASS": "Vous ne pouvez pas passer pour le moment.",
+      "INSTRUCTIONS_PIE_SLICE": "Posez n'importe quel nombre de pierres d'Attaquant jusqu'à {{max}} (ou passez pour n'en poser aucune) ; votre adversaire choisira ensuite son camp.",
+      "PIE_SLICE_MAX": "Vous pouvez poser au maximum {{max}} pierres d'Attaquant de cette manière.",
+      "INSTRUCTIONS_PIE_CHOOSE": "Choisissez un camp : prenez les pierres d'Attaquant, ou posez votre première pierre en tant que Défenseur.",
+      "INSTRUCTIONS_PIE_DEFENDER_STONE": "Posez votre première pierre de Défenseur.",
+      "INSTRUCTIONS_HOC_SLICE": "Choisissez la taille de deux lots de pierres d'Attaquant : le premier lot sera posé avant le choix des camps, puis l'Attaquant posera le second. Cliquez sur une pierre numérotée dans le bloc supérieur pour le premier lot et sur une dans le bloc inférieur pour le second, ou entrez manuellement les deux tailles dans cet ordre, séparées par une virgule.",
+      "SLICE_FORMAT": "Les tailles de lot entrées manuellement doivent être deux nombres entiers séparés par une virgule, par exemple 20,15.",
+      "SLICE_MIN": "Chaque lot doit contenir au moins une pierre.",
+      "SLICE_SUM": "Ensemble, les deux lots peuvent contenir au maximum {{max}} pierres.",
+      "SLICE_RATIO": "Aucun lot ne peut faire plus du double de la taille de l'autre.",
+      "SLICE_A_ONLY_one": "Premier lot d'une pierre. Choisissez maintenant la taille du second lot.",
+      "SLICE_A_ONLY_other": "Premier lot de {{count}} pierres. Choisissez maintenant la taille du second lot.",
+      "SLICE_B_ONLY_one": "Second lot d'une pierre. Choisissez maintenant la taille du premier lot.",
+      "SLICE_B_ONLY_other": "Second lot de {{count}} pierres. Choisissez maintenant la taille du premier lot.",
+      "SLICE_OK": "Lots de {{a}} et {{b}} pierres. Validez ou choisissez des tailles différentes.",
+      "INSTRUCTIONS_HOC_OPTION_one": "Décidez qui pose le premier lot d'une pierre d'Attaquant : posez-la vous-même (votre adversaire choisit ensuite son camp), ou laissez votre adversaire la poser (vous choisissez ensuite votre camp).",
+      "INSTRUCTIONS_HOC_OPTION_other": "Décidez qui pose le premier lot de {{count}} pierres d'Attaquant : posez-les vous-même (votre adversaire choisit ensuite son camp), ou laissez votre adversaire les poser (vous choisissez ensuite votre camp).",
+      "INSTRUCTIONS_HOC_BATCH_one": "Posez une pierre d'Attaquant.",
+      "INSTRUCTIONS_HOC_BATCH_other": "Posez {{count}} pierres d'Attaquant.",
+      "INSTRUCTIONS_HOC_CHOOSE_one": "Choisissez un camp. Choisir l'Attaquant signifie poser le second lot d'une pierre maintenant ; choisir le Défenseur signifie que votre adversaire la pose et que vous jouez le premier coup.",
+      "INSTRUCTIONS_HOC_CHOOSE_other": "Choisissez un camp. Choisir l'Attaquant signifie poser le second lot de {{count}} pierres maintenant ; choisir le Défenseur signifie que votre adversaire les pose et que vous jouez le premier coup.",
+      "INSTRUCTIONS_PLAY_ATTACKER": "Posez une pierre. Vous gagnez en empêchant le Défenseur de former une chaîne inconditionnellement vivante.",
+      "INSTRUCTIONS_PLAY_DEFENDER": "Posez une pierre. Vous gagnez en formant une chaîne inconditionnellement vivante.",
+      "KO_PSK": "Ce placement récréerait une position antérieure du plateau (superko positionnel)."
+    },
     "knightline": {
       "BAD_PASS": "Vous ne pouvez pas passer si des coups légaux sont disponibles.",
       "BAD_OPENING_MOVE": "Le coup d'ouverture dans cette variante doit être une case légale pour le placement initial de la pile.",
@@ -6332,6 +6837,11 @@
       "AMBIGUOUS": "Les coups ambigus (les coups qui pourraient être entrés simultanément depuis les deux côtés actifs) sont interdits.",
       "SIMULTANEOUS": "Les coups qui créeraient des lignes gagnantes pour les deux joueurs simultanément ne sont pas autorisés.",
       "ACTIVE": "Les pièces doivent être entrées depuis l'un des côtés actifs du plateau, en glissant sur les pièces existantes jusqu'à la première case vide."
+    },
+    "bashni": {
+      "INITIAL_INSTRUCTIONS": "Sélectionnez une pile avec votre pièce au sommet à déplacer.",
+      "INVALID_MOVE": "Ce coup ne semble pas légal. La capture est obligatoire, et vous devez la poursuivre tant que d'autres captures sont possibles.",
+      "VALID_PARTIAL": "Sélectionnez une destination. La capture est obligatoire, et vous devez la poursuivre tant que d'autres captures sont possibles."
     },
     "lasca": {
       "INITIAL_INSTRUCTIONS": "Sélectionnez une pile au sommet de laquelle se trouve votre pièce pour la déplacer.",
@@ -6645,6 +7155,15 @@
       "BLOCKS_PATH": "Le placement en {{where}} bloque le seul chemin vers le bord pour certains espaces libres.",
       "INITIAL_INSTRUCTIONS": "Sélectionnez un point pour placer une pièce.",
       "NO_CROSSINGS": "Le placement en {{where}} créera une coupe croisée."
+    },
+    "neutron": {
+      "INCOMPLETE": "Vous devez effectuer les deux parties du tour (ou terminer la partie avec un coup gagnant du neutron).",
+      "INITIAL_INSTRUCTIONS": "Sélectionnez où faire glisser le neutron, ou au premier tour des Blancs dans le Neutron standard, sélectionnez un pion à déplacer.",
+      "INVALID_NEUTRON": "Le neutron ne peut pas glisser vers cette case.",
+      "NEUTRON_FIRST": "Faites d'abord glisser le neutron, puis sélectionnez l'un de vos pions.",
+      "PAWN_DEST": "Sélectionnez où faire glisser ce pion.",
+      "PAWN_SELECT": "Sélectionnez l'un de vos pions à déplacer.",
+      "SELECT_OWN_PAWN": "Vous ne pouvez déplacer que vos propres pions."
     },
     "nex": {
       "EDGE_CASE_ONE_EMPTY_NEUTRAL": "Il n'y a qu'une seule case vide, vous ne pouvez donc pas effectuer de placement. Vous devriez plutôt effectuer des coups d'échange.",
@@ -7039,6 +7558,7 @@
       "CHECKPOINT_CHARLEY": "Avec la variante « Checkpoint Charley », les pièces en déplacement doivent s'arrêter dans le premier royaume sous contrôle ennemi qu'elles pénètrent. Dans ce cas, la pièce doit s'arrêter dans le royaume {{realm}}.",
       "DOUBLE_POWER": "Lors de la phase initiale de placement des pouvoirs, vous ne pouvez pas placer plusieurs pouvoirs dans le même royaume.",
       "EMPTY_REARRANGE": "Il n'y a aucune pièce dans le royaume {{realm}} que vous puissiez réorganiser.",
+      "REARRANGE_THREE": "Vous ne pouvez pas réarranger le royaume {{realm}} trois tours d'affilée.",
       "ENFORCER_180": "Les exécuteurs ne peuvent pas faire de demi-tour à 180 degrés.",
       "INHAND": "Il vous reste des pièces à placer sur le plateau.",
       "INHAND_LABEL": "Réorganisation du royaume {{realm}}",
@@ -7604,6 +8124,23 @@
       "MOVE_UP": "Vous ne pouvez monter que d'un niveau à la fois vers une case adjacente.",
       "NO_MOVES": "La pièce en {{cell}} n'a aucun coup valide."
     },
+    "thricewise": {
+      "BAD_CARD": "Cette carte ({{card}}) n'est pas disponible pour être jouée.",
+      "BAD_PASS": "Seules les places inactives peuvent soumettre un jeton de passe pendant le placement.",
+      "DUPLICATE_CARD": "Chaque carte ne peut être placée qu'une seule fois pendant ce tour.",
+      "GRID_CAP": "La grille ne peut pas dépasser une largeur ou une hauteur de six cartes.",
+      "INITIAL_INSTRUCTIONS_place": "Placez votre ou vos carte(s) sur la grille. Les cartes différées et la carte de ce tour doivent toutes être placées.",
+      "INITIAL_INSTRUCTIONS_select": "Choisissez une carte dans votre main.",
+      "LABEL_HAND": "Main de {{player}} & cartes différées",
+      "LABEL_DECK": "Cartes dans la pioche",
+      "NOT_ADJACENT": "Les cartes doivent être placées à côté d'une carte existante.",
+      "NOT_YOUR_TURN": "Attendez votre tour dans l'ordre de placement.",
+      "SELECT_HAND": "Sélectionnez une carte dans votre main.",
+      "STATUS_place": "Pli {{round}} — placement",
+      "STATUS_select": "Pli {{round}} — choisissez une carte",
+      "VALID_PARTIAL_CELL": "Choisissez une case pour cette carte.",
+      "VALID_PARTIAL_MORE": "Placez votre ou vos carte(s) restante(s)."
+    },
     "tessella": {
       "INITIAL_INSTRUCTIONS": "Sélectionnez une pièce à déplacer.",
       "PARTIAL_cancap": "Sélectionnez une destination. Cette pièce peut capturer.",
@@ -7912,6 +8449,23 @@
       "INITIAL_INSTRUCTIONS": "Cliquez sur une case vide pour placer une pièce.",
       "MUST_BLOCK": "Dans une partie à trois joueurs, vous devez bloquer une victoire du joueur suivant si possible."
     },
+    "yodd": {
+      "INITIAL_INSTRUCTIONS": "Cliquez sur une case vide pour placer une pierre de votre couleur. Cliquez à nouveau dessus pour passer à l'autre couleur, et encore une fois pour retirer la pierre. Utilisez Terminer le coup quand vous êtes prêt (une seule pierre au premier tour).",
+      "INITIAL_INSTRUCTIONS_yopp": "Cliquez sur un point vide pour placer votre pierre. Cliquez dessus à nouveau pour la retirer. Utilisez Terminer le coup lorsque vous êtes prêt (une seule pierre au premier tour).",
+      "INSTRUCTIONS": "Passez, ou placez une ou deux pierres sur des cases vides (votre couleur par défaut). Cliquez à nouveau sur une pierre pour changer de couleur, ou une troisième fois pour la retirer. Le nombre total de groupes doit être impair lorsque vous terminez votre tour.",
+      "INSTRUCTIONS_yopp": "Ne passez que si vous n'avez aucun placement valide, ou placez une ou deux pierres de votre couleur sur des points vides. Cliquez à nouveau sur une pierre pour la retirer. Le nombre total de groupes doit être impair lorsque vous terminez votre tour.",
+      "INSTRUCTIONS_ODD": "Ajustez les placements ou ajoutez une autre pierre pour que le nombre total de groupes soit impair, puis utilisez Terminer le coup.",
+      "INVALID_PASS": "Vous ne pouvez passer que si vous n'avez aucun placement valide.",
+      "INVALID_PLACEMENT": "Impossible d'interpréter la notation du coup : {{move}}.",
+      "NORMALISED": "Le coup doit être normalisé. Essayez {{normalised}}.",
+      "NO_PASS_OPENING": "Vous ne pouvez pas passer au tour d'ouverture.",
+      "ODD_GROUPS_REQUIRED": "Le nombre total de groupes sur le plateau doit être impair après votre tour.",
+      "OWN_COLOUR_ONLY": "Vous ne pouvez placer que des pierres de votre couleur.",
+      "INVALID_PASS_PARTIAL": "Terminez ou effacez votre placement avant de passer.",
+      "TOO_MANY_MOVES": "Seuls un ou deux placements sont autorisés.",
+      "TOO_MANY_MOVES_START": "Au premier tour, un seul placement est autorisé.",
+      "VALID_MOVE": "Utilisez Terminer le coup pour finir votre tour, ou continuez à cliquer pour modifier ou retirer des pierres."
+    },
     "yonmoque": {
       "INITIAL_INSTRUCTIONS": "Sélectionnez une case vide pour placer une pièce ou une pièce existante pour commencer un déplacement.",
       "PARTIAL": "Sélectionnez une destination."
@@ -7928,5 +8482,531 @@
   "INITIAL_UNDO": "Vous ne pouvez pas annuler la position de départ initiale de la partie.",
   "MOVES_GAMEOVER": "Vous ne pouvez pas faire de coups dans une partie terminée.",
   "MOVES_INVALID": "Le coup « {{move}} » est invalide. Veuillez vérifier les règles et réessayer.",
-  "MOVES_SIMULTANEOUS_PARTIAL": "Dans les parties simultanées, les coups des deux joueurs doivent être soumis en même temps."
+  "MOVES_SIMULTANEOUS_PARTIAL": "Dans les parties simultanées, les coups des deux joueurs doivent être soumis en même temps.",
+  "buttons": {
+    "pass": "Passer",
+    "declare": "Déclarer",
+    "takebutton": "Bouton de prise",
+    "acceptpie": "Jouer en second",
+    "playsecond": "Jouer en second",
+    "draw": "Réclamer un nul",
+    "playfirst": "Jouer en premier",
+    "swap": "Échanger les couleurs",
+    "roll1": "Lancer un dé",
+    "roll2": "Lancer deux dés",
+    "numbers": {
+      "one": "Un (1)",
+      "two": "Deux (2)",
+      "three": "Trois (3)"
+    },
+    "pigs": {
+      "back": "Reculer",
+      "forward": "Avancer",
+      "left": "Avancer à gauche",
+      "right": "Avancer à droite",
+      "cw": "Rotation dans le sens horaire",
+      "ccw": "Rotation dans le sens anti-horaire",
+      "fire": "Tirer au laser",
+      "hit": "Bouger le museau"
+    },
+    "carnac": {
+      "tip_n": "Faire basculer au nord",
+      "tip_e": "Faire basculer à l'est",
+      "tip_s": "Faire basculer au sud",
+      "tip_w": "Faire basculer à l'ouest"
+    },
+    "cifra": {
+      "lt": "Clair, Haut",
+      "lb": "Clair, Bas",
+      "dt": "Foncé, Haut",
+      "db": "Foncé, Bas",
+      "ll": "Clair, Gauche",
+      "lr": "Clair, Droite",
+      "dl": "Foncé, Gauche",
+      "dr": "Foncé, Droite"
+    },
+    "evenatodds": {
+      "evens": "Pair",
+      "odds": "Impair"
+    },
+    "arimaa": {
+      "gold99": "Configuration rapide",
+      "silver99e7": "Configuration rapide, éléphant e7",
+      "silver99d7": "Configuration rapide, éléphant d7"
+    },
+    "killallgo": {
+      "attacker": "Jouer l'attaquant",
+      "defender": "Jouer le défenseur",
+      "youplace": "Laisser l'adversaire poser le premier lot"
+    },
+    "agofmars": {
+      "draw": "Piocher",
+      "move": "Déplacer",
+      "noObjSwap": "Pas d'échange d'objectifs",
+      "objSwap": "Échanger les objectifs",
+      "swap": "Échanger sur le plateau"
+    }
+  },
+  "categories": {
+    "board": {
+      "description": "Décrire les attributs de la surface de jeu",
+      "full": "Plateau",
+      "tag": "Plateau"
+    },
+    "board>3d": {
+      "description": "Le plateau est en trois dimensions",
+      "full": "Plateau > 3D",
+      "tag": "Plateau : 3D"
+    },
+    "board>connect": {
+      "description": "Décrivez comment les cases du plateau sont connectées entre elles",
+      "full": "Plateau > Connectivité",
+      "tag": "Connectivité du plateau"
+    },
+    "board>connect>hex": {
+      "description": "Les cases sont connéctées hexagonalement",
+      "full": "Plateau > Connectivité > Hexagonal",
+      "tag": "Connection : Hex"
+    },
+    "board>connect>linear": {
+      "description": "Les cases sont connectées de manière linéaire",
+      "full": "Plateau > Connectivité > Linéaire",
+      "tag": "Connexion : Linéaire"
+    },
+    "board>connect>other": {
+      "description": "Les cases se connectent les unes aux autres de façon unique",
+      "full": "Plateau > Connectivité > Autre",
+      "tag": "Connecter : Autre"
+    },
+    "board>connect>pent": {
+      "description": "Les cases se connectent les unes aux autres de façon pentagonale",
+      "full": "Plateau > Connectivité > Pentagonal",
+      "tag": "Connecter : Pent"
+    },
+    "board>connect>rect": {
+      "description": "Les cases se connectent les unes aux autres de façon orthogonale et diagonale",
+      "full": "Plateau > Connectivité > Rectangulaire",
+      "tag": "Connecter : Rect"
+    },
+    "board>connect>snub": {
+      "description": "Les cases se connectent les unes aux autres dans une matrice carrée de camouflet",
+      "full": "Plateau > Connectivité > Carré de camouflet",
+      "tag": "Connecter : Camouflage"
+    },
+    "board>dynamic": {
+      "description": "Le plateau se construit de façon dynamique",
+      "full": "Plateau > Dynamique",
+      "tag": "Plateau : Dynamique"
+    },
+    "board>mancala": {
+      "description": "Joué sur un tableau traditionnel de style Mancala",
+      "full": "Plateau > Mancala",
+      "tag": "Plateau : Mancala"
+    },
+    "board>none": {
+      "description": "Joué sur n'importe quelle surface plane",
+      "full": "Plateau > Aucun",
+      "tag": "Plateau : Aucun"
+    },
+    "board>other": {
+      "description": "Le plateau est unique",
+      "full": "Plateau > Autre",
+      "tag": "Plateau : Autre"
+    },
+    "board>shape": {
+      "description": "Décrit la forme du plateau",
+      "full": "Plateau > Forme",
+      "tag": "Plateau Forme"
+    },
+    "board>shape>circle": {
+      "description": "Le plateau a la forme d'un cercle",
+      "full": "Plateau > Forme > Cercle",
+      "tag": "Forme : Cercle"
+    },
+    "board>shape>hex": {
+      "description": "Le plateau a une forme d'hexagone",
+      "full": "Plateau > Forme > Hexagone",
+      "tag": "Forme : Hex"
+    },
+    "board>shape>pent": {
+      "description": "Le plateau a une forme de pentagone",
+      "full": "Plateau > Forme > Pentagone",
+      "tag": "Forme : Pent"
+    },
+    "board>shape>oct": {
+      "description": "Le plateau a la forme d'un octogone",
+      "full": "Plateau > Forme > Octogone",
+      "tag": "Forme : Oct"
+    },
+    "board>shape>other": {
+      "description": "Le plateau a une forme unique",
+      "full": "Plateau > Forme > Autre",
+      "tag": "Forme : Autre"
+    },
+    "board>shape>rect": {
+      "description": "Le plateau a la forme d'un rectangle",
+      "full": "Plateau > Forme > Rectangle",
+      "tag": "Forme : Rect"
+    },
+    "board>shape>tri": {
+      "description": "Le plateau a la forme d'un triangle",
+      "full": "Plateau > Forme > Triangle",
+      "tag": "Forme : Tri"
+    },
+    "components>chess": {
+      "description": "Joué avec un jeu d'échecs",
+      "full": "Matériel > Échecs",
+      "tag": "M : Échecs"
+    },
+    "components>dice": {
+      "description": "Joué avec des dés",
+      "full": "Composants > Dés",
+      "tag": "C : Dés"
+    },
+    "components>decktet": {
+      "description": "Joué avec un deck Decktet",
+      "full": "Composant > Decktet",
+      "tag": "C : Decktet"
+    },
+    "components>dominoes": {
+      "description": "Joué avec des dominos",
+      "full": "Matériel > Dominos",
+      "tag": "M : Dominos"
+    },
+    "components>piecepack": {
+      "description": "Joué avec un paquet de pièces",
+      "full": "Composants > Paquet de pièces",
+      "tag": "C : Paquet de pièces"
+    },
+    "components>poly": {
+      "description": "Joué avec des polyominos",
+      "full": "Composants > polyominos",
+      "tag": "C : polyominos"
+    },
+    "components>pyramids": {
+      "description": "Joué avec les pyramides Looney",
+      "full": "Composants > Pyramides Looney",
+      "tag": "C : Pyramides Looney"
+    },
+    "components>shibumi": {
+      "description": "Joué avec un ensemble Shibumi",
+      "full": "Composants > Shibumi",
+      "tag": "C : Shibumi"
+    },
+    "components>simple": {
+      "description": "Joué avec des pièces simples de taille uniforme, souvent empilables, parfois avec beaucoup de couleurs",
+      "full": "Composants > Simple",
+      "tag": "C : Simple"
+    },
+    "components>simple>1per": {
+      "description": "Une couleur par joueur",
+      "full": "Composants > Simple > 1 per",
+      "tag": "C : Simple, 1 per"
+    },
+    "components>simple>2per": {
+      "description": "Deux couleurs par joueur",
+      "full": "Composants > Simple > 2 per",
+      "tag": "C : Simple, 2 per"
+    },
+    "components>simple>1c": {
+      "description": "Une couleur de pièces",
+      "full": "Composants > Simple > 1 couleur",
+      "tag": "C : Simple, 1 couleur"
+    },
+    "components>simple>2c": {
+      "description": "Deux couleurs de pièces",
+      "full": "Composants > Simple > 2 couleurs",
+      "tag": "C : Simple, 2 couleurs"
+    },
+    "components>simple>3c": {
+      "description": "Trois couleurs de pièces",
+      "full": "Composants > Simple > 3 couleurs",
+      "tag": "C : Simple, 3 couleurs"
+    },
+    "components>simple>4c": {
+      "description": "Quatre couleurs de pièces",
+      "full": "Composants > Simple > 4 couleurs",
+      "tag": "C : Simple, 4 couleurs"
+    },
+    "components>simple>5c": {
+      "description": "Cinq couleurs de pièces",
+      "full": "Matériel > Simple > 5 couleurs",
+      "tag": "M : Simple, 5 couleurs"
+    },
+    "components>simple>7c": {
+      "description": "Sept couleurs de pièces",
+      "full": "Composants > Simple > 7 couleurs",
+      "tag": "C : Simple, 7 couleurs"
+    },
+    "components>simple>pnp": {
+      "description": "Jouable avec du papier et crayon",
+      "full": "Composants > Simple > Papier & Crayon",
+      "tag": "C : Simple, P&P"
+    },
+    "components>special": {
+      "description": "Joué avec des pièces spécialisées, généralement différenciées",
+      "full": "Composants > Spécialisé",
+      "tag": "C : Spécial"
+    },
+    "family": {
+      "description": "Famille historique ou de règles (lignée), distincte des objectifs et des mécaniques",
+      "full": "Famille",
+      "tag": "Famille"
+    },
+    "family>draughts": {
+      "description": "Lignée du jeu de dames : capture par saut, promotion et variantes associées",
+      "full": "Famille > Dames",
+      "tag": "F : Dames"
+    },
+    "family>gomoku": {
+      "description": "Jeux de placement et d'alignement de la lignée du Gomoku / Renju / Connect6 et jeux d'alignement apparentés",
+      "full": "Famille > Gomoku",
+      "tag": "F : Gomoku"
+    },
+    "family>mancala": {
+      "description": "Jeux traditionnels de semailles et d'égrenage et leurs descendants modernes proches",
+      "full": "Famille > Mancala",
+      "tag": "F : Mancala"
+    },
+    "family>tafl": {
+      "description": "Famille des jeux de tafl vikings : roi contre attaquants, fuite contre capture, capture en tenaille sur tabliers spéciaux",
+      "full": "Famille > Tafl",
+      "tag": "F : Tafl"
+    },
+    "goal>annihilate": {
+      "description": "Anéantir toutes les pièces adverses",
+      "full": "Objectif > Anéantir",
+      "tag": "G : Anéantir"
+    },
+    "goal>area": {
+      "description": "Contrôlez une plus grande zone (ou certaines zones avec certaines forces) que votre adversaire",
+      "full": "Objectif > Contrôle de zone",
+      "tag": "G : Contrôle de zone"
+    },
+    "goal>arrange": {
+      "description": "Disposer des pièces selon des formes ou longueurs spécifiques (ex. n d'affilée)",
+      "full": "Objectif > Disposition",
+      "tag": "O : Disposition"
+    },
+    "goal>breakthrough": {
+      "description": "Atteignez la rangée adverse ou la zone d’accueil avec une force suffisante",
+      "full": "Objectif > Percée",
+      "tag": "G : Percée"
+    },
+    "goal>connect": {
+      "description": "Connectez les bords désignés du tableau ou des zones",
+      "full": "Objectif > Connecter",
+      "tag": "G : Connecter"
+    },
+    "goal>cripple": {
+      "description": "Éliminer une majorité critique ou un sous-ensemble spécifique de pièces adverses",
+      "full": "Objectif > Infirmité",
+      "tag": "G : Infirmité"
+    },
+    "goal>evacuate": {
+      "description": "Évacuez vos pièces du plateau",
+      "full": "Objectif > Évacuer",
+      "tag": "G : Évacuer"
+    },
+    "goal>immobilize": {
+      "description": "Faites en sorte que votre adversaire ne puisse pas bouger",
+      "full": "Objectif > Immobiliser",
+      "tag": "G : Immobiliser"
+    },
+    "goal>isolate": {
+      "description": "Isoler une pièce ou un sous-ensemble de pièces d'une manière spécifique",
+      "full": "Objectif > Isolement",
+      "tag": "O : Isolement"
+    },
+    "goal>majority": {
+      "description": "Avoir plus de pièces que votre adversaire",
+      "full": "Objectif > Majorité",
+      "tag": "G : Majorité"
+    },
+    "goal>royal-capture": {
+      "description": "Capturer une pièce adverse spécifique",
+      "full": "Objectif > Capture Royale",
+      "tag": "G : Capture Royale"
+    },
+    "goal>royal-escape": {
+      "description": "Retirer un élément spécifique du tableau",
+      "full": "Objectif > Évasion Royale",
+      "tag": "G : Évasion Royale"
+    },
+    "goal>score": {
+      "description": "Le résultat est déterminé par le score d’une manière ou d’une autre",
+      "full": "Objectif > Score",
+      "tag": "G : Score"
+    },
+    "goal>score>eog": {
+      "description": "Avoir le meilleur score à la fin de la partie",
+      "full": "Objectif> Score > Fin du match",
+      "tag": "G : Score (FDP)"
+    },
+    "goal>score>race": {
+      "description": "Soyez le premier à atteindre un score particulier",
+      "full": "Objectif > Score > Course",
+      "tag": "G : Score (Course)"
+    },
+    "goal>set": {
+      "description": "Collectez des ensembles de pièces",
+      "full": "Objectif > Collection d’Ensembles",
+      "tag": "G : Collection d’Ensembles"
+    },
+    "goal>unify": {
+      "description": "Rassemblez toutes vos pièces",
+      "full": "Objectif > Unifier",
+      "tag": "G : Unifier"
+    },
+    "goal>vigil": {
+      "description": "Toutes les pièces (ou un sous-ensemble défini) doivent avoir une ligne de vue vers un élément du plateau",
+      "full": "Objectif > Ligne de vue",
+      "tag": "O : Ligne de vue"
+    },
+    "mechanic": {
+      "description": "Décrit les mécanismes généraux du jeu",
+      "full": "Mécanismes",
+      "tag": "Mécanismes"
+    },
+    "mechanic>asymmetry": {
+      "description": "Le jeu est asymétrique",
+      "full": "Mécanismes > Asymétrie",
+      "tag": "M : Asymétrie"
+    },
+    "mechanic>bearoff": {
+      "description": "Les joueurs emportent des pièces hors du plateau",
+      "full": "Mécanismes > Emporter",
+      "tag": "M : Emporter"
+    },
+    "mechanic>block": {
+      "description": "Les joueurs se neutralisent mutuellement",
+      "full": "Mécanisme > Bloquer",
+      "tag": "M : Bloquer"
+    },
+    "mechanic>capture": {
+      "description": "Les pièces sont capturées",
+      "full": "Mécanisme > Capturer",
+      "tag": "M : Capturer"
+    },
+    "mechanic>convert": {
+      "description": "Les joueurs peuvent convertir les pièces ennemies en leurs propres pièces",
+      "full": "Mécanisme > Convertir",
+      "tag": "M : Convertir"
+    },
+    "mechanic>coopt": {
+      "description": "Les joueurs peuvent interagir avec les pièces adverses",
+      "full": "Mécanisme > Co-Opt",
+      "tag": "M : Co-Opt"
+    },
+    "mechanic>differentiate": {
+      "description": "Les pièces sont différenciées d’une manière essentielle",
+      "full": "Mécanisme > Différencier",
+      "tag": "M : Différencier"
+    },
+    "mechanic>displace": {
+      "description": "Les mouvements peuvent entraîner le déplacement de pièces supplémentaires en conséquence",
+      "full": "Mécanisme > Déplacer",
+      "tag": "M : Déplacer"
+    },
+    "mechanic>economy": {
+      "description": "Les joueurs doivent gérer une économie centrale",
+      "full": "Mécanisme > Gérer Economie",
+      "tag": "M : Gérer Economie"
+    },
+    "mechanic>enclose": {
+      "description": "Les joueurs enferment activement des zones ou des pièces",
+      "full": "Mécanisme > Clôturer",
+      "tag": "M : Clôturer"
+    },
+    "mechanic>hidden": {
+      "description": "Le jeu comprend des informations cachées",
+      "full": "Mécanisme > Information Cachée",
+      "tag": "M : Caché"
+    },
+    "mechanic>merge": {
+      "description": "Les pièces fusionnent ou se séparent",
+      "full": "Mécanisme > Fusionner/Séparer",
+      "tag": "M : Fusion/Séparation"
+    },
+    "mechanic>move": {
+      "description": "Les pièces peuvent être déplacées",
+      "full": "Mécaniques > Déplacement",
+      "tag": "M : Déplacement"
+    },
+    "mechanic>move>group": {
+      "description": "Les pièces peuvent être déplacées en groupe",
+      "full": "Mécaniques > Déplacement > Groupe",
+      "tag": "M : Déplacement (Groupe)"
+    },
+    "mechanic>move>sow": {
+      "description": "Les pièces se déplacent par égrenage",
+      "full": "Mécaniques > Déplacement > Égrenage",
+      "tag": "M : Déplacement (Égrenage)"
+    },
+    "mechanic>network": {
+      "description": "Les joueurs construisent des réseaux",
+      "full": "Mécaniques > Réseau",
+      "tag": "M : Réseau"
+    },
+    "mechanic>place": {
+      "description": "Des pièces sont posées",
+      "full": "Mécaniques > Pose",
+      "tag": "M : Pose"
+    },
+    "mechanic>program": {
+      "description": "Des séquences de coups sont programmées",
+      "full": "Mécaniques > Programmation",
+      "tag": "M : Programmation"
+    },
+    "mechanic>random": {
+      "description": "Le jeu contient un élément d'aléa",
+      "full": "Mécaniques > Éléments aléatoires",
+      "tag": "M : Éléments aléatoires"
+    },
+    "mechanic>random>play": {
+      "description": "Des coups individuels de la partie incluent un élément d'aléa",
+      "full": "Mécaniques > Aléa > En jeu",
+      "tag": "M : Aléa (En jeu)"
+    },
+    "mechanic>random>setup": {
+      "description": "Mise en place aléatoire d'une certaine façon",
+      "full": "Mécaniques > Aléa > Mise en place",
+      "tag": "M : Aléa (Mise en place)"
+    },
+    "mechanic>set": {
+      "description": "Les joueurs collectionnent des ensembles",
+      "full": "Mécaniques > Collection d'ensembles",
+      "tag": "M : Collection d'ensembles"
+    },
+    "mechanic>share": {
+      "description": "Au moins certaines pièces du jeu sont partagées par les deux joueurs",
+      "full": "Mécaniques > Partage",
+      "tag": "M : Partage"
+    },
+    "mechanic>simultaneous": {
+      "description": "Le jeu inclut une sélection d'actions simultanée",
+      "full": "Mécaniques > Action simultanée",
+      "tag": "M : Simultané"
+    },
+    "mechanic>stack": {
+      "description": "Les joueurs manipulent des empilements de pièces",
+      "full": "Mécaniques > Empilement",
+      "tag": "M : Empilement"
+    },
+    "mechanic>vigil": {
+      "description": "Au moins une pièce doit avoir une ligne de vue vers un élément du plateau",
+      "full": "Mécaniques > Ligne de vue",
+      "tag": "M : Ligne de vue"
+    },
+    "other>traditional": {
+      "description": "Le jeu est traditionnel",
+      "full": "Autre > Traditionnel",
+      "tag": "A : Traditionnel"
+    },
+    "other>2+players": {
+      "description": "Prend en charge plus de 2 joueurs",
+      "full": "Autre > 2+ Joueurs",
+      "tag": "A : 2+ Joueurs"
+    }
+  }
 }

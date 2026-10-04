@@ -1849,7 +1849,7 @@
   },
   "descriptions.irensei": {
     "src": "Irensei (Japanese: 囲連星) is a mixture of Go and Gomoku. Get a seven in a row inside the middle 15x15 region of the Go board to win. To reduce the first player's advantage, the first player loses if they make an overline (even if it extends beyond the 15x15 region), but the second player may win by overline.",
-    "out": "Irensei (en japonés: 囲連星) es una mezcla de Go y Gomoku. Consigue siete en línea dentro de la región central de 15x15 del tablero de Go para ganar. Para reducir la ventaja del primer jugador, este pierde si realiza un overline (incluso si se extiende más allá de la región de 15x15), pero el segundo jugador puede ganar con un overline."
+    "out": "Irensei es una combinación de Go y Gomoku. Consigue siete en fila dentro de la región central de 15x15 del tablero de Go para ganar. Para reducir la ventaja del primer jugador, este pierde si hace una línea de más de siete fichas (incluso si se extiende más allá de la región de 15x15), pero el segundo jugador sí puede ganar con una línea más larga."
   },
   "descriptions.jacynth": {
     "src": "A Decktet card game where opponents vye for control of the city of Jacynth. Place cards, exert influence, and control the most area to win.",
@@ -1949,7 +1949,7 @@
   },
   "descriptions.mirador": {
     "src": "Mirador is a fast and exhilarating connection game played on a square grid (28 x 28 by default) by placing 2 x 2 squares to represent watchtowers. It uses line-of-sight connections and equivalent goals (making it more of a race than a pure connection game).",
-    "out": "Mirador es un juego de conexión rápido y emocionante que se juega en una cuadrícula cuadrada (de 28 x 28 por defecto) colocando cuadrados de 2 x 2 para representar torres de vigilancia. Usa conexiones por línea de visión y objetivos equivalentes (lo que lo convierte más en una carrera que en un juego de conexión puro)."
+    "out": "Mirador es un juego de conexión rápido y emocionante que se juega en una cuadrícula de 27 x 27 colocando cuadrados de 2 x 2 para representar torres de vigilancia. Utiliza conexiones por línea de visión y objetivos equivalentes (lo que lo convierte más en una carrera que en un juego de conexión puro)."
   },
   "descriptions.mixtour": {
     "src": "Two players create towers with the goal of creating a tower at least five high with your colour at the top. The twist here is two-fold: (1) you can move opponent's pieces and (2) movement range is determined by the *target* stack height and not the moving stack height.",
@@ -4641,7 +4641,7 @@
   },
   "notes.arimaa": {
     "src": "Made available under section 3 of the [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nDuring standard setup, you only need to place your eight non-rabbits. Once they are down, Complete Move fills the rest of your setup area with rabbits. You can still place any or all of the rabbits yourself first if you want them somewhere in particular.\n\nTo enter a move, click a piece and then the square it should end your turn on. The engine finds the shortest legal way to get it there, pushes and pulls included, and draws one arrow per piece from where it started to where it ends up. You can point at enemy pieces too. Click an arrow's head to extend it, or its tail to remove it. Clicking a selected piece a second time keeps it where it stands, which is how you stop the engine moving it aside. A few rarer turns need one more click; the wiki page for this game lists them all.\n\nMoves are recorded in Lightvector notation, which names each piece and where it ends up rather than listing every step. You can type it into the move box, and the older step-by-step notation is still accepted. The wiki page explains the notation in full.\n\nHarlog is an accepted method for determining material advantage. Positive scores favour Gold, negative Silver. The hard range is ±112, but in practice ±20 is a very strong advantage.\n\nIn Dicey Moves, a player whose die allows a single step has no move, and loses, when only pushes and pulls remain.\n\nBecause we can't generate comprehensive lists of moves, the system cannot detect the rare cases where your only available moves are illegal due to position repetition. The system won't let you make those illegal repetitions, and you'll have to resign manually.",
-    "out": "Disponible bajo la sección 3 de la [licencia pública de Arimaa](https://arimaa.com/arimaa/license/).\n\nDurante la preparación estándar, solo necesitas colocar tus ocho piezas que no son conejos. Una vez colocadas, Completar movimiento llena el resto de tu área de preparación con conejos. Aun así, puedes colocar tú mismo cualquiera de los conejos (o todos) primero si los quieres en un lugar en particular.\n\nPara ingresar un movimiento, haz clic en una pieza y luego en la casilla donde deba terminar tu turno. El motor encuentra la ruta legal más corta para llevarla allí, incluyendo empujones y jalones, y dibuja una flecha por pieza desde donde comenzó hasta donde termina. También puedes señalar piezas enemigas. Haz clic en la punta de una flecha para extenderla, o en su cola para quitarla. Hacer clic por segunda vez en una pieza seleccionada la mantiene donde está, que es como evitas que el motor la mueva a un lado. Unos pocos turnos más raros requieren un clic adicional; la página de la wiki de este juego los enumera todos.\n\nLos movimientos se registran en la notación Lightvector, la cual nombra cada pieza y dónde termina en lugar de listar cada paso. Puedes escribirla en la casilla de movimientos, y la notación antigua paso a paso sigue siendo aceptada. La página de la wiki explica la notación en detalle.\n\nHarlog es un método aceptado para determinar la ventaja material. Las puntuaciones positivas favorecen al Dorado y las negativas al Plateado. El rango estricto es de ±112, pero en la práctica ±20 es una ventaja muy sólida.\n\nEn Dicey Moves, un jugador cuyo dado permite un solo paso no tiene movimientos, y pierde, cuando solo quedan empujones y jalones.\n\nDebido a que no podemos generar listas exhaustivas de movimientos, el sistema no puede detectar los raros casos en que tus únicos movimientos disponibles sean ilegales debido a la repetición de posición. El sistema no te permitirá realizar esas repeticiones ilegales, por lo que tendrás que rendirte manualmente."
+    "out": "Disponible bajo la sección 3 de la [licencia pública de Arimaa](https://arimaa.com/arimaa/license/).\n\nHarlog es un método aceptado para determinar la ventaja material. Las puntuaciones positivas favorecen al Oro y las negativas a la Plata. El rango estricto es de ±112, pero en la práctica ±20 representa una ventaja muy fuerte.\n\nDebido a que no podemos generar listas exhaustivas de movimientos, el sistema no puede detectar los raros casos en los que tus únicos movimientos disponibles son ilegales debido a la repetición de posición. El sistema no te permitirá realizar esas repeticiones ilegales y tendrás que rendirte manualmente."
   },
   "notes.armadas": {
     "src": "There are known issues with this game on iOS devices.\n\nThis game offers two scenarios:\n\n* The default is each player having two trios of pieces. In the placement phase, each player must place 1 to 3 ships until all ships are placed.\n* The \"Freeform\" variant allows you to place whatever ships you want (maximum of three at a time) until both players \"pass.\" This lets you create unbalanced or otherwise asymmetrical fleets.\n\nGames default to having one island in the centre of the field. Both a \"no islands\" and a \"two islands\" variant are available. You cannot move or fire through islands. To successfully hit a ship, at least one corner of your ship's triangle must have a clear view of at least one corner of the target ship.\n\nRemember that it is possible to get your ship in a position against an island or the edge of the board such that you can no longer move that ship! Be careful!",
@@ -5017,7 +5017,7 @@
   },
   "notes.tumbleweed": {
     "src": "A space is claimed by a player if they have a piece on it, or if they have the majority of the lines of sight to it. The score is the amount of territory own by each player. The game ends when both players pass in succession. If there is no change in score for 20 plies, the game also ends.\n\nThe experimental **Fog of war** variant hides off-sight cells; last-seen cells stay on the board dimmed until line of sight returns. The score sidebar and influence/threatened overlays are disabled in that variant.",
-    "out": "Un jugador controla una casilla si tiene una pieza en ella, o si tiene la mayoría de las líneas de visión hacia ella. La puntuación es la cantidad de territorio que posee cada jugador. El juego termina cuando ambos jugadores pasan de forma consecutiva. Si no hay cambios en la puntuación durante 20 jugadas, el juego también termina.\n\nLa variante experimental **Niebla de guerra** oculta las casillas fuera de la línea de visión; las últimas casillas vistas permanecen en el tablero atenuadas hasta que se recupera la línea de visión. La barra lateral de puntuación y las superposiciones de influencia/amenaza están deshabilitadas en esa variante."
+    "out": "Un jugador reclama un casillero si tiene una pieza en él o si tiene la mayoría de las líneas de visión hacia él. La puntuación es la cantidad de territorio que posee cada jugador. El juego termina cuando ambos jugadores pasan de forma consecutiva. Si no hay cambios en la puntuación durante 20 semijugadas (plies), el juego también termina."
   },
   "notes.twinflames": {
     "src": "Twin Flames is a 2026 redesign of the 2013's Product, an original concept by Nick Bentley. The first player must initially place a friendly stone, preventing overly strong opening countermoves and thereby eliminating the need for a pie rule. The remaining moves use a 12* sequence, in which players may place stones of either colour. At the end of the game, a player who has formed a single connected group scores points equal to the size of that group. Another ludeme introduced was the use of walls, or blockers, which reduce overall connectivity and make groups more robust to enemy attacks. The blocker configuration is randomized, increasing game variability and making opening theory more difficult to develop.",
@@ -6333,7 +6333,7 @@
   },
   "validation.arimaa.INITIAL_INSTRUCTIONS_play": {
     "src": "Click a piece, then the square it should end the turn on. You can point at enemy pieces too; pushes and pulls are worked out for you.",
-    "out": "Haz clic en una pieza y luego en la casilla donde debe terminar el turno. También puedes señalar piezas enemigas; los empujes y jalones se calculan automáticamente."
+    "out": "Selecciona una pieza para mover."
   },
   "validation.arimaa.INVALID_PUSH": {
     "src": "Pushes must be immediately completed by moving the pushing piece into the space vacated by the pushed enemy piece.",
@@ -6625,7 +6625,7 @@
   },
   "validation.asli.INITIAL_INSTRUCTIONS_play": {
     "src": "Place a piece on a valid empty point or pass to take an enemy piece out of the prison instead (if one is available).",
-    "out": "Coloca una pieza en un punto vacío válido o pasa para sacar una pieza enemiga de la prisión en su lugar (si hay alguna disponible)."
+    "out": "Coloca una pieza en un espacio vacío válido o pasa para sacar una pieza enemiga de la prisión en su lugar (si hay alguna disponible)."
   },
   "validation.asli.MUST_PIE": {
     "src": "At this point of the game, placing pieces is not allowed.",
@@ -6793,7 +6793,7 @@
   },
   "validation.azacru.REORIENT": {
     "src": "Click a neighbouring cell or edge zone to select the direction you want to face, or click \"Complete move\" to keep pointing straight ahead.",
-    "out": "Haz clic en una casilla adyacente o en una zona de borde para seleccionar la dirección hacia la que quieres orientarte, o haz clic en \"Completar movimiento\" para seguir apuntando hacia adelante."
+    "out": "Haz clic en una casilla vecina o zona de borde para seleccionar la dirección hacia la que quieres apuntar."
   },
   "validation.azacru.TOO_FAR": {
     "src": "You can't move further than your power of movement (currently {{pom}}).",
@@ -7273,11 +7273,11 @@
   },
   "validation.bridges.INITIAL_INSTRUCTIONS": {
     "src": "Make two moves: Select an empty space not adjacent to an existing base (except the middle) to place a new base, or select one of your existing bases to begin building a bridge. Or you may pass your entire turn.",
-    "out": "Haz dos movimientos: Selecciona un espacio vacío que no esté adyacente a una base existente (excepto el centro) para colocar una nueva base, o selecciona una de tus bases existentes para comenzar a construir un puente. O puedes pasar todo tu turno."
+    "out": "Haz dos movimientos: coloca una base nueva en un espacio vacío que no esté adyacente a una base existente ni en el centro, o conecta dos de tus bases con un puente."
   },
   "validation.bridges.INITIAL_INSTRUCTIONS_FIRST_TURN": {
     "src": "Select an empty space (except the middle) to place a new base, or you may pass.",
-    "out": "Selecciona un espacio vacío (excepto el centro) para colocar una nueva base, o puedes pasar."
+    "out": "Coloca una base nueva en cualquier espacio vacío, excepto en el centro."
   },
   "validation.bridges.NO_LINE_OF_SIGHT_one": {
     "src": "This base has no line of sight to another friendly base. You must still make 1 more move.",
@@ -9729,11 +9729,11 @@
   },
   "validation.frogger.VALID_REFILL_one": {
     "src": "Please submit your move to trigger the refill. You will get another turn automatically, and you will have one move remaining in your partial turn (as well as the option to pass).",
-    "out": "Por favor, envía tu movimiento para activar la recarga. Obtendrás otro turno automáticamente y te quedará un movimiento en tu turno parcial (además de la opción de pasar)."
+    "out": "Por favor, envía tu movimiento para activar la reposición. Obtendrás otro turno automáticamente y te quedará un movimiento en tu turno parcial (además de la opción de pasar)."
   },
   "validation.frogger.VALID_REFILL_other": {
     "src": "Please submit your move to trigger the refill. You will get another turn automatically, and you will have {{count}} moves remaining in your partial turn (as well as the option to pass).",
-    "out": "Por favor, envía tu movimiento para activar la recarga. Obtendrás otro turno automáticamente y te quedarán {{count}} movimientos en tu turno parcial (además de la opción de pasar)."
+    "out": "Por favor, envía tu movimiento para activar la reposición. Obtendrás otro turno automáticamente y te quedarán {{count}} movimientos en tu turno parcial (además de la opción de pasar)."
   },
   "validation.furl.CAPTURE4UNFURL": {
     "src": "You signalled a capture unfurl move, but {{to}} not is occupied by the opponent. Use \">\" to denote non-capture unfurl.",
@@ -16477,7 +16477,7 @@
   },
   "variants.arimaa.eee.description": {
     "src": "Randomly generated setup with reduced army size. Devised by clyring.",
-    "out": "Preparación generada aleatoriamente con un ejército de tamaño reducido. Diseñada por clyring."
+    "out": "Disposición generada aleatoriamente con tamaño de ejército reducido"
   },
   "variants.arimaa.eee.name": {
     "src": "Endless endgame",
@@ -16489,7 +16489,7 @@
   },
   "variants.arimaa.free.name": {
     "src": "Free placement",
-    "out": "Colocación libre"
+    "out": "Colocación libre (sin clasificación)"
   },
   "variants.armadas.#obstacles.name": {
     "src": "One obstacle",
@@ -16501,7 +16501,7 @@
   },
   "variants.armadas.freeform.name": {
     "src": "Freeform",
-    "out": "Forma libre"
+    "out": "Forma libre (sin clasificación)"
   },
   "variants.armadas.noislands.description": {
     "src": "No starting islands",
@@ -16697,7 +16697,7 @@
   },
   "variants.bao.kujifunza.description": {
     "src": "Zanzibar Beginner rules: two stones in each pit.",
-    "out": "Reglas para principiantes de Zanzíbar: dos piedras en cada hoyo."
+    "out": "La versión para \"principiantes\" sin fase de disposición \"kunamua\". La partida empieza con dos fichas en cada hoyo."
   },
   "variants.bao.kujifunza.name": {
     "src": "Bao la kujifunza",
@@ -16713,11 +16713,11 @@
   },
   "variants.bao.malawi.description": {
     "src": "Malawi setup (8 seeds in the kuu, 20 nemo in reserve) with Zanzibar-style rules (legacy; deprecated).",
-    "out": "Configuración de Malawi (8 semillas en la kuu, 20 nemo en reserva) con reglas estilo Zanzíbar (heredado; en desuso)."
+    "out": "La casa empieza con 8 fichas en lugar de 6."
   },
   "variants.bao.malawi.name": {
     "src": "Malawi (setup only)",
-    "out": "Malawi (solo configuración)"
+    "out": "Malawi"
   },
   "variants.basalt.pie.description": {
     "src": "First player places 2–4 pieces and then second player chooses what side to play.",
@@ -17541,11 +17541,11 @@
   },
   "variants.crosshairs.random-start.description": {
     "src": "There is no cloud placing phase. The system places the clouds randomly with 180-degree rotational symmetry.",
-    "out": "No hay fase de colocación de nubes. El sistema coloca las nubes al azar con simetría rotacional de 180 grados."
+    "out": "No hay fase de colocación de nubes. El sistema las coloca al azar."
   },
   "variants.crosshairs.random-start.name": {
     "src": "Symmetric random clouds",
-    "out": "Nubes aleatorias simétricas"
+    "out": "Nubes aleatorias"
   },
   "variants.crosshairs.spread-start.description": {
     "src": "There is no cloud placing phase. The system places the clouds with 180-degree rotational symmetry using the designer's algorithm, which blocks open lines of fire first and then fills in the gaps.",
@@ -19085,7 +19085,7 @@
   },
   "variants.murus.basic.description": {
     "src": "Only walls and towers can be built (maximum stack size is 2). Breakthrough is an immediate win.",
-    "out": "Solo se pueden construir muros y torres (el tamaño máximo de la pila es 2). Un avance es una victoria inmediata."
+    "out": "Solo se pueden construir muros y torres (el tamaño máximo de pila es 2)."
   },
   "variants.murus.basic.name": {
     "src": "Basic MG",
@@ -19793,7 +19793,7 @@
   },
   "variants.rampart.custom.name": {
     "src": "Custom setup",
-    "out": "Configuración personalizada"
+    "out": "Disposición personalizada (sin clasificación)"
   },
   "variants.rampart.hex7.name": {
     "src": "Hexagonal board (base-7)",

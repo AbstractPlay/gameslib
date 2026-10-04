@@ -59,6 +59,8 @@
     "check-weblate-keys": "node scripts/check-weblate-keys.mjs",
     "check-weblate-branch": "node scripts/check-weblate-branch.mjs",
     "merge-weblate-branch": "node scripts/merge-weblate-branch.mjs",
+    "overlay-weblate-locales": "node scripts/overlay-weblate-locales.mjs",
+    "reset-weblate-export": "node scripts/reset-weblate-export.mjs",
     "sync-deps": "ap-install-deps --stage dev",
     "sync-deps:prod": "ap-install-deps --stage prod",
     "check-locale-readiness": "node scripts/check-locale-readiness.mjs",

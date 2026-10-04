@@ -30,6 +30,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Fixed
 
+- **Weblate sync:** `overlay-weblate-locales` + `reset-weblate-export` for hosted export vs GitHub `develop` (merge conflicts in Diagnostics).
 - **Bao:** Fixed a regression introduced a few days ago that blocked taxing the nyumba.
 - **Tumbleweed:** standard opening ply `lastmove` is stored as the full `p1,p2` wire; legacy games with only P1 in `lastmove`/`_results` are repaired from the stack-1 board delta for move history, export, and load; chat log uses one combined setup line.
 - **Strip export (`state({ strip })`):** clone stack frames before redacting hidden information so `serialize({ strip, player })` no longer mutates the live engine (Jacynth, Biscuit, Quincunx, Frogger, Emu, Magnate, Pigs2, Siege of Jacynth, Cifra setup redaction).

@@ -947,9 +947,11 @@ export class ACityGame extends GameBase {
                 },
                 MarkGreen: {
                     name: "piecepack-suit-crowns",
-                    colour: 3,
+                    paint: {
+                        "fill": { colour: 3, opacity: 0.15 },
+                        "border": { opacity: 0.15 }
+                    },
                     scale: 0.5,
-                    opacity: 0.15,
                 },
                 MarkBlack: {
                     name: "piecepack-suit-moons",

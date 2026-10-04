@@ -30,8 +30,8 @@
     "arimaa": "Esta posición ya ha ocurrido antes. Quedan prohibidas más repeticiones de esta posición.",
     "biscuit": "Las siguientes cartas estaban en las manos opuestas: {{cards}}.",
     "deckfish": "{{player}} no pudo mover y debe pasar de ahora en adelante.",
-    "frogger_one": "{{player}} decidió reponer la reserva de robo. Tiene otro turno para hacer su {{count}} movimiento restante.",
-    "frogger_other": "{{player}} decidió reponer la reserva de robo. Tiene otro turno para hacer sus {{count}} movimientos restantes.",
+    "frogger_one": "{{player}} eligió reponer la reserva de robo. Obtiene otro turno para realizar su {{count}} movimiento restante.",
+    "frogger_other": "{{player}} eligió reponer la reserva de robo. Obtiene otro turno para realizar sus {{count}} movimientos restantes.",
     "icepalace_build": "{{player}} ganó la mano y construye el Patio en el Palacio de Hielo, usando {{count}} pirámides. Una forma legal de construirlo es `{{move}}`.",
     "icepalace_nobuild": "{{player}} ganó la mano, pero nada del Patio se puede construir en el Palacio de Hielo.",
     "quincunx": "Al jugador {{playerNum}} le quedaron las siguientes cartas en la mano: {{cards}}.",
@@ -305,9 +305,9 @@
     "tafl_king_escaped": "La partida ha terminado porque el rey escapó.",
     "unlur_foul": "La partida ha terminado porque un jugador alcanzó la condición de victoria del oponente sin haber alcanzado la suya.",
     "druid_hex": "La partida ha terminado porque {{player}} conectó los bordes {{edges}}.",
-    "killallgo_double_pass": "La partida ha terminado porque ambos jugadores pasaron consecutivamente sin que el Defensor estableciera vida incondicional.",
+    "killallgo_double_pass": "La partida ha terminado porque ambos jugadores pasaron sin que el Defensor estableciera vida.",
     "killallgo_no_moves": "La partida ha terminado porque el jugador en turno no tiene ninguna colocación legal.",
-    "killallgo_no_room": "La partida ha terminado porque las piedras vivas incondicionalmente del Atacante no le dejan espacio al Defensor para formar una cadena viva incondicionalmente.",
+    "killallgo_no_room": "La partida ha terminado porque las piedras incondicionalmente vivas del Atacante no le dejan espacio al Defensor para formar una cadena viva.",
     "killallgo_pass_alive": "La partida ha terminado porque el Defensor formó una cadena incondicionalmente viva."
   },
   "DRUID_HEX_EDGE": {

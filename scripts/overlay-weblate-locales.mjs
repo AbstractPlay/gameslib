@@ -139,15 +139,26 @@ function englishSourcePath(localePath) {
   return `locales/en/${fileName}`;
 }
 
-function listDefaultTargets() {
-  const result = spawnSync("git", ["diff", "--name-only", "HEAD^1", "HEAD", "--", "locales/"], {
+function listDefaultTargets(ours, theirs) {
+  const result = spawnSync("git", ["diff", "--name-only", ours, theirs, "--", "locales/"], {
     cwd: ROOT,
     encoding: "utf8",
   });
   if (result.status !== 0) {
     throw new Error(`git diff failed: ${(result.stderr || "").trim()}`);
   }
-  return result.stdout
+  const fromRefs = result.stdout
+    .split("\n")
+    .map((line) => line.trim())
+    .filter((line) => line && line.startsWith("locales/") && !line.startsWith("locales/en/"));
+  if (fromRefs.length > 0) {
+    return fromRefs;
+  }
+  const mergeResult = spawnSync("git", ["diff", "--name-only", "HEAD^1", "HEAD", "--", "locales/"], {
+    cwd: ROOT,
+    encoding: "utf8",
+  });
+  return (mergeResult.stdout ?? "")
     .split("\n")
     .map((line) => line.trim())
     .filter((line) => line && line.startsWith("locales/") && !line.startsWith("locales/en/"));
@@ -221,8 +232,8 @@ export function overlayLocaleFile(localeRelPath, opts) {
 
 function parseArgs(argv) {
   let dryRun = false;
-  let ours = "HEAD^1";
-  let theirs = "HEAD^2";
+  let ours = "origin/develop";
+  let theirs = "weblate/develop";
   const files = [];
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
@@ -250,7 +261,7 @@ function main() {
     process.exit(0);
   }
 
-  const targets = args.files.length > 0 ? args.files : listDefaultTargets();
+  const targets = args.files.length > 0 ? args.files : listDefaultTargets(args.ours, args.theirs);
   if (targets.length === 0) {
     console.log("No locale files to overlay.");
     return;

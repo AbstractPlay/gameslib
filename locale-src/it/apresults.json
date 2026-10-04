@@ -35,25 +35,21 @@
     "src": "{{player}} added a link at {{where}}.",
     "out": "{{player}} ha aggiunto un collegamento in {{where}}."
   },
-  "AFFILIATE.cifra_db": {
-    "src": "{{player}} chose to play the dark pieces from the top row.",
-    "out": "{{player}} ha scelto di giocare i pezzi scuri dalla riga superiore."
+  "AFFILIATE.cifra_lt": {
+    "src": "{{player}} chose to play the light pieces from the top row.",
+    "out": "{{player}} ha scelto di giocare i pezzi chiari dalla riga superiore."
   },
-  "AFFILIATE.cifra_dl": {
-    "src": "{{player}} chose to play the dark pieces from the left column.",
-    "out": "{{player}} ha scelto di giocare i pezzi scuri dalla colonna di sinistra."
-  },
-  "AFFILIATE.cifra_dr": {
-    "src": "{{player}} chose to play the dark pieces from the right column.",
-    "out": "{{player}} ha scelto di giocare i pezzi scuri dalla colonna di destra."
+  "AFFILIATE.cifra_lb": {
+    "src": "{{player}} chose to play the light pieces from the bottom row.",
+    "out": "{{player}} ha scelto di giocare i pezzi chiari dalla riga inferiore."
   },
   "AFFILIATE.cifra_dt": {
     "src": "{{player}} chose to play the dark pieces from the top row.",
     "out": "{{player}} ha scelto di giocare i pezzi scuri dalla riga superiore."
   },
-  "AFFILIATE.cifra_lb": {
-    "src": "{{player}} chose to play the light pieces from the bottom row.",
-    "out": "{{player}} ha scelto di giocare i pezzi chiari dalla riga inferiore."
+  "AFFILIATE.cifra_db": {
+    "src": "{{player}} chose to play the dark pieces from the top row.",
+    "out": "{{player}} ha scelto di giocare i pezzi scuri dalla riga superiore."
   },
   "AFFILIATE.cifra_ll": {
     "src": "{{player}} chose to play the light pieces from the left column.",
@@ -63,9 +59,13 @@
     "src": "{{player}} chose to play the light pieces from the right column.",
     "out": "{{player}} ha scelto di giocare i pezzi chiari dalla colonna di destra."
   },
-  "AFFILIATE.cifra_lt": {
-    "src": "{{player}} chose to play the light pieces from the top row.",
-    "out": "{{player}} ha scelto di giocare i pezzi chiari dalla riga superiore."
+  "AFFILIATE.cifra_dl": {
+    "src": "{{player}} chose to play the dark pieces from the left column.",
+    "out": "{{player}} ha scelto di giocare i pezzi scuri dalla colonna di sinistra."
+  },
+  "AFFILIATE.cifra_dr": {
+    "src": "{{player}} chose to play the dark pieces from the right column.",
+    "out": "{{player}} ha scelto di giocare i pezzi scuri dalla colonna di destra."
   },
   "AFFILIATE.witch_M": {
     "src": "{{player}} chose the Moonstones.",
@@ -87,21 +87,13 @@
     "src": "{{player}} was unable to move and must pass from now on.",
     "out": "{{player}} non è stato in grado di muovere e deve passare d'ora in poi."
   },
-  "ANNOUNCE.elOso.bearSetup": {
-    "src": "Bear setup",
-    "out": "Preparazione dell'Orso"
-  },
-  "ANNOUNCE.elOso.playerSetup": {
-    "src": "Player setup",
-    "out": "Preparazione del giocatore"
-  },
   "ANNOUNCE.frogger_one": {
     "src": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining move.",
-    "out": "{{player}} ha scelto di riempire la riserva di pesca. Ottiene un altro turno per effettuare la sua {{count}} mossa rimanente."
+    "out": "{{player}} ha scelto di ripristinare la riserva di pesca. Ottiene un altro turno per effettuare la sua {{count}} mossa rimanente."
   },
   "ANNOUNCE.frogger_other": {
     "src": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining moves.",
-    "out": "{{player}} ha scelto di riempire la riserva di pesca. Ottiene un altro turno per effettuare le sue {{count}} mosse rimanenti."
+    "out": "{{player}} ha scelto di ripristinare la riserva di pesca. Ottiene un altro turno per effettuare le sue {{count}} mosse rimanenti."
   },
   "ANNOUNCE.icepalace_build": {
     "src": "{{player}} won the hand and builds the Yard into the Ice Palace, using {{count}} pyramids. One legal way to build it is `{{move}}`.",
@@ -111,13 +103,21 @@
     "src": "{{player}} won the hand, but none of the Yard can be built into the Ice Palace.",
     "out": "{{player}} ha vinto la mano, ma nessun elemento della Yard può essere costruito nel Palazzo di Ghiaccio."
   },
-  "ANNOUNCE.killallgo_slice": {
-    "src": "{{player}} set the batch sizes to {{a}} and {{b}} stones.",
-    "out": "{{player}} ha impostato le dimensioni dei lotti a {{a}} e {{b}} pietre."
-  },
   "ANNOUNCE.quincunx": {
     "src": "Player {{playerNum}} had the following cards left in their hand: {{cards}}.",
     "out": "Il giocatore {{playerNum}} aveva le seguenti carte rimanenti in mano: {{cards}}."
+  },
+  "ANNOUNCE.elOso.playerSetup": {
+    "src": "Player setup",
+    "out": "Preparazione del giocatore"
+  },
+  "ANNOUNCE.elOso.bearSetup": {
+    "src": "Bear setup",
+    "out": "Preparazione dell'Orso"
+  },
+  "ANNOUNCE.killallgo_slice": {
+    "src": "{{player}} set the batch sizes to {{a}} and {{b}} stones.",
+    "out": "{{player}} ha impostato le dimensioni dei lotti a {{a}} e {{b}} pietre."
   },
   "ANNOUNCE.scribe_super": {
     "src": "{{player}}'s super formation: {{formation}}.",
@@ -215,21 +215,13 @@
     "src": "{{player}} eliminates a tile at {{where}}.",
     "out": "{{player}} elimina una tessera in {{where}}."
   },
-  "CAPTURE.canoe": {
-    "src": "{{player}} pinched a cube at {{where}}.",
-    "out": "{{player}} ha catturato un cubo in {{where}}."
-  },
-  "CAPTURE.circleOfLife_one": {
-    "src": "{{player}} devoured opponent species {{prey}} ({{count}} stone) at {{where}}.",
-    "out": "{{player}} ha divorato la specie avversaria {{prey}} ({{count}} pietra) in {{where}}."
-  },
-  "CAPTURE.circleOfLife_other": {
-    "src": "{{player}} devoured opponent species {{prey}} ({{count}} stones) at {{where}}.",
-    "out": "{{player}} ha divorato la specie avversaria {{prey}} ({{count}} pietre) in {{where}}."
-  },
   "CAPTURE.complete": {
     "src": "{{player}} captured a {{what}} at {{where}}.",
     "out": "{{player}} ha catturato un {{what}} in {{where}}."
+  },
+  "CAPTURE.canoe": {
+    "src": "{{player}} pinched a cube at {{where}}.",
+    "out": "{{player}} ha catturato un cubo in {{where}}."
   },
   "CAPTURE.crosshairs": {
     "src": "{{player}} shot down a plane at {{where}}.",
@@ -243,13 +235,13 @@
     "src": "{{player}} captured a soldier at {{where}}.",
     "out": "{{player}} ha catturato un soldato in {{where}}."
   },
-  "CAPTURE.elOso_one": {
-    "src": "{{player}} annihilated one piece at {{where}}.",
-    "out": "{{player}} ha annientato un pezzo in {{where}}."
+  "CAPTURE.circleOfLife_one": {
+    "src": "{{player}} devoured opponent species {{prey}} ({{count}} stone) at {{where}}.",
+    "out": "{{player}} ha divorato la specie avversaria {{prey}} ({{count}} pietra) in {{where}}."
   },
-  "CAPTURE.elOso_other": {
-    "src": "{{player}} annihilated {{count}} pieces at {{where}}.",
-    "out": "{{player}} ha annientato {{count}} pezzi in {{where}}."
+  "CAPTURE.circleOfLife_other": {
+    "src": "{{player}} devoured opponent species {{prey}} ({{count}} stones) at {{where}}.",
+    "out": "{{player}} ha divorato la specie avversaria {{prey}} ({{count}} pietre) in {{where}}."
   },
   "CAPTURE.entrapment_opponent": {
     "src": "{{player}} captured an opponent's roamer at {{where}}.",
@@ -302,6 +294,14 @@
   "CAPTURE.hens_hen": {
     "src": "{{player}} captured a hen at {{where}}.",
     "out": "{{player}} ha catturato una gallina in {{where}}."
+  },
+  "CAPTURE.elOso_one": {
+    "src": "{{player}} annihilated one piece at {{where}}.",
+    "out": "{{player}} ha annientato un pezzo in {{where}}."
+  },
+  "CAPTURE.elOso_other": {
+    "src": "{{player}} annihilated {{count}} pieces at {{where}}.",
+    "out": "{{player}} ha annientato {{count}} pezzi in {{where}}."
   },
   "CAPTURE.hexentafl_king": {
     "src": "The king was captured at {{where}}.",
@@ -387,6 +387,14 @@
     "src": "A piece was captured at {{where}}.",
     "out": "Un pezzo è stato catturato in {{where}}."
   },
+  "CAPTURE.noperson.simple": {
+    "src": "A {{what}} was captured at {{where}}.",
+    "out": "Un {{what}} è stato catturato in {{where}}."
+  },
+  "CAPTURE.noperson.nowhere_what": {
+    "src": "A {{what}} was captured.",
+    "out": "Un {{what}} è stato catturato."
+  },
   "CAPTURE.noperson.nowhere_count_one": {
     "src": "A piece was captured.",
     "out": "Un pezzo è stato catturato."
@@ -394,14 +402,6 @@
   "CAPTURE.noperson.nowhere_count_other": {
     "src": "{{count}} pieces were captured.",
     "out": "{{count}} pezzi sono stati catturati."
-  },
-  "CAPTURE.noperson.nowhere_what": {
-    "src": "A {{what}} was captured.",
-    "out": "Un {{what}} è stato catturato."
-  },
-  "CAPTURE.noperson.simple": {
-    "src": "A {{what}} was captured at {{where}}.",
-    "out": "Un {{what}} è stato catturato in {{where}}."
   },
   "CAPTURE.nowhat": {
     "src": "{{player}} captured a piece at {{where}}.",
@@ -419,14 +419,6 @@
     "src": "{{player}} captured a spheroid at {{where}}.",
     "out": "{{player}} ha catturato uno sferoide in {{where}}."
   },
-  "CAPTURE.owlman_approach": {
-    "src": "{{player}} scared the helper at {{where}} out of the forest.",
-    "out": "{{player}} ha spaventato l'aiutante in {{where}} portandolo fuori dalla foresta."
-  },
-  "CAPTURE.owlman_replacement": {
-    "src": "{{player}} devoured the piece at {{where}}.",
-    "out": "{{player}} ha divorato il pezzo in {{where}}."
-  },
   "CAPTURE.pente": {
     "src": "{{player}} captured {{count}} pieces.",
     "out": "{{player}} ha catturato {{count}} pezzi."
@@ -434,6 +426,14 @@
   "CAPTURE.pente_self": {
     "src": "{{player}} captured {{count}} of their own pieces.",
     "out": "{{player}} ha catturato {{count}} dei propri pezzi."
+  },
+  "CAPTURE.owlman_approach": {
+    "src": "{{player}} scared the helper at {{where}} out of the forest.",
+    "out": "{{player}} ha spaventato l'aiutante in {{where}} portandolo fuori dalla foresta."
+  },
+  "CAPTURE.owlman_replacement": {
+    "src": "{{player}} devoured the piece at {{where}}.",
+    "out": "{{player}} ha divorato il pezzo in {{where}}."
   },
   "CAPTURE.reversi_one": {
     "src": "A piece is flipped.",
@@ -555,14 +555,6 @@
     "src": "{{player}} picked up a Sunstone at {{where}}.",
     "out": "{{player}} ha raccolto una Pietra di Sole in {{where}}."
   },
-  "CLAIM.buku_repetition_one": {
-    "src": "{{player}} claimed all 1 remaining piece.",
-    "out": "{{player}} ha reclamato l'unico pezzo rimanente."
-  },
-  "CLAIM.buku_repetition_other": {
-    "src": "{{player}} claimed all {{count}} remaining pieces.",
-    "out": "{{player}} ha reclamato tutti i {{count}} pezzi rimanenti."
-  },
   "CLAIM.buku_singletons_one": {
     "src": "{{player}} claimed the remaining 1 piece on their colour.",
     "out": "{{player}} ha reclamato l'ultimo 1 pezzo del proprio colore."
@@ -570,6 +562,14 @@
   "CLAIM.buku_singletons_other": {
     "src": "{{player}} claimed the remaining {{count}} pieces on their colour.",
     "out": "{{player}} ha reclamato i {{count}} pezzi rimanenti del proprio colore."
+  },
+  "CLAIM.buku_repetition_one": {
+    "src": "{{player}} claimed all 1 remaining piece.",
+    "out": "{{player}} ha reclamato l'unico pezzo rimanente."
+  },
+  "CLAIM.buku_repetition_other": {
+    "src": "{{player}} claimed all {{count}} remaining pieces.",
+    "out": "{{player}} ha reclamato tutti i {{count}} pezzi rimanenti."
   },
   "CLAIM.conhex": {
     "src": "{{player}} claimed the space at ({{where}}).",
@@ -623,6 +623,14 @@
     "src": "Players collected their Crown resources.",
     "out": "I giocatori hanno raccolto le proprie risorse Corona."
   },
+  "CLAIM.majorities_line": {
+    "src": "{{player}} claimed the line {{where}}.",
+    "out": "{{player}} ha reclamato la linea {{where}}."
+  },
+  "CLAIM.majorities_H": {
+    "src": "{{player}} claimed the horizontal direction.",
+    "out": "{{player}} ha reclamato la direzione orizzontale."
+  },
   "CLAIM.majorities_A": {
     "src": "{{player}} claimed the ascending direction.",
     "out": "{{player}} ha reclamato la direzione ascendente."
@@ -630,14 +638,6 @@
   "CLAIM.majorities_D": {
     "src": "{{player}} claimed the descending direction.",
     "out": "{{player}} ha reclamato la direzione discendente."
-  },
-  "CLAIM.majorities_H": {
-    "src": "{{player}} claimed the horizontal direction.",
-    "out": "{{player}} ha reclamato la direzione orizzontale."
-  },
-  "CLAIM.majorities_line": {
-    "src": "{{player}} claimed the line {{where}}.",
-    "out": "{{player}} ha reclamato la linea {{where}}."
   },
   "CLAIM.meg": {
     "src": "{{player}} has taken the ball and placed it at {{where}}.",
@@ -671,10 +671,6 @@
     "src": "{{player}} placed a bridge between {{left}} and {{right}}.",
     "out": "{{player}} ha piazzato un ponte tra {{left}} e {{right}}."
   },
-  "CONVERT.canoe": {
-    "src": "{{player}} rotated the cube at {{where}} from {{what}} to {{into}}.",
-    "out": "{{player}} ha ruotato il cubo in {{where}} da {{what}} a {{into}}."
-  },
   "CONVERT.complete": {
     "src": "{{player}} turned a {{what}} into a {{into}} at {{where}}.",
     "out": "{{player}} ha trasformato un {{what}} in un {{into}} in {{where}}."
@@ -707,6 +703,10 @@
     "src": "{{player}} converted {{count}} pieces starting at {{where}}.",
     "out": "{{player}} ha convertito {{count}} pezzi a partire da {{where}}."
   },
+  "CONVERT.canoe": {
+    "src": "{{player}} rotated the cube at {{where}} from {{what}} to {{into}}.",
+    "out": "{{player}} ha ruotato il cubo in {{where}} da {{what}} a {{into}}."
+  },
   "CONVERT.simple": {
     "src": "{{player}} converted a piece at {{where}}.",
     "out": "{{player}} ha convertito un pezzo in {{where}}."
@@ -727,10 +727,6 @@
     "src": "{{player}} struck {{opponent}} at {{where}}.",
     "out": "{{player}} ha colpito {{opponent}} in {{where}}."
   },
-  "DECKDRAW.agofmars": {
-    "src": "{{player}} drew a {{colour}}{{count}} pyramid from the bag.",
-    "out": "{{player}} ha estratto una piramide {{colour}}{{count}} dal sacchetto."
-  },
   "DECKDRAW.biscuit": {
     "src": "The next player was unable to play any cards in their hand, so they drew a card.",
     "out": "Il giocatore successivo non è stato in grado di giocare alcuna carta dalla propria mano, quindi ha pescato una carta."
@@ -742,10 +738,6 @@
   "DECKDRAW.emu_discard": {
     "src": "{{player}} drew the {{what}} from the top of the discard pile.",
     "out": "{{player}} ha pescato la carta {{what}} dalla cima della pila degli scarti."
-  },
-  "DECKDRAW.evenatodds": {
-    "src": "{{player}} drew a tile from the boneyard.",
-    "out": "{{player}} ha pescato una tessera dal cimitero delle tessere."
   },
   "DECKDRAW.frogger": {
     "src": "The draw pool was {{what}} refilled.",
@@ -762,6 +754,14 @@
   "DECKDRAW.quincunx_other": {
     "src": "{{player}} drew {{count}} cards.",
     "out": "{{player}} ha pescato {{count}} carte."
+  },
+  "DECKDRAW.evenatodds": {
+    "src": "{{player}} drew a tile from the boneyard.",
+    "out": "{{player}} ha pescato una tessera dal cimitero delle tessere."
+  },
+  "DECKDRAW.agofmars": {
+    "src": "{{player}} drew a {{colour}}{{count}} pyramid from the bag.",
+    "out": "{{player}} ha estratto una piramide {{colour}}{{count}} dal sacchetto."
   },
   "DECLARE.biscuit": {
     "src": "{{player}} has gone out!",
@@ -791,46 +791,6 @@
     "src": "{{player}} has declared {{count}} tentative fifths.",
     "out": "{{player}} ha dichiarato {{count}} quinte provvisorie."
   },
-  "DELTASCORE.btt_opponent_gain_one": {
-    "src": "An opponent gained {{delta}} point.",
-    "out": "Un avversario ha guadagnato {{delta}} punto."
-  },
-  "DELTASCORE.btt_opponent_gain_other": {
-    "src": "An opponent gained {{delta}} points.",
-    "out": "Un avversario ha guadagnato {{delta}} punti."
-  },
-  "DELTASCORE.emu_excuse": {
-    "src": "{{player}} plays The Excuse to offset their lowest-scoring bird ({{delta}} points).",
-    "out": "{{player}} gioca L'Scusa per compensare il proprio uccello con il punteggio più basso ({{delta}} punti)."
-  },
-  "DELTASCORE.emu_score": {
-    "src": "{{player}}'s bird with the following ranks scored {{delta}} points: {{ranks}}.",
-    "out": "L'uccello di {{player}} con i seguenti ranghi ha totalizzato {{delta}} punti: {{ranks}}."
-  },
-  "DELTASCORE.quincunx.basic_one": {
-    "src": "Against {{card}} it scored 1 point.",
-    "out": "Contro {{card}} ha ottenuto 1 punto."
-  },
-  "DELTASCORE.quincunx.basic_other": {
-    "src": "Against {{card}} it scored {{delta}} points.",
-    "out": "Contro {{card}} ha ottenuto {{delta}} punti."
-  },
-  "DELTASCORE.quincunx.basic_zero": {
-    "src": "Against {{card}} it scored no points.",
-    "out": "Contro {{card}} non ha ottenuto punti."
-  },
-  "DELTASCORE.quincunx.penalty_one": {
-    "src": "Player {{playerNum}} lost {{count}} point due to cards in hand.",
-    "out": "Il giocatore {{playerNum}} ha perso {{count}} punto a causa delle carte in mano."
-  },
-  "DELTASCORE.quincunx.penalty_other": {
-    "src": "Player {{playerNum}} lost {{count}} points due to cards in hand.",
-    "out": "Il giocatore {{playerNum}} ha perso {{count}} punti a causa delle carte in mano."
-  },
-  "DELTASCORE.quincunx.penalty_zero": {
-    "src": "Player {{playerNum}} lost no points due to cards in hand.",
-    "out": "Il giocatore {{playerNum}} non ha perso punti a causa delle carte in mano."
-  },
   "DELTA_SCORE_GAIN_one": {
     "src": "{{player}} gained {{delta}} point.",
     "out": "{{player}} ha guadagnato {{delta}} punto."
@@ -846,6 +806,46 @@
   "DELTA_SCORE_LOSS_other": {
     "src": "{{player}} lost {{delta}} points.",
     "out": "{{player}} ha perso {{delta}} punti."
+  },
+  "DELTASCORE.emu_excuse": {
+    "src": "{{player}} plays The Excuse to offset their lowest-scoring bird ({{delta}} points).",
+    "out": "{{player}} gioca L'Scusa per compensare il proprio uccello con il punteggio più basso ({{delta}} punti)."
+  },
+  "DELTASCORE.emu_score": {
+    "src": "{{player}}'s bird with the following ranks scored {{delta}} points: {{ranks}}.",
+    "out": "L'uccello di {{player}} con i seguenti ranghi ha totalizzato {{delta}} punti: {{ranks}}."
+  },
+  "DELTASCORE.quincunx.basic_zero": {
+    "src": "Against {{card}} it scored no points.",
+    "out": "Contro {{card}} non ha ottenuto punti."
+  },
+  "DELTASCORE.quincunx.basic_one": {
+    "src": "Against {{card}} it scored 1 point.",
+    "out": "Contro {{card}} ha ottenuto 1 punto."
+  },
+  "DELTASCORE.quincunx.basic_other": {
+    "src": "Against {{card}} it scored {{delta}} points.",
+    "out": "Contro {{card}} ha ottenuto {{delta}} punti."
+  },
+  "DELTASCORE.quincunx.penalty_zero": {
+    "src": "Player {{playerNum}} lost no points due to cards in hand.",
+    "out": "Il giocatore {{playerNum}} non ha perso punti a causa delle carte in mano."
+  },
+  "DELTASCORE.quincunx.penalty_one": {
+    "src": "Player {{playerNum}} lost {{count}} point due to cards in hand.",
+    "out": "Il giocatore {{playerNum}} ha perso {{count}} punto a causa delle carte in mano."
+  },
+  "DELTASCORE.quincunx.penalty_other": {
+    "src": "Player {{playerNum}} lost {{count}} points due to cards in hand.",
+    "out": "Il giocatore {{playerNum}} ha perso {{count}} punti a causa delle carte in mano."
+  },
+  "DELTASCORE.btt_opponent_gain_one": {
+    "src": "An opponent gained {{delta}} point.",
+    "out": "Un avversario ha guadagnato {{delta}} punto."
+  },
+  "DELTASCORE.btt_opponent_gain_other": {
+    "src": "An opponent gained {{delta}} points.",
+    "out": "Un avversario ha guadagnato {{delta}} punti."
   },
   "DESTROY.arimaa": {
     "src": "A {{colour}} {{what}} was trapped at {{where}}.",
@@ -899,34 +899,6 @@
     "src": "Players agreed to a draw.",
     "out": "I giocatori hanno concordato una patta."
   },
-  "DRUID_HEX_EDGE.N": {
-    "src": "north (N)",
-    "out": "nord (N)"
-  },
-  "DRUID_HEX_EDGE.NE": {
-    "src": "northeast (NE)",
-    "out": "nord-est (NE)"
-  },
-  "DRUID_HEX_EDGE.NW": {
-    "src": "northwest (NW)",
-    "out": "nord-ovest (NO)"
-  },
-  "DRUID_HEX_EDGE.S": {
-    "src": "south (S)",
-    "out": "sud (S)"
-  },
-  "DRUID_HEX_EDGE.SE": {
-    "src": "southeast (SE)",
-    "out": "sud-est (SE)"
-  },
-  "DRUID_HEX_EDGE.SW": {
-    "src": "southwest (SW)",
-    "out": "sud-ovest (SO)"
-  },
-  "DRUID_HEX_EDGE.and": {
-    "src": "and",
-    "out": "e"
-  },
   "EJECT.assembly": {
     "src": "The production line moved forward {{distance}} spaces.",
     "out": "La linea di produzione si è spostata in avanti di {{distance}} spazi."
@@ -963,13 +935,13 @@
     "src": "The game has ended because all cells contain only singletons.",
     "out": "La partita è terminata perché tutte le caselle contengono solo pezzi singoli."
   },
-  "EOG.camelot_claim_draw_progression": {
-    "src": "The game has ended because {{player}} has claimed a draw by the 50 move rule.",
-    "out": "La partita è terminata perché {{player}} ha chiesto la patta per la regola delle 50 mosse."
-  },
   "EOG.camelot_claim_draw_repetition": {
     "src": "The game has ended because {{player}} has claimed a draw by repetition.",
     "out": "La partita è terminata perché {{player}} ha chiesto la patta per ripetizione."
+  },
+  "EOG.camelot_claim_draw_progression": {
+    "src": "The game has ended because {{player}} has claimed a draw by the 50 move rule.",
+    "out": "La partita è terminata perché {{player}} ha chiesto la patta per la regola delle 50 mosse."
   },
   "EOG.consecutive_passes": {
     "src": "The game has ended because both players passed consecutively.",
@@ -983,10 +955,6 @@
     "src": "The game has ended.",
     "out": "La partita è terminata."
   },
-  "EOG.druid_hex": {
-    "src": "The game has ended because {{player}} connected the {{edges}} edges.",
-    "out": "La partita è terminata perché {{player}} ha collegato i bordi {{edges}}."
-  },
   "EOG.forms": {
     "src": "The game has ended because the next player is unable to move.",
     "out": "La partita è terminata perché il giocatore successivo non è in grado di muovere."
@@ -998,22 +966,6 @@
   "EOG.gonnect_direct_connection": {
     "src": "{{player}} won by direct connection.",
     "out": "{{player}} ha vinto per connessione diretta."
-  },
-  "EOG.killallgo_double_pass": {
-    "src": "The game has ended because both players passed consecutively without the Defender establishing unconditional life.",
-    "out": "La partita è terminata perché entrambi i giocatori hanno passato consecutivamente senza che il Difensore abbia stabilito una vita incondizionata."
-  },
-  "EOG.killallgo_no_moves": {
-    "src": "The game has ended because the player to move has no legal placement.",
-    "out": "La partita è terminata perché il giocatore di turno non ha alcun piazzamento legale."
-  },
-  "EOG.killallgo_no_room": {
-    "src": "The game has ended because the Attacker's unconditionally alive stones leave the Defender no room to form an unconditionally alive string.",
-    "out": "La partita è terminata perché le pietre incondizionatamente vive dell'Attaccante non lasciano spazio al Difensore per formare una catena incondizionatamente viva."
-  },
-  "EOG.killallgo_pass_alive": {
-    "src": "The game has ended because the Defender formed an unconditionally alive string.",
-    "out": "La partita è terminata perché il Difensore ha formato una catena incondizionatamente viva."
   },
   "EOG.material": {
     "src": "The game has ended because both players have insufficient material.",
@@ -1071,6 +1023,54 @@
     "src": "The game has ended because one player has achieved the opponent's win condition without achieving their own.",
     "out": "La partita è terminata perché un giocatore ha raggiunto la condizione di vittoria dell'avversario senza raggiungere la propria."
   },
+  "EOG.druid_hex": {
+    "src": "The game has ended because {{player}} connected the {{edges}} edges.",
+    "out": "La partita è terminata perché {{player}} ha collegato i bordi {{edges}}."
+  },
+  "EOG.killallgo_double_pass": {
+    "src": "The game has ended because both players passed consecutively without the Defender establishing unconditional life.",
+    "out": "La partita è terminata perché entrambi i giocatori hanno passato senza che il Difensore abbia stabilito la vita."
+  },
+  "EOG.killallgo_no_moves": {
+    "src": "The game has ended because the player to move has no legal placement.",
+    "out": "La partita è terminata perché il giocatore di turno non ha alcun piazzamento legale."
+  },
+  "EOG.killallgo_no_room": {
+    "src": "The game has ended because the Attacker's unconditionally alive stones leave the Defender no room to form an unconditionally alive string.",
+    "out": "La partita è terminata perché le pietre incondizionatamente vive dell'Attaccante non lasciano spazio al Difensore per formare una catena viva."
+  },
+  "EOG.killallgo_pass_alive": {
+    "src": "The game has ended because the Defender formed an unconditionally alive string.",
+    "out": "La partita è terminata perché il Difensore ha formato una catena incondizionatamente viva."
+  },
+  "DRUID_HEX_EDGE.N": {
+    "src": "north (N)",
+    "out": "nord (N)"
+  },
+  "DRUID_HEX_EDGE.NE": {
+    "src": "northeast (NE)",
+    "out": "nord-est (NE)"
+  },
+  "DRUID_HEX_EDGE.SE": {
+    "src": "southeast (SE)",
+    "out": "sud-est (SE)"
+  },
+  "DRUID_HEX_EDGE.S": {
+    "src": "south (S)",
+    "out": "sud (S)"
+  },
+  "DRUID_HEX_EDGE.SW": {
+    "src": "southwest (SW)",
+    "out": "sud-ovest (SO)"
+  },
+  "DRUID_HEX_EDGE.NW": {
+    "src": "northwest (NW)",
+    "out": "nord-ovest (NO)"
+  },
+  "DRUID_HEX_EDGE.and": {
+    "src": "and",
+    "out": "e"
+  },
   "ERUPTIONS": {
     "src": "The following pieces erupted: {{eruptions}}.",
     "out": "I seguenti pezzi sono erottati: {{eruptions}}."
@@ -1110,10 +1110,6 @@
   "LEAD": {
     "src": "{{player}} took the lead.",
     "out": "{{player}} ha preso il comando."
-  },
-  "MOVE.agofmars": {
-    "src": "{{player}} moved a pyramid from {{from}} to {{to}}.",
-    "out": "{{player}} ha spostato una piramide da {{from}} a {{to}}."
   },
   "MOVE.amazons": {
     "src": "{{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
@@ -1183,41 +1179,65 @@
     "src": "{{player}} moved {{count}} checkers from {{from}} to {{to}}.",
     "out": "{{player}} ha mosso {{count}} pedine da {{from}} a {{to}}."
   },
-  "MOVE.camelot_canter": {
-    "src": "{{player}} made a canter with a man from {{from}} to {{to}}.",
-    "out": "{{player}} ha effettuato un piccolo trotto con un uomo da {{from}} a {{to}}."
+  "MOVE.crosshairs": {
+    "src": "{{player}} moved a plane from {{from}} to {{to}}.",
+    "out": "{{player}} ha mosso un aereo da {{from}} a {{to}}."
   },
-  "MOVE.camelot_canter_knight": {
-    "src": "{{player}} made a canter with a knight from {{from}} to {{to}}.",
-    "out": "{{player}} ha effettuato un piccolo trotto con un cavaliere da {{from}} a {{to}}."
+  "MOVE.crosshairs_swoop": {
+    "src": "{{player}}'s plane swooped from {{from}} to {{to}}.",
+    "out": "L'aereo di {{player}} è sceso in picchiata da {{from}} a {{to}}."
   },
-  "MOVE.camelot_castle": {
-    "src": "{{player}} made a castle move with a man from {{from}} to {{to}}.",
-    "out": "{{player}} ha effettuato una mossa arrocco con un uomo da {{from}} a {{to}}."
+  "MOVE.crosshairs_power-dive": {
+    "src": "{{player}}'s plane power-dived at {{from}}.",
+    "out": "L'aereo di {{player}} ha effettuato una picchiata veloce in {{from}}."
   },
   "MOVE.camelot_castle_knight": {
     "src": "{{player}} made a castle move with a knight from {{from}} to {{to}}.",
     "out": "{{player}} ha effettuato una mossa arrocco con un cavaliere da {{from}} a {{to}}."
   },
-  "MOVE.camelot_jump": {
-    "src": "{{player}} made a jump with a man from {{from}} to {{to}}, capturing {{captured}}.",
-    "out": "{{player}} ha effettuato un salto con un uomo da {{from}} a {{to}}, catturando {{captured}}."
+  "MOVE.camelot_castle": {
+    "src": "{{player}} made a castle move with a man from {{from}} to {{to}}.",
+    "out": "{{player}} ha effettuato una mossa arrocco con un uomo da {{from}} a {{to}}."
   },
-  "MOVE.camelot_jump_knight": {
-    "src": "{{player}} made a jump with a knight from {{from}} to {{to}}, capturing {{captured}}.",
-    "out": "{{player}} ha effettuato un salto con un cavaliere da {{from}} a {{to}}, catturando {{captured}}."
+  "MOVE.carnac_tip": {
+    "src": "{{player}} tipped the megalith at {{from}} onto {{to}} toward {{how}}.",
+    "out": "{{player}} ha ribaltato il megalite da {{from}} su {{to}} verso {{how}}."
   },
-  "MOVE.camelot_plain": {
-    "src": "{{player}} made a plain move with a man from {{from}} to {{to}}.",
-    "out": "{{player}} ha effettuato una mossa semplice con un uomo da {{from}} a {{to}}."
+  "MOVE.druid_walk": {
+    "src": "{{player}} moved their Druid from {{from}} to {{to}}.",
+    "out": "{{player}} ha mosso il proprio Druido da {{from}} a {{to}}."
+  },
+  "MOVE.elOso_one": {
+    "src": "{{player}} moved one piece from {{from}} to {{to}}.",
+    "out": "{{player}} ha mosso un pezzo da {{from}} a {{to}}."
+  },
+  "MOVE.elOso_other": {
+    "src": "{{player}} moved {{count}} pieces from {{from}} to {{to}}.",
+    "out": "{{player}} ha mosso {{count}} pezzi da {{from}} a {{to}}."
   },
   "MOVE.camelot_plain_knight": {
     "src": "{{player}} made a plain move with a knight from {{from}} to {{to}}.",
     "out": "{{player}} ha effettuato una mossa semplice con un cavaliere da {{from}} a {{to}}."
   },
-  "MOVE.carnac_tip": {
-    "src": "{{player}} tipped the megalith at {{from}} onto {{to}} toward {{how}}.",
-    "out": "{{player}} ha ribaltato il megalite da {{from}} su {{to}} verso {{how}}."
+  "MOVE.camelot_plain": {
+    "src": "{{player}} made a plain move with a man from {{from}} to {{to}}.",
+    "out": "{{player}} ha effettuato una mossa semplice con un uomo da {{from}} a {{to}}."
+  },
+  "MOVE.camelot_canter_knight": {
+    "src": "{{player}} made a canter with a knight from {{from}} to {{to}}.",
+    "out": "{{player}} ha effettuato un piccolo trotto con un cavaliere da {{from}} a {{to}}."
+  },
+  "MOVE.camelot_canter": {
+    "src": "{{player}} made a canter with a man from {{from}} to {{to}}.",
+    "out": "{{player}} ha effettuato un piccolo trotto con un uomo da {{from}} a {{to}}."
+  },
+  "MOVE.camelot_jump_knight": {
+    "src": "{{player}} made a jump with a knight from {{from}} to {{to}}, capturing {{captured}}.",
+    "out": "{{player}} ha effettuato un salto con un cavaliere da {{from}} a {{to}}, catturando {{captured}}."
+  },
+  "MOVE.camelot_jump": {
+    "src": "{{player}} made a jump with a man from {{from}} to {{to}}, capturing {{captured}}.",
+    "out": "{{player}} ha effettuato un salto con un uomo da {{from}} a {{to}}, catturando {{captured}}."
   },
   "MOVE.chase": {
     "src": "{{player}} moved from {{from}} to {{to}} (through {{through}}).",
@@ -1235,37 +1255,9 @@
     "src": "{{player}} moved {{count}} pieces from {{from}} to {{to}}.",
     "out": "{{player}} ha mosso {{count}} pezzi da {{from}} a {{to}}."
   },
-  "MOVE.complete_what": {
-    "src": "{{player}} moved a {{what}} from {{from}} to {{to}}.",
-    "out": "{{player}} ha mosso un {{what}} da {{from}} a {{to}}."
-  },
-  "MOVE.crosshairs": {
-    "src": "{{player}} moved a plane from {{from}} to {{to}}.",
-    "out": "{{player}} ha mosso un aereo da {{from}} a {{to}}."
-  },
-  "MOVE.crosshairs_power-dive": {
-    "src": "{{player}}'s plane power-dived at {{from}}.",
-    "out": "L'aereo di {{player}} ha effettuato una picchiata veloce in {{from}}."
-  },
-  "MOVE.crosshairs_swoop": {
-    "src": "{{player}}'s plane swooped from {{from}} to {{to}}.",
-    "out": "L'aereo di {{player}} è sceso in picchiata da {{from}} a {{to}}."
-  },
   "MOVE.deckfish": {
     "src": "{{player}} moved a piece from {{from}} to {{to}}, collecting {{what}}.",
     "out": "{{player}} ha mosso un pezzo da {{from}} a {{to}}, raccogliendo {{what}}."
-  },
-  "MOVE.druid_walk": {
-    "src": "{{player}} moved their Druid from {{from}} to {{to}}.",
-    "out": "{{player}} ha mosso il proprio Druido da {{from}} a {{to}}."
-  },
-  "MOVE.elOso_one": {
-    "src": "{{player}} moved one piece from {{from}} to {{to}}.",
-    "out": "{{player}} ha mosso un pezzo da {{from}} a {{to}}."
-  },
-  "MOVE.elOso_other": {
-    "src": "{{player}} moved {{count}} pieces from {{from}} to {{to}}.",
-    "out": "{{player}} ha mosso {{count}} pezzi da {{from}} a {{to}}."
   },
   "MOVE.entrapment_barrier": {
     "src": "{{player}} moved a barrier from {{from}} to {{to}}.",
@@ -1427,13 +1419,13 @@
     "src": "{{player}} jumped a piece from {{from}} to {{to}}.",
     "out": "{{player}} ha fatto saltare un pezzo da {{from}} a {{to}}."
   },
-  "MOVE.tricouleur_duplicate": {
-    "src": "{{player}} duplicated a piece from {{from}} to {{to}}.",
-    "out": "{{player}} ha duplicato un pezzo da {{from}} a {{to}}."
-  },
   "MOVE.tricouleur_jump": {
     "src": "{{player}} jumped a piece from {{from}} to {{to}}.",
     "out": "{{player}} ha fatto saltare un pezzo da {{from}} a {{to}}."
+  },
+  "MOVE.tricouleur_duplicate": {
+    "src": "{{player}} duplicated a piece from {{from}} to {{to}}.",
+    "out": "{{player}} ha duplicato un pezzo da {{from}} a {{to}}."
   },
   "MOVE.veletas": {
     "src": "{{player}} moved shooter from {{from}} to {{to}}.",
@@ -1446,6 +1438,14 @@
   "MOVE.volo_other": {
     "src": "{{player}} moved a flock of {{count}} birds from {{from}} in the direction {{how}}.",
     "out": "{{player}} ha mosso uno stormo di {{count}} uccelli da {{from}} in direzione {{how}}."
+  },
+  "MOVE.complete_what": {
+    "src": "{{player}} moved a {{what}} from {{from}} to {{to}}.",
+    "out": "{{player}} ha mosso un {{what}} da {{from}} a {{to}}."
+  },
+  "MOVE.agofmars": {
+    "src": "{{player}} moved a pyramid from {{from}} to {{to}}.",
+    "out": "{{player}} ha spostato una piramide da {{from}} a {{to}}."
   },
   "NULLIFY_CLAIM": {
     "src": "Towers may not be claimed on the last turn of the game. The claim at {{where}} was nullified.",
@@ -1467,10 +1467,6 @@
     "src": "{{player}} turned a piece at {{where}} to face {{facing}}.",
     "out": "{{player}} ha ruotato un pezzo in {{where}} verso {{facing}}."
   },
-  "PASS.agofmars_noObjSwap": {
-    "src": "{{player}} did not swap objectives.",
-    "out": "{{player}} non ha scambiato gli obiettivi."
-  },
   "PASS.asli": {
     "src": "{{player}} took an opposing piece from the prison and passed their turn.",
     "out": "{{player}} ha preso un pezzo avversario dalla prigione e ha passato il turno."
@@ -1483,25 +1479,9 @@
     "src": "The production line doesn't move.",
     "out": "La linea di produzione non si muove."
   },
-  "PASS.canoe": {
-    "src": "{{player}} passed.",
-    "out": "{{player}} ha passato."
-  },
-  "PASS.carnac": {
-    "src": "{{player}} declined to tip the megalith.",
-    "out": "{{player}} ha rinunciato a inclinare il megalito."
-  },
   "PASS.deckfish": {
     "src": "{{player}} was unable to move.",
     "out": "{{player}} non ha potuto muovere."
-  },
-  "PASS.druid": {
-    "src": "{{player}} passed.",
-    "out": "{{player}} ha passato."
-  },
-  "PASS.elOso": {
-    "src": "{{player}} passed.",
-    "out": "{{player}} ha passato."
   },
   "PASS.entropy": {
     "src": "{{player}} chose not to move any pieces this turn.",
@@ -1510,6 +1490,22 @@
   "PASS.forced": {
     "src": "{{player}} was forced to pass.",
     "out": "{{player}} è stato costretto a passare."
+  },
+  "PASS.carnac": {
+    "src": "{{player}} declined to tip the megalith.",
+    "out": "{{player}} ha rinunciato a inclinare il megalito."
+  },
+  "PASS.canoe": {
+    "src": "{{player}} passed.",
+    "out": "{{player}} ha passato."
+  },
+  "PASS.druid": {
+    "src": "{{player}} passed.",
+    "out": "{{player}} ha passato."
+  },
+  "PASS.elOso": {
+    "src": "{{player}} passed.",
+    "out": "{{player}} ha passato."
   },
   "PASS.frogger": {
     "src": "{{player}} passed {{why}}.",
@@ -1547,6 +1543,10 @@
     "src": "{{player}} passed, winning the tiebreaker.",
     "out": "{{player}} ha passato, vincendo lo spareggio."
   },
+  "PASS.agofmars_noObjSwap": {
+    "src": "{{player}} did not swap objectives.",
+    "out": "{{player}} non ha scambiato gli obiettivi."
+  },
   "PIE.deckfish": {
     "src": "{{player}} moves second.",
     "out": "{{player}} muove per secondo."
@@ -1558,18 +1558,6 @@
   "PIE.unlur": {
     "src": "{{player}} has passed to be the Y player.",
     "out": "{{player}} ha passato per essere il giocatore Y."
-  },
-  "PLACE.PYRAMID_1": {
-    "src": "{{player}} placed a small piece at {{where}}.",
-    "out": "{{player}} ha posizionato un pezzo piccolo in {{where}}."
-  },
-  "PLACE.PYRAMID_2": {
-    "src": "{{player}} placed a medium piece at {{where}}.",
-    "out": "{{player}} ha posizionato un pezzo medio in {{where}}."
-  },
-  "PLACE.PYRAMID_3": {
-    "src": "{{player}} placed a large piece at {{where}}.",
-    "out": "{{player}} ha posizionato un pezzo grande in {{where}}."
   },
   "PLACE.agofmars": {
     "src": "{{player}} placed a {{colour}}{{count}} pyramid at {{where}}.",
@@ -1607,33 +1595,21 @@
     "src": "{{player}} placed a {{what}} piece at {{where}}.",
     "out": "{{player}} ha posizionato un pezzo {{what}} in {{where}}."
   },
-  "PLACE.boxes": {
-    "src": "{{player}} adds a line at {{where}}.",
-    "out": "{{player}} aggiunge una linea in {{where}}."
-  },
-  "PLACE.boxes_claim1": {
-    "src": "{{player}} adds a line at {{where}}, claiming {{box}}.",
-    "out": "{{player}} aggiunge una linea in {{where}}, conquistando {{box}}."
-  },
-  "PLACE.boxes_claim2": {
-    "src": "{{player}} adds a line at {{where}}, claiming {{box1}} and {{box2}}.",
-    "out": "{{player}} aggiunge una linea in {{where}}, conquistando {{box1}} e {{box2}}."
-  },
   "PLACE.btt": {
     "src": "{{player}} placed a {{what}} at {{where}}.",
     "out": "{{player}} ha posizionato un {{what}} in {{where}}."
   },
-  "PLACE.btt_large": {
-    "src": "{{player}} placed a large at {{where}} facing {{how}}.",
-    "out": "{{player}} ha posizionato un pezzo grande in {{where}} rivolto verso {{how}}."
+  "PLACE.btt_small": {
+    "src": "{{player}} placed a small at {{where}} facing {{how}}.",
+    "out": "{{player}} ha posizionato un pezzo piccolo in {{where}} rivolto verso {{how}}."
   },
   "PLACE.btt_medium": {
     "src": "{{player}} placed a medium at {{where}} facing {{how}}.",
     "out": "{{player}} ha posizionato un pezzo medio in {{where}} rivolto verso {{how}}."
   },
-  "PLACE.btt_small": {
-    "src": "{{player}} placed a small at {{where}} facing {{how}}.",
-    "out": "{{player}} ha posizionato un pezzo piccolo in {{where}} rivolto verso {{how}}."
+  "PLACE.btt_large": {
+    "src": "{{player}} placed a large at {{where}} facing {{how}}.",
+    "out": "{{player}} ha posizionato un pezzo grande in {{where}} rivolto verso {{how}}."
   },
   "PLACE.bug_bonus_grow": {
     "src": "Upon capture, a bug grew at {{where}} to a size of {{size}}.",
@@ -1659,46 +1635,6 @@
     "src": "{{player}} placed a megalith at {{where}} (top {{top}}, south {{south}}).",
     "out": "{{player}} ha posizionato un megalito in {{where}} (superiore {{top}}, sud {{south}})."
   },
-  "PLACE.ccorridor": {
-    "src": "{{player}} placed a tile at {{where}}.",
-    "out": "{{player}} ha posizionato una tessera in {{where}}."
-  },
-  "PLACE.chase": {
-    "src": "The chamber spit out a {{what}} at {{where}}.",
-    "out": "La camera ha sputato un {{what}} in {{where}}."
-  },
-  "PLACE.complete": {
-    "src": "{{player}} placed a {{what}} at {{where}}.",
-    "out": "{{player}} ha posizionato un {{what}} in {{where}}."
-  },
-  "PLACE.conhex": {
-    "src": "{{player}} placed a piece at vertex {{where}}.",
-    "out": "{{player}} ha posizionato un pezzo nel vertice {{where}}."
-  },
-  "PLACE.connecticut": {
-    "src": "{{player}} placed a triomino at {{where}}.",
-    "out": "{{player}} ha posizionato un triamino in {{where}}."
-  },
-  "PLACE.court": {
-    "src": "{{player}} promoted {{where}} to a {{what}}.",
-    "out": "{{player}} ha promosso {{where}} a {{what}}."
-  },
-  "PLACE.crosshairs_cloud": {
-    "src": "{{player}} placed a cloud at {{where}}.",
-    "out": "{{player}} ha posizionato una nuvola in {{where}}."
-  },
-  "PLACE.crosshairs_plane": {
-    "src": "{{player}} entered a plane at {{where}}.",
-    "out": "{{player}} ha fatto entrare un aereo in {{where}}."
-  },
-  "PLACE.deckfish": {
-    "src": "{{player}} placed a piece at {{where}}.",
-    "out": "{{player}} ha posizionato un pezzo in {{where}}."
-  },
-  "PLACE.decktet": {
-    "src": "{{player}} placed \"{{what}}\" at {{where}}.",
-    "out": "{{player}} ha posizionato \"{{what}}\" in {{where}}."
-  },
   "PLACE.druid_druid": {
     "src": "{{player}} placed a Druid at {{where}}.",
     "out": "{{player}} ha posizionato un Druido in {{where}}."
@@ -1711,13 +1647,65 @@
     "src": "{{player}} placed a sarsen at {{where}}.",
     "out": "{{player}} ha posizionato un sarsen in {{where}}."
   },
-  "PLACE.elOso_one": {
-    "src": "{{player}} placed one piece at {{where}}.",
-    "out": "{{player}} ha piazzato un pezzo in {{where}}."
+  "PLACE.ccorridor": {
+    "src": "{{player}} placed a tile at {{where}}.",
+    "out": "{{player}} ha posizionato una tessera in {{where}}."
   },
-  "PLACE.elOso_other": {
-    "src": "{{player}} placed {{count}} pieces at {{where}}.",
-    "out": "{{player}} ha piazzato {{count}} pezzi in {{where}}."
+  "PLACE.chase": {
+    "src": "The chamber spit out a {{what}} at {{where}}.",
+    "out": "La camera ha sputato un {{what}} in {{where}}."
+  },
+  "PLACE.complete": {
+    "src": "{{player}} placed a {{what}} at {{where}}.",
+    "out": "{{player}} ha posizionato un {{what}} in {{where}}."
+  },
+  "PLACE.court": {
+    "src": "{{player}} promoted {{where}} to a {{what}}.",
+    "out": "{{player}} ha promosso {{where}} a {{what}}."
+  },
+  "PLACE.crosshairs_plane": {
+    "src": "{{player}} entered a plane at {{where}}.",
+    "out": "{{player}} ha fatto entrare un aereo in {{where}}."
+  },
+  "PLACE.crosshairs_cloud": {
+    "src": "{{player}} placed a cloud at {{where}}.",
+    "out": "{{player}} ha posizionato una nuvola in {{where}}."
+  },
+  "PLACE.conhex": {
+    "src": "{{player}} placed a piece at vertex {{where}}.",
+    "out": "{{player}} ha posizionato un pezzo nel vertice {{where}}."
+  },
+  "PLACE.connecticut": {
+    "src": "{{player}} placed a triomino at {{where}}.",
+    "out": "{{player}} ha posizionato un triamino in {{where}}."
+  },
+  "PLACE.boxes": {
+    "src": "{{player}} adds a line at {{where}}.",
+    "out": "{{player}} aggiunge una linea in {{where}}."
+  },
+  "PLACE.boxes_claim1": {
+    "src": "{{player}} adds a line at {{where}}, claiming {{box}}.",
+    "out": "{{player}} aggiunge una linea in {{where}}, conquistando {{box}}."
+  },
+  "PLACE.boxes_claim2": {
+    "src": "{{player}} adds a line at {{where}}, claiming {{box1}} and {{box2}}.",
+    "out": "{{player}} aggiunge una linea in {{where}}, conquistando {{box1}} e {{box2}}."
+  },
+  "PLACE.decktet": {
+    "src": "{{player}} placed \"{{what}}\" at {{where}}.",
+    "out": "{{player}} ha posizionato \"{{what}}\" in {{where}}."
+  },
+  "PLACE.deckfish": {
+    "src": "{{player}} placed a piece at {{where}}.",
+    "out": "{{player}} ha posizionato un pezzo in {{where}}."
+  },
+  "PLACE.estate_one": {
+    "src": "{{player}} placed a piece at {{where}} ({{what}} pt).",
+    "out": "{{player}} ha posizionato una pedina in {{where}} ({{what}} pt)."
+  },
+  "PLACE.estate_other": {
+    "src": "{{player}} placed a piece at {{where}} ({{what}} pts).",
+    "out": "{{player}} ha posizionato una pedina in {{where}} ({{what}} pt)."
   },
   "PLACE.emu_discard": {
     "src": "{{player}} discarded the card {{what}}.",
@@ -1739,21 +1727,21 @@
     "src": "{{player}} placed a roamer at {{where}}.",
     "out": "{{player}} ha posizionato un vagabondo in {{where}}."
   },
-  "PLACE.epam": {
-    "src": "{{player}} placed a stone at {{where}}.",
-    "out": "{{player}} ha posizionato una pietra in {{where}}."
-  },
-  "PLACE.estate_one": {
-    "src": "{{player}} placed a piece at {{where}} ({{what}} pt).",
-    "out": "{{player}} ha posizionato una pedina in {{where}} ({{what}} pt)."
-  },
-  "PLACE.estate_other": {
-    "src": "{{player}} placed a piece at {{where}} ({{what}} pts).",
-    "out": "{{player}} ha posizionato una pedina in {{where}} ({{what}} pt)."
-  },
   "PLACE.evenatodds": {
     "src": "{{player}} placed the {{what}} domino at {{where}}.",
     "out": "{{player}} ha posizionato la tessera del domino {{what}} in {{where}}."
+  },
+  "PLACE.elOso_one": {
+    "src": "{{player}} placed one piece at {{where}}.",
+    "out": "{{player}} ha piazzato un pezzo in {{where}}."
+  },
+  "PLACE.elOso_other": {
+    "src": "{{player}} placed {{count}} pieces at {{where}}.",
+    "out": "{{player}} ha piazzato {{count}} pezzi in {{where}}."
+  },
+  "PLACE.epam": {
+    "src": "{{player}} placed a stone at {{where}}.",
+    "out": "{{player}} ha posizionato una pietra in {{where}}."
   },
   "PLACE.gorogo_henge": {
     "src": "{{player}} placed a henge piece at {{where}}.",
@@ -1795,13 +1783,13 @@
     "src": "{{player}} bought {{what}} for district {{where}}.",
     "out": "{{player}} ha acquistato {{what}} per il distretto {{where}}."
   },
-  "PLACE.magnate_deed_end": {
-    "src": "{{player}} completed their deeded card {{what}} in district {{where}}.",
-    "out": "{{player}} ha completato la propria carta registrata {{what}} nel distretto {{where}}."
-  },
   "PLACE.magnate_deed_start": {
     "src": "{{player}} deeded {{what}} in district {{where}}.",
     "out": "{{player}} ha registrato {{what}} nel distretto {{where}}."
+  },
+  "PLACE.magnate_deed_end": {
+    "src": "{{player}} completed their deeded card {{what}} in district {{where}}.",
+    "out": "{{player}} ha completato la propria carta registrata {{what}} nel distretto {{where}}."
   },
   "PLACE.magnate_sell": {
     "src": "{{player}} sold {{what}}.",
@@ -1867,6 +1855,18 @@
     "src": "{{player}} blocks {{where}}.",
     "out": "{{player}} blocca {{where}}."
   },
+  "PLACE.PYRAMID_1": {
+    "src": "{{player}} placed a small piece at {{where}}.",
+    "out": "{{player}} ha posizionato un pezzo piccolo in {{where}}."
+  },
+  "PLACE.PYRAMID_2": {
+    "src": "{{player}} placed a medium piece at {{where}}.",
+    "out": "{{player}} ha posizionato un pezzo medio in {{where}}."
+  },
+  "PLACE.PYRAMID_3": {
+    "src": "{{player}} placed a large piece at {{where}}.",
+    "out": "{{player}} ha posizionato un pezzo grande in {{where}}."
+  },
   "PLACE.quax_diag": {
     "src": "{{player}} placed a diagonal connection at {{where}}.",
     "out": "{{player}} ha posizionato una connessione diagonale in {{where}}."
@@ -1927,6 +1927,90 @@
     "src": "{{player}} placed {{count}} pieces at {{where}}.",
     "out": "{{player}} ha posizionato {{count}} pezzi in {{where}}."
   },
+  "PLACE.subdivision_park": {
+    "src": "{{player}} placed a park at {{where}}.",
+    "out": "{{player}} ha posizionato un parco in {{where}}."
+  },
+  "PLACE.synapse": {
+    "src": "{{player}} place at {{where}} a size {{size}} piece directed at {{dir}}.",
+    "out": "{{player}} posiziona in {{where}} un pezzo di dimensione {{size}} diretto verso {{dir}}."
+  },
+  "PLACE.terrace": {
+    "src": "{{player}} moved a size {{size}} piece from {{from}} to {{to}}.",
+    "out": "{{player}} ha mosso un pezzo di dimensione {{size}} da {{from}} a {{to}}."
+  },
+  "PLACE.theirs": {
+    "src": "{{player}} placed an enemy piece at {{where}}.",
+    "out": "{{player}} ha posizionato un pezzo avversario in {{where}}."
+  },
+  "PLACE.theirs_specific": {
+    "src": "{{player}} placed a {{enemy}} piece at {{where}}.",
+    "out": "{{player}} ha posizionato un pezzo {{enemy}} in {{where}}."
+  },
+  "PLACE.trax": {
+    "src": "{{player}} placed a {{piece}} at {{algebraic}} ({{where}}).",
+    "out": "{{player}} ha posizionato un {{piece}} in {{algebraic}} ({{where}})."
+  },
+  "PLACE.tritium-orange": {
+    "src": "{{player}} played an orange tile at {{where}}.",
+    "out": "{{player}} ha giocato una tessera arancione in {{where}}."
+  },
+  "PLACE.tritium-purple": {
+    "src": "{{player}} played a purple tile at {{where}}.",
+    "out": "{{player}} ha giocato una tessera viola in {{where}}."
+  },
+  "PLACE.tritium-green": {
+    "src": "{{player}} played a green tile at {{where}}.",
+    "out": "{{player}} ha giocato una tessera verde in {{where}}."
+  },
+  "PLACE.tritium-flag": {
+    "src": "{{player}} played a flag at {{where}}.",
+    "out": "{{player}} ha giocato una bandiera in {{where}}."
+  },
+  "PLACE.tumbleweed": {
+    "src": "{{player}} placed a stack of size {{count}} at {{where}}.",
+    "out": "{{player}} ha posizionato una pila di dimensione {{count}} in {{where}}."
+  },
+  "PLACE.twixt": {
+    "src": "{{player}} placed a peg at {{where}}.",
+    "out": "{{player}} ha posizionato un piolo in {{where}}."
+  },
+  "PLACE.unane": {
+    "src": "{{player}} self-captured {{where}}.",
+    "out": "{{player}} ha effettuato un'autocattura in {{where}}."
+  },
+  "PLACE.upperhand_chain": {
+    "src": "A ball of {{whose}} was placed at {{where}}.",
+    "out": "Una sfera di {{whose}} è stata posizionata in {{where}}."
+  },
+  "PLACE.urbino.house": {
+    "src": "{{player}} placed a house at {{where}}.",
+    "out": "{{player}} ha posizionato una casa in {{where}}."
+  },
+  "PLACE.urbino.palace": {
+    "src": "{{player}} placed a palace at {{where}}.",
+    "out": "{{player}} ha posizionato un palazzo in {{where}}."
+  },
+  "PLACE.urbino.tower": {
+    "src": "{{player}} placed a tower at {{where}}.",
+    "out": "{{player}} ha posizionato una torre in {{where}}."
+  },
+  "PLACE.urbino.worker": {
+    "src": "{{player}} placed an architect at {{where}}.",
+    "out": "{{player}} ha posizionato un architetto in {{where}}."
+  },
+  "PLACE.veletas": {
+    "src": "{{player}} placed a {{what}} at {{where}}.",
+    "out": "{{player}} ha posizionato un {{what}} in {{where}}."
+  },
+  "PLACE.viruswar": {
+    "src": "{{player}} placed viruses/walls at {{where}}.",
+    "out": "{{player}} ha posizionato virus/muri in {{where}}."
+  },
+  "PLACE.volo": {
+    "src": "{{player}} adds a bird at {{where}}.",
+    "out": "{{player}} aggiunge un uccello in {{where}}."
+  },
   "PLACE.streetcar_place_11": {
     "src": "A height-1 ORANGE building was placed at {{where}}.",
     "out": "Un edificio ARANCIONE di altezza 1 è stato posizionato in {{where}}."
@@ -1979,90 +2063,6 @@
     "src": "A building was placed at {{where}}.",
     "out": "Un edificio è stato posizionato in {{where}}."
   },
-  "PLACE.subdivision_park": {
-    "src": "{{player}} placed a park at {{where}}.",
-    "out": "{{player}} ha posizionato un parco in {{where}}."
-  },
-  "PLACE.synapse": {
-    "src": "{{player}} place at {{where}} a size {{size}} piece directed at {{dir}}.",
-    "out": "{{player}} posiziona in {{where}} un pezzo di dimensione {{size}} diretto verso {{dir}}."
-  },
-  "PLACE.terrace": {
-    "src": "{{player}} moved a size {{size}} piece from {{from}} to {{to}}.",
-    "out": "{{player}} ha mosso un pezzo di dimensione {{size}} da {{from}} a {{to}}."
-  },
-  "PLACE.theirs": {
-    "src": "{{player}} placed an enemy piece at {{where}}.",
-    "out": "{{player}} ha posizionato un pezzo avversario in {{where}}."
-  },
-  "PLACE.theirs_specific": {
-    "src": "{{player}} placed a {{enemy}} piece at {{where}}.",
-    "out": "{{player}} ha posizionato un pezzo {{enemy}} in {{where}}."
-  },
-  "PLACE.trax": {
-    "src": "{{player}} placed a {{piece}} at {{algebraic}} ({{where}}).",
-    "out": "{{player}} ha posizionato un {{piece}} in {{algebraic}} ({{where}})."
-  },
-  "PLACE.tritium-flag": {
-    "src": "{{player}} played a flag at {{where}}.",
-    "out": "{{player}} ha giocato una bandiera in {{where}}."
-  },
-  "PLACE.tritium-green": {
-    "src": "{{player}} played a green tile at {{where}}.",
-    "out": "{{player}} ha giocato una tessera verde in {{where}}."
-  },
-  "PLACE.tritium-orange": {
-    "src": "{{player}} played an orange tile at {{where}}.",
-    "out": "{{player}} ha giocato una tessera arancione in {{where}}."
-  },
-  "PLACE.tritium-purple": {
-    "src": "{{player}} played a purple tile at {{where}}.",
-    "out": "{{player}} ha giocato una tessera viola in {{where}}."
-  },
-  "PLACE.tumbleweed": {
-    "src": "{{player}} placed a stack of size {{count}} at {{where}}.",
-    "out": "{{player}} ha posizionato una pila di dimensione {{count}} in {{where}}."
-  },
-  "PLACE.twixt": {
-    "src": "{{player}} placed a peg at {{where}}.",
-    "out": "{{player}} ha posizionato un piolo in {{where}}."
-  },
-  "PLACE.unane": {
-    "src": "{{player}} self-captured {{where}}.",
-    "out": "{{player}} ha effettuato un'autocattura in {{where}}."
-  },
-  "PLACE.upperhand_chain": {
-    "src": "A ball of {{whose}} was placed at {{where}}.",
-    "out": "Una sfera di {{whose}} è stata posizionata in {{where}}."
-  },
-  "PLACE.urbino.house": {
-    "src": "{{player}} placed a house at {{where}}.",
-    "out": "{{player}} ha posizionato una casa in {{where}}."
-  },
-  "PLACE.urbino.palace": {
-    "src": "{{player}} placed a palace at {{where}}.",
-    "out": "{{player}} ha posizionato un palazzo in {{where}}."
-  },
-  "PLACE.urbino.tower": {
-    "src": "{{player}} placed a tower at {{where}}.",
-    "out": "{{player}} ha posizionato una torre in {{where}}."
-  },
-  "PLACE.urbino.worker": {
-    "src": "{{player}} placed an architect at {{where}}.",
-    "out": "{{player}} ha posizionato un architetto in {{where}}."
-  },
-  "PLACE.veletas": {
-    "src": "{{player}} placed a {{what}} at {{where}}.",
-    "out": "{{player}} ha posizionato un {{what}} in {{where}}."
-  },
-  "PLACE.viruswar": {
-    "src": "{{player}} placed viruses/walls at {{where}}.",
-    "out": "{{player}} ha posizionato virus/muri in {{where}}."
-  },
-  "PLACE.volo": {
-    "src": "{{player}} adds a bird at {{where}}.",
-    "out": "{{player}} aggiunge un uccello in {{where}}."
-  },
   "PLAYSECOND": {
     "src": "{{player}} chose to play second.",
     "out": "{{player}} ha scelto di giocare per secondo."
@@ -2070,10 +2070,6 @@
   "PROMOTE.basicWhere": {
     "src": "The piece at {{where}} was promoted.",
     "out": "Il pezzo in {{where}} è stato promosso."
-  },
-  "PROMOTE.canoe": {
-    "src": "{{player}} formed a set at {{where}}, merging the cube from {{from}}.",
-    "out": "{{player}} ha formato un set in {{where}}, unendo il cubo da {{from}}."
   },
   "PROMOTE.cubeo": {
     "src": "{{player}} promoted the die at {{where}} from a {{from}} to a {{to}}.",
@@ -2098,6 +2094,10 @@
   "PROMOTE.orb_23": {
     "src": "{{player}} promoted spheroid to a globe at {{where}}.",
     "out": "{{player}} ha promosso uno sferoide a globo in {{where}}."
+  },
+  "PROMOTE.canoe": {
+    "src": "{{player}} formed a set at {{where}}, merging the cube from {{from}}.",
+    "out": "{{player}} ha formato un set in {{where}}, unendo il cubo da {{from}}."
   },
   "PULL": {
     "src": "{{player}} pulled string {{where}}.",
@@ -2235,6 +2235,14 @@
     "src": "{{player}}'s die shows {{count}}: up to {{count}} steps this turn.",
     "out": "Il dado di {{player}} mostra {{count}}: fino a {{count}} passi in questo turno."
   },
+  "ROLL.magnate": {
+    "src": "{{who}} rolled a {{values}}.",
+    "out": "{{who}} ha tirato un {{values}}."
+  },
+  "ROLL.magnate_eight": {
+    "src": "{{who}} rolled an {{values}}.",
+    "out": "{{who}} ha tirato un {{values}}."
+  },
   "ROLL.canoe": {
     "src": "{{player}} rolled: {{values}}.",
     "out": "{{player}} ha tirato: {{values}}."
@@ -2246,14 +2254,6 @@
   "ROLL.elOso_player": {
     "src": "{{player}} rolled: {{dice}}.",
     "out": "{{player}} ha tirato: {{dice}}."
-  },
-  "ROLL.magnate": {
-    "src": "{{who}} rolled a {{values}}.",
-    "out": "{{who}} ha tirato un {{values}}."
-  },
-  "ROLL.magnate_eight": {
-    "src": "{{who}} rolled an {{values}}.",
-    "out": "{{who}} ha tirato un {{values}}."
   },
   "ROLL.single": {
     "src": "The die was rolled: {{values}}.",
@@ -2274,122 +2274,6 @@
   "SCORE_REPORT": {
     "src": "{{player}}'s score is now {{score}}.",
     "out": "Il punteggio di {{player}} è ora {{score}}."
-  },
-  "SCRIBE.glyphs.bomber": {
-    "src": "Bomber",
-    "out": "Bombardiere"
-  },
-  "SCRIBE.glyphs.chair": {
-    "src": "Chair",
-    "out": "Sedia"
-  },
-  "SCRIBE.glyphs.cross": {
-    "src": "Cross",
-    "out": "Croce"
-  },
-  "SCRIBE.glyphs.double": {
-    "src": "Double",
-    "out": "Doppio"
-  },
-  "SCRIBE.glyphs.earring": {
-    "src": "Earring",
-    "out": "Orecchino"
-  },
-  "SCRIBE.glyphs.four_block": {
-    "src": "4-block",
-    "out": "Blocco da 4"
-  },
-  "SCRIBE.glyphs.h": {
-    "src": "H",
-    "out": "H"
-  },
-  "SCRIBE.glyphs.house": {
-    "src": "House",
-    "out": "Casa"
-  },
-  "SCRIBE.glyphs.j": {
-    "src": "J",
-    "out": "J"
-  },
-  "SCRIBE.glyphs.line": {
-    "src": "Line",
-    "out": "Linea"
-  },
-  "SCRIBE.glyphs.nine_block": {
-    "src": "9-block",
-    "out": "Blocco da 9"
-  },
-  "SCRIBE.glyphs.o": {
-    "src": "O",
-    "out": "O"
-  },
-  "SCRIBE.glyphs.ottoman": {
-    "src": "Ottoman",
-    "out": "Ottomana"
-  },
-  "SCRIBE.glyphs.pipe": {
-    "src": "Pipe",
-    "out": "Tubo"
-  },
-  "SCRIBE.glyphs.single": {
-    "src": "Single",
-    "out": "Singolo"
-  },
-  "SCRIBE.glyphs.six_block": {
-    "src": "6-block",
-    "out": "Blocco da 6"
-  },
-  "SCRIBE.glyphs.squat_t": {
-    "src": "Squat-T",
-    "out": "T tozza"
-  },
-  "SCRIBE.glyphs.t": {
-    "src": "T",
-    "out": "T"
-  },
-  "SCRIBE.glyphs.u": {
-    "src": "U",
-    "out": "U"
-  },
-  "SCRIBE.mini.0_0": {
-    "src": "top-left",
-    "out": "in alto a sinistra"
-  },
-  "SCRIBE.mini.0_1": {
-    "src": "centre-left",
-    "out": "al centro a sinistra"
-  },
-  "SCRIBE.mini.0_2": {
-    "src": "bottom-left",
-    "out": "in basso a sinistra"
-  },
-  "SCRIBE.mini.1_0": {
-    "src": "top-centre",
-    "out": "in alto al centro"
-  },
-  "SCRIBE.mini.1_1": {
-    "src": "centre",
-    "out": "al centro"
-  },
-  "SCRIBE.mini.1_2": {
-    "src": "bottom-centre",
-    "out": "in basso al centro"
-  },
-  "SCRIBE.mini.2_0": {
-    "src": "top-right",
-    "out": "in alto a destra"
-  },
-  "SCRIBE.mini.2_1": {
-    "src": "centre-right",
-    "out": "al centro a destra"
-  },
-  "SCRIBE.mini.2_2": {
-    "src": "bottom-right",
-    "out": "in basso a destra"
-  },
-  "SCRIBE.no_formation": {
-    "src": "no formations",
-    "out": "nessuna formazione"
   },
   "SELECT.fnap": {
     "src": "{{player}} selected the tile {{tile}}.",
@@ -2467,14 +2351,6 @@
     "src": "{{player}} scored {{count}} triplets.",
     "out": "{{player}} ha segnato {{count}} tris."
   },
-  "SET.quincunx_flushes_one": {
-    "src": "{{player}} scored {{count}} flush.",
-    "out": "{{player}} ha segnato {{count}} colore."
-  },
-  "SET.quincunx_flushes_other": {
-    "src": "{{player}} scored {{count}} flushes.",
-    "out": "{{player}} ha segnato {{count}} colori."
-  },
   "SET.quincunx_pairs_one": {
     "src": "{{player}} scored {{count}} pair.",
     "out": "{{player}} ha segnato {{count}} coppia."
@@ -2482,10 +2358,6 @@
   "SET.quincunx_pairs_other": {
     "src": "{{player}} scored {{count}} pairs.",
     "out": "{{player}} ha segnato {{count}} coppie."
-  },
-  "SET.quincunx_powerplay": {
-    "src": "{{player}} scored a power play!",
-    "out": "{{player}} ha effettuato una giocata di forza!"
   },
   "SET.quincunx_sets_one": {
     "src": "{{player}} scored {{count}} set.",
@@ -2502,6 +2374,18 @@
   "SET.quincunx_straights_other": {
     "src": "{{player}} scored {{count}} straights.",
     "out": "{{player}} ha segnato {{count}} scale."
+  },
+  "SET.quincunx_flushes_one": {
+    "src": "{{player}} scored {{count}} flush.",
+    "out": "{{player}} ha segnato {{count}} colore."
+  },
+  "SET.quincunx_flushes_other": {
+    "src": "{{player}} scored {{count}} flushes.",
+    "out": "{{player}} ha segnato {{count}} colori."
+  },
+  "SET.quincunx_powerplay": {
+    "src": "{{player}} scored a power play!",
+    "out": "{{player}} ha effettuato una giocata di forza!"
   },
   "SOW.general_one": {
     "src": "{{player}} sowed seeds from the following pit: {{pits}}.",
@@ -2531,14 +2415,6 @@
     "src": "The hand has gone stale.",
     "out": "La mano è finita in patta."
   },
-  "SWAP.agofmars_board": {
-    "src": "{{player}} swapped the {{colour1}}{{size1}} at {{cell1}} and the {{colour2}}{{size2}} at {{cell2}}.",
-    "out": "{{player}} ha scambiato la {{colour1}}{{size1}} in {{cell1}} e la {{colour2}}{{size2}} in {{cell2}}."
-  },
-  "SWAP.agofmars_board_cells": {
-    "src": "{{player}} swapped the pyramids at {{cell1}} and {{cell2}}.",
-    "out": "{{player}} ha scambiato le piramidi in {{cell1}} e {{cell2}}."
-  },
   "SWAP.deckfish": {
     "src": "{{player}} swapped {{what}} from the market with {{with}} at {{where}}.",
     "out": "{{player}} ha scambiato {{what}} dal mercato con {{with}} in {{where}}."
@@ -2559,6 +2435,14 @@
     "src": "{{player}} swapped seats, choosing to play first.",
     "out": "{{player}} ha cambiato posto, scegliendo di giocare per primo."
   },
+  "SWAP.agofmars_board": {
+    "src": "{{player}} swapped the {{colour1}}{{size1}} at {{cell1}} and the {{colour2}}{{size2}} at {{cell2}}.",
+    "out": "{{player}} ha scambiato la {{colour1}}{{size1}} in {{cell1}} e la {{colour2}}{{size2}} in {{cell2}}."
+  },
+  "SWAP.agofmars_board_cells": {
+    "src": "{{player}} swapped the pyramids at {{cell1}} and {{cell2}}.",
+    "out": "{{player}} ha scambiato le piramidi in {{cell1}} e {{cell2}}."
+  },
   "TAKE.blastradius_one": {
     "src": "{{player}} removed one of their own pieces from {{where}}.",
     "out": "{{player}} ha rimosso uno dei propri pezzi da {{where}}."
@@ -2567,18 +2451,6 @@
     "src": "{{player}} removed a stack of {{count}} of their own pieces from {{where}}.",
     "out": "{{player}} ha rimosso una pila di {{count}} dei propri pezzi da {{where}}."
   },
-  "TAKE.buku_col_one": {
-    "src": "{{player}} collected 1 piece from column {{col}}.",
-    "out": "{{player}} ha raccolto 1 pezzo dalla colonna {{col}}."
-  },
-  "TAKE.buku_col_other": {
-    "src": "{{player}} collected {{count}} pieces from column {{col}}.",
-    "out": "{{player}} ha raccolto {{count}} pezzi dalla colonna {{col}}."
-  },
-  "TAKE.buku_row_bonus": {
-    "src": "{{player}} collected {{count}} pieces from row {{row}}, plus one additional piece.",
-    "out": "{{player}} ha raccolto {{count}} pezzi dalla riga {{row}}, più un pezzo addizionale."
-  },
   "TAKE.buku_row_one": {
     "src": "{{player}} collected 1 piece from row {{row}}.",
     "out": "{{player}} ha raccolto 1 pezzo dalla riga {{row}}."
@@ -2586,6 +2458,18 @@
   "TAKE.buku_row_other": {
     "src": "{{player}} collected {{count}} pieces from row {{row}}.",
     "out": "{{player}} ha raccolto {{count}} pezzi dalla riga {{row}}."
+  },
+  "TAKE.buku_row_bonus": {
+    "src": "{{player}} collected {{count}} pieces from row {{row}}, plus one additional piece.",
+    "out": "{{player}} ha raccolto {{count}} pezzi dalla riga {{row}}, più un pezzo addizionale."
+  },
+  "TAKE.buku_col_one": {
+    "src": "{{player}} collected 1 piece from column {{col}}.",
+    "out": "{{player}} ha raccolto 1 pezzo dalla colonna {{col}}."
+  },
+  "TAKE.buku_col_other": {
+    "src": "{{player}} collected {{count}} pieces from column {{col}}.",
+    "out": "{{player}} ha raccolto {{count}} pezzi dalla colonna {{col}}."
   },
   "TAKE.chase": {
     "src": "A {{what}} was fed to the chamber.",
@@ -2607,6 +2491,10 @@
     "src": "{{player}} took a neutral ball at {{from}}.",
     "out": "{{player}} ha preso una sferetta neutrale da {{from}}."
   },
+  "TAKE.tablero": {
+    "src": "{{player}} took one of their checkers from the stack at {{from}}.",
+    "out": "{{player}} ha preso una delle proprie pedine dalla pila in {{from}}."
+  },
   "TAKE.streetcar_take_1": {
     "src": "{{player}} took an ORANGE housing limit from {{from}}.",
     "out": "{{player}} ha preso un limite abitativo ARANCIONE da {{from}}."
@@ -2627,10 +2515,6 @@
     "src": "{{player}} took a housing limit from {{from}}.",
     "out": "{{player}} ha preso un limite abitativo da {{from}}."
   },
-  "TAKE.tablero": {
-    "src": "{{player}} took one of their checkers from the stack at {{from}}.",
-    "out": "{{player}} ha preso una delle proprie pedine dalla pila in {{from}}."
-  },
   "TIMEOUT": {
     "src": "{{player}} lost on time.",
     "out": "{{player}} ha perso per tempo."
@@ -2643,10 +2527,6 @@
     "src": "{{player}} unfurls {{count}} pieces from {{from}} to {{to}}.",
     "out": "{{player}} srotola {{count}} pezzi da {{from}} a {{to}}."
   },
-  "USE.camelot_castle_move_none": {
-    "src": "{{player}} has no more castle moves.",
-    "out": "{{player}} non ha più mosse arrocco."
-  },
   "USE.camelot_castle_move_one": {
     "src": "{{player}} used has 1 more castle move.",
     "out": "{{player}} ha usato 1 mossa arrocco in più."
@@ -2654,6 +2534,126 @@
   "USE.camelot_castle_move_other": {
     "src": "{{player}} used has {{count}} more castle moves.",
     "out": "{{player}} ha usato {{count}} mosse arrocco in più."
+  },
+  "USE.camelot_castle_move_none": {
+    "src": "{{player}} has no more castle moves.",
+    "out": "{{player}} non ha più mosse arrocco."
+  },
+  "SCRIBE.no_formation": {
+    "src": "no formations",
+    "out": "nessuna formazione"
+  },
+  "SCRIBE.glyphs.single": {
+    "src": "Single",
+    "out": "Singolo"
+  },
+  "SCRIBE.glyphs.double": {
+    "src": "Double",
+    "out": "Doppio"
+  },
+  "SCRIBE.glyphs.line": {
+    "src": "Line",
+    "out": "Linea"
+  },
+  "SCRIBE.glyphs.pipe": {
+    "src": "Pipe",
+    "out": "Tubo"
+  },
+  "SCRIBE.glyphs.squat_t": {
+    "src": "Squat-T",
+    "out": "T tozza"
+  },
+  "SCRIBE.glyphs.four_block": {
+    "src": "4-block",
+    "out": "Blocco da 4"
+  },
+  "SCRIBE.glyphs.t": {
+    "src": "T",
+    "out": "T"
+  },
+  "SCRIBE.glyphs.cross": {
+    "src": "Cross",
+    "out": "Croce"
+  },
+  "SCRIBE.glyphs.six_block": {
+    "src": "6-block",
+    "out": "Blocco da 6"
+  },
+  "SCRIBE.glyphs.bomber": {
+    "src": "Bomber",
+    "out": "Bombardiere"
+  },
+  "SCRIBE.glyphs.chair": {
+    "src": "Chair",
+    "out": "Sedia"
+  },
+  "SCRIBE.glyphs.j": {
+    "src": "J",
+    "out": "J"
+  },
+  "SCRIBE.glyphs.earring": {
+    "src": "Earring",
+    "out": "Orecchino"
+  },
+  "SCRIBE.glyphs.house": {
+    "src": "House",
+    "out": "Casa"
+  },
+  "SCRIBE.glyphs.h": {
+    "src": "H",
+    "out": "H"
+  },
+  "SCRIBE.glyphs.u": {
+    "src": "U",
+    "out": "U"
+  },
+  "SCRIBE.glyphs.ottoman": {
+    "src": "Ottoman",
+    "out": "Ottomana"
+  },
+  "SCRIBE.glyphs.o": {
+    "src": "O",
+    "out": "O"
+  },
+  "SCRIBE.glyphs.nine_block": {
+    "src": "9-block",
+    "out": "Blocco da 9"
+  },
+  "SCRIBE.mini.0_0": {
+    "src": "top-left",
+    "out": "in alto a sinistra"
+  },
+  "SCRIBE.mini.1_0": {
+    "src": "top-centre",
+    "out": "in alto al centro"
+  },
+  "SCRIBE.mini.2_0": {
+    "src": "top-right",
+    "out": "in alto a destra"
+  },
+  "SCRIBE.mini.0_1": {
+    "src": "centre-left",
+    "out": "al centro a sinistra"
+  },
+  "SCRIBE.mini.1_1": {
+    "src": "centre",
+    "out": "al centro"
+  },
+  "SCRIBE.mini.2_1": {
+    "src": "centre-right",
+    "out": "al centro a destra"
+  },
+  "SCRIBE.mini.0_2": {
+    "src": "bottom-left",
+    "out": "in basso a sinistra"
+  },
+  "SCRIBE.mini.1_2": {
+    "src": "bottom-centre",
+    "out": "in basso al centro"
+  },
+  "SCRIBE.mini.2_2": {
+    "src": "bottom-right",
+    "out": "in basso a destra"
   },
   "WINNERSNONE": {
     "src": "There were no winners.",

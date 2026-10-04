@@ -30,8 +30,8 @@
     "arimaa": "Cette position s'est déjà produite. Les répétitions ultérieures de cette position sont interdites.",
     "biscuit": "Les cartes suivantes étaient dans les mains adverses : {{cards}}.",
     "deckfish": "{{player}} ne pouvait pas déplacer et doit passer à partir de maintenant.",
-    "frogger_one": "{{player}} a choisi de réapprovisionner la pioche. Il obtient un tour supplémentaire pour jouer son {{count}} coup restant.",
-    "frogger_other": "{{player}} a choisi de réapprovisionner la pioche. Il obtient un tour supplémentaire pour jouer ses {{count}} coups restants.",
+    "frogger_one": "{{player}} a choisi de réapprovisionner la pioche. Il obtient un tour supplémentaire pour effectuer son {{count}} coup restant.",
+    "frogger_other": "{{player}} a choisi de réapprovisionner la pioche. Il obtient un tour supplémentaire pour effectuer ses {{count}} coups restants.",
     "icepalace_build": "{{player}} a remporté la manche et construit le Yard dans le Palais de Glace, en utilisant {{count}} pyramides. Une façon autorisée de le construire est `{{move}}`.",
     "icepalace_nobuild": "{{player}} a remporté la manche, mais aucune pièce du Yard ne peut être construite dans le Palais de Glace.",
     "quincunx": "Le joueur {{playerNum}} avait les cartes suivantes en main : {{cards}}.",
@@ -305,9 +305,9 @@
     "tafl_king_escaped": "La partie est terminée car le roi s'est échappé.",
     "unlur_foul": "La partie est terminée car un joueur a atteint la condition de victoire de l'adversaire sans réaliser la sienne.",
     "druid_hex": "La partie est terminée car {{player}} a relié les bords {{edges}}.",
-    "killallgo_double_pass": "La partie est terminée car les deux joueurs ont passé consécutivement sans que le Défenseur n'établisse de vie inconditionnelle.",
+    "killallgo_double_pass": "La partie est terminée car les deux joueurs ont passé sans que le Défenseur n'ait établi la vie.",
     "killallgo_no_moves": "La partie est terminée car le joueur dont c'est le tour n'a aucun placement légal.",
-    "killallgo_no_room": "La partie est terminée car les pierres inconditionnellement vivantes de l'Attaquant ne laissent aucun espace au Défenseur pour former une chaîne inconditionnellement vivante.",
+    "killallgo_no_room": "La partie est terminée car les pierres inconditionnellement vivantes de l'Attaquant ne laissent aucun espace au Défenseur pour former une chaîne vivante.",
     "killallgo_pass_alive": "La partie est terminée car le Défenseur a formé une chaîne inconditionnellement vivante."
   },
   "DRUID_HEX_EDGE": {

@@ -2255,16 +2255,18 @@ export class MagnateGame extends GameBase {
             const nudged = nudges[i].map(n => n * nudge);
             const textNudgeY = nudges[i][1] > 0 ? nudge + nudgeText : nudgeText - nudge;
 
-            glyph.push({
-                name: suit.glyph,
-                scale: 0.5,
-                nudge: {
-                    dx: nudged[0],
-                    dy: nudged[1],
-                },
-                opacity: opacity,
-                orientation: "vertical",
-            });
+            if (suit.glyph !== undefined) {
+                glyph.push({
+                    name: suit.glyph,
+                    scale: 0.5,
+                    nudge: {
+                        dx: nudged[0],
+                        dy: nudged[1],
+                    },
+                    opacity: opacity,
+                    orientation: "vertical",
+                });
+            }
 
             //Text needs extra vertical nudging.
             if ( preflight === suit.uid )

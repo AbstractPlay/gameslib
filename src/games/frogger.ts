@@ -2146,6 +2146,9 @@ export class FroggerGame extends GameBase {
 
         //Suit glyphs.
         for (const suit of suits) {
+            if (suit.glyph === undefined) {
+                continue;
+            }
             legend[suit.uid] = {
                 name: suit.glyph,
                 scale: 1,

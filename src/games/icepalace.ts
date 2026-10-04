@@ -1382,7 +1382,10 @@ export class IcePalaceGame extends GameBaseSequenced {
     /** A pyramid as it appears in the status panel. */
     private statusGlyph(piece: PieceId): StatusValue {
         const glyph = this.glyphFor(piece, "nest");
-        return this.statusSheetGlyph(glyph.name!, glyph.colour as number | string | Colourfuncs);
+        if (!("name" in glyph) || glyph.name === undefined) {
+            throw new Error(`Expected sheet glyph for pyramid status: ${piece}`);
+        }
+        return this.statusSheetGlyph(glyph.name, glyph.colour as number | string | Colourfuncs);
     }
 
     /**

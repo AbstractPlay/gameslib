@@ -152,6 +152,9 @@ export class Card {
         for (let i = 0; i < this.suits.length; i++) {
             const suit = this.suits[i];
             const nudge = nudges[i];
+            if (suit.glyph === undefined) {
+                continue;
+            }
             glyph.push({
                 name: suit.glyph,
                 scale: 0.5,

@@ -989,7 +989,7 @@ export class KnightLineGame extends GameBase {
 
     /* Rendering functions */
 
-    private createPiece(cell: CellContents, forHighlight?: boolean): Glyph {
+    private createPiece(cell: CellContents, forHighlight?: boolean): [Glyph, ...Glyph[]] {
         //Turn cellContents into a piece for rendering.
         if (!cell || cell.length < 2)
             throw new Error("Bad cellContents passed to createPiece.");
@@ -1009,7 +1009,7 @@ export class KnightLineGame extends GameBase {
                     colour: "#000",
                     scale: 0.75
                 }
-            ] as Glyph;
+            ];
         } else if (color === 0 && count === 1) {
             return [
                 {
@@ -1022,7 +1022,7 @@ export class KnightLineGame extends GameBase {
                     colour: "#000",
                     scale: 0.75
                 }
-            ] as Glyph;
+            ];
         } else {
             return [
                 {
@@ -1035,7 +1035,7 @@ export class KnightLineGame extends GameBase {
                     colour: "#000",
                     scale: 0.75
                 }
-            ] as Glyph;
+            ];
         }
     }
 

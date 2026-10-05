@@ -2,6 +2,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { writeLocaleJson } from "./locale-json-format.mjs";
 
 export const MANAGED_LANGS = ["de", "fr", "it", "es-US"];
 
@@ -119,13 +120,12 @@ function writeSrcTracking(repoRoot, langCode, fileName, srcTracking) {
   for (const key of Object.keys(srcTracking).sort()) {
     sortedSrc[key] = srcTracking[key];
   }
-  fs.mkdirSync(path.dirname(srcPath), { recursive: true });
-  fs.writeFileSync(srcPath, JSON.stringify(sortedSrc, null, 2) + "\n");
+  writeLocaleJson(srcPath, sortedSrc);
 }
 
 function writeTargetFile(targetPath, repoRoot, langCode, fileName, sourceData, targetData, srcTracking) {
   const cleanTargetData = pruneToSourceShape(sourceData, targetData) ?? {};
-  fs.writeFileSync(targetPath, JSON.stringify(cleanTargetData, null, 2) + "\n");
+  writeLocaleJson(targetPath, cleanTargetData);
   writeSrcTracking(repoRoot, langCode, fileName, srcTracking);
 }
 

@@ -1,119 +1,119 @@
 {
-    "categories": {
-        "components>piecepack": {
-            "tag": "C: Piecepack",
-            "description": "Dimainkan dengan Piecepack",
-            "full": "Komponen > Piecepack"
-        },
-        "board>shape>tri": {
-            "tag": "Bentuk: Segi tiga",
-            "full": "Papan > Bentuk > Segi tiga",
-            "description": "Papan ini berbentuk seperti segi tiga"
-        },
-        "board>mancala": {
-            "full": "Papan > Mancala",
-            "description": "Dimainkan atas papan gaya Mancala tradisional",
-            "tag": "Papan: Mancala"
-        },
-        "board>connect": {
-            "full": "Papan > Kesambungan",
-            "tag": "Kesambungan Papan",
-            "description": "Menerangkan cara sel-sel papan bersambung antara satu sama lain"
-        },
-        "board>none": {
-            "tag": "Papan: Tiada",
-            "description": "Dimainkan atas mana-mana permukaan rata",
-            "full": "Papan > Tiada"
-        },
-        "board>connect>other": {
-            "tag": "Sambungan: Lain-lain",
-            "description": "Sel bersambung antara satu sama lain dengan cara yang unik",
-            "full": "Papan > Kesambungan > Lain-lain"
-        },
-        "board": {
-            "full": "Papan",
-            "tag": "Papan",
-            "description": "Menerangkan sifat-sifat papan permainan"
-        },
-        "board>3d": {
-            "description": "Papan adalah tiga dimensi",
-            "full": "Papan > 3D",
-            "tag": "Papan: 3D"
-        },
-        "board>connect>hex": {
-            "description": "Sel bersambung antara satu sama lain secara heksagon",
-            "full": "Papan > Kesambungan > Heksagon",
-            "tag": "Sambungan: Hex"
-        },
-        "board>connect>pent": {
-            "description": "Sel bersambung antara satu sama lain secara pentagon",
-            "full": "Papan > Kesambungan > Pentagon",
-            "tag": "Sambungan: Pentagon"
-        },
-        "board>connect>rect": {
-            "description": "Sel bersambung antara satu sama lain secara ortogon dan menyerong",
-            "tag": "Sambungan: Segi empat",
-            "full": "Papan > Kesambungan > Segi empat"
-        },
-        "board>connect>snub": {
-            "full": "Papan > Kesambungan > Snubsquare",
-            "tag": "Sambungan: Snub",
-            "description": "Sel bersambung antara satu sama lain dalam matriks snubsquare"
-        },
-        "board>dynamic": {
-            "description": "Papan dibina secara dinamik",
-            "tag": "Papan: Dinamik",
-            "full": "Papan > Dinamik"
-        },
-        "board>other": {
-            "description": "Papan ini unik",
-            "full": "Papan > Lain-lain",
-            "tag": "Papan: Lain-lain"
-        },
-        "board>shape>circle": {
-            "full": "Papan > Bentuk > Bulatan",
-            "tag": "Bentuk: Bulatan",
-            "description": "Papan ini berbentuk bulatan"
-        },
-        "board>shape>hex": {
-            "description": "Papan itu berbentuk heksagon",
-            "full": "Papan > Bentuk > Heksagon",
-            "tag": "Bentuk: Hex"
-        },
-        "board>shape>oct": {
-            "tag": "Bentuk: Okt",
-            "description": "Papan itu berbentuk seperti oktagon",
-            "full": "Papan > Bentuk > Oktagon"
-        },
-        "board>shape>other": {
-            "description": "Papan mempunyai bentuk yang unik",
-            "full": "Papan > Bentuk > Lain-lain",
-            "tag": "Bentuk: Lain-lain"
-        },
-        "board>shape>rect": {
-            "description": "Papan ini berbentuk segi empat tepat",
-            "full": "Papan > Bentuk > Segi empat tepat",
-            "tag": "Bentuk: Segi empat tepat"
-        },
-        "components>poly": {
-            "full": "Komponen > Poliomino",
-            "description": "Dimainkan dengan poliomino",
-            "tag": "C: Poliomino"
-        },
-        "components>pyramids": {
-            "description": "Dimainkan dengan piramid Looney",
-            "full": "Komponen > Piramid Looney",
-            "tag": "C: Piramid Looney"
-        },
-        "components>dice": {
-            "description": "Dimainkan dengan dadu",
-            "tag": "C: Dadu",
-            "full": "Komponen > Dadu"
-        },
-        "board>shape": {
-            "tag": "Bentuk papan",
-            "full": "Papan > Bentuk",
-            "description": "Menerangkan bentuk papan"
-        }
+  "categories": {
+    "components>piecepack": {
+      "tag": "C: Piecepack",
+      "description": "Dimainkan dengan Piecepack",
+      "full": "Komponen > Piecepack"
+    },
+    "board>shape>tri": {
+      "tag": "Bentuk: Segi tiga",
+      "full": "Papan > Bentuk > Segi tiga",
+      "description": "Papan ini berbentuk seperti segi tiga"
+    },
+    "board>mancala": {
+      "full": "Papan > Mancala",
+      "description": "Dimainkan atas papan gaya Mancala tradisional",
+      "tag": "Papan: Mancala"
+    },
+    "board>connect": {
+      "full": "Papan > Kesambungan",
+      "tag": "Kesambungan Papan",
+      "description": "Menerangkan cara sel-sel papan bersambung antara satu sama lain"
+    },
+    "board>none": {
+      "tag": "Papan: Tiada",
+      "description": "Dimainkan atas mana-mana permukaan rata",
+      "full": "Papan > Tiada"
+    },
+    "board>connect>other": {
+      "tag": "Sambungan: Lain-lain",
+      "description": "Sel bersambung antara satu sama lain dengan cara yang unik",
+      "full": "Papan > Kesambungan > Lain-lain"
+    },
+    "board": {
+      "full": "Papan",
+      "tag": "Papan",
+      "description": "Menerangkan sifat-sifat papan permainan"
+    },
+    "board>3d": {
+      "description": "Papan adalah tiga dimensi",
+      "full": "Papan > 3D",
+      "tag": "Papan: 3D"
+    },
+    "board>connect>hex": {
+      "description": "Sel bersambung antara satu sama lain secara heksagon",
+      "full": "Papan > Kesambungan > Heksagon",
+      "tag": "Sambungan: Hex"
+    },
+    "board>connect>pent": {
+      "description": "Sel bersambung antara satu sama lain secara pentagon",
+      "full": "Papan > Kesambungan > Pentagon",
+      "tag": "Sambungan: Pentagon"
+    },
+    "board>connect>rect": {
+      "description": "Sel bersambung antara satu sama lain secara ortogon dan menyerong",
+      "tag": "Sambungan: Segi empat",
+      "full": "Papan > Kesambungan > Segi empat"
+    },
+    "board>connect>snub": {
+      "full": "Papan > Kesambungan > Snubsquare",
+      "tag": "Sambungan: Snub",
+      "description": "Sel bersambung antara satu sama lain dalam matriks snubsquare"
+    },
+    "board>dynamic": {
+      "description": "Papan dibina secara dinamik",
+      "tag": "Papan: Dinamik",
+      "full": "Papan > Dinamik"
+    },
+    "board>other": {
+      "description": "Papan ini unik",
+      "full": "Papan > Lain-lain",
+      "tag": "Papan: Lain-lain"
+    },
+    "board>shape>circle": {
+      "full": "Papan > Bentuk > Bulatan",
+      "tag": "Bentuk: Bulatan",
+      "description": "Papan ini berbentuk bulatan"
+    },
+    "board>shape>hex": {
+      "description": "Papan itu berbentuk heksagon",
+      "full": "Papan > Bentuk > Heksagon",
+      "tag": "Bentuk: Hex"
+    },
+    "board>shape>oct": {
+      "tag": "Bentuk: Okt",
+      "description": "Papan itu berbentuk seperti oktagon",
+      "full": "Papan > Bentuk > Oktagon"
+    },
+    "board>shape>other": {
+      "description": "Papan mempunyai bentuk yang unik",
+      "full": "Papan > Bentuk > Lain-lain",
+      "tag": "Bentuk: Lain-lain"
+    },
+    "board>shape>rect": {
+      "description": "Papan ini berbentuk segi empat tepat",
+      "full": "Papan > Bentuk > Segi empat tepat",
+      "tag": "Bentuk: Segi empat tepat"
+    },
+    "components>poly": {
+      "full": "Komponen > Poliomino",
+      "description": "Dimainkan dengan poliomino",
+      "tag": "C: Poliomino"
+    },
+    "components>pyramids": {
+      "description": "Dimainkan dengan piramid Looney",
+      "full": "Komponen > Piramid Looney",
+      "tag": "C: Piramid Looney"
+    },
+    "components>dice": {
+      "description": "Dimainkan dengan dadu",
+      "tag": "C: Dadu",
+      "full": "Komponen > Dadu"
+    },
+    "board>shape": {
+      "tag": "Bentuk papan",
+      "full": "Papan > Bentuk",
+      "description": "Menerangkan bentuk papan"
     }
+  }
 }

@@ -11,6 +11,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { MANAGED_LANGS, collectLeaves, pruneSrcTracking, pruneToSourceShape } from "./locale-prune.mjs";
+import { writeLocaleJson } from "./locale-json-format.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -174,8 +175,7 @@ function loadTracking(ref, langCode, fileName) {
 }
 
 function writeJson(filePath, data) {
-  fs.mkdirSync(path.dirname(filePath), { recursive: true });
-  fs.writeFileSync(filePath, `${JSON.stringify(data, null, 2)}\n`);
+  writeLocaleJson(filePath, data);
 }
 
 /**

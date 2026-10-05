@@ -13,6 +13,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { Project, SyntaxKind } from "ts-morph";
 import { MANAGED_LANGS } from "./locale-prune.mjs";
+import { writeLocaleJson } from "./locale-json-format.mjs";
 import {
     collectGameFiles,
     DEFAULT_SKIP_FILES,
@@ -115,7 +116,7 @@ function seedManagedLocales(englishNames) {
         }
         const apgames = JSON.parse(fs.readFileSync(localePath, "utf8"));
         const merged = mergeNamesIntoApgames(apgames, englishNames);
-        fs.writeFileSync(localePath, `${JSON.stringify(merged, null, 2)}\n`);
+        writeLocaleJson(localePath, merged);
 
         const srcPath = path.join(ROOT, "locale-src", lang, "apgames.json");
         const srcTracking = fs.existsSync(srcPath)
@@ -128,7 +129,7 @@ function seedManagedLocales(englishNames) {
             Object.keys(srcTracking).sort().map((key) => [key, srcTracking[key]]),
         );
         fs.mkdirSync(path.dirname(srcPath), { recursive: true });
-        fs.writeFileSync(srcPath, `${JSON.stringify(sortedTracking, null, 2)}\n`);
+        writeLocaleJson(srcPath, sortedTracking);
         console.log(`Seeded names (${Object.keys(englishNames).length}) → ${localePath} + locale-src`);
     }
 }
@@ -211,7 +212,7 @@ function main() {
 
     if (write) {
         const merged = mergeNamesIntoApgames(apgames, expectedNames);
-        fs.writeFileSync(APGAMES_PATH, `${JSON.stringify(merged, null, 2)}\n`);
+        writeLocaleJson(APGAMES_PATH, merged);
         console.log(`Updated names (${Object.keys(expectedNames).length} games) in ${APGAMES_PATH}`);
         if (process.argv.includes("--seed-managed")) {
             seedManagedLocales(merged.names);

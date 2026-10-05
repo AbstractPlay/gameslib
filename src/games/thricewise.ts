@@ -372,49 +372,97 @@ export class ThricewiseGame extends GameBaseSequenced {
         );
     }
 
-    /** Whether a hand card is shown face-up (and thus not in the deck area) for this observer. */
-    protected handUidVisibleToObserver(seat: number, uid: string, perspective?: number): boolean {
+    /** Whether a hand card is shown face-up to this observer (captions); deck uses {@link accountedCardUids} only. */
+    protected handUidVisibleToObserver(
+        seat: number,
+        uid: string,
+        perspective?: number,
+        omniscient?: boolean,
+    ): boolean {
+        if (omniscient === true) {
+            return true;
+        }
         if (perspective !== undefined && seat === perspective) {
             return true;
         }
         if (this.phase === "place") {
             return this.obligationFor(seat).includes(uid);
         }
-        if (perspective === undefined) {
-            return true;
+        return false;
+    }
+
+    /** Decktet cross-diag: select = deferred or committed pick; place = in-hand but not obligation; plus hidden hands when not omniscient. */
+    protected cardShouldDimInLegend(uid: string, viewSeat?: number, omniscient?: boolean): boolean {
+        if (this.gameover) {
+            return false;
+        }
+        const uidUpper = uid.toUpperCase();
+        if (omniscient !== true) {
+            for (let seat = 1; seat <= this.numplayers; seat++) {
+                if (
+                    this.hands[seat - 1].includes(uid) &&
+                    !this.handUidVisibleToObserver(seat, uid, viewSeat, false)
+                ) {
+                    return true;
+                }
+            }
+        }
+        if (this.phase === "select") {
+            if (this.deferred.some(pile => pile.includes(uid))) {
+                return true;
+            }
+            for (let seat = 1; seat <= this.numplayers; seat++) {
+                const picked = this.pendingSelect[seat - 1];
+                if (picked !== undefined && picked.toUpperCase() === uidUpper) {
+                    return true;
+                }
+            }
+            for (let seat = 1; seat <= this.numplayers; seat++) {
+                const trick = this.trickCard[seat - 1];
+                if (trick != null && trick !== "" && trick.toUpperCase() === uidUpper) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        if (this.phase === "place") {
+            for (let seat = 1; seat <= this.numplayers; seat++) {
+                if (!this.hands[seat - 1].includes(uid)) {
+                    continue;
+                }
+                if (!this.obligationFor(seat).includes(uid)) {
+                    return true;
+                }
+            }
         }
         return false;
     }
 
-    /** Card uids the observer can see (board, public deferred, and face-up hand cards). */
-    protected visibleCardUids(perspective?: number): Set<string> {
-        const visible = new Set<string>();
+    /** Card uids present in game state (board, hands, deferred, trick). Empty hand slots (strip) are omitted. */
+    protected accountedCardUids(): Set<string> {
+        const accounted = new Set<string>();
         for (const c of this.board.cards) {
-            visible.add(c.card.uid);
+            accounted.add(c.card.uid);
         }
         for (const pile of this.deferred) {
             for (const uid of pile) {
                 if (uid != null && uid !== "") {
-                    visible.add(uid);
+                    accounted.add(uid);
                 }
             }
         }
         for (let p = 1; p <= this.numplayers; p++) {
-            const obligation = new Set(this.obligationFor(p));
             const trick = this.trickCard[p - 1];
-            if (trick != null && obligation.has(trick) && !this.deferred[p - 1].includes(trick)) {
-                visible.add(trick);
+            if (trick != null && trick !== "") {
+                accounted.add(trick);
             }
             for (const uid of this.hands[p - 1]) {
-                if (uid == null || uid === "") {
-                    continue;
-                }
-                if (this.handUidVisibleToObserver(p, uid, perspective)) {
-                    visible.add(uid);
+                if (uid != null && uid !== "") {
+                    accounted.add(uid);
                 }
             }
         }
-        return visible;
+        return accounted;
     }
 
     public moves(p?: number): string[] {
@@ -1185,14 +1233,13 @@ export class ThricewiseGame extends GameBaseSequenced {
     }
 
     public render(opts: IRenderOpts = {}): APRenderRep {
+        const omniscient = opts.omniscient === true;
         const viewSeat =
-            opts.omniscient === true
-                ? undefined
-                : typeof opts.perspective === "number" &&
-                    opts.perspective >= 1 &&
-                    opts.perspective <= this.numplayers
-                  ? opts.perspective
-                  : undefined;
+            typeof opts.perspective === "number" &&
+            opts.perspective >= 1 &&
+            opts.perspective <= this.numplayers
+                ? opts.perspective
+                : undefined;
         const { height, width, minX, maxX, minY, maxY } = this.board.dimensions;
         const vp = this.board.viewportSize;
         const rowLabels: string[] = [];
@@ -1244,32 +1291,8 @@ export class ThricewiseGame extends GameBaseSequenced {
         const legend: ILegendObj = {};
         for (const card of cardsBasic) {
             const glyph = card.toGlyph();
-            if (!this.gameover) {
-                let dim = false;
-                if (this.phase === "select") {
-                    if (this.deferred.some(pile => pile.includes(card.uid))) {
-                        dim = true;
-                    } else if (
-                        viewSeat !== undefined &&
-                        this.hands[viewSeat - 1].includes(card.uid)
-                    ) {
-                        const picked = this.pendingSelect[viewSeat - 1];
-                        if (picked !== undefined && picked !== card.uid) {
-                            dim = true;
-                        }
-                    }
-                } else if (
-                    viewSeat !== undefined &&
-                    this.hands[viewSeat - 1].includes(card.uid)
-                ) {
-                    const obligation = new Set(this.obligationFor(viewSeat));
-                    if (!obligation.has(card.uid)) {
-                        dim = true;
-                    }
-                }
-                if (dim) {
-                    glyph.push(disabledDecktetCardOverlay());
-                }
+            if (this.cardShouldDimInLegend(card.uid, viewSeat, omniscient)) {
+                glyph.push(disabledDecktetCardOverlay());
             }
             const highlightUid =
                 viewSeat !== undefined
@@ -1291,7 +1314,7 @@ export class ThricewiseGame extends GameBaseSequenced {
                 faceUp: boolean,
                 caption?: "Sel" | "Def",
             ): void => {
-                const piece = faceUp ? "c" + uid : "cUNKNOWN";
+                const piece = "c" + uid;
                 if (caption !== undefined && faceUp) {
                     handPieces.push({
                         piece,
@@ -1312,7 +1335,7 @@ export class ThricewiseGame extends GameBaseSequenced {
             if (trick != null && obligation.has(trick) && !this.deferred[p - 1].includes(trick)) {
                 pushHandCard(
                     trick,
-                    this.handUidVisibleToObserver(p, trick, viewSeat),
+                    this.handUidVisibleToObserver(p, trick, viewSeat, omniscient),
                     "Sel",
                 );
             }
@@ -1322,7 +1345,7 @@ export class ThricewiseGame extends GameBaseSequenced {
                 if (uid == null || uid === "") {
                     continue;
                 }
-                const faceUp = this.handUidVisibleToObserver(p, uid, viewSeat);
+                const faceUp = this.handUidVisibleToObserver(p, uid, viewSeat, omniscient);
                 const caption =
                     pendingSelect !== undefined &&
                     uid.toUpperCase() === pendingSelect.toUpperCase()
@@ -1341,10 +1364,10 @@ export class ThricewiseGame extends GameBaseSequenced {
             }
         }
 
-        const visible = this.visibleCardUids(viewSeat);
+        const accounted = this.accountedCardUids();
         const remaining = [...cardsBasic]
             .sort(cardSortAsc)
-            .filter(c => !visible.has(c.uid))
+            .filter(c => !accounted.has(c.uid))
             .map(c => "c" + c.uid);
         if (remaining.length > 0) {
             areas.push({

@@ -124,13 +124,14 @@ describe("Thricewise", () => {
         expect(handArea?.pieces?.every(p => p !== "cUNKNOWN")).to.equal(true);
     });
 
-    it("dims deferred cards in hand during select", () => {
+    it("dims deferred and selected cards during select, not unpicked hand cards", () => {
         const g = new ThricewiseGame(2);
         const twos = cardsOfRank(2);
         const threes = cardsOfRank(3);
         g.phase = "select";
         g.deferred[0] = [twos[0]!];
-        g.hands[0] = [threes[0]!];
+        g.hands[0] = [threes[0]!, threes[1]!];
+        g.pendingSelect[0] = threes[1]!;
         const rep = g.render({ perspective: 1 });
         const dimmed = (key: string) => {
             const entry = rep.legend?.[key];
@@ -141,6 +142,7 @@ describe("Thricewise", () => {
             );
         };
         expect(dimmed(`c${twos[0]}`)).to.equal(true);
+        expect(dimmed(`c${threes[1]}`)).to.equal(true);
         expect(dimmed(`c${threes[0]}`)).to.equal(false);
     });
 
@@ -220,8 +222,70 @@ describe("Thricewise", () => {
             (rep.areas ?? [])
                 .flatMap(a => a.pieces ?? [])
                 .filter(p => p === "cUNKNOWN").length;
-        expect(unknownCount(g.render({ perspective: 1 }))).to.be.greaterThan(0);
+        const dimmed = (rep: ReturnType<ThricewiseGame["render"]>, uid: string) => {
+            const entry = rep.legend?.[`c${uid}`];
+            const layers = Array.isArray(entry) ? entry : entry !== undefined ? [entry] : [];
+            return layers.some(
+                (layer: { name?: string; opacity?: number }) =>
+                    layer.name === "cross-diag" && layer.opacity === 0.5,
+            );
+        };
+        const withPerspective = g.render({ perspective: 1 });
+        expect(unknownCount(withPerspective)).to.equal(0);
+        expect(dimmed(withPerspective, aces[0]!)).to.equal(true);
         expect(unknownCount(g.render({ perspective: 1, omniscient: true }))).to.equal(0);
+    });
+
+    it("dims hidden opponent hand during place with cross-diag, not cUNKNOWN", () => {
+        const g = new ThricewiseGame(3);
+        const aces = cardsOfRank(1);
+        g.phase = "place";
+        g.currplayer = 1;
+        g.hands[1] = [aces[0]!, aces[1]!];
+        const rep = g.render({ perspective: 1 });
+        const dimmed = (uid: string) => {
+            const entry = rep.legend?.[`c${uid}`];
+            const layers = Array.isArray(entry) ? entry : entry !== undefined ? [entry] : [];
+            return layers.some(
+                (layer: { name?: string; opacity?: number }) =>
+                    layer.name === "cross-diag" && layer.opacity === 0.5,
+            );
+        };
+        const oppHand = rep.areas?.find(
+            a =>
+                typeof a.label === "object" &&
+                a.label.textKey === "apgames:validation.thricewise.LABEL_HAND" &&
+                a.label.actor?.kind === "seat" &&
+                a.label.actor.seat === 2,
+        );
+        expect(oppHand?.pieces?.every(p => p !== "cUNKNOWN")).to.equal(true);
+        expect(oppHand?.pieces).to.deep.equal([`c${aces[0]}`, `c${aces[1]}`]);
+        expect(dimmed(aces[0]!)).to.equal(true);
+        expect(dimmed(aces[1]!)).to.equal(true);
+    });
+
+    it("dims non-obligation hand cards in place even when omniscient", () => {
+        const g = new ThricewiseGame(2);
+        const twos = cardsOfRank(2);
+        const threes = cardsOfRank(3);
+        const fours = cardsOfRank(4);
+        g.phase = "place";
+        g.currplayer = 1;
+        g.deferred[0] = [twos[0]!];
+        g.trickCard[0] = threes[0]!;
+        g.hands[0] = [fours[0]!];
+        const rep = g.render({ perspective: 1, omniscient: true });
+        const dimmed = (uid: string) => {
+            const entry = rep.legend?.[`c${uid}`];
+            const layers = Array.isArray(entry) ? entry : entry !== undefined ? [entry] : [];
+            return layers.some(
+                (layer: { name?: string; opacity?: number }) =>
+                    layer.name === "cross-diag" && layer.opacity === 0.5,
+            );
+        };
+        expect(dimmed(twos[0]!)).to.equal(false);
+        expect(dimmed(threes[0]!)).to.equal(false);
+        expect(dimmed(fours[0]!)).to.equal(true);
     });
 
     it("opens 2x2 for two players and 2x3 for three", () => {
@@ -440,22 +504,64 @@ describe("Thricewise", () => {
         expect(v.valid).to.equal(false);
     });
 
-    it("deck area excludes cards visible to the observer", () => {
+    it("deck area excludes every card accounted for in state", () => {
         const g = new ThricewiseGame(2);
+        const deckPieceCount = (rep: ReturnType<ThricewiseGame["render"]>) =>
+            rep.areas?.find(
+                a =>
+                    typeof a.label === "object" &&
+                    a.label.textKey === "apgames:validation.thricewise.LABEL_DECK",
+            )?.pieces?.length ?? 0;
+        const accountedCount = (game: ThricewiseGame) => {
+            const onboard = game.board.cards.length;
+            const inHands = game.hands.flat().filter(uid => uid !== "").length;
+            const deferred = game.deferred.flat().filter(uid => uid != null && uid !== "").length;
+            const tricks = game.trickCard.filter(uid => uid != null && uid !== "").length;
+            return onboard + inHands + deferred + tricks;
+        };
+        expect(deckPieceCount(g.render({ perspective: 1 }))).to.equal(36 - accountedCount(g));
+        expect(deckPieceCount(g.render({ perspective: 1, omniscient: true }))).to.equal(
+            36 - accountedCount(g),
+        );
+        g.phase = "place";
+        g.currplayer = 1;
+        expect(deckPieceCount(g.render({ perspective: 1, omniscient: true }))).to.equal(
+            36 - accountedCount(g),
+        );
+        const stripped = new ThricewiseGame(2);
+        const hiddenCount = stripped.hands[1].filter(uid => uid !== "").length;
+        stripped.hands[1] = stripped.hands[1].map(() => "");
+        const fullStateDeck = deckPieceCount(new ThricewiseGame(2).render({ perspective: 1 }));
+        expect(deckPieceCount(stripped.render({ perspective: 1 }))).to.equal(
+            fullStateDeck + hiddenCount,
+        );
+    });
+
+    it("deck area pieces are never shown with cross-diag overlay", () => {
+        const g = new ThricewiseGame(3);
+        const aces = cardsOfRank(1);
+        g.phase = "place";
+        g.currplayer = 1;
+        g.hands[1] = [aces[0]!, aces[1]!];
         const rep = g.render({ perspective: 1 });
         const deckArea = rep.areas?.find(
-            a => typeof a.label === "object" && a.label.textKey === "apgames:validation.thricewise.LABEL_DECK",
+            a =>
+                typeof a.label === "object" &&
+                a.label.textKey === "apgames:validation.thricewise.LABEL_DECK",
         );
-        expect(deckArea).to.not.equal(undefined);
-        const onboard = g.board.cards.length;
-        const ownHand = g.hands[0].filter(uid => uid !== "").length;
-        expect(deckArea!.pieces!.length).to.equal(36 - onboard - ownHand);
-        const omniscient = g.render();
-        const deckAll = omniscient.areas!.find(
-            a => typeof a.label === "object" && a.label.textKey === "apgames:validation.thricewise.LABEL_DECK",
-        )!;
-        const bothHands = g.hands.flat().filter(uid => uid !== "").length;
-        expect(deckAll.pieces!.length).to.equal(36 - onboard - bothHands);
+        const dimmed = (uid: string) => {
+            const entry = rep.legend?.[`c${uid}`];
+            const layers = Array.isArray(entry) ? entry : entry !== undefined ? [entry] : [];
+            return layers.some(
+                (layer: { name?: string; opacity?: number }) =>
+                    layer.name === "cross-diag" && layer.opacity === 0.5,
+            );
+        };
+        for (const piece of deckArea?.pieces ?? []) {
+            const key = typeof piece === "string" ? piece : piece.piece;
+            expect(key.startsWith("c")).to.equal(true);
+            expect(dimmed(key.slice(1))).to.equal(false);
+        }
     });
 
     it("viewport 6 allows neighbors outside a solid 5×5 block (Jacynth stays at 5)", () => {

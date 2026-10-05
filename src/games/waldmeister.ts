@@ -467,10 +467,22 @@ export class WaldMeisterGame extends GameBase {
             }
         }
 
-        if (partial || emulation) return this;
+        if (partial) {
+            return this;
+        }
+        if (emulation) {
+            this.lastmove = m;
+            if (this.currplayer === 1) {
+                this.currplayer = 2;
+            } else {
+                this.currplayer = 1;
+            }
+            this.saveState();
+            return this;
+        }
 
         // check for end of year and progress if appropriate (but not when emulating)
-        if (!emulation && this.round === 1 && this.hands.flat().length === 0) {
+        if (this.round === 1 && this.hands.flat().length === 0) {
             // do normal end of round stuff
             // P2 placed the last piece, so P1 will pass, and it will become P2's turn next
             this.lastmove = m;
@@ -509,7 +521,7 @@ export class WaldMeisterGame extends GameBase {
             // let the normal loop take over
         }
         // for year 2, score, but don't pass or reset
-        else if (!emulation && this.round === 2 && this.hands.flat().length === 0) {
+        else if (this.round === 2 && this.hands.flat().length === 0) {
             // score the board
             const [score1, score2] = this.scoreBoard();
             this.scores[0] += score1;

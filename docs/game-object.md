@@ -255,7 +255,11 @@ New solo games that need deterministic puzzles use [`GameRng`](/gameslib/src/com
 | Never `shuffle()` in `load()` if draw order on stack | Deck games |
 | Consume RNG only on committed moves | Optional rolls / stymie |
 
-Canoe `syncFromStackEntry()` + emulation tests are the reference pattern for dice — inspiration only; do not retrofit shipped multiplayer titles.
+### Move-handler rules (live exploration)
+
+On `/move/`, exploration uses `emulation: true` for preview plies. Games with **`no-explore`** never hit this path — see [Exploration and emulation](/gameslib/exploration-emulation/).
+
+Explore-allowed references: **WaldMeister** and **Frogger** (persist stack on emulated complete moves without hidden scoring/refill tails). Do not use Canoe or Emu as templates (`no-explore` on live play).
 
 ### `genRecord()` solo header (additive)
 

@@ -4,7 +4,14 @@ import { APRenderRep, AreaPieces, Colourfuncs, Glyph, MarkerGlyph } from "@abstr
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { diagDirections, Direction, oppositeDirections, orthDirections, reviver, shuffle, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { Card, Deck, cardsBasic, cardsExtended, suits } from "../common/decktet/index.js";
+import {
+    Card,
+    Deck,
+    cardsBasic,
+    cardsExtended,
+    disabledDecktetCardOverlay,
+    suits,
+} from "../common/decktet/index.js";
 
 
 export type playerid = 1|2;
@@ -1235,7 +1242,9 @@ export class DeckfishGame extends GameBase {
             } else if (this.mode === "place" && card.rank.name === "Crown" && ! this.variants.includes("double")) {
                 legend["c" + cardID] = card.toGlyph({border: border});
             } else {
-                legend["c" + cardID] = card.toGlyph({border: border, fill: "#888", opacity: 0.2});
+                const glyph = card.toGlyph({ border });
+                glyph.push(disabledDecktetCardOverlay());
+                legend["c" + cardID] = glyph;
             }
         });
 

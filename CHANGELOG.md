@@ -23,6 +23,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Fixed
 
+- **Weblate branch review:** `check-weblate-branch` / `merge-weblate-branch` block truncated exports (mass key removal with no translation updates, e.g. Weblate “Remove blank strings”) instead of allowing a blind locale import.
 - **WaldMeister / Frogger:** emulated complete exploration plies call `saveState()` without end-of-year scoring (WaldMeister) or refill/croc/market tails (Frogger), so live exploration can stay `emulation: true` and reload from `cheapSerialize()`.
 
 ## [1.0.0-ci] - 2026-10-04

@@ -151,9 +151,52 @@ describe("Thricewise", () => {
         const legendKeys = new Set(Object.keys(rep.legend));
         for (const area of rep.areas ?? []) {
             for (const piece of area.pieces ?? []) {
-                expect(legendKeys.has(piece), piece).to.equal(true);
+                const key = typeof piece === "string" ? piece : piece.piece;
+                expect(legendKeys.has(key), key).to.equal(true);
             }
         }
+    });
+
+    it("labels deferred and selected trick cards in the hand area", () => {
+        const g = new ThricewiseGame(2);
+        const twos = cardsOfRank(2);
+        const threes = cardsOfRank(3);
+        g.phase = "place";
+        g.currplayer = 1;
+        g.deferred[0] = [twos[0]!];
+        g.trickCard[0] = threes[0]!;
+        g.hands[0] = [];
+        const rep = g.render({ perspective: 1 });
+        const handArea = rep.areas?.find(
+            a =>
+                typeof a.label === "object" &&
+                a.label.textKey === "apgames:validation.thricewise.LABEL_HAND" &&
+                a.label.actor?.kind === "seat" &&
+                a.label.actor.seat === 1,
+        );
+        const captions = (handArea?.pieces ?? []).map(p =>
+            typeof p === "string" ? undefined : p.text,
+        );
+        expect(captions).to.deep.equal(["Def", "Sel"]);
+    });
+
+    it("labels an uncommitted partial select as Sel", () => {
+        const g = new ThricewiseGame(2);
+        const uid = g.hands[0][0]!;
+        g.move(`${uid},`, { partial: true });
+        const rep = g.render({ perspective: 1 });
+        const handArea = rep.areas?.find(
+            a =>
+                typeof a.label === "object" &&
+                a.label.textKey === "apgames:validation.thricewise.LABEL_HAND" &&
+                a.label.actor?.kind === "seat" &&
+                a.label.actor.seat === 1,
+        );
+        const selEntry = (handArea?.pieces ?? []).find(
+            p => typeof p !== "string" && p.text === "Sel",
+        );
+        expect(selEntry).to.not.equal(undefined);
+        expect(typeof selEntry === "object" && selEntry.piece).to.equal(`c${uid}`);
     });
 
     it("render ignores invalid perspective 0 (front used me+1 when me === -1)", () => {

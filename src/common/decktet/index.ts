@@ -4,4 +4,9 @@ import { Component, ranks, suits } from "./Component.js";
 import { Multideck } from "./Multideck.js";
 import { Multicard } from "./Multicard.js";
 
+export {
+    disabledDecktetCardOverlay,
+    withDisabledDecktetOverlay,
+} from "./glyphs.js";
+
 export { Deck, Card, Multideck, Multicard, Component, cardsBasic, cardsExtended, cardSortAsc, cardSortDesc, ranks, suits }

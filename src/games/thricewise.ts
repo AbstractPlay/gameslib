@@ -17,11 +17,23 @@ import {
 } from "./_turn-simultaneous.js";
 import type { IGamePly, IGameRound } from "./_turn-model.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
-import { APRenderRep, AreaPieces, Glyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
+import {
+    APRenderRep,
+    AreaPieces,
+    Glyph,
+    RowCol,
+    type PiecesAreaLabeledPiece,
+} from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { Card, Deck, cardSortAsc, cardsBasic } from "../common/decktet/index.js";
+import {
+    Card,
+    Deck,
+    cardSortAsc,
+    cardsBasic,
+    disabledDecktetCardOverlay,
+} from "../common/decktet/index.js";
 import { QuincunxBoard } from "./quincunx/board.js";
 import { QuincunxCard } from "./quincunx/card.js";
 import { scorePlacement } from "./thricewise/scoring.js";
@@ -58,11 +70,6 @@ interface ParsedSegment {
 }
 
 const MAX_GRID = 6;
-
-/** Disabled hand card: diagonal cross over the decktet stack. */
-function disabledCardOverlay(): Glyph {
-    return { name: "cross-diag", colour: "#000000", opacity: 0.5 };
-}
 
 /** Borderless square overlay using theme fill slot paint (dims / masks card art). */
 function contextFillOverlay(opacity: number, bordered = false): Glyph {
@@ -1261,7 +1268,7 @@ export class ThricewiseGame extends GameBaseSequenced {
                     }
                 }
                 if (dim) {
-                    glyph.push(disabledCardOverlay());
+                    glyph.push(disabledDecktetCardOverlay());
                 }
             }
             const highlightUid =
@@ -1278,27 +1285,55 @@ export class ThricewiseGame extends GameBaseSequenced {
         const areas: AreaPieces[] = [];
         for (let p = 1; p <= this.numplayers; p++) {
             const obligation = new Set(this.obligationFor(p));
-            const handPieces: string[] = this.deferred[p - 1]
-                .filter(uid => uid != null && uid !== "")
-                .map(uid => "c" + uid);
+            const handPieces: (string | PiecesAreaLabeledPiece)[] = [];
+            const pushHandCard = (
+                uid: string,
+                faceUp: boolean,
+                caption?: "Sel" | "Def",
+            ): void => {
+                const piece = faceUp ? "c" + uid : "cUNKNOWN";
+                if (caption !== undefined && faceUp) {
+                    handPieces.push({
+                        piece,
+                        text: caption,
+                        textPosition: "below",
+                    });
+                } else {
+                    handPieces.push(piece);
+                }
+            };
+            for (const uid of this.deferred[p - 1]) {
+                if (uid == null || uid === "") {
+                    continue;
+                }
+                pushHandCard(uid, true, "Def");
+            }
             const trick = this.trickCard[p - 1];
             if (trick != null && obligation.has(trick) && !this.deferred[p - 1].includes(trick)) {
-                handPieces.push("c" + trick);
+                pushHandCard(
+                    trick,
+                    this.handUidVisibleToObserver(p, trick, viewSeat),
+                    "Sel",
+                );
             }
+            const pendingSelect =
+                this.phase === "select" ? this.pendingSelect[p - 1] : undefined;
             for (const uid of this.hands[p - 1]) {
                 if (uid == null || uid === "") {
                     continue;
                 }
-                if (this.handUidVisibleToObserver(p, uid, viewSeat)) {
-                    handPieces.push("c" + uid);
-                } else {
-                    handPieces.push("cUNKNOWN");
-                }
+                const faceUp = this.handUidVisibleToObserver(p, uid, viewSeat);
+                const caption =
+                    pendingSelect !== undefined &&
+                    uid.toUpperCase() === pendingSelect.toUpperCase()
+                        ? "Sel"
+                        : undefined;
+                pushHandCard(uid, faceUp, caption);
             }
             if (handPieces.length > 0) {
                 areas.push({
                     type: "pieces",
-                    pieces: handPieces as [string, ...string[]],
+                    pieces: handPieces as [string | PiecesAreaLabeledPiece, ...(string | PiecesAreaLabeledPiece)[]],
                     label: this.seatAreaLabel(p, "apgames:validation.thricewise.LABEL_HAND"),
                     spacing: 0.5,
                     width: width < 6 ? 6 : undefined,

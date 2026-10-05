@@ -17,6 +17,7 @@ Each entry in `gameinfo.variants` is a `Variant` object (see [`gameinfo.json`](/
 | `experimental` | Omitted from production `gameinfo` and `challengeVariants()` (see [Flags](/gameslib/flags/)) |
 | `unrated` | Challenge is not rated when this variant is active |
 | `fans` | Optional rules added by the Abstract Play community or implementation team, not part of the credited designer’s published rules; the front end may show a “Community” chip |
+| `people` | Optional credit for who created or contributed this variant (same `Person` shape as game-level `people` in [`gameinfo.json`](/gameslib/src/schemas/gameinfo.json): `type`, `name`, optional `urls`, optional `apid`) |
 
 **Radio vs checkbox:** a `group` field → one active uid per group (radio). No `group` → optional checkbox.
 
@@ -203,7 +204,24 @@ Exported from `@abstractplay/gameslib` (detail in [API](/gameslib/api/)):
 
 `applyVariantConstraints(incoming?, options?)` is a **protected** method on `GameBase` — not part of the package export surface.
 
-On a game instance, `allvariants()` and `challengeVariants()` pass constraint metadata (`enabledWhen`, `conflictsWith`, `requires`, `implies`, `impliesLock`, `unrated`, `fans`) to the front end.
+On a game instance, `allvariants()` and `challengeVariants()` pass constraint metadata (`enabledWhen`, `conflictsWith`, `requires`, `implies`, `impliesLock`, `unrated`, `fans`) to the front end. They do **not** include variant `people`.
+
+## Variant credit (`people`)
+
+Use `people` when someone other than (or in addition to) the game’s top-level designers should be credited for **that rule set** — for example the author of a fan-made setup or opening.
+
+```typescript
+{
+    uid: "eee",
+    group: "setup",
+    fans: true,
+    people: [
+        { type: "designer", name: "clyring" },
+    ],
+},
+```
+
+**Consumption:** variant `people` is **authoring metadata only** for now. No gameslib runtime path or site UI reads it yet — declare it on static `gameinfo.variants` so credits live in source and appear on raw entries in the exported `gameinfo` map; a future release can surface them without re-auditing game files.
 
 ## Community (`fans`) and unrated variants
 

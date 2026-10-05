@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { pruneManagedLocale, pruneToSourceShape } from "./locale-prune.mjs";
+import { writeLocaleJson } from "./locale-json-format.mjs";
 
 const ES_US_DIALECT = [
   "Use Latin American Spanish as spoken in the United States (es-US).",
@@ -252,8 +253,7 @@ function writeSrcTracking(repoRoot, langCode, fileName, srcTracking) {
   for (const key of Object.keys(srcTracking).sort()) {
     sortedSrc[key] = srcTracking[key];
   }
-  fs.mkdirSync(path.dirname(srcPath), { recursive: true });
-  fs.writeFileSync(srcPath, JSON.stringify(sortedSrc, null, 2) + "\n");
+  writeLocaleJson(srcPath, sortedSrc);
 }
 
 function normalizeTrackingEntry(entry) {
@@ -513,7 +513,7 @@ function writeDebugSuccess({ langCode, fileName, chunkIndex, rawText }) {
 
 function writeTargetFile(targetPath, repoRoot, langCode, fileName, sourceData, targetData, srcTracking) {
   const cleanTargetData = pruneToSourceShape(sourceData, targetData) ?? {};
-  fs.writeFileSync(targetPath, JSON.stringify(cleanTargetData, null, 2) + "\n");
+  writeLocaleJson(targetPath, cleanTargetData);
   writeSrcTracking(repoRoot, langCode, fileName, srcTracking);
 }
 

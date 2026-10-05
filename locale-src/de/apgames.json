@@ -191,6 +191,58 @@
     "src": "Roll two dice",
     "out": "Zwei Würfel werfen"
   },
+  "buttons.squares.advance": {
+    "src": "Advance",
+    "out": "Vorrücken"
+  },
+  "buttons.squares.loseA": {
+    "src": "Give up artillery",
+    "out": "Artillerie aufgeben"
+  },
+  "buttons.squares.loseC": {
+    "src": "Give up cavalry",
+    "out": "Kavallerie aufgeben"
+  },
+  "buttons.squares.loseI": {
+    "src": "Give up infantry",
+    "out": "Infanterie aufgeben"
+  },
+  "buttons.squares.option1": {
+    "src": "Eliminate defender, retreat both",
+    "out": "Verteidiger eliminieren, beide zurückziehen"
+  },
+  "buttons.squares.option2": {
+    "src": "Eliminate defender and support",
+    "out": "Verteidiger und Unterstützung eliminieren"
+  },
+  "buttons.squares.option3": {
+    "src": "Exchange attacker for defender",
+    "out": "Angreifer gegen Verteidiger tauschen"
+  },
+  "buttons.squares.option4": {
+    "src": "Retreat attacker",
+    "out": "Angreifer zurückziehen"
+  },
+  "buttons.squares.option5": {
+    "src": "Retreat support",
+    "out": "Unterstützung zurückziehen"
+  },
+  "buttons.squares.retreat": {
+    "src": "Retreat to…",
+    "out": "Zurückziehen nach…"
+  },
+  "buttons.squares.retreatReserve": {
+    "src": "Retreat to reserve",
+    "out": "In Reserve zurückziehen"
+  },
+  "buttons.squares.stand": {
+    "src": "Stand",
+    "out": "Standhalten"
+  },
+  "buttons.squares.stay": {
+    "src": "Stay",
+    "out": "Stehen bleiben"
+  },
   "buttons.swap": {
     "src": "Swap colours",
     "out": "Farben wechseln"
@@ -2246,6 +2298,10 @@
   "descriptions.squaredance": {
     "src": "A game where you move groups of pieces by rotation, trying to force your opponent into a position where they cannot move.",
     "out": "Ein Spiel, bei dem Sie Gruppen von Spielsteinen durch Rotation bewegen, um Ihren Gegner in eine Position zu drängen, in der er nicht mehr ziehen kann."
+  },
+  "descriptions.squares": {
+    "src": "An abstract representation of an American Civil War battle. Each side fields nine infantry, three artillery and four cavalry units. Each turn you move a unit, attack an adjacent enemy with or without support, or pass to earn a double turn. Attacked units may stand and fight or retreat, and artillery, cavalry and forests all follow their own rules. Win by marching a unit into the enemy reserve or by eliminating ten points' worth of enemy units.",
+    "out": "Eine abstrakte Darstellung einer Schlacht des Amerikanischen Bürgerkriegs. Jede Seite stellt neun Infanterie-, drei Artillerie- und vier Kavallerieeinheiten. In jedem Zug bewegst du eine Einheit, greifst einen angrenzenden Gegner mit oder ohne Unterstützung an oder passt, um einen Doppelzug zu erhalten. Angegriffene Einheiten können standhalten und kämpfen oder sich zurückziehen, und Artillerie, Kavallerie sowie Wälder folgen jeweils eigenen Regeln. Du gewinnst, indem du eine Einheit in die feindliche Reserve marschieren lässt oder feindliche Einheiten im Wert von zehn Punkten eliminierst."
   },
   "descriptions.squirm": {
     "src": "Players fight to create the longest snake-like group.",
@@ -4395,6 +4451,10 @@
     "src": "Squaredance",
     "out": "Squaredance"
   },
+  "names.squares": {
+    "src": "SQUARES - The Civil War Battle Game",
+    "out": "SQUARES - The Civil War Battle Game"
+  },
   "names.squirm": {
     "src": "Squirm",
     "out": "Squirm"
@@ -4951,6 +5011,10 @@
     "src": "We use 1, 2, 3 to denote the three colours. The neutral colour for the wild ball is colour 3. 1 and 2 are red and blue respectively by default, and 3 is green by default.",
     "out": "Wir verwenden 1, 2, 3, um die drei Farben zu bezeichnen. Die neutrale Farbe für den Wild-Ball ist Farbe 3. 1 und 2 sind standardmäßig rot bzw. blau, und 3 ist standardmäßig grün."
   },
+  "notes.squares": {
+    "src": "Gray (player 1) sits at the south and Blue (player 2) at the north, as in the rulebook's diagram, and squares carry the rulebook's identification codes. Decisions that fall to the defending player (standing or retreating, or which unit a reserve gives up) are made as moves of their own, while the attacker's decisions (the option after a defender stands, and whether to advance) are joined by slashes to the attack, or to each other, in a single move; any decision with only one legal answer is made automatically. The attacker's options are entered by clicking the units involved: the defender to eliminate it, and then the defender again to withdraw both attacking units afterwards, the support to give it up, or the attacker to exchange it; or the attacker or the support straight away to withdraw that unit. Once the target square is empty, clicking it advances; a move completed without that stays put.\n\nReadings of the rules made by this implementation: a unit may move (or attack) on at most two consecutive turns, where the two halves of a double turn are separate turns and a pass turn breaks the run; a unit that retreats may not act on its owner's next turn, or on the next half of a double turn; passing counts as a legal action, so a player loses for lack of one only when a double turn cannot be completed; closeness to a reserve is measured from the centre of each square, so the outer forests sit between the second and first lines and the two inner forests are equidistant from both reserves; cavalry may step diagonally, may pass through its own reserve, and may retreat into a forest or its reserve; a supported attack that empties the enemy reserve lets a non-artillery attacker advance into it and win; the second-chance retreat applies only to option 1; units of one type in a reserve are interchangeable, so the least-restricted one leaves and the most-restricted one is lost; and, since the published rules say nothing about repetition, chess's rule applies: the same position with the same player to act occurring three times is a draw.\n\nSQUARES - The Civil War Battle Game is copyright, 1995 G. Myers, and is published by Deer Valley Game Company, with whose permission it appears here.",
+    "out": "Grau (Spieler 1) sitzt im Süden und Blau (Spieler 2) im Norden, wie im Diagramm des Regelhefts, und die Felder tragen die Identifikationscodes des Regelhefts. Entscheidungen, die dem verteidigenden Spieler obliegen (Standhalten oder Rückzug, oder welche Einheit eine Reserve aufgibt), werden als eigene Züge ausgeführt, während die Entscheidungen des Angreifers (die Option, nachdem ein Verteidiger standhält, und ob vorgerückt wird) durch Schrägstriche mit dem Angriff oder untereinander in einem einzigen Zug verbunden werden; jede Entscheidung mit nur einer legalen Antwort wird automatisch getroffen. Die Optionen des Angreifers werden durch Anklicken der beteiligten Einheiten eingegeben: der Verteidiger, um ihn zu eliminieren, und dann erneut der Verteidiger, um danach beide angreifenden Einheiten zurückzuziehen, die Unterstützung, um diese aufzugeben, oder der Angreifer, um ihn auszutauschen; oder direkt der Angreifer oder die Unterstützung, um diese Einheit zurückzuziehen. Sobald das Zielfeld leer ist, rückt ein Klick darauf vor; ein ohne diesen Klick abgeschlossener Zug bleibt stehen.\n\nAuslegungen der Regeln durch diese Implementierung: Eine Einheit darf sich in höchstens zwei aufeinanderfolgenden Zügen bewegen (oder angreifen), wobei die beiden Hälften eines Doppelzugs separate Züge sind und ein Pass-Zug die Serie unterbricht; eine Einheit, die sich zurückzieht, darf im nächsten Zug ihres Besitzers oder in der nächsten Hälfte eines Doppelzugs nicht agieren; Passen zählt als legale Aktion, sodass ein Spieler mangels einer solchen nur verliert, wenn ein Doppelzug nicht abgeschlossen werden kann; die Nähe zu einer Reserve wird von der Mitte jedes Feldes aus gemessen, sodass die äußeren Wälder zwischen der zweiten und ersten Linie liegen und die beiden inneren Wälder von beiden Reserven gleich weit entfernt sind; Kavallerie darf sich diagonal bewegen, ihre eigene Reserve durchqueren und sich in einen Wald oder ihre Reserve zurückziehen; ein unterstützter Angriff, der die feindliche Reserve leert, ermöglicht es einem Angreifer (der keine Artillerie ist), in diese vorzurücken und zu gewinnen; der Rückzug mit zweiter Chance gilt nur für Option 1; Einheiten eines Typs in einer Reserve sind austauschbar, sodass die am wenigsten eingeschränkte die Reserve verlässt und die am stärksten eingeschränkte verloren geht; und da die veröffentlichten Regeln nichts über Wiederholung sagen, gilt die Schachregel: Tritt dieselbe Stellung mit demselben am Zug befindlichen Spieler dreimal auf, ist das Spiel unentschieden.\n\nSQUARES - The Civil War Battle Game ist urheberrechtlich geschützt, 1995 G. Myers, und wird von der Deer Valley Game Company veröffentlicht, mit deren Genehmigung es hier erscheint."
+  },
   "notes.squirm": {
     "src": "Squirm is one of the first snake/serpent/root games, where groups are defined with at most two friendly connections per stone. But instead of being a territorial or stalemate-oriented game, Squirm is a scoring game, where players need to build the longest possible snake-like group (following the original ruleset), or adding has much points as possible (following either available variant).",
     "out": "Squirm ist eines der ersten Schlangen-/Serpent-/Wurzel-Spiele, bei denen Gruppen mit höchstens zwei eigenen Verbindungen pro Stein definiert sind. Doch anstatt ein territorial orientiertes oder auf Patt ausgerichtetes Spiel zu sein, ist Squirm ein Punktespiel, bei dem die Spieler die längstmögliche schlangenartige Gruppe bauen müssen (gemäß dem ursprünglichen Regelwerk) oder so viele Punkte wie möglich erzielen müssen (gemäß einer der verfügbaren Varianten)."
@@ -5462,6 +5526,54 @@
   "status.scribe.MINI_GRIDS": {
     "src": "Mini grids won",
     "out": "Gewonnene Minigitter"
+  },
+  "status.squares.COMBAT": {
+    "src": "Combat",
+    "out": "Kampf"
+  },
+  "status.squares.DOUBLE_one": {
+    "src": "Double turn, {{count}} action left",
+    "out": "Doppelzug, {{count}} Aktion verbleibend"
+  },
+  "status.squares.DOUBLE_other": {
+    "src": "Double turn, {{count}} actions left",
+    "out": "Doppelzug, {{count}} Aktionen verbleibend"
+  },
+  "status.squares.LOSSES": {
+    "src": "{{player}}'s losses",
+    "out": "Verluste von {{player}}"
+  },
+  "status.squares.POINTS": {
+    "src": "Points to 10 (units eliminated)",
+    "out": "Punkte bis 10 (eliminierte Einheiten)"
+  },
+  "status.squares.SINGLE": {
+    "src": "Single turn",
+    "out": "Einzelzug"
+  },
+  "status.squares.STAGE_ADVANCE": {
+    "src": "The attacker may advance",
+    "out": "Der Angreifer darf vorrücken"
+  },
+  "status.squares.STAGE_DEFEND": {
+    "src": "The defender chooses to stand or retreat",
+    "out": "Der Verteidiger entscheidet sich für Standhalten oder Rückzug"
+  },
+  "status.squares.STAGE_LOSE": {
+    "src": "The reserve's owner chooses which unit is lost",
+    "out": "Der Besitzer der Reserve entscheidet, welche Einheit verloren geht"
+  },
+  "status.squares.STAGE_RESOLVE": {
+    "src": "The defender stands; the attacker chooses an option",
+    "out": "Der Verteidiger hält stand; der Angreifer wählt eine Option"
+  },
+  "status.squares.STAGE_SECOND": {
+    "src": "Second chance: the defender may still retreat",
+    "out": "Zweite Chance: Der Verteidiger kann sich noch zurückziehen"
+  },
+  "status.squares.TURN": {
+    "src": "Turn",
+    "out": "Zug"
   },
   "status.tintas.MAJORITIES": {
     "src": "Majorities won",
@@ -14179,6 +14291,314 @@
     "src": "Select the end stone. This is the stone that will move the furthest.",
     "out": "Wähle den Endstein. Dies ist der Stein, der sich am weitesten bewegen wird."
   },
+  "validation.squares.ARTILLERY_TARGET": {
+    "src": "Artillery may only attack other artillery or a reserve.",
+    "out": "Artillerie kann nur andere Artillerie oder eine Reserve angreifen."
+  },
+  "validation.squares.ATTACK_FROM_RESERVE": {
+    "src": "Units may not attack from their reserve.",
+    "out": "Einheiten dürfen nicht aus ihrer Reserve heraus angreifen."
+  },
+  "validation.squares.ATTACK_LIMIT": {
+    "src": "The unit at {{where}} has attacked on its last two turns and may not attack again this turn.",
+    "out": "Die Einheit auf {{where}} hat in ihren letzten beiden Zügen angegriffen und kann in diesem Zug nicht erneut angreifen."
+  },
+  "validation.squares.CAVALRY_NEEDS_SUPPORT": {
+    "src": "Cavalry may not attack infantry without support. Click one of your units adjacent to the target to support the attack.",
+    "out": "Kavallerie kann Infanterie nicht ohne Unterstützung angreifen. Klicke auf eine deiner Einheiten angrenzend zum Ziel, um den Angriff zu unterstützen."
+  },
+  "validation.squares.CAVALRY_NO_SUPPORT": {
+    "src": "Cavalry may not attack infantry without support, and none of your units can support this attack.",
+    "out": "Kavallerie kann Infanterie nicht ohne Unterstützung angreifen, und keine deiner Einheiten kann diesen Angriff unterstützen."
+  },
+  "validation.squares.CHAIN_CONTINUE": {
+    "src": "The displaced unit must retreat too. Click where it goes.",
+    "out": "Die verdrängte Einheit muss sich ebenfalls zurückziehen. Klicke darauf, wohin sie zieht."
+  },
+  "validation.squares.CHOOSE_LOSS": {
+    "src": "Click a unit in your reserve, or press a button, to choose the type of unit you give up.",
+    "out": "Klicke auf eine Einheit in deiner Reserve oder drücke eine Schaltfläche, um den Typ der aufzugebenden Einheit zu wählen."
+  },
+  "validation.squares.CHOOSE_RETREAT": {
+    "src": "Now click the square, or the reserve, that the retreating unit goes to.",
+    "out": "Klicke nun auf das Feld oder die Reserve, in die sich die Einheit zurückzieht."
+  },
+  "validation.squares.DECIDE_ELIMINATED": {
+    "src": "The defender will be eliminated. Now click it again to withdraw both your units afterwards (option 1), click your support to give it up instead (option 2), or click your attacker to give it up (option 3).",
+    "out": "Der Verteidiger wird eliminiert. Klicke ihn nun erneut an, um danach beide deiner Einheiten zurückzuziehen (Option 1), klicke auf deine Unterstützung, um stattdessen diese aufzugeben (Option 2), oder klicke auf deinen Angreifer, um ihn aufzugeben (Option 3)."
+  },
+  "validation.squares.DECISION_EARLY": {
+    "src": "'{{decision}}' comes too early: finish the part of the move before it first.",
+    "out": "\"{{decision}}\" kommt zu früh: Schließe zuerst den Teil des Zuges davor ab."
+  },
+  "validation.squares.DECISION_EXTRA": {
+    "src": "'{{decision}}' is not needed: nothing is left for you to decide in this move.",
+    "out": "\"{{decision}}\" ist nicht erforderlich: Es bleibt in diesem Zug nichts mehr für dich zu entscheiden."
+  },
+  "validation.squares.DIAGONAL_DOUBLE": {
+    "src": "Infantry can only move diagonally with a double move: pass, then spend the whole double turn on it.",
+    "out": "Infanterie kann sich nur mit einem Doppelzug diagonal bewegen: Passe, und verwende dann den gesamten Doppelzug dafür."
+  },
+  "validation.squares.EXHAUSTED": {
+    "src": "The unit at {{where}} has moved on its last two turns and cannot attack from where it stands.",
+    "out": "Die Einheit auf {{where}} hat sich in ihren letzten beiden Zügen bewegt und kann von ihrer Position aus nicht angreifen."
+  },
+  "validation.squares.FOREST_DOUBLE": {
+    "src": "Infantry and artillery can only enter a forest with a double move: pass, then spend the whole double turn on it.",
+    "out": "Infanterie und Artillerie können einen Wald nur mit einem Doppelzug betreten: Passe, und verwende dann den gesamten Doppelzug dafür."
+  },
+  "validation.squares.FOREST_TWO_STEPS": {
+    "src": "A two-square cavalry move may not enter or pass through a forest.",
+    "out": "Ein Bewegungsschritt der Kavallerie über zwei Felder darf keinen Wald betreten oder durchqueren."
+  },
+  "validation.squares.FROZEN": {
+    "src": "The unit at {{where}} retreated and may not move, attack or support this turn.",
+    "out": "Die Einheit auf {{where}} hat sich zurückgezogen und darf in diesem Zug nicht ziehen, angreifen oder unterstützen."
+  },
+  "validation.squares.ILLEGAL_MOVE": {
+    "src": "'{{move}}' is not a legal move.",
+    "out": "\"{{move}}\" ist kein legaler Zug."
+  },
+  "validation.squares.ILLEGAL_RESPONSE": {
+    "src": "'{{move}}' is not a legal choice here.",
+    "out": "\"{{move}}\" ist hier keine legale Wahl."
+  },
+  "validation.squares.INITIAL_ACTION_double": {
+    "src": "Double turn, {{count}} action(s) left: move or attack, but do not pass. A whole double turn lets infantry or artillery enter a forest, or infantry move diagonally.",
+    "out": "Doppelzug, {{count}} Aktion(en) verbleibend: Bewege dich oder greife an, aber passe nicht. Ein ganzer Doppelzug erlaubt es Infanterie oder Artillerie, einen Wald zu betreten, oder Infanterie, sich diagonal zu bewegen."
+  },
+  "validation.squares.INITIAL_ACTION_single": {
+    "src": "Move a unit, declare an attack, or pass. Click one of your units (in your reserve or on the board), then its destination or an adjacent enemy.",
+    "out": "Bewege eine Einheit, erkläre einen Angriff oder passe. Klicke auf eine deiner Einheiten (in deiner Reserve oder auf dem Brett) und dann auf ihr Ziel oder einen angrenzenden Gegner."
+  },
+  "validation.squares.INITIAL_ADVANCE": {
+    "src": "Click the vacated square (or press Advance) to move in, or click your attacking unit (or press Stay) to stay put.",
+    "out": "Klicke auf das geräumte Feld (oder drücke Vorrücken), um nachzurücken, oder klicke auf deine angreifende Einheit (oder drücke Stehen bleiben), um stehen zu bleiben."
+  },
+  "validation.squares.INITIAL_DEFEND": {
+    "src": "Your unit is under attack. Click it (or press Stand) to stand, or click the square or reserve it retreats to.",
+    "out": "Deine Einheit wird angegriffen. Klicke auf sie (oder drücke Standhalten), um standzuhalten, oder klicke auf das Feld bzw. die Reserve, in die sie sich zurückzieht."
+  },
+  "validation.squares.INITIAL_LOSE": {
+    "src": "Your reserve is under attack. Click a unit in your reserve, or press a button, to give up one unit of that type.",
+    "out": "Deine Reserve wird angegriffen. Klicke auf eine Einheit in deiner Reserve oder drücke eine Schaltfläche, um eine Einheit dieses Typs aufzugeben."
+  },
+  "validation.squares.INITIAL_RESOLVE": {
+    "src": "The defender stands. Click it to eliminate it (options 1 to 3), click your attacker to withdraw it (option 4), or click your support to withdraw it (option 5); the buttons choose an option directly.",
+    "out": "Der Verteidiger hält stand. Klicke auf ihn, um ihn zu eliminieren (Optionen 1 bis 3), klicke auf deinen Angreifer, um ihn zurückzuziehen (Option 4), oder klicke auf deine Unterstützung, um sie zurückzuziehen (Option 5); die Schaltflächen wählen eine Option direkt aus."
+  },
+  "validation.squares.INITIAL_SECOND": {
+    "src": "The supporting artillery has withdrawn, so your unit gets a second chance. Click it (or press Stand) to stand, or click where it retreats to.",
+    "out": "Die unterstützende Artillerie hat sich zurückgezogen, daher erhält deine Einheit eine zweite Chance. Klicke auf sie (oder drücke Standhalten), um standzuhalten, oder klicke dorthin, wohin sie sich zurückzieht."
+  },
+  "validation.squares.MOVE_LIMIT": {
+    "src": "The unit at {{where}} has moved on its last two turns and may not move again this turn.",
+    "out": "Die Einheit auf {{where}} hat sich in ihren letzten beiden Zügen bewegt und darf sich in diesem Zug nicht erneut bewegen."
+  },
+  "validation.squares.NOT_ADJACENT": {
+    "src": "{{to}} does not touch {{from}}.",
+    "out": "{{to}} berührt {{from}} nicht."
+  },
+  "validation.squares.NOT_CONNECTED": {
+    "src": "An attack must come from a square sharing an edge with its target; {{from}} does not connect to {{to}}.",
+    "out": "Ein Angriff muss von einem Feld kommen, das eine Kante mit seinem Ziel teilt; {{from}} ist nicht mit {{to}} verbunden."
+  },
+  "validation.squares.NO_PASS_DOUBLE": {
+    "src": "You may not pass during a double turn.",
+    "out": "Du darfst während eines Doppelzugs nicht passen."
+  },
+  "validation.squares.NO_SUCH_UNIT": {
+    "src": "There is no {{what}} of yours at {{where}}.",
+    "out": "Es befindet sich keine deiner Einheiten vom Typ {{what}} auf {{where}}."
+  },
+  "validation.squares.NO_TARGET": {
+    "src": "There is no enemy unit at {{where}}.",
+    "out": "Es befindet sich keine feindliche Einheit auf {{where}}."
+  },
+  "validation.squares.OPTION_1": {
+    "src": "the defender is eliminated, then the attacker and its support both withdraw",
+    "out": "Der Verteidiger wird eliminiert, dann ziehen sich sowohl der Angreifer als auch seine Unterstützung zurück"
+  },
+  "validation.squares.OPTION_2": {
+    "src": "the defender and the supporting unit are eliminated, and the attacker may advance",
+    "out": "Der Verteidiger und die unterstützende Einheit werden eliminiert, und der Angreifer darf vorrücken"
+  },
+  "validation.squares.OPTION_3": {
+    "src": "the attacker is exchanged for the defender",
+    "out": "Der Angreifer wird gegen den Verteidiger getauscht"
+  },
+  "validation.squares.OPTION_4": {
+    "src": "the attacker withdraws to its reserve",
+    "out": "Der Angreifer zieht sich in seine Reserve zurück"
+  },
+  "validation.squares.OPTION_5": {
+    "src": "the supporting unit withdraws",
+    "out": "Die unterstützende Einheit zieht sich zurück"
+  },
+  "validation.squares.OPTION_UNAVAILABLE": {
+    "src": "That option is not available here: it would need a retreat that cannot be made.",
+    "out": "Diese Option ist hier nicht verfügbar: Sie würde einen Rückzug erfordern, der nicht durchgeführt werden kann."
+  },
+  "validation.squares.OWN_RESERVE": {
+    "src": "You cannot attack your own reserve.",
+    "out": "Du kannst deine eigene Reserve nicht angreifen."
+  },
+  "validation.squares.PARTIAL_CAVALRY": {
+    "src": "The cavalry may stop here, continue one more square, or be joined by a second cavalry unit moving one square.",
+    "out": "Die Kavallerie kann hier anhalten, ein weiteres Feld weiterziehen oder mit einer zweiten Kavallerieeinheit zusammengelegt werden, die sich ein Feld bewegt."
+  },
+  "validation.squares.PARTIAL_SUPPORT": {
+    "src": "Unsupported attack. Click another of your units adjacent to the target to add support, or submit as is.",
+    "out": "Ununterstützter Angriff. Klicke auf eine weitere deiner Einheiten angrenzend zum Ziel, um Unterstützung hinzuzufügen, oder sende den Zug so ab."
+  },
+  "validation.squares.PARTIAL_UNIT": {
+    "src": "Now choose a destination, or an adjacent enemy unit to attack.",
+    "out": "Wähle nun ein Ziel oder eine angrenzende feindliche Einheit zum Angreifen aus."
+  },
+  "validation.squares.PATH_BLOCKED": {
+    "src": "The square {{where}} is occupied, so the cavalry cannot pass through it.",
+    "out": "Das Feld {{where}} ist besetzt, daher kann die Kavallerie es nicht durchqueren."
+  },
+  "validation.squares.PINNED": {
+    "src": "The unit at {{where}} is adjacent to enemy artillery and may only attack or support an attack on that artillery, or do neither if it is adjacent to more than one.",
+    "out": "Die Einheit auf {{where}} grenzt an feindliche Artillerie und darf nur diese Artillerie angreifen oder einen Angriff auf diese unterstützen, oder keines von beidem tun, wenn sie an mehr als eine grenzt."
+  },
+  "validation.squares.PLY_ADVANCED": {
+    "src": "The attacker advances; click its original square to stay put instead.",
+    "out": "Der Angreifer rückt vor; klicke auf sein ursprüngliches Feld, um stattdessen stehen zu bleiben."
+  },
+  "validation.squares.PLY_AGAIN": {
+    "src": "Clicking any other square starts the decision again.",
+    "out": "Das Klicken auf ein anderes Feld startet die Entscheidung erneut."
+  },
+  "validation.squares.PLY_CHOOSE_ADVANCE": {
+    "src": "The target square is now empty: click it to advance, or complete the move to stay put.",
+    "out": "Das Zielfeld ist nun leer: Klicke darauf, um vorzurücken, oder schließe den Zug ab, um stehen zu bleiben."
+  },
+  "validation.squares.PLY_CHOOSE_OPTION": {
+    "src": "The defender stands. Click it to eliminate it (options 1 to 3), click your attacker to withdraw it (option 4), or click your support to withdraw it (option 5); the buttons choose an option directly.",
+    "out": "Der Verteidiger hält stand. Klicke auf ihn, um ihn zu eliminieren (Optionen 1 bis 3), klicke auf deinen Angreifer, um ihn zurückzuziehen (Option 4), oder klicke auf deine Unterstützung, um sie zurückzuziehen (Option 5); die Schaltflächen wählen eine Option direkt aus."
+  },
+  "validation.squares.PLY_COMPLETE": {
+    "src": "Complete the move as it stands.",
+    "out": "Schließe den Zug im aktuellen Zustand ab."
+  },
+  "validation.squares.PLY_OPTION": {
+    "src": "Option {{n}}: {{what}}.",
+    "out": "Option {{n}}: {{what}}."
+  },
+  "validation.squares.PLY_STAYED": {
+    "src": "The attacker stays put; click the target square to advance instead.",
+    "out": "Der Angreifer bleibt stehen; klicke auf das Zielfeld, um stattdessen vorzurücken."
+  },
+  "validation.squares.RESERVE_EMPTY": {
+    "src": "The enemy reserve is empty; move into it to win instead.",
+    "out": "Die feindliche Reserve ist leer; ziehe stattdessen hinein, um zu gewinnen."
+  },
+  "validation.squares.RESERVE_OCCUPIED": {
+    "src": "You may only enter the enemy reserve once it is empty.",
+    "out": "Du darfst die feindliche Reserve erst betreten, wenn sie leer ist."
+  },
+  "validation.squares.RETREAT_ARTILLERY": {
+    "src": "Artillery cannot retreat when attacked, except from one forest into another.",
+    "out": "Artillerie kann sich bei einem Angriff nicht zurückziehen, außer von einem Wald in einen anderen."
+  },
+  "validation.squares.RETREAT_CHAIN_BLOCKED": {
+    "src": "The unit on {{to}} would have no legal retreat of its own, so the cavalry cannot displace it.",
+    "out": "Die Einheit auf {{to}} hätte keinen legalen eigenen Rückzug, daher kann die Kavallerie sie nicht verdrängen."
+  },
+  "validation.squares.RETREAT_ENEMY_OCCUPIED": {
+    "src": "{{to}} is held by an enemy unit.",
+    "out": "{{to}} ist von einer feindlichen Einheit besetzt."
+  },
+  "validation.squares.RETREAT_ENEMY_RESERVE": {
+    "src": "A unit cannot retreat into the enemy reserve.",
+    "out": "Eine Einheit kann sich nicht in die feindliche Reserve zurückziehen."
+  },
+  "validation.squares.RETREAT_FOREST_ADJACENT": {
+    "src": "A forest retreat must go into a forest adjacent to the one the unit is in; {{to}} is not.",
+    "out": "Ein Rückzug in den Wald muss in einen Wald führen, der an den angrenzt, in dem sich die Einheit befindet; {{to}} tut das nicht."
+  },
+  "validation.squares.RETREAT_FOREST_DISPLACED": {
+    "src": "Only the unit under attack may use a forest retreat; displaced and supporting units go back to the reserve.",
+    "out": "Nur die angegriffene Einheit darf einen Waldrückzug nutzen; verdrängte und unterstützende Einheiten kehren in die Reserve zurück."
+  },
+  "validation.squares.RETREAT_FOREST_FROM_CLEAR": {
+    "src": "Only a unit attacked while in a forest may retreat into a forest.",
+    "out": "Nur eine Einheit, die angegriffen wird, während sie sich in einem Wald befindet, darf sich in einen Wald zurückziehen."
+  },
+  "validation.squares.RETREAT_FOREST_GUNS": {
+    "src": "A unit may not retreat into a forest that touches enemy artillery, and {{to}} does.",
+    "out": "Eine Einheit darf sich nicht in einen Wald zurückziehen, der an feindliche Artillerie grenzt, und {{to}} tut das."
+  },
+  "validation.squares.RETREAT_NOT_ADJACENT": {
+    "src": "Cavalry retreats one square, to a square touching {{from}}; {{to}} is not touching it.",
+    "out": "Kavallerie zieht sich um ein Feld zurück, auf ein Feld, das {{from}} berührt; {{to}} berührt es nicht."
+  },
+  "validation.squares.RETREAT_NOT_CLOSER": {
+    "src": "{{to}} is not closer to your reserve than {{from}}, so the unit cannot retreat there.",
+    "out": "{{to}} liegt nicht näher an deiner Reserve als {{from}}, daher kann sich die Einheit nicht dorthin zurückziehen."
+  },
+  "validation.squares.RETREAT_NO_PATH": {
+    "src": "There is no clear path back to the reserve: every route is blocked by enemy units, so the unit must stand.",
+    "out": "Es gibt keinen freien Weg zurück zur Reserve: Jeder Weg ist durch feindliche Einheiten blockiert, daher muss die Einheit standhalten."
+  },
+  "validation.squares.RETREAT_TO_RESERVE_ONLY": {
+    "src": "Infantry and artillery retreat to their reserve, not to another square. Only a unit attacked in a forest may instead fall back into an adjacent forest.",
+    "out": "Infanterie und Artillerie ziehen sich in ihre Reserve zurück, nicht auf ein anderes Feld. Nur eine im Wald angegriffene Einheit darf stattdessen in einen angrenzenden Wald zurückweichen."
+  },
+  "validation.squares.RETREAT_VACANT_FIRST": {
+    "src": "Cavalry must retreat into a vacant square when one is available ({{vacant}}), so it cannot displace the unit on {{to}}.",
+    "out": "Kavallerie muss sich auf ein freies Feld zurückziehen, wenn eines verfügbar ist ({{vacant}}), daher kann sie die Einheit auf {{to}} nicht verdrängen."
+  },
+  "validation.squares.STAND_CAVALRY": {
+    "src": "Cavalry must retreat when it can. It may only stand against lone cavalry, in a forest, or when no retreat is possible.",
+    "out": "Kavallerie muss sich zurückziehen, wenn sie kann. Sie darf nur gegen einzelne Kavallerie, in einem Wald oder wenn kein Rückzug möglich ist, standhalten."
+  },
+  "validation.squares.STAND_FLANK": {
+    "src": "This is a flank attack, so the unit must retreat while it can.",
+    "out": "Dies ist ein Flankenangriff, daher muss sich die Einheit zurückziehen, solange sie kann."
+  },
+  "validation.squares.SUPPORT_FROM_RESERVE": {
+    "src": "Units may not support an attack from their reserve.",
+    "out": "Einheiten dürfen einen Angriff nicht aus ihrer Reserve heraus unterstützen."
+  },
+  "validation.squares.SUPPORT_NOT_ADJACENT": {
+    "src": "The supporting unit at {{where}} is not adjacent to {{target}}.",
+    "out": "Die unterstützende Einheit auf {{where}} grenzt nicht an {{target}}."
+  },
+  "validation.squares.SUPPORT_SELF": {
+    "src": "A unit cannot support its own attack.",
+    "out": "Eine Einheit kann ihren eigenen Angriff nicht unterstützen."
+  },
+  "validation.squares.THROUGH_ENEMY_RESERVE": {
+    "src": "A move may not pass through the enemy reserve.",
+    "out": "Ein Zug darf nicht durch die feindliche Reserve führen."
+  },
+  "validation.squares.TOO_FAR": {
+    "src": "No unit may move more than two squares.",
+    "out": "Keine Einheit darf sich mehr als zwei Felder bewegen."
+  },
+  "validation.squares.TWO_CAVALRY_ONE_STEP": {
+    "src": "When two cavalry units move together, each moves exactly one square and neither may enter a forest.",
+    "out": "Wenn sich zwei Kavallerieeinheiten zusammen bewegen, bewegt sich jede genau ein Feld und keine darf einen Wald betreten."
+  },
+  "validation.squares.TWO_CAVALRY_ONLY": {
+    "src": "Only two cavalry units may move in one action.",
+    "out": "Es dürfen sich nur zwei Kavallerieeinheiten in einer Aktion bewegen."
+  },
+  "validation.squares.TWO_CAVALRY_SAME": {
+    "src": "Choose two different cavalry units.",
+    "out": "Wähle zwei verschiedene Kavallerieeinheiten."
+  },
+  "validation.squares.TWO_STEPS_CAVALRY": {
+    "src": "Only cavalry may move two squares.",
+    "out": "Nur Kavallerie darf sich zwei Felder weit bewegen."
+  },
+  "validation.squares.WRONG_TYPE": {
+    "src": "The unit at {{where}} is {{what}}.",
+    "out": "Die Einheit auf {{where}} ist {{what}}."
+  },
   "validation.squirm.INITIAL_INSTRUCTIONS": {
     "src": "Drop a friendly stone on an empty cell. Only snake-like groups are valid. A snake is a group where each stone has, at most, two friendly neighbors, and there are no three friendly stones in line.",
     "out": "Setze einen eigenen Stein auf ein leeres Feld. Nur schlangenartige Gruppen sind gültig. Eine Schlange ist eine Gruppe, bei der jeder Stein höchstens zwei eigene Nachbarn hat und keine drei eigenen Steine in einer Reihe liegen."
@@ -17511,13 +17931,13 @@
     "src": "Asymmetric random clouds",
     "out": "Asymmetrische zufällige Wolken"
   },
-  "variants.crosshairs.asymmetric-spread-start.description": {
-    "src": "There is no cloud placing phase. The system places the clouds without requiring symmetry using the designer's algorithm, which blocks open lines of fire first and then fills in the gaps.",
-    "out": "Es gibt keine Wolkenplatzierungsphase. Das System platziert die Wolken ohne Symmetrie nach dem Algorithmus des Autors, der zuerst offene Schusslinien blockiert und danach die Lücken füllt."
+  "variants.crosshairs.asymmetric-split-start.description": {
+    "src": "There is no cloud placing phase. The system places clouds one at a time away from the board edge, each time choosing among the cells that split an open line of fire most evenly.",
+    "out": "Es gibt keine Wolkenplatzierungsphase. Das System platziert Wolken einzeln abseits des Spielfeldrands und wählt jedes Mal aus den Feldern aus, die eine offene Schusslinie am gleichmäßigsten teilen."
   },
-  "variants.crosshairs.asymmetric-spread-start.name": {
-    "src": "Asymmetric spread clouds",
-    "out": "Asymmetrisch verteilte Wolken"
+  "variants.crosshairs.asymmetric-split-start.name": {
+    "src": "Asymmetric random clouds (new)",
+    "out": "Asymmetrische Zufallswolken (neu)"
   },
   "variants.crosshairs.clouds-22.description": {
     "src": "Place 22 clouds instead of 16. With the default cloud bank size limit, the full count may not always be achievable.",
@@ -17535,6 +17955,14 @@
     "src": "28 clouds",
     "out": "28 Wolken"
   },
+  "variants.crosshairs.clumping-start.description": {
+    "src": "There is no cloud placing phase. The system places clouds one at a time without requiring symmetry, at random but favouring the middle of the board, so the clouds gather toward the centre while keeping a little space from one another.",
+    "out": "Es gibt keine Wolkenplatzierungsphase. Das System platziert Wolken einzeln ohne Symmetrieerfordernis zufällig, aber mit Tendenz zur Brettmitte, sodass sich die Wolken zum Zentrum hin sammeln, während sie ein wenig Abstand voneinander halten."
+  },
+  "variants.crosshairs.clumping-start.name": {
+    "src": "Clumping random clouds",
+    "out": "Klumpende Zufallswolken"
+  },
   "variants.crosshairs.concealed-fire.description": {
     "src": "Planes may shoot out of clouds, but still cannot shoot into or through them.",
     "out": "Flugzeuge dürfen aus Wolken herausschießen, aber weiterhin nicht in sie hinein oder durch sie hindurch schießen."
@@ -17551,13 +17979,13 @@
     "src": "Symmetric random clouds",
     "out": "Symmetrische zufällige Wolken"
   },
-  "variants.crosshairs.spread-start.description": {
-    "src": "There is no cloud placing phase. The system places the clouds with 180-degree rotational symmetry using the designer's algorithm, which blocks open lines of fire first and then fills in the gaps.",
-    "out": "Es gibt keine Wolkenplatzierungsphase. Das System platziert die Wolken mit 180-Grad-Rotationssymmetrie nach dem Algorithmus des Autors, der zuerst offene Schusslinien blockiert und danach die Lücken füllt."
+  "variants.crosshairs.split-start.description": {
+    "src": "There is no cloud placing phase. The system places clouds in 180-degree rotationally symmetric pairs away from the board edge, each time choosing among the cells that split an open line of fire most evenly. A cloud in the centre counts as a pair, leaving the board one cloud short.",
+    "out": "Es gibt keine Wolkenplatzierungsphase. Das System platziert Wolken in um 180 Grad rotationssymmetrischen Paaren abseits des Spielfeldrands und wählt jedes Mal aus den Feldern aus, die eine offene Schusslinie am gleichmäßigsten teilen. Eine Wolke in der Mitte zählt als Paar, sodass auf dem Spielbrett eine Wolke fehlt."
   },
-  "variants.crosshairs.spread-start.name": {
-    "src": "Symmetric spread clouds",
-    "out": "Symmetrisch verteilte Wolken"
+  "variants.crosshairs.split-start.name": {
+    "src": "Symmetric random clouds (new)",
+    "out": "Symmetrische Zufallswolken (neu)"
   },
   "variants.crosshairs.turbulence.description": {
     "src": "Each time a plane enters a cloud, it loses 1 height.",

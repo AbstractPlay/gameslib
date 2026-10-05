@@ -282,6 +282,13 @@ async function main() {
         case "review": {
           const doFetch = args.fetchOnReview && !fetched;
           const lastReview = stepReview(doFetch);
+          if (lastReview.destructiveLocaleExport) {
+            line("");
+            line(
+              "Aborted: truncated Weblate export detected. A blind import would wipe locale keys.",
+            );
+            process.exit(1);
+          }
           if (lastReview.ok === false && lastReview.blocked) {
             const force = await confirm(
               rl,

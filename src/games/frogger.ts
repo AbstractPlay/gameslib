@@ -1807,7 +1807,21 @@ export class FroggerGame extends GameBase {
             }
         }
 
-        if (partial || emulation) { return this; }
+        if (partial) {
+            return this;
+        }
+        if (emulation) {
+            this.lastmove = m;
+            if (!refill) {
+                let newplayer = (this.currplayer as number) + 1;
+                if (newplayer > this.numplayers) {
+                    newplayer = 1;
+                }
+                this.currplayer = newplayer as playerid;
+            }
+            this.saveState();
+            return this;
+        }
 
         // Only a fresh sequenced-model announce skips the currplayer
         // advance below (it stays on this seat for the supplemental

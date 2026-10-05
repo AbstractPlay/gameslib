@@ -643,3 +643,25 @@ describe("Frogger refills use sequenced mechanism correctly", () => {
         expect(message).to.include("Bob"); // player 2, who announced - not "Alice"
     });
 });
+
+describe("Frogger exploration emulation", () => {
+    it("emulated complete move pushes stack for reload", () => {
+        const g = new FroggerGame(2);
+        const stackBefore = g.stack.length;
+        const moves = g.moves();
+        expect(moves.length).to.be.greaterThan(0);
+        const m = moves[0];
+        g.move(m, { emulation: true, trusted: true });
+        expect(g.stack.length).to.equal(stackBefore + 1);
+        const reloaded = new FroggerGame(g.cheapSerialize());
+        expect(reloaded.stack.length).to.equal(g.stack.length);
+        expect(reloaded.lastmove).to.equal(m);
+    });
+
+    it("partial move does not push stack", () => {
+        const g = new FroggerGame(2);
+        const stackBefore = g.stack.length;
+        g.move("c2", { partial: true, trusted: true });
+        expect(g.stack.length).to.equal(stackBefore);
+    });
+});

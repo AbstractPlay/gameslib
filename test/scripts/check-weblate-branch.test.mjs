@@ -3,6 +3,7 @@ import { describe, it } from "node:test";
 import {
   WEBLATE_BRANCH_CONFIG,
   analyzeLocaleDiff,
+  isLikelyTruncatedWeblateExport,
   isLocalePath,
   parseMergeTreeConflicts,
 } from "../../scripts/check-weblate-branch.mjs";
@@ -67,6 +68,32 @@ describe("check-weblate-branch", () => {
     assert.deepEqual(result.keysRemoved, ["drop"]);
     assert.deepEqual(result.keysAdded, ["add"]);
     assert.equal(result.formattingOnly, false);
+  });
+
+  it("flags truncated Weblate export (mass key drop, no value changes)", () => {
+    const baseObj = { section: {} };
+    for (let i = 0; i < 100; i += 1) {
+      baseObj.section[`k${i}`] = i === 0 ? "traducido" : "";
+    }
+    const headObj = { section: { k0: "traducido" } };
+    const parsed = analyzeLocaleDiff(
+      JSON.stringify(baseObj),
+      JSON.stringify(headObj),
+    );
+    assert.equal(
+      isLikelyTruncatedWeblateExport(parsed, parsed.baseKeyCount),
+      true,
+    );
+  });
+
+  it("does not flag normal translation updates", () => {
+    const base = JSON.stringify({ greet: "Hello", farewell: "Bye" });
+    const head = JSON.stringify({ greet: "Hola", farewell: "Adiós" });
+    const parsed = analyzeLocaleDiff(base, head);
+    assert.equal(
+      isLikelyTruncatedWeblateExport(parsed, parsed.baseKeyCount),
+      false,
+    );
   });
 
   it("matches locale paths for gameslib", () => {

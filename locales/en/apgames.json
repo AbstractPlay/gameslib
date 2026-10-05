@@ -1788,13 +1788,17 @@
         "name": "Asymmetric random clouds",
         "description": "There is no cloud placing phase. The system places the clouds randomly without requiring symmetry."
       },
-      "spread-start": {
-        "name": "Symmetric spread clouds",
-        "description": "There is no cloud placing phase. The system places the clouds with 180-degree rotational symmetry using the designer's algorithm, which blocks open lines of fire first and then fills in the gaps."
+      "split-start": {
+        "name": "Symmetric random clouds (new)",
+        "description": "There is no cloud placing phase. The system places clouds in 180-degree rotationally symmetric pairs away from the board edge, each time choosing among the cells that split an open line of fire most evenly. A cloud in the centre counts as a pair, leaving the board one cloud short."
       },
-      "asymmetric-spread-start": {
-        "name": "Asymmetric spread clouds",
-        "description": "There is no cloud placing phase. The system places the clouds without requiring symmetry using the designer's algorithm, which blocks open lines of fire first and then fills in the gaps."
+      "asymmetric-split-start": {
+        "name": "Asymmetric random clouds (new)",
+        "description": "There is no cloud placing phase. The system places clouds one at a time away from the board edge, each time choosing among the cells that split an open line of fire most evenly."
+      },
+      "clumping-start": {
+        "name": "Clumping random clouds",
+        "description": "There is no cloud placing phase. The system places clouds one at a time without requiring symmetry, at random but favouring the middle of the board, so the clouds gather toward the centre while keeping a little space from one another."
       },
       "unbounded-cloud-banks": {
         "name": "Unbounded cloud banks",

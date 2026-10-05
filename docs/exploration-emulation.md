@@ -8,8 +8,8 @@ Games with the **`no-explore`** flag in `gameinfo.flags` do not allow live move-
 
 Only a handful of games both implement `emulation` in `move()` and allow exploration. Primary references:
 
-- **[WaldMeister](/gameslib/games/waldmeister/)** — suppress end-of-year scoring under emulation, but **push stack** on emulated complete plies (`waldmeister.ts`; tests in `test/games/waldmeister.test.ts`).
-- **[Frogger](/gameslib/games/frogger/)** — suppress refill/croc/market/turn tail under emulation, but **push stack** on emulated complete plies (`frogger.ts`; tests in `test/games/frogger.test.ts`).
+- **[WaldMeister](https://play.abstractplay.com/games/waldmeister)** — suppress end-of-year scoring under emulation, but **push stack** on emulated complete plies (`waldmeister.ts`; tests in `test/games/waldmeister.test.ts`).
+- **[Frogger](https://play.abstractplay.com/games/frogger)** — suppress refill/croc/market/turn tail under emulation, but **push stack** on emulated complete plies (`frogger.ts`; tests in `test/games/frogger.test.ts`).
 
 Do **not** use **Canoe** or **Emu** as exploration-emulation templates: both are **`no-explore`** on live play (Canoe’s dice/`syncFromStackEntry` pattern is a different problem).
 

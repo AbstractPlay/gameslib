@@ -37,6 +37,12 @@ export const WEBLATE_BRANCH_CONFIG = {
   localeImportPath: "locales",
 };
 
+/** Minimum removed keys before a file can be flagged (avoids noise on tiny namespaces). */
+export const TRUNCATED_EXPORT_MIN_REMOVED_KEYS = 50;
+
+/** Share of base keys lost that signals truncation vs normal key churn on develop. */
+export const TRUNCATED_EXPORT_MIN_REMOVAL_FRACTION = 0.15;
+
 /**
  * @param {Record<string, unknown>} obj
  * @param {string} [prefix]
@@ -99,7 +105,61 @@ export function analyzeLocaleDiff(baseText, headText) {
     keysRemoved.length === 0 &&
     valueChanges.length === 0;
 
-  return { keysAdded, keysRemoved, valueChanges, formattingOnly };
+  return {
+    keysAdded,
+    keysRemoved,
+    valueChanges,
+    formattingOnly,
+    baseKeyCount: baseFlat.size,
+    headKeyCount: headFlat.size,
+  };
+}
+
+/**
+ * Weblate "Remove blank strings" and similar exports drop empty-valued keys and
+ * shrink JSON below the develop shape. Normal imports change values and/or add
+ * a modest number of keys; they do not lose a large share of the tree with zero
+ * translation updates.
+ *
+ * @param {{ keysRemoved: string[]; keysAdded: string[]; valueChanges: unknown[] }} parsed
+ * @param {number} baseKeyCount
+ */
+export function isLikelyTruncatedWeblateExport(parsed, baseKeyCount) {
+  const removed = parsed.keysRemoved.length;
+  if (removed === 0 || baseKeyCount === 0) {
+    return false;
+  }
+  if (parsed.valueChanges.length > 0) {
+    return false;
+  }
+  if (parsed.keysAdded.length > removed) {
+    return false;
+  }
+  const fraction = removed / baseKeyCount;
+  if (
+    removed >= TRUNCATED_EXPORT_MIN_REMOVED_KEYS &&
+    fraction >= TRUNCATED_EXPORT_MIN_REMOVAL_FRACTION
+  ) {
+    return true;
+  }
+  if (removed >= 200 && fraction >= 0.05) {
+    return true;
+  }
+  return false;
+}
+
+/** @param {string} repoLabel */
+export function truncatedWeblateExportRemediation(repoLabel) {
+  const reset = "npm run reset-weblate-export";
+  if (repoLabel === "gameslib") {
+    return (
+      `Do not run a blind locale import. Disable Weblate's "Remove blank strings" add-on, ` +
+      `run ${reset}, or salvage human edits with npm run overlay-weblate-locales.`
+    );
+  }
+  return (
+    `Do not run a blind locale import. Disable Weblate's "Remove blank strings" add-on and run ${reset}.`
+  );
 }
 
 /**
@@ -254,7 +314,8 @@ export function reviewWeblateBranch(config, opts = {}) {
       localeConflicts: [],
       nonLocaleConflicts: [],
       fileReports: [],
-      summary: { valueChanges: 0, keysAdded: 0, keysRemoved: 0, formattingOnlyFiles: 0, changedLocaleFiles: 0 },
+      summary: { valueChanges: 0, keysAdded: 0, keysRemoved: 0, formattingOnlyFiles: 0, changedLocaleFiles: 0, truncatedExportFiles: 0 },
+      destructiveLocaleExport: false,
       verdict: "blocked",
     };
   }
@@ -303,6 +364,7 @@ export function reviewWeblateBranch(config, opts = {}) {
    *   keysRemoved: string[];
    *   valueChanges: { key: string; from: string; to: string }[];
    *   formattingOnly: boolean;
+   *   truncatedExport: boolean;
    * }>} */
   const fileReports = [];
 
@@ -310,6 +372,7 @@ export function reviewWeblateBranch(config, opts = {}) {
   let keysAdded = 0;
   let keysRemoved = 0;
   let formattingOnlyFiles = 0;
+  let truncatedExportFiles = 0;
 
   for (const file of changedFiles.filter((f) => isLocalePath(f, config.localePathRe))) {
     const baseText = readFileAtRef(ROOT, baseRef, file);
@@ -353,6 +416,7 @@ export function reviewWeblateBranch(config, opts = {}) {
       continue;
     }
 
+    const truncatedExport = isLikelyTruncatedWeblateExport(parsed, parsed.baseKeyCount);
     fileReports.push({
       file,
       status: "modified",
@@ -360,6 +424,7 @@ export function reviewWeblateBranch(config, opts = {}) {
       keysRemoved: parsed.keysRemoved,
       valueChanges: parsed.valueChanges,
       formattingOnly: parsed.formattingOnly,
+      truncatedExport,
     });
 
     keysAdded += parsed.keysAdded.length;
@@ -368,6 +433,21 @@ export function reviewWeblateBranch(config, opts = {}) {
     if (parsed.formattingOnly) {
       formattingOnlyFiles += 1;
     }
+    if (truncatedExport) {
+      truncatedExportFiles += 1;
+    }
+  }
+
+  const truncatedReports = fileReports.filter((report) => report.truncatedExport);
+  const destructiveLocaleExport = truncatedReports.length > 0;
+  if (destructiveLocaleExport) {
+    const sample = truncatedReports.map((report) => report.file);
+    const listed = sample.slice(0, 5).join(", ");
+    const more =
+      sample.length > 5 ? `, +${sample.length - 5} more` : "";
+    errors.push(
+      `Likely truncated Weblate export (${sample.length} file(s)): large key removal with no translation value changes (${listed}${more}). ${truncatedWeblateExportRemediation(config.repoLabel)}`,
+    );
   }
 
   const substantive =
@@ -392,12 +472,14 @@ export function reviewWeblateBranch(config, opts = {}) {
     fileReports,
     baseRef,
     weblateRef,
+    destructiveLocaleExport,
     summary: {
       valueChanges,
       keysAdded,
       keysRemoved,
       formattingOnlyFiles,
       changedLocaleFiles: fileReports.length,
+      truncatedExportFiles,
     },
     verdict: !ok
       ? "blocked"
@@ -469,8 +551,9 @@ export function printReport(result, config) {
       line(`${report.file}: formatting only (same translation values)`);
       continue;
     }
+    const truncatedTag = report.truncatedExport ? " [TRUNCATED EXPORT]" : "";
     line(
-      `${report.file}: +${report.keysAdded.length} keys, -${report.keysRemoved.length} keys, ${report.valueChanges.length} value changes`,
+      `${report.file}: +${report.keysAdded.length} keys, -${report.keysRemoved.length} keys, ${report.valueChanges.length} value changes${truncatedTag}`,
     );
     if (report.valueChanges.length > 0 && report.valueChanges.length <= 5) {
       for (const change of report.valueChanges) {
@@ -496,7 +579,13 @@ export function printReport(result, config) {
   }
 
   line("");
-  line(`Summary: ${result.summary.valueChanges} value changes, ${result.summary.keysAdded} keys added, ${result.summary.keysRemoved} keys removed, ${result.summary.formattingOnlyFiles} formatting-only file(s)`);
+  line(
+    `Summary: ${result.summary.valueChanges} value changes, ${result.summary.keysAdded} keys added, ${result.summary.keysRemoved} keys removed, ${result.summary.formattingOnlyFiles} formatting-only file(s), ${result.summary.truncatedExportFiles ?? 0} truncated-export file(s)`,
+  );
+  if (result.destructiveLocaleExport) {
+    line("");
+    line(truncatedWeblateExportRemediation(config.repoLabel));
+  }
   line(`VERDICT: ${result.verdict}`);
 }
 
@@ -520,7 +609,7 @@ To import and push interactively, run: npm run merge-weblate-branch
 
 Exit codes:
   0  checks passed (substantive or formatting-only changes; no blockers)
-  1  blocked (missing branch, non-locale files, English edits, conflicts, invalid JSON)
+  1  blocked (missing branch, non-locale files, English edits, conflicts, truncated export, invalid JSON)
 `);
     process.exit(0);
   }

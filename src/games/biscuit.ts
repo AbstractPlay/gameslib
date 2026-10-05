@@ -4,7 +4,14 @@ import { APRenderRep, AreaPieces, Glyph, RowCol } from "@abstractplay/renderer/b
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { Card, Deck, cardSortAsc, cardsBasic, cardsExtended } from "../common/decktet/index.js";
+import {
+    Card,
+    Deck,
+    cardSortAsc,
+    cardsBasic,
+    cardsExtended,
+    disabledDecktetCardOverlay,
+} from "../common/decktet/index.js";
 import { BiscuitBoard } from "./biscuit/board.js";
 import { BiscuitCard } from "./biscuit/card.js";
 
@@ -980,11 +987,11 @@ export class BiscuitGame extends GameBase {
             movable.add(c);
         }
         for (const card of allcards) {
-            let glyph = card.toGlyph();
+            const glyph = card.toGlyph();
             if (!this.gameover && perspective !== undefined && perspective === this.currplayer) {
                 if (this.hands[this.currplayer - 1].includes(card.uid)) {
                     if (!movable.has(card.uid)) {
-                        glyph = glyph.map(g => { return {...g, opacity: g.opacity === undefined ? 0.25 : g.opacity * 0.25}; }) as [Glyph, ...Glyph[]];
+                        glyph.push(disabledDecktetCardOverlay());
                     }
                 }
             }

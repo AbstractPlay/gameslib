@@ -15,6 +15,16 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Clearpath, Croda, Dama, Ice Palace, Kill-All Go, Neutron, Thricewise, Yodd.
 
+## [1.0.0-ci] - 2026-10-05
+
+### Added
+
+- **Docs:** [Exploration and emulation](/gameslib/exploration-emulation/) for explore-allowed games (`no-explore` moot on live play); WaldMeister and Frogger as primary references.
+
+### Fixed
+
+- **WaldMeister / Frogger:** emulated complete exploration plies call `saveState()` without end-of-year scoring (WaldMeister) or refill/croc/market tails (Frogger), so live exploration can stay `emulation: true` and reload from `cheapSerialize()`.
+
 ## [1.0.0-ci] - 2026-10-04
 
 ### Added

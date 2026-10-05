@@ -269,11 +269,13 @@ describe("Thricewise", () => {
         const twos = cardsOfRank(2);
         const threes = cardsOfRank(3);
         const fours = cardsOfRank(4);
+        const fives = cardsOfRank(5);
         g.phase = "place";
         g.currplayer = 1;
-        g.deferred[0] = [twos[0]!];
-        g.trickCard[0] = threes[0]!;
-        g.hands[0] = [fours[0]!];
+        g.deferred = [[twos[0]!], []];
+        g.trickCard = [threes[0]!, undefined];
+        // Full hands fixture: legend dimming is per uid across all seats in place phase.
+        g.hands = [[fours[0]!], [fives[0]!]];
         const rep = g.render({ perspective: 1, omniscient: true });
         const dimmed = (uid: string) => {
             const entry = rep.legend?.[`c${uid}`];

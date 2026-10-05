@@ -157,14 +157,20 @@ export class CrosshairsGame extends GameBase {
                 group: "setup",
             },
             {
-                uid: "spread-start",
+                uid: "split-start",
                 group: "setup",
                 experimental: true,
             },
             {
-                uid: "asymmetric-spread-start",
+                uid: "asymmetric-split-start",
                 group: "setup",
                 experimental: true,
+            },
+            {
+                uid: "clumping-start",
+                group: "setup",
+                experimental: true,
+                fans: true,
             },
             {
                 uid: "unbounded-cloud-banks",
@@ -224,10 +230,12 @@ export class CrosshairsGame extends GameBase {
                 placedClouds = this.placeRandomAsymmetricClouds();
             } else if (this.variants.includes("random-start")) {
                 placedClouds = this.placeRandomSymmetricClouds();
-            } else if (this.variants.includes("asymmetric-spread-start")) {
-                placedClouds = this.placeSpreadRandomClouds(false);
-            } else if (this.variants.includes("spread-start")) {
-                placedClouds = this.placeSpreadRandomClouds(true);
+            } else if (this.variants.includes("asymmetric-split-start")) {
+                placedClouds = this.placeSplitClouds(false);
+            } else if (this.variants.includes("split-start")) {
+                placedClouds = this.placeSplitClouds(true);
+            } else if (this.variants.includes("clumping-start")) {
+                placedClouds = this.placeClumpingClouds();
             }
             if (placedClouds !== undefined) {
                 for (const cell of placedClouds) {
@@ -334,57 +342,186 @@ export class CrosshairsGame extends GameBase {
         return this.placeRandomCloudGroups(singles);
     }
 
-    // Place clouds with the designer's coverage-first algorithm. Cells are
-    // visited in one random order over several passes, and a cell qualifies in
-    // pass N only if at most N of its six rays already contain a cloud, so the
-    // earliest clouds block completely open lines and later passes fill the
-    // gaps. The final pass accepts anything the bank-size rule allows. Symmetric
-    // mode places rotational pairs; the centre is its own mirror and places a
-    // single cloud, after which no pair fits the even target, so a board with
-    // a centre cloud ends one short (15, 21, or 27), as the designer intends.
-    private placeSpreadRandomClouds(symmetric: boolean): string[] {
-        const target = this.getTargetCloudCount();
-        const cells = this.graph.listCells() as string[];
-        for (let i = cells.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [cells[i], cells[j]] = [cells[j], cells[i]];
-        }
-
-        const clouds = new Set<string>();
-        const raysBlocked = (cell: string): number => {
+    // The six rays from each cell, indexed like allDirections, so ray d and
+    // ray d + 3 lie on the same axis in opposite directions.
+    private getAllCellRays(): Map<string, string[][]> {
+        const rays = new Map<string, string[][]>();
+        for (const cell of this.graph.listCells() as string[]) {
             const [x, y] = this.graph.algebraic2coords(cell);
-            let blocked = 0;
-            for (const dir of allDirections) {
-                if (this.getRay(x, y, dir).some(c => clouds.has(c))) blocked++;
+            rays.set(cell, allDirections.map(dir => this.getRay(x, y, dir)));
+        }
+        return rays;
+    }
+
+    // Number of cells along a ray before the first cloud or the board edge.
+    private openLength(ray: string[], clouds: Set<string>): number {
+        let count = 0;
+        for (const cell of ray) {
+            if (clouds.has(cell)) break;
+            count++;
+        }
+        return count;
+    }
+
+    // The designer's random cloud placement, intended to replace the current
+    // random setups ("split" is its working title). Each round, every
+    // interior cell touching at most one cloud is scored by how evenly it
+    // splits its best axis, halved with integer division so that many cells
+    // tie, and a random tied cell is chosen. Mirrored mode also places the
+    // 180-degree rotation and counts two clouds even when the centre is its
+    // own mirror, so such boards end one short. Cells that would break the
+    // bank-size rule are skipped, as is, in mirrored mode, a cell whose mirror
+    // would then break it; under Unbounded Cloud Banks that skips nothing. If
+    // no cell qualifies, the board is returned as it stands.
+    private placeSplitClouds(mirrored: boolean): string[] {
+        const rays = this.getAllCellRays();
+        const cells = this.graph.listCells() as string[];
+        const clouds = new Set<string>();
+        let remaining = this.getTargetCloudCount();
+
+        const score = (cell: string): number => {
+            if (clouds.has(cell)) return -1;
+            const cellRays = rays.get(cell)!;
+            if (cellRays.some(ray => ray.length === 0)) return -1;
+            const adjacent = cellRays.filter(ray => clouds.has(ray[0])).length;
+            if (adjacent > 1) return -1;
+            if (this.wouldCreateIllegallyLargeCloudBank(cell, clouds)) return -1;
+            if (mirrored) {
+                const mirror = this.getSymmetricCell(cell);
+                if (mirror !== cell) {
+                    clouds.add(cell);
+                    const illegal = this.wouldCreateIllegallyLargeCloudBank(mirror, clouds);
+                    clouds.delete(cell);
+                    if (illegal) return -1;
+                }
             }
-            return blocked;
+            let bestSplit = 0;
+            for (let axis = 0; axis < 3; axis++) {
+                bestSplit = Math.max(bestSplit, Math.min(
+                    this.openLength(cellRays[axis], clouds),
+                    this.openLength(cellRays[axis + 3], clouds),
+                ));
+            }
+            return Math.trunc((bestSplit - adjacent + Math.floor(Math.random() * 2)) / 2);
         };
 
-        for (let pass = 0; pass <= allDirections.length && clouds.size < target; pass++) {
+        while (remaining > 0) {
+            let topCells: string[] = [];
+            let topScore = 0;
             for (const cell of cells) {
-                if (clouds.size >= target) break;
-                if (clouds.has(cell)) continue;
-                const mirror = this.getSymmetricCell(cell);
-                const group = symmetric && mirror !== cell ? [cell, mirror] : [cell];
-                if (clouds.size + group.length > target) continue;
-                if (group.some(c => raysBlocked(c) > pass)) continue;
-
-                // Check each cell of a pair against the growing set so a pair
-                // straddling an existing cloud cannot form a three-bank.
-                const placed: string[] = [];
-                let legal = true;
-                for (const c of group) {
-                    if (this.wouldCreateIllegallyLargeCloudBank(c, clouds)) {
-                        legal = false;
-                        break;
-                    }
-                    clouds.add(c);
-                    placed.push(c);
+                const s = score(cell);
+                if (s > topScore) {
+                    topCells = [];
+                    topScore = s;
                 }
-                if (!legal) {
-                    for (const c of placed) clouds.delete(c);
+                if (s === topScore) topCells.push(cell);
+            }
+            if (topCells.length === 0) break;
+
+            const cell = topCells[Math.floor(Math.random() * topCells.length)];
+            clouds.add(cell);
+            remaining--;
+            if (mirrored) {
+                clouds.add(this.getSymmetricCell(cell));
+                remaining--;
+            }
+        }
+        return Array.from(clouds);
+    }
+
+    // Cube coordinates (q, r, s), summing to 0, of every cell, with the centre
+    // at the origin. Consecutive visual directions map to cube unit vectors a
+    // sixth of a turn apart, so a cell's largest coordinate is its distance
+    // from the centre and, between two cells, the largest coordinate
+    // difference is their hex distance.
+    private getCubeCoords(): Map<string, [number, number, number]> {
+        const units: [number, number, number][] = [[1, -1, 0], [1, 0, -1], [0, 1, -1], [-1, 1, 0], [-1, 0, 1], [0, -1, 1]];
+        const cells = this.graph.listCells() as string[];
+        const centre = cells.find(cell => this.getSymmetricCell(cell) === cell)!;
+        const cube = new Map<string, [number, number, number]>([[centre, [0, 0, 0]]]);
+        const queue = [centre];
+        while (queue.length > 0) {
+            const cell = queue.shift()!;
+            const [q, r, s] = cube.get(cell)!;
+            const [x, y] = this.graph.algebraic2coords(cell);
+            allDirections.forEach((dir, i) => {
+                const next = this.getRay(x, y, dir)[0];
+                if (next !== undefined && !cube.has(next)) {
+                    cube.set(next, [q + units[i][0], r + units[i][1], s + units[i][2]]);
+                    queue.push(next);
+                }
+            });
+        }
+        return cube;
+    }
+
+    // The "Triple Beta" algorithm from the obstacle-gen-playground repository
+    // (commit 56530ec), with the parameters chosen for Clumping random clouds. A
+    // cell's weight is its position weight times its distance weight, and each
+    // cloud goes on a cell that respects the bank-size rule, drawn in
+    // proportion to its weight.
+    //
+    // Position weight: the product over q, r and s of the Beta(2.5, 2.5)
+    // density at the coordinate scaled to the middle of its band,
+    // (x + R + 1/2) / (2R + 1) on a board of radius R, which favours the centre.
+    //
+    // Distance weight: against the nearest existing cloud by hex distance, the
+    // product over q, r and s of the Beta(3, 2) density at |dx| scaled to
+    // (|dx| + 1/2) / (2R + 1), averaged over clouds tied for nearest. Before
+    // the first cloud it is 1 for every cell.
+    //
+    // Beta normalising constants are left out: within a round they scale
+    // every cell's weight by the same factor, so the draw is unchanged. If no
+    // cell qualifies, the board is returned as it stands.
+    private placeClumpingClouds(): string[] {
+        const POSITION_ALPHA = 2.5;
+        const POSITION_BETA = 2.5;
+        const DISTANCE_ALPHA = 3;
+        const DISTANCE_BETA = 2;
+        const betaKernel = (x: number, a: number, b: number): number => x ** (a - 1) * (1 - x) ** (b - 1);
+
+        const cube = this.getCubeCoords();
+        const cells = this.graph.listCells() as string[];
+        const radius = Math.max(...[...cube.values()].map(c => Math.max(...c.map(Math.abs))));
+        const bands = 2 * radius + 1;
+        const position = new Map(cells.map(cell => [
+            cell,
+            cube.get(cell)!.reduce((w, x) => w * betaKernel((x + radius + 0.5) / bands, POSITION_ALPHA, POSITION_BETA), 1),
+        ]));
+        const axisWeight = Array.from({ length: bands }, (_, d) =>
+            betaKernel((d + 0.5) / bands, DISTANCE_ALPHA, DISTANCE_BETA));
+
+        const clouds = new Set<string>();
+        const target = this.getTargetCloudCount();
+        while (clouds.size < target) {
+            const obstacles = [...clouds].map(cell => cube.get(cell)!);
+            const candidates: string[] = [];
+            const weights: number[] = [];
+            for (const cell of cells) {
+                if (clouds.has(cell) || this.wouldCreateIllegallyLargeCloudBank(cell, clouds)) continue;
+                const c = cube.get(cell)!;
+                let distanceWeight = 1;
+                if (obstacles.length > 0) {
+                    const deltas = obstacles.map(o => [Math.abs(c[0] - o[0]), Math.abs(c[1] - o[1]), Math.abs(c[2] - o[2])]);
+                    const nearest = Math.min(...deltas.map(d => Math.max(...d)));
+                    const tied = deltas.filter(d => Math.max(...d) === nearest);
+                    distanceWeight = tied.reduce((sum, d) => sum + d.reduce((w, x) => w * axisWeight[x], 1), 0) / tied.length;
+                }
+                const w = position.get(cell)! * distanceWeight;
+                if (w > 0) {
+                    candidates.push(cell);
+                    weights.push(w);
                 }
             }
+            if (candidates.length === 0) break;
+
+            let pick = Math.random() * weights.reduce((a, b) => a + b, 0);
+            let idx = 0;
+            while (idx < weights.length - 1 && pick >= weights[idx]) {
+                pick -= weights[idx];
+                idx++;
+            }
+            clouds.add(candidates[idx]);
         }
         return Array.from(clouds);
     }
@@ -3292,12 +3429,12 @@ export class CrosshairsGame extends GameBase {
         const cloudGlyph: Glyph = abstractMode
             ? {
                 name: "piece",
-                colour: cloudColour,
+                paint: { fill: cloudColour },
                 opacity: 0.5,
             }
             : {
                 name: "cloud",
-                colour: cloudColour,
+                paint: { fill: cloudColour },
                 opacity: 0.7,
                 scale: 1.5,
                 orientation: "vertical",
@@ -3324,12 +3461,12 @@ export class CrosshairsGame extends GameBase {
                 const planeGlyph: Glyph = abstractMode
                     ? {
                         name: "arrowhead",
-                        colour: player,
+                        paint: { fill: player },
                         rotate: planeRotation,
                     }
                     : {
                         name: "plane",
-                        colour: player,
+                        paint: { fill: player },
                         rotate: planeRotation,
                     };
 
@@ -3388,7 +3525,7 @@ export class CrosshairsGame extends GameBase {
                                 name: spec.type,
                                 rotate: spec.rotation,
                                 scale: wedgeScale,
-                                colour: altitudeColor,
+                                paint: { fill: altitudeColor },
                             });
                         }
                     }

@@ -4,6 +4,7 @@
  */
 import fs from "fs";
 import path from "path";
+import { writeLocaleJson } from "./locale-json-format.mjs";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -96,7 +97,7 @@ export function filterLocalesForProd(
             const srcPath = path.join(srcLangDir, file);
             const data = JSON.parse(fs.readFileSync(srcPath, "utf8"));
             const filtered = filterLocaleFile(data, file, experimentalUids, experimentalVariantsByUid);
-            fs.writeFileSync(path.join(destLangDir, file), `${JSON.stringify(filtered, null, 2)}\n`);
+            writeLocaleJson(path.join(destLangDir, file), filtered);
         }
     }
 }

@@ -1,137 +1,137 @@
 {
-    "categories": {
-        "board>connect>hex": {
-            "description": "以六边形连接的棋盘",
-            "full": "棋盘> 类型 > 六边形",
-            "tag": "Connect: /六角棋"
-        },
-        "components>simple": {
-            "tag": "组件：简单",
-            "full": "组件 > 简单",
-            "description": "使用统一大小的简单棋子进行游戏，这些棋子可以堆叠，有多种颜色"
-        },
-        "board>shape>tri": {
-            "tag": "形状：其他",
-            "full": "棋盘>形状>三角形",
-            "description": "这个棋盘的形状是三角形"
-        },
-        "components>dice": {
-            "description": "玩骰子",
-            "full": "组件>骰子"
-        },
-        "components>poly": {
-            "full": "构成部分1:多米诺",
-            "description": "用多米诺骨牌进行游戏",
-            "tag": "C类：多米诺骨牌"
-        },
-        "board": {
-            "description": "描述棋盘的属性",
-            "full": "棋盘",
-            "tag": "棋盘"
-        },
-        "board>3d": {
-            "description": "这是一个3D棋盘",
-            "full": "棋盘> 3D",
-            "tag": "棋盘：3D"
-        },
-        "board>connect": {
-            "description": "描述棋盘格子间的连接方式",
-            "tag": "棋盘连接方式",
-            "full": "棋盘类型"
-        },
-        "board>connect>other": {
-            "full": "棋盘> 类型> 其他",
-            "description": "棋格以一种特殊的方式相连",
-            "tag": "连接：其他类型"
-        },
-        "components>piecepack": {
-            "description": "通过Piecepack游玩",
-            "full": "组件 > Piecepack"
-        },
-        "components>pyramids": {
-            "description": "玩鲁尼金字塔",
-            "full": "组件>鲁尼金字塔",
-            "tag": "C类：鲁尼金字塔"
-        },
-        "board>connect>pent": {
-            "description": "棋盘以五边形的方式相互连接",
-            "full": "棋盘>类型>五边形棋盘"
-        },
-        "board>connect>rect": {
-            "description": "棋格可以横竖斜着连",
-            "full": "棋盘 > 类型 > 矩形",
-            "tag": "连接：矩形"
-        },
-        "board>connect>snub": {
-            "description": "棋格按照截角正方形阵列相互连接",
-            "full": "棋盘布局>连接类型>截角正方形",
-            "tag": "连接：矩形"
-        },
-        "board>dynamic": {
-            "description": "棋盘可动态扩展",
-            "full": "棋盘类型> 动态",
-            "tag": "棋盘：动态"
-        },
-        "board>mancala": {
-            "description": "在传统曼卡拉风格的棋盘上玩",
-            "full": "棋盘>曼卡拉",
-            "tag": "棋盘类型：曼卡拉"
-        },
-        "board>none": {
-            "full": "棋盘>无需棋盘",
-            "tag": "棋盘：无需棋盘",
-            "description": "在平面上玩球"
-        },
-        "board>other": {
-            "description": "独一无二的棋盘",
-            "full": "这个棋盘很独特",
-            "tag": "棋盘类型：其他"
-        },
-        "board>shape": {
-            "description": "描述棋盘的形状",
-            "full": "棋盘>形状",
-            "tag": "棋盘形状"
-        },
-        "board>shape>circle": {
-            "description": "这个棋盘是圆形的",
-            "full": "棋盘>形状>圆形",
-            "tag": "形状：圆形"
-        },
-        "board>shape>hex": {
-            "description": "棋盘是六边形的",
-            "full": "棋盘>形状>六边形",
-            "tag": "形状：六角形"
-        },
-        "board>shape>oct": {
-            "description": "这个棋盘的形状是八边形",
-            "full": "棋盘>形状>八边形",
-            "tag": "形状：八边形"
-        },
-        "board>shape>other": {
-            "description": "这个棋盘有独特的设计",
-            "full": "棋盘>形状>其他",
-            "tag": "形状:其他"
-        },
-        "components>simple>1c": {
-            "description": "一种颜色的棋子"
-        },
-        "board>shape>rect": {
-            "full": "棋盘>形状>",
-            "description": "这个棋盘的形状是矩形",
-            "tag": "形状：长方形"
-        },
-        "components>simple>1per": {
-            "description": "每名玩家都有一种颜色棋"
-        },
-        "components>simple>2per": {
-            "description": "每个玩家有两种颜色的棋"
-        },
-        "components>simple>2c": {
-            "description": "每个玩家会获得两种颜色",
-            "full": "组件<简单<两种颜色"
-        },
-        "board>shape>pent": {
-            "description": "棋盘呈五边形"
-        }
+  "categories": {
+    "board>connect>hex": {
+      "description": "以六边形连接的棋盘",
+      "full": "棋盘> 类型 > 六边形",
+      "tag": "Connect: /六角棋"
+    },
+    "components>simple": {
+      "tag": "组件：简单",
+      "full": "组件 > 简单",
+      "description": "使用统一大小的简单棋子进行游戏，这些棋子可以堆叠，有多种颜色"
+    },
+    "board>shape>tri": {
+      "tag": "形状：其他",
+      "full": "棋盘>形状>三角形",
+      "description": "这个棋盘的形状是三角形"
+    },
+    "components>dice": {
+      "description": "玩骰子",
+      "full": "组件>骰子"
+    },
+    "components>poly": {
+      "full": "构成部分1:多米诺",
+      "description": "用多米诺骨牌进行游戏",
+      "tag": "C类：多米诺骨牌"
+    },
+    "board": {
+      "description": "描述棋盘的属性",
+      "full": "棋盘",
+      "tag": "棋盘"
+    },
+    "board>3d": {
+      "description": "这是一个3D棋盘",
+      "full": "棋盘> 3D",
+      "tag": "棋盘：3D"
+    },
+    "board>connect": {
+      "description": "描述棋盘格子间的连接方式",
+      "tag": "棋盘连接方式",
+      "full": "棋盘类型"
+    },
+    "board>connect>other": {
+      "full": "棋盘> 类型> 其他",
+      "description": "棋格以一种特殊的方式相连",
+      "tag": "连接：其他类型"
+    },
+    "components>piecepack": {
+      "description": "通过Piecepack游玩",
+      "full": "组件 > Piecepack"
+    },
+    "components>pyramids": {
+      "description": "玩鲁尼金字塔",
+      "full": "组件>鲁尼金字塔",
+      "tag": "C类：鲁尼金字塔"
+    },
+    "board>connect>pent": {
+      "description": "棋盘以五边形的方式相互连接",
+      "full": "棋盘>类型>五边形棋盘"
+    },
+    "board>connect>rect": {
+      "description": "棋格可以横竖斜着连",
+      "full": "棋盘 > 类型 > 矩形",
+      "tag": "连接：矩形"
+    },
+    "board>connect>snub": {
+      "description": "棋格按照截角正方形阵列相互连接",
+      "full": "棋盘布局>连接类型>截角正方形",
+      "tag": "连接：矩形"
+    },
+    "board>dynamic": {
+      "description": "棋盘可动态扩展",
+      "full": "棋盘类型> 动态",
+      "tag": "棋盘：动态"
+    },
+    "board>mancala": {
+      "description": "在传统曼卡拉风格的棋盘上玩",
+      "full": "棋盘>曼卡拉",
+      "tag": "棋盘类型：曼卡拉"
+    },
+    "board>none": {
+      "full": "棋盘>无需棋盘",
+      "tag": "棋盘：无需棋盘",
+      "description": "在平面上玩球"
+    },
+    "board>other": {
+      "description": "独一无二的棋盘",
+      "full": "这个棋盘很独特",
+      "tag": "棋盘类型：其他"
+    },
+    "board>shape": {
+      "description": "描述棋盘的形状",
+      "full": "棋盘>形状",
+      "tag": "棋盘形状"
+    },
+    "board>shape>circle": {
+      "description": "这个棋盘是圆形的",
+      "full": "棋盘>形状>圆形",
+      "tag": "形状：圆形"
+    },
+    "board>shape>hex": {
+      "description": "棋盘是六边形的",
+      "full": "棋盘>形状>六边形",
+      "tag": "形状：六角形"
+    },
+    "board>shape>oct": {
+      "description": "这个棋盘的形状是八边形",
+      "full": "棋盘>形状>八边形",
+      "tag": "形状：八边形"
+    },
+    "board>shape>other": {
+      "description": "这个棋盘有独特的设计",
+      "full": "棋盘>形状>其他",
+      "tag": "形状:其他"
+    },
+    "components>simple>1c": {
+      "description": "一种颜色的棋子"
+    },
+    "board>shape>rect": {
+      "full": "棋盘>形状>",
+      "description": "这个棋盘的形状是矩形",
+      "tag": "形状：长方形"
+    },
+    "components>simple>1per": {
+      "description": "每名玩家都有一种颜色棋"
+    },
+    "components>simple>2per": {
+      "description": "每个玩家有两种颜色的棋"
+    },
+    "components>simple>2c": {
+      "description": "每个玩家会获得两种颜色",
+      "full": "组件<简单<两种颜色"
+    },
+    "board>shape>pent": {
+      "description": "棋盘呈五边形"
     }
+  }
 }

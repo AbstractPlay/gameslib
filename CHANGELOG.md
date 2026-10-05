@@ -21,6 +21,10 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 - **Docs:** [Exploration and emulation](/gameslib/exploration-emulation/) for explore-allowed games (`no-explore` moot on live play); WaldMeister and Frogger as primary references.
 
+### Changed
+
+- **Locale JSON formatting:** English and community locale files normalized to 2-space indent (matching `translate` / `sync-game-names-locale` output); shared `locale-json-format.mjs` and `check-locale-json-format` in lint.
+
 ### Fixed
 
 - **Weblate branch review:** `check-weblate-branch` / `merge-weblate-branch` block truncated exports (mass key removal with no translation updates, e.g. Weblate “Remove blank strings”) instead of allowing a blind locale import.

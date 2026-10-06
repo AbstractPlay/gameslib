@@ -317,7 +317,7 @@ body[data-theme='dark'] .collapsible summary {
     text-align: center;
 }
 #drawing {
-    flex: 1 1 auto;
+    flex: 1 1 0;
     overflow: auto;
     transition: background-color 0.3s;
     background-color: inherit;
@@ -331,7 +331,7 @@ body[data-theme='dark'] .collapsible summary {
 #drawing > svg {
     flex-shrink: 0;
     max-width: 100%;
-    width: auto;
+    width: 100%;
     height: auto;
 }
 .game-info {
@@ -515,7 +515,7 @@ body[data-theme='dark'] input[type="radio"] {
     }
     #drawing {
         width: 100%;
-        flex: 1 1 auto;
+        flex: 1 1 0;
         min-height: 0;
         align-items: flex-start;
         justify-content: flex-start;

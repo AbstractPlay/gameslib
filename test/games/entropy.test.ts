@@ -72,6 +72,23 @@ describe("Entropy", () => {
             expect(enters[0]).to.deep.equal({ col: expectedCol, row: d5Row });
         });
 
+        it("shows partial order move arrow on P2 board when only P2 moved", () => {
+            const g = new EntropyGame();
+            g.move("d5, e4");
+            g.move(",d5-d6", { partial: true });
+            const rep = g.render({ perspective: 2 });
+            const segments = moveSegments(rep);
+            const bs = g.boardsize;
+            const pending = segments.filter(([from, to]) => from.col >= bs && to.col >= bs);
+            expect(pending.length).to.be.greaterThan(0);
+            const [d5Col, d5Row] = g.algebraic2coords("d5");
+            const [d6Col, d6Row] = g.algebraic2coords("d6");
+            expect(pending).to.deep.include([
+                { col: d5Col + bs, row: d5Row },
+                { col: d6Col + bs, row: d6Row },
+            ]);
+        });
+
         it("shows one enter per placement for observers without duplication", () => {
             const g = new EntropyGame();
             g.move("d5, e4");
@@ -132,6 +149,31 @@ describe("Entropy", () => {
                 textKey: "apgames:validation.entropy.BOARD_CHAOS",
                 actor: { kind: "seat", seat: 1 },
             });
+        });
+
+        it("chatLogEntries includes partial chaos placement for the submitting seat", () => {
+            const g = new EntropyGame();
+            g.move("d5, ", { partial: true });
+            const entries = g.chatLogEntries(["Perlkönig", "Tester"]);
+            expect(entries).to.have.length(1);
+            expect(entries[0].lines).to.have.length(1);
+            expect(entries[0].lines[0].textKey).to.equal("apresults:PLACE.complete");
+            expect(entries[0].lines[0].actor).to.deep.equal({ kind: "seat", seat: 1 });
+        });
+
+        it("chatLogEntries attributes partial placement to seat 2 when only P2 moved", () => {
+            const g = new EntropyGame();
+            g.move(", e4", { partial: true });
+            const entries = g.chatLogEntries(["Perlkönig", "Tester"]);
+            expect(entries).to.have.length(1);
+            expect(entries[0].lines).to.have.length(1);
+            expect(entries[0].lines[0].actor).to.deep.equal({ kind: "seat", seat: 2 });
+        });
+
+        it("chatLogEntries omits frames with no displayable lines", () => {
+            const g = new EntropyGame();
+            const entries = g.chatLogEntries(["A", "B"]);
+            expect(entries.every((e) => e.lines.length > 0)).to.equal(true);
         });
 
         it("emits seat board labels for order phase", () => {

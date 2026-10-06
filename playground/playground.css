@@ -1204,6 +1204,13 @@ body[data-theme='dark'] #gameStatusPanel .stash-glyph-wrapper {
     background-color: rgba(255,255,255,0.03);
 }
 
+/* Status glyphs: the renderer sizes an inline glyph's <svg> to 100%, which the wrapper's
+   max-height does not constrain, so size the svg itself (the front end uses an <img>). */
+.status-glyph > svg {
+    height: 1.25em;
+    width: auto;
+}
+
 #gameStatusPanel .stash-movepart {
     font-size: 0.75em;
     color: #555;

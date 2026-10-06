@@ -186,8 +186,9 @@ describe("Crosshairs", () => {
                 "#setup",
                 "random-start",
                 "asymmetric-random-start",
-                "spread-start",
-                "asymmetric-spread-start",
+                "split-start",
+                "asymmetric-split-start",
+                "clumping-start",
             ]);
             expect(setupVariants.find(variant => variant.uid === "random-start")!.name)
                 .to.equal("Symmetric random clouds");
@@ -258,33 +259,190 @@ describe("Crosshairs", () => {
             }
         }
 
-        for (const setup of ["spread-start", "asymmetric-spread-start"] as const) {
-            for (const [variant, target] of [[undefined, 16], ["clouds-22", 22], ["clouds-28", 28]] as const) {
-                it(`should place ${target} legal clouds with ${setup}${variant ? ` and ${variant}` : ""}`, () => {
-                    const variants = variant ? [setup, variant] : [setup];
-                    const g = new CrosshairsGame(undefined, variants);
+        const isEdgeCell = (g: CrosshairsGame, cell: string): boolean => {
+            const [x, y] = g.graph.algebraic2coords(cell);
+            const getRay = (g as unknown as { getRay: (x: number, y: number, d: string) => string[] }).getRay.bind(g);
+            return ["N", "NE", "SE", "S", "SW", "NW"].some(dir => getRay(x, y, dir).length === 0);
+        };
 
-                    expect(g.turnNumber).to.equal(1);
-                    expect(largestCloudBank(g)).to.be.at.most(2);
-                    if (setup === "spread-start") {
-                        // A centre cloud is its own mirror, leaving the board one short.
-                        const hasCentre = [...g.clouds].some(cloud => g.graph.rot180(cloud) === cloud);
-                        expect(g.clouds.size).to.equal(hasCentre ? target - 1 : target);
+        it("should keep prod setups unflagged and mark the newer setups experimental", () => {
+            const setup = CrosshairsGame.gameinfo.variants!.filter(v => v.group === "setup");
+            const experimental = setup.filter(v => v.experimental).map(v => v.uid);
+
+            expect(setup.filter(v => !v.experimental).map(v => v.uid))
+                .to.deep.equal(["random-start", "asymmetric-random-start"]);
+            expect(experimental).to.deep.equal([
+                "split-start",
+                "asymmetric-split-start",
+                "clumping-start",
+            ]);
+        });
+
+        it("should tag only Clumping random clouds as a community variant", () => {
+            const fans = (uid: string) => CrosshairsGame.gameinfo.variants!.find(v => v.uid === uid)!.fans;
+
+            expect(fans("clumping-start")).to.equal(true);
+            for (const uid of ["random-start", "asymmetric-random-start", "split-start", "asymmetric-split-start"]) {
+                expect(fans(uid), uid).to.not.equal(true);
+            }
+        });
+
+        it("should let the split setups combine with either cloud bank rule", () => {
+            for (const uid of ["split-start", "asymmetric-split-start"]) {
+                const v = CrosshairsGame.gameinfo.variants!.find(variant => variant.uid === uid)!;
+                expect(v.requires, uid).to.be.undefined;
+            }
+        });
+
+        for (const [variant, target] of [[undefined, 16], ["clouds-22", 22], ["clouds-28", 28]] as const) {
+            for (const unbounded of [false, true]) {
+                const extra = [...(variant ? [variant] : []), ...(unbounded ? ["unbounded-cloud-banks"] : [])];
+                const banks = unbounded ? "unbounded" : "bounded";
+
+                it(`should place split clouds away from the edge without overshooting (${target}, ${banks})`, () => {
+                    for (let run = 0; run < 10; run++) {
+                        const g = new CrosshairsGame(undefined, ["asymmetric-split-start", ...extra]);
+
+                        expect(g.turnNumber).to.equal(1);
+                        expect(g.clouds.size).to.be.at.most(target);
+                        expect(g.clouds.size).to.be.greaterThan(0);
+                        for (const cloud of g.clouds) {
+                            expect(isEdgeCell(g, cloud), `edge cloud at ${cloud}`).to.be.false;
+                        }
+                        if (!unbounded) expect(largestCloudBank(g)).to.be.at.most(2);
+                    }
+                });
+
+                it(`should mirror symmetric split clouds and only fall short as designed (${target}, ${banks})`, () => {
+                    for (let run = 0; run < 10; run++) {
+                        const g = new CrosshairsGame(undefined, ["split-start", ...extra]);
+
+                        expect(g.turnNumber).to.equal(1);
+                        expect(g.clouds.size).to.be.at.most(target);
                         for (const cloud of g.clouds) {
                             expect(g.clouds.has(g.graph.rot180(cloud))).to.be.true;
+                            expect(isEdgeCell(g, cloud)).to.be.false;
                         }
-                    } else {
-                        expect(g.clouds.size).to.equal(target);
+                        if (!unbounded) expect(largestCloudBank(g)).to.be.at.most(2);
                     }
                 });
             }
         }
 
-        it("should let spread placement form larger banks under unbounded cloud banks", () => {
-            const g = new CrosshairsGame(undefined, ["asymmetric-spread-start", "clouds-28", "unbounded-cloud-banks"]);
+        it("should end a symmetric split board one short when the centre is chosen", () => {
+            const centre = (new CrosshairsGame().graph.listCells() as string[])
+                .find(cell => new CrosshairsGame().graph.rot180(cell) === cell)!;
+            let sawCentre = false;
+            for (let run = 0; run < 40 && !sawCentre; run++) {
+                const g = new CrosshairsGame(undefined, ["split-start", "unbounded-cloud-banks"]);
+                if (g.clouds.has(centre)) {
+                    sawCentre = true;
+                    expect(g.clouds.size).to.equal(15);
+                } else {
+                    expect(g.clouds.size).to.equal(16);
+                }
+            }
+            // The centre splits every line evenly, so it is chosen on most boards.
+            expect(sawCentre).to.be.true;
+        });
 
-            expect(g.clouds.size).to.equal(28);
-            expect(g.turnNumber).to.equal(1);
+        it("should count an adjacent cloud or the board edge as an open run of 0", () => {
+            const g = new CrosshairsGame();
+            const openLength = (g as unknown as {
+                openLength: (ray: string[], clouds: Set<string>) => number;
+            }).openLength.bind(g);
+
+            expect(openLength(["f6", "f7", "f8"], new Set(["f6"]))).to.equal(0);
+            expect(openLength(["f6", "f7", "f8"], new Set(["f8"]))).to.equal(2);
+            expect(openLength(["f6", "f7", "f8"], new Set())).to.equal(3);
+            expect(openLength([], new Set())).to.equal(0);
+        });
+
+        it("should have five open cells in every direction from the centre and a zero run on edge cells", () => {
+            const g = new CrosshairsGame();
+            const centre = (g.graph.listCells() as string[]).find(cell => g.graph.rot180(cell) === cell)!;
+            const rayLengths = (cell: string): number[] => {
+                const [x, y] = g.graph.algebraic2coords(cell);
+                const getRay = (g as unknown as { getRay: (x: number, y: number, d: string) => string[] }).getRay.bind(g);
+                return ["N", "NE", "SE", "S", "SW", "NW"].map(dir => getRay(x, y, dir).length);
+            };
+
+            // Every direction from the centre runs 5 cells to the edge, which is v.
+            expect(rayLengths(centre)).to.deep.equal([5, 5, 5, 5, 5, 5]);
+            // An edge cell has a zero-length run, so its geometric mean is 0.
+            const edgeCell = (g.graph.listCells() as string[]).find(cell => isEdgeCell(g, cell))!;
+            expect(rayLengths(edgeCell)).to.include(0);
+        });
+
+        for (const [variant, target] of [[undefined, 16], ["clouds-22", 22], ["clouds-28", 28]] as const) {
+            const extra = variant ? [variant] : [];
+
+            it(`should place ${target} clumping clouds within the bank limit`, () => {
+                for (let run = 0; run < 10; run++) {
+                    const g = new CrosshairsGame(undefined, ["clumping-start", ...extra]);
+
+                    expect(g.turnNumber).to.equal(1);
+                    expect(g.clouds.size).to.equal(target);
+                    expect(largestCloudBank(g)).to.be.at.most(2);
+                }
+            });
+
+            it(`should place ${target} clumping clouds under unbounded cloud banks`, () => {
+                for (let run = 0; run < 10; run++) {
+                    const g = new CrosshairsGame(undefined, ["clumping-start", "unbounded-cloud-banks", ...extra]);
+
+                    expect(g.turnNumber).to.equal(1);
+                    expect(g.clouds.size).to.equal(target);
+                }
+            });
+        }
+
+        it("should give every cell consistent cube coordinates centred on the middle cell", () => {
+            const g = new CrosshairsGame();
+            const cube = (g as unknown as { getCubeCoords: () => Map<string, [number, number, number]> }).getCubeCoords();
+            const cells = g.graph.listCells() as string[];
+            const hexDistance = (a: number[], b: number[]): number =>
+                Math.max(...a.map((x, i) => Math.abs(x - b[i])));
+
+            expect(cube.size).to.equal(cells.length);
+            expect(new Set([...cube.values()].map(c => c.join(","))).size).to.equal(cells.length);
+            const centre = cells.find(cell => g.graph.rot180(cell) === cell)!;
+            expect(cube.get(centre)).to.deep.equal([0, 0, 0]);
+            for (const cell of cells) {
+                const c = cube.get(cell)!;
+                expect(c[0] + c[1] + c[2]).to.equal(0);
+                // Edge cells are exactly those 5 steps from the centre.
+                expect(Math.max(...c.map(Math.abs)) === 5).to.equal(isEdgeCell(g, cell));
+                const [x, y] = g.graph.algebraic2coords(cell);
+                const getRay = (g as unknown as { getRay: (x: number, y: number, d: string) => string[] }).getRay.bind(g);
+                for (const dir of ["N", "NE", "SE", "S", "SW", "NW"]) {
+                    const next = getRay(x, y, dir)[0];
+                    if (next !== undefined) {
+                        expect(hexDistance(c, cube.get(next)!)).to.equal(1);
+                    }
+                }
+            }
+        });
+
+        it("should pull clumping clouds away from the board edge", () => {
+            // Uniform random placement averages about 5.7 edge clouds on a
+            // 16-cloud board; this setup averages about 2.3.
+            let edgeClouds = 0;
+            for (let run = 0; run < 100; run++) {
+                const g = new CrosshairsGame(undefined, ["clumping-start"]);
+                edgeClouds += [...g.clouds].filter(cloud => isEdgeCell(g, cloud)).length;
+            }
+            expect(edgeClouds / 100).to.be.below(4);
+        });
+
+        it("should return a partial split board instead of throwing when cells run out", () => {
+            // With the edge excluded and the one-neighbour rule, 28 clouds
+            // exhausts the qualifying cells on almost every run.
+            for (let run = 0; run < 10; run++) {
+                const g = new CrosshairsGame(undefined, ["asymmetric-split-start", "unbounded-cloud-banks", "clouds-28"]);
+                expect(g.turnNumber).to.equal(1);
+                expect(g.moves()[0]).to.match(/^enter:/);
+            }
         });
 
         for (const [setup, partialCount] of [
@@ -1729,6 +1887,23 @@ describe("Crosshairs", () => {
             const p1s3 = render.legend!['P1S_3'];
             expect(Array.isArray(p1s3)).to.be.true;
             expect((p1s3 as unknown[]).length).to.equal(4); // 3 wedges + 1 plane
+        });
+
+        it("should colour sheet glyphs with paint rather than colour", () => {
+            const g = new CrosshairsGame();
+            g.clouds.clear();
+            g.clouds.add('d5');
+            g.board.set('d5', [1, 'S', 3]);
+            g.board.set('e5', [2, 'N', 0]);
+
+            const render = g.render();
+            const glyphs = Object.values(render.legend!).flat() as Record<string, unknown>[];
+            const named = glyphs.filter(glyph => "name" in glyph);
+            expect(named.map(glyph => glyph.name)).to.include.members(["wedge", "plane", "cloud"]);
+            for (const glyph of named) {
+                expect(glyph, String(glyph.name)).to.not.have.property("colour");
+                expect(glyph, String(glyph.name)).to.have.nested.property("paint.fill");
+            }
         });
     });
 

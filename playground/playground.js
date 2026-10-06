@@ -128,7 +128,7 @@ function clearInterimRenderCache() {
 }
 
 function applyInterimPartialRender(gamename, maskedPartial, renderOpts) {
-    const preview = createEngineFromCommitted(gamename);
+    const preview = createEngineForView(gamename, renderOpts.perspective);
     if (!preview) {
         return;
     }
@@ -1522,7 +1522,7 @@ function formatSingleStashItemContent(item, glyphRenderOptions) {
             svgid: glyphSvgId,
         };
         const glyphSvg = renderPlaygroundStashGlyph(item.glyph, localGlyphOpts);
-        content += `${item.count} &times; <span class="stash-glyph-wrapper" style="display:inline-flex;vertical-align:middle;max-height:1.25em;width:auto;">${glyphSvg}</span>`;
+        content += `${item.count} &times; <span class="stash-glyph-wrapper">${glyphSvg}</span>`;
         if (item.movePart) {
             content += ` <span class="stash-movepart">(${item.movePart})</span>`;
         }

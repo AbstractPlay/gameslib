@@ -1707,13 +1707,17 @@
         "name": "Nesimetriaj hazardaj nuboj",
         "description": "Ne estas fazo por meti nubojn. La sistemo hazarde metas ilin sen postuli simetrion."
       },
-      "spread-start": {
-        "name": "Simetriaj disvastigitaj nuboj",
-        "description": "Ne estas fazo por meti nubojn. La sistemo metas ilin kun rotacia simetrio je 180 gradoj laŭ la algoritmo de la aŭtoro, kiu unue baras liberajn pafliniojn kaj poste plenigas la breĉojn."
+      "split-start": {
+        "name": "Simetriaj hazardaj nuboj (nova)",
+        "description": "Ne estas fazo por meti nubojn. La sistemo metas nubojn en paroj kun rotacia simetrio je 180 gradoj for de la rando de la tabulo, ĉiufoje elektante inter la ĉeloj, kiuj plej egale dividas liberan paflinion. Nubo en la centro kalkuliĝas kiel paro, do al la tabulo mankas unu nubo."
       },
-      "asymmetric-spread-start": {
-        "name": "Nesimetriaj disvastigitaj nuboj",
-        "description": "Ne estas fazo por meti nubojn. La sistemo metas ilin sen postuli simetrion laŭ la algoritmo de la aŭtoro, kiu unue baras liberajn pafliniojn kaj poste plenigas la breĉojn."
+      "asymmetric-split-start": {
+        "name": "Nesimetriaj hazardaj nuboj (nova)",
+        "description": "Ne estas fazo por meti nubojn. La sistemo metas nubojn unu post alia for de la rando de la tabulo, ĉiufoje elektante inter la ĉeloj, kiuj plej egale dividas liberan paflinion."
+      },
+      "clumping-start": {
+        "name": "Amasiĝantaj hazardaj nuboj",
+        "description": "Ne estas fazo por meti nubojn. La sistemo metas nubojn unu post alia sen postuli simetrion, hazarde sed preferante la mezon de la tabulo, do la nuboj kolektiĝas al la centro, tamen lasante iom da spaco inter si."
       },
       "unbounded-cloud-banks": {
         "name": "Senlimaj nubaroj",

@@ -128,9 +128,12 @@ describe("Thricewise", () => {
         const g = new ThricewiseGame(2);
         const twos = cardsOfRank(2);
         const threes = cardsOfRank(3);
+        const fours = cardsOfRank(4);
         g.phase = "select";
         g.deferred[0] = [twos[0]!];
         g.hands[0] = [threes[0]!, threes[1]!];
+        // Legend dimming is per uid; fixture opponent hand so test cards are not duplicated after deal.
+        g.hands[1] = [fours[0]!, fours[1]!];
         g.pendingSelect[0] = threes[1]!;
         const rep = g.render({ perspective: 1 });
         const dimmed = (key: string) => {

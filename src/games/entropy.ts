@@ -562,6 +562,44 @@ export class EntropyGame extends GameBaseSimultaneous {
         };
     }
 
+    private lastmoveWireParts(lastmove: string | string[] | undefined): string[] {
+        if (Array.isArray(lastmove)) {
+            const out = lastmove.map((x) =>
+                x === undefined || x === null ? "" : String(x),
+            );
+            while (out.length < 2) {
+                out.push("");
+            }
+            return out.slice(0, 2);
+        }
+        if (typeof lastmove === "string") {
+            const parts = lastmove.split(",");
+            while (parts.length < 2) {
+                parts.push("");
+            }
+            return parts.slice(0, 2);
+        }
+        return ["", ""];
+    }
+
+    /** 0-based seat index for a simultaneous result row (partial rounds use comma wire). */
+    private simultaneousWireSeatIndex(
+        resultIndex: number,
+        resultsLength: number,
+        lastmove: string | string[] | undefined,
+    ): 0 | 1 {
+        if (resultsLength >= 2) {
+            return resultIndex as 0 | 1;
+        }
+        const parts = this.lastmoveWireParts(lastmove);
+        for (let s = 0; s < parts.length; s++) {
+            if (parts[s].trim() !== "") {
+                return s as 0 | 1;
+            }
+        }
+        return resultIndex as 0 | 1;
+    }
+
     private pushMoveAnnotation(
         rep: APRenderRep,
         move: APMoveResult,
@@ -699,7 +737,12 @@ export class EntropyGame extends GameBaseSimultaneous {
         // check for pending annotations (incomplete simultaneous turn only)
         if (this.results.length > 0 && this.results.length < 2 && perspective !== undefined) {
             for (let i = 0; i < this.results.length; i++) {
-                this.pushMoveAnnotation(rep, this.results[i], i as 0 | 1);
+                const playerIndex = this.simultaneousWireSeatIndex(
+                    i,
+                    this.results.length,
+                    this.lastmove,
+                );
+                this.pushMoveAnnotation(rep, this.results[i], playerIndex);
             }
         }
         for (let turn = 1; turn <= 2; turn++) {
@@ -764,6 +807,37 @@ export class EntropyGame extends GameBaseSimultaneous {
 
 
 
+    /** Seat (1-based) for a simultaneous result row; partial rounds use `lastmove` alignment. */
+    private chatSeatForEntropyResult(state: IMoveState, resultIndex: number): number {
+        const results = state._results ?? [];
+        return (
+            this.simultaneousWireSeatIndex(
+                resultIndex,
+                results.length,
+                state.lastmove as string | string[] | undefined,
+            ) + 1
+        );
+    }
+
+    private pushEntropyResultChatLine(lines: ChatLogLine[], seat: number, r: APMoveResult): void {
+        switch (r.type) {
+            case "move":
+                this.pushSeatChatLine(lines, seat, "apresults:MOVE.nowhat", { from: r.from, to: r.to });
+                break;
+            case "place":
+                this.pushSeatChatLine(lines, seat, "apresults:PLACE.complete", {
+                    what: r.what,
+                    where: r.where,
+                });
+                break;
+            case "pass":
+                this.pushSeatChatLine(lines, seat, "apresults:PASS.entropy");
+                break;
+            default:
+                break;
+        }
+    }
+
     public chatLogEntries(players: string[] = []): ChatLogEntry[] {
         const entries: ChatLogEntry[] = [];
         for (const state of this.stack) {
@@ -771,25 +845,12 @@ export class EntropyGame extends GameBaseSimultaneous {
                 continue;
             }
             const lines: ChatLogLine[] = [];
-            if (state._results.length >= 2) {
-                for (let p = 0; p < 2; p++) {
-                    const r = state._results[p];
-                    const seat = p + 1;
-                    switch (r.type) {
-                        case "move":
-                            this.pushSeatChatLine(lines, seat, "apresults:MOVE.nowhat", { from: r.from, to: r.to });
-                            break;
-                        case "place":
-                            this.pushSeatChatLine(lines, seat, "apresults:PLACE.complete", {
-                                what: r.what,
-                                where: r.where,
-                            });
-                            break;
-                        case "pass":
-                            this.pushSeatChatLine(lines, seat, "apresults:PASS.entropy");
-                            break;
-                    }
-                }
+            const playResults = state._results.filter(
+                (r) => r.type === "move" || r.type === "place" || r.type === "pass",
+            );
+            for (let p = 0; p < playResults.length; p++) {
+                const seat = this.chatSeatForEntropyResult(state, p);
+                this.pushEntropyResultChatLine(lines, seat, playResults[p]);
             }
             if (state._results.length > 2) {
                 const currplayer = state.currplayer as number;
@@ -809,6 +870,9 @@ export class EntropyGame extends GameBaseSimultaneous {
                             break;
                     }
                 }
+            }
+            if (lines.length === 0) {
+                continue;
             }
             entries.push({
                 timestamp: (state._timestamp && new Date(state._timestamp).toISOString()) || "unknown",

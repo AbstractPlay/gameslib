@@ -1,5 +1,5 @@
 ---
-description: Tests must use self-contained fixtures under test/, never external files
+description: Tests must use self-contained, deterministic fixtures under test/, never external files
 globs: test/**/*.ts
 alwaysApply: true
 ---
@@ -10,6 +10,8 @@ Tests must be self-standing. **Never load or reference files outside `test/`** a
 
 This is non-negotiable. Relative paths like `bin/state.json` or `readFileSync("bin/...")` depend on the process working directory and **will fail in CI** when tests are not run from the repo root. Do not use them.
 
+Tests must also be **deterministic**. Do not rely on random deals, shuffles, or other init side effects unless the test explicitly fixes or seeds that randomness. Prefer **fixed fixtures** (inline or under `test/fixtures/`) that set every field the assertion depends on.
+
 ## Rules
 
 - Define game states, render JSON, legend data, and other inputs **inline in the test file** or in a module under **`test/fixtures/`**.
@@ -17,6 +19,8 @@ This is non-negotiable. Relative paths like `bin/state.json` or `readFileSync("b
 - **`bin/state.json` is scratch/debug output only.** If a bug is reproduced there, copy the board/stack into an inline fixture or `test/fixtures/` — never point a test at that file.
 - `docs/samples/` and `bin/` are for humans, scratch work, and tooling — they may change independently of test expectations.
 - When a saved state or sample documents behaviour you want to test, **copy** the relevant structure into a fixture; do not point the test at the original file.
+- After `new SomeGame(...)`, **do not assume** default hands, board, or piles are stable — assign `hands`, `deferred`, `trickCard`, and other state explicitly when assertions depend on them.
+- If behaviour is global per piece id (e.g. legend dimming per card uid), fixture **all seats** that could hold that uid, not only the seat under test.
 
 ```typescript
 // ❌ BAD — cwd-dependent, breaks in CI
@@ -28,6 +32,12 @@ const state = JSON.parse(fs.readFileSync(path.join(__dirname, "../../bin/state.j
 // ❌ BAD — couples tests to documentation samples
 const sample = require("../../docs/samples/formatting-mixed-patterns.json");
 
+// ❌ BAD — flaky: opponent hand still random from constructor
+const g = new ThricewiseGame(2);
+g.phase = "place";
+g.hands[0] = [fours[0]!];
+expect(dimmed(g.render({ omniscient: true }), twos[0]!)).to.equal(false);
+
 // ✅ GOOD — fixture module under test/fixtures/
 import { ambiguousAnchorPipState } from "../fixtures/evenatodds";
 const g = gameFrom(ambiguousAnchorPipState);
@@ -37,4 +47,11 @@ const g = playAfterOpening([
     ["c1", {owner: 1, face: 1}],
     ["b5", {owner: 1, face: 40}],
 ], {roll: [5, 5], currplayer: 1});
+
+// ✅ GOOD — fixed fixture for every seat the code consults
+const g = new ThricewiseGame(2);
+g.phase = "place";
+g.deferred = [[twos[0]!], []];
+g.trickCard = [threes[0]!, undefined];
+g.hands = [[fours[0]!], [fives[0]!]];
 ```

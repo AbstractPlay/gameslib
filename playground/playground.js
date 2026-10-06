@@ -128,18 +128,15 @@ function clearInterimRenderCache() {
 }
 
 function applyInterimPartialRender(gamename, maskedPartial, renderOpts) {
-    const preview = createEngineFromCommitted(gamename);
+    const preview = createEngineForView(gamename, renderOpts.perspective);
     if (!preview) {
         return;
     }
     preview.move(maskedPartial, { partial: true });
     // Partial moves mutate live board/hands but do not push stack; re-loading from
     // serialize() would drop in-progress placement (e.g. Thricewise compound @coords).
-    let render = preview.render(renderOpts);
-    if (Array.isArray(render)) {
-        render = render[render.length - 1];
-    }
-    window.localStorage.setItem("interim", JSON.stringify(render));
+    const render = preview.render(renderOpts);
+    window.localStorage.setItem("interim", JSON.stringify(Array.isArray(render) ? render : [render]));
     window.localStorage.setItem(
         simStorage.interimPerspective,
         String(renderOpts.perspective ?? ""),
@@ -1522,7 +1519,7 @@ function formatSingleStashItemContent(item, glyphRenderOptions) {
             svgid: glyphSvgId,
         };
         const glyphSvg = renderPlaygroundStashGlyph(item.glyph, localGlyphOpts);
-        content += `${item.count} &times; <span class="stash-glyph-wrapper" style="display:inline-flex;vertical-align:middle;max-height:1.25em;width:auto;">${glyphSvg}</span>`;
+        content += `${item.count} &times; <span class="stash-glyph-wrapper">${glyphSvg}</span>`;
         if (item.movePart) {
             content += ` <span class="stash-movepart">(${item.movePart})</span>`;
         }
@@ -2211,17 +2208,27 @@ function renderGame(...args) {
             displayOptionsContainer.style.display = 'block';
         }
 
-        let data = null;
+        let interim = null;
         try {
-            data = JSON.parse(window.localStorage.getItem("interim"));
+            interim = JSON.parse(window.localStorage.getItem("interim"));
         } catch {
-            data = null;
+            interim = null;
         }
         const currentPerspective = String(getRenderPerspective(game, gamename));
         const interimPerspective = window.localStorage.getItem(simStorage.interimPerspective);
-        if (data !== null && interimPerspective !== currentPerspective) {
+        if (interim !== null && interimPerspective !== currentPerspective) {
             clearInterimRenderCache();
-            data = null;
+            interim = null;
+        }
+        // A move in progress pages through its own frames; paging reuses the cached ones.
+        let data = null;
+        if (interim !== null) {
+            if (skipFrameRefresh && currentRenderFrames && currentRenderFrames.length > 0) {
+                data = currentRenderFrames[currentRenderFrameIndex];
+            } else {
+                cacheRenderFrames(interim);
+                data = activeRenderFrame(interim);
+            }
         }
 
         let renderOpts = playgroundRenderOpts(game, gamename);

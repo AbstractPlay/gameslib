@@ -15,10 +15,11 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Clearpath, Croda, Dama, Ice Palace, Kill-All Go, Neutron, Thricewise, Yodd.
 
-## [1.0.0-ci] - 2026-10-06
+## [1.0.0-ci] - 2026-10-07
 
 ### Fixed
 
+- **Tumbleweed:** move log again interpolates cell coordinates and attributes plies to the mover after the opening (regression from overly broad opening-setup detection in structured chat).
 - **Entropy:** structured move log emits place/move/pass lines for in-progress simultaneous (partial) rounds, with correct seat attribution via `lastmove`; stack frames that would produce no lines are omitted.
 - **Entropy:** partial-round move/place arrows use the submitting seat from the comma wire (fixes P2 arrows drawn on the wrong board).
 

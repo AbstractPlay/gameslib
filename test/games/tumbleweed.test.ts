@@ -244,6 +244,31 @@ describe("Tumbleweed", () => {
         });
     });
 
+    describe("chat log", () => {
+        it("interpolates cell coordinates and credits the mover after the opening", () => {
+            const g = tumbleweedFrom({
+                board: [
+                    ["h8", [3, 2]],
+                    ["g7", [1, 1]],
+                    ["g9", [1, 1]],
+                    ["i8", [1, 1]],
+                ],
+                currplayer: 1,
+                lastmove: "pass",
+                stackDepth: 5,
+            });
+            const mid = g.moves().find((m) => m !== "pass");
+            expect(mid).to.not.equal(undefined);
+            const g2 = g.move(mid!, { trusted: true });
+            const placeLines = g2.chatLogEntries(["Alice", "Bob"])
+                .flatMap((e) => e.lines)
+                .filter((line) => line.textKey === "apresults:PLACE.tumbleweed");
+            const lastPlace = placeLines[placeLines.length - 1]!;
+            expect(lastPlace.textParams?.where).to.match(/^[a-z][0-9]+$/i);
+            expect(lastPlace.actor).to.deep.equal({ kind: "seat", seat: 1 });
+        });
+    });
+
     describe("moves() contracts", () => {
         it("standard opening move count excludes centre and pass", () => {
             const g = new TumbleweedGame();

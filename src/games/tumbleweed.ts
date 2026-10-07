@@ -579,9 +579,14 @@ export class TumbleweedGame extends GameBase {
     private isOpeningSetupResults(results: APMoveResult[]): boolean {
         const places = results.filter((r) => r.type === "place");
         if (this.variants.includes("free-neutral")) {
-            return places.length >= 1;
+            return places.length === 3
+                && places.every((p) => (p as { who?: number }).who !== undefined);
         }
-        return places.length >= 1;
+        return places.length === 2
+            && places.every((p) => {
+                const who = (p as { who?: number }).who;
+                return who === 1 || who === 2;
+            });
     }
 
     private openingWireLooksComplete(wire: string): boolean {
@@ -1499,12 +1504,14 @@ export class TumbleweedGame extends GameBase {
                     if (r !== firstPlace) {
                         return true;
                     }
-                    const wire = this.openingSetupWireFromResults(ctx.results)!;
-                    this.pushSeatChatLine(lines, 1, "apresults:PLACE.tumbleweed", {
-                        where: wire,
-                        count: (firstPlace as { count?: number }).count!,
-                    });
-                    return true;
+                    const wire = this.openingSetupWireFromResults(ctx.results);
+                    if (wire !== undefined) {
+                        this.pushSeatChatLine(lines, 1, "apresults:PLACE.tumbleweed", {
+                            where: wire,
+                            count: (firstPlace as { count?: number }).count!,
+                        });
+                        return true;
+                    }
                 }
                 this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.tumbleweed", {
                     where: r.where!, count: r.count!,

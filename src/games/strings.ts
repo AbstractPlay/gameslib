@@ -475,7 +475,7 @@ export class StringsGame extends GameBaseSimultaneous {
             legend[`S${n}`] = [
                 {
                     name: "piece-borderless",
-                    colour: "#fff",
+                    colour: "_context_board",
                 },
                 {
                     text: n.toString(),
@@ -488,12 +488,16 @@ export class StringsGame extends GameBaseSimultaneous {
             legend[`C${n}`] = [
                 {
                     "name": "piece",
-                    "colour": "#fff",
+                    "colour": "_context_board",
                     scale: 0.85,
                 },
                 {
                     "text": n.toString(),
-                    "colour": "#000",
+                    "colour": {
+                        func: "bestContrast",
+                        bg: "_context_board",
+                        fg: ["#000", "#fff"],
+                    },
                     "scale": 0.75 * 0.85,
                 }
             ];

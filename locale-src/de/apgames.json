@@ -20087,6 +20087,18 @@
     "src": "19x19 board",
     "out": "19x19-Brett"
   },
+  "variants.pods.#board.name": {
+    "src": "Hexhex 7 (127 spaces)",
+    "out": "Hexhex 7 (127 Felder)"
+  },
+  "variants.pods.board-6.name": {
+    "src": "Hexhex 6 (91 spaces)",
+    "out": "Hexhex 6 (91 Felder)"
+  },
+  "variants.pods.board-8.name": {
+    "src": "Hexhex 8 (169 spaces)",
+    "out": "Hexhex 8 (169 Felder)"
+  },
   "variants.pollux.#board.name": {
     "src": "10x10 board",
     "out": "10x10-Brett"

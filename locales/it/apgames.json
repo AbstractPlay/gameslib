@@ -3214,6 +3214,17 @@
         "name": "Tabellone 19x19"
       }
     },
+    "pods": {
+      "#board": {
+        "name": "Hexhex 7 (127 caselle)"
+      },
+      "board-6": {
+        "name": "Hexhex 6 (91 caselle)"
+      },
+      "board-8": {
+        "name": "Hexhex 8 (169 caselle)"
+      }
+    },
     "pollux": {
       "#board": {
         "name": "Tabellone 10x10"

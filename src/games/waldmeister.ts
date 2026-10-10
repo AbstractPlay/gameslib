@@ -682,17 +682,18 @@ export class WaldMeisterGame extends GameBase {
                 reps.push(this.renderHeights(1));
                 reps.push(this.renderColours(2));
             }
-            reps.push(this.renderCurrent(opts.perspective as playerid|undefined));
+            reps.push(this.renderCurrent(opts));
 
             return reps;
         }
         // otherwise just render the current state
         else {
-            return this.renderCurrent(opts.perspective as playerid|undefined);
+            return this.renderCurrent(opts);
         }
     }
 
-    private renderCurrent(perspective?: playerid): APRenderRep {
+    private renderCurrent(opts: IRenderOpts = {}): APRenderRep {
+        const perspective = opts.perspective as playerid | undefined;
         const g = this.graph;
         // Build piece string
         const pieces: string[][] = [];
@@ -745,6 +746,7 @@ export class WaldMeisterGame extends GameBase {
                         label: this.seatAreaLabel(p, "apgames:validation.waldmeister.LABEL_STASH"),
                         ownerMark: p === 1 ? this.getPlayerColour(1) : this.getPlayerColour(2),
                         pieces: this.hands[p - 1].sort(sorter).map(([colour, size]) => `p${colour}${size}`) as [string, ...string[]],
+                        veiled: this.stashAreaVeiled(p, opts),
                     });
                 }
             }

@@ -4503,6 +4503,10 @@
       }
     },
     "asli": {
+      "hide-territories": {
+        "description": "Ne pas afficher les territoires.",
+        "name": "Masquer les territoires"
+      },
       "swap-prison": {
         "description": "Inverser la couleur des pièces dans la prison.",
         "name": "Inverser les couleurs de la prison"

@@ -2599,6 +2599,14 @@
     "src": "Hide threatened",
     "out": "Bedrohte ausblenden"
   },
+  "displays.asli.hide-territories.description": {
+    "src": "Don't show territories.",
+    "out": "Gebiete nicht anzeigen."
+  },
+  "displays.asli.hide-territories.name": {
+    "src": "Hide territories",
+    "out": "Gebiete ausblenden"
+  },
   "displays.asli.swap-prison.description": {
     "src": "Swap the color of the pieces in the prison.",
     "out": "Farben der Figuren im Gefängnis tauschen."

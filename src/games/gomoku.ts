@@ -49,7 +49,7 @@ export class GomokuGame extends InARowBase {
             { uid: "swap-5", group: "opening" },
             { uid: "pass", group: "tiebreaker" },
         ],
-        categories: ["goal>arrange", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per", "family>gomoku"],
+        categories: ["goal>arrange", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per", "other>traditional", "family>gomoku"],
         flags: ["custom-colours"],
     };
 

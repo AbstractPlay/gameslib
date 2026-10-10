@@ -49,6 +49,11 @@ export class PodsGame extends GameBase {
                 apid: "a82c4aa8-7d43-4661-b027-17afd1d1586f",
             },
         ],
+        variants: [
+            { uid: "size-6", group: "board" },
+            { uid: "#board" },
+            { uid: "size-8", group: "board" },
+        ],
         categories: ["goal>area", "mechanic>place",  "mechanic>move", "mechanic>enclose", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         flags: ["automove"],
         displays: [{uid: "hide-influence"}]
@@ -59,7 +64,6 @@ export class PodsGame extends GameBase {
     public currplayer: Player = 1;
     public board!: Map<string, Player>;
     public influenceBoard!: Map<string, Player>;
-    public boardsize = 7;
     public graph?: HexTriGraph;
     public gameover = false;
     public winner: Player[] = [];
@@ -120,6 +124,10 @@ export class PodsGame extends GameBase {
         this.results = [...state._results];
         this.scores = [...state.scores];
         return this;
+    }
+
+    public get boardsize(): number {
+        return this.variants.includes("size-6") ? 6 : this.variants.includes("size-8") ? 8 : 7;
     }
 
     private buildGraph(): HexTriGraph {

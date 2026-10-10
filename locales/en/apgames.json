@@ -3214,6 +3214,17 @@
         "name": "19x19 board"
       }
     },
+    "pods": {
+      "#board": {
+        "name": "Hexhex 7 (127 spaces)"
+      },
+      "board-6": {
+        "name": "Hexhex 6 (91 spaces)"
+      },
+      "board-8": {
+        "name": "Hexhex 8 (169 spaces)"
+      }
+    },
     "pollux": {
       "#board": {
         "name": "10x10 board"

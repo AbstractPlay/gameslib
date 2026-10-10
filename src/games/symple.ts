@@ -572,6 +572,21 @@ export class SympleGame extends GameBase {
         };
     }
 
+    /** Player who committed the move recorded in this stack frame (currplayer advances after move). */
+    private static moverFromCommittedState(state: IMoveState): playerid {
+        return (3 - state.currplayer) as playerid;
+    }
+
+    private static placeResults(results: APMoveResult[]): Extract<APMoveResult, { type: "place" }>[] {
+        return results.filter((r): r is Extract<APMoveResult, { type: "place" }> => r.type === "place");
+    }
+
+    private static samePlaceResults(a: APMoveResult[], b: APMoveResult[]): boolean {
+        const wa = SympleGame.placeResults(a).map(r => r.where!);
+        const wb = SympleGame.placeResults(b).map(r => r.where!);
+        return wa.length === wb.length && wa.every((w, i) => w === wb[i]);
+    }
+
     public render(): APRenderRep {
         // Build piece string
         const pstr: string[][] = [];
@@ -613,22 +628,38 @@ export class SympleGame extends GameBase {
             pieces: pstr.map(p => p.join("")).join("\n"),
         };
 
-        // Add annotations
-        if (this.results.length > 0) {
-            rep.annotations = [];
-
-            // highlight last-placed piece
-            // this has to happen after eog annotations to appear correctly
-            for (const move of this.results) {
-                if (move.type === "place") {
-                    const [x, y] = this.algebraic2coords(move.where!);
-                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
-                }
+        // Enter highlights for the current and previous turn, colour-coded by mover.
+        rep.annotations = [];
+        const pushEnter = (results: APMoveResult[], colour: playerid): void => {
+            for (const move of SympleGame.placeResults(results)) {
+                const [x, y] = this.algebraic2coords(move.where!);
+                rep.annotations!.push({ type: "enter", targets: [{ row: y, col: x }], colour });
             }
+        };
 
-            if (rep.annotations.length === 0) {
-                delete rep.annotations;
+        const top = this.stack[this.stack.length - 1];
+        const placesLive = SympleGame.placeResults(this.results);
+        const inProgress = placesLive.length > 0 && (
+            this.stack.length === 0 || !SympleGame.samePlaceResults(this.results, top._results)
+        );
+
+        if (inProgress) {
+            pushEnter(this.results, this.currplayer);
+            if (this.stack.length >= 1) {
+                pushEnter(top._results, SympleGame.moverFromCommittedState(top));
             }
+        } else {
+            if (this.stack.length >= 1) {
+                pushEnter(top._results, SympleGame.moverFromCommittedState(top));
+            }
+            if (this.stack.length >= 2) {
+                const prev = this.stack[this.stack.length - 2];
+                pushEnter(prev._results, SympleGame.moverFromCommittedState(prev));
+            }
+        }
+
+        if (rep.annotations.length === 0) {
+            delete rep.annotations;
         }
 
         return rep;

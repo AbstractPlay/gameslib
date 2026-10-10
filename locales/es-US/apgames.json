@@ -4503,6 +4503,10 @@
       }
     },
     "asli": {
+      "hide-territories": {
+        "description": "No mostrar territorios.",
+        "name": "Ocultar territorios"
+      },
       "swap-prison": {
         "description": "Intercambiar el color de las piezas en la prisión.",
         "name": "Intercambiar colores de prisión"

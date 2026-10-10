@@ -71,7 +71,7 @@ export class AsliGame extends GameBase {
         ],
         categories: ["goal>immobilize", "goal>area", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["custom-buttons", "no-moves", "custom-randomization", "custom-colours"],
-        displays: [{uid: "swap-prison"}]
+        displays: [{uid: "swap-prison"}, {uid: "hide-territories"}]
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -745,6 +745,7 @@ export class AsliGame extends GameBase {
 
     public render(opts?: IRenderOpts): APRenderRep {
         const swapPrison = this.hasDisplay(opts, "swap-prison");
+        const hideTerritories = this.hasDisplay(opts, "hide-territories");
 
         // Build piece string
         let pstr = "";
@@ -819,20 +820,22 @@ export class AsliGame extends GameBase {
         };
 
         // add territory dots
-        if (this.maxGroups[0] > 0 && this.maxGroups[1] > 0) {
-            const territories = this.getTerritories();
-            let markers: Array<MarkerDots> | undefined = []
-            for (const t of territories) {
-                if (t.owner !== undefined) {
-                    const points = t.cells.map(c => this.algebraic2coords(c));
-                    markers.push({type: "dots", colour: this.getPlayerColour(t.owner), points: points.map(p => { return {col: p[0], row: p[1]}; }) as [RowCol, ...RowCol[]]});
+        if (!hideTerritories) {
+            if (this.maxGroups[0] > 0 && this.maxGroups[1] > 0) {
+                const territories = this.getTerritories();
+                let markers: Array<MarkerDots> | undefined = []
+                for (const t of territories) {
+                    if (t.owner !== undefined) {
+                        const points = t.cells.map(c => this.algebraic2coords(c));
+                        markers.push({type: "dots", colour: this.getPlayerColour(t.owner), points: points.map(p => { return {col: p[0], row: p[1]}; }) as [RowCol, ...RowCol[]]});
+                    }
                 }
-            }
-            if (markers.length === 0) {
-                markers = undefined;
-            }
-            if (markers !== undefined) {
-                (rep.board as BoardBasic).markers = markers;
+                if (markers.length === 0) {
+                    markers = undefined;
+                }
+                if (markers !== undefined) {
+                    (rep.board as BoardBasic).markers = markers;
+                }
             }
         }
 

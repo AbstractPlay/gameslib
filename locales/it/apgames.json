@@ -4503,6 +4503,10 @@
       }
     },
     "asli": {
+      "hide-territories": {
+        "description": "Non mostrare i territori.",
+        "name": "Nascondi territori"
+      },
       "swap-prison": {
         "description": "Scambia il colore dei pezzi nella prigione.",
         "name": "Scambia colori prigione"

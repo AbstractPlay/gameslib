@@ -3214,6 +3214,17 @@
         "name": "Tablero de 19x19"
       }
     },
+    "pods": {
+      "#board": {
+        "name": "Hexhex 7 (127 casillas)"
+      },
+      "board-6": {
+        "name": "Hexhex 6 (91 casillas)"
+      },
+      "board-8": {
+        "name": "Hexhex 8 (169 casillas)"
+      }
+    },
     "pollux": {
       "#board": {
         "name": "Tablero de 10x10"

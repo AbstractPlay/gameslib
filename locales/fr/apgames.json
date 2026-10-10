@@ -3214,6 +3214,17 @@
         "name": "Plateau 19x19"
       }
     },
+    "pods": {
+      "#board": {
+        "name": "Hexhex 7 (127 cases)"
+      },
+      "board-6": {
+        "name": "Hexhex 6 (91 cases)"
+      },
+      "board-8": {
+        "name": "Hexhex 8 (169 cases)"
+      }
+    },
     "pollux": {
       "#board": {
         "name": "Plateau 10x10"

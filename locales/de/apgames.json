@@ -3214,6 +3214,17 @@
         "name": "19x19-Brett"
       }
     },
+    "pods": {
+      "#board": {
+        "name": "Hexhex 7 (127 Felder)"
+      },
+      "board-6": {
+        "name": "Hexhex 6 (91 Felder)"
+      },
+      "board-8": {
+        "name": "Hexhex 8 (169 Felder)"
+      }
+    },
     "pollux": {
       "#board": {
         "name": "10x10-Brett"

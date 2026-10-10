@@ -1,6 +1,6 @@
 {
   "name": "@abstractplay/gameslib",
-  "version": "1.0.0-ci-38058101152.0",
+  "version": "1.0.0-ci-38058550497.0",
   "description": "TypeScript implementations of the core Abstract Play games, intended to be wrapped by the front- and backends",
   "type": "module",
   "main": "build/index.js",
@@ -138,7 +138,7 @@
     "vite": "^6.3.5"
   },
   "dependencies": {
-    "@abstractplay/recranks": "1.0.0-ci-35278464897.0",
+    "@abstractplay/recranks": "1.0.0-ci-38058453340.0",
     "@abstractplay/renderer": "1.0.0-ci-38057931966.0",
     "@turf/boolean-contains": "^6.5.0",
     "@turf/boolean-intersects": "^6.5.0",

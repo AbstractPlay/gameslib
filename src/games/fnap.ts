@@ -1,4 +1,4 @@
-import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -807,7 +807,7 @@ export class FnapGame extends GameBaseSimultaneous {
         };
     }
 
-    public render(): APRenderRep {
+    public render(opts: IRenderOpts = {}): APRenderRep {
         // Build piece string
         let pstr = "";
         for (let row = 0; row < 6; row++) {
@@ -950,6 +950,7 @@ export class FnapGame extends GameBaseSimultaneous {
                 width: 6,
                 pieces: [...strs] as [string, ...string[]],
                 label: this.seatAreaLabel(player, "apgames:validation.fnap.LABEL_STASH"),
+                veiled: this.stashAreaVeiled(player, opts),
             });
         }
 

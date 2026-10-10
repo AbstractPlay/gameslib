@@ -119,6 +119,8 @@ areas.push({
 | Location | Renderer area / field | Player-specific? |
 |----------|----------------------|------------------|
 | Pieces stash bar | `areas[]` with `type: "pieces"` | Usually |
+
+Optional `veiled: true` on a `pieces` area tells the renderer to draw a semi-opaque click-through overlay over that area’s piece grid. Games set it in `render()` from `IRenderOpts.perspective` (see `GameBase.stashAreaVeiled()`); the front does not compute veiling.
 | Captured / pooled pyramids (stacked columns) | `type: "localStash"` | Often (`seatAreaLabel` or `neutralAreaLabel`) |
 | Polyomino picker | `type: "polyomino"` | Sometimes |
 | Board marker | `board.markers[]` with `type: "label"` | Sometimes |

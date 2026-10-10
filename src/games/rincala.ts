@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaPieces, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -596,7 +596,7 @@ export class RincalaGame extends GameBase {
         };
     }
 
-    public render(): APRenderRep[] {
+    public render(opts: IRenderOpts = {}): APRenderRep[] {
         const renders: APRenderRep[] = [];
         // we need to look at each frame, and then finally the base object
         for (let i = 0; i < this.frames.length + 1; i++) {
@@ -631,6 +631,7 @@ export class RincalaGame extends GameBase {
                         type: "pieces",
                         pieces: hand as [Colour, ...Colour[]],
                         label: this.seatAreaLabel(seat, "apgames:validation.rincala.LABEL_STASH"),
+                        veiled: this.stashAreaVeiled(seat, opts),
                     });
                 }
             }

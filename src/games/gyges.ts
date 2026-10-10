@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base.js";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaPieces, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -1049,7 +1049,7 @@ export class GygesGame extends GameBase {
         };
     }
 
-    public render(): APRenderRep {
+    public render(opts: IRenderOpts = {}): APRenderRep {
         // Build piece string
         let pstr = "";
         for (let row = 0; row < 8; row++) {
@@ -1079,6 +1079,7 @@ export class GygesGame extends GameBase {
                         type: "pieces",
                         pieces: inhand.map(n => `p${n}`) as [string, ...string[]],
                         label: this.seatAreaLabel(p, "apgames:validation.gyges.LABEL_STASH"),
+                        veiled: this.stashAreaVeiled(p, opts),
                     });
                 }
             }

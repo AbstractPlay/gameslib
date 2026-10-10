@@ -1,5 +1,5 @@
 
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, IStashEntry, ICustomButton, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult, IStashEntry, ICustomButton, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaPieces, BoardBasic, Colourfuncs, Glyph, MarkerGlyph, MarkerShading } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -799,7 +799,7 @@ export class ACityGame extends GameBase {
         }
     }
 
-    public render(): APRenderRep {
+    public render(opts: IRenderOpts = {}): APRenderRep {
         // Build piece string
         let pieceRep: string[][][] | null = [];
         const cells = this.graph.listCells(true) as string[][];
@@ -975,7 +975,8 @@ export class ACityGame extends GameBase {
                     type: "pieces",
                     label: this.seatAreaLabel(n + 1, "apgames:validation.acity.LABEL_STASH"),
                     ownerMark: n === 0 ? this.getPlayerColour(1) : this.getPlayerColour(2),
-                    pieces: [...this.stashes[n]]
+                    pieces: [...this.stashes[n]],
+                    veiled: this.stashAreaVeiled(n + 1, opts),
                 } as AreaPieces);
             }
         }

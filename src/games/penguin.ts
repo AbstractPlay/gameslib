@@ -1,4 +1,4 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaPieces, Glyph, MarkerFlood, MarkerGlyph } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -796,7 +796,7 @@ export class PenguinGame extends GameBase {
         return ([1,2,3] as Size[]).filter(s => !mine.includes(s));
     }
 
-    public render(): APRenderRep {
+    public render(opts: IRenderOpts = {}): APRenderRep {
         // Build piece string
         let pstr = "";
         for (let row = 0; row < 8; row++) {
@@ -875,6 +875,7 @@ export class PenguinGame extends GameBase {
                     type: "pieces",
                     label: this.seatAreaLabel(p, "apgames:validation.penguin.LABEL_STASH"),
                     pieces: inhand.map(size => `p${p === 1 ? "A" : "B"}${size}U`) as [string, ...string[]],
+                    veiled: this.stashAreaVeiled(p, opts),
                 });
             }
         }

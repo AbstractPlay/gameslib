@@ -21,6 +21,10 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 - **Render:** `pieces` areas may set `veiled` so the renderer dims the opponent stash grid; perfect-information stash/hand games (Alien City, Four, Fnap, Pylon, Subdivision, WaldMeister, Gyges, Penguin, Rincala, Moon Squad) set it from `render({ perspective })` via `GameBase.stashAreaVeiled()` (requires matching `@abstractplay/renderer` with `AreaPieces.veiled`).
 
+### Changed
+
+- **Symple:** enter highlights persist for the current and previous turn, colour-coded by the player who placed those stones.
+
 ### Fixed
 
 - **Tumbleweed:** move log again interpolates cell coordinates and attributes plies to the mover after the opening (regression from overly broad opening-setup detection in structured chat).

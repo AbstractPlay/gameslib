@@ -2599,6 +2599,14 @@
     "src": "Hide threatened",
     "out": "Nascondi minacciati"
   },
+  "displays.asli.hide-territories.description": {
+    "src": "Don't show territories.",
+    "out": "Non mostrare i territori."
+  },
+  "displays.asli.hide-territories.name": {
+    "src": "Hide territories",
+    "out": "Nascondi territori"
+  },
   "displays.asli.swap-prison.description": {
     "src": "Swap the color of the pieces in the prison.",
     "out": "Scambia il colore dei pezzi nella prigione."

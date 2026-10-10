@@ -4503,6 +4503,10 @@
       }
     },
     "asli": {
+      "hide-territories": {
+        "description": "Gebiete nicht anzeigen.",
+        "name": "Gebiete ausblenden"
+      },
       "swap-prison": {
         "description": "Farben der Figuren im Gefängnis tauschen.",
         "name": "Gefängnisfarben tauschen"

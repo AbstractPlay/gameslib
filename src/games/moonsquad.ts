@@ -1,4 +1,4 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaPieces, Glyph, MarkerEdge, MarkerFlood, MarkerHalo, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -997,7 +997,7 @@ export class MoonSquadGame extends GameBase {
         return rep;
     }
 
-    public render(): APRenderRep {
+    public render(opts: IRenderOpts = {}): APRenderRep {
         const graph = this.graph;
         const floods: [string[], string[]] = [[],[]];
         let pstr = "";
@@ -1111,6 +1111,7 @@ export class MoonSquadGame extends GameBase {
                     type: "pieces",
                     label: this.seatAreaLabel(i + 1, "apgames:validation.moonsquad.LABEL_ORE"),
                     pieces: this.ore[i].sort((a,b) => a - b).map(ore => colourNum2Name.get(ore)!) as [string, ...string[]],
+                    veiled: this.stashAreaVeiled(i + 1, opts),
                 });
             }
         }

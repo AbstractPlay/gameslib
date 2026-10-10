@@ -1,5 +1,5 @@
 
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base.js";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import type { APRenderRep, Polymatrix } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -602,7 +602,7 @@ export class FourGame extends GameBase {
         };
     }
 
-    public render(): APRenderRep {
+    public render(opts: IRenderOpts = {}): APRenderRep {
         const {minX, minY, maxX, maxY} = this.getMinMax();
         const width = maxX - minX + 1;
         const height = maxY - minY + 1;
@@ -687,6 +687,7 @@ export class FourGame extends GameBase {
                 pieces: [...strs] as [string, ...string[]],
                 label: this.seatAreaLabel(player, "apgames:validation.fnap.LABEL_STASH"),
                 width: areaWidth,
+                veiled: this.stashAreaVeiled(player, opts),
             });
         }
 

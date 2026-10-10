@@ -1075,6 +1075,21 @@ export abstract class GameBase  {
         return label;
     }
 
+    /**
+     * Whether a seat-owned stash/hand `pieces` area should use `veiled` in `render()`
+     * (opponent supply when the viewer has a participant perspective).
+     */
+    protected stashAreaVeiled(seat: number, opts: IRenderOpts = {}): boolean {
+        if (opts.omniscient === true) {
+            return false;
+        }
+        const v = opts.perspective;
+        if (v === undefined || v < 1 || v > this.numplayers) {
+            return false;
+        }
+        return seat !== v;
+    }
+
     /** Structured sidebar status value for a seat (display name only). */
     protected seatStatusValue(seat: number): StructuredRenderLabel {
         return this.seatAreaLabel(seat, "apgames:status._player");

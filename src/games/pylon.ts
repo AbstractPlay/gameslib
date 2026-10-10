@@ -1,5 +1,5 @@
 
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { RectGrid, shuffle, SquareGraph, SquareOrthGraph, cloneState } from "../common/index.js";
 import { APRenderRep, AreaPieces, Glyph } from "@abstractplay/renderer/build/schemas/schema";
@@ -569,7 +569,7 @@ export class PylonGame extends GameBase {
         return ret;
     }
 
-    public render(): APRenderRep {
+    public render(opts: IRenderOpts = {}): APRenderRep {
         // Build piece object
         const pieces: string[][][] = [];
         for (let row = 0; row < 5; row++) {
@@ -662,6 +662,7 @@ export class PylonGame extends GameBase {
                     pieces: pcs as [string, ...string[]],
                     width: 5,
                     label: this.seatAreaLabel(p, "apgames:validation.subdivision.LABEL_STASH"),
+                    veiled: this.stashAreaVeiled(p, opts),
                 });
             }
         }

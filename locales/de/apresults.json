@@ -304,6 +304,7 @@
     "repetition_other": "Das Spiel ist zu Ende, da dieselbe Stellung {{count}}-mal durch denselben Spieler aufgetreten ist.",
     "repetition_positional_one": "Das Spiel ist zu Ende, da dieselbe Stellung aufgetreten ist.",
     "repetition_positionas_other": "Das Spiel ist zu Ende, da dieselbe Stellung {{count}}-mal aufgetreten ist.",
+    "selfo_mutual_enclosure": "Das Spiel endet unentschieden, da beide Spieler eingeschlossene Steine haben und keiner mehr eine Verbindung herstellen kann.",
     "squares_points": "Das Spiel ist beendet, da Einheiten im Wert von zehn Punkten eliminiert wurden.",
     "squares_repetition": "Das Spiel ist beendet, da dieselbe Stellung dreimal aufgetreten ist.",
     "squares_reserve": "Das Spiel ist beendet, da eine Einheit die gegnerische Reserve betreten hat.",

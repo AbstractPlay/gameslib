@@ -304,6 +304,7 @@
     "repetition_other": "La partie est terminée car la même position s'est produite {{count}} fois par le même joueur.",
     "repetition_positional_one": "La partie est terminée car la même position s'est produite.",
     "repetition_positionas_other": "La partie est terminée car la même position s'est produite {{count}} fois.",
+    "selfo_mutual_enclosure": "La partie s'est terminée par un match nul car les deux joueurs ont des pièces encerclées et aucun d'eux ne pourra jamais se connecter.",
     "squares_points": "La partie est terminée car l'équivalent de dix points d'unités a été éliminé.",
     "squares_repetition": "La partie est terminée car la même position s'est produite trois fois.",
     "squares_reserve": "La partie est terminée car une unité est entrée dans la réserve ennemie.",

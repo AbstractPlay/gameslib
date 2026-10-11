@@ -219,6 +219,7 @@
     "rootbound": "In Root Bound, due gruppi di 'piante' si diffondono in modi realistici e lottano per il controllo del territorio mentre lo spazio per nuova crescita diminuisce rapidamente.",
     "saltire": "Collega i tuoi due lati opposti del tabellone posizionando pietre e scambiando coppie di pietre adiacenti in ortogonale o in diagonale. Uno scambio deve diminuire il numero di crosscut o di supercut sul tabellone e non deve aumentare il numero di crosscut.",
     "scaffold": "Scaffold è un gioco di connessione senza patta giocato sulle intersezioni di una griglia quadrata usando pietre (come nel Go). Il Nero cerca di collegare i bordi N-S del tabellone, il Bianco i bordi E-O con un gruppo connesso ortogonalmente. Nel tuo turno, posiziona una pietra del tuo colore su un punto vuoto. Poi, se possibile, posiziona una pietra del tuo colore su un punto vuoto che sia ortogonalmente adiacente a due gruppi del tuo colore e continua ad effettuare tali posizionamenti finché non ne sono più possibili.",
+    "selfo": "Un gioco di connessione su un tabellone esagonale. Ogni giocatore inizia con lo stesso numero di pezzi sparsi casualmente e, nel proprio turno, fa scorrere un pezzo su una casella vuota adiacente. Il primo giocatore che unisce tutti i propri pezzi in un unico gruppo vince.",
     "shapechess": "Shape Chess è un gioco in cui i giocatori usano i propri pezzi per creare forme a simmetria lineare. Utilizzando tre tipi di azioni (posizionamenti, salti, spinte), i giocatori mirano a creare gruppi simmetrici di sei o più pezzi, ottenendo più punti per i gruppi più grandi.",
     "sentinel": "Un gioco di vigilia che utilizza un meccanismo di semina con pile. Un gioco di vigilia è un gioco in cui una determinata posizione del tabellone deve sempre avere una linea di vista verso alcuni o tutti i pezzi del giocatore. In Sentinel, ai giocatori è richiesto di vedere il centro del tabellone alla fine di ciascuno dei propri turni.",
     "shifty": "Un gioco di connessione in cui posizioni un pezzo ortogonalmente adiacente a un pezzo alleato, oppure muovi uno dei tuoi pezzi ortogonalmente adiacente a un pezzo alleato, con la mossa della donna degli scacchi, in una posizione non adiacente ortogonalmente a nessun altro pezzo alleato. I crosscut sono illegali. Il giocatore che forma un percorso ortogonale o diagonale che collega i suoi due lati vince.",
@@ -673,6 +674,7 @@
     "razzle": "L'implementazione qui presente segue le cosiddette regole da torneo.",
     "rincala": "Per vari motivi, i colori sono invece rosso (4 pt), blu (3 pt), verde (2 pt), giallo (1 pt). Inoltre, la partita termina non appena un giocatore ottiene più della metà dei punti (>=26 pt).",
     "rootbound": "Il punteggio stimato mostra i punteggi che il tabellone assegnerebbe se la partita dovesse terminare nello stato attuale. Di conseguenza, il primo giocatore che forma una partizione sembrerà brevemente avere il punteggio massimo. Questo si correggerà nel corso della partita.\n\nAl momento, l'implementazione fornisce la protezione per principianti solo per la prima mossa della partita. Fai attenzione a non unificare tutto fino a un unico Gruppo Morto.",
+    "selfo": "La posizione iniziale è casuale: i pezzi di entrambi i giocatori sono sparsi sul tabellone, senza alcun pezzo già racchiuso, nessun giocatore già connesso e nessuna vittoria immediata per il primo giocatore.\n\nNel tuo turno, muovi uno dei tuoi pezzi in una casella vuota adiacente. Vinci muovendoti in modo che tutti i tuoi pezzi formino un unico gruppo di pezzi reciprocamente adiacenti; solo il giocatore che ha appena mosso può vincere in questo modo. Un giocatore che non ha mosse legali perde.\n\nUn pezzo è _racchiuso_ quando i tuoi pezzi non possono raggiungersi tutti attraverso caselle non occupate dal tuo avversario, poiché i pezzi avversari e il bordo del tabellone ne isolano alcuni. Se, dopo una mossa, entrambi i giocatori hanno pezzi racchiusi, nessuno dei due potrà mai connettersi e la partita termina in parità. Con la variante **Senza racchiudimento**, non è consentita una mossa che racchiuderebbe un pezzo avversario, a meno che quella mossa non vinca direttamente la partita.\n\nIl secondo giocatore può usare la regola della torta per scambiare i lati dopo la prima mossa.",
     "siegeofj": "Maggiori informazioni sul sistema Decktet sono disponibili sul [sito ufficiale del Decktet](https://www.decktet.com). Le carte nella mano dei giocatori sono nascoste agli osservatori e sono nascoste agli avversari finché il mazzo non è vuoto, momento in cui i giocatori dispongono di informazione perfetta e le mani vengono rivelate.",
     "shapechess": "Shape Chess, 形棋 (forma - gioco da tavolo), è stato progettato c.2010 da 日出 (Richu) di Guangzhou, Cina. Il gioco si è evoluto nella sua forma attuale attraverso anni di perfezionamento all'interno della comunità cinese di game design (citato da Kanare_Abstract). Non è un gioco di tipo scacchistico, ma sfrutta un concetto molto originale facendo costruire ai giocatori forme a simmetria speculare. Questa implementazione include diverse dimensioni del tabellone e anche diversi punteggi di vittoria, per i giocatori che preferiscono partite più brevi o più lunghe.",
     "sentinel": "I giochi di sorveglianza (Vigil Games) sono una classe di giochi di strategia in cui i giocatori devono mantenere una linea di vista ininterrotta tra i propri pezzi e un punto di riferimento o una regione designata del tabellone. Il primo gioco di questo genere di cui si ha notizia è Kastellet del 1892.\n\nSentinel è un gioco di sorveglianza in cui i giocatori devono sempre avere almeno una linea di vista verso il centro del tabellone. Sentinel è il secondo gioco astratto di questo genere (dopo oltre 130 anni!), che unisce i ludemi tipici di movimento e cattura con il controllo permanente in linea di vista della casella centrale.\n\nIl gioco unisce il movimento in avanti con la semina di pile, che è l'unico modo per gli eserciti di aumentare le proprie dimensioni.",
@@ -3495,6 +3497,24 @@
       },
       "size-25": {
         "name": "Tabellone più grande 25x25"
+      }
+    },
+    "selfo": {
+      "#board": {
+        "name": "Tabellone di raggio 3, 9 pezzi a testa"
+      },
+      "r2f5": {
+        "name": "Tabellone di raggio 2, 5 pezzi a testa"
+      },
+      "r4f12": {
+        "name": "Tabellone di raggio 4, 12 pezzi a testa"
+      },
+      "r5f20": {
+        "name": "Tabellone di raggio 5, 20 pezzi a testa"
+      },
+      "no-enclosure": {
+        "name": "Senza racchiudimento",
+        "description": "Una mossa che racchiuderebbe un pezzo avversario non è consentita, a meno che non vinca direttamente la partita."
       }
     },
     "sentinel": {
@@ -7751,6 +7771,16 @@
       "INCOMPLETE": "Devi posizionare pietre per collegare i gruppi.",
       "INITIAL_INSTRUCTIONS": "Seleziona un punto per posizionare un pezzo.",
       "INVALID_MOVES": "Questa sequenza di mosse {{moves}} non è valida."
+    },
+    "selfo": {
+      "ENCLOSURE": "In questo gioco non puoi racchiudere un pezzo avversario, a meno che la mossa non vinca la partita.",
+      "INITIAL_INSTRUCTIONS": "Fai clic su uno dei tuoi pezzi per selezionarlo.",
+      "INITIAL_INSTRUCTIONS_PIE": "Fai clic su uno dei tuoi pezzi per selezionarlo, oppure usa la regola della torta per scambiare i lati.",
+      "NOT_ADJACENT": "Un pezzo può muoversi solo in una casella vuota adiacente.",
+      "NO_PASS": "Non puoi passare in questo gioco.",
+      "PARTIAL": "Fai clic su una casella vuota adiacente per muovere il pezzo selezionato.",
+      "PIE": "Usa la regola della torta e scambia i lati.",
+      "PIE_UNAVAILABLE": "La regola della torta può essere usata solo dal secondo giocatore subito dopo la prima mossa."
     },
     "shapechess": {
       "INITIAL_INSTRUCTIONS": "In questo turno il giocatore (a) posiziona una pietra su una casella vuota, (b) sposta una propria pietra in qualsiasi casella vuota, oppure (c) posiziona una pietra sopra una pietra avversaria che viene spinta in una casella vuota adiacente (ortogonale o diagonale).",

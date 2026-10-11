@@ -1071,6 +1071,10 @@
     "src": "The game has ended because the same position has occurred {{count}} times.",
     "out": "La partie est terminée car la même position s'est produite {{count}} fois."
   },
+  "EOG.selfo_mutual_enclosure": {
+    "src": "The game has ended in a draw because both players have enclosed pieces and neither can ever connect.",
+    "out": "La partie s'est terminée par un match nul car les deux joueurs ont des pièces encerclées et aucun d'eux ne pourra jamais se connecter."
+  },
   "EOG.squares_points": {
     "src": "The game has ended because ten points' worth of units have been eliminated.",
     "out": "La partie est terminée car l'équivalent de dix points d'unités a été éliminé."

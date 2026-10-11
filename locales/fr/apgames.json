@@ -219,6 +219,7 @@
     "rootbound": "Dans Root Bound, deux groupes de « plantes » se propagent de manière réaliste et se disputent le contrôle du territoire à mesure que l'espace pour la nouvelle croissance diminue rapidement.",
     "saltire": "Reliez vos deux côtés opposés du plateau en plaçant des pierres et en échangeant des paires de pierres adjacentes de manière orthogonale ou diagonale. Un échange doit réduire le nombre de coupes croisées ou de surcoupes sur le plateau, et ne doit pas augmenter le nombre de coupes croisées.",
     "scaffold": "Scaffold est un jeu de connexion sans égalité joué sur les intersections d'une grille carrée à l'aide de pierres (comme au Go). Noir tente de relier les bords N-S du plateau, Blanc E-O avec un groupe connecté orthogonalement. À votre tour, placez une pierre de votre couleur sur un point vide. Ensuite, si possible, placez une pierre de votre couleur sur un point vide orthogonalement adjacent à deux groupes de votre couleur, et continuez à effectuer de tels placements jusqu'à ce que ce ne soit plus possible.",
+    "selfo": "Un jeu de connexion sur un plateau hexagonal. Chaque joueur commence avec le même nombre de pièces dispersées au hasard, et à votre tour, vous glissez une pièce vers une case vide adjacente. Le premier joueur à rassembler toutes ses pièces en un seul groupe gagne.",
     "shapechess": "Shape Chess est un jeu dans lequel les joueurs utilisent leurs pièces pour créer des formes à symétrie axiale. À l'aide de trois types d'actions (placements, sauts, poussées), les joueurs visent à créer des groupes symétriques d'au moins six pièces, marquant plus de points pour les groupes plus grands.",
     "sentinel": "Un jeu de vigie utilisant un mécanisme de semailles avec des piles. Un jeu de vigie est un jeu dans lequel une position du plateau doit toujours avoir une ligne de vue sur une partie ou la totalité des pièces du joueur. Dans Sentinel, les joueurs doivent voir le centre du plateau à la fin de chacun de leurs tours.",
     "shifty": "Un jeu de connexion où vous placez soit une pièce de manière orthogonale adjacente à une pièce amie, soit vous déplacez l'une de vos pièces de manière orthogonale adjacente à une pièce amie, par un déplacement de reine d'échecs, vers un emplacement qui n'est pas orthogonalement adjacent à d'autres pièces amies. Les coupes croisées sont interdites. Le joueur qui forme un chemin orthogonal ou diagonal reliant ses deux côtés gagne.",
@@ -673,6 +674,7 @@
     "razzle": "L'implémentation ici utilise les règles dites de tournoi.",
     "rincala": "Pour certaines raisons, les couleurs sont plutôt le rouge (4 pts), le bleu (3 pts), le vert (2 pts) et le jaune (1 pt). De plus, la partie se termine dès qu'un joueur obtient plus de la moitié des points (>=26 pts).",
     "rootbound": "Le score estimé indique les scores auxquels le plateau aboutirait si la partie se terminait dans l'état actuel du plateau. Par conséquent, le premier joueur à former une partition semblera brièvement avoir un score maximum. Cela se corrigera au cours de la partie.\n\nL'implémentation n'offre actuellement une protection pour débutant que pour le premier coup de la partie. Veillez à ne pas fusionner l'ensemble jusqu'à n'obtenir qu'un seul groupe mort.",
+    "selfo": "La position de départ est aléatoire : les pièces des deux joueurs sont dispersées sur le plateau, sans qu'aucune pièce ne soit déjà encerclée, qu'aucun joueur ne soit déjà connecté et sans victoire immédiate pour le premier joueur.\n\nÀ votre tour, déplacez l'une de vos pièces vers une case vide adjacente. Vous gagnez en vous déplaçant de sorte que toutes vos pièces forment un groupe unique de pièces mutuellement adjacentes ; seul le joueur qui vient de jouer peut gagner de cette façon. Un joueur qui n'a aucun coup légal perd.\n\nUne pièce est _encerclée_ lorsque vos pièces ne peuvent pas toutes s'atteindre via des cases non occupées par votre adversaire, car les pièces adverses et le bord du plateau en isolent certaines. Si, après un coup, les deux joueurs ont des pièces encerclées, aucun ne pourra jamais se connecter et la partie est nulle. Avec la variante **Sans encerclement**, un coup qui encerclerait une pièce adverse n'est pas autorisé, à moins que ce coup ne gagne immédiatement la partie.\n\nLe second joueur peut utiliser la règle du gâteau pour échanger les rôles après le premier coup.",
     "siegeofj": "Plus d'informations sur le système Decktet sont disponibles sur le [site officiel de Decktet](https://www.decktet.com). Les cartes dans la main des joueurs sont cachées aux spectateurs, et elles sont cachées aux adversaires jusqu'à ce que la pioche soit vide, moment auquel les joueurs disposent d'une information parfaite et où les mains sont révélées.",
     "shapechess": "Shape Chess, 形棋 (jeu de plateau de formes), a été conçu vers 2010 par 日出 (Richu) de Guangzhou, en Chine. Le jeu a évolué vers sa forme actuelle après des années de perfectionnement au sein de la communauté chinoise de création de jeux (citation de Kanare_Abstract). Il ne s'agit pas d'un jeu de type Échecs, mais d'un jeu utilisant un concept très original en obligeant les joueurs à construire des formes présentant une symétrie axiale. Cette implémentation comprend plusieurs tailles de plateau, ainsi que différents scores de victoire pour les joueurs qui préfèrent des parties plus courtes ou plus longues.",
     "sentinel": "Les jeux de vigilance (Vigil Games) sont une catégorie de jeux de stratégie dans lesquels les joueurs doivent maintenir une ligne de vue ininterrompue entre leurs pièces et un point ou une région de référence désigné sur le plateau. Le premier jeu de vigilance répertorié est Kastellet en 1892.\n\nSentinel est un jeu de vigilance où les joueurs doivent toujours conserver au moins une ligne de vue vers le centre du plateau. Sentinel est le deuxième jeu abstrait de ce genre (après plus de 130 ans !), combinant des ludèmes classiques de déplacement et de capture avec un contrôle permanent par ligne de vue de la case centrale.\n\nLe jeu mêle déplacement vers l'avant et égrenage de piles, ce qui constitue le seul moyen pour les armées d'augmenter leur taille.",
@@ -3495,6 +3497,24 @@
       },
       "size-25": {
         "name": "Plateau plus grand 25x25"
+      }
+    },
+    "selfo": {
+      "#board": {
+        "name": "Plateau de rayon 3, 9 pièces chacun"
+      },
+      "r2f5": {
+        "name": "Plateau de rayon 2, 5 pièces chacun"
+      },
+      "r4f12": {
+        "name": "Plateau de rayon 4, 12 pièces chacun"
+      },
+      "r5f20": {
+        "name": "Plateau de rayon 5, 20 pièces chacun"
+      },
+      "no-enclosure": {
+        "name": "Sans encerclement",
+        "description": "Un coup qui encerclerait une pièce adverse n'est pas autorisé, à moins qu'il ne gagne immédiatement la partie."
       }
     },
     "sentinel": {
@@ -7751,6 +7771,16 @@
       "INCOMPLETE": "Vous devez placer des pierres pour connecter les groupes.",
       "INITIAL_INSTRUCTIONS": "Sélectionnez un point pour placer une pièce.",
       "INVALID_MOVES": "Cette séquence de coups {{moves}} est invalide."
+    },
+    "selfo": {
+      "ENCLOSURE": "Dans ce jeu, vous ne pouvez pas encercler une pièce adverse, à moins que le coup ne gagne la partie.",
+      "INITIAL_INSTRUCTIONS": "Cliquez sur l'une de vos pièces pour la sélectionner.",
+      "INITIAL_INSTRUCTIONS_PIE": "Cliquez sur l'une de vos pièces pour la sélectionner, ou utilisez la règle du gâteau pour échanger les rôles.",
+      "NOT_ADJACENT": "Une pièce ne peut se déplacer que vers une case vide adjacente.",
+      "NO_PASS": "Vous ne pouvez pas passer votre tour dans ce jeu.",
+      "PARTIAL": "Cliquez sur une case vide adjacente pour y déplacer la pièce sélectionnée.",
+      "PIE": "Utiliser la règle du gâteau et échanger les rôles.",
+      "PIE_UNAVAILABLE": "La règle du gâteau ne peut être utilisée que par le second joueur juste après le premier coup."
     },
     "shapechess": {
       "INITIAL_INSTRUCTIONS": "Pendant ce tour, le joueur soit (a) place une pierre sur une case vide, soit (b) déplace une pierre alliée vers n'importe quelle case vide, soit (c) place une pierre par-dessus une pierre adverse qui est poussée sur une case vide adjacente (orthogonale ou diagonale).",

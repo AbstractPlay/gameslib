@@ -2235,6 +2235,10 @@
     "src": "A pen-and-paper game on a 9×9 super grid of nine 3×3 mini grids. Win the most mini grids, or in the advanced game, form the highest-value super glyph from your victories.",
     "out": "Un gioco con carta e penna su una super-griglia 9×9 composta da nove mini-griglie 3×3. Vinci il maggior numero di mini-griglie o, nella variante avanzata, crea il super-glifo di maggior valore con le tue vittorie."
   },
+  "descriptions.selfo": {
+    "src": "A connection game on a hexagonal board. Each player starts with the same number of pieces scattered at random, and on your turn you slide one piece to an adjacent empty cell. The first player to bring all of their own pieces together into a single group wins.",
+    "out": "Un gioco di connessione su un tabellone esagonale. Ogni giocatore inizia con lo stesso numero di pezzi sparsi casualmente e, nel proprio turno, fa scorrere un pezzo su una casella vuota adiacente. Il primo giocatore che unisce tutti i propri pezzi in un unico gruppo vince."
+  },
   "descriptions.sentinel": {
     "src": "A vigil game using a sowing mechanism with stacks. A vigil game is one where some board position must always have line-of-sight to some or all of the player's pieces. In Sentinel, players are required to see the board center at the end of each one of their turns.",
     "out": "Un gioco di vigilia che utilizza un meccanismo di semina con pile. Un gioco di vigilia è un gioco in cui una determinata posizione del tabellone deve sempre avere una linea di vista verso alcuni o tutti i pezzi del giocatore. In Sentinel, ai giocatori è richiesto di vedere il centro del tabellone alla fine di ciascuno dei propri turni."
@@ -4986,6 +4990,10 @@
   "notes.scribe": {
     "src": "The glyph reference chart is shown in the left margin. A dot marks each player's most recent placement. When a mini grid fills, glyph points are tallied and the higher score wins that grid (ties go to the player who completed it).",
     "out": "La tabella di riferimento dei glifi è mostrata nel margine sinistro. Un punto indica il posizionamento più recente di ciascun giocatore. Quando una mini-griglia si riempie, vengono calcolati i punti glifo e il punteggio più alto si aggiudica la griglia (in caso di parità, la griglia va al giocatore che l'ha completata)."
+  },
+  "notes.selfo": {
+    "src": "The starting position is random: both players' pieces are scattered over the board, with no piece already enclosed, no player already connected, and no immediate win for the first player.\n\nOn your turn, move one of your pieces to an adjacent empty cell. You win by moving so that all of your pieces form one group of mutually adjacent pieces; only the player who has just moved can win this way. A player who has no legal move loses.\n\nA piece is _enclosed_ when your pieces cannot all reach each other through cells not occupied by your opponent, because opposing pieces and the board edge wall some of them off. If, after a move, both players have enclosed pieces, neither can ever connect and the game is a draw. With the **No enclosure** variant, a move that would enclose an opposing piece is not allowed, unless that move wins the game outright.\n\nThe second player may use the pie rule to swap sides after the first move.",
+    "out": "La posizione iniziale è casuale: i pezzi di entrambi i giocatori sono sparsi sul tabellone, senza alcun pezzo già racchiuso, nessun giocatore già connesso e nessuna vittoria immediata per il primo giocatore.\n\nNel tuo turno, muovi uno dei tuoi pezzi in una casella vuota adiacente. Vinci muovendoti in modo che tutti i tuoi pezzi formino un unico gruppo di pezzi reciprocamente adiacenti; solo il giocatore che ha appena mosso può vincere in questo modo. Un giocatore che non ha mosse legali perde.\n\nUn pezzo è _racchiuso_ quando i tuoi pezzi non possono raggiungersi tutti attraverso caselle non occupate dal tuo avversario, poiché i pezzi avversari e il bordo del tabellone ne isolano alcuni. Se, dopo una mossa, entrambi i giocatori hanno pezzi racchiusi, nessuno dei due potrà mai connettersi e la partita termina in parità. Con la variante **Senza racchiudimento**, non è consentita una mossa che racchiuderebbe un pezzo avversario, a meno che quella mossa non vinca direttamente la partita.\n\nIl secondo giocatore può usare la regola della torta per scambiare i lati dopo la prima mossa."
   },
   "notes.sentinel": {
     "src": "Vigil Games are a class of strategy games in which players must maintain an uninterrupted line of sight between their pieces and a designated reference point or region of the board. The first vigil game on record is 1892's Kastellet.\n\nSentinel is a vigil game where players always need to have at least one line-of-sight to the board's center. Sentinel is the second abstract game of this genre (after more than 130 years!), mixing typical movement and capture ludemes with permanent line-of-sight control of the central square.\n\nThe game mixes forward movement with sowing stacks which are the only way for armies to increase their size.",
@@ -13731,6 +13739,38 @@
     "src": "You must play in the mini grid indicated by your last move.",
     "out": "Devi giocare nella mini-griglia indicata dalla tua ultima mossa."
   },
+  "validation.selfo.ENCLOSURE": {
+    "src": "In this game you may not enclose an opposing piece, unless the move wins the game.",
+    "out": "In questo gioco non puoi racchiudere un pezzo avversario, a meno che la mossa non vinca la partita."
+  },
+  "validation.selfo.INITIAL_INSTRUCTIONS": {
+    "src": "Click one of your pieces to select it.",
+    "out": "Fai clic su uno dei tuoi pezzi per selezionarlo."
+  },
+  "validation.selfo.INITIAL_INSTRUCTIONS_PIE": {
+    "src": "Click one of your pieces to select it, or use the pie rule to swap sides.",
+    "out": "Fai clic su uno dei tuoi pezzi per selezionarlo, oppure usa la regola della torta per scambiare i lati."
+  },
+  "validation.selfo.NOT_ADJACENT": {
+    "src": "A piece can only move to an adjacent empty cell.",
+    "out": "Un pezzo può muoversi solo in una casella vuota adiacente."
+  },
+  "validation.selfo.NO_PASS": {
+    "src": "You cannot pass in this game.",
+    "out": "Non puoi passare in questo gioco."
+  },
+  "validation.selfo.PARTIAL": {
+    "src": "Click an adjacent empty cell to move the selected piece there.",
+    "out": "Fai clic su una casella vuota adiacente per muovere il pezzo selezionato."
+  },
+  "validation.selfo.PIE": {
+    "src": "Use the pie rule and swap sides.",
+    "out": "Usa la regola della torta e scambia i lati."
+  },
+  "validation.selfo.PIE_UNAVAILABLE": {
+    "src": "The pie rule can only be used by the second player right after the first move.",
+    "out": "La regola della torta può essere usata solo dal secondo giocatore subito dopo la prima mossa."
+  },
   "validation.sentinel.EDGE_INSTRUCTIONS": {
     "src": "Move the piece one step forward (orthogonally or diagonally). The piece can be moved off the board by clicking at the center.",
     "out": "Muovi il pezzo di un passo in avanti (ortogonalmente o diagonalmente). Il pezzo può essere rimosso dalla plancia facendo clic al centro."
@@ -20506,6 +20546,30 @@
   "variants.scribe.advanced.name": {
     "src": "Advanced",
     "out": "Avanzata"
+  },
+  "variants.selfo.#board.name": {
+    "src": "Radius-3 board, 9 pieces each",
+    "out": "Tabellone di raggio 3, 9 pezzi a testa"
+  },
+  "variants.selfo.no-enclosure.description": {
+    "src": "A move that would enclose an opposing piece is not allowed, unless it wins the game outright.",
+    "out": "Una mossa che racchiuderebbe un pezzo avversario non è consentita, a meno che non vinca direttamente la partita."
+  },
+  "variants.selfo.no-enclosure.name": {
+    "src": "No enclosure",
+    "out": "Senza racchiudimento"
+  },
+  "variants.selfo.r2f5.name": {
+    "src": "Radius-2 board, 5 pieces each",
+    "out": "Tabellone di raggio 2, 5 pezzi a testa"
+  },
+  "variants.selfo.r4f12.name": {
+    "src": "Radius-4 board, 12 pieces each",
+    "out": "Tabellone di raggio 4, 12 pezzi a testa"
+  },
+  "variants.selfo.r5f20.name": {
+    "src": "Radius-5 board, 20 pieces each",
+    "out": "Tabellone di raggio 5, 20 pezzi a testa"
   },
   "variants.sentinel.#board.name": {
     "src": "9x9 board",

@@ -304,6 +304,7 @@
     "repetition_other": "La partida ha terminado porque la misma posición ocurrió {{count}} veces por el mismo jugador.",
     "repetition_positional_one": "La partida ha terminado porque ocurrió la misma posición.",
     "repetition_positionas_other": "La partida ha terminado porque la misma posición ocurrió {{count}} veces.",
+    "selfo_mutual_enclosure": "La partida ha terminado en empate porque ambos jugadores tienen piezas encerradas y ninguno podrá conectar jamás.",
     "squares_points": "El juego ha terminado porque se han eliminado unidades por un valor de diez puntos.",
     "squares_repetition": "El juego ha terminado porque la misma posición se ha repetido tres veces.",
     "squares_reserve": "El juego ha terminado porque una unidad entró en la reserva enemiga.",

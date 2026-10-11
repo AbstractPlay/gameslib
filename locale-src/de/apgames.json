@@ -2235,6 +2235,10 @@
     "src": "A pen-and-paper game on a 9×9 super grid of nine 3×3 mini grids. Win the most mini grids, or in the advanced game, form the highest-value super glyph from your victories.",
     "out": "Ein Stift-und-Papier-Spiel auf einem 9×9-Supergitter aus neun 3×3-Minigittern. Gewinne die meisten Minigitter oder bilde in der fortgeschrittenen Variante die wertvollste Superglyphe aus deinen Siegen."
   },
+  "descriptions.selfo": {
+    "src": "A connection game on a hexagonal board. Each player starts with the same number of pieces scattered at random, and on your turn you slide one piece to an adjacent empty cell. The first player to bring all of their own pieces together into a single group wins.",
+    "out": "Ein Verbindungsspiel auf einem sechseckigen Spielbrett. Beide Spieler beginnen mit derselben Anzahl zufällig verstreuter Steine. Wenn Sie an der Reihe sind, schieben Sie einen Stein auf ein angrenzendes freies Feld. Der erste Spieler, der alle seine eigenen Steine zu einer einzigen Gruppe zusammenführt, gewinnt."
+  },
   "descriptions.sentinel": {
     "src": "A vigil game using a sowing mechanism with stacks. A vigil game is one where some board position must always have line-of-sight to some or all of the player's pieces. In Sentinel, players are required to see the board center at the end of each one of their turns.",
     "out": "Ein Wachsamkeitsspiel mit einem Sämechanismus mit Stapeln. Ein Wachsamkeitsspiel ist ein Spiel, bei dem eine bestimmte Brettposition immer eine Sichtlinie zu einigen oder allen Figuren des Spielers haben muss. In Sentinel müssen die Spieler am Ende jedes ihrer Züge die Brettmitte sehen können."
@@ -4986,6 +4990,10 @@
   "notes.scribe": {
     "src": "The glyph reference chart is shown in the left margin. A dot marks each player's most recent placement. When a mini grid fills, glyph points are tallied and the higher score wins that grid (ties go to the player who completed it).",
     "out": "Die Glyphen-Referenztabelle wird am linken Rand angezeigt. Ein Punkt markiert die jeweils letzte Platzierung jedes Spielers. Wenn sich ein Minigitter füllt, werden die Glyphenpunkte zusammengezählt und die höhere Punktzahl gewinnt dieses Gitter (bei Gleichstand gewinnt der Spieler, der es fertiggestellt hat)."
+  },
+  "notes.selfo": {
+    "src": "The starting position is random: both players' pieces are scattered over the board, with no piece already enclosed, no player already connected, and no immediate win for the first player.\n\nOn your turn, move one of your pieces to an adjacent empty cell. You win by moving so that all of your pieces form one group of mutually adjacent pieces; only the player who has just moved can win this way. A player who has no legal move loses.\n\nA piece is _enclosed_ when your pieces cannot all reach each other through cells not occupied by your opponent, because opposing pieces and the board edge wall some of them off. If, after a move, both players have enclosed pieces, neither can ever connect and the game is a draw. With the **No enclosure** variant, a move that would enclose an opposing piece is not allowed, unless that move wins the game outright.\n\nThe second player may use the pie rule to swap sides after the first move.",
+    "out": "Die Startaufstellung ist zufällig: Die Steine beider Spieler sind über das Spielbrett verstreut, wobei kein Stein bereits eingeschlossen ist, kein Spieler bereits verbunden ist und es keinen sofortigen Sieg für den ersten Spieler gibt.\n\nWenn Sie an der Reihe sind, bewegen Sie einen Ihrer Steine auf ein angrenzendes freies Feld. Sie gewinnen, indem Sie so ziehen, dass alle Ihre Steine eine einzige Gruppe aus untereinander angrenzenden Steinen bilden; nur der Spieler, der gerade gezogen hat, kann auf diese Weise gewinnen. Ein Spieler, der keinen legalen Zug hat, verliert.\n\nEin Stein ist _eingeschlossen_, wenn Ihre Steine sich nicht mehr alle über Felder erreichen können, die nicht vom Gegner besetzt sind, weil gegnerische Steine und der Brettrand sie begrenzen. Wenn nach einem Zug beide Spieler eingeschlossene Steine haben, kann keiner mehr alle Steine verbinden und das Spiel endet unentschieden. In der Variante **Kein Einschließen** ist ein Zug, der einen gegnerischen Stein einschließen würde, nicht erlaubt, es sei denn, dieser Zug gewinnt das Spiel direkt.\n\nDer zweite Spieler darf nach dem ersten Zug die Pie-Regel anwenden, um die Seiten zu tauschen."
   },
   "notes.sentinel": {
     "src": "Vigil Games are a class of strategy games in which players must maintain an uninterrupted line of sight between their pieces and a designated reference point or region of the board. The first vigil game on record is 1892's Kastellet.\n\nSentinel is a vigil game where players always need to have at least one line-of-sight to the board's center. Sentinel is the second abstract game of this genre (after more than 130 years!), mixing typical movement and capture ludemes with permanent line-of-sight control of the central square.\n\nThe game mixes forward movement with sowing stacks which are the only way for armies to increase their size.",
@@ -13731,6 +13739,38 @@
     "src": "You must play in the mini grid indicated by your last move.",
     "out": "Du musst in dem Minigitter spielen, das durch deinen letzten Zug vorgegeben wird."
   },
+  "validation.selfo.ENCLOSURE": {
+    "src": "In this game you may not enclose an opposing piece, unless the move wins the game.",
+    "out": "In diesem Spiel dürfen Sie keinen gegnerischen Stein einschließen, es sei denn, der Zug gewinnt das Spiel."
+  },
+  "validation.selfo.INITIAL_INSTRUCTIONS": {
+    "src": "Click one of your pieces to select it.",
+    "out": "Klicken Sie auf einen Ihrer Steine, um ihn auszuwählen."
+  },
+  "validation.selfo.INITIAL_INSTRUCTIONS_PIE": {
+    "src": "Click one of your pieces to select it, or use the pie rule to swap sides.",
+    "out": "Klicken Sie auf einen Ihrer Steine, um ihn auszuwählen, oder nutzen Sie die Pie-Regel, um die Seiten zu tauschen."
+  },
+  "validation.selfo.NOT_ADJACENT": {
+    "src": "A piece can only move to an adjacent empty cell.",
+    "out": "Ein Stein kann nur auf ein angrenzendes freies Feld gezogen werden."
+  },
+  "validation.selfo.NO_PASS": {
+    "src": "You cannot pass in this game.",
+    "out": "In diesem Spiel können Sie nicht passen."
+  },
+  "validation.selfo.PARTIAL": {
+    "src": "Click an adjacent empty cell to move the selected piece there.",
+    "out": "Klicken Sie auf ein angrenzendes freies Feld, um den ausgewählten Stein dorthin zu ziehen."
+  },
+  "validation.selfo.PIE": {
+    "src": "Use the pie rule and swap sides.",
+    "out": "Nutzen Sie die Pie-Regel und tauschen Sie die Seiten."
+  },
+  "validation.selfo.PIE_UNAVAILABLE": {
+    "src": "The pie rule can only be used by the second player right after the first move.",
+    "out": "Die Pie-Regel kann nur vom zweiten Spieler direkt nach dem ersten Zug angewendet werden."
+  },
   "validation.sentinel.EDGE_INSTRUCTIONS": {
     "src": "Move the piece one step forward (orthogonally or diagonally). The piece can be moved off the board by clicking at the center.",
     "out": "Bewegen Sie den Stein einen Schritt nach vorne (orthogonal oder diagonal). Der Stein kann vom Spielbrett entfernt werden, indem Sie auf das Zentrum klicken."
@@ -20506,6 +20546,30 @@
   "variants.scribe.advanced.name": {
     "src": "Advanced",
     "out": "Fortgeschritten"
+  },
+  "variants.selfo.#board.name": {
+    "src": "Radius-3 board, 9 pieces each",
+    "out": "Radius-3-Brett, je 9 Steine"
+  },
+  "variants.selfo.no-enclosure.description": {
+    "src": "A move that would enclose an opposing piece is not allowed, unless it wins the game outright.",
+    "out": "Ein Zug, der einen gegnerischen Stein einschließen würde, ist nicht erlaubt, es sei denn, er gewinnt das Spiel direkt."
+  },
+  "variants.selfo.no-enclosure.name": {
+    "src": "No enclosure",
+    "out": "Kein Einschließen"
+  },
+  "variants.selfo.r2f5.name": {
+    "src": "Radius-2 board, 5 pieces each",
+    "out": "Radius-2-Brett, je 5 Steine"
+  },
+  "variants.selfo.r4f12.name": {
+    "src": "Radius-4 board, 12 pieces each",
+    "out": "Radius-4-Brett, je 12 Steine"
+  },
+  "variants.selfo.r5f20.name": {
+    "src": "Radius-5 board, 20 pieces each",
+    "out": "Radius-5-Brett, je 20 Steine"
   },
   "variants.sentinel.#board.name": {
     "src": "9x9 board",

@@ -219,6 +219,7 @@
     "rootbound": "In Root Bound breiten sich zwei Gruppen von „Pflanzen“ auf lebensnahe Weise aus und wetteifern um die Kontrolle über Territorium, während der Platz für neues Wachstum rasch schwindet.",
     "saltire": "Verbinden Sie Ihre zwei gegenüberliegenden Seiten des Bretts, indem Sie Steine platzieren und Paare orthogonal oder diagonal benachbarter Steine tauschen. Ein Tausch muss entweder die Anzahl der Kreuzschnitte oder die Anzahl der Supercuts auf dem Brett verringern und darf die Anzahl der Kreuzschnitte nicht erhöhen.",
     "scaffold": "Scaffold ist ein unentschiedenfreies Verbindungsspiel, das auf den Schnittpunkten eines Quadratgitters mit Steinen (wie bei Go) gespielt wird. Schwarz versucht, die N-S-Ränder des Bretts zu verbinden, Weiß die O-W-Ränder mit einer orthogonal verbundenen Gruppe. Platzieren Sie in Ihrem Zug einen Stein Ihrer Farbe auf einem freien Punkt. Platzieren Sie dann, wenn möglich, einen Stein Ihrer Farbe auf einem freien Punkt, der orthogonal an zwei Gruppen Ihrer Farbe angrenzt, und fahren Sie mit solchen Platzierungen fort, bis keine mehr möglich sind.",
+    "selfo": "Ein Verbindungsspiel auf einem sechseckigen Spielbrett. Beide Spieler beginnen mit derselben Anzahl zufällig verstreuter Steine. Wenn Sie an der Reihe sind, schieben Sie einen Stein auf ein angrenzendes freies Feld. Der erste Spieler, der alle seine eigenen Steine zu einer einzigen Gruppe zusammenführt, gewinnt.",
     "shapechess": "Shape Chess ist ein Spiel, bei dem die Spieler ihre Figuren verwenden, um achsensymmetrische Formen zu bilden. Unter Verwendung von drei Aktionsarten (Platzierungen, Sprünge, Schiebeaktionen) zielen die Spieler darauf ab, symmetrische Gruppen aus sechs oder mehr Figuren zu bilden, wobei größere Gruppen mehr Punkte bringen.",
     "sentinel": "Ein Wachsamkeitsspiel mit einem Sämechanismus mit Stapeln. Ein Wachsamkeitsspiel ist ein Spiel, bei dem eine bestimmte Brettposition immer eine Sichtlinie zu einigen oder allen Figuren des Spielers haben muss. In Sentinel müssen die Spieler am Ende jedes ihrer Züge die Brettmitte sehen können.",
     "shifty": "Ein Verbindungsspiel, bei dem Sie entweder einen Stein orthogonal angrenzend an einen eigenen Stein platzieren oder einen Ihrer Steine mit einem Schachdamenzug orthogonal angrenzend an einen eigenen Stein bewegen, und zwar an einen Ort, der an keinen anderen eigenen Stein orthogonal angrenzt. Kreuzschnitte sind unzulässig. Der Spieler, der einen orthogonalen oder diagonalen Pfad bildet, der seine zwei Seiten verbindet, gewinnt.",
@@ -673,6 +674,7 @@
     "razzle": "Die Implementierung hier sind die sogenannten Turnierregeln.",
     "rincala": "Aus bestimmten Gründen sind die Farben stattdessen Rot (4 Punkte), Blau (3 Punkte), Grün (2 Punkte), Gelb (1 Punkt). Außerdem endet das Spiel, sobald ein Spieler mehr als die Hälfte der Punkte erzielt (>=26 Punkte).",
     "rootbound": "Die geschätzte Punktzahl zeigt die Punkte an, die das Spielbrett ergeben würde, wenn das Spiel im aktuellen Brettzustand enden würde. Folglich sieht es für den ersten Spieler, der eine Partition bildet, kurzzeitig so aus, als hätte er eine maximale Punktzahl. Dies korrigiert sich im Laufe des Spiels von selbst.\n\nDie Implementierung bietet derzeit nur einen Anfängerschutz für den ersten Zug des Spiels. Achte darauf, dich nicht zu einer einzigen toten Gruppe (Dead Group) zusammenzuschließen.",
+    "selfo": "Die Startaufstellung ist zufällig: Die Steine beider Spieler sind über das Spielbrett verstreut, wobei kein Stein bereits eingeschlossen ist, kein Spieler bereits verbunden ist und es keinen sofortigen Sieg für den ersten Spieler gibt.\n\nWenn Sie an der Reihe sind, bewegen Sie einen Ihrer Steine auf ein angrenzendes freies Feld. Sie gewinnen, indem Sie so ziehen, dass alle Ihre Steine eine einzige Gruppe aus untereinander angrenzenden Steinen bilden; nur der Spieler, der gerade gezogen hat, kann auf diese Weise gewinnen. Ein Spieler, der keinen legalen Zug hat, verliert.\n\nEin Stein ist _eingeschlossen_, wenn Ihre Steine sich nicht mehr alle über Felder erreichen können, die nicht vom Gegner besetzt sind, weil gegnerische Steine und der Brettrand sie begrenzen. Wenn nach einem Zug beide Spieler eingeschlossene Steine haben, kann keiner mehr alle Steine verbinden und das Spiel endet unentschieden. In der Variante **Kein Einschließen** ist ein Zug, der einen gegnerischen Stein einschließen würde, nicht erlaubt, es sei denn, dieser Zug gewinnt das Spiel direkt.\n\nDer zweite Spieler darf nach dem ersten Zug die Pie-Regel anwenden, um die Seiten zu tauschen.",
     "siegeofj": "Weitere Informationen zum Decktet-System finden Sie auf der [offiziellen Decktet-Website](https://www.decktet.com). Karten auf den Händen der Spieler sind vor Beobachtern verborgen, und sie sind vor Gegnern verborgen, bis das Deck leer ist. Ab diesem Zeitpunkt haben die Spieler perfekte Informationen, sodass die Hände aufgedeckt werden.",
     "shapechess": "Shape Chess, 形棋 (Form-Brettspiel), wurde um 2010 von 日出 (Richu) aus Guangzhou, China, entworfen. Das Spiel hat sich durch jahrelange Verfeinerung innerhalb der chinesischen Spieledesign-Community zu seiner heutigen Form entwickelt (zitiert nach Kanare_Abstract). Dies ist kein schachähnliches Spiel, sondern eines, das ein sehr originelles Konzept verwendet, indem es die Spieler achsensymmetrische Formen bauen lässt. Diese Implementierung enthält mehrere Brettgrößen und auch verschiedene Siegpunktzahlen für Spieler, die kürzere oder längere Partien bevorzugen.",
     "sentinel": "Vigil-Spiele sind eine Klasse von Strategiespielen, bei denen die Spieler eine ununterbrochene Sichtlinie zwischen ihren Steinen und einem bestimmten Referenzpunkt oder einer Region des Spielbretts aufrechterhalten müssen. Das erste dokumentierte Vigil-Spiel ist Kastellet aus dem Jahr 1892.\n\nSentinel ist ein Vigil-Spiel, bei dem die Spieler immer mindestens eine Sichtlinie zum Zentrum des Spielbretts haben müssen. Sentinel ist das zweite abstrakte Spiel dieses Genres (nach mehr als 130 Jahren!), das typische Bewegungs- und Schlagludeme mit permanenter Sichtlinienkontrolle des zentralen Feldes kombiniert.\n\nDas Spiel kombiniert Vorwärtsbewegung mit dem Säen von Stapeln, was die einzige Möglichkeit für Armeen ist, ihre Größe zu vergrößern.",
@@ -3495,6 +3497,24 @@
       },
       "size-25": {
         "name": "Größeres 25x25-Brett"
+      }
+    },
+    "selfo": {
+      "#board": {
+        "name": "Radius-3-Brett, je 9 Steine"
+      },
+      "r2f5": {
+        "name": "Radius-2-Brett, je 5 Steine"
+      },
+      "r4f12": {
+        "name": "Radius-4-Brett, je 12 Steine"
+      },
+      "r5f20": {
+        "name": "Radius-5-Brett, je 20 Steine"
+      },
+      "no-enclosure": {
+        "name": "Kein Einschließen",
+        "description": "Ein Zug, der einen gegnerischen Stein einschließen würde, ist nicht erlaubt, es sei denn, er gewinnt das Spiel direkt."
       }
     },
     "sentinel": {
@@ -7751,6 +7771,16 @@
       "INCOMPLETE": "Sie müssen Steine platzieren, um die Gruppen zu verbinden.",
       "INITIAL_INSTRUCTIONS": "Wählen Sie einen Punkt aus, um einen Stein zu platzieren.",
       "INVALID_MOVES": "Diese Zugfolge {{moves}} ist ungültig."
+    },
+    "selfo": {
+      "ENCLOSURE": "In diesem Spiel dürfen Sie keinen gegnerischen Stein einschließen, es sei denn, der Zug gewinnt das Spiel.",
+      "INITIAL_INSTRUCTIONS": "Klicken Sie auf einen Ihrer Steine, um ihn auszuwählen.",
+      "INITIAL_INSTRUCTIONS_PIE": "Klicken Sie auf einen Ihrer Steine, um ihn auszuwählen, oder nutzen Sie die Pie-Regel, um die Seiten zu tauschen.",
+      "NOT_ADJACENT": "Ein Stein kann nur auf ein angrenzendes freies Feld gezogen werden.",
+      "NO_PASS": "In diesem Spiel können Sie nicht passen.",
+      "PARTIAL": "Klicken Sie auf ein angrenzendes freies Feld, um den ausgewählten Stein dorthin zu ziehen.",
+      "PIE": "Nutzen Sie die Pie-Regel und tauschen Sie die Seiten.",
+      "PIE_UNAVAILABLE": "Die Pie-Regel kann nur vom zweiten Spieler direkt nach dem ersten Zug angewendet werden."
     },
     "shapechess": {
       "INITIAL_INSTRUCTIONS": "In diesem Zug führt der Spieler entweder (a) das Platzieren eines Steins auf einem leeren Feld aus, (b) das Versetzen eines eigenen Steins auf ein beliebiges leeres Feld, oder (c) das Platzieren eines Steins über einem gegnerischen Stein, der auf ein benachbartes (orthogonales oder diagonales) leeres Feld geschoben wird.",

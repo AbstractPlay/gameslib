@@ -2235,6 +2235,10 @@
     "src": "A pen-and-paper game on a 9×9 super grid of nine 3×3 mini grids. Win the most mini grids, or in the advanced game, form the highest-value super glyph from your victories.",
     "out": "Un juego de papel y lápiz en una supercuadrícula de 9×9 compuesta por nueve minicuadrículas de 3×3. Gana la mayor cantidad de minicuadrículas o, en el juego avanzado, forma el superglifo de mayor valor a partir de tus victorias."
   },
+  "descriptions.selfo": {
+    "src": "A connection game on a hexagonal board. Each player starts with the same number of pieces scattered at random, and on your turn you slide one piece to an adjacent empty cell. The first player to bring all of their own pieces together into a single group wins.",
+    "out": "Un juego de conexión en un tablero hexagonal. Cada jugador empieza con el mismo número de piezas dispersas al azar, y en tu turno deslizas una pieza a una casilla vacía adyacente. El primer jugador que logre juntar todas sus piezas en un solo grupo gana."
+  },
   "descriptions.sentinel": {
     "src": "A vigil game using a sowing mechanism with stacks. A vigil game is one where some board position must always have line-of-sight to some or all of the player's pieces. In Sentinel, players are required to see the board center at the end of each one of their turns.",
     "out": "Un juego de vigilancia que utiliza una mecánica de siembra con pilas. Un juego de vigilancia es aquel en el que alguna posición del tablero siempre debe tener línea de visión hacia algunas o todas las piezas del jugador. En Sentinel, los jugadores deben poder ver el centro del tablero al final de cada uno de sus turnos."
@@ -4986,6 +4990,10 @@
   "notes.scribe": {
     "src": "The glyph reference chart is shown in the left margin. A dot marks each player's most recent placement. When a mini grid fills, glyph points are tallied and the higher score wins that grid (ties go to the player who completed it).",
     "out": "La tabla de referencia de glifos se muestra en el margen izquierdo. Un punto marca la colocación más reciente de cada jugador. Cuando una minicuadrícula se llena, se cuentan los puntos de los glifos y la puntuación más alta gana esa cuadrícula (los empates son para el jugador que la completó)."
+  },
+  "notes.selfo": {
+    "src": "The starting position is random: both players' pieces are scattered over the board, with no piece already enclosed, no player already connected, and no immediate win for the first player.\n\nOn your turn, move one of your pieces to an adjacent empty cell. You win by moving so that all of your pieces form one group of mutually adjacent pieces; only the player who has just moved can win this way. A player who has no legal move loses.\n\nA piece is _enclosed_ when your pieces cannot all reach each other through cells not occupied by your opponent, because opposing pieces and the board edge wall some of them off. If, after a move, both players have enclosed pieces, neither can ever connect and the game is a draw. With the **No enclosure** variant, a move that would enclose an opposing piece is not allowed, unless that move wins the game outright.\n\nThe second player may use the pie rule to swap sides after the first move.",
+    "out": "La posición inicial es aleatoria: las piezas de ambos jugadores están dispersas por el tablero, sin ninguna pieza rodeada previamente, ningún jugador conectado aún y sin victoria inmediata para el primer jugador.\n\nEn tu turno, mueve una de tus piezas a una casilla vacía adyacente. Ganas si realizas un movimiento de modo que todas tus piezas formen un solo grupo de piezas adyacentes entre sí; solo el jugador que acaba de mover puede ganar de esta forma. Un jugador que no tenga movimientos legales pierde.\n\nUna pieza está _encerrada_ cuando tus piezas no pueden alcanzarse todas entre sí a través de casillas no ocupadas por tu oponente, debido a que las piezas opuestas y el borde del tablero bloquean a algunas de ellas. Si, después de un movimiento, ambos jugadores tienen piezas encerradas, ninguno podrá conectarse jamás y la partida termina en empate. Con la variante **Sin encierro**, no se permite un movimiento que encierre a una pieza oponente, a menos que ese movimiento gane la partida de inmediato.\n\nEl segundo jugador puede usar la regla del pastel para cambiar de bando después del primer movimiento."
   },
   "notes.sentinel": {
     "src": "Vigil Games are a class of strategy games in which players must maintain an uninterrupted line of sight between their pieces and a designated reference point or region of the board. The first vigil game on record is 1892's Kastellet.\n\nSentinel is a vigil game where players always need to have at least one line-of-sight to the board's center. Sentinel is the second abstract game of this genre (after more than 130 years!), mixing typical movement and capture ludemes with permanent line-of-sight control of the central square.\n\nThe game mixes forward movement with sowing stacks which are the only way for armies to increase their size.",
@@ -13731,6 +13739,38 @@
     "src": "You must play in the mini grid indicated by your last move.",
     "out": "Debes jugar en la minicuadrícula indicada por tu último movimiento."
   },
+  "validation.selfo.ENCLOSURE": {
+    "src": "In this game you may not enclose an opposing piece, unless the move wins the game.",
+    "out": "En este juego no puedes encerrar una pieza oponente, a menos que el movimiento gane la partida."
+  },
+  "validation.selfo.INITIAL_INSTRUCTIONS": {
+    "src": "Click one of your pieces to select it.",
+    "out": "Haz clic en una de tus piezas para seleccionarla."
+  },
+  "validation.selfo.INITIAL_INSTRUCTIONS_PIE": {
+    "src": "Click one of your pieces to select it, or use the pie rule to swap sides.",
+    "out": "Haz clic en una de tus piezas para seleccionarla, o usa la regla del pastel para cambiar de bando."
+  },
+  "validation.selfo.NOT_ADJACENT": {
+    "src": "A piece can only move to an adjacent empty cell.",
+    "out": "Una pieza solo puede moverse a una casilla vacía adyacente."
+  },
+  "validation.selfo.NO_PASS": {
+    "src": "You cannot pass in this game.",
+    "out": "No puedes pasar en este juego."
+  },
+  "validation.selfo.PARTIAL": {
+    "src": "Click an adjacent empty cell to move the selected piece there.",
+    "out": "Haz clic en una casilla vacía adyacente para mover la pieza seleccionada allí."
+  },
+  "validation.selfo.PIE": {
+    "src": "Use the pie rule and swap sides.",
+    "out": "Usar la regla del pastel y cambiar de bando."
+  },
+  "validation.selfo.PIE_UNAVAILABLE": {
+    "src": "The pie rule can only be used by the second player right after the first move.",
+    "out": "La regla del pastel solo la puede usar el segundo jugador justo después del primer movimiento."
+  },
   "validation.sentinel.EDGE_INSTRUCTIONS": {
     "src": "Move the piece one step forward (orthogonally or diagonally). The piece can be moved off the board by clicking at the center.",
     "out": "Mueve la pieza un paso hacia adelante (ortogonal o diagonalmente). La pieza se puede sacar del tablero haciendo clic en el centro."
@@ -20506,6 +20546,30 @@
   "variants.scribe.advanced.name": {
     "src": "Advanced",
     "out": "Avanzado"
+  },
+  "variants.selfo.#board.name": {
+    "src": "Radius-3 board, 9 pieces each",
+    "out": "Tablero de radio 3, 9 piezas cada uno"
+  },
+  "variants.selfo.no-enclosure.description": {
+    "src": "A move that would enclose an opposing piece is not allowed, unless it wins the game outright.",
+    "out": "No se permite un movimiento que encierre a una pieza oponente, a menos que gane la partida de inmediato."
+  },
+  "variants.selfo.no-enclosure.name": {
+    "src": "No enclosure",
+    "out": "Sin encierro"
+  },
+  "variants.selfo.r2f5.name": {
+    "src": "Radius-2 board, 5 pieces each",
+    "out": "Tablero de radio 2, 5 piezas cada uno"
+  },
+  "variants.selfo.r4f12.name": {
+    "src": "Radius-4 board, 12 pieces each",
+    "out": "Tablero de radio 4, 12 piezas cada uno"
+  },
+  "variants.selfo.r5f20.name": {
+    "src": "Radius-5 board, 20 pieces each",
+    "out": "Tablero de radio 5, 20 piezas cada uno"
   },
   "variants.sentinel.#board.name": {
     "src": "9x9 board",

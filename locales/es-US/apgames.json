@@ -219,6 +219,7 @@
     "rootbound": "En Root Bound, dos grupos de ‘plantas’ se extienden de formas muy realistas y compiten por el control del territorio a medida que el espacio para nuevos brotes se reduce rápidamente.",
     "saltire": "Conecta tus dos lados opuestos del tablero colocando fichas y cambiando pares de fichas adyacentes ortogonal o diagonalmente. Un intercambio debe reducir la cantidad de cortes cruzados (crosscuts) o de supercortes (supercuts) en el tablero, y no debe aumentar la cantidad de cortes cruzados.",
     "scaffold": "Scaffold es un juego de conexión sin empates que se juega en las intersecciones de una cuadrícula cuadrada utilizando fichas (como en Go). Las negras intentan conectar los bordes N-S del tablero y las blancas los bordes E-O con un grupo conectado ortogonalmente. En tu turno, coloca una ficha de tu color en un punto vacío. Luego, si es posible, coloca una ficha de tu color en un punto vacío que esté ortogonalmente adyacente a dos grupos de tu color, y continúa haciendo dichas colocaciones hasta que no queden más posibles.",
+    "selfo": "Un juego de conexión en un tablero hexagonal. Cada jugador empieza con el mismo número de piezas dispersas al azar, y en tu turno deslizas una pieza a una casilla vacía adyacente. El primer jugador que logre juntar todas sus piezas en un solo grupo gana.",
     "shapechess": "Shape Chess es un juego en el que los jugadores usan sus piezas para crear figuras con simetría axial. Mediante tres tipos de acciones (colocaciones, saltos, empujes), los jugadores buscan crear grupos simétricos de seis o más piezas, sumando más puntos cuanto más grandes sean los grupos.",
     "sentinel": "Un juego de vigilancia que utiliza una mecánica de siembra con pilas. Un juego de vigilancia es aquel en el que alguna posición del tablero siempre debe tener línea de visión hacia algunas o todas las piezas del jugador. En Sentinel, los jugadores deben poder ver el centro del tablero al final de cada uno de sus turnos.",
     "shifty": "Un juego de conexión en el que colocas una pieza ortogonalmente adyacente a una pieza aliada, o mueves una de tus piezas ortogonalmente adyacente a una pieza aliada (mediante un movimiento de reina de ajedrez) a una ubicación que no esté ortogonalmente adyacente a ninguna otra pieza aliada. Los cortes cruzados (crosscuts) son ilegales. El jugador que forme un camino ortogonal o diagonal que conecte sus dos lados gana.",
@@ -673,6 +674,7 @@
     "razzle": "La implementación aquí utiliza las llamadas reglas de torneo.",
     "rincala": "Por ciertas razones, los colores son en su lugar rojo (4 ptos), azul (3 ptos), verde (2 ptos), amarillo (1 pto). Además, el juego termina tan pronto como un jugador gana más de la mitad de los puntos (>=26 ptos).",
     "rootbound": "La puntuación estimada muestra las puntuaciones en las que se resolvería el tablero si el juego terminara en el estado actual. En consecuencia, el primer jugador que forme una partición parecerá tener brevemente una puntuación máxima. Esto se corregirá a lo largo de la partida.\n\nActualmente, la implementación solo proporciona protección de principiante para el primer movimiento de la partida. Ten cuidado de no fusionar todo en un solo Grupo Muerto.",
+    "selfo": "La posición inicial es aleatoria: las piezas de ambos jugadores están dispersas por el tablero, sin ninguna pieza rodeada previamente, ningún jugador conectado aún y sin victoria inmediata para el primer jugador.\n\nEn tu turno, mueve una de tus piezas a una casilla vacía adyacente. Ganas si realizas un movimiento de modo que todas tus piezas formen un solo grupo de piezas adyacentes entre sí; solo el jugador que acaba de mover puede ganar de esta forma. Un jugador que no tenga movimientos legales pierde.\n\nUna pieza está _encerrada_ cuando tus piezas no pueden alcanzarse todas entre sí a través de casillas no ocupadas por tu oponente, debido a que las piezas opuestas y el borde del tablero bloquean a algunas de ellas. Si, después de un movimiento, ambos jugadores tienen piezas encerradas, ninguno podrá conectarse jamás y la partida termina en empate. Con la variante **Sin encierro**, no se permite un movimiento que encierre a una pieza oponente, a menos que ese movimiento gane la partida de inmediato.\n\nEl segundo jugador puede usar la regla del pastel para cambiar de bando después del primer movimiento.",
     "siegeofj": "Puedes encontrar más información sobre el sistema Decktet en el [sitio web oficial de Decktet](https://www.decktet.com). Las cartas en las manos de los jugadores están ocultas para los observadores y permanecen ocultas para los oponentes hasta que el mazo se agota, momento en el cual los jugadores tienen información perfecta, por lo que las manos se revelan.",
     "shapechess": "Shape Chess, 形棋 (juego de tablero de formas), fue diseñado c. 2010 por 日出 (Richu) de Guangzhou, China. El juego ha evolucionado a su forma actual a través de años de refinamiento dentro de la comunidad de diseño de juegos china (citado de Kanare_Abstract). Este no es un juego similar al ajedrez, sino uno que utiliza un concepto muy original al hacer que los jugadores construyan formas con simetría reflexiva. Esta implementación incluye varios tamaños de tablero y también diferentes puntuaciones de victoria para jugadores que prefieren partidas más cortas o más largas.",
     "sentinel": "Los juegos de vigilia (Vigil Games) son una clase de juegos de estrategia en los que los jugadores deben mantener una línea de visión ininterrumpida entre sus piezas y un punto de referencia o región designada del tablero. El primer juego de vigilia registrado es Kastellet de 1892.\n\nSentinel es un juego de vigilia donde los jugadores siempre necesitan tener al menos una línea de visión hacia el centro del tablero. ¡Sentinel es el segundo juego abstracto de este género (después de más de 130 años!), mezclando ludemas típicos de movimiento y captura con un control permanente de la línea de visión de la casilla central.\n\nEl juego combina el movimiento hacia adelante con la siembra de pilas, que son la única forma en que los ejércitos aumentan su tamaño.",
@@ -3495,6 +3497,24 @@
       },
       "size-25": {
         "name": "Tablero más grande de 25x25"
+      }
+    },
+    "selfo": {
+      "#board": {
+        "name": "Tablero de radio 3, 9 piezas cada uno"
+      },
+      "r2f5": {
+        "name": "Tablero de radio 2, 5 piezas cada uno"
+      },
+      "r4f12": {
+        "name": "Tablero de radio 4, 12 piezas cada uno"
+      },
+      "r5f20": {
+        "name": "Tablero de radio 5, 20 piezas cada uno"
+      },
+      "no-enclosure": {
+        "name": "Sin encierro",
+        "description": "No se permite un movimiento que encierre a una pieza oponente, a menos que gane la partida de inmediato."
       }
     },
     "sentinel": {
@@ -7751,6 +7771,16 @@
       "INCOMPLETE": "Necesitas colocar piedras para conectar los grupos.",
       "INITIAL_INSTRUCTIONS": "Selecciona un punto para colocar una pieza.",
       "INVALID_MOVES": "Esta secuencia de movimientos {{moves}} no es válida."
+    },
+    "selfo": {
+      "ENCLOSURE": "En este juego no puedes encerrar una pieza oponente, a menos que el movimiento gane la partida.",
+      "INITIAL_INSTRUCTIONS": "Haz clic en una de tus piezas para seleccionarla.",
+      "INITIAL_INSTRUCTIONS_PIE": "Haz clic en una de tus piezas para seleccionarla, o usa la regla del pastel para cambiar de bando.",
+      "NOT_ADJACENT": "Una pieza solo puede moverse a una casilla vacía adyacente.",
+      "NO_PASS": "No puedes pasar en este juego.",
+      "PARTIAL": "Haz clic en una casilla vacía adyacente para mover la pieza seleccionada allí.",
+      "PIE": "Usar la regla del pastel y cambiar de bando.",
+      "PIE_UNAVAILABLE": "La regla del pastel solo la puede usar el segundo jugador justo después del primer movimiento."
     },
     "shapechess": {
       "INITIAL_INSTRUCTIONS": "En este turno, el jugador (a) coloca una piedra en una casilla vacía, (b) traslada una piedra propia a cualquier casilla vacía, o (c) coloca una piedra sobre una piedra del oponente que es empujada a una casilla vacía adyacente (ortogonal o diagonal).",

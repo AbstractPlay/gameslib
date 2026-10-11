@@ -15,6 +15,13 @@ export {
 };
 
 export type { TurnModel, IGamePly, IGameRound, IGameRoundSlot } from "./_turn-model.js";
+export {
+    trailingSameActorRun,
+    targetStackLengthBeforeTrailingRun,
+    pliesAlignWithStackWalk,
+    teachingPlyWalkSupported,
+} from "./_teachingPlyWalk.js";
+export type { TrailingSameActorRun } from "./_teachingPlyWalk.js";
 export type {
     SoloOutcomeType,
     ScoreDirection,

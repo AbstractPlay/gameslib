@@ -78,6 +78,13 @@ export type {
 export type { APMoveResult, APGamesInformation };
 export type { Variant, AlternativeDisplay } from "./schemas/gameinfo.js";
 export type { TurnModel, IGamePly, IGameRound, IGameRoundSlot } from "./games/_turn-model.js";
+export type { TrailingSameActorRun } from "./games/_teachingPlyWalk.js";
+export {
+    trailingSameActorRun,
+    targetStackLengthBeforeTrailingRun,
+    pliesAlignWithStackWalk,
+    teachingPlyWalkSupported,
+} from "./games/_teachingPlyWalk.js";
 export type {
     MoveTableDensity,
     IGetMoveTableRoundsOptions,

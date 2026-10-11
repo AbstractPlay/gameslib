@@ -2,7 +2,7 @@ import "mocha";
 import { expect } from "chai";
 import { GameBaseSequenced } from "../../src/games/_turn-sequenced";
 import { FroggerGame } from "../../src/games/frogger";
-import type { IAPGameState, IIndividualState, IRenderOpts } from "../../src/games/_base";
+import type { IAPGameState, IIndividualState } from "../../src/games/_base";
 import type { APGamesInformation } from "../../src/schemas/gameinfo";
 import type { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../../src/schemas/moveresults";
@@ -65,11 +65,11 @@ class SequencedTwoPlayerDoubleActivationFake extends GameBaseSequenced {
         }
     }
 
-    public move(_move: string): SequencedTwoPlayerDoubleActivationFake {
+    public move(): SequencedTwoPlayerDoubleActivationFake {
         throw new Error("fixed fixture");
     }
 
-    public render(_opts?: IRenderOpts): APRenderRep {
+    public render(): APRenderRep {
         return { board: null, pieces: [] } as unknown as APRenderRep;
     }
 
@@ -84,7 +84,7 @@ class SequencedTwoPlayerDoubleActivationFake extends GameBaseSequenced {
         };
     }
 
-    public load(_idx: number): SequencedTwoPlayerDoubleActivationFake {
+    public load(): SequencedTwoPlayerDoubleActivationFake {
         return new SequencedTwoPlayerDoubleActivationFake([]);
     }
 

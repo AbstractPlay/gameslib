@@ -304,6 +304,7 @@
     "repetition_other": "The game has ended because the same position has occurred {{count}} times by the same player.",
     "repetition_positional_one": "The game has ended because the same position has occurred.",
     "repetition_positionas_other": "The game has ended because the same position has occurred {{count}} times.",
+    "selfo_mutual_enclosure": "The game has ended in a draw because both players have enclosed pieces and neither can ever connect.",
     "squares_points": "The game has ended because ten points' worth of units have been eliminated.",
     "squares_repetition": "The game has ended because the same position has occurred three times.",
     "squares_reserve": "The game has ended because a unit entered the enemy reserve.",

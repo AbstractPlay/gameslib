@@ -4395,6 +4395,10 @@
     "src": "Scribe",
     "out": "Scribe"
   },
+  "names.selfo": {
+    "src": "Selfo",
+    "out": "Selfo"
+  },
   "names.sentinel": {
     "src": "Sentinel",
     "out": "Sentinel"

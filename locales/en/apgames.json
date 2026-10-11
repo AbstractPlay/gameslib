@@ -219,6 +219,7 @@
     "rootbound": "In Root Bound, two groups of ‘plants’ spread in lifelike ways and vie for control of territory as space for new growth rapidly dwindles.",
     "saltire": "Connect your two opposite sides of the board by placing stones and swapping pairs of orthogonally or diagonally adjacent stones. A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
     "scaffold": "Scaffold is a drawless connection game played on the intersections of a square grid using stones (as in Go). Black is trying to connect N-S edges of the board, White E-W with an orthogonally connected group. On your turn, place a stone of your color on an empty point. Then, if possible, place a stone of your color on an empty point that is orthogonally adjacent to two groups of your color, and keep making such placements until no more are possible.",
+    "selfo": "A connection game on a hexagonal board. Each player starts with the same number of pieces scattered at random, and on your turn you slide one piece to an adjacent empty cell. The first player to bring all of their own pieces together into a single group wins.",
     "shapechess": "Shape Chess is a game in which players use their pieces to create line-symmetric shapes. Using three types of actions (placements, jumps, pushes), players aim to create symmetrical groups of six or more pieces, scoring more points for larger groups.",
     "sentinel": "A vigil game using a sowing mechanism with stacks. A vigil game is one where some board position must always have line-of-sight to some or all of the player's pieces. In Sentinel, players are required to see the board center at the end of each one of their turns.",
     "shifty": "A connection game where you either place a piece orthogonally adjacent to a friendly piece, or move one of your pieces orthogonally adjacent to a friendly piece, by a chess queen's move, to a location not orthogonally adjacent to any other friendly pieces. Crosscuts are illegal. The player that forms an orthogonal or diagonal path connecting their two sides wins.",
@@ -373,10 +374,10 @@
     "control": "Control",
     "court": "Court",
     "courtesan": "King & Courtesan",
+    "croda": "Croda",
     "crosscontrol": "Crosscontrol",
     "crosshairs": "Crosshairs",
     "crossway": "Crossway",
-    "croda": "Croda",
     "cubeo": "Cubeo",
     "dagnacht": "Dag en Nacht",
     "dama": "Dama",
@@ -518,6 +519,7 @@
     "saltire": "Saltire",
     "scaffold": "Scaffold",
     "scribe": "Scribe",
+    "selfo": "Selfo",
     "sentinel": "Sentinel",
     "shapechess": "Shape Chess",
     "shifty": "Shifty",
@@ -672,6 +674,7 @@
     "razzle": "The implementation here is the so called tournament rules.",
     "rincala": "For reasons, the colours are instead red (4 pts), blue (3 pts), green (2 pts), yellow (1 pt). Also, the game terminates as soon as one player earns more than half the points (>=26 pts).",
     "rootbound": "The estimated score shows the scores that the board would resolve to if the game were to end in the current board state. Consequently, the first player who forms a partition will briefly appear to have a maximum score. This will correct itself over the course of the game.\n\nThe implementation currently only provides beginner protection for the first move of the game. Be careful not to merge down to one Dead Group.",
+    "selfo": "The starting position is random: both players' pieces are scattered over the board, with no piece already enclosed, no player already connected, and no immediate win for the first player.\n\nOn your turn, move one of your pieces to an adjacent empty cell. You win by moving so that all of your pieces form one group of mutually adjacent pieces; only the player who has just moved can win this way. A player who has no legal move loses.\n\nA piece is _enclosed_ when your pieces cannot all reach each other through cells not occupied by your opponent, because opposing pieces and the board edge wall some of them off. If, after a move, both players have enclosed pieces, neither can ever connect and the game is a draw. With the **No enclosure** variant, a move that would enclose an opposing piece is not allowed, unless that move wins the game outright.\n\nThe second player may use the pie rule to swap sides after the first move.",
     "siegeofj": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers, and they are hidden from opponents until the deck is empty, at which point the players have perfect information, so the hands are revealed.",
     "shapechess": "Shape Chess, 形棋 (shape - board game), was designed c.2010 by 日出 (Richu) from Guangzhou, China. The game has evolved into its current form through years of refinement within the Chinese game design community (quoted from Kanare_Abstract). This is not a Chess-like game, but one that uses a very original concept by making players build reflectional symmetric shapes. This implementation includes several board sizes, and also different winning scores, for players who prefer shorter or longer matches.",
     "sentinel": "Vigil Games are a class of strategy games in which players must maintain an uninterrupted line of sight between their pieces and a designated reference point or region of the board. The first vigil game on record is 1892's Kastellet.\n\nSentinel is a vigil game where players always need to have at least one line-of-sight to the board's center. Sentinel is the second abstract game of this genre (after more than 130 years!), mixing typical movement and capture ludemes with permanent line-of-sight control of the central square.\n\nThe game mixes forward movement with sowing stacks which are the only way for armies to increase their size.",
@@ -3494,6 +3497,24 @@
       },
       "size-25": {
         "name": "Larger 25x25 board"
+      }
+    },
+    "selfo": {
+      "#board": {
+        "name": "Radius-3 board, 9 pieces each"
+      },
+      "r2f5": {
+        "name": "Radius-2 board, 5 pieces each"
+      },
+      "r4f12": {
+        "name": "Radius-4 board, 12 pieces each"
+      },
+      "r5f20": {
+        "name": "Radius-5 board, 20 pieces each"
+      },
+      "no-enclosure": {
+        "name": "No enclosure",
+        "description": "A move that would enclose an opposing piece is not allowed, unless it wins the game outright."
       }
     },
     "sentinel": {
@@ -7750,6 +7771,16 @@
       "INCOMPLETE": "You need to place stones to connect the groups.",
       "INITIAL_INSTRUCTIONS": "Select a point to place a piece.",
       "INVALID_MOVES": "This sequence of moves {{moves}} is invalid."
+    },
+    "selfo": {
+      "ENCLOSURE": "In this game you may not enclose an opposing piece, unless the move wins the game.",
+      "INITIAL_INSTRUCTIONS": "Click one of your pieces to select it.",
+      "INITIAL_INSTRUCTIONS_PIE": "Click one of your pieces to select it, or use the pie rule to swap sides.",
+      "NOT_ADJACENT": "A piece can only move to an adjacent empty cell.",
+      "NO_PASS": "You cannot pass in this game.",
+      "PARTIAL": "Click an adjacent empty cell to move the selected piece there.",
+      "PIE": "Use the pie rule and swap sides.",
+      "PIE_UNAVAILABLE": "The pie rule can only be used by the second player right after the first move."
     },
     "shapechess": {
       "INITIAL_INSTRUCTIONS": "On this turn the player either (a) places a stone on an empty cell, (b) relocates a friendly stone to any empty cell, or (c) places a stone over an opponent stone that is pushed to an adjacent (orthogonal or diagonal) empty cell.",

@@ -15,7 +15,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Clearpath, Croda, Dama, Ice Palace, Kill-All Go, Neutron, Selfo, Thricewise, Yodd.
 
-## [1.0.0-ci] - 2026-10-11
+## [1.0.0-ci] - 2026-10-12
 
 ### Added
 

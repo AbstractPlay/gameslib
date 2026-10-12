@@ -203,27 +203,64 @@ export class BashniGame extends GameBase {
             moveDirs = ["SE", "SW"];
         }
 
-        for (const dir of captureDirs) {
-            const ray = g.ray(...g.algebraic2coords(cell), dir).map(c => g.coords2algebraic(...c));
-            if (ray.length >= 2) {
-                const [next, far] = [...ray];
-                if (this.board.has(next) && !this.board.has(far)) {
-                    const nStack = this.board.get(next)!;
-                    const [nOwner,] = nStack[nStack.length - 1];
-                    if (nOwner !== owner) {
+        if (type === 2) {
+            for (const dir of captureDirs) {
+                const ray = g.ray(...g.algebraic2coords(cell), dir).map(c => g.coords2algebraic(...c));
+                const idx = ray.findIndex(n => this.board.has(n));
+                if (idx === -1) {
+                    continue;
+                }
+                const adj = ray[idx];
+                const nStack = this.board.get(adj)!;
+                const [nOwner,] = nStack[nStack.length - 1];
+                if (nOwner === owner) {
+                    continue;
+                }
+                let rayAfter = ray.slice(idx + 1);
+                const blockIdx = rayAfter.findIndex(n => this.board.has(n));
+                if (blockIdx !== -1) {
+                    rayAfter = rayAfter.slice(0, blockIdx);
+                }
+                for (const far of rayAfter) {
+                    if (!this.board.has(far)) {
                         moves.push(`${cell}x${far}`);
+                    }
+                }
+            }
+        } else {
+            for (const dir of captureDirs) {
+                const ray = g.ray(...g.algebraic2coords(cell), dir).map(c => g.coords2algebraic(...c));
+                if (ray.length >= 2) {
+                    const [next, far] = [...ray];
+                    if (this.board.has(next) && !this.board.has(far)) {
+                        const nStack = this.board.get(next)!;
+                        const [nOwner,] = nStack[nStack.length - 1];
+                        if (nOwner !== owner) {
+                            moves.push(`${cell}x${far}`);
+                        }
                     }
                 }
             }
         }
 
         if (moves.length === 0) {
-            for (const dir of moveDirs) {
-                const coords = g.move(...g.algebraic2coords(cell), dir);
-                if (coords !== undefined) {
-                    const next = g.coords2algebraic(...coords);
-                    if (!this.board.has(next)) {
+            if (type === 2) {
+                for (const dir of moveDirs) {
+                    const ray = g.ray(...g.algebraic2coords(cell), dir).map(c => g.coords2algebraic(...c));
+                    const blockIdx = ray.findIndex(n => this.board.has(n));
+                    const empty = blockIdx === -1 ? ray : ray.slice(0, blockIdx);
+                    for (const next of empty) {
                         moves.push(`${cell}-${next}`);
+                    }
+                }
+            } else {
+                for (const dir of moveDirs) {
+                    const coords = g.move(...g.algebraic2coords(cell), dir);
+                    if (coords !== undefined) {
+                        const next = g.coords2algebraic(...coords);
+                        if (!this.board.has(next)) {
+                            moves.push(`${cell}-${next}`);
+                        }
                     }
                 }
             }
@@ -232,28 +269,53 @@ export class BashniGame extends GameBase {
         return moves;
     }
 
-    private static captured(g: SquareDiagGraph, parts: string[]): string[] {
+    private static jumpedSquare(
+        board: Map<string, CellContents[]>,
+        g: SquareDiagGraph,
+        from: string,
+        to: string,
+        player: playerid,
+    ): string|undefined {
+        const [fx, fy] = g.algebraic2coords(from);
+        const [tx, ty] = g.algebraic2coords(to);
+        const between = RectGrid.between(fx, fy, tx, ty).map(c => g.coords2algebraic(...c));
+        for (const cell of between) {
+            if (board.has(cell)) {
+                const stack = board.get(cell)!;
+                if (stack[stack.length - 1][0] !== player) {
+                    return cell;
+                }
+            }
+        }
+        return undefined;
+    }
+
+    private static capturedSquares(
+        board: Map<string, CellContents[]>,
+        g: SquareDiagGraph,
+        parts: string[],
+        player: playerid,
+    ): string[] {
         const capped: string[] = [];
         for (let i = 1; i < parts.length; i++) {
-            const from = parts[i-1];
-            const to = parts[i];
-            const [fx, fy] = g.algebraic2coords(from);
-            const [tx, ty] = g.algebraic2coords(to);
-            const between = RectGrid.between(fx, fy, tx, ty).map(c => g.coords2algebraic(...c));
-            capped.push(between[0]);
+            const jumped = BashniGame.jumpedSquare(board, g, parts[i - 1], parts[i], player);
+            if (jumped !== undefined) {
+                capped.push(jumped);
+            }
         }
         return capped;
     }
 
     private recurseCaps(stubs: string[], complete: string[]): void {
         const g = new SquareDiagGraph(this.boardsize, this.boardsize);
+        const player = this.currplayer;
         const toVisit: string[] = [...stubs];
         while (toVisit.length > 0) {
             const mv = toVisit.shift()!;
             const cloned = BashniGame.clone(this);
             cloned.move(mv, {partial: true, trusted: true});
             const parts = mv.split("x");
-            const capped = BashniGame.captured(g, parts);
+            const capped = BashniGame.capturedSquares(this.board, g, parts, player);
             const last = parts[parts.length - 1];
             const moves = cloned.movesFor(last);
             if (moves.length === 0 || moves.join(",").includes("-")) {
@@ -261,8 +323,8 @@ export class BashniGame extends GameBase {
             } else {
                 for (const m of moves) {
                     const [,next] = m.split("x");
-                    const toCap = BashniGame.captured(g, [last, next]);
-                    if (!capped.includes(toCap[0])) {
+                    const jumped = BashniGame.jumpedSquare(cloned.board, g, last, next, player);
+                    if (jumped !== undefined && !capped.includes(jumped)) {
                         toVisit.push(`${mv}x${next}`);
                     } else {
                         complete.push(mv);

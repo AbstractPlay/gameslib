@@ -3208,7 +3208,7 @@
       "INITIAL_INSTRUCTIONS": "Click one of your pieces to select it.",
       "INITIAL_INSTRUCTIONS_PIE": "Click one of your pieces to select it, or use the pie rule to swap sides.",
       "NOT_ADJACENT": "A piece can only move to an adjacent empty cell.",
-      "NO_PASS": "You cannot pass in this game.",
+      "NO_PASS": "You cannot pass in this game. Swapping sides (the pie rule) is only available to the second player, right after the first move.",
       "PARTIAL": "Click an adjacent empty cell to move the selected piece there.",
       "PIE": "Use the pie rule and swap sides.",
       "PIE_UNAVAILABLE": "The pie rule can only be used by the second player right after the first move."

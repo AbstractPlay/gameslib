@@ -6,6 +6,80 @@ import { reviver, shuffle, UserFacingError, cloneState } from "../common/index.j
 import { connectedComponents } from 'graphology-components';
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        ADJACENCY: "Pieces may only move to adjacent cells.",
+        BAD_MOVE: "You may only move pieces if captures are active.",
+        EMPTY_MOVE: "Pieces may only move onto occupied cells.",
+        FRIENDLY_CAPTURE: "You may not cover your own stacks.",
+        INITIAL_INSTRUCTIONS: "Select an empty cell to place a piece of your colour.",
+        NO_DUPES: "Your move may not include duplicate cells.",
+        PARTIAL_MOVE: "Select the destination.",
+        PARTIAL_SETUP_p1: "Select a cell to place a star point (you must place at least one), or select a star point you placed to remove it. Click \"Complete move\" when you're done.",
+        PARTIAL_SETUP_p2: "Select a cell to place a star point, or select a star point you placed to remove it. You don't have to place any stars, but you typically want to. Click \"Complete move\" when you're done.",
+        SAME_HEIGHT: "Pieces may only move between stacks of the same height.",
+    },
+    variants: {
+        "#board": {
+            name: "Hexhex 8 board (169 spaces)",
+        },
+        "#stars": {
+            name: "Sunder",
+            description: "Every cell is a star point",
+        },
+        "size-4": {
+            name: "Hexhex 4 (37 spaces)",
+        },
+        "size-5": {
+            name: "Hexhex 5 (61 spaces)",
+        },
+        "size-6": {
+            name: "Hexhex 6 (91 spaces)",
+        },
+        "size-7": {
+            name: "Hexhex 7 (127 spaces)",
+        },
+        "size-9": {
+            name: "Hexhex 9 (217 spaces)",
+        },
+        "size-10": {
+            name: "Hexhex 10 (271 spaces)",
+        },
+        constellation: {
+            name: "Constellation",
+            description: "Stars in the corners and the centre",
+        },
+        gyre: {
+            name: "Gyre",
+            description: "Stars around the perimeter and in the centre (proposed by Mark Steere)",
+        },
+        yex: {
+            name: "Yex",
+            description: "Stars in alternating corners",
+        },
+        "random-3": {
+            name: "Random placement: 3 stars",
+        },
+        "random-5": {
+            name: "Random placement: 5 stars",
+        },
+        "random-7": {
+            name: "Random placement: 7 stars",
+        },
+        "random-9": {
+            name: "Random placement: 9 stars",
+        },
+        free: {
+            name: "Free placement",
+            description: "Intended for players who communicate expectations before the game. Each player will be able to place as many stars as they wish.",
+        },
+        captures: {
+            name: "Adere-style captures",
+            description: "Pieces can move onto an opposing stack of the same height. Increases game length. Consider using smaller boards.",
+        },
+    },
+};
+
 
 type playerid = 1|2;
 
@@ -63,8 +137,7 @@ export class OmnyGame extends GameBase {
         playercounts: [2],
         version: "20250203",
         dateAdded: "2025-02-04",
-        // i18next.t("apgames:descriptions.omny")
-        description: "apgames:descriptions.omny",
+        description: "Generalized connection game where players try to split star cells into different regions so that no single region contains a majority of star cells.",
         urls: ["https://boardgamegeek.com/boardgame/342418/omny"],
         bggid: "342418",
         people: [
@@ -544,7 +617,7 @@ export class OmnyGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): OmnyGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         // Normalize
         m = m.toLowerCase();
@@ -863,3 +936,4 @@ export class OmnyGame extends GameBase {
         // return new OmnyGame(this.serialize());
     }
 }
+

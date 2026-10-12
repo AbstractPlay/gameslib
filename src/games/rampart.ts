@@ -6,6 +6,34 @@ import { HexTriGraph, reviver, SquareOrthGraph, UserFacingError } from "../commo
 import i18next from "i18next";
 import { IGraph } from "../common/graphs/index.js";
 import { connectedComponents } from "graphology-components";
+export const gameApgamesEn = {
+    validation: {
+        BAD_PLACEMENT: "One of the cells you're trying to place a piece on is either nonexistent or occupied.",
+        INITIAL_INSTRUCTIONS_play: "Select an empty cell to place a piece or a dead enemy piece to remove the groups.",
+        INITIAL_INSTRUCTIONS_setup: "Select any empty cell to place a piece or an existing friendly piece to remove it.",
+        PARTIAL_PLACE: "Continue adding and removing pieces until you're done, then click the Complete Move button.",
+        PLACE_ONE: "You must place at least one piece.",
+    },
+    variants: {
+        "#setup": {
+            name: "Standard setup",
+        },
+        custom: {
+            name: "Custom setup",
+            description: "The players can create arbitrary setups. Should only be done with good communication. These games cannot be rated.",
+        },
+        "#board": {
+            name: "11x11 board",
+        },
+        "13x13": {
+            name: "13x13 board",
+        },
+        hex7: {
+            name: "Hexagonal board (base-7)",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -27,8 +55,7 @@ export class RampartGame extends GameBase {
         playercounts: [2],
         version: "20260106",
         dateAdded: "2026-01-12",
-        // i18next.t("apgames:descriptions.rampart")
-        description: "apgames:descriptions.rampart",
+        description: "An annihilation game where players grow from a predetermined set of groups.",
         urls: [
             "https://boardgamegeek.com/boardgame/133923/rampart",
             "https://boardgamegeek.com/boardgame/134259/hex-rampart",
@@ -346,7 +373,7 @@ export class RampartGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): RampartGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -561,3 +588,4 @@ export class RampartGame extends GameBase {
         return new RampartGame(this.serialize());
     }
 }
+

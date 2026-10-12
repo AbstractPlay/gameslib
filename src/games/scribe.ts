@@ -4,6 +4,23 @@ import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select an empty cell to mark.",
+        OCCUPIED: "{{where}} is already occupied.",
+        WRONG_MINI: "You must play in the mini grid indicated by your last move.",
+    },
+    variants: {
+        advanced: {
+            name: "Advanced",
+            description: "Win by forming the highest-value super glyph from the mini grids you captured, rather than by winning the most mini grids.",
+        },
+    },
+    status: {
+        MINI_GRIDS: "Mini grids won",
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -255,10 +272,8 @@ export class ScribeGame extends GameBase {
         playercounts: [2],
         version: "20260809",
         dateAdded: "2026-08-25",
-        // i18next.t("apgames:descriptions.scribe")
-        description: "apgames:descriptions.scribe",
-        // i18next.t("apgames:notes.scribe")
-        notes: "apgames:notes.scribe",
+        description: "A pen-and-paper game on a 9×9 super grid of nine 3×3 mini grids. Win the most mini grids, or in the advanced game, form the highest-value super glyph from your victories.",
+        notes: "The glyph reference chart is shown in the left margin. A dot marks each player's most recent placement. When a mini grid fills, glyph points are tallied and the higher score wins that grid (ties go to the player who completed it).",
         urls: ["https://www.marksteeregames.com/Scribe_rules.html"],
         people: [
             {
@@ -507,7 +522,7 @@ export class ScribeGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): ScribeGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase().replace(/\s+/g, "");
@@ -774,3 +789,4 @@ export class ScribeGame extends GameBase {
         return new ScribeGame(this.serialize());
     }
 }
+

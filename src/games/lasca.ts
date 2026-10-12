@@ -4,6 +4,26 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { DirectionDiagonal, RectGrid, reviver, SquareDiagGraph, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a stack with your piece on top to move.",
+        INVALID_MOVE: "The move does not appear to be legal. Capturing is compulsory, and you must continue as long as further captures are possible.",
+        VALID_PARTIAL: "Select a destination. Capturing is compulsory, and you must continue as long as further captures are possible.",
+    },
+    variants: {
+        "#board": {
+            name: "7x7 board (11 pieces)",
+        },
+        "size-9": {
+            name: "9x9 board (18 pieces)",
+        },
+    },
+    status: {
+        STEPS: "Maneuverability",
+        MATERIAL: "Material",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -28,10 +48,8 @@ export class LascaGame extends GameBase {
         playercounts: [2],
         version: "20251123",
         dateAdded: "2025-12-15",
-        // i18next.t("apgames:descriptions.lasca")
-        description: "apgames:descriptions.lasca",
-        // i18next.t("apgames:notes.lasca")
-        notes: "apgames:notes.lasca",
+        description: "A Draughts variant where captured pieces remain on the board and can be freed later. Immobilize your opponent to win.",
+        notes: "Maneuverability is a measure of how close your pieces are to promoting. Your maximum maneuverability is the board size times the number of stacks you control.\n\nMaterial is calculated by giving you a point for every friendly piece in a stack you control, plus an extra point if you have an officer on top of that stack.",
         urls: [
             "http://www.lasca.org/",
             "https://jpneto.github.io/world_abstract_games/lasca.htm",
@@ -462,7 +480,7 @@ export class LascaGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): LascaGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -784,3 +802,4 @@ export class LascaGame extends GameBase {
         return new LascaGame(this.serialize());
     }
 }
+

@@ -4,6 +4,38 @@ import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { HexTriGraph, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BEARING: "The range {{range}} does not result in a valid bearing.",
+        CHOOSE_REGION: "You have created new regions containing your opponent's birds. Select one of the {{count}} regions to retain.",
+        CONTROLLED_REGION: "You may not place a bird at {{where}} because it would be in a region controlled by your opponent.",
+        END_OR_MOVE_DIRECTION: "Select another bird to create a flock, or select a destination to move the single bird to.",
+        INITIAL_INSTRUCTIONS: "Select an intersection to add a bird, or select a flock of birds to move.",
+        INITIAL_INSTRUCTIONS_PASS: "Select an intersection to add a bird, or select a flock of birds to move, or pass.",
+        INITIAL_INSTRUCTIONS_PASS_ONLY: "You have run out of moves. You may only pass.",
+        INVALID_DIRDIST: "The direction and distance {{dirDist}} is invalid.",
+        INVALID_PASS: "You may only pass if your only placement is in regions of your own or if you have run out of moves.",
+        INVALID_REGION: "The region {{choice}} is not valid. Select one of the regions ({{choices}}) to retain.",
+        INVALID_REGION_NORMALISE: "The region that contains {{choice}} is represented by {{represent}}. Try '{{normalised}}'",
+        MOVE_DIRECTION: "Select a destination to move the flock to.",
+        NO_REGIONS_TO_SELECT: "You have indicated a region selection, but there are no regions to select from.",
+        PLACE_FRIENDLY_NEIGHBOUR: "You may not place a bird at {{where}} because it would be adjacent to a friendly bird.",
+        SAME_START_END: "The start and end points are the same.",
+        SINGLE_LINE: "The {{range}} is not a straight unbroken line of your birds.",
+    },
+    variants: {
+        "#board": {
+            name: "Size-7 board",
+        },
+        "size-6": {
+            name: "Size-6 board",
+        },
+        "size-8": {
+            name: "Size-8 board",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 type Direction = "NE" | "E" | "SE" | "SW" | "W" | "NW";
@@ -27,8 +59,7 @@ export class VoloGame extends GameBase {
         playercounts: [2],
         version: "20240705",
         dateAdded: "2024-07-14",
-        // i18next.t("apgames:descriptions.volo")
-        description: "apgames:descriptions.volo",
+        description: "Volo was inspired by the beauty of birds flying in flocks. Each player in turn places a piece or moves one or more pieces (here called 'birds') on the board and attempts to connect them all in one contiguous 'flock.' If a player ends up with one contiguous flock (of any size), he wins.",
         urls: [
             "https://spielstein.com/games/volo/rules",
             "https://boardgamegeek.com/boardgame/83283/volo",
@@ -552,7 +583,7 @@ export class VoloGame extends GameBase {
             const normalised = this.normaliseMove(m);
             if (m !== normalised) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.volo.NORMALISE", { normalised });
+                result.message = i18next.t("apgames:validation._general.NORMALISE", { normalised });
                 return result;
             }
         }
@@ -746,7 +777,7 @@ export class VoloGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): VoloGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -1004,3 +1035,4 @@ export class VoloGame extends GameBase {
         return new VoloGame(this.serialize());
     }
 }
+

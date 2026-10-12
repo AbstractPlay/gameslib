@@ -5,6 +5,33 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Place a piece onto an empty space where you have more neighboring pieces, or select a piece to move around other pieces without passing through spaces controlled by the opponent.",
+        FIRST_MOVE_INSTRUCTIONS: "Place a piece onto any empty space on the board.",
+        INVALID_PLACEMENT: "You may only place a new piece onto an empty space where you have more neighboring pieces than your opponent.",
+        INVALID_MOVEMENT: "You may only move around other pieces without passing through enemy controlled spaces. Legal landing spaces are highlighted when clicking to move.",
+        INVALID_MOVER: "You may only move your own nonisolated pieces.",
+    },
+    variants: {
+        "#board": {
+            name: "Hexhex 7 (127 spaces)",
+        },
+        "board-6": {
+            name: "Hexhex 6 (91 spaces)",
+        },
+        "board-8": {
+            name: "Hexhex 8 (169 spaces)",
+        },
+    },
+    displays: {
+        "hide-influence": {
+            description: "Don't highlight parts of the board that cannot be accessed by the other player.",
+            name: "Hide influence",
+        },
+    },
+};
+
 
 type Player = 1|2;
 
@@ -28,8 +55,7 @@ export class PodsGame extends GameBase {
         playercounts: [2],
         version: "20240802",
         dateAdded: "2024-09-05",
-        // i18next.t("apgames:descriptions.pods")
-        description: "apgames:descriptions.pods",
+        description: "Natal Seas - Pods is a territorial game where the players take on the metaphorical role of competing whales vying for space to protect their young. Played on a hexagonal board, it uses an innovative mechanism of placements and movements.",
         urls: [
             "https://cjffield.com/rules/pods.pdf",
             "https://boardgamegeek.com/boardgame/402621/natal-seas",
@@ -306,7 +332,7 @@ export class PodsGame extends GameBase {
 
     // We only need to handle re-setting moves from positions that are not complete moves, like movement.
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
-        if (this.gameover) return { move, valid: false, message: i18next.t("apgames:MOVES_GAMEOVER") };
+        if (this.gameover) return { move, valid: false, message: i18next.t("apgames:validation._general.MOVES_GAMEOVER") };
         try {
             const cell = this.getGraph().coords2algebraic(col, row);
             if (move === cell) return { move: "", valid: true, message: i18next.t("apgames:validation.pods.INITIAL_INSTRUCTIONS") };
@@ -330,7 +356,7 @@ export class PodsGame extends GameBase {
             if (m.length === 0) {
                 result.message = "";
             } else {
-                result.message = i18next.t("apgames:MOVES_GAMEOVER");
+                result.message = i18next.t("apgames:validation._general.MOVES_GAMEOVER");
             }
             return result;
         }
@@ -386,7 +412,7 @@ export class PodsGame extends GameBase {
         if (m === "") return this;
 
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         this.results = [];
@@ -641,3 +667,4 @@ export class PodsGame extends GameBase {
         return new PodsGame(this.serialize());
     }
 }
+

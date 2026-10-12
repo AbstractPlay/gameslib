@@ -4,6 +4,36 @@ import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { HexTriGraph, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BAD_GROW: "Placement at {{where}} does not result in a valid bonus grow.",
+        GROW: "You have bugs that must eat and perform bonus grow. Select a space adjacent to a bug that eats to perform a bonus grow.",
+        INITIAL_INSTRUCTIONS: "Select a cell to introduce a new bug, or grow an existing bug.",
+        MERGE: "Placement at {{where}} will result in a merging of {{count}} bugs.",
+        TOO_BIG: "You may not grow a bug to a size greater than {{size}}, the size of the current largest bug.",
+    },
+    variants: {
+        "#board": {
+            name: "Size-4 board",
+        },
+        "size-3": {
+            name: "Size-3 board",
+        },
+        "size-5": {
+            name: "Size-5 board",
+        },
+    },
+    displays: {
+        "hide-moves": {
+            description: "Don't show possible moves.",
+            name: "Hide moves",
+        },
+    },
+    status: {
+        PLACEABLE_COUNT: "Placeable count",
+    },
+};
+
 
 type playerid = 1 | 2;
 
@@ -25,10 +55,8 @@ export class BugGame extends GameBase {
         playercounts: [2],
         version: "20240721",
         dateAdded: "2024-08-26",
-        // i18next.t("apgames:descriptions.bug")
-        description: "apgames:descriptions.bug",
-        // i18next.t("apgames:notes.bug")
-        notes: "apgames:notes.bug",
+        description: "Fill the ecosystem with your bugs so much that you can no longer expand. On your turn, place a piece to start a new bug or grow an existing bug. Then, if any of your bugs are adjacent to enemy bugs of the same shape, they must eat them, and perform a bonus growth (if bonus growth is not possible, no eating occurs). This can result in chain reactions. If there are multiple choices of bugs that can eat, you may determine which bugs do it and in which order.",
+        notes: "In this implementation, after the initial placement, if the player has bugs that must eat, the edible bugs will be highlighted. Eating and bonus grow will be performed simultaneously, so performing a bonus grow on a bug by selecting a legal space next to it will cause all highlighted edible bugs adjacent to it to disappear. It is possible to bonus grow onto a space that an edible bug is on. Note that this implies that when selecting a bug to perform the eating action, ALL edible bugs of the same shape next to it will be removed, and this might differ from some other implementations where there a separate edible bug selection phase, which may allow some edible bugs to be left behind for another bug to eat.",
         urls: ["https://boardgamegeek.com/boardgame/240835/bug"],
         bggid: "240835",
         people: [
@@ -576,7 +604,7 @@ export class BugGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): BugGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -793,3 +821,4 @@ export class BugGame extends GameBase {
         return new BugGame(this.serialize());
     }
 }
+

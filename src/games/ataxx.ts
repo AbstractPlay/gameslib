@@ -4,6 +4,39 @@ import { APRenderRep, MarkerFlood, MarkerShading, RowCol } from "@abstractplay/r
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { Direction, HexTriGraph, RectGrid, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        HOLE: "The cell at {{where}} is blocked.",
+        INITIAL_INSTRUCTIONS: "Select a piece to split or jump.",
+        INITIAL_INSTRUCTIONS_PASS: "You have no moves so you must pass.",
+        INVALID_TO: "The piece at {{from}} cannot split or jump to {{to}}.",
+        MUST_PASS: "The only move available to you is to pass.",
+        ILLEGAL_PASS: "You may only pass if you have no legal moves.",
+        NO_TOS: "The selected piece at {{from}} has no possible destinations to split or jump to.",
+        SELECT_TO: "Select a destination to split or jump to.",
+        SPLIT4JUMP: "You have indicated a split when it's supposed to be a jump. Try {{move}}.",
+        JUMP4SPLIT: "You have indicated a jump when it's supposed to be a split. Try {{move}}.",
+    },
+    variants: {
+        "#board": {
+            name: "Size-7 square board",
+        },
+        "hex-5": {
+            name: "Size-5 hexagon board",
+        },
+        "square-5": {
+            name: "Size-5 square board",
+        },
+        "square-7-cross": {
+            name: "Size-7 square board with cross block",
+        },
+        "straight-jumps-only": {
+            description: "Pieces can only jump in a straight line (no knight jumps).",
+            name: "Straight jumps only",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 type HexDirection = "NE" | "E"| "SE" | "SW" | "W" | "NW";
@@ -29,10 +62,8 @@ export class AtaxxGame extends GameBase {
         playercounts: [2],
         version: "20240728",
         dateAdded: "2024-08-26",
-        // i18next.t("apgames:descriptions.ataxx")
-        description: "apgames:descriptions.ataxx",
-        // i18next.t("apgames:notes.ataxx")
-        notes: "apgames:notes.ataxx",
+        description: "Control the majority of spaces by spreading, jumping and infecting.",
+        notes: "On three-fold repetition, the game ends and the scores are calculated.",
         urls: ["https://boardgamegeek.com/boardgame/91313/ataxx"],
         bggid: "91313",
         people: [
@@ -583,7 +614,7 @@ export class AtaxxGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): AtaxxGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -873,3 +904,4 @@ export class AtaxxGame extends GameBase {
         return new AtaxxGame(this.serialize());
     }
 }
+

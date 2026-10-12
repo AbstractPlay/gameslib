@@ -15,6 +15,7 @@ import type { GameRng } from "./rng.js";
 
 export { columnLabels, indexToColumnLabel, columnLabelToIndex, generateColumnLabel };
 export { GameRng } from "./rng.js";
+export { gameApgamesT, gameApgamesUidKey } from "./game-apgames-t.js";
 export { generateChallengeSeed, resolveChallengeSeed } from "./challenge-seed.js";
 export { cloneState } from "./clone-state.js";
 export { replayToStackIndex, assertReplayMatches } from "./replay.js";

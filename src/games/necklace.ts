@@ -6,6 +6,14 @@ import { Direction, RectGrid, reviver, UserFacingError } from "../common/index.j
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BLOCKS_PATH: "Placement at {{where}} blocks the only path of some free spaces to the edge.",
+        INITIAL_INSTRUCTIONS: "Select a point to place a piece.",
+        NO_CROSSINGS: "Placement at {{where}} will create a crosscut.",
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -30,8 +38,7 @@ export class NecklaceGame extends GameBase {
         playercounts: [2],
         version: "20240426",
         dateAdded: "2024-04-30",
-        // i18next.t("apgames:descriptions.necklace")
-        description: "apgames:descriptions.necklace",
+        description: "An orthogonal-only square connection game where you try to connect your sides of the board. Crosscut formations are illegal, and every free space must always have a path to an edge.",
         urls: [
             "https://www.marksteeregames.com/Necklace_rules.pdf",
             "https://boardgamegeek.com/boardgame/419473/necklace"
@@ -343,7 +350,7 @@ export class NecklaceGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): NecklaceGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -538,3 +545,4 @@ export class NecklaceGame extends GameBase {
         return new NecklaceGame(this.serialize());
     }
 }
+

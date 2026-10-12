@@ -6,6 +6,51 @@ import { randomInt, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
 import { Glyph } from "@abstractplay/renderer";
+export const gameApgamesEn = {
+    validation: {
+        DESTINATION: "Select a cell to place the piece.",
+        INITIAL_INSTRUCTIONS: "Place a piece of either type on an empty space, or pass to take an enemy piece out of the prison instead (if one is available). Either select a piece from the legend, or click on the board to cycle through the available pieces.",
+        INITIAL_INSTRUCTIONS_komi: "Komi pie offer: enter the number of pieces to place in the prison as a compensation for not playing the first stone. The other player will then decide which seat to take.",
+        ARC: "You may not form a size 4 arc of stones of one type, regardless of colour.",
+        INVALID_CAPTURE: "A blue stone must always capture some enemy or friendly stones.",
+        INVALID_PLACE: "Placing a stone of your own colour may not capture any stones.",
+        INVALID_BOTH: "Neither a placement nor a capture is possible at {{where}}.",
+        BAD_KOMI: "The first move of the game must be a non-negative integer representing the number of pieces to place in the starting prison.",
+    },
+    variants: {
+        "size-5": {
+            name: "Size 5 board",
+        },
+        "#board": {
+            name: "Size 6 board",
+        },
+        "size-7": {
+            name: "Size 7 board",
+        },
+        "size-8": {
+            name: "Size 8 board",
+        },
+        "size-9": {
+            name: "Size 9 board",
+        },
+        "size-10": {
+            name: "Size 10 board",
+        },
+        "size-11": {
+            name: "Size 11 board",
+        },
+        "size-12": {
+            name: "Size 12 board",
+        },
+    },
+    displays: {
+        blocked_no: {
+            description: "Don't highlight blocked cells",
+            name: "blocked_no",
+        },
+    },
+};
+
 
 export type playerid = 1|2|3; // 3 is neutral
 export type tileid = 1|2;
@@ -41,10 +86,8 @@ export class OonpiaGame extends GameBase {
         playercounts: [2],
         version: "20260305",
         dateAdded: "2026-03-07",
-        // i18next.t("apgames:descriptions.oonpia")
-        description: "apgames:descriptions.oonpia",
-        // i18next.t("apgames:notes.oonpia")
-        notes: "apgames:notes.oonpia",
+        description: "A hexagonal go-like where pieces come in two types. Only pieces of opposite type are connected, and a 4-arc of pieces of the same type (regardless of colour) is forbidden.",
+        notes: "Either use the legend to select a piece, or click the same location multiple times to cycle through all possible pieces. Blocked cells are highlighted: a translucent dot means only a dotted stone can be placed there (i.e. blocked for plain pieces), a translucent piece means only a plain piece can be placed there (i.e. blocked for dotted pieces). If both highlights are present, then the cell is blocked for all pieces.",
         urls: ["https://github.com/th555/abstract_game_rules/blob/master/oonpia_rules.pdf"],
         people: [
             {
@@ -631,7 +674,7 @@ export class OonpiaGame extends GameBase {
 
     public move(ms: string, { partial = false, trusted = false } = {}): OonpiaGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         if (!trusted) {
@@ -1172,3 +1215,4 @@ export class OonpiaGame extends GameBase {
         return new OonpiaGame(this.serialize());
     }
 }
+

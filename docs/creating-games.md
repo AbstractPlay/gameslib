@@ -8,7 +8,7 @@ Guide for adding a new game to gameslib. For API details see [Game object](/game
 2. Before first `npm install`, run `npm run npm-login` for GitHub Packages access.
 3. **Choose a base class** (see below) and **create** `src/games/<uid>.ts`.
 4. **Run** `npm run generate-registry` (or any build/test) — the game registry is auto-generated from `static gameinfo`.
-5. **Add i18n** strings to `locales/en/apgames.json` (and `apresults.json` if needed).
+5. **Add i18n** — export `gameApgamesEn` from `src/games/<uid>.ts`, put plain English in `gameinfo.description` / `notes`, run `npm run merge-apgames-en`, and commit the regenerated `locales/en/apgames.json` (do not type strings only into that file; see [i18n](/gameslib/i18n/)). Add `apresults.json` strings when the move log needs them.
 6. **Move log** — plan chat output while implementing `move()`; see [Move log](#move-log) below and [Structured move log](/gameslib/structured-chat-log/).
 7. **Flag** new games with `experimental` in `gameinfo`.
 8. **Test** locally — [Testing](/gameslib/testing/) (including `assertChatLogParity` when you customize the collector).

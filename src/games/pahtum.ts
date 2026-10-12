@@ -4,6 +4,26 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { Direction, orthDirections, reviver, shuffle, SquareDirectedGraph, SquareOrthGraph, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS_offer: "Place all five blocks and a single stone. Your opponent will then choose which colour to play.",
+        INITIAL_INSTRUCTIONS_response: "Click \"Swap player seats\" to play as first player or place a stone to remain as second player.",
+        INITIAL_INSTRUCTIONS_rest: "Select an empty cell to place a stone.",
+        PARTIAL_setup: "Continue selecting empty cells to block until you have selected five. Then place a single stone.",
+        PARTIAL_rest: "Select one of the highlighted cells to capture it.",
+    },
+    variants: {
+        quick: {
+            name: "Quick setup",
+            description: "Blocked cells are determined randomly.",
+        },
+        captures: {
+            name: "Custodial captures",
+            description: "Sandwiching an enemy stone between two of yours converts it to your colour.",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 export type Piece = playerid|"X";
@@ -31,8 +51,7 @@ export class PahTumGame extends GameBase {
         // version: "20250201",
         version: "20250425",
         dateAdded: "2025-02-01",
-        // i18next.t("apgames:descriptions.pahtum")
-        description: "apgames:descriptions.pahtum",
+        description: "Accumulate points by establishing lines of your own pieces of various lengths, but five cells each game are blocked. A capturing option is also available.",
         urls: ["https://boardgamegeek.com/boardgame/28128/pah-tum"],
         bggid: "28128",
         people: [
@@ -308,7 +327,7 @@ export class PahTumGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): PahTumGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -579,3 +598,4 @@ export class PahTumGame extends GameBase {
         return new PahTumGame(this.serialize());
     }
 }
+

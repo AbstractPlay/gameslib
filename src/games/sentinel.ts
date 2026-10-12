@@ -4,6 +4,23 @@ import { APRenderRep, MarkerGlyph } from "@abstractplay/renderer/build/schemas/s
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError, Direction, allDirections } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Move a piece forward or sow a stack in any direction. The center cannot be crossed over. Captures are by replacement.",
+        EDGE_INSTRUCTIONS: "Move the piece one step forward (orthogonally or diagonally). The piece can be moved off the board by clicking at the center.",
+        PIECE_INSTRUCTIONS: "Move the piece one step forward (orthogonally or diagonally).",
+        STACK_INSTRUCTIONS: "Sow the stack in any direction provided there's space to place all of its pieces (plus one). It is illegal to create un-sowable stacks. Captures are by replacement.",
+        INVALID_CENTER: "It is illegal to move or sow over the board center!",
+        NO_STACK_TURN_3: "Notice that the first player cannot make a stack in his second move.",
+        MOVE_INSTRUCTIONS: "First, click on a friendly piece.",
+    },
+    variants: {
+        "#board": {
+            name: "9x9 board",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 export type cellcontents = [playerid, number];
@@ -41,8 +58,8 @@ export class SentinelGame extends GameBase {
         playercounts: [2],
         version: "20260328",
         dateAdded: "2026-04-22",
-        description: "apgames:descriptions.sentinel",
-        notes: "apgames:notes.sentinel",
+        description: "A vigil game using a sowing mechanism with stacks. A vigil game is one where some board position must always have line-of-sight to some or all of the player's pieces. In Sentinel, players are required to see the board center at the end of each one of their turns.",
+        notes: "Vigil Games are a class of strategy games in which players must maintain an uninterrupted line of sight between their pieces and a designated reference point or region of the board. The first vigil game on record is 1892's Kastellet.\n\nSentinel is a vigil game where players always need to have at least one line-of-sight to the board's center. Sentinel is the second abstract game of this genre (after more than 130 years!), mixing typical movement and capture ludemes with permanent line-of-sight control of the central square.\n\nThe game mixes forward movement with sowing stacks which are the only way for armies to increase their size.",
         urls: [
             "https://boardgamegeek.com/thread/3651706/rules-of-sentinel",
         ],
@@ -343,7 +360,7 @@ export class SentinelGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): SentinelGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();

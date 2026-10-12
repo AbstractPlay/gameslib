@@ -5,6 +5,32 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import { HexTriGraph } from "../common/graphs/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "At the start, place one stone of either color. Click the cell multiple times to cycle between player colours and empty hexes.",
+        INSTRUCTIONS: "Players place, on empty hexes, one or two stones of either color. Click the cell multiple times to cycle between player colours and empty hexes.",
+        TOO_MANY_MOVES: "Only one or two placements are allowed.",
+        TOO_MANY_MOVES_START: "At the start, only one placement is allowed.",
+    },
+    variants: {
+        "size-4": {
+            name: "Hexagonal board (base-4)",
+        },
+        "size-5": {
+            name: "Hexagonal board (base-5)",
+        },
+        "#board": {
+            name: "Hexagonal board (base-6)",
+        },
+        "size-7": {
+            name: "Hexagonal board (base-7)",
+        },
+        "size-8": {
+            name: "Hexagonal board (base-8)",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -26,8 +52,7 @@ export class MinimizeGame extends GameBase {
         playercounts: [2],
         version: "20260514",
         dateAdded: "2026-05-27",
-        // i18next.t("apgames:descriptions.minimize")
-        description: "apgames:descriptions.minimize",
+        description: "The player with the largest smallest group wins the game.",
         urls: [
                 "https://boardgamegeek.com/boardgame/169096/minimize",
                 "https://jpneto.github.io/world_abstract_games/modern_rules/2014_Minimize.pdf"
@@ -351,7 +376,7 @@ export class MinimizeGame extends GameBase {
         const regex = new RegExp(`^[12][a-z]\\d+(,[12][a-z]\\d+)?$`);
         if (!regex.test(m)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.minimize.INVALID_PLACEMENT", {move: m});
+            result.message = i18next.t("apgames:validation._general.INVALID_PLACEMENT", {move: m});
             return result;
         }
 
@@ -359,7 +384,7 @@ export class MinimizeGame extends GameBase {
         const normalised = this.normaliseMove(m);
         if (! this.sameMove(m, normalised)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.minimize.NORMALISED", {move: normalised});
+            result.message = i18next.t("apgames:validation._general.NORMALISE", { normalised });
             return result;
         }
 
@@ -386,7 +411,7 @@ export class MinimizeGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): MinimizeGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         if (!trusted) {
@@ -554,3 +579,4 @@ export class MinimizeGame extends GameBase {
         return new MinimizeGame(this.serialize());
     }
 }
+

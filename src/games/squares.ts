@@ -6,6 +6,118 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 
+export const gameApgamesEn = {
+    validation: {
+        ARTILLERY_TARGET: "Artillery may only attack other artillery or a reserve.",
+        ATTACK_FROM_RESERVE: "Units may not attack from their reserve.",
+        ATTACK_LIMIT: "The unit at {{where}} has attacked on its last two turns and may not attack again this turn.",
+        CAVALRY_NEEDS_SUPPORT: "Cavalry may not attack infantry without support. Click one of your units adjacent to the target to support the attack.",
+        CAVALRY_NO_SUPPORT: "Cavalry may not attack infantry without support, and none of your units can support this attack.",
+        CHAIN_CONTINUE: "The displaced unit must retreat too. Click where it goes.",
+        CHOOSE_LOSS: "Click a unit in your reserve, or press a button, to choose the type of unit you give up.",
+        CHOOSE_RETREAT: "Now click the square, or the reserve, that the retreating unit goes to.",
+        DECIDE_ELIMINATED: "The defender will be eliminated. Now click it again to withdraw both your units afterwards (option 1), click your support to give it up instead (option 2), or click your attacker to give it up (option 3).",
+        DECISION_EARLY: "'{{decision}}' comes too early: finish the part of the move before it first.",
+        DECISION_EXTRA: "'{{decision}}' is not needed: nothing is left for you to decide in this move.",
+        DIAGONAL_DOUBLE: "Infantry can only move diagonally with a double move: pass, then spend the whole double turn on it.",
+        EXHAUSTED: "The unit at {{where}} has moved on its last two turns and cannot attack from where it stands.",
+        FOREST_DOUBLE: "Infantry and artillery can only enter a forest with a double move: pass, then spend the whole double turn on it.",
+        FOREST_TWO_STEPS: "A two-square cavalry move may not enter or pass through a forest.",
+        FROZEN: "The unit at {{where}} retreated and may not move, attack or support this turn.",
+        ILLEGAL_MOVE: "'{{move}}' is not a legal move.",
+        ILLEGAL_RESPONSE: "'{{move}}' is not a legal choice here.",
+        INITIAL_ACTION_double: "Double turn, {{count}} action(s) left: move or attack, but do not pass. A whole double turn lets infantry or artillery enter a forest, or infantry move diagonally.",
+        INITIAL_ACTION_single: "Move a unit, declare an attack, or pass. Click one of your units (in your reserve or on the board), then its destination or an adjacent enemy.",
+        INITIAL_ADVANCE: "Click the vacated square (or press Advance) to move in, or click your attacking unit (or press Stay) to stay put.",
+        INITIAL_DEFEND: "Your unit is under attack. Click it (or press Stand) to stand, or click the square or reserve it retreats to.",
+        INITIAL_LOSE: "Your reserve is under attack. Click a unit in your reserve, or press a button, to give up one unit of that type.",
+        INITIAL_RESOLVE: "The defender stands. Click it to eliminate it (options 1 to 3), click your attacker to withdraw it (option 4), or click your support to withdraw it (option 5); the buttons choose an option directly.",
+        INITIAL_SECOND: "The supporting artillery has withdrawn, so your unit gets a second chance. Click it (or press Stand) to stand, or click where it retreats to.",
+        MOVE_LIMIT: "The unit at {{where}} has moved on its last two turns and may not move again this turn.",
+        NOT_ADJACENT: "{{to}} does not touch {{from}}.",
+        NOT_CONNECTED: "An attack must come from a square sharing an edge with its target; {{from}} does not connect to {{to}}.",
+        NO_PASS_DOUBLE: "You may not pass during a double turn.",
+        NO_SUCH_UNIT: "There is no {{what}} of yours at {{where}}.",
+        NO_TARGET: "There is no enemy unit at {{where}}.",
+        OPTION_1: "the defender is eliminated, then the attacker and its support both withdraw",
+        OPTION_2: "the defender and the supporting unit are eliminated, and the attacker may advance",
+        OPTION_3: "the attacker is exchanged for the defender",
+        OPTION_4: "the attacker withdraws to its reserve",
+        OPTION_5: "the supporting unit withdraws",
+        OPTION_UNAVAILABLE: "That option is not available here: it would need a retreat that cannot be made.",
+        OWN_RESERVE: "You cannot attack your own reserve.",
+        PARTIAL_CAVALRY: "The cavalry may stop here, continue one more square, or be joined by a second cavalry unit moving one square.",
+        PARTIAL_SUPPORT: "Unsupported attack. Click another of your units adjacent to the target to add support, or submit as is.",
+        PARTIAL_UNIT: "Now choose a destination, or an adjacent enemy unit to attack.",
+        PATH_BLOCKED: "The square {{where}} is occupied, so the cavalry cannot pass through it.",
+        PINNED: "The unit at {{where}} is adjacent to enemy artillery and may only attack or support an attack on that artillery, or do neither if it is adjacent to more than one.",
+        PLY_ADVANCED: "The attacker advances; click its original square to stay put instead.",
+        PLY_AGAIN: "Clicking any other square starts the decision again.",
+        PLY_CHOOSE_ADVANCE: "The target square is now empty: click it to advance, or complete the move to stay put.",
+        PLY_CHOOSE_OPTION: "The defender stands. Click it to eliminate it (options 1 to 3), click your attacker to withdraw it (option 4), or click your support to withdraw it (option 5); the buttons choose an option directly.",
+        PLY_COMPLETE: "Complete the move as it stands.",
+        PLY_OPTION: "Option {{n}}: {{what}}.",
+        PLY_STAYED: "The attacker stays put; click the target square to advance instead.",
+        RESERVE_EMPTY: "The enemy reserve is empty; move into it to win instead.",
+        RESERVE_OCCUPIED: "You may only enter the enemy reserve once it is empty.",
+        RETREAT_ARTILLERY: "Artillery cannot retreat when attacked, except from one forest into another.",
+        RETREAT_CHAIN_BLOCKED: "The unit on {{to}} would have no legal retreat of its own, so the cavalry cannot displace it.",
+        RETREAT_ENEMY_OCCUPIED: "{{to}} is held by an enemy unit.",
+        RETREAT_ENEMY_RESERVE: "A unit cannot retreat into the enemy reserve.",
+        RETREAT_FOREST_ADJACENT: "A forest retreat must go into a forest adjacent to the one the unit is in; {{to}} is not.",
+        RETREAT_FOREST_DISPLACED: "Only the unit under attack may use a forest retreat; displaced and supporting units go back to the reserve.",
+        RETREAT_FOREST_FROM_CLEAR: "Only a unit attacked while in a forest may retreat into a forest.",
+        RETREAT_FOREST_GUNS: "A unit may not retreat into a forest that touches enemy artillery, and {{to}} does.",
+        RETREAT_NOT_ADJACENT: "Cavalry retreats one square, to a square touching {{from}}; {{to}} is not touching it.",
+        RETREAT_NOT_CLOSER: "{{to}} is not closer to your reserve than {{from}}, so the unit cannot retreat there.",
+        RETREAT_NO_PATH: "There is no clear path back to the reserve: every route is blocked by enemy units, so the unit must stand.",
+        RETREAT_TO_RESERVE_ONLY: "Infantry and artillery retreat to their reserve, not to another square. Only a unit attacked in a forest may instead fall back into an adjacent forest.",
+        RETREAT_VACANT_FIRST: "Cavalry must retreat into a vacant square when one is available ({{vacant}}), so it cannot displace the unit on {{to}}.",
+        STAND_CAVALRY: "Cavalry must retreat when it can. It may only stand against lone cavalry, in a forest, or when no retreat is possible.",
+        STAND_FLANK: "This is a flank attack, so the unit must retreat while it can.",
+        SUPPORT_FROM_RESERVE: "Units may not support an attack from their reserve.",
+        SUPPORT_NOT_ADJACENT: "The supporting unit at {{where}} is not adjacent to {{target}}.",
+        SUPPORT_SELF: "A unit cannot support its own attack.",
+        THROUGH_ENEMY_RESERVE: "A move may not pass through the enemy reserve.",
+        TOO_FAR: "No unit may move more than two squares.",
+        TWO_CAVALRY_ONE_STEP: "When two cavalry units move together, each moves exactly one square and neither may enter a forest.",
+        TWO_CAVALRY_ONLY: "Only two cavalry units may move in one action.",
+        TWO_CAVALRY_SAME: "Choose two different cavalry units.",
+        TWO_STEPS_CAVALRY: "Only cavalry may move two squares.",
+        WRONG_TYPE: "The unit at {{where}} is {{what}}.",
+    },
+    buttons: {
+        stand: "Stand",
+        retreatReserve: "Retreat to reserve",
+        retreat: "Retreat to…",
+        option1: "Eliminate defender, retreat both",
+        option2: "Eliminate defender and support",
+        option3: "Exchange attacker for defender",
+        option4: "Retreat attacker",
+        option5: "Retreat support",
+        advance: "Advance",
+        stay: "Stay",
+        loseI: "Give up infantry",
+        loseA: "Give up artillery",
+        loseC: "Give up cavalry",
+    },
+    status: {
+        COMBAT: "Combat",
+        DOUBLE_one: "Double turn, {{count}} action left",
+        DOUBLE_other: "Double turn, {{count}} actions left",
+        LOSSES: "{{player}}'s losses",
+        POINTS: "Points to 10 (units eliminated)",
+        SINGLE: "Single turn",
+        STAGE_ADVANCE: "The attacker may advance",
+        STAGE_DEFEND: "The defender chooses to stand or retreat",
+        STAGE_LOSE: "The reserve's owner chooses which unit is lost",
+        STAGE_RESOLVE: "The defender stands; the attacker chooses an option",
+        STAGE_SECOND: "Second chance: the defender may still retreat",
+        TURN: "Turn",
+    },
+};
+
+
 /*
  * SQUARES - The Civil War Battle Game.
  *
@@ -256,10 +368,8 @@ export class SquaresGame extends GameBaseSequenced {
         playercounts: [2],
         version: "20260924",
         dateAdded: "2026-09-24",
-        // i18next.t("apgames:descriptions.squares")
-        description: "apgames:descriptions.squares",
-        // i18next.t("apgames:notes.squares")
-        notes: "apgames:notes.squares",
+        description: "An abstract representation of an American Civil War battle. Each side fields nine infantry, three artillery and four cavalry units. Each turn you move a unit, attack an adjacent enemy with or without support, or pass to earn a double turn. Attacked units may stand and fight or retreat, and artillery, cavalry and forests all follow their own rules. Win by marching a unit into the enemy reserve or by eliminating ten points' worth of enemy units.",
+        notes: "Gray (player 1) sits at the south and Blue (player 2) at the north, as in the rulebook's diagram, and squares carry the rulebook's identification codes. Decisions that fall to the defending player (standing or retreating, or which unit a reserve gives up) are made as moves of their own, while the attacker's decisions (the option after a defender stands, and whether to advance) are joined by slashes to the attack, or to each other, in a single move; any decision with only one legal answer is made automatically. The attacker's options are entered by clicking the units involved: the defender to eliminate it, and then the defender again to withdraw both attacking units afterwards, the support to give it up, or the attacker to exchange it; or the attacker or the support straight away to withdraw that unit. Once the target square is empty, clicking it advances; a move completed without that stays put.\n\nReadings of the rules made by this implementation: a unit may move (or attack) on at most two consecutive turns, where the two halves of a double turn are separate turns and a pass turn breaks the run; a unit that retreats may not act on its owner's next turn, or on the next half of a double turn; passing counts as a legal action, so a player loses for lack of one only when a double turn cannot be completed; closeness to a reserve is measured from the centre of each square, so the outer forests sit between the second and first lines and the two inner forests are equidistant from both reserves; cavalry may step diagonally, may pass through its own reserve, and may retreat into a forest or its reserve; a supported attack that empties the enemy reserve lets a non-artillery attacker advance into it and win; the second-chance retreat applies only to option 1; units of one type in a reserve are interchangeable, so the least-restricted one leaves and the most-restricted one is lost; and, since the published rules say nothing about repetition, chess's rule applies: the same position with the same player to act occurring three times is a draw.\n\nSQUARES - The Civil War Battle Game is copyright, 1995 G. Myers, and is published by Deer Valley Game Company, with whose permission it appears here.",
         urls: [
             "https://www.dvgc.com/rules2.html",
             "https://www.dvgc.com/comments.html",
@@ -1209,7 +1319,7 @@ export class SquaresGame extends GameBaseSequenced {
 
     public move(m: string, { partial = false, trusted = false } = {}): SquaresGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         const move = SquaresGame.normalise(m);
         if (!trusted) {
@@ -1521,9 +1631,23 @@ export class SquaresGame extends GameBaseSequenced {
 
     private instructions(): string {
         if (this.combat === undefined) {
-            return i18next.t("apgames:validation.squares.INITIAL_ACTION", { context: this.isDouble ? "double" : "single", count: this.actionsLeft });
+            if (this.isDouble) {
+                return i18next.t("apgames:validation.squares.INITIAL_ACTION_double", { count: this.actionsLeft });
+            }
+            return i18next.t("apgames:validation.squares.INITIAL_ACTION_single", { count: this.actionsLeft });
         }
-        return i18next.t(`apgames:validation.squares.INITIAL_${this.combat.stage.toUpperCase()}`);
+        switch (this.combat.stage) {
+            case "defend":
+                return i18next.t("apgames:validation.squares.INITIAL_DEFEND");
+            case "resolve":
+                return i18next.t("apgames:validation.squares.INITIAL_RESOLVE");
+            case "second":
+                return i18next.t("apgames:validation.squares.INITIAL_SECOND");
+            case "advance":
+                return i18next.t("apgames:validation.squares.INITIAL_ADVANCE");
+            case "lose":
+                return i18next.t("apgames:validation.squares.INITIAL_LOSE");
+        }
     }
 
     private static valid(complete: -1 | 0 | 1, message?: string): IValidationResult {
@@ -1531,13 +1655,124 @@ export class SquaresGame extends GameBaseSequenced {
     }
 
     private static invalid(key: string, params?: Record<string, string | number>): IValidationResult {
-        return { valid: false, message: i18next.t(`apgames:validation.squares.${key}`, params) };
+        switch (key) {
+            case "ARTILLERY_TARGET":
+                return { valid: false, message: i18next.t("apgames:validation.squares.ARTILLERY_TARGET", params) };
+            case "ATTACK_FROM_RESERVE":
+                return { valid: false, message: i18next.t("apgames:validation.squares.ATTACK_FROM_RESERVE", params) };
+            case "ATTACK_LIMIT":
+                return { valid: false, message: i18next.t("apgames:validation.squares.ATTACK_LIMIT", params) };
+            case "CAVALRY_NEEDS_SUPPORT":
+                return { valid: false, message: i18next.t("apgames:validation.squares.CAVALRY_NEEDS_SUPPORT", params) };
+            case "CAVALRY_NO_SUPPORT":
+                return { valid: false, message: i18next.t("apgames:validation.squares.CAVALRY_NO_SUPPORT", params) };
+            case "CHAIN_CONTINUE":
+                return { valid: false, message: i18next.t("apgames:validation.squares.CHAIN_CONTINUE", params) };
+            case "CHOOSE_LOSS":
+                return { valid: false, message: i18next.t("apgames:validation.squares.CHOOSE_LOSS", params) };
+            case "CHOOSE_RETREAT":
+                return { valid: false, message: i18next.t("apgames:validation.squares.CHOOSE_RETREAT", params) };
+            case "DECISION_EARLY":
+                return { valid: false, message: i18next.t("apgames:validation.squares.DECISION_EARLY", params) };
+            case "DECISION_EXTRA":
+                return { valid: false, message: i18next.t("apgames:validation.squares.DECISION_EXTRA", params) };
+            case "DIAGONAL_DOUBLE":
+                return { valid: false, message: i18next.t("apgames:validation.squares.DIAGONAL_DOUBLE", params) };
+            case "EXHAUSTED":
+                return { valid: false, message: i18next.t("apgames:validation.squares.EXHAUSTED", params) };
+            case "FOREST_DOUBLE":
+                return { valid: false, message: i18next.t("apgames:validation.squares.FOREST_DOUBLE", params) };
+            case "FOREST_TWO_STEPS":
+                return { valid: false, message: i18next.t("apgames:validation.squares.FOREST_TWO_STEPS", params) };
+            case "FROZEN":
+                return { valid: false, message: i18next.t("apgames:validation.squares.FROZEN", params) };
+            case "ILLEGAL_MOVE":
+                return { valid: false, message: i18next.t("apgames:validation.squares.ILLEGAL_MOVE", params) };
+            case "ILLEGAL_RESPONSE":
+                return { valid: false, message: i18next.t("apgames:validation.squares.ILLEGAL_RESPONSE", params) };
+            case "MOVE_LIMIT":
+                return { valid: false, message: i18next.t("apgames:validation.squares.MOVE_LIMIT", params) };
+            case "NOT_ADJACENT":
+                return { valid: false, message: i18next.t("apgames:validation.squares.NOT_ADJACENT", params) };
+            case "NOT_CONNECTED":
+                return { valid: false, message: i18next.t("apgames:validation.squares.NOT_CONNECTED", params) };
+            case "NO_PASS_DOUBLE":
+                return { valid: false, message: i18next.t("apgames:validation.squares.NO_PASS_DOUBLE", params) };
+            case "NO_SUCH_UNIT":
+                return { valid: false, message: i18next.t("apgames:validation.squares.NO_SUCH_UNIT", params) };
+            case "NO_TARGET":
+                return { valid: false, message: i18next.t("apgames:validation.squares.NO_TARGET", params) };
+            case "OPTION_UNAVAILABLE":
+                return { valid: false, message: i18next.t("apgames:validation.squares.OPTION_UNAVAILABLE", params) };
+            case "OWN_RESERVE":
+                return { valid: false, message: i18next.t("apgames:validation.squares.OWN_RESERVE", params) };
+            case "PATH_BLOCKED":
+                return { valid: false, message: i18next.t("apgames:validation.squares.PATH_BLOCKED", params) };
+            case "PINNED":
+                return { valid: false, message: i18next.t("apgames:validation.squares.PINNED", params) };
+            case "RESERVE_EMPTY":
+                return { valid: false, message: i18next.t("apgames:validation.squares.RESERVE_EMPTY", params) };
+            case "RESERVE_OCCUPIED":
+                return { valid: false, message: i18next.t("apgames:validation.squares.RESERVE_OCCUPIED", params) };
+            case "RETREAT_ARTILLERY":
+                return { valid: false, message: i18next.t("apgames:validation.squares.RETREAT_ARTILLERY", params) };
+            case "RETREAT_CHAIN_BLOCKED":
+                return { valid: false, message: i18next.t("apgames:validation.squares.RETREAT_CHAIN_BLOCKED", params) };
+            case "RETREAT_ENEMY_OCCUPIED":
+                return { valid: false, message: i18next.t("apgames:validation.squares.RETREAT_ENEMY_OCCUPIED", params) };
+            case "RETREAT_ENEMY_RESERVE":
+                return { valid: false, message: i18next.t("apgames:validation.squares.RETREAT_ENEMY_RESERVE", params) };
+            case "RETREAT_FOREST_ADJACENT":
+                return { valid: false, message: i18next.t("apgames:validation.squares.RETREAT_FOREST_ADJACENT", params) };
+            case "RETREAT_FOREST_DISPLACED":
+                return { valid: false, message: i18next.t("apgames:validation.squares.RETREAT_FOREST_DISPLACED", params) };
+            case "RETREAT_FOREST_FROM_CLEAR":
+                return { valid: false, message: i18next.t("apgames:validation.squares.RETREAT_FOREST_FROM_CLEAR", params) };
+            case "RETREAT_FOREST_GUNS":
+                return { valid: false, message: i18next.t("apgames:validation.squares.RETREAT_FOREST_GUNS", params) };
+            case "RETREAT_NOT_ADJACENT":
+                return { valid: false, message: i18next.t("apgames:validation.squares.RETREAT_NOT_ADJACENT", params) };
+            case "RETREAT_NOT_CLOSER":
+                return { valid: false, message: i18next.t("apgames:validation.squares.RETREAT_NOT_CLOSER", params) };
+            case "RETREAT_NO_PATH":
+                return { valid: false, message: i18next.t("apgames:validation.squares.RETREAT_NO_PATH", params) };
+            case "RETREAT_TO_RESERVE_ONLY":
+                return { valid: false, message: i18next.t("apgames:validation.squares.RETREAT_TO_RESERVE_ONLY", params) };
+            case "RETREAT_VACANT_FIRST":
+                return { valid: false, message: i18next.t("apgames:validation.squares.RETREAT_VACANT_FIRST", params) };
+            case "STAND_CAVALRY":
+                return { valid: false, message: i18next.t("apgames:validation.squares.STAND_CAVALRY", params) };
+            case "STAND_FLANK":
+                return { valid: false, message: i18next.t("apgames:validation.squares.STAND_FLANK", params) };
+            case "SUPPORT_FROM_RESERVE":
+                return { valid: false, message: i18next.t("apgames:validation.squares.SUPPORT_FROM_RESERVE", params) };
+            case "SUPPORT_NOT_ADJACENT":
+                return { valid: false, message: i18next.t("apgames:validation.squares.SUPPORT_NOT_ADJACENT", params) };
+            case "SUPPORT_SELF":
+                return { valid: false, message: i18next.t("apgames:validation.squares.SUPPORT_SELF", params) };
+            case "THROUGH_ENEMY_RESERVE":
+                return { valid: false, message: i18next.t("apgames:validation.squares.THROUGH_ENEMY_RESERVE", params) };
+            case "TOO_FAR":
+                return { valid: false, message: i18next.t("apgames:validation.squares.TOO_FAR", params) };
+            case "TWO_CAVALRY_ONE_STEP":
+                return { valid: false, message: i18next.t("apgames:validation.squares.TWO_CAVALRY_ONE_STEP", params) };
+            case "TWO_CAVALRY_ONLY":
+                return { valid: false, message: i18next.t("apgames:validation.squares.TWO_CAVALRY_ONLY", params) };
+            case "TWO_CAVALRY_SAME":
+                return { valid: false, message: i18next.t("apgames:validation.squares.TWO_CAVALRY_SAME", params) };
+            case "TWO_STEPS_CAVALRY":
+                return { valid: false, message: i18next.t("apgames:validation.squares.TWO_STEPS_CAVALRY", params) };
+            case "WRONG_TYPE":
+                return { valid: false, message: i18next.t("apgames:validation.squares.WRONG_TYPE", params) };
+            default:
+                return { valid: false, message: i18next.t("apgames:validation._general.INVALID_MOVE", { move: String(params?.move ?? key) }) };
+        }
     }
 
     public validateMove(m: string): IValidationResult {
         const move = SquaresGame.normalise(m);
         if (this.gameover) {
-            return { valid: false, message: i18next.t("apgames:MOVES_GAMEOVER") };
+            return { valid: false, message: i18next.t("apgames:validation._general.MOVES_GAMEOVER") };
         }
         if (move === "") {
             return SquaresGame.valid(-1, this.instructions());
@@ -1590,31 +1825,47 @@ export class SquaresGame extends GameBaseSequenced {
         });
     }
 
+    private static optionSummary(n: string): string {
+        switch (n) {
+            case "1":
+                return i18next.t("apgames:validation.squares.OPTION_1");
+            case "2":
+                return i18next.t("apgames:validation.squares.OPTION_2");
+            case "3":
+                return i18next.t("apgames:validation.squares.OPTION_3");
+            case "4":
+                return i18next.t("apgames:validation.squares.OPTION_4");
+            case "5":
+                return i18next.t("apgames:validation.squares.OPTION_5");
+            default:
+                return "";
+        }
+    }
+
     /** Describe the decisions a ply has settled so far, and what its author still has to choose. */
     private plyPrompt(chosen: string[], pendingStage?: CombatStage): string {
-        const t = (key: string, params?: Record<string, string>): string => i18next.t(`apgames:validation.squares.${key}`, params);
         const parts: string[] = [];
         const option = chosen.find(d => d.startsWith("option"));
         const advance = chosen.find(d => d === "advance" || d === "stay");
         if (option !== undefined) {
-            parts.push(t("PLY_OPTION", { n: option[6], what: t(`OPTION_${option[6]}`) }));
+            parts.push(i18next.t("apgames:validation.squares.PLY_OPTION", { n: option[6], what: SquaresGame.optionSummary(option[6]) }));
         }
         if (pendingStage === "resolve") {
-            parts.push(t("PLY_CHOOSE_OPTION"));
+            parts.push(i18next.t("apgames:validation.squares.PLY_CHOOSE_OPTION"));
             return parts.join(" ");
         }
         if (pendingStage === "advance") {
-            parts.push(t("PLY_CHOOSE_ADVANCE"));
+            parts.push(i18next.t("apgames:validation.squares.PLY_CHOOSE_ADVANCE"));
         } else {
             if (advance === "advance") {
-                parts.push(t("PLY_ADVANCED"));
+                parts.push(i18next.t("apgames:validation.squares.PLY_ADVANCED"));
             } else if (advance === "stay") {
-                parts.push(t("PLY_STAYED"));
+                parts.push(i18next.t("apgames:validation.squares.PLY_STAYED"));
             }
-            parts.push(t("PLY_COMPLETE"));
+            parts.push(i18next.t("apgames:validation.squares.PLY_COMPLETE"));
         }
         if (option !== undefined || advance !== undefined) {
-            parts.push(t("PLY_AGAIN"));
+            parts.push(i18next.t("apgames:validation.squares.PLY_AGAIN"));
         }
         return parts.join(" ");
     }
@@ -1631,13 +1882,13 @@ export class SquaresGame extends GameBaseSequenced {
         // A prefix of a legal choice: a bare option or `retreat:` still needing a square, or a chain still to be finished.
         const boundary = (l: string): boolean => move.endsWith(":") || l[move.length] === ":" || l[move.length] === ",";
         if (legal.some(l => l.startsWith(move) && boundary(l))) {
-            let key = "CHAIN_CONTINUE";
             if (this.combat!.stage === "lose") {
-                key = "CHOOSE_LOSS";
-            } else if (!move.includes(":") || move.endsWith(":")) {
-                key = "CHOOSE_RETREAT";
+                return SquaresGame.valid(-1, i18next.t("apgames:validation.squares.CHOOSE_LOSS"));
             }
-            return SquaresGame.valid(-1, i18next.t(`apgames:validation.squares.${key}`));
+            if (!move.includes(":") || move.endsWith(":")) {
+                return SquaresGame.valid(-1, i18next.t("apgames:validation.squares.CHOOSE_RETREAT"));
+            }
+            return SquaresGame.valid(-1, i18next.t("apgames:validation.squares.CHAIN_CONTINUE"));
         }
         return this.diagnoseCombatMove(move, legal);
     }
@@ -2246,7 +2497,7 @@ export class SquaresGame extends GameBaseSequenced {
 
     /* ---------------------------------------------------------- buttons */
 
-    /** Buttons for the decisions that clicks alone cannot express; each label is an i18n key under `apgames:buttons`. */
+    /** Buttons for combat decisions that clicks alone cannot express. */
     public getButtons(): ICustomButton[] {
         if (this.gameover) {
             return [];
@@ -2263,38 +2514,50 @@ export class SquaresGame extends GameBaseSequenced {
         }
         const legal = this.combatOptions();
         const buttons: ICustomButton[] = [];
-        const add = (label: string, move: string): void => {
-            buttons.push({ label: `apgames:buttons.squares.${label}`, move: prefix === undefined ? move : `${prefix}/${move}` });
-        };
+        const withPrefix = (move: string): string => (prefix === undefined ? move : `${prefix}/${move}`);
         switch (c.stage) {
             case "defend":
             case "second": {
                 if (legal.includes("stand")) {
-                    add("stand", "stand");
+                    buttons.push({ label: "apgames:buttons.squares.stand", move: withPrefix("stand") });
                 }
                 const home = legal.find(l => /^retreat:[IAC][A-Z0-9]+-(BR|GR)$/.test(l));
                 if (home !== undefined) {
-                    add("retreatReserve", home);
+                    buttons.push({ label: "apgames:buttons.squares.retreatReserve", move: withPrefix(home) });
                 }
                 if (legal.some(l => l.startsWith("retreat:") && l !== home)) {
-                    add("retreat", "retreat:");
+                    buttons.push({ label: "apgames:buttons.squares.retreat", move: withPrefix("retreat:") });
                 }
                 break;
             }
             case "resolve":
-                for (const n of [1, 2, 3, 4, 5]) {
-                    if (legal.some(l => l.startsWith(`option${n}`))) {
-                        add(`option${n}`, SquaresGame.optionEntry(legal, n));
-                    }
+                if (legal.some(l => l.startsWith("option1"))) {
+                    buttons.push({ label: "apgames:buttons.squares.option1", move: withPrefix(SquaresGame.optionEntry(legal, 1)) });
+                }
+                if (legal.some(l => l.startsWith("option2"))) {
+                    buttons.push({ label: "apgames:buttons.squares.option2", move: withPrefix(SquaresGame.optionEntry(legal, 2)) });
+                }
+                if (legal.some(l => l.startsWith("option3"))) {
+                    buttons.push({ label: "apgames:buttons.squares.option3", move: withPrefix(SquaresGame.optionEntry(legal, 3)) });
+                }
+                if (legal.some(l => l.startsWith("option4"))) {
+                    buttons.push({ label: "apgames:buttons.squares.option4", move: withPrefix(SquaresGame.optionEntry(legal, 4)) });
+                }
+                if (legal.some(l => l.startsWith("option5"))) {
+                    buttons.push({ label: "apgames:buttons.squares.option5", move: withPrefix(SquaresGame.optionEntry(legal, 5)) });
                 }
                 break;
             case "advance":
-                add("advance", "advance");
-                add("stay", "stay");
+                buttons.push({ label: "apgames:buttons.squares.advance", move: withPrefix("advance") });
+                buttons.push({ label: "apgames:buttons.squares.stay", move: withPrefix("stay") });
                 break;
             case "lose":
                 for (const l of legal) {
-                    add(`lose${l.slice("lose:".length)}`, l);
+                    const t = l.slice("lose:".length) as UnitType;
+                    const label = t === "I" ? "apgames:buttons.squares.loseI"
+                        : t === "A" ? "apgames:buttons.squares.loseA"
+                            : "apgames:buttons.squares.loseC";
+                    buttons.push({ label, move: withPrefix(l) });
                 }
                 break;
         }
@@ -2532,13 +2795,32 @@ export class SquaresGame extends GameBaseSequenced {
     public sidebarStatuses(): IStatus[] {
         const out: IStatus[] = [];
         const turn = this.isDouble
-            ? this.neutralAreaLabel("apgames:status.squares.DOUBLE", { count: this.actionsLeft })
+            ? this.neutralAreaLabel(
+                this.actionsLeft === 1
+                    ? "apgames:status.squares.DOUBLE_one"
+                    : "apgames:status.squares.DOUBLE_other",
+                { count: this.actionsLeft },
+            )
             : this.neutralAreaLabel("apgames:status.squares.SINGLE");
         out.push({ key: this.neutralAreaLabel("apgames:status.squares.TURN"), value: [turn] });
         if (this.combat !== undefined) {
+            const stageLabel = (() => {
+                switch (this.combat!.stage) {
+                    case "defend":
+                        return this.neutralAreaLabel("apgames:status.squares.STAGE_DEFEND");
+                    case "resolve":
+                        return this.neutralAreaLabel("apgames:status.squares.STAGE_RESOLVE");
+                    case "second":
+                        return this.neutralAreaLabel("apgames:status.squares.STAGE_SECOND");
+                    case "advance":
+                        return this.neutralAreaLabel("apgames:status.squares.STAGE_ADVANCE");
+                    case "lose":
+                        return this.neutralAreaLabel("apgames:status.squares.STAGE_LOSE");
+                }
+            })();
             out.push({
                 key: this.neutralAreaLabel("apgames:status.squares.COMBAT"),
-                value: [this.neutralAreaLabel(`apgames:status.squares.STAGE_${this.combat.stage.toUpperCase()}`)],
+                value: [stageLabel],
             });
         }
         for (const p of [1, 2] as playerid[]) {
@@ -2666,3 +2948,4 @@ export class SquaresGame extends GameBaseSequenced {
         return new SquaresGame(this.serialize());
     }
 }
+

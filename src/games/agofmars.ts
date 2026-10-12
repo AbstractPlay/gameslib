@@ -43,6 +43,96 @@ import {
 } from "./agofmars/bag.js";
 import { scoreGame } from "./agofmars/scoring.js";
 import type { CellContents, Colour, IMoveState, Phase, playerid, Size } from "./agofmars/types.js";
+export const gameApgamesEn = {
+    validation: {
+        EMPTY_BAG: "There are no pyramids left to draw.",
+        INITIAL_INSTRUCTIONS: "Use the action buttons, then click the board to move or swap pyramids.",
+        INITIAL_INSTRUCTIONS_setup1: "Player 1 setup: click one of your objective pyramids, then click a multiplier column to assign it. Submit when every colour is placed (notation like RD1,BU2,GN-1,YE0).",
+        INITIAL_INSTRUCTIONS_setup2: "Player 2 setup: click each objective pyramid, then click the multiplier column for that colour. Submit when every colour is placed.",
+        INITIAL_INSTRUCTIONS_play: "Submit your objective decision with the buttons, then draw, move, or swap. After a draw, click an empty cell to place.",
+        SETUP_INCOMPLETE: "Assign every colour to a different multiplier before submitting.",
+        SETUP_PARTIAL: "Click another pyramid, then a multiplier column, or submit when every colour is assigned.",
+        SETUP_PERM: "Use colour-and-multiplier pairs separated by commas (for example RD1,BU2,GN-1,YE0). Each colour and each multiplier may be used only once.",
+        KO: "You may not immediately undo your opponent's last move or swap.",
+        MAIN_ACTION_CHOICE: "Choose Draw, Move, or Swap, or click one of those buttons.",
+        MAIN_ACTION_MODE_move: "Click a pyramid on the board, then click where it should go.",
+        MAIN_ACTION_MODE_swap: "Click a pyramid on the board, then click a different pyramid to swap with.",
+        MOVE: "That pyramid cannot reach that cell.",
+        MOVE_BLACK: "Black pyramids cannot be moved.",
+        MOVE_DEST_OCCUPIED: "That cell is occupied. Click an empty destination, or click another pyramid to move instead.",
+        MOVE_SELECT_DEST: "Click an empty cell where this pyramid can move.",
+        MOVE_SELECT_PIECE: "Click one of your pyramids on the board to move.",
+        NO_PIECES_TO_MOVE: "There are no pyramids on the board to move. Draw from the bag and place one first.",
+        NO_PIECES_TO_SWAP: "There are not two different pyramids on the board to swap. Draw and place pieces first.",
+        SWAP_BLACK: "Black pyramids cannot be swapped.",
+        SWAP_SELECT_PIECE: "Click a pyramid on the board to swap.",
+        SWAP_SELECT_SECOND: "Click a different pyramid on the board to swap with.",
+        OBJ_SWAP: "You cannot swap objectives right now.",
+        OBJ_SWAP_SELECT: "Select the two objective columns you wish to swap.",
+        OBJ_SWAP_SELECT_SECOND: "Select the second objective column to swap.",
+        PLACE: "Click an empty cell to place the drawn pyramid.",
+        PLACE_DRAWN: "That placement does not match the pyramid you drew.",
+        SWAP: "Those pyramids cannot be swapped.",
+        TURN_START: "Choose whether to swap objectives before your main action.",
+    },
+    variants: {
+        "#rules": {
+            description: "Standard 7×8 board with four colours and multipliers 2, 1, 0, and −1.",
+            name: "Standard rules",
+        },
+        "five-colour-plus3": {
+            description: "8×8 board with five colours; the fifth column multiplies scores by +3.",
+            name: "Five colours (+3)",
+        },
+        "five-colour-minus2": {
+            description: "8×8 board with five colours; the fifth column multiplies scores by −2.",
+            name: "Five colours (−2)",
+        },
+        "objective-initiative": {
+            description: "Skip manual setup: each player receives a random distinct assignment of colours to columns (inspired by the Objective Initiative expansion).",
+            name: "Objective Initiative",
+        },
+        "blind-agents": {
+            description: "You cannot see your own objective colours and cannot swap them yourself; your opponent may swap yours.",
+            name: "Blind agents",
+        },
+        "step-move": {
+            description: "Pyramids move and swap only to adjacent cells.",
+            name: "Step move",
+        },
+        "black-trio-swap": {
+            description: "Objective swaps remain legal until a small, medium, and large black pyramid have been drawn.",
+            name: "Black trio swap",
+        },
+        "biggest-group": {
+            description: "Only each colour's largest group scores; ties break by higher pip sum.",
+            name: "Biggest group only",
+        },
+        "group-size-scoring": {
+            description: "Add group size to the pip sum before multiplying by your objective.",
+            name: "Group size scoring",
+        },
+    },
+    displays: {
+        "hide-bag-pool": {
+            description: "Don't show the pyramids still in the draw bag.",
+            name: "Hide bag",
+        },
+    },
+    buttons: {
+        draw: "Draw",
+        move: "Move",
+        noObjSwap: "No objective swap",
+        objSwap: "Swap objectives",
+        swap: "Swap on board",
+    },
+    status: {
+        bagCount: "Pyramids in bag",
+        bagPool: "Pyramids in bag",
+        setupPool: "Objective pyramids",
+    },
+};
+
 
 export type { CellContents, Colour, IMoveState, Phase, playerid, Size } from "./agofmars/types.js";
 
@@ -98,8 +188,8 @@ export class AgofmarsGame extends GameBaseSequenced {
         playercounts: [2],
         version: "20260928",
         dateAdded: "2026-09-28",
-        description: "apgames:descriptions.agofmars",
-        notes: "apgames:notes.agofmars",
+        description: "Assign secret colour objectives to scoring columns, then draw pyramids from a shared pool and place them on the board. Orthogonally connected groups score pip values multiplied by your objective for that colour. Highest total when the board is full wins.",
+        notes: "Each play turn is submitted in two or three steps, not as one combined action.\n\nFirst, choose whether to swap objective columns (**No objective swap**) or complete an objective swap when it is legal. You must submit this step even when you are only passing on a swap.\n\nSecond, take your main action: **Draw** from the bag, move a pyramid on the board, or **swap** two pyramids on the board. If you draw, everyone sees the drawn piece after you submit this step; your turn is not finished yet.\n\nThird (draw only): place the drawn pyramid on an empty cell, then your turn ends.\n\nDuring manual setup, click one of your objective pyramids, then click a multiplier column. Moves are recorded as colour/multiplier pairs (for example `RD1,BU2,GN-1,YE0`). The event log only notes that a player chose their objectives; assignments stay hidden until swaps or the end of the game.",
         urls: [
             "https://cityhare.studio/games/agents-of-mars/",
             "https://boardgamegeek.com/boardgame/378391/agents-of-mars",

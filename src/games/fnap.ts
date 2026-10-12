@@ -4,6 +4,25 @@ import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema"
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { allDirections, RectGrid, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BAD_PASS: "You may not pass your turn.",
+        BAD_SELECTED: "That tile was not selected in the previous phase.",
+        BAD_TILE: "You do not have that tile in your stash ({{tile}}).",
+        DUPLICATE_CELL: "You can't place two tiles in the same space.",
+        DUPLICATE_TILE: "You can't place the same tile twice.",
+        INITIAL_INSTRUCTIONS_passing: "You do not have to do anything. Your opponent is making their decision and your turn will be passed.",
+        INITIAL_INSTRUCTIONS_place: "Click on one of the selected tiles then click on an empty space on the board.",
+        INITIAL_INSTRUCTIONS_playOrPass: "Either place the selected tiles or type \"pass\" to let your opponent place the tiles.",
+        INITIAL_INSTRUCTIONS_select: "Select a tile from your stash to place.",
+        LABEL_SELECTED: "Selected tiles",
+        LABEL_STASH: "{{player}}'s stash",
+        MUST_PASS: "The only move available to you is to pass.",
+        VALID_PARTIAL_cell: "Select an empty space to place the tile.",
+        VALID_PARTIAL_tile: "Select one of the two tiles to place.",
+    },
+};
+
 
 type playerid = 1|2;
 type Piece = [number, "+"|"x"|"*"|"o"]; // orth, diag, all, cicle
@@ -31,8 +50,7 @@ export class FnapGame extends GameBaseSimultaneous {
         playercounts: [2],
         version: "20231225",
         dateAdded: "2024-02-01",
-        // i18next.t("apgames:descriptions.fnap")
-        description: "apgames:descriptions.fnap",
+        description: "A tile laying game where players simultaneously select the tile they will play, but only one player gets to place them both. Points are scored by dominating rows and columns and by creating groups of connected (and disconnected) tiles.",
         urls: [
             "https://docs.google.com/document/d/1wSdFpFY1qcCpNO_06f9lllZPOun4jcXgk_RBPnV6UQo/edit?usp=sharing",
             "https://boardgamegeek.com/boardgame/22698/fnap",
@@ -468,12 +486,12 @@ export class FnapGame extends GameBaseSimultaneous {
 
     public move(m: string, {partial = false, trusted = false} = {}): FnapGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         m = m.replace("\u0091", "pass");
         const moves: string[] = m.split(/,\s*/);
         if (moves.length !== 2) {
-            throw new UserFacingError("MOVES_SIMULTANEOUS_PARTIAL", i18next.t("apgames:MOVES_SIMULTANEOUS_PARTIAL"));
+            throw new UserFacingError("MOVES_SIMULTANEOUS_PARTIAL", i18next.t("apgames:validation._general.MOVES_SIMULTANEOUS_PARTIAL"));
         }
         for (let i = 0; i < moves.length; i++) {
             if ( (partial) && ( (moves[i] === undefined) || (moves[i] === "") ) ) {
@@ -978,7 +996,7 @@ export class FnapGame extends GameBaseSimultaneous {
     public sidebarScores(): IScores[] {
         return [
             { name: this.neutralAreaLabel("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
-            { name: this.neutralAreaLabel("apgames:status.fnap"), scores: this.fnap === 1 ? ["\u2021", ""] : ["", "\u2021"] }
+            { name: this.neutralAreaLabel("apgames:status.SCORES"), scores: this.fnap === 1 ? ["\u2021", ""] : ["", "\u2021"] }
         ]
     }
 
@@ -1034,3 +1052,4 @@ export class FnapGame extends GameBaseSimultaneous {
         return new FnapGame(this.serialize());
     }
 }
+

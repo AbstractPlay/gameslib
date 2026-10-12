@@ -4,6 +4,15 @@ import { APRenderRep, MarkerFlood, MarkerGlyph, RowCol } from "@abstractplay/ren
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { diagDirections, Direction, orthDirections, RectGrid, reviver, SquareDirectedGraph, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS_inhand: "Select a piece to move or an empty space on your side of the board to place a knight.",
+        INITIAL_INSTRUCTIONS_placed: "Select a piece to move.",
+        PARTIAL_destination: "Select a destination.",
+        PARTIAL_orientation: "Select a neighbouring cell to orient the piece.",
+    },
+};
+
 
 export type playerid = 1|2;
 export type Orientation = "+"|"x"|undefined;
@@ -33,8 +42,7 @@ export class KachitGame extends GameBase {
         playercounts: [2],
         version: "20250131",
         dateAdded: "2025-02-02",
-        // i18next.t("apgames:descriptions.kachit")
-        description: "apgames:descriptions.kachit",
+        description: "A chess-like game played on a 4x4 board where you try to eliminate the opposing king or promote your own. Pieces can change their orientation after moving.",
         urls: [
             "https://boardgamegeek.com/boardgame/189513/kachit-knights",
         ],
@@ -340,7 +348,7 @@ export class KachitGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): KachitGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -811,3 +819,4 @@ export class KachitGame extends GameBase {
         return Object.assign(new KachitGame(), cloneState(this) as KachitGame);
     }
 }
+

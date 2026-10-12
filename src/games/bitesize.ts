@@ -5,6 +5,21 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import { HexTriGraph } from "../common/graphs/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INSTRUCTIONS: "Place a friendly piece on an empty hex. It is invalid to make creatures bigger than size {{size}}.",
+        GROUP_TOO_LARGE: "This placement would make a creature bigger than four pieces!",
+    },
+    variants: {
+        "#board": {
+            name: "Hexagonal board (base-4)",
+        },
+        "size-5": {
+            name: "Hexagonal board (base-5)",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -27,8 +42,7 @@ export class BitesizeGame extends GameBase {
         playercounts: [2],
         version: "20260815",
         dateAdded: "2026-08-25",
-        // i18next.t("apgames:descriptions.bitesize")
-        description: "apgames:descriptions.bitesize",
+        description: "Get points for eating creatures in a growing ecosystem.",
         urls: [
                 "https://rustic-title-6c1.notion.site/BITESIZE-24926037bce18169a00fd15aacc5dfbb",
                 "https://boardgamegeek.com/thread/3499194",
@@ -272,7 +286,7 @@ export class BitesizeGame extends GameBase {
 
     public move(m: string, { trusted = false } = {}): BitesizeGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         if (!trusted) {
             const result = this.validateMove(m);
@@ -458,3 +472,4 @@ export class BitesizeGame extends GameBase {
         return new BitesizeGame(this.serialize());
     }
 }
+

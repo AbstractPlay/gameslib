@@ -7,6 +7,22 @@ import i18next from "i18next";
 import { Card, Deck, cardSortAsc, cardsBasic, cardsExtended } from "../common/decktet/index.js";
 import { QuincunxBoard } from "./quincunx/board.js";
 import { QuincunxCard } from "./quincunx/card.js";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a card from your hand to place on the board.",
+    },
+    variants: {
+        excuse: {
+            name: "The Excuse",
+            description: "Adds The Excuse to the deck. This card accrues no basic scoring when played or when played next to, plays no role in straights, and it exacts no penalty if still in your hand at the end of the round.",
+        },
+        flush: {
+            name: "Flush bonuses",
+            description: "When present, if the card you played creates or extends a continuous line (including diagonal) of four or more cards that share the same suit, or that forms a 2x2 square of cards that share a suit, score 10 points for each line and square.",
+        },
+    },
+};
+
 
 export type playerid = 1|2|3;
 
@@ -78,10 +94,8 @@ export class QuincunxGame extends GameBase {
         playercounts: [2,3],
         version: "20250518",
         dateAdded: "2025-06-01",
-        // i18next.t("apgames:descriptions.quincunx")
-        description: "apgames:descriptions.quincunx",
-        // i18next.t("apgames:notes.quincunx")
-        notes: "apgames:notes.quincunx",
+        description: "A Decktet tableau-building game where the grid gets built as you go. Each play scores points (sometimes negative points). A game consists of as many rounds as there are players. Highest accumulated score wins.",
+        notes: "A game consists of as many rounds as there are players. Highest accumulated score wins.\n\nBasic scoring: For each orthogonally adjacent card, add the ranks together.\n* 2-9 w/ matching Ace: gain, otherwise lose\n* 10: no effect\n* 11: draw a card\n* 12-19: gain sum - 10\n* 20: draw a card\n\nPairs: For each orthogonally adjacent card that is the same rank, gain 5 points. (**Exception:** If that pair is also part of a set, it does *not* also score as a pair.)\n\nSets: If the placed card creates a line (including diagonal) of three *or more* cards of the same rank, gain 30 pts for each line.\n\nStraights: If the placed card creates or extends sequence of three or more cards in rank order along a line (including diagonal), gain 20 points for each line.\n\nPower play: If you played an Ace or Crown orthogonally adjacent to the matching Ace or Crown, score the number of points equal to the sum of the ranks of all the *other* cards in the tableau that share that suit.\n\nMore information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers and opponents.",
         urls: [
             "http://wiki.decktet.com/game:quincunx",
             "https://boardgamegeek.com/boardgame/37097/quincunx",
@@ -314,7 +328,7 @@ export class QuincunxGame extends GameBase {
                 result.valid = true;
                 result.complete = -1;
                 result.canrender = true;
-                result.message = i18next.t("apgames:validation.quincunx.PARTIAL");
+                result.message = i18next.t("apgames:validation._general.NEED_DESTINATION");
                 return result;
             } else {
                 result.valid = false;
@@ -507,7 +521,7 @@ export class QuincunxGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false, emulation = false} = {}): QuincunxGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -993,3 +1007,4 @@ export class QuincunxGame extends GameBase {
         return Object.assign(new QuincunxGame(this.numplayers), cloneState(this) as QuincunxGame);
     }
 }
+

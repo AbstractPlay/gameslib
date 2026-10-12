@@ -4,6 +4,28 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError, allDirections } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        FLEET_FULL: "You may not have more than 12 pieces.",
+        INITIAL_INSTRUCTIONS: "Select a piece to move, or click on your home port to rebuild a destroyed ship.",
+        MUST_MOVE: "Ships must move at least one space.",
+        PARTIAL: "Select a destination.",
+        SELF_OCCUPATION: "You may not leave your own pieces on your home port.",
+    },
+    variants: {
+        "8x10": {
+            description: "An elongated board that breaks up the power of a central diagonal",
+            name: "8x10 board",
+        },
+    },
+    displays: {
+        "hide-threatened": {
+            description: "Don't highlight pieces that are threatened to be removed next turn.",
+            name: "Hide threatened",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -25,8 +47,7 @@ export class ArchimedesGame extends GameBase {
         playercounts: [2],
         version: "20211210",
         dateAdded: "2023-05-01",
-        // i18next.t("apgames:descriptions.archimedes")
-        description: "apgames:descriptions.archimedes",
+        description: "A game based on the legend of Archimedes teaching the Syracuse soldiers how to focus the sun's rays with their shields to set ships on fire. The goal is to begin your turn with a piece in your enemy's port. At the end of each turn, any enemy ships in sight of three of your pieces are destroyed by fire. Destroyed ships can eventually be rebuilt.",
         urls: [
             "https://boardgamegeek.com/boardgame/18698/archimedes",
         ],
@@ -422,7 +443,7 @@ export class ArchimedesGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): ArchimedesGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -649,3 +670,4 @@ export class ArchimedesGame extends GameBase {
         return new ArchimedesGame(this.serialize());
     }
 }
+

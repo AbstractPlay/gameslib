@@ -5,6 +5,60 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { HexTriGraph, SquareOrthGraph, reviver, shuffle, UserFacingError } from "../common/index.js";
 import type { IGraph } from "../common/graphs/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Click an empty point to place a stone in your colour. Click it again to switch to the other colour, and again to remove the stone. Use Complete Move when you are ready (one stone only on the first turn).",
+        INITIAL_INSTRUCTIONS_yopp: "Click an empty point to place your stone. Click it again to remove the stone. Use Complete Move when you are ready (one stone only on the first turn).",
+        INSTRUCTIONS: "Pass, or place one or two stones on empty points (your colour by default). Click a stone again to switch colour, or a third time to remove it. The total number of groups must be odd when you complete your turn.",
+        INSTRUCTIONS_yopp: "Pass only if you have no valid placement, or place one or two of your own stones on empty points. Click a stone again to remove it. The total number of groups must be odd when you complete your turn.",
+        INSTRUCTIONS_ODD: "Adjust placements or add another stone so the total number of groups is odd, then use Complete Move.",
+        INVALID_PASS: "You may only pass if you have no valid placements.",
+        NO_PASS_OPENING: "You may not pass on the opening turn.",
+        ODD_GROUPS_REQUIRED: "The total number of groups on the board must be odd after your turn.",
+        OWN_COLOUR_ONLY: "You may only place stones of your own colour.",
+        INVALID_PASS_PARTIAL: "Complete or clear your placement before passing.",
+        TOO_MANY_MOVES: "Only one or two placements are allowed.",
+        TOO_MANY_MOVES_START: "On the first turn, only one placement is allowed.",
+        VALID_MOVE: "Use Complete Move to end your turn, or keep clicking to change or remove stones.",
+    },
+    variants: {
+        "hex-6": {
+            name: "Size-6 hex",
+        },
+        "hex-7": {
+            name: "Size-7 hex",
+        },
+        "#board": {
+            name: "Size-8 hex",
+        },
+        "hex-9": {
+            name: "Size-9 hex",
+        },
+        "hex-10": {
+            name: "Size-10 hex",
+        },
+        "square-9": {
+            name: "Size-9 square (Xodd)",
+        },
+        "square-10": {
+            name: "Size-10 square (Xodd)",
+        },
+        "square-13": {
+            name: "Size-13 square (Xodd)",
+        },
+        "square-14": {
+            name: "Size-14 square (Xodd)",
+        },
+        "square-15": {
+            name: "Size-15 square (Xodd)",
+        },
+        yopp: {
+            description: "Place only your own colour; pass only when you have no valid placement.",
+            name: "Yopp/Xopp",
+        },
+    },
+};
+
 
 export type playerid = 1 | 2;
 
@@ -26,9 +80,8 @@ export class YoddGame extends GameBase {
         playercounts: [2],
         version: "20260930",
         dateAdded: "2026-09-30",
-        // i18next.t("apgames:descriptions.yodd")
-        description: "apgames:descriptions.yodd",
-        notes: "apgames:notes.yodd",
+        description: "Pass or place one or two stones of either colour. After your turn there must be an odd number of groups on the board. When both players pass in succession, the player with fewer groups of their colour wins.",
+        notes: "Yodd is played on a hex grid. The same rules on a square grid are published as **Xodd**; choose a square board size variant to play Xodd on Abstract Play. On your first turn only, you may place a single stone. Later turns allow pass or one or two stones of either colour, and the total number of groups on the board must be odd after each turn.",
         urls: [
             "https://boardgamegeek.com/boardgame/105173/yodd",
             "https://boardgamegeek.com/boardgame/112111/xodd",
@@ -586,7 +639,7 @@ export class YoddGame extends GameBase {
 
         const regex = /^[12][a-z]\d+(,[12][a-z]\d+)?$/;
         if (!regex.test(m)) {
-            result.message = i18next.t("apgames:validation.yodd.INVALID_PLACEMENT", { move: m });
+            result.message = i18next.t("apgames:validation._general.INVALID_PLACEMENT", { move: m });
             return result;
         }
 
@@ -602,7 +655,7 @@ export class YoddGame extends GameBase {
 
         const normalised = this.normaliseMove(m);
         if (!this.sameMove(m, normalised)) {
-            result.message = i18next.t("apgames:validation.yodd.NORMALISED", { normalised });
+            result.message = i18next.t("apgames:validation._general.NORMALISE", { normalised });
             return result;
         }
 
@@ -638,7 +691,7 @@ export class YoddGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): YoddGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         if (m.length === 0) { return this; }
@@ -838,3 +891,4 @@ export class YoddGame extends GameBase {
         return new YoddGame(this.serialize());
     }
 }
+

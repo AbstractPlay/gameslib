@@ -6,6 +6,30 @@ import { reviver, UserFacingError } from "../common/index.js";
 import { HexTriGraph } from "../common/graphs/index.js";
 import { connectedComponents } from "graphology-components";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Drop pieces from reserve on empty cells or friendly stacks. Alternatively, move a stack: click it then click on an empty cell within moving range. Afterwards, and optionally, one or two walls can be placed on any empty accessible cells (closed adversary areas are not accessible).",
+        DROP_MOVE_INSTRUCTIONS: "Click again on the stack to place a new stone from the reserve. Otherwise, click N times on an empty cell (within moving range) to move N pieces.",
+        ENEMY_PIECE: "Cannot change an enemy piece.",
+        INVALID_PLAYSECOND: "You cannot choose to swap positions from this board state.",
+        MOVE_NOT_INSIDE_CIRCLE: "Stack cannot be moved outside its circle (i.e., its moving range).",
+        MOVE_TO_OCCUPIED_CELL: "Pieces from a stack must be moved to an empty cell.",
+        NOT_ENOUGH_PIECES_TO_MOVE: "The stack does not have that many pieces to be moved.",
+        NOT_PLACED_ON_FRIEND: "Pieces cannot be moved from opposing stacks.",
+        OCCUPIED_WALL: "Walls must be placed on empty cells (does not include cells from pieces just captured).",
+        PIE_CHOICE: "Either play to be the second player, or click the Pie button to swap colors and be the first player. Your adversary will get 0.5 points for offering the pie.",
+        RESERVE_EMPTY: "Reserve empty; no more placements possible.",
+        SAME_WALL: "Cannot place the same wall twice.",
+        UNACCESSIBLE_PIECE: "Cannot place/move pieces on inaccessible cells.",
+        UNACCESSIBLE_WALL: "Cannot place walls on inaccessible cells.",
+    },
+    variants: {
+        "#board": {
+            name: "Hexhex 8 (169 spaces)",
+        },
+    },
+};
+
 
 export type playerid = 1 | 2 | 3 ;  // 3 are neutral stones, ie, walls
 export type cellcontents = [playerid, number];
@@ -40,9 +64,8 @@ export class XanaGame extends GameBase {
         playercounts: [2],
         version: "20260404",
         dateAdded: "2026-04-22",
-        // i18next.t("apgames:descriptions.xana")
-        description: "apgames:descriptions.xana",
-        notes: "apgames:notes.xana",
+        description: "A stacking game where players have a limited number of pieces, and an unlimited number of walls, to conquer territory.",
+        notes: "Players, on their turns, drop/move a stack (there's a limited amount of stackable pieces) and optionally drop two walls into empty hexes. Stacks without liberties are captured. A stack has liberty if at least one of the adjacent hexes is empty (there is no concept of group of stacks). A hex is accessible if it is empty and connected to a friendly stack by a path of empty hexes. The goal is to build the highest score of territory plus captures. Xana was designed in 2005.",
         urls: [
             "https://boardgamegeek.com/thread/3482800",
         ],
@@ -501,7 +524,7 @@ export class XanaGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): XanaGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -844,3 +867,4 @@ export class XanaGame extends GameBase {
         return new XanaGame(this.serialize());
     }
 }
+

@@ -6,6 +6,88 @@ import { randomInt, reviver, shuffle, SquareOrthGraph, UserFacingError } from ".
 import i18next from "i18next";
 import { connectedComponents } from "graphology-components";
 import { Glyph } from "@abstractplay/renderer";
+export const gameApgamesEn = {
+    validation: {
+        BAD_INCURSION: "You may not make back-to-back minimal incursions.",
+        BAD_INCURSION_pass: "You may not make a minimal incursion immediately after your opponent passes.",
+        BAD_KOMI: "The first move of the game must be an integer representing the number of pieces to place in the starting prison. A positive number puts pieces belonging to the first player. A negative number, those of the second player. You may not place more pieces in the prison than number of cells on the board plus one.",
+        BAD_KOMI_area: "The first move of the game must be a whole number of points of komi. A positive number awards komi to the second player. A negative number, to the first player. You may not offer more komi than the number of points on the board plus one.",
+        BAD_PASS: "You must remove an enemy piece from the prison to pass.",
+        BAD_PIE: "You may not accept pie at this point in the game.",
+        INITIAL_INSTRUCTIONS_area: "Place a piece on a valid empty point, or pass. Passing also blocks your opponent's next minimal incursion.",
+        INITIAL_INSTRUCTIONS_komi: "Enter the number of first-player pieces you wish to place in the starting prison. The second player will then decide which seat to take.",
+        INITIAL_INSTRUCTIONS_komi_area: "Enter the komi, in points, that you wish to offer. A positive number awards komi to the second player. A negative number, to the first player. The other player will then decide which seat to take.",
+        INITIAL_INSTRUCTIONS_pie: "Either click the 'Play second' button to stay where you are and continue playing second, or click 'Swap player seats' to change seats.",
+        INITIAL_INSTRUCTIONS_pie2: "Either pass to accept the komi offer and continue playing second, or place a piece to take over as first player.",
+        INITIAL_INSTRUCTIONS_play: "Place a piece on a valid empty point or pass to take an enemy piece out of the prison instead (if one is available).",
+        MUST_PIE: "At this point of the game, placing pieces is not allowed.",
+        NEGATIVE_KOMI: "Are you sure? Negative komi offers should only be needed in specific handicapping situations.",
+        NO_CHANGE: "Under area scoring, your move must change the board. This placement would be removed again immediately, capturing nothing.",
+        SUICIDE: "You may not place a piece such that you have dead friendly groups at the end of your turn.",
+        WOVEN_INCURSION: "In the 'Woven' variant, incursions are not legal.",
+    },
+    variants: {
+        "#board": {
+            name: "13x13 board",
+        },
+        "#komi": {
+            name: "Komi swap",
+            description: "At the start of the game, the first player sets komi and the second player chooses sides.",
+        },
+        "#rules": {
+            description: "Incursions are legal.",
+            name: "Default rules"
+        },
+        area: {
+            name: "Area scoring",
+            description: "Suicide is legal, passing is always legal and blocks the opponent's next minimal incursion, and the game ends on two consecutive passes. The winner is whoever holds the most area: their stones on the board, plus their territory, plus komi.",
+        },
+        "board-9": {
+            name: "9x9 board",
+        },
+        "board-11": {
+            name: "11x11 board",
+        },
+        "board-15": {
+            name: "15x15 board",
+        },
+        "board-17": {
+            name: "17x17 board",
+        },
+        "board-19": {
+            name: "19x19 board",
+        },
+        "board-23": {
+            name: "23x23 board",
+        },
+        "board-27": {
+            name: "27x27 board",
+        },
+        setkomi: {
+            name: "7 komi",
+            description: "Komi is preset to 7.",
+        },
+        woven: {
+            name: "Woven",
+            description: "Incursions are not legal.",
+        },
+    },
+    displays: {
+        "hide-territories": {
+            description: "Don't show territories.",
+            name: "Hide territories",
+        },
+        "swap-prison": {
+            description: "Swap the color of the pieces in the prison.",
+            name: "Swap prison colors",
+        },
+    },
+    status: {
+        AREA: "Area + komi",
+        TERRITORY: "Territory & Prisoners",
+    },
+};
+
 
 export type playerid = 1|2;
 type Territory = {
@@ -38,8 +120,7 @@ export class AsliGame extends GameBase {
         // version: "20240610",
         version: "20250615",
         dateAdded: "2024-06-12",
-        // i18next.t("apgames:descriptions.asli")
-        description: "apgames:descriptions.asli",
+        description: "Conquer territory and capture enemy groups by cutting them off from all their allies. A group is cut off when it has no free path (straight or otherwise) to other groups of its color. Captured groups are sent to an off-board prison where they give additional moves to their captor. Win by leaving your opponent with no moves.",
         urls: ["https://boardgamegeek.com/boardgame/393166/asli"],
         bggid: "393166",
         people: [
@@ -559,7 +640,7 @@ export class AsliGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): AsliGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -972,3 +1053,4 @@ export class AsliGame extends GameBase {
         return new AsliGame(this.serialize());
     }
 }
+

@@ -1,0 +1,24 @@
+{
+  "status": {
+    "_player": "{{player}}",
+    "CARDSINHAND": "Cards in hand",
+    "CLAIMS_REMAINING": "Claims Remaining",
+    "DAMAGE": "Damage taken",
+    "DAGGER": "Dagger",
+    "DISTANCES": "Distances",
+    "GROUPCOUNT": "Group count",
+    "GROUPSIZES": "Group sizes",
+    "PHASE": "Phase",
+    "PIECESINHAND": "Pieces in hand",
+    "PIECESINHANDSTASH": "Pieces in hand / stash",
+    "PIECESONBOARD": "Pieces on board",
+    "PIECESREMAINING": "Pieces remaining",
+    "ROUND": "Round",
+    "RESERVE": "Reserve",
+    "SCORES": "Scores",
+    "STACKSIZES": "Stack heights",
+    "ESTIMATEDSCORES": "Estimated scores",
+    "TOPLACE": "Piece to place",
+    "YEAR": "Year"
+  }
+}

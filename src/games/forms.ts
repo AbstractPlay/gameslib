@@ -6,6 +6,46 @@ import { reviver, UserFacingError } from "../common/index.js";
 import { SquareOrthGraph } from "../common/graphs/index.js";
 import {connectedComponents} from 'graphology-components';
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Click a friendly piece.",
+        INSTRUCTIONS: "Click on an orthogonally opposing piece to capture by replacement, or move to a path-adjacent empty cell that creates multiple groups of pieces (groups include both colours).",
+        INSTRUCTIONS_ORIGINAL: "Click on any opponent piece to capture it.",
+        INVALID_SELECTION: "Click on a friendly piece!",
+        NO_MOVES: "This piece does not have valid moves!",
+        INVALID_MOVE: "The piece must either (a) capture an orthogonally adjacent enemy piece, (b) move to an empty cell that is connected by an orthogonal sequence of steps over empty cells and that creates multiple groups of pieces (groups include both colours).",
+        INVALID_MOVE_ORIGINAL: "The piece must capture by replacement any opponent piece!"
+    },
+    variants: {
+        "#board": {
+            name: "8x8 board",
+        },
+        "size-10": {
+            name: "10x10 board",
+        },
+        "size-12": {
+            name: "12x12 board",
+        },
+        "size-14": {
+            name: "14x14 board",
+        },
+        "size-16": {
+            name: "16x16 board",
+        },
+        "size-18": {
+            name: "18x18 board",
+        },
+        "#ruleset": {
+            description: "Pieces capture or path-slide",
+            name: "Advanced Forms",
+        },
+        original: {
+            description: "Pieces can only capture",
+            name: "Forms (original rules)",
+        },
+    },
+};
+
 
 export type playerid = 1 | 2;
 
@@ -27,9 +67,8 @@ export class FormsGame extends GameBase {
         playercounts: [2],
         version: "20260610",
         dateAdded: "2026-06-22",
-        // i18next.t("apgames:descriptions.forms")
-        description: "apgames:descriptions.forms",
-        notes: "apgames:notes.forms",
+        description: "Players collapse their own groups to stalemate themselves.",
+        notes: "Forms was designed by Steven Meyers in 2007. After each move, all pieces outside the group that contains the last-moved piece are captured. The last player to move loses (so Forms is a misère game). The first version allowed a piece to capture any opponent's piece. Later, in 2011, Meyers developed a second version, **Advanced Forms**, where you could only capture orthogonally adjacent pieces, but a piece could also move to an empty cell if both were connected by a sequence of orthogonal steps over empty cells. The setup also changed to a checkered pattern. This second version is the default variant here at AP. More information can be found at [WAG](https://jpneto.github.io/world_abstract_games/forms.htm).",
         urls: [
             "https://boardgamegeek.com/boardgame/36917/forms",
             "https://jpneto.github.io/world_abstract_games/forms.htm",
@@ -347,7 +386,7 @@ export class FormsGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): FormsGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -538,3 +577,4 @@ export class FormsGame extends GameBase {
         return new FormsGame(this.serialize());
     }
 }
+

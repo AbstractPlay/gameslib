@@ -4,6 +4,34 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a piece to move.",
+        INVALID_TO: "The piece at {{from}} cannot move to {{to}}.",
+        NO_MOVES: "The piece at {{where}} cannot move.",
+    },
+    variants: {
+        "#board": {
+            name: "13x13 board",
+        },
+        "size-9": {
+            name: "9x9 board",
+        },
+        "size-11": {
+            name: "11x11 board",
+        },
+        "size-15": {
+            name: "15x15 board",
+        },
+        "size-17": {
+            name: "17x17 board",
+        },
+        "size-19": {
+            name: "19x19 board",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 
@@ -28,8 +56,7 @@ export class AyuGame extends GameBase {
         // even if no matter what they do they will lose the game.
         version: "20241010",
         dateAdded: "2024-05-26",
-        // i18next.t("apgames:descriptions.ayu")
-        description: "apgames:descriptions.ayu",
+        description: "Unification game where snaky groups of pieces crawl toward their friends and eventually coalesce. If you cannot make a move on your turn, you win. This occurs when you have only one group or there is no free path between any of your groups.",
         urls: ["https://boardgamegeek.com/boardgame/114484/ayu"],
         bggid: "114484",
         people: [
@@ -421,7 +448,7 @@ export class AyuGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): AyuGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -602,3 +629,4 @@ export class AyuGame extends GameBase {
         return new AyuGame(this.serialize());
     }
 }
+

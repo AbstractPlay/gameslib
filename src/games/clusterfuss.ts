@@ -7,6 +7,25 @@ import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { SquareOrthGraph } from "../common/graphs/index.js";
 import {connectedComponents} from 'graphology-components';
+export const gameApgamesEn = {
+    validation: {
+        ADJ_ONLY: "Pieces may only move to orthogonally adjacent spaces.",
+        BAD_PASS: "You may not pass if legal moves are available.",
+        INITIAL_INSTRUCTIONS: "Select one of your pieces with which to capture.",
+        MUST_CAPTURE: "Every move must capture, but there is no piece at {{where}} to capture.",
+        PARTIAL: "Select an orthogonally adjacent piece to capture (yours or your opponent's).",
+        SINGLE_GROUP: "After your capture, there must be only one orthogonally connected group that contains your own checkers.",
+    },
+    variants: {
+        "10": {
+            name: "Larger board (10x10)",
+        },
+        "#board": {
+            name: "Default board (8x8)",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -28,8 +47,7 @@ export class ClusterfussGame extends GameBase {
         playercounts: [2],
         version: "20240202",
         dateAdded: "2024-02-03",
-        // i18next.t("apgames:descriptions.clusterfuss")
-        description: "apgames:descriptions.clusterfuss",
+        description: "Continually capture pieces with the aim of detaching (and thereby eliminating) groups of opposing pieces. Be the last man standing!",
         urls: [
             "https://marksteeregames.com/Clusterfuss_rules.pdf",
             "https://boardgamegeek.com/boardgame/413919/clusterfuss",
@@ -339,7 +357,7 @@ export class ClusterfussGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): ClusterfussGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -501,3 +519,4 @@ export class ClusterfussGame extends GameBase {
         // return new ClusterfussGame(this.serialize());
     }
 }
+

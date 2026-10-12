@@ -4,6 +4,16 @@ import { APRenderRep, AnnotationBasic } from "@abstractplay/renderer/build/schem
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { HexTriGraph, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        EMPTY_FROM: "You have indicated a sliding move, but there is no piece at {{where}}.",
+        INITIAL_INSTRUCTIONS: "Select a space to place a piece, or select one of your pieces to slide to an adjacent space.",
+        NOT_ADJACENT: "The selected cell {{to}} is not adjacent to {{from}}",
+        SELECT_TO: "Select a space to slide your piece.",
+        WRONG_PLAYER: "You may only slide your own pieces.",
+    },
+};
+
 
 type playerid = 1 | 2;
 
@@ -26,8 +36,7 @@ export class SusanGame extends GameBase {
         playercounts: [2],
         version: "20240505",
         dateAdded: "2024-05-13",
-        // i18next.t("apgames:descriptions.susan")
-        description: "apgames:descriptions.susan",
+        description: "In Susan, the goal is to surround any opponent's piece with other pieces. On your turn, you may place a piece or slide a piece to an adjacent empty space. If both players have a stone surrounded simultaneously, the player that just took their turn loses. The game ends in a tie if both players performed three slides each consecutively.",
         urls: [
             "https://www.stephen.com/sue/sue.html",
             "https://boardgamegeek.com/boardgame/26135/susan"
@@ -248,13 +257,13 @@ export class SusanGame extends GameBase {
             }
             if (this.board.has(to)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.general.OCCUPIED", { where: to });
+                result.message = i18next.t("apgames:validation._general.OCCUPIED", { where: to });
                 return result;
             }
         } else {
             if (this.board.has(m)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.general.OCCUPIED", { where: m });
+                result.message = i18next.t("apgames:validation._general.OCCUPIED", { where: m });
                 return result;
             }
         }
@@ -287,7 +296,7 @@ export class SusanGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): SusanGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -499,3 +508,4 @@ export class SusanGame extends GameBase {
         return new SusanGame(this.serialize());
     }
 }
+

@@ -9,6 +9,38 @@ import { CompassDirection, hexNeighbours, nextHex, bearing as calcBearing } from
 import { UndirectedGraph } from "graphology";
 import { connectedComponents } from 'graphology-components';
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS_build: "Click on any unoccupied tile to place a checker, or click on a valid perimeter space to start enlarging the world.",
+        INITIAL_INSTRUCTIONS_destroy: "A destruction move is available and must be taken. Click on one of your stacks to start.",
+        INITIAL_INSTRUCTIONS_setup: "Select a perimeter space to place one of your tiles.",
+        INVALID_MOVE: "Click a stack you control to start a destruction dance. Otherwise, click an empty tile to place a checker or click a qualifying perimeter space to enlarge the world.",
+        VALID_PARTIAL_dod: "Select the cell where you will end your move. You have multiple options.",
+        VALID_PARTIAL_enlargement: "Multiple continuations are possible from this tile. Please select the next tile to claim.",
+    },
+    variants: {
+        "#length": {
+            name: "Default game length (39 tiles)",
+        },
+        "#setup": {
+            description: "Starts with a \"cross\" of two tiles of each colour.",
+            name: "Default setup"
+        },
+        "19tiles": {
+            description: "Ideal for learning the rules",
+            name: "Blitz game (19 tiles)",
+        },
+        "29tiles": {
+            description: "If you just want a shorter game",
+            name: "Shorter game (29 tiles)",
+        },
+        exNihilo: {
+            description: "Starts with an empty field, and the first three turns are placing tiles",
+            name: "Ex Nihilo",
+        },
+    },
+};
+
 
 type playerid = 1|2;
 
@@ -59,10 +91,8 @@ export class ExxitGame extends GameBase {
         playercounts: [2],
         version: "20240103",
         dateAdded: "2024-01-08",
-        // i18next.t("apgames:descriptions.exxit")
-        description: "apgames:descriptions.exxit",
-        // i18next.t("apgames:notes.exxit")
-        notes: "apgames:notes.exxit",
+        description: "Exxit is fundamentally an area control game. Manoeuvre your pieces to create new tiles. Fight to create the largest connected island of tiles of your colour. The game board is built out as you play.",
+        notes: "Translations of the rules tend to omit certain nuances. This implementation conforms with the original French edition of the rules.\n\nBecause the board is built out as you play in irregular shapes, the hexes are labelled numerically instead of algebraically. This ensures that the labels don't change as the map grows.",
         urls: ["https://boardgamegeek.com/boardgame/22947/exxit"],
         bggid: "22947",
         people: [
@@ -509,7 +539,7 @@ export class ExxitGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): ExxitGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         // Normalize
         m = m.toLowerCase();
@@ -913,3 +943,4 @@ export class ExxitGame extends GameBase {
         return ["claim", "place", "move", "eog", "winners"];
     }
 }
+

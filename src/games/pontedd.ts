@@ -7,6 +7,48 @@ import i18next from "i18next";
 import { connectedComponents } from "graphology-components";
 import { UndirectedGraph } from "graphology";
 import { linesIntersect } from "../common/plotting.js";
+export const gameApgamesEn = {
+    validation: {
+        BAD_BRIDGE_BLOCKED: "There may be no tiles under the bridge.",
+        BAD_BRIDGE_COLOUR: "Bridges must connect two tiles of the same colour.",
+        BAD_BRIDGE_CROSED: "Bridges may not cross.",
+        BAD_BRIDGE_DISTANCE: "Bridges must connect two tiles that are separated by a single space.",
+        BAD_BRIDGE_DOUBLE: "Tiles cannot support more than one bridge.",
+        BAD_BRIDGE_NONE: "There are no valid bridges possible from {{cell}}.",
+        BAD_BRIDGE_OWNER: "You may not build bridges on opposing tiles.",
+        BAD_PASS: "You may only pass if you are unable to place two tiles.",
+        BLOCKED: "The cell {{cell}} is blocked by a bridge.",
+        DOUBLE_PLACEMENT: "You must place tiles on two different cells.",
+        INITIAL_INSTRUCTIONS_play: "Click an empty cell to place a tile of your colour, or click an existing tile to place a bridge.",
+        INITIAL_INSTRUCTIONS_setup: "Place two tiles of your colour by clicking on empty cells.",
+        NO_BRIDGES: "No more bridges may be placed.",
+        NO_TILES: "You don't have any more tiles to place.",
+        PARTIAL_BRIDGE: "Select the tile to connect the bridge to.",
+        PARTIAL_PLACE: "Place a second tile.",
+        TOO_BIG: "Islands cannot be larger than four tiles.",
+        TOO_CLOSE: "Islands may not diagonally touch other islands or sandbars of that colour.",
+        TOO_MANY: "You may not place more than two tiles.",
+    },
+    variants: {
+        "size-8": {
+            name: "8x8 board",
+        },
+        "#board": {
+            name: "10x10 board",
+        },
+        "size-12": {
+            name: "12x12 board",
+        },
+    },
+    displays: {
+        "vertex-board": {
+            name: "Play on intersections instead of squares",
+        },
+    },
+    status: {
+},
+};
+
 
 export type playerid = 1|2;
 
@@ -30,8 +72,7 @@ export class PonteDDGame extends GameBase {
         playercounts: [2],
         version: "20250310",
         dateAdded: "2025-03-16",
-        // i18next.t("apgames:descriptions.pontedd")
-        description: "apgames:descriptions.pontedd",
+        description: "Players build islands and attempt to connect as many of them as possible by bridge. Most points wins.",
         urls: ["https://boardgamegeek.com/boardgame/27172/ponte-del-diavolo"],
         bggid: "27172",
         people: [
@@ -477,7 +518,7 @@ export class PonteDDGame extends GameBase {
                 const q2: IPoint = {x: qx, y: qy};
                 if (linesIntersect(p1, q1, p2, q2)) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation.pontedd.BAD_BRIDGE_CROSSED");
+                    result.message = i18next.t("apgames:validation.pontedd.BAD_BRIDGE_CROSED");
                     return result;
                 }
             }
@@ -496,7 +537,7 @@ export class PonteDDGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): PonteDDGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -833,3 +874,4 @@ export class PonteDDGame extends GameBase {
         return cloned;
     }
 }
+

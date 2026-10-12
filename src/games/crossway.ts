@@ -6,6 +6,21 @@ import { Direction, RectGrid, reviver, UserFacingError } from "../common/index.j
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a point to place a piece.",
+        NO_CROSSINGS: "Lines may not cross.",
+    },
+    variants: {
+        "#board": {
+            name: "Default board (19x19)",
+        },
+        "size-25": {
+            name: "Board (25x25)",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -30,8 +45,7 @@ export class CrosswayGame extends GameBase {
         playercounts: [2],
         version: "20230625",
         dateAdded: "2023-06-25",
-        // i18next.t("apgames:descriptions.crossway")
-        description: "apgames:descriptions.crossway",
+        description: "A game of connecting opposite sides of the board, but lines of pieces may not cross each other.",
         urls: [
             "https://www.marksteeregames.com/Crossway_rules.pdf",
             "https://boardgamegeek.com/boardgame/30517/crossway",
@@ -290,7 +304,7 @@ export class CrosswayGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): CrosswayGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -484,3 +498,4 @@ export class CrosswayGame extends GameBase {
         return new CrosswayGame(this.serialize());
     }
 }
+

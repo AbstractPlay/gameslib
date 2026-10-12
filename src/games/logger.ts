@@ -5,6 +5,29 @@ import { APRenderRep, AreaPieces, Glyph } from "@abstractplay/renderer/build/sch
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        ACT: "Click an empty space adjacent to your logger to plant, click a mature tree adjacent to your logger to cut it down, or click one of your protestors to place it.",
+        DUPE_SPAWN: "You can't spawn a sapling from {{tree}} to {{plot}}. You have already assigned that tree or plot earlier in your move.",
+        DUPE_PROTEST: "You can't protest the tree at {{tree}}. You already protested it earlier in your move.",
+        INITIAL_INSTRUCTIONS_place: "Click a corner to place your logger.",
+        INITIAL_INSTRUCTIONS_move: "Click your logger to stay in place, or click a reachable cell within two spaces to move.",
+        INVALID_CHOP: "You may not chop down the tree at {{cell}}. The tree must be mature, unprotested, and adjacent to your logger.",
+        INVALID_PLANT: "You may not plant a tree at {{cell}}. The cell must be adjacent to your logger and empty.",
+        INVALID_PROTEST: "You may not protest the tree at {{tree}}. You may only protest currently unprotested mature trees.",
+        INVALID_SPAWN_plot: "The plot you're trying to spawn into ({{plot}}) is not a valid spawning place for the tree at {{tree}}.",
+        INVALID_SPAWN_tree: "The tree you're trying to spawn ({{tree}}) is not going to grow this turn.",
+        INVALID_TO: "Loggers must either stay in place or move up to two spaces away. Remember they may only move orthogonally and may not enter occupied spaces.",
+        PARTIAL_PROTEST: "Select an unprotested mature tree to place your protestor.",
+        PARTIAL_SPAWN_complete: "Select one of the highlighted trees.",
+        PARTIAL_SPAWN_incomplete: "Select an empty space adjacent to the tree at {{tree}}.",
+        PLACE_CORNER: "Loggers must be placed in one of the corners.",
+        PROTESTOR_LABEL: "{{player}}'s protestors",
+        TOO_MANY_PROTESTS: "You are attempting to protest more trees than you have protestors.",
+        TOO_MANY_SPAWNS: "Your move assigns more spawns than appear to actually happen this turn ({{decisions}} > {{spawns}}).",
+    },
+};
+
 
 export type playerid = 1|2|3|4;
 
@@ -34,8 +57,7 @@ export class LoggerGame extends GameBase {
         playercounts: [2,3,4],
         version: "20240908",
         dateAdded: "2024-12-13",
-        // i18next.t("apgames:descriptions.logger")
-        description: "apgames:descriptions.logger",
+        description: "A Looney pyramids game where the players vie to grow and harvest more trees than their opponents.",
         urls: [
             "https://looneypyramids.wiki/wiki/Logger",
             "https://boardgamegeek.com/boardgame/36985/logger",
@@ -659,7 +681,7 @@ export class LoggerGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): LoggerGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -1090,3 +1112,4 @@ export class LoggerGame extends GameBase {
         this.results = [];
     }
 }
+

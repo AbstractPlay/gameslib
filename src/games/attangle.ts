@@ -7,6 +7,27 @@ import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
 import { Combination } from "js-combinatorics";
+export const gameApgamesEn = {
+    validation: {
+        EMPTYCAPTURE: "One of the cells involved with the capture doesn't have any pieces in it.",
+        INITIAL_INSTRUCTIONS: "Place a piece on an empty cell (that doesn't have a dot on it) or select an existing piece to start a capture.",
+        MOVE2EMPTY: "You cannot capture empty cells.",
+        ONVOID: "You cannot place pieces on voids (the spaces marked with a black dot).",
+        POTENTIAL_ONE: "This could potentially be a capture. Provide the location of the second stack.",
+        POTENTIAL_TWO: "This could potentially be a capture. Provide the target location.",
+        SAMESOURCE: "The two attacking stacks must be different.",
+        TOOHIGH: "The combined stack after the capture will be too high.",
+        TRIPLESTACK: "Triple stacks cannot participate in captures.",
+    },
+    variants: {
+        grand: {
+            description: "Played on a larger board, with more voids, and the goal now is to create five triple stacks.",
+            name: "Grand Attangle",
+        },
+        "#board": { name: "Default board" }
+    },
+};
+
 
 export type playerid = 1|2;
 const voids: string[][] = [["d4"], ["h4", "g2", "f7", "e5", "d2", "c6", "b3"]]
@@ -30,8 +51,7 @@ export class AttangleGame extends GameBase {
         playercounts: [2],
         version: "20211114",
         dateAdded: "2023-05-01",
-        // i18next.t("apgames:descriptions.attangle")
-        description: "apgames:descriptions.attangle",
+        description: "Attangle is the final entry in Dieter Stein's stacking trilogy. Place and move pieces to build stacks. First person to build three triple stacks wins. The \"Grand Attangle\" variant is also implemented.",
         urls: [
             "https://spielstein.com/games/attangle/rules",
             "https://spielstein.com/games/attangle/rules/grand-attangle",
@@ -403,7 +423,7 @@ export class AttangleGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): AttangleGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
@@ -620,3 +640,4 @@ export class AttangleGame extends GameBase {
         return new AttangleGame(this.serialize());
     }
 }
+

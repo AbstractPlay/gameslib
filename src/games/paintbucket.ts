@@ -5,6 +5,20 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, SquareOrthGraph, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { connectedComponents } from "graphology-components";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select any enemy cell to convert that group.",
+    },
+    variants: {
+        "#board": {
+            name: "12x12 board",
+        },
+        "size-16": {
+            name: "16x16 board",
+        },
+    },
+};
+
 
 type playerid = 1|2;
 
@@ -27,8 +41,7 @@ export class PaintbucketGame extends GameBase {
         version: "20250330",
         dateAdded: "2025-04-05",
         // version: "20231225",
-        // i18next.t("apgames:descriptions.paintbucket")
-        description: "apgames:descriptions.paintbucket",
+        description: "An elimination game where you flip groups of opposing pieces until only yours remain.",
         urls: ["https://boardgamegeek.com/boardgame/362682/paintbucket"],
         bggid: "362682",
         people: [
@@ -247,7 +260,7 @@ export class PaintbucketGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): PaintbucketGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         // Normalize
         m = m.toLowerCase();
@@ -404,3 +417,4 @@ export class PaintbucketGame extends GameBase {
         // return new PaintbucketGame(this.serialize());
     }
 }
+

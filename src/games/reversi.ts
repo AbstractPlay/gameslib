@@ -5,6 +5,54 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { Direction, HexTriGraph, RectGrid, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        CENTRE_CELL: "In the hexagon variant, the centre cell cannot be placed on.",
+        CORNER_CELL: "In the octagon variant, the corner cells cannot be placed on.",
+        ILLEGAL_PASS: "You may only pass if you have no legal moves.",
+        INITIAL_INSTRUCTIONS: "Select a cell to place a piece.",
+        INVALID_MOVE: "You may only place a piece where it will flip at least one of your opponent's pieces.",
+    },
+    variants: {
+        "#board": {
+            name: "Default 8x8 board",
+        },
+        anti: {
+            description: "The player who has the fewest pieces at the end of the game wins.",
+            name: "Anti-Reversi",
+        },
+        "hexagon-5": {
+            description: "Hexagonal base-5 board with setup popularised by ItsYourTurn.com.",
+            name: "Hexagonal board (base-5)",
+        },
+        "hexagon-6": {
+            description: "Hexagonal base-6 board with setup popularised by ItsYourTurn.com.",
+            name: "Hexagonal board (base-6)",
+        },
+        "octagon-8": {
+            description: "Standard 8x8 board with the corners blocked.",
+            name: "Octagonal board (8x8)",
+        },
+        "octagon-10": {
+            description: "Standard 10x10 board with the corners blocked.",
+            name: "Octagonal board (10x10)",
+        },
+        "standard-6": {
+            name: "Smaller board (6x6)",
+        },
+        "standard-10": {
+            name: "Grand board (10x10)",
+        },
+        "#objective": { name: "Default objective" }
+    },
+    displays: {
+        "hide-moves": {
+            description: "Don't show possible moves.",
+            name: "Hide moves",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 type HexDirections = "NE" | "E"| "SE" | "SW" | "W" | "NW"
@@ -31,8 +79,7 @@ export class ReversiGame extends GameBase {
         playercounts: [2],
         version: "20240226",
         dateAdded: "2024-02-25",
-        // i18next.t("apgames:descriptions.reversi")
-        description: "apgames:descriptions.reversi",
+        description: "Reversi is a classic game where you try to capture your opponent's pieces by sandwiching them between your own.",
         urls: [
             "https://en.wikipedia.org/wiki/Reversi",
             "https://boardgamegeek.com/boardgame/2389/othello",
@@ -485,7 +532,7 @@ export class ReversiGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): ReversiGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -739,3 +786,4 @@ export class ReversiGame extends GameBase {
         return new ReversiGame(this.serialize());
     }
 }
+

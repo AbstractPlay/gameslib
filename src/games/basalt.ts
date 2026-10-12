@@ -8,6 +8,30 @@ import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { connectedComponents } from "graphology-components";
 import { bidirectional } from "graphology-shortest-path";
+export const gameApgamesEn = {
+    validation: {
+        BAD_MOVE: "Stacks may not move further than their height, and they may not pass over stacks controlled by your opponent.",
+        BAD_PASS: "You may not pass as long as you have valid moves available.",
+        INITIAL_INSTRUCTIONS_play: "Select a stack you control to move.",
+        INITIAL_INSTRUCTIONS_offer: "Click a piece to the left of the board and then a cell on the board to build your initial pie offer. You may place two to four pieces, at least one of each colour, no more than two of any one colour, in any configuration of singles and stacks you wish.",
+        INITIAL_INSTRUCTIONS_response: "You must now choose which colour to play. You must either click the \"Swap player seats\" button to play as first player, or pass to continue as second player.",
+        PARTIAL: "Select a destination",
+        PIE_BAD_CELL: "The cell {{cell}} does not appear to be valid.",
+        PIE_BOTH_PCS: "You must place at least one piece of each colour.",
+        PIE_PARTIAL: "You may place up to four pieces, or click the \"Complete move\" button to stop here.",
+        PIE_PARTIAL_PLACE: "Click a cell to place the P{{pc}} piece.",
+        PIE_PC_FIRST: "You must first select a piece from the side of the board before selecting a cell.",
+        PIE_TWO_EACH: "You may not place more than two pieces of any one colour.",
+        PIE_TWO_FOUR: "You may not place more than four pieces when offering pie.",
+    },
+    variants: {
+        pie: {
+            name: "Custom pie offer",
+            description: "First player places 2–4 pieces and then second player chooses what side to play.",
+        },
+    },
+};
+
 
 type playerid = 1|2;
 type Directions = "NE"|"E"|"SE"|"SW"|"W"|"NW";
@@ -33,8 +57,7 @@ export class BasaltGame extends GameBase {
         version: "20250118",
         dateAdded: "2025-01-19",
         // version: "20231225",
-        // i18next.t("apgames:descriptions.basalt")
-        description: "apgames:descriptions.basalt",
+        description: "A triangular connection game played on the side of a volcano, where lava and basalt vye to connect the three sides first.",
         urls: ["https://boardgamegeek.com/boardgame/421505/basalt"],
         bggid: "421505",
         people: [
@@ -553,7 +576,7 @@ export class BasaltGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): BasaltGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         // Normalize
         m = m.toLowerCase();
@@ -890,3 +913,4 @@ export class BasaltGame extends GameBase {
         return 120;
     }
 }
+

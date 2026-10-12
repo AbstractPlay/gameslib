@@ -6,6 +6,45 @@ import { reviver, UserFacingError, intersects, shuffle, cloneState } from "../co
 import { connectedComponents } from 'graphology-components';
 import i18next from "i18next";
 import { HexMoonGraph, HexTriGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        BAD_CAPTURE: "You may only capture adjacent opposing pieces and squads.",
+        BAD_MOVE_double: "You already have a squad at {{to}}.",
+        BAD_MOVE_group: "You can't move from {{from}} to {{to}}. The squad must stay within the same connected group.",
+        BAD_MOVE_stationary: "You can't move from a space to the same space.",
+        BAD_PLACEMENT: "You can't place a piece at {{where}}. It must contain an ore cube.",
+        INITIAL_INSTRUCTIONS_hexoffer: "On the first move of the game, place a single piece and then the opponent will choose sides. Click an empty space to place the piece.",
+        INITIAL_INSTRUCTIONS_offer: "On the first move of the game, place two red pieces and one blue piece. Click an empty space to place the first red piece.",
+        INITIAL_INSTRUCTIONS_pie: "On the second move of the game, either click the \"Swap player seats\" button to play as red, or make a normal move as blue. If your opponent already switched seats, then your only choice is to make a normal move.",
+        INITIAL_INSTRUCTIONS_normal: "Click an ore cube to place one of your pieces. Click one of your squads to start a capture. Or click a cube in your supply to move your squads.",
+        INVALID_ORE: "The code {{ore}} is not a valid ore type.",
+        MISSING_ORE: "Could not find any {{ore}} ore in your supply.",
+        MISSING_SQUAD: "Could not find a squad at {{where}}.",
+        NO_CAPTURES: "That squad has no valid captures available.",
+        NO_MOVES: "That squad has no valid places to move.",
+        PARTIAL_CAPTURE: "Select the opposing piece to capture.",
+        PARTIAL_MOVE_first: "Select a squad to move. You must move at least one squad.",
+        PARTIAL_MOVE_second: "Select a destination. The squad must stay in the same connected group.",
+        PARTIAL_PLACE1: "On the first move of the game, place two red pieces and one blue piece. Click an empty space to place the second red piece.",
+        PARTIAL_PLACE2: "On the first move of the game, place two red pieces and one blue piece. Click an empty space to place the blue piece.",
+        LABEL_ORE: "{{player}}'s ore",
+    },
+    variants: {
+        "#board": {
+            name: "Moon board",
+            description: "A hexhex5 board with a subdivided centre cell and tweaked edges to form a moon-type surface.",
+        },
+        hex5: {
+            name: "Hexhex 5 (61 spaces)",
+            description: "In this version, the pie offer is a single piece.",
+        },
+        limping: {
+            name: "Limping 5-6 (75 spaces)",
+            description: "Two colours will have an extra cube.",
+        },
+    },
+};
+
 
 type playerid = 1|2;
 type OreColour = 3|4|5|6|7;
@@ -52,8 +91,7 @@ export class MoonSquadGame extends GameBase {
         // Make the ore uppercase when moving squads.
         version: "20250201",
         dateAdded: "2024-12-29",
-        // i18next.t("apgames:descriptions.moonsquad")
-        description: "apgames:descriptions.moonsquad",
+        description: "Your mining company has found rich ore on this small moon, but you need buyers. Connect your mine to all 3 surface settlements, and hire squads to defend your mine and attack your rival.",
         urls: ["https://moon.drew-edwards.com/"],
         people: [
             {
@@ -592,7 +630,7 @@ export class MoonSquadGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false, emulation = false} = {}): MoonSquadGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         // Normalize
         m = m.toLowerCase();
@@ -1232,3 +1270,4 @@ export class MoonSquadGame extends GameBase {
         // return new MoonSquadGame(this.serialize());
     }
 }
+

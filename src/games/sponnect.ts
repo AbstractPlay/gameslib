@@ -6,6 +6,30 @@ import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path";
+export const gameApgamesEn = {
+    validation: {
+        CANNOT_PLACE: "You may not place at {{move}}.",
+        CONSECUTIVE_PASS: "You may not pass if your opponent just passed.",
+        FIRST_PASS: "You may not pass on the first turn.",
+        INITIAL_INSTRUCTIONS: "Select a space to place a ball.",
+        INITIAL_INSTRUCTIONS_PASS: "Select a space to place a ball, or pass your turn.",
+    },
+    variants: {
+        "#board": {
+            name: "4x4 board",
+        },
+        "size-5": {
+            name: "5x5 board",
+        },
+    },
+    displays: {
+        "orb-3d": {
+            description: "Use plain 3D orb textures.",
+            name: "3D orbs",
+        },
+    },
+};
+
 
 type playerid = 1 | 2 | 3;
 type PlayerLines = [string[], string[]];
@@ -33,8 +57,7 @@ export class SponnectGame extends GameBase {
         playercounts: [2],
         version: "20240421",
         dateAdded: "2024-04-30",
-        // i18next.t("apgames:descriptions.sponnect")
-        description: "apgames:descriptions.sponnect",
+        description: "A simple Shibumi connection game where every internal space that can be buried in a fully-filled board is pre-filled with neutral pieces. You may pass on your turn as long as your opponent didn't pass immediately before.",
         urls: ["https://boardgamegeek.com/boardgame/113670/sponnect"],
         bggid: "113670",
         people: [
@@ -377,7 +400,7 @@ export class SponnectGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): SponnectGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -781,3 +804,4 @@ export class SponnectGame extends GameBase {
         return new SponnectGame(this.serialize());
     }
 }
+

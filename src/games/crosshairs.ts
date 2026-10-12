@@ -4,6 +4,102 @@ import { APRenderRep, Glyph, MarkerFlood, RowCol } from "@abstractplay/renderer/
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { HexTriGraph, reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        PLACE_CLOUD: "Click on an empty cell to place a cloud. Clouds cannot be larger than 2 hexes.",
+        PLACE_CLOUD_UNBOUNDED: "Click on an empty cell to place a cloud.",
+        CLOUD_OCCUPIED: "There is already a cloud at {{cell}}.",
+        CLOUD_TOO_BIG: "You cannot place a cloud at {{cell}}. Only clouds of size 2 are allowed. This cloud would be too big.",
+        MUST_PASS_BEFORE_ENTRY: "You must pass so player 1 enters the first plane.",
+        INITIAL_INSTRUCTIONS_one: "Select a plane to move, or enter a new plane on your starting edge. You must move/enter {{count}} plane this turn.",
+        INITIAL_INSTRUCTIONS_other: "Select a plane to move, or enter a new plane on your starting edge. You must move/enter {{count}} planes this turn.",
+        INITIAL_INSTRUCTIONS_NO_ENTRY_one: "Select a plane to move. You must move {{count}} plane this turn. Click on enemy planes if you think they can be shot down.",
+        INITIAL_INSTRUCTIONS_NO_ENTRY_other: "Select a plane to move. You must move {{count}} planes this turn. Click on enemy planes if you think they can be shot down.",
+        INITIAL_INSTRUCTIONS_MOVE_ONLY_one: "Select a plane to move. You must move {{count}} plane this turn.",
+        INITIAL_INSTRUCTIONS_MOVE_ONLY_other: "Select a plane to move. You must move {{count}} planes this turn.",
+        INITIAL_INSTRUCTIONS_ENTRY_ONLY_one: "Enter a plane on your starting edge. You must enter {{count}} plane this turn.",
+        INITIAL_INSTRUCTIONS_ENTRY_ONLY_other: "Enter planes on your starting edge. You must enter {{count}} planes this turn.",
+        PARTIAL_PLANE_MOVE: "Click where you want to climb (1 ahead) or level fly (2 ahead), or click the plane again to start a dive.",
+        PARTIAL_PLANE_MOVE_NO_DIVE: "Click where you want to climb (1 ahead) or level fly (2 ahead).",
+        PARTIAL_ENTRY: "Click an adjacent cell to choose which direction your plane will face.",
+        PARTIAL_MOVEMENT: "Click an adjacent cell to choose which direction your plane will face after moving.",
+        PARTIAL_DIVE: "Click where the plane should go: one cell ahead for a swoop, or click the plane itself for a power dive.",
+        PARTIAL_DIVE_DIR: "Click an adjacent cell to choose which direction the plane will face after the maneuver.",
+        DIVE_CONTINUE_OR_END: "Continue the dive (swoop ahead or power dive), or select another plane to end the dive.",
+        NEED_MORE_PLANES_one: "You need to move/enter {{count}} more plane this turn. Select the next plane.",
+        NEED_MORE_PLANES_other: "You need to move/enter {{count}} more planes this turn. Select the next plane.",
+        NEED_MORE_PLANES_NO_ENTRY_one: "You need to move {{count}} more plane this turn. Select the next plane. Click on enemy planes if you think they can be shot down.",
+        NEED_MORE_PLANES_NO_ENTRY_other: "You need to move {{count}} more planes this turn. Select the next plane. Click on enemy planes if you think they can be shot down.",
+        INVALID_ENTRY_POSITION: "You can't enter a plane at {{cell}}, planes can only be entered on the highlighted starting edge.",
+        CAN_SHOOT: "You can also click on an enemy plane to shoot it down.",
+        MOVE_COMPLETE_CAN_SHOOT: "Move complete. You may shoot enemy planes or submit your move.",
+    },
+    variants: {
+        "#clouds": {
+            name: "16 clouds",
+        },
+        "clouds-22": {
+            name: "22 clouds",
+            description: "Place 22 clouds instead of 16. With the default cloud bank size limit, the full count may not always be achievable.",
+        },
+        "clouds-28": {
+            name: "28 clouds",
+            description: "Place 28 clouds instead of 16. With the default cloud bank size limit, the full count may not always be achievable.",
+        },
+        "random-start": {
+            name: "Symmetric random clouds",
+            description: "There is no cloud placing phase. The system places the clouds randomly with 180-degree rotational symmetry.",
+        },
+        "asymmetric-random-start": {
+            name: "Asymmetric random clouds",
+            description: "There is no cloud placing phase. The system places the clouds randomly without requiring symmetry.",
+        },
+        "split-start": {
+            name: "Symmetric random clouds (new)",
+            description: "There is no cloud placing phase. The system places clouds in 180-degree rotationally symmetric pairs away from the board edge, each time choosing among the cells that split an open line of fire most evenly. A cloud in the centre counts as a pair, leaving the board one cloud short.",
+        },
+        "asymmetric-split-start": {
+            name: "Asymmetric random clouds (new)",
+            description: "There is no cloud placing phase. The system places clouds one at a time away from the board edge, each time choosing among the cells that split an open line of fire most evenly.",
+        },
+        "clumping-start": {
+            name: "Clumping random clouds",
+            description: "There is no cloud placing phase. The system places clouds one at a time without requiring symmetry, at random but favouring the middle of the board, so the clouds gather toward the centre while keeping a little space from one another.",
+        },
+        "unbounded-cloud-banks": {
+            name: "Unbounded cloud banks",
+            description: "Cloud banks may contain any number of clouds.",
+        },
+        turbulence: {
+            name: "Turbulence",
+            description: "Each time a plane enters a cloud, it loses 1 height.",
+        },
+        "concealed-fire": {
+            name: "Concealed fire",
+            description: "Planes may shoot out of clouds, but still cannot shoot into or through them.",
+        },
+        "#setup": { name: "Default setup" }
+    },
+    displays: {
+        abstract: {
+            description: "Use abstract glyphs for the planes and clouds.",
+            name: "Abstract glyphs",
+        },
+        numeric: {
+            description: "Plane glyphs with two small numeric altitude indicators.",
+            name: "Numeric altitude",
+        },
+        "numeric-abstract": {
+            description: "Abstract glyphs with numeric altitude indicators.",
+            name: "Numeric abstract",
+        },
+    },
+    status: {
+        PLANES: "Planes",
+        TOTAL_ALTITUDE: "Total altitude",
+    },
+};
+
 
 export type playerid = 1 | 2;
 
@@ -126,7 +222,7 @@ export class CrosshairsGame extends GameBase {
         playercounts: [2],
         version: "20260301",
         dateAdded: "2026-03-01",
-        description: "apgames:descriptions.crosshairs",
+        description: "A WW1 aerial dogfight game. Planes have height and direction. Movement includes climbing, level flight, and diving. Combat is simple: if a plane is in the line of fire of two enemy planes, it is shot down. Reduce your opponent to one plane to win.",
         urls: [
             "http://mrraow.com/uploads/MyDesigns/Crosshairs2020.pdf",
             "http://mrraow.com/uploads/MyDesigns/Crosshairs_rules_2026.pdf",
@@ -3055,7 +3151,7 @@ export class CrosshairsGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): CrosshairsGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();

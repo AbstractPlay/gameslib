@@ -11,6 +11,26 @@ import { APRenderRep, AnnotationBasic } from "@abstractplay/renderer/build/schem
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { generateColumnLabel, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        ALREADY_DECLARED: "Someone has already declared. You can not declare now.",
+        BAD_PLACEMENT: "You can not play at {{where}}. It would be adjacent or overlapping with another mirador. The only adjacency allowed is diagonal to one of your own miradors.",
+        INITIAL_INSTRUCTIONS: "Place a mirador, or, if you think your connection is unassailable, declare",
+        INITIAL_INSTRUCTIONS_CHALLENGE: "Place as many miradors as you would like.",
+        NO_EDGE_PLAY: "You can not play on the very edge of the board.",
+        SINGLE_PLACEMENT: "You can only place one mirador.",
+        VALID_PARTIAL_MOVE: "Keep placing miradors until you have broken all the opponent's connections.",
+    },
+    variants: {
+        "#board": {
+            name: "28x28 board",
+        },
+        "size-40": {
+            name: "40x40 board",
+        },
+    },
+};
+
 
 export type playerid = 1 | 2;
 export type CellContents = null | 1 | 2;
@@ -37,8 +57,8 @@ export class MiradorGame extends GameBase {
         playercounts: [2],
         version: "20230729",
         dateAdded: "2023-08-25",
-        description: "apgames:descriptions.mirador",
-        notes: "apgames:notes.mirador",
+        description: "Mirador is a fast and exhilarating connection game played on a square grid (28 x 28 by default) by placing 2 x 2 squares to represent watchtowers. It uses line-of-sight connections and equivalent goals (making it more of a race than a pure connection game).",
+        notes: "Declaring takes your entire turn. Complete your unassailable connection first, then declare on your next turn; you cannot place a mirador and declare on the same turn.",
         urls: [
             "https://www.abstractgames.org/mirador.html",
             "https://boardgamegeek.com/boardgame/65822/mirador",
@@ -421,7 +441,7 @@ export class MiradorGame extends GameBase {
         if (this.gameover) {
             throw new UserFacingError(
                 "MOVES_GAMEOVER",
-                i18next.t("apgames:MOVES_GAMEOVER")
+                i18next.t("apgames:validation._general.MOVES_GAMEOVER")
             );
         }
 

@@ -7,6 +7,38 @@ import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path";
 import { UnboundedSquareBoard } from "../common/unbounded-square-board.js";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a tile, then select a space to place it.",
+        INITIAL_INSTRUCTIONS_FIRST: "Select the first tile.",
+        INVALID_NOTATION: "The move notation '{{move}}' is invalid.",
+        FIRST_PIECE_POSITION: "The first move must be either '@0+' or '@0/'.",
+        SELECT_CELL: "Select a cell to place the tile.",
+        NO_NEIGHBOURS: "The selected cell at {{where}} has no neighbours.",
+        CANNOT_PLACE_PIECE: "The {{piece}} cannot be placed at {{where}}.",
+        INVALID_FOLLOWUP: "Placement of a {{piece}} at {{where}} results in an invalid followup.",
+        NO_EXPAND_X: "You may not expand the board beyond a width of {{size}}.",
+        NO_EXPAND_Y: "You may not expand the board beyond a height of {{size}}.",
+    },
+    variants: {
+        loop: {
+            name: "Loop Trax",
+            description: "The game must be won by a closed loop. Lines do not count in Loop Trax.",
+        },
+        "size-8": {
+            name: "Size-8 board.",
+            description: "The board is limited to 8x8. If all the tiles that can be played without a win being achieved have been played, the player who plays the last tile loses.",
+        },
+        "#variant": { name: "Default variant" }
+    },
+    displays: {
+        "show-origin": {
+            description: "Mark the position of the first piece.",
+            name: "Show origin",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 const colLabels = "abcdefghijklmnopqrstuvwxyz".split("");
@@ -49,8 +81,7 @@ export class TraxGame extends GameBase {
         playercounts: [2],
         version: "20241006",
         dateAdded: "2025-01-11",
-        // i18next.t("apgames:descriptions.trax")
-        description: "apgames:descriptions.trax",
+        description: "A game of loops and lines. Place tiles adjacent to those already in play such that the colours of the tracks match. The objective is to get a loop or line of your colour while attempting to stop your opponent in their colour. What gives Trax its strategic depth is the forced play rule which allows (or even requires) multiple tiles to be played in a turn.",
         urls: [
             "https://boardgamegeek.com/boardgame/748/trax",
         ],
@@ -651,7 +682,7 @@ export class TraxGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): TraxGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -1053,3 +1084,4 @@ export class TraxGame extends GameBase {
         return new TraxGame(this.serialize());
     }
 }
+

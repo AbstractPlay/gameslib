@@ -4,6 +4,13 @@ import { APRenderRep, Colourfuncs, MarkerFlood, RowCol } from "@abstractplay/ren
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { allDirections, diagDirections, Direction, reviver, SquareDirectedGraph, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select an empty cell to place a piece or an existing piece to start a move.",
+        PARTIAL: "Select a destination.",
+    },
+};
+
 
 export type playerid = 1|2;
 export type Tile = "W"|"B"|"N";
@@ -35,8 +42,7 @@ export class YonmoqueGame extends GameBase {
         playercounts: [2],
         version: "20250126",
         dateAdded: "2025-01-27",
-        // i18next.t("apgames:descriptions.yonmoque")
-        description: "apgames:descriptions.yonmoque",
+        description: "Try to form four in a row in a game where not all spaces are equal and opposing pieces can be converted.",
         urls: [
             "http://www.logygames.com/english/yonmoque.html",
             "https://boardgamegeek.com/boardgame/86170/yonmoque"
@@ -250,7 +256,7 @@ export class YonmoqueGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): YonmoqueGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -573,3 +579,4 @@ export class YonmoqueGame extends GameBase {
         return new YonmoqueGame(this.serialize());
     }
 }
+

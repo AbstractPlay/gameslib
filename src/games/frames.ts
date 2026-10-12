@@ -4,6 +4,12 @@ import { AnnotationBasic, APRenderRep, Glyph, RowCol } from "@abstractplay/rende
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Click an empty cell to add a piece to the board.",
+    },
+};
+
 
 type playerid = 1|2;
 type CellContents = 0|playerid;
@@ -26,8 +32,7 @@ export class FramesGame extends GameBaseSimultaneous {
         playercounts: [2],
         version: "20241127",
         dateAdded: "2024-11-28",
-        // i18next.t("apgames:descriptions.frames")
-        description: "apgames:descriptions.frames",
+        description: "A simple \"get into the head of your opponent\" game where both players simultaneously select an empty cell on a Go board. The placements define a rectangle. The player with the most stones within that rectangle gets a point. Play to a certain number of points.",
         urls: [
             "https://boardgamegeek.com/boardgame/18424/frames",
         ],
@@ -173,11 +178,11 @@ export class FramesGame extends GameBaseSimultaneous {
 
     public move(m: string, {partial = false, trusted = false} = {}): FramesGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         const moves: string[] = m.split(/\s*,\s*/);
         if (moves.length !== 2) {
-            throw new UserFacingError("MOVES_SIMULTANEOUS_PARTIAL", i18next.t("apgames:MOVES_SIMULTANEOUS_PARTIAL"));
+            throw new UserFacingError("MOVES_SIMULTANEOUS_PARTIAL", i18next.t("apgames:validation._general.MOVES_SIMULTANEOUS_PARTIAL"));
         }
         for (let i = 0; i < moves.length; i++) {
             if ( (partial) && ( (moves[i] === undefined) || (moves[i] === "") ) ) {
@@ -440,3 +445,4 @@ export class FramesGame extends GameBaseSimultaneous {
         return new FramesGame(this.serialize());
     }
 }
+

@@ -4,6 +4,28 @@ import { APRenderRep, MarkerFlood, RowCol } from "@abstractplay/renderer/build/s
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        DEAD_ZONE: "Placing a tile at {{where}} is guaranteed not to score.",
+        ILLEGAL_PLACEMENT: "Placing a tile at {{where}} blocks the corridor.",
+        INITIAL_INSTRUCTIONS: "Select a space to place a tile.",
+    },
+    variants: {
+        "#board": {
+            name: "Size-6 board",
+        },
+        "size-8": {
+            name: "Size-8 board",
+        },
+    },
+    displays: {
+        "hide-markers": {
+            description: "Don't show visual markers for the location of the corridor and scored tiles.",
+            name: "Hide markers",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 type sideid = "N" | "S" | "W" | "E";
@@ -31,8 +53,7 @@ export class CairoCorridorGame extends GameBase {
         playercounts: [2],
         version: "20240319",
         dateAdded: "2024-03-15",
-        // i18next.t("apgames:descriptions.ccorridor")
-        description: "apgames:descriptions.ccorridor",
+        description: "In Cairo Corridor players alternate turns placing their pentagonal pieces, on a board with a Cairo pentagonal tiling. Eventually there will be only one 'path' of empty spaces which connects the 4 sides. Players score points based on how many tiles are adjacent to that path. In the event of a tie, the player that placed the last tile before the game ends loses.",
         urls: ["https://boardgamegeek.com/boardgame/137173/cairo-corridor"],
         bggid: "137173",
         people: [
@@ -433,7 +454,7 @@ export class CairoCorridorGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): CairoCorridorGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         let result;
         m = m.replace(/\s+/g, "");
@@ -663,3 +684,4 @@ export class CairoCorridorGame extends GameBase {
         return new CairoCorridorGame(this.serialize());
     }
 }
+

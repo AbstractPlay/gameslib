@@ -7,6 +7,37 @@ import { Direction } from "../common/index.js";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, shuffle, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS_chaos: "Select an empty cell on your opponent's board to place the next piece.",
+        INITIAL_INSTRUCTIONS_order: "Select a piece on your board to move, or pass.",
+        INVALID_MOVEMENT: "You cannot move pieces in the CHAOS phase.",
+        PARTIAL: "Select a destination.",
+        STRAIGHT_LINES: "Pieces may only be moved in straight horizontal or vertical lines.",
+        BOARD_ORDER: "{{player}}: Order",
+        BOARD_CHAOS: "{{player}}: Chaos",
+    },
+    variants: {
+        "#board": {
+            name: "7x7 board",
+        },
+        "6x6": {
+            name: "6x6 board",
+        },
+        "5x5": {
+            name: "5x5 board",
+        },
+    },
+    displays: {
+        "piece-numbers": {
+            name: "Piece numbers",
+            description: "Add numbers to the pieces to further distinguish them.",
+        },
+    },
+    status: {
+},
+};
+
 
 type playerid = 1|2;
 type CellContents = "RD"|"BU"|"GN"|"YE"|"VT"|"OG"|"BN";
@@ -37,10 +68,8 @@ export class EntropyGame extends GameBaseSimultaneous {
         playercounts: [2],
         version: "20211101",
         dateAdded: "2023-05-01",
-        // i18next.t("apgames:descriptions.entropy")
-        description: "apgames:descriptions.entropy",
-        // i18next.t("apgames:notes.entropy")
-        notes: "apgames:notes.entropy",
+        description: "Entropy is a 2-player game representing the struggle between Order and Chaos. The Order player tries to organize their board in such a way to score the highest amount. But the Chaos player gets to *place* the pieces and attempts to thwart Order whenever possible.",
+        notes: "In this implementation, the players play two games simultaneously but with a single shared stream of randomized pieces. Each player places a piece on their *opponent's* Order board and then makes a move on their *own* Order board; players thus act as both Order and Chaos at the same time. The player with the greatest score wins! Since both players had the exact same placement choices, this provides the cleanest measure of relative skill.",
         urls: [
             "https://boardgamegeek.com/boardgame/1329/hyle",
         ],
@@ -390,11 +419,11 @@ export class EntropyGame extends GameBaseSimultaneous {
 
     public move(m: string, {partial = false, trusted = false} = {}): EntropyGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         const moves: string[] = m.split(/,\s*/);
         if (moves.length !== 2) {
-            throw new UserFacingError("MOVES_SIMULTANEOUS_PARTIAL", i18next.t("apgames:MOVES_SIMULTANEOUS_PARTIAL"));
+            throw new UserFacingError("MOVES_SIMULTANEOUS_PARTIAL", i18next.t("apgames:validation._general.MOVES_SIMULTANEOUS_PARTIAL"));
         }
         for (let i = 0; i < moves.length; i++) {
             if ( (partial) && ( (moves[i] === undefined) || (moves[i] === "") ) ) {
@@ -886,3 +915,4 @@ export class EntropyGame extends GameBaseSimultaneous {
         return new EntropyGame(this.serialize());
     }
 }
+

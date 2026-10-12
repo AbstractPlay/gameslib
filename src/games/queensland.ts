@@ -4,6 +4,28 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { allDirections, RectGrid, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BAD_PASS: "You can only pass in one specific circumstance. You should never see this message.",
+        INITIAL_INSTRUCTIONS: "Select a piece to move, or select an empty cell to place a piece.",
+        MUST_PLACE: "Placing a new piece is mandatory.",
+        NO_PIECES: "You don't have any pieces to place.",
+        NOW_PLACE: "Movement is valid. Select an empty cell to place a piece on.",
+        PARTIAL_MOVE: "Select the destination.",
+        STRAIGHT_LINES: "Pieces may only be moved in straight lines.",
+    },
+    displays: {
+        "hide-scored": {
+            description: "Don't highlight scored cells.",
+            name: "Hide scored",
+        },
+    },
+    status: {
+        GAME1: "Game 1",
+        GAME2: "Game 2",
+    },
+};
+
 
 export type playerid = 1|2;
 export type Size = 1|2;
@@ -28,10 +50,8 @@ export class QueenslandGame extends GameBase {
         playercounts: [2],
         version: "20240210",
         dateAdded: "2024-02-13",
-        // i18next.t("apgames:descriptions.queensland")
-        description: "apgames:descriptions.queensland",
-        // i18next.t("apgames:notes.queensland")
-        notes: "apgames:notes.queensland",
+        description: "Create long open corridors between your pieces to score points. Easy, right?",
+        notes: "After the first game completes, the board resets and you play a second game but with blue playing first. Highest combined score wins.",
         urls: [
             "https://static1.squarespace.com/static/5e1ce8815cb76d3000d347f2/t/64264b8894a17f6937a3cf3e/1680231305313/QueenslandPostcardB.pdf",
             "https://boardgamegeek.com/boardgame/12907/queensland",
@@ -398,7 +418,7 @@ export class QueenslandGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): QueenslandGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -710,3 +730,4 @@ export class QueenslandGame extends GameBase {
         return new QueenslandGame(this.serialize());
     }
 }
+

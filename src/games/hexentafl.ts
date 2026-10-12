@@ -4,6 +4,24 @@ import { APRenderRep, MarkerFlood } from "@abstractplay/renderer/build/schemas/s
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { HexTriGraph, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a piece to move.",
+        INVALID_TO: "The piece at {{from}} cannot move to {{to}}.",
+        KING_PREFIX: "Movement of the king should be prefixed with 'K'",
+    },
+    variants: {
+        "#board": {
+            name: "Size-4 board",
+            description: "Smaller board where the king may only move one step at a time.",
+        },
+        "size-5": {
+            description: "Larger board where the king may move like any other piece.",
+            name: "Size-5 board",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 type pieceid = "T" | "K";
@@ -37,8 +55,7 @@ export class HexentaflGame extends GameBase {
         playercounts: [2],
         version: "20240701",
         dateAdded: "2024-07-14",
-        // i18next.t("apgames:descriptions.hexentafl")
-        description: "apgames:descriptions.hexentafl",
+        description: "heXentafl is a hexagonal variant of Hnefatafl where the attackers try to capture the king and the defenders try to guide the king to one of the six corners.",
         urls: ["https://boardgamegeek.com/boardgame/321175/hexentafl"],
         bggid: "321175",
         people: [
@@ -338,7 +355,7 @@ export class HexentaflGame extends GameBase {
         const normalised = this.normaliseMove(from + "-" + to);
         if (normalised !== m) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.hexentafl.NORMALISE", { move: normalised });
+            result.message = i18next.t("apgames:validation._general.NORMALISE", { normalised });
             return result;
         }
         result.valid = true;
@@ -416,7 +433,7 @@ export class HexentaflGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): HexentaflGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -673,3 +690,4 @@ export class HexentaflGame extends GameBase {
         return new HexentaflGame(this.serialize());
     }
 }
+

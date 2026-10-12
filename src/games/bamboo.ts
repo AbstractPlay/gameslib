@@ -6,6 +6,21 @@ import { HexTriGraph, reviver, UserFacingError, cloneState } from "../common/ind
 import i18next from "i18next";
 import { IGraph } from "../common/graphs/index.js";
 import { connectedComponents } from "graphology-components";
+export const gameApgamesEn = {
+    validation: {
+        BAD_PLACE: "None of your groups may contain more stones than number of groups of your colour on the board.",
+        INITIAL_INSTRUCTIONS: "Select an empty cell to place a stone.",
+    },
+    variants: {
+        hex6: {
+            name: "Hexhex 6 (91 spaces)",
+        },
+        "#board": {
+            name: "Hexhex 7 (127 spaces)",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -27,8 +42,7 @@ export class BambooGame extends GameBase {
         playercounts: [2],
         version: "20260129",
         dateAdded: "2026-01-30",
-        // i18next.t("apgames:descriptions.bamboo")
-        description: "apgames:descriptions.bamboo",
+        description: "Place stones such that no group has more pieces than the number of your groups on the board. Then, be the last player able to move.",
         urls: ["https://www.marksteeregames.com/Bamboo_rules.pdf"],
         bggid: "472439",
         people: [
@@ -217,7 +231,7 @@ export class BambooGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): BambooGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -356,3 +370,4 @@ export class BambooGame extends GameBase {
         return Object.assign(new BambooGame(), cloneState(this) as BambooGame);
     }
 }
+

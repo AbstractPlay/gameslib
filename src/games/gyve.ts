@@ -7,6 +7,40 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { HexTriGraph, reviver, setsIntersect, shuffle, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { connectedComponents } from "graphology-components";
+export const gameApgamesEn = {
+    validation: {
+        BAD_FIRST: "You may not place a second stone on the first turn of the game.",
+        BAD_N: "Each stone you place must connect to the same number of friendly groups ({{n1}} <> {{n2}}).",
+        BAD_PASS: "You may not pass if legal moves are available.",
+        INITIAL_INSTRUCTIONS: "Select an empty cell to place a stone.",
+        NO_DUPES: "You must place stones on different cells.",
+        PARTIAL: "Select an empty cell to place a second stone. It must be adjacent to the same number of groups as the first stone.",
+    },
+    variants: {
+        "#board": {
+            name: "Hexhex 8 board (169 spaces)",
+        },
+        "size-6": {
+            name: "Hexhex 6 (91 spaces)",
+        },
+        "size-7": {
+            name: "Hexhex 7 (127 spaces)",
+        },
+        "size-10": {
+            name: "Hexhex 10 (271 spaces)",
+        },
+        "size-12": {
+            name: "Hexhex 12 (397 spaces)",
+        },
+    },
+    displays: {
+        "vertex-style": {
+            name: "Vertex style",
+            description: "Display the board using vertices instead of hexes.",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -28,8 +62,7 @@ export class GyveGame extends GameBase {
         playercounts: [2],
         version: "20250201",
         dateAdded: "2025-02-01",
-        // i18next.t("apgames:descriptions.gyve")
-        description: "apgames:descriptions.gyve",
+        description: "Drawless unification game where you try to form fewer groups than your opponent. On each turn, you place two stones in sequence so that each one is adjacent to the same number of friendly groups at the moment of placement.",
         urls: ["https://boardgamegeek.com/boardgame/379461/gyve"],
         bggid: "379461",
         people: [
@@ -354,7 +387,7 @@ export class GyveGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): GyveGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -586,3 +619,4 @@ export class GyveGame extends GameBase {
         return Object.assign(new GyveGame(), cloneState(this) as GyveGame);
     }
 }
+

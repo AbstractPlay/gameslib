@@ -7,6 +7,20 @@ import { Direction } from "../common/index.js";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BADSYNTAX: "Invalid syntax: {{move}}. It should be the number 1, 2, or 3 followed by an empty cell (e.g., 1e4, or 3b2).",
+        INITIAL_INSTRUCTIONS: "Enter the size of the piece to place. You can click on your stash.",
+        MOVES_NOPASS: "You cannot pass while you have pieces to place.",
+        NOPIECE: "You do not have a piece of size {{size}} to place.",
+        SIZEFIRST: "First provide the size of the piece to place. You can click on your stash.",
+    },
+    status: {
+        SCORE_one: "{{score}} ({{count}} piece)",
+        SCORE_other: "{{score}} ({{count}} pieces)",
+    },
+};
+
 
 export type playerid = 1|2|3|4;
 
@@ -35,8 +49,7 @@ export class BlamGame extends GameBase {
         playercounts: [2,3,4],
         version: "20211009",
         dateAdded: "2023-05-01",
-        // i18next.t("apgames:descriptions.blam")
-        description: "apgames:descriptions.blam",
+        description: "An Icehouse game for 2–4 players played on a standard chess board. Pieces placed push adjacent pieces away. Push pieces off the board to capture them. Whoever has captured the highest pip total of pieces at the end of the game wins.",
         urls: [
             "http://invisible-city.com/content/blam",
             "https://boardgamegeek.com/boardgame/17765/blam",
@@ -267,7 +280,7 @@ export class BlamGame extends GameBase {
                 result.valid = true;
                 result.complete = -1;
                 result.canrender = false;
-                result.message = i18next.t("apgames:validation.blam.PARTIAL");
+                result.message = i18next.t("apgames:validation._general.NEED_DESTINATION");
                 return result;
             }
             result.message = i18next.t("apgames:validation.blam.BADSYNTAX", {move: m});
@@ -305,7 +318,7 @@ export class BlamGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): BlamGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -611,3 +624,4 @@ export class BlamGame extends GameBase {
         return new BlamGame(this.serialize());
     }
 }
+

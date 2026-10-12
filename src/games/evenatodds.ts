@@ -8,6 +8,37 @@ import { DominoDeck } from "../common/dominoes/DominoDeck.js";
 import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { connectedComponents } from "graphology-components";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a domino from your hand to play.",
+        INITIAL_INSTRUCTIONS_choose: "Choose evens or odds.",
+        LABEL_HAND: "{{player}} hand ({{side}})",
+        LABEL_HAND_NO_SIDE: "{{player}} hand",
+        LABEL_REMAINING: "Tiles not on board",
+        MUST_CHOOSE_SIDE: "You must choose evens or odds before playing.",
+        NOT_IN_HAND: "That domino is not in your hand.",
+        NEEDS_ANCHOR_PIP: "This placement is ambiguous. Mark the anchor pip with an asterisk (e.g. 1*-2@-3,1N or 1-2*@-3,1N).",
+        MUST_COVER_TWO_DOMINOES: "When placing a domino on top of others, you must cover two different dominoes.",
+        PARTIAL: "Click an anchor half-cell, then the other end of the domino.",
+    },
+    displays: {
+        "#projection": {
+            name: "Isometric view",
+        },
+        flat: {
+            description: "Bird's-eye view of the domino stacks.",
+            name: "Overhead view",
+        },
+    },
+    buttons: {
+        evens: "Evens",
+        odds: "Odds",
+    },
+    status: {
+        BONEYARD: "Boneyard",
+    },
+};
+
 
 export type playerid = 1 | 2;
 export type Pip = 0 | 1 | 2 | 3 | 4 | 5 | 6;
@@ -70,8 +101,8 @@ export class EvenAtOddsGame extends GameBase {
         playercounts: [2],
         version: "20260724",
         dateAdded: "2026-08-03",
-        description: "apgames:descriptions.evenatodds",
-        notes: "apgames:notes.evenatodds",
+        description: "A two-player domino stacking game where evens (2/4/6) and odds (1/3/5) compete to form the largest connected group of active faces on a growing board.",
+        notes: "To place on the table, place one end on empty ground adjacent to a matching active face; the other end may go on any adjacent empty ground. To stack, one end must match the face underneath; the other end may cover any active face *on a different tile* at the same height. In the notation, the first coordinate is the end that matches one of these rules. Blanks are blockers, belonging to no one.\n\nTiles in your hand are hidden from your opponent. Boneyard identities and the two removed overtime tiles are hidden until the game ends. The boneyard count is shown in the sidebar.",
         people: [
             { type: "designer", name: "Jacob Landrum" },
             {
@@ -959,7 +990,7 @@ export class EvenAtOddsGame extends GameBase {
 
     public move(m: string, { trusted = false, partial = false, emulation = false } = {}): EvenAtOddsGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         const raw = m.replace(/\s+/g, "");

@@ -4,6 +4,17 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        CAN_PLACE: "If you're moving, provide the destination. If you wish to place a piece you have in hand, click the cell again.",
+        INITIAL_INSTRUCTIONS: "Click a stack you control.",
+        NONE_INHAND: "You have no pieces in hand to place.",
+        ORTHOGONAL: "Stacks may only move orthogonally, never diagonally.",
+        TOOFAR: "You may not move the stack more spaces than the number of pieces in the stack.",
+        UNCONTROLLED: "You can only move stacks where your piece is on top.",
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -28,8 +39,7 @@ export class FocusGame extends GameBase {
         playercounts: [2],
         version: "20230607",
         dateAdded: "2023-06-27",
-        // i18next.t("apgames:descriptions.focus")
-        description: "apgames:descriptions.focus",
+        description: "A Sid Sackon classic. One may move stacks of pieces as many spaces as pieces in the stack. Once stacks become higher than 5 pieces, the bottom-most pieces are captured. The last person able to move a stack wins.",
         urls: [
             "https://en.wikipedia.org/wiki/Focus_(board_game)",
             "https://boardgamegeek.com/boardgame/789/focus",
@@ -358,7 +368,7 @@ export class FocusGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): FocusGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -558,7 +568,7 @@ export class FocusGame extends GameBase {
 
     public sidebarScores(): IScores[] {
         return [
-            { name: this.neutralAreaLabel("apgames:status.focus"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
+            { name: this.neutralAreaLabel("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
             { name: this.neutralAreaLabel("apgames:status.PIECESINHAND"), scores: this.inhand }
         ]
     }
@@ -604,3 +614,4 @@ export class FocusGame extends GameBase {
         return new FocusGame(this.serialize());
     }
 }
+

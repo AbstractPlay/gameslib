@@ -5,6 +5,36 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, SquareOrthGraph } from "../common/index.js";
 import { connectedComponents } from "graphology-components";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a friendly piece.",
+        INSTRUCTIONS: "Click on an orthogonally opposing piece to capture by replacement.",
+        INVALID_SELECTION: "Click on a friendly piece.",
+        CANNOT_MOVE: "This piece cannot move!",
+        INVALID_MOVE: "Click on an opposing piece that is in the same row or column, adjacent or separated by a line of empty cells!",
+    },
+    variants: {
+        "size-6": {
+            name: "5x6 board",
+        },
+        "size-8": {
+            name: "7x8 board",
+        },
+        "size-10": {
+            name: "9x10 board",
+        },
+        "#board": {
+            name: "11x12 board",
+        },
+        "size-14": {
+            name: "13x14 board",
+        },
+        "size-16": {
+            name: "15x16 board",
+        },
+    },
+};
+
 
 type playerid = 1 | 2; // regarding pieces: 1 is the ball, 2 are the walls
 type Direction = "N"|"E"|"S"|"W";
@@ -27,9 +57,8 @@ export class NarrowsGame extends GameBase {
         playercounts: [2],
         version: "20260604",
         dateAdded: "2026-06-22",
-        // i18next.t("apgames:descriptions.narrows")
-        description: "apgames:descriptions.narrows",
-        notes: "apgames:notes.narrows",
+        description: "Link all your pieces by empty regions.",
+        notes: "Narrows, designed by Mark Steere in 2026, is an unification game inspired by the ancient Hawiian game of Kōnane. True to the spirit of Kōnane, Ūnane begins with a checkerboard pattern of stones and is extremely simple. In this case, the unification goal includes the use of orthogonal paths of empty cells to connect different groups of friendly pieces.",
         urls: [
             "https://www.marksteeregames.com/Narrows_rules.pdf",
         ],
@@ -296,7 +325,7 @@ export class NarrowsGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): NarrowsGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -449,3 +478,4 @@ export class NarrowsGame extends GameBase {
         return new NarrowsGame(this.serialize());
     }
 }
+

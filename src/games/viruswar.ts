@@ -5,6 +5,28 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, SquareGraph } from "../common/index.js";
 import { connectedComponents } from "graphology-components";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS_one: "Place one piece adjacent to the group of friendly pieces including your home base. The piece can be an active virus (circle), or a defensive wall (square). Either place a virus on an empty cell, or replace an enemy virus with a friendly defensive wall.",
+        INITIAL_INSTRUCTIONS_other: "Place {{count}} pieces, each must be adjacent to the group of friendly pieces including your home base. Pieces can be active viruses (circles), or defensive walls (squares). Either place a virus on an empty cell, or replace an enemy virus with a friendly defensive wall.",
+        CANNOT_GROW: "Square {{where}} cannot receive a new virus/wall! It must be placed on an empty cell or on an active virus and be adjacent to the home-base group.",
+    },
+    variants: {
+        "size-10": {
+            name: "10x10 board (3 moves)",
+        },
+        "size-20": {
+            name: "20x20 board (4 moves)",
+        },
+        "size-25": {
+            name: "25x25 board (5 moves)",
+        },
+        "#board": {
+            name: "30x30 board (6 moves)",
+        },
+    },
+};
+
 
 export type playerid = 1 | 2 | 3 | 4 | 5 | 6; // 3,4 are dead virus; 5,6 are home-bases
 
@@ -26,9 +48,8 @@ export class VirusWarGame extends GameBase {
         playercounts: [2],
         version: "20260609",
         dateAdded: "2026-06-22",
-        // i18next.t("apgames:descriptions.viruswar")
-        description: "apgames:descriptions.viruswar",
-        notes: "apgames:notes.viruswar",
+        description: "Paper and pencil game about growing and destroying viruses.",
+        notes: "Virus War (aka, Клоподавка, Bug Supression) is a pencil and paper game played in Russia around the 1970s/80s. The players have `N` multiple moves per turn (`N` depends on the board size). Each player has a home base on opposite corners. On his turn, a player plays N squares on the grid. Plays can be on empty squares (making a new virus), or by replacing an adversary virus with a defensive wall. A wall becomes unplayable. However, players can only play on squares that are adjacent to the group of friendly pieces that includes the player's home base. A stalemated player loses the game.",
         urls: [
             "https://boardgamegeek.com/boardgame/68214/virus-wars",
             "https://ptupitsyn.github.io/klopodavka-rs/",
@@ -288,7 +309,7 @@ export class VirusWarGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): VirusWarGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         if (m.length === 0) {
@@ -457,3 +478,4 @@ export class VirusWarGame extends GameBase {
         return new VirusWarGame(this.serialize());
     }
 }
+

@@ -4,6 +4,34 @@ import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema
 import { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Place a stone on an empty point. A point vital to your opponent is only allowed if it is also vital to you, or if your placement completes your connection.",
+        INVALIDCELL: "The point {{cell}} does not exist.",
+        OCCUPIED: "The point {{where}} is already occupied.",
+        VITAL: "You may not place a stone on {{where}}. It is vital to your opponent but not to you, and a stone there would not complete your connection.",
+        NO_PASS: "You may not pass while you have a legal placement.",
+        MUST_PASS: "You have no legal placement. Your turn is skipped.",
+    },
+    variants: {
+        "size-7": {
+            name: "7x7 board",
+        },
+        "#board": {
+            name: "8x8 board",
+        },
+        "size-9": {
+            name: "9x9 board",
+        },
+        "size-10": {
+            name: "10x10 board",
+        },
+        "size-11": {
+            name: "11x11 board",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -155,10 +183,8 @@ export class ClearPathGame extends GameBase {
         playercounts: [2],
         version: "20260910",
         dateAdded: "2026-09-10",
-        // i18next.t("apgames:descriptions.clearpath")
-        description: "apgames:descriptions.clearpath",
-        // i18next.t("apgames:notes.clearpath")
-        notes: "apgames:notes.clearpath",
+        description: "An orthogonal connection game on the points of a square grid. Red connects the top and bottom edges, Blue the left and right edges, with a chain of orthogonally adjacent stones. Each turn you place one stone. A point is vital to a player if every possible connection of theirs passes through it. You may not place on a point vital to your opponent unless it is also vital to you, or your placement completes your connection. Crosscuts are allowed.",
+        notes: "Clear Path was designed by Mark Steere in September 2026, in collaboration with Claude Fable 5.1, an AI model made by Anthropic.\n\nThe vital points are marked on the board. A red dot marks a point that every possible Red connection passes through, a blue dot marks a point that every possible Blue connection passes through, and a blue dot inside a red dot marks a point vital to both players. A point vital only to your opponent is illegal for you unless your placement completes your connection.\n\nPassing is not allowed, but a player with no legal placement has their turn skipped. The pass is submitted automatically.\n\nThis implementation shortens the game by acknowledging that a player who no longer has any possible connection has lost by force.",
         urls: [
             "https://www.marksteeregames.com/Clear_Path_rules.pdf",
             "https://www.marksteeregames.com",
@@ -400,7 +426,7 @@ export class ClearPathGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): ClearPathGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -582,3 +608,4 @@ export class ClearPathGame extends GameBase {
         return new ClearPathGame(this.serialize());
     }
 }
+

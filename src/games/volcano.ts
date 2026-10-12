@@ -5,6 +5,32 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, shuffle, RectGrid, UserFacingError, cloneState } from "../common/index.js";
 import { volcanoStashColumn } from "../common/localStashColumn.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BAD_FROM: "{{from}} doesn't look like a position on the board, or a piece in your stash.",
+        INITIAL_INSTRUCTIONS: "Select a cap to move or a piece from your captured pile to place on the board.",
+        MOVES_AFTER_ERUPTION: "You may not continue moving after causing an eruption.",
+        MOVES_CAPS_ONLY: "You may only move caps.",
+        MOVES_DOUBLE_CAP: "Nothing may be placed on top of a cap.",
+        MOVES_MUST_ERUPT: "You must continue moving until you cause an eruption.",
+        MOVES_NOPIECE: "You don't have a {{piece}} piece in your stash to place.",
+        MOVES_ONE_POWERPLAY: "You may only make one power play per turn.",
+        MOVES_ONE_SPACE: "Caps may only be moved one space at a time.",
+        PARTIAL_ERUPTION: "Keep moving caps until you cause an eruption.",
+        PARTIAL_MOVE: "Select the destination.",
+        CAPTURED_LABEL: "{{player}}: Captured Pieces",
+    },
+    displays: {
+        "#stack": {
+            name: "3D stacks",
+        },
+        expanding: {
+            description: "Two dimensional board, with stacks expanding when hovered over.",
+            name: "Expanding",
+        },
+    },
+};
+
 
 interface ILegendObj {
     [key: string]: Glyph|[Glyph, ...Glyph[]];
@@ -76,8 +102,7 @@ export class VolcanoGame extends GameBase {
         playercounts: [2],
         version: "20211104",
         dateAdded: "2023-05-01",
-        // i18next.t("apgames:descriptions.volcano")
-        description: "apgames:descriptions.volcano",
+        description: "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. The winner is the first to capture a certain number of trios.",
         urls: [
             "https://www.looneylabs.com/content/volcano",
             "https://boardgamegeek.com/boardgame/13084/volcano",
@@ -433,7 +458,7 @@ export class VolcanoGame extends GameBase {
      */
      public move(m: string, {partial = false, trusted = false} = {}): VolcanoGame {
         if ( (this.gameover) && (! partial) ) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -1051,3 +1076,4 @@ export class VolcanoGame extends GameBase {
         return new VolcanoGame(this.serialize());
     }
 }
+

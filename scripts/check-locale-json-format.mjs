@@ -16,6 +16,19 @@ const ROOT = path.resolve(__dirname, "..");
 
 const LOCALE_ROOTS = ["locales", "locale-src"];
 
+function collectJsonUnder(dir) {
+  const files = [];
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      files.push(...collectJsonUnder(full));
+    } else if (entry.isFile() && entry.name.endsWith(".json")) {
+      files.push(full);
+    }
+  }
+  return files;
+}
+
 function collectJsonFiles() {
   const files = [];
   for (const rootName of LOCALE_ROOTS) {
@@ -28,11 +41,7 @@ function collectJsonFiles() {
       if (!fs.statSync(langDir).isDirectory()) {
         continue;
       }
-      for (const file of fs.readdirSync(langDir)) {
-        if (file.endsWith(".json")) {
-          files.push(path.join(langDir, file));
-        }
-      }
+      files.push(...collectJsonUnder(langDir));
     }
   }
   return files.sort();

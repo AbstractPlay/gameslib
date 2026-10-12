@@ -4,6 +4,13 @@ import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema"
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a string to pull.",
+        NOSTRING: "There is no string numbered {{string}}.",
+    },
+};
+
 
 type playerid = 1|2;
 type CellContents = number;
@@ -39,8 +46,7 @@ export class StringsGame extends GameBaseSimultaneous {
         playercounts: [2],
         version: "20230611",
         dateAdded: "2023-06-22",
-        // i18next.t("apgames:descriptions.strings")
-        description: "apgames:descriptions.strings",
+        description: "Players simultaneously choose a string to pull, moving, splitting, and joining stacks of coins. The winner is the first one able to get five coins on their home spaces. Are you pulling strings? Or is your opponent pulling yours?",
         urls: [
             "https://boardgamegeek.com/boardgame/18284/pulling-strings",
         ],
@@ -248,11 +254,11 @@ export class StringsGame extends GameBaseSimultaneous {
 
     public move(m: string, {partial = false, trusted = false} = {}): StringsGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         const moves: string[] = m.split(/,\s*/);
         if (moves.length !== 2) {
-            throw new UserFacingError("MOVES_SIMULTANEOUS_PARTIAL", i18next.t("apgames:MOVES_SIMULTANEOUS_PARTIAL"));
+            throw new UserFacingError("MOVES_SIMULTANEOUS_PARTIAL", i18next.t("apgames:validation._general.MOVES_SIMULTANEOUS_PARTIAL"));
         }
         for (let i = 0; i < moves.length; i++) {
             if ( (partial) && ( (moves[i] === undefined) || (moves[i] === "") ) ) {
@@ -624,3 +630,4 @@ export class StringsGame extends GameBaseSimultaneous {
         return new StringsGame(this.serialize());
     }
 }
+

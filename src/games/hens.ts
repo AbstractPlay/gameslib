@@ -6,6 +6,23 @@ import { allDirections, RectGrid, reviver, UserFacingError } from "../common/ind
 import { DirectedGraph } from "graphology";
 import { allSimplePaths } from "graphology-simple-path";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select one of your own pieces to move.",
+        ONLY_DIAG: "Chicks may only move diagonally.",
+        ONLY_FORWARD: "Pieces may only move forward.",
+        ONLY_HENS: "Only hens can make multiple jumps.",
+        ONLY_TWO: "Hens may only move up to two spaces.",
+        STRAIGHT_LINES: "Pieces may only be moved in straight lines.",
+        VALID_PARTIAL: "Select a destination.",
+    },
+    variants: {
+        "size-10": {
+            name: "10x10 board (experimental)",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 export type Size = 1|2;
@@ -29,8 +46,7 @@ export class HensGame extends GameBase {
         playercounts: [2],
         version: "20240205",
         dateAdded: "2024-02-13",
-        // i18next.t("apgames:descriptions.hens")
-        description: "apgames:descriptions.hens",
+        description: "Hens and Chicks is a draughts-style game with two types of pieces and a unique capturing mechanic. The winner is the first to land a piece in their opponent's home row or to eliminate all the opposing hens.",
         urls: [
             "https://crabfragmentlabs.com/verdigris-pawn",
             "https://boardgamegeek.com/boardgame/432210/hens-and-chicks",
@@ -476,7 +492,7 @@ export class HensGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): HensGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -783,3 +799,4 @@ export class HensGame extends GameBase {
         return new HensGame(this.serialize());
     }
 }
+

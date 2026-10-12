@@ -6,6 +6,26 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { Piece } from "./four/piece.js";
 import { reviver, UserFacingError, matrixRectRot90, matrixRectRotN90, x2uid, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        DIFFERENT_MOVE: "You may not play the same size or colour piece as your opponent did on their last turn.",
+        INITIAL_INSTRUCTIONS: "Select a piece from your stash to load and manipulate it.",
+        LABEL_SELECTED: "Selected piece",
+        MUST_CONNECT: "Each piece placed after the first must orthogonally connect to at least one other piece.",
+        NO_OVERLAP: "Placing a {{piece}} at {{coord}} would overlap an existing piece.",
+        NO_PIECE: "Could not find the piece {{piece}} in your stash.",
+        NOT_ADJACENT: "The placed piece may not be adjacent to a piece of the same size or colour.",
+        PARTIAL: "Click the cell on the board representing the top-left corner of the piece you wish to place.",
+        TOO_BIG: "The grid may never be larger than 9 cells wide or high (or 7 cells in the simplified game).",
+    },
+    variants: {
+        simplified: {
+            description: "You only play with three pieces of each colour, and the grid is constrained to 7x7 instead of 9x9.",
+            name: "Learning game",
+        },
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -33,8 +53,7 @@ export class FourGame extends GameBase {
         playercounts: [2],
         version: "20240216",
         dateAdded: "2024-02-18",
-        // i18next.t("apgames:descriptions.four")
-        description: "apgames:descriptions.four",
+        description: "A game in which four shapes in four colours are placed in a virtual grid according to four constraints. Be the last player able to place.",
         urls: ["https://boardgamegeek.com/boardgame/133842/four"],
         bggid: "133842",
         people: [
@@ -499,7 +518,7 @@ export class FourGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): FourGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.replace(/\s+/g, "");
@@ -736,3 +755,4 @@ export class FourGame extends GameBase {
         return cloned;
     }
 }
+

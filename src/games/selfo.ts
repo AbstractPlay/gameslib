@@ -5,6 +5,37 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { HexTriGraph, reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 
+export const gameApgamesEn = {
+    validation: {
+        ENCLOSURE: "In this game you may not enclose an opposing piece, unless the move wins the game.",
+        INITIAL_INSTRUCTIONS: "Click one of your pieces to select it.",
+        INITIAL_INSTRUCTIONS_PIE: "Click one of your pieces to select it, or use the pie rule to swap sides.",
+        NOT_ADJACENT: "A piece can only move to an adjacent empty cell.",
+        NO_PASS: "You cannot pass in this game.",
+        PARTIAL: "Click an adjacent empty cell to move the selected piece there.",
+        PIE: "Use the pie rule and swap sides.",
+        PIE_UNAVAILABLE: "The pie rule can only be used by the second player right after the first move.",
+    },
+    variants: {
+        "#board": {
+            name: "Radius-3 board, 9 pieces each",
+        },
+        r2f5: {
+            name: "Radius-2 board, 5 pieces each",
+        },
+        r4f12: {
+            name: "Radius-4 board, 12 pieces each",
+        },
+        r5f20: {
+            name: "Radius-5 board, 20 pieces each",
+        },
+        "no-enclosure": {
+            name: "No enclosure",
+            description: "A move that would enclose an opposing piece is not allowed, unless it wins the game outright.",
+        },
+    },
+};
+
 export type playerid = 1|2;
 
 export interface IMoveState extends IIndividualState {
@@ -174,10 +205,10 @@ export class SelfoGame extends GameBase {
         playercounts: [2],
         version: "20261011",
         dateAdded: "2026-10-11",
-        // i18next.t("apgames:descriptions.selfo")
-        description: "apgames:descriptions.selfo",
-        // i18next.t("apgames:notes.selfo")
-        notes: "apgames:notes.selfo",
+        description:
+            "A connection game on a hexagonal board. Each player starts with the same number of pieces scattered at random, and on your turn you slide one piece to an adjacent empty cell. The first player to bring all of their own pieces together into a single group wins.",
+        notes:
+            "The starting position is random: both players' pieces are scattered over the board, with no piece already enclosed, no player already connected, and no immediate win for the first player.\n\nOn your turn, move one of your pieces to an adjacent empty cell. You win by moving so that all of your pieces form one group of mutually adjacent pieces; only the player who has just moved can win this way. A player who has no legal move loses.\n\nA piece is _enclosed_ when your pieces cannot all reach each other through cells not occupied by your opponent, because opposing pieces and the board edge wall some of them off. If, after a move, both players have enclosed pieces, neither can ever connect and the game is a draw. With the **No enclosure** variant, a move that would enclose an opposing piece is not allowed, unless that move wins the game outright.\n\nThe second player may use the pie rule to swap sides after the first move.",
         urls: [],
         people: [
             {
@@ -473,7 +504,7 @@ export class SelfoGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): SelfoGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();

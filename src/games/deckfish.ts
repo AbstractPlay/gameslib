@@ -12,6 +12,36 @@ import {
     disabledDecktetCardOverlay,
     suits,
 } from "../common/decktet/index.js";
+export const gameApgamesEn = {
+    validation: {
+        BAD_PASS: "You may not pass if legal moves are available.",
+        EARLY_TO_MARKET: "You cannot make a market swap now.",
+        INITIAL_PLACEMENT_INSTRUCTIONS: "Click a card to place your piece on the board.",
+        INITIAL_MOVE_INSTRUCTIONS: "Click a piece to move.",
+        INITIAL_SWAP_INSTRUCTIONS: "Click a market card to swap it with one on the board.",
+        INVALID_FROM: "You may only move your own pieces.",
+        INVALID_PLACEMENT: "You may only place your piece on an unoccupied Ace or Crown.",
+        INVALID_PLACEMENT_DOUBLE: "You may only place your piece on an unoccupied Ace.",
+        INVALID_TO: "The destination {{cell}} is not legal.",
+        LABEL_MARKET: "Market cards",
+        LABEL_COLLECTION: "{{player}}'s suits",
+        LATE_TO_MARKET: "You have already selected a market card.",
+        MUST_PASS: "You must pass as player 1 so that player 2 can begin.",
+        NO_SWAP: "There is no card to swap at {{cell}}.",
+        OCCUPIED_SWAP: "The card at {{cell}} is occupied by a piece and cannot be swapped.",
+        PARTIAL_MOVE: "Click a card on the board to move your piece to.",
+        PARTIAL_SWAP: "Click a card on the board to swap with {{what}}.",
+        REVERSED_MARKET: "Please choose the market card to swap first..",
+        VALID_PLACEMENT: "Looks like a good placement.",
+    },
+    variants: {
+        double: {
+            description: "A 9x9 board using a double Decktet. Initial placements are restricted to Aces.",
+            name: "Double Deckfish",
+        },
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -50,10 +80,8 @@ export class DeckfishGame extends GameBase {
         //version: "20250724",
         version: "20250906",
         dateAdded: "2025-11-14",
-        // i18next.t("apgames:descriptions.deckfish")
-        description: "apgames:descriptions.deckfish",
-        // i18next.t("apgames:notes.deckfish")
-        notes: "apgames:notes.deckfish",
+        description: "A two-player game of map reduction and suit collection where the player with the most of their least collected Decktet suit wins.",
+        notes: "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com).\n\nThe suit powers (token movement abilities) are:\n* Moons: Jump orthogonally over gaps. \n* Suns: Move one or two cards diagonally. \n* Waves: Move orthogonally until the last unobstructed card. \n* Leaves: Move orthogonally onto any card with no neighboring obstacles.\n* Wyrms: Move orthogonally onto the first occupied card, bumping that piece to the next card.\n* Knots: Make three orthogonal one-card moves, without backtracking.\n\nIn the rules, the \"first\" player is the player who places second in the placement phase but moves first in the movement phase, but here the first player is the one who places first but moves second. This is implemented using an automatic pass for the appropriate player.\n\nThe rule is enforced that, even when the last player is already winning, he must continue playing until he is out of moves.",
         urls: [
             "http://wiki.decktet.com/game:deckfish",
             "https://boardgamegeek.com/boardgame/432405/deckfish",
@@ -832,7 +860,7 @@ export class DeckfishGame extends GameBase {
                     //The end of game passes.
                     result.valid = true;
                     result.complete = 1;
-                    result.message = i18next.t("apgames:validation._general.VAILD_MOVE");
+                    result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                     return result;
                 } else {
                     result.valid = false;
@@ -940,7 +968,7 @@ export class DeckfishGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): DeckfishGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         //m = m.toLowerCase();
@@ -1442,3 +1470,4 @@ export class DeckfishGame extends GameBase {
         return Object.assign(new DeckfishGame(), cloneState(this) as DeckfishGame);
     }
 }
+

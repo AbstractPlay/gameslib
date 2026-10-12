@@ -4,6 +4,19 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        FROZEN_PIECE: "This piece is frozen because there are two or more orthogonally visible opponent pieces.",
+        INITIAL_INSTRUCTIONS: "Select one of your pieces to move.",
+        MOVE_TO_EMPTY: "Select an adjacent empty space to move to.",
+        NO_LEGAL_MOVES: "This piece has no legal moves.",
+        NO_REVERSES: "You may not make a move which undoes the previous turn.",
+    },
+    status: {
+        UNFROZEN_PIECES: "Unfrozen pieces",
+    },
+};
+
 
 export type pieceType = 1|2;
 
@@ -27,8 +40,7 @@ export class MimicGame extends GameBase {
         playercounts: [2],
         version: "20240120",
         dateAdded: "2024-01-20",
-        // i18next.t("apgames:descriptions.mimic")
-        description: "apgames:descriptions.mimic",
+        description: "A game where enemy pieces mimic your moves while you race to be the first player to reach the back row.",
         urls: [
             "https://boardgamegeek.com/boardgame/432214/mimic",
         ],
@@ -604,7 +616,7 @@ export class MimicGame extends GameBase {
         if (m === "") return this;
 
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -823,3 +835,4 @@ export class MimicGame extends GameBase {
         return new MimicGame(this.serialize());
     }
 }
+

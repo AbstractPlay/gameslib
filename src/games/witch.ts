@@ -4,6 +4,23 @@ import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema"
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError, shuffle, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        "2P_PRIVILEGE": "Only the second player may choose the pieces they wish to play.",
+        AFFILIATE: "Choose which piece you wish to play by clicking any sun or moon piece.",
+        ALREADY_AFFILIATED: "Pieces have already been chosen.",
+        BOTH_EMPTY: "When selecting a line of pieces, both the start and end cells must be empty.",
+        EMPTY_CAPTURE: "Captures must include at least one piece.",
+        INCOMPLETE_AFFILIATION: "To choose your affiliation, the move must start with '(S)' or '(M)'.",
+        INITIAL_INSTRUCTIONS: "Click a piece to remove or an empty space to start removing a line of pieces.",
+        NO_CROWNS: "You may not pick up crowns directly.",
+        NO_ENEMY: "You may not pick up your opponent's pieces.",
+        ORTHOGONAL: "Lines of pieces must be horizontal or vertical, never diagonal.",
+        PARTIAL: "Select another empty space to remove the pieces in between.",
+        UNBROKEN: "Lines of pieces must be unbroken by empty cells.",
+    },
+};
+
 
 export type playerid = 1|2;
 export type CellContents = "S"|"M"|"C"|"E";
@@ -36,10 +53,8 @@ export class WitchGame extends GameBase {
         playercounts: [2],
         version: "20230612",
         dateAdded: "2023-06-22",
-        // i18next.t("apgames:descriptions.witch")
-        description: "apgames:descriptions.witch",
-        // i18next.t("apgames:notes.witch")
-        notes: "apgames:notes.witch",
+        description: "Four types of pieces are arrayed randomly on a grid. Each player takes turns removing pieces until one reaches a score of 50.",
+        notes: "The first player does not start as owning any pieces and may remove any piece (other than a crown) on their first turn. The second player chooses their colour on their first turn, after which, removing your opponent's pieces is no longer possible.",
         urls: ["https://boardgamegeek.com/boardgame/20517/witch-stones"],
         bggid: "20517",
         people: [
@@ -463,7 +478,7 @@ export class WitchGame extends GameBase {
     // It leaves the object in an invalid state, so only use it on cloned objects, or call `load()` before submitting again.
     public move(m: string, {partial = false, trusted = false} = {}): WitchGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -734,3 +749,4 @@ export class WitchGame extends GameBase {
         return new WitchGame(this.serialize());
     }
 }
+

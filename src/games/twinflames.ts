@@ -5,6 +5,45 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Place a friendly stone on an empty hex.",
+        INSTRUCTIONS: "Players place, on empty hexes, two stones of either color. Click the cell multiple times to cycle through the different options.",
+        INCOMPLETE_TURN: "To complete the turn you need two placements.",
+        TOO_MANY_MOVES: "Only two placements are allowed.",
+        TOO_MANY_MOVES_START: "At the start, only one placement is allowed.",
+    },
+    variants: {
+        "#board": {
+            name: "Hex board (base-6)",
+        },
+        "size-7": {
+            name: "Hex board (base-7)",
+        },
+        "size-8": {
+            name: "Hex board (base-8)",
+        },
+        "#blockers": {
+            name: "Use default blockers",
+        },
+        "blocker-0": {
+            name: "Don't use blockers",
+        },
+        "blocker-2": {
+            name: "Use 2 blockers",
+        },
+        "blocker-4": {
+            name: "Use 4 blockers",
+        },
+        "blocker-6": {
+            name: "Use 6 blockers",
+        },
+        "blocker-8": {
+            name: "Use 8 blockers",
+        },
+    },
+};
+
 
 export type playerid = 1 | 2 | 3; // 3 are walls
 
@@ -26,9 +65,8 @@ export class TwinFlamesGame extends GameBase {
         playercounts: [2],
         version: "20260428",
         dateAdded: "2026-05-27",
-        // i18next.t("apgames:descriptions.twinflames")
-        description: "apgames:descriptions.twinflames",
-        notes: "apgames:notes.twinflames",
+        description: "Players score by multiplying their two largest groups. Largest score wins. If tied, the second player wins. The game uses a random setup to place a fixed number of walls.",
+        notes: "Twin Flames is a 2026 redesign of the 2013's Product, an original concept by Nick Bentley. The first player must initially place a friendly stone, preventing overly strong opening countermoves and thereby eliminating the need for a pie rule. The remaining moves use a 12* sequence, in which players may place stones of either colour. At the end of the game, a player who has formed a single connected group scores points equal to the size of that group. Another ludeme introduced was the use of walls, or blockers, which reduce overall connectivity and make groups more robust to enemy attacks. The blocker configuration is randomized, increasing game variability and making opening theory more difficult to develop.",
         urls: [
                 "https://boardgamegeek.com/boardgame/470021/twin-flames",
               ],
@@ -423,7 +461,7 @@ export class TwinFlamesGame extends GameBase {
         const regex = new RegExp(`^[12][a-z]\\d+(,[12][a-z]\\d+)?$`);
         if (!regex.test(m)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.twinflames.INVALID_PLACEMENT", {move: m});
+            result.message = i18next.t("apgames:validation._general.INVALID_PLACEMENT", {move: m});
             return result;
         }
 
@@ -431,7 +469,7 @@ export class TwinFlamesGame extends GameBase {
         const normalised = this.normaliseMove(m);
         if (! this.sameMove(m, normalised)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.twinflames.NORMALISED", {move: normalised});
+            result.message = i18next.t("apgames:validation._general.NORMALISE", { normalised });
             return result;
         }
 
@@ -480,7 +518,7 @@ export class TwinFlamesGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): TwinFlamesGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         if (!trusted) {
@@ -642,3 +680,4 @@ export class TwinFlamesGame extends GameBase {
         return new TwinFlamesGame(this.serialize());
     }
 }
+

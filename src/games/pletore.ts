@@ -5,6 +5,57 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { SquareOrthGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Place a piece onto an empty intersection not controlled by the opponent, replace an enemy piece on an intersection you control, or 'pass' if all intersections are occupied or controlled. The game ends when both players pass in sequence.",
+        INITIAL_INSTRUCTIONS_BUTTON: "Place a piece onto an empty intersection not controlled by the opponent, replace an enemy piece on an intersection you control, or take the button (worth .5 points).",
+        INITIAL_SETUP: "Enter a number to set the bonus to the second player's score. Your opponent will have a chance to swap seats.",
+        INSUFFICIENT_CONTROL: "You cannot replace a piece on {{cell}}. You do not control the intersection.",
+        INVALIDBUTTON: "The button is already taken or is not in use this game.",
+        INVALIDKOMI: "The first move of the game must be an integer representing the number of points the second player starts with. You may not offer a komi greater than the number of cells on the board plus one.",
+        INVALIDPASS: "You cannot pass while uncontrolled intersections exist or the button still needs to be taken.",
+        INVALIDPIE: "You cannot accept or reject a pie offer now.",
+        KOMI_CHOICE: "Invoke pie to play first or accept playing as second player.",
+        OPPONENT_CONTROL: "You cannot place onto the empty intersection {{cell}}. It is controlled by the opponent.",
+    },
+    variants: {
+        "#board": {
+            name: "Default board (13x13)",
+        },
+        "#komi": {
+            description: "The first player will enter a number into the move input box on their first turn to define the second player bonus for the game. The second player will be given the option to switch seats afterwards.",
+            name: "Komi offer",
+        },
+        nokomi: {
+            description: "The game will be played without a second player bonus. Good for beginners.",
+            name: "No komi offer",
+        },
+        "size-11": {
+            name: "Smaller board (11x11)",
+        },
+        "size-15": {
+            name: "Larger board (15x15)",
+        },
+        "size-17": {
+            name: "Largest board (17x17)",
+        },
+    },
+    displays: {
+        "hide-both": {
+            description: "Don't highlight empty controlled intersections nor possible replacements.",
+            name: "Hide Both",
+        },
+        "hide-influence": {
+            description: "Don't highlight empty controlled intersections.",
+            name: "Hide influence",
+        },
+        "hide-threatened": {
+            description: "Don't highlight possible replacements.",
+            name: "Hide threatened",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -33,10 +84,8 @@ export class PletoreGame extends GameBase {
         playercounts: [2],
         version: "20240527",
         dateAdded: "2024-06-08",
-        // i18next.t("apgames:descriptions.pletore")
-        description: "apgames:descriptions.pletore",
-        // i18next.t("apgames:notes.pletore")
-        notes: "apgames:notes.pletore",
+        description: "Territorial line-of-sight game. Intersections are controlled and pieces on them are flipped based on the number and direction of pieces that can see them. The winner is the player who occupies more of the board at the end.",
+        notes: "An intersection is controlled by a player if they 'pinch' it while the opponent does not. You 'pinch' an intersection if you have pieces that can see that intersection from two different axes. Your score is the sum of the number of stones of your color on the board and the number of empty points you control, plus a komi bonus and a button bonus. The button is used when the komi value plus the number of intersections on the board is even, and any player may take a turn off and claim the button if it has yet to be claimed. The game ends when both players pass in succession, but claiming the button does not count toward this. Players cannot pass until the entire board is occupied or controlled.",
         urls: ["https://boardgamegeek.com/boardgame/358881/pletore"],
         bggid: "358881",
         people: [
@@ -439,7 +488,7 @@ export class PletoreGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): PletoreGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         if (m.length === 0) return this;
@@ -718,3 +767,4 @@ export class PletoreGame extends GameBase {
     }
 
 }
+

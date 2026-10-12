@@ -6,6 +6,29 @@ import i18next from "i18next";
 import { InARowBase } from "./in_a_row/InARowBase.js";
 import { APRenderRep } from "@abstractplay/renderer";
 import { MarkerEdge } from "@abstractplay/renderer/build/schemas/schema";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Enter a piece on the active side of the board",
+        AMBIGUOUS: "Ambiguous moves (moves that could be entered from both active sides simultaneously) are forbidden.",
+        SIMULTANEOUS: "Moves that would create winning lines for both players simultaneously are not allowed.",
+        ACTIVE: "Pieces must be entered from one of the active sides of the board, sliding over existing pieces to the first empty square.",
+    },
+    displays: {
+        moves_no_sides_yes: {
+            description: "Don't show possible moves.",
+            name: "Hide moves",
+        },
+        moves_yes_sides_no: {
+            description: "Don't show active sides.",
+            name: "Hide sides",
+        },
+        moves_no_sides_no: {
+            description: "Show neither possible moves nor active sides.",
+            name: "Hide both",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 
@@ -30,8 +53,7 @@ export class KrypteGame extends InARowBase {
         playercounts: [2],
         version: "20260108",
         dateAdded: "2026-01-10",
-        // i18next.t("apgames:descriptions.krypte")
-        description: "apgames:descriptions.krypte",
+        description: "A 4-in-a-row game where pieces enter from active sides that rotate after each turn, and placing a piece flips all adjacent pieces.",
         urls: ["https://boardgamegeek.com/boardgame/209858/krypte"],
         bggid: "209858",
         people: [
@@ -236,7 +258,7 @@ export class KrypteGame extends InARowBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): KrypteGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -629,3 +651,4 @@ export class KrypteGame extends InARowBase {
         return new KrypteGame(this.serialize());
     }
 }
+

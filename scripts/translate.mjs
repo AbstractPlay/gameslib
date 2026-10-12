@@ -4,6 +4,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { pruneManagedLocale, pruneToSourceShape } from "./locale-prune.mjs";
 import { writeLocaleJson } from "./locale-json-format.mjs";
+import { assertEnApgamesMergeCurrent } from "./lib/ensure-merged-en-apgames.mjs";
 
 const ES_US_DIALECT = [
   "Use Latin American Spanish as spoken in the United States (es-US).",
@@ -781,6 +782,12 @@ async function run() {
   }
 
   const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+
+  for (const file of files) {
+    if (path.basename(file) === "apgames.json" && file.replace(/\\/g, "/").includes("/en/")) {
+      assertEnApgamesMergeCurrent("Before machine translation: ");
+    }
+  }
 
   for (const file of files) {
     await translateFile(ai, file);

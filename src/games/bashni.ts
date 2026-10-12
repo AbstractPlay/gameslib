@@ -4,6 +4,18 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { DirectionDiagonal, RectGrid, reviver, SquareDiagGraph, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a stack with your piece on top to move.",
+        INVALID_MOVE: "The move does not appear to be legal. Capturing is compulsory, and you must continue as long as further captures are possible.",
+        VALID_PARTIAL: "Select a destination. Capturing is compulsory, and you must continue as long as further captures are possible.",
+    },
+    status: {
+        STEPS: "Maneuverability",
+        MATERIAL: "Material",
+    },
+};
+
 
 
 const BOARD_SIZE = 8;
@@ -33,10 +45,8 @@ export class BashniGame extends GameBase {
         playercounts: [2],
         version: "20260925",
         dateAdded: "2026-09-25",
-        // i18next.t("apgames:descriptions.bashni")
-        description: "apgames:descriptions.bashni",
-        // i18next.t("apgames:notes.bashni")
-        notes: "apgames:notes.bashni",
+        description: "A traditional Russian column draughts game on an 8×8 board. Captured pieces are placed under the jumper instead of leaving the board.",
+        notes: "Maneuverability is a measure of how close your stacks are to crowning. Your maximum maneuverability is the board size times the number of stacks you control.\n\nMaterial is calculated by giving you a point for every friendly piece in a stack you control, plus an extra point if you have a king on top of that stack.",
         urls: [
             "https://en.wikipedia.org/wiki/Bashni",
             "https://boardgamegeek.com/boardgame/36550/bashni",
@@ -444,7 +454,7 @@ export class BashniGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): BashniGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -771,3 +781,4 @@ export class BashniGame extends GameBase {
         return new BashniGame(this.serialize());
     }
 }
+

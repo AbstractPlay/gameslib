@@ -7,6 +7,64 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { TaflSettings } from "./tafl/settings.js";
+export const gameApgamesEn = {
+    validation: {
+        BERSERK: "Berserk move to {{to}} is invalid.",
+        BERSERK_CONTINUE: "You may continue with a berserk move.",
+        CONTIGUOUS: "In berserk moves, the subsequent 'from' cells must be the previous 'to' cells.",
+        INITIAL_INSTRUCTIONS: "Select a piece to move.",
+        INVALID_DESTINATION: "The piece at {{from}} cannot move to {{to}}.",
+        NO_MOVES: "The piece at {{from}} does not have any valid cells to move to.",
+        PREFIX: "The cell {{cell}} has to be prefixed with the piece symbol: {{prefixed}}",
+    },
+    variants: {
+        "#variant": {
+            description: "Linnaean Sámi Tablut with historical rules based on a recent reconstruction from Linnaeus' diary. It is an edge escape variant with an armed king that is strong on the throne and on the four squares adjacent to the throne, but weak everywhere else.",
+            name: "linnaean-9x9-tcross-w",
+        },
+        "berserk-11x11-tdiamondberserk": {
+            description: "Berserk variant of the Fetlar rules with knights and commanders. Multi-step captures are permitted, and the king may escape to the corner immediately after a capture.",
+            name: "berserk-11x11-tdiamondberserk",
+        },
+        "copenhagen-11x11-tdiamond": {
+            description: "Popular Hnefatafl variant based on the Fetlar rules with strong armed king and corner escape rules. Has shield wall captures and exit forts.",
+            name: "copenhagen-11x11-tdiamond",
+        },
+        "linnaean-11x11-belldiamond-w": {
+            description: "Bell-diamond setup with historical rules based on a recent reconstruction from Linnaeus' diary. It is an edge escape variant with an armed king that is strong on the throne and on the four squares adjacent to the throne, but weak everywhere else.",
+            name: "linnaean-11x11-belldiamond-w",
+        },
+        "linnaean-11x11-lewiscross-w": {
+            description: "Lewis-cross setup with historical rules based on a recent reconstruction from Linnaeus' diary. It is an edge escape variant with an armed king that is strong on the throne and on the four squares adjacent to the throne, but weak everywhere else.",
+            name: "linnaean-11x11-lewiscross-w",
+        },
+        "magpie-7x7-cross": {
+            description: "A Hnefatafl variant from the book The Leprechaun Companion by Nigel Suckling. It has a strong armed King that only moves one space. The king can be captured on the edges.",
+            name: "magpie-7x7-cross",
+        },
+        "seabattle-9x9-starsquare-w": {
+            description: "Strong unarmed king and edge escape on a 9x9 board.",
+            name: "seabattle-9x9-starsquare-w",
+        },
+        "seabattle-11x11-tcross-w": {
+            description: "Strong unarmed king and edge escape on a 11x11 board.",
+            name: "seabattle-11x11-tcross-w",
+        },
+        "total-11x11-tdiamond": {
+            description: "A combination of Fetlar, Copenhagen and Berserk rules. It is a strong armed king with corner escape rules, with shield wall captures, exit forts, and encirclement win. Berserk capture is enabled and the king can make a berserk escape. Repetitions result in a draw.",
+            name: "total-11x11-tdiamond",
+        },
+        "tyr-11x11-tyr": {
+            description: "Berserk rules with weak armed king and edge escape on a 11x11 board. This is the default simple Tyr setup without special pieces.",
+            name: "tyr-11x11-tyr",
+        },
+        "tyr-15x15-tyr": {
+            description: "Berserk rules with weak armed king and edge escape on a 15x15 board. This is the default simple Tyr setup without special pieces.",
+            name: "tyr-15x15-tyr",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 
@@ -50,10 +108,8 @@ export class TaflGame extends GameBase {
         playercounts: [2],
         version: "20240505",
         dateAdded: "2024-02-24",
-        // i18next.t("apgames:descriptions.tafl")
-        description: "apgames:descriptions.tafl",
-        // i18next.t("apgames:notes.tafl")
-        notes: "apgames:notes.tafl",
+        description: "A collection of games from the Viking era. The defenders goal is to escape to the edge of the board, while the attackers try to capture the defender's king.",
+        notes: "The variant names are in the format {ruleset}-{board size}-{initial layout}-{optional: starting player}. For example, 'linnaean-9x9-tcross-w' is the linnaean rules on a 9x9 board with T-cross setup, and the starting player is the defenders. If starting player is not mentioned, then attackers start.",
         urls: [
             "http://aagenielsen.dk/tafl_rules.php",
             "https://boardgamegeek.com/boardgame/2932/hnefatafl",
@@ -939,7 +995,7 @@ export class TaflGame extends GameBase {
         const normalised = this.normaliseMove(m);
         if (normalised !== m) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.tafl.NORMALISE", {normalised});
+            result.message = i18next.t("apgames:validation._general.NORMALISE", { normalised });
             return result;
         }
         // Check that the piece can move
@@ -995,7 +1051,7 @@ export class TaflGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): TaflGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         let result;
         m = m.trim().replace(/\s+/g, " ");
@@ -1480,3 +1536,4 @@ export class TaflGame extends GameBase {
         return new TaflGame(this.serialize());
     }
 }
+

@@ -6,6 +6,36 @@ import { RectGrid, reviver, UserFacingError } from "../common/index.js";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "This is the auction phase. Either place one to three pieces on empty cells to improve 'Zip' position, or press 'pass' to finish the auction and be 'Zip'.",
+        INSTRUCTIONS_PIP: "Place two friendly pieces not orthogonally adjacent to each other.",
+        INSTRUCTIONS_ZIP: "Place one friendly piece.",
+        TOO_MANY_PLACEMENTS_AUCTION: "Too many placements. During the auction players can place up to three pieces on empty cells!",
+        ERROR_PLACEMENT_PIP: "The Pip player must place two pieces on non-orthogonally adjacent empty cells!",
+        ADJACENT_PLACEMENT_PIP: "The second piece is orthogonally adjacent to the first!",
+        ERROR_PLACEMENT_ZIP: "The Zip player (the taker) must place one piece on an empty cell!",
+        INSTRUCTIONS_PIP_SECOND: "Place the second friendly piece not orthogonally adjacent to the previous one.",
+    },
+    variants: {
+        "size-9": {
+            name: "9x9 board",
+        },
+        "#board": {
+            name: "11x11 board",
+        },
+        "size-13": {
+            name: "13x13 board",
+        },
+        "size-15": {
+            name: "15x15 board",
+        },
+        "size-19": {
+            name: "19x19 board",
+        },
+    },
+};
+
 
 export type playerid = 1 | 2;
 
@@ -31,9 +61,8 @@ export class PippinzipGame extends GameBase {
         playercounts: [2],
         version: "20260603",
         dateAdded: "2026-06-22",
-        // i18next.t("apgames:descriptions.pippinzip")
-        description: "apgames:descriptions.pippinzip",
-        notes: "apgames:notes.pippinzip",
+        description: "An asymmetrical connection game.",
+        notes: "Initially, each player places 1-3 white (P1) stones in the auction phase, until one player 'takes' and becomes 'Zip'. Zip will play a SINGLE white stone per turn. The opponent becomes 'Pip' and will play TWO black (P2) stones per turn, which cannot be orthogonally adjacent. Immediately after 'take' is announced, Pip is the next to move.\n\nZip wins by connecting all FOUR sides of the board with a chain of white stones that are orthogonally or diagonally adjacent; Pip wins by connecting any TWO opposite sides with a chain of black stones that are orthogonally adjacent.",
         urls: ["https://boardgamegeek.com/boardgame/298409/pippinzip"],
         bggid: "298409",
         people: [
@@ -342,7 +371,7 @@ export class PippinzipGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): PippinzipGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
@@ -631,3 +660,4 @@ export class PippinzipGame extends GameBase {
         return new PippinzipGame(this.serialize());
     }
 }
+

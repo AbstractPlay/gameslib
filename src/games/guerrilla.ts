@@ -5,6 +5,32 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { diagDirections, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { SquareDiagGraph, SquareDiamondsDirectedGraph, SquareOrthGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS_p1: "Select where to place your first insurgent.",
+        INITIAL_INSTRUCTIONS_p2: "Select a piece to move.",
+        PARTIAL_p1second: "Select where to place your second insurgent.",
+        PARTIAL_p2move: "Select a destination.",
+        PARTIAL_p2cap: "Select a destination. You must continue capturing.",
+    },
+    variants: {
+        "#length": {
+            description: "One game only; no role swap or match scoring.",
+            name: "Single game",
+        },
+        match: {
+            description: "Play two games with roles reversed. When both players win as insurgents, lower stone count (`66 − remaining`) wins; equal scores draw.",
+            name: "Two-game match",
+        },
+    },
+    status: {
+        G1_SCORE: "Game 1 insurgent score",
+        GAME1: "Game 1",
+        GAME2: "Game 2",
+        INSURGENTS: "Insurgents remaining",
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -36,10 +62,8 @@ export class GuerrillaGame extends GameBase {
         playercounts: [2],
         version: "20260807",
         dateAdded: "2026-08-25",
-        // i18next.t("apgames:descriptions.guerrilla")
-        description: "apgames:descriptions.guerrilla",
-        // i18next.t("apgames:notes.guerrilla")
-        notes: "apgames:notes.guerrilla",
+        description: "An asymmetric game of guerrilla warfare. Both players are trying to eliminate all the other's pieces from the board, but they have to rely on very different tactics to do so.",
+        notes: "Either player wins by removing all of the opponent's pieces. The security player also wins if they survive long enough that the insurgents run out of stones to place.\n\nBy default, a match consists of two games with roles reversed. Each player plays one game as insurgents and one as security. When both players win as insurgents, the match goes to whoever used fewer stones (`66 − remaining` at the end of that game; lower score wins). Equal insurgent scores are the only draw in that case. A security win in a game scores 67. If one player sweeps both games (wins as insurgents in one and security in the other), they win the match outright. If both players only win as security, the match is drawn.",
         urls: [
             "https://brtrain.wordpress.com/wp-content/uploads/2018/03/gcheck-2sided.docx",
             "https://boardgamegeek.com/boardgame/71035/guerrilla-checkers",
@@ -566,7 +590,7 @@ export class GuerrillaGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): GuerrillaGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -872,3 +896,4 @@ export class GuerrillaGame extends GameBase {
         return new GuerrillaGame(this.serialize());
     }
 }
+

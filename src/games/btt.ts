@@ -6,6 +6,34 @@ import { Direction, DirectionCardinal, RectGrid, reviver, oppositeDirections, or
 import i18next from "i18next";
 import { SquareOrthGraph } from "../common/graphs/index.js";
 import {connectedComponents} from 'graphology-components';
+export const gameApgamesEn = {
+    validation: {
+        BAD_NULL: "A null square may not isolate a part of the board.",
+        INITIAL_INSTRUCTIONS: "Select a cell to place one of your pyramids there.",
+        NULL_INSTRUCTIONS: "Select a null square.",
+        ROOT_INSTRUCTIONS: "Select a root square.",
+        MALFORMED_MOVE: "The move \"{{move}}\" could not be parsed.",
+        NO_DIAGONALS: "The pyramid cannot point at the cell \"{{cell}}\" because it is not orthogonally adjacent.",
+        NO_STASH: "The requested pyramid is not in your stash.",
+        NO_TARGET: "The pyramid is pointing at an empty cell.",
+        NULL_TARGET: "The pyramid is pointing at a null square.",
+        OCCUPIED: "The cell \"{{cell}}\" is already occupied.",
+        OUT_OF_BOUNDS: "The pyramid is pointing off the board.",
+        PARTIAL_MOVE: "Click again to change pyramid size, or select a neighboring cell to point at.",
+    },
+    variants: {
+        arcade: {
+            description: "Scaled down to 9 pyramids per player (from 15) for Pyramid Arcade and a quicker game.",
+            name: "Arcade",
+        },
+        "martian-go": {
+            description: "The original game used slightly different rules for setup (large central roots with no null squares) and scoring (penalties only). When playing with more than 4 players, setup will instead be as in the standard game, but scoring will be as in Martian Go.",
+            name: "Martian Go",
+        },
+        "#setup": { name: "Default setup" }
+    },
+};
+
 
 interface ILegendObj {
     [key: string]: Glyph | [Glyph, ...Glyph[]];
@@ -44,8 +72,7 @@ export class BTTGame extends GameBase {
         playercounts: [2, 3, 4, 5, 6],
         version: "20260308",
         dateAdded: "2026-03-19",
-        // i18next.t("apgames:descriptions.btt")
-        description: "apgames:descriptions.btt",
+        description: "A game of pyramids branching across a chessboard, in which you gain points when opponents point at your pyramids, and lose them when you point at theirs.",
         urls: [
             "https://boardgamegeek.com/boardgame/17298/branches-and-twigs-and-thorns",
             "https://www.eblong.com/zarf/barsoom-go.html"
@@ -645,7 +672,7 @@ export class BTTGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): BTTGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         if (!trusted) {
@@ -968,3 +995,4 @@ export class BTTGame extends GameBase {
         return new BTTGame(this.serialize());
     }
 }
+

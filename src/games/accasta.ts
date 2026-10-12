@@ -6,6 +6,28 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select the bottom piece of the substack you wish to move.",
+        INVALID_SIZE: "In the move '{{move}}', the step '{{step}}' contains an invalid number of pieces to move. Remember that if you're removing the entire stack, omit the number altogether.",
+        MORE_THAN_THREE: "In the move '{{move}}', the step '{{step}}' would create a stack with more than 3 pieces of the same color.",
+        PARTIAL_FULLSTACK: "Looks like you want to move an entire stack. Provide the destination.",
+        PARTIAL_SUBSTACK_one: "Looks like you want to move the top piece from the stack. Provide the destination.",
+        PARTIAL_SUBSTACK_other: "Looks like you want to move the top {{count}} pieces from the stack. Provide the destination.",
+        SOURCE_EMPTY: "In the move '{{move}}', when you come to the step '{{step}}', you don't have any pieces left to move.",
+        TOOFAR: "In the move '{{move}}', the step '{{step}}' tries to move further than it is allowed.",
+        TOOHIGH: "In the move '{{move}}', the step '{{step}}' would create a stack greater than six pieces high.",
+        USEMINUS: "In the step {{step}}, use a minus sign when moving onto an empty cell.",
+        USEPLUS: "In the step {{step}}, use a plus sign when moving onto an existing stack.",
+    },
+    variants: {
+        pari: {
+            description: "Instead of having individual piece types, pieces move depending on how many friendly pieces are in the stack. The top piece of a stack with three of your pieces will move like a chariot, two pieces like a horse, and one piece like a shield.",
+            name: "Accasta Pari",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 export type Piece = "C"|"H"|"S";
@@ -32,8 +54,7 @@ export class AccastaGame extends GameBase {
         playercounts: [2],
         version: "20211116",
         dateAdded: "2023-05-01",
-        // i18next.t("apgames:descriptions.accasta")
-        description: "apgames:descriptions.accasta",
+        description: "Accasta is the first of Dieter Stein's stacking trilogy. The goal is to get three of your own stacks into the enemy's castle area. There are three different types of pieces in the base version. In the \"Pari\" variant, movement is determined by how many friendly pieces are in the stack.",
         urls: [
             "https://spielstein.com/games/accasta",
             "https://boardgamegeek.com/boardgame/9060/accasta",
@@ -572,7 +593,7 @@ export class AccastaGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): AccastaGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
@@ -799,3 +820,4 @@ export class AccastaGame extends GameBase {
         return new AccastaGame(this.serialize());
     }
 }
+

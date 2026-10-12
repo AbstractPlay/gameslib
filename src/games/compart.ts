@@ -5,6 +5,39 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, SquareOrthGraph } from "../common/index.js";
 import { connectedComponents } from "graphology-components";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INSTRUCTIONS_one: "Place one piece on the last viable area.",
+        INSTRUCTIONS_other: "Place {{count}} pieces, one on each friendly viable area (connected groups of friendly pieces and empty cells).",
+        OCCUPIED: "Placements may only be made on empty cells!",
+        VIABLE_AREA_REPEATED: "You may only place a single piece in each viable area.",
+        INSTRUCTIONS_ANY: "Place one piece on any empty cell.",
+    },
+    variants: {
+        "size-7": {
+            name: "7x7 board",
+        },
+        "#board": {
+            name: "9x9 board",
+        },
+        "size-11": {
+            name: "11x11 board",
+        },
+        "size-13": {
+            name: "13x13 board",
+        },
+        "size-15": {
+            name: "15x15 board",
+        },
+    },
+    displays: {
+        "show-viable-areas": {
+            description: "Highlight viable areas where placements are required.",
+            name: "Show viable areas",
+        },
+    },
+};
+
 
 const PALETTE = [
         "#228B22", // Forest Green
@@ -43,8 +76,7 @@ export class CompartGame extends GameBase {
         playercounts: [2],
         version: "20260612",
         dateAdded: "2026-06-22",
-        // i18next.t("apgames:descriptions.compart")
-        description: "apgames:descriptions.compart",
+        description: "Play on each viable area, but be the one with fewer pieces at the end.",
         urls: [
             "https://boardgamegeek.com/boardgame/385587/compart"
         ],
@@ -281,7 +313,7 @@ export class CompartGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): CompartGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         if (m.length === 0) { return this; }
@@ -435,3 +467,4 @@ export class CompartGame extends GameBase {
         return new CompartGame(this.serialize());
     }
 }
+

@@ -4,6 +4,19 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, SquareGraph, Direction, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select one of your pieces to move, or promote a Pawn (if officials are still available) by clicking on it multiple times. Pawns, Knights, Bishops and Rooks move as in Chess. (Pawns do not have an initial double move and don't need to reach the final rank to promote.)",
+        NOT_FRIENDLY_PIECE: "Select a friendly piece to move or promote.",
+        PIECE_INSTRUCTIONS: "Move a piece according to its powers. Pieces capture by replacement. Pawns can also be promoted to any available officer by clicking on them repeatedly.",
+    },
+    variants: {
+        "#board": {
+            name: "8x8 board, 2 officials of each type",
+        },
+    },
+};
+
 
 export type playerid = 1 | 2; // regarding pieces: 1 is the ball, 2 are the walls
 export type Piece = "P" | "R" | "N" | "B";
@@ -28,9 +41,7 @@ export class CourtGame extends GameBase {
         playercounts: [2],
         version: "20260510",
         dateAdded: "2026-05-27",
-        // i18next.t("apgames:descriptions.court")
-        description: "apgames:descriptions.court",
-        // i18next.t("apgames:notes.court")
+        description: "A set of pawns that can be promoted anytime to a limited set of officials. However, without pawns one loses the game. A stalemated player also loses the game.",
         // notes: "apgames:notes.court",
         urls: [
             "https://boardgamegeek.com/boardgame/109681/court",
@@ -305,7 +316,7 @@ export class CourtGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): CourtGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         //m = m.toLowerCase();
@@ -510,3 +521,4 @@ export class CourtGame extends GameBase {
         return new CourtGame(this.serialize());
     }
 }
+

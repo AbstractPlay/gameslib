@@ -5,6 +5,48 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, SquareOrthGraph } from "../common/index.js";
 import { connectedComponents } from "graphology-components";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_SETUP: "Choose a number of points to add to the second player's score, and the next player will choose sides. Afterwards, one player can take the button, which earns half-point by being the first one to pass.",
+        INSTRUCTIONS: "Place a piece on a free region.",
+        TABOO: "It is invalid to (a) place on an owned region, (b) make a region without a horizontal or vertical line.",
+        INVALID_KOMI: "You must choose an integer number of points to add to the second player's score.",
+        INVALID_PASS: "You cannot pass currently.",
+        OCCUPIED: "The placement must be on an empty cell.",
+        INVALID_PLAYSECOND: "You cannot choose to play second from this board state.",
+        KOMI_CHOICE: "You may either make the first move on the board and let your opponent keep the bonus points (an integer) or you may choose \"Play second\" and take the bonus points for yourself.",
+    },
+    variants: {
+        "size-11": {
+            name: "11x11 board",
+        },
+        "size-13": {
+            name: "13x13 board",
+        },
+        "#board": {
+            name: "15x15 board",
+        },
+        "size-17": {
+            name: "17x17 board",
+        },
+        "size-19": {
+            name: "19x19 board",
+        },
+        "line-2": {
+            name: "Lines of 2",
+        },
+        "#line": {
+            name: "Lines of 3 (default)",
+        },
+        "line-4": {
+            name: "Lines of 4",
+        },
+        "line-5": {
+            name: "Lines of 5",
+        },
+    },
+};
+
 
 // 1 is Vertical, 2 is Horizontal, 3 is for neutral pieces/free regions, 4 is for invalid regions
 export type playerid = 1 | 2 | 3 | 4;
@@ -38,9 +80,8 @@ export class LinageGame extends GameBase {
         playercounts: [2],
         version: "20260601",
         dateAdded: "2026-06-22",
-        // i18next.t("apgames:descriptions.linage")
-        description: "apgames:descriptions.linage",
-        notes: "apgames:notes.linage",
+        description: "A territorial game played with just one color.",
+        notes: "Linage is a 2016 game designed by Luis Bolaños Mures. The game is based on the following definitions: A **region** is a maximal set of orthogonally contiguous empty points. A **line** is a set of N orthogonally contiguous empty points on the same row or column (default is N=3); and a region is **owned** by Vertical if it contains no horizontal lines, and by Horizontal if it contains no vertical lines. A region is free if it is owned by neither player. Regions must always have at least one line.\n\nOn his turn, the player passes or places a stone in a free region. The game ends when both players pass in succession, and wins the one with highest score (i.e., the number of points in the regions the player owns, plus komi).",
         urls: [
             "https://boardgamegeek.com/boardgame/219420/linage"
         ],
@@ -411,7 +452,7 @@ export class LinageGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): LinageGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         if (m.length === 0) { return this; }
@@ -658,3 +699,4 @@ export class LinageGame extends GameBase {
         return new LinageGame(this.serialize());
     }
 }
+

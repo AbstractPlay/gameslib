@@ -7,6 +7,78 @@ import i18next from "i18next";
 import { arrowToken, captureToken, isArrow, isLegacy, isMark, isHold, joinMove, normalize, parseMove, pieceChar, holdToken, tokenText, NotationError, type ParsedMove, type Token } from "./arimaa/notation.js";
 import { hasAnyMove, inferred, resolve, serializeTurn, sqName, turnFromSteps, type Turn } from "./arimaa/turns.js";
 import { castDie, type IDie } from "./arimaa/dice.js";
+export const gameApgamesEn = {
+    validation: {
+        BACKWARDS: "You may not move your own rabbits backwards.",
+        FROZEN: "The piece at {{where}} is frozen. It cannot move on its own.",
+        HOME_ROW: "You may only place pieces on the two ranks closest to you.",
+        INITIAL_INSTRUCTIONS_place: "Select a piece from your hand to place on the board.",
+        INITIAL_INSTRUCTIONS_play: "Click a piece, then the square it should end the turn on. You can point at enemy pieces too; pushes and pulls are worked out for you.",
+        INVALID_PUSH: "Pushes must be immediately completed by moving the pushing piece into the space vacated by the pushed enemy piece.",
+        INVALID_PUSHPULL: "You may only move enemy pieces when completing a pull or starting a push. Neither seem to apply in this case.",
+        LABEL_STASH: "{{player}}'s stash",
+        NOPASS: "You may not make a move that does not change the board state (no passing).",
+        NOPIECE: "Trying to place a piece you don't have in your hand: {{piece}}.",
+        NOT_ADJ: "Pieces may only move one space orthogonally.",
+        PARTIAL_one: "You may make {{count}} more move, or click Complete Move to end your turn.",
+        PARTIAL_other: "You may make {{count}} more moves, or click Complete Move to end your turn.",
+        PARTIAL_MOVE: "Select the destination.",
+        PARTIAL_PLACE: "Click an empty cell to place the piece.",
+        PARTIAL_PLAY: "Continue placing your pieces.",
+        PARTIAL_PUSH: "Complete the push by clicking on the piece doing the pushing.",
+        PARTIAL_RABBITS: "The rest of your setup area will be filled with rabbits.",
+        PARTIAL_FREE: "You may continue placing pieces, or click Complete Move to end your turn.",
+        PARTIAL_FREE_NO: "You may continue placing pieces, but you must place at least one rabbit, and you may not place any rabbits on the goal row.",
+        REPEAT: "You may not repeat a given position a third time.",
+        TOO_MANY: "You may only take up to {{num}} actions this turn.",
+        WARN_BALANCE: "Balance your four strongest pieces east to west.",
+        WARN_FILE: "Don't put your elephant in the same file as the opposing elephant.",
+        WARN_HIDE: "Don't hide stronger pieces behind weaker pieces (except cats behind rabbits).",
+        WARNINGS: "Your setup is complete, but there are some things for new players to consider. You can click Complete Move to ignore, or you can read the following advice:",
+        PARSE: "Could not read \"{{token}}\".",
+        NO_MOVE: "No legal move matches what you have drawn.",
+        NO_MOVE_CHAIN: "One arrow per piece, from where it starts to where it ends: {{first}} and {{second}} together are {{combined}}.",
+        NO_MOVE_ENEMY: "The piece on {{from}} is your opponent's, and none of your pieces can push or pull it as drawn within {{num}} steps.",
+        NO_MOVE_FROZEN: "The piece on {{from}} is frozen, and nothing can free it in time.",
+        NO_MOVE_REACH: "The piece on {{from}} cannot get to {{to}} within {{num}} steps.",
+        NO_MOVE_TOGETHER: "Each of those works on its own, but not all of them within {{num}} steps.",
+        AMBIGUOUS: "That fits {{count}} different moves. Say where another piece ends up to settle it.",
+        INFERRED: "Also moving: {{pieces}}.",
+        INCOMPLETE: "A piece is selected. Click a square to send it there, or click it again to keep it where it is.",
+        TOO_LONG: "What you have drawn needs more than {{num}} steps.",
+        DIE_one: "The die allows a single step this turn.",
+        DIE_other: "The die allows up to {{count}} steps this turn.",
+    },
+    variants: {
+        "#setup": {
+            name: "Standard setup",
+            description: "Array your 16 pieces on your closest two ranks in any way you wish",
+        },
+        eee: {
+            name: "Endless endgame",
+            description: "Randomly generated setup with reduced army size. Devised by clyring.",
+        },
+        free: {
+            name: "Free placement",
+            description: "Lets players place as many pieces as they want wherever they want, including creating illegal or otherwise broken positions. Players should communicate clearly before starting. These games cannot be rated.",
+        },
+        dicey: {
+            name: "Dicey Moves",
+            description: "A die determines how many steps you can take each turn.",
+        },
+    },
+    buttons: {
+        gold99: "Quick setup",
+        silver99e7: "Quick setup, elephant e7",
+        silver99d7: "Quick setup, elephant d7",
+    },
+    status: {
+        HARLOG: "Harlog",
+        ROLL_MEAN: "Average roll",
+        ROLL_TOTAL: "Rolls total",
+    },
+};
+
 
 export type playerid = 1|2;
 export type Piece = "E" | "M" | "H" | "D" | "C" | "R";
@@ -56,10 +128,8 @@ export class ArimaaGame extends GameBase {
         playercounts: [2],
         version: "20251223",
         dateAdded: "2026-01-23",
-        // i18next.t("apgames:descriptions.arimaa")
-        description: "apgames:descriptions.arimaa",
-        // i18next.t("apgames:notes.arimaa")
-        notes: "apgames:notes.arimaa",
+        description: "The pieces are animals of various strengths jockeying for position, trying to get one of their rabbits to the far row. But watch out for traps!",
+        notes: "Made available under section 3 of the [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nDuring standard setup, you only need to place your eight non-rabbits. Once they are down, Complete Move fills the rest of your setup area with rabbits. You can still place any or all of the rabbits yourself first if you want them somewhere in particular.\n\nTo enter a move, click a piece and then the square it should end your turn on. The engine finds the shortest legal way to get it there, pushes and pulls included, and draws one arrow per piece from where it started to where it ends up. You can point at enemy pieces too. Click an arrow's head to extend it, or its tail to remove it. Clicking a selected piece a second time keeps it where it stands, which is how you stop the engine moving it aside. A few rarer turns need one more click; the wiki page for this game lists them all.\n\nMoves are recorded in Lightvector notation, which names each piece and where it ends up rather than listing every step. You can type it into the move box, and the older step-by-step notation is still accepted. The wiki page explains the notation in full.\n\nHarlog is an accepted method for determining material advantage. Positive scores favour Gold, negative Silver. The hard range is ±112, but in practice ±20 is a very strong advantage.\n\nIn Dicey Moves, a player whose die allows a single step has no move, and loses, when only pushes and pulls remain.\n\nBecause we can't generate comprehensive lists of moves, the system cannot detect the rare cases where your only available moves are illegal due to position repetition. The system won't let you make those illegal repetitions, and you'll have to resign manually.",
         urls: [
             "https://arimaa.com/arimaa/",
             "https://arimaa.com/arimaa/learn/rulesIntro.html",
@@ -1313,7 +1383,7 @@ export class ArimaaGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): ArimaaGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         const setup = this.hands !== undefined && this.hands[this.currplayer - 1].length > 0;
@@ -2075,3 +2145,4 @@ export class ArimaaGame extends GameBase {
     }
 
 }
+

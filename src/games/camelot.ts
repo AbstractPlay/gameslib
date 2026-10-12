@@ -5,6 +5,59 @@ import { APRenderRep, MarkerFlood, RowCol } from "@abstractplay/renderer/build/s
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { Direction, RectGrid, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a piece to move.",
+        INITIAL_INSTRUCTIONS_JUMP: "You have mandatory jump moves. Select a piece to jump or perform a knight's charge.",
+        INITIAL_INSTRUCTIONS_OWN_CASTLE: "You have a piece in your own castle. You must move it out of the castle.",
+        INITIAL_INSTRUCTIONS_TREE: "Select three highlighted cells to place trees on.",
+        TREE_LIMIT: "You may only place 3 trees.",
+        NOT_TREE_PLACEABLE: "You may not place a tree at {{where}}.",
+        DUPLICATE_TREE: "You have already placed a tree at {{where}}.",
+        TREE_CONTINUE_one: "Select 1 more highlighted cell to place a tree on.",
+        TREE_CONTINUE_other: "Select {{count}} more highlighted cells to place trees on.",
+        CANNOT_CLAIM_DRAW: "You may only claim a draw if the same position is repeated for at least the third time by the same player on each move or there have been no captures or movement into the opponent's castle square for the last 50 moves.",
+        MUST_JUMP: "You must select one of your pieces to jump or perform a knight's charge.",
+        MUST_EVENTUALLY_JUMP: "The sequence of moves must eventually lead to a knight's charge.",
+        MUST_CONTINUE_CANTER: "You must continue to canter to eventually perform a knight's charge.",
+        CASTLE_LIMIT: "You may only make a castle move twice in a game.",
+        IN_CASTLE: "You have a piece in your own castle at {{where}}. You must move it out of the castle.",
+        MUST_JUMP_SELECTED: "Your selected piece at {{where}} must make capture.",
+        JUMP_NOTATION: "The move from {{from}} to {{to}} is a jump move. Use the notation 'x' to indicate a jump.",
+        PLAIN_NOTATION: "The move from {{from}} to {{to}} is a plain move. Use the notation '-' to indicate a plain move.",
+        CANTER_NOTATION: "The move from {{from}} to {{to}} is a canter move. Use the notation '^' to indicate a canter.",
+        INVALID_TO: "The piece at {{from}} cannot move to {{to}}.",
+        NEED_TO_JUMP: "You have to continue making a capture.",
+        CAN_CANTER: "You may continue making a canter move or end the turn here.",
+    },
+    variants: {
+        camette: {
+            description: "Mini variant with 23 squares.",
+            name: "Camette",
+        },
+        cam: {
+            description: "Smaller variant with 67 squares.",
+            name: "Cam",
+        },
+        chivalry: {
+            description: "Larger variant with 176 squares.",
+            name: "Chivalry",
+        },
+        river: {
+            description: "Camelot with a river dividing the board.",
+            name: "River Camelot",
+        },
+        anti: {
+            description: "The player wins if they run out of moves or if the opponent moves a single piece into the player's castle.",
+            name: "Anti-Camelot",
+        },
+        "#board": { name: "Default board" }
+    },
+    status: {
+        CASTLE_MOVE_COUNTS: "Castle move count",
+    },
+};
+
 
 type playerid = 1 | 2;
 // 1 = Men, 2 = Knight
@@ -36,8 +89,7 @@ export class CamelotGame extends GameBase {
         // Initial implementation of forced jumps did not allow knight's charges.
         version: "20241012",
         dateAdded: "2024-08-26",
-        // i18next.t("apgames:descriptions.camelot")
-        description: "apgames:descriptions.camelot",
+        description: "A classic game where you try to move two pieces into your opponent's castle or eliminate all of your opponent's pieces.",
         urls: [
             "http://www.worldcamelotfederation.com",
             "https://boardgamegeek.com/boardgame/5251/camelot",
@@ -672,7 +724,7 @@ export class CamelotGame extends GameBase {
             const normalised = this.normaliseMove(m);
             if (m !== normalised) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.camelot.NORMALISED", { normalised });
+                result.message = i18next.t("apgames:validation._general.NORMALISE", { normalised });
                 return result;
             }
             // Place more trees.
@@ -941,7 +993,7 @@ export class CamelotGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): CamelotGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -1373,3 +1425,4 @@ export class CamelotGame extends GameBase {
         return new CamelotGame(this.serialize());
     }
 }
+

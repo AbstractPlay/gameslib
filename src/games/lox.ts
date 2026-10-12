@@ -7,6 +7,41 @@ import i18next from "i18next";
 import { HexSlantedGraph } from "../common/graphs/index.js";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted.js";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a cell to place a piece.",
+        PLACE4CAPTURE: "To make a capture, the cell must be suffixed with 'x'. Try '{{cell}}x'.",
+        INSUFFICIENT_LOS: "{{count}} directions with line of sight is required to capture the cell on {{cell}}.",
+        CAPTURE4PLACE: "You suffixed the cell with 'x' to indicate capture, but this is not a capture move. Try '{{cell}}'.",
+        OPPONENT_CONTROLLED: "The cell at {{where}} is controlled by your opponent.",
+    },
+    variants: {
+        "#board": {
+            name: "Size 11 board",
+        },
+        "size-13": {
+            name: "Size-13 board.",
+        },
+        "size-15": {
+            name: "Size-15 board.",
+        },
+    },
+    displays: {
+        "hide-focus-threatened": {
+            description: "Don't put additional highlight on pieces that are threatened to be captured.",
+            name: "Hide focus on threatened",
+        },
+        "dot-focus-threatened": {
+            description: "Use dots as an additional highlight on pieces that are threatened to be captured.",
+            name: "Dots on threatened",
+        },
+        "hide-controlled": {
+            description: "Don't highlight controlled cells or threatened pieces for each player.",
+            name: "Hide all controlled indicators",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 type directions = "NE" | "E" | "SE" | "SW" | "W" | "NW";
@@ -33,8 +68,7 @@ export class LoxGame extends GameBase {
         playercounts: [2],
         version: "20240831",
         dateAdded: "2024-09-05",
-        // i18next.t("apgames:descriptions.lox")
-        description: "apgames:descriptions.lox",
+        description: "Hex connection game with captures inspired by Tumbleweed. A cell is controlled by a player if it has more lines of sight to the player's pieces than half of the number neighbours that it has. If an opponent's piece is on your controlled cell, you may capture it by replacing it with your own piece on your turn. The player with a solid connection between their two sides at the start of their turn wins.",
         urls: [
             "https://www.mindsports.nl/index.php/the-pit/1212-lox",
             "https://boardgamegeek.com/boardgame/432212/lox",
@@ -311,7 +345,7 @@ export class LoxGame extends GameBase {
 
     public move(m: string, { trusted = false } = {}): LoxGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -584,3 +618,4 @@ export class LoxGame extends GameBase {
         return new LoxGame(this.serialize());
     }
 }
+

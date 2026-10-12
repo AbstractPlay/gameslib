@@ -6,6 +6,18 @@ import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { SquareOrthDirectedGraph } from "../common/graphs/index.js";
 import { connectedComponents } from "graphology-components";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS_play: "Select a cell to place a normal piece, or click on one of your henge pieces to place that instead.",
+        INITIAL_INSTRUCTIONS_setup: "Select a cell to place a henge piece.",
+        INVALID_MOVE: "The move {{move}} is not valid. Remember that you may not place a normal piece in a position with no liberties unless it triggers a capture that creates a liberty.",
+        NO_PIECES_neutral: "You have no henge pieces in hand.",
+        NO_PIECES_normal: "You don't have any normal pieces left.",
+        PARTIAL: "Select the cell where you wish to place the henge piece.",
+        LABEL_NEUTRAL: "{{player}}'s neutral pieces",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -35,8 +47,7 @@ export class GorogoGame extends GameBase {
         playercounts: [2],
         version: "20250425",
         dateAdded: "2025-04-30",
-        // i18next.t("apgames:descriptions.gorogo")
-        description: "apgames:descriptions.gorogo",
+        description: "A Go variant played on a small board where the goal is to capture more pieces than your opponent, rather than to claim territory.",
         urls: [
             "https://www.logygames.com/english/GoRoGo.html",
             "https://boardgamegeek.com/boardgame/216789/gorogo"
@@ -389,7 +400,7 @@ export class GorogoGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): GorogoGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -648,3 +659,4 @@ export class GorogoGame extends GameBase {
         return Object.assign(new GorogoGame(), cloneState(this) as GorogoGame);
     }
 }
+

@@ -7,6 +7,15 @@ import i18next from "i18next";
 import { connectedComponents } from "graphology-components";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from 'graphology-shortest-path/unweighted.js';
+export const gameApgamesEn = {
+    validation: {
+        EXCEEDS: "You may not spend more than {{budget}} points on your move. You tried to spend {{cost}} points.",
+        INITIAL_INSTRUCTIONS_one: "Click an empty cell to place one of your pieces or click one of your placed pieces to remove it. You may place {{count}} more point worth of pieces.",
+        INITIAL_INSTRUCTIONS_other: "Click an empty cell to place one of your pieces or click one of your placed pieces to remove it. You may place {{count}} more points worth of pieces.",
+        INITIAL_INSTRUCTIONS_zero: "You have no more points to spend. Complete your move or click one of your placed pieces to place it elsewhere.",
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -29,8 +38,7 @@ export class EstateGame extends GameBase {
         playercounts: [2],
         version: "20260805",
         dateAdded: "2026-08-25",
-        // i18next.t("apgames:descriptions.estate")
-        description: "apgames:descriptions.estate",
+        description: "A hexagonal connection game where spaces have different costs. Spend your points wisely!",
         urls: [
             "https://kanare-abstract.com/en-ca/pages/estate",
             "https://boardgamegeek.com/boardgame/383705/estate",
@@ -245,7 +253,7 @@ export class EstateGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): EstateGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -527,3 +535,4 @@ export class EstateGame extends GameBase {
         return new EstateGame(this.serialize());
     }
 }
+

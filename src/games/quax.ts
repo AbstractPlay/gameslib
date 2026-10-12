@@ -6,6 +6,25 @@ import { RectGrid, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path";
+export const gameApgamesEn = {
+    validation: {
+        EMPTY_FROM: "You are indicating to place a diagonal connection, but there is no piece at {{where}}.",
+        INITIAL_INSTRUCTIONS: "Select a cell to place a piece, or select a piece to link with a diagonal connection.",
+        INVALID_DIAG: "Diagonal connection {{from}} with {{to}} is not valid.",
+        NO_DIAGS: "The piece at {{where}} cannot make a diagonal connection with any neighbouring piece.",
+        OPPONENT_FROM: "You cannot make a diagonal connection with an opponent's piece at {{where}}.",
+        SELECT_TO: "Select an adjacent piece to make a diagonal connection.",
+    },
+    variants: {
+        "#board": {
+            name: "11x11 board",
+        },
+        "size-15": {
+            name: "15x15 board",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 type PlayerLines = [string[], string[]];
@@ -30,8 +49,7 @@ export class QuaxGame extends GameBase {
         playercounts: [2],
         version: "20240316",
         dateAdded: "2024-04-02",
-        // i18next.t("apgames:descriptions.quax")
-        description: "apgames:descriptions.quax",
+        description: "Quax is a connection game on a square board with a special move: instead of placing a stone, you may connect diagonally adjacent stones.",
         urls: ["https://boardgamegeek.com/boardgame/36804/quax"],
         bggid: "36804",
         people: [
@@ -316,7 +334,7 @@ export class QuaxGame extends GameBase {
         const normalised = this.normaliseMove(m);
         if (normalised !== m) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.quax.NORMALISE", { move: m, normalised });
+            result.message = i18next.t("apgames:validation._general.NORMALISE", { normalised });
             return result;
         }
         result.valid = true;
@@ -359,7 +377,7 @@ export class QuaxGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): QuaxGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -594,3 +612,4 @@ export class QuaxGame extends GameBase {
         return new QuaxGame(this.serialize());
     }
 }
+

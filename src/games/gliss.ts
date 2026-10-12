@@ -7,6 +7,28 @@ import i18next from "i18next";
 import { connectedComponents } from "graphology-components";
 import { DirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path";
+export const gameApgamesEn = {
+    validation: {
+        BAD_BASE: "You may not place a base at {{where}}. Bases may not be orthogonally adjacent to any friendly pieces.",
+        BAD_DEST: "The glider at {{from}} cannot reach {{to}}.",
+        INITIAL_INSTRUCTIONS: "Select an empty cell to place a base (the clicked cell will the top-left corner of the base), or select the core of a glider to move.",
+        NO_GLIDER: "Could not find a glider core that you control at {{where}}.",
+        NO_MOVES: "The glider at {{where}} has no legal moves.",
+        PARTIAL: "Select one of the highlighted cells to move the glider. If a bar has appeared at the edge of the board, you can click it to move the glider off the board.",
+    },
+    variants: {
+        "#board": {
+            name: "16x16 board",
+        },
+        "size-12": {
+            name: "12x12 board",
+        },
+        "size-19": {
+            name: "19x19 board",
+        },
+    },
+};
+
 
 
 type playerid = 1 | 2;
@@ -37,8 +59,7 @@ export class GlissGame extends GameBase {
         playercounts: [2],
         version: "20250316",
         dateAdded: "2025-03-29",
-        // i18next.t("apgames:descriptions.gliss")
-        description: "apgames:descriptions.gliss",
+        description: "Establish bases and deploy gliders to capture opposing gliders and control towers. Eliminate all opposing bases or establish a critical number of control towers to win.",
         urls: ["https://boardgamegeek.com/boardgame/428098/gliss"],
         bggid: "428098",
         people: [
@@ -723,7 +744,7 @@ export class GlissGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): GlissGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -1092,3 +1113,4 @@ export class GlissGame extends GameBase {
         return Object.assign(new GlissGame(), cloneState(this) as GlissGame);
     }
 }
+

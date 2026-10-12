@@ -6,6 +6,39 @@ import { allDirections, RectGrid, reviver, shuffle, UserFacingError, SquareDirec
 import i18next from "i18next";
 import { DirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path";
+export const gameApgamesEn = {
+    validation: {
+        BAD_MOVE: "You may not move from {{from}} to {{to}}.",
+        BAD_PASS: "You may not pass as long as you have valid moves available.",
+        BAD_PLACE: "In the setup phase, pieces must be placed on unoccupied spaces in the drop zone (the marked area in the centre of the board).",
+        INITIAL_INSTRUCTIONS_drop: "Select an empty space in the drop zone to place one of your pieces.",
+        INITIAL_INSTRUCTIONS_move: "Select one of your pieces not already in a sanctuary to start to move.",
+        SAFE: "You may not move pieces that have reached sanctuaries.",
+    },
+    variants: {
+        "#movement": {
+            description: "Pieces may pass through sanctuary spaces as they jump.",
+            name: "Default movement rules"
+        },
+        "#setup": {
+            description: "Players first drop all their pieces.",
+            name: "Default setup"
+        },
+        quick: {
+            name: "Quick start",
+            description: "Randomly places the initial pieces.",
+        },
+        strict: {
+            name: "Strict movement",
+            description: "A piece must end its movement the moment it enters a sanctuary space.",
+        },
+    },
+    status: {
+        IN_DANGER: "Spies in danger",
+        TO_PLACE: "Pieces to place",
+    },
+};
+
 
 export type playerid = 1|2|3|4;
 
@@ -27,10 +60,8 @@ export class ConspirateursGame extends GameBase {
         playercounts: [2, 3, 4],
         version: "20250114",
         dateAdded: "2025-01-16",
-        // i18next.t("apgames:descriptions.conspirateurs")
-        description: "apgames:descriptions.conspirateurs",
-        // i18next.t("apgames:notes.conspirateurs")
-        notes: "apgames:notes.conspirateurs",
+        description: "A traditional French game where you try to get all your pieces to safety before your opponent can do the same.",
+        notes: "In the base game, pieces may move through sanctuaries as part of a multistep jump. They're not frozen until they end their move in a sanctuary. In the strict variant, pieces are frozen as soon as they enter a sanctuary.\n\nIn four-player games, players 1 and 2 are partnered, as are players 3 and 4.",
         urls: ["https://en.wikipedia.org/wiki/Conspirateurs"],
         bggid: "60707",
         people: [
@@ -473,7 +504,7 @@ export class ConspirateursGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): ConspirateursGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -754,3 +785,4 @@ export class ConspirateursGame extends GameBase {
         return new ConspirateursGame(this.serialize());
     }
 }
+

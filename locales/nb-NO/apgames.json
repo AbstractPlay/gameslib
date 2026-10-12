@@ -1,8 +1,12 @@
 {
   "categories": {
     "board>3d": {
-      "full": "Brett > 3D",
-      "description": "Brettet er tredimensjonalt"
+      "description": "Brettet er tredimensjonalt",
+      "full": "Brett > 3D"
     }
+  },
+  "status": {},
+  "validation": {
+    "_general": {}
   }
 }

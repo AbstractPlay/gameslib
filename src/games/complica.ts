@@ -5,6 +5,12 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select the column into which to drop your stone.",
+    },
+};
+
 export type playerid = 1|2;
 
 export interface IMoveState extends IIndividualState {
@@ -25,8 +31,8 @@ export class ComplicaGame extends GameBase {
         playercounts: [2],
         version: "20230617",
         dateAdded: "2023-06-18",
-        // i18next.t("apgames:descriptions.complica")
-        description: "apgames:descriptions.complica",
+        description:
+            "A simple connect-4 game played on a narrow field where the columns never fill up.",
         urls: [
             "https://jpneto.github.io/world_abstract_games/complica.htm",
             "https://boardgamegeek.com/boardgame/7476/complica",
@@ -136,7 +142,7 @@ export class ComplicaGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.complica.INITIAL_INSTRUCTIONS")
+            result.message = i18next.t("apgames:validation.complica.INITIAL_INSTRUCTIONS");
             return result;
         }
 
@@ -155,7 +161,7 @@ export class ComplicaGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): ComplicaGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();

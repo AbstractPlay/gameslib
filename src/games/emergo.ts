@@ -4,6 +4,18 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { DirectionDiagonal, RectGrid, reviver, SquareDiagGraph, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS_enter: "Select an empty dark cell to place a piece.",
+        INITIAL_INSTRUCTIONS_play: "Select a stack with your piece on top to move.",
+        INVALID_MOVE_enter: "The move does not appear to be legal. You may not place a piece where it will induce a capture (feeding) unless your opponent is already required to capture.",
+        INVALID_MOVE_play: "The move does not appear to be legal. Capturing is compulsory, and you must capture the most pieces you can.",
+        FIRST_MOVE: "The first move of the game can not be in the center",
+        VALID_PARTIAL: "Select a destination. Capturing is compulsory, and you must capture the most pieces you can.",
+        WHITE_SQUARE: "Pieces may only be placed on the dark squares.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -27,8 +39,7 @@ export class EmergoGame extends GameBase {
         playercounts: [2],
         version: "20251125",
         dateAdded: "2025-12-15",
-        // i18next.t("apgames:descriptions.emergo")
-        description: "apgames:descriptions.emergo",
+        description: "A Draughts variant where captured pieces remain on the board and can be freed later. Capture all opposing pieces to win. Derived from Lasca but with two game phases and compulsory maximal captures.",
         urls: [
             "https://www.mindsports.nl/index.php/arena/emergo/88-rules",
             "https://boardgamegeek.com/boardgame/14438/emergo",
@@ -507,7 +518,7 @@ export class EmergoGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): EmergoGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -772,3 +783,4 @@ export class EmergoGame extends GameBase {
         return new EmergoGame(this.serialize());
     }
 }
+

@@ -5,6 +5,35 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError, SquareOrthGraph } from "../common/index.js";
 import { connectedComponents } from "graphology-components";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a friendly piece.",
+        INSTRUCTIONS: "Click on an orthogonally adjacent opposing piece to capture by replacement. If no capture is possible, click the friendly piece again to be removed.",
+        INVALID_SELECTION: "Click on a friendly piece.",
+        INVALID_MOVE: "Click on an orthogonally adjacent opposing piece to capture by replacement, or click the friendly piece again to remove it if there are no captures available.",
+    },
+    variants: {
+        "size-6": {
+            name: "5x6 board",
+        },
+        "#board": {
+            name: "7x8 board",
+        },
+        "size-10": {
+            name: "9x10 board",
+        },
+        "size-12": {
+            name: "11x12 board",
+        },
+        "size-14": {
+            name: "13x14 board",
+        },
+        "size-16": {
+            name: "15x16 board",
+        },
+    },
+};
+
 
 type playerid = 1 | 2; // regarding pieces: 1 is the ball, 2 are the walls
 
@@ -26,9 +55,8 @@ export class UnaneGame extends GameBase {
         playercounts: [2],
         version: "20260521",
         dateAdded: "2026-05-27",
-        // i18next.t("apgames:descriptions.unane")
-        description: "apgames:descriptions.unane",
-        notes: "apgames:notes.unane",
+        description: "A Konane-inspired game of unification.",
+        notes: "Ūnane, designed by Mark Steere in 2026, is an unification game inspired by the ancient Hawiian game of Kōnane. True to the spirit of Kōnane, Ūnane begins with a checkerboard pattern of stones, has short-range captures, and is extremely simple. \"Ūnane\" is a fusion of Una (Spanish for \"one\") and Kōnane. This is intended as a tribute to Kōnane, not cultural appropriation.\n\nŪnane has common ground with Kōnane, especially in both players are mainly trying to isolate and remove their own stones.",
         urls: [
             "https://www.marksteeregames.com/Unane_rules.pdf",
         ],
@@ -278,7 +306,7 @@ export class UnaneGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): UnaneGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -454,3 +482,4 @@ export class UnaneGame extends GameBase {
         return new UnaneGame(this.serialize());
     }
 }
+

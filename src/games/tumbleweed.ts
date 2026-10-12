@@ -6,6 +6,70 @@ import { hexhexAi2Ap, hexhexAp2Ai, reviver, UserFacingError } from "../common/in
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
 import _ from "lodash";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Place a piece on the board.",
+        INITIAL_INSTRUCTIONS_PASS: "Either invoke the pie rule to play as first player or pass to play as second. If pie was already invoked, your only option is to pass.",
+        INITIAL_INSTRUCTIONS_SETUP: "Setup phase: place a piece of your colour, then place a piece of your opponent's colour.",
+        INITIAL_INSTRUCTIONS_SETUP_FREENEUTRAL: "Setup phase: place a neutral stack-2 piece, then place a piece of your colour, and then place a piece of your opponent's colour.",
+        PASS_1ST: "You may not pass on the first ply.",
+        PASS_2ND: "Either invoke the pie rule to play as first player or pass to play as second. If pie was already invoked, your only option is to pass.",
+        PASS_3RD: "You may not pass on the third ply.",
+        INSUFFICIENT_LOS: "There is insufficient line of sight to place a piece on {{cell}}.",
+        FREENEUTRAL1: "Select a cell to place a piece of your colour.",
+        FREENEUTRAL2: "Select a cell to place a piece of your opponent's colour.",
+        ONE_MORE: "Place a piece of your opponent's colour.",
+        TOO_MANY: "You may only place one piece per turn after the setup phase.",
+        TOO_MANY_OPENING: "You may only place two pieces in the setup phase.",
+        TOO_MANY_OPENING_FREENEUTRAL: "You may only place three pieces in the setup phase.",
+        NO_REPLACE: "In this variant, you may not place at a cell where your opponent just placed.",
+        REINFORCE_NOTATION: "Reinforcement moves must be suffixed with '+'. Try '{{move}}'",
+        CAPTURE_NOTATION: "Capture moves must be suffixed with 'x'. Try '{{move}}'",
+        NO_MOVELIST: "Move list not available during placement phase for the freestyle variant. Click on the board to place the pieces.",
+    },
+    variants: {
+        "#board": {
+            name: "Competitive board (8 cells)",
+        },
+        "size-6": {
+            name: "Smaller board (6 cells)",
+        },
+        "size-10": {
+            name: "Larger board (10 cells)",
+        },
+        "capture-delay": {
+            description: "You may not place at where your opponent just placed.",
+            name: "Capture delay",
+        },
+        "free-neutral": {
+            description: "On the first turn, place a 2-stack neutral piece, and a 1-stack piece of each player's colour.",
+            name: "Free neutral",
+        },
+        fog: {
+            description: "You only see cells in line of sight of your towers; cells you lose sight of stay visible but dimmed until sight returns. Scores and board overlays are hidden. Experimental.",
+            name: "Fog of war",
+        },
+    },
+    displays: {
+        "fog-unseen-clouds": {
+            description: "In the Fog of war variant, show cloud icons on cells you have never seen. Has no effect in other variants.",
+            name: "Unseen clouds",
+        },
+        "hide-both": {
+            description: "Don't show line of sight or non-suicidal captures.",
+            name: "Hide Both",
+        },
+        "hide-influence": {
+            description: "Don't show line of sight.",
+            name: "Hide influence",
+        },
+        "hide-threatened": {
+            description: "Don't show non-suicidal captures.",
+            name: "Hide threatened",
+        },
+    },
+};
+
 
 export type playerid = 1|2|3;  // 3 is used for neutral player.
 type directions = "NE"|"E"|"SE"|"SW"|"W"|"NW";
@@ -46,10 +110,8 @@ export class TumbleweedGame extends GameBase {
         // Adding a "x" when a move is a capture and "+" when there is a reinforcement.
         version: "20240825",
         dateAdded: "2024-01-03",
-        // i18next.t("apgames:descriptions.tumbleweed")
-        description: "apgames:descriptions.tumbleweed",
-        // i18next.t("apgames:notes.tumbleweed")
-        notes: "apgames:notes.tumbleweed",
+        description: "Tumbleweed is a game of line of sight. Towers are built, and cells are controlled by the player with the most towers that can see that cell. Compete to control the majority of the hexagonal board.",
+        notes: "A space is claimed by a player if they have a piece on it, or if they have the majority of the lines of sight to it. The score is the amount of territory own by each player. The game ends when both players pass in succession. If there is no change in score for 20 plies, the game also ends.\n\nThe experimental **Fog of war** variant hides off-sight cells; last-seen cells stay on the board dimmed until line of sight returns. The score sidebar and influence/threatened overlays are disabled in that variant.",
         urls: ["https://boardgamegeek.com/boardgame/318702/tumbleweed"],
         bggid: "318702",
         people: [
@@ -841,7 +903,7 @@ export class TumbleweedGame extends GameBase {
             }
             if (duplicates.size > 0) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.tumbleweed.DUPLICATE", {where: [...duplicates].join(", ")});
+                result.message = i18next.t("apgames:validation._general.DUPLICATE", {where: [...duplicates].join(", ")});
                 return result;
             }
             for (const cell of moves) {
@@ -938,7 +1000,7 @@ export class TumbleweedGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): TumbleweedGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         let result;
         if (m === "No movelist in opening") {
@@ -1104,7 +1166,7 @@ export class TumbleweedGame extends GameBase {
         const pieces2 = this.pieceCount(2 as playerid);
         const influence2 = score2 - pieces2;
         return [
-            { name: this.neutralAreaLabel("apgames:status.tumbleweed"), scores: [`${score1} (${pieces1} + ${influence1})`, `${score2} (${pieces2} + ${influence2})`] },
+            { name: this.neutralAreaLabel("apgames:status.SCORES"), scores: [`${score1} (${pieces1} + ${influence1})`, `${score2} (${pieces2} + ${influence2})`] },
         ]
     }
 
@@ -1612,3 +1674,4 @@ export class TumbleweedGame extends GameBase {
     }
 
 }
+

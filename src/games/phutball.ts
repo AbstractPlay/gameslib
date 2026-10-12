@@ -9,6 +9,21 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BAD_DIRECTION: "You can only jump orthogonally or diagonally. The jump from {{from}} to {{to}} is invalid.",
+        CAN_JUMP: "Select the destination of your jump.",
+        CAN_JUMP_MORE: "Looks good so far. Either complete your move or keep jumping",
+        CANT_JUMP: "You selected the ball, but there are no jumps available",
+        INITIAL_INSTRUCTIONS: "Place a player at an empty vertex or jump the ball over adjacent players.",
+        LABEL_GOAL: "⇧ {{player}} ⇧",
+        MUST_JUMP_PLAYER: "You can only jump over players, not empty vertices. There is no player at {{cell}}",
+        NO_BALL_HERE: "Jumping must start at the ball. There is no ball at {{cell}}.",
+        NO_MOVE: "You must jump over at least one player.",
+        NOT_EMPTY_JUMP: "A jump must end in an empty vertex. {{to}} is not empty.",
+    },
+};
+
 
 export type playerid = 1 | 2;
 export type CellContents = "" | "B" | "P"; // empty, ball or player
@@ -32,7 +47,7 @@ export class PhutballGame extends GameBase {
         playercounts: [2],
         version: "20230704",
         dateAdded: "2023-08-25",
-        description: "apgames:descriptions.phutball",
+        description: "Phutball (short for philosopher's football) is a classic two-player soccer-esque board game of shared pieces where you attempt to get the ball across your opponent's goal line.",
         urls: [
             "https://en.wikipedia.org/wiki/Phutball",
             "https://boardgamegeek.com/boardgame/25433/phutball",
@@ -485,7 +500,7 @@ export class PhutballGame extends GameBase {
         if (this.gameover) {
             throw new UserFacingError(
                 "MOVES_GAMEOVER",
-                i18next.t("apgames:MOVES_GAMEOVER")
+                i18next.t("apgames:validation._general.MOVES_GAMEOVER")
             );
         }
 

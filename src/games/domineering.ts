@@ -4,6 +4,51 @@ import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "The first player must place two vertically adjacent pieces on empty squares, the second player must place two horizontally pieces on empty squares. The player without legal moves loses the game.",
+        INITIAL_INSTRUCTIONS_QUELHAS: "The first player must place two pieces on empty squares in the same column (without other pieces in between); then all in-between squares will also be occupied with friendly stones. The second player does the same, but for the rows. The player without legal moves wins the game.",
+        PLACE_NEXT_STONE_VERT: "The second piece must be placed on an vertically adjacent empty square",
+        PLACE_NEXT_STONE_HORZ: "The second piece must be placed on an horizontally adjacent empty square",
+        PLACE_NEXT_STONE_LINE_VERT: "The second piece must be placed on an empty square in the same column, without pieces in between",
+        PLACE_NEXT_STONE_LINE_HORZ: "The second piece must be placed on an empty square in the same row, without pieces in between",
+        OCCUPIED_CELL: "It is invalid to place on an occupied square!",
+        NO_SPACE_LEFT: "Not possible to place a domino here!",
+        MUST_BE_DOMINO_VERT: "The two pieces must be adjacent to each other, making a vertical domino!",
+        MUST_BE_DOMINO_HORZ: "The two pieces must be adjacent to each other, making a horizontal domino!",
+        MUST_BE_LINE_VERT: "The two pieces must be linear to each other, making a vertical 1xN polyomino!",
+        MUST_BE_LINE_HORZ: "The two pieces must be linear to each other, making a horizontal 1xN polyomino!",
+    },
+    variants: {
+        "size-6": {
+            name: "6x6 board",
+        },
+        "size-7": {
+            name: "7x7 board",
+        },
+        "#board": {
+            name: "8x8 board",
+        },
+        "size-9": {
+            name: "9x9 board",
+        },
+        "size-10": {
+            name: "10x10 board",
+        },
+        "size-11": {
+            name: "11x11 board",
+        },
+        "size-12": {
+            name: "12x12 board",
+        },
+        quelhas: {
+            description: "Player can drop larger 1xN pieces. Misère game.",
+            name: "Quelhas",
+        },
+        "#ruleset": { name: "Default ruleset" }
+    },
+};
+
 
 type playerid = 1 | 2; // 1 is vertical, 2 is horizontal
 
@@ -25,9 +70,8 @@ export class DomineeringGame extends GameBase {
         playercounts: [2],
         version: "20260425",
         dateAdded: "2026-05-13",
-        // i18next.t("apgames:descriptions.domineering")
-        description: "apgames:descriptions.domineering",
-        notes: "apgames:notes.domineering",
+        description: "Players place dominoes, one vertically, another horizontally, until one cannot play, thus losing the game.",
+        notes: "Domineering, aka, Stop-Gate, is a partisan combinatorial game. The game was designed by Göran Andersson, c.1973, and was presented in the seminal CGT book *Winning Ways for Your Mathematical Plays*. There is an impartial version, called Cram, where players can both place horizontal or vertical dominoes. The variant \"Quelhas\" was proposed by Carlos P. Santos and Alfie Davies in 2025, being a misère version (the player without options wins the game) and using longer domino-like polyominoes.",
         urls: [
                 "https://boardgamegeek.com/boardgame/7450/stop-gate",
                 "https://jpneto.github.io/world_abstract_games/modern_rules/2025_Quelhas.pdf"
@@ -395,7 +439,7 @@ export class DomineeringGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): DomineeringGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();

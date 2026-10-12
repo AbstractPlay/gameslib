@@ -5,6 +5,31 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import _ from "lodash";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select an edge to draw a line.",
+        INVALID_WALL: "The wall {{wall}} is not valid.",
+        DUPLICATE: "You have drawn a wall at {{where}}.",
+        OCCUPIED: "There is already a wall at {{where}}.",
+        CONTINUE: "You have completed a box. Select another edge to draw a line.",
+        INVALID_CONTINUE: "You cannot draw more lines.",
+    },
+    variants: {
+        "#board": {
+            name: "5x5 board",
+        },
+        "size-4x4": {
+            name: "4x4 board",
+        },
+        "size-5x7": {
+            name: "5x7 board",
+        },
+        "size-7x7": {
+            name: "7x7 board",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
@@ -28,8 +53,7 @@ export class BoxesGame extends GameBase {
         playercounts: [2],
         version: "20240908",
         dateAdded: "2024-09-14",
-        // i18next.t("apgames:descriptions.boxes")
-        description: "apgames:descriptions.boxes",
+        description: "A territorial game where you try to complete boxes by drawing lines to connect the dots. If a box is claimed, you may make another move.",
         urls: [
             "https://en.wikipedia.org/wiki/Dots_and_Boxes",
             "https://boardgamegeek.com/boardgame/17106/boxes",
@@ -398,7 +422,7 @@ export class BoxesGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): BoxesGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -596,3 +620,4 @@ export class BoxesGame extends GameBase {
         return new BoxesGame(this.serialize());
     }
 }
+

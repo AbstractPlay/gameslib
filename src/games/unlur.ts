@@ -7,6 +7,26 @@ import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path";
 import { connectedComponents } from "graphology-components";
+export const gameApgamesEn = {
+    validation: {
+        BAD_PASS: "The contract phase is over. You may no longer pass.",
+        CONTRACT_EDGE: "You may not place a piece on the edges of the board in the contract phase.",
+        INITIAL_INSTRUCTIONS: "Select a cell to place a piece, or pass to play as the Y player.",
+        INITIAL_INSTRUCTIONS_PASSED: "Select a cell to place a piece.",
+    },
+    variants: {
+        "#board": {
+            name: "Size-8 board",
+        },
+        "size-6": {
+            name: "Size-6 board",
+        },
+        "size-10": {
+            name: "Size-10 board",
+        },
+    },
+};
+
 
 // In this implementation, the Y colour is always 1, and the Line colour is always 2.
 type playerid = 1 | 2;
@@ -44,8 +64,7 @@ export class UnlurGame extends GameBase {
         playercounts: [2],
         version: "20240619",
         dateAdded: "2024-07-14",
-        // i18next.t("apgames:descriptions.unlur")
-        description: "apgames:descriptions.unlur",
+        description: "An asymmetric connection game where one player tries to form a Y and the other tries to connect opposite sides. Achieving the opponent's goal without achieving your own is a loss. The game starts with a contract phase where both players place the colour of the Y player until someone passes, and then the opponent becomes the Line player.",
         urls: [
             "https://jpneto.github.io/world_abstract_games/unlur.htm",
             "https://boardgamegeek.com/boardgame/3826/unlur",
@@ -301,7 +320,7 @@ export class UnlurGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): UnlurGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -591,3 +610,4 @@ export class UnlurGame extends GameBase {
         return new UnlurGame(this.serialize());
     }
 }
+

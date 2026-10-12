@@ -5,6 +5,59 @@ import { APRenderRep, AnnotationBasic, MarkerFlood, MarkerLine, MarkerShading } 
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BARRIER: "You may not create a barrier.",
+        CORNER_NO_MOVE: "You may not select a dragon piece in the middle of a normal move.",
+        DIR_MISSING: "You are missing the direction in your earlier group move {{move}}.",
+        DRAGON_MUST_INCLUDE: "You must include the dragon at {{cell}} if you wish to continue making group moves.",
+        DRAGON_NO_CONTINUE: "The previous group move did not result in any captures so you may not continue making group moves in your dragon turn.",
+        DRAGON_SELECT_DESTINATION: "Select a destination to jump the dragon.",
+        DRAGON_SELECT_MORE: "You may select the dragon and continue to make group moves because your previous move was a capture.",
+        DRAGON_SELECT_MORE_FIRST: "You may select the dragon and continue with a group move.",
+        DRAGON_TOO_MANY: "If you wish to make a group move, you must select only the dragon.",
+        DUPLICATE: "Duplicated piece selection {{where}} in group move.",
+        FIRST_MOVE_NO_DOUBLE: "On the first turn, you may only move one group.",
+        IMMOBILISED: "The piece at {{where}} is frozen.",
+        INCLUDE_UNMOVED: "You must include at least one piece that has not moved yet.",
+        INITIAL_INSTRUCTIONS: "Select your pieces to move.",
+        INVALID_DIR: "The direction {{dir}} is not a valid direction to move the group to.",
+        NOT_CONNECTED: "The selected group is not connected.",
+        NOT_DRAGON_JUMPABLE: "The dragon may not jump to the opposing quadrant in the opponent's base.",
+        NOT_DRAGON_JUMPABLE_CORNER: "The dragon cannot jump to a corner.",
+        SELECT_DIR: "Select a direction to move the group.",
+        SELECT_MORE_BARRIER: "You must continue to make group moves because you have created a barrier.",
+        SELECT_MORE_many: "You may continue to make {{count}} more group moves.",
+        SELECT_MORE_one: "You may continue to make one more group move.",
+        SELECT_MORE_PIECES_one: "You may select one more piece to move as a group, or select a direction to move the group.",
+        SELECT_MORE_PIECES_other: "You may select up to {{count}} pieces to move as a group, or select a direction to move the group.",
+        SELECT_MORE_SUPERKO: "You must continue to make group moves because the current board state is invalid due to superko.",
+        SUPERKO: "Superko: you may not repeat a previous board state.",
+        TOO_MANY: "You may only select up to {{count}} pieces to move as a group.",
+        TOO_MANY_MOVES: "You may only move two groups in a normal turn.",
+    },
+    variants: {
+        "#board": {
+            name: "Size-12 board",
+            description: "12x12 board with 4 rows of 10 pieces per player.",
+        },
+        "size-10": {
+            description: "10x10 board with 3 rows of 8 pieces per player.",
+            name: "Size-10 board",
+        },
+        "size-15": {
+            description: "15x15 board with 5 rows of 13 pieces per player.",
+            name: "Size-15 board",
+        },
+    },
+    displays: {
+        "hide-frozen": {
+            description: "Don't highlight frozen pieces.",
+            name: "Hide frozen",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 type CellContents = playerid;
@@ -44,10 +97,8 @@ export class AnacheGame extends GameBase {
         playercounts: [2],
         version: "20240501",
         dateAdded: "2024-06-08",
-        // i18next.t("apgames:descriptions.anache")
-        description: "apgames:descriptions.anache",
-        // i18next.t("apgames:notes.anache")
-        notes: "apgames:notes.anache",
+        description: "In Anache, the goal is to occupy the opponent's corner squares by coordinating your pieces.",
+        notes: "This implementation follows David Ploog's rulesheet. Three notable changes are that (1) barriers are forbidden, (2) instead of a 16x16, we have a 15x15 variant, where pieces promote to knights on the centreline, and the dragon may not jump to the 7x7 space from the other corner, and (3) against the corners, pieces are captured via crushing capture instead of custodian capture, so there needs to be at least two opponent pieces in a line before a capture is made against the corners.\n\nNote: the stalemate check is expensive. If you cannot make a legal move, you should resign manually.",
         urls: ["https://boardgamegeek.com/boardgame/425859/anache"],
         bggid: "425859",
         people: [
@@ -840,7 +891,7 @@ export class AnacheGame extends GameBase {
         const normalised = this.normaliseMove(m);
         if (m !== normalised) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.anache.NORMALISE", { move: normalised });
+            result.message = i18next.t("apgames:validation._general.NORMALISE", { normalised });
             return result;
         }
         result.valid = true;
@@ -1021,7 +1072,7 @@ export class AnacheGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): AnacheGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -1365,3 +1416,4 @@ export class AnacheGame extends GameBase {
         return new AnacheGame(this.serialize());
     }
 }
+

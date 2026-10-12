@@ -7,6 +7,31 @@ import { Direction } from "../common/index.js";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BAD_RETREAT: "Pieces can only retreat if they are adjacent to at least one enemy piece.",
+        FIXED_TOWNS: "Towns cannot be moved.",
+        FORWARD_ONLY: "Pieces can only move forward, unless capturing laterally or retreating.",
+        HOMECELL: "You can only place your town on your home row, and not on the corners.",
+        INITIAL_INSTRUCTIONS_placed: "Select one of your soldiers to move or an enemy piece to capture by cannon fire.",
+        INITIAL_INSTRUCTIONS_towns: "Select a cell along the back row to place your town.",
+        LATERAL_MOVEMENT: "Pieces can only move laterally when capturing.",
+        NOCANNON_CAPTURE: "This piece is not in range of any of your cannons.",
+        NOCANNON_MOVE: "There is no cannon along which to move that piece that way.",
+        PARTIAL: "Provide a destination.",
+        RETREAT_DISTANCE: "You must retreat two full spaces.",
+        RETREAT_EMPTY: "You must retreat to an empty cell.",
+        TOOFAR: "You can only move one space at a time, unless retreating.",
+        UNCONTROLLED: "You can't control enemy pieces. If you're trying to capture it by cannon, click it again.",
+    },
+    displays: {
+        "hide-threatened": {
+            description: "Don't highlight pieces that are threatened by cannon fire.",
+            name: "Hide threatened by cannon",
+        },
+    },
+};
+
 
 type playerid = 1|2;
 type pieceid = "s" | "t";
@@ -45,8 +70,7 @@ export class CannonGame extends GameBase {
         playercounts: [2],
         version: "20211010",
         dateAdded: "2023-05-01",
-        // i18next.t("apgames:descriptions.cannon")
-        description: "apgames:descriptions.cannon",
+        description: "A two-player game played on a 10x10 board. Soldiers can move independently, but three soldiers in a row form a \"cannon\" and can move along their length or kill soldiers two or three spaces away. The first player to capture the opposing town wins.",
         urls: [
             "https://nestorgames.com/rulebooks/CANNON_EN.pdf",
             "http://superdupergames.org/rules/cannon.pdf",
@@ -658,7 +682,7 @@ export class CannonGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): CannonGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -1085,3 +1109,4 @@ export class CannonGame extends GameBase {
         return checked;
     }
 }
+

@@ -63,6 +63,8 @@ jobs:
           run: npx ap-check-ci-deps --stage prod --strict
         - run: npm list @abstractplay/renderer
         - run: npm test --if-present
+        - name: Verify English apgames matches merge sources
+          run: npm run check-apgames-en
         - name: Checkout docs site
           if: github.event_name == 'push'
           uses: actions/checkout@v4

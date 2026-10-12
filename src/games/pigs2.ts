@@ -5,6 +5,17 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { Direction, RectGrid, reviver, UserFacingError, cloneState } from "../common/index.js";
 import { forEachGroupResult } from "../common/chat-log.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS_first: "Enter three of the following characters: ^ (forward), v (backward), \\ (forward left), / (forward right), < (turn left), > (turn right), F (fire laser), H (hit with snout). Orders will execute in the order you provide, from left to right.",
+        INITIAL_INSTRUCTIONS_rest: "Enter one of any of the following characters: ^ (forward), v (backward), \\ (forward left), / (forward right), < (turn left), > (turn right), F (fire laser), H (hit with snout). This will get appended to the left-hand side of your current list of orders. The right-most order will execute next.",
+        INVALID_CMD: "The character '{{cmd}}' is not a recognized command.",
+        LABEL_ORDERS: "{{player}}'s orders (right-most order next)",
+        TOOLONG_first: "You may only enter three commands to start.",
+        TOOLONG_rest: "You may only enter a single command on normal turns.",
+    },
+};
+
 
 type playerid = 1|2|3|4|5|6|7|8;
 type Facing = "N"|"E"|"S"|"W"|"U";
@@ -54,10 +65,8 @@ export class Pigs2Game extends GameBaseSimultaneous {
         playercounts: [2,3,4,5,6,7,8],
         version: "20241216",
         dateAdded: "2024-12-29",
-        // i18next.t("apgames:descriptions.pigs2")
-        description: "apgames:descriptions.pigs2",
-        // i18next.t("apgames:notes.pigs2")
-        notes: "apgames:notes.pigs2",
+        description: "This is the continuous feedback version of Robo Battle Pigs, a game of robot combat where you program a series of moves in an attempt to destroy all opposing pigs. This implementation supports 2–8 players, and each player only programs one move per turn.",
+        notes: "This is the same as the old Super Duper Games. The game starts by you programming three moves, but only one move is resolved and added each turn.\n\nMovement is resolved before damage is applied. Unlike most other AP games, if players resign or timeout, the game does not immediately end. Instead, they're eliminated and their robot becomes inactive, but the other players can play on.",
         urls: [
             "http://cox-tv.com/games/mygames/robobattlepigs.html",
             "https://boardgamegeek.com/boardgame/3704/robo-battle-pigs",
@@ -322,11 +331,11 @@ export class Pigs2Game extends GameBaseSimultaneous {
 
     public move(m: string, {trusted = false, partial = false} = {}): Pigs2Game {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         const moves: string[] = m.split(/\s*,\s*/);
         if (moves.length !== this.numplayers) {
-            throw new UserFacingError("MOVES_SIMULTANEOUS_PARTIAL", i18next.t("apgames:MOVES_SIMULTANEOUS_PARTIAL"));
+            throw new UserFacingError("MOVES_SIMULTANEOUS_PARTIAL", i18next.t("apgames:validation._general.MOVES_SIMULTANEOUS_PARTIAL"));
         }
         for (let i = 0; i < moves.length; i++) {
             if ( (partial) && ( (moves[i] === undefined) || (moves[i] === "") ) ) {
@@ -920,3 +929,4 @@ export class Pigs2Game extends GameBaseSimultaneous {
         return new Pigs2Game(this.serialize());
     }
 }
+

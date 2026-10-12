@@ -5,6 +5,16 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        BAD_PASS: "You may not pass if legal moves are available.",
+        DESTINATION: "Now select a destination.",
+        INITIAL_INSTRUCTIONS: "Select a color to place. You can type 'w' or 'b', or click on the desired color on the upper left.",
+        INVALID_COLOUR: "The only valid colours are 'w' and 'b'. You gave '{{colour}}'.",
+        OVERSIZED_GROUP: "This would create a group of more than five pieces.",
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -26,8 +36,7 @@ export class ManalathGame extends GameBase {
         playercounts: [2],
         version: "20211118",
         dateAdded: "2023-05-01",
-        // i18next.t("apgames:descriptions.manalath")
-        description: "apgames:descriptions.manalath",
+        description: "Manalath is a game on a hexagonal grid where you can place pieces of either colour. You win if at the end of your turn there's a group of five pieces of your colour, but you *lose* if there's a group of four stones of your colour. How are you going to do that?!",
         urls: [
             "https://spielstein.com/games/manalath/rules",
             "https://boardgamegeek.com/boardgame/127993/manalath",
@@ -289,7 +298,7 @@ export class ManalathGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): ManalathGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -523,3 +532,4 @@ export class ManalathGame extends GameBase {
         return new ManalathGame(this.serialize());
     }
 }
+

@@ -6,6 +6,43 @@ import { reviver, shuffle, SquareOrthGraph, UserFacingError, cloneState } from "
 import i18next from "i18next";
 import { Card, Deck, cardSortAsc, cardSortDesc, cardsBasic, cardsExtended, suits } from "../common/decktet/index.js";
 import { connectedComponents } from "graphology-components";
+export const gameApgamesEn = {
+    validation: {
+        ALREADY_CLAIMED: "The card at {{cell}} has already been claimed.",
+        ALREADY_OWNED: "The card at {{cell}} is part of a district owned by an opponent.",
+        BAD_INFLUENCE: "You may not exert influence on the card at {{cell}}. The Excuse, pawns, and courts may not be directly influenced.",
+        INITIAL_INSTRUCTIONS: "Click a card in your hand to place on the board.",
+        LABEL_REMAINING: "Cards in deck",
+        LABEL_STASH: "{{player}}'s hand",
+        NO_CARD: "The card \"{{card}}\" does not appear to be in your hand.",
+        NO_INFLUENCE: "You don't have any influence left.",
+        NOT_ADJ: "New cards must be placed adjacent to at least one existing card.",
+        PARTIAL_PLACEMENT: "Click an empty space on the board to place your card.",
+    },
+    variants: {
+        "#deck": {
+            description: "The basic 36-card deck (aces through crowns)",
+            name: "Default deck"
+        },
+        "#setup": {
+            name: "The Razeway",
+            description: "The board starts with six cards in a diagonal line.",
+        },
+        extended: {
+            name: "Extended deck",
+            description: "Deck includes the Excuse, the Pawns, and the Courts (influence tokens may not be placed on any of these cards).",
+        },
+        towers: {
+            name: "Towers",
+            description: "The board starts with four cards just inside of each corner.",
+        },
+        oldcity: {
+            name: "The Old City",
+            description: "The board starts with six cards in a circular pattern.",
+        },
+    },
+};
+
 
 
 export type playerid = 1|2|3;
@@ -47,10 +84,8 @@ export class JacynthGame extends GameBase {
         playercounts: [2,3],
         version: "20241212",
         dateAdded: "2024-12-15",
-        // i18next.t("apgames:descriptions.jacynth")
-        description: "apgames:descriptions.jacynth",
-        // i18next.t("apgames:notes.jacynth")
-        notes: "apgames:notes.jacynth",
+        description: "A Decktet card game where opponents vye for control of the city of Jacynth. Place cards, exert influence, and control the most area to win.",
+        notes: "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers and opponents.",
         urls: [
             "http://wiki.decktet.com/game:jacynth",
             "https://boardgamegeek.com/boardgame/39290/jacynth",
@@ -473,7 +508,7 @@ export class JacynthGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false, emulation = false} = {}): JacynthGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -754,7 +789,7 @@ export class JacynthGame extends GameBase {
         }
         return [
             { name: this.neutralAreaLabel("apgames:status.SCORES"), scores},
-            { name: this.neutralAreaLabel("apgames:status.jacynth"), scores: this.influence},
+            { name: this.neutralAreaLabel("apgames:status.SCORES"), scores: this.influence},
         ];
     }
 
@@ -787,3 +822,4 @@ export class JacynthGame extends GameBase {
         return Object.assign(new JacynthGame(this.numplayers), cloneState(this) as JacynthGame);
     }
 }
+

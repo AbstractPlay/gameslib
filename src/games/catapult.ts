@@ -5,6 +5,37 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { allDirections, Direction, RectGrid, reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BAD_CAPTURE: "A capturing move must land on or pass over at least one enemy piece, may not pass over friendly pieces, and may not go further than its range.",
+        BAD_MOVE: "A non-capturing move must be in the direction of the enemy corner, must not land on or pass over any other pieces, and may not go further than its range.",
+        BAD_PASS: "You may not pass as long as you have valid moves available.",
+        INITIAL_INSTRUCTIONS: "Select a piece to move.",
+        NO_DAGGER: "You may not make multiple moves unless you have the dagger.",
+        PARTIAL_DAGGER: "Looks like a valid move. Because you have the dagger, you may make a second move now and pass the dagger to your opponent, or you may click the \"Complete move\" button to pass the turn and retain the dagger for later.",
+    },
+    variants: {
+        "#board": {
+            name: "Default board (8x8)",
+        },
+        "#goal": {
+            description: "Annihilate your opponent.",
+            name: "Default goal"
+        },
+        dagger: {
+            description: "The second player starts with the dagger. The player with the dagger may make two consecutive moves and pass the dagger to their opponent.",
+            name: "Dagger",
+        },
+        royal: {
+            description: "One piece is designated as royal. The goal is to kill the opposing royal.",
+            name: "Royal Catapult",
+        },
+        "size-9": {
+            name: "Larger board (9x9)",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 export type Piece = "K"|"C";
@@ -31,8 +62,7 @@ export class CatapultGame extends GameBase {
         playercounts: [2],
         version: "20250117",
         dateAdded: "2025-01-19",
-        // i18next.t("apgames:descriptions.catapult")
-        description: "apgames:descriptions.catapult",
+        description: "Hurl your stones across the board to annihilate your opponent.",
         urls: ["https://boardgamegeek.com/boardgame/411625/catapult"],
         bggid: "411625",
         people: [
@@ -451,7 +481,7 @@ export class CatapultGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): CatapultGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -688,3 +718,4 @@ export class CatapultGame extends GameBase {
         return Object.assign(new CatapultGame(), cloneState(this) as CatapultGame);
     }
 }
+

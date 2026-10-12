@@ -10,6 +10,28 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError, Direction } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BAD_DIRECTION: "You can only move the ball orthogonally or diagonally. The move from {{from}} to {{to}} is invalid.",
+        INCOMPLETE_BALL_MOVE: "You must keep moving the ball, because this position repeats an earlier position and would therefore not be valid.",
+        INELIGBLE_RECEIVER: "This piece is ineligible to receive the ball.",
+        INITIAL_INSTRUCTIONS: "Make a chess knight's move with one of your pieces, or move your ball to one of your open pieces.",
+        MOVE_ONE_PIECE: "You can only move a piece once per turn.",
+        MUST_MOVE_BALL: "You must move the ball.",
+        NO_RECEIVER: "There is no one at {{cell}} to receive the ball.",
+        NOT_EMPTY: "{{cell}} is not empty, you can not move your piece there.",
+        NOT_KNIGHT_MOVE: "The move from {{from}} to {{to}} is not a knight's move.",
+        OBSTRUCTED: "Moving the ball from {{from}} to {{to}} isn't valid as there is an obstruction at {{obstruction}}.",
+        OWN_RECEIVER: "You can only move the ball to one of your own pieces.",
+        PARTIAL_BALL_MOVE: "You can complete your ball move here, or keep moving it",
+        PARTIAL_PIECE_MOVE: "Provide the destination for your piece.",
+        REPEAT_RECEIVER: "You can't move the ball to the same piece twice in a row.",
+        REPEATED_POSITION: "This move would repeat an earlier position and is therefore invalid.",
+        START_BALL_MOVE: "Provide a destination for the ball.",
+        NO_AVAILABLE_RECEIVERS: "You can not move the ball as there are no eligible receivers.",
+    },
+};
+
 
 export type playerid = 1 | 2;
 export type Piece = "W" | "WB" | "WX" | "B" | "BB" | "BX";
@@ -34,7 +56,7 @@ export class RazzleGame extends GameBase {
         playercounts: [2],
         version: "20230825",
         dateAdded: "2023-09-16",
-        description: "apgames:descriptions.razzle",
+        description: "Razzle Dazzle, also called Knight Moves, is a fast-paced game, designed to recreate as much of the experience of Ultimate Frisbee as possible while keeping the rules and gameplay simple and elegant. Two players try to move their ball to the opposite side of the board, using their 5 pieces as passing instruments. A player may either pass the ball or move a piece like a knight in a game of Chess.",
         urls: [
             "https://boardgamegeek.com/boardgame/21479/knight-moves",
         ],
@@ -606,7 +628,7 @@ export class RazzleGame extends GameBase {
         if (this.gameover) {
             throw new UserFacingError(
                 "MOVES_GAMEOVER",
-                i18next.t("apgames:MOVES_GAMEOVER")
+                i18next.t("apgames:validation._general.MOVES_GAMEOVER")
             );
         }
 

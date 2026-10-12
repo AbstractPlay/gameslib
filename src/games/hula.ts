@@ -5,6 +5,20 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { HexTriGraph, reviver, UserFacingError, StackSet } from "../common/index.js";
 import { bfsFromNode, dfsFromNode } from 'graphology-traversal';
 import i18next from "i18next";
+export const gameApgamesEn = {
+    variants: {
+        "#board": {
+            name: "Size 6 board",
+        },
+        "size-5": {
+            name: "Size 5 board",
+        },
+        "size-7": {
+            name: "Size 7 board",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 export type cellcontent = playerid|"neutral";
@@ -28,8 +42,7 @@ export class HulaGame extends GameBase {
         uid: "hula",
         playercounts: [2],
         version: "1.0",
-        // i18next.t("apgames:descriptions.hula")
-        description: "apgames:descriptions.hula",
+        description: "Two players aim to form a loop around the center of a regular hexagonal board, using their own stones and, possibly, some number of neutral stones.",
         urls: ["https://boardgamegeek.com/boardgame/430598/hula"],
         bggid: "430598",
         people: [
@@ -273,7 +286,7 @@ export class HulaGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): HulaGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -562,3 +575,4 @@ export class HulaGame extends GameBase {
         return new HulaGame(this.serialize());
     }
 };
+

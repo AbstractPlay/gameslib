@@ -6,6 +6,27 @@ import { HexTriGraph, reviver, UserFacingError, StackSet } from "../common/index
 import { bfsFromNode, dfsFromNode } from 'graphology-traversal';
 import { connectedComponents } from 'graphology-components';
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        FIRST_PLACEMENT: "The first placement cannot be on the edge.",
+        FREE_GROUPS_AFTER: "You must always have at least one free group: a group that does not touch the edge, and has two spaces between itself and an opponent group that does not touch the edge.",
+    },
+    variants: {
+        "size-5": {
+            name: "Size 5 board",
+        },
+        "size-6": {
+            name: "Size 6 board",
+        },
+        "#board": {
+            name: "Size 7 board",
+        },
+        "size-8": {
+            name: "Size 8 board",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 export type cellcontent = playerid;
@@ -30,8 +51,7 @@ export class StibroGame extends GameBase {
         playercounts: [2],
         version: "1.0",
         dateAdded: "2025-04-28",
-        // i18next.t("apgames:descriptions.stibro")
-        description: "apgames:descriptions.stibro",
+        description: "Win by forming a loop anywhere on the board, while adhering to the placement restriction that ensures loop-forming is always possible.",
         urls: ["https://boardgamegeek.com/boardgame/430591/stibro"],
         bggid: "430591",
         people: [
@@ -396,7 +416,7 @@ export class StibroGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): StibroGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -670,3 +690,4 @@ export class StibroGame extends GameBase {
         return new StibroGame(this.serialize());
     }
 };
+

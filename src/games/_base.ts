@@ -320,7 +320,12 @@ export abstract class GameBase  {
 
     public description(): string {
         const ctor = this.constructor as typeof GameBase;
-        return i18next.t(ctor.gameinfo.description!);
+        const raw = ctor.gameinfo.description!;
+        if (raw.startsWith("apgames:")) {
+            return i18next.t(raw);
+        }
+        const uid = ctor.gameinfo.uid;
+        return i18next.t(`apgames:descriptions.${uid}`, { defaultValue: raw });
     }
     public get metaGame(): string {
         const ctor = this.constructor as typeof GameBase;
@@ -328,10 +333,15 @@ export abstract class GameBase  {
     }
     public notes(): string|undefined {
         const ctor = this.constructor as typeof GameBase;
-        if (ctor.gameinfo.notes !== undefined) {
-            return i18next.t(ctor.gameinfo.notes);
+        const raw = ctor.gameinfo.notes;
+        if (raw === undefined) {
+            return undefined;
         }
-        return undefined;
+        if (raw.startsWith("apgames:")) {
+            return i18next.t(raw);
+        }
+        const uid = ctor.gameinfo.uid;
+        return i18next.t(`apgames:notes.${uid}`, { defaultValue: raw });
     }
 
     /**
@@ -678,7 +688,7 @@ export abstract class GameBase  {
 
     public undo(): GameBase {
         if (this.stack.length < 1) {
-            throw new UserFacingError("INITIAL_UNDO", i18next.t("apgames:INITIAL_UNDO"));
+            throw new UserFacingError("INITIAL_UNDO", i18next.t("apgames:validation._general.INITIAL_UNDO"));
         }
         this.stack.pop();
         return this;
@@ -893,7 +903,9 @@ export abstract class GameBase  {
         if (group === undefined) {
             return "";
         }
-        const key = `apgames:variants._default.${group}.name`;
+        const ctor = this.constructor as typeof GameBase;
+        const uid = ctor.gameinfo.uid;
+        const key = `apgames:variants.${uid}.#${group}.name`;
         return i18next.exists(key) ? i18next.t(key) : `Default ${group}`;
     }
 

@@ -6,6 +6,26 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError, allDirections, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { Glyph } from "@abstractplay/renderer";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a stack to move or attack with.",
+        OUT_OF_RANGE: "Stacks can only move/attack a distance equal to the stack's height.",
+        PARTIAL: "Select an empty space to move to, the opposing buffer to bear off, or an opponent's stack to attack.",
+        TOOFAR: "You cannot bear off from here.",
+    },
+    variants: {
+        "#setup": {
+            name: "4 pieces each",
+        },
+        "pieces-6": {
+            name: "6 pieces each",
+        },
+        "pieces-8": {
+            name: "8 pieces each",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 type CellContents = [playerid, number];
@@ -31,8 +51,7 @@ export class BoomGame extends GameBase {
         playercounts: [2],
         version: "20230718",
         dateAdded: "2023-07-18",
-        // i18next.t("apgames:descriptions.boom")
-        description: "apgames:descriptions.boom",
+        description: "A minimalist abstract that combines simple move and capture mechanics with a scoring mechanic. Score by bearing your stacks off the opposing side of the board, but you'll want to reduce your opponent's scoring opportunities at the same time.",
         urls: ["https://boardgamegeek.com/boardgame/243927/boom-zoom-second-edition"],
         bggid: "243927",
         people: [
@@ -349,7 +368,7 @@ export class BoomGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): BoomGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -623,3 +642,4 @@ export class BoomGame extends GameBase {
         return new BoomGame(this.serialize());
     }
 }
+

@@ -6,6 +6,75 @@ import i18next from "i18next";
 import { InARowBase } from "./in_a_row/InARowBase.js";
 import { APRenderRep } from "@abstractplay/renderer";
 import { MarkerEdge, MarkerLine, MarkerShading } from "@abstractplay/renderer/build/schemas/schema";
+export const gameApgamesEn = {
+    validation: {
+        EXCESS: "You have placed too many pieces. You may only place 1 piece.",
+        INITIAL_INSTRUCTIONS: "Select a supported space to place a piece.",
+        INITIAL_INSTRUCTIONS_SWAP1ST1: "Select a supported space to place a piece. The opponent has the option to swap colours on the next turn.",
+        INITIAL_INSTRUCTIONS_SWAP1ST2: "You may place a piece to continue as player 2, or pass to swap colours to play as player 1.",
+        INITIAL_INSTRUCTIONS_SWAP5: "Select an space to place a piece, or pass to swap colours.",
+        INITIAL_INSTRUCTIONS_SWAP21: "Place three pieces on the board.",
+        INITIAL_INSTRUCTIONS_SWAP22: "You may do one of (1) place a single piece to continue as player 2, (2) pass to swap colours to play as player 1, or (3) place two more pieces and allow the opponent to decide to play as player 1 or player 2.",
+        INITIAL_INSTRUCTIONS_SWAP23: "You may place a piece to continue as player 1, or pass to swap colours to play as player 2.",
+        NOT_PLACEABLE: "You may not place at {{where}}. The piece has to be supported.",
+        SWAP21_EXCESS: "You have placed too many pieces. You may only place 3 pieces.",
+        SWAP21_one: "Place 1 more piece on the board.",
+        SWAP21_other: "Place {{count}} more pieces on the board.",
+        SWAP22_EXCESS: "You have placed too many pieces. You may only place 2 piece.",
+        SWAP22_PARTIAL: "Complete the move to continue as player 2, or place another piece on the board to allow the opponent to decide to play as player 1 or player 2.",
+    },
+    variants: {
+        "#board": {
+            name: "Default 8x8 board",
+        },
+        "#clear": {
+            name: "No clear",
+        },
+        "#placement": {
+            description: "Pieces must always be placed such that they're supported by at least one piece from below.",
+            name: "Gravity downwards",
+        },
+        clear: {
+            description: "If a row at the edge is entirely filled with pieces, it is cleared, and all pieces shift in that direction. A four-in-a-row takes priority over a shift. When used with the 4-directional variants, the board will shift in any directions where there are full rows. Note that this can result in board configurations that are not normally feasible, but it is a predictable behaviour.",
+            name: "Clear",
+        },
+        "edge-drop-4": {
+            description: "Pieces \"drop\" from the edges: you may place on a free space right before the first filled space from any edge. Edges cannot be blocked, so the pieces are actually dropped from the first free space from the edge.",
+            name: "Edge-drop-4",
+        },
+        "edge-grow-4": {
+            description: "Pieces \"grow\" from the edges: you may place on any first free space from any edge.",
+            name: "Edge-grow-4",
+        },
+        "interior-gravity-4": {
+            description: "Pieces appear from any free space on the board, then slide to the free space right before the first filled space in the direction of the closest edge. On the diagonal where it is equidistant to two edges, the piece will slide to the closest corner.",
+            name: "Interior-gravity-4",
+        },
+        "standard-10": {
+            name: "10x10 board",
+        },
+        "swap-1st": {
+            description: "The first player places a piece anywhere on the board. The next player has the option to swap colours.",
+            name: "Swap-1st opening",
+        },
+        "swap-2": {
+            description: "The first player places three pieces. The next player may do one of (1) place a single pieces to continue as player 2, (2) swap colours to play as player 1, or (3) place two more pieces and allow the opponent to decide to play as player 1 or player 2.",
+            name: "Swap-2 opening",
+        },
+        "swap-5": {
+            description: "For the first five pieces on the board, after placement, the next player has the option to swap colours.",
+            name: "Swap-5 opening",
+        },
+        "#opening": { name: "Default opening" }
+    },
+    displays: {
+        "hide-moves": {
+            description: "Don't show possible moves.",
+            name: "Hide moves",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 
@@ -29,8 +98,7 @@ export class FourInARowGame extends InARowBase {
         playercounts: [2],
         version: "20240328",
         dateAdded: "2024-04-20",
-        // i18next.t("apgames:descriptions.fourinarow")
-        description: "apgames:descriptions.fourinarow",
+        description: "A simple game of getting four (or more) in a row with the twist: there is gravity.",
         urls: ["https://boardgamegeek.com/boardgame/2719/connect-four"],
         bggid: "2719",
         people: [
@@ -517,7 +585,7 @@ export class FourInARowGame extends InARowBase {
             }
             if (duplicates.size > 0) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation._inarow.DUPLICATE", { where: [...duplicates].join(",") });
+                result.message = i18next.t("apgames:validation._general.DUPLICATE", { where: [...duplicates].join(",") });
                 return result;
             }
         }
@@ -567,13 +635,13 @@ export class FourInARowGame extends InARowBase {
         const regex = new RegExp(`^([a-z]+[1-9][0-9]*)(,[a-z]+[1-9][0-9]*)*$`);
         if (!regex.test(m)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation._inarow.INVALID_PLACEMENT", { move: m });
+            result.message = i18next.t("apgames:validation._general.INVALID_PLACEMENT", { move: m });
             return result;
         }
         const normalised = this.normalisePlacement(m);
         if (m !== normalised) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation._inarow.NORMALISE", { normalised });
+            result.message = i18next.t("apgames:validation._general.NORMALISE", { normalised });
             return result;
         }
         result.valid = true;
@@ -640,7 +708,7 @@ export class FourInARowGame extends InARowBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): FourInARowGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -914,3 +982,4 @@ export class FourInARowGame extends InARowBase {
         return new FourInARowGame(this.serialize());
     }
 }
+

@@ -1,0 +1,19 @@
+{
+  "buttons": {
+    "pass": "Pass",
+    "declare": "Declare",
+    "takebutton": "Take button",
+    "acceptpie": "Play second",
+    "playsecond": "Play second",
+    "draw": "Claim draw",
+    "playfirst": "Play first",
+    "swap": "Swap colours",
+    "roll1": "Roll one die",
+    "roll2": "Roll two dice",
+    "numbers": {
+      "one": "One (1)",
+      "two": "Two (2)",
+      "three": "Three (3)"
+    }
+  }
+}

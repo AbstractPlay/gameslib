@@ -4,6 +4,37 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError, SquareOrthGraph } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a friendly piece.",
+        INSTRUCTIONS: "Click on an orthogonally opposing piece to capture by replacement, or move closer to the board center.",
+        INVALID_SELECTION: "Click on a friendly piece.",
+        ONLY_PASS: "No move or captured available. Player must pass!",
+        INVALID_PASS: "There are moves or captures available. Player cannot pass.",
+        INVALID_MOVE: "Need to capture an orthogonally adjacent opponent piece or move to an orthogonally adjacent empty cell closer to the board center!",
+    },
+    variants: {
+        "size-6": {
+            name: "5x6 board",
+        },
+        "#board": {
+            name: "7x8 board",
+        },
+        "size-10": {
+            name: "9x10 board",
+        },
+        "size-12": {
+            name: "11x12 board",
+        },
+        "size-14": {
+            name: "13x14 board",
+        },
+        "size-16": {
+            name: "15x16 board",
+        },
+    },
+};
+
 
 type playerid = 1 | 2; // regarding pieces: 1 is the ball, 2 are the walls
 
@@ -25,9 +56,8 @@ export class InvectorGame extends GameBase {
         playercounts: [2],
         version: "20260605",
         dateAdded: "2026-06-22",
-        // i18next.t("apgames:descriptions.invector")
-        description: "apgames:descriptions.invector",
-        notes: "apgames:notes.invector",
+        description: "Eliminate the adversary army while getting near the board center.",
+        notes: "Invector, designed by Mark Steere in 2026, is an elimination game inspired by the ancient Hawiian game of Kōnane. Invector begins with a checkerboard pattern of stones, has short range captures, and is extremely simple. Invector simply combines two basic, off-the-shelf ingredients: orthogonal, adjacent capturing moves, and orthogonal, adjacent moves closer to center.",
         urls: [
             "https://www.marksteeregames.com/Invector_rules.pdf",
         ],
@@ -309,7 +339,7 @@ export class InvectorGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): InvectorGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -459,3 +489,4 @@ export class InvectorGame extends GameBase {
         return new InvectorGame(this.serialize());
     }
 }
+

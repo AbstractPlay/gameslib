@@ -4,6 +4,14 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { HexTriGraph, reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BAD_DISTANCE: "Stacks must move the exact distance of their height.",
+        INITIAL_INSTRUCTIONS: "Click a stack you control to move or sow it.",
+        PARTIAL: "To move the stack, click directly on the target cell. To sow the stack, click the cell adjacent to the stack in the direction you wish to travel.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -27,8 +35,7 @@ export class AmoebaGame extends GameBase {
         playercounts: [2],
         version: "20250112",
         dateAdded: "2025-02-01",
-        // i18next.t("apgames:descriptions.amoeba")
-        description: "apgames:descriptions.amoeba",
+        description: "Manipulate stacks of pieces to entrap your opponent's kernel or leave them with no legal moves.",
         urls: ["https://boardgamegeek.com/boardgame/143387/amoeba"],
         bggid: "143387",
         people: [
@@ -261,7 +268,7 @@ export class AmoebaGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): AmoebaGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -457,3 +464,4 @@ export class AmoebaGame extends GameBase {
         return Object.assign(new AmoebaGame(), cloneState(this) as AmoebaGame);
     }
 }
+

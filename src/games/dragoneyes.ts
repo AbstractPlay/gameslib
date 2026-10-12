@@ -5,6 +5,24 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS_CAPTURE: "Click a piece/space with a dot to begin or continue a capture chain.",
+        INITIAL_INSTRUCTIONS_ONE: "Click a gray piece to flip and reveal the owner.",
+        INITIAL_INSTRUCTIONS_TWO: "Select one of your pieces to move. Then click a space with a dot to choose where to move.",
+    },
+    variants: {
+        "#rules": {
+            description: "Draws are triggered automatically.",
+            name: "Default rules"
+        },
+        claimdraw: {
+            description: "You must choose to claim a draw on your turn.",
+            name: "Claim Draws",
+        },
+    },
+};
+
 
 
 type PlayerId = 1|2|3|4;
@@ -32,8 +50,7 @@ export class DragonEyesGame extends GameBase {
         playercounts: [2],
         version: "20240726",
         dateAdded: "2024-08-02",
-        // i18next.t("apgames:descriptions.dragoneyes")
-        description: "apgames:descriptions.dragoneyes",
+        description: "A variant of checkers with incomplete information, enchanted dragon eye spaces, and played on a hexagonal board.",
         urls: [
             "https://dragoneyesabstractgame.blogspot.com/2024/07/dragon-eyes.html",
             "https://boardgamegeek.com/boardgame/432209/dragon-eyes",
@@ -376,7 +393,7 @@ export class DragonEyesGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false, emulation = false} = {}): DragonEyesGame {
         if (m === "") return this;
-        if (this.gameover) throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+        if (this.gameover) throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
 
         this.results = [];
 
@@ -639,3 +656,4 @@ export class DragonEyesGame extends GameBase {
         return new DragonEyesGame(this.serialize());
     }
 }
+

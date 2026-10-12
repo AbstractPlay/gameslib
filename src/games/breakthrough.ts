@@ -4,6 +4,23 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError, Direction } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BADVARIANT: "Bombardment moves are only allowed when that variant is active.",
+        DIAGONAL_CAPTURES: "Captures may only be made in a forward-diagonal direction.",
+        INITIAL_INSTRUCTIONS: "Select one of your pawns.",
+        NOCAPTURES: "Captures are not allowed in the 'Bombardment' variant.",
+        ONLY_FORWARD: "Pieces may only move forward.",
+        TOOFAR: "Pieces can only move one space at a time.",
+    },
+    variants: {
+        bombardment: {
+            description: "Instead of regular capture moves, you can detonate a piece, which destroys it and any pieces immediately surrounding it.",
+            name: "Bombardment",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -27,8 +44,7 @@ export class BreakthroughGame extends GameBase {
         playercounts: [2],
         version: "20211118",
         dateAdded: "2023-05-01",
-        // i18next.t("apgames:descriptions.breakthrough")
-        description: "apgames:descriptions.breakthrough",
+        description: "One of the simplest \"get to your opponent's home row\" games around. Pieces move and capture like chess pawns. First to the other home row wins. Also includes a \"Bombardment\" variant where instead of regular capture moves, one can detonate a piece, which destroys it and all pieces around it.",
         urls: [
             "https://en.wikipedia.org/wiki/Breakthrough_(board_game)",
             "https://jpneto.github.io/world_abstract_games/bombardment.htm",
@@ -286,7 +302,7 @@ export class BreakthroughGame extends GameBase {
             // looks good
             result.valid = true;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.breakthrough.PARTIAL");
+            result.message = i18next.t("apgames:validation._general.NEED_DESTINATION");
             return result;
         }
 
@@ -375,7 +391,7 @@ export class BreakthroughGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): BreakthroughGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -632,3 +648,4 @@ export class BreakthroughGame extends GameBase {
         return new BreakthroughGame(this.serialize());
     }
 }
+

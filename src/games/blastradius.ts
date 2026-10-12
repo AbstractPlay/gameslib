@@ -6,6 +6,30 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Click a cell to add a piece to the board.",
+        INVALID: "You may not place pieces within radiation exclusion zones, and you must always create the smallest stack legally possible.",
+    },
+    variants: {
+        "#board": {
+            name: "Hexagonal board (base-6)",
+        },
+        "board-5": {
+            name: "Hexagonal board (base-5)",
+        },
+        "board-7": {
+            name: "Hexagonal board (base-7)",
+        },
+    },
+    displays: {
+        nums: {
+            name: "Numbers",
+            description: "Stacks as numbers",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -31,8 +55,7 @@ export class BlastRadiusGame extends GameBase {
         playercounts: [2],
         version: "20241126",
         dateAdded: "2024-11-27",
-        // i18next.t("apgames:descriptions.blastradius")
-        description: "apgames:descriptions.blastradius",
+        description: "An abstract war game where pieces irradiate the spaces around them. Eliminate all opposing pieces.",
         urls: [
             "https://www.marksteeregames.com/Blast_Radius_rules.pdf",
             "https://boardgamegeek.com/boardgame/434293/blast-radius",
@@ -251,7 +274,7 @@ export class BlastRadiusGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): BlastRadiusGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
@@ -496,3 +519,4 @@ export class BlastRadiusGame extends GameBase {
         return new BlastRadiusGame(this.serialize());
     }
 }
+

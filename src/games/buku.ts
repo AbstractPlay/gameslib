@@ -4,6 +4,44 @@ import { APRenderRep, MarkerFlood, RowCol } from "@abstractplay/renderer/build/s
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS_ROW: "Select a row to collect.",
+        INITIAL_INSTRUCTIONS_COL: "Select a column to collect.",
+        INVALID_COLLECT: "The collection notation '{{move}}' is invalid. It should start with the row or column followed by the number of pieces collected in brackets.",
+        INVALID_COLLECT_ROW: "The row '{{row}}' is invalid",
+        WRONG_COLLECT_COUNT_ROW_FIRST: "The number of pieces collected in the row '{{row}}' is incorrect. It should be {{count}}, which is the number of pieces in the row plus one for the first move.",
+        WRONG_COLLECT_COUNT_ROW: "The number of pieces collected in the row '{{row}}' is incorrect. It should be {{count}}.",
+        INVALID_COLLECT_COL: "The column '{{col}}' is invalid",
+        WRONG_COLLECT_COUNT_COL: "The number of pieces collected in the column '{{col}}' is incorrect. It should be {{count}}.",
+        TOO_MANY_SOWS_one: "You may only sow 1 piece.",
+        TOO_MANY_SOWS_other: "You may only sow {{count}} pieces.",
+        DUPLICATE_SOW: "You have already sown a piece at {{where}}.",
+        NOT_NEIGHBOURS: "The cells {{curr}} and {{prev}} are not neighbours.",
+        INVALID_MOVE: "The move {{move}} is invalid.",
+        START_SOWING_one: "You have collected 1 piece. Selected a cell to start sowing.",
+        START_SOWING_other: "You have collected {{count}} pieces. Selected a cell to start sowing.",
+        GO_BACK_one: "You still have 1 piece to sow. Click on a piece on the sowing path to revert to that point and try again.",
+        GO_BACK_other: "You still have {{count}} pieces to sow. Click on a piece on the sowing path to revert and try again.",
+        CONTINUE_one: "You have 1 more piece to sow.",
+        CONTINUE_other: "You have {{count}} more pieces to sow.",
+    },
+    variants: {
+        "#board": {
+            name: "Size-8 board",
+        },
+        "size-6": {
+            name: "Size-6 board",
+        },
+        "size-10": {
+            name: "Size-10 board",
+        },
+    },
+    status: {
+        SCORES_ONBOARD: "Scores / On board",
+    },
+};
+
 
 type playerid = 1 | 2;
 
@@ -28,8 +66,7 @@ export class BukuGame extends GameBase {
         playercounts: [2],
         version: "20240811",
         dateAdded: "2024-08-26",
-        // i18next.t("apgames:descriptions.buku")
-        description: "apgames:descriptions.buku",
+        description: "Buku is a two-dimensional sowing game on a checkerboard where the colour corresponds to the pits of each player. The first player selects a row to collect, then pieces are sown from any square towards any orthogonal direction but never passing the same square twice. The second player does the same, but collects from columns. After sowing, any square with 3 or 4 pieces on their colour are captured. The game ends when one player gets more than half the total number of possible points, or all pieces are singletons (each player claims one point for every piece in their pit), or when the board position is repeated (other player claims the rest of the pieces). The first player gets an additonal piece on the first sow.",
         urls: [
             "https://mancala.fandom.com/wiki/Buku",
             "https://boardgamegeek.com/boardgame/432205/buku",
@@ -476,7 +513,7 @@ export class BukuGame extends GameBase {
         const normalised = this.normaliseMove(m);
         if (m !== normalised) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.buku.NORMALISE", { normalised });
+            result.message = i18next.t("apgames:validation._general.NORMALISE", { normalised });
             return result;
         }
 
@@ -530,7 +567,7 @@ export class BukuGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): BukuGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -906,3 +943,4 @@ export class BukuGame extends GameBase {
         return new BukuGame(this.serialize());
     }
 }
+

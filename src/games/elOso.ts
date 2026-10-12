@@ -6,6 +6,37 @@ import { RectGrid, resolveChallengeSeed, reviver, UserFacingError, type Directio
 import { chatPlayerToken, forEachGroupResult, type ChatActorRef, type ChatLogEntry, type ChatLogLine } from "../common/chat-log.js";
 import { type IGradeTier, type ISoloOutcomeMeta } from "./_solo-outcome.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select one of your stacks to move. Click a stack twice to pass.",
+        VALID_PARTIAL: "Select a destination. Click the same stack again to pass.",
+        VALID_PARTIAL_TOP: "Select a destination or click the Sky bar above. Click the same stack again to pass.",
+        SELECT_STACK_FOR_PASS: "Select a stack first, then click it again to pass.",
+        INVALID_DIRECTION: "Stacks may move diagonally or sideways, but not straight forward or back.",
+        TOO_FAR: "This stack can move at most {{dist}} spaces.",
+        SKY_FROM_TOP: "Only stacks on the top row may move into the Sky.",
+    },
+    displays: {
+        "#stack": {
+            name: "Stack pieces",
+        },
+        nums: {
+            description: "Stacks shown as numbers",
+            name: "Numbers",
+        },
+    },
+    status: {
+        SKY: "Sky",
+        CAVE: "Cave",
+        GROUND: "Ground",
+        PIT: "Pit",
+        GRADE_LOSS: "Loss (9 or fewer)",
+        GRADE_WIN: "Win (10)",
+        GRADE_SUPERIOR: "Superior (11)",
+        GRADE_EXCELLENT: "Excellent (12)",
+    },
+};
+
 
 export type playerid = 1 | 2;
 
@@ -55,8 +86,8 @@ export class ElOsoGame extends GameBase {
         playercounts: [1],
         version: "20260827",
         dateAdded: "2026-09-09",
-        description: "apgames:descriptions.elOso",
-        notes: "apgames:notes.elOso",
+        description: "A solitaire game from the world of Carrisor. Move your stacks off the top of the board into the Sky while the Bear rolls dice and advances from above. Score ten or more pieces in the Sky to win.",
+        notes: "Setup is performed automatically when you launch the game. Sky, Cave, Ground, and Pit counts appear in the sidebar. After each move, use the frame controls to step through the Bear's response. Ten or more pieces in the Sky is a win.",
         urls: [
             "https://crabfragmentlabs.com/el-oso",
             "https://boardgamegeek.com/boardgame/371926/el-oso",
@@ -530,7 +561,7 @@ export class ElOsoGame extends GameBase {
         };
 
         if (this.gameover) {
-            result.message = i18next.t("apgames:validation._general.GAMEOVER");
+            result.message = i18next.t("apgames:validation._general.MOVES_GAMEOVER");
             return result;
         }
 
@@ -913,7 +944,7 @@ export class ElOsoGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false, emulation = false } = {}): ElOsoGame {
         if (this.gameover) {
-            throw new UserFacingError("GAMEOVER", i18next.t("apgames:validation._general.GAMEOVER"));
+            throw new UserFacingError("GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         if (!trusted) {

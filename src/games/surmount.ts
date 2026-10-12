@@ -5,6 +5,35 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { HexTriGraph, reviver, shuffle, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { connectedComponents } from "graphology-components";
+export const gameApgamesEn = {
+    validation: {
+        BAD_CAP: "You may not capture the stone at {{cell}}. The captured stone must be adjacent to the capturing group and must be part of a group that is the same size as the capturing group.",
+        BAD_CONTINUE: "You may not place a stone at {{cell}}. Continuations may not make contact with any groups other than those initially contacted, and they may not grow the group any larger than the largest enemy group initially contacted.",
+        BAD_INIT_CAP: "You may not capture the stone at {{cell}}. The captured stone must be adjacent to one of your groups that are larger than the target group.",
+        BAD_PASS: "You may not pass if legal moves are available.",
+        CANT_CONTINUE: "You may not place more stones unless the first stone ({{start}}) touches at least one friendly stone and at least one enemy group that is the same size or larger then the friendly group.",
+        DEAD_END: "There are no valid continuations available but you are not yet large enough to capture. Reset and try a different approach.",
+        INITIAL_INSTRUCTIONS: "Select an empty cell to place a piece, or select a capturable stone to capture it and destroy the group.",
+        PARTIAL_BOTH: "Either continue placing stones or select one of the highlighted enemy cells to capture it and destroy that group.",
+        PARTIAL_CAP: "Select one of the highlighted enemy cells to capture it and destroy that group.",
+        PARTIAL_CONTINUE: "Continue placing stones until the group is the same size of one of the contacted enemy groups.",
+    },
+    variants: {
+        "#board": {
+            name: "Hexhex 5 (61 spaces)",
+        },
+        "hex-4": {
+            name: "Hexhex 4 (37 spaces)",
+        },
+        "hex-6": {
+            name: "Hexhex 6 (91 spaces)",
+        },
+        "hex-7": {
+            name: "Hexhex 7 (127 spaces)",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 
@@ -28,8 +57,7 @@ export class SurmountGame extends GameBase {
         // version: "20260120",
         version: "20260731",
         dateAdded: "2025-03-21",
-        // i18next.t("apgames:descriptions.surmount")
-        description: "apgames:descriptions.surmount",
+        description: "An exnihilation game in which larger groups destroy smaller ones.",
         urls: ["https://boardgamegeek.com/boardgame/436268/surmount"],
         bggid: "436268",
         people: [
@@ -621,7 +649,7 @@ export class SurmountGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): SurmountGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -874,3 +902,4 @@ export class SurmountGame extends GameBase {
         return Object.assign(new SurmountGame(), cloneState(this) as SurmountGame);
     }
 }
+

@@ -14,6 +14,48 @@ import {
 } from "../common/decktet/index.js";
 import { BiscuitBoard } from "./biscuit/board.js";
 import { BiscuitCard } from "./biscuit/card.js";
+export const gameApgamesEn = {
+    validation: {
+        BAD_PASS: "You may not pass if legal moves are available.",
+        INITIAL_INSTRUCTIONS: "Select a card from your hand to place on the board.",
+        INVALID_MOVE: "That move is invalid. You may only place cards next to cards with at least one matching suit.",
+        PARTIAL: "Select the cell where you want to place the card.",
+    },
+    variants: {
+        excuse: {
+            name: "The Excuse",
+            description: "The excuse can be played next to any card but never scores any points. It is not included in any straights",
+        },
+        "#extended": {
+            name: "No pawns or courts",
+        },
+        "pawns-only": {
+            name: "Pawns only",
+            description: "Pawns count as either 1 or 10 when making elevensies and lie between 9s and Crowns in straights. Pawns in opposing hands are worth 3 points to the player who goes out.",
+        },
+        "pawns+courts": {
+            name: "Pawns and Courts",
+            description: "Pawns and Courts can only make elevensies with each other. In straights, the order is 9, Pawn, Court, Crown. Both Pawns and Courts are worth 3 points to the player who goes out.",
+        },
+        "#eog": {
+            name: "Goal score: 60 points",
+            description: "The game ends after the round in which someone reaches the goal score. Highest score wins.",
+        },
+        "goal-40": {
+            name: "Goal score: 40 points",
+            description: "The game ends after the round in which someone reaches the goal score. Highest score wins.",
+        },
+        "goal-80": {
+            name: "Goal score: 80 points",
+            description: "The game ends after the round in which someone reaches the goal score. Highest score wins.",
+        },
+        "goal-120": {
+            name: "Goal score: 120 points",
+            description: "The game ends after the round in which someone reaches the goal score. Highest score wins.",
+        },
+    },
+};
+
 
 export type playerid = 1|2|3;
 
@@ -44,10 +86,8 @@ export class BiscuitGame extends GameBase {
         playercounts: [2,3],
         version: "20250428",
         dateAdded: "2025-05-20",
-        // i18next.t("apgames:descriptions.biscuit")
-        description: "apgames:descriptions.biscuit",
-        // i18next.t("apgames:notes.biscuit")
-        notes: "apgames:notes.biscuit",
+        description: "A domino-style Decktet game where you play cards to immediately score points and try to be the first to play all the cards in your hand. A game is played over multiple rounds to a specified target.",
+        notes: "Game ends when, at the end of a round, someone has reached or surpassed the target score. Highest score wins. Draws are possible.\n\nWhen calculating biscuits, a single card cannot be counted more than once. For example, if the root card is a 6, and the end of the main line is also a 6 (a cross card), and you play a 6 above that cross card, you score the \"hot cross biscuit\" (top and bottom of the cross line match) but you don't *also* get a regular \"biscuit\" for matching the end of the main line (they're both the same card). Furthermore, cross lines don't get counted at all unless there are at least two cards in the line. So playing a new cross card (in our example, a 6) does not automatically score you a \"biscuit\" (playing a card on the main line that matches a cross line).\n\nMore information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers and opponents.",
         urls: [
             "http://wiki.decktet.com/game:biscuit",
             "https://boardgamegeek.com/boardgame/37096/biscuit",
@@ -614,7 +654,7 @@ export class BiscuitGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false, emulation = false} = {}): BiscuitGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -1193,3 +1233,4 @@ export class BiscuitGame extends GameBase {
         return Object.assign(new BiscuitGame(this.numplayers), cloneState(this) as BiscuitGame);
     }
 }
+

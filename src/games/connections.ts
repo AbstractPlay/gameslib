@@ -6,6 +6,24 @@ import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a space between your dots to draw a line.",
+        INVALID_LINE: "The line {{move}} is not valid.",
+        OCCUPIED: "The space at {{where}} is already occupied.",
+        WRONG_ORIENT_H: "The line at {{cell}} should be horizontal (suffixed with 'h').",
+        WRONG_ORIENT_V: "The line at {{cell}} should be vertical (suffixed with 'v').",
+    },
+    variants: {
+        "#board": {
+            name: "Size-9 board",
+        },
+        "size-5": {
+            name: "Size-5 board",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 type PlayerLines = [string[], string[]];
@@ -29,8 +47,7 @@ export class ConnectionsGame extends GameBase {
         playercounts: [2],
         version: "20240912",
         dateAdded: "2024-09-14",
-        // i18next.t("apgames:descriptions.connections")
-        description: "apgames:descriptions.connections",
+        description: "Draw lines between dots of your colour to connect the sides of the board, or surround your opponent's dots to win.",
         urls: ["https://boardgamegeek.com/boardgame/3370/connections"],
         bggid: "3370",
         people: [
@@ -261,7 +278,7 @@ export class ConnectionsGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): ConnectionsGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -580,3 +597,4 @@ export class ConnectionsGame extends GameBase {
         return new ConnectionsGame(this.serialize());
     }
 }
+

@@ -4,6 +4,19 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError, Direction, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        DISCONNECTED: "That move would leave your pieces disconnected.",
+        DISORGANIZED: "Moves must be \"organized,\" meaning that the destination cell must be orthogonal to the first cell in the ordo.",
+        INITIAL_INSTRUCTIONS: "Select one of your pieces to move or start an ordo.",
+        INVALID_ORDO: "The ordo '{{ordo}}' is not valid. Ordos are groups of pieces connected in a straight, orthogonal line.",
+        INVALID_ORDO_MOVE: "The ordo '{{ordo}}' cannot move to {{destination}}. This is usually because of an obstruction.",
+        NO_ORDO_CAPTURE: "An ordo move cannot be a capture.",
+        PARTIAL: "Select a destination or select a second piece to form an ordo.",
+        WRONG_DIRECTION: "You may only move forward or side-to-side unless your pieces are disconnected.",
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -33,8 +46,7 @@ export class OrdoGame extends GameBase {
         playercounts: [2],
         version: "20211114",
         dateAdded: "2023-05-01",
-        // i18next.t("apgames:descriptions.ordo")
-        description: "apgames:descriptions.ordo",
+        description: "Ordo is a \"get to your opponent's home row\" game in which you must always keep your pieces connected. Pieces can move singly and also as a group in certain situations. You can also win by breaking up your opponent's group in such a way that they can't reconnect it.",
         urls: [
             "https://spielstein.com/games/ordo",
             "https://boardgamegeek.com/boardgame/41006/ordo",
@@ -718,7 +730,7 @@ export class OrdoGame extends GameBase {
     // It leaves the object in an invalid state, so only use it on cloned objects, or call `load()` before submitting again.
     public move(m: string, {partial = false, trusted = false} = {}): OrdoGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -947,3 +959,4 @@ export class OrdoGame extends GameBase {
         return new OrdoGame(this.serialize());
     }
 }
+

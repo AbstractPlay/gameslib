@@ -6,6 +6,35 @@ import { Direction, RectGrid, reviver, UserFacingError } from "../common/index.j
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        CANNOT_MOVE: "Advanced Slither: the piece at {{where}} cannot move because it is not part of a contiguous orthogonal group consisting of pieces of both colors.",
+        DIAGONAL: "You may not place at {{where}} because it is diagonally adjacent to a piece of your colour without being orthogonally connected.",
+        INITIAL_INSTRUCTIONS: "Select a point to place a piece.",
+        NEED_PLACEMENT: "You must place a piece.",
+        NEED_PLACEMENT_DIAGONAL: "You must place a piece at one of the dotted intersections.",
+        NO_VALID_FOLLOWUP: "Movement to {{to}} will not result in a valid follow-up move.",
+        NOT_ADJACENT: "{{to}} is not orthogonally or diagonally adjacent to the piece at {{from}}.",
+    },
+    variants: {
+        "#board": {
+            name: "9x9 board",
+        },
+        "#movement": {
+            name: "Default movement rules",
+        },
+        "11x11": {
+            name: "11x11 board",
+        },
+        "13x13": {
+            name: "13x13 board",
+        },
+        classic: {
+            name: "Classic movement rules",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -30,8 +59,7 @@ export class SlitherGame extends GameBase {
         playercounts: [2],
         version: "20231217",
         dateAdded: "2023-12-20",
-        // i18next.t("apgames:descriptions.slither")
-        description: "apgames:descriptions.slither",
+        description: "Square-board connection game with updated rules from 2018. Optionally move a piece and then place a piece, such that no two pieces of a colour are diagonally adjacent to each other unless they are orthogonally connected by a like-coloured stone. In Advanced Slither, a piece may only move if it is part of a contiguous orthogonal group consisting of pieces of both colours.",
         urls: ["https://boardgamegeek.com/boardgame/75957/slither"],
         bggid: "75957",
         people: [
@@ -266,7 +294,7 @@ export class SlitherGame extends GameBase {
         // number of moves
         if (moves.length > 3) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.slither.PLACEMENT_MADE", {where: moves[2]});
+            result.message = i18next.t("apgames:validation._general.PLACEMENT_MADE", {where: moves[2]});
             return result;
         }
 
@@ -513,7 +541,7 @@ export class SlitherGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): SlitherGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -762,3 +790,4 @@ export class SlitherGame extends GameBase {
         return new SlitherGame(this.serialize());
     }
 }
+

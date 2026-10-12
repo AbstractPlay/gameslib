@@ -4,6 +4,17 @@ import { APRenderRep, AreaPieces, RowCol } from "@abstractplay/renderer/build/sc
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BAD_DIR: "That stack can't move in that direction.",
+        CONTINUE: "You must continue playing until you capture or sow over an empty pit. Select a stack to sow.",
+        INITIAL_INSTRUCTIONS: "Select a stack to sow.",
+        LABEL_STASH: "{{player}}'s captures",
+        NO_MOVES: "That stack doesn't have any legal moves.",
+        PARTIAL: "Select an adjacent pit to start sowing in that direction.",
+    },
+};
+
 
 export type playerid = 1|2;
 export type Colour = "R"|"B"|"G"|"Y";
@@ -69,10 +80,8 @@ export class RincalaGame extends GameBase {
         playercounts: [2],
         version: "20260108",
         dateAdded: "2026-01-26",
-        // i18next.t("apgames:descriptions.rincala")
-        description: "apgames:descriptions.rincala",
-        // i18next.t("apgames:notes.rincala")
-        notes: "apgames:notes.rincala",
+        description: "A round Mancala-style sowing game where different coloured pieces have different values. Accumulate the highest score to win.",
+        notes: "For reasons, the colours are instead red (4 pts), blue (3 pts), green (2 pts), yellow (1 pt). Also, the game terminates as soon as one player earns more than half the points (>=26 pts).",
         urls: [
             "https://spielstein.com/games/rincala",
             "https://boardgamegeek.com/boardgame/165627/rincala",
@@ -456,7 +465,7 @@ export class RincalaGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): RincalaGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toUpperCase();
@@ -768,3 +777,4 @@ export class RincalaGame extends GameBase {
         return cloned;
     }
 }
+

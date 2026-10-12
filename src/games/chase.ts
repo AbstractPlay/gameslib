@@ -7,6 +7,32 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BALANCE_LOWEST: "When balancing you must select one of the pieces with the lowest speed. The piece at {{where}} is not one of those.",
+        CHAMBER_BUMP: "You may not bump pieces into the chamber.",
+        DISTANT_EXCHANGE: "The cells {{left}} and {{right}} are not adjacent to each other.",
+        INITIAL_INSTRUCTIONS_balanced: "Select a piece to move. To start an exchange select the piece from which you want to remove speed, twice.",
+        INITIAL_INSTRUCTIONS_imbalanced: "You are imbalanced by {{delta}} speed. Select one of your pieces with the lowest speed to correct.",
+        INVALID_SPEED: "The speed {{speed}} is not valid for {{cell}}. It must be between 1 and 6.",
+        MULTIPLE_PATHS: "There is more than one way to get to {{to}} from {{from}}. Please edit the move box to add a compass direction or choose the exact move from the drop-down menu.",
+        MUST_BALANCE: "You are imbalanced. Your move must begin with a '{'.",
+        NO_BALANCE: "You are not imbalanced, your move can not begin with a '{'.",
+        NO_BALANCE_LEFT: "You don't have any balance left to distribute to {{where}}.",
+        NOCHANGE_EXCHANGE: "Exchanges must result in a change in the board state.",
+        NOPATH: "There is no path from {{from}} to {{to}}.",
+        PARTIAL_BALANCE: "You are still imbalanced by {{delta}} speed. Select another of your pieces with the lowest speed to correct.",
+        PARTIAL_BALANCE_PARENTHESIS: "Looks like a valid balance move, close the parenthesis to continue.",
+        PARTIAL_EXCHANGE: "Select another adjacent piece to make the exchange. Or click again to remove more speed.",
+        PARTIAL_MOVE: "Select a destination, or select the same piece again to begin an exchange.",
+        UNEQUAL_EXCHANGE: "Exchanges must result in the same combined speed. The original combined speed was {{original}}. Your requested move would change that to {{proposed}}.",
+    },
+    status: {
+        BALANCE: "Imbalance",
+        IMBALANCE: "Current player is imbalanced by {{delta}} speed.",
+    },
+};
+
 
 type playerid = 1|2;
 type Speed = 1|2|3|4|5|6;
@@ -108,10 +134,8 @@ export class ChaseGame extends GameBase {
         playercounts: [2],
         version: "20211009",
         dateAdded: "2023-05-01",
-        // i18next.t("apgames:descriptions.chase")
-        description: "apgames:descriptions.chase",
-        // i18next.t("apgames:notes.chase")
-        notes: "apgames:notes.chase",
+        description: "Chase is a unique move and capture game played on a cylindrical hex board with dice. Pieces move the exact number of spaces showing on the die face (its \"speed\"). Landing on enemy pieces captures them; landing on friendly pieces bumps them, which can cause chain reactions. The chamber in the centre of the board is a way of gaining more pieces. You must maintain a total of 25 speed throughout the game. Once you are no longer able to do that, you lose.",
+        notes: "Currently, most exchange moves will need to be hand edited. We're working on fixing this.",
         urls: ["https://en.wikipedia.org/wiki/Chase_(board_game)", "https://boardgamegeek.com/boardgame/316/chase"],
         bggid: "316",
         people: [
@@ -1023,7 +1047,7 @@ export class ChaseGame extends GameBase {
 
     public move(m: string, {partial = false} = {}): ChaseGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         // Normalize
         m = m.toLowerCase();
@@ -1505,3 +1529,4 @@ export class ChaseGame extends GameBase {
         return new ChaseGame(this.serialize());
     }
 }
+

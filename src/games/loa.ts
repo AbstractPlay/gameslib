@@ -5,6 +5,39 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { SquareGraph, HexTriGraph, reviver, UserFacingError, Direction } from "../common/index.js";
 import { HexDir } from "../common/graphs/hextri.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BAD_PASS: "You may not pass if legal moves are available.",
+        INITIAL_INSTRUCTIONS: "Select one of your pieces to move.",
+        NOT_IN_RANGE: "You cannot reach {{to}} from {{from}}.",
+        PARTIAL: "Select your destination.",
+    },
+    variants: {
+        "#board": {
+            description: "9x9 \"black hole\" variant. Moving a piece onto the central hole removes the piece from the game.",
+            name: "9x9 board",
+        },
+        classic: {
+            name: "8x8 board",
+        },
+        hex5: {
+            name: "Hexagonal board (base-5)",
+            description: "9 pieces each, starting in clusters in the corners.",
+        },
+        hex6: {
+            name: "Hexagonal board (base-6)",
+            description: "12 pieces each, 4 on each side. Moving a piece onto the central hole removes the piece from the game.",
+        },
+        "#setup": {
+            name: "Classic setup",
+        },
+        scrambled: {
+            description: "Pieces are interspersed with each other instead of starting together on opposite sides of the board. (Doesn't apply to the hex5 board.)",
+            name: "Scrambled Eggs",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -26,10 +59,8 @@ export class LinesOfActionGame extends GameBase {
         playercounts: [2],
         version: "20211113",
         dateAdded: "2023-05-01",
-        // i18next.t("apgames:descriptions.loa")
-        description: "apgames:descriptions.loa",
-        // i18next.t("apgames:notes.loa")
-        notes: "apgames:notes.loa",
+        description: "A classic game where you try to gather all your pieces into a single connected group. Pieces can only move the exact number of spaces as the number of pieces that lie along the line of movement. The \"Scrambled Eggs\" initial layout variant is supported.",
+        notes: "In the centre of the 9x9 board is a \"black hole.\". Landing on the black hole means the piece is removed from the game. Simultaneous connections are scored as a draw.",
         urls: [
             "https://en.wikipedia.org/wiki/Lines_of_Action",
             "https://boardgamegeek.com/boardgame/3406/lines-of-action",
@@ -487,7 +518,7 @@ export class LinesOfActionGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): LinesOfActionGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -741,3 +772,4 @@ export class LinesOfActionGame extends GameBase {
         return new LinesOfActionGame(this.serialize());
     }
 }
+

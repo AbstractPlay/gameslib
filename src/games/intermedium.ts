@@ -4,6 +4,22 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, SquareOrthGraph, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INSTRUCTIONS: "Select a friendly stack; click on it as many times as pieces to move, then click on a diagonal path that starts adjacent to this sowing stack (one pieces per square), making 90º turns.",
+        NOT_FRIENDLY_STACK: "Select a friendly stack with two or more pieces to sow.",
+        INVALID_SOW_PATH: "The selected path does not follow Intermedium rules: (a) pick (part of) a stack and leave one piece per diagonal adjacent square, (b) sowing can turn 90º after each placed piece.",
+        SOW_INSTRUCTIONS: "Either select more pieces to sow or start sowing with the ones already selected. When sowing, the next intersection must be diagonally adjacent to the previous one. Left and right turns are valid.",
+        SOW_TOO_LARGE: "The current sowing is larger than the available pieces at the sowing stack.",
+    },
+    displays: {
+        "hide-diagonals": {
+            description: "Don't show diagonal lines.",
+            name: "Hide diagonals",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 export type cellcontents = [playerid, number];
@@ -29,9 +45,8 @@ export class IntermediumGame extends GameBase {
         playercounts: [2],
         version: "20260619",
         dateAdded: "2026-07-13",
-        // i18next.t("apgames:descriptions.intermedium")
-        description: "apgames:descriptions.intermedium",
-        notes: "apgames:notes.intermedium",
+        description: "Sowing stacks to enclose and capture. Win by capturing the opponent's city.",
+        notes: "Intermedium (aka, Stepping Stones) is a 1974 game designed by Matt Crispis. This is a stack sowing game, where players try to surround the opposing home-base. Stacks only move diagonally, and each army starts in a different diagonal color, so they can never cross over (like two bishops at different square colors). Pieces are captured by enclosure, surrounding all orthogonal adjacencies of an opponent stack.\n\nSome words from the author: \"[Intermedium] is simple to learn, but may lead to complicated situations that require deep analysis and forward thinking. Single pieces do no move, but they are useful a stepping stones for your captures. And they may become alive by putting another piece over them. Before you master the game, avoid early attacks against the City that  may prove costly. Build up your strength gradually and evenly by dominating, if possible, the center. You should also avoid building 'formidable' stacks of six or more pieces - if taken you may lose the game at one stroke. Leave some forces behind to defend your City in case of emergency.\"",
         urls: [
                 "https://boardgamegeek.com/boardgame/8215",
                 "https://jpneto.github.io/world_abstract_games/intermedium.htm",
@@ -315,7 +330,7 @@ export class IntermediumGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): IntermediumGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         if (m.length === 0) { return this; }
         m = m.toLowerCase();
@@ -654,3 +669,4 @@ export class IntermediumGame extends GameBase {
         return new IntermediumGame(this.serialize());
     }
 }
+

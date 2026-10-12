@@ -5,6 +5,86 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { InARowBase } from "./in_a_row/InARowBase.js";
+export const gameApgamesEn = {
+    validation: {
+        OVERLINE_FORBIDDEN: "In this variant, you may not make a placement that creates an overline.",
+    },
+    variants: {
+        "#board": {
+            name: "Default 15x15 board",
+        },
+        "#capture": {
+            description: "You may only capture exactly 2 stones in each line.",
+            name: "Default capture rules",
+        },
+        "#opening": {
+            description: "The first player has to place their first stone in the centre of the board, and their second stone at least three intersections away from the centre.",
+            name: "Pro opening",
+        },
+        "#overline": {
+            description: "You can win by forming a line of five or more stones",
+            name: "Overline allowed",
+        },
+        "#overtime-capture": {
+            description: "The game ends immediately when a player makes a winning alignment.",
+            name: "No overtime capture",
+        },
+        "#self-capture": {
+            description: "Players may place a stone in a formation where it is surrounded by opponent's pieces such that it would ordinarily result in a capture without consequences.",
+            name: "Self-capture ignored",
+        },
+        "capture-2-3": {
+            description: "You may capture 2 or 3 stones in a line.",
+            name: "Capture 2-3 (Keryo Pente)",
+        },
+        "long-pro": {
+            description: "The first player has to place their first stone in the centre of the board, and their second stone at least four intersections away from the centre.",
+            name: "Long pro opening",
+        },
+        "overline-forbidden": {
+            description: "Any move that would create a line of six or more stones is illegal.",
+            name: "Overline forbidden",
+        },
+        "overline-ignored": {
+            description: "Overline moves are legal, but they do not count as a win. It's possible to capture a stone such that your opponent wins. Draws are possible if both players simultaneously meet the win condition.",
+            name: "Overline ignored",
+        },
+        "overtime-capture": {
+            description: "When a player makes a winning alignment, the opponent has one move to try to break that alignment.",
+            name: "Overtime capture (Boat Pente)",
+        },
+        "self-capture": {
+            description: "When players place a stone in a formation where it is surrounded by opponent's pieces such that it would ordinarily result in a capture, those stones are removed as though the opponent captured them. All captures are determined before any removal is made. This means that if we initially had XO_XXO, and the O player places at the empty space, it results in X____O, and each player gains two points.",
+            name: "Self-capture allowed (Poof Pente)",
+        },
+        "self-capture-forbidden": {
+            description: "Players may not place their stones in a formation where it is surrounded by opponent's pieces such that it would ordinarily result in a capture.",
+            name: "Self-capture forbidden",
+        },
+        "standard-19": {
+            name: "Standard 19x19 board",
+        },
+        "swap-1st": {
+            description: "The first player places a stone anywhere on the board. The next player has the option to swap colours.",
+            name: "Swap-1st opening",
+        },
+        "swap-2": {
+            description: "The first player places three stones. The next player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2.",
+            name: "Swap-2 opening",
+        },
+        "swap-5": {
+            description: "For the first five stones on the board, after placement, the next player has the option to swap colours.",
+            name: "Swap-5 opening",
+        },
+    },
+    displays: {
+        "hide-threatened": {
+            description: "Don't highlight pieces that are threatened to be captured.",
+            name: "Hide threatened pieces",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 
@@ -29,8 +109,7 @@ export class PenteGame extends InARowBase {
         playercounts: [2],
         version: "20240328",
         dateAdded: "2024-04-20",
-        // i18next.t("apgames:descriptions.pente")
-        description: "apgames:descriptions.pente",
+        description: "In Pente, players take turns placing stones on the intersections of the board. The first player to get five in a row or capture ten stones wins.",
         urls: ["https://boardgamegeek.com/boardgame/1295/pente"],
         bggid: "1295",
         people: [
@@ -378,7 +457,7 @@ export class PenteGame extends InARowBase {
             }
             if (duplicates.size > 0) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation._inarow.DUPLICATE", { where: [...duplicates].join(",") });
+                result.message = i18next.t("apgames:validation._general.DUPLICATE", { where: [...duplicates].join(",") });
                 return result;
             }
         }
@@ -419,7 +498,7 @@ export class PenteGame extends InARowBase {
                 if (moves.length > 1 && this.selfCapture === "forbidden") {
                     if (this.hasCapturesOnBoard(moves)) {
                         result.valid = false;
-                        result.message = i18next.t("apgames:validation.pente.SWAP22_CAPTURE");
+                        result.message = i18next.t("apgames:validation._inarow.SWAP2_CAPTURE");
                         return result;
                     }
                 }
@@ -458,7 +537,7 @@ export class PenteGame extends InARowBase {
         if (this.selfCapture === "forbidden") {
             if (this.getSelfCaptures(moves[0]).length > 0) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.pente.SELF_CAPTURE_FORBIDDEN");
+                result.message = i18next.t("apgames:validation._inarow.SELF_CAPTURE_FORBIDDEN");
                 return result;
             }
         }
@@ -473,13 +552,13 @@ export class PenteGame extends InARowBase {
         const regex = new RegExp(`^([a-z]+[1-9][0-9]*)(,[a-z]+[1-9][0-9]*)*$`);
         if (!regex.test(m)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation._inarow.INVALID_PLACEMENT", {move: m});
+            result.message = i18next.t("apgames:validation._general.INVALID_PLACEMENT", {move: m});
             return result;
         }
         const normalised = this.normalisePlacement(m);
         if (m !== normalised) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation._inarow.NORMALISE", {normalised});
+            result.message = i18next.t("apgames:validation._general.NORMALISE", {normalised});
             return result;
         }
         result.valid = true;
@@ -635,7 +714,7 @@ export class PenteGame extends InARowBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): PenteGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -1018,3 +1097,4 @@ export class PenteGame extends InARowBase {
         return new PenteGame(this.serialize());
     }
 }
+

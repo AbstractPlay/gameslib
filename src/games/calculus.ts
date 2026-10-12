@@ -14,6 +14,33 @@ import { Combination } from "js-combinatorics";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BAD_MOVE: "You may not move pieces that form perimeters around legal areas.",
+        BAD_PERIMETER: "That placement would create an illegal area with an equal number of stones on the perimeter.",
+        COLLIDES: "The new position would collide with a piece at {{with}}.",
+        INITIAL_INSTRUCTIONS: "Select an existing piece to move it, or click on the open space to slide a new piece to that position. If the selected position would lead to a collision, the system will attempt to snap the piece to a logical valid position.",
+        INVALID_POINT: "Could not find a valid placement point near where you clicked. Please try again.",
+        NO_PATH: "No path wide enough to accommodate a piece appears to exist between {{from}} and {{to}}.",
+        NOT_CONTAINED: "Pieces may not hang over the edge of the board.",
+        VALID_PARTIAL: "Select a destination. If the selected position would lead to a collision, the system will attempt to snap the piece to a logical valid position.",
+    },
+    variants: {
+        "#board": {
+            name: "Default board",
+            description: "Roughly 12 pieces across",
+        },
+        "width-10": {
+            description: "Roughly 10 pieces across",
+            name: "Smaller board",
+        },
+        "width-15": {
+            description: "Roughly 15 pieces across",
+            name: "Larger board",
+        },
+    },
+};
+
 
 
 type Vertex = [number,number];
@@ -59,10 +86,8 @@ export class CalculusGame extends GameBase {
         playercounts: [2],
         version: "20240518",
         dateAdded: "2024-07-14",
-        // i18next.t("apgames:descriptions.calculus")
-        description: "apgames:descriptions.calculus",
-        // i18next.t("apgames:notes.calculus")
-        notes: "apgames:notes.calculus",
+        description: "A free-form game where pieces of arbitrary size and shape are freely placed on a surface of any dimensions or shape, trying to connect opposite sides. The implementation here uses a round board and round pieces.",
+        notes: "Click on an existing piece to move it, or click on a free point to place a new piece. There must be a sufficiently wide path from some edge of the board to the placement point. If your placed piece would overlap existing pieces, the system will try to \"snap\" the placed piece so it is touching all overlapped pieces.\n\nDashed lines show pieces that are touching. Solid lines show perimeters around legal areas. Pieces connected by solid lines may not be moved.",
         urls: [
             "https://boardgamegeek.com/boardgame/30914/calculus",
         ],
@@ -612,7 +637,7 @@ export class CalculusGame extends GameBase {
      */
     public move(m: string, {partial = false, trusted = false} = {}): CalculusGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         // validate if not partial
@@ -1154,3 +1179,4 @@ export class CalculusGame extends GameBase {
         return new CalculusGame(this.serialize());
     }
 }
+

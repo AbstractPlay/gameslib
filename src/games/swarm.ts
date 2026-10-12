@@ -5,6 +5,27 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import { HexTriGraph } from "../common/graphs/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INSTRUCTIONS: "Place a friendly piece on an empty cell or click an enemy stack that is surrounded by enough friendly singletons.",
+        CANNOT_CAPTURE: "Not enough singletons to capture stack {{move}}!",
+        NOT_MAX_CAPTURE: "There are larger captures available, and you must make the largest capture possible!",
+        CAPTURES_MANDATORY: "Captures are mandatory (e.g., there's a capture at {{move}}).",
+        FRIENDLY_PIECE: "It is invalid to select a friendly piece! Either select an empty cell or a surrounded enemy stack!",
+    },
+    variants: {
+        "#board": {
+            name: "Hex board (base-3)",
+        },
+        "size-4": {
+            name: "Hex board (base-4)",
+        },
+        "size-5": {
+            name: "Hex board (base-5)",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 export type cellcontents = [playerid, number];
@@ -27,9 +48,8 @@ export class SwarmGame extends GameBase {
         playercounts: [2],
         version: "20260615",
         dateAdded: "2026-07-13",
-        // i18next.t("apgames:descriptions.swarm")
-        description: "apgames:descriptions.swarm",
-        notes: "apgames:notes.swarm",
+        description: "Making stacks by collective attacks.",
+        notes: "Swarm is a game that uses forced stack-captures to create the largest possible group on a small board. This game is designed to provide a solid number of moves for small board sizes (a Base-3 game takes around 60 moves, and a Base-4 game takes around 120 moves). Swarm was designed by Kanare Kato in 2026.",
         urls: [
                 "https://boardgamegeek.com/thread/3684281",
               ],
@@ -292,7 +312,7 @@ export class SwarmGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): SwarmGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         if (m.length === 0) { return this; }
@@ -459,3 +479,4 @@ export class SwarmGame extends GameBase {
         return new SwarmGame(this.serialize());
     }
 }
+

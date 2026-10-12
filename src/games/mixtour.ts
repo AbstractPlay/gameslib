@@ -4,6 +4,30 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { allDirections, RectGrid, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Click an empty space to enter a new piece, or click the bottom tile of a stack or substack to move it.",
+        INVALID_DISTANCE: "Stacks must move the exact distance of the height of the *target* stack.",
+        INVALID_PASS: "You may not pass as long as other valid moves are available.",
+        INVALID_TILE_NUM: "If you specify a tile number, it must be no greater than the height of the stack. The top tile of a stack is tile number '1'.",
+        MOVE_MUST_STACK: "Moving stacks must end their movement on top of another stack.",
+        PARTIAL_FULLSTACK: "Looks like you want to move an entire stack. Provide the destination.",
+        PARTIAL_SUBSTACK_one: "Looks like you want to move the top piece from the stack. Provide the destination.",
+        PARTIAL_SUBSTACK_other: "Looks like you want to move the top {{count}} pieces from the stack. Provide the destination.",
+    },
+    variants: {
+        five: {
+            description: "The winner is the first to score three points.",
+            name: "Best of Five",
+        },
+        three: {
+            description: "The winner is the first to score two points.",
+            name: "Best of Three",
+        },
+        "#scores": { name: "Default scores" }
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -28,8 +52,7 @@ export class MixtourGame extends GameBase {
         playercounts: [2],
         version: "20230624",
         dateAdded: "2023-07-01",
-        // i18next.t("apgames:descriptions.mixtour")
-        description: "apgames:descriptions.mixtour",
+        description: "Two players create towers with the goal of creating a tower at least five high with your colour at the top. The twist here is two-fold: (1) you can move opponent's pieces and (2) movement range is determined by the *target* stack height and not the moving stack height.",
         urls: [
             "https://spielstein.com/games/mixtour/rules",
             "https://boardgamegeek.com/boardgame/90942/mixtour",
@@ -350,7 +373,7 @@ export class MixtourGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): MixtourGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -581,3 +604,4 @@ export class MixtourGame extends GameBase {
         return new MixtourGame(this.serialize());
     }
 }
+

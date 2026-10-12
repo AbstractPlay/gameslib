@@ -5,6 +5,33 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        LEGAL_MOVES: "You can only walk/run to non-flooded, unoccupied adjacent spaces or jump over an unoccupied adjacent space to a non-flooded unoccupied space.",
+        MAY_RUN: "You may submit or select another destination cell to run to.",
+        MUST_FINISH_SETUP: "You cannot move a meeple until all meeples have been placed.",
+        PLACE_MEEPLE: "Select an empty cell to place a meeple on. The second player should do this twice in a row.",
+        SELECT_DESTINATION: "Select a destination cell to walk or jump to.",
+        SELECT_MEEPLE: "Select one of your meeples to move.",
+    },
+    variants: {
+        "#board": {
+            name: "Default board (37 cells)",
+        },
+        "#setup": {
+            description: "The starting position will be an empty board.",
+            name: "Default setup"
+        },
+        large: {
+            name: "Larger board (61 cells)",
+        },
+        random: {
+            description: "The starting position will have some pre-flooded spaces.",
+            name: "Random setup",
+        },
+    },
+};
+
 
 export type pieceType = 1|2|3;
 
@@ -26,8 +53,7 @@ export class QuagmireGame extends GameBase {
         playercounts: [2],
         version: "20231122",
         dateAdded: "2023-11-26",
-        // i18next.t("apgames:descriptions.quagmire")
-        description: "apgames:descriptions.quagmire",
+        description: "A race to stay afloat as the land gives away underfoot. Walk, run, and jump around the board to hamper the other team, but make sure to leave enough room for your own!",
         urls: [
             "https://cjffield.com/rules/quagmire.pdf",
             "https://boardgamegeek.com/boardgame/407206/quagmire",
@@ -408,7 +434,7 @@ export class QuagmireGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): QuagmireGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -614,3 +640,4 @@ export class QuagmireGame extends GameBase {
         return new QuagmireGame(this.serialize());
     }
 }
+

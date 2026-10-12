@@ -4,6 +4,20 @@ import { AnnotationBasic, APRenderRep, AreaPieces, Colourfuncs, Glyph, MarkerFlo
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, shuffle, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BAD_MOVE: "The only valid move is a number between 1 and 3.",
+        INITIAL_INSTRUCTIONS: "Select a number between 1 and 3.",
+        LABEL_BAG: "Pieces in bag",
+    },
+    variants: {
+        defective: {
+            name: "Defective product",
+            description: "A single defective product is added to the bag that causes the owner to lose points.",
+        },
+    },
+};
+
 
 type playerid = 1|2;
 type CellContents = "R"|"G"|"B"|"Y";
@@ -34,8 +48,7 @@ export class AssemblyGame extends GameBaseSimultaneous {
         playercounts: [2],
         version: "20250330",
         dateAdded: "2025-03-30",
-        // i18next.t("apgames:descriptions.assembly")
-        description: "apgames:descriptions.assembly",
+        description: "A simultaneous selection game where you try to trigger scoring when high-value products are on your sections of the assembly line. Highest score at the end of the game wins.",
         urls: [
             "https://boardgamegeek.com/boardgame/6568/assembly-line",
         ],
@@ -258,11 +271,11 @@ export class AssemblyGame extends GameBaseSimultaneous {
 
     public move(m: string, {partial = false, trusted = false} = {}): AssemblyGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         const moves: string[] = m.split(/\s*,\s*/);
         if (moves.length !== 2) {
-            throw new UserFacingError("MOVES_SIMULTANEOUS_PARTIAL", i18next.t("apgames:MOVES_SIMULTANEOUS_PARTIAL"));
+            throw new UserFacingError("MOVES_SIMULTANEOUS_PARTIAL", i18next.t("apgames:validation._general.MOVES_SIMULTANEOUS_PARTIAL"));
         }
         for (let i = 0; i < moves.length; i++) {
             if ( (partial) && ( (moves[i] === undefined) || (moves[i] === "") ) ) {
@@ -541,3 +554,4 @@ export class AssemblyGame extends GameBaseSimultaneous {
         return new AssemblyGame(this.serialize());
     }
 }
+

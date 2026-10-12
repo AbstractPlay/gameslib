@@ -6,6 +6,57 @@ import i18next from "i18next";
 import { InARowBase } from "./in_a_row/InARowBase.js";
 import { APRenderRep } from "@abstractplay/renderer";
 import { MarkerDots, MarkerShading } from "@abstractplay/renderer/build/schemas/schema";
+export const gameApgamesEn = {
+    validation: {
+        COLLINEAR_FIRST: "Your first stone must be collinear with a stone placed on the last turn.",
+        COLLINEAR_SECOND: "Your second stone must be collinear with your first stone.",
+        EXCESS: "You have placed too many stones. You may only place 2 stones.",
+        EXCESS_FIRST: "You have placed too many stones. You may only place 1 stone in the normal opening as the first player.",
+        INITIAL_INSTRUCTIONS: "Select 2 intersections to place your stones.",
+        INITIAL_INSTRUCTIONS_SWAP3RD2: "Place 2 stones in the centre 5x5 square.",
+        INITIAL_INSTRUCTIONS_SWAP3RD4: "Select 2 intersections to place your stones, or pass to swap colours.",
+        NO_MOVELIST: "Move list not available for this game. Click on the board to place stones.",
+        NONCOLLINEAR_SECOND: "Your second stone cannot be collinear with your first stone.",
+        SWAP3RD2_INVALID: "You may only place your stones in the centre 5x5 area for the second move in the swap-3rd opening.",
+        SWAP3RD2_ONE_MORE: "Place 1 more stone in the centre 5x5 square.",
+    },
+    variants: {
+        "#board": {
+            name: "19x19 board",
+        },
+        "#opening": {
+            description: "The first stone has to be at the centre.",
+            name: "Centre opening",
+        },
+        "#ruleset": {
+            description: "Free placement of both stones.",
+            name: "Free placement",
+        },
+        "#tiebreaker": {
+            name: "No tiebreak",
+        },
+        collinear6: {
+            description: "The first stone placed has to be collinear with a stone placed in the last turn, and the second stone has to be collinear with the first stone.",
+            name: "Collinear Connect6",
+        },
+        noncollinear5: {
+            description: "The two stones placed must not be collinear with each other. The win condition is to get at least a five-in-a-row.",
+            name: "Non-Collinear Connect5",
+        },
+        pass: {
+            description: "After the opening phase, a player may pass instead of make a move to win the tiebreaker. If the board is filled without a winner, the player who passed wins. If no player passed, then the second player wins.",
+            name: "Pass tiebreak",
+        },
+        "swap-3rd": {
+            description: "The first player places one stone of their colour in the centre, then the second places two stones of their colour in the centre 5x5, and finally the first player places two stones of their colour anywhere on the board. The second player has the option to swap colours.",
+            name: "Swap-3rd opening",
+        },
+        "toroidal-15": {
+            name: "Toroidal 15x15 board",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 
@@ -30,8 +81,7 @@ export class Connect6Game extends InARowBase {
         playercounts: [2],
         version: "20240328",
         dateAdded: "2024-04-20",
-        // i18next.t("apgames:descriptions.connect6")
-        description: "apgames:descriptions.connect6",
+        description: "Players take turns placing two stones of their colour to try to get a six (or more) in a row. In the default opening, the first player places one stone in the middle of the board. The game ends in a draw if no player gets a six-in-a-row or on two consecutive passes.",
         urls: ["https://boardgamegeek.com/boardgame/22847/connect6"],
         bggid: "22847",
         people: [
@@ -473,7 +523,7 @@ export class Connect6Game extends InARowBase {
                 if (this.stack.length === 2 && this.openingProtocol === "swap-3rd") {
                     result.message = i18next.t("apgames:validation.connect6.SWAP3RD2_ONE_MORE");
                 } else {
-                    result.message = i18next.t("apgames:validation.connect6.ONE_MORE");
+                    result.message = i18next.t("apgames:validation._inarow.SWAP21_one");
                 }
                 return result;
             }
@@ -495,7 +545,7 @@ export class Connect6Game extends InARowBase {
             }
             if (duplicates.size > 0) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation._inarow.DUPLICATE", { where: [...duplicates].join(",") });
+                result.message = i18next.t("apgames:validation._general.DUPLICATE", { where: [...duplicates].join(",") });
                 return result;
             }
             if (this.ruleset === "collinear6") {
@@ -516,13 +566,13 @@ export class Connect6Game extends InARowBase {
         const regex = new RegExp(`^([a-z]+[1-9][0-9]*)(,[a-z]+[1-9][0-9]*)*$`);
         if (!regex.test(m)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation._inarow.INVALID_PLACEMENT", {move: m});
+            result.message = i18next.t("apgames:validation._general.INVALID_PLACEMENT", {move: m});
             return result;
         }
         const normalised = this.normalisePlacement(m);
         if (m !== normalised) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation._inarow.NORMALISE", {normalised});
+            result.message = i18next.t("apgames:validation._general.NORMALISE", {normalised});
             return result;
         }
         result.valid = true;
@@ -565,7 +615,7 @@ export class Connect6Game extends InARowBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): Connect6Game {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -854,3 +904,4 @@ export class Connect6Game extends InARowBase {
         return new Connect6Game(this.serialize());
     }
 }
+

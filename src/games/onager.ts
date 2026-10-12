@@ -5,6 +5,20 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        CENTRE_PLACEMENT: "The lake cannot be placed at the centre cell, {{where}}.",
+        INITIAL_INSTRUCTIONS: "Select one of your pieces to walk or jump.",
+        INITIAL_INSTRUCTIONS_PLACE: "Select an empty cell to place a lake.",
+        INVALID_MOVES: "This sequence of moves {{moves}} is invalid.",
+        CONTINUE: "A walk ends after one step; you cannot add further destinations.",
+        OPTIONAL_CONTINUE: "You have landed on your opponent's piece. If you wish to continue your move, select another destination to jump to, otherwise submit the move.",
+        SELECT_MORE_SUPERKO: "You must continue jumping because stopping here would repeat a previous board state.",
+        SELECT_TO: "Select a destination to walk to or jump to.",
+        SUPERKO: "Superko: you may not repeat a previous board state.",
+    },
+};
+
 
 export type playerid = 1|2|3;  // Player 3 is used for the neutral obstacle pieces.
 type directions = "NE"|"E"|"SE"|"SW"|"W"|"NW"
@@ -30,8 +44,7 @@ export class OnagerGame extends GameBase {
         // Ban superko and add pie.
         version: "20260806",
         dateAdded: "2024-02-01",
-        // i18next.t("apgames:descriptions.onager")
-        description: "apgames:descriptions.onager",
+        description: "In Onager each player tries to reach the opponent's back rank. Onager is named after a Roman siege engine that is a type of catapult, as the way the pieces move resembles how projectiles are hurled forward with this device.",
         urls: ["https://boardgamegeek.com/boardgame/131047/onager"],
         bggid: "131047",
         people: [
@@ -458,7 +471,7 @@ export class OnagerGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): OnagerGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -702,3 +715,4 @@ export class OnagerGame extends GameBase {
         return new OnagerGame(this.serialize());
     }
 }
+

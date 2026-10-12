@@ -5,6 +5,21 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        FROZEN_NEIGHBOUR: "You cannot place next one of your frozen groups.",
+        INITIAL_INSTRUCTIONS: "Select an empty cell that is not adjacent to one of your frozen groups.",
+    },
+    variants: {
+        "#board": {
+            name: "Size-5 board (61 cells)",
+        },
+        "size-7": {
+            name: "Size-7 board (127 cells)",
+        },
+    },
+};
+
 
 type playerid = 1|2;
 
@@ -30,8 +45,7 @@ export class VergeGame extends GameBase {
         playercounts: [2],
         version: "20240126",
         dateAdded: "2024-01-30",
-        // i18next.t("apgames:descriptions.verge")
-        description: "apgames:descriptions.verge",
+        description: "Verge is a game where players attempt to create groups that partition the board, freezing those groups and removing enemy groups. The first player to have no legal placement wins.",
         urls: ["https://boardgamegeek.com/boardgame/396931/verge"],
         bggid: "396931",
         people: [
@@ -318,7 +332,7 @@ export class VergeGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): VergeGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -490,3 +504,4 @@ export class VergeGame extends GameBase {
         return new VergeGame(this.serialize());
     }
 }
+

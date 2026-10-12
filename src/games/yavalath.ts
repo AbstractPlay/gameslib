@@ -5,6 +5,14 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { HexTriGraph, reviver, UserFacingError, cloneState } from "../common/index.js";
 import type { HexDir } from "../common/graphs/hextri.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BAD_PASS: "You may only pass if you have been eliminated.",
+        INITIAL_INSTRUCTIONS: "Click an empty cell to place a piece.",
+        MUST_BLOCK: "In a three-player game, you must block a next-opponent win if possible.",
+    },
+};
+
 
 export type playerid = 1|2|3;
 
@@ -27,8 +35,7 @@ export class YavalathGame extends GameBase {
         playercounts: [2,3],
         version: "20250112",
         dateAdded: "2025-01-12",
-        // i18next.t("apgames:descriptions.yavalath")
-        description: "apgames:descriptions.yavalath",
+        description: "Form a line of four or more pieces of your colour *without* forming a line of three pieces first.",
         urls: ["https://boardgamegeek.com/boardgame/33767/yavalath"],
         bggid: "33767",
         people: [
@@ -243,7 +250,7 @@ export class YavalathGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): YavalathGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -478,3 +485,4 @@ export class YavalathGame extends GameBase {
         return Object.assign(new YavalathGame(this.numplayers), cloneState(this) as YavalathGame);
     }
 }
+

@@ -4,6 +4,16 @@ import { APRenderRep, AreaPieces, Glyph, MarkerFlood, MarkerGlyph } from "@abstr
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, SquareDirectedGraph, UserFacingError, Direction as Direction, allDirections, normDeg, smallestDegreeDiff, deg2dir, dir2deg } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select one of your penguins on the board or in your hand.",
+        PARTIAL_DIRECTION_kick: "Select a neigbouring cell to kick the ball in that direction.",
+        PARTIAL_DIRECTION_penguin: "Select a neigbouring cell to travel in that direction or, if you're laying down, click the cell again to stand up.",
+        PARTIAL_ORIENTATION: "Select a neighbouring cell to reorient your penguin, or click your penguin to stay in the direction you're already facing.",
+        LABEL_STASH: "{{player}}'s stash",
+    },
+};
+
 
 export type playerid = 1|2;
 export type Size = 1|2|3;
@@ -36,8 +46,7 @@ export class PenguinGame extends GameBase {
         playercounts: [2],
         version: "20250120",
         dateAdded: "2025-01-24",
-        // i18next.t("apgames:descriptions.penguin")
-        description: "apgames:descriptions.penguin",
+        description: "It is a truth universally acknowledged that everybody loves seeing penguins sliding around on the ice. And soccer is the world's game, right? So take some cute families of penguins, give them an icy soccer field and a ball, and watch the slippery goodness that ensues.",
         urls: [
             "https://boardgamegeek.com/boardgame/30760/penguin-soccer",
             "https://boardgamegeek.com/thread/559441/penguin-soccer-faq",
@@ -709,7 +718,7 @@ export class PenguinGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): PenguinGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         const parsed = this.parseMove(m);
@@ -987,3 +996,4 @@ export class PenguinGame extends GameBase {
         return new PenguinGame(this.serialize());
     }
 }
+

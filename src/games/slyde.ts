@@ -4,6 +4,38 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        FIXED_PIECE_FROM: "The selected piece at {{from}} is fixed and cannot be moved.",
+        FIXED_PIECE_TO: "The selected piece at {{to}} is fixed and cannot be swapped with.",
+        INITIAL_INSTRUCTIONS: "Select a mobile piece to swap.",
+        INITIAL_INSTRUCTIONS_SYMMETRIC: "Current board state is symmetric. Select a mobile piece to swap, or select a piece to change its state.",
+        NO_CHANGE_FIRST_MOVE: "You may not change the state of a piece on the first move.",
+        NO_MOVES_FROM: "The selected piece at {{from}} has no available moves.",
+        NON_SYMMETRIC: "The board state is not symmetric. You may not change the state of a piece.",
+        NOT_ADJACENT: "The selected piece at {{to}} is not adjacent to the piece at {{from}}.",
+        ONLY_CHANGE: "The selected piece at {{from}} cannot be moved.",
+        SAME_PLAYER: "You may not swap a piece with another piece of the same colour.",
+        SELECT_CHANGE: "Select the piece again to change its state.",
+        SELECT_DESTINATION: "Select a destination to move the piece to.",
+        SELECT_DESTINATION_OR_CHANGE: "Select a destination to move the piece to, or select the piece again to change its state.",
+    },
+    variants: {
+        "#board": {
+            name: "12x12 board",
+        },
+        "size-8": {
+            name: "8x8 board",
+        },
+        "size-10": {
+            name: "10x10 board",
+        },
+        "size-16": {
+            name: "16x16 board",
+        },
+    },
+};
+
 
 const changeSymbol = "*";
 type playerid = 1 | 2;
@@ -28,8 +60,7 @@ export class SlydeGame extends GameBase {
         playercounts: [2],
         version: "20240617",
         dateAdded: "2024-07-14",
-        // i18next.t("apgames:descriptions.slyde")
-        description: "apgames:descriptions.slyde",
+        description: "In Slyde, the goal is to form the largest orthogonal group of your colour. Pieces can be fixed or mobile. The game starts in a checkerboard position and all pieces start mobile. On your turn, you may swap a mobile piece with an adjacent mobile piece of your opponent, and your piece becomes fixed. The game ends when one player runs out of moves. If the board is in a mirror-symmetric position after the first turn, you may change the state of a piece instead of performing the standard swap.",
         urls: ["https://boardgamegeek.com/boardgame/308111/slyde"],
         bggid: "308111",
         people: [
@@ -475,7 +506,7 @@ export class SlydeGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): SlydeGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -723,3 +754,4 @@ export class SlydeGame extends GameBase {
         return new SlydeGame(this.serialize());
     }
 }
+

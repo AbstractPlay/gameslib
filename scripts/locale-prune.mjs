@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { writeLocaleJson } from "./locale-json-format.mjs";
+import { assertEnApgamesMergeCurrent } from "./lib/ensure-merged-en-apgames.mjs";
 
 export const MANAGED_LANGS = ["de", "fr", "it", "es-US"];
 
@@ -179,6 +180,13 @@ function runCli() {
   if (files.length === 0) {
     console.error("Usage: node scripts/locale-prune.mjs [--dry-run] <locales/en/file.json> [...]");
     process.exit(1);
+  }
+
+  for (const file of files) {
+    if (path.basename(file) === "apgames.json" && file.replace(/\\/g, "/").includes("/en/")) {
+      assertEnApgamesMergeCurrent("Before locale prune: ");
+      break;
+    }
   }
 
   let changedCount = 0;

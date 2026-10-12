@@ -4,6 +4,38 @@ import { APRenderRep, Glyph, IsoPiece, MarkerGlyph, RowCol } from "@abstractplay
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { allDirections, RectGrid, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        DISTANCE_CAPTURES: "Capture moves must not increase your distance from the centre.",
+        DISTANCE_NONCAPTURES: "Non-capture moves must increase your distance from the centre.",
+        INITIAL_INSTRUCTIONS: "Select one of your own pieces.",
+        MUST_MOVE: "If you have a move available you can not pass your turn.",
+        NONCAPTURES_KINGS: "Non-capturing moves can only move one space at a time.",
+        PARTIAL: "Select a destination.",
+    },
+    variants: {
+        "#board": {
+            name: "6x6 board",
+        },
+        "8x8": {
+            name: "8x8 board",
+        },
+    },
+    displays: {
+        "#projection": {
+            name: "Top-down view",
+        },
+        "isometric-20": {
+            description: "Pronounced elevation: A quasi-3d view of the field where the spaces get higher as you move away from the centre.",
+            name: "Isometric: Pronounced Elevation",
+        },
+        "isometric-5": {
+            description: "Subtle elevation: A quasi-3d view of the field where the spaces get higher as you move away from the centre.",
+            name: "Isometric: Subtle Elevation",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -32,8 +64,7 @@ export class ZolaGame extends GameBase {
         playercounts: [2],
         version: "20211210",
         dateAdded: "2023-05-01",
-        // i18next.t("apgames:descriptions.zola")
-        description: "apgames:descriptions.zola",
+        description: "A game where your movement is constrained by your distance from the centre of the board. Capturing moves must not increase that distance. Non-capturing moves must increase that distance. First person to capture all opposing pieces wins.",
         urls: [
             "http://www.marksteeregames.com/Zola.pdf",
             "https://boardgamegeek.com/boardgame/331666/zola",
@@ -376,7 +407,7 @@ export class ZolaGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): ZolaGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -712,3 +743,4 @@ export class ZolaGame extends GameBase {
     }
 
 }
+

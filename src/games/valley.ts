@@ -4,6 +4,36 @@ import { APRenderRep, BoardBasic, RowCol } from "@abstractplay/renderer/build/sc
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError, allDirections } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BAD_VARIANT: "You can only move towers in the Moon Labyrinth variant.",
+        INITIAL_INSTRUCTIONS: "Select a piece to move.",
+        KING_ONLY: "Only the king may end its turn on the centre space.",
+        NO_STOPPING: "Pieces must move in their chosen direction until stopped by the edge of the board or another piece.",
+        NO_TOKENS: "You may only move towers when you have moon tokens.",
+        PARTIAL: "Select the destination.",
+        PAWN_FIRST: "The first move of the game cannot be made with the king.",
+        TOWER_NO_TAKEBACKS: "You may not just immediately undo an opponent's tower move.",
+        TOWER_ORTH: "Towers may only move orthogonally.",
+        TOWER_SINGLE_STEP: "Towers may only move one space.",
+    },
+    variants: {
+        "king-swap": {
+            description: "Kings start on the opposing side of the board.",
+            name: "Retrieve the King",
+        },
+        labyrinth: {
+            description: "Board size increases to 7x7 and four towers further complicate the field.",
+            name: "Labyrinth",
+        },
+        moon: {
+            description: "Also 7x7 board with four towers, but the towers start in slightly different places, and players are able to move the towers.",
+            name: "Moon Labyrinth",
+        },
+        "#rules": { name: "Default rules" }
+    },
+};
+
 
 export type playerid = 0|1|2;
 export type Piece = "pawn"|"king"|"tower";
@@ -28,8 +58,7 @@ export class ValleyGame extends GameBase {
         playercounts: [2],
         version: "20240218",
         dateAdded: "2024-02-18",
-        // i18next.t("apgames:descriptions.valley")
-        description: "apgames:descriptions.valley",
+        description: "Get your king to the center space, but your pieces must always move as far as they can. Teamwork is essential.",
         urls: [
             "http://www.logygames.com/english/kingsvalley.html",
             "https://boardgamegeek.com/boardgame/86169/kings-valley",
@@ -409,7 +438,7 @@ export class ValleyGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): ValleyGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -626,7 +655,7 @@ export class ValleyGame extends GameBase {
     public sidebarScores(): IScores[] {
         if (this.moon !== undefined) {
             return [
-                { name: this.neutralAreaLabel("apgames:status.valley"), scores: this.moon }
+                { name: this.neutralAreaLabel("apgames:status.SCORES"), scores: this.moon }
             ]
         }
         return [];
@@ -637,3 +666,4 @@ export class ValleyGame extends GameBase {
         return new ValleyGame(this.serialize());
     }
 }
+

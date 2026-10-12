@@ -6,6 +6,33 @@ import { APRenderRep, AreaPieces, Glyph } from "@abstractplay/renderer/build/sch
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        ADJ_ONLY: "Pieces may only move to orthogonally adjacent spaces.",
+        BAD_PASS: "You may not pass if legal moves are available.",
+        BAD_STACK: "You may not stack the pieces from {{from}} on top of {{to}}. The bottom piece of the top stack must not be larger than the top piece of the bottom stack.",
+        INITIAL_INSTRUCTIONS_place: "Click a piece in your stash to place on the board.",
+        INITIAL_INSTRUCTIONS_stack: "Click a pyramid or stack to move it.",
+        INVALID_SIZE: "The piece you selected is invalid. It must be a 1, 2, or 3.",
+        MUST_MOVE: "You must move a piece.",
+        MUST_STACK: "Stacks may not be moved onto empty spaces, only other stacks.",
+        NO_PIECE: "You don't have a size {{size}} piece to place.",
+        ORTH_ONLY: "Pieces may only move orthogonally.",
+        PARTIAL_MOVEMENT: "Click an orthogonally adjacent, occupied space to move on top of.",
+        PARTIAL_PLACEMENT: "Click an empty space on the board to place your {{size}} piece.",
+    },
+    variants: {
+        "#setup": {
+            description: "The board starts empty, and the first half of the game is the players placing their pyramids.",
+            name: "Default setup"
+        },
+        quickStart: {
+            name: "Quick start",
+            description: "A learning mode that randomly places the pyramids for you, so players start directly at the stacking half of the game.",
+        },
+    },
+};
+
 
 export type playerid = 1|2|3|4;
 type Stash = [number, number, number];
@@ -43,8 +70,7 @@ export class PylonGame extends GameBase {
         playercounts: [2],
         version: "20241204",
         dateAdded: "2024-12-13",
-        // i18next.t("apgames:descriptions.pylon")
-        description: "apgames:descriptions.pylon",
+        description: "The game is played in two phases: a placement phase, in which all the pyramids are placed onto the board, followed by a stacking phase, in which pyramids are collected into stacks. Control the majority of the pyramids to win.",
         urls: [
             "https://looneypyramids.wiki/wiki/Pylon",
             "https://boardgamegeek.com/boardgame/34811/pylon",
@@ -456,7 +482,7 @@ export class PylonGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): PylonGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -749,3 +775,4 @@ export class PylonGame extends GameBase {
         return Object.assign(new PylonGame(this.state()), cloneState(this) as PylonGame);
     }
 }
+

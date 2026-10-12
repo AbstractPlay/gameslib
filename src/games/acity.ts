@@ -6,6 +6,24 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, shuffle, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { SquareOrthGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        BAD_DOME: "Domes may only be placed on tiles of the same colour unless all such placements break the road network.",
+        BAD_TOWER: "Towers may only be placed on tiles their own colour, on black tiles, or on tiles that already contain two legally placed structures.",
+        BROKEN_ROAD: "Placing a piece at {{where}} would break the road network.",
+        CLAIM_TOWERS: "You may only claim towers.",
+        DOUBLE_CLAIM: "The tower at {{where}} has already been claimed.",
+        INITIAL_INSTRUCTIONS: "Select a piece from your stash, or type 'pass' if you have no legal moves remaining.",
+        INVALID_PIECE: "You don't have {{piece}} in your stash to place.",
+        ISOLATED: "Placing a piece at {{where}} would cut another piece off from the road network.",
+        MARKER: "You may not build on the lot containing the suit icon until all other legally buildable lots on that tile are occupied.",
+        NO_MORE_CLAIMS: "You have already claimed three towers. You may not claim any more.",
+        PARTIAL_MOVE: "Select the lot where you want to build.",
+        VALID_W_CLAIMS: "Looks like a valid move. You may also choose to claim a tower.",
+        LABEL_STASH: "{{player}}'s stash",
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -41,8 +59,7 @@ export class ACityGame extends GameBase {
         playercounts: [2],
         version: "20230531",
         dateAdded: "2023-06-22",
-        // i18next.t("apgames:descriptions.acity")
-        description: "apgames:descriptions.acity",
+        description: "Alien City is a combination Piecepack/Icehouse game about building a city on a newly colonized world. Four guilds compete for customers, and the player has to predict which bets are going to pay off. Each turn, the player places either a tower or dome and may optionally claim a tower they think is going to score big when the game ends. Play continues until no more construction is possible. Scores are based on the relative positions of buildings to claimed towers.",
         urls: ["https://www.looneylabs.com/content/alien-city", "https://boardgamegeek.com/boardgame/20623/alien-city"],
         bggid: "20623",
         people: [
@@ -399,7 +416,7 @@ export class ACityGame extends GameBase {
                 return result;
             } else {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.acity.INVALID_PASS");
+                result.message = i18next.t("apgames:validation._general.INVALID_PASS");
                 return result;
             }
         }
@@ -652,7 +669,7 @@ export class ACityGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): ACityGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         // normalize caps
         if (m.toLowerCase() !== "pass") {
@@ -1147,3 +1164,4 @@ export class ACityGame extends GameBase {
         return new ACityGame(this.serialize());
     }
 }
+

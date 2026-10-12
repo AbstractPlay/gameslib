@@ -292,10 +292,10 @@ describe("Ice Palace: building the Palace", () => {
         expect(stacks[2]).to.deep.equal(["a1L,a1M"]);
         expect(new Set(reps.map(rep => `${rep.pieces.length}x${rep.pieces[0].length}`)).size).to.equal(1);
         // The stock dwindles through the frames, then the next hand is offered.
-        expect(reps[0].areas![0].label?.textKey).to.equal("apgames:icepalace.STOCK");
+        expect(reps[0].areas![0].label?.textKey).to.equal("apgames:status.icepalace.STOCK");
         expect(reps[0].areas![0].stash!.flat()).to.deep.equal(["s1M", "s1L"]);
         expect(reps[1].areas![0].stash!.flat()).to.deep.equal(["s1M"]);
-        expect(reps[2].areas![0].label?.textKey).to.equal("apgames:icepalace.HAND");
+        expect(reps[2].areas![0].label?.textKey).to.equal("apgames:status.icepalace.HAND");
         // Rendering leaves the game as it was, and the frames survive a round trip.
         expect(g.phase).to.equal("hand");
         expect(g.palace.get("0.0")).to.deep.equal(["1L", "1M"]);
@@ -585,7 +585,7 @@ describe("Ice Palace: board interaction", () => {
         expect(rep.areas).to.have.length(2);
         expect(rep.areas[0].type).to.equal("localStash");
         expect(rep.areas[1].type).to.equal("localStash");
-        expect(rep.areas[1].label?.textKey).to.equal("apgames:icepalace.POOL");
+        expect(rep.areas[1].label?.textKey).to.equal("apgames:status.icepalace.IN_POOL");
         // One dense column per colour, largest at the bottom; the renderer stacks 3D silhouettes.
         expect(rep.areas[1].stash).to.deep.equal([
             ["b1L", "b1S"],

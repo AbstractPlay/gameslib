@@ -6,6 +6,60 @@ import { RectGrid, reviver, UserFacingError, SquareOrthGraph, cloneState } from 
 import { connectedComponents } from "graphology-components";
 
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_SETUP: "Choose a number of points to add to the second player's score, and the next player will choose sides. This implementation uses Chinese area rules. Scores are based on the current area ownership. Super-Ko applies to prevent cycles. Players do need to capture all dead stones before ending the game with two consecutive passes.",
+        CYCLE: "A previous position cannot be repeated; super-Ko applies.",
+        INSTRUCTIONS: "Select an intersection to place a piece.",
+        INVALID_KOMI: "You must choose an number in increments of 0.5 (like 4 or 4.5) to add to the second player's score.",
+        INVALID_PLAYSECOND: "You cannot choose to play second from this board state.",
+        INVALID_PASS: "You cannot pass currently.",
+        KOMI_CHOICE: "You may either make the first move on the board and let your opponent keep the bonus points (an integer) or you may choose \"Play second\" and take the bonus points for yourself.",
+        KO: "Ko rule: you may not immediately recapture your opponent's single stone if they just used it to capture one of yours.",
+        SELF_CAPTURE: "You may not place your stones in self-capture.",
+    },
+    variants: {
+        "size-5": {
+            name: "5x5 board",
+        },
+        "size-9": {
+            name: "9x9 board",
+        },
+        "size-13": {
+            name: "13x13 board",
+        },
+        "size-17": {
+            name: "17x17 board",
+        },
+        "#board": {
+            name: "19x19 board",
+        },
+        "size-21": {
+            name: "21x21 board",
+        },
+        "size-25": {
+            name: "25x25 board",
+        },
+        "size-37": {
+            name: "37x37 board",
+        },
+        "#ruleset": {
+            description: "Area scoring; situational superko",
+            name: "AGA Rules",
+        },
+        positional: {
+            description: "Area scoring; positional superko",
+            name: "Positional Superko",
+        },
+    },
+    displays: {
+        "show-controlled-areas": {
+            description: "Highlight the areas currently controlled by each player.",
+            name: "Show controlled areas",
+        },
+    },
+};
+
 
 
 type playerid = 1 | 2 | 3; // 3 is for neutral owned areas
@@ -36,8 +90,7 @@ export class GoGame extends GameBase {
         playercounts: [2],
         version: "20260225",
         dateAdded: "2026-03-07",
-        // i18next.t("apgames:descriptions.go")
-        description: "apgames:descriptions.go",
+        description: "The traditional game of Go",
         urls: [
                 "https://boardgamegeek.com/boardgame/188/go",
                 "https://senseis.xmp.net/"
@@ -532,7 +585,7 @@ export class GoGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): GoGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -777,3 +830,4 @@ export class GoGame extends GameBase {
         return cloned;
     }
 }
+

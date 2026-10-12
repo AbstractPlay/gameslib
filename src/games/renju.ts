@@ -5,6 +5,131 @@ import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { InARowBase } from "./in_a_row/InARowBase.js";
 import { APRenderRep, Glyph } from "@abstractplay/renderer";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS_RIF1: "Select a renju opening. The first stone must be placed in the centre of the board, the second in the centre 3x3 square, and the third in the centre 5x5 square. Symmetries are disallowed.",
+        INITIAL_INSTRUCTIONS_RIF2: "Select an intersection to place the second stone, or pass to swap colours.",
+        INITIAL_INSTRUCTIONS_RIF2_PASSED: "Select an intersection to place the second stone.",
+        INITIAL_INSTRUCTIONS_RIF3: "Select two intersections to place the fifth stone.",
+        INITIAL_INSTRUCTIONS_RIF4: "Choose one of the 2 tentative fifths, then place the sixth stone.",
+        INITIAL_INSTRUCTIONS_SOOSYRV1: "Select a renju opening. The first stone must be placed in the centre of the board, the second in the centre 3x3 square, and the third in the centre 5x5 square. Symmetries are disallowed.",
+        INITIAL_INSTRUCTIONS_SOOSYRV2: "Place the fourth stone, and then declare the number of tentative fifths. You may pass to swap colours.",
+        INITIAL_INSTRUCTIONS_SOOSYRV2_PASSED: "Place the fourth stone, and then declare the number of tentative fifths.",
+        INITIAL_INSTRUCTIONS_SOOSYRV3: "Place {{count}} tentative fifths. You may pass to swap colours.",
+        INITIAL_INSTRUCTIONS_SOOSYRV3_PASSED: "Place {{count}} tentative fifths.",
+        INITIAL_INSTRUCTIONS_SOOSYRV4_one: "Choose the one tentative fifths, then place the sixth stone.",
+        INITIAL_INSTRUCTIONS_SOOSYRV4_other: "Choose one of the {{count}} tentative fifths, then place the sixth stone.",
+        INITIAL_INSTRUCTIONS_TARAGUCHI1: "Place the first stone in the centre of the board.",
+        INITIAL_INSTRUCTIONS_TARAGUCHI2: "Place the second stone in the centre 3x3 square, or pass to swap colours. Symmetries are disallowed.",
+        INITIAL_INSTRUCTIONS_TARAGUCHI2_PASSED: "Place the second stone in the centre 3x3 square. Symmetries are disallowed.",
+        INITIAL_INSTRUCTIONS_TARAGUCHI3: "Place the third stone in the centre 5x5 square, or pass to swap colours. Symmetries are disallowed.",
+        INITIAL_INSTRUCTIONS_TARAGUCHI3_PASSED: "Place the third stone in the centre 5x5 square. Symmetries are disallowed.",
+        INITIAL_INSTRUCTIONS_TARAGUCHI4: "Place the fourth stone in the centre 7x7 square, or pass to swap colours.",
+        INITIAL_INSTRUCTIONS_TARAGUCHI4_PASSED: "Place the fourth stone in the centre 7x7 square.",
+        INITIAL_INSTRUCTIONS_TARAGUCHI5: "You may do one of (1) place the fifth stone in the centre 9x9 square, (2) pass to swap colours, or (3) place 10 tentative fifths anywhere on the board.",
+        INITIAL_INSTRUCTIONS_TARAGUCHI5_PASSED: "Place the fifth stone in the centre 9x9 square.",
+        INITIAL_INSTRUCTIONS_TARAGUCHI6: "Select an intersection to place a stone, or pass to swap colours.",
+        INITIAL_INSTRUCTIONS_TARAGUCHI6_CHOOSE: "Choose one of the 10 tentative fifths, then place the sixth stone.",
+        INITIAL_INSTRUCTIONS_YAMAGUCHI1: "Select a renju opening, then declare the number of tentative fifths. The first stone must be placed in the centre of the board, the second in the centre 3x3 square, and the third in the centre 5x5 square. Symmetries are disallowed.",
+        INITIAL_INSTRUCTIONS_YAMAGUCHI2: "Select an intersection to place the fourth stone, or pass to swap colours.",
+        INITIAL_INSTRUCTIONS_YAMAGUCHI2_PASSED: "Select an intersection to place the fourth stone.",
+        INITIAL_INSTRUCTIONS_YAMAGUCHI3_one: "Place 1 tentative fifth.",
+        INITIAL_INSTRUCTIONS_YAMAGUCHI3_other: "Place {{count}} tentative fifths.",
+        INITIAL_INSTRUCTIONS_YAMAGUCHI4_one: "Choose the one tentative fifth, then place the sixth stone.",
+        INITIAL_INSTRUCTIONS_YAMAGUCHI4_other: "Choose one of the {{count}} tentative fifths, then place the sixth stone.",
+        RENJU_OPENING_EXCESS: "You may only place 3 stones.",
+        RENJU_OPENING1_INCORRECT: "The first stone has to be at the centre of the board.",
+        RENJU_OPENING2: "Place the second stone at the centre 3x3 square. Choose one of the two highlighted intersections.",
+        RENJU_OPENING2_INCORRECT: "The second stone has to be at the centre 3x3 square. In this this implementation, symmetries are disallowed. Choose one of the two highlighted intersections.",
+        RENJU_OPENING3: "Place the third stone at the centre 5x5 square. Choose one of the 13 highlighted intersections.",
+        RENJU_OPENING3_INCORRECT: "The third stone has to be at the centre 5x5 square. In this this implementation, symmetries are disallowed. Choose one of the 13 highlighted intersections.",
+        RIF3_EXCESS: "You may place only 2 tentative fifths.",
+        RIF4_CHOOSE: "You have to choose one of the two tentative fifths",
+        RIF4_EXCESS: "You have too many items in your move.",
+        RIF32: "Place 1 more tentative fifth.",
+        RIF42: "Select an intersection to place the sixth stone.",
+        SOOSYRV2_STONES_BEFORE_TENTATIVE: "You need to place your stone before declaring the number of tentative fifths.",
+        SOOSYRV2_TENTATIVE: "Declare the number of tentative fifths.",
+        SOOSYRV2_TENTATIVE_COUNT_EXCEED: "The number of tentative fifths must be at most 8.",
+        SOOSYRV3_EXCESS_one: "You may only place 1 tentative fifth.",
+        SOOSYRV3_EXCESS_other: "You may only place {{count}} tentative fifths.",
+        SOOSYRV3_MORE_one: "Place 1 more tentative fifth.",
+        SOOSYRV3_MORE_other: "Place {{count}} more tentative fifths.",
+        SOOSYRV4_CHOOSE_one: "You have to choose the one tentative fifth.",
+        SOOSYRV4_CHOOSE_other: "You have to choose one of the {{count}} tentative fifths.",
+        SOOSYRV4_EXCESS: "You have too many items in your move.",
+        SOOSYRV42: "Select an intersection to place the sixth stone.",
+        SYMMETRY: "The tentative fifths must not be placed in symmetrical positions.",
+        TARAGUCHI_RESTRICTION1: "The first stone has to be at the centre of the board.",
+        TARAGUCHI_RESTRICTION2: "The second stone has to be at the centre 3x3 square. Symmetries are disallowed. Choose one of the 2 highlighted intersections.",
+        TARAGUCHI_RESTRICTION3: "The third stone has to be at the centre 5x5 square. Symmetries are disallowed. Choose one of the 13 highlighted intersections.",
+        TARAGUCHI_RESTRICTION4: "The fourth stone has to be at the centre 7x7 square.",
+        TARAGUCHI_RESTRICTION5: "The fifth stone has to be at the centre 9x9 square.",
+        TARAGUCHI_RESTRICTION5_EXCESS: "You may place only 10 tentative fifths.",
+        TARAGUCHI_RESTRICTION5_INSIDE: "Submit the move, or continue placing 9 more tentative fifths.",
+        TARAGUCHI_RESTRICTION5_MORE_one: "Place one more tentative fifth.",
+        TARAGUCHI_RESTRICTION5_MORE_other: "Place {{count}} more tentative fifths.",
+        TARAGUCHI6_CHOOSE: "You have to choose one of the 10 tentative fifths.",
+        TARAGUCHI6_EXCESS: "You have too many items in your move.",
+        TARAGUCHI62: "Select an intersection to place the sixth stone.",
+        YAMAGUCHI1_EXCESS: "You may only place 3 stones.",
+        YAMAGUCHI1_STONES_BEFORE_TENTATIVE: "You need to place the 3 stones before declaring the number of tentative fifths.",
+        YAMAGUCHI1_TENTATIVE: "Declare the number of tentative fifths.",
+        YAMAGUCHI1_TENTATIVE_COUNT_EXCEED: "The number of tentative fifths must be at most 12.",
+        YAMAGUCHI3_EXCESS_one: "You may only place 1 tentative fifth.",
+        YAMAGUCHI3_EXCESS_other: "You may only place {{count}} tentative fifths.",
+        YAMAGUCHI3_MORE_one: "Place one more tentative fifth.",
+        YAMAGUCHI3_MORE_other: "Place {{count}} more tentative fifths.",
+        YAMAGUCHI4_CHOOSE_one: "You have to choose the one tentative fifth.",
+        YAMAGUCHI4_CHOOSE_other: "You have to choose one of the {{count}} tentative fifths.",
+        YAMAGUCHI4_EXCESS: "You have too many items in your move.",
+        YAMAGUCHI42: "Select an intersection to place the sixth stone.",
+    },
+    variants: {
+        "#opening": {
+            description: "The first player has to place their first stone in the centre of the board. There are no other opening placement restrictions.",
+            name: "Centre opening",
+        },
+        "#tiebreaker": {
+            name: "No tiebreak",
+        },
+        pass: {
+            description: "After the opening phase, a player may pass instead of make a move to win the tiebreaker. If the board is filled without a winner, the player who passed wins. If no player passed, second player wins.",
+            name: "Pass tiebreak",
+        },
+        rif: {
+            description: "Classic Renju International Federation rules. Select a canonical opening and the other player may swap. Two tentative fifths are given. <https://www.renju.net/rule/1/>",
+            name: "Classic RIF opening",
+        },
+        "soosyrv-8": {
+            description: "Official tournament rule since 2015. Starts like RIF, but upon placing the fourth stone, up to 8 tentative fifths can be declared, and the other player may swap. <https://www.renju.net/rule/24/>",
+            name: "Soosõrv-8 opening",
+        },
+        "swap-2": {
+            description: "Free opening. The first player places three stones. The next player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2.",
+            name: "Swap-2 opening",
+        },
+        "swap-5": {
+            description: "Free opening. For the first five stones on the board, after placement, the next player has the option to swap colours.",
+            name: "Swap-5 opening",
+        },
+        "taraguchi-10": {
+            description: "Beginner-friendly rule that is popular in correspondence games. Each player places one stone during the opening and the other player may swap. 10-tentative-fifths rule is implemented in case a player tries to make an exploitive opening (beginners may ignore this). <https://www.renju.net/rule/25/>",
+            name: "Taraguchi-10 opening",
+        },
+        yamaguchi: {
+            description: "Official tournament rule from 2009 to 2015. Simple modification to the RIF opening where instead of a fixed number of tentative fifths (two), on the first move, the player declares the number of tentative fifths. <https://www.renju.net/rule/5/>",
+            name: "Yamaguchi opening",
+        },
+    },
+    displays: {
+        "hide-restrictions": {
+            description: "Don't show intersections where the first player cannot place their stones.",
+            name: "Hide restriction indicators",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 const openingProtocols = ["centre", "rif", "taraguchi-10", "soosyrv-8", "yamaguchi", "swap-2", "swap-5"] as const;
@@ -52,8 +177,7 @@ export class RenjuGame extends InARowBase {
         // Symmetry is checked through the centroid instead of the centre.
         version: "20250311",
         dateAdded: "2024-04-20",
-        // i18next.t("apgames:descriptions.renju")
-        description: "apgames:descriptions.renju",
+        description: "An asymmetric five-in-a-row game where the first player is not allowed to create double open threes, double fours, or overlines. Competitive openings like Taraguchi-10 and Soosõrv-8 are implemented here.",
         urls: ["https://boardgamegeek.com/boardgame/11930/renju"],
         bggid: "11930",
         people: [
@@ -871,7 +995,7 @@ export class RenjuGame extends InARowBase {
             }
             if (duplicates.size > 0) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation._inarow.DUPLICATE", { where: [...duplicates].join(",") });
+                result.message = i18next.t("apgames:validation._general.DUPLICATE", { where: [...duplicates].join(",") });
                 return result;
             }
         }
@@ -879,13 +1003,13 @@ export class RenjuGame extends InARowBase {
         const regex = new RegExp(`^([a-z]+[1-9][0-9]*)(,[a-z]+[1-9][0-9]*)*(,[1-9][0-9]*)?$`);
         if (!regex.test(m)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation._inarow.INVALID_PLACEMENT", {move: m});
+            result.message = i18next.t("apgames:validation._general.INVALID_PLACEMENT", {move: m});
             return result;
         }
         const normalised = this.normalisePlacement(m);
         if (m !== normalised) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation._inarow.NORMALISE", {normalised});
+            result.message = i18next.t("apgames:validation._general.NORMALISE", {normalised});
             return result;
         }
         // Opening validations
@@ -1270,7 +1394,7 @@ export class RenjuGame extends InARowBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): RenjuGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -1725,3 +1849,4 @@ export class RenjuGame extends InARowBase {
         return new RenjuGame(this.serialize());
     }
 }
+

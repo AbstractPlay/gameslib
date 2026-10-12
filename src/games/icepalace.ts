@@ -6,6 +6,63 @@ import { APRenderRep, AreaStackingExpanded, AreaVolcanoStash, Colourfuncs, Glyph
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+import { gameApgamesUidKey } from "../common/game-apgames-t.js";
+
+/** Display strings are resolved in {@link GameBase}; anchors for strict apgames key coverage. */
+void gameApgamesUidKey("icepalace", "displays", "#areas", "name");
+void gameApgamesUidKey("icepalace", "displays", "#areas", "description");
+void gameApgamesUidKey("icepalace", "displays", "#board", "name");
+void gameApgamesUidKey("icepalace", "displays", "#board", "description");
+void gameApgamesUidKey("icepalace", "displays", "perspective", "name");
+void gameApgamesUidKey("icepalace", "displays", "perspective", "description");
+void gameApgamesUidKey("icepalace", "displays", "perspective-areas", "name");
+void gameApgamesUidKey("icepalace", "displays", "perspective-areas", "description");
+
+export const gameApgamesEn = {
+    validation: {
+        BAD_PLACEMENT: "Could not read '{{move}}' as a pyramid and a space.",
+        BUILD_COMPLETE: "The whole Yard has been built into the Ice Palace. Submit when you are happy with it.",
+        BUILD_ENOUGH: "The remaining {{count}} pyramids will be discarded. Submit when you are happy with the arrangement.",
+        BUILD_MORE: "Place {{count}} more pyramids.",
+        ILLEGAL_PALACE: "The {{piece}} cannot go at {{cell}}. In the Ice Palace a pyramid may only cover a bigger one, or start a new stack beside a stack of its own colour.",
+        ILLEGAL_YARD: "The {{piece}} cannot go at {{cell}}. In the Yard a pyramid may only cover a smaller one, or start a new stack beside a stack whose top it matches.",
+        INITIAL_BUILD: "You won the hand. Build the Yard into the Ice Palace, using {{count}} pyramids.",
+        INITIAL_HAND: "Place a pyramid from your hand into the Yard, or pass.",
+        LEAD_CANNOT_PASS: "You are leading the hand and must place a pyramid to start the Yard.",
+        MUST_BUILD: "You cannot decline to build: {{count}} of the Yard's pyramids can be placed.",
+        NOT_IN_HAND: "You do not have a {{piece}} in hand.",
+        NOT_IN_STOCK: "The {{piece}} is not among the pyramids you won.",
+        OFF_STRUCTURE: "That space is not part of the structure you are building in.",
+        PARTIAL_PIECE: "Now choose where to place the {{piece}}.",
+        POOL_CLICK: "The Pool is shown for reference. Its pyramids cannot be played.",
+    },
+    displays: {
+        "#areas": {
+            description: "Hand and Pool seen from above, in two dimensions.",
+            name: "Top-down hand and Pool",
+        },
+        "#board": {
+            description: "Two dimensional board, with stacks expanding when hovered over.",
+            name: "Expanding",
+        },
+        perspective: {
+            description: "Three dimensional board, with pyramids stacked in perspective.",
+            name: "3D stacks",
+        },
+        "perspective-areas": {
+            description: "Hand and Pool in three dimensions, with the pyramids drawn in perspective.",
+            name: "3D hand and Pool",
+        },
+    },
+    status: {
+        PLACED: "Pyramids placed",
+        POOL: "Pyramids left in the Pool",
+        HAND: "{{player}}'s hand",
+        STOCK: "Pyramids from the Yard, to be built into the Palace",
+        IN_POOL: "Pyramids in the Pool",
+    },
+};
+
 
 /* ------------------------------------------------- rules and legality */
 
@@ -666,16 +723,14 @@ export class IcePalaceGame extends GameBaseSequenced {
         playercounts: [3, 4, 5, 6],
         version: "20260918",
         dateAdded: "2026-09-18",
-        // i18next.t("apgames:descriptions.icepalace")
-        description: "apgames:descriptions.icepalace",
+        description: "Three to six players compete to win hands by playing pyramids into a shared Yard, building nests. The winner of each hand builds everything they won into the Ice Palace, where pyramids form trees instead. Each Palace tree scores its height for whoever owns the pyramid on top, so small pyramids are the key to scoring. Almost everything is open to negotiation.",
         urls: [
             "https://icehousegames.org/wiki/index.php?title=Ice_Palace",
             "https://boardgamegeek.com/boardgame/61898/ice-palace",
             "https://web.archive.org/web/20150314202652/http://icehousegames.com/contest/icedes-2/ice-palace/IcePalace.htm",
         ],
         bggid: "61898",
-        // i18next.t("apgames:notes.icepalace")
-        notes: "apgames:notes.icepalace",
+        notes: "Ice Palace's rules say a pyramid placed on the ground must be next to a pyramid of the same colour, but not whether every neighbour has to match. This implementation requires at least one matching orthogonal neighbour; the others may be any colour. White matches any colour except Black, and Black matches nothing.",
         people: [
             {
                 type: "designer",
@@ -1030,7 +1085,7 @@ export class IcePalaceGame extends GameBaseSequenced {
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = { valid: false, message: "" };
         if (this.gameover) {
-            result.message = i18next.t("apgames:MOVES_GAMEOVER");
+            result.message = i18next.t("apgames:validation._general.MOVES_GAMEOVER");
             return result;
         }
         const move = IcePalaceGame.normalise(m);
@@ -1164,7 +1219,7 @@ export class IcePalaceGame extends GameBaseSequenced {
 
     public move(m: string, { partial = false, trusted = false } = {}): IcePalaceGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         const move = IcePalaceGame.normalise(m);
         if (!trusted) {
@@ -1784,18 +1839,18 @@ export class IcePalaceGame extends GameBaseSequenced {
         const areas: AreaVolcanoStash[] = [];
         const offered = view.phase === "build" ? view.stock : this.handOf(this.currplayer);
         if (offered.length > 0) {
-            // i18next.t("apgames:icepalace.STOCK")
-            // i18next.t("apgames:icepalace.HAND")
+            // i18next.t("apgames:status.icepalace.STOCK")
+            // i18next.t("apgames:status.icepalace.HAND")
             const label = view.phase === "build"
-                ? this.neutralAreaLabel("apgames:icepalace.STOCK")
-                : this.seatAreaLabel(this.currplayer, "apgames:icepalace.HAND");
+                ? this.neutralAreaLabel("apgames:status.icepalace.STOCK")
+                : this.seatAreaLabel(this.currplayer, "apgames:status.icepalace.HAND");
             areas.push({ type: "localStash", label, stash: this.handStash(offered, legend, areas3D) });
         }
         // Everything still in the Pool, for reference. Draws are made at random when hands
         // are refilled, so showing the contents gives nothing away.
         if (this.pool.length > 0) {
-            // i18next.t("apgames:icepalace.POOL")
-            const label = this.neutralAreaLabel("apgames:icepalace.POOL");
+            // i18next.t("apgames:status.icepalace.IN_POOL")
+            const label = this.neutralAreaLabel("apgames:status.icepalace.IN_POOL");
             areas.push({ type: "localStash", label, stash: this.poolStash(legend, areas3D) });
         }
         return areas;
@@ -2038,3 +2093,4 @@ export class IcePalaceGame extends GameBaseSequenced {
         return topOf(this.structure(struct), cell);
     }
 }
+

@@ -7,6 +7,35 @@ import i18next from "i18next";
 import { HexSlantedGraph } from "../common/graphs/index.js";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted.js";
+export const gameApgamesEn = {
+    validation: {
+        EDGE_CASE_ONE_EMPTY_NEUTRAL: "There is only one empty cell so you may not make a placement. You should make swap moves instead.",
+        INITIAL_INSTRUCTIONS: "Either place your piece on an empty cell followed by a neutral piece on another empty cell, or choose two neutral pieces to swap to your colour and one of your piece to swap to the neutral colour.",
+        PARTIAL_PLACE: "Select an empty cell to place a neutral piece.",
+        PARTIAL_SWAP_ONE_EACH: "Select one more neutral piece to swap to your colour, and one of your pieces to swap to the neutral colour.",
+        PARTIAL_SWAP_ONE_NEUTRAL: "Select one more neutral piece to swap to your colour.",
+        PARTIAL_SWAP_ONE_PLAYER: "Select one of your pieces to swap to the neutral colour.",
+        PARTIAL_SWAP_TWO_NEUTRAL: "Select two neutral pieces to swap to your colour.",
+        PLACE_DUPLICATE: "You may not place the neutral piece on the same cell as your own piece.",
+        PLACE_TOO_MANY: "You may only place one of your pieces followed by one neutral piece.",
+        SWAP_DUPLICATE: "You selected the same neutral piece to swap twice.",
+        SWAP_EDGE_CASE_NOT_NEUTRAL: "There is only one neutral piece and no more empty cells. You may not swap a piece of your colour to a neutral piece. Just swap the neutral piece to your colour.",
+        SWAP_EDGE_CASE_TOO_MANY: "There is only one neutral piece and no more empty cells. You may swap that neutral piece alone to your colour.",
+        SWAP_INSUFFICIENT_NEUTRAL: "There are not enough neutral stones on the board, so you may not make swap moves. You should make placement moves instead.",
+        SWAP_TOO_MANY_NEUTRAL: "You may only swap two neutral pieces to your colour.",
+        SWAP_TOO_MANY_PLAYER: "You may only swap one of your pieces to the neutral colour.",
+        SWAP_UNCONTROLLED: "You many not swap your opponent's pieces.",
+    },
+    variants: {
+        "#board": {
+            name: "11x11 board",
+        },
+        "size-9": {
+            name: "9x9 board",
+        },
+    },
+};
+
 
 export type playerid = 1 | 2 | 3; // 3 is used for "the neural player"
 const swapSymbol = "*";
@@ -34,8 +63,7 @@ export class NexGame extends GameBase {
         // Fixed the normalisation.
         version: "20240731",
         dateAdded: "2024-04-02",
-        // i18next.t("apgames:descriptions.nex")
-        description: "apgames:descriptions.nex",
+        description: "Nex (or Neutral Hex) is a variant of the Hex connection game where there are neutral pieces. On your turn, you may either (1) place a piece of your colour and a neutral colour on an empty space, or (2) swap two neutral pieces to your colour and one of your piece to the neutral colour.",
         urls: ["https://boardgamegeek.com/boardgame/187651/nex"],
         bggid: "187651",
         people: [
@@ -443,7 +471,7 @@ export class NexGame extends GameBase {
         const normalised = this.normaliseMove(m);
         if (normalised !== m) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.nex.NORMALISE", { normalised });
+            result.message = i18next.t("apgames:validation._general.NORMALISE", { normalised });
             return result;
         }
 
@@ -458,7 +486,7 @@ export class NexGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false } = {}): NexGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -696,3 +724,4 @@ export class NexGame extends GameBase {
         return new NexGame(this.serialize());
     }
 }
+

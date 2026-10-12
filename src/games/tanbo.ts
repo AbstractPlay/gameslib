@@ -5,6 +5,27 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError, SquareOrthGraph } from "../common/index.js";
 import { connectedComponents } from "graphology-components";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Place a piece on an empty cell adjacent to exactly one friendly piece. If that piece's root becomes bounded (i.e., cannot grow) it is captured. Otherwise, any remaining bounded root is captured.",
+        INVALID_MOVE: "The chosen cell must be orthogonally adjacent to just one friendly piece.",
+    },
+    variants: {
+        "#board": {
+            name: "7x7 board",
+        },
+        "size-11": {
+            name: "11x11 board",
+        },
+        "size-15": {
+            name: "15x15 board",
+        },
+        "size-19": {
+            name: "19x19 board",
+        },
+    },
+};
+
 
 type playerid = 1 | 2; // regarding pieces: 1 is the ball, 2 are the walls
 
@@ -26,9 +47,8 @@ export class TanboGame extends GameBase {
         playercounts: [2],
         version: "20260521",
         dateAdded: "2026-05-27",
-        // i18next.t("apgames:descriptions.tanbo")
-        description: "apgames:descriptions.tanbo",
-        notes: "apgames:notes.tanbo",
+        description: "Create space to grow your roots by bounding the opponent's.",
+        notes: "Tanbo (田んぼ, Japanese for rice paddy) is a game of roots. Or more precisely, root-like groups. The board starts out populated with loosely interspersed black and white stones. You place a stone orthogonally adjacent to exactly one of your on-board stones.  This prevents roots from merging and clumps from forming. When roots become bounded (that is, they have no room to grow) they are removed. If the current root (the one enlarged during your turn) is among the bounded roots, only it is removed, thereby unbounding any other bounded roots.  The goal is to be the last player with roots still on the board.\n\nTanbo was the second game ever invented by Mark Steere, and is still one of his best.",
         urls: [
             "https://www.marksteeregames.com/Tanbo_rules.pdf",
         ],
@@ -269,7 +289,7 @@ export class TanboGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): TanboGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -424,3 +444,4 @@ export class TanboGame extends GameBase {
         return new TanboGame(this.serialize());
     }
 }
+

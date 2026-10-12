@@ -5,6 +5,32 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import { HexTriGraph } from "../common/graphs/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_PLACE: "Place a friendly piece, then an opponent piece, both at the edge of the playing field. Cells with less than three neighbors cannot be used to place pieces.",
+        INITIAL_PLACE_STEP2: "Place an opponent piece at the edge of the playing field. Cells with less than three neighbors cannot be used to place pieces.",
+        INSTRUCTIONS: "On his turn, the player (optionally) moves a friendly marble and then (optionally) moves one free nut (ie, not in a tower) adjacent to a friendly piece. So, select a friendly piece, an available nut, or pass.",
+        INSTRUCTIONS_STEP2: "Select an available nut, or conclude the move.",
+        MOVE_MARBLE: "Select a destination for your marble.",
+        MOVE_NUT: "Select a destination for the selected nut.",
+        MOVE_NUT_OR_PLACE: "Select a destination for the selected nut, or click it again to place a marble from the reserve.",
+        NOT_AT_EDGE: "Initial placement must be at the edge of the playing field! Cell {{cell}} is interior, or has less than three neighors.",
+        CELL_VOID: "Void cells are not playable!",
+        OCCUPIED: "Cannot place on top of another piece!",
+        PLACE_TOO_HIGH: "Placements must be done over single nuts!",
+        ENEMY_MARBLE: "Cannot move an opponent piece!",
+        RESERVE_EMPTY: "No pieces on reserve for placement!",
+        NUT_IN_TOWER: "A tower (stack of size 4) cannot be reduced nor can receive pieces from the reserve!",
+        NUT_NOT_ADJACENT_FRIEND: "Only nuts adjacent to friendly piece can be moved!",
+        MARBLE_CANNOT_MOVE: "Piece at {{move}} does not have valid cells to move into!",
+        NUT_CANNOT_MOVE: "Nut at {{move}} does not have valid cells to move into!",
+        MARBLE_ILLEGAL_MOVE: "Piece cannot move to {{move}}! ",
+        MARBLE_ILLEGAL_PUSH: "Piece cannot push to {{move}}! The pushed piece must go to an empty cell and cannot go higher.",
+        NUT_ILLEGAL_MOVE: "Nut cannot move to {{move}}!",
+        NOT_A_NUT: "A nut needs to be selected now!",
+    },
+};
+
 
 export type playerid = 1 | 2 | 3 ; // 3 are neutral stones, ie, walls
 export type cellcontents = [playerid, number]; // number is the stack size of neutral stones
@@ -36,9 +62,8 @@ export class MutternlandGame extends GameBase {
         playercounts: [2],
         version: "20260618",
         dateAdded: "2026-07-13",
-        // i18next.t("apgames:descriptions.mutternland")
-        description: "apgames:descriptions.mutternland",
-        notes: "apgames:notes.mutternland",
+        description: "A shifting board of nuts and stacks searching for towers.",
+        notes: "Mutternland was designed by Hartmut Witt in 1997. This implementation deals differently with the initial piece placements. While the original game had players, in the setup, place one _enemy_ piece per turn, here players place one friendly piece and then one opponent piece (including some restrictions to prevent unbalanced starts due to the random generation of the playing field). This makes the setup faster and provides some control of the player's own pieces. Also, pushed-off pieces, which go back to the player's reserve, are placed again by the owner.",
         urls: [
             "https://boardgamegeek.com/boardgame/1051/mutternland",
             "https://jpneto.github.io/world_abstract_games/modern_rules/1997_Mutternland.pdf"
@@ -635,7 +660,7 @@ export class MutternlandGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): MutternlandGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -862,3 +887,4 @@ export class MutternlandGame extends GameBase {
         return new MutternlandGame(this.serialize());
     }
 }
+

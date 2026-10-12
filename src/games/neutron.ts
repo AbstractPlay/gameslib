@@ -4,6 +4,47 @@ import { APRenderRep, Colourfuncs, MarkerShading } from "@abstractplay/renderer/
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { allDirections, RectGrid, reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INCOMPLETE: "You must complete both parts of the turn (or end the game with a winning neutron move).",
+        INITIAL_INSTRUCTIONS: "Select where to slide the neutron, or on White's first turn in standard Neutron, select a pawn to move.",
+        INVALID_NEUTRON: "The neutron cannot slide to that cell.",
+        NEUTRON_FIRST: "Slide the neutron first, then select one of your pawns.",
+        PAWN_DEST: "Select where to slide that pawn.",
+        PAWN_SELECT: "Select one of your pawns to move.",
+        SELECT_OWN_PAWN: "You may only move your own pawns.",
+    },
+    variants: {
+        "#board": {
+            name: "5×5 board",
+        },
+        "5x7": {
+            name: "5×7 board",
+        },
+        "7x5": {
+            name: "7×5 board",
+        },
+        "7x7": {
+            name: "7×7 board",
+        },
+        coneutron: {
+            name: "CoNeutron",
+            description: "Win by moving the neutron to your opponent's back row. White moves the neutron on the first turn.",
+        },
+        "#mobility": {
+            name: "No restrictions",
+        },
+        restricted: {
+            name: "Restricted mobility",
+            description: "Pawns may not land on the opponent's home row.",
+        },
+        doubleRestricted: {
+            name: "Double restricted mobility",
+            description: "Pawns may not land on either home row, except that pawns still on their own home row may slide along it.",
+        },
+    },
+};
+
 
 export type playerid = 1 | 2;
 export type PieceId = 1 | 2 | 3; // 3 = neutron
@@ -26,10 +67,8 @@ export class NeutronGame extends GameBase {
         playercounts: [2],
         version: "20260925",
         dateAdded: "2026-09-25",
-        // i18next.t("apgames:descriptions.neutron")
-        description: "apgames:descriptions.neutron",
-        // i18next.t("apgames:notes.neutron")
-        notes: "apgames:notes.neutron",
+        description: "Slide the neutral neutron and one of your pawns each turn. Pieces move in straight lines as far as they can. Win by bringing the neutron to the correct back row, or by leaving your opponent unable to complete a turn.",
+        notes: "Each turn (except White's first turn in standard Neutron) consists of sliding the neutron, then sliding one of your pawns. All pieces slide in straight lines as far as possible without jumping. **CoNeutron** swaps the winning row to your opponent's back rank and removes White's pawn-only opening.\n\n**Mobility** restrictions apply to pawn moves only. With **restricted** mobility, pawns may not land on the opponent's home row. With **double restricted** mobility, pawns also may not re-enter their own home row after leaving it; pawns still on the home row may slide along that row.\n\nMoves are notated `neutronDest,pawnFrom-pawnTo`, or `pawnFrom-pawnTo` on White's first turn in standard Neutron. A winning neutron slide alone is notated as just the destination cell.",
         urls: [
             "http://www.gamerz.net/pbmserv/neutron.html",
             "http://www.gamerz.net/pbmserv/coneutron.html",
@@ -468,7 +507,7 @@ export class NeutronGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): NeutronGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase().replace(/\s+/g, "");
@@ -709,3 +748,4 @@ export class NeutronGame extends GameBase {
         return new NeutronGame(this.serialize());
     }
 }
+

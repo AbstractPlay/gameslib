@@ -4,6 +4,13 @@ import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { diagDirections, reviver, SquareDirectedGraph, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a piece to move.",
+        PARTIAL: "Select a destination.",
+    },
+};
+
 
 export type playerid = 1|2;
 export type Tile = "W"|"B";
@@ -35,8 +42,7 @@ export class ChameleonGame extends GameBase {
         playercounts: [2],
         version: "20250130",
         dateAdded: "2025-01-31",
-        // i18next.t("apgames:descriptions.chameleon")
-        description: "apgames:descriptions.chameleon",
+        description: "A chess-like strategy game, played on a 5x5 grid, where each piece's movement capability changes based on the color of the tile where it starts.",
         urls: [
             "https://boardgamegeek.com/boardgame/273396/chameleon",
         ],
@@ -271,7 +277,7 @@ export class ChameleonGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): ChameleonGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -532,3 +538,4 @@ export class ChameleonGame extends GameBase {
         return new ChameleonGame(this.serialize());
     }
 }
+

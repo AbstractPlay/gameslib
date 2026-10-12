@@ -4,6 +4,29 @@ import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a piece or a tile to move.",
+        INITIAL_INSTRUCTIONS_TWO_MOVE: "Select a tile, then a piece to move; or select a piece to move directly.",
+        INITIAL_INSTRUCTIONS_TWO_MOVE_NO_TILE: "Select a piece to move.",
+        NOT_SLIDABLE: "The tile at {{where}} is not slidable.",
+        MISSING_PREFIX: "The prefix '{{prefix}}' is missing. Try '{{move}}'.",
+        WRONG_PREFIX: "The correct prefix should be '{{prefix}}'. Try '{{move}}'.",
+        INVALID_TO: "The {{what}} at {{from}} cannot move to {{to}}.",
+        USE_ELIMINATE_NOTATION: "Use an 'x' to indicate tile elimination. Try '{{move}}'.",
+        USE_MOVE_NOTATION: "You used a 'x' but there was no tile elimination. Try '{{move}}'.",
+        MOVE_TILE_FIRST: "If you make two moves, the first move must be a tile move.",
+        MOVE_PIECE_SECOND: "If you make two moves, the second move must be a piece move.",
+        NEED_SECOND_MOVE: "Select a pyramid or cone to move.",
+    },
+    variants: {
+        "two-move": {
+            name: "C2",
+            description: "On your turn, you may begin with an optional tile move, followed by a required pyramid or cone move.",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 type PieceType = "C" | "P"; // Cone, Pyramid
@@ -54,8 +77,7 @@ export class C1Game extends GameBase {
         playercounts: [2],
         version: "20250401",
         dateAdded: "2025-04-11",
-        // i18next.t("apgames:descriptions.c1")
-        description: "apgames:descriptions.c1",
+        description: "In C1 (or cone), each player commands 1 cone, 4 pyramids, and 10 sliding tiles with unique movements. Players manoeuvre their pieces to eliminate opponent tiles and ultimately surround the enemy cone on all four orthogonal sides using pieces or the voids left by vanished tiles.",
         urls: [
             "https://boardgamegeek.com/boardgame/386986/c1",
             "http://lumicube.uk/",
@@ -870,7 +892,7 @@ export class C1Game extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): C1Game {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -1162,3 +1184,4 @@ export class C1Game extends GameBase {
         return new C1Game(this.serialize());
     }
 }
+

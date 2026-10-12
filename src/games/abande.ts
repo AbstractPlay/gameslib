@@ -10,6 +10,41 @@ import { ModularBoard } from "../common/modular/board.js";
 import { Orientation } from "honeycomb-grid";
 import { IHexCoord } from "../common/hexes.js";
 import { ModularHex } from "../common/modular/hex.js";
+export const gameApgamesEn = {
+    validation: {
+        DISCONNECTEDMOVE: "A move from {{from}} to {{to}} would disconnect the band.",
+        DISCONNECTEDPLACE: "Placing a piece at {{where}} would disconnect the band.",
+        INITIAL_INSTRUCTIONS: "Place a piece on an empty space connected to the other pieces.",
+        INVALIDPASS: "You cannot pass while you have pieces in hand.",
+        MOVE2CONTROLLED: "You cannot capture your own stacks.",
+        MOVE2EMPTY: "You cannot move to empty spaces.",
+        PARTIAL: "It's possible you're trying to move a stack. Provide the destination.",
+        TOOEARLY: "You cannot move until the first player has placed two pieces.",
+        TOOEARLY_libre: "You cannot move until four stones have been placed on the board.",
+        TOOFAR: "You can only move to an adjacent cell. {{to}} is not adjacent to {{from}}.",
+        TOOHIGH: "Moving from {{from}} to {{to}} would result in a stack taller than three pieces high.",
+        TRIPLESTACK: "You cannot move triple stacks.",
+    },
+    variants: {
+        "#board": {
+            description: "7x7 square board",
+            name: "Default board"
+        },
+        hex: {
+            description: "A 37-space hexagonal board.",
+            name: "Board: Hexagonal",
+        },
+        snub: {
+            description: "A hybrid orthogonal/hexagonal board shape with unique connection characteristics.",
+            name: "Board: Snub Square",
+        },
+        libre: {
+            name: "Abande Libre",
+            description: "No board. Pieces are instead placed next to each other to form a hexagonal grid as you play.",
+        },
+    },
+};
+
 
 export type playerID = 1|2;
 
@@ -32,8 +67,7 @@ export class AbandeGame extends GameBase {
         playercounts: [2],
         version: "20211112",
         dateAdded: "2023-05-01",
-        // i18next.t("apgames:descriptions.abande")
-        description: "apgames:descriptions.abande",
+        description: "Abande is the second game in Dieter Stein's stacking trilogy. Place or move pieces and stacks to generate the highest score you can whilst always keeping the board connected. The square, snubsquare, and hex boards are available.",
         urls: [
             "https://spielstein.com/games/abande/rules",
             "https://spielstein.com/games/abande/rules/libre",
@@ -668,7 +702,7 @@ export class AbandeGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): AbandeGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
@@ -1039,3 +1073,4 @@ export class AbandeGame extends GameBase {
         return new AbandeGame(this.serialize());
     }
 }
+

@@ -6,6 +6,22 @@ import { reviver, UserFacingError } from "../common/index.js";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a vertex to place a piece.",
+        INVALID_VERTEX: "The vertex {{vertex}} does not exist on the board.",
+        OCCUPIED: "The vertex {{where}} is already occupied.",
+    },
+    variants: {
+        "#board": {
+            name: "Default board: 11x11",
+        },
+        "size-15": {
+            name: "Larger board: 15x15",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -31,8 +47,7 @@ export class ConhexGame extends GameBase {
         playercounts: [2],
         version: "20240127",
         dateAdded: "2024-02-03",
-        // i18next.t("apgames:descriptions.conhex")
-        description: "apgames:descriptions.conhex",
+        description: "In ConHex, the winner is the first player to connect their assigned sides of a square board. The board is a pattern of non-regular hexagons with a few non-hexagonal polygons. Players alternate turns placing pieces of their own color on a vertex, and a player can claim a space after placing pieces on at least half the vertices of that space.",
         urls: ["https://boardgamegeek.com/boardgame/10989/conhex"],
         bggid: "10989",
         people: [
@@ -462,7 +477,7 @@ export class ConhexGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): ConhexGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -710,3 +725,4 @@ export class ConhexGame extends GameBase {
         return new ConhexGame(this.serialize());
     }
 }
+

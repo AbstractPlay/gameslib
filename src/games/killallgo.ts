@@ -4,6 +4,123 @@ import type { APRenderRep, Glyph, RowCol } from "@abstractplay/renderer/build/sc
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { algebraic2coords, coords2algebraic, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+import { gameApgamesUidKey } from "../common/game-apgames-t.js";
+
+/** Variant labels are resolved in {@link GameBase}; anchors for strict apgames key coverage. */
+void gameApgamesUidKey("killallgo", "variants", "size-9", "name");
+void gameApgamesUidKey("killallgo", "variants", "size-13", "name");
+void gameApgamesUidKey("killallgo", "variants", "#board", "name");
+void gameApgamesUidKey("killallgo", "variants", "#opening", "name");
+void gameApgamesUidKey("killallgo", "variants", "#opening", "description");
+void gameApgamesUidKey("killallgo", "variants", "handicap", "name");
+void gameApgamesUidKey("killallgo", "variants", "handicap", "description");
+void gameApgamesUidKey("killallgo", "variants", "classic", "name");
+void gameApgamesUidKey("killallgo", "variants", "classic", "description");
+void gameApgamesUidKey("killallgo", "variants", "pie", "name");
+void gameApgamesUidKey("killallgo", "variants", "pie", "description");
+void gameApgamesUidKey("killallgo", "variants", "hoctaph", "name");
+void gameApgamesUidKey("killallgo", "variants", "hoctaph", "description");
+
+export const gameApgamesEn = {
+    validation: {
+        INSTRUCTIONS_HANDICAP: "You are giving the handicap. Click a numbered stone, or enter a number from 1 to {{max}} manually, to set how many extra Attacker stones your opponent will place if they take the Attacker side.",
+        HANDICAP_INVALID: "The handicap must be a whole number.",
+        HANDICAP_RANGE: "The handicap must be between 1 and {{max}} stones.",
+        HANDICAP_OK_one: "Handicap of one stone. Submit, or choose a different handicap.",
+        HANDICAP_OK_other: "Handicap of {{count}} stones. Submit, or choose a different handicap.",
+        NOT_A_NUMBERED_STONE: "{{where}} is not one of the numbered stones.",
+        INSTRUCTIONS_ALT: "Place an Attacker stone to continue the opening, or choose to play as the Attacker. If you choose the Attacker, your opponent moves first as the Defender.",
+        INSTRUCTIONS_ALT_HANDICAP_one: "Place an Attacker stone to continue the opening, or choose to play as the Attacker. If you choose the Attacker, place one extra stone; your opponent then moves first as the Defender.",
+        INSTRUCTIONS_ALT_HANDICAP_other: "Place an Attacker stone to continue the opening, or choose to play as the Attacker. If you choose the Attacker, place {{count}} extra stones; your opponent then moves first as the Defender.",
+        SETUP_FULL: "The board already holds the maximum number of setup stones this phase allows ({{max}}); take the Attacker side instead of placing another.",
+        ATTACKER_NO_STONES: "Taking the Attacker side does not involve placing stones now.",
+        DEFENDER_NO_STONES: "Choosing the Defender side does not involve placing stones now.",
+        STONES_LEFT_one: "Place one more Attacker stone.",
+        STONES_LEFT_other: "Place {{count}} more Attacker stones.",
+        BATCH_TOO_MANY_one: "This batch must contain exactly one stone.",
+        BATCH_TOO_MANY_other: "This batch must contain exactly {{count}} stones.",
+        BATCH_MORE_OR_SUBMIT: "Add more Attacker stones, or submit.",
+        DUPLICATE_CELL: "The cell {{where}} is listed twice.",
+        INVALID_PASS: "You cannot pass now.",
+        INSTRUCTIONS_PIE_SLICE: "Place any number of Attacker stones up to {{max}} (or pass to place none); your opponent will then choose a side.",
+        PIE_SLICE_MAX: "You may place at most {{max}} Attacker stones this way.",
+        INSTRUCTIONS_PIE_CHOOSE: "Choose a side: take the Attacker stones, or place your first stone as the Defender.",
+        INSTRUCTIONS_PIE_DEFENDER_STONE: "Place your first Defender stone.",
+        INSTRUCTIONS_HOC_SLICE: "Choose the sizes of two batches of Attacker stones: the first batch will be placed before sides are chosen, and the Attacker will then place the second. Click a numbered stone in the upper block for the first batch and one in the lower block for the second, or enter both sizes manually in that order, separated by a comma.",
+        SLICE_FORMAT: "Manually entered batch sizes must be two whole numbers separated by a comma, for example 20,15.",
+        SLICE_MIN: "Each batch must hold at least one stone.",
+        SLICE_SUM: "Together the two batches may hold at most {{max}} stones.",
+        SLICE_RATIO: "Neither batch may be more than twice the size of the other.",
+        SLICE_A_ONLY_one: "First batch of one stone. Now choose the size of the second batch.",
+        SLICE_A_ONLY_other: "First batch of {{count}} stones. Now choose the size of the second batch.",
+        SLICE_B_ONLY_one: "Second batch of one stone. Now choose the size of the first batch.",
+        SLICE_B_ONLY_other: "Second batch of {{count}} stones. Now choose the size of the first batch.",
+        SLICE_OK: "Batches of {{a}} and {{b}} stones. Submit, or choose different sizes.",
+        INSTRUCTIONS_HOC_OPTION_one: "Decide who places the first batch of one Attacker stone: place it yourself (your opponent then chooses a side), or let your opponent place it (you then choose a side).",
+        INSTRUCTIONS_HOC_OPTION_other: "Decide who places the first batch of {{count}} Attacker stones: place them yourself (your opponent then chooses a side), or let your opponent place them (you then choose a side).",
+        INSTRUCTIONS_HOC_BATCH_one: "Place one Attacker stone.",
+        INSTRUCTIONS_HOC_BATCH_other: "Place {{count}} Attacker stones.",
+        INSTRUCTIONS_HOC_CHOOSE_one: "Choose a side. Taking the Attacker side means placing the second batch of one stone now; choosing the Defender side means your opponent places it and you then move first.",
+        INSTRUCTIONS_HOC_CHOOSE_other: "Choose a side. Taking the Attacker side means placing the second batch of {{count}} stones now; choosing the Defender side means your opponent places them and you then move first.",
+        INSTRUCTIONS_PLAY_ATTACKER: "Place a stone. You win by preventing the Defender from forming an unconditionally alive string.",
+        INSTRUCTIONS_PLAY_DEFENDER: "Place a stone. You win by forming one unconditionally alive string.",
+        KO_PSK: "That placement would recreate an earlier position of the board (positional superko).",
+    },
+    variants: {
+        "size-9": {
+            name: "9x9 board",
+        },
+        "size-13": {
+            name: "13x13 board",
+        },
+        "#board": {
+            name: "19x19 board",
+        },
+        "#opening": {
+            name: "Pieboxing",
+            description: "Players take turns placing Attacker stones until one of them takes the Attacker side; the other player then moves first as the Defender. Pieboxing, devised by MXHero.",
+        },
+        handicap: {
+            name: "Handicap",
+            description: "Pieboxing with a handicap. Player 1, the stronger player, sets the number of extra Attacker stones, then Player 2 starts placing. If Player 2 chooses to play as the Attacker, they place the extra stones immediately. Devised by MXHero.",
+        },
+        classic: {
+            name: "Classic 17-stone setup",
+            description: "The traditional 17-stone starting position; the Defender (Player 1) moves first. 19x19 only.",
+        },
+        pie: {
+            name: "Simple pie",
+            description: "Player 1 places any number of Attacker stones, then Player 2 chooses a side. The usual pie rule.",
+        },
+        hoctaph: {
+            name: "Generalized Hoctaph's pie",
+            description: "Player 1 chooses two batch sizes, and Player 2 decides who places the first batch. The player who did not place that batch then chooses a side, and the Attacker places the second batch. Hoctaph's pie (OGS forums), generalized to every board size by Samraku.",
+        },
+    },
+    buttons: {
+        attacker: "Play as the Attacker",
+        defender: "Play as the Defender",
+        youplace: "Let the opponent place the first batch",
+    },
+    status: {
+        ATTACKER: "Attacker",
+        DEFENDER: "Defender",
+        UNDECIDED: "Not yet chosen",
+        HANDICAP: "Handicap stones",
+        BATCHES: "Batch sizes",
+        BATCHES_VALUE: "{{a}} then {{b}}",
+        PHASE_HAND_N: "{{player}} sets the number of handicap stones",
+        PHASE_ALT_PLACE: "{{player}} places an Attacker stone or takes the Attacker side",
+        PHASE_PIE_SLICE: "{{player}} places the opening Attacker stones",
+        PHASE_PIE_CHOOSE: "{{player}} chooses a side",
+        PHASE_HOC_SLICE: "{{player}} sets the two batch sizes",
+        PHASE_HOC_OPTION: "{{player}} decides who places the first batch",
+        PHASE_HOC_BATCH_A: "{{player}} places the first batch of Attacker stones",
+        PHASE_HOC_CHOOSE: "{{player}} chooses a side",
+        PHASE_HOC_BATCH_B: "{{player}} places the second batch of Attacker stones",
+    },
+};
+
 
 /**
  * Kill-All Go.
@@ -414,10 +531,8 @@ export class KillAllGoGame extends GameBase {
         playercounts: [2],
         version: "20260921",
         dateAdded: "2026-09-21",
-        // i18next.t("apgames:descriptions.killallgo")
-        description: "apgames:descriptions.killallgo",
-        // i18next.t("apgames:notes.killallgo")
-        notes: "apgames:notes.killallgo",
+        description: "A Go variant with asymmetric goals: the Attacker starts with stones on the board and must prevent the Defender from establishing unconditional life. The Defender wins by forming just one unconditionally alive string.",
+        notes: "The Defender must form an unconditionally alive string (pass-alive according to Benson's algorithm): one that can survive any sequence of opposing moves without responding. Life dependent on seki or ko does not count. The Attacker wins when their unconditionally alive stones leave no room for such a string. Passing is not allowed after the opening, and a player with no legal placement loses.\n\nStones are placed and captured as in Go with Tromp-Taylor clearing: after a placement, opponent strings without liberties are removed, then your own string if it has none. Multi-stone suicide is therefore legal. Positional superko applies: no placement may recreate an earlier board position.",
         urls: [
             "https://senseis.xmp.net/?KillAllGame",
             "https://senseis.xmp.net/?Pieboxing",
@@ -974,7 +1089,7 @@ export class KillAllGoGame extends GameBase {
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
         if (this.gameover) {
-            result.message = i18next.t("apgames:MOVES_GAMEOVER");
+            result.message = i18next.t("apgames:validation._general.MOVES_GAMEOVER");
             return result;
         }
         switch (this.phase) {
@@ -997,6 +1112,92 @@ export class KillAllGoGame extends GameBase {
                 return this.validateHocChoose(m, result);
             case "play":
                 return this.validatePlay(m, result);
+        }
+    }
+
+    private static batchTooManyMessage(count: number): string {
+        if (count === 1) {
+            return i18next.t("apgames:validation.killallgo.BATCH_TOO_MANY_one");
+        }
+        return i18next.t("apgames:validation.killallgo.BATCH_TOO_MANY_other", { count });
+    }
+
+    private static stonesLeftMessage(count: number): string {
+        if (count === 1) {
+            return i18next.t("apgames:validation.killallgo.STONES_LEFT_one");
+        }
+        return i18next.t("apgames:validation.killallgo.STONES_LEFT_other", { count });
+    }
+
+    private static handicapOkMessage(count: number): string {
+        if (count === 1) {
+            return i18next.t("apgames:validation.killallgo.HANDICAP_OK_one");
+        }
+        return i18next.t("apgames:validation.killallgo.HANDICAP_OK_other", { count });
+    }
+
+    private static instructionsAltHandicapMessage(count: number): string {
+        if (count === 1) {
+            return i18next.t("apgames:validation.killallgo.INSTRUCTIONS_ALT_HANDICAP_one");
+        }
+        return i18next.t("apgames:validation.killallgo.INSTRUCTIONS_ALT_HANDICAP_other", { count });
+    }
+
+    private static sliceAOnlyMessage(count: number): string {
+        if (count === 1) {
+            return i18next.t("apgames:validation.killallgo.SLICE_A_ONLY_one");
+        }
+        return i18next.t("apgames:validation.killallgo.SLICE_A_ONLY_other", { count });
+    }
+
+    private static sliceBOnlyMessage(count: number): string {
+        if (count === 1) {
+            return i18next.t("apgames:validation.killallgo.SLICE_B_ONLY_one");
+        }
+        return i18next.t("apgames:validation.killallgo.SLICE_B_ONLY_other", { count });
+    }
+
+    private static instructionsHocOptionMessage(count: number): string {
+        if (count === 1) {
+            return i18next.t("apgames:validation.killallgo.INSTRUCTIONS_HOC_OPTION_one");
+        }
+        return i18next.t("apgames:validation.killallgo.INSTRUCTIONS_HOC_OPTION_other", { count });
+    }
+
+    private static instructionsHocBatchMessage(count: number): string {
+        if (count === 1) {
+            return i18next.t("apgames:validation.killallgo.INSTRUCTIONS_HOC_BATCH_one");
+        }
+        return i18next.t("apgames:validation.killallgo.INSTRUCTIONS_HOC_BATCH_other", { count });
+    }
+
+    private static instructionsHocChooseMessage(count: number): string {
+        if (count === 1) {
+            return i18next.t("apgames:validation.killallgo.INSTRUCTIONS_HOC_CHOOSE_one");
+        }
+        return i18next.t("apgames:validation.killallgo.INSTRUCTIONS_HOC_CHOOSE_other", { count });
+    }
+
+    private static openingPhaseStatusKey(phase: Exclude<Phase, "play">): string {
+        switch (phase) {
+            case "hand-n":
+                return "apgames:status.killallgo.PHASE_HAND_N";
+            case "alt-place":
+                return "apgames:status.killallgo.PHASE_ALT_PLACE";
+            case "pie-slice":
+                return "apgames:status.killallgo.PHASE_PIE_SLICE";
+            case "pie-choose":
+                return "apgames:status.killallgo.PHASE_PIE_CHOOSE";
+            case "hoc-slice":
+                return "apgames:status.killallgo.PHASE_HOC_SLICE";
+            case "hoc-option":
+                return "apgames:status.killallgo.PHASE_HOC_OPTION";
+            case "hoc-batch-a":
+                return "apgames:status.killallgo.PHASE_HOC_BATCH_A";
+            case "hoc-choose":
+                return "apgames:status.killallgo.PHASE_HOC_CHOOSE";
+            case "hoc-batch-b":
+                return "apgames:status.killallgo.PHASE_HOC_BATCH_B";
         }
     }
 
@@ -1045,10 +1246,10 @@ export class KillAllGoGame extends GameBase {
         const err = this.checkCells(cells, result);
         if (err !== undefined) { return err; }
         if (cells.length > needed) {
-            return this.fail(result, i18next.t("apgames:validation.killallgo.BATCH_TOO_MANY", { count: needed }));
+            return this.fail(result, KillAllGoGame.batchTooManyMessage(needed));
         }
         if (cells.length < needed) {
-            return this.ok(result, -1, i18next.t("apgames:validation.killallgo.STONES_LEFT", { count: needed - cells.length }), cells.length > 0);
+            return this.ok(result, -1, KillAllGoGame.stonesLeftMessage(needed - cells.length), cells.length > 0);
         }
         return this.ok(result, 1, i18next.t("apgames:validation._general.VALID_MOVE"), true);
     }
@@ -1065,14 +1266,14 @@ export class KillAllGoGame extends GameBase {
         if (n < 1 || n > max) {
             return this.fail(result, i18next.t("apgames:validation.killallgo.HANDICAP_RANGE", { max }));
         }
-        return this.ok(result, 0, i18next.t("apgames:validation.killallgo.HANDICAP_OK", { count: n }), true);
+        return this.ok(result, 0, KillAllGoGame.handicapOkMessage(n), true);
     }
 
     private validateAltPlace(m: string, result: IValidationResult): IValidationResult {
         const owed = this.handicapOwed();
         if (m.length === 0) {
             if (owed > 0) {
-                return this.ok(result, -1, i18next.t("apgames:validation.killallgo.INSTRUCTIONS_ALT_HANDICAP", { count: owed }));
+                return this.ok(result, -1, KillAllGoGame.instructionsAltHandicapMessage(owed));
             }
             return this.ok(result, -1, i18next.t("apgames:validation.killallgo.INSTRUCTIONS_ALT"));
         }
@@ -1146,11 +1347,14 @@ export class KillAllGoGame extends GameBase {
         if (a === undefined && b === undefined) {
             return this.ok(result, -1, i18next.t("apgames:validation.killallgo.INSTRUCTIONS_HOC_SLICE"), true);
         }
-        if (b === undefined) {
-            return this.ok(result, -1, i18next.t("apgames:validation.killallgo.SLICE_A_ONLY", { count: a }), true);
+        if (b === undefined && a !== undefined) {
+            return this.ok(result, -1, KillAllGoGame.sliceAOnlyMessage(a), true);
         }
-        if (a === undefined) {
-            return this.ok(result, -1, i18next.t("apgames:validation.killallgo.SLICE_B_ONLY", { count: b }), true);
+        if (a === undefined && b !== undefined) {
+            return this.ok(result, -1, KillAllGoGame.sliceBOnlyMessage(b), true);
+        }
+        if (a === undefined || b === undefined) {
+            return this.ok(result, -1, i18next.t("apgames:validation.killallgo.INSTRUCTIONS_HOC_SLICE"), true);
         }
         if (a < 1 || b < 1) {
             return this.fail(result, i18next.t("apgames:validation.killallgo.SLICE_MIN"));
@@ -1167,7 +1371,7 @@ export class KillAllGoGame extends GameBase {
     private validateHocOption(m: string, result: IValidationResult): IValidationResult {
         const a = this.setup?.a ?? 0;
         if (m.length === 0) {
-            return this.ok(result, -1, i18next.t("apgames:validation.killallgo.INSTRUCTIONS_HOC_OPTION", { count: a }));
+            return this.ok(result, -1, KillAllGoGame.instructionsHocOptionMessage(a));
         }
         if (m === "youplace") {
             return this.ok(result, 1, i18next.t("apgames:validation._general.VALID_MOVE"));
@@ -1181,7 +1385,7 @@ export class KillAllGoGame extends GameBase {
     private validateHocBatch(m: string, result: IValidationResult): IValidationResult {
         const needed = this.setup?.batchSize ?? 0;
         if (m.length === 0) {
-            return this.ok(result, -1, i18next.t("apgames:validation.killallgo.INSTRUCTIONS_HOC_BATCH", { count: needed }));
+            return this.ok(result, -1, KillAllGoGame.instructionsHocBatchMessage(needed));
         }
         if (m === "pass") {
             return this.fail(result, i18next.t("apgames:validation.killallgo.INVALID_PASS"));
@@ -1192,7 +1396,7 @@ export class KillAllGoGame extends GameBase {
     private validateHocChoose(m: string, result: IValidationResult): IValidationResult {
         const b = this.setup?.b ?? 0;
         if (m.length === 0) {
-            return this.ok(result, -1, i18next.t("apgames:validation.killallgo.INSTRUCTIONS_HOC_CHOOSE", { count: b }));
+            return this.ok(result, -1, KillAllGoGame.instructionsHocChooseMessage(b));
         }
         if (m === "defender") {
             return this.ok(result, 1, i18next.t("apgames:validation._general.VALID_MOVE"));
@@ -1223,8 +1427,10 @@ export class KillAllGoGame extends GameBase {
     private validatePlay(m: string, result: IValidationResult): IValidationResult {
         const colour = this.colourOfSeat(this.currplayer)!;
         if (m.length === 0) {
-            const key = colour === BLUE ? "INSTRUCTIONS_PLAY_DEFENDER" : "INSTRUCTIONS_PLAY_ATTACKER";
-            return this.ok(result, -1, i18next.t(`apgames:validation.killallgo.${key}`));
+            const message = colour === BLUE
+                ? i18next.t("apgames:validation.killallgo.INSTRUCTIONS_PLAY_DEFENDER")
+                : i18next.t("apgames:validation.killallgo.INSTRUCTIONS_PLAY_ATTACKER");
+            return this.ok(result, -1, message);
         }
         if (m === "pass") {
             return this.fail(result, i18next.t("apgames:validation.killallgo.INVALID_PASS"));
@@ -1234,7 +1440,7 @@ export class KillAllGoGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): KillAllGoGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
@@ -1646,10 +1852,9 @@ export class KillAllGoGame extends GameBase {
             });
         }
         if (this.phase !== "play" && !this.gameover) {
-            const phaseKey = this.phase.replace(/-/g, "_").toUpperCase();
             statuses.push({
                 key: this.neutralAreaLabel("apgames:status.PHASE"),
-                value: [this.seatAreaLabel(this.currplayer, `apgames:status.killallgo.PHASE_${phaseKey}`)],
+                value: [this.seatAreaLabel(this.currplayer, KillAllGoGame.openingPhaseStatusKey(this.phase))],
             });
         }
         return statuses;
@@ -1714,3 +1919,4 @@ export class KillAllGoGame extends GameBase {
         return new KillAllGoGame(this.serialize());
     }
 }
+

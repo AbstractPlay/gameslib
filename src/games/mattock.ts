@@ -5,6 +5,49 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a space to mine, then optionally move a miner.",
+        INITIAL_INSTRUCTIONS_PASS: "You must pass as player 1 so that player 2 can begin.",
+        INITIAL_INSTRUCTIONS_PLACEMENT: "Select a space to place a miner.",
+        INVALID_FROM: "You do not have a miner at {{from}} to move.",
+        INVALID_MINE: "Mining at {{mine}} will result in a tile touching more than 3 other tiles.",
+        INVALID_PLACE: "You may not place a miner that is adjacent to another miner on the board.",
+        INVALID_TO: "You may not move the miner from {{from}} to {{to}}.",
+        MINED: "{{mine}} has already been mined.",
+        MOVE_INSTRUCTIONS: "Select a space to move the miner to.",
+        MULTIPLE_PLACEMENT: "You may only place one miner.",
+        MUST_PASS: "You must pass as player 1 so that player 2 can begin.",
+        NO_MOVES: "You miner at {{from}} has no valid spaces to move to.",
+        TO_INSTRUCTIONS: "Select a space to move the miner to.",
+        UNREACHABLE_MINE: "{{mine}} is not reachable by any of your miners.",
+    },
+    variants: {
+        "#board": {
+            name: "Default base-7 board",
+        },
+        freestyle: {
+            description: "Players take turn placing their miners on the board. When all miners are placed, player 2 starts.",
+            name: "Freestyle placement",
+        },
+        random: {
+            description: "The starting board is randomized.",
+            name: "Randomized board",
+        },
+        "size-5": {
+            description: "Ideal for tactics practice.",
+            name: "Smaller board (base-5)",
+        },
+        "#setup": { name: "Default setup" }
+    },
+    displays: {
+        "hide-blocked": {
+            description: "Don't highlight cells that cannot be mined.",
+            name: "Hide blocked",
+        },
+    },
+};
+
 
 export type playerid = 1|2|3; // player 3 is used for empty mined cells.
 
@@ -29,8 +72,7 @@ export class MattockGame extends GameBase {
         // Fixed initial position for size-7. Piece at e1 mistakenly at d1.
         version: "20260503",
         dateAdded: "2024-01-07",
-        // i18next.t("apgames:descriptions.mattock")
-        description: "apgames:descriptions.mattock",
+        description: "In Mattock, you play miners digging corridors through the rock. You can't dig too closely together though, or the mine will collapse. To win, trap your opponent so they run out of space to mine.",
         urls: [
             "https://mattock.drew-edwards.com/",
             "https://boardgamegeek.com/boardgame/320505/mattock",
@@ -586,7 +628,7 @@ export class MattockGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): MattockGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -828,3 +870,4 @@ export class MattockGame extends GameBase {
         return new MattockGame(this.serialize());
     }
 }
+

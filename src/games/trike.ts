@@ -4,6 +4,36 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, triAi2Ap, triAp2Ai, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select the cell to place the neutral piece on.",
+    },
+    variants: {
+        "#board": {
+            name: "Triangle (11 wide)",
+            description: "Casual board.",
+        },
+        "standard-7": {
+            description: "Learning board.",
+            name: "Triangle (7 wide)",
+        },
+        "standard-13": {
+            description: "Competitive board.",
+            name: "Triangle (13 wide)",
+        },
+        "standard-15": {
+            description: "Large board.",
+            name: "Triangle (15 wide)",
+        },
+    },
+    displays: {
+        "hide-moves": {
+            description: "Don't show possible moves.",
+            name: "Hide moves",
+        },
+    },
+};
+
 
 type playerid = 1|2;
 type Directions = "NE"|"E"|"SE"|"SW"|"W"|"NW";
@@ -30,8 +60,7 @@ export class TrikeGame extends GameBase {
         version: "20240118",
         dateAdded: "2023-12-26",
         // version: "20231225",
-        // i18next.t("apgames:descriptions.trike")
-        description: "apgames:descriptions.trike",
+        description: "Trike is a game on a triangular board. Players take turn moving a neutral pawn around the board (passing is not allowed). When a player moves the pawn, they place a checker of their own color, onto the destination point. When the pawn is trapped, the game is over. At the end of the game, each player gets a point for each checker of their own color adjacent to, or underneath, the pawn. The person with the highest score wins.",
         urls: ["https://boardgamegeek.com/boardgame/307379/trike"],
         bggid: "307379",
         people: [
@@ -338,7 +367,7 @@ export class TrikeGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): TrikeGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         // Normalize
         m = m.toLowerCase();
@@ -575,3 +604,4 @@ export class TrikeGame extends GameBase {
     }
 
 }
+

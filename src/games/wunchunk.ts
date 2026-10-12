@@ -6,6 +6,47 @@ import { reviver, shuffle, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
 import { connectedComponents } from "graphology-components";
+export const gameApgamesEn = {
+    validation: {
+        BALANCE: "Player 1 may not create two friendly chunks with their second placement.",
+        BOARD_FULL: "The board is full.",
+        INITIAL_INSTRUCTIONS_choose: "Use the buttons to choose whether to play first or second.",
+        INITIAL_INSTRUCTIONS_play_one: "You may place up to {{count}} piece this turn. Click the piece at the side of the board and then an empty cell to place it. Or just click an empty cell to place one of your own pieces.",
+        INITIAL_INSTRUCTIONS_play_other: "You may place up to {{count}} pieces this turn. Click the piece at the side of the board and then an empty cell to place it. Or just click an empty cell to place one of your own pieces.",
+        INITIAL_INSTRUCTIONS_setup_one: "Create a chunk (two adjacent pieces) for each colour anywhere on the board ({{count}} piece remaining).",
+        INITIAL_INSTRUCTIONS_setup_other: "Create a chunk (two adjacent pieces) for each colour anywhere on the board ({{count}} pieces remaining).",
+        INVALID_COLOUR: "The requested colour ({{colour}}) is invalid.",
+        MUST_CHOOSE: "You must choose which side to play. Click the appropriate button, or type 'swap' to play first or 'pass' to play second.",
+        PARTIAL: "Select where you want to place that piece.",
+        SETUP_CHUNKS: "The pieces you place must be adjacent to each other (one chunk per player).",
+        SETUP_TOOMANY: "You may only place one two-piece chunk for each player.",
+        TOO_MANY_one: "You may only place up to {{count}} piece this turn.",
+        TOO_MANY_other: "You may only place up to {{count}} pieces this turn.",
+        VALID_BUT_one: "Valid so far. You can stop or place {{count}} more piece.",
+        VALID_BUT_other: "Valid so far. You can stop or place {{count}} more pieces.",
+    },
+    variants: {
+        "#board": {
+            name: "Hexhex 6 (91 spaces)",
+        },
+        hex5: {
+            name: "Hexhex 5 (61 spaces)",
+        },
+        hex7: {
+            name: "Hexhex 7 (127 spaces)",
+            description: "Can be selected for 3 and 4 player games.",
+        },
+        hex8: {
+            name: "Hexhex 8 (169 spaces)",
+            description: "Can be selected for 3 and 4 player games.",
+        },
+        open: {
+            name: "Open start",
+            description: "Only applies to two-player games. Here the first player places a chunk of each colour and the second player chooses sides.",
+        },
+    },
+};
+
 
 export type playerid = 1|2|3|4;
 
@@ -40,8 +81,7 @@ export class WunchunkGame extends GameBase {
         playercounts: [2,3,4],
         version: "20260123",
         dateAdded: "2026-01-29",
-        // i18next.t("apgames:descriptions.wunchunk")
-        description: "apgames:descriptions.wunchunk",
+        description: "Unify your pieces as much as you can by the end of the game, while keeping your pieces separate in the early and mid-game so as to increase their power. Fewest groups at the end wins.",
         urls: [
             "https://boardgamegeek.com/boardgame/285135/wunchunk",
         ],
@@ -418,7 +458,7 @@ export class WunchunkGame extends GameBase {
                     }
                 } catch {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation._general.INVALID_CELL", {cell});
+                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
                     return result;
                 }
                 // cell is unoccupied
@@ -503,7 +543,7 @@ export class WunchunkGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): WunchunkGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -817,3 +857,4 @@ export class WunchunkGame extends GameBase {
         return new WunchunkGame(clonedState, clonedVariants);
     }
 }
+

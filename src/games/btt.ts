@@ -973,10 +973,12 @@ export class BTTGame extends GameBase {
                     this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:btt.DELTASCORE.opponent_gain_one", {delta: r.delta});
                 } else if (r.delta! > 0) {
                     this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:btt.DELTASCORE.opponent_gain_other", {delta: r.delta!});
-                } else if (r.delta === -1) {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.DELTA_SCORE_LOSS.one", {delta: r.delta! * -1});
                 } else if (r.delta! < 0) {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.DELTA_SCORE_LOSS.other", {delta: r.delta! * -1});
+                    const loss = r.delta! * -1;
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.DELTA_SCORE_LOSS", {
+                        delta: loss,
+                        count: loss,
+                    });
                 }
                 return true;
             case "place":

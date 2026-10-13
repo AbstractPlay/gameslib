@@ -49,14 +49,10 @@
       "complete": "{{player}} transformis {{what}} en {{into}} ĉe {{where}}.",
       "simple": "{{player}} konvertis pecon ĉe {{where}}."
     },
-    "DELTA_SCORE_GAIN": {
-      "one": "{{player}} akiris {{delta}} poenton.",
-      "other": "{{player}} akiris {{delta}} poentojn."
-    },
-    "DELTA_SCORE_LOSS": {
-      "one": "{{player}} perdis {{delta}} poenton.",
-      "other": "{{player}} perdis {{delta}} poentojn."
-    },
+    "DELTA_SCORE_GAIN_one": "{{player}} akiris {{delta}} poenton.",
+    "DELTA_SCORE_GAIN_other": "{{player}} akiris {{delta}} poentojn.",
+    "DELTA_SCORE_LOSS_one": "{{player}} perdis {{delta}} poenton.",
+    "DELTA_SCORE_LOSS_other": "{{player}} perdis {{delta}} poentojn.",
     "DESTROY": {
       "enemy": {
         "minimal_one": "{{count}} malamika peco estis detruita.",
@@ -197,10 +193,8 @@
     "WINNERSNONE": {
       "default": "Estis neniu gajninto."
     },
-    "WINNERS": {
-      "one": "La jena ludanto gajnis: {{winners}}.",
-      "other": "La jenaj ludantoj gajnis: {{winners}}."
-    }
+    "WINNERS_one": "La jena ludanto gajnis: {{winners}}.",
+    "WINNERS_other": "La jenaj ludantoj gajnis: {{winners}}."
   },
   "logger": {
     "ADD": {
@@ -219,10 +213,8 @@
     }
   },
   "magnate": {
-    "ADD": {
-      "one": "{{player}} aldonis unu ĵetonon al sia proprietigita karto {{where}}.",
-      "other": "{{player}} aldonis {{count}} ĵetonojn al sia proprietigita karto {{where}}."
-    },
+    "ADD_one": "{{player}} aldonis unu ĵetonon al sia proprietigita karto {{where}}.",
+    "ADD_other": "{{player}} aldonis {{count}} ĵetonojn al sia proprietigita karto {{where}}.",
     "CAPTURE": {
       "default": "{{whose}} pagis {{count}} ĵetonojn de tipo {{where}} kiel imposton."
     },
@@ -355,21 +347,15 @@
       "bearSetup": "Komenca aranĝo de la Urso",
       "playerSetup": "Komenca aranĝo de la ludanto"
     },
-    "CAPTURE": {
-      "one": "{{player}} neniigis unu pecon ĉe {{where}}.",
-      "other": "{{player}} neniigis {{count}} pecojn ĉe {{where}}."
-    },
-    "MOVE": {
-      "one": "{{player}} movis unu pecon de {{from}} al {{to}}.",
-      "other": "{{player}} movis {{count}} pecojn de {{from}} al {{to}}."
-    },
+    "CAPTURE_one": "{{player}} neniigis unu pecon ĉe {{where}}.",
+    "CAPTURE_other": "{{player}} neniigis {{count}} pecojn ĉe {{where}}.",
+    "MOVE_one": "{{player}} movis unu pecon de {{from}} al {{to}}.",
+    "MOVE_other": "{{player}} movis {{count}} pecojn de {{from}} al {{to}}.",
     "PASS": {
       "default": "{{player}} preterpasis."
     },
-    "PLACE": {
-      "one": "{{player}} metis unu pecon ĉe {{where}}.",
-      "other": "{{player}} metis {{count}} pecojn ĉe {{where}}."
-    },
+    "PLACE_one": "{{player}} metis unu pecon ĉe {{where}}.",
+    "PLACE_other": "{{player}} metis {{count}} pecojn ĉe {{where}}.",
     "ROLL": {
       "default": "La Urso ĵetis: {{dice}}.",
       "player": "{{player}} ĵetis: {{dice}}."
@@ -379,10 +365,8 @@
     }
   },
   "frogger": {
-    "ANNOUNCE": {
-      "one": "{{player}} elektis replenigi la tirprovizon. Li ricevas plian vicon por fari sian restantan {{count}} movon.",
-      "other": "{{player}} elektis replenigi la tirprovizon. Li ricevas plian vicon por fari siajn restantajn {{count}} movojn."
-    },
+    "ANNOUNCE_one": "{{player}} elektis replenigi la tirprovizon. Li ricevas plian vicon por fari sian restantan {{count}} movon.",
+    "ANNOUNCE_other": "{{player}} elektis replenigi la tirprovizon. Li ricevas plian vicon por fari siajn restantajn {{count}} movojn.",
     "CLAIM": {
       "default": "{{player}} estis blokita kaj tiris {{card}} el la tirprovizo."
     },
@@ -438,10 +422,8 @@
     "ANNOUNCE": {
       "default": "Al la ludanto {{playerNum}} restis la jenaj kartoj enmane: {{cards}}."
     },
-    "DECKDRAW": {
-      "one": "{{player}} tiris {{count}} karton.",
-      "other": "{{player}} tiris {{count}} kartojn."
-    },
+    "DECKDRAW_one": "{{player}} tiris {{count}} karton.",
+    "DECKDRAW_other": "{{player}} tiris {{count}} kartojn.",
     "DELTASCORE": {
       "basic_one": "Kontraŭ {{card}} ĝi ricevis 1 poenton.",
       "basic_other": "Kontraŭ {{card}} ĝi ricevis {{delta}} poentojn.",
@@ -575,10 +557,8 @@
     "BLOCK": {
       "default": "La kavo {{pit}} estas en kutakatia (blokita)."
     },
-    "CAPTURE": {
-      "one": "{{player}} kaptis entute {{count}} ŝtonon el la jenaj kavoj (laŭorde): {{pits}}",
-      "other": "{{player}} kaptis entute {{count}} ŝtonojn el la jenaj kavoj (laŭorde): {{pits}}"
-    },
+    "CAPTURE_one": "{{player}} kaptis entute {{count}} ŝtonon el la jenaj kavoj (laŭorde): {{pits}}",
+    "CAPTURE_other": "{{player}} kaptis entute {{count}} ŝtonojn el la jenaj kavoj (laŭorde): {{pits}}",
     "DESTROY": {
       "default": "La nyumba ĉe {{pit}} estis detruita."
     },
@@ -606,17 +586,13 @@
     }
   },
   "blastradius": {
-    "CAPTURE": {
-      "one": "{{player}} forigis unu malamikan pecon el {{where}}.",
-      "other": "{{player}} forigis stakon de {{count}} malamikaj pecoj el {{where}}."
-    },
+    "CAPTURE_one": "{{player}} forigis unu malamikan pecon el {{where}}.",
+    "CAPTURE_other": "{{player}} forigis stakon de {{count}} malamikaj pecoj el {{where}}.",
     "PLACE": {
       "default": "{{player}} aldonis pecon al {{where}}, kreante stakon de alto {{height}}."
     },
-    "TAKE": {
-      "one": "{{player}} forigis unu el siaj propraj pecoj el {{where}}.",
-      "other": "{{player}} forigis stakon de {{count}} propraj pecoj el {{where}}."
-    }
+    "TAKE_one": "{{player}} forigis unu el siaj propraj pecoj el {{where}}.",
+    "TAKE_other": "{{player}} forigis stakon de {{count}} propraj pecoj el {{where}}."
   },
   "blooms": {
     "CAPTURE": {
@@ -653,10 +629,8 @@
     }
   },
   "circleOfLife": {
-    "CAPTURE": {
-      "one": "{{player}} formanĝis la kontraŭulan specion {{prey}} ({{count}} ŝtono) ĉe {{where}}.",
-      "other": "{{player}} formanĝis la kontraŭulan specion {{prey}} ({{count}} ŝtonoj) ĉe {{where}}."
-    }
+    "CAPTURE_one": "{{player}} formanĝis la kontraŭulan specion {{prey}} ({{count}} ŝtono) ĉe {{where}}.",
+    "CAPTURE_other": "{{player}} formanĝis la kontraŭulan specion {{prey}} ({{count}} ŝtonoj) ĉe {{where}}."
   },
   "crosshairs": {
     "CAPTURE": {
@@ -716,10 +690,8 @@
     }
   },
   "forms": {
-    "CAPTURE": {
-      "one": "La movo de {{player}} forigis unu pecon.",
-      "other": "La movo de {{player}} forigis {{count}} pecojn."
-    },
+    "CAPTURE_one": "La movo de {{player}} forigis unu pecon.",
+    "CAPTURE_other": "La movo de {{player}} forigis {{count}} pecojn.",
     "EOG": {
       "default": "La ludo finiĝis, ĉar la sekva ludanto ne povas movi."
     }
@@ -736,14 +708,10 @@
     }
   },
   "gess": {
-    "CAPTURE": {
-      "one": "{{count}} ŝtono estis forigita de la tabulo.",
-      "other": "{{count}} ŝtonoj estis forigitaj de la tabulo."
-    },
-    "MOVE": {
-      "one": "{{player}} movis 3×3-pecon, kiu enhavis {{count}} ŝtonon, de {{from}} al {{to}}.",
-      "other": "{{player}} movis 3×3-pecon, kiu enhavis {{count}} ŝtonojn, de {{from}} al {{to}}."
-    }
+    "CAPTURE_one": "{{count}} ŝtono estis forigita de la tabulo.",
+    "CAPTURE_other": "{{count}} ŝtonoj estis forigitaj de la tabulo.",
+    "MOVE_one": "{{player}} movis 3×3-pecon, kiu enhavis {{count}} ŝtonon, de {{from}} al {{to}}.",
+    "MOVE_other": "{{player}} movis 3×3-pecon, kiu enhavis {{count}} ŝtonojn, de {{from}} al {{to}}."
   },
   "hens": {
     "CAPTURE": {
@@ -856,10 +824,8 @@
     }
   },
   "reversi": {
-    "CAPTURE": {
-      "one": "Peco estis renversita.",
-      "other": "{{count}} pecoj estis renversitaj."
-    }
+    "CAPTURE_one": "Peco estis renversita.",
+    "CAPTURE_other": "{{count}} pecoj estis renversitaj."
   },
   "spook": {
     "CAPTURE": {
@@ -883,17 +849,13 @@
     }
   },
   "spora": {
-    "CAPTURE": {
-      "one": "{{player}} ĉirkaŭis kaj kaptis unu pecon: {{group}}.",
-      "other": "{{player}} ĉirkaŭis kaj kaptis {{count}} pecojn: {{group}}."
-    },
+    "CAPTURE_one": "{{player}} ĉirkaŭis kaj kaptis unu pecon: {{group}}.",
+    "CAPTURE_other": "{{player}} ĉirkaŭis kaj kaptis {{count}} pecojn: {{group}}.",
     "MOVE": {
       "default": "{{player}} semis de {{from}} al {{to}}."
     },
-    "PLACE": {
-      "one": "{{player}} aldonis unu pecon al la stako ĉe {{where}}.",
-      "other": "{{player}} aldonis {{size}} pecojn al la stako ĉe {{where}}."
-    }
+    "PLACE_one": "{{player}} aldonis unu pecon al la stako ĉe {{where}}.",
+    "PLACE_other": "{{player}} aldonis {{size}} pecojn al la stako ĉe {{where}}."
   },
   "swarm": {
     "CAPTURE": {
@@ -1036,10 +998,8 @@
     }
   },
   "paintbucket": {
-    "CONVERT": {
-      "one": "{{player}} konvertis 1 pecon ĉe {{where}}.",
-      "other": "{{player}} konvertis {{count}} pecojn ekde {{where}}."
-    }
+    "CONVERT_one": "{{player}} konvertis 1 pecon ĉe {{where}}.",
+    "CONVERT_other": "{{player}} konvertis {{count}} pecojn ekde {{where}}."
   },
   "storisende": {
     "CONVERT": {
@@ -1208,10 +1168,8 @@
       "jump": "{{player}} saltigis pecon de {{from}} al {{to}}.",
       "split": "{{player}} disigis pecon de {{from}} al {{to}}."
     },
-    "CAPTURE": {
-      "one": "1 peco konvertiĝis.",
-      "other": "{{count}} pecoj konvertiĝis."
-    }
+    "CAPTURE_one": "1 peco konvertiĝis.",
+    "CAPTURE_other": "{{count}} pecoj konvertiĝis."
   },
   "byte": {
     "MOVE": {
@@ -1277,10 +1235,8 @@
     "PLACE": {
       "default": "{{player}} metis ludanton ĉe {{where}}."
     },
-    "REMOVE": {
-      "one": "{{count}} ludanto estis forigita.",
-      "other": "{{count}} ludantoj estis forigitaj."
-    }
+    "REMOVE_one": "{{count}} ludanto estis forigita.",
+    "REMOVE_other": "{{count}} ludantoj estis forigitaj."
   },
   "posit": {
     "MOVE": {
@@ -1304,10 +1260,8 @@
     }
   },
   "volo": {
-    "MOVE": {
-      "one": "{{player}} movis aron de 1 birdo de {{from}} en la direkto {{how}}.",
-      "other": "{{player}} movis aron de {{count}} birdoj de {{from}} en la direkto {{how}}."
-    },
+    "MOVE_one": "{{player}} movis aron de 1 birdo de {{from}} en la direkto {{how}}.",
+    "MOVE_other": "{{player}} movis aron de {{count}} birdoj de {{from}} en la direkto {{how}}.",
     "PLACE": {
       "default": "{{player}} aldonis birdon ĉe {{where}}."
     },
@@ -1402,10 +1356,8 @@
     }
   },
   "estate": {
-    "PLACE": {
-      "one": "{{player}} metis pecon ĉe {{where}} ({{what}} poento).",
-      "other": "{{player}} metis pecon ĉe {{where}} ({{what}} poentoj)."
-    }
+    "PLACE_one": "{{player}} metis pecon ĉe {{where}} ({{what}} poento).",
+    "PLACE_other": "{{player}} metis pecon ĉe {{where}} ({{what}} poentoj)."
   },
   "gorogo": {
     "PLACE": {
@@ -1578,10 +1530,8 @@
     }
   },
   "rincala": {
-    "SOW": {
-      "one": "{{player}} semis {{count}} {{pieces}}-pecon de {{from}} al {{to}}.",
-      "other": "{{player}} semis {{count}} pecojn de {{from}} en la jenajn kavojn: {{pieces}} → {{to}}."
-    }
+    "SOW_one": "{{player}} semis {{count}} {{pieces}}-pecon de {{from}} al {{to}}.",
+    "SOW_other": "{{player}} semis {{count}} pecojn de {{from}} en la jenajn kavojn: {{pieces}} → {{to}}."
   },
   "wunchunk": {
     "SWAP": {

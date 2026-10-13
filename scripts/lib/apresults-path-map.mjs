@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import { collectLeaves } from "../locale-prune.mjs";
+import { I18NEXT_PLURAL_LEAVES } from "./locale-en-merge-core.mjs";
 import { buildUidToGameSourcePaths } from "./check-apgames-refs.mjs";
 import {
     MERGED_EN_ARESULTS,
@@ -173,7 +174,7 @@ export function splitRootPluralKey(rootKey) {
  * @param {string} oldPath catalog leaf path (no apresults: prefix)
  * @param {Set<string>} uidSet
  */
-export function mapCatalogLeafPath(oldPath, uidSet) {
+export function mapCatalogLeafPath(oldPath, uidSet, catalogOldPaths) {
     const parts = oldPath.split(".");
     let uid;
     let resultType;
@@ -183,19 +184,22 @@ export function mapCatalogLeafPath(oldPath, uidSet) {
         uid = "homeworlds";
         resultType = parts[1];
         newLeaf = HOMEWORLD_ACTION_LEAF[resultType] ?? "default";
-        return buildEntry(oldPath, uid, resultType, newLeaf);
+        return buildEntry(oldPath, uid, resultType, newLeaf, catalogOldPaths);
     }
 
     if (parts[0] === "DRUID_HEX_EDGE" && parts.length === 2) {
-        return buildEntry(oldPath, "druid", "HEX_EDGE", parts[1]);
+        return buildEntry(oldPath, "druid", "HEX_EDGE", parts[1], catalogOldPaths);
     }
 
     if (parts.length === 1) {
         uid = "_general";
         const split = splitRootPluralKey(parts[0]);
+        if (I18NEXT_PLURAL_LEAVES.has(split.newLeaf)) {
+            return buildEntry(oldPath, uid, "", parts[0], catalogOldPaths);
+        }
         resultType = split.resultType;
         newLeaf = split.newLeaf;
-        return buildEntry(oldPath, uid, resultType, newLeaf);
+        return buildEntry(oldPath, uid, resultType, newLeaf, catalogOldPaths);
     }
 
     if (parts.length === 2 && uidSet.has(parts[0])) {
@@ -203,18 +207,18 @@ export function mapCatalogLeafPath(oldPath, uidSet) {
         const stem = parts[1];
         const split = splitRootPluralKey(stem);
         if (split.newLeaf === "one" || split.newLeaf === "other") {
-            return buildEntry(oldPath, uid, "", stem);
+            return buildEntry(oldPath, uid, "", stem, catalogOldPaths);
         }
         resultType = stem;
         newLeaf = "default";
-        return buildEntry(oldPath, uid, resultType, newLeaf);
+        return buildEntry(oldPath, uid, resultType, newLeaf, catalogOldPaths);
     }
 
     resultType = parts[0];
     const leafPath = parts.slice(1).join(".");
     uid = inferUidForLeaf(leafPath, resultType, uidSet);
     newLeaf = renameLeafForUid(uid, leafPath);
-    return buildEntry(oldPath, uid, resultType, newLeaf);
+    return buildEntry(oldPath, uid, resultType, newLeaf, catalogOldPaths);
 }
 
 /**
@@ -223,8 +227,47 @@ export function mapCatalogLeafPath(oldPath, uidSet) {
  * @param {string} resultType
  * @param {string} newLeaf
  */
-function buildEntry(oldPath, uid, resultType, newLeaf) {
-    const newPath = resultType ? `${uid}.${resultType}.${newLeaf}` : `${uid}.${newLeaf}`;
+/**
+ * True when `one`/`other` leaves are i18next plurals (`CAPTURE_one`), not context (`CAPTURE.other`).
+ * @param {string} oldPath
+ * @param {string} uid
+ * @param {string} resultType
+ * @param {string} newLeaf
+ * @param {Set<string>} [catalogOldPaths]
+ */
+export function shouldUseI18nextPluralSuffix(oldPath, uid, resultType, newLeaf, catalogOldPaths) {
+    if (!I18NEXT_PLURAL_LEAVES.has(newLeaf) || newLeaf.includes(".")) {
+        return false;
+    }
+    if (!resultType) {
+        return false;
+    }
+    const suffix = `_${newLeaf}`;
+    if (oldPath === `${resultType}${suffix}`) {
+        return true;
+    }
+    const leaf = oldPath.includes(".") ? oldPath.slice(oldPath.lastIndexOf(".") + 1) : oldPath;
+    if (leaf !== `${uid}${suffix}`) {
+        return false;
+    }
+    if (newLeaf === "one") {
+        return true;
+    }
+    return catalogOldPaths?.has(`${resultType}.${uid}_one`) === true;
+}
+
+export function computeApresultsNewPath(uid, resultType, newLeaf, oldPath, catalogOldPaths) {
+    if (!resultType) {
+        return `${uid}.${newLeaf}`;
+    }
+    if (shouldUseI18nextPluralSuffix(oldPath, uid, resultType, newLeaf, catalogOldPaths)) {
+        return `${uid}.${resultType}_${newLeaf}`;
+    }
+    return `${uid}.${resultType}.${newLeaf}`;
+}
+
+function buildEntry(oldPath, uid, resultType, newLeaf, catalogOldPaths) {
+    const newPath = computeApresultsNewPath(uid, resultType, newLeaf, oldPath, catalogOldPaths);
     return {
         oldPath,
         oldFullKey: `apresults:${oldPath}`,
@@ -242,10 +285,11 @@ function buildEntry(oldPath, uid, resultType, newLeaf) {
  */
 export function buildPathMapFromCatalog(catalogLeaves, overrides = loadOverrides()) {
     const uidSet = new Set(registryUidsLongestFirst());
+    const catalogOldPaths = new Set(Object.keys(catalogLeaves));
     /** @type {import("./apresults-path-map.mjs").PathMapEntry[]} */
     const entries = [];
     for (const oldPath of Object.keys(catalogLeaves).sort()) {
-        let entry = mapCatalogLeafPath(oldPath, uidSet);
+        let entry = mapCatalogLeafPath(oldPath, uidSet, catalogOldPaths);
         const o = overrides[oldPath];
         if (o) {
             entry = {
@@ -254,7 +298,13 @@ export function buildPathMapFromCatalog(catalogLeaves, overrides = loadOverrides
                 oldPath,
                 oldFullKey: `apresults:${oldPath}`,
             };
-            entry.newPath = `${entry.uid}.${entry.resultType}.${entry.newLeaf}`;
+            entry.newPath = computeApresultsNewPath(
+                entry.uid,
+                entry.resultType,
+                entry.newLeaf,
+                oldPath,
+                catalogOldPaths,
+            );
             entry.newFullKey = `apresults:${entry.newPath}`;
         }
         entry.english = catalogLeaves[oldPath];
@@ -326,9 +376,13 @@ export function normalizeEnglish(text) {
  * @param {string} newLeaf dot-separated leaf under result type
  * @param {string} english
  */
-export function setResultLeaf(uidBlock, resultType, newLeaf, english) {
+export function setResultLeaf(uidBlock, uid, resultType, newLeaf, english, oldPath, catalogOldPaths) {
     if (!resultType) {
         uidBlock[newLeaf] = english;
+        return;
+    }
+    if (shouldUseI18nextPluralSuffix(oldPath, uid, resultType, newLeaf, catalogOldPaths)) {
+        uidBlock[`${resultType}_${newLeaf}`] = english;
         return;
     }
     if (!uidBlock[resultType] || typeof uidBlock[resultType] !== "object") {
@@ -354,11 +408,12 @@ export function setResultLeaf(uidBlock, resultType, newLeaf, english) {
  */
 export function buildNestedFromPathMapEntries(entries) {
     const root = {};
+    const catalogOldPaths = new Set(entries.map((e) => e.oldPath));
     for (const e of entries) {
         if (!root[e.uid]) {
             root[e.uid] = {};
         }
-        setResultLeaf(root[e.uid], e.resultType, e.newLeaf, e.english);
+        setResultLeaf(root[e.uid], e.uid, e.resultType, e.newLeaf, e.english, e.oldPath, catalogOldPaths);
     }
     return root;
 }
@@ -386,8 +441,9 @@ export function pathMapEntriesAlignedWithNested(mergedNested, committedEntries =
     }
     /** @type {Map<string, import("./apresults-path-map.mjs").PathMapEntry>} */
     const remappedByNew = new Map();
+    const catalogOldPaths = new Set(committedEntries.map((e) => e.oldPath));
     for (const e of committedEntries) {
-        const remapped = mapCatalogLeafPath(e.oldPath, uidSet);
+        const remapped = mapCatalogLeafPath(e.oldPath, uidSet, catalogOldPaths);
         if (!remappedByNew.has(remapped.newPath)) {
             remappedByNew.set(remapped.newPath, remapped);
         }

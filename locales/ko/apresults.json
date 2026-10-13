@@ -49,14 +49,10 @@
       "complete": "",
       "simple": ""
     },
-    "DELTA_SCORE_GAIN": {
-      "one": "",
-      "other": ""
-    },
-    "DELTA_SCORE_LOSS": {
-      "one": "",
-      "other": ""
-    },
+    "DELTA_SCORE_GAIN_one": "",
+    "DELTA_SCORE_GAIN_other": "",
+    "DELTA_SCORE_LOSS_one": "",
+    "DELTA_SCORE_LOSS_other": "",
     "DESTROY": {
       "enemy": {
         "minimal_one": "",
@@ -197,10 +193,8 @@
     "WINNERSNONE": {
       "default": ""
     },
-    "WINNERS": {
-      "one": "",
-      "other": ""
-    }
+    "WINNERS_one": "",
+    "WINNERS_other": ""
   },
   "logger": {
     "ADD": {
@@ -219,10 +213,8 @@
     }
   },
   "magnate": {
-    "ADD": {
-      "one": "",
-      "other": ""
-    },
+    "ADD_one": "",
+    "ADD_other": "",
     "CAPTURE": {
       "default": ""
     },
@@ -355,21 +347,15 @@
       "bearSetup": "",
       "playerSetup": ""
     },
-    "CAPTURE": {
-      "one": "",
-      "other": ""
-    },
-    "MOVE": {
-      "one": "",
-      "other": ""
-    },
+    "CAPTURE_one": "",
+    "CAPTURE_other": "",
+    "MOVE_one": "",
+    "MOVE_other": "",
     "PASS": {
       "default": ""
     },
-    "PLACE": {
-      "one": "",
-      "other": ""
-    },
+    "PLACE_one": "",
+    "PLACE_other": "",
     "ROLL": {
       "default": "",
       "player": ""
@@ -379,10 +365,8 @@
     }
   },
   "frogger": {
-    "ANNOUNCE": {
-      "one": "",
-      "other": ""
-    },
+    "ANNOUNCE_one": "",
+    "ANNOUNCE_other": "",
     "CLAIM": {
       "default": ""
     },
@@ -408,10 +392,8 @@
     "ANNOUNCE": {
       "default": ""
     },
-    "DECKDRAW": {
-      "one": "",
-      "other": ""
-    },
+    "DECKDRAW_one": "",
+    "DECKDRAW_other": "",
     "DELTASCORE": {
       "basic_one": "",
       "basic_other": "",
@@ -545,10 +527,8 @@
     "BLOCK": {
       "default": ""
     },
-    "CAPTURE": {
-      "one": "",
-      "other": ""
-    },
+    "CAPTURE_one": "",
+    "CAPTURE_other": "",
     "DESTROY": {
       "default": ""
     },
@@ -576,17 +556,13 @@
     }
   },
   "blastradius": {
-    "CAPTURE": {
-      "one": "",
-      "other": ""
-    },
+    "CAPTURE_one": "",
+    "CAPTURE_other": "",
     "PLACE": {
       "default": ""
     },
-    "TAKE": {
-      "one": "",
-      "other": ""
-    }
+    "TAKE_one": "",
+    "TAKE_other": ""
   },
   "blooms": {
     "CAPTURE": {
@@ -623,10 +599,8 @@
     }
   },
   "circleOfLife": {
-    "CAPTURE": {
-      "one": "",
-      "other": ""
-    }
+    "CAPTURE_one": "",
+    "CAPTURE_other": ""
   },
   "crosshairs": {
     "CAPTURE": {
@@ -686,10 +660,8 @@
     }
   },
   "forms": {
-    "CAPTURE": {
-      "one": "",
-      "other": ""
-    },
+    "CAPTURE_one": "",
+    "CAPTURE_other": "",
     "EOG": {
       "default": ""
     }
@@ -706,14 +678,10 @@
     }
   },
   "gess": {
-    "CAPTURE": {
-      "one": "",
-      "other": ""
-    },
-    "MOVE": {
-      "one": "",
-      "other": ""
-    }
+    "CAPTURE_one": "",
+    "CAPTURE_other": "",
+    "MOVE_one": "",
+    "MOVE_other": ""
   },
   "hens": {
     "CAPTURE": {
@@ -826,10 +794,8 @@
     }
   },
   "reversi": {
-    "CAPTURE": {
-      "one": "",
-      "other": ""
-    }
+    "CAPTURE_one": "",
+    "CAPTURE_other": ""
   },
   "spook": {
     "CAPTURE": {
@@ -853,17 +819,13 @@
     }
   },
   "spora": {
-    "CAPTURE": {
-      "one": "",
-      "other": ""
-    },
+    "CAPTURE_one": "",
+    "CAPTURE_other": "",
     "MOVE": {
       "default": ""
     },
-    "PLACE": {
-      "one": "",
-      "other": ""
-    }
+    "PLACE_one": "",
+    "PLACE_other": ""
   },
   "swarm": {
     "CAPTURE": {
@@ -1001,10 +963,8 @@
     }
   },
   "paintbucket": {
-    "CONVERT": {
-      "one": "",
-      "other": ""
-    }
+    "CONVERT_one": "",
+    "CONVERT_other": ""
   },
   "storisende": {
     "CONVERT": {
@@ -1166,10 +1126,8 @@
       "jump": "",
       "split": ""
     },
-    "CAPTURE": {
-      "one": "",
-      "other": ""
-    }
+    "CAPTURE_one": "",
+    "CAPTURE_other": ""
   },
   "byte": {
     "MOVE": {
@@ -1235,10 +1193,8 @@
     "PLACE": {
       "default": ""
     },
-    "REMOVE": {
-      "one": "",
-      "other": ""
-    }
+    "REMOVE_one": "",
+    "REMOVE_other": ""
   },
   "posit": {
     "MOVE": {
@@ -1262,10 +1218,8 @@
     }
   },
   "volo": {
-    "MOVE": {
-      "one": "",
-      "other": ""
-    },
+    "MOVE_one": "",
+    "MOVE_other": "",
     "PLACE": {
       "default": ""
     },
@@ -1356,10 +1310,8 @@
     }
   },
   "estate": {
-    "PLACE": {
-      "one": "",
-      "other": ""
-    }
+    "PLACE_one": "",
+    "PLACE_other": ""
   },
   "gorogo": {
     "PLACE": {
@@ -1532,10 +1484,8 @@
     }
   },
   "rincala": {
-    "SOW": {
-      "one": "",
-      "other": ""
-    }
+    "SOW_one": "",
+    "SOW_other": ""
   },
   "wunchunk": {
     "SWAP": {

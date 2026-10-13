@@ -46,14 +46,10 @@
       "complete": "{{player}} turned a {{what}} into a {{into}} at {{where}}.",
       "simple": "{{player}} converted a piece at {{where}}."
     },
-    "DELTA_SCORE_GAIN": {
-      "one": "{{player}} gained {{delta}} point.",
-      "other": "{{player}} gained {{delta}} points."
-    },
-    "DELTA_SCORE_LOSS": {
-      "one": "{{player}} lost {{delta}} point.",
-      "other": "{{player}} lost {{delta}} points."
-    },
+    "DELTA_SCORE_GAIN_one": "{{player}} gained {{delta}} point.",
+    "DELTA_SCORE_GAIN_other": "{{player}} gained {{delta}} points.",
+    "DELTA_SCORE_LOSS_one": "{{player}} lost {{delta}} point.",
+    "DELTA_SCORE_LOSS_other": "{{player}} lost {{delta}} points.",
     "DESTROY": {
       "enemy": {
         "minimal_one": "{{count}} enemy piece was destroyed.",
@@ -191,10 +187,8 @@
     "TIMEOUT": {
       "default": "{{player}} lost on time."
     },
-    "WINNERS": {
-      "one": "The following player won: {{winners}}.",
-      "other": "The following players won: {{winners}}."
-    },
+    "WINNERS_one": "The following player won: {{winners}}.",
+    "WINNERS_other": "The following players won: {{winners}}.",
     "WINNERSNONE": {
       "default": "There were no winners."
     }
@@ -291,10 +285,8 @@
     }
   },
   "ataxx": {
-    "CAPTURE": {
-      "one": "1 piece is converted.",
-      "other": "{{count}} pieces are converted."
-    },
+    "CAPTURE_one": "1 piece is converted.",
+    "CAPTURE_other": "{{count}} pieces are converted.",
     "MOVE": {
       "jump": "{{player}} jumped a piece from {{from}} to {{to}}.",
       "split": "{{player}} split a piece from {{from}} to {{to}}."
@@ -304,10 +296,8 @@
     "BLOCK": {
       "default": "The pit {{pit}} is in kutakatia (is blocked)."
     },
-    "CAPTURE": {
-      "one": "{{player}} captured a total of {{count}} stone from the following pits (in order): {{pits}}",
-      "other": "{{player}} captured a total of {{count}} stones from the following pits (in order): {{pits}}"
-    },
+    "CAPTURE_one": "{{player}} captured a total of {{count}} stone from the following pits (in order): {{pits}}",
+    "CAPTURE_other": "{{player}} captured a total of {{count}} stones from the following pits (in order): {{pits}}",
     "DESTROY": {
       "default": "The nyumba at {{pit}} was destroyed."
     },
@@ -351,17 +341,13 @@
     }
   },
   "blastradius": {
-    "CAPTURE": {
-      "one": "{{player}} removed one enemy piece from {{where}}.",
-      "other": "{{player}} removed a stack of {{count}} enemy pieces from {{where}}."
-    },
+    "CAPTURE_one": "{{player}} removed one enemy piece from {{where}}.",
+    "CAPTURE_other": "{{player}} removed a stack of {{count}} enemy pieces from {{where}}.",
     "PLACE": {
       "default": "{{player}} added a piece to {{where}}, creating a stack of height {{height}}."
     },
-    "TAKE": {
-      "one": "{{player}} removed one of their own pieces from {{where}}.",
-      "other": "{{player}} removed a stack of {{count}} of their own pieces from {{where}}."
-    }
+    "TAKE_one": "{{player}} removed one of their own pieces from {{where}}.",
+    "TAKE_other": "{{player}} removed a stack of {{count}} of their own pieces from {{where}}."
   },
   "blockade": {
     "CAPTURE": {
@@ -537,10 +523,8 @@
     }
   },
   "circleOfLife": {
-    "CAPTURE": {
-      "one": "{{player}} devoured opponent species {{prey}} ({{count}} stone) at {{where}}.",
-      "other": "{{player}} devoured opponent species {{prey}} ({{count}} stones) at {{where}}."
-    }
+    "CAPTURE_one": "{{player}} devoured opponent species {{prey}} ({{count}} stone) at {{where}}.",
+    "CAPTURE_other": "{{player}} devoured opponent species {{prey}} ({{count}} stones) at {{where}}."
   },
   "conhex": {
     "CLAIM": {
@@ -652,14 +636,10 @@
       "bearSetup": "Bear setup",
       "playerSetup": "Player setup"
     },
-    "CAPTURE": {
-      "one": "{{player}} annihilated one piece at {{where}}.",
-      "other": "{{player}} annihilated {{count}} pieces at {{where}}."
-    },
-    "PLACE": {
-      "one": "{{player}} placed one piece at {{where}}.",
-      "other": "{{player}} placed {{count}} pieces at {{where}}."
-    },
+    "CAPTURE_one": "{{player}} annihilated one piece at {{where}}.",
+    "CAPTURE_other": "{{player}} annihilated {{count}} pieces at {{where}}.",
+    "PLACE_one": "{{player}} placed one piece at {{where}}.",
+    "PLACE_other": "{{player}} placed {{count}} pieces at {{where}}.",
     "ROLL": {
       "default": "The Bear rolled: {{dice}}.",
       "player": "{{player}} rolled: {{dice}}."
@@ -717,10 +697,8 @@
     }
   },
   "estate": {
-    "PLACE": {
-      "one": "{{player}} placed a piece at {{where}} ({{what}} pt).",
-      "other": "{{player}} placed a piece at {{where}} ({{what}} pts)."
-    }
+    "PLACE_one": "{{player}} placed a piece at {{where}} ({{what}} pt).",
+    "PLACE_other": "{{player}} placed a piece at {{where}} ({{what}} pts)."
   },
   "evenatodds": {
     "DECKDRAW": {
@@ -763,10 +741,8 @@
     }
   },
   "forms": {
-    "CAPTURE": {
-      "one": "{{player}} move eliminates one piece.",
-      "other": "{{player}} move eliminates {{count}} pieces."
-    },
+    "CAPTURE_one": "{{player}} move eliminates one piece.",
+    "CAPTURE_other": "{{player}} move eliminates {{count}} pieces.",
     "EOG": {
       "default": "The game has ended because the next player is unable to move."
     }
@@ -784,10 +760,8 @@
     }
   },
   "frogger": {
-    "ANNOUNCE": {
-      "one": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining move.",
-      "other": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining moves."
-    },
+    "ANNOUNCE_one": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining move.",
+    "ANNOUNCE_other": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining moves.",
     "CLAIM": {
       "default": "{{player}} was blocked and drew {{card}} from the draw pool."
     },
@@ -821,14 +795,10 @@
     }
   },
   "gess": {
-    "CAPTURE": {
-      "one": "{{count}} stone is removed from the board.",
-      "other": "{{count}} stones are removed from the board."
-    },
-    "MOVE": {
-      "one": "{{player}} moved a 3x3 piece containing {{count}} stone from {{from}} to {{to}}.",
-      "other": "{{player}} moved a 3x3 piece containing {{count}} stones from {{from}} to {{to}}."
-    }
+    "CAPTURE_one": "{{count}} stone is removed from the board.",
+    "CAPTURE_other": "{{count}} stones are removed from the board.",
+    "MOVE_one": "{{player}} moved a 3x3 piece containing {{count}} stone from {{from}} to {{to}}.",
+    "MOVE_other": "{{player}} moved a 3x3 piece containing {{count}} stones from {{from}} to {{to}}."
   },
   "gliss": {
     "REMOVE": {
@@ -992,10 +962,8 @@
     }
   },
   "magnate": {
-    "ADD": {
-      "one": "{{player}} added one token to their deeded card {{where}}.",
-      "other": "{{player}} added {{count}} tokens to their deeded card {{where}}."
-    },
+    "ADD_one": "{{player}} added one token to their deeded card {{where}}.",
+    "ADD_other": "{{player}} added {{count}} tokens to their deeded card {{where}}.",
     "CAPTURE": {
       "default": "{{whose}} was taxed {{count}} {{where}} tokens."
     },
@@ -1128,10 +1096,8 @@
     }
   },
   "oonpia": {
-    "CAPTURE": {
-      "one": "{{player}} captured 1 stone.",
-      "other": "{{player}} captured {{count}} stones."
-    }
+    "CAPTURE_one": "{{player}} captured 1 stone.",
+    "CAPTURE_other": "{{player}} captured {{count}} stones."
   },
   "orb": {
     "CAPTURE": {
@@ -1170,10 +1136,8 @@
     }
   },
   "paintbucket": {
-    "CONVERT": {
-      "one": "{{player}} converted 1 piece at {{where}}.",
-      "other": "{{player}} converted {{count}} pieces starting at {{where}}."
-    }
+    "CONVERT_one": "{{player}} converted 1 piece at {{where}}.",
+    "CONVERT_other": "{{player}} converted {{count}} pieces starting at {{where}}."
   },
   "penguin": {
     "CLAIM": {
@@ -1200,10 +1164,8 @@
     "PLACE": {
       "default": "{{player}} placed a player at {{where}}."
     },
-    "REMOVE": {
-      "one": "{{count}} player was removed.",
-      "other": "{{count}} players were removed."
-    }
+    "REMOVE_one": "{{count}} player was removed.",
+    "REMOVE_other": "{{count}} players were removed."
   },
   "pigs": {
     "DAMAGE": {
@@ -1262,10 +1224,8 @@
     "ANNOUNCE": {
       "default": "Player {{playerNum}} had the following cards left in their hand: {{cards}}."
     },
-    "DECKDRAW": {
-      "one": "{{player}} drew {{count}} card.",
-      "other": "{{player}} drew {{count}} cards."
-    },
+    "DECKDRAW_one": "{{player}} drew {{count}} card.",
+    "DECKDRAW_other": "{{player}} drew {{count}} cards.",
     "DELTASCORE": {
       "basic_one": "Against {{card}} it scored 1 point.",
       "basic_other": "Against {{card}} it scored {{delta}} points.",
@@ -1301,16 +1261,12 @@
     }
   },
   "reversi": {
-    "CAPTURE": {
-      "one": "A piece is flipped.",
-      "other": "{{count}} pieces are flipped."
-    }
+    "CAPTURE_one": "A piece is flipped.",
+    "CAPTURE_other": "{{count}} pieces are flipped."
   },
   "rincala": {
-    "SOW": {
-      "one": "{{player}} sowed {{count}} {{pieces}} piece from {{from}} to {{to}}.",
-      "other": "{{player}} sowed {{count}} pieces from {{from}} to the following pits: {{pieces}} -> {{to}}."
-    }
+    "SOW_one": "{{player}} sowed {{count}} {{pieces}} piece from {{from}} to {{to}}.",
+    "SOW_other": "{{player}} sowed {{count}} pieces from {{from}} to the following pits: {{pieces}} -> {{to}}."
   },
   "saltire": {
     "MOVE": {
@@ -1415,17 +1371,13 @@
     }
   },
   "spora": {
-    "CAPTURE": {
-      "one": "{{player}} surrounded and captured one piece: {{group}}.",
-      "other": "{{player}} surrounded and captured {{count}} pieces: {{group}}."
-    },
+    "CAPTURE_one": "{{player}} surrounded and captured one piece: {{group}}.",
+    "CAPTURE_other": "{{player}} surrounded and captured {{count}} pieces: {{group}}.",
     "MOVE": {
       "default": "{{player}} sowed from {{from}} to {{to}}."
     },
-    "PLACE": {
-      "one": "{{player}} added one piece to stack at {{where}}.",
-      "other": "{{player}} added {{size}} pieces to stack at {{where}}."
-    }
+    "PLACE_one": "{{player}} added one piece to stack at {{where}}.",
+    "PLACE_other": "{{player}} added {{size}} pieces to stack at {{where}}."
   },
   "spree": {
     "SELECT": {
@@ -1701,10 +1653,8 @@
     }
   },
   "volo": {
-    "MOVE": {
-      "one": "{{player}} moved a flock of 1 bird from {{from}} in the direction {{how}}.",
-      "other": "{{player}} moved a flock of {{count}} birds from {{from}} in the direction {{how}}."
-    },
+    "MOVE_one": "{{player}} moved a flock of 1 bird from {{from}} in the direction {{how}}.",
+    "MOVE_other": "{{player}} moved a flock of {{count}} birds from {{from}} in the direction {{how}}.",
     "PLACE": {
       "default": "{{player}} adds a bird at {{where}}."
     },

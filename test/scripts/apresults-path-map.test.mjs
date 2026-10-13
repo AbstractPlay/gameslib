@@ -43,7 +43,7 @@ describe("apresults path map", () => {
     it("routes uid-prefixed capture stems to game buckets", () => {
         const uidSet = new Set(["asli", "ataxx", "amazons", "spook", "tritium", "druid", "elOso", "blockade", "boom"]);
         assert.equal(mapCatalogLeafPath("CAPTURE.asli_self", uidSet).newPath, "asli.CAPTURE.self");
-        assert.equal(mapCatalogLeafPath("CAPTURE.ataxx_one", uidSet).newPath, "ataxx.CAPTURE.one");
+        assert.equal(mapCatalogLeafPath("CAPTURE.ataxx_one", uidSet).newPath, "ataxx.CAPTURE_one");
         assert.equal(mapCatalogLeafPath("MOVE.amazonsNoFirstShot", uidSet).newPath, "amazons.MOVE.noFirstShot");
         assert.equal(mapCatalogLeafPath("PLACE.spooky", uidSet).newPath, "spook.PLACE.spooky");
         assert.equal(mapCatalogLeafPath("PLACE.tritium-flag", uidSet).newPath, "tritium.PLACE.flag");
@@ -73,5 +73,14 @@ describe("apresults path map", () => {
         assert.equal(onDisk.entries.length, loadCommittedPathMapEntries().length);
         assert.equal(mergedLeaves, onDisk.entries.length);
         assert.equal(onDisk.schemaVersion, 1);
+    });
+
+    it("merge output uses i18next plural suffixes for _general score deltas", () => {
+        const merged = mergeApresultsEnSources();
+        const general = merged._general;
+        assert.ok(general && typeof general === "object");
+        assert.equal(typeof general.DELTA_SCORE_GAIN_one, "string");
+        assert.equal(typeof general.DELTA_SCORE_GAIN_other, "string");
+        assert.equal(general.DELTA_SCORE_GAIN, undefined);
     });
 });

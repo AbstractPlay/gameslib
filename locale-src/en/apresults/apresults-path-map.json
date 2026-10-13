@@ -288,8 +288,8 @@
       "uid": "_general",
       "resultType": "DELTA_SCORE_GAIN",
       "newLeaf": "one",
-      "newPath": "_general.DELTA_SCORE_GAIN.one",
-      "newFullKey": "apresults:_general.DELTA_SCORE_GAIN.one",
+      "newPath": "_general.DELTA_SCORE_GAIN_one",
+      "newFullKey": "apresults:_general.DELTA_SCORE_GAIN_one",
       "english": "{{player}} gained {{delta}} point."
     },
     {
@@ -298,8 +298,8 @@
       "uid": "_general",
       "resultType": "DELTA_SCORE_GAIN",
       "newLeaf": "other",
-      "newPath": "_general.DELTA_SCORE_GAIN.other",
-      "newFullKey": "apresults:_general.DELTA_SCORE_GAIN.other",
+      "newPath": "_general.DELTA_SCORE_GAIN_other",
+      "newFullKey": "apresults:_general.DELTA_SCORE_GAIN_other",
       "english": "{{player}} gained {{delta}} points."
     },
     {
@@ -308,8 +308,8 @@
       "uid": "_general",
       "resultType": "DELTA_SCORE_LOSS",
       "newLeaf": "one",
-      "newPath": "_general.DELTA_SCORE_LOSS.one",
-      "newFullKey": "apresults:_general.DELTA_SCORE_LOSS.one",
+      "newPath": "_general.DELTA_SCORE_LOSS_one",
+      "newFullKey": "apresults:_general.DELTA_SCORE_LOSS_one",
       "english": "{{player}} lost {{delta}} point."
     },
     {
@@ -318,8 +318,8 @@
       "uid": "_general",
       "resultType": "DELTA_SCORE_LOSS",
       "newLeaf": "other",
-      "newPath": "_general.DELTA_SCORE_LOSS.other",
-      "newFullKey": "apresults:_general.DELTA_SCORE_LOSS.other",
+      "newPath": "_general.DELTA_SCORE_LOSS_other",
+      "newFullKey": "apresults:_general.DELTA_SCORE_LOSS_other",
       "english": "{{player}} lost {{delta}} points."
     },
     {
@@ -703,36 +703,6 @@
       "english": "{{player}} invoked the pie rule."
     },
     {
-      "oldPath": "PLACE.PYRAMID_1",
-      "oldFullKey": "apresults:PLACE.PYRAMID_1",
-      "uid": "_general",
-      "resultType": "PLACE",
-      "newLeaf": "PYRAMID_1",
-      "newPath": "_general.PLACE.PYRAMID_1",
-      "newFullKey": "apresults:_general.PLACE.PYRAMID_1",
-      "english": "{{player}} placed a small piece at {{where}}."
-    },
-    {
-      "oldPath": "PLACE.PYRAMID_2",
-      "oldFullKey": "apresults:PLACE.PYRAMID_2",
-      "uid": "_general",
-      "resultType": "PLACE",
-      "newLeaf": "PYRAMID_2",
-      "newPath": "_general.PLACE.PYRAMID_2",
-      "newFullKey": "apresults:_general.PLACE.PYRAMID_2",
-      "english": "{{player}} placed a medium piece at {{where}}."
-    },
-    {
-      "oldPath": "PLACE.PYRAMID_3",
-      "oldFullKey": "apresults:PLACE.PYRAMID_3",
-      "uid": "_general",
-      "resultType": "PLACE",
-      "newLeaf": "PYRAMID_3",
-      "newPath": "_general.PLACE.PYRAMID_3",
-      "newFullKey": "apresults:_general.PLACE.PYRAMID_3",
-      "english": "{{player}} placed a large piece at {{where}}."
-    },
-    {
       "oldPath": "PLACE.ball",
       "oldFullKey": "apresults:PLACE.ball",
       "uid": "_general",
@@ -791,6 +761,36 @@
       "newPath": "_general.PLACE.nowhat",
       "newFullKey": "apresults:_general.PLACE.nowhat",
       "english": "{{player}} placed a piece at {{where}}."
+    },
+    {
+      "oldPath": "PLACE.PYRAMID_1",
+      "oldFullKey": "apresults:PLACE.PYRAMID_1",
+      "uid": "_general",
+      "resultType": "PLACE",
+      "newLeaf": "PYRAMID_1",
+      "newPath": "_general.PLACE.PYRAMID_1",
+      "newFullKey": "apresults:_general.PLACE.PYRAMID_1",
+      "english": "{{player}} placed a small piece at {{where}}."
+    },
+    {
+      "oldPath": "PLACE.PYRAMID_2",
+      "oldFullKey": "apresults:PLACE.PYRAMID_2",
+      "uid": "_general",
+      "resultType": "PLACE",
+      "newLeaf": "PYRAMID_2",
+      "newPath": "_general.PLACE.PYRAMID_2",
+      "newFullKey": "apresults:_general.PLACE.PYRAMID_2",
+      "english": "{{player}} placed a medium piece at {{where}}."
+    },
+    {
+      "oldPath": "PLACE.PYRAMID_3",
+      "oldFullKey": "apresults:PLACE.PYRAMID_3",
+      "uid": "_general",
+      "resultType": "PLACE",
+      "newLeaf": "PYRAMID_3",
+      "newPath": "_general.PLACE.PYRAMID_3",
+      "newFullKey": "apresults:_general.PLACE.PYRAMID_3",
+      "english": "{{player}} placed a large piece at {{where}}."
     },
     {
       "oldPath": "PLACE.theirs",
@@ -1038,8 +1038,8 @@
       "uid": "_general",
       "resultType": "WINNERS",
       "newLeaf": "one",
-      "newPath": "_general.WINNERS.one",
-      "newFullKey": "apresults:_general.WINNERS.one",
+      "newPath": "_general.WINNERS_one",
+      "newFullKey": "apresults:_general.WINNERS_one",
       "english": "The following player won: {{winners}}."
     },
     {
@@ -1048,8 +1048,8 @@
       "uid": "_general",
       "resultType": "WINNERS",
       "newLeaf": "other",
-      "newPath": "_general.WINNERS.other",
-      "newFullKey": "apresults:_general.WINNERS.other",
+      "newPath": "_general.WINNERS_other",
+      "newFullKey": "apresults:_general.WINNERS_other",
       "english": "The following players won: {{winners}}."
     },
     {
@@ -1083,16 +1083,6 @@
       "english": "{{player}} moved a pyramid from {{from}} to {{to}}."
     },
     {
-      "oldPath": "OBJECTIVES.agofmars",
-      "oldFullKey": "apresults:OBJECTIVES.agofmars",
-      "uid": "agofmars",
-      "resultType": "OBJECTIVES",
-      "newLeaf": "default",
-      "newPath": "agofmars.OBJECTIVES.default",
-      "newFullKey": "apresults:agofmars.OBJECTIVES.default",
-      "english": "{{player}} chose their objectives."
-    },
-    {
       "oldPath": "OBJECTIVE_SWAP.agofmars",
       "oldFullKey": "apresults:OBJECTIVE_SWAP.agofmars",
       "uid": "agofmars",
@@ -1101,6 +1091,16 @@
       "newPath": "agofmars.OBJECTIVE_SWAP.default",
       "newFullKey": "apresults:agofmars.OBJECTIVE_SWAP.default",
       "english": "{{player}} swapped objective multipliers {{columnA}} and {{columnB}}."
+    },
+    {
+      "oldPath": "OBJECTIVES.agofmars",
+      "oldFullKey": "apresults:OBJECTIVES.agofmars",
+      "uid": "agofmars",
+      "resultType": "OBJECTIVES",
+      "newLeaf": "default",
+      "newPath": "agofmars.OBJECTIVES.default",
+      "newFullKey": "apresults:agofmars.OBJECTIVES.default",
+      "english": "{{player}} chose their objectives."
     },
     {
       "oldPath": "PASS.agofmars_noObjSwap",
@@ -1378,8 +1378,8 @@
       "uid": "ataxx",
       "resultType": "CAPTURE",
       "newLeaf": "one",
-      "newPath": "ataxx.CAPTURE.one",
-      "newFullKey": "apresults:ataxx.CAPTURE.one",
+      "newPath": "ataxx.CAPTURE_one",
+      "newFullKey": "apresults:ataxx.CAPTURE_one",
       "english": "1 piece is converted."
     },
     {
@@ -1388,8 +1388,8 @@
       "uid": "ataxx",
       "resultType": "CAPTURE",
       "newLeaf": "other",
-      "newPath": "ataxx.CAPTURE.other",
-      "newFullKey": "apresults:ataxx.CAPTURE.other",
+      "newPath": "ataxx.CAPTURE_other",
+      "newFullKey": "apresults:ataxx.CAPTURE_other",
       "english": "{{count}} pieces are converted."
     },
     {
@@ -1428,8 +1428,8 @@
       "uid": "bao",
       "resultType": "CAPTURE",
       "newLeaf": "one",
-      "newPath": "bao.CAPTURE.one",
-      "newFullKey": "apresults:bao.CAPTURE.one",
+      "newPath": "bao.CAPTURE_one",
+      "newFullKey": "apresults:bao.CAPTURE_one",
       "english": "{{player}} captured a total of {{count}} stone from the following pits (in order): {{pits}}"
     },
     {
@@ -1438,8 +1438,8 @@
       "uid": "bao",
       "resultType": "CAPTURE",
       "newLeaf": "other",
-      "newPath": "bao.CAPTURE.other",
-      "newFullKey": "apresults:bao.CAPTURE.other",
+      "newPath": "bao.CAPTURE_other",
+      "newFullKey": "apresults:bao.CAPTURE_other",
       "english": "{{player}} captured a total of {{count}} stones from the following pits (in order): {{pits}}"
     },
     {
@@ -1598,8 +1598,8 @@
       "uid": "blastradius",
       "resultType": "CAPTURE",
       "newLeaf": "one",
-      "newPath": "blastradius.CAPTURE.one",
-      "newFullKey": "apresults:blastradius.CAPTURE.one",
+      "newPath": "blastradius.CAPTURE_one",
+      "newFullKey": "apresults:blastradius.CAPTURE_one",
       "english": "{{player}} removed one enemy piece from {{where}}."
     },
     {
@@ -1608,8 +1608,8 @@
       "uid": "blastradius",
       "resultType": "CAPTURE",
       "newLeaf": "other",
-      "newPath": "blastradius.CAPTURE.other",
-      "newFullKey": "apresults:blastradius.CAPTURE.other",
+      "newPath": "blastradius.CAPTURE_other",
+      "newFullKey": "apresults:blastradius.CAPTURE_other",
       "english": "{{player}} removed a stack of {{count}} enemy pieces from {{where}}."
     },
     {
@@ -1628,8 +1628,8 @@
       "uid": "blastradius",
       "resultType": "TAKE",
       "newLeaf": "one",
-      "newPath": "blastradius.TAKE.one",
-      "newFullKey": "apresults:blastradius.TAKE.one",
+      "newPath": "blastradius.TAKE_one",
+      "newFullKey": "apresults:blastradius.TAKE_one",
       "english": "{{player}} removed one of their own pieces from {{where}}."
     },
     {
@@ -1638,8 +1638,8 @@
       "uid": "blastradius",
       "resultType": "TAKE",
       "newLeaf": "other",
-      "newPath": "blastradius.TAKE.other",
-      "newFullKey": "apresults:blastradius.TAKE.other",
+      "newPath": "blastradius.TAKE_other",
+      "newFullKey": "apresults:blastradius.TAKE_other",
       "english": "{{player}} removed a stack of {{count}} of their own pieces from {{where}}."
     },
     {
@@ -2338,8 +2338,8 @@
       "uid": "circleOfLife",
       "resultType": "CAPTURE",
       "newLeaf": "one",
-      "newPath": "circleOfLife.CAPTURE.one",
-      "newFullKey": "apresults:circleOfLife.CAPTURE.one",
+      "newPath": "circleOfLife.CAPTURE_one",
+      "newFullKey": "apresults:circleOfLife.CAPTURE_one",
       "english": "{{player}} devoured opponent species {{prey}} ({{count}} stone) at {{where}}."
     },
     {
@@ -2348,8 +2348,8 @@
       "uid": "circleOfLife",
       "resultType": "CAPTURE",
       "newLeaf": "other",
-      "newPath": "circleOfLife.CAPTURE.other",
-      "newFullKey": "apresults:circleOfLife.CAPTURE.other",
+      "newPath": "circleOfLife.CAPTURE_other",
+      "newFullKey": "apresults:circleOfLife.CAPTURE_other",
       "english": "{{player}} devoured opponent species {{prey}} ({{count}} stones) at {{where}}."
     },
     {
@@ -2603,6 +2603,16 @@
       "english": "The game has ended because {{player}} connected the {{edges}} edges."
     },
     {
+      "oldPath": "DRUID_HEX_EDGE.and",
+      "oldFullKey": "apresults:DRUID_HEX_EDGE.and",
+      "uid": "druid",
+      "resultType": "HEX_EDGE",
+      "newLeaf": "and",
+      "newPath": "druid.HEX_EDGE.and",
+      "newFullKey": "apresults:druid.HEX_EDGE.and",
+      "english": "and"
+    },
+    {
       "oldPath": "DRUID_HEX_EDGE.N",
       "oldFullKey": "apresults:DRUID_HEX_EDGE.N",
       "uid": "druid",
@@ -2661,16 +2671,6 @@
       "newPath": "druid.HEX_EDGE.SW",
       "newFullKey": "apresults:druid.HEX_EDGE.SW",
       "english": "southwest (SW)"
-    },
-    {
-      "oldPath": "DRUID_HEX_EDGE.and",
-      "oldFullKey": "apresults:DRUID_HEX_EDGE.and",
-      "uid": "druid",
-      "resultType": "HEX_EDGE",
-      "newLeaf": "and",
-      "newPath": "druid.HEX_EDGE.and",
-      "newFullKey": "apresults:druid.HEX_EDGE.and",
-      "english": "and"
     },
     {
       "oldPath": "MOVE.druid_walk",
@@ -2748,8 +2748,8 @@
       "uid": "elOso",
       "resultType": "CAPTURE",
       "newLeaf": "one",
-      "newPath": "elOso.CAPTURE.one",
-      "newFullKey": "apresults:elOso.CAPTURE.one",
+      "newPath": "elOso.CAPTURE_one",
+      "newFullKey": "apresults:elOso.CAPTURE_one",
       "english": "{{player}} annihilated one piece at {{where}}."
     },
     {
@@ -2758,8 +2758,8 @@
       "uid": "elOso",
       "resultType": "CAPTURE",
       "newLeaf": "other",
-      "newPath": "elOso.CAPTURE.other",
-      "newFullKey": "apresults:elOso.CAPTURE.other",
+      "newPath": "elOso.CAPTURE_other",
+      "newFullKey": "apresults:elOso.CAPTURE_other",
       "english": "{{player}} annihilated {{count}} pieces at {{where}}."
     },
     {
@@ -2768,8 +2768,8 @@
       "uid": "elOso",
       "resultType": "PLACE",
       "newLeaf": "one",
-      "newPath": "elOso.PLACE.one",
-      "newFullKey": "apresults:elOso.PLACE.one",
+      "newPath": "elOso.PLACE_one",
+      "newFullKey": "apresults:elOso.PLACE_one",
       "english": "{{player}} placed one piece at {{where}}."
     },
     {
@@ -2778,8 +2778,8 @@
       "uid": "elOso",
       "resultType": "PLACE",
       "newLeaf": "other",
-      "newPath": "elOso.PLACE.other",
-      "newFullKey": "apresults:elOso.PLACE.other",
+      "newPath": "elOso.PLACE_other",
+      "newFullKey": "apresults:elOso.PLACE_other",
       "english": "{{player}} placed {{count}} pieces at {{where}}."
     },
     {
@@ -2983,6 +2983,26 @@
       "english": "{{player}} chose not to move any pieces this turn."
     },
     {
+      "oldPath": "overlay.entropy_status_CHAOS",
+      "oldFullKey": "apresults:overlay.entropy_status_CHAOS",
+      "uid": "entropy",
+      "resultType": "status",
+      "newLeaf": "CHAOS",
+      "newPath": "entropy.status.CHAOS",
+      "newFullKey": "apresults:entropy.status.CHAOS",
+      "english": "Chaos"
+    },
+    {
+      "oldPath": "overlay.entropy_status_ORDER",
+      "oldFullKey": "apresults:overlay.entropy_status_ORDER",
+      "uid": "entropy",
+      "resultType": "status",
+      "newLeaf": "ORDER",
+      "newPath": "entropy.status.ORDER",
+      "newFullKey": "apresults:entropy.status.ORDER",
+      "english": "Order"
+    },
+    {
       "oldPath": "PLACE.epam",
       "oldFullKey": "apresults:PLACE.epam",
       "uid": "epam",
@@ -2998,8 +3018,8 @@
       "uid": "estate",
       "resultType": "PLACE",
       "newLeaf": "one",
-      "newPath": "estate.PLACE.one",
-      "newFullKey": "apresults:estate.PLACE.one",
+      "newPath": "estate.PLACE_one",
+      "newFullKey": "apresults:estate.PLACE_one",
       "english": "{{player}} placed a piece at {{where}} ({{what}} pt)."
     },
     {
@@ -3008,8 +3028,8 @@
       "uid": "estate",
       "resultType": "PLACE",
       "newLeaf": "other",
-      "newPath": "estate.PLACE.other",
-      "newFullKey": "apresults:estate.PLACE.other",
+      "newPath": "estate.PLACE_other",
+      "newFullKey": "apresults:estate.PLACE_other",
       "english": "{{player}} placed a piece at {{where}} ({{what}} pts)."
     },
     {
@@ -3178,8 +3198,8 @@
       "uid": "forms",
       "resultType": "CAPTURE",
       "newLeaf": "one",
-      "newPath": "forms.CAPTURE.one",
-      "newFullKey": "apresults:forms.CAPTURE.one",
+      "newPath": "forms.CAPTURE_one",
+      "newFullKey": "apresults:forms.CAPTURE_one",
       "english": "{{player}} move eliminates one piece."
     },
     {
@@ -3188,8 +3208,8 @@
       "uid": "forms",
       "resultType": "CAPTURE",
       "newLeaf": "other",
-      "newPath": "forms.CAPTURE.other",
-      "newFullKey": "apresults:forms.CAPTURE.other",
+      "newPath": "forms.CAPTURE_other",
+      "newFullKey": "apresults:forms.CAPTURE_other",
       "english": "{{player}} move eliminates {{count}} pieces."
     },
     {
@@ -3288,8 +3308,8 @@
       "uid": "frogger",
       "resultType": "ANNOUNCE",
       "newLeaf": "one",
-      "newPath": "frogger.ANNOUNCE.one",
-      "newFullKey": "apresults:frogger.ANNOUNCE.one",
+      "newPath": "frogger.ANNOUNCE_one",
+      "newFullKey": "apresults:frogger.ANNOUNCE_one",
       "english": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining move."
     },
     {
@@ -3298,8 +3318,8 @@
       "uid": "frogger",
       "resultType": "ANNOUNCE",
       "newLeaf": "other",
-      "newPath": "frogger.ANNOUNCE.other",
-      "newFullKey": "apresults:frogger.ANNOUNCE.other",
+      "newPath": "frogger.ANNOUNCE_other",
+      "newFullKey": "apresults:frogger.ANNOUNCE_other",
       "english": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining moves."
     },
     {
@@ -3418,8 +3438,8 @@
       "uid": "gess",
       "resultType": "CAPTURE",
       "newLeaf": "one",
-      "newPath": "gess.CAPTURE.one",
-      "newFullKey": "apresults:gess.CAPTURE.one",
+      "newPath": "gess.CAPTURE_one",
+      "newFullKey": "apresults:gess.CAPTURE_one",
       "english": "{{count}} stone is removed from the board."
     },
     {
@@ -3428,8 +3448,8 @@
       "uid": "gess",
       "resultType": "CAPTURE",
       "newLeaf": "other",
-      "newPath": "gess.CAPTURE.other",
-      "newFullKey": "apresults:gess.CAPTURE.other",
+      "newPath": "gess.CAPTURE_other",
+      "newFullKey": "apresults:gess.CAPTURE_other",
       "english": "{{count}} stones are removed from the board."
     },
     {
@@ -3438,8 +3458,8 @@
       "uid": "gess",
       "resultType": "MOVE",
       "newLeaf": "one",
-      "newPath": "gess.MOVE.one",
-      "newFullKey": "apresults:gess.MOVE.one",
+      "newPath": "gess.MOVE_one",
+      "newFullKey": "apresults:gess.MOVE_one",
       "english": "{{player}} moved a 3x3 piece containing {{count}} stone from {{from}} to {{to}}."
     },
     {
@@ -3448,8 +3468,8 @@
       "uid": "gess",
       "resultType": "MOVE",
       "newLeaf": "other",
-      "newPath": "gess.MOVE.other",
-      "newFullKey": "apresults:gess.MOVE.other",
+      "newPath": "gess.MOVE_other",
+      "newFullKey": "apresults:gess.MOVE_other",
       "english": "{{player}} moved a 3x3 piece containing {{count}} stones from {{from}} to {{to}}."
     },
     {
@@ -3968,8 +3988,8 @@
       "uid": "magnate",
       "resultType": "ADD",
       "newLeaf": "one",
-      "newPath": "magnate.ADD.one",
-      "newFullKey": "apresults:magnate.ADD.one",
+      "newPath": "magnate.ADD_one",
+      "newFullKey": "apresults:magnate.ADD_one",
       "english": "{{player}} added one token to their deeded card {{where}}."
     },
     {
@@ -3978,8 +3998,8 @@
       "uid": "magnate",
       "resultType": "ADD",
       "newLeaf": "other",
-      "newPath": "magnate.ADD.other",
-      "newFullKey": "apresults:magnate.ADD.other",
+      "newPath": "magnate.ADD_other",
+      "newFullKey": "apresults:magnate.ADD_other",
       "english": "{{player}} added {{count}} tokens to their deeded card {{where}}."
     },
     {
@@ -4448,8 +4468,8 @@
       "uid": "oonpia",
       "resultType": "CAPTURE",
       "newLeaf": "one",
-      "newPath": "oonpia.CAPTURE.one",
-      "newFullKey": "apresults:oonpia.CAPTURE.one",
+      "newPath": "oonpia.CAPTURE_one",
+      "newFullKey": "apresults:oonpia.CAPTURE_one",
       "english": "{{player}} captured 1 stone."
     },
     {
@@ -4458,8 +4478,8 @@
       "uid": "oonpia",
       "resultType": "CAPTURE",
       "newLeaf": "other",
-      "newPath": "oonpia.CAPTURE.other",
-      "newFullKey": "apresults:oonpia.CAPTURE.other",
+      "newPath": "oonpia.CAPTURE_other",
+      "newFullKey": "apresults:oonpia.CAPTURE_other",
       "english": "{{player}} captured {{count}} stones."
     },
     {
@@ -4608,8 +4628,8 @@
       "uid": "paintbucket",
       "resultType": "CONVERT",
       "newLeaf": "one",
-      "newPath": "paintbucket.CONVERT.one",
-      "newFullKey": "apresults:paintbucket.CONVERT.one",
+      "newPath": "paintbucket.CONVERT_one",
+      "newFullKey": "apresults:paintbucket.CONVERT_one",
       "english": "{{player}} converted 1 piece at {{where}}."
     },
     {
@@ -4618,8 +4638,8 @@
       "uid": "paintbucket",
       "resultType": "CONVERT",
       "newLeaf": "other",
-      "newPath": "paintbucket.CONVERT.other",
-      "newFullKey": "apresults:paintbucket.CONVERT.other",
+      "newPath": "paintbucket.CONVERT_other",
+      "newFullKey": "apresults:paintbucket.CONVERT_other",
       "english": "{{player}} converted {{count}} pieces starting at {{where}}."
     },
     {
@@ -4728,8 +4748,8 @@
       "uid": "phutball",
       "resultType": "REMOVE",
       "newLeaf": "one",
-      "newPath": "phutball.REMOVE.one",
-      "newFullKey": "apresults:phutball.REMOVE.one",
+      "newPath": "phutball.REMOVE_one",
+      "newFullKey": "apresults:phutball.REMOVE_one",
       "english": "{{count}} player was removed."
     },
     {
@@ -4738,8 +4758,8 @@
       "uid": "phutball",
       "resultType": "REMOVE",
       "newLeaf": "other",
-      "newPath": "phutball.REMOVE.other",
-      "newFullKey": "apresults:phutball.REMOVE.other",
+      "newPath": "phutball.REMOVE_other",
+      "newFullKey": "apresults:phutball.REMOVE_other",
       "english": "{{count}} players were removed."
     },
     {
@@ -4888,8 +4908,8 @@
       "uid": "quincunx",
       "resultType": "DECKDRAW",
       "newLeaf": "one",
-      "newPath": "quincunx.DECKDRAW.one",
-      "newFullKey": "apresults:quincunx.DECKDRAW.one",
+      "newPath": "quincunx.DECKDRAW_one",
+      "newFullKey": "apresults:quincunx.DECKDRAW_one",
       "english": "{{player}} drew {{count}} card."
     },
     {
@@ -4898,8 +4918,8 @@
       "uid": "quincunx",
       "resultType": "DECKDRAW",
       "newLeaf": "other",
-      "newPath": "quincunx.DECKDRAW.other",
-      "newFullKey": "apresults:quincunx.DECKDRAW.other",
+      "newPath": "quincunx.DECKDRAW_other",
+      "newFullKey": "apresults:quincunx.DECKDRAW_other",
       "english": "{{player}} drew {{count}} cards."
     },
     {
@@ -5098,8 +5118,8 @@
       "uid": "reversi",
       "resultType": "CAPTURE",
       "newLeaf": "one",
-      "newPath": "reversi.CAPTURE.one",
-      "newFullKey": "apresults:reversi.CAPTURE.one",
+      "newPath": "reversi.CAPTURE_one",
+      "newFullKey": "apresults:reversi.CAPTURE_one",
       "english": "A piece is flipped."
     },
     {
@@ -5108,8 +5128,8 @@
       "uid": "reversi",
       "resultType": "CAPTURE",
       "newLeaf": "other",
-      "newPath": "reversi.CAPTURE.other",
-      "newFullKey": "apresults:reversi.CAPTURE.other",
+      "newPath": "reversi.CAPTURE_other",
+      "newFullKey": "apresults:reversi.CAPTURE_other",
       "english": "{{count}} pieces are flipped."
     },
     {
@@ -5118,8 +5138,8 @@
       "uid": "rincala",
       "resultType": "SOW",
       "newLeaf": "one",
-      "newPath": "rincala.SOW.one",
-      "newFullKey": "apresults:rincala.SOW.one",
+      "newPath": "rincala.SOW_one",
+      "newFullKey": "apresults:rincala.SOW_one",
       "english": "{{player}} sowed {{count}} {{pieces}} piece from {{from}} to {{to}}."
     },
     {
@@ -5128,8 +5148,8 @@
       "uid": "rincala",
       "resultType": "SOW",
       "newLeaf": "other",
-      "newPath": "rincala.SOW.other",
-      "newFullKey": "apresults:rincala.SOW.other",
+      "newPath": "rincala.SOW_other",
+      "newFullKey": "apresults:rincala.SOW_other",
       "english": "{{player}} sowed {{count}} pieces from {{from}} to the following pits: {{pieces}} -> {{to}}."
     },
     {
@@ -5678,8 +5698,8 @@
       "uid": "spora",
       "resultType": "CAPTURE",
       "newLeaf": "one",
-      "newPath": "spora.CAPTURE.one",
-      "newFullKey": "apresults:spora.CAPTURE.one",
+      "newPath": "spora.CAPTURE_one",
+      "newFullKey": "apresults:spora.CAPTURE_one",
       "english": "{{player}} surrounded and captured one piece: {{group}}."
     },
     {
@@ -5688,8 +5708,8 @@
       "uid": "spora",
       "resultType": "CAPTURE",
       "newLeaf": "other",
-      "newPath": "spora.CAPTURE.other",
-      "newFullKey": "apresults:spora.CAPTURE.other",
+      "newPath": "spora.CAPTURE_other",
+      "newFullKey": "apresults:spora.CAPTURE_other",
       "english": "{{player}} surrounded and captured {{count}} pieces: {{group}}."
     },
     {
@@ -5708,8 +5728,8 @@
       "uid": "spora",
       "resultType": "PLACE",
       "newLeaf": "one",
-      "newPath": "spora.PLACE.one",
-      "newFullKey": "apresults:spora.PLACE.one",
+      "newPath": "spora.PLACE_one",
+      "newFullKey": "apresults:spora.PLACE_one",
       "english": "{{player}} added one piece to stack at {{where}}."
     },
     {
@@ -5718,8 +5738,8 @@
       "uid": "spora",
       "resultType": "PLACE",
       "newLeaf": "other",
-      "newPath": "spora.PLACE.other",
-      "newFullKey": "apresults:spora.PLACE.other",
+      "newPath": "spora.PLACE_other",
+      "newFullKey": "apresults:spora.PLACE_other",
       "english": "{{player}} added {{size}} pieces to stack at {{where}}."
     },
     {
@@ -6958,8 +6978,8 @@
       "uid": "volo",
       "resultType": "MOVE",
       "newLeaf": "one",
-      "newPath": "volo.MOVE.one",
-      "newFullKey": "apresults:volo.MOVE.one",
+      "newPath": "volo.MOVE_one",
+      "newFullKey": "apresults:volo.MOVE_one",
       "english": "{{player}} moved a flock of 1 bird from {{from}} in the direction {{how}}."
     },
     {
@@ -6968,8 +6988,8 @@
       "uid": "volo",
       "resultType": "MOVE",
       "newLeaf": "other",
-      "newPath": "volo.MOVE.other",
-      "newFullKey": "apresults:volo.MOVE.other",
+      "newPath": "volo.MOVE_other",
+      "newFullKey": "apresults:volo.MOVE_other",
       "english": "{{player}} moved a flock of {{count}} birds from {{from}} in the direction {{how}}."
     },
     {

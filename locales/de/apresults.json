@@ -46,14 +46,10 @@
       "complete": "{{player}} hat auf {{where}} einen {{what}} in einen {{into}} umgewandelt.",
       "simple": "{{player}} hat einen Stein auf {{where}} umgewandelt."
     },
-    "DELTA_SCORE_GAIN": {
-      "one": "{{player}} hat {{delta}} Punkt erhalten.",
-      "other": "{{player}} hat {{delta}} Punkte erhalten."
-    },
-    "DELTA_SCORE_LOSS": {
-      "one": "{{player}} hat {{delta}} Punkt verloren.",
-      "other": "{{player}} hat {{delta}} Punkte verloren."
-    },
+    "DELTA_SCORE_GAIN_one": "{{player}} hat {{delta}} Punkt erhalten.",
+    "DELTA_SCORE_GAIN_other": "{{player}} hat {{delta}} Punkte erhalten.",
+    "DELTA_SCORE_LOSS_one": "{{player}} hat {{delta}} Punkt verloren.",
+    "DELTA_SCORE_LOSS_other": "{{player}} hat {{delta}} Punkte verloren.",
     "DESTROY": {
       "enemy": {
         "minimal_one": "1 gegnerischer Stein wurde zerstört.",
@@ -191,10 +187,8 @@
     "TIMEOUT": {
       "default": "{{player}} hat nach Zeit verloren."
     },
-    "WINNERS": {
-      "one": "Folgender Spieler hat gewonnen: {{winners}}.",
-      "other": "Folgende Spieler haben gewonnen: {{winners}}."
-    },
+    "WINNERS_one": "Folgender Spieler hat gewonnen: {{winners}}.",
+    "WINNERS_other": "Folgende Spieler haben gewonnen: {{winners}}.",
     "WINNERSNONE": {
       "default": "Es gab keine Gewinner."
     }
@@ -291,10 +285,8 @@
     }
   },
   "ataxx": {
-    "CAPTURE": {
-      "one": "1 Stein wurde umgewandelt.",
-      "other": "{{count}} Steine wurden umgewandelt."
-    },
+    "CAPTURE_one": "1 Stein wurde umgewandelt.",
+    "CAPTURE_other": "{{count}} Steine wurden umgewandelt.",
     "MOVE": {
       "jump": "{{player}} ist mit einem Stein von {{from}} nach {{to}} gesprungen.",
       "split": "{{player}} hat einen Stein von {{from}} nach {{to}} geteilt."
@@ -304,10 +296,8 @@
     "BLOCK": {
       "default": "Die Mulde {{pit}} befindet sich im Kutakatia (ist blockiert)."
     },
-    "CAPTURE": {
-      "one": "{{player}} hat insgesamt {{count}} Stein aus folgenden Mulden (in Reihenfolge) geschlagen: {{pits}}",
-      "other": "{{player}} hat insgesamt {{count}} Steine aus folgenden Mulden (in Reihenfolge) geschlagen: {{pits}}"
-    },
+    "CAPTURE_one": "{{player}} hat insgesamt {{count}} Stein aus folgenden Mulden (in Reihenfolge) geschlagen: {{pits}}",
+    "CAPTURE_other": "{{player}} hat insgesamt {{count}} Steine aus folgenden Mulden (in Reihenfolge) geschlagen: {{pits}}",
     "DESTROY": {
       "default": "Die Nyumba bei {{pit}} wurde zerstört."
     },
@@ -351,17 +341,13 @@
     }
   },
   "blastradius": {
-    "CAPTURE": {
-      "one": "{{player}} hat einen gegnerischen Stein von {{where}} entfernt.",
-      "other": "{{player}} hat einen Stapel von {{count}} gegnerischen Steinen von {{where}} entfernt."
-    },
+    "CAPTURE_one": "{{player}} hat einen gegnerischen Stein von {{where}} entfernt.",
+    "CAPTURE_other": "{{player}} hat einen Stapel von {{count}} gegnerischen Steinen von {{where}} entfernt.",
     "PLACE": {
       "default": "{{player}} hat einen Stein bei {{where}} hinzugefügt, wodurch ein Stapel der Höhe {{height}} entsteht."
     },
-    "TAKE": {
-      "one": "{{player}} hat einen eigenen Stein von {{where}} entfernt.",
-      "other": "{{player}} hat einen Stapel aus {{count}} eigenen Steinen von {{where}} entfernt."
-    }
+    "TAKE_one": "{{player}} hat einen eigenen Stein von {{where}} entfernt.",
+    "TAKE_other": "{{player}} hat einen Stapel aus {{count}} eigenen Steinen von {{where}} entfernt."
   },
   "blockade": {
     "CAPTURE": {
@@ -537,10 +523,8 @@
     }
   },
   "circleOfLife": {
-    "CAPTURE": {
-      "one": "{{player}} hat die gegnerische Spezies {{prey}} ({{count}} Stein) auf {{where}} verschlungen.",
-      "other": "{{player}} hat die gegnerische Spezies {{prey}} ({{count}} Steine) auf {{where}} verschlungen."
-    }
+    "CAPTURE_one": "{{player}} hat die gegnerische Spezies {{prey}} ({{count}} Stein) auf {{where}} verschlungen.",
+    "CAPTURE_other": "{{player}} hat die gegnerische Spezies {{prey}} ({{count}} Steine) auf {{where}} verschlungen."
   },
   "conhex": {
     "CLAIM": {
@@ -652,14 +636,10 @@
       "bearSetup": "Bärenaufbau",
       "playerSetup": "Spieleraufbau"
     },
-    "CAPTURE": {
-      "one": "{{player}} hat einen Stein bei {{where}} vernichtet.",
-      "other": "{{player}} hat {{count}} Steine bei {{where}} vernichtet."
-    },
-    "PLACE": {
-      "one": "{{player}} hat einen Stein bei {{where}} platziert.",
-      "other": "{{player}} hat {{count}} Steine bei {{where}} platziert."
-    },
+    "CAPTURE_one": "{{player}} hat einen Stein bei {{where}} vernichtet.",
+    "CAPTURE_other": "{{player}} hat {{count}} Steine bei {{where}} vernichtet.",
+    "PLACE_one": "{{player}} hat einen Stein bei {{where}} platziert.",
+    "PLACE_other": "{{player}} hat {{count}} Steine bei {{where}} platziert.",
     "ROLL": {
       "default": "Der Bär hat gewürfelt: {{dice}}.",
       "player": "{{player}} hat gewürfelt: {{dice}}."
@@ -717,10 +697,8 @@
     }
   },
   "estate": {
-    "PLACE": {
-      "one": "{{player}} hat einen Spielstein auf {{where}} platziert ({{what}} Punkt).",
-      "other": "{{player}} hat einen Spielstein auf {{where}} platziert ({{what}} Punkte)."
-    }
+    "PLACE_one": "{{player}} hat einen Spielstein auf {{where}} platziert ({{what}} Punkt).",
+    "PLACE_other": "{{player}} hat einen Spielstein auf {{where}} platziert ({{what}} Punkte)."
   },
   "evenatodds": {
     "DECKDRAW": {
@@ -763,10 +741,8 @@
     }
   },
   "forms": {
-    "CAPTURE": {
-      "one": "Der Zug von {{player}} eliminiert einen Stein.",
-      "other": "Der Zug von {{player}} eliminiert {{count}} Steine."
-    },
+    "CAPTURE_one": "Der Zug von {{player}} eliminiert einen Stein.",
+    "CAPTURE_other": "Der Zug von {{player}} eliminiert {{count}} Steine.",
     "EOG": {
       "default": "Das Spiel ist zu Ende, da der nächste Spieler keinen Zug machen kann."
     }
@@ -784,10 +760,8 @@
     }
   },
   "frogger": {
-    "ANNOUNCE": {
-      "one": "{{player}} hat sich entschieden, den Nachziehpool aufzufüllen. Er erhält einen weiteren Zug, um seinen {{count}} verbleibenden Zug auszuführen.",
-      "other": "{{player}} hat sich entschieden, den Nachziehpool aufzufüllen. Er erhält einen weiteren Zug, um seine {{count}} verbleibenden Züge auszuführen."
-    },
+    "ANNOUNCE_one": "{{player}} hat sich entschieden, den Nachziehpool aufzufüllen. Er erhält einen weiteren Zug, um seinen {{count}} verbleibenden Zug auszuführen.",
+    "ANNOUNCE_other": "{{player}} hat sich entschieden, den Nachziehpool aufzufüllen. Er erhält einen weiteren Zug, um seine {{count}} verbleibenden Züge auszuführen.",
     "CLAIM": {
       "default": "{{player}} wurde blockiert und hat {{card}} aus dem Nachziehstapel gezogen."
     },
@@ -821,14 +795,10 @@
     }
   },
   "gess": {
-    "CAPTURE": {
-      "one": "{{count}} Stein wird vom Spielbrett entfernt.",
-      "other": "{{count}} Steine werden vom Spielbrett entfernt."
-    },
-    "MOVE": {
-      "one": "{{player}} hat ein 3x3-Teil mit {{count}} Stein von {{from}} nach {{to}} gezogen.",
-      "other": "{{player}} hat ein 3x3-Teil mit {{count}} Steinen von {{from}} nach {{to}} gezogen."
-    }
+    "CAPTURE_one": "{{count}} Stein wird vom Spielbrett entfernt.",
+    "CAPTURE_other": "{{count}} Steine werden vom Spielbrett entfernt.",
+    "MOVE_one": "{{player}} hat ein 3x3-Teil mit {{count}} Stein von {{from}} nach {{to}} gezogen.",
+    "MOVE_other": "{{player}} hat ein 3x3-Teil mit {{count}} Steinen von {{from}} nach {{to}} gezogen."
   },
   "gliss": {
     "REMOVE": {
@@ -992,10 +962,8 @@
     }
   },
   "magnate": {
-    "ADD": {
-      "one": "{{player}} hat einen Marker auf der Urkundenkarte {{where}} hinzugefügt.",
-      "other": "{{player}} hat {{count}} Marker auf der Urkundenkarte {{where}} hinzugefügt."
-    },
+    "ADD_one": "{{player}} hat einen Marker auf der Urkundenkarte {{where}} hinzugefügt.",
+    "ADD_other": "{{player}} hat {{count}} Marker auf der Urkundenkarte {{where}} hinzugefügt.",
     "CAPTURE": {
       "default": "Besteuerung von {{whose}}: {{count}} {{where}}-Marker."
     },
@@ -1128,10 +1096,8 @@
     }
   },
   "oonpia": {
-    "CAPTURE": {
-      "one": "{{player}} hat 1 Stein geschlagen.",
-      "other": "{{player}} hat {{count}} Steine geschlagen."
-    }
+    "CAPTURE_one": "{{player}} hat 1 Stein geschlagen.",
+    "CAPTURE_other": "{{player}} hat {{count}} Steine geschlagen."
   },
   "orb": {
     "CAPTURE": {
@@ -1170,10 +1136,8 @@
     }
   },
   "paintbucket": {
-    "CONVERT": {
-      "one": "{{player}} hat 1 Stein auf {{where}} umgewandelt.",
-      "other": "{{player}} hat {{count}} Steine beginnend bei {{where}} umgewandelt."
-    }
+    "CONVERT_one": "{{player}} hat 1 Stein auf {{where}} umgewandelt.",
+    "CONVERT_other": "{{player}} hat {{count}} Steine beginnend bei {{where}} umgewandelt."
   },
   "penguin": {
     "CLAIM": {
@@ -1200,10 +1164,8 @@
     "PLACE": {
       "default": "{{player}} hat einen Spieler bei {{where}} platziert."
     },
-    "REMOVE": {
-      "one": "{{count}} Spieler wurde entfernt.",
-      "other": "{{count}} Spieler wurden entfernt."
-    }
+    "REMOVE_one": "{{count}} Spieler wurde entfernt.",
+    "REMOVE_other": "{{count}} Spieler wurden entfernt."
   },
   "pigs": {
     "DAMAGE": {
@@ -1262,10 +1224,8 @@
     "ANNOUNCE": {
       "default": "Spieler {{playerNum}} hatte folgende Karten auf der Hand: {{cards}}."
     },
-    "DECKDRAW": {
-      "one": "{{player}} hat {{count}} Karte gezogen.",
-      "other": "{{player}} hat {{count}} Karten gezogen."
-    },
+    "DECKDRAW_one": "{{player}} hat {{count}} Karte gezogen.",
+    "DECKDRAW_other": "{{player}} hat {{count}} Karten gezogen.",
     "DELTASCORE": {
       "basic_one": "Gegen {{card}} erzielte dies 1 Punkt.",
       "basic_other": "Gegen {{card}} erzielte dies {{delta}} Punkte.",
@@ -1301,16 +1261,12 @@
     }
   },
   "reversi": {
-    "CAPTURE": {
-      "one": "Ein Stein wird gedreht.",
-      "other": "{{count}} Steine werden gedreht."
-    }
+    "CAPTURE_one": "Ein Stein wird gedreht.",
+    "CAPTURE_other": "{{count}} Steine werden gedreht."
   },
   "rincala": {
-    "SOW": {
-      "one": "{{player}} hat {{count}} {{pieces}}-Stein von {{from}} nach {{to}} gesät.",
-      "other": "{{player}} hat {{count}} Steine von {{from}} in folgende Mulden gesät: {{pieces}} -> {{to}}."
-    }
+    "SOW_one": "{{player}} hat {{count}} {{pieces}}-Stein von {{from}} nach {{to}} gesät.",
+    "SOW_other": "{{player}} hat {{count}} Steine von {{from}} in folgende Mulden gesät: {{pieces}} -> {{to}}."
   },
   "saltire": {
     "MOVE": {
@@ -1415,17 +1371,13 @@
     }
   },
   "spora": {
-    "CAPTURE": {
-      "one": "{{player}} hat einen Stein umzingelt und geschlagen: {{group}}.",
-      "other": "{{player}} hat {{count}} Steine umzingelt und geschlagen: {{group}}."
-    },
+    "CAPTURE_one": "{{player}} hat einen Stein umzingelt und geschlagen: {{group}}.",
+    "CAPTURE_other": "{{player}} hat {{count}} Steine umzingelt und geschlagen: {{group}}.",
     "MOVE": {
       "default": "{{player}} hat von {{from}} nach {{to}} gesät."
     },
-    "PLACE": {
-      "one": "{{player}} hat einen Stein zum Stapel bei {{where}} hinzugefügt.",
-      "other": "{{player}} hat {{size}} Steine zum Stapel bei {{where}} hinzugefügt."
-    }
+    "PLACE_one": "{{player}} hat einen Stein zum Stapel bei {{where}} hinzugefügt.",
+    "PLACE_other": "{{player}} hat {{size}} Steine zum Stapel bei {{where}} hinzugefügt."
   },
   "spree": {
     "SELECT": {
@@ -1701,10 +1653,8 @@
     }
   },
   "volo": {
-    "MOVE": {
-      "one": "{{player}} hat einen Schwarm von 1 Vogel von {{from}} in Richtung {{how}} bewegt.",
-      "other": "{{player}} hat einen Schwarm von {{count}} Vögeln von {{from}} in Richtung {{how}} bewegt."
-    },
+    "MOVE_one": "{{player}} hat einen Schwarm von 1 Vogel von {{from}} in Richtung {{how}} bewegt.",
+    "MOVE_other": "{{player}} hat einen Schwarm von {{count}} Vögeln von {{from}} in Richtung {{how}} bewegt.",
     "PLACE": {
       "default": "{{player}} fügt einen Vogel bei {{where}} hinzu."
     },

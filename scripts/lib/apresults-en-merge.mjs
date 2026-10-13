@@ -1,7 +1,11 @@
 import fs from "node:fs";
 import path from "node:path";
 import { collectLeaves } from "../locale-prune.mjs";
-import { applyMergeChunk, collectJsonFilesRecursive } from "./locale-en-merge-core.mjs";
+import {
+    applyMergeChunk,
+    collectJsonFilesRecursive,
+    flattenNestedI18nextPlurals,
+} from "./locale-en-merge-core.mjs";
 import { getNamespaceConfig } from "./locale-en-namespace-config.mjs";
 import { discoverGameApresultsEnOverlay } from "./apresults-extract-ts.mjs";
 
@@ -41,7 +45,7 @@ export function mergeApresultsEnSources() {
         provenance,
         lastMergeCollisions,
     );
-    return merged;
+    return flattenNestedI18nextPlurals(merged);
 }
 
 /**

@@ -1,8 +1,6 @@
 {
   "_general": {
-    "DELTA_SCORE_LOSS": {
-      "one": "{{player}} lost {{delta}} point.",
-      "other": "{{player}} lost {{delta}} points."
-    }
+    "DELTA_SCORE_LOSS_one": "{{player}} lost {{delta}} point.",
+    "DELTA_SCORE_LOSS_other": "{{player}} lost {{delta}} points."
   }
 }

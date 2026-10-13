@@ -75,8 +75,8 @@ describe("check-apresults-keys", () => {
         assert.equal(catalogContainsRef(catalog, "DELTA_SCORE_GAIN"), true);
     });
 
-    it("i18next plural stem matches nested catalog .one/.other", () => {
-        const catalog = new Set(["_general.DELTA_SCORE_GAIN.one", "_general.DELTA_SCORE_GAIN.other"]);
+    it("i18next plural stem matches catalog _one/_other under _general", () => {
+        const catalog = new Set(["_general.DELTA_SCORE_GAIN_one", "_general.DELTA_SCORE_GAIN_other"]);
         assert.equal(catalogContainsRef(catalog, "_general.DELTA_SCORE_GAIN"), true);
     });
 

@@ -4,6 +4,7 @@ import { collectLeaves } from "../locale-prune.mjs";
 import { writeLocaleJson } from "../locale-json-format.mjs";
 import { mergedApresultsUsesNestedShape, REPO_ROOT } from "./locale-en-namespace-config.mjs";
 import { loadCommittedPathMapEntries, setResultLeaf } from "./apresults-path-map.mjs";
+import { flattenNestedI18nextPlurals } from "./locale-en-merge-core.mjs";
 import { MANAGED_LANGS } from "../locale-prune.mjs";
 
 /**
@@ -11,22 +12,32 @@ import { MANAGED_LANGS } from "../locale-prune.mjs";
  * @returns {Record<string, unknown>}
  */
 export function remapApresultsLocaleToNested(flatOrNested) {
-    if (mergedApresultsUsesNestedShape(flatOrNested)) {
-        return flatOrNested;
-    }
-    const flatLeaves = collectLeaves(flatOrNested);
-    const nested = {};
-    for (const entry of loadCommittedPathMapEntries()) {
-        const value = flatLeaves[entry.oldPath];
-        if (value === undefined) {
-            continue;
+    let nested = flatOrNested;
+    if (!mergedApresultsUsesNestedShape(flatOrNested)) {
+        const flatLeaves = collectLeaves(flatOrNested);
+        nested = {};
+        const entries = loadCommittedPathMapEntries();
+        const catalogOldPaths = new Set(entries.map((e) => e.oldPath));
+        for (const entry of entries) {
+            const value = flatLeaves[entry.oldPath];
+            if (value === undefined) {
+                continue;
+            }
+            if (!nested[entry.uid]) {
+                nested[entry.uid] = {};
+            }
+            setResultLeaf(
+                nested[entry.uid],
+                entry.uid,
+                entry.resultType,
+                entry.newLeaf,
+                value,
+                entry.oldPath,
+                catalogOldPaths,
+            );
         }
-        if (!nested[entry.uid]) {
-            nested[entry.uid] = {};
-        }
-        setResultLeaf(nested[entry.uid], entry.resultType, entry.newLeaf, value);
     }
-    return nested;
+    return flattenNestedI18nextPlurals(nested);
 }
 
 /** @param {{ write?: boolean }} opts */

@@ -49,14 +49,10 @@
       "complete": "{{player}} перетворив {{what}} на {{into}} у {{where}}.",
       "simple": "{{player}} конвертував фігуру в {{where}}."
     },
-    "DELTA_SCORE_GAIN": {
-      "one": "{{player}} отримано {{delta}} бал.",
-      "other": ""
-    },
-    "DELTA_SCORE_LOSS": {
-      "one": "{{player}} втрачено {{delta}} бал.",
-      "other": ""
-    },
+    "DELTA_SCORE_GAIN_one": "{{player}} отримано {{delta}} бал.",
+    "DELTA_SCORE_GAIN_other": "",
+    "DELTA_SCORE_LOSS_one": "{{player}} втрачено {{delta}} бал.",
+    "DELTA_SCORE_LOSS_other": "",
     "DESTROY": {
       "enemy": {
         "minimal_one": "{{count}} частина ворога була знищена.",
@@ -197,10 +193,8 @@
     "WINNERSNONE": {
       "default": "Переможців не було."
     },
-    "WINNERS": {
-      "one": "Переміг наступний гравець: {{winners}}.",
-      "other": ""
-    }
+    "WINNERS_one": "Переміг наступний гравець: {{winners}}.",
+    "WINNERS_other": ""
   },
   "logger": {
     "ADD": {
@@ -219,10 +213,8 @@
     }
   },
   "magnate": {
-    "ADD": {
-      "one": "",
-      "other": ""
-    },
+    "ADD_one": "",
+    "ADD_other": "",
     "CAPTURE": {
       "default": ""
     },
@@ -355,21 +347,15 @@
       "bearSetup": "",
       "playerSetup": ""
     },
-    "CAPTURE": {
-      "one": "",
-      "other": ""
-    },
-    "MOVE": {
-      "one": "",
-      "other": ""
-    },
+    "CAPTURE_one": "",
+    "CAPTURE_other": "",
+    "MOVE_one": "",
+    "MOVE_other": "",
     "PASS": {
       "default": ""
     },
-    "PLACE": {
-      "one": "",
-      "other": ""
-    },
+    "PLACE_one": "",
+    "PLACE_other": "",
     "ROLL": {
       "default": "",
       "player": ""
@@ -379,10 +365,8 @@
     }
   },
   "frogger": {
-    "ANNOUNCE": {
-      "one": "",
-      "other": ""
-    },
+    "ANNOUNCE_one": "",
+    "ANNOUNCE_other": "",
     "CLAIM": {
       "default": "{{player}} був заблокований і витягнув {{card}} з пулу."
     },
@@ -408,10 +392,8 @@
     "ANNOUNCE": {
       "default": "У гравця {{playerNum}} залишилися такі карти на руці: {{cards}}."
     },
-    "DECKDRAW": {
-      "one": "{{player}} витягнув {{count}} карту.",
-      "other": ""
-    },
+    "DECKDRAW_one": "{{player}} витягнув {{count}} карту.",
+    "DECKDRAW_other": "",
     "DELTASCORE": {
       "basic_one": "Проти {{card}} вона набрала 1 очко.",
       "basic_other": "",
@@ -545,10 +527,8 @@
     "BLOCK": {
       "default": "Яма {{pit}} знаходиться в кутакатії (завалена)."
     },
-    "CAPTURE": {
-      "one": "{{player}} захопив загалом {{count}} каменів із таких ям (по порядку): {{pits}}",
-      "other": ""
-    },
+    "CAPTURE_one": "{{player}} захопив загалом {{count}} каменів із таких ям (по порядку): {{pits}}",
+    "CAPTURE_other": "",
     "DESTROY": {
       "default": "Нюмба в {{pit}} була знищена."
     },
@@ -576,17 +556,13 @@
     }
   },
   "blastradius": {
-    "CAPTURE": {
-      "one": "{{player}} вилучено одну ворожу фігуру з {{where}}.",
-      "other": ""
-    },
+    "CAPTURE_one": "{{player}} вилучено одну ворожу фігуру з {{where}}.",
+    "CAPTURE_other": "",
     "PLACE": {
       "default": "{{player}} додав фігуру до {{where}}, утворивши стопку висотою {{height}}."
     },
-    "TAKE": {
-      "one": "{{player}} видалив одну зі своїх частин із {{where}}.",
-      "other": ""
-    }
+    "TAKE_one": "{{player}} видалив одну зі своїх частин із {{where}}.",
+    "TAKE_other": ""
   },
   "blooms": {
     "CAPTURE": {
@@ -623,10 +599,8 @@
     }
   },
   "circleOfLife": {
-    "CAPTURE": {
-      "one": "",
-      "other": ""
-    }
+    "CAPTURE_one": "",
+    "CAPTURE_other": ""
   },
   "crosshairs": {
     "CAPTURE": {
@@ -686,10 +660,8 @@
     }
   },
   "forms": {
-    "CAPTURE": {
-      "one": "",
-      "other": ""
-    },
+    "CAPTURE_one": "",
+    "CAPTURE_other": "",
     "EOG": {
       "default": ""
     }
@@ -706,14 +678,10 @@
     }
   },
   "gess": {
-    "CAPTURE": {
-      "one": "{{count}} камінь видаляється з дошки.",
-      "other": ""
-    },
-    "MOVE": {
-      "one": "{{player}} перемістив фігуру 3x3, що містить {{count}} камінь, з {{from}} на {{to}}.",
-      "other": ""
-    }
+    "CAPTURE_one": "{{count}} камінь видаляється з дошки.",
+    "CAPTURE_other": "",
+    "MOVE_one": "{{player}} перемістив фігуру 3x3, що містить {{count}} камінь, з {{from}} на {{to}}.",
+    "MOVE_other": ""
   },
   "hens": {
     "CAPTURE": {
@@ -826,10 +794,8 @@
     }
   },
   "reversi": {
-    "CAPTURE": {
-      "one": "{{count}} Шматок перевертається.",
-      "other": ""
-    }
+    "CAPTURE_one": "{{count}} Шматок перевертається.",
+    "CAPTURE_other": ""
   },
   "spook": {
     "CAPTURE": {
@@ -853,17 +819,13 @@
     }
   },
   "spora": {
-    "CAPTURE": {
-      "one": "",
-      "other": ""
-    },
+    "CAPTURE_one": "",
+    "CAPTURE_other": "",
     "MOVE": {
       "default": ""
     },
-    "PLACE": {
-      "one": "",
-      "other": ""
-    }
+    "PLACE_one": "",
+    "PLACE_other": ""
   },
   "swarm": {
     "CAPTURE": {
@@ -1001,10 +963,8 @@
     }
   },
   "paintbucket": {
-    "CONVERT": {
-      "one": "{{player}} конвертував 1 шт {{where}}.",
-      "other": ""
-    }
+    "CONVERT_one": "{{player}} конвертував 1 шт {{where}}.",
+    "CONVERT_other": ""
   },
   "storisende": {
     "CONVERT": {
@@ -1166,10 +1126,8 @@
       "jump": "{{player}} скочив шматок з {{from}} до {{to}}.",
       "split": "{{player}} розділив частину від {{from}} до {{to}}."
     },
-    "CAPTURE": {
-      "one": "{{count}} частина перетворюється.",
-      "other": ""
-    }
+    "CAPTURE_one": "{{count}} частина перетворюється.",
+    "CAPTURE_other": ""
   },
   "byte": {
     "MOVE": {
@@ -1235,10 +1193,8 @@
     "PLACE": {
       "default": "{{player}} розмістив гравця на {{where}}."
     },
-    "REMOVE": {
-      "one": "{{count}} гравець був видалений.",
-      "other": ""
-    }
+    "REMOVE_one": "{{count}} гравець був видалений.",
+    "REMOVE_other": ""
   },
   "posit": {
     "MOVE": {
@@ -1262,10 +1218,8 @@
     }
   },
   "volo": {
-    "MOVE": {
-      "one": "{{player}} перемістив зграю з 1 птаха з {{from}} у напрямку {{how}}.",
-      "other": ""
-    },
+    "MOVE_one": "{{player}} перемістив зграю з 1 птаха з {{from}} у напрямку {{how}}.",
+    "MOVE_other": "",
     "PLACE": {
       "default": "{{player}} додає пташку в {{where}}."
     },
@@ -1356,10 +1310,8 @@
     }
   },
   "estate": {
-    "PLACE": {
-      "one": "",
-      "other": ""
-    }
+    "PLACE_one": "",
+    "PLACE_other": ""
   },
   "gorogo": {
     "PLACE": {
@@ -1532,10 +1484,8 @@
     }
   },
   "rincala": {
-    "SOW": {
-      "one": "{{player}} посіяв {{count}} {{pieces}} фігуру з {{from}} до {{to}}.",
-      "other": ""
-    }
+    "SOW_one": "{{player}} посіяв {{count}} {{pieces}} фігуру з {{from}} до {{to}}.",
+    "SOW_other": ""
   },
   "wunchunk": {
     "SWAP": {

@@ -49,14 +49,10 @@
       "complete": "{{player}} ஒரு {{what}} a {{}} இல் {{}}}.",
       "simple": "{{player}} ஒரு பகுதியை {{where}} இல் மாற்றினார்."
     },
-    "DELTA_SCORE_GAIN": {
-      "one": "{{player}} பெறப்பட்டது {{delta}} புள்ளி.",
-      "other": "{{player}} பெறப்பட்டது {{delta}} புள்ளிகள்."
-    },
-    "DELTA_SCORE_LOSS": {
-      "one": "{{player}} இழந்த {{delta}} புள்ளி.",
-      "other": "{{player}} இழந்த {{delta}} புள்ளிகள்."
-    },
+    "DELTA_SCORE_GAIN_one": "{{player}} பெறப்பட்டது {{delta}} புள்ளி.",
+    "DELTA_SCORE_GAIN_other": "{{player}} பெறப்பட்டது {{delta}} புள்ளிகள்.",
+    "DELTA_SCORE_LOSS_one": "{{player}} இழந்த {{delta}} புள்ளி.",
+    "DELTA_SCORE_LOSS_other": "{{player}} இழந்த {{delta}} புள்ளிகள்.",
     "DESTROY": {
       "enemy": {
         "minimal_one": "{{count}} எதிரி துண்டு அழிக்கப்பட்டது.",
@@ -197,10 +193,8 @@
     "WINNERSNONE": {
       "default": "வெற்றியாளர்கள் யாரும் இல்லை."
     },
-    "WINNERS": {
-      "one": "பின்வரும் வீரர் வென்றார்: {{winners}}.",
-      "other": "பின்வரும் வீரர்கள் வென்றனர்: {{winners}}."
-    }
+    "WINNERS_one": "பின்வரும் வீரர் வென்றார்: {{winners}}.",
+    "WINNERS_other": "பின்வரும் வீரர்கள் வென்றனர்: {{winners}}."
   },
   "logger": {
     "ADD": {
@@ -219,10 +213,8 @@
     }
   },
   "magnate": {
-    "ADD": {
-      "one": "",
-      "other": ""
-    },
+    "ADD_one": "",
+    "ADD_other": "",
     "CAPTURE": {
       "default": ""
     },
@@ -355,21 +347,15 @@
       "bearSetup": "",
       "playerSetup": ""
     },
-    "CAPTURE": {
-      "one": "",
-      "other": ""
-    },
-    "MOVE": {
-      "one": "",
-      "other": ""
-    },
+    "CAPTURE_one": "",
+    "CAPTURE_other": "",
+    "MOVE_one": "",
+    "MOVE_other": "",
     "PASS": {
       "default": ""
     },
-    "PLACE": {
-      "one": "",
-      "other": ""
-    },
+    "PLACE_one": "",
+    "PLACE_other": "",
     "ROLL": {
       "default": "",
       "player": ""
@@ -379,10 +365,8 @@
     }
   },
   "frogger": {
-    "ANNOUNCE": {
-      "one": "",
-      "other": ""
-    },
+    "ANNOUNCE_one": "",
+    "ANNOUNCE_other": "",
     "CLAIM": {
       "default": ""
     },
@@ -408,10 +392,8 @@
     "ANNOUNCE": {
       "default": "பிளேயர் {{playerNum}} பின்வரும் அட்டைகள் அவற்றின் கையில் எஞ்சியுள்ளன: {{cards}}."
     },
-    "DECKDRAW": {
-      "one": "{{player}} ட்ரூ {{count}} அட்டை.",
-      "other": "{{player}} ட்ரூ {{count}} கார்டுகள்."
-    },
+    "DECKDRAW_one": "{{player}} ட்ரூ {{count}} அட்டை.",
+    "DECKDRAW_other": "{{player}} ட்ரூ {{count}} கார்டுகள்.",
     "DELTASCORE": {
       "basic_one": "{{card} fee க்கு எதிராக இது 1 புள்ளியைப் பெற்றது.",
       "basic_other": "{{card}} க்கு எதிராக இது {{delta}} புள்ளிகளைப் பெற்றது.",
@@ -545,10 +527,8 @@
     "BLOCK": {
       "default": "குழி {{pit}} குட்டகாட்டியாவில் உள்ளது (தடுக்கப்பட்டுள்ளது)."
     },
-    "CAPTURE": {
-      "one": "{{player}} பின்வரும் குழிகளிலிருந்து மொத்தம் {{count}} கல்லைக் கைப்பற்றியது (வரிசையில்): {{pits}}",
-      "other": "{{player}} பின்வரும் குழிகளிலிருந்து மொத்தம் {{count}} கற்களைக் கைப்பற்றியது (வரிசையில்): {{pits}}"
-    },
+    "CAPTURE_one": "{{player}} பின்வரும் குழிகளிலிருந்து மொத்தம் {{count}} கல்லைக் கைப்பற்றியது (வரிசையில்): {{pits}}",
+    "CAPTURE_other": "{{player}} பின்வரும் குழிகளிலிருந்து மொத்தம் {{count}} கற்களைக் கைப்பற்றியது (வரிசையில்): {{pits}}",
     "DESTROY": {
       "default": "{{pit} at இல் உள்ள நியும்பா அழிக்கப்பட்டது."
     },
@@ -576,17 +556,13 @@
     }
   },
   "blastradius": {
-    "CAPTURE": {
-      "one": "{{player}} {{where}} இலிருந்து ஒரு எதிரி துண்டை அகற்றினார்.",
-      "other": "{{player}} {{where}} இலிருந்து {{count}} எதிரி துண்டை அகற்றினார்."
-    },
+    "CAPTURE_one": "{{player}} {{where}} இலிருந்து ஒரு எதிரி துண்டை அகற்றினார்.",
+    "CAPTURE_other": "{{player}} {{where}} இலிருந்து {{count}} எதிரி துண்டை அகற்றினார்.",
     "PLACE": {
       "default": "{{{player}} ஒரு பகுதியை {{where}} இல் சேர்த்தது, உயரத்தின் அடுக்கை உருவாக்குகிறது {{height}}."
     },
-    "TAKE": {
-      "one": "{{player} their {{}} இலிருந்து அவற்றின் சொந்த துண்டுகளில் ஒன்றை அகற்றியது.",
-      "other": "{{player} their {{{}} இலிருந்து அவற்றின் சொந்த துண்டுகளின் {{count} of இன் அடுக்கை அகற்றியது."
-    }
+    "TAKE_one": "{{player} their {{}} இலிருந்து அவற்றின் சொந்த துண்டுகளில் ஒன்றை அகற்றியது.",
+    "TAKE_other": "{{player} their {{{}} இலிருந்து அவற்றின் சொந்த துண்டுகளின் {{count} of இன் அடுக்கை அகற்றியது."
   },
   "blooms": {
     "CAPTURE": {
@@ -623,10 +599,8 @@
     }
   },
   "circleOfLife": {
-    "CAPTURE": {
-      "one": "",
-      "other": ""
-    }
+    "CAPTURE_one": "",
+    "CAPTURE_other": ""
   },
   "crosshairs": {
     "CAPTURE": {
@@ -686,10 +660,8 @@
     }
   },
   "forms": {
-    "CAPTURE": {
-      "one": "",
-      "other": ""
-    },
+    "CAPTURE_one": "",
+    "CAPTURE_other": "",
     "EOG": {
       "default": ""
     }
@@ -706,14 +678,10 @@
     }
   },
   "gess": {
-    "CAPTURE": {
-      "one": "{{count}}} கல் பலகையில் இருந்து அகற்றப்படுகிறது.",
-      "other": "{{count}}} கற்கள் பலகையில் இருந்து அகற்றப்படுகின்றன."
-    },
-    "MOVE": {
-      "one": "{{player}} {{}}}} {{}} {{from}} வரை {{count}} siss கொண்ட 3x3 துண்டு நகர்த்தப்பட்டது.",
-      "other": "{{player}} {{}}} {{{} முதல் {{count} வரை {{count}} கற்களைக் கொண்ட 3x3 துண்டு நகர்த்தப்பட்டது."
-    }
+    "CAPTURE_one": "{{count}}} கல் பலகையில் இருந்து அகற்றப்படுகிறது.",
+    "CAPTURE_other": "{{count}}} கற்கள் பலகையில் இருந்து அகற்றப்படுகின்றன.",
+    "MOVE_one": "{{player}} {{}}}} {{}} {{from}} வரை {{count}} siss கொண்ட 3x3 துண்டு நகர்த்தப்பட்டது.",
+    "MOVE_other": "{{player}} {{}}} {{{} முதல் {{count} வரை {{count}} கற்களைக் கொண்ட 3x3 துண்டு நகர்த்தப்பட்டது."
   },
   "hens": {
     "CAPTURE": {
@@ -826,10 +794,8 @@
     }
   },
   "reversi": {
-    "CAPTURE": {
-      "one": "ஒரு துண்டு புரட்டப்பட்டுள்ளது.",
-      "other": "{{count}} துண்டுகள் புரட்டப்படுகின்றன."
-    }
+    "CAPTURE_one": "ஒரு துண்டு புரட்டப்பட்டுள்ளது.",
+    "CAPTURE_other": "{{count}} துண்டுகள் புரட்டப்படுகின்றன."
   },
   "spook": {
     "CAPTURE": {
@@ -853,17 +819,13 @@
     }
   },
   "spora": {
-    "CAPTURE": {
-      "one": "",
-      "other": ""
-    },
+    "CAPTURE_one": "",
+    "CAPTURE_other": "",
     "MOVE": {
       "default": ""
     },
-    "PLACE": {
-      "one": "",
-      "other": ""
-    }
+    "PLACE_one": "",
+    "PLACE_other": ""
   },
   "swarm": {
     "CAPTURE": {
@@ -1001,10 +963,8 @@
     }
   },
   "paintbucket": {
-    "CONVERT": {
-      "one": "{{player}} 1 துண்டு {{where}}.",
-      "other": "{{player}} மாற்றப்பட்டது {{count}} துண்டுகள் {{where}}."
-    }
+    "CONVERT_one": "{{player}} 1 துண்டு {{where}}.",
+    "CONVERT_other": "{{player}} மாற்றப்பட்டது {{count}} துண்டுகள் {{where}}."
   },
   "storisende": {
     "CONVERT": {
@@ -1166,10 +1126,8 @@
       "jump": "{{player}} {{from}} முதல் {{to}} வரை ஒரு பகுதியைத் தாண்டினார்.",
       "split": "{{player}} {{from}} முதல் {{to}} வரை ஒரு பகுதியைப் பிரிக்கவும்."
     },
-    "CAPTURE": {
-      "one": "1 துண்டு மாற்றப்படுகிறது.",
-      "other": "{{count}} துண்டுகள் மாற்றப்படுகின்றன."
-    }
+    "CAPTURE_one": "1 துண்டு மாற்றப்படுகிறது.",
+    "CAPTURE_other": "{{count}} துண்டுகள் மாற்றப்படுகின்றன."
   },
   "byte": {
     "MOVE": {
@@ -1235,10 +1193,8 @@
     "PLACE": {
       "default": "{{player}} ஒரு பிளேயரை {{where}} இல் வைத்தார்."
     },
-    "REMOVE": {
-      "one": "{{count}}} பிளேயர் அகற்றப்பட்டது.",
-      "other": "{{count}} வீரர்கள் அகற்றப்பட்டனர்."
-    }
+    "REMOVE_one": "{{count}}} பிளேயர் அகற்றப்பட்டது.",
+    "REMOVE_other": "{{count}} வீரர்கள் அகற்றப்பட்டனர்."
   },
   "posit": {
     "MOVE": {
@@ -1262,10 +1218,8 @@
     }
   },
   "volo": {
-    "MOVE": {
-      "one": "{{player}} {{from திசையில் {{{from}}.",
-      "other": "{{player} the {{{}} {}}}}}}}}}}}}}}}}}."
-    },
+    "MOVE_one": "{{player}} {{from திசையில் {{{from}}.",
+    "MOVE_other": "{{player} the {{{}} {}}}}}}}}}}}}}}}}}.",
     "PLACE": {
       "default": "{{player} a ஒரு பறவையை {{player}} இல் சேர்க்கிறது."
     },
@@ -1356,10 +1310,8 @@
     }
   },
   "estate": {
-    "PLACE": {
-      "one": "",
-      "other": ""
-    }
+    "PLACE_one": "",
+    "PLACE_other": ""
   },
   "gorogo": {
     "PLACE": {
@@ -1532,10 +1484,8 @@
     }
   },
   "rincala": {
-    "SOW": {
-      "one": "",
-      "other": ""
-    }
+    "SOW_one": "",
+    "SOW_other": ""
   },
   "wunchunk": {
     "SWAP": {

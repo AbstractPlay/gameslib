@@ -13488,8 +13488,8 @@
     "out": "Una pieza solo puede moverse a una casilla vacía adyacente."
   },
   "validation.selfo.NO_PASS": {
-    "src": "You cannot pass in this game.",
-    "out": "No puedes pasar en este juego."
+    "src": "You cannot pass in this game. Swapping sides (the pie rule) is only available to the second player, right after the first move.",
+    "out": "No puedes pasar en esta partida. Cambiar de bando (la regla del pastel) solo está disponible para el segundo jugador, justo después del primer movimiento."
   },
   "validation.selfo.PARTIAL": {
     "src": "Click an adjacent empty cell to move the selected piece there.",

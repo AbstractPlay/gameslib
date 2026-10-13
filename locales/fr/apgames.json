@@ -3208,7 +3208,7 @@
       "INITIAL_INSTRUCTIONS": "Cliquez sur l'une de vos pièces pour la sélectionner.",
       "INITIAL_INSTRUCTIONS_PIE": "Cliquez sur l'une de vos pièces pour la sélectionner, ou utilisez la règle du gâteau pour échanger les rôles.",
       "NOT_ADJACENT": "Une pièce ne peut se déplacer que vers une case vide adjacente.",
-      "NO_PASS": "Vous ne pouvez pas passer votre tour dans ce jeu.",
+      "NO_PASS": "Vous ne pouvez pas passer dans cette partie. Changer de côté (la règle du gâteau) n'est possible que pour le deuxième joueur, juste après le premier coup.",
       "PARTIAL": "Cliquez sur une case vide adjacente pour y déplacer la pièce sélectionnée.",
       "PIE": "Utiliser la règle du gâteau et échanger les rôles.",
       "PIE_UNAVAILABLE": "La règle du gâteau ne peut être utilisée que par le second joueur juste après le premier coup."

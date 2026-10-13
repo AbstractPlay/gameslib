@@ -13488,8 +13488,8 @@
     "out": "Ein Stein kann nur auf ein angrenzendes freies Feld gezogen werden."
   },
   "validation.selfo.NO_PASS": {
-    "src": "You cannot pass in this game.",
-    "out": "In diesem Spiel können Sie nicht passen."
+    "src": "You cannot pass in this game. Swapping sides (the pie rule) is only available to the second player, right after the first move.",
+    "out": "Du kannst in diesem Spiel nicht passen. Das Tauschen der Seiten (die Pie-Regel) steht nur dem zweiten Spieler direkt nach dem ersten Zug zur Verfügung."
   },
   "validation.selfo.PARTIAL": {
     "src": "Click an adjacent empty cell to move the selected piece there.",

@@ -3208,7 +3208,7 @@
       "INITIAL_INSTRUCTIONS": "Haz clic en una de tus piezas para seleccionarla.",
       "INITIAL_INSTRUCTIONS_PIE": "Haz clic en una de tus piezas para seleccionarla, o usa la regla del pastel para cambiar de bando.",
       "NOT_ADJACENT": "Una pieza solo puede moverse a una casilla vacía adyacente.",
-      "NO_PASS": "No puedes pasar en este juego.",
+      "NO_PASS": "No puedes pasar en esta partida. Cambiar de bando (la regla del pastel) solo está disponible para el segundo jugador, justo después del primer movimiento.",
       "PARTIAL": "Haz clic en una casilla vacía adyacente para mover la pieza seleccionada allí.",
       "PIE": "Usar la regla del pastel y cambiar de bando.",
       "PIE_UNAVAILABLE": "La regla del pastel solo la puede usar el segundo jugador justo después del primer movimiento."

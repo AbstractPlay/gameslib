@@ -3208,7 +3208,7 @@
       "INITIAL_INSTRUCTIONS": "Klicken Sie auf einen Ihrer Steine, um ihn auszuwählen.",
       "INITIAL_INSTRUCTIONS_PIE": "Klicken Sie auf einen Ihrer Steine, um ihn auszuwählen, oder nutzen Sie die Pie-Regel, um die Seiten zu tauschen.",
       "NOT_ADJACENT": "Ein Stein kann nur auf ein angrenzendes freies Feld gezogen werden.",
-      "NO_PASS": "In diesem Spiel können Sie nicht passen.",
+      "NO_PASS": "Du kannst in diesem Spiel nicht passen. Das Tauschen der Seiten (die Pie-Regel) steht nur dem zweiten Spieler direkt nach dem ersten Zug zur Verfügung.",
       "PARTIAL": "Klicken Sie auf ein angrenzendes freies Feld, um den ausgewählten Stein dorthin zu ziehen.",
       "PIE": "Nutzen Sie die Pie-Regel und tauschen Sie die Seiten.",
       "PIE_UNAVAILABLE": "Die Pie-Regel kann nur vom zweiten Spieler direkt nach dem ersten Zug angewendet werden."

@@ -13488,8 +13488,8 @@
     "out": "Une pièce ne peut se déplacer que vers une case vide adjacente."
   },
   "validation.selfo.NO_PASS": {
-    "src": "You cannot pass in this game.",
-    "out": "Vous ne pouvez pas passer votre tour dans ce jeu."
+    "src": "You cannot pass in this game. Swapping sides (the pie rule) is only available to the second player, right after the first move.",
+    "out": "Vous ne pouvez pas passer dans cette partie. Changer de côté (la règle du gâteau) n'est possible que pour le deuxième joueur, juste après le premier coup."
   },
   "validation.selfo.PARTIAL": {
     "src": "Click an adjacent empty cell to move the selected piece there.",

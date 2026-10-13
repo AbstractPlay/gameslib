@@ -13488,8 +13488,8 @@
     "out": "Un pezzo può muoversi solo in una casella vuota adiacente."
   },
   "validation.selfo.NO_PASS": {
-    "src": "You cannot pass in this game.",
-    "out": "Non puoi passare in questo gioco."
+    "src": "You cannot pass in this game. Swapping sides (the pie rule) is only available to the second player, right after the first move.",
+    "out": "Non puoi passare in questo gioco. Scambiare i lati (la pie rule) è disponibile solo per il secondo giocatore, subito dopo la prima mossa."
   },
   "validation.selfo.PARTIAL": {
     "src": "Click an adjacent empty cell to move the selected piece there.",

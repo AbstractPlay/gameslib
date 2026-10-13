@@ -3208,7 +3208,7 @@
       "INITIAL_INSTRUCTIONS": "Fai clic su uno dei tuoi pezzi per selezionarlo.",
       "INITIAL_INSTRUCTIONS_PIE": "Fai clic su uno dei tuoi pezzi per selezionarlo, oppure usa la regola della torta per scambiare i lati.",
       "NOT_ADJACENT": "Un pezzo può muoversi solo in una casella vuota adiacente.",
-      "NO_PASS": "Non puoi passare in questo gioco.",
+      "NO_PASS": "Non puoi passare in questo gioco. Scambiare i lati (la pie rule) è disponibile solo per il secondo giocatore, subito dopo la prima mossa.",
       "PARTIAL": "Fai clic su una casella vuota adiacente per muovere il pezzo selezionato.",
       "PIE": "Usa la regola della torta e scambia i lati.",
       "PIE_UNAVAILABLE": "La regola della torta può essere usata solo dal secondo giocatore subito dopo la prima mossa."

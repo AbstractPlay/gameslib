@@ -4641,7 +4641,7 @@
     "catsdogs": "Das ursprüngliche Spiel, *SNORT*, wurde 1970 von Simon Norton entworfen. Die einzige Regel bestand darin, zu verhindern, dass Steine unterschiedlicher Farben orthogonal benachbart sind. Ein patt gesetzter Spieler verliert das Spiel. Norton schlug auch die Misère-Version vor (Patt ist ein Sieg). Das ursprüngliche Spiel ist jedoch durch eine Spiegelstrategie widerlegt. Chris Huntoon schlug ein größeres 11x11-Brett vor, bei dem der Spieler nicht in der Mitte beginnen kann (um das Spiegeln zu verhindern), was er *Cats and Dogs* nannte und das hier das Hauptspiel ist. Ebenfalls verfügbar ist das portugiesische Turnierregelwerk, das auf dem kleineren 8x8-Brett gespielt wird, bei dem der erste Spieler jedoch im zentralen 2x2-Bereich beginnen muss und der zweite Spieler außerhalb dieses Bereichs antworten muss. Dies ermöglicht es, die Spiegelstrategie zu durchbrechen und dennoch auf dem ursprünglichen kleineren Brett zu spielen. Siehe auch Snorts Artikel in [AGM#15](https://www.abstractgames.org/uploads/1/1/6/4/116462923/abstract_games_issue_15.pdf).",
     "chase": "Derzeit müssen die meisten Tauschzüge manuell bearbeitet werden. Wir arbeiten daran, dies zu beheben.",
     "circleOfLife": "Die Arten sind auf dem Ring gegen den Uhrzeigersinn von 0–11 nummeriert, beginnend mit der Einzel-Hex-Art ganz oben. Art 0 frisst 11; jede andere Art frisst die direkt darunter nummerierte Art. Räuberisches Fressen findet nur statt, wenn du einen Stein platzierst, der eine Art angrenzend an Beute bildet. Gruppen dürfen nicht mehr als vier Steine umfassen. Wer zuerst 20 gegnerische Steine schlägt, gewinnt, oder der Spieler gewinnt, der in seinem Zug nicht mehr platzieren kann (nachdem das Ökosystem gefüllt wurde).",
-    "clearpath": "Clear Path wurde im September 2026 von Mark Steere in Zusammenarbeit mit Claude Fable 5.1 entwickelt, einem KI-Modell von Anthropic.\n\nDie vitalen Punkte sind auf dem Spielbrett markiert. Ein roter Punkt markiert einen Punkt, durch den jede mögliche Verbindung von Rot verläuft, ein blauer Punkt markiert einen Punkt, durch den jede mögliche Verbindung von Blau verläuft, und ein blauer Punkt innerhalb eines roten Punktes markiert einen Punkt, der für beide Spieler vital ist. Ein Punkt, der nur für deinen Gegner vital ist, ist für dich regelwidrig, es sei denn, dein Zug vollendet deine Verbindung.\n\nPassen ist nicht erlaubt, aber wenn ein Spieler keinen legalen Zug hat, wird sein Zug übersprungen. Das Passen erfolgt automatisch.\n\nDiese Implementierung verkürzt das Spiel, indem sie berücksichtigt, dass ein Spieler, der keine mögliche Verbindung mehr hat, zwangsläufig verloren hat.",
+    "clearpath": "Clear Path wurde im September 2026 von Mark Steere in Zusammenarbeit mit Claude Fable 5.1, einem KI-Modell von Anthropic, entwickelt.\n\nDie Punkte markieren die Stellen, an denen der am Zug befindliche Spieler nicht setzen darf. Jeder so markierte Punkt ist für den Gegner vital (jede mögliche Verbindung des Gegners verläuft durch ihn), für den am Zug befindlichen Spieler jedoch nicht vital und keine gewinnbringende Platzierung. Ein für beide Spieler vitaler Punkt wird nicht markiert, da jeder Spieler ihn besetzen kann; ebenso wenig ein Punkt, an dem der am Zug befindliche Spieler einen Gewinnpfad vollendet. Die Punkte werden in der Farbe des Gegners dargestellt. Ein Spieler, der keine mögliche Verbindung mehr hat, hat keine vitalen Punkte.\n\nPassen ist nicht erlaubt, aber der Zug eines Spielers ohne legale Platzierung wird übersprungen. Das Passen erfolgt automatisch.",
     "conspirateurs": "Im Grundspiel dürfen sich Steine als Teil eines Mehrfachsprungs durch Zufluchtsorte bewegen. Sie sind erst eingefroren, wenn sie ihren Zug in einem Zufluchtsort beenden. In der strikten Variante werden Steine eingefroren, sobald sie einen Zufluchtsort betreten.\n\nIn Spielen mit vier Spielern bilden Spieler 1 und 2 ein Team, ebenso wie Spieler 3 und 4.",
     "deckfish": "Weitere Informationen zum Decktet-System finden Sie auf der [offiziellen Decktet-Website](https://www.decktet.com).\n\nDie Farben-Kräfte (Bewegungsfähigkeiten der Marker) sind:\n* Mond (Moons): Springe orthogonal über Lücken.\n* Sonne (Suns): Bewege ein oder zwei Karten diagonal.\n* Welle (Waves): Bewege dich orthogonal bis zur letzten unversperrten Karte.\n* Blatt (Leaves): Bewege dich orthogonal auf eine beliebige Karte ohne benachbarte Hindernisse.\n* Wurm (Wyrms): Bewege dich orthogonal auf die erste besetzte Karte und schiebe diesen Stein auf die nächste Karte.\n* Knoten (Knots): Mache drei orthogonale Ein-Karten-Züge ohne Zurückgehen.\n\nIn den Regeln ist der \"erste\" Spieler derjenige, der in der Platzierungsphase als Zweiter platziert, sich aber in der Bewegungsphase als Erster bewegt. Hier ist der erste Spieler jedoch derjenige, der als Erster platziert, sich aber als Zweiter bewegt. Dies wird durch ein automatisches Passen für den entsprechenden Spieler umgesetzt.\n\nEs gilt die Regel, dass der letzte Spieler, selbst wenn er bereits gewinnt, weiterspielen muss, bis ihm die Züge ausgehen.",
     "domineering": "Domineering, auch bekannt als Stop-Gate, ist ein parteiisches kombinatorisches Spiel. Das Spiel wurde um 1973 von Göran Andersson entworfen und im einflussreichen CGT-Buch *Winning Ways for Your Mathematical Plays* vorgestellt. Es gibt eine unparteiische Version namens Cram, bei der beide Spieler sowohl horizontale als auch vertikale Dominosteine platzieren können. Die Variante \"Quelhas\" wurde 2025 von Carlos P. Santos und Alfie Davies vorgeschlagen; sie ist eine Misère-Version (der Spieler ohne Zugmöglichkeiten gewinnt das Spiel) und verwendet längere dominoartige Polyominos.",
@@ -6074,16 +6074,19 @@
         "name": "7x7-Brett"
       },
       "#board": {
-        "name": "8x8-Brett"
-      },
-      "size-9": {
         "name": "9x9-Brett"
-      },
-      "size-10": {
-        "name": "10x10-Brett"
       },
       "size-11": {
         "name": "11x11-Brett"
+      },
+      "size-13": {
+        "name": "13x13-Brett"
+      },
+      "size-15": {
+        "name": "15x15-Brett"
+      },
+      "size-19": {
+        "name": "19x19-Brett"
       }
     },
     "clusterfuss": {

@@ -4641,7 +4641,7 @@
     "catsdogs": "El juego original, *SNORT*, fue diseñado por Simon Norton en 1970. La única regla era evitar que piedras de diferentes colores estuvieran adyacentes ortogonalmente. El jugador ahogado pierde el juego. Norton también propuso la versión misère (el ahogado es una victoria). Sin embargo, el juego original se puede romper mediante una estrategia de espejo. Chris Huntoon propuso un tablero más grande de 11x11 donde el jugador no puede comenzar en el centro (para evitar la estrategia de espejo), al cual llamó *Cats and Dogs* (Perros y gatos), y es el juego principal aquí. También está disponible el reglamento del torneo portugués, jugado en el tablero más pequeño de 8x8, pero donde el primer jugador debe comenzar en el área central de 2x2 y el segundo jugador debe responder fuera de esa área. Esto permite que el juego rompa la estrategia de espejo y aun así se juegue en el tablero original más pequeño. Consulta también el artículo de Snort en [AGM#15](https://www.abstractgames.org/uploads/1/1/6/4/116462923/abstract_games_issue_15.pdf).",
     "chase": "Actualmente, la mayoría de los movimientos de intercambio deberán editarse manualmente. Estamos trabajando para solucionar esto.",
     "circleOfLife": "Las especies están numeradas de 0 a 11 en sentido contrario a las agujas del reloj en el anillo, comenzando con la especie de un solo hexágono en la parte superior. La especie 0 se come a la 11; cada una de las demás especies se come a la numerada inmediatamente debajo de ella. La depredación solo ocurre cuando colocas una piedra que forma una especie adyacente a una presa. Los grupos no pueden exceder las cuatro piedras. El primer jugador en capturar 20 piedras del oponente gana, o gana el jugador que no pueda colocar en su turno (al haber llenado el ecosistema).",
-    "clearpath": "Clear Path fue diseñado por Mark Steere en septiembre de 2026, en colaboración con Claude Fable 5.1, un modelo de IA creado por Anthropic.\n\nLos puntos vitales están marcados en el tablero. Un punto rojo marca un punto por el que pasan todas las conexiones posibles del Rojo, un punto azul marca un punto por el que pasan todas las conexiones posibles del Azul, y un punto azul dentro de uno rojo marca un punto vital para ambos jugadores. Un punto vital únicamente para tu oponente es ilegal para ti, a menos que tu jugada complete tu conexión.\n\nNo se permite pasar, pero si un jugador no tiene ninguna jugada legal, se le salta el turno. El pase se envía automáticamente.\n\nEsta implementación acorta la partida al reconocer que un jugador que ya no tiene ninguna conexión posible ha perdido de forma inevitable.",
+    "clearpath": "Clear Path fue diseñado por Mark Steere en septiembre de 2026, en colaboración con Claude Fable 5.1, un modelo de IA creado por Anthropic.\n\nLos puntos indican las posiciones donde el jugador en turno no puede colocar. Cada punto marcado es vital para el oponente (cada posible conexión del oponente pasa por él), no es vital para el jugador en turno y no es una colocación ganadora. Un punto vital para ambos jugadores no se marca, ya que cualquiera de los dos jugadores puede ocuparlo, y tampoco se marca un punto donde el jugador en turno complete un camino ganador. Los puntos se dibujan con el color del oponente. Un jugador que ya no tenga ninguna conexión posible no tiene puntos vitales.\n\nNo se permite pasar, pero si un jugador no tiene ninguna colocación legal, se salta su turno. El pase se envía automáticamente.",
     "conspirateurs": "En el juego base, las piezas pueden moverse a través de santuarios como parte de un salto de varios pasos. No se congelan hasta que terminan su movimiento en un santuario. En la variante estricta, las piezas se congelan tan pronto como entran en un santuario.\n\nEn partidas de cuatro jugadores, los jugadores 1 y 2 son compañeros, al igual que los jugadores 3 y 4.",
     "deckfish": "Puedes encontrar más información sobre el sistema Decktet en el [sitio web oficial de Decktet](https://www.decktet.com).\n\nLos poderes de los palos (habilidades de movimiento de fichas) son:\n* Lunas: Saltar ortogonalmente sobre huecos.\n* Soles: Mover una o dos cartas en diagonal.\n* Olas: Moverse ortogonalmente hasta la última carta sin obstrucciones.\n* Hojas: Moverse ortogonalmente a cualquier carta que no tenga obstáculos vecinos.\n* Sierpes: Moverse ortogonalmente a la primera carta ocupada, empujando esa pieza a la siguiente carta.\n* Nudos: Realizar tres movimientos ortogonales de una carta, sin retroceder.\n\nEn las reglas, el \"primer\" jugador es el jugador que coloca en segundo lugar en la fase de colocación pero se mueve primero en la fase de movimiento, pero aquí el primer jugador es quien coloca primero pero se mueve en segundo lugar. Esto se implementa mediante un pase automático para el jugador correspondiente.\n\nSe aplica la regla de que, incluso cuando el último jugador ya esté ganando, debe continuar jugando hasta que se quede sin movimientos.",
     "domineering": "Domineering, también conocido como Stop-Gate, es un juego combinatorio partisano. El juego fue diseñado por Göran Andersson hacia 1973 y se presentó en el libro fundamental de CGT *Winning Ways for Your Mathematical Plays*. Existe una versión imparcial, llamada Cram, donde ambos jugadores pueden colocar dominós horizontales o verticales. La variante \"Quelhas\" fue propuesta por Carlos P. Santos y Alfie Davies en 2025, siendo una versión misère (el jugador sin opciones gana la partida) y utiliza poliominós más largos similares a fichas de dominó.",
@@ -6074,16 +6074,19 @@
         "name": "Tablero de 7x7"
       },
       "#board": {
-        "name": "Tablero de 8x8"
-      },
-      "size-9": {
         "name": "Tablero de 9x9"
-      },
-      "size-10": {
-        "name": "Tablero de 10x10"
       },
       "size-11": {
         "name": "Tablero de 11x11"
+      },
+      "size-13": {
+        "name": "Tablero de 13x13"
+      },
+      "size-15": {
+        "name": "Tablero de 15x15"
+      },
+      "size-19": {
+        "name": "Tablero de 19x19"
       }
     },
     "clusterfuss": {

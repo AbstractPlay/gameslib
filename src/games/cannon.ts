@@ -79,7 +79,6 @@ export class CannonGame extends GameBase {
         description: "A two-player game played on a 10x10 board. Soldiers can move independently, but three soldiers in a row form a \"cannon\" and can move along their length or kill soldiers two or three spaces away. The first player to capture the opposing town wins.",
         urls: [
             "https://nestorgames.com/rulebooks/CANNON_EN.pdf",
-            "http://superdupergames.org/rules/cannon.pdf",
             "https://boardgamegeek.com/boardgame/8553/cannon"
         ],
         bggid: "8553",

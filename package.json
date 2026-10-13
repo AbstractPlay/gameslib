@@ -106,6 +106,7 @@
   "devDependencies": {
     "@abstractplay/ap-deps-tools": "^1.1.1",
     "@aws-sdk/client-dynamodb": "^3.758.0",
+    "@aws-sdk/client-s3": "^3.1150.0",
     "@aws-sdk/lib-dynamodb": "^3.758.0",
     "@eslint/js": "^9.26.0",
     "@google/genai": "^2.13.0",
@@ -128,6 +129,7 @@
     "i18next-resources-to-backend": "^1.2.1",
     "json-schema-to-typescript": "^15.0.4",
     "mocha": "^11.2.2",
+    "playwright": "^1.64.0",
     "rimraf": "^5.0.1",
     "serverless": "4.42.0",
     "serverless-finch": "4.0.4",

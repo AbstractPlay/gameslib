@@ -55,7 +55,7 @@ export class AlfredsWykeGame extends GameBase {
         version: "20211226",
         dateAdded: "2023-05-01",
         description: "A two-player game where one plays the builder and the other the destroyer. Claim cells by either completing or completely destroying lots. Win a certain number of lots or lots in a particular pattern to win.",
-        urls: ["https://www.abstractgames.org/alfredswyke.html", "http://superdupergames.org/rules/wyke.pdf"],
+        urls: ["https://www.abstractgames.org/alfredswyke.html"],
         bggid: "37584",
         people: [
             {

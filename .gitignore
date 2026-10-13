@@ -132,9 +132,11 @@ dist
 .pnp.*
 *_old.json
 
-# bin folder, except for example.ts
+# bin folder, except for example.ts and rules-mirror tooling
 bin/
 !bin/example.ts
+!bin/mirror-rules.ts
+!bin/mirror-rules.config.example.json
 
 # scratch files in the root
 scratch.*

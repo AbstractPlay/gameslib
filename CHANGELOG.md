@@ -19,9 +19,12 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Added
 
+- **Docs:** [Rules PDF mirrors](/gameslib/rules-mirror/) — maintainer `bin/mirror-rules.ts` tooling and `rules.abstractplay.com` hosting convention (`{uid}.pdf`, `rules-mirrors.json`).
 - **Render:** `pieces` areas may set `veiled` so the renderer dims the opponent stash grid; perfect-information stash/hand games (Alien City, Four, Fnap, Pylon, Subdivision, WaldMeister, Gyges, Penguin, Rincala, Moon Squad) set it from `render({ perspective })` via `GameBase.stashAreaVeiled()` (requires matching `@abstractplay/renderer` with `AreaPieces.veiled`).
 
 ### Changed
+
+- **Rules mirror (`bin/mirror-rules.ts`):** `bulk --tier all` tries designer/publisher HTML (especially spielstein.com, with optional Playwright HTML→PDF on `/rules`) before BGG; walks the full `gameinfo.urls` candidate chain until a source succeeds.
 
 - **i18n (English tooling):** `npm run locale-en` is the single router for merged English `apgames` and `apresults` (`check` both by default; `merge`, `keys`, `remap`, `prune`, `audit` subcommands). Replaces separate `merge-*-en` / `check-*` npm scripts. Lint runs `locale-en` plus `locale-en -- keys --warn --strict --summary`; develop/production CI run `locale-en` after tests. `npm run playground` (`predist-dev`) runs `locale-en -- merge --write` before copying locales into `dist/`. `translate.mjs` copies duplicate normalized English from existing managed-locale strings before calling Gemini and dedupes API requests per unique English text.
 - **i18n (`apgames`):** Integrators still load a single `locales/{lang}/apgames.json` per language with the same `apgames:` key paths. English is authored in `locale-src/en/apgames/shared/`, each game’s `gameinfo`, and `gameApgamesEn` in `src/games/<uid>.ts`; `npm run locale-en -- merge --write` writes `locales/en/apgames.json` (do not hand-edit). Legacy root paths are normalized (`validation._general.*` for global move/undo, `validation.homeworlds.*` for Homeworlds commands, `status.icepalace.*` for Ice Palace UI). Registry games export per-game English via `gameApgamesEn`; `GameBase.description()` / `notes()` use uid-derived keys with `defaultValue`. `locale-en keys --strict` enforces full-registry catalog ↔ TypeScript coverage in lint; duplicate English vs shared shards remains **warn-only**. Variant group defaults use `variants.<uid>.#<group>.name`; shared validation stems live under `validation._general` and `validation._inarow` where appropriate.

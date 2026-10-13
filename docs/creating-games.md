@@ -14,6 +14,8 @@ Guide for adding a new game to gameslib. For API details see [Game object](/game
 8. **Test** locally — [Testing](/gameslib/testing/) (including `assertChatLogParity` when you customize the collector).
 9. **PR** against `develop`; test on [play.dev.abstractplay.com](https://play.dev.abstractplay.com) after merge.
 
+Rules PDF mirrors on [rules.abstractplay.com](https://rules.abstractplay.com) are maintained separately; ask a maintainer if you have an official PDF for a new game. See [Rules PDF mirrors](/gameslib/rules-mirror/).
+
 ## Choosing a base class
 
 This is one of the first decisions when authoring a game. The base class controls how **`getPlies()` / `getRounds()`** group stack entries for **published gamerecord export** and how the **finished-game move table** lays out columns (via `header["turn-model"]` and `engine.turnModel()`).

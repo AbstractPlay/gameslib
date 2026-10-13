@@ -87,7 +87,7 @@ describe("Guerrilla", () => {
         g.move("e3f4", {trusted: true});
         const lines = g.chatLogEntries(["Alice", "Bob"]);
         expect(lines).to.have.length(1);
-        expect(lines[0]!.lines.some(l => l.textKey === "apresults:MOVE.nowhat")).to.be.true;
+        expect(lines[0]!.lines.some(l => l.textKey === "apresults:_general.MOVE.nowhat")).to.be.true;
     });
 
     it("requires continuing capture chains", () => {
@@ -293,7 +293,7 @@ describe("Guerrilla", () => {
             const lines = g.chatLogEntries(["Alice", "Bob"]);
             expect(lines).to.have.length(1);
             expect(lines[0]!.lines).to.have.length(1);
-            expect(lines[0]!.lines[0]!.textKey).to.equal("apresults:RESET.guerrilla");
+            expect(lines[0]!.lines[0]!.textKey).to.equal("apresults:guerrilla.RESET.default");
             expect(lines[0]!.lines[0]!.textParams?.player).to.equal("Alice");
         });
 

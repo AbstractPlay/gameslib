@@ -7,6 +7,18 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApresultsEn = {
+    MOVE: {
+        default: "{{player}} moved from {{from}} to {{to}} (through {{through}}).",
+    },
+    PLACE: {
+        default: "The chamber spit out a {{what}} at {{where}}.",
+    },
+    TAKE: {
+        default: "A {{what}} was fed to the chamber.",
+    },
+};
+
 export const gameApgamesEn = {
     validation: {
         BALANCE_LOWEST: "When balancing you must select one of the pieces with the lowest speed. The piece at {{where}} is not one of those.",
@@ -1461,13 +1473,13 @@ export class ChaseGame extends GameBase {
                 const last = moves[moves.length - 1];
                 const rest = moves.slice(0, moves.length - 1);
                 if (moves.length > 2) {
-                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.chase", {
+                    this.pushSeatChatLine(lines, seat, "apresults:chase.MOVE.default", {
                         from: first.from,
                         to: last.to,
                         through: rest.map((m) => m.to).join(", "),
                     });
                 } else {
-                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.nowhat", {
+                    this.pushSeatChatLine(lines, seat, "apresults:_general.MOVE.nowhat", {
                         from: first.from,
                         to: last.to,
                     });
@@ -1476,30 +1488,30 @@ export class ChaseGame extends GameBase {
             for (const r of state._results) {
                 switch (r.type) {
                     case "capture":
-                        this.pushSeatChatLine(lines, seat, "apresults:CAPTURE.complete", {
+                        this.pushSeatChatLine(lines, seat, "apresults:_general.CAPTURE.complete", {
                             what: r.what,
                             where: r.where,
                         });
                         break;
                     case "eject":
-                        this.pushNeutralChatLine(lines, "apresults:MOVE.push", {
+                        this.pushNeutralChatLine(lines, "apresults:_general.MOVE.push", {
                             what: r.what,
                             from: r.from,
                             to: r.to,
                         });
                         break;
                     case "convert":
-                        this.pushSeatChatLine(lines, seat, "apresults:CONVERT.complete", {
+                        this.pushSeatChatLine(lines, seat, "apresults:_general.CONVERT.complete", {
                             what: r.what,
                             into: r.into,
                             where: r.where,
                         });
                         break;
                     case "take":
-                        this.pushNeutralChatLine(lines, "apresults:TAKE.chase", { what: r.what });
+                        this.pushNeutralChatLine(lines, "apresults:chase.TAKE.default", { what: r.what });
                         break;
                     case "place":
-                        this.pushNeutralChatLine(lines, "apresults:PLACE.chase", {
+                        this.pushNeutralChatLine(lines, "apresults:chase.PLACE.default", {
                             what: r.what,
                             where: r.where,
                         });

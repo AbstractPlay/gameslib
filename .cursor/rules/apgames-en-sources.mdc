@@ -6,15 +6,15 @@ alwaysApply: false
 
 # `locales/en/apgames.json` is merge output
 
-Do **not** add or change user-visible English strings only in `locales/en/apgames.json`. CI (`check-apgames-en`) rejects commits where the file differs from merge sources.
+Do **not** add or change user-visible English strings only in `locales/en/apgames.json`. CI (`npm run locale-en`) rejects commits where the file differs from merge sources.
 
 **Author English here instead:**
 
 - Shared copy: `locale-src/en/apgames/shared/**`
 - Per game: `gameinfo` + `export const gameApgamesEn` in `src/games/<uid>.ts`
 
-Then run `npm run merge-apgames-en` and commit the regenerated `locales/en/apgames.json`.
+Then run `npm run locale-en -- merge apgames --write` and commit the regenerated `locales/en/apgames.json`.
 
-`locales/en/apresults.json` is still edited directly. Other languages under `locales/{de,fr,it,es-US}/` are Weblate/CI-managed — do not hand-edit `locale-src/{de,fr,it,es-US}/` tracking files.
+For move-log English (`apresults`), see [`.cursor/rules/apresults-en-sources.mdc`](apresults-en-sources.mdc).
 
 Details: [docs/i18n.md](docs/i18n.md), [locales/en/README.md](locales/en/README.md).

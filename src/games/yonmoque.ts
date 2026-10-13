@@ -539,13 +539,13 @@ export class YonmoqueGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", {where: r.where!});
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.nowhat", {from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.nowhat", {from: r.from!, to: r.to!});
                 return true;
             case "convert":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONVERT.simple", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CONVERT.simple", {where: r.where!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { writeLocaleJson } from "./locale-json-format.mjs";
-import { assertEnApgamesMergeCurrent } from "./lib/ensure-merged-en-apgames.mjs";
+import { assertEnLocaleMergeCurrent } from "./lib/ensure-merged-locale-en.mjs";
 
 export const MANAGED_LANGS = ["de", "fr", "it", "es-US"];
 
@@ -183,8 +183,13 @@ function runCli() {
   }
 
   for (const file of files) {
-    if (path.basename(file) === "apgames.json" && file.replace(/\\/g, "/").includes("/en/")) {
-      assertEnApgamesMergeCurrent("Before locale prune: ");
+    const enLocale = file.replace(/\\/g, "/").includes("/en/");
+    if (enLocale && path.basename(file) === "apgames.json") {
+      assertEnLocaleMergeCurrent("apgames", "Before locale prune: ");
+      break;
+    }
+    if (enLocale && path.basename(file) === "apresults.json") {
+      assertEnLocaleMergeCurrent("apresults", "Before locale prune: ");
       break;
     }
   }

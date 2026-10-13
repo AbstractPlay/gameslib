@@ -31,6 +31,12 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    TAKE: {
+        default: "{{player}} took a neutral ball at {{from}}.",
+    },
+};
+
 
 
 type playerid = 1 | 2 | 3;
@@ -942,23 +948,23 @@ export class SploofGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.ball", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.ball", { where: r.where! });
                 return true;
             case "take":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:TAKE.sploof", { from: r.from! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:sploof.TAKE.default", { from: r.from! });
                 return true;
             case "move":
                 if (r.how === "drop") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.ball_drop", { from: r.from!, to: r.to!, count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.ball_drop", { from: r.from!, to: r.to!, count: r.count! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.ball", { from: r.from!, to: r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.ball", { from: r.from!, to: r.to! });
                 }
                 return true;
             case "eog":
                 if (r.reason === "stalemate") {
-                this.pushNeutralChatLine(lines, "apresults:EOG.stalemate");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.stalemate");
                 } else {
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }
                 return true;
             default:

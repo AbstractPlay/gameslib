@@ -5,6 +5,15 @@ import { APRenderRep, AnnotationBasic, MarkerFlood, MarkerLine, MarkerShading } 
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApresultsEn = {
+    MOVE: {
+        dragon: "{{player}} moved a group of size {{count}} via a dragon move from {{from}} in the direction {{dir}}.",
+        dragon_jump: "{{player}} jumps their dragon from {{from}} to {{to}}.",
+        knight: "{{player}} moved a group of size {{count}} via a knight move from {{from}} in the direction {{dir}}.",
+        man: "{{player}} moved a group of size {{count}} from {{from}} in the direction {{dir}}.",
+    },
+};
+
 export const gameApgamesEn = {
     validation: {
         BARRIER: "You may not create a barrier.",
@@ -1376,24 +1385,24 @@ export class AnacheGame extends GameBase {
             case "move":
                 if (r.what === "dragon") {
                 if (r.how === "jump") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.anache_dragon_jump", { from: r.from!, to: r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:anache.MOVE.dragon_jump", { from: r.from!, to: r.to! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.anache_dragon", { from: r.from!, dir: r.how!, count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:anache.MOVE.dragon", { from: r.from!, dir: r.how!, count: r.count! });
                 }
                 } else if (r.what === "knight") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.anache_knight", { from: r.from!, dir: r.how!, count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:anache.MOVE.knight", { from: r.from!, dir: r.how!, count: r.count! });
                 } else if (r.what === "man") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.anache_man", { from: r.from!, dir: r.how!, count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:anache.MOVE.man", { from: r.from!, dir: r.how!, count: r.count! });
                 }
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.noperson.nowhere_count", { count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.noperson.nowhere_count", { count: r.count! });
                 return true;
             case "eog":
                 if (r.reason === "breakthrough") {
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 } else if (r.reason === "stalemate") {
-                this.pushNeutralChatLine(lines, "apresults:EOG.stalemate");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.stalemate");
                 }
                 return true;
             default:

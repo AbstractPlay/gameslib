@@ -37,6 +37,12 @@ export const gameApgamesEn = {
         TILES: "Tiles on board",
     },
 };
+export const gameApresultsEn = {
+    CONVERT: {
+        default: "{{player}} converted {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1|2|3|4;
@@ -1524,10 +1530,10 @@ export class PacruGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "sacrifice":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SACRIFICE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.SACRIFICE.nowhat", {where: r.where!});
                 return true;
             case "convert":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONVERT.pacru", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:pacru.CONVERT.default", {where: r.where!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

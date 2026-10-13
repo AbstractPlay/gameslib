@@ -40,6 +40,12 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    MOVE: {
+        default: "{{player}} swapped the pieces at {{from}} and {{to}}.",
+    },
+};
+
 
 
 type playerid = 1 | 2;
@@ -696,10 +702,10 @@ export class SaltireGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", { where: r.where! });
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.saltire", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:saltire.MOVE.default", {
                     from: r.from!, to: r.to!,
                 });
                 return true;

@@ -62,6 +62,16 @@ export const gameApgamesEn = {
         IN_POOL: "Pyramids in the Pool",
     },
 };
+export const gameApresultsEn = {
+    ANNOUNCE: {
+        build: "{{player}} won the hand and builds the Yard into the Ice Palace, using {{count}} pyramids. One legal way to build it is `{{move}}`.",
+        nobuild: "{{player}} won the hand, but none of the Yard can be built into the Ice Palace.",
+    },
+    REMOVE: {
+        default: "{{what}} was discarded and removed from play.",
+    },
+};
+
 
 
 /* ------------------------------------------------- rules and legality */
@@ -2040,26 +2050,26 @@ export class IcePalaceGame extends GameBaseSequenced {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                // i18next.t("apresults:PLACE.icepalace")
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.icepalace", { what: r.what, where: r.where });
+                // i18next.t("apresults:icepalace.PLACE.default")
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.complete", { what: r.what, where: r.where });
                 return true;
             case "remove":
-                // i18next.t("apresults:REMOVE.icepalace")
-                this.pushNeutralChatLine(lines, "apresults:REMOVE.icepalace", { what: r.what });
+                // i18next.t("apresults:icepalace.REMOVE.default")
+                this.pushNeutralChatLine(lines, "apresults:icepalace.REMOVE.default", { what: r.what });
                 return true;
             case "pass":
-                // i18next.t("apresults:PASS.icepalace")
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.icepalace", {});
+                // i18next.t("apresults:icepalace.PASS.default")
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.simple", {});
                 return true;
             case "announce": {
                 // The end of a hand: who builds, how many pyramids, and one legal way to do it.
                 const [seat, count, move] = r.payload as [number, number, string];
                 if (count > 0) {
-                    // i18next.t("apresults:ANNOUNCE.icepalace_build")
-                    this.pushSeatChatLine(lines, seat, "apresults:ANNOUNCE.icepalace_build", { count, move });
+                    // i18next.t("apresults:icepalace.ANNOUNCE.build")
+                    this.pushSeatChatLine(lines, seat, "apresults:icepalace.ANNOUNCE.build", { count, move });
                 } else {
-                    // i18next.t("apresults:ANNOUNCE.icepalace_nobuild")
-                    this.pushSeatChatLine(lines, seat, "apresults:ANNOUNCE.icepalace_nobuild", {});
+                    // i18next.t("apresults:icepalace.ANNOUNCE.nobuild")
+                    this.pushSeatChatLine(lines, seat, "apresults:icepalace.ANNOUNCE.nobuild", {});
                 }
                 return true;
             }

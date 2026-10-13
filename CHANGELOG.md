@@ -15,7 +15,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Clearpath, Croda, Dama, Ice Palace, Kill-All Go, Neutron, Selfo, Thricewise, Yodd.
 
-## [1.0.0-ci] - 2026-10-12
+## [1.0.0-ci] - 2026-10-13
 
 ### Added
 
@@ -23,13 +23,15 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Changed
 
-- **i18n (`apgames`):** Integrators still load a single `locales/{lang}/apgames.json` per language with the same `apgames:` key paths. English is authored in `locale-src/en/apgames/shared/`, each game’s `gameinfo`, and `gameApgamesEn` in `src/games/<uid>.ts`; `npm run merge-apgames-en` writes `locales/en/apgames.json` (do not hand-edit — `check-apgames-en` in lint and develop/production CI). Legacy root paths are normalized (`validation._general.*` for global move/undo, `validation.homeworlds.*` for Homeworlds commands, `status.icepalace.*` for Ice Palace UI). Registry games export per-game English via `gameApgamesEn`; `GameBase.description()` / `notes()` use uid-derived keys with `defaultValue`. `check-apgames-keys --strict` (AST collector in `scripts/lib/check-apgames-refs.mjs`) enforces full-registry catalog ↔ TypeScript coverage in lint; duplicate English vs shared shards remains **warn-only**. Variant group defaults use `variants.<uid>.#<group>.name`; shared validation stems live under `validation._general` and `validation._inarow` where appropriate.
+- **i18n (English tooling):** `npm run locale-en` is the single router for merged English `apgames` and `apresults` (`check` both by default; `merge`, `keys`, `remap`, `prune`, `audit` subcommands). Replaces separate `merge-*-en` / `check-*` npm scripts. Lint runs `locale-en` plus `locale-en -- keys --warn --strict --summary`; develop/production CI run `locale-en` after tests. `npm run playground` (`predist-dev`) runs `locale-en -- merge --write` before copying locales into `dist/`.
+- **i18n (`apgames`):** Integrators still load a single `locales/{lang}/apgames.json` per language with the same `apgames:` key paths. English is authored in `locale-src/en/apgames/shared/`, each game’s `gameinfo`, and `gameApgamesEn` in `src/games/<uid>.ts`; `npm run locale-en -- merge --write` writes `locales/en/apgames.json` (do not hand-edit). Legacy root paths are normalized (`validation._general.*` for global move/undo, `validation.homeworlds.*` for Homeworlds commands, `status.icepalace.*` for Ice Palace UI). Registry games export per-game English via `gameApgamesEn`; `GameBase.description()` / `notes()` use uid-derived keys with `defaultValue`. `locale-en keys --strict` enforces full-registry catalog ↔ TypeScript coverage in lint; duplicate English vs shared shards remains **warn-only**. Variant group defaults use `variants.<uid>.#<group>.name`; shared validation stems live under `validation._general` and `validation._inarow` where appropriate.
+- **i18n (`apresults`):** English move-log strings use nested `apresults:<uid>.<Type>.<leaf>` paths (shared stems under `apresults:_general.*`). Author `locale-src/en/apresults/shared/_general/` and per-game **`gameApresultsEn`** in `src/games/<uid>.ts`; merge via `locale-en` into `locales/en/apresults.json` (do not hand-edit). `locale-en keys --strict` enforces catalog ↔ TypeScript coverage (like `apgames`); duplicate English vs `_general` stays warn-only. `node scripts/translate.mjs` asserts merged English before translating `apresults.json`.
 - **Symple:** enter highlights persist for the current and previous turn, colour-coded by the player who placed those stones.
 
 ### Fixed
 
 - **i18n merge:** `gameApgamesEn` extraction no longer wraps quoted variant ids (e.g. `size-9`, `#board`) in extra quote characters, so merged `variants.*` keys match `i18next.t("apgames:variants.<uid>.…")` and game-record variant labels resolve again.
-- **Squares / Ice Palace / Kill-All Go:** Replaced dynamic `apgames:` template keys with literal `i18next.t` / `gameApgamesUidKey` anchors so `check-apgames-keys --strict --uid` passes (variant/display copy still resolved in `GameBase` where applicable).
+- **Squares / Ice Palace / Kill-All Go:** Replaced dynamic `apgames:` template keys with literal `i18next.t` / `gameApgamesUidKey` anchors so `locale-en keys --strict --uid` passes (variant/display copy still resolved in `GameBase` where applicable).
 - **Tumbleweed:** move log again interpolates cell coordinates and attributes plies to the mover after the opening (regression from overly broad opening-setup detection in structured chat).
 - **Entropy:** structured move log emits place/move/pass lines for in-progress simultaneous (partial) rounds, with correct seat attribution via `lastmove`; stack frames that would produce no lines are omitted.
 - **Entropy:** partial-round move/place arrows use the submitting seat from the comma wire (fixes P2 arrows drawn on the wrong board).

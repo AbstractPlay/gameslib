@@ -590,20 +590,20 @@ export class FocusGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.complete", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.complete", {
                     from: r.from,
                     to: r.to,
                     count: r.count as number,
                 });
                 return true;
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", { where: r.where! });
                 return true;
             case "capture":
-                this.pushNeutralChatLine(lines, "apresults:CAPTURE.multiple", { count: r.count! });
+                this.pushNeutralChatLine(lines, "apresults:_general.CAPTURE.multiple", { count: r.count! });
                 return true;
             case "reclaim":
-                this.pushNeutralChatLine(lines, "apresults:RECLAIM.nowhat", { count: r.count! });
+                this.pushNeutralChatLine(lines, "apresults:_general.RECLAIM.nowhat", { count: r.count! });
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

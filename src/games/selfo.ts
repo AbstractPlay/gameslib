@@ -35,6 +35,12 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    EOG: {
+        mutual_enclosure: "The game has ended in a draw because both players have enclosed pieces and neither can ever connect.",
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -646,11 +652,11 @@ export class SelfoGame extends GameBase {
 
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         if (r.type === "eog" && r.reason === "mutual-enclosure") {
-            this.pushNeutralChatLine(lines, "apresults:EOG.selfo_mutual_enclosure");
+            this.pushNeutralChatLine(lines, "apresults:selfo.EOG.mutual_enclosure");
             return true;
         }
         if (r.type === "eog" && r.reason === "stalemate") {
-            this.pushNeutralChatLine(lines, "apresults:EOG.stalemate");
+            this.pushNeutralChatLine(lines, "apresults:_general.EOG.stalemate");
             return true;
         }
         return super.collectChatLogLine(lines, r, ctx);

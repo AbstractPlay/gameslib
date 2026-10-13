@@ -46,6 +46,12 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    PROMOTE: {
+        default: "{{player}} promoted the die at {{where}} from a {{from}} to a {{to}}.",
+    },
+};
+
 
 
 
@@ -677,13 +683,13 @@ export class CubeoGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", {where: r.where!});
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.complete_what", {what: r.what!, from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.complete_what", {what: r.what!, from: r.from!, to: r.to!});
                 return true;
             case "promote":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PROMOTE.cubeo", {where: r.where!, from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:cubeo.PROMOTE.default", {where: r.where!, from: r.from!, to: r.to!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

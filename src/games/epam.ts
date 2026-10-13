@@ -23,6 +23,12 @@ export const gameApgamesEn = {
         "#setup": { name: "Default setup" }
     },
 };
+export const gameApresultsEn = {
+    PLACE: {
+        default: "{{player}} placed a stone at {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -707,18 +713,18 @@ export class EpamGame extends GameBase {
             for (const r of state._results) {
                 switch (r.type) {
                     case "move":
-                        this.pushSeatChatLine(lines, seat, "apresults:MOVE.nowhat", { from: r.from, to: r.to });
+                        this.pushSeatChatLine(lines, seat, "apresults:_general.MOVE.nowhat", { from: r.from, to: r.to });
                         break;
                     case "capture":
                         captureCount++;
                         break;
                     case "place":
-                        this.pushSeatChatLine(lines, seat, "apresults:PLACE.epam", { where: r.where });
+                        this.pushSeatChatLine(lines, seat, "apresults:epam.PLACE.default", { where: r.where });
                         break;
                 }
             }
             if (captureCount > 0) {
-                this.pushNeutralChatLine(lines, "apresults:CAPTURE.multiple", { count: captureCount });
+                this.pushNeutralChatLine(lines, "apresults:_general.CAPTURE.multiple", { count: captureCount });
             }
             const ctx: ChatLogCollectContext = {
                 results: state._results,

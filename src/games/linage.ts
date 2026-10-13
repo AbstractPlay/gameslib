@@ -46,6 +46,12 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    PASS: {
+        default: "{{player}} passes.",
+    },
+};
+
 
 
 // 1 is Vertical, 2 is Horizontal, 3 is for neutral pieces/free regions, 4 is for invalid regions
@@ -672,22 +678,22 @@ export class LinageGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "komi":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:KOMI", { value: r.value! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.KOMI.default", { value: r.value! });
                 return true;
             case "play-second":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLAYSECOND", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLAYSECOND.default", {});
                 return true;
             case "button":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:BUTTON", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.BUTTON.default", {});
                 return true;
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.complete", { where: r.where!, what : "neutral piece" });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.complete", { where: r.where!, what : "neutral piece" });
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.linage", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:linage.PASS.default", {});
                 return true;
             case "eog":
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

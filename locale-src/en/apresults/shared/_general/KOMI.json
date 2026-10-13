@@ -1,0 +1,7 @@
+{
+  "_general": {
+    "KOMI": {
+      "default": "{{player}} sets komi to {{value}}."
+    }
+  }
+}

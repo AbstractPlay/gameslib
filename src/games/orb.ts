@@ -21,6 +21,27 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        "1": "{{player}} captured an orb at {{where}}.",
+        "2": "{{player}} captured a spheroid at {{where}}.",
+    },
+    MOVE: {
+        "1": "{{player}} moved an orb from {{from}} to {{to}}.",
+        "2": "{{player}} moved a spheroid from {{from}} to {{to}}.",
+        "3": "{{player}} moved a globe from {{from}} to {{to}}.",
+        "2S": "{{player}} moved a split spheroid from {{from}} to {{to}}.",
+    },
+    PLACE: {
+        default: "{{player}}'s orb generator created an orb at {{where}}.",
+    },
+    PROMOTE: {
+        "12": "{{player}} promoted an orb to a spheroid at {{where}}.",
+        "13": "{{player}} promoted an orb to a globe at {{where}}.",
+        "23": "{{player}} promoted spheroid to a globe at {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -866,16 +887,16 @@ export class OrbGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.orb", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:orb.PLACE.default", {where: r.where!});
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.orb", {from: r.from!, to: r.to!, context: r.what!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:orb.MOVE.${r.what!}`, {from: r.from!, to: r.to!, context: r.what!});
                 return true;
             case "promote":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PROMOTE.orb", {where: r.where!, context: `${r.from!}${r.to!}`});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:orb.PROMOTE.${r.from!}${r.to!}`, {where: r.where!, context: `${r.from!}${r.to!}`});
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.orb", {where: r.where!, context: r.what!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:orb.CAPTURE.${r.what!}`, {where: r.where!, context: r.what!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

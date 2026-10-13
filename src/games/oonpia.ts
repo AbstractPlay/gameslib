@@ -50,6 +50,13 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        one: "{{player}} captured 1 stone.",
+        other: "{{player}} captured {{count}} stones.",
+    },
+};
+
 
 
 export type playerid = 1|2|3; // 3 is neutral
@@ -1200,10 +1207,10 @@ export class OonpiaGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.oonpia", {where: r.where!, what: r.what!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.complete", {where: r.where!, what: r.what!});
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.oonpia", {count: r.count!, what: r.what!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:oonpia.CAPTURE", {count: r.count!, what: r.what!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

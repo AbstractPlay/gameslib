@@ -5,6 +5,13 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { Direction, HexTriGraph, RectGrid, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApresultsEn = {
+    CAPTURE: {
+        one: "A piece is flipped.",
+        other: "{{count}} pieces are flipped.",
+    },
+};
+
 export const gameApgamesEn = {
     validation: {
         CENTRE_CELL: "In the hexagon variant, the centre cell cannot be placed on.",
@@ -767,13 +774,13 @@ export class ReversiGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", { where: r.where! });
                 return true;
             case "capture":
-                this.pushNeutralChatLine(lines, "apresults:CAPTURE.reversi", { count: r.count! });
+                this.pushNeutralChatLine(lines, "apresults:reversi.CAPTURE", { count: r.count! });
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.forced", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.forced", {});
                 return true;
 
             default:

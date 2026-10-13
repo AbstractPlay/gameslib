@@ -29,6 +29,20 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        one: "{{player}} removed one enemy piece from {{where}}.",
+        other: "{{player}} removed a stack of {{count}} enemy pieces from {{where}}.",
+    },
+    PLACE: {
+        default: "{{player}} added a piece to {{where}}, creating a stack of height {{height}}.",
+    },
+    TAKE: {
+        one: "{{player}} removed one of their own pieces from {{where}}.",
+        other: "{{player}} removed a stack of {{count}} of their own pieces from {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -498,16 +512,16 @@ export class BlastRadiusGame extends GameBase {
         switch (r.type) {
             case "place":
             case "add":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.blastradius", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:blastradius.PLACE.default", {
                     where: r.where!,
                     height: r.type === "place" ? 1 : r.num!,
                 });
                 return true;
             case "take":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:TAKE.blastradius", { where: r.from!, count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:blastradius.TAKE", { where: r.from!, count: r.count! });
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.blastradius", { where: r.where!, count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:blastradius.CAPTURE", { where: r.where!, count: r.count! });
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

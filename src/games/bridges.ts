@@ -18,6 +18,12 @@ export const gameApgamesEn = {
         SELECT_BRIDGE_END: "Select another friendly base within line of sight to build the bridge.",
     },
 };
+export const gameApresultsEn = {
+    CONNECT: {
+        default: "{{player}} built a bridge between {{left}} and {{right}}.",
+    },
+};
+
 
 
 export type PlayerId = 1|2;
@@ -674,7 +680,7 @@ export class BridgesGame extends GameBase {
 
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         if (r.type === "connect") {
-            this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONNECT.bridges", {left: r.p1!, right: r.p2!});
+            this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:bridges.CONNECT.default", {left: r.p1!, right: r.p2!});
             return true;
         }
         return super.collectChatLogLine(lines, r, ctx);

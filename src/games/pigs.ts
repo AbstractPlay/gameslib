@@ -26,6 +26,19 @@ export const gameApgamesEn = {
         hit: "Swing snout",
     },
 };
+export const gameApresultsEn = {
+    DAMAGE: {
+        default: "{{player}} struck {{opponent}} at {{where}}.",
+    },
+    FIRE: {
+        F: "{{player}} fired their laser at {{direction}}.",
+        H: "{{player}} swung their mighty snout!",
+    },
+    PASS: {
+        default: "{{player}} idles.",
+    },
+};
+
 
 
 type playerid = 1|2|3|4;
@@ -722,22 +735,22 @@ export class PigsGame extends GameBaseSimultaneous {
         switch (r.type) {
             case "move":
                 if (r.from !== r.to) {
-                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.nowhat", { from: r.from!, to: r.to! });
+                    this.pushSeatChatLine(lines, seat, "apresults:_general.MOVE.nowhat", { from: r.from!, to: r.to! });
                 } else {
-                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.collision", { from: r.from!, to: r.to! });
+                    this.pushSeatChatLine(lines, seat, "apresults:_general.MOVE.collision", { from: r.from!, to: r.to! });
                 }
                 break;
             case "orient":
-                this.pushSeatChatLine(lines, seat, "apresults:ORIENT.nowhat", {
+                this.pushSeatChatLine(lines, seat, "apresults:_general.ORIENT.nowhat", {
                     where: r.where!,
                     facing: r.facing!,
                 });
                 break;
             case "pass":
-                this.pushSeatChatLine(lines, seat, "apresults:PASS.pigs");
+                this.pushSeatChatLine(lines, seat, "apresults:pigs.PASS.default");
                 break;
             case "fire":
-                this.pushSeatChatLine(lines, seat, "apresults:FIRE.pigs", {
+                this.pushSeatChatLine(lines, seat, `apresults:pigs.FIRE.${r.which!}`, {
                     context: r.which as string,
                     direction: r.to!,
                 });
@@ -745,18 +758,18 @@ export class PigsGame extends GameBaseSimultaneous {
             case "damage":
                 if (r.amount !== undefined && r.amount > 0) {
                     const oppSeat = parseInt(r.who as string, 10);
-                    this.pushSeatChatLine(lines, seat, "apresults:DAMAGE.pigs", {
+                    this.pushSeatChatLine(lines, seat, "apresults:pigs.DAMAGE.default", {
                         where: r.where as string,
                         opponent: this.resolveChatPlayerName(oppSeat, players),
                     });
                 }
                 break;
             case "repair":
-                this.pushSeatChatLine(lines, seat, "apresults:REPAIR.simple");
+                this.pushSeatChatLine(lines, seat, "apresults:_general.REPAIR.simple");
                 break;
             case "eliminated": {
                 const oppSeat = parseInt(r.who as string, 10);
-                this.pushNeutralChatLine(lines, "apresults:ELIMINATED", {
+                this.pushNeutralChatLine(lines, "apresults:_general.ELIMINATED.default", {
                     player: this.resolveChatPlayerName(oppSeat, players),
                 });
                 break;

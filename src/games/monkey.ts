@@ -12,6 +12,17 @@ export const gameApgamesEn = {
         QUEEN_DEPLETED: "Your queen can no longer make noncapturing moves.",
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        queen: "A queen was captured.",
+        single: "A singleton was captured.",
+    },
+    MOVE: {
+        queen: "{{player}} moved their queen from {{from}} to {{to}}.",
+        single: "{{player}} moved a singleton from {{from}} to {{to}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -551,16 +562,16 @@ export class MonkeyQueenGame extends GameBase {
         switch (r.type) {
             case "move":
                 if (r.what === "queen") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.monkey", {context: "queen", from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:monkey.MOVE.queen", {from: r.from!, to: r.to!});
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.monkey", {context: "single", from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:monkey.MOVE.single", {from: r.from!, to: r.to!});
                 }
                 return true;
             case "capture":
                 if (r.what === "queen") {
-                this.pushNeutralChatLine(lines, "apresults:CAPTURE.monkey", {context: "queen"});
+                this.pushNeutralChatLine(lines, "apresults:monkey.CAPTURE.queen");
                 } else {
-                this.pushNeutralChatLine(lines, "apresults:CAPTURE.monkey", {context: "single"});
+                this.pushNeutralChatLine(lines, "apresults:monkey.CAPTURE.single");
                 }
                 return true;
             default:

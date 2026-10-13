@@ -39,6 +39,31 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    PLACE: {
+        place_11: "A height-1 ORANGE building was placed at {{where}}.",
+        place_12: "A height-2 ORANGE building was placed at {{where}}.",
+        place_13: "A height-3 ORANGE building was placed at {{where}}.",
+        place_21: "A height-1 YELLOW building was placed at {{where}}.",
+        place_22: "A height-2 YELLOW building was placed at {{where}}.",
+        place_23: "A height-3 YELLOW building was placed at {{where}}.",
+        place_31: "A height-1 BLACK building was placed at {{where}}.",
+        place_32: "A height-2 BLACK building was placed at {{where}}.",
+        place_33: "A height-3 BLACK building was placed at {{where}}.",
+        place_41: "A height-1 WHITE building was placed at {{where}}.",
+        place_42: "A height-2 WHITE building was placed at {{where}}.",
+        place_43: "A height-3 WHITE building was placed at {{where}}.",
+        place_default: "A building was placed at {{where}}.",
+    },
+    TAKE: {
+        take_1: "{{player}} took an ORANGE housing limit from {{from}}.",
+        take_2: "{{player}} took a YELLOW housing limit from {{from}}.",
+        take_3: "{{player}} took a BLACK housing limit from {{from}}.",
+        take_4: "{{player}} took a WHITE housing limit from {{from}}.",
+        take_default: "{{player}} took a housing limit from {{from}}.",
+    },
+};
+
 
 
 type playerid = 1|2;
@@ -1229,10 +1254,10 @@ export class StreetcarGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "take":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:TAKE.streetcar_take", {from: r.from!, context: r.what! || "default"});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:streetcar.TAKE.take_${r.what! || "default"}`, {from: r.from!, context: r.what! || "default"});
                 return true;
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.streetcar_place", {where: r.where!, context: r.what! || "default"});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:streetcar.PLACE.place_${r.what! || "default"}`, {where: r.where!, context: r.what! || "default"});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

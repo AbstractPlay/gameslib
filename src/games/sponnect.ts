@@ -789,10 +789,10 @@ export class SponnectGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.ball", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.ball", { where: r.where! });
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.simple", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.simple", {});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

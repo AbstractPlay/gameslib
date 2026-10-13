@@ -29,6 +29,13 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    EOG: {
+        cascading_subboard: "{{player}} won on the {{size}}x{{size}} subboard.",
+        direct_connection: "{{player}} won by direct connection.",
+    },
+};
+
 
 
 type playerid = 1 | 2;
@@ -667,20 +674,20 @@ export class GonnectGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", { where: r.where! });
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.noperson.group_nowhere", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.noperson.group_nowhere", {
                     count: r.count!,
                 });
                 return true;
             case "eog":
                 if (r.reason === "repetition") {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.repetition", { count: 1 });
+                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.repetition", { count: 1 });
                 } else if (r.reason === "stalemate") {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.stalemate");
+                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.stalemate");
                 } else if (r.reason === "gonnect_direct_connection") {
-                    this.pushSeatChatLine(lines, this.winner[0], "apresults:EOG.gonnect_direct_connection");
+                    this.pushSeatChatLine(lines, this.winner[0], "apresults:gonnect.EOG.direct_connection");
                 } else if (r.reason === "consecutive_passes") {
                     if (this.winner.length === 1 && this.cascadeWinSize !== undefined) {
                         if (this.cascadeWinSize === this.boardSize) {
@@ -688,15 +695,15 @@ export class GonnectGame extends GameBase {
                             // always ends the game immediately via the "gonnect_direct_connection"
                             // branch above, before a pass-based cascade could ever see it. Kept
                             // for correctness in case that ever changes.
-                            this.pushSeatChatLine(lines, this.winner[0], "apresults:EOG.gonnect_direct_connection");
+                            this.pushSeatChatLine(lines, this.winner[0], "apresults:gonnect.EOG.direct_connection");
                         } else {
-                            this.pushSeatChatLine(lines, this.winner[0], "apresults:EOG.gonnect_cascading_subboard", { size: this.cascadeWinSize });
+                            this.pushSeatChatLine(lines, this.winner[0], "apresults:gonnect.EOG.cascading_subboard", { size: this.cascadeWinSize });
                         }
                     } else {
-                        this.pushNeutralChatLine(lines, "apresults:EOG.consecutive_passes");
+                        this.pushNeutralChatLine(lines, "apresults:_general.EOG.consecutive_passes");
                     }
                 } else {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }
                 return true;
 

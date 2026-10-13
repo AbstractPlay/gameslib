@@ -48,6 +48,12 @@ export const gameApgamesEn = {
     status: {
 },
 };
+export const gameApresultsEn = {
+    CONNECT: {
+        default: "{{player}} placed a bridge between {{left}} and {{right}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -853,10 +859,10 @@ export class PonteDDGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", {where: r.where!});
                 return true;
             case "connect":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONNECT.pontedd", {left: r.p1!, right: r.p2!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:pontedd.CONNECT.default", {left: r.p1!, right: r.p2!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

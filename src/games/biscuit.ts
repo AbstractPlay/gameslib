@@ -55,6 +55,32 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    ANNOUNCE: {
+        default: "The following cards were in opposing hands: {{cards}}.",
+    },
+    DECKDRAW: {
+        default: "The next player was unable to play any cards in their hand, so they drew a card.",
+    },
+    DECLARE: {
+        default: "{{player}} has gone out!",
+    },
+    RESET: {
+        default: "A new round has begun.",
+    },
+    SET: {
+        biscuit_one: "{{player}} scored a biscuit.",
+        biscuit_other: "{{player}} scored {{count}} biscuits.",
+        cross: "{{player}} scored a hot cross biscuit.",
+        elevensies: "{{player}} scored elevensies. All other players were forced to draw a card.",
+        hot: "{{player}} scored a hot biscuit.",
+        straight: "{{player}} scored a straight of length {{count}}.",
+    },
+    STALEMATE: {
+        default: "The hand has gone stale.",
+    },
+};
+
 
 
 export type playerid = 1|2|3;
@@ -1200,28 +1226,28 @@ export class BiscuitGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.decktet", {where: r.where!, what: r.what!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.decktet", {where: r.where!, what: r.what!});
                 return true;
             case "set":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SET.biscuit", {count: r.count!, context: r.what!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:biscuit.SET.${r.what!}`, {count: r.count!, context: r.what!});
                 return true;
             case "deltaScore":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DELTA_SCORE_GAIN", {count: r.delta!, delta: r.delta!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.DELTA_SCORE_GAIN", {count: r.delta!, delta: r.delta!});
                 return true;
             case "declare":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DECLARE.biscuit", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:biscuit.DECLARE.default", {});
                 return true;
             case "announce":
-                this.pushNeutralChatLine(lines, "apresults:ANNOUNCE.biscuit", {cards: (r.payload! as string[]).join(", ")});
+                this.pushNeutralChatLine(lines, "apresults:biscuit.ANNOUNCE.default", {cards: (r.payload! as string[]).join(", ")});
                 return true;
             case "stalemate":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:STALEMATE.biscuit", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:biscuit.STALEMATE.default", {});
                 return true;
             case "reset":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:RESET.biscuit", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:biscuit.RESET.default", {});
                 return true;
             case "deckDraw":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DECKDRAW.biscuit", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:biscuit.DECKDRAW.default", {});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

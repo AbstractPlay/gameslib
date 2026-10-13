@@ -748,13 +748,13 @@ export class OustGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", { where: r.where! });
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.noperson.group_nowhere", { count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.noperson.group_nowhere", { count: r.count! });
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.forced", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.forced", {});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

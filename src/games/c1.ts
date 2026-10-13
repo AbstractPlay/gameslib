@@ -26,6 +26,12 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        default: "{{player}} eliminates a tile at {{where}}.",
+    },
+};
+
 
 
 type playerid = 1 | 2;
@@ -1169,10 +1175,10 @@ export class C1Game extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.c1", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:c1.CAPTURE.default", { where: r.where! });
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.complete_what", { from: r.from!, to: r.to!, what: moveType2name[r.what! as MoveType] });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.complete_what", { from: r.from!, to: r.to!, what: moveType2name[r.what! as MoveType] });
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

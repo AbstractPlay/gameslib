@@ -16,6 +16,13 @@ export const gameApgamesEn = {
         GROUP_TOO_LARGE: "This placement would make a species bigger than four pieces!",
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        one: "{{player}} devoured opponent species {{prey}} ({{count}} stone) at {{where}}.",
+        other: "{{player}} devoured opponent species {{prey}} ({{count}} stones) at {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -428,17 +435,17 @@ export class CircleOfLifeGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.complete", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.complete", {
                     where: r.where!, what: "piece",
                 });
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.circleOfLife", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:circleOfLife.CAPTURE", {
                     prey: r.what!, count: r.count!, where: r.where!,
                 });
                 return true;
             case "eog":
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

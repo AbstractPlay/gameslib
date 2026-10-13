@@ -531,10 +531,10 @@ export class OwareGame extends GameBase {
             case "move":
                 return true;
             case "sow":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SOW.general", {pits: r.pits!.join(", "), count: r.pits!.length});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.SOW.general", {pits: r.pits!.join(", "), count: r.pits!.length});
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.mancala", {pit: r.where!, count: r.count!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.mancala", {pit: r.where!, count: r.count!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

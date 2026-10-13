@@ -1,160 +1,1719 @@
 {
-  "ABANDONED": "The game was abandoned.",
-  "ACTOR": {
-    "elOso": {
-      "bear": "The Bear"
+  "_general": {
+    "ABANDONED": {
+      "default": "The game was abandoned."
+    },
+    "ADD": {
+      "add_one": "{{player}} added 1 piece to {{where}}.",
+      "add_other": "{{player}} added {{count}} pieces to {{where}}.",
+      "nonum": "{{player}} added a piece to {{where}}."
+    },
+    "BEAROFF": {
+      "complete_one": "{{player}} bore off one piece from {{from}}.",
+      "complete_other": "{{player}} bore off {{count}} pieces from {{from}}.",
+      "nowhat": "{{player}} bore off from {{from}}."
+    },
+    "BLOCK": {
+      "between": "{{player}} erected a fence between {{cell1}} and {{cell2}}."
+    },
+    "BUTTON": {
+      "default": "{{player}} took the button."
+    },
+    "CAPTURE": {
+      "complete": "{{player}} captured a {{what}} at {{where}}.",
+      "group_one": "{{player}} captured a stone at {{cells}}.",
+      "group_other": "{{player}} captured {{count}} stones at the following cells: {{cells}}.",
+      "mancala_one": "{{player}} captured {{count}} stone from {{pit}}.",
+      "mancala_other": "{{player}} captured {{count}} stones from {{pit}}.",
+      "minimal": "A piece was captured.",
+      "multiple_one": "A piece was captured.",
+      "multiple_other": "{{count}} pieces were captured.",
+      "noperson": {
+        "group_nowhere": "A group of size {{count}} was captured.",
+        "multiple": "The following pieces were captured: {{capped}}.",
+        "nowhat": "A piece was captured at {{where}}.",
+        "nowhere_count_one": "A piece was captured.",
+        "nowhere_count_other": "{{count}} pieces were captured.",
+        "nowhere_what": "A {{what}} was captured.",
+        "simple": "A {{what}} was captured at {{where}}."
+      },
+      "nowhat": "{{player}} captured a piece at {{where}}."
+    },
+    "CLAIM": {
+      "default": "{{player}} claimed {{where}}."
+    },
+    "CONVERT": {
+      "complete": "{{player}} turned a {{what}} into a {{into}} at {{where}}.",
+      "simple": "{{player}} converted a piece at {{where}}."
+    },
+    "DELTA_SCORE_GAIN": {
+      "one": "{{player}} gained {{delta}} point.",
+      "other": "{{player}} gained {{delta}} points."
+    },
+    "DELTA_SCORE_LOSS": {
+      "one": "{{player}} lost {{delta}} point.",
+      "other": "{{player}} lost {{delta}} points."
+    },
+    "DESTROY": {
+      "enemy": {
+        "minimal_one": "{{count}} enemy piece was destroyed.",
+        "minimal_other": "{{count}} enemy pieces were destroyed."
+      },
+      "friendly": {
+        "minimal_one": "{{count}} friendly piece was destroyed.",
+        "minimal_other": "{{count}} friendly pieces were destroyed."
+      }
+    },
+    "DETONATE": {
+      "nowhat": "{{player}} detonated a piece at {{where}}."
+    },
+    "DRAWAGREED": {
+      "default": "Players agreed to a draw."
+    },
+    "ELIMINATED": {
+      "default": "{{player}} was eliminated."
+    },
+    "EOG": {
+      "consecutive_passes": "The game has ended because both players passed consecutively.",
+      "default": "The game has ended.",
+      "material": "The game has ended because both players have insufficient material.",
+      "repetition_one": "The game has ended because the same position has occurred by the same player.",
+      "repetition_other": "The game has ended because the same position has occurred {{count}} times by the same player.",
+      "repetition_positional_one": "The game has ended because the same position has occurred.",
+      "repetition_positionas_other": "The game has ended because the same position has occurred {{count}} times.",
+      "stalemate": "The game has ended because one player has run out of moves.",
+      "stalemate_all": "The game has ended because all players have run out of moves."
+    },
+    "ERUPTIONS": {
+      "default": "The following pieces erupted: {{eruptions}}."
+    },
+    "FLIP": {
+      "default": "{{player}} flips {{where}} and reveals {{revealed}}."
+    },
+    "INFINITE": {
+      "default": "{{player}} has triggered an infinite loop!"
+    },
+    "KOMI": {
+      "default": "{{player}} sets komi to {{value}}."
+    },
+    "LEAD": {
+      "default": "{{player}} took the lead."
+    },
+    "MOVE": {
+      "ball": "{{player}} moved a ball from {{from}} to {{to}}.",
+      "ball_drop_one": "A ball dropped from {{from}} to {{to}}.",
+      "ball_drop_other": "{{count}} balls dropped from {{from}} to {{to}}.",
+      "collision": "{{player}} tried to move from {{from}} to {{to}} but couldn't because of a collision.",
+      "complete_one": "{{player}} moved one piece from {{from}} to {{to}}.",
+      "complete_other": "{{player}} moved {{count}} pieces from {{from}} to {{to}}.",
+      "complete_what": "{{player}} moved a {{what}} from {{from}} to {{to}}.",
+      "multiple": "{{player}} made the following moves: {{moves}}.",
+      "nowhat": "{{player}} moved from {{from}} to {{to}}.",
+      "push": "A {{what}} was pushed from {{from}} to {{to}}."
+    },
+    "NULLIFY_CLAIM": {
+      "default": "Towers may not be claimed on the last turn of the game. The claim at {{where}} was nullified."
+    },
+    "ORIENT": {
+      "nowhat": "{{player}} turned a piece at {{where}} to face {{facing}}."
+    },
+    "PASS": {
+      "forced": "{{player}} was forced to pass.",
+      "pie": "{{player}} accepted the komi offer and will continue playing second.",
+      "simple": "{{player}} passed.",
+      "tiebreaker": "{{player}} passed, winning the tiebreaker."
+    },
+    "PIE": {
+      "default": "{{player}} invoked the pie rule."
+    },
+    "PLACE": {
+      "PYRAMID_1": "{{player}} placed a small piece at {{where}}.",
+      "PYRAMID_2": "{{player}} placed a medium piece at {{where}}.",
+      "PYRAMID_3": "{{player}} placed a large piece at {{where}}.",
+      "ball": "{{player}} placed a ball at {{where}}.",
+      "complete": "{{player}} placed a {{what}} at {{where}}.",
+      "decktet": "{{player}} placed \"{{what}}\" at {{where}}.",
+      "mine": "{{player}} placed one of their own pieces at {{where}}.",
+      "neutral": "A neutral piece was placed at {{where}}.",
+      "nowhat": "{{player}} placed a piece at {{where}}.",
+      "theirs": "{{player}} placed an enemy piece at {{where}}.",
+      "theirs_specific": "{{player}} placed a {{enemy}} piece at {{where}}."
+    },
+    "PLAYSECOND": {
+      "default": "{{player}} chose to play second."
+    },
+    "PROMOTE": {
+      "basicWhere": "The piece at {{where}} was promoted."
+    },
+    "PULL": {
+      "default": "{{player}} pulled string {{where}}."
+    },
+    "RECLAIM": {
+      "noperson": "A {{what}} was reclaimed.",
+      "nowhat_one": "A piece was reclaimed.",
+      "nowhat_other": "{{count}} pieces were reclaimed."
+    },
+    "REMOVE": {
+      "nonum": "{{player}} removed a piece from {{where}}.",
+      "remove_one": "{{player}} removed 1 piece from {{where}}.",
+      "remove_other": "{{player}} removed {{count}} pieces from {{where}}."
+    },
+    "REPAIR": {
+      "simple": "{{player}} repairs."
+    },
+    "RESIGN": {
+      "default": "{{player}} has resigned."
+    },
+    "ROLL": {
+      "single": "The die was rolled: {{values}}."
+    },
+    "SACRIFICE": {
+      "nowhat": "{{player}} sacrificed a piece at {{where}}."
+    },
+    "SCORE_REPORT": {
+      "default": "{{player}}'s score is now {{score}}."
+    },
+    "SELECT": {
+      "resolve": "{{player}} selects the piece in a crosscut at {{where}}."
+    },
+    "SOW": {
+      "general_one": "{{player}} sowed seeds from the following pit: {{pits}}.",
+      "general_other": "{{player}} sowed seeds from the following pits: {{pits}}.",
+      "into": "{{player}} sowed into the pits {{pits}}."
+    },
+    "SWAP": {
+      "resolve": "The piece is swapped to {{where}}."
+    },
+    "TAKE": {
+      "general_one": "{{player}} took a piece from {{from}}.",
+      "general_other": "{{player}} took {{count}} pieces from {{from}}."
+    },
+    "TIMEOUT": {
+      "default": "{{player}} lost on time."
+    },
+    "WINNERS": {
+      "one": "The following player won: {{winners}}.",
+      "other": "The following players won: {{winners}}."
+    },
+    "WINNERSNONE": {
+      "default": "There were no winners."
     }
   },
-  "ADD": {
-    "add_one": "{{player}} added 1 piece to {{where}}.",
-    "add_other": "{{player}} added {{count}} pieces to {{where}}.",
-    "logger": "The tree at {{where}} grew one stage.",
-    "magnate_one": "{{player}} added one token to their deeded card {{where}}.",
-    "magnate_other": "{{player}} added {{count}} tokens to their deeded card {{where}}.",
-    "nonum": "{{player}} added a piece to {{where}}.",
-    "twixt": "{{player}} added a link at {{where}}."
-  },
-  "AFFILIATE": {
-    "cifra_lt": "{{player}} chose to play the light pieces from the top row.",
-    "cifra_lb": "{{player}} chose to play the light pieces from the bottom row.",
-    "cifra_dt": "{{player}} chose to play the dark pieces from the top row.",
-    "cifra_db": "{{player}} chose to play the dark pieces from the top row.",
-    "cifra_ll": "{{player}} chose to play the light pieces from the left column.",
-    "cifra_lr": "{{player}} chose to play the light pieces from the right column.",
-    "cifra_dl": "{{player}} chose to play the dark pieces from the left column.",
-    "cifra_dr": "{{player}} chose to play the dark pieces from the right column.",
-    "witch_M": "{{player}} chose the Moonstones.",
-    "witch_S": "{{player}} chose the Sunstones."
-  },
-  "ANNOUNCE": {
-    "arimaa": "This position has occurred before. Further repeats of this position are forbidden.",
-    "biscuit": "The following cards were in opposing hands: {{cards}}.",
-    "deckfish": "{{player}} was unable to move and must pass from now on.",
-    "frogger_one": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining move.",
-    "frogger_other": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining moves.",
-    "icepalace_build": "{{player}} won the hand and builds the Yard into the Ice Palace, using {{count}} pyramids. One legal way to build it is `{{move}}`.",
-    "icepalace_nobuild": "{{player}} won the hand, but none of the Yard can be built into the Ice Palace.",
-    "quincunx": "Player {{playerNum}} had the following cards left in their hand: {{cards}}.",
-    "elOso": {
-      "playerSetup": "Player setup",
-      "bearSetup": "Bear setup"
+  "agofmars": {
+    "DECKDRAW": {
+      "default": "{{player}} drew a {{colour}}{{count}} pyramid from the bag."
     },
-    "killallgo_slice": "{{player}} set the batch sizes to {{a}} and {{b}} stones.",
-    "scribe_super": "{{player}}'s super formation: {{formation}}.",
-    "squares_flank": "It is a flank attack: the defender must retreat if it can.",
-    "stawvs": "{{player}} was unable to move and must pass from now on.  Their pieces remain on the following pyramids: {{pyramids}}."
-  },
-  "BEAROFF": {
-    "canoe": "{{player}} bore a cube off the board.",
-    "complete_one": "{{player}} bore off one piece from {{from}}.",
-    "complete_other": "{{player}} bore off {{count}} pieces from {{from}}.",
-    "druid": "{{player}} bore their Druid off from {{from}}.",
-    "nowhat": "{{player}} bore off from {{from}}."
-  },
-  "BLOCK": {
-    "bao": "The pit {{pit}} is in kutakatia (is blocked).",
-    "between": "{{player}} erected a fence between {{cell1}} and {{cell2}}.",
-    "veletas": "{{player}} placed a piece at {{where}}."
-  },
-  "BUTTON": "{{player}} took the button.",
-  "CAPTURE": {
-    "asli_self": "{{player}} cleared their own stranded stones at {{where}}.",
-    "ataxx_one": "1 piece is converted.",
-    "ataxx_other": "{{count}} pieces are converted.",
-    "bao_one": "{{player}} captured a total of {{count}} stone from the following pits (in order): {{pits}}",
-    "bao_other": "{{player}} captured a total of {{count}} stones from the following pits (in order): {{pits}}",
-    "bitesize": "{{player}} captured group {{where}} of size {{count}}.",
-    "blastradius_one": "{{player}} removed one enemy piece from {{where}}.",
-    "blastradius_other": "{{player}} removed a stack of {{count}} enemy pieces from {{where}}.",
-    "blockade": "{{player}} captured a blocking piece at {{where}}.",
-    "blooms": "{{player}} captured a {{what}} group of size {{count}}.",
-    "boom": "{{player}} destroyed a piece at {{where}}.",
-    "buku": "{{count}} pieces were captured at {{where}}.",
-    "c1": "{{player}} eliminates a tile at {{where}}.",
-    "complete": "{{player}} captured a {{what}} at {{where}}.",
-    "canoe": "{{player}} pinched a cube at {{where}}.",
-    "crosshairs": "{{player}} shot down a plane at {{where}}.",
-    "dameo_king": "{{player}} captured a king at {{where}}.",
-    "dameo_soldier": "{{player}} captured a soldier at {{where}}.",
-    "circleOfLife_one": "{{player}} devoured opponent species {{prey}} ({{count}} stone) at {{where}}.",
-    "circleOfLife_other": "{{player}} devoured opponent species {{prey}} ({{count}} stones) at {{where}}.",
-    "entrapment_opponent": "{{player}} captured an opponent's roamer at {{where}}.",
-    "entrapment_self": "{{player}} captured their own roamer at {{where}}.",
-    "fightopia_1": "{{player}} captured a pawn at {{where}}.",
-    "fightopia_2": "{{player}} captured a tank at {{where}}.",
-    "forms_one": "{{player}} move eliminates one piece.",
-    "forms_other": "{{player}} move eliminates {{count}} pieces.",
-    "furl": "{{player}} captured a stack of size {{size}} at {{where}}.",
-    "gess_one": "{{count}} stone is removed from the board.",
-    "gess_other": "{{count}} stones are removed from the board.",
-    "group_one": "{{player}} captured a stone at {{cells}}.",
-    "group_other": "{{player}} captured {{count}} stones at the following cells: {{cells}}.",
-    "hens_chick": "{{player}} captured a chick at {{where}}.",
-    "hens_hen": "{{player}} captured a hen at {{where}}.",
-    "elOso_one": "{{player}} annihilated one piece at {{where}}.",
-    "elOso_other": "{{player}} annihilated {{count}} pieces at {{where}}.",
-    "hexentafl_king": "The king was captured at {{where}}.",
-    "killallgo_suicide_one": "{{player}} removed their own stone by suicide.",
-    "killallgo_suicide_other": "{{player}} removed {{count}} of their own stones by suicide.",
-    "lasca_officer": "{{player}} captured an officer at {{where}}.",
-    "lasca_soldier": "{{player}} captured a soldier at {{where}}.",
-    "lifeline": "Dead pieces were removed at {{where}}.",
-    "magnate": "{{whose}} was taxed {{count}} {{where}} tokens.",
-    "majorities": "{{count}} pieces were removed.",
-    "mancala_one": "{{player}} captured {{count}} stone from {{pit}}.",
-    "mancala_other": "{{player}} captured {{count}} stones from {{pit}}.",
-    "mattock": "{{player}} captured a miner at {{where}}.",
-    "meridians": "A dead group of size {{count}} is removed.",
-    "minimal": "A piece was captured.",
-    "monkey_queen": "A queen was captured.",
-    "monkey_single": "A singleton was captured.",
-    "multiple_one": "A piece was captured.",
-    "multiple_other": "{{count}} pieces were captured.",
-    "murus_double": "{{player}} captured two pieces at {{where}}.",
-    "noperson": {
-      "group_nowhere": "A group of size {{count}} was captured.",
-      "multiple": "The following pieces were captured: {{capped}}.",
-      "nowhat": "A piece was captured at {{where}}.",
-      "simple": "A {{what}} was captured at {{where}}.",
-      "nowhere_what": "A {{what}} was captured.",
-      "nowhere_count_one": "A piece was captured.",
-      "nowhere_count_other": "{{count}} pieces were captured."
+    "MOVE": {
+      "default": "{{player}} moved a pyramid from {{from}} to {{to}}."
     },
-    "nowhat": "{{player}} captured a piece at {{where}}.",
-    "onyx": "A pair of pieces was captured at {{where1}} and {{where2}}.",
-    "orb_1": "{{player}} captured an orb at {{where}}.",
-    "orb_2": "{{player}} captured a spheroid at {{where}}.",
-    "pente": "{{player}} captured {{count}} pieces.",
-    "pente_self": "{{player}} captured {{count}} of their own pieces.",
-    "owlman_approach": "{{player}} scared the helper at {{where}} out of the forest.",
-    "owlman_replacement": "{{player}} devoured the piece at {{where}}.",
-    "reversi_one": "A piece is flipped.",
-    "reversi_other": "{{count}} pieces are flipped.",
-    "spook_drop_opponent": "{{player}} has 1 of their opponent's ball captured by Spooky below at {{where}}.",
-    "spook_drop_self": "{{player}} has 1 of their own ball captured by Spooky below at {{where}}.",
-    "spook_lateral_opponent_one": "{{player}} has 1 of their opponent's ball captured by Spooky on the same level at {{where}}.",
-    "spook_lateral_opponent_other": "{{player}} has {{count}} of their opponent's balls captured by Spooky on the same level at {{where}}.",
-    "spook_lateral_self_one": "{{player}} has 1 of their own ball captured by Spooky on the same level at {{where}}.",
-    "spook_lateral_self_other": "{{player}} has {{count}} of their own balls captured by Spooky on the same level at {{where}}.",
-    "spora_one": "{{player}} surrounded and captured one piece: {{group}}.",
-    "spora_other": "{{player}} surrounded and captured {{count}} pieces: {{group}}.",
-    "squares": "{{player}}'s unit at {{where}} was eliminated.",
-    "squares_artillery": "{{player}}'s artillery at {{where}} was eliminated.",
-    "squares_cavalry": "{{player}}'s cavalry at {{where}} was eliminated.",
-    "squares_infantry": "{{player}}'s infantry at {{where}} was eliminated.",
-    "squares_reserve": "{{player}} lost a unit from their reserve.",
-    "squares_reserve_artillery": "{{player}} lost artillery from their reserve.",
-    "squares_reserve_cavalry": "{{player}} lost cavalry from their reserve.",
-    "squares_reserve_infantry": "{{player}} lost infantry from their reserve.",
-    "stawvs": "{{player}} captured the {{what}} at {{where}}.",
-    "swarm": "{{player}} captured stack {{where}} using {{count}} singletons.",
-    "tafl": "{{player}} captured a piece at {{where}}.",
-    "terrace_other": "{{player}} captured a size {{what}} piece at {{where}}.",
-    "terrace_self": "{{player}} cannibalized their own size {{what}} piece at {{where}}.",
-    "tricouleur": "{{count}} pieces changed colour.",
-    "tumbleweed": "{{player}} captured a stack of size {{count}} at {{where}}.",
-    "tumbleweed_self": "{{player}} reinforces a stack of size {{count}} at {{where}}.",
-    "witch": {
+    "OBJECTIVES": {
+      "default": "{{player}} chose their objectives."
+    },
+    "OBJECTIVE_SWAP": {
+      "default": "{{player}} swapped objective multipliers {{columnA}} and {{columnB}}."
+    },
+    "PASS": {
+      "noObjSwap": "{{player}} did not swap objectives."
+    },
+    "PLACE": {
+      "default": "{{player}} placed a {{colour}}{{count}} pyramid at {{where}}."
+    },
+    "SWAP": {
+      "board": "{{player}} swapped the {{colour1}}{{size1}} at {{cell1}} and the {{colour2}}{{size2}} at {{cell2}}.",
+      "board_cells": "{{player}} swapped the pyramids at {{cell1}} and {{cell2}}."
+    }
+  },
+  "akimbo": {
+    "REMOVE": {
+      "default": "{{player}} removes {{where}} due to the formation of a crosscut."
+    }
+  },
+  "amazons": {
+    "MOVE": {
+      "default": "{{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
+      "noFirstShot": "{{player}} moved from {{from}} to {{to}}."
+    }
+  },
+  "amoeba": {
+    "UNFURL": {
+      "default": "{{player}} sowed {{count}} pieces from {{from}} to {{to}}."
+    }
+  },
+  "anache": {
+    "MOVE": {
+      "dragon": "{{player}} moved a group of size {{count}} via a dragon move from {{from}} in the direction {{dir}}.",
+      "dragon_jump": "{{player}} jumps their dragon from {{from}} to {{to}}.",
+      "knight": "{{player}} moved a group of size {{count}} via a knight move from {{from}} in the direction {{dir}}.",
+      "man": "{{player}} moved a group of size {{count}} from {{from}} in the direction {{dir}}."
+    }
+  },
+  "arimaa": {
+    "ANNOUNCE": {
+      "default": "This position has occurred before. Further repeats of this position are forbidden."
+    },
+    "DESTROY": {
+      "default": "A {{colour}} {{what}} was trapped at {{where}}."
+    },
+    "ROLL_one": "{{player}}'s die shows 1: a single step this turn.",
+    "ROLL_other": "{{player}}'s die shows {{count}}: up to {{count}} steps this turn."
+  },
+  "armadas": {
+    "DAMAGE": {
+      "default": "{{player}}'s ship {{myName}} fired upon the enemy ship named {{theirName}}."
+    },
+    "DESTROY": {
+      "default": "{{player}} sunk the enemy ship named {{name}}."
+    },
+    "MOVE": {
+      "default": "{{player}} moved their ship named {{name}}."
+    },
+    "PLACE": {
+      "1": "{{player}} placed a small ship and named it {{name}}.",
+      "2": "{{player}} placed a medium ship and named it {{name}}.",
+      "3": "{{player}} placed a large ship and named it {{name}}."
+    }
+  },
+  "asli": {
+    "CAPTURE": {
+      "self": "{{player}} cleared their own stranded stones at {{where}}."
+    },
+    "PASS": {
+      "default": "{{player}} took an opposing piece from the prison and passed their turn.",
+      "area": "{{player}} passed their turn."
+    }
+  },
+  "assembly": {
+    "EJECT": {
+      "default": "The production line moved forward {{distance}} spaces."
+    },
+    "PASS": {
+      "default": "The production line doesn't move."
+    }
+  },
+  "ataxx": {
+    "CAPTURE": {
+      "one": "1 piece is converted.",
+      "other": "{{count}} pieces are converted."
+    },
+    "MOVE": {
+      "jump": "{{player}} jumped a piece from {{from}} to {{to}}.",
+      "split": "{{player}} split a piece from {{from}} to {{to}}."
+    }
+  },
+  "bao": {
+    "BLOCK": {
+      "default": "The pit {{pit}} is in kutakatia (is blocked)."
+    },
+    "CAPTURE": {
+      "one": "{{player}} captured a total of {{count}} stone from the following pits (in order): {{pits}}",
+      "other": "{{player}} captured a total of {{count}} stones from the following pits (in order): {{pits}}"
+    },
+    "DESTROY": {
+      "default": "The nyumba at {{pit}} was destroyed."
+    },
+    "MOVE": {
+      "default": "Initial direction of movement: {{direction}}."
+    }
+  },
+  "bashni": {
+    "EOG": {
+      "stagnation": "The game has ended in a draw because the piece count and composition were unchanged for {{count}} consecutive moves."
+    }
+  },
+  "biscuit": {
+    "ANNOUNCE": {
+      "default": "The following cards were in opposing hands: {{cards}}."
+    },
+    "DECKDRAW": {
+      "default": "The next player was unable to play any cards in their hand, so they drew a card."
+    },
+    "DECLARE": {
+      "default": "{{player}} has gone out!"
+    },
+    "RESET": {
+      "default": "A new round has begun."
+    },
+    "SET": {
+      "biscuit_one": "{{player}} scored a biscuit.",
+      "biscuit_other": "{{player}} scored {{count}} biscuits.",
+      "cross": "{{player}} scored a hot cross biscuit.",
+      "elevensies": "{{player}} scored elevensies. All other players were forced to draw a card.",
+      "hot": "{{player}} scored a hot biscuit.",
+      "straight": "{{player}} scored a straight of length {{count}}."
+    },
+    "STALEMATE": {
+      "default": "The hand has gone stale."
+    }
+  },
+  "bitesize": {
+    "CAPTURE": {
+      "default": "{{player}} captured group {{where}} of size {{count}}."
+    }
+  },
+  "blastradius": {
+    "CAPTURE": {
+      "one": "{{player}} removed one enemy piece from {{where}}.",
+      "other": "{{player}} removed a stack of {{count}} enemy pieces from {{where}}."
+    },
+    "PLACE": {
+      "default": "{{player}} added a piece to {{where}}, creating a stack of height {{height}}."
+    },
+    "TAKE": {
+      "one": "{{player}} removed one of their own pieces from {{where}}.",
+      "other": "{{player}} removed a stack of {{count}} of their own pieces from {{where}}."
+    }
+  },
+  "blockade": {
+    "CAPTURE": {
+      "default": "{{player}} captured a blocking piece at {{where}}."
+    },
+    "MOVE": {
+      "default": "{{player}} moved a piece from {{from}} to {{to}}."
+    },
+    "PLACE": {
+      "h": "{{player}} placed a horizontal fence at {{where}}.",
+      "v": "{{player}} placed a vertical fence at {{where}}."
+    }
+  },
+  "blooms": {
+    "CAPTURE": {
+      "default": "{{player}} captured a {{what}} group of size {{count}}."
+    },
+    "PLACE": {
+      "default": "{{player}} placed a {{what}} piece at {{where}}."
+    }
+  },
+  "boom": {
+    "CAPTURE": {
+      "default": "{{player}} destroyed a piece at {{where}}."
+    }
+  },
+  "boxes": {
+    "PLACE": {
+      "default": "{{player}} adds a line at {{where}}.",
+      "claim1": "{{player}} adds a line at {{where}}, claiming {{box}}.",
+      "claim2": "{{player}} adds a line at {{where}}, claiming {{box1}} and {{box2}}."
+    }
+  },
+  "bridges": {
+    "CONNECT": {
+      "default": "{{player}} built a bridge between {{left}} and {{right}}."
+    }
+  },
+  "btt": {
+    "DELTASCORE": {
+      "opponent_gain_one": "An opponent gained {{delta}} point.",
+      "opponent_gain_other": "An opponent gained {{delta}} points."
+    },
+    "PLACE": {
+      "large": "{{player}} placed a large at {{where}} facing {{how}}.",
+      "medium": "{{player}} placed a medium at {{where}} facing {{how}}.",
+      "small": "{{player}} placed a small at {{where}} facing {{how}}."
+    }
+  },
+  "bug": {
+    "PLACE": {
+      "bonus_grow": "Upon capture, a bug grew at {{where}} to a size of {{size}}.",
+      "grow": "{{player}} grew a bug at {{where}} to a size of {{size}}.",
+      "new": "{{player}} introduced a new bug at {{where}}."
+    }
+  },
+  "buku": {
+    "CAPTURE": {
+      "default": "{{count}} pieces were captured at {{where}}."
+    },
+    "CLAIM": {
+      "repetition_one": "{{player}} claimed all 1 remaining piece.",
+      "repetition_other": "{{player}} claimed all {{count}} remaining pieces.",
+      "singletons_one": "{{player}} claimed the remaining 1 piece on their colour.",
+      "singletons_other": "{{player}} claimed the remaining {{count}} pieces on their colour."
+    },
+    "EOG": {
+      "singletons": "The game has ended because all cells contain only singletons."
+    },
+    "TAKE": {
+      "col_one": "{{player}} collected 1 piece from column {{col}}.",
+      "col_other": "{{player}} collected {{count}} pieces from column {{col}}.",
+      "row_bonus": "{{player}} collected {{count}} pieces from row {{row}}, plus one additional piece.",
+      "row_one": "{{player}} collected 1 piece from row {{row}}.",
+      "row_other": "{{player}} collected {{count}} pieces from row {{row}}."
+    }
+  },
+  "byte": {
+    "MOVE": {
+      "full": "{{player}} moved a full stack from {{from}} to {{to}}.",
+      "partial_one": "{{player}} moved {{count}} checker from {{from}} to {{to}}.",
+      "partial_other": "{{player}} moved {{count}} checkers from {{from}} to {{to}}."
+    }
+  },
+  "c1": {
+    "CAPTURE": {
+      "default": "{{player}} eliminates a tile at {{where}}."
+    }
+  },
+  "camelot": {
+    "EOG": {
+      "claim_draw_progression": "The game has ended because {{player}} has claimed a draw by the 50 move rule.",
+      "claim_draw_repetition": "The game has ended because {{player}} has claimed a draw by repetition."
+    },
+    "MOVE": {
+      "canter": "{{player}} made a canter with a man from {{from}} to {{to}}.",
+      "canter_knight": "{{player}} made a canter with a knight from {{from}} to {{to}}.",
+      "castle": "{{player}} made a castle move with a man from {{from}} to {{to}}.",
+      "castle_knight": "{{player}} made a castle move with a knight from {{from}} to {{to}}.",
+      "jump": "{{player}} made a jump with a man from {{from}} to {{to}}, capturing {{captured}}.",
+      "jump_knight": "{{player}} made a jump with a knight from {{from}} to {{to}}, capturing {{captured}}.",
+      "plain": "{{player}} made a plain move with a man from {{from}} to {{to}}.",
+      "plain_knight": "{{player}} made a plain move with a knight from {{from}} to {{to}}."
+    },
+    "PLACE": {
+      "tree": "{{player}} placed trees at {{where}}."
+    },
+    "USE": {
+      "castle_move_none": "{{player}} has no more castle moves.",
+      "castle_move_one": "{{player}} used has 1 more castle move.",
+      "castle_move_other": "{{player}} used has {{count}} more castle moves."
+    }
+  },
+  "cannon": {
+    "PLACE": {
+      "default": "{{player}} placed their town at {{where}}."
+    }
+  },
+  "canoe": {
+    "BEAROFF": {
+      "default": "{{player}} bore a cube off the board."
+    },
+    "CAPTURE": {
+      "default": "{{player}} pinched a cube at {{where}}."
+    },
+    "CONVERT": {
+      "default": "{{player}} rotated the cube at {{where}} from {{what}} to {{into}}."
+    },
+    "PROMOTE": {
+      "default": "{{player}} formed a set at {{where}}, merging the cube from {{from}}."
+    },
+    "ROLL": {
+      "default": "{{player}} rolled: {{values}}."
+    }
+  },
+  "carnac": {
+    "MOVE": {
+      "tip": "{{player}} tipped the megalith at {{from}} onto {{to}} toward {{how}}."
+    },
+    "PASS": {
+      "default": "{{player}} declined to tip the megalith."
+    },
+    "PLACE": {
+      "default": "{{player}} placed a megalith at {{where}} (top {{top}}, south {{south}})."
+    }
+  },
+  "ccorridor": {
+    "PLACE": {
+      "default": "{{player}} placed a tile at {{where}}."
+    }
+  },
+  "chase": {
+    "MOVE": {
+      "default": "{{player}} moved from {{from}} to {{to}} (through {{through}})."
+    },
+    "PLACE": {
+      "default": "The chamber spit out a {{what}} at {{where}}."
+    },
+    "TAKE": {
+      "default": "A {{what}} was fed to the chamber."
+    }
+  },
+  "cifra": {
+    "AFFILIATE": {
+      "db": "{{player}} chose to play the dark pieces from the top row.",
+      "dl": "{{player}} chose to play the dark pieces from the left column.",
+      "dr": "{{player}} chose to play the dark pieces from the right column.",
+      "dt": "{{player}} chose to play the dark pieces from the top row.",
+      "lb": "{{player}} chose to play the light pieces from the bottom row.",
+      "ll": "{{player}} chose to play the light pieces from the left column.",
+      "lr": "{{player}} chose to play the light pieces from the right column.",
+      "lt": "{{player}} chose to play the light pieces from the top row."
+    }
+  },
+  "circleOfLife": {
+    "CAPTURE": {
+      "one": "{{player}} devoured opponent species {{prey}} ({{count}} stone) at {{where}}.",
+      "other": "{{player}} devoured opponent species {{prey}} ({{count}} stones) at {{where}}."
+    }
+  },
+  "conhex": {
+    "CLAIM": {
+      "default": "{{player}} claimed the space at ({{where}})."
+    },
+    "PLACE": {
+      "default": "{{player}} placed a piece at vertex {{where}}."
+    }
+  },
+  "connecticut": {
+    "PLACE": {
+      "default": "{{player}} placed a triomino at {{where}}."
+    }
+  },
+  "court": {
+    "PLACE": {
+      "default": "{{player}} promoted {{where}} to a {{what}}."
+    }
+  },
+  "courtesan": {
+    "CONVERT": {
+      "default": "King and courtesan swapped positions at {{where}}."
+    }
+  },
+  "crosshairs": {
+    "CAPTURE": {
+      "default": "{{player}} shot down a plane at {{where}}."
+    },
+    "DESTROY": {
+      "default": "{{player}}'s plane at {{where}} crashed."
+    },
+    "MOVE": {
+      "default": "{{player}} moved a plane from {{from}} to {{to}}.",
+      "power-dive": "{{player}}'s plane power-dived at {{from}}.",
+      "swoop": "{{player}}'s plane swooped from {{from}} to {{to}}."
+    },
+    "ORIENT": {
+      "default": "{{player}} turned a plane at {{where}} to face {{facing}}."
+    },
+    "PLACE": {
+      "cloud": "{{player}} placed a cloud at {{where}}.",
+      "plane": "{{player}} entered a plane at {{where}}."
+    }
+  },
+  "cubeo": {
+    "PROMOTE": {
+      "default": "{{player}} promoted the die at {{where}} from a {{from}} to a {{to}}."
+    }
+  },
+  "dameo": {
+    "CAPTURE": {
+      "king": "{{player}} captured a king at {{where}}.",
+      "soldier": "{{player}} captured a soldier at {{where}}."
+    }
+  },
+  "deckfish": {
+    "ANNOUNCE": {
+      "default": "{{player}} was unable to move and must pass from now on."
+    },
+    "EJECT": {
+      "default": "{{player}} pushed a piece from {{from}} to {{to}}."
+    },
+    "EOG": {
+      "default": "The game has ended because the last player was unable to move."
+    },
+    "MOVE": {
+      "default": "{{player}} moved a piece from {{from}} to {{to}}, collecting {{what}}."
+    },
+    "PASS": {
+      "default": "{{player}} was unable to move."
+    },
+    "PIE": {
+      "default": "{{player}} moves second."
+    },
+    "SWAP": {
+      "default": "{{player}} swapped {{what}} from the market with {{with}} at {{where}}."
+    }
+  },
+  "druid": {
+    "HEX_EDGE": {
+      "N": "north (N)",
+      "NE": "northeast (NE)",
+      "NW": "northwest (NW)",
+      "S": "south (S)",
+      "SE": "southeast (SE)",
+      "SW": "southwest (SW)",
+      "and": "and"
+    },
+    "BEAROFF": {
+      "default": "{{player}} bore their Druid off from {{from}}."
+    },
+    "EOG": {
+      "hex": "The game has ended because {{player}} connected the {{edges}} edges."
+    },
+    "MOVE": {
+      "walk": "{{player}} moved their Druid from {{from}} to {{to}}."
+    },
+    "PLACE": {
+      "druid": "{{player}} placed a Druid at {{where}}.",
+      "lintel": "{{player}} laid a lintel along {{where}}.",
+      "sarsen": "{{player}} placed a sarsen at {{where}}."
+    }
+  },
+  "elOso": {
+    "ACTOR": {
+      "bear": "The Bear"
+    },
+    "ANNOUNCE": {
+      "bearSetup": "Bear setup",
+      "playerSetup": "Player setup"
+    },
+    "CAPTURE": {
+      "one": "{{player}} annihilated one piece at {{where}}.",
+      "other": "{{player}} annihilated {{count}} pieces at {{where}}."
+    },
+    "PLACE": {
+      "one": "{{player}} placed one piece at {{where}}.",
+      "other": "{{player}} placed {{count}} pieces at {{where}}."
+    },
+    "ROLL": {
+      "default": "The Bear rolled: {{dice}}.",
+      "player": "{{player}} rolled: {{dice}}."
+    }
+  },
+  "emu": {
+    "DECKDRAW": {
+      "deck": "{{player}} drew a face-down card from the deck.",
+      "discard": "{{player}} drew the {{what}} from the top of the discard pile."
+    },
+    "DECLARE": {
+      "default": "Year {{year}} has ended."
+    },
+    "DELTASCORE": {
+      "excuse": "{{player}} plays The Excuse to offset their lowest-scoring bird ({{delta}} points).",
+      "score": "{{player}}'s bird with the following ranks scored {{delta}} points: {{ranks}}."
+    },
+    "PLACE": {
+      "discard": "{{player}} discarded the card {{what}}.",
+      "existing": "{{player}} used the {{what}} to grow bird #{{where}}.",
+      "new": "{{player}} hatched a new bird with the {{what}}."
+    }
+  },
+  "entrapment": {
+    "CAPTURE": {
+      "opponent": "{{player}} captured an opponent's roamer at {{where}}.",
+      "self": "{{player}} captured their own roamer at {{where}}."
+    },
+    "MOVE": {
+      "barrier": "{{player}} moved a barrier from {{from}} to {{to}}.",
+      "roamer": "{{player}} moved a roamer from {{from}} to {{to}}.",
+      "roamer_jump": "{{player}} moved a roamer from {{from}} to {{to}}, jumping over {{jumped}}."
+    },
+    "PLACE": {
+      "barrier": "{{player}} placed a barrier at {{where}}.",
+      "roamer": "{{player}} placed a roamer at {{where}}."
+    },
+    "REMOVE": {
+      "opponent": "{{player}} chose to retain the opponent's roamer at {{how}}, removing the roamer at {{where}}.",
+      "self": "{{player}} chose to retain their own roamer at {{how}}, removing the roamer at {{where}}."
+    }
+  },
+  "entropy": {
+    "PASS": {
+      "default": "{{player}} chose not to move any pieces this turn."
+    }
+  },
+  "epam": {
+    "PLACE": {
+      "default": "{{player}} placed a stone at {{where}}."
+    }
+  },
+  "estate": {
+    "PLACE": {
+      "one": "{{player}} placed a piece at {{where}} ({{what}} pt).",
+      "other": "{{player}} placed a piece at {{where}} ({{what}} pts)."
+    }
+  },
+  "evenatodds": {
+    "DECKDRAW": {
+      "default": "{{player}} drew a tile from the boneyard."
+    },
+    "PLACE": {
+      "default": "{{player}} placed the {{what}} domino at {{where}}."
+    }
+  },
+  "exxit": {
+    "CLAIM": {
+      "default": "{{player}} claimed the perimeter space at {{where}}."
+    }
+  },
+  "fightopia": {
+    "CAPTURE": {
+      "1": "{{player}} captured a pawn at {{where}}.",
+      "2": "{{player}} captured a tank at {{where}}."
+    },
+    "MOVE": {
+      "1": "{{player}} moved a pawn from {{from}} to {{to}}.",
+      "2": "{{player}} moved a tank from {{from}} to {{to}}.",
+      "4": "{{player}} moved their giant from {{from}} to {{to}}.",
+      "pivot": "{{player}} pivoted a tank from {{from}} to {{to}}."
+    }
+  },
+  "fnap": {
+    "CLAIM": {
+      "col": "{{player}} claimed column {{where}}.",
+      "fnap": "{{player}} has claimed the FNAP token.",
+      "row": "{{player}} claimed row {{where}}."
+    },
+    "SELECT": {
+      "default": "{{player}} selected the tile {{tile}}."
+    },
+    "SET": {
+      "circles": "The circle tile at {{where}} is isolated.",
+      "triplets_one": "{{player}} scored {{count}} triplet.",
+      "triplets_other": "{{player}} scored {{count}} triplets."
+    }
+  },
+  "forms": {
+    "CAPTURE": {
+      "one": "{{player}} move eliminates one piece.",
+      "other": "{{player}} move eliminates {{count}} pieces."
+    },
+    "EOG": {
+      "default": "The game has ended because the next player is unable to move."
+    }
+  },
+  "fourinarow": {
+    "REMOVE": {
+      "e": "{{player}} cleared a line, shifting the pieces on the board rightwards.",
+      "n": "{{player}} cleared a line, shifting the pieces on the board upwards.",
+      "ne": "{{player}} cleared two lines, shifting the pieces on the board upwards and rightwards.",
+      "nw": "{{player}} cleared two lines, shifting the pieces on the board upwards and leftwards.",
+      "s": "{{player}} cleared a line, shifting the pieces on the board downwards.",
+      "se": "{{player}} cleared two lines, shifting the pieces on the board downwards and rightwards.",
+      "sw": "{{player}} cleared two lines, shifting the pieces on the board downwards and leftwards.",
+      "w": "{{player}} cleared a line, shifting the pieces on the board leftwards."
+    }
+  },
+  "frogger": {
+    "ANNOUNCE": {
+      "one": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining move.",
+      "other": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining moves."
+    },
+    "CLAIM": {
+      "default": "{{player}} was blocked and drew {{card}} from the draw pool."
+    },
+    "DECKDRAW": {
+      "default": "The draw pool was {{what}} refilled."
+    },
+    "DECLARE": {
+      "default": "The crocodiles advanced."
+    },
+    "EJECT": {
+      "card": "{{player}} played an Ace or Crown and returned a frog from {{from}} to {{to}}.",
+      "croc": "The frog at {{from}} was eaten by crocodiles (and returned to {{to}})."
+    },
+    "MOVE": {
+      "back": "{{player}} moved a frog back from {{from}} to {{to}}, and drew {{card}} from the draw pool.",
+      "forward": "{{player}} used {{card}} to move a frog forward from {{from}} to {{to}}."
+    },
+    "PASS": {
+      "default": "{{player}} passed {{why}}."
+    }
+  },
+  "furl": {
+    "CAPTURE": {
+      "default": "{{player}} captured a stack of size {{size}} at {{where}}."
+    },
+    "FURL": {
+      "default": "{{player}} furls {{count}} pieces from {{from}} to {{to}}."
+    },
+    "UNFURL": {
+      "default": "{{player}} unfurls {{count}} pieces from {{from}} to {{to}}."
+    }
+  },
+  "gess": {
+    "CAPTURE": {
+      "one": "{{count}} stone is removed from the board.",
+      "other": "{{count}} stones are removed from the board."
+    },
+    "MOVE": {
+      "one": "{{player}} moved a 3x3 piece containing {{count}} stone from {{from}} to {{to}}.",
+      "other": "{{player}} moved a 3x3 piece containing {{count}} stones from {{from}} to {{to}}."
+    }
+  },
+  "gliss": {
+    "REMOVE": {
+      "default": "{{player}} moved their glider at {{where}} off the edge of the board."
+    }
+  },
+  "gonnect": {
+    "EOG": {
+      "cascading_subboard": "{{player}} won on the {{size}}x{{size}} subboard.",
+      "direct_connection": "{{player}} won by direct connection."
+    }
+  },
+  "gorogo": {
+    "PLACE": {
+      "henge": "{{player}} placed a henge piece at {{where}}."
+    }
+  },
+  "guerrilla": {
+    "RESET": {
+      "default": "{{player}} won the first game. The second game has begun, with roles reversed."
+    }
+  },
+  "hens": {
+    "CAPTURE": {
+      "chick": "{{player}} captured a chick at {{where}}.",
+      "hen": "{{player}} captured a hen at {{where}}."
+    }
+  },
+  "hexentafl": {
+    "CAPTURE": {
+      "king": "The king was captured at {{where}}."
+    },
+    "MOVE": {
+      "king": "{{player}} moved the king from {{from}} to {{to}}."
+    }
+  },
+  "homeworlds": {
+    "BUILD": {
+      "build": "{{player}} build a {{what}} in the {{where}} system."
+    },
+    "CAPTURE": {
+      "capture": "{{player}} captured a {{what}} in the {{where}} system."
+    },
+    "CATASTROPHE": {
+      "catastrophe": "An overpopulation of {{colour}} led to a catastrophe in {{where}}."
+    },
+    "CONVERT": {
+      "convert": "{{player}} changed a {{what}} into a {{into}} in the {{where}} system."
+    },
+    "DISCOVER": {
+      "discover": "{{player}} discovered a new {{what}} system and named it {{name}}."
+    },
+    "ESTABLISH": {
+      "land": "A {{ship}} colony ship belonging to {{player}} has landed in a {{stars}} system."
+    },
+    "MOVE": {
+      "fly": "{{player}} flew their {{what}} from {{from}} to {{to}}."
+    },
+    "PASS": {
+      "pass": "{{player}} passed an action."
+    },
+    "SACRIFICE": {
+      "sacrifice": "{{player}} sacrificed a {{what}} in the {{where}} system."
+    }
+  },
+  "icepalace": {
+    "ANNOUNCE": {
+      "build": "{{player}} won the hand and builds the Yard into the Ice Palace, using {{count}} pyramids. One legal way to build it is `{{move}}`.",
+      "nobuild": "{{player}} won the hand, but none of the Yard can be built into the Ice Palace."
+    },
+    "REMOVE": {
+      "default": "{{what}} was discarded and removed from play."
+    }
+  },
+  "iqishiqi": {
+    "MOVE": {
+      "default": "{{player}} moved neutral stone {{from}} to {{to}}."
+    },
+    "PLACE": {
+      "default": "{{player}} placed a shared stone at {{where}}."
+    }
+  },
+  "jacynth": {
+    "CLAIM": {
+      "default": "{{player}} exerted influence at {{where}}."
+    }
+  },
+  "killallgo": {
+    "ANNOUNCE": {
+      "slice": "{{player}} set the batch sizes to {{a}} and {{b}} stones."
+    },
+    "CAPTURE": {
+      "suicide_one": "{{player}} removed their own stone by suicide.",
+      "suicide_other": "{{player}} removed {{count}} of their own stones by suicide."
+    },
+    "CLAIM": {
+      "attacker": "{{player}} chose to play as the Attacker.",
+      "defender": "{{player}} chose to play as the Defender."
+    },
+    "DECLARE": {
+      "handicap_one": "{{player}} set the handicap to one stone.",
+      "handicap_other": "{{player}} set the handicap to {{count}} stones."
+    },
+    "EOG": {
+      "double_pass": "The game has ended because both players passed consecutively without the Defender establishing unconditional life.",
+      "no_moves": "The game has ended because the player to move has no legal placement.",
+      "no_room": "The game has ended because the Attacker's unconditionally alive stones leave the Defender no room to form an unconditionally alive string.",
+      "pass_alive": "The game has ended because the Defender formed an unconditionally alive string."
+    },
+    "PLACE": {
+      "setup": "{{player}} placed an Attacker stone at {{where}}."
+    },
+    "SELECT": {
+      "iplace": "{{player}} chose to place the first batch.",
+      "youplace": "{{player}} chose to let their opponent place the first batch."
+    }
+  },
+  "knightline": {
+    "MOVE": {
+      "default": "{{player}} moved {{what}} pieces from {{from}} to {{to}}."
+    },
+    "PLACE": {
+      "default": "{{player}} placed their initial stack at {{where}}."
+    }
+  },
+  "lasca": {
+    "CAPTURE": {
+      "officer": "{{player}} captured an officer at {{where}}.",
+      "soldier": "{{player}} captured a soldier at {{where}}."
+    }
+  },
+  "lielow": {
+    "PROMOTE": {
+      "default": "{{player}} has a new king crowned at {{where}}."
+    }
+  },
+  "lifeline": {
+    "CAPTURE": {
+      "default": "Dead pieces were removed at {{where}}."
+    }
+  },
+  "linage": {
+    "PASS": {
+      "default": "{{player}} passes."
+    }
+  },
+  "logger": {
+    "ADD": {
+      "default": "The tree at {{where}} grew one stage."
+    },
+    "CLAIM": {
+      "default": "{{player}} claimed a protestor from the tree felled at {{where}}."
+    },
+    "DESTROY": {
+      "default": "{{player}} felled a tree at {{where}}."
+    },
+    "PLACE": {
+      "logger": "{{player}} placed their logger at {{where}}.",
+      "plant": "{{player}} planted a sapling at {{where}}.",
+      "spawn": "A new sapling sprouted at {{where}}."
+    }
+  },
+  "magnate": {
+    "ADD": {
+      "one": "{{player}} added one token to their deeded card {{where}}.",
+      "other": "{{player}} added {{count}} tokens to their deeded card {{where}}."
+    },
+    "CAPTURE": {
+      "default": "{{whose}} was taxed {{count}} {{where}} tokens."
+    },
+    "CLAIM": {
+      "default": "{{who}} gained {{what}}.",
+      "initial": "Players collected their Crown resources."
+    },
+    "CONVERT": {
+      "deed": "{{player}} completed their deeded card {{what}} in district {{where}}.",
+      "trade": "{{player}} traded three {{what}} tokens in for one {{into}}."
+    },
+    "DECKDRAW": {
+      "default": "The discards were shuffled.  There are no shuffles remaining."
+    },
+    "PLACE": {
+      "buy": "{{player}} bought {{what}} for district {{where}}.",
+      "deed_end": "{{player}} completed their deeded card {{what}} in district {{where}}.",
+      "deed_start": "{{player}} deeded {{what}} in district {{where}}.",
+      "sell": "{{player}} sold {{what}}."
+    },
+    "ROLL": {
+      "default": "{{who}} rolled a {{values}}.",
+      "eight": "{{who}} rolled an {{values}}."
+    }
+  },
+  "majorities": {
+    "CAPTURE": {
+      "default": "{{count}} pieces were removed."
+    },
+    "CLAIM": {
+      "A": "{{player}} claimed the ascending direction.",
+      "D": "{{player}} claimed the descending direction.",
+      "H": "{{player}} claimed the horizontal direction.",
+      "line": "{{player}} claimed the line {{where}}."
+    }
+  },
+  "mattock": {
+    "CAPTURE": {
+      "default": "{{player}} captured a miner at {{where}}."
+    },
+    "DESTROY": {
+      "default": "{{player}} mined at {{where}}."
+    },
+    "MOVE": {
+      "default": "{{player}} moved a miner from {{from}} to {{to}}."
+    },
+    "PLACE": {
+      "default": "{{player}} placed a miner at {{where}}."
+    }
+  },
+  "mchess": {
+    "DECLARE": {
+      "default": "{{player}} has \"called the clock.\" If no capture is made in the next seven turns, the game will end and be scored."
+    },
+    "PROMOTE": {
+      "default": "A {{into}} was created as a result."
+    }
+  },
+  "meg": {
+    "CLAIM": {
+      "default": "{{player}} has taken the ball and placed it at {{where}}."
+    },
+    "MOVE": {
+      "default": "{{player}} passed the ball from {{from}} to {{to}}."
+    },
+    "PLACE": {
+      "cap": "{{player}} placed a blocker at {{where}}.",
+      "cup": "{{player}} placed a receiver at {{where}}."
+    }
+  },
+  "meridians": {
+    "CAPTURE": {
+      "default": "A dead group of size {{count}} is removed."
+    }
+  },
+  "monkey": {
+    "CAPTURE": {
+      "queen": "A queen was captured.",
+      "single": "A singleton was captured."
+    },
+    "MOVE": {
+      "queen": "{{player}} moved their queen from {{from}} to {{to}}.",
+      "single": "{{player}} moved a singleton from {{from}} to {{to}}."
+    }
+  },
+  "moonsquad": {
+    "CONVERT": {
+      "default": "{{player}} recruited a squad."
+    },
+    "PLACE": {
+      "default": "{{player}} placed a squad at {{where}}."
+    },
+    "SACRIFICE": {
+      "default": "{{player}} sacrificed an ore ({{ore}}) to move their squads."
+    },
+    "TAKE": {
+      "default": "{{player}} took an ore ({{ore}})."
+    }
+  },
+  "murus": {
+    "CAPTURE": {
+      "double": "{{player}} captured two pieces at {{where}}."
+    },
+    "FIRE": {
+      "default": "{{player}} fired a catapult from {{from}} to {{to}}."
+    }
+  },
+  "nex": {
+    "PLACE": {
+      "default": "{{player}} placed a piece of their colour at {{where}}.",
+      "neutral": "{{player}} placed a neutral piece at {{where}}."
+    },
+    "SWAP": {
+      "default": "{{player}} swapped a piece of their colour at {{where}} to a neutral piece.",
+      "neutral": "{{player}} swapped a neutral piece at {{where}} to a piece of their colour."
+    }
+  },
+  "onager": {
+    "MOVE": {
+      "jump": "{{player}} jumped a piece from {{from}} to {{to}}.",
+      "walk": "{{player}} walked a piece from {{from}} to {{to}}."
+    },
+    "PLACE": {
+      "default": "{{player}} placed a lake at {{where}}."
+    }
+  },
+  "onyx": {
+    "CAPTURE": {
+      "default": "A pair of pieces was captured at {{where1}} and {{where2}}."
+    }
+  },
+  "oonpia": {
+    "CAPTURE": {
+      "one": "{{player}} captured 1 stone.",
+      "other": "{{player}} captured {{count}} stones."
+    }
+  },
+  "orb": {
+    "CAPTURE": {
+      "1": "{{player}} captured an orb at {{where}}.",
+      "2": "{{player}} captured a spheroid at {{where}}."
+    },
+    "MOVE": {
+      "1": "{{player}} moved an orb from {{from}} to {{to}}.",
+      "2": "{{player}} moved a spheroid from {{from}} to {{to}}.",
+      "3": "{{player}} moved a globe from {{from}} to {{to}}.",
+      "2S": "{{player}} moved a split spheroid from {{from}} to {{to}}."
+    },
+    "PLACE": {
+      "default": "{{player}}'s orb generator created an orb at {{where}}."
+    },
+    "PROMOTE": {
+      "12": "{{player}} promoted an orb to a spheroid at {{where}}.",
+      "13": "{{player}} promoted an orb to a globe at {{where}}.",
+      "23": "{{player}} promoted spheroid to a globe at {{where}}."
+    }
+  },
+  "owlman": {
+    "CAPTURE": {
+      "approach": "{{player}} scared the helper at {{where}} out of the forest.",
+      "replacement": "{{player}} devoured the piece at {{where}}."
+    }
+  },
+  "pacru": {
+    "CONVERT": {
+      "default": "{{player}} converted {{where}}."
+    }
+  },
+  "pahtum": {
+    "PLACE": {
+      "block": "{{player}} blocked off {{where}}."
+    }
+  },
+  "paintbucket": {
+    "CONVERT": {
+      "one": "{{player}} converted 1 piece at {{where}}.",
+      "other": "{{player}} converted {{count}} pieces starting at {{where}}."
+    }
+  },
+  "penguin": {
+    "CLAIM": {
+      "default": "The penguin at {{where}} claimed the ball!"
+    },
+    "EJECT": {
+      "ball": "{{player}} kicked the ball from {{from}} to {{to}}.",
+      "penguin": "A penguin was pushed from {{from}} to {{to}}."
+    }
+  },
+  "pente": {
+    "CAPTURE": {
+      "default": "{{player}} captured {{count}} pieces.",
+      "self": "{{player}} captured {{count}} of their own pieces."
+    }
+  },
+  "phutball": {
+    "MOVE": {
+      "default": "{{player}} moved the ball from {{from}} to {{to}},",
+      "last": "{{player}} moved the ball from {{from}} to {{to}}.",
+      "to": "to {{to}},",
+      "to_last": "to {{to}}."
+    },
+    "PLACE": {
+      "default": "{{player}} placed a player at {{where}}."
+    },
+    "REMOVE": {
+      "one": "{{count}} player was removed.",
+      "other": "{{count}} players were removed."
+    }
+  },
+  "pigs": {
+    "DAMAGE": {
+      "default": "{{player}} struck {{opponent}} at {{where}}."
+    },
+    "FIRE": {
+      "F": "{{player}} fired their laser at {{direction}}.",
+      "H": "{{player}} swung their mighty snout!"
+    },
+    "PASS": {
+      "default": "{{player}} idles."
+    }
+  },
+  "pippinzip": {
+    "PASS": {
+      "default": "{{player}} decides to pass and becomes Zip"
+    }
+  },
+  "pollux": {
+    "PLACE": {
+      "default": "{{player}} blocks {{where}}."
+    }
+  },
+  "pontedd": {
+    "CONNECT": {
+      "default": "{{player}} placed a bridge between {{left}} and {{right}}."
+    }
+  },
+  "posit": {
+    "MOVE": {
+      "default": "{{player}} moved his piece from {{from}} to {{to}}."
+    }
+  },
+  "prudh": {
+    "SOW": {
+      "default": "{{player}} sowed checkers from {{from}} to {{to}}."
+    }
+  },
+  "quax": {
+    "PLACE": {
+      "diag": "{{player}} placed a diagonal connection at {{where}}."
+    }
+  },
+  "queensland": {
+    "RESET": {
+      "default": "The second game has begun."
+    }
+  },
+  "query": {
+    "PLACE": {
+      "c4": "{{player}} two pieces at vertices {{where}}.",
+      "c8": "{{player}} one piece at vertex {{where}}."
+    }
+  },
+  "quincunx": {
+    "ANNOUNCE": {
+      "default": "Player {{playerNum}} had the following cards left in their hand: {{cards}}."
+    },
+    "DECKDRAW": {
+      "one": "{{player}} drew {{count}} card.",
+      "other": "{{player}} drew {{count}} cards."
+    },
+    "DELTASCORE": {
+      "basic_one": "Against {{card}} it scored 1 point.",
+      "basic_other": "Against {{card}} it scored {{delta}} points.",
+      "basic_zero": "Against {{card}} it scored no points.",
+      "penalty_one": "Player {{playerNum}} lost {{count}} point due to cards in hand.",
+      "penalty_other": "Player {{playerNum}} lost {{count}} points due to cards in hand.",
+      "penalty_zero": "Player {{playerNum}} lost no points due to cards in hand."
+    },
+    "SET": {
+      "flushes_one": "{{player}} scored {{count}} flush.",
+      "flushes_other": "{{player}} scored {{count}} flushes.",
+      "pairs_one": "{{player}} scored {{count}} pair.",
+      "pairs_other": "{{player}} scored {{count}} pairs.",
+      "powerplay": "{{player}} scored a power play!",
+      "sets_one": "{{player}} scored {{count}} set.",
+      "sets_other": "{{player}} scored {{count}} sets.",
+      "straights_one": "{{player}} scored {{count}} straight.",
+      "straights_other": "{{player}} scored {{count}} straights."
+    }
+  },
+  "realm": {
+    "IMMOBILIZE": {
+      "default": "{{player}} immobilized the enforcer at {{where}}."
+    }
+  },
+  "renju": {
+    "DECLARE": {
+      "default": "{{player}} has declared {{count}} tentative fifths."
+    },
+    "PLACE": {
+      "tentative": "{{player}} placed a tentative fifth at {{where}}.",
+      "tentative_choose": "{{player}} chose the fifth stone at {{where}}."
+    }
+  },
+  "reversi": {
+    "CAPTURE": {
+      "one": "A piece is flipped.",
+      "other": "{{count}} pieces are flipped."
+    }
+  },
+  "rincala": {
+    "SOW": {
+      "one": "{{player}} sowed {{count}} {{pieces}} piece from {{from}} to {{to}}.",
+      "other": "{{player}} sowed {{count}} pieces from {{from}} to the following pits: {{pieces}} -> {{to}}."
+    }
+  },
+  "saltire": {
+    "MOVE": {
+      "default": "{{player}} swapped the pieces at {{from}} and {{to}}."
+    }
+  },
+  "scribe": {
+    "ANNOUNCE": {
+      "super": "{{player}}'s super formation: {{formation}}."
+    },
+    "CLAIM": {
+      "mini": "{{player}} won the {{where}} mini grid with {{formation}}.",
+      "mini_none": "{{player}} won the {{where}} mini grid on a tie-break (no formations scored)."
+    },
+    "SCRIBE": {
+      "glyphs": {
+        "bomber": "Bomber",
+        "chair": "Chair",
+        "cross": "Cross",
+        "double": "Double",
+        "earring": "Earring",
+        "four_block": "4-block",
+        "h": "H",
+        "house": "House",
+        "j": "J",
+        "line": "Line",
+        "nine_block": "9-block",
+        "o": "O",
+        "ottoman": "Ottoman",
+        "pipe": "Pipe",
+        "single": "Single",
+        "six_block": "6-block",
+        "squat_t": "Squat-T",
+        "t": "T",
+        "u": "U"
+      },
+      "mini": {
+        "0_0": "top-left",
+        "0_1": "centre-left",
+        "0_2": "bottom-left",
+        "1_0": "top-centre",
+        "1_1": "centre",
+        "1_2": "bottom-centre",
+        "2_0": "top-right",
+        "2_1": "centre-right",
+        "2_2": "bottom-right"
+      },
+      "no_formation": "no formations"
+    }
+  },
+  "selfo": {
+    "EOG": {
+      "mutual_enclosure": "The game has ended in a draw because both players have enclosed pieces and neither can ever connect."
+    }
+  },
+  "siegeofj": {
+    "PLACE": {
+      "default": "{{player}} placed \"{{what}}\" next to {{where}}."
+    }
+  },
+  "slyde": {
+    "MOVE": {
+      "default": "{{player}} slid a piece from {{from}} to {{to}}."
+    },
+    "SELECT": {
+      "fixed_opponent": "{{player}} changed the state of their opponent's piece at {{where}} from mobile to fixed.",
+      "fixed_self": "{{player}} changed the state of their own piece at {{where}} from mobile to fixed.",
+      "mobile_opponent": "{{player}} changed the state of their opponent's piece at {{where}} from fixed to mobile.",
+      "mobile_self": "{{player}} changed the state of their own piece at {{where}} from fixed to mobile."
+    }
+  },
+  "spire": {
+    "PLACE": {
+      "neutral": "{{player}} placed a neutral ball at {{where}}.",
+      "player": "{{player}} placed a ball of their colour at {{where}}."
+    }
+  },
+  "sploof": {
+    "TAKE": {
+      "default": "{{player}} took a neutral ball at {{from}}."
+    }
+  },
+  "spook": {
+    "CAPTURE": {
+      "drop_opponent": "{{player}} has 1 of their opponent's ball captured by Spooky below at {{where}}.",
+      "drop_self": "{{player}} has 1 of their own ball captured by Spooky below at {{where}}.",
+      "lateral_opponent_one": "{{player}} has 1 of their opponent's ball captured by Spooky on the same level at {{where}}.",
+      "lateral_opponent_other": "{{player}} has {{count}} of their opponent's balls captured by Spooky on the same level at {{where}}.",
+      "lateral_self_one": "{{player}} has 1 of their own ball captured by Spooky on the same level at {{where}}.",
+      "lateral_self_other": "{{player}} has {{count}} of their own balls captured by Spooky on the same level at {{where}}."
+    },
+    "MOVE": {
+      "default": "{{player}} moved Spooky from {{from}} to {{to}}."
+    },
+    "PLACE": {
+      "spooky": "Spooky has entered the board at {{where}}."
+    },
+    "REMOVE": {
+      "default": "{{player}} removed an opponent's ball at {{where}}.",
+      "drop_one": "{{player}} removed a ball at {{where}}, dropping 1 ball from {{how}}.",
+      "drop_other": "{{player}} removed a ball at {{where}}, dropping {{count}} balls from {{how}}."
+    }
+  },
+  "spora": {
+    "CAPTURE": {
+      "one": "{{player}} surrounded and captured one piece: {{group}}.",
+      "other": "{{player}} surrounded and captured {{count}} pieces: {{group}}."
+    },
+    "MOVE": {
+      "default": "{{player}} sowed from {{from}} to {{to}}."
+    },
+    "PLACE": {
+      "one": "{{player}} added one piece to stack at {{where}}.",
+      "other": "{{player}} added {{size}} pieces to stack at {{where}}."
+    }
+  },
+  "spree": {
+    "SELECT": {
+      "default": "{{player}} handed a ball of colour {{who}} to the opponent."
+    }
+  },
+  "squares": {
+    "ANNOUNCE": {
+      "flank": "It is a flank attack: the defender must retreat if it can."
+    },
+    "CAPTURE": {
+      "default": "{{player}}'s unit at {{where}} was eliminated.",
+      "artillery": "{{player}}'s artillery at {{where}} was eliminated.",
+      "cavalry": "{{player}}'s cavalry at {{where}} was eliminated.",
+      "infantry": "{{player}}'s infantry at {{where}} was eliminated.",
+      "reserve": "{{player}} lost a unit from their reserve.",
+      "reserve_artillery": "{{player}} lost artillery from their reserve.",
+      "reserve_cavalry": "{{player}} lost cavalry from their reserve.",
+      "reserve_infantry": "{{player}} lost infantry from their reserve."
+    },
+    "EOG": {
+      "points": "The game has ended because ten points' worth of units have been eliminated.",
+      "repetition": "The game has ended because the same position has occurred three times.",
+      "reserve": "The game has ended because a unit entered the enemy reserve.",
+      "stuck": "The game has ended because a player could not complete a double turn."
+    },
+    "FIRE": {
+      "default": "{{player}}'s unit at {{from}} attacked {{to}}.",
+      "artillery": "{{player}}'s artillery at {{from}} attacked {{to}}.",
+      "cavalry": "{{player}}'s cavalry at {{from}} attacked {{to}}.",
+      "infantry": "{{player}}'s infantry at {{from}} attacked {{to}}."
+    },
+    "MOVE": {
+      "advance": "{{player}}'s unit advanced from {{from}} into {{to}}.",
+      "advance_artillery": "{{player}}'s artillery advanced from {{from}} into {{to}}.",
+      "advance_cavalry": "{{player}}'s cavalry advanced from {{from}} into {{to}}.",
+      "advance_infantry": "{{player}}'s infantry advanced from {{from}} into {{to}}.",
+      "displaced": "{{player}}'s unit at {{from}} was displaced by the retreating cavalry and fell back to {{to}}.",
+      "displaced_artillery": "{{player}}'s artillery at {{from}} was displaced by the retreating cavalry and fell back to {{to}}.",
+      "displaced_cavalry": "{{player}}'s cavalry at {{from}} was displaced by the retreating cavalry and fell back to {{to}}.",
+      "displaced_infantry": "{{player}}'s infantry at {{from}} was displaced by the retreating cavalry and fell back to {{to}}.",
+      "double": "{{player}} spent a double turn moving a unit from {{from}} to {{to}}.",
+      "double_artillery": "{{player}} spent a double turn moving artillery from {{from}} to {{to}}.",
+      "double_cavalry": "{{player}} spent a double turn moving cavalry from {{from}} to {{to}}.",
+      "double_infantry": "{{player}} spent a double turn moving infantry from {{from}} to {{to}}.",
+      "move": "{{player}} moved a unit from {{from}} to {{to}}.",
+      "move_artillery": "{{player}} moved artillery from {{from}} to {{to}}.",
+      "move_cavalry": "{{player}} moved cavalry from {{from}} to {{to}}.",
+      "move_infantry": "{{player}} moved infantry from {{from}} to {{to}}.",
+      "retreat": "{{player}}'s unit retreated from {{from}} to {{to}}.",
+      "retreat_artillery": "{{player}}'s artillery retreated from {{from}} to {{to}}.",
+      "retreat_cavalry": "{{player}}'s cavalry retreated from {{from}} to {{to}}.",
+      "retreat_infantry": "{{player}}'s infantry retreated from {{from}} to {{to}}."
+    },
+    "PASS": {
+      "default": "{{player}} passed and will take a double turn next."
+    },
+    "SELECT": {
+      "option1": "{{player}} chose to eliminate the defender and retreat both attacking units.",
+      "option2": "{{player}} chose to trade the supporting unit for the defender.",
+      "option3": "{{player}} chose to trade the attacking unit for the defender.",
+      "option4": "{{player}} chose to retreat the attacking unit.",
+      "option5": "{{player}} chose to retreat the supporting unit.",
+      "stand": "{{player}}'s unit at {{where}} stands.",
+      "stand_chosen": "{{player}}'s unit at {{where}} stands its ground.",
+      "stand_forced": "{{player}}'s unit at {{where}} cannot retreat and must stand.",
+      "stay": "{{player}} declined to advance.",
+      "support": "The attack is supported by the unit at {{where}}.",
+      "support_artillery": "The attack is supported by artillery at {{where}}.",
+      "support_cavalry": "The attack is supported by cavalry at {{where}}.",
+      "support_infantry": "The attack is supported by infantry at {{where}}."
+    }
+  },
+  "stawvs": {
+    "ANNOUNCE": {
+      "default": "{{player}} was unable to move and must pass from now on.  Their pieces remain on the following pyramids: {{pyramids}}."
+    },
+    "CAPTURE": {
+      "default": "{{player}} captured the {{what}} at {{where}}."
+    },
+    "EOG": {
+      "default": "The game has ended because the last player was unable to move."
+    },
+    "MOVE": {
+      "default": "{{player}} moved a piece from {{from}} to {{to}} and captured {{what}} at {{how}}."
+    }
+  },
+  "storisende": {
+    "CONVERT": {
+      "territory": "The tile at {{where}} became a territory.",
+      "wall": "The tile at {{where}} became a wall."
+    }
+  },
+  "strands": {
+    "PLACE": {
+      "initial": "{{player}} placed a piece on a space labelled 2 at {{where}}.",
+      "other": "{{player}} placed {{count}} pieces at {{where}}."
+    }
+  },
+  "streetcar": {
+    "PLACE": {
+      "place_11": "A height-1 ORANGE building was placed at {{where}}.",
+      "place_12": "A height-2 ORANGE building was placed at {{where}}.",
+      "place_13": "A height-3 ORANGE building was placed at {{where}}.",
+      "place_21": "A height-1 YELLOW building was placed at {{where}}.",
+      "place_22": "A height-2 YELLOW building was placed at {{where}}.",
+      "place_23": "A height-3 YELLOW building was placed at {{where}}.",
+      "place_31": "A height-1 BLACK building was placed at {{where}}.",
+      "place_32": "A height-2 BLACK building was placed at {{where}}.",
+      "place_33": "A height-3 BLACK building was placed at {{where}}.",
+      "place_41": "A height-1 WHITE building was placed at {{where}}.",
+      "place_42": "A height-2 WHITE building was placed at {{where}}.",
+      "place_43": "A height-3 WHITE building was placed at {{where}}.",
+      "place_default": "A building was placed at {{where}}."
+    },
+    "TAKE": {
+      "take_1": "{{player}} took an ORANGE housing limit from {{from}}.",
+      "take_2": "{{player}} took a YELLOW housing limit from {{from}}.",
+      "take_3": "{{player}} took a BLACK housing limit from {{from}}.",
+      "take_4": "{{player}} took a WHITE housing limit from {{from}}.",
+      "take_default": "{{player}} took a housing limit from {{from}}."
+    }
+  },
+  "strings": {
+    "DESTROY": {
+      "string": "String {{where}} broke under the strain."
+    }
+  },
+  "subdivision": {
+    "PLACE": {
+      "park": "{{player}} placed a park at {{where}}."
+    }
+  },
+  "susan": {
+    "EOG": {
+      "nonplacement": "The game has ended because no player has placed a piece for 6 plies."
+    },
+    "MOVE": {
+      "default": "{{player}} slid a piece from {{from}} to {{to}}."
+    }
+  },
+  "swarm": {
+    "CAPTURE": {
+      "default": "{{player}} captured stack {{where}} using {{count}} singletons."
+    }
+  },
+  "synapse": {
+    "PLACE": {
+      "default": "{{player}} place at {{where}} a size {{size}} piece directed at {{dir}}."
+    }
+  },
+  "tablero": {
+    "PASS": {
+      "default": "{{player}} bumped!"
+    },
+    "ROLL": {
+      "default": "The dice were rolled: {{values}}."
+    },
+    "TAKE": {
+      "default": "{{player}} took one of their checkers from the stack at {{from}}."
+    }
+  },
+  "tafl": {
+    "EOG": {
+      "encirclement": "The game has ended because the defenders are encircled.",
+      "exit_fort": "The game has ended because the defenders created an exit fort.",
+      "king_captured": "The game has ended because the king was captured.",
+      "king_escaped": "The game has ended because the king escaped."
+    },
+    "MOVE": {
+      "default": "{{player}} moved a piece from {{from}} to {{to}}.",
+      "jump": "{{player}} jumped a piece from {{from}} to {{to}}."
+    }
+  },
+  "terrace": {
+    "CAPTURE": {
+      "other": "{{player}} captured a size {{what}} piece at {{where}}.",
+      "self": "{{player}} cannibalized their own size {{what}} piece at {{where}}."
+    },
+    "PLACE": {
+      "default": "{{player}} moved a size {{size}} piece from {{from}} to {{to}}."
+    }
+  },
+  "thricewise": {
+    "SELECT": {
+      "default": "{{player}} selected {{card}}."
+    }
+  },
+  "toguz": {
+    "CLAIM": {
+      "default": "Pit {{pit}} became a tuz."
+    }
+  },
+  "trax": {
+    "PLACE": {
+      "default": "{{player}} placed a {{piece}} at {{algebraic}} ({{where}})."
+    }
+  },
+  "tricouleur": {
+    "CAPTURE": {
+      "default": "{{count}} pieces changed colour."
+    },
+    "MOVE": {
+      "duplicate": "{{player}} duplicated a piece from {{from}} to {{to}}.",
+      "jump": "{{player}} jumped a piece from {{from}} to {{to}}."
+    }
+  },
+  "tritium": {
+    "PLACE": {
+      "flag": "{{player}} played a flag at {{where}}.",
+      "green": "{{player}} played a green tile at {{where}}.",
+      "orange": "{{player}} played an orange tile at {{where}}.",
+      "purple": "{{player}} played a purple tile at {{where}}."
+    }
+  },
+  "tumbleweed": {
+    "CAPTURE": {
+      "default": "{{player}} captured a stack of size {{count}} at {{where}}.",
+      "self": "{{player}} reinforces a stack of size {{count}} at {{where}}."
+    },
+    "PLACE": {
+      "default": "{{player}} placed a stack of size {{count}} at {{where}}."
+    }
+  },
+  "twixt": {
+    "ADD": {
+      "default": "{{player}} added a link at {{where}}."
+    },
+    "PLACE": {
+      "default": "{{player}} placed a peg at {{where}}."
+    },
+    "REMOVE": {
+      "default": "{{player}} removed a link at {{where}}."
+    }
+  },
+  "unane": {
+    "PLACE": {
+      "default": "{{player}} self-captured {{where}}."
+    }
+  },
+  "unlur": {
+    "EOG": {
+      "foul": "The game has ended because one player has achieved the opponent's win condition without achieving their own."
+    },
+    "PIE": {
+      "default": "{{player}} has passed to be the Y player."
+    }
+  },
+  "upperhand": {
+    "PLACE": {
+      "chain": "A ball of {{whose}} was placed at {{where}}."
+    }
+  },
+  "urbino": {
+    "PLACE": {
+      "house": "{{player}} placed a house at {{where}}.",
+      "palace": "{{player}} placed a palace at {{where}}.",
+      "tower": "{{player}} placed a tower at {{where}}.",
+      "worker": "{{player}} placed an architect at {{where}}."
+    }
+  },
+  "veletas": {
+    "CLAIM": {
+      "default": "Shooter at {{where}} is trapped and is claimed by {{who}}."
+    },
+    "MOVE": {
+      "default": "{{player}} moved shooter from {{from}} to {{to}}."
+    }
+  },
+  "viruswar": {
+    "PLACE": {
+      "default": "{{player}} placed viruses/walls at {{where}}."
+    }
+  },
+  "volo": {
+    "MOVE": {
+      "one": "{{player}} moved a flock of 1 bird from {{from}} in the direction {{how}}.",
+      "other": "{{player}} moved a flock of {{count}} birds from {{from}} in the direction {{how}}."
+    },
+    "PLACE": {
+      "default": "{{player}} adds a bird at {{where}}."
+    },
+    "REMOVE": {
+      "default": "{{player}} chose to retain the region at {{how}}, removing {{num}} opponent's birds."
+    }
+  },
+  "witch": {
+    "AFFILIATE": {
+      "M": "{{player}} chose the Moonstones.",
+      "S": "{{player}} chose the Sunstones."
+    },
+    "CAPTURE": {
       "nowhere_C_one": "{{player}} captured {{count}} Crown.",
       "nowhere_C_other": "{{player}} captured {{count}} Crowns.",
       "nowhere_E_one": "{{player}} captured {{count}} Earthstone.",
@@ -169,676 +1728,9 @@
       "single_S": "{{player}} picked up a Sunstone at {{where}}."
     }
   },
-  "CLAIM": {
-    "buku_singletons_one": "{{player}} claimed the remaining 1 piece on their colour.",
-    "buku_singletons_other": "{{player}} claimed the remaining {{count}} pieces on their colour.",
-    "buku_repetition_one": "{{player}} claimed all 1 remaining piece.",
-    "buku_repetition_other": "{{player}} claimed all {{count}} remaining pieces.",
-    "conhex": "{{player}} claimed the space at ({{where}}).",
-    "default": "{{player}} claimed {{where}}.",
-    "exxit": "{{player}} claimed the perimeter space at {{where}}.",
-    "fnap_col": "{{player}} claimed column {{where}}.",
-    "fnap_fnap": "{{player}} has claimed the FNAP token.",
-    "fnap_row": "{{player}} claimed row {{where}}.",
-    "frogger": "{{player}} was blocked and drew {{card}} from the draw pool.",
-    "jacynth": "{{player}} exerted influence at {{where}}.",
-    "killallgo_attacker": "{{player}} chose to play as the Attacker.",
-    "killallgo_defender": "{{player}} chose to play as the Defender.",
-    "logger": "{{player}} claimed a protestor from the tree felled at {{where}}.",
-    "magnate": "{{who}} gained {{what}}.",
-    "magnate_initial": "Players collected their Crown resources.",
-    "majorities_line": "{{player}} claimed the line {{where}}.",
-    "majorities_H": "{{player}} claimed the horizontal direction.",
-    "majorities_A": "{{player}} claimed the ascending direction.",
-    "majorities_D": "{{player}} claimed the descending direction.",
-    "meg": "{{player}} has taken the ball and placed it at {{where}}.",
-    "penguin": "The penguin at {{where}} claimed the ball!",
-    "scribe_mini": "{{player}} won the {{where}} mini grid with {{formation}}.",
-    "scribe_mini_none": "{{player}} won the {{where}} mini grid on a tie-break (no formations scored).",
-    "toguz": "Pit {{pit}} became a tuz.",
-    "veletas": "Shooter at {{where}} is trapped and is claimed by {{who}}."
-  },
-  "CONNECT": {
-    "bridges": "{{player}} built a bridge between {{left}} and {{right}}.",
-    "pontedd": "{{player}} placed a bridge between {{left}} and {{right}}."
-  },
-  "CONVERT": {
-    "complete": "{{player}} turned a {{what}} into a {{into}} at {{where}}.",
-    "courtesan": "King and courtesan swapped positions at {{where}}.",
-    "magnate_deed": "{{player}} completed their deeded card {{what}} in district {{where}}.",
-    "magnate_trade": "{{player}} traded three {{what}} tokens in for one {{into}}.",
-    "moonsquad": "{{player}} recruited a squad.",
-    "pacru": "{{player}} converted {{where}}.",
-    "paintbucket_one": "{{player}} converted 1 piece at {{where}}.",
-    "paintbucket_other": "{{player}} converted {{count}} pieces starting at {{where}}.",
-    "canoe": "{{player}} rotated the cube at {{where}} from {{what}} to {{into}}.",
-    "simple": "{{player}} converted a piece at {{where}}.",
-    "storisende_territory": "The tile at {{where}} became a territory.",
-    "storisende_wall": "The tile at {{where}} became a wall."
-  },
-  "DAMAGE": {
-    "armadas": "{{player}}'s ship {{myName}} fired upon the enemy ship named {{theirName}}.",
-    "pigs": "{{player}} struck {{opponent}} at {{where}}."
-  },
-  "DECKDRAW": {
-    "biscuit": "The next player was unable to play any cards in their hand, so they drew a card.",
-    "emu_deck": "{{player}} drew a face-down card from the deck.",
-    "emu_discard": "{{player}} drew the {{what}} from the top of the discard pile.",
-    "frogger": "The draw pool was {{what}} refilled.",
-    "magnate": "The discards were shuffled.  There are no shuffles remaining.",
-    "quincunx_one": "{{player}} drew {{count}} card.",
-    "quincunx_other": "{{player}} drew {{count}} cards.",
-    "evenatodds": "{{player}} drew a tile from the boneyard.",
-    "agofmars": "{{player}} drew a {{colour}}{{count}} pyramid from the bag."
-  },
-  "DECLARE": {
-    "biscuit": "{{player}} has gone out!",
-    "emu": "Year {{year}} has ended.",
-    "frogger": "The crocodiles advanced.",
-    "killallgo_handicap_one": "{{player}} set the handicap to one stone.",
-    "killallgo_handicap_other": "{{player}} set the handicap to {{count}} stones.",
-    "mchess": "{{player}} has \"called the clock.\" If no capture is made in the next seven turns, the game will end and be scored.",
-    "renju": "{{player}} has declared {{count}} tentative fifths."
-  },
-  "DELTA_SCORE_GAIN_one": "{{player}} gained {{delta}} point.",
-  "DELTA_SCORE_GAIN_other": "{{player}} gained {{delta}} points.",
-  "DELTA_SCORE_LOSS_one": "{{player}} lost {{delta}} point.",
-  "DELTA_SCORE_LOSS_other": "{{player}} lost {{delta}} points.",
-  "DELTASCORE": {
-    "emu_excuse": "{{player}} plays The Excuse to offset their lowest-scoring bird ({{delta}} points).",
-    "emu_score": "{{player}}'s bird with the following ranks scored {{delta}} points: {{ranks}}.",
-    "quincunx": {
-      "basic_zero": "Against {{card}} it scored no points.",
-      "basic_one": "Against {{card}} it scored 1 point.",
-      "basic_other": "Against {{card}} it scored {{delta}} points.",
-      "penalty_zero": "Player {{playerNum}} lost no points due to cards in hand.",
-      "penalty_one": "Player {{playerNum}} lost {{count}} point due to cards in hand.",
-      "penalty_other": "Player {{playerNum}} lost {{count}} points due to cards in hand."
-    },
-    "btt_opponent_gain_one": "An opponent gained {{delta}} point.",
-    "btt_opponent_gain_other": "An opponent gained {{delta}} points."
-  },
-  "DESTROY": {
-    "arimaa": "A {{colour}} {{what}} was trapped at {{where}}.",
-    "armadas": "{{player}} sunk the enemy ship named {{name}}.",
-    "bao": "The nyumba at {{pit}} was destroyed.",
-    "crosshairs": "{{player}}'s plane at {{where}} crashed.",
-    "enemy": {
-      "minimal_one": "{{count}} enemy piece was destroyed.",
-      "minimal_other": "{{count}} enemy pieces were destroyed."
-    },
-    "friendly": {
-      "minimal_one": "{{count}} friendly piece was destroyed.",
-      "minimal_other": "{{count}} friendly pieces were destroyed."
-    },
-    "logger": "{{player}} felled a tree at {{where}}.",
-    "mattock": "{{player}} mined at {{where}}.",
-    "string": "String {{where}} broke under the strain."
-  },
-  "DETONATE": {
-    "nowhat": "{{player}} detonated a piece at {{where}}."
-  },
-  "DRAWAGREED": "Players agreed to a draw.",
-  "EJECT": {
-    "assembly": "The production line moved forward {{distance}} spaces.",
-    "deckfish": "{{player}} pushed a piece from {{from}} to {{to}}.",
-    "frogger_card": "{{player}} played an Ace or Crown and returned a frog from {{from}} to {{to}}.",
-    "frogger_croc": "The frog at {{from}} was eaten by crocodiles (and returned to {{to}}).",
-    "penguin_ball": "{{player}} kicked the ball from {{from}} to {{to}}.",
-    "penguin_penguin": "A penguin was pushed from {{from}} to {{to}}."
-  },
-  "ELIMINATED": "{{player}} was eliminated.",
-  "EOG": {
-    "bashni_stagnation": "The game has ended in a draw because the piece count and composition were unchanged for {{count}} consecutive moves.",
-    "buku_singletons": "The game has ended because all cells contain only singletons.",
-    "camelot_claim_draw_repetition": "The game has ended because {{player}} has claimed a draw by repetition.",
-    "camelot_claim_draw_progression": "The game has ended because {{player}} has claimed a draw by the 50 move rule.",
-    "consecutive_passes": "The game has ended because both players passed consecutively.",
-    "deckfish": "The game has ended because the last player was unable to move.",
-    "default": "The game has ended.",
-    "forms": "The game has ended because the next player is unable to move.",
-    "gonnect_cascading_subboard": "{{player}} won on the {{size}}x{{size}} subboard.",
-    "gonnect_direct_connection": "{{player}} won by direct connection.",
-    "material": "The game has ended because both players have insufficient material.",
-    "repetition_one": "The game has ended because the same position has occurred by the same player.",
-    "repetition_other": "The game has ended because the same position has occurred {{count}} times by the same player.",
-    "repetition_positional_one": "The game has ended because the same position has occurred.",
-    "repetition_positionas_other": "The game has ended because the same position has occurred {{count}} times.",
-    "selfo_mutual_enclosure": "The game has ended in a draw because both players have enclosed pieces and neither can ever connect.",
-    "squares_points": "The game has ended because ten points' worth of units have been eliminated.",
-    "squares_repetition": "The game has ended because the same position has occurred three times.",
-    "squares_reserve": "The game has ended because a unit entered the enemy reserve.",
-    "squares_stuck": "The game has ended because a player could not complete a double turn.",
-    "stalemate": "The game has ended because one player has run out of moves.",
-    "stalemate_all": "The game has ended because all players have run out of moves.",
-    "stawvs": "The game has ended because the last player was unable to move.",
-    "susan_nonplacement": "The game has ended because no player has placed a piece for 6 plies.",
-    "tafl_encirclement": "The game has ended because the defenders are encircled.",
-    "tafl_exit_fort": "The game has ended because the defenders created an exit fort.",
-    "tafl_king_captured": "The game has ended because the king was captured.",
-    "tafl_king_escaped": "The game has ended because the king escaped.",
-    "unlur_foul": "The game has ended because one player has achieved the opponent's win condition without achieving their own.",
-    "druid_hex": "The game has ended because {{player}} connected the {{edges}} edges.",
-    "killallgo_double_pass": "The game has ended because both players passed consecutively without the Defender establishing unconditional life.",
-    "killallgo_no_moves": "The game has ended because the player to move has no legal placement.",
-    "killallgo_no_room": "The game has ended because the Attacker's unconditionally alive stones leave the Defender no room to form an unconditionally alive string.",
-    "killallgo_pass_alive": "The game has ended because the Defender formed an unconditionally alive string."
-  },
-  "DRUID_HEX_EDGE": {
-    "N": "north (N)",
-    "NE": "northeast (NE)",
-    "SE": "southeast (SE)",
-    "S": "south (S)",
-    "SW": "southwest (SW)",
-    "NW": "northwest (NW)",
-    "and": "and"
-  },
-  "ERUPTIONS": "The following pieces erupted: {{eruptions}}.",
-  "FIRE": {
-    "murus": "{{player}} fired a catapult from {{from}} to {{to}}.",
-    "pigs_F": "{{player}} fired their laser at {{direction}}.",
-    "pigs_H": "{{player}} swung their mighty snout!",
-    "squares": "{{player}}'s unit at {{from}} attacked {{to}}.",
-    "squares_artillery": "{{player}}'s artillery at {{from}} attacked {{to}}.",
-    "squares_cavalry": "{{player}}'s cavalry at {{from}} attacked {{to}}.",
-    "squares_infantry": "{{player}}'s infantry at {{from}} attacked {{to}}."
-  },
-  "FLIP": "{{player}} flips {{where}} and reveals {{revealed}}.",
-  "FURL": {
-    "furl": "{{player}} furls {{count}} pieces from {{from}} to {{to}}."
-  },
-  "IMMOBILIZE": {
-    "realm": "{{player}} immobilized the enforcer at {{where}}."
-  },
-  "INFINITE": "{{player}} has triggered an infinite loop!",
-  "KOMI": "{{player}} sets komi to {{value}}.",
-  "LEAD": "{{player}} took the lead.",
-  "MOVE": {
-    "amazons": "{{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
-    "amazonsNoFirstShot": "{{player}} moved from {{from}} to {{to}}.",
-    "anache_dragon": "{{player}} moved a group of size {{count}} via a dragon move from {{from}} in the direction {{dir}}.",
-    "anache_dragon_jump": "{{player}} jumps their dragon from {{from}} to {{to}}.",
-    "anache_knight": "{{player}} moved a group of size {{count}} via a knight move from {{from}} in the direction {{dir}}.",
-    "anache_man": "{{player}} moved a group of size {{count}} from {{from}} in the direction {{dir}}.",
-    "armadas": "{{player}} moved their ship named {{name}}.",
-    "ataxx_jump": "{{player}} jumped a piece from {{from}} to {{to}}.",
-    "ataxx_split": "{{player}} split a piece from {{from}} to {{to}}.",
-    "ball": "{{player}} moved a ball from {{from}} to {{to}}.",
-    "ball_drop_one": "A ball dropped from {{from}} to {{to}}.",
-    "ball_drop_other": "{{count}} balls dropped from {{from}} to {{to}}.",
-    "bao": "Initial direction of movement: {{direction}}.",
-    "blockade": "{{player}} moved a piece from {{from}} to {{to}}.",
-    "byte": {
-      "full": "{{player}} moved a full stack from {{from}} to {{to}}.",
-      "partial_one": "{{player}} moved {{count}} checker from {{from}} to {{to}}.",
-      "partial_other": "{{player}} moved {{count}} checkers from {{from}} to {{to}}."
-    },
-    "crosshairs": "{{player}} moved a plane from {{from}} to {{to}}.",
-    "crosshairs_swoop": "{{player}}'s plane swooped from {{from}} to {{to}}.",
-    "crosshairs_power-dive": "{{player}}'s plane power-dived at {{from}}.",
-    "camelot_castle_knight": "{{player}} made a castle move with a knight from {{from}} to {{to}}.",
-    "camelot_castle": "{{player}} made a castle move with a man from {{from}} to {{to}}.",
-    "carnac_tip": "{{player}} tipped the megalith at {{from}} onto {{to}} toward {{how}}.",
-    "druid_walk": "{{player}} moved their Druid from {{from}} to {{to}}.",
-    "elOso_one": "{{player}} moved one piece from {{from}} to {{to}}.",
-    "elOso_other": "{{player}} moved {{count}} pieces from {{from}} to {{to}}.",
-    "camelot_plain_knight": "{{player}} made a plain move with a knight from {{from}} to {{to}}.",
-    "camelot_plain": "{{player}} made a plain move with a man from {{from}} to {{to}}.",
-    "camelot_canter_knight": "{{player}} made a canter with a knight from {{from}} to {{to}}.",
-    "camelot_canter": "{{player}} made a canter with a man from {{from}} to {{to}}.",
-    "camelot_jump_knight": "{{player}} made a jump with a knight from {{from}} to {{to}}, capturing {{captured}}.",
-    "camelot_jump": "{{player}} made a jump with a man from {{from}} to {{to}}, capturing {{captured}}.",
-    "chase": "{{player}} moved from {{from}} to {{to}} (through {{through}}).",
-    "collision": "{{player}} tried to move from {{from}} to {{to}} but couldn't because of a collision.",
-    "complete_one": "{{player}} moved one piece from {{from}} to {{to}}.",
-    "complete_other": "{{player}} moved {{count}} pieces from {{from}} to {{to}}.",
-    "deckfish": "{{player}} moved a piece from {{from}} to {{to}}, collecting {{what}}.",
-    "entrapment_barrier": "{{player}} moved a barrier from {{from}} to {{to}}.",
-    "entrapment_roamer": "{{player}} moved a roamer from {{from}} to {{to}}.",
-    "entrapment_roamer_jump": "{{player}} moved a roamer from {{from}} to {{to}}, jumping over {{jumped}}.",
-    "fightopia_1": "{{player}} moved a pawn from {{from}} to {{to}}.",
-    "fightopia_2": "{{player}} moved a tank from {{from}} to {{to}}.",
-    "fightopia_4": "{{player}} moved their giant from {{from}} to {{to}}.",
-    "fightopia_pivot": "{{player}} pivoted a tank from {{from}} to {{to}}.",
-    "frogger_back": "{{player}} moved a frog back from {{from}} to {{to}}, and drew {{card}} from the draw pool.",
-    "frogger_forward": "{{player}} used {{card}} to move a frog forward from {{from}} to {{to}}.",
-    "gess_one": "{{player}} moved a 3x3 piece containing {{count}} stone from {{from}} to {{to}}.",
-    "gess_other": "{{player}} moved a 3x3 piece containing {{count}} stones from {{from}} to {{to}}.",
-    "hexentafl_king": "{{player}} moved the king from {{from}} to {{to}}.",
-    "iqishiqi": "{{player}} moved neutral stone {{from}} to {{to}}.",
-    "knightline": "{{player}} moved {{what}} pieces from {{from}} to {{to}}.",
-    "mattock": "{{player}} moved a miner from {{from}} to {{to}}.",
-    "meg": "{{player}} passed the ball from {{from}} to {{to}}.",
-    "monkey_queen": "{{player}} moved their queen from {{from}} to {{to}}.",
-    "monkey_single": "{{player}} moved a singleton from {{from}} to {{to}}.",
-    "multiple": "{{player}} made the following moves: {{moves}}.",
-    "nowhat": "{{player}} moved from {{from}} to {{to}}.",
-    "onager_jump": "{{player}} jumped a piece from {{from}} to {{to}}.",
-    "onager_walk": "{{player}} walked a piece from {{from}} to {{to}}.",
-    "orb_1": "{{player}} moved an orb from {{from}} to {{to}}.",
-    "orb_2": "{{player}} moved a spheroid from {{from}} to {{to}}.",
-    "orb_2S": "{{player}} moved a split spheroid from {{from}} to {{to}}.",
-    "orb_3": "{{player}} moved a globe from {{from}} to {{to}}.",
-    "phutball": "{{player}} moved the ball from {{from}} to {{to}},",
-    "phutball_last": "{{player}} moved the ball from {{from}} to {{to}}.",
-    "phutball_to": "to {{to}},",
-    "phutball_to_last": "to {{to}}.",
-    "posit": "{{player}} moved his piece from {{from}} to {{to}}.",
-    "push": "A {{what}} was pushed from {{from}} to {{to}}.",
-    "saltire": "{{player}} swapped the pieces at {{from}} and {{to}}.",
-    "slyde": "{{player}} slid a piece from {{from}} to {{to}}.",
-    "spook": "{{player}} moved Spooky from {{from}} to {{to}}.",
-    "spora": "{{player}} sowed from {{from}} to {{to}}.",
-    "squares_advance": "{{player}}'s unit advanced from {{from}} into {{to}}.",
-    "squares_advance_artillery": "{{player}}'s artillery advanced from {{from}} into {{to}}.",
-    "squares_advance_cavalry": "{{player}}'s cavalry advanced from {{from}} into {{to}}.",
-    "squares_advance_infantry": "{{player}}'s infantry advanced from {{from}} into {{to}}.",
-    "squares_displaced": "{{player}}'s unit at {{from}} was displaced by the retreating cavalry and fell back to {{to}}.",
-    "squares_displaced_artillery": "{{player}}'s artillery at {{from}} was displaced by the retreating cavalry and fell back to {{to}}.",
-    "squares_displaced_cavalry": "{{player}}'s cavalry at {{from}} was displaced by the retreating cavalry and fell back to {{to}}.",
-    "squares_displaced_infantry": "{{player}}'s infantry at {{from}} was displaced by the retreating cavalry and fell back to {{to}}.",
-    "squares_double": "{{player}} spent a double turn moving a unit from {{from}} to {{to}}.",
-    "squares_double_artillery": "{{player}} spent a double turn moving artillery from {{from}} to {{to}}.",
-    "squares_double_cavalry": "{{player}} spent a double turn moving cavalry from {{from}} to {{to}}.",
-    "squares_double_infantry": "{{player}} spent a double turn moving infantry from {{from}} to {{to}}.",
-    "squares_move": "{{player}} moved a unit from {{from}} to {{to}}.",
-    "squares_move_artillery": "{{player}} moved artillery from {{from}} to {{to}}.",
-    "squares_move_cavalry": "{{player}} moved cavalry from {{from}} to {{to}}.",
-    "squares_move_infantry": "{{player}} moved infantry from {{from}} to {{to}}.",
-    "squares_retreat": "{{player}}'s unit retreated from {{from}} to {{to}}.",
-    "squares_retreat_artillery": "{{player}}'s artillery retreated from {{from}} to {{to}}.",
-    "squares_retreat_cavalry": "{{player}}'s cavalry retreated from {{from}} to {{to}}.",
-    "squares_retreat_infantry": "{{player}}'s infantry retreated from {{from}} to {{to}}.",
-    "stawvs": "{{player}} moved a piece from {{from}} to {{to}} and captured {{what}} at {{how}}.",
-    "susan": "{{player}} slid a piece from {{from}} to {{to}}.",
-    "tafl": "{{player}} moved a piece from {{from}} to {{to}}.",
-    "tafl_jump": "{{player}} jumped a piece from {{from}} to {{to}}.",
-    "tricouleur_jump": "{{player}} jumped a piece from {{from}} to {{to}}.",
-    "tricouleur_duplicate": "{{player}} duplicated a piece from {{from}} to {{to}}.",
-    "veletas": "{{player}} moved shooter from {{from}} to {{to}}.",
-    "volo_one": "{{player}} moved a flock of 1 bird from {{from}} in the direction {{how}}.",
-    "volo_other": "{{player}} moved a flock of {{count}} birds from {{from}} in the direction {{how}}.",
-    "complete_what": "{{player}} moved a {{what}} from {{from}} to {{to}}.",
-    "agofmars": "{{player}} moved a pyramid from {{from}} to {{to}}."
-  },
-  "NULLIFY_CLAIM": "Towers may not be claimed on the last turn of the game. The claim at {{where}} was nullified.",
-  "OBJECTIVES": {
-    "agofmars": "{{player}} chose their objectives."
-  },
-  "OBJECTIVE_SWAP": {
-    "agofmars": "{{player}} swapped objective multipliers {{columnA}} and {{columnB}}."
-  },
-  "ORIENT": {
-    "crosshairs": "{{player}} turned a plane at {{where}} to face {{facing}}.",
-    "nowhat": "{{player}} turned a piece at {{where}} to face {{facing}}."
-  },
-  "PASS": {
-    "asli": "{{player}} took an opposing piece from the prison and passed their turn.",
-    "asli_area": "{{player}} passed their turn.",
-    "assembly": "The production line doesn't move.",
-    "deckfish": "{{player}} was unable to move.",
-    "entropy": "{{player}} chose not to move any pieces this turn.",
-    "forced": "{{player}} was forced to pass.",
-    "carnac": "{{player}} declined to tip the megalith.",
-    "canoe": "{{player}} passed.",
-    "druid": "{{player}} passed.",
-    "elOso": "{{player}} passed.",
-    "frogger": "{{player}} passed {{why}}.",
-    "icepalace": "{{player}} passed.",
-    "linage": "{{player}} passes.",
-    "pie": "{{player}} accepted the komi offer and will continue playing second.",
-    "pigs": "{{player}} idles.",
-    "pippinzip": "{{player}} decides to pass and becomes Zip",
-    "simple": "{{player}} passed.",
-    "squares": "{{player}} passed and will take a double turn next.",
-    "tablero": "{{player}} bumped!",
-    "tiebreaker": "{{player}} passed, winning the tiebreaker.",
-    "agofmars_noObjSwap": "{{player}} did not swap objectives."
-  },
-  "PIE": {
-    "deckfish": "{{player}} moves second.",
-    "default": "{{player}} invoked the pie rule.",
-    "unlur": "{{player}} has passed to be the Y player."
-  },
-  "PLACE": {
-    "agofmars": "{{player}} placed a {{colour}}{{count}} pyramid at {{where}}.",
-    "armadas_1": "{{player}} placed a small ship and named it {{name}}.",
-    "armadas_2": "{{player}} placed a medium ship and named it {{name}}.",
-    "armadas_3": "{{player}} placed a large ship and named it {{name}}.",
-    "ball": "{{player}} placed a ball at {{where}}.",
-    "blastradius": "{{player}} added a piece to {{where}}, creating a stack of height {{height}}.",
-    "blockade_h": "{{player}} placed a horizontal fence at {{where}}.",
-    "blockade_v": "{{player}} placed a vertical fence at {{where}}.",
-    "blooms": "{{player}} placed a {{what}} piece at {{where}}.",
-    "btt": "{{player}} placed a {{what}} at {{where}}.",
-    "btt_small": "{{player}} placed a small at {{where}} facing {{how}}.",
-    "btt_medium": "{{player}} placed a medium at {{where}} facing {{how}}.",
-    "btt_large": "{{player}} placed a large at {{where}} facing {{how}}.",
-    "bug_bonus_grow": "Upon capture, a bug grew at {{where}} to a size of {{size}}.",
-    "bug_grow": "{{player}} grew a bug at {{where}} to a size of {{size}}.",
-    "bug_new": "{{player}} introduced a new bug at {{where}}.",
-    "camelot_tree": "{{player}} placed trees at {{where}}.",
-    "cannon": "{{player}} placed their town at {{where}}.",
-    "carnac": "{{player}} placed a megalith at {{where}} (top {{top}}, south {{south}}).",
-    "druid_druid": "{{player}} placed a Druid at {{where}}.",
-    "druid_lintel": "{{player}} laid a lintel along {{where}}.",
-    "druid_sarsen": "{{player}} placed a sarsen at {{where}}.",
-    "ccorridor": "{{player}} placed a tile at {{where}}.",
-    "chase": "The chamber spit out a {{what}} at {{where}}.",
-    "complete": "{{player}} placed a {{what}} at {{where}}.",
-    "court": "{{player}} promoted {{where}} to a {{what}}.",
-    "crosshairs_plane": "{{player}} entered a plane at {{where}}.",
-    "crosshairs_cloud": "{{player}} placed a cloud at {{where}}.",
-    "conhex": "{{player}} placed a piece at vertex {{where}}.",
-    "connecticut": "{{player}} placed a triomino at {{where}}.",
-    "boxes": "{{player}} adds a line at {{where}}.",
-    "boxes_claim1": "{{player}} adds a line at {{where}}, claiming {{box}}.",
-    "boxes_claim2": "{{player}} adds a line at {{where}}, claiming {{box1}} and {{box2}}.",
-    "decktet": "{{player}} placed \"{{what}}\" at {{where}}.",
-    "deckfish": "{{player}} placed a piece at {{where}}.",
-    "estate_one": "{{player}} placed a piece at {{where}} ({{what}} pt).",
-    "estate_other": "{{player}} placed a piece at {{where}} ({{what}} pts).",
-    "emu_discard": "{{player}} discarded the card {{what}}.",
-    "emu_existing": "{{player}} used the {{what}} to grow bird #{{where}}.",
-    "emu_new": "{{player}} hatched a new bird with the {{what}}.",
-    "entrapment_barrier": "{{player}} placed a barrier at {{where}}.",
-    "entrapment_roamer": "{{player}} placed a roamer at {{where}}.",
-    "evenatodds": "{{player}} placed the {{what}} domino at {{where}}.",
-    "elOso_one": "{{player}} placed one piece at {{where}}.",
-    "elOso_other": "{{player}} placed {{count}} pieces at {{where}}.",
-    "epam": "{{player}} placed a stone at {{where}}.",
-    "gorogo_henge": "{{player}} placed a henge piece at {{where}}.",
-    "gorogo_piece": "{{player}} placed a piece at {{where}}.",
-    "icepalace": "{{player}} placed a {{what}} at {{where}}.",
-    "iqishiqi": "{{player}} placed a shared stone at {{where}}.",
-    "killallgo_setup": "{{player}} placed an Attacker stone at {{where}}.",
-    "knightline": "{{player}} placed their initial stack at {{where}}.",
-    "logger_logger": "{{player}} placed their logger at {{where}}.",
-    "logger_plant": "{{player}} planted a sapling at {{where}}.",
-    "logger_spawn": "A new sapling sprouted at {{where}}.",
-    "magnate_buy": "{{player}} bought {{what}} for district {{where}}.",
-    "magnate_deed_start": "{{player}} deeded {{what}} in district {{where}}.",
-    "magnate_deed_end": "{{player}} completed their deeded card {{what}} in district {{where}}.",
-    "magnate_sell": "{{player}} sold {{what}}.",
-    "mattock": "{{player}} placed a miner at {{where}}.",
-    "meg_cap": "{{player}} placed a blocker at {{where}}.",
-    "meg_cup": "{{player}} placed a receiver at {{where}}.",
-    "mine": "{{player}} placed one of their own pieces at {{where}}.",
-    "moonsquad": "{{player}} placed a squad at {{where}}.",
-    "neutral": "A neutral piece was placed at {{where}}.",
-    "nex": "{{player}} placed a piece of their colour at {{where}}.",
-    "nex_neutral": "{{player}} placed a neutral piece at {{where}}.",
-    "nowhat": "{{player}} placed a piece at {{where}}.",
-    "onager": "{{player}} placed a lake at {{where}}.",
-    "orb": "{{player}}'s orb generator created an orb at {{where}}.",
-    "pahtum_block": "{{player}} blocked off {{where}}.",
-    "pahtum_piece": "{{player}} placed a piece at {{where}}.",
-    "phutball": "{{player}} placed a player at {{where}}.",
-    "pollux": "{{player}} blocks {{where}}.",
-    "PYRAMID_1": "{{player}} placed a small piece at {{where}}.",
-    "PYRAMID_2": "{{player}} placed a medium piece at {{where}}.",
-    "PYRAMID_3": "{{player}} placed a large piece at {{where}}.",
-    "quax_diag": "{{player}} placed a diagonal connection at {{where}}.",
-    "query_c4": "{{player}} two pieces at vertices {{where}}.",
-    "query_c8": "{{player}} one piece at vertex {{where}}.",
-    "renju_tentative": "{{player}} placed a tentative fifth at {{where}}.",
-    "renju_tentative_choose": "{{player}} chose the fifth stone at {{where}}.",
-    "siegeofj": "{{player}} placed \"{{what}}\" next to {{where}}.",
-    "spire_neutral": "{{player}} placed a neutral ball at {{where}}.",
-    "spire_player": "{{player}} placed a ball of their colour at {{where}}.",
-    "spooky": "Spooky has entered the board at {{where}}.",
-    "spora_one": "{{player}} added one piece to stack at {{where}}.",
-    "spora_other": "{{player}} added {{size}} pieces to stack at {{where}}.",
-    "stawvs": "{{player}} placed a piece at {{where}}.",
-    "strands_initial": "{{player}} placed a piece on a space labelled 2 at {{where}}.",
-    "strands_one": "{{player}} placed a piece at {{where}}.",
-    "strands_other": "{{player}} placed {{count}} pieces at {{where}}.",
-    "subdivision_park": "{{player}} placed a park at {{where}}.",
-    "synapse": "{{player}} place at {{where}} a size {{size}} piece directed at {{dir}}.",
-    "terrace": "{{player}} moved a size {{size}} piece from {{from}} to {{to}}.",
-    "theirs": "{{player}} placed an enemy piece at {{where}}.",
-    "theirs_specific": "{{player}} placed a {{enemy}} piece at {{where}}.",
-    "trax": "{{player}} placed a {{piece}} at {{algebraic}} ({{where}}).",
-    "tritium-orange": "{{player}} played an orange tile at {{where}}.",
-    "tritium-purple": "{{player}} played a purple tile at {{where}}.",
-    "tritium-green": "{{player}} played a green tile at {{where}}.",
-    "tritium-flag": "{{player}} played a flag at {{where}}.",
-    "tumbleweed": "{{player}} placed a stack of size {{count}} at {{where}}.",
-    "twixt": "{{player}} placed a peg at {{where}}.",
-    "unane": "{{player}} self-captured {{where}}.",
-    "upperhand_chain": "A ball of {{whose}} was placed at {{where}}.",
-    "urbino": {
-      "house": "{{player}} placed a house at {{where}}.",
-      "palace": "{{player}} placed a palace at {{where}}.",
-      "tower": "{{player}} placed a tower at {{where}}.",
-      "worker": "{{player}} placed an architect at {{where}}."
-    },
-    "veletas": "{{player}} placed a {{what}} at {{where}}.",
-    "viruswar": "{{player}} placed viruses/walls at {{where}}.",
-    "volo": "{{player}} adds a bird at {{where}}.",
-    "streetcar_place_11": "A height-1 ORANGE building was placed at {{where}}.",
-    "streetcar_place_12": "A height-2 ORANGE building was placed at {{where}}.",
-    "streetcar_place_13": "A height-3 ORANGE building was placed at {{where}}.",
-    "streetcar_place_21": "A height-1 YELLOW building was placed at {{where}}.",
-    "streetcar_place_22": "A height-2 YELLOW building was placed at {{where}}.",
-    "streetcar_place_23": "A height-3 YELLOW building was placed at {{where}}.",
-    "streetcar_place_31": "A height-1 BLACK building was placed at {{where}}.",
-    "streetcar_place_32": "A height-2 BLACK building was placed at {{where}}.",
-    "streetcar_place_33": "A height-3 BLACK building was placed at {{where}}.",
-    "streetcar_place_41": "A height-1 WHITE building was placed at {{where}}.",
-    "streetcar_place_42": "A height-2 WHITE building was placed at {{where}}.",
-    "streetcar_place_43": "A height-3 WHITE building was placed at {{where}}.",
-    "streetcar_place_default": "A building was placed at {{where}}."
-  },
-  "PLAYSECOND": "{{player}} chose to play second.",
-  "PROMOTE": {
-    "basicWhere": "The piece at {{where}} was promoted.",
-    "cubeo": "{{player}} promoted the die at {{where}} from a {{from}} to a {{to}}.",
-    "lielow": "{{player}} has a new king crowned at {{where}}.",
-    "mchess": "A {{into}} was created as a result.",
-    "orb_12": "{{player}} promoted an orb to a spheroid at {{where}}.",
-    "orb_13": "{{player}} promoted an orb to a globe at {{where}}.",
-    "orb_23": "{{player}} promoted spheroid to a globe at {{where}}.",
-    "canoe": "{{player}} formed a set at {{where}}, merging the cube from {{from}}."
-  },
-  "PULL": "{{player}} pulled string {{where}}.",
-  "RECLAIM": {
-    "noperson": "A {{what}} was reclaimed.",
-    "nowhat_one": "A piece was reclaimed.",
-    "nowhat_other": "{{count}} pieces were reclaimed."
-  },
-  "REMOVE": {
-    "akimbo": "{{player}} removes {{where}} due to the formation of a crosscut.",
-    "entrapment_opponent": "{{player}} chose to retain the opponent's roamer at {{how}}, removing the roamer at {{where}}.",
-    "entrapment_self": "{{player}} chose to retain their own roamer at {{how}}, removing the roamer at {{where}}.",
-    "fourinarow_e": "{{player}} cleared a line, shifting the pieces on the board rightwards.",
-    "fourinarow_n": "{{player}} cleared a line, shifting the pieces on the board upwards.",
-    "fourinarow_ne": "{{player}} cleared two lines, shifting the pieces on the board upwards and rightwards.",
-    "fourinarow_nw": "{{player}} cleared two lines, shifting the pieces on the board upwards and leftwards.",
-    "fourinarow_s": "{{player}} cleared a line, shifting the pieces on the board downwards.",
-    "fourinarow_se": "{{player}} cleared two lines, shifting the pieces on the board downwards and rightwards.",
-    "fourinarow_sw": "{{player}} cleared two lines, shifting the pieces on the board downwards and leftwards.",
-    "fourinarow_w": "{{player}} cleared a line, shifting the pieces on the board leftwards.",
-    "gliss": "{{player}} moved their glider at {{where}} off the edge of the board.",
-    "icepalace": "{{what}} was discarded and removed from play.",
-    "nonum": "{{player}} removed a piece from {{where}}.",
-    "phutball_one": "{{count}} player was removed.",
-    "phutball_other": "{{count}} players were removed.",
-    "remove_one": "{{player}} removed 1 piece from {{where}}.",
-    "remove_other": "{{player}} removed {{count}} pieces from {{where}}.",
-    "spook": "{{player}} removed an opponent's ball at {{where}}.",
-    "spook_drop_one": "{{player}} removed a ball at {{where}}, dropping 1 ball from {{how}}.",
-    "spook_drop_other": "{{player}} removed a ball at {{where}}, dropping {{count}} balls from {{how}}.",
-    "twixt": "{{player}} removed a link at {{where}}.",
-    "volo": "{{player}} chose to retain the region at {{how}}, removing {{num}} opponent's birds."
-  },
-  "REPAIR": {
-    "simple": "{{player}} repairs."
-  },
-  "RESET": {
-    "biscuit": "A new round has begun.",
-    "guerrilla": "{{player}} won the first game. The second game has begun, with roles reversed.",
-    "queensland": "The second game has begun."
-  },
-  "RESIGN": "{{player}} has resigned.",
-  "ROLL": {
-    "arimaa_one": "{{player}}'s die shows 1: a single step this turn.",
-    "arimaa_other": "{{player}}'s die shows {{count}}: up to {{count}} steps this turn.",
-    "magnate": "{{who}} rolled a {{values}}.",
-    "magnate_eight": "{{who}} rolled an {{values}}.",
-    "canoe": "{{player}} rolled: {{values}}.",
-    "elOso": "The Bear rolled: {{dice}}.",
-    "elOso_player": "{{player}} rolled: {{dice}}.",
-    "single": "The die was rolled: {{values}}.",
-    "tablero": "The dice were rolled: {{values}}."
-  },
-  "SACRIFICE": {
-    "moonsquad": "{{player}} sacrificed an ore ({{ore}}) to move their squads.",
-    "nowhat": "{{player}} sacrificed a piece at {{where}}."
-  },
-  "SCORE_REPORT": "{{player}}'s score is now {{score}}.",
-  "SELECT": {
-    "fnap": "{{player}} selected the tile {{tile}}.",
-    "killallgo_iplace": "{{player}} chose to place the first batch.",
-    "killallgo_youplace": "{{player}} chose to let their opponent place the first batch.",
-    "resolve": "{{player}} selects the piece in a crosscut at {{where}}.",
-    "slyde_fixed_opponent": "{{player}} changed the state of their opponent's piece at {{where}} from mobile to fixed.",
-    "slyde_fixed_self": "{{player}} changed the state of their own piece at {{where}} from mobile to fixed.",
-    "slyde_mobile_opponent": "{{player}} changed the state of their opponent's piece at {{where}} from fixed to mobile.",
-    "slyde_mobile_self": "{{player}} changed the state of their own piece at {{where}} from fixed to mobile.",
-    "spree": "{{player}} handed a ball of colour {{who}} to the opponent.",
-    "squares_option1": "{{player}} chose to eliminate the defender and retreat both attacking units.",
-    "squares_option2": "{{player}} chose to trade the supporting unit for the defender.",
-    "squares_option3": "{{player}} chose to trade the attacking unit for the defender.",
-    "squares_option4": "{{player}} chose to retreat the attacking unit.",
-    "squares_option5": "{{player}} chose to retreat the supporting unit.",
-    "squares_stand": "{{player}}'s unit at {{where}} stands.",
-    "squares_stand_chosen": "{{player}}'s unit at {{where}} stands its ground.",
-    "squares_stand_forced": "{{player}}'s unit at {{where}} cannot retreat and must stand.",
-    "squares_stay": "{{player}} declined to advance.",
-    "squares_support": "The attack is supported by the unit at {{where}}.",
-    "squares_support_artillery": "The attack is supported by artillery at {{where}}.",
-    "squares_support_cavalry": "The attack is supported by cavalry at {{where}}.",
-    "squares_support_infantry": "The attack is supported by infantry at {{where}}.",
-    "thricewise": "{{player}} selected {{card}}."
-  },
-  "SET": {
-    "biscuit_biscuit_one": "{{player}} scored a biscuit.",
-    "biscuit_biscuit_other": "{{player}} scored {{count}} biscuits.",
-    "biscuit_cross": "{{player}} scored a hot cross biscuit.",
-    "biscuit_elevensies": "{{player}} scored elevensies. All other players were forced to draw a card.",
-    "biscuit_hot": "{{player}} scored a hot biscuit.",
-    "biscuit_straight": "{{player}} scored a straight of length {{count}}.",
-    "fnap_circles": "The circle tile at {{where}} is isolated.",
-    "fnap_triplets_one": "{{player}} scored {{count}} triplet.",
-    "fnap_triplets_other": "{{player}} scored {{count}} triplets.",
-    "quincunx_pairs_one": "{{player}} scored {{count}} pair.",
-    "quincunx_pairs_other": "{{player}} scored {{count}} pairs.",
-    "quincunx_sets_one": "{{player}} scored {{count}} set.",
-    "quincunx_sets_other": "{{player}} scored {{count}} sets.",
-    "quincunx_straights_one": "{{player}} scored {{count}} straight.",
-    "quincunx_straights_other": "{{player}} scored {{count}} straights.",
-    "quincunx_flushes_one": "{{player}} scored {{count}} flush.",
-    "quincunx_flushes_other": "{{player}} scored {{count}} flushes.",
-    "quincunx_powerplay": "{{player}} scored a power play!"
-  },
-  "SOW": {
-    "general_one": "{{player}} sowed seeds from the following pit: {{pits}}.",
-    "general_other": "{{player}} sowed seeds from the following pits: {{pits}}.",
-    "into": "{{player}} sowed into the pits {{pits}}.",
-    "prudh": "{{player}} sowed checkers from {{from}} to {{to}}.",
-    "rincala_one": "{{player}} sowed {{count}} {{pieces}} piece from {{from}} to {{to}}.",
-    "rincala_other": "{{player}} sowed {{count}} pieces from {{from}} to the following pits: {{pieces}} -> {{to}}."
-  },
-  "STALEMATE": {
-    "biscuit": "The hand has gone stale."
-  },
-  "SWAP": {
-    "deckfish": "{{player}} swapped {{what}} from the market with {{with}} at {{where}}.",
-    "nex": "{{player}} swapped a piece of their colour at {{where}} to a neutral piece.",
-    "nex_neutral": "{{player}} swapped a neutral piece at {{where}} to a piece of their colour.",
-    "resolve": "The piece is swapped to {{where}}.",
-    "wunchunk": "{{player}} swapped seats, choosing to play first.",
-    "agofmars_board": "{{player}} swapped the {{colour1}}{{size1}} at {{cell1}} and the {{colour2}}{{size2}} at {{cell2}}.",
-    "agofmars_board_cells": "{{player}} swapped the pyramids at {{cell1}} and {{cell2}}."
-  },
-  "TAKE": {
-    "blastradius_one": "{{player}} removed one of their own pieces from {{where}}.",
-    "blastradius_other": "{{player}} removed a stack of {{count}} of their own pieces from {{where}}.",
-    "buku_row_one": "{{player}} collected 1 piece from row {{row}}.",
-    "buku_row_other": "{{player}} collected {{count}} pieces from row {{row}}.",
-    "buku_row_bonus": "{{player}} collected {{count}} pieces from row {{row}}, plus one additional piece.",
-    "buku_col_one": "{{player}} collected 1 piece from column {{col}}.",
-    "buku_col_other": "{{player}} collected {{count}} pieces from column {{col}}.",
-    "chase": "A {{what}} was fed to the chamber.",
-    "general_one": "{{player}} took a piece from {{from}}.",
-    "general_other": "{{player}} took {{count}} pieces from {{from}}.",
-    "moonsquad": "{{player}} took an ore ({{ore}}).",
-    "sploof": "{{player}} took a neutral ball at {{from}}.",
-    "tablero": "{{player}} took one of their checkers from the stack at {{from}}.",
-    "streetcar_take_1": "{{player}} took an ORANGE housing limit from {{from}}.",
-    "streetcar_take_2": "{{player}} took a YELLOW housing limit from {{from}}.",
-    "streetcar_take_3": "{{player}} took a BLACK housing limit from {{from}}.",
-    "streetcar_take_4": "{{player}} took a WHITE housing limit from {{from}}.",
-    "streetcar_take_default": "{{player}} took a housing limit from {{from}}."
-  },
-  "TIMEOUT": "{{player}} lost on time.",
-  "UNFURL": {
-    "amoeba": "{{player}} sowed {{count}} pieces from {{from}} to {{to}}.",
-    "furl": "{{player}} unfurls {{count}} pieces from {{from}} to {{to}}."
-  },
-  "USE": {
-    "camelot_castle_move_one": "{{player}} used has 1 more castle move.",
-    "camelot_castle_move_other": "{{player}} used has {{count}} more castle moves.",
-    "camelot_castle_move_none": "{{player}} has no more castle moves."
-  },
-  "SCRIBE": {
-    "no_formation": "no formations",
-    "glyphs": {
-      "single": "Single",
-      "double": "Double",
-      "line": "Line",
-      "pipe": "Pipe",
-      "squat_t": "Squat-T",
-      "four_block": "4-block",
-      "t": "T",
-      "cross": "Cross",
-      "six_block": "6-block",
-      "bomber": "Bomber",
-      "chair": "Chair",
-      "j": "J",
-      "earring": "Earring",
-      "house": "House",
-      "h": "H",
-      "u": "U",
-      "ottoman": "Ottoman",
-      "o": "O",
-      "nine_block": "9-block"
-    },
-    "mini": {
-      "0_0": "top-left",
-      "1_0": "top-centre",
-      "2_0": "top-right",
-      "0_1": "centre-left",
-      "1_1": "centre",
-      "2_1": "centre-right",
-      "0_2": "bottom-left",
-      "1_2": "bottom-centre",
-      "2_2": "bottom-right"
+  "wunchunk": {
+    "SWAP": {
+      "default": "{{player}} swapped seats, choosing to play first."
     }
-  },
-  "WINNERSNONE": "There were no winners.",
-  "WINNERS_one": "The following player won: {{winners}}.",
-  "WINNERS_other": "The following players won: {{winners}}.",
-  "homeworlds": {
-    "BUILD": "{{player}} build a {{what}} in the {{where}} system.",
-    "CAPTURE": "{{player}} captured a {{what}} in the {{where}} system.",
-    "CATASTROPHE": "An overpopulation of {{colour}} led to a catastrophe in {{where}}.",
-    "CONVERT": "{{player}} changed a {{what}} into a {{into}} in the {{where}} system.",
-    "DISCOVER": "{{player}} discovered a new {{what}} system and named it {{name}}.",
-    "ESTABLISH": "A {{ship}} colony ship belonging to {{player}} has landed in a {{stars}} system.",
-    "MOVE": "{{player}} flew their {{what}} from {{from}} to {{to}}.",
-    "PASS": "{{player}} passed an action.",
-    "SACRIFICE": "{{player}} sacrificed a {{what}} in the {{where}} system."
   }
 }

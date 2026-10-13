@@ -23,6 +23,12 @@ export const gameApgamesEn = {
         MOVESUNTILSUICIDE: "Moves until suicide",
     },
 };
+export const gameApresultsEn = {
+    PROMOTE: {
+        default: "{{player}} has a new king crowned at {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -855,17 +861,17 @@ export class LielowGame extends GameBase {
         const opponentSeat = ctx.defaultSeat === 1 ? 2 : 1;
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.nowhat", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.nowhat", {
                     from: r.from!, to: r.to!,
                 });
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.nowhat", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.nowhat", {
                     where: r.where!,
                 });
                 return true;
             case "bearoff":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:BEAROFF.nowhat", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.BEAROFF.nowhat", {
                     from: r.from!,
                 });
                 return true;
@@ -873,7 +879,7 @@ export class LielowGame extends GameBase {
                 const creditedSeat = (r as { player?: number }).player !== ctx.currplayer
                     ? ctx.defaultSeat
                     : opponentSeat;
-                this.pushSeatChatLine(lines, creditedSeat, "apresults:PROMOTE.lielow", {
+                this.pushSeatChatLine(lines, creditedSeat, "apresults:lielow.PROMOTE.default", {
                     where: r.where!,
                 });
                 return true;

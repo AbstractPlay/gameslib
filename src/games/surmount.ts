@@ -871,10 +871,10 @@ export class SurmountGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.group", { count: r.count!, cells: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.group", { count: r.count!, cells: r.where! });
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.forced", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.forced", {});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

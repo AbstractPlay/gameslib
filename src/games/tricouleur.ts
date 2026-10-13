@@ -32,6 +32,16 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        default: "{{count}} pieces changed colour.",
+    },
+    MOVE: {
+        duplicate: "{{player}} duplicated a piece from {{from}} to {{to}}.",
+        jump: "{{player}} jumped a piece from {{from}} to {{to}}.",
+    },
+};
+
 
 
 type playerid = 1 | 2;
@@ -740,22 +750,22 @@ export class TricouleurGame extends GameBase {
         switch (r.type) {
             case "move":
                 if (r.how === "split") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.tricouleur_duplicate", { from: r.from!, to: r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:tricouleur.MOVE.duplicate", { from: r.from!, to: r.to! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.tricouleur_jump", { from: r.from!, to: r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:tricouleur.MOVE.jump", { from: r.from!, to: r.to! });
                 }
                 return true;
             case "capture":
-                this.pushNeutralChatLine(lines, "apresults:CAPTURE.tricouleur", { count: r.count! });
+                this.pushNeutralChatLine(lines, "apresults:tricouleur.CAPTURE.default", { count: r.count! });
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.forced", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.forced", {});
                 return true;
             case "eog":
                 if (r.reason === "repetition") {
-                this.pushNeutralChatLine(lines, "apresults:EOG.repetition", { count: 3 });
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.repetition", { count: 3 });
                 } else {
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }
                 return true;
             default:

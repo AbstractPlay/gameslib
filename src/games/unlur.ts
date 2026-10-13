@@ -26,6 +26,15 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    EOG: {
+        foul: "The game has ended because one player has achieved the opponent's win condition without achieving their own.",
+    },
+    PIE: {
+        default: "{{player}} has passed to be the Y player.",
+    },
+};
+
 
 
 // In this implementation, the Y colour is always 1, and the Line colour is always 2.
@@ -588,16 +597,16 @@ export class UnlurGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", { where: r.where! });
                 return true;
             case "pie":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PIE.unlur", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:unlur.PIE.default", {});
                 return true;
             case "eog":
                 if (r.reason === "foul") {
-                this.pushNeutralChatLine(lines, "apresults:EOG.unlur_foul");
+                this.pushNeutralChatLine(lines, "apresults:unlur.EOG.foul");
                 } else {
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }
                 return true;
             default:

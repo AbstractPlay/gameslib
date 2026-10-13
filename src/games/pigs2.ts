@@ -831,22 +831,22 @@ export class Pigs2Game extends GameBaseSimultaneous {
         switch (r.type) {
             case "move":
                 if (r.from !== r.to) {
-                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.nowhat", { from: r.from!, to: r.to! });
+                    this.pushSeatChatLine(lines, seat, "apresults:_general.MOVE.nowhat", { from: r.from!, to: r.to! });
                 } else {
-                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.collision", { from: r.from!, to: r.to! });
+                    this.pushSeatChatLine(lines, seat, "apresults:_general.MOVE.collision", { from: r.from!, to: r.to! });
                 }
                 break;
             case "orient":
-                this.pushSeatChatLine(lines, seat, "apresults:ORIENT.nowhat", {
+                this.pushSeatChatLine(lines, seat, "apresults:_general.ORIENT.nowhat", {
                     where: r.where!,
                     facing: r.facing!,
                 });
                 break;
             case "pass":
-                this.pushSeatChatLine(lines, seat, "apresults:PASS.pigs");
+                this.pushSeatChatLine(lines, seat, "apresults:pigs.PASS.default");
                 break;
             case "fire":
-                this.pushSeatChatLine(lines, seat, "apresults:FIRE.pigs", {
+                this.pushSeatChatLine(lines, seat, `apresults:pigs.FIRE.${r.which!}`, {
                     context: r.which as string,
                     direction: r.to!,
                 });
@@ -854,7 +854,7 @@ export class Pigs2Game extends GameBaseSimultaneous {
             case "damage":
                 if (r.amount !== undefined && r.amount > 0) {
                     const oppSeat = parseInt(r.who as string, 10);
-                    this.pushSeatChatLine(lines, seat, "apresults:DAMAGE.pigs", {
+                    this.pushSeatChatLine(lines, seat, "apresults:pigs.DAMAGE.default", {
                         where: r.where as string,
                         opponent: this.resolveChatPlayerName(oppSeat, players),
                     });
@@ -862,23 +862,23 @@ export class Pigs2Game extends GameBaseSimultaneous {
                 break;
             case "eliminated": {
                 const oppSeat = parseInt(r.who!, 10);
-                this.pushNeutralChatLine(lines, "apresults:ELIMINATED", {
+                this.pushNeutralChatLine(lines, "apresults:_general.ELIMINATED.default", {
                     player: this.resolveChatPlayerName(oppSeat, players),
                 });
                 break;
             }
             case "resigned": {
                 const rname = this.resolveChatPlayerName(r.player, players);
-                this.pushNeutralChatLine(lines, "apresults:RESIGN", { player: rname });
+                this.pushNeutralChatLine(lines, "apresults:_general.RESIGN.default", { player: rname });
                 break;
             }
             case "timeout": {
                 const tname = this.resolveChatPlayerName(r.player, players);
-                this.pushNeutralChatLine(lines, "apresults:TIMEOUT", { player: tname });
+                this.pushNeutralChatLine(lines, "apresults:_general.TIMEOUT.default", { player: tname });
                 break;
             }
             case "gameabandoned":
-                this.pushNeutralChatLine(lines, "apresults:ABANDONED");
+                this.pushNeutralChatLine(lines, "apresults:_general.ABANDONED.default");
                 break;
         }
     }

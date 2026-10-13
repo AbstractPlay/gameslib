@@ -7,6 +7,12 @@ import { Direction } from "../common/index.js";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApresultsEn = {
+    PLACE: {
+        default: "{{player}} placed their town at {{where}}.",
+    },
+};
+
 export const gameApgamesEn = {
     validation: {
         BAD_RETREAT: "Pieces can only retreat if they are adjacent to at least one enemy piece.",
@@ -1075,10 +1081,10 @@ export class CannonGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.cannon", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:cannon.PLACE.default", {where: r.where!});
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.nowhat", {where: r.where!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

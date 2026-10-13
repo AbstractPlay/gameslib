@@ -41,6 +41,28 @@ export const gameApgamesEn = {
         SCORES_ONBOARD: "Scores / On board",
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        default: "{{count}} pieces were captured at {{where}}.",
+    },
+    CLAIM: {
+        repetition_one: "{{player}} claimed all 1 remaining piece.",
+        repetition_other: "{{player}} claimed all {{count}} remaining pieces.",
+        singletons_one: "{{player}} claimed the remaining 1 piece on their colour.",
+        singletons_other: "{{player}} claimed the remaining {{count}} pieces on their colour.",
+    },
+    EOG: {
+        singletons: "The game has ended because all cells contain only singletons.",
+    },
+    TAKE: {
+        col_one: "{{player}} collected 1 piece from column {{col}}.",
+        col_other: "{{player}} collected {{count}} pieces from column {{col}}.",
+        row_bonus: "{{player}} collected {{count}} pieces from row {{row}}, plus one additional piece.",
+        row_one: "{{player}} collected 1 piece from row {{row}}.",
+        row_other: "{{player}} collected {{count}} pieces from row {{row}}.",
+    },
+};
+
 
 
 type playerid = 1 | 2;
@@ -881,26 +903,26 @@ export class BukuGame extends GameBase {
         switch (r.type) {
             case "take":
                 if (r.how === "row_bonus") {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:TAKE.buku_row_bonus", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:buku.TAKE.row_bonus", {
                         row: r.from!, count: r.count! - 1,
                     });
                 } else if (r.how === "row") {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:TAKE.buku_row", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:buku.TAKE", {
                         row: r.from!, count: r.count!,
                     });
                 } else {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:TAKE.buku_col", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:buku.TAKE", {
                         col: r.from!, count: r.count!,
                     });
                 }
                 return true;
             case "sow":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SOW.into", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.SOW.into", {
                     pits: (r as { pits?: string[] }).pits!.join(", "),
                 });
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.buku", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:buku.CAPTURE.default", {
                     where: r.where!, count: r.count!,
                 });
                 return true;
@@ -909,18 +931,18 @@ export class BukuGame extends GameBase {
                     ? ctx.defaultSeat
                     : opponentSeat;
                 const key = r.how === "singletons"
-                    ? "apresults:CLAIM.buku_singletons"
-                    : "apresults:CLAIM.buku_repetition";
+                    ? "apresults:buku.CLAIM"
+                    : "apresults:buku.CLAIM";
                 this.pushSeatChatLine(lines, creditedSeat, key, { count: r.count! });
                 return true;
             }
             case "eog":
                 if (r.reason === "singletons") {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.buku_singletons");
+                    this.pushNeutralChatLine(lines, "apresults:buku.EOG.singletons");
                 } else if (r.reason === "repetition") {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.repetition_positional", { count: 1 });
+                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.repetition_positional", { count: 1 });
                 } else {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }
                 return true;
             default:

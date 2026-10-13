@@ -25,6 +25,12 @@ export const gameApgamesEn = {
         GAME2: "Game 2",
     },
 };
+export const gameApresultsEn = {
+    RESET: {
+        default: "The second game has begun.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -718,7 +724,7 @@ export class QueenslandGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "reset":
-                this.pushNeutralChatLine(lines, "apresults:RESET.queensland");
+                this.pushNeutralChatLine(lines, "apresults:queensland.RESET.default");
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

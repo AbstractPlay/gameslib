@@ -698,7 +698,7 @@ describe("Squares", () => {
             expect(g.getCustomRotation()).to.equal(180);
         });
 
-        it("writes a move log that matches the legacy formatter", () => {
+        it("emits apresults keys for attack, combat options, retreats, advance, move, and pass", () => {
             const g = setup({ "1I1": "G1C", "1A1": "G1CL", "2I1": "B1C", "2C1": "B1L" });
             g.move("IG1C+AG1CL>IB1C");
             g.move("stand");
@@ -709,15 +709,18 @@ describe("Squares", () => {
             g.move("pass");
             const names = ["Alice", "Bob"];
             assertChatLogParity(g, names);
-            const text = g.chatLog(names).flat().join("\n");
-            expect(text).to.contain("Alice's infantry at G1C attacked B1C.");
-            expect(text).to.contain("supported by artillery at G1CL");
-            expect(text).to.contain("Bob's unit at B1C stands its ground.");
-            expect(text).to.contain("Alice's artillery retreated from G1CL to GR.");
-            expect(text).to.contain("Bob's infantry retreated from B1C to BR.");
-            expect(text).to.contain("Alice's infantry advanced from G1C into B1C.");
-            expect(text).to.contain("Bob moved cavalry from B1L to B2L.");
-            expect(text).to.contain("Alice passed and will take a double turn next.");
+            const keys = g.chatLogEntries(names).flatMap((e) => e.lines.map((l) => l.textKey));
+            expect(keys).to.deep.equal([
+                "apresults:squares.FIRE.infantry",
+                "apresults:squares.SELECT.support_artillery",
+                "apresults:squares.SELECT.stand_chosen",
+                "apresults:squares.SELECT.option1",
+                "apresults:squares.MOVE.retreat_artillery",
+                "apresults:squares.MOVE.retreat_infantry",
+                "apresults:squares.MOVE.advance_infantry",
+                "apresults:squares.MOVE.move_cavalry",
+                "apresults:squares.PASS.default",
+            ]);
         });
     });
 

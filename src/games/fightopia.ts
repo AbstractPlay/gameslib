@@ -15,6 +15,19 @@ export const gameApgamesEn = {
         PARTIAL: "Select the destination.",
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        "1": "{{player}} captured a pawn at {{where}}.",
+        "2": "{{player}} captured a tank at {{where}}.",
+    },
+    MOVE: {
+        "1": "{{player}} moved a pawn from {{from}} to {{to}}.",
+        "2": "{{player}} moved a tank from {{from}} to {{to}}.",
+        "4": "{{player}} moved their giant from {{from}} to {{to}}.",
+        pivot: "{{player}} pivoted a tank from {{from}} to {{to}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -794,18 +807,18 @@ export class FightopiaGame extends GameBase {
         switch (r.type) {
             case "move":
                 if (r.how !== undefined) {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.fightopia", {
-                        context: "pivot", from: r.from!, to: r.to!,
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:fightopia.MOVE.pivot", {
+                        from: r.from!, to: r.to!,
                     });
                 } else {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.fightopia", {
-                        context: r.what!, from: r.from!, to: r.to!,
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:fightopia.MOVE.${r.what!}`, {
+                        from: r.from!, to: r.to!,
                     });
                 }
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.fightopia", {
-                    context: r.what!, where: r.where!,
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:fightopia.CAPTURE.${r.what!}`, {
+                    where: r.where!,
                 });
                 return true;
             default:

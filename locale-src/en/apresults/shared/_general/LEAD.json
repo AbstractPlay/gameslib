@@ -1,0 +1,7 @@
+{
+  "_general": {
+    "LEAD": {
+      "default": "{{player}} took the lead."
+    }
+  }
+}

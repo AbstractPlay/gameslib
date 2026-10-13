@@ -35,6 +35,17 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    PLACE: {
+        default: "{{player}} placed a piece of their colour at {{where}}.",
+        neutral: "{{player}} placed a neutral piece at {{where}}.",
+    },
+    SWAP: {
+        default: "{{player}} swapped a piece of their colour at {{where}} to a neutral piece.",
+        neutral: "{{player}} swapped a neutral piece at {{where}} to a piece of their colour.",
+    },
+};
+
 
 
 export type playerid = 1 | 2 | 3; // 3 is used for "the neural player"
@@ -702,16 +713,16 @@ export class NexGame extends GameBase {
         switch (r.type) {
             case "place":
                 if (r.who === 3) {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nex_neutral", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:nex.PLACE.neutral", { where: r.where! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nex", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:nex.PLACE.default", { where: r.where! });
                 }
                 return true;
             case "swap":
                 if (r.who === 3) {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SWAP.nex_neutral", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:nex.SWAP.neutral", { where: r.where! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SWAP.nex", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:nex.SWAP.default", { where: r.where! });
                 }
                 return true;
             default:

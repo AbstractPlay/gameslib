@@ -18,6 +18,13 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CONVERT: {
+        one: "{{player}} converted 1 piece at {{where}}.",
+        other: "{{player}} converted {{count}} pieces starting at {{where}}.",
+    },
+};
+
 
 
 type playerid = 1|2;
@@ -402,7 +409,7 @@ export class PaintbucketGame extends GameBase {
         switch (r.type) {
             case "convert": {
                 const count = r.what!.split(",").length;
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONVERT.paintbucket", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:paintbucket.CONVERT", {
                     count, where: r.where!,
                 });
                 return true;

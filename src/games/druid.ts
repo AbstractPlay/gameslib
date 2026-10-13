@@ -61,6 +61,32 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    HEX_EDGE: {
+        N: "north (N)",
+        NE: "northeast (NE)",
+        NW: "northwest (NW)",
+        S: "south (S)",
+        SE: "southeast (SE)",
+        SW: "southwest (SW)",
+        and: "and",
+    },
+    BEAROFF: {
+        default: "{{player}} bore their Druid off from {{from}}.",
+    },
+    EOG: {
+        hex: "The game has ended because {{player}} connected the {{edges}} edges.",
+    },
+    MOVE: {
+        walk: "{{player}} moved their Druid from {{from}} to {{to}}.",
+    },
+    PLACE: {
+        druid: "{{player}} placed a Druid at {{where}}.",
+        lintel: "{{player}} laid a lintel along {{where}}.",
+        sarsen: "{{player}} placed a sarsen at {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1 | 2;
@@ -607,14 +633,14 @@ export class DruidGame extends GameBase {
     }
 
     private hexEdgeListLabel(edges: HexEdge[]): string {
-        const labels = edges.map(e => i18next.t(`apresults:DRUID_HEX_EDGE.${e}`));
+        const labels = edges.map(e => i18next.t(`apresults:druid.HEX_EDGE.${e}`));
         if (labels.length <= 1) {
             return labels.join("");
         }
         if (labels.length === 2) {
-            return `${labels[0]} ${i18next.t("apresults:DRUID_HEX_EDGE.and")} ${labels[1]}`;
+            return `${labels[0]} ${i18next.t("apresults:druid.HEX_EDGE.and")} ${labels[1]}`;
         }
-        return `${labels.slice(0, -1).join(", ")}, ${i18next.t("apresults:DRUID_HEX_EDGE.and")} ${labels[labels.length - 1]}`;
+        return `${labels.slice(0, -1).join(", ")}, ${i18next.t("apresults:druid.HEX_EDGE.and")} ${labels[labels.length - 1]}`;
     }
 
     private permute<T>(items: T[]): T[][] {
@@ -1820,30 +1846,30 @@ export class DruidGame extends GameBase {
                 if (winResult?.type === "winners" && winResult.players.length > 0) {
                     winnerSeat = winResult.players[0];
                 }
-                this.pushSeatChatLine(lines, winnerSeat, "apresults:EOG.druid_hex", {
+                this.pushSeatChatLine(lines, winnerSeat, "apresults:druid.EOG.hex", {
                     edges: this.hexEdgeListLabel(edges),
                 });
                 return true;
             }
             case "place":
                 if (r.what === "lintel") {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.druid_lintel", {where: r.where!});
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:druid.PLACE.lintel", {where: r.where!});
                 } else if (r.what === "druid") {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.druid_druid", {where: r.where!});
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:druid.PLACE.druid", {where: r.where!});
                 } else {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.druid_sarsen", {where: r.where!});
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:druid.PLACE.sarsen", {where: r.where!});
                 }
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.druid_walk", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:druid.MOVE.walk", {
                     from: r.from!, to: r.to!,
                 });
                 return true;
             case "bearoff":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:BEAROFF.druid", {from: r.from!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:druid.BEAROFF.default", {from: r.from!});
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.druid", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.simple", {});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

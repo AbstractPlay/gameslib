@@ -13,7 +13,7 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError } from "../common";
 /**
- * Per-game English lives in `gameApgamesEn`; `npm run merge-apgames-en` writes `locales/en/apgames.json`.
+ * Per-game English lives in `gameApgamesEn`; `npm run locale-en -- merge apgames --write` writes `locales/en/apgames.json`.
  * Shared validation strings still use `apgames:validation._general.*`. See /gameslib/i18n/.
  */
 import i18next from "i18next";

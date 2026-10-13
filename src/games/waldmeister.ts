@@ -911,7 +911,7 @@ export class WaldMeisterGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "deltaScore":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DELTA_SCORE_GAIN", {player: `Player ${r.who!}`, delta: r.delta!, count: r.delta!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.DELTA_SCORE_GAIN", {player: `Player ${r.who!}`, delta: r.delta!, count: r.delta!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

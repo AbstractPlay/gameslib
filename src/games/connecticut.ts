@@ -29,6 +29,12 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    PLACE: {
+        default: "{{player}} placed a triomino at {{where}}.",
+    },
+};
+
 
 
 type playerid = 1 | 2;
@@ -596,9 +602,9 @@ export class ConnecticutGame extends GameBase {
         switch (r.type) {
             case "place":
                 if (r.where!.includes("-")) {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.connecticut", { where: r.where! });
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:connecticut.PLACE.default", { where: r.where! });
                 } else {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", { where: r.where! });
                 }
                 return true;
 

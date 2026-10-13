@@ -690,20 +690,20 @@ export class DamaGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.dameo", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:dameo.CAPTURE.${r.what!}`, {
                     where: r.where!, context: r.what!,
                 });
                 return true;
             case "promote":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PROMOTE.basicWhere", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PROMOTE.basicWhere", {
                     where: r.where!,
                 });
                 return true;
             case "eog":
                 if (r.reason === "repetition") {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.repetition", { count: 3 });
+                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.repetition", { count: 3 });
                 } else {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }
                 return true;
             default:

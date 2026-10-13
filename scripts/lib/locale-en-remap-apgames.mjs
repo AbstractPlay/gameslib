@@ -1,25 +1,13 @@
-#!/usr/bin/env node
-/**
- * Copy managed translations when English leaves moved but `src` text is unchanged
- * (e.g. validation.catchup.DUPLICATE → validation._general.DUPLICATE).
- *
- *   node scripts/remap-apgames-locale-leaves.mjs          # dry-run
- *   node scripts/remap-apgames-locale-leaves.mjs --write
- */
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
-import { assertEnApgamesMergeCurrent } from "./lib/ensure-merged-en-apgames.mjs";
+import { assertEnLocaleMergeCurrent } from "./ensure-merged-locale-en.mjs";
+import { getNamespaceConfig, REPO_ROOT } from "./locale-en-namespace-config.mjs";
 import {
     MANAGED_LANGS,
     collectLeaves,
     pruneManagedLocale,
-} from "./locale-prune.mjs";
-import { writeLocaleJson } from "./locale-json-format.mjs";
-
-const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const enPath = path.join(repoRoot, "locales/en/apgames.json");
-const write = process.argv.includes("--write");
+} from "../locale-prune.mjs";
+import { writeLocaleJson } from "../locale-json-format.mjs";
 
 function normalizeSrc(text) {
     return typeof text === "string" ? text.trim().replace(/\s+/g, " ") : "";
@@ -146,7 +134,6 @@ function migrateTracking({ tracking, localeData, enLeaves, srcToEnPaths, lang })
     return moves;
 }
 
-/** translate.mjs requires nested locales/* as well as locale-src tracking. */
 function syncLocaleFromTracking(localeData, tracking, enLeaves, lang) {
     let moves = 0;
     for (const [leafPath, sourceValue] of Object.entries(enLeaves)) {
@@ -197,24 +184,19 @@ function migrateLocaleNested({ localeData, enLeaves, srcToEnPaths, lang, trackin
     return moves;
 }
 
-function srcPathFor(lang) {
-    return path.join(repoRoot, "locale-src", lang, "apgames.json");
-}
-
-function localePathFor(lang) {
-    return path.join(repoRoot, "locales", lang, "apgames.json");
-}
-
-function main() {
-    assertEnApgamesMergeCurrent();
+/** @param {{ write?: boolean }} opts */
+export function runRemapApgamesLocaleLeaves(opts = {}) {
+    const write = opts.write === true;
+    const enPath = getNamespaceConfig("apgames").mergedEnPath;
+    assertEnLocaleMergeCurrent("apgames");
     const sourceData = JSON.parse(fs.readFileSync(enPath, "utf8"));
     const enLeaves = collectLeaves(sourceData);
     const srcToEnPaths = buildSrcToEnPaths(enLeaves);
 
     let totalMoves = 0;
     for (const lang of MANAGED_LANGS) {
-        const srcPath = srcPathFor(lang);
-        const targetPath = localePathFor(lang);
+        const srcPath = path.join(REPO_ROOT, "locale-src", lang, "apgames.json");
+        const targetPath = path.join(REPO_ROOT, "locales", lang, "apgames.json");
         if (!fs.existsSync(srcPath) || !fs.existsSync(targetPath)) {
             console.warn(`[${lang}] skip — missing locale-src or locales file`);
             continue;
@@ -256,9 +238,7 @@ function main() {
 
     console.log(
         write
-            ? `remap-apgames-locale-leaves: wrote ${totalMoves} remap(s) across managed languages`
-            : `remap-apgames-locale-leaves: dry-run — ${totalMoves} remap(s); pass --write to apply`,
+            ? `locale-en remap apgames: wrote ${totalMoves} remap(s) across managed languages`
+            : `locale-en remap apgames: dry-run — ${totalMoves} remap(s); pass --write to apply`,
     );
 }
-
-main();

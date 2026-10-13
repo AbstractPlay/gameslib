@@ -13,6 +13,15 @@ export const gameApgamesEn = {
         WRONG_PLAYER: "You may only slide your own pieces.",
     },
 };
+export const gameApresultsEn = {
+    EOG: {
+        nonplacement: "The game has ended because no player has placed a piece for 6 plies.",
+    },
+    MOVE: {
+        default: "{{player}} slid a piece from {{from}} to {{to}}.",
+    },
+};
+
 
 
 type playerid = 1 | 2;
@@ -486,16 +495,16 @@ export class SusanGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", { where: r.where! });
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.susan", { from: r.from!, to: r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:susan.MOVE.default", { from: r.from!, to: r.to! });
                 return true;
             case "eog":
                 if (r.reason === "nonplacement") {
-                this.pushNeutralChatLine(lines, "apresults:EOG.susan_nonplacement");
+                this.pushNeutralChatLine(lines, "apresults:susan.EOG.nonplacement");
                 } else {
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }
                 return true;
             default:

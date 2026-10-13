@@ -69,6 +69,16 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        default: "{{player}} captured a stack of size {{count}} at {{where}}.",
+        self: "{{player}} reinforces a stack of size {{count}} at {{where}}.",
+    },
+    PLACE: {
+        default: "{{player}} placed a stack of size {{count}} at {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1|2|3;  // 3 is used for neutral player.
@@ -1568,14 +1578,14 @@ export class TumbleweedGame extends GameBase {
                     }
                     const wire = this.openingSetupWireFromResults(ctx.results);
                     if (wire !== undefined) {
-                        this.pushSeatChatLine(lines, 1, "apresults:PLACE.tumbleweed", {
+                        this.pushSeatChatLine(lines, 1, "apresults:tumbleweed.PLACE.default", {
                             where: wire,
                             count: (firstPlace as { count?: number }).count!,
                         });
                         return true;
                     }
                 }
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.tumbleweed", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:tumbleweed.PLACE.default", {
                     where: r.where!, count: r.count!,
                 });
                 return true;
@@ -1585,7 +1595,7 @@ export class TumbleweedGame extends GameBase {
                 this.pushSeatChatLine(
                     lines,
                     ctx.defaultSeat,
-                    selfCapture ? "apresults:CAPTURE.tumbleweed_self" : "apresults:CAPTURE.tumbleweed",
+                    selfCapture ? "apresults:tumbleweed.CAPTURE.self" : "apresults:tumbleweed.CAPTURE.default",
                     { where: r.where!, count: r.count! },
                 );
                 return true;

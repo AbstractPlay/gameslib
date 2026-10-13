@@ -44,6 +44,20 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        one: "{{player}} surrounded and captured one piece: {{group}}.",
+        other: "{{player}} surrounded and captured {{count}} pieces: {{group}}.",
+    },
+    MOVE: {
+        default: "{{player}} sowed from {{from}} to {{to}}.",
+    },
+    PLACE: {
+        one: "{{player}} added one piece to stack at {{where}}.",
+        other: "{{player}} added {{size}} pieces to stack at {{where}}.",
+    },
+};
+
 
 
 
@@ -1082,22 +1096,22 @@ export class SporaGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "komi":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:KOMI", { value: r.value! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.KOMI.default", { value: r.value! });
                 return true;
             case "play-second":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLAYSECOND", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLAYSECOND.default", {});
                 return true;
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.spora", { where: r.where!, size: r.count!, count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:spora.PLACE", { where: r.where!, size: r.count!, count: r.count! });
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.spora", { from: r.from!, to : r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:spora.MOVE.default", { from: r.from!, to : r.to! });
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.spora", { group: r.where!, count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:spora.CAPTURE", { group: r.where!, count: r.count! });
                 return true;
             case "eog":
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

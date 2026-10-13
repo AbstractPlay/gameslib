@@ -42,6 +42,12 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CLAIM: {
+        default: "{{player}} exerted influence at {{where}}.",
+    },
+};
+
 
 
 
@@ -806,10 +812,10 @@ export class JacynthGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.decktet", {where: r.where!, what: r.what!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.decktet", {where: r.where!, what: r.what!});
                 return true;
             case "claim":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.jacynth", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:jacynth.CLAIM.default", {where: r.where!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

@@ -36,6 +36,28 @@ export const gameApgamesEn = {
         GRADE_EXCELLENT: "Excellent (12)",
     },
 };
+export const gameApresultsEn = {
+    ACTOR: {
+        bear: "The Bear",
+    },
+    ANNOUNCE: {
+        bearSetup: "Bear setup",
+        playerSetup: "Player setup",
+    },
+    CAPTURE: {
+        one: "{{player}} annihilated one piece at {{where}}.",
+        other: "{{player}} annihilated {{count}} pieces at {{where}}.",
+    },
+    PLACE: {
+        one: "{{player}} placed one piece at {{where}}.",
+        other: "{{player}} placed {{count}} pieces at {{where}}.",
+    },
+    ROLL: {
+        default: "The Bear rolled: {{dice}}.",
+        player: "{{player}} rolled: {{dice}}.",
+    },
+};
+
 
 
 export type playerid = 1 | 2;
@@ -1274,7 +1296,7 @@ export class ElOsoGame extends GameBase {
 
     public override getChatActorRef(seat: number): ChatActorRef {
         if (seat === 2) {
-            return { kind: "label", key: "apresults:ACTOR.elOso.bear" };
+            return { kind: "label", key: "apresults:elOso.ACTOR.bear" };
         }
         return { kind: "seat", seat };
     }
@@ -1285,7 +1307,7 @@ export class ElOsoGame extends GameBase {
     }
 
     private rollChatKey(seat: number): string {
-        return seat === 2 ? "apresults:ROLL.elOso" : "apresults:ROLL.elOso_player";
+        return seat === 2 ? "apresults:elOso.ROLL.default" : "apresults:elOso.ROLL.player";
     }
 
     private pushElOsoChatLine(lines: ChatLogLine[], r: APMoveResult, defaultWho: number): void {
@@ -1296,21 +1318,21 @@ export class ElOsoGame extends GameBase {
             case "place":
                 lines.push({
                     actor,
-                    textKey: "apresults:PLACE.elOso",
+                    textKey: "apresults:elOso.PLACE",
                     textParams: { player, count: r.count!, where: r.where! },
                 });
                 break;
             case "move":
                 lines.push({
                     actor,
-                    textKey: "apresults:MOVE.elOso",
+                    textKey: "apresults:_general.MOVE.complete",
                     textParams: { player, from: r.from!, to: r.to!, count: r.count! },
                 });
                 break;
             case "capture":
                 lines.push({
                     actor,
-                    textKey: "apresults:CAPTURE.elOso",
+                    textKey: "apresults:elOso.CAPTURE",
                     textParams: { player, where: r.where!, count: r.count! },
                 });
                 break;
@@ -1324,7 +1346,7 @@ export class ElOsoGame extends GameBase {
             case "pass":
                 lines.push({
                     actor,
-                    textKey: "apresults:PASS.elOso",
+                    textKey: "apresults:_general.PASS.simple",
                     textParams: { player },
                 });
                 break;
@@ -1340,14 +1362,14 @@ export class ElOsoGame extends GameBase {
         if (r.type === "announce") {
             const tag = (r.payload as string[])[0];
             if (tag === "playerSetup") {
-                lines.push({ actor: { kind: "none" }, textKey: "apresults:ANNOUNCE.elOso.playerSetup" });
+                lines.push({ actor: { kind: "none" }, textKey: "apresults:elOso.ANNOUNCE.playerSetup" });
             } else if (tag === "bearSetup") {
-                lines.push({ actor: { kind: "none" }, textKey: "apresults:ANNOUNCE.elOso.bearSetup" });
+                lines.push({ actor: { kind: "none" }, textKey: "apresults:elOso.ANNOUNCE.bearSetup" });
             }
             return;
         }
         if (r.type === "eog") {
-            lines.push({ actor: { kind: "none" }, textKey: "apresults:EOG.default" });
+            lines.push({ actor: { kind: "none" }, textKey: "apresults:_general.EOG.default" });
             return;
         }
         if (r.type === "place" || r.type === "move" || r.type === "pass" || r.type === "capture" || r.type === "roll") {

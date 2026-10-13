@@ -101,6 +101,36 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    BUILD: {
+        build: "{{player}} build a {{what}} in the {{where}} system.",
+    },
+    CAPTURE: {
+        capture: "{{player}} captured a {{what}} in the {{where}} system.",
+    },
+    CATASTROPHE: {
+        catastrophe: "An overpopulation of {{colour}} led to a catastrophe in {{where}}.",
+    },
+    CONVERT: {
+        convert: "{{player}} changed a {{what}} into a {{into}} in the {{where}} system.",
+    },
+    DISCOVER: {
+        discover: "{{player}} discovered a new {{what}} system and named it {{name}}.",
+    },
+    ESTABLISH: {
+        land: "A {{ship}} colony ship belonging to {{player}} has landed in a {{stars}} system.",
+    },
+    MOVE: {
+        fly: "{{player}} flew their {{what}} from {{from}} to {{to}}.",
+    },
+    PASS: {
+        pass: "{{player}} passed an action.",
+    },
+    SACRIFICE: {
+        sacrifice: "{{player}} sacrificed a {{what}} in the {{where}} system.",
+    },
+};
+
 
 
 export type playerid = 1|2|3|4;
@@ -2802,58 +2832,58 @@ export class HomeworldsGame extends GameBaseSkipTurn {
         const { players } = ctx;
         switch (r.type) {
             case "homeworld":
-                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.ESTABLISH", {
+                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.ESTABLISH.land", {
                     name: r.name!,
                     ship: r.ship!,
                     stars: r.stars!.join("+"),
                 });
                 return true;
             case "discover":
-                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.DISCOVER", {
+                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.DISCOVER.discover", {
                     name: r.called!,
                     what: r.what!,
                 });
                 return true;
             case "move":
-                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.MOVE", {
+                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.MOVE.fly", {
                     from: r.from!,
                     to: r.to!,
                     what: r.what!,
                 });
                 return true;
             case "place":
-                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.BUILD", {
+                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.BUILD.build", {
                     where: r.where!,
                     what: r.what!,
                 });
                 return true;
             case "convert":
-                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.CONVERT", {
+                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.CONVERT.convert", {
                     what: r.what!,
                     into: r.into!,
                     where: r.where!,
                 });
                 return true;
             case "capture":
-                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.CAPTURE", {
+                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.CAPTURE.capture", {
                     where: r.where!,
                     what: r.what!,
                 });
                 return true;
             case "sacrifice":
-                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.SACRIFICE", {
+                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.SACRIFICE.sacrifice", {
                     where: r.where!,
                     what: r.what!,
                 });
                 return true;
             case "catastrophe":
-                this.pushNeutralChatLine(lines, "apresults:homeworlds.CATASTROPHE", {
+                this.pushNeutralChatLine(lines, "apresults:homeworlds.CATASTROPHE.catastrophe", {
                     where: r.where!,
                     colour: r.trigger!,
                 });
                 return true;
             case "pass":
-                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.PASS");
+                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.PASS.pass");
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

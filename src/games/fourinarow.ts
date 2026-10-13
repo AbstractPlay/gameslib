@@ -74,6 +74,19 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    REMOVE: {
+        e: "{{player}} cleared a line, shifting the pieces on the board rightwards.",
+        n: "{{player}} cleared a line, shifting the pieces on the board upwards.",
+        ne: "{{player}} cleared two lines, shifting the pieces on the board upwards and rightwards.",
+        nw: "{{player}} cleared two lines, shifting the pieces on the board upwards and leftwards.",
+        s: "{{player}} cleared a line, shifting the pieces on the board downwards.",
+        se: "{{player}} cleared two lines, shifting the pieces on the board downwards and rightwards.",
+        sw: "{{player}} cleared two lines, shifting the pieces on the board downwards and leftwards.",
+        w: "{{player}} cleared a line, shifting the pieces on the board leftwards.",
+    },
+};
+
 
 
 type playerid = 1 | 2;
@@ -970,7 +983,7 @@ export class FourInARowGame extends InARowBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "remove":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:REMOVE.fourinarow_${r.where!.toLowerCase()}`, {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:fourinarow.REMOVE.${r.where!.toLowerCase()}`, {});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

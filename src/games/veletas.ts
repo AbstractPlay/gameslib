@@ -54,6 +54,15 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CLAIM: {
+        default: "Shooter at {{where}} is trapped and is claimed by {{who}}.",
+    },
+    MOVE: {
+        default: "{{player}} moved shooter from {{from}} to {{to}}.",
+    },
+};
+
 
 
 type CellContents = 0|1|2|3|4;  // 0 is the shooter. 3 and 4 are shooters captured by player 1 and 2, respectively.
@@ -992,17 +1001,17 @@ export class VeletasGame extends GameBase {
         const opponentSeat = ctx.defaultSeat === 1 ? 2 : 1;
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.veletas", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:veletas.MOVE.default", {
                     from: r.from!, to: r.to!,
                 });
                 return true;
             case "block":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:BLOCK.veletas", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", {
                     where: r.where!,
                 });
                 return true;
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.veletas", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.complete", {
                     what: r.what!, where: r.where!,
                 });
                 return true;
@@ -1010,7 +1019,7 @@ export class VeletasGame extends GameBase {
                 const creditedSeat = (r as { who?: number }).who !== ctx.currplayer
                     ? ctx.defaultSeat
                     : opponentSeat;
-                this.pushNeutralChatLine(lines, "apresults:CLAIM.veletas", {
+                this.pushNeutralChatLine(lines, "apresults:veletas.CLAIM.default", {
                     where: r.where!,
                     who: this.resolveChatPlayerName(creditedSeat, ctx.players),
                 });

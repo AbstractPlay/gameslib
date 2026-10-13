@@ -10,6 +10,13 @@ export const gameApgamesEn = {
         PARTIAL: "Select a destination.",
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        approach: "{{player}} scared the helper at {{where}} out of the forest.",
+        replacement: "{{player}} devoured the piece at {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -548,7 +555,7 @@ export class OwlmanGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.owlman", {where: r.where!, context: r.how!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:owlman.CAPTURE.${r.how!}`, {where: r.where!, context: r.how!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

@@ -48,6 +48,18 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    ADD: {
+        default: "{{player}} added a link at {{where}}.",
+    },
+    PLACE: {
+        default: "{{player}} placed a peg at {{where}}.",
+    },
+    REMOVE: {
+        default: "{{player}} removed a link at {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -1066,13 +1078,13 @@ export class TwixtGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.twixt", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:twixt.PLACE.default", { where: r.where! });
                 return true;
             case "add":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:ADD.twixt", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:twixt.ADD.default", { where: r.where! });
                 return true;
             case "remove":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:REMOVE.twixt", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:twixt.REMOVE.default", { where: r.where! });
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

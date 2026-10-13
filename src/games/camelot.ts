@@ -5,6 +5,31 @@ import { APRenderRep, MarkerFlood, RowCol } from "@abstractplay/renderer/build/s
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { Direction, RectGrid, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApresultsEn = {
+    EOG: {
+        claim_draw_progression: "The game has ended because {{player}} has claimed a draw by the 50 move rule.",
+        claim_draw_repetition: "The game has ended because {{player}} has claimed a draw by repetition.",
+    },
+    MOVE: {
+        canter: "{{player}} made a canter with a man from {{from}} to {{to}}.",
+        canter_knight: "{{player}} made a canter with a knight from {{from}} to {{to}}.",
+        castle: "{{player}} made a castle move with a man from {{from}} to {{to}}.",
+        castle_knight: "{{player}} made a castle move with a knight from {{from}} to {{to}}.",
+        jump: "{{player}} made a jump with a man from {{from}} to {{to}}, capturing {{captured}}.",
+        jump_knight: "{{player}} made a jump with a knight from {{from}} to {{to}}, capturing {{captured}}.",
+        plain: "{{player}} made a plain move with a man from {{from}} to {{to}}.",
+        plain_knight: "{{player}} made a plain move with a knight from {{from}} to {{to}}.",
+    },
+    PLACE: {
+        tree: "{{player}} placed trees at {{where}}.",
+    },
+    USE: {
+        castle_move_none: "{{player}} has no more castle moves.",
+        castle_move_one: "{{player}} used has 1 more castle move.",
+        castle_move_other: "{{player}} used has {{count}} more castle moves.",
+    },
+};
+
 export const gameApgamesEn = {
     validation: {
         INITIAL_INSTRUCTIONS: "Select a piece to move.",
@@ -1362,57 +1387,57 @@ export class CamelotGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.camelot_place", { where: r.where!.split(",").join(", ") });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", { where: r.where!.split(",").join(", ") });
                 return true;
             case "capture":
                 return true;
             case "move":
                 if (r.how === "castle") {
                 if (r.what === "knight") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.camelot_castle_knight", { from: r.from!, to: r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:camelot.MOVE.castle_knight", { from: r.from!, to: r.to! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.camelot_castle", { from: r.from!, to: r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:camelot.MOVE.castle", { from: r.from!, to: r.to! });
                 }
                 } else if (r.how === "plain") {
                 if (r.what === "knight") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.camelot_plain_knight", { from: r.from!, to: r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:camelot.MOVE.plain_knight", { from: r.from!, to: r.to! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.camelot_plain", { from: r.from!, to: r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:camelot.MOVE.plain", { from: r.from!, to: r.to! });
                 }
                 } else if (r.how === "canter") {
                 if (r.what === "knight") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.camelot_canter_knight", { from: r.from!, to: r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:camelot.MOVE.canter_knight", { from: r.from!, to: r.to! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.camelot_canter", { from: r.from!, to: r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:camelot.MOVE.canter", { from: r.from!, to: r.to! });
                 }
                 } else if (r.how === "jump") {
                 if (r.what === "knight") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.camelot_jump_knight", { from: r.from!, to: r.to!, captured: r.by! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:camelot.MOVE.jump_knight", { from: r.from!, to: r.to!, captured: r.by! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.camelot_jump", { from: r.from!, to: r.to!, captured: r.by! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:camelot.MOVE.jump", { from: r.from!, to: r.to!, captured: r.by! });
                 }
                 }
                 return true;
             case "use":
                 if (r.remaining === 0) {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:USE.camelot_castle_move_none", { count: r.remaining! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:camelot.USE.castle_move_none", { count: r.remaining! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:USE.camelot_castle_move", { count: r.remaining! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:camelot.USE", { count: r.remaining! });
                 }
                 return true;
             case "claim":
                 return true;
             case "eog":
                 if (r.reason === "claim-draw-repetition") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:EOG.camelot_claim_draw_repetition", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:camelot.EOG.claim_draw_repetition", {});
                 } else if (r.reason === "claim-draw-progression") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:EOG.camelot_claim_draw_progression", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:camelot.EOG.claim_draw_progression", {});
                 } else if (r.reason === "stalemate") {
-                this.pushNeutralChatLine(lines, "apresults:EOG.stalemate");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.stalemate");
                 } else if (r.reason === "material") {
-                this.pushNeutralChatLine(lines, "apresults:EOG.material");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.material");
                 } else if (r.reason === "breakthrough") {
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }
                 return true;
             default:

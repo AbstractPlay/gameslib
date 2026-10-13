@@ -20,6 +20,51 @@ export const gameApgamesEn = {
         MINI_GRIDS: "Mini grids won",
     },
 };
+export const gameApresultsEn = {
+    ANNOUNCE: {
+        super: "{{player}}'s super formation: {{formation}}.",
+    },
+    CLAIM: {
+        mini: "{{player}} won the {{where}} mini grid with {{formation}}.",
+        mini_none: "{{player}} won the {{where}} mini grid on a tie-break (no formations scored).",
+    },
+    SCRIBE: {
+        glyphs: {
+            bomber: "Bomber",
+            chair: "Chair",
+            cross: "Cross",
+            double: "Double",
+            earring: "Earring",
+            four_block: "4-block",
+            h: "H",
+            house: "House",
+            j: "J",
+            line: "Line",
+            nine_block: "9-block",
+            o: "O",
+            ottoman: "Ottoman",
+            pipe: "Pipe",
+            single: "Single",
+            six_block: "6-block",
+            squat_t: "Squat-T",
+            t: "T",
+            u: "U",
+        },
+        mini: {
+            "0_0": "top-left",
+            "0_1": "centre-left",
+            "0_2": "bottom-left",
+            "1_0": "top-centre",
+            "1_1": "centre",
+            "1_2": "bottom-centre",
+            "2_0": "top-right",
+            "2_1": "centre-right",
+            "2_2": "bottom-right",
+        },
+        no_formation: "no formations",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -255,13 +300,13 @@ export function formationWhat(matches: GlyphMatch[]): string {
 
 export function formatFormationWhat(what: string | undefined): string {
     if (!what || what.length === 0) {
-        return i18next.t("apresults:SCRIBE.no_formation");
+        return i18next.t("apresults:scribe.SCRIBE.no_formation");
     }
     return what.split("|").map(name => {
         const key = GLYPH_NAME_TO_LOCALE[name];
         return key === undefined
             ? name
-            : i18next.t(`apresults:SCRIBE.glyphs.${key}`);
+            : i18next.t(`apresults:scribe.SCRIBE.glyphs.${key}`);
     }).join(", ");
 }
 
@@ -497,7 +542,7 @@ export class ScribeGame extends GameBase {
     }
 
     private miniGridLabel(key: string): string {
-        return i18next.t(`apresults:SCRIBE.mini.${key.replace(",", "_")}`);
+        return i18next.t(`apresults:scribe.SCRIBE.mini.${key.replace(",", "_")}`);
     }
 
     private winnerFormationsInMini(mgx: number, mgy: number, player: playerid): string {
@@ -757,11 +802,11 @@ export class ScribeGame extends GameBase {
             case "claim": {
                 const seat = r.who ?? ctx.defaultSeat;
                 if (r.what === undefined || r.what.length === 0) {
-                    this.pushSeatChatLine(lines, seat, "apresults:CLAIM.scribe_mini_none", {
+                    this.pushSeatChatLine(lines, seat, "apresults:scribe.CLAIM.mini_none", {
                         where: this.miniGridLabel(r.where ?? ""),
                     });
                 } else {
-                    this.pushSeatChatLine(lines, seat, "apresults:CLAIM.scribe_mini", {
+                    this.pushSeatChatLine(lines, seat, "apresults:scribe.CLAIM.mini", {
                         where: this.miniGridLabel(r.where ?? ""),
                         formation: formatFormationWhat(r.what),
                     });
@@ -773,7 +818,7 @@ export class ScribeGame extends GameBase {
                     for (const item of r.payload) {
                         if (item !== null && typeof item === "object" && "player" in item && "formations" in item) {
                             const entry = item as {player: number; formations: string};
-                            this.pushSeatChatLine(lines, entry.player, "apresults:ANNOUNCE.scribe_super", {
+                            this.pushSeatChatLine(lines, entry.player, "apresults:scribe.ANNOUNCE.super", {
                                 formation: formatFormationWhat(entry.formations),
                             });
                         }

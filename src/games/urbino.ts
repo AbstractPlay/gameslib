@@ -30,6 +30,15 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    PLACE: {
+        house: "{{player}} placed a house at {{where}}.",
+        palace: "{{player}} placed a palace at {{where}}.",
+        tower: "{{player}} placed a tower at {{where}}.",
+        worker: "{{player}} placed an architect at {{where}}.",
+    },
+};
+
 
 
 export type playerid = 0|1|2;
@@ -1214,16 +1223,16 @@ export class UrbinoGame extends GameBase {
             case "place":
                 switch (r.what) {
                     case "0":
-                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.urbino.worker", { where: r.where! });
+                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:urbino.PLACE.worker", { where: r.where! });
                         return true;
                     case "1":
-                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.urbino.house", { where: r.where! });
+                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:urbino.PLACE.house", { where: r.where! });
                         return true;
                     case "2":
-                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.urbino.palace", { where: r.where! });
+                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:urbino.PLACE.palace", { where: r.where! });
                         return true;
                     case "3":
-                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.urbino.tower", { where: r.where! });
+                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:urbino.PLACE.tower", { where: r.where! });
                         return true;
                     default:
                         return false;

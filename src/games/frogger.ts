@@ -95,6 +95,33 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    ANNOUNCE: {
+        one: "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining move.",
+        other: "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining moves.",
+    },
+    CLAIM: {
+        default: "{{player}} was blocked and drew {{card}} from the draw pool.",
+    },
+    DECKDRAW: {
+        default: "The draw pool was {{what}} refilled.",
+    },
+    DECLARE: {
+        default: "The crocodiles advanced.",
+    },
+    EJECT: {
+        card: "{{player}} played an Ace or Crown and returned a frog from {{from}} to {{to}}.",
+        croc: "The frog at {{from}} was eaten by crocodiles (and returned to {{to}}).",
+    },
+    MOVE: {
+        back: "{{player}} moved a frog back from {{from}} to {{to}}, and drew {{card}} from the draw pool.",
+        forward: "{{player}} used {{card}} to move a frog forward from {{from}} to {{to}}.",
+    },
+    PASS: {
+        default: "{{player}} passed {{why}}.",
+    },
+};
+
 
 
 
@@ -2504,44 +2531,44 @@ export class FroggerGame extends GameBase {
     private collectFroggerChatLine(lines: ChatLogLine[], r: APMoveResult, seat: number): boolean {
         switch (r.type) {
             case "announce":
-                this.pushSeatChatLine(lines, seat, "apresults:ANNOUNCE.frogger", {
+                this.pushSeatChatLine(lines, seat, "apresults:frogger.ANNOUNCE", {
                     count: Number((r.payload as number[])[0]),
                 });
                 return true;
             case "claim":
-                this.pushSeatChatLine(lines, seat, "apresults:CLAIM.frogger", {card: r.what!});
+                this.pushSeatChatLine(lines, seat, "apresults:frogger.CLAIM.default", {card: r.what!});
                 return true;
             case "deckDraw":
-                this.pushNeutralChatLine(lines, "apresults:DECKDRAW.frogger", {what: r.what!});
+                this.pushNeutralChatLine(lines, "apresults:frogger.DECKDRAW.default", {what: r.what!});
                 return true;
             case "declare":
-                this.pushNeutralChatLine(lines, "apresults:DECLARE.frogger");
+                this.pushNeutralChatLine(lines, "apresults:frogger.DECLARE.default");
                 return true;
             case "eject":
                 if (r.what === "crocodiles") {
-                    this.pushSeatChatLine(lines, seat, "apresults:EJECT.frogger_croc", {from: r.from!, to: r.to!});
+                    this.pushSeatChatLine(lines, seat, "apresults:frogger.EJECT.croc", {from: r.from!, to: r.to!});
                 } else {
-                    this.pushSeatChatLine(lines, seat, "apresults:EJECT.frogger_card", {from: r.from!, to: r.to!});
+                    this.pushSeatChatLine(lines, seat, "apresults:frogger.EJECT.card", {from: r.from!, to: r.to!});
                 }
                 return true;
             case "move":
                 if (r.how === "forward") {
-                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.frogger_forward", {
+                    this.pushSeatChatLine(lines, seat, "apresults:frogger.MOVE.forward", {
                         from: r.from!, to: r.to!, card: r.what!,
                     });
                 } else if (r.how === "back") {
-                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.frogger_back", {
+                    this.pushSeatChatLine(lines, seat, "apresults:frogger.MOVE.back", {
                         from: r.from!, to: r.to!, card: r.what!,
                     });
                 } else {
-                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.frogger_blocked", {card: r.what!});
+                    this.pushSeatChatLine(lines, seat, "apresults:frogger.CLAIM.default", {card: r.what!});
                 }
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, seat, "apresults:PASS.frogger", {why: r.why!});
+                this.pushSeatChatLine(lines, seat, "apresults:frogger.PASS.default", {why: r.why!});
                 return true;
             case "eog":
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 return true;
             default:
                 return false;

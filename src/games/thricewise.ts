@@ -56,6 +56,12 @@ export const gameApgamesEn = {
         VALID_PARTIAL_MORE: "Place your remaining card(s).",
     },
 };
+export const gameApresultsEn = {
+    SELECT: {
+        default: "{{player}} selected {{card}}.",
+    },
+};
+
 
 
 export type playerid = 1|2|3|4|5;
@@ -1486,7 +1492,7 @@ export class ThricewiseGame extends GameBaseSequenced {
             case "select":
                 if (r.who !== undefined && r.what !== undefined) {
                     const card = Card.deserialize(String(r.what));
-                    this.pushSeatChatLine(lines, r.who, "apresults:SELECT.thricewise", {
+                    this.pushSeatChatLine(lines, r.who, "apresults:thricewise.SELECT.default", {
                         card: card?.plain ?? r.what,
                     });
                     return true;
@@ -1495,7 +1501,7 @@ export class ThricewiseGame extends GameBaseSequenced {
             case "deltaScore":
                 if (r.delta !== undefined) {
                     const seat = r.who !== undefined ? r.who : ctx.defaultSeat;
-                    this.pushSeatChatLine(lines, seat, "apresults:DELTA_SCORE_GAIN", {
+                    this.pushSeatChatLine(lines, seat, "apresults:_general.DELTA_SCORE_GAIN", {
                         count: r.delta,
                         delta: r.delta,
                     });

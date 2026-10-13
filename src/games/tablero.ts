@@ -35,6 +35,18 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    PASS: {
+        default: "{{player}} bumped!",
+    },
+    ROLL: {
+        default: "The dice were rolled: {{values}}.",
+    },
+    TAKE: {
+        default: "{{player}} took one of their checkers from the stack at {{from}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -1143,16 +1155,16 @@ export class TableroGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", {where: r.where!});
                 return true;
             case "take":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:TAKE.tablero", {from: r.from!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:tablero.TAKE.default", {from: r.from!});
                 return true;
             case "roll":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:ROLL.tablero", {values: r.values!.join(",")});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:tablero.ROLL.default", {values: r.values!.join(",")});
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.tablero", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:tablero.PASS.default", {});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

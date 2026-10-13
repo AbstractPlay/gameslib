@@ -20,6 +20,12 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CONVERT: {
+        default: "King and courtesan swapped positions at {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -628,10 +634,10 @@ export class CourtesanGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "convert":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONVERT.courtesan", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:courtesan.CONVERT.default", {where: r.where!});
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.nowhat", {where: r.where!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

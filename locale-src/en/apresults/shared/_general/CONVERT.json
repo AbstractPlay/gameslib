@@ -1,0 +1,8 @@
+{
+  "_general": {
+    "CONVERT": {
+      "complete": "{{player}} turned a {{what}} into a {{into}} at {{where}}.",
+      "simple": "{{player}} converted a piece at {{where}}."
+    }
+  }
+}

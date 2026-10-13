@@ -7,6 +7,12 @@ import { Direction } from "../common/index.js";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, shuffle, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApresultsEn = {
+    PASS: {
+        default: "{{player}} chose not to move any pieces this turn.",
+    },
+};
+
 export const gameApgamesEn = {
     validation: {
         INITIAL_INSTRUCTIONS_chaos: "Select an empty cell on your opponent's board to place the next piece.",
@@ -851,16 +857,16 @@ export class EntropyGame extends GameBaseSimultaneous {
     private pushEntropyResultChatLine(lines: ChatLogLine[], seat: number, r: APMoveResult): void {
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, seat, "apresults:MOVE.nowhat", { from: r.from, to: r.to });
+                this.pushSeatChatLine(lines, seat, "apresults:_general.MOVE.nowhat", { from: r.from, to: r.to });
                 break;
             case "place":
-                this.pushSeatChatLine(lines, seat, "apresults:PLACE.complete", {
+                this.pushSeatChatLine(lines, seat, "apresults:_general.PLACE.complete", {
                     what: r.what,
                     where: r.where,
                 });
                 break;
             case "pass":
-                this.pushSeatChatLine(lines, seat, "apresults:PASS.entropy");
+                this.pushSeatChatLine(lines, seat, "apresults:entropy.PASS.default");
                 break;
             default:
                 break;

@@ -18,6 +18,16 @@ export const gameApgamesEn = {
         SUPERKO: "Superko: you may not repeat a previous board state.",
     },
 };
+export const gameApresultsEn = {
+    MOVE: {
+        jump: "{{player}} jumped a piece from {{from}} to {{to}}.",
+        walk: "{{player}} walked a piece from {{from}} to {{to}}.",
+    },
+    PLACE: {
+        default: "{{player}} placed a lake at {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1|2|3;  // Player 3 is used for the neutral obstacle pieces.
@@ -697,13 +707,13 @@ export class OnagerGame extends GameBase {
         switch (r.type) {
             case "move":
                 if (this.graph.neighbours(r.from).includes(r.to)) {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.onager_walk", {from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:onager.MOVE.walk", {from: r.from!, to: r.to!});
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.onager_jump", {from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:onager.MOVE.jump", {from: r.from!, to: r.to!});
                 }
                 return true;
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.onager", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:onager.PLACE.default", {where: r.where!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

@@ -1,0 +1,468 @@
+{
+  "generatedAt": "2026-10-12",
+  "schemaVersion": 1,
+  "gaps": [
+    {
+      "ref": "apresults:PLACE.agere",
+      "files": [
+        "src\\games\\agere.ts"
+      ]
+    },
+    {
+      "ref": "apresults:PLACE.omny",
+      "files": [
+        "src\\games\\omny.ts"
+      ]
+    },
+    {
+      "ref": "apresults:_general.DELTA_SCORE_GAIN",
+      "files": [
+        "src\\games\\assembly.ts",
+        "src\\games\\biscuit.ts"
+      ]
+    },
+    {
+      "ref": "apresults:_general.DELTA_SCORE_LOSS",
+      "files": [
+        "src\\games\\quincunx.ts"
+      ]
+    },
+    {
+      "ref": "apresults:_general.DRUID_HEX_EDGE.",
+      "files": [
+        "src\\games\\druid.ts"
+      ]
+    },
+    {
+      "ref": "apresults:_general.PLACE.PYRAMID_",
+      "files": [
+        "src\\games\\pylon.ts",
+        "src\\games\\subdivision.ts"
+      ]
+    },
+    {
+      "ref": "apresults:_general.SCRIBE.glyphs.",
+      "files": [
+        "src\\games\\scribe.ts"
+      ]
+    },
+    {
+      "ref": "apresults:_general.SCRIBE.mini.",
+      "files": [
+        "src\\games\\scribe.ts"
+      ]
+    },
+    {
+      "ref": "apresults:_general.WINNERS",
+      "files": [
+        "src\\games\\_base.ts"
+      ]
+    },
+    {
+      "ref": "apresults:arimaa.ROLL",
+      "files": [
+        "src\\games\\arimaa.ts",
+        "test\\games\\arimaa.test.ts"
+      ]
+    },
+    {
+      "ref": "apresults:armadas.PLACE.",
+      "files": [
+        "src\\games\\armadas.ts"
+      ]
+    },
+    {
+      "ref": "apresults:bao.CAPTURE",
+      "files": [
+        "src\\games\\bao.ts"
+      ]
+    },
+    {
+      "ref": "apresults:biscuit.SET.",
+      "files": [
+        "src\\games\\biscuit.ts"
+      ]
+    },
+    {
+      "ref": "apresults:blastradius.CAPTURE",
+      "files": [
+        "src\\games\\blastradius.ts"
+      ]
+    },
+    {
+      "ref": "apresults:blastradius.TAKE",
+      "files": [
+        "src\\games\\blastradius.ts"
+      ]
+    },
+    {
+      "ref": "apresults:buku.CLAIM",
+      "files": [
+        "src\\games\\buku.ts"
+      ]
+    },
+    {
+      "ref": "apresults:buku.TAKE",
+      "files": [
+        "src\\games\\buku.ts"
+      ]
+    },
+    {
+      "ref": "apresults:camelot.USE",
+      "files": [
+        "src\\games\\camelot.ts"
+      ]
+    },
+    {
+      "ref": "apresults:cifra.AFFILIATE.",
+      "files": [
+        "src\\games\\cifra.ts"
+      ]
+    },
+    {
+      "ref": "apresults:circleOfLife.CAPTURE",
+      "files": [
+        "src\\games\\circleOfLife.ts"
+      ]
+    },
+    {
+      "ref": "apresults:crosshairs.MOVE.power",
+      "files": [
+        "src\\games\\crosshairs.ts"
+      ]
+    },
+    {
+      "ref": "apresults:dameo.CAPTURE.",
+      "files": [
+        "src\\games\\croda.ts",
+        "src\\games\\dama.ts"
+      ]
+    },
+    {
+      "ref": "apresults:elOso.CAPTURE",
+      "files": [
+        "src\\games\\elOso.ts"
+      ]
+    },
+    {
+      "ref": "apresults:elOso.MOVE",
+      "files": [
+        "src\\games\\elOso.ts"
+      ]
+    },
+    {
+      "ref": "apresults:elOso.PLACE",
+      "files": [
+        "src\\games\\elOso.ts"
+      ]
+    },
+    {
+      "ref": "apresults:emu.DECKDRAW.",
+      "files": [
+        "src\\games\\emu.ts"
+      ]
+    },
+    {
+      "ref": "apresults:emu.DELTASCORE.",
+      "files": [
+        "src\\games\\emu.ts"
+      ]
+    },
+    {
+      "ref": "apresults:emu.PLACE.",
+      "files": [
+        "src\\games\\emu.ts"
+      ]
+    },
+    {
+      "ref": "apresults:estate.PLACE",
+      "files": [
+        "src\\games\\estate.ts"
+      ]
+    },
+    {
+      "ref": "apresults:fightopia.CAPTURE.",
+      "files": [
+        "src\\games\\fightopia.ts"
+      ]
+    },
+    {
+      "ref": "apresults:fightopia.MOVE.",
+      "files": [
+        "src\\games\\fightopia.ts"
+      ]
+    },
+    {
+      "ref": "apresults:fnap.CLAIM.",
+      "files": [
+        "src\\games\\fnap.ts"
+      ]
+    },
+    {
+      "ref": "apresults:fnap.SET",
+      "files": [
+        "src\\games\\fnap.ts"
+      ]
+    },
+    {
+      "ref": "apresults:forms.CAPTURE",
+      "files": [
+        "src\\games\\forms.ts"
+      ]
+    },
+    {
+      "ref": "apresults:fourinarow.REMOVE.",
+      "files": [
+        "src\\games\\fourinarow.ts"
+      ]
+    },
+    {
+      "ref": "apresults:frogger.ANNOUNCE",
+      "files": [
+        "src\\games\\frogger.ts"
+      ]
+    },
+    {
+      "ref": "apresults:gess.CAPTURE",
+      "files": [
+        "src\\games\\gess.ts"
+      ]
+    },
+    {
+      "ref": "apresults:gess.MOVE",
+      "files": [
+        "src\\games\\gess.ts"
+      ]
+    },
+    {
+      "ref": "apresults:gorogo.PLACE.",
+      "files": [
+        "src\\games\\gorogo.ts"
+      ]
+    },
+    {
+      "ref": "apresults:hens.CAPTURE.",
+      "files": [
+        "src\\games\\hens.ts"
+      ]
+    },
+    {
+      "ref": "apresults:killallgo.CAPTURE",
+      "files": [
+        "src\\games\\killallgo.ts"
+      ]
+    },
+    {
+      "ref": "apresults:killallgo.DECLARE",
+      "files": [
+        "src\\games\\killallgo.ts"
+      ]
+    },
+    {
+      "ref": "apresults:lasca.CAPTURE.",
+      "files": [
+        "src\\games\\bashni.ts",
+        "src\\games\\lasca.ts"
+      ]
+    },
+    {
+      "ref": "apresults:logger.PLACE.",
+      "files": [
+        "src\\games\\logger.ts"
+      ]
+    },
+    {
+      "ref": "apresults:magnate.ADD",
+      "files": [
+        "src\\games\\magnate.ts"
+      ]
+    },
+    {
+      "ref": "apresults:meg.PLACE.",
+      "files": [
+        "src\\games\\meg.ts"
+      ]
+    },
+    {
+      "ref": "apresults:oonpia.CAPTURE",
+      "files": [
+        "src\\games\\oonpia.ts"
+      ]
+    },
+    {
+      "ref": "apresults:orb.CAPTURE.",
+      "files": [
+        "src\\games\\orb.ts"
+      ]
+    },
+    {
+      "ref": "apresults:orb.MOVE.",
+      "files": [
+        "src\\games\\orb.ts"
+      ]
+    },
+    {
+      "ref": "apresults:orb.PROMOTE.",
+      "files": [
+        "src\\games\\orb.ts"
+      ]
+    },
+    {
+      "ref": "apresults:owlman.CAPTURE.",
+      "files": [
+        "src\\games\\owlman.ts"
+      ]
+    },
+    {
+      "ref": "apresults:pahtum.PLACE.",
+      "files": [
+        "src\\games\\pahtum.ts"
+      ]
+    },
+    {
+      "ref": "apresults:paintbucket.CONVERT",
+      "files": [
+        "src\\games\\paintbucket.ts"
+      ]
+    },
+    {
+      "ref": "apresults:penguin.EJECT.",
+      "files": [
+        "src\\games\\penguin.ts"
+      ]
+    },
+    {
+      "ref": "apresults:phutball.REMOVE",
+      "files": [
+        "src\\games\\phutball.ts"
+      ]
+    },
+    {
+      "ref": "apresults:pigs.FIRE.",
+      "files": [
+        "src\\games\\pigs.ts",
+        "src\\games\\pigs2.ts"
+      ]
+    },
+    {
+      "ref": "apresults:quincunx.DECKDRAW",
+      "files": [
+        "src\\games\\quincunx.ts"
+      ]
+    },
+    {
+      "ref": "apresults:quincunx.SET.",
+      "files": [
+        "src\\games\\quincunx.ts"
+      ]
+    },
+    {
+      "ref": "apresults:reversi.CAPTURE",
+      "files": [
+        "src\\games\\reversi.ts"
+      ]
+    },
+    {
+      "ref": "apresults:rincala.SOW",
+      "files": [
+        "src\\games\\rincala.ts"
+      ]
+    },
+    {
+      "ref": "apresults:spook.CAPTURE",
+      "files": [
+        "src\\games\\spook.ts"
+      ]
+    },
+    {
+      "ref": "apresults:spora.CAPTURE",
+      "files": [
+        "src\\games\\spora.ts"
+      ]
+    },
+    {
+      "ref": "apresults:spora.PLACE",
+      "files": [
+        "src\\games\\spora.ts"
+      ]
+    },
+    {
+      "ref": "apresults:squares.EOG.",
+      "files": [
+        "src\\games\\squares.ts"
+      ]
+    },
+    {
+      "ref": "apresults:squares.MOVE.",
+      "files": [
+        "src\\games\\squares.ts"
+      ]
+    },
+    {
+      "ref": "apresults:squares.SELECT.",
+      "files": [
+        "src\\games\\squares.ts"
+      ]
+    },
+    {
+      "ref": "apresults:storisende.CONVERT.",
+      "files": [
+        "src\\games\\storisende.ts"
+      ]
+    },
+    {
+      "ref": "apresults:strands.PLACE",
+      "files": [
+        "src\\games\\strands.ts"
+      ]
+    },
+    {
+      "ref": "apresults:streetcar.PLACE.place_",
+      "files": [
+        "src\\games\\streetcar.ts"
+      ]
+    },
+    {
+      "ref": "apresults:streetcar.TAKE.take_",
+      "files": [
+        "src\\games\\streetcar.ts"
+      ]
+    },
+    {
+      "ref": "apresults:terrace.CAPTURE",
+      "files": [
+        "src\\games\\terrace.ts"
+      ]
+    },
+    {
+      "ref": "apresults:tritium.PLACE.",
+      "files": [
+        "src\\games\\tritium.ts"
+      ]
+    },
+    {
+      "ref": "apresults:volo.MOVE",
+      "files": [
+        "src\\games\\volo.ts"
+      ]
+    },
+    {
+      "ref": "apresults:witch.AFFILIATE.",
+      "files": [
+        "src\\games\\witch.ts"
+      ]
+    },
+    {
+      "ref": "apresults:witch.CAPTURE.nowhere_",
+      "files": [
+        "src\\games\\witch.ts"
+      ]
+    },
+    {
+      "ref": "apresults:witch.CAPTURE.single_",
+      "files": [
+        "src\\games\\witch.ts"
+      ]
+    }
+  ]
+}

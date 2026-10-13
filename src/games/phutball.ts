@@ -23,6 +23,22 @@ export const gameApgamesEn = {
         NOT_EMPTY_JUMP: "A jump must end in an empty vertex. {{to}} is not empty.",
     },
 };
+export const gameApresultsEn = {
+    MOVE: {
+        default: "{{player}} moved the ball from {{from}} to {{to}},",
+        last: "{{player}} moved the ball from {{from}} to {{to}}.",
+        to: "to {{to}},",
+        to_last: "to {{to}}.",
+    },
+    PLACE: {
+        default: "{{player}} placed a player at {{where}}.",
+    },
+    REMOVE: {
+        one: "{{count}} player was removed.",
+        other: "{{count}} players were removed.",
+    },
+};
+
 
 
 export type playerid = 1 | 2;
@@ -715,21 +731,21 @@ export class PhutballGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.phutball", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:phutball.PLACE.default", {where: r.where!});
                 return true;
             case "move":
                 if (ctx.results.length === 2) {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.phutball_last", {from: r.from!, to: r.to!});
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:phutball.MOVE.last", {from: r.from!, to: r.to!});
                 } else if (lines.length === 0) {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.phutball", {from: r.from!, to: r.to!});
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:phutball.MOVE.default", {from: r.from!, to: r.to!});
                 } else if (lines.length < ctx.results.length - 1) {
-                    this.pushNeutralChatLine(lines, "apresults:MOVE.phutball_to", {to: r.to!});
+                    this.pushNeutralChatLine(lines, "apresults:phutball.MOVE.to", {to: r.to!});
                 } else {
-                    this.pushNeutralChatLine(lines, "apresults:MOVE.phutball_to_last", {to: r.to!});
+                    this.pushNeutralChatLine(lines, "apresults:phutball.MOVE.to_last", {to: r.to!});
                 }
                 return true;
             case "remove":
-                this.pushNeutralChatLine(lines, "apresults:REMOVE.phutball", {count: r.num!});
+                this.pushNeutralChatLine(lines, "apresults:phutball.REMOVE", {count: r.num!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

@@ -771,7 +771,7 @@ export class ConspirateursGame extends GameBase {
     //     let resolved = false;
     //     switch (r.type) {
     //         case "place":
-    //             node.push(i18next.t("apresults:PLACE.nowhat", {player, where: r.where}));
+    //             node.push(i18next.t("apresults:_general.PLACE.nowhat", {player, where: r.where}));
     //             resolved = true;
     //             break;
     //         case "move":

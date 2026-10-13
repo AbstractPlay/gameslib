@@ -27,6 +27,12 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    PLACE: {
+        chain: "A ball of {{whose}} was placed at {{where}}.",
+    },
+};
+
 
 
 type playerid = 1 | 2 | 3;
@@ -656,12 +662,12 @@ export class UpperHandGame extends GameBase {
                     const creditedSeat = (r as { who?: number }).who === ctx.currplayer
                         ? ctx.defaultSeat
                         : opponentSeat;
-                    this.pushNeutralChatLine(lines, "apresults:PLACE.upperhand_chain", {
+                    this.pushNeutralChatLine(lines, "apresults:upperhand.PLACE.chain", {
                         whose: this.resolveChatPlayerName(creditedSeat, ctx.players),
                         where: r.where!,
                     });
                 } else {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.ball", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.ball", {
                         where: r.where!,
                     });
                 }

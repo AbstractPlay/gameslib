@@ -25,6 +25,17 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        one: "{{count}} stone is removed from the board.",
+        other: "{{count}} stones are removed from the board.",
+    },
+    MOVE: {
+        one: "{{player}} moved a 3x3 piece containing {{count}} stone from {{from}} to {{to}}.",
+        other: "{{player}} moved a 3x3 piece containing {{count}} stones from {{from}} to {{to}}.",
+    },
+};
+
 
 
 type playerid = 1|2;
@@ -674,10 +685,10 @@ export class GessGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.gess", {from: r.from!, to: r.to!, count: r.count!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:gess.MOVE", {from: r.from!, to: r.to!, count: r.count!});
                 return true;
             case "capture":
-                this.pushNeutralChatLine(lines, "apresults:CAPTURE.gess", {count: r.count!});
+                this.pushNeutralChatLine(lines, "apresults:gess.CAPTURE", {count: r.count!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

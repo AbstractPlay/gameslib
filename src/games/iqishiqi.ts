@@ -14,6 +14,15 @@ export const gameApgamesEn = {
         NOLOS: "The group of shared stones formed by placement at {{place}} cannot see the neutral stone at {{from}}.",
     },
 };
+export const gameApresultsEn = {
+    MOVE: {
+        default: "{{player}} moved neutral stone {{from}} to {{to}}.",
+    },
+    PLACE: {
+        default: "{{player}} placed a shared stone at {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1|2|3;
@@ -553,10 +562,10 @@ export class IqishiqiGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.iqishiqi", {count: parseInt(r.what!, 10), from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:iqishiqi.MOVE.default", {count: parseInt(r.what!, 10), from: r.from!, to: r.to!});
                 return true;
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.iqishiqi", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:iqishiqi.PLACE.default", {where: r.where!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

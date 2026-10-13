@@ -31,6 +31,12 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    SELECT: {
+        default: "{{player}} handed a ball of colour {{who}} to the opponent.",
+    },
+};
+
 
 
 type playerid = 1 | 2 | 3;
@@ -829,10 +835,10 @@ export class SpreeGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.ball", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.ball", { where: r.where! });
                 return true;
             case "select":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SELECT.spree", { who: r.who! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:spree.SELECT.default", { who: r.who! });
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

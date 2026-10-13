@@ -1070,13 +1070,13 @@ export class AkronGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.ball", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.ball", { where: r.where! });
                 return true;
             case "move":
                 if (r.how === "drop") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.ball_drop", { from: r.from!, to: r.to!, count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.ball_drop", { from: r.from!, to: r.to!, count: r.count! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.ball", { from: r.from!, to: r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.ball", { from: r.from!, to: r.to! });
                 }
                 return true;
             default:

@@ -84,6 +84,13 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        default: "{{player}} captured {{count}} pieces.",
+        self: "{{player}} captured {{count}} of their own pieces.",
+    },
+};
+
 
 
 type playerid = 1 | 2;
@@ -1074,17 +1081,17 @@ export class PenteGame extends InARowBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", { where: r.where! });
                 return true;
             case "capture":
                 if (r.what === "self") {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.pente_self", { count: r.count! });
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:pente.CAPTURE.self", { count: r.count! });
                 } else {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.pente", { count: r.count! });
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:pente.CAPTURE.default", { count: r.count! });
                 }
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.pie", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.pie", {});
                 return true;
 
             default:

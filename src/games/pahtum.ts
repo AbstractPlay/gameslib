@@ -23,6 +23,12 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    PLACE: {
+        block: "{{player}} blocked off {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -577,11 +583,15 @@ export class PahTumGame extends GameBase {
 
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
-            case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.pahtum", {where: r.where!, context: r.what!});
+            case "place": {
+                const placeKey = r.what! === "piece"
+                    ? "apresults:_general.PLACE.nowhat"
+                    : `apresults:pahtum.PLACE.${r.what!}`;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, placeKey, {where: r.where!, context: r.what!});
                 return true;
+            }
             case "convert":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONVERT.simple", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CONVERT.simple", {where: r.where!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

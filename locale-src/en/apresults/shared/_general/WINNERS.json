@@ -1,0 +1,8 @@
+{
+  "_general": {
+    "WINNERS": {
+      "one": "The following player won: {{winners}}.",
+      "other": "The following players won: {{winners}}."
+    }
+  }
+}

@@ -26,6 +26,12 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    PLACE: {
+        default: "{{player}} placed viruses/walls at {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1 | 2 | 3 | 4 | 5 | 6; // 3,4 are dead virus; 5,6 are home-bases
@@ -463,10 +469,10 @@ export class VirusWarGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.viruswar", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:viruswar.PLACE.default", { where: r.where! });
                 return true;
             case "eog":
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

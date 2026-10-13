@@ -41,6 +41,15 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        double: "{{player}} captured two pieces at {{where}}.",
+    },
+    FIRE: {
+        default: "{{player}} fired a catapult from {{from}} to {{to}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -939,13 +948,13 @@ export class MurusGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "fire":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:FIRE.murus", {from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:murus.FIRE.default", {from: r.from!, to: r.to!});
                 return true;
             case "capture":
                 if ("count" in r) {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.murus_double", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:murus.CAPTURE.double", {where: r.where!});
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.nowhat", {where: r.where!});
                 }
                 return true;
             default:

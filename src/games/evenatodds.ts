@@ -38,6 +38,15 @@ export const gameApgamesEn = {
         BONEYARD: "Boneyard",
     },
 };
+export const gameApresultsEn = {
+    DECKDRAW: {
+        default: "{{player}} drew a tile from the boneyard.",
+    },
+    PLACE: {
+        default: "{{player}} placed the {{what}} domino at {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1 | 2;
@@ -1765,10 +1774,10 @@ export class EvenAtOddsGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.evenatodds", { where: r.where!, what: r.what! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:evenatodds.PLACE.default", { where: r.where!, what: r.what! });
                 return true;
             case "deckDraw":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DECKDRAW.evenatodds", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:evenatodds.DECKDRAW.default", {});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

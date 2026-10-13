@@ -17,6 +17,12 @@ export const gameApgamesEn = {
         LABEL_NEUTRAL: "{{player}}'s neutral pieces",
     },
 };
+export const gameApresultsEn = {
+    PLACE: {
+        henge: "{{player}} placed a henge piece at {{where}}.",
+    },
+};
+
 
 
 
@@ -635,11 +641,15 @@ export class GorogoGame extends GameBase {
 
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
-            case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.gorogo", {where: r.where!, context: r.what!});
+            case "place": {
+                const placeKey = r.what! === "piece"
+                    ? "apresults:_general.PLACE.nowhat"
+                    : `apresults:gorogo.PLACE.${r.what!}`;
+                this.pushSeatChatLine(lines, ctx.defaultSeat, placeKey, {where: r.where!, context: r.what!});
                 return true;
+            }
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.multiple", {count: r.count!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.multiple", {count: r.count!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

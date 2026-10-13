@@ -33,6 +33,18 @@ export const gameApgamesEn = {
         "#setup": { name: "Default setup" }
     },
 };
+export const gameApresultsEn = {
+    DELTASCORE: {
+        opponent_gain_one: "An opponent gained {{delta}} point.",
+        opponent_gain_other: "An opponent gained {{delta}} points.",
+    },
+    PLACE: {
+        large: "{{player}} placed a large at {{where}} facing {{how}}.",
+        medium: "{{player}} placed a medium at {{where}} facing {{how}}.",
+        small: "{{player}} placed a small at {{where}} facing {{how}}.",
+    },
+};
+
 
 
 interface ILegendObj {
@@ -958,30 +970,30 @@ export class BTTGame extends GameBase {
         switch (r.type) {
             case "deltaScore":
                 if (r.delta === 1) {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DELTASCORE.btt_opponent_gain_one", {delta: r.delta});
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:btt.DELTASCORE.opponent_gain_one", {delta: r.delta});
                 } else if (r.delta! > 0) {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DELTASCORE.btt_opponent_gain_other", {delta: r.delta!});
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:btt.DELTASCORE.opponent_gain_other", {delta: r.delta!});
                 } else if (r.delta === -1) {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DELTA_SCORE_LOSS_one", {delta: r.delta! * -1});
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.DELTA_SCORE_LOSS.one", {delta: r.delta! * -1});
                 } else if (r.delta! < 0) {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DELTA_SCORE_LOSS_other", {delta: r.delta! * -1});
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.DELTA_SCORE_LOSS.other", {delta: r.delta! * -1});
                 }
                 return true;
             case "place":
                 if (r.what === "1") {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.btt_small", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:btt.PLACE.small", {
                         what: r.what, where: r.where!, how: r.how!,
                     });
                 } else if (r.what === "2") {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.btt_medium", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:btt.PLACE.medium", {
                         what: r.what, where: r.where!, how: r.how!,
                     });
                 } else if (r.what === "3") {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.btt_large", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:btt.PLACE.large", {
                         what: r.what, where: r.where!, how: r.how!,
                     });
                 } else {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.btt", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.complete", {
                         what: r.what!.toLowerCase(), where: r.where!, how: r.how!,
                     });
                 }

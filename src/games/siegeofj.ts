@@ -29,6 +29,12 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    PLACE: {
+        default: "{{player}} placed \"{{what}}\" next to {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -953,7 +959,7 @@ export class SiegeOfJGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.siegeofj", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:siegeofj.PLACE.default", {
                     where: r.where!, what: r.what!,
                 });
                 return true;

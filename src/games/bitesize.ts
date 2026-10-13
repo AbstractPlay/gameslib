@@ -19,6 +19,12 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        default: "{{player}} captured group {{where}} of size {{count}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -431,13 +437,13 @@ export class BitesizeGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.complete", { where: r.where!, what: "piece" });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.complete", { where: r.where!, what: "piece" });
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.bitesize", { where: r.where!, count: r.count!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:bitesize.CAPTURE.default", { where: r.where!, count: r.count!});
                 return true;
             case "eog":
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

@@ -610,13 +610,13 @@ export class AyuGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.nowhat", { from: r.from!, to: r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.nowhat", { from: r.from!, to: r.to! });
                 return true;
             case "eog":
                 if (r.reason === "repetition") {
-                this.pushNeutralChatLine(lines, "apresults:EOG.repetition", { count: 1 });
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.repetition", { count: 1 });
                 } else {
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }
                 return true;
             default:

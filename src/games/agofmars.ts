@@ -132,6 +132,31 @@ export const gameApgamesEn = {
         setupPool: "Objective pyramids",
     },
 };
+export const gameApresultsEn = {
+    DECKDRAW: {
+        default: "{{player}} drew a {{colour}}{{count}} pyramid from the bag.",
+    },
+    MOVE: {
+        default: "{{player}} moved a pyramid from {{from}} to {{to}}.",
+    },
+    OBJECTIVES: {
+        default: "{{player}} chose their objectives.",
+    },
+    OBJECTIVE_SWAP: {
+        default: "{{player}} swapped objective multipliers {{columnA}} and {{columnB}}.",
+    },
+    PASS: {
+        noObjSwap: "{{player}} did not swap objectives.",
+    },
+    PLACE: {
+        default: "{{player}} placed a {{colour}}{{count}} pyramid at {{where}}.",
+    },
+    SWAP: {
+        board: "{{player}} swapped the {{colour1}}{{size1}} at {{cell1}} and the {{colour2}}{{size2}} at {{cell2}}.",
+        board_cells: "{{player}} swapped the pyramids at {{cell1}} and {{cell2}}.",
+    },
+};
+
 
 
 export type { CellContents, Colour, IMoveState, Phase, playerid, Size } from "./agofmars/types.js";
@@ -2117,24 +2142,24 @@ export class AgofmarsGame extends GameBaseSequenced {
 
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         if (r.type === "button" && r.why === "objectives") {
-            this.pushSeatChatLine(lines, r.who ?? ctx.defaultSeat, "apresults:OBJECTIVES.agofmars", {});
+            this.pushSeatChatLine(lines, r.who ?? ctx.defaultSeat, "apresults:agofmars.OBJECTIVES.default", {});
             return true;
         }
         if (r.type === "button" && r.why === "noObjSwap") {
-            this.pushSeatChatLine(lines, r.who ?? ctx.defaultSeat, "apresults:PASS.agofmars_noObjSwap", {});
+            this.pushSeatChatLine(lines, r.who ?? ctx.defaultSeat, "apresults:agofmars.PASS.noObjSwap", {});
             return true;
         }
         if (r.type === "button" && r.why?.startsWith("objSwap;") === true) {
             const body = r.why.slice("objSwap;".length);
             const [tokenA, tokenB] = body.split("|");
-            this.pushSeatChatLine(lines, r.who ?? ctx.defaultSeat, "apresults:OBJECTIVE_SWAP.agofmars", {
+            this.pushSeatChatLine(lines, r.who ?? ctx.defaultSeat, "apresults:agofmars.OBJECTIVE_SWAP.default", {
                 columnA: this.objectiveColumnLabelFromMultToken(tokenA ?? ""),
                 columnB: this.objectiveColumnLabelFromMultToken(tokenB ?? ""),
             });
             return true;
         }
         if (r.type === "move" && r.from !== undefined && r.to !== undefined) {
-            this.pushSeatChatLine(lines, r.who ?? ctx.defaultSeat, "apresults:MOVE.agofmars", {
+            this.pushSeatChatLine(lines, r.who ?? ctx.defaultSeat, "apresults:agofmars.MOVE.default", {
                 from: r.from,
                 to: r.to,
             });
@@ -2146,7 +2171,7 @@ export class AgofmarsGame extends GameBaseSequenced {
             const p1 = AgofmarsGame.parsePieceWire(pieces[0] ?? "");
             const p2 = AgofmarsGame.parsePieceWire(pieces[1] ?? "");
             if (p1 !== undefined && p2 !== undefined) {
-                this.pushSeatChatLine(lines, seat, "apresults:SWAP.agofmars_board", {
+                this.pushSeatChatLine(lines, seat, "apresults:agofmars.SWAP.board", {
                     colour1: p1.colour,
                     size1: p1.size,
                     cell1: r.where,
@@ -2156,14 +2181,14 @@ export class AgofmarsGame extends GameBaseSequenced {
                 });
                 return true;
             }
-            this.pushSeatChatLine(lines, seat, "apresults:SWAP.agofmars_board_cells", {
+            this.pushSeatChatLine(lines, seat, "apresults:agofmars.SWAP.board_cells", {
                 cell1: r.where,
                 cell2: r.with,
             });
             return true;
         }
         if (r.type === "place" && r.where !== undefined && r.what !== undefined) {
-            this.pushSeatChatLine(lines, r.who ?? ctx.defaultSeat, "apresults:PLACE.agofmars", {
+            this.pushSeatChatLine(lines, r.who ?? ctx.defaultSeat, "apresults:agofmars.PLACE.default", {
                 colour: r.what,
                 count: r.count ?? "",
                 where: r.where,
@@ -2171,7 +2196,7 @@ export class AgofmarsGame extends GameBaseSequenced {
             return true;
         }
         if (r.type === "deckDraw" && r.what !== undefined && r.count !== undefined) {
-            this.pushSeatChatLine(lines, r.who ?? ctx.defaultSeat, "apresults:DECKDRAW.agofmars", {
+            this.pushSeatChatLine(lines, r.who ?? ctx.defaultSeat, "apresults:agofmars.DECKDRAW.default", {
                 colour: r.what,
                 count: r.count,
             });

@@ -25,6 +25,11 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        default: "{{player}} destroyed a piece at {{where}}.",
+    },
+};
 
 
 export type playerid = 1|2;
@@ -618,13 +623,13 @@ export class BoomGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.complete", {count: parseInt(r.what!, 10), from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.complete", {count: parseInt(r.what!, 10), from: r.from!, to: r.to!});
                 return true;
             case "damage":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.boom", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:boom.CAPTURE.default", {where: r.where!});
                 return true;
             case "bearoff":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:BEAROFF.complete", {from: r.from!, count: parseInt(r.what!, 10)});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.BEAROFF.complete", {from: r.from!, count: parseInt(r.what!, 10)});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

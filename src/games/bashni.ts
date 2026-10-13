@@ -15,6 +15,12 @@ export const gameApgamesEn = {
         MATERIAL: "Material",
     },
 };
+export const gameApresultsEn = {
+    EOG: {
+        stagnation: "The game has ended in a draw because the piece count and composition were unchanged for {{count}} consecutive moves.",
+    },
+};
+
 
 
 
@@ -814,18 +820,18 @@ export class BashniGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.lasca", {where: r.where!, context: r.what!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:lasca.CAPTURE.${r.what!}`, {where: r.where!, context: r.what!});
                 return true;
             case "promote":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PROMOTE.basicWhere", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PROMOTE.basicWhere", {where: r.where!});
                 return true;
             case "eog":
                 if (r.reason === "repetition") {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.repetition", {count: 3});
+                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.repetition", {count: 3});
                 } else if (r.reason === "stagnation") {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.bashni_stagnation", {count: STAGNATION_DRAW});
+                    this.pushNeutralChatLine(lines, "apresults:bashni.EOG.stagnation", {count: STAGNATION_DRAW});
                 } else {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }
                 return true;
             default:

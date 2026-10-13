@@ -35,6 +35,19 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    MOVE: {
+        one: "{{player}} moved a flock of 1 bird from {{from}} in the direction {{how}}.",
+        other: "{{player}} moved a flock of {{count}} birds from {{from}} in the direction {{how}}.",
+    },
+    PLACE: {
+        default: "{{player}} adds a bird at {{where}}.",
+    },
+    REMOVE: {
+        default: "{{player}} chose to retain the region at {{how}}, removing {{num}} opponent's birds.",
+    },
+};
+
 
 
 type playerid = 1 | 2;
@@ -1003,26 +1016,26 @@ export class VoloGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.volo", { from: r.from!, how: r.how!, count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:volo.MOVE", { from: r.from!, how: r.how!, count: r.count! });
                 return true;
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.volo", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:volo.PLACE.default", { where: r.where! });
                 return true;
             case "remove":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:REMOVE.volo", { how: r.how!, num: r.num! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:volo.REMOVE.default", { how: r.how!, num: r.num! });
                 return true;
             case "pass":
                 if (r.why === "forced") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.forced", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.forced", {});
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.simple", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.simple", {});
                 }
                 return true;
             case "eog":
                 if (r.reason === "pass") {
-                this.pushNeutralChatLine(lines, "apresults:EOG.consecutive_passes");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.consecutive_passes");
                 } else {
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }
                 return true;
             default:

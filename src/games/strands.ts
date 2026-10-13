@@ -44,6 +44,13 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    PLACE: {
+        initial: "{{player}} placed a piece on a space labelled 2 at {{where}}.",
+        other: "{{player}} placed {{count}} pieces at {{where}}.",
+    },
+};
+
 
 
 type playerid = 1 | 2;
@@ -821,9 +828,13 @@ export class StrandsGame extends GameBase {
         switch (r.type) {
             case "place":
                 if (r.what === "2" && r.count === 1) {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.strands_initial", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:strands.PLACE.initial", { where: r.where! });
+                } else if (r.count === 1) {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", {
+                    where: r.where!.split(",").join(", "),
+                });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.strands", { where: r.where!.split(",").join(", "), count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:strands.PLACE", { where: r.where!.split(",").join(", "), count: r.count! });
                 }
                 return true;
             default:

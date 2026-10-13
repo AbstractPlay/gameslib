@@ -51,6 +51,19 @@ export const gameApgamesEn = {
         dr: "Dark, Right",
     },
 };
+export const gameApresultsEn = {
+    AFFILIATE: {
+        db: "{{player}} chose to play the dark pieces from the top row.",
+        dl: "{{player}} chose to play the dark pieces from the left column.",
+        dr: "{{player}} chose to play the dark pieces from the right column.",
+        dt: "{{player}} chose to play the dark pieces from the top row.",
+        lb: "{{player}} chose to play the light pieces from the bottom row.",
+        ll: "{{player}} chose to play the light pieces from the left column.",
+        lr: "{{player}} chose to play the light pieces from the right column.",
+        lt: "{{player}} chose to play the light pieces from the top row.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -1127,7 +1140,7 @@ export class CifraGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.complete", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.complete", {
                     where: r.where!, what: r.what!,
                 });
                 return true;
@@ -1136,7 +1149,7 @@ export class CifraGame extends GameBase {
                 const context = shade === "light" ?
                     (pos === "top" ? "lt" : pos === "bottom" ? "lb" : pos === "left" ? "ll" : "lr") :
                     (pos === "top" ? "dt" : pos === "bottom" ? "db" : pos === "left" ? "dl" : "dr");
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:AFFILIATE.cifra", {context});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:cifra.AFFILIATE.${context}`, {context});
                 return true;
             }
             default:

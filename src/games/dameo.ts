@@ -26,6 +26,13 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        king: "{{player}} captured a king at {{where}}.",
+        soldier: "{{player}} captured a soldier at {{where}}.",
+    },
+};
+
 
 
 
@@ -736,12 +743,12 @@ export class DameoGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.dameo", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:dameo.CAPTURE.${r.what!}`, {
                     where: r.where!, context: r.what!,
                 });
                 return true;
             case "promote":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PROMOTE.basicWhere", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PROMOTE.basicWhere", {
                     where: r.where!,
                 });
                 return true;

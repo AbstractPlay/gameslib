@@ -41,6 +41,30 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    ANNOUNCE: {
+        default: "{{player}} was unable to move and must pass from now on.",
+    },
+    EJECT: {
+        default: "{{player}} pushed a piece from {{from}} to {{to}}.",
+    },
+    EOG: {
+        default: "The game has ended because the last player was unable to move.",
+    },
+    MOVE: {
+        default: "{{player}} moved a piece from {{from}} to {{to}}, collecting {{what}}.",
+    },
+    PASS: {
+        default: "{{player}} was unable to move.",
+    },
+    PIE: {
+        default: "{{player}} moves second.",
+    },
+    SWAP: {
+        default: "{{player}} swapped {{what}} from the market with {{with}} at {{where}}.",
+    },
+};
+
 
 
 
@@ -1437,28 +1461,28 @@ export class DeckfishGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.deckfish", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", {where: r.where!});
                 return true;
             case "pie":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PIE.deckfish", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:deckfish.PIE.default", {});
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.deckfish", {from: r.from!, to: r.to!, what: r.what!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:deckfish.MOVE.default", {from: r.from!, to: r.to!, what: r.what!});
                 return true;
             case "eject":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:EJECT.deckfish", {from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:deckfish.EJECT.default", {from: r.from!, to: r.to!});
                 return true;
             case "swap":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SWAP.deckfish", {what: r.what!, with: r.with!, where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:deckfish.SWAP.default", {what: r.what!, with: r.with!, where: r.where!});
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.simple", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.simple", {});
                 return true;
             case "announce":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:ANNOUNCE.deckfish", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:deckfish.ANNOUNCE.default", {});
                 return true;
             case "eog":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:EOG.deckfish", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:deckfish.EOG.default", {});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

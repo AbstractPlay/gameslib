@@ -568,10 +568,14 @@ export class MixtourGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "remove":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:REMOVE", {count: r.num!, where: r.where!});
+                if (r.num === undefined) {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.REMOVE.nonum", { count: r.num!, where: r.where! });
+                } else {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.REMOVE.remove", { count: r.num!, where: r.where! });
+                }
                 return true;
             case "deltaScore":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DELTA_SCORE_GAIN", {player: `Player ${(r.who! as number).toString()}`, delta: r.delta!, count: r.delta!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.DELTA_SCORE_GAIN", {player: `Player ${(r.who! as number).toString()}`, delta: r.delta!, count: r.delta!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

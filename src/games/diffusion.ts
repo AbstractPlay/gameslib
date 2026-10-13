@@ -452,7 +452,7 @@ export class DiffusionGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "sow":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SOW.general", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.SOW.general", {
                     pits: r.pits!.join(", "), count: r.pits!.length,
                 });
                 return true;

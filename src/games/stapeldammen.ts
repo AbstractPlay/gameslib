@@ -588,10 +588,10 @@ export class StapeldammenGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "add":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:ADD.add", {where: r.where!, count: r.num!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.ADD.add", {where: r.where!, count: r.num!});
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.nowhat", {where: r.where!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

@@ -1145,10 +1145,10 @@ export class ACityGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.complete", {where: r.where!, what: r.what!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.complete", {where: r.where!, what: r.what!});
                 return true;
             case "claim":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.default", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CLAIM.default", {where: r.where!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

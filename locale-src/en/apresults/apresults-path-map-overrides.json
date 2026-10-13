@@ -1,0 +1,14 @@
+{
+  "overrides": {
+    "ROLL.arimaa_one": {
+      "uid": "arimaa",
+      "resultType": "",
+      "newLeaf": "ROLL_one"
+    },
+    "ROLL.arimaa_other": {
+      "uid": "arimaa",
+      "resultType": "",
+      "newLeaf": "ROLL_other"
+    }
+  }
+}

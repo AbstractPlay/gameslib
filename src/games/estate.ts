@@ -15,6 +15,13 @@ export const gameApgamesEn = {
         INITIAL_INSTRUCTIONS_zero: "You have no more points to spend. Complete your move or click one of your placed pieces to place it elsewhere.",
     },
 };
+export const gameApresultsEn = {
+    PLACE: {
+        one: "{{player}} placed a piece at {{where}} ({{what}} pt).",
+        other: "{{player}} placed a piece at {{where}} ({{what}} pts).",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -521,7 +528,7 @@ export class EstateGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.estate", {where: r.where!, what: r.what!, count: Number(r.what!)});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:estate.PLACE", {where: r.where!, what: r.what!, count: Number(r.what!)});
                 return true;
             case "move":
                 return true;

@@ -18,6 +18,12 @@ export const gameApgamesEn = {
         WRONGDIR_slide: "Slides must move diagonally.",
     },
 };
+export const gameApresultsEn = {
+    SOW: {
+        default: "{{player}} sowed checkers from {{from}} to {{to}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -703,13 +709,13 @@ export class PrudhGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "sow":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SOW.prudh", {from: r.pits![0], to: r.pits![1]});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:prudh.SOW.default", {from: r.pits![0], to: r.pits![1]});
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.multiple", {where: r.where!, count: parseInt(r.what!, 10)});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.multiple", {where: r.where!, count: parseInt(r.what!, 10)});
                 return true;
             case "deltaScore":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DELTA_SCORE_GAIN", {delta: r.delta!, count: r.delta!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.DELTA_SCORE_GAIN", {delta: r.delta!, count: r.delta!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

@@ -50,6 +50,21 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    ANNOUNCE: {
+        default: "{{player}} was unable to move and must pass from now on.  Their pieces remain on the following pyramids: {{pyramids}}.",
+    },
+    CAPTURE: {
+        default: "{{player}} captured the {{what}} at {{where}}.",
+    },
+    EOG: {
+        default: "The game has ended because the last player was unable to move.",
+    },
+    MOVE: {
+        default: "{{player}} moved a piece from {{from}} to {{to}} and captured {{what}} at {{how}}.",
+    },
+};
+
 
 
 export type playerid = 1|2|3|4;
@@ -1145,25 +1160,25 @@ export class StawvsGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.stawvs", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", {where: r.where!});
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.stawvs", {what: r.what!, from: r.from!, to: r.to!, how: r.how!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:stawvs.MOVE.default", {what: r.what!, from: r.from!, to: r.to!, how: r.how!});
                 return true;
             case "capture":
-                this.pushNeutralChatLine(lines, "apresults:CAPTURE.stawvs", {what: r.what!, where: r.where!});
+                this.pushNeutralChatLine(lines, "apresults:stawvs.CAPTURE.default", {what: r.what!, where: r.where!});
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.simple", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.simple", {});
                 return true;
             case "eliminated":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:ELIMINATED", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.ELIMINATED.default", {});
                 return true;
             case "announce":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:ANNOUNCE.stawvs", {pyramids: (r.payload! as string[]).join(", ")});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:stawvs.ANNOUNCE.default", {pyramids: (r.payload! as string[]).join(", ")});
                 return true;
             case "eog":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:EOG.stawvs", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:stawvs.EOG.default", {});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

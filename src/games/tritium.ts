@@ -34,6 +34,14 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    PLACE: {
+        flag: "{{player}} played a flag at {{where}}.",
+        green: "{{player}} played a green tile at {{where}}.",
+        orange: "{{player}} played an orange tile at {{where}}.",
+        purple: "{{player}} played a purple tile at {{where}}.",
+    },
+};
 
 
 export type tileid = 1|2|3;
@@ -624,7 +632,7 @@ export class TritiumGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:PLACE.tritium-${r.what}`, { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:tritium.PLACE.${r.what}`, { where: r.where! });
                 return true;
 
             default:

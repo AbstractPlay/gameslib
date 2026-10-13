@@ -11,6 +11,12 @@ export const gameApgamesEn = {
         PARTIAL: "To move the stack, click directly on the target cell. To sow the stack, click the cell adjacent to the stack in the direction you wish to travel.",
     },
 };
+export const gameApresultsEn = {
+    UNFURL: {
+        default: "{{player}} sowed {{count}} pieces from {{from}} to {{to}}.",
+    },
+};
+
 
 
 
@@ -449,10 +455,10 @@ export class AmoebaGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "unfurl":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:UNFURL.amoeba", {from: r.from!, to: r.to!, count: r.count!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:amoeba.UNFURL.default", {from: r.from!, to: r.to!, count: r.count!});
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.complete", {from: r.from!, to: r.to!, count: r.count!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.complete", {from: r.from!, to: r.to!, count: r.count!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

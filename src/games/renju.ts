@@ -129,6 +129,16 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    DECLARE: {
+        default: "{{player}} has declared {{count}} tentative fifths.",
+    },
+    PLACE: {
+        tentative: "{{player}} placed a tentative fifth at {{where}}.",
+        tentative_choose: "{{player}} chose the fifth stone at {{where}}.",
+    },
+};
+
 
 
 type playerid = 1 | 2;
@@ -1819,25 +1829,25 @@ export class RenjuGame extends InARowBase {
         switch (r.type) {
             case "place":
                 if (r.what === "tentative") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.renju_tentative", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:renju.PLACE.tentative", { where: r.where! });
                 } else if (r.what === "choose") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.renju_tentative_choose", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:renju.PLACE.tentative_choose", { where: r.where! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", { where: r.where! });
                 }
                 return true;
             case "pie":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PIE.default", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PIE.default", {});
                 return true;
             case "pass":
                 if (r.why === "tiebreaker") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.tiebreaker", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.tiebreaker", {});
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.simple", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.simple", {});
                 }
                 return true;
             case "declare":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DECLARE.renju", { count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:renju.DECLARE.default", { count: r.count! });
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

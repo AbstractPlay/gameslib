@@ -20,6 +20,27 @@ export const gameApgamesEn = {
         UNBROKEN: "Lines of pieces must be unbroken by empty cells.",
     },
 };
+export const gameApresultsEn = {
+    AFFILIATE: {
+        M: "{{player}} chose the Moonstones.",
+        S: "{{player}} chose the Sunstones.",
+    },
+    CAPTURE: {
+        nowhere_C_one: "{{player}} captured {{count}} Crown.",
+        nowhere_C_other: "{{player}} captured {{count}} Crowns.",
+        nowhere_E_one: "{{player}} captured {{count}} Earthstone.",
+        nowhere_E_other: "{{player}} captured {{count}} Earthstones.",
+        nowhere_M_one: "{{player}} captured {{count}} Moonstone.",
+        nowhere_M_other: "{{player}} captured {{count}} Moonstones.",
+        nowhere_S_one: "{{player}} captured {{count}} Sunstone.",
+        nowhere_S_other: "{{player}} captured {{count}} Sunstones.",
+        single_C: "{{player}} picked up a Crown at {{where}}.",
+        single_E: "{{player}} picked up an Earthstone at {{where}}.",
+        single_M: "{{player}} picked up a Moonstone at {{where}}.",
+        single_S: "{{player}} picked up a Sunstone at {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -720,16 +741,16 @@ export class WitchGame extends GameBase {
         switch (r.type) {
             case "capture":
                 if ("where" in r) {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.witch.single", {where: r.where!, context: r.what!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:witch.CAPTURE.single_${r.what!}`, {where: r.where!, context: r.what!});
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.witch.nowhere", {context: r.what!, count: r.count!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:witch.CAPTURE.nowhere_${r.what!}`, {context: r.what!, count: r.count!});
                 }
                 return true;
             case "affiliate":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:AFFILIATE.witch", {context: r.which!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:witch.AFFILIATE.${r.which!}`, {context: r.which!});
                 return true;
             case "deltaScore":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DELTA_SCORE_GAIN", {delta: r.delta!, count: r.delta!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.DELTA_SCORE_GAIN", {delta: r.delta!, count: r.delta!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

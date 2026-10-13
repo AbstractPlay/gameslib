@@ -31,6 +31,12 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        default: "Dead pieces were removed at {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -596,10 +602,10 @@ export class LifelineGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", {where: r.where!});
                 return true;
             case "capture":
-                this.pushNeutralChatLine(lines, "apresults:CAPTURE.lifeline", {where: r.where!});
+                this.pushNeutralChatLine(lines, "apresults:lifeline.CAPTURE.default", {where: r.where!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

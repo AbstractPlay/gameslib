@@ -41,6 +41,24 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    BEAROFF: {
+        default: "{{player}} bore a cube off the board.",
+    },
+    CAPTURE: {
+        default: "{{player}} pinched a cube at {{where}}.",
+    },
+    CONVERT: {
+        default: "{{player}} rotated the cube at {{where}} from {{what}} to {{into}}.",
+    },
+    PROMOTE: {
+        default: "{{player}} formed a set at {{where}}, merging the cube from {{from}}.",
+    },
+    ROLL: {
+        default: "{{player}} rolled: {{values}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -2798,37 +2816,37 @@ export class CanoeGame extends GameBase {
         switch (r.type) {
             case "roll": {
                 const seat = r.who ?? ctx.defaultSeat;
-                this.pushSeatChatLine(lines, seat, "apresults:ROLL.canoe", {
+                this.pushSeatChatLine(lines, seat, "apresults:canoe.ROLL.default", {
                     values: r.values!.join(","),
                 });
                 return true;
             }
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.canoe", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.simple", {});
                 return true;
             case "convert":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONVERT.canoe", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:canoe.CONVERT.default", {
                     where: r.where!, what: r.what!, into: r.into!,
                 });
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.complete_what", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.complete_what", {
                     what: r.what!, from: r.from!, to: r.to!,
                 });
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.canoe", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:canoe.CAPTURE.default", {where: r.where!});
                 return true;
             case "bearoff":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:BEAROFF.canoe", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:canoe.BEAROFF.default", {});
                 return true;
             case "promote":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PROMOTE.canoe", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:canoe.PROMOTE.default", {
                     where: r.where!, from: r.from!,
                 });
                 return true;
             case "deltaScore":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DELTA_SCORE_GAIN", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.DELTA_SCORE_GAIN", {
                     delta: r.delta!, count: r.delta!,
                 });
                 return true;

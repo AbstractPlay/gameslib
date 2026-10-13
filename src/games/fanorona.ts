@@ -728,11 +728,11 @@ export class FanoronaGame extends GameBase {
     //     let resolved = false;
     //     switch (r.type) {
     //         case "place":
-    //             node.push(i18next.t("apresults:PLACE.cannon", {player, where: r.where}));
+    //             node.push(i18next.t("apresults:cannon.PLACE.default", {player, where: r.where}));
     //             resolved = true;
     //             break;
     //         case "capture":
-    //             node.push(i18next.t("apresults:CAPTURE.nowhat", {player, where: r.where}));
+    //             node.push(i18next.t("apresults:_general.CAPTURE.nowhat", {player, where: r.where}));
     //             resolved = true;
     //             break;
     //     }
@@ -752,9 +752,9 @@ export class FanoronaGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         if (r.type === "eog") {
             if (r.reason === "repetition") {
-                this.pushNeutralChatLine(lines, "apresults:EOG.repetition", { count: 4 });
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.repetition", { count: 4 });
             } else {
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
             }
             return true;
         }
@@ -771,7 +771,7 @@ export class FanoronaGame extends GameBase {
             const currplayer = state.currplayer as number;
             const seat = this.frameChatActorSeat(currplayer);
             const moves = state._results.filter((r) => r.type === "move");
-            this.pushSeatChatLine(lines, seat, "apresults:MOVE.multiple", {
+            this.pushSeatChatLine(lines, seat, "apresults:_general.MOVE.multiple", {
                 moves: moves.map((m) => {
                     if (m.type === "move") {
                         return `${m.from}-${m.to}`;
@@ -781,7 +781,7 @@ export class FanoronaGame extends GameBase {
             });
             const captures = state._results.filter((r) => r.type === "capture");
             if (captures.length > 0) {
-                this.pushNeutralChatLine(lines, "apresults:CAPTURE.noperson.nowhere_count", {
+                this.pushNeutralChatLine(lines, "apresults:_general.CAPTURE.noperson.nowhere_count", {
                     count: captures.length,
                 });
             }

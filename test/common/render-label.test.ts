@@ -17,7 +17,7 @@ const mockT = (key: string, params?: Record<string, unknown>): string => {
     if (key === "test:ACTOR") {
         return `${params?.player} acted`;
     }
-    if (key === "apresults:ACTOR.bear") {
+    if (key === "apresults:elOso.ACTOR.bear") {
         return "The bear";
     }
     return key;
@@ -61,7 +61,7 @@ describe("render-label", () => {
     it("resolveRenderLabel resolves label actors into textParams.player", () => {
         const label: StructuredRenderLabel = {
             textKey: "test:ACTOR",
-            actor: { kind: "label", key: "apresults:ACTOR.bear" },
+            actor: { kind: "label", key: "apresults:elOso.ACTOR.bear" },
             textParams: { player: "placeholder" },
         };
         expect(resolveRenderLabel(label, ["Alice"], mockT)).to.equal("The bear acted");

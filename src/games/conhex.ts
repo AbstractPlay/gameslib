@@ -21,6 +21,15 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CLAIM: {
+        default: "{{player}} claimed the space at ({{where}}).",
+    },
+    PLACE: {
+        default: "{{player}} placed a piece at vertex {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -707,12 +716,12 @@ export class ConhexGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.conhex", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:conhex.PLACE.default", {
                     where: r.where!, what: r.what!,
                 });
                 return true;
             case "claim":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.conhex", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:conhex.CLAIM.default", {
                     where: r.where!,
                 });
                 return true;

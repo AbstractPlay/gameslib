@@ -42,6 +42,12 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    PLACE: {
+        park: "{{player}} placed a park at {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1|2|3|4;
@@ -843,11 +849,11 @@ export class SubdivisionGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         if (r.type === "place") {
             if (r.what === "park") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.subdivision", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:subdivision.PLACE.park", {
                     context: r.what, where: r.where!,
                 });
             } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.PYRAMID", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:_general.PLACE.PYRAMID_${r.what!}`, {
                     context: r.what!, where: r.where!,
                 });
             }

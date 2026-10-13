@@ -64,6 +64,23 @@ export const gameApgamesEn = {
         "#fleet": { name: "Default fleet" }
     },
 };
+export const gameApresultsEn = {
+    DAMAGE: {
+        default: "{{player}}'s ship {{myName}} fired upon the enemy ship named {{theirName}}.",
+    },
+    DESTROY: {
+        default: "{{player}} sunk the enemy ship named {{name}}.",
+    },
+    MOVE: {
+        default: "{{player}} moved their ship named {{name}}.",
+    },
+    PLACE: {
+        "1": "{{player}} placed a small ship and named it {{name}}.",
+        "2": "{{player}} placed a medium ship and named it {{name}}.",
+        "3": "{{player}} placed a large ship and named it {{name}}.",
+    },
+};
+
 
 
 export type playerid = 1|2|3|4;
@@ -1408,16 +1425,16 @@ export class ArmadasGame extends GameBaseSkipTurn {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.armadas", {name: r.what!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:armadas.MOVE.default", {name: r.what!});
                 return true;
             case "damage":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DAMAGE.armadas", {myName: r.where!, theirName: r.who!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:armadas.DAMAGE.default", {myName: r.where!, theirName: r.who!});
                 return true;
             case "destroy":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DESTROY.armadas", {name: r.what!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:armadas.DESTROY.default", {name: r.what!});
                 return true;
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.armadas", {name: r.where!, context: r.what!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:armadas.PLACE.${r.what!}`, {name: r.where!, context: r.what!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

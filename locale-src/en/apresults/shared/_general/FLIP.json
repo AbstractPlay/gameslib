@@ -1,0 +1,7 @@
+{
+  "_general": {
+    "FLIP": {
+      "default": "{{player}} flips {{where}} and reveals {{revealed}}."
+    }
+  }
+}

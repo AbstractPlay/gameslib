@@ -40,6 +40,25 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    DECKDRAW: {
+        deck: "{{player}} drew a face-down card from the deck.",
+        discard: "{{player}} drew the {{what}} from the top of the discard pile.",
+    },
+    DECLARE: {
+        default: "Year {{year}} has ended.",
+    },
+    DELTASCORE: {
+        excuse: "{{player}} plays The Excuse to offset their lowest-scoring bird ({{delta}} points).",
+        score: "{{player}}'s bird with the following ranks scored {{delta}} points: {{ranks}}.",
+    },
+    PLACE: {
+        discard: "{{player}} discarded the card {{what}}.",
+        existing: "{{player}} used the {{what}} to grow bird #{{where}}.",
+        new: "{{player}} hatched a new bird with the {{what}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -1446,21 +1465,21 @@ export class EmuGame extends GameBase {
         switch (r.type) {
             case "place": {
                 const context = r.where === "new" ? "new" : r.where === "discard" ? "discard" : "existing";
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.emu", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:emu.PLACE.${context}`, {
                     context, where: r.where!, what: r.what!,
                 });
                 return true;
             }
             case "deckDraw":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DECKDRAW.emu", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:emu.DECKDRAW.${r.from!}`, {
                     context: r.from!, what: r.what!,
                 });
                 return true;
             case "declare":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DECLARE.emu", {year: r.count!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:emu.DECLARE.default", {year: r.count!});
                 return true;
             case "deltaScore":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DELTASCORE.emu", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:emu.DELTASCORE.${r.description === "excuse" ? "excuse" : "score"}`, {
                     context: r.description === "excuse" ? "excuse" : "score",
                     delta: r.delta!,
                     ranks: r.description!,

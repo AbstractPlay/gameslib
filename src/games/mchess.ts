@@ -25,6 +25,15 @@ export const gameApgamesEn = {
         "#movement": { name: "Default movement rules" }
     },
 };
+export const gameApresultsEn = {
+    DECLARE: {
+        default: "{{player}} has \"called the clock.\" If no capture is made in the next seven turns, the game will end and be scored.",
+    },
+    PROMOTE: {
+        default: "A {{into}} was created as a result.",
+    },
+};
+
 
 
 interface ILegendObj {
@@ -1007,7 +1016,7 @@ export class MchessGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "declare":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DECLARE.mchess", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:mchess.DECLARE.default", {});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

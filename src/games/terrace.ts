@@ -52,6 +52,16 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        other: "{{player}} captured a size {{what}} piece at {{where}}.",
+        self: "{{player}} cannibalized their own size {{what}} piece at {{where}}.",
+    },
+    PLACE: {
+        default: "{{player}} moved a size {{size}} piece from {{from}} to {{to}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -966,10 +976,10 @@ export class TerraceGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.terrace", {context: r.what?.startsWith("*") ? "self" : "other", where: r.where!, what: r.what?.substring(1) ?? ""});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:terrace.CAPTURE", {context: r.what?.startsWith("*") ? "self" : "other", where: r.where!, what: r.what?.substring(1) ?? ""});
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.terrace", {size: r.what!, from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:terrace.PLACE.default", {size: r.what!, from: r.from!, to: r.to!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

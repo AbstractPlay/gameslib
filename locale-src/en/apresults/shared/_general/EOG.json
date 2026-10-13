@@ -1,0 +1,15 @@
+{
+  "_general": {
+    "EOG": {
+      "consecutive_passes": "The game has ended because both players passed consecutively.",
+      "default": "The game has ended.",
+      "material": "The game has ended because both players have insufficient material.",
+      "repetition_one": "The game has ended because the same position has occurred by the same player.",
+      "repetition_other": "The game has ended because the same position has occurred {{count}} times by the same player.",
+      "repetition_positional_one": "The game has ended because the same position has occurred.",
+      "repetition_positionas_other": "The game has ended because the same position has occurred {{count}} times.",
+      "stalemate": "The game has ended because one player has run out of moves.",
+      "stalemate_all": "The game has ended because all players have run out of moves."
+    }
+  }
+}

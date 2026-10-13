@@ -27,6 +27,23 @@ export const gameApgamesEn = {
         TOO_MANY_SPAWNS: "Your move assigns more spawns than appear to actually happen this turn ({{decisions}} > {{spawns}}).",
     },
 };
+export const gameApresultsEn = {
+    ADD: {
+        default: "The tree at {{where}} grew one stage.",
+    },
+    CLAIM: {
+        default: "{{player}} claimed a protestor from the tree felled at {{where}}.",
+    },
+    DESTROY: {
+        default: "{{player}} felled a tree at {{where}}.",
+    },
+    PLACE: {
+        logger: "{{player}} placed their logger at {{where}}.",
+        plant: "{{player}} planted a sapling at {{where}}.",
+        spawn: "A new sapling sprouted at {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1|2|3|4;
@@ -1072,26 +1089,26 @@ export class LoggerGame extends GameBase {
 
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         if (r.type === "move") {
-            this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.nowhat", {from: r.from!, to: r.to!});
+            this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.nowhat", {from: r.from!, to: r.to!});
             return true;
         } else if (r.type === "place") {
             if (r.what === "logger" || r.what === "spawn" || r.what === "plant") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.logger", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:logger.PLACE.${r.what}`, {
                     context: r.what, where: r.where!,
                 });
                 return true;
             }
         } else if (r.type === "add") {
-            this.pushNeutralChatLine(lines, "apresults:ADD.logger", {where: r.where!});
+            this.pushNeutralChatLine(lines, "apresults:logger.ADD.default", {where: r.where!});
             return true;
         } else if (r.type === "destroy") {
-            this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DESTROY.logger", {where: r.where!});
+            this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:logger.DESTROY.default", {where: r.where!});
             return true;
         } else if (r.type === "claim") {
-            this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.logger", {where: r.where!});
+            this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:logger.CLAIM.default", {where: r.where!});
             return true;
         } else if (r.type === "deltaScore") {
-            this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DELTA_SCORE_GAIN", {
+            this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.DELTA_SCORE_GAIN", {
                 count: r.delta!, delta: r.delta!,
             });
             return true;

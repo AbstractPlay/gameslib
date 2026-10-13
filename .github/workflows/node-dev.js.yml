@@ -66,7 +66,7 @@ jobs:
         - run: ls node_modules | grep @svgdotjs
         - run: npm test --if-present
         - name: Verify English apgames matches merge sources
-          run: npm run check-apgames-en
+          run: npm run locale-en
         - name: Checkout docs site
           if: github.event_name == 'push'
           uses: actions/checkout@v4
@@ -81,7 +81,7 @@ jobs:
             AP_DOCS_ROOT: _ap_docs
           run: npm run docs:check
         # --- MACHINE TRANSLATION PIPELINE START ---
-        # check-apgames-en also runs inside locale-prune before apgames.json is read
+        # locale-en check also runs inside locale-prune before English locales are read
         - name: Prune stale managed locale keys
           run: node scripts/locale-prune.mjs locales/en/apgames.json locales/en/apresults.json
 

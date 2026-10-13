@@ -722,7 +722,7 @@ export class GardenGame extends GameBase {
                 if (r.what! === "b") {
                     what = "ravenclaw";
                 }
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.complete", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.complete", {
                     where: r.where!, what,
                 });
                 return true;

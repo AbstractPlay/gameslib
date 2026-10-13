@@ -1173,104 +1173,104 @@ export abstract class GameBase  {
         switch (r.type) {
             case "move":
                 if (r.what === undefined) {
-                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.nowhat", { from: r.from, to: r.to });
+                    this.pushSeatChatLine(lines, seat, "apresults:_general.MOVE.nowhat", { from: r.from, to: r.to });
                 } else {
-                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.complete_what", {
+                    this.pushSeatChatLine(lines, seat, "apresults:_general.MOVE.complete_what", {
                         what: r.what, from: r.from, to: r.to,
                     });
                 }
                 return true;
             case "place":
                 if (r.what === undefined) {
-                    this.pushSeatChatLine(lines, seat, "apresults:PLACE.nowhat", { where: r.where });
+                    this.pushSeatChatLine(lines, seat, "apresults:_general.PLACE.nowhat", { where: r.where });
                 } else {
-                    this.pushSeatChatLine(lines, seat, "apresults:PLACE.complete", {
+                    this.pushSeatChatLine(lines, seat, "apresults:_general.PLACE.complete", {
                         what: r.what, where: r.where,
                     });
                 }
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, seat, "apresults:PASS.simple", {});
+                this.pushSeatChatLine(lines, seat, "apresults:_general.PASS.simple", {});
                 return true;
             case "button":
             case "take-button":
-                this.pushSeatChatLine(lines, seat, "apresults:BUTTON", {});
+                this.pushSeatChatLine(lines, seat, "apresults:_general.BUTTON.default", {});
                 return true;
             case "play-second":
-                this.pushSeatChatLine(lines, seat, "apresults:PLAYSECOND", {});
+                this.pushSeatChatLine(lines, seat, "apresults:_general.PLAYSECOND.default", {});
                 return true;
             case "komi":
-                this.pushSeatChatLine(lines, seat, "apresults:KOMI", { value: r.value });
+                this.pushSeatChatLine(lines, seat, "apresults:_general.KOMI.default", { value: r.value });
                 return true;
             case "flip":
-                this.pushSeatChatLine(lines, seat, "apresults:FLIP", { where: r.where, revealed: r.revealed });
+                this.pushSeatChatLine(lines, seat, "apresults:_general.FLIP.default", { where: r.where, revealed: r.revealed });
                 return true;
             case "reclaim":
-                this.pushNeutralChatLine(lines, "apresults:RECLAIM.noperson", { what: r.what });
+                this.pushNeutralChatLine(lines, "apresults:_general.RECLAIM.noperson", { what: r.what });
                 return true;
             case "capture":
                 if (r.where === undefined) {
                     if (r.what === undefined) {
-                        this.pushNeutralChatLine(lines, "apresults:CAPTURE.minimal");
+                        this.pushNeutralChatLine(lines, "apresults:_general.CAPTURE.minimal");
                     } else {
-                        this.pushNeutralChatLine(lines, "apresults:CAPTURE.noperson.nowhere_what", { what: r.what });
+                        this.pushNeutralChatLine(lines, "apresults:_general.CAPTURE.noperson.nowhere_what", { what: r.what });
                     }
                 } else if (r.what === undefined) {
-                    this.pushNeutralChatLine(lines, "apresults:CAPTURE.noperson.nowhat", { where: r.where });
+                    this.pushNeutralChatLine(lines, "apresults:_general.CAPTURE.noperson.nowhat", { where: r.where });
                 } else {
-                    this.pushNeutralChatLine(lines, "apresults:CAPTURE.noperson.simple", {
+                    this.pushNeutralChatLine(lines, "apresults:_general.CAPTURE.noperson.simple", {
                         what: r.what, where: r.where,
                     });
                 }
                 return true;
             case "bearoff":
-                this.pushSeatChatLine(lines, seat, "apresults:BEAROFF.complete", {
+                this.pushSeatChatLine(lines, seat, "apresults:_general.BEAROFF.complete", {
                     count: parseInt(r.what!, 10), from: r.from,
                 });
                 return true;
             case "promote":
-                this.pushNeutralChatLine(lines, "apresults:PROMOTE.mchess", { into: r.to });
+                this.pushNeutralChatLine(lines, "apresults:mchess.PROMOTE.default", { into: r.to });
                 return true;
             case "orient":
-                this.pushSeatChatLine(lines, seat, "apresults:ORIENT.nowhat", {
+                this.pushSeatChatLine(lines, seat, "apresults:_general.ORIENT.nowhat", {
                     facing: r.facing, where: r.where,
                 });
                 return true;
             case "add":
                 if (r.num === undefined) {
-                    this.pushSeatChatLine(lines, seat, "apresults:ADD.nonum", { where: r.where });
+                    this.pushSeatChatLine(lines, seat, "apresults:_general.ADD.nonum", { where: r.where });
                 } else {
-                    this.pushSeatChatLine(lines, seat, "apresults:ADD.add", { count: r.num, where: r.where });
+                    this.pushSeatChatLine(lines, seat, "apresults:_general.ADD.add", { count: r.num, where: r.where });
                 }
                 return true;
             case "remove":
                 if (r.num === undefined) {
-                    this.pushSeatChatLine(lines, seat, "apresults:REMOVE.nonum", { count: r.num, where: r.where });
+                    this.pushSeatChatLine(lines, seat, "apresults:_general.REMOVE.nonum", { count: r.num, where: r.where });
                 } else {
-                    this.pushSeatChatLine(lines, seat, "apresults:REMOVE.remove", { count: r.num, where: r.where });
+                    this.pushSeatChatLine(lines, seat, "apresults:_general.REMOVE.remove", { count: r.num, where: r.where });
                 }
                 return true;
             case "claim":
-                this.pushSeatChatLine(lines, seat, "apresults:CLAIM.default", { where: r.where });
+                this.pushSeatChatLine(lines, seat, "apresults:_general.CLAIM.default", { where: r.where });
                 return true;
             case "eog":
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 return true;
             case "resigned": {
                 const rname = this.resolveChatPlayerName(r.player, ctx.players);
-                this.pushNeutralChatLine(lines, "apresults:RESIGN", { player: rname });
+                this.pushNeutralChatLine(lines, "apresults:_general.RESIGN.default", { player: rname });
                 return true;
             }
             case "timeout": {
                 const tname = this.resolveChatPlayerName(r.player, ctx.players);
-                this.pushNeutralChatLine(lines, "apresults:TIMEOUT", { player: tname });
+                this.pushNeutralChatLine(lines, "apresults:_general.TIMEOUT.default", { player: tname });
                 return true;
             }
             case "drawagreed":
-                this.pushNeutralChatLine(lines, "apresults:DRAWAGREED");
+                this.pushNeutralChatLine(lines, "apresults:_general.DRAWAGREED.default");
                 return true;
             case "gameabandoned":
-                this.pushNeutralChatLine(lines, "apresults:ABANDONED");
+                this.pushNeutralChatLine(lines, "apresults:_general.ABANDONED.default");
                 return true;
             case "winners": {
                 const names: string[] = [];
@@ -1278,9 +1278,9 @@ export abstract class GameBase  {
                     names.push(this.resolveChatPlayerName(w, ctx.players));
                 }
                 if (r.players.length === 0) {
-                    this.pushNeutralChatLine(lines, "apresults:WINNERSNONE");
+                    this.pushNeutralChatLine(lines, "apresults:_general.WINNERSNONE.default");
                 } else {
-                    this.pushNeutralChatLine(lines, "apresults:WINNERS", {
+                    this.pushNeutralChatLine(lines, "apresults:_general.WINNERS", {
                         count: r.players.length,
                         winners: names.join(", "),
                     });
@@ -1318,7 +1318,7 @@ export abstract class GameBase  {
                 if (state._results.find((res) => res.type === "deltaScore") !== undefined) {
                     const thisInfo = Object.getPrototypeOf(this).constructor.gameinfo as APGamesInformation;
                     if ("scores" in state && (thisInfo.flags === undefined || !thisInfo.flags.includes("simultaneous"))) {
-                        this.pushSeatChatLine(lines, defaultSeat, "apresults:SCORE_REPORT", {
+                        this.pushSeatChatLine(lines, defaultSeat, "apresults:_general.SCORE_REPORT.default", {
                             score: (state.scores as number[])[defaultSeat - 1],
                         });
                     }

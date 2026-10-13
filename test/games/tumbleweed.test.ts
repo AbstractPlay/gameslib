@@ -262,7 +262,7 @@ describe("Tumbleweed", () => {
             const g2 = g.move(mid!, { trusted: true });
             const placeLines = g2.chatLogEntries(["Alice", "Bob"])
                 .flatMap((e) => e.lines)
-                .filter((line) => line.textKey === "apresults:PLACE.tumbleweed");
+                .filter((line) => line.textKey === "apresults:tumbleweed.PLACE.default");
             const lastPlace = placeLines[placeLines.length - 1]!;
             expect(lastPlace.textParams?.where).to.match(/^[a-z][0-9]+$/i);
             expect(lastPlace.actor).to.deep.equal({ kind: "seat", seat: 1 });

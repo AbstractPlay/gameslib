@@ -54,8 +54,19 @@ export interface TurnModelLocalFixture {
     golden: TurnModelGolden;
 }
 
-export function turnModelFixturesAvailable(): boolean {
+/** Gitignored `fixtures-local/turnModel` present (refresh scripts only). */
+export function turnModelFixturesOnDisk(): boolean {
     return fs.existsSync(path.join(TURN_MODEL_FIXTURES_DIR, "manifest.json"));
+}
+
+/**
+ * Local DynamoDB turn-model goldens are retired — tests do not load them even when on disk.
+ * Use inline fixtures under `test/fixtures/chat/` and per-game unit tests instead.
+ */
+export const TURN_MODEL_LOCAL_FIXTURE_TESTS_ENABLED = false;
+
+export function turnModelFixturesAvailable(): boolean {
+    return TURN_MODEL_LOCAL_FIXTURE_TESTS_ENABLED && turnModelFixturesOnDisk();
 }
 
 export function loadTurnModelManifest(): TurnModelManifest | undefined {

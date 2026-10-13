@@ -47,6 +47,21 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        default: "{{player}} captured a miner at {{where}}.",
+    },
+    DESTROY: {
+        default: "{{player}} mined at {{where}}.",
+    },
+    MOVE: {
+        default: "{{player}} moved a miner from {{from}} to {{to}}.",
+    },
+    PLACE: {
+        default: "{{player}} placed a miner at {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1|2|3; // player 3 is used for empty mined cells.
@@ -843,16 +858,16 @@ export class MattockGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.mattock", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:mattock.PLACE.default", {where: r.where!});
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.mattock", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:mattock.CAPTURE.default", {where: r.where!});
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.mattock", {from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:mattock.MOVE.default", {from: r.from!, to: r.to!});
                 return true;
             case "destroy":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DESTROY.mattock", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:mattock.DESTROY.default", {where: r.where!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

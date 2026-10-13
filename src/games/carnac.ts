@@ -48,6 +48,18 @@ export const gameApgamesEn = {
         DOLMENS: "Dolmens",
     },
 };
+export const gameApresultsEn = {
+    MOVE: {
+        tip: "{{player}} tipped the megalith at {{from}} onto {{to}} toward {{how}}.",
+    },
+    PASS: {
+        default: "{{player}} declined to tip the megalith.",
+    },
+    PLACE: {
+        default: "{{player}} placed a megalith at {{where}} (top {{top}}, south {{south}}).",
+    },
+};
+
 
 
 export type playerid = 1 | 2;
@@ -1185,21 +1197,21 @@ export class CarnacGame extends GameBase {
             case "place": {
                 const orient = r.what as Orient;
                 const { top, front } = this.parseOrient(orient);
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.carnac", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:carnac.PLACE.default", {
                     where: r.where!, top, south: front,
                 });
                 return true;
             }
             case "move":
                 if (r.how !== undefined) {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.carnac_tip", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:carnac.MOVE.tip", {
                         from: r.from!, to: r.to!, how: r.how,
                     });
                     return true;
                 }
                 return false;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.carnac", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:carnac.PASS.default", {});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

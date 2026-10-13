@@ -116,6 +116,74 @@ export const gameApgamesEn = {
         TURN: "Turn",
     },
 };
+export const gameApresultsEn = {
+    ANNOUNCE: {
+        flank: "It is a flank attack: the defender must retreat if it can.",
+    },
+    CAPTURE: {
+        default: "{{player}}'s unit at {{where}} was eliminated.",
+        artillery: "{{player}}'s artillery at {{where}} was eliminated.",
+        cavalry: "{{player}}'s cavalry at {{where}} was eliminated.",
+        infantry: "{{player}}'s infantry at {{where}} was eliminated.",
+        reserve: "{{player}} lost a unit from their reserve.",
+        reserve_artillery: "{{player}} lost artillery from their reserve.",
+        reserve_cavalry: "{{player}} lost cavalry from their reserve.",
+        reserve_infantry: "{{player}} lost infantry from their reserve.",
+    },
+    EOG: {
+        points: "The game has ended because ten points' worth of units have been eliminated.",
+        repetition: "The game has ended because the same position has occurred three times.",
+        reserve: "The game has ended because a unit entered the enemy reserve.",
+        stuck: "The game has ended because a player could not complete a double turn.",
+    },
+    FIRE: {
+        default: "{{player}}'s unit at {{from}} attacked {{to}}.",
+        artillery: "{{player}}'s artillery at {{from}} attacked {{to}}.",
+        cavalry: "{{player}}'s cavalry at {{from}} attacked {{to}}.",
+        infantry: "{{player}}'s infantry at {{from}} attacked {{to}}.",
+    },
+    MOVE: {
+        advance: "{{player}}'s unit advanced from {{from}} into {{to}}.",
+        advance_artillery: "{{player}}'s artillery advanced from {{from}} into {{to}}.",
+        advance_cavalry: "{{player}}'s cavalry advanced from {{from}} into {{to}}.",
+        advance_infantry: "{{player}}'s infantry advanced from {{from}} into {{to}}.",
+        displaced: "{{player}}'s unit at {{from}} was displaced by the retreating cavalry and fell back to {{to}}.",
+        displaced_artillery: "{{player}}'s artillery at {{from}} was displaced by the retreating cavalry and fell back to {{to}}.",
+        displaced_cavalry: "{{player}}'s cavalry at {{from}} was displaced by the retreating cavalry and fell back to {{to}}.",
+        displaced_infantry: "{{player}}'s infantry at {{from}} was displaced by the retreating cavalry and fell back to {{to}}.",
+        double: "{{player}} spent a double turn moving a unit from {{from}} to {{to}}.",
+        double_artillery: "{{player}} spent a double turn moving artillery from {{from}} to {{to}}.",
+        double_cavalry: "{{player}} spent a double turn moving cavalry from {{from}} to {{to}}.",
+        double_infantry: "{{player}} spent a double turn moving infantry from {{from}} to {{to}}.",
+        move: "{{player}} moved a unit from {{from}} to {{to}}.",
+        move_artillery: "{{player}} moved artillery from {{from}} to {{to}}.",
+        move_cavalry: "{{player}} moved cavalry from {{from}} to {{to}}.",
+        move_infantry: "{{player}} moved infantry from {{from}} to {{to}}.",
+        retreat: "{{player}}'s unit retreated from {{from}} to {{to}}.",
+        retreat_artillery: "{{player}}'s artillery retreated from {{from}} to {{to}}.",
+        retreat_cavalry: "{{player}}'s cavalry retreated from {{from}} to {{to}}.",
+        retreat_infantry: "{{player}}'s infantry retreated from {{from}} to {{to}}.",
+    },
+    PASS: {
+        default: "{{player}} passed and will take a double turn next.",
+    },
+    SELECT: {
+        option1: "{{player}} chose to eliminate the defender and retreat both attacking units.",
+        option2: "{{player}} chose to trade the supporting unit for the defender.",
+        option3: "{{player}} chose to trade the attacking unit for the defender.",
+        option4: "{{player}} chose to retreat the attacking unit.",
+        option5: "{{player}} chose to retreat the supporting unit.",
+        stand: "{{player}}'s unit at {{where}} stands.",
+        stand_chosen: "{{player}}'s unit at {{where}} stands its ground.",
+        stand_forced: "{{player}}'s unit at {{where}} cannot retreat and must stand.",
+        stay: "{{player}} declined to advance.",
+        support: "The attack is supported by the unit at {{where}}.",
+        support_artillery: "The attack is supported by artillery at {{where}}.",
+        support_cavalry: "The attack is supported by cavalry at {{where}}.",
+        support_infantry: "The attack is supported by infantry at {{where}}.",
+    },
+};
+
 
 
 /*
@@ -2876,35 +2944,42 @@ export class SquaresGame extends GameBaseSequenced {
         const seat = SquaresGame.seatOf(r) ?? ctx.defaultSeat;
         switch (r.type) {
             case "pass":
-                this.pushSeatChatLine(lines, seat, "apresults:PASS.squares");
+                this.pushSeatChatLine(lines, seat, "apresults:squares.PASS.default");
                 return true;
             case "move":
                 if (r.how === "attack") {
-                    this.pushSeatChatLine(lines, seat, "apresults:FIRE.squares", { from: r.from, to: r.to, context: r.what });
+                    this.pushSeatChatLine(lines, seat, `apresults:squares.FIRE.${r.what ?? "default"}`, { from: r.from, to: r.to });
                 } else {
-                    this.pushSeatChatLine(lines, seat, `apresults:MOVE.squares_${r.how ?? "move"}`, { from: r.from, to: r.to, context: r.what });
+                    const moveLeaf = r.what !== undefined ? `${r.how ?? "move"}_${r.what}` : (r.how ?? "move");
+                    this.pushSeatChatLine(lines, seat, `apresults:squares.MOVE.${moveLeaf}`, { from: r.from, to: r.to });
                 }
                 return true;
-            case "capture":
-                this.pushSeatChatLine(lines, seat, r.how === "reserve" ? "apresults:CAPTURE.squares_reserve" : "apresults:CAPTURE.squares", { where: r.where, context: r.what });
+            case "capture": {
+                const capLeaf = r.how === "reserve"
+                    ? (r.what !== undefined ? `reserve_${r.what}` : "reserve")
+                    : (r.what ?? "default");
+                this.pushSeatChatLine(lines, seat, `apresults:squares.CAPTURE.${capLeaf}`, { where: r.where });
                 return true;
+            }
             case "select":
                 if (r.what === "support") {
-                    this.pushNeutralChatLine(lines, "apresults:SELECT.squares_support", { where: r.where, context: r.how });
+                    const supportLeaf = r.how !== undefined ? `support_${r.how}` : "support";
+                    this.pushNeutralChatLine(lines, `apresults:squares.SELECT.${supportLeaf}`, { where: r.where });
                 } else if (r.what === "stand") {
-                    this.pushSeatChatLine(lines, seat, "apresults:SELECT.squares_stand", { where: r.where, context: r.how });
+                    const standLeaf = r.how !== undefined ? `stand_${r.how}` : "stand";
+                    this.pushSeatChatLine(lines, seat, `apresults:squares.SELECT.${standLeaf}`, { where: r.where });
                 } else {
-                    this.pushSeatChatLine(lines, seat, `apresults:SELECT.squares_${r.what}`, { where: r.where });
+                    this.pushSeatChatLine(lines, seat, `apresults:squares.SELECT.${r.what}`, { where: r.where });
                 }
                 return true;
             case "announce":
-                this.pushNeutralChatLine(lines, "apresults:ANNOUNCE.squares_flank");
+                this.pushNeutralChatLine(lines, "apresults:squares.ANNOUNCE.flank");
                 return true;
             case "eog":
                 if (r.reason === undefined) {
                     return super.collectChatLogLine(lines, r, ctx);
                 }
-                this.pushNeutralChatLine(lines, `apresults:EOG.squares_${r.reason}`);
+                this.pushNeutralChatLine(lines, `apresults:squares.EOG.${r.reason}`);
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

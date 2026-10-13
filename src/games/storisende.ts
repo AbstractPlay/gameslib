@@ -64,6 +64,13 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CONVERT: {
+        territory: "The tile at {{where}} became a territory.",
+        wall: "The tile at {{where}} became a wall.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -1116,13 +1123,13 @@ export class StorisendeGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.complete", {from: r.from!, to: r.to!, count: r.count!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.complete", {from: r.from!, to: r.to!, count: r.count!});
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.multiple", {count: r.count!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.multiple", {count: r.count!});
                 return true;
             case "convert":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONVERT.storisende", {where: r.what!, context: r.into!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:storisende.CONVERT.${r.into!}`, {where: r.what!, context: r.into!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

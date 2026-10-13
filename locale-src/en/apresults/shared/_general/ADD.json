@@ -1,0 +1,9 @@
+{
+  "_general": {
+    "ADD": {
+      "add_one": "{{player}} added 1 piece to {{where}}.",
+      "add_other": "{{player}} added {{count}} pieces to {{where}}.",
+      "nonum": "{{player}} added a piece to {{where}}."
+    }
+  }
+}

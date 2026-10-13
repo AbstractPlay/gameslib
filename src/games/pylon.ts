@@ -745,10 +745,10 @@ export class PylonGame extends GameBase {
 
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         if (r.type === "move") {
-            this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.nowhat", {from: r.from!, to: r.to!});
+            this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.nowhat", {from: r.from!, to: r.to!});
             return true;
         } else if (r.type === "place") {
-            this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.PYRAMID", {
+            this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:_general.PLACE.PYRAMID_${r.what!}`, {
                 context: r.what!, where: r.where!,
             });
             return true;

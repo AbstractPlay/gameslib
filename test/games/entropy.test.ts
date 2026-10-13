@@ -157,7 +157,7 @@ describe("Entropy", () => {
             const entries = g.chatLogEntries(["Perlkönig", "Tester"]);
             expect(entries).to.have.length(1);
             expect(entries[0].lines).to.have.length(1);
-            expect(entries[0].lines[0].textKey).to.equal("apresults:PLACE.complete");
+            expect(entries[0].lines[0].textKey).to.equal("apresults:_general.PLACE.complete");
             expect(entries[0].lines[0].actor).to.deep.equal({ kind: "seat", seat: 1 });
         });
 

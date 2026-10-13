@@ -1,0 +1,7 @@
+{
+  "_general": {
+    "ELIMINATED": {
+      "default": "{{player}} was eliminated."
+    }
+  }
+}

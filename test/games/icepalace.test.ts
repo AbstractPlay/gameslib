@@ -985,7 +985,7 @@ describe("Ice Palace: event log", () => {
         g.move("pass");
         expect(g.phase).to.equal("build");
         const lines = lastLines(g);
-        const announce = lines.find(l => l.textKey === "apresults:ANNOUNCE.icepalace_build")!;
+        const announce = lines.find(l => l.textKey === "apresults:icepalace.ANNOUNCE.build")!;
         expect(announce).to.not.be.undefined;
         expect(announce.textParams).to.include({ count: 1, move: "1M@0.0" });
         // The suggested move is a complete, legal build as it stands.
@@ -1009,8 +1009,8 @@ describe("Ice Palace: event log", () => {
         expect(g.buildMin).to.equal(0);
         expect(g.moves()).to.deep.equal(["pass"]);
         const keys = lastLines(g).map(l => l.textKey);
-        expect(keys).to.include("apresults:ANNOUNCE.icepalace_nobuild");
-        expect(keys).to.include("apresults:PASS.icepalace");
+        expect(keys).to.include("apresults:icepalace.ANNOUNCE.nobuild");
+        expect(keys).to.include("apresults:_general.PASS.simple");
     });
 });
 
@@ -1201,7 +1201,7 @@ describe("Ice Palace: sequenced turn model and record export", () => {
         expect(types).to.not.include("announce");
         // The chat log still carries it.
         const keys = g.chatLogEntries(["A", "B", "C"]).flatMap(e => e.lines.map(l => l.textKey));
-        expect(keys).to.include("apresults:ANNOUNCE.icepalace_build");
+        expect(keys).to.include("apresults:icepalace.ANNOUNCE.build");
     });
 });
 

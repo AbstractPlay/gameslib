@@ -40,6 +40,12 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        default: "A pair of pieces was captured at {{where1}} and {{where2}}.",
+    },
+};
+
 
 
 type playerid = 1 | 2;
@@ -596,11 +602,11 @@ export class OnyxGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", {where: r.where!});
                 return true;
             case "capture": {
                 const [c1, c2] = r.where!.split(",");
-                this.pushNeutralChatLine(lines, "apresults:CAPTURE.onyx", {where1: c1!, where2: c2!});
+                this.pushNeutralChatLine(lines, "apresults:onyx.CAPTURE.default", {where1: c1!, where2: c2!});
                 return true;
             }
             default:

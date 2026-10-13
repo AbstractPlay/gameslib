@@ -20,6 +20,19 @@ export const gameApgamesEn = {
         COUNTDOWN: "Plies remaining",
     },
 };
+export const gameApresultsEn = {
+    CLAIM: {
+        default: "{{player}} has taken the ball and placed it at {{where}}.",
+    },
+    MOVE: {
+        default: "{{player}} passed the ball from {{from}} to {{to}}.",
+    },
+    PLACE: {
+        cap: "{{player}} placed a blocker at {{where}}.",
+        cup: "{{player}} placed a receiver at {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -611,13 +624,13 @@ export class MegGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.meg", {context: r.what!, where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:meg.PLACE.${r.what!}`, {context: r.what!, where: r.where!});
                 return true;
             case "claim":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.meg", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:meg.CLAIM.default", {where: r.where!});
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.meg", {from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:meg.MOVE.default", {from: r.from!, to: r.to!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

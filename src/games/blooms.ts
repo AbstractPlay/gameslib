@@ -43,6 +43,15 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        default: "{{player}} captured a {{what}} group of size {{count}}.",
+    },
+    PLACE: {
+        default: "{{player}} placed a {{what}} piece at {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -690,12 +699,12 @@ export class BloomsGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.blooms", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:blooms.PLACE.default", {
                     where: r.where!, what: r.what!,
                 });
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.blooms", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:blooms.CAPTURE.default", {
                     count: r.count!, what: r.what!,
                 });
                 return true;

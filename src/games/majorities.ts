@@ -33,6 +33,18 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        default: "{{count}} pieces were removed.",
+    },
+    CLAIM: {
+        A: "{{player}} claimed the ascending direction.",
+        D: "{{player}} claimed the descending direction.",
+        H: "{{player}} claimed the horizontal direction.",
+        line: "{{player}} claimed the line {{where}}.",
+    },
+};
+
 
 
 type playerid = 1 | 2;
@@ -959,21 +971,21 @@ export class MajoritiesGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", { where: r.where! });
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.majorities", { where: r.where!, count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:majorities.CAPTURE.default", { where: r.where!, count: r.count! });
                 return true;
             case "claim":
                 if (r.what === "line") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.majorities_line", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:majorities.CLAIM.line", { where: r.where! });
                 } else {
                 if (r.where === "H") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.majorities_H", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:majorities.CLAIM.H", {});
                 } else if (r.where === "A") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.majorities_A", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:majorities.CLAIM.A", {});
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.majorities_D", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:majorities.CLAIM.D", {});
                 }
                 }
                 return true;

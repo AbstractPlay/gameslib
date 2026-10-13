@@ -65,6 +65,37 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    ADD: {
+        one: "{{player}} added one token to their deeded card {{where}}.",
+        other: "{{player}} added {{count}} tokens to their deeded card {{where}}.",
+    },
+    CAPTURE: {
+        default: "{{whose}} was taxed {{count}} {{where}} tokens.",
+    },
+    CLAIM: {
+        default: "{{who}} gained {{what}}.",
+        initial: "Players collected their Crown resources.",
+    },
+    CONVERT: {
+        deed: "{{player}} completed their deeded card {{what}} in district {{where}}.",
+        trade: "{{player}} traded three {{what}} tokens in for one {{into}}.",
+    },
+    DECKDRAW: {
+        default: "The discards were shuffled.  There are no shuffles remaining.",
+    },
+    PLACE: {
+        buy: "{{player}} bought {{what}} for district {{where}}.",
+        deed_end: "{{player}} completed their deeded card {{what}} in district {{where}}.",
+        deed_start: "{{player}} deeded {{what}} in district {{where}}.",
+        sell: "{{player}} sold {{what}}.",
+    },
+    ROLL: {
+        default: "{{who}} rolled a {{values}}.",
+        eight: "{{who}} rolled an {{values}}.",
+    },
+};
+
 
 
 
@@ -3035,8 +3066,8 @@ export class MagnateGame extends GameBase {
                 const whoSeat = (r as { who?: number }).who !== ctx.currplayer ? ctx.defaultSeat : opponentSeat;
                 const who = this.resolveChatPlayerName(whoSeat, ctx.players);
                 const key = (r as { values: number[] }).values[0] === 8
-                    ? "apresults:ROLL.magnate_eight"
-                    : "apresults:ROLL.magnate";
+                    ? "apresults:magnate.ROLL.eight"
+                    : "apresults:magnate.ROLL.default";
                 this.pushNeutralChatLine(lines, key, {
                     values: (r as { values: number[] }).values.join(","),
                     who,
@@ -3045,10 +3076,10 @@ export class MagnateGame extends GameBase {
             }
             case "claim":
                 if (r.how) {
-                    this.pushNeutralChatLine(lines, "apresults:CLAIM.magnate_initial");
+                    this.pushNeutralChatLine(lines, "apresults:magnate.CLAIM.initial");
                 } else {
                     const whoSeat = (r as { who?: number }).who !== ctx.currplayer ? ctx.defaultSeat : opponentSeat;
-                    this.pushNeutralChatLine(lines, "apresults:CLAIM.magnate", {
+                    this.pushNeutralChatLine(lines, "apresults:magnate.CLAIM.default", {
                         what: r.what!,
                         who: this.resolveChatPlayerName(whoSeat, ctx.players),
                     });
@@ -3057,7 +3088,7 @@ export class MagnateGame extends GameBase {
             case "capture":
                 {
                     const whoseSeat = (r as { whose?: number }).whose !== ctx.currplayer ? ctx.defaultSeat : opponentSeat;
-                    this.pushNeutralChatLine(lines, "apresults:CAPTURE.magnate", {
+                    this.pushNeutralChatLine(lines, "apresults:magnate.CAPTURE.default", {
                         count: r.count!,
                         where: r.where!,
                         whose: this.resolveChatPlayerName(whoseSeat, ctx.players),
@@ -3066,39 +3097,39 @@ export class MagnateGame extends GameBase {
                 return true;
             case "place":
                 if (r.where === "discards") {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.magnate_sell", { what: r.what! });
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:magnate.PLACE.sell", { what: r.what! });
                 } else if (r.how === "D") {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.magnate_deed_start", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:magnate.PLACE.deed_start", {
                         where: r.where!, what: r.what!,
                     });
                 } else if (r.how === "A") {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.magnate_deed_end", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:magnate.PLACE.deed_end", {
                         where: r.where!, what: r.what!,
                     });
                 } else {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.magnate_buy", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:magnate.PLACE.buy", {
                         where: r.where!, what: r.what!,
                     });
                 }
                 return true;
             case "add":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:ADD.magnate", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:magnate.ADD", {
                     where: r.where!, count: r.num!,
                 });
                 return true;
             case "convert":
                 if (r.into) {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONVERT.magnate_trade", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:magnate.CONVERT.trade", {
                         what: r.what!, into: r.into,
                     });
                 } else {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONVERT.magnate_deed", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:magnate.CONVERT.deed", {
                         what: r.what!, where: r.where!,
                     });
                 }
                 return true;
             case "deckDraw":
-                this.pushNeutralChatLine(lines, "apresults:DECKDRAW.magnate");
+                this.pushNeutralChatLine(lines, "apresults:magnate.DECKDRAW.default");
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

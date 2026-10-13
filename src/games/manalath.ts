@@ -516,9 +516,9 @@ export class ManalathGame extends GameBase {
         switch (r.type) {
             case "place":
                 if (r.what === "mine") {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.mine", { where: r.where! });
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.mine", { where: r.where! });
                 } else {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.theirs", { where: r.where! });
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.theirs", { where: r.where! });
                 }
                 return true;
 

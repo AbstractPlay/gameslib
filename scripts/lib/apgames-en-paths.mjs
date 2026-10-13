@@ -1,25 +1,13 @@
-import fs from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { getNamespaceConfig, REPO_ROOT } from "./locale-en-namespace-config.mjs";
 
-const scriptsDir = path.dirname(fileURLToPath(import.meta.url));
+export { REPO_ROOT };
 
-export const REPO_ROOT = path.resolve(scriptsDir, "../..");
+const apgames = getNamespaceConfig("apgames");
 
-export const MERGED_EN = path.join(REPO_ROOT, "locales/en/apgames.json");
-
-const SHARED_PRIMARY = path.join(REPO_ROOT, "locale-src/en/apgames/shared");
-const SHARED_FALLBACK = path.join(REPO_ROOT, "locales/en/apgames-src/shared");
-
-export const LEGACY_SLICE = path.join(REPO_ROOT, "locale-src/en/apgames/legacy/monolith-slice.json");
+export const MERGED_EN = apgames.mergedEnPath;
+export const LEGACY_SLICE = apgames.legacySlicePath;
 
 /** @returns {string} Absolute directory containing shared shard JSON files. */
 export function resolveSharedShardDir() {
-    if (fs.existsSync(SHARED_PRIMARY)) {
-        return SHARED_PRIMARY;
-    }
-    if (fs.existsSync(SHARED_FALLBACK)) {
-        return SHARED_FALLBACK;
-    }
-    return SHARED_PRIMARY;
+    return apgames.resolveSharedShardDir();
 }

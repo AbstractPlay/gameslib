@@ -1,0 +1,7 @@
+{
+  "_general": {
+    "PULL": {
+      "default": "{{player}} pulled string {{where}}."
+    }
+  }
+}

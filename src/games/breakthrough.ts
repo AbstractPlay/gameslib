@@ -602,13 +602,13 @@ export class BreakthroughGame extends GameBase {
             for (const r of state._results) {
                 switch (r.type) {
                     case "move":
-                        this.pushSeatChatLine(lines, seat, "apresults:MOVE.nowhat", { from: r.from, to: r.to });
+                        this.pushSeatChatLine(lines, seat, "apresults:_general.MOVE.nowhat", { from: r.from, to: r.to });
                         break;
                     case "capture":
-                        this.pushNeutralChatLine(lines, "apresults:CAPTURE.minimal");
+                        this.pushNeutralChatLine(lines, "apresults:_general.CAPTURE.minimal");
                         break;
                     case "detonate":
-                        this.pushSeatChatLine(lines, seat, "apresults:DETONATE.nowhat", { where: r.where });
+                        this.pushSeatChatLine(lines, seat, "apresults:_general.DETONATE.nowhat", { where: r.where });
                         break;
                     case "destroy":
                         if (r.what === "mine") {
@@ -620,10 +620,10 @@ export class BreakthroughGame extends GameBase {
                 }
             }
             if (myCount > 0) {
-                this.pushNeutralChatLine(lines, "apresults:DESTROY.friendly.minimal", { count: myCount });
+                this.pushNeutralChatLine(lines, "apresults:_general.DESTROY.friendly.minimal", { count: myCount });
             }
             if (theirCount > 0) {
-                this.pushNeutralChatLine(lines, "apresults:DESTROY.enemy.minimal", { count: theirCount });
+                this.pushNeutralChatLine(lines, "apresults:_general.DESTROY.enemy.minimal", { count: theirCount });
             }
             const ctx: ChatLogCollectContext = {
                 results: state._results,

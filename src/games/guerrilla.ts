@@ -30,6 +30,12 @@ export const gameApgamesEn = {
         INSURGENTS: "Insurgents remaining",
     },
 };
+export const gameApresultsEn = {
+    RESET: {
+        default: "{{player}} won the first game. The second game has begun, with roles reversed.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -872,19 +878,19 @@ export class GuerrillaGame extends GameBase {
                 const prev = idx > 0 ? ctx.results[idx - 1] : undefined;
                 if (prev?.type === "winners" && prev.players.length > 0) {
                     const names = prev.players.map(w => this.resolveChatPlayerName(w, ctx.players));
-                    this.pushNeutralChatLine(lines, "apresults:RESET.guerrilla", {
+                    this.pushNeutralChatLine(lines, "apresults:guerrilla.RESET.default", {
                         player: names.join(", "),
                     });
                     return true;
                 }
-                this.pushNeutralChatLine(lines, "apresults:RESET.guerrilla");
+                this.pushNeutralChatLine(lines, "apresults:guerrilla.RESET.default");
                 return true;
             }
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", {where: r.where!});
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.nowhat", {where: r.where!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

@@ -1026,14 +1026,14 @@ export class VolcanoGame extends GameBase {
             }
             throw new Error("Should never happen.");
         }).join(", ");
-        this.pushSeatChatLine(lines, seat, "apresults:MOVE.multiple", { moves: moveDesc });
+        this.pushSeatChatLine(lines, seat, "apresults:_general.MOVE.multiple", { moves: moveDesc });
         const eruptions = results.filter((r) => r.type === "eject") as { type: "eject"; what: string }[];
-        this.pushNeutralChatLine(lines, "apresults:ERUPTIONS", {
+        this.pushNeutralChatLine(lines, "apresults:_general.ERUPTIONS.default", {
             eruptions: eruptions.map((m) => m.what).join(", "),
         });
         const captures = results.filter((r) => r.type === "capture") as { type: "capture"; what: string }[];
         if (captures.length > 0) {
-            this.pushNeutralChatLine(lines, "apresults:CAPTURE.noperson.multiple", {
+            this.pushNeutralChatLine(lines, "apresults:_general.CAPTURE.noperson.multiple", {
                 capped: captures.map((m) => m.what).join(", "),
             });
         }

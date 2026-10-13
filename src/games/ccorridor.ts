@@ -25,6 +25,12 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    PLACE: {
+        default: "{{player}} placed a tile at {{where}}.",
+    },
+};
+
 
 
 type playerid = 1 | 2;
@@ -663,7 +669,7 @@ export class CairoCorridorGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.ccorridor", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:ccorridor.PLACE.default", { where: r.where! });
                 return true;
 
             default:

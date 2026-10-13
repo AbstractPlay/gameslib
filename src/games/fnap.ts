@@ -22,6 +22,22 @@ export const gameApgamesEn = {
         VALID_PARTIAL_tile: "Select one of the two tiles to place.",
     },
 };
+export const gameApresultsEn = {
+    CLAIM: {
+        col: "{{player}} claimed column {{where}}.",
+        fnap: "{{player}} has claimed the FNAP token.",
+        row: "{{player}} claimed row {{where}}.",
+    },
+    SELECT: {
+        default: "{{player}} selected the tile {{tile}}.",
+    },
+    SET: {
+        circles: "The circle tile at {{where}} is isolated.",
+        triplets_one: "{{player}} scored {{count}} triplet.",
+        triplets_other: "{{player}} scored {{count}} triplets.",
+    },
+};
+
 
 
 type playerid = 1|2;
@@ -1006,34 +1022,34 @@ export class FnapGame extends GameBaseSimultaneous {
         const who = (r as { who: number }).who;
         switch (r.type) {
             case "select":
-                this.pushSeatChatLine(lines, who, "apresults:SELECT.fnap", { tile: r.what as string });
+                this.pushSeatChatLine(lines, who, "apresults:fnap.SELECT.default", { tile: r.what as string });
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, who, "apresults:PASS.simple");
+                this.pushSeatChatLine(lines, who, "apresults:_general.PASS.simple");
                 return true;
             case "place":
-                this.pushSeatChatLine(lines, who, "apresults:PLACE.complete", {
+                this.pushSeatChatLine(lines, who, "apresults:_general.PLACE.complete", {
                     what: r.what,
                     where: r.where,
                 });
                 return true;
             case "claim":
-                this.pushSeatChatLine(lines, who, "apresults:CLAIM.fnap", {
+                this.pushSeatChatLine(lines, who, `apresults:fnap.CLAIM.${r.what!}`, {
                     context: r.what as string,
                     where: r.where,
                 });
                 return true;
             case "deltaScore":
-                this.pushSeatChatLine(lines, who, "apresults:DELTA_SCORE_GAIN", {
+                this.pushSeatChatLine(lines, who, "apresults:_general.DELTA_SCORE_GAIN", {
                     delta: r.delta,
                     count: r.delta,
                 });
                 return true;
             case "set":
                 if ("what" in r && r.what !== undefined) {
-                    this.pushNeutralChatLine(lines, "apresults:SET.fnap_circles", { where: r.where });
+                    this.pushNeutralChatLine(lines, "apresults:fnap.SET.circles", { where: r.where });
                 } else {
-                    this.pushSeatChatLine(lines, who, "apresults:SET.fnap_triplets", { count: r.count });
+                    this.pushSeatChatLine(lines, who, "apresults:fnap.SET", { count: r.count });
                 }
                 return true;
             default:

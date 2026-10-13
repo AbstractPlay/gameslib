@@ -20,6 +20,18 @@ export const gameApgamesEn = {
         UNFURL4FURL: "You signalled an unfurl move with \">\", but the selected stack only has a height of 1.",
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        default: "{{player}} captured a stack of size {{size}} at {{where}}.",
+    },
+    FURL: {
+        default: "{{player}} furls {{count}} pieces from {{from}} to {{to}}.",
+    },
+    UNFURL: {
+        default: "{{player}} unfurls {{count}} pieces from {{from}} to {{to}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -669,13 +681,13 @@ export class FurlGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "furl":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:FURL.furl", {from: r.from!, to: r.to!, count: r.count!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:furl.FURL.default", {from: r.from!, to: r.to!, count: r.count!});
                 return true;
             case "unfurl":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:UNFURL.furl", {from: r.from!, to: r.to!, count: r.count!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:furl.UNFURL.default", {from: r.from!, to: r.to!, count: r.count!});
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.furl", {where: r.where!, size: r.count!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:furl.CAPTURE.default", {where: r.where!, size: r.count!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

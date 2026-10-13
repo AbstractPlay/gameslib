@@ -38,6 +38,12 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    PLACE: {
+        default: "{{player}} placed a {{piece}} at {{algebraic}} ({{where}}).",
+    },
+};
+
 
 
 type playerid = 1 | 2;
@@ -1065,13 +1071,13 @@ export class TraxGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.trax", { where: r.where!, piece: r.what!, algebraic: r.how! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:trax.PLACE.default", { where: r.where!, piece: r.what!, algebraic: r.how! });
                 return true;
             case "eog":
                 if (r.reason === "stalemate") {
-                this.pushNeutralChatLine(lines, "apresults:EOG.stalemate", { count: 1 });
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.stalemate", { count: 1 });
                 } else {
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }
                 return true;
             default:

@@ -45,6 +45,16 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        one: "{{player}} move eliminates one piece.",
+        other: "{{player}} move eliminates {{count}} pieces.",
+    },
+    EOG: {
+        default: "The game has ended because the next player is unable to move.",
+    },
+};
+
 
 
 export type playerid = 1 | 2;
@@ -562,10 +572,10 @@ export class FormsGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.forms", { count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:forms.CAPTURE", { count: r.count! });
                 return true;
             case "eog":
-                this.pushNeutralChatLine(lines, "apresults:EOG.forms");
+                this.pushNeutralChatLine(lines, "apresults:forms.EOG.default");
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

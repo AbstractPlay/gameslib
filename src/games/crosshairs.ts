@@ -99,6 +99,27 @@ export const gameApgamesEn = {
         TOTAL_ALTITUDE: "Total altitude",
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        default: "{{player}} shot down a plane at {{where}}.",
+    },
+    DESTROY: {
+        default: "{{player}}'s plane at {{where}} crashed.",
+    },
+    MOVE: {
+        default: "{{player}} moved a plane from {{from}} to {{to}}.",
+        "power-dive": "{{player}}'s plane power-dived at {{from}}.",
+        swoop: "{{player}}'s plane swooped from {{from}} to {{to}}.",
+    },
+    ORIENT: {
+        default: "{{player}} turned a plane at {{where}} to face {{facing}}.",
+    },
+    PLACE: {
+        cloud: "{{player}} placed a cloud at {{where}}.",
+        plane: "{{player}} entered a plane at {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1 | 2;
@@ -3786,28 +3807,28 @@ export class CrosshairsGame extends GameBase {
         switch (r.type) {
             case "place":
                 if (r.what === "plane") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.crosshairs_plane", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:crosshairs.PLACE.plane", { where: r.where! });
                 } else if (r.what === "cloud") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.crosshairs_cloud", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:crosshairs.PLACE.cloud", { where: r.where! });
                 }
                 return true;
             case "move":
                 if (r.how === "swoop") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.crosshairs_swoop", { from: r.from!, to: r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:crosshairs.MOVE.swoop", { from: r.from!, to: r.to! });
                 } else if (r.how === "power-dive") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.crosshairs_power-dive", { from: r.from! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:crosshairs.MOVE.power-dive", { from: r.from! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.crosshairs", { from: r.from!, to: r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:crosshairs.MOVE.default", { from: r.from!, to: r.to! });
                 }
                 return true;
             case "orient":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:ORIENT.crosshairs", { where: r.where!, facing: r.facing! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:crosshairs.ORIENT.default", { where: r.where!, facing: r.facing! });
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.crosshairs", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:crosshairs.CAPTURE.default", { where: r.where! });
                 return true;
             case "destroy":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DESTROY.crosshairs", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:crosshairs.DESTROY.default", { where: r.where! });
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

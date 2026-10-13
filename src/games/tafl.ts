@@ -7,6 +7,19 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { TaflSettings } from "./tafl/settings.js";
+export const gameApresultsEn = {
+    EOG: {
+        encirclement: "The game has ended because the defenders are encircled.",
+        exit_fort: "The game has ended because the defenders created an exit fort.",
+        king_captured: "The game has ended because the king was captured.",
+        king_escaped: "The game has ended because the king escaped.",
+    },
+    MOVE: {
+        default: "{{player}} moved a piece from {{from}} to {{to}}.",
+        jump: "{{player}} jumped a piece from {{from}} to {{to}}.",
+    },
+};
+
 export const gameApgamesEn = {
     validation: {
         BERSERK: "Berserk move to {{to}} is invalid.",
@@ -1488,42 +1501,42 @@ export class TaflGame extends GameBase {
         switch (r.type) {
             case "move":
                 if (r.how === "jump") {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.tafl_jump", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:tafl.MOVE.jump", {
                         from: r.from, to: r.to,
                     });
                 } else {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.tafl", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:tafl.MOVE.default", {
                         from: r.from, to: r.to,
                     });
                 }
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.tafl", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.nowhat", {
                     where: r.where!,
                 });
                 return true;
             case "eog":
                 switch (r.reason) {
                     case "king-captured":
-                        this.pushNeutralChatLine(lines, "apresults:EOG.tafl_king_captured");
+                        this.pushNeutralChatLine(lines, "apresults:tafl.EOG.king_captured");
                         break;
                     case "king-escaped":
-                        this.pushNeutralChatLine(lines, "apresults:EOG.tafl_king_escaped");
+                        this.pushNeutralChatLine(lines, "apresults:tafl.EOG.king_escaped");
                         break;
                     case "repetition":
-                        this.pushNeutralChatLine(lines, "apresults:EOG.repetition", { count: 3 });
+                        this.pushNeutralChatLine(lines, "apresults:_general.EOG.repetition", { count: 3 });
                         break;
                     case "stalemate":
-                        this.pushNeutralChatLine(lines, "apresults:EOG.stalemate");
+                        this.pushNeutralChatLine(lines, "apresults:_general.EOG.stalemate");
                         break;
                     case "encirclement":
-                        this.pushNeutralChatLine(lines, "apresults:EOG.tafl_encirclement");
+                        this.pushNeutralChatLine(lines, "apresults:tafl.EOG.encirclement");
                         break;
                     case "exit-fort":
-                        this.pushNeutralChatLine(lines, "apresults:EOG.tafl_exit_fort");
+                        this.pushNeutralChatLine(lines, "apresults:tafl.EOG.exit_fort");
                         break;
                     case undefined:
-                        this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                        this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                         break;
                 }
                 return true;

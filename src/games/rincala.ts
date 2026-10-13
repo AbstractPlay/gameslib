@@ -14,6 +14,13 @@ export const gameApgamesEn = {
         PARTIAL: "Select an adjacent pit to start sowing in that direction.",
     },
 };
+export const gameApresultsEn = {
+    SOW: {
+        one: "{{player}} sowed {{count}} {{pieces}} piece from {{from}} to {{to}}.",
+        other: "{{player}} sowed {{count}} pieces from {{from}} to the following pits: {{pieces}} -> {{to}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -739,14 +746,14 @@ export class RincalaGame extends GameBase {
             let resolved = true;
             for (const nested of r.results) {
                 if (nested.type === "sow") {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SOW.rincala", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:rincala.SOW", {
                         count: nested.pieces!.length,
                         pieces: nested.pieces!.join(","),
                         from: nested.from!.join(","),
                         to: nested.to!.join(","),
                     });
                 } else if (nested.type === "capture") {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.complete", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.complete", {
                         where: nested.where!, what: nested.what!,
                     });
                 } else {

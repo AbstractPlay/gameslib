@@ -529,16 +529,16 @@ export class StairsGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "lead":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:LEAD", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.LEAD.default", {});
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.complete_what", { from: r.from!, to: r.to!, what: "piece" });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.complete_what", { from: r.from!, to: r.to!, what: "piece" });
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.forced", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.forced", {});
                 return true;
             case "eog":
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

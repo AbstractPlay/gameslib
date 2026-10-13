@@ -1222,7 +1222,7 @@ describe("Arimaa Dicey Moves", () => {
         expect(g.board.has(g.die!.square)).to.be.false;
         expect(g.currplayer).to.equal(2);
         const lines = g.chatLogEntries(["Gold", "Silver"]).pop()!.lines;
-        expect(lines[0].textKey).to.equal("apresults:ROLL.arimaa");
+        expect(lines[0].textKey).to.equal("apresults:arimaa.ROLL");
         expect(lines[0].textParams!.count).to.equal(1);
         expect(g.chatLog(["Gold", "Silver"]).flat().join(" ")).to.contain("a single step this turn");
     });

@@ -14,7 +14,7 @@ import {
     loadTurnModelFixture,
     loadTurnModelManifest,
     TURN_MODEL_FIXTURES_DIR,
-    turnModelFixturesAvailable,
+    turnModelFixturesOnDisk,
 } from "../test/fixtures/turnModel/helpers";
 
 function recordDetailsFromPublished(rec: APGameRecord): IRecordDetails {
@@ -35,7 +35,7 @@ function recordDetailsFromPublished(rec: APGameRecord): IRecordDetails {
 }
 
 function main(): void {
-    if (!turnModelFixturesAvailable()) {
+    if (!turnModelFixturesOnDisk()) {
         console.error(`No fixtures at ${TURN_MODEL_FIXTURES_DIR}.`);
         process.exit(1);
     }

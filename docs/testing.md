@@ -86,9 +86,9 @@ Prototype board JSON at [renderer.dev.abstractplay.com](https://renderer.dev.abs
 
 ## Chat log
 
-When you override `collectChatLogLine` or `chatLogEntries`, verify output with `assertChatLogParity(game, playerNames)` from [`test/fixtures/chat/helpers.ts`](/gameslib/test/fixtures/chat/helpers.ts). CI runs [`test/games/chatLogParity.test.ts`](/gameslib/test/games/chatLogParity.test.ts) for registry games with fixtures.
+When you override `collectChatLogLine` or `chatLogEntries`, verify output with `assertChatLogParity(game, playerNames)` from [`test/fixtures/chat/helpers.ts`](/gameslib/test/fixtures/chat/helpers.ts). CI runs [`test/games/chatLogParity.test.ts`](/gameslib/test/games/chatLogParity.test.ts) (fresh-state registry smoke) and [`test/games/chatLogScenario.test.ts`](/gameslib/test/games/chatLogScenario.test.ts) (inline scenarios).
 
-After collector changes, refresh local goldens (gitignored fixtures): `npm run refresh-chat-golden-entries` and/or `npm run refresh-chat-golden`.
+Local DynamoDB turn-model goldens under `test/fixtures-local/turnModel/` are optional and not used in CI; prefer inline fixtures under `test/fixtures/chat/`.
 
 See [Structured move log](/gameslib/structured-chat-log/) for simultaneous indexing, aggregated frames, and anti-patterns.
 

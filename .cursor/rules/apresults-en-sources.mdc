@@ -1,0 +1,24 @@
+---
+description: English apresults — author sources and merge; never hand-edit merged apresults.json
+globs: locales/en/apresults.json, locale-src/en/apresults/**, src/games/**/*.ts
+alwaysApply: false
+---
+
+# `locales/en/apresults.json` is merge output
+
+Do **not** add or change move-log English only in `locales/en/apresults.json`. CI (`npm run locale-en`, `locale-en keys --warn --strict`) rejects drift from sources.
+
+**Author English here instead:**
+
+- Shared copy: `locale-src/en/apresults/shared/_general/*.json`
+- Per game: `export const gameApresultsEn` in `src/games/<uid>.ts`
+
+Then run `npm run locale-en -- merge apresults --write` and commit the regenerated `locales/en/apresults.json`.
+
+**Key paths:** `apresults:_general.<ResultType>.<leaf>` for shared stems; `apresults:<uid>.<ResultType>.<leaf>` for game-specific lines (including homeworlds under uid `homeworlds`).
+
+When nested paths change but English text stays the same, run `npm run locale-en -- remap apresults --write` before machine translation. Regenerate [`apresults-path-map.json`](locale-src/en/apresults/apresults-path-map.json) with `node scripts/audit-apresults-catalog.mjs --write-map` when adding or renaming English leaves.
+
+Other languages under `locales/{de,fr,it,es-US}/` are Weblate/CI-managed — do not hand-edit `locale-src/{de,fr,it,es-US}/` tracking files.
+
+Details: [docs/i18n.md](docs/i18n.md), [locale-src/en/apresults/README.md](locale-src/en/apresults/README.md), [docs/structured-chat-log.md](docs/structured-chat-log.md).

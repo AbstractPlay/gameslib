@@ -29,6 +29,14 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    PLACE: {
+        default: "{{player}} adds a line at {{where}}.",
+        claim1: "{{player}} adds a line at {{where}}, claiming {{box}}.",
+        claim2: "{{player}} adds a line at {{where}}, claiming {{box1}} and {{box2}}.",
+    },
+};
+
 
 
 type playerid = 1 | 2;
@@ -599,14 +607,14 @@ export class BoxesGame extends GameBase {
         switch (r.type) {
             case "place":
                 if (r.count === undefined) {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.boxes", {where: r.where!});
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:boxes.PLACE.default", {where: r.where!});
                 } else if (r.count === 1) {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.boxes_claim1", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:boxes.PLACE.claim1", {
                         where: r.where!, box: r.how!,
                     });
                 } else {
                     const cells = r.how!.split(",");
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.boxes_claim2", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:boxes.PLACE.claim2", {
                         where: r.where!, box1: cells[0]!, box2: cells[1]!,
                     });
                 }

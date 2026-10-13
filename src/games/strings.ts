@@ -10,6 +10,11 @@ export const gameApgamesEn = {
         NOSTRING: "There is no string numbered {{string}}.",
     },
 };
+export const gameApresultsEn = {
+    DESTROY: {
+        string: "String {{where}} broke under the strain.",
+    },
+};
 
 
 type playerid = 1|2;
@@ -588,7 +593,7 @@ export class StringsGame extends GameBaseSimultaneous {
                 for (let p = 0; p < 2; p++) {
                     const r = state._results[p];
                     if (r.type === "pull") {
-                        this.pushSeatChatLine(lines, p + 1, "apresults:PULL", { where: r.where });
+                        this.pushSeatChatLine(lines, p + 1, "apresults:_general.PULL.default", { where: r.where });
                     }
                 }
             }
@@ -604,7 +609,7 @@ export class StringsGame extends GameBaseSimultaneous {
                 for (const r of state._results) {
                     switch (r.type) {
                         case "destroy":
-                            this.pushNeutralChatLine(lines, "apresults:DESTROY.string", { where: r.where });
+                            this.pushNeutralChatLine(lines, "apresults:strings.DESTROY.string", { where: r.where });
                             break;
                         case "eog":
                         case "resigned":

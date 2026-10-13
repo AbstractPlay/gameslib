@@ -1051,10 +1051,10 @@ export class AzacruGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "sacrifice":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SACRIFICE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.SACRIFICE.nowhat", {where: r.where!});
                 return true;
             case "convert":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONVERT.simple", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CONVERT.simple", {where: r.where!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

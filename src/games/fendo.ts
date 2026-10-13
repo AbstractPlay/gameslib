@@ -1070,13 +1070,13 @@ export class FendoGame extends GameBase {
                 const last = moves[moves.length - 1];
                 const rest = moves.slice(0, moves.length - 1);
                 if (moves.length > 2) {
-                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.chase", {
+                    this.pushSeatChatLine(lines, seat, "apresults:chase.MOVE.default", {
                         from: first.from,
                         to: last.to,
                         through: rest.map((m) => m.to).join(", "),
                     });
                 } else {
-                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.nowhat", {
+                    this.pushSeatChatLine(lines, seat, "apresults:_general.MOVE.nowhat", {
                         from: first.from,
                         to: last.to,
                     });
@@ -1085,16 +1085,16 @@ export class FendoGame extends GameBase {
             for (const r of state._results) {
                 switch (r.type) {
                     case "place":
-                        this.pushSeatChatLine(lines, seat, "apresults:PLACE.nowhat", { where: r.where });
+                        this.pushSeatChatLine(lines, seat, "apresults:_general.PLACE.nowhat", { where: r.where });
                         break;
                     case "block":
-                        this.pushSeatChatLine(lines, seat, "apresults:BLOCK.between", {
+                        this.pushSeatChatLine(lines, seat, "apresults:_general.BLOCK.between", {
                             cell1: r.between![0],
                             cell2: r.between![1],
                         });
                         break;
                     case "pass":
-                        this.pushSeatChatLine(lines, seat, "apresults:PASS.simple");
+                        this.pushSeatChatLine(lines, seat, "apresults:_general.PASS.simple");
                         break;
                 }
             }

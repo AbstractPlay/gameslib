@@ -120,6 +120,37 @@ export const gameApgamesEn = {
         PHASE_HOC_BATCH_B: "{{player}} places the second batch of Attacker stones",
     },
 };
+export const gameApresultsEn = {
+    ANNOUNCE: {
+        slice: "{{player}} set the batch sizes to {{a}} and {{b}} stones.",
+    },
+    CAPTURE: {
+        suicide_one: "{{player}} removed their own stone by suicide.",
+        suicide_other: "{{player}} removed {{count}} of their own stones by suicide.",
+    },
+    CLAIM: {
+        attacker: "{{player}} chose to play as the Attacker.",
+        defender: "{{player}} chose to play as the Defender.",
+    },
+    DECLARE: {
+        handicap_one: "{{player}} set the handicap to one stone.",
+        handicap_other: "{{player}} set the handicap to {{count}} stones.",
+    },
+    EOG: {
+        double_pass: "The game has ended because both players passed consecutively without the Defender establishing unconditional life.",
+        no_moves: "The game has ended because the player to move has no legal placement.",
+        no_room: "The game has ended because the Attacker's unconditionally alive stones leave the Defender no room to form an unconditionally alive string.",
+        pass_alive: "The game has ended because the Defender formed an unconditionally alive string.",
+    },
+    PLACE: {
+        setup: "{{player}} placed an Attacker stone at {{where}}.",
+    },
+    SELECT: {
+        iplace: "{{player}} chose to place the first batch.",
+        youplace: "{{player}} chose to let their opponent place the first batch.",
+    },
+};
+
 
 
 /**
@@ -1864,50 +1895,50 @@ export class KillAllGoGame extends GameBase {
         switch (r.type) {
             case "place":
                 if (r.what === "setup") {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.killallgo_setup", { where: r.where! });
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:killallgo.PLACE.setup", { where: r.where! });
                 } else {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", { where: r.where! });
                 }
                 return true;
             case "capture":
                 if (r.how === "suicide") {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.killallgo_suicide", { count: r.count! });
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:killallgo.CAPTURE", { count: r.count! });
                 } else {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.noperson.group_nowhere", { count: r.count! });
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.noperson.group_nowhere", { count: r.count! });
                 }
                 return true;
             case "claim":
                 if (r.how === "attacker") {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.killallgo_attacker");
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:killallgo.CLAIM.attacker");
                 } else if (r.how === "defender") {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.killallgo_defender");
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:killallgo.CLAIM.defender");
                 } else {
                     return super.collectChatLogLine(lines, r, ctx);
                 }
                 return true;
             case "declare":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DECLARE.killallgo_handicap", { count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:killallgo.DECLARE", { count: r.count! });
                 return true;
             case "announce": {
                 const [a, b] = r.payload as [number, number];
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:ANNOUNCE.killallgo_slice", { a, b });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:killallgo.ANNOUNCE.slice", { a, b });
                 return true;
             }
             case "select":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, r.what === "iplace" ? "apresults:SELECT.killallgo_iplace" : "apresults:SELECT.killallgo_youplace");
+                this.pushSeatChatLine(lines, ctx.defaultSeat, r.what === "iplace" ? "apresults:killallgo.SELECT.iplace" : "apresults:killallgo.SELECT.youplace");
                 return true;
             case "eog":
                 if (r.reason === "pass-alive") {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.killallgo_pass_alive");
+                    this.pushNeutralChatLine(lines, "apresults:killallgo.EOG.pass_alive");
                 } else if (r.reason === "no-room") {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.killallgo_no_room");
+                    this.pushNeutralChatLine(lines, "apresults:killallgo.EOG.no_room");
                 } else if (r.reason === "no-moves") {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.killallgo_no_moves");
+                    this.pushNeutralChatLine(lines, "apresults:killallgo.EOG.no_moves");
                 } else if (r.reason === "double-pass") {
                     // Preserve the move log for games completed before normal-play passes were removed.
-                    this.pushNeutralChatLine(lines, "apresults:EOG.killallgo_double_pass");
+                    this.pushNeutralChatLine(lines, "apresults:killallgo.EOG.double_pass");
                 } else {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }
                 return true;
             default:

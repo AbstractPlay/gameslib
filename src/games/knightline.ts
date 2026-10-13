@@ -54,6 +54,15 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    MOVE: {
+        default: "{{player}} moved {{what}} pieces from {{from}} to {{to}}.",
+    },
+    PLACE: {
+        default: "{{player}} placed their initial stack at {{where}}.",
+    },
+};
+
 
 
 type playerid = 1 | 2 | 3 ;
@@ -1209,22 +1218,22 @@ export class KnightLineGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.knightline", { from: r.from!, to: r.to!, what: r.what! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:knightline.MOVE.default", { from: r.from!, to: r.to!, what: r.what! });
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.forced", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.forced", {});
                 return true;
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.knightline", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:knightline.PLACE.default", { where: r.where! });
                 return true;
             case "eliminated":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:ELIMINATED", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.ELIMINATED.default", {});
                 return true;
             case "eog":
                 if (r.reason === "stalemate") {
-                this.pushNeutralChatLine(lines, "apresults:EOG.stalemate_all");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.stalemate_all");
                 } else {
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }
                 return true;
             default:

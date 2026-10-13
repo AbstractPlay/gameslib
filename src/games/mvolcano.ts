@@ -1057,16 +1057,16 @@ export class MvolcanoGame extends GameBase {
             const currplayer = state.currplayer as number;
             const seat = this.frameChatActorSeat(currplayer);
             const moves = state._results.filter((r) => r.type === "move") as { type: "move"; from: string; to: string }[];
-            this.pushSeatChatLine(lines, seat, "apresults:MOVE.multiple", {
+            this.pushSeatChatLine(lines, seat, "apresults:_general.MOVE.multiple", {
                 moves: moves.map((m) => `${m.from}-${m.to}`).join(", "),
             });
             const eruptions = state._results.filter((r) => r.type === "eject") as { type: "eject"; what: string }[];
-            this.pushNeutralChatLine(lines, "apresults:ERUPTIONS", {
+            this.pushNeutralChatLine(lines, "apresults:_general.ERUPTIONS.default", {
                 eruptions: eruptions.map((m) => m.what).join(", "),
             });
             const captures = state._results.filter((r) => r.type === "capture") as { type: "capture"; what: string }[];
             if (captures.length > 0) {
-                this.pushNeutralChatLine(lines, "apresults:CAPTURE.noperson.multiple", {
+                this.pushNeutralChatLine(lines, "apresults:_general.CAPTURE.noperson.multiple", {
                     capped: captures.map((m) => m.what).join(", "),
                 });
             }

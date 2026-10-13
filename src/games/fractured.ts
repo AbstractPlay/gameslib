@@ -683,7 +683,7 @@ export class FracturedGame extends GameBase {
             case "deltaScore":
                 lines.push({
                     actor: this.getChatActorRef(ctx.defaultSeat),
-                    textKey: "apresults:DELTA_SCORE_GAIN",
+                    textKey: "apresults:_general.DELTA_SCORE_GAIN",
                     textParams: {
                         count: r.delta!,
                         delta: r.delta!,

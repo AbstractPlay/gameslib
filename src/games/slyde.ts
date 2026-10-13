@@ -35,6 +35,18 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    MOVE: {
+        default: "{{player}} slid a piece from {{from}} to {{to}}.",
+    },
+    SELECT: {
+        fixed_opponent: "{{player}} changed the state of their opponent's piece at {{where}} from mobile to fixed.",
+        fixed_self: "{{player}} changed the state of their own piece at {{where}} from mobile to fixed.",
+        mobile_opponent: "{{player}} changed the state of their opponent's piece at {{where}} from fixed to mobile.",
+        mobile_self: "{{player}} changed the state of their own piece at {{where}} from fixed to mobile.",
+    },
+};
+
 
 
 const changeSymbol = "*";
@@ -727,20 +739,20 @@ export class SlydeGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.slyde", { from: r.from!, to: r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:slyde.MOVE.default", { from: r.from!, to: r.to! });
                 return true;
             case "select":
                 if (r.what === "fixed") {
                 if (r.how === "self") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SELECT.slyde_fixed_self", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:slyde.SELECT.fixed_self", { where: r.where! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SELECT.slyde_fixed_opponent", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:slyde.SELECT.fixed_opponent", { where: r.where! });
                 }
                 } else {
                 if (r.how === "self") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SELECT.slyde_mobile_self", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:slyde.SELECT.mobile_self", { where: r.where! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SELECT.slyde_mobile_opponent", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:slyde.SELECT.mobile_opponent", { where: r.where! });
                 }
                 }
                 return true;

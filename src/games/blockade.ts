@@ -62,6 +62,19 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        default: "{{player}} captured a blocking piece at {{where}}.",
+    },
+    MOVE: {
+        default: "{{player}} moved a piece from {{from}} to {{to}}.",
+    },
+    PLACE: {
+        h: "{{player}} placed a horizontal fence at {{where}}.",
+        v: "{{player}} placed a vertical fence at {{where}}.",
+    },
+};
+
 
 
 type playerid = 1|2;
@@ -1192,17 +1205,17 @@ export class BlockadeGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.blockade", { from: r.from!, to: r.to!, count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:blockade.MOVE.default", { from: r.from!, to: r.to!, count: r.count! });
                 return true;
             case "place":
                 if (r.what === "h") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.blockade_h", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:blockade.PLACE.h", { where: r.where! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.blockade_v", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:blockade.PLACE.v", { where: r.where! });
                 }
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.blockade", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:blockade.CAPTURE.default", { where: r.where! });
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

@@ -98,7 +98,7 @@ public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCol
 ### Authoring rules
 
 1. Emit **i18n keys** only — never `i18next.t()` or pre-translated strings in the collector.
-2. Add strings to [`locales/en/apresults.json`](/gameslib/locales/en/apresults.json) (`apresults:` namespace).
+2. Add English to **`gameApresultsEn`** (or `locale-src/en/apresults/shared/_general/` for shared stems), then `npm run locale-en -- merge apresults --write` — do not hand-edit [`locales/en/apresults.json`](/gameslib/locales/en/apresults.json). Keys use the `apresults:` namespace (`apresults:<uid>.<Type>.<leaf>` or `apresults:_general.<Type>.<leaf>`).
 3. Do not embed display names in `textParams` for seat lines — use `pushSeatChatLine` / `chatPlayerToken`.
 4. Always delegate unknown types to `super.collectChatLogLine`.
 5. For `resigned` / `timeout` / `winners`, the base collector uses `resolveChatPlayerName` — follow that pattern if you customize those types.
@@ -200,7 +200,7 @@ flowchart TB
 | Case | Pattern | Reference |
 |------|---------|-----------|
 | **Nested `_group` results** | Handle `r.type === "_group"`: iterate `r.results`, dispatch game helper then `super` per nested result | [`frogger.ts`](/gameslib/src/games/frogger.ts) |
-| **Label actor (bear, dealer)** | `getChatActorRef` returns `{ kind: "label", key: "apresults:ACTOR.…" }`; seat-specific roll keys if needed | [`elOso.ts`](/gameslib/src/games/elOso.ts) |
+| **Label actor (bear, dealer)** | `getChatActorRef` returns `{ kind: "label", key: "apresults:<uid>.ACTOR.…" }`; seat-specific roll keys if needed | [`elOso.ts`](/gameslib/src/games/elOso.ts) |
 | **Custom `deltaScore` narration** | Override `deltaScore` in collector; may need custom `chatLogEntries` if default score-report append is wrong | [`byte.ts`](/gameslib/src/games/byte.ts) |
 | **Non-standard stack frames** | Full `chatLogEntries` override when default per-stack-entry walk does not match game result grouping | [`elOso.ts`](/gameslib/src/games/elOso.ts) |
 | **Variant EOG lines** | `pushNeutralChatLine` with game-specific `apresults:EOG.*` keys | go, camelot, anache, etc. |
@@ -237,8 +237,6 @@ formatChatLogEntryNodes(game.chatLogEntries(playerNames), playerNames, t);
 When overriding `collectChatLogLine` or `chatLogEntries`:
 
 - **`assertChatLogParity(game, playerNames)`** from [`test/fixtures/chat/helpers.ts`](/gameslib/test/fixtures/chat/helpers.ts) — validates collector output against expected formatted strings.
-- **CI:** [`test/games/chatLogParity.test.ts`](/gameslib/test/games/chatLogParity.test.ts) for registry games with fixtures.
-- **Golden refresh** (local): `npm run refresh-chat-golden-entries` / `npm run refresh-chat-golden`.
-- **Aggregation scenarios:** phase fixture gates in [`test/fixtures/turnModel/phase4ChatFixtureGates.ts`](/gameslib/test/fixtures/turnModel/phase4ChatFixtureGates.ts).
+- **CI:** [`test/games/chatLogParity.test.ts`](/gameslib/test/games/chatLogParity.test.ts) (fresh-state parity) and [`test/games/chatLogScenario.test.ts`](/gameslib/test/games/chatLogScenario.test.ts) (inline attribution scenarios).
 
 See [Testing — Chat log](/gameslib/testing/#chat-log).

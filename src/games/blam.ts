@@ -609,7 +609,7 @@ export class BlamGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.push", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.push", {
                     what: r.what!, from: r.from!, to: r.to!,
                 });
                 return true;

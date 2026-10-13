@@ -52,6 +52,13 @@ export const gameApgamesEn = {
         TERRITORY: "Territory",
     },
 };
+export const gameApresultsEn = {
+    MOVE: {
+        default: "{{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
+        noFirstShot: "{{player}} moved from {{from}} to {{to}}.",
+    },
+};
+
 
 
 type CellContents = 0 | 1 | 2;
@@ -819,11 +826,11 @@ export class AmazonsGame extends GameBase {
             case "move": {
                 const block = ctx.results.find((mr) => mr.type === "block") as { type: "block"; where: string } | undefined;
                 if (block !== undefined) {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.amazons", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:amazons.MOVE.default", {
                         from: r.from, to: r.to, block: block.where,
                     });
                 } else {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.amazonsNoFirstShot", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:amazons.MOVE.noFirstShot", {
                         from: r.from, to: r.to,
                     });
                 }

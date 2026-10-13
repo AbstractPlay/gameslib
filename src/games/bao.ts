@@ -55,6 +55,22 @@ export const gameApgamesEn = {
         BALANCE: "Material balance",
     },
 };
+export const gameApresultsEn = {
+    BLOCK: {
+        default: "The pit {{pit}} is in kutakatia (is blocked).",
+    },
+    CAPTURE: {
+        one: "{{player}} captured a total of {{count}} stone from the following pits (in order): {{pits}}",
+        other: "{{player}} captured a total of {{count}} stones from the following pits (in order): {{pits}}",
+    },
+    DESTROY: {
+        default: "The nyumba at {{pit}} was destroyed.",
+    },
+    MOVE: {
+        default: "Initial direction of movement: {{direction}}.",
+    },
+};
+
 
 
 
@@ -2018,24 +2034,24 @@ export class BaoGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", {where: r.where!});
                 return true;
             case "move":
                 return true;
             case "sow":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SOW.general", {pits: r.pits!.join(", "), count: r.pits!.length});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.SOW.general", {pits: r.pits!.join(", "), count: r.pits!.length});
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.bao", {pits: r.where!, count: r.count!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:bao.CAPTURE", {pits: r.where!, count: r.count!});
                 return true;
             case "infinite":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:INFINITE", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.INFINITE.default", {});
                 return true;
             case "destroy":
-                this.pushNeutralChatLine(lines, "apresults:DESTROY.bao", {pit: r.where!});
+                this.pushNeutralChatLine(lines, "apresults:bao.DESTROY.default", {pit: r.where!});
                 return true;
             case "block":
-                this.pushNeutralChatLine(lines, "apresults:BLOCK.bao", {pit: r.where!});
+                this.pushNeutralChatLine(lines, "apresults:bao.BLOCK.default", {pit: r.where!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

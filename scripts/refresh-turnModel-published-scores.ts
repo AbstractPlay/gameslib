@@ -14,11 +14,11 @@ import {
     recordDetailsFromFixture,
     reviveFixtureState,
     TURN_MODEL_FIXTURES_DIR,
-    turnModelFixturesAvailable,
+    turnModelFixturesOnDisk,
 } from "../test/fixtures/turnModel/helpers";
 
 function main(): void {
-    if (!turnModelFixturesAvailable()) {
+    if (!turnModelFixturesOnDisk()) {
         console.error(`No fixtures at ${TURN_MODEL_FIXTURES_DIR}.`);
         process.exit(1);
     }

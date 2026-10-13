@@ -22,6 +22,13 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        chick: "{{player}} captured a chick at {{where}}.",
+        hen: "{{player}} captured a hen at {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -783,7 +790,7 @@ export class HensGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.hens", {where: r.where!, context: r.what!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:hens.CAPTURE.${r.what!}`, {where: r.where!, context: r.what!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

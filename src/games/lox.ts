@@ -602,9 +602,9 @@ export class LoxGame extends GameBase {
         switch (r.type) {
             case "place":
                 if (r.how === "capture") {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.nowhat", { where: r.where! });
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.nowhat", { where: r.where! });
                 } else {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", { where: r.where! });
                 }
                 return true;
 

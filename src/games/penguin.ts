@@ -13,6 +13,16 @@ export const gameApgamesEn = {
         LABEL_STASH: "{{player}}'s stash",
     },
 };
+export const gameApresultsEn = {
+    CLAIM: {
+        default: "The penguin at {{where}} claimed the ball!",
+    },
+    EJECT: {
+        ball: "{{player}} kicked the ball from {{from}} to {{to}}.",
+        penguin: "A penguin was pushed from {{from}} to {{to}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -978,13 +988,13 @@ export class PenguinGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "claim":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.penguin", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:penguin.CLAIM.default", {where: r.where!});
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.nowhat", {from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.nowhat", {from: r.from!, to: r.to!});
                 return true;
             case "eject":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:EJECT.penguin", {context: r.what! !== undefined ? "ball" : "penguin", from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:penguin.EJECT.${r.what! !== undefined ? "ball" : "penguin"}`, {context: r.what! !== undefined ? "ball" : "penguin", from: r.from!, to: r.to!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

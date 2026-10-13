@@ -424,13 +424,13 @@ export class FramesGame extends GameBaseSimultaneous {
         switch (r.type) {
             case "place":
                 if (who === 0) {
-                    this.pushNeutralChatLine(lines, "apresults:PLACE.neutral", { where: r.where });
+                    this.pushNeutralChatLine(lines, "apresults:_general.PLACE.neutral", { where: r.where });
                 } else {
-                    this.pushSeatChatLine(lines, who!, "apresults:PLACE.nowhat", { where: r.where });
+                    this.pushSeatChatLine(lines, who!, "apresults:_general.PLACE.nowhat", { where: r.where });
                 }
                 return true;
             case "deltaScore":
-                this.pushSeatChatLine(lines, who!, "apresults:DELTA_SCORE_GAIN", { count: 1, delta: 1 });
+                this.pushSeatChatLine(lines, who!, "apresults:_general.DELTA_SCORE_GAIN", { count: 1, delta: 1 });
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

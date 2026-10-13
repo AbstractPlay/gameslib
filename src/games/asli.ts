@@ -87,6 +87,16 @@ export const gameApgamesEn = {
         TERRITORY: "Territory & Prisoners",
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        self: "{{player}} cleared their own stranded stones at {{where}}.",
+    },
+    PASS: {
+        default: "{{player}} took an opposing piece from the prison and passed their turn.",
+        area: "{{player}} passed their turn.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -944,15 +954,15 @@ export class AsliGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", {where: r.where!});
                 return true;
             case "pass": {
-                let key = "apresults:PASS.asli";
+                let key = "apresults:asli.PASS.default";
                 if (r.why !== undefined) {
-                    key = "apresults:PASS.pie";
+                    key = "apresults:_general.PASS.pie";
                 } else if (this.variants.includes("area")) {
                     // passing costs nothing under area scoring
-                    key = "apresults:PASS.asli_area";
+                    key = "apresults:asli.PASS.area";
                 }
                 this.pushSeatChatLine(lines, ctx.defaultSeat, key, {});
                 return true;
@@ -960,7 +970,7 @@ export class AsliGame extends GameBase {
             case "capture":
                 // only self-captures (area scoring) carry `whose`
                 if (r.whose !== undefined) {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.asli_self", {where: r.where!});
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:asli.CAPTURE.self", {where: r.where!});
                     return true;
                 }
                 return super.collectChatLogLine(lines, r, ctx);

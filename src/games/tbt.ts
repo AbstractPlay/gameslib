@@ -572,13 +572,13 @@ export class TBTGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.complete", {from: r.from!, to: r.to!, count: parseInt(r.what!, 10)});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.complete", {from: r.from!, to: r.to!, count: parseInt(r.what!, 10)});
                 return true;
             case "roll":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:ROLL.single", {values: r.values!.join(",")});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.ROLL.single", {values: r.values!.join(",")});
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.forced", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.forced", {});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

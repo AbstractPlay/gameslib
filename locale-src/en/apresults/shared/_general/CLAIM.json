@@ -1,0 +1,7 @@
+{
+  "_general": {
+    "CLAIM": {
+      "default": "{{player}} claimed {{where}}."
+    }
+  }
+}

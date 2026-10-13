@@ -1,0 +1,7 @@
+{
+  "_general": {
+    "SWAP": {
+      "resolve": "The piece is swapped to {{where}}."
+    }
+  }
+}

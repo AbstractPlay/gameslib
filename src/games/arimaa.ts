@@ -78,6 +78,17 @@ export const gameApgamesEn = {
         ROLL_TOTAL: "Rolls total",
     },
 };
+export const gameApresultsEn = {
+    ANNOUNCE: {
+        default: "This position has occurred before. Further repeats of this position are forbidden.",
+    },
+    DESTROY: {
+        default: "A {{colour}} {{what}} was trapped at {{where}}.",
+    },
+    ROLL_one: "{{player}}'s die shows 1: a single step this turn.",
+    ROLL_other: "{{player}}'s die shows {{count}}: up to {{count}} steps this turn.",
+};
+
 
 
 export type playerid = 1|2;
@@ -2012,20 +2023,20 @@ export class ArimaaGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.complete", {what: pc2name.get(r.what! as Piece)!, where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.complete", {what: pc2name.get(r.what! as Piece)!, where: r.where!});
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.nowhat", {from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.nowhat", {from: r.from!, to: r.to!});
                 return true;
             case "destroy":
-                this.pushNeutralChatLine(lines, "apresults:DESTROY.arimaa", {colour: isLower(r.what!) ? "silver" : "gold", what: pc2name.get(r.what!.toUpperCase() as Piece)!, where: r.where!});
+                this.pushNeutralChatLine(lines, "apresults:arimaa.DESTROY.default", {colour: isLower(r.what!) ? "silver" : "gold", what: pc2name.get(r.what!.toUpperCase() as Piece)!, where: r.where!});
                 return true;
             case "announce":
-                this.pushNeutralChatLine(lines, "apresults:ANNOUNCE.arimaa");
+                this.pushNeutralChatLine(lines, "apresults:arimaa.ANNOUNCE.default");
                 return true;
             case "roll":
                 // Dicey Moves: the die that governed the turn
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:ROLL.arimaa", {count: r.values[0]});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:arimaa.ROLL", {count: r.values[0]});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

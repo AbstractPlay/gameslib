@@ -24,7 +24,7 @@ describe("Structured chat foundation (Phase 0)", () => {
         };
         expect(g.collectChatLogLine(lines, { type: "pass" }, ctx)).to.equal(true);
         expect(lines).to.have.length(1);
-        expect(lines[0]!.textKey).to.equal("apresults:PASS.simple");
+        expect(lines[0]!.textKey).to.equal("apresults:_general.PASS.simple");
     });
 
     it("chatLogEntries parity with chatLog for default collector frames", () => {
@@ -37,7 +37,7 @@ describe("Structured chat foundation (Phase 0)", () => {
         const lines = g.chatLogEntries(chatCollectFakePlayerNames).flatMap((e) => e.lines);
         expect(lines).to.have.length(1);
         expect(lines[0]!.actor).to.deep.equal({ kind: "seat", seat: 1 });
-        expect(lines[0]!.textKey).to.equal("apresults:MOVE.nowhat");
+        expect(lines[0]!.textKey).to.equal("apresults:_general.MOVE.nowhat");
         expect(lines[0]!.textParams?.player).to.equal("Player 1");
     });
 

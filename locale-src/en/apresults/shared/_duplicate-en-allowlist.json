@@ -1,0 +1,10 @@
+{
+    "perGame": [
+        "amazons.MOVE.noFirstShot"
+    ],
+    "generalInternal": [
+        "_general.CAPTURE.noperson.nowhere_count_other",
+        "_general.CAPTURE.multiple_one",
+        "_general.CAPTURE.noperson.nowhere_count_one"
+    ]
+  }

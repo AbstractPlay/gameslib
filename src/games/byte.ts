@@ -25,6 +25,14 @@ export const gameApgamesEn = {
         "#board": { name: "Default board" }
     },
 };
+export const gameApresultsEn = {
+    MOVE: {
+        full: "{{player}} moved a full stack from {{from}} to {{to}}.",
+        partial_one: "{{player}} moved {{count}} checker from {{from}} to {{to}}.",
+        partial_other: "{{player}} moved {{count}} checkers from {{from}} to {{to}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -694,28 +702,28 @@ export class ByteGame extends GameBase {
         switch (r.type) {
             case "move":
                 if ("count" in r && r.count !== undefined) {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.byte.partial", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:byte.MOVE.partial", {
                         from: r.from!, to: r.to!, count: r.count as number,
                     });
                 } else {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.byte.full", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:byte.MOVE.full", {
                         from: r.from!, to: r.to!,
                     });
                 }
                 return true;
             case "capture":
-                this.pushNeutralChatLine(lines, "apresults:CAPTURE.noperson.simple", {
+                this.pushNeutralChatLine(lines, "apresults:_general.CAPTURE.noperson.simple", {
                     what: "stack", where: r.where!,
                 });
                 return true;
             case "deltaScore": {
                 const who = (r as { who?: number }).who!;
                 const scorer = this.resolveChatPlayerName(who, ctx.players);
-                this.pushNeutralChatLine(lines, "apresults:DELTA_SCORE_GAIN", {
+                this.pushNeutralChatLine(lines, "apresults:_general.DELTA_SCORE_GAIN", {
                     player: scorer, delta: r.delta as number, count: r.delta as number,
                 });
                 if (scores !== undefined) {
-                    this.pushNeutralChatLine(lines, "apresults:SCORE_REPORT", {
+                    this.pushNeutralChatLine(lines, "apresults:_general.SCORE_REPORT.default", {
                         player: scorer, score: scores[who - 1],
                     });
                 }

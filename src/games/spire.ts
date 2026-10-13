@@ -32,6 +32,13 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    PLACE: {
+        neutral: "{{player}} placed a neutral ball at {{where}}.",
+        player: "{{player}} placed a ball of their colour at {{where}}.",
+    },
+};
+
 
 
 type playerid = 1 | 2 | 3;
@@ -783,9 +790,9 @@ export class SpireGame extends GameBase {
         switch (r.type) {
             case "place":
                 if (r.who === 3) {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.spire_neutral", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:spire.PLACE.neutral", { where: r.where! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.spire_player", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:spire.PLACE.player", { where: r.where! });
                 }
                 return true;
             default:

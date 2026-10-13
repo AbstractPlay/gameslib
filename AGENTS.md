@@ -36,8 +36,7 @@ Log **substantive** user- or integrator-visible changes in root [`CHANGELOG.md`]
 
 ### Internationalization
 
-- **English `apgames`:** author `locale-src/en/apgames/shared/**`, `gameinfo`, and `gameApgamesEn` in `src/games/<uid>.ts`; run [`npm run merge-apgames-en`](package.json) and commit [`locales/en/apgames.json`](locales/en/apgames.json). **Never hand-edit** merged `apgames.json` — [`check-apgames-en`](scripts/check-apgames-en.mjs) fails CI when it drifts from sources ([`locales/en/README.md`](locales/en/README.md)).
-- **English `apresults`:** edit [`locales/en/apresults.json`](locales/en/apresults.json) directly.
+- **English `apgames` / `apresults`:** author sources under `locale-src/en/**` and `gameApgamesEn` / `gameApresultsEn` in `src/games/<uid>.ts`; run [`npm run locale-en -- merge --write`](package.json) and commit [`locales/en/apgames.json`](locales/en/apgames.json) / [`locales/en/apresults.json`](locales/en/apresults.json). **Never hand-edit** merged JSON — bare [`npm run locale-en`](package.json) (check both) fails CI when output drifts; [`npm run locale-en -- keys --warn --strict`](package.json) (via `npm run lint`) enforces full-registry catalog ↔ source coverage. See [`docs/i18n.md`](docs/i18n.md). Cursor: [`.cursor/rules/apgames-en-sources.mdc`](.cursor/rules/apgames-en-sources.mdc), [`.cursor/rules/apresults-en-sources.mdc`](.cursor/rules/apresults-en-sources.mdc).
 - Do not hand-edit other `locales/*` languages or `locale-src/{de,fr,it,es-US}/` tracking files.
 - No optional-parenthesis plurals (`piece(s)`). Use i18next pairs: `KEY_one`, `KEY_other`.
 - Details: [docs/i18n.md](docs/i18n.md).
@@ -66,7 +65,7 @@ Do **not** `git commit`, `git push`, or amend commits unless the human explicitl
 | `test/games/` | Per-game Mocha tests |
 | `test/fixtures/` | Shared deterministic fixtures |
 | `locale-src/en/apgames/shared/`, `gameApgamesEn` | English `apgames` sources (merge → `locales/en/apgames.json`) |
-| `locales/en/apresults.json` | English `apresults` source |
+| `locale-src/en/apresults/`, `locales/en/apresults.json` | English `apresults` sources → merged runtime file |
 | `docs/` | Contributor documentation (vendor-synced to docs site) |
 
 1. Fork and branch from **`develop`**.

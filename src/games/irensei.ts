@@ -879,21 +879,21 @@ export class IrenseiGame extends InARowBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", { where: r.where! });
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.noperson.group_nowhere", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.noperson.group_nowhere", {
                     count: r.count!,
                 });
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.pie", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.pie", {});
                 return true;
             case "eog":
                 if (r.reason === "repetition") {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.repetition", { count: 1 });
+                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.repetition", { count: 1 });
                 } else {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }
                 return true;
 

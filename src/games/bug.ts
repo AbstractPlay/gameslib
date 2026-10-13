@@ -33,6 +33,14 @@ export const gameApgamesEn = {
         PLACEABLE_COUNT: "Placeable count",
     },
 };
+export const gameApresultsEn = {
+    PLACE: {
+        bonus_grow: "Upon capture, a bug grew at {{where}} to a size of {{size}}.",
+        grow: "{{player}} grew a bug at {{where}} to a size of {{size}}.",
+        new: "{{player}} introduced a new bug at {{where}}.",
+    },
+};
+
 
 
 type playerid = 1 | 2;
@@ -802,11 +810,11 @@ export class BugGame extends GameBase {
         switch (r.type) {
             case "place":
                 if (r.what === "new") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.bug_new", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:bug.PLACE.new", { where: r.where! });
                 } else if (r.what === "grow") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.bug_grow", { where: r.where!, size: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:bug.PLACE.grow", { where: r.where!, size: r.count! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.bug_bonus_grow", { where: r.where!, size: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:bug.PLACE.bonus_grow", { where: r.where!, size: r.count! });
                 }
                 return true;
             case "capture":

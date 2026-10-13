@@ -24,6 +24,13 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    PLACE: {
+        c4: "{{player}} two pieces at vertices {{where}}.",
+        c8: "{{player}} one piece at vertex {{where}}.",
+    },
+};
+
 
 
 type playerid = 1 | 2;
@@ -514,9 +521,9 @@ export class QueryGame extends GameBase {
         switch (r.type) {
             case "place":
                 if (r.how === "c4") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.query_c4", { where: r.where!.split(",").join(", ") });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:query.PLACE.c4", { where: r.where!.split(",").join(", ") });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.query_c8", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:query.PLACE.c8", { where: r.where! });
                 }
                 return true;
             default:

@@ -697,10 +697,10 @@ export class DipoleGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.complete", {count: parseInt(r.what!, 10), from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.complete", {count: parseInt(r.what!, 10), from: r.from!, to: r.to!});
                 return true;
             case "capture":
-                this.pushNeutralChatLine(lines, "apresults:CAPTURE.noperson.nowhere_count", {count: parseInt(r.what!, 10)});
+                this.pushNeutralChatLine(lines, "apresults:_general.CAPTURE.noperson.nowhere_count", {count: parseInt(r.what!, 10)});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

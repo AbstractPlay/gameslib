@@ -46,6 +46,12 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    SWAP: {
+        default: "{{player}} swapped seats, choosing to play first.",
+    },
+};
+
 
 
 export type playerid = 1|2|3|4;
@@ -837,13 +843,13 @@ export class WunchunkGame extends GameBase {
         switch (r.type) {
             case "place":
                 if (r.what === "mine") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.mine", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.mine", {where: r.where!});
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.theirs_specific", {where: r.where!, enemy: `P${r.who!}`});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.theirs_specific", {where: r.where!, enemy: `P${r.who!}`});
                 }
                 return true;
             case "swap":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SWAP.wunchunk", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:wunchunk.SWAP.default", {});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

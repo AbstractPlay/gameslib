@@ -17,6 +17,12 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    PLACE: {
+        default: "{{player}} place at {{where}} a size {{size}} piece directed at {{dir}}.",
+    },
+};
+
 
 
 interface ILegendObj {
@@ -485,18 +491,18 @@ export class SynapseGame extends GameBase {
                 if (r.how !== undefined) {
                     const [subtype, size, direction]: string[] = r.how!.split(",");
                     if (subtype === "complete") {
-                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.synapse", {
+                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:synapse.PLACE.default", {
                             where: r.where!, size, dir: direction!,
                         });
                     } else {
-                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.complete", {
+                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.complete", {
                             where: r.where!, what: "upward piece",
                         });
                     }
                 }
                 return true;
             case "eog":
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

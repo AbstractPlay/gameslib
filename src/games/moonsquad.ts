@@ -44,6 +44,21 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CONVERT: {
+        default: "{{player}} recruited a squad.",
+    },
+    PLACE: {
+        default: "{{player}} placed a squad at {{where}}.",
+    },
+    SACRIFICE: {
+        default: "{{player}} sacrificed an ore ({{ore}}) to move their squads.",
+    },
+    TAKE: {
+        default: "{{player}} took an ore ({{ore}}).",
+    },
+};
+
 
 
 type playerid = 1|2;
@@ -1204,25 +1219,25 @@ export class MoonSquadGame extends GameBase {
         switch (r.type) {
             case "place":
                 if (r.what === undefined) {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", {where: r.where!});
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.moonsquad", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:moonsquad.PLACE.default", {where: r.where!});
                 }
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.nowhat", {from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.nowhat", {from: r.from!, to: r.to!});
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.nowhat", {where: r.where!});
                 return true;
             case "sacrifice":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SACRIFICE.moonsquad", {ore: r.what!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:moonsquad.SACRIFICE.default", {ore: r.what!});
                 return true;
             case "take":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:TAKE.moonsquad", {ore: r.what!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:moonsquad.TAKE.default", {ore: r.what!});
                 return true;
             case "convert":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONVERT.moonsquad", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:moonsquad.CONVERT.default", {});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

@@ -54,6 +54,28 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        drop_opponent: "{{player}} has 1 of their opponent's ball captured by Spooky below at {{where}}.",
+        drop_self: "{{player}} has 1 of their own ball captured by Spooky below at {{where}}.",
+        lateral_opponent_one: "{{player}} has 1 of their opponent's ball captured by Spooky on the same level at {{where}}.",
+        lateral_opponent_other: "{{player}} has {{count}} of their opponent's balls captured by Spooky on the same level at {{where}}.",
+        lateral_self_one: "{{player}} has 1 of their own ball captured by Spooky on the same level at {{where}}.",
+        lateral_self_other: "{{player}} has {{count}} of their own balls captured by Spooky on the same level at {{where}}.",
+    },
+    MOVE: {
+        default: "{{player}} moved Spooky from {{from}} to {{to}}.",
+    },
+    PLACE: {
+        spooky: "Spooky has entered the board at {{where}}.",
+    },
+    REMOVE: {
+        default: "{{player}} removed an opponent's ball at {{where}}.",
+        drop_one: "{{player}} removed a ball at {{where}}, dropping 1 ball from {{how}}.",
+        drop_other: "{{player}} removed a ball at {{where}}, dropping {{count}} balls from {{how}}.",
+    },
+};
+
 
 
 type playerid = 1 | 2 | 3;
@@ -1203,38 +1225,38 @@ export class SpookGame extends GameBase {
         switch (r.type) {
             case "place":
                 if (r.what === "spooky") {
-                this.pushNeutralChatLine(lines, "apresults:PLACE.spooky", { where: r.where! });
+                this.pushNeutralChatLine(lines, "apresults:spook.PLACE.spooky", { where: r.where! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.ball", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.ball", { where: r.where! });
                 }
                 return true;
             case "capture":
                 if (r.how === "drop") {
                 if (r.what === "self") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.spook_drop_self", { where: r.where!, count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:spook.CAPTURE.drop_self", { where: r.where!, count: r.count! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.spook_drop_opponent", { where: r.where!, count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:spook.CAPTURE.drop_opponent", { where: r.where!, count: r.count! });
                 }
                 } else {
                 if (r.what === "self") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.spook_lateral_self", { where: r.where!, count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:spook.CAPTURE", { where: r.where!, count: r.count! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.spook_lateral_opponent", { where: r.where!, count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:spook.CAPTURE", { where: r.where!, count: r.count! });
                 }
                 }
                 return true;
             case "remove":
                 if (r.num === 0) {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:REMOVE.spook", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:spook.REMOVE.default", { where: r.where! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:REMOVE.spook_drop", { where: r.where!, count: r.num!, how: r.how! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:spook.REMOVE.drop", { where: r.where!, count: r.num!, how: r.how! });
                 }
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.spook", { from: r.from!, to: r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:spook.MOVE.default", { from: r.from!, to: r.to! });
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.forced", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.forced", {});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

@@ -40,6 +40,12 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    PLACE: {
+        default: "{{player}} blocks {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1 | 2;
@@ -730,13 +736,13 @@ export class PolluxGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.complete_what", { from: r.from!, to: r.to!, what: "piece" });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.complete_what", { from: r.from!, to: r.to!, what: "piece" });
                 return true;
             case "block":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.pollux", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:pollux.PLACE.default", { where: r.where! });
                 return true;
             case "eog":
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

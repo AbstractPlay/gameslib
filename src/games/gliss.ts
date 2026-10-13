@@ -28,6 +28,12 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    REMOVE: {
+        default: "{{player}} moved their glider at {{where}} off the edge of the board.",
+    },
+};
+
 
 
 
@@ -1072,18 +1078,18 @@ export class GlissGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.group", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.group", {
                     count: r.count!, cells: r.where!,
                 });
                 return true;
             case "convert":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONVERT.simple", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CONVERT.simple", { where: r.where! });
                 return true;
             case "move":
                 if (r.to!.length === 1) {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:REMOVE.gliss", { where: r.from! });
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:gliss.REMOVE.default", { where: r.from! });
                 } else {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.nowhat", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.nowhat", {
                         from: r.from!, to: r.to!,
                     });
                 }

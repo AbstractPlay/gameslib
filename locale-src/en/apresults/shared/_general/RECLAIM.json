@@ -1,0 +1,9 @@
+{
+  "_general": {
+    "RECLAIM": {
+      "noperson": "A {{what}} was reclaimed.",
+      "nowhat_one": "A piece was reclaimed.",
+      "nowhat_other": "{{count}} pieces were reclaimed."
+    }
+  }
+}

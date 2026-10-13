@@ -90,6 +90,12 @@ export const gameApgamesEn = {
         "#ties": { name: "Default ties" }
     },
 };
+export const gameApresultsEn = {
+    IMMOBILIZE: {
+        default: "{{player}} immobilized the enforcer at {{where}}.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -1775,7 +1781,7 @@ export class RealmGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "immobilize":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:IMMOBILIZE.realm", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:realm.IMMOBILIZE.default", {where: r.where!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

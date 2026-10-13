@@ -39,6 +39,12 @@ export const gameApgamesEn = {
         },
     },
 };
+export const gameApresultsEn = {
+    REMOVE: {
+        default: "{{player}} removes {{where}} due to the formation of a crosscut.",
+    },
+};
+
 
 
 export type playerid = 1 | 2 | 3 | 4; // 3 represents empty cell; 4 is off-board
@@ -647,10 +653,10 @@ export class AkimboGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "remove":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:REMOVE.akimbo", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:akimbo.REMOVE.default", { where: r.where! });
                 return true;
             case "eog":
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

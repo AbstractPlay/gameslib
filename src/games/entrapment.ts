@@ -43,6 +43,26 @@ export const gameApgamesEn = {
         BARRIERS_REMAINING: "Barriers remaining",
     },
 };
+export const gameApresultsEn = {
+    CAPTURE: {
+        opponent: "{{player}} captured an opponent's roamer at {{where}}.",
+        self: "{{player}} captured their own roamer at {{where}}.",
+    },
+    MOVE: {
+        barrier: "{{player}} moved a barrier from {{from}} to {{to}}.",
+        roamer: "{{player}} moved a roamer from {{from}} to {{to}}.",
+        roamer_jump: "{{player}} moved a roamer from {{from}} to {{to}}, jumping over {{jumped}}.",
+    },
+    PLACE: {
+        barrier: "{{player}} placed a barrier at {{where}}.",
+        roamer: "{{player}} placed a roamer at {{where}}.",
+    },
+    REMOVE: {
+        opponent: "{{player}} chose to retain the opponent's roamer at {{how}}, removing the roamer at {{where}}.",
+        self: "{{player}} chose to retain their own roamer at {{how}}, removing the roamer at {{where}}.",
+    },
+};
+
 
 
 type playerid = 1 | 2;
@@ -1480,41 +1500,41 @@ export class EntrapmentGame extends GameBase {
         switch (r.type) {
             case "place":
                 if (r.what === "roamer") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.entrapment_roamer", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:entrapment.PLACE.roamer", { where: r.where! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.entrapment_barrier", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:entrapment.PLACE.barrier", { where: r.where! });
                 }
                 return true;
             case "move":
                 if (r.what === "roamer") {
                 if (r.how !== undefined) {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.entrapment_roamer_jump", { from: r.from!, to: r.to!, jumped: r.how! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:entrapment.MOVE.roamer_jump", { from: r.from!, to: r.to!, jumped: r.how! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.entrapment_roamer", { from: r.from!, to: r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:entrapment.MOVE.roamer", { from: r.from!, to: r.to! });
                 }
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.entrapment_barrier", { from: r.from!, to: r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:entrapment.MOVE.barrier", { from: r.from!, to: r.to! });
                 }
                 return true;
             case "capture":
                 if (r.what === "self") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.entrapment_self", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:entrapment.CAPTURE.self", { where: r.where! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.entrapment_opponent", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:entrapment.CAPTURE.opponent", { where: r.where! });
                 }
                 return true;
             case "remove":
                 if (r.what === "self") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:REMOVE.entrapment_self", { where: r.where!, how: r.how! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:entrapment.REMOVE.self", { where: r.where!, how: r.how! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:REMOVE.entrapment_opponent", { where: r.where!, how: r.how! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:entrapment.REMOVE.opponent", { where: r.where!, how: r.how! });
                 }
                 return true;
             case "eog":
                 if (r.reason === "stalemate") {
-                this.pushNeutralChatLine(lines, "apresults:EOG.stalemate");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.stalemate");
                 } else {
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }
                 return true;
             default:

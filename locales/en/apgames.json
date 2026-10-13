@@ -4641,7 +4641,7 @@
     "catsdogs": "The original game, *SNORT*, was designed by Simon Norton in 1970. The only rule was to prevent stones of different colors to be orthogonally adjacent. A stalemated player loses the game. Norton also proposed the misère version (stalemate is a win). The original game is, however, broken via a mirror strategy. Chris Huntoon proposed a bigger 11x11 board where the player cannot start at the center (in order to prevent mirroring) which he called *Cats and Dogs*, and is the main game here. Also available is the Portuguese tournament ruleset, played on the smaller 8x8 board, but where the first player must start at the central 2x2 area, and the second player must answer outside that area. This allows the game to break the mirror strategy, and still be played on the original smaller board. Check also Snort's article at [AGM#15](https://www.abstractgames.org/uploads/1/1/6/4/116462923/abstract_games_issue_15.pdf).",
     "chase": "Currently, most exchange moves will need to be hand edited. We're working on fixing this.",
     "circleOfLife": "Species are numbered 0–11 counterclockwise on the ring, starting with the single-hex species at the top. Species 0 eats 11; each other species eats the one numbered directly below it. Predation only occurs when you place a stone that forms a species adjacent to prey. Groups may not exceed four stones. The first player to capture 20 opponent stones wins, or the player who cannot place on their turn wins (having filled the ecosystem).",
-    "clearpath": "Clear Path was designed by Mark Steere in September 2026, in collaboration with Claude Fable 5.1, an AI model made by Anthropic.\n\nThe vital points are marked on the board. A red dot marks a point that every possible Red connection passes through, a blue dot marks a point that every possible Blue connection passes through, and a blue dot inside a red dot marks a point vital to both players. A point vital only to your opponent is illegal for you unless your placement completes your connection.\n\nPassing is not allowed, but a player with no legal placement has their turn skipped. The pass is submitted automatically.\n\nThis implementation shortens the game by acknowledging that a player who no longer has any possible connection has lost by force.",
+    "clearpath": "Clear Path was designed by Mark Steere in September 2026, in collaboration with Claude Fable 5.1, an AI model made by Anthropic.\n\nThe dots mark the points where the player to move may not place. Each dotted point is vital to the opponent (every possible connection of the opponent passes through it), not vital to the player to move, and not a winning placement. A point vital to both players is not dotted, since either player may take it, and neither is a point where the player to move completes a winning path. The dots are drawn in the opponent's colour. A player who no longer has any possible connection has no vital points.\n\nPassing is not allowed, but a player with no legal placement has their turn skipped. The pass is submitted automatically.",
     "conspirateurs": "In the base game, pieces may move through sanctuaries as part of a multistep jump. They're not frozen until they end their move in a sanctuary. In the strict variant, pieces are frozen as soon as they enter a sanctuary.\n\nIn four-player games, players 1 and 2 are partnered, as are players 3 and 4.",
     "deckfish": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com).\n\nThe suit powers (token movement abilities) are:\n* Moons: Jump orthogonally over gaps. \n* Suns: Move one or two cards diagonally. \n* Waves: Move orthogonally until the last unobstructed card. \n* Leaves: Move orthogonally onto any card with no neighboring obstacles.\n* Wyrms: Move orthogonally onto the first occupied card, bumping that piece to the next card.\n* Knots: Make three orthogonal one-card moves, without backtracking.\n\nIn the rules, the \"first\" player is the player who places second in the placement phase but moves first in the movement phase, but here the first player is the one who places first but moves second. This is implemented using an automatic pass for the appropriate player.\n\nThe rule is enforced that, even when the last player is already winning, he must continue playing until he is out of moves.",
     "domineering": "Domineering, aka, Stop-Gate, is a partisan combinatorial game. The game was designed by Göran Andersson, c.1973, and was presented in the seminal CGT book *Winning Ways for Your Mathematical Plays*. There is an impartial version, called Cram, where players can both place horizontal or vertical dominoes. The variant \"Quelhas\" was proposed by Carlos P. Santos and Alfie Davies in 2025, being a misère version (the player without options wins the game) and using longer domino-like polyominoes.",
@@ -6074,16 +6074,19 @@
         "name": "7x7 board"
       },
       "#board": {
-        "name": "8x8 board"
-      },
-      "size-9": {
         "name": "9x9 board"
-      },
-      "size-10": {
-        "name": "10x10 board"
       },
       "size-11": {
         "name": "11x11 board"
+      },
+      "size-13": {
+        "name": "13x13 board"
+      },
+      "size-15": {
+        "name": "15x15 board"
+      },
+      "size-19": {
+        "name": "19x19 board"
       }
     },
     "clusterfuss": {

@@ -18,16 +18,19 @@ export const gameApgamesEn = {
             name: "7x7 board",
         },
         "#board": {
-            name: "8x8 board",
-        },
-        "size-9": {
             name: "9x9 board",
-        },
-        "size-10": {
-            name: "10x10 board",
         },
         "size-11": {
             name: "11x11 board",
+        },
+        "size-13": {
+            name: "13x13 board",
+        },
+        "size-15": {
+            name: "15x15 board",
+        },
+        "size-19": {
+            name: "19x19 board",
         },
     },
 };
@@ -181,10 +184,10 @@ export class ClearPathGame extends GameBase {
         name: "Clear Path",
         uid: "clearpath",
         playercounts: [2],
-        version: "20260910",
+        version: "20261013",
         dateAdded: "2026-09-10",
         description: "An orthogonal connection game on the points of a square grid. Red connects the top and bottom edges, Blue the left and right edges, with a chain of orthogonally adjacent stones. Each turn you place one stone. A point is vital to a player if every possible connection of theirs passes through it. You may not place on a point vital to your opponent unless it is also vital to you, or your placement completes your connection. Crosscuts are allowed.",
-        notes: "Clear Path was designed by Mark Steere in September 2026, in collaboration with Claude Fable 5.1, an AI model made by Anthropic.\n\nThe vital points are marked on the board. A red dot marks a point that every possible Red connection passes through, a blue dot marks a point that every possible Blue connection passes through, and a blue dot inside a red dot marks a point vital to both players. A point vital only to your opponent is illegal for you unless your placement completes your connection.\n\nPassing is not allowed, but a player with no legal placement has their turn skipped. The pass is submitted automatically.\n\nThis implementation shortens the game by acknowledging that a player who no longer has any possible connection has lost by force.",
+        notes: "Clear Path was designed by Mark Steere in September 2026, in collaboration with Claude Fable 5.1, an AI model made by Anthropic.\n\nThe dots mark the points where the player to move may not place. Each dotted point is vital to the opponent (every possible connection of the opponent passes through it), not vital to the player to move, and not a winning placement. A point vital to both players is not dotted, since either player may take it, and neither is a point where the player to move completes a winning path. The dots are drawn in the opponent's colour. A player who no longer has any possible connection has no vital points.\n\nPassing is not allowed, but a player with no legal placement has their turn skipped. The pass is submitted automatically.",
         urls: [
             "https://www.marksteeregames.com/Clear_Path_rules.pdf",
             "https://www.marksteeregames.com",
@@ -203,9 +206,10 @@ export class ClearPathGame extends GameBase {
         variants: [
             { uid: "size-7", group: "board" },
             { uid: "#board" },
-            { uid: "size-9", group: "board" },
-            { uid: "size-10", group: "board" },
-            { uid: "size-11", group: "board" }
+            { uid: "size-11", group: "board" },
+            { uid: "size-13", group: "board" },
+            { uid: "size-15", group: "board" },
+            { uid: "size-19", group: "board" },
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["pie", "autopass", "experimental"],
@@ -214,7 +218,7 @@ export class ClearPathGame extends GameBase {
     public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, playerid>;
-    public boardsize = 8;
+    public boardsize = 9;
     public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
@@ -225,7 +229,7 @@ export class ClearPathGame extends GameBase {
         super();
         if (state === undefined) {
             if (variants !== undefined) {
-                this.variants = [...variants];
+                this.variants = this.applyVariantConstraints(variants);
             }
             const board = new Map<string, playerid>();
             const fresh: IMoveState = {
@@ -278,7 +282,7 @@ export class ClearPathGame extends GameBase {
                 }
             }
         }
-        return 8;
+        return 9;
     }
 
     public coords2algebraic(x: number, y: number): string {
@@ -332,8 +336,6 @@ export class ClearPathGame extends GameBase {
             // Passing is not allowed, but a player with no available
             // placement has their turn skipped.  The `autopass` flag
             // makes the front end submit this pass automatically.
-            // This should never happen in a live game, as we call
-            // the game early when this situation is reached.
             return ["pass"];
         }
         return moves.sort((a, b) => a.localeCompare(b));
@@ -467,7 +469,7 @@ export class ClearPathGame extends GameBase {
         const prev: playerid = this.currplayer === 1 ? 2 : 1;
         const n = this.boardsize;
         const cells = this.toCells();
-        if (!cpConnects(cells, n, n, this.currplayer, true) || cpHasWinningPath(cells, n, n, prev)) {
+        if (cpHasWinningPath(cells, n, n, prev)) {
             this.gameover = true;
             this.winner = [prev];
         } else if (this.board.size === n * n) {
@@ -540,24 +542,23 @@ export class ClearPathGame extends GameBase {
             pstr.push(line);
         }
 
-        // Mark the vital points of each player.
-        // Red only: red dot.  Blue only: blue dot.  Both: a blue dot inside a red dot.
-        const redOnly: RowCol[] = [];
-        const blueOnly: RowCol[] = [];
-        const both: RowCol[] = [];
+        // Mark the points where the player to move may not place: every
+        // empty point that is vital to the opponent, not vital to the mover,
+        // and not a winning placement for the mover.  The dots are drawn in
+        // the opponent's colour, since they are the opponent's vital points.
+        // A point vital to both players gets no dot (either player may take
+        // it), nor does a winning placement.  Nothing is marked once the
+        // game is over.
+        const illegal: RowCol[] = [];
+        const opponent: playerid = this.currplayer === 1 ? 2 : 1;
         if (!this.gameover) {
             const cells = this.toCells();
-            const vitalRed = cpVitalPoints(cells, n, n, 1);
-            const vitalBlue = cpVitalPoints(cells, n, n, 2);
+            const legal = cpLegalPlacements(cells, n, n, this.currplayer);
             for (let idx = 0; idx < cells.length; idx++) {
-                const x = idx % n;
-                const y = (idx - x) / n;
-                if (vitalRed[idx] === 1 && vitalBlue[idx] === 1) {
-                    both.push({row: y, col: x});
-                } else if (vitalRed[idx] === 1) {
-                    redOnly.push({row: y, col: x});
-                } else if (vitalBlue[idx] === 1) {
-                    blueOnly.push({row: y, col: x});
+                if (cells[idx] === 0 && legal[idx] === 0) {
+                    const x = idx % n;
+                    const y = (idx - x) / n;
+                    illegal.push({row: y, col: x});
                 }
             }
         }
@@ -574,10 +575,7 @@ export class ClearPathGame extends GameBase {
                     { type: "edge", edge: "S", colour: 1 },
                     { type: "edge", edge: "E", colour: 2 },
                     { type: "edge", edge: "W", colour: 2 },
-                    ...(redOnly.length > 0 ? [{ type: "dots" as const, colour: 1, size: 0.35, points: redOnly as [RowCol, ...RowCol[]] }] : []),
-                    ...(blueOnly.length > 0 ? [{ type: "dots" as const, colour: 2, size: 0.35, points: blueOnly as [RowCol, ...RowCol[]] }] : []),
-                    ...(both.length > 0 ? [{ type: "dots" as const, colour: 1, size: 0.5, points: both as [RowCol, ...RowCol[]] }] : []),
-                    ...(both.length > 0 ? [{ type: "dots" as const, colour: 2, size: 0.25, points: both as [RowCol, ...RowCol[]] }] : []),
+                    ...(illegal.length > 0 ? [{ type: "dots" as const, colour: opponent, size: 0.35, points: illegal as [RowCol, ...RowCol[]] }] : []),
                 ],
             },
             legend: {

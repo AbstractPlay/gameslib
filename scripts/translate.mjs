@@ -282,6 +282,107 @@ function isNoMachineTranslateLeaf(leafPath) {
   return leafPath.startsWith("names.");
 }
 
+/** Same normalization as duplicate-en tooling (trim, collapse whitespace). */
+export function normalizeEnglishForDedup(text) {
+  if (typeof text !== "string") {
+    return "";
+  }
+  return text.trim().replace(/\s+/g, " ");
+}
+
+function isReusableTranslation(sourceValue, translated, trackingEntry) {
+  if (!translated) {
+    return false;
+  }
+  const { src, out } = normalizeTrackingEntry(trackingEntry);
+  if (src !== undefined && src !== sourceValue) {
+    return false;
+  }
+  if (out !== undefined && out !== translated) {
+    return false;
+  }
+  if (translated !== sourceValue) {
+    return true;
+  }
+  return isVerifiedSame(trackingEntry, sourceValue, translated);
+}
+
+/**
+ * English normalized text → existing translation in this locale file.
+ * @param {Record<string, unknown>} sourceData
+ * @param {Record<string, unknown>} targetData
+ * @param {Record<string, unknown>} srcTracking
+ * @param {Set<string>} [skipLeafPaths] leaves still pending MT (not donors)
+ * @returns {Map<string, { out: string, fromPath: string }>}
+ */
+export function buildReusableTranslationIndex(sourceData, targetData, srcTracking, skipLeafPaths = new Set()) {
+  const index = new Map();
+  const sourceLeaves = collectLeaves(sourceData);
+  for (const leafPath of Object.keys(sourceLeaves).sort()) {
+    if (skipLeafPaths.has(leafPath)) {
+      continue;
+    }
+    const sourceValue = sourceLeaves[leafPath];
+    const translated = getLeafValue(targetData, leafPath);
+    if (!isReusableTranslation(sourceValue, translated, srcTracking[leafPath])) {
+      continue;
+    }
+    const norm = normalizeEnglishForDedup(sourceValue);
+    if (!norm) {
+      continue;
+    }
+    if (!index.has(norm)) {
+      index.set(norm, { out: translated, fromPath: leafPath });
+    }
+  }
+  return index;
+}
+
+/**
+ * @param {Record<string, string>} toTranslate
+ * @param {Map<string, { out: string, fromPath: string }>} translationIndex
+ */
+export function applyCopiesFromTranslationIndex(toTranslate, translationIndex) {
+  const remaining = {};
+  const copies = [];
+  for (const leafPath of Object.keys(toTranslate).sort()) {
+    const sourceValue = toTranslate[leafPath];
+    const norm = normalizeEnglishForDedup(sourceValue);
+    const donor = translationIndex.get(norm);
+    if (donor && donor.fromPath !== leafPath) {
+      copies.push({
+        leafPath,
+        sourceValue,
+        out: donor.out,
+        fromPath: donor.fromPath,
+      });
+    } else {
+      remaining[leafPath] = sourceValue;
+    }
+  }
+  return { copies, remaining };
+}
+
+/**
+ * One API key per normalized English string (first leaf path wins).
+ * @param {Record<string, string>} leaves
+ * @returns {{ apiLeaves: Record<string, string>, pathsByNorm: Map<string, string[]> }}
+ */
+export function collapseTranslateBatchByEnglish(leaves) {
+  const apiLeaves = {};
+  const pathsByNorm = new Map();
+  for (const leafPath of Object.keys(leaves).sort()) {
+    const sourceValue = leaves[leafPath];
+    const norm = normalizeEnglishForDedup(sourceValue);
+    if (!pathsByNorm.has(norm)) {
+      pathsByNorm.set(norm, []);
+      apiLeaves[leafPath] = sourceValue;
+    }
+    pathsByNorm.get(norm).push(leafPath);
+  }
+  return { apiLeaves, pathsByNorm };
+}
+
 function partitionDiffLeaves(diffLeaves, targetData) {
   const englishOnly = {};
   const namesTrackingOnly = {};
@@ -693,7 +794,29 @@ async function translateFile(ai, sourcePath) {
       writeTargetFile(targetPath, repoRoot, lang.code, fileName, sourceData, targetData, srcTracking);
     }
 
-    const leavesToTranslate = Object.keys(toTranslate);
+    let pendingTranslate = toTranslate;
+    if (Object.keys(pendingTranslate).length > 0) {
+      const translationIndex = buildReusableTranslationIndex(
+        sourceData,
+        targetData,
+        srcTracking,
+        new Set(Object.keys(pendingTranslate)),
+      );
+      const { copies, remaining } = applyCopiesFromTranslationIndex(pendingTranslate, translationIndex);
+      if (copies.length > 0) {
+        for (const { leafPath, sourceValue, out } of copies) {
+          setLeafValue(targetData, leafPath, out);
+          srcTracking[leafPath] = makeTrackingEntry(sourceValue, out);
+        }
+        writeTargetFile(targetPath, repoRoot, lang.code, fileName, sourceData, targetData, srcTracking);
+        console.log(
+          `[${lang.code}] ${fileName}: Copied ${copies.length} translation(s) from duplicate English (no API).`,
+        );
+      }
+      pendingTranslate = remaining;
+    }
+
+    const leavesToTranslate = Object.keys(pendingTranslate);
 
     if (leavesToTranslate.length === 0) {
       if (backfillSrcTracking(sourceData, targetData, srcTracking)) {
@@ -705,9 +828,11 @@ async function translateFile(ai, sourcePath) {
       continue;
     }
 
-    const chunks = chunkLeaves(toTranslate, CHUNK_BYTES);
+    const { apiLeaves, pathsByNorm } = collapseTranslateBatchByEnglish(pendingTranslate);
+    const uniqueEnglishCount = Object.keys(apiLeaves).length;
+    const chunks = chunkLeaves(apiLeaves, CHUNK_BYTES);
     console.log(
-      `[${lang.code}] ${fileName}: Translating ${leavesToTranslate.length} new/updated leaves in ${chunks.length} chunk(s)...`,
+      `[${lang.code}] ${fileName}: Translating ${leavesToTranslate.length} new/updated leaves (${uniqueEnglishCount} unique English string${uniqueEnglishCount === 1 ? "" : "s"}) in ${chunks.length} chunk(s)...`,
     );
 
     let langFailed = false;
@@ -725,15 +850,19 @@ async function translateFile(ai, sourcePath) {
           chunkIndex,
           totalChunks: chunks.length,
         });
-        const nestedChunk = unflatten(translatedChunk);
-
-        deepMerge(targetData, nestedChunk);
-
-        for (const leafPath of Object.keys(chunk)) {
-          const sourceValue = toTranslate[leafPath];
-          const translatedValue = translatedChunk[leafPath] ?? getLeafValue(targetData, leafPath);
-          srcTracking[leafPath] = makeTrackingEntry(sourceValue, translatedValue);
+        const flatUpdates = {};
+        for (const repPath of Object.keys(chunk)) {
+          const sourceValue = chunk[repPath];
+          const translatedValue = translatedChunk[repPath] ?? getLeafValue(targetData, repPath);
+          const norm = normalizeEnglishForDedup(sourceValue);
+          const paths = pathsByNorm.get(norm) ?? [repPath];
+          for (const leafPath of paths) {
+            const leafSource = pendingTranslate[leafPath];
+            flatUpdates[leafPath] = translatedValue;
+            srcTracking[leafPath] = makeTrackingEntry(leafSource, translatedValue);
+          }
         }
+        deepMerge(targetData, unflatten(flatUpdates));
 
         writeTargetFile(targetPath, repoRoot, lang.code, fileName, sourceData, targetData, srcTracking);
         completedChunks++;

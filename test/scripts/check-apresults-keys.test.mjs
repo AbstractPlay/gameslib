@@ -100,7 +100,9 @@ describe("check-apresults-keys", () => {
 
     it("duplicate-en-general reports debt on real merge tree", () => {
         const merged = mergeApresultsEnSources();
-        const warnings = findApresultsGeneralInternalDuplicateEnWarnings(merged);
+        const warnings = findApresultsGeneralInternalDuplicateEnWarnings(merged, {
+            allowlist: { perGame: new Set(), generalInternal: new Set() },
+        });
         assert.ok(warnings.length > 0, "expected some duplicate-en-general warnings in bootstrap data");
     });
 });

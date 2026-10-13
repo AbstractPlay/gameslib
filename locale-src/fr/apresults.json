@@ -1,4 +1,500 @@
 {
+  "_general.ABANDONED.default": {
+    "src": "The game was abandoned.",
+    "out": "La partie a été abandonnée."
+  },
+  "_general.ADD.add_one": {
+    "src": "{{player}} added 1 piece to {{where}}.",
+    "out": "{{player}} a ajouté 1 pièce en {{where}}."
+  },
+  "_general.ADD.add_other": {
+    "src": "{{player}} added {{count}} pieces to {{where}}.",
+    "out": "{{player}} a ajouté {{count}} pièces en {{where}}."
+  },
+  "_general.ADD.nonum": {
+    "src": "{{player}} added a piece to {{where}}.",
+    "out": "{{player}} a ajouté une pièce en {{where}}."
+  },
+  "_general.BEAROFF.complete_one": {
+    "src": "{{player}} bore off one piece from {{from}}.",
+    "out": "{{player}} a sorti une pièce depuis {{from}}."
+  },
+  "_general.BEAROFF.complete_other": {
+    "src": "{{player}} bore off {{count}} pieces from {{from}}.",
+    "out": "{{player}} a sorti {{count}} pièces depuis {{from}}."
+  },
+  "_general.BEAROFF.nowhat": {
+    "src": "{{player}} bore off from {{from}}.",
+    "out": "{{player}} a fait une sortie depuis {{from}}."
+  },
+  "_general.BLOCK.between": {
+    "src": "{{player}} erected a fence between {{cell1}} and {{cell2}}.",
+    "out": "{{player}} a érigé une barrière entre {{cell1}} et {{cell2}}."
+  },
+  "_general.BUTTON.default": {
+    "src": "{{player}} took the button.",
+    "out": "{{player}} a pris le bouton."
+  },
+  "_general.CAPTURE.complete": {
+    "src": "{{player}} captured a {{what}} at {{where}}.",
+    "out": "{{player}} a capturé un {{what}} en {{where}}."
+  },
+  "_general.CAPTURE.group_one": {
+    "src": "{{player}} captured a stone at {{cells}}.",
+    "out": "{{player}} a capturé une pierre en {{cells}}."
+  },
+  "_general.CAPTURE.group_other": {
+    "src": "{{player}} captured {{count}} stones at the following cells: {{cells}}.",
+    "out": "{{player}} a capturé {{count}} pierres dans les cases suivantes : {{cells}}."
+  },
+  "_general.CAPTURE.mancala_one": {
+    "src": "{{player}} captured {{count}} stone from {{pit}}.",
+    "out": "{{player}} a capturé {{count}} pierre depuis {{pit}}."
+  },
+  "_general.CAPTURE.mancala_other": {
+    "src": "{{player}} captured {{count}} stones from {{pit}}.",
+    "out": "{{player}} a capturé {{count}} pierres depuis {{pit}}."
+  },
+  "_general.CAPTURE.minimal": {
+    "src": "A piece was captured.",
+    "out": "Une pièce a été capturée."
+  },
+  "_general.CAPTURE.multiple_one": {
+    "src": "A piece was captured.",
+    "out": "Une pièce a été capturée."
+  },
+  "_general.CAPTURE.multiple_other": {
+    "src": "{{count}} pieces were captured.",
+    "out": "{{count}} pièces ont été capturées."
+  },
+  "_general.CAPTURE.noperson.group_nowhere": {
+    "src": "A group of size {{count}} was captured.",
+    "out": "Un groupe de taille {{count}} a été capturé."
+  },
+  "_general.CAPTURE.noperson.multiple": {
+    "src": "The following pieces were captured: {{capped}}.",
+    "out": "Les pièces suivantes ont été capturées : {{capped}}."
+  },
+  "_general.CAPTURE.noperson.nowhat": {
+    "src": "A piece was captured at {{where}}.",
+    "out": "Une pièce a été capturée en {{where}}."
+  },
+  "_general.CAPTURE.noperson.nowhere_count_one": {
+    "src": "A piece was captured.",
+    "out": "Une pièce a été capturée."
+  },
+  "_general.CAPTURE.noperson.nowhere_count_other": {
+    "src": "{{count}} pieces were captured.",
+    "out": "{{count}} pièces ont été capturées."
+  },
+  "_general.CAPTURE.noperson.nowhere_what": {
+    "src": "A {{what}} was captured.",
+    "out": "Un {{what}} a été capturé."
+  },
+  "_general.CAPTURE.noperson.simple": {
+    "src": "A {{what}} was captured at {{where}}.",
+    "out": "Un {{what}} a été capturé en {{where}}."
+  },
+  "_general.CAPTURE.nowhat": {
+    "src": "{{player}} captured a piece at {{where}}.",
+    "out": "{{player}} a capturé une pièce en {{where}}."
+  },
+  "_general.CLAIM.default": {
+    "src": "{{player}} claimed {{where}}.",
+    "out": "{{player}} a réclamé {{where}}."
+  },
+  "_general.CONVERT.complete": {
+    "src": "{{player}} turned a {{what}} into a {{into}} at {{where}}.",
+    "out": "{{player}} a transformé un {{what}} en un {{into}} en {{where}}."
+  },
+  "_general.CONVERT.simple": {
+    "src": "{{player}} converted a piece at {{where}}.",
+    "out": "{{player}} a converti une pièce en {{where}}."
+  },
+  "_general.DELTA_SCORE_GAIN.one": {
+    "src": "{{player}} gained {{delta}} point.",
+    "out": "{{player}} a gagné {{delta}} point."
+  },
+  "_general.DELTA_SCORE_GAIN.other": {
+    "src": "{{player}} gained {{delta}} points.",
+    "out": "{{player}} a gagné {{delta}} points."
+  },
+  "_general.DELTA_SCORE_LOSS.one": {
+    "src": "{{player}} lost {{delta}} point.",
+    "out": "{{player}} a perdu {{delta}} point."
+  },
+  "_general.DELTA_SCORE_LOSS.other": {
+    "src": "{{player}} lost {{delta}} points.",
+    "out": "{{player}} a perdu {{delta}} points."
+  },
+  "_general.DESTROY.enemy.minimal_one": {
+    "src": "{{count}} enemy piece was destroyed.",
+    "out": "{{count}} pièce ennemie a été détruite."
+  },
+  "_general.DESTROY.enemy.minimal_other": {
+    "src": "{{count}} enemy pieces were destroyed.",
+    "out": "{{count}} pièces ennemies ont été détruites."
+  },
+  "_general.DESTROY.friendly.minimal_one": {
+    "src": "{{count}} friendly piece was destroyed.",
+    "out": "{{count}} pièce alliée a été détruite."
+  },
+  "_general.DESTROY.friendly.minimal_other": {
+    "src": "{{count}} friendly pieces were destroyed.",
+    "out": "{{count}} pièces alliées ont été détruites."
+  },
+  "_general.DETONATE.nowhat": {
+    "src": "{{player}} detonated a piece at {{where}}.",
+    "out": "{{player}} a fait détoner une pièce en {{where}}."
+  },
+  "_general.DRAWAGREED.default": {
+    "src": "Players agreed to a draw.",
+    "out": "Les joueurs ont convenu d'une partie nulle."
+  },
+  "_general.ELIMINATED.default": {
+    "src": "{{player}} was eliminated.",
+    "out": "{{player}} a été éliminé."
+  },
+  "_general.EOG.consecutive_passes": {
+    "src": "The game has ended because both players passed consecutively.",
+    "out": "La partie est terminée car les deux joueurs ont passé consécutivement."
+  },
+  "_general.EOG.default": {
+    "src": "The game has ended.",
+    "out": "La partie est terminée."
+  },
+  "_general.EOG.material": {
+    "src": "The game has ended because both players have insufficient material.",
+    "out": "La partie est terminée car le matériel de chaque joueur est insuffisant."
+  },
+  "_general.EOG.repetition_one": {
+    "src": "The game has ended because the same position has occurred by the same player.",
+    "out": "La partie est terminée car la même position s'est produite par le même joueur."
+  },
+  "_general.EOG.repetition_other": {
+    "src": "The game has ended because the same position has occurred {{count}} times by the same player.",
+    "out": "La partie est terminée car la même position s'est produite {{count}} fois par le même joueur."
+  },
+  "_general.EOG.repetition_positional_one": {
+    "src": "The game has ended because the same position has occurred.",
+    "out": "La partie est terminée car la même position s'est produite."
+  },
+  "_general.EOG.repetition_positionas_other": {
+    "src": "The game has ended because the same position has occurred {{count}} times.",
+    "out": "La partie est terminée car la même position s'est produite {{count}} fois."
+  },
+  "_general.EOG.stalemate": {
+    "src": "The game has ended because one player has run out of moves.",
+    "out": "La partie est terminée car un joueur n'a plus aucun coup disponible."
+  },
+  "_general.EOG.stalemate_all": {
+    "src": "The game has ended because all players have run out of moves.",
+    "out": "La partie est terminée car aucun joueur n'a de coup disponible."
+  },
+  "_general.ERUPTIONS.default": {
+    "src": "The following pieces erupted: {{eruptions}}.",
+    "out": "Les pièces suivantes sont entrées en éruption : {{eruptions}}."
+  },
+  "_general.FLIP.default": {
+    "src": "{{player}} flips {{where}} and reveals {{revealed}}.",
+    "out": "{{player}} retourne {{where}} et révèle {{revealed}}."
+  },
+  "_general.INFINITE.default": {
+    "src": "{{player}} has triggered an infinite loop!",
+    "out": "{{player}} a déclenché une boucle infinie !"
+  },
+  "_general.KOMI.default": {
+    "src": "{{player}} sets komi to {{value}}.",
+    "out": "{{player}} fixe le komi à {{value}}."
+  },
+  "_general.LEAD.default": {
+    "src": "{{player}} took the lead.",
+    "out": "{{player}} a pris la tête."
+  },
+  "_general.MOVE.ball": {
+    "src": "{{player}} moved a ball from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé une bille de {{from}} vers {{to}}."
+  },
+  "_general.MOVE.ball_drop_one": {
+    "src": "A ball dropped from {{from}} to {{to}}.",
+    "out": "Une bille est tombée de {{from}} vers {{to}}."
+  },
+  "_general.MOVE.ball_drop_other": {
+    "src": "{{count}} balls dropped from {{from}} to {{to}}.",
+    "out": "{{count}} billes sont tombées de {{from}} vers {{to}}."
+  },
+  "_general.MOVE.collision": {
+    "src": "{{player}} tried to move from {{from}} to {{to}} but couldn't because of a collision.",
+    "out": "{{player}} a essayé de se déplacer de {{from}} vers {{to}} mais n'a pas pu à cause d'une collision."
+  },
+  "_general.MOVE.complete_one": {
+    "src": "{{player}} moved one piece from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé une pièce de {{from}} vers {{to}}."
+  },
+  "_general.MOVE.complete_other": {
+    "src": "{{player}} moved {{count}} pieces from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé {{count}} pièces de {{from}} vers {{to}}."
+  },
+  "_general.MOVE.complete_what": {
+    "src": "{{player}} moved a {{what}} from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé un {{what}} de {{from}} vers {{to}}."
+  },
+  "_general.MOVE.multiple": {
+    "src": "{{player}} made the following moves: {{moves}}.",
+    "out": "{{player}} a effectué les coups suivants : {{moves}}."
+  },
+  "_general.MOVE.nowhat": {
+    "src": "{{player}} moved from {{from}} to {{to}}.",
+    "out": "{{player}} s'est déplacé de {{from}} vers {{to}}."
+  },
+  "_general.MOVE.push": {
+    "src": "A {{what}} was pushed from {{from}} to {{to}}.",
+    "out": "Un {{what}} a été poussé de {{from}} vers {{to}}."
+  },
+  "_general.NULLIFY_CLAIM.default": {
+    "src": "Towers may not be claimed on the last turn of the game. The claim at {{where}} was nullified.",
+    "out": "Les tours ne peuvent pas être réclamées lors du dernier tour de jeu. La réclamation en {{where}} a été annulée."
+  },
+  "_general.ORIENT.nowhat": {
+    "src": "{{player}} turned a piece at {{where}} to face {{facing}}.",
+    "out": "{{player}} a orienté une pièce en {{where}} vers {{facing}}."
+  },
+  "_general.PASS.forced": {
+    "src": "{{player}} was forced to pass.",
+    "out": "{{player}} a été contraint(e) de passer."
+  },
+  "_general.PASS.pie": {
+    "src": "{{player}} accepted the komi offer and will continue playing second.",
+    "out": "{{player}} a accepté l'offre de komi et continuera à jouer en second."
+  },
+  "_general.PASS.simple": {
+    "src": "{{player}} passed.",
+    "out": "{{player}} a passé."
+  },
+  "_general.PASS.tiebreaker": {
+    "src": "{{player}} passed, winning the tiebreaker.",
+    "out": "{{player}} a passé, remportant le départage."
+  },
+  "_general.PIE.default": {
+    "src": "{{player}} invoked the pie rule.",
+    "out": "{{player}} a invoqué la règle du gâteau."
+  },
+  "_general.PLACE.PYRAMID_1": {
+    "src": "{{player}} placed a small piece at {{where}}.",
+    "out": "{{player}} a placé une petite pièce en {{where}}."
+  },
+  "_general.PLACE.PYRAMID_2": {
+    "src": "{{player}} placed a medium piece at {{where}}.",
+    "out": "{{player}} a placé une pièce moyenne en {{where}}."
+  },
+  "_general.PLACE.PYRAMID_3": {
+    "src": "{{player}} placed a large piece at {{where}}.",
+    "out": "{{player}} a placé une grande pièce en {{where}}."
+  },
+  "_general.PLACE.ball": {
+    "src": "{{player}} placed a ball at {{where}}.",
+    "out": "{{player}} a placé une bille en {{where}}."
+  },
+  "_general.PLACE.complete": {
+    "src": "{{player}} placed a {{what}} at {{where}}.",
+    "out": "{{player}} a placé un {{what}} en {{where}}."
+  },
+  "_general.PLACE.decktet": {
+    "src": "{{player}} placed \"{{what}}\" at {{where}}.",
+    "out": "{{player}} a placé \"{{what}}\" en {{where}}."
+  },
+  "_general.PLACE.mine": {
+    "src": "{{player}} placed one of their own pieces at {{where}}.",
+    "out": "{{player}} a placé une de ses propres pièces en {{where}}."
+  },
+  "_general.PLACE.neutral": {
+    "src": "A neutral piece was placed at {{where}}.",
+    "out": "Une pièce neutre a été placée en {{where}}."
+  },
+  "_general.PLACE.nowhat": {
+    "src": "{{player}} placed a piece at {{where}}.",
+    "out": "{{player}} a placé une pièce en {{where}}."
+  },
+  "_general.PLACE.theirs": {
+    "src": "{{player}} placed an enemy piece at {{where}}.",
+    "out": "{{player}} a placé une pièce ennemie en {{where}}."
+  },
+  "_general.PLACE.theirs_specific": {
+    "src": "{{player}} placed a {{enemy}} piece at {{where}}.",
+    "out": "{{player}} a placé une pièce {{enemy}} en {{where}}."
+  },
+  "_general.PLAYSECOND.default": {
+    "src": "{{player}} chose to play second.",
+    "out": "{{player}} a choisi de jouer en second."
+  },
+  "_general.PROMOTE.basicWhere": {
+    "src": "The piece at {{where}} was promoted.",
+    "out": "La pièce en {{where}} a été promue."
+  },
+  "_general.PULL.default": {
+    "src": "{{player}} pulled string {{where}}.",
+    "out": "{{player}} a tiré la ficelle {{where}}."
+  },
+  "_general.RECLAIM.noperson": {
+    "src": "A {{what}} was reclaimed.",
+    "out": "Un {{what}} a été récupéré."
+  },
+  "_general.RECLAIM.nowhat_one": {
+    "src": "A piece was reclaimed.",
+    "out": "Une pièce a été récupérée."
+  },
+  "_general.RECLAIM.nowhat_other": {
+    "src": "{{count}} pieces were reclaimed.",
+    "out": "{{count}} pièces ont été récupérées."
+  },
+  "_general.REMOVE.nonum": {
+    "src": "{{player}} removed a piece from {{where}}.",
+    "out": "{{player}} a retiré une pièce de {{where}}."
+  },
+  "_general.REMOVE.remove_one": {
+    "src": "{{player}} removed 1 piece from {{where}}.",
+    "out": "{{player}} a retiré 1 pièce de {{where}}."
+  },
+  "_general.REMOVE.remove_other": {
+    "src": "{{player}} removed {{count}} pieces from {{where}}.",
+    "out": "{{player}} a retiré {{count}} pièces de {{where}}."
+  },
+  "_general.REPAIR.simple": {
+    "src": "{{player}} repairs.",
+    "out": "{{player}} répare."
+  },
+  "_general.RESIGN.default": {
+    "src": "{{player}} has resigned.",
+    "out": "{{player}} a abandonné."
+  },
+  "_general.ROLL.single": {
+    "src": "The die was rolled: {{values}}.",
+    "out": "Le dé a été lancé : {{values}}."
+  },
+  "_general.SACRIFICE.nowhat": {
+    "src": "{{player}} sacrificed a piece at {{where}}.",
+    "out": "{{player}} a sacrifié une pièce en {{where}}."
+  },
+  "_general.SCORE_REPORT.default": {
+    "src": "{{player}}'s score is now {{score}}.",
+    "out": "Le score de {{player}} est désormais de {{score}}."
+  },
+  "_general.SELECT.resolve": {
+    "src": "{{player}} selects the piece in a crosscut at {{where}}.",
+    "out": "{{player}} sélectionne la pièce dans la coupe croisée en {{where}}."
+  },
+  "_general.SOW.general_one": {
+    "src": "{{player}} sowed seeds from the following pit: {{pits}}.",
+    "out": "{{player}} a semé des graines depuis la fosse suivante : {{pits}}."
+  },
+  "_general.SOW.general_other": {
+    "src": "{{player}} sowed seeds from the following pits: {{pits}}.",
+    "out": "{{player}} a semé des graines depuis les fosses suivantes : {{pits}}."
+  },
+  "_general.SOW.into": {
+    "src": "{{player}} sowed into the pits {{pits}}.",
+    "out": "{{player}} a semé dans les fosses {{pits}}."
+  },
+  "_general.SWAP.resolve": {
+    "src": "The piece is swapped to {{where}}.",
+    "out": "La pièce est échangée en {{where}}."
+  },
+  "_general.TAKE.general_one": {
+    "src": "{{player}} took a piece from {{from}}.",
+    "out": "{{player}} a pris une pièce en {{from}}."
+  },
+  "_general.TAKE.general_other": {
+    "src": "{{player}} took {{count}} pieces from {{from}}.",
+    "out": "{{player}} a pris {{count}} pièces en {{from}}."
+  },
+  "_general.TIMEOUT.default": {
+    "src": "{{player}} lost on time.",
+    "out": "{{player}} a perdu au temps."
+  },
+  "_general.WINNERS.one": {
+    "src": "The following player won: {{winners}}.",
+    "out": "Le joueur suivant a gagné : {{winners}}."
+  },
+  "_general.WINNERS.other": {
+    "src": "The following players won: {{winners}}.",
+    "out": "Les joueurs suivants ont gagné : {{winners}}."
+  },
+  "_general.WINNERSNONE.default": {
+    "src": "There were no winners.",
+    "out": "Il n'y a eu aucun gagnant."
+  },
+  "agofmars.DECKDRAW.default": {
+    "src": "{{player}} drew a {{colour}}{{count}} pyramid from the bag.",
+    "out": "{{player}} a pioché une pyramide {{colour}}{{count}} dans le sac."
+  },
+  "agofmars.MOVE.default": {
+    "src": "{{player}} moved a pyramid from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé une pyramide de {{from}} vers {{to}}."
+  },
+  "agofmars.OBJECTIVES.default": {
+    "src": "{{player}} chose their objectives.",
+    "out": "{{player}} a choisi ses objectifs."
+  },
+  "agofmars.OBJECTIVE_SWAP.default": {
+    "src": "{{player}} swapped objective multipliers {{columnA}} and {{columnB}}.",
+    "out": "{{player}} a échangé les multiplicateurs d'objectif {{columnA}} et {{columnB}}."
+  },
+  "agofmars.PASS.noObjSwap": {
+    "src": "{{player}} did not swap objectives.",
+    "out": "{{player}} n'a pas échangé d'objectifs."
+  },
+  "agofmars.PLACE.default": {
+    "src": "{{player}} placed a {{colour}}{{count}} pyramid at {{where}}.",
+    "out": "{{player}} a placé une pyramide {{colour}}{{count}} en {{where}}."
+  },
+  "agofmars.SWAP.board": {
+    "src": "{{player}} swapped the {{colour1}}{{size1}} at {{cell1}} and the {{colour2}}{{size2}} at {{cell2}}.",
+    "out": "{{player}} a échangé la pyramide {{colour1}}{{size1}} en {{cell1}} et la pyramide {{colour2}}{{size2}} en {{cell2}}."
+  },
+  "agofmars.SWAP.board_cells": {
+    "src": "{{player}} swapped the pyramids at {{cell1}} and {{cell2}}.",
+    "out": "{{player}} a échangé les pyramides en {{cell1}} et {{cell2}}."
+  },
+  "akimbo.REMOVE.default": {
+    "src": "{{player}} removes {{where}} due to the formation of a crosscut.",
+    "out": "{{player}} retire {{where}} en raison de la formation d'une coupe croisée."
+  },
+  "amazons.MOVE.default": {
+    "src": "{{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
+    "out": "{{player}} a déplacé de {{from}} vers {{to}} puis a bloqué la case {{block}}."
+  },
+  "amazons.MOVE.noFirstShot": {
+    "src": "{{player}} moved from {{from}} to {{to}}.",
+    "out": "{{player}} s'est déplacé de {{from}} à {{to}}."
+  },
+  "amoeba.UNFURL.default": {
+    "src": "{{player}} sowed {{count}} pieces from {{from}} to {{to}}.",
+    "out": "{{player}} a semé {{count}} pièces de {{from}} à {{to}}."
+  },
+  "anache.MOVE.dragon": {
+    "src": "{{player}} moved a group of size {{count}} via a dragon move from {{from}} in the direction {{dir}}.",
+    "out": "{{player}} a déplacé un groupe de taille {{count}} via un coup de dragon depuis {{from}} dans la direction {{dir}}."
+  },
+  "anache.MOVE.dragon_jump": {
+    "src": "{{player}} jumps their dragon from {{from}} to {{to}}.",
+    "out": "{{player}} fait sauter son dragon de {{from}} vers {{to}}."
+  },
+  "anache.MOVE.knight": {
+    "src": "{{player}} moved a group of size {{count}} via a knight move from {{from}} in the direction {{dir}}.",
+    "out": "{{player}} a déplacé un groupe de taille {{count}} via un coup de cavalier depuis {{from}} dans la direction {{dir}}."
+  },
+  "anache.MOVE.man": {
+    "src": "{{player}} moved a group of size {{count}} from {{from}} in the direction {{dir}}.",
+    "out": "{{player}} a déplacé un groupe de taille {{count}} depuis {{from}} dans la direction {{dir}}."
+  },
+  "arimaa.ANNOUNCE.default": {
+    "src": "This position has occurred before. Further repeats of this position are forbidden.",
+    "out": "Cette position s'est déjà produite. Les répétitions ultérieures de cette position sont interdites."
+  },
+  "arimaa.DESTROY.default": {
+    "src": "A {{colour}} {{what}} was trapped at {{where}}.",
+    "out": "Un(e) {{what}} {{colour}} a été piégé(e) en {{where}}."
+  },
   "arimaa.ROLL_one": {
     "src": "{{player}}'s die shows 1: a single step this turn.",
     "out": "Le dé de {{player}} indique 1 : un seul déplacement ce tour."
@@ -7,6 +503,1278 @@
     "src": "{{player}}'s die shows {{count}}: up to {{count}} steps this turn.",
     "out": "Le dé de {{player}} indique {{count}} : jusqu'à {{count}} déplacements ce tour."
   },
+  "armadas.DAMAGE.default": {
+    "src": "{{player}}'s ship {{myName}} fired upon the enemy ship named {{theirName}}.",
+    "out": "Le navire de {{player}} nommé {{myName}} a tiré sur le navire ennemi nommé {{theirName}}."
+  },
+  "armadas.DESTROY.default": {
+    "src": "{{player}} sunk the enemy ship named {{name}}.",
+    "out": "{{player}} a coulé le navire ennemi nommé {{name}}."
+  },
+  "armadas.MOVE.default": {
+    "src": "{{player}} moved their ship named {{name}}.",
+    "out": "{{player}} a déplacé son navire nommé {{name}}."
+  },
+  "armadas.PLACE.1": {
+    "src": "{{player}} placed a small ship and named it {{name}}.",
+    "out": "{{player}} a placé un petit navire et l'a nommé {{name}}."
+  },
+  "armadas.PLACE.2": {
+    "src": "{{player}} placed a medium ship and named it {{name}}.",
+    "out": "{{player}} a placé un navire moyen et l'a nommé {{name}}."
+  },
+  "armadas.PLACE.3": {
+    "src": "{{player}} placed a large ship and named it {{name}}.",
+    "out": "{{player}} a placé un grand navire et l'a nommé {{name}}."
+  },
+  "asli.CAPTURE.self": {
+    "src": "{{player}} cleared their own stranded stones at {{where}}.",
+    "out": "{{player}} a retiré ses propres pierres isolées en {{where}}."
+  },
+  "asli.PASS.area": {
+    "src": "{{player}} passed their turn.",
+    "out": "{{player}} a passé son tour."
+  },
+  "asli.PASS.default": {
+    "src": "{{player}} took an opposing piece from the prison and passed their turn.",
+    "out": "{{player}} a pris une pièce adverse de la prison et a passé son tour."
+  },
+  "assembly.EJECT.default": {
+    "src": "The production line moved forward {{distance}} spaces.",
+    "out": "La ligne de production a avancé de {{distance}} cases."
+  },
+  "assembly.PASS.default": {
+    "src": "The production line doesn't move.",
+    "out": "La chaîne de production ne bouge pas."
+  },
+  "ataxx.CAPTURE.one": {
+    "src": "1 piece is converted.",
+    "out": "1 pièce est convertie."
+  },
+  "ataxx.CAPTURE.other": {
+    "src": "{{count}} pieces are converted.",
+    "out": "{{count}} pièces sont converties."
+  },
+  "ataxx.MOVE.jump": {
+    "src": "{{player}} jumped a piece from {{from}} to {{to}}.",
+    "out": "{{player}} a fait sauter une pièce de {{from}} vers {{to}}."
+  },
+  "ataxx.MOVE.split": {
+    "src": "{{player}} split a piece from {{from}} to {{to}}.",
+    "out": "{{player}} a divisé une pièce de {{from}} vers {{to}}."
+  },
+  "bao.BLOCK.default": {
+    "src": "The pit {{pit}} is in kutakatia (is blocked).",
+    "out": "La fosse {{pit}} est en kutakatia (est bloquée)."
+  },
+  "bao.CAPTURE.one": {
+    "src": "{{player}} captured a total of {{count}} stone from the following pits (in order): {{pits}}",
+    "out": "{{player}} a capturé un total de {{count}} pierre dans les fosses suivantes (dans l'ordre) : {{pits}}"
+  },
+  "bao.CAPTURE.other": {
+    "src": "{{player}} captured a total of {{count}} stones from the following pits (in order): {{pits}}",
+    "out": "{{player}} a capturé un total de {{count}} pierres dans les fosses suivantes (dans l'ordre) : {{pits}}"
+  },
+  "bao.DESTROY.default": {
+    "src": "The nyumba at {{pit}} was destroyed.",
+    "out": "La nyumba en {{pit}} a été détruite."
+  },
+  "bao.MOVE.default": {
+    "src": "Initial direction of movement: {{direction}}.",
+    "out": "Direction initiale du mouvement : {{direction}}."
+  },
+  "bashni.EOG.stagnation": {
+    "src": "The game has ended in a draw because the piece count and composition were unchanged for {{count}} consecutive moves.",
+    "out": "La partie s'est terminée par un match nul car le nombre et la composition des pièces sont restés inchangés pendant {{count}} coups consécutifs."
+  },
+  "biscuit.ANNOUNCE.default": {
+    "src": "The following cards were in opposing hands: {{cards}}.",
+    "out": "Les cartes suivantes étaient dans les mains adverses : {{cards}}."
+  },
+  "biscuit.DECKDRAW.default": {
+    "src": "The next player was unable to play any cards in their hand, so they drew a card.",
+    "out": "Le joueur suivant n'a pu jouer aucune carte de sa main, il a donc pioché une carte."
+  },
+  "biscuit.DECLARE.default": {
+    "src": "{{player}} has gone out!",
+    "out": "{{player}} s'est débarrassé de toutes ses cartes !"
+  },
+  "biscuit.RESET.default": {
+    "src": "A new round has begun.",
+    "out": "Une nouvelle manche a commencé."
+  },
+  "biscuit.SET.biscuit_one": {
+    "src": "{{player}} scored a biscuit.",
+    "out": "{{player}} a marqué un biscuit."
+  },
+  "biscuit.SET.biscuit_other": {
+    "src": "{{player}} scored {{count}} biscuits.",
+    "out": "{{player}} a marqué {{count}} biscuits."
+  },
+  "biscuit.SET.cross": {
+    "src": "{{player}} scored a hot cross biscuit.",
+    "out": "{{player}} a marqué un hot cross biscuit."
+  },
+  "biscuit.SET.elevensies": {
+    "src": "{{player}} scored elevensies. All other players were forced to draw a card.",
+    "out": "{{player}} a marqué la pause de onze heures. Tous les autres joueurs ont été forcés de piocher une carte."
+  },
+  "biscuit.SET.hot": {
+    "src": "{{player}} scored a hot biscuit.",
+    "out": "{{player}} a marqué un biscuit chaud."
+  },
+  "biscuit.SET.straight": {
+    "src": "{{player}} scored a straight of length {{count}}.",
+    "out": "{{player}} a marqué une suite de longueur {{count}}."
+  },
+  "biscuit.STALEMATE.default": {
+    "src": "The hand has gone stale.",
+    "out": "La main est bloquée."
+  },
+  "bitesize.CAPTURE.default": {
+    "src": "{{player}} captured group {{where}} of size {{count}}.",
+    "out": "{{player}} a capturé le groupe {{where}} de taille {{count}}."
+  },
+  "blastradius.CAPTURE.one": {
+    "src": "{{player}} removed one enemy piece from {{where}}.",
+    "out": "{{player}} a retiré une pièce ennemie de {{where}}."
+  },
+  "blastradius.CAPTURE.other": {
+    "src": "{{player}} removed a stack of {{count}} enemy pieces from {{where}}.",
+    "out": "{{player}} a retiré une pile de {{count}} pièces ennemies de {{where}}."
+  },
+  "blastradius.PLACE.default": {
+    "src": "{{player}} added a piece to {{where}}, creating a stack of height {{height}}.",
+    "out": "{{player}} a ajouté une pièce en {{where}}, créant une pile de hauteur {{height}}."
+  },
+  "blastradius.TAKE.one": {
+    "src": "{{player}} removed one of their own pieces from {{where}}.",
+    "out": "{{player}} a retiré l'une de ses propres pièces de {{where}}."
+  },
+  "blastradius.TAKE.other": {
+    "src": "{{player}} removed a stack of {{count}} of their own pieces from {{where}}.",
+    "out": "{{player}} a retiré une pile de {{count}} de ses propres pièces de {{where}}."
+  },
+  "blockade.CAPTURE.default": {
+    "src": "{{player}} captured a blocking piece at {{where}}.",
+    "out": "{{player}} a capturé une pièce bloquante en {{where}}."
+  },
+  "blockade.MOVE.default": {
+    "src": "{{player}} moved a piece from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé une pièce de {{from}} vers {{to}}."
+  },
+  "blockade.PLACE.h": {
+    "src": "{{player}} placed a horizontal fence at {{where}}.",
+    "out": "{{player}} a placé une barrière horizontale en {{where}}."
+  },
+  "blockade.PLACE.v": {
+    "src": "{{player}} placed a vertical fence at {{where}}.",
+    "out": "{{player}} a placé une barrière verticale en {{where}}."
+  },
+  "blooms.CAPTURE.default": {
+    "src": "{{player}} captured a {{what}} group of size {{count}}.",
+    "out": "{{player}} a capturé un groupe {{what}} de taille {{count}}."
+  },
+  "blooms.PLACE.default": {
+    "src": "{{player}} placed a {{what}} piece at {{where}}.",
+    "out": "{{player}} a placé une pièce {{what}} en {{where}}."
+  },
+  "boom.CAPTURE.default": {
+    "src": "{{player}} destroyed a piece at {{where}}.",
+    "out": "{{player}} a détruit une pièce en {{where}}."
+  },
+  "boxes.PLACE.claim1": {
+    "src": "{{player}} adds a line at {{where}}, claiming {{box}}.",
+    "out": "{{player}} ajoute un trait en {{where}}, capturant {{box}}."
+  },
+  "boxes.PLACE.claim2": {
+    "src": "{{player}} adds a line at {{where}}, claiming {{box1}} and {{box2}}.",
+    "out": "{{player}} ajoute un trait en {{where}}, capturant {{box1}} et {{box2}}."
+  },
+  "boxes.PLACE.default": {
+    "src": "{{player}} adds a line at {{where}}.",
+    "out": "{{player}} ajoute un trait en {{where}}."
+  },
+  "bridges.CONNECT.default": {
+    "src": "{{player}} built a bridge between {{left}} and {{right}}.",
+    "out": "{{player}} a construit un pont entre {{left}} et {{right}}."
+  },
+  "btt.DELTASCORE.opponent_gain_one": {
+    "src": "An opponent gained {{delta}} point.",
+    "out": "Un adversaire a gagné {{delta}} point."
+  },
+  "btt.DELTASCORE.opponent_gain_other": {
+    "src": "An opponent gained {{delta}} points.",
+    "out": "Un adversaire a gagné {{delta}} points."
+  },
+  "btt.PLACE.large": {
+    "src": "{{player}} placed a large at {{where}} facing {{how}}.",
+    "out": "{{player}} a placé un grand en {{where}} orienté vers {{how}}."
+  },
+  "btt.PLACE.medium": {
+    "src": "{{player}} placed a medium at {{where}} facing {{how}}.",
+    "out": "{{player}} a placé un moyen en {{where}} orienté vers {{how}}."
+  },
+  "btt.PLACE.small": {
+    "src": "{{player}} placed a small at {{where}} facing {{how}}.",
+    "out": "{{player}} a placé un petit en {{where}} orienté vers {{how}}."
+  },
+  "bug.PLACE.bonus_grow": {
+    "src": "Upon capture, a bug grew at {{where}} to a size of {{size}}.",
+    "out": "Lors de la capture, un insecte a grandi en {{where}} jusqu'à une taille de {{size}}."
+  },
+  "bug.PLACE.grow": {
+    "src": "{{player}} grew a bug at {{where}} to a size of {{size}}.",
+    "out": "{{player}} a fait grandir un insecte en {{where}} jusqu'à une taille de {{size}}."
+  },
+  "bug.PLACE.new": {
+    "src": "{{player}} introduced a new bug at {{where}}.",
+    "out": "{{player}} a introduit un nouvel insecte en {{where}}."
+  },
+  "buku.CAPTURE.default": {
+    "src": "{{count}} pieces were captured at {{where}}.",
+    "out": "{{count}} pièces ont été capturées en {{where}}."
+  },
+  "buku.CLAIM.repetition_one": {
+    "src": "{{player}} claimed all 1 remaining piece.",
+    "out": "{{player}} a réclamé la dernière pièce restante."
+  },
+  "buku.CLAIM.repetition_other": {
+    "src": "{{player}} claimed all {{count}} remaining pieces.",
+    "out": "{{player}} a réclamé les {{count}} pièces restantes."
+  },
+  "buku.CLAIM.singletons_one": {
+    "src": "{{player}} claimed the remaining 1 piece on their colour.",
+    "out": "{{player}} a réclamé la dernière pièce restante de sa couleur."
+  },
+  "buku.CLAIM.singletons_other": {
+    "src": "{{player}} claimed the remaining {{count}} pieces on their colour.",
+    "out": "{{player}} a réclamé les {{count}} pièces restantes de sa couleur."
+  },
+  "buku.EOG.singletons": {
+    "src": "The game has ended because all cells contain only singletons.",
+    "out": "La partie est terminée car toutes les cases ne contiennent que des pièces isolées."
+  },
+  "buku.TAKE.col_one": {
+    "src": "{{player}} collected 1 piece from column {{col}}.",
+    "out": "{{player}} a récupéré 1 pièce de la colonne {{col}}."
+  },
+  "buku.TAKE.col_other": {
+    "src": "{{player}} collected {{count}} pieces from column {{col}}.",
+    "out": "{{player}} a récupéré {{count}} pièces de la colonne {{col}}."
+  },
+  "buku.TAKE.row_bonus": {
+    "src": "{{player}} collected {{count}} pieces from row {{row}}, plus one additional piece.",
+    "out": "{{player}} a récupéré {{count}} pièces de la rangée {{row}}, plus une pièce supplémentaire."
+  },
+  "buku.TAKE.row_one": {
+    "src": "{{player}} collected 1 piece from row {{row}}.",
+    "out": "{{player}} a récupéré 1 pièce de la rangée {{row}}."
+  },
+  "buku.TAKE.row_other": {
+    "src": "{{player}} collected {{count}} pieces from row {{row}}.",
+    "out": "{{player}} a récupéré {{count}} pièces de la rangée {{row}}."
+  },
+  "byte.MOVE.full": {
+    "src": "{{player}} moved a full stack from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé une pile complète de {{from}} vers {{to}}."
+  },
+  "byte.MOVE.partial_one": {
+    "src": "{{player}} moved {{count}} checker from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé {{count}} pion de {{from}} vers {{to}}."
+  },
+  "byte.MOVE.partial_other": {
+    "src": "{{player}} moved {{count}} checkers from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé {{count}} pions de {{from}} vers {{to}}."
+  },
+  "c1.CAPTURE.default": {
+    "src": "{{player}} eliminates a tile at {{where}}.",
+    "out": "{{player}} élimine une tuile en {{where}}."
+  },
+  "camelot.EOG.claim_draw_progression": {
+    "src": "The game has ended because {{player}} has claimed a draw by the 50 move rule.",
+    "out": "La partie est terminée car {{player}} a réclamé une nulle selon la règle des 50 coups."
+  },
+  "camelot.EOG.claim_draw_repetition": {
+    "src": "The game has ended because {{player}} has claimed a draw by repetition.",
+    "out": "La partie est terminée car {{player}} a réclamé une nulle par répétition."
+  },
+  "camelot.MOVE.canter": {
+    "src": "{{player}} made a canter with a man from {{from}} to {{to}}.",
+    "out": "{{player}} a effectué un petit galop avec un homme de {{from}} vers {{to}}."
+  },
+  "camelot.MOVE.canter_knight": {
+    "src": "{{player}} made a canter with a knight from {{from}} to {{to}}.",
+    "out": "{{player}} a effectué un petit galop avec un cavalier de {{from}} vers {{to}}."
+  },
+  "camelot.MOVE.castle": {
+    "src": "{{player}} made a castle move with a man from {{from}} to {{to}}.",
+    "out": "{{player}} a effectué un coup de château avec un homme de {{from}} vers {{to}}."
+  },
+  "camelot.MOVE.castle_knight": {
+    "src": "{{player}} made a castle move with a knight from {{from}} to {{to}}.",
+    "out": "{{player}} a effectué un coup de château avec un cavalier de {{from}} vers {{to}}."
+  },
+  "camelot.MOVE.jump": {
+    "src": "{{player}} made a jump with a man from {{from}} to {{to}}, capturing {{captured}}.",
+    "out": "{{player}} a effectué un saut avec un homme de {{from}} vers {{to}}, en capturant {{captured}}."
+  },
+  "camelot.MOVE.jump_knight": {
+    "src": "{{player}} made a jump with a knight from {{from}} to {{to}}, capturing {{captured}}.",
+    "out": "{{player}} a effectué un saut avec un cavalier de {{from}} vers {{to}}, en capturant {{captured}}."
+  },
+  "camelot.MOVE.plain": {
+    "src": "{{player}} made a plain move with a man from {{from}} to {{to}}.",
+    "out": "{{player}} a effectué un coup simple avec un homme de {{from}} vers {{to}}."
+  },
+  "camelot.MOVE.plain_knight": {
+    "src": "{{player}} made a plain move with a knight from {{from}} to {{to}}.",
+    "out": "{{player}} a effectué un coup simple avec un cavalier de {{from}} vers {{to}}."
+  },
+  "camelot.PLACE.tree": {
+    "src": "{{player}} placed trees at {{where}}.",
+    "out": "{{player}} a placé des arbres en {{where}}."
+  },
+  "camelot.USE.castle_move_none": {
+    "src": "{{player}} has no more castle moves.",
+    "out": "{{player}} n'a plus de déplacements de château."
+  },
+  "camelot.USE.castle_move_one": {
+    "src": "{{player}} used has 1 more castle move.",
+    "out": "{{player}} a utilisé 1 déplacement de château supplémentaire."
+  },
+  "camelot.USE.castle_move_other": {
+    "src": "{{player}} used has {{count}} more castle moves.",
+    "out": "{{player}} dispose de {{count}} déplacements de château supplémentaires."
+  },
+  "cannon.PLACE.default": {
+    "src": "{{player}} placed their town at {{where}}.",
+    "out": "{{player}} a placé sa ville en {{where}}."
+  },
+  "canoe.BEAROFF.default": {
+    "src": "{{player}} bore a cube off the board.",
+    "out": "{{player}} a sorti un cube du plateau."
+  },
+  "canoe.CAPTURE.default": {
+    "src": "{{player}} pinched a cube at {{where}}.",
+    "out": "{{player}} a pincé un cube en {{where}}."
+  },
+  "canoe.CONVERT.default": {
+    "src": "{{player}} rotated the cube at {{where}} from {{what}} to {{into}}.",
+    "out": "{{player}} a fait tourner le cube en {{where}} de {{what}} vers {{into}}."
+  },
+  "canoe.PROMOTE.default": {
+    "src": "{{player}} formed a set at {{where}}, merging the cube from {{from}}.",
+    "out": "{{player}} a formé un ensemble en {{where}}, en fusionnant le cube de {{from}}."
+  },
+  "canoe.ROLL.default": {
+    "src": "{{player}} rolled: {{values}}.",
+    "out": "{{player}} a obtenu : {{values}}."
+  },
+  "carnac.MOVE.tip": {
+    "src": "{{player}} tipped the megalith at {{from}} onto {{to}} toward {{how}}.",
+    "out": "{{player}} a fait basculer le mégalithe de {{from}} sur {{to}} vers {{how}}."
+  },
+  "carnac.PASS.default": {
+    "src": "{{player}} declined to tip the megalith.",
+    "out": "{{player}} a refusé de faire basculer le mégalithe."
+  },
+  "carnac.PLACE.default": {
+    "src": "{{player}} placed a megalith at {{where}} (top {{top}}, south {{south}}).",
+    "out": "{{player}} a placé un mégalithe en {{where}} (haut {{top}}, sud {{south}})."
+  },
+  "ccorridor.PLACE.default": {
+    "src": "{{player}} placed a tile at {{where}}.",
+    "out": "{{player}} a placé une tuile en {{where}}."
+  },
+  "chase.MOVE.default": {
+    "src": "{{player}} moved from {{from}} to {{to}} (through {{through}}).",
+    "out": "{{player}} s'est déplacé de {{from}} vers {{to}} (via {{through}})."
+  },
+  "chase.PLACE.default": {
+    "src": "The chamber spit out a {{what}} at {{where}}.",
+    "out": "La chambre a recraché un {{what}} en {{where}}."
+  },
+  "chase.TAKE.default": {
+    "src": "A {{what}} was fed to the chamber.",
+    "out": "Un {{what}} a été donné en pâture à la chambre."
+  },
+  "cifra.AFFILIATE.db": {
+    "src": "{{player}} chose to play the dark pieces from the top row.",
+    "out": "{{player}} a choisi de jouer les pièces sombres de la rangée inférieure."
+  },
+  "cifra.AFFILIATE.dl": {
+    "src": "{{player}} chose to play the dark pieces from the left column.",
+    "out": "{{player}} a choisi de jouer les pièces sombres de la colonne de gauche."
+  },
+  "cifra.AFFILIATE.dr": {
+    "src": "{{player}} chose to play the dark pieces from the right column.",
+    "out": "{{player}} a choisi de jouer les pièces sombres de la colonne de droite."
+  },
+  "cifra.AFFILIATE.dt": {
+    "src": "{{player}} chose to play the dark pieces from the top row.",
+    "out": "{{player}} a choisi de jouer les pièces sombres de la rangée supérieure."
+  },
+  "cifra.AFFILIATE.lb": {
+    "src": "{{player}} chose to play the light pieces from the bottom row.",
+    "out": "{{player}} a choisi de jouer les pièces claires de la rangée inférieure."
+  },
+  "cifra.AFFILIATE.ll": {
+    "src": "{{player}} chose to play the light pieces from the left column.",
+    "out": "{{player}} a choisi de jouer les pièces claires de la colonne de gauche."
+  },
+  "cifra.AFFILIATE.lr": {
+    "src": "{{player}} chose to play the light pieces from the right column.",
+    "out": "{{player}} a choisi de jouer les pièces claires de la colonne de droite."
+  },
+  "cifra.AFFILIATE.lt": {
+    "src": "{{player}} chose to play the light pieces from the top row.",
+    "out": "{{player}} a choisi de jouer les pièces claires de la rangée supérieure."
+  },
+  "circleOfLife.CAPTURE.one": {
+    "src": "{{player}} devoured opponent species {{prey}} ({{count}} stone) at {{where}}.",
+    "out": "{{player}} a dévoré l'espèce adverse {{prey}} ({{count}} pierre) en {{where}}."
+  },
+  "circleOfLife.CAPTURE.other": {
+    "src": "{{player}} devoured opponent species {{prey}} ({{count}} stones) at {{where}}.",
+    "out": "{{player}} a dévoré l'espèce adverse {{prey}} ({{count}} pierres) en {{where}}."
+  },
+  "conhex.CLAIM.default": {
+    "src": "{{player}} claimed the space at ({{where}}).",
+    "out": "{{player}} a réclamé l'emplacement en ({{where}})."
+  },
+  "conhex.PLACE.default": {
+    "src": "{{player}} placed a piece at vertex {{where}}.",
+    "out": "{{player}} a placé une pièce au sommet {{where}}."
+  },
+  "connecticut.PLACE.default": {
+    "src": "{{player}} placed a triomino at {{where}}.",
+    "out": "{{player}} a placé un triomino en {{where}}."
+  },
+  "court.PLACE.default": {
+    "src": "{{player}} promoted {{where}} to a {{what}}.",
+    "out": "{{player}} a promu {{where}} en {{what}}."
+  },
+  "courtesan.CONVERT.default": {
+    "src": "King and courtesan swapped positions at {{where}}.",
+    "out": "Le roi et la courtisane ont échangé leurs positions en {{where}}."
+  },
+  "crosshairs.CAPTURE.default": {
+    "src": "{{player}} shot down a plane at {{where}}.",
+    "out": "{{player}} a abattu un avion en {{where}}."
+  },
+  "crosshairs.DESTROY.default": {
+    "src": "{{player}}'s plane at {{where}} crashed.",
+    "out": "L'avion de {{player}} en {{where}} s'est écrasé."
+  },
+  "crosshairs.MOVE.default": {
+    "src": "{{player}} moved a plane from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé un avion de {{from}} vers {{to}}."
+  },
+  "crosshairs.MOVE.power-dive": {
+    "src": "{{player}}'s plane power-dived at {{from}}.",
+    "out": "L'avion de {{player}} a effectué un piqué à grande vitesse en {{from}}."
+  },
+  "crosshairs.MOVE.swoop": {
+    "src": "{{player}}'s plane swooped from {{from}} to {{to}}.",
+    "out": "L'avion de {{player}} s'est posé en piqué de {{from}} vers {{to}}."
+  },
+  "crosshairs.ORIENT.default": {
+    "src": "{{player}} turned a plane at {{where}} to face {{facing}}.",
+    "out": "{{player}} a orienté un avion en {{where}} vers {{facing}}."
+  },
+  "crosshairs.PLACE.cloud": {
+    "src": "{{player}} placed a cloud at {{where}}.",
+    "out": "{{player}} a placé un nuage en {{where}}."
+  },
+  "crosshairs.PLACE.plane": {
+    "src": "{{player}} entered a plane at {{where}}.",
+    "out": "{{player}} a fait entrer un avion en {{where}}."
+  },
+  "cubeo.PROMOTE.default": {
+    "src": "{{player}} promoted the die at {{where}} from a {{from}} to a {{to}}.",
+    "out": "{{player}} a promu le dé en {{where}} d'un {{from}} vers un {{to}}."
+  },
+  "dameo.CAPTURE.king": {
+    "src": "{{player}} captured a king at {{where}}.",
+    "out": "{{player}} a capturé un roi en {{where}}."
+  },
+  "dameo.CAPTURE.soldier": {
+    "src": "{{player}} captured a soldier at {{where}}.",
+    "out": "{{player}} a capturé un soldat en {{where}}."
+  },
+  "deckfish.ANNOUNCE.default": {
+    "src": "{{player}} was unable to move and must pass from now on.",
+    "out": "{{player}} ne pouvait pas déplacer et doit passer à partir de maintenant."
+  },
+  "deckfish.EJECT.default": {
+    "src": "{{player}} pushed a piece from {{from}} to {{to}}.",
+    "out": "{{player}} a poussé une pièce de {{from}} vers {{to}}."
+  },
+  "deckfish.EOG.default": {
+    "src": "The game has ended because the last player was unable to move.",
+    "out": "La partie est terminée car le dernier joueur n'a pas pu déplacer."
+  },
+  "deckfish.MOVE.default": {
+    "src": "{{player}} moved a piece from {{from}} to {{to}}, collecting {{what}}.",
+    "out": "{{player}} a déplacé une pièce de {{from}} vers {{to}}, en ramassant {{what}}."
+  },
+  "deckfish.PASS.default": {
+    "src": "{{player}} was unable to move.",
+    "out": "{{player}} n'a pas pu se déplacer."
+  },
+  "deckfish.PIE.default": {
+    "src": "{{player}} moves second.",
+    "out": "{{player}} joue en second."
+  },
+  "deckfish.SWAP.default": {
+    "src": "{{player}} swapped {{what}} from the market with {{with}} at {{where}}.",
+    "out": "{{player}} a échangé {{what}} du marché avec {{with}} en {{where}}."
+  },
+  "druid.BEAROFF.default": {
+    "src": "{{player}} bore their Druid off from {{from}}.",
+    "out": "{{player}} a sorti son Druide depuis {{from}}."
+  },
+  "druid.EOG.hex": {
+    "src": "The game has ended because {{player}} connected the {{edges}} edges.",
+    "out": "La partie est terminée car {{player}} a relié les bords {{edges}}."
+  },
+  "druid.HEX_EDGE.N": {
+    "src": "north (N)",
+    "out": "nord (N)"
+  },
+  "druid.HEX_EDGE.NE": {
+    "src": "northeast (NE)",
+    "out": "nord-est (NE)"
+  },
+  "druid.HEX_EDGE.NW": {
+    "src": "northwest (NW)",
+    "out": "nord-ouest (NO)"
+  },
+  "druid.HEX_EDGE.S": {
+    "src": "south (S)",
+    "out": "sud (S)"
+  },
+  "druid.HEX_EDGE.SE": {
+    "src": "southeast (SE)",
+    "out": "sud-est (SE)"
+  },
+  "druid.HEX_EDGE.SW": {
+    "src": "southwest (SW)",
+    "out": "sud-ouest (SO)"
+  },
+  "druid.HEX_EDGE.and": {
+    "src": "and",
+    "out": "et"
+  },
+  "druid.MOVE.walk": {
+    "src": "{{player}} moved their Druid from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé son Druide de {{from}} vers {{to}}."
+  },
+  "druid.PLACE.druid": {
+    "src": "{{player}} placed a Druid at {{where}}.",
+    "out": "{{player}} a placé un Druide en {{where}}."
+  },
+  "druid.PLACE.lintel": {
+    "src": "{{player}} laid a lintel along {{where}}.",
+    "out": "{{player}} a posé un linteau le long de {{where}}."
+  },
+  "druid.PLACE.sarsen": {
+    "src": "{{player}} placed a sarsen at {{where}}.",
+    "out": "{{player}} a placé un sarsen en {{where}}."
+  },
+  "elOso.ACTOR.bear": {
+    "src": "The Bear",
+    "out": "L'Ours"
+  },
+  "elOso.ANNOUNCE.bearSetup": {
+    "src": "Bear setup",
+    "out": "Mise en place de l'Ours"
+  },
+  "elOso.ANNOUNCE.playerSetup": {
+    "src": "Player setup",
+    "out": "Mise en place du joueur"
+  },
+  "elOso.CAPTURE.one": {
+    "src": "{{player}} annihilated one piece at {{where}}.",
+    "out": "{{player}} a anéanti une pièce en {{where}}."
+  },
+  "elOso.CAPTURE.other": {
+    "src": "{{player}} annihilated {{count}} pieces at {{where}}.",
+    "out": "{{player}} a anéanti {{count}} pièces en {{where}}."
+  },
+  "elOso.PLACE.one": {
+    "src": "{{player}} placed one piece at {{where}}.",
+    "out": "{{player}} a placé une pièce en {{where}}."
+  },
+  "elOso.PLACE.other": {
+    "src": "{{player}} placed {{count}} pieces at {{where}}.",
+    "out": "{{player}} a placé {{count}} pièces en {{where}}."
+  },
+  "elOso.ROLL.default": {
+    "src": "The Bear rolled: {{dice}}.",
+    "out": "L'Ours a obtenu : {{dice}}."
+  },
+  "elOso.ROLL.player": {
+    "src": "{{player}} rolled: {{dice}}.",
+    "out": "{{player}} a obtenu : {{dice}}."
+  },
+  "emu.DECKDRAW.deck": {
+    "src": "{{player}} drew a face-down card from the deck.",
+    "out": "{{player}} a pioché une carte face cachée dans la pioche."
+  },
+  "emu.DECKDRAW.discard": {
+    "src": "{{player}} drew the {{what}} from the top of the discard pile.",
+    "out": "{{player}} a pioché {{what}} au sommet de la défausse."
+  },
+  "emu.DECLARE.default": {
+    "src": "Year {{year}} has ended.",
+    "out": "L'année {{year}} s'est terminée."
+  },
+  "emu.DELTASCORE.excuse": {
+    "src": "{{player}} plays The Excuse to offset their lowest-scoring bird ({{delta}} points).",
+    "out": "{{player}} joue L'Excuse pour compenser son oiseau ayant le plus bas score ({{delta}} points)."
+  },
+  "emu.DELTASCORE.score": {
+    "src": "{{player}}'s bird with the following ranks scored {{delta}} points: {{ranks}}.",
+    "out": "L'oiseau de {{player}} avec les rangs suivants a marqué {{delta}} points : {{ranks}}."
+  },
+  "emu.PLACE.discard": {
+    "src": "{{player}} discarded the card {{what}}.",
+    "out": "{{player}} a défaussé la carte {{what}}."
+  },
+  "emu.PLACE.existing": {
+    "src": "{{player}} used the {{what}} to grow bird #{{where}}.",
+    "out": "{{player}} a utilisé {{what}} pour agrandir l'oiseau nº{{where}}."
+  },
+  "emu.PLACE.new": {
+    "src": "{{player}} hatched a new bird with the {{what}}.",
+    "out": "{{player}} a fait éclore un nouvel oiseau avec {{what}}."
+  },
+  "entrapment.CAPTURE.opponent": {
+    "src": "{{player}} captured an opponent's roamer at {{where}}.",
+    "out": "{{player}} a capturé un rôdeur adverse en {{where}}."
+  },
+  "entrapment.CAPTURE.self": {
+    "src": "{{player}} captured their own roamer at {{where}}.",
+    "out": "{{player}} a capturé son propre rôdeur en {{where}}."
+  },
+  "entrapment.MOVE.barrier": {
+    "src": "{{player}} moved a barrier from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé une barrière de {{from}} vers {{to}}."
+  },
+  "entrapment.MOVE.roamer": {
+    "src": "{{player}} moved a roamer from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé un rôdeur de {{from}} vers {{to}}."
+  },
+  "entrapment.MOVE.roamer_jump": {
+    "src": "{{player}} moved a roamer from {{from}} to {{to}}, jumping over {{jumped}}.",
+    "out": "{{player}} a déplacé un rôdeur de {{from}} vers {{to}}, en sautant par-dessus {{jumped}}."
+  },
+  "entrapment.PLACE.barrier": {
+    "src": "{{player}} placed a barrier at {{where}}.",
+    "out": "{{player}} a placé une barrière en {{where}}."
+  },
+  "entrapment.PLACE.roamer": {
+    "src": "{{player}} placed a roamer at {{where}}.",
+    "out": "{{player}} a placé un rôdeur en {{where}}."
+  },
+  "entrapment.REMOVE.opponent": {
+    "src": "{{player}} chose to retain the opponent's roamer at {{how}}, removing the roamer at {{where}}.",
+    "out": "{{player}} a choisi de conserver le rôdeur de l'adversaire en {{how}}, retirant le rôdeur en {{where}}."
+  },
+  "entrapment.REMOVE.self": {
+    "src": "{{player}} chose to retain their own roamer at {{how}}, removing the roamer at {{where}}.",
+    "out": "{{player}} a choisi de conserver son propre rôdeur en {{how}}, retirant le rôdeur en {{where}}."
+  },
+  "entropy.PASS.default": {
+    "src": "{{player}} chose not to move any pieces this turn.",
+    "out": "{{player}} a choisi de ne déplacer aucune pièce ce tour-ci."
+  },
+  "epam.PLACE.default": {
+    "src": "{{player}} placed a stone at {{where}}.",
+    "out": "{{player}} a placé une pierre en {{where}}."
+  },
+  "estate.PLACE.one": {
+    "src": "{{player}} placed a piece at {{where}} ({{what}} pt).",
+    "out": "{{player}} a placé une pièce en {{where}} ({{what}} pt)."
+  },
+  "estate.PLACE.other": {
+    "src": "{{player}} placed a piece at {{where}} ({{what}} pts).",
+    "out": "{{player}} a placé une pièce en {{where}} ({{what}} pts)."
+  },
+  "evenatodds.DECKDRAW.default": {
+    "src": "{{player}} drew a tile from the boneyard.",
+    "out": "{{player}} a tiré une tuile du cimetière."
+  },
+  "evenatodds.PLACE.default": {
+    "src": "{{player}} placed the {{what}} domino at {{where}}.",
+    "out": "{{player}} a placé le domino {{what}} en {{where}}."
+  },
+  "exxit.CLAIM.default": {
+    "src": "{{player}} claimed the perimeter space at {{where}}.",
+    "out": "{{player}} a réclamé l'emplacement périphérique en {{where}}."
+  },
+  "fightopia.CAPTURE.1": {
+    "src": "{{player}} captured a pawn at {{where}}.",
+    "out": "{{player}} a capturé un pion en {{where}}."
+  },
+  "fightopia.CAPTURE.2": {
+    "src": "{{player}} captured a tank at {{where}}.",
+    "out": "{{player}} a capturé un char en {{where}}."
+  },
+  "fightopia.MOVE.1": {
+    "src": "{{player}} moved a pawn from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé un pion de {{from}} vers {{to}}."
+  },
+  "fightopia.MOVE.2": {
+    "src": "{{player}} moved a tank from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé un char de {{from}} vers {{to}}."
+  },
+  "fightopia.MOVE.4": {
+    "src": "{{player}} moved their giant from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé son géant de {{from}} vers {{to}}."
+  },
+  "fightopia.MOVE.pivot": {
+    "src": "{{player}} pivoted a tank from {{from}} to {{to}}.",
+    "out": "{{player}} a fait pivoter un char de {{from}} vers {{to}}."
+  },
+  "fnap.CLAIM.col": {
+    "src": "{{player}} claimed column {{where}}.",
+    "out": "{{player}} a réclamé la colonne {{where}}."
+  },
+  "fnap.CLAIM.fnap": {
+    "src": "{{player}} has claimed the FNAP token.",
+    "out": "{{player}} a réclamé le jeton FNAP."
+  },
+  "fnap.CLAIM.row": {
+    "src": "{{player}} claimed row {{where}}.",
+    "out": "{{player}} a réclamé la rangée {{where}}."
+  },
+  "fnap.SELECT.default": {
+    "src": "{{player}} selected the tile {{tile}}.",
+    "out": "{{player}} a sélectionné la tuile {{tile}}."
+  },
+  "fnap.SET.circles": {
+    "src": "The circle tile at {{where}} is isolated.",
+    "out": "La tuile cercle en {{where}} est isolée."
+  },
+  "fnap.SET.triplets_one": {
+    "src": "{{player}} scored {{count}} triplet.",
+    "out": "{{player}} a marqué {{count}} triplet."
+  },
+  "fnap.SET.triplets_other": {
+    "src": "{{player}} scored {{count}} triplets.",
+    "out": "{{player}} a marqué {{count}} triplets."
+  },
+  "forms.CAPTURE.one": {
+    "src": "{{player}} move eliminates one piece.",
+    "out": "Le coup de {{player}} élimine une pièce."
+  },
+  "forms.CAPTURE.other": {
+    "src": "{{player}} move eliminates {{count}} pieces.",
+    "out": "Le coup de {{player}} élimine {{count}} pièces."
+  },
+  "forms.EOG.default": {
+    "src": "The game has ended because the next player is unable to move.",
+    "out": "La partie est terminée car le joueur suivant ne peut pas déplacer."
+  },
+  "fourinarow.REMOVE.e": {
+    "src": "{{player}} cleared a line, shifting the pieces on the board rightwards.",
+    "out": "{{player}} a effacé une ligne, décalant les pièces du plateau vers la droite."
+  },
+  "fourinarow.REMOVE.n": {
+    "src": "{{player}} cleared a line, shifting the pieces on the board upwards.",
+    "out": "{{player}} a effacé une ligne, décalant les pièces du plateau vers le haut."
+  },
+  "fourinarow.REMOVE.ne": {
+    "src": "{{player}} cleared two lines, shifting the pieces on the board upwards and rightwards.",
+    "out": "{{player}} a effacé deux lignes, décalant les pièces du plateau vers le haut et vers la droite."
+  },
+  "fourinarow.REMOVE.nw": {
+    "src": "{{player}} cleared two lines, shifting the pieces on the board upwards and leftwards.",
+    "out": "{{player}} a effacé deux lignes, décalant les pièces du plateau vers le haut et vers la gauche."
+  },
+  "fourinarow.REMOVE.s": {
+    "src": "{{player}} cleared a line, shifting the pieces on the board downwards.",
+    "out": "{{player}} a effacé une ligne, décalant les pièces du plateau vers le bas."
+  },
+  "fourinarow.REMOVE.se": {
+    "src": "{{player}} cleared two lines, shifting the pieces on the board downwards and rightwards.",
+    "out": "{{player}} a effacé deux lignes, décalant les pièces du plateau vers le bas et vers la droite."
+  },
+  "fourinarow.REMOVE.sw": {
+    "src": "{{player}} cleared two lines, shifting the pieces on the board downwards and leftwards.",
+    "out": "{{player}} a effacé deux lignes, décalant les pièces du plateau vers le bas et vers la gauche."
+  },
+  "fourinarow.REMOVE.w": {
+    "src": "{{player}} cleared a line, shifting the pieces on the board leftwards.",
+    "out": "{{player}} a effacé une ligne, décalant les pièces du plateau vers la gauche."
+  },
+  "frogger.ANNOUNCE.one": {
+    "src": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining move.",
+    "out": "{{player}} a choisi de réapprovisionner la pioche. Il obtient un tour supplémentaire pour effectuer son {{count}} coup restant."
+  },
+  "frogger.ANNOUNCE.other": {
+    "src": "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining moves.",
+    "out": "{{player}} a choisi de réapprovisionner la pioche. Il obtient un tour supplémentaire pour effectuer ses {{count}} coups restants."
+  },
+  "frogger.CLAIM.default": {
+    "src": "{{player}} was blocked and drew {{card}} from the draw pool.",
+    "out": "{{player}} a été bloqué et a tiré {{card}} de la pioche."
+  },
+  "frogger.DECKDRAW.default": {
+    "src": "The draw pool was {{what}} refilled.",
+    "out": "La pioche a été remplie {{what}}."
+  },
+  "frogger.DECLARE.default": {
+    "src": "The crocodiles advanced.",
+    "out": "Les crocodiles ont avancé."
+  },
+  "frogger.EJECT.card": {
+    "src": "{{player}} played an Ace or Crown and returned a frog from {{from}} to {{to}}.",
+    "out": "{{player}} a joué un As ou une Couronne et a renvoyé une grenouille de {{from}} vers {{to}}."
+  },
+  "frogger.EJECT.croc": {
+    "src": "The frog at {{from}} was eaten by crocodiles (and returned to {{to}}).",
+    "out": "La grenouille en {{from}} a été dévorée par des crocodiles (et renvoyée vers {{to}})."
+  },
+  "frogger.MOVE.back": {
+    "src": "{{player}} moved a frog back from {{from}} to {{to}}, and drew {{card}} from the draw pool.",
+    "out": "{{player}} a fait reculer une grenouille de {{from}} vers {{to}}, et a pioché {{card}} dans la pioche."
+  },
+  "frogger.MOVE.forward": {
+    "src": "{{player}} used {{card}} to move a frog forward from {{from}} to {{to}}.",
+    "out": "{{player}} a utilisé {{card}} pour faire avancer une grenouille de {{from}} vers {{to}}."
+  },
+  "frogger.PASS.default": {
+    "src": "{{player}} passed {{why}}.",
+    "out": "{{player}} a passé {{why}}."
+  },
+  "furl.CAPTURE.default": {
+    "src": "{{player}} captured a stack of size {{size}} at {{where}}.",
+    "out": "{{player}} a capturé une pile de taille {{size}} en {{where}}."
+  },
+  "furl.FURL.default": {
+    "src": "{{player}} furls {{count}} pieces from {{from}} to {{to}}.",
+    "out": "{{player}} enroule {{count}} pièces de {{from}} vers {{to}}."
+  },
+  "furl.UNFURL.default": {
+    "src": "{{player}} unfurls {{count}} pieces from {{from}} to {{to}}.",
+    "out": "{{player}} déroule {{count}} pièces de {{from}} à {{to}}."
+  },
+  "gess.CAPTURE.one": {
+    "src": "{{count}} stone is removed from the board.",
+    "out": "{{count}} pierre est retirée du plateau."
+  },
+  "gess.CAPTURE.other": {
+    "src": "{{count}} stones are removed from the board.",
+    "out": "{{count}} pierres sont retirées du plateau."
+  },
+  "gess.MOVE.one": {
+    "src": "{{player}} moved a 3x3 piece containing {{count}} stone from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé une pièce 3x3 contenant {{count}} pierre de {{from}} vers {{to}}."
+  },
+  "gess.MOVE.other": {
+    "src": "{{player}} moved a 3x3 piece containing {{count}} stones from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé une pièce 3x3 contenant {{count}} pierres de {{from}} vers {{to}}."
+  },
+  "gliss.REMOVE.default": {
+    "src": "{{player}} moved their glider at {{where}} off the edge of the board.",
+    "out": "{{player}} a déplacé son planeur en {{where}} hors du plateau."
+  },
+  "gonnect.EOG.cascading_subboard": {
+    "src": "{{player}} won on the {{size}}x{{size}} subboard.",
+    "out": "{{player}} a gagné sur le sous-plateau {{size}}x{{size}}."
+  },
+  "gonnect.EOG.direct_connection": {
+    "src": "{{player}} won by direct connection.",
+    "out": "{{player}} a gagné par connexion directe."
+  },
+  "gorogo.PLACE.henge": {
+    "src": "{{player}} placed a henge piece at {{where}}.",
+    "out": "{{player}} a placé une pièce henge en {{where}}."
+  },
+  "guerrilla.RESET.default": {
+    "src": "{{player}} won the first game. The second game has begun, with roles reversed.",
+    "out": "{{player}} a remporté la première partie. La deuxième partie a commencé, avec les rôles inversés."
+  },
+  "hens.CAPTURE.chick": {
+    "src": "{{player}} captured a chick at {{where}}.",
+    "out": "{{player}} a capturé un poussin en {{where}}."
+  },
+  "hens.CAPTURE.hen": {
+    "src": "{{player}} captured a hen at {{where}}.",
+    "out": "{{player}} a capturé une poule en {{where}}."
+  },
+  "hexentafl.CAPTURE.king": {
+    "src": "The king was captured at {{where}}.",
+    "out": "Le roi a été capturé en {{where}}."
+  },
+  "hexentafl.MOVE.king": {
+    "src": "{{player}} moved the king from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé le roi de {{from}} vers {{to}}."
+  },
+  "homeworlds.BUILD.build": {
+    "src": "{{player}} build a {{what}} in the {{where}} system.",
+    "out": "{{player}} a construit un {{what}} dans le système {{where}}."
+  },
+  "homeworlds.CAPTURE.capture": {
+    "src": "{{player}} captured a {{what}} in the {{where}} system.",
+    "out": "{{player}} a capturé un {{what}} dans le système {{where}}."
+  },
+  "homeworlds.CATASTROPHE.catastrophe": {
+    "src": "An overpopulation of {{colour}} led to a catastrophe in {{where}}.",
+    "out": "Une surpopulation de {{colour}} a provoqué une catastrophe en {{where}}."
+  },
+  "homeworlds.CONVERT.convert": {
+    "src": "{{player}} changed a {{what}} into a {{into}} in the {{where}} system.",
+    "out": "{{player}} a transformé un {{what}} en {{into}} dans le système {{where}}."
+  },
+  "homeworlds.DISCOVER.discover": {
+    "src": "{{player}} discovered a new {{what}} system and named it {{name}}.",
+    "out": "{{player}} a découvert un nouveau système {{what}} et l'a nommé {{name}}."
+  },
+  "homeworlds.ESTABLISH.land": {
+    "src": "A {{ship}} colony ship belonging to {{player}} has landed in a {{stars}} system.",
+    "out": "Un vaisseau colonie {{ship}} appartenant à {{player}} s'est posé dans un système {{stars}}."
+  },
+  "homeworlds.MOVE.fly": {
+    "src": "{{player}} flew their {{what}} from {{from}} to {{to}}.",
+    "out": "{{player}} a piloté son {{what}} de {{from}} vers {{to}}."
+  },
+  "homeworlds.PASS.pass": {
+    "src": "{{player}} passed an action.",
+    "out": "{{player}} a passé une action."
+  },
+  "homeworlds.SACRIFICE.sacrifice": {
+    "src": "{{player}} sacrificed a {{what}} in the {{where}} system.",
+    "out": "{{player}} a sacrifié un {{what}} dans le système {{where}}."
+  },
+  "icepalace.ANNOUNCE.build": {
+    "src": "{{player}} won the hand and builds the Yard into the Ice Palace, using {{count}} pyramids. One legal way to build it is `{{move}}`.",
+    "out": "{{player}} a remporté la manche et construit le Yard dans le Palais de Glace, en utilisant {{count}} pyramides. Une façon autorisée de le construire est `{{move}}`."
+  },
+  "icepalace.ANNOUNCE.nobuild": {
+    "src": "{{player}} won the hand, but none of the Yard can be built into the Ice Palace.",
+    "out": "{{player}} a remporté la manche, mais aucune pièce du Yard ne peut être construite dans le Palais de Glace."
+  },
+  "icepalace.REMOVE.default": {
+    "src": "{{what}} was discarded and removed from play.",
+    "out": "{{what}} a été défaussé et retiré du jeu."
+  },
+  "iqishiqi.MOVE.default": {
+    "src": "{{player}} moved neutral stone {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé la pierre neutre de {{from}} vers {{to}}."
+  },
+  "iqishiqi.PLACE.default": {
+    "src": "{{player}} placed a shared stone at {{where}}.",
+    "out": "{{player}} a placé une pierre partagée en {{where}}."
+  },
+  "jacynth.CLAIM.default": {
+    "src": "{{player}} exerted influence at {{where}}.",
+    "out": "{{player}} a exercé une influence en {{where}}."
+  },
+  "killallgo.ANNOUNCE.slice": {
+    "src": "{{player}} set the batch sizes to {{a}} and {{b}} stones.",
+    "out": "{{player}} a défini la taille des lots à {{a}} et {{b}} pierres."
+  },
+  "killallgo.CAPTURE.suicide_one": {
+    "src": "{{player}} removed their own stone by suicide.",
+    "out": "{{player}} a retiré sa propre pierre par suicide."
+  },
+  "killallgo.CAPTURE.suicide_other": {
+    "src": "{{player}} removed {{count}} of their own stones by suicide.",
+    "out": "{{player}} a retiré {{count}} de ses propres pierres par suicide."
+  },
+  "killallgo.CLAIM.attacker": {
+    "src": "{{player}} chose to play as the Attacker.",
+    "out": "{{player}} a choisi de jouer en tant qu'Attaquant."
+  },
+  "killallgo.CLAIM.defender": {
+    "src": "{{player}} chose to play as the Defender.",
+    "out": "{{player}} a choisi de jouer en tant que Défenseur."
+  },
+  "killallgo.DECLARE.handicap_one": {
+    "src": "{{player}} set the handicap to one stone.",
+    "out": "{{player}} a fixé le handicap à une pierre."
+  },
+  "killallgo.DECLARE.handicap_other": {
+    "src": "{{player}} set the handicap to {{count}} stones.",
+    "out": "{{player}} a fixé le handicap à {{count}} pierres."
+  },
+  "killallgo.EOG.double_pass": {
+    "src": "The game has ended because both players passed consecutively without the Defender establishing unconditional life.",
+    "out": "La partie est terminée car les deux joueurs ont passé sans que le Défenseur n'ait établi la vie."
+  },
+  "killallgo.EOG.no_moves": {
+    "src": "The game has ended because the player to move has no legal placement.",
+    "out": "La partie est terminée car le joueur dont c'est le tour n'a aucun placement légal."
+  },
+  "killallgo.EOG.no_room": {
+    "src": "The game has ended because the Attacker's unconditionally alive stones leave the Defender no room to form an unconditionally alive string.",
+    "out": "La partie est terminée car les pierres inconditionnellement vivantes de l'Attaquant ne laissent aucun espace au Défenseur pour former une chaîne vivante."
+  },
+  "killallgo.EOG.pass_alive": {
+    "src": "The game has ended because the Defender formed an unconditionally alive string.",
+    "out": "La partie est terminée car le Défenseur a formé une chaîne inconditionnellement vivante."
+  },
+  "killallgo.PLACE.setup": {
+    "src": "{{player}} placed an Attacker stone at {{where}}.",
+    "out": "{{player}} a placé une pierre d'Attaquant en {{where}}."
+  },
+  "killallgo.SELECT.iplace": {
+    "src": "{{player}} chose to place the first batch.",
+    "out": "{{player}} a choisi de placer le premier lot."
+  },
+  "killallgo.SELECT.youplace": {
+    "src": "{{player}} chose to let their opponent place the first batch.",
+    "out": "{{player}} a choisi de laisser son adversaire placer le premier lot."
+  },
+  "knightline.MOVE.default": {
+    "src": "{{player}} moved {{what}} pieces from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé des pièces {{what}} de {{from}} vers {{to}}."
+  },
+  "knightline.PLACE.default": {
+    "src": "{{player}} placed their initial stack at {{where}}.",
+    "out": "{{player}} a placé sa pile initiale en {{where}}."
+  },
+  "lasca.CAPTURE.officer": {
+    "src": "{{player}} captured an officer at {{where}}.",
+    "out": "{{player}} a capturé un officier en {{where}}."
+  },
+  "lasca.CAPTURE.soldier": {
+    "src": "{{player}} captured a soldier at {{where}}.",
+    "out": "{{player}} a capturé un soldat en {{where}}."
+  },
+  "lielow.PROMOTE.default": {
+    "src": "{{player}} has a new king crowned at {{where}}.",
+    "out": "{{player}} a un nouveau roi couronné en {{where}}."
+  },
+  "lifeline.CAPTURE.default": {
+    "src": "Dead pieces were removed at {{where}}.",
+    "out": "Les pièces mortes ont été retirées en {{where}}."
+  },
+  "linage.PASS.default": {
+    "src": "{{player}} passes.",
+    "out": "{{player}} passe."
+  },
+  "logger.ADD.default": {
+    "src": "The tree at {{where}} grew one stage.",
+    "out": "L'arbre en {{where}} a grandi d'un stade."
+  },
+  "logger.CLAIM.default": {
+    "src": "{{player}} claimed a protestor from the tree felled at {{where}}.",
+    "out": "{{player}} a réclamé un protestataire de l'arbre abattu en {{where}}."
+  },
+  "logger.DESTROY.default": {
+    "src": "{{player}} felled a tree at {{where}}.",
+    "out": "{{player}} a abattu un arbre en {{where}}."
+  },
+  "logger.PLACE.logger": {
+    "src": "{{player}} placed their logger at {{where}}.",
+    "out": "{{player}} a placé son bûcheron en {{where}}."
+  },
+  "logger.PLACE.plant": {
+    "src": "{{player}} planted a sapling at {{where}}.",
+    "out": "{{player}} a planté un jeune arbre en {{where}}."
+  },
+  "logger.PLACE.spawn": {
+    "src": "A new sapling sprouted at {{where}}.",
+    "out": "Un jeune arbre a poussé en {{where}}."
+  },
+  "magnate.ADD.one": {
+    "src": "{{player}} added one token to their deeded card {{where}}.",
+    "out": "{{player}} a ajouté un jeton sur sa carte de propriété {{where}}."
+  },
+  "magnate.ADD.other": {
+    "src": "{{player}} added {{count}} tokens to their deeded card {{where}}.",
+    "out": "{{player}} a ajouté {{count}} jetons sur sa carte de propriété {{where}}."
+  },
+  "magnate.CAPTURE.default": {
+    "src": "{{whose}} was taxed {{count}} {{where}} tokens.",
+    "out": "{{whose}} a été imposé de {{count}} jeton(s) {{where}}."
+  },
+  "magnate.CLAIM.default": {
+    "src": "{{who}} gained {{what}}.",
+    "out": "{{who}} a obtenu {{what}}."
+  },
+  "magnate.CLAIM.initial": {
+    "src": "Players collected their Crown resources.",
+    "out": "Les joueurs ont collecté leurs ressources Couronne."
+  },
+  "magnate.CONVERT.deed": {
+    "src": "{{player}} completed their deeded card {{what}} in district {{where}}.",
+    "out": "{{player}} a complété sa carte sous titre de propriété {{what}} dans le district {{where}}."
+  },
+  "magnate.CONVERT.trade": {
+    "src": "{{player}} traded three {{what}} tokens in for one {{into}}.",
+    "out": "{{player}} a échangé trois jetons {{what}} contre un {{into}}."
+  },
+  "magnate.DECKDRAW.default": {
+    "src": "The discards were shuffled.  There are no shuffles remaining.",
+    "out": "La défausse a été mélangée. Il ne reste aucun mélange."
+  },
+  "magnate.PLACE.buy": {
+    "src": "{{player}} bought {{what}} for district {{where}}.",
+    "out": "{{player}} a acheté {{what}} pour le quartier {{where}}."
+  },
+  "magnate.PLACE.deed_end": {
+    "src": "{{player}} completed their deeded card {{what}} in district {{where}}.",
+    "out": "{{player}} a complété sa carte de titre {{what}} dans le quartier {{where}}."
+  },
+  "magnate.PLACE.deed_start": {
+    "src": "{{player}} deeded {{what}} in district {{where}}.",
+    "out": "{{player}} a engagé le titre {{what}} dans le quartier {{where}}."
+  },
+  "magnate.PLACE.sell": {
+    "src": "{{player}} sold {{what}}.",
+    "out": "{{player}} a vendu {{what}}."
+  },
+  "magnate.ROLL.default": {
+    "src": "{{who}} rolled a {{values}}.",
+    "out": "{{who}} a obtenu un {{values}}."
+  },
+  "magnate.ROLL.eight": {
+    "src": "{{who}} rolled an {{values}}.",
+    "out": "{{who}} a obtenu un {{values}}."
+  },
+  "majorities.CAPTURE.default": {
+    "src": "{{count}} pieces were removed.",
+    "out": "{{count}} pièces ont été retirées."
+  },
+  "majorities.CLAIM.A": {
+    "src": "{{player}} claimed the ascending direction.",
+    "out": "{{player}} a réclamé la direction ascendante."
+  },
+  "majorities.CLAIM.D": {
+    "src": "{{player}} claimed the descending direction.",
+    "out": "{{player}} a réclamé la direction descendante."
+  },
+  "majorities.CLAIM.H": {
+    "src": "{{player}} claimed the horizontal direction.",
+    "out": "{{player}} a réclamé la direction horizontale."
+  },
+  "majorities.CLAIM.line": {
+    "src": "{{player}} claimed the line {{where}}.",
+    "out": "{{player}} a réclamé la ligne {{where}}."
+  },
+  "mattock.CAPTURE.default": {
+    "src": "{{player}} captured a miner at {{where}}.",
+    "out": "{{player}} a capturé un mineur en {{where}}."
+  },
+  "mattock.DESTROY.default": {
+    "src": "{{player}} mined at {{where}}.",
+    "out": "{{player}} a extrait du minerai en {{where}}."
+  },
+  "mattock.MOVE.default": {
+    "src": "{{player}} moved a miner from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé un mineur de {{from}} vers {{to}}."
+  },
+  "mattock.PLACE.default": {
+    "src": "{{player}} placed a miner at {{where}}.",
+    "out": "{{player}} a placé un mineur en {{where}}."
+  },
+  "mchess.DECLARE.default": {
+    "src": "{{player}} has \"called the clock.\" If no capture is made in the next seven turns, the game will end and be scored.",
+    "out": "{{player}} a \"réclamé le décompte\". Si aucune capture n'est effectuée au cours des sept prochains tours, la partie prendra fin et les points seront comptés."
+  },
+  "mchess.PROMOTE.default": {
+    "src": "A {{into}} was created as a result.",
+    "out": "Un {{into}} a été créé en conséquence."
+  },
+  "meg.CLAIM.default": {
+    "src": "{{player}} has taken the ball and placed it at {{where}}.",
+    "out": "{{player}} a pris la bille et l'a placée en {{where}}."
+  },
+  "meg.MOVE.default": {
+    "src": "{{player}} passed the ball from {{from}} to {{to}}.",
+    "out": "{{player}} a passé la bille de {{from}} vers {{to}}."
+  },
+  "meg.PLACE.cap": {
+    "src": "{{player}} placed a blocker at {{where}}.",
+    "out": "{{player}} a placé un bloqueur en {{where}}."
+  },
+  "meg.PLACE.cup": {
+    "src": "{{player}} placed a receiver at {{where}}.",
+    "out": "{{player}} a placé un récepteur en {{where}}."
+  },
+  "meridians.CAPTURE.default": {
+    "src": "A dead group of size {{count}} is removed.",
+    "out": "Un groupe mort de taille {{count}} est retiré."
+  },
+  "monkey.CAPTURE.queen": {
+    "src": "A queen was captured.",
+    "out": "Une reine a été capturée."
+  },
+  "monkey.CAPTURE.single": {
+    "src": "A singleton was captured.",
+    "out": "Une pièce isolée a été capturée."
+  },
+  "monkey.MOVE.queen": {
+    "src": "{{player}} moved their queen from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé sa reine de {{from}} vers {{to}}."
+  },
+  "monkey.MOVE.single": {
+    "src": "{{player}} moved a singleton from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé une pièce isolée de {{from}} vers {{to}}."
+  },
+  "moonsquad.CONVERT.default": {
+    "src": "{{player}} recruited a squad.",
+    "out": "{{player}} a recruté une escouade."
+  },
+  "moonsquad.PLACE.default": {
+    "src": "{{player}} placed a squad at {{where}}.",
+    "out": "{{player}} a placé une escouade en {{where}}."
+  },
+  "moonsquad.SACRIFICE.default": {
+    "src": "{{player}} sacrificed an ore ({{ore}}) to move their squads.",
+    "out": "{{player}} a sacrifié un minerai ({{ore}}) pour déplacer ses escouades."
+  },
+  "moonsquad.TAKE.default": {
+    "src": "{{player}} took an ore ({{ore}}).",
+    "out": "{{player}} a pris un minerai ({{ore}})."
+  },
+  "murus.CAPTURE.double": {
+    "src": "{{player}} captured two pieces at {{where}}.",
+    "out": "{{player}} a capturé deux pièces en {{where}}."
+  },
+  "murus.FIRE.default": {
+    "src": "{{player}} fired a catapult from {{from}} to {{to}}.",
+    "out": "{{player}} a tiré à la catapulte de {{from}} vers {{to}}."
+  },
+  "nex.PLACE.default": {
+    "src": "{{player}} placed a piece of their colour at {{where}}.",
+    "out": "{{player}} a placé une pièce de sa couleur en {{where}}."
+  },
+  "nex.PLACE.neutral": {
+    "src": "{{player}} placed a neutral piece at {{where}}.",
+    "out": "{{player}} a placé une pièce neutre en {{where}}."
+  },
+  "nex.SWAP.default": {
+    "src": "{{player}} swapped a piece of their colour at {{where}} to a neutral piece.",
+    "out": "{{player}} a remplacé une pièce de sa couleur en {{where}} par une pièce neutre."
+  },
+  "nex.SWAP.neutral": {
+    "src": "{{player}} swapped a neutral piece at {{where}} to a piece of their colour.",
+    "out": "{{player}} a remplacé une pièce neutre en {{where}} par une pièce de sa couleur."
+  },
+  "onager.MOVE.jump": {
+    "src": "{{player}} jumped a piece from {{from}} to {{to}}.",
+    "out": "{{player}} a fait sauter une pièce de {{from}} vers {{to}}."
+  },
+  "onager.MOVE.walk": {
+    "src": "{{player}} walked a piece from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé une pièce pas à pas de {{from}} vers {{to}}."
+  },
+  "onager.PLACE.default": {
+    "src": "{{player}} placed a lake at {{where}}.",
+    "out": "{{player}} a placé un lac en {{where}}."
+  },
+  "onyx.CAPTURE.default": {
+    "src": "A pair of pieces was captured at {{where1}} and {{where2}}.",
+    "out": "Une paire de pièces a été capturée en {{where1}} et {{where2}}."
+  },
   "oonpia.CAPTURE.one": {
     "src": "{{player}} captured 1 stone.",
     "out": "{{player}} a capturé 1 pierre."
@@ -14,5 +1782,1077 @@
   "oonpia.CAPTURE.other": {
     "src": "{{player}} captured {{count}} stones.",
     "out": "{{player}} a capturé {{count}} pierres."
+  },
+  "orb.CAPTURE.1": {
+    "src": "{{player}} captured an orb at {{where}}.",
+    "out": "{{player}} a capturé un orbe en {{where}}."
+  },
+  "orb.CAPTURE.2": {
+    "src": "{{player}} captured a spheroid at {{where}}.",
+    "out": "{{player}} a capturé un sphéroïde en {{where}}."
+  },
+  "orb.MOVE.1": {
+    "src": "{{player}} moved an orb from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé un orbe de {{from}} vers {{to}}."
+  },
+  "orb.MOVE.2": {
+    "src": "{{player}} moved a spheroid from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé un sphéroïde de {{from}} vers {{to}}."
+  },
+  "orb.MOVE.2S": {
+    "src": "{{player}} moved a split spheroid from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé un sphéroïde séparé de {{from}} vers {{to}}."
+  },
+  "orb.MOVE.3": {
+    "src": "{{player}} moved a globe from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé un globe de {{from}} vers {{to}}."
+  },
+  "orb.PLACE.default": {
+    "src": "{{player}}'s orb generator created an orb at {{where}}.",
+    "out": "Le générateur d'orbes de {{player}} a créé une orbe en {{where}}."
+  },
+  "orb.PROMOTE.12": {
+    "src": "{{player}} promoted an orb to a spheroid at {{where}}.",
+    "out": "{{player}} a promu une orbe en sphéroïde en {{where}}."
+  },
+  "orb.PROMOTE.13": {
+    "src": "{{player}} promoted an orb to a globe at {{where}}.",
+    "out": "{{player}} a promu une orbe en globe en {{where}}."
+  },
+  "orb.PROMOTE.23": {
+    "src": "{{player}} promoted spheroid to a globe at {{where}}.",
+    "out": "{{player}} a promu un sphéroïde en globe en {{where}}."
+  },
+  "owlman.CAPTURE.approach": {
+    "src": "{{player}} scared the helper at {{where}} out of the forest.",
+    "out": "{{player}} a effrayé l'assistant en {{where}} hors de la forêt."
+  },
+  "owlman.CAPTURE.replacement": {
+    "src": "{{player}} devoured the piece at {{where}}.",
+    "out": "{{player}} a dévoré la pièce en {{where}}."
+  },
+  "pacru.CONVERT.default": {
+    "src": "{{player}} converted {{where}}.",
+    "out": "{{player}} a converti {{where}}."
+  },
+  "pahtum.PLACE.block": {
+    "src": "{{player}} blocked off {{where}}.",
+    "out": "{{player}} a bloqué {{where}}."
+  },
+  "paintbucket.CONVERT.one": {
+    "src": "{{player}} converted 1 piece at {{where}}.",
+    "out": "{{player}} a converti 1 pièce en {{where}}."
+  },
+  "paintbucket.CONVERT.other": {
+    "src": "{{player}} converted {{count}} pieces starting at {{where}}.",
+    "out": "{{player}} a converti {{count}} pièces à partir de {{where}}."
+  },
+  "penguin.CLAIM.default": {
+    "src": "The penguin at {{where}} claimed the ball!",
+    "out": "Le pingouin en {{where}} a réclamé la bille !"
+  },
+  "penguin.EJECT.ball": {
+    "src": "{{player}} kicked the ball from {{from}} to {{to}}.",
+    "out": "{{player}} a tiré dans la bille de {{from}} vers {{to}}."
+  },
+  "penguin.EJECT.penguin": {
+    "src": "A penguin was pushed from {{from}} to {{to}}.",
+    "out": "Un pingouin a été poussé de {{from}} vers {{to}}."
+  },
+  "pente.CAPTURE.default": {
+    "src": "{{player}} captured {{count}} pieces.",
+    "out": "{{player}} a capturé {{count}} pièces."
+  },
+  "pente.CAPTURE.self": {
+    "src": "{{player}} captured {{count}} of their own pieces.",
+    "out": "{{player}} a capturé {{count}} de ses propres pièces."
+  },
+  "phutball.MOVE.default": {
+    "src": "{{player}} moved the ball from {{from}} to {{to}},",
+    "out": "{{player}} a déplacé la bille de {{from}} vers {{to}},"
+  },
+  "phutball.MOVE.last": {
+    "src": "{{player}} moved the ball from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé la bille de {{from}} vers {{to}}."
+  },
+  "phutball.MOVE.to": {
+    "src": "to {{to}},",
+    "out": "vers {{to}},"
+  },
+  "phutball.MOVE.to_last": {
+    "src": "to {{to}}.",
+    "out": "vers {{to}}."
+  },
+  "phutball.PLACE.default": {
+    "src": "{{player}} placed a player at {{where}}.",
+    "out": "{{player}} a placé un joueur en {{where}}."
+  },
+  "phutball.REMOVE.one": {
+    "src": "{{count}} player was removed.",
+    "out": "{{count}} joueur a été retiré."
+  },
+  "phutball.REMOVE.other": {
+    "src": "{{count}} players were removed.",
+    "out": "{{count}} joueurs ont été retirés."
+  },
+  "pigs.DAMAGE.default": {
+    "src": "{{player}} struck {{opponent}} at {{where}}.",
+    "out": "{{player}} a frappé {{opponent}} en {{where}}."
+  },
+  "pigs.FIRE.F": {
+    "src": "{{player}} fired their laser at {{direction}}.",
+    "out": "{{player}} a tiré avec son laser en direction {{direction}}."
+  },
+  "pigs.FIRE.H": {
+    "src": "{{player}} swung their mighty snout!",
+    "out": "{{player}} a donné un coup avec son puissant groin !"
+  },
+  "pigs.PASS.default": {
+    "src": "{{player}} idles.",
+    "out": "{{player}} passe son tour."
+  },
+  "pippinzip.PASS.default": {
+    "src": "{{player}} decides to pass and becomes Zip",
+    "out": "{{player}} décide de passer et devient Zip"
+  },
+  "pollux.PLACE.default": {
+    "src": "{{player}} blocks {{where}}.",
+    "out": "{{player}} bloque {{where}}."
+  },
+  "pontedd.CONNECT.default": {
+    "src": "{{player}} placed a bridge between {{left}} and {{right}}.",
+    "out": "{{player}} a placé un pont entre {{left}} et {{right}}."
+  },
+  "posit.MOVE.default": {
+    "src": "{{player}} moved his piece from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé sa pièce de {{from}} vers {{to}}."
+  },
+  "prudh.SOW.default": {
+    "src": "{{player}} sowed checkers from {{from}} to {{to}}.",
+    "out": "{{player}} a semé des pions de {{from}} à {{to}}."
+  },
+  "quax.PLACE.diag": {
+    "src": "{{player}} placed a diagonal connection at {{where}}.",
+    "out": "{{player}} a placé une connexion diagonale en {{where}}."
+  },
+  "queensland.RESET.default": {
+    "src": "The second game has begun.",
+    "out": "La deuxième partie a commencé."
+  },
+  "query.PLACE.c4": {
+    "src": "{{player}} two pieces at vertices {{where}}.",
+    "out": "{{player}} a placé deux pièces aux sommets {{where}}."
+  },
+  "query.PLACE.c8": {
+    "src": "{{player}} one piece at vertex {{where}}.",
+    "out": "{{player}} a placé une pièce au sommet {{where}}."
+  },
+  "quincunx.ANNOUNCE.default": {
+    "src": "Player {{playerNum}} had the following cards left in their hand: {{cards}}.",
+    "out": "Le joueur {{playerNum}} avait les cartes suivantes en main : {{cards}}."
+  },
+  "quincunx.DECKDRAW.one": {
+    "src": "{{player}} drew {{count}} card.",
+    "out": "{{player}} a pioché {{count}} carte."
+  },
+  "quincunx.DECKDRAW.other": {
+    "src": "{{player}} drew {{count}} cards.",
+    "out": "{{player}} a pioché {{count}} cartes."
+  },
+  "quincunx.DELTASCORE.basic_one": {
+    "src": "Against {{card}} it scored 1 point.",
+    "out": "Contre {{card}}, cela a marqué 1 point."
+  },
+  "quincunx.DELTASCORE.basic_other": {
+    "src": "Against {{card}} it scored {{delta}} points.",
+    "out": "Contre {{card}}, cela a marqué {{delta}} points."
+  },
+  "quincunx.DELTASCORE.basic_zero": {
+    "src": "Against {{card}} it scored no points.",
+    "out": "Contre {{card}}, cela n'a rapporté aucun point."
+  },
+  "quincunx.DELTASCORE.penalty_one": {
+    "src": "Player {{playerNum}} lost {{count}} point due to cards in hand.",
+    "out": "Le joueur {{playerNum}} a perdu {{count}} point à cause des cartes en main."
+  },
+  "quincunx.DELTASCORE.penalty_other": {
+    "src": "Player {{playerNum}} lost {{count}} points due to cards in hand.",
+    "out": "Le joueur {{playerNum}} a perdu {{count}} points à cause des cartes en main."
+  },
+  "quincunx.DELTASCORE.penalty_zero": {
+    "src": "Player {{playerNum}} lost no points due to cards in hand.",
+    "out": "Le joueur {{playerNum}} n'a perdu aucun point en raison des cartes en main."
+  },
+  "quincunx.SET.flushes_one": {
+    "src": "{{player}} scored {{count}} flush.",
+    "out": "{{player}} a marqué {{count}} couleur."
+  },
+  "quincunx.SET.flushes_other": {
+    "src": "{{player}} scored {{count}} flushes.",
+    "out": "{{player}} a marqué {{count}} couleurs."
+  },
+  "quincunx.SET.pairs_one": {
+    "src": "{{player}} scored {{count}} pair.",
+    "out": "{{player}} a marqué {{count}} paire."
+  },
+  "quincunx.SET.pairs_other": {
+    "src": "{{player}} scored {{count}} pairs.",
+    "out": "{{player}} a marqué {{count}} paires."
+  },
+  "quincunx.SET.powerplay": {
+    "src": "{{player}} scored a power play!",
+    "out": "{{player}} a réalisé un coup d'éclat !"
+  },
+  "quincunx.SET.sets_one": {
+    "src": "{{player}} scored {{count}} set.",
+    "out": "{{player}} a marqué {{count}} ensemble."
+  },
+  "quincunx.SET.sets_other": {
+    "src": "{{player}} scored {{count}} sets.",
+    "out": "{{player}} a marqué {{count}} ensembles."
+  },
+  "quincunx.SET.straights_one": {
+    "src": "{{player}} scored {{count}} straight.",
+    "out": "{{player}} a marqué {{count}} suite."
+  },
+  "quincunx.SET.straights_other": {
+    "src": "{{player}} scored {{count}} straights.",
+    "out": "{{player}} a marqué {{count}} suites."
+  },
+  "realm.IMMOBILIZE.default": {
+    "src": "{{player}} immobilized the enforcer at {{where}}.",
+    "out": "{{player}} a immobilisé l'exécuteur en {{where}}."
+  },
+  "renju.DECLARE.default": {
+    "src": "{{player}} has declared {{count}} tentative fifths.",
+    "out": "{{player}} a déclaré {{count}} cinquièmes provisoires."
+  },
+  "renju.PLACE.tentative": {
+    "src": "{{player}} placed a tentative fifth at {{where}}.",
+    "out": "{{player}} a placé un cinquième coup provisoire en {{where}}."
+  },
+  "renju.PLACE.tentative_choose": {
+    "src": "{{player}} chose the fifth stone at {{where}}.",
+    "out": "{{player}} a choisi la cinquième pierre en {{where}}."
+  },
+  "reversi.CAPTURE.one": {
+    "src": "A piece is flipped.",
+    "out": "Une pièce est retournée."
+  },
+  "reversi.CAPTURE.other": {
+    "src": "{{count}} pieces are flipped.",
+    "out": "{{count}} pièces sont retournées."
+  },
+  "rincala.SOW.one": {
+    "src": "{{player}} sowed {{count}} {{pieces}} piece from {{from}} to {{to}}.",
+    "out": "{{player}} a semé {{count}} pièce {{pieces}} de {{from}} à {{to}}."
+  },
+  "rincala.SOW.other": {
+    "src": "{{player}} sowed {{count}} pieces from {{from}} to the following pits: {{pieces}} -> {{to}}.",
+    "out": "{{player}} a semé {{count}} pièces de {{from}} vers les fosses suivantes : {{pieces}} -> {{to}}."
+  },
+  "saltire.MOVE.default": {
+    "src": "{{player}} swapped the pieces at {{from}} and {{to}}.",
+    "out": "{{player}} a échangé les pièces en {{from}} et {{to}}."
+  },
+  "scribe.ANNOUNCE.super": {
+    "src": "{{player}}'s super formation: {{formation}}.",
+    "out": "Super formation de {{player}} : {{formation}}."
+  },
+  "scribe.CLAIM.mini": {
+    "src": "{{player}} won the {{where}} mini grid with {{formation}}.",
+    "out": "{{player}} a remporté la mini-grille {{where}} avec {{formation}}."
+  },
+  "scribe.CLAIM.mini_none": {
+    "src": "{{player}} won the {{where}} mini grid on a tie-break (no formations scored).",
+    "out": "{{player}} a remporté la mini-grille {{where}} au départage (aucune formation marquée)."
+  },
+  "scribe.SCRIBE.glyphs.bomber": {
+    "src": "Bomber",
+    "out": "Bombardier"
+  },
+  "scribe.SCRIBE.glyphs.chair": {
+    "src": "Chair",
+    "out": "Chaise"
+  },
+  "scribe.SCRIBE.glyphs.cross": {
+    "src": "Cross",
+    "out": "Croix"
+  },
+  "scribe.SCRIBE.glyphs.double": {
+    "src": "Double",
+    "out": "Double"
+  },
+  "scribe.SCRIBE.glyphs.earring": {
+    "src": "Earring",
+    "out": "Boucle d'oreille"
+  },
+  "scribe.SCRIBE.glyphs.four_block": {
+    "src": "4-block",
+    "out": "Bloc de 4"
+  },
+  "scribe.SCRIBE.glyphs.h": {
+    "src": "H",
+    "out": "H"
+  },
+  "scribe.SCRIBE.glyphs.house": {
+    "src": "House",
+    "out": "Maison"
+  },
+  "scribe.SCRIBE.glyphs.j": {
+    "src": "J",
+    "out": "J"
+  },
+  "scribe.SCRIBE.glyphs.line": {
+    "src": "Line",
+    "out": "Ligne"
+  },
+  "scribe.SCRIBE.glyphs.nine_block": {
+    "src": "9-block",
+    "out": "Bloc de 9"
+  },
+  "scribe.SCRIBE.glyphs.o": {
+    "src": "O",
+    "out": "O"
+  },
+  "scribe.SCRIBE.glyphs.ottoman": {
+    "src": "Ottoman",
+    "out": "Ottomane"
+  },
+  "scribe.SCRIBE.glyphs.pipe": {
+    "src": "Pipe",
+    "out": "Tuyau"
+  },
+  "scribe.SCRIBE.glyphs.single": {
+    "src": "Single",
+    "out": "Simple"
+  },
+  "scribe.SCRIBE.glyphs.six_block": {
+    "src": "6-block",
+    "out": "Bloc de 6"
+  },
+  "scribe.SCRIBE.glyphs.squat_t": {
+    "src": "Squat-T",
+    "out": "T trapu"
+  },
+  "scribe.SCRIBE.glyphs.t": {
+    "src": "T",
+    "out": "T"
+  },
+  "scribe.SCRIBE.glyphs.u": {
+    "src": "U",
+    "out": "U"
+  },
+  "scribe.SCRIBE.mini.0_0": {
+    "src": "top-left",
+    "out": "en haut à gauche"
+  },
+  "scribe.SCRIBE.mini.0_1": {
+    "src": "centre-left",
+    "out": "au centre à gauche"
+  },
+  "scribe.SCRIBE.mini.0_2": {
+    "src": "bottom-left",
+    "out": "en bas à gauche"
+  },
+  "scribe.SCRIBE.mini.1_0": {
+    "src": "top-centre",
+    "out": "en haut au centre"
+  },
+  "scribe.SCRIBE.mini.1_1": {
+    "src": "centre",
+    "out": "au centre"
+  },
+  "scribe.SCRIBE.mini.1_2": {
+    "src": "bottom-centre",
+    "out": "en bas au centre"
+  },
+  "scribe.SCRIBE.mini.2_0": {
+    "src": "top-right",
+    "out": "en haut à droite"
+  },
+  "scribe.SCRIBE.mini.2_1": {
+    "src": "centre-right",
+    "out": "au centre à droite"
+  },
+  "scribe.SCRIBE.mini.2_2": {
+    "src": "bottom-right",
+    "out": "en bas à droite"
+  },
+  "scribe.SCRIBE.no_formation": {
+    "src": "no formations",
+    "out": "aucune formation"
+  },
+  "selfo.EOG.mutual_enclosure": {
+    "src": "The game has ended in a draw because both players have enclosed pieces and neither can ever connect.",
+    "out": "La partie s'est terminée par un match nul car les deux joueurs ont des pièces encerclées et aucun d'eux ne pourra jamais se connecter."
+  },
+  "siegeofj.PLACE.default": {
+    "src": "{{player}} placed \"{{what}}\" next to {{where}}.",
+    "out": "{{player}} a placé \"{{what}}\" à côté de {{where}}."
+  },
+  "slyde.MOVE.default": {
+    "src": "{{player}} slid a piece from {{from}} to {{to}}.",
+    "out": "{{player}} a fait glisser une pièce de {{from}} vers {{to}}."
+  },
+  "slyde.SELECT.fixed_opponent": {
+    "src": "{{player}} changed the state of their opponent's piece at {{where}} from mobile to fixed.",
+    "out": "{{player}} a changé l'état de la pièce adverse en {{where}} de mobile à fixe."
+  },
+  "slyde.SELECT.fixed_self": {
+    "src": "{{player}} changed the state of their own piece at {{where}} from mobile to fixed.",
+    "out": "{{player}} a changé l'état de sa propre pièce en {{where}} de mobile à fixe."
+  },
+  "slyde.SELECT.mobile_opponent": {
+    "src": "{{player}} changed the state of their opponent's piece at {{where}} from fixed to mobile.",
+    "out": "{{player}} a changé l'état de la pièce adverse en {{where}} de fixe à mobile."
+  },
+  "slyde.SELECT.mobile_self": {
+    "src": "{{player}} changed the state of their own piece at {{where}} from fixed to mobile.",
+    "out": "{{player}} a changé l'état de sa propre pièce en {{where}} de fixe à mobile."
+  },
+  "spire.PLACE.neutral": {
+    "src": "{{player}} placed a neutral ball at {{where}}.",
+    "out": "{{player}} a placé une bille neutre en {{where}}."
+  },
+  "spire.PLACE.player": {
+    "src": "{{player}} placed a ball of their colour at {{where}}.",
+    "out": "{{player}} a placé une bille de sa couleur en {{where}}."
+  },
+  "sploof.TAKE.default": {
+    "src": "{{player}} took a neutral ball at {{from}}.",
+    "out": "{{player}} a pris une bille neutre en {{from}}."
+  },
+  "spook.CAPTURE.drop_opponent": {
+    "src": "{{player}} has 1 of their opponent's ball captured by Spooky below at {{where}}.",
+    "out": "{{player}} a capturé 1 bille adverse par Spooky en dessous en {{where}}."
+  },
+  "spook.CAPTURE.drop_self": {
+    "src": "{{player}} has 1 of their own ball captured by Spooky below at {{where}}.",
+    "out": "{{player}} a capturé 1 de ses propres billes par Spooky en dessous en {{where}}."
+  },
+  "spook.CAPTURE.lateral_opponent_one": {
+    "src": "{{player}} has 1 of their opponent's ball captured by Spooky on the same level at {{where}}.",
+    "out": "{{player}} a capturé 1 bille adverse par Spooky au même niveau en {{where}}."
+  },
+  "spook.CAPTURE.lateral_opponent_other": {
+    "src": "{{player}} has {{count}} of their opponent's balls captured by Spooky on the same level at {{where}}.",
+    "out": "{{player}} a capturé {{count}} billes adverses par Spooky au même niveau en {{where}}."
+  },
+  "spook.CAPTURE.lateral_self_one": {
+    "src": "{{player}} has 1 of their own ball captured by Spooky on the same level at {{where}}.",
+    "out": "{{player}} a capturé 1 de ses propres billes par Spooky au même niveau en {{where}}."
+  },
+  "spook.CAPTURE.lateral_self_other": {
+    "src": "{{player}} has {{count}} of their own balls captured by Spooky on the same level at {{where}}.",
+    "out": "{{player}} a capturé {{count}} de ses propres billes par Spooky au même niveau en {{where}}."
+  },
+  "spook.MOVE.default": {
+    "src": "{{player}} moved Spooky from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé Spooky de {{from}} vers {{to}}."
+  },
+  "spook.PLACE.spooky": {
+    "src": "Spooky has entered the board at {{where}}.",
+    "out": "Spooky a rejoint le plateau en {{where}}."
+  },
+  "spook.REMOVE.default": {
+    "src": "{{player}} removed an opponent's ball at {{where}}.",
+    "out": "{{player}} a retiré une bille adverse en {{where}}."
+  },
+  "spook.REMOVE.drop_one": {
+    "src": "{{player}} removed a ball at {{where}}, dropping 1 ball from {{how}}.",
+    "out": "{{player}} a retiré une bille en {{where}}, faisant tomber 1 bille depuis {{how}}."
+  },
+  "spook.REMOVE.drop_other": {
+    "src": "{{player}} removed a ball at {{where}}, dropping {{count}} balls from {{how}}.",
+    "out": "{{player}} a retiré une bille en {{where}}, faisant tomber {{count}} billes depuis {{how}}."
+  },
+  "spora.CAPTURE.one": {
+    "src": "{{player}} surrounded and captured one piece: {{group}}.",
+    "out": "{{player}} a encerclé et capturé une pièce : {{group}}."
+  },
+  "spora.CAPTURE.other": {
+    "src": "{{player}} surrounded and captured {{count}} pieces: {{group}}.",
+    "out": "{{player}} a encerclé et capturé {{count}} pièces : {{group}}."
+  },
+  "spora.MOVE.default": {
+    "src": "{{player}} sowed from {{from}} to {{to}}.",
+    "out": "{{player}} a semé de {{from}} vers {{to}}."
+  },
+  "spora.PLACE.one": {
+    "src": "{{player}} added one piece to stack at {{where}}.",
+    "out": "{{player}} a ajouté une pièce à la pile en {{where}}."
+  },
+  "spora.PLACE.other": {
+    "src": "{{player}} added {{size}} pieces to stack at {{where}}.",
+    "out": "{{player}} a ajouté {{size}} pièces à la pile en {{where}}."
+  },
+  "spree.SELECT.default": {
+    "src": "{{player}} handed a ball of colour {{who}} to the opponent.",
+    "out": "{{player}} a donné une bille de couleur {{who}} à l'adversaire."
+  },
+  "squares.ANNOUNCE.flank": {
+    "src": "It is a flank attack: the defender must retreat if it can.",
+    "out": "Il s'agit d'une attaque de flanc : le défenseur doit battre en retraite s'il le peut."
+  },
+  "squares.CAPTURE.artillery": {
+    "src": "{{player}}'s artillery at {{where}} was eliminated.",
+    "out": "L'artillerie de {{player}} en {{where}} a été éliminée."
+  },
+  "squares.CAPTURE.cavalry": {
+    "src": "{{player}}'s cavalry at {{where}} was eliminated.",
+    "out": "La cavalerie de {{player}} en {{where}} a été éliminée."
+  },
+  "squares.CAPTURE.default": {
+    "src": "{{player}}'s unit at {{where}} was eliminated.",
+    "out": "L'unité de {{player}} en {{where}} a été éliminée."
+  },
+  "squares.CAPTURE.infantry": {
+    "src": "{{player}}'s infantry at {{where}} was eliminated.",
+    "out": "L'infanterie de {{player}} en {{where}} a été éliminée."
+  },
+  "squares.CAPTURE.reserve": {
+    "src": "{{player}} lost a unit from their reserve.",
+    "out": "{{player}} a perdu une unité de sa réserve."
+  },
+  "squares.CAPTURE.reserve_artillery": {
+    "src": "{{player}} lost artillery from their reserve.",
+    "out": "{{player}} a perdu de l'artillerie de sa réserve."
+  },
+  "squares.CAPTURE.reserve_cavalry": {
+    "src": "{{player}} lost cavalry from their reserve.",
+    "out": "{{player}} a perdu de la cavalerie de sa réserve."
+  },
+  "squares.CAPTURE.reserve_infantry": {
+    "src": "{{player}} lost infantry from their reserve.",
+    "out": "{{player}} a perdu de l'infanterie de sa réserve."
+  },
+  "squares.EOG.points": {
+    "src": "The game has ended because ten points' worth of units have been eliminated.",
+    "out": "La partie est terminée car l'équivalent de dix points d'unités a été éliminé."
+  },
+  "squares.EOG.repetition": {
+    "src": "The game has ended because the same position has occurred three times.",
+    "out": "La partie est terminée car la même position s'est produite trois fois."
+  },
+  "squares.EOG.reserve": {
+    "src": "The game has ended because a unit entered the enemy reserve.",
+    "out": "La partie est terminée car une unité est entrée dans la réserve ennemie."
+  },
+  "squares.EOG.stuck": {
+    "src": "The game has ended because a player could not complete a double turn.",
+    "out": "La partie est terminée car un joueur n'a pas pu effectuer un coup double."
+  },
+  "squares.FIRE.artillery": {
+    "src": "{{player}}'s artillery at {{from}} attacked {{to}}.",
+    "out": "L'artillerie de {{player}} en {{from}} a attaqué {{to}}."
+  },
+  "squares.FIRE.cavalry": {
+    "src": "{{player}}'s cavalry at {{from}} attacked {{to}}.",
+    "out": "La cavalerie de {{player}} en {{from}} a attaqué {{to}}."
+  },
+  "squares.FIRE.default": {
+    "src": "{{player}}'s unit at {{from}} attacked {{to}}.",
+    "out": "L'unité de {{player}} en {{from}} a attaqué {{to}}."
+  },
+  "squares.FIRE.infantry": {
+    "src": "{{player}}'s infantry at {{from}} attacked {{to}}.",
+    "out": "L'infanterie de {{player}} en {{from}} a attaqué {{to}}."
+  },
+  "squares.MOVE.advance": {
+    "src": "{{player}}'s unit advanced from {{from}} into {{to}}.",
+    "out": "L'unité de {{player}} a avancé de {{from}} vers {{to}}."
+  },
+  "squares.MOVE.advance_artillery": {
+    "src": "{{player}}'s artillery advanced from {{from}} into {{to}}.",
+    "out": "L'artillerie de {{player}} a avancé de {{from}} vers {{to}}."
+  },
+  "squares.MOVE.advance_cavalry": {
+    "src": "{{player}}'s cavalry advanced from {{from}} into {{to}}.",
+    "out": "La cavalerie de {{player}} a avancé de {{from}} vers {{to}}."
+  },
+  "squares.MOVE.advance_infantry": {
+    "src": "{{player}}'s infantry advanced from {{from}} into {{to}}.",
+    "out": "L'infanterie de {{player}} a avancé de {{from}} vers {{to}}."
+  },
+  "squares.MOVE.displaced": {
+    "src": "{{player}}'s unit at {{from}} was displaced by the retreating cavalry and fell back to {{to}}.",
+    "out": "L'unité de {{player}} en {{from}} a été déplacée par la cavalerie en retraite et a reculé en {{to}}."
+  },
+  "squares.MOVE.displaced_artillery": {
+    "src": "{{player}}'s artillery at {{from}} was displaced by the retreating cavalry and fell back to {{to}}.",
+    "out": "L'artillerie de {{player}} en {{from}} a été déplacée par la cavalerie en retraite et a reculé en {{to}}."
+  },
+  "squares.MOVE.displaced_cavalry": {
+    "src": "{{player}}'s cavalry at {{from}} was displaced by the retreating cavalry and fell back to {{to}}.",
+    "out": "La cavalerie de {{player}} en {{from}} a été déplacée par la cavalerie en retraite et a reculé en {{to}}."
+  },
+  "squares.MOVE.displaced_infantry": {
+    "src": "{{player}}'s infantry at {{from}} was displaced by the retreating cavalry and fell back to {{to}}.",
+    "out": "L'infanterie de {{player}} en {{from}} a été déplacée par la cavalerie en retraite et a reculé en {{to}}."
+  },
+  "squares.MOVE.double": {
+    "src": "{{player}} spent a double turn moving a unit from {{from}} to {{to}}.",
+    "out": "{{player}} a utilisé un coup double pour déplacer une unité de {{from}} vers {{to}}."
+  },
+  "squares.MOVE.double_artillery": {
+    "src": "{{player}} spent a double turn moving artillery from {{from}} to {{to}}.",
+    "out": "{{player}} a utilisé un coup double pour déplacer de l'artillerie de {{from}} vers {{to}}."
+  },
+  "squares.MOVE.double_cavalry": {
+    "src": "{{player}} spent a double turn moving cavalry from {{from}} to {{to}}.",
+    "out": "{{player}} a utilisé un coup double pour déplacer de la cavalerie de {{from}} vers {{to}}."
+  },
+  "squares.MOVE.double_infantry": {
+    "src": "{{player}} spent a double turn moving infantry from {{from}} to {{to}}.",
+    "out": "{{player}} a utilisé un coup double pour déplacer de l'infanterie de {{from}} vers {{to}}."
+  },
+  "squares.MOVE.move": {
+    "src": "{{player}} moved a unit from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé une unité de {{from}} vers {{to}}."
+  },
+  "squares.MOVE.move_artillery": {
+    "src": "{{player}} moved artillery from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé de l'artillerie de {{from}} vers {{to}}."
+  },
+  "squares.MOVE.move_cavalry": {
+    "src": "{{player}} moved cavalry from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé de la cavalerie de {{from}} vers {{to}}."
+  },
+  "squares.MOVE.move_infantry": {
+    "src": "{{player}} moved infantry from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé de l'infanterie de {{from}} vers {{to}}."
+  },
+  "squares.MOVE.retreat": {
+    "src": "{{player}}'s unit retreated from {{from}} to {{to}}.",
+    "out": "L'unité de {{player}} a battu en retraite de {{from}} vers {{to}}."
+  },
+  "squares.MOVE.retreat_artillery": {
+    "src": "{{player}}'s artillery retreated from {{from}} to {{to}}.",
+    "out": "L'artillerie de {{player}} a battu en retraite de {{from}} vers {{to}}."
+  },
+  "squares.MOVE.retreat_cavalry": {
+    "src": "{{player}}'s cavalry retreated from {{from}} to {{to}}.",
+    "out": "La cavalerie de {{player}} a battu en retraite de {{from}} vers {{to}}."
+  },
+  "squares.MOVE.retreat_infantry": {
+    "src": "{{player}}'s infantry retreated from {{from}} to {{to}}.",
+    "out": "L'infanterie de {{player}} a battu en retraite de {{from}} vers {{to}}."
+  },
+  "squares.PASS.default": {
+    "src": "{{player}} passed and will take a double turn next.",
+    "out": "{{player}} a passé son tour et jouera un coup double au prochain tour."
+  },
+  "squares.SELECT.option1": {
+    "src": "{{player}} chose to eliminate the defender and retreat both attacking units.",
+    "out": "{{player}} a choisi d'éliminer le défenseur et de faire battre en retraite les deux unités attaquantes."
+  },
+  "squares.SELECT.option2": {
+    "src": "{{player}} chose to trade the supporting unit for the defender.",
+    "out": "{{player}} a choisi d'échanger l'unité de soutien contre le défenseur."
+  },
+  "squares.SELECT.option3": {
+    "src": "{{player}} chose to trade the attacking unit for the defender.",
+    "out": "{{player}} a choisi d'échanger l'unité attaquante contre le défenseur."
+  },
+  "squares.SELECT.option4": {
+    "src": "{{player}} chose to retreat the attacking unit.",
+    "out": "{{player}} a choisi de faire battre en retraite l'unité attaquante."
+  },
+  "squares.SELECT.option5": {
+    "src": "{{player}} chose to retreat the supporting unit.",
+    "out": "{{player}} a choisi de faire battre en retraite l'unité de soutien."
+  },
+  "squares.SELECT.stand": {
+    "src": "{{player}}'s unit at {{where}} stands.",
+    "out": "L'unité de {{player}} en {{where}} reste sur place."
+  },
+  "squares.SELECT.stand_chosen": {
+    "src": "{{player}}'s unit at {{where}} stands its ground.",
+    "out": "L'unité de {{player}} en {{where}} maintient sa position."
+  },
+  "squares.SELECT.stand_forced": {
+    "src": "{{player}}'s unit at {{where}} cannot retreat and must stand.",
+    "out": "L'unité de {{player}} en {{where}} ne peut pas battre en retraite et doit maintenir sa position."
+  },
+  "squares.SELECT.stay": {
+    "src": "{{player}} declined to advance.",
+    "out": "{{player}} a refusé d'avancer."
+  },
+  "squares.SELECT.support": {
+    "src": "The attack is supported by the unit at {{where}}.",
+    "out": "L'attaque est soutenue par l'unité en {{where}}."
+  },
+  "squares.SELECT.support_artillery": {
+    "src": "The attack is supported by artillery at {{where}}.",
+    "out": "L'attaque est soutenue par l'artillerie en {{where}}."
+  },
+  "squares.SELECT.support_cavalry": {
+    "src": "The attack is supported by cavalry at {{where}}.",
+    "out": "L'attaque est soutenue par la cavalerie en {{where}}."
+  },
+  "squares.SELECT.support_infantry": {
+    "src": "The attack is supported by infantry at {{where}}.",
+    "out": "L'attaque est soutenue par l'infanterie en {{where}}."
+  },
+  "stawvs.ANNOUNCE.default": {
+    "src": "{{player}} was unable to move and must pass from now on.  Their pieces remain on the following pyramids: {{pyramids}}.",
+    "out": "{{player}} ne pouvait pas déplacer et doit passer à partir de maintenant. Ses pièces restent sur les pyramides suivantes : {{pyramids}}."
+  },
+  "stawvs.CAPTURE.default": {
+    "src": "{{player}} captured the {{what}} at {{where}}.",
+    "out": "{{player}} a capturé le {{what}} en {{where}}."
+  },
+  "stawvs.EOG.default": {
+    "src": "The game has ended because the last player was unable to move.",
+    "out": "La partie est terminée car le dernier joueur n'a pas pu déplacer."
+  },
+  "stawvs.MOVE.default": {
+    "src": "{{player}} moved a piece from {{from}} to {{to}} and captured {{what}} at {{how}}.",
+    "out": "{{player}} a déplacé une pièce de {{from}} vers {{to}} et a capturé {{what}} en {{how}}."
+  },
+  "storisende.CONVERT.territory": {
+    "src": "The tile at {{where}} became a territory.",
+    "out": "La tuile en {{where}} est devenue un territoire."
+  },
+  "storisende.CONVERT.wall": {
+    "src": "The tile at {{where}} became a wall.",
+    "out": "La tuile en {{where}} est devenue un mur."
+  },
+  "strands.PLACE.initial": {
+    "src": "{{player}} placed a piece on a space labelled 2 at {{where}}.",
+    "out": "{{player}} a placé une pièce sur une case marquée 2 en {{where}}."
+  },
+  "strands.PLACE.other": {
+    "src": "{{player}} placed {{count}} pieces at {{where}}.",
+    "out": "{{player}} a placé {{count}} pièces en {{where}}."
+  },
+  "streetcar.PLACE.place_11": {
+    "src": "A height-1 ORANGE building was placed at {{where}}.",
+    "out": "Un bâtiment ORANGE de hauteur 1 a été placé en {{where}}."
+  },
+  "streetcar.PLACE.place_12": {
+    "src": "A height-2 ORANGE building was placed at {{where}}.",
+    "out": "Un bâtiment ORANGE de hauteur 2 a été placé en {{where}}."
+  },
+  "streetcar.PLACE.place_13": {
+    "src": "A height-3 ORANGE building was placed at {{where}}.",
+    "out": "Un bâtiment ORANGE de hauteur 3 a été placé en {{where}}."
+  },
+  "streetcar.PLACE.place_21": {
+    "src": "A height-1 YELLOW building was placed at {{where}}.",
+    "out": "Un bâtiment JAUNE de hauteur 1 a été placé en {{where}}."
+  },
+  "streetcar.PLACE.place_22": {
+    "src": "A height-2 YELLOW building was placed at {{where}}.",
+    "out": "Un bâtiment JAUNE de hauteur 2 a été placé en {{where}}."
+  },
+  "streetcar.PLACE.place_23": {
+    "src": "A height-3 YELLOW building was placed at {{where}}.",
+    "out": "Un bâtiment JAUNE de hauteur 3 a été placé en {{where}}."
+  },
+  "streetcar.PLACE.place_31": {
+    "src": "A height-1 BLACK building was placed at {{where}}.",
+    "out": "Un bâtiment NOIR de hauteur 1 a été placé en {{where}}."
+  },
+  "streetcar.PLACE.place_32": {
+    "src": "A height-2 BLACK building was placed at {{where}}.",
+    "out": "Un bâtiment NOIR de hauteur 2 a été placé en {{where}}."
+  },
+  "streetcar.PLACE.place_33": {
+    "src": "A height-3 BLACK building was placed at {{where}}.",
+    "out": "Un bâtiment NOIR de hauteur 3 a été placé en {{where}}."
+  },
+  "streetcar.PLACE.place_41": {
+    "src": "A height-1 WHITE building was placed at {{where}}.",
+    "out": "Un bâtiment BLANC de hauteur 1 a été placé en {{where}}."
+  },
+  "streetcar.PLACE.place_42": {
+    "src": "A height-2 WHITE building was placed at {{where}}.",
+    "out": "Un bâtiment BLANC de hauteur 2 a été placé en {{where}}."
+  },
+  "streetcar.PLACE.place_43": {
+    "src": "A height-3 WHITE building was placed at {{where}}.",
+    "out": "Un bâtiment BLANC de hauteur 3 a été placé en {{where}}."
+  },
+  "streetcar.PLACE.place_default": {
+    "src": "A building was placed at {{where}}.",
+    "out": "Un bâtiment a été placé en {{where}}."
+  },
+  "streetcar.TAKE.take_1": {
+    "src": "{{player}} took an ORANGE housing limit from {{from}}.",
+    "out": "{{player}} a pris une limite de logement ORANGE en {{from}}."
+  },
+  "streetcar.TAKE.take_2": {
+    "src": "{{player}} took a YELLOW housing limit from {{from}}.",
+    "out": "{{player}} a pris une limite de logement JAUNE en {{from}}."
+  },
+  "streetcar.TAKE.take_3": {
+    "src": "{{player}} took a BLACK housing limit from {{from}}.",
+    "out": "{{player}} a pris une limite de logement NOIRE en {{from}}."
+  },
+  "streetcar.TAKE.take_4": {
+    "src": "{{player}} took a WHITE housing limit from {{from}}.",
+    "out": "{{player}} a pris une limite de logement BLANCHE en {{from}}."
+  },
+  "streetcar.TAKE.take_default": {
+    "src": "{{player}} took a housing limit from {{from}}.",
+    "out": "{{player}} a pris une limite de logement en {{from}}."
+  },
+  "strings.DESTROY.string": {
+    "src": "String {{where}} broke under the strain.",
+    "out": "La ficelle en {{where}} a rompu sous la tension."
+  },
+  "subdivision.PLACE.park": {
+    "src": "{{player}} placed a park at {{where}}.",
+    "out": "{{player}} a placé un parc en {{where}}."
+  },
+  "susan.EOG.nonplacement": {
+    "src": "The game has ended because no player has placed a piece for 6 plies.",
+    "out": "La partie est terminée car aucun joueur n'a placé de pièce depuis 6 demi-coups."
+  },
+  "susan.MOVE.default": {
+    "src": "{{player}} slid a piece from {{from}} to {{to}}.",
+    "out": "{{player}} a fait glisser une pièce de {{from}} vers {{to}}."
+  },
+  "swarm.CAPTURE.default": {
+    "src": "{{player}} captured stack {{where}} using {{count}} singletons.",
+    "out": "{{player}} a capturé la pile {{where}} en utilisant {{count}} pièces isolées."
+  },
+  "synapse.PLACE.default": {
+    "src": "{{player}} place at {{where}} a size {{size}} piece directed at {{dir}}.",
+    "out": "{{player}} a placé en {{where}} une pièce de taille {{size}} dirigée vers {{dir}}."
+  },
+  "tablero.PASS.default": {
+    "src": "{{player}} bumped!",
+    "out": "{{player}} a passé !"
+  },
+  "tablero.ROLL.default": {
+    "src": "The dice were rolled: {{values}}.",
+    "out": "Les dés ont été lancés : {{values}}."
+  },
+  "tablero.TAKE.default": {
+    "src": "{{player}} took one of their checkers from the stack at {{from}}.",
+    "out": "{{player}} a pris un de ses pions de la pile en {{from}}."
+  },
+  "tafl.EOG.encirclement": {
+    "src": "The game has ended because the defenders are encircled.",
+    "out": "La partie est terminée car les défenseurs sont encerclés."
+  },
+  "tafl.EOG.exit_fort": {
+    "src": "The game has ended because the defenders created an exit fort.",
+    "out": "La partie est terminée car les défenseurs ont créé une forteresse de sortie."
+  },
+  "tafl.EOG.king_captured": {
+    "src": "The game has ended because the king was captured.",
+    "out": "La partie est terminée car le roi a été capturé."
+  },
+  "tafl.EOG.king_escaped": {
+    "src": "The game has ended because the king escaped.",
+    "out": "La partie est terminée car le roi s'est échappé."
+  },
+  "tafl.MOVE.default": {
+    "src": "{{player}} moved a piece from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé une pièce de {{from}} vers {{to}}."
+  },
+  "tafl.MOVE.jump": {
+    "src": "{{player}} jumped a piece from {{from}} to {{to}}.",
+    "out": "{{player}} a fait sauter une pièce de {{from}} vers {{to}}."
+  },
+  "terrace.CAPTURE.other": {
+    "src": "{{player}} captured a size {{what}} piece at {{where}}.",
+    "out": "{{player}} a capturé une pièce de taille {{what}} en {{where}}."
+  },
+  "terrace.CAPTURE.self": {
+    "src": "{{player}} cannibalized their own size {{what}} piece at {{where}}.",
+    "out": "{{player}} a cannibalisé sa propre pièce de taille {{what}} en {{where}}."
+  },
+  "terrace.PLACE.default": {
+    "src": "{{player}} moved a size {{size}} piece from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé une pièce de taille {{size}} de {{from}} vers {{to}}."
+  },
+  "thricewise.SELECT.default": {
+    "src": "{{player}} selected {{card}}.",
+    "out": "{{player}} a sélectionné {{card}}."
+  },
+  "toguz.CLAIM.default": {
+    "src": "Pit {{pit}} became a tuz.",
+    "out": "La fosse {{pit}} est devenue un tuz."
+  },
+  "trax.PLACE.default": {
+    "src": "{{player}} placed a {{piece}} at {{algebraic}} ({{where}}).",
+    "out": "{{player}} a placé un {{piece}} en {{algebraic}} ({{where}})."
+  },
+  "tricouleur.CAPTURE.default": {
+    "src": "{{count}} pieces changed colour.",
+    "out": "{{count}} pièces ont changé de couleur."
+  },
+  "tricouleur.MOVE.duplicate": {
+    "src": "{{player}} duplicated a piece from {{from}} to {{to}}.",
+    "out": "{{player}} a dupliqué une pièce de {{from}} vers {{to}}."
+  },
+  "tricouleur.MOVE.jump": {
+    "src": "{{player}} jumped a piece from {{from}} to {{to}}.",
+    "out": "{{player}} a fait sauter une pièce de {{from}} vers {{to}}."
+  },
+  "tritium.PLACE.flag": {
+    "src": "{{player}} played a flag at {{where}}.",
+    "out": "{{player}} a joué un drapeau en {{where}}."
+  },
+  "tritium.PLACE.green": {
+    "src": "{{player}} played a green tile at {{where}}.",
+    "out": "{{player}} a joué une tuile verte en {{where}}."
+  },
+  "tritium.PLACE.orange": {
+    "src": "{{player}} played an orange tile at {{where}}.",
+    "out": "{{player}} a joué une tuile orange en {{where}}."
+  },
+  "tritium.PLACE.purple": {
+    "src": "{{player}} played a purple tile at {{where}}.",
+    "out": "{{player}} a joué une tuile violette en {{where}}."
+  },
+  "tumbleweed.CAPTURE.default": {
+    "src": "{{player}} captured a stack of size {{count}} at {{where}}.",
+    "out": "{{player}} a capturé une pile de taille {{count}} en {{where}}."
+  },
+  "tumbleweed.CAPTURE.self": {
+    "src": "{{player}} reinforces a stack of size {{count}} at {{where}}.",
+    "out": "{{player}} renforce une pile de taille {{count}} en {{where}}."
+  },
+  "tumbleweed.PLACE.default": {
+    "src": "{{player}} placed a stack of size {{count}} at {{where}}.",
+    "out": "{{player}} a placé une pile de taille {{count}} en {{where}}."
+  },
+  "twixt.ADD.default": {
+    "src": "{{player}} added a link at {{where}}.",
+    "out": "{{player}} a ajouté une liaison en {{where}}."
+  },
+  "twixt.PLACE.default": {
+    "src": "{{player}} placed a peg at {{where}}.",
+    "out": "{{player}} a placé un piquet en {{where}}."
+  },
+  "twixt.REMOVE.default": {
+    "src": "{{player}} removed a link at {{where}}.",
+    "out": "{{player}} a retiré un lien en {{where}}."
+  },
+  "unane.PLACE.default": {
+    "src": "{{player}} self-captured {{where}}.",
+    "out": "{{player}} s'est auto-capturé en {{where}}."
+  },
+  "unlur.EOG.foul": {
+    "src": "The game has ended because one player has achieved the opponent's win condition without achieving their own.",
+    "out": "La partie est terminée car un joueur a atteint la condition de victoire de l'adversaire sans réaliser la sienne."
+  },
+  "unlur.PIE.default": {
+    "src": "{{player}} has passed to be the Y player.",
+    "out": "{{player}} a passé pour devenir le joueur Y."
+  },
+  "upperhand.PLACE.chain": {
+    "src": "A ball of {{whose}} was placed at {{where}}.",
+    "out": "Une bille de {{whose}} a été placée en {{where}}."
+  },
+  "urbino.PLACE.house": {
+    "src": "{{player}} placed a house at {{where}}.",
+    "out": "{{player}} a placé une maison en {{where}}."
+  },
+  "urbino.PLACE.palace": {
+    "src": "{{player}} placed a palace at {{where}}.",
+    "out": "{{player}} a placé un palais en {{where}}."
+  },
+  "urbino.PLACE.tower": {
+    "src": "{{player}} placed a tower at {{where}}.",
+    "out": "{{player}} a placé une tour en {{where}}."
+  },
+  "urbino.PLACE.worker": {
+    "src": "{{player}} placed an architect at {{where}}.",
+    "out": "{{player}} a placé un architecte en {{where}}."
+  },
+  "veletas.CLAIM.default": {
+    "src": "Shooter at {{where}} is trapped and is claimed by {{who}}.",
+    "out": "Le tireur en {{where}} est piégé et est réclamé par {{who}}."
+  },
+  "veletas.MOVE.default": {
+    "src": "{{player}} moved shooter from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé le tireur de {{from}} vers {{to}}."
+  },
+  "viruswar.PLACE.default": {
+    "src": "{{player}} placed viruses/walls at {{where}}.",
+    "out": "{{player}} a placé des virus/murs en {{where}}."
+  },
+  "volo.MOVE.one": {
+    "src": "{{player}} moved a flock of 1 bird from {{from}} in the direction {{how}}.",
+    "out": "{{player}} a déplacé une nuée de 1 oiseau depuis {{from}} dans la direction {{how}}."
+  },
+  "volo.MOVE.other": {
+    "src": "{{player}} moved a flock of {{count}} birds from {{from}} in the direction {{how}}.",
+    "out": "{{player}} a déplacé une nuée de {{count}} oiseaux depuis {{from}} dans la direction {{how}}."
+  },
+  "volo.PLACE.default": {
+    "src": "{{player}} adds a bird at {{where}}.",
+    "out": "{{player}} ajoute un oiseau en {{where}}."
+  },
+  "volo.REMOVE.default": {
+    "src": "{{player}} chose to retain the region at {{how}}, removing {{num}} opponent's birds.",
+    "out": "{{player}} a choisi de conserver la région en {{how}}, retirant {{num}} oiseaux adverses."
+  },
+  "witch.AFFILIATE.M": {
+    "src": "{{player}} chose the Moonstones.",
+    "out": "{{player}} a choisi les pierres de lune."
+  },
+  "witch.AFFILIATE.S": {
+    "src": "{{player}} chose the Sunstones.",
+    "out": "{{player}} a choisi les pierres de soleil."
+  },
+  "witch.CAPTURE.nowhere_C_one": {
+    "src": "{{player}} captured {{count}} Crown.",
+    "out": "{{player}} a capturé {{count}} couronne."
+  },
+  "witch.CAPTURE.nowhere_C_other": {
+    "src": "{{player}} captured {{count}} Crowns.",
+    "out": "{{player}} a capturé {{count}} couronnes."
+  },
+  "witch.CAPTURE.nowhere_E_one": {
+    "src": "{{player}} captured {{count}} Earthstone.",
+    "out": "{{player}} a capturé {{count}} pierre de terre."
+  },
+  "witch.CAPTURE.nowhere_E_other": {
+    "src": "{{player}} captured {{count}} Earthstones.",
+    "out": "{{player}} a capturé {{count}} pierres de terre."
+  },
+  "witch.CAPTURE.nowhere_M_one": {
+    "src": "{{player}} captured {{count}} Moonstone.",
+    "out": "{{player}} a capturé {{count}} pierre de lune."
+  },
+  "witch.CAPTURE.nowhere_M_other": {
+    "src": "{{player}} captured {{count}} Moonstones.",
+    "out": "{{player}} a capturé {{count}} pierres de lune."
+  },
+  "witch.CAPTURE.nowhere_S_one": {
+    "src": "{{player}} captured {{count}} Sunstone.",
+    "out": "{{player}} a capturé {{count}} pierre de soleil."
+  },
+  "witch.CAPTURE.nowhere_S_other": {
+    "src": "{{player}} captured {{count}} Sunstones.",
+    "out": "{{player}} a capturé {{count}} pierres de soleil."
+  },
+  "witch.CAPTURE.single_C": {
+    "src": "{{player}} picked up a Crown at {{where}}.",
+    "out": "{{player}} a ramassé une couronne en {{where}}."
+  },
+  "witch.CAPTURE.single_E": {
+    "src": "{{player}} picked up an Earthstone at {{where}}.",
+    "out": "{{player}} a ramassé une pierre de terre en {{where}}."
+  },
+  "witch.CAPTURE.single_M": {
+    "src": "{{player}} picked up a Moonstone at {{where}}.",
+    "out": "{{player}} a ramassé une pierre de lune en {{where}}."
+  },
+  "witch.CAPTURE.single_S": {
+    "src": "{{player}} picked up a Sunstone at {{where}}.",
+    "out": "{{player}} a ramassé une pierre de soleil en {{where}}."
+  },
+  "wunchunk.SWAP.default": {
+    "src": "{{player}} swapped seats, choosing to play first.",
+    "out": "{{player}} a changé de place, choisissant de jouer en premier."
   }
 }

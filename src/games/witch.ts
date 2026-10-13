@@ -1,6 +1,6 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IStashEntry, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
-import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema";
+import { APRenderRep, type Colourfuncs } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError, shuffle, cloneState } from "../common/index.js";
 import i18next from "i18next";
@@ -49,6 +49,9 @@ type Affiliation = "S"|"M"|undefined;
 
 const startingBag = "SSSSSSSSSSMMMMMMMMMMEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"
 
+const UNDECIDED_COLOUR = "#999999";
+const EARTH_STONE: Colourfuncs = { func: "custom", default: "#ffffff", palette: 3 };
+
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, CellContents>;
@@ -75,7 +78,7 @@ export class WitchGame extends GameBase {
         version: "20230612",
         dateAdded: "2023-06-22",
         description: "Four types of pieces are arrayed randomly on a grid. Each player takes turns removing pieces until one reaches a score of 50.",
-        notes: "The first player does not start as owning any pieces and may remove any piece (other than a crown) on their first turn. The second player chooses their colour on their first turn, after which, removing your opponent's pieces is no longer possible.",
+        notes: "The first player does not start as owning any pieces and may remove any piece (other than a crown) on their first turn. The second player chooses sun or moon stones on their first turn; both players then appear in those colours. Until then, both seats are grey. Removing your opponent's pieces is no longer possible after affiliations are set.",
         urls: ["https://boardgamegeek.com/boardgame/20517/witch-stones"],
         bggid: "20517",
         people: [
@@ -91,7 +94,31 @@ export class WitchGame extends GameBase {
             },
         ],
         categories: ["goal>score>race", "mechanic>capture",  "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>simple>4c"],
-        flags: ["shared-pieces", "player-stashes", "scores", "random-start"]
+        flags: ["custom-colours", "scores", "random-start"],
+        customizations: [
+            {
+                num: 1,
+                default: 1,
+                explanation: "Colour of player 1",
+                player: 1,
+            },
+            {
+                num: 2,
+                default: 2,
+                explanation: "Colour of player 2",
+                player: 2,
+            },
+            {
+                num: 3,
+                default: "#ffffff",
+                explanation: "Colour of earthstones",
+            },
+            {
+                num: 4,
+                default: 4,
+                explanation: "Colour of crowns",
+            },
+        ],
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -217,23 +244,17 @@ export class WitchGame extends GameBase {
         return score;
     }
 
-    public getPlayerStash(player: number): IStashEntry[] | undefined {
-        const entry: IStashEntry[] = [];
-        const aff = this.affiliations[player - 1];
-        if ( (aff !== undefined) && (aff !== null) ) {
-            let glyph: Glyph;
-            if (aff === "M") {
-                glyph = {"name":"piecepack-suit-moons","colour": 2};
-            } else {
-                glyph = {"name":"piecepack-suit-suns","colour": 1};
-            }
-            entry.push({
-                glyph,
-                movePart: aff,
-                count: 1,
-            });
+    private affiliationForSeat(p: playerid): Affiliation | undefined {
+        const aff = this.affiliations[p - 1];
+        return aff === null ? undefined : aff;
+    }
+
+    public getPlayerColour(p: playerid): number | string {
+        const aff = this.affiliationForSeat(p);
+        if (aff === undefined) {
+            return UNDECIDED_COLOUR;
         }
-        return entry;
+        return aff === "S" ? 1 : 2;
     }
 
     public sidebarScores(): IScores[] {
@@ -704,7 +725,8 @@ export class WitchGame extends GameBase {
                     }
                 ],
                 "E": {
-                    "name": "piece"
+                    "name": "piece",
+                    "colour": EARTH_STONE,
                 },
             },
             pieces: pstr

@@ -24,6 +24,8 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Changed
 
+- **Witch Stones:** Player seat colours show grey until the second player chooses sun or moon; affiliations then use the usual red/blue palettes (`custom-colours`, `getPlayerColour`). Sidebar affiliation stash removed; earthstones use Customize palette slot 3.
+
 - **Rules mirror (`bin/mirror-rules.ts`):** `bulk --tier all` resolves in order: direct PDF URLs → designer sites (scan for PDF, else Playwright print) → BGG `thread/…` forum posts (Playwright print) → BGG filepage/boardgame (`gameinfo.bggid` preferred among boardgame links). BGG file discovery uses `api.geekdo.com/api/files` when `xmlapi2/thing` omits `boardgamefile` links; downloads try XML file API, authenticated file download URLs, then Playwright. When BGG has no rules-like file PDF, a description heuristic may Playwright-print the thing description (e.g. Luis Bolaños Mures BGG-only games); `bgg-probe` reports geekdo files and description score. BGG token may be read from sibling `../apsecrets.yml` (`bgg_api_token`).
 
 - **i18n (English tooling):** `npm run locale-en` is the single router for merged English `apgames` and `apresults` (`check` both by default; `merge`, `keys`, `remap`, `prune`, `audit` subcommands). Replaces separate `merge-*-en` / `check-*` npm scripts. Lint runs `locale-en` plus `locale-en -- keys --warn --strict --summary`; develop/production CI run `locale-en` after tests. `npm run playground` (`predist-dev`) runs `locale-en -- merge --write` before copying locales into `dist/`. `translate.mjs` copies duplicate normalized English from existing managed-locale strings before calling Gemini and dedupes API requests per unique English text.
